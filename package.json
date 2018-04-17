@@ -1,0 +1,34 @@
+{
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "cd packages/portal && react-scripts build",
+    "check": "eslint packages && flow check",
+    "start": "cd packages/portal && react-scripts start",
+    "test": "jest --coverage"
+  },
+  "dependencies": {
+    "@polkadot/portal": "^0.1.0"
+  },
+  "devDependencies": {
+    "@polkadot/dev": "^0.17.8",
+    "lerna": "^2.5.1",
+    "react-scripts": "^2.0.0-next.b2fd8db8"
+  },
+  "browserslist": {
+    "development": [
+      "last 2 chrome versions",
+      "last 2 firefox versions",
+      "last 2 edge versions"
+    ],
+    "production": [
+      ">1%",
+      "last 4 versions",
+      "Firefox ESR",
+      "not ie < 11"
+    ]
+  }
+}

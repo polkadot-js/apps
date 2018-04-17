@@ -1,0 +1,40 @@
+// Copyright 2017-2018 Jaco Greeff
+// This software may be modified and distributed under the terms
+// of the ISC license. See the LICENSE file for details.
+// @flow
+
+import type { BaseProps } from '@polkadot/portal/types';
+import type { KeyringPair } from '@poladot/util-keyring/types';
+
+import './PairDisplay.css';
+
+import React from 'react';
+import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
+import u8aToHex from '@polkadot/util/u8a/toHex';
+
+type Props = BaseProps & {
+  pair: KeyringPair
+};
+
+export default function PairDisplay ({ className, name, pair, style }: Props): React$Node {
+  const publicKey = pair.publicKey();
+
+  return (
+    <div
+      className={['ui--InputyAddress-PairDisplay', className].join(' ')}
+      style={style}
+    >
+      <IdentityIcon
+        address={publicKey}
+        className='ui--InputyAddress-PairDisplay-icon'
+        size={32}
+      />
+      <div className='ui--InputyAddress-PairDisplay-name'>
+        {name}
+      </div>
+      <div className='ui--InputyAddress-PairDisplay-address'>
+        {u8aToHex(publicKey)}
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,11 @@
+{
+  "extends": "@polkadot/dev/config/babel",
+  "plugins": [
+    ["module-resolver", {
+      "alias": {
+        "^@polkadot/portal-(chains|db-chain|db|p2p|rpc|runtime|state|wasm)(.*)": "./packages/portal-\\1/src\\2",
+        "^@polkadot/portal": "./packages/portal/src"
+      }
+    }]
+  ]
+}
