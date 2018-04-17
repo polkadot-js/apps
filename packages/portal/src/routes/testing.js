@@ -5,7 +5,7 @@
 
 import type { Routes } from '../types';
 
-import Testing from '@polkadot/content-testing';
+import Testing from '@polkadot/app-testing';
 
 export default ([
   {

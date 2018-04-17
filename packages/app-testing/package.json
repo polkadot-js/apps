@@ -1,5 +1,5 @@
 {
-  "name": "@polkadot/content-testing",
+  "name": "@polkadot/app-testing",
   "version": "0.1.0",
   "main": "src/index.js",
   "repository": "https://github.com/polkadot-js/portal.git",
