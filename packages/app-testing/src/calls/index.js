@@ -3,6 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+// TODO: Move to API
+
 import type { Calls } from './types';
 
 const bnToU8a = require('@polkadot/util/bn/toU8a');
