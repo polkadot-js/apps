@@ -7,15 +7,22 @@ import type { BaseProps } from '@polkadot/portal/types';
 
 import './StakingTransfer.css';
 
+import BN from 'bn.js';
 import React from 'react';
 import Input from 'semantic-ui-react/dist/es/elements/Input';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 
 import Recipient from '../Recipient';
+import getValues from './getValues';
+import amount from './subject/amount';
 
 type Props = BaseProps & {};
 
-export default function StakingTransfer ({ className, style }: Props) {
+const onChangeAmount = (event, { value }) => {
+  amount.next(new BN(value));
+};
+
+function StakingTransfer ({ className, style }: Props) {
   return (
     <div
       className={['testing--StakingTransfer', className].join(' ')}
@@ -27,6 +34,7 @@ export default function StakingTransfer ({ className, style }: Props) {
           <Input
             defaultValue={0}
             min={0}
+            onChange={onChangeAmount}
             type='number'
           />
         </div>
@@ -36,3 +44,7 @@ export default function StakingTransfer ({ className, style }: Props) {
     </div>
   );
 }
+
+StakingTransfer.getValues = getValues;
+
+export default StakingTransfer;

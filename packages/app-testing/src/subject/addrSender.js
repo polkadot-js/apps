@@ -3,8 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import addr from './addr';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-const subject = addr();
+const subject = new BehaviorSubject();
 
 export default subject;

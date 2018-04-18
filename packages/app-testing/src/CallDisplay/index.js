@@ -29,6 +29,9 @@ function CallDisplay ({ className, style, value }: Props) {
   }
 
   const Component = COMPONENTS[value] || ErrorComponent;
+  const onSubmit = () => {
+    console.log('getValues', Component.getValues());
+  };
 
   return (
     <div
@@ -38,6 +41,7 @@ function CallDisplay ({ className, style, value }: Props) {
       <Component className='testing--CallDisplay-Component' />
       <Button
         className='testing--CallDisplay-Execute'
+        onClick={onSubmit}
         primary
       >
         Submit Extrinsic
