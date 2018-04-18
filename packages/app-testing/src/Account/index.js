@@ -16,7 +16,7 @@ import InputAddress from '../InputAddress';
 
 type Props = BaseProps & {
   label: string,
-  subject: rxjs$Subject
+  subject: rxjs$BehaviorSubject
 };
 
 export default function Account ({ className, label, subject, style }: Props) {

@@ -8,22 +8,20 @@ import type { BaseProps } from '@polkadot/portal/types';
 import './App.css';
 
 import React from 'react';
-
-import CallDisplay from '../CallDisplay';
-import CallSelect from '../CallSelect';
-import Sender from '../Sender';
+import BestNumber from '@polkadot/rx-react/BestNumber';
 
 type Props = BaseProps & {};
 
 export default function App ({ className, style }: Props) {
   return (
     <div
-      className={['testing--App', className].join(' ')}
+      className={['home--App', className].join(' ')}
       style={style}
     >
-      <Sender />
-      <CallSelect />
-      <CallDisplay />
+      <BestNumber
+        className='home--App-BestNumber'
+        label='#'
+      />
     </div>
   );
 }
