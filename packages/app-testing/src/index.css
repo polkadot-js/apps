@@ -21,26 +21,21 @@
 }
 
 .testing--split > div.full {
-  flex: 1 100%;
+  flex: 0 100%;
   min-width: 0;
 }
 
 .testing--split > div.large {
-  flex: 1 75%;
+  flex: 0 75%;
   min-width: 0;
 }
 
 .testing--split > div.medium {
-  flex: 1 50%;
+  flex: 0 50%;
   min-width: 0;
 }
 
 .testing--split > div.small {
-  flex: 1 25%;
-  min-width: 0;
-}
-
-.testing--split > div:only-child {
-  flex-grow: 0;
+  flex: 0 25%;
   min-width: 0;
 }

@@ -20,7 +20,7 @@ type Props = BaseProps & {
 };
 
 export default function Account ({ className, label, subject, style }: Props) {
-  const AccountBalance = withObservableParams(Balance, subject, ({ publicKey }: KeyringPair): Uint8Array => publicKey());
+  const AccountBalance = withObservableParams(Balance, subject);
 
   return (
     <div

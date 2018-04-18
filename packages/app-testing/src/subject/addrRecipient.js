@@ -3,8 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import base from './base';
+import addr from './addr';
 
-const subject = base();
+const subject = addr();
 
 export default subject;

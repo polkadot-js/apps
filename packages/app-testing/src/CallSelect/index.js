@@ -12,19 +12,18 @@ import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 
 import extrinsicName from '../subject/extrinsicName';
+import calls from '../calls';
 
 type Props = BaseProps & {};
 
-const callOptions = [
-  {
-    text: 'Staking Transfer',
-    value: 'staking_transfer'
-  }
-];
-
-const onChange = (_, { value }) => {
+const onChange = (event, { value }) => {
   extrinsicName.next(value);
 };
+
+const options = Object.keys(calls).map((value) => ({
+  text: calls[value].description,
+  value
+}));
 
 export default function CallSelect ({ className, style }: Props) {
   return (
@@ -37,7 +36,7 @@ export default function CallSelect ({ className, style }: Props) {
         <Dropdown
           selection
           onChange={onChange}
-          options={callOptions}
+          options={options}
         />
       </div>
     </div>

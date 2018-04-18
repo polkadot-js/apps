@@ -29,7 +29,7 @@ const testOptions = Object.keys(keyring).map((name) => ({
 }));
 
 export default function InputAddress (props: Props): React$Node {
-  const onChange = (_, { value }) => {
+  const onChange = (event, { value }) => {
     if (props.subject) {
       props.subject.next(keyring[value]);
     }
