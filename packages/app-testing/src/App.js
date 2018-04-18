@@ -5,14 +5,12 @@
 
 import type { BaseProps } from '@polkadot/portal/types';
 
-import './App.css';
-
 import React from 'react';
 
-import CallDisplay from '../CallDisplay';
-import CallSelect from '../CallSelect';
-import Nonce from '../Nonce';
-import Sender from '../Sender';
+import CallDisplay from './CallDisplay';
+import CallSelect from './CallSelect';
+import Nonce from './Nonce';
+import Sender from './Sender';
 
 type Props = BaseProps & {};
 

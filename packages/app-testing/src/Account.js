@@ -5,14 +5,12 @@
 
 import type { BaseProps } from '@polkadot/portal/types';
 
-import './Account.css';
-
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 import Balance from '@polkadot/rx-react/Balance';
 import withObservableParams from '@polkadot/rx-react/with/observableParams';
 
-import InputAddress from '../InputAddress';
+import InputAddress from './InputAddress';
 
 type Props = BaseProps & {
   label: string,

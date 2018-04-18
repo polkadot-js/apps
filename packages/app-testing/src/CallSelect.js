@@ -5,14 +5,12 @@
 
 import type { BaseProps } from '@polkadot/portal/types';
 
-import './CallSelect.css';
-
 import React from 'react';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 
-import extrinsicName from '../subject/extrinsicName';
-import calls from '../calls';
+import extrinsicName from './subject/extrinsicName';
+import calls from './calls';
 
 type Props = BaseProps & {};
 

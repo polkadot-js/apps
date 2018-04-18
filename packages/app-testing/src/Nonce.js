@@ -5,16 +5,14 @@
 
 import type { BaseProps } from '@polkadot/portal/types';
 
-import './Nonce.css';
-
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 import RxNonce from '@polkadot/rx-react/Nonce';
 import withObservableParams from '@polkadot/rx-react/with/observableParams';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
-import addrSender from '../subject/addrSender';
-import nonceSender from '../subject/nonceSender';
+import addrSender from './subject/addrSender';
+import nonceSender from './subject/nonceSender';
 
 type Props = BaseProps & {};
 

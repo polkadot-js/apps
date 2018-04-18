@@ -5,22 +5,20 @@
 
 import type { BaseProps } from '@polkadot/portal/types';
 
-import './Sender.css';
-
 import React from 'react';
 
-import Account from '../Account';
-import addrSender from '../subject/addrSender';
+import Account from './Account';
+import addrRecipient from './subject/addrRecipient';
 
 type Props = BaseProps & {};
 
-export default function Sender (props: Props) {
+export default function Recipient (props: Props) {
   return (
     <Account
       {...props}
-      className={['testing--Sender', props.className].join(' ')}
-      label='using the selected account'
-      subject={addrSender}
+      className={['testing--Recipient', props.className].join(' ')}
+      label='to the recipient'
+      subject={addrRecipient}
     />
   );
 }
