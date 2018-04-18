@@ -11,15 +11,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { I18nextProvider } from 'react-i18next';
 import { HashRouter } from 'react-router-dom';
+import ContextProvider from '@polkadot/rx-react/ContextProvider';
 
 import i18n from './i18n';
 import App from './App';
 
 ReactDOM.render(
   <I18nextProvider i18n={i18n}>
-    <HashRouter>
-      <App />
-    </HashRouter>
+    <ContextProvider>
+      <HashRouter>
+        <App />
+      </HashRouter>
+    </ContextProvider>
   </I18nextProvider>,
   // flowlint-next-line unclear-type:off
   ((document.getElementById('root'): any): Element)

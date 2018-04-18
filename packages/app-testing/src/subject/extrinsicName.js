@@ -3,8 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import base from './base';
 
-export default function addr () {
-  return new ReplaySubject(1);
-}
+const subject = base();
+
+export default subject;

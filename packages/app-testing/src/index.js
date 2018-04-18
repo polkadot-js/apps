@@ -3,8 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import 'semantic-ui-css/semantic.min.css';
+import './index.css';
 
-import Body from './Body';
+import App from './App';
 
-export default Body;
+export default App;

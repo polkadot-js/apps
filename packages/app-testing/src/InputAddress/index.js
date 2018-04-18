@@ -28,23 +28,20 @@ const testOptions = Object.keys(keyring).map((name) => ({
   value: name
 }));
 
-export default function InputAddress (_props: Props): React$Node {
-  const props = Object.assign({}, _props, {
-    className: ['ui--InputAddress', _props.className].join(' ')
-  });
+export default function InputAddress (props: Props): React$Node {
   const onChange = (_, { value }) => {
-    if (_props.subject) {
-      _props.subject.next(keyring[value]);
+    if (props.subject) {
+      props.subject.next(keyring[value]);
     }
   };
 
   return (
     <Dropdown
-      search
+      {...props}
+      className={['ui--InputAddress', props.className].join(' ')}
       selection
       options={testOptions}
       onChange={onChange}
-      {...props}
     />
   );
 }
