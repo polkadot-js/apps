@@ -8,7 +8,7 @@ import addrRecipient from '../subject/addrRecipient';
 
 export default function getValues (): Array<mixed> {
   return [
-    addrRecipient.getValue(),
+    addrRecipient.getValue().publicKey(),
     amount.getValue()
   ];
 }

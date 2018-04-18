@@ -6,16 +6,16 @@
 // TODO: Move to API
 
 import type BN from 'bn.js';
-import type { Call } from '../calls/types';
 
 const bnToU8a = require('@polkadot/util/bn/toU8a');
 const u8aConcat = require('@polkadot/util/u8a/concat');
-const u8aToHex = require('@polkadot/util/u8a/toHex');
 
+const calls = require('../calls');
 const encodeParams = require('./params');
 
 // flowlint-next-line unclear-type:off
-module.exports = function encode (sender: KeyringPair, nonce: number | BN, { index, params }: Call, values: Array<mixed>) {
+module.exports = function encode (sender: KeyringPair, nonce: number | BN, method: string, values: Array<mixed>): Uint8Array {
+  const { index, params } = calls[method];
   const encodedParams = encodeParams(values, params);
   const message = u8aConcat(
     sender.publicKey(),
@@ -25,11 +25,5 @@ module.exports = function encode (sender: KeyringPair, nonce: number | BN, { ind
   );
   const signature = sender.sign(message);
 
-  console.log('message', u8aToHex(message));
-  console.log('signature', u8aToHex(signature));
-
-  return {
-    message,
-    signature
-  };
+  return u8aConcat(message, signature);
 };

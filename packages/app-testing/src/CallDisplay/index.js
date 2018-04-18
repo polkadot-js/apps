@@ -12,7 +12,10 @@ import Button from 'semantic-ui-react/dist/es/elements/Button';
 import withObservable from '@polkadot/rx-react/with/observable';
 
 import StakingTransfer from '../StakingTransfer';
+import encode from '../encode';
+import addrSender from '../subject/addrSender';
 import extrinsicName from '../subject/extrinsicName';
+import nonceSender from '../subject/nonceSender';
 import ErrorComponent from './Error';
 
 type Props = BaseProps & {
@@ -30,7 +33,7 @@ function CallDisplay ({ className, style, value }: Props) {
 
   const Component = COMPONENTS[value] || ErrorComponent;
   const onSubmit = () => {
-    console.log('getValues', Component.getValues());
+    encode(addrSender.getValue(), nonceSender.getValue(), value, Component.getValues());
   };
 
   return (

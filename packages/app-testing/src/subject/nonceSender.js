@@ -4,10 +4,8 @@
 // @flow
 
 import BN from 'bn.js';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-const subject = new ReplaySubject(1);
-
-subject.next(new BN(0));
+const subject = new BehaviorSubject(new BN(0));
 
 export default subject;
