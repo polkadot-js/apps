@@ -3,20 +3,19 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '@polkadot/portal/types';
+import type { BaseProps, BaseContext } from '@polkadot/portal/types';
 
 import './CallDisplay.css';
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import withObservable from '@polkadot/rx-react/with/observable';
 
 import StakingTransfer from '../StakingTransfer';
-import encode from '../encode';
-import extrinsics from '../extrinsics';
-import keyring from '../keyring';
-import { extrinsicName, senderAddr, senderIndex } from '../subjects';
+import { extrinsicName } from '../subjects';
 import ErrorComponent from './Error';
+import submitExtrinsic from './submit';
 
 type Props = BaseProps & {
   value?: string;
@@ -26,17 +25,14 @@ const COMPONENTS = {
   'staking_transfer': StakingTransfer
 };
 
-function CallDisplay ({ className, style, value }: Props) {
+function CallDisplay ({ className, style, value }: Props, { api }: BaseContext) {
   if (!value) {
     return null;
   }
 
   const Component = COMPONENTS[value] || ErrorComponent;
   const onSubmit = () => {
-    const extrinsic = extrinsics[value];
-    const sender = keyring.getPair(senderAddr.getValue());
-
-    encode(extrinsic, sender, senderIndex.getValue(), Component.getValues());
+    submitExtrinsic(api, value, Component.getValues());
   };
 
   return (
@@ -55,5 +51,9 @@ function CallDisplay ({ className, style, value }: Props) {
     </div>
   );
 }
+
+CallDisplay.contextTypes = {
+  api: PropTypes.object
+};
 
 export default withObservable(CallDisplay, extrinsicName);

@@ -17,6 +17,7 @@
     "@polkadot/ui-react": "^0.9.10",
     "@polkadot/util": "^0.19.1",
     "@polkadot/util-keyring": "^0.19.1",
+    "prop-types": "^15.6.1",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
     "semantic-ui-css": "^2.3.1",
