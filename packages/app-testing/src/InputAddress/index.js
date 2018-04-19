@@ -32,7 +32,7 @@ const testOptions = keyring.getPairs().map((pair) => {
 });
 
 export default function InputAddress (props: Props): React$Node {
-  const onChange = (event, { value }) => {
+  const onChange = (event: SyntheticEvent<*>, { value }): void => {
     if (props.subject) {
       props.subject.next(value);
     }

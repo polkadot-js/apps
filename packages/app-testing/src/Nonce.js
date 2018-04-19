@@ -16,7 +16,7 @@ import { senderAddr, senderIndex } from './subjects';
 type Props = BaseProps & {};
 
 const SenderNonce = withObservableParams(RxNonce, senderAddr);
-const onNonceChange = (value) => {
+const onNonceChange = (value): void => {
   // flowlint-next-line sketchy-null-mixed:off
   if (!value || value.length !== 8) {
     return;

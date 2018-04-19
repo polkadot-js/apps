@@ -14,7 +14,7 @@ import { amount } from './subjects';
 
 type Props = BaseProps & {};
 
-const onChange = (event, { value }) => {
+const onChange = (event: SyntheticEvent<*>, { value }): void => {
   amount.next(
     new BN(value || 0)
   );

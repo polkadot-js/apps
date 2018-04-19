@@ -14,7 +14,7 @@ import extrinsics from './extrinsics';
 
 type Props = BaseProps & {};
 
-const onChange = (event, { value }) => {
+const onChange = (event: SyntheticEvent<*>, { value }): void => {
   extrinsicName.next(value);
 };
 
