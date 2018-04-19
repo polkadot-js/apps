@@ -14,6 +14,7 @@ import { amount } from './subjects';
 
 type Props = BaseProps & {};
 
+// eslint-disable-next-line no-unused-vars
 const onChange = (event: SyntheticEvent<*>, { value }): void => {
   amount.next(
     new BN(value || 0)

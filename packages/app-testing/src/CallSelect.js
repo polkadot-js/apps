@@ -14,6 +14,7 @@ import extrinsics from './extrinsics';
 
 type Props = BaseProps & {};
 
+// eslint-disable-next-line no-unused-vars
 const onChange = (event: SyntheticEvent<*>, { value }): void => {
   extrinsicName.next(value);
 };

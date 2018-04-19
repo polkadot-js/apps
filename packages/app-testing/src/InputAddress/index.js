@@ -32,6 +32,7 @@ const testOptions = keyring.getPairs().map((pair) => {
 });
 
 export default function InputAddress (props: Props): React$Node {
+  // eslint-disable-next-line no-unused-vars
   const onChange = (event: SyntheticEvent<*>, { value }): void => {
     if (props.subject) {
       props.subject.next(value);
