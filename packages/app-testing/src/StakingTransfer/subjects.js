@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Calls } from './types';
+import BN from 'bn.js';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-module.exports = ({
-}: Calls);
+export const amount = new BehaviorSubject(new BN(0));

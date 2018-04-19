@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Calls } from './types';
+import type { ExtrinsicsBasic } from './types';
 
 module.exports = ({
-}: Calls);
+}: ExtrinsicsBasic);

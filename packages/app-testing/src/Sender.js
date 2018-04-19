@@ -8,7 +8,7 @@ import type { BaseProps } from '@polkadot/portal/types';
 import React from 'react';
 
 import Account from './Account';
-import addrSender from './subject/addrSender';
+import { senderAddr } from './subjects';
 
 type Props = BaseProps & {};
 
@@ -18,7 +18,7 @@ export default function Sender (props: Props) {
       {...props}
       className={['testing--Sender', props.className].join(' ')}
       label='using the selected account'
-      subject={addrSender}
+      subject={senderAddr}
     />
   );
 }

@@ -8,7 +8,7 @@ import type { BaseProps } from '@polkadot/portal/types';
 import React from 'react';
 
 import Account from './Account';
-import addrRecipient from './subject/addrRecipient';
+import { recipientAddr } from './subjects';
 
 type Props = BaseProps & {};
 
@@ -18,7 +18,7 @@ export default function Recipient (props: Props) {
       {...props}
       className={['testing--Recipient', props.className].join(' ')}
       label='to the recipient'
-      subject={addrRecipient}
+      subject={recipientAddr}
     />
   );
 }

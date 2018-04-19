@@ -3,8 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import type { ExtrinsicsBasic } from './types';
 
-const subject = new BehaviorSubject();
-
-export default subject;
+module.exports = ({
+}: ExtrinsicsBasic);

@@ -9,8 +9,8 @@ import React from 'react';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 
-import extrinsicName from './subject/extrinsicName';
-import calls from './calls';
+import { extrinsicName } from './subjects';
+import extrinsics from './extrinsics';
 
 type Props = BaseProps & {};
 
@@ -18,8 +18,8 @@ const onChange = (event, { value }) => {
   extrinsicName.next(value);
 };
 
-const options = Object.keys(calls).map((value) => ({
-  text: calls[value].description,
+const options = Object.keys(extrinsics).map((value) => ({
+  text: extrinsics[value].description,
   value
 }));
 

@@ -11,12 +11,11 @@ import RxNonce from '@polkadot/rx-react/Nonce';
 import withObservableParams from '@polkadot/rx-react/with/observableParams';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
-import addrSender from './subject/addrSender';
-import nonceSender from './subject/nonceSender';
+import { senderAddr, senderIndex } from './subjects';
 
 type Props = BaseProps & {};
 
-const SenderNonce = withObservableParams(RxNonce, addrSender, (pair: KeyringPair) => {
+const SenderNonce = withObservableParams(RxNonce, senderAddr, (pair: KeyringPair) => {
   if (!pair) {
     return new Uint8Array([]);
   }
@@ -28,7 +27,9 @@ const onNonceChange = (value: Uint8Array) => {
     return;
   }
 
-  nonceSender.next(u8aToBn(value, 64, true));
+  senderIndex.next(
+    u8aToBn(value, 64, true)
+  );
 };
 
 export default function Nonce ({ className, style }: Props) {

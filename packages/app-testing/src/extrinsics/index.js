@@ -5,10 +5,11 @@
 
 // TODO: Move to API
 
-import type { Calls } from './types';
+import type { Extrinsics, ExtrinsicsBasic } from './types';
 
 const bnToU8a = require('@polkadot/util/bn/toU8a');
 const u8aConcat = require('@polkadot/util/u8a/concat');
+const u8aToHex = require('@polkadot/util/u8a/toHex');
 
 const consensus = require('./consensus');
 const council = require('./council');
@@ -17,7 +18,7 @@ const democracy = require('./democracy');
 const session = require('./session');
 const staking = require('./staking');
 
-const calls = {
+const all: { [string]: ExtrinsicsBasic } = {
   consensus, // 0
   session, // 1
   staking, // 2
@@ -26,25 +27,31 @@ const calls = {
   councilVoting // 5
 };
 
-const flattenned: Calls = Object
-  .keys(calls)
-  .reduce((flat, sectionName, index) => {
-    const section = calls[sectionName];
-    const sectionIndex = bnToU8a(index, 8);
+const flattenned: Extrinsics = Object
+  .keys(all)
+  .reduce((flat, sectionName, _index) => {
+    const section = all[sectionName];
+    const sectionIndex = bnToU8a(_index, 8);
 
     Object
       .keys(section)
-      .reduce((flat, method, index) => {
+      .reduce((flat, method, _index) => {
         const name = `${sectionName}_${method}`;
-        const methodIndex = bnToU8a(index, 8);
+        const methodIndex = bnToU8a(_index, 8);
+        const index = u8aConcat(sectionIndex, methodIndex);
+        const indexHex = u8aToHex(index, 16);
+        const expanded = Object.assign(({
+          index,
+          indexHex,
+          name
+        }: $Shape<Extrinsic>), section[method]);
 
-        flat[name] = section[method];
-        flat[name].index = u8aConcat(sectionIndex, methodIndex);
+        flat[name] = expanded;
 
         return flat;
       }, flat);
 
     return flat;
-  }, ({}: $Shape<FlatCalls>));
+  }, ({}: $Shape<Extrinsics>));
 
 module.exports = flattenned;

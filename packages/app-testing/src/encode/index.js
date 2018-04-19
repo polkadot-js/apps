@@ -10,12 +10,12 @@ import type BN from 'bn.js';
 const bnToU8a = require('@polkadot/util/bn/toU8a');
 const u8aConcat = require('@polkadot/util/u8a/concat');
 
-const calls = require('../calls');
+const extrinsics = require('../extrinsics');
 const encodeParams = require('./params');
 
 // flowlint-next-line unclear-type:off
 module.exports = function encode (sender: KeyringPair, nonce: number | BN, method: string, values: Array<mixed>): Uint8Array {
-  const { index, params } = calls[method];
+  const { index, params } = extrinsics[method];
   const encodedParams = encodeParams(values, params);
   const message = u8aConcat(
     sender.publicKey(),

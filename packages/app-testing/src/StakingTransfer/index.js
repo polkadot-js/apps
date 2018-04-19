@@ -14,12 +14,14 @@ import Label from 'semantic-ui-react/dist/es/elements/Label';
 
 import Recipient from '../Recipient';
 import getValues from './getValues';
-import amount from './subject/amount';
+import { amount } from './subjects';
 
 type Props = BaseProps & {};
 
 const onChangeAmount = (event, { value }) => {
-  amount.next(new BN(value));
+  amount.next(
+    new BN(value || 0)
+  );
 };
 
 function StakingTransfer ({ className, style }: Props) {
