@@ -3,8 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '@polkadot/portal/types';
-import type { KeyringPair } from '@poladot/util-keyring/types';
+import type { KeyringPair } from '@polkadot/util-keyring/types';
+import type { BaseProps } from '../types';
 
 import './PairDisplay.css';
 

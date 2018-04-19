@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '@polkadot/portal/types';
+import type { BaseProps } from './types';
 
 import React from 'react';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';

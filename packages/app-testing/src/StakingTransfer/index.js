@@ -3,26 +3,17 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '@polkadot/portal/types';
+import type { BaseProps } from '../types';
 
 import './StakingTransfer.css';
 
-import BN from 'bn.js';
 import React from 'react';
-import Input from 'semantic-ui-react/dist/es/elements/Input';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
 
 import Recipient from '../Recipient';
+import Amount from './Amount';
 import getValues from './getValues';
-import { amount } from './subjects';
 
 type Props = BaseProps & {};
-
-const onChangeAmount = (event, { value }) => {
-  amount.next(
-    new BN(value || 0)
-  );
-};
 
 function StakingTransfer ({ className, style }: Props) {
   return (
@@ -30,18 +21,7 @@ function StakingTransfer ({ className, style }: Props) {
       className={['testing--StakingTransfer', className].join(' ')}
       style={style}
     >
-      <div className='testing--split'>
-        <div className='small'>
-          <Label>sending an amount of</Label>
-          <Input
-            defaultValue={0}
-            min={0}
-            onChange={onChangeAmount}
-            type='number'
-          />
-        </div>
-      </div>
-
+      <Amount />
       <Recipient />
     </div>
   );

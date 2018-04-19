@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '@polkadot/portal/types';
+import type { BaseProps } from './types';
 
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
@@ -16,13 +16,15 @@ import { senderAddr, senderIndex } from './subjects';
 type Props = BaseProps & {};
 
 const SenderNonce = withObservableParams(RxNonce, senderAddr);
-const onNonceChange = (value: Uint8Array) => {
+const onNonceChange = (value) => {
+  // flowlint-next-line sketchy-null-mixed:off
   if (!value || value.length !== 8) {
     return;
   }
 
   senderIndex.next(
-    u8aToBn(value, 64, true)
+    // flowlint-next-line unclear-type:off
+    u8aToBn(((value: any): Uint8Array), true)
   );
 };
 

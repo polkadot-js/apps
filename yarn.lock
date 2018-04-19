@@ -1299,20 +1299,20 @@
     "@polkadot/util" "^0.18.4"
     babel-runtime "^6.26.0"
 
-"@polkadot/rx-api@^0.2.8":
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/@polkadot/rx-api/-/rx-api-0.2.8.tgz#12e08d62afc4eb623c37279bba5927b790be8e2a"
+"@polkadot/rx-api@^0.2.9":
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/@polkadot/rx-api/-/rx-api-0.2.9.tgz#b495cab218fd80bd7d8090b0898b689fcca16e4f"
   dependencies:
     "@polkadot/api" "^0.8.14"
     "@polkadot/api-provider" "^0.8.14"
     rxjs "^5.5.10"
 
-"@polkadot/rx-react@^0.2.8":
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/@polkadot/rx-react/-/rx-react-0.2.8.tgz#75fdaf5dab36b11ae92f98c8d29be41753668d73"
+"@polkadot/rx-react@^0.2.9":
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/@polkadot/rx-react/-/rx-react-0.2.9.tgz#55a37178d47bc53b42fbe948c136483b2e9e7377"
   dependencies:
-    "@polkadot/rx-api" "^0.2.8"
-    "@polkadot/util" "^0.18.6"
+    "@polkadot/rx-api" "^0.2.9"
+    "@polkadot/util" "^0.19.1"
 
 "@polkadot/ui-identicon@^0.9.10":
   version "0.9.10"

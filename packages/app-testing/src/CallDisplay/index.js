@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps, BaseContext } from '@polkadot/portal/types';
+import type { BaseProps, BaseContext } from '../types';
 
 import './CallDisplay.css';
 
@@ -17,6 +17,10 @@ import { extrinsicName } from '../subjects';
 import ErrorComponent from './Error';
 import submitExtrinsic from './submit';
 
+type ValueGetter = {
+  getValues: () => Array<mixed>
+}
+
 type Props = BaseProps & {
   value?: string;
 };
@@ -26,13 +30,15 @@ const COMPONENTS = {
 };
 
 function CallDisplay ({ className, style, value }: Props, { api }: BaseContext) {
+  // flowlint-next-line sketchy-null-string:off
   if (!value) {
     return null;
   }
 
   const Component = COMPONENTS[value] || ErrorComponent;
   const onSubmit = () => {
-    submitExtrinsic(api, value, Component.getValues());
+    // flowlint-next-line unclear-type:off
+    submitExtrinsic(api, value, ((Component: any): ValueGetter).getValues());
   };
 
   return (

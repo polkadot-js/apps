@@ -33,25 +33,24 @@ const flattenned: Extrinsics = Object
     const section = all[sectionName];
     const sectionIndex = bnToU8a(_index, 8);
 
-    Object
+    return Object
       .keys(section)
       .reduce((flat, method, _index) => {
         const name = `${sectionName}_${method}`;
         const methodIndex = bnToU8a(_index, 8);
         const index = u8aConcat(sectionIndex, methodIndex);
-        const indexHex = u8aToHex(index, 16);
-        const expanded = Object.assign(({
+        const indexHex = u8aToHex(index);
+
+        flat[name] = {
           index,
           indexHex,
-          name
-        }: $Shape<Extrinsic>), section[method]);
-
-        flat[name] = expanded;
+          name,
+          // flowlint-next-line inexact-spread:off
+          ...section[method]
+        };
 
         return flat;
       }, flat);
-
-    return flat;
   }, ({}: $Shape<Extrinsics>));
 
 module.exports = flattenned;

@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '@polkadot/portal/types';
+import type { BaseProps } from '../types';
 
 import './InputAddress.css';
 
@@ -14,7 +14,7 @@ import PairDisplay from './PairDisplay';
 import keyring from '../keyring';
 
 type Props = BaseProps & {
-  subject: rxjs$Subject
+  subject: rxjs$Subject<*>
 };
 
 const testOptions = keyring.getPairs().map((pair) => {

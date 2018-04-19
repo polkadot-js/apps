@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '@polkadot/portal/types';
+import type { BaseProps } from './types';
 
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
@@ -14,7 +14,7 @@ import InputAddress from './InputAddress';
 
 type Props = BaseProps & {
   label: string,
-  subject: rxjs$BehaviorSubject
+  subject: rxjs$BehaviorSubject<*>
 };
 
 export default function Account ({ className, label, subject, style }: Props) {

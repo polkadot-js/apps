@@ -10,15 +10,15 @@ import extrinsics from '../extrinsics';
 import keyring from '../keyring';
 import { senderAddr, senderIndex } from '../subjects';
 
-export default function submit (api: RxApiInterface, method: string, values: Array<mixed>): Promise<void> {
-  // TODO: Handle result
-  // TODO: Display some progress
+export default function submit (api: RxApiInterface, method: string, values: Array<mixed>): void {
+  // TODO: Display some progress once we have a subscription
   api.author
     .submitExtrinsic(
       encode(
         extrinsics[method],
-        keyring.getPair(senderAddr.getValue()),
-        senderIndex.getValue(),
+        // flowlint-next-line unclear-type:off
+        keyring.getPair(((senderAddr.getValue(): any): Uint8Array)),
+        senderIndex.getValue() || 0,
         values
       )
     )

@@ -16,7 +16,7 @@ export default ([
     icon: 'braille',
     isExact: false,
     isHidden: false,
-    key: 'testing',
+    name: 'testing',
     path: '/testing'
   }
 ]: Routes);

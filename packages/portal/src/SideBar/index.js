@@ -30,7 +30,7 @@ export default translate(['portal'])(
           {
             routes.map((props) => (
               <Item
-                name={props.key}
+                key={props.name}
                 t={t}
                 {...props}
               />
