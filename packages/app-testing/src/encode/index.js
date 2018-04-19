@@ -10,7 +10,6 @@ import type { Extrinsic } from '../extrinsics/types';
 
 const bnToU8a = require('@polkadot/util/bn/toU8a');
 const u8aConcat = require('@polkadot/util/u8a/concat');
-const u8aToHex = require('@polkadot/util/u8a/toHex');
 
 const encodeParams = require('./params');
 
@@ -24,9 +23,6 @@ module.exports = function encode (extrinsic: Extrinsic, sender: KeyringPair, non
     encodedParams
   );
   const signature = sender.sign(message);
-
-  console.log('message =', u8aToHex(message));
-  console.log('signature =', u8aToHex(signature));
 
   return u8aConcat(message, signature);
 };

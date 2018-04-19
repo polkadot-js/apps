@@ -24,9 +24,9 @@ export default function submit (api: RxApiInterface, method: string, values: Arr
     )
     .toPromise()
     .then((result) => {
-      console.error('submitExtrinsic', result);
+      console.log('submitExtrinsic: result=', result);
     })
     .catch((error) => {
-      console.error('submitExtrinsic', error);
+      console.error('submitExtrinsic: error=', error);
     });
 }
