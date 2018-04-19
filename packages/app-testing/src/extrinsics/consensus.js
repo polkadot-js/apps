@@ -3,8 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import 'semantic-ui-css/semantic.min.css';
+import type { ExtrinsicsBasic } from './types';
 
-import Body from './Body';
-
-export default Body;
+module.exports = ({
+}: ExtrinsicsBasic);

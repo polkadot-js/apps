@@ -23,11 +23,11 @@ export default translate(['portal'])(
         style={style}
       >
         {
-          routes.map(({ component, isExact, key, path }) => (
+          routes.map(({ component, isExact, name, path }) => (
             <Route
               component={component}
               exact={isExact}
-              key={key}
+              key={name}
               path={path}
             />
           ))

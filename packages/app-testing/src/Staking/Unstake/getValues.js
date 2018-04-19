@@ -3,8 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import addr from './addr';
-
-const subject = addr();
-
-export default subject;
+export default function getValues (): Array<mixed> {
+  return [];
+}

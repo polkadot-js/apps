@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps, Routes } from '../types';
+import type { BaseProps, Route } from '../types';
 
 import './Item.css';
 
@@ -12,7 +12,7 @@ import { NavLink } from 'react-router-dom';
 import Icon from 'semantic-ui-react/dist/es/elements/Icon';
 import Menu from 'semantic-ui-react/dist/es/collections/Menu';
 
-type Props = BaseProps & Routes & {};
+type Props = BaseProps & Route & {};
 
 export default function Item ({ className, i18n, icon, isExact, name, path, style, t }: Props) {
   return (

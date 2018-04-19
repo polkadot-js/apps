@@ -3,8 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import type { ExtrinsicsBasic } from './types';
 
-export default function addr () {
-  return new ReplaySubject(1);
-}
+module.exports = ({
+}: ExtrinsicsBasic);

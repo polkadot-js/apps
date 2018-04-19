@@ -9,22 +9,9 @@ export type BaseProps = {
   className?: string,
   style?: {
     [string]: string
-  },
-  t: I18Next$Translate
+  }
 };
 
 export type BaseContext = {
   api: RxApiInterface
 };
-
-export type Route = {
-  component: React$StatelessFunctionalComponent<*>,
-  i18n: I18Next$Translate$Config,
-  icon: React$StatelessFunctionalComponent<*> | string,
-  isExact: boolean,
-  isHidden: boolean,
-  name: string,
-  path: string
-};
-
-export type Routes = Array<Route>;

@@ -5,18 +5,18 @@
 
 import type { Routes } from '../types';
 
-import Testing from '@polkadot/app-testing';
+import Home from '@polkadot/app-home';
 
 export default ([
   {
-    component: Testing,
+    component: Home,
     i18n: {
-      defaultValue: 'Testing'
+      defaultValue: 'Home'
     },
-    icon: 'braille',
-    isExact: false,
+    icon: 'home',
+    isExact: true,
     isHidden: false,
-    name: 'testing',
-    path: '/testing'
+    name: 'home',
+    path: '/'
   }
 ]: Routes);

@@ -3,8 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '@polkadot/portal/types';
-import type { KeyringPair } from '@poladot/util-keyring/types';
+import type { KeyringPair } from '@polkadot/util-keyring/types';
+import type { BaseProps } from '../types';
 
 import './PairDisplay.css';
 
@@ -16,8 +16,9 @@ type Props = BaseProps & {
   pair: KeyringPair
 };
 
-export default function PairDisplay ({ className, name, pair, style }: Props): React$Node {
+export default function PairDisplay ({ className, pair, style }: Props): React$Node {
   const publicKey = pair.publicKey();
+  const { name } = pair.getMeta();
 
   return (
     <div

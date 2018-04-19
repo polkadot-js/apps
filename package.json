@@ -8,13 +8,13 @@
     "build": "cd packages/portal && react-scripts build",
     "check": "eslint packages && flow check",
     "start": "cd packages/portal && react-scripts start",
-    "test": "jest --coverage"
+    "test": "echo 'to tests executed'"
   },
   "dependencies": {
     "@polkadot/portal": "^0.1.0"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.17.8",
+    "@polkadot/dev": "^0.17.9",
     "lerna": "^2.5.1",
     "react-scripts": "^2.0.0-next.b2fd8db8"
   },
