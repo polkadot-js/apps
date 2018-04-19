@@ -16,8 +16,9 @@ type Props = BaseProps & {
   pair: KeyringPair
 };
 
-export default function PairDisplay ({ className, name, pair, style }: Props): React$Node {
+export default function PairDisplay ({ className, pair, style }: Props): React$Node {
   const publicKey = pair.publicKey();
+  const { name } = pair.getMeta();
 
   return (
     <div

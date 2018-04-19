@@ -17,21 +17,24 @@ type Props = BaseProps & {
   subject: rxjs$Subject
 };
 
-const testOptions = Object.keys(keyring).map((name) => ({
-  text: (
-    <PairDisplay
-      key={name}
-      name={name}
-      pair={keyring[name]}
-    />
-  ),
-  value: name
-}));
+const testOptions = keyring.getPairs().map((pair) => {
+  const publicKey = pair.publicKey();
+
+  return {
+    text: (
+      <PairDisplay
+        key={publicKey.toString()}
+        pair={pair}
+      />
+    ),
+    value: publicKey
+  };
+});
 
 export default function InputAddress (props: Props): React$Node {
   const onChange = (event, { value }) => {
     if (props.subject) {
-      props.subject.next(keyring[value]);
+      props.subject.next(value);
     }
   };
 

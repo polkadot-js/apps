@@ -3,12 +3,12 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import { amount } from './subjects';
 import { recipientAddr } from '../subjects';
+import { amount } from './subjects';
 
 export default function getValues (): Array<mixed> {
   return [
-    recipientAddr.getValue().publicKey(),
+    recipientAddr.getValue(),
     amount.getValue()
   ];
 }

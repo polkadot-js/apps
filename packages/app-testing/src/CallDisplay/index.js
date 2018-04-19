@@ -13,6 +13,8 @@ import withObservable from '@polkadot/rx-react/with/observable';
 
 import StakingTransfer from '../StakingTransfer';
 import encode from '../encode';
+import extrinsics from '../extrinsics';
+import keyring from '../keyring';
 import { extrinsicName, senderAddr, senderIndex } from '../subjects';
 import ErrorComponent from './Error';
 
@@ -31,7 +33,10 @@ function CallDisplay ({ className, style, value }: Props) {
 
   const Component = COMPONENTS[value] || ErrorComponent;
   const onSubmit = () => {
-    encode(senderAddr.getValue(), senderIndex.getValue(), value, Component.getValues());
+    const extrinsic = extrinsics[value];
+    const sender = keyring.getPair(senderAddr.getValue());
+
+    encode(extrinsic, sender, senderIndex.getValue(), Component.getValues());
   };
 
   return (

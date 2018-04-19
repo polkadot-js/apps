@@ -15,8 +15,8 @@
   "devDependencies": {
     "@polkadot/rx-react": "^0.2.8",
     "@polkadot/ui-react": "^0.9.10",
-    "@polkadot/util": "^0.18.6",
-    "@polkadot/util-keyring": "^0.18.6",
+    "@polkadot/util": "^0.19.1",
+    "@polkadot/util-keyring": "^0.19.1",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
     "semantic-ui-css": "^2.3.1",

@@ -15,13 +15,7 @@ import { senderAddr, senderIndex } from './subjects';
 
 type Props = BaseProps & {};
 
-const SenderNonce = withObservableParams(RxNonce, senderAddr, (pair: KeyringPair) => {
-  if (!pair) {
-    return new Uint8Array([]);
-  }
-
-  return pair.publicKey();
-});
+const SenderNonce = withObservableParams(RxNonce, senderAddr);
 const onNonceChange = (value: Uint8Array) => {
   if (!value || value.length !== 8) {
     return;
