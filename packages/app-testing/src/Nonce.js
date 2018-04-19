@@ -38,6 +38,7 @@ export default function Nonce ({ className, style }: Props) {
         <Label>with an index</Label>
         <SenderNonce
           className='ui disabled dropdown selection'
+          classNameUpdated='hasUpdated'
           onChange={onNonceChange}
         />
       </div>

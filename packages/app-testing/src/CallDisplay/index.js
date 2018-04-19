@@ -12,7 +12,9 @@ import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import withObservable from '@polkadot/rx-react/with/observable';
 
-import StakingTransfer from '../StakingTransfer';
+import StakingStake from '../Staking/Stake';
+import StakingTransfer from '../Staking/Transfer';
+import StakingUnstake from '../Staking/Unstake';
 import { extrinsicName } from '../subjects';
 import ErrorComponent from './Error';
 import submitExtrinsic from './submit';
@@ -26,7 +28,9 @@ type Props = BaseProps & {
 };
 
 const COMPONENTS = {
-  'staking_transfer': StakingTransfer
+  'staking_stake': StakingStake,
+  'staking_transfer': StakingTransfer,
+  'staking_unstake': StakingUnstake
 };
 
 function CallDisplay ({ className, style, value }: Props, { api }: BaseContext) {

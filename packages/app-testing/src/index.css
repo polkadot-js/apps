@@ -39,3 +39,8 @@
   flex: 0 25%;
   min-width: 0;
 }
+
+.hasUpdated {
+  background: #ffffe0 !important;
+  transition: all 0.7s ease-in-out;
+}

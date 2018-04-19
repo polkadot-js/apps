@@ -3,13 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '../types';
-
-import './StakingTransfer.css';
+import type { BaseProps } from '../../types';
 
 import React from 'react';
 
-import Recipient from '../Recipient';
+import Recipient from '../../Recipient';
 import Amount from './Amount';
 import getValues from './getValues';
 

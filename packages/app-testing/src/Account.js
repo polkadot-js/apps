@@ -34,7 +34,10 @@ export default function Account ({ className, label, subject, style }: Props) {
       </div>
       <div className='small'>
         <Label>with an available balance of</Label>
-        <AccountBalance className='ui disabled dropdown selection' />
+        <AccountBalance
+          className='ui disabled dropdown selection'
+          classNameUpdated='hasUpdated'
+        />
       </div>
     </div>
   );
