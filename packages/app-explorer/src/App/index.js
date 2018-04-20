@@ -23,7 +23,7 @@ export default function App ({ className, style }: Props) {
     >
       <BestNumber
         className='home--App-BestNumber'
-        label='best block #'
+        label='best #'
       />
       <BestHash className='home--App-BestHash' />
       <BlockHeaders />
