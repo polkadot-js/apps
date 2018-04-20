@@ -16,12 +16,23 @@ import ContextProvider from '@polkadot/rx-react/ContextProvider';
 import i18n from './i18n';
 
 import Portal from './App';
+import NotFound from './NotFound';
 import routes from './routes';
 import urlParams from './urlParams';
 
-const Component = (({ app }) => {
-  return routes.find((route) => route.name === app) || { component: Portal };
-})(urlParams()).component;
+const Component = (() => {
+  const { app } = urlParams();
+
+  if (app) {
+    const route = routes.find(({ name }) => name === app);
+
+    return route
+      ? route.component
+      : NotFound;
+  }
+
+  return Portal;
+})();
 
 ReactDOM.render(
   <I18nextProvider i18n={i18n}>

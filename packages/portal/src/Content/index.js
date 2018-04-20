@@ -14,7 +14,7 @@ import { translate } from 'react-i18next';
 type Props = BaseProps & {};
 
 function Content ({ className, style }: Props, { router: { route: { location } } }: BaseContext) {
-  const appName = location.pathname.slice(1) || 'home';
+  const app = location.pathname.slice(1) || 'home';
 
   return (
     <div
@@ -23,7 +23,8 @@ function Content ({ className, style }: Props, { router: { route: { location } }
     >
       <iframe
         className='portal--Content-Frame'
-        src={`index.html?app=${appName}`}
+        src={`index.html?app=${app}`}
+        title={app}
       />
     </div>
   );
