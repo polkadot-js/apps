@@ -9,8 +9,6 @@ html {
 body {
   height: 100%;
   margin: 0;
-  overflow: hidden;  /*makes the body non-scrollable (we will add scrolling to the sidebar and main content containers)*/
-  padding: 0;
 }
 
 #root {

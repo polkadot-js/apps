@@ -16,28 +16,28 @@ import Item from './Item';
 
 type Props = BaseProps & {};
 
-export default translate(['portal'])(
-  function SideBar ({ className, style, t }: Props) {
-    return (
-      <div
-        className={['portal--SideBar', className].join(' ')}
-        style={style}
+function SideBar ({ className, style, t }: Props) {
+  return (
+    <div
+      className={['portal--SideBar', className].join(' ')}
+      style={style}
+    >
+      <Menu
+        secondary
+        vertical
       >
-        <Menu
-          secondary
-          vertical
-        >
-          {
-            routes.map((props) => (
-              <Item
-                key={props.name}
-                t={t}
-                {...props}
-              />
-            ))
-          }
-        </Menu>
-      </div>
-    );
-  }
-);
+        {
+          routes.map((props) => (
+            <Item
+              key={props.name}
+              t={t}
+              {...props}
+            />
+          ))
+        }
+      </Menu>
+    </div>
+  );
+}
+
+export default translate(['portal'])(SideBar);

@@ -14,13 +14,20 @@ import { HashRouter } from 'react-router-dom';
 import ContextProvider from '@polkadot/rx-react/ContextProvider';
 
 import i18n from './i18n';
-import App from './App';
+
+import Portal from './App';
+import routes from './routes';
+import urlParams from './urlParams';
+
+const Component = (({ app }) => {
+  return routes.find((route) => route.name === app) || { component: Portal };
+})(urlParams()).component;
 
 ReactDOM.render(
   <I18nextProvider i18n={i18n}>
     <ContextProvider>
       <HashRouter>
-        <App />
+        <Component />
       </HashRouter>
     </ContextProvider>
   </I18nextProvider>,

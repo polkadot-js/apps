@@ -8,6 +8,7 @@ import type { BaseProps } from '@polkadot/portal/types';
 import './App.css';
 
 import React from 'react';
+import BestNumber from '@polkadot/rx-react/BestNumber';
 
 type Props = BaseProps & {};
 
@@ -17,7 +18,10 @@ export default function App ({ className, style }: Props) {
       className={['home--App', className].join(' ')}
       style={style}
     >
-      This is just a basic, bare-bones interface to a Polkadot node. It allows you to submit extrinsics, adjust some settings (well, maybe not yet) and get an overview of the network and blocks on the network.
+      <BestNumber
+        className='home--App-BestNumber'
+        label='#'
+      />
     </div>
   );
 }
