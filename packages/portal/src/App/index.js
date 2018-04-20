@@ -9,7 +9,6 @@ import './App.css';
 
 import React from 'react';
 import { translate } from 'react-i18next';
-import { Redirect, Route } from 'react-router-dom';
 
 import Content from '../Content';
 import SideBar from '../SideBar';
@@ -23,9 +22,6 @@ export default translate(['portal'])(
         className={['portal--App', className].join(' ')}
         style={style}
       >
-        <Route exact path='/'>
-          <Redirect to='/home' />
-        </Route>
         <SideBar className='portal--App-column' />
         <Content className='portal--App-column' />
       </div>

@@ -9,24 +9,12 @@ import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 import RxNonce from '@polkadot/rx-react/Nonce';
 import withObservableParams from '@polkadot/rx-react/with/observableParams';
-import u8aToBn from '@polkadot/util/u8a/toBn';
 
 import { senderAddr, senderIndex } from './subjects';
 
 type Props = BaseProps & {};
 
 const SenderNonce = withObservableParams(RxNonce, senderAddr);
-const onNonceChange = (value): void => {
-  // flowlint-next-line sketchy-null-mixed:off
-  if (!value || value.length !== 8) {
-    return;
-  }
-
-  senderIndex.next(
-    // flowlint-next-line unclear-type:off
-    u8aToBn(((value: any): Uint8Array), true)
-  );
-};
 
 export default function Nonce ({ className, style }: Props) {
   return (
@@ -39,7 +27,7 @@ export default function Nonce ({ className, style }: Props) {
         <SenderNonce
           className='ui disabled dropdown selection'
           classNameUpdated='hasUpdated'
-          onChange={onNonceChange}
+          subject={senderIndex}
         />
       </div>
     </div>

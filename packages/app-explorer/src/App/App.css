@@ -6,8 +6,12 @@
 
 .home--App-BestNumber {
   font-size: 3rem;
+  font-weight: 100;
   line-height: 3rem;
   margin-bottom: 1rem;
   opacity: 0.5;
   text-align: right;
+}
+
+.home--App-BlockHeaders {
 }

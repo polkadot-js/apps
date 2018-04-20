@@ -16,6 +16,7 @@ export default ([
     icon: 'home',
     isExact: true,
     isHidden: false,
-    name: 'home'
+    name: 'home',
+    path: '/'
   }
 ]: Routes);

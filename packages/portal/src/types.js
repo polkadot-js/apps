@@ -31,7 +31,7 @@ export type Route = {
   isExact: boolean,
   isHidden: boolean,
   name: string,
-  path: string
+  path?: string
 };
 
 export type Routes = Array<Route>;
