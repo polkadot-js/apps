@@ -24,7 +24,7 @@ function BlockHeaders ({ className, style, value }: any) {
       style={style}
     >
       {
-        (value || []).map(({ hash, header }) => (
+        (value || []).slice(1).map(({ hash, header }) => (
           <BlockHeader
             hash={hash}
             header={header}

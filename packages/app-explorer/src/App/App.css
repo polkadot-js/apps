@@ -8,7 +8,15 @@
   font-size: 3rem;
   font-weight: 100;
   line-height: 3rem;
-  margin-bottom: 1rem;
+  opacity: 0.5;
+  text-align: right;
+}
+
+.home--App-BestHash {
+  font-size: 1.5em;
+  font-weight: 100;
+  line-height: 1.5em;
+  margin-bottom: 1em;
   opacity: 0.5;
   text-align: right;
 }

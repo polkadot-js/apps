@@ -13,7 +13,7 @@ export default function BlockHeader ({ className, hash, header: { number, parent
       style={style}
     >
       <div className='number'>
-        {number.toString()}
+        #{number.toString()}
       </div>
       <div className='hash'>
         {u8aToHex(hash)}

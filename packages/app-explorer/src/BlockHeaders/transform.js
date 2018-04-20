@@ -6,9 +6,8 @@
 import type { Header } from '@polkadot/primitives/header';
 import type { BlockHeaders } from '../types';
 
-import encodeHeader from '@polkadot/primitives-codec/header/encode';
-import blake2Asu8a256 from '@polkadot/util-crypto/blake2/asU8a256';
 import { blockHeaders } from '../subjects';
+import calcHash from '../calcHash';
 
 export default function transform (header: Header): BlockHeaders {
   const prev = blockHeaders.getValue();
@@ -17,8 +16,7 @@ export default function transform (header: Header): BlockHeaders {
     return prev;
   }
 
-  const encoded = encodeHeader(header);
-  const hash = blake2Asu8a256(encoded);
+  const hash = calcHash(header);
 
   return prev.reduce((next, value, index) => {
     if (index < 9) {

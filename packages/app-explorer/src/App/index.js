@@ -10,6 +10,7 @@ import './App.css';
 import React from 'react';
 import BestNumber from '@polkadot/rx-react/BestNumber';
 
+import BestHash from '../BestHash';
 import BlockHeaders from '../BlockHeaders';
 
 type Props = BaseProps & {};
@@ -24,6 +25,7 @@ export default function App ({ className, style }: Props) {
         className='home--App-BestNumber'
         label='best block #'
       />
+      <BestHash className='home--App-BestHash' />
       <BlockHeaders />
     </div>
   );
