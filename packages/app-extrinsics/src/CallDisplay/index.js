@@ -47,12 +47,12 @@ function CallDisplay ({ className, style, value }: Props, { api }: BaseContext) 
 
   return (
     <div
-      className={['testing--CallDisplay', className].join(' ')}
+      className={['extrinsics--CallDisplay', className].join(' ')}
       style={style}
     >
-      <Component className='testing--CallDisplay-Component' />
+      <Component className='extrinsics--CallDisplay-Component' />
       <Button
-        className='testing--CallDisplay-Execute'
+        className='extrinsics--CallDisplay-Execute'
         onClick={onSubmit}
         primary
       >

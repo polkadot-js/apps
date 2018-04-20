@@ -24,7 +24,7 @@ const onChange = (event: SyntheticEvent<*>, { value }): void => {
 export default function Amount ({ className, style }: Props) {
   return (
     <div
-      className={['testing--split', className].join(' ')}
+      className={['extrinsics--split', className].join(' ')}
       style={style}
     >
       <div className='small'>

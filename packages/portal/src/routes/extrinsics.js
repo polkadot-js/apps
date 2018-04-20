@@ -5,18 +5,18 @@
 
 import type { Routes } from '../types';
 
-import Testing from '@polkadot/app-testing';
+import Extrinsics from '@polkadot/app-extrinsics';
 
 export default ([
   {
-    component: Testing,
+    component: Extrinsics,
     i18n: {
-      defaultValue: 'Testing'
+      defaultValue: 'Extrinsics'
     },
-    icon: 'braille',
+    icon: 'send',
     isExact: false,
     isHidden: false,
-    name: 'testing',
-    path: '/testing'
+    name: 'extrinsics',
+    path: '/extrinsics'
   }
 ]: Routes);

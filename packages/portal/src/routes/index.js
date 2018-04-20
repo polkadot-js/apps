@@ -6,11 +6,12 @@
 import type { Routes } from '../types';
 
 // import accounts from './accounts';
+// import explorer from './explorer';
+import extrinsics from './extrinsics';
 import home from './home';
 // import settings from './settings';
-import testing from './testing';
 
 export default (([].concat(
-  home, testing
-  // , accounts, settings
+  home, extrinsics
+  // , accounts, explorer, settings
 )): Routes);

@@ -12,7 +12,7 @@ import React from 'react';
 export default function Error ({ className, style }: BaseProps): React$Node {
   return (
     <div
-      className={['testing--CallDisplay-error', className].join(' ')}
+      className={['extrinsics--CallDisplay-error', className].join(' ')}
       style={style}
     >
       ERROR: Invalid or unimplemented extrinsic function

@@ -14,7 +14,7 @@ type Props = BaseProps & {};
 function StakingStake ({ className, style }: Props) {
   return (
     <div
-      className={['testing--StakingStake', className].join(' ')}
+      className={['extrinsics--StakingStake', className].join(' ')}
       style={style}
     />
   );

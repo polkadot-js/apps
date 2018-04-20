@@ -8,17 +8,17 @@ import type { BaseProps } from './types';
 import React from 'react';
 
 import Account from './Account';
-import { recipientAddr } from './subjects';
+import { senderAddr } from './subjects';
 
 type Props = BaseProps & {};
 
-export default function Recipient (props: Props) {
+export default function Sender (props: Props) {
   return (
     <Account
       {...props}
-      className={['testing--Recipient', props.className].join(' ')}
-      label='to the recipient'
-      subject={recipientAddr}
+      className={['extrinsics--Sender', props.className].join(' ')}
+      label='using the selected account'
+      subject={senderAddr}
     />
   );
 }

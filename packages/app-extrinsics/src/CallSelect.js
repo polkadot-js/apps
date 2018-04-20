@@ -27,7 +27,7 @@ const options = Object.keys(extrinsics).map((value) => ({
 export default function CallSelect ({ className, style }: Props) {
   return (
     <div
-      className={['testing--CallSelect', 'testing--split', className].join(' ')}
+      className={['extrinsics--CallSelect', 'extrinsics--split', className].join(' ')}
       style={style}
     >
       <div className='large'>

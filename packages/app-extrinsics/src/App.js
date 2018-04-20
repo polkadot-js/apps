@@ -17,7 +17,7 @@ type Props = BaseProps & {};
 export default function App ({ className, style }: Props) {
   return (
     <div
-      className={['testing--App', className].join(' ')}
+      className={['extrinsics--App', className].join(' ')}
       style={style}
     >
       <Sender />

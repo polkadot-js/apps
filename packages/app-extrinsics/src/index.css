@@ -2,12 +2,12 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
-.testing--full,
-.testing--split {
+.extrinsics--full,
+.extrinsics--split {
   width: 100%;
 }
 
-.testing--split {
+.extrinsics--split {
   display:flex;
   flex-wrap:wrap;
   flex-direction:row;
@@ -15,27 +15,27 @@
   align-items:stretch;
 }
 
-.testing--split > div {
+.extrinsics--split > div {
   box-sizing: border-box;
   padding-right: 0.5rem;
 }
 
-.testing--split > div.full {
+.extrinsics--split > div.full {
   flex: 0 100%;
   min-width: 0;
 }
 
-.testing--split > div.large {
+.extrinsics--split > div.large {
   flex: 0 75%;
   min-width: 0;
 }
 
-.testing--split > div.medium {
+.extrinsics--split > div.medium {
   flex: 0 50%;
   min-width: 0;
 }
 
-.testing--split > div.small {
+.extrinsics--split > div.small {
   flex: 0 25%;
   min-width: 0;
 }

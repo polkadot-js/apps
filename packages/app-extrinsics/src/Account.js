@@ -22,7 +22,7 @@ export default function Account ({ className, label, subject, style }: Props) {
 
   return (
     <div
-      className={['testing--Account', 'testing--split', className].join(' ')}
+      className={['extrinsics--Account', 'extrinsics--split', className].join(' ')}
       style={style}
     >
       <div className='large'>

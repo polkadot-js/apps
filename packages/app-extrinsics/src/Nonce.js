@@ -31,7 +31,7 @@ const onNonceChange = (value): void => {
 export default function Nonce ({ className, style }: Props) {
   return (
     <div
-      className={['testing--split', className].join(' ')}
+      className={['extrinsics--split', className].join(' ')}
       style={style}
     >
       <div className='small'>

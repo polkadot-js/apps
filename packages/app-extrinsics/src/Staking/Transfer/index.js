@@ -7,19 +7,24 @@ import type { BaseProps } from '../../types';
 
 import React from 'react';
 
+import Recipient from '../../Recipient';
+import Amount from './Amount';
 import getValues from './getValues';
 
 type Props = BaseProps & {};
 
-function StakingUnstake ({ className, style }: Props) {
+function StakingTransfer ({ className, style }: Props) {
   return (
     <div
-      className={['testing--StakingUnstake', className].join(' ')}
+      className={['extrinsics--StakingTransfer', className].join(' ')}
       style={style}
-    />
+    >
+      <Amount />
+      <Recipient />
+    </div>
   );
 }
 
-StakingUnstake.getValues = getValues;
+StakingTransfer.getValues = getValues;
 
-export default StakingUnstake;
+export default StakingTransfer;
