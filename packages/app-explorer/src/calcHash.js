@@ -3,6 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+// TODO: Move somewhere shared (under primitives?)
+
 import type { Header } from '@polkadot/primitives/header';
 
 import encodeHeader from '@polkadot/primitives-codec/header/encode';
