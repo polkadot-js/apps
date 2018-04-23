@@ -17,7 +17,7 @@ type Props = BaseProps & {
   subject: rxjs$Subject<*>
 };
 
-const testOptions = keyring.getPairs().map((pair) => {
+const options = keyring.getPairs().map((pair) => {
   const publicKey = pair.publicKey();
 
   return {
@@ -44,7 +44,7 @@ export default function InputAddress (props: Props): React$Node {
       {...props}
       className={['ui--InputAddress', props.className].join(' ')}
       selection
-      options={testOptions}
+      options={options}
       onChange={onChange}
     />
   );

@@ -9,19 +9,35 @@ export type Extrinsic$Params = Array<Extrinsic$Type>;
 
 export type ExtrinsicBasic = {
   description: string,
+  index: number,
   params: Extrinsic$Params
 }
 
-export type Extrinsic = ExtrinsicBasic & {
+export type ExtrinsicsBasic = {
+  description: string,
+  methods: {
+    [string]: ExtrinsicBasic
+  }
+}
+
+export type Extrinsic = {
+  description: string,
   index: Uint8Array,
-  indexHex: string,
+  name: string,
+  params: Extrinsic$Params
+};
+
+export type ExtrinsicSection = {
+  description: string,
+  methods: Array<Extrinsic>,
   name: string
 };
 
 export type Extrinsics = {
-  [string]: Extrinsic
+  sections: Array<ExtrinsicSection>,
+  get: (sectionMethod: string) => Extrinsic
 }
 
-export type ExtrinsicsBasic = {
-  [string]: ExtrinsicBasic
-}
+export type ExtrinsicsMap = {
+  [string]: Extrinsic
+};

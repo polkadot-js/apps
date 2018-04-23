@@ -6,4 +6,6 @@
 import type { ExtrinsicsBasic } from './types';
 
 module.exports = ({
+  description: 'Democracy',
+  methods: {}
 }: ExtrinsicsBasic);

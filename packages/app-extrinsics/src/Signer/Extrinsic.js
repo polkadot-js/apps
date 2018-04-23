@@ -27,13 +27,9 @@ export default function Extrinsic ({ className, style, value: { message, method,
           className='icon'
         />
         <div className='expanded'>
-          <p>
-          You are about to sign a message from <div className='code'>{u8aToHexShort(publicKey)}</div> calling <div className='code'>{method}</div>.
-          </p>
-          <p>The encoded message to be signed contains the data -</p>
-          <p>
-            <div className='code'>{u8aToHex(message)}</div>
-          </p>
+          <p>You are about to sign a message from <span className='code'>{u8aToHexShort(publicKey)}</span> calling <span className='code'>{method}</span></p>
+          <p>The encoded message to be signed contains the data</p>
+          <p className='code'>{u8aToHex(message)}</p>
         </div>
       </div>
     </Modal.Content>

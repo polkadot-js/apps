@@ -11,7 +11,7 @@ export default function queue (method: string, values: Array<mixed>): void {
   // flowlint-next-line unclear-type:off
   const publicKey = ((senderAddr.getValue(): any): Uint8Array);
   const message = encode(
-    extrinsics[method],
+    extrinsics.get(method),
     publicKey,
     senderIndex.getValue() || 0,
     values

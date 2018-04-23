@@ -6,16 +6,22 @@
 import type { ExtrinsicsBasic } from './types';
 
 module.exports = ({
-  transfer: {
-    description: 'Staking Transfer',
-    params: ['AccountId', 'Balance']
-  },
-  stake: {
-    description: 'Stake',
-    params: []
-  },
-  unstake: {
-    description: 'Unstake',
-    params: []
+  description: 'Staking',
+  methods: {
+    transfer: {
+      description: 'Transfer',
+      index: 0,
+      params: ['AccountId', 'Balance']
+    },
+    stake: {
+      description: 'Stake',
+      index: 1,
+      params: []
+    },
+    unstake: {
+      description: 'Unstake',
+      index: 2,
+      params: []
+    }
   }
 }: ExtrinsicsBasic);

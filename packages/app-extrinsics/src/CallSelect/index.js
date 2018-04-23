@@ -3,14 +3,16 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from './types';
+import type { BaseProps } from '../types';
+
+import './CallSelect.css';
 
 import React from 'react';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 
-import { extrinsicName } from './subjects';
-import extrinsics from './extrinsics';
+import { extrinsicName } from '../subjects';
+import extrinsics from '../extrinsics';
 
 type Props = BaseProps & {};
 
@@ -19,10 +21,23 @@ const onChange = (event: SyntheticEvent<*>, { value }): void => {
   extrinsicName.next(value);
 };
 
-const options = Object.keys(extrinsics).map((value) => ({
-  text: extrinsics[value].description,
-  value
-}));
+const options = [];
+
+extrinsics.sections.forEach(({ description, methods, name }) => {
+  options.push({
+    disabled: true,
+    text: description,
+    value: name
+  });
+
+  methods.forEach(({ description, name }) => {
+    options.push({
+      className: 'extrinsics--CallSelect-indent',
+      text: description,
+      value: name
+    });
+  });
+});
 
 export default function CallSelect ({ className, style }: Props) {
   return (
