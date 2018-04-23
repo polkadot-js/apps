@@ -3,7 +3,14 @@
 /* of the ISC license. See the LICENSE file for details. */
 
 .portal--Content {
-  padding: 1em;
-  text-align: left;
+  height: 100%;
+  width: 100%;
+}
+
+.portal--Content-Frame {
+  border: none;
+  box-sizing: border-box;
+  height: 100%;
+  overflow-y: scroll;
   width: 100%;
 }

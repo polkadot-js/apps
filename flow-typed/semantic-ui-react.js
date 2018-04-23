@@ -25,3 +25,11 @@ declare module 'semantic-ui-react/dist/es/elements/Label' {
 declare module 'semantic-ui-react/dist/es/modules/Dropdown' {
   declare module.exports: React$StatelessFunctionalComponent<*>
 }
+
+declare module 'semantic-ui-react/dist/es/modules/Modal' {
+  declare module.exports: React$StatelessFunctionalComponent<*> & {
+    Actions: React$StatelessFunctionalComponent<*>,
+    Content: React$StatelessFunctionalComponent<*>,
+    Header: React$StatelessFunctionalComponent<*>
+  }
+}

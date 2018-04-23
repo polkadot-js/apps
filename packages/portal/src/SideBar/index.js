@@ -11,33 +11,33 @@ import React from 'react';
 import { translate } from 'react-i18next';
 import Menu from 'semantic-ui-react/dist/es/collections/Menu';
 
-import routes from '../routes';
+import routing from '../routing';
 import Item from './Item';
 
 type Props = BaseProps & {};
 
-export default translate(['portal'])(
-  function SideBar ({ className, style, t }: Props) {
-    return (
-      <div
-        className={['portal--SideBar', className].join(' ')}
-        style={style}
+function SideBar ({ className, style, t }: Props) {
+  return (
+    <div
+      className={['portal--SideBar', className].join(' ')}
+      style={style}
+    >
+      <Menu
+        secondary
+        vertical
       >
-        <Menu
-          secondary
-          vertical
-        >
-          {
-            routes.map((props) => (
-              <Item
-                key={props.name}
-                t={t}
-                {...props}
-              />
-            ))
-          }
-        </Menu>
-      </div>
-    );
-  }
-);
+        {
+          routing.routes.map((props) => (
+            <Item
+              key={props.name}
+              t={t}
+              {...props}
+            />
+          ))
+        }
+      </Menu>
+    </div>
+  );
+}
+
+export default translate(['portal'])(SideBar);

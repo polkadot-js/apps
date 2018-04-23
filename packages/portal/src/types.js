@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { Location } from 'react-router-dom';
 import type { RxApiInterface } from '@polkadot/rx-api/types';
 
 export type BaseProps = {
@@ -14,7 +15,13 @@ export type BaseProps = {
 };
 
 export type BaseContext = {
-  api: RxApiInterface
+  api: RxApiInterface,
+  // TODO: Set the correct/full type
+  router: {
+    route: {
+      location: Location
+    }
+  }
 };
 
 export type Route = {
@@ -24,7 +31,12 @@ export type Route = {
   isExact: boolean,
   isHidden: boolean,
   name: string,
-  path: string
+  path?: string
 };
 
 export type Routes = Array<Route>;
+
+export type Routing = {
+  default: string,
+  routes: Routes
+}

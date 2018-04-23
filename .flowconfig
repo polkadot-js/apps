@@ -12,5 +12,5 @@ all=warn
 
 [options]
 include_warnings=true
-module.name_mapper='^@polkadot/content-\(accounts\|home\|settings\)\(.*\)$' -> '<PROJECT_ROOT>/packages/content-\1/src\2'
+module.name_mapper='^@polkadot/app-\(accounts\|explorer\|extrinsics\|home\|settings\)\(.*\)$' -> '<PROJECT_ROOT>/packages/app-\1/src\2'
 module.name_mapper='^@polkadot/portal\(.*\)$' -> '<PROJECT_ROOT>/packages/portal/src\1'

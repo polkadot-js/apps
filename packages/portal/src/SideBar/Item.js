@@ -25,7 +25,8 @@ export default function Item ({ className, i18n, icon, isExact, name, path, styl
         activeClassName='portal--SideBar-Item-NavLink-active'
         className='portal--SideBar-Item-NavLink'
         exact={isExact}
-        to={path}
+        // flowlint-next-line sketchy-null-string:off
+        to={path || `/${name}`}
       >
         <Icon name={icon} /> {t(`sidebar.${name}`, i18n)}
       </NavLink>
