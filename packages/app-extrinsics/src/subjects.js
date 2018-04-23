@@ -9,5 +9,6 @@ import BN from 'bn.js';
 
 export const extrinsicName = new BehaviorSubject();
 export const recipientAddr = new BehaviorSubject();
+export const queueTx = new BehaviorSubject();
 export const senderAddr = new BehaviorSubject();
 export const senderIndex = new BehaviorSubject(new BN(0));

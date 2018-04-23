@@ -31,3 +31,7 @@
   position: relative;
   z-index: 1;
 }
+
+.ui.page.modals.transition.visible {
+  display: flex !important;
+}

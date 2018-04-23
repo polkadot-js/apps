@@ -15,3 +15,9 @@ export type BaseProps = {
 export type BaseContext = {
   api: RxApiInterface
 };
+
+export type QueueTx = {
+  message: Uint8Array,
+  method: string,
+  publicKey: Uint8Array
+};

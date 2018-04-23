@@ -1,0 +1,34 @@
+/* Copyright 2017-2018 Jaco Greeff
+/* This software may be modified and distributed under the terms
+/* of the ISC license. See the LICENSE file for details. */
+
+.extrinsics--Signer {}
+
+.extrinsics--Signer-Extrinsic {}
+
+.extrinsics--Signer-Extrinsic > .body {
+  align-content: center;
+  display: flex;
+  line-height: 1.5em;
+}
+
+.extrinsics--Signer-Extrinsic > .body > .expanded {
+  padding-left: 1.5em;
+}
+
+.extrinsics--Signer-Extrinsic > .body > .expanded > p .address,
+.extrinsics--Signer-Extrinsic > .body > .expanded > p .data,
+.extrinsics--Signer-Extrinsic > .body > .expanded > p .method {
+  background: #f5f5f5;
+  display: inline-block;
+  font-family: monospace;
+  margin: 0 0.25em;
+  padding: 0.25em 0.5em;
+}
+
+.extrinsics--Signer-Extrinsic > .body > .expanded > p .data {
+  overflow-wrap: break-word;
+  word-break: break-all;
+  word-break: break-word;
+  word-wrap: break-word;
+}

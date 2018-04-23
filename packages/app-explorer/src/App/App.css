@@ -2,9 +2,11 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
-.home--App {}
+.explorer--App {
+  padding: 1em;
+}
 
-.home--App-BestNumber {
+.explorer--App-BestNumber {
   font-size: 3rem;
   font-weight: 100;
   line-height: 3rem;
@@ -12,7 +14,7 @@
   text-align: right;
 }
 
-.home--App-BestHash {
+.explorer--App-BestHash {
   font-size: 1.5em;
   font-weight: 100;
   line-height: 1.5em;
@@ -21,5 +23,5 @@
   text-align: right;
 }
 
-.home--App-BlockHeaders {
+.explorer--App-BlockHeaders {
 }

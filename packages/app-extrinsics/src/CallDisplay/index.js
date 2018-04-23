@@ -3,11 +3,10 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps, BaseContext } from '../types';
+import type { BaseProps } from '../types';
 
 import './CallDisplay.css';
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import withObservable from '@polkadot/rx-react/with/observable';
@@ -17,7 +16,7 @@ import StakingTransfer from '../Staking/Transfer';
 import StakingUnstake from '../Staking/Unstake';
 import { extrinsicName } from '../subjects';
 import ErrorComponent from './Error';
-import submitExtrinsic from './submit';
+import queueExtrinsic from './queue';
 
 type ValueGetter = {
   getValues: () => Array<mixed>
@@ -33,7 +32,7 @@ const COMPONENTS = {
   'staking_unstake': StakingUnstake
 };
 
-function CallDisplay ({ className, style, value }: Props, { api }: BaseContext) {
+function CallDisplay ({ className, style, value }: Props) {
   // flowlint-next-line sketchy-null-string:off
   if (!value) {
     return null;
@@ -42,7 +41,7 @@ function CallDisplay ({ className, style, value }: Props, { api }: BaseContext) 
   const Component = COMPONENTS[value] || ErrorComponent;
   const onSubmit = () => {
     // flowlint-next-line unclear-type:off
-    submitExtrinsic(api, value, ((Component: any): ValueGetter).getValues());
+    queueExtrinsic(value, ((Component: any): ValueGetter).getValues());
   };
 
   return (
@@ -61,9 +60,5 @@ function CallDisplay ({ className, style, value }: Props, { api }: BaseContext) 
     </div>
   );
 }
-
-CallDisplay.contextTypes = {
-  api: PropTypes.object
-};
 
 export default withObservable(CallDisplay, extrinsicName);

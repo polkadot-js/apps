@@ -18,14 +18,14 @@ type Props = BaseProps & {};
 export default function App ({ className, style }: Props) {
   return (
     <div
-      className={['home--App', className].join(' ')}
+      className={['explorer--App', className].join(' ')}
       style={style}
     >
       <BestNumber
-        className='home--App-BestNumber'
+        className='explorer--App-BestNumber'
         label='best #'
       />
-      <BestHash className='home--App-BestHash' />
+      <BestHash className='explorer--App-BestHash' />
       <BlockHeaders />
     </div>
   );

@@ -5,27 +5,16 @@
 
 import type { RxApiInterface } from '@polkadot/rx-api/types';
 
-import encode from '../encode';
-import extrinsics from '../extrinsics';
 import keyring from '../keyring';
-import { senderAddr, senderIndex } from '../subjects';
 
 import sign from './sign';
 
-export default function submit (api: RxApiInterface, method: string, values: Array<mixed>): void {
-  // flowlint-next-line unclear-type:off
-  const publicKey = ((senderAddr.getValue(): any): Uint8Array);
-
-  api.author
+export default function submit (api: RxApiInterface, publicKey: Uint8Array, message: Uint8Array): Promise<void> {
+  return api.author
     .submitExtrinsic(
       sign(
         keyring.getPair(publicKey),
-        encode(
-          extrinsics[method],
-          publicKey,
-          senderIndex.getValue() || 0,
-          values
-        )
+        message
       )
     )
     .toPromise()

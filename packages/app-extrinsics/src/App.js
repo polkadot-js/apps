@@ -11,6 +11,7 @@ import CallDisplay from './CallDisplay';
 import CallSelect from './CallSelect';
 import Nonce from './Nonce';
 import Sender from './Sender';
+import Signer from './Signer';
 
 type Props = BaseProps & {};
 
@@ -24,6 +25,7 @@ export default function App ({ className, style }: Props) {
       <CallSelect />
       <Nonce />
       <CallDisplay />
+      <Signer />
     </div>
   );
 }
