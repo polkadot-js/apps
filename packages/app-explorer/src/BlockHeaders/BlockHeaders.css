@@ -17,13 +17,41 @@
 }
 
 .explorer--BlockHeaders-BlockHeader > .number {
+  align-items: center;
   box-sizing: border-box;
+  display: flex;
   flex: 1 25%;
+  font-size: 3rem;
+  font-weight: 100;
+}
+
+.explorer--BlockHeaders-BlockHeader > .number div {
+  flex: 1;
   text-align: right;
 }
 
-.explorer--BlockHeaders-BlockHeader > .hash {
+.explorer--BlockHeaders-BlockHeader > .details {
   box-sizing: border-box;
   flex: 1 75%;
   text-align: left;
+}
+
+.explorer--BlockHeaders-BlockHeader > .details > .hash {
+}
+
+.explorer--BlockHeaders-BlockHeader > .details > .contains {
+  border: 0;
+  font-size: 0.75em;
+  opacity: 0.75;
+}
+
+.explorer--BlockHeaders-BlockHeader > .details > .contains td {
+  padding: 0 0.25em;
+}
+
+.explorer--BlockHeaders-BlockHeader > .details > .contains td.type {
+  text-align: right;
+}
+
+.explorer--BlockHeaders-BlockHeader > .details > .contains td.hash {
 }

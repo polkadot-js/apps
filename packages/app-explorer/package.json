@@ -13,12 +13,12 @@
     "test": "react-scripts test --env=jsdom --coverage"
   },
   "devDependencies": {
-    "@polkadot/primitives": "^0.10.1",
-    "@polkadot/primitives-codec": "^0.10.1",
-    "@polkadot/primitives-json": "^0.10.1",
-    "@polkadot/rx-react": "^0.2.18",
-    "@polkadot/util": "^0.19.1",
-    "@polkadot/util-crypto": "^0.19.1",
+    "@polkadot/primitives": "^0.10.2",
+    "@polkadot/primitives-codec": "^0.10.2",
+    "@polkadot/primitives-json": "^0.10.2",
+    "@polkadot/rx-react": "^0.2.19",
+    "@polkadot/util": "^0.19.2",
+    "@polkadot/util-crypto": "^0.19.2",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
     "semantic-ui-css": "^2.3.1",

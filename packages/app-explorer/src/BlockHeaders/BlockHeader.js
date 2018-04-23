@@ -6,17 +6,41 @@
 import React from 'react';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
-export default function BlockHeader ({ className, hash, header: { number, parentHash }, style }: any) {
+export default function BlockHeader ({ className, hash, header: { extrinsicsRoot, number, parentHash, stateRoot }, style }: any) {
   return (
     <div
       className={['explorer--BlockHeaders-BlockHeader', className].join(' ')}
       style={style}
     >
       <div className='number'>
-        #{number.toString()}
+        <div>#{number.toString()}</div>
       </div>
-      <div className='hash'>
-        {u8aToHex(hash)}
+      <div className='details'>
+        <div className='hash'>
+          {u8aToHex(hash)}
+        </div>
+        <table className='contains'>
+          <tbody>
+            <tr>
+              <td className='type'>parentHash</td>
+              <td className='hash'>
+                {u8aToHex(parentHash)}
+              </td>
+            </tr>
+            <tr>
+              <td className='type'>extrinsicsRoot</td>
+              <td className='hash'>
+                {u8aToHex(extrinsicsRoot)}
+              </td>
+            </tr>
+            <tr>
+              <td className='type'>stateRoot</td>
+              <td className='hash'>
+                {u8aToHex(stateRoot)}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );

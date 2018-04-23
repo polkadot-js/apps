@@ -5,7 +5,7 @@
 
 import React from 'react';
 import withApiCall from '@polkadot/rx-react/with/apiCall';
-import u8aToHex from '@polkadot/util/u8a/toHex';
+import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 
 import calcHash from './calcHash';
 
@@ -14,15 +14,14 @@ function BestHash ({ className, style, value }: any) {
     return null;
   }
 
-  const hash = u8aToHex(calcHash(value));
-  const trimmed = `${hash.substr(0, 10)}...${hash.slice(-8)}`;
+  const hash = u8aToHexShort(calcHash(value));
 
   return (
     <div
       className={['explorer--BestHash', className].join(' ')}
       style={style}
     >
-      {trimmed}
+      {hash}
     </div>
   );
 }

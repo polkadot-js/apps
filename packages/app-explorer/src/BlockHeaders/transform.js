@@ -16,6 +16,8 @@ export default function transform (header: Header): BlockHeaders {
     return prev;
   }
 
+  console.log('transform', JSON.stringify(header), header.number.toString(10), header.number.toNumber(), JSON.stringify(header.number));
+
   const hash = calcHash(header);
 
   return prev.reduce((next, value, index) => {
