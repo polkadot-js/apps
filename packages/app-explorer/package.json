@@ -13,10 +13,10 @@
     "test": "react-scripts test --env=jsdom --coverage"
   },
   "devDependencies": {
-    "@polkadot/primitives": "^0.10.2",
-    "@polkadot/primitives-codec": "^0.10.2",
-    "@polkadot/primitives-json": "^0.10.2",
-    "@polkadot/rx-react": "^0.2.19",
+    "@polkadot/primitives": "^0.10.3",
+    "@polkadot/primitives-codec": "^0.10.3",
+    "@polkadot/primitives-json": "^0.10.3",
+    "@polkadot/rx-react": "^0.2.20",
     "@polkadot/util": "^0.19.2",
     "@polkadot/util-crypto": "^0.19.2",
     "react": "^16.3.1",

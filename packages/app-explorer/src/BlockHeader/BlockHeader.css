@@ -1,0 +1,56 @@
+/* Copyright 2017-2018 Jaco Greeff
+/* This software may be modified and distributed under the terms
+/* of the ISC license. See the LICENSE file for details. */
+
+.explorer--BlockHeader {
+  display: flex;
+}
+
+.explorer--BlockHeader:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.explorer--BlockHeader > div {
+  padding: 0.5em;
+}
+
+.explorer--BlockHeader > .number {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 25%;
+  font-size: 3rem;
+  font-weight: 100;
+}
+
+.explorer--BlockHeader > .number div {
+  flex: 1;
+  text-align: right;
+}
+
+.explorer--BlockHeader > .details {
+  box-sizing: border-box;
+  flex: 1 75%;
+  text-align: left;
+}
+
+.explorer--BlockHeader > .details > .hash {
+}
+
+.explorer--BlockHeader > .details > .contains {
+  border: 0;
+  font-size: 0.75em;
+  opacity: 0.75;
+}
+
+.explorer--BlockHeader > .details > .contains td {
+  padding: 0 0.25em;
+}
+
+.explorer--BlockHeader > .details > .contains td.type {
+  opacity: 0.75;
+  text-align: right;
+}
+
+.explorer--BlockHeader > .details > .contains td.hash {
+}

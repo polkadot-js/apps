@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import { BaseProps } from '../types';
+import type { BaseProps, QueueTx } from '../types';
 
 import React from 'react';
 import Modal from 'semantic-ui-react/dist/es/modules/Modal';
@@ -12,12 +12,10 @@ import u8aToHex from '@polkadot/util/u8a/toHex';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 
 type Props = BaseProps & {
-  value?: QueueTx
+  value: QueueTx
 };
 
 export default function Extrinsic ({ className, style, value: { message, method, publicKey } }: Props): React$Node {
-  console.log('Extrinsic', message, publicKey);
-
   return (
     <Modal.Content
       className={['extrinsics--Signer-Extrinsic', className].join(' ')}
@@ -30,11 +28,11 @@ export default function Extrinsic ({ className, style, value: { message, method,
         />
         <div className='expanded'>
           <p>
-          You are about to sign a message from <div className='address'>{u8aToHexShort(publicKey)}</div>, calling <div className='method'>{method}</div>.
+          You are about to sign a message from <div className='code'>{u8aToHexShort(publicKey)}</div> calling <div className='code'>{method}</div>.
           </p>
           <p>The encoded message to be signed contains the data -</p>
           <p>
-            <div className='data'>{u8aToHex(message)}</div>
+            <div className='code'>{u8aToHex(message)}</div>
           </p>
         </div>
       </div>

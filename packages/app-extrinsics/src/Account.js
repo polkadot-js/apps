@@ -17,7 +17,7 @@ type Props = BaseProps & {
   subject: rxjs$BehaviorSubject<*>
 };
 
-export default function Account ({ className, label, subject, style }: Props) {
+export default function Account ({ className, label, subject, style }: Props): React$Node {
   const AccountBalance = withObservableParams(Balance, subject);
 
   return (

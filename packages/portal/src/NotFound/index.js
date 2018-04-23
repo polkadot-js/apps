@@ -8,8 +8,9 @@ import type { BaseProps } from '../types';
 import './NotFound.css';
 
 import React from 'react';
+import { translate } from 'react-i18next';
 
-export default function NotFound ({ className, style }: BaseProps) {
+function NotFound ({ className, style }: BaseProps) {
   return (
     <div
       className={['portal--NotFound', className].join(' ')}
@@ -19,3 +20,5 @@ export default function NotFound ({ className, style }: BaseProps) {
     </div>
   );
 }
+
+export default translate(['portal'])(NotFound);

@@ -15,6 +15,7 @@ module.exports = function sign (sender?: ?KeyringPair, message: Uint8Array): Uin
 
   return u8aConcat(
     message,
+    // $FlowFixMe sender has an actual value
     sender.sign(message)
   );
 };

@@ -3,12 +3,13 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import type { QueueTx } from './types';
 
 import BN from 'bn.js';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-export const extrinsicName = new BehaviorSubject();
-export const recipientAddr = new BehaviorSubject();
-export const queueTx = new BehaviorSubject();
-export const senderAddr = new BehaviorSubject();
-export const senderIndex = new BehaviorSubject(new BN(0));
+export const extrinsicName: rxjs$BehaviorSubject<?string> = new BehaviorSubject();
+export const recipientAddr: rxjs$BehaviorSubject<?Uint8Array> = new BehaviorSubject();
+export const queueTx: rxjs$BehaviorSubject<?QueueTx> = new BehaviorSubject();
+export const senderAddr: rxjs$BehaviorSubject<?Uint8Array> = new BehaviorSubject();
+export const senderIndex: rxjs$BehaviorSubject<BN> = new BehaviorSubject(new BN(0));

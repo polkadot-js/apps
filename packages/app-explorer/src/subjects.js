@@ -3,8 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BlockHeaders } from './types';
+import type { Header } from '@polkadot/primitives/header';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-export const blockHeaders: rxjs$BehaviorSubject<BlockHeaders> = new BehaviorSubject([]);
+export const blockHeaders: rxjs$BehaviorSubject<Array<Header>> = new BehaviorSubject([]);

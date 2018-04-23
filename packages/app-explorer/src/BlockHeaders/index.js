@@ -3,32 +3,31 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import './BlockHeaders.css';
+import type { Header } from '@polkadot/primitives/header';
+import type { BaseProps } from '../types';
 
 import React from 'react';
 import withApiCall from '@polkadot/rx-react/with/apiCall';
 
+import BlockHeader from '../BlockHeader';
 import { blockHeaders } from '../subjects';
-import BlockHeader from './BlockHeader';
 import transform from './transform';
 
-function BlockHeaders ({ className, style, value }: any) {
-  const currentNumber = value && value.length
-    ? value[0].header.number.toString()
-    : 'unknown';
+type Props = BaseProps & {
+  value: Array<Header>
+};
 
+function BlockHeaders ({ className, style, value }: Props): React$Node {
   return (
     <div
       className={['explorer--BlockHeaders', className].join(' ')}
-      data-latest={currentNumber}
       style={style}
     >
       {
-        (value || []).slice(1).map(({ hash, header }) => (
+        (value || []).map((header) => (
           <BlockHeader
-            hash={hash}
-            header={header}
-            key={hash}
+            value={header}
+            key={header.number.toString()}
           />
         ))
       }

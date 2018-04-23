@@ -15,7 +15,7 @@ import BlockHeaders from '../BlockHeaders';
 
 type Props = BaseProps & {};
 
-export default function App ({ className, style }: Props) {
+export default function App ({ className, style }: Props): React$Node {
   return (
     <div
       className={['explorer--App', className].join(' ')}

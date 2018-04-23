@@ -32,7 +32,7 @@ const COMPONENTS = {
   'staking_unstake': StakingUnstake
 };
 
-function CallDisplay ({ className, style, value }: Props) {
+function CallDisplay ({ className, style, value }: Props): React$Node {
   // flowlint-next-line sketchy-null-string:off
   if (!value) {
     return null;

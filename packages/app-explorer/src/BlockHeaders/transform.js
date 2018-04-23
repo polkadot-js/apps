@@ -4,21 +4,15 @@
 // @flow
 
 import type { Header } from '@polkadot/primitives/header';
-import type { BlockHeaders } from '../types';
 
 import { blockHeaders } from '../subjects';
-import calcHash from '../calcHash';
 
-export default function transform (header: Header): BlockHeaders {
+export default function transform (header: Header): Array<Header> {
   const prev = blockHeaders.getValue();
 
   if (!header) {
     return prev;
   }
-
-  console.log('transform', JSON.stringify(header), header.number.toString(10), header.number.toNumber(), JSON.stringify(header.number));
-
-  const hash = calcHash(header);
 
   return prev.reduce((next, value, index) => {
     if (index < 9) {
@@ -26,5 +20,5 @@ export default function transform (header: Header): BlockHeaders {
     }
 
     return next;
-  }, [{ hash, header }]);
+  }, [header]);
 }

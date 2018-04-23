@@ -3,17 +3,35 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { Header } from '@polkadot/primitives/header';
+import type { BaseProps } from '../types';
+
+import './BlockHeader.css';
+
 import React from 'react';
+import headerHash from '@polkadot/primitives-codec/header/hash';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
-export default function BlockHeader ({ className, hash, header: { extrinsicsRoot, number, parentHash, stateRoot }, style }: any) {
+type Props = BaseProps & {
+  label?: string,
+  value?: Header
+};
+
+export default function BlockHeader ({ className, label = '#', value, style }: Props): React$Node {
+  if (!value) {
+    return null;
+  }
+
+  const hash = headerHash(value);
+  const { extrinsicsRoot, number, parentHash, stateRoot } = value;
+
   return (
     <div
-      className={['explorer--BlockHeaders-BlockHeader', className].join(' ')}
+      className={['explorer--BlockHeader', className].join(' ')}
       style={style}
     >
       <div className='number'>
-        <div>#{number.toString()}</div>
+        <div>{label}{number.toString()}</div>
       </div>
       <div className='details'>
         <div className='hash'>

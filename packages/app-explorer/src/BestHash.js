@@ -3,25 +3,29 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { Header } from '@polkadot/primitives/header';
+import type { BaseProps } from './types';
+
 import React from 'react';
+import headerHash from '@polkadot/primitives-codec/header/hash';
 import withApiCall from '@polkadot/rx-react/with/apiCall';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 
-import calcHash from './calcHash';
+type Props = BaseProps & {
+  value?: Header
+};
 
-function BestHash ({ className, style, value }: any) {
+function BestHash ({ className, style, value }: Props): React$Node {
   if (!value) {
     return null;
   }
-
-  const hash = u8aToHexShort(calcHash(value));
 
   return (
     <div
       className={['explorer--BestHash', className].join(' ')}
       style={style}
     >
-      {hash}
+      {u8aToHexShort(headerHash(value))}
     </div>
   );
 }
