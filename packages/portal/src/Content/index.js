@@ -11,10 +11,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { translate } from 'react-i18next';
 
+import routing from '../routing';
+
 type Props = BaseProps & {};
 
 function Content ({ className, style }: Props, { router: { route: { location } } }: BaseContext) {
-  const app = location.pathname.slice(1) || 'home';
+  const app = location.pathname.slice(1) || routing.default;
 
   return (
     <div

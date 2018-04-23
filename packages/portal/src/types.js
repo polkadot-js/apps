@@ -35,3 +35,8 @@ export type Route = {
 };
 
 export type Routes = Array<Route>;
+
+export type Routing = {
+  default: string,
+  routes: Routes
+}

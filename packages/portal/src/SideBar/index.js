@@ -11,7 +11,7 @@ import React from 'react';
 import { translate } from 'react-i18next';
 import Menu from 'semantic-ui-react/dist/es/collections/Menu';
 
-import routes from '../routes';
+import routing from '../routing';
 import Item from './Item';
 
 type Props = BaseProps & {};
@@ -27,7 +27,7 @@ function SideBar ({ className, style, t }: Props) {
         vertical
       >
         {
-          routes.map((props) => (
+          routing.routes.map((props) => (
             <Item
               key={props.name}
               t={t}

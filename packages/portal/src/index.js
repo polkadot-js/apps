@@ -17,14 +17,14 @@ import i18n from './i18n';
 
 import Portal from './App';
 import NotFound from './NotFound';
-import routes from './routes';
+import routing from './routing';
 import urlParams from './urlParams';
 
 const Component = (() => {
   const { app } = urlParams();
 
   if (app) {
-    const route = routes.find(({ name }) => name === app);
+    const route = routing.routes.find(({ name }) => name === app);
 
     return route
       ? route.component

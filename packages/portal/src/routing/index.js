@@ -3,15 +3,17 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Routes } from '../types';
+import type { Routing } from '../types';
 
 // import accounts from './accounts';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
-import home from './home';
+// import home from './home';
 // import settings from './settings';
 
-export default (([].concat(
-  home, extrinsics, explorer
-  // , accounts, settings
-)): Routes);
+export default ({
+  default: 'explorer',
+  routes: [].concat(
+    explorer, extrinsics
+  )
+}: Routing);
