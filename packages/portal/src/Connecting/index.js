@@ -7,6 +7,7 @@ import type { BaseProps } from '../types';
 
 import './Connecting.css';
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import { translate } from 'react-i18next';
 import withApiCall from '@polkadot/rx-react/with/apiCall';
@@ -15,7 +16,7 @@ type Props = BaseProps & {
   value: boolean
 };
 
-function Connecting ({ className, style, value, t }: Props) {
+function Connecting ({ className, style, value, t }: Props, { api }: any) {
   if (value) {
     return null;
   }
@@ -31,6 +32,10 @@ function Connecting ({ className, style, value, t }: Props) {
     </div>
   );
 }
+
+Connecting.contextTypes = {
+  api: PropTypes.object
+};
 
 export default translate(['portal'])(
   withApiCall(Connecting, {

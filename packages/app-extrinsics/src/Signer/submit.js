@@ -10,8 +10,6 @@ import keyring from '../keyring';
 import sign from './sign';
 
 export default function submit (api: RxApiInterface, publicKey: Uint8Array, message: Uint8Array): Promise<void> {
-  console.log('connected', api.isConnected());
-
   return api.author
     .submitExtrinsic(
       sign(

@@ -8,9 +8,9 @@
 
 .portal--Connecting-text {
   background: red;
+  bottom: 0;
   color: white;
   line-height: 1.5em;
-  padding: 2em;
+  padding: 1em 2em;
   position: absolute;
-  top: 0;
 }
