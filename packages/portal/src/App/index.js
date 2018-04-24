@@ -10,6 +10,7 @@ import './App.css';
 import React from 'react';
 import { translate } from 'react-i18next';
 
+import Connecting from '../Connecting';
 import Content from '../Content';
 import SideBar from '../SideBar';
 
@@ -24,6 +25,7 @@ export default translate(['portal'])(
       >
         <SideBar className='portal--App-column' />
         <Content className='portal--App-column' />
+        <Connecting />
       </div>
     );
   }
