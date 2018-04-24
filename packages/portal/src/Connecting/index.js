@@ -34,8 +34,9 @@ function Connecting ({ className, style, value, t }: Props): React$Node {
   );
 }
 
-export default translate(['portal'])(
-  withApiCall(Connecting, {
+export default withApiCall(
+  translate(['portal'])(Connecting),
+  {
     method: 'isConnected'
-  })
+  }
 );
