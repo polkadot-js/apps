@@ -8,6 +8,7 @@ import type { BaseProps } from '../types';
 import './CallDisplay.css';
 
 import React from 'react';
+import { translate } from 'react-i18next';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import withObservable from '@polkadot/rx-react/with/observable';
 
@@ -32,7 +33,7 @@ const COMPONENTS = {
   'staking_unstake': StakingUnstake
 };
 
-function CallDisplay ({ className, style, value }: Props): React$Node {
+function CallDisplay ({ className, style, t, value }: Props): React$Node {
   // flowlint-next-line sketchy-null-string:off
   if (!value) {
     return null;
@@ -55,10 +56,15 @@ function CallDisplay ({ className, style, value }: Props): React$Node {
         onClick={onSubmit}
         primary
       >
-        Submit Extrinsic
+        {t('calldisplay.submit', {
+          defaultValue: 'Submit Extrinsic'
+        })}
       </Button>
     </div>
   );
 }
 
-export default withObservable(CallDisplay, extrinsicName);
+export default withObservable(
+  translate(['extrinsics'])(CallDisplay),
+  extrinsicName
+);

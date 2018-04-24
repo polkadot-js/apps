@@ -10,21 +10,23 @@ import './App.css';
 import React from 'react';
 import { translate } from 'react-i18next';
 
+import Connecting from '../Connecting';
 import Content from '../Content';
 import SideBar from '../SideBar';
 
 type Props = BaseProps & {};
 
-export default translate(['portal'])(
-  function App ({ className, style }: Props) {
-    return (
-      <div
-        className={['portal--App', className].join(' ')}
-        style={style}
-      >
-        <SideBar className='portal--App-column' />
-        <Content className='portal--App-column' />
-      </div>
-    );
-  }
-);
+function App ({ className, style }: Props) {
+  return (
+    <div
+      className={['portal--App', className].join(' ')}
+      style={style}
+    >
+      <SideBar className='portal--App-column' />
+      <Content className='portal--App-column' />
+      <Connecting />
+    </div>
+  );
+}
+
+export default translate(['portal'])(App);

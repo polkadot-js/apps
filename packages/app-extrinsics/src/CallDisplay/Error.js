@@ -8,14 +8,19 @@ import type { BaseProps } from '../types';
 import './CallDisplay.css';
 
 import React from 'react';
+import { translate } from 'react-i18next';
 
-export default function Error ({ className, style }: BaseProps): React$Node {
+function ErrorDisplay ({ className, style, t }: BaseProps): React$Node {
   return (
     <div
       className={['extrinsics--CallDisplay-error', className].join(' ')}
       style={style}
     >
-      ERROR: Invalid or unimplemented extrinsic function
+      {t('calldisplay.error', {
+        defaultValue: 'ERROR: Invalid or unimplemented extrinsic function'
+      })}
     </div>
   );
 }
+
+export default translate(['extrinsics'])(ErrorDisplay);

@@ -9,6 +9,7 @@ import './Signer.css';
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import { translate } from 'react-i18next';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import Modal from 'semantic-ui-react/dist/es/modules/Modal';
 import withObservable from '@polkadot/rx-react/with/observable';
@@ -21,7 +22,7 @@ type Props = BaseProps & {
   value?: QueueTx
 };
 
-function Signer ({ className, style, value }: Props, { api }: BaseContext): React$Node {
+function Signer ({ className, style, t, value }: Props, { api }: BaseContext): React$Node {
   if (!value) {
     return null;
   }
@@ -40,17 +41,25 @@ function Signer ({ className, style, value }: Props, { api }: BaseContext): Reac
       open
       style={style}
     >
-      <Modal.Header>Sign and submit</Modal.Header>
+      <Modal.Header>
+        {t('signer.header', {
+          defaultValue: 'Sign and submit'
+        })}
+      </Modal.Header>
       <Extrinsic value={value} />
       <Modal.Actions>
         <Button onClick={onClose}>
-          Cancel
+          {t('signer.cancel', {
+            defaultValue: 'Cancel'
+          })}
         </Button>
         <Button
           onClick={onSign}
           primary
         >
-          Sign and Submit
+          {t('signer.send', {
+            defaultValue: 'Sign and Submit'
+          })}
         </Button>
       </Modal.Actions>
     </Modal>
@@ -61,4 +70,7 @@ Signer.contextTypes = {
   api: PropTypes.object
 };
 
-export default withObservable(Signer, queueTx);
+export default withObservable(
+  translate(['extrinsics'])(Signer),
+  queueTx
+);

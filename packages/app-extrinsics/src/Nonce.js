@@ -6,6 +6,7 @@
 import type { BaseProps } from './types';
 
 import React from 'react';
+import { translate } from 'react-i18next';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 import RxNonce from '@polkadot/rx-react/Nonce';
 import withObservableParams from '@polkadot/rx-react/with/observableParams';
@@ -16,14 +17,18 @@ type Props = BaseProps & {};
 
 const SenderNonce = withObservableParams(RxNonce, senderAddr);
 
-export default function Nonce ({ className, style }: Props) {
+function Nonce ({ className, style, t }: Props): React$Node {
   return (
     <div
       className={['extrinsics--split', className].join(' ')}
       style={style}
     >
       <div className='small'>
-        <Label>with an index</Label>
+        <Label>
+          {t('nonce.label', {
+            defaultValue: 'with an index'
+          })}
+        </Label>
         <SenderNonce
           className='ui disabled dropdown selection'
           classNameUpdated='hasUpdated'
@@ -33,3 +38,5 @@ export default function Nonce ({ className, style }: Props) {
     </div>
   );
 }
+
+export default translate(['extrinsics'])(Nonce);

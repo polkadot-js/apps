@@ -7,6 +7,7 @@ import type { BaseProps } from '../../types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { translate } from 'react-i18next';
 import Input from 'semantic-ui-react/dist/es/elements/Input';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 
@@ -21,16 +22,20 @@ const onChange = (event: SyntheticEvent<*>, { value }): void => {
   );
 };
 
-export default function Amount ({ className, style }: Props) {
+function Amount ({ className, style, t }: Props): React$Node {
   return (
     <div
       className={['extrinsics--split', className].join(' ')}
       style={style}
     >
       <div className='small'>
-        <Label>sending an amount of</Label>
+        <Label>
+          {t('transfer.amount', {
+            defaultValue: 'sending an amount of'
+          })}
+        </Label>
         <Input
-          defaultValue={0}
+          defaultValue={1}
           min={0}
           onChange={onChange}
           type='number'
@@ -39,3 +44,5 @@ export default function Amount ({ className, style }: Props) {
     </div>
   );
 }
+
+export default translate(['extrinsics'])(Amount);

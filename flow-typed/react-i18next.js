@@ -12,6 +12,7 @@ declare type I18Next$Translate = (key: string, config: I18Next$Translate$Config)
 declare module 'react-i18next' {
   declare module.exports: {
     I18nextProvider: React$StatelessFunctionalComponent<*>,
+    Trans: React$StatelessFunctionalComponent<*>,
     reactI18nextModule: {},
     translate: (context: string | Array<string>) => (component: React$Component<*> | React$StatelessFunctionalComponent<*>) => React$StatelessFunctionalComponent<*>
   }

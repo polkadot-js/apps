@@ -8,6 +8,7 @@ import type { BaseProps } from '../types';
 import './InputAddress.css';
 
 import React from 'react';
+import { translate } from 'react-i18next';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 
 import PairDisplay from './PairDisplay';
@@ -31,7 +32,7 @@ const options = keyring.getPairs().map((pair) => {
   };
 });
 
-export default function InputAddress (props: Props): React$Node {
+function InputAddress (props: Props): React$Node {
   // eslint-disable-next-line no-unused-vars
   const onChange = (event: SyntheticEvent<*>, { value }): void => {
     if (props.subject) {
@@ -49,3 +50,5 @@ export default function InputAddress (props: Props): React$Node {
     />
   );
 }
+
+export default translate(['extrinsics'])(InputAddress);

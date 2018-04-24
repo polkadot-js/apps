@@ -10,13 +10,15 @@ import './NotFound.css';
 import React from 'react';
 import { translate } from 'react-i18next';
 
-function NotFound ({ className, style }: BaseProps) {
+function NotFound ({ className, style, t }: BaseProps) {
   return (
     <div
       className={['portal--NotFound', className].join(' ')}
       style={style}
     >
-      ERROR: You have tried to access an application that does not exist
+      {t('notfound.error', {
+        defaultValue: 'ERROR: You have tried to access an application that does not exist'
+      })}
     </div>
   );
 }

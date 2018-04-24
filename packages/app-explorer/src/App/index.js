@@ -8,6 +8,7 @@ import type { BaseProps } from '@polkadot/portal/types';
 import './App.css';
 
 import React from 'react';
+import { translate } from 'react-i18next';
 import BestNumber from '@polkadot/rx-react/BestNumber';
 
 import BestHash from '../BestHash';
@@ -15,7 +16,7 @@ import BlockHeaders from '../BlockHeaders';
 
 type Props = BaseProps & {};
 
-export default function App ({ className, style }: Props): React$Node {
+function App ({ className, style, t }: Props): React$Node {
   return (
     <div
       className={['explorer--App', className].join(' ')}
@@ -23,10 +24,14 @@ export default function App ({ className, style }: Props): React$Node {
     >
       <BestNumber
         className='explorer--App-BestNumber'
-        label='best #'
+        label={t('app.bestNumber', {
+          defaultValue: 'best #'
+        })}
       />
       <BestHash className='explorer--App-BestHash' />
       <BlockHeaders />
     </div>
   );
 }
+
+export default translate(['explorer'])(App);

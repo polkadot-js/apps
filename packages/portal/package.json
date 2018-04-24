@@ -16,8 +16,8 @@
   "devDependencies": {
     "@polkadot/app-explorer": "^0.1.0",
     "@polkadot/app-extrinsics": "^0.1.0",
-    "@polkadot/rx-react": "^0.2.20",
-    "@polkadot/ui-react": "^0.9.10",
+    "@polkadot/rx-react": "^0.3.6",
+    "@polkadot/ui-react": "^0.9.11",
     "i18next": "^11.1.1",
     "i18next-browser-languagedetector": "^2.2.0",
     "i18next-xhr-backend": "^1.5.1",

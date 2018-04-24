@@ -7,5 +7,6 @@ export type BaseProps = {
   className?: string,
   style?: {
     [string]: string
-  }
+  },
+  t: I18Next$Translate
 };

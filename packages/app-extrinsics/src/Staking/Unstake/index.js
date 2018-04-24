@@ -6,12 +6,13 @@
 import type { BaseProps } from '../../types';
 
 import React from 'react';
+import { translate } from 'react-i18next';
 
 import getValues from './getValues';
 
 type Props = BaseProps & {};
 
-function StakingUnstake ({ className, style }: Props) {
+function StakingUnstake ({ className, style }: Props): React$Node {
   return (
     <div
       className={['extrinsics--StakingUnstake', className].join(' ')}
@@ -22,4 +23,4 @@ function StakingUnstake ({ className, style }: Props) {
 
 StakingUnstake.getValues = getValues;
 
-export default StakingUnstake;
+export default translate(['extrinsics'])(StakingUnstake);
