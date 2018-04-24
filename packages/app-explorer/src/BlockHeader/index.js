@@ -9,6 +9,7 @@ import type { BaseProps } from '../types';
 import './BlockHeader.css';
 
 import React from 'react';
+import { translate } from 'react-i18next';
 import headerHash from '@polkadot/primitives-codec/header/hash';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
@@ -17,7 +18,7 @@ type Props = BaseProps & {
   value?: Header
 };
 
-export default function BlockHeader ({ className, label = '#', value, style }: Props): React$Node {
+function BlockHeader ({ className, label = '#', value, style }: Props): React$Node {
   if (!value) {
     return null;
   }
@@ -63,3 +64,5 @@ export default function BlockHeader ({ className, label = '#', value, style }: P
     </div>
   );
 }
+
+export default translate(['explorer'])(BlockHeader);

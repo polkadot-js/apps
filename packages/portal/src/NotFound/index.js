@@ -16,7 +16,9 @@ function NotFound ({ className, style, t }: BaseProps) {
       className={['portal--NotFound', className].join(' ')}
       style={style}
     >
-      {t('notfound.error', { defaultValue: 'ERROR: You have tried to access an application that does not exist' })}
+      {t('notfound.error', {
+        defaultValue: 'ERROR: You have tried to access an application that does not exist'
+      })}
     </div>
   );
 }

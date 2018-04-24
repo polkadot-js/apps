@@ -8,6 +8,7 @@ import type { BaseProps } from '../types';
 import './CallSelect.css';
 
 import React from 'react';
+import { translate } from 'react-i18next';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 
@@ -39,14 +40,18 @@ extrinsics.sections.forEach(({ description, methods, name }) => {
   });
 });
 
-export default function CallSelect ({ className, style }: Props) {
+function CallSelect ({ className, style, t }: Props): React$Node {
   return (
     <div
       className={['extrinsics--CallSelect', 'extrinsics--split', className].join(' ')}
       style={style}
     >
       <div className='large'>
-        <Label>submit the following extrinsic</Label>
+        <Label>
+          {t('callselect.label', {
+            defaultValue: 'submit the following extrinsic'
+          })}
+        </Label>
         <Dropdown
           selection
           onChange={onChange}
@@ -56,3 +61,5 @@ export default function CallSelect ({ className, style }: Props) {
     </div>
   );
 }
+
+export default translate(['extrinsics'])(CallSelect);

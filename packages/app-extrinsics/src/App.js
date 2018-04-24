@@ -6,6 +6,7 @@
 import type { BaseProps } from './types';
 
 import React from 'react';
+import { translate } from 'react-i18next';
 
 import CallDisplay from './CallDisplay';
 import CallSelect from './CallSelect';
@@ -15,7 +16,7 @@ import Signer from './Signer';
 
 type Props = BaseProps & {};
 
-export default function App ({ className, style }: Props) {
+function App ({ className, style }: Props): React$Node {
   return (
     <div
       className={['extrinsics--App', className].join(' ')}
@@ -29,3 +30,5 @@ export default function App ({ className, style }: Props) {
     </div>
   );
 }
+
+export default translate(['extrinsics'])(App);

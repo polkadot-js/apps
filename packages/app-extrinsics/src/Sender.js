@@ -6,19 +6,24 @@
 import type { BaseProps } from './types';
 
 import React from 'react';
+import { translate } from 'react-i18next';
 
 import Account from './Account';
 import { senderAddr } from './subjects';
 
 type Props = BaseProps & {};
 
-export default function Sender (props: Props) {
+function Sender (props: Props): React$Node {
   return (
     <Account
       {...props}
       className={['extrinsics--Sender', props.className].join(' ')}
-      label='using the selected account'
+      label={props.t('sender.label', {
+        defaultValue: 'using the selected account'
+      })}
       subject={senderAddr}
     />
   );
 }
+
+export default translate(['extrinsics'])(Sender);

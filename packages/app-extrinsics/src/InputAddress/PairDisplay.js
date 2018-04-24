@@ -9,6 +9,7 @@ import type { BaseProps } from '../types';
 import './PairDisplay.css';
 
 import React from 'react';
+import { translate } from 'react-i18next';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
@@ -16,7 +17,7 @@ type Props = BaseProps & {
   pair: KeyringPair
 };
 
-export default function PairDisplay ({ className, pair, style }: Props): React$Node {
+function PairDisplay ({ className, pair, style }: Props): React$Node {
   const publicKey = pair.publicKey();
   const { name } = pair.getMeta();
 
@@ -26,9 +27,9 @@ export default function PairDisplay ({ className, pair, style }: Props): React$N
       style={style}
     >
       <IdentityIcon
-        address={publicKey}
         className='ui--InputyAddress-PairDisplay-icon'
         size={32}
+        value={publicKey}
       />
       <div className='ui--InputyAddress-PairDisplay-name'>
         {name}
@@ -39,3 +40,5 @@ export default function PairDisplay ({ className, pair, style }: Props): React$N
     </div>
   );
 }
+
+export default translate(['extrinsics'])(PairDisplay);

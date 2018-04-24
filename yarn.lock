@@ -1300,33 +1300,33 @@
     "@polkadot/util" "^0.19.2"
     babel-runtime "^6.26.0"
 
-"@polkadot/rx-api@^0.3.5":
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/rx-api/-/rx-api-0.3.5.tgz#cf05638372c60dee3847104f148e3c03c05d9b9b"
+"@polkadot/rx-api@^0.3.6":
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/@polkadot/rx-api/-/rx-api-0.3.6.tgz#75c7115f340a7526ebd356bffcefeda4750cdc20"
   dependencies:
     "@polkadot/api" "^0.9.3"
     "@polkadot/api-provider" "^0.9.3"
     rxjs "^5.5.10"
 
-"@polkadot/rx-react@^0.3.5":
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/rx-react/-/rx-react-0.3.5.tgz#4bfc7afba2b9a89ac539b01d0b91a05cf5fc013c"
+"@polkadot/rx-react@^0.3.6":
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/@polkadot/rx-react/-/rx-react-0.3.6.tgz#571c9be95b00cc9a5ea11f150a3ad62ad627acd8"
   dependencies:
-    "@polkadot/rx-api" "^0.3.5"
+    "@polkadot/rx-api" "^0.3.6"
     "@polkadot/util" "^0.19.2"
 
-"@polkadot/ui-identicon@^0.9.10":
-  version "0.9.10"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-identicon/-/ui-identicon-0.9.10.tgz#f1f8bd585b30bbbeef73bdac52087c892d0e6454"
+"@polkadot/ui-identicon@^0.9.11":
+  version "0.9.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-identicon/-/ui-identicon-0.9.11.tgz#9c00fbaaa0d205b6fe38fda7d56591f66b197b08"
   dependencies:
     babel-runtime "^6.26.0"
     color "^3.0.0"
 
-"@polkadot/ui-react@^0.9.10":
-  version "0.9.10"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-react/-/ui-react-0.9.10.tgz#e947526bd354ebfff9a73a8e66da90b6f8bc761c"
+"@polkadot/ui-react@^0.9.11":
+  version "0.9.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-react/-/ui-react-0.9.11.tgz#544af459d0134ea041e5a5c9dc992e96d97ab11b"
   dependencies:
-    "@polkadot/ui-identicon" "^0.9.10"
+    "@polkadot/ui-identicon" "^0.9.11"
     babel-runtime "^6.26.0"
 
 "@polkadot/util-crypto@^0.19.2":

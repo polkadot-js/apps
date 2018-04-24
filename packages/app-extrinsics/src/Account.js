@@ -6,6 +6,7 @@
 import type { BaseProps } from './types';
 
 import React from 'react';
+import { translate } from 'react-i18next';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 import Balance from '@polkadot/rx-react/Balance';
 import withObservableParams from '@polkadot/rx-react/with/observableParams';
@@ -17,7 +18,7 @@ type Props = BaseProps & {
   subject: rxjs$BehaviorSubject<*>
 };
 
-export default function Account ({ className, label, subject, style }: Props): React$Node {
+function Account ({ className, label, subject, style, t }: Props): React$Node {
   const AccountBalance = withObservableParams(Balance, subject);
 
   return (
@@ -33,7 +34,11 @@ export default function Account ({ className, label, subject, style }: Props): R
         />
       </div>
       <div className='small'>
-        <Label>with an available balance of</Label>
+        <Label>
+          {t('account.balance', {
+            defaultValue: 'with an available balance of'
+          })}
+        </Label>
         <AccountBalance
           className='ui disabled dropdown selection'
           classNameUpdated='hasUpdated'
@@ -42,3 +47,5 @@ export default function Account ({ className, label, subject, style }: Props): R
     </div>
   );
 }
+
+export default translate(['extrinsics'])(Account);

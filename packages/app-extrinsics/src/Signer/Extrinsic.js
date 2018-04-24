@@ -6,6 +6,7 @@
 import type { BaseProps, QueueTx } from '../types';
 
 import React from 'react';
+import { Trans, translate } from 'react-i18next';
 import Modal from 'semantic-ui-react/dist/es/modules/Modal';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHex from '@polkadot/util/u8a/toHex';
@@ -15,7 +16,9 @@ type Props = BaseProps & {
   value: QueueTx
 };
 
-export default function Extrinsic ({ className, style, value: { message, method, publicKey } }: Props): React$Node {
+function Extrinsic ({ className, style, t, value: { message, method, publicKey } }: Props): React$Node {
+  const from = u8aToHexShort(publicKey);
+
   return (
     <Modal.Content
       className={['extrinsics--Signer-Extrinsic', className].join(' ')}
@@ -23,15 +26,25 @@ export default function Extrinsic ({ className, style, value: { message, method,
     >
       <div className='body'>
         <IdentityIcon
-          address={publicKey}
           className='icon'
+          value={publicKey}
         />
         <div className='expanded'>
-          <p>You are about to sign a message from <span className='code'>{u8aToHexShort(publicKey)}</span> calling <span className='code'>{method}</span></p>
-          <p>The encoded message to be signed contains the data</p>
+          <p>
+            <Trans i18nkey='extrinsic.short'>
+              You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{method}</span>
+            </Trans>
+          </p>
+          <p>
+            {t('extrinsic.data', {
+              defaultValue: 'The encoded message to be signed contains the data'
+            })}
+          </p>
           <p className='code'>{u8aToHex(message)}</p>
         </div>
       </div>
     </Modal.Content>
   );
 }
+
+export default translate(['extrinsics'])(Extrinsic);

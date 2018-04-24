@@ -7,6 +7,7 @@ import type { Header } from '@polkadot/primitives/header';
 import type { BaseProps } from './types';
 
 import React from 'react';
+import { translate } from 'react-i18next';
 import headerHash from '@polkadot/primitives-codec/header/hash';
 import withApiCall from '@polkadot/rx-react/with/apiCall';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
@@ -31,7 +32,7 @@ function BestHash ({ className, style, value }: Props): React$Node {
 }
 
 export default withApiCall(
-  BestHash,
+  translate(['explorer'])(BestHash),
   {
     method: 'newHead',
     section: 'chain'
