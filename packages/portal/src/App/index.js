@@ -8,8 +8,8 @@ import type { BaseProps } from '../types';
 import './App.css';
 
 import React from 'react';
-import { translate } from 'react-i18next';
 
+import translate from '../translate';
 import Connecting from '../Connecting';
 import Content from '../Content';
 import SideBar from '../SideBar';
@@ -29,4 +29,4 @@ function App ({ className, style }: Props): React$Node {
   );
 }
 
-export default translate(['portal'])(App);
+export default translate(App);

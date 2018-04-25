@@ -9,9 +9,10 @@ import type { BaseProps } from '../types';
 import './BlockHeader.css';
 
 import React from 'react';
-import { translate } from 'react-i18next';
 import headerHash from '@polkadot/primitives-codec/header/hash';
 import u8aToHex from '@polkadot/util/u8a/toHex';
+
+import translate from '../translate';
 
 type Props = BaseProps & {
   label?: string,
@@ -65,4 +66,4 @@ function BlockHeader ({ className, label = '#', value, style }: Props): React$No
   );
 }
 
-export default translate(['explorer'])(BlockHeader);
+export default translate(BlockHeader);

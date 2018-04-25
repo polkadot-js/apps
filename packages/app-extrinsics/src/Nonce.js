@@ -6,11 +6,11 @@
 import type { BaseProps } from './types';
 
 import React from 'react';
-import { translate } from 'react-i18next';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 import RxNonce from '@polkadot/rx-react/Nonce';
 import withObservableParams from '@polkadot/rx-react/with/observableParams';
 
+import translate from './translate';
 import { senderAddr, senderIndex } from './subjects';
 
 type Props = BaseProps & {};
@@ -39,4 +39,4 @@ function Nonce ({ className, style, t }: Props): React$Node {
   );
 }
 
-export default translate(['extrinsics'])(Nonce);
+export default translate(Nonce);

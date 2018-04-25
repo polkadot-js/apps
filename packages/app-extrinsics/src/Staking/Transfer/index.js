@@ -6,8 +6,8 @@
 import type { BaseProps } from '../../types';
 
 import React from 'react';
-import { translate } from 'react-i18next';
 
+import translate from '../../translate';
 import Recipient from '../../Recipient';
 import Amount from './Amount';
 import getValues from './getValues';
@@ -28,4 +28,4 @@ function StakingTransfer ({ className, style }: Props): React$Node {
 
 StakingTransfer.getValues = getValues;
 
-export default translate(['extrinsics'])(StakingTransfer);
+export default translate(StakingTransfer);

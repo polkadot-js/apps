@@ -6,8 +6,8 @@
 import type { BaseProps } from './types';
 
 import React from 'react';
-import { translate } from 'react-i18next';
 
+import translate from './translate';
 import Account from './Account';
 import { recipientAddr } from './subjects';
 
@@ -26,4 +26,4 @@ function Recipient (props: Props): React$Node {
   );
 }
 
-export default translate(['extrinsics'])(Recipient);
+export default translate(Recipient);

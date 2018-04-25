@@ -6,11 +6,13 @@
 import type { BaseProps, QueueTx } from '../types';
 
 import React from 'react';
-import { Trans, translate } from 'react-i18next';
+import { Trans } from 'react-i18next';
 import Modal from 'semantic-ui-react/dist/es/modules/Modal';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
+
+import translate from '../translate';
 
 type Props = BaseProps & {
   value: QueueTx
@@ -47,4 +49,4 @@ function Extrinsic ({ className, style, t, value: { message, method, publicKey }
   );
 }
 
-export default translate(['extrinsics'])(Extrinsic);
+export default translate(Extrinsic);

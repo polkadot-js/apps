@@ -9,13 +9,13 @@ import type { BaseProps, QueueTx } from '../types';
 import './Signer.css';
 
 import React from 'react';
-import { translate } from 'react-i18next';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import Modal from 'semantic-ui-react/dist/es/modules/Modal';
 import withApi from '@polkadot/rx-react/with/api';
 import withObservable from '@polkadot/rx-react/with/observable';
 
 import { queueTx } from '../subjects';
+import translate from '../translate';
 import Extrinsic from './Extrinsic';
 import submitExtrinsic from './submit';
 
@@ -67,7 +67,7 @@ function Signer ({ api, className, style, t, value }: Props): React$Node {
   );
 }
 
-export default translate(['extrinsics'])(
+export default translate(
   withApi(
     withObservable(queueTx)(Signer)
   )

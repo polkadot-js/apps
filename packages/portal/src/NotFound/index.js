@@ -8,7 +8,8 @@ import type { BaseProps } from '../types';
 import './NotFound.css';
 
 import React from 'react';
-import { translate } from 'react-i18next';
+
+import translate from '../translate';
 
 function NotFound ({ className, style, t }: BaseProps): React$Node {
   return (
@@ -23,4 +24,4 @@ function NotFound ({ className, style, t }: BaseProps): React$Node {
   );
 }
 
-export default translate(['portal'])(NotFound);
+export default translate(NotFound);

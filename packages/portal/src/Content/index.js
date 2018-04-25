@@ -9,10 +9,10 @@ import type { BaseProps } from '../types';
 import './Content.css';
 
 import React from 'react';
-import { translate } from 'react-i18next';
 import { withRouter } from 'react-router';
 
 import routing from '../routing';
+import translate from '../translate';
 
 type Props = BaseProps & {
   location: Location
@@ -34,6 +34,6 @@ function Content ({ className, location, style }: Props): React$Node {
     </div>
   );
 }
-export default translate(['portal'])(
+export default translate(
   withRouter(Content)
 );

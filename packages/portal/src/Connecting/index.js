@@ -8,8 +8,9 @@ import type { BaseProps } from '../types';
 import './Connecting.css';
 
 import React from 'react';
-import { translate } from 'react-i18next';
 import withApiCall from '@polkadot/rx-react/with/apiCall';
+
+import translate from '../translate';
 
 type Props = BaseProps & {
   value: boolean
@@ -34,7 +35,7 @@ function Connecting ({ className, style, value, t }: Props): React$Node {
   );
 }
 
-export default translate(['portal'])(
+export default translate(
   withApiCall({
     method: 'isConnected'
   })(Connecting)
