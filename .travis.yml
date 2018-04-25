@@ -6,6 +6,6 @@ cache:
   directories:
     - node_modules
 install:
-  - yarn
+  - yarn --ignore-engines
 script:
   - yarn polkadot-dev-build-travis
