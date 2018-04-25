@@ -6,8 +6,8 @@ cache:
   directories:
     - node_modules
 before_install:
-  - yarn global install lerna yarn
+  - yarn global add lerna yarn
 install:
-  - yarn install
+  - yarn
 script:
   - yarn polkadot-dev-build-travis
