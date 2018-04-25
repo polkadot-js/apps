@@ -8,10 +8,10 @@ import type { BaseProps } from '../types';
 import './CallDisplay.css';
 
 import React from 'react';
-import { translate } from 'react-i18next';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import withObservable from '@polkadot/rx-react/with/observable';
 
+import translate from '../translate';
 import StakingStake from '../Staking/Stake';
 import StakingTransfer from '../Staking/Transfer';
 import StakingUnstake from '../Staking/Unstake';
@@ -64,7 +64,6 @@ function CallDisplay ({ className, style, t, value }: Props): React$Node {
   );
 }
 
-export default withObservable(
-  translate(['extrinsics'])(CallDisplay),
-  extrinsicName
+export default translate(
+  withObservable(extrinsicName)(CallDisplay)
 );

@@ -16,7 +16,7 @@
     "@polkadot/primitives": "^0.10.3",
     "@polkadot/primitives-codec": "^0.10.3",
     "@polkadot/primitives-json": "^0.10.3",
-    "@polkadot/rx-react": "^0.3.6",
+    "@polkadot/rx-react": "^0.4.6",
     "@polkadot/util": "^0.19.2",
     "@polkadot/util-crypto": "^0.19.2",
     "react": "^16.3.1",

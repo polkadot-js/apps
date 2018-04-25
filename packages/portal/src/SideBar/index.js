@@ -8,15 +8,15 @@ import type { BaseProps } from '../types';
 import './SideBar.css';
 
 import React from 'react';
-import { translate } from 'react-i18next';
 import Menu from 'semantic-ui-react/dist/es/collections/Menu';
 
 import routing from '../routing';
+import translate from '../translate';
 import Item from './Item';
 
 type Props = BaseProps & {};
 
-function SideBar ({ className, style, t }: Props) {
+function SideBar ({ className, style, t }: Props): React$Node {
   return (
     <div
       className={['portal--SideBar', className].join(' ')}
@@ -40,4 +40,4 @@ function SideBar ({ className, style, t }: Props) {
   );
 }
 
-export default translate(['portal'])(SideBar);
+export default translate(SideBar);

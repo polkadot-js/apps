@@ -8,7 +8,8 @@ import type { BaseProps } from '../types';
 import './CallDisplay.css';
 
 import React from 'react';
-import { translate } from 'react-i18next';
+
+import translate from '../translate';
 
 function ErrorDisplay ({ className, style, t }: BaseProps): React$Node {
   return (
@@ -23,4 +24,4 @@ function ErrorDisplay ({ className, style, t }: BaseProps): React$Node {
   );
 }
 
-export default translate(['extrinsics'])(ErrorDisplay);
+export default translate(ErrorDisplay);

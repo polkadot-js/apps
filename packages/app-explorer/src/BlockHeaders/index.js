@@ -7,9 +7,9 @@ import type { Header } from '@polkadot/primitives/header';
 import type { BaseProps } from '../types';
 
 import React from 'react';
-import { translate } from 'react-i18next';
 import withApiCall from '@polkadot/rx-react/with/apiCall';
 
+import translate from '../translate';
 import BlockHeader from '../BlockHeader';
 import { blockHeaders } from '../subjects';
 import transform from './transform';
@@ -36,14 +36,15 @@ function BlockHeaders ({ className, style, value }: Props): React$Node {
   );
 }
 
-export default withApiCall(
-  translate(['explorer'])(BlockHeaders),
-  {
-    method: 'newHead',
-    section: 'chain'
-  },
-  {
-    subject: blockHeaders,
-    transform
-  }
+export default translate(
+  withApiCall(
+    {
+      method: 'newHead',
+      section: 'chain'
+    },
+    {
+      subject: blockHeaders,
+      transform
+    }
+  )(BlockHeaders)
 );

@@ -14,9 +14,9 @@
     "@polkadot/portal": "^0.1.0"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.17.9",
+    "@polkadot/dev": "^0.17.11",
     "lerna": "^2.5.1",
-    "react-scripts": "^2.0.0-next.b2fd8db8"
+    "react-scripts": "2.0.0-next.66cc7a90"
   },
   "browserslist": {
     "development": [

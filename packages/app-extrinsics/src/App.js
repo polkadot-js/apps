@@ -6,13 +6,13 @@
 import type { BaseProps } from './types';
 
 import React from 'react';
-import { translate } from 'react-i18next';
 
 import CallDisplay from './CallDisplay';
 import CallSelect from './CallSelect';
 import Nonce from './Nonce';
 import Sender from './Sender';
 import Signer from './Signer';
+import translate from './translate';
 
 type Props = BaseProps & {};
 
@@ -31,4 +31,4 @@ function App ({ className, style }: Props): React$Node {
   );
 }
 
-export default translate(['extrinsics'])(App);
+export default translate(App);

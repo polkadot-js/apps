@@ -6,10 +6,10 @@
 import type { BaseProps } from './types';
 
 import React from 'react';
-import { translate } from 'react-i18next';
 
 import Account from './Account';
 import { senderAddr } from './subjects';
+import translate from './translate';
 
 type Props = BaseProps & {};
 
@@ -26,4 +26,4 @@ function Sender (props: Props): React$Node {
   );
 }
 
-export default translate(['extrinsics'])(Sender);
+export default translate(Sender);

@@ -7,10 +7,10 @@ import type { BaseProps } from '../../types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { translate } from 'react-i18next';
 import Input from 'semantic-ui-react/dist/es/elements/Input';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 
+import translate from '../../translate';
 import { amount } from './subjects';
 
 type Props = BaseProps & {};
@@ -36,7 +36,7 @@ function Amount ({ className, style, t }: Props): React$Node {
         </Label>
         <Input
           defaultValue={1}
-          min={0}
+          min={1}
           onChange={onChange}
           type='number'
         />
@@ -45,4 +45,4 @@ function Amount ({ className, style, t }: Props): React$Node {
   );
 }
 
-export default translate(['extrinsics'])(Amount);
+export default translate(Amount);

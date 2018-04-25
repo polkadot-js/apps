@@ -3,19 +3,22 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseContext, BaseProps } from '../types';
+import type { Location } from 'react-router-dom';
+import type { BaseProps } from '../types';
 
 import './Content.css';
 
-import PropTypes from 'prop-types';
 import React from 'react';
-import { translate } from 'react-i18next';
+import { withRouter } from 'react-router';
 
 import routing from '../routing';
+import translate from '../translate';
 
-type Props = BaseProps & {};
+type Props = BaseProps & {
+  location: Location
+};
 
-function Content ({ className, style }: Props, { router: { route: { location } } }: BaseContext) {
+function Content ({ className, location, style }: Props): React$Node {
   const app = location.pathname.slice(1) || routing.default;
 
   return (
@@ -31,9 +34,6 @@ function Content ({ className, style }: Props, { router: { route: { location } }
     </div>
   );
 }
-
-Content.contextTypes = {
-  router: PropTypes.object
-};
-
-export default translate(['portal'])(Content);
+export default translate(
+  withRouter(Content)
+);

@@ -3,7 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import BN from 'bn.js';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { translate } from 'react-i18next';
 
-export const amount = new BehaviorSubject(new BN(1));
+export default translate(['extrinsics']);

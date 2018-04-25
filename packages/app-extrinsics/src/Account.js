@@ -6,11 +6,11 @@
 import type { BaseProps } from './types';
 
 import React from 'react';
-import { translate } from 'react-i18next';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 import Balance from '@polkadot/rx-react/Balance';
 import withObservableParams from '@polkadot/rx-react/with/observableParams';
 
+import translate from './translate';
 import InputAddress from './InputAddress';
 
 type Props = BaseProps & {
@@ -19,7 +19,7 @@ type Props = BaseProps & {
 };
 
 function Account ({ className, label, subject, style, t }: Props): React$Node {
-  const AccountBalance = withObservableParams(Balance, subject);
+  const AccountBalance = withObservableParams(subject)(Balance);
 
   return (
     <div
@@ -48,4 +48,4 @@ function Account ({ className, label, subject, style, t }: Props): React$Node {
   );
 }
 
-export default translate(['extrinsics'])(Account);
+export default translate(Account);

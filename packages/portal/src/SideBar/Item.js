@@ -14,7 +14,10 @@ import Menu from 'semantic-ui-react/dist/es/collections/Menu';
 
 type Props = BaseProps & Route & {};
 
-export default function Item ({ className, i18n, icon, isExact, name, path, style, t }: Props) {
+export default function Item ({ className, i18n, icon, isExact, name, path, style, t }: Props): React$Node {
+  // flowlint-next-line sketchy-null-string:off
+  const to = path || `/${name}`;
+
   return (
     <Menu.Item
       className={['portal--SideBar-Item', className].join(' ')}
@@ -25,8 +28,7 @@ export default function Item ({ className, i18n, icon, isExact, name, path, styl
         activeClassName='portal--SideBar-Item-NavLink-active'
         className='portal--SideBar-Item-NavLink'
         exact={isExact}
-        // flowlint-next-line sketchy-null-string:off
-        to={path || `/${name}`}
+        to={to}
       >
         <Icon name={icon} /> {t(`sidebar.${name}`, i18n)}
       </NavLink>

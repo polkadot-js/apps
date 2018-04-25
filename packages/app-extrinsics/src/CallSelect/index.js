@@ -8,10 +8,10 @@ import type { BaseProps } from '../types';
 import './CallSelect.css';
 
 import React from 'react';
-import { translate } from 'react-i18next';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 
+import translate from '../translate';
 import { extrinsicName } from '../subjects';
 import extrinsics from '../extrinsics';
 
@@ -62,4 +62,4 @@ function CallSelect ({ className, style, t }: Props): React$Node {
   );
 }
 
-export default translate(['extrinsics'])(CallSelect);
+export default translate(CallSelect);

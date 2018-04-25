@@ -8,9 +8,9 @@ import type { BaseProps } from '@polkadot/portal/types';
 import './App.css';
 
 import React from 'react';
-import { translate } from 'react-i18next';
 import BestNumber from '@polkadot/rx-react/BestNumber';
 
+import translate from '../translate';
 import BestHash from '../BestHash';
 import BlockHeaders from '../BlockHeaders';
 
@@ -34,4 +34,4 @@ function App ({ className, style, t }: Props): React$Node {
   );
 }
 
-export default translate(['explorer'])(App);
+export default translate(App);

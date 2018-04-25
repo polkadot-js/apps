@@ -8,15 +8,15 @@ import type { BaseProps } from '../types';
 import './App.css';
 
 import React from 'react';
-import { translate } from 'react-i18next';
 
+import translate from '../translate';
 import Connecting from '../Connecting';
 import Content from '../Content';
 import SideBar from '../SideBar';
 
 type Props = BaseProps & {};
 
-function App ({ className, style }: Props) {
+function App ({ className, style }: Props): React$Node {
   return (
     <div
       className={['portal--App', className].join(' ')}
@@ -29,4 +29,4 @@ function App ({ className, style }: Props) {
   );
 }
 
-export default translate(['portal'])(App);
+export default translate(App);

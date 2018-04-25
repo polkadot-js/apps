@@ -3,7 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Location } from 'react-router-dom';
 import type { RxApiInterface } from '@polkadot/rx-api/types';
 
 export type BaseProps = {

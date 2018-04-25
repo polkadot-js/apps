@@ -13,11 +13,10 @@
     "test": "react-scripts test --env=jsdom --coverage"
   },
   "devDependencies": {
-    "@polkadot/rx-react": "^0.3.6",
+    "@polkadot/rx-react": "^0.4.6",
     "@polkadot/ui-react": "^0.9.11",
     "@polkadot/util": "^0.19.2",
     "@polkadot/util-keyring": "^0.19.2",
-    "prop-types": "^15.6.1",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
     "react-i18next": "^7.5.1",

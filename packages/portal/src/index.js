@@ -11,7 +11,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { I18nextProvider } from 'react-i18next';
 import { HashRouter } from 'react-router-dom';
-import ContextProvider from '@polkadot/rx-react/ContextProvider';
+import Api from '@polkadot/rx-react/Api';
 
 import i18n from './i18n';
 
@@ -35,13 +35,13 @@ const Component = (() => {
 })();
 
 ReactDOM.render(
-  <I18nextProvider i18n={i18n}>
-    <ContextProvider>
+  <Api>
+    <I18nextProvider i18n={i18n}>
       <HashRouter>
         <Component />
       </HashRouter>
-    </ContextProvider>
-  </I18nextProvider>,
+    </I18nextProvider>
+  </Api>,
   // flowlint-next-line unclear-type:off
   ((document.getElementById('root'): any): Element)
 );

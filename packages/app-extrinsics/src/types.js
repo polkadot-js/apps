@@ -3,18 +3,12 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { RxApiInterface } from '@polkadot/rx-api/types';
-
 export type BaseProps = {
   className?: string,
   style?: {
     [string]: string
   },
   t: I18Next$Translate
-};
-
-export type BaseContext = {
-  api: RxApiInterface
 };
 
 export type QueueTx = {
