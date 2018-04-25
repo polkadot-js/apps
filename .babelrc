@@ -1,3 +1,4 @@
 {
-  "extends": "@polkadot/dev/config/babel"
+  "extends": "@polkadot/dev/config/babel",
+  "presets": ["react"]
 }

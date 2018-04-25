@@ -5,7 +5,8 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "cd packages/portal && react-scripts build",
+    "build": "polkadot-dev-build-babel && yarn run build:portal",
+    "build:portal": "cd packages/portal && react-scripts build",
     "check": "eslint packages && flow check",
     "start": "cd packages/portal && react-scripts start",
     "test": "echo 'to tests executed'"
@@ -15,6 +16,7 @@
   },
   "devDependencies": {
     "@polkadot/dev": "^0.17.11",
+    "babel-preset-react": "^6.24.1",
     "lerna": "^2.5.1",
     "react-scripts": "2.0.0-next.66cc7a90"
   },
