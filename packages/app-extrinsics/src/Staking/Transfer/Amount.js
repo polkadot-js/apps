@@ -17,8 +17,6 @@ type Props = BaseProps & {};
 
 // eslint-disable-next-line no-unused-vars
 const onChange = (event: SyntheticEvent<*>, { value }): void => {
-  console.log(new BN(value || 0).toString());
-
   amount.next(
     new BN(value || 0)
   );
