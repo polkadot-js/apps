@@ -64,7 +64,6 @@ function CallDisplay ({ className, style, t, value }: Props): React$Node {
   );
 }
 
-export default withObservable(
-  translate(['extrinsics'])(CallDisplay),
-  extrinsicName
+export default translate(['extrinsics'])(
+  withObservable(extrinsicName)(CallDisplay)
 );

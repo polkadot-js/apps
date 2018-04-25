@@ -31,10 +31,9 @@ function BestHash ({ className, style, value }: Props): React$Node {
   );
 }
 
-export default withApiCall(
-  translate(['explorer'])(BestHash),
-  {
+export default translate(['explorer'])(
+  withApiCall({
     method: 'newHead',
     section: 'chain'
-  }
+  })(BestHash)
 );

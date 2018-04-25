@@ -3,40 +3,38 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '../types';
-
 import './InputAddress.css';
 
 import React from 'react';
-import { translate } from 'react-i18next';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
+import hexToU8a from '@polkadot/util/hex/toU8a';
+import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import PairDisplay from './PairDisplay';
 import keyring from '../keyring';
 
-type Props = BaseProps & {
+type Props = {
+  className?: string,
+  style?: {
+    [string]: string
+  },
   subject: rxjs$Subject<*>
 };
 
-const options = keyring.getPairs().map((pair) => {
-  const publicKey = pair.publicKey();
+const options = keyring.getPairs().map((pair) => ({
+  text: (
+    <PairDisplay pair={pair} />
+  ),
+  value: u8aToHex(pair.publicKey())
+}));
 
-  return {
-    text: (
-      <PairDisplay
-        key={publicKey.toString()}
-        pair={pair}
-      />
-    ),
-    value: publicKey
-  };
-});
-
-function InputAddress (props: Props): React$Node {
+export default function InputAddress (props: Props): React$Node {
   // eslint-disable-next-line no-unused-vars
   const onChange = (event: SyntheticEvent<*>, { value }): void => {
     if (props.subject) {
-      props.subject.next(value);
+      props.subject.next(
+        hexToU8a(value)
+      );
     }
   };
 
@@ -50,5 +48,3 @@ function InputAddress (props: Props): React$Node {
     />
   );
 }
-
-export default translate(['extrinsics'])(InputAddress);

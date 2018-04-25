@@ -14,6 +14,6 @@ declare module 'react-i18next' {
     I18nextProvider: React$StatelessFunctionalComponent<*>,
     Trans: React$StatelessFunctionalComponent<*>,
     reactI18nextModule: {},
-    translate: (context: string | Array<string>) => (component: React$Component<*> | React$StatelessFunctionalComponent<*>) => React$StatelessFunctionalComponent<*>
+    translate: (context: string | Array<string>) => (Component: React$ComponentType<*>) => React$StatelessFunctionalComponent<*>
   }
 }

@@ -36,14 +36,15 @@ function BlockHeaders ({ className, style, value }: Props): React$Node {
   );
 }
 
-export default withApiCall(
-  translate(['explorer'])(BlockHeaders),
-  {
-    method: 'newHead',
-    section: 'chain'
-  },
-  {
-    subject: blockHeaders,
-    transform
-  }
+export default translate(['explorer'])(
+  withApiCall(
+    {
+      method: 'newHead',
+      section: 'chain'
+    },
+    {
+      subject: blockHeaders,
+      transform
+    }
+  )(BlockHeaders)
 );

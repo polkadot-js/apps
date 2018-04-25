@@ -15,7 +15,7 @@ import { senderAddr, senderIndex } from './subjects';
 
 type Props = BaseProps & {};
 
-const SenderNonce = withObservableParams(RxNonce, senderAddr);
+const SenderNonce = withObservableParams(senderAddr)(RxNonce);
 
 function Nonce ({ className, style, t }: Props): React$Node {
   return (

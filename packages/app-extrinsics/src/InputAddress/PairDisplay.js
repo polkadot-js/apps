@@ -4,20 +4,22 @@
 // @flow
 
 import type { KeyringPair } from '@polkadot/util-keyring/types';
-import type { BaseProps } from '../types';
 
 import './PairDisplay.css';
 
 import React from 'react';
-import { translate } from 'react-i18next';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
-type Props = BaseProps & {
-  pair: KeyringPair
+type Props = {
+  className?: string,
+  pair: KeyringPair,
+  style?: {
+    [string]: string
+  }
 };
 
-function PairDisplay ({ className, pair, style }: Props): React$Node {
+export default function PairDisplay ({ className, pair, style }: Props): React$Node {
   const publicKey = pair.publicKey();
   const { name } = pair.getMeta();
 
@@ -40,5 +42,3 @@ function PairDisplay ({ className, pair, style }: Props): React$Node {
     </div>
   );
 }
-
-export default translate(['extrinsics'])(PairDisplay);

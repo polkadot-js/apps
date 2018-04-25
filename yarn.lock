@@ -1177,23 +1177,23 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@polkadot/api-format@^0.9.3":
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-format/-/api-format-0.9.3.tgz#14f8a0e3c6ab1139f9642d63318c448efdca42d9"
+"@polkadot/api-format@^0.9.5":
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-format/-/api-format-0.9.5.tgz#2aef9976a92e93256170ed60b187879fde5b895c"
   dependencies:
     "@polkadot/primitives-json" "^0.10.3"
     "@polkadot/util" "^0.19.2"
     babel-runtime "^6.26.0"
 
-"@polkadot/api-jsonrpc@^0.9.3":
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-jsonrpc/-/api-jsonrpc-0.9.3.tgz#19098df936f2ed3a97c6bce1fe9f507cf33446b0"
+"@polkadot/api-jsonrpc@^0.9.5":
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-jsonrpc/-/api-jsonrpc-0.9.5.tgz#67cd9568ea25b7c1b7f1d1f3b0b7faa9f733ad25"
   dependencies:
     babel-runtime "^6.26.0"
 
-"@polkadot/api-provider@^0.9.3":
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-provider/-/api-provider-0.9.3.tgz#9b66e32ce0cfcb5f468b4ee3332704ffa38f1dfe"
+"@polkadot/api-provider@^0.9.5":
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-provider/-/api-provider-0.9.5.tgz#90ee9ad9e028c3de8906afe8628a1e2320e4af48"
   dependencies:
     "@polkadot/util" "^0.19.2"
     "@polkadot/util-crypto" "^0.19.2"
@@ -1203,13 +1203,13 @@
     isomorphic-fetch "^2.2.1"
     websocket "^1.0.25"
 
-"@polkadot/api@^0.9.3":
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.9.3.tgz#736361e8efd3b3a0f0cb919b03707f10110f1a75"
+"@polkadot/api@^0.9.5":
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.9.5.tgz#8d817edf9d438ca0464f30f8e87da0b542a3fc5f"
   dependencies:
-    "@polkadot/api-format" "^0.9.3"
-    "@polkadot/api-jsonrpc" "^0.9.3"
-    "@polkadot/api-provider" "^0.9.3"
+    "@polkadot/api-format" "^0.9.5"
+    "@polkadot/api-jsonrpc" "^0.9.5"
+    "@polkadot/api-provider" "^0.9.5"
     "@polkadot/util" "^0.19.2"
     babel-runtime "^6.26.0"
 
@@ -1300,19 +1300,19 @@
     "@polkadot/util" "^0.19.2"
     babel-runtime "^6.26.0"
 
-"@polkadot/rx-api@^0.3.6":
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/@polkadot/rx-api/-/rx-api-0.3.6.tgz#75c7115f340a7526ebd356bffcefeda4750cdc20"
+"@polkadot/rx-api@^0.4.4":
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/@polkadot/rx-api/-/rx-api-0.4.4.tgz#4a0d118fa5c1d156e3979cc9cc823f496a9088cb"
   dependencies:
-    "@polkadot/api" "^0.9.3"
-    "@polkadot/api-provider" "^0.9.3"
+    "@polkadot/api" "^0.9.5"
+    "@polkadot/api-provider" "^0.9.5"
     rxjs "^5.5.10"
 
-"@polkadot/rx-react@^0.3.6":
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/@polkadot/rx-react/-/rx-react-0.3.6.tgz#571c9be95b00cc9a5ea11f150a3ad62ad627acd8"
+"@polkadot/rx-react@^0.4.4":
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/@polkadot/rx-react/-/rx-react-0.4.4.tgz#edd3d8aec6ad42acbc8058b6805a93f83743539c"
   dependencies:
-    "@polkadot/rx-api" "^0.3.6"
+    "@polkadot/rx-api" "^0.4.4"
     "@polkadot/util" "^0.19.2"
 
 "@polkadot/ui-identicon@^0.9.11":
@@ -8435,7 +8435,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.6.0, prop-types@^15.6.1:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.6.0:
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
   dependencies:

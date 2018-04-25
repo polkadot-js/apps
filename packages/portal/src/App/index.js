@@ -16,7 +16,7 @@ import SideBar from '../SideBar';
 
 type Props = BaseProps & {};
 
-function App ({ className, style }: Props) {
+function App ({ className, style }: Props): React$Node {
   return (
     <div
       className={['portal--App', className].join(' ')}

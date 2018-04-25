@@ -19,7 +19,7 @@ type Props = BaseProps & {
 };
 
 function Account ({ className, label, subject, style, t }: Props): React$Node {
-  const AccountBalance = withObservableParams(Balance, subject);
+  const AccountBalance = withObservableParams(subject)(Balance);
 
   return (
     <div
