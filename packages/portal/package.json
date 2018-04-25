@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/portal",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Portal into the Polkadot network",
   "main": "src/index.js",
   "repository": "https://github.com/polkadot-js/portal.git",
@@ -13,8 +13,8 @@
     "test": "react-scripts test --env=jsdom --coverage"
   },
   "devDependencies": {
-    "@polkadot/app-explorer": "^0.1.0",
-    "@polkadot/app-extrinsics": "^0.1.0",
+    "@polkadot/app-explorer": "^0.1.1",
+    "@polkadot/app-extrinsics": "^0.1.1",
     "@polkadot/rx-react": "^0.4.6",
     "@polkadot/ui-react": "^0.9.11",
     "i18next": "^11.1.1",
@@ -27,6 +27,5 @@
     "react-router-dom": "^4.2.2",
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.79.1"
-  },
-  "dependencies": {}
+  }
 }
