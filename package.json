@@ -5,7 +5,8 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "cd packages/portal && react-scripts build",
+    "build": "polkadot-dev-build-babel && yarn run build:portal",
+    "build:portal": "cd packages/portal && rimraf build && react-scripts build",
     "check": "eslint packages && flow check",
     "start": "cd packages/portal && react-scripts start",
     "test": "echo 'to tests executed'"
