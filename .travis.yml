@@ -5,8 +5,6 @@ cache:
   yarn: true
   directories:
     - node_modules
-before_install:
-  - yarn global add lerna yarn
 install:
   - yarn
 script:
