@@ -6,7 +6,6 @@
   "repository": "https://github.com/polkadot-js/portal.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "license": "ISC",
-  "private": false,
   "scripts": {
     "build": "react-scripts build",
     "check": "stylelint 'src/**/*.css' && eslint src && flow check",

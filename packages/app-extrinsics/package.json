@@ -5,12 +5,10 @@
   "repository": "https://github.com/polkadot-js/portal.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "license": "ISC",
-  "private": true,
   "scripts": {
-    "build": "react-scripts build",
+    "build": "polkadot-dev-build-babel",
     "check": "stylelint 'src/**/*.css' && eslint src && flow check",
-    "start": "react-scripts start",
-    "test": "react-scripts test --env=jsdom --coverage"
+    "test": "jest --coverage"
   },
   "devDependencies": {
     "@polkadot/rx-react": "^0.4.6",
