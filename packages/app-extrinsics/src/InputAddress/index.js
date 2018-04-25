@@ -15,10 +15,11 @@ import keyring from '../keyring';
 
 type Props = {
   className?: string,
+  onChange?: (event: SyntheticEvent<*>, value: Uint8Array) => void,
   style?: {
     [string]: string
   },
-  subject: rxjs$Subject<*>
+  subject?: rxjs$Subject<*>
 };
 
 const options = keyring.getPairs().map((pair) => ({
@@ -29,12 +30,15 @@ const options = keyring.getPairs().map((pair) => ({
 }));
 
 export default function InputAddress (props: Props): React$Node {
-  // eslint-disable-next-line no-unused-vars
   const onChange = (event: SyntheticEvent<*>, { value }): void => {
+    const u8a = hexToU8a(value);
+
     if (props.subject) {
-      props.subject.next(
-        hexToU8a(value)
-      );
+      props.subject.next(u8a);
+    }
+
+    if (props.onChange) {
+      props.onChange(event, u8a);
     }
   };
 
