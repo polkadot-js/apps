@@ -1,11 +1,11 @@
 language: node_js
 node_js:
-  - "10"
+  - "9"
 cache:
   yarn: true
   directories:
     - node_modules
 install:
-  - yarn --ignore-engines
+  - yarn
 script:
   - yarn polkadot-dev-build-travis
