@@ -36,7 +36,7 @@ function Amount ({ className, style, t }: Props): React$Node {
         </Label>
         <Input
           defaultValue={1}
-          min={0}
+          min={1}
           onChange={onChange}
           type='number'
         />
