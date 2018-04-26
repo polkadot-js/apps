@@ -5,7 +5,12 @@
 
 export type Extrinsic$Type = 'AccountId' | 'Balance' | 'BlockNumber' | 'u32';
 
-export type Extrinsic$Params = Array<Extrinsic$Type>;
+export type Extrinsic$Param = {
+  name: string,
+  type: Extrinsic$Type
+};
+
+export type Extrinsic$Params = Array<Extrinsic$Param>;
 
 export type ExtrinsicBasic = {
   description: string,

@@ -12,7 +12,10 @@ module.exports = ({
       transfer: {
         description: 'Transfer',
         index: 0,
-        params: ['AccountId', 'Balance']
+        params: [
+          { name: 'to', type: 'AccountId' },
+          { name: 'value', type: 'Balance' }
+        ]
       },
       stake: {
         description: 'Stake',
@@ -29,17 +32,23 @@ module.exports = ({
       setSessionsPerEra: {
         description: 'Set sessions per era',
         index: 0,
-        params: ['BlockNumber']
+        params: [
+          { name: 'sessions', type: 'BlockNumber' }
+        ]
       },
       setBondingDuration: {
         description: 'Set bonding duration',
         index: 1,
-        params: ['BlockNumber']
+        params: [
+          { name: 'duration', type: 'BlockNumber' }
+        ]
       },
       setValidatorCount: {
         description: 'Set validator count',
         index: 2,
-        params: ['u32']
+        params: [
+          { name: 'count', type: 'u32' }
+        ]
       },
       forceNewEra: {
         description: 'Force new era',

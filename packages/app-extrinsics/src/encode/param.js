@@ -3,12 +3,12 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Extrinsic$Type } from '../extrinsics/types';
+import type { Extrinsic$Param } from '../extrinsics/types';
 
 const bnToU8a = require('@polkadot/util/bn/toU8a');
 
 // flowlint-next-line unclear-type:off
-module.exports = function encodeValue (value: any, type: Extrinsic$Type): Uint8Array {
+module.exports = function encodeValue (value: any, { type }: Extrinsic$Param): Uint8Array {
   switch (type) {
     case 'AccountId':
       return value;

@@ -3,6 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+// TODO: This is a useful, shared component, move out
+
 import './InputExtrinsic.css';
 
 import React from 'react';
