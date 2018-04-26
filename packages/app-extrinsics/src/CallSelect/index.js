@@ -13,7 +13,7 @@ import Label from 'semantic-ui-react/dist/es/elements/Label';
 
 import translate from '../translate';
 import { extrinsicName } from '../subjects';
-import extrinsics from '../extrinsics';
+import { optionsPublic } from './options';
 
 type Props = BaseProps & {};
 
@@ -21,24 +21,6 @@ type Props = BaseProps & {};
 const onChange = (event: SyntheticEvent<*>, { value }): void => {
   extrinsicName.next(value);
 };
-
-const options = [];
-
-extrinsics.sections.forEach(({ description, methods, name }) => {
-  options.push({
-    disabled: true,
-    text: description,
-    value: name
-  });
-
-  methods.forEach(({ description, name }) => {
-    options.push({
-      className: 'extrinsics--CallSelect-indent',
-      text: description,
-      value: name
-    });
-  });
-});
 
 function CallSelect ({ className, style, t }: Props): React$Node {
   return (
@@ -55,7 +37,7 @@ function CallSelect ({ className, style, t }: Props): React$Node {
         <Dropdown
           selection
           onChange={onChange}
-          options={options}
+          options={optionsPublic}
         />
       </div>
     </div>

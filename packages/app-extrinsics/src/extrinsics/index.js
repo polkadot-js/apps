@@ -25,23 +25,24 @@ const map: { [string]: ExtrinsicsBasic } = {
   council, // 4
   councilVoting // 5
 };
-const sectionNames = Object.keys(map);
-const extrinsics: Extrinsics = ({
-  sections: []
-}: $Shape<Extrinsics>);
 const extrinsicsMap: ExtrinsicsMap = {};
+const extrinsics: Extrinsics = {
+  sections: [],
+  get: (sectionMethod: string): Extrinsic =>
+    extrinsicsMap[sectionMethod]
+};
+
+const sectionNames = Object.keys(map);
 
 sectionNames.reduce((sections: Array<ExtrinsicSection>, sectionName: string, _index) => {
   const sectionSource = map[sectionName];
   const sectionIndex = bnToU8a(_index, 8);
   const methodNames = Object.keys(sectionSource.methods);
 
-  if (!methodNames.length) {
-    return sections;
-  }
-
   const section: ExtrinsicSection = {
     description: sectionSource.description,
+    hasPublic: false,
+    hasPrivate: false,
     methods: [],
     name: sectionName
   };
@@ -53,9 +54,12 @@ sectionNames.reduce((sections: Array<ExtrinsicSection>, sectionName: string, _in
     const method: Extrinsic = {
       description: methodSource.description,
       index,
+      isPrivate: !!methodSource.isPrivate,
       name,
       params: methodSource.params
     };
+
+    section[method.isPrivate ? 'hasPrivate' : 'hasPublic'] = true;
 
     methods.push(method);
     extrinsicsMap[name] = method;
@@ -67,9 +71,5 @@ sectionNames.reduce((sections: Array<ExtrinsicSection>, sectionName: string, _in
 
   return sections;
 }, extrinsics.sections);
-
-extrinsics.get = function get (sectionMethod: string): Extrinsic {
-  return extrinsicsMap[sectionMethod];
-};
 
 module.exports = extrinsics;

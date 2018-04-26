@@ -10,6 +10,7 @@ export type Extrinsic$Params = Array<Extrinsic$Type>;
 export type ExtrinsicBasic = {
   description: string,
   index: number,
+  isPrivate?: boolean,
   params: Extrinsic$Params
 }
 
@@ -23,12 +24,15 @@ export type ExtrinsicsBasic = {
 export type Extrinsic = {
   description: string,
   index: Uint8Array,
+  isPrivate: boolean,
   name: string,
   params: Extrinsic$Params
 };
 
 export type ExtrinsicSection = {
   description: string,
+  hasPublic: boolean,
+  hasPrivate: boolean,
   methods: Array<Extrinsic>,
   name: string
 };
