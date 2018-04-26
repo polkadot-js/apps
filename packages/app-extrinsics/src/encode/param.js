@@ -15,6 +15,7 @@ module.exports = function encodeValue (value: any, { type }: Extrinsic$Param): U
 
     case 'Balance':
     case 'BlockNumber':
+    case 'u64':
       return bnToU8a(value, 64, true);
 
     case 'u32':

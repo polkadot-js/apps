@@ -33,14 +33,14 @@ module.exports = ({
         description: 'Set sessions per era',
         index: 0,
         params: [
-          { name: 'sessions', type: 'BlockNumber' }
+          { name: 'sessions', type: 'u64' }
         ]
       },
       setBondingDuration: {
         description: 'Set bonding duration',
         index: 1,
         params: [
-          { name: 'duration', type: 'BlockNumber' }
+          { name: 'duration', type: 'u64' }
         ]
       },
       setValidatorCount: {

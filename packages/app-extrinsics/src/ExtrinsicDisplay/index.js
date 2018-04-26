@@ -13,9 +13,9 @@ import Button from 'semantic-ui-react/dist/es/elements/Button';
 import withObservable from '@polkadot/rx-react/with/observable';
 
 import translate from '../translate';
-import Param from '../Param';
+import Params from '../Params';
+import createSubjects from '../Params/subjects';
 import { extrinsic } from '../subjects';
-import createSubjects from './subjects';
 import queueExtrinsic from './queue';
 
 type Props = BaseProps & {
@@ -40,17 +40,11 @@ function ExtrinsicDisplay ({ className, style, t, value }: Props): React$Node {
       className={['extrinsics--ExtrinsicDisplay', className].join(' ')}
       style={style}
     >
-      <div className='extrinsics--ExtrinsicDisplay-Params'>
-        {
-          value.params.map((param, index) => (
-            <Param
-              key={`${param.name}:${param.type}`}
-              subject={subjects[index]}
-              value={param}
-            />
-          ))
-        }
-      </div>
+      <Params
+        className='extrinsics--ExtrinsicDisplay-Params'
+        subjects={subjects}
+        value={value.params}
+      />
       <div className='extrinsics--ExtrinsicDisplay-ButtonRow'>
         <Button
           className='extrinsics--ExtrinsicDisplay-Button'

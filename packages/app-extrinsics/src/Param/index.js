@@ -15,7 +15,8 @@ const Components = {
   'AccountId': Account,
   'Balance': Amount,
   'BlockNumber': Amount,
-  'u32': Amount
+  'u32': Amount,
+  'u64': Amount
 };
 
 export default function Param ({ className, label, style, subject, value }: Props): React$Node {
