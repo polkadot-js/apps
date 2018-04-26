@@ -9,12 +9,14 @@ import React from 'react';
 
 import Account from '../Account';
 import Amount from './Amount';
+import Proposal from './Proposal';
 import Unknown from './Unknown';
 
 const Components = {
   'AccountId': Account,
   'Balance': Amount,
   'BlockNumber': Amount,
+  'Proposal': Proposal,
   'u32': Amount,
   'u64': Amount
 };

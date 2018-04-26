@@ -5,7 +5,7 @@
 
 // TODO: Move to API
 
-import type { Extrinsic, Extrinsics, ExtrinsicsBasic, ExtrinsicsMap, ExtrinsicSection } from './types';
+import type { Extrinsic, Extrinsics, ExtrinsicBasic, ExtrinsicsBasic, ExtrinsicsMap, ExtrinsicSection } from './types';
 
 const bnToU8a = require('@polkadot/util/bn/toU8a');
 const u8aConcat = require('@polkadot/util/u8a/concat');
@@ -36,16 +36,14 @@ const sectionNames = Object.keys(map);
 
 function mapMethods (sectionSource: ExtrinsicsBasic, section: ExtrinsicSection, isPrivate: boolean): void {
   const methods = sectionSource.methods[isPrivate ? 'private' : 'public'];
-  const methodNames = Object.keys(methods);
 
-  methodNames.forEach((methodName: string) => {
-    const methodSource = methods[methodName];
+  methods.forEach(({ description, index, name, params }: ExtrinsicBasic) => {
     const method: Extrinsic = {
-      description: methodSource.description,
-      index: u8aConcat(section.index, bnToU8a(methodSource.index, 8)),
+      description,
+      index: u8aConcat(section.index, bnToU8a(index, 8)),
       isPrivate,
-      name: `${section.name}_${methodName}`,
-      params: methodSource.params
+      name: `${section.name}_${name}`,
+      params
     };
 
     extrinsicsMap[method.name] = method;
@@ -74,5 +72,7 @@ sectionNames.reduce((sections: Array<ExtrinsicSection>, sectionName: string, ind
 
   return sections;
 }, extrinsics.sections);
+
+console.log('extrinsics', extrinsics);
 
 module.exports = extrinsics;

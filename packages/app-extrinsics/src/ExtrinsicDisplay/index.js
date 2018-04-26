@@ -41,13 +41,11 @@ function ExtrinsicDisplay ({ className, style, t, value }: Props): React$Node {
       style={style}
     >
       <Params
-        className='extrinsics--ExtrinsicDisplay-Params'
         subjects={subjects}
         value={value.params}
       />
       <div className='extrinsics--ExtrinsicDisplay-ButtonRow'>
         <Button
-          className='extrinsics--ExtrinsicDisplay-Button'
           onClick={onSubmit}
           primary
         >

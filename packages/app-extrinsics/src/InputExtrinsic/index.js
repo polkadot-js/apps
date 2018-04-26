@@ -39,10 +39,14 @@ export default function InputExtrinsic (props: Props): React$Node {
     }
   };
 
+  const _props = Object.assign({}, props);
+
+  delete _props.isPrivate;
+
   return (
     <Dropdown
       selection
-      {...props}
+      {..._props}
       className={['ui--InputExtrinsic', props.className].join(' ')}
       onChange={onChange}
       options={

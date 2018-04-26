@@ -23,8 +23,8 @@ function App ({ className, style }: Props): React$Node {
       style={style}
     >
       <Sender />
-      <ExtrinsicSelect />
       <Nonce />
+      <ExtrinsicSelect />
       <ExtrinsicDisplay />
       <Signer />
     </div>
