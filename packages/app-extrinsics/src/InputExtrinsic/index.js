@@ -3,18 +3,16 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import './InputAddress.css';
+import './InputExtrinsic.css';
 
 import React from 'react';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import u8aToHex from '@polkadot/util/u8a/toHex';
 
-import PairDisplay from './PairDisplay';
-import keyring from '../keyring';
+import options from './options';
 
 type Props = {
   className?: string,
+  isPrivate?: boolean,
   onChange?: (event: SyntheticEvent<*>, value: Uint8Array) => void,
   style?: {
     [string]: string
@@ -22,23 +20,15 @@ type Props = {
   subject?: rxjs$Subject<*>
 };
 
-const options = keyring.getPairs().map((pair) => ({
-  text: (
-    <PairDisplay pair={pair} />
-  ),
-  value: u8aToHex(pair.publicKey())
-}));
-
-export default function InputAddress (props: Props): React$Node {
+export default function InputExtrinsic (props: Props): React$Node {
+  // eslint-disable-next-line no-unused-vars
   const onChange = (event: SyntheticEvent<*>, { value }): void => {
-    const u8a = hexToU8a(value);
-
     if (props.subject) {
-      props.subject.next(u8a);
+      props.subject.next(value);
     }
 
     if (props.onChange) {
-      props.onChange(event, u8a);
+      props.onChange(event, value);
     }
   };
 
@@ -46,9 +36,14 @@ export default function InputAddress (props: Props): React$Node {
     <Dropdown
       selection
       {...props}
-      className={['ui--InputAddress', props.className].join(' ')}
-      options={options}
+      className={['ui--InputExtrinsic', props.className].join(' ')}
       onChange={onChange}
+      options={
+        // flowlint-next-line sketchy-null-bool:off
+        props.isPrivate
+          ? options.private
+          : options.public
+      }
     />
   );
 }

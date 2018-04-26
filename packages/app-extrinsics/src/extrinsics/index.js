@@ -34,42 +34,47 @@ const extrinsics: Extrinsics = {
 
 const sectionNames = Object.keys(map);
 
-sectionNames.reduce((sections: Array<ExtrinsicSection>, sectionName: string, _index) => {
+function mapMethods (sectionSource: ExtrinsicsBasic, section: ExtrinsicSection, isPrivate: boolean): void {
+  const methods = sectionSource.methods[isPrivate ? 'private' : 'public'];
+  const methodNames = Object.keys(methods);
+
+  methodNames.forEach((methodName: string) => {
+    const methodSource = methods[methodName];
+    const method: Extrinsic = {
+      description: methodSource.description,
+      index: u8aConcat(section.index, bnToU8a(methodSource.index, 8)),
+      isPrivate,
+      name: `${section.name}_${methodName}`,
+      params: methodSource.params
+    };
+
+    extrinsicsMap[method.name] = method;
+    section[isPrivate ? 'hasPrivate' : 'hasPublic'] = true;
+
+    section.methods.push(method);
+  });
+}
+
+sectionNames.reduce((sections: Array<ExtrinsicSection>, sectionName: string, index: number) => {
   const sectionSource = map[sectionName];
-  const sectionIndex = bnToU8a(_index, 8);
-  const methodNames = Object.keys(sectionSource.methods);
 
   const section: ExtrinsicSection = {
     description: sectionSource.description,
-    hasPublic: false,
     hasPrivate: false,
+    hasPublic: false,
+    index: bnToU8a(index, 8),
     methods: [],
     name: sectionName
   };
 
-  methodNames.reduce((methods: Array<Extrinsic>, methodName: string) => {
-    const methodSource = sectionSource.methods[methodName];
-    const name = `${sectionName}_${methodName}`;
-    const index = u8aConcat(sectionIndex, bnToU8a(methodSource.index, 8));
-    const method: Extrinsic = {
-      description: methodSource.description,
-      index,
-      isPrivate: !!methodSource.isPrivate,
-      name,
-      params: methodSource.params
-    };
-
-    section[method.isPrivate ? 'hasPrivate' : 'hasPublic'] = true;
-
-    methods.push(method);
-    extrinsicsMap[name] = method;
-
-    return methods;
-  }, section.methods);
+  mapMethods(sectionSource, section, true);
+  mapMethods(sectionSource, section, false);
 
   sections.push(section);
 
   return sections;
 }, extrinsics.sections);
+
+console.log('extrinsics', extrinsics);
 
 module.exports = extrinsics;

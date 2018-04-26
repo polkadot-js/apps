@@ -7,8 +7,8 @@ import type { BaseProps } from './types';
 
 import React from 'react';
 
-import CallDisplay from './CallDisplay';
-import CallSelect from './CallSelect';
+import ExtrinsicDisplay from './ExtrinsicDisplay';
+import ExtrinsicSelect from './ExtrinsicSelect';
 import Nonce from './Nonce';
 import Sender from './Sender';
 import Signer from './Signer';
@@ -23,9 +23,9 @@ function App ({ className, style }: Props): React$Node {
       style={style}
     >
       <Sender />
-      <CallSelect />
+      <ExtrinsicSelect />
       <Nonce />
-      <CallDisplay />
+      <ExtrinsicDisplay />
       <Signer />
     </div>
   );

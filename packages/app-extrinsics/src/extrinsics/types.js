@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-export type Extrinsic$Type = 'AccountId' | 'Balance' | 'BlockNumber';
+export type Extrinsic$Type = 'AccountId' | 'Balance' | 'BlockNumber' | 'u32';
 
 export type Extrinsic$Params = Array<Extrinsic$Type>;
 
@@ -17,7 +17,12 @@ export type ExtrinsicBasic = {
 export type ExtrinsicsBasic = {
   description: string,
   methods: {
-    [string]: ExtrinsicBasic
+    private: {
+      [string]: ExtrinsicBasic
+    },
+    public: {
+      [string]: ExtrinsicBasic
+    }
   }
 }
 
@@ -31,8 +36,9 @@ export type Extrinsic = {
 
 export type ExtrinsicSection = {
   description: string,
-  hasPublic: boolean,
   hasPrivate: boolean,
+  hasPublic: boolean,
+  index: Uint8Array,
   methods: Array<Extrinsic>,
   name: string
 };

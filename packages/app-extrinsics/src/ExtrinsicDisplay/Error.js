@@ -5,8 +5,6 @@
 
 import type { BaseProps } from '../types';
 
-import './CallDisplay.css';
-
 import React from 'react';
 
 import translate from '../translate';
@@ -14,7 +12,7 @@ import translate from '../translate';
 function ErrorDisplay ({ className, style, t }: BaseProps): React$Node {
   return (
     <div
-      className={['extrinsics--CallDisplay-error', className].join(' ')}
+      className={['extrinsics--ExtrinsicDisplay-Error', className].join(' ')}
       style={style}
     >
       {t('calldisplay.error', {

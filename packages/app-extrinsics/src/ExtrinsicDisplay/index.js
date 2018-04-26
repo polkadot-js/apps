@@ -5,7 +5,7 @@
 
 import type { BaseProps } from '../types';
 
-import './CallDisplay.css';
+import './ExtrinsicDisplay.css';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
@@ -27,19 +27,19 @@ type Props = BaseProps & {
   value?: string;
 };
 
-const COMPONENTS = {
+const Components = {
   'staking_stake': StakingStake,
   'staking_transfer': StakingTransfer,
   'staking_unstake': StakingUnstake
 };
 
-function CallDisplay ({ className, style, t, value }: Props): React$Node {
+function ExtrinsicDisplay ({ className, style, t, value }: Props): React$Node {
   // flowlint-next-line sketchy-null-string:off
   if (!value) {
     return null;
   }
 
-  const Component = COMPONENTS[value] || ErrorComponent;
+  const Component = Components[value] || ErrorComponent;
   const onSubmit = () => {
     // flowlint-next-line unclear-type:off
     queueExtrinsic(value, ((Component: any): ValueGetter).getValues());
@@ -47,23 +47,25 @@ function CallDisplay ({ className, style, t, value }: Props): React$Node {
 
   return (
     <div
-      className={['extrinsics--CallDisplay', className].join(' ')}
+      className={['extrinsics--ExtrinsicDisplay', className].join(' ')}
       style={style}
     >
-      <Component className='extrinsics--CallDisplay-Component' />
-      <Button
-        className='extrinsics--CallDisplay-Execute'
-        onClick={onSubmit}
-        primary
-      >
-        {t('calldisplay.submit', {
-          defaultValue: 'Submit Extrinsic'
-        })}
-      </Button>
+      <Component className='extrinsics--ExtrinsicDisplay-Component' />
+      <div className='extrinsics--ExtrinsicDisplay-ButtonRow'>
+        <Button
+          className='extrinsics--ExtrinsicDisplay-Button'
+          onClick={onSubmit}
+          primary
+        >
+          {t('calldisplay.submit', {
+            defaultValue: 'Submit Extrinsic'
+          })}
+        </Button>
+      </div>
     </div>
   );
 }
 
 export default translate(
-  withObservable(extrinsicName)(CallDisplay)
+  withObservable(extrinsicName)(ExtrinsicDisplay)
 );
