@@ -17,6 +17,9 @@ module.exports = function encodeValue (value: any, { type }: Extrinsic$Param): U
     case 'BlockNumber':
       return bnToU8a(value, 64, true);
 
+    case 'u32':
+      return bnToU8a(value, 32, true);
+
     default:
       throw new Error(`Unable to encode value with type '${type}'`);
   }
