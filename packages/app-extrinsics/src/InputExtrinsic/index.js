@@ -5,6 +5,8 @@
 
 // TODO: This is a useful, shared component, move out
 
+import type { Extrinsic } from '../extrinsics/types';
+
 import './InputExtrinsic.css';
 
 import React from 'react';
@@ -16,7 +18,7 @@ import options from './options';
 type Props = {
   className?: string,
   isPrivate?: boolean,
-  onChange?: (event: SyntheticEvent<*>, value: Uint8Array) => void,
+  onChange?: (event: SyntheticEvent<*>, value: ?Extrinsic) => void,
   style?: {
     [string]: string
   },

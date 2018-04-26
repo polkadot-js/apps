@@ -7,6 +7,11 @@ export type Extrinsic$Type = 'AccountId' | 'Balance' | 'BlockNumber' | 'u32';
 
 export type Extrinsic$Param = {
   name: string,
+  options?: {
+    initValue?: mixed,
+    minValue?: mixed,
+    maxValue?: mixed
+  },
   type: Extrinsic$Type
 };
 
@@ -50,7 +55,7 @@ export type ExtrinsicSection = {
 
 export type Extrinsics = {
   sections: Array<ExtrinsicSection>,
-  get: (sectionMethod: string) => Extrinsic
+  get: (sectionMethod: string) => ?Extrinsic
 }
 
 export type ExtrinsicsMap = {

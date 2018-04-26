@@ -23,12 +23,18 @@ extrinsics.sections.forEach(({ description, hasPrivate, hasPublic, methods, name
   hasPublic && options.public.push(header);
   hasPrivate && options.private.push(header);
 
-  methods.forEach(({ description, name, isPrivate }) => {
+  methods.forEach(({ description, name, params, isPrivate }) => {
+    const inputs = params.map(({ name }) => name).join(', ');
+
     options[isPrivate ? 'private' : 'public'].push({
       className: 'ui--InputExtrinsic-Item',
       text: [
-        <div className='ui--InputExtrinsic-Item-text'>{description}</div>,
-        <div className='ui--InputExtrinsic-Item-call'>{name}</div>
+        <div className='ui--InputExtrinsic-Item-text' key='name'>
+          {description}
+        </div>,
+        <div className='ui--InputExtrinsic-Item-call' key='call'>
+          {name}({inputs})
+        </div>
       ],
       value: name
     });

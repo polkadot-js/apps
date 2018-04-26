@@ -28,7 +28,7 @@ const map: { [string]: ExtrinsicsBasic } = {
 const extrinsicsMap: ExtrinsicsMap = {};
 const extrinsics: Extrinsics = {
   sections: [],
-  get: (sectionMethod: string): Extrinsic =>
+  get: (sectionMethod: string): ?Extrinsic =>
     extrinsicsMap[sectionMethod]
 };
 
@@ -74,7 +74,5 @@ sectionNames.reduce((sections: Array<ExtrinsicSection>, sectionName: string, ind
 
   return sections;
 }, extrinsics.sections);
-
-console.log('extrinsics', extrinsics);
 
 module.exports = extrinsics;

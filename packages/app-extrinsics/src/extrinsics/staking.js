@@ -13,8 +13,8 @@ module.exports = ({
         description: 'Transfer',
         index: 0,
         params: [
-          { name: 'to', type: 'AccountId' },
-          { name: 'value', type: 'Balance' }
+          { name: 'recipient', type: 'AccountId' },
+          { name: 'value', type: 'Balance', options: { minValue: 1 } }
         ]
       },
       stake: {

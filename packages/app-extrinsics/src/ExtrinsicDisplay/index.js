@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { Extrinsic } from '../extrinsics/types';
 import type { BaseProps } from '../types';
 
 import './ExtrinsicDisplay.css';
@@ -12,45 +13,44 @@ import Button from 'semantic-ui-react/dist/es/elements/Button';
 import withObservable from '@polkadot/rx-react/with/observable';
 
 import translate from '../translate';
-import StakingStake from '../Staking/Stake';
-import StakingTransfer from '../Staking/Transfer';
-import StakingUnstake from '../Staking/Unstake';
+import Param from '../Param';
 import { extrinsic } from '../subjects';
-import ErrorComponent from './Error';
+import createSubjects from './subjects';
 import queueExtrinsic from './queue';
 
-type ValueGetter = {
-  getValues: () => Array<mixed>
-}
-
 type Props = BaseProps & {
-  value?: string;
-};
-
-const Components = {
-  'staking_stake': StakingStake,
-  'staking_transfer': StakingTransfer,
-  'staking_unstake': StakingUnstake
+  value?: Extrinsic;
 };
 
 function ExtrinsicDisplay ({ className, style, t, value }: Props): React$Node {
-  // flowlint-next-line sketchy-null-string:off
   if (!value) {
     return null;
   }
 
-  const Component = Components[value.name] || ErrorComponent;
-  const onSubmit = () => {
-    // flowlint-next-line unclear-type:off
-    queueExtrinsic(value, ((Component: any): ValueGetter).getValues());
-  };
+  // TODO: Check for validity (i.e. button enable/disable)
+  const subjects = createSubjects(value.params);
+  const onSubmit = (): void =>
+    queueExtrinsic(
+      value,
+      subjects.map((subject) => subject.getValue())
+    );
 
   return (
     <div
       className={['extrinsics--ExtrinsicDisplay', className].join(' ')}
       style={style}
     >
-      <Component className='extrinsics--ExtrinsicDisplay-Component' />
+      <div className='extrinsics--ExtrinsicDisplay-Params'>
+        {
+          value.params.map((param, index) => (
+            <Param
+              key={`${param.name}:${param.type}`}
+              subject={subjects[index]}
+              value={param}
+            />
+          ))
+        }
+      </div>
       <div className='extrinsics--ExtrinsicDisplay-ButtonRow'>
         <Button
           className='extrinsics--ExtrinsicDisplay-Button'

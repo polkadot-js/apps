@@ -10,7 +10,6 @@ import BN from 'bn.js';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 export const extrinsic: rxjs$BehaviorSubject<?Extrinsic> = new BehaviorSubject();
-export const recipientAddr: rxjs$BehaviorSubject<?Uint8Array> = new BehaviorSubject();
 export const queueTx: rxjs$BehaviorSubject<?QueueTx> = new BehaviorSubject();
 export const senderAddr: rxjs$BehaviorSubject<?Uint8Array> = new BehaviorSubject();
 export const senderIndex: rxjs$BehaviorSubject<BN> = new BehaviorSubject(new BN(0));
