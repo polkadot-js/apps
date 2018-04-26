@@ -15,7 +15,7 @@ import translate from '../translate';
 import StakingStake from '../Staking/Stake';
 import StakingTransfer from '../Staking/Transfer';
 import StakingUnstake from '../Staking/Unstake';
-import { extrinsicName } from '../subjects';
+import { extrinsic } from '../subjects';
 import ErrorComponent from './Error';
 import queueExtrinsic from './queue';
 
@@ -39,7 +39,7 @@ function ExtrinsicDisplay ({ className, style, t, value }: Props): React$Node {
     return null;
   }
 
-  const Component = Components[value] || ErrorComponent;
+  const Component = Components[value.name] || ErrorComponent;
   const onSubmit = () => {
     // flowlint-next-line unclear-type:off
     queueExtrinsic(value, ((Component: any): ValueGetter).getValues());
@@ -67,5 +67,5 @@ function ExtrinsicDisplay ({ className, style, t, value }: Props): React$Node {
 }
 
 export default translate(
-  withObservable(extrinsicName)(ExtrinsicDisplay)
+  withObservable(extrinsic)(ExtrinsicDisplay)
 );

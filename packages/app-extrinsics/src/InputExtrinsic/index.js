@@ -10,6 +10,7 @@ import './InputExtrinsic.css';
 import React from 'react';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 
+import extrinsics from '../extrinsics';
 import options from './options';
 
 type Props = {
@@ -25,12 +26,14 @@ type Props = {
 export default function InputExtrinsic (props: Props): React$Node {
   // eslint-disable-next-line no-unused-vars
   const onChange = (event: SyntheticEvent<*>, { value }): void => {
+    const extrinsic = extrinsics.get(value);
+
     if (props.subject) {
-      props.subject.next(value);
+      props.subject.next(extrinsic);
     }
 
     if (props.onChange) {
-      props.onChange(event, value);
+      props.onChange(event, extrinsic);
     }
   };
 

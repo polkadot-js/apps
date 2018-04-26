@@ -10,7 +10,7 @@ import Label from 'semantic-ui-react/dist/es/elements/Label';
 
 import InputExtrinsic from './InputExtrinsic';
 import translate from './translate';
-import { extrinsicName } from './subjects';
+import { extrinsic } from './subjects';
 
 type Props = BaseProps & {};
 
@@ -26,7 +26,7 @@ function ExtrinsicSelect ({ className, style, t }: Props): React$Node {
             defaultValue: 'submit the following extrinsic'
           })}
         </Label>
-        <InputExtrinsic subject={extrinsicName} />
+        <InputExtrinsic subject={extrinsic} />
       </div>
     </div>
   );
