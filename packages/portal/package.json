@@ -3,6 +3,7 @@
   "version": "0.1.1",
   "description": "A Portal into the Polkadot network",
   "main": "src/index.js",
+  "homepage": ".",
   "repository": "https://github.com/polkadot-js/portal.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "license": "ISC",

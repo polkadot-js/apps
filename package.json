@@ -1,6 +1,7 @@
 {
   "version": "0.1.1",
   "private": true,
+  "homepage": ".",
   "workspaces": [
     "packages/*"
   ],
@@ -8,15 +9,17 @@
     "build": "polkadot-dev-build-babel && yarn run build:portal",
     "build:portal": "cd packages/portal && react-scripts build",
     "check": "eslint packages && flow check",
+    "deploy:ghpages": "gh-pages -d packages/portal/build",
     "start": "cd packages/portal && react-scripts start",
     "test": "echo 'to tests executed'"
   },
   "dependencies": {
-    "@polkadot/portal": "^0.1.0"
+    "@polkadot/portal": "^0.1.1"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.17.11",
+    "@polkadot/dev": "^0.17.12",
     "babel-preset-react": "^6.24.1",
+    "gh-pages": "^1.1.0",
     "lerna": "^2.5.1",
     "react-scripts": "2.0.0-next.66cc7a90"
   },
