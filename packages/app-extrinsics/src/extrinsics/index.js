@@ -5,8 +5,9 @@
 
 // TODO: Move to API
 
-import type { Extrinsic, Extrinsics, ExtrinsicsBasic, ExtrinsicsMap, ExtrinsicSection } from './types';
+import type { Extrinsic, Extrinsics, ExtrinsicBasic, ExtrinsicsBasic, ExtrinsicsMap, ExtrinsicSection } from './types';
 
+const assert = require('@polkadot/util/assert');
 const bnToU8a = require('@polkadot/util/bn/toU8a');
 const u8aConcat = require('@polkadot/util/u8a/concat');
 
@@ -25,51 +26,57 @@ const map: { [string]: ExtrinsicsBasic } = {
   council, // 4
   councilVoting // 5
 };
-const sectionNames = Object.keys(map);
-const extrinsics: Extrinsics = ({
-  sections: []
-}: $Shape<Extrinsics>);
 const extrinsicsMap: ExtrinsicsMap = {};
+const extrinsics: Extrinsics = {
+  sections: [],
+  get: (method: string): Extrinsic => {
+    const extrinsic = extrinsicsMap[method];
 
-sectionNames.reduce((sections: Array<ExtrinsicSection>, sectionName: string, _index) => {
-  const sectionSource = map[sectionName];
-  const sectionIndex = bnToU8a(_index, 8);
-  const methodNames = Object.keys(sectionSource.methods);
+    assert(extrinsic, `Unable to retrieve extrinsic with name '${method}'`);
 
-  if (!methodNames.length) {
-    return sections;
+    return extrinsic;
   }
+};
+
+const sectionNames = Object.keys(map);
+
+function mapMethods (sectionSource: ExtrinsicsBasic, section: ExtrinsicSection, isPrivate: boolean): void {
+  const methods = sectionSource.methods[isPrivate ? 'private' : 'public'];
+
+  methods.forEach(({ description, index, name, params }: ExtrinsicBasic) => {
+    const method: Extrinsic = {
+      description,
+      index: u8aConcat(section.index, bnToU8a(index, 8)),
+      isPrivate,
+      name: `${section.name}_${name}`,
+      params
+    };
+
+    extrinsicsMap[method.name] = method;
+    section[isPrivate ? 'hasPrivate' : 'hasPublic'] = true;
+
+    section.methods.push(method);
+  });
+}
+
+sectionNames.reduce((sections: Array<ExtrinsicSection>, sectionName: string, index: number) => {
+  const sectionSource = map[sectionName];
 
   const section: ExtrinsicSection = {
     description: sectionSource.description,
+    hasPrivate: false,
+    hasPublic: false,
+    index: bnToU8a(index, 8),
     methods: [],
     name: sectionName
   };
 
-  methodNames.reduce((methods: Array<Extrinsic>, methodName: string) => {
-    const methodSource = sectionSource.methods[methodName];
-    const name = `${sectionName}_${methodName}`;
-    const index = u8aConcat(sectionIndex, bnToU8a(methodSource.index, 8));
-    const method: Extrinsic = {
-      description: methodSource.description,
-      index,
-      name,
-      params: methodSource.params
-    };
-
-    methods.push(method);
-    extrinsicsMap[name] = method;
-
-    return methods;
-  }, section.methods);
+  mapMethods(sectionSource, section, true);
+  mapMethods(sectionSource, section, false);
 
   sections.push(section);
 
   return sections;
 }, extrinsics.sections);
-
-extrinsics.get = function get (sectionMethod: string): Extrinsic {
-  return extrinsicsMap[sectionMethod];
-};
 
 module.exports = extrinsics;

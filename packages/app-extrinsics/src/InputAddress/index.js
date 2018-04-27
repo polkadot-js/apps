@@ -3,6 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+// TODO: This is a useful, shared component, move out
+
 import './InputAddress.css';
 
 import React from 'react';
@@ -44,9 +46,9 @@ export default function InputAddress (props: Props): React$Node {
 
   return (
     <Dropdown
+      selection
       {...props}
       className={['ui--InputAddress', props.className].join(' ')}
-      selection
       options={options}
       onChange={onChange}
     />

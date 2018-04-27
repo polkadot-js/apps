@@ -12,27 +12,29 @@ import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import Modal from 'semantic-ui-react/dist/es/modules/Modal';
 import withApi from '@polkadot/rx-react/with/api';
-import withObservable from '@polkadot/rx-react/with/observable';
 
-import { queueTx } from '../subjects';
 import translate from '../translate';
-import Extrinsic from './Extrinsic';
+import Decoded from './Decoded';
 import submitExtrinsic from './submit';
 
 type Props = BaseProps & ApiProps & {
-  value?: QueueTx
+  subject: rxjs$BehaviorSubject<QueueTx>,
+  value: QueueTx
 };
 
-function Signer ({ api, className, style, t, value }: Props): React$Node {
-  if (!value) {
+function Signer ({ api, className, subject, style, t, value }: Props): React$Node {
+  if (value.status !== 'queued') {
     return null;
   }
 
-  const onClose = () => {
-    queueTx.next();
+  const onClose = (): void => {
+    subject.next({
+      ...value,
+      status: 'cancelled'
+    });
   };
-  const onSign = () => {
-    submitExtrinsic(api, value.publicKey, value.message).then(onClose);
+  const onSign = (): void => {
+    submitExtrinsic(api, value, subject);
   };
 
   return (
@@ -47,7 +49,7 @@ function Signer ({ api, className, style, t, value }: Props): React$Node {
           defaultValue: 'Sign and submit'
         })}
       </Modal.Header>
-      <Extrinsic value={value} />
+      <Decoded value={value} />
       <Modal.Actions>
         <Button onClick={onClose}>
           {t('signer.cancel', {
@@ -68,7 +70,5 @@ function Signer ({ api, className, style, t, value }: Props): React$Node {
 }
 
 export default translate(
-  withApi(
-    withObservable(queueTx)(Signer)
-  )
+  withApi(Signer)
 );

@@ -3,40 +3,36 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from './types';
+import type BN from 'bn.js';
+import type { BareProps } from '../types';
 
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 import RxNonce from '@polkadot/rx-react/Nonce';
 import withObservableParams from '@polkadot/rx-react/with/observableParams';
 
-import translate from './translate';
-import { senderAddr, senderIndex } from './subjects';
+type Props = BareProps & {
+  label: string,
+  subject: rxjs$BehaviorSubject<BN>,
+  value: rxjs$BehaviorSubject<Uint8Array>
+};
 
-type Props = BaseProps & {};
+export default function Nonce ({ className, label, style, subject, t, value }: Props): React$Node {
+  const SenderNonce = withObservableParams(value)(RxNonce);
 
-const SenderNonce = withObservableParams(senderAddr)(RxNonce);
-
-function Nonce ({ className, style, t }: Props): React$Node {
   return (
     <div
       className={['extrinsics--split', className].join(' ')}
       style={style}
     >
       <div className='small'>
-        <Label>
-          {t('nonce.label', {
-            defaultValue: 'with an index'
-          })}
-        </Label>
+        <Label>{label}</Label>
         <SenderNonce
           className='ui disabled dropdown selection'
           classNameUpdated='hasUpdated'
-          subject={senderIndex}
+          subject={subject}
         />
       </div>
     </div>
   );
 }
-
-export default translate(Nonce);

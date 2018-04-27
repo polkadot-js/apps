@@ -3,16 +3,35 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-export type BaseProps = {
+import type BN from 'bn.js';
+import type { Extrinsic } from './extrinsics/types';
+
+export type BareProps = {
   className?: string,
   style?: {
     [string]: string
-  },
+  }
+};
+
+export type BaseProps = BareProps & {
   t: I18Next$Translate
 };
 
-export type QueueTx = {
-  message: Uint8Array,
-  method: string,
-  publicKey: Uint8Array
+export type RawParam = {
+  isValid: boolean,
+  value: mixed,
+}
+
+export type EncodedParams = {
+  data: Uint8Array,
+  extrinsic: Extrinsic,
+  isValid: boolean
+};
+
+export type QueueTx$Status = 'incomplete' | 'cancelled' | 'error' | 'queued' | 'sent';
+
+export type QueueTx = EncodedParams & {
+  index: BN,
+  publicKey: Uint8Array,
+  status: QueueTx$Status
 };

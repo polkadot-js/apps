@@ -7,5 +7,18 @@ import type { ExtrinsicsBasic } from './types';
 
 module.exports = ({
   description: 'Democracy',
-  methods: {}
+  methods: {
+    public: [
+      {
+        description: 'Propose',
+        index: 0,
+        name: 'propose',
+        params: [
+          { name: 'proposal', type: 'Proposal' },
+          { name: 'value', type: 'Balance' }
+        ]
+      }
+    ],
+    private: []
+  }
 }: ExtrinsicsBasic);

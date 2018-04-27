@@ -1,0 +1,15 @@
+/* Copyright 2017-2018 Jaco Greeff
+/* This software may be modified and distributed under the terms
+/* of the ISC license. See the LICENSE file for details. */
+
+.extrinsics--Submission {}
+
+.extrinsics--Submission-ButtonRow {
+  margin: 1em 0;
+  text-align: right;
+}
+
+.extrinsics--Submission-ButtonRow .button {
+  text-align: left;
+  margin-left: 0.5rem;
+}
