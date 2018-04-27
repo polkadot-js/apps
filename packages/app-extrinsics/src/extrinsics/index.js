@@ -7,6 +7,7 @@
 
 import type { Extrinsic, Extrinsics, ExtrinsicBasic, ExtrinsicsBasic, ExtrinsicsMap, ExtrinsicSection } from './types';
 
+const assert = require('@polkadot/util/assert');
 const bnToU8a = require('@polkadot/util/bn/toU8a');
 const u8aConcat = require('@polkadot/util/u8a/concat');
 
@@ -28,8 +29,13 @@ const map: { [string]: ExtrinsicsBasic } = {
 const extrinsicsMap: ExtrinsicsMap = {};
 const extrinsics: Extrinsics = {
   sections: [],
-  get: (sectionMethod: string): ?Extrinsic =>
-    extrinsicsMap[sectionMethod]
+  get: (method: string): Extrinsic => {
+    const extrinsic = extrinsicsMap[method];
+
+    assert(extrinsic, `Unable to retrieve extrinsic with name '${method}'`);
+
+    return extrinsic;
+  }
 };
 
 const sectionNames = Object.keys(map);
@@ -72,7 +78,5 @@ sectionNames.reduce((sections: Array<ExtrinsicSection>, sectionName: string, ind
 
   return sections;
 }, extrinsics.sections);
-
-console.log('extrinsics', extrinsics);
 
 module.exports = extrinsics;

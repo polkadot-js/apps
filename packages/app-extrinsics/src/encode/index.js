@@ -8,16 +8,13 @@
 import type BN from 'bn.js';
 import type { Extrinsic } from '../extrinsics/types';
 
-const bnToU8a = require('@polkadot/util/bn/toU8a');
-const u8aConcat = require('@polkadot/util/u8a/concat');
+const encodeCall = require('./call');
+const encodeExtrinsic = require('./extrinsic');
 
-const encodeParams = require('./params');
-
-module.exports = function encode ({ index, params }: Extrinsic, publicKey: Uint8Array, nonce: number | BN, values: Array<mixed>): Uint8Array {
-  return u8aConcat(
+module.exports = function encode (extrinsic: Extrinsic, publicKey: Uint8Array, nonce: number | BN, values?: Array<mixed>): Uint8Array {
+  return encodeCall(
     publicKey,
-    bnToU8a(nonce, 64, true),
-    index,
-    encodeParams(values, params)
+    nonce,
+    encodeExtrinsic(extrinsic, values)
   );
 };

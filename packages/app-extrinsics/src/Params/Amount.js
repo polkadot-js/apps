@@ -16,8 +16,11 @@ export default function Amount ({ label, subject, t, value: { options: { initVal
   const defaultValue = initValue || minValue;
   // eslint-disable-next-line no-unused-vars
   const onChange = (event: SyntheticEvent<*>, { value }): void => {
-    // flowlint-next-line sketchy-null-mixed:off, sketchy-null-number:off
-    subject.next(new BN(value || minValue || 0));
+    subject.next({
+      isValid: true,
+      // flowlint-next-line sketchy-null-mixed:off, sketchy-null-number:off
+      value: new BN(value || minValue || 0)
+    });
   };
 
   return (

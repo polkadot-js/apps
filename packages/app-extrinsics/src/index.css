@@ -21,12 +21,17 @@
 
 .extrinsics--split > div {
   box-sizing: border-box;
-  padding-right: 0.5rem;
 }
 
 .extrinsics--split > div.full {
   flex: 0 100%;
   min-width: 0;
+}
+
+.extrinsics--split > div.large,
+.extrinsics--split > div.medium,
+.extrinsics--split > div.small {
+  padding-right: 0.5rem;
 }
 
 .extrinsics--split > div.large {

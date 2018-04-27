@@ -3,29 +3,29 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Extrinsic$Params } from '../extrinsics/types';
-import type { BaseProps } from '../types';
+import type { Extrinsic } from '../extrinsics/types';
+import type { BaseProps, RawParam } from '../types';
 
 import './Params.css';
 
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 
-import Param from '../Param';
 import translate from '../translate';
-import createSubjects from './subjects';
+import Param from './Param';
+import createSubscriber from './subscriber';
 
 type Props = BaseProps & {
-  subjects?: Array<rxjs$BehaviorSubject<*>>,
-  value?: Extrinsic$Params;
+  subject: rxjs$BehaviorSubject<Array<RawParam>>,
+  value: Extrinsic;
 };
 
-function Params ({ className, style, subjects, t, value }: Props): React$Node {
-  if (!value || !value.length) {
+function Params ({ className, style, subject, t, value: { name, params } }: Props): React$Node {
+  if (!params || !params.length) {
     return null;
   }
 
-  const _subjects = subjects || createSubjects(value);
+  const subjects = createSubscriber(params, subject);
 
   return (
     <div
@@ -38,11 +38,12 @@ function Params ({ className, style, subjects, t, value }: Props): React$Node {
             defaultValue: 'with the supplied parameters'
           })}
         </Label>
-        <div className='extrinsics-Params-Content'>
-          {value.map((param, index) => (
+        <div className='extrinsics--Params-Content'>
+          {params.map((param, index) => (
             <Param
-              key={`${param.name}:${param.type}`}
-              subject={_subjects[index]}
+              className='extrinsics--Params-Param'
+              key={`${name}:${param.name}:${param.type}`}
+              subject={subjects[index]}
               value={param}
             />
           ))}

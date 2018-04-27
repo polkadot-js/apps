@@ -9,8 +9,8 @@ const u8aConcat = require('@polkadot/util/u8a/concat');
 
 const encodeParam = require('./param');
 
-module.exports = function encodeParams (values: Array<mixed>, params: Extrinsic$Params): Uint8Array {
-  return u8aConcat.apply(null, values.map((value, index) => {
-    return encodeParam(value, params[index]);
+module.exports = function encodeParams (params: Extrinsic$Params, values?: Array<mixed> = []): Uint8Array {
+  return u8aConcat.apply(null, params.map((param, index) => {
+    return encodeParam(param, values[index]);
   }));
 };

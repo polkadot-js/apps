@@ -6,9 +6,10 @@
 import type { Extrinsic$Param } from '../extrinsics/types';
 
 const bnToU8a = require('@polkadot/util/bn/toU8a');
+const u8aToU8a = require('@polkadot/util/u8a/toU8a');
 
 // flowlint-next-line unclear-type:off
-module.exports = function encodeValue (value: any, { type }: Extrinsic$Param): Uint8Array {
+module.exports = function encodeValue ({ type }: Extrinsic$Param, value: any): Uint8Array {
   switch (type) {
     case 'AccountId':
       return value;
@@ -17,6 +18,12 @@ module.exports = function encodeValue (value: any, { type }: Extrinsic$Param): U
     case 'BlockNumber':
     case 'u64':
       return bnToU8a(value, 64, true);
+
+    case 'Bytes':
+      return u8aToU8a(value);
+
+    case 'Proposal':
+      return u8aToU8a(value);
 
     case 'u32':
       return bnToU8a(value, 32, true);

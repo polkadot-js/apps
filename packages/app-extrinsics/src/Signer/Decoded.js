@@ -18,7 +18,7 @@ type Props = BaseProps & {
   value: QueueTx
 };
 
-function Extrinsic ({ className, style, t, value: { message, method, publicKey } }: Props): React$Node {
+function Decoded ({ className, style, t, value: { data, extrinsic, index, publicKey } }: Props): React$Node {
   const from = u8aToHexShort(publicKey);
 
   return (
@@ -33,20 +33,20 @@ function Extrinsic ({ className, style, t, value: { message, method, publicKey }
         />
         <div className='expanded'>
           <p>
-            <Trans i18nkey='extrinsic.short'>
-              You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{method}</span>
+            <Trans i18nkey='decoded.short'>
+              You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{extrinsic.name}</span> with an index of <span className='code'>{index.toString()}</span>
             </Trans>
           </p>
           <p>
-            {t('extrinsic.data', {
-              defaultValue: 'The encoded message to be signed contains the data'
+            {t('decoded.data', {
+              defaultValue: 'The encoded parameters contains the data'
             })}
           </p>
-          <p className='code'>{u8aToHex(message)}</p>
+          <p className='code'>{u8aToHex(data)}</p>
         </div>
       </div>
     </Modal.Content>
   );
 }
 
-export default translate(Extrinsic);
+export default translate(Decoded);

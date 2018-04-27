@@ -4,13 +4,13 @@
 // @flow
 
 import type { Extrinsic$Param } from '../extrinsics/types';
+import type { BareProps, RawParam } from '../types';
 
-export type Props = {
-  className?: string,
-  label?: string,
-  style?: {
-    [string]: string
-  },
-  subject: rxjs$BehaviorSubject<*>,
+export type BaseProps = BareProps & {
+  subject: rxjs$BehaviorSubject<RawParam>,
   value: Extrinsic$Param
+};
+
+export type Props = BaseProps & {
+  label: string
 };

@@ -15,7 +15,7 @@ import InputAddress from './InputAddress';
 
 type Props = BaseProps & {
   label: string,
-  subject: rxjs$BehaviorSubject<*>
+  subject: rxjs$BehaviorSubject<Uint8Array>
 };
 
 function Account ({ className, label, subject, style, t }: Props): React$Node {

@@ -4,7 +4,9 @@
 
 .extrinsics--Params {}
 
-.extrinsics-Params-Content {
+.extrinsics--Params-Content {
   box-sizing: border-box;
   padding-left: 2em;
 }
+
+.extrinsics--Params-Param {}
