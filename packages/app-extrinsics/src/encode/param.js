@@ -9,26 +9,32 @@ const bnToU8a = require('@polkadot/util/bn/toU8a');
 const u8aToU8a = require('@polkadot/util/u8a/toU8a');
 
 // flowlint-next-line unclear-type:off
-module.exports = function encodeValue ({ type }: Extrinsic$Param, value: any): Uint8Array {
-  switch (type) {
-    case 'AccountId':
-      return value;
+module.exports = function encodeParam (param: Extrinsic$Param, value: any): Uint8Array {
+  try {
+    switch (param.type) {
+      case 'AccountId':
+        return value;
 
-    case 'Balance':
-    case 'BlockNumber':
-    case 'u64':
-      return bnToU8a(value, 64, true);
+      case 'Balance':
+      case 'BlockNumber':
+      case 'u64':
+        return bnToU8a(value, 64, true);
 
-    case 'Bytes':
-      return u8aToU8a(value);
+      case 'Bytes':
+        return u8aToU8a(value);
 
-    case 'Proposal':
-      return u8aToU8a(value);
+      case 'Proposal':
+        return u8aToU8a(value);
 
-    case 'u32':
-      return bnToU8a(value, 32, true);
+      case 'u32':
+        return bnToU8a(value, 32, true);
 
-    default:
-      throw new Error(`Unable to encode value with type '${type}'`);
+      default:
+        return value;
+    }
+  } catch (error) {
+    console.error(error, 'with', value, 'encoded with', param);
+
+    throw error;
   }
 };

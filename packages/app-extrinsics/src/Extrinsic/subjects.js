@@ -38,7 +38,6 @@ export default function subjects (subject: rxjs$BehaviorSubject<EncodedParams>):
     });
   };
 
-  subjects.method.subscribe(onChange);
   subjects.params.subscribe(onChange);
 
   return subjects;

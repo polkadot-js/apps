@@ -784,12 +784,30 @@
     tweetnacl "^1.0.0"
     xxhashjs "^0.2.2"
 
+"@polkadot/util-crypto@^0.19.4":
+  version "0.19.4"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.19.4.tgz#d6e33197125e9adaf50410478a67e440630e7368"
+  dependencies:
+    babel-runtime "^6.26.0"
+    blakejs "^1.1.0"
+    js-sha3 "^0.7.0"
+    tweetnacl "^1.0.0"
+    xxhashjs "^0.2.2"
+
 "@polkadot/util-keyring@^0.19.2":
   version "0.19.2"
   resolved "https://registry.yarnpkg.com/@polkadot/util-keyring/-/util-keyring-0.19.2.tgz#ae61a246384d8f57ef585ec9a7e916eb49f36a67"
   dependencies:
     "@polkadot/util" "^0.19.2"
     "@polkadot/util-crypto" "^0.19.2"
+    babel-runtime "^6.26.0"
+
+"@polkadot/util-keyring@^0.19.4":
+  version "0.19.4"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-keyring/-/util-keyring-0.19.4.tgz#4af869406a0e4009680fbb63d8869fcb669a21a7"
+  dependencies:
+    "@polkadot/util" "^0.19.4"
+    "@polkadot/util-crypto" "^0.19.4"
     babel-runtime "^6.26.0"
 
 "@polkadot/util-rlp@^0.19.2":
@@ -811,6 +829,15 @@
 "@polkadot/util@^0.19.2":
   version "0.19.2"
   resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.19.2.tgz#5517aaa0a39f01d83c6899e3f41301e0335e6434"
+  dependencies:
+    babel-runtime "^6.26.0"
+    bn.js "^4.11.8"
+    deasync "^0.1.12"
+    ip-regex "^2.1.0"
+
+"@polkadot/util@^0.19.4":
+  version "0.19.4"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.19.4.tgz#969182865dd8d37a3ae3e31cc9a570e9cfb6ea5a"
   dependencies:
     babel-runtime "^6.26.0"
     bn.js "^4.11.8"

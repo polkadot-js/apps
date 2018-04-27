@@ -8,7 +8,31 @@ import type { ExtrinsicsBasic } from './types';
 module.exports = ({
   description: 'Session',
   methods: {
-    public: [],
-    private: []
+    public: [
+      {
+        description: 'Set session key',
+        index: 0,
+        name: 'setKey',
+        params: [
+          { name: 'key', type: 'SessionKey' }
+        ]
+      }
+    ],
+    private: [
+      {
+        description: 'Set session length',
+        index: 0,
+        name: 'setLength',
+        params: [
+          { name: 'length', type: 'u64' }
+        ]
+      },
+      {
+        description: 'Force new session',
+        index: 1,
+        name: 'forceNewSession',
+        params: []
+      }
+    ]
   }
 }: ExtrinsicsBasic);

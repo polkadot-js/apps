@@ -8,7 +8,25 @@ import type { ExtrinsicsBasic } from './types';
 module.exports = ({
   description: 'Consensus',
   methods: {
-    public: [],
-    private: []
+    public: [
+      {
+        description: 'Report misbehavior',
+        index: 0,
+        name: 'reportMisbehavior',
+        params: [
+          { name: 'report', type: 'MisbehaviorReport' }
+        ]
+      }
+    ],
+    private: [
+      {
+        description: 'Set new code',
+        index: 0,
+        name: 'setCode',
+        params: [
+          { name: 'code', type: 'Bytes' }
+        ]
+      }
+    ]
   }
 }: ExtrinsicsBasic);

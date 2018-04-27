@@ -36,18 +36,18 @@ function Submission ({ className, subject, style, t }: Props): React$Node {
         })}
         subject={subjects.sender}
       />
+      <Extrinsic
+        label={t('display.method', {
+          defaultValue: 'submit the following extrinsic'
+        })}
+        subject={subjects.method}
+      />
       <Nonce
         label={t('display.nonce', {
           defaultValue: 'with an index'
         })}
         subject={subjects.index}
         value={subjects.sender}
-      />
-      <Extrinsic
-        label={t('display.method', {
-          defaultValue: 'submit the following extrinsic'
-        })}
-        subject={subjects.method}
       />
       <div className='extrinsics--Submission-ButtonRow'>
         <Button subject={subject} />

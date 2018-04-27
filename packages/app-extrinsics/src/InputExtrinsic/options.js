@@ -16,7 +16,7 @@ extrinsics.sections.forEach(({ description, hasPrivate, hasPublic, methods, name
   const header = {
     className: 'ui--InputExtrinsic-Header',
     disabled: true,
-    text: description,
+    text: description || name,
     value: name
   };
 
@@ -30,7 +30,7 @@ extrinsics.sections.forEach(({ description, hasPrivate, hasPublic, methods, name
       className: 'ui--InputExtrinsic-Item',
       text: [
         <div className='ui--InputExtrinsic-Item-text' key='name'>
-          {description}
+          {description || name}
         </div>,
         <div className='ui--InputExtrinsic-Item-call' key='call'>
           {name}({inputs})

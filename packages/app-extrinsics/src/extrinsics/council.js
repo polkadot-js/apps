@@ -9,6 +9,39 @@ module.exports = ({
   description: 'Council',
   methods: {
     public: [],
-    private: []
+    private: [
+      {
+        description: 'Set desired seats',
+        index: 0,
+        name: 'setDesiredSeats',
+        params: [
+          { name: 'count', type: 'u32' }
+        ]
+      },
+      {
+        description: 'Remove member',
+        index: 1,
+        name: 'removeMember',
+        params: [
+          { name: 'member', type: 'AccountId' }
+        ]
+      },
+      {
+        description: 'Set presentation duration',
+        index: 2,
+        name: 'setPresentationDuration',
+        params: [
+          { name: 'duration', type: 'u64' }
+        ]
+      },
+      {
+        description: 'Set term duration',
+        index: 3,
+        name: 'setTermDuration',
+        params: [
+          { name: 'duration', type: 'u64' }
+        ]
+      }
+    ]
   }
 }: ExtrinsicsBasic);

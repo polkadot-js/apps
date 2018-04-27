@@ -21,7 +21,9 @@ const Components = {
   'Balance': Amount,
   'BlockNumber': Amount,
   'Bytes': Unknown,
+  'MisbehaviorReport': Unknown,
   'Proposal': Proposal,
+  'SessionKey': Unknown,
   'u32': Amount,
   'u64': Amount
 };
