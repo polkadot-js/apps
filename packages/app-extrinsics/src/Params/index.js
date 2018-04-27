@@ -9,7 +9,12 @@ import type { BaseProps, RawParam } from '../types';
 import './Params.css';
 
 import React from 'react';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
+// import Label from 'semantic-ui-react/dist/es/elements/Label';
+// <Label>
+//   {t('params.intro', {
+//     defaultValue: 'with the supplied parameters'
+//   })}
+// </Label>
 
 import translate from '../translate';
 import Param from './Param';
@@ -20,7 +25,7 @@ type Props = BaseProps & {
   value: Extrinsic;
 };
 
-function Params ({ className, style, subject, t, value: { name, params } }: Props): React$Node {
+function Params ({ className, style, subject, value: { name, params } }: Props): React$Node {
   if (!params || !params.length) {
     return null;
   }
@@ -33,11 +38,6 @@ function Params ({ className, style, subject, t, value: { name, params } }: Prop
       style={style}
     >
       <div className='full'>
-        <Label>
-          {t('params.intro', {
-            defaultValue: 'with the supplied parameters'
-          })}
-        </Label>
         <div className='extrinsics--Params-Content'>
           {params.map((param, index) => (
             <Param
