@@ -11,7 +11,7 @@ import React from 'react';
 import withObservable from '@polkadot/rx-react/with/observable';
 
 import Account from '../Account';
-import Method from '../Extrinsic';
+import Extrinsic from '../Extrinsic';
 import Nonce from '../Nonce';
 import Submit from '../Submit';
 import translate from '../translate';
@@ -43,7 +43,7 @@ function Submission ({ className, subject, style, t }: Props): React$Node {
         subject={subjects.index}
         value={subjects.sender}
       />
-      <Method
+      <Extrinsic
         label={t('display.method', {
           defaultValue: 'submit the following extrinsic'
         })}
