@@ -4,7 +4,7 @@
 // @flow
 
 import type BN from 'bn.js';
-import type { BareProps } from './types';
+import type { BareProps } from '../types';
 
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';

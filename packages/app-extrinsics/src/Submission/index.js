@@ -12,9 +12,9 @@ import withObservable from '@polkadot/rx-react/with/observable';
 
 import Account from '../Account';
 import Extrinsic from '../Extrinsic';
-import Nonce from '../Nonce';
-import Submit from '../Submit';
 import translate from '../translate';
+import Nonce from './Nonce';
+import Submit from './Submit';
 import createSubjects from './subjects';
 
 type Props = BaseProps & {

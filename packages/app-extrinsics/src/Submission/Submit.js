@@ -3,12 +3,12 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps, QueueTx } from './types';
+import type { BaseProps, QueueTx } from '../types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 
-import translate from './translate';
+import translate from '../translate';
 
 type Props = BaseProps & {
   subject: rxjs$BehaviorSubject<QueueTx>,
