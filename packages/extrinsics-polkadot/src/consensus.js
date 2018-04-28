@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { ExtrinsicsBasic } from './types';
+import type { ExtrinsicsBaseSection } from '@polkadot/extrinsics/types';
 
 module.exports = ({
   description: 'Consensus',
@@ -29,4 +29,4 @@ module.exports = ({
       }
     ]
   }
-}: ExtrinsicsBasic);
+}: ExtrinsicsBaseSection);

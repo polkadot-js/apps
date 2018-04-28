@@ -4,14 +4,17 @@
 // @flow
 
 import React from 'react';
-import extrinsics from '@polkadot/extrinsics';
+import extrinsics from '@polkadot/extrinsics-polkadot/src';
 
 const options = {
   private: [],
   public: []
 };
 
-extrinsics.sections.forEach(({ description, hasPrivate, hasPublic, methods, name }) => {
+const sortByName = (a, b) =>
+  a.name.localeCompare(b.name);
+
+extrinsics.sections.sort(sortByName).forEach(({ description, hasPrivate, hasPublic, methods, name }) => {
   const header = {
     className: 'ui--InputExtrinsic-Header',
     disabled: true,
@@ -22,7 +25,7 @@ extrinsics.sections.forEach(({ description, hasPrivate, hasPublic, methods, name
   hasPublic && options.public.push(header);
   hasPrivate && options.private.push(header);
 
-  methods.forEach(({ description, name, params, isPrivate }) => {
+  methods.sort(sortByName).forEach(({ description, name, params, isPrivate }) => {
     const inputs = params.map(({ name }) => name).join(', ');
 
     options[isPrivate ? 'private' : 'public'].push({

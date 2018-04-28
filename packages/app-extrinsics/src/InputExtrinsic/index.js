@@ -11,7 +11,7 @@ import './InputExtrinsic.css';
 
 import React from 'react';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
-import extrinsics from '@polkadot/extrinsics';
+import extrinsics from '@polkadot/extrinsics-polkadot/src';
 
 import options from './options';
 

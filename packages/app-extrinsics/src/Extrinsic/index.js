@@ -19,7 +19,7 @@ type Props = BareProps & {
   subject: rxjs$BehaviorSubject<EncodedParams>
 };
 
-export default function ExtrinsicMethod ({ className, isPrivate, label, style, subject }: Props): React$Node {
+export default function Extrinsic ({ className, isPrivate, label, style, subject }: Props): React$Node {
   const subjects = createSubjects(subject);
   const MethodParams = withObservable(subjects.method)(Params);
 

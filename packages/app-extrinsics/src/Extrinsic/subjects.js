@@ -7,7 +7,7 @@ import type { Extrinsic } from '@polkadot/extrinsics/types';
 import type { EncodedParams, RawParam } from '../types';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import encodeExtrinsic from '@polkadot/extrinsics-codec/encode/extrinsic';
+import encodeExtrinsic from '@polkadot/extrinsics-codec/src/encode/extrinsic';
 import isUndefined from '@polkadot/util/is/undefined';
 
 type Subjects = {

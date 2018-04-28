@@ -17,21 +17,25 @@ export type Extrinsic$Param = {
 
 export type Extrinsic$Params = Array<Extrinsic$Param>;
 
-export type ExtrinsicBasic = {
+export type ExtrinsicBase = {
   description: string,
   index: number,
-  isPrivate?: boolean,
   name: string,
   params: Extrinsic$Params
 }
 
-export type ExtrinsicsBasic = {
+export type ExtrinsicSectionName = 'consensus' | 'council' | 'councilVoting' | 'democracy' | 'session' | 'staking';
+
+export type ExtrinsicsBaseSection = {
   description: string,
   methods: {
-    private: Array<ExtrinsicBasic>,
-    public: Array<ExtrinsicBasic>
+    private: Array<ExtrinsicBase>,
+    public: Array<ExtrinsicBase>
   }
 }
+export type ExtrinsicsBaseMap = {
+  [ExtrinsicSectionName]: ExtrinsicsBaseSection
+};
 
 export type Extrinsic = {
   description: string,
@@ -47,7 +51,7 @@ export type ExtrinsicSection = {
   hasPublic: boolean,
   index: Uint8Array,
   methods: Array<Extrinsic>,
-  name: string
+  name: ExtrinsicSectionName
 };
 
 export type Extrinsics = {

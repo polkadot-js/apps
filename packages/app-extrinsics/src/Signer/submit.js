@@ -6,7 +6,7 @@
 import type { RxApiInterface } from '@polkadot/rx-api/types';
 import type { QueueTx } from '../types';
 
-import encodeCall from '@polkadot/extrinsics-codec/encode/call';
+import encodeCall from '@polkadot/extrinsics-codec/src/encode/call';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
