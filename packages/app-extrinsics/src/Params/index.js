@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Extrinsic } from '../extrinsics/types';
+import type { Extrinsic } from '@polkadot/extrinsics/types';
 import type { BaseProps, RawParam } from '../types';
 
 import './Params.css';

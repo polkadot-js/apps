@@ -3,10 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-// TODO: Move to API
-
 import type BN from 'bn.js';
-import type { Extrinsic } from '../extrinsics/types';
+import type { Extrinsic } from '@polkadot/extrinsics/types';
 
 const encodeCall = require('./call');
 const encodeExtrinsic = require('./extrinsic');

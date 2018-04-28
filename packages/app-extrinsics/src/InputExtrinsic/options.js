@@ -4,8 +4,7 @@
 // @flow
 
 import React from 'react';
-
-import extrinsics from '../extrinsics';
+import extrinsics from '@polkadot/extrinsics';
 
 const options = {
   private: [],

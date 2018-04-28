@@ -5,14 +5,14 @@
 
 // TODO: This is a useful, shared component, move out
 
-import type { Extrinsic } from '../extrinsics/types';
+import type { Extrinsic } from '@polkadot/extrinsics/types';
 
 import './InputExtrinsic.css';
 
 import React from 'react';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
+import extrinsics from '@polkadot/extrinsics';
 
-import extrinsics from '../extrinsics';
 import options from './options';
 
 type Props = {

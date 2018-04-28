@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Extrinsic$Param } from '../extrinsics/types';
+import type { Extrinsic$Param } from '@polkadot/extrinsics/types';
 
 const bnToU8a = require('@polkadot/util/bn/toU8a');
 const u8aToU8a = require('@polkadot/util/u8a/toU8a');

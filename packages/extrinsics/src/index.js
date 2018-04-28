@@ -3,8 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-// TODO: Move to API
-
 import type { Extrinsic, Extrinsics, ExtrinsicBasic, ExtrinsicsBasic, ExtrinsicsMap, ExtrinsicSection } from './types';
 
 const assert = require('@polkadot/util/assert');

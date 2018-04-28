@@ -6,10 +6,10 @@
 import type { RxApiInterface } from '@polkadot/rx-api/types';
 import type { QueueTx } from '../types';
 
+import encodeCall from '@polkadot/extrinsics-codec/encode/call';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
-import encodeCall from '../encode/call';
 import keyring from '../keyring';
 
 export default function submit (api: RxApiInterface, tx: QueueTx, subject: rxjs$BehaviorSubject<QueueTx>): Promise<void> {

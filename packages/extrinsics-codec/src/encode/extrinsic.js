@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Extrinsic } from '../extrinsics/types';
+import type { Extrinsic } from '@polkadot/extrinsics/types';
 
 const u8aConcat = require('@polkadot/util/u8a/concat');
 
