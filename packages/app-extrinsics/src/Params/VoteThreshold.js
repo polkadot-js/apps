@@ -30,7 +30,7 @@ export default function VoteThreshold ({ label, subject, t, value: { options: { 
     >
       <Dropdown
         selection
-        defaultValue={initValue}
+        defaultValue={initValue || 0}
         options={options}
         onChange={onChange}
       />

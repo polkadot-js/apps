@@ -14,7 +14,13 @@ import Base from './Base';
 export default function Hash ({ isError, label, subject, t }: Props): React$Node {
   // eslint-disable-next-line no-unused-vars
   const onChange = (event: SyntheticEvent<*>, { value }) => {
-    const u8a = hexToU8a(value);
+    let u8a;
+
+    try {
+      u8a = hexToU8a(value);
+    } catch (error) {
+      u8a = new Uint8Array([]);
+    }
 
     subject.next({
       isValid: u8a.length === 32,
@@ -25,11 +31,12 @@ export default function Hash ({ isError, label, subject, t }: Props): React$Node
   return (
     <Base
       label={label}
-      size='small'
+      size='medium'
     >
       <Input
         error={isError}
         onChange={onChange}
+        placeholder='0x...'
         type='text'
       />
     </Base>
