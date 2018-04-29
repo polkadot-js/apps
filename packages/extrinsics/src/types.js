@@ -3,7 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-export type Extrinsic$Type = 'AccountId' | 'Balance' | 'BlockNumber' | 'Bytes' | 'MisbehaviorReport' | 'Proposal' | 'SessionKey' | 'u32' | 'u64';
+export type Extrinsic$TypeName = 'AccountId' | 'Balance' | 'BlockNumber' | 'bool' | 'Bytes' | 'Hash' | 'MisbehaviorReport' | 'Proposal' | 'SessionKey' | 'u32' | 'u64' | 'VoteThreshold';
+
+export type Extrinsic$Type =
+  Extrinsic$TypeName |
+  ['Array', Extrinsic$TypeName];
 
 export type Extrinsic$Param = {
   name: string,

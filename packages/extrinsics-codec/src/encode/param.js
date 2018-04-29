@@ -5,36 +5,28 @@
 
 import type { Extrinsic$Param } from '@polkadot/extrinsics/types';
 
+const u8aConcat = require('@polkadot/util/u8a/concat');
 const bnToU8a = require('@polkadot/util/bn/toU8a');
-const u8aToU8a = require('@polkadot/util/u8a/toU8a');
+
+const encodeType = require('./type');
 
 // flowlint-next-line unclear-type:off
 module.exports = function encodeParam (param: Extrinsic$Param, value: any): Uint8Array {
-  try {
-    switch (param.type) {
-      case 'AccountId':
-        return value;
+  if (Array.isArray(param.type)) {
+    const [outer, inner] = param.type;
 
-      case 'Balance':
-      case 'BlockNumber':
-      case 'u64':
-        return bnToU8a(value, 64, true);
-
-      case 'Bytes':
-        return u8aToU8a(value);
-
-      case 'Proposal':
-        return u8aToU8a(value);
-
-      case 'u32':
-        return bnToU8a(value, 32, true);
+    switch (outer) {
+      case 'Array':
+        return u8aConcat(
+          bnToU8a((value: Array<*>).length, 32, true),
+          u8aConcat.apply(null, (value: Array<*>).map((v) =>
+            encodeType(inner, v)
+          ))
+        );
 
       default:
-        return value;
+        return encodeType(inner, value);
     }
-  } catch (error) {
-    console.error(error, 'with', value, 'encoded with', param);
-
-    throw error;
   }
+  return encodeType(param.type, value);
 };

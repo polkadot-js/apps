@@ -7,31 +7,17 @@ import type { BaseProps } from './types';
 
 import React from 'react';
 
-import Account from './Account';
-import Amount from './Amount';
-import Proposal from './Proposal';
-import Unknown from './Unknown';
+import findComponent from './findComponent';
+import typeToText from './typeToText';
 
 type Props = BaseProps & {
   label?: string;
 }
 
-const Components = {
-  'AccountId': Account,
-  'Balance': Amount,
-  'BlockNumber': Amount,
-  'Bytes': Unknown,
-  'MisbehaviorReport': Unknown,
-  'Proposal': Proposal,
-  'SessionKey': Unknown,
-  'u32': Amount,
-  'u64': Amount
-};
-
 export default function Param ({ className, label, style, subject, value }: Props): React$Node {
   // flowlint-next-line sketchy-null-string:off
-  const defaultLabel = label || `${value.name}: ${value.type}`;
-  const Component = Components[value.type];
+  const defaultLabel = label || `${value.name}: ${typeToText(value.type)}`;
+  const Component = findComponent(value.type);
 
   return (
     <Component

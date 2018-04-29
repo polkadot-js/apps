@@ -19,6 +19,7 @@ import React from 'react';
 import translate from '../translate';
 import Param from './Param';
 import createSubscriber from './subscriber';
+import typeToText from './typeToText';
 
 type Props = BaseProps & {
   subject: rxjs$BehaviorSubject<Array<RawParam>>,
@@ -42,7 +43,7 @@ function Params ({ className, style, subject, value: { name, params } }: Props):
           {params.map((param, index) => (
             <Param
               className='extrinsics--Params-Param'
-              key={`${name}:${param.name}:${param.type}`}
+              key={`${name}:${param.name}:${typeToText(param.type)}`}
               subject={subjects[index]}
               value={param}
             />

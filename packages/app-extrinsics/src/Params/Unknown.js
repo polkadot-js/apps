@@ -9,6 +9,7 @@ import React from 'react';
 
 import translate from '../translate';
 import Base from './Base';
+import typeToText from './typeToText';
 
 type Props = BaseProps & {
   t: I18Next$Translate
@@ -29,7 +30,7 @@ function Unknown ({ label, subject, t, value: { type } }: Props): React$Node {
         {t('param.unknown', {
           defaultValue: `ERROR: Unimplemented type '{{type}}' requested. No renderer exists`,
           replace: {
-            type
+            type: typeToText(type)
           }
         })}
       </div>

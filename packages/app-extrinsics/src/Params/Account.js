@@ -13,12 +13,12 @@ import BaseAccount from '../Account';
 export default function Account ({ label, subject }: Props): React$Node {
   const account: rxjs$BehaviorSubject<Uint8Array> = new BehaviorSubject(new Uint8Array([]));
 
-  account.subscribe((value: Uint8Array) => {
+  account.subscribe((value: Uint8Array) =>
     subject.next({
       isValid: !!(value && value.length),
       value
-    });
-  });
+    })
+  );
 
   return (
     <BaseAccount

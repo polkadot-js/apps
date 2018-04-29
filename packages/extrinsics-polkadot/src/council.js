@@ -8,7 +8,54 @@ import type { ExtrinsicsBaseSection } from '@polkadot/extrinsics/types';
 module.exports = ({
   description: 'Council',
   methods: {
-    public: [],
+    public: [
+      {
+        description: 'Set approvals',
+        name: 'setApprovals',
+        index: 0,
+        params: [
+          { name: 'votes', type: ['Array', 'bool'] },
+          { name: 'index', type: 'u32' }
+        ]
+      },
+      {
+        description: 'Remove insactive voter',
+        name: 'reapInactiveVoter',
+        index: 1,
+        params: [
+          { name: 'signedIndex', type: 'u32' },
+          { name: 'who', type: 'AccountId' },
+          { name: 'whoIndex', type: 'u32' },
+          { name: 'assumedVoteIndex', type: 'u32' }
+        ]
+      },
+      {
+        description: 'Retract voter',
+        name: 'retractVoter',
+        index: 2,
+        params: [
+          { name: 'index', type: 'u32' }
+        ]
+      },
+      {
+        description: 'Submit candidacy',
+        name: 'submitCandidacy',
+        index: 3,
+        params: [
+          { name: 'slot', type: 'u32' }
+        ]
+      },
+      {
+        description: 'Present winner',
+        name: 'presentWinner',
+        index: 4,
+        params: [
+          { name: 'candidate', type: 'AccountId' },
+          { name: 'total', type: 'Balance' },
+          { name: 'index', type: 'u32' }
+        ]
+      }
+    ],
     private: [
       {
         description: 'Set desired seats',
