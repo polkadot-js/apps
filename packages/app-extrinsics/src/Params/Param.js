@@ -3,15 +3,18 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from './types';
+import type { Extrinsic$Param } from '@polkadot/extrinsics/types';
+import type { BareProps, RawParam } from '../types';
 
 import React from 'react';
 
 import findComponent from './findComponent';
 import typeToText from './typeToText';
 
-type Props = BaseProps & {
-  label?: string;
+type Props = BareProps & {
+  label?: string,
+  subject: rxjs$BehaviorSubject<RawParam>,
+  value: Extrinsic$Param
 }
 
 export default function Param ({ className, label, style, subject, value }: Props): React$Node {

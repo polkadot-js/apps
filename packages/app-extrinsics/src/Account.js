@@ -14,11 +14,12 @@ import translate from './translate';
 import InputAddress from './InputAddress';
 
 type Props = BaseProps & {
+  isError?: boolean,
   label: string,
   subject: rxjs$BehaviorSubject<Uint8Array>
 };
 
-function Account ({ className, label, subject, style, t }: Props): React$Node {
+function Account ({ className, isError, label, subject, style, t }: Props): React$Node {
   const AccountBalance = withObservableParams(subject)(Balance);
 
   return (

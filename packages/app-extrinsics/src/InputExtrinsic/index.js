@@ -17,6 +17,7 @@ import options from './options';
 
 type Props = {
   className?: string,
+  isError?: boolean,
   isPrivate?: boolean,
   onChange?: (event: SyntheticEvent<*>, value: Extrinsic) => void,
   style?: {
@@ -41,6 +42,7 @@ export default function InputExtrinsic (props: Props): React$Node {
 
   const _props = Object.assign({}, props);
 
+  delete _props.isError;
   delete _props.isPrivate;
 
   return (
@@ -48,6 +50,7 @@ export default function InputExtrinsic (props: Props): React$Node {
       selection
       {..._props}
       className={['ui--InputExtrinsic', props.className].join(' ')}
+      error={props.isError}
       onChange={onChange}
       options={
         // flowlint-next-line sketchy-null-bool:off

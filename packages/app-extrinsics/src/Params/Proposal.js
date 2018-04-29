@@ -11,7 +11,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import Extrinsic from '../Extrinsic';
 
-export default function Proposal ({ label, subject }: Props): React$Node {
+export default function Proposal ({ isError, label, subject }: Props): React$Node {
   const extrinsic: rxjs$BehaviorSubject<EncodedParams> = new BehaviorSubject(({ isValid: false }: $Shape<EncodedParams>));
 
   extrinsic.subscribe(({ data, isValid }: EncodedParams) =>
@@ -23,6 +23,7 @@ export default function Proposal ({ label, subject }: Props): React$Node {
 
   return (
     <Extrinsic
+      isError={isError}
       isPrivate
       label={label}
       subject={extrinsic}

@@ -11,7 +11,7 @@ import hexToU8a from '@polkadot/util/hex/toU8a';
 
 import Base from './Base';
 
-export default function Hash ({ label, subject, t }: Props): React$Node {
+export default function Hash ({ isError, label, subject, t }: Props): React$Node {
   // eslint-disable-next-line no-unused-vars
   const onChange = (event: SyntheticEvent<*>, { value }) => {
     const u8a = hexToU8a(value);
@@ -28,6 +28,7 @@ export default function Hash ({ label, subject, t }: Props): React$Node {
       size='small'
     >
       <Input
+        error={isError}
         onChange={onChange}
         type='text'
       />

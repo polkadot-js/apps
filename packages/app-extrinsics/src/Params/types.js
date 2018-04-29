@@ -12,5 +12,6 @@ export type BaseProps = BareProps & {
 };
 
 export type Props = BaseProps & {
+  isError?: boolean,
   label: string
 };

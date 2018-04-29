@@ -15,7 +15,7 @@ const options = [
   { text: 'Yes', value: true }
 ];
 
-export default function Bool ({ label, subject, t, value: { options: { initValue = false } = {} } }: Props): React$Node {
+export default function Bool ({ isError, label, subject, t, value: { options: { initValue = false } = {} } }: Props): React$Node {
   const onChange = (event: SyntheticEvent<*>, { value }) =>
     subject.next({
       isValid: true,
@@ -28,6 +28,7 @@ export default function Bool ({ label, subject, t, value: { options: { initValue
       size='small'
     >
       <Dropdown
+        error={isError}
         selection
         defaultValue={initValue}
         options={options}

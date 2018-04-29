@@ -40,12 +40,12 @@ function Params ({ className, style, subject, value: { name, params } }: Props):
     >
       <div className='full'>
         <div className='extrinsics--Params-Content'>
-          {params.map((param, index) => (
+          {params.map((value, index) => (
             <Param
               className='extrinsics--Params-Param'
-              key={`${name}:${param.name}:${typeToText(param.type)}`}
+              key={`${name}:${value.name}:${typeToText(value.type)}`}
+              value={value}
               subject={subjects[index]}
-              value={param}
             />
           ))}
         </div>

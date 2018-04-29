@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import BaseAccount from '../Account';
 
-export default function Account ({ label, subject }: Props): React$Node {
+export default function Account ({ isError, label, subject }: Props): React$Node {
   const account: rxjs$BehaviorSubject<Uint8Array> = new BehaviorSubject(new Uint8Array([]));
 
   account.subscribe((value: Uint8Array) =>
@@ -22,6 +22,7 @@ export default function Account ({ label, subject }: Props): React$Node {
 
   return (
     <BaseAccount
+      isError={isError}
       label={label}
       subject={account}
     />

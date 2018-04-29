@@ -17,6 +17,7 @@ import keyring from '../keyring';
 
 type Props = {
   className?: string,
+  isError?: boolean,
   onChange?: (event: SyntheticEvent<*>, value: Uint8Array) => void,
   style?: {
     [string]: string
@@ -44,11 +45,16 @@ export default function InputAddress (props: Props): React$Node {
     }
   };
 
+  const _props = {...props};
+
+  delete _props.isError;
+
   return (
     <Dropdown
       selection
-      {...props}
+      {..._props}
       className={['ui--InputAddress', props.className].join(' ')}
+      error={props.isError}
       options={options}
       onChange={onChange}
     />

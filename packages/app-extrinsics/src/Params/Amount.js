@@ -11,7 +11,7 @@ import Input from 'semantic-ui-react/dist/es/elements/Input';
 
 import Base from './Base';
 
-export default function Amount ({ label, subject, t, value: { options: { initValue = 0, maxValue, minValue = 0 } = {} } }: Props): React$Node {
+export default function Amount ({ isError, label, subject, t, value: { options: { initValue = 0, maxValue, minValue = 0 } = {} } }: Props): React$Node {
   // flowlint-next-line sketchy-null-mixed:off, sketchy-null-number:off
   const defaultValue = initValue || minValue;
   // eslint-disable-next-line no-unused-vars
@@ -29,6 +29,7 @@ export default function Amount ({ label, subject, t, value: { options: { initVal
     >
       <Input
         defaultValue={defaultValue}
+        error={isError}
         max={maxValue}
         min={minValue}
         onChange={onChange}
