@@ -8,25 +8,23 @@ import type { ExtrinsicsBaseSection } from '@polkadot/extrinsics/types';
 module.exports = ({
   description: 'Consensus',
   methods: {
-    public: [
-      {
+    public: {
+      reportMisbehavior: {
         description: 'Report misbehavior',
         index: 0,
-        name: 'reportMisbehavior',
-        params: [
-          { name: 'report', type: 'MisbehaviorReport' }
-        ]
+        params: {
+          report: { type: 'MisbehaviorReport' }
+        }
       }
-    ],
-    private: [
-      {
+    },
+    private: {
+      setCode: {
         description: 'Set new code',
         index: 0,
-        name: 'setCode',
-        params: [
-          { name: 'code', type: 'Bytes' }
-        ]
+        params: {
+          code: { type: 'Bytes' }
+        }
       }
-    ]
+    }
   }
 }: ExtrinsicsBaseSection);

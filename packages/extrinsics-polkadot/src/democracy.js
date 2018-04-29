@@ -8,52 +8,47 @@ import type { ExtrinsicsBaseSection } from '@polkadot/extrinsics/types';
 module.exports = ({
   description: 'Democracy',
   methods: {
-    public: [
-      {
+    public: {
+      propose: {
         description: 'Propose',
         index: 0,
-        name: 'propose',
-        params: [
-          { name: 'proposal', type: 'Proposal' },
-          { name: 'value', type: 'Balance' }
-        ]
+        params: {
+          proposal: { type: 'Proposal' },
+          value: { type: 'Balance' }
+        }
       },
-      {
+      second: {
         description: 'Second',
         index: 1,
-        name: 'second',
-        params: [
-          { name: 'proposal', type: 'u32' }
-        ]
+        params: {
+          proposal: { type: 'u32' }
+        }
       },
-      {
+      vote: {
         description: 'Vote',
         index: 2,
-        name: 'vote',
-        params: [
-          { name: 'referendumIndex', type: 'u32' },
-          { name: 'vote', type: 'bool' }
-        ]
+        params: {
+          referendumIndex: { type: 'u32' },
+          vote: { type: 'bool' }
+        }
       }
-    ],
-    private: [
-      {
+    },
+    private: {
+      startReferendum: {
         description: 'Start referendum',
         index: 0,
-        name: 'startReferendum',
-        params: [
-          { name: 'proposal', type: 'Proposal' },
-          { name: 'VoteThreshold', type: 'VoteThreshold', options: { initValue: 0 } }
-        ]
+        params: {
+          proposal: { type: 'Proposal' },
+          voteThreshold: { type: 'VoteThreshold' }
+        }
       },
-      {
+      cancelReferendum: {
         description: 'Cancel referendum',
         index: 1,
-        name: 'cancelReferendum',
-        params: [
-          { name: 'referendumIndex', type: 'u32' }
-        ]
+        params: {
+          referendumIndex: { type: 'u32' }
+        }
       }
-    ]
+    }
   }
 }: ExtrinsicsBaseSection);

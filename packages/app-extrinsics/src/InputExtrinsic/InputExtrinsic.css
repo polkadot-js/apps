@@ -4,8 +4,6 @@
 
 .ui--InputExtrinsic {}
 
-.ui--InputExtrinsic-Header {}
-
 .ui--InputExtrinsic .text {
   box-sizing: border-box;
   display: flex !important;

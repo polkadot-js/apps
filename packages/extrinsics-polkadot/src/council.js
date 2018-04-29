@@ -8,87 +8,78 @@ import type { ExtrinsicsBaseSection } from '@polkadot/extrinsics/types';
 module.exports = ({
   description: 'Council',
   methods: {
-    public: [
-      {
+    public: {
+      setApprovals: {
         description: 'Set approvals',
-        name: 'setApprovals',
         index: 0,
-        params: [
-          { name: 'votes', type: ['Array', 'bool'] },
-          { name: 'index', type: 'u32' }
-        ]
+        params: {
+          votes: { type: ['Array', 'bool'] },
+          index: { type: 'u32' }
+        }
       },
-      {
+      reapInactiveVoter: {
         description: 'Remove insactive voter',
-        name: 'reapInactiveVoter',
         index: 1,
-        params: [
-          { name: 'signedIndex', type: 'u32' },
-          { name: 'who', type: 'AccountId' },
-          { name: 'whoIndex', type: 'u32' },
-          { name: 'assumedVoteIndex', type: 'u32' }
-        ]
+        params: {
+          signedIndex: { type: 'u32' },
+          who: { type: 'AccountId' },
+          whoIndex: { type: 'u32' },
+          assumedVoteIndex: { type: 'u32' }
+        }
       },
-      {
+      retractVoter: {
         description: 'Retract voter',
-        name: 'retractVoter',
         index: 2,
-        params: [
-          { name: 'index', type: 'u32' }
-        ]
+        params: {
+          index: { type: 'u32' }
+        }
       },
-      {
+      submitCandidacy: {
         description: 'Submit candidacy',
-        name: 'submitCandidacy',
         index: 3,
-        params: [
-          { name: 'slot', type: 'u32' }
-        ]
+        params: {
+          slot: { type: 'u32' }
+        }
       },
-      {
+      presentWinner: {
         description: 'Present winner',
-        name: 'presentWinner',
         index: 4,
-        params: [
-          { name: 'candidate', type: 'AccountId' },
-          { name: 'total', type: 'Balance' },
-          { name: 'index', type: 'u32' }
-        ]
+        params: {
+          candidate: { type: 'AccountId' },
+          total: { type: 'Balance' },
+          index: { type: 'u32' }
+        }
       }
-    ],
-    private: [
-      {
+    },
+    private: {
+      setDesiredSeats: {
         description: 'Set desired seats',
         index: 0,
-        name: 'setDesiredSeats',
-        params: [
-          { name: 'count', type: 'u32' }
-        ]
+        params: {
+          count: { type: 'u32' }
+        }
       },
-      {
+      removeMember: {
         description: 'Remove member',
         index: 1,
-        name: 'removeMember',
-        params: [
-          { name: 'member', type: 'AccountId' }
-        ]
+        params: {
+          member: { type: 'AccountId' }
+        }
       },
-      {
+      setPresentationDuration: {
         description: 'Set presentation duration',
         index: 2,
-        name: 'setPresentationDuration',
-        params: [
-          { name: 'duration', type: 'u64' }
-        ]
+        params: {
+          duration: { type: 'u64' }
+        }
       },
-      {
+      setTermDuration: {
         description: 'Set term duration',
         index: 3,
-        name: 'setTermDuration',
-        params: [
-          { name: 'duration', type: 'u64' }
-        ]
+        params: {
+          duration: { type: 'u64' }
+        }
       }
-    ]
+    }
   }
 }: ExtrinsicsBaseSection);

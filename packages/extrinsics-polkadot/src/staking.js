@@ -8,60 +8,53 @@ import type { ExtrinsicsBaseSection } from '@polkadot/extrinsics/types';
 module.exports = ({
   description: 'Staking',
   methods: {
-    public: [
-      {
+    public: {
+      transfer: {
         description: 'Transfer',
         index: 0,
-        name: 'transfer',
-        params: [
-          { name: 'recipient', type: 'AccountId' },
-          { name: 'value', type: 'Balance', options: { minValue: 1 } }
-        ]
+        params: {
+          recipient: { type: 'AccountId' },
+          value: { type: 'Balance', options: { minValue: 1 } }
+        }
       },
-      {
+      stake: {
         description: 'Stake',
         index: 1,
-        name: 'stake',
-        params: []
+        params: {}
       },
-      {
+      unstake: {
         description: 'Unstake',
         index: 2,
-        name: 'unstake',
-        params: []
+        params: {}
       }
-    ],
-    private: [
-      {
+    },
+    private: {
+      setSessionsPerEra: {
         description: 'Set sessions per era',
         index: 0,
-        name: 'setSessionsPerEra',
-        params: [
-          { name: 'sessions', type: 'u64' }
-        ]
+        params: {
+          sessions: { type: 'u64' }
+        }
       },
-      {
+      setBondingDuration: {
         description: 'Set bonding duration',
         index: 1,
-        name: 'setBondingDuration',
-        params: [
-          { name: 'duration', type: 'u64' }
-        ]
+        params: {
+          duration: { type: 'u64' }
+        }
       },
-      {
+      setValidatorCount: {
         description: 'Set validator count',
         index: 2,
-        name: 'setValidatorCount',
-        params: [
-          { name: 'count', type: 'u32' }
-        ]
+        params: {
+          count: { type: 'u32' }
+        }
       },
-      {
+      forceNewEra: {
         description: 'Force new era',
         index: 3,
-        name: 'forceNewEra',
-        params: []
+        params: {}
       }
-    ]
+    }
   }
 }: ExtrinsicsBaseSection);

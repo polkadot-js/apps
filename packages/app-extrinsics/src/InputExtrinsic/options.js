@@ -4,6 +4,7 @@
 // @flow
 
 import React from 'react';
+import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 import extrinsics from '@polkadot/extrinsics-polkadot/src';
 
 const options = {
@@ -14,16 +15,20 @@ const options = {
 const sortByName = (a, b) =>
   a.name.localeCompare(b.name);
 
-extrinsics.sections.sort(sortByName).forEach(({ description, hasPrivate, hasPublic, methods, name }) => {
-  const header = {
-    className: 'ui--InputExtrinsic-Header',
-    disabled: true,
-    text: description || name,
-    value: name
-  };
+const addHeader = (shouldAdd, to, description) => {
+  if (shouldAdd) {
+    to.push(<Dropdown.Divider />);
+    to.push(
+      <Dropdown.Header>
+        {description}
+      </Dropdown.Header>
+    );
+  }
+};
 
-  hasPublic && options.public.push(header);
-  hasPrivate && options.private.push(header);
+extrinsics.sections.sort(sortByName).forEach(({ description, hasPrivate, hasPublic, methods, name }) => {
+  addHeader(hasPublic, options.public, description);
+  addHeader(hasPrivate, options.private, description);
 
   methods.sort(sortByName).forEach(({ description, name, params, isPrivate }) => {
     const inputs = params.map(({ name }) => name).join(', ');

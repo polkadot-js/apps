@@ -8,50 +8,45 @@ import type { ExtrinsicsBaseSection } from '@polkadot/extrinsics/types';
 module.exports = ({
   description: 'Council Voting',
   methods: {
-    public: [
-      {
+    public: {
+      propose: {
         description: 'Propose',
-        name: 'propose',
         index: 0,
-        params: [
-          { name: 'proposal', type: 'Proposal' }
-        ]
+        params: {
+          proposal: { type: 'Proposal' }
+        }
       },
-      {
+      vote: {
         description: 'Vote',
-        name: 'vote',
         index: 1,
-        params: [
-          { name: 'proposal', type: 'Hash' },
-          { name: 'approve', type: 'bool' }
-        ]
+        params: {
+          proposal: { type: 'Hash' },
+          approve: { type: 'bool' }
+        }
       },
-      {
+      veto: {
         description: 'Veto',
-        name: 'veto',
         index: 2,
-        params: [
-          { name: 'proposal', type: 'Hash' }
-        ]
+        params: {
+          proposal: { type: 'Hash' }
+        }
       }
-    ],
-    private: [
-      {
+    },
+    private: {
+      setCooloffPeriod: {
         description: 'Set cooloff period',
-        name: 'setCooloffPeriod',
         index: 0,
-        params: [
-          { name: 'blocks', type: 'BlockNumber' }
-        ]
+        params: {
+          blocks: { type: 'BlockNumber' }
+        }
       },
-      {
+      setVotingPeriod: {
         description: 'Set voting period',
-        name: 'setVotingPeriod',
         index: 1,
-        params: [
-          { name: 'blocks', type: 'BlockNumber' }
-        ]
+        params: {
+          blocks: { type: 'BlockNumber' }
+        }
       }
-    ]
+    }
   }
 }: ExtrinsicsBaseSection);

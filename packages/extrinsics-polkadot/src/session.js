@@ -8,31 +8,28 @@ import type { ExtrinsicsBaseSection } from '@polkadot/extrinsics/types';
 module.exports = ({
   description: 'Session',
   methods: {
-    public: [
-      {
+    public: {
+      setKey: {
         description: 'Set session key',
         index: 0,
-        name: 'setKey',
-        params: [
-          { name: 'key', type: 'SessionKey' }
-        ]
+        params: {
+          key: { type: 'SessionKey' }
+        }
       }
-    ],
-    private: [
-      {
+    },
+    private: {
+      setLength: {
         description: 'Set session length',
         index: 0,
-        name: 'setLength',
-        params: [
-          { name: 'length', type: 'u64' }
-        ]
+        params: {
+          length: { type: 'u64' }
+        }
       },
-      {
+      forceNewSession: {
         description: 'Force new session',
         index: 1,
-        name: 'forceNewSession',
-        params: []
+        params: {}
       }
-    ]
+    }
   }
 }: ExtrinsicsBaseSection);

@@ -9,6 +9,42 @@ export type Extrinsic$Type =
   Extrinsic$TypeName |
   ['Array', Extrinsic$TypeName];
 
+export type ExtrinsicBase$Param = {
+  options?: {
+    initValue?: mixed,
+    minValue?: mixed,
+    maxValue?: mixed
+  },
+  type: Extrinsic$Type
+};
+
+export type ExtrinsicBase$Params = {
+  [string]: ExtrinsicBase$Param
+};
+
+export type ExtrinsicBase = {
+  description: string,
+  index: number,
+  params: ExtrinsicBase$Params
+}
+
+export type ExtrinsicSectionName = 'consensus' | 'council' | 'councilVoting' | 'democracy' | 'session' | 'staking';
+
+export type ExtrinsicsBaseSection = {
+  description: string,
+  methods: {
+    private: {
+      [string]: ExtrinsicBase
+    },
+    public: {
+      [string]: ExtrinsicBase
+    }
+  }
+}
+export type ExtrinsicsBaseMap = {
+  [ExtrinsicSectionName]: ExtrinsicsBaseSection
+};
+
 export type Extrinsic$Param = {
   name: string,
   options?: {
@@ -20,26 +56,6 @@ export type Extrinsic$Param = {
 };
 
 export type Extrinsic$Params = Array<Extrinsic$Param>;
-
-export type ExtrinsicBase = {
-  description: string,
-  index: number,
-  name: string,
-  params: Extrinsic$Params
-}
-
-export type ExtrinsicSectionName = 'consensus' | 'council' | 'councilVoting' | 'democracy' | 'session' | 'staking';
-
-export type ExtrinsicsBaseSection = {
-  description: string,
-  methods: {
-    private: Array<ExtrinsicBase>,
-    public: Array<ExtrinsicBase>
-  }
-}
-export type ExtrinsicsBaseMap = {
-  [ExtrinsicSectionName]: ExtrinsicsBaseSection
-};
 
 export type Extrinsic = {
   description: string,

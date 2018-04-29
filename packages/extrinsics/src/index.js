@@ -7,7 +7,7 @@ import type { Extrinsic, Extrinsics, ExtrinsicsBaseMap, ExtrinsicSectionName, Ex
 
 const assert = require('@polkadot/util/assert');
 
-const mapSection = require('./section');
+const expandSection = require('./section');
 
 // NOTE: Order here is important, counts as an index
 const BASIC_KEYS: Array<ExtrinsicSectionName> = ['consensus', 'session', 'staking', 'democracy', 'council', 'councilVoting'];
@@ -27,7 +27,7 @@ module.exports = function init (baseMap: ExtrinsicsBaseMap): Extrinsics {
     const sectionSource = baseMap[sectionName];
 
     if (sectionSource) {
-      const section = mapSection(sectionSource, sectionName, sectionIndex);
+      const section = expandSection(sectionSource, sectionName, sectionIndex);
 
       section.methods.forEach((method) => {
         map[method.name] = method;

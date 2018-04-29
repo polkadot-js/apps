@@ -9,16 +9,15 @@ const bnToU8a = require('@polkadot/util/bn/toU8a');
 
 const expandMethods = require('./methods');
 
-module.exports = function mapSection (sectionSource: ExtrinsicsBaseSection, sectionName: ExtrinsicSectionName, sectionIndex: number): ExtrinsicSection {
+module.exports = function expandSection (sectionSource: ExtrinsicsBaseSection, name: ExtrinsicSectionName, sectionIndex: number): ExtrinsicSection {
   const index = bnToU8a(sectionIndex, 8);
-  const methods = expandMethods(sectionSource, sectionName, index);
 
   return {
-    description: sectionSource.description,
-    hasPrivate: !!sectionSource.methods.private.length,
-    hasPublic: !!sectionSource.methods.public.length,
+    description: sectionSource.description || name,
+    hasPrivate: !!Object.keys(sectionSource.methods.private).length,
+    hasPublic: !!Object.keys(sectionSource.methods.public).length,
     index,
-    methods,
-    name: sectionName
+    methods: expandMethods(sectionSource, name, index),
+    name
   };
 };
