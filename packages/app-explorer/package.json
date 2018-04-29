@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-explorer",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/portal.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
