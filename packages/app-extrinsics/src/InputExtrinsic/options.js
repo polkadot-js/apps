@@ -4,33 +4,40 @@
 // @flow
 
 import React from 'react';
-
-import extrinsics from '../extrinsics';
+import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
+import extrinsics from '@polkadot/extrinsics-polkadot/src';
 
 const options = {
   private: [],
   public: []
 };
 
-extrinsics.sections.forEach(({ description, hasPrivate, hasPublic, methods, name }) => {
-  const header = {
-    className: 'ui--InputExtrinsic-Header',
-    disabled: true,
-    text: description,
-    value: name
-  };
+const sortByName = (a, b) =>
+  a.name.localeCompare(b.name);
 
-  hasPublic && options.public.push(header);
-  hasPrivate && options.private.push(header);
+const addHeader = (shouldAdd, to, description) => {
+  if (shouldAdd) {
+    to.push(<Dropdown.Divider />);
+    to.push(
+      <Dropdown.Header>
+        {description}
+      </Dropdown.Header>
+    );
+  }
+};
 
-  methods.forEach(({ description, name, params, isPrivate }) => {
+extrinsics.sections.sort(sortByName).forEach(({ description, hasPrivate, hasPublic, methods, name }) => {
+  addHeader(hasPublic, options.public, description);
+  addHeader(hasPrivate, options.private, description);
+
+  methods.sort(sortByName).forEach(({ description, name, params, isPrivate }) => {
     const inputs = params.map(({ name }) => name).join(', ');
 
     options[isPrivate ? 'private' : 'public'].push({
       className: 'ui--InputExtrinsic-Item',
       text: [
         <div className='ui--InputExtrinsic-Item-text' key='name'>
-          {description}
+          {description || name}
         </div>,
         <div className='ui--InputExtrinsic-Item-call' key='call'>
           {name}({inputs})

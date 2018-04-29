@@ -6,15 +6,12 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "polkadot-dev-build-babel && yarn run build:portal",
-    "build:portal": "cd packages/portal && react-scripts build",
+    "build": "polkadot-dev-build-babel && yarn run build:apps",
+    "build:apps": "cd packages/apps && react-scripts build",
     "check": "eslint packages && flow check",
-    "deploy:ghpages": "gh-pages -d packages/portal/build",
-    "start": "cd packages/portal && react-scripts start",
-    "test": "echo 'to tests executed'"
-  },
-  "dependencies": {
-    "@polkadot/portal": "^0.1.1"
+    "deploy:ghpages": "gh-pages -d packages/apps/build",
+    "start": "cd packages/apps && react-scripts start",
+    "test": "echo 'no tests executed'"
   },
   "devDependencies": {
     "@polkadot/dev": "^0.17.12",

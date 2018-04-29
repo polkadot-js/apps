@@ -1,0 +1,21 @@
+{
+  "name": "@polkadot/extrinsics-codec",
+  "version": "0.1.3",
+  "main": "index.js",
+  "repository": "https://github.com/polkadot-js/portal.git",
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "license": "ISC",
+  "scripts": {
+    "build": "polkadot-dev-build-babel",
+    "check": "stylelint 'src/**/*.css' && eslint src && flow check",
+    "test": "jest --coverage"
+  },
+  "devDependencies": {
+    "@polkadot/extrinsics": "^0.1.3"
+  },
+  "dependencies": {
+    "@polkadot/util": "^0.19.4",
+    "babel-runtime": "^6.26.0",
+    "bn.js": "^4.11.8"
+  }
+}

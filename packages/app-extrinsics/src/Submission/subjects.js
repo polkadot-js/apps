@@ -18,8 +18,12 @@ type Subjects = {
 export default function createSubjects (): Subjects {
   const subjects = {
     index: new BehaviorSubject(new BN(0)),
-    call: new BehaviorSubject(({ isValid: false }: $Shape<QueueTx>)),
-    method: new BehaviorSubject(({ isValid: false }: $Shape<EncodedParams>)),
+    call: new BehaviorSubject(({
+      isValid: false
+    }: $Shape<QueueTx>)),
+    method: new BehaviorSubject(({
+      isValid: false
+    }: $Shape<EncodedParams>)),
     sender: new BehaviorSubject(new Uint8Array([]))
   };
 

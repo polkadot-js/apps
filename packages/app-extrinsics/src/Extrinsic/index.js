@@ -14,12 +14,13 @@ import Params from '../Params';
 import createSubjects from './subjects';
 
 type Props = BareProps & {
+  isError?: boolean,
   isPrivate?: boolean,
   label: string,
   subject: rxjs$BehaviorSubject<EncodedParams>
 };
 
-export default function ExtrinsicMethod ({ className, isPrivate, label, style, subject }: Props): React$Node {
+export default function Extrinsic ({ className, isError, isPrivate, label, style, subject }: Props): React$Node {
   const subjects = createSubjects(subject);
   const MethodParams = withObservable(subjects.method)(Params);
 
@@ -31,6 +32,7 @@ export default function ExtrinsicMethod ({ className, isPrivate, label, style, s
       <div className='full'>
         <Label>{label}</Label>
         <InputExtrinsic
+          isError={isError}
           isPrivate={isPrivate}
           subject={subjects.method}
         />

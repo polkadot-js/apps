@@ -4,7 +4,7 @@
 // @flow
 
 import type BN from 'bn.js';
-import type { Extrinsic } from './extrinsics/types';
+import type { Extrinsic } from '@polkadot/extrinsics/types';
 
 export type BareProps = {
   className?: string,

@@ -6,19 +6,21 @@
 import type { RxApiInterface } from '@polkadot/rx-api/types';
 import type { QueueTx } from '../types';
 
-import encodeCall from '../encode/call';
+import encodeCall from '@polkadot/extrinsics-codec/src/encode/call';
+import u8aConcat from '@polkadot/util/u8a/concat';
+import u8aToHex from '@polkadot/util/u8a/toHex';
+
 import keyring from '../keyring';
 
-import sign from './sign';
-
 export default function submit (api: RxApiInterface, tx: QueueTx, subject: rxjs$BehaviorSubject<QueueTx>): Promise<void> {
+  const message = encodeCall(tx.publicKey, tx.index, tx.data);
+  const signature = keyring.getPair(tx.publicKey).sign(message);
+
+  console.log('submitExtrinsic: message =', u8aToHex(message));
+  console.log('submitExtrinsic: signature =', u8aToHex(signature));
+
   return api.author
-    .submitExtrinsic(
-      sign(
-        keyring.getPair(tx.publicKey),
-        encodeCall(tx.publicKey, tx.index, tx.data)
-      )
-    )
+    .submitExtrinsic(u8aConcat(message, signature))
     .toPromise()
     .then((result) => {
       console.log('submitExtrinsic: result=', result);

@@ -12,5 +12,7 @@ all=warn
 
 [options]
 include_warnings=true
-module.name_mapper='^@polkadot/app-\(accounts\|explorer\|extrinsics\|home\|settings\)\(.*\)$' -> '<PROJECT_ROOT>/packages/app-\1/src\2'
-module.name_mapper='^@polkadot/portal\(.*\)$' -> '<PROJECT_ROOT>/packages/portal/src\1'
+module.name_mapper='^@polkadot/app-\(accounts\|explorer\|extrinsics\|home\|rpc\|settings\|storage\)\(.*\)$' -> '<PROJECT_ROOT>/packages/app-\1/src\2'
+module.name_mapper='^@polkadot/apps\(.*\)$' -> '<PROJECT_ROOT>/packages/apps/src\1'
+module.name_mapper='^@polkadot/extrinsics-\(codec\|polkadot\|substrate\)\(.*\)$' -> '<PROJECT_ROOT>/packages/extrinsics-\1/src\2'
+module.name_mapper='^@polkadot/extrinsics\(.*\)$' -> '<PROJECT_ROOT>/packages/extrinsics/src\1'

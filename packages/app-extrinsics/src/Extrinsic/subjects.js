@@ -3,13 +3,12 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Extrinsic } from '../extrinsics/types';
+import type { Extrinsic } from '@polkadot/extrinsics/types';
 import type { EncodedParams, RawParam } from '../types';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import encodeExtrinsic from '@polkadot/extrinsics-codec/src/encode/extrinsic';
 import isUndefined from '@polkadot/util/is/undefined';
-
-import encodeExtrinsic from '../encode/extrinsic';
 
 type Subjects = {
   method: rxjs$BehaviorSubject<Extrinsic>,
@@ -38,7 +37,6 @@ export default function subjects (subject: rxjs$BehaviorSubject<EncodedParams>):
     });
   };
 
-  subjects.method.subscribe(onChange);
   subjects.params.subscribe(onChange);
 
   return subjects;

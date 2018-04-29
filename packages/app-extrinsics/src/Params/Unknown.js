@@ -9,22 +9,28 @@ import React from 'react';
 
 import translate from '../translate';
 import Base from './Base';
+import typeToText from './typeToText';
 
 type Props = BaseProps & {
   t: I18Next$Translate
 };
 
-function Unknown ({ label, t, value: { type } }: Props): React$Node {
+function Unknown ({ label, subject, t, value: { type } }: Props): React$Node {
+  subject.next({
+    isValid: false,
+    value: new Uint8Array([])
+  });
+
   return (
     <Base
       size='full'
       label={label}
     >
-      <div className='extrinsics--Param-Unknown ui disabled dropdown selection'>
+      <div className='extrinsics--Param-Unknown ui dropdown error selection'>
         {t('param.unknown', {
-          defaultValue: `ERROR: Unknown input of type '{{type}}' found. No renderer exists`,
+          defaultValue: `ERROR: Unimplemented type '{{type}}' requested. No renderer exists`,
           replace: {
-            type
+            type: typeToText(type)
           }
         })}
       </div>
