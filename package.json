@@ -7,7 +7,7 @@
   ],
   "scripts": {
     "build": "polkadot-dev-build-babel && yarn run build:apps",
-    "build:apps": "cd packages/portal && react-scripts build",
+    "build:apps": "cd packages/apps && react-scripts build",
     "check": "eslint packages && flow check",
     "deploy:ghpages": "gh-pages -d packages/apps/build",
     "start": "cd packages/apps && react-scripts start",
