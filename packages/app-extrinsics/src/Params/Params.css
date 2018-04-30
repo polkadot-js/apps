@@ -9,4 +9,29 @@
   padding-left: 2em;
 }
 
-.extrinsics--Params-Param {}
+.extrinsics--Param {}
+
+.extrinsics--Param-File {
+  align-items: center;
+  border: 1px dashed rgba(34, 36, 38, 0.15);
+  border-radius: 0.28571429rem;
+  display: flex;
+  justify-content: center;
+  font-size: 1.2em;
+  height: 5em;
+  margin-bottom: 0.5rem;
+  width: 100% !important;
+}
+
+.extrinsics--Param-File.true {
+  border-style: solid;
+}
+
+.extrinsics--Params-File:hover {
+  background: rgba(200, 200, 200, 0.8);
+  cursor: pointer;
+}
+
+.extrinsics--Param-File .label {
+  color: rgba(0, 0, 0, .6);
+}

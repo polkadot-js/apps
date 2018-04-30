@@ -9,7 +9,13 @@ import type { Extrinsic$Param } from '@polkadot/extrinsics/types';
 import BN from 'bn.js';
 
 export default function getInitValue ({ options: { initValue, minValue } = {}, type }: Extrinsic$Param): mixed {
-  switch (type) {
+  let inner = type;
+
+  if (Array.isArray(type)) {
+    inner = type[1];
+  }
+
+  switch (inner) {
     case 'Balance':
     case 'BlockNumber':
     case 'u32':

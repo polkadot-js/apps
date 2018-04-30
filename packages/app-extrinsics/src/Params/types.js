@@ -15,3 +15,5 @@ export type Props = BaseProps & {
   isError?: boolean,
   label: string
 };
+
+export type Size = 'full' | 'large' | 'medium' | 'small';

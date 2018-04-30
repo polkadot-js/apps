@@ -9,7 +9,6 @@ import React from 'react';
 import { Trans } from 'react-i18next';
 import Modal from 'semantic-ui-react/dist/es/modules/Modal';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
-import u8aToHex from '@polkadot/util/u8a/toHex';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 
 import translate from '../translate';
@@ -42,7 +41,7 @@ function Decoded ({ className, style, t, value: { data, extrinsic, index, public
               defaultValue: 'The encoded parameters contains the data'
             })}
           </p>
-          <p className='code'>{u8aToHex(data)}</p>
+          <p className='code'>{u8aToHexShort(data, 512)}</p>
         </div>
       </div>
     </Modal.Content>

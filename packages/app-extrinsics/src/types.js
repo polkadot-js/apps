@@ -18,6 +18,8 @@ export type BaseProps = BareProps & {
 };
 
 export type RawParam = {
+  // flowlint-next-line unclear-type:off
+  data?: any,
   isValid: boolean,
   value: mixed,
 }

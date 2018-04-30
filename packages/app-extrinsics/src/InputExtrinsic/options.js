@@ -15,11 +15,14 @@ const options = {
 const sortByName = (a, b) =>
   a.name.localeCompare(b.name);
 
-const addHeader = (shouldAdd, to, description) => {
+const addHeader = (shouldAdd, to, name, description) => {
   if (shouldAdd) {
-    to.push(<Dropdown.Divider />);
+    if (to.length) {
+      to.push(<Dropdown.Divider key={`${name}:divider`} />);
+    }
+
     to.push(
-      <Dropdown.Header>
+      <Dropdown.Header key={`${name}:header`}>
         {description}
       </Dropdown.Header>
     );
@@ -27,8 +30,8 @@ const addHeader = (shouldAdd, to, description) => {
 };
 
 extrinsics.sections.sort(sortByName).forEach(({ description, hasPrivate, hasPublic, methods, name }) => {
-  addHeader(hasPublic, options.public, description);
-  addHeader(hasPrivate, options.private, description);
+  addHeader(hasPublic, options.public, name, description);
+  addHeader(hasPrivate, options.private, name, description);
 
   methods.sort(sortByName).forEach(({ description, name, params, isPrivate }) => {
     const inputs = params.map(({ name }) => name).join(', ');
@@ -36,10 +39,16 @@ extrinsics.sections.sort(sortByName).forEach(({ description, hasPrivate, hasPubl
     options[isPrivate ? 'private' : 'public'].push({
       className: 'ui--InputExtrinsic-Item',
       text: [
-        <div className='ui--InputExtrinsic-Item-text' key='name'>
+        <div
+          className='ui--InputExtrinsic-Item-text'
+          key={`${name}:name`}
+        >
           {description || name}
         </div>,
-        <div className='ui--InputExtrinsic-Item-call' key='call'>
+        <div
+          className='ui--InputExtrinsic-Item-call'
+          key={`${name}:call`}
+        >
           {name}({inputs})
         </div>
       ],

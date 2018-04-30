@@ -6,39 +6,18 @@
 import type { Props } from './types';
 
 import React from 'react';
-import Input from 'semantic-ui-react/dist/es/elements/Input';
-import hexToU8a from '@polkadot/util/hex/toU8a';
 
-import Base from './Base';
+import Bytes from './Bytes';
 
-export default function Hash ({ isError, label, subject, t }: Props): React$Node {
-  // eslint-disable-next-line no-unused-vars
-  const onChange = (event: SyntheticEvent<*>, { value }) => {
-    let u8a;
-
-    try {
-      u8a = hexToU8a(value);
-    } catch (error) {
-      u8a = new Uint8Array([]);
-    }
-
-    subject.next({
-      isValid: u8a.length === 32,
-      value: u8a
-    });
-  };
-
+export default function Hash ({ isError, label, subject, value }: Props): React$Node {
   return (
-    <Base
+    <Bytes
+      isError={isError}
       label={label}
+      length={32}
       size='medium'
-    >
-      <Input
-        error={isError}
-        onChange={onChange}
-        placeholder='0x...'
-        type='text'
-      />
-    </Base>
+      subject={subject}
+      value={value}
+    />
   );
 }

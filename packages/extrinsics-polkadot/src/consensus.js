@@ -22,7 +22,7 @@ module.exports = ({
         description: 'Set new code',
         index: 0,
         params: {
-          code: { type: 'Bytes' }
+          code: { type: 'Wasm' }
         }
       }
     }

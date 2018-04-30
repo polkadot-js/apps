@@ -20,6 +20,7 @@
     "@polkadot/util-keyring": "^0.19.4",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
+    "react-dropzone": "^4.2.9",
     "react-i18next": "^7.5.1",
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.79.1"

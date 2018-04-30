@@ -17,6 +17,8 @@ const options = [
 ];
 
 export default function VoteThreshold ({ label, subject, t, value: { options: { initValue = 0 } = {} } }: Props): React$Node {
+  // flowlint-next-line sketchy-null-mixed:off
+  const defaultValue = initValue || 0;
   const onChange = (event: SyntheticEvent<*>, { value }) =>
     subject.next({
       isValid: true,
@@ -30,7 +32,7 @@ export default function VoteThreshold ({ label, subject, t, value: { options: { 
     >
       <Dropdown
         selection
-        defaultValue={initValue || 0}
+        defaultValue={defaultValue}
         options={options}
         onChange={onChange}
       />

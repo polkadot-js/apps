@@ -17,7 +17,7 @@ import React from 'react';
 // </Label>
 
 import translate from '../translate';
-import Param from './Param';
+import findComponent from './findComponent';
 import createSubscriber from './subscriber';
 import typeToText from './typeToText';
 
@@ -38,17 +38,20 @@ function Params ({ className, style, subject, value: { name, params } }: Props):
       className={['extrinsics--Params', 'extrinsics--split', className].join(' ')}
       style={style}
     >
-      <div className='full'>
-        <div className='extrinsics--Params-Content'>
-          {params.map((value, index) => (
-            <Param
-              className='extrinsics--Params-Param'
-              key={`${name}:${value.name}:${typeToText(value.type)}`}
-              value={value}
+      <div className='extrinsics--Params-Content'>
+        {params.map((value, index) => {
+          const Component = findComponent(value.type);
+
+          return (
+            <Component
+              className='extrinsics--Param'
+              key={`${name}:${value.name}:${index}`}
+              label={`${value.name}: ${typeToText(value.type)}`}
               subject={subjects[index]}
+              value={value}
             />
-          ))}
-        </div>
+          );
+        })}
       </div>
     </div>
   );
