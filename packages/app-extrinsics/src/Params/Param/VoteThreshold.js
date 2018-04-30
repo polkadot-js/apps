@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Props } from './types';
+import type { Props } from '../types';
 
 import React from 'react';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
@@ -11,11 +11,14 @@ import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 import Base from './Base';
 
 const options = [
-  { text: 'No', value: false },
-  { text: 'Yes', value: true }
+  { text: 'Super majority approval', value: 0 },
+  { text: 'Super majority rejection', value: 1 },
+  { text: 'Simple majority', value: 2 }
 ];
 
-export default function Bool ({ isError, label, subject, t, value: { options: { initValue = false } = {} } }: Props): React$Node {
+export default function VoteThreshold ({ label, subject, t, value: { options: { initValue = 0 } = {} } }: Props): React$Node {
+  // flowlint-next-line sketchy-null-mixed:off
+  const defaultValue = initValue || 0;
   const onChange = (event: SyntheticEvent<*>, { value }) =>
     subject.next({
       isValid: true,
@@ -28,9 +31,8 @@ export default function Bool ({ isError, label, subject, t, value: { options: { 
       size='small'
     >
       <Dropdown
-        error={isError}
         selection
-        defaultValue={initValue}
+        defaultValue={defaultValue}
         options={options}
         onChange={onChange}
       />

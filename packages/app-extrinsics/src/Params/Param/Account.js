@@ -3,12 +3,12 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Props } from './types';
+import type { Props } from '../types';
 
 import React from 'react';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import BaseAccount from '../Account';
+import BaseAccount from '../../Account';
 
 export default function Account ({ isError, label, subject }: Props): React$Node {
   const account: rxjs$BehaviorSubject<Uint8Array> = new BehaviorSubject(new Uint8Array([]));

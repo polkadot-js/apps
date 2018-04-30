@@ -5,27 +5,30 @@
 
 import type { Extrinsic$Type } from '@polkadot/extrinsics/types';
 
-import Account from './Account';
-import Amount from './Amount';
-import Bool from './Bool';
-import Hash from './Hash';
-import Proposal from './Proposal';
-import Unknown from './Unknown';
-import VoteThreshold from './VoteThreshold';
+import Account from './Param/Account';
+import Amount from './Param/Amount';
+import Bool from './Param/Bool';
+import Bytes from './Param/Bytes';
+import Hash from './Param/Hash';
+import Proposal from './Param/Proposal';
+import Unknown from './Param/Unknown';
+import VoteThreshold from './Param/VoteThreshold';
+import Wasm from './Param/Wasm';
 
 const Components = {
   'AccountId': Account,
   'Balance': Amount,
   'BlockNumber': Amount,
   'bool': Bool,
-  'Bytes': Unknown,
+  'Bytes': Bytes,
   'Hash': Hash,
   'MisbehaviorReport': Unknown,
   'Proposal': Proposal,
   'SessionKey': Unknown,
   'u32': Amount,
   'u64': Amount,
-  'VoteThreshold': VoteThreshold
+  'VoteThreshold': VoteThreshold,
+  'Wasm': Wasm
 };
 
 export default function findComponent (type: Extrinsic$Type): React$ComponentType<*> {

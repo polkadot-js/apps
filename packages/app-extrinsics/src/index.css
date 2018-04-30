@@ -12,41 +12,40 @@
 }
 
 .extrinsics--split {
-  display:flex;
-  flex-wrap:wrap;
-  flex-direction:row;
-  justify-content:flex-start;
-  align-items:stretch;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
 }
 
 .extrinsics--split > div {
   box-sizing: border-box;
-}
-
-.extrinsics--split > div.full {
-  flex: 0 100%;
   min-width: 0;
+  width: 100%;
 }
 
+.extrinsics--split > div.full,
 .extrinsics--split > div.large,
 .extrinsics--split > div.medium,
 .extrinsics--split > div.small {
   padding-right: 0.5rem;
 }
 
+.extrinsics--split > div.full {
+  flex: 0 100%;
+}
+
 .extrinsics--split > div.large {
   flex: 0 75%;
-  min-width: 0;
 }
 
 .extrinsics--split > div.medium {
   flex: 0 50%;
-  min-width: 0;
 }
 
 .extrinsics--split > div.small {
   flex: 0 25%;
-  min-width: 0;
 }
 
 .hasUpdated {

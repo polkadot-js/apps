@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Props } from './types';
+import type { Props as BaseProps, Size } from '../types';
 
 import React from 'react';
 import Input from 'semantic-ui-react/dist/es/elements/Input';
@@ -11,7 +11,16 @@ import hexToU8a from '@polkadot/util/hex/toU8a';
 
 import Base from './Base';
 
-export default function Hash ({ isError, label, subject, t }: Props): React$Node {
+type Props = BaseProps & {
+  length?: number,
+  size?: Size,
+  validate?: (u8a: Uint8Array) => boolean
+}
+
+const defaultValidate = (u8a: Uint8Array): boolean =>
+  true;
+
+export default function Bytes ({ isError, length = -1, label, size = 'full', subject, validate = defaultValidate }: Props): React$Node {
   // eslint-disable-next-line no-unused-vars
   const onChange = (event: SyntheticEvent<*>, { value }) => {
     let u8a;
@@ -22,8 +31,12 @@ export default function Hash ({ isError, label, subject, t }: Props): React$Node
       u8a = new Uint8Array([]);
     }
 
+    const isValidLength = length !== -1
+      ? u8a.length === length
+      : u8a.length !== 0;
+
     subject.next({
-      isValid: u8a.length === 32,
+      isValid: isValidLength && validate(u8a),
       value: u8a
     });
   };
@@ -31,7 +44,7 @@ export default function Hash ({ isError, label, subject, t }: Props): React$Node
   return (
     <Base
       label={label}
-      size='medium'
+      size={size}
     >
       <Input
         error={isError}

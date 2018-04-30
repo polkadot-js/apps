@@ -9,16 +9,10 @@ import type { BaseProps, RawParam } from '../types';
 import './Params.css';
 
 import React from 'react';
-// import Label from 'semantic-ui-react/dist/es/elements/Label';
-// <Label>
-//   {t('params.intro', {
-//     defaultValue: 'with the supplied parameters'
-//   })}
-// </Label>
 
 import translate from '../translate';
-import Param from './Param';
-import createSubscriber from './subscriber';
+import findComponent from './findComponent';
+import createSubjects from './subjects';
 import typeToText from './typeToText';
 
 type Props = BaseProps & {
@@ -31,24 +25,27 @@ function Params ({ className, style, subject, value: { name, params } }: Props):
     return null;
   }
 
-  const subjects = createSubscriber(params, subject);
+  const subjects = createSubjects(params, subject);
 
   return (
     <div
       className={['extrinsics--Params', 'extrinsics--split', className].join(' ')}
       style={style}
     >
-      <div className='full'>
-        <div className='extrinsics--Params-Content'>
-          {params.map((value, index) => (
-            <Param
-              className='extrinsics--Params-Param'
-              key={`${name}:${value.name}:${typeToText(value.type)}`}
-              value={value}
+      <div className='extrinsics--Params-Content'>
+        {params.map((value, index) => {
+          const Component = findComponent(value.type);
+
+          return (
+            <Component
+              className='extrinsics--Param'
+              key={`${name}:${value.name}:${index}`}
+              label={`${value.name}: ${typeToText(value.type)}`}
               subject={subjects[index]}
+              value={value}
             />
-          ))}
-        </div>
+          );
+        })}
       </div>
     </div>
   );
