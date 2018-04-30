@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Props } from './types';
+import type { Props } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';

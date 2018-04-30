@@ -3,13 +3,13 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Props as BaseProps } from './types';
+import type { Props as BaseProps } from '../types';
 
 import React from 'react';
 
-import translate from '../translate';
+import translate from '../../translate';
 import Base from './Base';
-import typeToText from './typeToText';
+import typeToText from '../typeToText';
 
 type Props = BaseProps & {
   t: I18Next$Translate

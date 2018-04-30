@@ -5,15 +5,15 @@
 
 import type { Extrinsic$Type } from '@polkadot/extrinsics/types';
 
-import Account from './Account';
-import Amount from './Amount';
-import Bool from './Bool';
-import Bytes from './Bytes';
-import Hash from './Hash';
-import Proposal from './Proposal';
-import Unknown from './Unknown';
-import VoteThreshold from './VoteThreshold';
-import Wasm from './Wasm';
+import Account from './Param/Account';
+import Amount from './Param/Amount';
+import Bool from './Param/Bool';
+import Bytes from './Param/Bytes';
+import Hash from './Param/Hash';
+import Proposal from './Param/Proposal';
+import Unknown from './Param/Unknown';
+import VoteThreshold from './Param/VoteThreshold';
+import Wasm from './Param/Wasm';
 
 const Components = {
   'AccountId': Account,

@@ -10,3 +10,5 @@
 # @polkadot/apps
 
 A Portal into the Polkadot network. Provides a view and interaction layer from a browser.
+
+This can be accessed as a hosted application via [https://polkadot.js.org/apps/](https://polkadot.js.org/apps/).

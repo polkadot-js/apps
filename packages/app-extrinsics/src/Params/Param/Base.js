@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Size } from './types';
+import type { Size } from '../types';
 
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';

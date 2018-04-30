@@ -3,15 +3,15 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Props } from './types';
+import type { Props } from '../types';
 
 import React from 'react';
 
-import BytesFile from './BytesFile';
+import BytesFile from './File';
 
 export default function Wasm ({ isError, label, subject }: Props): React$Node {
-  // eslint-disable-next-line no-unused-vars
   const onChange = (file?: File, value?: Uint8Array) => {
+    // TODO: Validate that we have actual proper WASM code
     subject.next({
       data: file,
       isValid: !!value && value.length !== 0,

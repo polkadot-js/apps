@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Props as BaseProps, Size } from './types';
+import type { Props as BaseProps, Size } from '../types';
 
 import React from 'react';
 import Input from 'semantic-ui-react/dist/es/elements/Input';

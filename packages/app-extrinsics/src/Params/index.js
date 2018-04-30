@@ -9,16 +9,10 @@ import type { BaseProps, RawParam } from '../types';
 import './Params.css';
 
 import React from 'react';
-// import Label from 'semantic-ui-react/dist/es/elements/Label';
-// <Label>
-//   {t('params.intro', {
-//     defaultValue: 'with the supplied parameters'
-//   })}
-// </Label>
 
 import translate from '../translate';
 import findComponent from './findComponent';
-import createSubscriber from './subscriber';
+import createSubjects from './subjects';
 import typeToText from './typeToText';
 
 type Props = BaseProps & {
@@ -31,7 +25,7 @@ function Params ({ className, style, subject, value: { name, params } }: Props):
     return null;
   }
 
-  const subjects = createSubscriber(params, subject);
+  const subjects = createSubjects(params, subject);
 
   return (
     <div

@@ -3,13 +3,13 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BareProps, RawParam } from '../types';
+import type { BareProps, RawParam } from '../../types';
 
 import React from 'react';
 import Dropzone from 'react-dropzone';
 import withObservable from '@polkadot/rx-react/with/observable';
 
-import translate from '../translate';
+import translate from '../../translate';
 import Base from './Base';
 
 type Props = BareProps & {
