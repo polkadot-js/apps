@@ -10,10 +10,11 @@ import explorer from './explorer';
 import extrinsics from './extrinsics';
 // import home from './home';
 // import settings from './settings';
+import storage from './storage';
 
 export default ({
   default: 'explorer',
   routes: [].concat(
-    explorer, extrinsics
+    explorer, extrinsics, storage
   )
 }: Routing);
