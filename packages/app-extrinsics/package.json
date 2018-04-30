@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-extrinsics",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/portal.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,9 +11,9 @@
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@polkadot/extrinsics": "^0.1.4",
-    "@polkadot/extrinsics-codec": "^0.1.4",
-    "@polkadot/extrinsics-polkadot": "^0.1.4",
+    "@polkadot/extrinsics": "^0.1.5",
+    "@polkadot/extrinsics-codec": "^0.1.5",
+    "@polkadot/extrinsics-polkadot": "^0.1.5",
     "@polkadot/rx-react": "^0.4.7",
     "@polkadot/ui-react": "^0.9.12",
     "@polkadot/util": "^0.19.4",
