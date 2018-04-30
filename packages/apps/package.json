@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/apps",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "An Apps portal into the Polkadot network",
   "main": "index.js",
   "homepage": ".",
@@ -14,8 +14,8 @@
     "test": "react-scripts test --env=jsdom --coverage"
   },
   "devDependencies": {
-    "@polkadot/app-explorer": "^0.1.5",
-    "@polkadot/app-extrinsics": "^0.1.5",
+    "@polkadot/app-explorer": "^0.1.6",
+    "@polkadot/app-extrinsics": "^0.1.6",
     "@polkadot/rx-react": "^0.4.7",
     "@polkadot/ui-react": "^0.9.12",
     "i18next": "^11.1.1",
