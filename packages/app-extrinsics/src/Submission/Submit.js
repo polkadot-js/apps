@@ -7,7 +7,7 @@ import type { I18nProps } from '@polkadot/ui-react-app/types';
 import type { QueueTx } from '../types';
 
 import React from 'react';
-import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+import Button from 'semantic-ui-react/dist/es/elements/Button';
 
 import translate from '../translate';
 

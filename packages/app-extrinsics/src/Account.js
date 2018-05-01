@@ -6,7 +6,7 @@
 import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
-import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
+import Label from 'semantic-ui-react/dist/es/elements/Label';
 import Balance from '@polkadot/rx-react/Balance';
 import withObservableParams from '@polkadot/rx-react/with/observableParams';
 import InputAddress from '@polkadot/ui-react-app/src/InputAddress';

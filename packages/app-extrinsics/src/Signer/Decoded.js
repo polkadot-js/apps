@@ -8,7 +8,7 @@ import type { QueueTx } from '../types';
 
 import React from 'react';
 import { Trans } from 'react-i18next';
-import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
+import Modal from 'semantic-ui-react/dist/es/modules/Modal';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 

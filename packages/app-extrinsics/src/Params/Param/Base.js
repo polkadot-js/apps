@@ -6,7 +6,7 @@
 import type { Size } from '../types';
 
 import React from 'react';
-import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
+import Label from 'semantic-ui-react/dist/es/elements/Label';
 
 type Props = {
   className?: string,

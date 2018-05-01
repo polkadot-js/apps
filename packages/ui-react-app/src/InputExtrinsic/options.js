@@ -4,7 +4,7 @@
 // @flow
 
 const React = require('react');
-const Dropdown = require('semantic-ui-react/dist/commonjs/modules/Dropdown').default;
+const Dropdown = require('semantic-ui-react/dist/es/modules/Dropdown').default;
 const extrinsics = require('@polkadot/extrinsics-polkadot/src');
 
 const options = {

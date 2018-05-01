@@ -6,7 +6,7 @@
 import type { BareProps } from './types';
 
 const React = require('react');
-const Dropdown = require('semantic-ui-react/dist/commonjs/modules/Dropdown').default;
+const Dropdown = require('semantic-ui-react/dist/es/modules/Dropdown').default;
 
 type Props = BareProps & {
   isError?: boolean,

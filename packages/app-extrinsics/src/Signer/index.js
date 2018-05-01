@@ -10,8 +10,8 @@ import type { QueueTx } from '../types';
 import './Signer.css';
 
 import React from 'react';
-import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
-import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
+import Button from 'semantic-ui-react/dist/es/elements/Button';
+import Modal from 'semantic-ui-react/dist/es/modules/Modal';
 import withApi from '@polkadot/rx-react/with/api';
 
 import translate from '../translate';

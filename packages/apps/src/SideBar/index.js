@@ -8,7 +8,7 @@ import type { I18nProps } from '@polkadot/ui-react-app/types';
 import './SideBar.css';
 
 import React from 'react';
-import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
+import Menu from 'semantic-ui-react/dist/es/collections/Menu';
 
 import routing from '../routing';
 import translate from '../translate';

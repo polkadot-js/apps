@@ -6,7 +6,7 @@
 import type { StateDb$SectionNames } from '@polkadot/storage/types';
 
 const React = require('react');
-const Dropdown = require('semantic-ui-react/dist/commonjs/modules/Dropdown').default;
+const Dropdown = require('semantic-ui-react/dist/es/modules/Dropdown').default;
 const keys = require('@polkadot/storage-substrate/keys');
 
 const options = [];

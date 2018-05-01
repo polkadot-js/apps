@@ -7,7 +7,7 @@ import type { Props } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
-import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
+import Input from 'semantic-ui-react/dist/es/elements/Input';
 
 import Base from './Base';
 

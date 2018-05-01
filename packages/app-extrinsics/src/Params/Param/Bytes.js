@@ -6,7 +6,7 @@
 import type { Props as BaseProps, Size } from '../types';
 
 import React from 'react';
-import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
+import Input from 'semantic-ui-react/dist/es/elements/Input';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 
 import Base from './Base';
