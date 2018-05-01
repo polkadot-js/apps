@@ -4,7 +4,8 @@
 // @flow
 
 import type { ApiProps } from '@polkadot/rx-react/types';
-import type { BaseProps, QueueTx } from '../types';
+import type { BaseProps } from '@polkadot/ui-react-app/types';
+import type { QueueTx } from '../types';
 
 import './Signer.css';
 

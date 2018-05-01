@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '../types';
+import type { BaseProps } from '@polkadot/ui-react-app/types';
 
 import './App.css';
 

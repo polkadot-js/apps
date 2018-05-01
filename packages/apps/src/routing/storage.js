@@ -13,7 +13,7 @@ export default ([
     i18n: {
       defaultValue: 'Storage'
     },
-    icon: 'braille',
+    icon: 'database',
     isExact: false,
     isHidden: false,
     name: 'storage'

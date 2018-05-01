@@ -3,7 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BareProps, EncodedParams } from '../types';
+import type { BareProps } from '@polkadot/ui-react-app/types';
+import type { EncodedParams } from '../types';
 
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
@@ -26,7 +27,7 @@ export default function Extrinsic ({ className, isError, isPrivate, label, style
 
   return (
     <div
-      className={['extrinsics--Extrinsic', 'extrinsics--split', className].join(' ')}
+      className={['extrinsics--Extrinsic', 'ui--form', className].join(' ')}
       style={style}
     >
       <div className='full'>

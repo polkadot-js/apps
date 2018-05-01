@@ -3,9 +3,9 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import React from 'react';
-import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
-import extrinsics from '@polkadot/extrinsics-polkadot/src';
+const React = require('react');
+const Dropdown = require('semantic-ui-react/dist/es/modules/Dropdown');
+const extrinsics = require('@polkadot/extrinsics-polkadot/src');
 
 const options = {
   private: [],
@@ -57,4 +57,4 @@ extrinsics.sections.sort(sortByName).forEach(({ description, hasPrivate, hasPubl
   });
 });
 
-export default options;
+module.exports = options;

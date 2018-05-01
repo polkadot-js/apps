@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from './types';
+import type { BaseProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
@@ -24,7 +24,7 @@ function Account ({ className, isError, label, subject, style, t }: Props): Reac
 
   return (
     <div
-      className={['extrinsics--Account', 'extrinsics--split', className].join(' ')}
+      className={['extrinsics--Account', 'ui--form', className].join(' ')}
       style={style}
     >
       <div className='large'>

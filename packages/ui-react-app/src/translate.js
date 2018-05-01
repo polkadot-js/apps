@@ -3,6 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import { translate } from 'react-i18next';
+const { translate } = require('react-i18next');
 
-export default translate(['apps']);
+module.exports = translate(['ui']);

@@ -3,10 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-export type BaseProps = {
-  className?: string,
-  style?: {
-    [string]: string
-  },
-  t: I18Next$Translate
-};
+import testKeyring from '@polkadot/util-keyring/testing';
+
+const keyring = testKeyring();
+
+export default keyring;

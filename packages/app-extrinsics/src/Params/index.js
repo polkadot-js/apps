@@ -4,7 +4,8 @@
 // @flow
 
 import type { Extrinsic } from '@polkadot/extrinsics/types';
-import type { BaseProps, RawParam } from '../types';
+import type { BaseProps } from '@polkadot/ui-react-app/types';
+import type { RawParam } from '../types';
 
 import './Params.css';
 
@@ -29,7 +30,7 @@ function Params ({ className, style, subject, value: { name, params } }: Props):
 
   return (
     <div
-      className={['extrinsics--Params', 'extrinsics--split', className].join(' ')}
+      className={['extrinsics--Params', 'ui--form', className].join(' ')}
       style={style}
     >
       <div className='extrinsics--Params-Content'>

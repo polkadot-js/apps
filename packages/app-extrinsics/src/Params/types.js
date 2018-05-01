@@ -4,7 +4,8 @@
 // @flow
 
 import type { Extrinsic$Param } from '@polkadot/extrinsics/types';
-import type { BareProps, RawParam } from '../types';
+import type { BareProps } from '@polkadot/ui-react-app/types';
+import type { RawParam } from '../types';
 
 export type BaseProps = BareProps & {
   subject: rxjs$BehaviorSubject<RawParam>,

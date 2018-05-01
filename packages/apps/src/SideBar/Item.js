@@ -3,7 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps, Route } from '../types';
+import type { BaseProps } from '@polkadot/ui-react-app/types';
+import type { Route } from '../types';
 
 import './Item.css';
 
@@ -14,10 +15,7 @@ import Menu from 'semantic-ui-react/dist/es/collections/Menu';
 
 type Props = BaseProps & Route & {};
 
-export default function Item ({ className, i18n, icon, isExact, name, path, style, t }: Props): React$Node {
-  // flowlint-next-line sketchy-null-string:off
-  const to = path || `/${name}`;
-
+export default function Item ({ className, i18n, icon, isExact, name, path = '', style, t }: Props): React$Node {
   return (
     <Menu.Item
       className={['portal--SideBar-Item', className].join(' ')}
@@ -28,7 +26,7 @@ export default function Item ({ className, i18n, icon, isExact, name, path, styl
         activeClassName='portal--SideBar-Item-NavLink-active'
         className='portal--SideBar-Item-NavLink'
         exact={isExact}
-        to={to}
+        to={path || `/${name}`}
       >
         <Icon name={icon} /> {t(`sidebar.${name}`, i18n)}
       </NavLink>

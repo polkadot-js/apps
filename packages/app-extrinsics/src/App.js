@@ -3,7 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps, QueueTx } from './types';
+import type { BaseProps } from '@polkadot/ui-react-app/types';
+import type { QueueTx } from './types';
 
 import React from 'react';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';

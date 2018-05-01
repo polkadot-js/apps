@@ -24,7 +24,7 @@ type WrappedProps = Props & {
   value: RawParam
 }
 
-function BytesFile ({ className, isError, label, onChange, subject, t }: Props): React$Node {
+function BytesFile ({ className, isError = false, label, onChange, subject, t }: Props): React$Node {
   const onDrop = (files: Array<File>) => {
     files.forEach((file) => {
       const reader = new FileReader();
@@ -42,16 +42,13 @@ function BytesFile ({ className, isError, label, onChange, subject, t }: Props):
   };
 
   const Component = withObservable(subject)(({ value: { data } = {} }: WrappedProps): React$Node => {
-    // flowlint-next-line sketchy-null-bool:off
-    const classes = ['extrinsics--Param-File', isError ? 'error' : '', !!data, className].join(' ');
-
     return (
       <Base
         label={label}
         size='full'
       >
         <Dropzone
-          className={classes}
+          className={['extrinsics--Param-File', isError ? 'error' : '', !!data, className].join(' ')}
           multiple={false}
           onDrop={onDrop}
         >

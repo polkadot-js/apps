@@ -5,11 +5,11 @@
 
 import type { KeyringPair } from '@polkadot/util-keyring/types';
 
-import './PairDisplay.css';
+require('./PairDisplay.css');
 
-import React from 'react';
-import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
-import u8aToHex from '@polkadot/util/u8a/toHex';
+const React = require('react');
+const IdentityIcon = require('@polkadot/ui-react/IdentityIcon');
+const u8aToHex = require('@polkadot/util/u8a/toHex');
 
 type Props = {
   className?: string,
@@ -19,7 +19,7 @@ type Props = {
   }
 };
 
-export default function PairDisplay ({ className, pair, style }: Props): React$Node {
+module.exports = function PairDisplay ({ className, pair, style }: Props): React$Node {
   const publicKey = pair.publicKey();
   const { name } = pair.getMeta();
 
@@ -41,4 +41,4 @@ export default function PairDisplay ({ className, pair, style }: Props): React$N
       </div>
     </div>
   );
-}
+};

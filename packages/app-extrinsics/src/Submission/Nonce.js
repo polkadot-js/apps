@@ -4,7 +4,7 @@
 // @flow
 
 import type BN from 'bn.js';
-import type { BareProps } from '../types';
+import type { BareProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
@@ -22,7 +22,7 @@ export default function Nonce ({ className, label, style, subject, t, value }: P
 
   return (
     <div
-      className={['extrinsics--split', className].join(' ')}
+      className={['ui--form', className].join(' ')}
       style={style}
     >
       <div className='small'>

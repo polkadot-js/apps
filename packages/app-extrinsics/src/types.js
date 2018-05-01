@@ -6,17 +6,6 @@
 import type BN from 'bn.js';
 import type { Extrinsic } from '@polkadot/extrinsics/types';
 
-export type BareProps = {
-  className?: string,
-  style?: {
-    [string]: string
-  }
-};
-
-export type BaseProps = BareProps & {
-  t: I18Next$Translate
-};
-
 export type RawParam = {
   // flowlint-next-line unclear-type:off
   data?: any,

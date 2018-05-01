@@ -4,7 +4,7 @@
 // @flow
 
 import type { Header } from '@polkadot/primitives/header';
-import type { BaseProps } from '../types';
+import type { BaseProps } from '@polkadot/ui-react-app/types';
 
 import './BlockHeader.css';
 

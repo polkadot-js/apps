@@ -3,10 +3,9 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-export type BaseProps = {
-  className?: string,
-  style?: {
-    [string]: string
-  },
-  t: I18Next$Translate
-};
+require('semantic-ui-css/semantic.min.css');
+
+require('./styles/semantic.css');
+
+require('./styles/app.css');
+require('./styles/form.css');

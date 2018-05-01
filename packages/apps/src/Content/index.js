@@ -4,7 +4,7 @@
 // @flow
 
 import type { Location } from 'react-router-dom';
-import type { BaseProps } from '../types';
+import type { BaseProps } from '@polkadot/ui-react-app/types';
 
 import './Content.css';
 

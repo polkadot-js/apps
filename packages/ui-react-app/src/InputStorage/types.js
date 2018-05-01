@@ -3,6 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import { translate } from 'react-i18next';
+import type { StorageDef$Key } from '@polkadot/storage/types';
 
-export default translate(['apps']);
+export type Lookup = {
+  [string]: StorageDef$Key
+}

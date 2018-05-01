@@ -21,7 +21,7 @@ type Props = {
 export default function Base ({ children, className, label, size = 'medium', style }: Props): React$Node {
   return (
     <div
-      className={['extrinsics--split', className].join(' ')}
+      className={['ui--form', className].join(' ')}
       style={style}
     >
       <div className={size}>
