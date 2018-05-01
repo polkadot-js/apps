@@ -3,18 +3,18 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 import type { QueueTx } from '../types';
 
 import React from 'react';
 import { Trans } from 'react-i18next';
-import Modal from 'semantic-ui-react/dist/es/modules/Modal';
+import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 
 import translate from '../translate';
 
-type Props = BaseProps & {
+type Props = I18nProps & {
   value: QueueTx
 };
 

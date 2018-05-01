@@ -3,16 +3,17 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import './App.css';
 
 import React from 'react';
+import InputStorage from '@polkadot/ui-react-app/src/InputStorage';
 
-import translate from '../translate';
 import BestHash from '../BestHash';
+import translate from '../translate';
 
-type Props = BaseProps & {};
+type Props = I18nProps & {};
 
 function App ({ className, style, t }: Props): React$Node {
   return (
@@ -21,6 +22,7 @@ function App ({ className, style, t }: Props): React$Node {
       style={style}
     >
       <BestHash className='storage--App-BestHash' />
+      <InputStorage />
     </div>
   );
 }

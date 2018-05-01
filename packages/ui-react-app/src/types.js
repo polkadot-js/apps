@@ -12,7 +12,7 @@ export type BareProps = {
   }
 };
 
-export type BaseProps = BareProps & {
+export type I18nProps = BareProps & {
   t: I18Next$Translate
 };
 

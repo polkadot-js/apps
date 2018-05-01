@@ -5,4 +5,4 @@
 
 import { translate } from 'react-i18next';
 
-export default translate(['extrinsics']);
+export default translate(['extrinsics', 'ui']);

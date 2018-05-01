@@ -21,7 +21,7 @@ Object
     Object
       .keys(section)
       .forEach((methodName: string): void => {
-        lookup[`${sectionName}_{methodName}`] = section[methodName];
+        lookup[`${sectionName}_${methodName}`] = section[methodName];
       });
   });
 

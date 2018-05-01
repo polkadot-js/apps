@@ -6,7 +6,7 @@
 import type { Props } from '../types';
 
 import React from 'react';
-import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
+import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 
 import Base from './Base';
 

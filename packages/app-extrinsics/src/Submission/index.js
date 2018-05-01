@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 import type { QueueTx } from '../types';
 
 import './Submission.css';
@@ -18,7 +18,7 @@ import Nonce from './Nonce';
 import Submit from './Submit';
 import createSubjects from './subjects';
 
-type Props = BaseProps & {
+type Props = I18nProps & {
   subject: rxjs$BehaviorSubject<QueueTx>
 };
 

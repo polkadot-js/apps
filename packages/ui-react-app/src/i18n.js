@@ -8,23 +8,21 @@ const LanguageDetector = require('i18next-browser-languagedetector');
 const Backend = require('i18next-xhr-backend');
 const { reactI18nextModule } = require('react-i18next');
 
-const CONFIG = {
-  fallbackLng: 'en',
-  ns: ['ui'],
-  defaultNS: 'ui',
-  debug: true,
-  interpolation: {
-    escapeValue: false
-  },
-  react: {
-    wait: true
-  }
-};
-
 i18n
   .use(Backend)
   .use(LanguageDetector)
   .use(reactI18nextModule)
-  .init(CONFIG);
+  .init({
+    fallbackLng: 'en',
+    ns: ['ui'],
+    defaultNS: 'ui',
+    debug: true,
+    interpolation: {
+      escapeValue: false
+    },
+    react: {
+      wait: true
+    }
+  });
 
 module.exports = i18n;

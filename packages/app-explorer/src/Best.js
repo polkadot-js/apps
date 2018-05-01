@@ -4,30 +4,43 @@
 // @flow
 
 import type { Header } from '@polkadot/primitives/header';
-import type { BaseProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
 import headerHash from '@polkadot/primitives-codec/header/hash';
+import BestNumber from '@polkadot/rx-react/BestNumber';
 import withApiCall from '@polkadot/rx-react/with/apiCall';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 
 import translate from './translate';
 
-type Props = BaseProps & {
+type Props = I18nProps & {
   value?: Header
 };
 
-function BestHash ({ className, style, value }: Props): React$Node {
-  if (!value) {
-    return null;
-  }
-
+function Best ({ className, style, value, t }: Props): React$Node {
   return (
     <div
-      className={['explorer--BestHash', className].join(' ')}
+      className={className}
       style={style}
     >
-      {u8aToHexShort(headerHash(value))}
+      <BestNumber
+        className='number'
+        label={t('app.bestNumber', {
+          defaultValue: 'best #'
+        })}
+      />
+      {!value
+        ? null
+        : (
+          <div
+            className='hash'
+            style={style}
+          >
+            {u8aToHexShort(headerHash(value))}
+          </div>
+        )
+      }
     </div>
   );
 }
@@ -36,5 +49,5 @@ export default translate(
   withApiCall({
     method: 'newHead',
     section: 'chain'
-  })(BestHash)
+  })(Best)
 );

@@ -6,7 +6,7 @@
 import type { BareProps } from './types';
 
 const React = require('react');
-const Dropdown = require('semantic-ui-react/dist/es/modules/Dropdown');
+const Dropdown = require('semantic-ui-react/dist/commonjs/modules/Dropdown').default;
 
 type Props = BareProps & {
   isError?: boolean,
@@ -17,7 +17,7 @@ type Props = BareProps & {
   transform?: (value: any) => any
 };
 
-module.exports = function RxSelect (props: Props): React$Node {
+module.exports = function RxDropdown (props: Props): React$Node {
   const onChange = (event: SyntheticEvent<*>, { value }): void => {
     const _value = props.transform
       ? props.transform(value)

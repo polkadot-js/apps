@@ -6,7 +6,7 @@
 import type { StateDb$SectionNames } from '@polkadot/storage/types';
 
 const React = require('react');
-const Dropdown = require('semantic-ui-react/dist/es/modules/Dropdown');
+const Dropdown = require('semantic-ui-react/dist/commonjs/modules/Dropdown').default;
 const keys = require('@polkadot/storage-substrate/keys');
 
 const options = [];
@@ -29,13 +29,13 @@ Object
           return;
         }
 
-        if (options.length !== 0) {
-          options.push(
-            <Dropdown.Divider key={`${sectionName}:divider`} />
-          );
-        }
-
         if (methodIndex === 0) {
+          if (options.length !== 0) {
+            options.push(
+              <Dropdown.Divider key={`${sectionName}:divider`} />
+            );
+          }
+
           options.push(
             <Dropdown.Header key={`${sectionName}:header`}>
               {sectionName}

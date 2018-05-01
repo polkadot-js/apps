@@ -4,7 +4,7 @@
 // @flow
 
 import type { Header } from '@polkadot/primitives/header';
-import type { BaseProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
 import withApiCall from '@polkadot/rx-react/with/apiCall';
@@ -14,7 +14,7 @@ import BlockHeader from '../BlockHeader';
 import { blockHeaders } from '../subjects';
 import transform from './transform';
 
-type Props = BaseProps & {
+type Props = I18nProps & {
   value: Array<Header>
 };
 

@@ -6,22 +6,26 @@
   padding: 1em;
 }
 
-.explorer--App-BestNumber {
-  font-size: 3rem;
+.explorer--App-Best {
   font-weight: 100;
-  line-height: 3rem;
+
   opacity: 0.5;
   text-align: right;
 }
 
-.explorer--App-BestHash {
+.explorer--App-Best div {
+  display: inline-block;
+}
+
+.explorer--App-Best .number {
+  font-size: 3rem;
+  line-height: 3rem;
+}
+
+.explorer--App-Best .hash {
   font-size: 1.5em;
-  font-weight: 100;
   line-height: 1.5em;
   margin-bottom: 1em;
-  opacity: 0.5;
-  text-align: right;
 }
 
-.explorer--App-BlockHeaders {
-}
+.explorer--App-Headers {}

@@ -3,17 +3,17 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
+import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
 import Balance from '@polkadot/rx-react/Balance';
 import withObservableParams from '@polkadot/rx-react/with/observableParams';
 import InputAddress from '@polkadot/ui-react-app/src/InputAddress';
 
 import translate from './translate';
 
-type Props = BaseProps & {
+type Props = I18nProps & {
   isError?: boolean,
   label: string,
   subject: rxjs$BehaviorSubject<Uint8Array>

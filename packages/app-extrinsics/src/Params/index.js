@@ -4,7 +4,7 @@
 // @flow
 
 import type { Extrinsic } from '@polkadot/extrinsics/types';
-import type { BaseProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 import type { RawParam } from '../types';
 
 import './Params.css';
@@ -16,7 +16,7 @@ import findComponent from './findComponent';
 import createSubjects from './subjects';
 import typeToText from './typeToText';
 
-type Props = BaseProps & {
+type Props = I18nProps & {
   subject: rxjs$BehaviorSubject<Array<RawParam>>,
   value: Extrinsic;
 };

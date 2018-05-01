@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import './Connecting.css';
 
@@ -12,7 +12,7 @@ import withApiCall from '@polkadot/rx-react/with/apiCall';
 
 import translate from '../translate';
 
-type Props = BaseProps & {
+type Props = I18nProps & {
   value: boolean
 };
 

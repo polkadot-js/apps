@@ -3,18 +3,18 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import './SideBar.css';
 
 import React from 'react';
-import Menu from 'semantic-ui-react/dist/es/collections/Menu';
+import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 
 import routing from '../routing';
 import translate from '../translate';
 import Item from './Item';
 
-type Props = BaseProps & {};
+type Props = I18nProps & {};
 
 function SideBar ({ className, style, t }: Props): React$Node {
   return (

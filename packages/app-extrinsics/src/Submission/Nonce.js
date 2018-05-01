@@ -7,7 +7,7 @@ import type BN from 'bn.js';
 import type { BareProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
+import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
 import RxNonce from '@polkadot/rx-react/Nonce';
 import withObservableParams from '@polkadot/rx-react/with/observableParams';
 

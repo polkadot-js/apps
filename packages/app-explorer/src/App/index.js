@@ -3,33 +3,26 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import './App.css';
 
 import React from 'react';
-import BestNumber from '@polkadot/rx-react/BestNumber';
 
-import translate from '../translate';
-import BestHash from '../BestHash';
+import Best from '../Best';
 import BlockHeaders from '../BlockHeaders';
+import translate from '../translate';
 
-type Props = BaseProps & {};
+type Props = I18nProps & {};
 
-function App ({ className, style, t }: Props): React$Node {
+function App ({ className, style }: Props): React$Node {
   return (
     <div
       className={['explorer--App', className].join(' ')}
       style={style}
     >
-      <BestNumber
-        className='explorer--App-BestNumber'
-        label={t('app.bestNumber', {
-          defaultValue: 'best #'
-        })}
-      />
-      <BestHash className='explorer--App-BestHash' />
-      <BlockHeaders />
+      <Best className='explorer--App-Best' />
+      <BlockHeaders className='explorer--App-Headers' />
     </div>
   );
 }

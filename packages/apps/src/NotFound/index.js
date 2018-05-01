@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import './NotFound.css';
 
@@ -11,7 +11,9 @@ import React from 'react';
 
 import translate from '../translate';
 
-function NotFound ({ className, style, t }: BaseProps): React$Node {
+type Props = I18nProps & {};
+
+function NotFound ({ className, style, t }: Props): React$Node {
   return (
     <div
       className={['apps--NotFound', className].join(' ')}

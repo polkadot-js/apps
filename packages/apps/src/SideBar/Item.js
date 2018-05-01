@@ -3,17 +3,17 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 import type { Route } from '../types';
 
 import './Item.css';
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import Icon from 'semantic-ui-react/dist/es/elements/Icon';
-import Menu from 'semantic-ui-react/dist/es/collections/Menu';
+import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
+import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 
-type Props = BaseProps & Route & {};
+type Props = I18nProps & Route & {};
 
 export default function Item ({ className, i18n, icon, isExact, name, path = '', style, t }: Props): React$Node {
   return (

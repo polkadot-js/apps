@@ -5,4 +5,4 @@
 
 import { translate } from 'react-i18next';
 
-export default translate(['storage']);
+export default translate(['storage', 'ui']);

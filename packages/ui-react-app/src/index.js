@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+require('./i18n');
 require('./styles');
 
 const React = require('react');
@@ -10,18 +11,19 @@ const ReactDOM = require('react-dom');
 const { HashRouter } = require('react-router-dom');
 const Api = require('@polkadot/rx-react/Api');
 
-const I18n = require('./I18n');
+module.exports = function createApp (App: React$ComponentType<*>, rootId: string = 'root'): void {
+  const rootElement = document.getElementById(rootId);
 
-module.exports = function createApp (App: React$ComponentType<*>, root: string = 'root'): void {
+  if (!rootElement) {
+    throw new Error(`Unable to find root id '${rootId}'`);
+  }
+
   ReactDOM.render(
     <Api>
-      <I18n>
-        <HashRouter>
-          <App />
-        </HashRouter>
-      </I18n>
+      <HashRouter>
+        <App />
+      </HashRouter>
     </Api>,
-    // flowlint-next-line unclear-type:off
-    ((document.getElementById(root): any): Element)
+    rootElement
   );
 };

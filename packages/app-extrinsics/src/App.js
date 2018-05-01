@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 import type { QueueTx } from './types';
 
 import React from 'react';
@@ -14,7 +14,7 @@ import Submission from './Submission';
 import Signer from './Signer';
 import translate from './translate';
 
-type Props = BaseProps & {};
+type Props = I18nProps & {};
 
 const queue: rxjs$BehaviorSubject<QueueTx> = new BehaviorSubject(({
   isValid: false,

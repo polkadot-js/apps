@@ -4,7 +4,7 @@
 // @flow
 
 import type { Header } from '@polkadot/primitives/header';
-import type { BaseProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
 import headerHash from '@polkadot/primitives-codec/header/hash';
@@ -13,7 +13,7 @@ import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 
 import translate from './translate';
 
-type Props = BaseProps & {
+type Props = I18nProps & {
   value?: Header
 };
 
