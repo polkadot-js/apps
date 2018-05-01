@@ -19,11 +19,11 @@ type Props = BaseProps & {};
 function App ({ className, style }: Props): React$Node {
   return (
     <div
-      className={['portal--App', className].join(' ')}
+      className={['apps--App', className].join(' ')}
       style={style}
     >
-      <SideBar className='portal--App-column' />
-      <Content className='portal--App-column' />
+      <SideBar className='apps--App-column' />
+      <Content className='apps--App-column' />
       <Connecting />
     </div>
   );

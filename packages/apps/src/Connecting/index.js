@@ -23,10 +23,10 @@ function Connecting ({ className, style, value, t }: Props): React$Node {
 
   return (
     <div
-      className={['portal--Connecting', 'ui inverted page modals dimmer transition visible active', className].join(' ')}
+      className={['apps--Connecting', 'ui inverted page modals dimmer transition visible active', className].join(' ')}
       style={style}
     >
-      <div className='portal--Connecting-text'>
+      <div className='apps--Connecting-text'>
         {t('connecting.disconnected', {
           defaultValue: 'You are disconnected from the node. Check that your node is running and that the Websocket endpoint is reachable.'
         })}

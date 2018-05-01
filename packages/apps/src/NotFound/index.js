@@ -14,7 +14,7 @@ import translate from '../translate';
 function NotFound ({ className, style, t }: BaseProps): React$Node {
   return (
     <div
-      className={['portal--NotFound', className].join(' ')}
+      className={['apps--NotFound', className].join(' ')}
       style={style}
     >
       {t('notfound.error', {

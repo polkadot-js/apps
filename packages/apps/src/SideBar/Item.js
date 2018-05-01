@@ -18,13 +18,13 @@ type Props = BaseProps & Route & {};
 export default function Item ({ className, i18n, icon, isExact, name, path = '', style, t }: Props): React$Node {
   return (
     <Menu.Item
-      className={['portal--SideBar-Item', className].join(' ')}
+      className={['apps--SideBar-Item', className].join(' ')}
       name={name}
       style={style}
     >
       <NavLink
-        activeClassName='portal--SideBar-Item-NavLink-active'
-        className='portal--SideBar-Item-NavLink'
+        activeClassName='apps--SideBar-Item-NavLink-active'
+        className='apps--SideBar-Item-NavLink'
         exact={isExact}
         to={path || `/${name}`}
       >

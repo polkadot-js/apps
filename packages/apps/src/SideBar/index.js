@@ -19,7 +19,7 @@ type Props = BaseProps & {};
 function SideBar ({ className, style, t }: Props): React$Node {
   return (
     <div
-      className={['portal--SideBar', className].join(' ')}
+      className={['apps--SideBar', className].join(' ')}
       style={style}
     >
       <Menu

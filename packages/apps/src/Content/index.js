@@ -23,11 +23,11 @@ function Content ({ className, location, style }: Props): React$Node {
 
   return (
     <div
-      className={['portal--Content', className].join(' ')}
+      className={['apps--Content', className].join(' ')}
       style={style}
     >
       <iframe
-        className='portal--Content-Frame'
+        className='apps--Content-Frame'
         src={`index.html?app=${app}`}
         title={app}
       />
