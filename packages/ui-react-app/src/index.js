@@ -10,7 +10,7 @@ const ReactDOM = require('react-dom');
 const { HashRouter } = require('react-router-dom');
 const Api = require('@polkadot/rx-react/Api');
 
-const I18n = require('../I18n');
+const I18n = require('./I18n');
 
 module.exports = function createApp (App: React$ComponentType<*>, root: string = 'root'): void {
   ReactDOM.render(

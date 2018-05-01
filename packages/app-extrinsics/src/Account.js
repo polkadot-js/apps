@@ -9,9 +9,9 @@ import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 import Balance from '@polkadot/rx-react/Balance';
 import withObservableParams from '@polkadot/rx-react/with/observableParams';
+import InputAddress from '@polkadot/ui-react-app/src/InputAddress';
 
 import translate from './translate';
-import InputAddress from './InputAddress';
 
 type Props = BaseProps & {
   isError?: boolean,

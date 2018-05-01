@@ -4,7 +4,7 @@
   "description": "An Apps portal into the Polkadot network",
   "main": "index.js",
   "homepage": ".",
-  "repository": "https://github.com/polkadot-js/portal.git",
+  "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "license": "ISC",
   "scripts": {

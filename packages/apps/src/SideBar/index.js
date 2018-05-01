@@ -27,11 +27,12 @@ function SideBar ({ className, style, t }: Props): React$Node {
         vertical
       >
         {
-          routing.routes.map((props) => (
+          routing.routes.map((route) => (
             <Item
-              key={props.name}
+              key={route.name}
               t={t}
-              {...props}
+              // flowlint-next-line inexact-spread:off
+              {...route}
             />
           ))
         }

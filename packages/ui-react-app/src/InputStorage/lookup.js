@@ -3,16 +3,19 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { StateDb$SectionNames } from '@polkadot/storage/types';
-import type { Lookup } from './types';
+import type { StateDb$SectionNames, StorageDef$Key } from '@polkadot/storage/types';
+
+export type Lookup = {
+  [string]: StorageDef$Key
+}
 
 const keys = require('@polkadot/storage-substrate/keys');
 
-const lookup = {};
+const lookup: Lookup = {};
 
 Object
   .keys(keys)
-  .forEach((sectionName: StateDb$SectionNames): Lookup => {
+  .forEach((sectionName: StateDb$SectionNames): void => {
     const section = keys[sectionName];
 
     Object

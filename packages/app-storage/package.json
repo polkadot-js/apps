@@ -2,7 +2,7 @@
   "name": "@polkadot/app-storage",
   "version": "0.1.6",
   "main": "index.js",
-  "repository": "https://github.com/polkadot-js/portal.git",
+  "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "license": "ISC",
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@polkadot/storage-substrate": "^0.10.2",
-    "@polkadot/util": "^0.19.4",
-    "@polkadot/ui-react-app": "^0.1.6"
+    "@polkadot/ui-react-app": "^0.1.6",
+    "@polkadot/util": "^0.19.4"
   }
 }

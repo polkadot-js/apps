@@ -2,7 +2,7 @@
   "name": "@polkadot/app-explorer",
   "version": "0.1.6",
   "main": "index.js",
-  "repository": "https://github.com/polkadot-js/portal.git",
+  "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "license": "ISC",
   "scripts": {
@@ -14,8 +14,8 @@
     "@polkadot/primitives": "^0.10.4",
     "@polkadot/primitives-codec": "^0.10.4",
     "@polkadot/primitives-json": "^0.10.4",
+    "@polkadot/ui-react-app": "^0.1.6",
     "@polkadot/util": "^0.19.4",
-    "@polkadot/util-crypto": "^0.19.4",
-    "@polkadot/ui-react-app": "^0.1.6"
+    "@polkadot/util-crypto": "^0.19.4"
   }
 }

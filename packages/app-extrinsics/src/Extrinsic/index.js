@@ -9,8 +9,8 @@ import type { EncodedParams } from '../types';
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 import withObservable from '@polkadot/rx-react/with/observable';
+import InputExtrinsic from '@polkadot/ui-react-app/src/InputExtrinsic';
 
-import InputExtrinsic from '../InputExtrinsic';
 import Params from '../Params';
 import createSubjects from './subjects';
 

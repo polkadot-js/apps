@@ -7,4 +7,4 @@ import testKeyring from '@polkadot/util-keyring/testing';
 
 const keyring = testKeyring();
 
-export default keyring;
+module.exports = keyring;

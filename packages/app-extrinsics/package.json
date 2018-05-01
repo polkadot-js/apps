@@ -2,7 +2,7 @@
   "name": "@polkadot/app-extrinsics",
   "version": "0.1.6",
   "main": "index.js",
-  "repository": "https://github.com/polkadot-js/portal.git",
+  "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "license": "ISC",
   "scripts": {
@@ -14,9 +14,9 @@
     "@polkadot/extrinsics": "^0.1.6",
     "@polkadot/extrinsics-codec": "^0.1.6",
     "@polkadot/extrinsics-polkadot": "^0.1.6",
+    "@polkadot/ui-react-app": "^0.1.6",
     "@polkadot/util": "^0.19.4",
     "@polkadot/util-keyring": "^0.19.4",
-    "@polkadot/ui-react-app": "^0.1.6",
     "react-dropzone": "^4.2.9"
   }
 }

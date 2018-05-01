@@ -14,14 +14,14 @@ const options = [];
 Object
   .keys(keys)
   .sort()
-  .forEach((sectionName: StateDb$SectionNames) => {
+  .forEach((sectionName: StateDb$SectionNames): void => {
     const section = keys[sectionName];
 
     Object
       .keys(section)
       .sort()
       .forEach((methodName: string, methodIndex: number): void => {
-        const { description, isDeprecated, isHidden, params } = section[methodName];
+        const { description, isDeprecated = false, isHidden = false, params = {} } = section[methodName];
         const fullName = `${sectionName}_${methodName}`;
         const inputs = Object.keys(params).join(', ');
 

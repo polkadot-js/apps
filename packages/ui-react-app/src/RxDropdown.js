@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BareProps } from '../types';
+import type { BareProps } from './types';
 
 const React = require('react');
 const Dropdown = require('semantic-ui-react/dist/es/modules/Dropdown');
