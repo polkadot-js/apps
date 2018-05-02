@@ -622,25 +622,25 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@polkadot/api-format@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-format/-/api-format-0.9.8.tgz#f6bdf09dd157a8e8686bc4ace4b8036fca3fb6b9"
+"@polkadot/api-format@^0.9.10":
+  version "0.9.10"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-format/-/api-format-0.9.10.tgz#5394b7845556acaada4298253e11aac89c9b67cb"
   dependencies:
     "@polkadot/primitives-json" "^0.11.1"
     "@polkadot/util" "^0.19.4"
     babel-runtime "^6.26.0"
 
-"@polkadot/api-jsonrpc@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-jsonrpc/-/api-jsonrpc-0.9.8.tgz#e6dddb0cf2c62767ff7555c4d55e37529bbb0761"
+"@polkadot/api-jsonrpc@^0.9.10":
+  version "0.9.10"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-jsonrpc/-/api-jsonrpc-0.9.10.tgz#08783f28ee0542393967e9243c36d3d8c5f23491"
   dependencies:
     babel-runtime "^6.26.0"
 
-"@polkadot/api-provider@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-provider/-/api-provider-0.9.8.tgz#27c2d4f51608033fb10273acfa9d27138ca621c3"
+"@polkadot/api-provider@^0.9.10":
+  version "0.9.10"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-provider/-/api-provider-0.9.10.tgz#5c1259a564f53ce530b8029026dac8098db01e79"
   dependencies:
-    "@polkadot/storage-substrate" "^0.10.3"
+    "@polkadot/storage-substrate" "^0.10.4"
     "@polkadot/util" "^0.19.4"
     "@polkadot/util-crypto" "^0.19.4"
     "@polkadot/util-keyring" "^0.19.4"
@@ -649,13 +649,13 @@
     isomorphic-fetch "^2.2.1"
     websocket "^1.0.25"
 
-"@polkadot/api@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.9.8.tgz#1149c7a9eab58b875485214d12cd62328766eb02"
+"@polkadot/api@^0.9.10":
+  version "0.9.10"
+  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.9.10.tgz#838a089128bda05422ffd45ab2cc17f150b029f7"
   dependencies:
-    "@polkadot/api-format" "^0.9.8"
-    "@polkadot/api-jsonrpc" "^0.9.8"
-    "@polkadot/api-provider" "^0.9.8"
+    "@polkadot/api-format" "^0.9.10"
+    "@polkadot/api-jsonrpc" "^0.9.10"
+    "@polkadot/api-provider" "^0.9.10"
     "@polkadot/util" "^0.19.4"
     babel-runtime "^6.26.0"
 
@@ -768,33 +768,33 @@
     "@polkadot/util" "^0.19.4"
     babel-runtime "^6.26.0"
 
-"@polkadot/rx-api@^0.4.10":
-  version "0.4.10"
-  resolved "https://registry.yarnpkg.com/@polkadot/rx-api/-/rx-api-0.4.10.tgz#cd8f08d73b4b53405cf9c29dcb9a2b6534a5c563"
+"@polkadot/rx-api@^0.4.11":
+  version "0.4.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/rx-api/-/rx-api-0.4.11.tgz#b3f4bf38b893e75c24b5b95d781b6bf6369c6a38"
   dependencies:
-    "@polkadot/api" "^0.9.8"
-    "@polkadot/api-provider" "^0.9.8"
+    "@polkadot/api" "^0.9.10"
+    "@polkadot/api-provider" "^0.9.10"
     rxjs "^5.5.10"
 
-"@polkadot/rx-react@^0.4.10":
-  version "0.4.10"
-  resolved "https://registry.yarnpkg.com/@polkadot/rx-react/-/rx-react-0.4.10.tgz#717b6ae5d5e2acf440a496dd7ca4c7bd4b6352b8"
+"@polkadot/rx-react@^0.4.11":
+  version "0.4.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/rx-react/-/rx-react-0.4.11.tgz#2fb9e037249fc5c2878a7a8c394306de4fb83d5c"
   dependencies:
-    "@polkadot/rx-api" "^0.4.10"
-    "@polkadot/storage-substrate" "^0.10.3"
+    "@polkadot/rx-api" "^0.4.11"
+    "@polkadot/storage-substrate" "^0.10.4"
     "@polkadot/util" "^0.19.4"
 
-"@polkadot/storage-substrate@^0.10.3":
-  version "0.10.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/storage-substrate/-/storage-substrate-0.10.3.tgz#44f0a41909a7ed804953087d6ec33ab86081367b"
+"@polkadot/storage-substrate@^0.10.4":
+  version "0.10.4"
+  resolved "https://registry.yarnpkg.com/@polkadot/storage-substrate/-/storage-substrate-0.10.4.tgz#ef94b3910059b963667dbf9b91977b68e5313c53"
   dependencies:
-    "@polkadot/storage" "^0.10.3"
+    "@polkadot/storage" "^0.10.4"
     "@polkadot/util" "^0.19.4"
     babel-runtime "^6.26.0"
 
-"@polkadot/storage@^0.10.3":
-  version "0.10.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/storage/-/storage-0.10.3.tgz#645a34654036bf96869d1ce1a47052e6442fd086"
+"@polkadot/storage@^0.10.4":
+  version "0.10.4"
+  resolved "https://registry.yarnpkg.com/@polkadot/storage/-/storage-0.10.4.tgz#99b5058386d0e100c32d534c751f396135b337b0"
   dependencies:
     "@polkadot/util" "^0.19.4"
     babel-runtime "^6.26.0"
