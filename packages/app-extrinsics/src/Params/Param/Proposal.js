@@ -10,23 +10,53 @@ import React from 'react';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import Extrinsic from '../../Extrinsic';
+import translate from '../../translate';
 
-export default function Proposal ({ isError, label, subject }: Props): React$Node {
-  const extrinsic: rxjs$BehaviorSubject<EncodedParams> = new BehaviorSubject(({ isValid: false }: $Shape<EncodedParams>));
+class Proposal extends React.PureComponent<Props> {
+  extrinsic: rxjs$BehaviorSubject<EncodedParams>;
 
-  extrinsic.subscribe(({ data, isValid }: EncodedParams) =>
-    subject.next({
-      isValid,
-      value: data
-    })
-  );
+  constructor (props: Props) {
+    super(props);
 
-  return (
-    <Extrinsic
-      isError={isError}
-      isPrivate
-      label={label}
-      subject={extrinsic}
-    />
-  );
+    this.extrinsic = new BehaviorSubject(({ isValid: false }: $Shape<EncodedParams>));
+  }
+
+  componentWillMount () {
+    this.extrinsic.subscribe(({ data, isValid }: EncodedParams) =>
+      this.props.subject.next({
+        isValid,
+        value: data
+      })
+    );
+  }
+
+  componentWillUnmount () {
+    // FIXME: unsubscribe
+  }
+
+  render (): React$Node {
+    const { isError, label, t } = this.props;
+
+    return (
+      <Extrinsic
+        isError={isError}
+        isPrivate
+        labelMethod={t('proposal.method', {
+          defaultValue: '{{label}} (extrinsic)',
+          replace: {
+            label
+          }
+        })}
+        labelSection={t('proposal.method', {
+          defaultValue: '{{label}} (section)',
+          replace: {
+            label
+          }
+        })}
+        subject={this.extrinsic}
+      />
+    );
+  }
 }
+
+export default translate(Proposal);

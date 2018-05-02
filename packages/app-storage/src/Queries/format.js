@@ -3,6 +3,10 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-// HACK: Only here because of CRA's lack of proper workspace + src/* support
+export default function format (value: BN | Uint8Array): string {
+  if (!value) {
+    return 'unknown';
+  }
 
-module.exports = require('./src');
+  return value.toString();
+}

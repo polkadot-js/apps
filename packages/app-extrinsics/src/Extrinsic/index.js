@@ -5,9 +5,9 @@
 
 import type { BareProps } from '@polkadot/ui-react-app/types';
 import type { EncodedParams } from '../types';
+import type { Subjects } from './types';
 
 import React from 'react';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
 import withObservable from '@polkadot/rx-react/with/observable';
 import InputExtrinsic from '@polkadot/ui-react-app/src/InputExtrinsic';
 
@@ -17,30 +17,51 @@ import createSubjects from './subjects';
 type Props = BareProps & {
   isError?: boolean,
   isPrivate?: boolean,
-  label: string,
+  labelMethod?: string,
+  labelSection?: string,
   subject: rxjs$BehaviorSubject<EncodedParams>
 };
 
-export default function Extrinsic ({ className, isError, isPrivate, label, style, subject }: Props): React$Node {
-  const subjects = createSubjects(subject);
-  const MethodParams = withObservable(subjects.method)(Params);
+export default class Extrinsic extends React.PureComponent<Props> {
+  subjects: Subjects;
+  Params: React$ComponentType<*>;
 
-  return (
-    <div
-      className={['extrinsics--Extrinsic', 'ui--form', className].join(' ')}
-      style={style}
-    >
-      <div className='full'>
-        <Label>{label}</Label>
-        <InputExtrinsic
-          isError={isError}
-          isPrivate={isPrivate}
-          subject={subjects.method}
+  constructor (props: Props) {
+    super(props);
+
+    this.subjects = createSubjects(props.subject);
+    this.Params = withObservable(this.subjects.method)(Params);
+  }
+
+  componentWillMount () {
+    this.subjects.subscribe();
+  }
+
+  componentWillUnmount () {
+    // FIXME unsubscribe
+  }
+
+  render (): React$Node {
+    const { className, isError, isPrivate, labelMethod, labelSection, style } = this.props;
+
+    return (
+      <div
+        className={['extrinsics--Extrinsic', 'ui--form', className].join(' ')}
+        style={style}
+      >
+        <div className='full'>
+          <InputExtrinsic
+            isError={isError}
+            isPrivate={isPrivate}
+            labelMethod={labelMethod}
+            labelSection={labelSection}
+            subject={this.subjects.method}
+          />
+        </div>
+        <this.Params
+          subject={this.subjects.params}
         />
       </div>
-      <MethodParams
-        subject={subjects.params}
-      />
-    </div>
-  );
+    );
+  }
 }

@@ -18,6 +18,7 @@ const PairDisplay = require('./PairDisplay');
 
 type Props = BareProps & {
   isError?: boolean,
+  label?: string,
   onChange?: (event: SyntheticEvent<*>, value: Uint8Array) => void,
   subject?: rxjs$Subject<*>
 };
@@ -32,12 +33,15 @@ const options = keyring.getPairs().map((pair) => ({
 const transform = (value: string): Uint8Array =>
   hexToU8a(value);
 
-module.exports = function InputAddress (props: Props): React$Node {
+module.exports = function InputAddress ({ className, isError, label, onChange, style, subject }: Props): React$Node {
   return (
     <RxDropdown
-      {...props}
-      className={['ui--InputAddress', props.className].join(' ')}
+      className={['ui--InputAddress', className].join(' ')}
+      isError={isError}
+      label={label}
+      onChange={onChange}
       options={options}
+      subject={subject}
       transform={transform}
     />
   );

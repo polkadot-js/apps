@@ -3,12 +3,14 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Extrinsic } from '@polkadot/extrinsics/types';
-import type { BareProps } from '../types';
+import type { Extrinsic, ExtrinsicSectionName } from '@polkadot/extrinsics/types';
+import type { I18nProps } from '../types';
 
-type Props = BareProps & {
+type Props = I18nProps & {
   isError?: boolean,
   isPrivate?: boolean,
+  labelMethod?: string,
+  labelSection?: string,
   onChange?: (event: SyntheticEvent<*>, value: Extrinsic) => void,
   subject?: rxjs$Subject<Extrinsic>
 };
@@ -16,34 +18,60 @@ type Props = BareProps & {
 require('./InputExtrinsic.css');
 
 const React = require('react');
-const { BehaviorSubject } = require('rxjs/BehaviorSubject');
+const { Subject } = require('rxjs/Subject');
 
 const SelectMethod = require('./SelectMethod');
 const SelectSection = require('./SelectSection');
 const withObservable = require('@polkadot/rx-react/with/observable');
 
-module.exports = function InputExtrinsic ({ className, isPrivate = false, onChange, style, subject }: Props): React$Node {
-  const sectionSubject = new BehaviorSubject();
-  const BoundMethod = withObservable(sectionSubject)(SelectMethod);
+const translate = require('../translate');
 
-  return (
-    <div
-      className={['ui--InputExtrinsic', 'ui--form', className].join(' ')}
-      style={style}
-    >
-      <div className='small'>
-        <SelectSection
-          isPrivate={isPrivate}
-          subject={sectionSubject}
-        />
+class InputExtrinsic extends React.PureComponent<Props> {
+  sectionSubject: rxjs$Subject<ExtrinsicSectionName>;
+  SelectMethod: React$ComponentType<*>;
+
+  constructor (props: Props) {
+    super(props);
+
+    this.sectionSubject = new Subject();
+    this.SelectMethod = withObservable(this.sectionSubject)(SelectMethod);
+  }
+
+  componentWillMount () {
+    this.sectionSubject.subscribe(() => this.props.subject.next());
+  }
+
+  render (): React$Node {
+    const { className, isPrivate = false, labelMethod, labelSection, onChange, style, subject, t } = this.props;
+    const type = isPrivate ? 'private' : 'public';
+
+    return (
+      <div
+        className={['ui--InputExtrinsic', 'ui--form', className].join(' ')}
+        style={style}
+      >
+        <div className='small'>
+          <SelectSection
+            label={labelSection || t('input.extrinsic.section', {
+              defaultValue: 'from extrinsic section'
+            })}
+            subject={this.sectionSubject}
+            type={type}
+          />
+        </div>
+        <div className='large'>
+          <this.SelectMethod
+            label={labelMethod || t('input.extrinsic.method', {
+              defaultValue: 'with the extrinsic'
+            })}
+            onChange={onChange}
+            subject={subject}
+            type={type}
+          />
+        </div>
       </div>
-      <div className='large'>
-        <BoundMethod
-          isPrivate={isPrivate}
-          onChange={onChange}
-          subject={subject}
-        />
-      </div>
-    </div>
-  );
-};
+    );
+  }
+}
+
+module.exports = translate(InputExtrinsic);

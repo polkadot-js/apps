@@ -21,38 +21,96 @@ type Props = I18nProps & {
   value: Extrinsic;
 };
 
-function Params ({ className, style, subject, value: { name, params = {} } }: Props): React$Node {
-  const paramNames = Object.keys(params);
+type State = {
+  subjects: Array<rxjs$BehaviorSubject<RawParam>>,
+  subscriptions: Array<rxjs$ISubscription>
+};
 
-  if (!paramNames.length === 0) {
-    return null;
+// FIXME we should not be creating/subscribing in the render, use PureComponent
+class Params extends React.PureComponent<Props> {
+  state: State;
+
+  constructor (props: Props) {
+    super(props);
+
+    this.state = {
+      subjects: [],
+      subscriptions: []
+    };
   }
 
-  const subjects = createSubjects(params, subject);
+  static getDerivedStateFromProps (props: Props, prevState: State): $Shape<State> | null {
+    if (!props.value || Object.keys(props.value.params || {}).length === 0) {
+      // TODO unsubscribe
 
-  return (
-    <div
-      className={['extrinsics--Params', 'ui--form', className].join(' ')}
-      style={style}
-    >
-      <div className='extrinsics--Params-Content'>
-        {paramNames.map((name, index) => {
-          const param = params[name];
-          const Component = findComponent(param.type);
+      return {
+        subjects: [],
+        subscriptions: []
+      };
+    }
 
-          return (
-            <Component
-              className='extrinsics--Param'
-              key={`${name}:${name}:${index}`}
-              label={`${name}: ${typeToText(param.type)}`}
-              subject={subjects[index]}
-              value={param}
-            />
-          );
-        })}
+    const subjects = createSubjects(props.value.params, props.subject);
+    let subscriptions;
+
+    if (props.subject) {
+      const onChange = (): void => {
+        props.subject.next(
+          subjects.map((s) => s.getValue())
+        );
+      };
+
+      subscriptions = subjects.map((s) => s.subscribe(onChange));
+    }
+
+    return {
+      subjects,
+      subscriptions
+    };
+  }
+
+  componentWillUnmount () {
+    // FIXME unsubscribe
+  }
+
+  render (): React$Node {
+    const { className, style, value } = this.props;
+    const { subjects } = this.state;
+
+    if (!value || !subjects.length) {
+      return null;
+    }
+
+    const { name, params } = value;
+    const paramNames = Object.keys(params || {});
+
+    if (paramNames.length === 0) {
+      return null;
+    }
+
+    return (
+      <div
+        className={['extrinsics--Params', 'ui--form', className].join(' ')}
+        style={style}
+      >
+        <div className='extrinsics--Params-Content'>
+          {paramNames.map((paramName, index) => {
+            const param = params[paramName];
+            const Component = findComponent(param.type);
+
+            return (
+              <Component
+                className='extrinsics--Param'
+                key={`${name}:${paramName}:${index}`}
+                label={`${paramName}: ${typeToText(param.type)}`}
+                subject={subjects[index]}
+                value={param}
+              />
+            );
+          })}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default translate(Params);

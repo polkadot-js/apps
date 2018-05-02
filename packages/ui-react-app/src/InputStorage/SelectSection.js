@@ -3,10 +3,12 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { StateDb$SectionNames } from '@polkadot/storage/types';
 import type { BareProps } from '../types';
 
 type Props = BareProps & {
   isError?: boolean,
+  label?: string,
   subject?: rxjs$Subject<StateDb$SectionNames>
 };
 
@@ -17,11 +19,12 @@ const createOptions = require('./options/section');
 
 const options = createOptions();
 
-module.exports = function SelectSection ({ className, isError, subject, style }: Props): React$Node {
+module.exports = function SelectSection ({ className, isError, label, subject, style }: Props): React$Node {
   return (
     <RxDropdown
       className={['ui--InputStorage-SelectSection', className].join(' ')}
       isError={isError}
+      label={label}
       options={options}
       style={style}
       subject={subject}

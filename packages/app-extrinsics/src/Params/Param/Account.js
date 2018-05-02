@@ -10,21 +10,37 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import BaseAccount from '../../Account';
 
-export default function Account ({ isError, label, subject }: Props): React$Node {
-  const account: rxjs$BehaviorSubject<Uint8Array> = new BehaviorSubject(new Uint8Array([]));
+export default class Account extends React.PureComponent<Props> {
+  account: rxjs$BehaviorSubject<Uint8Array>;
 
-  account.subscribe((value: Uint8Array) =>
-    subject.next({
-      isValid: !!(value && value.length),
-      value
-    })
-  );
+  constructor (props: Props) {
+    super(props);
 
-  return (
-    <BaseAccount
-      isError={isError}
-      label={label}
-      subject={account}
-    />
-  );
+    this.account = new BehaviorSubject(new Uint8Array([]));
+  }
+
+  componentWillMount () {
+    this.account.subscribe((value: Uint8Array) =>
+      this.props.subject.next({
+        isValid: !!(value && value.length),
+        value
+      })
+    );
+  }
+
+  componentWillUnmount () {
+    // FIXME: unsubscribe
+  }
+
+  render (): React$Node {
+    const { isError, label } = this.props;
+
+    return (
+      <BaseAccount
+        isError={isError}
+        label={label}
+        subject={this.account}
+      />
+    );
+  }
 }

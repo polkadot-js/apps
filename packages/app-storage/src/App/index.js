@@ -9,6 +9,7 @@ import './App.css';
 
 import React from 'react';
 
+import Queries from '../Queries';
 import Selection from '../Selection';
 import translate from '../translate';
 
@@ -21,6 +22,7 @@ function App ({ className, style, t }: Props): React$Node {
       style={style}
     >
       <Selection />
+      <Queries />
     </div>
   );
 }

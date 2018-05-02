@@ -13,10 +13,6 @@
   text-align: right;
 }
 
-.explorer--App-Best div {
-  display: inline-block;
-}
-
 .explorer--App-Best .number {
   font-size: 3rem;
   line-height: 3rem;

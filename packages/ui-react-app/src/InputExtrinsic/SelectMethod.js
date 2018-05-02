@@ -8,31 +8,34 @@ import type { BareProps } from '../types';
 
 type Props = BareProps & {
   isError?: boolean,
-  isPrivate: boolean,
+  label?: string,
   onChange?: (event: SyntheticEvent<*>, value: Extrinsic) => void,
   subject?: rxjs$Subject<Extrinsic>,
+  type: 'private' | 'public',
   value?: ExtrinsicSectionName
 };
 
 const React = require('react');
-const extrinsics = require('@polkadot/extrinsics-substrate/src');
+const extrinsics = require('@polkadot/extrinsics-substrate');
 
 const RxDropdown = require('../RxDropdown');
 const createOptions = require('./options/method');
 
-module.exports = function SelectMethod ({ className, isError, isPrivate, onChange, style, subject, value }: Props): React$Node {
+module.exports = function SelectMethod ({ className, isError, label, onChange, style, subject, type, value }: Props): React$Node {
   if (!value || !extrinsics[value]) {
     return null;
   }
 
+  const methods = extrinsics[value].methods[type];
   const transform = (name: string): Extrinsic =>
-    extrinsics[value].methods[isPrivate ? 'private' : 'public'][name];
-  const options = createOptions(value, isPrivate);
+    methods[name];
+  const options = createOptions(value, type);
 
   return (
     <RxDropdown
       className={['ui--InputExtrinsic-SelectMethod', className].join(' ')}
       isError={isError}
+      label={label}
       onChange={onChange}
       options={options}
       style={style}

@@ -4,22 +4,18 @@
 // @flow
 
 import type { Extrinsic } from '@polkadot/extrinsics/types';
-import type { EncodedParams, RawParam } from '../types';
+import type { EncodedParams } from '../types';
+import type { Subjects } from './types';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import encodeExtrinsic from '@polkadot/extrinsics-codec/src/encode/extrinsic';
+import encodeExtrinsic from '@polkadot/extrinsics-codec/encode/extrinsic';
 import isUndefined from '@polkadot/util/is/undefined';
 
-type Subjects = {
-  method: rxjs$BehaviorSubject<Extrinsic>,
-  params: rxjs$BehaviorSubject<Array<RawParam>>
-};
-
 export default function subjects (subject: rxjs$BehaviorSubject<EncodedParams>): Subjects {
-  const subjects = {
+  const subjects = ({
     method: new BehaviorSubject(({}: $Shape<Extrinsic>)),
     params: new BehaviorSubject([])
-  };
+  }: $Shape<Subjects>);
 
   const onChange = (): void => {
     const extrinsic = subjects.method.getValue();
@@ -37,7 +33,9 @@ export default function subjects (subject: rxjs$BehaviorSubject<EncodedParams>):
     });
   };
 
-  subjects.params.subscribe(onChange);
+  subjects.subscribe = (): void => {
+    subjects.params.subscribe(onChange);
+  };
 
   return subjects;
 }

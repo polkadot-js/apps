@@ -7,9 +7,11 @@ import type { BareProps } from './types';
 
 const React = require('react');
 const Dropdown = require('semantic-ui-react/dist/es/modules/Dropdown').default;
+const Label = require('semantic-ui-react/dist/es/elements/Label').default;
 
 type Props = BareProps & {
   isError?: boolean,
+  label?: string,
   // flowlint-next-line unclear-type:off
   onChange?: (event: SyntheticEvent<*>, value: any) => void,
   subject?: rxjs$Subject<*>,
@@ -35,15 +37,20 @@ module.exports = function RxDropdown (props: Props): React$Node {
   const _props = {...props};
 
   delete _props.isError;
+  delete _props.label;
   delete _props.transform;
 
-  return (
+  return [
+    props.label
+      ? <Label key='label'>{props.label}</Label>
+      : null,
     <Dropdown
+      key='dropdown'
       selection
       {..._props}
       className={props.className}
       error={props.isError}
       onChange={onChange}
     />
-  );
+  ];
 };

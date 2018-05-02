@@ -3,11 +3,12 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { StorageDef$Key } from '@polkadot/storage/types';
-import type { BareProps } from '../types';
+import type { StorageDef$Key, StateDb$SectionNames } from '@polkadot/storage/types';
+import type { I18nProps } from '../types';
 
-type Props = BareProps & {
+type Props = I18nProps & {
   isError?: boolean,
+  label?: string,
   onChange?: (event: SyntheticEvent<*>, value: StorageDef$Key) => void,
   subject?: rxjs$Subject<StorageDef$Key>
 };
@@ -15,30 +16,53 @@ type Props = BareProps & {
 require('./InputStorage.css');
 
 const React = require('react');
-const { BehaviorSubject } = require('rxjs/BehaviorSubject');
+const { Subject } = require('rxjs/Subject');
 
 const SelectKey = require('./SelectKey');
 const SelectSection = require('./SelectSection');
 const withObservable = require('@polkadot/rx-react/with/observable');
 
-module.exports = function InputStorage ({ className, onChange, style, subject }: Props): React$Node {
-  const sectionSubject = new BehaviorSubject();
-  const BoundKey = withObservable(sectionSubject)(SelectKey);
+const translate = require('../translate');
 
-  return (
-    <div
-      className={['ui--InputStorage', 'ui--form', className].join(' ')}
-      style={style}
-    >
-      <div className='small'>
-        <SelectSection subject={sectionSubject} />
+class InputStorage extends React.PureComponent<Props> {
+  sectionSubject: rxjs$Subject<StateDb$SectionNames>;
+  SelectKey: React$ComponentType<*>;
+
+  constructor (props: Props) {
+    super(props);
+
+    this.sectionSubject = new Subject();
+    this.SelectKey = withObservable(this.sectionSubject)(SelectKey);
+  }
+
+  render (): React$Node {
+    const { className, label, onChange, style, subject, t } = this.props;
+
+    return (
+      <div
+        className={['ui--InputStorage', 'ui--form', className].join(' ')}
+        style={style}
+      >
+        <div className='small'>
+          <SelectSection
+            label={t('input.storage.section', {
+              defaultValue: 'storage area'
+            })}
+            subject={this.sectionSubject}
+          />
+        </div>
+        <div className='large'>
+          <this.SelectKey
+            label={label || t('input.storage.key', {
+              defaultValue: 'with storage key'
+            })}
+            onChange={onChange}
+            subject={subject}
+          />
+        </div>
       </div>
-      <div className='large'>
-        <BoundKey
-          onChange={onChange}
-          subject={subject}
-        />
-      </div>
-    </div>
-  );
-};
+    );
+  }
+}
+
+module.exports = translate(InputStorage);

@@ -6,9 +6,10 @@
 import type { BareProps } from '../types';
 
 type Props = BareProps & {
-  isPrivate: boolean,
   isError?: boolean,
-  subject?: rxjs$Subject<StateDb$SectionNames>
+  label?: string,
+  subject?: rxjs$Subject<StateDb$SectionNames>,
+  type: 'private' | 'public'
 };
 
 const React = require('react');
@@ -16,13 +17,14 @@ const React = require('react');
 const RxDropdown = require('../RxDropdown');
 const createOptions = require('./options/section');
 
-module.exports = function SelectSection ({ className, isError, isPrivate, subject, style }: Props): React$Node {
-  const options = createOptions(isPrivate);
+module.exports = function SelectSection ({ className, isError, label, subject, style, type }: Props): React$Node {
+  const options = createOptions(type);
 
   return (
     <RxDropdown
       className={['ui--InputExtrinsic-SelectSection', className].join(' ')}
       isError={isError}
+      label={label}
       options={options}
       style={style}
       subject={subject}

@@ -8,30 +8,33 @@ import type { BareProps } from '../types';
 
 type Props = BareProps & {
   isError?: boolean,
+  label?: string,
   onChange?: (event: SyntheticEvent<*>, value: StorageDef$Key) => void,
   subject?: rxjs$Subject<StorageDef$Key>,
   value?: StateDb$SectionNames
 };
 
 const React = require('react');
-const keys = require('@polkadot/storage-substrate/keys');
+const map = require('@polkadot/storage-substrate/keys');
 
 const RxDropdown = require('../RxDropdown');
 const createOptions = require('./options/key');
 
-module.exports = function SelectKey ({ className, isError, onChange, style, subject, value }: Props): React$Node {
-  if (!value || !keys[value]) {
+module.exports = function SelectKey ({ className, isError, label, onChange, style, subject, value }: Props): React$Node {
+  if (!value || !map[value]) {
     return null;
   }
 
+  const keys = map[value].keys;
   const transform = (name: string): StorageDef$Key =>
-    keys[value].keys[name];
+    keys[name];
   const options = createOptions(value);
 
   return (
     <RxDropdown
       className={['ui--InputStorage-SelectKey', className].join(' ')}
       isError={isError}
+      label={label}
       onChange={onChange}
       options={options}
       style={style}

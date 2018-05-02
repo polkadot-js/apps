@@ -3,16 +3,14 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-const map = require('@polkadot/extrinsics-substrate/src');
+const map = require('@polkadot/extrinsics-substrate');
 
-console.log('extrinsics', map);
-
-module.exports = function createOptions (isPrivate: boolean): Array<*> {
+module.exports = function createOptions (type: 'private' | 'public'): Array<*> {
   return Object
     .keys(map)
     .sort()
     .filter((name) => {
-      const methods = map[name].methods[isPrivate ? 'private' : 'public'];
+      const methods = map[name].methods[type];
 
       return Object.keys(methods).length !== 0;
     })

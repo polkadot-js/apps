@@ -19,34 +19,44 @@ type Props = I18nProps & {
   subject: rxjs$BehaviorSubject<Uint8Array>
 };
 
-function Account ({ className, isError, label, subject, style, t }: Props): React$Node {
-  const AccountBalance = withObservableParams(subject)(Balance);
+class Account extends React.PureComponent<Props> {
+  Balance: React$ComponentType<*>;
 
-  return (
-    <div
-      className={['extrinsics--Account', 'ui--form', className].join(' ')}
-      style={style}
-    >
-      <div className='large'>
-        <Label>{label}</Label>
-        <InputAddress
-          placeholder='0x...'
-          subject={subject}
-        />
+  constructor (props: Props) {
+    super(props);
+
+    this.Balance = withObservableParams(props.subject)(Balance);
+  }
+
+  render (): React$Node {
+    const { className, label, subject, style, t } = this.props;
+
+    return (
+      <div
+        className={['extrinsics--Account', 'ui--form', className].join(' ')}
+        style={style}
+      >
+        <div className='large'>
+          <InputAddress
+            label={label}
+            placeholder='0x...'
+            subject={subject}
+          />
+        </div>
+        <div className='small'>
+          <Label>
+            {t('account.balance', {
+              defaultValue: 'with an available balance of'
+            })}
+          </Label>
+          <this.Balance
+            className='ui disabled dropdown selection'
+            classNameUpdated='hasUpdated'
+          />
+        </div>
       </div>
-      <div className='small'>
-        <Label>
-          {t('account.balance', {
-            defaultValue: 'with an available balance of'
-          })}
-        </Label>
-        <AccountBalance
-          className='ui disabled dropdown selection'
-          classNameUpdated='hasUpdated'
-        />
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default translate(Account);

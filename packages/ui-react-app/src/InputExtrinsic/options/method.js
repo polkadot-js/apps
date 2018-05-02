@@ -6,10 +6,10 @@
 import type { ExtrinsicSectionName } from '@polkadot/extrinsics/types';
 
 const React = require('react');
-const map = require('@polkadot/extrinsics-substrate/src');
+const map = require('@polkadot/extrinsics-substrate');
 
-module.exports = function createOptions (sectionName: ExtrinsicSectionName, isPrivate: boolean): Array<*> {
-  const methods = map[sectionName].methods[isPrivate ? 'private' : 'public'];
+module.exports = function createOptions (sectionName: ExtrinsicSectionName, type: 'private' | 'public'): Array<*> {
+  const methods = map[sectionName].methods[type];
 
   return Object
     .keys(methods)

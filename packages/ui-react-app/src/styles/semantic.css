@@ -15,6 +15,10 @@
   margin-bottom: 0.5rem;
 }
 
+.ui.dropdown > .text {
+  min-height: 1em;
+}
+
 .ui.input {
   /* from .ui.fluid.input */
   display: flex;
