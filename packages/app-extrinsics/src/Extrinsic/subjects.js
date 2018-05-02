@@ -24,7 +24,7 @@ export default function subjects (subject: rxjs$BehaviorSubject<EncodedParams>):
   const onChange = (): void => {
     const extrinsic = subjects.method.getValue();
     const values = subjects.params.getValue();
-    const isValid = !!extrinsic.params && extrinsic.params.reduce((isValid, param, index) => {
+    const isValid = !!extrinsic.params && Object.values(extrinsic.params).reduce((isValid, param, index) => {
       return isValid && !isUndefined(values[index]) && !isUndefined(values[index].value) && values[index].isValid;
     }, !!values);
     const raw = values.map((param) => param && param.value);

@@ -14,17 +14,21 @@
   align-items: stretch;
 }
 
+.ui--form.embedded {
+  margin-right: -0.5rem;
+}
+
 .ui--form > div {
   box-sizing: border-box;
   min-width: 0;
   width: 100%;
 }
 
-.ui--form > div.full,
-.ui--form > div.large,
-.ui--form > div.medium,
-.ui--form > div.small {
-  padding-right: 0.5rem;
+.ui--form > div.full:not(:first-child),
+.ui--form > div.large:not(:first-child),
+.ui--form > div.medium:not(:first-child),
+.ui--form > div.small:not(:first-child) {
+  padding-left: 0.5rem;
 }
 
 .ui--form > div.full {

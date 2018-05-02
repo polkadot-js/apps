@@ -770,9 +770,24 @@
     "@polkadot/util" "^0.19.4"
     babel-runtime "^6.26.0"
 
+"@polkadot/storage-substrate@^0.10.3":
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/@polkadot/storage-substrate/-/storage-substrate-0.10.3.tgz#44f0a41909a7ed804953087d6ec33ab86081367b"
+  dependencies:
+    "@polkadot/storage" "^0.10.3"
+    "@polkadot/util" "^0.19.4"
+    babel-runtime "^6.26.0"
+
 "@polkadot/storage@^0.10.2":
   version "0.10.2"
   resolved "https://registry.yarnpkg.com/@polkadot/storage/-/storage-0.10.2.tgz#e01a53123e5c5de421117685c0a390d3beefbbde"
+  dependencies:
+    "@polkadot/util" "^0.19.4"
+    babel-runtime "^6.26.0"
+
+"@polkadot/storage@^0.10.3":
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/@polkadot/storage/-/storage-0.10.3.tgz#645a34654036bf96869d1ce1a47052e6442fd086"
   dependencies:
     "@polkadot/util" "^0.19.4"
     babel-runtime "^6.26.0"

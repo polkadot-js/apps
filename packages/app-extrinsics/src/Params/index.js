@@ -21,8 +21,10 @@ type Props = I18nProps & {
   value: Extrinsic;
 };
 
-function Params ({ className, style, subject, value: { name, params } }: Props): React$Node {
-  if (!params || !params.length) {
+function Params ({ className, style, subject, value: { name, params = {} } }: Props): React$Node {
+  const paramNames = Object.keys(params);
+
+  if (!paramNames.length === 0) {
     return null;
   }
 
@@ -34,16 +36,17 @@ function Params ({ className, style, subject, value: { name, params } }: Props):
       style={style}
     >
       <div className='extrinsics--Params-Content'>
-        {params.map((value, index) => {
-          const Component = findComponent(value.type);
+        {paramNames.map((name, index) => {
+          const param = params[name];
+          const Component = findComponent(param.type);
 
           return (
             <Component
               className='extrinsics--Param'
-              key={`${name}:${value.name}:${index}`}
-              label={`${value.name}: ${typeToText(value.type)}`}
+              key={`${name}:${name}:${index}`}
+              label={`${name}: ${typeToText(param.type)}`}
               subject={subjects[index]}
-              value={value}
+              value={param}
             />
           );
         })}

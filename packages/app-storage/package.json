@@ -11,8 +11,6 @@
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@polkadot/storage-substrate": "^0.10.2",
-    "@polkadot/ui-react-app": "^0.1.6",
-    "@polkadot/util": "^0.19.4"
+    "@polkadot/ui-react-app": "^0.1.6"
   }
 }

@@ -12,14 +12,17 @@ import isUndefined from '@polkadot/util/is/undefined';
 import getInitValue from './initValue';
 
 export default function subjects (params: Extrinsic$Params, subject: rxjs$BehaviorSubject<Array<RawParam>>): Array<rxjs$BehaviorSubject<RawParam>> {
-  const subjects = params.map((param): rxjs$BehaviorSubject<RawParam> => {
-    const value = getInitValue(param);
+  const subjects = Object
+    .keys(params)
+    .map((name: string): rxjs$BehaviorSubject<RawParam> => {
+      const param = params[name];
+      const value = getInitValue(param);
 
-    return new BehaviorSubject({
-      isValid: !isUndefined(value),
-      value
+      return new BehaviorSubject({
+        isValid: !isUndefined(value),
+        value
+      });
     });
-  });
 
   if (subject) {
     const onChange = (): void => {

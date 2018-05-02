@@ -1,5 +1,5 @@
 {
-  "name": "@polkadot/extrinsics-polkadot",
+  "name": "@polkadot/extrinsics-substrate",
   "version": "0.1.6",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",

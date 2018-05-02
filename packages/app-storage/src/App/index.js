@@ -8,9 +8,8 @@ import type { I18nProps } from '@polkadot/ui-react-app/types';
 import './App.css';
 
 import React from 'react';
-import InputStorage from '@polkadot/ui-react-app/src/InputStorage';
 
-import BestHash from '../BestHash';
+import Selection from '../Selection';
 import translate from '../translate';
 
 type Props = I18nProps & {};
@@ -21,8 +20,7 @@ function App ({ className, style, t }: Props): React$Node {
       className={['storage--App', className].join(' ')}
       style={style}
     >
-      <BestHash className='storage--App-BestHash' />
-      <InputStorage />
+      <Selection />
     </div>
   );
 }

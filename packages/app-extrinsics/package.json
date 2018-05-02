@@ -13,10 +13,7 @@
   "devDependencies": {
     "@polkadot/extrinsics": "^0.1.6",
     "@polkadot/extrinsics-codec": "^0.1.6",
-    "@polkadot/extrinsics-polkadot": "^0.1.6",
     "@polkadot/ui-react-app": "^0.1.6",
-    "@polkadot/util": "^0.19.4",
-    "@polkadot/util-keyring": "^0.19.4",
     "react-dropzone": "^4.2.9"
   }
 }

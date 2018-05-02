@@ -6,30 +6,39 @@
 import type { StorageDef$Key } from '@polkadot/storage/types';
 import type { BareProps } from '../types';
 
-require('./InputStorage.css');
-
-const React = require('react');
-
-const RxDropdown = require('../RxDropdown');
-const lookup = require('./lookup');
-const options = require('./options');
-
 type Props = BareProps & {
   isError?: boolean,
   onChange?: (event: SyntheticEvent<*>, value: StorageDef$Key) => void,
   subject?: rxjs$Subject<StorageDef$Key>
 };
 
-const transform = (value: string): StorageDef$Key =>
-  lookup[value];
+require('./InputStorage.css');
 
-module.exports = function InputStorage (props: Props): React$Node {
+const React = require('react');
+const { BehaviorSubject } = require('rxjs/BehaviorSubject');
+
+const SelectKey = require('./SelectKey');
+const SelectSection = require('./SelectSection');
+const withObservable = require('@polkadot/rx-react/with/observable');
+
+module.exports = function InputStorage ({ className, onChange, style, subject }: Props): React$Node {
+  const sectionSubject = new BehaviorSubject();
+  const BoundKey = withObservable(sectionSubject)(SelectKey);
+
   return (
-    <RxDropdown
-      {...props}
-      className={['ui--InputStorage', props.className].join(' ')}
-      options={options}
-      transform={transform}
-    />
+    <div
+      className={['ui--InputStorage', 'ui--form', className].join(' ')}
+      style={style}
+    >
+      <div className='small'>
+        <SelectSection subject={sectionSubject} />
+      </div>
+      <div className='large'>
+        <BoundKey
+          onChange={onChange}
+          subject={subject}
+        />
+      </div>
+    </div>
   );
 };

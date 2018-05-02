@@ -4,7 +4,7 @@
 
 .ui--InputExtrinsic {}
 
-.ui--InputExtrinsic .text {
+.ui--InputExtrinsic-SelectMethod .text {
   box-sizing: border-box;
   display: flex !important;
   flex-wrap: nowrap;
@@ -14,16 +14,16 @@
   white-space: nowrap;
 }
 
-.ui--InputExtrinsic-Item > .text {
+.ui--InputExtrinsic-SelectMethod-Item > .text {
   padding-left: 1em;
 }
 
-.ui--InputExtrinsic-Item-text,
-.ui--InputExtrinsic-Item-call {
+.ui--InputExtrinsic-SelectMethod-Item-text,
+.ui--InputExtrinsic-SelectMethod-Item-call {
   display: inline-block;
 }
 
-.ui--InputExtrinsic-Item-call {
+.ui--InputExtrinsic-SelectMethod-Item-call {
   flex: 1;
   font-family: monospace;
   margin-left: 1rem;
@@ -33,6 +33,6 @@
   text-overflow: ellipsis;
 }
 
-.ui--InputExtrinsic-Item-text {
+.ui--InputExtrinsic-SelectMethod-Item-text {
   flex: 1 0;
 }

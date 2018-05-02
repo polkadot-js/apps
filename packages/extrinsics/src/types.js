@@ -9,7 +9,7 @@ export type Extrinsic$Type =
   Extrinsic$TypeName |
   ['Array', Extrinsic$TypeName];
 
-export type ExtrinsicBase$Param = {
+export type Extrinsic$Param = {
   options?: {
     initValue?: mixed,
     minValue?: mixed,
@@ -18,67 +18,59 @@ export type ExtrinsicBase$Param = {
   type: Extrinsic$Type
 };
 
-export type ExtrinsicBase$Params = {
-  [string]: ExtrinsicBase$Param
+export type Extrinsic$Params = {
+  [string]: Extrinsic$Param
 };
 
 export type ExtrinsicBase = {
   description: string,
   index: number,
-  params: ExtrinsicBase$Params
+  params: Extrinsic$Params
 }
 
 export type ExtrinsicSectionName = 'consensus' | 'council' | 'councilVoting' | 'democracy' | 'session' | 'staking';
 
+export type ExtrinsicsBaseMethods$Map = {
+  [string]: ExtrinsicBase
+};
+
+export type ExtrinsicsBaseMethods = {
+  private: ExtrinsicsBaseMethods$Map,
+  public: ExtrinsicsBaseMethods$Map
+};
+
 export type ExtrinsicsBaseSection = {
   description: string,
-  methods: {
-    private: {
-      [string]: ExtrinsicBase
-    },
-    public: {
-      [string]: ExtrinsicBase
-    }
-  }
+  methods: ExtrinsicsBaseMethods
 }
+
 export type ExtrinsicsBaseMap = {
   [ExtrinsicSectionName]: ExtrinsicsBaseSection
 };
 
-export type Extrinsic$Param = {
-  name: string,
-  options?: {
-    initValue?: mixed,
-    minValue?: mixed,
-    maxValue?: mixed
-  },
-  type: Extrinsic$Type
-};
-
-export type Extrinsic$Params = Array<Extrinsic$Param>;
-
 export type Extrinsic = {
   description: string,
   index: Uint8Array,
-  isPrivate: boolean,
   name: string,
   params: Extrinsic$Params
 };
 
+export type ExtrinsicMethods$Map = {
+  [string]: Extrinsic
+};
+
+export type ExtrinsicMethods = {
+  private: ExtrinsicMethods$Map,
+  public: ExtrinsicMethods$Map
+};
+
 export type ExtrinsicSection = {
   description: string,
-  hasPrivate: boolean,
-  hasPublic: boolean,
   index: Uint8Array,
-  methods: Array<Extrinsic>,
+  methods: ExtrinsicMethods,
   name: ExtrinsicSectionName
 };
 
 export type Extrinsics = {
-  sections: Array<ExtrinsicSection>,
-  get: (sectionMethod: string) => Extrinsic
-}
-
-export type ExtrinsicsMap = {
-  [string]: Extrinsic
+  [ExtrinsicSectionName]: Extrinsic
 };

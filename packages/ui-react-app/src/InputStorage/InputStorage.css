@@ -4,7 +4,7 @@
 
 .ui--InputStorage {}
 
-.ui--InputStorage .text {
+.ui--InputStorage-SelectKey .text {
   box-sizing: border-box;
   display: flex !important;
   flex-wrap: nowrap;
@@ -14,16 +14,16 @@
   white-space: nowrap;
 }
 
-.ui--InputStorage-Item > .text {
+.ui--InputStorage-SelectKey-Item > .text {
   padding-left: 1em;
 }
 
-.ui--InputStorage-Item-text,
-.ui--InputStorage-Item-call {
+.ui--InputStorage-SelectKey-Item-text,
+.ui--InputStorage-SelectKey-Item-call {
   display: inline-block;
 }
 
-.ui--InputStorage-Item-call {
+.ui--InputStorage-SelectKey-Item-call {
   flex: 1;
   font-family: monospace;
   margin-left: 1rem;
@@ -33,7 +33,7 @@
   text-overflow: ellipsis;
 }
 
-.ui--InputStorage-Item-text {
+.ui--InputStorage-SelectKey-Item-text {
   flex: 1 0;
   overflow: hidden;
   text-overflow: ellipsis;
