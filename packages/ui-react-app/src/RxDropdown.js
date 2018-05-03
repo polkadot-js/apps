@@ -26,8 +26,6 @@ module.exports = function RxDropdown (props: Props): React$Node {
       ? props.transform(value)
       : value;
 
-    console.log('RxDropdown:onChange', value);
-
     if (props.subject) {
       props.subject.next(_value);
     }

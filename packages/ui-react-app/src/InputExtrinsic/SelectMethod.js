@@ -22,23 +22,14 @@ const RxDropdown = require('../RxDropdown');
 const createOptions = require('./options/method');
 
 module.exports = function SelectMethod ({ className, isError, label, onChange, style, subject, type, value }: Props): React$Node {
-  if (!value || !extrinsics[value]) {
+  if (!value || !extrinsics[value.section]) {
     return null;
   }
 
-  const methods = extrinsics[value].methods[type];
+  const methods = extrinsics[value.section].methods[type];
   const transform = (name: string): Extrinsic =>
     methods[name];
-  const options = createOptions(value, type);
-  const sub = subject.getValue();
-
-  console.log('SelectMethod(1)', sub.name);
-
-  const currentValue = sub && (sub.section === value) && methods[sub.name]
-    ? sub.name
-    : options[0].value;
-
-  console.log('SelectMethod(2)', currentValue);
+  const options = createOptions(value.section, type);
 
   return (
     <RxDropdown
@@ -50,7 +41,7 @@ module.exports = function SelectMethod ({ className, isError, label, onChange, s
       style={style}
       subject={subject}
       transform={transform}
-      value={currentValue}
+      value={value.name}
     />
   );
 };

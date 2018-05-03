@@ -34,17 +34,21 @@ class InputStorage extends React.PureComponent<Props> {
     super(props);
 
     this.sectionSubject = new BehaviorSubject(props.subject.getValue().section);
-    this.SelectKey = withObservable(this.sectionSubject)(
-      withObservable(props.subject, { propName: 'ownValue' })(SelectKey)
-    );
+    this.SelectKey = withObservable(props.subject)(SelectKey);
   }
 
   componentWillMount () {
-    this.sectionSubject.subscribe((name) => {
-      const options = keyOptions(name);
+    this.sectionSubject.subscribe((section) => {
+      const current = this.props.subject.getValue();
+
+      if (current.section === section) {
+        return;
+      }
+
+      const options = keyOptions(section);
 
       this.props.subject.next(
-        map[name].keys[options[0].value]
+        map[section].keys[options[0].value]
       );
     });
   }

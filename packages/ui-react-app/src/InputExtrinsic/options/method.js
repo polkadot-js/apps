@@ -9,8 +9,6 @@ const React = require('react');
 const map = require('@polkadot/extrinsics-substrate');
 
 module.exports = function createOptions (sectionName: ExtrinsicSectionName, type: 'private' | 'public'): ?Array<*> {
-  console.log('createOptions', sectionName, type);
-
   const methods = map[sectionName].methods[type];
 
   return Object

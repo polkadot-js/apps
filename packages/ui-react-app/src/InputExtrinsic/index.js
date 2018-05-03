@@ -35,26 +35,22 @@ class InputExtrinsic extends React.PureComponent<Props> {
     super(props);
 
     this.sectionSubject = new BehaviorSubject(props.subject.getValue().section);
-    this.SelectMethod = withObservable(this.sectionSubject)(
-      withObservable(props.subject, { propName: 'ownValue' })(SelectMethod)
-    );
+    this.SelectMethod = withObservable(props.subject)(SelectMethod);
   }
 
   componentWillMount () {
-    this.sectionSubject.subscribe((nextSection) => {
+    this.sectionSubject.subscribe((section) => {
       const current = this.props.subject.getValue();
 
-      console.log('subscribe', nextSection, current);
-
-      if (current.section === nextSection) {
+      if (current.section === section) {
         return;
       }
 
       const type = this.props.isPrivate ? 'private' : 'public';
-      const options = methodOptions(nextSection, type);
+      const options = methodOptions(section, type);
 
       this.props.subject.next(
-        map[nextSection].methods[type][options[0].value]
+        map[section].methods[type][options[0].value]
       );
     });
   }

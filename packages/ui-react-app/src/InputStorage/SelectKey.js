@@ -21,23 +21,14 @@ const RxDropdown = require('../RxDropdown');
 const createOptions = require('./options/key');
 
 module.exports = function SelectKey ({ className, isError, label, onChange, style, subject, value }: Props): React$Node {
-  if (!value || !map[value]) {
+  if (!value || !map[value.section]) {
     return null;
   }
 
-  const keys = map[value].keys;
+  const keys = map[value.section].keys;
   const transform = (name: string): StorageDef$Key =>
     keys[name];
-  const options = createOptions(value);
-  const sub = subject.getValue();
-
-  console.log('SelectKey(1)', sub.name);
-
-  const currentValue = sub && (sub.section === value) && keys[sub.name]
-    ? sub.name
-    : options[0].value;
-
-  console.log('SelectKey(2)', currentValue);
+  const options = createOptions(value.section);
 
   return (
     <RxDropdown
@@ -49,7 +40,7 @@ module.exports = function SelectKey ({ className, isError, label, onChange, styl
       style={style}
       subject={subject}
       transform={transform}
-      value={currentValue}
+      value={value.name}
     />
   );
 };

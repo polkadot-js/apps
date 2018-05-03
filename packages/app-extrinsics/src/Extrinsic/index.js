@@ -45,8 +45,6 @@ export default class Extrinsic extends React.PureComponent<Props> {
   }
 
   onChange = (): void => {
-    console.log('onChange', this.subjects.method.getValue(), this.subjects.params.getValue());
-
     const extrinsic = this.subjects.method.getValue();
     const values = this.subjects.params.getValue();
     const isValid = !!extrinsic.params &&
