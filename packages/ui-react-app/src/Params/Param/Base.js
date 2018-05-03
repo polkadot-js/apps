@@ -5,8 +5,8 @@
 
 import type { Size } from '../types';
 
-import React from 'react';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
+const React = require('react');
+const Label = require('semantic-ui-react/dist/es/elements/Label');
 
 type Props = {
   className?: string,
@@ -18,7 +18,7 @@ type Props = {
   }
 };
 
-export default function Base ({ children, className, label, size = 'medium', style }: Props): React$Node {
+module.exports = function Base ({ children, className, label, size = 'medium', style }: Props): React$Node {
   return (
     <div
       className={['ui--form', className].join(' ')}
@@ -30,4 +30,4 @@ export default function Base ({ children, className, label, size = 'medium', sty
       </div>
     </div>
   );
-}
+};

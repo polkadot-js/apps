@@ -11,9 +11,10 @@ import React from 'react';
 import encodeExtrinsic from '@polkadot/extrinsics-codec/encode/extrinsic';
 import withObservable from '@polkadot/rx-react/with/observable';
 import InputExtrinsic from '@polkadot/ui-react-app/src/InputExtrinsic';
+import Params from '@polkadot/ui-react-app/src/Params';
 import isUndefined from '@polkadot/util/is/undefined';
 
-import Params from '../Params';
+import paramComponents from '../Params';
 import createSubjects from './subjects';
 
 type Props = BareProps & {
@@ -26,6 +27,7 @@ type Props = BareProps & {
 
 export default class Extrinsic extends React.PureComponent<Props> {
   subjects: Subjects;
+  subscriptions: Array<rxjs$ISubscription>;
   Params: React$ComponentType<*>;
 
   constructor (props: Props) {
@@ -33,15 +35,20 @@ export default class Extrinsic extends React.PureComponent<Props> {
 
     this.subjects = createSubjects(props.subject);
     this.Params = withObservable(this.subjects.method)(Params);
+    this.subscriptions = [];
   }
 
   componentWillMount () {
-    this.subjects.params.subscribe(this.onChange);
-    this.subjects.method.subscribe(this.onChange);
+    this.subscriptions = [
+      this.subjects.params.subscribe(this.onChange),
+      this.subjects.method.subscribe(this.onChange)
+    ];
   }
 
   componentWillUnmount () {
-    // FIXME unsubscribe
+    this.subscriptions.forEach((s) =>
+      s.unsubscribe()
+    );
   }
 
   onChange = (): void => {
@@ -85,6 +92,7 @@ export default class Extrinsic extends React.PureComponent<Props> {
           />
         </div>
         <Params
+          components={paramComponents}
           subject={subjects.params}
         />
       </div>

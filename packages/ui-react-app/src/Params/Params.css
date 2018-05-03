@@ -2,16 +2,16 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
-.extrinsics--Params {}
+.ui--Params {}
 
-.extrinsics--Params-Content {
+.ui--Params-Content {
   box-sizing: border-box;
   padding-left: 2em;
 }
 
-.extrinsics--Param {}
+.ui--Param {}
 
-.extrinsics--Param-File {
+.ui--Param-File {
   align-items: center;
   border: 1px dashed rgba(34, 36, 38, 0.15);
   border-radius: 0.28571429rem;
@@ -23,15 +23,15 @@
   width: 100% !important;
 }
 
-.extrinsics--Param-File.true {
+.ui--Param-File.true {
   border-style: solid;
 }
 
-.extrinsics--Params-File:hover {
+.ui--Params-File:hover {
   background: rgba(200, 200, 200, 0.8);
   cursor: pointer;
 }
 
-.extrinsics--Param-File .label {
+.ui--Param-File .label {
   color: rgba(0, 0, 0, .6);
 }

@@ -4,14 +4,14 @@
 // @flow
 
 import type { BareProps } from '@polkadot/ui-react-app/types';
-import type { RawParam } from '../../types';
+import type { RawParam } from '../types';
 
-import React from 'react';
-import Dropzone from 'react-dropzone';
-import withObservable from '@polkadot/rx-react/with/observable';
+const React = require('react');
+const Dropzone = require('react-dropzone');
+const withObservable = require('@polkadot/rx-react/with/observable');
 
-import translate from '../../translate';
-import Base from './Base';
+const translate = require('../../translate');
+const Base = require('./Base');
 
 type Props = BareProps & {
   isError?: boolean,
@@ -49,7 +49,7 @@ function BytesFile ({ className, isError = false, label, onChange, subject, t }:
         size='full'
       >
         <Dropzone
-          className={['extrinsics--Param-File', isError ? 'error' : '', !!data, className].join(' ')}
+          className={['ui--Param-File', isError ? 'error' : '', !!data, className].join(' ')}
           multiple={false}
           onDrop={onDrop}
         >
@@ -78,4 +78,4 @@ function BytesFile ({ className, isError = false, label, onChange, subject, t }:
   );
 }
 
-export default translate(BytesFile);
+module.exports = translate(BytesFile);

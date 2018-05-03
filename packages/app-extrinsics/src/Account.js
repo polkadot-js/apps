@@ -30,6 +30,7 @@ class Account extends React.PureComponent<Props> {
 
   render (): React$Node {
     const { className, label, subject, style, t } = this.props;
+    const Balance = this.Balance;
 
     return (
       <div
@@ -49,7 +50,7 @@ class Account extends React.PureComponent<Props> {
               defaultValue: 'with an available balance of'
             })}
           </Label>
-          <this.Balance
+          <Balance
             className='ui disabled dropdown selection'
             classNameUpdated='hasUpdated'
           />

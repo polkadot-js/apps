@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { StateDb$SectionNames } from '@polkadot/storage/types';
 import type { I18nProps } from '../types';
 
 type Props = I18nProps & {

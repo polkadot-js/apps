@@ -32,6 +32,7 @@ const methodOptions = require('./options/method');
 class InputExtrinsic extends React.PureComponent<Props> {
   sectionSubject: rxjs$Subject<ExtrinsicSectionName>;
   SelectMethod: React$ComponentType<*>;
+  subscriptions: Array<rxjs$ISubscription>
 
   constructor (props: Props) {
     super(props);
@@ -41,21 +42,29 @@ class InputExtrinsic extends React.PureComponent<Props> {
   }
 
   componentWillMount () {
-    this.sectionSubject.subscribe((section) => {
-      const { isPrivate = false, subject } = this.props;
-      const current = subject.getValue();
+    this.subscriptions = [
+      this.sectionSubject.subscribe((section) => {
+        const { isPrivate = false, subject } = this.props;
+        const current = subject.getValue();
 
-      if (current.section === section) {
-        return;
-      }
+        if (current.section === section) {
+          return;
+        }
 
-      const type = isPrivate ? 'private' : 'public';
-      const options = methodOptions(section, type);
+        const type = isPrivate ? 'private' : 'public';
+        const options = methodOptions(section, type);
 
-      subject.next(
-        map[section].methods[type][options[0].value]
-      );
-    });
+        subject.next(
+          map[section].methods[type][options[0].value]
+        );
+      })
+    ];
+  }
+
+  componentWillUnmount () {
+    this.subscriptions.forEach((s) =>
+      s.unsubscribe()
+    );
   }
 
   render (): React$Node {

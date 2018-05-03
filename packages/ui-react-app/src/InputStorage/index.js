@@ -30,6 +30,7 @@ const keyOptions = require('./options/key');
 
 class InputStorage extends React.PureComponent<Props> {
   sectionSubject: rxjs$Subject<StateDb$SectionNames>;
+  subscriptions: Array<rxjs$ISubscription>
   SelectKey: React$ComponentType<*>;
 
   constructor (props: Props) {
@@ -40,20 +41,28 @@ class InputStorage extends React.PureComponent<Props> {
   }
 
   componentWillMount () {
-    this.sectionSubject.subscribe((section) => {
-      const { subject } = this.props;
-      const current = subject.getValue();
+    this.subscriptions = [
+      this.sectionSubject.subscribe((section) => {
+        const { subject } = this.props;
+        const current = subject.getValue();
 
-      if (current.section === section) {
-        return;
-      }
+        if (current.section === section) {
+          return;
+        }
 
-      const options = keyOptions(section);
+        const options = keyOptions(section);
 
-      subject.next(
-        map[section].keys[options[0].value]
-      );
-    });
+        subject.next(
+          map[section].keys[options[0].value]
+        );
+      })
+    ];
+  }
+
+  componentWillUnmount () {
+    this.subscriptions.forEach((s) =>
+      s.unsubscribe()
+    );
   }
 
   render (): React$Node {

@@ -3,9 +3,15 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Param } from '@polkadot/primitives/param';
-import type { BareProps } from '@polkadot/ui-react-app/types';
-import type { RawParam } from '../types';
+import type { Param, Param$Type } from '@polkadot/primitives/param';
+import type { BareProps } from '../types';
+
+export type RawParam = {
+  // flowlint-next-line unclear-type:off
+  data?: any,
+  isValid: boolean,
+  value: mixed,
+}
 
 export type BaseProps = BareProps & {
   subject: rxjs$BehaviorSubject<RawParam>,
@@ -18,3 +24,9 @@ export type Props = BaseProps & {
 };
 
 export type Size = 'full' | 'large' | 'medium' | 'small';
+
+export type Component = React$ComponentType<*>;
+
+export type ComponentMap = $Shape<{
+  [Param$Type]: Component
+}>;

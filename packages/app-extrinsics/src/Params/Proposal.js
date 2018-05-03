@@ -3,20 +3,21 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { Props as BaseProps } from '@polkadot/ui-react-app/Params/types';
 import type { I18nProps } from '@polkadot/ui-react-app/types';
-import type { EncodedParams } from '../../types';
-import type { Props as BaseProps } from '../types';
+import type { EncodedParams } from '../types';
 
 import React from 'react';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import Extrinsic from '../../Extrinsic';
-import translate from '../../translate';
+import Extrinsic from '../Extrinsic';
+import translate from '../translate';
 
 type Props = BaseProps & I18nProps;
 
 class Proposal extends React.PureComponent<Props> {
   extrinsic: rxjs$BehaviorSubject<EncodedParams>;
+  subscriptions: Array<rxjs$ISubscription>
 
   constructor (props: Props) {
     super(props);
@@ -25,16 +26,20 @@ class Proposal extends React.PureComponent<Props> {
   }
 
   componentWillMount () {
-    this.extrinsic.subscribe(({ data, isValid }: EncodedParams) =>
-      this.props.subject.next({
-        isValid,
-        value: data
-      })
-    );
+    this.subscriptions = [
+      this.extrinsic.subscribe(({ data, isValid }: EncodedParams) =>
+        this.props.subject.next({
+          isValid,
+          value: data
+        })
+      )
+    ];
   }
 
   componentWillUnmount () {
-    // FIXME: unsubscribe
+    this.subscriptions.forEach((s) =>
+      s.unsubscribe()
+    );
   }
 
   render (): React$Node {

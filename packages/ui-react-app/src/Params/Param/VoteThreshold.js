@@ -6,10 +6,10 @@
 
 import type { Props } from '../types';
 
-import React from 'react';
-import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
+const React = require('react');
+const Dropdown = require('semantic-ui-react/dist/es/modules/Dropdown');
 
-import Base from './Base';
+const Base = require('./Base');
 
 const options = [
   { text: 'Super majority approval', value: 0 },
@@ -17,7 +17,7 @@ const options = [
   { text: 'Simple majority', value: 2 }
 ];
 
-export default function VoteThreshold ({ label, subject, t, value: { options: { initValue = 0 } = {} } }: Props): React$Node {
+module.exports = function VoteThreshold ({ label, subject, t, value: { options: { initValue = 0 } = {} } }: Props): React$Node {
   const defaultValue = initValue || 0;
   const onChange = (event: SyntheticEvent<*>, { value }) =>
     subject.next({
@@ -38,4 +38,4 @@ export default function VoteThreshold ({ label, subject, t, value: { options: { 
       />
     </Base>
   );
-}
+};

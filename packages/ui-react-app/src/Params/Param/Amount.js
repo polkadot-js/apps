@@ -6,13 +6,13 @@
 
 import type { Props } from '../types';
 
-import BN from 'bn.js';
-import React from 'react';
-import Input from 'semantic-ui-react/dist/es/elements/Input';
+const BN = require('bn.js');
+const React = require('react');
+const Input = require('semantic-ui-react/dist/es/elements/Input');
 
-import Base from './Base';
+const Base = require('./Base');
 
-export default function Amount ({ isError, label, subject, t, value: { options: { initValue = 0, maxValue, minValue = 0 } = {} } }: Props): React$Node {
+module.exports = function Amount ({ isError, label, subject, t, value: { options: { initValue = 0, maxValue, minValue = 0 } = {} } }: Props): React$Node {
   const defaultValue = initValue || minValue;
   // eslint-disable-next-line no-unused-vars
   const onChange = (event: SyntheticEvent<*>, { value }) =>
@@ -36,4 +36,4 @@ export default function Amount ({ isError, label, subject, t, value: { options: 
       />
     </Base>
   );
-}
+};

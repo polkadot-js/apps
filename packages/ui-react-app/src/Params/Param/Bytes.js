@@ -5,11 +5,11 @@
 
 import type { Props as BaseProps, Size } from '../types';
 
-import React from 'react';
-import Input from 'semantic-ui-react/dist/es/elements/Input';
-import hexToU8a from '@polkadot/util/hex/toU8a';
+const React = require('react');
+const Input = require('semantic-ui-react/dist/es/elements/Input');
+const hexToU8a = require('@polkadot/util/hex/toU8a');
 
-import Base from './Base';
+const Base = require('./Base');
 
 type Props = BaseProps & {
   length?: number,
@@ -20,7 +20,7 @@ type Props = BaseProps & {
 const defaultValidate = (u8a: Uint8Array): boolean =>
   true;
 
-export default function Bytes ({ isError, length = -1, label, size = 'full', subject, validate = defaultValidate }: Props): React$Node {
+module.exports = function Bytes ({ isError, length = -1, label, size = 'full', subject, validate = defaultValidate }: Props): React$Node {
   // eslint-disable-next-line no-unused-vars
   const onChange = (event: SyntheticEvent<*>, { value }) => {
     let u8a;
@@ -54,4 +54,4 @@ export default function Bytes ({ isError, length = -1, label, size = 'full', sub
       />
     </Base>
   );
-}
+};

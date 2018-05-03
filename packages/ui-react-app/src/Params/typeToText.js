@@ -5,10 +5,10 @@
 
 import type { Param$Type, Param$TypeArray } from '@polkadot/primitives/param';
 
-export default function typeToText (type: Param$Type | Param$TypeArray): string {
+module.exports = function typeToText (type: Param$Type | Param$TypeArray): string {
   if (Array.isArray(type)) {
     return `Array<${type.map(typeToText).join(', ')}>`;
   }
 
   return type;
-}
+};

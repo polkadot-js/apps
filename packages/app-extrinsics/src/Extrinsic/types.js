@@ -4,7 +4,7 @@
 // @flow
 
 import type { Extrinsic } from '@polkadot/extrinsics/types';
-import type { RawParam } from '../types';
+import type { RawParam } from '@polkadot/ui-react-app/Params/types';
 
 export type Subjects = {
   method: rxjs$BehaviorSubject<Extrinsic>,

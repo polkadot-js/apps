@@ -5,11 +5,11 @@
 
 import type { Props as BaseProps } from '../types';
 
-import React from 'react';
+const React = require('react');
 
-import translate from '../../translate';
-import Base from './Base';
-import typeToText from '../typeToText';
+const translate = require('../../translate');
+const Base = require('./Base');
+const typeToText = require('../typeToText');
 
 type Props = BaseProps & {
   t: I18Next$Translate
@@ -26,7 +26,7 @@ function Unknown ({ label, subject, t, value: { type } }: Props): React$Node {
       size='full'
       label={label}
     >
-      <div className='extrinsics--Param-Unknown ui dropdown error selection'>
+      <div className='ui--Param-Unknown ui dropdown error selection'>
         {t('param.unknown', {
           defaultValue: `ERROR: Unimplemented type '{{type}}' requested. No renderer exists`,
           replace: {
@@ -38,4 +38,4 @@ function Unknown ({ label, subject, t, value: { type } }: Props): React$Node {
   );
 }
 
-export default translate(Unknown);
+module.exports = translate(Unknown);
