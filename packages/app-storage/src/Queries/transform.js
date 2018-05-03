@@ -18,6 +18,7 @@ export default function transform ({ type }: StorageDef$Key): Formatter {
     }
 
     if (isU8a(value)) {
+      // $FlowFixME type has been determined
       return u8aToHexShort(value, 256);
     }
 

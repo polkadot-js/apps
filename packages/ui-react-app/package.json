@@ -11,8 +11,8 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "@polkadot/extrinsics-substrate": "^0.12.3",
-    "@polkadot/rx-react": "^0.4.16",
+    "@polkadot/extrinsics-substrate": "^0.12.4",
+    "@polkadot/rx-react": "^0.4.17",
     "@polkadot/ui-react": "^0.9.12",
     "@polkadot/util": "^0.19.4",
     "@polkadot/util-keyring": "^0.19.4",

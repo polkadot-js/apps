@@ -8,6 +8,5 @@ import type { RawParam } from '../types';
 
 export type Subjects = {
   method: rxjs$BehaviorSubject<Extrinsic>,
-  params: rxjs$BehaviorSubject<Array<RawParam>>,
-  subscribe: () => void
+  params: rxjs$BehaviorSubject<Array<RawParam>>
 };

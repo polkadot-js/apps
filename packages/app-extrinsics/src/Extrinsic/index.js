@@ -68,6 +68,7 @@ export default class Extrinsic extends React.PureComponent<Props> {
 
   render (): React$Node {
     const { className, isError, isPrivate, labelMethod, labelSection, style } = this.props;
+    const { Params, subjects } = this;
 
     return (
       <div
@@ -80,11 +81,11 @@ export default class Extrinsic extends React.PureComponent<Props> {
             isPrivate={isPrivate}
             labelMethod={labelMethod}
             labelSection={labelSection}
-            subject={this.subjects.method}
+            subject={subjects.method}
           />
         </div>
-        <this.Params
-          subject={this.subjects.params}
+        <Params
+          subject={subjects.params}
         />
       </div>
     );

@@ -4,31 +4,36 @@
 // @flow
 
 import type { StateDb$SectionNames } from '@polkadot/storage/types';
-import type { BareProps } from '../types';
+import type { I18nProps } from '../types';
 
-type Props = BareProps & {
+type Props = I18nProps & {
   isError?: boolean,
-  label?: string,
+  label: string,
   subject: rxjs$BehaviorSubject<StateDb$SectionNames>
 };
 
 const React = require('react');
 
 const RxDropdown = require('../RxDropdown');
+const translate = require('../translate');
 const createOptions = require('./options/section');
 
 const options = createOptions();
 
-module.exports = function SelectSection ({ className, isError, label, subject, style }: Props): React$Node {
+function SelectSection ({ className, isError, label, subject, style, t }: Props): React$Node {
   return (
     <RxDropdown
       className={['ui--InputStorage-SelectSection', className].join(' ')}
       defaultValue={subject.getValue()}
       isError={isError}
-      label={label}
+      label={label || t('input.storage.section', {
+        defaultValue: 'storage area'
+      })}
       options={options}
       style={style}
       subject={subject}
     />
   );
-};
+}
+
+module.exports = translate(SelectSection);

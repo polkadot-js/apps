@@ -3,14 +3,17 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 import type { EncodedParams } from '../../types';
-import type { Props } from '../types';
+import type { Props as BaseProps } from '../types';
 
 import React from 'react';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import Extrinsic from '../../Extrinsic';
 import translate from '../../translate';
+
+type Props = BaseProps & I18nProps;
 
 class Proposal extends React.PureComponent<Props> {
   extrinsic: rxjs$BehaviorSubject<EncodedParams>;

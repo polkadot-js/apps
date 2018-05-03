@@ -3,9 +3,9 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BareProps } from '../types';
+import type { I18nProps } from '../types';
 
-type Props = BareProps & {
+type Props = I18nProps & {
   isError?: boolean,
   label?: string,
   subject: rxjs$BehaviorSubject<StateDb$SectionNames>,
@@ -15,9 +15,10 @@ type Props = BareProps & {
 const React = require('react');
 
 const RxDropdown = require('../RxDropdown');
+const translate = require('../translate');
 const createOptions = require('./options/section');
 
-module.exports = function SelectSection ({ className, isError, label, subject, style, type }: Props): React$Node {
+function SelectSection ({ className, isError, label = '', subject, style, t, type }: Props): React$Node {
   const options = createOptions(type);
 
   return (
@@ -25,10 +26,14 @@ module.exports = function SelectSection ({ className, isError, label, subject, s
       className={['ui--InputExtrinsic-SelectSection', className].join(' ')}
       defaultValue={subject.getValue()}
       isError={isError}
-      label={label}
+      label={label || t('input.extrinsic.section', {
+        defaultValue: 'from extrinsic section'
+      })}
       options={options}
       style={style}
       subject={subject}
     />
   );
-};
+}
+
+module.exports = translate(SelectSection);

@@ -57,7 +57,7 @@ class InputStorage extends React.PureComponent<Props> {
   }
 
   render (): React$Node {
-    const { className, labelMethod, labelSection, onChange, style, subject, t } = this.props;
+    const { className, labelMethod, labelSection, onChange, style, subject } = this.props;
     const SelectKey = this.SelectKey;
 
     return (
@@ -67,19 +67,13 @@ class InputStorage extends React.PureComponent<Props> {
       >
         <div className='small'>
           <SelectSection
-            // flowlint-next-line sketchy-null-string:off
-            label={labelSection || t('input.storage.section', {
-              defaultValue: 'storage area'
-            })}
+            label={labelSection}
             subject={this.sectionSubject}
           />
         </div>
         <div className='large'>
           <SelectKey
-            // flowlint-next-line sketchy-null-string:off
-            label={labelMethod || t('input.storage.key', {
-              defaultValue: 'with storage key'
-            })}
+            label={labelMethod}
             onChange={onChange}
             subject={subject}
           />

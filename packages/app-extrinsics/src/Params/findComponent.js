@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Param$Type } from '@polkadot/primitives/param';
+import type { Param$Type, Param$TypeArray } from '@polkadot/primitives/param';
 
 import Account from './Param/Account';
 import Amount from './Param/Amount';
@@ -21,17 +21,19 @@ const Components = {
   'BlockNumber': Amount,
   'bool': Bool,
   'Bytes': Bytes,
+  'Digest': Bytes,
   'Hash': Hash,
   'MisbehaviorReport': Unknown,
   'Proposal': Proposal,
   'SessionKey': Unknown,
+  'Timestamp': Amount,
   'u32': Amount,
   'u64': Amount,
   'VoteThreshold': VoteThreshold,
   'Wasm': Wasm
 };
 
-export default function findComponent (type: Param$Type): React$ComponentType<*> {
+export default function findComponent (type: Param$Type | Param$TypeArray): React$ComponentType<*> {
   if (Array.isArray(type)) {
     return type.map(findComponent);
   }

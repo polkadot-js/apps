@@ -4,11 +4,11 @@
 // @flow
 // flowlint sketchy-null-mixed:off
 
-import type { Extrinsic$Param } from '@polkadot/extrinsics/types';
+import type { Param } from '@polkadot/primitives/param';
 
 import BN from 'bn.js';
 
-export default function getInitValue ({ options: { initValue, minValue } = {}, type }: Extrinsic$Param): mixed {
+export default function getInitValue ({ options: { initValue, minValue } = {}, type }: Param): mixed {
   let inner = type;
 
   if (Array.isArray(type)) {

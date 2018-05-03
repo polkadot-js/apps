@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Param$Type } from '@polkadot/primitives/param';
+import type { Param$Type, Param$TypeArray } from '@polkadot/primitives/param';
 
 export default function typeToText (type: Param$Type | Param$TypeArray): string {
   if (Array.isArray(type)) {

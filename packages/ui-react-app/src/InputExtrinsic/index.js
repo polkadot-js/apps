@@ -59,7 +59,7 @@ class InputExtrinsic extends React.PureComponent<Props> {
   }
 
   render (): React$Node {
-    const { className, isPrivate = false, labelMethod, labelSection, onChange, style, subject, t } = this.props;
+    const { className, isPrivate = false, labelMethod, labelSection, onChange, style, subject } = this.props;
     const type = isPrivate ? 'private' : 'public';
     const SelectMethod = this.SelectMethod;
 
@@ -70,20 +70,14 @@ class InputExtrinsic extends React.PureComponent<Props> {
       >
         <div className='small'>
           <SelectSection
-            // flowlint-next-line sketchy-null-string:off
-            label={labelSection || t('input.extrinsic.section', {
-              defaultValue: 'from extrinsic section'
-            })}
+            label={labelSection}
             subject={this.sectionSubject}
             type={type}
           />
         </div>
         <div className='large'>
           <SelectMethod
-            // flowlint-next-line sketchy-null-string:off
-            label={labelMethod || t('input.extrinsic.method', {
-              defaultValue: 'with the extrinsic'
-            })}
+            label={labelMethod}
             onChange={onChange}
             subject={subject}
             type={type}

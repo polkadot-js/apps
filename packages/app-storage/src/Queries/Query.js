@@ -40,12 +40,11 @@ function Query ({ className, style, value: { id, key, params } }: Props): React$
     return Cache[id];
   })();
 
-  const inputs = key.params
-    ? Object
-      .keys(key.params)
-      .map((name) => `${name}: ${key.params[name].type}`)
-      .join(', ')
-    : [];
+  const inputs = Object
+    .keys(key.params || {})
+    // $FlowFixMe key.params exists
+    .map((name) => `${name}: ${key.params[name].type}`)
+    .join(', ');
 
   return (
     <div

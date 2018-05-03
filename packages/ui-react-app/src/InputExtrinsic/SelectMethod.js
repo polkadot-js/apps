@@ -4,9 +4,9 @@
 // @flow
 
 import type { Extrinsic } from '@polkadot/extrinsics/types';
-import type { BareProps } from '../types';
+import type { I18nProps } from '../types';
 
-type Props = BareProps & {
+type Props = I18nProps & {
   isError?: boolean,
   label?: string,
   onChange?: (event: SyntheticEvent<*>, value: Extrinsic) => void,
@@ -19,9 +19,10 @@ const React = require('react');
 const extrinsics = require('@polkadot/extrinsics-substrate');
 
 const RxDropdown = require('../RxDropdown');
+const translate = require('../translate');
 const createOptions = require('./options/method');
 
-module.exports = function SelectMethod ({ className, isError, label, onChange, style, subject, type, value }: Props): React$Node {
+function SelectMethod ({ className, isError, label = '', onChange, style, subject, t, type, value }: Props): React$Node {
   if (!value || !extrinsics[value.section]) {
     return null;
   }
@@ -35,7 +36,9 @@ module.exports = function SelectMethod ({ className, isError, label, onChange, s
     <RxDropdown
       className={['ui--InputExtrinsic-SelectMethod', className].join(' ')}
       isError={isError}
-      label={label}
+      label={label || t('input.extrinsic.method', {
+        defaultValue: 'with the extrinsic'
+      })}
       onChange={onChange}
       options={options}
       style={style}
@@ -44,4 +47,6 @@ module.exports = function SelectMethod ({ className, isError, label, onChange, s
       value={value.name}
     />
   );
-};
+}
+
+module.exports = translate(SelectMethod);

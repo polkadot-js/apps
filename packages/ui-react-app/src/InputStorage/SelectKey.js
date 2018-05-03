@@ -4,9 +4,9 @@
 // @flow
 
 import type { StorageDef$Key } from '@polkadot/storage/types';
-import type { BareProps } from '../types';
+import type { I18nProps } from '../types';
 
-type Props = BareProps & {
+type Props = I18nProps & {
   isError?: boolean,
   label?: string,
   onChange?: (event: SyntheticEvent<*>, value: StorageDef$Key) => void,
@@ -18,9 +18,10 @@ const React = require('react');
 const map = require('@polkadot/storage-substrate/keys');
 
 const RxDropdown = require('../RxDropdown');
+const translate = require('../translate');
 const createOptions = require('./options/key');
 
-module.exports = function SelectKey ({ className, isError, label, onChange, style, subject, value }: Props): React$Node {
+function SelectKey ({ className, isError, label = '', onChange, style, subject, t, value }: Props): React$Node {
   if (!value || !map[value.section]) {
     return null;
   }
@@ -34,7 +35,9 @@ module.exports = function SelectKey ({ className, isError, label, onChange, styl
     <RxDropdown
       className={['ui--InputStorage-SelectKey', className].join(' ')}
       isError={isError}
-      label={label}
+      label={label || t('input.storage.key', {
+        defaultValue: 'with storage key'
+      })}
       onChange={onChange}
       options={options}
       style={style}
@@ -43,4 +46,6 @@ module.exports = function SelectKey ({ className, isError, label, onChange, styl
       value={value.name}
     />
   );
-};
+}
+
+module.exports = translate(SelectKey);
