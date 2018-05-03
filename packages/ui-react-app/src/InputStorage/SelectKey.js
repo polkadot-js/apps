@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { StorageDef$Key, StateDb$SectionNames } from '@polkadot/storage/types';
+import type { StorageDef$Key } from '@polkadot/storage/types';
 import type { BareProps } from '../types';
 
 type Props = BareProps & {
@@ -11,7 +11,7 @@ type Props = BareProps & {
   label?: string,
   onChange?: (event: SyntheticEvent<*>, value: StorageDef$Key) => void,
   subject?: rxjs$Subject<StorageDef$Key>,
-  value?: StateDb$SectionNames
+  value?: StorageDef$Key
 };
 
 const React = require('react');

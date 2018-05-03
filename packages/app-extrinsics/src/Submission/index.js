@@ -57,6 +57,7 @@ class Submission extends React.PureComponent<Props> {
 
   render (): React$Node {
     const { className, subject, style, t } = this.props;
+    const { Submit, subjects } = this;
 
     return (
       <div
@@ -67,23 +68,23 @@ class Submission extends React.PureComponent<Props> {
           label={t('display.sender', {
             defaultValue: 'using the selected account'
           })}
-          subject={this.subjects.sender}
+          subject={subjects.sender}
         />
         <Extrinsic
           labelMethod={t('display.method', {
             defaultValue: 'submit the following extrinsic'
           })}
-          subject={this.subjects.method}
+          subject={subjects.method}
         />
         <Nonce
           label={t('display.nonce', {
             defaultValue: 'with an index'
           })}
-          subject={this.subjects.index}
-          value={this.subjects.sender}
+          subject={subjects.index}
+          value={subjects.sender}
         />
         <div className='extrinsics--Submission-ButtonRow'>
-          <this.Submit subject={subject} />
+          <Submit subject={subject} />
         </div>
       </div>
     );

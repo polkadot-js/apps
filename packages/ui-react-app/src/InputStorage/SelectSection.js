@@ -9,7 +9,7 @@ import type { BareProps } from '../types';
 type Props = BareProps & {
   isError?: boolean,
   label?: string,
-  subject?: rxjs$Subject<StateDb$SectionNames>
+  subject: rxjs$BehaviorSubject<StateDb$SectionNames>
 };
 
 const React = require('react');

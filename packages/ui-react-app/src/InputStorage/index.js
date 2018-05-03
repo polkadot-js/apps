@@ -3,6 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+// TODO: We have a lot shared between this and InputExtrinsic
+
 import type { StorageDef$Key, StateDb$SectionNames } from '@polkadot/storage/types';
 import type { I18nProps } from '../types';
 
@@ -11,7 +13,7 @@ type Props = I18nProps & {
   labelMethod?: string,
   labelSection?: string,
   onChange?: (event: SyntheticEvent<*>, value: StorageDef$Key) => void,
-  subject?: rxjs$Subject<StorageDef$Key>
+  subject: rxjs$BehaviorSubject<StorageDef$Key>
 };
 
 require('./InputStorage.css');
@@ -39,7 +41,8 @@ class InputStorage extends React.PureComponent<Props> {
 
   componentWillMount () {
     this.sectionSubject.subscribe((section) => {
-      const current = this.props.subject.getValue();
+      const { subject } = this.props;
+      const current = subject.getValue();
 
       if (current.section === section) {
         return;
@@ -47,7 +50,7 @@ class InputStorage extends React.PureComponent<Props> {
 
       const options = keyOptions(section);
 
-      this.props.subject.next(
+      subject.next(
         map[section].keys[options[0].value]
       );
     });
@@ -55,6 +58,7 @@ class InputStorage extends React.PureComponent<Props> {
 
   render (): React$Node {
     const { className, labelMethod, labelSection, onChange, style, subject, t } = this.props;
+    const SelectKey = this.SelectKey;
 
     return (
       <div
@@ -63,6 +67,7 @@ class InputStorage extends React.PureComponent<Props> {
       >
         <div className='small'>
           <SelectSection
+            // flowlint-next-line sketchy-null-string:off
             label={labelSection || t('input.storage.section', {
               defaultValue: 'storage area'
             })}
@@ -70,7 +75,8 @@ class InputStorage extends React.PureComponent<Props> {
           />
         </div>
         <div className='large'>
-          <this.SelectKey
+          <SelectKey
+            // flowlint-next-line sketchy-null-string:off
             label={labelMethod || t('input.storage.key', {
               defaultValue: 'with storage key'
             })}

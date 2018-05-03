@@ -8,7 +8,7 @@ import type { ExtrinsicSectionName } from '@polkadot/extrinsics/types';
 const React = require('react');
 const map = require('@polkadot/extrinsics-substrate');
 
-module.exports = function createOptions (sectionName: ExtrinsicSectionName, type: 'private' | 'public'): ?Array<*> {
+module.exports = function createOptions (sectionName: ExtrinsicSectionName, type: 'private' | 'public'): Array<*> {
   const methods = map[sectionName].methods[type];
 
   return Object

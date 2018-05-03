@@ -3,6 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+// TODO: We have a lot shared between this and InputExtrinsic
+
 import type { Extrinsic, ExtrinsicSectionName } from '@polkadot/extrinsics/types';
 import type { I18nProps } from '../types';
 
@@ -12,7 +14,7 @@ type Props = I18nProps & {
   labelMethod?: string,
   labelSection?: string,
   onChange?: (event: SyntheticEvent<*>, value: Extrinsic) => void,
-  subject?: rxjs$Subject<Extrinsic>
+  subject: rxjs$BehaviorSubject<Extrinsic>
 };
 
 require('./InputExtrinsic.css');
@@ -40,16 +42,17 @@ class InputExtrinsic extends React.PureComponent<Props> {
 
   componentWillMount () {
     this.sectionSubject.subscribe((section) => {
-      const current = this.props.subject.getValue();
+      const { isPrivate = false, subject } = this.props;
+      const current = subject.getValue();
 
       if (current.section === section) {
         return;
       }
 
-      const type = this.props.isPrivate ? 'private' : 'public';
+      const type = isPrivate ? 'private' : 'public';
       const options = methodOptions(section, type);
 
-      this.props.subject.next(
+      subject.next(
         map[section].methods[type][options[0].value]
       );
     });
@@ -58,6 +61,7 @@ class InputExtrinsic extends React.PureComponent<Props> {
   render (): React$Node {
     const { className, isPrivate = false, labelMethod, labelSection, onChange, style, subject, t } = this.props;
     const type = isPrivate ? 'private' : 'public';
+    const SelectMethod = this.SelectMethod;
 
     return (
       <div
@@ -66,6 +70,7 @@ class InputExtrinsic extends React.PureComponent<Props> {
       >
         <div className='small'>
           <SelectSection
+            // flowlint-next-line sketchy-null-string:off
             label={labelSection || t('input.extrinsic.section', {
               defaultValue: 'from extrinsic section'
             })}
@@ -74,7 +79,8 @@ class InputExtrinsic extends React.PureComponent<Props> {
           />
         </div>
         <div className='large'>
-          <this.SelectMethod
+          <SelectMethod
+            // flowlint-next-line sketchy-null-string:off
             label={labelMethod || t('input.extrinsic.method', {
               defaultValue: 'with the extrinsic'
             })}

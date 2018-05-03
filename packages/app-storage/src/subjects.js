@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { StorageDef$Key } from '@polkadot/storage/types';
 import type { StorageQuery } from './types';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';

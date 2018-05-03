@@ -3,6 +3,9 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type BN from 'bn.js';
+import type { StorageDef$Key } from '@polkadot/storage/types';
+
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 import isU8a from '@polkadot/util/is/u8a';
 
@@ -15,7 +18,6 @@ export default function transform ({ type }: StorageDef$Key): Formatter {
     }
 
     if (isU8a(value)) {
-      // $FlowFixMe type is a u8a
       return u8aToHexShort(value, 256);
     }
 

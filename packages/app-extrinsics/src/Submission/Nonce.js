@@ -29,6 +29,7 @@ export default class Nonce extends React.PureComponent<Props> {
 
   render (): React$Node {
     const { className, label, style, subject } = this.props;
+    const Nonce = this.Nonce;
 
     return (
       <div
@@ -37,7 +38,7 @@ export default class Nonce extends React.PureComponent<Props> {
       >
         <div className='small'>
           <Label>{label}</Label>
-          <this.Nonce
+          <Nonce
             className='ui disabled dropdown selection'
             classNameUpdated='hasUpdated'
             subject={subject}

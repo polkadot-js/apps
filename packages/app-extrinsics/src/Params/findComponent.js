@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Extrinsic$Type } from '@polkadot/extrinsics/types';
+import type { Param$Type } from '@polkadot/primitives/param';
 
 import Account from './Param/Account';
 import Amount from './Param/Amount';
@@ -31,12 +31,9 @@ const Components = {
   'Wasm': Wasm
 };
 
-export default function findComponent (type: Extrinsic$Type): React$ComponentType<*> {
+export default function findComponent (type: Param$Type): React$ComponentType<*> {
   if (Array.isArray(type)) {
-    // eslint-disable-next-line no-unused-vars
-    const [outer, inner] = type;
-
-    return findComponent(inner);
+    return type.map(findComponent);
   }
 
   return Components[type];

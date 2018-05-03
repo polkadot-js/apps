@@ -3,6 +3,9 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type BN from 'bn.js';
+import type { EncodedParams, QueueTx } from '../types';
+
 export type Subjects = {
   call: rxjs$BehaviorSubject<QueueTx>,
   index: rxjs$BehaviorSubject<BN>,

@@ -13,6 +13,7 @@ import Label from 'semantic-ui-react/dist/es/elements/Label';
 import Div from '@polkadot/rx-react/Div';
 import withStorage from '@polkadot/rx-react/with/storage';
 
+import translate from '../translate';
 import createTransform from './transform';
 
 type Props = I18nProps & {
@@ -21,7 +22,7 @@ type Props = I18nProps & {
 
 const Cache = [];
 
-export default function Query ({ className, style, value: { id, key, params } }: Props): React$Node {
+function Query ({ className, style, value: { id, key, params } }: Props): React$Node {
   const Value = (() => {
     if (!Cache[id]) {
       const transform = createTransform(key);
@@ -39,10 +40,12 @@ export default function Query ({ className, style, value: { id, key, params } }:
     return Cache[id];
   })();
 
-  const inputs = Object
-    .keys(key.params || {})
-    .map((name) => `${name}: ${key.params[name].type}`)
-    .join(', ');
+  const inputs = key.params
+    ? Object
+      .keys(key.params)
+      .map((name) => `${name}: ${key.params[name].type}`)
+      .join(', ')
+    : [];
 
   return (
     <div
@@ -56,3 +59,5 @@ export default function Query ({ className, style, value: { id, key, params } }:
     </div>
   );
 }
+
+export default translate(Query);

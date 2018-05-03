@@ -26,8 +26,7 @@ type State = {
   subscriptions: Array<rxjs$ISubscription>
 };
 
-// FIXME we should not be creating/subscribing in the render, use PureComponent
-class Params extends React.PureComponent<Props> {
+class Params extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {

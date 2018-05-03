@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Extrinsic, ExtrinsicSectionName } from '@polkadot/extrinsics/types';
+import type { Extrinsic } from '@polkadot/extrinsics/types';
 import type { BareProps } from '../types';
 
 type Props = BareProps & {
@@ -12,7 +12,7 @@ type Props = BareProps & {
   onChange?: (event: SyntheticEvent<*>, value: Extrinsic) => void,
   subject?: rxjs$Subject<Extrinsic>,
   type: 'private' | 'public',
-  value?: ExtrinsicSectionName
+  value?: Extrinsic
 };
 
 const React = require('react');

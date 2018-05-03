@@ -3,12 +3,17 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Props } from '../types';
+import type { Extrinsic$Param } from '@polkadot/extrinsics/types';
+import type { Props as BaseProps } from '../types';
 
 import React from 'react';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 
 import Base from './Base';
+
+type Props = BaseProps & {
+  value: Extrinsic$Param
+};
 
 const options = [
   { text: 'Super majority approval', value: 0 },
