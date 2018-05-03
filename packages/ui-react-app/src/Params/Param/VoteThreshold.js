@@ -7,7 +7,7 @@
 import type { Props } from '../types';
 
 const React = require('react');
-const Dropdown = require('semantic-ui-react/dist/es/modules/Dropdown');
+const Dropdown = require('semantic-ui-react/dist/es/modules/Dropdown').default;
 
 const Base = require('./Base');
 

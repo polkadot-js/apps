@@ -1,5 +1,8 @@
 // @flow
 
 declare module 'react-dropzone' {
-  declare module.exports: React$StatelessFunctionalComponent<*>
+  declare type Dropzone = React$StatelessFunctionalComponent<*>;
+  declare module.exports: Dropzone & {
+    default: Dropzone
+  }
 }

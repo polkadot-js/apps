@@ -5,6 +5,13 @@
 
 import type { BareProps } from '../types';
 
+type Props = BareProps & {
+  isError?: boolean,
+  label?: string,
+  onChange?: (event: SyntheticEvent<*>, value: Uint8Array) => void,
+  subject?: rxjs$Subject<*>
+};
+
 require('./InputAddress.css');
 
 const React = require('react');
@@ -15,13 +22,6 @@ const u8aToHex = require('@polkadot/util/u8a/toHex');
 const keyring = require('../keyring');
 const RxDropdown = require('../RxDropdown');
 const PairDisplay = require('./PairDisplay');
-
-type Props = BareProps & {
-  isError?: boolean,
-  label?: string,
-  onChange?: (event: SyntheticEvent<*>, value: Uint8Array) => void,
-  subject?: rxjs$Subject<*>
-};
 
 const options = keyring.getPairs().map((pair) => ({
   text: (

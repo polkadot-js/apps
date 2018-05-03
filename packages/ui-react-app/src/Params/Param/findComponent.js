@@ -4,16 +4,16 @@
 // @flow
 
 import type { Param$Type, Param$TypeArray } from '@polkadot/primitives/param';
-import type { Component, ComponentMap } from './types';
+import type { ComponentMap } from '../types';
 
-const Account = require('./Param/Account');
-const Amount = require('./Param/Amount');
-const Bool = require('./Param/Bool');
-const Bytes = require('./Param/Bytes');
-const Hash = require('./Param/Hash');
-const Unknown = require('./Param/Unknown');
-const VoteThreshold = require('./Param/VoteThreshold');
-const Wasm = require('./Param/Wasm');
+const Account = require('./Account');
+const Amount = require('./Amount');
+const Bool = require('./Bool');
+const Bytes = require('./Bytes');
+const Hash = require('./Hash');
+const Unknown = require('./Unknown');
+const VoteThreshold = require('./VoteThreshold');
+const Wasm = require('./Wasm');
 
 const components: ComponentMap = {
   'AccountId': Account,
@@ -30,9 +30,11 @@ const components: ComponentMap = {
   'Wasm': Wasm
 };
 
-module.exports = function findComponent (type: Param$Type | Param$TypeArray, overrides?: ComponentMap = {}): Component | Array<Component> {
+module.exports = function findComponent (type: Param$Type | Param$TypeArray, overrides?: ComponentMap = {}): React$ComponentType<*> | Array<React$ComponentType<*>> {
   if (Array.isArray(type)) {
-    return type.map(findComponent);
+    return type.map((type) =>
+      findComponent(type, overrides)
+    );
   }
 
   return overrides[type] || components[type] || Unknown;

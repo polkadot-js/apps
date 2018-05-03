@@ -25,8 +25,6 @@ export type Props = BaseProps & {
 
 export type Size = 'full' | 'large' | 'medium' | 'small';
 
-export type Component = React$ComponentType<*>;
-
 export type ComponentMap = $Shape<{
-  [Param$Type]: Component
+  [Param$Type]: React$ComponentType<*>
 }>;

@@ -7,7 +7,7 @@ import type { BareProps } from '@polkadot/ui-react-app/types';
 import type { RawParam } from '../types';
 
 const React = require('react');
-const Dropzone = require('react-dropzone');
+const Dropzone = require('react-dropzone').default;
 const withObservable = require('@polkadot/rx-react/with/observable');
 
 const translate = require('../../translate');

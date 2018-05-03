@@ -8,7 +8,7 @@ import type { Props } from '../types';
 
 const BN = require('bn.js');
 const React = require('react');
-const Input = require('semantic-ui-react/dist/es/elements/Input');
+const Input = require('semantic-ui-react/dist/es/elements/Input').default;
 
 const Base = require('./Base');
 

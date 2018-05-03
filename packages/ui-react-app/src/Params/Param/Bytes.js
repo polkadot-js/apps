@@ -5,17 +5,17 @@
 
 import type { Props as BaseProps, Size } from '../types';
 
-const React = require('react');
-const Input = require('semantic-ui-react/dist/es/elements/Input');
-const hexToU8a = require('@polkadot/util/hex/toU8a');
-
-const Base = require('./Base');
-
 type Props = BaseProps & {
   length?: number,
   size?: Size,
   validate?: (u8a: Uint8Array) => boolean
 }
+
+const React = require('react');
+const Input = require('semantic-ui-react/dist/es/elements/Input').default;
+const hexToU8a = require('@polkadot/util/hex/toU8a');
+
+const Base = require('./Base');
 
 const defaultValidate = (u8a: Uint8Array): boolean =>
   true;

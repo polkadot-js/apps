@@ -92,7 +92,7 @@ export default class Extrinsic extends React.PureComponent<Props> {
           />
         </div>
         <Params
-          components={paramComponents}
+          overrides={paramComponents}
           subject={subjects.params}
         />
       </div>

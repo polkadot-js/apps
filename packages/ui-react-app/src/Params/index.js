@@ -12,12 +12,11 @@ require('./Params.css');
 const React = require('react');
 
 const translate = require('../translate');
-const findComponent = require('./findComponent');
+const Param = require('./Param');
 const createSubjects = require('./subjects');
-const typeToText = require('./typeToText');
 
 type Props = I18nProps & {
-  components?: ComponentMap,
+  overrides?: ComponentMap,
   subject: rxjs$BehaviorSubject<Array<RawParam>>,
   value: Extrinsic;
 };
@@ -79,7 +78,7 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   render (): React$Node {
-    const { className, style, value } = this.props;
+    const { className, overrides, style, value } = this.props;
     const { subjects } = this.state;
 
     if (!value || !subjects.length) {
@@ -99,25 +98,22 @@ class Params extends React.PureComponent<Props, State> {
         style={style}
       >
         <div className='ui--Params-Content'>
-          {[].concat.apply(
-            null, paramNames.map((paramName, index) => {
-              const param = params[paramName];
-              const Component = findComponent(param.type, this.props.components);
-              const components = Array.isArray(Component)
-                ? Component
-                : [Component];
+          {paramNames.map((paramName, index) => {
+            const { options, type } = params[paramName];
 
-              return components.map((Component, cindex) => (
-                <Component
-                  className='ui--Param'
-                  key={`${name}:${paramName}:${index}:${cindex}`}
-                  label={`${paramName}: ${typeToText(param.type)}`}
-                  subject={subjects[index]}
-                  value={param}
-                />
-              ));
-            })
-          )}
+            return (
+              <Param
+                key={`${name}:${paramName}:${index}`}
+                overrides={overrides}
+                subject={subjects[index]}
+                value={{
+                  name: paramName,
+                  options,
+                  type
+                }}
+              />
+            );
+          })}
         </div>
       </div>
     );
