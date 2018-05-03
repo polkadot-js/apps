@@ -18,13 +18,14 @@ type Props = I18nProps & {
 require('./InputExtrinsic.css');
 
 const React = require('react');
-const { Subject } = require('rxjs/Subject');
-
-const SelectMethod = require('./SelectMethod');
-const SelectSection = require('./SelectSection');
+const { BehaviorSubject } = require('rxjs/BehaviorSubject');
+const map = require('@polkadot/extrinsics-substrate');
 const withObservable = require('@polkadot/rx-react/with/observable');
 
 const translate = require('../translate');
+const SelectMethod = require('./SelectMethod');
+const SelectSection = require('./SelectSection');
+const methodOptions = require('./options/method');
 
 class InputExtrinsic extends React.PureComponent<Props> {
   sectionSubject: rxjs$Subject<ExtrinsicSectionName>;
@@ -33,12 +34,29 @@ class InputExtrinsic extends React.PureComponent<Props> {
   constructor (props: Props) {
     super(props);
 
-    this.sectionSubject = new Subject();
-    this.SelectMethod = withObservable(this.sectionSubject)(SelectMethod);
+    this.sectionSubject = new BehaviorSubject(props.subject.getValue().section);
+    this.SelectMethod = withObservable(this.sectionSubject)(
+      withObservable(props.subject, { propName: 'ownValue' })(SelectMethod)
+    );
   }
 
   componentWillMount () {
-    this.sectionSubject.subscribe(() => this.props.subject.next());
+    this.sectionSubject.subscribe((nextSection) => {
+      const current = this.props.subject.getValue();
+
+      console.log('subscribe', nextSection, current);
+
+      if (current.section === nextSection) {
+        return;
+      }
+
+      const type = this.props.isPrivate ? 'private' : 'public';
+      const options = methodOptions(nextSection, type);
+
+      this.props.subject.next(
+        map[nextSection].methods[type][options[0].value]
+      );
+    });
   }
 
   render (): React$Node {

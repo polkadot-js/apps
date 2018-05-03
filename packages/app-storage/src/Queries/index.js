@@ -11,7 +11,7 @@ import './Queries.css';
 import React from 'react';
 import withObservable from '@polkadot/rx-react/with/observable';
 
-import { queries } from '../subjects';
+import subjects from '../subjects';
 import translate from '../translate';
 import Query from './Query';
 
@@ -40,5 +40,5 @@ function Queries ({ className, style, value }: Props): React$Node {
 }
 
 export default translate(
-  withObservable(queries)(Queries)
+  withObservable(subjects.queries)(Queries)
 );

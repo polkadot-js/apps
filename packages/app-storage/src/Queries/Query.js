@@ -13,7 +13,7 @@ import Label from 'semantic-ui-react/dist/es/elements/Label';
 import Div from '@polkadot/rx-react/Div';
 import withStorage from '@polkadot/rx-react/with/storage';
 
-import transform from './transform';
+import createTransform from './transform';
 
 type Props = I18nProps & {
   value: StorageQuery
@@ -24,6 +24,8 @@ const Cache = [];
 export default function Query ({ className, style, value: { id, key, params } }: Props): React$Node {
   const Value = (() => {
     if (!Cache[id]) {
+      const transform = createTransform(key);
+
       Cache[id] = withStorage(key, { params, transform })(({ hasUpdated, value }) => (
         <Div
           className='ui disabled dropdown selection'
@@ -37,13 +39,18 @@ export default function Query ({ className, style, value: { id, key, params } }:
     return Cache[id];
   })();
 
+  const inputs = Object
+    .keys(key.params || {})
+    .map((name) => `${name}: ${key.params[name].type}`)
+    .join(', ');
+
   return (
     <div
       className={['storage--Queries-Query', className].join(' ')}
       style={style}
     >
       <Label>
-        {JSON.stringify(key)}
+        {key.section}_{key.name}({inputs}): {key.type}
       </Label>
       <Value />
     </div>

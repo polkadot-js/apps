@@ -23,6 +23,7 @@ module.exports = function SelectSection ({ className, isError, label, subject, s
   return (
     <RxDropdown
       className={['ui--InputExtrinsic-SelectSection', className].join(' ')}
+      defaultValue={subject.getValue()}
       isError={isError}
       label={label}
       options={options}

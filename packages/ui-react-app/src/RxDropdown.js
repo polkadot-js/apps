@@ -10,6 +10,7 @@ const Dropdown = require('semantic-ui-react/dist/es/modules/Dropdown').default;
 const Label = require('semantic-ui-react/dist/es/elements/Label').default;
 
 type Props = BareProps & {
+  defaultValue?: string,
   isError?: boolean,
   label?: string,
   // flowlint-next-line unclear-type:off
@@ -24,6 +25,8 @@ module.exports = function RxDropdown (props: Props): React$Node {
     const _value = props.transform
       ? props.transform(value)
       : value;
+
+    console.log('RxDropdown:onChange', value);
 
     if (props.subject) {
       props.subject.next(_value);
@@ -41,9 +44,9 @@ module.exports = function RxDropdown (props: Props): React$Node {
   delete _props.transform;
 
   return [
-    props.label
-      ? <Label key='label'>{props.label}</Label>
-      : null,
+    <Label key='label'>
+      {props.label || ''}
+    </Label>,
     <Dropdown
       key='dropdown'
       selection

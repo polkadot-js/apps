@@ -29,6 +29,15 @@ module.exports = function SelectKey ({ className, isError, label, onChange, styl
   const transform = (name: string): StorageDef$Key =>
     keys[name];
   const options = createOptions(value);
+  const sub = subject.getValue();
+
+  console.log('SelectKey(1)', sub.name);
+
+  const currentValue = sub && (sub.section === value) && keys[sub.name]
+    ? sub.name
+    : options[0].value;
+
+  console.log('SelectKey(2)', currentValue);
 
   return (
     <RxDropdown
@@ -40,6 +49,7 @@ module.exports = function SelectKey ({ className, isError, label, onChange, styl
       style={style}
       subject={subject}
       transform={transform}
+      value={currentValue}
     />
   );
 };

@@ -25,16 +25,17 @@ module.exports = function createOptions (sectionName: StateDb$SectionNames): Arr
 
       return {
         className: 'ui--InputStorage-SelectKey-Item',
+        key: `${sectionName}_${name}`,
         text: [
           <div
             className='ui--InputStorage-SelectKey-Item-text'
-            key={`${sectionName}:${name}:text`}
+            key={`${sectionName}_${name}:text`}
           >
             {description || name}
           </div>,
           <div
             className='ui--InputStorage-SelectKey-Item-call'
-            key={`${sectionName}:${name}:call`}
+            key={`${sectionName}_${name}:call`}
           >
             {name}({inputs})
           </div>

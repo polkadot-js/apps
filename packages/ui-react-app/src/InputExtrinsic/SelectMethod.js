@@ -30,6 +30,15 @@ module.exports = function SelectMethod ({ className, isError, label, onChange, s
   const transform = (name: string): Extrinsic =>
     methods[name];
   const options = createOptions(value, type);
+  const sub = subject.getValue();
+
+  console.log('SelectMethod(1)', sub.name);
+
+  const currentValue = sub && (sub.section === value) && methods[sub.name]
+    ? sub.name
+    : options[0].value;
+
+  console.log('SelectMethod(2)', currentValue);
 
   return (
     <RxDropdown
@@ -41,6 +50,7 @@ module.exports = function SelectMethod ({ className, isError, label, onChange, s
       style={style}
       subject={subject}
       transform={transform}
+      value={currentValue}
     />
   );
 };

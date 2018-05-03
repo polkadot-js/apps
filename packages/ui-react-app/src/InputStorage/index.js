@@ -17,13 +17,14 @@ type Props = I18nProps & {
 require('./InputStorage.css');
 
 const React = require('react');
-const { Subject } = require('rxjs/Subject');
-
-const SelectKey = require('./SelectKey');
-const SelectSection = require('./SelectSection');
+const { BehaviorSubject } = require('rxjs/BehaviorSubject');
 const withObservable = require('@polkadot/rx-react/with/observable');
+const map = require('@polkadot/storage-substrate/keys');
 
 const translate = require('../translate');
+const SelectKey = require('./SelectKey');
+const SelectSection = require('./SelectSection');
+const keyOptions = require('./options/key');
 
 class InputStorage extends React.PureComponent<Props> {
   sectionSubject: rxjs$Subject<StateDb$SectionNames>;
@@ -32,8 +33,20 @@ class InputStorage extends React.PureComponent<Props> {
   constructor (props: Props) {
     super(props);
 
-    this.sectionSubject = new Subject();
-    this.SelectKey = withObservable(this.sectionSubject)(SelectKey);
+    this.sectionSubject = new BehaviorSubject(props.subject.getValue().section);
+    this.SelectKey = withObservable(this.sectionSubject)(
+      withObservable(props.subject, { propName: 'ownValue' })(SelectKey)
+    );
+  }
+
+  componentWillMount () {
+    this.sectionSubject.subscribe((name) => {
+      const options = keyOptions(name);
+
+      this.props.subject.next(
+        map[name].keys[options[0].value]
+      );
+    });
   }
 
   render (): React$Node {

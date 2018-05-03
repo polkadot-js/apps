@@ -3,13 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Extrinsic$Type } from '@polkadot/extrinsics/types';
+import type { Param$Type } from '@polkadot/primitives/param';
 
-export default function typeToText (type: Extrinsic$Type): string {
+export default function typeToText (type: Param$Type): string {
   if (Array.isArray(type)) {
-    const [outer, inner] = type;
-
-    return `${outer}<${inner}>`;
+    return `Array<${type.join(', ')}>`;
   }
 
   return type;

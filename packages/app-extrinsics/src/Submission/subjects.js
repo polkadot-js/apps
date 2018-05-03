@@ -8,6 +8,7 @@ import type { Subjects } from './types';
 
 import BN from 'bn.js';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import map from '@polkadot/extrinsics-substrate';
 
 export default function createSubjects (): Subjects {
   return {
@@ -16,6 +17,7 @@ export default function createSubjects (): Subjects {
       isValid: false
     }: $Shape<QueueTx>)),
     method: new BehaviorSubject(({
+      extrinsic: map.staking.methods.public.transfer,
       isValid: false
     }: $Shape<EncodedParams>)),
     sender: new BehaviorSubject(new Uint8Array([]))

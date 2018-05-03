@@ -3,13 +3,13 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Extrinsic$Param } from '@polkadot/extrinsics/types';
+import type { Param } from '@polkadot/primitives/param';
 import type { BareProps } from '@polkadot/ui-react-app/types';
 import type { RawParam } from '../types';
 
 export type BaseProps = BareProps & {
   subject: rxjs$BehaviorSubject<RawParam>,
-  value: Extrinsic$Param
+  value: Param
 };
 
 export type Props = BaseProps & {

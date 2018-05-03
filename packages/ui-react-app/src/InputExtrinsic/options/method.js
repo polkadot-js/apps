@@ -8,7 +8,9 @@ import type { ExtrinsicSectionName } from '@polkadot/extrinsics/types';
 const React = require('react');
 const map = require('@polkadot/extrinsics-substrate');
 
-module.exports = function createOptions (sectionName: ExtrinsicSectionName, type: 'private' | 'public'): Array<*> {
+module.exports = function createOptions (sectionName: ExtrinsicSectionName, type: 'private' | 'public'): ?Array<*> {
+  console.log('createOptions', sectionName, type);
+
   const methods = map[sectionName].methods[type];
 
   return Object
@@ -20,16 +22,17 @@ module.exports = function createOptions (sectionName: ExtrinsicSectionName, type
 
       return {
         className: 'ui--InputExtrinsic-SelectMethod-Item',
+        key: `${sectionName}_${name}`,
         text: [
           <div
             className='ui--InputExtrinsic-SelectMethod-Item-text'
-            key={`${sectionName}:${name}:text`}
+            key={`${sectionName}_${name}:text`}
           >
             {description || name}
           </div>,
           <div
             className='ui--InputExtrinsic-SelectMethod-Item-call'
-            key={`${sectionName}:${name}:call`}
+            key={`${sectionName}_${name}:call`}
           >
             {name}({inputs})
           </div>

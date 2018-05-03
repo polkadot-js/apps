@@ -10,7 +10,7 @@ import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import withObservable from '@polkadot/rx-react/with/observable';
 
-import { queries, subject, values } from '../subjects';
+import subjects from '../subjects';
 import translate from '../translate';
 
 type Props = I18nProps & {
@@ -27,15 +27,15 @@ function Queue ({ className, style, t, value }: Props): React$Node {
 
     id++;
 
-    queries.next(
-      queries.getValue().reduce((next, item) => {
+    subjects.queries.next(
+      subjects.queries.getValue().reduce((next, item) => {
         next.push(item);
 
         return next;
       }, [{
         id,
         key: value,
-        params: values.getValue().map((s) => s.getValue())
+        params: subjects.params.getValue().map((s) => s.getValue())
       }])
     );
   };
@@ -54,5 +54,5 @@ function Queue ({ className, style, t, value }: Props): React$Node {
 }
 
 export default translate(
-  withObservable(subject)(Queue)
+  withObservable(subjects.next)(Queue)
 );

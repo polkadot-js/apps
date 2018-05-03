@@ -10,7 +10,7 @@ import './Selection.css';
 import React from 'react';
 import InputStorage from '@polkadot/ui-react-app/src/InputStorage';
 
-import { subject } from '../subjects';
+import subjects from '../subjects';
 import translate from '../translate';
 import Queue from './Queue';
 
@@ -28,7 +28,7 @@ function Selection ({ className, style, t }: Props): React$Node {
             labelSection={t('selection.section', {
               defaultValue: 'query storage area'
             })}
-            subject={subject}
+            subject={subjects.next}
           />
         </div>
       </div>

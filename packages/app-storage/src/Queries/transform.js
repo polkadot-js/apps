@@ -6,14 +6,19 @@
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 import isU8a from '@polkadot/util/is/u8a';
 
-export default function transform (value: BN | Uint8Array): string {
-  if (!value) {
-    return 'unknown';
-  }
+type Formatter = (value: BN | Uint8Array) => string;
 
-  if (isU8a(value)) {
-    return u8aToHexShort(value, 256);
-  }
+export default function transform ({ type }: StorageDef$Key): Formatter {
+  return (value: BN | Uint8Array): string => {
+    if (!value) {
+      return 'unknown';
+    }
 
-  return value.toString();
+    if (isU8a(value)) {
+      // $FlowFixMe type is a u8a
+      return u8aToHexShort(value, 256);
+    }
+
+    return value.toString();
+  };
 }

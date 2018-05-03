@@ -6,16 +6,23 @@
 import type { StorageQuery } from './types';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import storage from '@polkadot/storage-substrate/keys';
 
 type ValueSubject = rxjs$BehaviorSubject<*>;
 type ValueSubjects = Array<ValueSubject>;
 
-export const queries: rxjs$BehaviorSubject<Array<StorageQuery>> = new BehaviorSubject([]);
-export const subject: rxjs$BehaviorSubject<StorageDef$Key> = new BehaviorSubject();
-export const values: rxjs$BehaviorSubject<ValueSubjects> = new BehaviorSubject([]);
+type Subjects = {
+  next: rxjs$BehaviorSubject<StorageDef$Key>,
+  params: rxjs$BehaviorSubject<ValueSubjects>,
+  queries: rxjs$BehaviorSubject<Array<StorageQuery>>
+};
 
-subject.subscribe(({ params = {} } = {}) => {
-  values.next(
-    Object.keys(params).map(() => new BehaviorSubject())
-  );
-});
+function createSubjects (): Subjects {
+  return {
+    next: new BehaviorSubject(storage.timestamp.keys.current),
+    params: new BehaviorSubject([]),
+    queries: new BehaviorSubject([])
+  };
+}
+
+export default createSubjects();

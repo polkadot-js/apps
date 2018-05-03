@@ -34,7 +34,7 @@ function Decoded ({ className, style, t, value: { data, extrinsic, index, public
         <div className='expanded'>
           <p>
             <Trans i18nkey='decoded.short'>
-              You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{extrinsic.name}</span> with an index of <span className='code'>{index.toString()}</span>
+              You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{extrinsic.section}_{extrinsic.name}</span> with an index of <span className='code'>{index.toString()}</span>
             </Trans>
           </p>
           <p>
