@@ -8,17 +8,15 @@ import type { I18nProps } from '@polkadot/ui-react-app/types';
 import './Selection.css';
 
 import React from 'react';
-import withObservable from '@polkadot/rx-react/with/observable';
 import InputStorage from '@polkadot/ui-react-app/src/InputStorage';
 
 import { subject } from '../subjects';
+import translate from '../translate';
 import Queue from './Queue';
 
 type Props = I18nProps & {};
 
-export default function Selection ({ className, style }: Props): React$Node {
-  const Query = withObservable(subject)(Queue);
-
+function Selection ({ className, style, t }: Props): React$Node {
   return (
     <div
       className={['storage--Selection', className].join(' ')}
@@ -26,12 +24,19 @@ export default function Selection ({ className, style }: Props): React$Node {
     >
       <div className='ui--form'>
         <div className='full'>
-          <InputStorage subject={subject} />
+          <InputStorage
+            labelSection={t('selection.section', {
+              defaultValue: 'query storage area'
+            })}
+            subject={subject}
+          />
         </div>
       </div>
       <div className='storage--Selection-ButtonRow'>
-        <Query />
+        <Queue />
       </div>
     </div>
   );
 }
+
+export default translate(Selection);

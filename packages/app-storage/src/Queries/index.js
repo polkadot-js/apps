@@ -4,6 +4,7 @@
 // @flow
 
 import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { StorageQuery } from '../types';
 
 import './Queries.css';
 
@@ -14,23 +15,28 @@ import { queries } from '../subjects';
 import translate from '../translate';
 import Query from './Query';
 
-type Props = I18nProps & {};
+type Props = I18nProps & {
+  value?: Array<StorageQuery>
+};
 
-function Queries ({ className, subject, style, value }: Props): React$Node {
+function Queries ({ className, style, value }: Props): React$Node {
   if (!value || !value.length) {
     return null;
   }
 
-  return value.map((query) => {
-    const { id } = query;
-
-    return (
-      <Query
-        key={id}
-        query={query}
-      />
-    );
-  });
+  return (
+    <div
+      className={['storage--Queries', className].join(' ')}
+      style={style}
+    >
+      {value.map((query) => (
+        <Query
+          key={query.id}
+          value={query}
+        />
+      ))}
+    </div>
+  );
 }
 
 export default translate(

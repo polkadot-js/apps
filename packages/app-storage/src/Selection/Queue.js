@@ -3,22 +3,23 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { StorageDef$Key } from '@polkadot/storage/types';
 import type { I18nProps } from '@polkadot/ui-react-app/types';
-import type { QueueTx } from '../types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
+import withObservable from '@polkadot/rx-react/with/observable';
 
-import { queries } from '../subjects';
+import { queries, subject, values } from '../subjects';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  value: QueueTx;
+  value: StorageDef$Key;
 };
 
 let id = 0;
 
-function Queue ({ className, subject, style, t, value }: Props): React$Node {
+function Queue ({ className, style, t, value }: Props): React$Node {
   const onQueue = (): void => {
     if (!value) {
       return;
@@ -26,18 +27,16 @@ function Queue ({ className, subject, style, t, value }: Props): React$Node {
 
     id++;
 
-    const prev = queries.getValue();
-    const next = [{
-      id,
-      key: value
-    }];
-
     queries.next(
-      prev.reduce((next, item) => {
+      queries.getValue().reduce((next, item) => {
         next.push(item);
 
         return next;
-      }, next)
+      }, [{
+        id,
+        key: value,
+        params: values.getValue().map((s) => s.getValue())
+      }])
     );
   };
 
@@ -54,4 +53,6 @@ function Queue ({ className, subject, style, t, value }: Props): React$Node {
   );
 }
 
-export default translate(Queue);
+export default translate(
+  withObservable(subject)(Queue)
+);

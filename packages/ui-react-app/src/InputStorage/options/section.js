@@ -14,9 +14,9 @@ module.exports = function createOptions (): Array<*> {
       const methods = Object
         .keys(keys)
         .filter((name) => {
-          const { isDeprecated = false, isHidden = false } = keys[name];
+          const { isDeprecated = false, isHidden = false, params = {} } = keys[name];
 
-          return !isDeprecated && !isHidden;
+          return !isDeprecated && !isHidden && Object.keys(params).length === 0;
         });
 
       return !isDeprecated && methods.length !== 0;

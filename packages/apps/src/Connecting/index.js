@@ -21,9 +21,10 @@ function Connecting ({ className, style, value, t }: Props): React$Node {
     return null;
   }
 
+  // 'ui inverted page modals dimmer transition visible active'
   return (
     <div
-      className={['apps--Connecting', 'ui inverted page modals dimmer transition visible active', className].join(' ')}
+      className={['apps--Connecting', className].join(' ')}
       style={style}
     >
       <div className='apps--Connecting-text'>

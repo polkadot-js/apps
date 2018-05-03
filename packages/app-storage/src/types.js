@@ -3,10 +3,10 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-export default function format (value: BN | Uint8Array): string {
-  if (!value) {
-    return 'unknown';
-  }
+import type { StorageDef$Key } from '@polkadot/storage/types';
 
-  return value.toString();
+export type StorageQuery = {
+  id: number,
+  key: StorageDef$Key,
+  params: Array<*>
 }

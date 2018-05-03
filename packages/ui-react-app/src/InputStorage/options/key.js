@@ -15,9 +15,9 @@ module.exports = function createOptions (sectionName: StateDb$SectionNames): Arr
     .keys(section.keys)
     .sort()
     .filter((name) => {
-      const { isDeprecated = false, isHidden = false } = section.keys[name];
+      const { isDeprecated = false, isHidden = false, params = {} } = section.keys[name];
 
-      return !isDeprecated && !isHidden;
+      return !isDeprecated && !isHidden && Object.keys(params).length === 0;
     })
     .map((name) => {
       const { description, params = {} } = section.keys[name];

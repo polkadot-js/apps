@@ -8,7 +8,8 @@ import type { I18nProps } from '../types';
 
 type Props = I18nProps & {
   isError?: boolean,
-  label?: string,
+  labelMethod?: string,
+  labelSection?: string,
   onChange?: (event: SyntheticEvent<*>, value: StorageDef$Key) => void,
   subject?: rxjs$Subject<StorageDef$Key>
 };
@@ -36,7 +37,7 @@ class InputStorage extends React.PureComponent<Props> {
   }
 
   render (): React$Node {
-    const { className, label, onChange, style, subject, t } = this.props;
+    const { className, labelMethod, labelSection, onChange, style, subject, t } = this.props;
 
     return (
       <div
@@ -45,7 +46,7 @@ class InputStorage extends React.PureComponent<Props> {
       >
         <div className='small'>
           <SelectSection
-            label={t('input.storage.section', {
+            label={labelSection || t('input.storage.section', {
               defaultValue: 'storage area'
             })}
             subject={this.sectionSubject}
@@ -53,7 +54,7 @@ class InputStorage extends React.PureComponent<Props> {
         </div>
         <div className='large'>
           <this.SelectKey
-            label={label || t('input.storage.key', {
+            label={labelMethod || t('input.storage.key', {
               defaultValue: 'with storage key'
             })}
             onChange={onChange}
