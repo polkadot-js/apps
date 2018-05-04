@@ -40,7 +40,6 @@ export default class Nonce extends React.PureComponent<Props> {
           <Label>{label}</Label>
           <Nonce
             className='ui disabled dropdown selection'
-            classNameUpdated='hasUpdated'
             subject={subject}
           />
         </div>

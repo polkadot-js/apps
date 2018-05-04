@@ -9,3 +9,4 @@ import './styles/semantic.css';
 
 import './styles/app.css';
 import './styles/form.css';
+import './styles/rx.css';

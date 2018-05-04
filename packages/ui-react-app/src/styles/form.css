@@ -46,8 +46,3 @@
 .ui--form > div.small {
   flex: 0 25%;
 }
-
-.hasUpdated {
-  background: #ffffe0 !important;
-  transition: all 0.7s ease-in-out;
-}

@@ -21,18 +21,13 @@ type Props = I18nProps & {
 };
 
 function Query ({ className, style, value: { id, key, params } }: Props): React$Node {
-  const Cached = (() => {
+  const CachedQuery = (() => {
     if (!cache[id]) {
       const transform = createTransform(key);
 
-      cache[id] = withStorage(key, { params, transform })(({ hasUpdated, value }) => (
-        <Div
-          className='ui disabled dropdown selection'
-          classNameUpdated='hasUpdated'
-          hasUpdated={hasUpdated}
-          value={value}
-        />
-      ));
+      cache[id] = withStorage(key, { params, transform })(
+        Div, { className: 'ui disabled dropdown selection' }
+      );
     }
 
     return cache[id];
@@ -53,7 +48,7 @@ function Query ({ className, style, value: { id, key, params } }: Props): React$
         <Label>
           {key.section}_{key.name}({inputs}): {key.type}
         </Label>
-        <Cached />
+        <CachedQuery />
       </div>
       <div className='storage--actionrow-button'>
         <Label>&nbsp;</Label>

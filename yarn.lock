@@ -769,20 +769,20 @@
     "@polkadot/util" "^0.19.4"
     babel-runtime "^6.26.0"
 
-"@polkadot/rx-api@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/rx-api/-/rx-api-0.5.1.tgz#7c98989f7acfd1a7638abd073eb4e89e2f50d9e5"
+"@polkadot/rx-api@^0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/rx-api/-/rx-api-0.5.2.tgz#df4f16d849f3fa1bb1842158dca70bf5e07ed6a7"
   dependencies:
     "@polkadot/api" "^0.9.13"
     "@polkadot/api-provider" "^0.9.13"
     rxjs "^5.5.10"
 
-"@polkadot/rx-react@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/rx-react/-/rx-react-0.5.1.tgz#42b7535cc2aa3b50a169786c120520eaf972c8a9"
+"@polkadot/rx-react@^0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/rx-react/-/rx-react-0.5.2.tgz#9c65b1d329f20273b294238c19bfa3fe2e7a615e"
   dependencies:
     "@polkadot/primitives" "^0.12.4"
-    "@polkadot/rx-api" "^0.5.1"
+    "@polkadot/rx-api" "^0.5.2"
     "@polkadot/storage-substrate" "^0.12.4"
     "@polkadot/util" "^0.19.4"
 

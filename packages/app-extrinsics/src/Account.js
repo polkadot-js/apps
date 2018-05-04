@@ -50,10 +50,7 @@ class Account extends React.PureComponent<Props> {
               defaultValue: 'with an available balance of'
             })}
           </Label>
-          <Balance
-            className='ui disabled dropdown selection'
-            classNameUpdated='hasUpdated'
-          />
+          <Balance className='ui disabled dropdown selection' />
         </div>
       </div>
     );
