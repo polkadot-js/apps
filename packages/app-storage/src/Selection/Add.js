@@ -19,40 +19,38 @@ type Props = I18nProps & {
 
 let id = 0;
 
-function Queue ({ className, style, t, value }: Props): React$Node {
-  const onQueue = (): void => {
+function Add ({ className, style, value }: Props): React$Node {
+  const onAdd = (): void => {
     if (!value) {
       return;
     }
 
-    id++;
+    const current = subjects.queries.getValue();
+    const next = [{
+      id: ++id,
+      key: value,
+      params: subjects.params.getValue().map((s) => s.getValue())
+    }];
 
     subjects.queries.next(
-      subjects.queries.getValue().reduce((next, item) => {
+      current.reduce((next, item) => {
         next.push(item);
 
         return next;
-      }, [{
-        id,
-        key: value,
-        params: subjects.params.getValue().map((s) => s.getValue())
-      }])
+      }, next)
     );
   };
 
   return (
     <Button
       disabled={!value}
-      onClick={onQueue}
+      icon='plus'
+      onClick={onAdd}
       primary
-    >
-      {t('queue.label', {
-        defaultValue: 'Query Storage'
-      })}
-    </Button>
+    />
   );
 }
 
 export default translate(
-  withObservable(subjects.next)(Queue)
+  withObservable(subjects.next)(Add)
 );

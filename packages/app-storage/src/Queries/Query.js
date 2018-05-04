@@ -14,20 +14,20 @@ import Div from '@polkadot/rx-react/Div';
 import withStorage from '@polkadot/rx-react/with/storage';
 
 import translate from '../translate';
+import Remove from './Remove';
+import cache from './cache';
 import createTransform from './transform';
 
 type Props = I18nProps & {
   value: StorageQuery
 };
 
-const Cache = [];
-
 function Query ({ className, style, value: { id, key, params } }: Props): React$Node {
   const Value = (() => {
     if (!Cache[id]) {
       const transform = createTransform(key);
 
-      Cache[id] = withStorage(key, { params, transform })(({ hasUpdated, value }) => (
+      cache[id] = withStorage(key, { params, transform })(({ hasUpdated, value }) => (
         <Div
           className='ui disabled dropdown selection'
           classNameUpdated='hasUpdated'
@@ -37,7 +37,7 @@ function Query ({ className, style, value: { id, key, params } }: Props): React$
       ));
     }
 
-    return Cache[id];
+    return cache[id];
   })();
 
   const inputs = Object
@@ -48,13 +48,19 @@ function Query ({ className, style, value: { id, key, params } }: Props): React$
 
   return (
     <div
-      className={['storage--Queries-Query', className].join(' ')}
+      className={['storage--Queries-Query', 'storage--actionrow', className].join(' ')}
       style={style}
     >
-      <Label>
-        {key.section}_{key.name}({inputs}): {key.type}
-      </Label>
-      <Value />
+      <div className='storage--actionrow-value'>
+        <Label>
+          {key.section}_{key.name}({inputs}): {key.type}
+        </Label>
+        <Value />
+      </div>
+      <div className='storage--actionrow-button'>
+        <Label>&nbsp;</Label>
+        <Remove value={id} />
+      </div>
     </div>
   );
 }
