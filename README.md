@@ -12,3 +12,16 @@
 A Portal into the Polkadot network. Provides a view and interaction layer from a browser.
 
 This can be accessed as a hosted application via [https://polkadot.js.org/apps/](https://polkadot.js.org/apps/).
+
+## overview
+
+The repo is split into a number of packages, each representing an application. These are -
+
+- [apps](packages/apps/) This is the main entry point. It handles the selection sidebar and routing to the specific application being displayed.
+- [app-explorer](packages/app-explorer/) A simple block explorer. It only shows the most recent blocks, updating as they become available.
+- [app-extrinsics](packages/app-extrinsics/) Submission of extrinsics to a node.
+- [app-storage](packages/app-storage/) A simple node storage query application. Multiple queries can be queued and updates as new values become available.
+
+In addition the following libraries are also included in the repo -
+
+- [ui-react-app](packages/ui-react-app/) A reactive (using RxJS) application framework with a number of useful shared components. This will be moved to the [@polkadot/ui](https://github.com/polkadot-js/ui/) repository once it reaches a base level of stability and usability. (At this point with the framework being tested on the apps above, it makes development easier having it close)
