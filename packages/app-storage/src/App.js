@@ -5,13 +5,11 @@
 
 import type { I18nProps } from '@polkadot/ui-react-app/types';
 
-import './App.css';
-
 import React from 'react';
 
-import Queries from '../Queries';
-import Selection from '../Selection';
-import translate from '../translate';
+import Queries from './Queries';
+import Selection from './Selection';
+import translate from './translate';
 
 type Props = I18nProps & {};
 

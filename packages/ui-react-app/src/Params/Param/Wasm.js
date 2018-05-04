@@ -5,11 +5,11 @@
 
 import type { Props } from '../types';
 
-const React = require('react');
+import React from 'react';
 
-const BytesFile = require('./File');
+import BytesFile from './File';
 
-module.exports = function Wasm ({ isError, label, subject }: Props): React$Node {
+export default function Wasm ({ isError, label, subject }: Props): React$Node {
   const onChange = (file?: File, value?: Uint8Array) => {
     // TODO: Validate that we have actual proper WASM code
     subject.next({
@@ -27,4 +27,4 @@ module.exports = function Wasm ({ isError, label, subject }: Props): React$Node 
       subject={subject}
     />
   );
-};
+}

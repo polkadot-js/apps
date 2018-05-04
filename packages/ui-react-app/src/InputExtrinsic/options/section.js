@@ -3,9 +3,9 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-const map = require('@polkadot/extrinsics-substrate');
+import map from '@polkadot/extrinsics-substrate';
 
-module.exports = function createOptions (type: 'private' | 'public'): Array<*> {
+export default function createOptions (type: 'private' | 'public'): Array<*> {
   return Object
     .keys(map)
     .sort()
@@ -18,4 +18,4 @@ module.exports = function createOptions (type: 'private' | 'public'): Array<*> {
       text: name,
       value: name
     }));
-};
+}

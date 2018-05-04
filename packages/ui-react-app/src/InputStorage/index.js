@@ -8,6 +8,18 @@
 import type { StorageDef$Key, StateDb$SectionNames } from '@polkadot/storage/types';
 import type { I18nProps } from '../types';
 
+import './InputStorage.css';
+
+import React from 'react';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import withObservable from '@polkadot/rx-react/with/observable';
+import map from '@polkadot/storage-substrate/keys';
+
+import translate from '../translate';
+import SelectKey from './SelectKey';
+import SelectSection from './SelectSection';
+import keyOptions from './options/key';
+
 type Props = I18nProps & {
   isError?: boolean,
   labelMethod?: string,
@@ -15,18 +27,6 @@ type Props = I18nProps & {
   onChange?: (event: SyntheticEvent<*>, value: StorageDef$Key) => void,
   subject: rxjs$BehaviorSubject<StorageDef$Key>
 };
-
-require('./InputStorage.css');
-
-const React = require('react');
-const { BehaviorSubject } = require('rxjs/BehaviorSubject');
-const withObservable = require('@polkadot/rx-react/with/observable');
-const map = require('@polkadot/storage-substrate/keys');
-
-const translate = require('../translate');
-const SelectKey = require('./SelectKey');
-const SelectSection = require('./SelectSection');
-const keyOptions = require('./options/key');
 
 class InputStorage extends React.PureComponent<Props> {
   sectionSubject: rxjs$Subject<StateDb$SectionNames>;
@@ -92,4 +92,4 @@ class InputStorage extends React.PureComponent<Props> {
   }
 }
 
-module.exports = translate(InputStorage);
+export default translate(InputStorage);

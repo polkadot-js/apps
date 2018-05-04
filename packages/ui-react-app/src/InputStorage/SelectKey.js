@@ -6,6 +6,13 @@
 import type { StorageDef$Key } from '@polkadot/storage/types';
 import type { I18nProps } from '../types';
 
+import React from 'react';
+import map from '@polkadot/storage-substrate/keys';
+
+import RxDropdown from '../RxDropdown';
+import translate from '../translate';
+import createOptions from './options/key';
+
 type Props = I18nProps & {
   isError?: boolean,
   label?: string,
@@ -13,13 +20,6 @@ type Props = I18nProps & {
   subject?: rxjs$Subject<StorageDef$Key>,
   value?: StorageDef$Key
 };
-
-const React = require('react');
-const map = require('@polkadot/storage-substrate/keys');
-
-const RxDropdown = require('../RxDropdown');
-const translate = require('../translate');
-const createOptions = require('./options/key');
 
 function SelectKey ({ className, isError, label = '', onChange, style, subject, t, value }: Props): React$Node {
   if (!value || !map[value.section]) {
@@ -48,4 +48,4 @@ function SelectKey ({ className, isError, label = '', onChange, style, subject, 
   );
 }
 
-module.exports = translate(SelectKey);
+export default translate(SelectKey);

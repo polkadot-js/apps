@@ -3,9 +3,9 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-const map = require('@polkadot/storage-substrate/keys');
+import map from '@polkadot/storage-substrate/keys';
 
-module.exports = function createOptions (): Array<*> {
+export default function createOptions (): Array<*> {
   return Object
     .keys(map)
     .sort()
@@ -25,4 +25,4 @@ module.exports = function createOptions (): Array<*> {
       text: name,
       value: name
     }));
-};
+}

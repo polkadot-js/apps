@@ -5,10 +5,10 @@
 
 import type { StateDb$SectionNames } from '@polkadot/storage/types';
 
-const React = require('react');
-const map = require('@polkadot/storage-substrate/keys');
+import React from 'react';
+import map from '@polkadot/storage-substrate/keys';
 
-module.exports = function createOptions (sectionName: StateDb$SectionNames): Array<*> {
+export default function createOptions (sectionName: StateDb$SectionNames): Array<*> {
   const section = map[sectionName];
 
   return Object
@@ -43,4 +43,4 @@ module.exports = function createOptions (sectionName: StateDb$SectionNames): Arr
         value: name
       };
     });
-};
+}

@@ -5,15 +5,15 @@
 
 import type { Props as BaseProps } from '../types';
 
+import React from 'react';
+
+import translate from '../../translate';
+import Base from './Base';
+import typeToText from '../typeToText';
+
 type Props = BaseProps & {
   t: I18Next$Translate
 };
-
-const React = require('react');
-
-const translate = require('../../translate');
-const Base = require('./Base');
-const typeToText = require('../typeToText');
 
 function Unknown ({ label, subject, t, value: { type } }: Props): React$Node {
   subject.next({
@@ -38,4 +38,4 @@ function Unknown ({ label, subject, t, value: { type } }: Props): React$Node {
   );
 }
 
-module.exports = translate(Unknown);
+export default translate(Unknown);

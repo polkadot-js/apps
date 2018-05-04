@@ -6,6 +6,13 @@
 import type { Extrinsic } from '@polkadot/extrinsics/types';
 import type { I18nProps } from '../types';
 
+import React from 'react';
+import extrinsics from '@polkadot/extrinsics-substrate';
+
+import RxDropdown from '../RxDropdown';
+import translate from '../translate';
+import createOptions from './options/method';
+
 type Props = I18nProps & {
   isError?: boolean,
   label?: string,
@@ -14,13 +21,6 @@ type Props = I18nProps & {
   type: 'private' | 'public',
   value?: Extrinsic
 };
-
-const React = require('react');
-const extrinsics = require('@polkadot/extrinsics-substrate');
-
-const RxDropdown = require('../RxDropdown');
-const translate = require('../translate');
-const createOptions = require('./options/method');
 
 function SelectMethod ({ className, isError, label = '', onChange, style, subject, t, type, value }: Props): React$Node {
   if (!value || !extrinsics[value.section]) {
@@ -49,4 +49,4 @@ function SelectMethod ({ className, isError, label = '', onChange, style, subjec
   );
 }
 
-module.exports = translate(SelectMethod);
+export default translate(SelectMethod);

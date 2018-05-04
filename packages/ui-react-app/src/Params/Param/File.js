@@ -6,12 +6,12 @@
 import type { BareProps } from '@polkadot/ui-react-app/types';
 import type { RawParam } from '../types';
 
-const React = require('react');
-const Dropzone = require('react-dropzone').default;
-const withObservable = require('@polkadot/rx-react/with/observable');
+import React from 'react';
+import Dropzone from 'react-dropzone';
+import withObservable from '@polkadot/rx-react/with/observable';
 
-const translate = require('../../translate');
-const Base = require('./Base');
+import translate from '../../translate';
+import Base from './Base';
 
 type Props = BareProps & {
   isError?: boolean,
@@ -78,4 +78,4 @@ function BytesFile ({ className, isError = false, label, onChange, subject, t }:
   );
 }
 
-module.exports = translate(BytesFile);
+export default translate(BytesFile);

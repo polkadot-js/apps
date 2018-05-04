@@ -6,18 +6,18 @@
 import type { StateDb$SectionNames } from '@polkadot/storage/types';
 import type { I18nProps } from '../types';
 
+import React from 'react';
+
+import RxDropdown from '../RxDropdown';
+import translate from '../translate';
+import createOptions from './options/section';
+
 type Props = I18nProps & {
   isError?: boolean,
   label?: string,
   subject: rxjs$BehaviorSubject<StateDb$SectionNames>,
   type: 'private' | 'public'
 };
-
-const React = require('react');
-
-const RxDropdown = require('../RxDropdown');
-const translate = require('../translate');
-const createOptions = require('./options/section');
 
 function SelectSection ({ className, isError, label = '', subject, style, t, type }: Props): React$Node {
   const options = createOptions(type);
@@ -37,4 +37,4 @@ function SelectSection ({ className, isError, label = '', subject, style, t, typ
   );
 }
 
-module.exports = translate(SelectSection);
+export default translate(SelectSection);

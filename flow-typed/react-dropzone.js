@@ -2,7 +2,5 @@
 
 declare module 'react-dropzone' {
   declare type Dropzone = React$StatelessFunctionalComponent<*>;
-  declare module.exports: Dropzone & {
-    default: Dropzone
-  }
+  declare module.exports: Dropzone;
 }

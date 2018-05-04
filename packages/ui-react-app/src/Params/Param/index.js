@@ -7,6 +7,12 @@ import type { Param, Param$Type } from '@polkadot/primitives/param';
 import type { I18nProps } from '../../types';
 import type { ComponentMap, RawParam } from '../types';
 
+import React from 'react';
+
+import translate from '../../translate';
+import typeToText from '../typeToText';
+import findComponent from './findComponent';
+
 type Props = I18nProps & {
   overrides?: ComponentMap,
   subject: rxjs$BehaviorSubject<RawParam>,
@@ -14,12 +20,6 @@ type Props = I18nProps & {
     name: string
   };
 };
-
-const React = require('react');
-
-const translate = require('../../translate');
-const typeToText = require('../typeToText');
-const findComponent = require('./findComponent');
 
 function ParamComponent ({ className, overrides, style, subject, value: { name, type, options = {} } = {} }: Props): React$Node {
   if (!type) {
@@ -56,4 +56,4 @@ function ParamComponent ({ className, overrides, style, subject, value: { name, 
     : renderComponent(Component);
 }
 
-module.exports = translate(ParamComponent);
+export default translate(ParamComponent);

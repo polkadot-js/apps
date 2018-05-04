@@ -13,10 +13,10 @@ import translate from '../translate';
 import cache from './cache';
 
 type Props = I18nProps & {
-  id: number;
+  value: number;
 };
 
-function Remove ({ className, style, t, value }: Props): React$Node {
+function Remove ({ className, style, value }: Props): React$Node {
   const onRemove = (): void => {
     const current = subjects.queries.getValue();
 

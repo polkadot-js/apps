@@ -6,10 +6,10 @@
 
 import type { Param } from '@polkadot/primitives/param';
 
-const BN = require('bn.js');
-const isUndefined = require('@polkadot/util/is/undefined');
+import BN from 'bn.js';
+import isUndefined from '@polkadot/util/is/undefined';
 
-module.exports = function getInitValue ({ options: { initValue, minValue } = {}, type }: Param): mixed {
+export default function getInitValue ({ options: { initValue, minValue } = {}, type }: Param): mixed {
   if (Array.isArray(type)) {
     return type.map((type, index) =>
       getInitValue(({
@@ -42,4 +42,4 @@ module.exports = function getInitValue ({ options: { initValue, minValue } = {},
     default:
       return initValue;
   }
-};
+}

@@ -6,12 +6,12 @@
 import type { Extrinsic$Params } from '@polkadot/extrinsics/types';
 import type { RawParam } from './types';
 
-const { BehaviorSubject } = require('rxjs/BehaviorSubject');
-const isUndefined = require('@polkadot/util/is/undefined');
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import isUndefined from '@polkadot/util/is/undefined';
 
-const getInitValue = require('./initValue');
+import getInitValue from './initValue';
 
-module.exports = function subjects (params: Extrinsic$Params, subject: rxjs$BehaviorSubject<Array<RawParam>>): Array<rxjs$BehaviorSubject<RawParam>> {
+export default function subjects (params: Extrinsic$Params, subject: rxjs$BehaviorSubject<Array<RawParam>>): Array<rxjs$BehaviorSubject<RawParam>> {
   return Object
     .keys(params)
     .map((name: string): rxjs$BehaviorSubject<RawParam> => {
@@ -23,4 +23,4 @@ module.exports = function subjects (params: Extrinsic$Params, subject: rxjs$Beha
         value
       });
     });
-};
+}

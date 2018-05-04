@@ -7,21 +7,21 @@ import type { ProviderInterface } from '@polkadot/api-provider/types';
 import type { RxApiInterface } from '@polkadot/rx-api/types';
 import type { BareProps } from './types';
 
+import './i18n';
+import './styles';
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { HashRouter } from 'react-router-dom';
+import Api from '@polkadot/rx-react/Api';
+
 type Props = BareProps & {
   api?: RxApiInterface,
   provider?: ProviderInterface,
   url?: string
 }
 
-require('./i18n');
-require('./styles');
-
-const React = require('react');
-const ReactDOM = require('react-dom');
-const { HashRouter } = require('react-router-dom');
-const Api = require('@polkadot/rx-react/Api');
-
-module.exports = function createApp (App: React$ComponentType<BareProps>, { api, className, provider, style, url }: Props = {}, rootId: string = 'root'): void {
+export default function createApp (App: React$ComponentType<BareProps>, { api, className, provider, style, url }: Props = {}, rootId: string = 'root'): void {
   const rootElement = document.getElementById(rootId);
 
   if (!rootElement) {
@@ -43,4 +43,4 @@ module.exports = function createApp (App: React$ComponentType<BareProps>, { api,
     </Api>,
     rootElement
   );
-};
+}

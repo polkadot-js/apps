@@ -5,9 +5,9 @@
 
 import type { BareProps } from './types';
 
-const React = require('react');
-const Dropdown = require('semantic-ui-react/dist/es/modules/Dropdown').default;
-const Label = require('semantic-ui-react/dist/es/elements/Label').default;
+import React from 'react';
+import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
+import Label from 'semantic-ui-react/dist/es/elements/Label';
 
 type Props = BareProps & {
   defaultValue?: string,
@@ -20,7 +20,7 @@ type Props = BareProps & {
   transform?: (value: any) => any
 };
 
-module.exports = function RxDropdown (props: Props): React$Node {
+export default function RxDropdown (props: Props): React$Node {
   const onChange = (event: SyntheticEvent<*>, { value }): void => {
     const _value = props.transform
       ? props.transform(value)
@@ -54,4 +54,4 @@ module.exports = function RxDropdown (props: Props): React$Node {
       onChange={onChange}
     />
   ];
-};
+}

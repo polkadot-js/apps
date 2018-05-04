@@ -3,8 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-const testKeyring = require('@polkadot/util-keyring/testing');
+import testKeyring from '@polkadot/util-keyring/testing';
 
 const keyring = testKeyring();
 
-module.exports = keyring;
+export default keyring;

@@ -5,11 +5,11 @@
 
 import type { Props } from '../types';
 
-const React = require('react');
+import React from 'react';
 
-const Bytes = require('./Bytes');
+import Bytes from './Bytes';
 
-module.exports = function Hash ({ isError, label, subject, value }: Props): React$Node {
+export default function Hash ({ isError, label, subject, value }: Props): React$Node {
   return (
     <Bytes
       isError={isError}
@@ -20,4 +20,4 @@ module.exports = function Hash ({ isError, label, subject, value }: Props): Reac
       value={value}
     />
   );
-};
+}

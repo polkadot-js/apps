@@ -8,6 +8,18 @@
 import type { Extrinsic, ExtrinsicSectionName } from '@polkadot/extrinsics/types';
 import type { I18nProps } from '../types';
 
+import './InputExtrinsic.css';
+
+import React from 'react';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import map from '@polkadot/extrinsics-substrate';
+import withObservable from '@polkadot/rx-react/with/observable';
+
+import translate from '../translate';
+import SelectMethod from './SelectMethod';
+import SelectSection from './SelectSection';
+import methodOptions from './options/method';
+
 type Props = I18nProps & {
   isError?: boolean,
   isPrivate?: boolean,
@@ -16,18 +28,6 @@ type Props = I18nProps & {
   onChange?: (event: SyntheticEvent<*>, value: Extrinsic) => void,
   subject: rxjs$BehaviorSubject<Extrinsic>
 };
-
-require('./InputExtrinsic.css');
-
-const React = require('react');
-const { BehaviorSubject } = require('rxjs/BehaviorSubject');
-const map = require('@polkadot/extrinsics-substrate');
-const withObservable = require('@polkadot/rx-react/with/observable');
-
-const translate = require('../translate');
-const SelectMethod = require('./SelectMethod');
-const SelectSection = require('./SelectSection');
-const methodOptions = require('./options/method');
 
 class InputExtrinsic extends React.PureComponent<Props> {
   sectionSubject: rxjs$Subject<ExtrinsicSectionName>;
@@ -97,4 +97,4 @@ class InputExtrinsic extends React.PureComponent<Props> {
   }
 }
 
-module.exports = translate(InputExtrinsic);
+export default translate(InputExtrinsic);

@@ -3,9 +3,9 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-require('semantic-ui-css/semantic.min.css');
+import 'semantic-ui-css/semantic.min.css';
 
-require('./styles/semantic.css');
+import './styles/semantic.css';
 
-require('./styles/app.css');
-require('./styles/form.css');
+import './styles/app.css';
+import './styles/form.css';

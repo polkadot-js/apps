@@ -5,12 +5,12 @@
 
 import type { Props } from '../types';
 
-const React = require('react');
+import React from 'react';
 
-const InputAddress = require('../../InputAddress');
-const Base = require('./Base');
+import InputAddress from '../../InputAddress';
+import Base from './Base';
 
-module.exports = function Account ({ isError, label, subject, t, value: { options: { initValue } = {} } }: Props): React$Node {
+export default function Account ({ isError, label, subject, t, value: { options: { initValue } = {} } }: Props): React$Node {
   const defaultValue = initValue;
   // eslint-disable-next-line no-unused-vars
   const onChange = (event: SyntheticEvent<*>, value?: Uint8Array): void => {
@@ -33,4 +33,4 @@ module.exports = function Account ({ isError, label, subject, t, value: { option
       />
     </Base>
   );
-};
+}

@@ -7,13 +7,13 @@ import type { Extrinsic } from '@polkadot/extrinsics/types';
 import type { I18nProps } from '../types';
 import type { ComponentMap, RawParam } from './types';
 
-require('./Params.css');
+import './Params.css';
 
-const React = require('react');
+import React from 'react';
 
-const translate = require('../translate');
-const Param = require('./Param');
-const createSubjects = require('./subjects');
+import translate from '../translate';
+import Param from './Param';
+import createSubjects from './subjects';
 
 type Props = I18nProps & {
   overrides?: ComponentMap,
@@ -120,4 +120,4 @@ class Params extends React.PureComponent<Props, State> {
   }
 }
 
-module.exports = translate(Params);
+export default translate(Params);

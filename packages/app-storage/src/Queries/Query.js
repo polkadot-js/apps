@@ -6,8 +6,6 @@
 import type { I18nProps } from '@polkadot/ui-react-app/types';
 import type { StorageQuery } from '../types';
 
-import './Queries.css';
-
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 import Div from '@polkadot/rx-react/Div';

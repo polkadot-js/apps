@@ -5,23 +5,23 @@
 
 import type { BareProps } from '../types';
 
+import './InputAddress.css';
+
+import React from 'react';
+import hexToU8a from '@polkadot/util/hex/toU8a';
+import u8aToHex from '@polkadot/util/u8a/toHex';
+
+// TODO: We need to actually pass the keyring in, this is the testing keyring
+import keyring from '../keyring';
+import RxDropdown from '../RxDropdown';
+import PairDisplay from './PairDisplay';
+
 type Props = BareProps & {
   isError?: boolean,
   label?: string,
   onChange?: (event: SyntheticEvent<*>, value: Uint8Array) => void,
   subject?: rxjs$Subject<*>
 };
-
-require('./InputAddress.css');
-
-const React = require('react');
-const hexToU8a = require('@polkadot/util/hex/toU8a');
-const u8aToHex = require('@polkadot/util/u8a/toHex');
-
-// TODO: We need to actually pass the keyring in, this is the testing keyring
-const keyring = require('../keyring');
-const RxDropdown = require('../RxDropdown');
-const PairDisplay = require('./PairDisplay');
 
 const options = keyring.getPairs().map((pair) => ({
   text: (
@@ -33,7 +33,7 @@ const options = keyring.getPairs().map((pair) => ({
 const transform = (value: string): Uint8Array =>
   hexToU8a(value);
 
-module.exports = function InputAddress ({ className, isError, label, onChange, style, subject }: Props): React$Node {
+export default function InputAddress ({ className, isError, label, onChange, style, subject }: Props): React$Node {
   return (
     <RxDropdown
       className={['ui--InputAddress', className].join(' ')}
@@ -45,4 +45,4 @@ module.exports = function InputAddress ({ className, isError, label, onChange, s
       transform={transform}
     />
   );
-};
+}

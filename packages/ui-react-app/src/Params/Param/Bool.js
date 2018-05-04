@@ -5,17 +5,17 @@
 
 import type { Props } from '../types';
 
-const React = require('react');
-const Dropdown = require('semantic-ui-react/dist/es/modules/Dropdown').default;
+import React from 'react';
+import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 
-const Base = require('./Base');
+import Base from './Base';
 
 const options = [
   { text: 'No', value: false },
   { text: 'Yes', value: true }
 ];
 
-module.exports = function Bool ({ isError, label, subject, t, value: { options: { initValue = false } = {} } }: Props): React$Node {
+export default function Bool ({ isError, label, subject, t, value: { options: { initValue = false } = {} } }: Props): React$Node {
   const onChange = (event: SyntheticEvent<*>, { value }) =>
     subject.next({
       isValid: true,
@@ -36,4 +36,4 @@ module.exports = function Bool ({ isError, label, subject, t, value: { options: 
       />
     </Base>
   );
-};
+}
