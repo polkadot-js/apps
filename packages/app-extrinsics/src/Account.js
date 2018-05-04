@@ -25,7 +25,9 @@ class Account extends React.PureComponent<Props> {
   constructor (props: Props) {
     super(props);
 
-    this.Balance = withObservableParams(props.subject)(Balance);
+    this.Balance = withObservableParams(props.subject)(Balance, {
+      className: 'ui disabled dropdown selection'
+    });
   }
 
   render (): React$Node {
@@ -50,7 +52,7 @@ class Account extends React.PureComponent<Props> {
               defaultValue: 'with an available balance of'
             })}
           </Label>
-          <Balance className='ui disabled dropdown selection' />
+          <Balance />
         </div>
       </div>
     );

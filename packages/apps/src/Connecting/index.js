@@ -37,7 +37,7 @@ function Connecting ({ className, style, value, t }: Props): React$Node {
 }
 
 export default translate(
-  withApiCall({
-    method: 'isConnected'
-  })(Connecting)
+  withApiCall({ method: 'isConnected' })(
+    Connecting
+  )
 );
