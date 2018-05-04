@@ -14,11 +14,11 @@ export default function transform (header: Header): Array<Header> {
     return prev;
   }
 
-  return prev.reduce((next, value, index) => {
-    if (index < 9) {
+  return prev
+    .filter((value, index) => index < 9)
+    .reduce((next, value, index) => {
       next.push(value);
-    }
 
-    return next;
-  }, [header]);
+      return next;
+    }, [header]);
 }

@@ -5,24 +5,29 @@
 
 import type { I18nProps } from '@polkadot/ui-react-app/types';
 
-import './App.css';
-
 import React from 'react';
+import BestNumber from '@polkadot/rx-react/BestNumber';
 
-import Best from '../Best';
-import BlockHeaders from '../BlockHeaders';
-import translate from '../translate';
+import BestHash from './BestHash';
+import BlockHeaders from './BlockHeaders';
+import translate from './translate';
 
 type Props = I18nProps & {};
 
-function App ({ className, style }: Props): React$Node {
+function App ({ className, style, t }: Props): React$Node {
   return (
     <div
       className={['explorer--App', className].join(' ')}
       style={style}
     >
-      <Best className='explorer--App-Best' />
-      <BlockHeaders className='explorer--App-Headers' />
+      <BestNumber
+        className='explorer--BestNumber'
+        label={t('app.bestNumber', {
+          defaultValue: 'best #'
+        })}
+      />
+      <BestHash />
+      <BlockHeaders />
     </div>
   );
 }

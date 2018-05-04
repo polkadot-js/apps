@@ -4,5 +4,5 @@
 
 .rx--updated {
   background: #ffffe0 !important;
-  transition: all 0.7s ease-in-out;
+  transition: all 0.7s ease-out;
 }

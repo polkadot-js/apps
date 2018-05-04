@@ -3,7 +3,13 @@
 /* of the ISC license. See the LICENSE file for details. */
 
 .explorer--BlockHeader {
+  animation: fadein 1.5s;
   display: flex;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .explorer--BlockHeader:nth-child(even) {
