@@ -9,10 +9,16 @@ import type { StorageDef$Key } from '@polkadot/storage/types';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 import isU8a from '@polkadot/util/is/u8a';
 
-type Formatter = (value: BN | Uint8Array) => string;
+type Formatter = (value: boolean | BN | Date | Uint8Array) => string;
 
 export default function transform ({ type }: StorageDef$Key): Formatter {
-  return (value: BN | Uint8Array): string => {
+  return (value: boolean | BN | Date | Uint8Array): string => {
+    if (typeof value === typeof true) {
+      return value
+        ? 'Yes'
+        : 'No';
+    }
+
     if (!value) {
       return 'unknown';
     }

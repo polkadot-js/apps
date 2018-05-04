@@ -769,20 +769,20 @@
     "@polkadot/util" "^0.19.4"
     babel-runtime "^6.26.0"
 
-"@polkadot/rx-api@^0.4.17":
-  version "0.4.17"
-  resolved "https://registry.yarnpkg.com/@polkadot/rx-api/-/rx-api-0.4.17.tgz#2bba73a48ac487c2f1bff246999f519c5d14c01c"
+"@polkadot/rx-api@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/rx-api/-/rx-api-0.5.1.tgz#7c98989f7acfd1a7638abd073eb4e89e2f50d9e5"
   dependencies:
     "@polkadot/api" "^0.9.13"
     "@polkadot/api-provider" "^0.9.13"
     rxjs "^5.5.10"
 
-"@polkadot/rx-react@^0.4.17":
-  version "0.4.17"
-  resolved "https://registry.yarnpkg.com/@polkadot/rx-react/-/rx-react-0.4.17.tgz#b28d03aa4feacbb5001a43c1c663c49990533ac4"
+"@polkadot/rx-react@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/rx-react/-/rx-react-0.5.1.tgz#42b7535cc2aa3b50a169786c120520eaf972c8a9"
   dependencies:
     "@polkadot/primitives" "^0.12.4"
-    "@polkadot/rx-api" "^0.4.17"
+    "@polkadot/rx-api" "^0.5.1"
     "@polkadot/storage-substrate" "^0.12.4"
     "@polkadot/util" "^0.19.4"
 
@@ -802,18 +802,18 @@
     "@polkadot/util" "^0.19.4"
     babel-runtime "^6.26.0"
 
-"@polkadot/ui-identicon@^0.9.12":
-  version "0.9.12"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-identicon/-/ui-identicon-0.9.12.tgz#e8f11b8874d0c7c598fc6a631c4a9b67d125fb9b"
+"@polkadot/ui-identicon@^0.10.2":
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-identicon/-/ui-identicon-0.10.2.tgz#aa28ecb97461d50bb0324bb7ece54d94f818c94d"
   dependencies:
     babel-runtime "^6.26.0"
     color "^3.0.0"
 
-"@polkadot/ui-react@^0.9.12":
-  version "0.9.12"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-react/-/ui-react-0.9.12.tgz#04f44342287076f79aef421b9e5b917491c70647"
+"@polkadot/ui-react@^0.10.2":
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-react/-/ui-react-0.10.2.tgz#ccce46ac8301b330623653f8204d2bd10503030b"
   dependencies:
-    "@polkadot/ui-identicon" "^0.9.12"
+    "@polkadot/ui-identicon" "^0.10.2"
     babel-runtime "^6.26.0"
 
 "@polkadot/util-crypto@^0.19.4":

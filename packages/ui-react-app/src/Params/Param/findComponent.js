@@ -32,6 +32,7 @@ const components: ComponentMap = {
 
 export default function findComponent (type: Param$Type | Param$TypeArray, overrides?: ComponentMap = {}): React$ComponentType<*> | Array<React$ComponentType<*>> {
   if (Array.isArray(type)) {
+    // $FlowFixMe we are ok here
     return type.map((type) =>
       findComponent(type, overrides)
     );
