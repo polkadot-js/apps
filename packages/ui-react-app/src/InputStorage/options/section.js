@@ -9,19 +9,19 @@ export default function createOptions (): Array<*> {
   return Object
     .keys(map)
     .sort()
-    .filter((name) => {
-      const { isDeprecated = false, keys } = map[name];
+    .map((name) => map[name])
+    .filter(({ isDeprecated = false, isHidden = false, keys, name }) => {
       const methods = Object
-        .keys(keys)
-        .filter((name) => {
-          const { isDeprecated = false, isHidden = false, params = {} } = keys[name];
+        .values(keys)
+        .filter(({ isDeprecated = false, isHidden = false, params = {} }) =>
+          !isDeprecated &&
+          !isHidden &&
+          Object.keys(params).length === 0
+        );
 
-          return !isDeprecated && !isHidden && Object.keys(params).length === 0;
-        });
-
-      return !isDeprecated && methods.length !== 0;
+      return !isDeprecated && !isHidden && methods.length !== 0;
     })
-    .map((name) => ({
+    .map(({ name }) => ({
       text: name,
       value: name
     }));

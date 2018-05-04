@@ -5,37 +5,14 @@
 
 import type { ExtrinsicSectionName } from '@polkadot/extrinsics/types';
 
-import React from 'react';
 import map from '@polkadot/extrinsics-substrate';
 
-export default function createOptions (sectionName: ExtrinsicSectionName, type: 'private' | 'public'): Array<*> {
-  const methods = map[sectionName].methods[type];
+import createItemOptions from '../../RxDrodownLinked/createItemOptions';
 
-  return Object
-    .keys(methods)
-    .sort()
-    .map((name) => {
-      const { description, params = {} } = methods[name];
-      const inputs = Object.keys(params).join(', ');
+type Creator = (sectionName: ExtrinsicSectionName) => Array<*>;
 
-      return {
-        className: 'ui--InputExtrinsic-SelectMethod-Item',
-        key: `${sectionName}_${name}`,
-        text: [
-          <div
-            className='ui--InputExtrinsic-SelectMethod-Item-text'
-            key={`${sectionName}_${name}:text`}
-          >
-            {description || name}
-          </div>,
-          <div
-            className='ui--InputExtrinsic-SelectMethod-Item-call'
-            key={`${sectionName}_${name}:call`}
-          >
-            {name}({inputs})
-          </div>
-        ],
-        value: name
-      };
-    });
+export default function createOptions (type: 'private' | 'public'): Creator {
+  return (sectionName: ExtrinsicSectionName): Array<*> => {
+    return createItemOptions(map[sectionName].methods[type]);
+  };
 }
