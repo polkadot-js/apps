@@ -4,7 +4,7 @@
 // @flow
 
 import type { Location } from 'react-router-dom';
-import type { BaseProps } from '../types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import './Content.css';
 
@@ -14,7 +14,7 @@ import { withRouter } from 'react-router';
 import routing from '../routing';
 import translate from '../translate';
 
-type Props = BaseProps & {
+type Props = I18nProps & {
   location: Location
 };
 
@@ -23,11 +23,11 @@ function Content ({ className, location, style }: Props): React$Node {
 
   return (
     <div
-      className={['portal--Content', className].join(' ')}
+      className={['apps--Content', className].join(' ')}
       style={style}
     >
       <iframe
-        className='portal--Content-Frame'
+        className='apps--Content-Frame'
         src={`index.html?app=${app}`}
         title={app}
       />

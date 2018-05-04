@@ -3,7 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps, Route } from '../types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { Route } from '../types';
 
 import './Item.css';
 
@@ -12,23 +13,20 @@ import { NavLink } from 'react-router-dom';
 import Icon from 'semantic-ui-react/dist/es/elements/Icon';
 import Menu from 'semantic-ui-react/dist/es/collections/Menu';
 
-type Props = BaseProps & Route & {};
+type Props = I18nProps & Route & {};
 
-export default function Item ({ className, i18n, icon, isExact, name, path, style, t }: Props): React$Node {
-  // flowlint-next-line sketchy-null-string:off
-  const to = path || `/${name}`;
-
+export default function Item ({ className, i18n, icon, isExact, name, path = '', style, t }: Props): React$Node {
   return (
     <Menu.Item
-      className={['portal--SideBar-Item', className].join(' ')}
+      className={['apps--SideBar-Item', className].join(' ')}
       name={name}
       style={style}
     >
       <NavLink
-        activeClassName='portal--SideBar-Item-NavLink-active'
-        className='portal--SideBar-Item-NavLink'
+        activeClassName='apps--SideBar-Item-NavLink-active'
+        className='apps--SideBar-Item-NavLink'
         exact={isExact}
-        to={to}
+        to={path || `/${name}`}
       >
         <Icon name={icon} /> {t(`sidebar.${name}`, i18n)}
       </NavLink>

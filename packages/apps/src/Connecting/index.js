@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '../types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import './Connecting.css';
 
@@ -12,7 +12,7 @@ import withApiCall from '@polkadot/rx-react/with/apiCall';
 
 import translate from '../translate';
 
-type Props = BaseProps & {
+type Props = I18nProps & {
   value: boolean
 };
 
@@ -21,12 +21,13 @@ function Connecting ({ className, style, value, t }: Props): React$Node {
     return null;
   }
 
+  // 'ui inverted page modals dimmer transition visible active'
   return (
     <div
-      className={['portal--Connecting', 'ui inverted page modals dimmer transition visible active', className].join(' ')}
+      className={['apps--Connecting', className].join(' ')}
       style={style}
     >
-      <div className='portal--Connecting-text'>
+      <div className='apps--Connecting-text'>
         {t('connecting.disconnected', {
           defaultValue: 'You are disconnected from the node. Check that your node is running and that the Websocket endpoint is reachable.'
         })}
@@ -36,7 +37,7 @@ function Connecting ({ className, style, value, t }: Props): React$Node {
 }
 
 export default translate(
-  withApiCall({
-    method: 'isConnected'
-  })(Connecting)
+  withApiCall({ method: 'isConnected' })(
+    Connecting
+  )
 );

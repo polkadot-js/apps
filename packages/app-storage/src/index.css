@@ -1,0 +1,25 @@
+/* Copyright 2017-2018 Jaco Greeff
+/* This software may be modified and distributed under the terms
+/* of the ISC license. See the LICENSE file for details. */
+
+.storage--App {
+  padding: 1em;
+}
+
+.storage--Queries {
+  margin-top: 1em;
+}
+
+.storage--actionrow {
+  display: flex;
+}
+
+.storage--actionrow-value {
+  flex: 1;
+  min-width: 0;
+}
+
+.storage--actionrow-button {
+  flex: 0;
+  padding-left: 0.5rem;
+}

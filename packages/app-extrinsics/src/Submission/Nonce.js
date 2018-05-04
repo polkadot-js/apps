@@ -4,7 +4,7 @@
 // @flow
 
 import type BN from 'bn.js';
-import type { BareProps } from '../types';
+import type { BareProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
@@ -17,22 +17,33 @@ type Props = BareProps & {
   value: rxjs$BehaviorSubject<Uint8Array>
 };
 
-export default function Nonce ({ className, label, style, subject, t, value }: Props): React$Node {
-  const SenderNonce = withObservableParams(value)(RxNonce);
+export default class Nonce extends React.PureComponent<Props> {
+  Nonce: React$ComponentType<*>;
 
-  return (
-    <div
-      className={['extrinsics--split', className].join(' ')}
-      style={style}
-    >
-      <div className='small'>
-        <Label>{label}</Label>
-        <SenderNonce
-          className='ui disabled dropdown selection'
-          classNameUpdated='hasUpdated'
-          subject={subject}
-        />
+  constructor (props: Props) {
+    super(props);
+
+    // NOTE we basically get away with not checking updates since the parent is only created once
+    this.Nonce = withObservableParams(props.value)(RxNonce);
+  }
+
+  render (): React$Node {
+    const { className, label, style, subject } = this.props;
+    const Nonce = this.Nonce;
+
+    return (
+      <div
+        className={['ui--form', className].join(' ')}
+        style={style}
+      >
+        <div className='small'>
+          <Label>{label}</Label>
+          <Nonce
+            className='ui disabled dropdown selection'
+            subject={subject}
+          />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }

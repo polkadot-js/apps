@@ -3,7 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps, QueueTx } from '../types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { QueueTx } from '../types';
 
 import React from 'react';
 import { Trans } from 'react-i18next';
@@ -13,7 +14,7 @@ import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 
 import translate from '../translate';
 
-type Props = BaseProps & {
+type Props = I18nProps & {
   value: QueueTx
 };
 
@@ -33,7 +34,7 @@ function Decoded ({ className, style, t, value: { data, extrinsic, index, public
         <div className='expanded'>
           <p>
             <Trans i18nkey='decoded.short'>
-              You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{extrinsic.name}</span> with an index of <span className='code'>{index.toString()}</span>
+              You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{extrinsic.section}_{extrinsic.name}</span> with an index of <span className='code'>{index.toString()}</span>
             </Trans>
           </p>
           <p>

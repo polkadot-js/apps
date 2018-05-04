@@ -4,37 +4,18 @@
 // @flow
 
 import type { Header } from '@polkadot/primitives/header';
-import type { BaseProps } from './types';
 
-import React from 'react';
 import headerHash from '@polkadot/primitives-codec/header/hash';
+import Div from '@polkadot/rx-react/Div';
 import withApiCall from '@polkadot/rx-react/with/apiCall';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 
-import translate from './translate';
-
-type Props = BaseProps & {
-  value?: Header
-};
-
-function BestHash ({ className, style, value }: Props): React$Node {
-  if (!value) {
-    return null;
+export default withApiCall({ method: 'newHead', section: 'chain' })(
+  Div, {
+    className: 'explorer--BestHash',
+    format: (value?: Header): ?string =>
+      value
+        ? u8aToHexShort(headerHash(value))
+        : value
   }
-
-  return (
-    <div
-      className={['explorer--BestHash', className].join(' ')}
-      style={style}
-    >
-      {u8aToHexShort(headerHash(value))}
-    </div>
-  );
-}
-
-export default translate(
-  withApiCall({
-    method: 'newHead',
-    section: 'chain'
-  })(BestHash)
 );

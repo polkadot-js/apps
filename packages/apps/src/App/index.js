@@ -3,27 +3,27 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '../types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import './App.css';
 
 import React from 'react';
 
-import translate from '../translate';
 import Connecting from '../Connecting';
 import Content from '../Content';
 import SideBar from '../SideBar';
+import translate from '../translate';
 
-type Props = BaseProps & {};
+type Props = I18nProps & {};
 
 function App ({ className, style }: Props): React$Node {
   return (
     <div
-      className={['portal--App', className].join(' ')}
+      className={['apps--App', className].join(' ')}
       style={style}
     >
-      <SideBar className='portal--App-column' />
-      <Content className='portal--App-column' />
+      <SideBar className='apps--App-column' />
+      <Content className='apps--App-column' />
       <Connecting />
     </div>
   );

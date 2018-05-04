@@ -4,7 +4,7 @@
 // @flow
 
 import type { Header } from '@polkadot/primitives/header';
-import type { BaseProps } from '../types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import './BlockHeader.css';
 
@@ -14,7 +14,7 @@ import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import translate from '../translate';
 
-type Props = BaseProps & {
+type Props = I18nProps & {
   label?: string,
   value?: Header
 };

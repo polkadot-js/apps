@@ -1,0 +1,38 @@
+/* Copyright 2017-2018 Jaco Greeff
+/* This software may be modified and distributed under the terms
+/* of the ISC license. See the LICENSE file for details. */
+
+.ui--InputExtrinsic {}
+
+.ui--InputExtrinsic-SelectMethod .text {
+  box-sizing: border-box;
+  display: flex !important;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.ui--InputExtrinsic-SelectMethod-Item > .text {
+  padding-left: 1em;
+}
+
+.ui--InputExtrinsic-SelectMethod-Item-text,
+.ui--InputExtrinsic-SelectMethod-Item-call {
+  display: inline-block;
+}
+
+.ui--InputExtrinsic-SelectMethod-Item-call {
+  flex: 1;
+  font-family: monospace;
+  margin-left: 1rem;
+  opacity: 0.5;
+  overflow: hidden;
+  text-align: right;
+  text-overflow: ellipsis;
+}
+
+.ui--InputExtrinsic-SelectMethod-Item-text {
+  flex: 1 0;
+}

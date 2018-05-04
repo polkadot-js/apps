@@ -3,50 +3,60 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from './types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 import Balance from '@polkadot/rx-react/Balance';
 import withObservableParams from '@polkadot/rx-react/with/observableParams';
+import InputAddress from '@polkadot/ui-react-app/src/InputAddress';
 
 import translate from './translate';
-import InputAddress from './InputAddress';
 
-type Props = BaseProps & {
+type Props = I18nProps & {
   isError?: boolean,
   label: string,
   subject: rxjs$BehaviorSubject<Uint8Array>
 };
 
-function Account ({ className, isError, label, subject, style, t }: Props): React$Node {
-  const AccountBalance = withObservableParams(subject)(Balance);
+class Account extends React.PureComponent<Props> {
+  Balance: React$ComponentType<*>;
 
-  return (
-    <div
-      className={['extrinsics--Account', 'extrinsics--split', className].join(' ')}
-      style={style}
-    >
-      <div className='large'>
-        <Label>{label}</Label>
-        <InputAddress
-          placeholder='0x...'
-          subject={subject}
-        />
+  constructor (props: Props) {
+    super(props);
+
+    this.Balance = withObservableParams(props.subject)(Balance, {
+      className: 'ui disabled dropdown selection'
+    });
+  }
+
+  render (): React$Node {
+    const { className, label, subject, style, t } = this.props;
+    const Balance = this.Balance;
+
+    return (
+      <div
+        className={['extrinsics--Account', 'ui--form', className].join(' ')}
+        style={style}
+      >
+        <div className='large'>
+          <InputAddress
+            label={label}
+            placeholder='0x...'
+            subject={subject}
+          />
+        </div>
+        <div className='small'>
+          <Label>
+            {t('account.balance', {
+              defaultValue: 'with an available balance of'
+            })}
+          </Label>
+          <Balance />
+        </div>
       </div>
-      <div className='small'>
-        <Label>
-          {t('account.balance', {
-            defaultValue: 'with an available balance of'
-          })}
-        </Label>
-        <AccountBalance
-          className='ui disabled dropdown selection'
-          classNameUpdated='hasUpdated'
-        />
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default translate(Account);

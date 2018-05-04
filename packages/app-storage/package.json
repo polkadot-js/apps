@@ -1,0 +1,16 @@
+{
+  "name": "@polkadot/app-storage",
+  "version": "0.1.6",
+  "main": "index.js",
+  "repository": "https://github.com/polkadot-js/apps.git",
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "license": "ISC",
+  "scripts": {
+    "build": "polkadot-dev-build-babel",
+    "check": "stylelint 'src/**/*.css' && eslint src && flow check",
+    "test": "jest --coverage"
+  },
+  "devDependencies": {
+    "@polkadot/ui-react-app": "^0.1.6"
+  }
+}

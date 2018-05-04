@@ -3,14 +3,15 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps, QueueTx } from '../types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { QueueTx } from '../types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 
 import translate from '../translate';
 
-type Props = BaseProps & {
+type Props = I18nProps & {
   subject: rxjs$BehaviorSubject<QueueTx>,
   value: QueueTx;
 };

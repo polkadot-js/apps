@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BaseProps } from '../types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import './SideBar.css';
 
@@ -14,12 +14,12 @@ import routing from '../routing';
 import translate from '../translate';
 import Item from './Item';
 
-type Props = BaseProps & {};
+type Props = I18nProps & {};
 
 function SideBar ({ className, style, t }: Props): React$Node {
   return (
     <div
-      className={['portal--SideBar', className].join(' ')}
+      className={['apps--SideBar', className].join(' ')}
       style={style}
     >
       <Menu
@@ -27,11 +27,12 @@ function SideBar ({ className, style, t }: Props): React$Node {
         vertical
       >
         {
-          routing.routes.map((props) => (
+          routing.routes.map((route) => (
             <Item
-              key={props.name}
+              key={route.name}
               t={t}
-              {...props}
+              // flowlint-next-line inexact-spread:off
+              {...route}
             />
           ))
         }

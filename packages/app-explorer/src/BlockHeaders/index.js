@@ -4,47 +4,32 @@
 // @flow
 
 import type { Header } from '@polkadot/primitives/header';
-import type { BaseProps } from '../types';
 
 import React from 'react';
+import Div from '@polkadot/rx-react/Div';
 import withApiCall from '@polkadot/rx-react/with/apiCall';
 
-import translate from '../translate';
 import BlockHeader from '../BlockHeader';
-import { blockHeaders } from '../subjects';
+import { blockHeaders as subject } from '../subjects';
 import transform from './transform';
 
-type Props = BaseProps & {
-  value: Array<Header>
+const apiMethod = {
+  method: 'newHead',
+  section: 'chain'
 };
 
-function BlockHeaders ({ className, style, value }: Props): React$Node {
-  return (
-    <div
-      className={['explorer--BlockHeaders', className].join(' ')}
-      style={style}
-    >
-      {
-        (value || []).map((header) => (
-          <BlockHeader
-            value={header}
-            key={header.number.toString()}
-          />
-        ))
-      }
-    </div>
-  );
-}
+const apiOptions = {
+  subject,
+  transform
+};
 
-export default translate(
-  withApiCall(
-    {
-      method: 'newHead',
-      section: 'chain'
-    },
-    {
-      subject: blockHeaders,
-      transform
-    }
-  )(BlockHeaders)
-);
+export default withApiCall(apiMethod, apiOptions)(Div, {
+  className: 'explorer--BlockHeaders',
+  format: (value?: Array<Header> = []): React$Node =>
+    value.map((value) => (
+      <BlockHeader
+        key={value.number.toString()}
+        value={value}
+      />
+    ))
+});

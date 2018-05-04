@@ -1,0 +1,48 @@
+/* Copyright 2017-2018 Jaco Greeff
+/* This software may be modified and distributed under the terms
+/* of the ISC license. See the LICENSE file for details. */
+
+.ui--form {
+  width: 100%;
+}
+
+.ui--form {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.ui--form.embedded {
+  margin-right: -0.5rem;
+}
+
+.ui--form > div {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+}
+
+.ui--form > div.full:not(:first-child),
+.ui--form > div.large:not(:first-child),
+.ui--form > div.medium:not(:first-child),
+.ui--form > div.small:not(:first-child) {
+  padding-left: 0.5rem;
+}
+
+.ui--form > div.full {
+  flex: 0 100%;
+}
+
+.ui--form > div.large {
+  flex: 0 75%;
+}
+
+.ui--form > div.medium {
+  flex: 0 50%;
+}
+
+.ui--form > div.small {
+  flex: 0 25%;
+}
