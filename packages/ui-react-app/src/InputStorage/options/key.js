@@ -5,42 +5,10 @@
 
 import type { StateDb$SectionNames } from '@polkadot/storage/types';
 
-import React from 'react';
 import map from '@polkadot/storage-substrate/keys';
 
+import createItemOptions from '../../RxDrodownLinked/createItemOptions';
+
 export default function createOptions (sectionName: StateDb$SectionNames): Array<*> {
-  const section = map[sectionName];
-
-  return Object
-    .keys(section.keys)
-    .sort()
-    .filter((name) => {
-      const { isDeprecated = false, isHidden = false, params = {} } = section.keys[name];
-
-      return !isDeprecated && !isHidden && Object.keys(params).length === 0;
-    })
-    .map((name) => {
-      const { description, params = {} } = section.keys[name];
-      const inputs = Object.keys(params).join(', ');
-
-      return {
-        className: 'ui--InputStorage-SelectKey-Item',
-        key: `${sectionName}_${name}`,
-        text: [
-          <div
-            className='ui--InputStorage-SelectKey-Item-text'
-            key={`${sectionName}_${name}:text`}
-          >
-            {description || name}
-          </div>,
-          <div
-            className='ui--InputStorage-SelectKey-Item-call'
-            key={`${sectionName}_${name}:call`}
-          >
-            {name}({inputs})
-          </div>
-        ],
-        value: name
-      };
-    });
+  return createItemOptions(map[sectionName].keys);
 }

@@ -5,17 +5,22 @@
 
 import map from '@polkadot/extrinsics-substrate';
 
-export default function createOptions (type: 'private' | 'public'): Array<*> {
-  return Object
-    .keys(map)
-    .sort()
-    .filter((name) => {
-      const methods = map[name].methods[type];
+type Creator = () => Array<*>;
 
-      return Object.keys(methods).length !== 0;
-    })
-    .map((name) => ({
-      text: name,
-      value: name
-    }));
+export default function createOptions (type: 'private' | 'public'): Creator {
+  return (): Array<*> => {
+    return Object
+      .keys(map)
+      .sort()
+      .map((name) => map[name])
+      .filter(({ isDeprecated = false, isHidden = false, methods }) =>
+        !isDeprecated &&
+        !isHidden &&
+        Object.keys(methods[type]).length !== 0
+      )
+      .map(({ name }) => ({
+        text: name,
+        value: name
+      }));
+  };
 }

@@ -3,22 +3,15 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-// TODO: We have a lot shared between this and InputExtrinsic
-
-import type { Extrinsic, ExtrinsicSectionName } from '@polkadot/extrinsics/types';
+import type { Extrinsic } from '@polkadot/extrinsics/types';
 import type { I18nProps } from '../types';
 
-import './InputExtrinsic.css';
-
 import React from 'react';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import map from '@polkadot/extrinsics-substrate';
-import withObservable from '@polkadot/rx-react/with/observable';
 
+import RxDropdownLinked from '../RxDropdownLinked';
 import translate from '../translate';
-import SelectMethod from './SelectMethod';
-import SelectSection from './SelectSection';
 import methodOptions from './options/method';
+import sectionOptions from './options/section';
 
 type Props = I18nProps & {
   isError?: boolean,
@@ -29,72 +22,25 @@ type Props = I18nProps & {
   subject: rxjs$BehaviorSubject<Extrinsic>
 };
 
-class InputExtrinsic extends React.PureComponent<Props> {
-  sectionSubject: rxjs$Subject<ExtrinsicSectionName>;
-  SelectMethod: React$ComponentType<*>;
-  subscriptions: Array<rxjs$ISubscription>
+function InputExtrinsic ({ className, isPrivate = false, labelItem = '', labelSection = '', onChange, style, subject, t }: Props): React$Node {
+  const type = isPrivate ? 'private' : 'public';
 
-  constructor (props: Props) {
-    super(props);
-
-    this.sectionSubject = new BehaviorSubject(props.subject.getValue().section);
-    this.SelectMethod = withObservable(props.subject)(SelectMethod);
-  }
-
-  componentWillMount () {
-    this.subscriptions = [
-      this.sectionSubject.subscribe((section) => {
-        const { isPrivate = false, subject } = this.props;
-        const current = subject.getValue();
-
-        if (current.section === section) {
-          return;
-        }
-
-        const type = isPrivate ? 'private' : 'public';
-        const options = methodOptions(section, type);
-
-        subject.next(
-          map[section].methods[type][options[0].value]
-        );
-      })
-    ];
-  }
-
-  componentWillUnmount () {
-    this.subscriptions.forEach((s) =>
-      s.unsubscribe()
-    );
-  }
-
-  render (): React$Node {
-    const { className, isPrivate = false, labelMethod, labelSection, onChange, style, subject } = this.props;
-    const type = isPrivate ? 'private' : 'public';
-    const SelectMethod = this.SelectMethod;
-
-    return (
-      <div
-        className={['ui--InputExtrinsic', 'ui--form', className].join(' ')}
-        style={style}
-      >
-        <div className='small'>
-          <SelectSection
-            label={labelSection}
-            subject={this.sectionSubject}
-            type={type}
-          />
-        </div>
-        <div className='large'>
-          <SelectMethod
-            label={labelMethod}
-            onChange={onChange}
-            subject={subject}
-            type={type}
-          />
-        </div>
-      </div>
-    );
-  }
+  return (
+    <RxDropdownLinked
+      className={className}
+      createItems={methodOptions(type)}
+      createSections={sectionOptions(type)}
+      labelMethod={labelItem || t('input.extrinsic.method', {
+        defaultValue: 'with the extrinsic'
+      })}
+      labelSection={labelSection || t('input.extrinsic.section', {
+        defaultValue: 'from extrinsic section'
+      })}
+      onChange={onChange}
+      style={style}
+      subject={subject}
+    />
+  );
 }
 
 export default translate(InputExtrinsic);
