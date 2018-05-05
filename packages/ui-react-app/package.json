@@ -11,12 +11,12 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "@polkadot/extrinsics-substrate": "^0.12.6",
-    "@polkadot/rx-react": "^0.5.3",
-    "@polkadot/storage-substrate": "^0.12.6",
-    "@polkadot/ui-react": "^0.10.2",
-    "@polkadot/util": "^0.19.4",
-    "@polkadot/util-keyring": "^0.19.4",
+    "@polkadot/extrinsics-substrate": "^0.12.7",
+    "@polkadot/rx-react": "^0.5.5",
+    "@polkadot/storage-substrate": "^0.12.7",
+    "@polkadot/ui-react": "^0.10.3",
+    "@polkadot/util": "^0.19.5",
+    "@polkadot/util-keyring": "^0.19.5",
     "i18next": "^11.1.1",
     "i18next-browser-languagedetector": "^2.2.0",
     "i18next-xhr-backend": "^1.5.1",

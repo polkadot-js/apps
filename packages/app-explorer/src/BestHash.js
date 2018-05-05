@@ -10,12 +10,17 @@ import Div from '@polkadot/rx-react/Div';
 import withApiCall from '@polkadot/rx-react/with/apiCall';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 
-export default withApiCall({ method: 'newHead', section: 'chain' })(
-  Div, {
-    className: 'explorer--BestHash',
-    format: (value?: Header): ?string =>
-      value
-        ? u8aToHexShort(headerHash(value))
-        : value
-  }
-);
+const apiMethod = {
+  method: 'newHead',
+  section: 'chain'
+};
+
+const props = {
+  className: 'explorer--BestHash',
+  format: (value?: Header): ?string =>
+    value
+      ? u8aToHexShort(headerHash(value))
+      : value
+};
+
+export default withApiCall(apiMethod)(Div, props);
