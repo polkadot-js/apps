@@ -11,7 +11,7 @@ import withApiCall from '@polkadot/rx-react/with/apiCall';
 
 import BlockHeader from './BlockHeader';
 
-const blockHeaders: Array<Header> = [];
+let blockHeaders: Array<Header> = [];
 
 const apiMethod = {
   method: 'newHead',
@@ -20,13 +20,17 @@ const apiMethod = {
 
 const apiOptions = {
   transform: (header: Header): Array<Header> => {
-    if (header) {
-      blockHeaders.unshift(header);
-
-      if (blockHeaders.length > 10) {
-        blockHeaders.pop();
-      }
+    if (!header) {
+      return blockHeaders;
     }
+
+    blockHeaders = blockHeaders
+      .filter((header, index) => index < 9)
+      .reduce((next, header) => {
+        next.push(header);
+
+        return next;
+      }, [header]);
 
     return blockHeaders;
   }

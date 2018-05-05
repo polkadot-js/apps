@@ -11,6 +11,7 @@ import { Trans } from 'react-i18next';
 import Modal from 'semantic-ui-react/dist/es/modules/Modal';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
+import addressEncode from '@polkadot/util-keyring/address/encode';
 
 import translate from '../translate';
 
@@ -19,7 +20,7 @@ type Props = I18nProps & {
 };
 
 function Decoded ({ className, style, t, value: { data, extrinsic, index, publicKey } }: Props): React$Node {
-  const from = u8aToHexShort(publicKey);
+  const from = addressEncode(publicKey);
 
   return (
     <Modal.Content
@@ -29,7 +30,7 @@ function Decoded ({ className, style, t, value: { data, extrinsic, index, public
       <div className='body'>
         <IdentityIcon
           className='icon'
-          value={publicKey}
+          value={from}
         />
         <div className='expanded'>
           <p>

@@ -8,8 +8,7 @@ import type { BareProps } from '../types';
 import './InputAddress.css';
 
 import React from 'react';
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import u8aToHex from '@polkadot/util/u8a/toHex';
+import addressDecode from '@polkadot/util-keyring/address/decode';
 
 // TODO: We need to actually pass the keyring in, this is the testing keyring
 import keyring from '../keyring';
@@ -27,11 +26,11 @@ const options = keyring.getPairs().map((pair) => ({
   text: (
     <PairDisplay pair={pair} />
   ),
-  value: u8aToHex(pair.publicKey())
+  value: pair.address()
 }));
 
 const transform = (value: string): Uint8Array =>
-  hexToU8a(value);
+  addressDecode(value);
 
 export default function InputAddress ({ className, isError, label, onChange, style, subject }: Props): React$Node {
   return (

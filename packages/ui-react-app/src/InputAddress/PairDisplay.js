@@ -9,7 +9,6 @@ import './PairDisplay.css';
 
 import React from 'react';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
-import u8aToHex from '@polkadot/util/u8a/toHex';
 
 type Props = {
   className?: string,
@@ -20,8 +19,10 @@ type Props = {
 };
 
 export default function PairDisplay ({ className, pair, style }: Props): React$Node {
-  const publicKey = pair.publicKey();
+  const address = pair.address();
   const { name } = pair.getMeta();
+
+  console.log('address', address);
 
   return (
     <div
@@ -31,13 +32,13 @@ export default function PairDisplay ({ className, pair, style }: Props): React$N
       <IdentityIcon
         className='ui--InputyAddress-PairDisplay-icon'
         size={32}
-        value={publicKey}
+        value={address}
       />
       <div className='ui--InputyAddress-PairDisplay-name'>
         {name}
       </div>
       <div className='ui--InputyAddress-PairDisplay-address'>
-        {u8aToHex(publicKey)}
+        {address}
       </div>
     </div>
   );
