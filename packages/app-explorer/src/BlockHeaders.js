@@ -9,9 +9,9 @@ import React from 'react';
 import Div from '@polkadot/rx-react/Div';
 import withApiCall from '@polkadot/rx-react/with/apiCall';
 
-import BlockHeader from '../BlockHeader';
-import { blockHeaders as subject } from '../subjects';
-import transform from './transform';
+import BlockHeader from './BlockHeader';
+
+const blockHeaders: Array<Header> = [];
 
 const apiMethod = {
   method: 'newHead',
@@ -19,11 +19,20 @@ const apiMethod = {
 };
 
 const apiOptions = {
-  subject,
-  transform
+  transform: (header: Header): Array<Header> => {
+    if (header) {
+      blockHeaders.unshift(header);
+
+      if (blockHeaders.length > 10) {
+        blockHeaders.pop();
+      }
+    }
+
+    return blockHeaders;
+  }
 };
 
-export default withApiCall(apiMethod, apiOptions)(Div, {
+const props = {
   className: 'explorer--BlockHeaders',
   format: (value?: Array<Header> = []): React$Node =>
     value.map((value) => (
@@ -32,4 +41,6 @@ export default withApiCall(apiMethod, apiOptions)(Div, {
         value={value}
       />
     ))
-});
+};
+
+export default withApiCall(apiMethod, apiOptions)(Div, props);
