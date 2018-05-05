@@ -8,8 +8,13 @@ import type { StateDb$SectionNames } from '@polkadot/storage/types';
 import React from 'react';
 import map from '@polkadot/storage-substrate/keys';
 
-export default function createOptions (sectionName: StateDb$SectionNames): Array<*> {
-  const section = map[sectionName];
+// flowlint-next-line unclear-type:off
+export default function createOptions (sectionName: any): Array<*> {
+  const section = map[(sectionName: StateDb$SectionNames)];
+
+  if (!section) {
+    return [];
+  }
 
   return Object
     .keys(section.keys)
@@ -20,7 +25,7 @@ export default function createOptions (sectionName: StateDb$SectionNames): Array
       return !isDeprecated && !isHidden && Object.keys(params).length === 0;
     })
     .map((name) => {
-      const { description, params = {} } = section.keys[name];
+      const { description = '', params = {} } = section.keys[name];
       const inputs = Object.keys(params).join(', ');
 
       return {

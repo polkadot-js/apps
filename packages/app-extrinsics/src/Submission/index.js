@@ -35,14 +35,15 @@ class Submission extends React.PureComponent<Props> {
   }
 
   componentWillMount () {
+    this.subjects.index.subscribe(this.onChange);
     this.subjects.method.subscribe(this.onChange);
     this.subjects.sender.subscribe(this.onChange);
   }
 
   onChange = (): void => {
-    const publicKey = this.subjects.sender.getValue();
-    const message = this.subjects.method.getValue();
     const index = this.subjects.index.getValue();
+    const message = this.subjects.method.getValue();
+    const publicKey = this.subjects.sender.getValue();
     const isValid = !!(publicKey && publicKey.length && message && message.isValid);
 
     this.subjects.call.next({

@@ -5,3 +5,23 @@
 .extrinsics--App {
   padding: 1em;
 }
+
+.extrinsics--Status {
+  background: #bcdaf0;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  position: fixed;
+  bottom: 0.125rem;
+  right: 0.125rem;
+  text-align: center;
+  z-index: 1001;
+}
+
+.extrinsics--Status .status {
+  font-weight: 700;
+}
+
+.extrinsics--Status.error {
+  background: red;
+  color: white;
+}

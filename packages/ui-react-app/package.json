@@ -11,8 +11,9 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "@polkadot/extrinsics-substrate": "^0.12.4",
-    "@polkadot/rx-react": "^0.5.2",
+    "@polkadot/extrinsics-substrate": "^0.12.6",
+    "@polkadot/rx-react": "^0.5.3",
+    "@polkadot/storage-substrate": "^0.12.6",
     "@polkadot/ui-react": "^0.10.2",
     "@polkadot/util": "^0.19.4",
     "@polkadot/util-keyring": "^0.19.4",
@@ -25,5 +26,8 @@
     "react-router-dom": "^4.2.2",
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.79.1"
+  },
+  "devDepependencies": {
+    "@polkadot/primitives": "^0.12.6"
   }
 }

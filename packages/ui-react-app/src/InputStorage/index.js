@@ -5,7 +5,7 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic
 
-import type { StorageDef$Key, StateDb$SectionNames } from '@polkadot/storage/types';
+import type { StorageDef$Key } from '@polkadot/storage/types';
 import type { I18nProps } from '../types';
 
 import './InputStorage.css';
@@ -29,7 +29,7 @@ type Props = I18nProps & {
 };
 
 class InputStorage extends React.PureComponent<Props> {
-  sectionSubject: rxjs$Subject<StateDb$SectionNames>;
+  sectionSubject: rxjs$Subject<string>;
   subscriptions: Array<rxjs$ISubscription>
   SelectKey: React$ComponentType<*>;
 
@@ -53,6 +53,7 @@ class InputStorage extends React.PureComponent<Props> {
         const options = keyOptions(section);
 
         subject.next(
+          // $FlowFixMe we have string to be generix, but...
           map[section].keys[options[0].value]
         );
       })

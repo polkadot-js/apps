@@ -45,7 +45,9 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   static getDerivedStateFromProps (props: Props, prevState: State): $Shape<State> | null {
-    if (!props.value || Object.keys(props.value.params || {}).length === 0) {
+    const { value: { params = {} } = {}, subject } = props;
+
+    if (Object.keys(params).length === 0) {
       Params.unsubscribe(prevState.subscriptions);
 
       return {
@@ -54,12 +56,12 @@ class Params extends React.PureComponent<Props, State> {
       };
     }
 
-    const subjects = createSubjects(props.value.params, props.subject);
+    const subjects = createSubjects(params, subject);
     let subscriptions;
 
-    if (props.subject) {
+    if (subject) {
       const onChange = (): void => {
-        props.subject.next(
+        subject.next(
           subjects.map((s) => s.getValue())
         );
       };
@@ -85,8 +87,8 @@ class Params extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { name, params } = value;
-    const paramNames = Object.keys(params || {});
+    const { name, params = {} } = value;
+    const paramNames = Object.keys(params);
 
     if (paramNames.length === 0) {
       return null;

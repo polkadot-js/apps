@@ -23,6 +23,7 @@ type Props = I18nProps & {
 };
 
 function SelectMethod ({ className, isError, label = '', onChange, style, subject, t, type, value }: Props): React$Node {
+  // $FlowFixMe string vs ...
   if (!value || !extrinsics[value.section]) {
     return null;
   }
