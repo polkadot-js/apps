@@ -5,7 +5,7 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic
 
-import type { Extrinsic, ExtrinsicSectionName } from '@polkadot/extrinsics/types';
+import type { Extrinsic } from '@polkadot/extrinsics/types';
 import type { I18nProps } from '../types';
 
 import './InputExtrinsic.css';
@@ -30,7 +30,7 @@ type Props = I18nProps & {
 };
 
 class InputExtrinsic extends React.PureComponent<Props> {
-  sectionSubject: rxjs$Subject<ExtrinsicSectionName>;
+  sectionSubject: rxjs$Subject<string>;
   SelectMethod: React$ComponentType<*>;
   subscriptions: Array<rxjs$ISubscription>
 
@@ -55,6 +55,7 @@ class InputExtrinsic extends React.PureComponent<Props> {
         const options = methodOptions(section, type);
 
         subject.next(
+          // $FlowFixMe we have string to be generix, but...
           map[section].methods[type][options[0].value]
         );
       })

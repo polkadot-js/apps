@@ -8,14 +8,21 @@ import type { ExtrinsicSectionName } from '@polkadot/extrinsics/types';
 import React from 'react';
 import map from '@polkadot/extrinsics-substrate';
 
-export default function createOptions (sectionName: ExtrinsicSectionName, type: 'private' | 'public'): Array<*> {
-  const methods = map[sectionName].methods[type];
+// flowlint-next-line unclear-type:off
+export default function createOptions (sectionName: any, type: 'private' | 'public'): Array<*> {
+  const section = map[(sectionName: ExtrinsicSectionName)];
+
+  if (!section) {
+    return [];
+  }
+
+  const methods = section.methods[type];
 
   return Object
     .keys(methods)
     .sort()
     .map((name) => {
-      const { description, params = {} } = methods[name];
+      const { description = '', params = {} } = methods[name];
       const inputs = Object.keys(params).join(', ');
 
       return {

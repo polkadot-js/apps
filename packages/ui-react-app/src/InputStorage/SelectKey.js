@@ -22,6 +22,7 @@ type Props = I18nProps & {
 };
 
 function SelectKey ({ className, isError, label = '', onChange, style, subject, t, value }: Props): React$Node {
+  // $FlowFixMe string vs ...
   if (!value || !map[value.section]) {
     return null;
   }

@@ -64,7 +64,9 @@ export default class Extrinsic extends React.PureComponent<Props> {
             values[index].isValid;
         }, !!values);
     const raw = values.map((param) => param && param.value);
-    const data = extrinsic.params && encodeExtrinsic(extrinsic, raw);
+    const data = extrinsic.params
+      ? encodeExtrinsic(extrinsic, raw)
+      : new Uint8Array([]);
 
     this.props.subject.next({
       data,
