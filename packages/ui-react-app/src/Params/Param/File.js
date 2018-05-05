@@ -9,6 +9,8 @@ import type { RawParam } from '../types';
 import React from 'react';
 import Dropzone from 'react-dropzone';
 import withObservable from '@polkadot/rx-react/with/observable';
+import bnToU8a from '@polkadot/util/bn/toU8a';
+import u8aConcat from '@polkadot/util/u8a/concat';
 
 import translate from '../../translate';
 import Base from './Base';
@@ -30,9 +32,13 @@ function BytesFile ({ className, isError = false, label, onChange, subject, t }:
     files.forEach((file) => {
       const reader = new FileReader();
 
-      reader.onload = () =>
+      reader.onload = () => {
         // flowlint-next-line unclear-type:off
-        onChange(file, new Uint8Array((((reader.result): any): ArrayBuffer)));
+        const data = new Uint8Array((((reader.result): any): ArrayBuffer));
+        const vec = u8aConcat(bnToU8a(data.length, 32, true), data);
+
+        onChange(file, vec);
+      };
       reader.onabort = () =>
         onChange();
       reader.onerror = () =>
