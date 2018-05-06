@@ -8,17 +8,15 @@ import type { Props } from '../types';
 import React from 'react';
 
 import InputAddress from '../../InputAddress';
+import doChange from '../../util/doChange';
 import Base from './Base';
 
-export default function Account ({ isError, label, subject, t, value: { options: { initValue } = {} } }: Props): React$Node {
-  const defaultValue = initValue;
-  // eslint-disable-next-line no-unused-vars
-  const onChange = (event: SyntheticEvent<*>, value?: Uint8Array): void => {
-    subject.next({
+export default function Account ({ isError, label, onChange, t, value: { options: { initValue } = {} } }: Props): React$Node {
+  const _onChange = (value?: Uint8Array): void =>
+    doChange({
       isValid: !!value && value.length === 32,
       value
-    });
-  };
+    }, onChange);
 
   return (
     <Base
@@ -26,9 +24,9 @@ export default function Account ({ isError, label, subject, t, value: { options:
       size='large'
     >
       <InputAddress
-        defaultValue={defaultValue}
+        defaultValue={initValue}
         label={label}
-        onChange={onChange}
+        onChange={_onChange}
         placeholder='0x...'
       />
     </Base>

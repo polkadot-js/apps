@@ -8,6 +8,7 @@ import type { Props } from '../types';
 import React from 'react';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 
+import doChange from '../../util/doChange';
 import Base from './Base';
 
 const options = [
@@ -15,12 +16,12 @@ const options = [
   { text: 'Yes', value: true }
 ];
 
-export default function Bool ({ isError, label, subject, t, value: { options: { initValue = false } = {} } }: Props): React$Node {
-  const onChange = (event: SyntheticEvent<*>, { value }) =>
-    subject.next({
+export default function Bool ({ isError, label, onChange, t, value: { options: { initValue = false } = {} } }: Props): React$Node {
+  const _onChange = (event: SyntheticEvent<*>, { value }) =>
+    doChange({
       isValid: true,
       value
-    });
+    }, onChange);
 
   return (
     <Base
@@ -32,7 +33,7 @@ export default function Bool ({ isError, label, subject, t, value: { options: { 
         selection
         defaultValue={initValue}
         options={options}
-        onChange={onChange}
+        onChange={_onChange}
       />
     </Base>
   );

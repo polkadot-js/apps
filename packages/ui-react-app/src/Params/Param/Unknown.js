@@ -15,12 +15,7 @@ type Props = BaseProps & {
   t: I18Next$Translate
 };
 
-function Unknown ({ label, subject, t, value: { type } }: Props): React$Node {
-  subject.next({
-    isValid: false,
-    value: new Uint8Array([])
-  });
-
+function Unknown ({ label, t, value: { type } }: Props): React$Node {
   return (
     <Base
       size='full'

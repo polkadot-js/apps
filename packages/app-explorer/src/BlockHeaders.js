@@ -6,15 +6,14 @@
 import type { Header } from '@polkadot/primitives/header';
 
 import React from 'react';
-import Div from '@polkadot/rx-react/Div';
-import withApiCall from '@polkadot/rx-react/with/apiCall';
+import withApiDiv from '@polkadot/rx-react/with/apiDiv';
 
 import BlockHeader from './BlockHeader';
 
 let blockHeaders: Array<Header> = [];
 
 const apiMethod = {
-  method: 'newHead',
+  name: 'newHead',
   section: 'chain'
 };
 
@@ -36,15 +35,14 @@ const apiOptions = {
   }
 };
 
-const props = {
-  className: 'explorer--BlockHeaders',
-  format: (value?: Array<Header> = []): React$Node =>
-    value.map((value) => (
+export default withApiDiv(apiMethod, apiOptions)(
+  (value?: Array<Header> = []): Array<React$Node> => {
+    return value.map((value) => (
       <BlockHeader
         key={value.number.toString()}
         value={value}
       />
-    ))
-};
-
-export default withApiCall(apiMethod, apiOptions)(Div, props);
+    ));
+  },
+  { className: 'explorer--BlockHeaders' }
+);

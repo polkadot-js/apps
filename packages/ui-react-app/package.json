@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@polkadot/extrinsics-substrate": "^0.12.7",
-    "@polkadot/rx-react": "^0.5.5",
+    "@polkadot/rx-react": "^0.6.1",
     "@polkadot/storage-substrate": "^0.12.7",
     "@polkadot/ui-react": "^0.10.3",
     "@polkadot/util": "^0.19.5",

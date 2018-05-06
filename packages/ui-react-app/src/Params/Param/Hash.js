@@ -9,14 +9,14 @@ import React from 'react';
 
 import Bytes from './Bytes';
 
-export default function Hash ({ isError, label, subject, value }: Props): React$Node {
+export default function Hash ({ isError, label, onChange, value }: Props): React$Node {
   return (
     <Bytes
       isError={isError}
       label={label}
       length={32}
+      onChange={onChange}
       size='medium'
-      subject={subject}
       value={value}
     />
   );

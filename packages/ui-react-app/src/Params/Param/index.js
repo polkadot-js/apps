@@ -15,13 +15,13 @@ import findComponent from './findComponent';
 
 type Props = I18nProps & {
   overrides?: ComponentMap,
-  subject: rxjs$BehaviorSubject<RawParam>,
+  onChange: (value: RawParam) => void | rxjs$BehaviorSubject<RawParam>,
   value: Param & {
     name: string
   };
 };
 
-function ParamComponent ({ className, overrides, style, subject, value: { name, type, options = {} } = {} }: Props): React$Node {
+function ParamComponent ({ className, onChange, overrides, style, value: { name, type, options = {} } = {} }: Props): React$Node {
   if (!type) {
     return null;
   }
@@ -42,7 +42,7 @@ function ParamComponent ({ className, overrides, style, subject, value: { name, 
         key={`${name}:${text}:${index}}`}
         label={`${name}: ${text}${labelExtra}`}
         // FIXME subjects are not for array components (as defined here)
-        subject={subject}
+        onChange={onChange}
         value={{
           options,
           type: _type

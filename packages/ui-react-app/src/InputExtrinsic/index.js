@@ -15,6 +15,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import map from '@polkadot/extrinsics-substrate';
 import withObservable from '@polkadot/rx-react/with/observable';
 
+import doChange from '../util/doChange';
 import translate from '../translate';
 import SelectMethod from './SelectMethod';
 import SelectSection from './SelectSection';
@@ -25,8 +26,7 @@ type Props = I18nProps & {
   isPrivate?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange?: (event: SyntheticEvent<*>, value: Extrinsic) => void,
-  subject: rxjs$BehaviorSubject<Extrinsic>
+  onChange: rxjs$BehaviorSubject<Extrinsic>
 };
 
 class InputExtrinsic extends React.PureComponent<Props> {
@@ -37,15 +37,15 @@ class InputExtrinsic extends React.PureComponent<Props> {
   constructor (props: Props) {
     super(props);
 
-    this.sectionSubject = new BehaviorSubject(props.subject.getValue().section);
-    this.SelectMethod = withObservable(props.subject)(SelectMethod);
+    this.sectionSubject = new BehaviorSubject(props.onChange.getValue().section);
+    this.SelectMethod = withObservable(props.onChange)(SelectMethod);
   }
 
   componentWillMount () {
     this.subscriptions = [
       this.sectionSubject.subscribe((section) => {
-        const { isPrivate = false, subject } = this.props;
-        const current = subject.getValue();
+        const { isPrivate = false, onChange } = this.props;
+        const current = onChange.getValue();
 
         if (current.section === section) {
           return;
@@ -54,9 +54,10 @@ class InputExtrinsic extends React.PureComponent<Props> {
         const type = isPrivate ? 'private' : 'public';
         const options = methodOptions(section, type);
 
-        subject.next(
-          // $FlowFixMe we have string to be generix, but...
-          map[section].methods[type][options[0].value]
+        doChange(
+          // $FlowFixMe we have string to be generic, but...
+          map[section].methods[type][options[0].value],
+          onChange
         );
       })
     ];
@@ -69,7 +70,7 @@ class InputExtrinsic extends React.PureComponent<Props> {
   }
 
   render (): React$Node {
-    const { className, isPrivate = false, labelMethod, labelSection, onChange, style, subject } = this.props;
+    const { className, isPrivate = false, labelMethod, labelSection, onChange, style } = this.props;
     const type = isPrivate ? 'private' : 'public';
     const SelectMethod = this.SelectMethod;
 
@@ -81,7 +82,7 @@ class InputExtrinsic extends React.PureComponent<Props> {
         <div className='small'>
           <SelectSection
             label={labelSection}
-            subject={this.sectionSubject}
+            onChange={this.sectionSubject}
             type={type}
           />
         </div>
@@ -89,7 +90,6 @@ class InputExtrinsic extends React.PureComponent<Props> {
           <SelectMethod
             label={labelMethod}
             onChange={onChange}
-            subject={subject}
             type={type}
           />
         </div>

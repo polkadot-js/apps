@@ -48,8 +48,8 @@ function App ({ className, style }: Props): React$Node {
       className={['extrinsics--App', className].join(' ')}
       style={style}
     >
-      <Submission subject={queue} />
-      <QueuedSigner subject={queue} />
+      <Submission onChange={queue} />
+      <QueuedSigner onChange={queue} />
       <QueuedStatus />
     </div>
   );

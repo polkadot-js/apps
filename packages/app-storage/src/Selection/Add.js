@@ -8,7 +8,6 @@ import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
-import withObservable from '@polkadot/rx-react/with/observable';
 
 import subjects from '../subjects';
 import translate from '../translate';
@@ -51,6 +50,4 @@ function Add ({ className, style, value }: Props): React$Node {
   );
 }
 
-export default translate(
-  withObservable(subjects.next)(Add)
-);
+export default translate(Add);

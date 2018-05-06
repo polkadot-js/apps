@@ -16,13 +16,12 @@ import createOptions from './options/method';
 type Props = I18nProps & {
   isError?: boolean,
   label?: string,
-  onChange?: (event: SyntheticEvent<*>, value: Extrinsic) => void,
-  subject?: rxjs$Subject<Extrinsic>,
+  onChange?: (value: Extrinsic) => void,
   type: 'private' | 'public',
   value?: Extrinsic
 };
 
-function SelectMethod ({ className, isError, label = '', onChange, style, subject, t, type, value }: Props): React$Node {
+function SelectMethod ({ className, isError, label = '', onChange, style, t, type, value }: Props): React$Node {
   // $FlowFixMe string vs ...
   if (!value || !extrinsics[value.section]) {
     return null;
@@ -43,7 +42,6 @@ function SelectMethod ({ className, isError, label = '', onChange, style, subjec
       onChange={onChange}
       options={options}
       style={style}
-      subject={subject}
       transform={transform}
       value={value.name}
     />

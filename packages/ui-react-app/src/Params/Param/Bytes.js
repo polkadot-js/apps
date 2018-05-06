@@ -9,6 +9,7 @@ import React from 'react';
 import Input from 'semantic-ui-react/dist/es/elements/Input';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 
+import doChange from '../../util/doChange';
 import Base from './Base';
 
 type Props = BaseProps & {
@@ -20,9 +21,9 @@ type Props = BaseProps & {
 const defaultValidate = (u8a: Uint8Array): boolean =>
   true;
 
-export default function Bytes ({ isError, length = -1, label, size = 'full', subject, validate = defaultValidate }: Props): React$Node {
+export default function Bytes ({ isError, length = -1, label, onChange, size = 'full', validate = defaultValidate }: Props): React$Node {
   // eslint-disable-next-line no-unused-vars
-  const onChange = (event: SyntheticEvent<*>, { value }) => {
+  const _onChange = (event: SyntheticEvent<*>, { value }) => {
     let u8a;
 
     try {
@@ -35,10 +36,10 @@ export default function Bytes ({ isError, length = -1, label, size = 'full', sub
       ? u8a.length === length
       : u8a.length !== 0;
 
-    subject.next({
+    doChange({
       isValid: isValidLength && validate(u8a),
       value: u8a
-    });
+    }, onChange);
   };
 
   return (
@@ -48,7 +49,7 @@ export default function Bytes ({ isError, length = -1, label, size = 'full', sub
     >
       <Input
         error={isError}
-        onChange={onChange}
+        onChange={_onChange}
         placeholder='0x...'
         type='text'
       />

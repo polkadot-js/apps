@@ -61,7 +61,7 @@ class Proposal extends React.PureComponent<Props> {
             label
           }
         })}
-        subject={this.extrinsic}
+        onChange={this.extrinsic}
       />
     );
   }

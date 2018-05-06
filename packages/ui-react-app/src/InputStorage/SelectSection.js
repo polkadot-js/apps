@@ -13,25 +13,28 @@ import translate from '../translate';
 import createOptions from './options/section';
 
 type Props = I18nProps & {
+  defaultValue?: StateDb$SectionNames,
   isError?: boolean,
   label: string,
-  subject: rxjs$BehaviorSubject<StateDb$SectionNames>
+  onChange: (value: StateDb$SectionNames) => void | rxjs$Subject<StateDb$SectionNames>,
+  value?: StorageDef$Key
 };
 
 const options = createOptions();
 
-function SelectSection ({ className, isError, label, subject, style, t }: Props): React$Node {
+function SelectSection ({ className, defaultValue, isError, label, onChange, style, t, value = {} }: Props): React$Node {
   return (
     <RxDropdown
       className={['ui--InputStorage-SelectSection', className].join(' ')}
-      defaultValue={subject.getValue()}
+      defaultValue={defaultValue}
       isError={isError}
       label={label || t('input.storage.section', {
         defaultValue: 'storage area'
       })}
+      onChange={onChange}
       options={options}
       style={style}
-      subject={subject}
+      value={value.section}
     />
   );
 }

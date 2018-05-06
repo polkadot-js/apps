@@ -44,7 +44,7 @@ export default class Account extends React.PureComponent<Props> {
       <BaseAccount
         isError={isError}
         label={label}
-        subject={this.account}
+        onChange={this.account}
       />
     );
   }

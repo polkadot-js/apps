@@ -16,12 +16,11 @@ import createOptions from './options/key';
 type Props = I18nProps & {
   isError?: boolean,
   label?: string,
-  onChange?: (event: SyntheticEvent<*>, value: StorageDef$Key) => void,
-  subject?: rxjs$Subject<StorageDef$Key>,
+  onChange?: (value: StorageDef$Key) => void | rxjs$Subject<StorageDef$Key>,
   value?: StorageDef$Key
 };
 
-function SelectKey ({ className, isError, label = '', onChange, style, subject, t, value }: Props): React$Node {
+function SelectKey ({ className, isError, label = '', onChange, style, t, value = {} }: Props): React$Node {
   // $FlowFixMe string vs ...
   if (!value || !map[value.section]) {
     return null;
@@ -42,7 +41,6 @@ function SelectKey ({ className, isError, label = '', onChange, style, subject, 
       onChange={onChange}
       options={options}
       style={style}
-      subject={subject}
       transform={transform}
       value={value.name}
     />

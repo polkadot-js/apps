@@ -42,8 +42,8 @@ class Account extends React.PureComponent<Props> {
         <div className='large'>
           <InputAddress
             label={label}
+            onChange={subject}
             placeholder='0x...'
-            subject={subject}
           />
         </div>
         <div className='small'>

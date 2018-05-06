@@ -11,13 +11,16 @@ import './Params.css';
 
 import React from 'react';
 
+import doChange from '../util/doChange';
 import translate from '../translate';
 import Param from './Param';
 import createSubjects from './subjects';
 
+type RawParams = Array<RawParam>;
+
 type Props = I18nProps & {
+  onChange: (value: RawParams) => void | rxjs$BehaviorSubject<RawParams>,
   overrides?: ComponentMap,
-  subject: rxjs$BehaviorSubject<Array<RawParam>>,
   value: Extrinsic;
 };
 
@@ -45,7 +48,7 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   static getDerivedStateFromProps (props: Props, prevState: State): $Shape<State> | null {
-    const { value: { params = {} } = {}, subject } = props;
+    const { onChange, value: { params = {} } = {} } = props;
 
     if (Object.keys(params).length === 0) {
       Params.unsubscribe(prevState.subscriptions);
@@ -56,17 +59,15 @@ class Params extends React.PureComponent<Props, State> {
       };
     }
 
-    const subjects = createSubjects(params, subject);
+    const subjects = createSubjects(params, onChange);
     let subscriptions;
 
-    if (subject) {
-      const onChange = (): void => {
-        subject.next(
-          subjects.map((s) => s.getValue())
-        );
+    if (onChange) {
+      const _onChange = (): void => {
+        doChange(subjects.map((s) => s.getValue()), onChange);
       };
 
-      subscriptions = subjects.map((s) => s.subscribe(onChange));
+      subscriptions = subjects.map((s) => s.subscribe(_onChange));
     }
 
     return {
@@ -106,8 +107,8 @@ class Params extends React.PureComponent<Props, State> {
             return (
               <Param
                 key={`${name}:${paramName}:${index}`}
+                onChange={subjects[index]}
                 overrides={overrides}
-                subject={subjects[index]}
                 value={{
                   name: paramName,
                   options,

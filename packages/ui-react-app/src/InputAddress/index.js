@@ -18,8 +18,8 @@ import PairDisplay from './PairDisplay';
 type Props = BareProps & {
   isError?: boolean,
   label?: string,
-  onChange?: (event: SyntheticEvent<*>, value: Uint8Array) => void,
-  subject?: rxjs$Subject<*>
+  // flowlint-next-line unclear-type:off
+  onChange?: (value: any) => void | rxjs$Subject<*>
 };
 
 const options = keyring.getPairs().map((pair) => ({
@@ -32,7 +32,7 @@ const options = keyring.getPairs().map((pair) => ({
 const transform = (value: string): Uint8Array =>
   addressDecode(value);
 
-export default function InputAddress ({ className, isError, label, onChange, style, subject }: Props): React$Node {
+export default function InputAddress ({ className, isError, label, onChange, style }: Props): React$Node {
   return (
     <RxDropdown
       className={['ui--InputAddress', className].join(' ')}
@@ -40,7 +40,6 @@ export default function InputAddress ({ className, isError, label, onChange, sty
       label={label}
       onChange={onChange}
       options={options}
-      subject={subject}
       transform={transform}
     />
   );

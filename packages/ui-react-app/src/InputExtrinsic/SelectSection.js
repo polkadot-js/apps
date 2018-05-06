@@ -13,26 +13,27 @@ import translate from '../translate';
 import createOptions from './options/section';
 
 type Props = I18nProps & {
+  defaultValue?: StateDb$SectionNames,
   isError?: boolean,
   label?: string,
-  subject: rxjs$BehaviorSubject<StateDb$SectionNames>,
+  onChange: (value: StateDb$SectionNames) => void | rxjs$BehaviorSubject<StateDb$SectionNames>,
   type: 'private' | 'public'
 };
 
-function SelectSection ({ className, isError, label = '', subject, style, t, type }: Props): React$Node {
+function SelectSection ({ className, defaultValue, isError, label = '', onChange, style, t, type }: Props): React$Node {
   const options = createOptions(type);
 
   return (
     <RxDropdown
       className={['ui--InputExtrinsic-SelectSection', className].join(' ')}
-      defaultValue={subject.getValue()}
+      defaultValue={defaultValue}
       isError={isError}
       label={label || t('input.extrinsic.section', {
         defaultValue: 'from extrinsic section'
       })}
+      onChange={onChange}
       options={options}
       style={style}
-      subject={subject}
     />
   );
 }

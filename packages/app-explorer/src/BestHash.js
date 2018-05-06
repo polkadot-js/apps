@@ -6,21 +6,14 @@
 import type { Header } from '@polkadot/primitives/header';
 
 import headerHash from '@polkadot/primitives-codec/header/hash';
-import Div from '@polkadot/rx-react/Div';
-import withApiCall from '@polkadot/rx-react/with/apiCall';
+import withApiDiv from '@polkadot/rx-react/with/apiDiv';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 
-const apiMethod = {
-  method: 'newHead',
-  section: 'chain'
-};
-
-const props = {
-  className: 'explorer--BestHash',
-  format: (value?: Header): ?string =>
-    value
+export default withApiDiv({ name: 'newHead', section: 'chain' })(
+  (value?: Header): ?string => {
+    return value
       ? u8aToHexShort(headerHash(value))
-      : value
-};
-
-export default withApiCall(apiMethod)(Div, props);
+      : value;
+  },
+  { className: 'explorer--BestHash' }
+);
