@@ -44,15 +44,13 @@ export default class ExtrinsicDisplay extends React.PureComponent<Props, State> 
   onChange = (): void => {
     const { onChange } = this.props;
     const { extrinsic, values } = this.state;
-    const isValid = !!extrinsic.params &&
-      Object
-        .values(extrinsic.params)
-        .reduce((isValid, param, index) => {
-          return isValid &&
-            !isUndefined(values[index]) &&
-            !isUndefined(values[index].value) &&
-            values[index].isValid;
-        }, !!values && values.length === extrinsic.params.length);
+    const params = Object.values(extrinsic.params || {});
+    const isValid = values.length === params.length &&
+      params.reduce((isValid, param, index) =>
+        isValid &&
+        !isUndefined(values[index]) &&
+        !isUndefined(values[index].value) &&
+        values[index].isValid, true);
     const data = isValid && extrinsic.params
       ? encode(extrinsic, values.map((p) => p.value))
       : new Uint8Array([]);
@@ -88,13 +86,13 @@ export default class ExtrinsicDisplay extends React.PureComponent<Props, State> 
             isPrivate={isPrivate}
             labelMethod={labelMethod}
             labelSection={labelSection}
-            // onChange={this.onChangeExtrinsic}
+            onChange={this.onChangeExtrinsic}
           />
         </div>
         <Params
+          extrinsic={extrinsic}
+          onChange={this.onChangeValues}
           overrides={paramComponents}
-          // onChange={this.onChangeValues}
-          value={extrinsic}
         />
       </div>
     );

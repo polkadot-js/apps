@@ -20,11 +20,11 @@ import submitExtrinsic from './submit';
 
 type Props = I18nProps & ApiProps & {
   onSetStatus: (id: number, status: string) => void,
-  value: Array<QueueTx>
+  queue: Array<QueueTx>
 };
 
-function Signer ({ api, className, onSetStatus, style, t, value }: Props): React$Node {
-  const first = value.find(({ status }) => value.status === 'queued');
+function Signer ({ api, className, onSetStatus, queue, style, t }: Props): React$Node {
+  const first = queue.find(({ status }) => status === 'queued');
 
   if (!first) {
     return null;
@@ -32,8 +32,10 @@ function Signer ({ api, className, onSetStatus, style, t, value }: Props): React
 
   const onClose = (): void =>
     onSetStatus(first.id, 'cancelled');
-  const onSign = (): void => {
-    submitExtrinsic(api, first);
+  const onSign = async (): void => {
+    const status = await submitExtrinsic(api, first);
+
+    onSetStatus(first.id, status);
   };
 
   return (

@@ -26,17 +26,15 @@ export default class App extends React.PureComponent<Props, State> {
   }
 
   setStatus = (id: number, status: string): void => {
-    const { queue } = this.state;
-
-    this.setState({
-      queue: queue
-        .map((item) =>
+    this.setState(
+      ({ queue }: State) => ({
+        queue: queue.map((item) =>
           item.id === id
             ? { ...item, status }
             : item
         )
-        .filter(({ status }) => status !== 'completed')
-    });
+      })
+    );
 
     if (!['cancelled', 'error', 'sent'].includes(status)) {
       return;
@@ -46,14 +44,14 @@ export default class App extends React.PureComponent<Props, State> {
   }
 
   onQueue = (value: QueueTx): void => {
-    const { queue } = this.state;
-
-    this.setState({
-      queue: queue.concat([{
-        ...value,
-        status: 'queued'
-      }])
-    });
+    this.setState(
+      ({ queue }: State) => ({
+        queue: queue.concat([{
+          ...value,
+          status: 'queued'
+        }])
+      })
+    );
   };
 
   render (): React$Node {
@@ -68,9 +66,9 @@ export default class App extends React.PureComponent<Props, State> {
         <Selection onQueue={this.onQueue} />
         <Signer
           onSetStatus={this.setStatus}
-          value={queue}
+          queue={queue}
         />
-        <Status value={queue} />
+        <Status queue={queue} />
       </div>
     );
   }

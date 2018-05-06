@@ -18,12 +18,13 @@ import createValues from './values';
 type RawParams = Array<RawParam>;
 
 type Props = I18nProps & {
+  extrinsic: Extrinsic,
   onChange: (value: RawParams) => void,
-  overrides?: ComponentMap,
-  value: Extrinsic;
+  overrides?: ComponentMap
 };
 
 type State = {
+  extrinsic: Extrinsic,
   values: Array<RawParam>
 };
 
@@ -33,44 +34,54 @@ class Params extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    this.state = {
-      values: []
-    };
+    this.state = {};
   }
 
-  static getDerivedStateFromProps (props: Props, prevState: State): $Shape<State> | null {
-    const { onChange, value: { params = {} } = {} } = props;
+  static getDerivedStateFromProps ({ extrinsic, onChange }: Props, { extrinsic: { name, section } = {} }: State): $Shape<State> | null {
+    if (name === extrinsic.name && section === extrinsic.section) {
+      return null;
+    }
+
+    const { params = {} } = extrinsic;
     const values = createValues(params);
 
     onChange && onChange(values);
 
     return {
-      values
+      extrinsic,
+      values: createValues(params)
     };
   }
 
-  onChangeParam = (index: number, next: RawParam): void => {
+  onUpdate = (): void => {
     const { onChange } = this.props;
-    const values = this.state.values.map((value, _index) =>
-      index === _index
-        ? next
-        : value
-    );
+    const { values } = this.state;
 
-    this.setState({ values }, () =>
-      onChange && onChange(values)
+    onChange && onChange(values);
+  }
+
+  onChangeParam = (at: number, next: RawParam): void => {
+    this.setState(
+      ({ values }: State) => ({
+        values: values.map((value, index) =>
+          index === at
+            ? next
+            : value
+        )
+      }),
+      this.onUpdate
     );
   }
 
   render (): React$Node {
-    const { className, overrides, style, value } = this.props;
+    const { className, overrides, style, extrinsic } = this.props;
     const { values } = this.state;
 
-    if (!value || !values.length) {
+    if (!values.length) {
       return null;
     }
 
-    const { name, params = {} } = value;
+    const { name, params = {} } = extrinsic;
     const paramNames = Object.keys(params);
 
     if (paramNames.length === 0) {

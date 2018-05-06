@@ -7,6 +7,7 @@
 }
 
 .extrinsics--Status {
+  bottom: 0;
   display: inline-block;
   position: fixed;
   right: 0.125rem;

@@ -8,63 +8,37 @@ import type { I18nProps } from '@polkadot/ui-react-app/types';
 import type { EncodedMessage } from '../types';
 
 import React from 'react';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import Extrinsic from '../Extrinsic';
 import translate from '../translate';
 
 type Props = BaseProps & I18nProps;
 
-class Proposal extends React.PureComponent<Props> {
-  extrinsic: rxjs$BehaviorSubject<EncodedMessage>;
-  subscriptions: Array<rxjs$ISubscription>
+function Proposal ({ className, defaultValue, index, isError, onChange, label, style, t }: Props): React$Node {
+  const _onChange = (encoded: EncodedMessage): void =>
+    onChange(index, encoded);
 
-  constructor (props: Props) {
-    super(props);
-
-    this.extrinsic = new BehaviorSubject(({ isValid: false }: $Shape<EncodedParams>));
-  }
-
-  componentWillMount () {
-    this.subscriptions = [
-      this.extrinsic.subscribe(({ data, isValid }: EncodedParams) =>
-        this.props.onChange(this.props.index, {
-          isValid,
-          value: data
-        })
-      )
-    ];
-  }
-
-  componentWillUnmount () {
-    this.subscriptions.forEach((s) =>
-      s.unsubscribe()
-    );
-  }
-
-  render (): React$Node {
-    const { isError, label, t } = this.props;
-
-    return (
-      <Extrinsic
-        isError={isError}
-        isPrivate
-        labelMethod={t('proposal.method', {
-          defaultValue: '{{label}} (extrinsic)',
-          replace: {
-            label
-          }
-        })}
-        labelSection={t('proposal.method', {
-          defaultValue: '{{label}} (section)',
-          replace: {
-            label
-          }
-        })}
-        onChange={this.extrinsic}
-      />
-    );
-  }
+  return (
+    <Extrinsic
+      className={className}
+      isError={isError}
+      isPrivate
+      labelMethod={t('proposal.method', {
+        defaultValue: '{{label}} (extrinsic)',
+        replace: {
+          label
+        }
+      })}
+      labelSection={t('proposal.method', {
+        defaultValue: '{{label}} (section)',
+        replace: {
+          label
+        }
+      })}
+      onChange={_onChange}
+      style={style}
+    />
+  );
 }
 
 export default translate(Proposal);

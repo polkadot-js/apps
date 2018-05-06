@@ -11,7 +11,7 @@ import './Selection.css';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
-import map from '@polkadot/extrinsics-substrate';
+import extrinsics from '@polkadot/extrinsics-substrate';
 
 import Account from '../Account';
 import Extrinsic from '../Extrinsic';
@@ -24,12 +24,12 @@ type Props = I18nProps & {
 
 type State = {
   isValid: boolean,
-  message: EncodedMessage,
+  encoded: EncodedMessage,
   nonce: BN,
   publicKey: Uint8Array
 };
 
-const defaultExtrinsic = map.staking.methods.public.transfer;
+const defaultExtrinsic = extrinsics.staking.methods.public.transfer;
 
 let id = 0;
 
@@ -40,54 +40,47 @@ class Selection extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      extrinsic: defaultExtrinsic,
       isValid: false
     };
   }
 
-  onChange = ({ message, nonce, publicKey }: State): void => {
-    const isValid = !!(publicKey && publicKey.length && message && message.isValid);
-
-    this.setState({
-      message,
-      nonce,
-      publicKey,
-      isValid
-    });
+  onChange = (): void => {
+    this.setState(
+      ({ encoded, publicKey }: State) => ({
+        isValid: !!(
+          publicKey &&
+          publicKey.length &&
+          encoded &&
+          encoded.isValid
+        )
+      })
+    );
   };
 
   onQueue = (): void => {
     const { onQueue } = this.props;
-    const { message, nonce, publicKey } = this.state;
+    const { encoded: { data, extrinsic, isValid }, nonce, publicKey } = this.state;
 
     onQueue && onQueue({
-      data: message.data,
-      extrinsic: message.extrinsic,
+      data,
+      extrinsic,
+      id: ++id,
+      isValid,
       nonce,
-      publicKey,
-      id: ++id
+      publicKey
     });
   }
 
-  onChangeMessage = (message: EncodedParams): void => {
-    this.onChange({
-      ...this.state,
-      message
-    });
+  onChangeMessage = (encoded: EncodedParams): void => {
+    this.setState({ encoded }, this.onChange);
   }
 
   onChangeNonce = (nonce: BN): void => {
-    this.onChange({
-      ...this.state,
-      nonce
-    });
+    this.setState({ nonce }, this.onChange);
   }
 
   onChangeSender = (publicKey: Uint8Array): void => {
-    this.onChange({
-      ...this.state,
-      publicKey
-    });
+    this.setState({ publicKey }, this.onChange);
   }
 
   render (): React$Node {
@@ -100,12 +93,10 @@ class Selection extends React.PureComponent<Props, State> {
         style={style}
       >
         <Account
-          defaultValue={publicKey}
           label={t('display.sender', {
             defaultValue: 'using the selected account'
           })}
           onChange={this.onChangeSender}
-          value={publicKey}
         />
         <Extrinsic
           defaultValue={defaultExtrinsic}

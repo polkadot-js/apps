@@ -20,8 +20,8 @@ type Props = BareProps & {
 };
 
 export default function RxDropdown (props: Props): React$Node {
-  const onChange = (event: SyntheticEvent<*>, { value }): void =>
-    onChange && onChange(
+  const _onChange = (event: SyntheticEvent<*>, { value }): void =>
+    props.onChange && props.onChange(
       props.transform
         ? props.transform(value)
         : value
@@ -44,7 +44,7 @@ export default function RxDropdown (props: Props): React$Node {
       {..._props}
       className={props.className}
       error={props.isError}
-      onChange={onChange}
+      onChange={_onChange}
     />
   ];
 }

@@ -9,12 +9,12 @@ import type { QueueTx } from './types';
 import React from 'react';
 
 type Props = BareProps & {
-  value: Array<QueueTx>
+  queue: Array<QueueTx>
 }
 
-export default function Status ({ className, style, value }: Props): React$Node {
-  const available = value.filter(({ isValid, status }) =>
-    isValid && !['completed', 'incomplete'].includes(status)
+export default function Status ({ className, queue, style }: Props): React$Node {
+  const available = queue.filter(({ isValid, status }) =>
+    !['completed', 'incomplete'].includes(status)
   );
 
   if (!available.length) {
@@ -26,8 +26,11 @@ export default function Status ({ className, style, value }: Props): React$Node 
       className={['extrinsics--Status', className].join(' ')}
       style={style}
     >
-      {available.map(({ extrinsic: { name, section }, status }) =>
-        <div className={['extrinsics--Status-Item', status].join(' ')}>
+      {available.map(({ extrinsic: { name, section }, id, status }) =>
+        <div
+          className={['extrinsics--Status-Item', status].join(' ')}
+          key={id}
+        >
           <div className='header'>
             {section}_{name}
           </div>

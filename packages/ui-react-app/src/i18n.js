@@ -16,7 +16,7 @@ i18n
     fallbackLng: 'en',
     ns: ['ui'],
     defaultNS: 'ui',
-    debug: true,
+    debug: false,
     interpolation: {
       escapeValue: false
     },

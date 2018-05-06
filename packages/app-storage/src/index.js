@@ -30,23 +30,23 @@ class App extends React.PureComponent<Props, State> {
   }
 
   onAdd = (query: StorageQuery): void => {
-    const { queue } = this.state;
+    this.setState(
+      ({ queue }: State) => ({
+        queue: queue.reduce((next, item) => {
+          next.push(item);
 
-    this.setState({
-      queue: queue.reduce((next, item) => {
-        next.push(item);
-
-        return next;
-      }, [query])
-    });
+          return next;
+        }, [query])
+      })
+    );
   }
 
   onRemove = (id: number): void => {
-    const { queue } = this.state;
-
-    this.setState({
-      queue: queue.filter((item) => item.id !== id)
-    });
+    this.setState(
+      ({ queue }: State) => ({
+        queue: queue.filter((item) => item.id !== id)
+      })
+    );
   }
 
   render (): React$Node {
