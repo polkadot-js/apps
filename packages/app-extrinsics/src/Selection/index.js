@@ -7,7 +7,7 @@ import type { I18nProps } from '@polkadot/ui-react-app/types';
 import type { QueueTx } from '../types';
 import type { Subjects } from './types';
 
-import './Submission.css';
+import './Selection.css';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
@@ -31,7 +31,7 @@ const defaultExtrinsic = map.staking.methods.public.transfer;
 
 let id = 0;
 
-class Submission extends React.PureComponent<Props, State> {
+class Selection extends React.PureComponent<Props, State> {
   state: State;
   Submit: React$ComponentType<*>;
   subjects: Subjects;
@@ -88,7 +88,7 @@ class Submission extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['extrinsics--Submission', className].join(' ')}
+        className={['extrinsics--Selection', className].join(' ')}
         style={style}
       >
         <Account
@@ -111,7 +111,7 @@ class Submission extends React.PureComponent<Props, State> {
           onChange={subjects.index}
           value={subjects.sender}
         />
-        <div className='extrinsics--Submission-ButtonRow'>
+        <div className='extrinsics--Selection-ButtonRow'>
           <Button
             disabled={!value.isValid}
             onClick={this.onQueue}
@@ -127,4 +127,4 @@ class Submission extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(Submission);
+export default translate(Selection);

@@ -10,8 +10,8 @@ import './index.css';
 
 import React from 'react';
 
+import Selection from './Selection';
 import Signer from './Signer';
-import Submission from './Submission';
 import Status from './Status';
 
 type Props = BareProps & {};
@@ -65,7 +65,7 @@ export default class App extends React.PureComponent<Props, State> {
         className={['extrinsics--App', className].join(' ')}
         style={style}
       >
-        <Submission onQueue={this.onQueue} />
+        <Selection onQueue={this.onQueue} />
         <Signer
           onSetStatus={this.setStatus}
           value={queue}
