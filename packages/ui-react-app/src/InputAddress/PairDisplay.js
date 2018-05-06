@@ -22,8 +22,6 @@ export default function PairDisplay ({ className, pair, style }: Props): React$N
   const address = pair.address();
   const { name } = pair.getMeta();
 
-  console.log('address', address);
-
   return (
     <div
       className={['ui--InputyAddress-PairDisplay', className].join(' ')}

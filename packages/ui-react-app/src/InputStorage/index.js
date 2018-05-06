@@ -13,7 +13,6 @@ import '../InputExtrinsic/InputExtrinsic.css';
 import React from 'react';
 import map from '@polkadot/storage-substrate/keys';
 
-import doChange from '../util/doChange';
 import translate from '../translate';
 import SelectKey from './SelectKey';
 import SelectSection from './SelectSection';
@@ -24,7 +23,7 @@ type Props = I18nProps & {
   isError?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange?: (value: StorageDef$Key) => void | rxjs$Subject<StorageDef$Key>,
+  onChange?: (value: StorageDef$Key) => void,
 };
 
 type State = {
@@ -46,7 +45,7 @@ class InputStorage extends React.PureComponent<Props, State> {
     const { onChange } = this.props;
 
     this.setState({ value }, () =>
-      doChange(value, onChange)
+      onChange && onChange(value)
     );
   }
 
@@ -62,7 +61,7 @@ class InputStorage extends React.PureComponent<Props, State> {
     const value = map[section].keys[options[0].value];
 
     this.setState({ value }, () =>
-      doChange(value, onChange)
+      onChange && onChange(value)
     );
   }
 

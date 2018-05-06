@@ -9,41 +9,27 @@ import type { BareProps } from '@polkadot/ui-react-app/types';
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 import RxNonce from '@polkadot/rx-react/Nonce';
-import withObservableParams from '@polkadot/rx-react/with/observableParams';
 
 type Props = BareProps & {
   label: string,
-  onChange: rxjs$BehaviorSubject<BN>,
-  value: rxjs$BehaviorSubject<Uint8Array>
+  onChange?: (value: BN) => void,
+  value?: Uint8Array
 };
 
-export default class Nonce extends React.PureComponent<Props> {
-  Nonce: React$ComponentType<*>;
-
-  constructor (props: Props) {
-    super(props);
-
-    // NOTE we basically get away with not checking updates since the parent is only created once
-    this.Nonce = withObservableParams(props.value)(RxNonce);
-  }
-
-  render (): React$Node {
-    const { className, label, style, onChange } = this.props;
-    const Nonce = this.Nonce;
-
-    return (
-      <div
-        className={['ui--form', className].join(' ')}
-        style={style}
-      >
-        <div className='small'>
-          <Label>{label}</Label>
-          <Nonce
-            className='ui disabled dropdown selection'
-            onChange={onChange}
-          />
-        </div>
+export default function Nonce ({ className, label, style, onChange, value }: Props): React$Node {
+  return (
+    <div
+      className={['ui--form', className].join(' ')}
+      style={style}
+    >
+      <div className='small'>
+        <Label>{label}</Label>
+        <RxNonce
+          className='ui disabled dropdown selection'
+          onChange={onChange}
+          params={value}
+        />
       </div>
-    );
-  }
+    </div>
+  );
 }

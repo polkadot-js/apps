@@ -11,7 +11,6 @@ import './Params.css';
 
 import React from 'react';
 
-import doChange from '../util/doChange';
 import translate from '../translate';
 import Param from './Param';
 import createValues from './values';
@@ -19,7 +18,7 @@ import createValues from './values';
 type RawParams = Array<RawParam>;
 
 type Props = I18nProps & {
-  onChange: (value: RawParams) => void | rxjs$BehaviorSubject<RawParams>,
+  onChange: (value: RawParams) => void,
   overrides?: ComponentMap,
   value: Extrinsic;
 };
@@ -43,7 +42,7 @@ class Params extends React.PureComponent<Props, State> {
     const { onChange, value: { params = {} } = {} } = props;
     const values = createValues(params);
 
-    onChange(values, onChange);
+    onChange && onChange(values);
 
     return {
       values
@@ -59,15 +58,15 @@ class Params extends React.PureComponent<Props, State> {
     );
 
     this.setState({ values }, () =>
-      doChange(values, onChange)
+      onChange && onChange(values)
     );
   }
 
   render (): React$Node {
     const { className, overrides, style, value } = this.props;
-    const { subjects } = this.state;
+    const { values } = this.state;
 
-    if (!value || !subjects.length) {
+    if (!value || !values.length) {
       return null;
     }
 

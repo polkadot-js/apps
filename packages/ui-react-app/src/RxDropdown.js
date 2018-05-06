@@ -9,26 +9,23 @@ import React from 'react';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 
-import doChange from './util/doChange';
-
 type Props = BareProps & {
   defaultValue?: string,
   isError?: boolean,
   label?: string,
   // flowlint-next-line unclear-type:off
-  onChange?: (value: any) => void | rxjs$Subject<any>,
+  onChange?: (value: any) => void,
   // flowlint-next-line unclear-type:off
   transform?: (value: any) => any
 };
 
 export default function RxDropdown (props: Props): React$Node {
-  const onChange = (event: SyntheticEvent<*>, { value }): void => {
-    const _value = props.transform
-      ? props.transform(value)
-      : value;
-
-    doChange(_value, props.onChange);
-  };
+  const onChange = (event: SyntheticEvent<*>, { value }): void =>
+    onChange && onChange(
+      props.transform
+        ? props.transform(value)
+        : value
+    );
 
   const _props = {...props};
 

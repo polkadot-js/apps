@@ -13,7 +13,6 @@ import './InputExtrinsic.css';
 import React from 'react';
 import map from '@polkadot/extrinsics-substrate';
 
-import doChange from '../util/doChange';
 import translate from '../translate';
 import SelectMethod from './SelectMethod';
 import SelectSection from './SelectSection';
@@ -25,7 +24,7 @@ type Props = I18nProps & {
   isPrivate?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange?: (value: Extrinsic) => void | rxjs$Subject<Extrinsic>
+  onChange?: (value: Extrinsic) => void
 };
 
 type State = {
@@ -47,7 +46,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     const { onChange } = this.props;
 
     this.setState({ value }, () =>
-      doChange(value, onChange)
+      onChange && onChange(value)
     );
   }
 
@@ -64,7 +63,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     const value = map[section].methods[type][options[0].value];
 
     this.setState({ value }, () =>
-      doChange(value, onChange)
+      onChange && onChange(value)
     );
   }
 

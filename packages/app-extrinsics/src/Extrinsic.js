@@ -5,10 +5,10 @@
 
 import type { Extrinsic } from '@polkadot/extrinsics/types';
 import type { BareProps } from '@polkadot/ui-react-app/types';
-import type { EncodedParams } from '../types';
+import type { EncodedMessage } from '../types';
 
 import React from 'react';
-import encodeExtrinsic from '@polkadot/extrinsics-codec/encode/extrinsic';
+import encode from '@polkadot/extrinsics-codec/encode/extrinsic';
 import InputExtrinsic from '@polkadot/ui-react-app/src/InputExtrinsic';
 import Params from '@polkadot/ui-react-app/src/Params';
 import isUndefined from '@polkadot/util/is/undefined';
@@ -21,29 +21,29 @@ type Props = BareProps & {
   isPrivate?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: rxjs$BehaviorSubject<EncodedParams>
+  onChange?: (values: EncodedMessage) => void
 };
 
 type State = {
   extrinsic: Extrinsic,
-  params: Array<RawParam>
+  values: Array<RawParam>
 };
 
 export default class ExtrinsicDisplay extends React.PureComponent<Props, State> {
   state: State;
-  Params: React$ComponentType<*>;
 
   constructor (props: Props) {
     super(props);
 
     this.state = {
-      extrinsic: props.defaultValue
+      extrinsic: props.defaultValue,
+      isValid: false
     };
   }
 
   onChange = (): void => {
-    const { extrinsic } = this.state.getValue();
-    const values = this.subjects.params.getValue();
+    const { onChange } = this.props;
+    const { extrinsic, values } = this.state;
     const isValid = !!extrinsic.params &&
       Object
         .values(extrinsic.params)
@@ -52,25 +52,28 @@ export default class ExtrinsicDisplay extends React.PureComponent<Props, State> 
             !isUndefined(values[index]) &&
             !isUndefined(values[index].value) &&
             values[index].isValid;
-        }, !!values);
-    const raw = values.map((param) => param && param.value);
-    const data = extrinsic.params
-      ? encodeExtrinsic(extrinsic, raw)
+        }, !!values && values.length === extrinsic.params.length);
+    const data = isValid && extrinsic.params
+      ? encode(extrinsic, values.map((p) => p.value))
       : new Uint8Array([]);
 
-    this.props.subject.next({
+    onChange && onChange({
       data,
       extrinsic,
       isValid
     });
-  };
+  }
 
   onChangeExtrinsic = (extrinsic: Extrinsic): void => {
-    this.setState({ extrinsic, isValid: false }, () => {});
+    this.setState({ extrinsic }, this.onChange);
+  };
+
+  onChangeValues = (values: Array<RawParam>): void => {
+    this.setState({ values }, this.onChange);
   }
 
   render (): React$Node {
-    const { className, isError, isPrivate, labelMethod, labelSection, style } = this.props;
+    const { className, defaultValue, isError, isPrivate, labelMethod, labelSection, style } = this.props;
     const { extrinsic } = this.state;
 
     return (
@@ -80,15 +83,17 @@ export default class ExtrinsicDisplay extends React.PureComponent<Props, State> 
       >
         <div className='full'>
           <InputExtrinsic
+            defaultValue={defaultValue}
             isError={isError}
             isPrivate={isPrivate}
             labelMethod={labelMethod}
             labelSection={labelSection}
-            onChange={this.onChangeExtrinsic}
+            // onChange={this.onChangeExtrinsic}
           />
         </div>
         <Params
           overrides={paramComponents}
+          // onChange={this.onChangeValues}
           value={extrinsic}
         />
       </div>

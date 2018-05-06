@@ -6,7 +6,7 @@
 import type BN from 'bn.js';
 import type { Extrinsic } from '@polkadot/extrinsics/types';
 
-export type EncodedParams = {
+export type EncodedMessage = {
   data: Uint8Array,
   extrinsic: Extrinsic,
   isValid: boolean
@@ -14,9 +14,9 @@ export type EncodedParams = {
 
 export type QueueTx$Status = 'incomplete' | 'cancelled' | 'error' | 'queued' | 'sent';
 
-export type QueueTx = EncodedParams & {
+export type QueueTx = EncodedMessage & {
   id: number,
-  index: BN,
+  nonce: BN,
   publicKey: Uint8Array,
   status: QueueTx$Status
 };
