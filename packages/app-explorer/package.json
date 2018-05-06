@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-explorer",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -14,7 +14,7 @@
     "@polkadot/primitives": "^0.12.7",
     "@polkadot/primitives-codec": "^0.12.7",
     "@polkadot/primitives-json": "^0.12.7",
-    "@polkadot/ui-react-app": "^0.1.8",
+    "@polkadot/ui-react-app": "^0.1.9",
     "@polkadot/util-crypto": "^0.19.5"
   }
 }
