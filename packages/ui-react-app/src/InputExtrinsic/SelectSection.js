@@ -16,16 +16,17 @@ type Props = I18nProps & {
   defaultValue?: StateDb$SectionNames,
   isError?: boolean,
   label?: string,
-  onChange: (value: StateDb$SectionNames) => void | rxjs$BehaviorSubject<StateDb$SectionNames>,
-  type: 'private' | 'public'
+  onChange: (value: StateDb$SectionNames) => void | rxjs$Subject<StateDb$SectionNames>,
+  type: 'private' | 'public',
+  value?: Extrinsic
 };
 
-function SelectSection ({ className, defaultValue, isError, label = '', onChange, style, t, type }: Props): React$Node {
+function SelectSection ({ className, defaultValue, isError, label = '', onChange, style, t, type, value }: Props): React$Node {
   const options = createOptions(type);
 
   return (
     <RxDropdown
-      className={['ui--InputExtrinsic-SelectSection', className].join(' ')}
+      className={['ui--RxDropdownLinked-Sections', className].join(' ')}
       defaultValue={defaultValue}
       isError={isError}
       label={label || t('input.extrinsic.section', {
@@ -34,6 +35,7 @@ function SelectSection ({ className, defaultValue, isError, label = '', onChange
       onChange={onChange}
       options={options}
       style={style}
+      value={value.section}
     />
   );
 }

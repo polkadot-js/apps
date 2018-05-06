@@ -19,23 +19,21 @@ import Decoded from './Decoded';
 import submitExtrinsic from './submit';
 
 type Props = I18nProps & ApiProps & {
-  subject: rxjs$BehaviorSubject<QueueTx>,
-  value: QueueTx
+  onSetStatus: (id: number, status: string) => void,
+  value: Array<QueueTx>
 };
 
-function Signer ({ api, className, subject, style, t, value }: Props): React$Node {
-  if (value.status !== 'queued') {
+function Signer ({ api, className, onSetStatus, style, t, value }: Props): React$Node {
+  const first = value.find(({ status }) => value.status === 'queued');
+
+  if (!first) {
     return null;
   }
 
-  const onClose = (): void => {
-    subject.next({
-      ...value,
-      status: 'cancelled'
-    });
-  };
+  const onClose = (): void =>
+    onSetStatus(first.id, 'cancelled');
   const onSign = (): void => {
-    submitExtrinsic(api, value, subject);
+    submitExtrinsic(api, first);
   };
 
   return (
@@ -50,7 +48,7 @@ function Signer ({ api, className, subject, style, t, value }: Props): React$Nod
           defaultValue: 'Sign and submit'
         })}
       </Modal.Header>
-      <Decoded value={value} />
+      <Decoded value={first} />
       <Modal.Actions>
         <Button onClick={onClose}>
           {t('signer.cancel', {

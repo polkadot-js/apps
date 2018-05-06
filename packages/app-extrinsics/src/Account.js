@@ -16,7 +16,7 @@ import translate from './translate';
 type Props = I18nProps & {
   isError?: boolean,
   label: string,
-  subject: rxjs$BehaviorSubject<Uint8Array>
+  onChange: rxjs$BehaviorSubject<Uint8Array>
 };
 
 class Account extends React.PureComponent<Props> {
@@ -31,7 +31,7 @@ class Account extends React.PureComponent<Props> {
   }
 
   render (): React$Node {
-    const { className, label, subject, style, t } = this.props;
+    const { className, label, onChange, style, t } = this.props;
     const Balance = this.Balance;
 
     return (
@@ -42,7 +42,7 @@ class Account extends React.PureComponent<Props> {
         <div className='large'>
           <InputAddress
             label={label}
-            onChange={subject}
+            onChange={onChange}
             placeholder='0x...'
           />
         </div>

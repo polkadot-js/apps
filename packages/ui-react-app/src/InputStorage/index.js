@@ -8,7 +8,7 @@
 import type { StorageDef$Key, StateDb$SectionNames } from '@polkadot/storage/types';
 import type { I18nProps } from '../types';
 
-import './InputStorage.css';
+import '../InputExtrinsic/InputExtrinsic.css';
 
 import React from 'react';
 import map from '@polkadot/storage-substrate/keys';
@@ -45,8 +45,9 @@ class InputStorage extends React.PureComponent<Props, State> {
   onKeyChange = (value: StorageDef$Key): void => {
     const { onChange } = this.props;
 
-    doChange(value, onChange);
-    this.setState({ value });
+    this.setState({ value }, () =>
+      doChange(value, onChange)
+    );
   }
 
   onSectionChange = (section: StateDb$SectionNames): void => {
@@ -60,8 +61,9 @@ class InputStorage extends React.PureComponent<Props, State> {
     // $FlowFixMe we have string to be generic, but...
     const value = map[section].keys[options[0].value];
 
-    doChange(value, onChange);
-    this.setState({ value });
+    this.setState({ value }, () =>
+      doChange(value, onChange)
+    );
   }
 
   render (): React$Node {
@@ -70,7 +72,7 @@ class InputStorage extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['ui--InputStorage', 'ui--form', className].join(' ')}
+        className={['ui--RxDropdownLinked', 'ui--form', className].join(' ')}
         style={style}
       >
         <div className='small'>

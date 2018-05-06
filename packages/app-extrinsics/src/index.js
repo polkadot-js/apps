@@ -3,58 +3,75 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { BareProps } from '@polkadot/ui-react-app/types';
 import type { QueueTx } from './types';
 
 import './index.css';
 
 import React from 'react';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import withObservable from '@polkadot/rx-react/with/observable';
 
 import Signer from './Signer';
 import Submission from './Submission';
 import Status from './Status';
-import translate from './translate';
 
-type Props = I18nProps & {};
+type Props = BareProps & {};
 
-const CLOSE_STATUS = ['cancelled', 'error', 'sent'];
+export default class App extends React.PureComponent<Props, State> {
+  constructor (props: Props) {
+    super(props);
 
-const queue: rxjs$BehaviorSubject<QueueTx> = new BehaviorSubject(({
-  isValid: false,
-  status: 'incomplete'
-}: $Shape<QueueTx>));
-
-const QueuedSigner = withObservable(queue)(Signer);
-const QueuedStatus = withObservable(queue)(Status);
-
-queue.subscribe(({ status }) => {
-  if (CLOSE_STATUS.includes(status)) {
-    setTimeout(() => {
-      const tx = queue.getValue();
-
-      if (CLOSE_STATUS.includes(tx.status)) {
-        queue.next({
-          ...tx,
-          status: 'incomplete'
-        });
-      }
-    }, 5000);
+    this.state = {
+      queue: []
+    };
   }
-});
 
-function App ({ className, style }: Props): React$Node {
-  return (
-    <div
-      className={['extrinsics--App', className].join(' ')}
-      style={style}
-    >
-      <Submission onChange={queue} />
-      <QueuedSigner onChange={queue} />
-      <QueuedStatus />
-    </div>
-  );
+  setStatus = (id: number, status: string): void => {
+    const { queue } = this.state;
+
+    this.setState({
+      queue: queue
+        .map((item) =>
+          item.id === id
+            ? { ...item, status }
+            : item
+        )
+        .filter(({ status }) => status !== 'completed')
+    });
+
+    if (!['cancelled', 'error', 'sent'].includes(status)) {
+      return;
+    }
+
+    setTimeout(() => this.setStatus(id, 'completed'), 5000);
+  }
+
+  onQueue = (value: QueueTx): void => {
+    const { queue } = this.state;
+
+    this.setState({
+      queue: queue.concat([{
+        ...value,
+        status: 'queued'
+      }])
+    });
+  };
+
+  render (): React$Node {
+    const { className, style } = this.props;
+    const { queue } = this.state;
+
+    return (
+      <div
+        className={['extrinsics--App', className].join(' ')}
+        style={style}
+      >
+        <Submission onQueue={this.onQueue} />
+        <Signer
+          onSetStatus={this.setStatus}
+          value={queue}
+        />
+        <Status value={queue} />
+      </div>
+    );
+  }
 }
-
-export default translate(App);

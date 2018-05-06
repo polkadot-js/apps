@@ -15,6 +15,7 @@ export type EncodedParams = {
 export type QueueTx$Status = 'incomplete' | 'cancelled' | 'error' | 'queued' | 'sent';
 
 export type QueueTx = EncodedParams & {
+  id: number,
   index: BN,
   publicKey: Uint8Array,
   status: QueueTx$Status

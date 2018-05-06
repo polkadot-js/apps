@@ -10,16 +10,15 @@ import BN from 'bn.js';
 import React from 'react';
 import Input from 'semantic-ui-react/dist/es/elements/Input';
 
-import doChange from '../../util/doChange';
 import Base from './Base';
 
-export default function Amount ({ isError, label, onChange, t, value: { options: { initValue = 0, maxValue, minValue = 0 } = {} } }: Props): React$Node {
+export default function Amount ({ index, isError, label, onChange, t, value: { options: { initValue = 0, maxValue, minValue = 0 } = {} } }: Props): React$Node {
   // eslint-disable-next-line no-unused-vars
   const _onChange = (event: SyntheticEvent<*>, { value }) =>
-    doChange({
+    onChange(index, {
       isValid: true,
       value: new BN(value || minValue || 0)
-    }, onChange);
+    });
 
   return (
     <Base

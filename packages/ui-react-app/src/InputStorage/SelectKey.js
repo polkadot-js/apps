@@ -33,7 +33,7 @@ function SelectKey ({ className, isError, label = '', onChange, style, t, value 
 
   return (
     <RxDropdown
-      className={['ui--InputStorage-SelectKey', className].join(' ')}
+      className={['ui--RxDropdownLinked-Items', className].join(' ')}
       isError={isError}
       label={label || t('input.storage.key', {
         defaultValue: 'with storage key'

@@ -28,7 +28,7 @@ class Proposal extends React.PureComponent<Props> {
   componentWillMount () {
     this.subscriptions = [
       this.extrinsic.subscribe(({ data, isValid }: EncodedParams) =>
-        this.props.subject.next({
+        this.props.onChange(this.props.index, {
           isValid,
           value: data
         })

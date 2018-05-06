@@ -25,7 +25,7 @@ const options = createOptions();
 function SelectSection ({ className, defaultValue, isError, label, onChange, style, t, value = {} }: Props): React$Node {
   return (
     <RxDropdown
-      className={['ui--InputStorage-SelectSection', className].join(' ')}
+      className={['ui--RxDropdownLinked-Sections', className].join(' ')}
       defaultValue={defaultValue}
       isError={isError}
       label={label || t('input.storage.section', {

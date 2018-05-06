@@ -8,15 +8,14 @@ import type { Props } from '../types';
 import React from 'react';
 
 import InputAddress from '../../InputAddress';
-import doChange from '../../util/doChange';
 import Base from './Base';
 
-export default function Account ({ isError, label, onChange, t, value: { options: { initValue } = {} } }: Props): React$Node {
+export default function Account ({ index, isError, label, onChange, t, value: { options: { initValue } = {} } }: Props): React$Node {
   const _onChange = (value?: Uint8Array): void =>
-    doChange({
+    onChange(index, {
       isValid: !!value && value.length === 32,
       value
-    }, onChange);
+    });
 
   return (
     <Base

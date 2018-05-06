@@ -12,12 +12,13 @@ export type RawParam = {
 }
 
 export type BaseProps = BareProps & {
-  onChange: (value: RawParam) => void | rxjs$BehaviorSubject<RawParam>,
+  onChange: (index: number, value: RawParam) => void,
   value: Param
 };
 
 export type Props = BaseProps & {
   isError?: boolean,
+  index: number,
   label: string
 };
 

@@ -3,56 +3,46 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { Extrinsic } from '@polkadot/extrinsics/types';
 import type { BareProps } from '@polkadot/ui-react-app/types';
 import type { EncodedParams } from '../types';
-import type { Subjects } from './types';
 
 import React from 'react';
 import encodeExtrinsic from '@polkadot/extrinsics-codec/encode/extrinsic';
-import withObservable from '@polkadot/rx-react/with/observable';
 import InputExtrinsic from '@polkadot/ui-react-app/src/InputExtrinsic';
 import Params from '@polkadot/ui-react-app/src/Params';
 import isUndefined from '@polkadot/util/is/undefined';
 
-import paramComponents from '../Params';
-import createSubjects from './subjects';
+import paramComponents from './Params';
 
 type Props = BareProps & {
+  defaultValue: Extrinsic,
   isError?: boolean,
   isPrivate?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  subject: rxjs$BehaviorSubject<EncodedParams>
+  onChange: rxjs$BehaviorSubject<EncodedParams>
 };
 
-export default class Extrinsic extends React.PureComponent<Props> {
-  subjects: Subjects;
-  subscriptions: Array<rxjs$ISubscription>;
+type State = {
+  extrinsic: Extrinsic,
+  params: Array<RawParam>
+};
+
+export default class ExtrinsicDisplay extends React.PureComponent<Props, State> {
+  state: State;
   Params: React$ComponentType<*>;
 
   constructor (props: Props) {
     super(props);
 
-    this.subjects = createSubjects(props.subject);
-    this.Params = withObservable(this.subjects.method)(Params);
-    this.subscriptions = [];
-  }
-
-  componentWillMount () {
-    this.subscriptions = [
-      this.subjects.params.subscribe(this.onChange),
-      this.subjects.method.subscribe(this.onChange)
-    ];
-  }
-
-  componentWillUnmount () {
-    this.subscriptions.forEach((s) =>
-      s.unsubscribe()
-    );
+    this.state = {
+      extrinsic: props.defaultValue
+    };
   }
 
   onChange = (): void => {
-    const extrinsic = this.subjects.method.getValue();
+    const { extrinsic } = this.state.getValue();
     const values = this.subjects.params.getValue();
     const isValid = !!extrinsic.params &&
       Object
@@ -75,9 +65,13 @@ export default class Extrinsic extends React.PureComponent<Props> {
     });
   };
 
+  onChangeExtrinsic = (extrinsic: Extrinsic): void => {
+    this.setState({ extrinsic, isValid: false }, () => {});
+  }
+
   render (): React$Node {
     const { className, isError, isPrivate, labelMethod, labelSection, style } = this.props;
-    const { Params, subjects } = this;
+    const { extrinsic } = this.state;
 
     return (
       <div
@@ -90,12 +84,12 @@ export default class Extrinsic extends React.PureComponent<Props> {
             isPrivate={isPrivate}
             labelMethod={labelMethod}
             labelSection={labelSection}
-            subject={subjects.method}
+            onChange={this.onChangeExtrinsic}
           />
         </div>
         <Params
           overrides={paramComponents}
-          subject={subjects.params}
+          value={extrinsic}
         />
       </div>
     );

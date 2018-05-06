@@ -9,7 +9,6 @@ import type { Props } from '../types';
 import React from 'react';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 
-import doChange from '../../util/doChange';
 import Base from './Base';
 
 const options = [
@@ -18,13 +17,13 @@ const options = [
   { text: 'Simple majority', value: 2 }
 ];
 
-export default function VoteThreshold ({ label, onChange, t, value: { options: { initValue = 0 } = {} } }: Props): React$Node {
+export default function VoteThreshold ({ index, label, onChange, t, value: { options: { initValue = 0 } = {} } }: Props): React$Node {
   const defaultValue = initValue || 0;
   const _onChange = (event: SyntheticEvent<*>, { value }) =>
-    doChange({
+    onChange(index, {
       isValid: true,
       value
-    }, onChange);
+    });
 
   return (
     <Base

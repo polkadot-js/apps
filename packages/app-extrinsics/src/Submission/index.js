@@ -10,20 +10,29 @@ import type { Subjects } from './types';
 import './Submission.css';
 
 import React from 'react';
-import withObservable from '@polkadot/rx-react/with/observable';
+import Button from 'semantic-ui-react/dist/es/elements/Button';
+import map from '@polkadot/extrinsics-substrate';
 
 import Account from '../Account';
 import Extrinsic from '../Extrinsic';
 import translate from '../translate';
 import Nonce from './Nonce';
-import Submit from './Submit';
 import createSubjects from './subjects';
 
 type Props = I18nProps & {
-  subject: rxjs$BehaviorSubject<QueueTx>
+  onQueue: (value: QueueTx) => void
 };
 
-class Submission extends React.PureComponent<Props> {
+type State = {
+  value: $Shape<QueueTx>
+};
+
+const defaultExtrinsic = map.staking.methods.public.transfer;
+
+let id = 0;
+
+class Submission extends React.PureComponent<Props, State> {
+  state: State;
   Submit: React$ComponentType<*>;
   subjects: Subjects;
 
@@ -31,7 +40,13 @@ class Submission extends React.PureComponent<Props> {
     super(props);
 
     this.subjects = createSubjects();
-    this.Submit = withObservable(this.subjects.call)(Submit);
+
+    this.state = {
+      value: {
+        extrinsic: defaultExtrinsic,
+        isValid: false
+      }
+    };
   }
 
   componentWillMount () {
@@ -56,9 +71,20 @@ class Submission extends React.PureComponent<Props> {
     });
   };
 
+  onQueue = (): void => {
+    const { onQueue } = this.props;
+    const { value } = this.state;
+
+    onQueue({
+      ...value,
+      id: ++id
+    });
+  }
+
   render (): React$Node {
-    const { className, subject, style, t } = this.props;
-    const { Submit, subjects } = this;
+    const { className, style, t } = this.props;
+    const { value } = this.state;
+    const { subjects } = this;
 
     return (
       <div
@@ -69,23 +95,32 @@ class Submission extends React.PureComponent<Props> {
           label={t('display.sender', {
             defaultValue: 'using the selected account'
           })}
-          subject={subjects.sender}
+          onChange={subjects.sender}
         />
         <Extrinsic
+          defaultValue={defaultExtrinsic}
           labelMethod={t('display.method', {
             defaultValue: 'submit the following extrinsic'
           })}
-          subject={subjects.method}
+          onChange={subjects.method}
         />
         <Nonce
           label={t('display.nonce', {
             defaultValue: 'with an index'
           })}
-          subject={subjects.index}
+          onChange={subjects.index}
           value={subjects.sender}
         />
         <div className='extrinsics--Submission-ButtonRow'>
-          <Submit subject={subject} />
+          <Button
+            disabled={!value.isValid}
+            onClick={this.onQueue}
+            primary
+          >
+            {t('submit.label', {
+              defaultValue: 'Submit Extrinsic'
+            })}
+          </Button>
         </div>
       </div>
     );

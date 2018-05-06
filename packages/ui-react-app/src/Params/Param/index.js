@@ -21,24 +21,25 @@ type Props = I18nProps & {
   };
 };
 
-function ParamComponent ({ className, onChange, overrides, style, value: { name, type, options = {} } = {} }: Props): React$Node {
+function ParamComponent ({ className, index, onChange, overrides, style, value: { name, type, options = {} } = {} }: Props): React$Node {
   if (!type) {
     return null;
   }
 
   const Component = findComponent(type, overrides);
-  const renderComponent = (Component: React$ComponentType<*>, index: number = -1) => {
+  const renderComponent = (Component: React$ComponentType<*>, sub: number = -1) => {
     const _type: Param$Type = Array.isArray(type)
-      ? type[index]
+      ? type[sub]
       : type;
     const text = typeToText(_type);
-    const labelExtra = index === -1
+    const labelExtra = sub === -1
       ? ''
       : ` (${index})`;
 
     return (
       <Component
         className='ui--Param'
+        index={index}
         key={`${name}:${text}:${index}}`}
         label={`${name}: ${text}${labelExtra}`}
         // FIXME subjects are not for array components (as defined here)

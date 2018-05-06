@@ -14,7 +14,7 @@ import React from 'react';
 import doChange from '../util/doChange';
 import translate from '../translate';
 import Param from './Param';
-import createSubjects from './subjects';
+import createValues from './values';
 
 type RawParams = Array<RawParam>;
 
@@ -25,8 +25,7 @@ type Props = I18nProps & {
 };
 
 type State = {
-  subjects: Array<rxjs$BehaviorSubject<RawParam>>,
-  subscriptions: Array<rxjs$ISubscription>
+  values: Array<RawParam>
 };
 
 class Params extends React.PureComponent<Props, State> {
@@ -36,48 +35,32 @@ class Params extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      subjects: [],
-      subscriptions: []
+      values: []
     };
-  }
-
-  static unsubscribe (subscriptions: Array<rxjs$ISubscription>): void {
-    subscriptions.forEach((s) =>
-      s.unsubscribe()
-    );
   }
 
   static getDerivedStateFromProps (props: Props, prevState: State): $Shape<State> | null {
     const { onChange, value: { params = {} } = {} } = props;
+    const values = createValues(params);
 
-    if (Object.keys(params).length === 0) {
-      Params.unsubscribe(prevState.subscriptions);
-
-      return {
-        subjects: [],
-        subscriptions: []
-      };
-    }
-
-    const subjects = createSubjects(params, onChange);
-    let subscriptions;
-
-    if (onChange) {
-      const _onChange = (): void => {
-        doChange(subjects.map((s) => s.getValue()), onChange);
-      };
-
-      subscriptions = subjects.map((s) => s.subscribe(_onChange));
-    }
+    onChange(values, onChange);
 
     return {
-      subjects,
-      subscriptions
+      values
     };
   }
 
-  componentWillUnmount () {
-    Params.unsubscribe(this.state.subscriptions);
+  onChangeParam = (index: number, next: RawParam): void => {
+    const { onChange } = this.props;
+    const values = this.state.values.map((value, _index) =>
+      index === _index
+        ? next
+        : value
+    );
+
+    this.setState({ values }, () =>
+      doChange(values, onChange)
+    );
   }
 
   render (): React$Node {
@@ -106,8 +89,9 @@ class Params extends React.PureComponent<Props, State> {
 
             return (
               <Param
+                index={index}
                 key={`${name}:${paramName}:${index}`}
-                onChange={subjects[index]}
+                onChange={this.onChangeParam}
                 overrides={overrides}
                 value={{
                   name: paramName,

@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-// TODO: We have a lot shared between this and InputExtrinsic
+// TODO: We have a lot shared between this and InputStorage
 
 import type { Extrinsic } from '@polkadot/extrinsics/types';
 import type { I18nProps } from '../types';
@@ -11,9 +11,7 @@ import type { I18nProps } from '../types';
 import './InputExtrinsic.css';
 
 import React from 'react';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import map from '@polkadot/extrinsics-substrate';
-import withObservable from '@polkadot/rx-react/with/observable';
 
 import doChange from '../util/doChange';
 import translate from '../translate';
@@ -22,74 +20,77 @@ import SelectSection from './SelectSection';
 import methodOptions from './options/method';
 
 type Props = I18nProps & {
+  defaultValue: Extrinsic,
   isError?: boolean,
   isPrivate?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: rxjs$BehaviorSubject<Extrinsic>
+  onChange?: (value: Extrinsic) => void | rxjs$Subject<Extrinsic>
 };
 
-class InputExtrinsic extends React.PureComponent<Props> {
-  sectionSubject: rxjs$Subject<string>;
-  SelectMethod: React$ComponentType<*>;
-  subscriptions: Array<rxjs$ISubscription>
+type State = {
+  value: Extrinsic
+};
+
+class InputExtrinsic extends React.PureComponent<Props, State> {
+  state: State;
 
   constructor (props: Props) {
     super(props);
 
-    this.sectionSubject = new BehaviorSubject(props.onChange.getValue().section);
-    this.SelectMethod = withObservable(props.onChange)(SelectMethod);
+    this.state = {
+      value: this.props.defaultValue
+    };
   }
 
-  componentWillMount () {
-    this.subscriptions = [
-      this.sectionSubject.subscribe((section) => {
-        const { isPrivate = false, onChange } = this.props;
-        const current = onChange.getValue();
+  onKeyChange = (value: Extrinsic): void => {
+    const { onChange } = this.props;
 
-        if (current.section === section) {
-          return;
-        }
-
-        const type = isPrivate ? 'private' : 'public';
-        const options = methodOptions(section, type);
-
-        doChange(
-          // $FlowFixMe we have string to be generic, but...
-          map[section].methods[type][options[0].value],
-          onChange
-        );
-      })
-    ];
+    this.setState({ value }, () =>
+      doChange(value, onChange)
+    );
   }
 
-  componentWillUnmount () {
-    this.subscriptions.forEach((s) =>
-      s.unsubscribe()
+  onSectionChange = (section: StateDb$SectionNames): void => {
+    const { isPrivate = false, onChange } = this.props;
+
+    if (this.state.value.section === section) {
+      return;
+    }
+
+    const type = isPrivate ? 'private' : 'public';
+    const options = methodOptions(section, type);
+    // $FlowFixMe we have string to be generic, but...
+    const value = map[section].methods[type][options[0].value];
+
+    this.setState({ value }, () =>
+      doChange(value, onChange)
     );
   }
 
   render (): React$Node {
-    const { className, isPrivate = false, labelMethod, labelSection, onChange, style } = this.props;
+    const { className, isPrivate = false, labelMethod, labelSection, style } = this.props;
+    const { value } = this.state;
     const type = isPrivate ? 'private' : 'public';
-    const SelectMethod = this.SelectMethod;
 
     return (
       <div
-        className={['ui--InputExtrinsic', 'ui--form', className].join(' ')}
+        className={['ui--RxDropdownLinked', 'ui--form', className].join(' ')}
         style={style}
       >
         <div className='small'>
           <SelectSection
             label={labelSection}
-            onChange={this.sectionSubject}
+            onChange={this.onSectionChange}
             type={type}
+            value={value}
           />
         </div>
         <div className='large'>
           <SelectMethod
             label={labelMethod}
-            onChange={onChange}
+            onChange={this.onKeyChange}
+            value={value}
             type={type}
           />
         </div>

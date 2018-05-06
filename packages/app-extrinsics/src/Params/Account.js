@@ -23,7 +23,7 @@ export default class Account extends React.PureComponent<Props> {
   componentWillMount () {
     this.subscriptions = [
       this.account.subscribe((value: Uint8Array) =>
-        this.props.subject.next({
+        this.props.onChange(this.props.index, {
           isValid: !!value && value.length === 32,
           value
         })

@@ -16,7 +16,7 @@ import createOptions from './options/method';
 type Props = I18nProps & {
   isError?: boolean,
   label?: string,
-  onChange?: (value: Extrinsic) => void,
+  onChange?: (value: Extrinsic) => void | rxjs$Subject<Extrinsic>,
   type: 'private' | 'public',
   value?: Extrinsic
 };
@@ -34,7 +34,7 @@ function SelectMethod ({ className, isError, label = '', onChange, style, t, typ
 
   return (
     <RxDropdown
-      className={['ui--InputExtrinsic-SelectMethod', className].join(' ')}
+      className={['ui--RxDropdownLinked-Items', className].join(' ')}
       isError={isError}
       label={label || t('input.extrinsic.method', {
         defaultValue: 'with the extrinsic'

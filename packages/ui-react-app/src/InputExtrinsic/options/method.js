@@ -26,17 +26,17 @@ export default function createOptions (sectionName: any, type: 'private' | 'publ
       const inputs = Object.keys(params).join(', ');
 
       return {
-        className: 'ui--InputExtrinsic-SelectMethod-Item',
+        className: 'ui--RxDropdownLinked-Item',
         key: `${sectionName}_${name}`,
         text: [
           <div
-            className='ui--InputExtrinsic-SelectMethod-Item-text'
+            className='ui--RxDropdownLinked-Item-text'
             key={`${sectionName}_${name}:text`}
           >
             {description || name}
           </div>,
           <div
-            className='ui--InputExtrinsic-SelectMethod-Item-call'
+            className='ui--RxDropdownLinked-Item-call'
             key={`${sectionName}_${name}:call`}
           >
             {name}({inputs})

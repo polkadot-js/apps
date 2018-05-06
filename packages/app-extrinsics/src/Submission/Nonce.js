@@ -13,7 +13,7 @@ import withObservableParams from '@polkadot/rx-react/with/observableParams';
 
 type Props = BareProps & {
   label: string,
-  subject: rxjs$BehaviorSubject<BN>,
+  onChange: rxjs$BehaviorSubject<BN>,
   value: rxjs$BehaviorSubject<Uint8Array>
 };
 
@@ -28,7 +28,7 @@ export default class Nonce extends React.PureComponent<Props> {
   }
 
   render (): React$Node {
-    const { className, label, style, subject } = this.props;
+    const { className, label, style, onChange } = this.props;
     const Nonce = this.Nonce;
 
     return (
@@ -40,7 +40,7 @@ export default class Nonce extends React.PureComponent<Props> {
           <Label>{label}</Label>
           <Nonce
             className='ui disabled dropdown selection'
-            subject={subject}
+            onChange={onChange}
           />
         </div>
       </div>
