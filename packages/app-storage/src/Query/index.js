@@ -7,31 +7,33 @@ import type { I18nProps } from '@polkadot/ui-react-app/types';
 import type { StorageQuery } from '../types';
 
 import React from 'react';
+import Button from 'semantic-ui-react/dist/es/elements/Button';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
-import Div from '@polkadot/rx-react/Div';
-import withStorage from '@polkadot/rx-react/with/storage';
 
 import translate from '../translate';
-import Remove from './Remove';
-import cache from './cache';
-import createTransform from './transform';
+import createCached from './cached';
 
 type Props = I18nProps & {
+  onRemove: (id: number) => void,
   value: StorageQuery
 };
 
-function Query ({ className, style, value: { id, key, params } }: Props): React$Node {
+const cache = [];
+
+function Query ({ className, onRemove, style, value: { id, key, params } }: Props): React$Node {
   const CachedQuery = (() => {
     if (!cache[id]) {
-      const transform = createTransform(key);
-
-      cache[id] = withStorage(key, { params, transform })(
-        Div, { className: 'ui disabled dropdown selection' }
-      );
+      cache[id] = createCached(key, params);
     }
 
     return cache[id];
   })();
+
+  const _onRemove = (): void => {
+    delete cache[id];
+
+    onRemove(id);
+  };
 
   const inputs = Object
     .keys(key.params || {})
@@ -52,7 +54,11 @@ function Query ({ className, style, value: { id, key, params } }: Props): React$
       </div>
       <div className='storage--actionrow-button'>
         <Label>&nbsp;</Label>
-        <Remove value={id} />
+        <Button
+          icon='close'
+          negative
+          onClick={_onRemove}
+        />
       </div>
     </div>
   );
