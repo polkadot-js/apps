@@ -45,13 +45,18 @@ function Query ({ className, onRemove, style, value: { id, key, params } }: Prop
 
   const inputs = Object
     .keys(key.params || {})
-    // $FlowFixMe key.params exists
-    .map((name, index) => `${name}=${format(key.params[name].type, params[index].value)}`)
-    .join(', ');
+    .map((name, index) => {
+      // $FlowFixMe key.params exists
+      const formatted = format(key.params[name].type, params[index].value, 12);
+
+      return (
+        <span>{name}={formatted}</span>
+      );
+    });
 
   return (
     <div
-      className={['storage--Queries-Query', 'storage--actionrow', className].join(' ')}
+      className={['storage--Query', 'storage--actionrow', className].join(' ')}
       style={style}
     >
       <div className='storage--actionrow-value'>

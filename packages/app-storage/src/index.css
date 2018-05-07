@@ -10,9 +10,23 @@
   margin-top: 2em;
 }
 
-.storage--Queries-Query {
+.storage--Query {
   margin-bottom: 0.25em;
   padding: 0.25em 0.75em;
+}
+
+.storage--Query .ui.disabled.dropdown.selection {
+  color: #aaa;
+  opacity: 1;
+}
+
+.storage--Query span+span {
+  margin-left: 0.5em;
+}
+
+.storage--Query .ui--IdentityIcon {
+  margin: -10px 0;
+  vertical-align: middle;
 }
 
 .storage--actionrow {
