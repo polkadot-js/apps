@@ -3,8 +3,13 @@
 /* of the ISC license. See the LICENSE file for details. */
 
 .apps--SideBar {
+  background: #f9f9f9;
   flex-shrink: 0;
   min-width: 12em;
-  padding: 0.75em;
+  padding: 0.75em 0 0 0.75em;
   text-align: left;
+}
+
+.apps--SideBar .ui.vertical.menu {
+  margin: 0;
 }
