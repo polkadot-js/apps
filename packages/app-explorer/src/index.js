@@ -8,7 +8,7 @@ import type { I18nProps } from '@polkadot/ui-react-app/types';
 import './index.css';
 
 import React from 'react';
-import BestNumber from '@polkadot/rx-react/BestNumber';
+import BestNumber from '@polkadot/ui-react-rx/BestNumber';
 
 import BestHash from './BestHash';
 import BlockHeaders from './BlockHeaders';

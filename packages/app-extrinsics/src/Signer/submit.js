@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { RxApiInterface } from '@polkadot/rx-api/types';
+import type { RxApiInterface } from '@polkadot/api-rx/types';
 import type { QueueTx } from '../types';
 
 import encodeCall from '@polkadot/extrinsics-codec/encode/call';
