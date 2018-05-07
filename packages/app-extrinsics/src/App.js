@@ -8,7 +8,7 @@ import type { QueueTx } from './types';
 
 import React from 'react';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import withObservable from '@polkadot/rx-react/with/observable';
+import withObservable from '@polkadot/ui-react-rx/with/observable';
 
 import Signer from './Signer';
 import Submission from './Submission';

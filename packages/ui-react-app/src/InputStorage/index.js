@@ -12,7 +12,7 @@ import './InputStorage.css';
 
 import React from 'react';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import withObservable from '@polkadot/rx-react/with/observable';
+import withObservable from '@polkadot/ui-react-rx/with/observable';
 import map from '@polkadot/storage-substrate/keys';
 
 import translate from '../translate';

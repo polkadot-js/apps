@@ -6,8 +6,8 @@
 import type { Header } from '@polkadot/primitives/header';
 
 import headerHash from '@polkadot/primitives-codec/header/hash';
-import Div from '@polkadot/rx-react/Div';
-import withApiCall from '@polkadot/rx-react/with/apiCall';
+import Div from '@polkadot/ui-react-rx/Div';
+import withApiCall from '@polkadot/ui-react-rx/with/apiCall';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 
 export default withApiCall({ method: 'newHead', section: 'chain' })(

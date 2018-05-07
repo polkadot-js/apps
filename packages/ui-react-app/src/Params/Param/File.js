@@ -8,7 +8,7 @@ import type { RawParam } from '../types';
 
 import React from 'react';
 import Dropzone from 'react-dropzone';
-import withObservable from '@polkadot/rx-react/with/observable';
+import withObservable from '@polkadot/ui-react-rx/with/observable';
 import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 

@@ -6,8 +6,8 @@
 import type { Header } from '@polkadot/primitives/header';
 
 import React from 'react';
-import Div from '@polkadot/rx-react/Div';
-import withApiCall from '@polkadot/rx-react/with/apiCall';
+import Div from '@polkadot/ui-react-rx/Div';
+import withApiCall from '@polkadot/ui-react-rx/with/apiCall';
 
 import BlockHeader from '../BlockHeader';
 import { blockHeaders as subject } from '../subjects';

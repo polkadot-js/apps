@@ -13,7 +13,7 @@ import './InputExtrinsic.css';
 import React from 'react';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import map from '@polkadot/extrinsics-substrate';
-import withObservable from '@polkadot/rx-react/with/observable';
+import withObservable from '@polkadot/ui-react-rx/with/observable';
 
 import translate from '../translate';
 import SelectMethod from './SelectMethod';

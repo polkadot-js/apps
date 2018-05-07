@@ -10,7 +10,7 @@ import type { Subjects } from './types';
 import './Submission.css';
 
 import React from 'react';
-import withObservable from '@polkadot/rx-react/with/observable';
+import withObservable from '@polkadot/ui-react-rx/with/observable';
 
 import Account from '../Account';
 import Extrinsic from '../Extrinsic';

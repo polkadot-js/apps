@@ -8,8 +8,8 @@ import type { StorageQuery } from '../types';
 
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
-import Div from '@polkadot/rx-react/Div';
-import withStorage from '@polkadot/rx-react/with/storage';
+import Div from '@polkadot/ui-react-rx/Div';
+import withStorage from '@polkadot/ui-react-rx/with/storage';
 
 import translate from '../translate';
 import Remove from './Remove';

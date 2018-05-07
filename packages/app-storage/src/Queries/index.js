@@ -7,7 +7,7 @@ import type { I18nProps } from '@polkadot/ui-react-app/types';
 import type { StorageQuery } from '../types';
 
 import React from 'react';
-import withObservable from '@polkadot/rx-react/with/observable';
+import withObservable from '@polkadot/ui-react-rx/with/observable';
 
 import subjects from '../subjects';
 import translate from '../translate';

@@ -9,7 +9,7 @@ import type { Subjects } from './types';
 
 import React from 'react';
 import encodeExtrinsic from '@polkadot/extrinsics-codec/encode/extrinsic';
-import withObservable from '@polkadot/rx-react/with/observable';
+import withObservable from '@polkadot/ui-react-rx/with/observable';
 import InputExtrinsic from '@polkadot/ui-react-app/src/InputExtrinsic';
 import Params from '@polkadot/ui-react-app/src/Params';
 import isUndefined from '@polkadot/util/is/undefined';

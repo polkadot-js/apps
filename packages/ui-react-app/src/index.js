@@ -13,7 +13,7 @@ import './styles';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
-import Api from '@polkadot/rx-react/Api';
+import Api from '@polkadot/ui-react-rx/Api';
 
 type Props = BareProps & {
   api?: RxApiInterface,
