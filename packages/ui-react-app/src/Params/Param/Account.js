@@ -26,7 +26,6 @@ export default function Account ({ index, isError, label, onChange, t, value: { 
     >
       <InputAddress
         defaultValue={defaultValue}
-        label={label}
         onChange={_onChange}
         placeholder='0x...'
       />

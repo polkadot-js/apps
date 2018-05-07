@@ -11,6 +11,8 @@ export type RawParam = {
   value: mixed,
 }
 
+export type RawParams = Array<RawParam>;
+
 export type BaseProps = BareProps & {
   onChange: (index: number, value: RawParam) => void,
   value: Param
