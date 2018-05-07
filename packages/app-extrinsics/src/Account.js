@@ -7,7 +7,7 @@ import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
-import Balance from '@polkadot/rx-react/Balance';
+import Balance from '@polkadot/ui-react-rx/Balance';
 import InputAddress from '@polkadot/ui-react-app/src/InputAddress';
 
 import translate from './translate';

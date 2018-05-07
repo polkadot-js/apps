@@ -6,7 +6,7 @@
 import type BN from 'bn.js';
 import type { StorageDef$Key } from '@polkadot/storage/types';
 
-import withStorageDiv from '@polkadot/rx-react/with/storageDiv';
+import withStorageDiv from '@polkadot/ui-react-rx/with/storageDiv';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 import isU8a from '@polkadot/util/is/u8a';
 

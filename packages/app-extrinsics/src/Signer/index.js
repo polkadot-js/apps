@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { ApiProps } from '@polkadot/rx-react/types';
+import type { ApiProps } from '@polkadot/ui-react-rx/types';
 import type { I18nProps } from '@polkadot/ui-react-app/types';
 import type { QueueTx } from '../types';
 
@@ -12,7 +12,7 @@ import './Signer.css';
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import Modal from 'semantic-ui-react/dist/es/modules/Modal';
-import withApi from '@polkadot/rx-react/with/api';
+import withApi from '@polkadot/ui-react-rx/with/api';
 
 import translate from '../translate';
 import Decoded from './Decoded';

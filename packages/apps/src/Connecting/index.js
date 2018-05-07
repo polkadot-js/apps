@@ -8,7 +8,7 @@ import type { I18nProps } from '@polkadot/ui-react-app/types';
 import './Connecting.css';
 
 import React from 'react';
-import withApiCall from '@polkadot/rx-react/with/apiCall';
+import withApiCall from '@polkadot/ui-react-rx/with/apiCall';
 
 import translate from '../translate';
 

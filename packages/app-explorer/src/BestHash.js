@@ -6,7 +6,7 @@
 import type { Header } from '@polkadot/primitives/header';
 
 import headerHash from '@polkadot/primitives-codec/header/hash';
-import withApiDiv from '@polkadot/rx-react/with/apiDiv';
+import withApiDiv from '@polkadot/ui-react-rx/with/apiDiv';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 
 export default withApiDiv({ name: 'newHead', section: 'chain' })(
