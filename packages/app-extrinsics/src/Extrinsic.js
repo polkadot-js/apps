@@ -69,32 +69,34 @@ export default class ExtrinsicDisplay extends React.PureComponent<Props, State> 
     );
   }
 
-  onChange = (): void => {
-    const { onChange } = this.props;
-    const { extrinsic, values } = this.state;
-    const params = Object.values(extrinsic.params || {});
-    const isValid = values.length === params.length &&
-      params.reduce((isValid, param, index) =>
-        isValid &&
-        !isUndefined(values[index]) &&
-        !isUndefined(values[index].value) &&
-        values[index].isValid, true);
-    const value = isValid && extrinsic.params
-      ? encode(extrinsic, values.map((p) => p.value))
-      : new Uint8Array([]);
+  nextState (newState: $Shape<State>): void {
+    this.setState(newState, () => {
+      const { onChange } = this.props;
+      const { extrinsic, values } = this.state;
+      const params = Object.values(extrinsic.params || {});
+      const isValid = values.length === params.length &&
+        params.reduce((isValid, param, index) =>
+          isValid &&
+          !isUndefined(values[index]) &&
+          !isUndefined(values[index].value) &&
+          values[index].isValid, true);
+      const value = isValid && extrinsic.params
+        ? encode(extrinsic, values.map((p) => p.value))
+        : new Uint8Array([]);
 
-    onChange({
-      extrinsic,
-      isValid,
-      value
+      onChange({
+        extrinsic,
+        isValid,
+        value
+      });
     });
   }
 
   onChangeExtrinsic = (extrinsic: Extrinsic): void => {
-    this.setState({ extrinsic }, this.onChange);
+    this.nextState({ extrinsic });
   };
 
   onChangeValues = (values: Array<RawParam>): void => {
-    this.setState({ values }, this.onChange);
+    this.nextState({ values });
   }
 }

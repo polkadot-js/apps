@@ -88,7 +88,7 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  validateState = (newState: $Shape<State>): void => {
+  nextState (newState: $Shape<State>): void {
     this.setState(
       (prevState: State): State => {
         const { encoded = prevState.encoded, nonce = prevState.nonce, publicKey = prevState.publicKey } = newState;
@@ -110,15 +110,15 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   onChangeMessage = (encoded: EncodedMessage): void => {
-    this.validateState({ encoded });
+    this.nextState({ encoded });
   }
 
   onChangeNonce = (nonce: BN): void => {
-    this.validateState({ nonce });
+    this.nextState({ nonce });
   }
 
   onChangeSender = (publicKey: Uint8Array): void => {
-    this.validateState({ publicKey });
+    this.nextState({ publicKey });
   }
 
   onQueue = (): void => {
