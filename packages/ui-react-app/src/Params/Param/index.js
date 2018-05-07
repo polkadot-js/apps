@@ -14,8 +14,9 @@ import typeToText from '../typeToText';
 import findComponent from './findComponent';
 
 type Props = I18nProps & {
+  index: number,
   overrides?: ComponentMap,
-  onChange: (value: RawParam) => void | rxjs$BehaviorSubject<RawParam>,
+  onChange: (value: RawParam) => void,
   value: Param & {
     name: string
   };

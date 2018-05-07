@@ -4,7 +4,7 @@
 // @flow
 
 import type { BareProps } from '@polkadot/ui-react-app/types';
-import type { QueueTx } from './types';
+import type { QueueTx, QueueTx$Status } from './types';
 
 import './index.css';
 
@@ -20,7 +20,7 @@ type State = {
   queue: Array<QueueTx>
 };
 
-export default class App extends React.PureComponent<Props> {
+export default class App extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -50,7 +50,7 @@ export default class App extends React.PureComponent<Props> {
     );
   }
 
-  setStatus = (id: number, status: string): void => {
+  setStatus = (id: number, status: QueueTx$Status): void => {
     this.setState(
       (prevState: State): State => ({
         queue: prevState.queue.map((item) =>
@@ -71,10 +71,7 @@ export default class App extends React.PureComponent<Props> {
   onQueue = (value: QueueTx): void => {
     this.setState(
       (prevState: State): State => ({
-        queue: prevState.queue.concat([{
-          ...value,
-          status: 'queued'
-        }])
+        queue: prevState.queue.concat([value])
       })
     );
   }

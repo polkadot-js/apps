@@ -19,7 +19,7 @@ type Props = I18nProps & {
   value: QueueTx
 };
 
-function Decoded ({ className, style, t, value: { data, extrinsic: { name, section }, nonce, publicKey } }: Props): React$Node {
+function Decoded ({ className, style, t, value: { extrinsic: { name, section }, nonce, publicKey, value } }: Props): React$Node {
   const from = addressEncode(publicKey);
 
   return (
@@ -44,7 +44,7 @@ function Decoded ({ className, style, t, value: { data, extrinsic: { name, secti
             })}
           </p>
           <p className='code'>
-            {u8aToHexShort(data, 512)}
+            {u8aToHexShort(value, 512)}
           </p>
         </div>
       </div>

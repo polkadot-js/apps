@@ -5,7 +5,7 @@
 
 // TODO: We have a lot shared between this and InputStorage
 
-import type { Extrinsic } from '@polkadot/extrinsics/types';
+import type { Extrinsic, ExtrinsicSectionName } from '@polkadot/extrinsics/types';
 import type { I18nProps } from '../types';
 
 import './InputExtrinsic.css';
@@ -80,8 +80,8 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     );
   }
 
-  onSectionChange = (section: StateDb$SectionNames): void => {
-    const { isPrivate = false, onChange } = this.props;
+  onSectionChange = (section: ExtrinsicSectionName): void => {
+    const { isPrivate = false } = this.props;
 
     if (this.state.value.section === section) {
       return;
@@ -89,12 +89,9 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
 
     const type = isPrivate ? 'private' : 'public';
     const options = methodOptions(section, type);
-    // $FlowFixMe we have string to be generic, but...
     const value = map[section].methods[type][options[0].value];
 
-    this.setState({ value }, () =>
-      onChange(value)
-    );
+    this.onKeyChange(value);
   }
 }
 

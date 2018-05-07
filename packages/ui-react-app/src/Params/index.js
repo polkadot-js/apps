@@ -23,21 +23,22 @@ type Props = I18nProps & {
   overrides?: ComponentMap
 };
 
-type StateT = {
+type State = {
   extrinsic: Extrinsic,
   values: Array<RawParam>
 };
 
-class Params extends React.PureComponent<Props, StateT> {
+class Params extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
     super(props);
 
-    this.state = {};
+    // wed ont' set anything, getDerivedStateFromProps will update
+    this.state = ({}: $Shape<State>);
   }
 
-  static getDerivedStateFromProps ({ extrinsic, onChange }: Props, { extrinsic: { name, section } = {} }: StateT): $Shape<StateT> | null {
+  static getDerivedStateFromProps ({ extrinsic, onChange }: Props, { extrinsic: { name, section } = {} }: State): $Shape<State> | null {
     if (name === extrinsic.name && section === extrinsic.section) {
       return null;
     }

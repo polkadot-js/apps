@@ -5,7 +5,8 @@
 
 import type { Extrinsic } from '@polkadot/extrinsics/types';
 import type { BareProps } from '@polkadot/ui-react-app/types';
-import type { EncodedMessage } from '../types';
+import type { RawParam } from '@polkadot/ui-react-app/Params/types';
+import type { EncodedMessage } from './types';
 
 import React from 'react';
 import encode from '@polkadot/extrinsics-codec/encode/extrinsic';
@@ -35,10 +36,9 @@ export default class ExtrinsicDisplay extends React.PureComponent<Props, State> 
   constructor (props: Props) {
     super(props);
 
-    this.state = {
-      extrinsic: props.defaultValue,
-      isValid: false
-    };
+    this.state = ({
+      extrinsic: props.defaultValue
+    }: $Shape<State>);
   }
 
   render (): React$Node {
@@ -79,14 +79,14 @@ export default class ExtrinsicDisplay extends React.PureComponent<Props, State> 
         !isUndefined(values[index]) &&
         !isUndefined(values[index].value) &&
         values[index].isValid, true);
-    const data = isValid && extrinsic.params
+    const value = isValid && extrinsic.params
       ? encode(extrinsic, values.map((p) => p.value))
       : new Uint8Array([]);
 
     onChange({
-      data,
       extrinsic,
-      isValid
+      isValid,
+      value
     });
   }
 

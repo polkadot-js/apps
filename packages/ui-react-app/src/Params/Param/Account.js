@@ -11,6 +11,8 @@ import InputAddress from '../../InputAddress';
 import Base from './Base';
 
 export default function Account ({ index, isError, label, onChange, t, value: { options: { initValue } = {} } }: Props): React$Node {
+  // flowlint-next-line unclear-type:off
+  const defaultValue = ((initValue: any): Uint8Array);
   const _onChange = (value?: Uint8Array): void =>
     onChange(index, {
       isValid: !!value && value.length === 32,
@@ -23,7 +25,7 @@ export default function Account ({ index, isError, label, onChange, t, value: { 
       size='large'
     >
       <InputAddress
-        defaultValue={initValue}
+        defaultValue={defaultValue}
         label={label}
         onChange={_onChange}
         placeholder='0x...'

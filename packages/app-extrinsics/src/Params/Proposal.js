@@ -8,19 +8,26 @@ import type { I18nProps } from '@polkadot/ui-react-app/types';
 import type { EncodedMessage } from '../types';
 
 import React from 'react';
+import extrinsics from '@polkadot/extrinsics-substrate';
 
 import Extrinsic from '../Extrinsic';
 import translate from '../translate';
 
 type Props = BaseProps & I18nProps;
 
-function Proposal ({ className, defaultValue, index, isError, onChange, label, style, t }: Props): React$Node {
-  const _onChange = (encoded: EncodedMessage): void =>
-    onChange(index, encoded);
+const defaultValue = extrinsics.consensus.methods.private.setCode;
+
+function Proposal ({ className, index, isError, onChange, label, style, t }: Props): React$Node {
+  const _onChange = ({ isValid, value }: EncodedMessage): void =>
+    onChange(index, {
+      isValid,
+      value
+    });
 
   return (
     <Extrinsic
       className={className}
+      defaultValue={defaultValue}
       isError={isError}
       isPrivate
       labelMethod={t('proposal.method', {

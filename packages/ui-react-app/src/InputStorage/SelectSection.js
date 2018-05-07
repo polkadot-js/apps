@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { StateDb$SectionNames } from '@polkadot/storage/types';
+import type { StorageDef$Key, StateDb$SectionNames } from '@polkadot/storage/types';
 import type { I18nProps } from '../types';
 
 import React from 'react';
@@ -16,13 +16,13 @@ type Props = I18nProps & {
   defaultValue?: StateDb$SectionNames,
   isError?: boolean,
   label: string,
-  onChange: (value: StateDb$SectionNames) => void | rxjs$Subject<StateDb$SectionNames>,
-  value?: StorageDef$Key
+  onChange: (value: StateDb$SectionNames) => void,
+  value: StorageDef$Key
 };
 
 const options = createOptions();
 
-function SelectSection ({ className, defaultValue, isError, label, onChange, style, t, value = {} }: Props): React$Node {
+function SelectSection ({ className, defaultValue, isError, label, onChange, style, t, value: { section } }: Props): React$Node {
   return (
     <RxDropdown
       className={['ui--RxDropdownLinked-Sections', className].join(' ')}
@@ -34,7 +34,7 @@ function SelectSection ({ className, defaultValue, isError, label, onChange, sty
       onChange={onChange}
       options={options}
       style={style}
-      value={value.section}
+      value={section}
     />
   );
 }

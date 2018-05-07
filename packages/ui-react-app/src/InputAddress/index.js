@@ -17,12 +17,10 @@ import RxDropdown from '../RxDropdown';
 import PairDisplay from './PairDisplay';
 
 type Props = BareProps & {
-  // flowlint-next-line unclear-type:off
   defaultValue?: Uint8Array,
   isError?: boolean,
   label?: string,
-  // flowlint-next-line unclear-type:off
-  onChange?: (value: any) => void
+  onChange: (value: Uint8Array) => void
 };
 
 const options = keyring.getPairs().map((pair) => ({

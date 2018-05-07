@@ -12,7 +12,7 @@ import RxNonce from '@polkadot/rx-react/Nonce';
 
 type Props = BareProps & {
   label: string,
-  onChange?: (value: BN) => void,
+  onChange: (value: BN) => void,
   value?: Uint8Array
 };
 

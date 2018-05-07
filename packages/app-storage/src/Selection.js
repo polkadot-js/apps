@@ -5,6 +5,7 @@
 
 import type { StorageDef$Key } from '@polkadot/storage/types';
 import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { StorageQuery } from './types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
@@ -65,11 +66,7 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeStorage = (key: StorageDef$Key): void => {
-    this.setState({ key });
-  }
-
-  onClickAdd = (): void => {
+  onAdd = (): void => {
     const { onAdd } = this.props;
     const { key } = this.state;
 
@@ -78,6 +75,10 @@ class Selection extends React.PureComponent<Props, State> {
       key,
       params: []
     });
+  }
+
+  onChangeStorage = (key: StorageDef$Key): void => {
+    this.setState({ key });
   }
 }
 

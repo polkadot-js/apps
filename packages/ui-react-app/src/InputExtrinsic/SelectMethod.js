@@ -16,21 +16,21 @@ import createOptions from './options/method';
 type Props = I18nProps & {
   isError?: boolean,
   label?: string,
-  onChange?: (value: Extrinsic) => void | rxjs$Subject<Extrinsic>,
+  onChange: (value: Extrinsic) => void,
   type: 'private' | 'public',
-  value?: Extrinsic
+  value: Extrinsic
 };
 
-function SelectMethod ({ className, isError, label = '', onChange, style, t, type, value }: Props): React$Node {
+function SelectMethod ({ className, isError, label = '', onChange, style, t, type, value: { name, section } }: Props): React$Node {
   // $FlowFixMe string vs ...
-  if (!value || !extrinsics[value.section]) {
+  if (!extrinsics[section]) {
     return null;
   }
 
-  const methods = extrinsics[value.section].methods[type];
+  const methods = extrinsics[section].methods[type];
   const transform = (name: string): Extrinsic =>
     methods[name];
-  const options = createOptions(value.section, type);
+  const options = createOptions(section, type);
 
   return (
     <RxDropdown
@@ -43,7 +43,7 @@ function SelectMethod ({ className, isError, label = '', onChange, style, t, typ
       options={options}
       style={style}
       transform={transform}
-      value={value.name}
+      value={name}
     />
   );
 }

@@ -7,12 +7,12 @@ import type BN from 'bn.js';
 import type { Extrinsic } from '@polkadot/extrinsics/types';
 
 export type EncodedMessage = {
-  data: Uint8Array,
   extrinsic: Extrinsic,
-  isValid: boolean
+  isValid: boolean,
+  value: Uint8Array
 };
 
-export type QueueTx$Status = 'incomplete' | 'cancelled' | 'error' | 'queued' | 'sent';
+export type QueueTx$Status = 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sent';
 
 export type QueueTx = EncodedMessage & {
   id: number,

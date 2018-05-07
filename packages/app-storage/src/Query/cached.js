@@ -10,17 +10,17 @@ import withStorageDiv from '@polkadot/rx-react/with/storageDiv';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 import isU8a from '@polkadot/util/is/u8a';
 
-type Formatter = (value: boolean | BN | Date | Uint8Array) => string;
-
-export default function cached (key: StorageDef$Key, params?: Array<*> = []): Formatter {
+export default function cached (key: StorageDef$Key, params?: Array<*> = []): React$ComponentType<*> {
   return withStorageDiv(key, { params })(
-    (value: boolean | BN | Date | Uint8Array): string => {
+    (value?: boolean | BN | Date | Uint8Array): string => {
       if (typeof value === typeof true) {
+        // flowlint-next-line sketchy-null-bool:off
         return value
           ? 'Yes'
           : 'No';
       }
 
+      // flowlint-next-line sketchy-null-bool:off
       if (!value) {
         return 'unknown';
       }

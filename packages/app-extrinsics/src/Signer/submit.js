@@ -11,8 +11,8 @@ import keyring from '@polkadot/ui-react-app/src/keyring';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
-export default function submit (api: RxApiInterface, { data, nonce, publicKey }: QueueTx): Promise<string> {
-  const message = encodeCall(publicKey, nonce, data);
+export default function submit (api: RxApiInterface, { nonce, publicKey, value }: QueueTx): Promise<string> {
+  const message = encodeCall(publicKey, nonce, value);
   const signature = keyring.getPair(publicKey).sign(message);
 
   console.log('submitExtrinsic: message =', u8aToHex(message));

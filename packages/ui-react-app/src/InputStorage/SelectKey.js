@@ -16,20 +16,20 @@ import createOptions from './options/key';
 type Props = I18nProps & {
   isError?: boolean,
   label?: string,
-  onChange?: (value: StorageDef$Key) => void | rxjs$Subject<StorageDef$Key>,
-  value?: StorageDef$Key
+  onChange: (value: StorageDef$Key) => void,
+  value: StorageDef$Key
 };
 
-function SelectKey ({ className, isError, label = '', onChange, style, t, value = {} }: Props): React$Node {
+function SelectKey ({ className, isError, label = '', onChange, style, t, value: { name, section } }: Props): React$Node {
   // $FlowFixMe string vs ...
-  if (!value || !map[value.section]) {
+  if (!map[section]) {
     return null;
   }
 
-  const keys = map[value.section].keys;
+  const keys = map[section].keys;
   const transform = (name: string): StorageDef$Key =>
     keys[name];
-  const options = createOptions(value.section);
+  const options = createOptions(section);
 
   return (
     <RxDropdown
@@ -42,7 +42,7 @@ function SelectKey ({ className, isError, label = '', onChange, style, t, value 
       options={options}
       style={style}
       transform={transform}
-      value={value.name}
+      value={name}
     />
   );
 }

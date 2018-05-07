@@ -13,6 +13,7 @@ import getInitValue from './initValue';
 export default function values (params: Params): Array<RawParam> {
   return Object
     .values(params)
+    // $FlowFixMe yes, we are sure, the type is correct
     .map((param: Param): RawParam => {
       const value = getInitValue(param);
 

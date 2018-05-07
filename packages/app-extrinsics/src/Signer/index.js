@@ -32,7 +32,7 @@ function Signer ({ api, className, onSetStatus, queue, style, t }: Props): React
 
   const onClose = (): void =>
     onSetStatus(first.id, 'cancelled');
-  const onSign = async (): void => {
+  const onSign = async (): Promise<void> => {
     const status = await submitExtrinsic(api, first);
 
     onSetStatus(first.id, status);

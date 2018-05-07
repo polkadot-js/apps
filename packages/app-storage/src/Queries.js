@@ -4,7 +4,7 @@
 // @flow
 
 import type { I18nProps } from '@polkadot/ui-react-app/types';
-import type { StorageQuery } from '../types';
+import type { StorageQuery } from './types';
 
 import React from 'react';
 

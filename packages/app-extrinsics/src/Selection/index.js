@@ -39,9 +39,9 @@ class Selection extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    this.state = {
+    this.state = ({
       isValid: false
-    };
+    }: $Shape<State>);
   }
 
   render () {
@@ -109,7 +109,7 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeMessage = (encoded: EncodedParams): void => {
+  onChangeMessage = (encoded: EncodedMessage): void => {
     this.validateState({ encoded });
   }
 
@@ -123,15 +123,16 @@ class Selection extends React.PureComponent<Props, State> {
 
   onQueue = (): void => {
     const { onQueue } = this.props;
-    const { encoded: { data, extrinsic, isValid }, nonce, publicKey } = this.state;
+    const { encoded: { extrinsic, isValid, value }, nonce, publicKey } = this.state;
 
     onQueue({
-      data,
       extrinsic,
       id: ++id,
       isValid,
       nonce,
-      publicKey
+      publicKey,
+      status: 'queued',
+      value
     });
   }
 }

@@ -77,19 +77,14 @@ class InputStorage extends React.PureComponent<Props, State> {
   }
 
   onSectionChange = (section: StateDb$SectionNames): void => {
-    const { onChange } = this.props;
-
     if (this.state.value.section === section) {
       return;
     }
 
     const options = keyOptions(section);
-    // $FlowFixMe we have string to be generic, but...
     const value = map[section].keys[options[0].value];
 
-    this.setState({ value }, () =>
-      onChange(value)
-    );
+    this.onKeyChange(value);
   }
 }
 

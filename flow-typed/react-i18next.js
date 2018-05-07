@@ -3,7 +3,7 @@
 declare type I18Next$Translate$Config = {
   defaultValue: string,
   replace?: {
-    [string]: string
+    [string]: any
   }
 };
 

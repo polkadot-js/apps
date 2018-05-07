@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { StateDb$SectionNames } from '@polkadot/storage/types';
+import type { Extrinsic, ExtrinsicSectionName } from '@polkadot/extrinsics/types';
 import type { I18nProps } from '../types';
 
 import React from 'react';
@@ -13,15 +13,15 @@ import translate from '../translate';
 import createOptions from './options/section';
 
 type Props = I18nProps & {
-  defaultValue?: StateDb$SectionNames,
+  defaultValue?: ExtrinsicSectionName,
   isError?: boolean,
   label?: string,
-  onChange: (value: StateDb$SectionNames) => void | rxjs$Subject<StateDb$SectionNames>,
+  onChange: (value: ExtrinsicSectionName) => void,
   type: 'private' | 'public',
-  value?: Extrinsic
+  value: Extrinsic
 };
 
-function SelectSection ({ className, defaultValue, isError, label = '', onChange, style, t, type, value }: Props): React$Node {
+function SelectSection ({ className, defaultValue, isError, label = '', onChange, style, t, type, value: { section } }: Props): React$Node {
   const options = createOptions(type);
 
   return (
@@ -35,7 +35,7 @@ function SelectSection ({ className, defaultValue, isError, label = '', onChange
       onChange={onChange}
       options={options}
       style={style}
-      value={value.section}
+      value={section}
     />
   );
 }
