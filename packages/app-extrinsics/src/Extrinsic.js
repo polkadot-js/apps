@@ -21,7 +21,7 @@ type Props = BareProps & {
   isPrivate?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange?: (values: EncodedMessage) => void
+  onChange: (values: EncodedMessage) => void
 };
 
 type State = {
@@ -39,35 +39,6 @@ export default class ExtrinsicDisplay extends React.PureComponent<Props, State> 
       extrinsic: props.defaultValue,
       isValid: false
     };
-  }
-
-  onChange = (): void => {
-    const { onChange } = this.props;
-    const { extrinsic, values } = this.state;
-    const params = Object.values(extrinsic.params || {});
-    const isValid = values.length === params.length &&
-      params.reduce((isValid, param, index) =>
-        isValid &&
-        !isUndefined(values[index]) &&
-        !isUndefined(values[index].value) &&
-        values[index].isValid, true);
-    const data = isValid && extrinsic.params
-      ? encode(extrinsic, values.map((p) => p.value))
-      : new Uint8Array([]);
-
-    onChange && onChange({
-      data,
-      extrinsic,
-      isValid
-    });
-  }
-
-  onChangeExtrinsic = (extrinsic: Extrinsic): void => {
-    this.setState({ extrinsic }, this.onChange);
-  };
-
-  onChangeValues = (values: Array<RawParam>): void => {
-    this.setState({ values }, this.onChange);
   }
 
   render (): React$Node {
@@ -96,5 +67,34 @@ export default class ExtrinsicDisplay extends React.PureComponent<Props, State> 
         />
       </div>
     );
+  }
+
+  onChange = (): void => {
+    const { onChange } = this.props;
+    const { extrinsic, values } = this.state;
+    const params = Object.values(extrinsic.params || {});
+    const isValid = values.length === params.length &&
+      params.reduce((isValid, param, index) =>
+        isValid &&
+        !isUndefined(values[index]) &&
+        !isUndefined(values[index].value) &&
+        values[index].isValid, true);
+    const data = isValid && extrinsic.params
+      ? encode(extrinsic, values.map((p) => p.value))
+      : new Uint8Array([]);
+
+    onChange({
+      data,
+      extrinsic,
+      isValid
+    });
+  }
+
+  onChangeExtrinsic = (extrinsic: Extrinsic): void => {
+    this.setState({ extrinsic }, this.onChange);
+  };
+
+  onChangeValues = (values: Array<RawParam>): void => {
+    this.setState({ values }, this.onChange);
   }
 }

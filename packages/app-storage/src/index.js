@@ -21,32 +21,14 @@ type State = {
 }
 
 class App extends React.PureComponent<Props, State> {
+  state: State;
+
   constructor (props: Props) {
     super(props);
 
     this.state = {
       queue: []
     };
-  }
-
-  onAdd = (query: StorageQuery): void => {
-    this.setState(
-      ({ queue }: State) => ({
-        queue: queue.reduce((next, item) => {
-          next.push(item);
-
-          return next;
-        }, [query])
-      })
-    );
-  }
-
-  onRemove = (id: number): void => {
-    this.setState(
-      ({ queue }: State) => ({
-        queue: queue.filter((item) => item.id !== id)
-      })
-    );
   }
 
   render (): React$Node {
@@ -65,6 +47,24 @@ class App extends React.PureComponent<Props, State> {
         />
       </div>
     );
+  }
+
+  onAdd = (query: StorageQuery): void => {
+    this.setState(
+      ({ queue }: State) => ({
+        queue: queue.reduce((next, item) => {
+          next.push(item);
+
+          return next;
+        }, [query])
+      })
+    );
+  }
+
+  onRemove = (id: number): void => {
+    this.setState(({ queue }: State) => ({
+      queue: queue.filter((item) => item.id !== id)
+    }));
   }
 }
 

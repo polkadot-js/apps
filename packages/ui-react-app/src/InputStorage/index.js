@@ -23,7 +23,7 @@ type Props = I18nProps & {
   isError?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange?: (value: StorageDef$Key) => void,
+  onChange: (value: StorageDef$Key) => void,
 };
 
 type State = {
@@ -39,30 +39,6 @@ class InputStorage extends React.PureComponent<Props, State> {
     this.state = {
       value: this.props.defaultValue
     };
-  }
-
-  onKeyChange = (value: StorageDef$Key): void => {
-    const { onChange } = this.props;
-
-    this.setState({ value }, () =>
-      onChange && onChange(value)
-    );
-  }
-
-  onSectionChange = (section: StateDb$SectionNames): void => {
-    const { onChange } = this.props;
-
-    if (this.state.value.section === section) {
-      return;
-    }
-
-    const options = keyOptions(section);
-    // $FlowFixMe we have string to be generic, but...
-    const value = map[section].keys[options[0].value];
-
-    this.setState({ value }, () =>
-      onChange && onChange(value)
-    );
   }
 
   render (): React$Node {
@@ -89,6 +65,30 @@ class InputStorage extends React.PureComponent<Props, State> {
           />
         </div>
       </div>
+    );
+  }
+
+  onKeyChange = (value: StorageDef$Key): void => {
+    const { onChange } = this.props;
+
+    this.setState({ value }, () =>
+      onChange(value)
+    );
+  }
+
+  onSectionChange = (section: StateDb$SectionNames): void => {
+    const { onChange } = this.props;
+
+    if (this.state.value.section === section) {
+      return;
+    }
+
+    const options = keyOptions(section);
+    // $FlowFixMe we have string to be generic, but...
+    const value = map[section].keys[options[0].value];
+
+    this.setState({ value }, () =>
+      onChange(value)
     );
   }
 }

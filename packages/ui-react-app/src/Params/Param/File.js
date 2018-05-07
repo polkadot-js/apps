@@ -34,32 +34,6 @@ class BytesFile extends React.PureComponent<Props, State> {
     this.state = {};
   }
 
-  onDrop = (files: Array<File>) => {
-    const { onChange } = this.props;
-
-    files.forEach((file) => {
-      const reader = new FileReader();
-
-      reader.onabort = () => {};
-      reader.onerror = () => {};
-      reader.onload = () => {
-        // flowlint-next-line unclear-type:off
-        const data = new Uint8Array((((reader.result): any): ArrayBuffer));
-
-        onChange(data);
-
-        this.setState({
-          file: {
-            name: file.name,
-            size: data.length
-          }
-        });
-      };
-
-      reader.readAsArrayBuffer(file);
-    });
-  };
-
   render (): React$Node {
     const { className, isError = false, label, t } = this.props;
     const { file } = this.state;
@@ -90,6 +64,32 @@ class BytesFile extends React.PureComponent<Props, State> {
       </Base>
     );
   }
+
+  onDrop = (files: Array<File>) => {
+    const { onChange } = this.props;
+
+    files.forEach((file) => {
+      const reader = new FileReader();
+
+      reader.onabort = () => {};
+      reader.onerror = () => {};
+      reader.onload = () => {
+        // flowlint-next-line unclear-type:off
+        const data = new Uint8Array((((reader.result): any): ArrayBuffer));
+
+        onChange(data);
+
+        this.setState({
+          file: {
+            name: file.name,
+            size: data.length
+          }
+        });
+      };
+
+      reader.readAsArrayBuffer(file);
+    });
+  };
 }
 
 export default translate(BytesFile);

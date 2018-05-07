@@ -16,13 +16,38 @@ import Status from './Status';
 
 type Props = BareProps & {};
 
-export default class App extends React.PureComponent<Props, State> {
+type State = {
+  queue: Array<QueueTx>
+};
+
+export default class App extends React.PureComponent<Props> {
+  state: State;
+
   constructor (props: Props) {
     super(props);
 
     this.state = {
       queue: []
     };
+  }
+
+  render (): React$Node {
+    const { className, style } = this.props;
+    const { queue } = this.state;
+
+    return (
+      <div
+        className={['extrinsics--App', className].join(' ')}
+        style={style}
+      >
+        <Selection onQueue={this.onQueue} />
+        <Signer
+          onSetStatus={this.setStatus}
+          queue={queue}
+        />
+        <Status queue={queue} />
+      </div>
+    );
   }
 
   setStatus = (id: number, status: string): void => {
@@ -51,25 +76,6 @@ export default class App extends React.PureComponent<Props, State> {
           status: 'queued'
         }])
       })
-    );
-  };
-
-  render (): React$Node {
-    const { className, style } = this.props;
-    const { queue } = this.state;
-
-    return (
-      <div
-        className={['extrinsics--App', className].join(' ')}
-        style={style}
-      >
-        <Selection onQueue={this.onQueue} />
-        <Signer
-          onSetStatus={this.setStatus}
-          queue={queue}
-        />
-        <Status queue={queue} />
-      </div>
     );
   }
 }

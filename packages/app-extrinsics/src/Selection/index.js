@@ -44,45 +44,6 @@ class Selection extends React.PureComponent<Props, State> {
     };
   }
 
-  onChange = (): void => {
-    this.setState(
-      ({ encoded, publicKey }: State) => ({
-        isValid: !!(
-          publicKey &&
-          publicKey.length &&
-          encoded &&
-          encoded.isValid
-        )
-      })
-    );
-  };
-
-  onQueue = (): void => {
-    const { onQueue } = this.props;
-    const { encoded: { data, extrinsic, isValid }, nonce, publicKey } = this.state;
-
-    onQueue && onQueue({
-      data,
-      extrinsic,
-      id: ++id,
-      isValid,
-      nonce,
-      publicKey
-    });
-  }
-
-  onChangeMessage = (encoded: EncodedParams): void => {
-    this.setState({ encoded }, this.onChange);
-  }
-
-  onChangeNonce = (nonce: BN): void => {
-    this.setState({ nonce }, this.onChange);
-  }
-
-  onChangeSender = (publicKey: Uint8Array): void => {
-    this.setState({ publicKey }, this.onChange);
-  }
-
   render (): React$Node {
     const { className, style, t } = this.props;
     const { publicKey, isValid } = this.state;
@@ -125,6 +86,45 @@ class Selection extends React.PureComponent<Props, State> {
         </div>
       </div>
     );
+  }
+
+  onChange = (): void => {
+    this.setState(
+      ({ encoded, publicKey }: State) => ({
+        isValid: !!(
+          publicKey &&
+          publicKey.length &&
+          encoded &&
+          encoded.isValid
+        )
+      })
+    );
+  };
+
+  onChangeMessage = (encoded: EncodedParams): void => {
+    this.setState({ encoded }, this.onChange);
+  }
+
+  onChangeNonce = (nonce: BN): void => {
+    this.setState({ nonce }, this.onChange);
+  }
+
+  onChangeSender = (publicKey: Uint8Array): void => {
+    this.setState({ publicKey }, this.onChange);
+  }
+
+  onQueue = (): void => {
+    const { onQueue } = this.props;
+    const { encoded: { data, extrinsic, isValid }, nonce, publicKey } = this.state;
+
+    onQueue && onQueue({
+      data,
+      extrinsic,
+      id: ++id,
+      isValid,
+      nonce,
+      publicKey
+    });
   }
 }
 

@@ -34,21 +34,6 @@ class Selection extends React.PureComponent<Props, State> {
     };
   }
 
-  onChangeStorage = (key: StorageDef$Key): void => {
-    this.setState({ key });
-  }
-
-  onClickAdd = (): void => {
-    const { onAdd } = this.props;
-    const { key } = this.state;
-
-    onAdd({
-      id: ++id,
-      key,
-      params: []
-    });
-  }
-
   render (): React$Node {
     const { className, style, t } = this.props;
     const { key } = this.state;
@@ -72,12 +57,27 @@ class Selection extends React.PureComponent<Props, State> {
           <Button
             disabled={!key}
             icon='plus'
-            onClick={this.onClickAdd}
+            onClick={this.onAdd}
             primary
           />
         </div>
       </div>
     );
+  }
+
+  onChangeStorage = (key: StorageDef$Key): void => {
+    this.setState({ key });
+  }
+
+  onClickAdd = (): void => {
+    const { onAdd } = this.props;
+    const { key } = this.state;
+
+    onAdd({
+      id: ++id,
+      key,
+      params: []
+    });
   }
 }
 

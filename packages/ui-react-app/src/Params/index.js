@@ -23,12 +23,12 @@ type Props = I18nProps & {
   overrides?: ComponentMap
 };
 
-type State = {
+type StateT = {
   extrinsic: Extrinsic,
   values: Array<RawParam>
 };
 
-class Params extends React.PureComponent<Props, State> {
+class Params extends React.PureComponent<Props, StateT> {
   state: State;
 
   constructor (props: Props) {
@@ -37,7 +37,7 @@ class Params extends React.PureComponent<Props, State> {
     this.state = {};
   }
 
-  static getDerivedStateFromProps ({ extrinsic, onChange }: Props, { extrinsic: { name, section } = {} }: State): $Shape<State> | null {
+  static getDerivedStateFromProps ({ extrinsic, onChange }: Props, { extrinsic: { name, section } = {} }: StateT): $Shape<StateT> | null {
     if (name === extrinsic.name && section === extrinsic.section) {
       return null;
     }
@@ -45,32 +45,12 @@ class Params extends React.PureComponent<Props, State> {
     const { params = {} } = extrinsic;
     const values = createValues(params);
 
-    onChange && onChange(values);
+    onChange(values);
 
     return {
       extrinsic,
       values: createValues(params)
     };
-  }
-
-  onUpdate = (): void => {
-    const { onChange } = this.props;
-    const { values } = this.state;
-
-    onChange && onChange(values);
-  }
-
-  onChangeParam = (at: number, next: RawParam): void => {
-    this.setState(
-      ({ values }: State) => ({
-        values: values.map((value, index) =>
-          index === at
-            ? next
-            : value
-        )
-      }),
-      this.onUpdate
-    );
   }
 
   render (): React$Node {
@@ -113,6 +93,26 @@ class Params extends React.PureComponent<Props, State> {
           })}
         </div>
       </div>
+    );
+  }
+
+  onUpdate = (): void => {
+    const { onChange } = this.props;
+    const { values } = this.state;
+
+    onChange(values);
+  }
+
+  onChangeParam = (at: number, next: RawParam): void => {
+    this.setState(
+      ({ values }: State): $Shape<State> => ({
+        values: values.map((value, index) =>
+          index === at
+            ? next
+            : value
+        )
+      }),
+      this.onUpdate
     );
   }
 }

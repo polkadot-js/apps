@@ -14,14 +14,14 @@ type Props = BareProps & {
   isError?: boolean,
   label?: string,
   // flowlint-next-line unclear-type:off
-  onChange?: (value: any) => void,
+  onChange: (value: any) => void,
   // flowlint-next-line unclear-type:off
   transform?: (value: any) => any
 };
 
 export default function RxDropdown (props: Props): React$Node {
   const _onChange = (event: SyntheticEvent<*>, { value }): void =>
-    props.onChange && props.onChange(
+    props.onChange(
       props.transform
         ? props.transform(value)
         : value

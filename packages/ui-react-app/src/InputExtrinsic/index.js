@@ -24,7 +24,7 @@ type Props = I18nProps & {
   isPrivate?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange?: (value: Extrinsic) => void
+  onChange: (value: Extrinsic) => void
 };
 
 type State = {
@@ -40,31 +40,6 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     this.state = {
       value: this.props.defaultValue
     };
-  }
-
-  onKeyChange = (value: Extrinsic): void => {
-    const { onChange } = this.props;
-
-    this.setState({ value }, () =>
-      onChange && onChange(value)
-    );
-  }
-
-  onSectionChange = (section: StateDb$SectionNames): void => {
-    const { isPrivate = false, onChange } = this.props;
-
-    if (this.state.value.section === section) {
-      return;
-    }
-
-    const type = isPrivate ? 'private' : 'public';
-    const options = methodOptions(section, type);
-    // $FlowFixMe we have string to be generic, but...
-    const value = map[section].methods[type][options[0].value];
-
-    this.setState({ value }, () =>
-      onChange && onChange(value)
-    );
   }
 
   render (): React$Node {
@@ -94,6 +69,31 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
           />
         </div>
       </div>
+    );
+  }
+
+  onKeyChange = (value: Extrinsic): void => {
+    const { onChange } = this.props;
+
+    this.setState({ value }, () =>
+      onChange(value)
+    );
+  }
+
+  onSectionChange = (section: StateDb$SectionNames): void => {
+    const { isPrivate = false, onChange } = this.props;
+
+    if (this.state.value.section === section) {
+      return;
+    }
+
+    const type = isPrivate ? 'private' : 'public';
+    const options = methodOptions(section, type);
+    // $FlowFixMe we have string to be generic, but...
+    const value = map[section].methods[type][options[0].value];
+
+    this.setState({ value }, () =>
+      onChange(value)
     );
   }
 }

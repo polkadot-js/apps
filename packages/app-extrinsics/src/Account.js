@@ -16,7 +16,7 @@ type Props = I18nProps & {
   defaultValue?: Uint8Array,
   isError?: boolean,
   label: string,
-  onChange?: (publicKey: Uint8Array) => void
+  onChange: (publicKey: Uint8Array) => void
 };
 
 type State = {
@@ -24,6 +24,8 @@ type State = {
 };
 
 class Account extends React.PureComponent<Props, State> {
+  state: State;
+
   constructor (props: Props) {
     super(props);
 
@@ -31,14 +33,6 @@ class Account extends React.PureComponent<Props, State> {
       publicKey: props.defaultValue
     };
   }
-
-  onChange = (publicKey: Uint8Array): void => {
-    const { onChange } = this.props;
-
-    this.setState({ publicKey }, () =>
-      onChange && onChange(publicKey)
-    );
-  };
 
   render (): React$Node {
     const { className, defaultValue, label, style, t } = this.props;
@@ -71,6 +65,14 @@ class Account extends React.PureComponent<Props, State> {
       </div>
     );
   }
+
+  onChange = (publicKey: Uint8Array): void => {
+    const { onChange } = this.props;
+
+    this.setState({ publicKey }, () =>
+      onChange(publicKey)
+    );
+  };
 }
 
 export default translate(Account);
