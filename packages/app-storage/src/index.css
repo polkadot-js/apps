@@ -7,7 +7,12 @@
 }
 
 .storage--Queries {
-  margin-top: 1em;
+  margin-top: 2em;
+}
+
+.storage--Queries-Query {
+  margin-bottom: 0.25em;
+  padding: 0.25em 0.75em;
 }
 
 .storage--actionrow {

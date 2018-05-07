@@ -35,7 +35,7 @@ function Decoded ({ className, style, t, value: { extrinsic: { name, section }, 
         <div className='expanded'>
           <p>
             <Trans i18nkey='decoded.short'>
-              You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{section}_{name}</span> with an index of <span className='code'>{nonce.toString()}</span>
+              You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{section}.{name}</span> with an index of <span className='code'>{nonce.toString()}</span>
             </Trans>
           </p>
           <p>

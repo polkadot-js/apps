@@ -20,9 +20,9 @@ export default function createOptions (sectionName: any): Array<*> {
     .keys(section.keys)
     .sort()
     .filter((name) => {
-      const { isDeprecated = false, isHidden = false, params = {} } = section.keys[name];
+      const { isDeprecated = false, isHidden = false } = section.keys[name];
 
-      return !isDeprecated && !isHidden && Object.keys(params).length === 0;
+      return !isDeprecated && !isHidden;
     })
     .map((name) => {
       const { description = '', params = {} } = section.keys[name];
