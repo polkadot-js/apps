@@ -51,20 +51,18 @@ class App extends React.PureComponent<Props, State> {
 
   onAdd = (query: StorageQuery): void => {
     this.setState(
-      ({ queue }: State) => ({
-        queue: queue.reduce((next, item) => {
-          next.push(item);
-
-          return next;
-        }, [query])
+      (prevState: State): State => ({
+        queue: [query].concat(prevState.queue)
       })
     );
   }
 
   onRemove = (id: number): void => {
-    this.setState(({ queue }: State) => ({
-      queue: queue.filter((item) => item.id !== id)
-    }));
+    this.setState(
+      (prevState: State): State => ({
+        queue: prevState.queue.filter((item) => item.id !== id)
+      })
+    );
   }
 }
 

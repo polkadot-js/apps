@@ -52,8 +52,8 @@ export default class App extends React.PureComponent<Props> {
 
   setStatus = (id: number, status: string): void => {
     this.setState(
-      ({ queue }: State) => ({
-        queue: queue.map((item) =>
+      (prevState: State): State => ({
+        queue: prevState.queue.map((item) =>
           item.id === id
             ? { ...item, status }
             : item
@@ -70,8 +70,8 @@ export default class App extends React.PureComponent<Props> {
 
   onQueue = (value: QueueTx): void => {
     this.setState(
-      ({ queue }: State) => ({
-        queue: queue.concat([{
+      (prevState: State): State => ({
+        queue: prevState.queue.concat([{
           ...value,
           status: 'queued'
         }])

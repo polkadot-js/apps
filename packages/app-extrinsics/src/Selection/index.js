@@ -19,7 +19,7 @@ import translate from '../translate';
 import Nonce from './Nonce';
 
 type Props = I18nProps & {
-  onQueue?: (value: QueueTx) => void
+  onQueue: (value: QueueTx) => void
 };
 
 type State = {
@@ -44,7 +44,7 @@ class Selection extends React.PureComponent<Props, State> {
     };
   }
 
-  render (): React$Node {
+  render () {
     const { className, style, t } = this.props;
     const { publicKey, isValid } = this.state;
 
@@ -88,36 +88,44 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  onChange = (): void => {
+  validateState = (newState: $Shape<State>): void => {
     this.setState(
-      ({ encoded, publicKey }: State) => ({
-        isValid: !!(
+      (prevState: State): State => {
+        const { encoded = prevState.encoded, nonce = prevState.nonce, publicKey = prevState.publicKey } = newState;
+        const isValid = !!(
           publicKey &&
           publicKey.length &&
           encoded &&
           encoded.isValid
-        )
-      })
+        );
+
+        return {
+          encoded,
+          isValid,
+          nonce,
+          publicKey
+        };
+      }
     );
-  };
+  }
 
   onChangeMessage = (encoded: EncodedParams): void => {
-    this.setState({ encoded }, this.onChange);
+    this.validateState({ encoded });
   }
 
   onChangeNonce = (nonce: BN): void => {
-    this.setState({ nonce }, this.onChange);
+    this.validateState({ nonce });
   }
 
   onChangeSender = (publicKey: Uint8Array): void => {
-    this.setState({ publicKey }, this.onChange);
+    this.validateState({ publicKey });
   }
 
   onQueue = (): void => {
     const { onQueue } = this.props;
     const { encoded: { data, extrinsic, isValid }, nonce, publicKey } = this.state;
 
-    onQueue && onQueue({
+    onQueue({
       data,
       extrinsic,
       id: ++id,

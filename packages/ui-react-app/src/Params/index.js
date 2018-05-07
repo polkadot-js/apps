@@ -96,23 +96,21 @@ class Params extends React.PureComponent<Props, StateT> {
     );
   }
 
-  onUpdate = (): void => {
-    const { onChange } = this.props;
-    const { values } = this.state;
-
-    onChange(values);
-  }
-
   onChangeParam = (at: number, next: RawParam): void => {
     this.setState(
-      ({ values }: State): $Shape<State> => ({
-        values: values.map((value, index) =>
+      (prevState: State): $Shape<State> => ({
+        values: prevState.values.map((value, index) =>
           index === at
             ? next
             : value
         )
       }),
-      this.onUpdate
+      (): void => {
+        const { onChange } = this.props;
+        const { values } = this.state;
+
+        onChange(values);
+      }
     );
   }
 }
