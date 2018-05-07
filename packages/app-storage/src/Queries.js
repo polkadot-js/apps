@@ -4,20 +4,19 @@
 // @flow
 
 import type { I18nProps } from '@polkadot/ui-react-app/types';
-import type { StorageQuery } from '../types';
+import type { StorageQuery } from './types';
 
 import React from 'react';
-import withObservable from '@polkadot/rx-react/with/observable';
 
-import subjects from '../subjects';
-import translate from '../translate';
+import translate from './translate';
 import Query from './Query';
 
 type Props = I18nProps & {
+  onRemove: (id: number) => void,
   value?: Array<StorageQuery>
 };
 
-function Queries ({ className, style, value }: Props): React$Node {
+function Queries ({ className, onRemove, style, value }: Props): React$Node {
   if (!value || !value.length) {
     return null;
   }
@@ -27,16 +26,15 @@ function Queries ({ className, style, value }: Props): React$Node {
       className={['storage--Queries', className].join(' ')}
       style={style}
     >
-      {value.map((query) => (
+      {value.map((query) =>
         <Query
           key={query.id}
+          onRemove={onRemove}
           value={query}
         />
-      ))}
+      )}
     </div>
   );
 }
 
-export default translate(
-  withObservable(subjects.queries)(Queries)
-);
+export default translate(Queries);

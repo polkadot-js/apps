@@ -3,35 +3,42 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { BareProps } from '@polkadot/ui-react-app/types';
 import type { QueueTx } from './types';
 
 import React from 'react';
 
-import translate from './translate';
-
-type Props = I18nProps & {
-  value: QueueTx
+type Props = BareProps & {
+  queue: Array<QueueTx>
 }
 
-function Status ({ className, style, value: { extrinsic, isValid, status } }: Props): React$Node {
-  if (!isValid || ['incomplete'].includes(status)) {
+export default function Status ({ className, queue, style }: Props): React$Node {
+  const available = queue.filter(({ isValid, status }) =>
+    !['completed', 'incomplete'].includes(status)
+  );
+
+  if (!available.length) {
     return null;
   }
 
   return (
     <div
-      className={['extrinsics--Status', status, className].join(' ')}
+      className={['extrinsics--Status', className].join(' ')}
       style={style}
     >
-      <div className='header'>
-        {extrinsic.section}_{extrinsic.name}
-      </div>
-      <div className='status'>
-        {status}
-      </div>
+      {available.map(({ extrinsic: { name, section }, id, status }) =>
+        <div
+          className={['extrinsics--Status-Item', status].join(' ')}
+          key={id}
+        >
+          <div className='header'>
+            {section}_{name}
+          </div>
+          <div className='status'>
+            {status}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
-
-export default translate(Status);

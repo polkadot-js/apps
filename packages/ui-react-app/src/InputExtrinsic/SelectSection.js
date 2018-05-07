@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { StateDb$SectionNames } from '@polkadot/storage/types';
+import type { Extrinsic, ExtrinsicSectionName } from '@polkadot/extrinsics/types';
 import type { I18nProps } from '../types';
 
 import React from 'react';
@@ -13,26 +13,29 @@ import translate from '../translate';
 import createOptions from './options/section';
 
 type Props = I18nProps & {
+  defaultValue?: ExtrinsicSectionName,
   isError?: boolean,
   label?: string,
-  subject: rxjs$BehaviorSubject<StateDb$SectionNames>,
-  type: 'private' | 'public'
+  onChange: (value: ExtrinsicSectionName) => void,
+  type: 'private' | 'public',
+  value: Extrinsic
 };
 
-function SelectSection ({ className, isError, label = '', subject, style, t, type }: Props): React$Node {
+function SelectSection ({ className, defaultValue, isError, label = '', onChange, style, t, type, value: { section } }: Props): React$Node {
   const options = createOptions(type);
 
   return (
     <RxDropdown
-      className={['ui--InputExtrinsic-SelectSection', className].join(' ')}
-      defaultValue={subject.getValue()}
+      className={['ui--RxDropdownLinked-Sections', className].join(' ')}
+      defaultValue={defaultValue}
       isError={isError}
       label={label || t('input.extrinsic.section', {
         defaultValue: 'from extrinsic section'
       })}
+      onChange={onChange}
       options={options}
       style={style}
-      subject={subject}
+      value={section}
     />
   );
 }

@@ -4,9 +4,9 @@
 // @flow
 
 export type Route = {
-  component: React$StatelessFunctionalComponent<*>,
+  component: React$ComponentType<*>,
   i18n: I18Next$Translate$Config,
-  icon: React$StatelessFunctionalComponent<*> | string,
+  icon: React$ComponentType<*> | string,
   isExact: boolean,
   isHidden: boolean,
   name: string,

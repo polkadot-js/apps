@@ -3,24 +3,23 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Params } from '@polkadot/primitives/param';
+import type { Param, Params } from '@polkadot/primitives/param';
 import type { RawParam } from './types';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import getInitValue from './initValue';
 
-export default function subjects (params: Params, subject: rxjs$BehaviorSubject<Array<RawParam>>): Array<rxjs$BehaviorSubject<RawParam>> {
+export default function values (params: Params): Array<RawParam> {
   return Object
-    .keys(params)
-    .map((name: string): rxjs$BehaviorSubject<RawParam> => {
-      const param = params[name];
+    .values(params)
+    // $FlowFixMe yes, we are sure, the type is correct
+    .map((param: Param): RawParam => {
       const value = getInitValue(param);
 
-      return new BehaviorSubject({
+      return {
         isValid: !isUndefined(value),
         value
-      });
+      };
     });
 }

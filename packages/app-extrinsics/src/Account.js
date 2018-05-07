@@ -8,31 +8,35 @@ import type { I18nProps } from '@polkadot/ui-react-app/types';
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 import Balance from '@polkadot/rx-react/Balance';
-import withObservableParams from '@polkadot/rx-react/with/observableParams';
 import InputAddress from '@polkadot/ui-react-app/src/InputAddress';
 
 import translate from './translate';
 
 type Props = I18nProps & {
+  defaultValue?: Uint8Array,
   isError?: boolean,
   label: string,
-  subject: rxjs$BehaviorSubject<Uint8Array>
+  onChange: (publicKey: Uint8Array) => void
 };
 
-class Account extends React.PureComponent<Props> {
-  Balance: React$ComponentType<*>;
+type State = {
+  publicKey?: Uint8Array
+};
+
+class Account extends React.PureComponent<Props, State> {
+  state: State;
 
   constructor (props: Props) {
     super(props);
 
-    this.Balance = withObservableParams(props.subject)(Balance, {
-      className: 'ui disabled dropdown selection'
-    });
+    this.state = {
+      publicKey: props.defaultValue
+    };
   }
 
   render (): React$Node {
-    const { className, label, subject, style, t } = this.props;
-    const Balance = this.Balance;
+    const { className, defaultValue, label, style, t } = this.props;
+    const { publicKey } = this.state;
 
     return (
       <div
@@ -41,9 +45,10 @@ class Account extends React.PureComponent<Props> {
       >
         <div className='large'>
           <InputAddress
+            defaultValue={defaultValue}
             label={label}
+            onChange={this.onChange}
             placeholder='0x...'
-            subject={subject}
           />
         </div>
         <div className='small'>
@@ -52,11 +57,22 @@ class Account extends React.PureComponent<Props> {
               defaultValue: 'with an available balance of'
             })}
           </Label>
-          <Balance />
+          <Balance
+            className='ui disabled dropdown selection'
+            params={publicKey}
+          />
         </div>
       </div>
     );
   }
+
+  onChange = (publicKey: Uint8Array): void => {
+    const { onChange } = this.props;
+
+    this.setState({ publicKey }, () =>
+      onChange(publicKey)
+    );
+  };
 }
 
 export default translate(Account);

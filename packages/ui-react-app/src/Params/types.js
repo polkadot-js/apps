@@ -7,19 +7,18 @@ import type { Param, Param$Type } from '@polkadot/primitives/param';
 import type { BareProps } from '../types';
 
 export type RawParam = {
-  // flowlint-next-line unclear-type:off
-  data?: any,
   isValid: boolean,
   value: mixed,
 }
 
 export type BaseProps = BareProps & {
-  subject: rxjs$BehaviorSubject<RawParam>,
+  onChange: (index: number, value: RawParam) => void,
   value: Param
 };
 
 export type Props = BaseProps & {
   isError?: boolean,
+  index: number,
   label: string
 };
 

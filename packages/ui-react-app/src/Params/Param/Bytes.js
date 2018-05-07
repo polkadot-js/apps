@@ -20,9 +20,9 @@ type Props = BaseProps & {
 const defaultValidate = (u8a: Uint8Array): boolean =>
   true;
 
-export default function Bytes ({ isError, length = -1, label, size = 'full', subject, validate = defaultValidate }: Props): React$Node {
+export default function Bytes ({ index, isError, length = -1, label, onChange, size = 'full', validate = defaultValidate }: Props): React$Node {
   // eslint-disable-next-line no-unused-vars
-  const onChange = (event: SyntheticEvent<*>, { value }) => {
+  const _onChange = (event: SyntheticEvent<*>, { value }) => {
     let u8a;
 
     try {
@@ -35,7 +35,7 @@ export default function Bytes ({ isError, length = -1, label, size = 'full', sub
       ? u8a.length === length
       : u8a.length !== 0;
 
-    subject.next({
+    onChange(index, {
       isValid: isValidLength && validate(u8a),
       value: u8a
     });
@@ -48,7 +48,7 @@ export default function Bytes ({ isError, length = -1, label, size = 'full', sub
     >
       <Input
         error={isError}
-        onChange={onChange}
+        onChange={_onChange}
         placeholder='0x...'
         type='text'
       />

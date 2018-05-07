@@ -4,13 +4,9 @@
 // @flow
 
 import type { BareProps } from '@polkadot/ui-react-app/types';
-import type { RawParam } from '../types';
 
 import React from 'react';
 import Dropzone from 'react-dropzone';
-import withObservable from '@polkadot/rx-react/with/observable';
-import bnToU8a from '@polkadot/util/bn/toU8a';
-import u8aConcat from '@polkadot/util/u8a/concat';
 
 import translate from '../../translate';
 import Base from './Base';
@@ -18,70 +14,82 @@ import Base from './Base';
 type Props = BareProps & {
   isError?: boolean,
   label: string,
-  onChange: (file?: File, contents?: Uint8Array) => void,
-  subject: rxjs$BehaviorSubject<RawParam>,
+  onChange: (contents: Uint8Array) => void,
   t: I18Next$Translate
 }
 
-type WrappedProps = Props & {
-  value: RawParam
-}
+type State = {
+  file?: {
+    name: string,
+    size: number
+  }
+};
 
-function BytesFile ({ className, isError = false, label, onChange, subject, t }: Props): React$Node {
-  const onDrop = (files: Array<File>) => {
-    files.forEach((file) => {
-      const reader = new FileReader();
+class BytesFile extends React.PureComponent<Props, State> {
+  state: State;
 
-      reader.onload = () => {
-        // flowlint-next-line unclear-type:off
-        const data = new Uint8Array((((reader.result): any): ArrayBuffer));
-        const vec = u8aConcat(bnToU8a(data.length, 32, true), data);
+  constructor (props: Props) {
+    super(props);
 
-        onChange(file, vec);
-      };
-      reader.onabort = () =>
-        onChange();
-      reader.onerror = () =>
-        onChange();
+    this.state = {};
+  }
 
-      reader.readAsArrayBuffer(file);
-    });
-  };
+  render (): React$Node {
+    const { className, isError = false, label, t } = this.props;
+    const { file } = this.state;
 
-  const Component = withObservable(subject)(({ value: { data } = {} }: WrappedProps): React$Node => {
     return (
       <Base
         label={label}
         size='full'
       >
         <Dropzone
-          className={['ui--Param-File', isError ? 'error' : '', !!data, className].join(' ')}
+          className={['ui--Param-File', isError ? 'error' : '', className].join(' ')}
           multiple={false}
-          onDrop={onDrop}
+          onDrop={this.onDrop}
         >
           <div className='label'>
             {
-              !data
+              !file
                 ? t('file.dnd', {
                   defaultValue: 'drag and drop the file here'
                 })
                 : t('file.description', {
                   defaultValue: '{{name}} ({{size}} bytes)',
-                  replace: {
-                    name: data.name,
-                    size: data.size
-                  }
+                  replace: file
                 })
             }
           </div>
         </Dropzone>
       </Base>
     );
-  });
+  }
 
-  return (
-    <Component />
-  );
+  onDrop = (files: Array<File>) => {
+    const { onChange } = this.props;
+
+    files.forEach((file) => {
+      const reader = new FileReader();
+
+      reader.onabort = () => {};
+      reader.onerror = () => {};
+      reader.onload = () => {
+        // flowlint-next-line unclear-type:off
+        const data = new Uint8Array((((reader.result): any): ArrayBuffer));
+
+        onChange(data);
+
+        this.setState({
+          file: {
+            name: file.name,
+            size: data.length
+          }
+        });
+      };
+
+      reader.readAsArrayBuffer(file);
+    });
+  };
 }
 
 export default translate(BytesFile);

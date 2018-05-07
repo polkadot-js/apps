@@ -19,7 +19,7 @@ type Props = I18nProps & {
   value: QueueTx
 };
 
-function Decoded ({ className, style, t, value: { data, extrinsic, index, publicKey } }: Props): React$Node {
+function Decoded ({ className, style, t, value: { extrinsic: { name, section }, nonce, publicKey, value } }: Props): React$Node {
   const from = addressEncode(publicKey);
 
   return (
@@ -35,7 +35,7 @@ function Decoded ({ className, style, t, value: { data, extrinsic, index, public
         <div className='expanded'>
           <p>
             <Trans i18nkey='decoded.short'>
-              You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{extrinsic.section}_{extrinsic.name}</span> with an index of <span className='code'>{index.toString()}</span>
+              You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{section}_{name}</span> with an index of <span className='code'>{nonce.toString()}</span>
             </Trans>
           </p>
           <p>
@@ -43,7 +43,9 @@ function Decoded ({ className, style, t, value: { data, extrinsic, index, public
               defaultValue: 'The encoded parameters contains the data'
             })}
           </p>
-          <p className='code'>{u8aToHexShort(data, 512)}</p>
+          <p className='code'>
+            {u8aToHexShort(value, 512)}
+          </p>
         </div>
       </div>
     </Modal.Content>

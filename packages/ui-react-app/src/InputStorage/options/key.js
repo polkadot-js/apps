@@ -29,17 +29,17 @@ export default function createOptions (sectionName: any): Array<*> {
       const inputs = Object.keys(params).join(', ');
 
       return {
-        className: 'ui--InputStorage-SelectKey-Item',
+        className: 'ui--RxDropdownLinked-Item',
         key: `${sectionName}_${name}`,
         text: [
           <div
-            className='ui--InputStorage-SelectKey-Item-text'
+            className='ui--RxDropdownLinked-Item-text'
             key={`${sectionName}_${name}:text`}
           >
             {description || name}
           </div>,
           <div
-            className='ui--InputStorage-SelectKey-Item-call'
+            className='ui--RxDropdownLinked-Item-call'
             key={`${sectionName}_${name}:call`}
           >
             {name}({inputs})

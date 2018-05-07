@@ -10,15 +10,14 @@ import React from 'react';
 import InputAddress from '../../InputAddress';
 import Base from './Base';
 
-export default function Account ({ isError, label, subject, t, value: { options: { initValue } = {} } }: Props): React$Node {
-  const defaultValue = initValue;
-  // eslint-disable-next-line no-unused-vars
-  const onChange = (event: SyntheticEvent<*>, value?: Uint8Array): void => {
-    subject.next({
+export default function Account ({ index, isError, label, onChange, t, value: { options: { initValue } = {} } }: Props): React$Node {
+  // flowlint-next-line unclear-type:off
+  const defaultValue = ((initValue: any): Uint8Array);
+  const _onChange = (value?: Uint8Array): void =>
+    onChange(index, {
       isValid: !!value && value.length === 32,
       value
     });
-  };
 
   return (
     <Base
@@ -28,7 +27,7 @@ export default function Account ({ isError, label, subject, t, value: { options:
       <InputAddress
         defaultValue={defaultValue}
         label={label}
-        onChange={onChange}
+        onChange={_onChange}
         placeholder='0x...'
       />
     </Base>

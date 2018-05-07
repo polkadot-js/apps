@@ -9,6 +9,7 @@ import './InputAddress.css';
 
 import React from 'react';
 import addressDecode from '@polkadot/util-keyring/address/decode';
+import addressEncode from '@polkadot/util-keyring/address/encode';
 
 // TODO: We need to actually pass the keyring in, this is the testing keyring
 import keyring from '../keyring';
@@ -16,10 +17,10 @@ import RxDropdown from '../RxDropdown';
 import PairDisplay from './PairDisplay';
 
 type Props = BareProps & {
+  defaultValue?: Uint8Array,
   isError?: boolean,
   label?: string,
-  onChange?: (event: SyntheticEvent<*>, value: Uint8Array) => void,
-  subject?: rxjs$Subject<*>
+  onChange: (value: Uint8Array) => void
 };
 
 const options = keyring.getPairs().map((pair) => ({
@@ -32,15 +33,21 @@ const options = keyring.getPairs().map((pair) => ({
 const transform = (value: string): Uint8Array =>
   addressDecode(value);
 
-export default function InputAddress ({ className, isError, label, onChange, style, subject }: Props): React$Node {
+export default function InputAddress ({ className, defaultValue, isError, label, onChange, style }: Props): React$Node {
+  let _defaultValue;
+
+  if (defaultValue) {
+    _defaultValue = addressEncode(defaultValue);
+  }
+
   return (
     <RxDropdown
       className={['ui--InputAddress', className].join(' ')}
+      defaultValue={_defaultValue}
       isError={isError}
       label={label}
       onChange={onChange}
       options={options}
-      subject={subject}
       transform={transform}
     />
   );

@@ -3,25 +3,29 @@
 /* of the ISC license. See the LICENSE file for details. */
 
 .extrinsics--App {
-  padding: 1em;
+  padding: 1em 2em;
 }
 
 .extrinsics--Status {
-  background: #bcdaf0;
+  bottom: 0;
   display: inline-block;
-  padding: 0.5rem 1rem;
   position: fixed;
-  bottom: 0.125rem;
   right: 0.125rem;
-  text-align: center;
   z-index: 1001;
 }
 
-.extrinsics--Status .status {
+.extrinsics--Status-Item {
+  background: #bcdaf0;
+  margin-bottom: 0.125rem;
+  padding: 0.5rem 1rem;
+  text-align: center;
+}
+
+.extrinsics--Status-Item .status {
   font-weight: 700;
 }
 
-.extrinsics--Status.error {
+.extrinsics--Status-Item.error {
   background: red;
   color: white;
 }

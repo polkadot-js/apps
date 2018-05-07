@@ -14,31 +14,24 @@ type Props = BareProps & {
   isError?: boolean,
   label?: string,
   // flowlint-next-line unclear-type:off
-  onChange?: (event: SyntheticEvent<*>, value: any) => void,
-  subject?: rxjs$Subject<*>,
+  onChange: (value: any) => void,
   // flowlint-next-line unclear-type:off
   transform?: (value: any) => any
 };
 
 export default function RxDropdown (props: Props): React$Node {
-  const onChange = (event: SyntheticEvent<*>, { value }): void => {
-    const _value = props.transform
-      ? props.transform(value)
-      : value;
-
-    if (props.subject) {
-      props.subject.next(_value);
-    }
-
-    if (props.onChange) {
-      props.onChange(event, _value);
-    }
-  };
+  const _onChange = (event: SyntheticEvent<*>, { value }): void =>
+    props.onChange(
+      props.transform
+        ? props.transform(value)
+        : value
+    );
 
   const _props = {...props};
 
   delete _props.isError;
   delete _props.label;
+  delete _props.onChange;
   delete _props.transform;
 
   return [
@@ -51,7 +44,7 @@ export default function RxDropdown (props: Props): React$Node {
       {..._props}
       className={props.className}
       error={props.isError}
-      onChange={onChange}
+      onChange={_onChange}
     />
   ];
 }

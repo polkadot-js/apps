@@ -17,10 +17,10 @@ const options = [
   { text: 'Simple majority', value: 2 }
 ];
 
-export default function VoteThreshold ({ label, subject, t, value: { options: { initValue = 0 } = {} } }: Props): React$Node {
+export default function VoteThreshold ({ index, label, onChange, t, value: { options: { initValue = 0 } = {} } }: Props): React$Node {
   const defaultValue = initValue || 0;
-  const onChange = (event: SyntheticEvent<*>, { value }) =>
-    subject.next({
+  const _onChange = (event: SyntheticEvent<*>, { value }) =>
+    onChange(index, {
       isValid: true,
       value
     });
@@ -34,7 +34,7 @@ export default function VoteThreshold ({ label, subject, t, value: { options: { 
         selection
         defaultValue={defaultValue}
         options={options}
-        onChange={onChange}
+        onChange={_onChange}
       />
     </Base>
   );

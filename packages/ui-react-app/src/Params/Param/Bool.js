@@ -15,9 +15,9 @@ const options = [
   { text: 'Yes', value: true }
 ];
 
-export default function Bool ({ isError, label, subject, t, value: { options: { initValue = false } = {} } }: Props): React$Node {
-  const onChange = (event: SyntheticEvent<*>, { value }) =>
-    subject.next({
+export default function Bool ({ index, isError, label, onChange, t, value: { options: { initValue = false } = {} } }: Props): React$Node {
+  const _onChange = (event: SyntheticEvent<*>, { value }) =>
+    onChange(index, {
       isValid: true,
       value
     });
@@ -32,7 +32,7 @@ export default function Bool ({ isError, label, subject, t, value: { options: { 
         selection
         defaultValue={initValue}
         options={options}
-        onChange={onChange}
+        onChange={_onChange}
       />
     </Base>
   );

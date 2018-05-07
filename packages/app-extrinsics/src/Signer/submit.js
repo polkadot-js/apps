@@ -11,9 +11,9 @@ import keyring from '@polkadot/ui-react-app/src/keyring';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
-export default function submit (api: RxApiInterface, tx: QueueTx, subject: rxjs$BehaviorSubject<QueueTx>): Promise<void> {
-  const message = encodeCall(tx.publicKey, tx.index, tx.data);
-  const signature = keyring.getPair(tx.publicKey).sign(message);
+export default function submit (api: RxApiInterface, { nonce, publicKey, value }: QueueTx): Promise<string> {
+  const message = encodeCall(publicKey, nonce, value);
+  const signature = keyring.getPair(publicKey).sign(message);
 
   console.log('submitExtrinsic: message =', u8aToHex(message));
   console.log('submitExtrinsic: signature =', u8aToHex(signature));
@@ -24,17 +24,11 @@ export default function submit (api: RxApiInterface, tx: QueueTx, subject: rxjs$
     .then((result) => {
       console.log('submitExtrinsic: result=', result);
 
-      subject.next({
-        ...tx,
-        status: 'sent'
-      });
+      return 'sent';
     })
     .catch((error) => {
       console.error('submitExtrinsic: error=', error);
 
-      subject.next({
-        ...tx,
-        status: 'error'
-      });
+      return 'error';
     });
 }
