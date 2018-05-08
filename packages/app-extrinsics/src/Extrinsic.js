@@ -61,7 +61,7 @@ export default class ExtrinsicDisplay extends React.PureComponent<Props, State> 
           />
         </div>
         <Params
-          extrinsic={extrinsic}
+          item={extrinsic}
           onChange={this.onChangeValues}
           overrides={paramComponents}
         />

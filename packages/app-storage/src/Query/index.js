@@ -9,9 +9,11 @@ import type { StorageQuery } from '../types';
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
+import typeToText from '@polkadot/ui-react-app/src/Params/typeToText';
+import withStorageDiv from '@polkadot/ui-react-rx/with/storageDiv';
 
 import translate from '../translate';
-import createCached from './cached';
+import format from './format';
 
 type Props = I18nProps & {
   onRemove: (id: number) => void,
@@ -23,7 +25,13 @@ const cache = [];
 function Query ({ className, onRemove, style, value: { id, key, params } }: Props): React$Node {
   const CachedQuery = (() => {
     if (!cache[id]) {
-      cache[id] = createCached(key, params);
+      const values = params.map(({ value }) => value);
+
+      cache[id] = withStorageDiv(key, { params: values })(
+        (value) =>
+          format(key.type, value),
+        { className: 'ui disabled dropdown selection' }
+      );
     }
 
     return cache[id];
@@ -37,18 +45,23 @@ function Query ({ className, onRemove, style, value: { id, key, params } }: Prop
 
   const inputs = Object
     .keys(key.params || {})
-    // $FlowFixMe key.params exists
-    .map((name) => `${name}: ${key.params[name].type}`)
-    .join(', ');
+    .map((name, index) => {
+      // $FlowFixMe key.params exists
+      const formatted = format(key.params[name].type, params[index].value, 12);
+
+      return (
+        <span>{name}={formatted}</span>
+      );
+    });
 
   return (
     <div
-      className={['storage--Queries-Query', 'storage--actionrow', className].join(' ')}
+      className={['storage--Query', 'storage--actionrow', className].join(' ')}
       style={style}
     >
       <div className='storage--actionrow-value'>
         <Label>
-          {key.section}_{key.name}({inputs}): {key.type}
+          {key.section}.{key.name}({inputs}): {typeToText(key.type)}
         </Label>
         <CachedQuery />
       </div>

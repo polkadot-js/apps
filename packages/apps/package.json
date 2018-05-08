@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/apps",
-  "version": "0.1.10",
+  "version": "0.1.12",
   "description": "An Apps portal into the Polkadot network",
   "main": "index.js",
   "homepage": ".",

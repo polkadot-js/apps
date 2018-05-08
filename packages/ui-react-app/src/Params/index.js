@@ -3,9 +3,9 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Extrinsic } from '@polkadot/extrinsics/types';
+import type { Section$Item } from '@polkadot/primitives/param';
 import type { I18nProps } from '../types';
-import type { ComponentMap, RawParam } from './types';
+import type { ComponentMap, RawParam, RawParams } from './types';
 
 import './Params.css';
 
@@ -15,17 +15,15 @@ import translate from '../translate';
 import Param from './Param';
 import createValues from './values';
 
-type RawParams = Array<RawParam>;
-
 type Props = I18nProps & {
-  extrinsic: Extrinsic,
+  item: Section$Item,
   onChange: (value: RawParams) => void,
   overrides?: ComponentMap
 };
 
 type State = {
-  extrinsic: Extrinsic,
-  values: Array<RawParam>
+  item: Section$Item,
+  values: RawParams
 };
 
 class Params extends React.PureComponent<Props, State> {
@@ -38,36 +36,38 @@ class Params extends React.PureComponent<Props, State> {
     this.state = ({}: $Shape<State>);
   }
 
-  static getDerivedStateFromProps ({ extrinsic, onChange }: Props, { extrinsic: { name, section } = {} }: State): $Shape<State> | null {
-    if (name === extrinsic.name && section === extrinsic.section) {
+  static getDerivedStateFromProps ({ item, onChange }: Props, { item: { name, section } = {} }: State): $Shape<State> | null {
+    if (name === item.name && section === item.section) {
       return null;
     }
 
-    const { params = {} } = extrinsic;
+    const { params = {} } = item;
     const values = createValues(params);
 
     onChange(values);
 
     return {
-      extrinsic,
+      item,
       values: createValues(params)
     };
   }
 
   render (): React$Node {
-    const { className, overrides, style, extrinsic } = this.props;
+    const { className, item, overrides, style } = this.props;
     const { values } = this.state;
 
     if (!values.length) {
       return null;
     }
 
-    const { name, params = {} } = extrinsic;
+    const { name, params = {} } = item;
     const paramNames = Object.keys(params);
 
     if (paramNames.length === 0) {
       return null;
     }
+
+    console.log('Params', paramNames, params);
 
     return (
       <div

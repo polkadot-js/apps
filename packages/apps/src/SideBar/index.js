@@ -8,6 +8,7 @@ import type { I18nProps } from '@polkadot/ui-react-app/types';
 import './SideBar.css';
 
 import React from 'react';
+import Icon from 'semantic-ui-react/dist/es/elements/Icon';
 import Menu from 'semantic-ui-react/dist/es/collections/Menu';
 import Divider from 'semantic-ui-react/dist/es/elements/Divider';
 
@@ -42,6 +43,7 @@ function SideBar ({ className, style, t }: Props): React$Node {
           ))
         }
       </Menu>
+      <a className='apps--SideBar-github' href='https://github.com/polkadot-js/apps'><Icon name='github' /> GitHub</a>
     </div>
   );
 }
