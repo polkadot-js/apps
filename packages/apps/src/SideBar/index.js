@@ -9,6 +9,7 @@ import './SideBar.css';
 
 import React from 'react';
 import Menu from 'semantic-ui-react/dist/es/collections/Menu';
+import Divider from 'semantic-ui-react/dist/es/elements/Divider';
 
 import routing from '../routing';
 import translate from '../translate';
@@ -28,12 +29,16 @@ function SideBar ({ className, style, t }: Props): React$Node {
       >
         {
           routing.routes.map((route) => (
-            <Item
-              key={route.name}
-              t={t}
-              // flowlint-next-line inexact-spread:off
-              {...route}
-            />
+            route
+              ? (
+                <Item
+                  key={route.name}
+                  t={t}
+                  // flowlint-next-line inexact-spread:off
+                  {...route}
+                />
+              )
+              : <Divider hidden />
           ))
         }
       </Menu>

@@ -17,6 +17,6 @@ import storage from './storage';
 export default ({
   default: 'explorer',
   routes: [].concat(
-    explorer, accounts, extrinsics, storage
+    explorer, extrinsics, storage, null, accounts
   )
 }: Routing);

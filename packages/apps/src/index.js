@@ -14,7 +14,9 @@ createApp((() => {
   const { app } = urlParams();
 
   if (app) {
-    const route = routing.routes.find(({ name }) => name === app);
+    const route = routing.routes.find((route) =>
+      route && route.name === app
+    );
 
     return route
       ? route.component

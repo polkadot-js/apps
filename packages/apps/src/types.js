@@ -13,7 +13,7 @@ export type Route = {
   path?: string
 };
 
-export type Routes = Array<Route>;
+export type Routes = Array<Route | null>;
 
 export type Routing = {
   default: string,

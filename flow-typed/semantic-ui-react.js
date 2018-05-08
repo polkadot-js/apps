@@ -13,6 +13,10 @@ declare module 'semantic-ui-react/dist/es/elements/Button' {
   };
 }
 
+declare module 'semantic-ui-react/dist/es/elements/Divider' {
+  declare module.exports: React$StatelessFunctionalComponent<*>;
+}
+
 declare module 'semantic-ui-react/dist/es/elements/Icon' {
   declare module.exports: React$StatelessFunctionalComponent<*>;
 }
