@@ -1,5 +1,5 @@
 {
-  "name": "@polkadot/app-extrinsics",
+  "name": "@polkadot/app-accounts",
   "version": "0.2.0",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
@@ -11,9 +11,6 @@
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@polkadot/extrinsics": "^0.12.9",
-    "@polkadot/extrinsics-codec": "^0.12.9",
-    "@polkadot/ui-react-app": "^0.2.0",
-    "react-dropzone": "^4.2.9"
+    "@polkadot/ui-react-app": "^0.2.0"
   }
 }

@@ -1,0 +1,35 @@
+/* Copyright 2017-2018 Jaco Greeff
+/* This software may be modified and distributed under the terms
+/* of the ISC license. See the LICENSE file for details. */
+
+.accounts--App {
+  padding: 1em 2em;
+}
+
+.accounts--App-navigation {
+  margin-bottom: 2em;
+  text-align: center;
+}
+
+.accounts--Icon {
+  position: fixed;
+  top: 0.75em;
+  right: 0.75em;
+}
+
+.accounts--Address {
+  opacity: 1 !important;
+  position: relative;
+}
+
+.accounts--Address-icon {
+  position: absolute;
+  top: 2px;
+  left: 1rem;
+}
+
+.accounts--Address-name {
+  font-family: monospace;
+  padding-left: 3rem;
+  opacity: 0.45;
+}

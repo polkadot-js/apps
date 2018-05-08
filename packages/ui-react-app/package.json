@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-react-app",
-  "version": "0.1.12",
+  "version": "0.2.0",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,12 +11,12 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "@polkadot/extrinsics-substrate": "^0.12.8",
-    "@polkadot/storage-substrate": "^0.12.8",
-    "@polkadot/ui-react": "^0.11.2",
-    "@polkadot/ui-react-rx": "^0.11.2",
-    "@polkadot/util": "^0.19.5",
-    "@polkadot/util-keyring": "^0.19.5",
+    "@polkadot/extrinsics-substrate": "^0.12.9",
+    "@polkadot/storage-substrate": "^0.12.9",
+    "@polkadot/ui-react": "^0.11.3",
+    "@polkadot/ui-react-rx": "^0.11.3",
+    "@polkadot/util": "^0.19.6",
+    "@polkadot/util-keyring": "^0.19.6",
     "i18next": "^11.1.1",
     "i18next-browser-languagedetector": "^2.2.0",
     "i18next-xhr-backend": "^1.5.1",
@@ -25,7 +25,8 @@
     "react-i18next": "^7.5.1",
     "react-router-dom": "^4.2.2",
     "semantic-ui-css": "^2.3.1",
-    "semantic-ui-react": "^0.79.1"
+    "semantic-ui-react": "^0.79.1",
+    "store": "^2.0.12"
   },
   "devDepependencies": {
     "@polkadot/primitives": "^0.12.6"

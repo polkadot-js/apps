@@ -7,6 +7,13 @@ declare module 'semantic-ui-react/dist/es/collections/Menu' {
 }
 
 declare module 'semantic-ui-react/dist/es/elements/Button' {
+  declare module.exports: React$StatelessFunctionalComponent<*> & {
+    Group: React$StatelessFunctionalComponent<*>,
+    Or: React$StatelessFunctionalComponent<*>
+  };
+}
+
+declare module 'semantic-ui-react/dist/es/elements/Divider' {
   declare module.exports: React$StatelessFunctionalComponent<*>;
 }
 

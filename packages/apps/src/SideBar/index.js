@@ -10,6 +10,7 @@ import './SideBar.css';
 import React from 'react';
 import Icon from 'semantic-ui-react/dist/es/elements/Icon';
 import Menu from 'semantic-ui-react/dist/es/collections/Menu';
+import Divider from 'semantic-ui-react/dist/es/elements/Divider';
 
 import routing from '../routing';
 import translate from '../translate';
@@ -29,16 +30,28 @@ function SideBar ({ className, style, t }: Props): React$Node {
       >
         {
           routing.routes.map((route) => (
-            <Item
-              key={route.name}
-              t={t}
-              // flowlint-next-line inexact-spread:off
-              {...route}
-            />
+            route
+              ? (
+                <Item
+                  key={route.name}
+                  t={t}
+                  // flowlint-next-line inexact-spread:off
+                  {...route}
+                />
+              )
+              : <Divider hidden />
           ))
         }
+        <Divider hidden />
+        <Menu.Item className='apps--SideBar-Item'>
+          <a
+            className='apps--SideBar-Item-NavLink'
+            href='https://github.com/polkadot-js/apps'>
+            <Icon name='github' /> GitHub
+          </a>
+        </Menu.Item>
       </Menu>
-      <a className='apps--SideBar-github' href='https://github.com/polkadot-js/apps'><Icon name='github' /> GitHub</a>
+
     </div>
   );
 }
