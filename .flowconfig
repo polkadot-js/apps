@@ -12,6 +12,6 @@ all=warn
 
 [options]
 include_warnings=true
-module.name_mapper='^@polkadot/app-\(accounts\|explorer\|extrinsics\|home\|rpc\|settings\|storage\)\(.*\)$' -> '<PROJECT_ROOT>/packages/app-\1/src\2'
+module.name_mapper='^@polkadot/app-\(accounts\|addresses\|explorer\|extrinsics\|home\|rpc\|settings\|storage\|vanitygen\)\(.*\)$' -> '<PROJECT_ROOT>/packages/app-\1/src\2'
 module.name_mapper='^@polkadot/apps\(.*\)$' -> '<PROJECT_ROOT>/packages/apps/src\1'
 module.name_mapper='^@polkadot/ui-react-app\(.*\)$' -> '<PROJECT_ROOT>/packages/ui-react-app/src\1'

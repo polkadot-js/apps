@@ -5,18 +5,16 @@
 
 import type BN from 'bn.js';
 import type { I18nProps } from '@polkadot/ui-react-app/types';
-import type { EncodedMessage, QueueTx } from '../types';
-
-import './Selection.css';
+import type { EncodedMessage, QueueTx } from './types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import extrinsics from '@polkadot/extrinsics-substrate';
 
-import Account from '../Account';
-import Extrinsic from '../Extrinsic';
-import translate from '../translate';
+import Account from './Account';
+import Extrinsic from './Extrinsic';
 import Nonce from './Nonce';
+import translate from './translate';
 
 type Props = I18nProps & {
   onQueue: (value: QueueTx) => void
@@ -73,7 +71,7 @@ class Selection extends React.PureComponent<Props, State> {
           onChange={this.onChangeNonce}
           value={publicKey}
         />
-        <div className='extrinsics--Selection-ButtonRow'>
+        <div className='ui--form-buttons'>
           <Button
             disabled={!isValid}
             onClick={this.onQueue}

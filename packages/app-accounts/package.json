@@ -1,5 +1,5 @@
 {
-  "name": "@polkadot/app-explorer",
+  "name": "@polkadot/app-accounts",
   "version": "0.1.10",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
@@ -11,10 +11,6 @@
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@polkadot/primitives": "^0.12.9",
-    "@polkadot/primitives-codec": "^0.12.9",
-    "@polkadot/primitives-json": "^0.12.9",
-    "@polkadot/ui-react-app": "^0.1.10",
-    "@polkadot/util-crypto": "^0.19.6"
+    "@polkadot/ui-react-app": "^0.1.10"
   }
 }
