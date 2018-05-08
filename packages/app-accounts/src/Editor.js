@@ -18,8 +18,7 @@ import translate from './translate';
 
 type Props = I18nProps & {
   keyring: KeyringInstance,
-  onBack: () => void,
-  updateAddress: (address: string | null) => void
+  onBack: () => void
 };
 
 type State = {
@@ -42,33 +41,26 @@ class Editor extends React.PureComponent<Props, State> {
     this.state.options = this.createOptions();
   }
 
-  componentWillMount () {
-    const { updateAddress } = this.props;
-    const { currentPair } = this.state;
-
-    updateAddress(currentPair.address());
-  }
-
   render (): React$Node {
     const { className, style, t } = this.props;
     const { defaultPublicKey, editedName, isEdited, options } = this.state;
 
     return (
       <div
-        className={['accounts--Editor', 'ui--form', className].join(' ')}
+        className={['accounts--Editor', className].join(' ')}
         style={style}
       >
-        <div>
+        <div className='ui--form'>
           <InputAddress
             defaultValue={defaultPublicKey}
             options={options}
             label={t('editor.select', {
-              defaultValue: 'view my account'
+              defaultValue: 'using my account'
             })}
             onChange={this.onChangeAccount}
           />
         </div>
-        <div>
+        <div className='ui--form'>
           <div className='medium'>
             <Label>{t('editor.name', {
               defaultValue: 'identified by the name'
@@ -140,10 +132,8 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onChangeAccount = (publicKey: Uint8Array): void => {
-    const { keyring, updateAddress } = this.props;
+    const { keyring } = this.props;
     const currentPair = keyring.getPair(publicKey);
-
-    updateAddress(currentPair.address());
 
     this.nextState({ currentPair });
   }

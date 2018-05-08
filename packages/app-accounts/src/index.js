@@ -12,7 +12,6 @@ import Button from 'semantic-ui-react/dist/es/elements/Button';
 
 import Creator from './Creator';
 import Editor from './Editor';
-import Icon from './Icon';
 import keyring from '@polkadot/ui-react-app/src/keyring';
 import translate from './translate';
 
@@ -43,7 +42,7 @@ class App extends React.PureComponent<Props, State> {
 
   render (): React$Node {
     const { className, style, t } = this.props;
-    const { currentAction, currentAddress } = this.state;
+    const { currentAction } = this.state;
     const Component = Components[currentAction];
 
     return (
@@ -52,7 +51,6 @@ class App extends React.PureComponent<Props, State> {
         style={style}
       >
         <div className='accounts--App-navigation'>
-          <Icon address={currentAddress} />
           <Button.Group>
             <Button
               onClick={this.selectEdit}
@@ -80,7 +78,6 @@ class App extends React.PureComponent<Props, State> {
         <Component
           keyring={keyring}
           onBack={this.selectEdit}
-          updateAddress={this.updateAddress}
         />
       </div>
     );
@@ -88,10 +85,6 @@ class App extends React.PureComponent<Props, State> {
 
   setCurrentAction (currentAction: Actions): void {
     this.setState({ currentAction });
-  }
-
-  updateAddress = (currentAddress: string | null): void => {
-    this.setState({ currentAddress });
   }
 
   selectCreate = (): void => {

@@ -7,7 +7,7 @@
 }
 
 .accounts--App-navigation {
-  margin-bottom: 1em;
+  margin-bottom: 2em;
   text-align: center;
 }
 
@@ -15,4 +15,21 @@
   position: fixed;
   top: 0.75em;
   right: 0.75em;
+}
+
+.accounts--Address {
+  opacity: 1 !important;
+  position: relative;
+}
+
+.accounts--Address-icon {
+  position: absolute;
+  top: 2px;
+  left: 1rem;
+}
+
+.accounts--Address-name {
+  font-family: monospace;
+  padding-left: 3rem;
+  opacity: 0.45;
 }

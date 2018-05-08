@@ -17,15 +17,16 @@ import keypairFromSeed from '@polkadot/util-crypto/nacl/keypair/fromSeed';
 import randomBytes from '@polkadot/util-crypto/random/asU8a';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
+import Address from './Address';
 import translate from './translate';
 
 type Props = I18nProps & {
   keyring: KeyringInstance,
-  onBack: () => void,
-  updateAddress: (address: string | null) => void
+  onBack: () => void
 };
 
 type State = {
+  address: string | null,
   isNameValid: boolean,
   isSeedValid: boolean,
   isPassValid: boolean,
@@ -57,24 +58,32 @@ class Creator extends React.PureComponent<Props, State> {
 
   render (): React$Node {
     const { className, style, t } = this.props;
-    const { isNameValid, isPassValid, isPassVisible, isSeedValid, isValid, name, password, seed } = this.state;
+    const { address, isNameValid, isPassValid, isPassVisible, isSeedValid, isValid, name, password, seed } = this.state;
 
     return (
       <div
-        className={['accounts--Creator', 'ui--form', className].join(' ')}
+        className={['accounts--Creator', className].join(' ')}
         style={style}
       >
-        <div>
-          <Label>{t('creator.seed', {
-            defaultValue: 'create from the following seed (hex or string)'
-          })}</Label>
-          <Input
-            error={!isSeedValid}
-            onChange={this.onChangeSeed}
-            value={seed}
-          />
+        <div className='ui--form'>
+          <div className='medium'>
+            <Label>{t('creator.seed', {
+              defaultValue: 'create from the following seed (hex or string)'
+            })}</Label>
+            <Input
+              error={!isSeedValid}
+              onChange={this.onChangeSeed}
+              value={seed}
+            />
+          </div>
+          <div className='medium'>
+            <Label>{t('creator.address', {
+              defaultValue: 'evaluating to address'
+            })}</Label>
+            <Address address={address} />
+          </div>
         </div>
-        <div>
+        <div className='ui--form'>
           <div className='medium'>
             <Label>{t('creator.name', {
               defaultValue: 'name the account'
@@ -85,9 +94,11 @@ class Creator extends React.PureComponent<Props, State> {
               value={name}
             />
           </div>
+        </div>
+        <div className='ui--form'>
           <div className='medium'>
             <Label>{t('creator.pass1', {
-              defaultValue: 'encrypt using the password'
+              defaultValue: 'encrypt it using the password'
             })}</Label>
             <Input
               action
@@ -130,11 +141,8 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   emptyState (): State {
-    const { updateAddress } = this.props;
     const seed = u8aToHex(randomBytes());
     const address = addressFromSeed(seed);
-
-    updateAddress(address);
 
     return {
       address,
@@ -152,8 +160,8 @@ class Creator extends React.PureComponent<Props, State> {
   nextState (newState: $Shape<State>): void {
     this.setState(
       (prevState: State, props: Props): $Shape<State> => {
-        const { updateAddress } = props;
         const { name = prevState.name, password = prevState.password, seed = prevState.seed } = newState;
+        let address = prevState.address;
         const isNameValid = !!name;
         const isSeedValid = isHex(seed)
           ? seed.length === 66
@@ -161,10 +169,11 @@ class Creator extends React.PureComponent<Props, State> {
         const isPassValid = password.length > 0 && password.length <= 32;
 
         if (isSeedValid && seed !== prevState.seed) {
-          updateAddress(addressFromSeed(seed));
+          address = addressFromSeed(seed);
         }
 
         return {
+          address,
           isNameValid,
           isPassValid,
           isSeedValid,
