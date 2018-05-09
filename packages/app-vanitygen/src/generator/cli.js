@@ -10,10 +10,12 @@ const u8aToHex = require('@polkadot/util/u8a/toHex');
 const generator = require('./index.js');
 const { pkFromSeed } = require('./sodium');
 
-const { match } = yargs
+const { match, withCase } = yargs
   .option('match', {
-    alias: 'm',
     default: 'EEEEE'
+  })
+  .option('withCase', {
+    default: false
   })
   .argv;
 
@@ -21,12 +23,15 @@ const INDICATORS = ['|', '/', '-', '\\'];
 
 const options = {
   match,
-  runs: 50
+  runs: 50,
+  withCase
 };
 const startAt = Date.now();
 let best = { count: -1 };
 let total = 0;
 let indicator = -1;
+
+console.log(options);
 
 function showProgress () {
   const elapsed = Date.now() - startAt;
