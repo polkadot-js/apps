@@ -8,6 +8,7 @@ const chalk = require('chalk');
 const u8aToHex = require('@polkadot/util/u8a/toHex');
 
 const generator = require('./index.js');
+const { pkFromSeed } = require('./sodium');
 
 const { match } = yargs
   .option('match', {
@@ -20,7 +21,7 @@ const INDICATORS = ['|', '/', '-', '\\'];
 
 const options = {
   match,
-  runs: 100
+  runs: 50
 };
 const startAt = Date.now();
 let best = { count: -1 };
@@ -46,7 +47,7 @@ function showBest () {
 }
 
 while (true) {
-  const nextBest = generator(options).found.reduce((best, match) => {
+  const nextBest = generator(options, pkFromSeed).found.reduce((best, match) => {
     if ((match.count > best.count) || ((match.count === best.count) && (match.offset < best.offset))) {
       return match;
     }
@@ -59,7 +60,8 @@ while (true) {
   if (nextBest.address !== best.address) {
     best = nextBest;
     showBest();
+    showProgress();
+  } else if ((total % 1000) === 0) {
+    showProgress();
   }
-
-  showProgress();
 }

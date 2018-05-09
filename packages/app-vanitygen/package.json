@@ -14,5 +14,8 @@
     "@polkadot/ui-react-app": "^0.2.1",
     "chalk": "^2.4.1",
     "yargs": "10.1.2"
+  },
+  "optionalDependencies": {
+    "sodium": "^2.0.1"
   }
 }
