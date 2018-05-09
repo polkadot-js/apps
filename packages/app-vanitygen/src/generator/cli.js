@@ -20,6 +20,7 @@ const { match, withCase } = yargs
   .argv;
 
 const INDICATORS = ['|', '/', '-', '\\'];
+const NUMBER_REGEX = /(\d+?)(?=(\d{3})+(?!\d)|$)/g;
 
 const options = {
   match,
@@ -34,7 +35,7 @@ let indicator = -1;
 console.log(options);
 
 function showProgress () {
-  const elapsed = Date.now() - startAt;
+  const elapsed = (Date.now() - startAt) / 1000;
 
   indicator++;
 
@@ -42,7 +43,7 @@ function showProgress () {
     indicator = 0;
   }
 
-  process.stdout.write(`\r[${INDICATORS[indicator]}] ${total} keys in ${(elapsed / 1000).toFixed(2)}s, ${(elapsed / total).toFixed(3)}ms/key`);
+  process.stdout.write(`\r[${INDICATORS[indicator]}] ${total.toString().match(NUMBER_REGEX).join(',')} keys in ${(elapsed).toFixed(2)}s (${(total / elapsed).toFixed(0)} keys/s)`);
 }
 
 function showBest () {
