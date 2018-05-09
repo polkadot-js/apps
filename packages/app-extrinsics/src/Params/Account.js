@@ -25,6 +25,7 @@ export default function Account ({ className, defaultValue, index, isError, onCh
       className={className}
       defaultValue={defaultValue}
       isError={isError}
+      isInput
       label={label}
       onChange={_onChange}
       style={style}

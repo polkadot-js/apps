@@ -15,6 +15,7 @@ import translate from './translate';
 type Props = I18nProps & {
   defaultValue?: Uint8Array,
   isError?: boolean,
+  isInput?: boolean,
   label: string,
   onChange: (publicKey: Uint8Array) => void
 };
@@ -35,7 +36,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render (): React$Node {
-    const { className, defaultValue, label, style, t } = this.props;
+    const { className, defaultValue, isError, isInput, label, style, t } = this.props;
     const { publicKey } = this.state;
 
     return (
@@ -46,6 +47,8 @@ class Account extends React.PureComponent<Props, State> {
         <div className='large'>
           <InputAddress
             defaultValue={defaultValue}
+            isError={isError}
+            isInput={isInput}
             label={label}
             onChange={this.onChange}
             placeholder='0x...'

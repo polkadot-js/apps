@@ -3,25 +3,21 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { KeyringPair } from '@polkadot/util-keyring/types';
-
 import './PairDisplay.css';
 
 import React from 'react';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 
 type Props = {
+  address: string,
   className?: string,
-  pair: KeyringPair,
+  name: string,
   style?: {
     [string]: string
   }
 };
 
-export default function PairDisplay ({ className, pair, style }: Props): React$Node {
-  const address = pair.address();
-  const { name } = pair.getMeta();
-
+export default function PairDisplay ({ address, className, name, style }: Props): React$Node {
   return (
     <div
       className={['ui--InputyAddress-PairDisplay', className].join(' ')}
