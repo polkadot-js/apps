@@ -8,27 +8,34 @@ const chalk = require('chalk');
 const u8aToHex = require('@polkadot/util/u8a/toHex');
 
 const generator = require('./index.js');
+const { pkFromSeed } = require('./sodium');
 
-const { match } = yargs
+const { match, withCase } = yargs
   .option('match', {
-    alias: 'm',
     default: 'EEEEE'
+  })
+  .option('withCase', {
+    default: true
   })
   .argv;
 
 const INDICATORS = ['|', '/', '-', '\\'];
+const NUMBER_REGEX = /(\d+?)(?=(\d{3})+(?!\d)|$)/g;
 
 const options = {
   match,
-  runs: 100
+  runs: 50,
+  withCase
 };
 const startAt = Date.now();
 let best = { count: -1 };
 let total = 0;
 let indicator = -1;
 
+console.log(options);
+
 function showProgress () {
-  const elapsed = Date.now() - startAt;
+  const elapsed = (Date.now() - startAt) / 1000;
 
   indicator++;
 
@@ -36,7 +43,7 @@ function showProgress () {
     indicator = 0;
   }
 
-  process.stdout.write(`\r[${INDICATORS[indicator]}] ${total} keys in ${(elapsed / 1000).toFixed(2)}s, ${(elapsed / total).toFixed(3)}ms/key`);
+  process.stdout.write(`\r[${INDICATORS[indicator]}] ${total.toString().match(NUMBER_REGEX).join(',')} keys in ${(elapsed).toFixed(2)}s (${(total / elapsed).toFixed(0)} keys/s)`);
 }
 
 function showBest () {
@@ -46,7 +53,7 @@ function showBest () {
 }
 
 while (true) {
-  const nextBest = generator(options).found.reduce((best, match) => {
+  const nextBest = generator(options, pkFromSeed).found.reduce((best, match) => {
     if ((match.count > best.count) || ((match.count === best.count) && (match.offset < best.offset))) {
       return match;
     }
@@ -59,7 +66,8 @@ while (true) {
   if (nextBest.address !== best.address) {
     best = nextBest;
     showBest();
+    showProgress();
+  } else if ((total % 1000) === 0) {
+    showProgress();
   }
-
-  showProgress();
 }

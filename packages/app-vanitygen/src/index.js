@@ -12,6 +12,7 @@ import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import Input from 'semantic-ui-react/dist/es/elements/Input';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
+import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 
 import Match from './Match';
 import generator from './generator';
@@ -28,11 +29,16 @@ type State = {
   keyTime: 0,
   match: string,
   matches: Generator$Matches,
-  startAt: number
+  startAt: number,
+  withCase: boolean
 }
 
-const DEFAULT_MATCH = 'S?me';
+const DEFAULT_MATCH = 'Some?';
 const MATCH_REGEX = /[1-9A-Za-z?]*$/;
+const BOOL_OPTIONS = [
+  { text: 'No', value: false },
+  { text: 'Yes', value: true }
+];
 
 class App extends React.PureComponent<Props, State> {
   results: Array<Generator$Result>;
@@ -50,13 +56,14 @@ class App extends React.PureComponent<Props, State> {
       keyTime: 0,
       match: DEFAULT_MATCH,
       matches: [],
-      startAt: 0
+      startAt: 0,
+      withCase: true
     };
   }
 
   render (): React$Node {
     const { className, style, t } = this.props;
-    const { elapsed, isMatchValid, isRunning, match, matches, keyCount } = this.state;
+    const { elapsed, isMatchValid, isRunning, match, matches, keyCount, withCase } = this.state;
 
     return (
       <div
@@ -66,7 +73,7 @@ class App extends React.PureComponent<Props, State> {
         <div className='ui--form'>
           <div className='medium'>
             <Label>{t('vanity.matching', {
-              defaultValue: 'generate address containing characters'
+              defaultValue: 'generate address containing (? wildcard)'
             })}</Label>
             <Input
               disabled={isRunning}
@@ -77,13 +84,14 @@ class App extends React.PureComponent<Props, State> {
           </div>
           <div className='small'>
             <Label>{t('vanity.case', {
-              defaultValue: 'case sensitivity'
+              defaultValue: 'case sensitive match'
             })}</Label>
-            <div className='ui dropdown selection disabled'>
-              {t('vanity.case.off', {
-                defaultValue: 'No'
-              })}
-            </div>
+            <Dropdown
+              selection
+              options={BOOL_OPTIONS}
+              onChange={this.onChangeCase}
+              value={withCase}
+            />
           </div>
           <div className='small'>
             <Label>{t('vanity.offset', {
@@ -115,7 +123,7 @@ class App extends React.PureComponent<Props, State> {
             ? (
               <div className='vanity--App-stats'>
                 {t('vanity.stats', {
-                  defaultValue: 'Generated {{count}} keys in {{elapsed}}s ({{avg}}ms/key)',
+                  defaultValue: 'Evaluated {{count}} keys in {{elapsed}}s ({{avg}}ms/key)',
                   replace: {
                     avg: (elapsed / keyCount).toFixed(3),
                     count: keyCount,
@@ -189,12 +197,20 @@ class App extends React.PureComponent<Props, State> {
       this.results.push(
         generator({
           match: this.state.match,
-          runs: 10
+          runs: 10,
+          withCase: this.state.withCase
         })
       );
 
       this.executeGeneration();
     }, 0);
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  onChangeCase = (event: SyntheticEvent<*>, { value }): void => {
+    this.setState({
+      withCase: value
+    });
   }
 
   // eslint-disable-next-line no-unused-vars
