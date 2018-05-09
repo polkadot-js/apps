@@ -10,6 +10,7 @@
     "build:apps": "cd packages/apps && react-scripts build",
     "check": "eslint packages && flow check",
     "deploy:ghpages": "gh-pages -d packages/apps/build",
+    "generator": "node packages/app-vanitygen/build/generator/cli.js",
     "start": "cd packages/apps && react-scripts start",
     "test": "echo 'no tests executed'"
   },

@@ -30,6 +30,8 @@ type State = {
 }
 
 class Editor extends React.PureComponent<Props, State> {
+  state: State;
+
   constructor (props: Props) {
     super(props);
 

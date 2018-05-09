@@ -29,7 +29,7 @@ function SideBar ({ className, style, t }: Props): React$Node {
         vertical
       >
         {
-          routing.routes.map((route) => (
+          routing.routes.map((route, index) => (
             route
               ? (
                 <Item
@@ -39,7 +39,12 @@ function SideBar ({ className, style, t }: Props): React$Node {
                   {...route}
                 />
               )
-              : <Divider hidden />
+              : (
+                <Divider
+                  hidden
+                  key={index}
+                />
+              )
           ))
         }
         <Divider hidden />
