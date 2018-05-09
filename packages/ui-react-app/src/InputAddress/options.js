@@ -6,18 +6,28 @@
 import type { KeyringInstance } from '@polkadot/util-keyring/types';
 import type { KeyringOptions } from './types';
 
-import React from 'react';
-
 import testKeyring from '../keyring';
-import PairDisplay from './PairDisplay';
+import createItem from './optionItem';
 
-export default function createOptions (keyring?: KeyringInstance = testKeyring): KeyringOptions {
-  return keyring
-    .getPairs()
-    .map((pair) => ({
-      text: (
-        <PairDisplay pair={pair} />
-      ),
-      value: pair.address()
-    }));
+const cached: { [string]: ?KeyringOptions } = {
+  addresses: null,
+  accounts: null
+};
+
+export default function createOptions (isAddress?: boolean = false, keyring?: KeyringInstance = testKeyring, forceReload: boolean = false): KeyringOptions {
+  const map = isAddress ? 'addresses' : 'accounts';
+
+  if (forceReload || !cached[map]) {
+    cached[map] = keyring
+      .getPairs()
+      .map((pair) => {
+        const address = pair.address();
+        const { name } = pair.getMeta();
+
+        return createItem(address, name);
+      });
+  }
+
+  // $FlowFixMe we have checked and set just above
+  return cached[map];
 }

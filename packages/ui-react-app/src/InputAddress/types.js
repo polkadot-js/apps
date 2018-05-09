@@ -4,7 +4,9 @@
 // @flow
 
 export type KeyringOption = {
-  text: React$Node,
+  'data-manual'?: boolean,
+  name: string,
+  text: React$Node | string,
   value: string
 };
 

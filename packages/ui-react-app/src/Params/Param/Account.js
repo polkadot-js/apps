@@ -26,8 +26,10 @@ export default function Account ({ index, isError, label, onChange, t, value: { 
     >
       <InputAddress
         defaultValue={defaultValue}
+        isError={isError}
+        isInput
         onChange={_onChange}
-        placeholder='0x...'
+        placeholder='5...'
       />
     </Base>
   );

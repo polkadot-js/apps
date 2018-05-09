@@ -7,3 +7,7 @@
 .ui--InputAddress > .text {
   width: 100%;
 }
+
+.ui--InputAddress input.search {
+  margin-left: 3rem;
+}

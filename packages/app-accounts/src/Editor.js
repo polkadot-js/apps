@@ -99,7 +99,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   createOptions (): KeyringOptions {
-    return createOptions(this.props.keyring);
+    return createOptions(false, this.props.keyring, true);
   }
 
   createState (currentPair: KeyringPair): $Shape<State> {
