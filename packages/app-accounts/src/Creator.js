@@ -3,7 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { I18nProps, KeyringInstance } from '@polkadot/ui-react-app/types';
+import type { KeyringInstance } from '@polkadot/ui-keyring/types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';

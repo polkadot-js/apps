@@ -3,8 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { KeyringOptions } from '@polkadot/ui-keyring/types';
 import type { BareProps } from '../types';
-import type { KeyringOptions } from './types';
 
 import './InputAddress.css';
 

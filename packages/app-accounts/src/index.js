@@ -12,7 +12,7 @@ import Button from 'semantic-ui-react/dist/es/elements/Button';
 
 import Creator from './Creator';
 import Editor from './Editor';
-import keyring from '@polkadot/ui-react-app/src/keyring';
+import keyring from '@polkadot/ui-keyring/src';
 import translate from './translate';
 
 type Props = I18nProps & {};

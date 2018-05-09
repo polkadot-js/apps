@@ -3,10 +3,10 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { KeyringInstance } from '@polkadot/util-keyring/types';
-import type { KeyringOptions } from './types';
+import type { KeyringInstance, KeyringOptions } from '@polkadot/ui-keyring/types';
 
-import testKeyring from '../keyring';
+import testKeyring from '@polkadot/ui-keyring/src';
+
 import createItem from './optionItem';
 
 const cached: { [string]: ?KeyringOptions } = {

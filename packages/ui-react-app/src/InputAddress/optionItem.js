@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { KeyringOption } from './types';
+import type { KeyringOption } from '@polkadot/ui-keyring/types';
 
 import React from 'react';
 

@@ -4,8 +4,8 @@
 // @flow
 
 import type { KeyringPair } from '@polkadot/util-keyring/types';
-import type { KeyringOptions } from '@polkadot/ui-react-app/InputAddress/types';
-import type { I18nProps, KeyringInstance } from '@polkadot/ui-react-app/types';
+import type { KeyringInstance, KeyringOptions } from '@polkadot/ui-keyring/types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
