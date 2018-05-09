@@ -4,23 +4,33 @@
 // @flow
 
 import type { KeyringPair } from '@polkadot/util-keyring/types';
-import type { KeyringInstance, State } from './types';
+import type { KeyringInstance, KeyringOption$Type, KeyringOptions, State } from './types';
 
 import testKeyring from '@polkadot/util-keyring/testing';
 
 import loadAll from './loadAll';
-import saveJson from './saveJson';
+import saveAccount from './save/account';
+import saveRecent from './save/recent';
 
 const state: State = {
-  keyring: testKeyring()
+  available: {
+    account: {},
+    address: {}
+  },
+  keyring: testKeyring(),
+  options: {}
 };
 
 loadAll(state);
 
 export default ({
   ...state.keyring,
-  loadJson: (): void =>
+  getOptions: (type: KeyringOption$Type): KeyringOptions =>
+    state.options[type],
+  loadAll: (): void =>
     loadAll(state),
-  saveJson: (pair: KeyringPair, password?: string): void =>
-    saveJson(state, pair, password)
+  saveAccount: (pair: KeyringPair, password?: string): void =>
+    saveAccount(state, pair, password),
+  saveRecent: (address: string): KeyringOption =>
+    saveRecent(state, address)
 }: KeyringInstance);

@@ -3,18 +3,17 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { KeyringOptions } from '@polkadot/ui-keyring/types';
+import type { KeyringOptions, KeyringOption$Type } from '@polkadot/ui-keyring/types';
 import type { BareProps } from '../types';
 
 import './InputAddress.css';
 
 import React from 'react';
+import keyring from '@polkadot/ui-keyring/src';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
 import RxDropdown from '../RxDropdown';
-import createItem from './optionItem';
-import createOptions from './options';
 
 type Props = BareProps & {
   defaultValue?: Uint8Array,
@@ -22,8 +21,7 @@ type Props = BareProps & {
   isInput?: boolean,
   label?: string,
   onChange: (value: Uint8Array) => void,
-  options?: KeyringOptions,
-  withInput?: boolean
+  type?: KeyringOption$Type
 };
 
 const transform = (value: string): Uint8Array => {
@@ -34,17 +32,24 @@ const transform = (value: string): Uint8Array => {
   }
 };
 
-export default function InputAddress ({ className, defaultValue, isError, isInput = false, label, onChange, options, style }: Props): React$Node {
-  const _options = options || createOptions(isInput);
+export default function InputAddress ({ className, defaultValue, isError, isInput = true, label, onChange, style, type = 'all' }: Props): React$Node {
+  const options = keyring.getOptions(type);
   const onSearch = (filteredOptions: KeyringOptions, query: string): KeyringOptions => {
+    console.log('filteredOptions', filteredOptions);
+
     const queryLower = query.toLowerCase();
     const matches = filteredOptions.filter((item) => {
+      // divider/header
+      if (!item.key) {
+        return false;
+      }
+
       const { name, value } = item;
-      const isManual = item['data-manual'] || false;
+      // const isRecent = item['data-is-recent'] || false;
       const hasMatch = name.toLowerCase().indexOf(queryLower) !== -1 ||
       value.toLowerCase().indexOf(queryLower) !== -1;
 
-      return hasMatch && (isInput || !isManual);
+      return hasMatch; // && (isInput || !isRecent);
     });
 
     // see if we should add a new item, i.e. valid address found
@@ -52,10 +57,9 @@ export default function InputAddress ({ className, defaultValue, isError, isInpu
       const publicKey = transform(query);
 
       if (publicKey.length === 32) {
-        const newOption = createItem(query, `${query.slice(0, 16)}…`, true);
-
-        matches.push(newOption);
-        _options.push(newOption);
+        matches.push(
+          keyring.saveRecent(query)
+        );
       }
     }
 
@@ -69,7 +73,7 @@ export default function InputAddress ({ className, defaultValue, isError, isInpu
       isError={isError}
       label={label}
       onChange={onChange}
-      options={_options}
+      options={options}
       search={onSearch}
       transform={transform}
     />

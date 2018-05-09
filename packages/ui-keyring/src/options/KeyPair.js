@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import './PairDisplay.css';
+import './KeyPair.css';
 
 import React from 'react';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
@@ -17,21 +17,21 @@ type Props = {
   }
 };
 
-export default function PairDisplay ({ address, className, name, style }: Props): React$Node {
+export default function KeyPair ({ address, className, name, style }: Props): React$Node {
   return (
     <div
-      className={['ui--InputyAddress-PairDisplay', className].join(' ')}
+      className={['ui--KeyPair', className].join(' ')}
       style={style}
     >
       <IdentityIcon
-        className='ui--InputyAddress-PairDisplay-icon'
+        className='ui--KeyPair-icon'
         size={32}
         value={address}
       />
-      <div className='ui--InputyAddress-PairDisplay-name'>
+      <div className='ui--KeyPair-name'>
         {name}
       </div>
-      <div className='ui--InputyAddress-PairDisplay-address'>
+      <div className='ui--KeyPair-address'>
         {address}
       </div>
     </div>

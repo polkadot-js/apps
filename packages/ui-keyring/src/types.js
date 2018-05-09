@@ -10,8 +10,19 @@ export type KeyringInstance = BaseKeyringInstance & {
   saveJson: (pair: KeyringPair, password?: string) => void
 };
 
-export type KeyringOption = {
-  'data-manual'?: boolean,
+export type KeyringOption$Type = 'account' | 'address' | 'all' | 'recent' | 'testing';
+
+export type KeyringOption$Data = {
+  'data-is-account'?: boolean,
+  'data-is-recent'?: boolean,
+  'data-is-testing'?: boolean,
+  'data-when-created'?: number,
+  'data-when-edited'?: number,
+  'data-when-used'?: number
+}
+
+export type KeyringOption = KeyringOption$Data & {
+  key: string | null,
   name: string,
   text: React$Node | string,
   value: string
@@ -19,6 +30,25 @@ export type KeyringOption = {
 
 export type KeyringOptions = Array<KeyringOption>;
 
+export type KeyringJson = {
+  address: string,
+  meta: {
+    isRecent?: boolean,
+    isTesting?: boolean,
+    name: string,
+    whenCreated?: number,
+    whenEdited?: number,
+    whenUsed?: number
+  }
+};
+
 export type State = {
-  keyring: BaseKeyringInstance
+  available: {
+    account: { [string]: KeyringJson },
+    address: { [string]: KeyringJson }
+  },
+  keyring: BaseKeyringInstance,
+  options: {
+    [KeyringOption$Type]: KeyringOptions
+  }
 };

@@ -7,12 +7,20 @@ import type { State } from './types';
 
 import store from 'store';
 
-import { accountRegex } from './defaults';
+import createOptions from './options';
+import { accountRegex, addressRegex } from './defaults';
 
-export default function loadAll ({ keyring }: State): void {
-  store.each((json, key: string) => {
+export default function loadAll (state: State): void {
+  const { available, keyring } = state;
+
+  store.each((json: AccountJson, key: string) => {
     if (accountRegex.test(key)) {
       keyring.addFromJson(json);
+      available.account[json.address] = json;
+    } else if (addressRegex.test(key)) {
+      available.address[json.address] = json;
     }
   });
+
+  createOptions(state);
 }

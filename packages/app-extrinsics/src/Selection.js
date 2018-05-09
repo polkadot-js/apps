@@ -52,10 +52,12 @@ class Selection extends React.PureComponent<Props, State> {
         style={style}
       >
         <Account
+          isInput={false}
           label={t('display.sender', {
             defaultValue: 'using the selected account'
           })}
           onChange={this.onChangeSender}
+          type='account'
         />
         <Extrinsic
           defaultValue={defaultExtrinsic}

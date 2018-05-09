@@ -2,7 +2,7 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
-.ui--InputyAddress-PairDisplay {
+.ui--KeyPair {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
@@ -10,18 +10,18 @@
   white-space: nowrap;
 }
 
-.ui--InputyAddress-PairDisplay-icon {
+.ui--KeyPair-icon {
   position: absolute;
   top: -9px;
   left: 0;
 }
 
-.ui--InputyAddress-PairDisplay-address,
-.ui--InputyAddress-PairDisplay-name {
+.ui--KeyPair-address,
+.ui--KeyPair-name {
   display: inline-block;
 }
 
-.ui--InputyAddress-PairDisplay-address {
+.ui--KeyPair-address {
   flex: 1;
   font-family: monospace;
   margin-left: 1rem;
@@ -31,7 +31,7 @@
   text-overflow: ellipsis;
 }
 
-.ui--InputyAddress-PairDisplay-name {
+.ui--KeyPair-name {
   flex: 1 0;
   margin-left: 3rem;
   overflow: hidden;

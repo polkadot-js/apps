@@ -4,14 +4,21 @@
 // @flow
 
 import type { KeyringPair } from '@polkadot/util-keyring/types';
-import type { State } from './types';
+import type { State } from '../types';
 
 import store from 'store';
 
-import { accountKey } from './defaults';
+import { accountKey } from '../defaults';
+import createOptions from '../options';
 
-export default function saveJson ({ keyring }: State, pair: KeyringPair, password?: string): void {
+export default function saveAccount (state: State, pair: KeyringPair, password?: string): void {
   const json = pair.toJson(password);
 
+  if (!json.meta.whenCreated) {
+    json.meta.whenCreated = Date.now();
+  }
+
   store.set(accountKey(json.address), json);
+
+  createOptions(state);
 }
