@@ -33,8 +33,9 @@ type State = {
   withCase: boolean
 }
 
-const DEFAULT_MATCH = 'Some?';
-const MATCH_REGEX = /[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz?]*$/;
+const DEFAULT_MATCH = 'Some';
+// NOTE bs58 characters, no '0' or 'O'
+const MATCH_REGEX = new RegExp('^[1-9A-NP-Za-z?]*$', '');
 const BOOL_OPTIONS = [
   { text: 'No', value: false },
   { text: 'Yes', value: true }
@@ -215,10 +216,11 @@ class App extends React.PureComponent<Props, State> {
 
   // eslint-disable-next-line no-unused-vars
   onChangeMatch = (event: SyntheticEvent<*>, { value }): void => {
-    const isMatchValid = MATCH_REGEX.test(value) && value.length < 31;
-
     this.setState({
-      isMatchValid,
+      isMatchValid:
+        MATCH_REGEX.test(value) &&
+        (value.length !== 0) &&
+        (value.length < 31),
       match: value
     });
   }
