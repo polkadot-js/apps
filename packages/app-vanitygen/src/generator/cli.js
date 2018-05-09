@@ -9,7 +9,7 @@ const u8aToHex = require('@polkadot/util/u8a/toHex');
 
 const generator = require('./index.js');
 
-const argv = yargs
+const { match } = yargs
   .option('match', {
     alias: 'm',
     default: 'EEEEE'
@@ -17,8 +17,8 @@ const argv = yargs
   .argv;
 
 const options = {
-  match: argv.match,
-  runs: 1000
+  match,
+  runs: 100
 };
 const startAt = Date.now();
 let best = { count: -1 };
@@ -35,8 +35,10 @@ while (true) {
 
   total += options.runs;
 
-  const elapsed = Date.now() - startAt;
-  const { address, count, offset, seed } = best;
+  if ((total % 1000) === 0) {
+    const elapsed = Date.now() - startAt;
+    const { address, count, offset, seed } = best;
 
-  console.log(`${total} in ${(elapsed / 1000).toFixed(2)}s, ${(elapsed / total).toFixed(3)}ms/key, count=${count}, offset=${offset} :: ${address.slice(0, offset)}${chalk.cyan(address.slice(offset, count + offset))}${address.slice(count + offset)} <= ${u8aToHex(seed)}`);
+    console.log(`${total} in ${(elapsed / 1000).toFixed(2)}s, ${(elapsed / total).toFixed(3)}ms/key, count=${count}, offset=${offset} :: ${address.slice(0, offset)}${chalk.cyan(address.slice(offset, count + offset))}${address.slice(count + offset)} <= ${u8aToHex(seed)}`);
+  }
 }
