@@ -34,7 +34,7 @@ type State = {
 }
 
 const DEFAULT_MATCH = 'Some?';
-const MATCH_REGEX = /[1-9A-Za-z?]*$/;
+const MATCH_REGEX = /[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz?]*$/;
 const BOOL_OPTIONS = [
   { text: 'No', value: false },
   { text: 'Yes', value: true }
