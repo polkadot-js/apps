@@ -50,6 +50,8 @@ function addressFromSeed (seed: string): string {
 }
 
 class Creator extends React.PureComponent<Props, State> {
+  state: State;
+
   constructor (props: Props) {
     super(props);
 
