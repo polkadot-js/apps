@@ -8,6 +8,7 @@ const chalk = require('chalk');
 const u8aToHex = require('@polkadot/util/u8a/toHex');
 
 const generator = require('./index.js');
+const matchRegex = require('./regex');
 const { pkFromSeed } = require('./sodium');
 
 const { match, withCase } = yargs
@@ -20,7 +21,7 @@ const { match, withCase } = yargs
   .argv;
 
 const INDICATORS = ['|', '/', '-', '\\'];
-const NUMBER_REGEX = /(\d+?)(?=(\d{3})+(?!\d)|$)/g;
+const NUMBER_REGEX = new RegExp('(\\d+?)(?=(\\d{3})+(?!\\d)|$)', 'g');
 
 const options = {
   match,
@@ -31,6 +32,11 @@ const startAt = Date.now();
 let best = { count: -1 };
 let total = 0;
 let indicator = -1;
+
+if (!matchRegex.test(match)) {
+  console.error("Invalid character found in match string, allowed is '1-9' (no '0'), 'A-N & P-Z' (no 'O'), 'a-k & m-z' (no 'l') and '?' (wildcard)");
+  process.exit(-1);
+}
 
 console.log(options);
 

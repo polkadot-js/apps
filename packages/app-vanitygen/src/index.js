@@ -16,6 +16,7 @@ import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 
 import Match from './Match';
 import generator from './generator';
+import matchRegex from './generator/regex';
 import generatorSort from './generator/sort';
 import translate from './translate';
 
@@ -34,8 +35,6 @@ type State = {
 }
 
 const DEFAULT_MATCH = 'Some';
-// NOTE bs58 characters, no '0' or 'O'
-const MATCH_REGEX = new RegExp('^[1-9A-NP-Za-z?]*$', '');
 const BOOL_OPTIONS = [
   { text: 'No', value: false },
   { text: 'Yes', value: true }
@@ -218,7 +217,7 @@ class App extends React.PureComponent<Props, State> {
   onChangeMatch = (event: SyntheticEvent<*>, { value }): void => {
     this.setState({
       isMatchValid:
-        MATCH_REGEX.test(value) &&
+        matchRegex.test(value) &&
         (value.length !== 0) &&
         (value.length < 31),
       match: value

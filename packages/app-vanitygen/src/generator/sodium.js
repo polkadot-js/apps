@@ -19,10 +19,8 @@ try {
         .baseBuffer
     );
 } catch (error) {
-  // oops, nothing
+  console.log(`Using NaCl bindings from 'tweet-nacl' (faster 'sodium' dependency not installed)`);
 }
-
-console.log(`Using NaCl bindings from ${!pkFromSeed ? 'tweet-nacl' : 'node-sodium'}`);
 
 module.exports = {
   pkFromSeed
