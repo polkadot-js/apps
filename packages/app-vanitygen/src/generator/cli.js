@@ -16,6 +16,8 @@ const { match } = yargs
   })
   .argv;
 
+const INDICATORS = ['|', '/', '-', '\\'];
+
 const options = {
   match,
   runs: 100
@@ -23,9 +25,28 @@ const options = {
 const startAt = Date.now();
 let best = { count: -1 };
 let total = 0;
+let indicator = -1;
+
+function showProgress () {
+  const elapsed = Date.now() - startAt;
+
+  indicator++;
+
+  if (indicator === INDICATORS.length) {
+    indicator = 0;
+  }
+
+  process.stdout.write(`\r[${INDICATORS[indicator]}] ${total} keys in ${(elapsed / 1000).toFixed(2)}s, ${(elapsed / total).toFixed(3)}ms/key`);
+}
+
+function showBest () {
+  const { address, count, offset, seed } = best;
+
+  console.log(`\r::: ${address.slice(0, offset)}${chalk.cyan(address.slice(offset, count + offset))}${address.slice(count + offset)} <= ${u8aToHex(seed)} (count=${count}, offset=${offset})`);
+}
 
 while (true) {
-  best = generator(options).found.reduce((best, match) => {
+  const nextBest = generator(options).found.reduce((best, match) => {
     if ((match.count > best.count) || ((match.count === best.count) && (match.offset < best.offset))) {
       return match;
     }
@@ -35,10 +56,10 @@ while (true) {
 
   total += options.runs;
 
-  if ((total % 1000) === 0) {
-    const elapsed = Date.now() - startAt;
-    const { address, count, offset, seed } = best;
-
-    console.log(`${total} in ${(elapsed / 1000).toFixed(2)}s, ${(elapsed / total).toFixed(3)}ms/key, count=${count}, offset=${offset} :: ${address.slice(0, offset)}${chalk.cyan(address.slice(offset, count + offset))}${address.slice(count + offset)} <= ${u8aToHex(seed)}`);
+  if (nextBest.address !== best.address) {
+    best = nextBest;
+    showBest();
   }
+
+  showProgress();
 }
