@@ -33,7 +33,7 @@ type State = {
   withCase: boolean
 }
 
-const DEFAULT_MATCH = 'S?me';
+const DEFAULT_MATCH = 'Some?';
 const MATCH_REGEX = /[1-9A-Za-z?]*$/;
 const BOOL_OPTIONS = [
   { text: 'No', value: false },
@@ -73,7 +73,7 @@ class App extends React.PureComponent<Props, State> {
         <div className='ui--form'>
           <div className='medium'>
             <Label>{t('vanity.matching', {
-              defaultValue: 'generate address containing characters'
+              defaultValue: 'generate address containing (? wildcard)'
             })}</Label>
             <Input
               disabled={isRunning}
@@ -123,7 +123,7 @@ class App extends React.PureComponent<Props, State> {
             ? (
               <div className='vanity--App-stats'>
                 {t('vanity.stats', {
-                  defaultValue: 'Generated {{count}} keys in {{elapsed}}s ({{avg}}ms/key)',
+                  defaultValue: 'Evaluated {{count}} keys in {{elapsed}}s ({{avg}}ms/key)',
                   replace: {
                     avg: (elapsed / keyCount).toFixed(3),
                     count: keyCount,

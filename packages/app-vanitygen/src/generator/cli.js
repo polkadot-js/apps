@@ -15,7 +15,7 @@ const { match, withCase } = yargs
     default: 'EEEEE'
   })
   .option('withCase', {
-    default: false
+    default: true
   })
   .argv;
 
