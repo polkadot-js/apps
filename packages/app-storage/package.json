@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-storage",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,6 +11,6 @@
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@polkadot/ui-react-app": "^0.2.2"
+    "@polkadot/ui-react-app": "^0.2.3"
   }
 }
