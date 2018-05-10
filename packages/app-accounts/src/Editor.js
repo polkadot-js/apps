@@ -13,6 +13,7 @@ import Label from 'semantic-ui-react/dist/es/elements/Label';
 import keyring from '@polkadot/ui-keyring/src';
 import InputAddress from '@polkadot/ui-react-app/src/InputAddress';
 
+import Address from './Address';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -41,7 +42,7 @@ class Editor extends React.PureComponent<Props, State> {
 
   render (): React$Node {
     const { className, style, t } = this.props;
-    const { defaultPublicKey, editedName, isEdited } = this.state;
+    const { defaultPublicKey, currentPair, editedName, isEdited } = this.state;
 
     return (
       <div
@@ -51,18 +52,17 @@ class Editor extends React.PureComponent<Props, State> {
         <div className='ui--grid'>
           <div className='medium'>
             <div className='ui--row'>
-              <div className='full'>
-                <InputAddress
-                  defaultValue={defaultPublicKey}
-                  hideAddress
-                  isInput={false}
-                  label={t('editor.select', {
-                    defaultValue: 'using my account'
-                  })}
-                  onChange={this.onChangeAccount}
-                  type='account'
-                />
-              </div>
+              <InputAddress
+                className='full'
+                defaultValue={defaultPublicKey}
+                hideAddress
+                isInput={false}
+                label={t('editor.select', {
+                  defaultValue: 'using my account'
+                })}
+                onChange={this.onChangeAccount}
+                type='account'
+              />
             </div>
             <div className='ui--row'>
               <div className='full'>
@@ -76,6 +76,10 @@ class Editor extends React.PureComponent<Props, State> {
               </div>
             </div>
           </div>
+          <Address
+            className='medium'
+            value={currentPair.address()}
+          />
         </div>
         <div className='ui--row-buttons'>
           <Button
@@ -133,7 +137,9 @@ class Editor extends React.PureComponent<Props, State> {
   onChangeAccount = (publicKey: Uint8Array): void => {
     const currentPair = keyring.getPair(publicKey);
 
-    this.nextState({ currentPair });
+    this.nextState({
+      currentPair
+    });
   }
 
   // eslint-disable-next-line no-unused-vars

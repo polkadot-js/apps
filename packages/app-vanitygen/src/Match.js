@@ -48,12 +48,14 @@ export default function Match ({ address, className, count, offset, onRemove, se
             <Button
               icon='copy'
               primary
+              size='tiny'
             />
           </CopyToClipboard>
           <Button
             icon='close'
             negative
             onClick={_onRemove}
+            size='tiny'
           />
         </div>
       </div>

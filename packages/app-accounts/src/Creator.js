@@ -44,10 +44,12 @@ function formatSeed (seed: string): Uint8Array {
     : u8aFromString(seed.padEnd(32, ' '));
 }
 
-function addressFromSeed (seed: string): string {
-  const { publicKey } = keypairFromSeed(formatSeed(seed));
-
-  return addressEncode(publicKey);
+function addressFromSeed (seed: string): Uint8Array {
+  return addressEncode(
+    keypairFromSeed(
+      formatSeed(seed)
+    ).publicKey
+  );
 }
 
 class Creator extends React.PureComponent<Props, State> {
@@ -68,59 +70,61 @@ class Creator extends React.PureComponent<Props, State> {
         className={['accounts--Creator', className].join(' ')}
         style={style}
       >
-        <div className='ui--row'>
+        <div className='ui--grid'>
           <div className='medium'>
-            <Label>{t('creator.seed', {
-              defaultValue: 'create from the following seed (hex or string)'
-            })}</Label>
-            <Input
-              error={!isSeedValid}
-              name={`${fieldName}_seed`}
-              onChange={this.onChangeSeed}
-              value={seed}
-            />
+            <div className='ui--row'>
+              <div className='full'>
+                <Label>{t('creator.seed', {
+                  defaultValue: 'create from the following seed (hex or string)'
+                })}</Label>
+                <Input
+                  error={!isSeedValid}
+                  name={`${fieldName}_seed`}
+                  onChange={this.onChangeSeed}
+                  value={seed}
+                />
+              </div>
+            </div>
+            <div className='ui--row'>
+              <div className='full'>
+                <Label>{t('creator.name', {
+                  defaultValue: 'name the account'
+                })}</Label>
+                <Input
+                  error={!isNameValid}
+                  name={`${fieldName}_name`}
+                  onChange={this.onChangeName}
+                  value={name}
+                />
+              </div>
+            </div>
+            <div className='ui--row'>
+              <div className='full'>
+                <Label>{t('creator.pass1', {
+                  defaultValue: 'encrypt it using the password'
+                })}</Label>
+                <Input
+                  action
+                  error={!isPassValid}
+                  name={`${fieldName}_pass`}
+                  onChange={this.onChangePass}
+                  type={isPassVisible ? 'text' : 'password'}
+                  value={password}
+                >
+                  <input />
+                  <Button
+                    icon='eye'
+                    primary
+                    onClick={this.togglePassword}
+                  />
+                </Input>
+              </div>
+            </div>
           </div>
-          <div className='medium'>
-            <Label>{t('creator.address', {
-              defaultValue: 'evaluating to address'
-            })}</Label>
-            <Address address={address} />
-          </div>
-        </div>
-        <div className='ui--row'>
-          <div className='medium'>
-            <Label>{t('creator.name', {
-              defaultValue: 'name the account'
-            })}</Label>
-            <Input
-              error={!isNameValid}
-              name={`${fieldName}_name`}
-              onChange={this.onChangeName}
-              value={name}
-            />
-          </div>
-        </div>
-        <div className='ui--row'>
-          <div className='medium'>
-            <Label>{t('creator.pass1', {
-              defaultValue: 'encrypt it using the password'
-            })}</Label>
-            <Input
-              action
-              error={!isPassValid}
-              name={`${fieldName}_pass`}
-              onChange={this.onChangePass}
-              type={isPassVisible ? 'text' : 'password'}
-              value={password}
-            >
-              <input />
-              <Button
-                icon='eye'
-                primary
-                onClick={this.togglePassword}
-              />
-            </Input>
-          </div>
+          <Address
+            className='medium'
+            value={address}
+          />
         </div>
         <div className='ui--row-buttons'>
           <Button

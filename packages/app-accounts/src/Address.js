@@ -6,35 +6,42 @@
 import type { BareProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard';
+import Button from 'semantic-ui-react/dist/es/elements/Button';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 
 type Props = BareProps & {
-  address: string | null;
+  value: string | null;
 }
 
-export default function Address ({ address, className, style }: Props): React$Node {
+export default function Address ({ className, style, value }: Props): React$Node {
+  if (!value) {
+    return null;
+  }
+
+  const short = `${value.slice(0, 8)}…${value.slice(-8)}`;
+
   return (
     <div
-      className={['accounts--Address', 'ui disabled dropdown selection', className].join(' ')}
+      className={['accounts--Address', className].join(' ')}
       style={style}
     >
-      {
-        // flowlint-next-line sketchy-null-string:off
-        address
-          ? (
-            <IdentityIcon
-              className='accounts--Address-icon'
-              size={32}
-              value={address}
-            />
-          )
-          : null
-      }
-      <div className='accounts--Address-name'>
-        {
-          // flowlint-next-line sketchy-null-string:off
-          address || 'unknown'
-        }
+      <IdentityIcon
+        className='accounts--Address-icon'
+        size={128}
+        value={value}
+      />
+      <div className='accounts--Address-data'>
+        <div className='accounts--Address-address'>
+          {short}
+        </div>
+        <CopyToClipboard text={value}>
+          <Button
+            icon='copy'
+            primary
+            size='tiny'
+          />
+        </CopyToClipboard>
       </div>
     </div>
   );

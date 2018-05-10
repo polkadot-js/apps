@@ -4,7 +4,7 @@
 
 .ui--InputAddress {}
 
-.ui--InputAddress > .text {
+.ui--InputAddress .ui.dropdown .text {
   width: 100%;
 }
 
@@ -12,7 +12,7 @@
   margin-left: 3rem;
 }
 
-.ui--InputAddress.flag--hideAddress .ui--KeyPair-address {
+.flag--hideAddress .ui--KeyPair .ui--KeyPair-address {
   flex: 0;
   max-width: 0;
 }

@@ -44,14 +44,22 @@
   flex: 0 25%;
 }
 
-.ui--row > div.third {
+.ui--grid > div.sixty6,
+.ui--row > div.sixty6 {
+  flex: 0 66.66%;
+}
+
+.ui--grid > div.thirty3,
+.ui--row > div.thirty3 {
   flex: 0 33.33%;
 }
 
 .ui--row > div.full,
 .ui--row > div.large,
 .ui--row > div.medium,
-.ui--row > div.small {
+.ui--row > div.small,
+.ui--row > div.sixty6,
+.ui--row > div.thirty3 {
   padding: 0 0.25rem;
 }
 
