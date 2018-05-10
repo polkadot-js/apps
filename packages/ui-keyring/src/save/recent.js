@@ -3,7 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { KeyringOption, State } from '../types';
+// import type { KeyringPair$Meta } from '@polkadot/util-keyring/types';
+import type { KeyringJson, KeyringOption, State } from '../types';
 
 import store from 'store';
 
@@ -12,10 +13,16 @@ import createOptions from '../options';
 
 export default function saveRecent (state: State, address: string): KeyringOption {
   if (!state.available[address]) {
-    const json = { address, meta: { isRecent: true, whenCreated: Date.now() } };
+    const json = {
+      address,
+      meta: {
+        isRecent: true,
+        whenCreated: Date.now()
+      }
+    };
 
     store.set(addressKey(json.address), json);
-    state.available.address[address] = json;
+    state.available.address[address] = (json: $Shape<KeyringJson>);
   }
 
   createOptions(state);

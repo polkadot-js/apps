@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { State, KeyringJson } from './types';
+import type { State, KeyringJson } from '../types';
 
 // import React from 'react';
 // import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
@@ -25,18 +25,16 @@ export default function createOptions (state: State): void {
     .getPairs()
     .forEach((pair) => {
       const address = pair.address();
-      const meta = pair.getMeta();
 
-      if (!available.account[address]) {
-        available.account[address] = {
-          address,
-          meta
-        };
-      }
+      available.account[address] = {
+        address,
+        meta: pair.getMeta()
+      };
     });
 
   Object
     .values(available.account)
+    // $FlowFixMe value -> mixed, this is an object
     .forEach(({ address, meta: { name, isTesting = false, whenCreated = 0, whenEdited = 0, whenUsed = 0 } }: KeyringJson) => {
       const option = createItem(address, name, {
         'data-is-account': true,
@@ -55,6 +53,7 @@ export default function createOptions (state: State): void {
 
   Object
     .values(available.address)
+    // $FlowFixMe value -> mixed, this is an object
     .forEach(({ address, meta: { name, isRecent = false, whenCreated = 0, whenEdited = 0, whenUsed = 0 } }: KeyringJson) => {
       if (available.account[address]) {
         return;

@@ -139,13 +139,20 @@ class Editor extends React.PureComponent<Props, State> {
   onCommit = (): void => {
     const { currentPair, editedName } = this.state;
 
-    currentPair.setMeta({ name: editedName, whenEdited: Date.now() });
+    keyring.saveAccountMeta(currentPair, {
+      name: editedName,
+      whenEdited: Date.now()
+    });
+
+    this.nextState({});
   }
 
   onDiscard = (): void => {
     const { currentPair } = this.state;
 
-    this.nextState({ editedName: currentPair.getMeta().name });
+    this.nextState({
+      editedName: currentPair.getMeta().name
+    });
   }
 }
 

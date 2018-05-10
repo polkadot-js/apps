@@ -3,12 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { KeyringInstance as BaseKeyringInstance, KeyringPair } from '@polkadot/util-keyring/types';
-
-export type KeyringInstance = BaseKeyringInstance & {
-  loadJson: () => void,
-  saveJson: (pair: KeyringPair, password?: string) => void
-};
+import type { KeyringInstance as BaseKeyringInstance, KeyringPair, KeyringPair$Meta } from '@polkadot/util-keyring/types';
 
 export type KeyringOption$Type = 'account' | 'address' | 'all' | 'recent' | 'testing';
 
@@ -35,7 +30,7 @@ export type KeyringJson = {
   meta: {
     isRecent?: boolean,
     isTesting?: boolean,
-    name: string,
+    name?: string,
     whenCreated?: number,
     whenEdited?: number,
     whenUsed?: number
@@ -51,4 +46,12 @@ export type State = {
   options: {
     [KeyringOption$Type]: KeyringOptions
   }
+};
+
+export type KeyringInstance = BaseKeyringInstance & {
+  getOptions: (type: KeyringOption$Type) => KeyringOptions,
+  loadAll: () => void,
+  saveAccount: (pair: KeyringPair, password?: string) => void,
+  saveAccountMeta: (pair: KeyringPair, meta: KeyringPair$Meta) => void,
+  saveRecent: (address: string) => KeyringOption
 };

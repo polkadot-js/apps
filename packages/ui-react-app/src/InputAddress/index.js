@@ -35,11 +35,9 @@ const transform = (value: string): Uint8Array => {
 export default function InputAddress ({ className, defaultValue, isError, isInput = true, label, onChange, style, type = 'all' }: Props): React$Node {
   const options = keyring.getOptions(type);
   const onSearch = (filteredOptions: KeyringOptions, query: string): KeyringOptions => {
-    console.log('filteredOptions', filteredOptions);
-
     const queryLower = query.toLowerCase();
     const matches = filteredOptions.filter((item) => {
-      // divider/header
+      // flowlint-next-line sketchy-null-string:off
       if (!item.key) {
         return false;
       }

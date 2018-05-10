@@ -3,7 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { State } from './types';
+import type { KeyringPair$Json } from '@polkadot/util-keyring/types';
+import type { State, KeyringJson } from './types';
 
 import store from 'store';
 
@@ -13,9 +14,9 @@ import { accountRegex, addressRegex } from './defaults';
 export default function loadAll (state: State): void {
   const { available, keyring } = state;
 
-  store.each((json: AccountJson, key: string) => {
+  store.each((json: KeyringJson, key: string) => {
     if (accountRegex.test(key)) {
-      keyring.addFromJson(json);
+      keyring.addFromJson((json: $Shape<KeyringPair$Json>));
       available.account[json.address] = json;
     } else if (addressRegex.test(key)) {
       available.address[json.address] = json;
