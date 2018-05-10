@@ -124,9 +124,7 @@ class Creator extends React.PureComponent<Props, State> {
         </div>
         <div className='ui--row-buttons'>
           <Button
-            negative
             onClick={this.onDiscard}
-            primary
           >
             {t('creator.discard', {
               defaultValue: 'Reset'

@@ -40,6 +40,11 @@
   z-index: 1;
 }
 
+.ui.modal > .actions {
+  background: transparent;
+  border-top: none;
+}
+
 .ui.page.modals.transition.visible {
   display: flex !important;
 }

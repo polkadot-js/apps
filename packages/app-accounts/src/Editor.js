@@ -75,9 +75,7 @@ class Editor extends React.PureComponent<Props, State> {
         <div className='ui--row-buttons'>
           <Button
             disabled={!isEdited}
-            negative
             onClick={this.onDiscard}
-            primary
           >
             {t('editor.reset', {
               defaultValue: 'Reset'
