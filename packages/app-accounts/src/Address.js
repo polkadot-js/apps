@@ -9,9 +9,13 @@ import React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
+import Balance from '@polkadot/ui-react-rx/Balance';
 
 type Props = BareProps & {
-  value: string | null;
+  value: null | {
+    address: string,
+    publicKey: Uint8Array
+  };
 }
 
 export default function Address ({ className, style, value }: Props): React$Node {
@@ -19,7 +23,8 @@ export default function Address ({ className, style, value }: Props): React$Node
     return null;
   }
 
-  const short = `${value.slice(0, 8)}…${value.slice(-8)}`;
+  const { address, publicKey } = value;
+  const short = `${address.slice(0, 8)}…${address.slice(-8)}`;
 
   return (
     <div
@@ -29,13 +34,13 @@ export default function Address ({ className, style, value }: Props): React$Node
       <IdentityIcon
         className='accounts--Address-icon'
         size={128}
-        value={value}
+        value={address}
       />
       <div className='accounts--Address-data'>
         <div className='accounts--Address-address'>
           {short}
         </div>
-        <CopyToClipboard text={value}>
+        <CopyToClipboard text={address}>
           <Button
             icon='copy'
             primary
@@ -43,6 +48,11 @@ export default function Address ({ className, style, value }: Props): React$Node
           />
         </CopyToClipboard>
       </div>
+      <Balance
+        className='accounts--Address-balance'
+        label='balance '
+        value={publicKey}
+      />
     </div>
   );
 }

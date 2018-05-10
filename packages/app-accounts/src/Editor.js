@@ -78,7 +78,10 @@ class Editor extends React.PureComponent<Props, State> {
           </div>
           <Address
             className='medium'
-            value={currentPair.address()}
+            value={{
+              address: currentPair.address(),
+              publicKey: currentPair.publicKey()
+            }}
           />
         </div>
         <div className='ui--row-buttons'>

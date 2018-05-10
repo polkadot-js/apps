@@ -29,11 +29,9 @@ export default function RxDropdown (props: Props): React$Node {
 
   const _props = {...props};
 
-  delete _props.className;
   delete _props.isError;
   delete _props.label;
   delete _props.onChange;
-  delete _props.style;
   delete _props.transform;
 
   return (
@@ -48,8 +46,10 @@ export default function RxDropdown (props: Props): React$Node {
         key='dropdown'
         selection
         {..._props}
+        className={null}
         error={props.isError}
         onChange={_onChange}
+        style={{}}
       />
     </div>
   );

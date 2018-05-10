@@ -27,6 +27,7 @@ type Props = I18nProps & {
 
 type State = {
   address: string | null,
+  publicKey: Uint8Array | null,
   fieldName: string,
   isNameValid: boolean,
   isSeedValid: boolean,
@@ -44,12 +45,14 @@ function formatSeed (seed: string): Uint8Array {
     : u8aFromString(seed.padEnd(32, ' '));
 }
 
-function addressFromSeed (seed: string): Uint8Array {
-  return addressEncode(
-    keypairFromSeed(
-      formatSeed(seed)
-    ).publicKey
-  );
+function infoFromSeed (seed: string): { address: string, publicKey: Uint8Array } {
+  const { publicKey } = keypairFromSeed(formatSeed(seed));
+  const address = addressEncode(publicKey);
+
+  return {
+    address,
+    publicKey
+  };
 }
 
 class Creator extends React.PureComponent<Props, State> {
@@ -63,7 +66,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   render (): React$Node {
     const { className, style, t } = this.props;
-    const { address, fieldName, isNameValid, isPassValid, isPassVisible, isSeedValid, isValid, name, password, seed } = this.state;
+    const { address, fieldName, isNameValid, isPassValid, isPassVisible, isSeedValid, isValid, name, password, publicKey, seed } = this.state;
 
     return (
       <div
@@ -123,7 +126,15 @@ class Creator extends React.PureComponent<Props, State> {
           </div>
           <Address
             className='medium'
-            value={address}
+            value={
+              // flowlint-next-line sketchy-null-string:off
+              !address || !publicKey
+                ? null
+                : {
+                  address,
+                  publicKey
+                }
+            }
           />
         </div>
         <div className='ui--row-buttons'>
@@ -150,7 +161,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   emptyState (): State {
     const seed = u8aToHex(randomBytes());
-    const address = addressFromSeed(seed);
+    const { address, publicKey } = infoFromSeed(seed);
 
     return {
       address,
@@ -162,6 +173,7 @@ class Creator extends React.PureComponent<Props, State> {
       isValid: false,
       name: 'new keypair',
       password: '',
+      publicKey,
       seed
     };
   }
@@ -171,6 +183,7 @@ class Creator extends React.PureComponent<Props, State> {
       (prevState: State, props: Props): $Shape<State> => {
         const { name = prevState.name, password = prevState.password, seed = prevState.seed } = newState;
         let address = prevState.address;
+        let publicKey = prevState.publicKey;
         const isNameValid = !!name;
         const isSeedValid = isHex(seed)
           ? seed.length === 66
@@ -178,7 +191,10 @@ class Creator extends React.PureComponent<Props, State> {
         const isPassValid = password.length > 0 && password.length <= 32;
 
         if (isSeedValid && seed !== prevState.seed) {
-          address = addressFromSeed(seed);
+          const info = infoFromSeed(seed);
+
+          address = info.address;
+          publicKey = info.publicKey;
         }
 
         return {
@@ -189,6 +205,7 @@ class Creator extends React.PureComponent<Props, State> {
           isValid: isNameValid && isPassValid && isSeedValid,
           name,
           password,
+          publicKey,
           seed
         };
       }

@@ -19,6 +19,10 @@
   display: block
 }
 
+.accounts--Address-balance {
+  opacity: 0.45;
+}
+
 .accounts--Address-data {}
 
 .accounts--Address-data * {
