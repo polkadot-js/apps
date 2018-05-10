@@ -43,6 +43,12 @@
 .ui.modal > .actions {
   background: transparent;
   border-top: none;
+  text-align: center;
+}
+
+.ui.modal > .actions .button {
+  margin: 0 0.25rem;
+  text-align: left;
 }
 
 .ui.page.modals.transition.visible {

@@ -2,10 +2,12 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
+.ui--grid,
 .ui--row {
   width: 100%;
 }
 
+.ui--grid,
 .ui--row {
   display: flex;
   flex-wrap: wrap;
@@ -14,31 +16,30 @@
   align-items: stretch;
 }
 
+.ui--grid > div,
 .ui--row > div {
   box-sizing: border-box;
   min-width: 0;
   width: 100%;
 }
 
-.ui--row > div.full:not(.ui--row),
-.ui--row > div.large:not(.ui--row),
-.ui--row > div.medium:not(.ui--row),
-.ui--row > div.small:not(.ui--row) {
-  padding: 0 0.25rem;
-}
-
+.ui--grid > div,
+.ui--grid > div.full,
 .ui--row > div.full {
   flex: 0 100%;
 }
 
+.ui--grid > div.large,
 .ui--row > div.large {
   flex: 0 75%;
 }
 
+.ui--grid > div.medium,
 .ui--row > div.medium {
   flex: 0 50%;
 }
 
+.ui--grid > div.small,
 .ui--row > div.small {
   flex: 0 25%;
 }
@@ -47,9 +48,16 @@
   flex: 0 33.33%;
 }
 
+.ui--row > div.full,
+.ui--row > div.large,
+.ui--row > div.medium,
+.ui--row > div.small {
+  padding: 0 0.25rem;
+}
+
 .ui--row-buttons {
   margin: 1em 0;
-  text-align: right;
+  text-align: center;
 }
 
 .ui--row-buttons .button {

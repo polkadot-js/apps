@@ -107,14 +107,13 @@ class App extends React.PureComponent<Props, State> {
         <div className='ui--row-buttons'>
           <Button
             disabled={!isMatchValid}
-            negative={isRunning}
-            primary
+            primary={!isRunning}
             onClick={this.toggleStart}
           >
             {
               isRunning
-                ? t('vanity.stop', { defaultValue: 'Stop' })
-                : t('vanity.start', { defaultValue: 'Start' })
+                ? t('vanity.stop', { defaultValue: 'Stop generation' })
+                : t('vanity.start', { defaultValue: 'Start generation' })
             }
           </Button>
         </div>

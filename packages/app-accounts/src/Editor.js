@@ -48,28 +48,33 @@ class Editor extends React.PureComponent<Props, State> {
         className={['accounts--Editor', className].join(' ')}
         style={style}
       >
-        <div className='ui--row'>
-          <div className='full'>
-            <InputAddress
-              defaultValue={defaultPublicKey}
-              isInput={false}
-              label={t('editor.select', {
-                defaultValue: 'using my account'
-              })}
-              onChange={this.onChangeAccount}
-              type='account'
-            />
-          </div>
-        </div>
-        <div className='ui--row'>
+        <div className='ui--grid'>
           <div className='medium'>
-            <Label>{t('editor.name', {
-              defaultValue: 'identified by the name'
-            })}</Label>
-            <Input
-              onChange={this.onChangeName}
-              value={editedName}
-            />
+            <div className='ui--row'>
+              <div className='full'>
+                <InputAddress
+                  defaultValue={defaultPublicKey}
+                  hideAddress
+                  isInput={false}
+                  label={t('editor.select', {
+                    defaultValue: 'using my account'
+                  })}
+                  onChange={this.onChangeAccount}
+                  type='account'
+                />
+              </div>
+            </div>
+            <div className='ui--row'>
+              <div className='full'>
+                <Label>{t('editor.name', {
+                  defaultValue: 'identified by the name'
+                })}</Label>
+                <Input
+                  onChange={this.onChangeName}
+                  value={editedName}
+                />
+              </div>
+            </div>
           </div>
         </div>
         <div className='ui--row-buttons'>

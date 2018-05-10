@@ -18,7 +18,7 @@ export type I18nProps = BareProps & {
 
 export type BaseContext = {
   api: RxApiInterface,
-  // TODO: Set the correct/full type
+  // TODO: Set the correct type
   router: {
     route: {
       location: Location
