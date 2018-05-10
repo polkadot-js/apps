@@ -34,7 +34,7 @@ let total = 0;
 let indicator = -1;
 
 if (!matchRegex.test(match)) {
-  console.error("Invalid character found in match string, allowed is '1-9' (no '0'), 'A-N & P-Z' (no 'O'), 'a-k & m-z' (no 'l') and '?' (wildcard)");
+  console.error("Invalid character found in match string, allowed is '1-9' (no '0'), 'A-H, J-N & P-Z' (no 'I' or 'O'), 'a-k & m-z' (no 'l') and '?' (wildcard)");
   process.exit(-1);
 }
 
