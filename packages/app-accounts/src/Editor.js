@@ -48,7 +48,7 @@ class Editor extends React.PureComponent<Props, State> {
         className={['accounts--Editor', className].join(' ')}
         style={style}
       >
-        <div className='ui--form'>
+        <div className='ui--row'>
           <InputAddress
             defaultValue={defaultPublicKey}
             isInput={false}
@@ -59,7 +59,7 @@ class Editor extends React.PureComponent<Props, State> {
             type='account'
           />
         </div>
-        <div className='ui--form'>
+        <div className='ui--row'>
           <div className='medium'>
             <Label>{t('editor.name', {
               defaultValue: 'identified by the name'
@@ -70,7 +70,7 @@ class Editor extends React.PureComponent<Props, State> {
             />
           </div>
         </div>
-        <div className='ui--form-buttons'>
+        <div className='ui--row-buttons'>
           <Button
             disabled={!isEdited}
             negative

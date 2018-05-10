@@ -19,7 +19,7 @@ type Props = BareProps & {
 export default function Nonce ({ className, label, style, onChange, value }: Props): React$Node {
   return (
     <div
-      className={['ui--form', className].join(' ')}
+      className={['ui--row', className].join(' ')}
       style={style}
     >
       <div className='small'>

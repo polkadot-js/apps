@@ -47,7 +47,7 @@ export default class ExtrinsicDisplay extends React.PureComponent<Props, State> 
 
     return (
       <div
-        className={['extrinsics--Extrinsic', 'ui--form', className].join(' ')}
+        className={['extrinsics--Extrinsic', 'ui--row', className].join(' ')}
         style={style}
       >
         <div className='full'>

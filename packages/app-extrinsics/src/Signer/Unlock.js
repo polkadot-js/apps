@@ -67,7 +67,7 @@ class Unlock extends React.PureComponent<Props, State> {
         className={['extrinsics--Signer-Unlock', className].join(' ')}
         style={style}
       >
-        <div className='expanded ui--form'>
+        <div className='expanded ui--row'>
           <div className='medium'>
             <Label>{t('unlock.password', {
               defaultValue: 'unlock account using'

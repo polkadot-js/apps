@@ -68,7 +68,7 @@ class Creator extends React.PureComponent<Props, State> {
         className={['accounts--Creator', className].join(' ')}
         style={style}
       >
-        <div className='ui--form'>
+        <div className='ui--row'>
           <div className='medium'>
             <Label>{t('creator.seed', {
               defaultValue: 'create from the following seed (hex or string)'
@@ -87,7 +87,7 @@ class Creator extends React.PureComponent<Props, State> {
             <Address address={address} />
           </div>
         </div>
-        <div className='ui--form'>
+        <div className='ui--row'>
           <div className='medium'>
             <Label>{t('creator.name', {
               defaultValue: 'name the account'
@@ -100,7 +100,7 @@ class Creator extends React.PureComponent<Props, State> {
             />
           </div>
         </div>
-        <div className='ui--form'>
+        <div className='ui--row'>
           <div className='medium'>
             <Label>{t('creator.pass1', {
               defaultValue: 'encrypt it using the password'
@@ -122,7 +122,7 @@ class Creator extends React.PureComponent<Props, State> {
             </Input>
           </div>
         </div>
-        <div className='ui--form-buttons'>
+        <div className='ui--row-buttons'>
           <Button
             negative
             onClick={this.onDiscard}

@@ -49,7 +49,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['ui--RxDropdownLinked', 'ui--form', className].join(' ')}
+        className={['ui--RxDropdownLinked', 'ui--row', className].join(' ')}
         style={style}
       >
         <div className='small'>

@@ -70,7 +70,7 @@ class App extends React.PureComponent<Props, State> {
         className={['vanity--App', className].join(' ')}
         style={style}
       >
-        <div className='ui--form'>
+        <div className='ui--row'>
           <div className='medium'>
             <Label>{t('vanity.matching', {
               defaultValue: 'generate address containing (? wildcard)'
@@ -104,7 +104,7 @@ class App extends React.PureComponent<Props, State> {
             </div>
           </div>
         </div>
-        <div className='ui--form-buttons'>
+        <div className='ui--row-buttons'>
           <Button
             disabled={!isMatchValid}
             negative={isRunning}
