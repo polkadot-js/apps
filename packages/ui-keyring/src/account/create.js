@@ -6,7 +6,7 @@
 import type { KeyringPair, KeyringPair$Meta } from '@polkadot/util-keyring/types';
 import type { State } from '../types';
 
-import saveAccount from './account';
+import saveAccount from './save';
 
 export default function accountCreate (state: State, seed: Uint8Array, password?: string, meta?: KeyringPair$Meta = {}): KeyringPair {
   const pair = state.keyring.addFromSeed(seed, meta);

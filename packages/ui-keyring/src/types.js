@@ -25,20 +25,24 @@ export type KeyringOption = KeyringOption$Data & {
 
 export type KeyringOptions = Array<KeyringOption>;
 
-export type KeyringJson = {
-  address: string,
-  meta: {
-    isRecent?: boolean,
-    isTesting?: boolean,
-    name?: string,
-    whenCreated?: number,
-    whenEdited?: number,
-    whenUsed?: number
-  }
+export type KeyringJson$Meta = {
+  isRecent?: boolean,
+  isTesting?: boolean,
+  name?: string,
+  whenCreated?: number,
+  whenEdited?: number,
+  whenUsed?: number
 };
 
-export type KeyringAddress = KeyringJson & {
-  publicKey: Uint8Array
+export type KeyringJson = {
+  address: string,
+  meta: KeyringJson$Meta
+};
+
+export type KeyringAddress = {
+  address: () => string,
+  publicKey: () => Uint8Array,
+  getMeta: () => KeyringJson$Meta
 }
 
 export type State = {

@@ -10,12 +10,7 @@ import Button from 'semantic-ui-react/dist/es/elements/Button';
 import Input from 'semantic-ui-react/dist/es/elements/Input';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 import keyring from '@polkadot/ui-keyring/src';
-import isHex from '@polkadot/util/is/hex';
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import u8aFromString from '@polkadot/util/u8a/fromString';
-import u8aToHex from '@polkadot/util/u8a/toHex';
-import keypairFromSeed from '@polkadot/util-crypto/nacl/keypair/fromSeed';
-import randomBytes from '@polkadot/util-crypto/random/asU8a';
+import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
 import Address from '@polkadot/app-accounts/src/Address';
@@ -118,53 +113,43 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   emptyState (): State {
-    const seed = u8aToHex(randomBytes());
-    const { address, publicKey } = infoFromSeed(seed);
-
     return {
-      address,
+      address: '',
       fieldName: `field_${Date.now()}`,
+      isAddressValid: false,
       isNameValid: true,
-      isPassValid: false,
-      isPassVisible: false,
-      isSeedValid: true,
       isValid: false,
-      name: 'new keypair',
-      password: '',
-      publicKey,
-      seed
+      name: 'new address',
+      publicKey: null
     };
   }
 
   nextState (newState: $Shape<State>): void {
     this.setState(
       (prevState: State, props: Props): $Shape<State> => {
-        const { name = prevState.name, password = prevState.password, seed = prevState.seed } = newState;
-        let address = prevState.address;
-        let publicKey = prevState.publicKey;
-        const isNameValid = !!name;
-        const isSeedValid = isHex(seed)
-          ? seed.length === 66
-          : seed.length <= 32;
-        const isPassValid = password.length > 0 && password.length <= 32;
+        const { address = prevState.address, name = prevState.name } = newState;
 
-        if (isSeedValid && seed !== prevState.seed) {
-          const info = infoFromSeed(seed);
+        let nextAddress;
+        let publicKey;
 
-          address = info.address;
-          publicKey = info.publicKey;
+        try {
+          publicKey = addressDecode(address);
+          nextAddress = addressEncode(publicKey);
+        } catch (error) {
+          nextAddress = void 0;
+          publicKey = void 0;
         }
 
+        const isNameValid = !!name;
+        const isAddressValid = !!nextAddress;
+
         return {
-          address,
+          address: nextAddress,
+          isAddressValid,
           isNameValid,
-          isPassValid,
-          isSeedValid,
-          isValid: isNameValid && isPassValid && isSeedValid,
+          isValid: isAddressValid && isNameValid,
           name,
-          password,
-          publicKey,
-          seed
+          publicKey
         };
       }
     );
@@ -182,11 +167,9 @@ class Creator extends React.PureComponent<Props, State> {
 
   onCommit = (): void => {
     const { onBack } = this.props;
-    const { name, password, seed } = this.state;
+    const { address, name } = this.state;
 
-    keyring.createAccount(
-      formatSeed(seed), password, { name }
-    );
+    keyring.saveAddress(address, { name });
 
     onBack();
   }

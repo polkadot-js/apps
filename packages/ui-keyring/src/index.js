@@ -4,15 +4,18 @@
 // @flow
 
 import type { KeyringPair, KeyringPair$Meta } from '@polkadot/util-keyring/types';
-import type { KeyringInstance, KeyringOption$Type, KeyringOption, KeyringOptions, State } from './types';
+import type { KeyringAddress, KeyringInstance, KeyringOption$Type, KeyringOption, KeyringOptions, State } from './types';
 
 import testKeyring from '@polkadot/util-keyring/testing';
 
 import loadAll from './loadAll';
-import createAccount from './save/accountCreate';
-import saveAccount from './save/account';
-import saveAccountMeta from './save/accountMeta';
-import saveRecent from './save/recent';
+import createAccount from './account/create';
+import saveAccount from './account/save';
+import saveAccountMeta from './account/meta';
+import getAddress from './address/get';
+import getAddresses from './address/all';
+import saveAddress from './address/meta';
+import saveRecent from './address/metaRecent';
 
 const state: State = {
   available: {
@@ -44,8 +47,8 @@ export default ({
     saveAccount(state, pair, password),
   saveAccountMeta: (pair: KeyringPair, meta: KeyringPair$Meta): void =>
     saveAccountMeta(state, pair, meta),
-  saveAddressMeta: (address: string | Uint8Array, meta: KeyringPair$Meta): void =>
-    saveAddressMeta(state, address, meta),
+  saveAddress: (address: string | Uint8Array, meta: KeyringPair$Meta): void =>
+    saveAddress(state, address, meta),
   saveRecent: (address: string): KeyringOption =>
     saveRecent(state, address)
 }: KeyringInstance);
