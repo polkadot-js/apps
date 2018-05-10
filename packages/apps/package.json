@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/apps",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "An Apps portal into the Polkadot network",
   "main": "index.js",
   "homepage": ".",
@@ -14,11 +14,11 @@
     "test": "react-scripts test --env=jsdom --coverage"
   },
   "devDependencies": {
-    "@polkadot/app-accounts": "^0.3.2",
-    "@polkadot/app-explorer": "^0.3.2",
-    "@polkadot/app-extrinsics": "^0.3.2",
-    "@polkadot/app-storage": "^0.3.2",
-    "@polkadot/ui-react-app": "^0.3.2",
+    "@polkadot/app-accounts": "^0.3.3",
+    "@polkadot/app-explorer": "^0.3.3",
+    "@polkadot/app-extrinsics": "^0.3.3",
+    "@polkadot/app-storage": "^0.3.3",
+    "@polkadot/ui-react-app": "^0.3.3",
     "react-remarkable": "^1.1.3"
   }
 }
