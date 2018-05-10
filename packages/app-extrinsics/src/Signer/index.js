@@ -12,10 +12,12 @@ import './Signer.css';
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import Modal from 'semantic-ui-react/dist/es/modules/Modal';
+import keyring from '@polkadot/ui-keyring/src';
 import withApi from '@polkadot/ui-react-rx/with/api';
 
 import translate from '../translate';
 import Decoded from './Decoded';
+import Unlock from './Unlock';
 import submitExtrinsic from './submit';
 
 type Props = I18nProps & ApiProps & {
@@ -23,51 +25,146 @@ type Props = I18nProps & ApiProps & {
   queue: Array<QueueTx>
 };
 
-function Signer ({ api, className, onSetStatus, queue, style, t }: Props): React$Node {
-  const first = queue.find(({ status }) => status === 'queued');
+type UnlockI18n = {
+  key: string,
+  value: I18Next$Translate$Config
+}
 
-  if (!first) {
+type State = {
+  currentItem?: QueueTx,
+  password: string,
+  unlockError: UnlockI18n | null
+};
+
+class Signer extends React.PureComponent<Props, State> {
+  constructor (props: Props) {
+    super(props);
+
+    this.state = {
+      password: '',
+      unlockError: null
+    };
+  }
+
+  static getDerivedStateFromProps ({ queue }: Props, { currentItem, password, unlockError }: State): $Shape<State> {
+    const nextItem = queue.find(({ status }) =>
+      status === 'queued'
+    );
+    const isSame =
+      !!nextItem &&
+      !!currentItem &&
+      nextItem.publicKey.toString() === currentItem.publicKey.toString();
+
+    return {
+      currentItem: nextItem,
+      password: isSame ? password : '',
+      unlockError: isSame ? unlockError : null
+    };
+  }
+
+  render (): React$Node {
+    const { className, style, t } = this.props;
+    const { currentItem, password, unlockError } = this.state;
+
+    if (!currentItem) {
+      return null;
+    }
+
+    return (
+      <Modal
+        className={['extrinsics--Signer', className].join(' ')}
+        dimmer='inverted'
+        open
+        style={style}
+      >
+        <Modal.Content className='extrinsics--Signer-Content'>
+          <Decoded value={currentItem} />
+          <Unlock
+            error={unlockError && t(unlockError.key, unlockError.value)}
+            onChange={this.onChangePassword}
+            password={password}
+            value={currentItem.publicKey}
+          />
+        </Modal.Content>
+        <Modal.Actions>
+          <Button onClick={this.onCancel}>
+            {t('signer.cancel', {
+              defaultValue: 'Cancel'
+            })}
+          </Button>
+          <Button
+            onClick={this.onSign}
+            primary
+          >
+            {t('signer.send', {
+              defaultValue: 'Sign and Submit'
+            })}
+          </Button>
+        </Modal.Actions>
+      </Modal>
+    );
+  }
+
+  unlockAccount (publicKey: Uint8Array, password?: string): ?UnlockI18n {
+    const pair = keyring.getPair(publicKey);
+
+    if (pair.hasSecretKey()) {
+      return null;
+    }
+
+    try {
+      // $FlowFixMe typo in underlying type, fixed at base (upgrades)
+      pair.decodePkcs8(void 0, password);
+    } catch (error) {
+      return {
+        key: 'signer.unlock.generic',
+        value: {
+          defaultValue: error.message
+        }
+      };
+    }
+
     return null;
   }
 
-  const onClose = (): void =>
-    onSetStatus(first.id, 'cancelled');
-  const onSign = async (): Promise<void> => {
-    const status = await submitExtrinsic(api, first);
+  onChangePassword = (password: string): void => {
+    this.setState({
+      password,
+      unlockError: null
+    });
+  }
 
-    onSetStatus(first.id, status);
+  onCancel = (): void => {
+    const { onSetStatus } = this.props;
+    const { currentItem } = this.state;
+
+    // This should never be executed
+    if (!currentItem) {
+      return;
+    }
+
+    onSetStatus(currentItem.id, 'cancelled');
+  }
+
+  onSign = async (): Promise<void> => {
+    const { api, onSetStatus } = this.props;
+    const { currentItem, password } = this.state;
+
+    // This should never be executed
+    if (!currentItem) {
+      return;
+    }
+
+    const unlockError = this.unlockAccount(currentItem.publicKey, password);
+
+    if (unlockError) {
+      this.setState({ unlockError });
+      return;
+    }
+
+    onSetStatus(currentItem.id, 'sending');
+    onSetStatus(currentItem.id, await submitExtrinsic(api, currentItem));
   };
-
-  return (
-    <Modal
-      className={['extrinsics--Signer', className].join(' ')}
-      dimmer='inverted'
-      open
-      style={style}
-    >
-      <Modal.Header>
-        {t('signer.header', {
-          defaultValue: 'Sign and submit'
-        })}
-      </Modal.Header>
-      <Decoded value={first} />
-      <Modal.Actions>
-        <Button onClick={onClose}>
-          {t('signer.cancel', {
-            defaultValue: 'Cancel'
-          })}
-        </Button>
-        <Button
-          onClick={onSign}
-          primary
-        >
-          {t('signer.send', {
-            defaultValue: 'Sign and Submit'
-          })}
-        </Button>
-      </Modal.Actions>
-    </Modal>
-  );
 }
 
 export default translate(

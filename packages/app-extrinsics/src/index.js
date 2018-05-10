@@ -61,11 +61,9 @@ export default class App extends React.PureComponent<Props, State> {
       })
     );
 
-    if (!['cancelled', 'error', 'sent'].includes(status)) {
-      return;
+    if (['cancelled', 'error', 'sent'].includes(status)) {
+      setTimeout(() => this.setStatus(id, 'completed'), 5000);
     }
-
-    setTimeout(() => this.setStatus(id, 'completed'), 5000);
   }
 
   onQueue = (value: QueueTx): void => {

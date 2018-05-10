@@ -27,6 +27,7 @@ type Props = I18nProps & {
 
 type State = {
   address: string | null,
+  fieldName: string,
   isNameValid: boolean,
   isSeedValid: boolean,
   isPassValid: boolean,
@@ -60,7 +61,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   render (): React$Node {
     const { className, style, t } = this.props;
-    const { address, isNameValid, isPassValid, isPassVisible, isSeedValid, isValid, name, password, seed } = this.state;
+    const { address, fieldName, isNameValid, isPassValid, isPassVisible, isSeedValid, isValid, name, password, seed } = this.state;
 
     return (
       <div
@@ -74,6 +75,7 @@ class Creator extends React.PureComponent<Props, State> {
             })}</Label>
             <Input
               error={!isSeedValid}
+              name={`${fieldName}_seed`}
               onChange={this.onChangeSeed}
               value={seed}
             />
@@ -92,6 +94,7 @@ class Creator extends React.PureComponent<Props, State> {
             })}</Label>
             <Input
               error={!isNameValid}
+              name={`${fieldName}_name`}
               onChange={this.onChangeName}
               value={name}
             />
@@ -105,6 +108,7 @@ class Creator extends React.PureComponent<Props, State> {
             <Input
               action
               error={!isPassValid}
+              name={`${fieldName}_pass`}
               onChange={this.onChangePass}
               type={isPassVisible ? 'text' : 'password'}
               value={password}
@@ -148,6 +152,7 @@ class Creator extends React.PureComponent<Props, State> {
 
     return {
       address,
+      fieldName: `field_${Date.now()}`,
       isNameValid: true,
       isPassValid: false,
       isPassVisible: false,
@@ -205,12 +210,10 @@ class Creator extends React.PureComponent<Props, State> {
   onCommit = (): void => {
     const { onBack } = this.props;
     const { name, password, seed } = this.state;
-    const pair = keyring.addFromSeed(
-      formatSeed(seed),
-      { name }
-    );
 
-    keyring.saveAccount(pair, password);
+    keyring.createAccount(
+      formatSeed(seed), password, { name }
+    );
 
     onBack();
   }

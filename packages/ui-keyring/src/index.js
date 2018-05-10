@@ -9,6 +9,7 @@ import type { KeyringInstance, KeyringOption$Type, KeyringOption, KeyringOptions
 import testKeyring from '@polkadot/util-keyring/testing';
 
 import loadAll from './loadAll';
+import createAccount from './save/accountCreate';
 import saveAccount from './save/account';
 import saveAccountMeta from './save/accountMeta';
 import saveRecent from './save/recent';
@@ -25,11 +26,16 @@ const state: State = {
 loadAll(state);
 
 export default ({
-  ...state.keyring,
+  getPair: (address: string | Uint8Array): KeyringPair =>
+    state.keyring.getPair(address),
+  getPairs: (): Array<KeyringPair> =>
+    state.keyring.getPairs(),
   getOptions: (type: KeyringOption$Type): KeyringOptions =>
     state.options[type],
   loadAll: (): void =>
     loadAll(state),
+  createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta): KeyringPair =>
+    createAccount(state, seed, password, meta),
   saveAccount: (pair: KeyringPair, password?: string): void =>
     saveAccount(state, pair, password),
   saveAccountMeta: (pair: KeyringPair, meta: KeyringPair$Meta): void =>
