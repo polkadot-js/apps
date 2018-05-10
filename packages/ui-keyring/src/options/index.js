@@ -11,6 +11,7 @@ import type { State, KeyringJson } from '../types';
 import createItem from './item';
 
 export default function createOptions (state: State): void {
+  // FIXME We really want headers, but it seems to create havoc when searching through the list (appears as duplicates)
   state.options = {
     account: [], // <Dropdown.Header>Accounts</Dropdown.Header> ],
     address: [], // <Dropdown.Header>Addresses</Dropdown.Header> ],
@@ -34,15 +35,9 @@ export default function createOptions (state: State): void {
 
   Object
     .values(available.account)
-    // $FlowFixMe value -> mixed, this is an object
-    .forEach(({ address, meta: { name, isTesting = false, whenCreated = 0, whenEdited = 0, whenUsed = 0 } }: KeyringJson) => {
-      const option = createItem(address, name, {
-        'data-is-account': true,
-        'data-is-testing': isTesting,
-        'data-when-created': whenCreated,
-        'data-when-edited': whenEdited || whenCreated,
-        'data-when-used': whenUsed || whenCreated
-      });
+    // $FlowFixMe values() -> mixed, this is an object
+    .forEach(({ address, meta: { name, isTesting = false } }: KeyringJson) => {
+      const option = createItem(address, name);
 
       if (isTesting) {
         options.testing.push(option);
@@ -53,19 +48,13 @@ export default function createOptions (state: State): void {
 
   Object
     .values(available.address)
-    // $FlowFixMe value -> mixed, this is an object
-    .forEach(({ address, meta: { name, isRecent = false, whenCreated = 0, whenEdited = 0, whenUsed = 0 } }: KeyringJson) => {
+    // $FlowFixMe values() -> mixed, this is an object
+    .forEach(({ address, meta: { name, isRecent = false } }: KeyringJson) => {
       if (available.account[address]) {
         return;
       }
 
-      const option = createItem(address, name, {
-        'data-is-account': false,
-        'data-is-recent': isRecent,
-        'data-when-created': whenCreated,
-        'data-when-edited': whenEdited || whenCreated,
-        'data-when-used': whenUsed || whenCreated
-      });
+      const option = createItem(address, name);
 
       if (isRecent) {
         options.recent.push(option);

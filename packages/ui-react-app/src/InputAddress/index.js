@@ -32,9 +32,29 @@ const transform = (value: string): Uint8Array => {
   }
 };
 
-export default function InputAddress ({ className, defaultValue, isError, isInput = true, label, onChange, style, type = 'all' }: Props): React$Node {
-  const options = keyring.getOptions(type);
-  const onSearch = (filteredOptions: KeyringOptions, query: string): KeyringOptions => {
+// NOTE: We are not extending Component here since the options may change in the keyring (which needs a re-render), however the input props will be the same (so, no PureComponent with shallow compare here)
+export default class InputAddress extends React.Component<Props> {
+  render (): React$Node {
+    const { className, defaultValue, isError, label, onChange, style, type = 'all' } = this.props;
+    const options = keyring.getOptions(type);
+
+    return (
+      <RxDropdown
+        className={['ui--InputAddress', className].join(' ')}
+        defaultValue={defaultValue && addressEncode(defaultValue)}
+        isError={isError}
+        label={label}
+        onChange={onChange}
+        options={options}
+        search={this.onSearch}
+        style={style}
+        transform={transform}
+      />
+    );
+  }
+
+  onSearch = (filteredOptions: KeyringOptions, query: string): KeyringOptions => {
+    const { isInput = true } = this.props;
     const queryLower = query.toLowerCase();
     const matches = filteredOptions.filter((item) => {
       // flowlint-next-line sketchy-null-string:off
@@ -43,11 +63,10 @@ export default function InputAddress ({ className, defaultValue, isError, isInpu
       }
 
       const { name, value } = item;
-      // const isRecent = item['data-is-recent'] || false;
       const hasMatch = name.toLowerCase().indexOf(queryLower) !== -1 ||
       value.toLowerCase().indexOf(queryLower) !== -1;
 
-      return hasMatch; // && (isInput || !isRecent);
+      return hasMatch;
     });
 
     // see if we should add a new item, i.e. valid address found
@@ -63,17 +82,4 @@ export default function InputAddress ({ className, defaultValue, isError, isInpu
 
     return matches;
   };
-
-  return (
-    <RxDropdown
-      className={['ui--InputAddress', className].join(' ')}
-      defaultValue={defaultValue && addressEncode(defaultValue)}
-      isError={isError}
-      label={label}
-      onChange={onChange}
-      options={options}
-      search={onSearch}
-      transform={transform}
-    />
-  );
 }
