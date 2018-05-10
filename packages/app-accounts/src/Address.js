@@ -24,7 +24,7 @@ export default function Address ({ className, style, value }: Props): React$Node
   }
 
   const { address, publicKey } = value;
-  const short = `${address.slice(0, 8)}…${address.slice(-8)}`;
+  const short = `${address.slice(0, 7)}…${address.slice(-7)}`;
 
   return (
     <div

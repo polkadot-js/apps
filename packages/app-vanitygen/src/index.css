@@ -27,7 +27,7 @@
 .vanity--Match-item {
   display: inline-block;
   font-family: monospace;
-  margin: 0.5em auto;
+  margin: 0 auto;
   padding: 0.5em;
   position: relative;
 }
