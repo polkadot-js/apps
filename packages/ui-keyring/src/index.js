@@ -26,6 +26,10 @@ const state: State = {
 loadAll(state);
 
 export default ({
+  getAddress: (address: string | Uint8Array): KeyringAddress =>
+    getAddress(state, address),
+  getAddresses: (): Array<KeyringAddress> =>
+    getAddresses(state),
   getPair: (address: string | Uint8Array): KeyringPair =>
     state.keyring.getPair(address),
   getPairs: (): Array<KeyringPair> =>
@@ -40,6 +44,8 @@ export default ({
     saveAccount(state, pair, password),
   saveAccountMeta: (pair: KeyringPair, meta: KeyringPair$Meta): void =>
     saveAccountMeta(state, pair, meta),
+  saveAddressMeta: (address: string | Uint8Array, meta: KeyringPair$Meta): void =>
+    saveAddressMeta(state, address, meta),
   saveRecent: (address: string): KeyringOption =>
     saveRecent(state, address)
 }: KeyringInstance);

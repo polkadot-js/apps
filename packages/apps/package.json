@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@polkadot/app-accounts": "^0.3.3",
+    "@polkadot/app-addresses": "^0.3.3",
     "@polkadot/app-explorer": "^0.3.3",
     "@polkadot/app-extrinsics": "^0.3.3",
     "@polkadot/app-storage": "^0.3.3",

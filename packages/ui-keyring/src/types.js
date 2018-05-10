@@ -37,6 +37,10 @@ export type KeyringJson = {
   }
 };
 
+export type KeyringAddress = KeyringJson & {
+  publicKey: Uint8Array
+}
+
 export type State = {
   available: {
     account: { [string]: KeyringJson },
