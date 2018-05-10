@@ -4,7 +4,6 @@
 // @flow
 
 import type { RxApiInterface } from '@polkadot/api-rx/types';
-import type { KeyringInstance as UKeyringInstance, KeyringPair } from '@polkadot/util-keyring/types';
 
 export type BareProps = {
   className?: string,
@@ -25,9 +24,4 @@ export type BaseContext = {
       location: Location
     }
   }
-};
-
-export type KeyringInstance = UKeyringInstance & {
-  loadJson: () => void,
-  saveJson: (pair: KeyringPair, password?: string) => void
 };

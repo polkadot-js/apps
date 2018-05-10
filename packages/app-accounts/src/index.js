@@ -12,7 +12,6 @@ import Button from 'semantic-ui-react/dist/es/elements/Button';
 
 import Creator from './Creator';
 import Editor from './Editor';
-import keyring from '@polkadot/ui-react-app/src/keyring';
 import translate from './translate';
 
 type Props = I18nProps & {};
@@ -75,10 +74,7 @@ class App extends React.PureComponent<Props, State> {
             </Button>
           </Button.Group>
         </div>
-        <Component
-          keyring={keyring}
-          onBack={this.selectEdit}
-        />
+        <Component onBack={this.selectEdit} />
       </div>
     );
   }

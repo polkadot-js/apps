@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { KeyringOption$Type } from '@polkadot/ui-keyring/types';
 import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
@@ -17,7 +18,8 @@ type Props = I18nProps & {
   isError?: boolean,
   isInput?: boolean,
   label: string,
-  onChange: (publicKey: Uint8Array) => void
+  onChange: (publicKey: Uint8Array) => void,
+  type?: KeyringOption$Type
 };
 
 type State = {
@@ -36,7 +38,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render (): React$Node {
-    const { className, defaultValue, isError, isInput, label, style, t } = this.props;
+    const { className, defaultValue, isError, isInput, label, style, t, type } = this.props;
     const { publicKey } = this.state;
 
     return (
@@ -52,6 +54,7 @@ class Account extends React.PureComponent<Props, State> {
             label={label}
             onChange={this.onChange}
             placeholder='0x...'
+            type={type}
           />
         </div>
         <div className='small'>

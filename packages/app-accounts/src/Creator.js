@@ -3,12 +3,13 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { I18nProps, KeyringInstance } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import Input from 'semantic-ui-react/dist/es/elements/Input';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
+import keyring from '@polkadot/ui-keyring/src';
 import isHex from '@polkadot/util/is/hex';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import u8aFromString from '@polkadot/util/u8a/fromString';
@@ -21,7 +22,6 @@ import Address from './Address';
 import translate from './translate';
 
 type Props = I18nProps & {
-  keyring: KeyringInstance,
   onBack: () => void
 };
 
@@ -203,14 +203,14 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   onCommit = (): void => {
-    const { keyring, onBack } = this.props;
+    const { onBack } = this.props;
     const { name, password, seed } = this.state;
     const pair = keyring.addFromSeed(
       formatSeed(seed),
       { name }
     );
 
-    keyring.saveJson(pair, password);
+    keyring.saveAccount(pair, password);
 
     onBack();
   }

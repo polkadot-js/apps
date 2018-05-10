@@ -4,20 +4,18 @@
 // @flow
 
 import type { KeyringPair } from '@polkadot/util-keyring/types';
-import type { KeyringOptions } from '@polkadot/ui-react-app/InputAddress/types';
-import type { I18nProps, KeyringInstance } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import Input from 'semantic-ui-react/dist/es/elements/Input';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
+import keyring from '@polkadot/ui-keyring/src';
 import InputAddress from '@polkadot/ui-react-app/src/InputAddress';
-import createOptions from '@polkadot/ui-react-app/src/InputAddress/options';
 
 import translate from './translate';
 
 type Props = I18nProps & {
-  keyring: KeyringInstance,
   onBack: () => void
 };
 
@@ -25,8 +23,7 @@ type State = {
   currentPair: KeyringPair,
   defaultPublicKey: Uint8Array,
   editedName: string,
-  isEdited: boolean,
-  options: KeyringOptions
+  isEdited: boolean
 }
 
 class Editor extends React.PureComponent<Props, State> {
@@ -35,17 +32,16 @@ class Editor extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const pairs = props.keyring.getPairs();
+    const pairs = keyring.getPairs();
     const currentPair = pairs[pairs.length - 1];
 
     this.state = this.createState(currentPair);
     this.state.defaultPublicKey = currentPair.publicKey();
-    this.state.options = this.createOptions();
   }
 
   render (): React$Node {
     const { className, style, t } = this.props;
-    const { defaultPublicKey, editedName, isEdited, options } = this.state;
+    const { defaultPublicKey, editedName, isEdited } = this.state;
 
     return (
       <div
@@ -55,11 +51,12 @@ class Editor extends React.PureComponent<Props, State> {
         <div className='ui--form'>
           <InputAddress
             defaultValue={defaultPublicKey}
-            options={options}
+            isInput={false}
             label={t('editor.select', {
               defaultValue: 'using my account'
             })}
             onChange={this.onChangeAccount}
+            type='account'
           />
         </div>
         <div className='ui--form'>
@@ -98,10 +95,6 @@ class Editor extends React.PureComponent<Props, State> {
     );
   }
 
-  createOptions (): KeyringOptions {
-    return createOptions(false, this.props.keyring, true);
-  }
-
   createState (currentPair: KeyringPair): $Shape<State> {
     const { name = '' } = currentPair.getMeta();
 
@@ -115,7 +108,7 @@ class Editor extends React.PureComponent<Props, State> {
   nextState (newState?: $Shape<State> = {}): void {
     this.setState(
       (prevState: State): $Shape<State> => {
-        let { currentPair = prevState.currentPair, editedName = prevState.editedName, options = prevState.options } = newState;
+        let { currentPair = prevState.currentPair, editedName = prevState.editedName } = newState;
 
         if (currentPair.address() !== prevState.currentPair.address()) {
           editedName = currentPair.getMeta().name || '';
@@ -126,15 +119,13 @@ class Editor extends React.PureComponent<Props, State> {
         return {
           currentPair,
           editedName,
-          isEdited,
-          options
+          isEdited
         };
       }
     );
   }
 
   onChangeAccount = (publicKey: Uint8Array): void => {
-    const { keyring } = this.props;
     const currentPair = keyring.getPair(publicKey);
 
     this.nextState({ currentPair });
@@ -148,15 +139,20 @@ class Editor extends React.PureComponent<Props, State> {
   onCommit = (): void => {
     const { currentPair, editedName } = this.state;
 
-    currentPair.setMeta({ name: editedName });
+    keyring.saveAccountMeta(currentPair, {
+      name: editedName,
+      whenEdited: Date.now()
+    });
 
-    this.nextState({ options: this.createOptions() });
+    this.nextState({});
   }
 
   onDiscard = (): void => {
     const { currentPair } = this.state;
 
-    this.nextState({ editedName: currentPair.getMeta().name });
+    this.nextState({
+      editedName: currentPair.getMeta().name
+    });
   }
 }
 
