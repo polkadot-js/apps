@@ -24,6 +24,10 @@ type Props = BareProps & {
   type?: KeyringOption$Type
 };
 
+type State = {
+  defaultValue?: string;
+}
+
 const transform = (value: string): Uint8Array => {
   try {
     return addressDecode(value);
@@ -33,15 +37,34 @@ const transform = (value: string): Uint8Array => {
 };
 
 // NOTE: We are not extending Component here since the options may change in the keyring (which needs a re-render), however the input props will be the same (so, no PureComponent with shallow compare here)
-export default class InputAddress extends React.Component<Props> {
+export default class InputAddress extends React.Component<Props, State> {
+  constructor (props: Props) {
+    super(props);
+
+    let defaultValue;
+
+    if (props.defaultValue) {
+      try {
+        defaultValue = addressEncode(props.defaultValue);
+      } catch (error) {
+        console.error('Unable to encode defaultValue address', props.defaultValue);
+      }
+    }
+
+    this.state = {
+      defaultValue
+    };
+  }
+
   render (): React$Node {
-    const { className, defaultValue, isError, label, onChange, style, type = 'all' } = this.props;
+    const { className, isError, label, onChange, style, type = 'all' } = this.props;
+    const { defaultValue } = this.state;
     const options = keyring.getOptions(type);
 
     return (
       <RxDropdown
         className={['ui--InputAddress', className].join(' ')}
-        defaultValue={defaultValue && addressEncode(defaultValue)}
+        defaultValue={defaultValue}
         isError={isError}
         label={label}
         onChange={onChange}
