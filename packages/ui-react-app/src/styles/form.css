@@ -14,21 +14,17 @@
   align-items: stretch;
 }
 
-.ui--row.embedded {
-  margin-right: -0.5rem;
-}
-
 .ui--row > div {
   box-sizing: border-box;
   min-width: 0;
   width: 100%;
 }
 
-.ui--row > div.full:not(:first-child),
-.ui--row > div.large:not(:first-child),
-.ui--row > div.medium:not(:first-child),
-.ui--row > div.small:not(:first-child) {
-  padding-left: 0.5rem;
+.ui--row > div.full,
+.ui--row > div.large,
+.ui--row > div.medium,
+.ui--row > div.small {
+  padding: 0 0.25rem;
 }
 
 .ui--row > div.full {
@@ -47,12 +43,26 @@
   flex: 0 25%;
 }
 
+.ui--row > div.third {
+  flex: 0 33.33%;
+}
+
+/*
+.ui--row > div.medium+div.medium,
+.ui--row > div.large+div.small,
+.ui--row > div.small+div.small,
+.ui--row > div.small+div.large,
+.ui--row > div.small+div.small {
+  padding-left: 0.5rem;
+}
+*/
+
 .ui--row-buttons {
   margin: 1em 0;
   text-align: right;
 }
 
 .ui--row-buttons .button {
-  margin: 0 0 0 0.5rem;
+  margin: 0 0.25rem;
   text-align: left;
 }

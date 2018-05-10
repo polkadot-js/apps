@@ -49,15 +49,17 @@ class Editor extends React.PureComponent<Props, State> {
         style={style}
       >
         <div className='ui--row'>
-          <InputAddress
-            defaultValue={defaultPublicKey}
-            isInput={false}
-            label={t('editor.select', {
-              defaultValue: 'using my account'
-            })}
-            onChange={this.onChangeAccount}
-            type='account'
-          />
+          <div className='full'>
+            <InputAddress
+              defaultValue={defaultPublicKey}
+              isInput={false}
+              label={t('editor.select', {
+                defaultValue: 'using my account'
+              })}
+              onChange={this.onChangeAccount}
+              type='account'
+            />
+          </div>
         </div>
         <div className='ui--row'>
           <div className='medium'>
