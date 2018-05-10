@@ -13,7 +13,6 @@
 .apps--Connecting-text {
   background: red;
   color: white;
-  display: inline-block;
   line-height: 1.5em;
   padding: 1em 2em;
 }
