@@ -11,3 +11,8 @@
 .ui--InputAddress input.search {
   margin-left: 3rem;
 }
+
+.ui--InputAddress.flag--hideAddress .ui--KeyPair-address {
+  flex: 0;
+  max-width: 0;
+}
