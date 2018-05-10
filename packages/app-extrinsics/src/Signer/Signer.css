@@ -4,19 +4,22 @@
 
 .extrinsics--Signer {}
 
-.extrinsics--Signer-Extrinsic {}
-
-.extrinsics--Signer-Extrinsic > .body {
+.extrinsics--Signer-Decoded,
+.extrinsics--Signer-Unlock {
   align-content: center;
   display: flex;
   line-height: 1.5em;
 }
 
-.extrinsics--Signer-Extrinsic > .body > .expanded {
-  padding-left: 1.5em;
+.extrinsics--Signer-Unlock {
+  padding-top: 1.5em;
 }
 
-.extrinsics--Signer-Extrinsic > .body > .expanded .code {
+.extrinsics--Signer-Content .expanded {
+  padding-right: 2em;
+}
+
+.extrinsics--Signer-Content .expanded .code {
   background: #f5f5f5;
   font-family: monospace;
   margin: 0 0.25em;

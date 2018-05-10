@@ -12,7 +12,7 @@ export type EncodedMessage = {
   value: Uint8Array
 };
 
-export type QueueTx$Status = 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sent';
+export type QueueTx$Status = 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent';
 
 export type QueueTx = EncodedMessage & {
   id: number,
