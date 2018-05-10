@@ -20,10 +20,10 @@
   width: 100%;
 }
 
-.ui--row > div.full,
-.ui--row > div.large,
-.ui--row > div.medium,
-.ui--row > div.small {
+.ui--row > div.full:not(.ui--row),
+.ui--row > div.large:not(.ui--row),
+.ui--row > div.medium:not(.ui--row),
+.ui--row > div.small:not(.ui--row) {
   padding: 0 0.25rem;
 }
 
@@ -46,16 +46,6 @@
 .ui--row > div.third {
   flex: 0 33.33%;
 }
-
-/*
-.ui--row > div.medium+div.medium,
-.ui--row > div.large+div.small,
-.ui--row > div.small+div.small,
-.ui--row > div.small+div.large,
-.ui--row > div.small+div.small {
-  padding-left: 0.5rem;
-}
-*/
 
 .ui--row-buttons {
   margin: 1em 0;
