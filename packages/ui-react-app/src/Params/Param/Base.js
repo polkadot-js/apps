@@ -18,7 +18,7 @@ type Props = BareProps & {
 export default function Base ({ children, className, label, size = 'medium', style }: Props): React$Node {
   return (
     <div
-      className={['ui--form', className].join(' ')}
+      className={['ui--row', className].join(' ')}
       style={style}
     >
       <div className={size}>

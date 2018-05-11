@@ -6,6 +6,7 @@
 import type { BareProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHex from '@polkadot/util/u8a/toHex';
@@ -21,6 +22,7 @@ type Props = BareProps & {
 export default function Match ({ address, className, count, offset, onRemove, seed, style }: Props): React$Node {
   const _onRemove = (): void =>
     onRemove(address);
+  const hexSeed = u8aToHex(seed);
 
   return (
     <div
@@ -33,18 +35,29 @@ export default function Match ({ address, className, count, offset, onRemove, se
           size={48}
           value={address}
         />
-        <div className='vanity--Match-addr'>
-          <span className='no'>{address.slice(0, offset)}</span><span className='yes'>{address.slice(offset, count + offset)}</span><span className='no'>{address.slice(count + offset)}</span>
+        <div className='vanity--Match-data'>
+          <div className='vanity--Match-addr'>
+            <span className='no'>{address.slice(0, offset)}</span><span className='yes'>{address.slice(offset, count + offset)}</span><span className='no'>{address.slice(count + offset)}</span>
+          </div>
+          <div className='vanity--Match-seed'>
+            {hexSeed}
+          </div>
         </div>
-        <div className='vanity--Match-seed'>
-          {u8aToHex(seed)}
+        <div className='vanity--Match-buttons'>
+          <CopyToClipboard text={hexSeed}>
+            <Button
+              icon='copy'
+              primary
+              size='tiny'
+            />
+          </CopyToClipboard>
+          <Button
+            icon='close'
+            negative
+            onClick={_onRemove}
+            size='tiny'
+          />
         </div>
-        <Button
-          className='vanity--Match-remove'
-          icon='close'
-          negative
-          onClick={_onRemove}
-        />
       </div>
     </div>
   );

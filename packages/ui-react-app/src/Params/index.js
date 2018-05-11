@@ -69,7 +69,7 @@ class Params extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['ui--Params', 'ui--form', className].join(' ')}
+        className={['ui--Params', className].join(' ')}
         style={style}
       >
         <div className='ui--Params-Content'>

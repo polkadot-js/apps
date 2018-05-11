@@ -27,20 +27,21 @@
 .vanity--Match-item {
   display: inline-block;
   font-family: monospace;
-  margin: 0.5em auto;
+  margin: 0 auto;
   padding: 0.5em;
   position: relative;
 }
 
-.vanity--Match-icon {
-  position: absolute;
-  top: 0;
-  left: 1rem;
+.vanity--Match-icon,
+.vanity--Match-data,
+.vanity--Match-buttons {
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .vanity--Match-addr,
 .vanity--Match-seed {
-  padding: 0 5rem;
+  padding: 0 1rem;
 }
 
 .vanity--Match-addr {
@@ -52,12 +53,6 @@
 
 .vanity--Match-addr .yes {
   color: red;
-}
-
-.vanity--Match-remove {
-  position: absolute;
-  top: 0;
-  right: 1rem;
 }
 
 .vanity--Match-seed {

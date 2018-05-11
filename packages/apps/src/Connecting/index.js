@@ -29,7 +29,7 @@ function Connecting ({ className, style, value, t }: Props): React$Node {
     >
       <div className='apps--Connecting-text'>
         {t('connecting.disconnected', {
-          defaultValue: 'You are disconnected from the node. Check that your node is running and that the Websocket endpoint is reachable.'
+          defaultValue: 'You are not connected to a node. Ensure that your node is running and that the Websocket endpoint is reachable.'
         })}
       </div>
     </div>

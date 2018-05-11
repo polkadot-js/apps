@@ -2,11 +2,13 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
-.ui--form {
+.ui--grid,
+.ui--row {
   width: 100%;
 }
 
-.ui--form {
+.ui--grid,
+.ui--row {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -14,45 +16,59 @@
   align-items: stretch;
 }
 
-.ui--form.embedded {
-  margin-right: -0.5rem;
-}
-
-.ui--form > div {
+.ui--grid > div,
+.ui--row > div {
   box-sizing: border-box;
   min-width: 0;
   width: 100%;
 }
 
-.ui--form > div.full:not(:first-child),
-.ui--form > div.large:not(:first-child),
-.ui--form > div.medium:not(:first-child),
-.ui--form > div.small:not(:first-child) {
-  padding-left: 0.5rem;
-}
-
-.ui--form > div.full {
+.ui--grid > div,
+.ui--grid > div.full,
+.ui--row > div.full {
   flex: 0 100%;
 }
 
-.ui--form > div.large {
+.ui--grid > div.large,
+.ui--row > div.large {
   flex: 0 75%;
 }
 
-.ui--form > div.medium {
+.ui--grid > div.medium,
+.ui--row > div.medium {
   flex: 0 50%;
 }
 
-.ui--form > div.small {
+.ui--grid > div.small,
+.ui--row > div.small {
   flex: 0 25%;
 }
 
-.ui--form-buttons {
-  margin: 1em 0;
-  text-align: right;
+.ui--grid > div.sixty6,
+.ui--row > div.sixty6 {
+  flex: 0 66.66%;
 }
 
-.ui--form-buttons .button {
-  margin: 0 0 0 0.5rem;
+.ui--grid > div.thirty3,
+.ui--row > div.thirty3 {
+  flex: 0 33.33%;
+}
+
+.ui--row > div.full,
+.ui--row > div.large,
+.ui--row > div.medium,
+.ui--row > div.small,
+.ui--row > div.sixty6,
+.ui--row > div.thirty3 {
+  padding: 0 0.25rem;
+}
+
+.ui--row-buttons {
+  margin: 1em 0;
+  text-align: center;
+}
+
+.ui--row-buttons .button {
+  margin: 0 0.25rem;
   text-align: left;
 }

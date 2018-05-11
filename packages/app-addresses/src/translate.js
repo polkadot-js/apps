@@ -3,6 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-const regex = new RegExp('^[1-9A-HJ-NP-Za-km-z]*$', '');
+import { translate } from 'react-i18next';
 
-module.exports = regex;
+export default translate(['addresses', 'ui']);

@@ -17,6 +17,7 @@ import RxDropdown from '../RxDropdown';
 
 type Props = BareProps & {
   defaultValue?: Uint8Array,
+  hideAddress?: boolean;
   isError?: boolean,
   isInput?: boolean,
   label?: string,
@@ -57,13 +58,13 @@ export default class InputAddress extends React.Component<Props, State> {
   }
 
   render (): React$Node {
-    const { className, isError, label, onChange, style, type = 'all' } = this.props;
+    const { className, hideAddress = false, isError, label, onChange, style, type = 'all' } = this.props;
     const { defaultValue } = this.state;
     const options = keyring.getOptions(type);
 
     return (
       <RxDropdown
-        className={['ui--InputAddress', className].join(' ')}
+        className={['ui--InputAddress', hideAddress ? 'flag--hideAddress' : '', className].join(' ')}
         defaultValue={defaultValue}
         isError={isError}
         label={label}

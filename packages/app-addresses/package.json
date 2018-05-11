@@ -1,5 +1,5 @@
 {
-  "name": "@polkadot/app-vanitygen",
+  "name": "@polkadot/app-addresses",
   "version": "0.3.3",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
@@ -11,12 +11,7 @@
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@polkadot/ui-react-app": "^0.3.3",
-    "chalk": "^2.4.1",
-    "react-copy-to-clipboard": "^5.0.1",
-    "yargs": "10.1.2"
-  },
-  "optionalDependencies": {
-    "sodium": "^2.0.1"
+    "@polkadot/app-accounts": "^0.3.3",
+    "@polkadot/ui-react-app": "^0.3.3"
   }
 }

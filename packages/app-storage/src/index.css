@@ -12,7 +12,7 @@
 
 .storage--Query {
   margin-bottom: 0.25em;
-  padding: 0.25em 0.75em;
+  padding: 0.25em 0;
 }
 
 .storage--Query .ui.disabled.dropdown.selection {
@@ -22,6 +22,10 @@
 
 .storage--Query span+span {
   margin-left: 0.5em;
+}
+
+.storage--Query .storage--actionrow-value {
+  padding: 0 0.25rem;
 }
 
 .storage--Query .ui--IdentityIcon {
@@ -40,5 +44,5 @@
 
 .storage--actionrow-button {
   flex: 0;
-  padding-left: 0.5rem;
+  padding: 0 0.25rem;
 }

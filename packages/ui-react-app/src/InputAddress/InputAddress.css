@@ -4,10 +4,15 @@
 
 .ui--InputAddress {}
 
-.ui--InputAddress > .text {
+.ui--InputAddress .ui.dropdown .text {
   width: 100%;
 }
 
 .ui--InputAddress input.search {
   margin-left: 3rem;
+}
+
+.flag--hideAddress .ui--KeyPair .ui--KeyPair-address {
+  flex: 0;
+  max-width: 0;
 }

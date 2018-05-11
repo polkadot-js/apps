@@ -73,7 +73,7 @@ class Selection extends React.PureComponent<Props, State> {
           onChange={this.onChangeNonce}
           value={publicKey}
         />
-        <div className='ui--form-buttons'>
+        <div className='ui--row-buttons'>
           <Button
             disabled={!isValid}
             onClick={this.onQueue}

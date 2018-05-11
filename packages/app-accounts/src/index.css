@@ -11,25 +11,29 @@
   text-align: center;
 }
 
-.accounts--Icon {
-  position: fixed;
-  top: 0.75em;
-  right: 0.75em;
-}
-
 .accounts--Address {
-  opacity: 1 !important;
-  position: relative;
+  text-align: center;
 }
 
 .accounts--Address-icon {
-  position: absolute;
-  top: 2px;
-  left: 1rem;
+  display: block
 }
 
-.accounts--Address-name {
-  font-family: monospace;
-  padding-left: 3rem;
+.accounts--Address-balance,
+.accounts--Address-nonce {
   opacity: 0.45;
+}
+
+.accounts--Address-data {}
+
+.accounts--Address-data * {
+  margin: 0 0.25rem !important;
+  vertical-align: middle;
+}
+
+.accounts--Address-address {
+  display: inline-block;
+  font-family: monospace;
+  font-size: 1.5em;
+  padding: 0;
 }

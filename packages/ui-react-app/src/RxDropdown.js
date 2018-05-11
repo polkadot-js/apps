@@ -34,17 +34,23 @@ export default function RxDropdown (props: Props): React$Node {
   delete _props.onChange;
   delete _props.transform;
 
-  return [
-    <Label key='label'>
-      {props.label || ''}
-    </Label>,
-    <Dropdown
-      key='dropdown'
-      selection
-      {..._props}
-      className={props.className}
-      error={props.isError}
-      onChange={_onChange}
-    />
-  ];
+  return (
+    <div
+      className={['ui--Dropdown', props.className].join(' ')}
+      style={props.style}
+    >
+      <Label key='label'>
+        {props.label || ''}
+      </Label>,
+      <Dropdown
+        key='dropdown'
+        selection
+        {..._props}
+        className={null}
+        error={props.isError}
+        onChange={_onChange}
+        style={{}}
+      />
+    </div>
+  );
 }

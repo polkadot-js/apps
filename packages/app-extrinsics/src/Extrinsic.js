@@ -47,19 +47,17 @@ export default class ExtrinsicDisplay extends React.PureComponent<Props, State> 
 
     return (
       <div
-        className={['extrinsics--Extrinsic', 'ui--form', className].join(' ')}
+        className={['extrinsics--Extrinsic', className].join(' ')}
         style={style}
       >
-        <div className='full'>
-          <InputExtrinsic
-            defaultValue={defaultValue}
-            isError={isError}
-            isPrivate={isPrivate}
-            labelMethod={labelMethod}
-            labelSection={labelSection}
-            onChange={this.onChangeExtrinsic}
-          />
-        </div>
+        <InputExtrinsic
+          defaultValue={defaultValue}
+          isError={isError}
+          isPrivate={isPrivate}
+          labelMethod={labelMethod}
+          labelSection={labelSection}
+          onChange={this.onChangeExtrinsic}
+        />
         <Params
           item={extrinsic}
           onChange={this.onChangeValues}

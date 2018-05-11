@@ -43,7 +43,7 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['extrinsics--Account', 'ui--form', className].join(' ')}
+        className={['extrinsics--Account', 'ui--row', className].join(' ')}
         style={style}
       >
         <div className='large'>
