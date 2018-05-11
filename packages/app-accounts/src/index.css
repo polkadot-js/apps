@@ -15,6 +15,10 @@
   text-align: center;
 }
 
+.accounts--Address .rx--updated {
+  background: transparent !important;
+}
+
 .accounts--Address.invalid {
   filter: grayscale(100);
   opacity: 0.45;
@@ -27,6 +31,11 @@
 .accounts--Address-balance,
 .accounts--Address-nonce {
   opacity: 0.45;
+}
+
+.accounts--Address-balance.rx--updated,
+.accounts--Address-nonce.rx--updated {
+  opacity: 1;
 }
 
 .accounts--Address-data {

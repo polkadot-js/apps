@@ -44,6 +44,8 @@ export default class Address extends React.PureComponent<Props, State> {
 
     const isValid = !!publicKey && publicKey.length === 32;
 
+    console.log('publicKey', publicKey);
+
     return {
       address: isValid ? address : DEFAULT_ADDR,
       isValid,
@@ -80,12 +82,12 @@ export default class Address extends React.PureComponent<Props, State> {
                 className='accounts--Address-balance'
                 key='balance'
                 label='balance '
-                value={publicKey}
+                params={publicKey}
               />,
               <Nonce
                 className='accounts--Address-nonce'
                 key='nonce'
-                value={publicKey}
+                params={publicKey}
               >
                 {' transactions'}
               </Nonce>
