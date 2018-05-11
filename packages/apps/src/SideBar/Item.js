@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-app/types';
 import type { Route } from '../types';
 
 import './Item.css';

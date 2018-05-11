@@ -3,63 +3,97 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BareProps } from '@polkadot/ui-react-app/types';
+import type { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
-import Button from 'semantic-ui-react/dist/es/elements/Button';
+
+import CopyButton from '@polkadot/ui-app/src/CopyButton';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Balance from '@polkadot/ui-react-rx/Balance';
 import Nonce from '@polkadot/ui-react-rx/Nonce';
+import addressDecode from '@polkadot/util-keyring/address/decode';
 
 type Props = BareProps & {
-  value: null | {
-    address: string,
-    publicKey: Uint8Array
-  };
+  value: string | null;
 }
 
-export default function Address ({ className, style, value }: Props): React$Node {
-  if (!value) {
-    return null;
+type State = {
+  address: string,
+  isValid: boolean,
+  publicKey: Uint8Array | null,
+  shortValue: string
+}
+
+const DEFAULT_ADDR = '5'.padEnd(16, 'x');
+const DEFAULT_SHORT = `${DEFAULT_ADDR.slice(0, 7)}…${DEFAULT_ADDR.slice(-7)}`;
+
+export default class Address extends React.PureComponent<Props, State> {
+  state: State = ({}: $Shape<State>);
+
+  static getDerivedStateFromProps ({ value }: Props, { publicKey, shortValue }: State): State {
+    // flowlint-next-line sketchy-null-string:off
+    const address = value || DEFAULT_ADDR;
+
+    try {
+      // $FlowFixMe yes, we expect a throw when invalid
+      publicKey = addressDecode(value);
+      shortValue = `${address.slice(0, 7)}…${address.slice(-7)}`;
+    } catch (error) {
+      publicKey = null;
+    }
+
+    const isValid = !!publicKey && publicKey.length === 32;
+
+    console.log('publicKey', publicKey);
+
+    return {
+      address: isValid ? address : DEFAULT_ADDR,
+      isValid,
+      publicKey,
+      shortValue: isValid ? shortValue : DEFAULT_SHORT
+    };
   }
 
-  const { address, publicKey } = value;
-  const short = `${address.slice(0, 7)}…${address.slice(-7)}`;
+  render (): React$Node {
+    const { className, style } = this.props;
+    const { address, isValid, publicKey, shortValue } = this.state;
 
-  return (
-    <div
-      className={['accounts--Address', className].join(' ')}
-      style={style}
-    >
-      <IdentityIcon
-        className='accounts--Address-icon'
-        size={96}
-        value={address}
-      />
-      <div className='accounts--Address-data'>
-        <div className='accounts--Address-address'>
-          {short}
-        </div>
-        <CopyToClipboard text={address}>
-          <Button
-            icon='copy'
-            primary
-            size='tiny'
-          />
-        </CopyToClipboard>
-      </div>
-      <Balance
-        className='accounts--Address-balance'
-        label='balance '
-        value={publicKey}
-      />
-      <Nonce
-        className='accounts--Address-nonce'
-        value={publicKey}
+    return (
+      <div
+        className={['accounts--Address', isValid ? '' : 'invalid', className].join(' ')}
+        style={style}
       >
-        {' transactions'}
-      </Nonce>
-    </div>
-  );
+        <IdentityIcon
+          className='accounts--Address-icon'
+          size={96}
+          value={address}
+        />
+        <div className='accounts--Address-data'>
+          <div className='accounts--Address-address'>
+            {shortValue}
+          </div>
+          <CopyButton value={address} />
+        </div>
+        {
+          !isValid
+            ? null
+            : [
+              <Balance
+                className='accounts--Address-balance'
+                key='balance'
+                label='balance '
+                params={publicKey}
+              />,
+              <Nonce
+                className='accounts--Address-nonce'
+                key='nonce'
+                params={publicKey}
+              >
+                {' transactions'}
+              </Nonce>
+            ]
+        }
+      </div>
+    );
+  }
 }

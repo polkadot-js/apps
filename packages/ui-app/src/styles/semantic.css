@@ -1,0 +1,56 @@
+/* Copyright 2017-2018 Jaco Greeff
+/* This software may be modified and distributed under the terms
+/* of the ISC license. See the LICENSE file for details. */
+
+.ui.dropdown {
+  /* from .ui.fluid.dropdown */
+  display: block;
+  min-width: 0;
+  width: 100%;
+}
+
+.ui.dropdown,
+.ui.input {
+  /* bottom margin for all inputs */
+  margin-bottom: 0.5rem;
+}
+
+.ui.dropdown > .text {
+  min-height: 1em;
+}
+
+.ui.input {
+  /* from .ui.fluid.input */
+  display: flex;
+}
+
+.ui.input > input {
+  /* from .ui.fluid.input > input */
+  width: 0;
+}
+
+.ui.inverted.dimmer {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+.ui.label {
+  background: transparent;
+  font-weight: normal;
+  position: relative;
+  z-index: 1;
+}
+
+.ui.modal > .actions {
+  background: transparent;
+  border-top: none;
+  text-align: right;
+}
+
+.ui.modal > .actions .button {
+  margin: 0 0.25rem;
+  text-align: left;
+}
+
+.ui.page.modals.transition.visible {
+  display: flex !important;
+}

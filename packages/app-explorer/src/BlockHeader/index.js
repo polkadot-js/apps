@@ -4,11 +4,12 @@
 // @flow
 
 import type { Header } from '@polkadot/primitives/header';
-import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-app/types';
 
 import './BlockHeader.css';
 
 import React from 'react';
+
 import headerHash from '@polkadot/primitives-codec/header/hash';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 

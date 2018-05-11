@@ -5,19 +5,16 @@
 
 import type { State, KeyringJson } from '../types';
 
-// import React from 'react';
-// import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
-
 import createItem from './item';
+import createHeader from './header';
 
 export default function createOptions (state: State): void {
-  // FIXME We really want headers, but it seems to create havoc when searching through the list (appears as duplicates)
   state.options = {
-    account: [], // <Dropdown.Header>Accounts</Dropdown.Header> ],
-    address: [], // <Dropdown.Header>Addresses</Dropdown.Header> ],
+    account: [],
+    address: [],
     all: [],
-    recent: [], // <Dropdown.Header>Recent</Dropdown.Header> ],
-    testing: [] // <Dropdown.Header>Testing</Dropdown.Header> ]
+    recent: [],
+    testing: []
   };
 
   const { available, keyring, options } = state;
@@ -63,7 +60,18 @@ export default function createOptions (state: State): void {
       }
     });
 
-  options.address = options.address.concat(options.recent);
-  options.account = options.account.concat(options.testing);
-  options.all = options.account.concat(options.address);
+  options.address = [].concat(
+    options.address.length ? [ createHeader('Addresses') ] : [],
+    options.address,
+    options.recent.length ? [ createHeader('Recent') ] : [],
+    options.recent
+  );
+  options.account = [].concat(
+    options.account.length ? [ createHeader('Accounts') ] : [],
+    options.account,
+    options.testing.length ? [ createHeader('Testing') ] : [],
+    options.testing
+  );
+
+  options.all = [].concat(options.account, options.address);
 }

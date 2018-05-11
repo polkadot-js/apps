@@ -3,12 +3,13 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
-import Input from 'semantic-ui-react/dist/es/elements/Input';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
+
+import Input from '@polkadot/ui-app/src/Input';
+import Password from '@polkadot/ui-app/src/Password';
 import keyring from '@polkadot/ui-keyring/src';
 import isHex from '@polkadot/util/is/hex';
 import hexToU8a from '@polkadot/util/hex/toU8a';
@@ -26,13 +27,11 @@ type Props = I18nProps & {
 };
 
 type State = {
-  address: string | null,
-  publicKey: Uint8Array | null,
+  address: string,
   fieldName: string,
   isNameValid: boolean,
   isSeedValid: boolean,
   isPassValid: boolean,
-  isPassVisible: boolean,
   isValid: boolean,
   name: string,
   password: string,
@@ -45,14 +44,12 @@ function formatSeed (seed: string): Uint8Array {
     : u8aFromString(seed.padEnd(32, ' '));
 }
 
-function infoFromSeed (seed: string): { address: string, publicKey: Uint8Array } {
-  const { publicKey } = keypairFromSeed(formatSeed(seed));
-  const address = addressEncode(publicKey);
-
-  return {
-    address,
-    publicKey
-  };
+function addressFromSeed (seed: string): string {
+  return addressEncode(
+    keypairFromSeed(
+      formatSeed(seed)
+    ).publicKey
+  );
 }
 
 class Creator extends React.PureComponent<Props, State> {
@@ -66,7 +63,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   render (): React$Node {
     const { className, style, t } = this.props;
-    const { address, fieldName, isNameValid, isPassValid, isPassVisible, isSeedValid, isValid, name, password, publicKey, seed } = this.state;
+    const { address, fieldName, isNameValid, isPassValid, isSeedValid, isValid, name, password, seed } = this.state;
 
     return (
       <div
@@ -74,68 +71,52 @@ class Creator extends React.PureComponent<Props, State> {
         style={style}
       >
         <div className='ui--grid'>
-          <div className='medium'>
-            <div className='ui--row'>
-              <div className='full'>
-                <Label>{t('creator.seed', {
-                  defaultValue: 'create from the following seed (hex or string)'
-                })}</Label>
-                <Input
-                  error={!isSeedValid}
-                  name={`${fieldName}_seed`}
-                  onChange={this.onChangeSeed}
-                  value={seed}
-                />
-              </div>
-            </div>
-            <div className='ui--row'>
-              <div className='full'>
-                <Label>{t('creator.name', {
-                  defaultValue: 'name the account'
-                })}</Label>
-                <Input
-                  error={!isNameValid}
-                  name={`${fieldName}_name`}
-                  onChange={this.onChangeName}
-                  value={name}
-                />
-              </div>
-            </div>
-            <div className='ui--row'>
-              <div className='full'>
-                <Label>{t('creator.pass1', {
-                  defaultValue: 'encrypt it using the password'
-                })}</Label>
-                <Input
-                  action
-                  error={!isPassValid}
-                  name={`${fieldName}_pass`}
-                  onChange={this.onChangePass}
-                  type={isPassVisible ? 'text' : 'password'}
-                  value={password}
-                >
-                  <input />
-                  <Button
-                    icon='eye'
-                    primary
-                    onClick={this.togglePassword}
-                  />
-                </Input>
-              </div>
-            </div>
-          </div>
           <Address
-            className='medium'
+            className='shrink'
             value={
-              // flowlint-next-line sketchy-null-string:off
-              !address || !publicKey
-                ? null
-                : {
-                  address,
-                  publicKey
-                }
+              isSeedValid
+                ? address
+                : null
             }
           />
+          <div className='grow'>
+            <div className='ui--row'>
+              <Input
+                className='full'
+                isError={!isSeedValid}
+                label={t('creator.seed', {
+                  defaultValue: 'create from the following seed (hex or string)'
+                })}
+                name={`${fieldName}_seed`}
+                onChange={this.onChangeSeed}
+                value={seed}
+              />
+            </div>
+            <div className='ui--row'>
+              <Input
+                className='full'
+                isError={!isNameValid}
+                label={t('creator.name', {
+                  defaultValue: 'name the account'
+                })}
+                name={`${fieldName}_name`}
+                onChange={this.onChangeName}
+                value={name}
+              />
+            </div>
+            <div className='ui--row'>
+              <Password
+                className='full'
+                isError={!isPassValid}
+                label={t('creator.password', {
+                  defaultValue: 'encrypt it using the password'
+                })}
+                name={`${fieldName}_pass`}
+                onChange={this.onChangePass}
+                value={password}
+              />
+            </div>
+          </div>
         </div>
         <div className='ui--row-buttons'>
           <Button
@@ -161,19 +142,17 @@ class Creator extends React.PureComponent<Props, State> {
 
   emptyState (): State {
     const seed = u8aToHex(randomBytes());
-    const { address, publicKey } = infoFromSeed(seed);
+    const address = addressFromSeed(seed);
 
     return {
       address,
       fieldName: `field_${Date.now()}`,
       isNameValid: true,
       isPassValid: false,
-      isPassVisible: false,
       isSeedValid: true,
       isValid: false,
       name: 'new keypair',
       password: '',
-      publicKey,
       seed
     };
   }
@@ -183,7 +162,6 @@ class Creator extends React.PureComponent<Props, State> {
       (prevState: State, props: Props): $Shape<State> => {
         const { name = prevState.name, password = prevState.password, seed = prevState.seed } = newState;
         let address = prevState.address;
-        let publicKey = prevState.publicKey;
         const isNameValid = !!name;
         const isSeedValid = isHex(seed)
           ? seed.length === 66
@@ -191,10 +169,7 @@ class Creator extends React.PureComponent<Props, State> {
         const isPassValid = password.length > 0 && password.length <= 32;
 
         if (isSeedValid && seed !== prevState.seed) {
-          const info = infoFromSeed(seed);
-
-          address = info.address;
-          publicKey = info.publicKey;
+          address = addressFromSeed(seed);
         }
 
         return {
@@ -205,25 +180,22 @@ class Creator extends React.PureComponent<Props, State> {
           isValid: isNameValid && isPassValid && isSeedValid,
           name,
           password,
-          publicKey,
           seed
         };
       }
     );
   }
 
-  // eslint-disable-next-line no-unused-vars
-  onChangeSeed = (event: SyntheticEvent<*>, { value }): void => {
-    this.nextState({ seed: value });
+  onChangeSeed = (seed: string): void => {
+    this.nextState({ seed });
   }
 
-  // eslint-disable-next-line no-unused-vars
-  onChangeName = (event: SyntheticEvent<*>, { value }): void => {
-    this.nextState({ name: value });
+  onChangeName = (name: string): void => {
+    this.nextState({ name });
   }
 
-  onChangePass = (event: SyntheticEvent<*>, { value }): void => {
-    this.nextState({ password: value });
+  onChangePass = (password: string): void => {
+    this.nextState({ password });
   }
 
   onCommit = (): void => {
@@ -239,10 +211,6 @@ class Creator extends React.PureComponent<Props, State> {
 
   onDiscard = (): void => {
     this.setState(this.emptyState());
-  }
-
-  togglePassword = (): void => {
-    this.setState({ isPassVisible: !this.state.isPassVisible });
   }
 }
 

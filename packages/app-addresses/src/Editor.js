@@ -4,14 +4,14 @@
 // @flow
 
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
-import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
-import Input from 'semantic-ui-react/dist/es/elements/Input';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
+
+import Input from '@polkadot/ui-app/src/Input';
+import InputAddress from '@polkadot/ui-app/src/InputAddress';
 import keyring from '@polkadot/ui-keyring/src';
-import InputAddress from '@polkadot/ui-react-app/src/InputAddress';
 
 import Address from '@polkadot/app-accounts/src/Address';
 import translate from './translate';
@@ -21,7 +21,7 @@ type Props = I18nProps & {
 };
 
 type State = {
-  currentAddress?: KeyringAddress,
+  currentAddress: KeyringAddress | null,
   defaultPublicKey?: Uint8Array,
   editedName: string,
   isEdited: boolean,
@@ -35,7 +35,7 @@ class Editor extends React.PureComponent<Props, State> {
     super(props);
 
     const addresses = keyring.getAddresses();
-    const currentAddress = addresses[addresses.length - 1];
+    const currentAddress = addresses[addresses.length - 1] || null;
 
     this.state = this.createState(currentAddress);
     this.state.defaultPublicKey = currentAddress
@@ -60,13 +60,19 @@ class Editor extends React.PureComponent<Props, State> {
       );
     }
 
+    const address = currentAddress.address();
+
     return (
       <div
         className={['addresses--Editor', className].join(' ')}
         style={style}
       >
         <div className='ui--grid'>
-          <div className='medium'>
+          <Address
+            className='shrink'
+            value={address}
+          />
+          <div className='grow'>
             <div className='ui--row'>
               <InputAddress
                 className='full'
@@ -78,27 +84,20 @@ class Editor extends React.PureComponent<Props, State> {
                 })}
                 onChange={this.onChangeAddress}
                 type='address'
+                value={address}
               />
             </div>
             <div className='ui--row'>
-              <div className='full'>
-                <Label>{t('editor.name', {
+              <Input
+                className='full'
+                label={t('editor.name', {
                   defaultValue: 'identified by the name'
-                })}</Label>
-                <Input
-                  onChange={this.onChangeName}
-                  value={editedName}
-                />
-              </div>
+                })}
+                onChange={this.onChangeName}
+                value={editedName}
+              />
             </div>
           </div>
-          <Address
-            className='medium'
-            value={{
-              address: currentAddress.address(),
-              publicKey: currentAddress.publicKey()
-            }}
-          />
         </div>
         <div className='ui--row-buttons'>
           <Button
@@ -118,12 +117,21 @@ class Editor extends React.PureComponent<Props, State> {
               defaultValue: 'Save'
             })}
           </Button>
+          <Button
+            negative
+            onClick={this.onForget}
+            primary
+          >
+            {t('editor.forget', {
+              defaultValue: 'Forget'
+            })}
+          </Button>
         </div>
       </div>
     );
   }
 
-  createState (currentAddress?: KeyringAddress): $Shape<State> {
+  createState (currentAddress: KeyringAddress | null): $Shape<State> {
     const { name = '' } = currentAddress
       ? currentAddress.getMeta()
       : {};
@@ -140,12 +148,17 @@ class Editor extends React.PureComponent<Props, State> {
       (prevState: State): $Shape<State> => {
         let { currentAddress = prevState.currentAddress, editedName = prevState.editedName } = newState;
         const previous = prevState.currentAddress || { address: () => null };
+        let isEdited = false;
 
-        if (currentAddress && currentAddress.address() !== previous.address()) {
-          editedName = currentAddress.getMeta().name || '';
+        if (currentAddress && currentAddress.isValid()) {
+          if (currentAddress.address() !== previous.address()) {
+            editedName = currentAddress.getMeta().name || '';
+          } else if (editedName !== currentAddress.getMeta().name) {
+            isEdited = true;
+          }
+        } else {
+          editedName = '';
         }
-
-        const isEdited = !!currentAddress && editedName !== currentAddress.getMeta().name;
 
         return {
           currentAddress,
@@ -157,16 +170,15 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onChangeAddress = (publicKey: Uint8Array): void => {
-    const currentAddress = keyring.getAddress(publicKey);
+    const currentAddress = keyring.getAddress(publicKey) || null;
 
     this.nextState({
       currentAddress
     });
   }
 
-  // eslint-disable-next-line no-unused-vars
-  onChangeName = (event: SyntheticEvent<*>, { value }): void => {
-    this.nextState({ editedName: value });
+  onChangeName = (editedName: string): void => {
+    this.nextState({ editedName });
   }
 
   onCommit = (): void => {
@@ -193,6 +205,30 @@ class Editor extends React.PureComponent<Props, State> {
 
     this.nextState({
       editedName: currentAddress.getMeta().name
+    });
+  }
+
+  onForget = (): void => {
+    const { currentAddress } = this.state;
+
+    if (!currentAddress) {
+      return;
+    }
+
+    const address = currentAddress.address();
+    const addresses = keyring.getAddresses().filter((item) =>
+      item.address() !== address
+    );
+    const nextAddress = addresses[0] || null;
+    const defaultPublicKey = nextAddress
+      ? nextAddress.publicKey()
+      : void 0;
+
+    keyring.forgetAddress(address);
+
+    this.nextState({
+      currentAddress: nextAddress,
+      defaultPublicKey
     });
   }
 }

@@ -3,13 +3,12 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-app/types';
 import type { KeyringPair } from '@polkadot/util-keyring/types';
 
 import React from 'react';
-import Button from 'semantic-ui-react/dist/es/elements/Button';
-import Input from 'semantic-ui-react/dist/es/elements/Input';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
+
+import Password from '@polkadot/ui-app/src/Password';
 import keyring from '@polkadot/ui-keyring/src';
 
 import translate from '../translate';
@@ -26,20 +25,13 @@ type State = {
   fieldName: string,
   isError: boolean,
   isLocked: boolean,
-  isVisible: boolean,
   pair: KeyringPair
 }
 
 class Unlock extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
+  state: State = ({}: $Shape<State>);
 
-    this.state = ({
-      isVisible: false
-    }: $Shape<State>);
-  }
-
-  static getDerivedStateFromProps ({ error, password, value }: Props, { isVisible }: State): $Shape<State> {
+  static getDerivedStateFromProps ({ error, password, value }: Props): $Shape<State> {
     const pair = keyring.getPair(value);
     const isLocked = !pair.hasSecretKey();
 
@@ -47,16 +39,13 @@ class Unlock extends React.PureComponent<Props, State> {
       fieldName: `pass_${Date.now()}`,
       isError: !!error,
       isLocked,
-      isVisible: password.length === 0
-        ? false
-        : isVisible,
       pair
     };
   }
 
   render (): React$Node {
-    const { className, password, style, t } = this.props;
-    const { fieldName, isError, isLocked, isVisible } = this.state;
+    const { className, onChange, password, style, t } = this.props;
+    const { fieldName, isError, isLocked } = this.state;
 
     if (!isLocked) {
       return null;
@@ -67,41 +56,20 @@ class Unlock extends React.PureComponent<Props, State> {
         className={['extrinsics--Signer-Unlock', className].join(' ')}
         style={style}
       >
-        <div className='expanded ui--row'>
-          <div className='medium'>
-            <Label>{t('unlock.password', {
+        <div className='ui--row'>
+          <Password
+            className='medium'
+            isError={isError}
+            label={t('unlock.password', {
               defaultValue: 'unlock account using'
-            })}</Label>
-            <Input
-              action
-              error={isError}
-              name={fieldName}
-              onChange={this.onChange}
-              type={isVisible ? 'text' : 'password'}
-              value={password}
-            >
-              <input />
-              <Button
-                icon='eye'
-                primary
-                onClick={this.togglePassword}
-              />
-            </Input>
-          </div>
+            })}
+            name={fieldName}
+            onChange={onChange}
+            value={password}
+          />
         </div>
       </div>
     );
-  }
-
-  // eslint-disable-next-line no-unused-vars
-  onChange = (event: SyntheticEvent<*>, { value }): void => {
-    this.props.onChange(value);
-  }
-
-  togglePassword = (): void => {
-    this.setState({
-      isVisible: !this.state.isVisible
-    });
   }
 }
 

@@ -3,12 +3,13 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-app/types';
 import type { QueueTx } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { Trans } from 'react-i18next';
+
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 import addressEncode from '@polkadot/util-keyring/address/encode';

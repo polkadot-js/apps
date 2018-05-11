@@ -3,11 +3,12 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-app/types';
 
 import './index.css';
 
 import React from 'react';
+
 import BestNumber from '@polkadot/ui-react-rx/BestNumber';
 
 import BestHash from './BestHash';

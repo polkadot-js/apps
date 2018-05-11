@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-app/types';
 import type { StorageQuery } from './types';
 
 import './index.css';
@@ -21,15 +21,9 @@ type State = {
 }
 
 class App extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      queue: []
-    };
-  }
+  state: State = {
+    queue: []
+  };
 
   render (): React$Node {
     const { className, style } = this.props;

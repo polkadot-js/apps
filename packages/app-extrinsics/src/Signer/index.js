@@ -4,7 +4,7 @@
 // @flow
 
 import type { ApiProps } from '@polkadot/ui-react-rx/types';
-import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-app/types';
 import type { QueueTx } from '../types';
 
 import './Signer.css';
@@ -12,6 +12,7 @@ import './Signer.css';
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import Modal from 'semantic-ui-react/dist/es/modules/Modal';
+
 import keyring from '@polkadot/ui-keyring/src';
 import withApi from '@polkadot/ui-react-rx/with/api';
 
@@ -37,14 +38,10 @@ type State = {
 };
 
 class Signer extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      password: '',
-      unlockError: null
-    };
-  }
+  state: State = {
+    password: '',
+    unlockError: null
+  };
 
   static getDerivedStateFromProps ({ queue }: Props, { currentItem, password, unlockError }: State): $Shape<State> {
     const nextItem = queue.find(({ status }) =>

@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { ComponentMap } from '@polkadot/ui-react-app/Params/types';
+import type { ComponentMap } from '@polkadot/ui-app/Params/types';
 
 import Account from './Account';
 import Proposal from './Proposal';

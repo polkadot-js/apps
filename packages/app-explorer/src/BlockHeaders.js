@@ -6,6 +6,7 @@
 import type { Header } from '@polkadot/primitives/header';
 
 import React from 'react';
+
 import withApiDiv from '@polkadot/ui-react-rx/with/apiDiv';
 
 import BlockHeader from './BlockHeader';

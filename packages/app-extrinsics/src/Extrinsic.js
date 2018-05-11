@@ -4,14 +4,15 @@
 // @flow
 
 import type { Extrinsic } from '@polkadot/extrinsics/types';
-import type { BareProps } from '@polkadot/ui-react-app/types';
-import type { RawParam } from '@polkadot/ui-react-app/Params/types';
+import type { BareProps } from '@polkadot/ui-app/types';
+import type { RawParam } from '@polkadot/ui-app/Params/types';
 import type { EncodedMessage } from './types';
 
 import React from 'react';
+
 import encode from '@polkadot/extrinsics-codec/encode/extrinsic';
-import InputExtrinsic from '@polkadot/ui-react-app/src/InputExtrinsic';
-import Params from '@polkadot/ui-react-app/src/Params';
+import InputExtrinsic from '@polkadot/ui-app/src/InputExtrinsic';
+import Params from '@polkadot/ui-app/src/Params';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import paramComponents from './Params';

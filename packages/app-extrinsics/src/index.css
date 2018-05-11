@@ -7,16 +7,16 @@
 }
 
 .extrinsics--Status {
-  bottom: 0;
   display: inline-block;
   position: fixed;
-  right: 0.125rem;
+  right: 0.25rem;
+  top: 0.125rem;
   z-index: 1001;
 }
 
 .extrinsics--Status-Item {
   background: #bcdaf0;
-  margin-bottom: 0.125rem;
+  margin: 0.125rem;
   padding: 0.5rem 1rem;
   text-align: center;
 }

@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BareProps } from '@polkadot/ui-react-app/types';
+import type { BareProps } from '@polkadot/ui-app/types';
 import type { QueueTx, QueueTx$Status } from './types';
 
 import './index.css';
@@ -21,15 +21,9 @@ type State = {
 };
 
 export default class App extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      queue: []
-    };
-  }
+  state: State = {
+    queue: []
+  };
 
   render (): React$Node {
     const { className, style } = this.props;

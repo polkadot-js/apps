@@ -4,17 +4,17 @@
 // @flow
 
 import type { StorageDef$Key } from '@polkadot/storage/types';
-import type { I18nProps } from '@polkadot/ui-react-app/types';
-import type { RawParams } from '@polkadot/ui-react-app/Params/types';
+import type { I18nProps } from '@polkadot/ui-app/types';
+import type { RawParams } from '@polkadot/ui-app/Params/types';
 import type { StorageQuery } from './types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
-// import encode from '@polkadot/extrinsics-codec/encode/params';
+
 import storage from '@polkadot/storage-substrate/keys';
-import InputStorage from '@polkadot/ui-react-app/src/InputStorage';
-import Params from '@polkadot/ui-react-app/src/Params';
+import InputStorage from '@polkadot/ui-app/src/InputStorage';
+import Labelled from '@polkadot/ui-app/src/Labelled';
+import Params from '@polkadot/ui-app/src/Params';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import translate from './translate';
@@ -33,13 +33,9 @@ const defaultValue = storage.timestamp.keys.current;
 let id = -1;
 
 class Selection extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = ({
-      key: defaultValue
-    }: $Shape<State>);
-  }
+  state: State = ({
+    key: defaultValue
+  }: $Shape<State>);
 
   render (): React$Node {
     const { className, style, t } = this.props;
@@ -63,15 +59,14 @@ class Selection extends React.PureComponent<Props, State> {
             onChange={this.onChangeParams}
           />
         </div>
-        <div className='storage--actionrow-button'>
-          <Label>&nbsp;</Label>
+        <Labelled className='storage--actionrow-button'>
           <Button
             disabled={!isValid}
             icon='plus'
             onClick={this.onAdd}
             primary
           />
-        </div>
+        </Labelled>
       </div>
     );
   }

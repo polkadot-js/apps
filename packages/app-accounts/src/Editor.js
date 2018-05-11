@@ -4,14 +4,14 @@
 // @flow
 
 import type { KeyringPair } from '@polkadot/util-keyring/types';
-import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
-import Input from 'semantic-ui-react/dist/es/elements/Input';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
+
+import Input from '@polkadot/ui-app/src/Input';
+import InputAddress from '@polkadot/ui-app/src/InputAddress';
 import keyring from '@polkadot/ui-keyring/src';
-import InputAddress from '@polkadot/ui-react-app/src/InputAddress';
 
 import Address from './Address';
 import translate from './translate';
@@ -21,8 +21,8 @@ type Props = I18nProps & {
 };
 
 type State = {
-  currentPair: KeyringPair,
-  defaultPublicKey: Uint8Array,
+  currentPair: KeyringPair | null,
+  defaultPublicKey?: Uint8Array,
   editedName: string,
   isEdited: boolean
 }
@@ -34,15 +34,32 @@ class Editor extends React.PureComponent<Props, State> {
     super(props);
 
     const pairs = keyring.getPairs();
-    const currentPair = pairs[pairs.length - 1];
+    const currentPair = pairs[pairs.length - 1] || null;
 
     this.state = this.createState(currentPair);
-    this.state.defaultPublicKey = currentPair.publicKey();
+    this.state.defaultPublicKey = currentPair
+      ? currentPair.publicKey()
+      : void 0;
   }
 
   render (): React$Node {
     const { className, style, t } = this.props;
     const { defaultPublicKey, currentPair, editedName, isEdited } = this.state;
+
+    if (!currentPair) {
+      return (
+        <div
+          className={['accounts--Editor', className].join(' ')}
+          style={style}
+        >
+          {t('editor.none', {
+            defaultValue: 'There are no saved accounts. Add some first.'
+          })}
+        </div>
+      );
+    }
+
+    const address = currentPair.address();
 
     return (
       <div
@@ -50,39 +67,36 @@ class Editor extends React.PureComponent<Props, State> {
         style={style}
       >
         <div className='ui--grid'>
-          <div className='medium'>
+          <Address
+            className='shrink'
+            value={address}
+          />
+          <div className='grow'>
             <div className='ui--row'>
               <InputAddress
                 className='full'
                 defaultValue={defaultPublicKey}
                 hideAddress
-                isInput={false}
+                isSUIInput={false}
                 label={t('editor.select', {
                   defaultValue: 'using my account'
                 })}
                 onChange={this.onChangeAccount}
                 type='account'
+                value={address}
               />
             </div>
             <div className='ui--row'>
-              <div className='full'>
-                <Label>{t('editor.name', {
+              <Input
+                className='full'
+                label={t('editor.name', {
                   defaultValue: 'identified by the name'
-                })}</Label>
-                <Input
-                  onChange={this.onChangeName}
-                  value={editedName}
-                />
-              </div>
+                })}
+                onChange={this.onChangeName}
+                value={editedName}
+              />
             </div>
           </div>
-          <Address
-            className='medium'
-            value={{
-              address: currentPair.address(),
-              publicKey: currentPair.publicKey()
-            }}
-          />
         </div>
         <div className='ui--row-buttons'>
           <Button
@@ -102,17 +116,26 @@ class Editor extends React.PureComponent<Props, State> {
               defaultValue: 'Save'
             })}
           </Button>
+          <Button
+            negative
+            onClick={this.onForget}
+            primary
+          >
+            {t('editor.forget', {
+              defaultValue: 'Forget'
+            })}
+          </Button>
         </div>
       </div>
     );
   }
 
-  createState (currentPair: KeyringPair): $Shape<State> {
-    const { name = '' } = currentPair.getMeta();
-
+  createState (currentPair: KeyringPair | null): $Shape<State> {
     return {
       currentPair,
-      editedName: name,
+      editedName: currentPair
+        ? currentPair.getMeta().name || ''
+        : '',
       isEdited: false
     };
   }
@@ -121,12 +144,18 @@ class Editor extends React.PureComponent<Props, State> {
     this.setState(
       (prevState: State): $Shape<State> => {
         let { currentPair = prevState.currentPair, editedName = prevState.editedName } = newState;
+        const previous = prevState.currentPair || { address: () => null };
+        let isEdited = false;
 
-        if (currentPair.address() !== prevState.currentPair.address()) {
-          editedName = currentPair.getMeta().name || '';
+        if (currentPair) {
+          if (currentPair.address() !== previous.address()) {
+            editedName = currentPair.getMeta().name || '';
+          } else if (editedName !== currentPair.getMeta().name) {
+            isEdited = true;
+          }
+        } else {
+          editedName = '';
         }
-
-        const isEdited = editedName !== currentPair.getMeta().name;
 
         return {
           currentPair,
@@ -145,13 +174,16 @@ class Editor extends React.PureComponent<Props, State> {
     });
   }
 
-  // eslint-disable-next-line no-unused-vars
-  onChangeName = (event: SyntheticEvent<*>, { value }): void => {
-    this.nextState({ editedName: value });
+  onChangeName = (editedName: string): void => {
+    this.nextState({ editedName });
   }
 
   onCommit = (): void => {
     const { currentPair, editedName } = this.state;
+
+    if (!currentPair) {
+      return;
+    }
 
     keyring.saveAccountMeta(currentPair, {
       name: editedName,
@@ -164,8 +196,36 @@ class Editor extends React.PureComponent<Props, State> {
   onDiscard = (): void => {
     const { currentPair } = this.state;
 
+    if (!currentPair) {
+      return;
+    }
+
     this.nextState({
       editedName: currentPair.getMeta().name
+    });
+  }
+
+  onForget = (): void => {
+    const { currentPair } = this.state;
+
+    if (!currentPair) {
+      return;
+    }
+
+    const address = currentPair.address();
+    const pairs = keyring.getPairs().filter((item) =>
+      item.address() !== address
+    );
+    const nextPair = pairs[pairs.length - 1] || null;
+    const defaultPublicKey = nextPair
+      ? nextPair.publicKey()
+      : void 0;
+
+    keyring.forgetAccount(address);
+
+    this.nextState({
+      currentPair: nextPair,
+      defaultPublicKey
     });
   }
 }

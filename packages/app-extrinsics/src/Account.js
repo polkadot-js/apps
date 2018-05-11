@@ -4,12 +4,13 @@
 // @flow
 
 import type { KeyringOption$Type } from '@polkadot/ui-keyring/types';
-import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
+
+import InputAddress from '@polkadot/ui-app/src/InputAddress';
+import Labelled from '@polkadot/ui-app/src/Labelled';
 import Balance from '@polkadot/ui-react-rx/Balance';
-import InputAddress from '@polkadot/ui-react-app/src/InputAddress';
 
 import translate from './translate';
 
@@ -57,17 +58,17 @@ class Account extends React.PureComponent<Props, State> {
             type={type}
           />
         </div>
-        <div className='small'>
-          <Label>
-            {t('account.balance', {
-              defaultValue: 'with an available balance of'
-            })}
-          </Label>
+        <Labelled
+          className='small'
+          label={t('account.balance', {
+            defaultValue: 'with an available balance of'
+          })}
+        >
           <Balance
             className='ui disabled dropdown selection'
             params={publicKey}
           />
-        </div>
+        </Labelled>
       </div>
     );
   }

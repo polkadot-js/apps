@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-app/types';
 
 import './index.css';
 
@@ -19,8 +19,7 @@ type Props = I18nProps & {};
 type Actions = 'create' | 'edit';
 
 type State = {
-  currentAction: Actions,
-  currentAddress: string | null
+  action: Actions
 }
 
 // FIXME React-router would probably be the best route, not home-grown
@@ -30,19 +29,12 @@ const Components: { [Actions]: React$ComponentType<*> } = {
 };
 
 class App extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      currentAction: 'edit',
-      currentAddress: null
-    };
-  }
+  state: State = { action: 'edit' };
 
   render (): React$Node {
     const { className, style, t } = this.props;
-    const { currentAction } = this.state;
-    const Component = Components[currentAction];
+    const { action } = this.state;
+    const Component = Components[action];
 
     return (
       <div
@@ -53,7 +45,7 @@ class App extends React.PureComponent<Props, State> {
           <Button.Group>
             <Button
               onClick={this.selectEdit}
-              primary={currentAction === 'edit'}
+              primary={action === 'edit'}
             >
               {t('app.edit', {
                 defaultValue: 'Edit account'
@@ -66,7 +58,7 @@ class App extends React.PureComponent<Props, State> {
             />
             <Button
               onClick={this.selectCreate}
-              primary={currentAction === 'create'}
+              primary={action === 'create'}
             >
               {t('app.create', {
                 defaultValue: 'Create account'
@@ -79,16 +71,12 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  setCurrentAction (currentAction: Actions): void {
-    this.setState({ currentAction });
-  }
-
   selectCreate = (): void => {
-    this.setCurrentAction('create');
+    this.setState({ action: 'create' });
   }
 
   selectEdit = (): void => {
-    this.setCurrentAction('edit');
+    this.setState({ action: 'edit' });
   }
 }
 
