@@ -10,8 +10,10 @@ import testKeyring from '@polkadot/util-keyring/testing';
 
 import loadAll from './loadAll';
 import createAccount from './account/create';
+import forgetAccount from './account/forget';
 import saveAccount from './account/save';
 import saveAccountMeta from './account/meta';
+import forgetAddress from './address/forget';
 import getAddress from './address/get';
 import getAddresses from './address/all';
 import saveAddress from './address/meta';
@@ -31,6 +33,10 @@ loadAll(state);
 export default ({
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta): KeyringPair =>
     createAccount(state, seed, password, meta),
+  forgetAccount: (address: string): void =>
+    forgetAccount(state, address),
+  forgetAddress: (address: string): void =>
+    forgetAddress(state, address),
   getAddress: (address: string | Uint8Array): KeyringAddress =>
     getAddress(state, address),
   getAddresses: (): Array<KeyringAddress> =>

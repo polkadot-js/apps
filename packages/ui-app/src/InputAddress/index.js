@@ -12,22 +12,24 @@ import React from 'react';
 
 import keyring from '@polkadot/ui-keyring/src';
 import addressDecode from '@polkadot/util-keyring/address/decode';
-import addressEncode from '@polkadot/util-keyring/address/encode';
 
 import Dropdown from '../Dropdown';
+import addressToAddress from './addressToAddress';
 
 type Props = BareProps & {
-  defaultValue?: Uint8Array,
+  defaultValue?: string | Uint8Array,
   hideAddress?: boolean;
   isError?: boolean,
   isInput?: boolean,
   label?: string,
   onChange: (value: Uint8Array) => void,
-  type?: KeyringOption$Type
+  type?: KeyringOption$Type,
+  value?: string | Uint8Array
 };
 
 type State = {
-  defaultValue?: string;
+  defaultValue: ?string;
+  value: ?string;
 }
 
 const transform = (value: string): Uint8Array => {
@@ -43,24 +45,21 @@ export default class InputAddress extends React.Component<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    let defaultValue;
-
-    if (props.defaultValue) {
-      try {
-        defaultValue = addressEncode(props.defaultValue);
-      } catch (error) {
-        console.error('Unable to encode defaultValue address', props.defaultValue);
-      }
-    }
-
     this.state = {
-      defaultValue
+      defaultValue: addressToAddress(props.defaultValue),
+      value: addressToAddress(props.value)
+    };
+  }
+
+  static getDerivedStateFromProps ({ value }: Props): $Shape<State> {
+    return {
+      value: addressToAddress(value)
     };
   }
 
   render (): React$Node {
     const { className, hideAddress = false, isError, label, onChange, style, type = 'all' } = this.props;
-    const { defaultValue } = this.state;
+    const { defaultValue, value } = this.state;
     const options = keyring.getOptions(type);
 
     return (
@@ -74,6 +73,7 @@ export default class InputAddress extends React.Component<Props, State> {
         search={this.onSearch}
         style={style}
         transform={transform}
+        value={value}
       />
     );
   }

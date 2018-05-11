@@ -19,6 +19,8 @@ export default function get (state: State, _address: string | Uint8Array): Keyri
   return {
     address: (): string =>
       address,
+    isValid: (): boolean =>
+      !!state.available.address[address],
     publicKey: (): Uint8Array =>
       publicKey,
     getMeta: (): KeyringJson$Meta =>

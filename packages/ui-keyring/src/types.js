@@ -41,6 +41,7 @@ export type KeyringJson = {
 
 export type KeyringAddress = {
   address: () => string,
+  isValid: () => boolean,
   publicKey: () => Uint8Array,
   getMeta: () => KeyringJson$Meta
 }
@@ -58,6 +59,8 @@ export type State = {
 
 export type KeyringInstance = {
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta) => KeyringPair,
+  forgetAccount: (address: string) => void,
+  forgetAddress: (address: string) => void,
   getAddress: (address: string | Uint8Array) => KeyringAddress,
   getAddresses: () => Array<KeyringAddress>,
   getOptions: (type: KeyringOption$Type) => KeyringOptions,

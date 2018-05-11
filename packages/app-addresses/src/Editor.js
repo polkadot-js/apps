@@ -21,7 +21,7 @@ type Props = I18nProps & {
 };
 
 type State = {
-  currentAddress?: KeyringAddress,
+  currentAddress: KeyringAddress | null,
   defaultPublicKey?: Uint8Array,
   editedName: string,
   isEdited: boolean,
@@ -35,7 +35,7 @@ class Editor extends React.PureComponent<Props, State> {
     super(props);
 
     const addresses = keyring.getAddresses();
-    const currentAddress = addresses[addresses.length - 1];
+    const currentAddress = addresses[addresses.length - 1] || null;
 
     this.state = this.createState(currentAddress);
     this.state.defaultPublicKey = currentAddress
@@ -60,6 +60,8 @@ class Editor extends React.PureComponent<Props, State> {
       );
     }
 
+    const address = currentAddress.address();
+
     return (
       <div
         className={['addresses--Editor', className].join(' ')}
@@ -68,7 +70,7 @@ class Editor extends React.PureComponent<Props, State> {
         <div className='ui--grid'>
           <Address
             className='medium'
-            value={currentAddress.address()}
+            value={address}
           />
           <div className='medium'>
             <div className='ui--row'>
@@ -82,6 +84,7 @@ class Editor extends React.PureComponent<Props, State> {
                 })}
                 onChange={this.onChangeAddress}
                 type='address'
+                value={address}
               />
             </div>
             <div className='ui--row'>
@@ -114,12 +117,21 @@ class Editor extends React.PureComponent<Props, State> {
               defaultValue: 'Save'
             })}
           </Button>
+          <Button
+            negative
+            onClick={this.onForget}
+            primary
+          >
+            {t('editor.forget', {
+              defaultValue: 'Forget'
+            })}
+          </Button>
         </div>
       </div>
     );
   }
 
-  createState (currentAddress?: KeyringAddress): $Shape<State> {
+  createState (currentAddress: KeyringAddress | null): $Shape<State> {
     const { name = '' } = currentAddress
       ? currentAddress.getMeta()
       : {};
@@ -136,12 +148,17 @@ class Editor extends React.PureComponent<Props, State> {
       (prevState: State): $Shape<State> => {
         let { currentAddress = prevState.currentAddress, editedName = prevState.editedName } = newState;
         const previous = prevState.currentAddress || { address: () => null };
+        let isEdited = false;
 
-        if (currentAddress && currentAddress.address() !== previous.address()) {
-          editedName = currentAddress.getMeta().name || '';
+        if (currentAddress && currentAddress.isValid()) {
+          if (currentAddress.address() !== previous.address()) {
+            editedName = currentAddress.getMeta().name || '';
+          } else if (editedName !== currentAddress.getMeta().name) {
+            isEdited = true;
+          }
+        } else {
+          editedName = '';
         }
-
-        const isEdited = !!currentAddress && editedName !== currentAddress.getMeta().name;
 
         return {
           currentAddress,
@@ -153,7 +170,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onChangeAddress = (publicKey: Uint8Array): void => {
-    const currentAddress = keyring.getAddress(publicKey);
+    const currentAddress = keyring.getAddress(publicKey) || null;
 
     this.nextState({
       currentAddress
@@ -188,6 +205,30 @@ class Editor extends React.PureComponent<Props, State> {
 
     this.nextState({
       editedName: currentAddress.getMeta().name
+    });
+  }
+
+  onForget = (): void => {
+    const { currentAddress } = this.state;
+
+    if (!currentAddress) {
+      return;
+    }
+
+    const address = currentAddress.address();
+    const addresses = keyring.getAddresses().filter((item) =>
+      item.address() !== address
+    );
+    const nextAddress = addresses[0] || null;
+    const defaultPublicKey = nextAddress
+      ? nextAddress.publicKey()
+      : void 0;
+
+    keyring.forgetAddress(address);
+
+    this.nextState({
+      currentAddress: nextAddress,
+      defaultPublicKey
     });
   }
 }
