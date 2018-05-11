@@ -19,7 +19,8 @@
   display: block
 }
 
-.accounts--Address-balance {
+.accounts--Address-balance,
+.accounts--Address-nonce {
   opacity: 0.45;
 }
 

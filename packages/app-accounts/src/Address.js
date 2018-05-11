@@ -10,6 +10,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Balance from '@polkadot/ui-react-rx/Balance';
+import Nonce from '@polkadot/ui-react-rx/Nonce';
 
 type Props = BareProps & {
   value: null | {
@@ -33,7 +34,7 @@ export default function Address ({ className, style, value }: Props): React$Node
     >
       <IdentityIcon
         className='accounts--Address-icon'
-        size={128}
+        size={96}
         value={address}
       />
       <div className='accounts--Address-data'>
@@ -53,6 +54,12 @@ export default function Address ({ className, style, value }: Props): React$Node
         label='balance '
         value={publicKey}
       />
+      <Nonce
+        className='accounts--Address-nonce'
+        value={publicKey}
+      >
+        {' transactions'}
+      </Nonce>
     </div>
   );
 }
