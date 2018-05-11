@@ -10,7 +10,7 @@ import React from 'react';
 
 import extrinsics from '@polkadot/extrinsics-substrate';
 
-import RxDropdown from '../RxDropdown';
+import Dropdown from '../Dropdown';
 import translate from '../translate';
 import createOptions from './options/method';
 
@@ -34,8 +34,8 @@ function SelectMethod ({ className, isError, label = '', onChange, style, t, typ
   const options = createOptions(section, type);
 
   return (
-    <RxDropdown
-      className={['ui--RxDropdownLinked-Items', className].join(' ')}
+    <Dropdown
+      className={['ui--DropdownLinked-Items', className].join(' ')}
       isError={isError}
       label={label || t('input.extrinsic.method', {
         defaultValue: 'with the extrinsic'

@@ -8,7 +8,7 @@ import type { I18nProps } from '../types';
 
 import React from 'react';
 
-import RxDropdown from '../RxDropdown';
+import Dropdown from '../Dropdown';
 import translate from '../translate';
 import createOptions from './options/section';
 
@@ -25,8 +25,8 @@ function SelectSection ({ className, defaultValue, isError, label = '', onChange
   const options = createOptions(type);
 
   return (
-    <RxDropdown
-      className={['ui--RxDropdownLinked-Sections', className].join(' ')}
+    <Dropdown
+      className={['ui--DropdownLinked-Sections', className].join(' ')}
       defaultValue={defaultValue}
       isError={isError}
       label={label || t('input.extrinsic.section', {

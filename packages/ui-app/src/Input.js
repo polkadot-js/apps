@@ -17,11 +17,14 @@ type Props = BareProps & {
   isDisabled?: boolean,
   isError?: boolean,
   label?: string,
+  max?: mixed,
+  min?: mixed,
   name?: string,
   // flowlint-next-line unclear-type:off
   onChange: (value: any) => void,
+  placeholder?: string,
   type?: string,
-  value: mixed
+  value?: mixed
 };
 
 type SUIEvent = {
@@ -31,7 +34,7 @@ type SUIEvent = {
 
 export default class Input extends React.PureComponent<Props> {
   render (): React$Node {
-    const { children, className, defaultValue, isAction = false, isDisabled = false, isError = false, label, name, style, type = 'text', value } = this.props;
+    const { children, className, defaultValue, isAction = false, isDisabled = false, isError = false, label, max, min, name, placeholder, style, type = 'text', value } = this.props;
 
     return (
       <Labelled
@@ -44,8 +47,11 @@ export default class Input extends React.PureComponent<Props> {
           defaultValue={defaultValue}
           disabled={isDisabled}
           error={isError}
+          max={max}
+          min={min}
           name={name}
           onChange={this.onChange}
+          placeholder={placeholder}
           type={type}
           value={value}
         >

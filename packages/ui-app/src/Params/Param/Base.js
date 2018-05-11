@@ -9,6 +9,7 @@ import type { Size } from '../types';
 import React from 'react';
 
 import Labelled from '../../Labelled';
+import Bare from './Bare';
 
 type Props = BareProps & {
   children: React$Node,
@@ -18,8 +19,8 @@ type Props = BareProps & {
 
 export default function Base ({ children, className, label, size = 'medium', style }: Props): React$Node {
   return (
-    <div
-      className={['ui--row', className].join(' ')}
+    <Bare
+      className={className}
       style={style}
     >
       <Labelled
@@ -28,6 +29,6 @@ export default function Base ({ children, className, label, size = 'medium', sty
       >
         {children}
       </Labelled>
-    </div>
+    </Bare>
   );
 }

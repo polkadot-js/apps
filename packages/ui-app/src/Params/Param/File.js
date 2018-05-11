@@ -26,13 +26,7 @@ type State = {
 };
 
 class BytesFile extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {};
-  }
+  state: State = {};
 
   render (): React$Node {
     const { className, isError = false, label, t } = this.props;

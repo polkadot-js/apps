@@ -22,13 +22,37 @@ type Props = I18nProps & {
   };
 };
 
-function ParamComponent ({ className, index, onChange, overrides, style, value: { name, type, options = {} } = {} }: Props): React$Node {
-  if (!type) {
-    return null;
+type State = {
+  Component: React$ComponentType<*> | Array<React$ComponentType<*>> | null
+}
+
+class ParamComponent extends React.PureComponent<Props, State> {
+  state: State = {
+    Component: null
+  };
+
+  static getDerivedStateFromProps ({ overrides, value: { type } = {} }: Props): State {
+    return {
+      Component: !type
+        ? null
+        : findComponent(type, overrides)
+    };
   }
 
-  const Component = findComponent(type, overrides);
-  const renderComponent = (Component: React$ComponentType<*>, sub: number = -1) => {
+  render (): React$Node {
+    const { Component } = this.state;
+
+    if (!Component) {
+      return null;
+    }
+
+    return Array.isArray(Component)
+      ? Component.map(this.renderComponent)
+      : this.renderComponent(Component);
+  }
+
+  renderComponent = (Component: React$ComponentType<*>, sub: number = -1): React$Node => {
+    const { className, index, onChange, style, value: { name, type, options = {} } = {} } = this.props;
     const _type: Param$Type = Array.isArray(type)
       ? type[sub]
       : type;
@@ -39,23 +63,20 @@ function ParamComponent ({ className, index, onChange, overrides, style, value: 
 
     return (
       <Component
-        className='ui--Param'
+        className={['ui--Param', className].join(' ')}
         index={index}
         key={`${name}:${text}:${index}}`}
         label={`${name}: ${text}${labelExtra}`}
         // FIXME subjects are not for array components (as defined here)
         onChange={onChange}
+        style={style}
         value={{
           options,
           type: _type
         }}
       />
     );
-  };
-
-  return Array.isArray(Component)
-    ? Component.map(renderComponent)
-    : renderComponent(Component);
+  }
 }
 
 export default translate(ParamComponent);

@@ -10,7 +10,7 @@ import React from 'react';
 
 import map from '@polkadot/storage-substrate/keys';
 
-import RxDropdown from '../RxDropdown';
+import Dropdown from '../Dropdown';
 import translate from '../translate';
 import createOptions from './options/key';
 
@@ -33,8 +33,8 @@ function SelectKey ({ className, isError, label = '', onChange, style, t, value:
   const options = createOptions(section);
 
   return (
-    <RxDropdown
-      className={['ui--RxDropdownLinked-Items', className].join(' ')}
+    <Dropdown
+      className={['ui--DropdownLinked-Items', className].join(' ')}
       isError={isError}
       label={label || t('input.storage.key', {
         defaultValue: 'with storage key'

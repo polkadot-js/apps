@@ -6,11 +6,11 @@
 import type { Props as BaseProps, Size } from '../types';
 
 import React from 'react';
-import Input from 'semantic-ui-react/dist/es/elements/Input';
 
 import hexToU8a from '@polkadot/util/hex/toU8a';
 
-import Base from './Base';
+import Input from '../../Input';
+import Bare from './Bare';
 
 type Props = BaseProps & {
   length?: number,
@@ -21,13 +21,34 @@ type Props = BaseProps & {
 const defaultValidate = (u8a: Uint8Array): boolean =>
   true;
 
-export default function Bytes ({ index, isError, length = -1, label, onChange, size = 'full', validate = defaultValidate }: Props): React$Node {
-  // eslint-disable-next-line no-unused-vars
-  const _onChange = (event: SyntheticEvent<*>, { value }) => {
+export default class Bytes extends React.PureComponent<Props> {
+  render (): React$Node {
+    const { className, isError, label, size = 'full', style } = this.props;
+
+    return (
+      <Bare
+        className={className}
+        style={style}
+      >
+        <Input
+          className={size}
+          isError={isError}
+          label={label}
+          onChange={this.onChange}
+          placeholder='0x...'
+          type='text'
+        />
+      </Bare>
+    );
+  }
+
+  onChange = (hex: string): void => {
+    const { index, length = -1, onChange, validate = defaultValidate } = this.props;
+
     let u8a;
 
     try {
-      u8a = hexToU8a(value);
+      u8a = hexToU8a(hex);
     } catch (error) {
       u8a = new Uint8Array([]);
     }
@@ -41,18 +62,4 @@ export default function Bytes ({ index, isError, length = -1, label, onChange, s
       value: u8a
     });
   };
-
-  return (
-    <Base
-      label={label}
-      size={size}
-    >
-      <Input
-        error={isError}
-        onChange={_onChange}
-        placeholder='0x...'
-        type='text'
-      />
-    </Base>
-  );
 }

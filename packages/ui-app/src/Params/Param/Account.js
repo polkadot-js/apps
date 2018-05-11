@@ -10,27 +10,37 @@ import React from 'react';
 import InputAddress from '../../InputAddress';
 import Base from './Base';
 
-export default function Account ({ index, isError, label, onChange, t, value: { options: { initValue } = {} } }: Props): React$Node {
-  // flowlint-next-line unclear-type:off
-  const defaultValue = ((initValue: any): Uint8Array);
-  const _onChange = (value?: Uint8Array): void =>
+export default class Account extends React.PureComponent<Props> {
+  render (): React$Node {
+    const { className, isError, label, style, value: { options: { initValue } = {} } } = this.props;
+
+    // flowlint-next-line unclear-type:off
+    const defaultValue = ((initValue: any): Uint8Array);
+
+    return (
+      <Base
+        className={className}
+        label={label}
+        size='large'
+        style={style}
+      >
+        <InputAddress
+          defaultValue={defaultValue}
+          isError={isError}
+          isInput
+          onChange={this.onChange}
+          placeholder='5...'
+        />
+      </Base>
+    );
+  }
+
+  onChange = (value?: Uint8Array): void => {
+    const { index, onChange } = this.props;
+
     onChange(index, {
       isValid: !!value && value.length === 32,
       value
     });
-
-  return (
-    <Base
-      label={label}
-      size='large'
-    >
-      <InputAddress
-        defaultValue={defaultValue}
-        isError={isError}
-        isInput
-        onChange={_onChange}
-        placeholder='5...'
-      />
-    </Base>
-  );
+  }
 }

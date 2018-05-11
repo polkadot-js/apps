@@ -7,9 +7,9 @@
 import type { Props } from '../types';
 
 import React from 'react';
-import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 
-import Base from './Base';
+import Dropdown from '../../Dropdown';
+import Bare from './Bare';
 
 const options = [
   { text: 'Super majority approval', value: 0 },
@@ -17,25 +17,33 @@ const options = [
   { text: 'Simple majority', value: 2 }
 ];
 
-export default function VoteThreshold ({ index, label, onChange, t, value: { options: { initValue = 0 } = {} } }: Props): React$Node {
-  const defaultValue = initValue || 0;
-  const _onChange = (event: SyntheticEvent<*>, { value }) =>
+export default class VoteThreshold extends React.PureComponent<Props> {
+  render (): React$Node {
+    const { className, label, style, value: { options: { initValue = 0 } = {} } } = this.props;
+    const defaultValue = initValue || 0;
+
+    return (
+      <Bare
+        className={className}
+        style={style}
+      >
+        <Dropdown
+          className='small'
+          defaultValue={defaultValue}
+          label={label}
+          options={options}
+          onChange={this.onChange}
+        />
+      </Bare>
+    );
+  }
+
+  onChange = (value: number): void => {
+    const { index, onChange } = this.props;
+
     onChange(index, {
       isValid: true,
       value
     });
-
-  return (
-    <Base
-      label={label}
-      size='small'
-    >
-      <Dropdown
-        selection
-        defaultValue={defaultValue}
-        options={options}
-        onChange={_onChange}
-      />
-    </Base>
-  );
+  }
 }

@@ -2,11 +2,11 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
-.ui--RxDropdownLinked {}
+.ui--DropdownLinked {}
 
-.ui--RxDropdownLinked-Items {}
+.ui--DropdownLinked-Items {}
 
-.ui--RxDropdownLinked-Items .text {
+.ui--DropdownLinked-Items .text {
   box-sizing: border-box;
   display: flex !important;
   flex-wrap: nowrap;
@@ -16,16 +16,16 @@
   white-space: nowrap;
 }
 
-.ui--RxDropdownLinked-Item > .text {
+.ui--DropdownLinked-Item > .text {
   padding-left: 1em;
 }
 
-.ui--RxDropdownLinked-Item-text,
-.ui--RxDropdownLinked-Item-call {
+.ui--DropdownLinked-Item-text,
+.ui--DropdownLinked-Item-call {
   display: inline-block;
 }
 
-.ui--RxDropdownLinked-Item-call {
+.ui--DropdownLinked-Item-call {
   flex: 1;
   font-family: monospace;
   margin-left: 1rem;
@@ -35,8 +35,8 @@
   text-overflow: ellipsis;
 }
 
-.ui--RxDropdownLinked-Item-text {
+.ui--DropdownLinked-Item-text {
   flex: 1 0;
 }
 
-.ui--RxDropdownLinked-Sections {}
+.ui--DropdownLinked-Sections {}

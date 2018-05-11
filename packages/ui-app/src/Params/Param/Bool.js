@@ -6,34 +6,42 @@
 import type { Props } from '../types';
 
 import React from 'react';
-import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 
-import Base from './Base';
+import Dropdown from '../../Dropdown';
+import Bare from './Bare';
 
 const options = [
   { text: 'No', value: false },
   { text: 'Yes', value: true }
 ];
 
-export default function Bool ({ index, isError, label, onChange, t, value: { options: { initValue = false } = {} } }: Props): React$Node {
-  const _onChange = (event: SyntheticEvent<*>, { value }) =>
+export default class Bool extends React.PureComponent<Props> {
+  render (): React$Node {
+    const { className, isError, label, style, value: { options: { initValue = false } = {} } } = this.props;
+
+    return (
+      <Bare
+        className={className}
+        style={style}
+      >
+        <Dropdown
+          className='small'
+          isError={isError}
+          defaultValue={initValue}
+          label={label}
+          options={options}
+          onChange={this.onChange}
+        />
+      </Bare>
+    );
+  }
+
+  onChange = (value: boolean): void => {
+    const { index, onChange } = this.props;
+
     onChange(index, {
       isValid: true,
       value
     });
-
-  return (
-    <Base
-      label={label}
-      size='small'
-    >
-      <Dropdown
-        error={isError}
-        selection
-        defaultValue={initValue}
-        options={options}
-        onChange={_onChange}
-      />
-    </Base>
-  );
+  }
 }

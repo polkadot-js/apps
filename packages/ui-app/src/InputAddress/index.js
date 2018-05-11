@@ -14,7 +14,7 @@ import keyring from '@polkadot/ui-keyring/src';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
-import RxDropdown from '../RxDropdown';
+import Dropdown from '../Dropdown';
 
 type Props = BareProps & {
   defaultValue?: Uint8Array,
@@ -64,7 +64,7 @@ export default class InputAddress extends React.Component<Props, State> {
     const options = keyring.getOptions(type);
 
     return (
-      <RxDropdown
+      <Dropdown
         className={['ui--InputAddress', hideAddress ? 'flag--hideAddress' : '', className].join(' ')}
         defaultValue={defaultValue}
         isError={isError}
