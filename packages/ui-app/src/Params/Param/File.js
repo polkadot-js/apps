@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { BareProps } from '@polkadot/ui-react-app/types';
+import type { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import Dropzone from 'react-dropzone';

@@ -3,13 +3,13 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-app/types';
 import type { StorageQuery } from '../types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
-import typeToText from '@polkadot/ui-react-app/src/Params/typeToText';
+import typeToText from '@polkadot/ui-app/src/Params/typeToText';
 import withStorageDiv from '@polkadot/ui-react-rx/with/storageDiv';
 
 import translate from '../translate';

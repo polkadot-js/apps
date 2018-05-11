@@ -1,5 +1,5 @@
 {
-  "name": "@polkadot/ui-react-app",
+  "name": "@polkadot/ui-app",
   "version": "0.3.4",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",

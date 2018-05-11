@@ -12,6 +12,6 @@
   },
   "devDependencies": {
     "@polkadot/app-accounts": "^0.3.4",
-    "@polkadot/ui-react-app": "^0.3.4"
+    "@polkadot/ui-app": "^0.3.4"
   }
 }

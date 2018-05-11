@@ -4,7 +4,7 @@
 // @flow
 
 import type BN from 'bn.js';
-import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-app/types';
 import type { EncodedMessage, QueueTx } from './types';
 
 import React from 'react';

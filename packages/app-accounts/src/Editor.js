@@ -4,14 +4,14 @@
 // @flow
 
 import type { KeyringPair } from '@polkadot/util-keyring/types';
-import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import Input from 'semantic-ui-react/dist/es/elements/Input';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 import keyring from '@polkadot/ui-keyring/src';
-import InputAddress from '@polkadot/ui-react-app/src/InputAddress';
+import InputAddress from '@polkadot/ui-app/src/InputAddress';
 
 import Address from './Address';
 import translate from './translate';

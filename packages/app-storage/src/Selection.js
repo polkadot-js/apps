@@ -4,8 +4,8 @@
 // @flow
 
 import type { StorageDef$Key } from '@polkadot/storage/types';
-import type { I18nProps } from '@polkadot/ui-react-app/types';
-import type { RawParams } from '@polkadot/ui-react-app/Params/types';
+import type { I18nProps } from '@polkadot/ui-app/types';
+import type { RawParams } from '@polkadot/ui-app/Params/types';
 import type { StorageQuery } from './types';
 
 import React from 'react';
@@ -13,8 +13,8 @@ import Button from 'semantic-ui-react/dist/es/elements/Button';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 // import encode from '@polkadot/extrinsics-codec/encode/params';
 import storage from '@polkadot/storage-substrate/keys';
-import InputStorage from '@polkadot/ui-react-app/src/InputStorage';
-import Params from '@polkadot/ui-react-app/src/Params';
+import InputStorage from '@polkadot/ui-app/src/InputStorage';
+import Params from '@polkadot/ui-app/src/Params';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import translate from './translate';

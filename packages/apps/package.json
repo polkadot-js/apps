@@ -19,7 +19,7 @@
     "@polkadot/app-explorer": "^0.3.4",
     "@polkadot/app-extrinsics": "^0.3.4",
     "@polkadot/app-storage": "^0.3.4",
-    "@polkadot/ui-react-app": "^0.3.4",
+    "@polkadot/ui-app": "^0.3.4",
     "react-remarkable": "^1.1.3"
   }
 }

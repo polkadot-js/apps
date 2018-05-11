@@ -3,8 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Props as BaseProps } from '@polkadot/ui-react-app/Params/types';
-import type { I18nProps } from '@polkadot/ui-react-app/types';
+import type { Props as BaseProps } from '@polkadot/ui-app/Params/types';
+import type { I18nProps } from '@polkadot/ui-app/types';
 import type { EncodedMessage } from '../types';
 
 import React from 'react';
