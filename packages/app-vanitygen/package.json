@@ -13,7 +13,6 @@
   "devDependencies": {
     "@polkadot/ui-app": "^0.3.4",
     "chalk": "^2.4.1",
-    "react-copy-to-clipboard": "^5.0.1",
     "yargs": "10.1.2"
   },
   "optionalDependencies": {

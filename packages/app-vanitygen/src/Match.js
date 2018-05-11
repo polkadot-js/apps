@@ -6,8 +6,8 @@
 import type { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
+import CopyButton from '@polkadot/ui-app/src/CopyButton';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
@@ -44,13 +44,7 @@ export default function Match ({ address, className, count, offset, onRemove, se
           </div>
         </div>
         <div className='vanity--Match-buttons'>
-          <CopyToClipboard text={hexSeed}>
-            <Button
-              icon='copy'
-              primary
-              size='tiny'
-            />
-          </CopyToClipboard>
+          <CopyButton value={hexSeed} />
           <Button
             icon='close'
             negative

@@ -8,8 +8,7 @@ import type { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
-import Input from 'semantic-ui-react/dist/es/elements/Input';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
+import Input from '@polkadot/ui-app/src/Input';
 import keyring from '@polkadot/ui-keyring/src';
 import InputAddress from '@polkadot/ui-app/src/InputAddress';
 
@@ -56,7 +55,7 @@ class Editor extends React.PureComponent<Props, State> {
                 className='full'
                 defaultValue={defaultPublicKey}
                 hideAddress
-                isInput={false}
+                isSUIInput={false}
                 label={t('editor.select', {
                   defaultValue: 'using my account'
                 })}
@@ -65,15 +64,14 @@ class Editor extends React.PureComponent<Props, State> {
               />
             </div>
             <div className='ui--row'>
-              <div className='full'>
-                <Label>{t('editor.name', {
+              <Input
+                className='full'
+                label={t('editor.name', {
                   defaultValue: 'identified by the name'
-                })}</Label>
-                <Input
-                  onChange={this.onChangeName}
-                  value={editedName}
-                />
-              </div>
+                })}
+                onChange={this.onChangeName}
+                value={editedName}
+              />
             </div>
           </div>
           <Address
@@ -145,9 +143,8 @@ class Editor extends React.PureComponent<Props, State> {
     });
   }
 
-  // eslint-disable-next-line no-unused-vars
-  onChangeName = (event: SyntheticEvent<*>, { value }): void => {
-    this.nextState({ editedName: value });
+  onChangeName = (editedName: string): void => {
+    this.nextState({ editedName });
   }
 
   onCommit = (): void => {

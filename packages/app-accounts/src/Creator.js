@@ -7,8 +7,8 @@ import type { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
-import Input from 'semantic-ui-react/dist/es/elements/Input';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
+import Input from '@polkadot/ui-app/src/Input';
+import Password from '@polkadot/ui-app/src/Password';
 import keyring from '@polkadot/ui-keyring/src';
 import isHex from '@polkadot/util/is/hex';
 import hexToU8a from '@polkadot/util/hex/toU8a';
@@ -32,7 +32,6 @@ type State = {
   isNameValid: boolean,
   isSeedValid: boolean,
   isPassValid: boolean,
-  isPassVisible: boolean,
   isValid: boolean,
   name: string,
   password: string,
@@ -66,7 +65,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   render (): React$Node {
     const { className, style, t } = this.props;
-    const { address, fieldName, isNameValid, isPassValid, isPassVisible, isSeedValid, isValid, name, password, publicKey, seed } = this.state;
+    const { address, fieldName, isNameValid, isPassValid, isSeedValid, isValid, name, password, publicKey, seed } = this.state;
 
     return (
       <div
@@ -76,52 +75,40 @@ class Creator extends React.PureComponent<Props, State> {
         <div className='ui--grid'>
           <div className='medium'>
             <div className='ui--row'>
-              <div className='full'>
-                <Label>{t('creator.seed', {
+              <Input
+                className='full'
+                isError={!isSeedValid}
+                label={t('creator.seed', {
                   defaultValue: 'create from the following seed (hex or string)'
-                })}</Label>
-                <Input
-                  error={!isSeedValid}
-                  name={`${fieldName}_seed`}
-                  onChange={this.onChangeSeed}
-                  value={seed}
-                />
-              </div>
+                })}
+                name={`${fieldName}_seed`}
+                onChange={this.onChangeSeed}
+                value={seed}
+              />
             </div>
             <div className='ui--row'>
-              <div className='full'>
-                <Label>{t('creator.name', {
+              <Input
+                className='full'
+                isError={!isNameValid}
+                label={t('creator.name', {
                   defaultValue: 'name the account'
-                })}</Label>
-                <Input
-                  error={!isNameValid}
-                  name={`${fieldName}_name`}
-                  onChange={this.onChangeName}
-                  value={name}
-                />
-              </div>
+                })}
+                name={`${fieldName}_name`}
+                onChange={this.onChangeName}
+                value={name}
+              />
             </div>
             <div className='ui--row'>
-              <div className='full'>
-                <Label>{t('creator.pass1', {
+              <Password
+                className='full'
+                isError={!isPassValid}
+                label={t('creator.password', {
                   defaultValue: 'encrypt it using the password'
-                })}</Label>
-                <Input
-                  action
-                  error={!isPassValid}
-                  name={`${fieldName}_pass`}
-                  onChange={this.onChangePass}
-                  type={isPassVisible ? 'text' : 'password'}
-                  value={password}
-                >
-                  <input />
-                  <Button
-                    icon='eye'
-                    primary
-                    onClick={this.togglePassword}
-                  />
-                </Input>
-              </div>
+                })}
+                name={`${fieldName}_pass`}
+                onChange={this.onChangePass}
+                value={password}
+              />
             </div>
           </div>
           <Address
@@ -168,7 +155,6 @@ class Creator extends React.PureComponent<Props, State> {
       fieldName: `field_${Date.now()}`,
       isNameValid: true,
       isPassValid: false,
-      isPassVisible: false,
       isSeedValid: true,
       isValid: false,
       name: 'new keypair',
@@ -212,18 +198,16 @@ class Creator extends React.PureComponent<Props, State> {
     );
   }
 
-  // eslint-disable-next-line no-unused-vars
-  onChangeSeed = (event: SyntheticEvent<*>, { value }): void => {
-    this.nextState({ seed: value });
+  onChangeSeed = (seed: string): void => {
+    this.nextState({ seed });
   }
 
-  // eslint-disable-next-line no-unused-vars
-  onChangeName = (event: SyntheticEvent<*>, { value }): void => {
-    this.nextState({ name: value });
+  onChangeName = (name: string): void => {
+    this.nextState({ name });
   }
 
-  onChangePass = (event: SyntheticEvent<*>, { value }): void => {
-    this.nextState({ password: value });
+  onChangePass = (password: string): void => {
+    this.nextState({ password });
   }
 
   onCommit = (): void => {
@@ -239,10 +223,6 @@ class Creator extends React.PureComponent<Props, State> {
 
   onDiscard = (): void => {
     this.setState(this.emptyState());
-  }
-
-  togglePassword = (): void => {
-    this.setState({ isPassVisible: !this.state.isPassVisible });
   }
 }
 

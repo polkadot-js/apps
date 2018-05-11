@@ -6,9 +6,8 @@
 import type { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
-import Button from 'semantic-ui-react/dist/es/elements/Button';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
+import CopyButton from '@polkadot/ui-app/src/CopyButton';
 import Balance from '@polkadot/ui-react-rx/Balance';
 import Nonce from '@polkadot/ui-react-rx/Nonce';
 
@@ -41,13 +40,7 @@ export default function Address ({ className, style, value }: Props): React$Node
         <div className='accounts--Address-address'>
           {short}
         </div>
-        <CopyToClipboard text={address}>
-          <Button
-            icon='copy'
-            primary
-            size='tiny'
-          />
-        </CopyToClipboard>
+        <CopyButton value={address} />
       </div>
       <Balance
         className='accounts--Address-balance'
