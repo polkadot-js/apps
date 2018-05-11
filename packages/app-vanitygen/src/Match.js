@@ -20,40 +20,59 @@ type Props = BareProps & {
   seed: Uint8Array;
 }
 
-export default function Match ({ address, className, count, offset, onRemove, seed, style }: Props): React$Node {
-  const _onRemove = (): void =>
-    onRemove(address);
-  const hexSeed = u8aToHex(seed);
+type State = {
+  hexSeed: string
+};
 
-  return (
-    <div
-      className={['vanity--Match', className].join(' ')}
-      style={style}
-    >
-      <div className='vanity--Match-item'>
-        <IdentityIcon
-          className='vanity--Match-icon'
-          size={48}
-          value={address}
-        />
-        <div className='vanity--Match-data'>
-          <div className='vanity--Match-addr'>
-            <span className='no'>{address.slice(0, offset)}</span><span className='yes'>{address.slice(offset, count + offset)}</span><span className='no'>{address.slice(count + offset)}</span>
-          </div>
-          <div className='vanity--Match-seed'>
-            {hexSeed}
-          </div>
-        </div>
-        <div className='vanity--Match-buttons'>
-          <CopyButton value={hexSeed} />
-          <Button
-            icon='close'
-            negative
-            onClick={_onRemove}
-            size='tiny'
+export default class Match extends React.PureComponent<Props, State> {
+  state: State = ({}: $Shape<State>);
+
+  static getDerivedStateFromProps ({ seed }: Props): State {
+    return {
+      hexSeed: u8aToHex(seed)
+    };
+  }
+
+  render (): React$Node {
+    const { address, className, count, offset, style } = this.props;
+    const { hexSeed } = this.state;
+
+    return (
+      <div
+        className={['vanity--Match', className].join(' ')}
+        style={style}
+      >
+        <div className='vanity--Match-item'>
+          <IdentityIcon
+            className='vanity--Match-icon'
+            size={48}
+            value={address}
           />
+          <div className='vanity--Match-data'>
+            <div className='vanity--Match-addr'>
+              <span className='no'>{address.slice(0, offset)}</span><span className='yes'>{address.slice(offset, count + offset)}</span><span className='no'>{address.slice(count + offset)}</span>
+            </div>
+            <div className='vanity--Match-seed'>
+              {hexSeed}
+            </div>
+          </div>
+          <div className='vanity--Match-buttons'>
+            <CopyButton value={hexSeed} />
+            <Button
+              icon='close'
+              negative
+              onClick={this.onRemove}
+              size='tiny'
+            />
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  onRemove = (): void => {
+    const { address, onRemove } = this.props;
+
+    onRemove(address);
+  }
 }

@@ -8,7 +8,7 @@ import type { Props } from '../types';
 import React from 'react';
 
 import InputAddress from '../../InputAddress';
-import Base from './Base';
+import Bare from './Bare';
 
 export default class Account extends React.PureComponent<Props> {
   render (): React$Node {
@@ -18,20 +18,20 @@ export default class Account extends React.PureComponent<Props> {
     const defaultValue = ((initValue: any): Uint8Array);
 
     return (
-      <Base
+      <Bare
         className={className}
-        label={label}
-        size='large'
         style={style}
       >
         <InputAddress
+          className='large'
           defaultValue={defaultValue}
           isError={isError}
           isInput
+          label={label}
           onChange={this.onChange}
           placeholder='5...'
         />
-      </Base>
+      </Bare>
     );
   }
 

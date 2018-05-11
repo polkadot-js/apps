@@ -11,8 +11,16 @@
   line-height: 1.5em;
 }
 
+.extrinsics--Signer-Decoded {
+  padding-top: 2rem;
+}
+
 .extrinsics--Signer-Unlock {
-  padding-top: 1.5em;
+  padding-top: 1.5rem;
+}
+
+.extrinsics--Signer-Content {
+  padding: 1.5rem 3rem !important;
 }
 
 .extrinsics--Signer-Content .expanded {

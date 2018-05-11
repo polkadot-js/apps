@@ -21,62 +21,82 @@ type Props = I18nProps & {
   value: StorageQuery
 };
 
+type State = {
+  inputs: Array<React$Node>,
+  Component: React$ComponentType<*>;
+};
+
 const cache = [];
 
-function Query ({ className, onRemove, style, value: { id, key, params } }: Props): React$Node {
-  const CachedQuery = (() => {
-    if (!cache[id]) {
-      const values = params.map(({ value }) => value);
+class Query extends React.PureComponent<Props, State> {
+  state: State = ({}: $Shape<State>);
 
-      cache[id] = withStorageDiv(key, { params: values })(
-        (value) =>
-          format(key.type, value),
-        { className: 'ui disabled dropdown selection' }
-      );
-    }
+  static getDerivedStateFromProps ({ value: { id, key, params } }: Props, prevState: State): State | null {
+    const Component = ((): React$ComponentType<*> => {
+      if (!cache[id]) {
+        const values = params.map(({ value }) => value);
 
-    return cache[id];
-  })();
+        cache[id] = withStorageDiv(key, { params: values })(
+          (value) =>
+            format(key.type, value),
+          { className: 'ui disabled dropdown selection' }
+        );
+      }
 
-  const _onRemove = (): void => {
+      return cache[id];
+    })();
+    const inputs = Object
+      .keys(key.params || {})
+      .map((name, index) => {
+        // $FlowFixMe key.params exists
+        const formatted = format(key.params[name].type, params[index].value, 12);
+
+        return (
+          <span key={`param_${name}_${index}`}>{name}={formatted}</span>
+        );
+      });
+
+    return {
+      Component,
+      inputs
+    };
+  }
+
+  render (): React$Node {
+    const { className, style, value: { key } } = this.props;
+    const { Component, inputs } = this.state;
+
+    return (
+      <div
+        className={['storage--Query', 'storage--actionrow', className].join(' ')}
+        style={style}
+      >
+        <Labelled
+          className='storage--actionrow-value'
+          label={
+            <div>{key.section}.{key.name}({inputs}): {typeToText(key.type)}</div>
+          }
+        >
+          <Component />
+        </Labelled>
+        <Labelled className='storage--actionrow-button'>
+          <Button
+            icon='close'
+            negative
+            onClick={this.onRemove}
+          />
+        </Labelled>
+      </div>
+    );
+  }
+
+  onRemove = (): void => {
+    const { onRemove, value: { id } } = this.props;
+
     delete cache[id];
 
     onRemove(id);
-  };
-
-  const inputs = Object
-    .keys(key.params || {})
-    .map((name, index) => {
-      // $FlowFixMe key.params exists
-      const formatted = format(key.params[name].type, params[index].value, 12);
-
-      return (
-        <span>{name}={formatted}</span>
-      );
-    });
-
-  return (
-    <div
-      className={['storage--Query', 'storage--actionrow', className].join(' ')}
-      style={style}
-    >
-      <Labelled
-        className='storage--actionrow-value'>
-        label={
-          <div>{key.section}.{key.name}({inputs}): {typeToText(key.type)}</div>
-        }
-      >
-        <CachedQuery />
-      </Labelled>
-      <Labelled className='storage--actionrow-button'>
-        <Button
-          icon='close'
-          negative
-          onClick={_onRemove}
-        />
-      </Labelled>
-    </div>
-  );
+  }
 }
 
 export default translate(Query);

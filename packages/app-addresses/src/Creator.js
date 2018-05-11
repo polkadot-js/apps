@@ -21,8 +21,7 @@ type Props = I18nProps & {
 };
 
 type State = {
-  address: string | null,
-  publicKey: Uint8Array | null,
+  address: string,
   fieldName: string,
   isAddressValid: boolean,
   isNameValid: boolean,
@@ -41,7 +40,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   render (): React$Node {
     const { className, style, t } = this.props;
-    const { address, fieldName, isAddressValid, isNameValid, isValid, name, publicKey } = this.state;
+    const { address, fieldName, isAddressValid, isNameValid, isValid, name } = this.state;
 
     return (
       <div
@@ -49,6 +48,10 @@ class Creator extends React.PureComponent<Props, State> {
         style={style}
       >
         <div className='ui--grid'>
+          <Address
+            className='medium'
+            value={address}
+          />
           <div className='medium'>
             <div className='ui--row'>
               <Input
@@ -75,18 +78,6 @@ class Creator extends React.PureComponent<Props, State> {
               />
             </div>
           </div>
-          <Address
-            className='medium'
-            value={
-              // flowlint-next-line sketchy-null-string:off
-              !address || !publicKey
-                ? null
-                : {
-                  address,
-                  publicKey
-                }
-            }
-          />
         </div>
         <div className='ui--row-buttons'>
           <Button
@@ -117,8 +108,7 @@ class Creator extends React.PureComponent<Props, State> {
       isAddressValid: false,
       isNameValid: true,
       isValid: false,
-      name: 'new address',
-      publicKey: null
+      name: 'new address'
     };
   }
 
@@ -127,28 +117,24 @@ class Creator extends React.PureComponent<Props, State> {
       (prevState: State, props: Props): $Shape<State> => {
         const { address = prevState.address, name = prevState.name } = newState;
 
-        let nextAddress;
-        let publicKey;
+        let isAddressValid = true;
 
         try {
-          // $FlowFixMe we do expect failures... sometimes
-          publicKey = addressDecode(address);
-          nextAddress = addressEncode(publicKey);
+          addressEncode(
+            addressDecode(address)
+          );
         } catch (error) {
-          nextAddress = void 0;
-          publicKey = void 0;
+          isAddressValid = false;
         }
 
         const isNameValid = !!name;
-        const isAddressValid = !!nextAddress;
 
         return {
-          address: nextAddress,
+          address,
           isAddressValid,
           isNameValid,
           isValid: isAddressValid && isNameValid,
-          name,
-          publicKey
+          name
         };
       }
     );
@@ -166,10 +152,7 @@ class Creator extends React.PureComponent<Props, State> {
     const { onBack } = this.props;
     const { address, name } = this.state;
 
-    // flowlint-next-line sketchy-null-string:off
-    if (address) {
-      keyring.saveAddress(address, { name });
-    }
+    keyring.saveAddress(address, { name });
 
     onBack();
   }

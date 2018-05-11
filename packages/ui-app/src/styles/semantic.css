@@ -43,7 +43,7 @@
 .ui.modal > .actions {
   background: transparent;
   border-top: none;
-  text-align: center;
+  text-align: right;
 }
 
 .ui.modal > .actions .button {

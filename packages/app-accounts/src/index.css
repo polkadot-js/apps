@@ -15,6 +15,11 @@
   text-align: center;
 }
 
+.accounts--Address.invalid {
+  filter: grayscale(100);
+  opacity: 0.45;
+}
+
 .accounts--Address-icon {
   display: block
 }

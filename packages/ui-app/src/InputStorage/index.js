@@ -50,20 +50,18 @@ class InputStorage extends React.PureComponent<Props, State> {
         className={['ui--DropdownLinked', 'ui--row', className].join(' ')}
         style={style}
       >
-        <div className='small'>
-          <SelectSection
-            label={labelSection}
-            onChange={this.onSectionChange}
-            value={value}
-          />
-        </div>
-        <div className='large'>
-          <SelectKey
-            label={labelMethod}
-            onChange={this.onKeyChange}
-            value={value}
-          />
-        </div>
+        <SelectSection
+          className='small'
+          label={labelSection}
+          onChange={this.onSectionChange}
+          value={value}
+        />
+        <SelectKey
+          className='large'
+          label={labelMethod}
+          onChange={this.onKeyChange}
+          value={value}
+        />
       </div>
     );
   }

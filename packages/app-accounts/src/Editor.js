@@ -50,6 +50,10 @@ class Editor extends React.PureComponent<Props, State> {
         style={style}
       >
         <div className='ui--grid'>
+          <Address
+            className='medium'
+            value={currentPair.address()}
+          />
           <div className='medium'>
             <div className='ui--row'>
               <InputAddress
@@ -75,13 +79,6 @@ class Editor extends React.PureComponent<Props, State> {
               />
             </div>
           </div>
-          <Address
-            className='medium'
-            value={{
-              address: currentPair.address(),
-              publicKey: currentPair.publicKey()
-            }}
-          />
         </div>
         <div className='ui--row-buttons'>
           <Button

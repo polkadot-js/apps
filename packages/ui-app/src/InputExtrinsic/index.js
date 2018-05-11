@@ -52,22 +52,20 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
         className={['ui--DropdownLinked', 'ui--row', className].join(' ')}
         style={style}
       >
-        <div className='small'>
-          <SelectSection
-            label={labelSection}
-            onChange={this.onSectionChange}
-            type={type}
-            value={value}
-          />
-        </div>
-        <div className='large'>
-          <SelectMethod
-            label={labelMethod}
-            onChange={this.onKeyChange}
-            value={value}
-            type={type}
-          />
-        </div>
+        <SelectSection
+          className='small'
+          label={labelSection}
+          onChange={this.onSectionChange}
+          type={type}
+          value={value}
+        />
+        <SelectMethod
+          className='large'
+          label={labelMethod}
+          onChange={this.onKeyChange}
+          value={value}
+          type={type}
+        />
       </div>
     );
   }
