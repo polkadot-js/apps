@@ -32,15 +32,9 @@ const defaultExtrinsic = extrinsics.staking.methods.public.transfer;
 let id = 0;
 
 class Selection extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = ({
-      isValid: false
-    }: $Shape<State>);
-  }
+  state: State = ({
+    isValid: false
+  }: $Shape<State>);
 
   render () {
     const { className, style, t } = this.props;

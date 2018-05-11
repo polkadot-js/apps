@@ -21,15 +21,9 @@ type State = {
 };
 
 export default class App extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      queue: []
-    };
-  }
+  state: State = {
+    queue: []
+  };
 
   render (): React$Node {
     const { className, style } = this.props;

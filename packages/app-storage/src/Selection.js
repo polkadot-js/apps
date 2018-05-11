@@ -33,13 +33,9 @@ const defaultValue = storage.timestamp.keys.current;
 let id = -1;
 
 class Selection extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = ({
-      key: defaultValue
-    }: $Shape<State>);
-  }
+  state: State = ({
+    key: defaultValue
+  }: $Shape<State>);
 
   render (): React$Node {
     const { className, style, t } = this.props;

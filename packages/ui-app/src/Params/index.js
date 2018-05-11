@@ -27,14 +27,7 @@ type State = {
 };
 
 class Params extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    // wed ont' set anything, getDerivedStateFromProps will update
-    this.state = ({}: $Shape<State>);
-  }
+  state: State = ({}: $Shape<State>);
 
   static getDerivedStateFromProps ({ item, onChange }: Props, { item: { name, section } = {} }: State): $Shape<State> | null {
     if (name === item.name && section === item.section) {

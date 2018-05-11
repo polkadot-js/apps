@@ -10,8 +10,8 @@ import './index.css';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
-import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 
+import Dropdown from '@polkadot/ui-app/src/Dropdown';
 import Input from '@polkadot/ui-app/src/Input';
 import Labelled from '@polkadot/ui-app/src/Labelled';
 
@@ -42,25 +42,18 @@ const BOOL_OPTIONS = [
 ];
 
 class App extends React.PureComponent<Props, State> {
-  results: Array<Generator$Result>;
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.results = [];
-    this.state = {
-      elapsed: 0,
-      isMatchValid: true,
-      isRunning: false,
-      keyCount: 0,
-      keyTime: 0,
-      match: DEFAULT_MATCH,
-      matches: [],
-      startAt: 0,
-      withCase: true
-    };
-  }
+  results: Array<Generator$Result> = [];
+  state: State = {
+    elapsed: 0,
+    isMatchValid: true,
+    isRunning: false,
+    keyCount: 0,
+    keyTime: 0,
+    match: DEFAULT_MATCH,
+    matches: [],
+    startAt: 0,
+    withCase: true
+  };
 
   render (): React$Node {
     const { className, style, t } = this.props;
@@ -82,19 +75,15 @@ class App extends React.PureComponent<Props, State> {
             onChange={this.onChangeMatch}
             value={match}
           />
-          <Labelled
+          <Dropdown
             className='small'
             label={t('vanity.case', {
               defaultValue: 'case sensitive match'
             })}
-          >
-            <Dropdown
-              selection
-              options={BOOL_OPTIONS}
-              onChange={this.onChangeCase}
-              value={withCase}
-            />
-          </Labelled>
+            options={BOOL_OPTIONS}
+            onChange={this.onChangeCase}
+            value={withCase}
+          />
           <Labelled
             className='small'
             label={t('vanity.offset', {
@@ -209,11 +198,8 @@ class App extends React.PureComponent<Props, State> {
     }, 0);
   }
 
-  // eslint-disable-next-line no-unused-vars
-  onChangeCase = (event: SyntheticEvent<*>, { value }): void => {
-    this.setState({
-      withCase: value
-    });
+  onChangeCase = (withCase: boolean): void => {
+    this.setState({ withCase });
   }
 
   onChangeMatch = (match: string): void => {
