@@ -57,12 +57,15 @@ export type State = {
 };
 
 export type KeyringInstance = {
+  createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta) => KeyringPair,
+  getAddress: (address: string | Uint8Array) => KeyringAddress,
+  getAddresses: () => Array<KeyringAddress>,
   getOptions: (type: KeyringOption$Type) => KeyringOptions,
   getPair: (address: string | Uint8Array) => KeyringPair,
   getPairs: () => Array<KeyringPair>,
   loadAll: () => void,
-  createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta) => KeyringPair,
   saveAccount: (pair: KeyringPair, password?: string) => void,
   saveAccountMeta: (pair: KeyringPair, meta: KeyringPair$Meta) => void,
+  saveAddress: (address: string, meta: KeyringPair$Meta) => void,
   saveRecent: (address: string) => KeyringOption
 };

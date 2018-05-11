@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { KeyringAddress } from '@polkadot/util-keyring/types';
+import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 import type { I18nProps } from '@polkadot/ui-react-app/types';
 
 import React from 'react';
@@ -22,7 +22,7 @@ type Props = I18nProps & {
 
 type State = {
   currentAddress?: KeyringAddress,
-  defaultPublicKey: Uint8Array | null,
+  defaultPublicKey?: Uint8Array,
   editedName: string,
   isEdited: boolean,
   info: KeyringAddress | null
@@ -40,7 +40,7 @@ class Editor extends React.PureComponent<Props, State> {
     this.state = this.createState(currentAddress);
     this.state.defaultPublicKey = currentAddress
       ? currentAddress.publicKey()
-      : null;
+      : void 0;
   }
 
   render (): React$Node {
@@ -139,8 +139,9 @@ class Editor extends React.PureComponent<Props, State> {
     this.setState(
       (prevState: State): $Shape<State> => {
         let { currentAddress = prevState.currentAddress, editedName = prevState.editedName } = newState;
+        const previous = prevState.currentAddress || { address: () => null };
 
-        if (currentAddress && currentAddress.address() !== prevState.currentAddress.address()) {
+        if (currentAddress && currentAddress.address() !== previous.address()) {
           editedName = currentAddress.getMeta().name || '';
         }
 

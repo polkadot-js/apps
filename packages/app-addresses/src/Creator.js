@@ -133,6 +133,7 @@ class Creator extends React.PureComponent<Props, State> {
         let publicKey;
 
         try {
+          // $FlowFixMe we do expect failures... sometimes
           publicKey = addressDecode(address);
           nextAddress = addressEncode(publicKey);
         } catch (error) {
@@ -169,7 +170,10 @@ class Creator extends React.PureComponent<Props, State> {
     const { onBack } = this.props;
     const { address, name } = this.state;
 
-    keyring.saveAddress(address, { name });
+    // flowlint-next-line sketchy-null-string:off
+    if (address) {
+      keyring.saveAddress(address, { name });
+    }
 
     onBack();
   }

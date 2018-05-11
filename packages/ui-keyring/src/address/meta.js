@@ -3,18 +3,19 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-// import type { KeyringPair$Meta } from '@polkadot/util-keyring/types';
-import type { KeyringJson, KeyringOption, State } from '../types';
+import type { KeyringPair$Meta } from '@polkadot/util-keyring/types';
+import type { KeyringJson, State } from '../types';
 
 import store from 'store';
 
 import { addressKey } from '../defaults';
 import createOptions from '../options';
 
-export default function saveMeta (state: State, address: string, meta: KeyringPair$Meta): KeyringOption {
+export default function saveMeta (state: State, address: string, meta: KeyringPair$Meta): void {
   const json = state.available[address] || {
     address,
     meta: {
+      isRecent: void 0,
       whenCreated: Date.now()
     }
   };
@@ -29,7 +30,4 @@ export default function saveMeta (state: State, address: string, meta: KeyringPa
   state.available.address[address] = (json: $Shape<KeyringJson>);
 
   createOptions(state);
-
-  // $FlowFixMe we will have it now
-  return state.options.address.find(({ value }) => value === address);
 }

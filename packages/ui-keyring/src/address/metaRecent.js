@@ -3,7 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-// import type { KeyringPair$Meta } from '@polkadot/util-keyring/types';
 import type { KeyringJson, KeyringOption, State } from '../types';
 
 import store from 'store';
