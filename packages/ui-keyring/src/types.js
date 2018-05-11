@@ -17,6 +17,9 @@ export type KeyringOption$Data = {
 }
 
 export type KeyringOption = KeyringOption$Data & {
+  className?: string,
+  disabled?: boolean,
+  content?: React$Node | string,
   key: string | null,
   name: string,
   text: React$Node | string,

@@ -11,6 +11,7 @@ import './InputAddress.css';
 import React from 'react';
 
 import keyring from '@polkadot/ui-keyring/src';
+import createOptionHeader from '@polkadot/ui-keyring/src/options/header';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 
 import Dropdown from '../Dropdown';
@@ -31,6 +32,8 @@ type State = {
   defaultValue: ?string;
   value: ?string;
 }
+
+const RECENT_KEY = 'header-recent';
 
 const transform = (value: string): Uint8Array => {
   try {
@@ -82,9 +85,8 @@ export default class InputAddress extends React.Component<Props, State> {
     const { isInput = true } = this.props;
     const queryLower = query.toLowerCase();
     const matches = filteredOptions.filter((item) => {
-      // flowlint-next-line sketchy-null-string:off
-      if (!item.key) {
-        return false;
+      if (!item.value) {
+        return true;
       }
 
       const { name, value } = item;
@@ -94,17 +96,32 @@ export default class InputAddress extends React.Component<Props, State> {
       return hasMatch;
     });
 
-    // see if we should add a new item, i.e. valid address found
-    if (isInput && matches.length === 0) {
+    const valueMatches = matches.filter((item) => item.value);
+
+    // see if we should add a new item, i.e. no valid address found
+    if (isInput && valueMatches.length === 0) {
       const publicKey = transform(query);
 
       if (publicKey.length === 32) {
+        if (!matches.find((item) => item.key === RECENT_KEY)) {
+          matches.push(
+            createOptionHeader('Recent')
+          );
+        }
+
         matches.push(
           keyring.saveRecent(query)
         );
       }
     }
 
-    return matches;
+    return matches.filter((item, index) => {
+      // it is a value entry or header followed by a value entry
+      if (item.value || (index !== matches.length - 1 && matches[index + 1].value)) {
+        return true;
+      }
+
+      return false;
+    });
   };
 }

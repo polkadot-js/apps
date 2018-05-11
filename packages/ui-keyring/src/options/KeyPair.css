@@ -38,3 +38,10 @@
   text-transform: uppercase;
   text-overflow: ellipsis;
 }
+
+.ui.dropdown .menu > .disabled.item.ui--KeyPair-header {
+  font-size: .75em;
+  font-weight: 700;
+  opacity: 1;
+  text-transform: uppercase;
+}
