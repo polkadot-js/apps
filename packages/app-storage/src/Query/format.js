@@ -6,6 +6,7 @@
 import type { Param$Type, Param$TypeArray } from '@polkadot/primitives/param';
 
 import React from 'react';
+
 // import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 import u8aToBn from '@polkadot/util/u8a/toBn';

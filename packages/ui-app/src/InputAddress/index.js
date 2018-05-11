@@ -9,6 +9,7 @@ import type { BareProps } from '../types';
 import './InputAddress.css';
 
 import React from 'react';
+
 import keyring from '@polkadot/ui-keyring/src';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';

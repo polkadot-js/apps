@@ -9,17 +9,21 @@ import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 
 type Props = BareProps & {
-  label?: string,
+  label?: React$Node,
   children: React$Node
 };
 
-export default function Labelled ({ className, children, label = ' ', style }: Props): React$Node {
+export default function Labelled ({ className, children, label, style }: Props): React$Node {
   return (
     <div
       className={className}
       style={style}
     >
-      <Label>{label}</Label>
+      <Label>{
+        typeof label === 'undefined'
+          ? ' '
+          : label
+      }</Label>
       {children}
     </div>
   );

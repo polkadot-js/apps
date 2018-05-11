@@ -7,7 +7,8 @@ import type { BareProps } from '../../types';
 import type { Size } from '../types';
 
 import React from 'react';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
+
+import Labelled from '../../Labelled';
 
 type Props = BareProps & {
   children: React$Node,
@@ -21,10 +22,12 @@ export default function Base ({ children, className, label, size = 'medium', sty
       className={['ui--row', className].join(' ')}
       style={style}
     >
-      <div className={size}>
-        <Label>{label}</Label>
+      <Labelled
+        className={size}
+        label={label}
+      >
         {children}
-      </div>
+      </Labelled>
     </div>
   );
 }

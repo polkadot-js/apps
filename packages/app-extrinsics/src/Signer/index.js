@@ -12,6 +12,7 @@ import './Signer.css';
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 import Modal from 'semantic-ui-react/dist/es/modules/Modal';
+
 import keyring from '@polkadot/ui-keyring/src';
 import withApi from '@polkadot/ui-react-rx/with/api';
 

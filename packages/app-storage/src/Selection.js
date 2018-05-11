@@ -10,10 +10,10 @@ import type { StorageQuery } from './types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
-// import encode from '@polkadot/extrinsics-codec/encode/params';
+
 import storage from '@polkadot/storage-substrate/keys';
 import InputStorage from '@polkadot/ui-app/src/InputStorage';
+import Labelled from '@polkadot/ui-app/src/Labelled';
 import Params from '@polkadot/ui-app/src/Params';
 import isUndefined from '@polkadot/util/is/undefined';
 
@@ -63,15 +63,14 @@ class Selection extends React.PureComponent<Props, State> {
             onChange={this.onChangeParams}
           />
         </div>
-        <div className='storage--actionrow-button'>
-          <Label>&nbsp;</Label>
+        <Labelled className='storage--actionrow-button'>
           <Button
             disabled={!isValid}
             icon='plus'
             onClick={this.onAdd}
             primary
           />
-        </div>
+        </Labelled>
       </div>
     );
   }

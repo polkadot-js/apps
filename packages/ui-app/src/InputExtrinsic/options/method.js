@@ -6,6 +6,7 @@
 import type { ExtrinsicSectionName } from '@polkadot/extrinsics/types';
 
 import React from 'react';
+
 import map from '@polkadot/extrinsics-substrate';
 
 // flowlint-next-line unclear-type:off

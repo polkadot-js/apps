@@ -8,7 +8,8 @@ import type { StorageQuery } from '../types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
+
+import Labelled from '@polkadot/ui-app/src/Labelled';
 import typeToText from '@polkadot/ui-app/src/Params/typeToText';
 import withStorageDiv from '@polkadot/ui-react-rx/with/storageDiv';
 
@@ -59,20 +60,21 @@ function Query ({ className, onRemove, style, value: { id, key, params } }: Prop
       className={['storage--Query', 'storage--actionrow', className].join(' ')}
       style={style}
     >
-      <div className='storage--actionrow-value'>
-        <Label>
-          {key.section}.{key.name}({inputs}): {typeToText(key.type)}
-        </Label>
+      <Labelled
+        className='storage--actionrow-value'>
+        label={
+          <div>{key.section}.{key.name}({inputs}): {typeToText(key.type)}</div>
+        }
+      >
         <CachedQuery />
-      </div>
-      <div className='storage--actionrow-button'>
-        <Label>&nbsp;</Label>
+      </Labelled>
+      <Labelled className='storage--actionrow-button'>
         <Button
           icon='close'
           negative
           onClick={_onRemove}
         />
-      </div>
+      </Labelled>
     </div>
   );
 }

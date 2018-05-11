@@ -6,6 +6,7 @@
 import type { StateDb$SectionNames } from '@polkadot/storage/types';
 
 import React from 'react';
+
 import map from '@polkadot/storage-substrate/keys';
 
 // flowlint-next-line unclear-type:off

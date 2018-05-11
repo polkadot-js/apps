@@ -7,7 +7,8 @@ import type { BareProps } from './types';
 
 import React from 'react';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
+
+import Labelled from './Labelled';
 
 type Props = BareProps & {
   defaultValue?: string,
@@ -35,13 +36,11 @@ export default function RxDropdown (props: Props): React$Node {
   delete _props.transform;
 
   return (
-    <div
+    <Labelled
       className={['ui--Dropdown', props.className].join(' ')}
+      label={props.label}
       style={props.style}
     >
-      <Label key='label'>
-        {props.label || ''}
-      </Label>,
       <Dropdown
         key='dropdown'
         selection
@@ -51,6 +50,6 @@ export default function RxDropdown (props: Props): React$Node {
         onChange={_onChange}
         style={{}}
       />
-    </div>
+    </Labelled>
   );
 }

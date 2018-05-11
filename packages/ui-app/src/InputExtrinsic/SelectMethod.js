@@ -7,6 +7,7 @@ import type { Extrinsic } from '@polkadot/extrinsics/types';
 import type { I18nProps } from '../types';
 
 import React from 'react';
+
 import extrinsics from '@polkadot/extrinsics-substrate';
 
 import RxDropdown from '../RxDropdown';

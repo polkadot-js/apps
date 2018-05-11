@@ -7,8 +7,8 @@ import type { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
-import Input from 'semantic-ui-react/dist/es/elements/Input';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
+
+import Input from '@polkadot/ui-app/src/Input';
 import keyring from '@polkadot/ui-keyring/src';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
@@ -51,30 +51,28 @@ class Creator extends React.PureComponent<Props, State> {
         <div className='ui--grid'>
           <div className='medium'>
             <div className='ui--row'>
-              <div className='full'>
-                <Label>{t('creator.address', {
+              <Input
+                className='full'
+                isError={!isAddressValid}
+                label={t('creator.address', {
                   defaultValue: 'add the following address'
-                })}</Label>
-                <Input
-                  error={!isAddressValid}
-                  name={`${fieldName}_address`}
-                  onChange={this.onChangeAddress}
-                  value={address}
-                />
-              </div>
+                })}
+                name={`${fieldName}_address`}
+                onChange={this.onChangeAddress}
+                value={address}
+              />
             </div>
             <div className='ui--row'>
-              <div className='full'>
-                <Label>{t('creator.name', {
+              <Input
+                className='full'
+                isError={!isNameValid}
+                label={t('creator.name', {
                   defaultValue: 'name the entry'
-                })}</Label>
-                <Input
-                  error={!isNameValid}
-                  name={`${fieldName}_name`}
-                  onChange={this.onChangeName}
-                  value={name}
-                />
-              </div>
+                })}
+                name={`${fieldName}_name`}
+                onChange={this.onChangeName}
+                value={name}
+              />
             </div>
           </div>
           <Address
@@ -156,14 +154,12 @@ class Creator extends React.PureComponent<Props, State> {
     );
   }
 
-  // eslint-disable-next-line no-unused-vars
-  onChangeAddress = (event: SyntheticEvent<*>, { value }): void => {
-    this.nextState({ address: value });
+  onChangeAddress = (address: string): void => {
+    this.nextState({ address });
   }
 
-  // eslint-disable-next-line no-unused-vars
-  onChangeName = (event: SyntheticEvent<*>, { value }): void => {
-    this.nextState({ name: value });
+  onChangeName = (name: string): void => {
+    this.nextState({ name });
   }
 
   onCommit = (): void => {

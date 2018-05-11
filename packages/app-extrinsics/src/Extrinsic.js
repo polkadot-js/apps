@@ -9,6 +9,7 @@ import type { RawParam } from '@polkadot/ui-app/Params/types';
 import type { EncodedMessage } from './types';
 
 import React from 'react';
+
 import encode from '@polkadot/extrinsics-codec/encode/extrinsic';
 import InputExtrinsic from '@polkadot/ui-app/src/InputExtrinsic';
 import Params from '@polkadot/ui-app/src/Params';

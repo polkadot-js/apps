@@ -14,10 +14,12 @@ type Props = BareProps & {
   children?: React$Node,
   defaultValue?: mixed,
   isAction?: boolean,
+  isDisabled?: boolean,
   isError?: boolean,
   label?: string,
   name?: string,
-  onChange: (value: string) => void,
+  // flowlint-next-line unclear-type:off
+  onChange: (value: any) => void,
   type?: string,
   value: mixed
 };
@@ -29,7 +31,7 @@ type SUIEvent = {
 
 export default class Input extends React.PureComponent<Props> {
   render (): React$Node {
-    const { children, className, defaultValue, isAction = false, isError = false, label, name, style, type = 'text', value } = this.props;
+    const { children, className, defaultValue, isAction = false, isDisabled = false, isError = false, label, name, style, type = 'text', value } = this.props;
 
     return (
       <Labelled
@@ -40,6 +42,7 @@ export default class Input extends React.PureComponent<Props> {
         <SUIInput
           action={isAction}
           defaultValue={defaultValue}
+          disabled={isDisabled}
           error={isError}
           name={name}
           onChange={this.onChange}

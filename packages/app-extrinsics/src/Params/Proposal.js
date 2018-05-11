@@ -8,6 +8,7 @@ import type { I18nProps } from '@polkadot/ui-app/types';
 import type { EncodedMessage } from '../types';
 
 import React from 'react';
+
 import extrinsics from '@polkadot/extrinsics-substrate';
 
 import Extrinsic from '../Extrinsic';

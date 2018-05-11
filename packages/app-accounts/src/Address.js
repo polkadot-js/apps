@@ -6,8 +6,9 @@
 import type { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
+
 import CopyButton from '@polkadot/ui-app/src/CopyButton';
+import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Balance from '@polkadot/ui-react-rx/Balance';
 import Nonce from '@polkadot/ui-react-rx/Nonce';
 

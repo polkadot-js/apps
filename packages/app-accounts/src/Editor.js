@@ -8,9 +8,10 @@ import type { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
+
 import Input from '@polkadot/ui-app/src/Input';
-import keyring from '@polkadot/ui-keyring/src';
 import InputAddress from '@polkadot/ui-app/src/InputAddress';
+import keyring from '@polkadot/ui-keyring/src';
 
 import Address from './Address';
 import translate from './translate';

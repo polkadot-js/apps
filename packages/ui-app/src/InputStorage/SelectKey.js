@@ -7,6 +7,7 @@ import type { StorageDef$Key } from '@polkadot/storage/types';
 import type { I18nProps } from '../types';
 
 import React from 'react';
+
 import map from '@polkadot/storage-substrate/keys';
 
 import RxDropdown from '../RxDropdown';

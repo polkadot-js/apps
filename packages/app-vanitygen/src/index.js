@@ -10,9 +10,10 @@ import './index.css';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
-import Input from 'semantic-ui-react/dist/es/elements/Input';
-import Label from 'semantic-ui-react/dist/es/elements/Label';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
+
+import Input from '@polkadot/ui-app/src/Input';
+import Labelled from '@polkadot/ui-app/src/Labelled';
 
 import Match from './Match';
 import generator from './generator';
@@ -71,38 +72,41 @@ class App extends React.PureComponent<Props, State> {
         style={style}
       >
         <div className='ui--row'>
-          <div className='medium'>
-            <Label>{t('vanity.matching', {
+          <Input
+            className='medium'
+            isDisable={isRunning}
+            isError={!isMatchValid}
+            label={t('vanity.matching', {
               defaultValue: 'generate address containing (? wildcard)'
-            })}</Label>
-            <Input
-              disabled={isRunning}
-              error={!isMatchValid}
-              onChange={this.onChangeMatch}
-              value={match}
-            />
-          </div>
-          <div className='small'>
-            <Label>{t('vanity.case', {
+            })}
+            onChange={this.onChangeMatch}
+            value={match}
+          />
+          <Labelled
+            className='small'
+            label={t('vanity.case', {
               defaultValue: 'case sensitive match'
-            })}</Label>
+            })}
+          >
             <Dropdown
               selection
               options={BOOL_OPTIONS}
               onChange={this.onChangeCase}
               value={withCase}
             />
-          </div>
-          <div className='small'>
-            <Label>{t('vanity.offset', {
+          </Labelled>
+          <Labelled
+            className='small'
+            label={t('vanity.offset', {
               defaultValue: 'exact offset'
-            })}</Label>
+            })}
+          >
             <div className='ui dropdown selection disabled'>
               {t('vanity.offset.off', {
                 defaultValue: 'No'
               })}
             </div>
-          </div>
+          </Labelled>
         </div>
         <div className='ui--row-buttons'>
           <Button
@@ -212,14 +216,13 @@ class App extends React.PureComponent<Props, State> {
     });
   }
 
-  // eslint-disable-next-line no-unused-vars
-  onChangeMatch = (event: SyntheticEvent<*>, { value }): void => {
+  onChangeMatch = (match: string): void => {
     this.setState({
       isMatchValid:
-        matchRegex.test(value) &&
-        (value.length !== 0) &&
-        (value.length < 31),
-      match: value
+        matchRegex.test(match) &&
+        (match.length !== 0) &&
+        (match.length < 31),
+      match
     });
   }
 

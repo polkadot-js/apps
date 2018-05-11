@@ -6,6 +6,7 @@
 import type { Props } from '../types';
 
 import React from 'react';
+
 import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 

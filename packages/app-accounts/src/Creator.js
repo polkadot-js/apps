@@ -7,6 +7,7 @@ import type { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
+
 import Input from '@polkadot/ui-app/src/Input';
 import Password from '@polkadot/ui-app/src/Password';
 import keyring from '@polkadot/ui-keyring/src';

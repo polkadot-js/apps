@@ -13,6 +13,7 @@ import Input from './Input';
 type Props = BareProps & {
   defaultValue?: mixed,
   children?: React$Node,
+  isDisabled?: boolean,
   isError?: boolean,
   label?: string,
   name?: string,
@@ -30,7 +31,7 @@ export default class Password extends React.PureComponent<Props, State> {
   };
 
   render (): React$Node {
-    const { children, className, defaultValue, isError = false, label, name, onChange, style, value } = this.props;
+    const { children, className, defaultValue, isDisabled, isError, label, name, onChange, style, value } = this.props;
     const { isVisible } = this.state;
 
     return (
@@ -38,6 +39,7 @@ export default class Password extends React.PureComponent<Props, State> {
         className={className}
         defaultValue={defaultValue}
         isAction
+        isDisabled={isDisabled}
         isError={isError}
         label={label}
         name={name}

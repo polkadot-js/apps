@@ -30,14 +30,10 @@ const Components: { [Actions]: React$ComponentType<*> } = {
 };
 
 class App extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      currentAction: 'edit',
-      currentAddress: null
-    };
-  }
+  state: State = {
+    currentAction: 'edit',
+    currentAddress: null
+  };
 
   render (): React$Node {
     const { className, style, t } = this.props;

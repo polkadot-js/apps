@@ -7,6 +7,7 @@
 import type { Param } from '@polkadot/primitives/param';
 
 import BN from 'bn.js';
+
 import isUndefined from '@polkadot/util/is/undefined';
 
 export default function getInitValue ({ options: { initValue, minValue } = {}, type }: Param): mixed {
