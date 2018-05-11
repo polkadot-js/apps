@@ -29,7 +29,9 @@
   opacity: 0.45;
 }
 
-.accounts--Address-data {}
+.accounts--Address-data {
+  padding: 0 2em;
+}
 
 .accounts--Address-data * {
   margin: 0 0.25rem !important;

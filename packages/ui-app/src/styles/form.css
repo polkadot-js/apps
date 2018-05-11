@@ -20,13 +20,27 @@
 .ui--row > div {
   box-sizing: border-box;
   min-width: 0;
+}
+
+.ui--grid > div:not(.grow):not(.shrink),
+.ui--row > div:not(.grow):not(.shrink) {
   width: 100%;
 }
 
-.ui--grid > div,
+.ui--grid > div:not(.shrink),
 .ui--grid > div.full,
 .ui--row > div.full {
   flex: 0 100%;
+}
+
+.ui--grid > div.shrink,
+.ui--row > div.shrink {
+  flex: 0 1 auto;
+}
+
+.ui--grid > div.grow,
+.ui--row > div.grow {
+  flex: 1 1 auto;
 }
 
 .ui--grid > div.large,

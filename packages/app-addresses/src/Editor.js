@@ -69,10 +69,10 @@ class Editor extends React.PureComponent<Props, State> {
       >
         <div className='ui--grid'>
           <Address
-            className='medium'
+            className='shrink'
             value={address}
           />
-          <div className='medium'>
+          <div className='grow'>
             <div className='ui--row'>
               <InputAddress
                 className='full'

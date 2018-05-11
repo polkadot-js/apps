@@ -72,14 +72,14 @@ class Creator extends React.PureComponent<Props, State> {
       >
         <div className='ui--grid'>
           <Address
-            className='medium'
+            className='shrink'
             value={
               isSeedValid
                 ? address
                 : null
             }
           />
-          <div className='medium'>
+          <div className='grow'>
             <div className='ui--row'>
               <Input
                 className='full'
