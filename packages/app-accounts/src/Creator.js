@@ -6,8 +6,8 @@
 import type { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import Button from 'semantic-ui-react/dist/es/elements/Button';
 
+import Button from '@polkadot/ui-app/src/Button';
 import Input from '@polkadot/ui-app/src/Input';
 import Password from '@polkadot/ui-app/src/Password';
 import keyring from '@polkadot/ui-keyring/src';
@@ -28,7 +28,6 @@ type Props = I18nProps & {
 
 type State = {
   address: string,
-  fieldName: string,
   isNameValid: boolean,
   isSeedValid: boolean,
   isPassValid: boolean,
@@ -63,7 +62,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   render (): React$Node {
     const { className, style, t } = this.props;
-    const { address, fieldName, isNameValid, isPassValid, isSeedValid, isValid, name, password, seed } = this.state;
+    const { address, isNameValid, isPassValid, isSeedValid, isValid, name, password, seed } = this.state;
 
     return (
       <div
@@ -87,7 +86,6 @@ class Creator extends React.PureComponent<Props, State> {
                 label={t('creator.seed', {
                   defaultValue: 'create from the following seed (hex or string)'
                 })}
-                name={`${fieldName}_seed`}
                 onChange={this.onChangeSeed}
                 value={seed}
               />
@@ -99,7 +97,6 @@ class Creator extends React.PureComponent<Props, State> {
                 label={t('creator.name', {
                   defaultValue: 'name the account'
                 })}
-                name={`${fieldName}_name`}
                 onChange={this.onChangeName}
                 value={name}
               />
@@ -111,31 +108,28 @@ class Creator extends React.PureComponent<Props, State> {
                 label={t('creator.password', {
                   defaultValue: 'encrypt it using the password'
                 })}
-                name={`${fieldName}_pass`}
                 onChange={this.onChangePass}
                 value={password}
               />
             </div>
           </div>
         </div>
-        <div className='ui--row-buttons'>
+        <Button.Group>
           <Button
             onClick={this.onDiscard}
-          >
-            {t('creator.discard', {
+            text={t('creator.discard', {
               defaultValue: 'Reset'
             })}
-          </Button>
+          />
           <Button
-            disabled={!isValid}
+            isDisabled={!isValid}
+            isPrimary
             onClick={this.onCommit}
-            primary
-          >
-            {t('creator.save', {
+            text={t('creator.save', {
               defaultValue: 'Save'
             })}
-          </Button>
-        </div>
+          />
+        </Button.Group>
       </div>
     );
   }
@@ -146,7 +140,6 @@ class Creator extends React.PureComponent<Props, State> {
 
     return {
       address,
-      fieldName: `field_${Date.now()}`,
       isNameValid: true,
       isPassValid: false,
       isSeedValid: true,

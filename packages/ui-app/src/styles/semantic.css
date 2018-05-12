@@ -46,9 +46,9 @@
   text-align: right;
 }
 
-.ui.modal > .actions .button {
-  margin: 0 0.25rem;
-  text-align: left;
+.ui.modal > .header {
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .ui.page.modals.transition.visible {

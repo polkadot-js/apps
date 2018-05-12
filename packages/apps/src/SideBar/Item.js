@@ -10,8 +10,9 @@ import './Item.css';
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import Icon from 'semantic-ui-react/dist/es/elements/Icon';
-import Menu from 'semantic-ui-react/dist/es/collections/Menu';
+
+import Icon from '@polkadot/ui-app/src/Icon';
+import Menu from '@polkadot/ui-app/src/Menu';
 
 type Props = I18nProps & Route & {};
 

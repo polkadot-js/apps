@@ -8,7 +8,8 @@ import type { I18nProps } from '@polkadot/ui-app/types';
 import './index.css';
 
 import React from 'react';
-import Button from 'semantic-ui-react/dist/es/elements/Button';
+
+import Button from '@polkadot/ui-app/src/Button';
 
 import Creator from './Creator';
 import Editor from './Editor';
@@ -41,31 +42,23 @@ class App extends React.PureComponent<Props, State> {
         className={['accounts--App', className].join(' ')}
         style={style}
       >
-        <div className='accounts--App-navigation'>
-          <Button.Group>
-            <Button
-              onClick={this.selectEdit}
-              primary={action === 'edit'}
-            >
-              {t('app.edit', {
-                defaultValue: 'Edit account'
-              })}
-            </Button>
-            <Button.Or
-              text={t('app.or', {
-                defaultValue: 'or'
-              })}
-            />
-            <Button
-              onClick={this.selectCreate}
-              primary={action === 'create'}
-            >
-              {t('app.create', {
-                defaultValue: 'Create account'
-              })}
-            </Button>
-          </Button.Group>
-        </div>
+        <Button.Group className='accounts--App-navigation'>
+          <Button
+            isPrimary={action === 'edit'}
+            onClick={this.selectEdit}
+            text={t('app.edit', {
+              defaultValue: 'Edit account'
+            })}
+          />
+          <Button.Or />
+          <Button
+            isPrimary={action === 'create'}
+            onClick={this.selectCreate}
+            text={t('app.create', {
+              defaultValue: 'Create account'
+            })}
+          />
+        </Button.Group>
         <Component onBack={this.selectEdit} />
       </div>
     );

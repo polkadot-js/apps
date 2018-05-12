@@ -7,8 +7,8 @@ import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 import type { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import Button from 'semantic-ui-react/dist/es/elements/Button';
 
+import Button from '@polkadot/ui-app/src/Button';
 import Input from '@polkadot/ui-app/src/Input';
 import InputAddress from '@polkadot/ui-app/src/InputAddress';
 import keyring from '@polkadot/ui-keyring/src';
@@ -99,34 +99,31 @@ class Editor extends React.PureComponent<Props, State> {
             </div>
           </div>
         </div>
-        <div className='ui--row-buttons'>
+        <Button.Group>
           <Button
-            disabled={!isEdited}
-            onClick={this.onDiscard}
-          >
-            {t('editor.reset', {
-              defaultValue: 'Reset'
-            })}
-          </Button>
-          <Button
-            disabled={!isEdited}
-            onClick={this.onCommit}
-            primary
-          >
-            {t('editor.save', {
-              defaultValue: 'Save'
-            })}
-          </Button>
-          <Button
-            negative
+            isNegative
             onClick={this.onForget}
-            primary
-          >
-            {t('editor.forget', {
+            text={t('editor.forget', {
               defaultValue: 'Forget'
             })}
-          </Button>
-        </div>
+          />
+          <Button.Group.Divider />
+          <Button
+            isDisabled={!isEdited}
+            onClick={this.onDiscard}
+            text={t('editor.reset', {
+              defaultValue: 'Reset'
+            })}
+          />
+          <Button
+            isDisabled={!isEdited}
+            isPrimary
+            onClick={this.onCommit}
+            text={t('editor.save', {
+              defaultValue: 'Save'
+            })}
+          />
+        </Button.Group>
       </div>
     );
   }

@@ -8,8 +8,9 @@ import type { I18nProps } from '@polkadot/ui-app/types';
 import type { EncodedMessage, QueueTx } from './types';
 
 import React from 'react';
-import Button from 'semantic-ui-react/dist/es/elements/Button';
+
 import extrinsics from '@polkadot/extrinsics-substrate';
+import Button from '@polkadot/ui-app/src/Button';
 
 import Account from './Account';
 import Extrinsic from './Extrinsic';
@@ -67,17 +68,16 @@ class Selection extends React.PureComponent<Props, State> {
           onChange={this.onChangeNonce}
           value={publicKey}
         />
-        <div className='ui--row-buttons'>
+        <Button.Group>
           <Button
-            disabled={!isValid}
+            isDisabled={!isValid}
+            isPrimary
             onClick={this.onQueue}
-            primary
-          >
-            {t('submit.label', {
+            text={t('submit.label', {
               defaultValue: 'Submit Extrinsic'
             })}
-          </Button>
-        </div>
+          />
+        </Button.Group>
       </div>
     );
   }

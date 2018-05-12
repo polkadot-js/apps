@@ -6,8 +6,8 @@
 import type { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import Button from 'semantic-ui-react/dist/es/elements/Button';
 
+import Button from '@polkadot/ui-app/src/Button';
 import Input from '@polkadot/ui-app/src/Input';
 import keyring from '@polkadot/ui-keyring/src';
 import addressDecode from '@polkadot/util-keyring/address/decode';
@@ -22,7 +22,6 @@ type Props = I18nProps & {
 
 type State = {
   address: string,
-  fieldName: string,
   isAddressValid: boolean,
   isNameValid: boolean,
   isValid: boolean,
@@ -40,7 +39,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   render (): React$Node {
     const { className, style, t } = this.props;
-    const { address, fieldName, isAddressValid, isNameValid, isValid, name } = this.state;
+    const { address, isAddressValid, isNameValid, isValid, name } = this.state;
 
     return (
       <div
@@ -60,7 +59,6 @@ class Creator extends React.PureComponent<Props, State> {
                 label={t('creator.address', {
                   defaultValue: 'add the following address'
                 })}
-                name={`${fieldName}_address`}
                 onChange={this.onChangeAddress}
                 value={address}
               />
@@ -72,31 +70,28 @@ class Creator extends React.PureComponent<Props, State> {
                 label={t('creator.name', {
                   defaultValue: 'name the entry'
                 })}
-                name={`${fieldName}_name`}
                 onChange={this.onChangeName}
                 value={name}
               />
             </div>
           </div>
         </div>
-        <div className='ui--row-buttons'>
+        <Button.Group>
           <Button
             onClick={this.onDiscard}
-          >
-            {t('creator.discard', {
+            text={t('creator.discard', {
               defaultValue: 'Reset'
             })}
-          </Button>
+          />
           <Button
-            disabled={!isValid}
+            isDisabled={!isValid}
+            isPrimary
             onClick={this.onCommit}
-            primary
-          >
-            {t('creator.save', {
+            text={t('creator.save', {
               defaultValue: 'Save'
             })}
-          </Button>
-        </div>
+          />
+        </Button.Group>
       </div>
     );
   }
@@ -104,7 +99,6 @@ class Creator extends React.PureComponent<Props, State> {
   emptyState (): State {
     return {
       address: '',
-      fieldName: `field_${Date.now()}`,
       isAddressValid: false,
       isNameValid: true,
       isValid: false,

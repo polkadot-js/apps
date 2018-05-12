@@ -21,7 +21,6 @@ type Props = BareProps & {
   label?: React$Node,
   max?: mixed,
   min?: mixed,
-  name?: string,
   // flowlint-next-line unclear-type:off
   onChange: (value: any) => void,
   placeholder?: string,
@@ -34,9 +33,20 @@ type SUIEvent = {
   value: any
 };
 
-export default class Input extends React.PureComponent<Props> {
+type State = {
+  name: string;
+}
+
+let counter = 0;
+
+export default class Input extends React.PureComponent<Props, State> {
+  state: State = {
+    name: `in_${counter++}_at_${Date.now()}`
+  };
+
   render (): React$Node {
-    const { children, className, defaultValue, isAction = false, isDisabled = false, isError = false, label, max, min, name, placeholder, style, type = 'text', value } = this.props;
+    const { children, className, defaultValue, isAction = false, isDisabled = false, isError = false, label, max, min, placeholder, style, type = 'text', value } = this.props;
+    const { name } = this.state;
 
     return (
       <Labelled

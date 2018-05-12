@@ -10,9 +10,9 @@ import type { QueueTx } from '../types';
 import './Signer.css';
 
 import React from 'react';
-import Button from 'semantic-ui-react/dist/es/elements/Button';
-import Modal from 'semantic-ui-react/dist/es/modules/Modal';
 
+import Button from '@polkadot/ui-app/src/Button';
+import Modal from '@polkadot/ui-app/src/Modal';
 import keyring from '@polkadot/ui-keyring/src';
 import withApi from '@polkadot/ui-react-rx/with/api';
 
@@ -74,6 +74,11 @@ class Signer extends React.PureComponent<Props, State> {
         open
         style={style}
       >
+        <Modal.Header>
+          {t('signer.header', {
+            defaultValue: 'Extrinsic submission'
+          })}
+        </Modal.Header>
         <Modal.Content className='extrinsics--Signer-Content'>
           <Decoded value={currentItem} />
           <Unlock
@@ -84,19 +89,23 @@ class Signer extends React.PureComponent<Props, State> {
           />
         </Modal.Content>
         <Modal.Actions>
-          <Button onClick={this.onCancel}>
-            {t('signer.cancel', {
-              defaultValue: 'Cancel'
-            })}
-          </Button>
-          <Button
-            onClick={this.onSign}
-            primary
-          >
-            {t('signer.send', {
-              defaultValue: 'Sign and Submit'
-            })}
-          </Button>
+          <Button.Group>
+            <Button
+              isNegative
+              onClick={this.onCancel}
+              text={t('signer.cancel', {
+                defaultValue: 'Cancel'
+              })}
+            />
+            <Button.Or />
+            <Button
+              isPrimary
+              onClick={this.onSign}
+              text={t('signer.send', {
+                defaultValue: 'Sign and Submit'
+              })}
+            />
+          </Button.Group>
         </Modal.Actions>
       </Modal>
     );

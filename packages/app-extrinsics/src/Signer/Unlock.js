@@ -22,7 +22,6 @@ type Props = I18nProps & {
 }
 
 type State = {
-  fieldName: string,
   isError: boolean,
   isLocked: boolean,
   pair: KeyringPair
@@ -36,7 +35,6 @@ class Unlock extends React.PureComponent<Props, State> {
     const isLocked = !pair.hasSecretKey();
 
     return {
-      fieldName: `pass_${Date.now()}`,
       isError: !!error,
       isLocked,
       pair
@@ -45,7 +43,7 @@ class Unlock extends React.PureComponent<Props, State> {
 
   render (): React$Node {
     const { className, onChange, password, style, t } = this.props;
-    const { fieldName, isError, isLocked } = this.state;
+    const { isError, isLocked } = this.state;
 
     if (!isLocked) {
       return null;
@@ -63,7 +61,6 @@ class Unlock extends React.PureComponent<Props, State> {
             label={t('unlock.password', {
               defaultValue: 'unlock account using'
             })}
-            name={fieldName}
             onChange={onChange}
             value={password}
           />
