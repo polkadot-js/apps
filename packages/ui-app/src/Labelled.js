@@ -9,7 +9,7 @@ import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 
 type Props = BareProps & {
-  label?: React$Node,
+  label?: React$Node | null,
   children: React$Node
 };
 
