@@ -14,8 +14,6 @@ type Props = BareProps & {
 };
 
 export default function Labelled ({ className, children, label, style }: Props): React$Node {
-  console.log('label', label);
-
   return (
     <div
       className={className}
