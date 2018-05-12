@@ -10,20 +10,22 @@ import SUIInput from 'semantic-ui-react/dist/es/elements/Input';
 
 import Labelled from './Labelled';
 
+type Input$Type = 'number' | 'password' | 'text';
+
 type Props = BareProps & {
   children?: React$Node,
   defaultValue?: mixed,
   isAction?: boolean,
   isDisabled?: boolean,
   isError?: boolean,
-  label?: string,
+  label?: React$Node,
   max?: mixed,
   min?: mixed,
   name?: string,
   // flowlint-next-line unclear-type:off
   onChange: (value: any) => void,
   placeholder?: string,
-  type?: string,
+  type?: Input$Type,
   value?: mixed
 };
 
@@ -62,7 +64,6 @@ export default class Input extends React.PureComponent<Props> {
     );
   }
 
-  // eslint-disable-next-line no-unused-var
   onChange = (event: SyntheticEvent<*>, { value }: SUIEvent): void => {
     this.props.onChange(value);
   }
