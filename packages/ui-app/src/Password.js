@@ -33,9 +33,6 @@ export default class Password extends React.PureComponent<Props, State> {
   render (): React$Node {
     const { children, className, defaultValue, isDisabled, isError, label, name, onChange, style, value } = this.props;
     const { isVisible } = this.state;
-    const type = isVisible
-      ? 'text'
-      : 'password';
 
     return (
       <Input
@@ -48,11 +45,19 @@ export default class Password extends React.PureComponent<Props, State> {
         name={name}
         onChange={onChange}
         style={style}
-        type={type}
+        type={
+          isVisible
+            ? 'text'
+            : 'password'
+        }
         value={value}
       >
         <Button
-          icon='eye'
+          icon={
+            isVisible
+              ? 'hide'
+              : 'unhide'
+          }
           isPrimary
           onClick={this.onToggleVisible}
         />
