@@ -8,6 +8,8 @@ import type { I18nProps } from '../types';
 import React from 'react';
 import SUIButton from 'semantic-ui-react/dist/es/elements/Button';
 
+import isUndefined from '@polkadot/util/is/undefined';
+
 import translate from '../translate';
 
 type Props = I18nProps & {
@@ -15,13 +17,14 @@ type Props = I18nProps & {
 };
 
 function ButtonOr ({ className, style, t, text }: Props): React$Node {
-  // flowlint-next-line sketchy-null-string:off
-  const _text = text || t('button.or', {
-    defaultValue: 'or'
-  });
-
   return (
-    <SUIButton.Or text={_text} />
+    <SUIButton.Or text={
+      isUndefined(text)
+        ? t('button.or', {
+          defaultValue: 'or'
+        })
+        : text
+    } />
   );
 }
 
