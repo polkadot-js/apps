@@ -91,11 +91,13 @@ class Signer extends React.PureComponent<Props, State> {
         <Modal.Actions>
           <Button.Group>
             <Button
+              isNegative
               onClick={this.onCancel}
               text={t('signer.cancel', {
                 defaultValue: 'Cancel'
               })}
             />
+            <Button.Or />
             <Button
               isPrimary
               onClick={this.onSign}

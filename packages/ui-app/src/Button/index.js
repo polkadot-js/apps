@@ -10,14 +10,19 @@ import './Button.css';
 import React from 'react';
 import SUIButton from 'semantic-ui-react/dist/es/elements/Button';
 
-import ButtonGroup from './Group';
-import ButtonOr from './Or';
+import isUndefined from '@polkadot/util/is/undefined';
+
+import Divider from './Divider';
+import Group from './Group';
+import Or from './Or';
 
 export type Button$Sizes = 'mini' | 'tiny' | 'small' | 'medium' | 'large' | 'big' | 'huge' | 'massive';
 
 type Props = BareProps & {
   children?: React$Node,
+  floated?: 'left' | 'right',
   icon?: string,
+  isBasic?: boolean,
   isCircular?: boolean,
   isDisabled?: boolean,
   isNegative?: boolean,
@@ -28,32 +33,35 @@ type Props = BareProps & {
   text?: any
 };
 
-function Button ({ children, className, icon, isCircular = false, isDisabled = false, isNegative = false, isPrimary = false, onClick, size, style, text }: Props): React$Node {
+function Button ({ children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isNegative = false, isPrimary = false, onClick, size, style, text }: Props): React$Node {
   const props = {
+    basic: isBasic,
     circular: isCircular,
     className,
     disabled: isDisabled,
+    floated,
     icon,
     negative: isNegative,
     onClick,
     primary: isPrimary,
     size,
+    secondary: isBasic && !(isPrimary || isNegative),
     style
   };
 
-  // flowlint-next-line sketchy-null:off
-  return text || children
+  return isUndefined(text) && isUndefined(children)
     ? (
+      <SUIButton {...props} />
+    )
+    : (
       <SUIButton {...props}>
         {text}{children}
       </SUIButton>
-    )
-    : (
-      <SUIButton {...props} />
     );
 }
 
-Button.Group = ButtonGroup;
-Button.Or = ButtonOr;
+Button.Divider = Divider;
+Button.Group = Group;
+Button.Or = Or;
 
 export default Button;

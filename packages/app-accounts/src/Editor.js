@@ -100,6 +100,14 @@ class Editor extends React.PureComponent<Props, State> {
         </div>
         <Button.Group>
           <Button
+            isNegative
+            onClick={this.onForget}
+            text={t('editor.forget', {
+              defaultValue: 'Forget'
+            })}
+          />
+          <Button.Group.Divider />
+          <Button
             isDisabled={!isEdited}
             onClick={this.onDiscard}
             text={t('editor.reset', {
@@ -112,13 +120,6 @@ class Editor extends React.PureComponent<Props, State> {
             onClick={this.onCommit}
             text={t('editor.save', {
               defaultValue: 'Save'
-            })}
-          />
-          <Button
-            isNegative
-            onClick={this.onForget}
-            text={t('editor.forget', {
-              defaultValue: 'Forget'
             })}
           />
         </Button.Group>
