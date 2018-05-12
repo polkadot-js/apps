@@ -22,7 +22,6 @@ type Props = I18nProps & {
 
 type State = {
   address: string,
-  fieldName: string,
   isAddressValid: boolean,
   isNameValid: boolean,
   isValid: boolean,
@@ -40,7 +39,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   render (): React$Node {
     const { className, style, t } = this.props;
-    const { address, fieldName, isAddressValid, isNameValid, isValid, name } = this.state;
+    const { address, isAddressValid, isNameValid, isValid, name } = this.state;
 
     return (
       <div
@@ -60,7 +59,6 @@ class Creator extends React.PureComponent<Props, State> {
                 label={t('creator.address', {
                   defaultValue: 'add the following address'
                 })}
-                name={`${fieldName}_address`}
                 onChange={this.onChangeAddress}
                 value={address}
               />
@@ -72,7 +70,6 @@ class Creator extends React.PureComponent<Props, State> {
                 label={t('creator.name', {
                   defaultValue: 'name the entry'
                 })}
-                name={`${fieldName}_name`}
                 onChange={this.onChangeName}
                 value={name}
               />
@@ -102,7 +99,6 @@ class Creator extends React.PureComponent<Props, State> {
   emptyState (): State {
     return {
       address: '',
-      fieldName: `field_${Date.now()}`,
       isAddressValid: false,
       isNameValid: true,
       isValid: false,

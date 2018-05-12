@@ -28,7 +28,6 @@ type Props = I18nProps & {
 
 type State = {
   address: string,
-  fieldName: string,
   isNameValid: boolean,
   isSeedValid: boolean,
   isPassValid: boolean,
@@ -63,7 +62,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   render (): React$Node {
     const { className, style, t } = this.props;
-    const { address, fieldName, isNameValid, isPassValid, isSeedValid, isValid, name, password, seed } = this.state;
+    const { address, isNameValid, isPassValid, isSeedValid, isValid, name, password, seed } = this.state;
 
     return (
       <div
@@ -87,7 +86,6 @@ class Creator extends React.PureComponent<Props, State> {
                 label={t('creator.seed', {
                   defaultValue: 'create from the following seed (hex or string)'
                 })}
-                name={`${fieldName}_seed`}
                 onChange={this.onChangeSeed}
                 value={seed}
               />
@@ -99,7 +97,6 @@ class Creator extends React.PureComponent<Props, State> {
                 label={t('creator.name', {
                   defaultValue: 'name the account'
                 })}
-                name={`${fieldName}_name`}
                 onChange={this.onChangeName}
                 value={name}
               />
@@ -111,7 +108,6 @@ class Creator extends React.PureComponent<Props, State> {
                 label={t('creator.password', {
                   defaultValue: 'encrypt it using the password'
                 })}
-                name={`${fieldName}_pass`}
                 onChange={this.onChangePass}
                 value={password}
               />
@@ -144,7 +140,6 @@ class Creator extends React.PureComponent<Props, State> {
 
     return {
       address,
-      fieldName: `field_${Date.now()}`,
       isNameValid: true,
       isPassValid: false,
       isSeedValid: true,
