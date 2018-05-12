@@ -13,7 +13,7 @@ import Labelled from './Labelled';
 type Props = BareProps & {
   defaultValue?: mixed,
   isError?: boolean,
-  label?: string,
+  label?: React$Node,
   // flowlint-next-line unclear-type:off
   onChange: (value: any) => void,
   // flowlint-next-line unclear-type:off
