@@ -6,8 +6,8 @@
 import type { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import Button from 'semantic-ui-react/dist/es/elements/Button';
 
+import Button from '@polkadot/ui-app/src/Button';
 import Input from '@polkadot/ui-app/src/Input';
 import Password from '@polkadot/ui-app/src/Password';
 import keyring from '@polkadot/ui-keyring/src';
@@ -118,24 +118,22 @@ class Creator extends React.PureComponent<Props, State> {
             </div>
           </div>
         </div>
-        <div className='ui--row-buttons'>
+        <Button.Group>
           <Button
             onClick={this.onDiscard}
-          >
-            {t('creator.discard', {
+            text={t('creator.discard', {
               defaultValue: 'Reset'
             })}
-          </Button>
+          />
           <Button
-            disabled={!isValid}
+            isDisabled={!isValid}
+            isPrimary
             onClick={this.onCommit}
-            primary
-          >
-            {t('creator.save', {
+            text={t('creator.save', {
               defaultValue: 'Save'
             })}
-          </Button>
-        </div>
+          />
+        </Button.Group>
       </div>
     );
   }

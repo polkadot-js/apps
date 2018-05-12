@@ -26,7 +26,7 @@ export type KeyringOption = KeyringOption$Data & {
   value: string
 };
 
-export type KeyringOptions = Array<KeyringOption>;
+export type KeyringOptions = Array<KeyringOption | React$Element<*>>;
 
 export type KeyringJson$Meta = {
   isRecent?: boolean,

@@ -6,9 +6,9 @@
 import type { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import Button from 'semantic-ui-react/dist/es/elements/Button';
 
 import CopyButton from '@polkadot/ui-app/src/CopyButton';
+import Button from '@polkadot/ui-app/src/Button';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
@@ -60,7 +60,8 @@ export default class Match extends React.PureComponent<Props, State> {
             <CopyButton value={hexSeed} />
             <Button
               icon='close'
-              negative
+              isCircular
+              isNegative
               onClick={this.onRemove}
               size='tiny'
             />

@@ -26,17 +26,17 @@
 }
 
 .ui--DropdownLinked-Item-call {
-  flex: 1;
-  font-family: monospace;
-  margin-left: 1rem;
-  opacity: 0.5;
-  overflow: hidden;
-  text-align: right;
+  flex: 1 0;
+  margin-right: 1rem;
+  text-align: left;
   text-overflow: ellipsis;
 }
 
 .ui--DropdownLinked-Item-text {
-  flex: 1 0;
+  flex: 1;
+  opacity: 0.5;
+  text-align: right;
+  text-overflow: ellipsis;
 }
 
 .ui--DropdownLinked-Sections {}

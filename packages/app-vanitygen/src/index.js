@@ -9,8 +9,8 @@ import type { Generator$Matches, Generator$Result } from './generator/types';
 import './index.css';
 
 import React from 'react';
-import Button from 'semantic-ui-react/dist/es/elements/Button';
 
+import Button from '@polkadot/ui-app/src/Button';
 import Dropdown from '@polkadot/ui-app/src/Dropdown';
 import Input from '@polkadot/ui-app/src/Input';
 import Labelled from '@polkadot/ui-app/src/Labelled';
@@ -97,19 +97,18 @@ class App extends React.PureComponent<Props, State> {
             </div>
           </Labelled>
         </div>
-        <div className='ui--row-buttons'>
+        <Button.Group>
           <Button
-            disabled={!isMatchValid}
-            primary={!isRunning}
+            isDisabled={!isMatchValid}
+            isPrimary={!isRunning}
             onClick={this.toggleStart}
-          >
-            {
+            text={
               isRunning
                 ? t('vanity.stop', { defaultValue: 'Stop generation' })
                 : t('vanity.start', { defaultValue: 'Start generation' })
             }
-          </Button>
-        </div>
+          />
+        </Button.Group>
         {
           keyCount
             ? (

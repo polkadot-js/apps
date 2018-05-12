@@ -76,13 +76,3 @@
 .ui--row > div.thirty3 {
   padding: 0 0.25rem;
 }
-
-.ui--row-buttons {
-  margin: 1em 0;
-  text-align: right;
-}
-
-.ui--row-buttons .button {
-  margin: 0 0.25rem;
-  text-align: left;
-}

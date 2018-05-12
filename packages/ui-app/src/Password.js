@@ -6,8 +6,8 @@
 import type { BareProps } from './types';
 
 import React from 'react';
-import Button from 'semantic-ui-react/dist/es/elements/Button';
 
+import Button from './Button';
 import Input from './Input';
 
 type Props = BareProps & {
@@ -53,7 +53,7 @@ export default class Password extends React.PureComponent<Props, State> {
       >
         <Button
           icon='eye'
-          primary
+          isPrimary
           onClick={this.onToggleVisible}
         />
         {children}

@@ -7,8 +7,8 @@ import type { I18nProps } from '@polkadot/ui-app/types';
 import type { StorageQuery } from '../types';
 
 import React from 'react';
-import Button from 'semantic-ui-react/dist/es/elements/Button';
 
+import Button from '@polkadot/ui-app/src/Button';
 import Labelled from '@polkadot/ui-app/src/Labelled';
 import typeToText from '@polkadot/ui-app/src/Params/typeToText';
 import withStorageDiv from '@polkadot/ui-react-rx/with/storageDiv';
@@ -82,7 +82,7 @@ class Query extends React.PureComponent<Props, State> {
         <Labelled className='storage--actionrow-button'>
           <Button
             icon='close'
-            negative
+            isNegative
             onClick={this.onRemove}
           />
         </Labelled>

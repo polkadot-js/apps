@@ -31,16 +31,16 @@ export default function createOptions (sectionName: any, type: 'private' | 'publ
         key: `${sectionName}_${name}`,
         text: [
           <div
-            className='ui--DropdownLinked-Item-text'
-            key={`${sectionName}_${name}:text`}
-          >
-            {description || name}
-          </div>,
-          <div
             className='ui--DropdownLinked-Item-call'
             key={`${sectionName}_${name}:call`}
           >
             {name}({inputs})
+          </div>,
+          <div
+            className='ui--DropdownLinked-Item-text'
+            key={`${sectionName}_${name}:text`}
+          >
+            {description || name}
           </div>
         ],
         value: name

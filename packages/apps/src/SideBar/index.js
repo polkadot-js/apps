@@ -8,9 +8,9 @@ import type { I18nProps } from '@polkadot/ui-app/types';
 import './SideBar.css';
 
 import React from 'react';
-import Icon from 'semantic-ui-react/dist/es/elements/Icon';
-import Menu from 'semantic-ui-react/dist/es/collections/Menu';
-import Divider from 'semantic-ui-react/dist/es/elements/Divider';
+
+import Icon from '@polkadot/ui-app/src/Icon';
+import Menu from '@polkadot/ui-app/src/Menu';
 
 import routing from '../routing';
 import translate from '../translate';
@@ -40,14 +40,14 @@ function SideBar ({ className, style, t }: Props): React$Node {
                 />
               )
               : (
-                <Divider
+                <Menu.Divider
                   hidden
                   key={index}
                 />
               )
           ))
         }
-        <Divider hidden />
+        <Menu.Divider hidden />
         <Menu.Item className='apps--SideBar-Item'>
           <a
             className='apps--SideBar-Item-NavLink'

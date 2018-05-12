@@ -85,10 +85,12 @@ export default class InputAddress extends React.Component<Props, State> {
     const { isInput = true } = this.props;
     const queryLower = query.toLowerCase();
     const matches = filteredOptions.filter((item) => {
-      if (!item.value) {
+      // $FlowFixMe yes, this is how we check for Element (??!)
+      if (!item || !item.value) {
         return true;
       }
 
+      // $FLowFixMe we should now have value elements
       const { name, value } = item;
       const hasMatch = name.toLowerCase().indexOf(queryLower) !== -1 ||
       value.toLowerCase().indexOf(queryLower) !== -1;
@@ -96,6 +98,7 @@ export default class InputAddress extends React.Component<Props, State> {
       return hasMatch;
     });
 
+    // $FlowFixMe yes, this is how we check for Element
     const valueMatches = matches.filter((item) => item.value);
 
     // see if we should add a new item, i.e. no valid address found
@@ -116,8 +119,17 @@ export default class InputAddress extends React.Component<Props, State> {
     }
 
     return matches.filter((item, index) => {
-      // it is a value entry or header followed by a value entry
-      if (item.value || (index !== matches.length - 1 && matches[index + 1].value)) {
+      if (!item) {
+        return false;
+      }
+
+      const isLast = index === matches.length - 1;
+      const nextItem = matches[index + 1];
+      // $FlowFixMe yes, this is how we check for Element
+      const hasNext = nextItem && nextItem.value;
+
+      // $FlowFixMe yes, this is how we check for Element
+      if (item.value || (!isLast && hasNext)) {
         return true;
       }
 

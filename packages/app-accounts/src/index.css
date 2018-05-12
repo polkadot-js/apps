@@ -6,7 +6,7 @@
   padding: 1em 2em;
 }
 
-.accounts--App-navigation {
+.accounts--App-navigation.ui--Button-Group {
   margin-bottom: 2em;
   text-align: center;
 }
