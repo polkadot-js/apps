@@ -18,7 +18,7 @@ type Props = BareProps & {
   isAction?: boolean,
   isDisabled?: boolean,
   isError?: boolean,
-  label?: string,
+  label?: React$Node,
   max?: mixed,
   min?: mixed,
   name?: string,
