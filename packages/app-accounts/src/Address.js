@@ -44,8 +44,6 @@ export default class Address extends React.PureComponent<Props, State> {
 
     const isValid = !!publicKey && publicKey.length === 32;
 
-    console.log('publicKey', publicKey);
-
     return {
       address: isValid ? address : DEFAULT_ADDR,
       isValid,
