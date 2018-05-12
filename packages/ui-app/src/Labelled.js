@@ -13,7 +13,7 @@ type Props = BareProps & {
   children: React$Node
 };
 
-const defaultLabel = (
+const defaultLabel: React$Node = (
   <div>&nbsp;</div>
 );
 
