@@ -18,13 +18,17 @@ type Props = I18nProps & {
 
 function ButtonOr ({ className, style, t, text }: Props): React$Node {
   return (
-    <SUIButton.Or text={
-      isUndefined(text)
-        ? t('button.or', {
-          defaultValue: 'or'
-        })
-        : text
-    } />
+    <SUIButton.Or
+      className={className}
+      style={style}
+      text={
+        isUndefined(text)
+          ? t('button.or', {
+            defaultValue: 'or'
+          })
+          : text
+      }
+    />
   );
 }
 
