@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-app",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -13,7 +13,7 @@
   "dependencies": {
     "@polkadot/extrinsics-substrate": "^0.12.9",
     "@polkadot/storage-substrate": "^0.12.9",
-    "@polkadot/ui-keyring": "^0.4.8",
+    "@polkadot/ui-keyring": "^0.4.9",
     "@polkadot/ui-react": "^0.11.3",
     "@polkadot/ui-react-rx": "^0.11.3",
     "@polkadot/util": "^0.19.6",
