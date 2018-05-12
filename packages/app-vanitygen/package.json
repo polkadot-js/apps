@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-vanitygen",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,7 +11,7 @@
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@polkadot/ui-app": "^0.4.4",
+    "@polkadot/ui-app": "^0.4.5",
     "chalk": "^2.4.1",
     "yargs": "10.1.2"
   },
