@@ -44,7 +44,6 @@ export default class Dropdown extends React.PureComponent<Props> {
         style={style}
       >
         <SUIDropdown
-          key='dropdown'
           selection
           {..._props}
           error={isError}
