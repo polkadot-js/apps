@@ -60,7 +60,7 @@ function showBest () {
 
 while (true) {
   const nextBest = generator(options, pkFromSeed).found.reduce((best, match) => {
-    if ((match.count > best.count) || ((match.count === best.count) && (match.offset < best.offset))) {
+    if ((match.count > best.count) || ((match.count === best.count) && (match.offset <= best.offset))) {
       return match;
     }
 
