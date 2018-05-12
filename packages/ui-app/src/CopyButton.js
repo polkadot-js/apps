@@ -9,18 +9,23 @@ import React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import Button from 'semantic-ui-react/dist/es/elements/Button';
 
+type Button$Sizes = 'mini' | 'tiny' | 'small' | 'medium' | 'large' | 'big' | 'huge' | 'massive';
+
 type Props = BareProps & {
+  icon?: string,
+  isPrimary?: boolean,
+  size?: Button$Sizes,
   value?: string
 }
 
-export default function CopyButton ({ className, style, value }: Props): React$Node {
+export default function CopyButton ({ className, icon = 'copy', isPrimary = true, size = 'tiny', style, value }: Props): React$Node {
   return (
     <CopyToClipboard text={value}>
       <Button
         className={className}
-        icon='copy'
-        primary
-        size='tiny'
+        icon={icon}
+        primary={isPrimary}
+        size={size}
         style={style}
       />
     </CopyToClipboard>
