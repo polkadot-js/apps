@@ -13,17 +13,17 @@ type Props = BareProps & {
   children: React$Node
 };
 
-export default function Labelled ({ className, children, label, style }: Props): React$Node {
+const defaultLabel = (
+  <div>&nbsp;</div>
+);
+
+export default function Labelled ({ className, children, label = defaultLabel, style }: Props): React$Node {
   return (
     <div
       className={className}
       style={style}
     >
-      <Label>{
-        typeof label === 'undefined'
-          ? <div>&nbsp;</div>
-          : label
-      }</Label>
+      <Label>{label}</Label>
       {children}
     </div>
   );
