@@ -12,6 +12,7 @@ import Labelled from './Labelled';
 
 type Props = BareProps & {
   defaultValue?: mixed,
+  isDisabled?: boolean,
   isError?: boolean,
   label?: React$Node,
   // flowlint-next-line unclear-type:off
@@ -27,10 +28,11 @@ type SUIEvent = {
 
 export default class Dropdown extends React.PureComponent<Props> {
   render (): React$Node {
-    const { className, isError, label, style } = this.props;
+    const { className, isDisabled, isError, label, style } = this.props;
     const _props = {...this.props};
 
     delete _props.className;
+    delete _props.isDisabled;
     delete _props.isError;
     delete _props.label;
     delete _props.onChange;
@@ -46,6 +48,7 @@ export default class Dropdown extends React.PureComponent<Props> {
         <SUIDropdown
           selection
           {..._props}
+          disabled={isDisabled}
           error={isError}
           onChange={this.onChange}
         />

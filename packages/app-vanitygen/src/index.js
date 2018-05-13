@@ -77,6 +77,7 @@ class App extends React.PureComponent<Props, State> {
           />
           <Dropdown
             className='small'
+            isDisable={isRunning}
             label={t('vanity.case', {
               defaultValue: 'case sensitive match'
             })}

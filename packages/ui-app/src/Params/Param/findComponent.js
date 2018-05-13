@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Param$Type, Param$TypeArray } from '@polkadot/primitives/param';
+import type { Param$Types } from '@polkadot/params/types';
 import type { ComponentMap } from '../types';
 
 import Account from './Account';
@@ -30,9 +30,8 @@ const components: ComponentMap = {
   'Wasm': Wasm
 };
 
-export default function findComponent (type: Param$Type | Param$TypeArray, overrides?: ComponentMap = {}): React$ComponentType<*> | Array<React$ComponentType<*>> {
+export default function findComponent (type: Param$Types, overrides?: ComponentMap = {}): React$ComponentType<*> | Array<React$ComponentType<*>> {
   if (Array.isArray(type)) {
-    // $FlowFixMe we are ok here
     return type.map((type) =>
       findComponent(type, overrides)
     );

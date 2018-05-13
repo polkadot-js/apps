@@ -34,7 +34,8 @@ let id = -1;
 
 class Selection extends React.PureComponent<Props, State> {
   state: State = ({
-    key: defaultValue
+    key: defaultValue,
+    params: []
   }: $Shape<State>);
 
   render (): React$Node {
@@ -75,14 +76,13 @@ class Selection extends React.PureComponent<Props, State> {
     this.setState(
       (prevState: State) => {
         const { key = prevState.key, params = prevState.params } = newState;
-        const keyParams = Object.values(key.params || {});
-        const valParams = params || [];
-        const isValid = valParams.length === keyParams.length &&
+        const keyParams = Object.values(key.params);
+        const isValid = params.length === keyParams.length &&
           keyParams.reduce((isValid, param, index) =>
             isValid &&
-            !isUndefined(valParams[index]) &&
-            !isUndefined(valParams[index].value) &&
-            valParams[index].isValid, true);
+            !isUndefined(params[index]) &&
+            !isUndefined(params[index].value) &&
+            params[index].isValid, true);
 
         return {
           isValid,

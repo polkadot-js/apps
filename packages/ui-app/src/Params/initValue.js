@@ -4,7 +4,7 @@
 // @flow
 // flowlint sketchy-null-mixed:off
 
-import type { Param } from '@polkadot/primitives/param';
+import type { Param } from '@polkadot/params/types';
 
 import BN from 'bn.js';
 
@@ -30,8 +30,13 @@ export default function getInitValue ({ options: { initValue, minValue } = {}, t
   switch (type) {
     case 'Balance':
     case 'BlockNumber':
-    case 'u32':
+    case 'Index':
+    case 'SessionKey':
     case 'u64':
+    case 'PropIndex':
+    case 'ReferendumIndex':
+    case 'u32':
+    case 'VoteIndex':
       return new BN(initValue || minValue || 0);
 
     case 'bool':

@@ -46,9 +46,8 @@ class Query extends React.PureComponent<Props, State> {
       return cache[id];
     })();
     const inputs = Object
-      .keys(key.params || {})
+      .keys(key.params)
       .map((name, index) => {
-        // $FlowFixMe key.params exists
         const formatted = format(key.params[name].type, params[index].value, 12);
 
         return (

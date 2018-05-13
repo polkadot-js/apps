@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Param, Param$Type } from '@polkadot/primitives/param';
+import type { Param } from '@polkadot/params/types';
 import type { I18nProps } from '../../types';
 import type { ComponentMap, RawParam } from '../types';
 
@@ -53,7 +53,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
 
   renderComponent = (Component: React$ComponentType<*>, sub: number = -1): React$Node => {
     const { className, index, onChange, style, value: { name, type, options = {} } = {} } = this.props;
-    const _type: Param$Type = Array.isArray(type)
+    const _type = Array.isArray(type)
       ? type[sub]
       : type;
     const text = typeToText(_type);

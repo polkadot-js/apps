@@ -3,18 +3,17 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Param$Type, Param$TypeArray } from '@polkadot/primitives/param';
+import type { Param$Types } from '@polkadot/params/types';
 
 import React from 'react';
 
 // import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import addressEncode from '@polkadot/util-keyring/address/encode';
-import u8aToBn from '@polkadot/util/u8a/toBn';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 import isU8a from '@polkadot/util/is/u8a';
 
 // flowlint-next-line unclear-type:off
-export default function format (type: Param$Type | Param$TypeArray, value?: any, fontSize?: number = 14): any {
+export default function format (type: Param$Types, value?: any, fontSize?: number = 14): any {
   if (type === 'bool') {
     return (
       <span>{value
@@ -30,19 +29,10 @@ export default function format (type: Param$Type | Param$TypeArray, value?: any,
     );
   }
 
-  // FIXME: this is a hack, but just to get it going, we should be going through and decoding arrays properly
   if (Array.isArray(type)) {
-    const u8a = (value: Uint8Array);
-    const length = u8aToBn(u8a.slice(0, 4), true).toNumber();
-    const result = [];
-    let offset = 4;
-
-    // FIXME: 32? Only for Hash & AccountId ...
-    for (let i = 0; i < length; i++, offset += 32) {
-      result.push(format(type[0], u8a.slice(offset, offset + 32), fontSize));
-    }
-
-    return result;
+    return type.map((_type, index) =>
+      format(_type, value[index], fontSize)
+    );
   }
 
   if (type === 'AccountId') {

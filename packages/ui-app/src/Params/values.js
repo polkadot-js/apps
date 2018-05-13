@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Param, Params } from '@polkadot/primitives/param';
+import type { Param, Params } from '@polkadot/params/types';
 import type { RawParam } from './types';
 
 import isUndefined from '@polkadot/util/is/undefined';
