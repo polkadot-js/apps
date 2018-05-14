@@ -72,7 +72,7 @@ export default class ExtrinsicDisplay extends React.PureComponent<Props, State> 
     this.setState(newState, () => {
       const { onChange } = this.props;
       const { extrinsic, values } = this.state;
-      const params = Object.values(extrinsic.params || {});
+      const params = Object.values(extrinsic.params);
       const isValid = values.length === params.length &&
         params.reduce((isValid, param, index) =>
           isValid &&

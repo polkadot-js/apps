@@ -12,10 +12,12 @@ import translate from '../../translate';
 import Base from './Base';
 
 type Props = BareProps & {
+  isDisabled?: boolean,
   isError?: boolean,
   label: string,
   onChange: (contents: Uint8Array) => void,
-  t: I18Next$Translate
+  t: I18Next$Translate,
+  withLabel?: boolean
 }
 
 type State = {
@@ -29,16 +31,18 @@ class BytesFile extends React.PureComponent<Props, State> {
   state: State = {};
 
   render (): React$Node {
-    const { className, isError = false, label, t } = this.props;
+    const { className, isDisabled, isError = false, label, t, withLabel } = this.props;
     const { file } = this.state;
 
     return (
       <Base
         label={label}
         size='full'
+        withLabel={withLabel}
       >
         <Dropzone
           className={['ui--Param-File', isError ? 'error' : '', className].join(' ')}
+          disabled={isDisabled}
           multiple={false}
           onDrop={this.onDrop}
         >

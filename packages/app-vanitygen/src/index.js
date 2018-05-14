@@ -67,7 +67,7 @@ class App extends React.PureComponent<Props, State> {
         <div className='ui--row'>
           <Input
             className='medium'
-            isDisable={isRunning}
+            isDisabled={isRunning}
             isError={!isMatchValid}
             label={t('vanity.matching', {
               defaultValue: 'generate address containing (? wildcard)'
@@ -77,6 +77,7 @@ class App extends React.PureComponent<Props, State> {
           />
           <Dropdown
             className='small'
+            isDisabled={isRunning}
             label={t('vanity.case', {
               defaultValue: 'case sensitive match'
             })}

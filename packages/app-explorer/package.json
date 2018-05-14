@@ -11,9 +11,9 @@
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@polkadot/primitives": "^0.12.9",
-    "@polkadot/primitives-codec": "^0.12.9",
-    "@polkadot/primitives-json": "^0.12.9",
+    "@polkadot/primitives": "^0.13.8",
+    "@polkadot/primitives-codec": "^0.13.8",
+    "@polkadot/primitives-json": "^0.13.8",
     "@polkadot/ui-app": "^0.4.11",
     "@polkadot/util-crypto": "^0.19.6"
   }

@@ -3,17 +3,18 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Param$Type, Param$TypeArray } from '@polkadot/primitives/param';
+import type { Param$Types } from '@polkadot/params/types';
 import type { ComponentMap } from '../types';
 
 import Account from './Account';
 import Amount from './Amount';
 import Bool from './Bool';
 import Bytes from './Bytes';
+import Code from './Code';
 import Hash from './Hash';
+import KeyValue from './KeyValue';
 import Unknown from './Unknown';
 import VoteThreshold from './VoteThreshold';
-import Wasm from './Wasm';
 
 const components: ComponentMap = {
   'AccountId': Account,
@@ -21,21 +22,32 @@ const components: ComponentMap = {
   'BlockNumber': Amount,
   'bool': Bool,
   'Bytes': Bytes,
-  'Digest': Bytes,
+  'Code': Code,
+  'Call': Unknown,
+  'Digest': Unknown,
   'Hash': Hash,
+  'Index': Amount,
+  'KeyValue': KeyValue,
+  'MisbehaviorReport': Unknown,
+  'PropIndex': Amount,
+  'Proposal': Unknown,
+  'ReferendumIndex': Amount,
+  'SessionKey': Amount,
+  'Signature': Hash,
   'Timestamp': Amount,
   'u32': Amount,
   'u64': Amount,
-  'VoteThreshold': VoteThreshold,
-  'Wasm': Wasm
+  'VoteIndex': Amount,
+  'VoteThreshold': VoteThreshold
 };
 
-export default function findComponent (type: Param$Type | Param$TypeArray, overrides?: ComponentMap = {}): React$ComponentType<*> | Array<React$ComponentType<*>> {
+export default function findComponent (type: Param$Types, overrides?: ComponentMap = {}): React$ComponentType<*> | Array<React$ComponentType<*>> {
   if (Array.isArray(type)) {
-    // $FlowFixMe we are ok here
-    return type.map((type) =>
-      findComponent(type, overrides)
-    );
+    return type
+      .map((type) =>
+        // $FlowFixMe running out of options to check the embedded arrays
+        findComponent(type, overrides)
+      );
   }
 
   return overrides[type] || components[type] || Unknown;

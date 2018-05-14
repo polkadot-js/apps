@@ -14,7 +14,7 @@ import Bare from './Bare';
 
 export default class Amount extends React.PureComponent<Props> {
   render (): React$Node {
-    const { className, isError, label, style, value: { options: { initValue = 0, maxValue, minValue = 0 } = {} } } = this.props;
+    const { className, isDisabled, isError, label, style, value: { options: { initValue = 0, maxValue, minValue = 0 } = {} }, withLabel } = this.props;
 
     return (
       <Bare
@@ -24,12 +24,14 @@ export default class Amount extends React.PureComponent<Props> {
         <Input
           className='small'
           defaultValue={initValue || minValue}
+          isDisabled={isDisabled}
           isError={isError}
           label={label}
           max={maxValue}
           min={minValue}
           onChange={this.onChange}
           type='number'
+          withLabel={withLabel}
         />
       </Bare>
     );

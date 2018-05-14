@@ -18,7 +18,8 @@ type Props = BareProps & {
   label?: string,
   name?: string,
   onChange: (value: string) => void,
-  value: mixed
+  value: mixed,
+  withLabel?: boolean
 };
 
 type State = {
@@ -31,7 +32,7 @@ export default class Password extends React.PureComponent<Props, State> {
   };
 
   render (): React$Node {
-    const { children, className, defaultValue, isDisabled, isError, label, name, onChange, style, value } = this.props;
+    const { children, className, defaultValue, isDisabled, isError, label, name, onChange, style, value, withLabel } = this.props;
     const { isVisible } = this.state;
 
     return (
@@ -51,6 +52,7 @@ export default class Password extends React.PureComponent<Props, State> {
             : 'password'
         }
         value={value}
+        withLabel={withLabel}
       >
         <Button
           icon={

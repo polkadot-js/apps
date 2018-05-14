@@ -12,7 +12,7 @@ import Bare from './Bare';
 
 export default class Account extends React.PureComponent<Props> {
   render (): React$Node {
-    const { className, isError, label, style, value: { options: { initValue } = {} } } = this.props;
+    const { className, isDisabled, isError, label, style, value: { options: { initValue } = {} }, withLabel } = this.props;
 
     // flowlint-next-line unclear-type:off
     const defaultValue = ((initValue: any): Uint8Array);
@@ -25,11 +25,13 @@ export default class Account extends React.PureComponent<Props> {
         <InputAddress
           className='large'
           defaultValue={defaultValue}
+          isDisabled={isDisabled}
           isError={isError}
           isInput
           label={label}
           onChange={this.onChange}
           placeholder='5...'
+          withLabel={withLabel}
         />
       </Bare>
     );

@@ -11,8 +11,8 @@
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@polkadot/extrinsics": "^0.12.9",
-    "@polkadot/extrinsics-codec": "^0.12.9",
+    "@polkadot/extrinsics": "^0.13.8",
+    "@polkadot/extrinsics-codec": "^0.13.8",
     "@polkadot/ui-app": "^0.4.11",
     "react-dropzone": "^4.2.9"
   }

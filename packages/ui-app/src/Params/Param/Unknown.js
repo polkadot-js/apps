@@ -3,7 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Props as BaseProps } from '../types';
+import type { Param$Types } from '@polkadot/params/types';
+import type { Props as BareProps } from '../types';
 
 import React from 'react';
 
@@ -11,15 +12,20 @@ import translate from '../../translate';
 import Base from './Base';
 import typeToText from '../typeToText';
 
-type Props = BaseProps & {
-  t: I18Next$Translate
+type Props = BareProps & {
+  t: I18Next$Translate,
+  value: {
+    type: Param$Types
+  },
+  withLabel?: boolean
 };
 
-function Unknown ({ label, t, value: { type } }: Props): React$Node {
+function Unknown ({ label, t, value: { type }, withLabel }: Props): React$Node {
   return (
     <Base
       size='full'
       label={label}
+      withLabel={withLabel}
     >
       <div className='ui--Param-Unknown ui dropdown error selection'>
         {t('param.unknown', {

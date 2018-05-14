@@ -9,16 +9,18 @@ import React from 'react';
 
 import Bytes from './Bytes';
 
-export default function Hash ({ index, isError, label, onChange, value }: Props): React$Node {
+export default function Hash ({ index, isDisabled, isError, label, onChange, value, withLabel }: Props): React$Node {
   return (
     <Bytes
       index={index}
+      isDisabled={isDisabled}
       isError={isError}
       label={label}
       length={32}
       onChange={onChange}
       size='medium'
       value={value}
+      withLabel={withLabel}
     />
   );
 }

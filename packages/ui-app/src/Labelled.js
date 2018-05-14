@@ -11,20 +11,25 @@ import Label from 'semantic-ui-react/dist/es/elements/Label';
 type Props = BareProps & {
   // flowlint-next-line unclear-type:off
   label?: any,
-  children: React$Node
+  children: React$Node,
+  withLabel?: boolean,
 };
 
 const defaultLabel: React$Node = (
   <div>&nbsp;</div>
 );
 
-export default function Labelled ({ className, children, label = defaultLabel, style }: Props): React$Node {
+export default function Labelled ({ className, children, label = defaultLabel, style, withLabel = true }: Props): React$Node {
   return (
     <div
       className={className}
       style={style}
     >
-      <Label>{label}</Label>
+      {
+        withLabel
+          ? <Label>{label}</Label>
+          : null
+      }
       {children}
     </div>
   );

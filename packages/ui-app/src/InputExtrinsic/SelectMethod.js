@@ -19,10 +19,11 @@ type Props = I18nProps & {
   label?: string,
   onChange: (value: Extrinsic) => void,
   type: 'private' | 'public',
-  value: Extrinsic
+  value: Extrinsic,
+  withLabel?: boolean
 };
 
-function SelectMethod ({ className, isError, label = '', onChange, style, t, type, value: { name, section } }: Props): React$Node {
+function SelectMethod ({ className, isError, label = '', onChange, style, t, type, value: { name, section }, withLabel }: Props): React$Node {
   // $FlowFixMe string vs ...
   if (!extrinsics[section]) {
     return null;
@@ -45,6 +46,7 @@ function SelectMethod ({ className, isError, label = '', onChange, style, t, typ
       style={style}
       transform={transform}
       value={name}
+      withLabel={withLabel}
     />
   );
 }

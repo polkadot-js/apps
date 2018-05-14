@@ -12,12 +12,17 @@ import Labelled from './Labelled';
 
 type Props = BareProps & {
   defaultValue?: mixed,
+  isDisabled?: boolean,
   isError?: boolean,
   label?: React$Node,
   // flowlint-next-line unclear-type:off
   onChange: (value: any) => void,
+  onSearch?: (filteredOptions: Array<*>, query: string) => Array<*>,
+  options: Array<*>,
   // flowlint-next-line unclear-type:off
-  transform?: (value: any) => any
+  transform?: (value: any) => any,
+  value?: mixed,
+  withLabel?: boolean,
 };
 
 type SUIEvent = {
@@ -27,27 +32,24 @@ type SUIEvent = {
 
 export default class Dropdown extends React.PureComponent<Props> {
   render (): React$Node {
-    const { className, isError, label, style } = this.props;
-    const _props = {...this.props};
-
-    delete _props.className;
-    delete _props.isError;
-    delete _props.label;
-    delete _props.onChange;
-    delete _props.style;
-    delete _props.transform;
+    const { className, defaultValue, isDisabled, isError, label, onSearch, options, style, withLabel, value } = this.props;
 
     return (
       <Labelled
         className={['ui--Dropdown', className].join(' ')}
         label={label}
         style={style}
+        withLabel={withLabel}
       >
         <SUIDropdown
-          selection
-          {..._props}
+          defaultValue={defaultValue}
+          disabled={isDisabled}
           error={isError}
           onChange={this.onChange}
+          options={options}
+          search={onSearch}
+          selection
+          value={value}
         />
       </Labelled>
     );

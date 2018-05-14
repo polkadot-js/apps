@@ -11,16 +11,16 @@ import extrinsics from '@polkadot/extrinsics-substrate';
 
 import Extrinsic from './Extrinsic';
 
-const defaultValue = extrinsics.consensus.methods.private.setCode;
+const defaultValue = extrinsics.staking.methods.public.transfer;
 
-export default function Proposal ({ className, isDisabled, isError, index, label, onChange, style, withLabel }: Props): React$Node {
+export default function Call ({ className, isDisabled, isError, index, label, onChange, style, withLabel }: Props): React$Node {
   return (
     <Extrinsic
       className={className}
       defaultValue={defaultValue}
       isDisabled={isDisabled}
       isError={isError}
-      isPrivate
+      isPrivate={false}
       index={index}
       label={label}
       onChange={onChange}

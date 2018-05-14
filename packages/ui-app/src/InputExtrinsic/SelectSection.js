@@ -18,10 +18,11 @@ type Props = I18nProps & {
   label?: string,
   onChange: (value: ExtrinsicSectionName) => void,
   type: 'private' | 'public',
-  value: Extrinsic
+  value: Extrinsic,
+  withLabel?: boolean
 };
 
-function SelectSection ({ className, defaultValue, isError, label = '', onChange, style, t, type, value: { section } }: Props): React$Node {
+function SelectSection ({ className, defaultValue, isError, label = '', onChange, style, t, type, value: { section }, withLabel }: Props): React$Node {
   const options = createOptions(type);
 
   return (
@@ -36,6 +37,7 @@ function SelectSection ({ className, defaultValue, isError, label = '', onChange
       options={options}
       style={style}
       value={section}
+      withLabel={withLabel}
     />
   );
 }

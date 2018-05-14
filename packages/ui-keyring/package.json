@@ -16,7 +16,7 @@
     "store": "^2.0.12"
   },
   "peerDependencies": {
-    "@polkadot/ui-react": "^0.11.3",
+    "@polkadot/ui-react": "^0.11.9",
     "react": "^16.3.1",
     "semantic-ui-react": "^0.79.1"
   }

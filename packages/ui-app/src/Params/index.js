@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Section$Item } from '@polkadot/primitives/param';
+import type { Section$Item } from '@polkadot/params/types';
 import type { I18nProps } from '../types';
 import type { ComponentMap, RawParam, RawParams } from './types';
 

@@ -25,7 +25,8 @@ type Props = BareProps & {
   label?: string,
   onChange: (value: Uint8Array) => void,
   type?: KeyringOption$Type,
-  value?: string | Uint8Array
+  value?: string | Uint8Array,
+  withLabel?: boolean
 };
 
 type State = {
@@ -61,7 +62,7 @@ export default class InputAddress extends React.Component<Props, State> {
   }
 
   render (): React$Node {
-    const { className, hideAddress = false, isError, label, onChange, style, type = 'all' } = this.props;
+    const { className, hideAddress = false, isError, label, onChange, style, type = 'all', withLabel } = this.props;
     const { defaultValue, value } = this.state;
     const options = keyring.getOptions(type);
 
@@ -72,11 +73,12 @@ export default class InputAddress extends React.Component<Props, State> {
         isError={isError}
         label={label}
         onChange={onChange}
+        onSearch={this.onSearch}
         options={options}
-        search={this.onSearch}
         style={style}
         transform={transform}
         value={value}
+        withLabel={withLabel}
       />
     );
   }

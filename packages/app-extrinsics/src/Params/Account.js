@@ -15,17 +15,19 @@ type Props = BaseProps & {
 
 export default class Account extends React.PureComponent<Props> {
   render (): React$Node {
-    const { className, defaultValue, isError, label, style } = this.props;
+    const { className, defaultValue, isDisabled, isError, label, style, withLabel } = this.props;
 
     return (
       <BaseAccount
         className={className}
         defaultValue={defaultValue}
+        isDisabled={isDisabled}
         isError={isError}
         isInput
         label={label}
         onChange={this.onChange}
         style={style}
+        withLabel={withLabel}
       />
     );
   }
