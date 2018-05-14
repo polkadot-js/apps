@@ -12,17 +12,19 @@ import u8aConcat from '@polkadot/util/u8a/concat';
 
 import BytesFile from './File';
 
-export default class Wasm extends React.PureComponent<Props> {
+export default class Code extends React.PureComponent<Props> {
   render (): React$Node {
-    const { className, isError, label, style } = this.props;
+    const { className, isDisabled, isError, label, style, withLabel } = this.props;
 
     return (
       <BytesFile
         className={className}
+        isDisabled={isDisabled}
         isError={isError}
         label={label}
         onChange={this.onChange}
         style={style}
+        withLabel={withLabel}
       />
     );
   }

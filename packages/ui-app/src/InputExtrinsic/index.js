@@ -24,7 +24,8 @@ type Props = I18nProps & {
   isPrivate?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (value: Extrinsic) => void
+  onChange: (value: Extrinsic) => void,
+  withLabel?: boolean
 };
 
 type State = {
@@ -43,7 +44,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
   }
 
   render (): React$Node {
-    const { className, isPrivate = false, labelMethod, labelSection, style } = this.props;
+    const { className, isPrivate = false, labelMethod, labelSection, style, withLabel } = this.props;
     const { value } = this.state;
     const type = isPrivate ? 'private' : 'public';
 
@@ -58,6 +59,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
           onChange={this.onSectionChange}
           type={type}
           value={value}
+          withLabel={withLabel}
         />
         <SelectMethod
           className='large'
@@ -65,6 +67,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
           onChange={this.onKeyChange}
           value={value}
           type={type}
+          withLabel={withLabel}
         />
       </div>
     );

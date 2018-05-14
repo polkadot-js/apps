@@ -13,26 +13,33 @@ import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 import isU8a from '@polkadot/util/is/u8a';
 
 // flowlint-next-line unclear-type:off
-export default function format (type: Param$Types, value?: any, fontSize?: number = 14): any {
+export default function format (type: Param$Types, value: any, key?: string = '0-'): Array<React$Node> {
+  console.error('format', type, value, key);
+
   if (type === 'bool') {
-    return (
-      <span>{value
-        ? 'Yes'
-        : 'No'
-      }</span>
-    );
+    return [
+      <span key={`${key}${type}`}>{value ? 'Yes' : 'No'}</span>
+    ];
   }
 
   if (!value) {
-    return (
-      <span>unknown</span>
-    );
+    return [
+      <span key={`${key}${type.toString()}`}>unknown</span>
+    ];
   }
 
   if (Array.isArray(type)) {
-    return type.map((_type, index) =>
-      format(_type, value[index], fontSize)
-    );
+    return type
+      .map((_type, index) =>
+        format(_type, value[index], `${key}${index}-`)
+      )
+      .reduce((result, arr) => {
+        arr.forEach((entry) =>
+          result.push(entry)
+        );
+
+        return result;
+      }, []);
   }
 
   if (type === 'AccountId') {
@@ -41,18 +48,18 @@ export default function format (type: Param$Types, value?: any, fontSize?: numbe
     // const size = Math.floor(fontSize + (fontSize / 14) * 18);
     // <IdentityIcon size={size} value={address} />
 
-    return (
-      <span>{address}</span>
-    );
+    return [
+      <span key={`${key}${type}`}>{address}</span>
+    ];
   }
 
   if (isU8a(value)) {
-    return (
-      <span>{u8aToHexShort((value: Uint8Array), 256)}</span>
-    );
+    return [
+      <span key={`${key}${type}`}>{u8aToHexShort((value: Uint8Array), 256)}</span>
+    ];
   }
 
-  return (
-    <span>{value.toString()}</span>
-  );
+  return [
+    <span key={`${key}${type}`}>{value.toString()}</span>
+  ];
 }

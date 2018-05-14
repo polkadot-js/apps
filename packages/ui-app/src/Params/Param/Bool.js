@@ -17,7 +17,7 @@ const options = [
 
 export default class Bool extends React.PureComponent<Props> {
   render (): React$Node {
-    const { className, isError, label, style, value: { options: { initValue = false } = {} } } = this.props;
+    const { className, isDisabled, isError, label, style, value: { options: { initValue = false } = {} }, withLabel } = this.props;
 
     return (
       <Bare
@@ -26,11 +26,13 @@ export default class Bool extends React.PureComponent<Props> {
       >
         <Dropdown
           className='small'
+          isDisabled={isDisabled}
           isError={isError}
           defaultValue={initValue}
           label={label}
           options={options}
           onChange={this.onChange}
+          withLabel={withLabel}
         />
       </Bare>
     );

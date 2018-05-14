@@ -20,7 +20,8 @@ type Props = I18nProps & {
   isInput?: boolean,
   label: string,
   onChange: (publicKey: Uint8Array) => void,
-  type?: KeyringOption$Type
+  type?: KeyringOption$Type,
+  withLabel?: boolean
 };
 
 type State = {
@@ -39,7 +40,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render (): React$Node {
-    const { className, defaultValue, isError, isInput, label, style, t, type } = this.props;
+    const { className, defaultValue, isError, isInput, label, style, t, type, withLabel } = this.props;
     const { publicKey } = this.state;
 
     return (
@@ -56,6 +57,7 @@ class Account extends React.PureComponent<Props, State> {
             onChange={this.onChange}
             placeholder='0x...'
             type={type}
+            withLabel={withLabel}
           />
         </div>
         <Labelled
@@ -63,6 +65,7 @@ class Account extends React.PureComponent<Props, State> {
           label={t('account.balance', {
             defaultValue: 'with an available balance of'
           })}
+          withLabel={withLabel}
         >
           <Balance
             className='ui disabled dropdown selection'

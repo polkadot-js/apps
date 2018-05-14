@@ -6,13 +6,19 @@
 import type { Param$Types } from '@polkadot/params/types';
 
 export default function typeToText (type: Param$Types): string {
+  console.log('typeToText', type);
+
   if (!Array.isArray(type)) {
     return type;
   }
 
+  const text = type
+    .map((_type) => typeToText(_type))
+    .join(', ');
+
   if (type.length !== 1) {
-    return `(${type.map(typeToText).join(', ')})`;
+    return `(${text})`;
   }
 
-  return `Array<${type.map(typeToText).join(', ')}>`;
+  return `Array<${text}>`;
 }

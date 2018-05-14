@@ -23,7 +23,7 @@ const defaultValidate = (u8a: Uint8Array): boolean =>
 
 export default class Bytes extends React.PureComponent<Props> {
   render (): React$Node {
-    const { className, isError, label, size = 'full', style } = this.props;
+    const { className, isDisabled, isError, label, size = 'full', style, withLabel } = this.props;
 
     return (
       <Bare
@@ -32,11 +32,13 @@ export default class Bytes extends React.PureComponent<Props> {
       >
         <Input
           className={size}
+          isDisabled={isDisabled}
           isError={isError}
           label={label}
           onChange={this.onChange}
           placeholder='0x...'
           type='text'
+          withLabel={withLabel}
         />
       </Bare>
     );

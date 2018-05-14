@@ -19,7 +19,7 @@ const options = [
 
 export default class VoteThreshold extends React.PureComponent<Props> {
   render (): React$Node {
-    const { className, label, style, value: { options: { initValue = 0 } = {} } } = this.props;
+    const { className, isDisabled, isError, label, style, value: { options: { initValue = 0 } = {} }, withLabel } = this.props;
     const defaultValue = initValue || 0;
 
     return (
@@ -30,9 +30,12 @@ export default class VoteThreshold extends React.PureComponent<Props> {
         <Dropdown
           className='small'
           defaultValue={defaultValue}
+          isDisabled={isDisabled}
+          isError={isError}
           label={label}
           options={options}
           onChange={this.onChange}
+          withLabel={withLabel}
         />
       </Bare>
     );

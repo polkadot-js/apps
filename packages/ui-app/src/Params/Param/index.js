@@ -5,13 +5,14 @@
 
 import type { Param } from '@polkadot/params/types';
 import type { I18nProps } from '../../types';
-import type { ComponentMap, RawParam } from '../types';
+import type { BaseProps, ComponentMap, RawParam } from '../types';
 
 import React from 'react';
 
 import translate from '../../translate';
 import typeToText from '../typeToText';
 import findComponent from './findComponent';
+import Unknown from './Unknown';
 
 type Props = I18nProps & {
   index: number,
@@ -22,8 +23,10 @@ type Props = I18nProps & {
   };
 };
 
+type ComponentProps = BaseProps;
+
 type State = {
-  Component: React$ComponentType<*> | Array<React$ComponentType<*>> | null
+  Components: Array<React$ComponentType<*>> | null
 }
 
 class ParamComponent extends React.PureComponent<Props, State> {
@@ -33,46 +36,63 @@ class ParamComponent extends React.PureComponent<Props, State> {
 
   static getDerivedStateFromProps ({ overrides, value: { type } = {} }: Props): State {
     return {
-      Component: !type
+      Components: !type
         ? null
         : findComponent(type, overrides)
     };
   }
 
   render (): React$Node {
-    const { Component } = this.state;
+    const { className, index, onChange, style, value: { name, type, options = {} } = {} } = this.props;
+    const { Components } = this.state;
 
-    if (!Component) {
+    if (!Components) {
       return null;
     }
 
-    return Array.isArray(Component)
-      ? Component.map(this.renderComponent)
-      : this.renderComponent(Component);
+    const baseProps = ({
+      className,
+      index,
+      onChange,
+      style
+    }: $Shape<ComponentProps>);
+
+    // FIXME We don't handle array or tuple inputs atm
+    return Array.isArray(type)
+      ? this.renderComponent(Unknown, 0, {
+        ...baseProps,
+        value: {
+          name,
+          type
+        }
+      })
+      : Components.map((Component, rIndex) =>
+        this.renderComponent(Component, rIndex, {
+          ...baseProps,
+          value: {
+            name,
+            type,
+            options
+          }
+        })
+      );
   }
 
-  renderComponent = (Component: React$ComponentType<*>, sub: number = -1): React$Node => {
-    const { className, index, onChange, style, value: { name, type, options = {} } = {} } = this.props;
-    const _type = Array.isArray(type)
-      ? type[sub]
-      : type;
-    const text = typeToText(_type);
-    const labelExtra = sub === -1
-      ? ''
-      : ` (${index})`;
+  renderComponent = (Component: React$ComponentType<*>, sub: number, props: ComponentProps): React$Node => {
+    const { className, index, onChange, style, value: { name, type, options = {} } } = props;
+    const text = typeToText(type);
 
     return (
       <Component
         className={['ui--Param', className].join(' ')}
         index={index}
         key={`${name}:${text}:${index}}`}
-        label={`${name}: ${text}${labelExtra}`}
-        // FIXME subjects are not for array components (as defined here)
+        label={`${name}: ${text} (${index})`}
         onChange={onChange}
         style={style}
         value={{
           options,
-          type: _type
+          type
         }}
       />
     );

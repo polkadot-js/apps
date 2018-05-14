@@ -18,10 +18,11 @@ type Props = I18nProps & {
   isError?: boolean,
   label?: string,
   onChange: (value: StorageDef$Key) => void,
-  value: StorageDef$Key
+  value: StorageDef$Key,
+  withLabel?: boolean
 };
 
-function SelectKey ({ className, isError, label = '', onChange, style, t, value: { name, section } }: Props): React$Node {
+function SelectKey ({ className, isError, label = '', onChange, style, t, value: { name, section }, withLabel }: Props): React$Node {
   // $FlowFixMe string vs ...
   if (!map[section]) {
     return null;
@@ -44,6 +45,7 @@ function SelectKey ({ className, isError, label = '', onChange, style, t, value:
       style={style}
       transform={transform}
       value={name}
+      withLabel={withLabel}
     />
   );
 }

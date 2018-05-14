@@ -48,7 +48,7 @@ class Query extends React.PureComponent<Props, State> {
     const inputs = Object
       .keys(key.params)
       .map((name, index) => {
-        const formatted = format(key.params[name].type, params[index].value, 12);
+        const formatted = format(key.params[name].type, params[index].value);
 
         return (
           <span key={`param_${name}_${index}`}>{name}={formatted}</span>

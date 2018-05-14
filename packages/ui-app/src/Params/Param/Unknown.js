@@ -15,11 +15,12 @@ type Props = BaseProps & {
   t: I18Next$Translate
 };
 
-function Unknown ({ label, t, value: { type } }: Props): React$Node {
+function Unknown ({ label, t, value: { type }, withLabel }: Props): React$Node {
   return (
     <Base
       size='full'
       label={label}
+      withLabel={withLabel}
     >
       <div className='ui--Param-Unknown ui dropdown error selection'>
         {t('param.unknown', {

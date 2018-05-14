@@ -10,10 +10,10 @@ import Account from './Account';
 import Amount from './Amount';
 import Bool from './Bool';
 import Bytes from './Bytes';
+import Code from './Code';
 import Hash from './Hash';
 import Unknown from './Unknown';
 import VoteThreshold from './VoteThreshold';
-import Wasm from './Wasm';
 
 const components: ComponentMap = {
   'AccountId': Account,
@@ -21,21 +21,40 @@ const components: ComponentMap = {
   'BlockNumber': Amount,
   'bool': Bool,
   'Bytes': Bytes,
-  'Digest': Bytes,
+  'Code': Code,
+  'Call': Unknown,
+  'Digest': Unknown,
   'Hash': Hash,
+  'Index': Amount,
+  'MisbehaviorReport': Unknown,
+  'PropIndex': Amount,
+  'Proposal': Unknown,
+  'ReferendumIndex': Amount,
+  'SessionKey': Amount,
+  'Signature': Hash,
   'Timestamp': Amount,
   'u32': Amount,
   'u64': Amount,
-  'VoteThreshold': VoteThreshold,
-  'Wasm': Wasm
+  'VoteIndex': Amount,
+  'VoteThreshold': VoteThreshold
 };
 
-export default function findComponent (type: Param$Types, overrides?: ComponentMap = {}): React$ComponentType<*> | Array<React$ComponentType<*>> {
+export default function findComponent (type: Param$Types, overrides?: ComponentMap = {}): Array<React$ComponentType<*>> {
   if (Array.isArray(type)) {
-    return type.map((type) =>
-      findComponent(type, overrides)
-    );
+    return type
+      .map((type) =>
+        findComponent(type, overrides)
+      )
+      .reduce((result, arr) => {
+        arr.forEach((Component) =>
+          result.push(Component)
+        );
+
+        return result;
+      }, []);
   }
 
-  return overrides[type] || components[type] || Unknown;
+  return [
+    overrides[type] || components[type] || Unknown
+  ];
 }

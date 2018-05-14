@@ -14,10 +14,11 @@ import Bare from './Bare';
 type Props = BareProps & {
   children: React$Node,
   label?: string,
-  size?: Size
+  size?: Size,
+  withLabel?: boolean
 };
 
-export default function Base ({ children, className, label, size = 'medium', style }: Props): React$Node {
+export default function Base ({ children, className, label, size = 'medium', style, withLabel }: Props): React$Node {
   return (
     <Bare
       className={className}
@@ -26,6 +27,7 @@ export default function Base ({ children, className, label, size = 'medium', sty
       <Labelled
         className={size}
         label={label}
+        withLabel={withLabel}
       >
         {children}
       </Labelled>

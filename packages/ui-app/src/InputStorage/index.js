@@ -24,6 +24,7 @@ type Props = I18nProps & {
   labelMethod?: string,
   labelSection?: string,
   onChange: (value: StorageDef$Key) => void,
+  withLabel?: boolean
 };
 
 type State = {
@@ -42,7 +43,7 @@ class InputStorage extends React.PureComponent<Props, State> {
   }
 
   render (): React$Node {
-    const { className, labelMethod, labelSection, style } = this.props;
+    const { className, labelMethod, labelSection, style, withLabel } = this.props;
     const { value } = this.state;
 
     return (
@@ -55,12 +56,14 @@ class InputStorage extends React.PureComponent<Props, State> {
           label={labelSection}
           onChange={this.onSectionChange}
           value={value}
+          withLabel={withLabel}
         />
         <SelectKey
           className='large'
           label={labelMethod}
           onChange={this.onKeyChange}
           value={value}
+          withLabel={withLabel}
         />
       </div>
     );

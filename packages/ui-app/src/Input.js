@@ -25,7 +25,8 @@ type Props = BareProps & {
   onChange: (value: any) => void,
   placeholder?: string,
   type?: Input$Type,
-  value?: mixed
+  value?: mixed,
+  withLabel?: boolean
 };
 
 type SUIEvent = {
@@ -45,7 +46,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render (): React$Node {
-    const { children, className, defaultValue, isAction = false, isDisabled = false, isError = false, label, max, min, placeholder, style, type = 'text', value } = this.props;
+    const { children, className, defaultValue, isAction = false, isDisabled = false, isError = false, label, max, min, placeholder, style, type = 'text', value, withLabel } = this.props;
     const { name } = this.state;
 
     return (
@@ -53,6 +54,7 @@ export default class Input extends React.PureComponent<Props, State> {
         className={className}
         label={label}
         style={style}
+        withLabel={withLabel}
       >
         <SUIInput
           action={isAction}

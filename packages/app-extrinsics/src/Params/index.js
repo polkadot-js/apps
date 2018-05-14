@@ -6,10 +6,12 @@
 import type { ComponentMap } from '@polkadot/ui-app/Params/types';
 
 import Account from './Account';
+import Call from './Call';
 import Proposal from './Proposal';
 
-const components: ComponentMap = {
+const components: $Shape<ComponentMap> = {
   'AccountId': Account,
+  'Call': Call,
   'Proposal': Proposal
 };
 

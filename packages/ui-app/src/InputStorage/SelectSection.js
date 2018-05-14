@@ -17,12 +17,13 @@ type Props = I18nProps & {
   isError?: boolean,
   label: string,
   onChange: (value: StateDb$SectionNames) => void,
-  value: StorageDef$Key
+  value: StorageDef$Key,
+  withLabel?: boolean
 };
 
 const options = createOptions();
 
-function SelectSection ({ className, defaultValue, isError, label, onChange, style, t, value: { section } }: Props): React$Node {
+function SelectSection ({ className, defaultValue, isError, label, onChange, style, t, value: { section }, withLabel }: Props): React$Node {
   return (
     <Dropdown
       className={['ui--DropdownLinked-Sections', className].join(' ')}
@@ -35,6 +36,7 @@ function SelectSection ({ className, defaultValue, isError, label, onChange, sty
       options={options}
       style={style}
       value={section}
+      withLabel={withLabel}
     />
   );
 }
