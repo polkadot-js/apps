@@ -20,9 +20,9 @@
   opacity: 1;
 }
 
-.storage--Query span+span {
+/* .storage--Query span+span {
   margin-left: 0.5em;
-}
+} */
 
 .storage--Query .storage--actionrow-value {
   padding: 0 0.25rem;

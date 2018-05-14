@@ -6,19 +6,14 @@
 import type { Param$Types } from '@polkadot/params/types';
 
 export default function typeToText (type: Param$Types): string {
-  console.log('typeToText', type);
-
   if (!Array.isArray(type)) {
     return type;
   }
 
-  const text = type
-    .map((_type) => typeToText(_type))
-    .join(', ');
+  // $FlowFixMe hate doing this, but it _looks_ ok
+  const text = type.map(typeToText).join(', ');
 
-  if (type.length !== 1) {
-    return `(${text})`;
-  }
-
-  return `Array<${text}>`;
+  return type.length !== 1
+    ? `(${text})`
+    : `Array<${text}>`;
 }

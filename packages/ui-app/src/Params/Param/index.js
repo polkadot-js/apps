@@ -17,68 +17,71 @@ import Unknown from './Unknown';
 type Props = I18nProps & {
   index: number,
   overrides?: ComponentMap,
-  onChange: (value: RawParam) => void,
+  onChange: (index: number, value: RawParam) => void,
   value: Param & {
     name: string
   };
 };
 
-type ComponentProps = BaseProps;
+type ComponentProps = BaseProps & {
+  index: number
+};
 
 type State = {
-  Components: Array<React$ComponentType<*>> | null
+  Components: React$ComponentType<*> | Array<React$ComponentType<*>>
 }
 
 class ParamComponent extends React.PureComponent<Props, State> {
   state: State = {
-    Component: null
+    Components: []
   };
 
   static getDerivedStateFromProps ({ overrides, value: { type } = {} }: Props): State {
     return {
       Components: !type
-        ? null
+        ? []
         : findComponent(type, overrides)
     };
   }
 
   render (): React$Node {
-    const { className, index, onChange, style, value: { name, type, options = {} } = {} } = this.props;
     const { Components } = this.state;
 
-    if (!Components) {
+    if (!Components || !Components.length) {
       return null;
     }
 
-    const baseProps = ({
-      className,
-      index,
-      onChange,
-      style
-    }: $Shape<ComponentProps>);
+    const { value: { type } } = this.props;
 
     // FIXME We don't handle array or tuple inputs atm
-    return Array.isArray(type)
-      ? this.renderComponent(Unknown, 0, {
-        ...baseProps,
-        value: {
-          name,
-          type
-        }
-      })
-      : Components.map((Component, rIndex) =>
-        this.renderComponent(Component, rIndex, {
-          ...baseProps,
-          value: {
-            name,
-            type,
-            options
-          }
-        })
-      );
+    return Array.isArray(type) || Array.isArray(Components)
+      ? this.renderUnknown()
+      : this.renderComponents();
   }
 
-  renderComponent = (Component: React$ComponentType<*>, sub: number, props: ComponentProps): React$Node => {
+  renderComponents = (Components: React$ComponentType<*> | Array<React$ComponentType<*>> = this.state.Components, startIndex: string = '0', { name, type, options = {} } = this.props.value): Array<React$Node> => {
+    const { className, index, onChange, style } = this.props;
+
+    if (Array.isArray(Components)) {
+      return [];
+    }
+
+    return [
+      this.renderComponent(Components, startIndex, {
+        className,
+        index,
+        onChange,
+        style,
+        value: {
+          name,
+          type,
+          options
+        }
+      })
+    ];
+  }
+
+  renderComponent = (Component: React$ComponentType<*>, sub: string, props: ComponentProps): React$Node => {
     const { className, index, onChange, style, value: { name, type, options = {} } } = props;
     const text = typeToText(type);
 
@@ -96,6 +99,21 @@ class ParamComponent extends React.PureComponent<Props, State> {
         }}
       />
     );
+  }
+
+  renderUnknown = (): React$Node => {
+    const { className, index, onChange, style, value: { name, type } = {} } = this.props;
+
+    return this.renderComponent(Unknown, '0', {
+      className,
+      index,
+      onChange,
+      style,
+      value: {
+        name,
+        type
+      }
+    });
   }
 }
 

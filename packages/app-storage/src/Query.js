@@ -4,17 +4,17 @@
 // @flow
 
 import type { I18nProps } from '@polkadot/ui-app/types';
-import type { StorageQuery } from '../types';
+import type { StorageQuery } from './types';
 
 import React from 'react';
 
 import Button from '@polkadot/ui-app/src/Button';
 import Labelled from '@polkadot/ui-app/src/Labelled';
 import typeToText from '@polkadot/ui-app/src/Params/typeToText';
+import valueToText from '@polkadot/ui-app/Params/valueToText';
 import withStorageDiv from '@polkadot/ui-react-rx/with/storageDiv';
 
-import translate from '../translate';
-import format from './format';
+import translate from './translate';
 
 type Props = I18nProps & {
   onRemove: (id: number) => void,
@@ -38,7 +38,7 @@ class Query extends React.PureComponent<Props, State> {
 
         cache[id] = withStorageDiv(key, { params: values })(
           (value) =>
-            format(key.type, value),
+            valueToText(key.type, value),
           { className: 'ui disabled dropdown selection' }
         );
       }
@@ -48,7 +48,7 @@ class Query extends React.PureComponent<Props, State> {
     const inputs = Object
       .keys(key.params)
       .map((name, index) => {
-        const formatted = format(key.params[name].type, params[index].value);
+        const formatted = valueToText(key.params[name].type, params[index].value);
 
         return (
           <span key={`param_${name}_${index}`}>{name}={formatted}</span>

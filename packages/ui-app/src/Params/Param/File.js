@@ -16,7 +16,8 @@ type Props = BareProps & {
   isError?: boolean,
   label: string,
   onChange: (contents: Uint8Array) => void,
-  t: I18Next$Translate
+  t: I18Next$Translate,
+  withLabel?: boolean
 }
 
 type State = {

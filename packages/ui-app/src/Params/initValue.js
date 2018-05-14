@@ -4,29 +4,16 @@
 // @flow
 // flowlint sketchy-null-mixed:off
 
-import type { Param } from '@polkadot/params/types';
+import type { Param$Type } from '@polkadot/params/types';
 
 import BN from 'bn.js';
 
-import isUndefined from '@polkadot/util/is/undefined';
+type Options = {
+  initValue?: mixed,
+  minValue?: mixed
+};
 
-export default function getInitValue ({ options: { initValue, minValue } = {}, type }: Param): mixed {
-  if (Array.isArray(type)) {
-    return type.map((type, index) =>
-      getInitValue(({
-        type,
-        options: {
-          initValue: isUndefined(initValue) || !Array.isArray(initValue)
-            ? initValue
-            : initValue[index],
-          minValue: isUndefined(minValue) || !Array.isArray(minValue)
-            ? minValue
-            : minValue[index]
-        }
-      }: $Shape<Param>))
-    );
-  }
-
+export default function getInitValue (type: Param$Type, { initValue, minValue }: Options = {}): ?mixed {
   switch (type) {
     case 'Balance':
     case 'BlockNumber':

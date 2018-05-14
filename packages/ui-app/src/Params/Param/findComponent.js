@@ -39,22 +39,14 @@ const components: ComponentMap = {
   'VoteThreshold': VoteThreshold
 };
 
-export default function findComponent (type: Param$Types, overrides?: ComponentMap = {}): Array<React$ComponentType<*>> {
+export default function findComponent (type: Param$Types, overrides?: ComponentMap = {}): React$ComponentType<*> | Array<React$ComponentType<*>> {
   if (Array.isArray(type)) {
     return type
       .map((type) =>
+        // $FlowFixMe running out of options to check the embedded arrays
         findComponent(type, overrides)
-      )
-      .reduce((result, arr) => {
-        arr.forEach((Component) =>
-          result.push(Component)
-        );
-
-        return result;
-      }, []);
+      );
   }
 
-  return [
-    overrides[type] || components[type] || Unknown
-  ];
+  return overrides[type] || components[type] || Unknown;
 }

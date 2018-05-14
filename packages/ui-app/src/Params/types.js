@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Param$Type } from '@polkadot/params/types';
+import type { Param$Type, Param$Types } from '@polkadot/params/types';
 import type { BareProps } from '../types';
 
 export type RawParam = {
@@ -22,7 +22,7 @@ export type BaseProps = BareProps & {
       minValue?: mixed,
       maxValue?: mixed
     },
-    type: Param$Type
+    type: Param$Types
   }
 };
 
