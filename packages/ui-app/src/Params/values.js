@@ -16,12 +16,33 @@ export default function values (params: Params): Array<RawParam> {
     // $FlowFixMe yes, we are sure, the type is correct
     .map(({ type, options }: Param): RawParam => {
       if (Array.isArray(type)) {
-        console.error('Unable to determine default values for array type', type);
+        // console.error('Unable to determine default values for array/tuple type', type);
+        //
+        // return {
+        //   isValid: false,
+        //   value: void 0
+        // };
 
-        return {
-          isValid: false,
-          value: void 0
-        };
+        if (type.length !== 1) {
+          console.error('Unable to determine default values for tuple type', type);
+
+          return {
+            isValid: false,
+            value: void 0
+          };
+        }
+
+        return type.reduce(({ isValid, value }, type) => {
+          // $FlowFixMe still not sure how to iterate through these
+          const avalue = getInitValue(type, {});
+
+          value.push(avalue);
+
+          return {
+            isValid: isValid && !isUndefined(avalue),
+            value
+          };
+        }, { isValid: true, value: [] });
       }
 
       const value = getInitValue(type, options);
@@ -32,3 +53,5 @@ export default function values (params: Params): Array<RawParam> {
       };
     });
 }
+
+// 0x050000000600000055555555550ae803000000000000

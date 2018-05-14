@@ -12,6 +12,7 @@ import Bool from './Bool';
 import Bytes from './Bytes';
 import Code from './Code';
 import Hash from './Hash';
+import KeyValue from './KeyValue';
 import Unknown from './Unknown';
 import VoteThreshold from './VoteThreshold';
 
@@ -26,6 +27,7 @@ const components: ComponentMap = {
   'Digest': Unknown,
   'Hash': Hash,
   'Index': Amount,
+  'KeyValue': KeyValue,
   'MisbehaviorReport': Unknown,
   'PropIndex': Amount,
   'Proposal': Unknown,

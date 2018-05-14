@@ -29,6 +29,7 @@ type ComponentProps = BaseProps & {
 
 type State = {
   Components: React$ComponentType<*> | Array<React$ComponentType<*>>
+  | null
 }
 
 class ParamComponent extends React.PureComponent<Props, State> {
@@ -39,7 +40,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
   static getDerivedStateFromProps ({ overrides, value: { type } = {} }: Props): State {
     return {
       Components: !type
-        ? []
+        ? null
         : findComponent(type, overrides)
     };
   }
@@ -47,27 +48,30 @@ class ParamComponent extends React.PureComponent<Props, State> {
   render (): React$Node {
     const { Components } = this.state;
 
-    if (!Components || !Components.length) {
+    if (Components === null) {
       return null;
     }
 
     const { value: { type } } = this.props;
 
     // FIXME We don't handle array or tuple inputs atm
-    return Array.isArray(type) || Array.isArray(Components)
+    return Array.isArray(type)
       ? this.renderUnknown()
       : this.renderComponents();
   }
 
-  renderComponents = (Components: React$ComponentType<*> | Array<React$ComponentType<*>> = this.state.Components, startIndex: string = '0', { name, type, options = {} } = this.props.value): Array<React$Node> => {
-    const { className, index, onChange, style } = this.props;
-
-    if (Array.isArray(Components)) {
-      return [];
+  renderComponents = (_Components: React$ComponentType<*> | Array<React$ComponentType<*>> | null = this.state.Components, startIndex: string = '0', { name, type, options = {} } = this.props.value) => {
+    if (!_Components) {
+      return null;
     }
 
-    return [
-      this.renderComponent(Components, startIndex, {
+    const { className, index, onChange, style } = this.props;
+
+    if (!Array.isArray(type)) {
+      // flowlint-next-line unclear-type:off
+      const Component = ((_Components: any): React$ComponentType<*>);
+
+      return this.renderComponent(Component, startIndex, {
         className,
         index,
         onChange,
@@ -77,8 +81,19 @@ class ParamComponent extends React.PureComponent<Props, State> {
           type,
           options
         }
-      })
-    ];
+      });
+    }
+
+    // flowlint-next-line unclear-type:off
+    const Components = ((_Components: any): Array<React$ComponentType<*>>);
+
+    return Components.map((Component, index) => {
+      return this.renderComponents(Component, `${startIndex}-${index}`, {
+        name,
+        type: type[index],
+        options: {}
+      });
+    });
   }
 
   renderComponent = (Component: React$ComponentType<*>, sub: string, props: ComponentProps): React$Node => {

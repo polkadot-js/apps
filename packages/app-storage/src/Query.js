@@ -11,7 +11,7 @@ import React from 'react';
 import Button from '@polkadot/ui-app/src/Button';
 import Labelled from '@polkadot/ui-app/src/Labelled';
 import typeToText from '@polkadot/ui-app/src/Params/typeToText';
-import valueToText from '@polkadot/ui-app/Params/valueToText';
+import valueToText from '@polkadot/ui-app/src/Params/valueToText';
 import withStorageDiv from '@polkadot/ui-react-rx/with/storageDiv';
 
 import translate from './translate';
