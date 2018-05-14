@@ -24,6 +24,10 @@ export default function valueToText (type: Param$Types, value: any): string {
   }
 
   if (Array.isArray(type)) {
+    if (value.length === 0) {
+      return 'empty';
+    }
+
     const values = type.map((_type, index) =>
       // $FlowFixMe hate doing this, but it _looks_ ok
       valueToText(_type, value[index])
