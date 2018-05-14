@@ -22,6 +22,7 @@ export default function Proposal ({ className, isDisabled, isError, index, label
       isError={isError}
       isPrivate
       index={index}
+      label={label}
       onChange={onChange}
       style={style}
       withLabel={withLabel}

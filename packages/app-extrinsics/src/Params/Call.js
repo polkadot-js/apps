@@ -22,6 +22,7 @@ export default function Call ({ className, isDisabled, isError, index, label, on
       isError={isError}
       isPrivate={false}
       index={index}
+      label={label}
       onChange={onChange}
       style={style}
       withLabel={withLabel}
