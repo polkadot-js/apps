@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-extrinsics",
-  "version": "0.4.11",
+  "version": "0.4.12",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -13,7 +13,7 @@
   "devDependencies": {
     "@polkadot/extrinsics": "^0.13.8",
     "@polkadot/extrinsics-codec": "^0.13.8",
-    "@polkadot/ui-app": "^0.4.11",
+    "@polkadot/ui-app": "^0.4.12",
     "react-dropzone": "^4.2.9"
   }
 }
