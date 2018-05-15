@@ -1229,11 +1229,11 @@
     "@polkadot/util" "^0.19.7"
     babel-runtime "^6.26.0"
 
-"@polkadot/dev-react@^0.18.2":
-  version "0.18.2"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev-react/-/dev-react-0.18.2.tgz#cb36df984800c743720f938476c31d37973b8cb4"
+"@polkadot/dev-react@^0.18.3":
+  version "0.18.3"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev-react/-/dev-react-0.18.3.tgz#77dbbff0e758a522cad29b4aa38ab116315dc267"
   dependencies:
-    "@polkadot/dev" "^0.18.2"
+    "@polkadot/dev" "^0.18.3"
     babel-preset-react "^6.24.1"
     eslint-config-standard-jsx "^5.0.0"
     eslint-config-standard-react "^6.0.0"
@@ -1243,9 +1243,9 @@
     stylelint "^9.2.0"
     stylelint-config-standard "^18.2.0"
 
-"@polkadot/dev@^0.18.2":
-  version "0.18.2"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.18.2.tgz#9410f0fd2f2d0402b3967bbfae394f63365f9e17"
+"@polkadot/dev@^0.18.3":
+  version "0.18.3"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.18.3.tgz#709f8092f36085818a8e9196d52600b18664b48c"
   dependencies:
     babel-cli "^6.26.0"
     babel-core "^6.26.3"

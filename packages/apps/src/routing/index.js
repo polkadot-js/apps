@@ -21,5 +21,5 @@ export default ({
   routes: [].concat(
     explorer, extrinsics, storage, toolbox, null, accounts, addresses, vanitygen
   ),
-  unknown: unknown[0]
+  unknown
 }: Routing);

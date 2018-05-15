@@ -44,7 +44,7 @@ class Hash extends React.PureComponent<Props, State> {
           <Input
             className='large'
             label={t('hash.data', {
-              defaultValue: 'create from the following data (hex or string)'
+              defaultValue: 'from the following data (hex or string)'
             })}
             onChange={this.onChangeData}
             value={data}
@@ -70,7 +70,7 @@ class Hash extends React.PureComponent<Props, State> {
             className='full toolbox--hex'
             isHidden={hash.length === 0}
             label={t('hash.output', {
-              defaultValue: 'hash of supplied data'
+              defaultValue: 'the resulting hash is'
             })}
             value={hash}
             withCopy

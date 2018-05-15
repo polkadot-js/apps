@@ -13,7 +13,7 @@ type Props = BareProps & {
   children?: React$Node,
   isHidden?: boolean,
   label?: React$Node,
-  value?: mixed,
+  value?: React$Node,
   withLabel?: boolean
 };
 
@@ -27,7 +27,8 @@ export default function Static ({ className, children, isHidden, label, style, v
       withLabel={withLabel}
     >
       <div className='ui dropdown selection disabled'>
-        {value}{children}
+        {value}
+        {children}
       </div>
     </Labelled>
   );

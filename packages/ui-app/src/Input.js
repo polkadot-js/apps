@@ -8,6 +8,8 @@ import type { BareProps } from './types';
 import React from 'react';
 import SUIInput from 'semantic-ui-react/dist/es/elements/Input';
 
+import isUndefined from '@polkadot/util/is/undefined';
+
 import Labelled from './Labelled';
 
 type Input$Type = 'number' | 'password' | 'text';
@@ -64,9 +66,9 @@ export default class Input extends React.PureComponent<Props, State> {
           disabled={isDisabled}
           id={name}
           iconPosition={
-            icon
-              ? 'left'
-              : void 0
+            isUndefined(icon)
+              ? void 0
+              : 'left'
           }
           error={isError}
           hidden={isHidden}
@@ -92,7 +94,8 @@ export default class Input extends React.PureComponent<Props, State> {
     );
   }
 
-  onChange = (event: SyntheticEvent<*>, { value }: SUIEvent): void => {
+  // flowlint-next-line unclear-type:off
+  onChange = (event: SyntheticEvent<any>, { value }: SUIEvent): void => {
     this.props.onChange(value);
   }
 }

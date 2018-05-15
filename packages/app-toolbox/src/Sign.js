@@ -4,6 +4,7 @@
 // @flow
 
 import type { I18nProps as Props } from '@polkadot/ui-app/types';
+import type { KeyringPair } from '@polkadot/util-keyring/types';
 
 import React from 'react';
 
@@ -141,10 +142,10 @@ class Sign extends React.PureComponent<Props, State> {
     this.setState(
       (prevState: State): $Shape<State> => {
         const { currentPair = prevState.currentPair, data = prevState.data, isHexData = prevState.isHexData, isUnlockVisible = prevState.isUnlockVisible } = newState;
-        const isLocked = !currentPair.hasSecretKey();
+        const isLocked = !currentPair || !currentPair.hasSecretKey();
         let signature = '';
 
-        if (!isLocked) {
+        if (!isLocked && currentPair) {
           signature = u8aToHex(
             currentPair.sign(
               isHexData
@@ -166,7 +167,7 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  toggleUnlock = (): boolean => {
+  toggleUnlock = (): void => {
     const { isUnlockVisible } = this.state;
 
     this.nextState({

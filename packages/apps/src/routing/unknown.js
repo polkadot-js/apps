@@ -3,19 +3,17 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Routes } from '../types';
+import type { Route } from '../types';
 
 import NotFound from '../NotFound';
 
-export default ([
-  {
-    Component: NotFound,
-    i18n: {
-      defaultValue: 'Not found'
-    },
-    icon: 'error',
-    isExact: false,
-    isHidden: true,
-    name: 'unknown'
-  }
-]: Routes);
+export default ({
+  Component: NotFound,
+  i18n: {
+    defaultValue: 'Not found'
+  },
+  icon: 'error',
+  isExact: false,
+  isHidden: true,
+  name: 'unknown'
+}: Route);

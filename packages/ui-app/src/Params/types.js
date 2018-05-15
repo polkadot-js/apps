@@ -37,5 +37,6 @@ export type Props = BaseProps & {
 export type Size = 'full' | 'large' | 'medium' | 'small';
 
 export type ComponentMap = {
-  [Param$Type]: React$ComponentType<*>
+  // flowlint-next-line unclear-type:off
+  [Param$Type]: React$ComponentType<any>
 };

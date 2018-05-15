@@ -29,7 +29,12 @@ export default function Output ({ className, children, isHidden, label, style, v
       withLabel={withLabel}
     >
       <div className='ui--output'>
-        {value}{children}{
+        {
+          // flowlint-next-line unclear-type:off
+          ((value: any): React$Node)
+        }
+        {children}
+        {
           withCopy
             ? (
               <CopyButton className='ui--output-button' value={value} />

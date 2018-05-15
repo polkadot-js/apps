@@ -10,7 +10,7 @@ import React from 'react';
 import map from '@polkadot/extrinsics-substrate';
 
 // flowlint-next-line unclear-type:off
-export default function createOptions (sectionName: any, type: 'private' | 'public'): Array<*> {
+export default function createOptions (sectionName: any, type: 'private' | 'public'): Array<any> {
   const section = map[(sectionName: ExtrinsicSectionName)];
 
   if (!section) {

@@ -22,13 +22,13 @@ import translate from './translate';
 
 type State = {
   currentPublicKey: Uint8Array | null,
-  defaultPublicKey: Uint8Array | null,
+  defaultPublicKey?: Uint8Array,
   data: string,
-  hash: string,
   isHexData: boolean,
   isValidAddress: boolean,
   isValidSignature: boolean,
-  isValid: boolean
+  isValid: boolean,
+  signature: string
 };
 
 class Verify extends React.PureComponent<Props, State> {
@@ -45,7 +45,7 @@ class Verify extends React.PureComponent<Props, State> {
 
     this.state = {
       currentPublicKey,
-      defaultPublicKey: currentPublicKey,
+      defaultPublicKey: currentPublicKey || void 0,
       data: '',
       isHexData: false,
       isValidAddress: !!currentPair,
@@ -130,7 +130,7 @@ class Verify extends React.PureComponent<Props, State> {
 
         let isValid = isValidAddress && isValidSignature;
 
-        if (isValid) {
+        if (isValid && currentPublicKey) {
           isValid = naclVerify(
             isHexData
               ? hexToU8a(data)

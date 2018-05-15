@@ -4,7 +4,7 @@
 // @flow
 
 import type { I18nProps } from '@polkadot/ui-app/types';
-import { KeyringPair } from '@polkadot/util-keyring/types';
+import type { KeyringPair } from '@polkadot/util-keyring/types';
 
 import React from 'react';
 import { Trans } from 'react-i18next';
@@ -36,6 +36,7 @@ type State = {
 
 class Unlock extends React.PureComponent<Props, State> {
   state: State = {
+    address: '',
     password: '',
     unlockError: null
   };
@@ -164,7 +165,7 @@ class Unlock extends React.PureComponent<Props, State> {
     onClose();
   }
 
-  onUnlock = (): Promise<void> => {
+  onUnlock = (): void => {
     const { onClose } = this.props;
     const { password } = this.state;
     const unlockError = this.unlockAccount(password);

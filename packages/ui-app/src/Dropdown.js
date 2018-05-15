@@ -18,8 +18,10 @@ type Props = BareProps & {
   label?: React$Node,
   // flowlint-next-line unclear-type:off
   onChange: (value: any) => void,
-  onSearch?: (filteredOptions: Array<*>, query: string) => Array<*>,
-  options: Array<*>,
+  // flowlint-next-line unclear-type:off
+  onSearch?: (filteredOptions: Array<any>, query: string) => Array<any>,
+  // flowlint-next-line unclear-type:off
+  options: Array<any>,
   // flowlint-next-line unclear-type:off
   transform?: (value: any) => any,
   value?: mixed,
@@ -56,7 +58,8 @@ export default class Dropdown extends React.PureComponent<Props> {
     );
   }
 
-  onChange = (event: SyntheticEvent<*>, { value }: SUIEvent): void => {
+  // flowlint-next-line unclear-type:off
+  onChange = (event: SyntheticEvent<any>, { value }: SUIEvent): void => {
     const { onChange, transform } = this.props;
 
     onChange(
