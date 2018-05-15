@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-addresses",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,7 +11,7 @@
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@polkadot/app-accounts": "^0.5.0",
-    "@polkadot/ui-app": "^0.5.0"
+    "@polkadot/app-accounts": "^0.5.1",
+    "@polkadot/ui-app": "^0.5.1"
   }
 }
