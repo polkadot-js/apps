@@ -12,6 +12,7 @@ import Button from '@polkadot/ui-app/src/Button';
 import Labelled from '@polkadot/ui-app/src/Labelled';
 import typeToText from '@polkadot/ui-app/src/Params/typeToText';
 import valueToText from '@polkadot/ui-app/src/Params/valueToText';
+import classes from '@polkadot/ui-app/src/util/classes';
 import withStorageDiv from '@polkadot/ui-react-rx/with/storageDiv';
 
 import translate from './translate';
@@ -67,7 +68,7 @@ class Query extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['storage--Query', 'storage--actionrow', className].join(' ')}
+        className={classes('storage--Query', 'storage--actionrow', className)}
         style={style}
       >
         <Labelled

@@ -10,6 +10,8 @@ import './index.css';
 
 import React from 'react';
 
+import classes from '@polkadot/ui-app/src/util/classes';
+
 import Queries from './Queries';
 import Selection from './Selection';
 import translate from './translate';
@@ -31,7 +33,7 @@ class App extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['storage--App', className].join(' ')}
+        className={classes('storage--App', className)}
         style={style}
       >
         <Selection onAdd={this.onAdd} />

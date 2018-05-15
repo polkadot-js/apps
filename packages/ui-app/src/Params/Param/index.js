@@ -9,6 +9,7 @@ import type { BaseProps, ComponentMap, RawParam } from '../types';
 
 import React from 'react';
 
+import classes from '../../util/classes';
 import translate from '../../translate';
 import typeToText from '../typeToText';
 import findComponent from './findComponent';
@@ -102,7 +103,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
 
     return (
       <Component
-        className={['ui--Param', className].join(' ')}
+        className={classes('ui--Param', className)}
         index={index}
         key={`${name}:${text}:${index}}`}
         label={`${name}: ${text} (${index})`}

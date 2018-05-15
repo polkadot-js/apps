@@ -11,6 +11,8 @@ import './Content.css';
 import React from 'react';
 import { withRouter } from 'react-router';
 
+import classes from '@polkadot/ui-app/src/util/classes';
+
 import routing from '../routing';
 
 type Props = I18nProps & {
@@ -25,7 +27,7 @@ function Content ({ children, className, location, style }: Props): React$Node {
 
   return (
     <div
-      className={['apps--Content', className].join(' ')}
+      className={classes('apps--Content', className)}
       style={style}
     >
       <Component />

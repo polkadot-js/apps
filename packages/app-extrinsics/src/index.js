@@ -10,6 +10,8 @@ import './index.css';
 
 import React from 'react';
 
+import classes from '@polkadot/ui-app/src/util/classes';
+
 import Selection from './Selection';
 import Signer from './Signer';
 import Status from './Status';
@@ -31,7 +33,7 @@ export default class App extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['extrinsics--App', className].join(' ')}
+        className={classes('extrinsics--App', className)}
         style={style}
       >
         <Selection onQueue={this.onQueue} />

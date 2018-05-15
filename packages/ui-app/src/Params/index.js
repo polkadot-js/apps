@@ -11,6 +11,7 @@ import './Params.css';
 
 import React from 'react';
 
+import classes from '../util/classes';
 import translate from '../translate';
 import Param from './Param';
 import createValues from './values';
@@ -62,7 +63,7 @@ class Params extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['ui--Params', className].join(' ')}
+        className={classes('ui--Params', className)}
         style={style}
       >
         <div className='ui--Params-Content'>

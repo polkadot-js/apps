@@ -10,6 +10,7 @@ import React from 'react';
 import Button from '@polkadot/ui-app/src/Button';
 import Input from '@polkadot/ui-app/src/Input';
 import Password from '@polkadot/ui-app/src/Password';
+import classes from '@polkadot/ui-app/src/util/classes';
 import keyring from '@polkadot/ui-keyring/src';
 import isHex from '@polkadot/util/is/hex';
 import hexToU8a from '@polkadot/util/hex/toU8a';
@@ -66,7 +67,7 @@ class Creator extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['accounts--Creator', className].join(' ')}
+        className={classes('accounts--Creator', className)}
         style={style}
       >
         <div className='ui--grid'>

@@ -8,6 +8,7 @@ import type { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import Dropzone from 'react-dropzone';
 
+import classes from '../../util/classes';
 import translate from '../../translate';
 import Base from './Base';
 
@@ -41,7 +42,7 @@ class BytesFile extends React.PureComponent<Props, State> {
         withLabel={withLabel}
       >
         <Dropzone
-          className={['ui--Param-File', isError ? 'error' : '', className].join(' ')}
+          className={classes('ui--Param-File', isError ? 'error' : '', className)}
           disabled={isDisabled}
           multiple={false}
           onDrop={this.onDrop}

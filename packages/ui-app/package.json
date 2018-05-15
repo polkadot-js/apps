@@ -18,7 +18,7 @@
     "@polkadot/ui-keyring": "^0.4.12",
     "@polkadot/ui-react": "^0.11.9",
     "@polkadot/ui-react-rx": "^0.11.9",
-    "@polkadot/util": "^0.19.6",
+    "@polkadot/util": "^0.19.7",
     "i18next": "^11.1.1",
     "i18next-browser-languagedetector": "^2.2.0",
     "i18next-xhr-backend": "^1.5.1",

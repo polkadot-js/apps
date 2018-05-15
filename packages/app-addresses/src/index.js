@@ -10,6 +10,7 @@ import './index.css';
 import React from 'react';
 
 import Button from '@polkadot/ui-app/src/Button';
+import classes from '@polkadot/ui-app/src/util/classes';
 
 import Creator from './Creator';
 import Editor from './Editor';
@@ -39,7 +40,7 @@ class App extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['addresses--App', className].join(' ')}
+        className={classes('addresses--App', className)}
         style={style}
       >
         <Button.Group className='addresses--App-navigation'>

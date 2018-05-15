@@ -14,6 +14,7 @@ import Button from '@polkadot/ui-app/src/Button';
 import Dropdown from '@polkadot/ui-app/src/Dropdown';
 import Input from '@polkadot/ui-app/src/Input';
 import Labelled from '@polkadot/ui-app/src/Labelled';
+import classes from '@polkadot/ui-app/src/util/classes';
 
 import Match from './Match';
 import generator from './generator';
@@ -61,7 +62,7 @@ class App extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['vanity--App', className].join(' ')}
+        className={classes('vanity--App', className)}
         style={style}
       >
         <div className='ui--row'>

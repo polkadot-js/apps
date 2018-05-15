@@ -8,6 +8,8 @@ import type { QueueTx } from './types';
 
 import React from 'react';
 
+import classes from '@polkadot/ui-app/src/util/classes';
+
 type Props = BareProps & {
   queue: Array<QueueTx>
 }
@@ -23,12 +25,12 @@ export default function Status ({ className, queue, style }: Props): React$Node 
 
   return (
     <div
-      className={['extrinsics--Status', className].join(' ')}
+      className={classes('extrinsics--Status', className)}
       style={style}
     >
       {available.map(({ extrinsic: { name, section }, id, status }) =>
         <div
-          className={['extrinsics--Status-Item', status].join(' ')}
+          className={classes('extrinsics--Status-Item', status)}
           key={id}
         >
           <div className='header'>

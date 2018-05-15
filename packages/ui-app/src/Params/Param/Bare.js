@@ -7,6 +7,8 @@ import type { BareProps } from '../../types';
 
 import React from 'react';
 
+import classes from '../../util/classes';
+
 type Props = BareProps & {
   children: React$Node
 };
@@ -14,7 +16,7 @@ type Props = BareProps & {
 export default function Bare ({ children, className, style }: Props): React$Node {
   return (
     <div
-      className={['ui--row', className].join(' ')}
+      className={classes('ui--row', className)}
       style={style}
     >
       {children}

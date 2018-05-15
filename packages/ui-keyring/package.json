@@ -11,8 +11,8 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "@polkadot/util": "^0.19.6",
-    "@polkadot/util-keyring": "^0.19.6",
+    "@polkadot/util": "^0.19.7",
+    "@polkadot/util-keyring": "^0.19.7",
     "store": "^2.0.12"
   },
   "peerDependencies": {

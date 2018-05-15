@@ -11,6 +11,7 @@ import React from 'react';
 
 import extrinsics from '@polkadot/extrinsics-substrate';
 import Button from '@polkadot/ui-app/src/Button';
+import classes from '@polkadot/ui-app/src/util/classes';
 
 import Account from './Account';
 import Extrinsic from './Extrinsic';
@@ -43,7 +44,7 @@ class Selection extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['extrinsics--Selection', className].join(' ')}
+        className={classes('extrinsics--Selection', className)}
         style={style}
       >
         <Account

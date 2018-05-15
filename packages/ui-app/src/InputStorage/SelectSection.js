@@ -9,6 +9,7 @@ import type { I18nProps } from '../types';
 import React from 'react';
 
 import Dropdown from '../Dropdown';
+import classes from '../util/classes';
 import translate from '../translate';
 import createOptions from './options/section';
 
@@ -26,7 +27,7 @@ const options = createOptions();
 function SelectSection ({ className, defaultValue, isError, label, onChange, style, t, value: { section }, withLabel }: Props): React$Node {
   return (
     <Dropdown
-      className={['ui--DropdownLinked-Sections', className].join(' ')}
+      className={classes('ui--DropdownLinked-Sections', className)}
       defaultValue={defaultValue}
       isError={isError}
       label={label || t('input.storage.section', {

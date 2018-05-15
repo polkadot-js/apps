@@ -19,6 +19,8 @@
     "@polkadot/app-explorer": "^0.4.12",
     "@polkadot/app-extrinsics": "^0.4.12",
     "@polkadot/app-storage": "^0.4.12",
+    "@polkadot/app-toolbox": "^0.4.12",
+    "@polkadot/app-vanitygen": "^0.4.12",
     "@polkadot/ui-app": "^0.4.12"
   }
 }

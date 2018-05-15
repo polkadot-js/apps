@@ -11,6 +11,7 @@ import React from 'react';
 
 import Icon from '@polkadot/ui-app/src/Icon';
 import Menu from '@polkadot/ui-app/src/Menu';
+import classes from '@polkadot/ui-app/src/util/classes';
 
 import routing from '../routing';
 import translate from '../translate';
@@ -21,7 +22,7 @@ type Props = I18nProps & {};
 function SideBar ({ className, style, t }: Props): React$Node {
   return (
     <div
-      className={['apps--SideBar', className].join(' ')}
+      className={classes('apps--SideBar', className)}
       style={style}
     >
       <Menu

@@ -9,6 +9,7 @@ import React from 'react';
 
 import Button from '@polkadot/ui-app/src/Button';
 import Input from '@polkadot/ui-app/src/Input';
+import classes from '@polkadot/ui-app/src/util/classes';
 import keyring from '@polkadot/ui-keyring/src';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
@@ -43,7 +44,7 @@ class Creator extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['addresses--Creator', className].join(' ')}
+        className={classes('addresses--Creator', className)}
         style={style}
       >
         <div className='ui--grid'>

@@ -9,6 +9,7 @@ import React from 'react';
 
 import CopyButton from '@polkadot/ui-app/src/CopyButton';
 import Button from '@polkadot/ui-app/src/Button';
+import classes from '@polkadot/ui-app/src/util/classes';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
@@ -39,7 +40,7 @@ export default class Match extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['vanity--Match', className].join(' ')}
+        className={classes('vanity--Match', className)}
         style={style}
       >
         <div className='vanity--Match-item'>

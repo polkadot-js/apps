@@ -9,6 +9,7 @@ import type { KeyringPair } from '@polkadot/util-keyring/types';
 import React from 'react';
 
 import Password from '@polkadot/ui-app/src/Password';
+import classes from '@polkadot/ui-app/src/util/classes';
 import keyring from '@polkadot/ui-keyring/src';
 
 import translate from '../translate';
@@ -51,7 +52,7 @@ class Unlock extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['extrinsics--Signer-Unlock', className].join(' ')}
+        className={classes('extrinsics--Signer-Unlock', className)}
         style={style}
       >
         <div className='ui--row'>

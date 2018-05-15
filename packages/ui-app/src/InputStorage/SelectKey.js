@@ -11,6 +11,7 @@ import React from 'react';
 import map from '@polkadot/storage-substrate/keys';
 
 import Dropdown from '../Dropdown';
+import classes from '../util/classes';
 import translate from '../translate';
 import createOptions from './options/key';
 
@@ -35,7 +36,7 @@ function SelectKey ({ className, isError, label = '', onChange, style, t, value:
 
   return (
     <Dropdown
-      className={['ui--DropdownLinked-Items', className].join(' ')}
+      className={classes('ui--DropdownLinked-Items', className)}
       isError={isError}
       label={label || t('input.storage.key', {
         defaultValue: 'with storage key'

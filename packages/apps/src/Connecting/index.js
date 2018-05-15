@@ -9,6 +9,7 @@ import './Connecting.css';
 
 import React from 'react';
 
+import classes from '@polkadot/ui-app/src/util/classes';
 import withApiCall from '@polkadot/ui-react-rx/with/apiCall';
 
 import translate from '../translate';
@@ -25,7 +26,7 @@ function Connecting ({ className, style, value, t }: Props): React$Node {
   // 'ui inverted page modals dimmer transition visible active'
   return (
     <div
-      className={['apps--Connecting', className].join(' ')}
+      className={classes('apps--Connecting', className)}
       style={style}
     >
       <div className='apps--Connecting-text'>

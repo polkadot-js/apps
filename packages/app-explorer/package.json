@@ -15,6 +15,6 @@
     "@polkadot/primitives-codec": "^0.13.9",
     "@polkadot/primitives-json": "^0.13.9",
     "@polkadot/ui-app": "^0.4.12",
-    "@polkadot/util-crypto": "^0.19.6"
+    "@polkadot/util-crypto": "^0.19.7"
   }
 }

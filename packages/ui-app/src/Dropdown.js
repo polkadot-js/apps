@@ -8,6 +8,7 @@ import type { BareProps } from './types';
 import React from 'react';
 import SUIDropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 
+import classes from './util/classes';
 import Labelled from './Labelled';
 
 type Props = BareProps & {
@@ -36,7 +37,7 @@ export default class Dropdown extends React.PureComponent<Props> {
 
     return (
       <Labelled
-        className={['ui--Dropdown', className].join(' ')}
+        className={classes('ui--Dropdown', className)}
         label={label}
         style={style}
         withLabel={withLabel}

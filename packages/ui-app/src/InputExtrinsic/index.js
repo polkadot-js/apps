@@ -13,6 +13,7 @@ import './InputExtrinsic.css';
 import React from 'react';
 import map from '@polkadot/extrinsics-substrate';
 
+import classes from '../util/classes';
 import translate from '../translate';
 import SelectMethod from './SelectMethod';
 import SelectSection from './SelectSection';
@@ -50,7 +51,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['ui--DropdownLinked', 'ui--row', className].join(' ')}
+        className={classes('ui--DropdownLinked', 'ui--row', className)}
         style={style}
       >
         <SelectSection

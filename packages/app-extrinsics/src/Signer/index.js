@@ -13,6 +13,7 @@ import React from 'react';
 
 import Button from '@polkadot/ui-app/src/Button';
 import Modal from '@polkadot/ui-app/src/Modal';
+import classes from '@polkadot/ui-app/src/util/classes';
 import keyring from '@polkadot/ui-keyring/src';
 import withApi from '@polkadot/ui-react-rx/with/api';
 
@@ -69,7 +70,7 @@ class Signer extends React.PureComponent<Props, State> {
 
     return (
       <Modal
-        className={['extrinsics--Signer', className].join(' ')}
+        className={classes('extrinsics--Signer', className)}
         dimmer='inverted'
         open
         style={style}
