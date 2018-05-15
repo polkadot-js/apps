@@ -39,7 +39,7 @@ class Query extends React.PureComponent<Props, State> {
         cache[id] = withStorageDiv(key, { params: values })(
           (value) =>
             valueToText(key.type, value),
-          { className: 'ui disabled dropdown selection' }
+          { className: 'ui--output' }
         );
       }
 
