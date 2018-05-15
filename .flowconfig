@@ -6,6 +6,7 @@
 
 [libs]
 node_modules/@polkadot/dev/flow-typed
+node_modules/@polkadot/dev-react/flow-typed
 
 [lints]
 all=warn
