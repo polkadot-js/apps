@@ -4,7 +4,7 @@
 // @flow
 
 export type Route = {
-  component: React$ComponentType<*>,
+  Component: React$ComponentType<*>,
   i18n: I18Next$Translate$Config,
   icon: React$ComponentType<*> | string,
   isExact: boolean,
@@ -17,5 +17,6 @@ export type Routes = Array<Route | null>;
 
 export type Routing = {
   default: string,
-  routes: Routes
+  routes: Routes,
+  unknown: Route
 }

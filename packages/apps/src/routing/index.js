@@ -12,11 +12,13 @@ import extrinsics from './extrinsics';
 // import home from './home';
 // import settings from './settings';
 import storage from './storage';
+import unknown from './unknown';
 import vanitygen from './vanitygen';
 
 export default ({
   default: 'explorer',
   routes: [].concat(
     explorer, extrinsics, storage, null, accounts, addresses, vanitygen
-  )
+  ),
+  unknown: unknown[0]
 }: Routing);

@@ -5,18 +5,17 @@
 
 import type { Routes } from '../types';
 
-import Explorer from '@polkadot/app-explorer/src';
+import NotFound from '../NotFound';
 
 export default ([
   {
-    Component: Explorer,
+    Component: NotFound,
     i18n: {
-      defaultValue: 'Explorer'
+      defaultValue: 'Not found'
     },
-    icon: 'braille',
-    isExact: true,
-    isHidden: false,
-    name: 'explorer',
-    path: '/'
+    icon: 'error',
+    isExact: false,
+    isHidden: true,
+    name: 'unknown'
   }
 ]: Routes);

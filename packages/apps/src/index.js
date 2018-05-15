@@ -6,22 +6,5 @@
 import createApp from '@polkadot/ui-app/src';
 
 import App from './App';
-import NotFound from './NotFound';
-import routing from './routing';
-import urlParams from './urlParams';
 
-createApp((() => {
-  const { app } = urlParams();
-
-  if (app) {
-    const route = routing.routes.find((route) =>
-      route && route.name === app
-    );
-
-    return route
-      ? route.component
-      : NotFound;
-  }
-
-  return App;
-})());
+createApp(App);

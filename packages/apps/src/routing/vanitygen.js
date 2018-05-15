@@ -9,7 +9,7 @@ import Vanity from '@polkadot/app-vanitygen/src';
 
 export default ([
   {
-    component: Vanity,
+    Component: Vanity,
     i18n: {
       defaultValue: 'Vanity'
     },

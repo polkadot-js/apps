@@ -9,7 +9,7 @@ import Extrinsics from '@polkadot/app-extrinsics/src';
 
 export default ([
   {
-    component: Extrinsics,
+    Component: Extrinsics,
     i18n: {
       defaultValue: 'Extrinsics'
     },
