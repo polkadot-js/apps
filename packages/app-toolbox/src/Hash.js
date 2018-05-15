@@ -59,7 +59,7 @@ class Hash extends React.PureComponent<Props, State> {
                 ? t('hash.isHex.yes', {
                   defaultValue: 'Yes'
                 })
-                : t('sign.isHex.no', {
+                : t('hash.isHex.no', {
                   defaultValue: 'No'
                 })
             }

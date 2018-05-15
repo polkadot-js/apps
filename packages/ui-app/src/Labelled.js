@@ -8,6 +8,8 @@ import type { BareProps } from './types';
 import React from 'react';
 import Label from 'semantic-ui-react/dist/es/elements/Label';
 
+import classes from './util/classes';
+
 type Props = BareProps & {
   isHidden?: boolean,
   // flowlint-next-line unclear-type:off
@@ -27,7 +29,7 @@ export default function Labelled ({ className, children, isHidden = false, label
 
   return (
     <div
-      className={className}
+      className={classes('ui--Labelled', className)}
       style={style}
     >
       {

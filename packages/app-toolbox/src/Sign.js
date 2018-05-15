@@ -39,7 +39,7 @@ class Sign extends React.PureComponent<Props, State> {
     super(props);
 
     const pairs = keyring.getPairs();
-    const currentPair = pairs[pairs.length - 1] || null;
+    const currentPair = pairs[0] || null;
 
     this.state = {
       currentPair,
@@ -62,7 +62,7 @@ class Sign extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={classes('toolbox--Hash', className)}
+        className={classes('toolbox--Sign', className)}
         style={style}
       >
         <div className='ui--row'>
@@ -139,7 +139,7 @@ class Sign extends React.PureComponent<Props, State> {
 
   nextState = (newState: $Shape<State>): void => {
     this.setState(
-      (prevState: State) => {
+      (prevState: State): $Shape<State> => {
         const { currentPair = prevState.currentPair, data = prevState.data, isHexData = prevState.isHexData, isUnlockVisible = prevState.isUnlockVisible } = newState;
         const isLocked = !currentPair.hasSecretKey();
         let signature = '';
@@ -155,6 +155,7 @@ class Sign extends React.PureComponent<Props, State> {
         }
 
         return {
+          currentPair,
           data,
           isHexData,
           isLocked,

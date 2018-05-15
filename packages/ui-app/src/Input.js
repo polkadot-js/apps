@@ -15,6 +15,7 @@ type Input$Type = 'number' | 'password' | 'text';
 type Props = BareProps & {
   children?: React$Node,
   defaultValue?: mixed,
+  icon?: React$Node,
   isAction?: boolean,
   isDisabled?: boolean,
   isError?: boolean,
@@ -47,7 +48,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render (): React$Node {
-    const { children, className, defaultValue, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, placeholder, style, type = 'text', value, withLabel } = this.props;
+    const { children, className, defaultValue, icon, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, placeholder, style, type = 'text', value, withLabel } = this.props;
     const { name } = this.state;
 
     return (
@@ -62,6 +63,11 @@ export default class Input extends React.PureComponent<Props, State> {
           defaultValue={defaultValue}
           disabled={isDisabled}
           id={name}
+          iconPosition={
+            icon
+              ? 'left'
+              : void 0
+          }
           error={isError}
           hidden={isHidden}
           max={max}
@@ -79,6 +85,7 @@ export default class Input extends React.PureComponent<Props, State> {
                 : 'off'
             }
           />
+          {icon}
           {children}
         </SUIInput>
       </Labelled>

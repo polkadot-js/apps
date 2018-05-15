@@ -8,8 +8,8 @@
   width: 100%;
 }
 
-.ui--InputAddress input.search {
-  margin-left: 3rem;
+.ui--InputAddress .ui.search.selection.dropdown > input.search {
+  padding-left: 4rem;
 }
 
 .flag--hideAddress .ui--KeyPair .ui--KeyPair-address {
