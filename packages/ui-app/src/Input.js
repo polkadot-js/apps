@@ -61,6 +61,7 @@ export default class Input extends React.PureComponent<Props, State> {
           action={isAction}
           defaultValue={defaultValue}
           disabled={isDisabled}
+          id={name}
           error={isError}
           hidden={isHidden}
           max={max}
@@ -71,7 +72,13 @@ export default class Input extends React.PureComponent<Props, State> {
           type={type}
           value={value}
         >
-          <input />
+          <input
+            autoComplete={
+              type === 'password'
+                ? 'new-password'
+                : 'off'
+            }
+          />
           {children}
         </SUIInput>
       </Labelled>

@@ -92,16 +92,18 @@ class Unlock extends React.PureComponent<Props, State> {
               value={address}
             />
           </div>
-          <div className='ui--row'>
-            <Password
-              className='medium'
-              isError={!unlockError}
-              label={t('unlock.password', {
-                defaultValue: 'unlock account using'
-              })}
-              onChange={this.onChangePassword}
-              value={password}
-            />
+          <div className='toolbox--Unlock-Entry'>
+            <div className='ui--row'>
+              <Password
+                className='medium'
+                isError={!!unlockError}
+                label={t('unlock.password', {
+                  defaultValue: 'unlock account using'
+                })}
+                onChange={this.onChangePassword}
+                value={password}
+              />
+            </div>
           </div>
         </Modal.Content>
         <Modal.Actions>

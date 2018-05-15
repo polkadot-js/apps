@@ -35,3 +35,7 @@
   word-break: break-word;
   word-wrap: break-word;
 }
+
+.toolbox--Unlock-Entry {
+  padding-top: 1.5rem;
+}
