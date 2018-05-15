@@ -18,6 +18,7 @@ type Props = BareProps & {
   isAction?: boolean,
   isDisabled?: boolean,
   isError?: boolean,
+  isHidden?: boolean,
   label?: React$Node,
   max?: mixed,
   min?: mixed,
@@ -46,7 +47,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render (): React$Node {
-    const { children, className, defaultValue, isAction = false, isDisabled = false, isError = false, label, max, min, placeholder, style, type = 'text', value, withLabel } = this.props;
+    const { children, className, defaultValue, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, placeholder, style, type = 'text', value, withLabel } = this.props;
     const { name } = this.state;
 
     return (
@@ -61,6 +62,7 @@ export default class Input extends React.PureComponent<Props, State> {
           defaultValue={defaultValue}
           disabled={isDisabled}
           error={isError}
+          hidden={isHidden}
           max={max}
           min={min}
           name={name}

@@ -12,6 +12,6 @@
   },
   "devDependencies": {
     "@polkadot/ui-app": "^0.4.12",
-    "@polkadot/util-crypto": "^0.19.7"
+    "@polkadot/ui-keyring": "^0.4.12"
   }
 }

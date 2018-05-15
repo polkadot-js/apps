@@ -78,7 +78,7 @@ class Editor extends React.PureComponent<Props, State> {
                 className='full'
                 defaultValue={defaultPublicKey}
                 hideAddress
-                isSUIInput={false}
+                isInput={false}
                 label={t('editor.select', {
                   defaultValue: 'using my account'
                 })}

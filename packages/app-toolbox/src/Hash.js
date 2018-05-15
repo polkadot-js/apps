@@ -28,7 +28,7 @@ class Hash extends React.PureComponent<Props, State> {
   state: State = {
     data: '',
     hash: xxhashAsHex256(u8aFromString('')),
-    isHex: false
+    isHexData: false
   };
 
   render (): React$Node {
@@ -43,7 +43,7 @@ class Hash extends React.PureComponent<Props, State> {
         <div className='ui--row'>
           <Input
             className='large'
-            label={t('hash.hata', {
+            label={t('hash.data', {
               defaultValue: 'create from the following data (hex or string)'
             })}
             onChange={this.onChangeData}
@@ -59,7 +59,7 @@ class Hash extends React.PureComponent<Props, State> {
                 ? t('hash.isHex.yes', {
                   defaultValue: 'Yes'
                 })
-                : t('vanity.isHex.no', {
+                : t('sign.isHex.no', {
                   defaultValue: 'No'
                 })
             }
