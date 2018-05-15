@@ -13,7 +13,7 @@ import React from 'react';
 import Button from '@polkadot/ui-app/src/Button';
 import Dropdown from '@polkadot/ui-app/src/Dropdown';
 import Input from '@polkadot/ui-app/src/Input';
-import Labelled from '@polkadot/ui-app/src/Labelled';
+import Static from '@polkadot/ui-app/src/Static';
 import classes from '@polkadot/ui-app/src/util/classes';
 
 import Match from './Match';
@@ -86,18 +86,15 @@ class App extends React.PureComponent<Props, State> {
             onChange={this.onChangeCase}
             value={withCase}
           />
-          <Labelled
+          <Static
             className='small'
             label={t('vanity.offset', {
               defaultValue: 'exact offset'
             })}
-          >
-            <div className='ui dropdown selection disabled'>
-              {t('vanity.offset.off', {
-                defaultValue: 'No'
-              })}
-            </div>
-          </Labelled>
+            value={t('vanity.offset.off', {
+              defaultValue: 'No'
+            })}
+          />
         </div>
         <Button.Group>
           <Button

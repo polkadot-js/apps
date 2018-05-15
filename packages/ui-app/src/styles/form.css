@@ -85,5 +85,12 @@
   line-height: 1em;
   margin-bottom: 0.5em;
   padding: 0.75em 1em;
+  position: relative;
   word-wrap: break-word;
+}
+
+.ui--output .ui--output-button {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
 }

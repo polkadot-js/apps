@@ -7,7 +7,6 @@ import type { BareProps } from './types';
 
 import React from 'react';
 
-import CopyButton from './CopyButton';
 import Labelled from './Labelled';
 
 type Props = BareProps & {
@@ -15,11 +14,10 @@ type Props = BareProps & {
   isHidden?: boolean,
   label?: React$Node,
   value?: mixed,
-  withCopy?: boolean,
   withLabel?: boolean
 };
 
-export default function Output ({ className, children, isHidden, label, style, value, withCopy = false, withLabel }: Props): React$Node {
+export default function Static ({ className, children, isHidden, label, style, value, withLabel }: Props): React$Node {
   return (
     <Labelled
       className={className}
@@ -28,14 +26,8 @@ export default function Output ({ className, children, isHidden, label, style, v
       style={style}
       withLabel={withLabel}
     >
-      <div className='ui--output'>
-        {value}{children}{
-          withCopy
-            ? (
-              <CopyButton className='ui--output-button' value={value} />
-            )
-            : null
-        }
+      <div className='ui dropdown selection disabled'>
+        {value}{children}
       </div>
     </Labelled>
   );

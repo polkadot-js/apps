@@ -32,7 +32,7 @@ const Components: { [Actions]: React$ComponentType<*> } = {
   'verify': Verify
 };
 
-class App extends React.PuireComponent<Props, State> {
+class App extends React.PureComponent<Props, State> {
   state: State = {
     action: 'hash'
   };
