@@ -8,6 +8,8 @@ import type { BareProps } from './types';
 import React from 'react';
 import SUIInput from 'semantic-ui-react/dist/es/elements/Input';
 
+import isUndefined from '@polkadot/util/is/undefined';
+
 import Labelled from './Labelled';
 
 type Input$Type = 'number' | 'password' | 'text';
@@ -15,9 +17,11 @@ type Input$Type = 'number' | 'password' | 'text';
 type Props = BareProps & {
   children?: React$Node,
   defaultValue?: mixed,
+  icon?: React$Node,
   isAction?: boolean,
   isDisabled?: boolean,
   isError?: boolean,
+  isHidden?: boolean,
   label?: React$Node,
   max?: mixed,
   min?: mixed,
@@ -46,7 +50,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render (): React$Node {
-    const { children, className, defaultValue, isAction = false, isDisabled = false, isError = false, label, max, min, placeholder, style, type = 'text', value, withLabel } = this.props;
+    const { children, className, defaultValue, icon, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, placeholder, style, type = 'text', value, withLabel } = this.props;
     const { name } = this.state;
 
     return (
@@ -60,7 +64,14 @@ export default class Input extends React.PureComponent<Props, State> {
           action={isAction}
           defaultValue={defaultValue}
           disabled={isDisabled}
+          id={name}
+          iconPosition={
+            isUndefined(icon)
+              ? void 0
+              : 'left'
+          }
           error={isError}
+          hidden={isHidden}
           max={max}
           min={min}
           name={name}
@@ -69,14 +80,22 @@ export default class Input extends React.PureComponent<Props, State> {
           type={type}
           value={value}
         >
-          <input />
+          <input
+            autoComplete={
+              type === 'password'
+                ? 'new-password'
+                : 'off'
+            }
+          />
+          {icon}
           {children}
         </SUIInput>
       </Labelled>
     );
   }
 
-  onChange = (event: SyntheticEvent<*>, { value }: SUIEvent): void => {
+  // flowlint-next-line unclear-type:off
+  onChange = (event: SyntheticEvent<any>, { value }: SUIEvent): void => {
     this.props.onChange(value);
   }
 }

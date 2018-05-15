@@ -26,7 +26,8 @@ export type KeyringOption = KeyringOption$Data & {
   value: string
 };
 
-export type KeyringOptions = Array<KeyringOption | React$Element<*>>;
+// flowlint-next-line unclear-type:off
+export type KeyringOptions = Array<KeyringOption | React$Element<any>>;
 
 export type KeyringJson$Meta = {
   isRecent?: boolean,

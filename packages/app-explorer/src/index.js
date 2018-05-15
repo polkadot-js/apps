@@ -9,6 +9,7 @@ import './index.css';
 
 import React from 'react';
 
+import classes from '@polkadot/ui-app/src/util/classes';
 import BestNumber from '@polkadot/ui-react-rx/BestNumber';
 
 import BestHash from './BestHash';
@@ -20,7 +21,7 @@ type Props = I18nProps & {};
 function App ({ className, style, t }: Props): React$Node {
   return (
     <div
-      className={['explorer--App', className].join(' ')}
+      className={classes('explorer--App', className)}
       style={style}
     >
       <BestNumber

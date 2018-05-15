@@ -9,6 +9,7 @@ import type { BaseProps, ComponentMap, RawParam } from '../types';
 
 import React from 'react';
 
+import classes from '../../util/classes';
 import translate from '../../translate';
 import typeToText from '../typeToText';
 import findComponent from './findComponent';
@@ -28,7 +29,8 @@ type ComponentProps = BaseProps & {
 };
 
 type State = {
-  Components: React$ComponentType<*> | Array<React$ComponentType<*>>
+  // flowlint-next-line unclear-type:off
+  Components: React$ComponentType<any> | Array<React$ComponentType<any>>
   | null
 }
 
@@ -60,7 +62,8 @@ class ParamComponent extends React.PureComponent<Props, State> {
       : this.renderComponents();
   }
 
-  renderComponents = (_Components: React$ComponentType<*> | Array<React$ComponentType<*>> | null = this.state.Components, startIndex: string = '0', { name, type, options = {} } = this.props.value) => {
+  // flowlint-next-line unclear-type:off
+  renderComponents = (_Components: React$ComponentType<any> | Array<React$ComponentType<any>> | null = this.state.Components, startIndex: string = '0', { name, type, options = {} } = this.props.value) => {
     if (!_Components) {
       return null;
     }
@@ -69,7 +72,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
 
     if (!Array.isArray(type)) {
       // flowlint-next-line unclear-type:off
-      const Component = ((_Components: any): React$ComponentType<*>);
+      const Component = ((_Components: any): React$ComponentType<any>);
 
       return this.renderComponent(Component, startIndex, {
         className,
@@ -85,7 +88,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
     }
 
     // flowlint-next-line unclear-type:off
-    const Components = ((_Components: any): Array<React$ComponentType<*>>);
+    const Components = ((_Components: any): Array<React$ComponentType<any>>);
 
     return Components.map((Component, index) => {
       return this.renderComponents(Component, `${startIndex}-${index}`, {
@@ -96,13 +99,14 @@ class ParamComponent extends React.PureComponent<Props, State> {
     });
   }
 
-  renderComponent = (Component: React$ComponentType<*>, sub: string, props: ComponentProps): React$Node => {
+  // flowlint-next-line unclear-type:off
+  renderComponent = (Component: React$ComponentType<any>, sub: string, props: ComponentProps): React$Node => {
     const { className, index, onChange, style, value: { name, type, options = {} } } = props;
     const text = typeToText(type);
 
     return (
       <Component
-        className={['ui--Param', className].join(' ')}
+        className={classes('ui--Param', className)}
         index={index}
         key={`${name}:${text}:${index}}`}
         label={`${name}: ${text} (${index})`}

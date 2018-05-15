@@ -4,9 +4,11 @@
 // @flow
 
 export type Route = {
-  component: React$ComponentType<*>,
+  // flowlint-next-line unclear-type:off
+  Component: React$ComponentType<any>,
   i18n: I18Next$Translate$Config,
-  icon: React$ComponentType<*> | string,
+  // flowlint-next-line unclear-type:off
+  icon: React$ComponentType<any> | string,
   isExact: boolean,
   isHidden: boolean,
   name: string,
@@ -17,5 +19,6 @@ export type Routes = Array<Route | null>;
 
 export type Routing = {
   default: string,
-  routes: Routes
+  routes: Routes,
+  unknown: Route
 }

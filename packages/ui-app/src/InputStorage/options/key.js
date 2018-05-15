@@ -10,7 +10,7 @@ import React from 'react';
 import map from '@polkadot/storage-substrate/keys';
 
 // flowlint-next-line unclear-type:off
-export default function createOptions (sectionName: any): Array<*> {
+export default function createOptions (sectionName: any): Array<any> {
   const section = map[(sectionName: StateDb$SectionNames)];
 
   if (!section) {

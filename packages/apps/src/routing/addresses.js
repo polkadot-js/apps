@@ -9,7 +9,7 @@ import Addresses from '@polkadot/app-addresses/src';
 
 export default ([
   {
-    component: Addresses,
+    Component: Addresses,
     i18n: {
       defaultValue: 'Addresses'
     },

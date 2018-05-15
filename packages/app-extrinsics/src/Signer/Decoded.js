@@ -10,6 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { Trans } from 'react-i18next';
 
+import classes from '@polkadot/ui-app/src/util/classes';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
 import addressEncode from '@polkadot/util-keyring/address/encode';
@@ -25,7 +26,7 @@ function Decoded ({ className, style, t, value: { extrinsic: { name, section }, 
 
   return (
     <div
-      className={['extrinsics--Signer-Decoded', className].join(' ')}
+      className={classes('extrinsics--Signer-Decoded', className)}
       style={style}
     >
       <div className='expanded'>

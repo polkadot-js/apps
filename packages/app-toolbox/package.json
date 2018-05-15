@@ -1,0 +1,17 @@
+{
+  "name": "@polkadot/app-toolbox",
+  "version": "0.5.0",
+  "main": "index.js",
+  "repository": "https://github.com/polkadot-js/apps.git",
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "license": "ISC",
+  "scripts": {
+    "build": "polkadot-dev-build-babel",
+    "check": "stylelint 'src/**/*.css' && eslint src && flow check",
+    "test": "jest --coverage"
+  },
+  "devDependencies": {
+    "@polkadot/ui-app": "^0.5.0",
+    "@polkadot/ui-keyring": "^0.5.0"
+  }
+}

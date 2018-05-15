@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-keyring",
-  "version": "0.4.12",
+  "version": "0.5.0",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,12 +11,12 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "@polkadot/util": "^0.19.6",
-    "@polkadot/util-keyring": "^0.19.6",
+    "@polkadot/util": "^0.19.7",
+    "@polkadot/util-keyring": "^0.19.7",
     "store": "^2.0.12"
   },
   "peerDependencies": {
-    "@polkadot/ui-react": "^0.11.9",
+    "@polkadot/ui-react": "^0.11.10",
     "react": "^16.3.1",
     "semantic-ui-react": "^0.79.1"
   }

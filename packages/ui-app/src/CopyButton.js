@@ -16,7 +16,7 @@ type Props = BareProps & {
   isCircular?: boolean,
   isPrimary?: boolean,
   size?: Button$Sizes,
-  value?: string
+  value?: mixed
 }
 
 export default function CopyButton ({ className, icon = 'copy', isCircular = true, isPrimary = true, size = 'tiny', style, value }: Props): React$Node {

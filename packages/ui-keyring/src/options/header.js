@@ -6,7 +6,8 @@
 import React from 'react';
 import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 
-export default function createHeader (text: string): React$Element<*> {
+// flowlint-next-line unclear-type:off
+export default function createHeader (text: string): React$Element<any> {
   return (
     <Dropdown.Header key={`header-${text.toLowerCase()}`}>
       {text}

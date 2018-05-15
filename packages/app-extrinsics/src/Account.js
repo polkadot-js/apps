@@ -10,6 +10,7 @@ import React from 'react';
 
 import InputAddress from '@polkadot/ui-app/src/InputAddress';
 import Labelled from '@polkadot/ui-app/src/Labelled';
+import classes from '@polkadot/ui-app/src/util/classes';
 import Balance from '@polkadot/ui-react-rx/Balance';
 
 import translate from './translate';
@@ -45,7 +46,7 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['extrinsics--Account', 'ui--row', className].join(' ')}
+        className={classes('extrinsics--Account', 'ui--row', className)}
         style={style}
       >
         <div className='large'>

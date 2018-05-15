@@ -9,7 +9,7 @@ import Storage from '@polkadot/app-storage/src';
 
 export default ([
   {
-    component: Storage,
+    Component: Storage,
     i18n: {
       defaultValue: 'Storage'
     },

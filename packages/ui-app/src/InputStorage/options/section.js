@@ -5,7 +5,8 @@
 
 import map from '@polkadot/storage-substrate/keys';
 
-export default function createOptions (): Array<*> {
+// flowlint-next-line unclear-type:off
+export default function createOptions (): Array<any> {
   return Object
     .keys(map)
     .sort()

@@ -15,6 +15,7 @@ import Button from '@polkadot/ui-app/src/Button';
 import InputStorage from '@polkadot/ui-app/src/InputStorage';
 import Labelled from '@polkadot/ui-app/src/Labelled';
 import Params from '@polkadot/ui-app/src/Params';
+import classes from '@polkadot/ui-app/src/util/classes';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import translate from './translate';
@@ -44,7 +45,7 @@ class Selection extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['storage--Selection', 'storage--actionrow', className].join(' ')}
+        className={classes('storage--Selection', 'storage--actionrow', className)}
         style={style}
       >
         <div className='storage--actionrow-value'>

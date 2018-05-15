@@ -41,7 +41,8 @@ const components: ComponentMap = {
   'VoteThreshold': VoteThreshold
 };
 
-export default function findComponent (type: Param$Types, overrides?: ComponentMap = {}): React$ComponentType<*> | Array<React$ComponentType<*>> {
+// flowlint-next-line unclear-type:off
+export default function findComponent (type: Param$Types, overrides?: ComponentMap = {}): React$ComponentType<any> | Array<React$ComponentType<any>> {
   if (Array.isArray(type)) {
     return type
       .map((type) =>

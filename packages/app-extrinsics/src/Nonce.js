@@ -9,6 +9,7 @@ import type { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 
 import Labelled from '@polkadot/ui-app/src/Labelled';
+import classes from '@polkadot/ui-app/src/util/classes';
 import RxNonce from '@polkadot/ui-react-rx/Nonce';
 
 type Props = BareProps & {
@@ -20,7 +21,7 @@ type Props = BareProps & {
 export default function Nonce ({ className, label, style, onChange, value }: Props): React$Node {
   return (
     <div
-      className={['ui--row', className].join(' ')}
+      className={classes('ui--row', className)}
       style={style}
     >
       <Labelled

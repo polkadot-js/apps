@@ -8,5 +8,6 @@ import type { StorageDef$Key } from '@polkadot/storage/types';
 export type StorageQuery = {
   id: number,
   key: StorageDef$Key,
-  params: Array<*>
+  // flowlint-next-line unclear-type:off
+  params: Array<any>
 }

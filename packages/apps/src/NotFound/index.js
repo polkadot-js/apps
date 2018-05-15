@@ -9,6 +9,8 @@ import './NotFound.css';
 
 import React from 'react';
 
+import classes from '@polkadot/ui-app/src/util/classes';
+
 import translate from '../translate';
 
 type Props = I18nProps & {};
@@ -16,7 +18,7 @@ type Props = I18nProps & {};
 function NotFound ({ className, style, t }: Props): React$Node {
   return (
     <div
-      className={['apps--NotFound', className].join(' ')}
+      className={classes('apps--NotFound', className)}
       style={style}
     >
       {t('notfound.error', {

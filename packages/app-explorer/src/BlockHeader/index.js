@@ -11,6 +11,7 @@ import './BlockHeader.css';
 import React from 'react';
 
 import headerHash from '@polkadot/primitives-codec/header/hash';
+import classes from '@polkadot/ui-app/src/util/classes';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import translate from '../translate';
@@ -30,7 +31,7 @@ function BlockHeader ({ className, label = '#', value, style }: Props): React$No
 
   return (
     <div
-      className={['explorer--BlockHeader', className].join(' ')}
+      className={classes('explorer--BlockHeader', className)}
       style={style}
     >
       <div className='number'>

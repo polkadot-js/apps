@@ -9,7 +9,7 @@ import Explorer from '@polkadot/app-explorer/src';
 
 export default ([
   {
-    component: Explorer,
+    Component: Explorer,
     i18n: {
       defaultValue: 'Explorer'
     },

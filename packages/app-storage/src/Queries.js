@@ -8,6 +8,8 @@ import type { StorageQuery } from './types';
 
 import React from 'react';
 
+import classes from '@polkadot/ui-app/src/util/classes';
+
 import translate from './translate';
 import Query from './Query';
 
@@ -23,7 +25,7 @@ function Queries ({ className, onRemove, style, value }: Props): React$Node {
 
   return (
     <div
-      className={['storage--Queries', className].join(' ')}
+      className={classes('storage--Queries', className)}
       style={style}
     >
       {value.map((query) =>

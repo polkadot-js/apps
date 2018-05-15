@@ -12,6 +12,7 @@ import Button from '@polkadot/ui-app/src/Button';
 import Labelled from '@polkadot/ui-app/src/Labelled';
 import typeToText from '@polkadot/ui-app/src/Params/typeToText';
 import valueToText from '@polkadot/ui-app/src/Params/valueToText';
+import classes from '@polkadot/ui-app/src/util/classes';
 import withStorageDiv from '@polkadot/ui-react-rx/with/storageDiv';
 
 import translate from './translate';
@@ -23,7 +24,8 @@ type Props = I18nProps & {
 
 type State = {
   inputs: Array<React$Node>,
-  Component: React$ComponentType<*>;
+  // flowlint-next-line unclear-type:off
+  Component: React$ComponentType<any>;
 };
 
 const cache = [];
@@ -32,14 +34,15 @@ class Query extends React.PureComponent<Props, State> {
   state: State = ({}: $Shape<State>);
 
   static getDerivedStateFromProps ({ value: { id, key, params } }: Props, prevState: State): State | null {
-    const Component = ((): React$ComponentType<*> => {
+    // flowlint-next-line unclear-type:off
+    const Component = ((): React$ComponentType<any> => {
       if (!cache[id]) {
         const values = params.map(({ value }) => value);
 
         cache[id] = withStorageDiv(key, { params: values })(
           (value) =>
             valueToText(key.type, value),
-          { className: 'ui disabled dropdown selection' }
+          { className: 'ui--output' }
         );
       }
 
@@ -67,7 +70,7 @@ class Query extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['storage--Query', 'storage--actionrow', className].join(' ')}
+        className={classes('storage--Query', 'storage--actionrow', className)}
         style={style}
       >
         <Labelled

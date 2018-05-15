@@ -15,6 +15,7 @@ import createOptionHeader from '@polkadot/ui-keyring/src/options/header';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 
 import Dropdown from '../Dropdown';
+import classes from '../util/classes';
 import addressToAddress from './addressToAddress';
 
 type Props = BareProps & {
@@ -68,7 +69,7 @@ export default class InputAddress extends React.Component<Props, State> {
 
     return (
       <Dropdown
-        className={['ui--InputAddress', hideAddress ? 'flag--hideAddress' : '', className].join(' ')}
+        className={classes('ui--InputAddress', hideAddress ? 'flag--hideAddress' : '', className)}
         defaultValue={defaultValue}
         isError={isError}
         label={label}

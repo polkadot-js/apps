@@ -10,6 +10,7 @@ import './index.css';
 import React from 'react';
 
 import Button from '@polkadot/ui-app/src/Button';
+import classes from '@polkadot/ui-app/src/util/classes';
 
 import Creator from './Creator';
 import Editor from './Editor';
@@ -24,7 +25,8 @@ type State = {
 }
 
 // FIXME React-router would probably be the best route, not home-grown
-const Components: { [Actions]: React$ComponentType<*> } = {
+// flowlint-next-line unclear-type:off
+const Components: { [Actions]: React$ComponentType<any> } = {
   'create': Creator,
   'edit': Editor
 };
@@ -39,7 +41,7 @@ class App extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['accounts--App', className].join(' ')}
+        className={classes('accounts--App', className)}
         style={style}
       >
         <Button.Group className='accounts--App-navigation'>

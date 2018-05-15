@@ -11,29 +11,28 @@ import './Content.css';
 import React from 'react';
 import { withRouter } from 'react-router';
 
+import classes from '@polkadot/ui-app/src/util/classes';
+
 import routing from '../routing';
-import translate from '../translate';
 
 type Props = I18nProps & {
   location: Location
 };
 
-function Content ({ className, location, style }: Props): React$Node {
+function Content ({ children, className, location, style }: Props): React$Node {
   const app = location.pathname.slice(1) || routing.default;
+  const { Component } = routing.routes.find((route) =>
+    route && route.name === app
+  ) || routing.unknown;
 
   return (
     <div
-      className={['apps--Content', className].join(' ')}
+      className={classes('apps--Content', className)}
       style={style}
     >
-      <iframe
-        className='apps--Content-Frame'
-        src={`index.html?app=${app}`}
-        title={app}
-      />
+      <Component />
     </div>
   );
 }
-export default translate(
-  withRouter(Content)
-);
+
+export default withRouter(Content);

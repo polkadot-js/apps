@@ -5,7 +5,8 @@
 
 import map from '@polkadot/extrinsics-substrate';
 
-export default function createOptions (type: 'private' | 'public'): Array<*> {
+// flowlint-next-line unclear-type:off
+export default function createOptions (type: 'private' | 'public'): Array<any> {
   return Object
     .keys(map)
     .sort()

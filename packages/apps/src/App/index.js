@@ -9,6 +9,8 @@ import './App.css';
 
 import React from 'react';
 
+import classes from '@polkadot/ui-app/src/util/classes';
+
 import Connecting from '../Connecting';
 import Content from '../Content';
 import SideBar from '../SideBar';
@@ -19,7 +21,7 @@ type Props = I18nProps & {};
 function App ({ className, style }: Props): React$Node {
   return (
     <div
-      className={['apps--App', className].join(' ')}
+      className={classes('apps--App', className)}
       style={style}
     >
       <SideBar className='apps--App-column' />

@@ -11,6 +11,7 @@ import React from 'react';
 import Button from '@polkadot/ui-app/src/Button';
 import Input from '@polkadot/ui-app/src/Input';
 import InputAddress from '@polkadot/ui-app/src/InputAddress';
+import classes from '@polkadot/ui-app/src/util/classes';
 import keyring from '@polkadot/ui-keyring/src';
 
 import Address from './Address';
@@ -49,7 +50,7 @@ class Editor extends React.PureComponent<Props, State> {
     if (!currentPair) {
       return (
         <div
-          className={['accounts--Editor', className].join(' ')}
+          className={classes('accounts--Editor', className)}
           style={style}
         >
           {t('editor.none', {
@@ -63,7 +64,7 @@ class Editor extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['accounts--Editor', className].join(' ')}
+        className={classes('accounts--Editor', className)}
         style={style}
       >
         <div className='ui--grid'>
@@ -77,7 +78,7 @@ class Editor extends React.PureComponent<Props, State> {
                 className='full'
                 defaultValue={defaultPublicKey}
                 hideAddress
-                isSUIInput={false}
+                isInput={false}
                 label={t('editor.select', {
                   defaultValue: 'using my account'
                 })}

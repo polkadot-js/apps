@@ -11,8 +11,10 @@ import type { I18nProps } from '../types';
 import '../InputExtrinsic/InputExtrinsic.css';
 
 import React from 'react';
+
 import map from '@polkadot/storage-substrate/keys';
 
+import classes from '../util/classes';
 import translate from '../translate';
 import SelectKey from './SelectKey';
 import SelectSection from './SelectSection';
@@ -48,7 +50,7 @@ class InputStorage extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={['ui--DropdownLinked', 'ui--row', className].join(' ')}
+        className={classes('ui--DropdownLinked', 'ui--row', className)}
         style={style}
       >
         <SelectSection

@@ -9,7 +9,7 @@ import Accounts from '@polkadot/app-accounts/src';
 
 export default ([
   {
-    component: Accounts,
+    Component: Accounts,
     i18n: {
       defaultValue: 'Accounts'
     },
