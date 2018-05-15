@@ -59,7 +59,7 @@ export default class Address extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={classes('accounts--Address', isValid && 'invalid', className)}
+        className={classes('accounts--Address', !isValid && 'invalid', className)}
         style={style}
       >
         <IdentityIcon
