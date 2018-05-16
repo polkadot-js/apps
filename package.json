@@ -7,23 +7,16 @@
   ],
   "scripts": {
     "build": "polkadot-dev-build-babel && yarn run build:apps",
-    "build:apps": "cd packages/apps && react-scripts build",
+    "build:apps": "cd packages/apps && NODE_ENV=production webpack --config webpack.config.js",
     "check": "eslint packages && flow check",
     "clean": "polkadot-dev-clean-build",
     "deploy:ghpages": "gh-pages -d packages/apps/build",
     "vanitygen": "polkadot-dev-build-babel && node packages/app-vanitygen/build/generator/cli.js",
-    "start": "cd packages/apps && react-scripts start",
+    "start": "cd packages/apps && webpack-serve --config webpack.config.js --port 3000",
     "test": "echo 'no tests executed'"
   },
   "devDependencies": {
     "@polkadot/dev-react": "^0.19.8",
-    "gh-pages": "^1.1.0",
-    "react-scripts": "2.0.0-next.66cc7a90"
-  },
-  "browserslist": [
-    "last 2 Chrome versions",
-    "last 2 Safari versions",
-    "last 2 Firefox versions",
-    "last 2 Edge versions"
-  ]
+    "gh-pages": "^1.1.0"
+  }
 }

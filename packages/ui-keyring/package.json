@@ -19,6 +19,6 @@
   },
   "peerDependencies": {
     "react": "^16.3.1",
-    "semantic-ui-react": "^0.79.1"
+    "semantic-ui-react": "^0.80.0"
   }
 }
