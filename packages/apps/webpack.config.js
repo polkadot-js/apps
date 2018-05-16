@@ -45,7 +45,11 @@ module.exports = {
           {
             loader: require.resolve('postcss-loader'),
             options: {
-              ident: 'postcss'
+              ident: 'postcss',
+              plugins: () => [
+                require('postcss-clean')(),
+                require('postcss-flexbugs-fixes')
+              ]
             }
           }
         ]
