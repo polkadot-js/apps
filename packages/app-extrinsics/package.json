@@ -10,7 +10,8 @@
     "check": "stylelint 'src/**/*.css' && eslint src && flow check",
     "test": "jest --coverage"
   },
-  "devDependencies": {
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.47",
     "@polkadot/extrinsics": "^0.13.10",
     "@polkadot/extrinsics-codec": "^0.13.10",
     "@polkadot/ui-app": "^0.5.2",

@@ -16,21 +16,14 @@
     "test": "echo 'no tests executed'"
   },
   "devDependencies": {
-    "@polkadot/dev-react": "^0.18.3",
+    "@polkadot/dev-react": "^0.19.3",
     "gh-pages": "^1.1.0",
     "react-scripts": "2.0.0-next.66cc7a90"
   },
-  "browserslist": {
-    "development": [
-      "last 2 chrome versions",
-      "last 2 firefox versions",
-      "last 2 edge versions"
-    ],
-    "production": [
-      ">1%",
-      "last 4 versions",
-      "Firefox ESR",
-      "not ie < 11"
-    ]
-  }
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Safari versions",
+    "last 2 Firefox versions",
+    "last 2 Edge versions"
+  ]
 }

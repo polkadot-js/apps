@@ -11,12 +11,13 @@
     "test": "jest --coverage"
   },
   "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.47",
+    "@polkadot/ui-react": "^0.11.10",
     "@polkadot/util": "^0.19.7",
     "@polkadot/util-keyring": "^0.19.7",
     "store": "^2.0.12"
   },
   "peerDependencies": {
-    "@polkadot/ui-react": "^0.11.10",
     "react": "^16.3.1",
     "semantic-ui-react": "^0.79.1"
   }

@@ -13,7 +13,8 @@
     "start": "react-scripts start",
     "test": "react-scripts test --env=jsdom --coverage"
   },
-  "devDependencies": {
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.47",
     "@polkadot/app-accounts": "^0.5.2",
     "@polkadot/app-addresses": "^0.5.2",
     "@polkadot/app-explorer": "^0.5.2",
