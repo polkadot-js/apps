@@ -7,9 +7,9 @@ import type { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
-import CopyButton from '@polkadot/ui-app/src/CopyButton';
-import Button from '@polkadot/ui-app/src/Button';
-import classes from '@polkadot/ui-app/src/util/classes';
+import CopyButton from '@polkadot/ui-app/CopyButton';
+import Button from '@polkadot/ui-app/Button';
+import classes from '@polkadot/ui-app/util/classes';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 

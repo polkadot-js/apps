@@ -9,7 +9,7 @@ import './Connecting.css';
 
 import React from 'react';
 
-import classes from '@polkadot/ui-app/src/util/classes';
+import classes from '@polkadot/ui-app/util/classes';
 import withApiCall from '@polkadot/ui-react-rx/with/apiCall';
 
 import translate from '../translate';

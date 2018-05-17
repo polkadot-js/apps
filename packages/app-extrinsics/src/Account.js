@@ -8,9 +8,9 @@ import type { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
-import InputAddress from '@polkadot/ui-app/src/InputAddress';
-import Labelled from '@polkadot/ui-app/src/Labelled';
-import classes from '@polkadot/ui-app/src/util/classes';
+import InputAddress from '@polkadot/ui-app/InputAddress';
+import Labelled from '@polkadot/ui-app/Labelled';
+import classes from '@polkadot/ui-app/util/classes';
 import Balance from '@polkadot/ui-react-rx/Balance';
 
 import translate from './translate';

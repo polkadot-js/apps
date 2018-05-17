@@ -10,8 +10,8 @@ import type { EncodedMessage, QueueTx } from './types';
 import React from 'react';
 
 import extrinsics from '@polkadot/extrinsics-substrate';
-import Button from '@polkadot/ui-app/src/Button';
-import classes from '@polkadot/ui-app/src/util/classes';
+import Button from '@polkadot/ui-app/Button';
+import classes from '@polkadot/ui-app/util/classes';
 
 import Account from './Account';
 import Extrinsic from './Extrinsic';

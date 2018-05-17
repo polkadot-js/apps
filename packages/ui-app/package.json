@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-app",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,14 +11,15 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "@polkadot/extrinsics-substrate": "^0.13.10",
-    "@polkadot/params": "^0.13.10",
-    "@polkadot/primitives": "^0.13.10",
-    "@polkadot/storage-substrate": "^0.13.10",
-    "@polkadot/ui-keyring": "^0.5.2",
-    "@polkadot/ui-react": "^0.11.10",
-    "@polkadot/ui-react-rx": "^0.11.10",
-    "@polkadot/util": "^0.19.7",
+    "@babel/runtime": "^7.0.0-beta.47",
+    "@polkadot/extrinsics-substrate": "^0.14.3",
+    "@polkadot/params": "^0.14.3",
+    "@polkadot/primitives": "^0.14.3",
+    "@polkadot/storage-substrate": "^0.14.3",
+    "@polkadot/ui-keyring": "^0.6.0",
+    "@polkadot/ui-react": "^0.12.3",
+    "@polkadot/ui-react-rx": "^0.12.3",
+    "@polkadot/util": "^0.20.5",
     "i18next": "^11.1.1",
     "i18next-browser-languagedetector": "^2.2.0",
     "i18next-xhr-backend": "^1.5.1",
@@ -28,7 +29,7 @@
     "react-i18next": "^7.5.1",
     "react-router-dom": "^4.2.2",
     "semantic-ui-css": "^2.3.1",
-    "semantic-ui-react": "^0.79.1",
+    "semantic-ui-react": "^0.80.0",
     "store": "^2.0.12"
   }
 }

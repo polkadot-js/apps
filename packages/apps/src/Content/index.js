@@ -11,7 +11,7 @@ import './Content.css';
 import React from 'react';
 import { withRouter } from 'react-router';
 
-import classes from '@polkadot/ui-app/src/util/classes';
+import classes from '@polkadot/ui-app/util/classes';
 
 import routing from '../routing';
 

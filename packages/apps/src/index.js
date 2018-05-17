@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import createApp from '@polkadot/ui-app/src';
+import createApp from '@polkadot/ui-app';
 
 import App from './App';
 

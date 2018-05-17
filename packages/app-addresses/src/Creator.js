@@ -7,14 +7,14 @@ import type { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
-import Button from '@polkadot/ui-app/src/Button';
-import Input from '@polkadot/ui-app/src/Input';
-import classes from '@polkadot/ui-app/src/util/classes';
-import keyring from '@polkadot/ui-keyring/src';
+import Button from '@polkadot/ui-app/Button';
+import Input from '@polkadot/ui-app/Input';
+import classes from '@polkadot/ui-app/util/classes';
+import keyring from '@polkadot/ui-keyring';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
-import Address from '@polkadot/app-accounts/src/Address';
+import Address from '@polkadot/app-accounts/Address';
 import translate from './translate';
 
 type Props = I18nProps & {

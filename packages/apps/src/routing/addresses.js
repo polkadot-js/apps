@@ -5,7 +5,7 @@
 
 import type { Routes } from '../types';
 
-import Addresses from '@polkadot/app-addresses/src';
+import Addresses from '@polkadot/app-addresses';
 
 export default ([
   {

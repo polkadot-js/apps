@@ -10,7 +10,7 @@ import './index.css';
 
 import React from 'react';
 
-import classes from '@polkadot/ui-app/src/util/classes';
+import classes from '@polkadot/ui-app/util/classes';
 
 import Selection from './Selection';
 import Signer from './Signer';

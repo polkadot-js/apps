@@ -8,7 +8,7 @@ import type { StorageQuery } from './types';
 
 import React from 'react';
 
-import classes from '@polkadot/ui-app/src/util/classes';
+import classes from '@polkadot/ui-app/util/classes';
 
 import translate from './translate';
 import Query from './Query';

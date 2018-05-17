@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-explorer",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -10,11 +10,12 @@
     "check": "stylelint 'src/**/*.css' && eslint src && flow check",
     "test": "jest --coverage"
   },
-  "devDependencies": {
-    "@polkadot/primitives": "^0.13.10",
-    "@polkadot/primitives-codec": "^0.13.10",
-    "@polkadot/primitives-json": "^0.13.10",
-    "@polkadot/ui-app": "^0.5.2",
-    "@polkadot/util-crypto": "^0.19.7"
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.47",
+    "@polkadot/primitives": "^0.14.3",
+    "@polkadot/primitives-codec": "^0.14.3",
+    "@polkadot/primitives-json": "^0.14.3",
+    "@polkadot/ui-app": "^0.6.0",
+    "@polkadot/util-crypto": "^0.20.5"
   }
 }

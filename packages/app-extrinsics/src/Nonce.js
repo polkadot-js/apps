@@ -8,8 +8,8 @@ import type { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
-import Labelled from '@polkadot/ui-app/src/Labelled';
-import classes from '@polkadot/ui-app/src/util/classes';
+import Labelled from '@polkadot/ui-app/Labelled';
+import classes from '@polkadot/ui-app/util/classes';
 import RxNonce from '@polkadot/ui-react-rx/Nonce';
 
 type Props = BareProps & {

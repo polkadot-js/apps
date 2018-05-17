@@ -9,9 +9,9 @@ import './SideBar.css';
 
 import React from 'react';
 
-import Icon from '@polkadot/ui-app/src/Icon';
-import Menu from '@polkadot/ui-app/src/Menu';
-import classes from '@polkadot/ui-app/src/util/classes';
+import Icon from '@polkadot/ui-app/Icon';
+import Menu from '@polkadot/ui-app/Menu';
+import classes from '@polkadot/ui-app/util/classes';
 
 import routing from '../routing';
 import translate from '../translate';

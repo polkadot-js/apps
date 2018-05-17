@@ -10,8 +10,8 @@ import './InputAddress.css';
 
 import React from 'react';
 
-import keyring from '@polkadot/ui-keyring/src';
-import createOptionHeader from '@polkadot/ui-keyring/src/options/header';
+import keyring from '@polkadot/ui-keyring';
+import createOptionHeader from '@polkadot/ui-keyring/options/header';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 
 import Dropdown from '../Dropdown';

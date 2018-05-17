@@ -9,7 +9,7 @@ import './App.css';
 
 import React from 'react';
 
-import classes from '@polkadot/ui-app/src/util/classes';
+import classes from '@polkadot/ui-app/util/classes';
 
 import Connecting from '../Connecting';
 import Content from '../Content';
@@ -24,8 +24,8 @@ function App ({ className, style }: Props): React$Node {
       className={classes('apps--App', className)}
       style={style}
     >
-      <SideBar className='apps--App-column' />
-      <Content className='apps--App-column' />
+      <SideBar />
+      <Content />
       <Connecting />
     </div>
   );

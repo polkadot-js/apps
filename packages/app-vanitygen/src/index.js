@@ -10,11 +10,11 @@ import './index.css';
 
 import React from 'react';
 
-import Button from '@polkadot/ui-app/src/Button';
-import Dropdown from '@polkadot/ui-app/src/Dropdown';
-import Input from '@polkadot/ui-app/src/Input';
-import Static from '@polkadot/ui-app/src/Static';
-import classes from '@polkadot/ui-app/src/util/classes';
+import Button from '@polkadot/ui-app/Button';
+import Dropdown from '@polkadot/ui-app/Dropdown';
+import Input from '@polkadot/ui-app/Input';
+import Static from '@polkadot/ui-app/Static';
+import classes from '@polkadot/ui-app/util/classes';
 
 import Match from './Match';
 import generator from './generator';

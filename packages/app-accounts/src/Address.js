@@ -7,8 +7,8 @@ import type { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
-import CopyButton from '@polkadot/ui-app/src/CopyButton';
-import classes from '@polkadot/ui-app/src/util/classes';
+import CopyButton from '@polkadot/ui-app/CopyButton';
+import classes from '@polkadot/ui-app/util/classes';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Balance from '@polkadot/ui-react-rx/Balance';
 import Nonce from '@polkadot/ui-react-rx/Nonce';

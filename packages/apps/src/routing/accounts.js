@@ -5,7 +5,7 @@
 
 import type { Routes } from '../types';
 
-import Accounts from '@polkadot/app-accounts/src';
+import Accounts from '@polkadot/app-accounts';
 
 export default ([
   {

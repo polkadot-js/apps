@@ -11,8 +11,8 @@ import './Item.css';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import Icon from '@polkadot/ui-app/src/Icon';
-import Menu from '@polkadot/ui-app/src/Menu';
+import Icon from '@polkadot/ui-app/Icon';
+import Menu from '@polkadot/ui-app/Menu';
 
 type Props = I18nProps & Route & {};
 

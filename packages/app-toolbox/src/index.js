@@ -9,8 +9,8 @@ import './index.css';
 
 import React from 'react';
 
-import Button from '@polkadot/ui-app/src/Button';
-import classes from '@polkadot/ui-app/src/util/classes';
+import Button from '@polkadot/ui-app/Button';
+import classes from '@polkadot/ui-app/util/classes';
 
 import Hash from './Hash';
 import Sign from './Sign';

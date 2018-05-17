@@ -11,17 +11,17 @@ import './BlockHeader.css';
 import React from 'react';
 
 import headerHash from '@polkadot/primitives-codec/header/hash';
-import classes from '@polkadot/ui-app/src/util/classes';
+import classes from '@polkadot/ui-app/util/classes';
+import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import translate from '../translate';
 
 type Props = I18nProps & {
-  label?: string,
   value?: Header
 };
 
-function BlockHeader ({ className, label = '#', value, style }: Props): React$Node {
+function BlockHeader ({ className, value, style }: Props): React$Node {
   if (!value) {
     return null;
   }
@@ -35,7 +35,7 @@ function BlockHeader ({ className, label = '#', value, style }: Props): React$No
       style={style}
     >
       <div className='number'>
-        <div>{label}{number.toString()}</div>
+        <div>{numberFormat(number)}</div>
       </div>
       <div className='details'>
         <div className='hash'>
