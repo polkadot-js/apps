@@ -8,7 +8,8 @@
   height: 100%;
 }
 
-.apps--App-column {
+.apps--App .apps--Content,
+.apps--App .apps--SideBar, {
   display: flex;
   flex-direction: column;
   height: 100%;

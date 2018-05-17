@@ -115,6 +115,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       child_process: 'empty'
     },
     optimization: {
+      runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
           vendor: {
