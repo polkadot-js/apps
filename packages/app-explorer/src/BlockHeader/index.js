@@ -35,7 +35,7 @@ function BlockHeader ({ className, value, style }: Props): React$Node {
       style={style}
     >
       <div className='number'>
-        <div>{numberFormat(number.toString())}</div>
+        <div>{numberFormat(number)}</div>
       </div>
       <div className='details'>
         <div className='hash'>
