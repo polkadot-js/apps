@@ -28,7 +28,8 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
     mode: isProd ? 'production' : 'development',
     output: {
       path: path.join(context, 'build'),
-      filename: `[name].[chunkhash:8].js`
+      filename: `[name].[hash:8].js`,
+      chunkFilename: `[name].[chunkhash:8].js`
     },
     resolve: {
       alias
