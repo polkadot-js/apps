@@ -8,9 +8,10 @@ import type { Props as BareProps } from '../types';
 
 import React from 'react';
 
+import typeToString from '@polkadot/params/typeToString';
+
 import translate from '../../translate';
 import Base from './Base';
-import typeToText from '../typeToText';
 
 type Props = BareProps & {
   t: I18Next$Translate,
@@ -31,7 +32,7 @@ function Unknown ({ label, t, value: { type }, withLabel }: Props): React$Node {
         {t('param.unknown', {
           defaultValue: `ERROR: Unimplemented type '{{type}}' requested. No renderer exists`,
           replace: {
-            type: typeToText(type)
+            type: typeToString(type)
           }
         })}
       </div>

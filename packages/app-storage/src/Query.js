@@ -8,9 +8,9 @@ import type { StorageQuery } from './types';
 
 import React from 'react';
 
+import typeToString from '@polkadot/params/typeToString';
 import Button from '@polkadot/ui-app/Button';
 import Labelled from '@polkadot/ui-app/Labelled';
-import typeToText from '@polkadot/ui-app/Params/typeToText';
 import valueToText from '@polkadot/ui-app/Params/valueToText';
 import classes from '@polkadot/ui-app/util/classes';
 import withStorageDiv from '@polkadot/ui-react-rx/with/storageDiv';
@@ -76,7 +76,7 @@ class Query extends React.PureComponent<Props, State> {
         <Labelled
           className='storage--actionrow-value'
           label={
-            <div>{key.section}.{key.name}({inputs}): {typeToText(key.type)}</div>
+            <div>{key.section}.{key.name}({inputs}): {typeToString(key.type)}</div>
           }
         >
           <Component />

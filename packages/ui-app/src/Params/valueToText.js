@@ -14,7 +14,7 @@ import isBn from '@polkadot/util/is/bn';
 import isU8a from '@polkadot/util/is/u8a';
 
 // flowlint-next-line unclear-type:off
-export default function valueToText (type: Param$Types, value: any): string {
+function valueToText (type: Param$Types, value: any): string {
   if (type === 'bool') {
     return value ? 'Yes' : 'No';
   }
@@ -29,7 +29,6 @@ export default function valueToText (type: Param$Types, value: any): string {
     }
 
     const values = type.map((_type, index) =>
-      // $FlowFixMe hate doing this, but it _looks_ ok
       valueToText(_type, value[index])
     ).join(', ');
 
@@ -52,3 +51,5 @@ export default function valueToText (type: Param$Types, value: any): string {
 
   return value.toString();
 }
+
+export default valueToText;

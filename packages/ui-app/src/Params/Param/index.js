@@ -9,9 +9,10 @@ import type { BaseProps, ComponentMap, RawParam } from '../types';
 
 import React from 'react';
 
+import typeToString from '@polkadot/params/typeToString';
+
 import classes from '../../util/classes';
 import translate from '../../translate';
-import typeToText from '../typeToText';
 import findComponent from './findComponent';
 import Unknown from './Unknown';
 
@@ -102,7 +103,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
   // flowlint-next-line unclear-type:off
   renderComponent = (Component: React$ComponentType<any>, sub: string, props: ComponentProps): React$Node => {
     const { className, index, onChange, style, value: { name, type, options = {} } } = props;
-    const text = typeToText(type);
+    const text = typeToString(type);
 
     return (
       <Component

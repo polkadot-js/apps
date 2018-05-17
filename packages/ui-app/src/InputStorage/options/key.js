@@ -7,7 +7,7 @@ import type { StateDb$SectionNames } from '@polkadot/storage/types';
 
 import React from 'react';
 
-import map from '@polkadot/storage-substrate/keys';
+import map from '@polkadot/storage-substrate';
 
 // flowlint-next-line unclear-type:off
 export default function createOptions (sectionName: any): Array<any> {

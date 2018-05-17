@@ -12,7 +12,7 @@ import '../InputExtrinsic/InputExtrinsic.css';
 
 import React from 'react';
 
-import map from '@polkadot/storage-substrate/keys';
+import map from '@polkadot/storage-substrate';
 
 import classes from '../util/classes';
 import translate from '../translate';
