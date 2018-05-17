@@ -6,8 +6,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "polkadot-dev-build-babel && yarn run build:apps",
-    "build:apps": "cd packages/apps && NODE_ENV=production webpack --config webpack.config.js",
+    "build": "polkadot-dev-build-babel",
     "check": "eslint packages && flow check",
     "clean": "polkadot-dev-clean-build",
     "deploy:ghpages": "gh-pages -d packages/apps/build",
@@ -16,7 +15,7 @@
     "test": "echo 'no tests executed'"
   },
   "devDependencies": {
-    "@polkadot/dev-react": "^0.19.8",
+    "@polkadot/dev-react": "^0.19.9",
     "gh-pages": "^1.1.0"
   }
 }

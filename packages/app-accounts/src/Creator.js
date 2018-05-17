@@ -7,11 +7,11 @@ import type { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
-import Button from '@polkadot/ui-app/src/Button';
-import Input from '@polkadot/ui-app/src/Input';
-import Password from '@polkadot/ui-app/src/Password';
-import classes from '@polkadot/ui-app/src/util/classes';
-import keyring from '@polkadot/ui-keyring/src';
+import Button from '@polkadot/ui-app/Button';
+import Input from '@polkadot/ui-app/Input';
+import Password from '@polkadot/ui-app/Password';
+import classes from '@polkadot/ui-app/util/classes';
+import keyring from '@polkadot/ui-keyring';
 import isHex from '@polkadot/util/is/hex';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import u8aFromString from '@polkadot/util/u8a/fromString';

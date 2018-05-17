@@ -8,9 +8,9 @@ import type { KeyringPair } from '@polkadot/util-keyring/types';
 
 import React from 'react';
 
-import Password from '@polkadot/ui-app/src/Password';
-import classes from '@polkadot/ui-app/src/util/classes';
-import keyring from '@polkadot/ui-keyring/src';
+import Password from '@polkadot/ui-app/Password';
+import classes from '@polkadot/ui-app/util/classes';
+import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
 

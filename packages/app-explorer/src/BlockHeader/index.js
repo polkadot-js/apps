@@ -11,7 +11,7 @@ import './BlockHeader.css';
 import React from 'react';
 
 import headerHash from '@polkadot/primitives-codec/header/hash';
-import classes from '@polkadot/ui-app/src/util/classes';
+import classes from '@polkadot/ui-app/util/classes';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import translate from '../translate';

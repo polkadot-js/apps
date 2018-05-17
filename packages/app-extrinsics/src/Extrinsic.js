@@ -11,9 +11,9 @@ import type { EncodedMessage } from './types';
 import React from 'react';
 
 import encode from '@polkadot/extrinsics-codec/encode/extrinsic';
-import InputExtrinsic from '@polkadot/ui-app/src/InputExtrinsic';
-import Params from '@polkadot/ui-app/src/Params';
-import classes from '@polkadot/ui-app/src/util/classes';
+import InputExtrinsic from '@polkadot/ui-app/InputExtrinsic';
+import Params from '@polkadot/ui-app/Params';
+import classes from '@polkadot/ui-app/util/classes';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import paramComponents from './Params';

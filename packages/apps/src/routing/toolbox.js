@@ -5,7 +5,7 @@
 
 import type { Routes } from '../types';
 
-import Toolbox from '@polkadot/app-toolbox/src';
+import Toolbox from '@polkadot/app-toolbox';
 
 export default ([
   {

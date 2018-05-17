@@ -7,7 +7,7 @@ import type { RxApiInterface } from '@polkadot/api-rx/types';
 import type { QueueTx } from '../types';
 
 import encodeCall from '@polkadot/extrinsics-codec/encode/call';
-import keyring from '@polkadot/ui-keyring/src';
+import keyring from '@polkadot/ui-keyring';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 

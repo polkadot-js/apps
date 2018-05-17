@@ -7,10 +7,10 @@ import type { I18nProps as Props } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
-import Input from '@polkadot/ui-app/src/Input';
-import Output from '@polkadot/ui-app/src/Output';
-import Static from '@polkadot/ui-app/src/Static';
-import classes from '@polkadot/ui-app/src/util/classes';
+import Input from '@polkadot/ui-app/Input';
+import Output from '@polkadot/ui-app/Output';
+import Static from '@polkadot/ui-app/Static';
+import classes from '@polkadot/ui-app/util/classes';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import isHex from '@polkadot/util/is/hex';
 import u8aFromString from '@polkadot/util/u8a/fromString';

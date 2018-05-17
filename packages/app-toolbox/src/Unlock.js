@@ -9,10 +9,10 @@ import type { KeyringPair } from '@polkadot/util-keyring/types';
 import React from 'react';
 import { Trans } from 'react-i18next';
 
-import Button from '@polkadot/ui-app/src/Button';
-import Modal from '@polkadot/ui-app/src/Modal';
-import Password from '@polkadot/ui-app/src/Password';
-import classes from '@polkadot/ui-app/src/util/classes';
+import Button from '@polkadot/ui-app/Button';
+import Modal from '@polkadot/ui-app/Modal';
+import Password from '@polkadot/ui-app/Password';
+import classes from '@polkadot/ui-app/util/classes';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 
 import translate from './translate';

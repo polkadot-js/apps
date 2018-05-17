@@ -11,11 +11,11 @@ import type { StorageQuery } from './types';
 import React from 'react';
 
 import storage from '@polkadot/storage-substrate/keys';
-import Button from '@polkadot/ui-app/src/Button';
-import InputStorage from '@polkadot/ui-app/src/InputStorage';
-import Labelled from '@polkadot/ui-app/src/Labelled';
-import Params from '@polkadot/ui-app/src/Params';
-import classes from '@polkadot/ui-app/src/util/classes';
+import Button from '@polkadot/ui-app/Button';
+import InputStorage from '@polkadot/ui-app/InputStorage';
+import Labelled from '@polkadot/ui-app/Labelled';
+import Params from '@polkadot/ui-app/Params';
+import classes from '@polkadot/ui-app/util/classes';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import translate from './translate';

@@ -11,10 +11,10 @@ import './Signer.css';
 
 import React from 'react';
 
-import Button from '@polkadot/ui-app/src/Button';
-import Modal from '@polkadot/ui-app/src/Modal';
-import classes from '@polkadot/ui-app/src/util/classes';
-import keyring from '@polkadot/ui-keyring/src';
+import Button from '@polkadot/ui-app/Button';
+import Modal from '@polkadot/ui-app/Modal';
+import classes from '@polkadot/ui-app/util/classes';
+import keyring from '@polkadot/ui-keyring';
 import withApi from '@polkadot/ui-react-rx/with/api';
 
 import translate from '../translate';

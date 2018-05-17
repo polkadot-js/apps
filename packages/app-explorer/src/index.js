@@ -9,7 +9,7 @@ import './index.css';
 
 import React from 'react';
 
-import classes from '@polkadot/ui-app/src/util/classes';
+import classes from '@polkadot/ui-app/util/classes';
 import BestNumber from '@polkadot/ui-react-rx/BestNumber';
 
 import BestHash from './BestHash';

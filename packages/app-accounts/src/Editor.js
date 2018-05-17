@@ -8,11 +8,11 @@ import type { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
-import Button from '@polkadot/ui-app/src/Button';
-import Input from '@polkadot/ui-app/src/Input';
-import InputAddress from '@polkadot/ui-app/src/InputAddress';
-import classes from '@polkadot/ui-app/src/util/classes';
-import keyring from '@polkadot/ui-keyring/src';
+import Button from '@polkadot/ui-app/Button';
+import Input from '@polkadot/ui-app/Input';
+import InputAddress from '@polkadot/ui-app/InputAddress';
+import classes from '@polkadot/ui-app/util/classes';
+import keyring from '@polkadot/ui-keyring';
 
 import Address from './Address';
 import translate from './translate';

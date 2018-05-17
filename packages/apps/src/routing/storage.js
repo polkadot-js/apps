@@ -5,7 +5,7 @@
 
 import type { Routes } from '../types';
 
-import Storage from '@polkadot/app-storage/src';
+import Storage from '@polkadot/app-storage';
 
 export default ([
   {
