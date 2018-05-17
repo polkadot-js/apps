@@ -142,7 +142,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       }),
       new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({
-        filename: `[name].[chunkhash:8].css`
+        filename: `[name].[contenthash:8].css`
       })
     ])
   };
