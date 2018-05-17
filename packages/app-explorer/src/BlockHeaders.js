@@ -25,7 +25,9 @@ const apiOptions = {
     }
 
     blockHeaders = blockHeaders
-      .filter((old, index) => index < 9 && old.number.lt(header.number))
+      .filter((old, index) =>
+        index < 9 && old.number.lt(header.number)
+      )
       .reduce((next, header) => {
         next.push(header);
 
