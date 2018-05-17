@@ -4,6 +4,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const webpack = require('webpack');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -12,7 +13,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const packages = ['app-accounts', 'app-addresses', 'app-explorer', 'app-extrinsics', 'app-storage', 'app-toolbox', 'app-vanitygen', 'ui-app', 'ui-keyring'];
 
 function createWebpack ({ alias = {}, context, name = 'index' }) {
-  const isProd = process.env.NODE_ENV === 'production';
+  const pkgJson = require(path.join(context, 'package.json'));
+  const ENV = process.env.NODE_ENV || 'development';
+  const isProd = ENV === 'production';
   const hasPublic = fs.existsSync(path.join(context, 'public'));
   const plugins = hasPublic
     ? [new CopyWebpackPlugin([{ from: 'public' }])]
@@ -25,7 +28,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
     mode: isProd ? 'production' : 'development',
     output: {
       path: path.join(context, 'build'),
-      filename: `${name}.[hash:8].js`
+      filename: `[name].[chunkhash:8].js`
     },
     resolve: {
       alias
@@ -110,16 +113,35 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       tls: 'empty',
       child_process: 'empty'
     },
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            chunks: 'initial',
+            enforce: true,
+            name: 'vendor',
+            test: /node_modules\/(bn\.js|i18next|lodash|react|semantic-ui)/
+          }
+        }
+      }
+    },
     performance: {
       hints: false
     },
     plugins: plugins.concat([
+      new webpack.DefinePlugin({
+        'process.env': {
+          NODE_ENV: JSON.stringify(ENV),
+          VERSION: JSON.stringify(pkgJson.version)
+        }
+      }),
       new HtmlWebpackPlugin({
         inject: true,
         template: path.join(context, `${hasPublic ? 'public/' : ''}${name}.html`)
       }),
+      new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({
-        filename: `${name}.[hash:8].css`
+        filename: `[name].[chunkhash:8].css`
       })
     ])
   };
