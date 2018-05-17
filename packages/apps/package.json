@@ -25,7 +25,6 @@
     "@polkadot/ui-app": "^0.6.1"
   },
   "devDependencies": {
-    "@polkadot/dev-react": "^0.19.9",
     "babel-loader": "^8.0.0-beta.2",
     "copy-webpack-plugin": "^4.5.1",
     "css-loader": "^0.28.9",

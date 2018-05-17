@@ -25,12 +25,17 @@ const apiOptions = {
     }
 
     blockHeaders = blockHeaders
-      .filter((header, index) => index < 9)
+      .filter((old, index) =>
+        index < 9 && old.number.lt(header.number)
+      )
       .reduce((next, header) => {
         next.push(header);
 
         return next;
-      }, [header]);
+      }, [header])
+      .sort((a, b) =>
+        b.number.cmp(a.number)
+      );
 
     return blockHeaders;
   }
