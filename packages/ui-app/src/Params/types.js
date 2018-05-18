@@ -13,15 +13,17 @@ export type RawParam = {
 
 export type RawParams = Array<RawParam>;
 
+export type BaseProps$Options = {
+  initValue?: mixed,
+  minValue?: mixed,
+  maxValue?: mixed
+};
+
 export type BaseProps = BareProps & {
   onChange: (index: number, value: RawParam) => void,
   value: {
     name: string,
-    options?: {
-      initValue?: mixed,
-      minValue?: mixed,
-      maxValue?: mixed
-    },
+    options?: BaseProps$Options,
     type: Param$Types
   }
 };
@@ -36,12 +38,13 @@ export type Props = BaseProps & {
 
 export type Size = 'full' | 'large' | 'medium' | 'small';
 
-// flowlint-next-line unclear-type:off
-export type ComponentsArray = Array<React$ComponentType<any> | ComponentsArray>;
-// flowlint-next-line unclear-type:off
-export type Components = React$ComponentType<any> | ComponentsArray;
+export type ComponentTyped = {
+  Component: React$ComponentType<Props>,
+  type: Param$Type
+};
+export type ComponentTyped$Array = Array<ComponentTyped | ComponentTyped$Array>;
+export type ComponentsTyped = ComponentTyped | ComponentTyped$Array;
 
 export type ComponentMap = {
-  // flowlint-next-line unclear-type:off
-  [Param$Type]: React$ComponentType<any>
+  [Param$Type]: React$ComponentType<Props>
 };
