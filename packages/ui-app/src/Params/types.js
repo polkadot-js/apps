@@ -36,6 +36,11 @@ export type Props = BaseProps & {
 
 export type Size = 'full' | 'large' | 'medium' | 'small';
 
+// flowlint-next-line unclear-type:off
+export type ComponentsArray = Array<React$ComponentType<any> | ComponentsArray>;
+// flowlint-next-line unclear-type:off
+export type Components = React$ComponentType<any> | ComponentsArray;
+
 export type ComponentMap = {
   // flowlint-next-line unclear-type:off
   [Param$Type]: React$ComponentType<any>

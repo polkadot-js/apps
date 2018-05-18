@@ -5,7 +5,7 @@
 
 import type { Param } from '@polkadot/params/types';
 import type { I18nProps } from '../../types';
-import type { BaseProps, ComponentMap, RawParam } from '../types';
+import type { BaseProps, Components, ComponentMap, RawParam } from '../types';
 
 import React from 'react';
 
@@ -64,7 +64,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
   }
 
   // flowlint-next-line unclear-type:off
-  renderComponents = (_Components: React$ComponentType<any> | Array<React$ComponentType<any>> | null = this.state.Components, startIndex: string = '0', { name, type, options = {} } = this.props.value) => {
+  renderComponents = (_Components: Components | null = this.state.Components, startIndex: string = '0', { name, type, options = {} } = this.props.value) => {
     if (!_Components) {
       return null;
     }
@@ -72,10 +72,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
     const { className, index, onChange, style } = this.props;
 
     if (!Array.isArray(type)) {
-      // flowlint-next-line unclear-type:off
-      const Component = ((_Components: any): React$ComponentType<any>);
-
-      return this.renderComponent(Component, startIndex, {
+      return this.renderComponent(_Components, startIndex, {
         className,
         index,
         onChange,
@@ -88,10 +85,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
       });
     }
 
-    // flowlint-next-line unclear-type:off
-    const Components = ((_Components: any): Array<React$ComponentType<any>>);
-
-    return Components.map((Component, index) => {
+    return _Components.map((Component, index) => {
       return this.renderComponents(Component, `${startIndex}-${index}`, {
         name,
         type: type[index],
