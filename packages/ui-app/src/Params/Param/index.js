@@ -73,17 +73,20 @@ class ParamComponent extends React.PureComponent<Props, State> {
       });
     }
 
-    return this.renderComponent(Components, startIndex, {
+    const { Component, type } = Components;
+
+    return this.renderComponent(Component, startIndex, {
       className,
       index,
       name,
       onChange,
       options,
-      style
+      style,
+      type
     });
   }
 
-  renderComponent = (Component: React$ComponentType<ComponentProps>, sub: string, props: $Shape<ComponentProps>): React$Node => {
+  renderComponent (Component: React$ComponentType<ComponentProps>, sub: string, props: $Shape<ComponentProps>): React$Node {
     const { className, index, name, onChange, options = {}, style, type } = props;
     const text = typeToString(type);
 
@@ -104,7 +107,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
     );
   }
 
-  renderUnknown = (): React$Node => {
+  renderUnknown (): React$Node {
     const { className, index, onChange, style, value: { name, type } = {} } = this.props;
 
     return this.renderComponent(Unknown, '0', {
