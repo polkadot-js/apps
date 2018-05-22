@@ -2,9 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 // @flow
-// flowlint sketchy-null-mixed:off,sketchy-null-number:off
 
-import type { Props as BaseProps } from '../types';
+import type { Props } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -12,15 +11,11 @@ import React from 'react';
 import Input from '../../Input';
 import Bare from './Bare';
 
-type Props = BaseProps & {
-  maxValue?: number,
-  minValue?: number
-};
-
 export default class Amount extends React.PureComponent<Props> {
   render (): React$Node {
-    const { className, defaultValue: { value }, isDisabled, isError, label, maxValue, minValue = 0, style, withLabel } = this.props;
-    const defaultValue = (value: BN).toNumber();
+    const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
+    // flowlint-next-line unclear-type:off
+    const defaultValue = new BN(((value: any): BN) || 0).toNumber();
 
     return (
       <Bare
@@ -29,12 +24,11 @@ export default class Amount extends React.PureComponent<Props> {
       >
         <Input
           className='small'
-          defaultValue={defaultValue || minValue}
+          defaultValue={defaultValue || 0}
           isDisabled={isDisabled}
           isError={isError}
           label={label}
-          max={maxValue}
-          min={minValue}
+          min={0}
           onChange={this.onChange}
           type='number'
           withLabel={withLabel}
@@ -44,11 +38,11 @@ export default class Amount extends React.PureComponent<Props> {
   }
 
   onChange = (value: number): void => {
-    const { onChange, minValue = 0 } = this.props;
+    const { onChange } = this.props;
 
     onChange({
       isValid: true,
-      value: new BN(value || minValue)
+      value: new BN(value || 0)
     });
   }
 }

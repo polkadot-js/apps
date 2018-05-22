@@ -4,7 +4,7 @@
 // @flow
 
 import type { Param$Types } from '@polkadot/params/types';
-import type { ComponentProps, ComponentMap } from '../types';
+import type { Props, ComponentMap } from '../types';
 
 import Account from './Account';
 import Amount from './Amount';
@@ -42,7 +42,7 @@ const components: ComponentMap = {
   'VoteThreshold': VoteThreshold
 };
 
-export default function findComponent (type: Param$Types, overrides?: ComponentMap = {}): React$ComponentType<ComponentProps> {
+export default function findComponent (type: Param$Types, overrides?: ComponentMap = {}): React$ComponentType<Props> {
   if (Array.isArray(type)) {
     return Unknown;
   }

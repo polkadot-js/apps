@@ -2,13 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 // @flow
-// flowlint sketchy-null-mixed:off
 
-import type { Param$Type } from '@polkadot/params/types';
+import type { Param$Types } from '@polkadot/params/types';
+import type { RawParam$Values } from './types';
 
 import BN from 'bn.js';
 
-export default function getInitValue (type: Param$Type): ?mixed {
+import typeToString from '@polkadot/params/typeToString';
+
+export default function getInitValue (type: Param$Types): RawParam$Values {
   switch (type) {
     case 'Balance':
       return new BN(1);
@@ -26,10 +28,37 @@ export default function getInitValue (type: Param$Type): ?mixed {
     case 'bool':
       return false;
 
+    case 'String':
+      return '';
+
+    case 'Timestamp':
+      return new Date(0);
+
     case 'VoteThreshold':
       return 0;
 
-    default:
+    case 'AccountId':
+    case 'Bytes':
+    case 'Call':
+    case 'Code':
+    case 'Digest':
+    case 'Hash':
+    case 'Header':
+    case 'KeyValue':
+    case 'MisbehaviorReport':
+    case 'Proposal':
+    case 'Signature':
       return void 0;
+
+    default:
+      if (Array.isArray(type)) {
+        return type.map((subtype) =>
+          getInitValue(subtype)
+        );
+      }
+
+      // NOTE for @flow, if it fails here, we know what is missing
+      (type: empty); // eslint-disable-line no-unused-expressions
+      throw new Error(`Unable to determine default type for ${typeToString(type)}`);
   }
 }

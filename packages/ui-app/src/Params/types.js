@@ -6,19 +6,26 @@
 import type { Param$Type, Param$Types, Param$Value } from '@polkadot/params/types';
 import type { BareProps } from '../types';
 
+export type RawParam$Value = ?Param$Value;
+
+export type RawParam$ValueArray = Array<?Param$Value | RawParam$ValueArray>;
+
+export type RawParam$Values = RawParam$Value | RawParam$ValueArray;
+
 export type RawParam = {
   isValid: boolean,
-  value: Param$Value,
+  type: Param$Types,
+  value: RawParam$Values,
 }
 
-export type RawParam$OnChange = (value: RawParam) => void;
+export type RawParam$OnChange = (value: $Shape<RawParam>) => void;
 
 export type RawParams = Array<RawParam>;
 
 export type BaseProps = BareProps & {
+  defaultValue: RawParam,
   name: string,
-  onChange: RawParam$OnChange,
-  type: Param$Types
+  onChange: RawParam$OnChange
 };
 
 export type Props = BaseProps & {
@@ -28,14 +35,8 @@ export type Props = BaseProps & {
   withLabel?: boolean
 };
 
-export type ComponentProps$Extra = {
-  [string]: mixed
-}
-
-export type ComponentProps = Props & ComponentProps$Extra;
-
 export type Size = 'full' | 'large' | 'medium' | 'small';
 
 export type ComponentMap = {
-  [Param$Type]: React$ComponentType<ComponentProps>
+  [Param$Type]: React$ComponentType<Props>
 };

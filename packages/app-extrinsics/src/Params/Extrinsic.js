@@ -4,8 +4,8 @@
 // @flow
 
 import type { Extrinsic } from '@polkadot/extrinsics/types';
-import type { Props as BaseProps } from '@polkadot/ui-app/Params/types';
 import type { I18nProps } from '@polkadot/ui-app/types';
+import type { RawParam$OnChange } from '@polkadot/ui-app/Params/types';
 import type { EncodedMessage } from '../types';
 
 import React from 'react';
@@ -13,9 +13,13 @@ import React from 'react';
 import BaseExtrinsic from '../Extrinsic';
 import translate from '../translate';
 
-type Props = BaseProps & I18nProps & {
+type Props = I18nProps & {
   defaultValue: Extrinsic,
+  isDisabled: boolean,
+  isError: boolean,
   isPrivate: boolean,
+  label: string,
+  onChange: RawParam$OnChange,
   withLabel?: boolean,
 };
 

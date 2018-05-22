@@ -3,9 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Param$Types } from '@polkadot/params/types';
 import type { I18nProps } from '../../types';
-import type { ComponentProps, ComponentMap, RawParam } from '../types';
+import type { Props as BaseProps, ComponentMap } from '../types';
 
 import React from 'react';
 
@@ -15,17 +14,13 @@ import classes from '../../util/classes';
 import translate from '../../translate';
 import findComponent from './findComponent';
 
-type Props = I18nProps & {
+type Props = I18nProps & BaseProps & {
   index: number,
-  name: Stringg,
-  overrides?: ComponentMap,
-  onChange: (index: number, value: RawParam) => void,
-  type: Param$Types,
-  value: RawParam
+  overrides?: ComponentMap
 };
 
 type State = {
-  Component: React$ComponentType<ComponentProps> | null
+  Component: React$ComponentType<BaseProps> | null
 }
 
 class ParamComponent extends React.PureComponent<Props, State> {
@@ -33,7 +28,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
     Component: null
   };
 
-  static getDerivedStateFromProps ({ overrides, type }: Props): State {
+  static getDerivedStateFromProps ({ defaultValue: { type }, overrides }: Props): State {
     return {
       Component: !type
         ? null
@@ -48,16 +43,16 @@ class ParamComponent extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { className, defaultValue, index, name, onChange, style, type } = this.props;
-    const text = typeToString(type);
+    const { className, defaultValue, index, name, onChange, style } = this.props;
+    const type = typeToString(defaultValue.type);
 
     return (
       <Component
         className={classes('ui--Param', className)}
         defaultValue={defaultValue}
-        index={index}
-        key={`${name}:${text}:${index}}`}
-        label={`${name}: ${text} (${index})`}
+        key={`${name}:${type}:${index}}`}
+        label={`${name}: ${type} (${index})`}
+        name={name}
         onChange={onChange}
         style={style}
       />

@@ -30,9 +30,15 @@ type State = {
 };
 
 class Params extends React.PureComponent<Props, State> {
-  state: State = ({
-    onChangeParam: this.onChangeParam
-  }: $Shape<State>);
+  state: State;
+
+  constructor (props: Props) {
+    super(props);
+
+    this.state = ({
+      onChangeParam: this.onChangeParam
+    }: $Shape<State>);
+  }
 
   static getDerivedStateFromProps ({ item, onChange }: Props, { item: { name, section } = {}, onChangeParam }: State): $Shape<State> | null {
     if (name === item.name && section === item.section) {
@@ -80,6 +86,7 @@ class Params extends React.PureComponent<Props, State> {
           {paramNames.map((paramName, index) => (
             <Param
               defaultValue={values[index]}
+              index={index}
               key={`${name}:${paramName}:${index}`}
               name={paramName}
               onChange={handlers[index]}
@@ -92,13 +99,17 @@ class Params extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeParam = (at: number, next: RawParam): void => {
+  onChangeParam = (at: number, { isValid = false, value }: RawParam): void => {
     this.setState(
       (prevState: State): $Shape<State> => ({
-        values: prevState.values.map((value, index) =>
-          index === at
-            ? next
-            : value
+        values: prevState.values.map((prev, index) =>
+          index !== at
+            ? prev
+            : {
+              isValid,
+              type: prev.type,
+              value
+            }
         )
       }),
       this.notifyChange

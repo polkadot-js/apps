@@ -13,7 +13,8 @@ import Bare from './Bare';
 export default class Account extends React.PureComponent<Props> {
   render (): React$Node {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = (value: Uint8Array);
+    // flowlint-next-line unclear-type:off
+    const defaultValue = ((value: any): Uint8Array);
 
     return (
       <Bare

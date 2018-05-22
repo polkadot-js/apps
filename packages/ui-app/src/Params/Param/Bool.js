@@ -18,7 +18,8 @@ const options = [
 export default class Bool extends React.PureComponent<Props> {
   render (): React$Node {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = (value: boolean);
+    // flowlint-next-line unclear-type:off
+    const defaultValue = ((value: any): boolean);
 
     return (
       <Bare

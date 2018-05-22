@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 // @flow
-// flowlint sketchy-null-mixed:off
 
 import type { Props } from '../types';
 
@@ -20,7 +19,8 @@ const options = [
 export default class VoteThreshold extends React.PureComponent<Props> {
   render (): React$Node {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = (value: number);
+    // flowlint-next-line unclear-type:off
+    const defaultValue = ((value: any): number);
 
     return (
       <Bare

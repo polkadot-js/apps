@@ -4,7 +4,7 @@
 // @flow
 
 import type { Params } from '@polkadot/params/types';
-import type { RawParam } from './types';
+import type { RawParam, RawParam$ValueArray } from './types';
 
 import isUndefined from '@polkadot/util/is/undefined';
 
@@ -27,27 +27,31 @@ export default function values (params: Params): Array<RawParam> {
 
         return {
           isValid: false,
+          type,
           value: void 0
         };
       }
 
-      return type.reduce(({ isValid, value }, type) => {
-        // $FlowFixMe still not sure how to iterate through these
-        const avalue = getInitValue(type, {});
+      const value: RawParam$ValueArray = [];
+
+      return type.reduce(({ isValid, type }, subtype) => {
+        const avalue = getInitValue(subtype);
 
         value.push(avalue);
 
         return {
           isValid: isValid && !isUndefined(avalue),
+          type,
           value
         };
-      }, { isValid: true, value: [] });
+      }, { isValid: true, type, value });
     }
 
     const value = getInitValue(type);
 
     return {
       isValid: !isUndefined(value),
+      type,
       value
     };
   });

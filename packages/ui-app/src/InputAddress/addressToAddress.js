@@ -6,7 +6,7 @@
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
-export default function addressToAddress (value?: string | Uint8Array): ?string {
+export default function addressToAddress (value?: string | Uint8Array | null): ?string {
   // flowlint-next-line sketchy-null-string:off
   if (value) {
     try {
