@@ -19,6 +19,7 @@
     "@polkadot/app-addresses": "^0.6.2",
     "@polkadot/app-explorer": "^0.6.2",
     "@polkadot/app-extrinsics": "^0.6.2",
+    "@polkadot/app-rpc": "^0.6.2",
     "@polkadot/app-storage": "^0.6.2",
     "@polkadot/app-toolbox": "^0.6.2",
     "@polkadot/app-vanitygen": "^0.6.2",

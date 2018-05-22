@@ -11,7 +11,6 @@ import { accountKey } from '../defaults';
 import createOptions from '../options';
 
 export default function forgetAccount (state: State, address: string): void {
-  // $FlowFixMe oops, types not updated upstream
   state.keyring.removePair(address);
 
   store.remove(accountKey(address));

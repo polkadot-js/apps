@@ -14,7 +14,7 @@ import classes from '@polkadot/ui-app/util/classes';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import isHex from '@polkadot/util/is/hex';
 import u8aFromString from '@polkadot/util/u8a/fromString';
-import blake2AsHex256 from '@polkadot/util-crypto/blake2/asHex256';
+import blake2AsHex from '@polkadot/util-crypto/blake2/asHex';
 
 import translate from './translate';
 
@@ -27,7 +27,7 @@ type State = {
 class Hash extends React.PureComponent<Props, State> {
   state: State = {
     data: '',
-    hash: blake2AsHex256(u8aFromString('')),
+    hash: blake2AsHex(u8aFromString(''), 256),
     isHexData: false
   };
 
@@ -99,10 +99,11 @@ class Hash extends React.PureComponent<Props, State> {
 
   onChangeData = (data: string): void => {
     const isHexData = isHex(data);
-    const hash = blake2AsHex256(
+    const hash = blake2AsHex(
       isHexData
         ? hexToU8a(data)
-        : u8aFromString(data)
+        : u8aFromString(data),
+      256
     );
 
     this.setState({ data, hash, isHexData });
