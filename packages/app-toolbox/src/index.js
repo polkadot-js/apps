@@ -39,7 +39,7 @@ class App extends React.PureComponent<Props, State> {
   };
 
   render (): React$Node {
-    const { className, style, t } = this.props;
+    const { className, style } = this.props;
     const { action } = this.state;
     const Component = Components[action];
 
@@ -48,33 +48,42 @@ class App extends React.PureComponent<Props, State> {
         className={classes('toolbox--App', className)}
         style={style}
       >
-        <Button.Group className='accounts--App-navigation'>
-          <Button
-            isPrimary={action === 'hash'}
-            onClick={this.selectHash}
-            text={t('app.hash', {
-              defaultValue: 'Hash data'
-            })}
-          />
-          <Button.Or />
-          <Button
-            isPrimary={action === 'sign'}
-            onClick={this.selectSign}
-            text={t('app.sign', {
-              defaultValue: 'Sign message'
-            })}
-          />
-          <Button.Or />
-          <Button
-            isPrimary={action === 'verify'}
-            onClick={this.selectVerify}
-            text={t('app.verify', {
-              defaultValue: 'Verify signature'
-            })}
-          />
-        </Button.Group>
+        {this.renderButtons()}
         <Component />
       </div>
+    );
+  }
+
+  renderButtons (): React$Node {
+    const { t } = this.props;
+    const { action } = this.state;
+
+    return (
+      <Button.Group className='accounts--App-navigation'>
+        <Button
+          isPrimary={action === 'hash'}
+          onClick={this.selectHash}
+          text={t('app.hash', {
+            defaultValue: 'Hash data'
+          })}
+        />
+        <Button.Or />
+        <Button
+          isPrimary={action === 'sign'}
+          onClick={this.selectSign}
+          text={t('app.sign', {
+            defaultValue: 'Sign message'
+          })}
+        />
+        <Button.Or />
+        <Button
+          isPrimary={action === 'verify'}
+          onClick={this.selectVerify}
+          text={t('app.verify', {
+            defaultValue: 'Verify signature'
+          })}
+        />
+      </Button.Group>
     );
   }
 

@@ -62,8 +62,8 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   render (): React$Node {
-    const { className, style, t } = this.props;
-    const { address, isNameValid, isPassValid, isSeedValid, isValid, name, password, seed } = this.state;
+    const { className, style } = this.props;
+    const { address, isSeedValid } = this.state;
 
     return (
       <div
@@ -79,58 +79,76 @@ class Creator extends React.PureComponent<Props, State> {
                 : null
             }
           />
-          <div className='grow'>
-            <div className='ui--row'>
-              <Input
-                className='full'
-                isError={!isSeedValid}
-                label={t('creator.seed', {
-                  defaultValue: 'create from the following seed (hex or string)'
-                })}
-                onChange={this.onChangeSeed}
-                value={seed}
-              />
-            </div>
-            <div className='ui--row'>
-              <Input
-                className='full'
-                isError={!isNameValid}
-                label={t('creator.name', {
-                  defaultValue: 'name the account'
-                })}
-                onChange={this.onChangeName}
-                value={name}
-              />
-            </div>
-            <div className='ui--row'>
-              <Password
-                className='full'
-                isError={!isPassValid}
-                label={t('creator.password', {
-                  defaultValue: 'encrypt it using the password'
-                })}
-                onChange={this.onChangePass}
-                value={password}
-              />
-            </div>
-          </div>
+          {this.renderInput()}
         </div>
-        <Button.Group>
-          <Button
-            onClick={this.onDiscard}
-            text={t('creator.discard', {
-              defaultValue: 'Reset'
+        {this.renderButtons()}
+      </div>
+    );
+  }
+
+  renderButtons (): React$Node {
+    const { t } = this.props;
+    const { isValid } = this.state;
+
+    return (
+      <Button.Group>
+        <Button
+          onClick={this.onDiscard}
+          text={t('creator.discard', {
+            defaultValue: 'Reset'
+          })}
+        />
+        <Button
+          isDisabled={!isValid}
+          isPrimary
+          onClick={this.onCommit}
+          text={t('creator.save', {
+            defaultValue: 'Save'
+          })}
+        />
+      </Button.Group>
+    );
+  }
+
+  renderInput (): React$Node {
+    const { t } = this.props;
+    const { isNameValid, isPassValid, isSeedValid, name, password, seed } = this.state;
+
+    return (
+      <div className='grow'>
+        <div className='ui--row'>
+          <Input
+            className='full'
+            isError={!isSeedValid}
+            label={t('creator.seed', {
+              defaultValue: 'create from the following seed (hex or string)'
             })}
+            onChange={this.onChangeSeed}
+            value={seed}
           />
-          <Button
-            isDisabled={!isValid}
-            isPrimary
-            onClick={this.onCommit}
-            text={t('creator.save', {
-              defaultValue: 'Save'
+        </div>
+        <div className='ui--row'>
+          <Input
+            className='full'
+            isError={!isNameValid}
+            label={t('creator.name', {
+              defaultValue: 'name the account'
             })}
+            onChange={this.onChangeName}
+            value={name}
           />
-        </Button.Group>
+        </div>
+        <div className='ui--row'>
+          <Password
+            className='full'
+            isError={!isPassValid}
+            label={t('creator.password', {
+              defaultValue: 'encrypt it using the password'
+            })}
+            onChange={this.onChangePass}
+            value={password}
+          />
+        </div>
       </div>
     );
   }

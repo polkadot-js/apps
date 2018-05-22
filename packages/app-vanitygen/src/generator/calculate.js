@@ -5,26 +5,26 @@
 
 import type { Generator$Calculation, Generator$Options } from './types';
 
+function calculateAt (atOffset: number, test: Array<string>, address: string): Generator$Calculation {
+  return {
+    count: test.reduce((count, c, index) => {
+      if (index === count) {
+        count += (c === '?' || c === address.charAt(index + atOffset)) ? 1 : 0;
+      }
+
+      return count;
+    }, 0),
+    offset: atOffset
+  };
+}
+
 module.exports = function calculate (test: Array<string>, _address: string, { atOffset = -1, withCase = false }: Generator$Options): Generator$Calculation {
   const address = withCase
     ? _address
     : _address.toLowerCase();
 
-  const calculateAt = (atOffset: number): Generator$Calculation => {
-    return {
-      count: test.reduce((count, c, index) => {
-        if (index === count) {
-          count += (c === '?' || c === address.charAt(index + atOffset)) ? 1 : 0;
-        }
-
-        return count;
-      }, 0),
-      offset: atOffset
-    };
-  };
-
   if (atOffset > 0) {
-    return calculateAt(atOffset);
+    return calculateAt(atOffset, test, address);
   }
 
   const maxOffset = address.length - test.length - 1;
@@ -32,7 +32,7 @@ module.exports = function calculate (test: Array<string>, _address: string, { at
   let bestOffset = 1;
 
   for (let index = 1; index < maxOffset; index++) {
-    const { count, offset } = calculateAt(index);
+    const { count, offset } = calculateAt(index, test, address);
 
     if (count > bestCount) {
       bestCount = count;

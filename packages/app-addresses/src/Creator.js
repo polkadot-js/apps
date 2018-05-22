@@ -39,8 +39,8 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   render (): React$Node {
-    const { className, style, t } = this.props;
-    const { address, isAddressValid, isNameValid, isValid, name } = this.state;
+    const { className, style } = this.props;
+    const { address } = this.state;
 
     return (
       <div
@@ -52,47 +52,65 @@ class Creator extends React.PureComponent<Props, State> {
             className='shrink'
             value={address}
           />
-          <div className='grow'>
-            <div className='ui--row'>
-              <Input
-                className='full'
-                isError={!isAddressValid}
-                label={t('creator.address', {
-                  defaultValue: 'add the following address'
-                })}
-                onChange={this.onChangeAddress}
-                value={address}
-              />
-            </div>
-            <div className='ui--row'>
-              <Input
-                className='full'
-                isError={!isNameValid}
-                label={t('creator.name', {
-                  defaultValue: 'name the entry'
-                })}
-                onChange={this.onChangeName}
-                value={name}
-              />
-            </div>
-          </div>
+          {this.renderInput()}
         </div>
-        <Button.Group>
-          <Button
-            onClick={this.onDiscard}
-            text={t('creator.discard', {
-              defaultValue: 'Reset'
+        {this.renderButtons()}
+      </div>
+    );
+  }
+
+  renderButtons (): React$Node {
+    const { t } = this.props;
+    const { isValid } = this.state;
+
+    return (
+      <Button.Group>
+        <Button
+          onClick={this.onDiscard}
+          text={t('creator.discard', {
+            defaultValue: 'Reset'
+          })}
+        />
+        <Button
+          isDisabled={!isValid}
+          isPrimary
+          onClick={this.onCommit}
+          text={t('creator.save', {
+            defaultValue: 'Save'
+          })}
+        />
+      </Button.Group>
+    );
+  }
+
+  renderInput (): React$Node {
+    const { t } = this.props;
+    const { address, isAddressValid, isNameValid, name } = this.state;
+
+    return (
+      <div className='grow'>
+        <div className='ui--row'>
+          <Input
+            className='full'
+            isError={!isAddressValid}
+            label={t('creator.address', {
+              defaultValue: 'add the following address'
             })}
+            onChange={this.onChangeAddress}
+            value={address}
           />
-          <Button
-            isDisabled={!isValid}
-            isPrimary
-            onClick={this.onCommit}
-            text={t('creator.save', {
-              defaultValue: 'Save'
+        </div>
+        <div className='ui--row'>
+          <Input
+            className='full'
+            isError={!isNameValid}
+            label={t('creator.name', {
+              defaultValue: 'name the entry'
             })}
+            onChange={this.onChangeName}
+            value={name}
           />
-        </Button.Group>
+        </div>
       </div>
     );
   }

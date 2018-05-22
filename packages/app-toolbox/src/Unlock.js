@@ -61,7 +61,6 @@ class Unlock extends React.PureComponent<Props, State> {
 
   render (): React$Node {
     const { className, isVisible, style, t } = this.props;
-    const { address, password, unlockError } = this.state;
 
     if (!isVisible) {
       return null;
@@ -79,54 +78,71 @@ class Unlock extends React.PureComponent<Props, State> {
             defaultValue: 'Unlock account'
           })}
         </Modal.Header>
-        <Modal.Content>
-          <div className='toolbox--Unlock-Content'>
-            <div className='expanded'>
-              <p>
-                <Trans i18nkey='unlock.info'>
-                  You are about to unlock your account <span className='code'>{address}</span> to allow for the signing of messages.
-                </Trans>
-              </p>
-            </div>
-            <IdentityIcon
-              className='icon'
-              value={address}
-            />
-          </div>
-          <div className='toolbox--Unlock-Entry'>
-            <div className='ui--row'>
-              <Password
-                className='medium'
-                isError={!!unlockError}
-                label={t('unlock.password', {
-                  defaultValue: 'unlock account using'
-                })}
-                onChange={this.onChangePassword}
-                value={password}
-              />
-            </div>
-          </div>
-        </Modal.Content>
-        <Modal.Actions>
-          <Button.Group>
-            <Button
-              isNegative
-              onClick={this.onCancel}
-              text={t('unlock.cancel', {
-                defaultValue: 'Cancel'
-              })}
-            />
-            <Button.Or />
-            <Button
-              isPrimary
-              onClick={this.onUnlock}
-              text={t('unlock.doit', {
-                defaultValue: 'Unlock'
-              })}
-            />
-          </Button.Group>
-        </Modal.Actions>
+        {this.renderContent()}
+        {this.renderActions()}
       </Modal>
+    );
+  }
+
+  renderActions (): React$Node {
+    const { t } = this.props;
+
+    return (
+      <Modal.Actions>
+        <Button.Group>
+          <Button
+            isNegative
+            onClick={this.onCancel}
+            text={t('unlock.cancel', {
+              defaultValue: 'Cancel'
+            })}
+          />
+          <Button.Or />
+          <Button
+            isPrimary
+            onClick={this.onUnlock}
+            text={t('unlock.doit', {
+              defaultValue: 'Unlock'
+            })}
+          />
+        </Button.Group>
+      </Modal.Actions>
+    );
+  }
+
+  renderContent (): React$Node {
+    const { t } = this.props;
+    const { address, password, unlockError } = this.state;
+
+    return (
+      <Modal.Content>
+        <div className='toolbox--Unlock-Content'>
+          <div className='expanded'>
+            <p>
+              <Trans i18nkey='unlock.info'>
+                You are about to unlock your account <span className='code'>{address}</span> to allow for the signing of messages.
+              </Trans>
+            </p>
+          </div>
+          <IdentityIcon
+            className='icon'
+            value={address}
+          />
+        </div>
+        <div className='toolbox--Unlock-Entry'>
+          <div className='ui--row'>
+            <Password
+              className='medium'
+              isError={!!unlockError}
+              label={t('unlock.password', {
+                defaultValue: 'unlock account using'
+              })}
+              onChange={this.onChangePassword}
+              value={password}
+            />
+          </div>
+        </div>
+      </Modal.Content>
     );
   }
 

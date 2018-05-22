@@ -55,7 +55,7 @@ export default class Address extends React.PureComponent<Props, State> {
 
   render (): React$Node {
     const { className, style } = this.props;
-    const { address, isValid, publicKey, shortValue } = this.state;
+    const { address, isValid, shortValue } = this.state;
 
     return (
       <div
@@ -73,26 +73,32 @@ export default class Address extends React.PureComponent<Props, State> {
           </div>
           <CopyButton value={address} />
         </div>
-        {
-          !isValid
-            ? null
-            : [
-              <Balance
-                className='accounts--Address-balance'
-                key='balance'
-                label='balance '
-                params={publicKey}
-              />,
-              <Nonce
-                className='accounts--Address-nonce'
-                key='nonce'
-                params={publicKey}
-              >
-                {' transactions'}
-              </Nonce>
-            ]
-        }
+        {this.renderBalance()}
       </div>
     );
+  }
+
+  renderBalance (): React$Node {
+    const { isValid, publicKey } = this.state;
+
+    if (!isValid) {
+      return null;
+    }
+
+    return [
+      <Balance
+        className='accounts--Address-balance'
+        key='balance'
+        label='balance '
+        params={publicKey}
+      />,
+      <Nonce
+        className='accounts--Address-nonce'
+        key='nonce'
+        params={publicKey}
+      >
+        {' transactions'}
+      </Nonce>
+    ];
   }
 }

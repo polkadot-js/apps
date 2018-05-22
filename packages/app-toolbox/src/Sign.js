@@ -58,82 +58,116 @@ class Sign extends React.PureComponent<Props, State> {
   }
 
   render (): React$Node {
-    const { className, style, t } = this.props;
-    const { currentPair, data, defaultPublicKey, isHexData, isLocked, isUnlockVisible, signature } = this.state;
+    const { className, style } = this.props;
+    const { currentPair, isUnlockVisible } = this.state;
 
     return (
       <div
         className={classes('toolbox--Sign', className)}
         style={style}
       >
-        <div className='ui--row'>
-          <InputAddress
-            className='full'
-            defaultValue={defaultPublicKey}
-            isInput={false}
-            label={t('sign.account', {
-              defaultValue: 'using my account'
-            })}
-            onChange={this.onChangeAccount}
-            type='account'
-          />
-        </div>
-        <div className='ui--row'>
-          <Input
-            className='large'
-            label={t('sign.data', {
-              defaultValue: 'sign the following data (hex or string)'
-            })}
-            onChange={this.onChangeData}
-            value={data}
-          />
-          <Static
-            className='small'
-            label={t('sign.isHex', {
-              defaultValue: 'hex input data'
-            })}
-            value={
-              isHexData
-                ? t('sign.isHex.yes', {
-                  defaultValue: 'Yes'
-                })
-                : t('sign.isHex.no', {
-                  defaultValue: 'No'
-                })
-            }
-          />
-        </div>
-        <div className='ui--row'>
-          <Output
-            className='full toolbox--hex'
-            isHidden={signature.length === 0}
-            label={t('sign.signed', {
-              defaultValue: 'signature of supplied data'
-            })}
-            value={signature}
-            withCopy
-          />
-        </div>
+        {this.renderAccount()}
+        {this.renderInput()}
+        {this.renderSignature()}
         <Unlock
           isVisible={isUnlockVisible}
           onClose={this.toggleUnlock}
           pair={currentPair}
         />
-        {
-          isLocked
-            ? (
-              <Button.Group>
-                <Button
-                  isPrimary
-                  onClick={this.toggleUnlock}
-                  text={t('sign.unlock', {
-                    defaultValue: 'Unlock account'
-                  })}
-                />
-              </Button.Group>
-            )
-            : null
-        }
+        {this.renderButtons()}
+      </div>
+    );
+  }
+
+  renderAccount (): React$Node {
+    const { t } = this.props;
+    const { defaultPublicKey } = this.state;
+
+    return (
+      <div className='ui--row'>
+        <InputAddress
+          className='full'
+          defaultValue={defaultPublicKey}
+          isInput={false}
+          label={t('sign.account', {
+            defaultValue: 'using my account'
+          })}
+          onChange={this.onChangeAccount}
+          type='account'
+        />
+      </div>
+    );
+  }
+
+  renderButtons (): React$Node {
+    const { t } = this.props;
+    const { isLocked } = this.state;
+
+    if (!isLocked) {
+      return null;
+    }
+
+    return (
+      <Button.Group>
+        <Button
+          isPrimary
+          onClick={this.toggleUnlock}
+          text={t('sign.unlock', {
+            defaultValue: 'Unlock account'
+          })}
+        />
+      </Button.Group>
+    );
+  }
+
+  renderInput (): React$Node {
+    const { t } = this.props;
+    const { data, isHexData } = this.state;
+
+    return (
+      <div className='ui--row'>
+        <Input
+          className='large'
+          label={t('sign.data', {
+            defaultValue: 'sign the following data (hex or string)'
+          })}
+          onChange={this.onChangeData}
+          value={data}
+        />
+        <Static
+          className='small'
+          label={t('sign.isHex', {
+            defaultValue: 'hex input data'
+          })}
+          value={
+            isHexData
+              ? t('sign.isHex.yes', {
+                defaultValue: 'Yes'
+              })
+              : t('sign.isHex.no', {
+                defaultValue: 'No'
+              })
+          }
+        />
+      </div>
+    );
+  }
+
+  renderSignature (): React$Node {
+    const { t } = this.props;
+    const { signature } = this.state;
+
+    return (
+      <div className='ui--row'>
+        <Output
+          className='full toolbox--hex'
+          isHidden={signature.length === 0}
+          label={t('sign.signed', {
+            defaultValue: 'signature of supplied data'
+          })}
+          value={signature}
+          withCopy
+        />
       </div>
     );
   }

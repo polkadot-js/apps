@@ -45,86 +45,100 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   render (): React$Node {
-    const { className, style, t } = this.props;
-    const { currentAddress, defaultPublicKey, editedName, isEdited } = this.state;
-
-    if (!currentAddress) {
-      return (
-        <div
-          className={classes('addresses--Editor', className)}
-          style={style}
-        >
-          {t('editor.none', {
-            defaultValue: 'There are no saved addresses. Add some first.'
-          })}
-        </div>
-      );
-    }
-
-    const address = currentAddress.address();
+    const { className, style } = this.props;
 
     return (
       <div
         className={classes('addresses--Editor', className)}
         style={style}
       >
-        <div className='ui--grid'>
-          <Address
-            className='shrink'
-            value={address}
-          />
-          <div className='grow'>
-            <div className='ui--row'>
-              <InputAddress
-                className='full'
-                defaultValue={defaultPublicKey}
-                hideAddress
-                isInput={false}
-                label={t('editor.select', {
-                  defaultValue: 'edit the selected address'
-                })}
-                onChange={this.onChangeAddress}
-                type='address'
-                value={address}
-              />
-            </div>
-            <div className='ui--row'>
-              <Input
-                className='full'
-                label={t('editor.name', {
-                  defaultValue: 'identified by the name'
-                })}
-                onChange={this.onChangeName}
-                value={editedName}
-              />
-            </div>
+        {this.renderData()}
+        {this.renderButtons()}
+      </div>
+    );
+  }
+
+  renderButtons (): React$Node {
+    const { t } = this.props;
+    const { currentAddress, isEdited } = this.state;
+
+    if (!currentAddress) {
+      return null;
+    }
+
+    return (
+      <Button.Group>
+        <Button
+          isNegative
+          onClick={this.onForget}
+          text={t('editor.forget', {
+            defaultValue: 'Forget'
+          })}
+        />
+        <Button.Group.Divider />
+        <Button
+          isDisabled={!isEdited}
+          onClick={this.onDiscard}
+          text={t('editor.reset', {
+            defaultValue: 'Reset'
+          })}
+        />
+        <Button
+          isDisabled={!isEdited}
+          isPrimary
+          onClick={this.onCommit}
+          text={t('editor.save', {
+            defaultValue: 'Save'
+          })}
+        />
+      </Button.Group>
+    );
+  }
+
+  renderData (): React$Node {
+    const { t } = this.props;
+    const { currentAddress, defaultPublicKey, editedName } = this.state;
+
+    if (!currentAddress) {
+      return t('editor.none', {
+        defaultValue: 'There are no saved addresses. Add some first.'
+      });
+    }
+
+    const address = currentAddress.address();
+
+    return (
+      <div className='ui--grid'>
+        <Address
+          className='shrink'
+          value={address}
+        />
+        <div className='grow'>
+          <div className='ui--row'>
+            <InputAddress
+              className='full'
+              defaultValue={defaultPublicKey}
+              hideAddress
+              isInput={false}
+              label={t('editor.select', {
+                defaultValue: 'edit the selected address'
+              })}
+              onChange={this.onChangeAddress}
+              type='address'
+              value={address}
+            />
+          </div>
+          <div className='ui--row'>
+            <Input
+              className='full'
+              label={t('editor.name', {
+                defaultValue: 'identified by the name'
+              })}
+              onChange={this.onChangeName}
+              value={editedName}
+            />
           </div>
         </div>
-        <Button.Group>
-          <Button
-            isNegative
-            onClick={this.onForget}
-            text={t('editor.forget', {
-              defaultValue: 'Forget'
-            })}
-          />
-          <Button.Group.Divider />
-          <Button
-            isDisabled={!isEdited}
-            onClick={this.onDiscard}
-            text={t('editor.reset', {
-              defaultValue: 'Reset'
-            })}
-          />
-          <Button
-            isDisabled={!isEdited}
-            isPrimary
-            onClick={this.onCommit}
-            text={t('editor.save', {
-              defaultValue: 'Save'
-            })}
-          />
-        </Button.Group>
       </div>
     );
   }
