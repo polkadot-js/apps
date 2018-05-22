@@ -45,7 +45,7 @@ export default class Bytes extends React.PureComponent<Props> {
   }
 
   onChange = (hex: string): void => {
-    const { index, length = -1, onChange, validate = defaultValidate } = this.props;
+    const { length = -1, onChange, validate = defaultValidate } = this.props;
 
     let u8a;
 
@@ -59,7 +59,7 @@ export default class Bytes extends React.PureComponent<Props> {
       ? u8a.length === length
       : u8a.length !== 0;
 
-    onChange(index, {
+    onChange({
       isValid: isValidLength && validate(u8a),
       value: u8a
     });

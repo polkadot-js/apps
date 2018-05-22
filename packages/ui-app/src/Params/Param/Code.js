@@ -31,9 +31,9 @@ export default class Code extends React.PureComponent<Props> {
 
   // TODO: Validate that we have actual proper WASM code
   onChange = (value: Uint8Array): void => {
-    const { index, onChange } = this.props;
+    const { onChange } = this.props;
 
-    onChange(index, {
+    onChange({
       isValid: value.length !== 0,
       value: u8aConcat(bnToU8a(value.length, 32, true), value)
     });

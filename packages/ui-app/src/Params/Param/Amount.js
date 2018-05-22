@@ -4,7 +4,7 @@
 // @flow
 // flowlint sketchy-null-mixed:off,sketchy-null-number:off
 
-import type { Props } from '../types';
+import type { Props as BaseProps } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -12,9 +12,15 @@ import React from 'react';
 import Input from '../../Input';
 import Bare from './Bare';
 
+type Props = BaseProps & {
+  maxValue?: number,
+  minValue?: number
+};
+
 export default class Amount extends React.PureComponent<Props> {
   render (): React$Node {
-    const { className, isDisabled, isError, label, style, value: { options: { initValue = 0, maxValue, minValue = 0 } = {} }, withLabel } = this.props;
+    const { className, defaultValue: { value }, isDisabled, isError, label, maxValue, minValue = 0, style, withLabel } = this.props;
+    const defaultValue = (value: BN).toNumber();
 
     return (
       <Bare
@@ -23,7 +29,7 @@ export default class Amount extends React.PureComponent<Props> {
       >
         <Input
           className='small'
-          defaultValue={initValue || minValue}
+          defaultValue={defaultValue || minValue}
           isDisabled={isDisabled}
           isError={isError}
           label={label}
@@ -38,11 +44,11 @@ export default class Amount extends React.PureComponent<Props> {
   }
 
   onChange = (value: number): void => {
-    const { index, onChange, value: { options: { minValue = 0 } = {} } } = this.props;
+    const { onChange, minValue = 0 } = this.props;
 
-    onChange(index, {
+    onChange({
       isValid: true,
-      value: new BN(value || minValue || 0)
+      value: new BN(value || minValue)
     });
   }
 }

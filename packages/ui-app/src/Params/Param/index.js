@@ -3,9 +3,9 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Param } from '@polkadot/params/types';
+import type { Param$Types } from '@polkadot/params/types';
 import type { I18nProps } from '../../types';
-import type { Props as ComponentProps, ComponentsTyped, ComponentMap, RawParam } from '../types';
+import type { ComponentProps, ComponentMap, RawParam } from '../types';
 
 import React from 'react';
 
@@ -14,110 +14,54 @@ import typeToString from '@polkadot/params/typeToString';
 import classes from '../../util/classes';
 import translate from '../../translate';
 import findComponent from './findComponent';
-import Unknown from './Unknown';
 
 type Props = I18nProps & {
   index: number,
+  name: Stringg,
   overrides?: ComponentMap,
   onChange: (index: number, value: RawParam) => void,
-  value: Param & {
-    name: string
-  };
+  type: Param$Types,
+  value: RawParam
 };
 
 type State = {
-  Components: ComponentsTyped | null
+  Component: React$ComponentType<ComponentProps> | null
 }
 
 class ParamComponent extends React.PureComponent<Props, State> {
   state: State = {
-    Components: []
+    Component: null
   };
 
-  static getDerivedStateFromProps ({ overrides, value: { type } = {} }: Props): State {
+  static getDerivedStateFromProps ({ overrides, type }: Props): State {
     return {
-      Components: !type
+      Component: !type
         ? null
         : findComponent(type, overrides)
     };
   }
 
   render (): React$Node {
-    const { Components } = this.state;
+    const { Component } = this.state;
 
-    if (Components === null) {
+    if (Component === null) {
       return null;
     }
 
-    const { value: { type } } = this.props;
-
-    // FIXME We don't handle array or tuple inputs atm
-    return Array.isArray(type)
-      ? this.renderUnknown()
-      : this.renderComponents(Components);
-  }
-
-  renderComponents (Components: ComponentsTyped | null, startIndex: string = '0', { name, options } = this.props.value) {
-    if (!Components) {
-      return null;
-    }
-
-    const { className, index, onChange, style } = this.props;
-
-    if (Array.isArray(Components)) {
-      return Components.map((_Components, index) => {
-        return this.renderComponents(Components, `${startIndex}-${index}`, {
-          name,
-          options: {}
-        });
-      });
-    }
-
-    const { Component, type } = Components;
-
-    return this.renderComponent(Component, startIndex, {
-      className,
-      index,
-      name,
-      onChange,
-      options,
-      style,
-      type
-    });
-  }
-
-  renderComponent (Component: React$ComponentType<ComponentProps>, sub: string, props: $Shape<ComponentProps>): React$Node {
-    const { className, index, name, onChange, options = {}, style, type } = props;
+    const { className, defaultValue, index, name, onChange, style, type } = this.props;
     const text = typeToString(type);
 
     return (
       <Component
         className={classes('ui--Param', className)}
+        defaultValue={defaultValue}
         index={index}
         key={`${name}:${text}:${index}}`}
         label={`${name}: ${text} (${index})`}
         onChange={onChange}
         style={style}
-        value={{
-          name,
-          options,
-          type
-        }}
       />
     );
-  }
-
-  renderUnknown (): React$Node {
-    const { className, index, onChange, style, value: { name, type } = {} } = this.props;
-
-    return this.renderComponent(Unknown, '0', {
-      className,
-      index,
-      name,
-      onChange,
-      style,
-      type
-    });
   }
 }
 

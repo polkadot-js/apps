@@ -89,10 +89,10 @@ export default class KeyValue extends React.PureComponent<Props, State> {
 
   nextState (newState: $Shape<State>): void {
     this.setState(
-      (prevState: State, { index, onChange }: Props) => {
+      (prevState: State, { onChange }: Props) => {
         const { key = prevState.key, value = prevState.value } = newState;
 
-        onChange(index, {
+        onChange({
           isValid: key.isValid && value.isValid,
           value: u8aConcat(
             u8aConcat(bnToU8a(key.u8a.length, 32, true), key.u8a),

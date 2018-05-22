@@ -50,9 +50,9 @@ class CExtrinsic extends React.PureComponent<Props> {
   }
 
   onChange = ({ isValid, value }: EncodedMessage): void => {
-    const { index, onChange } = this.props;
+    const { onChange } = this.props;
 
-    onChange(index, {
+    onChange({
       isValid,
       value
     });

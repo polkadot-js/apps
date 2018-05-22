@@ -3,19 +3,16 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Props as BaseProps } from '@polkadot/ui-app/Params/types';
+import type { Props } from '@polkadot/ui-app/Params/types';
 
 import React from 'react';
 
 import BaseAccount from '../Account';
 
-type Props = BaseProps & {
-  defaultValue?: Uint8Array
-};
-
 export default class Account extends React.PureComponent<Props> {
   render (): React$Node {
-    const { className, defaultValue, isDisabled, isError, label, style, withLabel } = this.props;
+    const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
+    const defaultValue = (value: Uint8Array);
 
     return (
       <BaseAccount
@@ -33,9 +30,9 @@ export default class Account extends React.PureComponent<Props> {
   }
 
   onChange = (value?: Uint8Array): void => {
-    const { index, onChange } = this.props;
+    const { onChange } = this.props;
 
-    onChange(index, {
+    onChange({
       isValid: !!value && value.length === 32,
       value
     });

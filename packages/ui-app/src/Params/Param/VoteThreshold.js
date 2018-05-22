@@ -19,8 +19,8 @@ const options = [
 
 export default class VoteThreshold extends React.PureComponent<Props> {
   render (): React$Node {
-    const { className, isDisabled, isError, label, style, value: { options: { initValue = 0 } = {} }, withLabel } = this.props;
-    const defaultValue = initValue || 0;
+    const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
+    const defaultValue = (value: number);
 
     return (
       <Bare
@@ -42,9 +42,9 @@ export default class VoteThreshold extends React.PureComponent<Props> {
   }
 
   onChange = (value: number): void => {
-    const { index, onChange } = this.props;
+    const { onChange } = this.props;
 
-    onChange(index, {
+    onChange({
       isValid: true,
       value
     });

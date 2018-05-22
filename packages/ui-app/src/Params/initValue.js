@@ -8,14 +8,11 @@ import type { Param$Type } from '@polkadot/params/types';
 
 import BN from 'bn.js';
 
-type Options = {
-  initValue?: mixed,
-  minValue?: mixed
-};
-
-export default function getInitValue (type: Param$Type, { initValue, minValue }: Options = {}): ?mixed {
+export default function getInitValue (type: Param$Type): ?mixed {
   switch (type) {
     case 'Balance':
+      return new BN(1);
+
     case 'BlockNumber':
     case 'Index':
     case 'SessionKey':
@@ -24,15 +21,15 @@ export default function getInitValue (type: Param$Type, { initValue, minValue }:
     case 'ReferendumIndex':
     case 'u32':
     case 'VoteIndex':
-      return new BN(initValue || minValue || 0);
+      return new BN(0);
 
     case 'bool':
-      return initValue || false;
+      return false;
 
     case 'VoteThreshold':
-      return initValue || 0;
+      return 0;
 
     default:
-      return initValue;
+      return void 0;
   }
 }

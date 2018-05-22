@@ -3,48 +3,39 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Param$Type, Param$Types } from '@polkadot/params/types';
+import type { Param$Type, Param$Types, Param$Value } from '@polkadot/params/types';
 import type { BareProps } from '../types';
 
 export type RawParam = {
   isValid: boolean,
-  value: mixed,
+  value: Param$Value,
 }
+
+export type RawParam$OnChange = (value: RawParam) => void;
 
 export type RawParams = Array<RawParam>;
 
-export type BaseProps$Options = {
-  initValue?: mixed,
-  minValue?: mixed,
-  maxValue?: mixed
-};
-
 export type BaseProps = BareProps & {
-  onChange: (index: number, value: RawParam) => void,
-  value: {
-    name: string,
-    options?: BaseProps$Options,
-    type: Param$Types
-  }
+  name: string,
+  onChange: RawParam$OnChange,
+  type: Param$Types
 };
 
 export type Props = BaseProps & {
   isDisabled?: boolean,
   isError?: boolean,
-  index: number,
   label: string,
   withLabel?: boolean
 };
 
+export type ComponentProps$Extra = {
+  [string]: mixed
+}
+
+export type ComponentProps = Props & ComponentProps$Extra;
+
 export type Size = 'full' | 'large' | 'medium' | 'small';
 
-export type ComponentTyped = {
-  Component: React$ComponentType<Props>,
-  type: Param$Type
-};
-export type ComponentTyped$Array = Array<ComponentTyped | ComponentTyped$Array>;
-export type ComponentsTyped = ComponentTyped | ComponentTyped$Array;
-
 export type ComponentMap = {
-  [Param$Type]: React$ComponentType<Props>
+  [Param$Type]: React$ComponentType<ComponentProps>
 };
