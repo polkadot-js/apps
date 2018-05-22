@@ -63,17 +63,11 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   render (): React$Node {
-    const { className, item, overrides, style } = this.props;
+    const { className, item: { name, params = {} }, overrides, style } = this.props;
     const { handlers, values } = this.state;
-
-    if (!values.length) {
-      return null;
-    }
-
-    const { name, params = {} } = item;
     const paramNames = Object.keys(params);
 
-    if (paramNames.length === 0) {
+    if (values.length === 0 || paramNames.length === 0) {
       return null;
     }
 

@@ -32,50 +32,67 @@ class Hash extends React.PureComponent<Props, State> {
   };
 
   render (): React$Node {
-    const { className, style, t } = this.props;
-    const { data, hash, isHexData } = this.state;
+    const { className, style } = this.props;
 
     return (
       <div
         className={classes('toolbox--Hash', className)}
         style={style}
       >
-        <div className='ui--row'>
-          <Input
-            className='large'
-            label={t('hash.data', {
-              defaultValue: 'from the following data (hex or string)'
-            })}
-            onChange={this.onChangeData}
-            value={data}
-          />
-          <Static
-            className='small'
-            label={t('hash.isHex', {
-              defaultValue: 'hex input data'
-            })}
-            value={
-              isHexData
-                ? t('hash.isHex.yes', {
-                  defaultValue: 'Yes'
-                })
-                : t('hash.isHex.no', {
-                  defaultValue: 'No'
-                })
-            }
-          />
-        </div>
-        <div className='ui--row'>
-          <Output
-            className='full toolbox--hex'
-            isHidden={hash.length === 0}
-            label={t('hash.output', {
-              defaultValue: 'the resulting hash is'
-            })}
-            value={hash}
-            withCopy
-          />
-        </div>
+        {this.renderInput()}
+        {this.renderOutput()}
+      </div>
+    );
+  }
+
+  renderInput (): React$Node {
+    const { t } = this.props;
+    const { data, isHexData } = this.state;
+
+    return (
+      <div className='ui--row'>
+        <Input
+          className='large'
+          label={t('hash.data', {
+            defaultValue: 'from the following data (hex or string)'
+          })}
+          onChange={this.onChangeData}
+          value={data}
+        />
+        <Static
+          className='small'
+          label={t('hash.isHex', {
+            defaultValue: 'hex input data'
+          })}
+          value={
+            isHexData
+              ? t('hash.isHex.yes', {
+                defaultValue: 'Yes'
+              })
+              : t('hash.isHex.no', {
+                defaultValue: 'No'
+              })
+          }
+        />
+      </div>
+    );
+  }
+
+  renderOutput (): React$Node {
+    const { t } = this.props;
+    const { hash } = this.state;
+
+    return (
+      <div className='ui--row'>
+        <Output
+          className='full toolbox--hex'
+          isHidden={hash.length === 0}
+          label={t('hash.output', {
+            defaultValue: 'the resulting hash is'
+          })}
+          value={hash}
+          withCopy
+        />
       </div>
     );
   }

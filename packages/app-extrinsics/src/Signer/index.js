@@ -90,25 +90,33 @@ class Signer extends React.PureComponent<Props, State> {
           />
         </Modal.Content>
         <Modal.Actions>
-          <Button.Group>
-            <Button
-              isNegative
-              onClick={this.onCancel}
-              text={t('signer.cancel', {
-                defaultValue: 'Cancel'
-              })}
-            />
-            <Button.Or />
-            <Button
-              isPrimary
-              onClick={this.onSign}
-              text={t('signer.send', {
-                defaultValue: 'Sign and Submit'
-              })}
-            />
-          </Button.Group>
+          {this.renderButtons()}
         </Modal.Actions>
       </Modal>
+    );
+  }
+
+  renderButtons (): React$Node {
+    const { t } = this.props;
+
+    return (
+      <Button.Group>
+        <Button
+          isNegative
+          onClick={this.onCancel}
+          text={t('signer.cancel', {
+            defaultValue: 'Cancel'
+          })}
+        />
+        <Button.Or />
+        <Button
+          isPrimary
+          onClick={this.onSign}
+          text={t('signer.send', {
+            defaultValue: 'Sign and Submit'
+          })}
+        />
+      </Button.Group>
     );
   }
 

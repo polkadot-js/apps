@@ -8,17 +8,7 @@ import type { State, KeyringJson } from '../types';
 import createItem from './item';
 import createHeader from './header';
 
-export default function createOptions (state: State): void {
-  state.options = {
-    account: [],
-    address: [],
-    all: [],
-    recent: [],
-    testing: []
-  };
-
-  const { available, keyring, options } = state;
-
+function addPairs ({ available, keyring }: State): void {
   keyring
     .getPairs()
     .forEach((pair) => {
@@ -29,10 +19,12 @@ export default function createOptions (state: State): void {
         meta: pair.getMeta()
       };
     });
+}
 
+function addAccounts ({ available, options }: State): void {
   Object
-    .values(available.account)
-    // $FlowFixMe values() -> mixed, this is an object
+    .keys(available.account)
+    .map((address) => available.account[address])
     .forEach(({ address, meta: { name, isTesting = false } }: KeyringJson) => {
       const option = createItem(address, name);
 
@@ -42,10 +34,12 @@ export default function createOptions (state: State): void {
         options.account.push(option);
       }
     });
+}
 
+function addAddresses ({ available, options }: State): void {
   Object
-    .values(available.address)
-    // $FlowFixMe values() -> mixed, this is an object
+    .keys(available.address)
+    .map((address) => available.address[address])
     .forEach(({ address, meta: { name, isRecent = false } }: KeyringJson) => {
       if (available.account[address]) {
         return;
@@ -59,6 +53,22 @@ export default function createOptions (state: State): void {
         options.address.push(option);
       }
     });
+}
+
+export default function createOptions (state: State): void {
+  state.options = {
+    account: [],
+    address: [],
+    all: [],
+    recent: [],
+    testing: []
+  };
+
+  addPairs(state);
+  addAccounts(state);
+  addAddresses(state);
+
+  const { options } = state;
 
   options.address = [].concat(
     options.address.length ? [ createHeader('Addresses') ] : [],
