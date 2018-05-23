@@ -80,16 +80,26 @@ class Signer extends React.PureComponent<Props, State> {
     const { api } = this.props;
     const { currentItem } = this.state;
 
-    return (
-      <Extrinsic
-        api={api}
-        cancelTx={this.onCancel}
-        sendTx={this.onSend}
-        value={currentItem}
-      >
-        {this.renderUnlock()}
-      </Extrinsic>
-    );
+    if (!currentItem) {
+      return null;
+    }
+
+    switch (currentItem.type) {
+      case 'extrinsic':
+        return (
+          <Extrinsic
+            api={api}
+            cancelTx={this.onCancel}
+            sendTx={this.onSend}
+            value={currentItem}
+          >
+            {this.renderUnlock()}
+          </Extrinsic>
+        );
+      default:
+        (type: empty); // eslint-disable-line
+        return null;
+    }
   }
 
   renderUnlock (): React$Node {

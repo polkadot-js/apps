@@ -3,7 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { KeyringOption$Type } from '@polkadot/ui-keyring/types';
 import type { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
@@ -19,11 +18,7 @@ import translate from './translate';
 type Props = I18nProps & {
   defaultValue?: Uint8Array,
   isError?: boolean,
-  isInput?: boolean,
-  label: string,
-  onChange: (publicKey: Uint8Array, nonce: BN) => void,
-  type?: KeyringOption$Type,
-  withLabel?: boolean
+  onChange: (publicKey: Uint8Array, nonce: BN) => void
 };
 
 type State = {
@@ -44,32 +39,31 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render (): React$Node {
-    const { className, defaultValue, isError, isInput, label, style, t, type, withLabel } = this.props;
+    const { className, defaultValue, isError, style, t } = this.props;
     const { publicKey } = this.state;
 
     return (
       <div
-        className={classes('extrinsics--Account', 'ui--row', className)}
+        className={classes('rpc--Account', 'ui--row', className)}
         style={style}
       >
         <div className='large'>
           <InputAddress
             defaultValue={defaultValue}
             isError={isError}
-            isInput={isInput}
-            label={label}
+            label={t('account.address', {
+              defaultValue: 'sign data from account'
+            })}
             onChange={this.onChangeAccount}
             placeholder='0x...'
-            type={type}
-            withLabel={withLabel}
+            type='account'
           />
         </div>
         <Labelled
           className='small'
           label={t('account.nonce', {
-            defaultValue: 'with an next nonce of'
+            defaultValue: 'with an index of'
           })}
-          withLabel={withLabel}
         >
           <Nonce
             className='ui disabled dropdown selection'

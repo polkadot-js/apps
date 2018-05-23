@@ -5,8 +5,11 @@
 
 import type BN from 'bn.js';
 
+export type EncodedMessage$Type = 'extrinsic';
+
 export type EncodedMessage = {
   isValid: boolean,
+  type: EncodedMessage$Type,
   value: Uint8Array
 };
 

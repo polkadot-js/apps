@@ -13,6 +13,7 @@ import BN from 'bn.js';
 import React from 'react';
 
 import rpc from '@polkadot/jsonrpc';
+import Button from '@polkadot/ui-app/Button';
 import InputRpc from '@polkadot/ui-app/InputRpc';
 import Params from '@polkadot/ui-app/Params';
 import classes from '@polkadot/ui-app/util/classes';
@@ -23,6 +24,7 @@ import translate from './translate';
 type Props = I18nProps & {};
 
 type State = {
+  isValid: boolean,
   method: InterfaceMethodDefinition,
   nonce: BN,
   publicKey: Uint8array | null,
@@ -31,10 +33,9 @@ type State = {
 
 const defaultMethod = rpc.author.methods.submitExtrinsic;
 
-console.log('defaultMethod', defaultMethod);
-
 class RpcApp extends React.PureComponent<Props, State> {
   state: State = {
+    isValid: false,
     method: defaultMethod,
     nonce: new BN(0),
     publicKey: null,
@@ -42,8 +43,8 @@ class RpcApp extends React.PureComponent<Props, State> {
   };
 
   render (): React$Node {
-    const { className, style } = this.props;
-    const { method } = this.state;
+    const { className, style, t } = this.props;
+    const { isValid, method } = this.state;
 
     return (
       <div
@@ -54,11 +55,20 @@ class RpcApp extends React.PureComponent<Props, State> {
           defaultValue={defaultMethod}
           onChange={this.onChangeMethod}
         />
+        {this.renderAccount()}
         <Params
           item={method}
           onChange={this.onChangeValues}
         />
-        {this.renderAccount()}
+        <Button.Group>
+          <Button
+            isPrimary
+            isDisabled={!isValid}
+            text={t('submit', {
+              defaultValue: 'Submit RPC call'
+            })}
+          />
+        </Button.Group>
       </div>
     );
   }
@@ -78,16 +88,35 @@ class RpcApp extends React.PureComponent<Props, State> {
     );
   }
 
+  nextState (newState: $Shape<State>): void {
+    this.setState(
+      (prevState: State): State => {
+        const { method = prevState.method, nonce = prevState.nonce, publicKey = prevState.publicKey, values = prevState.values } = newState;
+        const isValid = values.reduce((isValid, value) => {
+          return isValid && value.isValid === true;
+        }, !method.isSigned || (!!publicKey && publicKey.length === 32));
+
+        return {
+          isValid,
+          method,
+          nonce,
+          publicKey,
+          values
+        };
+      }
+    );
+  }
+
   onChangeAccount = (publicKey: Uint8Array, nonce: BN): void => {
-    this.setState({ nonce, publicKey });
+    this.nextState({ nonce, publicKey });
   }
 
   onChangeMethod = (method: InterfaceMethodDefinition): void => {
-    this.setState({ method });
+    this.nextState({ method });
   }
 
   onChangeValues = (values: Array<RawParam>): void => {
-    this.setState({ values });
+    this.nextState({ values });
   }
 }
 

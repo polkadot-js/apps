@@ -5,3 +5,8 @@
 .rpc--App {
   padding: 1em 2em;
 }
+
+.rpc--Account {
+  box-sizing: border-box;
+  padding-left: 2em;
+}

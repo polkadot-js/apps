@@ -123,6 +123,7 @@ class Selection extends React.PureComponent<Props, State> {
       isValid,
       nonce,
       publicKey,
+      type: 'extrinsic',
       value
     });
   }
