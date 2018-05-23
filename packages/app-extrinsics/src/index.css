@@ -5,27 +5,3 @@
 .extrinsics--App {
   padding: 1em 2em;
 }
-
-.extrinsics--Status {
-  display: inline-block;
-  position: fixed;
-  right: 0.25rem;
-  top: 0.125rem;
-  z-index: 1001;
-}
-
-.extrinsics--Status-Item {
-  background: #bcdaf0;
-  margin: 0.125rem;
-  padding: 0.5rem 1rem;
-  text-align: center;
-}
-
-.extrinsics--Status-Item .status {
-  font-weight: 700;
-}
-
-.extrinsics--Status-Item.error {
-  background: red;
-  color: white;
-}

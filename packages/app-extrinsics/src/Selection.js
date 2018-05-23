@@ -5,7 +5,7 @@
 
 import type BN from 'bn.js';
 import type { I18nProps } from '@polkadot/ui-app/types';
-import type { EncodedMessage, QueueTx$OnQueue } from '@polkadot/ui-signer/types';
+import type { EncodedMessage, QueueTx$MessageAdd } from '@polkadot/ui-signer/types';
 
 import React from 'react';
 
@@ -19,7 +19,7 @@ import Nonce from './Nonce';
 import translate from './translate';
 
 type Props = I18nProps & {
-  onQueue: QueueTx$OnQueue
+  queueAdd: QueueTx$MessageAdd
 };
 
 type State = {
@@ -115,10 +115,10 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   onQueue = (): void => {
-    const { onQueue } = this.props;
+    const { queueAdd } = this.props;
     const { encoded: { extrinsic, isValid, value }, nonce, publicKey } = this.state;
 
-    onQueue({
+    queueAdd({
       extrinsic,
       isValid,
       nonce,

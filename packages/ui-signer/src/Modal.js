@@ -12,13 +12,14 @@ import React from 'react';
 import Modal from '@polkadot/ui-app/Modal';
 import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring';
+import withApi from '@polkadot/ui-react-rx/with/api';
 
 import translate from './translate';
 import Extrinsic from './Extrinsic';
 import Unlock from './Unlock';
 
 type Props = I18nProps & ApiProps & {
-  queue: Array<QuueueTx>,
+  queue: Array<QueueTx>,
   queueSetStatus: QueueTx$MessageSetStatus
 };
 
@@ -76,10 +77,12 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   renderContent (): React$Node {
+    const { api } = this.props;
     const { currentItem } = this.state;
 
     return (
       <Extrinsic
+        api={api}
         cancelTx={this.onCancel}
         sendTx={this.onSend}
         value={currentItem}
@@ -167,4 +170,6 @@ class Signer extends React.PureComponent<Props, State> {
   };
 }
 
-export default translate(Signer);
+export default translate(
+  withApi(Signer)
+);

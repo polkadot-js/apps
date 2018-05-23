@@ -11,13 +11,13 @@ import rpc from '@polkadot/jsonrpc';
 const defaultRpc = rpc.author.methods.submitExtrinsic;
 
 export default function submit (api: RxApiInterface, params: Array<mixed>, rpc?: InterfaceMethodDefinition = defaultRpc): Promise<QueueTx$Result> {
-  const { method, section } = rpc;
+  const { name, section } = rpc;
 
-  return api[section][method]
+  return api[section][name]
     .apply(null, params)
     .toPromise()
     .then((result) => {
-      console.log(`${section}.${method}: result ::`, result);
+      console.log(`${section}.${name}: result ::`, result);
 
       return {
         result,
@@ -25,7 +25,7 @@ export default function submit (api: RxApiInterface, params: Array<mixed>, rpc?:
       };
     })
     .catch((error) => {
-      console.error(`${section}.${method}: error ::`, error);
+      console.error(`${section}.${name}: error ::`, error);
 
       return {
         result: null,

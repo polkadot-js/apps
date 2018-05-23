@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { ApiProps } from '@polkadot/ui-react-rx/types';
+import type { RxApiInterface } from '@polkadot/api-rx/types';
 import type { I18nProps } from '@polkadot/ui-app/types';
 import type { QueueTx, QueueTx$Result } from './types';
 
@@ -11,14 +11,14 @@ import React from 'react';
 
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
-import withApi from '@polkadot/ui-react-rx/with/api';
 
-import translate from './translate';
+import translate from '../translate';
 import Decoded from './Decoded';
 import signMessage from './sign';
 import submitExtrinsic from './submit';
 
-type Props = I18nProps & ApiProps & {
+type Props = I18nProps & {
+  api: RxApiInterface,
   children: React$Node,
   cancelTx: () => void,
   sendTx: (submit: () => Promise<QueueTx$Status>) => Promise<void>,
@@ -27,8 +27,7 @@ type Props = I18nProps & ApiProps & {
 
 class Extrinsic extends React.PureComponent<Props> {
   render (): React$Node {
-    const { children, t } = this.props;
-    const { value } = this.state;
+    const { children, t, value } = this.props;
 
     return [
       <Modal.Header key='header'>
@@ -81,6 +80,4 @@ class Extrinsic extends React.PureComponent<Props> {
   };
 }
 
-export default translate(
-  withApi(Extrinsic)
-);
+export default translate(Extrinsic);

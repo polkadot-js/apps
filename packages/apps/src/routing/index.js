@@ -20,7 +20,7 @@ import vanitygen from './vanitygen';
 export default ({
   default: 'explorer',
   routes: [].concat(
-    explorer, extrinsics, storage, toolbox, rpc, null, accounts, addresses, vanitygen
+    explorer, extrinsics, storage, null, accounts, addresses, vanitygen, null, rpc, toolbox
   ),
   unknown
 }: Routing);

@@ -31,7 +31,9 @@ type State = {
 
 const defaultMethod = rpc.author.methods.submitExtrinsic;
 
-class App extends React.PureComponent<Props, State> {
+console.log('defaultMethod', defaultMethod);
+
+class RpcApp extends React.PureComponent<Props, State> {
   state: State = {
     method: defaultMethod,
     nonce: new BN(0),
@@ -89,4 +91,4 @@ class App extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(App);
+export default translate(RpcApp);

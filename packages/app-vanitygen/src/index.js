@@ -42,7 +42,7 @@ const BOOL_OPTIONS = [
   { text: 'Yes', value: true }
 ];
 
-class App extends React.PureComponent<Props, State> {
+class VanityApp extends React.PureComponent<Props, State> {
   results: Array<Generator$Result> = [];
   state: State = {
     elapsed: 0,
@@ -269,4 +269,4 @@ class App extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(App);
+export default translate(VanityApp);

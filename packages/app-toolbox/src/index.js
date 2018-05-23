@@ -33,7 +33,7 @@ const Components: { [Actions]: React$ComponentType<any> } = {
   'verify': Verify
 };
 
-class App extends React.PureComponent<Props, State> {
+class ToolboxApp extends React.PureComponent<Props, State> {
   state: State = {
     action: 'hash'
   };
@@ -100,4 +100,4 @@ class App extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(App);
+export default translate(ToolboxApp);

@@ -17,17 +17,17 @@ import Selection from './Selection';
 
 type Props = BareProps;
 
-export default function App ({ className, style }: Props): React$Node {
+export default function ExtrinsicsApp ({ className, style }: Props): React$Node {
   return (
     <div
       className={classes('extrinsics--App', className)}
       style={style}
     >
-      <Signer.Queue>
-        {({ onQueue }: SignerProps) => (
-          <Selection onQueue={onQueue} />
+      <Signer.Queue.Consumer>
+        {({ queueAdd }: SignerProps) => (
+          <Selection queueAdd={queueAdd} />
         )}
-      </Signer.Queue>
+      </Signer.Queue.Consumer>
     </div>
   );
 }

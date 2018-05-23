@@ -28,7 +28,7 @@ export default class Queue extends React.Component<Props, State> {
 
     this.state = {
       queue: [],
-      queueMessage: this.queueMessage,
+      queueAdd: this.queueAdd,
       queueSetStatus: this.queueSetStatus
     };
   }
@@ -53,11 +53,13 @@ export default class Queue extends React.Component<Props, State> {
     );
 
     if (['cancelled', 'error', 'sent'].includes(status)) {
-      setTimeout(() => this.setStatus(id, 'completed'), 5000);
+      setTimeout(() => {
+        this.queueSetStatus(id, 'completed');
+      }, 5000);
     }
   }
 
-  queueMessage = (value: QueueTx$Base): QueueTx$Id => {
+  queueAdd = (value: QueueTx$Base): QueueTx$Id => {
     const id: QueueTx$Id = ++nextId;
 
     this.setState(

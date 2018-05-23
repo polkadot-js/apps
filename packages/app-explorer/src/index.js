@@ -18,7 +18,7 @@ import translate from './translate';
 
 type Props = I18nProps & {};
 
-function App ({ className, style, t }: Props): React$Node {
+function ExplorerApp ({ className, style, t }: Props): React$Node {
   return (
     <div
       className={classes('explorer--App', className)}
@@ -36,4 +36,4 @@ function App ({ className, style, t }: Props): React$Node {
   );
 }
 
-export default translate(App);
+export default translate(ExplorerApp);

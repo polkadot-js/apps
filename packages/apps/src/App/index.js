@@ -18,16 +18,17 @@ import SideBar from '../SideBar';
 
 type Props = I18nProps & {};
 
-export default function App ({ className, style }: Props): React$Node {
+export default function Apps ({ className, style }: Props): React$Node {
   return (
     <div
       className={classes('apps--App', className)}
       style={style}
     >
       <SideBar />
-      <Content />
+      <Signer>
+        <Content />
+      </Signer>
       <Connecting />
-      <Signer />
     </div>
   );
 }
