@@ -4,7 +4,6 @@
 // @flow
 
 import type BN from 'bn.js';
-import type { Extrinsic } from '@polkadot/extrinsics/types';
 
 export type EncodedMessage = {
   isValid: boolean,
@@ -16,7 +15,6 @@ export type QueueTx$Status = 'cancelled' | 'completed' | 'error' | 'incomplete' 
 export type QueueTx$Id = number;
 
 export type QueueTx$Extrinsic = EncodedMessage & {
-  extrinsic: Extrinsic,
   nonce: BN,
   publicKey: Uint8Array
 }

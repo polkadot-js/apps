@@ -10,6 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { Trans } from 'react-i18next';
 
+import extrinsics from '@polkadot/extrinsics-substrate';
 import classes from '@polkadot/ui-app/util/classes';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
@@ -21,7 +22,28 @@ type Props = I18nProps & {
   value: QueueTx
 };
 
-function Decoded ({ className, style, t, value: { extrinsic: { name, section }, nonce = new BN(0), publicKey, value } }: Props): React$Node {
+function findExtrinsic (sectionId: number, methodId: number): { method: ?string, section: ?string } {
+  const section = Object.keys(extrinsics).find((section) =>
+    extrinsics[section].index[0] === sectionId
+  );
+  const methods = section
+    ? extrinsics[section].methods.public
+    : {};
+  const method = Object.keys(methods).find((method) =>
+    methods[method].index[1] === methodId
+  );
+
+  return {
+    method,
+    section
+  };
+}
+
+function Decoded ({ className, style, t, value: { nonce = new BN(0), publicKey, value } }: Props): React$Node {
+  const unknown = t('decoded.unknown', {
+    defaultValue: 'unknown'
+  });
+  const { method, section } = findExtrinsic(value[0], value[1]);
   const from = addressEncode(publicKey);
 
   return (
@@ -32,7 +54,7 @@ function Decoded ({ className, style, t, value: { extrinsic: { name, section }, 
       <div className='expanded'>
         <p>
           <Trans i18nkey='decoded.short'>
-            You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{section}.{name}</span> with an index of <span className='code'>{nonce.toString()}</span>
+            You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{section || unknown}.{method || unknown}</span> with an index of <span className='code'>{nonce.toString()}</span>
           </Trans>
         </p>
         <p>
