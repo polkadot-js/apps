@@ -1,5 +1,5 @@
 {
-  "name": "@polkadot/app-rpc",
+  "name": "@polkadot/ui-signer",
   "version": "0.6.2",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
@@ -12,8 +12,13 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.47",
+    "@polkadot/extrinsics": "^0.15.7",
     "@polkadot/ui-app": "^0.6.2",
     "@polkadot/ui-keyring": "^0.6.2",
-    "@polkadot/ui-signer": "^0.6.2"
+    "@polkadot/util": "^0.21.2"
+  },
+  "peerDependencies": {
+    "react": "^16.3.1",
+    "semantic-ui-react": "^0.80.0"
   }
 }

@@ -5,26 +5,21 @@
 
 import type { ApiProps } from '@polkadot/ui-react-rx/types';
 import type { I18nProps } from '@polkadot/ui-app/types';
-import type { QueueTx } from '../types';
-
-import './Signer.css';
+import type { QueueTx, QueueTx$MessageSetStatus } from './types';
 
 import React from 'react';
 
-import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
 import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring';
-import withApi from '@polkadot/ui-react-rx/with/api';
 
-import translate from '../translate';
-import Decoded from './Decoded';
+import translate from './translate';
+import Extrinsic from './Extrinsic';
 import Unlock from './Unlock';
-import submitExtrinsic from './submit';
 
 type Props = I18nProps & ApiProps & {
-  onSetStatus: (id: number, status: string) => void,
-  queue: Array<QueueTx>
+  queue: Array<QuueueTx>,
+  queueSetStatus: QueueTx$MessageSetStatus
 };
 
 type UnlockI18n = {
@@ -61,8 +56,8 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   render (): React$Node {
-    const { className, style, t } = this.props;
-    const { currentItem, password, unlockError } = this.state;
+    const { className, style } = this.props;
+    const { currentItem } = this.state;
 
     if (!currentItem) {
       return null;
@@ -70,53 +65,41 @@ class Signer extends React.PureComponent<Props, State> {
 
     return (
       <Modal
-        className={classes('extrinsics--Signer', className)}
+        className={classes('ui--signer-Signer', className)}
         dimmer='inverted'
         open
         style={style}
       >
-        <Modal.Header>
-          {t('signer.header', {
-            defaultValue: 'Extrinsic submission'
-          })}
-        </Modal.Header>
-        <Modal.Content className='extrinsics--Signer-Content'>
-          <Decoded value={currentItem} />
-          <Unlock
-            error={unlockError && t(unlockError.key, unlockError.value)}
-            onChange={this.onChangePassword}
-            password={password}
-            value={currentItem.publicKey}
-          />
-        </Modal.Content>
-        <Modal.Actions>
-          {this.renderButtons()}
-        </Modal.Actions>
+        {this.renderContent()}
       </Modal>
     );
   }
 
-  renderButtons (): React$Node {
-    const { t } = this.props;
+  renderContent (): React$Node {
+    const { currentItem } = this.state;
 
     return (
-      <Button.Group>
-        <Button
-          isNegative
-          onClick={this.onCancel}
-          text={t('signer.cancel', {
-            defaultValue: 'Cancel'
-          })}
-        />
-        <Button.Or />
-        <Button
-          isPrimary
-          onClick={this.onSign}
-          text={t('signer.send', {
-            defaultValue: 'Sign and Submit'
-          })}
-        />
-      </Button.Group>
+      <Extrinsic
+        cancelTx={this.onCancel}
+        sendTx={this.onSend}
+        value={currentItem}
+      >
+        {this.renderUnlock()}
+      </Extrinsic>
+    );
+  }
+
+  renderUnlock (): React$Node {
+    const { t } = this.props;
+    const { currentItem, password, unlockError } = this.state;
+
+    return (
+      <Unlock
+        error={unlockError && t(unlockError.key, unlockError.value)}
+        onChange={this.onChangePassword}
+        password={password}
+        value={currentItem.publicKey}
+      />
     );
   }
 
@@ -128,8 +111,7 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     try {
-      // $FlowFixMe typo in underlying type, fixed at base (upgrades)
-      pair.decodePkcs8(void 0, password);
+      pair.decodePkcs8(password);
     } catch (error) {
       return {
         key: 'signer.unlock.generic',
@@ -150,7 +132,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   onCancel = (): void => {
-    const { onSetStatus } = this.props;
+    const { queueSetStatus } = this.props;
     const { currentItem } = this.state;
 
     // This should never be executed
@@ -158,11 +140,11 @@ class Signer extends React.PureComponent<Props, State> {
       return;
     }
 
-    onSetStatus(currentItem.id, 'cancelled');
+    queueSetStatus(currentItem.id, 'cancelled');
   }
 
-  onSign = async (): Promise<void> => {
-    const { api, onSetStatus } = this.props;
+  onSend = async (submit: () => Promise<QueueTx$Status>): Promise<void> => {
+    const { queueSetStatus } = this.props;
     const { currentItem, password } = this.state;
 
     // This should never be executed
@@ -177,11 +159,12 @@ class Signer extends React.PureComponent<Props, State> {
       return;
     }
 
-    onSetStatus(currentItem.id, 'sending');
-    onSetStatus(currentItem.id, await submitExtrinsic(api, currentItem));
+    queueSetStatus(currentItem.id, 'sending');
+
+    const { status } = await submit();
+
+    queueSetStatus(currentItem.id, status);
   };
 }
 
-export default translate(
-  withApi(Signer)
-);
+export default translate(Signer);

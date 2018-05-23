@@ -5,7 +5,7 @@
 
 import type BN from 'bn.js';
 import type { I18nProps } from '@polkadot/ui-app/types';
-import type { EncodedMessage, QueueTx } from './types';
+import type { EncodedMessage, QueueTx$OnQueue } from '@polkadot/ui-signer/types';
 
 import React from 'react';
 
@@ -19,7 +19,7 @@ import Nonce from './Nonce';
 import translate from './translate';
 
 type Props = I18nProps & {
-  onQueue: (value: QueueTx) => void
+  onQueue: QueueTx$OnQueue
 };
 
 type State = {
@@ -30,8 +30,6 @@ type State = {
 };
 
 const defaultExtrinsic = extrinsics.staking.methods.public.transfer;
-
-let id = 0;
 
 class Selection extends React.PureComponent<Props, State> {
   state: State = ({
@@ -122,11 +120,9 @@ class Selection extends React.PureComponent<Props, State> {
 
     onQueue({
       extrinsic,
-      id: ++id,
       isValid,
       nonce,
       publicKey,
-      status: 'queued',
       value
     });
   }

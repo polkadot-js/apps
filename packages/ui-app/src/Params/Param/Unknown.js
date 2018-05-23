@@ -3,8 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Param$Types } from '@polkadot/params/types';
-import type { Props as BareProps } from '../types';
+import type { Props as BareProps, RawParam } from '../types';
 
 import React from 'react';
 
@@ -14,14 +13,12 @@ import translate from '../../translate';
 import Base from './Base';
 
 type Props = BareProps & {
+  defaultValue: RawParam,
   t: I18Next$Translate,
-  value: {
-    type: Param$Types
-  },
   withLabel?: boolean
 };
 
-function Unknown ({ label, t, value: { type }, withLabel }: Props): React$Node {
+function Unknown ({ defaultValue: { type }, label, t, withLabel }: Props): React$Node {
   return (
     <Base
       size='full'

@@ -25,12 +25,12 @@ export default function Status ({ className, queue, style }: Props): React$Node 
 
   return (
     <div
-      className={classes('extrinsics--Status', className)}
+      className={classes('ui--signer-Status', className)}
       style={style}
     >
       {available.map(({ extrinsic: { name, section }, id, status }) =>
         <div
-          className={classes('extrinsics--Status-Item', status)}
+          className={classes('ui--signer-Status-Item', status)}
           key={id}
         >
           <div className='header'>

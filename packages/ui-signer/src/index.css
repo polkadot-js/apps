@@ -2,28 +2,28 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
-.extrinsics--Signer {}
+.ui--signer-Signer {}
 
-.extrinsics--Signer-Decoded,
-.extrinsics--Signer-Unlock {
+.ui--signer-Signer-Decoded,
+.ui--signer-Signer-Unlock {
   align-content: center;
   display: flex;
   line-height: 1.5em;
 }
 
-.extrinsics--Signer-Decoded {}
+.ui--signer-Signer-Decoded {}
 
-.extrinsics--Signer-Unlock {
+.ui--signer-Signer-Unlock {
   padding-top: 1.5rem;
 }
 
-.extrinsics--Signer-Content {}
+.ui--signer-Signer-Content {}
 
-.extrinsics--Signer-Content .expanded {
+.ui--signer-Signer-Content .expanded {
   padding-right: 2em;
 }
 
-.extrinsics--Signer-Content .expanded .code {
+.ui--signer-Signer-Content .expanded .code {
   background: #f5f5f5;
   font-family: monospace;
   margin: 0 0.25em;

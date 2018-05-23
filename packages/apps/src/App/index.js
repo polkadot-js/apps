@@ -10,15 +10,15 @@ import './App.css';
 import React from 'react';
 
 import classes from '@polkadot/ui-app/util/classes';
+import Signer from '@polkadot/ui-signer';
 
 import Connecting from '../Connecting';
 import Content from '../Content';
 import SideBar from '../SideBar';
-import translate from '../translate';
 
 type Props = I18nProps & {};
 
-function App ({ className, style }: Props): React$Node {
+export default function App ({ className, style }: Props): React$Node {
   return (
     <div
       className={classes('apps--App', className)}
@@ -27,8 +27,7 @@ function App ({ className, style }: Props): React$Node {
       <SideBar />
       <Content />
       <Connecting />
+      <Signer />
     </div>
   );
 }
-
-export default translate(App);

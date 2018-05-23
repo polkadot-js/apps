@@ -26,7 +26,7 @@ function Decoded ({ className, style, t, value: { extrinsic: { name, section }, 
 
   return (
     <div
-      className={classes('extrinsics--Signer-Decoded', className)}
+      className={classes('ui--signer-Signer-Decoded', className)}
       style={style}
     >
       <div className='expanded'>
