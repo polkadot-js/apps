@@ -18,7 +18,7 @@ import translate from './translate';
 type Props = I18nProps & {
   defaultValue?: Uint8Array,
   isError?: boolean,
-  onChange: (publicKey: Uint8Array, nonce: BN) => void
+  onChange: (publicKey?: Uint8Array, nonce: BN) => void
 };
 
 type State = {

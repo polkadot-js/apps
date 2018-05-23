@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type BN from 'bn.js';
 import type { Signed } from './types';
 
 import encodeCall from '@polkadot/extrinsics-codec/encode/call';
@@ -11,7 +12,6 @@ import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
 export default function signMessage (publicKey: Uint8Array, nonce: BN | number, value: Uint8Array): Signed {
-  // flowlint-next-line unclear-type:off
   const message = encodeCall(publicKey, nonce, value);
   const signature = keyring.getPair(publicKey).sign(message);
 

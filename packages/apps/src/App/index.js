@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { I18nProps } from '@polkadot/ui-app/types';
+import type { BareProps } from '@polkadot/ui-app/types';
 
 import './App.css';
 
@@ -16,7 +16,7 @@ import Connecting from '../Connecting';
 import Content from '../Content';
 import SideBar from '../SideBar';
 
-type Props = I18nProps & {};
+type Props = BareProps & {};
 
 export default function Apps ({ className, style }: Props): React$Node {
   return (

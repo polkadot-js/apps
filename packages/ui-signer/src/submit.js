@@ -4,11 +4,14 @@
 // @flow
 
 import type { RxApiInterface } from '@polkadot/api-rx/types';
-import type { QueueTx$Result } from '../types';
+import type { InterfaceMethodDefinition } from '@polkadot/jsonrpc/types';
+import type { Param$Values } from '@polkadot/params/types';
+import type { QueueTx$Result } from './types';
 
-export default function submitMessage (api: RxApiInterface, params: Array<mixed>, rpc: InterfaceMethodDefinition): Promise<QueueTx$Result> {
+export default function submitMessage (api: RxApiInterface, params: Array<Param$Values>, rpc: InterfaceMethodDefinition): Promise<QueueTx$Result> {
   const { name, section } = rpc;
 
+  // $FlowFixMe This should not be an issue...
   return api[section][name]
     .apply(null, params)
     .toPromise()

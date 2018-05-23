@@ -34,7 +34,7 @@ type UnlockI18n = {
 type State = {
   currentItem?: QueueTx,
   password: string,
-  sendItem: (item?: QueueTx) => Promise<void>,
+  sendItem: (item: QueueTx) => Promise<void>,
   unlockError: UnlockI18n | null
 };
 
@@ -58,7 +58,12 @@ class Signer extends React.PureComponent<Props, State> {
     const isSame =
       !!nextItem &&
       !!currentItem &&
-      nextItem.publicKey.toString() === currentItem.publicKey.toString();
+      (
+        (!nextItem.publicKey && !currentItem.publicKey) ||
+        (
+          (nextItem.publicKey && nextItem.publicKey.toString()) === (currentItem.publicKey && currentItem.publicKey.toString())
+        )
+      );
 
     if (nextItem && nextItem.rpc.isSigned !== true) {
       sendItem(nextItem);
@@ -94,7 +99,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   renderButtons (): React$Node {
     const { t } = this.props;
-    const { currentItem: { rpc: { isSigned = false } } } = this.state;
+    const { currentItem: { rpc: { isSigned = false } = {} } = {} } = this.state;
 
     return (
       <Modal.Actions>
@@ -142,6 +147,10 @@ class Signer extends React.PureComponent<Props, State> {
   renderUnlock (): React$Node {
     const { t } = this.props;
     const { currentItem, password, unlockError } = this.state;
+
+    if (!currentItem) {
+      return null;
+    }
 
     return (
       <Unlock
@@ -204,10 +213,8 @@ class Signer extends React.PureComponent<Props, State> {
     this.sendItem(currentItem, password);
   };
 
-  sendItem = async ({ id, nonce, publicKey, rpc, value }: QueueTx, password?: string): Promise<void> => {
-    console.log('sendItem', rpc, value);
-
-    if (rpc.isSigned) {
+  sendItem = async ({ id, nonce, publicKey, rpc, values }: QueueTx, password?: string): Promise<void> => {
+    if (rpc.isSigned === true && publicKey) {
       const unlockError = this.unlockAccount(publicKey, password);
 
       if (unlockError) {
@@ -220,11 +227,11 @@ class Signer extends React.PureComponent<Props, State> {
 
     queueSetStatus(id, 'sending');
 
-    let data = value;
+    let data = values;
 
-    if (rpc.isSigned) {
+    if (rpc.isSigned === true && publicKey) {
       // flowlint-next-line unclear-type:off
-      data = [signMessage(publicKey, nonce, ((value[0]: any): Uint8Array)).data];
+      data = [signMessage(publicKey, nonce, ((data[0]: any): Uint8Array)).data];
     }
 
     const { error, result, status } = await submitMessage(api, data, rpc);

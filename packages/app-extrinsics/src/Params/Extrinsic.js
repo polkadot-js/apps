@@ -6,7 +6,7 @@
 import type { Extrinsic } from '@polkadot/extrinsics/types';
 import type { I18nProps } from '@polkadot/ui-app/types';
 import type { RawParam$OnChange } from '@polkadot/ui-app/Params/types';
-import type { EncodedMessage } from '../types';
+import type { EncodedMessage } from '@polkadot/ui-signer/types';
 
 import React from 'react';
 
@@ -53,12 +53,13 @@ class CExtrinsic extends React.PureComponent<Props> {
     );
   }
 
-  onChange = ({ isValid, value }: EncodedMessage): void => {
+  onChange = ({ isValid, values }: EncodedMessage): void => {
     const { onChange } = this.props;
 
     onChange({
       isValid,
-      value
+      // flowlint-next-line unclear-type:off
+      value: ((values[0]: any): Uint8Array)
     });
   }
 }

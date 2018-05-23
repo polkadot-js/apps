@@ -4,7 +4,7 @@
 // @flow
 
 import type { BareProps } from '@polkadot/ui-app/types';
-import type { SignerProps } from '@polkadot/ui-signer/types';
+import type { QueueProps } from '@polkadot/ui-signer/types';
 
 import './index.css';
 
@@ -24,7 +24,7 @@ export default function ExtrinsicsApp ({ className, style }: Props): React$Node 
       style={style}
     >
       <Signer.Queue.Consumer>
-        {({ queueAdd }: SignerProps) => (
+        {({ queueAdd }: QueueProps = {}) => (
           <Selection queueAdd={queueAdd} />
         )}
       </Signer.Queue.Consumer>

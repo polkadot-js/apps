@@ -9,7 +9,7 @@ import type { Param$Values } from '@polkadot/params/types';
 
 export type EncodedMessage = {
   isValid: boolean,
-  value: Array<Param$Values>
+  values: Array<Param$Values>
 };
 
 export type QueueTx$Status = 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent';
@@ -25,7 +25,7 @@ export type QueueTx$Result = {
 export type QueueTx$Base = EncodedMessage & {
   rpc: InterfaceMethodDefinition,
   nonce: BN,
-  publicKey: Uint8Array
+  publicKey?: Uint8Array | null
 };
 
 export type QueueTx = QueueTx$Base & {
@@ -37,7 +37,7 @@ export type QueueTx = QueueTx$Base & {
 
 export type QueueTx$MessageAdd = (value: QueueTx$Base) => QueueTx$Id;
 
-export type QueueTx$MessageSetStatus = (id: number, status: QueueTx$Status) => void;
+export type QueueTx$MessageSetStatus = (id: number, status: QueueTx$Status, result?: mixed, error?: Error) => void;
 
 export type QueueProps = {
   queue: Array<QueueTx>,

@@ -4,6 +4,7 @@
 // @flow
 
 import type { BareProps } from '@polkadot/ui-app/types';
+import type { QueueProps } from './types';
 
 import './index.css';
 
@@ -22,7 +23,7 @@ function Signer ({ children, className, style }: Props): React$Node {
     <Queue>
       {children}
       <Queue.Consumer>
-        {({ queue, queueSetStatus }: QueueProps) => [
+        {({ queue, queueSetStatus }: QueueProps = {}) => [
           <Modal
             className={className}
             key='signer-modal'

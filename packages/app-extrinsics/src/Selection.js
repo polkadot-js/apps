@@ -118,15 +118,14 @@ class Selection extends React.PureComponent<Props, State> {
 
   onQueue = (): void => {
     const { queueAdd } = this.props;
-    const { encoded: { isValid, value }, nonce, publicKey } = this.state;
+    const { encoded: { isValid, values }, nonce, publicKey } = this.state;
 
     queueAdd({
       isValid,
       nonce,
       publicKey,
       rpc: defaultRpc,
-      type: 'extrinsic',
-      value: [value]
+      values
     });
   }
 }

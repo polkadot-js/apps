@@ -31,9 +31,11 @@ type Props = I18nProps & {
 };
 
 type State = {
+  // flowlint-next-line unclear-type:off
   optionsMethod: Array<any>,
+  // flowlint-next-line unclear-type:off
   optionsSection: Array<any>,
-  value: StorageDef$Key
+  value: InterfaceMethodDefinition
 };
 
 class InputRpc extends React.PureComponent<Props, State> {

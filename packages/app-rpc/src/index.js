@@ -4,6 +4,7 @@
 // @flow
 
 import type { I18nProps } from '@polkadot/ui-app/types';
+import type { QueueProps } from '@polkadot/ui-signer/types';
 
 import './index.css';
 
@@ -24,7 +25,7 @@ export default function RpcApp ({ className, style }: Props): React$Node {
       style={style}
     >
       <Signer.Queue.Consumer>
-        {({ queue, queueAdd }: SignerProps) => [
+        {({ queue, queueAdd }: QueueProps = {}) => [
           <Selection
             key='add'
             queueAdd={queueAdd}

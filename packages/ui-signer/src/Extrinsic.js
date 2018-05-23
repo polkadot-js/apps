@@ -40,12 +40,15 @@ function findExtrinsic (sectionId: number, methodId: number): { method: ?string,
   };
 }
 
-function Extrinsic ({ children, className, style, t, value: { nonce = new BN(0), publicKey, value: [value] } }: Props): React$Node {
+function Extrinsic ({ children, className, style, t, value: { nonce = new BN(0), publicKey, values: [_value] } }: Props): React$Node {
   const unknown = t('decoded.unknown', {
     defaultValue: 'unknown'
   });
-  const { method, section } = findExtrinsic(value[0], value[1]);
-  const from = addressEncode(publicKey);
+  // flowlint-next-line unclear-type:off
+  const value = ((_value: any): Uint8Array);
+  const { method = unknown, section = unknown } = findExtrinsic(value[0], value[1]);
+  // flowlint-next-line unclear-type:off
+  const from = addressEncode(((publicKey: any): Uint8Array));
 
   return [
     <Modal.Header key='header'>
@@ -58,7 +61,7 @@ function Extrinsic ({ children, className, style, t, value: { nonce = new BN(0),
         <div className='expanded'>
           <p>
             <Trans i18nkey='decoded.short'>
-              You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{section || unknown}.{method || unknown}</span> with an index of <span className='code'>{nonce.toString()}</span>
+              You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{section}.{method}</span> with an index of <span className='code'>{nonce.toString()}</span>
             </Trans>
           </p>
           <p>

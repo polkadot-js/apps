@@ -186,8 +186,6 @@ class Verify extends React.PureComponent<Props, State> {
   }
 
   onChangeSignature = (signature: string): void => {
-    console.log('onChangeSig', isHex(signature), signature.length);
-
     const isValidSignature = isHex(signature) && signature.length === 130;
 
     this.nextState({ signature, isValidSignature });

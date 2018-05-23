@@ -17,6 +17,7 @@ type Props = I18nProps & {
   isError?: boolean,
   label: string,
   onChange: (value: InterfaceTypes) => void,
+  // flowlint-next-line unclear-type:off
   options: Array<any>,
   value: InterfaceMethodDefinition,
   withLabel?: boolean

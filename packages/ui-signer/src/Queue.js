@@ -4,7 +4,7 @@
 // @flow
 
 import type { BareProps } from '@polkadot/ui-app/types';
-import type { QueueProps, QueueTx$Base, QueueTx$Id } from './types';
+import type { QueueProps, QueueTx$Base, QueueTx$Id, QueueTx$Status } from './types';
 
 import React from 'react';
 
@@ -42,14 +42,14 @@ export default class Queue extends React.Component<Props, State> {
   }
 
   queueSetStatus = (id: QueueTx$Id, status: QueueTx$Status, result?: mixed, error?: Error): void => {
-    console.log('queueSetStatus', id, status, result, error);
     this.setState(
-      (prevState: State): State => ({
+      (prevState: State): $Shape<State> => ({
         queue: prevState.queue.map((item) =>
           item.id === id
             ? {
               ...item,
               error: error || item.error,
+              // flowlint-next-line sketchy-null-mixed:off
               result: result || item.result,
               status
             }
@@ -69,7 +69,7 @@ export default class Queue extends React.Component<Props, State> {
     const id: QueueTx$Id = ++nextId;
 
     this.setState(
-      (prevState: State): State => ({
+      (prevState: State): $Shape<State> => ({
         queue: prevState.queue.concat([{
           ...value,
           id,

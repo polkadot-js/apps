@@ -3,8 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { InterfaceMethodDefinition } from '@polkadot/storage/types';
-import type { RawParam } from '@polkadot/ui-app/Param/types';
+import type { InterfaceMethodDefinition } from '@polkadot/jsonrpc/types';
+import type { RawParam } from '@polkadot/ui-app/Params/types';
 import type { I18nProps } from '@polkadot/ui-app/types';
 import type { QueueTx$MessageAdd } from '@polkadot/ui-signer/types';
 
@@ -18,6 +18,7 @@ import Button from '@polkadot/ui-app/Button';
 import InputRpc from '@polkadot/ui-app/InputRpc';
 import Params from '@polkadot/ui-app/Params';
 import classes from '@polkadot/ui-app/util/classes';
+import rawToValues from '@polkadot/ui-signer/rawToValues';
 
 import Account from './Account';
 import translate from './translate';
@@ -29,7 +30,7 @@ type Props = I18nProps & {
 type State = {
   isValid: boolean,
   nonce: BN,
-  publicKey: Uint8array | null,
+  publicKey?: Uint8Array | null,
   rpc: InterfaceMethodDefinition,
   values: Array<RawParam>
 }
@@ -98,7 +99,7 @@ class Selection extends React.PureComponent<Props, State> {
         const { rpc = prevState.rpc, nonce = prevState.nonce, publicKey = prevState.publicKey, values = prevState.values } = newState;
         const isValid = values.reduce((isValid, value) => {
           return isValid && value.isValid === true;
-        }, !rpc.isSigned || (!!publicKey && publicKey.length === 32));
+        }, rpc.isSigned !== true || (!!publicKey && publicKey.length === 32));
 
         return {
           isValid,
@@ -111,7 +112,7 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeAccount = (publicKey: Uint8Array, nonce: BN): void => {
+  onChangeAccount = (publicKey?: Uint8Array, nonce: BN): void => {
     this.nextState({ nonce, publicKey });
   }
 
@@ -132,7 +133,7 @@ class Selection extends React.PureComponent<Props, State> {
       nonce,
       publicKey,
       rpc,
-      value: values.map(({ value }) => value)
+      values: rawToValues(values)
     });
   }
 }

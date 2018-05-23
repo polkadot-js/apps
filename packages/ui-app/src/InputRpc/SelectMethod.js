@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { InterfaceMethodDefinition } from '@polkadot/storage/types';
+import type { InterfaceMethodDefinition } from '@polkadot/jsonrpc/types';
 import type { I18nProps } from '../types';
 
 import React from 'react';
@@ -18,8 +18,9 @@ type Props = I18nProps & {
   isError?: boolean,
   label?: string,
   onChange: (value: InterfaceMethodDefinition) => void,
+  // flowlint-next-line unclear-type:off
   options: Array<any>,
-  value: StorageDef$Key,
+  value: InterfaceMethodDefinition,
   withLabel?: boolean
 };
 
@@ -29,6 +30,7 @@ function SelectMethod ({ className, isError, label = '', onChange, options, styl
   }
 
   const transform = (name: string): InterfaceMethodDefinition =>
+    // $FlowFixMe ... string to type :(
     map[section].methods[name];
 
   return (
