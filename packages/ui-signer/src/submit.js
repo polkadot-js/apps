@@ -6,11 +6,7 @@
 import type { RxApiInterface } from '@polkadot/api-rx/types';
 import type { QueueTx$Result } from '../types';
 
-import rpc from '@polkadot/jsonrpc';
-
-const defaultRpc = rpc.author.methods.submitExtrinsic;
-
-export default function submit (api: RxApiInterface, params: Array<mixed>, rpc?: InterfaceMethodDefinition = defaultRpc): Promise<QueueTx$Result> {
+export default function submitMessage (api: RxApiInterface, params: Array<mixed>, rpc: InterfaceMethodDefinition): Promise<QueueTx$Result> {
   const { name, section } = rpc;
 
   return api[section][name]
@@ -25,10 +21,10 @@ export default function submit (api: RxApiInterface, params: Array<mixed>, rpc?:
       };
     })
     .catch((error) => {
-      console.error(`${section}.${name}: error ::`, error);
+      console.error(error);
 
       return {
-        result: null,
+        error,
         status: 'error'
       };
     });

@@ -41,12 +41,18 @@ export default class Queue extends React.Component<Props, State> {
     );
   }
 
-  queueSetStatus = (id: QueueTx$Id, status: QueueTx$Status): void => {
+  queueSetStatus = (id: QueueTx$Id, status: QueueTx$Status, result?: mixed, error?: Error): void => {
+    console.log('queueSetStatus', id, status, result, error);
     this.setState(
       (prevState: State): State => ({
         queue: prevState.queue.map((item) =>
           item.id === id
-            ? { ...item, status }
+            ? {
+              ...item,
+              error: error || item.error,
+              result: result || item.result,
+              status
+            }
             : item
         )
       })

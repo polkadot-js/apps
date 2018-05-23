@@ -4,28 +4,34 @@
 // @flow
 
 import type BN from 'bn.js';
-
-export type EncodedMessage$Type = 'extrinsic';
+import type { InterfaceMethodDefinition } from '@polkadot/jsonrpc/types';
+import type { Param$Values } from '@polkadot/params/types';
 
 export type EncodedMessage = {
   isValid: boolean,
-  type: EncodedMessage$Type,
-  value: Uint8Array
+  value: Array<Param$Values>
 };
 
 export type QueueTx$Status = 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent';
 
 export type QueueTx$Id = number;
 
-export type QueueTx$Extrinsic = EncodedMessage & {
-  nonce: BN,
-  publicKey: Uint8Array
+export type QueueTx$Result = {
+  error?: Error,
+  result?: mixed,
+  status: QueueTx$Status
 }
 
-export type QueueTx$Base = QueueTx$Extrinsic;
+export type QueueTx$Base = EncodedMessage & {
+  rpc: InterfaceMethodDefinition,
+  nonce: BN,
+  publicKey: Uint8Array
+};
 
 export type QueueTx = QueueTx$Base & {
+  error?: Error,
   id: QueueTx$Id,
+  result?: mixed,
   status: QueueTx$Status
 };
 
@@ -38,11 +44,6 @@ export type QueueProps = {
   queueAdd: QueueTx$MessageAdd,
   queueSetStatus: QueueTx$MessageSetStatus
 };
-
-export type QueueTx$Result = {
-  result: mixed,
-  status: QueueTx$Status
-}
 
 export type Signed = {
   data: Uint8Array,
