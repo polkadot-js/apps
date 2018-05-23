@@ -8,7 +8,7 @@ import type { I18nProps } from '../types';
 
 import React from 'react';
 
-import map from '@polkadot/storage-substrate/keys';
+import map from '@polkadot/storage-substrate';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';

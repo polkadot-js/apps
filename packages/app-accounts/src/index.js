@@ -31,7 +31,7 @@ const Components: { [Actions]: React$ComponentType<any> } = {
   'edit': Editor
 };
 
-class App extends React.PureComponent<Props, State> {
+class AccountsApp extends React.PureComponent<Props, State> {
   state: State = { action: 'edit' };
 
   render (): React$Node {
@@ -75,4 +75,4 @@ class App extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(App);
+export default translate(AccountsApp);

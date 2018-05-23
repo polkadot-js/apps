@@ -4,7 +4,7 @@
 // @flow
 
 import type { Param$Types } from '@polkadot/params/types';
-import type { ComponentMap } from '../types';
+import type { Props, ComponentMap } from '../types';
 
 import Account from './Account';
 import Amount from './Amount';
@@ -34,6 +34,7 @@ const components: ComponentMap = {
   'ReferendumIndex': Amount,
   'SessionKey': Amount,
   'Signature': Hash,
+  'String': Unknown,
   'Timestamp': Amount,
   'u32': Amount,
   'u64': Amount,
@@ -41,14 +42,9 @@ const components: ComponentMap = {
   'VoteThreshold': VoteThreshold
 };
 
-// flowlint-next-line unclear-type:off
-export default function findComponent (type: Param$Types, overrides?: ComponentMap = {}): React$ComponentType<any> | Array<React$ComponentType<any>> {
+export default function findComponent (type: Param$Types, overrides?: ComponentMap = {}): React$ComponentType<Props> {
   if (Array.isArray(type)) {
-    return type
-      .map((type) =>
-        // $FlowFixMe running out of options to check the embedded arrays
-        findComponent(type, overrides)
-      );
+    return Unknown;
   }
 
   return overrides[type] || components[type] || Unknown;

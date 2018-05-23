@@ -56,69 +56,95 @@ class Verify extends React.PureComponent<Props, State> {
   }
 
   render (): React$Node {
-    const { className, style, t } = this.props;
-    const { defaultPublicKey, data, isHexData, isValid, isValidAddress, isValidSignature, signature } = this.state;
+    const { className, style } = this.props;
 
     return (
       <div
         className={classes('toolbox--Verify', className)}
         style={style}
       >
-        <div className='ui--row'>
-          <Input
-            className='large'
-            label={t('verify.data', {
-              defaultValue: 'using the following data (hex or string)'
-            })}
-            onChange={this.onChangeData}
-            value={data}
-          />
-          <Static
-            className='small'
-            label={t('verify.isHex', {
-              defaultValue: 'hex input data'
-            })}
-            value={
-              isHexData
-                ? t('verify.isHex.yes', {
-                  defaultValue: 'Yes'
-                })
-                : t('verify.isHex.no', {
-                  defaultValue: 'No'
-                })
-            }
-          />
-        </div>
-        <div className='ui--row'>
-          <InputAddress
-            className='full'
-            defaultValue={defaultPublicKey}
-            isError={!isValidAddress}
-            isInput
-            label={t('verify.account', {
-              defaultValue: 'verify using address'
-            })}
-            onChange={this.onChangeAddress}
-          />
-        </div>
-        <div className='ui--row'>
-          <Input
-            className='full'
-            icon={
-              <Icon
-                color={isValid ? 'green' : (isValidSignature ? 'red' : void 0)}
-                name={isValid ? 'check circle' : (isValidSignature ? 'exclamation circle' : 'help circle')}
-                size='big'
-              />
-            }
-            isError={!isValidSignature}
-            label={t('verify.signature', {
-              defaultValue: 'checking the supplied signature'
-            })}
-            onChange={this.onChangeSignature}
-            value={signature}
-          />
-        </div>
+        {this.renderInput()}
+        {this.renderAddress()}
+        {this.renderSignature()}
+      </div>
+    );
+  }
+
+  renderAddress (): React$Node {
+    const { t } = this.props;
+    const { defaultPublicKey, isValidAddress } = this.state;
+
+    return (
+      <div className='ui--row'>
+        <InputAddress
+          className='full'
+          defaultValue={defaultPublicKey}
+          isError={!isValidAddress}
+          isInput
+          label={t('verify.account', {
+            defaultValue: 'verify using address'
+          })}
+          onChange={this.onChangeAddress}
+        />
+      </div>
+    );
+  }
+
+  renderInput (): React$Node {
+    const { t } = this.props;
+    const { data, isHexData } = this.state;
+
+    return (
+      <div className='ui--row'>
+        <Input
+          className='large'
+          label={t('verify.data', {
+            defaultValue: 'using the following data (hex or string)'
+          })}
+          onChange={this.onChangeData}
+          value={data}
+        />
+        <Static
+          className='small'
+          label={t('verify.isHex', {
+            defaultValue: 'hex input data'
+          })}
+          value={
+            isHexData
+              ? t('verify.isHex.yes', {
+                defaultValue: 'Yes'
+              })
+              : t('verify.isHex.no', {
+                defaultValue: 'No'
+              })
+          }
+        />
+      </div>
+    );
+  }
+
+  renderSignature (): React$Node {
+    const { t } = this.props;
+    const { isValid, isValidSignature, signature } = this.state;
+
+    return (
+      <div className='ui--row'>
+        <Input
+          className='full'
+          icon={
+            <Icon
+              color={isValid ? 'green' : (isValidSignature ? 'red' : void 0)}
+              name={isValid ? 'check circle' : (isValidSignature ? 'exclamation circle' : 'help circle')}
+              size='big'
+            />
+          }
+          isError={!isValidSignature}
+          label={t('verify.signature', {
+            defaultValue: 'checking the supplied signature'
+          })}
+          onChange={this.onChangeSignature}
+          value={signature}
+        />
       </div>
     );
   }
@@ -160,8 +186,6 @@ class Verify extends React.PureComponent<Props, State> {
   }
 
   onChangeSignature = (signature: string): void => {
-    console.log('onChangeSig', isHex(signature), signature.length);
-
     const isValidSignature = isHex(signature) && signature.length === 130;
 
     this.nextState({ signature, isValidSignature });

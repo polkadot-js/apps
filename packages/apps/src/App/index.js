@@ -3,32 +3,32 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { I18nProps } from '@polkadot/ui-app/types';
+import type { BareProps } from '@polkadot/ui-app/types';
 
 import './App.css';
 
 import React from 'react';
 
 import classes from '@polkadot/ui-app/util/classes';
+import Signer from '@polkadot/ui-signer';
 
 import Connecting from '../Connecting';
 import Content from '../Content';
 import SideBar from '../SideBar';
-import translate from '../translate';
 
-type Props = I18nProps & {};
+type Props = BareProps & {};
 
-function App ({ className, style }: Props): React$Node {
+export default function Apps ({ className, style }: Props): React$Node {
   return (
     <div
       className={classes('apps--App', className)}
       style={style}
     >
       <SideBar />
-      <Content />
+      <Signer>
+        <Content />
+      </Signer>
       <Connecting />
     </div>
   );
 }
-
-export default translate(App);

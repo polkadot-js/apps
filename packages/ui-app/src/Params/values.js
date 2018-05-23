@@ -3,55 +3,56 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Param, Params } from '@polkadot/params/types';
-import type { RawParam } from './types';
+import type { Params } from '@polkadot/params/types';
+import type { RawParam, RawParam$ValueArray } from './types';
 
 import isUndefined from '@polkadot/util/is/undefined';
 
 import getInitValue from './initValue';
 
 export default function values (params: Params): Array<RawParam> {
-  return Object
-    .values(params)
-    // $FlowFixMe yes, we are sure, the type is correct
-    .map(({ type, options }: Param): RawParam => {
-      if (Array.isArray(type)) {
-        // console.error('Unable to determine default values for array/tuple type', type);
-        //
-        // return {
-        //   isValid: false,
-        //   value: void 0
-        // };
+  const types = Object.keys(params).map((key) => params[key].type);
 
-        if (type.length !== 1) {
-          console.error('Unable to determine default values for tuple type', type);
+  return types.map((type): RawParam => {
+    if (Array.isArray(type)) {
+      // console.error('Unable to determine default values for array/tuple type', type);
+      //
+      // return {
+      //   isValid: false,
+      //   value: void 0
+      // };
 
-          return {
-            isValid: false,
-            value: void 0
-          };
-        }
+      if (type.length !== 1) {
+        console.error('Unable to determine default values for tuple type', type);
 
-        return type.reduce(({ isValid, value }, type) => {
-          // $FlowFixMe still not sure how to iterate through these
-          const avalue = getInitValue(type, {});
-
-          value.push(avalue);
-
-          return {
-            isValid: isValid && !isUndefined(avalue),
-            value
-          };
-        }, { isValid: true, value: [] });
+        return {
+          isValid: false,
+          type,
+          value: void 0
+        };
       }
 
-      const value = getInitValue(type, options);
+      const value: RawParam$ValueArray = [];
 
-      return {
-        isValid: !isUndefined(value),
-        value
-      };
-    });
+      return type.reduce(({ isValid, type }, subtype) => {
+        const avalue = getInitValue(subtype);
+
+        value.push(avalue);
+
+        return {
+          isValid: isValid && !isUndefined(avalue),
+          type,
+          value
+        };
+      }, { isValid: true, type, value });
+    }
+
+    const value = getInitValue(type);
+
+    return {
+      isValid: !isUndefined(value),
+      type,
+      value
+    };
+  });
 }
-
-// 0x050000000600000055555555550ae803000000000000

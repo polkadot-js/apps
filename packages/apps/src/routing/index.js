@@ -10,6 +10,7 @@ import addresses from './addresses';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
 // import home from './home';
+import rpc from './rpc';
 // import settings from './settings';
 import storage from './storage';
 import toolbox from './toolbox';
@@ -19,7 +20,7 @@ import vanitygen from './vanitygen';
 export default ({
   default: 'explorer',
   routes: [].concat(
-    explorer, extrinsics, storage, toolbox, null, accounts, addresses, vanitygen
+    explorer, extrinsics, storage, null, accounts, addresses, vanitygen, null, rpc, toolbox
   ),
   unknown
 }: Routing);

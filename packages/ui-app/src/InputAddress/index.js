@@ -19,7 +19,7 @@ import classes from '../util/classes';
 import addressToAddress from './addressToAddress';
 
 type Props = BareProps & {
-  defaultValue?: string | Uint8Array,
+  defaultValue?: string | Uint8Array | null,
   hideAddress?: boolean;
   isError?: boolean,
   isInput?: boolean,

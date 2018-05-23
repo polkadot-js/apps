@@ -2,20 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 // @flow
-// flowlint sketchy-null-mixed:off
 
-import type { Param$Type } from '@polkadot/params/types';
+import type { Param$Types } from '@polkadot/params/types';
+import type { RawParam$Values } from './types';
 
 import BN from 'bn.js';
 
-type Options = {
-  initValue?: mixed,
-  minValue?: mixed
-};
+import typeToString from '@polkadot/params/typeToString';
 
-export default function getInitValue (type: Param$Type, { initValue, minValue }: Options = {}): ?mixed {
+export default function getInitValue (type: Param$Types): RawParam$Values {
   switch (type) {
     case 'Balance':
+      return new BN(1);
+
     case 'BlockNumber':
     case 'Index':
     case 'SessionKey':
@@ -24,15 +23,43 @@ export default function getInitValue (type: Param$Type, { initValue, minValue }:
     case 'ReferendumIndex':
     case 'u32':
     case 'VoteIndex':
-      return new BN(initValue || minValue || 0);
+      return new BN(0);
 
     case 'bool':
-      return initValue || false;
+      return false;
+
+    case 'String':
+      return '';
+
+    case 'Timestamp':
+      return new Date(0);
 
     case 'VoteThreshold':
-      return initValue || 0;
+      return 0;
+
+    case 'AccountId':
+    case 'Bytes':
+    case 'Call':
+    case 'Code':
+    case 'Digest':
+    case 'Hash':
+    case 'Header':
+    case 'KeyValue':
+    case 'KeyValueStorage':
+    case 'MisbehaviorReport':
+    case 'Proposal':
+    case 'Signature':
+      return void 0;
 
     default:
-      return initValue;
+      if (Array.isArray(type)) {
+        return type.map((subtype) =>
+          getInitValue(subtype)
+        );
+      }
+
+      // NOTE for @flow, if it fails here, we know what is missing
+      (type: empty); // eslint-disable-line no-unused-expressions
+      throw new Error(`Unable to determine default type for ${typeToString(type)}`);
   }
 }

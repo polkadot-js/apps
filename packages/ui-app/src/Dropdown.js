@@ -58,8 +58,7 @@ export default class Dropdown extends React.PureComponent<Props> {
     );
   }
 
-  // flowlint-next-line unclear-type:off
-  onChange = (event: SyntheticEvent<any>, { value }: SUIEvent): void => {
+  onChange = (event: SyntheticEvent<Element>, { value }: SUIEvent): void => {
     const { onChange, transform } = this.props;
 
     onChange(

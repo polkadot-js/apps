@@ -22,7 +22,7 @@ type State = {
   queue: Array<StorageQuery>
 }
 
-class App extends React.PureComponent<Props, State> {
+class StorageApp extends React.PureComponent<Props, State> {
   state: State = {
     queue: []
   };
@@ -62,4 +62,4 @@ class App extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(App);
+export default translate(StorageApp);

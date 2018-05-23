@@ -13,7 +13,7 @@ import Extrinsic from './Extrinsic';
 
 const defaultValue = extrinsics.staking.methods.public.transfer;
 
-export default function Call ({ className, isDisabled, isError, index, label, onChange, style, withLabel }: Props): React$Node {
+export default function Call ({ className, isDisabled, isError, label, onChange, style, withLabel }: Props): React$Node {
   return (
     <Extrinsic
       className={className}
@@ -21,7 +21,6 @@ export default function Call ({ className, isDisabled, isError, index, label, on
       isDisabled={isDisabled}
       isError={isError}
       isPrivate={false}
-      index={index}
       label={label}
       onChange={onChange}
       style={style}

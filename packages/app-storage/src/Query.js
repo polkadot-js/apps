@@ -8,9 +8,9 @@ import type { StorageQuery } from './types';
 
 import React from 'react';
 
+import typeToString from '@polkadot/params/typeToString';
 import Button from '@polkadot/ui-app/Button';
 import Labelled from '@polkadot/ui-app/Labelled';
-import typeToText from '@polkadot/ui-app/Params/typeToText';
 import valueToText from '@polkadot/ui-app/Params/valueToText';
 import classes from '@polkadot/ui-app/util/classes';
 import withStorageDiv from '@polkadot/ui-react-rx/with/storageDiv';
@@ -22,10 +22,11 @@ type Props = I18nProps & {
   value: StorageQuery
 };
 
+type ComponentProps = {};
+
 type State = {
   inputs: Array<React$Node>,
-  // flowlint-next-line unclear-type:off
-  Component: React$ComponentType<any>;
+  Component: React$ComponentType<ComponentProps>;
 };
 
 const cache = [];
@@ -33,21 +34,23 @@ const cache = [];
 class Query extends React.PureComponent<Props, State> {
   state: State = ({}: $Shape<State>);
 
-  static getDerivedStateFromProps ({ value: { id, key, params } }: Props, prevState: State): State | null {
-    // flowlint-next-line unclear-type:off
-    const Component = ((): React$ComponentType<any> => {
-      if (!cache[id]) {
-        const values = params.map(({ value }) => value);
+  static getCachedComponent ({ id, key, params }: StorageQuery): React$ComponentType<ComponentProps> {
+    if (!cache[id]) {
+      const values = params.map(({ value }) => value);
 
-        cache[id] = withStorageDiv(key, { params: values })(
-          (value) =>
-            valueToText(key.type, value),
-          { className: 'ui--output' }
-        );
-      }
+      cache[id] = withStorageDiv(key, { params: values })(
+        (value) =>
+          valueToText(key.type, value),
+        { className: 'ui--output' }
+      );
+    }
 
-      return cache[id];
-    })();
+    return cache[id];
+  }
+
+  static getDerivedStateFromProps ({ value }: Props, prevState: State): State | null {
+    const Component = Query.getCachedComponent(value);
+    const { key, params } = value;
     const inputs = Object
       .keys(key.params)
       .map((name, index) => {
@@ -76,7 +79,7 @@ class Query extends React.PureComponent<Props, State> {
         <Labelled
           className='storage--actionrow-value'
           label={
-            <div>{key.section}.{key.name}({inputs}): {typeToText(key.type)}</div>
+            <div>{key.section}.{key.name}({inputs}): {typeToString(key.type)}</div>
           }
         >
           <Component />

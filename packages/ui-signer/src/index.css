@@ -1,0 +1,59 @@
+/* Copyright 2017-2018 Jaco Greeff
+/* This software may be modified and distributed under the terms
+/* of the ISC license. See the LICENSE file for details. */
+
+.ui--signer-Signer {}
+
+.ui--signer-Signer-Decoded,
+.ui--signer-Signer-Unlock {
+  align-content: center;
+  display: flex;
+  line-height: 1.5em;
+}
+
+.ui--signer-Signer-Decoded {}
+
+.ui--signer-Signer-Unlock {
+  padding-top: 1.5rem;
+}
+
+.ui--signer-Signer-Content {}
+
+.ui--signer-Signer-Content .expanded {
+  padding-right: 2em;
+}
+
+.ui--signer-Signer-Content .expanded .code {
+  background: #f5f5f5;
+  font-family: monospace;
+  margin: 0 0.25em;
+  overflow-wrap: break-word;
+  padding: 0.25em 0.5em;
+  word-break: break-all;
+  word-break: break-word;
+  word-wrap: break-word;
+}
+
+.ui--signer-Status {
+  display: inline-block;
+  position: fixed;
+  right: 0.25rem;
+  top: 0.125rem;
+  z-index: 1001;
+}
+
+.ui--signer-Status-Item {
+  background: #bcdaf0;
+  margin: 0.125rem;
+  padding: 0.5rem 1rem;
+  text-align: center;
+}
+
+.ui--signer-Status-Item .status {
+  font-weight: 700;
+}
+
+.ui--signer-Status-Item.error {
+  background: red;
+  color: white;
+}

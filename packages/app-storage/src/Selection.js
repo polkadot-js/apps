@@ -10,7 +10,7 @@ import type { StorageQuery } from './types';
 
 import React from 'react';
 
-import storage from '@polkadot/storage-substrate/keys';
+import storage from '@polkadot/storage-substrate';
 import Button from '@polkadot/ui-app/Button';
 import InputStorage from '@polkadot/ui-app/InputStorage';
 import Labelled from '@polkadot/ui-app/Labelled';

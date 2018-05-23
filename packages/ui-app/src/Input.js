@@ -94,8 +94,7 @@ export default class Input extends React.PureComponent<Props, State> {
     );
   }
 
-  // flowlint-next-line unclear-type:off
-  onChange = (event: SyntheticEvent<any>, { value }: SUIEvent): void => {
+  onChange = (event: SyntheticEvent<Element>, { value }: SUIEvent): void => {
     this.props.onChange(value);
   }
 }

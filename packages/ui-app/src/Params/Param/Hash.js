@@ -7,19 +7,19 @@ import type { Props } from '../types';
 
 import React from 'react';
 
-import Bytes from './Bytes';
+import BaseBytes from './BaseBytes';
 
-export default function Hash ({ index, isDisabled, isError, label, onChange, value, withLabel }: Props): React$Node {
+export default function Hash ({ defaultValue, isDisabled, isError, label, name, onChange, withLabel }: Props): React$Node {
   return (
-    <Bytes
-      index={index}
+    <BaseBytes
+      defaultValue={defaultValue}
       isDisabled={isDisabled}
       isError={isError}
       label={label}
       length={32}
+      name={name}
       onChange={onChange}
       size='medium'
-      value={value}
       withLabel={withLabel}
     />
   );

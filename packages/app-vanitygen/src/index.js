@@ -42,7 +42,7 @@ const BOOL_OPTIONS = [
   { text: 'Yes', value: true }
 ];
 
-class App extends React.PureComponent<Props, State> {
+class VanityApp extends React.PureComponent<Props, State> {
   results: Array<Generator$Result> = [];
   state: State = {
     elapsed: 0,
@@ -57,82 +57,114 @@ class App extends React.PureComponent<Props, State> {
   };
 
   render (): React$Node {
-    const { className, style, t } = this.props;
-    const { elapsed, isMatchValid, isRunning, match, matches, keyCount, withCase } = this.state;
+    const { className, style } = this.props;
 
     return (
       <div
         className={classes('vanity--App', className)}
         style={style}
       >
-        <div className='ui--row'>
-          <Input
-            className='medium'
-            isDisabled={isRunning}
-            isError={!isMatchValid}
-            label={t('vanity.matching', {
-              defaultValue: 'generate address containing (? wildcard)'
-            })}
-            onChange={this.onChangeMatch}
-            value={match}
+        {this.renderOptions()}
+        {this.renderButtons()}
+        {this.renderStats()}
+        {this.renderMatches()}
+      </div>
+    );
+  }
+
+  renderButtons (): React$Node {
+    const { t } = this.props;
+    const { isMatchValid, isRunning } = this.state;
+
+    return (
+      <Button.Group>
+        <Button
+          isDisabled={!isMatchValid}
+          isPrimary={!isRunning}
+          onClick={this.toggleStart}
+          text={
+            isRunning
+              ? t('vanity.stop', { defaultValue: 'Stop generation' })
+              : t('vanity.start', { defaultValue: 'Start generation' })
+          }
+        />
+      </Button.Group>
+    );
+  }
+
+  renderMatches (): React$Node {
+    const { matches } = this.state;
+
+    return (
+      <div className='vanity--App-matches'>
+        {matches.map((match) => (
+          <Match
+            {...match}
+            key={match.address}
+            onRemove={this.onRemove}
           />
-          <Dropdown
-            className='small'
-            isDisabled={isRunning}
-            label={t('vanity.case', {
-              defaultValue: 'case sensitive match'
-            })}
-            options={BOOL_OPTIONS}
-            onChange={this.onChangeCase}
-            value={withCase}
-          />
-          <Static
-            className='small'
-            label={t('vanity.offset', {
-              defaultValue: 'exact offset'
-            })}
-            value={t('vanity.offset.off', {
-              defaultValue: 'No'
-            })}
-          />
-        </div>
-        <Button.Group>
-          <Button
-            isDisabled={!isMatchValid}
-            isPrimary={!isRunning}
-            onClick={this.toggleStart}
-            text={
-              isRunning
-                ? t('vanity.stop', { defaultValue: 'Stop generation' })
-                : t('vanity.start', { defaultValue: 'Start generation' })
-            }
-          />
-        </Button.Group>
-        {
-          keyCount
-            ? (
-              <div className='vanity--App-stats'>
-                {t('vanity.stats', {
-                  defaultValue: 'Evaluated {{count}} keys in {{elapsed}}s ({{avg}}ms/key)',
-                  replace: {
-                    avg: (elapsed / keyCount).toFixed(3),
-                    count: keyCount,
-                    elapsed: (elapsed / 1000).toFixed(2)
-                  }
-                })}
-              </div>
-            )
-            : null
-        }
-        <div className='vanity--App-matches'>
-          {matches.map((match) => (
-            <Match
-              {...match}
-              key={match.address}
-              onRemove={this.onRemove}
-            />
-          ))}
-        </div>
+        ))}
+      </div>
+    );
+  }
+
+  renderOptions (): React$Node {
+    const { t } = this.props;
+    const { isMatchValid, isRunning, match, withCase } = this.state;
+
+    return (
+      <div className='ui--row'>
+        <Input
+          className='medium'
+          isDisabled={isRunning}
+          isError={!isMatchValid}
+          label={t('vanity.matching', {
+            defaultValue: 'generate address containing (? wildcard)'
+          })}
+          onChange={this.onChangeMatch}
+          value={match}
+        />
+        <Dropdown
+          className='small'
+          isDisabled={isRunning}
+          label={t('vanity.case', {
+            defaultValue: 'case sensitive match'
+          })}
+          options={BOOL_OPTIONS}
+          onChange={this.onChangeCase}
+          value={withCase}
+        />
+        <Static
+          className='small'
+          label={t('vanity.offset', {
+            defaultValue: 'exact offset'
+          })}
+          value={t('vanity.offset.off', {
+            defaultValue: 'No'
+          })}
+        />
+      </div>
+    );
+  }
+
+  renderStats (): React$Node {
+    const { t } = this.props;
+    const { elapsed, keyCount } = this.state;
+
+    if (!keyCount) {
+      return null;
+    }
+
+    return (
+      <div className='vanity--App-stats'>
+        {t('vanity.stats', {
+          defaultValue: 'Evaluated {{count}} keys in {{elapsed}}s ({{avg}}ms/key)',
+          replace: {
+            avg: (elapsed / keyCount).toFixed(3),
+            count: keyCount,
+            elapsed: (elapsed / 1000).toFixed(2)
+          }
+        })}
       </div>
     );
   }
@@ -237,4 +269,4 @@ class App extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(App);
+export default translate(VanityApp);

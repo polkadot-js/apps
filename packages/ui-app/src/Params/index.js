@@ -5,7 +5,7 @@
 
 import type { Section$Item } from '@polkadot/params/types';
 import type { I18nProps } from '../types';
-import type { ComponentMap, RawParam, RawParams } from './types';
+import type { ComponentMap, RawParam, RawParams, RawParam$OnChange } from './types';
 
 import './Params.css';
 
@@ -24,40 +24,50 @@ type Props = I18nProps & {
 
 type State = {
   item: Section$Item,
+  handlers: Array<RawParam$OnChange>,
+  onChangeParam: (at: number, next: RawParam) => void,
   values: RawParams
 };
 
 class Params extends React.PureComponent<Props, State> {
-  state: State = ({}: $Shape<State>);
+  state: State;
 
-  static getDerivedStateFromProps ({ item, onChange }: Props, { item: { name, section } = {} }: State): $Shape<State> | null {
+  constructor (props: Props) {
+    super(props);
+
+    this.state = ({
+      onChangeParam: this.onChangeParam
+    }: $Shape<State>);
+  }
+
+  static getDerivedStateFromProps ({ item, onChange }: Props, { item: { name, section } = {}, onChangeParam }: State): $Shape<State> | null {
     if (name === item.name && section === item.section) {
       return null;
     }
 
     const { params = {} } = item;
     const values = createValues(params);
+    const handlers = values.map(
+      (value, index): RawParam$OnChange =>
+        (value: RawParam): void =>
+          onChangeParam(index, value)
+    );
 
     onChange(values);
 
     return {
       item,
-      values: createValues(params)
+      handlers,
+      values
     };
   }
 
   render (): React$Node {
-    const { className, item, overrides, style } = this.props;
-    const { values } = this.state;
-
-    if (!values.length) {
-      return null;
-    }
-
-    const { name, params = {} } = item;
+    const { className, item: { name, params = {} }, overrides, style } = this.props;
+    const { handlers, values } = this.state;
     const paramNames = Object.keys(params);
 
-    if (paramNames.length === 0) {
+    if (values.length === 0 || paramNames.length === 0) {
       return null;
     }
 
@@ -67,44 +77,44 @@ class Params extends React.PureComponent<Props, State> {
         style={style}
       >
         <div className='ui--Params-Content'>
-          {paramNames.map((paramName, index) => {
-            const { options, type } = params[paramName];
-
-            return (
-              <Param
-                index={index}
-                key={`${name}:${paramName}:${index}`}
-                onChange={this.onChangeParam}
-                overrides={overrides}
-                value={{
-                  name: paramName,
-                  options,
-                  type
-                }}
-              />
-            );
-          })}
+          {paramNames.map((paramName, index) => (
+            <Param
+              defaultValue={values[index]}
+              index={index}
+              key={`${name}:${paramName}:${index}`}
+              name={paramName}
+              onChange={handlers[index]}
+              overrides={overrides}
+              type={params[paramName].type}
+            />
+          ))}
         </div>
       </div>
     );
   }
 
-  onChangeParam = (at: number, next: RawParam): void => {
+  onChangeParam = (at: number, { isValid = false, value }: RawParam): void => {
     this.setState(
       (prevState: State): $Shape<State> => ({
-        values: prevState.values.map((value, index) =>
-          index === at
-            ? next
-            : value
+        values: prevState.values.map((prev, index) =>
+          index !== at
+            ? prev
+            : {
+              isValid,
+              type: prev.type,
+              value
+            }
         )
       }),
-      (): void => {
-        const { onChange } = this.props;
-        const { values } = this.state;
-
-        onChange(values);
-      }
+      this.notifyChange
     );
+  }
+
+  notifyChange = (): void => {
+    const { onChange } = this.props;
+    const { values } = this.state;
+
+    onChange(values);
   }
 }
 

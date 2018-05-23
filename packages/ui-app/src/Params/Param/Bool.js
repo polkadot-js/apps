@@ -17,7 +17,9 @@ const options = [
 
 export default class Bool extends React.PureComponent<Props> {
   render (): React$Node {
-    const { className, isDisabled, isError, label, style, value: { options: { initValue = false } = {} }, withLabel } = this.props;
+    const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
+    // flowlint-next-line unclear-type:off
+    const defaultValue = ((value: any): boolean);
 
     return (
       <Bare
@@ -26,9 +28,9 @@ export default class Bool extends React.PureComponent<Props> {
       >
         <Dropdown
           className='small'
+          defaultValue={defaultValue}
           isDisabled={isDisabled}
           isError={isError}
-          defaultValue={initValue}
           label={label}
           options={options}
           onChange={this.onChange}
@@ -39,9 +41,9 @@ export default class Bool extends React.PureComponent<Props> {
   }
 
   onChange = (value: boolean): void => {
-    const { index, onChange } = this.props;
+    const { onChange } = this.props;
 
-    onChange(index, {
+    onChange({
       isValid: true,
       value
     });

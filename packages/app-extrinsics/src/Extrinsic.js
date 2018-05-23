@@ -6,7 +6,7 @@
 import type { Extrinsic } from '@polkadot/extrinsics/types';
 import type { BareProps } from '@polkadot/ui-app/types';
 import type { RawParam } from '@polkadot/ui-app/Params/types';
-import type { EncodedMessage } from './types';
+import type { EncodedMessage } from '@polkadot/ui-signer/types';
 
 import React from 'react';
 
@@ -24,7 +24,7 @@ type Props = BareProps & {
   isPrivate?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (values: EncodedMessage) => void
+  onChange: (encoded: EncodedMessage) => void
 };
 
 type State = {
@@ -87,7 +87,7 @@ export default class ExtrinsicDisplay extends React.PureComponent<Props, State> 
       onChange({
         extrinsic,
         isValid,
-        value
+        values: [value]
       });
     });
   }

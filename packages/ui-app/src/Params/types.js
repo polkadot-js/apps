@@ -3,33 +3,34 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Param$Type, Param$Types } from '@polkadot/params/types';
+import type { Param$Type, Param$Types, Param$Value } from '@polkadot/params/types';
 import type { BareProps } from '../types';
+
+export type RawParam$Value = ?Param$Value;
+
+export type RawParam$ValueArray = Array<?Param$Value | RawParam$ValueArray>;
+
+export type RawParam$Values = RawParam$Value | RawParam$ValueArray;
 
 export type RawParam = {
   isValid: boolean,
-  value: mixed,
+  type: Param$Types,
+  value: RawParam$Values,
 }
+
+export type RawParam$OnChange = (value: $Shape<RawParam>) => void;
 
 export type RawParams = Array<RawParam>;
 
 export type BaseProps = BareProps & {
-  onChange: (index: number, value: RawParam) => void,
-  value: {
-    name: string,
-    options?: {
-      initValue?: mixed,
-      minValue?: mixed,
-      maxValue?: mixed
-    },
-    type: Param$Types
-  }
+  defaultValue: RawParam,
+  name: string,
+  onChange: RawParam$OnChange
 };
 
 export type Props = BaseProps & {
   isDisabled?: boolean,
   isError?: boolean,
-  index: number,
   label: string,
   withLabel?: boolean
 };
@@ -37,6 +38,5 @@ export type Props = BaseProps & {
 export type Size = 'full' | 'large' | 'medium' | 'small';
 
 export type ComponentMap = {
-  // flowlint-next-line unclear-type:off
-  [Param$Type]: React$ComponentType<any>
+  [Param$Type]: React$ComponentType<Props>
 };

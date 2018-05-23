@@ -9,9 +9,11 @@ import React from 'react';
 
 import CopyButton from './CopyButton';
 import Labelled from './Labelled';
+import classes from './util/classes';
 
 type Props = BareProps & {
   children?: React$Node,
+  isError?: boolean,
   isHidden?: boolean,
   label?: React$Node,
   value?: mixed,
@@ -19,7 +21,7 @@ type Props = BareProps & {
   withLabel?: boolean
 };
 
-export default function Output ({ className, children, isHidden, label, style, value, withCopy = false, withLabel }: Props): React$Node {
+export default function Output ({ className, children, isError = false, isHidden, label, style, value, withCopy = false, withLabel }: Props): React$Node {
   return (
     <Labelled
       className={className}
@@ -28,7 +30,7 @@ export default function Output ({ className, children, isHidden, label, style, v
       style={style}
       withLabel={withLabel}
     >
-      <div className='ui--output'>
+      <div className={classes('ui--output', isError && 'error')}>
         {
           // flowlint-next-line unclear-type:off
           ((value: any): React$Node)

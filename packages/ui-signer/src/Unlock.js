@@ -12,7 +12,7 @@ import Password from '@polkadot/ui-app/Password';
 import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring';
 
-import translate from '../translate';
+import translate from './translate';
 
 type Props = I18nProps & {
   error?: string,
@@ -52,7 +52,7 @@ class Unlock extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={classes('extrinsics--Signer-Unlock', className)}
+        className={classes('ui--signer-Signer-Unlock', className)}
         style={style}
       >
         <div className='ui--row'>

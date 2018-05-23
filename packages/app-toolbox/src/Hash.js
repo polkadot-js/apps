@@ -14,7 +14,7 @@ import classes from '@polkadot/ui-app/util/classes';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import isHex from '@polkadot/util/is/hex';
 import u8aFromString from '@polkadot/util/u8a/fromString';
-import blake2AsHex256 from '@polkadot/util-crypto/blake2/asHex256';
+import blake2AsHex from '@polkadot/util-crypto/blake2/asHex';
 
 import translate from './translate';
 
@@ -27,65 +27,83 @@ type State = {
 class Hash extends React.PureComponent<Props, State> {
   state: State = {
     data: '',
-    hash: blake2AsHex256(u8aFromString('')),
+    hash: blake2AsHex(u8aFromString(''), 256),
     isHexData: false
   };
 
   render (): React$Node {
-    const { className, style, t } = this.props;
-    const { data, hash, isHexData } = this.state;
+    const { className, style } = this.props;
 
     return (
       <div
         className={classes('toolbox--Hash', className)}
         style={style}
       >
-        <div className='ui--row'>
-          <Input
-            className='large'
-            label={t('hash.data', {
-              defaultValue: 'from the following data (hex or string)'
-            })}
-            onChange={this.onChangeData}
-            value={data}
-          />
-          <Static
-            className='small'
-            label={t('hash.isHex', {
-              defaultValue: 'hex input data'
-            })}
-            value={
-              isHexData
-                ? t('hash.isHex.yes', {
-                  defaultValue: 'Yes'
-                })
-                : t('hash.isHex.no', {
-                  defaultValue: 'No'
-                })
-            }
-          />
-        </div>
-        <div className='ui--row'>
-          <Output
-            className='full toolbox--hex'
-            isHidden={hash.length === 0}
-            label={t('hash.output', {
-              defaultValue: 'the resulting hash is'
-            })}
-            value={hash}
-            withCopy
-          />
-        </div>
+        {this.renderInput()}
+        {this.renderOutput()}
+      </div>
+    );
+  }
+
+  renderInput (): React$Node {
+    const { t } = this.props;
+    const { data, isHexData } = this.state;
+
+    return (
+      <div className='ui--row'>
+        <Input
+          className='large'
+          label={t('hash.data', {
+            defaultValue: 'from the following data (hex or string)'
+          })}
+          onChange={this.onChangeData}
+          value={data}
+        />
+        <Static
+          className='small'
+          label={t('hash.isHex', {
+            defaultValue: 'hex input data'
+          })}
+          value={
+            isHexData
+              ? t('hash.isHex.yes', {
+                defaultValue: 'Yes'
+              })
+              : t('hash.isHex.no', {
+                defaultValue: 'No'
+              })
+          }
+        />
+      </div>
+    );
+  }
+
+  renderOutput (): React$Node {
+    const { t } = this.props;
+    const { hash } = this.state;
+
+    return (
+      <div className='ui--row'>
+        <Output
+          className='full toolbox--hex'
+          isHidden={hash.length === 0}
+          label={t('hash.output', {
+            defaultValue: 'the resulting hash is'
+          })}
+          value={hash}
+          withCopy
+        />
       </div>
     );
   }
 
   onChangeData = (data: string): void => {
     const isHexData = isHex(data);
-    const hash = blake2AsHex256(
+    const hash = blake2AsHex(
       isHexData
         ? hexToU8a(data)
-        : u8aFromString(data)
+        : u8aFromString(data),
+      256
     );
 
     this.setState({ data, hash, isHexData });

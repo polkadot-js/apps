@@ -12,10 +12,9 @@ import Bare from './Bare';
 
 export default class Account extends React.PureComponent<Props> {
   render (): React$Node {
-    const { className, isDisabled, isError, label, style, value: { options: { initValue } = {} }, withLabel } = this.props;
-
+    const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
     // flowlint-next-line unclear-type:off
-    const defaultValue = ((initValue: any): Uint8Array);
+    const defaultValue = ((value: any): Uint8Array);
 
     return (
       <Bare
@@ -38,9 +37,9 @@ export default class Account extends React.PureComponent<Props> {
   }
 
   onChange = (value?: Uint8Array): void => {
-    const { index, onChange } = this.props;
+    const { onChange } = this.props;
 
-    onChange(index, {
+    onChange({
       isValid: !!value && value.length === 32,
       value
     });

@@ -5,11 +5,12 @@
 
 import type BN from 'bn.js';
 import type { I18nProps } from '@polkadot/ui-app/types';
-import type { EncodedMessage, QueueTx } from './types';
+import type { EncodedMessage, QueueTx$MessageAdd } from '@polkadot/ui-signer/types';
 
 import React from 'react';
 
 import extrinsics from '@polkadot/extrinsics-substrate';
+import rpc from '@polkadot/jsonrpc';
 import Button from '@polkadot/ui-app/Button';
 import classes from '@polkadot/ui-app/util/classes';
 
@@ -19,7 +20,7 @@ import Nonce from './Nonce';
 import translate from './translate';
 
 type Props = I18nProps & {
-  onQueue: (value: QueueTx) => void
+  queueAdd: QueueTx$MessageAdd
 };
 
 type State = {
@@ -30,8 +31,7 @@ type State = {
 };
 
 const defaultExtrinsic = extrinsics.staking.methods.public.transfer;
-
-let id = 0;
+const defaultRpc = rpc.author.methods.submitExtrinsic;
 
 class Selection extends React.PureComponent<Props, State> {
   state: State = ({
@@ -117,17 +117,15 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   onQueue = (): void => {
-    const { onQueue } = this.props;
-    const { encoded: { extrinsic, isValid, value }, nonce, publicKey } = this.state;
+    const { queueAdd } = this.props;
+    const { encoded: { isValid, values }, nonce, publicKey } = this.state;
 
-    onQueue({
-      extrinsic,
-      id: ++id,
+    queueAdd({
       isValid,
       nonce,
       publicKey,
-      status: 'queued',
-      value
+      rpc: defaultRpc,
+      values
     });
   }
 }
