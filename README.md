@@ -22,6 +22,7 @@ The repo is split into a number of packages, each representing an application. T
 - [app-addresses](packages/app-addresses/) A basic address management app.
 - [app-explorer](packages/app-explorer/) A simple block explorer. It only shows the most recent blocks, updating as they become available.
 - [app-extrinsics](packages/app-extrinsics/) Submission of extrinsics to a node.
+- [app-rpc](packages/app-rpc/) Sumission of raw data to RPC endpoints.
 - [app-storage](packages/app-storage/) A simple node storage query application. Multiple queries can be queued and updates as new values become available.
 - [app-toolbox](packages/app-toolbox/) Utilities to manage data.
 - [app-vanitygen](packages/app-vanitygen/) A toy that allows you to generate vanity addresses. Running `yarn run vanitygen --match <string>` runs the generator as a Node CLI app. (Orders of a magnitude faster due to the use of libsoldium bindings)
@@ -29,4 +30,4 @@ The repo is split into a number of packages, each representing an application. T
 In addition the following libraries are also included in the repo. These are to be moved to the [@polkadot/ui](https://github.com/polkadot-js/ui/) repository once it reaches a base level of stability and usability. (At this point with the framework being tested on the apps above, it makes development easier having it close)
 
 - [ui-keyring](packages/ui-keyring/) A browser-specific wrapper around the base [@polkadot/util-keyring](https://github.com/polkadot-js/util/) libary.
-- [ui-react-app](packages/ui-react-app/) A reactive (using RxJS) application framework with a number of useful shared components.
+- [ui-app](packages/ui-app/) A reactive (using RxJS) application framework with a number of useful shared components.
