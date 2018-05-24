@@ -5,8 +5,9 @@
 
 // TODO: We have a lot shared between this and InputStorage
 
-import type { Extrinsic, ExtrinsicSectionName } from '@polkadot/extrinsics/types';
+import type { Extrinsic$Method, Extrinsic$Sections } from '@polkadot/extrinsics/types';
 import type { I18nProps } from '../types';
+import type { DropdownOptions } from './types';
 
 import './InputExtrinsic.css';
 
@@ -18,19 +19,23 @@ import translate from '../translate';
 import SelectMethod from './SelectMethod';
 import SelectSection from './SelectSection';
 import methodOptions from './options/method';
+import sectionOptions from './options/section';
 
 type Props = I18nProps & {
-  defaultValue: Extrinsic,
+  defaultValue: Extrinsic$Method,
   isError?: boolean,
   isPrivate?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (value: Extrinsic) => void,
+  onChange: (value: Extrinsic$Method) => void,
   withLabel?: boolean
 };
 
 type State = {
-  value: Extrinsic
+  optionsMethod: DropdownOptions,
+  optionsSection: DropdownOptions,
+  type: 'private' | 'public',
+  value: Extrinsic$Method
 };
 
 class InputExtrinsic extends React.PureComponent<Props, State> {
@@ -39,15 +44,28 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    this.state = {
+    this.state = ({
       value: this.props.defaultValue
+    }: $Shape<State>);
+  }
+
+  static getDerivedStateFromProps ({ isPrivate = false }: Props, { type, value: { section } }: State): $Shape<State> {
+    const newType = isPrivate ? 'private' : 'public';
+
+    if (newType === type) {
+      return null;
+    }
+
+    return {
+      optionsMethod: methodOptions(section, newType),
+      optionsSection: sectionOptions(newType),
+      type: newType
     };
   }
 
   render (): React$Node {
-    const { className, isPrivate = false, labelMethod, labelSection, style, withLabel } = this.props;
-    const { value } = this.state;
-    const type = isPrivate ? 'private' : 'public';
+    const { className, labelMethod, labelSection, style, withLabel } = this.props;
+    const { optionsMethod, optionsSection, type, value } = this.state;
 
     return (
       <div
@@ -58,7 +76,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
           className='small'
           label={labelSection}
           onChange={this.onSectionChange}
-          type={type}
+          options={optionsSection}
           value={value}
           withLabel={withLabel}
         />
@@ -66,6 +84,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
           className='large'
           label={labelMethod}
           onChange={this.onKeyChange}
+          options={optionsMethod}
           value={value}
           type={type}
           withLabel={withLabel}
@@ -74,26 +93,32 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     );
   }
 
-  onKeyChange = (value: Extrinsic): void => {
+  onKeyChange = (value: Extrinsic$Method): void => {
     const { onChange } = this.props;
+    const { value: { name, section } } = this.state;
+
+    if (value.section === section && value.name === name) {
+      return;
+    }
 
     this.setState({ value }, () =>
       onChange(value)
     );
   }
 
-  onSectionChange = (section: ExtrinsicSectionName): void => {
-    const { isPrivate = false } = this.props;
+  onSectionChange = (newSection: Extrinsic$Sections): void => {
+    const { type, value: { section } } = this.state;
 
-    if (this.state.value.section === section) {
+    if (newSection === section) {
       return;
     }
 
-    const type = isPrivate ? 'private' : 'public';
-    const options = methodOptions(section, type);
-    const value = map[section].methods[type][options[0].value];
+    const optionsMethod = methodOptions(newSection, type);
+    const value = map[newSection][type][optionsMethod[0].value];
 
-    this.onKeyChange(value);
+    this.setState({ optionsMethod }, () =>
+      this.onKeyChange(value)
+    );
   }
 }
 

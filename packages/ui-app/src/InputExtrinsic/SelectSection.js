@@ -3,29 +3,27 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Extrinsic, ExtrinsicSectionName } from '@polkadot/extrinsics/types';
+import type { Extrinsic$Method, Extrinsic$Sections } from '@polkadot/extrinsics/types';
 import type { I18nProps } from '../types';
+import type { DropdownOptions } from './types';
 
 import React from 'react';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
 import translate from '../translate';
-import createOptions from './options/section';
 
 type Props = I18nProps & {
-  defaultValue?: ExtrinsicSectionName,
+  defaultValue?: Extrinsic$Sections,
   isError?: boolean,
   label?: string,
-  onChange: (value: ExtrinsicSectionName) => void,
-  type: 'private' | 'public',
-  value: Extrinsic,
+  onChange: (value: Extrinsic$Sections) => void,
+  options: DropdownOptions,
+  value: Extrinsic$Method,
   withLabel?: boolean
 };
 
-function SelectSection ({ className, defaultValue, isError, label = '', onChange, style, t, type, value: { section }, withLabel }: Props): React$Node {
-  const options = createOptions(type);
-
+function SelectSection ({ className, defaultValue, isError, label = '', onChange, options, style, t, value: { section }, withLabel }: Props): React$Node {
   return (
     <Dropdown
       className={classes('ui--DropdownLinked-Sections', className)}

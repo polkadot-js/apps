@@ -3,15 +3,15 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { InterfaceTypes } from '@polkadot/jsonrpc/types';
+import type { Interface$Sections } from '@polkadot/jsonrpc/types';
+import type { DropdownOptions } from '../../InputExtrinsic/types';
 
 import React from 'react';
 
 import map from '@polkadot/jsonrpc';
 
-// flowlint-next-line unclear-type:off
-export default function createOptions (sectionName: any): Array<any> {
-  const section = map[(sectionName: InterfaceTypes)];
+export default function createOptions (sectionName: Interface$Sections): DropdownOptions {
+  const section = map[sectionName];
 
   if (!section) {
     return [];

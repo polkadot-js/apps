@@ -4,7 +4,7 @@
 // @flow
 
 import type BN from 'bn.js';
-import type { InterfaceMethodDefinition } from '@polkadot/jsonrpc/types';
+import type { Interface$Method } from '@polkadot/jsonrpc/types';
 import type { Param$Values } from '@polkadot/params/types';
 
 export type EncodedMessage = {
@@ -23,7 +23,7 @@ export type QueueTx$Result = {
 }
 
 export type QueueTx$Base = EncodedMessage & {
-  rpc: InterfaceMethodDefinition,
+  rpc: Interface$Method,
   nonce: BN,
   publicKey?: Uint8Array | null
 };

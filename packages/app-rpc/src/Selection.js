@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { InterfaceMethodDefinition } from '@polkadot/jsonrpc/types';
+import type { Interface$Method } from '@polkadot/jsonrpc/types';
 import type { RawParam } from '@polkadot/ui-app/Params/types';
 import type { I18nProps } from '@polkadot/ui-app/types';
 import type { QueueTx$MessageAdd } from '@polkadot/ui-signer/types';
@@ -31,7 +31,7 @@ type State = {
   isValid: boolean,
   nonce: BN,
   publicKey?: Uint8Array | null,
-  rpc: InterfaceMethodDefinition,
+  rpc: Interface$Method,
   values: Array<RawParam>
 }
 
@@ -116,7 +116,7 @@ class Selection extends React.PureComponent<Props, State> {
     this.nextState({ nonce, publicKey });
   }
 
-  onChangeMethod = (rpc: InterfaceMethodDefinition): void => {
+  onChangeMethod = (rpc: Interface$Method): void => {
     this.nextState({ rpc });
   }
 

@@ -3,15 +3,15 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { StateDb$SectionNames } from '@polkadot/storage/types';
+import type { Storage$Sections } from '@polkadot/storage/types';
+import type { DropdownOptions } from '../../InputExtrinsic/types';
 
 import React from 'react';
 
 import map from '@polkadot/storage-substrate';
 
-// flowlint-next-line unclear-type:off
-export default function createOptions (sectionName: any): Array<any> {
-  const section = map[(sectionName: StateDb$SectionNames)];
+export default function createOptions (sectionName: Storage$Sections): DropdownOptions {
+  const section = map[sectionName];
 
   if (!section) {
     return [];

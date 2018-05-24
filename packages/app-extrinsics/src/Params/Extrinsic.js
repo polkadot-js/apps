@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Extrinsic } from '@polkadot/extrinsics/types';
+import type { Extrinsic$Method } from '@polkadot/extrinsics/types';
 import type { I18nProps } from '@polkadot/ui-app/types';
 import type { RawParam$OnChange } from '@polkadot/ui-app/Params/types';
 import type { EncodedMessage } from '@polkadot/ui-signer/types';
@@ -14,7 +14,7 @@ import BaseExtrinsic from '../Extrinsic';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  defaultValue: Extrinsic,
+  defaultValue: Extrinsic$Method,
   isDisabled: boolean,
   isError: boolean,
   isPrivate: boolean,
@@ -23,7 +23,7 @@ type Props = I18nProps & {
   withLabel?: boolean,
 };
 
-class CExtrinsic extends React.PureComponent<Props> {
+class Extrinsic extends React.PureComponent<Props> {
   render (): React$Node {
     const { className, defaultValue, isDisabled, isError, isPrivate, label, style, t, withLabel } = this.props;
 
@@ -64,4 +64,4 @@ class CExtrinsic extends React.PureComponent<Props> {
   }
 }
 
-export default translate(CExtrinsic);
+export default translate(Extrinsic);

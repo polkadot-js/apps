@@ -4,31 +4,26 @@
 // @flow
 
 import type { RxApiInterface } from '@polkadot/api-rx/types';
-import type { InterfaceMethodDefinition } from '@polkadot/jsonrpc/types';
+import type { Interface$Method } from '@polkadot/jsonrpc/types';
 import type { Param$Values } from '@polkadot/params/types';
 import type { QueueTx$Result } from './types';
 
-export default function submitMessage (api: RxApiInterface, params: Array<Param$Values>, rpc: InterfaceMethodDefinition): Promise<QueueTx$Result> {
-  const { name, section } = rpc;
+export default async function submitMessage (api: RxApiInterface, params: Array<Param$Values>, { name, section }: Interface$Method): Promise<QueueTx$Result> {
+  try {
+    const result = await api[section][name].apply(null, params).toPromise();
 
-  // $FlowFixMe This should not be an issue...
-  return api[section][name]
-    .apply(null, params)
-    .toPromise()
-    .then((result) => {
-      console.log(`${section}.${name}: result ::`, result);
+    console.log(`${section}.${name}: result ::`, result);
 
-      return {
-        result,
-        status: 'sent'
-      };
-    })
-    .catch((error) => {
-      console.error(error);
+    return {
+      result,
+      status: 'sent'
+    };
+  } catch (error) {
+    console.error(error);
 
-      return {
-        error,
-        status: 'error'
-      };
-    });
+    return {
+      error,
+      status: 'error'
+    };
+  }
 }

@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Extrinsic } from '@polkadot/extrinsics/types';
+import type { Extrinsic$Method } from '@polkadot/extrinsics/types';
 import type { BareProps } from '@polkadot/ui-app/types';
 import type { RawParam } from '@polkadot/ui-app/Params/types';
 import type { EncodedMessage } from '@polkadot/ui-signer/types';
@@ -19,7 +19,7 @@ import isUndefined from '@polkadot/util/is/undefined';
 import paramComponents from './Params';
 
 type Props = BareProps & {
-  defaultValue: Extrinsic,
+  defaultValue: Extrinsic$Method,
   isError?: boolean,
   isPrivate?: boolean,
   labelMethod?: string,
@@ -28,7 +28,7 @@ type Props = BareProps & {
 };
 
 type State = {
-  extrinsic: Extrinsic,
+  extrinsic: Extrinsic$Method,
   values: Array<RawParam>
 };
 
@@ -92,7 +92,7 @@ export default class ExtrinsicDisplay extends React.PureComponent<Props, State> 
     });
   }
 
-  onChangeExtrinsic = (extrinsic: Extrinsic): void => {
+  onChangeExtrinsic = (extrinsic: Extrinsic$Method): void => {
     this.nextState({ extrinsic });
   };
 

@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { StorageDef$Key } from '@polkadot/storage/types';
+import type { Storage$Key } from '@polkadot/storage/types';
 import type { I18nProps } from '@polkadot/ui-app/types';
 import type { RawParams } from '@polkadot/ui-app/Params/types';
 import type { StorageQuery } from './types';
@@ -26,7 +26,7 @@ type Props = I18nProps & {
 
 type State = {
   isValid: boolean,
-  key: StorageDef$Key,
+  key: Storage$Key,
   params: RawParams
 };
 
@@ -105,7 +105,7 @@ class Selection extends React.PureComponent<Props, State> {
     });
   }
 
-  onChangeKey = (key: StorageDef$Key): void => {
+  onChangeKey = (key: Storage$Key): void => {
     this.nextState({ key });
   }
 

@@ -9,7 +9,7 @@ import type { Param$Types, Param$Type$Array } from '@polkadot/params/types';
 // import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import addressEncode from '@polkadot/util-keyring/address/encode';
-import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
+import u8aToHex from '@polkadot/util/u8a/toHex';
 import isBn from '@polkadot/util/is/bn';
 import isU8a from '@polkadot/util/is/u8a';
 
@@ -47,7 +47,7 @@ function valueToText (type: Param$Types, value: any): string {
   }
 
   if (isU8a(value)) {
-    return u8aToHexShort((value: Uint8Array), 256);
+    return u8aToHex((value: Uint8Array), 256);
   }
 
   if (isBn(value)) {

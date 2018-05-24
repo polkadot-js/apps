@@ -5,7 +5,8 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic
 
-import type { StorageDef$Key, StateDb$SectionNames } from '@polkadot/storage/types';
+import type { Storage$Key, Storage$Sections } from '@polkadot/storage/types';
+import type { DropdownOptions } from '../InputExtrinsic/types';
 import type { I18nProps } from '../types';
 
 import '../InputExtrinsic/InputExtrinsic.css';
@@ -19,18 +20,21 @@ import translate from '../translate';
 import SelectKey from './SelectKey';
 import SelectSection from './SelectSection';
 import keyOptions from './options/key';
+import sectionOptions from './options/section';
 
 type Props = I18nProps & {
-  defaultValue: StorageDef$Key,
+  defaultValue: Storage$Key,
   isError?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (value: StorageDef$Key) => void,
+  onChange: (value: Storage$Key) => void,
   withLabel?: boolean
 };
 
 type State = {
-  value: StorageDef$Key
+  optionsMethod: DropdownOptions,
+  optionsSection: DropdownOptions,
+  value: Storage$Key
 };
 
 class InputStorage extends React.PureComponent<Props, State> {
@@ -39,14 +43,18 @@ class InputStorage extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
+    const { section } = this.props.defaultValue;
+
     this.state = {
+      optionsMethod: keyOptions(section),
+      optionsSection: sectionOptions(),
       value: this.props.defaultValue
     };
   }
 
   render (): React$Node {
     const { className, labelMethod, labelSection, style, withLabel } = this.props;
-    const { value } = this.state;
+    const { optionsMethod, optionsSection, value } = this.state;
 
     return (
       <div
@@ -57,6 +65,7 @@ class InputStorage extends React.PureComponent<Props, State> {
           className='small'
           label={labelSection}
           onChange={this.onSectionChange}
+          options={optionsSection}
           value={value}
           withLabel={withLabel}
         />
@@ -64,6 +73,7 @@ class InputStorage extends React.PureComponent<Props, State> {
           className='large'
           label={labelMethod}
           onChange={this.onKeyChange}
+          options={optionsMethod}
           value={value}
           withLabel={withLabel}
         />
@@ -71,23 +81,32 @@ class InputStorage extends React.PureComponent<Props, State> {
     );
   }
 
-  onKeyChange = (value: StorageDef$Key): void => {
+  onKeyChange = (value: Storage$Key): void => {
     const { onChange } = this.props;
+    const { value: { name, section } } = this.state;
+
+    if (value.section === section && value.name === name) {
+      return;
+    }
 
     this.setState({ value }, () =>
       onChange(value)
     );
   }
 
-  onSectionChange = (section: StateDb$SectionNames): void => {
-    if (this.state.value.section === section) {
+  onSectionChange = (newSection: Storage$Sections): void => {
+    const { value: { section } } = this.state;
+
+    if (newSection === section) {
       return;
     }
 
-    const options = keyOptions(section);
-    const value = map[section].keys[options[0].value];
+    const optionsMethod = keyOptions(newSection);
+    const value = map[newSection].keys[optionsMethod[0].value];
 
-    this.onKeyChange(value);
+    this.setState({ optionsMethod }, () =>
+      this.onKeyChange(value)
+    );
   }
 }
 

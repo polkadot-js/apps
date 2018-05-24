@@ -3,15 +3,16 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { DropdownOptions } from '../types';
+
 import map from '@polkadot/extrinsics-substrate';
 
-// flowlint-next-line unclear-type:off
-export default function createOptions (type: 'private' | 'public'): Array<any> {
+export default function createOptions (type: 'private' | 'public'): DropdownOptions {
   return Object
     .keys(map)
     .sort()
     .filter((name) => {
-      const methods = map[name].methods[type];
+      const methods = map[name][type];
 
       return Object.keys(methods).length !== 0;
     })
