@@ -1,1 +1,1 @@
-# @polkadot/portal
+# @polkadot/apps

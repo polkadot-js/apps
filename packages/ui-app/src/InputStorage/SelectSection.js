@@ -3,7 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { StorageDef$Key, StateDb$SectionNames } from '@polkadot/storage/types';
+import type { Storage$Key, Storage$Sections } from '@polkadot/storage/types';
+import type { DropdownOptions } from '../InputExtrinsic/types';
 import type { I18nProps } from '../types';
 
 import React from 'react';
@@ -11,20 +12,18 @@ import React from 'react';
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
 import translate from '../translate';
-import createOptions from './options/section';
 
 type Props = I18nProps & {
-  defaultValue?: StateDb$SectionNames,
+  defaultValue?: Storage$Sections,
   isError?: boolean,
   label: string,
-  onChange: (value: StateDb$SectionNames) => void,
-  value: StorageDef$Key,
+  onChange: (value: Storage$Sections) => void,
+  options: DropdownOptions,
+  value: Storage$Key,
   withLabel?: boolean
 };
 
-const options = createOptions();
-
-function SelectSection ({ className, defaultValue, isError, label, onChange, style, t, value: { section }, withLabel }: Props): React$Node {
+function SelectSection ({ className, defaultValue, isError, label, onChange, options, style, t, value: { section }, withLabel }: Props): React$Node {
   return (
     <Dropdown
       className={classes('ui--DropdownLinked-Sections', className)}

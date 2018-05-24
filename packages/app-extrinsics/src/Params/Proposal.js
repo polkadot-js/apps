@@ -11,7 +11,7 @@ import extrinsics from '@polkadot/extrinsics-substrate';
 
 import Extrinsic from './Extrinsic';
 
-const defaultValue = extrinsics.consensus.methods.private.setCode;
+const defaultValue = extrinsics.consensus.private.setCode;
 
 export default function Proposal ({ className, isDisabled, isError, label, onChange, style, withLabel }: Props): React$Node {
   return (

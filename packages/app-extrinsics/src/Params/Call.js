@@ -11,7 +11,7 @@ import extrinsics from '@polkadot/extrinsics-substrate';
 
 import Extrinsic from './Extrinsic';
 
-const defaultValue = extrinsics.staking.methods.public.transfer;
+const defaultValue = extrinsics.staking.public.transfer;
 
 export default function Call ({ className, isDisabled, isError, label, onChange, style, withLabel }: Props): React$Node {
   return (

@@ -3,11 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { StorageDef$Key } from '@polkadot/storage/types';
+import type { Storage$Key } from '@polkadot/storage/types';
 
 export type StorageQuery = {
   id: number,
-  key: StorageDef$Key,
+  key: Storage$Key,
   // flowlint-next-line unclear-type:off
   params: Array<any>
 }

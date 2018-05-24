@@ -3,8 +3,9 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Extrinsic } from '@polkadot/extrinsics/types';
+import type { Extrinsic$Method } from '@polkadot/extrinsics/types';
 import type { I18nProps } from '../types';
+import type { DropdownOptions } from './types';
 
 import React from 'react';
 
@@ -13,27 +14,24 @@ import extrinsics from '@polkadot/extrinsics-substrate';
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
 import translate from '../translate';
-import createOptions from './options/method';
 
 type Props = I18nProps & {
   isError?: boolean,
   label?: string,
-  onChange: (value: Extrinsic) => void,
+  onChange: (value: Extrinsic$Method) => void,
+  options: DropdownOptions,
   type: 'private' | 'public',
-  value: Extrinsic,
+  value: Extrinsic$Method,
   withLabel?: boolean
 };
 
-function SelectMethod ({ className, isError, label = '', onChange, style, t, type, value: { name, section }, withLabel }: Props): React$Node {
-  // $FlowFixMe string vs ...
-  if (!extrinsics[section]) {
+function SelectMethod ({ className, isError, label = '', onChange, options, style, t, type, value: { name, section }, withLabel }: Props): React$Node {
+  if (!options.length) {
     return null;
   }
 
-  const methods = extrinsics[section].methods[type];
-  const transform = (name: string): Extrinsic =>
-    methods[name];
-  const options = createOptions(section, type);
+  const transform = (name: string): Extrinsic$Method =>
+    extrinsics[section][type][name];
 
   return (
     <Dropdown

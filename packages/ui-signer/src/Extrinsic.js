@@ -13,7 +13,7 @@ import { Trans } from 'react-i18next';
 import extrinsics from '@polkadot/extrinsics-substrate';
 import Modal from '@polkadot/ui-app/Modal';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
-import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
+import u8aToHex from '@polkadot/util/u8a/toHex';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
 import translate from './translate';
@@ -28,7 +28,7 @@ function findExtrinsic (sectionId: number, methodId: number): { method: ?string,
     extrinsics[section].index[0] === sectionId
   );
   const methods = section
-    ? extrinsics[section].methods.public
+    ? extrinsics[section].public
     : {};
   const method = Object.keys(methods).find((method) =>
     methods[method].index[1] === methodId
@@ -70,7 +70,7 @@ function Extrinsic ({ children, className, style, t, value: { nonce = new BN(0),
             })}
           </p>
           <p className='code'>
-            {u8aToHexShort(value, 512)}
+            {u8aToHex(value, 512)}
           </p>
         </div>
         <IdentityIcon

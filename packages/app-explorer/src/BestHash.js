@@ -7,12 +7,12 @@ import type { Header } from '@polkadot/primitives/header';
 
 import headerHash from '@polkadot/primitives-codec/header/hash';
 import withApiDiv from '@polkadot/ui-react-rx/with/apiDiv';
-import u8aToHexShort from '@polkadot/util/u8a/toHexShort';
+import u8aToHex from '@polkadot/util/u8a/toHex';
 
 export default withApiDiv({ name: 'newHead', section: 'chain' })(
   (value?: Header): ?string => {
     return value
-      ? u8aToHexShort(headerHash(value))
+      ? u8aToHex(headerHash(value), 64)
       : value;
   },
   { className: 'explorer--BestHash' }

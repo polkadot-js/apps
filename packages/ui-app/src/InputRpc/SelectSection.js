@@ -3,7 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { InterfaceMethodDefinition, InterfaceTypes } from '@polkadot/jsonrpc/types';
+import type { Interface$Method, Interface$Sections } from '@polkadot/jsonrpc/types';
+import type { DropdownOptions } from '../InputExtrinsic/types';
 import type { I18nProps } from '../types';
 
 import React from 'react';
@@ -13,13 +14,12 @@ import classes from '../util/classes';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  defaultValue?: InterfaceTypes,
+  defaultValue?: Interface$Sections,
   isError?: boolean,
   label: string,
-  onChange: (value: InterfaceTypes) => void,
-  // flowlint-next-line unclear-type:off
-  options: Array<any>,
-  value: InterfaceMethodDefinition,
+  onChange: (value: Interface$Sections) => void,
+  options: DropdownOptions,
+  value: Interface$Method,
   withLabel?: boolean
 };
 

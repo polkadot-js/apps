@@ -17,13 +17,15 @@ import Param from './Param';
 import createValues from './values';
 
 type Props = I18nProps & {
-  item: Section$Item,
+  // flowlint-next-line unclear-type:off
+  item: Section$Item<any>,
   onChange: (value: RawParams) => void,
   overrides?: ComponentMap
 };
 
 type State = {
-  item: Section$Item,
+  // flowlint-next-line unclear-type:off
+  item: Section$Item<any>,
   handlers: Array<RawParam$OnChange>,
   onChangeParam: (at: number, next: RawParam) => void,
   values: RawParams

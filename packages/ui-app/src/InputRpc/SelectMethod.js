@@ -3,7 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { InterfaceMethodDefinition } from '@polkadot/jsonrpc/types';
+import type { Interface$Method, Interface$Sections } from '@polkadot/jsonrpc/types';
+import type { DropdownOptions } from '../InputExtrinsic/types';
 import type { I18nProps } from '../types';
 
 import React from 'react';
@@ -17,10 +18,9 @@ import translate from '../translate';
 type Props = I18nProps & {
   isError?: boolean,
   label?: string,
-  onChange: (value: InterfaceMethodDefinition) => void,
-  // flowlint-next-line unclear-type:off
-  options: Array<any>,
-  value: InterfaceMethodDefinition,
+  onChange: (value: Interface$Method) => void,
+  options: DropdownOptions,
+  value: Interface$Method,
   withLabel?: boolean
 };
 
@@ -29,8 +29,7 @@ function SelectMethod ({ className, isError, label = '', onChange, options, styl
     return null;
   }
 
-  const transform = (name: string): InterfaceMethodDefinition =>
-    // $FlowFixMe ... string to type :(
+  const transform = (name: Interface$Sections): Interface$Method =>
     map[section].methods[name];
 
   return (

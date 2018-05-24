@@ -13,6 +13,7 @@ import Bytes from './Bytes';
 import Code from './Code';
 import Hash from './Hash';
 import KeyValue from './KeyValue';
+import StringParam from './String';
 import Unknown from './Unknown';
 import VoteThreshold from './VoteThreshold';
 
@@ -34,7 +35,7 @@ const components: ComponentMap = {
   'ReferendumIndex': Amount,
   'SessionKey': Amount,
   'Signature': Hash,
-  'String': Unknown,
+  'String': StringParam,
   'Timestamp': Amount,
   'u32': Amount,
   'u64': Amount,

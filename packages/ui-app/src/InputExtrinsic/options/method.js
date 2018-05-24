@@ -3,21 +3,21 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { ExtrinsicSectionName } from '@polkadot/extrinsics/types';
+import type { Extrinsic$Sections } from '@polkadot/extrinsics/types';
+import type { DropdownOptions } from '../types';
 
 import React from 'react';
 
 import map from '@polkadot/extrinsics-substrate';
 
-// flowlint-next-line unclear-type:off
-export default function createOptions (sectionName: any, type: 'private' | 'public'): Array<any> {
-  const section = map[(sectionName: ExtrinsicSectionName)];
+export default function createOptions (sectionName: Extrinsic$Sections, type: 'private' | 'public'): DropdownOptions {
+  const section = map[sectionName];
 
   if (!section) {
     return [];
   }
 
-  const methods = section.methods[type];
+  const methods = section[type];
 
   return Object
     .keys(methods)

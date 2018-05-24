@@ -5,7 +5,8 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic & InputStorage
 
-import type { InterfaceMethodDefinition, InterfaceTypes } from '@polkadot/jsonrpc/types';
+import type { Interface$Method, Interface$Sections } from '@polkadot/jsonrpc/types';
+import type { DropdownOptions } from '../InputExtrinsic/types';
 import type { I18nProps } from '../types';
 
 import '../InputExtrinsic/InputExtrinsic.css';
@@ -22,20 +23,18 @@ import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
 type Props = I18nProps & {
-  defaultValue: InterfaceMethodDefinition,
+  defaultValue: Interface$Method,
   isError?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (value: InterfaceMethodDefinition) => void,
+  onChange: (value: Interface$Method) => void,
   withLabel?: boolean
 };
 
 type State = {
-  // flowlint-next-line unclear-type:off
-  optionsMethod: Array<any>,
-  // flowlint-next-line unclear-type:off
-  optionsSection: Array<any>,
-  value: InterfaceMethodDefinition
+  optionsMethod: DropdownOptions,
+  optionsSection: DropdownOptions,
+  value: Interface$Method
 };
 
 class InputRpc extends React.PureComponent<Props, State> {
@@ -82,7 +81,7 @@ class InputRpc extends React.PureComponent<Props, State> {
     );
   }
 
-  onMethodChange = (value: InterfaceMethodDefinition): void => {
+  onMethodChange = (value: Interface$Method): void => {
     const { onChange } = this.props;
     const { value: { name, section } } = this.state;
 
@@ -95,7 +94,7 @@ class InputRpc extends React.PureComponent<Props, State> {
     );
   }
 
-  onSectionChange = (newSection: InterfaceTypes): void => {
+  onSectionChange = (newSection: Interface$Sections): void => {
     const { value: { section } } = this.state;
 
     if (newSection === section) {
