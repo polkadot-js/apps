@@ -12,6 +12,8 @@ import Output from '@polkadot/ui-app/Output';
 import classes from '@polkadot/ui-app/util/classes';
 import isUndefined from '@polkadot/util/is/undefined';
 
+import resultToText from './resultToText';
+
 type Props = BareProps & {
   queue: Array<QueueTx>
 };
@@ -40,7 +42,7 @@ export default function Results ({ className, queue = [], style }: Props): React
           value={
             error
               ? error.message
-              : result
+              : resultToText(result)
           }
         />
       ))}

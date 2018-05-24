@@ -12,7 +12,7 @@ import u8aToHex from '@polkadot/util/u8a/toHex';
 export default withApiDiv({ name: 'newHead', section: 'chain' })(
   (value?: Header): ?string => {
     return value
-      ? u8aToHex(headerHash(value), 128)
+      ? u8aToHex(headerHash(value), 64)
       : value;
   },
   { className: 'explorer--BestHash' }
