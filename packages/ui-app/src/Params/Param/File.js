@@ -28,6 +28,12 @@ type State = {
   }
 };
 
+type LoadEvent = {
+  target: { // eslint-disable-line react/no-unused-prop-types
+    result: ArrayBuffer
+  }
+};
+
 class BytesFile extends React.PureComponent<Props, State> {
   state: State = {};
 
@@ -72,9 +78,8 @@ class BytesFile extends React.PureComponent<Props, State> {
 
       reader.onabort = () => {};
       reader.onerror = () => {};
-      reader.onload = () => {
-        // flowlint-next-line unclear-type:off
-        const data = new Uint8Array((((reader.result): any): ArrayBuffer));
+      reader.onload = ({ target: { result } }: LoadEvent) => {
+        const data = new Uint8Array(result);
 
         onChange(data);
 
