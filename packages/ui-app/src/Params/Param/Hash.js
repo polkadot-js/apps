@@ -9,9 +9,10 @@ import React from 'react';
 
 import BaseBytes from './BaseBytes';
 
-export default function Hash ({ defaultValue, isDisabled, isError, label, name, onChange, withLabel }: Props): React$Node {
+export default function Hash ({ className, defaultValue, isDisabled, isError, label, name, onChange, style, withLabel }: Props): React$Node {
   return (
     <BaseBytes
+      className={className}
       defaultValue={defaultValue}
       isDisabled={isDisabled}
       isError={isError}
@@ -20,6 +21,7 @@ export default function Hash ({ defaultValue, isDisabled, isError, label, name, 
       name={name}
       onChange={onChange}
       size='medium'
+      style={style}
       withLabel={withLabel}
     />
   );

@@ -4,10 +4,10 @@
 // @flow
 
 import type { Storage$Key } from '@polkadot/storage/types';
+import type { RawParams } from '@polkadot/ui-app/Params/types';
 
 export type StorageQuery = {
   id: number,
   key: Storage$Key,
-  // flowlint-next-line unclear-type:off
-  params: Array<any>
+  params: RawParams
 }

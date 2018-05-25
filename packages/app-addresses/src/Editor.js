@@ -25,8 +25,7 @@ type State = {
   currentAddress: KeyringAddress | null,
   defaultPublicKey?: Uint8Array,
   editedName: string,
-  isEdited: boolean,
-  info: KeyringAddress | null
+  isEdited: boolean
 }
 
 class Editor extends React.PureComponent<Props, State> {
@@ -157,7 +156,7 @@ class Editor extends React.PureComponent<Props, State> {
 
   nextState (newState?: $Shape<State> = {}): void {
     this.setState(
-      (prevState: State): $Shape<State> => {
+      (prevState: State): State => {
         let { currentAddress = prevState.currentAddress, editedName = prevState.editedName } = newState;
         const previous = prevState.currentAddress || { address: () => null };
         let isEdited = false;

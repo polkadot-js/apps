@@ -32,15 +32,16 @@ type State = {
   values: Array<RawParam>
 };
 
-export default class ExtrinsicDisplay extends React.PureComponent<Props, State> {
+export default class Extrinsic extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
     super(props);
 
-    this.state = ({
-      extrinsic: props.defaultValue
-    }: $Shape<State>);
+    this.state = {
+      extrinsic: props.defaultValue,
+      values: []
+    };
   }
 
   render (): React$Node {

@@ -13,9 +13,10 @@ import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Balance from '@polkadot/ui-react-rx/Balance';
 import Nonce from '@polkadot/ui-react-rx/Nonce';
 import addressDecode from '@polkadot/util-keyring/address/decode';
+import addressEncode from '@polkadot/util-keyring/address/encode';
 
 type Props = BareProps & {
-  value: string | null;
+  value: string;
 }
 
 type State = {
@@ -31,13 +32,10 @@ const DEFAULT_SHORT = `${DEFAULT_ADDR.slice(0, 7)}…${DEFAULT_ADDR.slice(-7)}`;
 export default class Address extends React.PureComponent<Props, State> {
   state: State = ({}: $Shape<State>);
 
-  static getDerivedStateFromProps ({ value }: Props, { publicKey, shortValue }: State): State {
-    // flowlint-next-line sketchy-null-string:off
-    const address = value || DEFAULT_ADDR;
-
+  static getDerivedStateFromProps ({ value }: Props, { address, publicKey, shortValue }: State): State {
     try {
-      // $FlowFixMe yes, we expect a throw when invalid
       publicKey = addressDecode(value);
+      address = addressEncode(publicKey);
       shortValue = `${address.slice(0, 7)}…${address.slice(-7)}`;
     } catch (error) {
       publicKey = null;

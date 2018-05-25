@@ -15,7 +15,6 @@ import translate from '../../translate';
 import findComponent from './findComponent';
 
 type Props = I18nProps & BaseProps & {
-  index: number,
   overrides?: ComponentMap
 };
 
@@ -43,15 +42,15 @@ class ParamComponent extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { className, defaultValue, index, name, onChange, style } = this.props;
+    const { className, defaultValue, name, onChange, style } = this.props;
     const type = typeToString(defaultValue.type);
 
     return (
       <Component
         className={classes('ui--Param', className)}
         defaultValue={defaultValue}
-        key={`${name}:${type}:${index}}`}
-        label={`${name}: ${type} (${index})`}
+        key={`${name}:${type}`}
+        label={`${name}: ${type}`}
         name={name}
         onChange={onChange}
         style={style}

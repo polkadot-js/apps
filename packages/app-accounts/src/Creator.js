@@ -76,7 +76,7 @@ class Creator extends React.PureComponent<Props, State> {
             value={
               isSeedValid
                 ? address
-                : null
+                : ''
             }
           />
           {this.renderInput()}
@@ -171,7 +171,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   nextState (newState: $Shape<State>): void {
     this.setState(
-      (prevState: State, props: Props): $Shape<State> => {
+      (prevState: State, props: Props): State => {
         const { name = prevState.name, password = prevState.password, seed = prevState.seed } = newState;
         let address = prevState.address;
         const isNameValid = !!name;

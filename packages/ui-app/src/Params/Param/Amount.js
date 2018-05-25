@@ -37,7 +37,7 @@ export default class Amount extends React.PureComponent<Props> {
     );
   }
 
-  onChange = (value: number): void => {
+  onChange = (value: string): void => {
     const { onChange } = this.props;
 
     onChange({
