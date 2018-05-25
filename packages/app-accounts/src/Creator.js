@@ -76,7 +76,7 @@ class Creator extends React.PureComponent<Props, State> {
             value={
               isSeedValid
                 ? address
-                : null
+                : ''
             }
           />
           {this.renderInput()}

@@ -25,8 +25,7 @@ type Props = BareProps & {
   label?: React$Node,
   max?: mixed,
   min?: mixed,
-  // flowlint-next-line unclear-type:off
-  onChange: (value: any) => void,
+  onChange: (value: string) => void,
   placeholder?: string,
   type?: Input$Type,
   value?: mixed,

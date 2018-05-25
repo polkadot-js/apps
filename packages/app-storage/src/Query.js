@@ -38,6 +38,7 @@ class Query extends React.PureComponent<Props, State> {
     if (!cache[id]) {
       const values = params.map(({ value }) => value);
 
+      // $FlowFixMe we SHOULD be transforming these before passing
       cache[id] = withStorageDiv(key, { params: values })(
         (value) =>
           valueToText(key.type, value),
