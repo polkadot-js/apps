@@ -89,12 +89,10 @@ class Params extends React.PureComponent<Props, State> {
           {paramNames.map((paramName, index) => (
             <Param
               defaultValue={values[index]}
-              index={index}
               key={`${name}:${paramName}:${index}`}
               name={paramName}
               onChange={handlers[index]}
               overrides={overrides}
-              type={params[paramName].type}
             />
           ))}
         </div>
