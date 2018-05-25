@@ -8,10 +8,8 @@
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "license": "ISC",
   "scripts": {
-    "build": "react-scripts build",
-    "check": "stylelint 'src/**/*.css' && eslint src && flow check",
-    "start": "react-scripts start",
-    "test": "react-scripts test --env=jsdom --coverage"
+    "build": "polkadot-dev-build-babel",
+    "check": "stylelint 'src/**/*.css' && eslint src && flow check"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.47",

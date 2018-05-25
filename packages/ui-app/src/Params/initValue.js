@@ -18,10 +18,11 @@ export default function getInitValue (type: Param$Types): RawParam$Values {
     case 'BlockNumber':
     case 'Index':
     case 'SessionKey':
-    case 'u64':
     case 'PropIndex':
     case 'ReferendumIndex':
     case 'u32':
+    case 'u64':
+    case 'u128':
     case 'VoteIndex':
       return new BN(0);
 
@@ -53,9 +54,7 @@ export default function getInitValue (type: Param$Types): RawParam$Values {
 
     default:
       if (Array.isArray(type)) {
-        return type.map((subtype) =>
-          getInitValue(subtype)
-        );
+        return type.map(getInitValue);
       }
 
       // NOTE for @flow, if it fails here, we know what is missing
