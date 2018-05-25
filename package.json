@@ -15,7 +15,7 @@
     "test": "echo 'no tests executed'"
   },
   "devDependencies": {
-    "@polkadot/dev-react": "^0.19.10",
+    "@polkadot/dev-react": "^0.19.11",
     "gh-pages": "^1.1.0"
   }
 }
