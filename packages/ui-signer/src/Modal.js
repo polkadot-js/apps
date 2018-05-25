@@ -34,7 +34,6 @@ type UnlockI18n = {
 type State = {
   currentItem?: QueueTx,
   password: string,
-  sendItem: (item: QueueTx) => Promise<void>,
   unlockError: UnlockI18n | null
 };
 
@@ -46,12 +45,11 @@ class Signer extends React.PureComponent<Props, State> {
 
     this.state = {
       password: '',
-      sendItem: this.sendItem,
       unlockError: null
     };
   }
 
-  static getDerivedStateFromProps ({ queue }: Props, { currentItem, password, sendItem, unlockError }: State): $Shape<State> {
+  static getDerivedStateFromProps ({ queue }: Props, { currentItem, password, unlockError }: State): $Shape<State> {
     const nextItem = queue.find(({ status }) =>
       status === 'queued'
     );
@@ -65,15 +63,19 @@ class Signer extends React.PureComponent<Props, State> {
         )
       );
 
-    if (nextItem && nextItem.rpc.isSigned !== true) {
-      sendItem(nextItem);
-    }
-
     return {
       currentItem: nextItem,
       password: isSame ? password : '',
       unlockError: isSame ? unlockError : null
     };
+  }
+
+  componentDidUpdate (prevProps: Props, prevState: State) {
+    const { currentItem } = this.state;
+
+    if (currentItem && currentItem.status === 'queued' && currentItem.rpc.isSigned !== true) {
+      this.sendItem(currentItem);
+    }
   }
 
   render (): React$Node {
@@ -202,7 +204,7 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetStatus(currentItem.id, 'cancelled');
   }
 
-  onSend = async (): Promise<void> => {
+  onSend = (): void => {
     const { currentItem, password } = this.state;
 
     // This should never be executed

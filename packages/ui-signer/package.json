@@ -12,13 +12,12 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.47",
-    "@polkadot/extrinsics": "^0.16.8",
+    "@polkadot/extrinsics": "^0.16.9",
     "@polkadot/ui-app": "^0.6.6",
-    "@polkadot/ui-keyring": "^0.6.6",
-    "@polkadot/util": "^0.22.2"
+    "@polkadot/ui-keyring": "^0.6.6"
   },
   "peerDependencies": {
-    "react": "^16.3.1",
+    "react": "^16.4.0",
     "semantic-ui-react": "^0.80.0"
   }
 }
