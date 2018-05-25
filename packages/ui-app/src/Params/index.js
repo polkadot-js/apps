@@ -42,7 +42,7 @@ class Params extends React.PureComponent<Props, State> {
     }: $Shape<State>);
   }
 
-  static getDerivedStateFromProps ({ item, onChange }: Props, { item: { name, section } = {}, onChangeParam }: State): $Shape<State> | null {
+  static getDerivedStateFromProps ({ item }: Props, { item: { name, section } = {}, onChangeParam }: State): $Shape<State> | null {
     if (name === item.name && section === item.section) {
       return null;
     }
@@ -55,13 +55,20 @@ class Params extends React.PureComponent<Props, State> {
           onChangeParam(index, value)
     );
 
-    onChange(values);
-
     return {
       item,
       handlers,
       values
     };
+  }
+
+  componentDidUpdate (prevProps: Props, prevState: State) {
+    const { onChange } = this.props;
+    const { values } = this.state;
+
+    if (prevState.values !== values) {
+      onChange(values);
+    }
   }
 
   render (): React$Node {
