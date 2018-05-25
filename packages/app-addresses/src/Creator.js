@@ -127,7 +127,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   nextState (newState: $Shape<State>): void {
     this.setState(
-      (prevState: State, props: Props): $Shape<State> => {
+      (prevState: State, props: Props): State => {
         const { address = prevState.address, name = prevState.name } = newState;
 
         let isAddressValid = true;

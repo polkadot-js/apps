@@ -31,7 +31,7 @@ type State = {
 class Unlock extends React.PureComponent<Props, State> {
   state: State = ({}: $Shape<State>);
 
-  static getDerivedStateFromProps ({ error, password, value }: Props): $Shape<State> {
+  static getDerivedStateFromProps ({ error, password, value }: Props): State {
     const pair = keyring.getPair(value);
     const isLocked = !pair.hasSecretKey();
 
