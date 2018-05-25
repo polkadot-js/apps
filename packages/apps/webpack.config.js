@@ -108,11 +108,11 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       ]
     },
     node: {
+      child_process: 'empty',
       dgram: 'empty',
       fs: 'empty',
       net: 'empty',
-      tls: 'empty',
-      child_process: 'empty'
+      tls: 'empty'
     },
     optimization: {
       runtimeChunk: 'single',
