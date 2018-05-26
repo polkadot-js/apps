@@ -48,9 +48,12 @@ export default class Queue extends React.Component<Props, State> {
           item.id === id
             ? {
               ...item,
-              error: error || item.error,
-              // flowlint-next-line sketchy-null-mixed:off
-              result: result || item.result,
+              error: error === undefined
+                ? item.error
+                : error,
+              result: result === undefined
+                ? item.result
+                : result,
               status
             }
             : item

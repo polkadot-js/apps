@@ -11,6 +11,8 @@ import { addressKey } from '../defaults';
 import createOptions from '../options';
 
 export default function saveRecent (state: State, address: string): KeyringOption {
+  console.log('saveRecent', address);
+
   if (!state.available[address]) {
     const json = {
       address,

@@ -14,9 +14,11 @@ import { NavLink } from 'react-router-dom';
 import Icon from '@polkadot/ui-app/Icon';
 import Menu from '@polkadot/ui-app/Menu';
 
-type Props = I18nProps & Route & {};
+type Props = I18nProps & {
+  route: Route
+};
 
-export default function Item ({ i18n, icon, isExact, name, path = '', t }: Props): React$Node {
+export default function Item ({ route: { i18n, icon, isExact, name, path = '' }, t }: Props): React$Node {
   return (
     <Menu.Item className='apps--SideBar-Item'>
       <NavLink

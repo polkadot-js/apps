@@ -3,14 +3,14 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import React from 'react';
-import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
+import type { KeyringOption } from '../types';
 
-// flowlint-next-line unclear-type:off
-export default function createHeader (text: string): React$Element<any> {
-  return (
-    <Dropdown.Header key={`header-${text.toLowerCase()}`}>
-      {text}
-    </Dropdown.Header>
-  );
+export default function createHeader (name: string): KeyringOption {
+  return {
+    className: 'header disabled',
+    name,
+    key: `header-${name.toLowerCase()}`,
+    text: name,
+    value: null
+  };
 }
