@@ -49,7 +49,7 @@ class Signer extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ queue }: Props, { currentItem, password, unlockError }: State): $Shape<State> {
+  static getDerivedStateFromProps ({ queue }: Props, { currentItem, password, unlockError }: State): State {
     const nextItem = queue.find(({ status }) =>
       status === 'queued'
     );

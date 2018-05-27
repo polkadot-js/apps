@@ -17,7 +17,6 @@ import translate from './translate';
 type Props = I18nProps & {
   error?: string,
   onChange: (password: string) => void,
-  publicKey: Uint8Array,
   password: string,
   value: Uint8Array,
 }
