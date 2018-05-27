@@ -36,8 +36,7 @@ function SideBar ({ className, style, t }: Props): React$Node {
                 <Item
                   key={route.name}
                   t={t}
-                  // flowlint-next-line inexact-spread:off
-                  {...route}
+                  route={route}
                 />
               )
               : (

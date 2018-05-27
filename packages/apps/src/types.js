@@ -3,12 +3,12 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { BareProps } from '@polkadot/ui-app/types';
+
 export type Route = {
-  // flowlint-next-line unclear-type:off
-  Component: React$ComponentType<any>,
+  Component: React$ComponentType<BareProps>,
   i18n: I18Next$Translate$Config,
-  // flowlint-next-line unclear-type:off
-  icon: React$ComponentType<any> | string,
+  icon: string,
   isExact: boolean,
   isHidden: boolean,
   name: string,

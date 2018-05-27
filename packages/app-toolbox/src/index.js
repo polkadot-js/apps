@@ -26,8 +26,7 @@ type State = {
 }
 
 // FIXME React-router would probably be the best route, not home-grown
-// flowlint-next-line unclear-type:off
-const Components: { [Actions]: React$ComponentType<any> } = {
+const Components: { [Actions]: React$ComponentType<{}> } = {
   'hash': Hash,
   'sign': Sign,
   'verify': Verify

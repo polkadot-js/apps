@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { I18nProps } from '@polkadot/ui-app/types';
+import type { BareProps } from '@polkadot/ui-app/types';
 import type { QueueProps } from '@polkadot/ui-signer/types';
 
 import './index.css';
@@ -16,7 +16,7 @@ import Signer from '@polkadot/ui-signer';
 import Results from './Results';
 import Selection from './Selection';
 
-type Props = I18nProps & {};
+type Props = BareProps & {};
 
 export default function RpcApp ({ className, style }: Props): React$Node {
   return (

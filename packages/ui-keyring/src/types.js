@@ -7,27 +7,17 @@ import type { KeyringInstance as BaseKeyringInstance, KeyringPair, KeyringPair$M
 
 export type KeyringOption$Type = 'account' | 'address' | 'all' | 'recent' | 'testing';
 
-export type KeyringOption$Data = {
-  'data-is-account'?: boolean,
-  'data-is-recent'?: boolean,
-  'data-is-testing'?: boolean,
-  'data-when-created'?: number,
-  'data-when-edited'?: number,
-  'data-when-used'?: number
-}
-
-export type KeyringOption = KeyringOption$Data & {
+export type KeyringOption = {
   className?: string,
   disabled?: boolean,
   content?: React$Node | string,
   key: string | null,
   name: string,
   text: React$Node | string,
-  value: string
+  value: string | null
 };
 
-// flowlint-next-line unclear-type:off
-export type KeyringOptions = Array<KeyringOption | React$Element<any>>;
+export type KeyringOptions = Array<KeyringOption>;
 
 export type KeyringJson$Meta = {
   isRecent?: boolean,

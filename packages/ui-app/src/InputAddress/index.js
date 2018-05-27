@@ -26,13 +26,11 @@ type Props = BareProps & {
   label?: string,
   onChange: (value: Uint8Array) => void,
   type?: KeyringOption$Type,
-  value?: string | Uint8Array,
   withLabel?: boolean
 };
 
 type State = {
   defaultValue: ?string;
-  value: ?string;
 }
 
 const RECENT_KEY = 'header-recent';
@@ -51,20 +49,13 @@ export default class InputAddress extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      defaultValue: addressToAddress(props.defaultValue),
-      value: addressToAddress(props.value)
-    };
-  }
-
-  static getDerivedStateFromProps ({ value }: Props): $Shape<State> {
-    return {
-      value: addressToAddress(value)
+      defaultValue: addressToAddress(props.defaultValue)
     };
   }
 
   render (): React$Node {
     const { className, hideAddress = false, isError, label, onChange, style, type = 'all', withLabel } = this.props;
-    const { defaultValue, value } = this.state;
+    const { defaultValue } = this.state;
     const options = keyring.getOptions(type);
 
     return (
@@ -78,7 +69,6 @@ export default class InputAddress extends React.Component<Props, State> {
         options={options}
         style={style}
         transform={transform}
-        value={value}
         withLabel={withLabel}
       />
     );
@@ -88,12 +78,10 @@ export default class InputAddress extends React.Component<Props, State> {
     const { isInput = true } = this.props;
     const queryLower = query.toLowerCase();
     const matches = filteredOptions.filter((item) => {
-      // $FlowFixMe yes, this is how we check for Element (??!)
-      if (!item || !item.value) {
+      if (item.value === null) {
         return true;
       }
 
-      // $FLowFixMe we should now have value elements
       const { name, value } = item;
       const hasMatch = name.toLowerCase().indexOf(queryLower) !== -1 ||
       value.toLowerCase().indexOf(queryLower) !== -1;
@@ -101,10 +89,8 @@ export default class InputAddress extends React.Component<Props, State> {
       return hasMatch;
     });
 
-    // $FlowFixMe yes, this is how we check for Element
-    const valueMatches = matches.filter((item) => item.value);
+    const valueMatches = matches.filter((item) => item.value !== null);
 
-    // see if we should add a new item, i.e. no valid address found
     if (isInput && valueMatches.length === 0) {
       const publicKey = transform(query);
 
@@ -122,17 +108,11 @@ export default class InputAddress extends React.Component<Props, State> {
     }
 
     return matches.filter((item, index) => {
-      if (!item) {
-        return false;
-      }
-
       const isLast = index === matches.length - 1;
       const nextItem = matches[index + 1];
-      // $FlowFixMe yes, this is how we check for Element
       const hasNext = nextItem && nextItem.value;
 
-      // $FlowFixMe yes, this is how we check for Element
-      if (item.value || (!isLast && hasNext)) {
+      if (item.value !== null || (!isLast && hasNext)) {
         return true;
       }
 

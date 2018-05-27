@@ -7,14 +7,15 @@ import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
 export default function addressToAddress (value?: string | Uint8Array): ?string {
-  // flowlint-next-line sketchy-null-string:off
-  if (value) {
-    try {
-      return addressEncode(
-        addressDecode(value)
-      );
-    } catch (error) {
-      console.error('Unable to encode address', value);
-    }
+  if (value === undefined) {
+    return;
+  }
+
+  try {
+    return addressEncode(
+      addressDecode(value)
+    );
+  } catch (error) {
+    console.error('Unable to encode address', value);
   }
 }

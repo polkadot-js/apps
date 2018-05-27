@@ -11,17 +11,15 @@ import SUIDropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
 import classes from './util/classes';
 import Labelled from './Labelled';
 
-type Props = BareProps & {
+type Props<Option> = BareProps & {
   defaultValue?: mixed,
   isDisabled?: boolean,
   isError?: boolean,
   label?: React$Node,
   // flowlint-next-line unclear-type:off
   onChange: (value: any) => void,
-  // flowlint-next-line unclear-type:off
-  onSearch?: (filteredOptions: Array<any>, query: string) => Array<any>,
-  // flowlint-next-line unclear-type:off
-  options: Array<any>,
+  onSearch?: (filteredOptions: Array<Option>, query: string) => Array<Option>,
+  options: Array<Option>,
   // flowlint-next-line unclear-type:off
   transform?: (value: any) => any,
   value?: mixed,
@@ -29,11 +27,10 @@ type Props = BareProps & {
 };
 
 type SUIEvent = {
-  // flowlint-next-line unclear-type:off
-  value: any
+  value: string
 };
 
-export default class Dropdown extends React.PureComponent<Props> {
+export default class Dropdown<Option> extends React.PureComponent<Props<Option>> {
   render (): React$Node {
     const { className, defaultValue, isDisabled, isError, label, onSearch, options, style, withLabel, value } = this.props;
 
