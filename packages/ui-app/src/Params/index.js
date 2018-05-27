@@ -16,33 +16,31 @@ import translate from '../translate';
 import Param from './Param';
 import createValues from './values';
 
-type Props = I18nProps & {
-  // flowlint-next-line unclear-type:off
-  item: Section$Item<any>,
+type Props<SectionItem> = I18nProps & {
+  item: SectionItem,
   onChange: (value: RawParams) => void,
   overrides?: ComponentMap
 };
 
-type State = {
-  // flowlint-next-line unclear-type:off
-  item: Section$Item<any>,
+type State<SectionItem> = {
+  item: SectionItem,
   handlers: Array<RawParam$OnChange>,
   onChangeParam: (at: number, next: RawParam) => void,
   values: RawParams
 };
 
-class Params extends React.PureComponent<Props, State> {
-  state: State;
+class Params<T, SectionItem: Section$Item<T>> extends React.PureComponent<Props<SectionItem>, State<SectionItem>> {
+  state: State<SectionItem>;
 
-  constructor (props: Props) {
+  constructor (props: Props<SectionItem>) {
     super(props);
 
     this.state = ({
       onChangeParam: this.onChangeParam
-    }: $Shape<State>);
+    }: $Shape<State<SectionItem>>);
   }
 
-  static getDerivedStateFromProps ({ item }: Props, { item: { name, section } = {}, onChangeParam }: State): $Shape<State> | null {
+  static getDerivedStateFromProps ({ item }: Props<SectionItem>, { item: { name, section } = {}, onChangeParam }: State<SectionItem>): $Shape<State<SectionItem>> | null {
     if (name === item.name && section === item.section) {
       return null;
     }
@@ -62,7 +60,7 @@ class Params extends React.PureComponent<Props, State> {
     };
   }
 
-  componentDidUpdate (prevProps: Props, prevState: State) {
+  componentDidUpdate (prevProps: Props<SectionItem>, prevState: State<SectionItem>) {
     const { onChange } = this.props;
     const { values } = this.state;
 
@@ -102,7 +100,7 @@ class Params extends React.PureComponent<Props, State> {
 
   onChangeParam = (at: number, { isValid = false, value }: RawParam): void => {
     this.setState(
-      (prevState: State): $Shape<State> => ({
+      (prevState: State<SectionItem>): $Shape<State<SectionItem>> => ({
         values: prevState.values.map((prev, index) =>
           index !== at
             ? prev
