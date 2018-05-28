@@ -3,7 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { EncodingVersions } from '@polkadot/extrinsics-codec/types';
 import type { Extrinsic$Method } from '@polkadot/extrinsics/types';
 import type { BareProps } from '@polkadot/ui-app/types';
 import type { ApiProps } from '@polkadot/ui-react-rx/types';
@@ -32,8 +31,7 @@ type Props = BareProps & ApiProps & {
 
 type State = {
   extrinsic: Extrinsic$Method,
-  values: Array<RawParam>,
-  apiSupport: EncodingVersions
+  values: Array<RawParam>
 };
 
 class Extrinsic extends React.PureComponent<Props, State> {
@@ -44,20 +42,8 @@ class Extrinsic extends React.PureComponent<Props, State> {
 
     this.state = {
       extrinsic: props.defaultValue,
-      values: [],
-      apiSupport: 'poc-1'
+      values: []
     };
-  }
-
-  componentDidMount () {
-    // FIXME should be shared component, no unmount here
-    this.props.api.system.version().subscribe((nodeVersion?: string) => {
-      this.setState({
-        apiSupport: nodeVersion === undefined || nodeVersion === '0.1.0'
-          ? 'poc-1'
-          : 'latest'
-      });
-    });
   }
 
   render (): React$Node {
@@ -88,8 +74,8 @@ class Extrinsic extends React.PureComponent<Props, State> {
 
   nextState (newState: $Shape<State>): void {
     this.setState(newState, () => {
-      const { onChange } = this.props;
-      const { apiSupport, extrinsic, values } = this.state;
+      const { apiSupport, onChange } = this.props;
+      const { extrinsic, values } = this.state;
       const params = Object.values(extrinsic.params);
       const isValid = values.length === params.length &&
         params.reduce((isValid, param, index) =>
