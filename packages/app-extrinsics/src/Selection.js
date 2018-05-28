@@ -31,7 +31,7 @@ type State = {
 };
 
 const defaultExtrinsic = extrinsics.staking.public.transfer;
-const defaultRpc = rpc.author.methods.submitExtrinsic;
+const defaultRpc = rpc.author.public.submitExtrinsic;
 
 class Selection extends React.PureComponent<Props, State> {
   state: State = ({

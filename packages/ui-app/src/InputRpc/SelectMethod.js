@@ -30,7 +30,7 @@ function SelectMethod ({ className, isError, label = '', onChange, options, styl
   }
 
   const transform = (name: Interface$Sections): Interface$Method =>
-    map[section].methods[name];
+    map[section].public[name];
 
   return (
     <Dropdown

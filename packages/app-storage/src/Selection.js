@@ -30,7 +30,7 @@ type State = {
   params: RawParams
 };
 
-const defaultValue = storage.timestamp.keys.current;
+const defaultValue = storage.timestamp.public.current;
 let id = -1;
 
 class Selection extends React.PureComponent<Props, State> {

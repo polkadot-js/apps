@@ -21,12 +21,12 @@ export default function createOptions (sectionName: Interface$Sections): Dropdow
     .keys(section.methods)
     .sort()
     .filter((name) => {
-      const { isDeprecated = false, isHidden = false, isSubscription = false } = section.methods[name];
+      const { isDeprecated = false, isHidden = false, isSubscription = false } = section.public[name];
 
       return !isDeprecated && !isHidden && !isSubscription;
     })
     .map((name) => {
-      const { description = '', params = {} } = section.methods[name];
+      const { description = '', params = {} } = section.public[name];
       const inputs = Object.keys(params).join(', ');
 
       return {
