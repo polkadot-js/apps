@@ -10,6 +10,18 @@
   background: transparent !important;
 }
 
+.explorer--NodeInfo {
+  font-size: 0.75rem;
+  opacity: 0.5;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.explorer--NodeInfo div {
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
 .explorer--BestHash,
 .explorer--BestNumber {
   font-weight: 100;

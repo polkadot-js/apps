@@ -3,8 +3,10 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { EncodingVersions } from '@polkadot/extrinsics-codec/types';
 import type { Extrinsic$Method } from '@polkadot/extrinsics/types';
 import type { BareProps } from '@polkadot/ui-app/types';
+import type { ApiProps } from '@polkadot/ui-react-rx/types';
 import type { RawParam } from '@polkadot/ui-app/Params/types';
 import type { EncodedMessage } from '@polkadot/ui-signer/types';
 
@@ -15,10 +17,11 @@ import InputExtrinsic from '@polkadot/ui-app/InputExtrinsic';
 import Params from '@polkadot/ui-app/Params';
 import classes from '@polkadot/ui-app/util/classes';
 import isUndefined from '@polkadot/util/is/undefined';
+import withApi from '@polkadot/ui-react-rx/with/api';
 
 import paramComponents from './Params';
 
-type Props = BareProps & {
+type Props = BareProps & ApiProps & {
   defaultValue: Extrinsic$Method,
   isError?: boolean,
   isPrivate?: boolean,
@@ -29,10 +32,11 @@ type Props = BareProps & {
 
 type State = {
   extrinsic: Extrinsic$Method,
-  values: Array<RawParam>
+  values: Array<RawParam>,
+  apiSupport: EncodingVersions
 };
 
-export default class Extrinsic extends React.PureComponent<Props, State> {
+class Extrinsic extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -40,8 +44,20 @@ export default class Extrinsic extends React.PureComponent<Props, State> {
 
     this.state = {
       extrinsic: props.defaultValue,
-      values: []
+      values: [],
+      apiSupport: 'poc-1'
     };
+  }
+
+  componentDidMount () {
+    // FIXME should be shared component, no unmount here
+    this.props.api.system.version().subscribe((nodeVersion?: string) => {
+      this.setState({
+        apiSupport: nodeVersion === undefined || nodeVersion === '0.1.0'
+          ? 'poc-1'
+          : 'latest'
+      });
+    });
   }
 
   render (): React$Node {
@@ -73,7 +89,7 @@ export default class Extrinsic extends React.PureComponent<Props, State> {
   nextState (newState: $Shape<State>): void {
     this.setState(newState, () => {
       const { onChange } = this.props;
-      const { extrinsic, values } = this.state;
+      const { apiSupport, extrinsic, values } = this.state;
       const params = Object.values(extrinsic.params);
       const isValid = values.length === params.length &&
         params.reduce((isValid, param, index) =>
@@ -82,7 +98,7 @@ export default class Extrinsic extends React.PureComponent<Props, State> {
           !isUndefined(values[index].value) &&
           values[index].isValid, true);
       const value = isValid && extrinsic.params
-        ? encode(extrinsic, values.map((p) => p.value))
+        ? encode(extrinsic, values.map((p) => p.value), apiSupport)
         : new Uint8Array([]);
 
       onChange({
@@ -101,3 +117,5 @@ export default class Extrinsic extends React.PureComponent<Props, State> {
     this.nextState({ values });
   }
 }
+
+export default withApi(Extrinsic);
