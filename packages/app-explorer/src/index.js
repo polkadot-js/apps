@@ -35,7 +35,7 @@ function ExplorerApp ({ className, style, t }: Props): React$Node {
           defaultValue: 'client: '
         })}
         />
-        <NodeVersion label='v' />
+        <NodeVersion label='v.' />
       </div>
       <BestNumber
         className='explorer--BestNumber'
