@@ -40,7 +40,6 @@ class Account extends React.PureComponent<Props, State> {
 
   render (): React$Node {
     const { className, defaultValue, isError, style, t } = this.props;
-    const { publicKey } = this.state;
 
     return (
       <div
@@ -59,19 +58,32 @@ class Account extends React.PureComponent<Props, State> {
             type='account'
           />
         </div>
-        <Labelled
-          className='small'
-          label={t('account.nonce', {
-            defaultValue: 'with an index of'
-          })}
-        >
-          <Nonce
-            className='ui disabled dropdown selection'
-            onChange={this.onChangeNonce}
-            params={publicKey}
-          />
-        </Labelled>
+        {this.renderNonce()}
       </div>
+    );
+  }
+
+  renderNonce (): React$Node {
+    const { t } = this.props;
+    const { publicKey } = this.state;
+
+    if (!publicKey) {
+      return null;
+    }
+
+    return (
+      <Labelled
+        className='small'
+        label={t('account.nonce', {
+          defaultValue: 'with an index of'
+        })}
+      >
+        <Nonce
+          className='ui disabled dropdown selection'
+          onChange={this.onChangeNonce}
+          params={publicKey}
+        />
+      </Labelled>
     );
   }
 

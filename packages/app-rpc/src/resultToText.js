@@ -10,6 +10,10 @@ import isObject from '@polkadot/util/is/object';
 import isU8a from '@polkadot/util/is/u8a';
 
 function resultToText (result: mixed): mixed {
+  if (result === null || result === undefined) {
+    return 'null';
+  }
+
   if (isU8a(result)) {
     // $FlowFixMe type has been determined
     return u8aToHex(result);
