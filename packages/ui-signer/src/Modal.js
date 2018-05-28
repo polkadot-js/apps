@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { EncodingVersions } from '@polkadot/extrinsics-codec/types';
 import type { ApiProps } from '@polkadot/ui-react-rx/types';
 import type { I18nProps } from '@polkadot/ui-app/types';
 import type { QueueTx, QueueTx$MessageSetStatus } from './types';
@@ -32,6 +33,7 @@ type UnlockI18n = {
 }
 
 type State = {
+  apiSupport: EncodingVersions,
   currentItem?: QueueTx,
   password: string,
   unlockError: UnlockI18n | null
@@ -44,12 +46,13 @@ class Signer extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
+      apiSupport: 'poc-1',
       password: '',
       unlockError: null
     };
   }
 
-  static getDerivedStateFromProps ({ queue }: Props, { currentItem, password, unlockError }: State): State {
+  static getDerivedStateFromProps ({ queue }: Props, { apiSupport, currentItem, password, unlockError }: State): State {
     const nextItem = queue.find(({ status }) =>
       status === 'queued'
     );
@@ -64,10 +67,22 @@ class Signer extends React.PureComponent<Props, State> {
       );
 
     return {
+      apiSupport,
       currentItem: nextItem,
       password: isSame ? password : '',
       unlockError: isSame ? unlockError : null
     };
+  }
+
+  componentDidMount () {
+    // FIXME should be shared component, no unmount here
+    this.props.api.system.version().subscribe((nodeVersion?: string) => {
+      this.setState({
+        apiSupport: nodeVersion === undefined || nodeVersion === '0.1.0'
+          ? 'poc-1'
+          : 'latest'
+      });
+    });
   }
 
   componentDidUpdate (prevProps: Props, prevState: State) {
@@ -226,14 +241,19 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     const { api, queueSetStatus } = this.props;
+    const { apiSupport } = this.state;
 
     queueSetStatus(id, 'sending');
 
     let data = values;
 
     if (rpc.isSigned === true && publicKey) {
-      // flowlint-next-line unclear-type:off
-      data = [signMessage(publicKey, nonce, ((data[0]: any): Uint8Array)).data];
+      data = [
+        signMessage(
+          // flowlint-next-line unclear-type:off
+          publicKey, nonce, ((data[0]: any): Uint8Array), apiSupport
+        ).data
+      ];
     }
 
     const { error, result, status } = await submitMessage(api, data, rpc);
