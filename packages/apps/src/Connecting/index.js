@@ -4,26 +4,24 @@
 // @flow
 
 import type { I18nProps } from '@polkadot/ui-app/types';
+import type { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import './Connecting.css';
 
 import React from 'react';
 
 import classes from '@polkadot/ui-app/util/classes';
-import withApiCall from '@polkadot/ui-react-rx/with/apiCall';
+import withApi from '@polkadot/ui-react-rx/with/api';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  value: boolean
-};
+type Props = I18nProps & ApiProps;
 
-function Connecting ({ className, style, value, t }: Props): React$Node {
-  if (value) {
+function Connecting ({ apiConnected, className, style, t }: Props): React$Node {
+  if (apiConnected) {
     return null;
   }
 
-  // 'ui inverted page modals dimmer transition visible active'
   return (
     <div
       className={classes('apps--Connecting', className)}
@@ -39,7 +37,5 @@ function Connecting ({ className, style, value, t }: Props): React$Node {
 }
 
 export default translate(
-  withApiCall({ name: 'isConnected' })(
-    Connecting
-  )
+  withApi(Connecting)
 );

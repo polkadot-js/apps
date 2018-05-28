@@ -13,13 +13,12 @@
 .explorer--NodeInfo {
   font-size: 0.75rem;
   opacity: 0.5;
-  margin-bottom: 0.5rem;
-  text-align: left;
+  text-align: right;
 }
 
 .explorer--NodeInfo div {
   display: inline-block;
-  margin-right: 0.5rem;
+  margin-left: 0.5rem;
 }
 
 .explorer--BestHash,
