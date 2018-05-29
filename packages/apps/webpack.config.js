@@ -134,7 +134,8 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify(ENV),
-          VERSION: JSON.stringify(pkgJson.version)
+          VERSION: JSON.stringify(pkgJson.version),
+          WS_URL: JSON.stringify(process.env.WS_URL)
         }
       }),
       new HtmlWebpackPlugin({
