@@ -36,6 +36,7 @@
 
 .explorer--BestHash {
   font-size: 1.5em;
+  line-height: 1.2;
 }
 
 .explorer--BestNumber {
