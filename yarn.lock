@@ -719,9 +719,9 @@
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.0.2.tgz#d056b68999769728a1cff8d643bc59eb6f0be436"
 
-"@polkadot/api-format@^0.13.1":
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-format/-/api-format-0.13.1.tgz#10d42410ac69b0e9dfba79e880fcef34af82007a"
+"@polkadot/api-format@^0.13.2":
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-format/-/api-format-0.13.2.tgz#3dbddcfb162ce6342425281aee48cf5144cbf935"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
     "@polkadot/jsonrpc" "^0.17.2"
@@ -729,9 +729,9 @@
     "@polkadot/util" "^0.22.2"
     "@polkadot/util-keyring" "^0.22.2"
 
-"@polkadot/api-provider@^0.13.1":
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-provider/-/api-provider-0.13.1.tgz#bf1b0802a4abd3a45d6eef60adc773a25be2e010"
+"@polkadot/api-provider@^0.13.2":
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-provider/-/api-provider-0.13.2.tgz#e9334ad7220ed528c3e279664bc5e200674a3e69"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
     "@polkadot/storage" "^0.17.2"
@@ -742,22 +742,22 @@
     isomorphic-fetch "^2.2.1"
     websocket "^1.0.25"
 
-"@polkadot/api-rx@^0.13.1":
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-rx/-/api-rx-0.13.1.tgz#cb6bd753dafc5a73237dd6d7be53240ed12b2c1f"
+"@polkadot/api-rx@^0.13.2":
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-rx/-/api-rx-0.13.2.tgz#163b8d523b871f317a5da6ee4bfe5dea187075fd"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/api" "^0.13.1"
-    "@polkadot/api-provider" "^0.13.1"
+    "@polkadot/api" "^0.13.2"
+    "@polkadot/api-provider" "^0.13.2"
     rxjs "^5.5.10"
 
-"@polkadot/api@^0.13.1":
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.13.1.tgz#004ee54d264b3e7466d4ffd3552b75b19b667881"
+"@polkadot/api@^0.13.2":
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.13.2.tgz#aeacbfd30628ed88119e3861fdcc809a00a15f76"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/api-format" "^0.13.1"
-    "@polkadot/api-provider" "^0.13.1"
+    "@polkadot/api-format" "^0.13.2"
+    "@polkadot/api-provider" "^0.13.2"
     "@polkadot/jsonrpc" "^0.17.2"
     "@polkadot/params" "^0.17.2"
     "@polkadot/util" "^0.22.2"
@@ -910,29 +910,29 @@
     "@polkadot/util" "^0.22.2"
     "@polkadot/util-keyring" "^0.22.2"
 
-"@polkadot/ui-identicon@^0.14.2":
-  version "0.14.2"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-identicon/-/ui-identicon-0.14.2.tgz#7f1b935ceb6a59b3b31846389b24bc6ad67cfa21"
+"@polkadot/ui-identicon@^0.14.3":
+  version "0.14.3"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-identicon/-/ui-identicon-0.14.3.tgz#b9cd977e92458748dd67a5321422734f4a820750"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
     color "^3.0.0"
 
-"@polkadot/ui-react-rx@^0.14.2":
-  version "0.14.2"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-react-rx/-/ui-react-rx-0.14.2.tgz#fa20fed553ea91cd505080550ffde898a48ec8b8"
+"@polkadot/ui-react-rx@^0.14.3":
+  version "0.14.3"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-react-rx/-/ui-react-rx-0.14.3.tgz#408cb03e6ae9d3eaca096b4c653afe0618904f42"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/api-rx" "^0.13.1"
+    "@polkadot/api-rx" "^0.13.2"
     "@polkadot/extrinsics-codec" "^0.17.2"
     "@polkadot/storage" "^0.17.2"
     semver "^5.5.0"
 
-"@polkadot/ui-react@^0.14.2":
-  version "0.14.2"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-react/-/ui-react-0.14.2.tgz#02982b3e26dd2eea6ad096a08f671ce75c73ea8b"
+"@polkadot/ui-react@^0.14.3":
+  version "0.14.3"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-react/-/ui-react-0.14.3.tgz#4455cd8a285dc690f546cd1a614361b6dbdb1c0b"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/ui-identicon" "^0.14.2"
+    "@polkadot/ui-identicon" "^0.14.3"
 
 "@polkadot/util-crypto@^0.22.2":
   version "0.22.2"
