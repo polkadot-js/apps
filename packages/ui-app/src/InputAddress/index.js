@@ -135,8 +135,6 @@ class InputAddress extends React.Component<Props, State> {
     const { type = 'all' } = this.props;
     const { apiChain } = this.state;
 
-    console.log('getOptions', apiChain, type);
-
     return keyring
       .getOptions(type)
       .filter(({ key, value }) => {
