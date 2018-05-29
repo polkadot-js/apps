@@ -10,7 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { Trans } from 'react-i18next';
 
-import extrinsics from '@polkadot/extrinsics-substrate';
+import extrinsics from '@polkadot/extrinsics';
 import Modal from '@polkadot/ui-app/Modal';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHex from '@polkadot/util/u8a/toHex';

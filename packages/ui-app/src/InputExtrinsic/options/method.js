@@ -8,7 +8,7 @@ import type { DropdownOptions } from '../types';
 
 import React from 'react';
 
-import map from '@polkadot/extrinsics-substrate';
+import map from '@polkadot/extrinsics';
 
 export default function createOptions (sectionName: Extrinsic$Sections, type: 'private' | 'public'): DropdownOptions {
   const section = map[sectionName];
@@ -23,8 +23,8 @@ export default function createOptions (sectionName: Extrinsic$Sections, type: 'p
     .keys(methods)
     .sort()
     .map((name) => {
-      const { description = '', params = {} } = methods[name];
-      const inputs = Object.keys(params).join(', ');
+      const { description, params } = methods[name];
+      const inputs = params.map(({ name }) => name).join(', ');
 
       return {
         className: 'ui--DropdownLinked-Item',

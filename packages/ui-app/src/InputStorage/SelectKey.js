@@ -9,7 +9,7 @@ import type { I18nProps } from '../types';
 
 import React from 'react';
 
-import map from '@polkadot/storage-substrate';
+import map from '@polkadot/storage';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
@@ -30,7 +30,7 @@ function SelectKey ({ className, isError, label = '', onChange, options, style, 
   }
 
   const transform = (name: string): Storage$Key =>
-    map[section].keys[name];
+    map[section].public[name];
 
   return (
     <Dropdown

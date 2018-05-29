@@ -12,11 +12,12 @@ export default function createOptions (): DropdownOptions {
     .keys(map)
     .sort()
     .filter((name) => {
-      const { isDeprecated = false, methods } = map[name];
+      const section = map[name];
+      const { isDeprecated } = section;
       const available = Object
-        .keys(methods)
+        .keys(section.public)
         .filter((name) => {
-          const { isDeprecated = false, isHidden = false } = methods[name];
+          const { isDeprecated, isHidden } = section.public[name];
 
           return !isDeprecated && !isHidden;
         });

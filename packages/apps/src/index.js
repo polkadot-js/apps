@@ -7,4 +7,8 @@ import createApp from '@polkadot/ui-app';
 
 import App from './App';
 
-createApp(App);
+createApp(App, {
+  url: process.env.WS_URL === null || process.env.WS_URL === ''
+    ? undefined
+    : process.env.WS_URL
+});

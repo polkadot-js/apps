@@ -10,7 +10,7 @@ import type { StorageQuery } from './types';
 
 import React from 'react';
 
-import storage from '@polkadot/storage-substrate';
+import storage from '@polkadot/storage';
 import Button from '@polkadot/ui-app/Button';
 import InputStorage from '@polkadot/ui-app/InputStorage';
 import Labelled from '@polkadot/ui-app/Labelled';
@@ -30,7 +30,7 @@ type State = {
   params: RawParams
 };
 
-const defaultValue = storage.timestamp.keys.current;
+const defaultValue = storage.timestamp.public.current;
 let id = -1;
 
 class Selection extends React.PureComponent<Props, State> {

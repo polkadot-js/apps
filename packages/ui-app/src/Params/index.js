@@ -45,7 +45,7 @@ class Params<T, SectionItem: Section$Item<T>> extends React.PureComponent<Props<
       return null;
     }
 
-    const { params = {} } = item;
+    const { params } = item;
     const values = createValues(params);
     const handlers = values.map(
       (value, index): RawParam$OnChange =>
@@ -70,11 +70,10 @@ class Params<T, SectionItem: Section$Item<T>> extends React.PureComponent<Props<
   }
 
   render (): React$Node {
-    const { className, item: { name, params = {} }, overrides, style } = this.props;
+    const { className, item: { params }, overrides, style } = this.props;
     const { handlers, values } = this.state;
-    const paramNames = Object.keys(params);
 
-    if (values.length === 0 || paramNames.length === 0) {
+    if (values.length === 0 || params.length === 0) {
       return null;
     }
 
@@ -84,11 +83,11 @@ class Params<T, SectionItem: Section$Item<T>> extends React.PureComponent<Props<
         style={style}
       >
         <div className='ui--Params-Content'>
-          {paramNames.map((paramName, index) => (
+          {params.map(({ name }, index) => (
             <Param
               defaultValue={values[index]}
-              key={`${name}:${paramName}:${index}`}
-              name={paramName}
+              key={`${name}:${name}:${index}`}
+              name={name}
               onChange={handlers[index]}
               overrides={overrides}
             />

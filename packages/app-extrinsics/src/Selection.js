@@ -9,7 +9,7 @@ import type { EncodedMessage, QueueTx$MessageAdd } from '@polkadot/ui-signer/typ
 
 import React from 'react';
 
-import extrinsics from '@polkadot/extrinsics-substrate';
+import extrinsics from '@polkadot/extrinsics';
 import rpc from '@polkadot/jsonrpc';
 import Button from '@polkadot/ui-app/Button';
 import classes from '@polkadot/ui-app/util/classes';
@@ -31,7 +31,7 @@ type State = {
 };
 
 const defaultExtrinsic = extrinsics.staking.public.transfer;
-const defaultRpc = rpc.author.methods.submitExtrinsic;
+const defaultRpc = rpc.author.public.submitExtrinsic;
 
 class Selection extends React.PureComponent<Props, State> {
   state: State = ({

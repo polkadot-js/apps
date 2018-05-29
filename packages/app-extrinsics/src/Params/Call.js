@@ -7,7 +7,7 @@ import type { Props } from '@polkadot/ui-app/Params/types';
 
 import React from 'react';
 
-import extrinsics from '@polkadot/extrinsics-substrate';
+import extrinsics from '@polkadot/extrinsics';
 
 import Extrinsic from './Extrinsic';
 

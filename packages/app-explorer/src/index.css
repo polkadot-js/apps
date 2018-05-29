@@ -12,6 +12,7 @@
 
 .explorer--NodeInfo {
   font-size: 0.75rem;
+  margin-bottom: 1.5rem;
   opacity: 0.5;
   text-align: right;
 }
@@ -35,8 +36,7 @@
 
 .explorer--BestHash {
   font-size: 1.5em;
-  line-height: 1.5em;
-  margin-bottom: 1em;
+  line-height: 1.2;
 }
 
 .explorer--BestNumber {

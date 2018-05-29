@@ -5,7 +5,7 @@
 
 import type { DropdownOptions } from '../types';
 
-import map from '@polkadot/extrinsics-substrate';
+import map from '@polkadot/extrinsics';
 
 export default function createOptions (type: 'private' | 'public'): DropdownOptions {
   return Object

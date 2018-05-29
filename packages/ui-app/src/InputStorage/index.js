@@ -13,7 +13,7 @@ import '../InputExtrinsic/InputExtrinsic.css';
 
 import React from 'react';
 
-import map from '@polkadot/storage-substrate';
+import map from '@polkadot/storage';
 
 import classes from '../util/classes';
 import translate from '../translate';
@@ -102,7 +102,7 @@ class InputStorage extends React.PureComponent<Props, State> {
     }
 
     const optionsMethod = keyOptions(newSection);
-    const value = map[newSection].keys[optionsMethod[0].value];
+    const value = map[newSection].public[optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
       this.onKeyChange(value)

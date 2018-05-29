@@ -52,15 +52,11 @@ class Query extends React.PureComponent<Props, State> {
   static getDerivedStateFromProps ({ value }: Props, prevState: State): State | null {
     const Component = Query.getCachedComponent(value);
     const { key, params } = value;
-    const inputs = Object
-      .keys(key.params)
-      .map((name, index) => {
-        const formatted = valueToText(key.params[name].type, params[index].value);
-
-        return (
-          <span key={`param_${name}_${index}`}>{name}={formatted}</span>
-        );
-      });
+    const inputs = key.params.map(({ name, type }, index) => (
+      <span key={`param_${name}_${index}`}>
+        {name}={valueToText(type, params[index].value)}
+      </span>
+    ));
 
     return {
       Component,
