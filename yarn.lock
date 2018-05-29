@@ -910,6 +910,30 @@
     "@polkadot/util" "^0.22.2"
     "@polkadot/util-keyring" "^0.22.2"
 
+"@polkadot/ui-identicon@^0.14.3":
+  version "0.14.3"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-identicon/-/ui-identicon-0.14.3.tgz#b9cd977e92458748dd67a5321422734f4a820750"
+  dependencies:
+    "@babel/runtime" "^7.0.0-beta.47"
+    color "^3.0.0"
+
+"@polkadot/ui-react-rx@^0.14.3":
+  version "0.14.3"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-react-rx/-/ui-react-rx-0.14.3.tgz#408cb03e6ae9d3eaca096b4c653afe0618904f42"
+  dependencies:
+    "@babel/runtime" "^7.0.0-beta.47"
+    "@polkadot/api-rx" "^0.13.2"
+    "@polkadot/extrinsics-codec" "^0.17.2"
+    "@polkadot/storage" "^0.17.2"
+    semver "^5.5.0"
+
+"@polkadot/ui-react@^0.14.3":
+  version "0.14.3"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-react/-/ui-react-0.14.3.tgz#4455cd8a285dc690f546cd1a614361b6dbdb1c0b"
+  dependencies:
+    "@babel/runtime" "^7.0.0-beta.47"
+    "@polkadot/ui-identicon" "^0.14.3"
+
 "@polkadot/util-crypto@^0.22.2":
   version "0.22.2"
   resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.22.2.tgz#068b567b2a1945fac5d0cf699f6226b21297a0ee"
