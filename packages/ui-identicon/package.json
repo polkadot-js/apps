@@ -1,0 +1,21 @@
+{
+  "name": "@polkadot/ui-identicon",
+  "version": "0.17.0",
+  "description": "Renders an SVG picture representing an address",
+  "main": "index.js",
+  "scripts": {
+    "build": "polkadot-dev-build-babel",
+    "check": "eslint src && flow check",
+    "test": "echo \"Tests only available from root wrapper\""
+  },
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.47",
+    "color": "^3.0.0"
+  },
+  "devDependencies": {
+    "@polkadot/util-crypto": "^0.22.2",
+    "xmlserializer": "^0.6.1"
+  }
+}

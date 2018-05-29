@@ -1,0 +1,50 @@
+{
+  "name": "@polkadot/ui-react-rx",
+  "version": "0.17.0",
+  "description": "A collection of RxJs React components the Polkadot JS API",
+  "main": "index.js",
+  "keywords": [
+    "Polkadot",
+    "React",
+    "RxJs"
+  ],
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "license": "ISC",
+  "engines": {
+    "node": ">=8.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polkadot-js/ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/polkadot-js/ui/issues"
+  },
+  "homepage": "https://github.com/polkadot-js/ui/tree/master/packages/ui-react-rx#readme",
+  "scripts": {
+    "build": "polkadot-dev-build-babel",
+    "check": "eslint src && flow check",
+    "test": "echo \"Tests only available from root wrapper\""
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.47",
+    "@polkadot/api-rx": "^0.13.2",
+    "@polkadot/extrinsics-codec": "^0.17.2",
+    "@polkadot/storage": "^0.17.2",
+    "semver": "^5.5.0"
+  },
+  "devDependencies": {
+    "babel-loader": "^8.0.0-beta.2",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0"
+  },
+  "peerDependencies": {
+    "react": "^16.4.0"
+  }
+}

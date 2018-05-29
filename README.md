@@ -29,5 +29,21 @@ The repo is split into a number of packages, each representing an application. T
 
 In addition the following libraries are also included in the repo. These are to be moved to the [@polkadot/ui](https://github.com/polkadot-js/ui/) repository once it reaches a base level of stability and usability. (At this point with the framework being tested on the apps above, it makes development easier having it close)
 
-- [ui-keyring](packages/ui-keyring/) A browser-specific wrapper around the base [@polkadot/util-keyring](https://github.com/polkadot-js/util/) libary.
 - [ui-app](packages/ui-app/) A reactive (using RxJS) application framework with a number of useful shared components.
+- [ui-keyring](packages/ui-keyring/) A browser-specific wrapper around the base [@polkadot/util-keyring](https://github.com/polkadot-js/util/) library.
+- [ui-signer](packages/ui-signer/) Signer implementation for apps.
+- [packages/ui-identicon](packages/ui-identicon/) Identity icon generator with raw publicKey as input
+- [packages/ui-react](packages/ui-react) A collection of base React components
+- [packages/ui-react-rx](packages/ui-react-rx) Base components that use the RxJS Observable APIs
+
+## Application
+
+For development purposes, the apps entry point can be launched with `yarn run start` and accessing the application of [http://localhost:3000](http://localhost:3000)
+
+## Demos
+
+Demos for the different libraries can be viewed with `yarn run demo:<name>` and then browsing to [http://localhost:3000](http://localhost:3000). Available demo -
+
+- `yarn run demo:identicon`
+- `yarn run demo:ui`
+- `yarn run demo:rx`
