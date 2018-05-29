@@ -910,28 +910,29 @@
     "@polkadot/util" "^0.22.2"
     "@polkadot/util-keyring" "^0.22.2"
 
-"@polkadot/ui-identicon@^0.14.1":
-  version "0.14.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-identicon/-/ui-identicon-0.14.1.tgz#aaa92374e00ecafccc222d3b3385072775fdca8c"
+"@polkadot/ui-identicon@^0.14.2":
+  version "0.14.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-identicon/-/ui-identicon-0.14.2.tgz#7f1b935ceb6a59b3b31846389b24bc6ad67cfa21"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
     color "^3.0.0"
 
-"@polkadot/ui-react-rx@^0.14.1":
-  version "0.14.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-react-rx/-/ui-react-rx-0.14.1.tgz#40994d7a4bbff7285834774b9ebead9d200f2b57"
+"@polkadot/ui-react-rx@^0.14.2":
+  version "0.14.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-react-rx/-/ui-react-rx-0.14.2.tgz#fa20fed553ea91cd505080550ffde898a48ec8b8"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
     "@polkadot/api-rx" "^0.13.1"
     "@polkadot/extrinsics-codec" "^0.17.2"
     "@polkadot/storage" "^0.17.2"
+    semver "^5.5.0"
 
-"@polkadot/ui-react@^0.14.1":
-  version "0.14.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-react/-/ui-react-0.14.1.tgz#889cb52a5a5fbbed57ec1223995baff09705863d"
+"@polkadot/ui-react@^0.14.2":
+  version "0.14.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-react/-/ui-react-0.14.2.tgz#02982b3e26dd2eea6ad096a08f671ce75c73ea8b"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/ui-identicon" "^0.14.1"
+    "@polkadot/ui-identicon" "^0.14.2"
 
 "@polkadot/util-crypto@^0.22.2":
   version "0.22.2"
