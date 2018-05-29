@@ -231,15 +231,15 @@ class Editor extends React.PureComponent<Props, State> {
       item.address() !== address
     );
     const nextAddress = addresses[0] || null;
-    const defaultPublicKey = nextAddress
-      ? nextAddress.publicKey()
+    const defaultValue = nextAddress
+      ? nextAddress.address()
       : void 0;
 
     keyring.forgetAddress(address);
 
     this.nextState({
       currentAddress: nextAddress,
-      defaultPublicKey
+      defaultValue
     });
   }
 }

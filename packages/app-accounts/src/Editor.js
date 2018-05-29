@@ -229,15 +229,15 @@ class Editor extends React.PureComponent<Props, State> {
       item.address() !== address
     );
     const nextPair = pairs[pairs.length - 1] || null;
-    const defaultPublicKey = nextPair
-      ? nextPair.publicKey()
+    const defaultValue = nextPair
+      ? nextPair.address()
       : void 0;
 
     keyring.forgetAccount(address);
 
     this.nextState({
       currentPair: nextPair,
-      defaultPublicKey
+      defaultValue
     });
   }
 }
