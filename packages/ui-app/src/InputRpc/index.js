@@ -102,7 +102,7 @@ class InputRpc extends React.PureComponent<Props, State> {
     }
 
     const optionsMethod = methodOptions(newSection);
-    const value = map[newSection].methods[optionsMethod[0].value];
+    const value = map[newSection].public[optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
       this.onMethodChange(value)

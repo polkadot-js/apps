@@ -12,7 +12,7 @@ import type { DropdownOptions } from './types';
 import './InputExtrinsic.css';
 
 import React from 'react';
-import map from '@polkadot/extrinsics-substrate';
+import map from '@polkadot/extrinsics';
 
 import classes from '../util/classes';
 import translate from '../translate';

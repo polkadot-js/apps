@@ -11,7 +11,7 @@ import isUndefined from '@polkadot/util/is/undefined';
 import getInitValue from './initValue';
 
 export default function values (params: Params): Array<RawParam> {
-  const types = Object.keys(params).map((key) => params[key].type);
+  const types = params.map(({ type }) => type);
 
   return types.map((type): RawParam => {
     if (Array.isArray(type)) {

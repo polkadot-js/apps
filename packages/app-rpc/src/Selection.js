@@ -35,7 +35,7 @@ type State = {
   values: Array<RawParam>
 }
 
-const defaultMethod = rpc.author.methods.submitExtrinsic;
+const defaultMethod = rpc.author.public.submitExtrinsic;
 
 class Selection extends React.PureComponent<Props, State> {
   state: State = {

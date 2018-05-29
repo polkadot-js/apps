@@ -8,7 +8,7 @@ import type { DropdownOptions } from '../../InputExtrinsic/types';
 
 import React from 'react';
 
-import map from '@polkadot/storage-substrate';
+import map from '@polkadot/storage';
 
 export default function createOptions (sectionName: Storage$Sections): DropdownOptions {
   const section = map[sectionName];
@@ -18,16 +18,16 @@ export default function createOptions (sectionName: Storage$Sections): DropdownO
   }
 
   return Object
-    .keys(section.keys)
+    .keys(section.public)
     .sort()
     .filter((name) => {
-      const { isDeprecated = false, isHidden = false } = section.keys[name];
+      const { isDeprecated, isHidden } = section.public[name];
 
       return !isDeprecated && !isHidden;
     })
     .map((name) => {
-      const { description = '', params = {} } = section.keys[name];
-      const inputs = Object.keys(params).join(', ');
+      const { description, params } = section.public[name];
+      const inputs = params.map(({ name }) => name).join(', ');
 
       return {
         className: 'ui--DropdownLinked-Item',

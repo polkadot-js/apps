@@ -9,7 +9,7 @@ import type { DropdownOptions } from './types';
 
 import React from 'react';
 
-import extrinsics from '@polkadot/extrinsics-substrate';
+import extrinsics from '@polkadot/extrinsics';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
