@@ -7,14 +7,7 @@ html{height:100%}body{height:100%;margin:0}#root{color:#333;font-family:sans-ser
 .ui--signer-Signer-Decoded,.ui--signer-Signer-Unlock{align-content:center;display:flex;line-height:1.5em}.ui--signer-Signer-Unlock{padding-top:1.5rem}.ui--signer-Signer-Content .expanded{padding-right:2em}.ui--signer-Signer-Content .expanded .code{background:#f5f5f5;font-family:monospace;margin:0 .25em;overflow-wrap:break-word;padding:.25em .5em;word-break:break-all;word-break:break-word;word-wrap:break-word}.ui--signer-Status{display:inline-block;position:fixed;right:.25rem;top:.125rem;z-index:1001}.ui--signer-Status-Item{background:#bcdaf0;margin:.125rem;padding:.5rem 1rem;text-align:center}.ui--signer-Status-Item .status{font-weight:700}.ui--signer-Status-Item.error{background:red;color:#fff}
 .ui--Button-Group{text-align:right}.ui--Button-Group:not(:first-child){margin-top:.75rem}
 .ui--KeyPair{display:flex;flex-wrap:nowrap;justify-content:space-between;position:relative;white-space:nowrap}.ui--KeyPair-icon{position:absolute;top:-9px;left:0}.ui--KeyPair-address,.ui--KeyPair-name{display:inline-block}.ui--KeyPair-address{flex:1 1;font-family:monospace;margin-left:1rem;opacity:.5;overflow:hidden;text-align:right;text-overflow:ellipsis}.ui--KeyPair-name{flex:1 0;margin-left:3rem;overflow:hidden;text-transform:uppercase;text-overflow:ellipsis}.ui.dropdown .menu>.disabled.item.ui--KeyPair-header{font-size:.75em;font-weight:700;opacity:1;text-transform:uppercase}
-/* Copyright 2017-2018 Jaco Greeff
-/* This software may be modified and distributed under the terms
-/* of the ISC license. See the LICENSE file for details. */
-
-.ui--IdentityIcon {
-  display: inline-block;
-}
-
+.ui--IdentityIcon{display:inline-block}
 .apps--Connecting{bottom:0;left:0;position:fixed;right:0;text-align:center}.apps--Connecting-text{background:red;color:#fff;line-height:1.5em;padding:1em 2em}
 .apps--Content{background:#fff;height:100%;width:100%}.apps--Content-Frame{border:none;box-sizing:border-box;height:100%;overflow-y:scroll;width:100%}
 .accounts--App{padding:1em 2em}.accounts--App-navigation.ui--Button-Group{margin-bottom:2em;text-align:center}.accounts--Address{padding:0 2em;text-align:center}.accounts--Address .rx--updated{background:0 0!important}.accounts--Address.invalid{filter:grayscale(100);opacity:.45}.accounts--Address-icon{display:block}.accounts--Address-balance,.accounts--Address-nonce{opacity:.45}.accounts--Address-balance.rx--updated,.accounts--Address-nonce.rx--updated{opacity:1}.accounts--Address-data{padding:.5em 0}.accounts--Address-data *{margin:0 .25rem!important;vertical-align:middle}.accounts--Address-address{display:inline-block;font-family:monospace;font-size:1.5em;padding:0}
@@ -33,4 +26,4 @@ html{height:100%}body{height:100%;margin:0}#root{color:#333;font-family:sans-ser
 .apps--SideBar{background:#f9f9f9;flex-shrink:0;min-width:12em;padding:.75em 0 0 .75em;position:relative;text-align:left}.apps--SideBar .ui.vertical.menu{margin:0}.apps--SideBar-github{position:absolute;bottom:1.5em;left:1.5em}
 .apps--SideBar-Item{padding:0!important}.apps--SideBar-Item-NavLink{display:block;padding:.75em .75em;white-space:nowrap}.apps--SideBar-Item-NavLink-active{background:#fff;border-radius:.28571429rem 0 0 .28571429rem;color:inherit}
 
-/*# sourceMappingURL=main.dde2b25f.css.map*/
+/*# sourceMappingURL=main.24d8a5b7.css.map*/
