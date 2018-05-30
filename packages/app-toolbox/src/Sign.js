@@ -25,7 +25,7 @@ import translate from './translate';
 
 type State = {
   currentPair: KeyringPair | null,
-  defaultPublicKey?: Uint8Array,
+  defaultValue?: string,
   data: string,
   isHexData: boolean,
   isLocked: boolean,
@@ -44,8 +44,8 @@ class Sign extends React.PureComponent<Props, State> {
 
     this.state = {
       currentPair,
-      defaultPublicKey: currentPair
-        ? currentPair.publicKey()
+      defaultValue: currentPair
+        ? currentPair.address()
         : void 0,
       data: '',
       isHexData: false,
@@ -59,7 +59,6 @@ class Sign extends React.PureComponent<Props, State> {
 
   render (): React$Node {
     const { className, style } = this.props;
-    const { currentPair, isUnlockVisible } = this.state;
 
     return (
       <div
@@ -69,11 +68,7 @@ class Sign extends React.PureComponent<Props, State> {
         {this.renderAccount()}
         {this.renderInput()}
         {this.renderSignature()}
-        <Unlock
-          isVisible={isUnlockVisible}
-          onClose={this.toggleUnlock}
-          pair={currentPair}
-        />
+        {this.renderUnlock()}
         {this.renderButtons()}
       </div>
     );
@@ -81,13 +76,13 @@ class Sign extends React.PureComponent<Props, State> {
 
   renderAccount (): React$Node {
     const { t } = this.props;
-    const { defaultPublicKey } = this.state;
+    const { defaultValue } = this.state;
 
     return (
       <div className='ui--row'>
         <InputAddress
           className='full'
-          defaultValue={defaultPublicKey}
+          defaultValue={defaultValue}
           isInput={false}
           label={t('sign.account', {
             defaultValue: 'using my account'
@@ -169,6 +164,21 @@ class Sign extends React.PureComponent<Props, State> {
           withCopy
         />
       </div>
+    );
+  }
+
+  renderUnlock (): React$Node {
+    const { currentPair, isUnlockVisible } = this.state;
+
+    if (!isUnlockVisible) {
+      return null;
+    }
+
+    return (
+      <Unlock
+        onClose={this.toggleUnlock}
+        pair={currentPair}
+      />
     );
   }
 

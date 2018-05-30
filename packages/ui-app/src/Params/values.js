@@ -15,13 +15,6 @@ export default function values (params: Params): Array<RawParam> {
 
   return types.map((type): RawParam => {
     if (Array.isArray(type)) {
-      // console.error('Unable to determine default values for array/tuple type', type);
-      //
-      // return {
-      //   isValid: false,
-      //   value: void 0
-      // };
-
       if (type.length !== 1) {
         console.error('Unable to determine default values for tuple type', type);
 
@@ -44,7 +37,8 @@ export default function values (params: Params): Array<RawParam> {
           type,
           value
         };
-      }, { isValid: true, type, value });
+      // FIXME Arrays are currently not valid as inputs, no rendered
+      }, { isValid: false, type, value });
     }
 
     const value = getInitValue(type);

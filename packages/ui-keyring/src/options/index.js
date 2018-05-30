@@ -21,17 +21,17 @@ function addPairs ({ available, keyring }: State): void {
     });
 }
 
-function addAccounts ({ available, options }: State): void {
+function addAccounts ({ available, isTestMode, options }: State): void {
   Object
     .keys(available.account)
     .map((address) => available.account[address])
     .forEach(({ address, meta: { name, isTesting = false } }: KeyringJson) => {
       const option = createItem(address, name);
 
-      if (isTesting) {
-        options.testing.push(option);
-      } else {
+      if (!isTesting) {
         options.account.push(option);
+      } else if (isTestMode) {
+        options.testing.push(option);
       }
     });
 }

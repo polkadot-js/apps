@@ -23,7 +23,7 @@ type Props = I18nProps & {
 
 type State = {
   currentAddress: KeyringAddress | null,
-  defaultPublicKey?: Uint8Array,
+  defaultValue?: string,
   editedName: string,
   isEdited: boolean
 }
@@ -38,8 +38,8 @@ class Editor extends React.PureComponent<Props, State> {
     const currentAddress = addresses[addresses.length - 1] || null;
 
     this.state = this.createState(currentAddress);
-    this.state.defaultPublicKey = currentAddress
-      ? currentAddress.publicKey()
+    this.state.defaultValue = currentAddress
+      ? currentAddress.address()
       : void 0;
   }
 
@@ -96,7 +96,7 @@ class Editor extends React.PureComponent<Props, State> {
 
   renderData (): React$Node {
     const { t } = this.props;
-    const { currentAddress, defaultPublicKey, editedName } = this.state;
+    const { currentAddress, defaultValue, editedName } = this.state;
 
     if (!currentAddress) {
       return t('editor.none', {
@@ -116,7 +116,7 @@ class Editor extends React.PureComponent<Props, State> {
           <div className='ui--row'>
             <InputAddress
               className='full'
-              defaultValue={defaultPublicKey}
+              defaultValue={defaultValue}
               hideAddress
               isInput={false}
               label={t('editor.select', {
@@ -231,15 +231,15 @@ class Editor extends React.PureComponent<Props, State> {
       item.address() !== address
     );
     const nextAddress = addresses[0] || null;
-    const defaultPublicKey = nextAddress
-      ? nextAddress.publicKey()
+    const defaultValue = nextAddress
+      ? nextAddress.address()
       : void 0;
 
     keyring.forgetAddress(address);
 
     this.nextState({
       currentAddress: nextAddress,
-      defaultPublicKey
+      defaultValue
     });
   }
 }

@@ -14,7 +14,6 @@ import BestNumber from '@polkadot/ui-react-rx/BestNumber';
 
 import BestHash from './BestHash';
 import BlockHeaders from './BlockHeaders';
-import NodeInfo from './NodeInfo';
 import translate from './translate';
 
 type Props = I18nProps & {};
@@ -32,7 +31,6 @@ function ExplorerApp ({ className, style, t }: Props): React$Node {
         })}
       />
       <BestHash />
-      <NodeInfo />
       <BlockHeaders />
     </div>
   );

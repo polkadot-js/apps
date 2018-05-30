@@ -26,11 +26,14 @@ type Props = BareProps & {
   label?: string,
   onChange: (value: Uint8Array) => void,
   type?: KeyringOption$Type,
+  value?: string | Uint8Array,
   withLabel?: boolean
 };
 
 type State = {
-  defaultValue: ?string;
+  defaultValue: ?string,
+  options: KeyringOptions,
+  value?: string
 }
 
 const RECENT_KEY = 'header-recent';
@@ -48,20 +51,34 @@ export default class InputAddress extends React.Component<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    this.state = {
+    this.state = ({
       defaultValue: addressToAddress(props.defaultValue)
-    };
+    }: $Shape<State>);
+  }
+
+  static getDerivedStateFromProps ({ value }: Props): $Shape<State> | null {
+    try {
+      return {
+        value: addressToAddress(value) || undefined
+      };
+    } catch (error) {
+      return null;
+    }
   }
 
   render (): React$Node {
-    const { className, hideAddress = false, isError, label, onChange, style, type = 'all', withLabel } = this.props;
-    const { defaultValue } = this.state;
+    const { className, hideAddress = false, isError, label, onChange, type = 'all', style, withLabel } = this.props;
+    const { defaultValue, value } = this.state;
     const options = keyring.getOptions(type);
 
     return (
       <Dropdown
         className={classes('ui--InputAddress', hideAddress ? 'flag--hideAddress' : '', className)}
-        defaultValue={defaultValue}
+        defaultValue={
+          value !== undefined
+            ? undefined
+            : defaultValue
+        }
         isError={isError}
         label={label}
         onChange={onChange}
@@ -69,6 +86,7 @@ export default class InputAddress extends React.Component<Props, State> {
         options={options}
         style={style}
         transform={transform}
+        value={value}
         withLabel={withLabel}
       />
     );

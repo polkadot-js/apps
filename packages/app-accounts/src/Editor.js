@@ -23,7 +23,7 @@ type Props = I18nProps & {
 
 type State = {
   currentPair: KeyringPair | null,
-  defaultPublicKey?: Uint8Array,
+  defaultValue?: string,
   editedName: string,
   isEdited: boolean
 }
@@ -38,8 +38,8 @@ class Editor extends React.PureComponent<Props, State> {
     const currentPair = pairs[pairs.length - 1] || null;
 
     this.state = this.createState(currentPair);
-    this.state.defaultPublicKey = currentPair
-      ? currentPair.publicKey()
+    this.state.defaultValue = currentPair
+      ? currentPair.address()
       : void 0;
   }
 
@@ -96,7 +96,7 @@ class Editor extends React.PureComponent<Props, State> {
 
   renderData (): React$Node {
     const { t } = this.props;
-    const { currentPair, defaultPublicKey, editedName } = this.state;
+    const { currentPair, defaultValue, editedName } = this.state;
 
     if (!currentPair) {
       return t('editor.none', {
@@ -116,7 +116,7 @@ class Editor extends React.PureComponent<Props, State> {
           <div className='ui--row'>
             <InputAddress
               className='full'
-              defaultValue={defaultPublicKey}
+              defaultValue={defaultValue}
               hideAddress
               isInput={false}
               label={t('editor.select', {
@@ -229,15 +229,15 @@ class Editor extends React.PureComponent<Props, State> {
       item.address() !== address
     );
     const nextPair = pairs[pairs.length - 1] || null;
-    const defaultPublicKey = nextPair
-      ? nextPair.publicKey()
+    const defaultValue = nextPair
+      ? nextPair.address()
       : void 0;
 
     keyring.forgetAccount(address);
 
     this.nextState({
       currentPair: nextPair,
-      defaultPublicKey
+      defaultValue
     });
   }
 }

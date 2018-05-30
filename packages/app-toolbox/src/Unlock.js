@@ -18,7 +18,6 @@ import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import translate from './translate';
 
 type Props = I18nProps & {
-  isVisible: boolean,
   onClose: () => void,
   pair: KeyringPair
 };
@@ -41,30 +40,16 @@ class Unlock extends React.PureComponent<Props, State> {
     unlockError: null
   };
 
-  static getDerivedStateFromProps ({ pair }: Props, prevState: State): State {
-    const address = pair
-      ? pair.address()
-      : '';
-
-    const isSame = address !== prevState.address;
-
+  static getDerivedStateFromProps ({ pair }: Props, prevState: State): $Shape<State> {
     return {
-      address,
-      password: isSame
-        ? prevState.password
-        : '',
-      unlockError: isSame
-        ? prevState.unlockError
-        : null
+      address: pair
+        ? pair.address()
+        : ''
     };
   }
 
   render (): React$Node {
-    const { className, isVisible, style, t } = this.props;
-
-    if (!isVisible) {
-      return null;
-    }
+    const { className, style, t } = this.props;
 
     return (
       <Modal

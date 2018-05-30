@@ -137,6 +137,7 @@ class Creator extends React.PureComponent<Props, State> {
           newAddress = addressEncode(
             addressDecode(address)
           );
+          isAddressValid = keyring.isAvailable(newAddress);
         } catch (error) {
           isAddressValid = false;
         }

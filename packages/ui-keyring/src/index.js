@@ -11,6 +11,7 @@ import testKeyring from '@polkadot/util-keyring/testing';
 import loadAll from './loadAll';
 import createAccount from './account/create';
 import forgetAccount from './account/forget';
+import isAvailable from './isAvailable';
 import saveAccount from './account/save';
 import saveAccountMeta from './account/meta';
 import forgetAddress from './address/forget';
@@ -18,8 +19,10 @@ import getAddress from './address/get';
 import getAddresses from './address/all';
 import saveAddress from './address/meta';
 import saveRecent from './address/metaRecent';
+import setTestMode from './setTestMode';
 
 const state: State = {
+  isTestMode: false,
   available: {
     account: {},
     address: {}
@@ -37,6 +40,8 @@ export default ({
     forgetAccount(state, address),
   forgetAddress: (address: string): void =>
     forgetAddress(state, address),
+  isAvailable: (address: string | Uint8Array): boolean =>
+    isAvailable(state, address),
   getAddress: (address: string | Uint8Array): KeyringAddress =>
     getAddress(state, address),
   getAddresses: (): Array<KeyringAddress> =>
@@ -46,7 +51,9 @@ export default ({
   getPair: (address: string | Uint8Array): KeyringPair =>
     state.keyring.getPair(address),
   getPairs: (): Array<KeyringPair> =>
-    state.keyring.getPairs(),
+    state.keyring.getPairs().filter((pair) =>
+      state.isTestMode || pair.getMeta().isTesting !== true
+    ),
   loadAll: (): void =>
     loadAll(state),
   saveAccount: (pair: KeyringPair, password?: string): void =>
@@ -56,5 +63,7 @@ export default ({
   saveAddress: (address: string, meta: KeyringPair$Meta): void =>
     saveAddress(state, address, meta),
   saveRecent: (address: string): KeyringOption =>
-    saveRecent(state, address)
+    saveRecent(state, address),
+  setTestMode: (isTest: boolean): void =>
+    setTestMode(state, isTest)
 }: KeyringInstance);
