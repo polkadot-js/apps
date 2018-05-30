@@ -18,8 +18,10 @@ import getAddress from './address/get';
 import getAddresses from './address/all';
 import saveAddress from './address/meta';
 import saveRecent from './address/metaRecent';
+import setTestMode from './setTestMode';
 
 const state: State = {
+  isTestMode: false,
   available: {
     account: {},
     address: {}
@@ -46,7 +48,9 @@ export default ({
   getPair: (address: string | Uint8Array): KeyringPair =>
     state.keyring.getPair(address),
   getPairs: (): Array<KeyringPair> =>
-    state.keyring.getPairs(),
+    state.keyring.getPairs().filter((pair) =>
+      state.isTestMode || pair.getMeta().isTesting !== true
+    ),
   loadAll: (): void =>
     loadAll(state),
   saveAccount: (pair: KeyringPair, password?: string): void =>
@@ -56,5 +60,7 @@ export default ({
   saveAddress: (address: string, meta: KeyringPair$Meta): void =>
     saveAddress(state, address, meta),
   saveRecent: (address: string): KeyringOption =>
-    saveRecent(state, address)
+    saveRecent(state, address),
+  setTestMode: (isTest: boolean): void =>
+    setTestMode(state, isTest)
 }: KeyringInstance);

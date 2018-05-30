@@ -16,3 +16,11 @@
   flex-grow: 1;
   overflow-y: auto;
 }
+
+.apps--NodeInfo {
+  background: transparent;
+  font-size: 0.75rem;
+  padding-right: 1em;
+  opacity: 0.5;
+  text-align: right;
+}

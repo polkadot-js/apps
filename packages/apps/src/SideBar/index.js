@@ -17,9 +17,11 @@ import routing from '../routing';
 import translate from '../translate';
 import Item from './Item';
 
-type Props = I18nProps & {};
+type Props = I18nProps & {
+  children?: React$Node
+};
 
-function SideBar ({ className, style, t }: Props): React$Node {
+function SideBar ({ children, className, style, t }: Props): React$Node {
   return (
     <div
       className={classes('apps--SideBar', className)}
@@ -55,8 +57,9 @@ function SideBar ({ className, style, t }: Props): React$Node {
             <Icon name='github' /> GitHub
           </a>
         </Menu.Item>
+        <Menu.Divider hidden />
+        {children}
       </Menu>
-
     </div>
   );
 }

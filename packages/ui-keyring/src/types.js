@@ -41,6 +41,7 @@ export type KeyringAddress = {
 }
 
 export type State = {
+  isTestMode: boolean,
   available: {
     account: { [string]: KeyringJson },
     address: { [string]: KeyringJson }
@@ -64,5 +65,6 @@ export type KeyringInstance = {
   saveAccount: (pair: KeyringPair, password?: string) => void,
   saveAccountMeta: (pair: KeyringPair, meta: KeyringPair$Meta) => void,
   saveAddress: (address: string, meta: KeyringPair$Meta) => void,
-  saveRecent: (address: string) => KeyringOption
+  saveRecent: (address: string) => KeyringOption,
+  setTestMode: (isTest: boolean) => void
 };
