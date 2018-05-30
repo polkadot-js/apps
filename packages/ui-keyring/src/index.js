@@ -11,6 +11,7 @@ import testKeyring from '@polkadot/util-keyring/testing';
 import loadAll from './loadAll';
 import createAccount from './account/create';
 import forgetAccount from './account/forget';
+import isAvailable from './isAvailable';
 import saveAccount from './account/save';
 import saveAccountMeta from './account/meta';
 import forgetAddress from './address/forget';
@@ -39,6 +40,8 @@ export default ({
     forgetAccount(state, address),
   forgetAddress: (address: string): void =>
     forgetAddress(state, address),
+  isAvailable: (address: string | Uint8Array): boolean =>
+    isAvailable(state, address),
   getAddress: (address: string | Uint8Array): KeyringAddress =>
     getAddress(state, address),
   getAddresses: (): Array<KeyringAddress> =>

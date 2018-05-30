@@ -61,6 +61,7 @@ export type KeyringInstance = {
   getOptions: (type: KeyringOption$Type) => KeyringOptions,
   getPair: (address: string | Uint8Array) => KeyringPair,
   getPairs: () => Array<KeyringPair>,
+  isAvailable: (address: string | Uint8Array) => boolean,
   loadAll: () => void,
   saveAccount: (pair: KeyringPair, password?: string) => void,
   saveAccountMeta: (pair: KeyringPair, meta: KeyringPair$Meta) => void,
