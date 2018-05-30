@@ -6,7 +6,6 @@
 import type BN from 'bn.js';
 import type { Param$Types, Param$Type$Array } from '@polkadot/params/types';
 
-// import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 import u8aToHex from '@polkadot/util/u8a/toHex';
