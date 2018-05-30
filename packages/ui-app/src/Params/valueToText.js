@@ -30,28 +30,32 @@ function arrayToText (type: Param$Type$Array, value: Array<any>): string {
 
 // flowlint-next-line unclear-type:off
 function valueToText (type: Param$Types, value: any): string {
-  if (type === 'bool') {
-    return value ? 'Yes' : 'No';
-  }
+  try {
+    if (type === 'bool') {
+      return value ? 'Yes' : 'No';
+    }
 
-  if (!value) {
-    return 'unknown';
-  }
+    if (!value) {
+      return 'unknown';
+    }
 
-  if (Array.isArray(type)) {
-    return arrayToText(type, value);
-  }
+    if (Array.isArray(type)) {
+      return arrayToText(type, value);
+    }
 
-  if (type === 'AccountId') {
-    return addressEncode((value: Uint8Array));
-  }
+    if (type === 'AccountId') {
+      return addressEncode((value: Uint8Array));
+    }
 
-  if (isU8a(value)) {
-    return u8aToHex((value: Uint8Array), 256);
-  }
+    if (isU8a(value)) {
+      return u8aToHex((value: Uint8Array), 256);
+    }
 
-  if (isBn(value)) {
-    return numberFormat((value: BN));
+    if (isBn(value)) {
+      return numberFormat((value: BN));
+    }
+  } catch (error) {
+    console.log('valueToText', type, value, error);
   }
 
   return value.toString();
