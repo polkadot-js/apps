@@ -71,8 +71,6 @@ export default class InputAddress extends React.Component<Props, State> {
     const { defaultValue, value } = this.state;
     const options = keyring.getOptions(type);
 
-    console.log('options', type, options);
-
     return (
       <Dropdown
         className={classes('ui--InputAddress', hideAddress ? 'flag--hideAddress' : '', className)}

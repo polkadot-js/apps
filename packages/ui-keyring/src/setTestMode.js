@@ -10,9 +10,5 @@ import createOptions from './options';
 export default function setTestMode (state: State, isTest: boolean): void {
   state.isTestMode = isTest;
 
-  console.log('state', state);
-
   createOptions(state);
-
-  console.log('state', state);
 }
