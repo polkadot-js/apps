@@ -30,13 +30,17 @@ function arrayToText (type: Param$Type$Array, value: Array<any>, withBound: bool
     return 'empty';
   }
 
+  if (type.length === 1) {
+    return value.map((value) =>
+      valueToText(type[0], value, false)
+    ).join(', ');
+  }
+
   const values = type.map((_type, index) =>
     valueToText(_type, value[index], false)
   ).join(', ');
 
-  return withBound && type.length === 1
-    ? `(${values})`
-    : values;
+  return `(${values})`;
 }
 
 // flowlint-next-line unclear-type:off
