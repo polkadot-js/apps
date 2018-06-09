@@ -135,7 +135,7 @@ class Editor extends React.PureComponent<Props, State> {
               })}
               onChange={this.onChangeName}
               value={editedName}
-              isEditable={true}
+              isEditable
             />
           </div>
         </div>

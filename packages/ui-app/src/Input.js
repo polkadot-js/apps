@@ -20,6 +20,7 @@ type Props = BareProps & {
   icon?: React$Node,
   isAction?: boolean,
   isDisabled?: boolean,
+  isEditable?: boolean,
   isError?: boolean,
   isHidden?: boolean,
   label?: React$Node,
@@ -78,7 +79,7 @@ export default class Input extends React.PureComponent<Props, State> {
           placeholder={placeholder}
           type={type}
           value={value}
-          className={isEditable ? "ui icon input edit" : ""}
+          className={isEditable ? 'ui icon input edit' : ''}
         >
           <input
             autoComplete={
@@ -87,7 +88,7 @@ export default class Input extends React.PureComponent<Props, State> {
                 : 'off'
             }
           />
-          {isEditable ? <i className="edit icon"></i> : null}
+          {isEditable ? <i className='edit icon' /> : null}
           {icon}
           {children}
         </SUIInput>
