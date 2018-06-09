@@ -23,8 +23,6 @@ module.exports = function colors (seeder: Seeder): ColorGen {
   return (alpha: number = 0.9): string => {
     const index = Math.floor(all.length * seeder());
 
-    return all.splice(index, 1)[0]
-      .alpha(alpha)
-      .string();
+    return String(all.splice(index, 1)[0].alpha(alpha));
   };
 };
