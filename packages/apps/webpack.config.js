@@ -23,7 +23,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
 
   return {
     context,
-    devtool: isProd ? 'source-map' : false,
+    devtool: 'source-map',
     entry: `./src/${name}.js`,
     mode: isProd ? 'production' : 'development',
     output: {
