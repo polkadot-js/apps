@@ -49,7 +49,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render (): React$Node {
-    const { children, className, defaultValue, icon, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, placeholder, style, type = 'text', value, withLabel } = this.props;
+    const { children, className, defaultValue, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, placeholder, style, type = 'text', value, withLabel } = this.props;
     const { name } = this.state;
 
     return (
@@ -78,6 +78,7 @@ export default class Input extends React.PureComponent<Props, State> {
           placeholder={placeholder}
           type={type}
           value={value}
+          className={isEditable ? "ui icon input edit" : ""}
         >
           <input
             autoComplete={
@@ -86,6 +87,7 @@ export default class Input extends React.PureComponent<Props, State> {
                 : 'off'
             }
           />
+          {isEditable ? <i className="edit icon"></i> : null}
           {icon}
           {children}
         </SUIInput>
