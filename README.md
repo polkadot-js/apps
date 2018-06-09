@@ -38,7 +38,7 @@ In addition the following libraries are also included in the repo. These are to 
 
 ## Application
 
-For development purposes, the apps entry point can be launched with `yarn run start` and accessing the application of [http://localhost:3000](http://localhost:3000)
+For development purposes, after changing to a supported version of Node.js (>= 8.9.0) and installing relevant dependencies with `yarn install`, start a [Polkadot Node on your local machine that connects to the global PoC-1 Testnet](https://github.com/paritytech/polkadot) and specify a WebSockets RPC server TCP port of 8081 to accept connections from the apps entry point (i.e. `polkadot --chain=poc-1 --ws-port=8081`), the apps entry point can be launched with a WebSocket connection to Polkadot PoC-1 with `WS_URL=wss://poc-1.polkadot.io:9944 yarn run start` and accessing the application of [http://localhost:3000](http://localhost:3000)
 
 ## Demos
 
