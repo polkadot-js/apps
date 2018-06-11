@@ -31,4 +31,18 @@ describe('colors', () => {
       colors()
     ).not.toEqual('hsla(166.70000000000005, 98.6%, 27.6%, 0.9)');
   });
+
+  it('works in edge conditions (0xff)', () => {
+    const u8a = new Uint8Array(32);
+
+    u8a.fill(255);
+
+    expect(
+      colors = newColors(newSeeder(u8a))
+    ).not.toThrow();
+
+    expect(
+      colors()
+    ).toEqual('hsla(234.39999999999998, 75.9%, 51.2%, 0.9)');
+  });
 });
