@@ -38,7 +38,9 @@ In addition the following libraries are also included in the repo. These are to 
 
 ## development
 
-Contrubutions are welcome! To start off, this repo (along with others in the [@polkadot](https://github.com/polkadot-js/) family) uses yarn workspaces to organise the code. As such, after cloning dependencies should be installed via `yarn`, not via npm. (Lerna is onnly used on CI to incement package versions, as such no bootstrapping is needed.)
+Contributions are welcome!
+
+To start off, this repo (along with others in the [@polkadot](https://github.com/polkadot-js/) family) uses yarn workspaces to organise the code. As such, after cloning dependencies _should_ be installed via `yarn`, not via npm, the latter will result in broken dependencies.
 
 To get started -
 
