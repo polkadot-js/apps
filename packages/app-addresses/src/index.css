@@ -10,3 +10,13 @@
   margin-bottom: 2em;
   text-align: center;
 }
+
+.addresses--App .addresses--Editor .ui--Button-Group .ui.buttons .button:nth-child(1) {
+  border-top-right-radius: .28571429rem;
+  border-bottom-right-radius: .28571429rem;
+}
+
+.addresses--App .addresses--Editor .ui--Button-Group .ui.buttons .button:nth-child(3) {
+  border-top-left-radius: .28571429rem;
+  border-bottom-left-radius: .28571429rem;
+}
