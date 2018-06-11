@@ -1,6 +1,10 @@
 {
   "version": "0.17.7",
   "private": true,
+  "engines": {
+    "node": "^10.1.0",
+    "yarn": "^1.7.0"
+  },
   "homepage": ".",
   "workspaces": [
     "packages/*"
