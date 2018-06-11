@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-signer",
-  "version": "0.17.6",
+  "version": "0.17.7",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -13,8 +13,8 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.47",
     "@polkadot/extrinsics": "^0.17.21",
-    "@polkadot/ui-app": "^0.17.6",
-    "@polkadot/ui-keyring": "^0.17.6"
+    "@polkadot/ui-app": "^0.17.7",
+    "@polkadot/ui-keyring": "^0.17.7"
   },
   "peerDependencies": {
     "react": "^16.4.0",
