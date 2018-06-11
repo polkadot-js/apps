@@ -36,11 +36,23 @@ In addition the following libraries are also included in the repo. These are to 
 - [ui-react](packages/ui-react) A collection of base React components
 - [ui-react-rx](packages/ui-react-rx) Base components that use the RxJS Observable APIs
 
-## Application
+## development
 
-For development purposes, after changing to a supported version of Node.js (>= 8.9.0) and installing relevant dependencies with `yarn install`, start a [Polkadot Node on your local machine that connects to the global PoC-1 Testnet](https://github.com/paritytech/polkadot) and specify a WebSockets RPC server TCP port of 8081 to accept connections from the apps entry point (i.e. `polkadot --chain=poc-1 --ws-port=8081`), the apps entry point can be launched with a WebSocket connection to Polkadot PoC-1 with `WS_URL=wss://poc-1.polkadot.io:9944 yarn run start` and accessing the application of [http://localhost:3000](http://localhost:3000)
+Contributions are welcome!
 
-## Demos
+To start off, this repo (along with others in the [@polkadot](https://github.com/polkadot-js/) family) uses yarn workspaces to organise the code. As such, after cloning dependencies _should_ be installed via `yarn`, not via npm, the latter will result in broken dependencies.
+
+To get started -
+
+1. Clone the repo locally, via `git clone https://github.com/polkadot-js/apps <optional local path>`
+2. Ensure that you have a recent version of `node.js`, for development purposes [Node 10](https://nodejs.org/en/) is recommended.
+3. Install the dependencies via `yarn` (If you don't have yarn available, install via [options for your environment](https://yarnpkg.com/en/docs/install))
+4. Ready! Now you can launch the UI (assuming you have a local Polkadot Node running), via `yarn run start`
+5. Access the UI via [http://localhost:3000](http://localhost:3000)
+
+Alternatively, should you not have a local Node, you can connect to a remote node (POC-1 network, although not fully up-to-date with features) with the `WS_URL` parameter. For eample - the apps entry point can be launched with a WebSocket connection to Polkadot PoC-1 with `WS_URL=wss://poc-1.polkadot.io:9944 yarn run start` and accessing the application of [http://localhost:3000](http://localhost:3000)
+
+## demos
 
 Demos for the different libraries can be viewed with `yarn run demo:<name>` and then browsing to [http://localhost:3000](http://localhost:3000). Available demo -
 

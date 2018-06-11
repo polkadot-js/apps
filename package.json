@@ -18,7 +18,7 @@
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@polkadot/dev-react": "^0.19.11",
+    "@polkadot/dev-react": "^0.19.23",
     "gh-pages": "^1.1.0"
   }
 }

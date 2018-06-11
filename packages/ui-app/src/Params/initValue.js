@@ -17,9 +17,10 @@ export default function getInitValue (type: Param$Types): RawParam$Values {
 
     case 'BlockNumber':
     case 'Index':
-    case 'SessionKey':
+    case 'ParachainId':
     case 'PropIndex':
     case 'ReferendumIndex':
+    case 'SessionKey':
     case 'u32':
     case 'u64':
     case 'u128':
@@ -41,6 +42,7 @@ export default function getInitValue (type: Param$Types): RawParam$Values {
     case 'AccountId':
     case 'Bytes':
     case 'Call':
+    case 'CandidateReceipt':
     case 'Code':
     case 'Digest':
     case 'Hash':
