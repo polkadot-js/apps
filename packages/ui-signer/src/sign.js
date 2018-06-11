@@ -4,7 +4,7 @@
 // @flow
 
 import type BN from 'bn.js';
-import type { EncodingVersions } from '@polkadot/extrinsics-codec/types';
+import type { EncodingVersions } from '@polkadot/params/types';
 import type { Signed } from './types';
 
 import encodeCall from '@polkadot/extrinsics-codec/encode/call';
@@ -13,8 +13,6 @@ import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
 export default function signMessage (publicKey: Uint8Array, nonce: BN | number, value: Uint8Array, apiSupport: EncodingVersions): Signed {
-  console.log('signMessage :   support ::', apiSupport);
-
   const message = encodeCall(publicKey, nonce, value, apiSupport);
   const signature = keyring.getPair(publicKey).sign(message);
 

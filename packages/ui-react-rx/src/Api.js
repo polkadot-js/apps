@@ -5,7 +5,7 @@
 
 import type { ProviderInterface } from '@polkadot/api-provider/types';
 import type { RxApiInterface } from '@polkadot/api-rx/types';
-import type { EncodingVersions } from '@polkadot/extrinsics-codec/types';
+import type { EncodingVersions } from '@polkadot/params/types';
 import type { ApiProps } from './types';
 
 import React from 'react';
