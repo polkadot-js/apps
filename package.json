@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/apps",
-  "version": "0.17.5",
+  "version": "0.17.6",
   "description": "An Apps portal into the Polkadot network",
   "main": "index.js",
   "homepage": ".",
@@ -13,16 +13,16 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.47",
-    "@polkadot/app-accounts": "^0.17.5",
-    "@polkadot/app-addresses": "^0.17.5",
-    "@polkadot/app-explorer": "^0.17.5",
-    "@polkadot/app-extrinsics": "^0.17.5",
-    "@polkadot/app-rpc": "^0.17.5",
-    "@polkadot/app-storage": "^0.17.5",
-    "@polkadot/app-toolbox": "^0.17.5",
-    "@polkadot/app-vanitygen": "^0.17.5",
-    "@polkadot/ui-app": "^0.17.5",
-    "@polkadot/ui-signer": "^0.17.5"
+    "@polkadot/app-accounts": "^0.17.6",
+    "@polkadot/app-addresses": "^0.17.6",
+    "@polkadot/app-explorer": "^0.17.6",
+    "@polkadot/app-extrinsics": "^0.17.6",
+    "@polkadot/app-rpc": "^0.17.6",
+    "@polkadot/app-storage": "^0.17.6",
+    "@polkadot/app-toolbox": "^0.17.6",
+    "@polkadot/app-vanitygen": "^0.17.6",
+    "@polkadot/ui-app": "^0.17.6",
+    "@polkadot/ui-signer": "^0.17.6"
   },
   "devDependencies": {
     "babel-loader": "^8.0.0-beta.2",
