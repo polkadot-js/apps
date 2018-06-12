@@ -60,7 +60,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
                   require('postcss-nested'),
                   require('postcss-import'),
                   require('postcss-clean')(),
-                  require('postcss-flexbugs-fixes'),
+                  require('postcss-flexbugs-fixes')
                 ]
               }
             }
