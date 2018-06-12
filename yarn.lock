@@ -719,56 +719,56 @@
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.0.2.tgz#d056b68999769728a1cff8d643bc59eb6f0be436"
 
-"@polkadot/api-format@^0.13.5":
-  version "0.13.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-format/-/api-format-0.13.5.tgz#47a444c8f26ebf8d4fbeac7c376444b43cd9baed"
+"@polkadot/api-format@^0.13.7":
+  version "0.13.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-format/-/api-format-0.13.7.tgz#cf683cb382124213e6a573ceb6de9549407985e9"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/jsonrpc" "^0.17.21"
-    "@polkadot/primitives-json" "^0.17.21"
-    "@polkadot/util" "^0.22.7"
-    "@polkadot/util-keyring" "^0.22.7"
+    "@polkadot/jsonrpc" "^0.17.24"
+    "@polkadot/primitives-json" "^0.17.24"
+    "@polkadot/util" "^0.22.9"
+    "@polkadot/util-keyring" "^0.22.9"
 
-"@polkadot/api-provider@^0.13.5":
-  version "0.13.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-provider/-/api-provider-0.13.5.tgz#349a0b68cac899c57a5d4c0adafeaf9ded426298"
+"@polkadot/api-provider@^0.13.7":
+  version "0.13.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-provider/-/api-provider-0.13.7.tgz#38953437cc66ac799b1b2ae6b6499d3965322524"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/storage" "^0.17.21"
-    "@polkadot/util" "^0.22.7"
-    "@polkadot/util-crypto" "^0.22.7"
-    "@polkadot/util-keyring" "^0.22.7"
+    "@polkadot/storage" "^0.17.24"
+    "@polkadot/util" "^0.22.9"
+    "@polkadot/util-crypto" "^0.22.9"
+    "@polkadot/util-keyring" "^0.22.9"
     eventemitter3 "^2.0.3"
     isomorphic-fetch "^2.2.1"
     websocket "^1.0.25"
 
-"@polkadot/api-rx@^0.13.5":
-  version "0.13.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-rx/-/api-rx-0.13.5.tgz#0d031bc8aee4f225614e1740e3426033e5e8dfbc"
+"@polkadot/api-rx@^0.13.7":
+  version "0.13.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-rx/-/api-rx-0.13.7.tgz#4d3ea9f0994bd66103ee871afc6abad4829b9d32"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/api" "^0.13.5"
-    "@polkadot/api-provider" "^0.13.5"
+    "@polkadot/api" "^0.13.7"
+    "@polkadot/api-provider" "^0.13.7"
     rxjs "^5.5.10"
 
-"@polkadot/api@^0.13.5":
-  version "0.13.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.13.5.tgz#c819eb2754a29b62112476ee2fa836ef3f2701f2"
+"@polkadot/api@^0.13.7":
+  version "0.13.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.13.7.tgz#2df0383fb6a6a98b43a120ab7552c16788649c69"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/api-format" "^0.13.5"
-    "@polkadot/api-provider" "^0.13.5"
-    "@polkadot/jsonrpc" "^0.17.21"
-    "@polkadot/params" "^0.17.21"
-    "@polkadot/util" "^0.22.7"
+    "@polkadot/api-format" "^0.13.7"
+    "@polkadot/api-provider" "^0.13.7"
+    "@polkadot/jsonrpc" "^0.17.24"
+    "@polkadot/params" "^0.17.24"
+    "@polkadot/util" "^0.22.9"
 
-"@polkadot/dev-react@^0.19.23":
-  version "0.19.23"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev-react/-/dev-react-0.19.23.tgz#777cc52b3e70f1e4324331f9ab46753ba6159d51"
+"@polkadot/dev-react@^0.19.25":
+  version "0.19.25"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev-react/-/dev-react-0.19.25.tgz#99a8ae0081664a513e56965d067afab5ce96b080"
   dependencies:
     "@babel/core" "^7.0.0-beta.47"
     "@babel/preset-react" "^7.0.0-beta.47"
-    "@polkadot/dev" "^0.19.23"
+    "@polkadot/dev" "^0.19.25"
     browserslist "^3.2.7"
     eslint "^4.19.1"
     eslint-config-standard-jsx "^5.0.0"
@@ -781,9 +781,9 @@
     webpack-cli "^2.1.3"
     webpack-serve "^1.0.2"
 
-"@polkadot/dev@^0.19.23":
-  version "0.19.23"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.19.23.tgz#cf00087f7d7fbaec47fe44afe3f1eaa6da14af13"
+"@polkadot/dev@^0.19.25":
+  version "0.19.25"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.19.25.tgz#cf63238f59b9cdc015204ff760cf0a4c2892d0e5"
   dependencies:
     "@babel/cli" "^7.0.0-beta.47"
     "@babel/core" "^7.0.0-beta.47"
@@ -797,6 +797,7 @@
     babel-core "^7.0.0-bridge.0"
     babel-eslint "^8.2.3"
     babel-jest "^22.4.3"
+    chalk "^2.4.1"
     codeclimate-test-reporter "^0.5.0"
     coveralls "^3.0.1"
     dox "^0.9.0"
@@ -828,6 +829,17 @@
     "@polkadot/util-keyring" "^0.22.7"
     bn.js "^4.11.8"
 
+"@polkadot/extrinsics-codec@^0.17.24":
+  version "0.17.24"
+  resolved "https://registry.yarnpkg.com/@polkadot/extrinsics-codec/-/extrinsics-codec-0.17.24.tgz#095bb3661f3138d00e1d70e464907485aaf4e054"
+  dependencies:
+    "@babel/runtime" "^7.0.0-beta.47"
+    "@polkadot/extrinsics" "^0.17.24"
+    "@polkadot/params" "^0.17.24"
+    "@polkadot/util" "^0.22.9"
+    "@polkadot/util-keyring" "^0.22.9"
+    bn.js "^4.11.8"
+
 "@polkadot/extrinsics@^0.17.21":
   version "0.17.21"
   resolved "https://registry.yarnpkg.com/@polkadot/extrinsics/-/extrinsics-0.17.21.tgz#fb2cea28ad045bfc1079bd00e1c05ef0f0c31e5a"
@@ -837,11 +849,20 @@
     "@polkadot/primitives" "^0.17.21"
     "@polkadot/util" "^0.22.7"
 
-"@polkadot/jsonrpc@^0.17.21":
-  version "0.17.21"
-  resolved "https://registry.yarnpkg.com/@polkadot/jsonrpc/-/jsonrpc-0.17.21.tgz#9594e2b9ab8537ed7a3a0b9d5a194816d8d8e627"
+"@polkadot/extrinsics@^0.17.24":
+  version "0.17.24"
+  resolved "https://registry.yarnpkg.com/@polkadot/extrinsics/-/extrinsics-0.17.24.tgz#2faef46c89cd988d3bb0d91483b0d5d2d4260fb0"
   dependencies:
-    "@polkadot/params" "^0.17.21"
+    "@babel/runtime" "^7.0.0-beta.47"
+    "@polkadot/params" "^0.17.24"
+    "@polkadot/primitives" "^0.17.24"
+    "@polkadot/util" "^0.22.9"
+
+"@polkadot/jsonrpc@^0.17.24":
+  version "0.17.24"
+  resolved "https://registry.yarnpkg.com/@polkadot/jsonrpc/-/jsonrpc-0.17.24.tgz#7e402481cbbb5a8ad4cf23d17d9bbbcf249f76bf"
+  dependencies:
+    "@polkadot/params" "^0.17.24"
     babel-runtime "^6.26.0"
 
 "@polkadot/params@^0.17.21":
@@ -852,6 +873,15 @@
     "@polkadot/extrinsics" "^0.17.21"
     "@polkadot/primitives" "^0.17.21"
     "@polkadot/util" "^0.22.7"
+
+"@polkadot/params@^0.17.24":
+  version "0.17.24"
+  resolved "https://registry.yarnpkg.com/@polkadot/params/-/params-0.17.24.tgz#ad831de10879a88bb918eb46e17e8133b5285683"
+  dependencies:
+    "@babel/runtime" "^7.0.0-beta.47"
+    "@polkadot/extrinsics" "^0.17.24"
+    "@polkadot/primitives" "^0.17.24"
+    "@polkadot/util" "^0.22.9"
 
 "@polkadot/primitives-builder@^0.17.21", "@polkadot/primitives-builder@^0.17.9":
   version "0.17.21"
@@ -865,6 +895,18 @@
     "@polkadot/util-crypto" "^0.22.7"
     "@polkadot/util-triehash" "^0.22.7"
 
+"@polkadot/primitives-builder@^0.17.24":
+  version "0.17.24"
+  resolved "https://registry.yarnpkg.com/@polkadot/primitives-builder/-/primitives-builder-0.17.24.tgz#33aa3b157d64603ad50e53f2132c330447a5892f"
+  dependencies:
+    "@babel/runtime" "^7.0.0-beta.47"
+    "@polkadot/extrinsics-codec" "^0.17.24"
+    "@polkadot/primitives" "^0.17.24"
+    "@polkadot/primitives-codec" "^0.17.24"
+    "@polkadot/util" "^0.22.9"
+    "@polkadot/util-crypto" "^0.22.9"
+    "@polkadot/util-triehash" "^0.22.9"
+
 "@polkadot/primitives-codec@^0.17.21":
   version "0.17.21"
   resolved "https://registry.yarnpkg.com/@polkadot/primitives-codec/-/primitives-codec-0.17.21.tgz#0e1bc0a8c83d80eb9d486a1b0877bb304d372b3a"
@@ -876,14 +918,25 @@
     "@polkadot/util" "^0.22.7"
     "@polkadot/util-keyring" "^0.22.7"
 
-"@polkadot/primitives-json@^0.17.21":
-  version "0.17.21"
-  resolved "https://registry.yarnpkg.com/@polkadot/primitives-json/-/primitives-json-0.17.21.tgz#97939c81f292807b4129d9e6d1ce390f8ab39a5d"
+"@polkadot/primitives-codec@^0.17.24":
+  version "0.17.24"
+  resolved "https://registry.yarnpkg.com/@polkadot/primitives-codec/-/primitives-codec-0.17.24.tgz#114251cecc6142247826bc226b3db0486fd005ea"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/primitives" "^0.17.21"
-    "@polkadot/primitives-builder" "^0.17.21"
-    "@polkadot/util" "^0.22.7"
+    "@polkadot/primitives" "^0.17.24"
+    "@polkadot/primitives-builder" "^0.17.24"
+    "@polkadot/primitives-rlp" "^0.17.9"
+    "@polkadot/util" "^0.22.9"
+    "@polkadot/util-keyring" "^0.22.9"
+
+"@polkadot/primitives-json@^0.17.24":
+  version "0.17.24"
+  resolved "https://registry.yarnpkg.com/@polkadot/primitives-json/-/primitives-json-0.17.24.tgz#84b28089375f275577443cffa65326ebeb7dcc6a"
+  dependencies:
+    "@babel/runtime" "^7.0.0-beta.47"
+    "@polkadot/primitives" "^0.17.24"
+    "@polkadot/primitives-builder" "^0.17.24"
+    "@polkadot/util" "^0.22.9"
 
 "@polkadot/primitives-rlp@^0.17.9":
   version "0.17.9"
@@ -902,15 +955,22 @@
     "@babel/runtime" "^7.0.0-beta.47"
     "@polkadot/util" "^0.22.7"
 
-"@polkadot/storage@^0.17.21":
-  version "0.17.21"
-  resolved "https://registry.yarnpkg.com/@polkadot/storage/-/storage-0.17.21.tgz#f4a9c9520b2da1a6fd131b95a8f210c9f4302cee"
+"@polkadot/primitives@^0.17.24":
+  version "0.17.24"
+  resolved "https://registry.yarnpkg.com/@polkadot/primitives/-/primitives-0.17.24.tgz#ea69766d44d698145b46ca8896651388bcb8cb8e"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/params" "^0.17.21"
-    "@polkadot/primitives" "^0.17.21"
-    "@polkadot/util" "^0.22.7"
-    "@polkadot/util-keyring" "^0.22.7"
+    "@polkadot/util" "^0.22.9"
+
+"@polkadot/storage@^0.17.24":
+  version "0.17.24"
+  resolved "https://registry.yarnpkg.com/@polkadot/storage/-/storage-0.17.24.tgz#e09a79ccf306d598419770cdbc3b151c38c30a3f"
+  dependencies:
+    "@babel/runtime" "^7.0.0-beta.47"
+    "@polkadot/params" "^0.17.24"
+    "@polkadot/primitives" "^0.17.24"
+    "@polkadot/util" "^0.22.9"
+    "@polkadot/util-keyring" "^0.22.9"
 
 "@polkadot/util-crypto@^0.22.2":
   version "0.22.2"
@@ -934,6 +994,17 @@
     tweetnacl "^1.0.0"
     xxhashjs "^0.2.2"
 
+"@polkadot/util-crypto@^0.22.9":
+  version "0.22.9"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.22.9.tgz#dfb3ff771db5ed044f82f7011326a9b306fda29f"
+  dependencies:
+    "@babel/runtime" "^7.0.0-beta.47"
+    "@polkadot/util" "^0.22.9"
+    blakejs "^1.1.0"
+    js-sha3 "^0.7.0"
+    tweetnacl "^1.0.0"
+    xxhashjs "^0.2.2"
+
 "@polkadot/util-keyring@^0.22.7":
   version "0.22.7"
   resolved "https://registry.yarnpkg.com/@polkadot/util-keyring/-/util-keyring-0.22.7.tgz#111b3e0e6a25a14b5d9039c746c737509b512771"
@@ -943,12 +1014,28 @@
     "@polkadot/util-crypto" "^0.22.7"
     bs58 "^4.0.1"
 
+"@polkadot/util-keyring@^0.22.9":
+  version "0.22.9"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-keyring/-/util-keyring-0.22.9.tgz#79c832a162e84e19720e81d89fc4f5ab8a06b666"
+  dependencies:
+    "@babel/runtime" "^7.0.0-beta.47"
+    "@polkadot/util" "^0.22.9"
+    "@polkadot/util-crypto" "^0.22.9"
+    bs58 "^4.0.1"
+
 "@polkadot/util-rlp@^0.22.7":
   version "0.22.7"
   resolved "https://registry.yarnpkg.com/@polkadot/util-rlp/-/util-rlp-0.22.7.tgz#7e958e95746bba5984d56858c1ada866286c2373"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
     "@polkadot/util" "^0.22.7"
+
+"@polkadot/util-rlp@^0.22.9":
+  version "0.22.9"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-rlp/-/util-rlp-0.22.9.tgz#f07195eb2fe82e165c0102880ffe212f0394c77f"
+  dependencies:
+    "@babel/runtime" "^7.0.0-beta.47"
+    "@polkadot/util" "^0.22.9"
 
 "@polkadot/util-triehash@^0.22.7":
   version "0.22.7"
@@ -958,6 +1045,15 @@
     "@polkadot/util" "^0.22.7"
     "@polkadot/util-crypto" "^0.22.7"
     "@polkadot/util-rlp" "^0.22.7"
+
+"@polkadot/util-triehash@^0.22.9":
+  version "0.22.9"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-triehash/-/util-triehash-0.22.9.tgz#563ae3ff76dd54de9f2c5bb39686a55f6c78ce52"
+  dependencies:
+    "@babel/runtime" "^7.0.0-beta.47"
+    "@polkadot/util" "^0.22.9"
+    "@polkadot/util-crypto" "^0.22.9"
+    "@polkadot/util-rlp" "^0.22.9"
 
 "@polkadot/util@^0.22.2":
   version "0.22.2"
@@ -971,6 +1067,16 @@
 "@polkadot/util@^0.22.7":
   version "0.22.7"
   resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.22.7.tgz#980451a0c0e84e99ee0e4d99ae6dd5fada960493"
+  dependencies:
+    "@babel/runtime" "^7.0.0-beta.47"
+    bn.js "^4.11.8"
+    chalk "^2.4.1"
+    deasync "^0.1.12"
+    ip-regex "^2.1.0"
+
+"@polkadot/util@^0.22.9":
+  version "0.22.9"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.22.9.tgz#2314fcda8a104f15948cdf62629ff7b78fedef90"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
     bn.js "^4.11.8"

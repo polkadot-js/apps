@@ -13,12 +13,13 @@
     "demo:rx": "webpack-serve --config packages/ui-react-rx/webpack.config.js --content packages/ui-react-rx --port 3000",
     "demo:ui": "webpack-serve --config packages/ui-react/webpack.config.js --content packages/ui-react --port 3000",
     "deploy:ghpages": "gh-pages -d packages/apps/build",
+    "postinstall": "polkadot-dev-yarn-only",
     "vanitygen": "polkadot-dev-build-babel && node packages/app-vanitygen/build/generator/cli.js",
     "start": "cd packages/apps && webpack-serve --config webpack.config.js --port 3000",
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@polkadot/dev-react": "^0.19.23",
+    "@polkadot/dev-react": "^0.19.25",
     "gh-pages": "^1.1.0"
   }
 }
