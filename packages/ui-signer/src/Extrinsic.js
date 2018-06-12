@@ -53,7 +53,7 @@ function Extrinsic ({ children, className, style, t, value: { nonce = new BN(0),
   return [
     <Modal.Header key='header'>
       {t('extrinsic.header', {
-        defaultValue: 'Extrinsic submission'
+        defaultValue: 'Submit Transaction'
       })}
     </Modal.Header>,
     <Modal.Content className='ui--signer-Signer-Content' key='content'>
