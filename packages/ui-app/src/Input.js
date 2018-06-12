@@ -62,7 +62,7 @@ export default class Input extends React.PureComponent<Props, State> {
       >
         <SUIInput
           action={isAction}
-          className={isEditable ? 'ui icon input edit' : ''}
+          className={isEditable ? 'edit icon' : ''}
           defaultValue={defaultValue}
           disabled={isDisabled}
           id={name}
