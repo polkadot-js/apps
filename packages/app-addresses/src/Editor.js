@@ -67,7 +67,7 @@ class Editor extends React.PureComponent<Props, State> {
 
     return (
       <Button.Group>
-        <Button.Group.Divider style={{ padding: '0em'}}></Button.Group.Divider>
+        <Button.Group.Divider style={{ padding: '0em' }} />
         <Button
           isNegative
           onClick={this.onForget}
