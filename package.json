@@ -1,5 +1,5 @@
 {
-  "version": "0.17.11",
+  "version": "0.17.12",
   "private": true,
   "engines": {
     "node": "^10.1.0",
@@ -26,9 +26,9 @@
     "@polkadot/dev-react": "^0.19.25",
     "autoprefixer": "^8.6.2",
     "gh-pages": "^1.1.0",
-    "precss": "^3.1.2",
     "postcss-import": "^11.1.0",
     "postcss-nested": "^3.0.0",
-    "postcss-simple-vars": "^4.1.0"
+    "postcss-simple-vars": "^4.1.0",
+    "precss": "^3.1.2"
   }
 }
