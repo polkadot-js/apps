@@ -23,9 +23,9 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
 
   return {
     context,
-    devtool: isProd ? 'source-map' : false,
+    devtool: isProd ? 'source-map' : 'cheap-eval-source-map',
     entry: `./src/${name}.js`,
-    mode: isProd ? 'production' : 'development',
+    mode: ENV,
     output: {
       path: path.join(context, 'build'),
       filename: `[name].[hash:8].js`,
