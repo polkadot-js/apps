@@ -8,6 +8,7 @@ import type { BareProps } from '../types';
 import React from 'react';
 import SUIButton from 'semantic-ui-react/dist/es/elements/Button';
 
+import Button from '@polkadot/ui-app/Button';
 import classes from '../util/classes';
 import Divider from './Divider';
 
@@ -22,6 +23,7 @@ function ButtonGroup ({ children, className, style }: Props): React$Node {
       style={style}
     >
       <SUIButton.Group>
+        <Button.Group.Divider style={{ padding: '0em' }} />
         {children}
       </SUIButton.Group>
     </div>
