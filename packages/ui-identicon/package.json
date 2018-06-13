@@ -9,6 +9,12 @@
     "test": "echo \"Tests only available from root wrapper\""
   },
   "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [
+    "Jaco Greeff <jacogr@gmail.com>"
+  ],
+  "contributors": [
+    "Dan Finlay"
+  ],
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.47",
