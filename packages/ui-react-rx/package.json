@@ -9,6 +9,10 @@
     "RxJs"
   ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [
+    "Jaco Greeff <jacogr@gmail.com>"
+  ],
+  "contributors": [],
   "license": "ISC",
   "engines": {
     "node": ">=8.0"
