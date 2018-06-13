@@ -2,8 +2,6 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
-@import 'partials/_variables.css';
-
 .ui.hidden.divider {
   margin: 0.75rem 0;
 }
@@ -78,18 +76,4 @@
 .ui[class*="left icon"].input.left.icon > i.icon.big {
   left: -7px;
   opacity: 1;
-}
-
-.ui--Button-Group {
-  .ui.buttons {
-    .ui.button.compact.mini.basic + .button:nth-child(2) {
-      border-top-right-radius: $small-corner;
-      border-bottom-right-radius: $small-corner;
-    }
-    .ui.button.compact.mini.basic + .button:nth-child(2),
-    .ui.button.compact.mini.basic + .button:nth-child(4) {
-      border-top-left-radius: $small-corner;
-      border-bottom-left-radius: $small-corner;
-    }
-  }
 }
