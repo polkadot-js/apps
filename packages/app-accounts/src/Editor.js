@@ -130,6 +130,7 @@ class Editor extends React.PureComponent<Props, State> {
           <div className='ui--row'>
             <Input
               className='full'
+              isEditable
               label={t('editor.name', {
                 defaultValue: 'identified by the name'
               })}
