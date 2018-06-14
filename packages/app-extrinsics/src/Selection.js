@@ -75,7 +75,7 @@ class Selection extends React.PureComponent<Props, State> {
             isPrimary
             onClick={this.onQueue}
             text={t('submit.label', {
-              defaultValue: 'Submit Extrinsic'
+              defaultValue: 'Submit Transaction'
             })}
           />
         </Button.Group>
