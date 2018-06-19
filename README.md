@@ -45,10 +45,11 @@ To start off, this repo (along with others in the [@polkadot](https://github.com
 To get started -
 
 1. Clone the repo locally, via `git clone https://github.com/polkadot-js/apps <optional local path>`
-2. Ensure that you have a recent version of `node.js`, for development purposes [Node 10](https://nodejs.org/en/) is recommended.
-3. Install the dependencies via `yarn` (If you don't have yarn available, install via [options for your environment](https://yarnpkg.com/en/docs/install))
-4. Ready! Now you can launch the UI (assuming you have a local Polkadot Node running), via `yarn run start`
-5. Access the UI via [http://localhost:3000](http://localhost:3000)
+2. Ensure that you have a recent version of Node.js, for development purposes [Node 10](https://nodejs.org/en/) is recommended.
+3. Ensure that you have a recent version of Yarn, for development purposes [Yarn >=1.3.2](https://yarnpkg.com/docs/install) is required.
+4. Install the dependencies by running `yarn`
+5. Ready! Now you can launch the UI (assuming you have a local Polkadot Node running), via `yarn run start`
+6. Access the UI via [http://localhost:3000](http://localhost:3000)
 
 Alternatively, should you not have a local Node, you can connect to a remote node (POC-1 network, although not fully up-to-date with features) with the `WS_URL` parameter. For eample - the apps entry point can be launched with a WebSocket connection to Polkadot PoC-1 with `WS_URL=wss://poc-1.polkadot.io:9944 yarn run start` and accessing the application of [http://localhost:3000](http://localhost:3000)
 
