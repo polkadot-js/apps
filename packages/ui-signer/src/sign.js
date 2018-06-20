@@ -8,6 +8,7 @@ import type { EncodingVersions } from '@polkadot/params/types';
 import type { Signed } from './types';
 
 import encodeCall from '@polkadot/extrinsics-codec/encode/call';
+import prefixes from '@polkadot/extrinsics-codec/encode/prefixes';
 import keyring from '@polkadot/ui-keyring';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
@@ -20,7 +21,13 @@ export default function signMessage (publicKey: Uint8Array, nonce: BN | number, 
   console.log(`signMessage : signature :: ${u8aToHex(signature)}`);
 
   return {
-    data: u8aConcat(message, signature),
+    data: u8aConcat(
+      apiSupport === 'poc-1'
+        ? new Uint8Array([])
+        : prefixes.publicKey,
+      message,
+      signature
+    ),
     message,
     signature
   };

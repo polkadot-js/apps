@@ -16,8 +16,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.47",
-    "@polkadot/primitives-codec": "^0.17.25",
-    "@polkadot/primitives-json": "^0.17.25",
+    "@polkadot/primitives-codec": "^0.17.27",
+    "@polkadot/primitives-json": "^0.17.27",
     "@polkadot/ui-app": "^0.17.15",
     "@polkadot/util-crypto": "^0.22.11"
   }
