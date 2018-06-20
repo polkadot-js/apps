@@ -9,7 +9,6 @@ import type { EncodingVersions } from '@polkadot/params/types';
 import type { ApiProps } from './types';
 
 import React from 'react';
-import semver from 'semver';
 import createWsProvider from '@polkadot/api-provider/ws';
 import createApi from '@polkadot/api-rx';
 import defaults from '@polkadot/api-rx/defaults';
@@ -27,8 +26,8 @@ type State = ApiProps & {
 
 const { Consumer, Provider } = React.createContext();
 
-function apiSupport (version?: string): EncodingVersions {
-  return version === undefined || semver.lt(version, '0.2.0')
+function apiSupport (chain?: string): EncodingVersions {
+  return chain === undefined || chain === 'poc-1'
     ? 'poc-1'
     : 'latest';
 }
@@ -87,8 +86,8 @@ export default class Api extends React.Component<Props, State> {
           () => api.isConnected().subscribe((isConnected?: boolean) => {
             this.setState({ apiConnected: !!isConnected });
           }),
-          () => api.system.version().subscribe((version?: string) => {
-            this.setState({ apiSupport: apiSupport(version) });
+          () => api.system.chain().subscribe((chain?: string) => {
+            this.setState({ apiSupport: apiSupport(chain) });
           })
         ].map((fn: () => rxjs$ISubscription): rxjs$ISubscription | null => {
           try {
