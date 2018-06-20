@@ -23,7 +23,7 @@
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@polkadot/dev-react": "^0.19.25",
+    "@polkadot/dev-react": "^0.19.28",
     "autoprefixer": "^8.6.2",
     "gh-pages": "^1.1.0",
     "postcss-import": "^11.1.0",
