@@ -13,7 +13,7 @@ type Props = {
   className?: string,
   name: string,
   style?: {
-    [string]: string
+    [index: string]: string
   }
 };
 

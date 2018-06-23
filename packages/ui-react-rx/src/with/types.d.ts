@@ -13,7 +13,7 @@ export type Transform = (value: any, index: number) => any;
 
 export type DefaultProps<T> = {
   onChange?: OnChangeCb<T>,
-  [string]: any
+  [index: string]: any
 };
 
 export type Options<T> = {

@@ -3,7 +3,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-module.exports = function container (diameter: number, background: string = 'white', className: string = '', _style: { [string]: string } = {}): HTMLElement {
+module.exports = function container (diameter: number, background: string = 'white', className: string = '', _style: { [index: string]: string } = {}): HTMLElement {
   const element = document.createElement('div');
   const style = Object.assign({
     background,

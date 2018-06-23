@@ -9,7 +9,7 @@ import { Storage$Key$Values } from '@polkadot/storage/types';
 
 export type BareProps = {
   className?: string,
-  style?: { [string]: any }
+  style?: { [index: string]: any }
 };
 
 export type ApiProps = {

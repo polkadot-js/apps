@@ -10,7 +10,7 @@ const newShape = require('./shape/circle');
 const newElement = require('./svg/element');
 const { SHAPE_COUNT } = require('./defaults');
 
-module.exports = function identicon (seed: string | Uint8Array, diameter: number = 256, className: string = '', style?: { [string]: string }): HTMLElement {
+module.exports = function identicon (seed: string | Uint8Array, diameter: number = 256, className: string = '', style?: { [index: string]: string }): HTMLElement {
   const seeder = newSeeder(seed);
   const colorGen = colors(seeder);
   const outer = newContainer(diameter, 'white', className, style);

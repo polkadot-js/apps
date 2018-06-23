@@ -5,6 +5,6 @@
 export type BaseProps = {
   className?: string,
   style?: {
-    [string]: any
+    [index: string]: any
   }
 };

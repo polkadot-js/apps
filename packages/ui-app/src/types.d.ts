@@ -7,7 +7,7 @@ import { RxApiInterface } from '@polkadot/api-rx/types';
 export type BareProps = {
   className?: string,
   style?: {
-    [string]: any
+    [index: string]: any
   }
 };
 

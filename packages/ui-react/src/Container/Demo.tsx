@@ -7,7 +7,7 @@ import React from 'react';
 import Container from './index';
 
 type DemoProps = {
-  attrs: { [string]: any },
+  attrs: { [index: string]: any },
   attrsReq: Array<string>,
   children: React$Node,
   component: string
