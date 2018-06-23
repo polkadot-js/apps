@@ -52,10 +52,10 @@ export default class InputAddress extends React.Component<Props, State> {
 
     this.state = ({
       defaultValue: addressToAddress(props.defaultValue)
-    }: $Shape<State>);
+    }: State);
   }
 
-  static getDerivedStateFromProps ({ value }: Props): $Shape<State> | null {
+  static getDerivedStateFromProps ({ value }: Props): State | null {
     try {
       return {
         value: addressToAddress(value) || undefined

@@ -35,7 +35,7 @@ const defaultRpc = rpc.author.public.submitExtrinsic;
 class Selection extends React.PureComponent<Props, State> {
   state: State = ({
     isValid: false
-  }: $Shape<State>);
+  }: State);
 
   render () {
     const { className, style, t } = this.props;
@@ -82,7 +82,7 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  nextState (newState: $Shape<State>): void {
+  nextState (newState: State): void {
     this.setState(
       (prevState: State): State => {
         const { encoded = prevState.encoded, nonce = prevState.nonce, publicKey = prevState.publicKey } = newState;

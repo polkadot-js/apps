@@ -29,7 +29,7 @@ const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 const DEFAULT_SHORT = `${DEFAULT_ADDR.slice(0, 7)}…${DEFAULT_ADDR.slice(-7)}`;
 
 export default class Address extends React.PureComponent<Props, State> {
-  state: State = ({}: $Shape<State>);
+  state: State = {} as State;
 
   static getDerivedStateFromProps ({ value }: Props, { address, publicKey, shortValue }: State): State {
     try {

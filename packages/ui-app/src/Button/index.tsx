@@ -18,7 +18,7 @@ import Or from './Or';
 export type Button$Sizes = 'mini' | 'tiny' | 'small' | 'medium' | 'large' | 'big' | 'huge' | 'massive';
 
 type Props = BareProps & {
-  children?: React$Node,
+  children?: any,
   floated?: 'left' | 'right',
   icon?: string,
   isBasic?: boolean,
@@ -30,6 +30,12 @@ type Props = BareProps & {
   size?: Button$Sizes,
   text?: any
 };
+
+type ButtonType = React.ComponentType<Props> & {
+  Divider: React.ComponentType<BareProps>,
+  Group: React.ComponentType<BareProps>,
+  Or: React.ComponentType<BareProps>
+}
 
 function Button ({ children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isNegative = false, isPrimary = false, onClick, size, style, text }: Props) {
   const props = {
@@ -58,8 +64,8 @@ function Button ({ children, className, floated, icon, isBasic = false, isCircul
     );
 }
 
-Button.Divider = Divider;
-Button.Group = Group;
-Button.Or = Or;
+(Button as ButtonType).Divider = Divider;
+(Button as ButtonType).Group = Group;
+(Button as ButtonType).Or = Or;
 
-export default Button;
+export default (Button as ButtonType);

@@ -141,7 +141,7 @@ class Editor extends React.PureComponent<Props, State> {
     );
   }
 
-  createState (currentAddress: KeyringAddress | null): $Shape<State> {
+  createState (currentAddress: KeyringAddress | null): State {
     const { name = '' } = currentAddress
       ? currentAddress.getMeta()
       : {};
@@ -153,7 +153,7 @@ class Editor extends React.PureComponent<Props, State> {
     };
   }
 
-  nextState (newState?: $Shape<State> = {}): void {
+  nextState (newState?: State = {}): void {
     this.setState(
       (prevState: State): State => {
         let { currentAddress = prevState.currentAddress, editedName = prevState.editedName } = newState;

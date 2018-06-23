@@ -11,7 +11,7 @@ import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import classes from '@polkadot/ui-app/util/classes';
-import keyring from '@polkadot/ui-keyring';
+import keyring from '@polkadot/ui-keyring/index';
 
 import Address from './Address';
 import translate from './translate';
@@ -142,7 +142,7 @@ class Editor extends React.PureComponent<Props, State> {
     );
   }
 
-  createState (currentPair: KeyringPair | null): $Shape<State> {
+  createState (currentPair: KeyringPair | null): State {
     return {
       currentPair,
       editedName: currentPair
@@ -152,9 +152,9 @@ class Editor extends React.PureComponent<Props, State> {
     };
   }
 
-  nextState (newState?: $Shape<State> = {}): void {
+  nextState (newState: State = {} as State): void {
     this.setState(
-      (prevState: State): $Shape<State> => {
+      (prevState: State): State => {
         let { currentPair = prevState.currentPair, editedName = prevState.editedName } = newState;
         const previous = prevState.currentPair || { address: () => null };
         let isEdited = false;
@@ -183,11 +183,11 @@ class Editor extends React.PureComponent<Props, State> {
 
     this.nextState({
       currentPair
-    });
+    } as State);
   }
 
   onChangeName = (editedName: string): void => {
-    this.nextState({ editedName });
+    this.nextState({ editedName } as State);
   }
 
   onCommit = (): void => {
@@ -202,7 +202,7 @@ class Editor extends React.PureComponent<Props, State> {
       whenEdited: Date.now()
     });
 
-    this.nextState({});
+    this.nextState({} as State);
   }
 
   onDiscard = (): void => {
@@ -214,7 +214,7 @@ class Editor extends React.PureComponent<Props, State> {
 
     this.nextState({
       editedName: currentPair.getMeta().name
-    });
+    } as State);
   }
 
   onForget = (): void => {
@@ -238,7 +238,7 @@ class Editor extends React.PureComponent<Props, State> {
     this.nextState({
       currentPair: nextPair,
       defaultValue
-    });
+    } as State);
   }
 }
 

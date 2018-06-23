@@ -10,7 +10,7 @@ import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import Password from '@polkadot/ui-app/Password';
 import classes from '@polkadot/ui-app/util/classes';
-import keyring from '@polkadot/ui-keyring';
+import keyring from '@polkadot/ui-keyring/index';
 import isHex from '@polkadot/util/is/hex';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import u8aFromString from '@polkadot/util/u8a/fromString';
@@ -168,7 +168,7 @@ class Creator extends React.PureComponent<Props, State> {
     };
   }
 
-  nextState (newState: $Shape<State>): void {
+  nextState (newState: State): void {
     this.setState(
       (prevState: State, props: Props): State => {
         const { name = prevState.name, password = prevState.password, seed = prevState.seed } = newState;
@@ -198,15 +198,15 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   onChangeSeed = (seed: string): void => {
-    this.nextState({ seed });
+    this.nextState({ seed } as State);
   }
 
   onChangeName = (name: string): void => {
-    this.nextState({ name });
+    this.nextState({ name } as State);
   }
 
   onChangePass = (password: string): void => {
-    this.nextState({ password });
+    this.nextState({ password } as State);
   }
 
   onCommit = (): void => {

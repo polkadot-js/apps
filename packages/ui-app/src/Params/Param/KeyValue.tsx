@@ -86,7 +86,7 @@ export default class KeyValue extends React.PureComponent<Props, State> {
     };
   }
 
-  nextState (newState: $Shape<State>): void {
+  nextState (newState: State): void {
     this.setState(
       (prevState: State, { onChange }: Props) => {
         const { key = prevState.key, value = prevState.value } = newState;

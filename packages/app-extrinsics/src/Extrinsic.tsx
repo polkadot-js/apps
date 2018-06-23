@@ -71,7 +71,7 @@ class Extrinsic extends React.PureComponent<Props, State> {
     );
   }
 
-  nextState (newState: $Shape<State>): void {
+  nextState (newState: State): void {
     this.setState(newState, () => {
       const { apiSupport, onChange } = this.props;
       const { extrinsic, values } = this.state;

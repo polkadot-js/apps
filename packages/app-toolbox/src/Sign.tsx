@@ -181,9 +181,9 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  nextState = (newState: $Shape<State>): void => {
+  nextState = (newState: State): void => {
     this.setState(
-      (prevState: State): $Shape<State> => {
+      (prevState: State): State => {
         const { currentPair = prevState.currentPair, data = prevState.data, isHexData = prevState.isHexData, isUnlockVisible = prevState.isUnlockVisible } = newState;
         const isLocked = !currentPair || !currentPair.hasSecretKey();
         let signature = '';

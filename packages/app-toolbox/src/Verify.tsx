@@ -148,7 +148,7 @@ class Verify extends React.PureComponent<Props, State> {
     );
   }
 
-  nextState (newState: $Shape<State>): void {
+  nextState (newState: State): void {
     this.setState(
       (prevState: State): State => {
         const { isHexData = prevState.isHexData, isValidAddress = prevState.isValidAddress, isValidSignature = prevState.isValidSignature, currentPublicKey = prevState.currentPublicKey, data = prevState.data, signature = prevState.signature } = newState;

@@ -45,10 +45,10 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
 
     this.state = ({
       value: this.props.defaultValue
-    }: $Shape<State>);
+    }: State);
   }
 
-  static getDerivedStateFromProps ({ isPrivate = false }: Props, { type, value: { section } }: State): $Shape<State> {
+  static getDerivedStateFromProps ({ isPrivate = false }: Props, { type, value: { section } }: State): State {
     const newType = isPrivate ? 'private' : 'public';
 
     if (newType === type) {

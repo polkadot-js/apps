@@ -73,7 +73,7 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  nextState (newState: $Shape<State>): void {
+  nextState (newState: State): void {
     this.setState(
       (prevState: State) => {
         const { key = prevState.key, params = prevState.params } = newState;

@@ -42,7 +42,7 @@ export default class Queue extends React.Component<Props, State> {
 
   queueSetStatus = (id: QueueTx$Id, status: QueueTx$Status, result?: any, error?: Error): void => {
     this.setState(
-      (prevState: State): $Shape<State> => ({
+      (prevState: State): State => ({
         queue: prevState.queue.map((item) =>
           item.id === id
             ? {
@@ -71,7 +71,7 @@ export default class Queue extends React.Component<Props, State> {
     const id: QueueTx$Id = ++nextId;
 
     this.setState(
-      (prevState: State): $Shape<State> => ({
+      (prevState: State): State => ({
         queue: prevState.queue.concat([{
           ...value,
           id,

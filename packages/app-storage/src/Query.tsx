@@ -31,7 +31,7 @@ type State = {
 const cache = [];
 
 class Query extends React.PureComponent<Props, State> {
-  state: State = ({}: $Shape<State>);
+  state: State = ({}: State);
 
   static getCachedComponent ({ id, key, params }: StorageQuery): React$ComponentType<ComponentProps> {
     if (!cache[id]) {

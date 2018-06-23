@@ -25,7 +25,7 @@ type State = {
 };
 
 export default class Match extends React.PureComponent<Props, State> {
-  state: State = ({}: $Shape<State>);
+  state: State = ({}: State);
 
   static getDerivedStateFromProps ({ seed }: Props): State {
     return {
