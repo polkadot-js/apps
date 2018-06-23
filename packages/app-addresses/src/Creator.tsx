@@ -9,7 +9,7 @@ import React from 'react';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import classes from '@polkadot/ui-app/util/classes';
-import keyring from '@polkadot/ui-keyring';
+import keyring from '@polkadot/ui-keyring/index';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
@@ -155,11 +155,11 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   onChangeAddress = (address: string): void => {
-    this.nextState({ address });
+    this.nextState({ address } as State);
   }
 
   onChangeName = (name: string): void => {
-    this.nextState({ name });
+    this.nextState({ name } as State);
   }
 
   onCommit = (): void => {

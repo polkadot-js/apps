@@ -11,7 +11,7 @@ import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import classes from '@polkadot/ui-app/util/classes';
-import keyring from '@polkadot/ui-keyring';
+import keyring from '@polkadot/ui-keyring/index';
 
 import Address from '@polkadot/app-accounts/Address';
 import translate from './translate';
@@ -153,7 +153,7 @@ class Editor extends React.PureComponent<Props, State> {
     };
   }
 
-  nextState (newState?: State = {}): void {
+  nextState (newState: State = {} as State): void {
     this.setState(
       (prevState: State): State => {
         let { currentAddress = prevState.currentAddress, editedName = prevState.editedName } = newState;
@@ -182,13 +182,11 @@ class Editor extends React.PureComponent<Props, State> {
   onChangeAddress = (publicKey: Uint8Array): void => {
     const currentAddress = keyring.getAddress(publicKey) || null;
 
-    this.nextState({
-      currentAddress
-    });
+    this.nextState({ currentAddress } as State);
   }
 
   onChangeName = (editedName: string): void => {
-    this.nextState({ editedName });
+    this.nextState({ editedName } as State);
   }
 
   onCommit = (): void => {
@@ -203,7 +201,7 @@ class Editor extends React.PureComponent<Props, State> {
       whenEdited: Date.now()
     });
 
-    this.nextState({});
+    this.nextState({} as State);
   }
 
   onDiscard = (): void => {
@@ -215,7 +213,7 @@ class Editor extends React.PureComponent<Props, State> {
 
     this.nextState({
       editedName: currentAddress.getMeta().name
-    });
+    } as State);
   }
 
   onForget = (): void => {
@@ -239,7 +237,7 @@ class Editor extends React.PureComponent<Props, State> {
     this.nextState({
       currentAddress: nextAddress,
       defaultValue
-    });
+    } as State);
   }
 }
 

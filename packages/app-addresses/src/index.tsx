@@ -24,7 +24,7 @@ type State = {
 }
 
 // FIXME React-router would probably be the best route, not home-grown
-const Components: { [Actions]: React.ComponentType<{}> } = {
+const Components: { [index: string]: React.ComponentType<{ [index: string]: any }> } = {
   'create': Creator,
   'edit': Editor
 };

@@ -8,7 +8,7 @@ import { Signed } from './types';
 
 import encodeCall from '@polkadot/extrinsics-codec/encode/call';
 import prefixes from '@polkadot/extrinsics-codec/encode/prefixes';
-import keyring from '@polkadot/ui-keyring';
+import keyring from '@polkadot/ui-keyring/index';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 

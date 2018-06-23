@@ -9,7 +9,7 @@ import './InputAddress.css';
 
 import React from 'react';
 
-import keyring from '@polkadot/ui-keyring';
+import keyring from '@polkadot/ui-keyring/index';
 import createOptionHeader from '@polkadot/ui-keyring/options/header';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 

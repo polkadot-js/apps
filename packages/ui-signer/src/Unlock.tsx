@@ -9,7 +9,7 @@ import React from 'react';
 
 import Password from '@polkadot/ui-app/Password';
 import classes from '@polkadot/ui-app/util/classes';
-import keyring from '@polkadot/ui-keyring';
+import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
 

@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 
 import classes from '@polkadot/ui-app/util/classes';
-import keyring from '@polkadot/ui-keyring';
+import keyring from '@polkadot/ui-keyring/index';
 import Chain from '@polkadot/ui-react-rx/Chain';
 import NodeName from '@polkadot/ui-react-rx/NodeName';
 import NodeVersion from '@polkadot/ui-react-rx/NodeVersion';

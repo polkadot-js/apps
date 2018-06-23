@@ -13,7 +13,7 @@ import InputAddress from '@polkadot/ui-app/InputAddress';
 import Output from '@polkadot/ui-app/Output';
 import Static from '@polkadot/ui-app/Static';
 import classes from '@polkadot/ui-app/util/classes';
-import keyring from '@polkadot/ui-keyring';
+import keyring from '@polkadot/ui-keyring/index';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import isHex from '@polkadot/util/is/hex';
 import u8aFromString from '@polkadot/util/u8a/fromString';
