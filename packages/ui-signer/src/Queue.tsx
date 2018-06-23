@@ -3,24 +3,28 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
-import { QueueProps, QueueTx$Base, QueueTx$Id, QueueTx$Status } from './types';
+import { QueueProps, QueueTx, QueueTx$Base, QueueTx$Id, QueueTx$Status } from './types';
 
 import React from 'react';
 
-type Props = BareProps & {
-  children: React$Node
+export type Props = BareProps & {
+  children: any // node?
 };
 
 type State = QueueProps;
 
-const { Consumer, Provider } = React.createContext();
+const defaultState = {
+  queue: [] as Array<QueueTx>
+} as QueueProps;
+
+const { Consumer, Provider } = React.createContext<QueueProps>(defaultState);
 let nextId: QueueTx$Id = 0;
 
 export default class Queue extends React.Component<Props, State> {
   static Provider = Provider;
   static Consumer = Consumer
 
-  state: State;
+  state: State = defaultState;
 
   constructor (props: Props) {
     super(props);
@@ -57,7 +61,7 @@ export default class Queue extends React.Component<Props, State> {
             }
             : item
         )
-      })
+      } as State)
     );
 
     if (['cancelled', 'error', 'sent'].includes(status)) {
@@ -77,7 +81,7 @@ export default class Queue extends React.Component<Props, State> {
           id,
           status: 'queued'
         }])
-      })
+      } as State)
     );
 
     return id;

@@ -9,7 +9,10 @@ import rpcs from '@polkadot/jsonrpc';
 import numberFormat from './util/numberFormat';
 import withApiDiv from './with/apiDiv';
 
-export default withApiDiv(rpcs.chain.public.newHead)(
+// @ts-ignore check?
+const method = rpcs.get('chain').public.newHead;
+
+const Component: React.ComponentType<any> = withApiDiv(method)(
   (value?: Header): string => {
     return value && value.number
       ? numberFormat(value.number)
@@ -17,3 +20,5 @@ export default withApiDiv(rpcs.chain.public.newHead)(
   },
   { className: 'rx--BestNumber' }
 );
+
+export default Component;

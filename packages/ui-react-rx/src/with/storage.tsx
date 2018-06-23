@@ -4,7 +4,7 @@
 
 // TODO: Lots of duplicated code between this and withObservable, surely there ois a better way of doing this?
 
-import { Storage$Key, Storage$Key$Values } from '@polkadot/storage/types';
+import { Storage$Key, Storage$Key$Value } from '@polkadot/storage/types';
 import { ApiProps, BareProps, ChangeProps, ParamProps, RxProps } from '../types';
 import { HOC, StorageOptions, DefaultProps, Transform } from './types';
 
@@ -29,13 +29,15 @@ type InApiProps<T> = ApiProps & InProps<T>;
 type OutProps<T> = InApiProps<T> & RxProps<T>;
 
 type State<T> = RxProps<T> & {
-  subscriptions: Array<any>;
+  subscriptions: Array<any>; // FIXME subscriptions
 }
 
-export default function withStorage<T, ComponentProps extends OutProps<T>, InputProps extends InProps<T>, InputApiProps extends InApiProps<T>> (key: Storage$Key, { onChange, params, propName = 'value', transform }: StorageOptions<T> = {}): HOC<T> {
+// FIXME proper types for attributes
+
+export default function withStorage<T> (key: Storage$Key, { onChange, params, propName = 'value', transform }: StorageOptions<T> = {}): HOC<T> {
   const keyCreator = storageKey(key);
   const storageTransform = createTransform(key);
-  const createKey = (propParams?: Storage$Key$Values): Uint8Array => {
+  const createKey = (propParams?: Array<Storage$Key$Value>): Uint8Array => {
     const values = [params, propParams].reduce((result, input = []) => {
       if (Array.isArray(input)) {
         return result.concat(input);
@@ -48,11 +50,11 @@ export default function withStorage<T, ComponentProps extends OutProps<T>, Input
     return keyCreator.apply(null, values);
   };
 
-  return (Component: React.ComponentType<ComponentProps>, defaultProps?: DefaultProps<T> = {}): Class<React.Component<InputProps>> => {
-    class WithStorage extends React.Component<InputApiProps, State<T>> {
+  return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}): React.ComponentType<any> => {
+    class WithStorage extends React.Component<any, State<T>> {
       state: State<T>;
 
-      constructor (props: InputApiProps) {
+      constructor (props: any) {
         super(props);
 
         this.state = {
@@ -63,17 +65,17 @@ export default function withStorage<T, ComponentProps extends OutProps<T>, Input
         };
       }
 
-      componentDidUpdate (prevProps: InputApiProps) {
+      componentDidUpdate (prevProps: any) {
         if (!isEqual(this.props.params, prevProps.params)) {
           this.triggerUpdate();
         }
       }
 
       componentDidMount () {
-        const subscriptions: Array<rxjs$ISubscription> = [
+        const subscriptions = [
           this.props.api.chain
             .newHead()
-            .subscribe((value) => {
+            .subscribe((value: any) => {
               this.triggerUpdate();
             }),
           intervalSubscribe(this)
@@ -143,7 +145,7 @@ export default function withStorage<T, ComponentProps extends OutProps<T>, Input
         delete _props.onChange;
 
         return (
-          <Component {..._props} />
+          <Inner {..._props} />
         );
       }
     }

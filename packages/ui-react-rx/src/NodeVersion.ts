@@ -6,8 +6,13 @@ import rpcs from '@polkadot/jsonrpc';
 
 import withApiDiv from './with/apiDiv';
 
-export default withApiDiv(rpcs.system.public.version)(
+// @ts-ignore check?
+const method = rpcs.get('system').public.version;
+
+const Component: React.ComponentType<any> = withApiDiv(method)(
   (value: string = 'unknown'): string =>
     value,
   { className: 'rx--NodeVersion' }
 );
+
+export default Component;

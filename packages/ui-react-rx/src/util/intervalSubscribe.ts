@@ -8,9 +8,13 @@ import { interval } from 'rxjs/observable/interval';
 
 const interval$ = interval(500);
 
-export default function intervalSubscribe<T, Props, State extends RxProps<T>> (that: React.Component<Props, State>): ISubscription {
+// FIXME Return type here is NOT any, horribly defined (leave until rx-lite decicion is made)
+
+export default function intervalSubscribe<T, Props, State extends RxProps<T>> (that: React.Component<Props, State>) {
   return interval$.subscribe(() => {
-    const rxUpdated = (Date.now() - (that.state.rxUpdatedAt || 0)) <= 1500;
+    // @ts-ignore right-hand side? Not sure wtf here
+    const elapsed = Date.now() - (that.state.rxUpdatedAt || 0);
+    const rxUpdated = elapsed <= 1500;
 
     if (rxUpdated !== that.state.rxUpdated) {
       that.setState({

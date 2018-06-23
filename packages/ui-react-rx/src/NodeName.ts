@@ -6,8 +6,13 @@ import rpcs from '@polkadot/jsonrpc';
 
 import withApiDiv from './with/apiDiv';
 
-export default withApiDiv(rpcs.system.public.name)(
+// @ts-ignore check?
+const method = rpcs.get('system').public.name;
+
+const Component: React.ComponentType<any> = withApiDiv(method)(
   (value: string = 'unknown'): string =>
     value,
   { className: 'rx--NodeName' }
 );
+
+export default Component;

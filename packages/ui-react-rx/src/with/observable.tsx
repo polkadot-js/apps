@@ -4,7 +4,7 @@
 
 // TODO: This is now way more messy and way longer than it should be. Maintainability is lacking - apply some effort and split it into managable parts
 
-import { BareProps, ChangeProps, RxProps } from '../types';
+import { RxProps } from '../types';
 import { HOC, Options, DefaultProps } from './types';
 
 import React from 'react';
@@ -17,24 +17,25 @@ import isEqual from '../util/isEqual';
 import triggerChange from '../util/triggerChange';
 import echoTransform from './transform/echo';
 
-type InProps<T> = BareProps & ChangeProps<T>;
-
-type OutProps<T> = InProps<T> & RxProps<T>;
-
 type State<T> = RxProps<T> & {
   subscriptions: Array<any>;
 }
 
-export default function withObservable<T, ComponentProps extends OutProps<T>, InputProps extends InProps<T>> (observable:rObservable<T> | $Subject<T>, { onChange, propName = 'value', transform = echoTransform }: Options<T> = {}): HOC<T> {
-  return (Component: React.ComponentType<ComponentProps>, defaultProps?: DefaultProps<T> = {}): React.Component<InputProps, State<T>> =>
-    class WithObservable extends React.Component<InputProps, State<T>> {
+// FIXME Observables here are NOT any, horribly defined (leave until rx-lite decicion is made)
+// FIXME proper props augmentation
+
+export default function withObservable<T> (observable: any, options: Options<T> = {}): HOC<T> {
+  const { onChange, propName = 'value', transform = echoTransform } = options;
+
+  return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}): React.ComponentType<any> => {
+    return class WithObservable extends React.Component<any, State<T>> {
       state: State<T>;
 
-      constructor (props: InputProps) {
+      constructor (props: any) {
         super(props);
 
         assert(observable, `Component should have Observable to wrap`);
-        assert(Component, `Expected 'with*' to wrap a React Component`);
+        assert(Inner, `Expected 'with*' to wrap a React Component`);
 
         this.state = {
           rxUpdated: false,
@@ -65,7 +66,7 @@ export default function withObservable<T, ComponentProps extends OutProps<T>, In
         });
       }
 
-      triggerUpdate = (props: InProps<T>, value?: T): void => {
+      triggerUpdate = (props: any, value?: T): void => {
         if (isEqual(value, this.state.value)) {
           return;
         }
@@ -83,6 +84,7 @@ export default function withObservable<T, ComponentProps extends OutProps<T>, In
         const { rxUpdated, rxUpdatedAt, value } = this.state;
         const _props = {
           ...defaultProps,
+          // @ts-ignore umpf
           ...this.props,
           rxUpdated,
           rxUpdatedAt,
@@ -92,8 +94,9 @@ export default function withObservable<T, ComponentProps extends OutProps<T>, In
         delete _props.onChange;
 
         return (
-          <Component {..._props} />
+          <Inner {..._props} />
         );
       }
     };
+  };
 }

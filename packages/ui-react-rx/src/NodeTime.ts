@@ -6,7 +6,10 @@ import storage from '@polkadot/storage';
 
 import withStorageDiv from './with/storageDiv';
 
-export default withStorageDiv(storage.timestamp.public.current)(
+// @ts-ignore check?
+const method = storage.get('timestamp').public.current;
+
+const Component: React.ComponentType<any> = withStorageDiv(method)(
   (value?: Date): string => {
     if (!value || value.getTime() === 0) {
       return 'unknown';
@@ -16,3 +19,5 @@ export default withStorageDiv(storage.timestamp.public.current)(
   },
   { className: 'rx--NodeTime' }
 );
+
+export default Component;

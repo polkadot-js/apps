@@ -11,18 +11,22 @@ import React from 'react';
 
 import Modal from './Modal';
 import Status from './Status';
-import Queue from './Queue';
+import Queue, { Props as QueueComponentProps } from './Queue';
 
 type Props = BareProps & {
-  children: React$Node
+  children: any // node?
 };
+
+export type SignerType = React.ComponentType<Props> & {
+  Queue: React.ComponentType<QueueComponentProps>
+}
 
 function Signer ({ children, className, style }: Props) {
   return (
     <Queue>
       {children}
       <Queue.Consumer>
-        {({ queue, queueSetStatus }: QueueProps = {}) => [
+        {({ queue, queueSetStatus }: QueueProps = {} as QueueProps) => [
           <Modal
             className={className}
             key='signer-modal'
@@ -40,6 +44,6 @@ function Signer ({ children, className, style }: Props) {
   );
 }
 
-Signer.Queue = Queue;
+(Signer as SignerType).Queue = Queue;
 
-export default Signer;
+export default (Signer as SignerType);

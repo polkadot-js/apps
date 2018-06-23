@@ -4,11 +4,13 @@
 
 import withApiDiv from './with/apiDiv';
 
-export default withApiDiv({ name: 'isConnected' })(
-  (value?: boolean = false): string => {
+const Component: React.ComponentType<any> = withApiDiv({ name: 'isConnected' })(
+  (value: boolean = false): string => {
     return value
       ? 'connected'
       : 'disconnected';
   },
   { className: 'rx--Connected' }
 );
+
+export default Component;

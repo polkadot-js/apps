@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import SUIModal from 'semantic-ui-react/dist/commonjs/modules/Modal';
-
-const Modal = SUIModal;
+import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal/Modal';
 
 export default Modal;

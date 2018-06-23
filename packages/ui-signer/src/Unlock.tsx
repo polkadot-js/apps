@@ -17,7 +17,7 @@ type Props = I18nProps & {
   error?: string,
   onChange: (password: string) => void,
   password: string,
-  value: Uint8Array,
+  value?: Uint8Array | null,
 }
 
 type State = {
@@ -27,10 +27,10 @@ type State = {
 }
 
 class Unlock extends React.PureComponent<Props, State> {
-  state: State = ({}: State);
+  state: State = {} as State;
 
   static getDerivedStateFromProps ({ error, password, value }: Props): State {
-    const pair = keyring.getPair(value);
+    const pair = keyring.getPair(value as Uint8Array);
     const isLocked = !pair.hasSecretKey();
 
     return {

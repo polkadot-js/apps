@@ -27,7 +27,7 @@ type Props = I18nProps & ApiProps & {
 
 type UnlockI18n = {
   key: string,
-  value: I18Next$Translate$Config
+  value: any, // I18Next$Translate$Config
 }
 
 type State = {
@@ -43,7 +43,7 @@ class Signer extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      apiSupport: 'poc-1',
+      // apiSupport: 'poc-1',
       password: '',
       unlockError: null
     };
@@ -164,7 +164,7 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  unlockAccount (publicKey: Uint8Array, password?: string): ?UnlockI18n {
+  unlockAccount (publicKey: Uint8Array, password?: string): UnlockI18n | null {
     const pair = keyring.getPair(publicKey);
 
     if (pair.hasSecretKey()) {
@@ -234,7 +234,7 @@ class Signer extends React.PureComponent<Props, State> {
     if (rpc.isSigned === true && publicKey) {
       data = [
         signMessage(
-          publicKey, nonce, ((data[0]: any): Uint8Array), apiSupport
+          publicKey, nonce, (data[0] as Uint8Array), apiSupport
         ).data
       ];
     }

@@ -6,7 +6,9 @@ import { HOC, Options } from './types';
 
 import withObservable from './observable';
 
-export default function withObservableParams<T> (observable: rxjs$Observable<T> | rxjs$Subject<T>, options?: Options<T> = {}): HOC<T> {
+// FIXME Observable/Subject types
+
+export default function withObservableParams<T> (observable: any, options: Options<T> = {}): HOC<T> {
   return withObservable(observable, {
     propName: 'params',
     ...options

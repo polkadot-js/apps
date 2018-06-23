@@ -19,17 +19,19 @@ type WithApiProps<T> = InProps<T> & ApiProps;
 
 type OutProps<T> = WithApiProps<T> & RxProps<T>;
 
-type State<ComponentProps> = ParamProps & {
-  Component: React.ComponentType<ComponentProps>,
+type State = ParamProps & {
+  Component: React.ComponentType<any>,
   fn: RxApiInterface$Method
 }
 
-export default function withApiCall<T, ComponentProps extends OutProps<T>, InputProps extends InProps<T>, InputApiProps extends WithApiProps<T>> ({ name, section }: ApiMethod, options?: Options<T>): HOC<T> {
-  return (Component: React.ComponentType<ComponentProps>, defaultProps: DefaultProps<T> = {}): React.Component<InputProps> => {
-    class WithApiCall extends React.Component<InputApiProps, State<InputApiProps>> {
-      state: State<InputApiProps>;
+// FIXME properly type input and agumented props, e.g. P extends object (in) & P & AugProps (out)
 
-      constructor (props: InputApiProps) {
+export default function withApiCall<T> ({ name, section }: ApiMethod, options?: Options<T>): HOC<T> {
+  return (Component: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}): React.ComponentType<any> => {
+    class WithApiCall extends React.Component<any, State> {
+      state: State;
+
+      constructor (props: any) {
         super(props);
 
         const hasSection = !!section;
@@ -42,10 +44,10 @@ export default function withApiCall<T, ComponentProps extends OutProps<T>, Input
 
         assert(fn, `Unable to find 'api${hasSection ? '.' : ''}${section || ''}.${name}'`);
 
-        this.state = { fn } as State<InputApiProps>;
+        this.state = { fn } as State;
       }
 
-      static getDerivedStateFromProps ({ params = [] }: InputApiProps, prevState: State<ComponentProps>): State<InputApiProps> | null {
+      static getDerivedStateFromProps ({ params = [] }: any, prevState: State): State | null {
         if (isEqual(params, prevState.params)) {
           return null;
         }
@@ -55,7 +57,7 @@ export default function withApiCall<T, ComponentProps extends OutProps<T>, Input
         return {
           Component: withObservable(observable, options)(Component, defaultProps),
           params
-        };
+        } as State;
       }
 
       render () {

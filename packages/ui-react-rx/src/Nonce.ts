@@ -7,7 +7,12 @@ import storage from '@polkadot/storage';
 import numberFormat from './util/numberFormat';
 import withStorageDiv from './with/storageDiv';
 
-export default withStorageDiv(storage.system.public.accountIndexOf)(
+// @ts-ignore check?
+const method = storage.get('system').public.accountIndexOf;
+
+const Component: React.ComponentType<any> = withStorageDiv(method)(
   numberFormat,
   { className: 'rx--Nonce' }
 );
+
+export default Component;

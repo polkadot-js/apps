@@ -5,7 +5,7 @@
 import { ProviderInterface } from '@polkadot/api-provider/types';
 import { RxApiInterface } from '@polkadot/api-rx/types';
 import { EncodingVersions } from '@polkadot/params/types';
-import { Storage$Key$Values } from '@polkadot/storage/types';
+import { Storage$Key$Value } from '@polkadot/storage/types';
 
 export type BareProps = {
   className?: string,
@@ -21,14 +21,17 @@ export type ApiProps = {
   setApiWsUrl: (url?: string) => void
 };
 
-export type OnChangeCb<T> = rxjs$Subject<T> | (value: T) => void;
+type OnChangeCb$Obs<T> = { next: (value: T) => any };
+type OnChangeCb$Fn<T> = (value: T) => void;
+
+export type OnChangeCb<T> = OnChangeCb$Obs<T> | OnChangeCb$Fn<T>;
 
 export type ChangeProps<T> = {
   onChange?: OnChangeCb<T>
 };
 
 export type ParamProps = {
-  params?: Storage$Key$Values
+  params?: Array<Storage$Key$Value>
 };
 
 export type RxProps<T> = {
@@ -40,7 +43,7 @@ export type RxProps<T> = {
 export type BaseProps<T> = BareProps & ApiProps & ChangeProps<T> & ParamProps & RxProps<T> & {
   children?: any, // node?
   label?: string,
-  render?: (value?: T) => React$Node
+  render?: (value?: T) => any // node?
 };
 
 export type Formatter = (value?: any) => string;

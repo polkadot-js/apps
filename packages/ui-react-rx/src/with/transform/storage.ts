@@ -9,9 +9,10 @@ import { StorageTransform } from '../types';
 import decodeParams from '@polkadot/params/decode';
 
 export default function storageTransform ({ type }: Storage$Key): StorageTransform {
-  return (input?: Uint8Array = new Uint8Array(0), index: number): Param$Values | null => {
+  return (input: Uint8Array = new Uint8Array(0), index: number): Param$Values | null => {
     try {
-      return decodeParams(type, input).value;
+      // FIXME We don't do any conversion checks for the type, currently not an issue, but _could_ turn out to be problematic
+      return decodeParams(type, input, 'latest').value;
     } catch (error) {
       console.error('Decoding', type, '::', error);
       return null;

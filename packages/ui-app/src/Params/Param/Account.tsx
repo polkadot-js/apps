@@ -12,7 +12,7 @@ import Bare from './Bare';
 export default class Account extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue: Uint8Array = value;
+    const defaultValue = value as Uint8Array;
 
     return (
       <Bare

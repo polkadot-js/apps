@@ -22,12 +22,12 @@ type Props = I18nProps & {
   value: QueueTx
 };
 
-function findExtrinsic (sectionId: number, methodId: number): { method: ?string, section: ?string } {
-  const section = Object.keys(extrinsics).find((section) =>
-    extrinsics[section].index[0] === sectionId
+function findExtrinsic (sectionId: number, methodId: number): { method: string | undefined, section: string | undefined } {
+  const section = [...extrinsics.values()].find(({ index }) =>
+    index[0] === sectionId
   );
   const methods = section
-    ? extrinsics[section].public
+    ? section.public
     : {};
   const method = Object.keys(methods).find((method) =>
     methods[method].index[1] === methodId
@@ -35,49 +35,56 @@ function findExtrinsic (sectionId: number, methodId: number): { method: ?string,
 
   return {
     method,
-    section
+    section: section
+      ? section.name
+      : undefined
   };
 }
 
-function Extrinsic ({ children, className, style, t, value: { nonce = new BN(0), publicKey, values: [_value] } }: Props) {
-  const unknown = t('decoded.unknown', {
-    defaultValue: 'unknown'
-  });
-  const value = ((_value: any): Uint8Array);
-  const { method = unknown, section = unknown } = findExtrinsic(value[0], value[1]);
-  const from = addressEncode(((publicKey: any): Uint8Array));
+class Extrinsic extends React.PureComponent<Props> {
+  render () {
+    const { children, className, style, t, value: { nonce = new BN(0), publicKey, values: [_value] } } = this.props;
 
-  return [
-    <Modal.Header key='header'>
-      {t('extrinsic.header', {
-        defaultValue: 'Submit Transaction'
-      })}
-    </Modal.Header>,
-    <Modal.Content className='ui--signer-Signer-Content' key='content'>
-      <div className='ui--signer-Signer-Decoded'>
-        <div className='expanded'>
-          <p>
-            <Trans i18nkey='decoded.short'>
-              You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{section}.{method}</span> with an index of <span className='code'>{nonce.toString()}</span>
-            </Trans>
-          </p>
-          <p>
-            {t('decoded.data', {
-              defaultValue: 'The encoded parameters contains the data'
-            })}
-          </p>
-          <p className='code'>
-            {u8aToHex(value, 512)}
-          </p>
+    const unknown = t('decoded.unknown', {
+      defaultValue: 'unknown'
+    });
+    const value = _value as Uint8Array;
+    const { method = unknown, section = unknown } = findExtrinsic(value[0], value[1]);
+    const from = addressEncode(publicKey as Uint8Array);
+
+    return [
+      <Modal.Header key='header'>
+        {t('extrinsic.header', {
+          defaultValue: 'Submit Transaction'
+        })}
+      </Modal.Header>,
+      <Modal.Content className='ui--signer-Signer-Content' key='content'>
+        <div className='ui--signer-Signer-Decoded'>
+          <div className='expanded'>
+            <p>
+              // @ts-ignore weird... the attribute doesn't exist, check base definitions
+              <Trans i18nkey='decoded.short'>
+                You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{section}.{method}</span> with an index of <span className='code'>{nonce.toString()}</span>
+              </Trans>
+            </p>
+            <p>
+              {t('decoded.data', {
+                defaultValue: 'The encoded parameters contains the data'
+              })}
+            </p>
+            <p className='code'>
+              {u8aToHex(value, 512)}
+            </p>
+          </div>
+          <IdentityIcon
+            className='icon'
+            value={from}
+          />
         </div>
-        <IdentityIcon
-          className='icon'
-          value={from}
-        />
-      </div>
-      {children}
-    </Modal.Content>
-  ];
+        {children}
+      </Modal.Content>
+    ];
+  }
 }
 
 export default translate(Extrinsic);
