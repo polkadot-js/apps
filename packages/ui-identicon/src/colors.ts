@@ -5,17 +5,17 @@
 
 import { Seeder } from './types';
 
+import Color from 'color';
+
+import { COLORS } from './defaults';
+
 type ColorGen = {
   (alpha?: number): string
 };
 
-const Color = require('color');
-
-const { COLORS } = require('./defaults');
-
 const WOBBLE = 30;
 
-module.exports = function colors (seeder: Seeder): ColorGen {
+export default function colors (seeder: Seeder): ColorGen {
   const amount = (seeder() * WOBBLE) - (WOBBLE / 2);
   const all = COLORS.map((hex) => Color(hex).rotate(amount));
 

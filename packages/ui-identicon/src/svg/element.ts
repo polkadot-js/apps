@@ -3,15 +3,15 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const svg = require('./svg');
+import createSvg from './svg';
 
-module.exports = function element (size: number, type: string = 'svg', x: number = 0, y: number = 0): Element {
-  const elem = svg(type);
+export default function element (size: number, type: string = 'svg', x: number = 0, y: number = 0): Element {
+  const elem = createSvg(type);
 
-  elem.setAttributeNS(null, 'x', `${x}`);
-  elem.setAttributeNS(null, 'y', `${y}`);
-  elem.setAttributeNS(null, 'width', `${size}`);
-  elem.setAttributeNS(null, 'height', `${size}`);
+  elem.setAttributeNS('', 'x', `${x}`);
+  elem.setAttributeNS('', 'y', `${y}`);
+  elem.setAttributeNS('', 'width', `${size}`);
+  elem.setAttributeNS('', 'height', `${size}`);
 
   return elem;
 };

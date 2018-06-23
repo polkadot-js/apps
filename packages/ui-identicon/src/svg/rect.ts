@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const element = require('./element');
+import createElement from './element';
 
-module.exports = function rect (size: number): Element {
-  const elem = element(size, 'rect');
+export default function rect (size: number): Element {
+  const elem = createElement(size, 'rect');
 
-  elem.setAttributeNS(null, 'rx', `${size / 16}`);
-  elem.setAttributeNS(null, 'ry', `${size / 16}`);
+  elem.setAttributeNS('', 'rx', `${size / 16}`);
+  elem.setAttributeNS('', 'ry', `${size / 16}`);
 
   return elem;
 };

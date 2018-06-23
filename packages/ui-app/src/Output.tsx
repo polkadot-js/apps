@@ -11,10 +11,10 @@ import Labelled from './Labelled';
 import classes from './util/classes';
 
 type Props = BareProps & {
-  children?: React$Node,
+  children?: any, // node?,
   isError?: boolean,
   isHidden?: boolean,
-  label?: React$Node,
+  label?: any, // node?
   value?: any,
   withCopy?: boolean,
   withLabel?: boolean
@@ -30,9 +30,7 @@ export default function Output ({ className, children, isError = false, isHidden
       withLabel={withLabel}
     >
       <div className={classes('ui--output', isError && 'error')}>
-        {
-          ((value: any): React$Node)
-        }
+        {value}
         {children}
         {
           withCopy

@@ -11,7 +11,7 @@ import Labelled from '../../Labelled';
 import Bare from './Bare';
 
 type Props = BareProps & {
-  children: React$Node,
+  children: any, // node?
   label?: string,
   size?: Size,
   withLabel?: boolean

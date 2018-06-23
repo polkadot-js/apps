@@ -29,7 +29,8 @@ type State = {
   params: RawParams
 };
 
-const defaultValue = storage.timestamp.public.current;
+// @ts-ignore check?
+const defaultValue = storage.get('timestamp').public.current;
 let id = -1;
 
 class Selection extends React.PureComponent<Props, State> {
@@ -106,11 +107,11 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   onChangeKey = (key: Storage$Key): void => {
-    this.nextState({ key });
+    this.nextState({ key } as State);
   }
 
-  onChangeParams = (params?: RawParams = []): void => {
-    this.nextState({ params });
+  onChangeParams = (params: RawParams = []): void => {
+    this.nextState({ params } as State);
   }
 }
 

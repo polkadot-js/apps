@@ -14,7 +14,7 @@ import defaults from '@polkadot/api-rx/defaults';
 
 type Props = {
   api?: RxApiInterface,
-  children: React$Node,
+  children: any, // node?
   provider?: ProviderInterface,
   url?: string
 };

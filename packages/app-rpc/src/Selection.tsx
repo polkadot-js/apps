@@ -34,7 +34,8 @@ type State = {
   values: Array<RawParam>
 }
 
-const defaultMethod = rpc.author.public.submitExtrinsic;
+// @ts-ignore check?
+const defaultMethod = rpc.get('author').public.submitExtrinsic;
 
 class Selection extends React.PureComponent<Props, State> {
   state: State = {
@@ -111,16 +112,16 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeAccount = (publicKey?: Uint8Array, nonce: BN): void => {
-    this.nextState({ nonce, publicKey });
+  onChangeAccount = (publicKey: Uint8Array | undefined, nonce: BN): void => {
+    this.nextState({ nonce, publicKey } as State);
   }
 
   onChangeMethod = (rpc: Interface$Method): void => {
-    this.nextState({ rpc });
+    this.nextState({ rpc } as State);
   }
 
   onChangeValues = (values: Array<RawParam>): void => {
-    this.nextState({ values });
+    this.nextState({ values } as State);
   }
 
   onSubmit = (): void => {

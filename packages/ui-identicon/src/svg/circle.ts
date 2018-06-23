@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const svg = require('./svg');
+import createSvg from './svg';
 
-module.exports = function circle (r: number, cx: number, cy: number): Element {
-  const elem = svg('circle');
+export default function circle (r: number, cx: number, cy: number): Element {
+  const elem = createSvg('circle');
 
-  elem.setAttributeNS(null, 'cx', `${cx}`);
-  elem.setAttributeNS(null, 'cy', `${cy}`);
-  elem.setAttributeNS(null, 'r', `${r}`);
+  elem.setAttributeNS('', 'cx', `${cx}`);
+  elem.setAttributeNS('', 'cy', `${cy}`);
+  elem.setAttributeNS('', 'r', `${r}`);
 
   return elem;
 };

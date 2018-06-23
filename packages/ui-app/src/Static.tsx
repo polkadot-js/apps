@@ -9,10 +9,10 @@ import React from 'react';
 import Labelled from './Labelled';
 
 type Props = BareProps & {
-  children?: React$Node,
+  children?: any, // node?
   isHidden?: boolean,
-  label?: React$Node,
-  value?: React$Node,
+  label?: any, // node?
+  value?: any, // node?
   withLabel?: boolean
 };
 

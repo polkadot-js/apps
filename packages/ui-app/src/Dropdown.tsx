@@ -5,7 +5,7 @@
 import { BareProps } from './types';
 
 import React from 'react';
-import SUIDropdown from 'semantic-ui-react/dist/es/modules/Dropdown';
+import SUIDropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 
 import classes from './util/classes';
 import Labelled from './Labelled';
@@ -54,7 +54,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
     );
   }
 
-  onChange = (event: SyntheticEvent<Element>, { value }: SUIEvent): void => {
+  onChange = (event: React.SyntheticEvent<Element>, { value }: SUIEvent): void => {
     const { onChange, transform } = this.props;
 
     onChange(

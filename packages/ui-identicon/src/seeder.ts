@@ -4,12 +4,12 @@
 
 import { Seeder } from './types';
 
-const isU8a = require('@polkadot/util/is/u8a');
-const u8aFromString = require('@polkadot/util/u8a/fromString');
+import isU8a from '@polkadot/util/is/u8a';
+import u8aFromString from '@polkadot/util/u8a/fromString';
 
 const DIVISOR = 256 * 256;
 
-module.exports = function seeder (_seed: string | Uint8Array = new Uint8Array(32)): Seeder {
+export default function seeder (_seed: string | Uint8Array = new Uint8Array(32)): Seeder {
   const seed: Uint8Array = isU8a(_seed)
     ? _seed
     : u8aFromString(_seed);

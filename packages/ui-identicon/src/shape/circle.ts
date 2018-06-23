@@ -5,10 +5,10 @@
 
 import { Seeder } from '../types';
 
-const newCircle = require('../svg/circle');
-const { SHAPE_COUNT } = require('../defaults');
+import newCircle from '../svg/circle';
+import { SHAPE_COUNT } from '../defaults';
 
-module.exports = function circle (seeder: Seeder, fill: string, diameter: number, count: number): Element {
+export default function circle (seeder: Seeder, fill: string, diameter: number, count: number): Element {
   const center = diameter / 2;
   const angle = seeder() * 360;
   const radius = (((SHAPE_COUNT - count) / SHAPE_COUNT) * (diameter / 2)) + ((diameter / 8) * seeder());
@@ -17,7 +17,7 @@ module.exports = function circle (seeder: Seeder, fill: string, diameter: number
   const cy = (offset * Math.cos(angle)) + center;
   const svg = newCircle(radius, cx, cy);
 
-  svg.setAttributeNS(null, 'fill', fill);
+  svg.setAttributeNS('', 'fill', fill);
 
   return svg;
 };

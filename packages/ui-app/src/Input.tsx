@@ -5,7 +5,7 @@
 import { BareProps } from './types';
 
 import React from 'react';
-import SUIInput from 'semantic-ui-react/dist/es/elements/Input';
+import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input';
 
 import isUndefined from '@polkadot/util/is/undefined';
 
@@ -25,6 +25,7 @@ type Props = BareProps & {
   label?: any, // node?
   max?: any,
   min?: any,
+  name?: string,
   onChange: (value: string) => void,
   placeholder?: string,
   type?: Input$Type,
@@ -48,8 +49,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { children, className, defaultValue, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, placeholder, style, type = 'text', value, withLabel } = this.props;
-    const { name } = this.state;
+    const { children, className, defaultValue, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, name, placeholder, style, type = 'text', value, withLabel } = this.props;
 
     return (
       <Labelled
@@ -73,7 +73,7 @@ export default class Input extends React.PureComponent<Props, State> {
           hidden={isHidden}
           max={max}
           min={min}
-          name={name}
+          name={name || this.state.name}
           onChange={this.onChange}
           placeholder={placeholder}
           type={type}
@@ -94,7 +94,7 @@ export default class Input extends React.PureComponent<Props, State> {
     );
   }
 
-  onChange = (event: SyntheticEvent<Element>, { value }: SUIEvent): void => {
+  onChange = (event: React.SyntheticEvent<Element>, { value }: SUIEvent): void => {
     this.props.onChange(value);
   }
 }

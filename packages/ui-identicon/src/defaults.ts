@@ -18,7 +18,7 @@ const COLORS: Array<string> = [
 
 const SHAPE_COUNT = 5;
 
-module.exports = {
+export {
   COLORS,
   SHAPE_COUNT
 };

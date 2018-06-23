@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const newSeeder = require('./seeder');
-const newColors = require('./colors');
+import newSeeder from './seeder';
+import newColors from './colors';
 
 describe('colors', () => {
   let colors;

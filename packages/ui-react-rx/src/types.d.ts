@@ -38,7 +38,7 @@ export type RxProps<T> = {
 }
 
 export type BaseProps<T> = BareProps & ApiProps & ChangeProps<T> & ParamProps & RxProps<T> & {
-  children?: React$Node,
+  children?: any, // node?
   label?: string,
   render?: (value?: T) => React$Node
 };

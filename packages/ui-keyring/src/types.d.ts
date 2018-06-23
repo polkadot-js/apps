@@ -9,10 +9,10 @@ export type KeyringOption$Type = 'account' | 'address' | 'all' | 'recent' | 'tes
 export type KeyringOption = {
   className?: string,
   disabled?: boolean,
-  content?: React$Node | string,
+  content?: any | string, // node?
   key: string | null,
   name: string,
-  text: React$Node | string,
+  text: any | string, // node?
   value: string | null
 };
 
@@ -47,7 +47,7 @@ export type State = {
   },
   keyring: BaseKeyringInstance,
   options: {
-    [KeyringOption$Type]: KeyringOptions
+    [index: string]: KeyringOptions // KeyringOption$Type
   }
 };
 

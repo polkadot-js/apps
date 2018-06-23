@@ -24,21 +24,21 @@ type Props = I18nProps & {
 type ComponentProps = {};
 
 type State = {
-  inputs: Array<React$Node>,
+  inputs: Array<any>, // node?
   Component: React.ComponentType<ComponentProps>;
 };
 
-const cache = [];
+const cache: Array<React.ComponentType<ComponentProps>> = [];
 
 class Query extends React.PureComponent<Props, State> {
-  state: State = ({}: State);
+  state: State = {} as State;
 
   static getCachedComponent ({ id, key, params }: StorageQuery): React.ComponentType<ComponentProps> {
     if (!cache[id]) {
       const values = params.map(({ value }) => value);
 
       cache[id] = withStorageDiv(key, { params: values })(
-        (value) =>
+        (value: any) =>
           valueToText(key.type, value),
         { className: 'ui--output' }
       );

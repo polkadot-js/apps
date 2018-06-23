@@ -11,7 +11,7 @@ import Input from './Input';
 
 type Props = BareProps & {
   defaultValue?: any,
-  children?: React$Node,
+  children?: any, // node?
   isDisabled?: boolean,
   isError?: boolean,
   label?: string,

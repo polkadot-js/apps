@@ -3,20 +3,21 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const randomAsU8a = require('@polkadot/util-crypto/random/asU8a');
+import isNull from '@polkadot/util/is/null';
+import randomAsU8a from '@polkadot/util-crypto/random/asU8a';
 
-const identicon = require('./index');
+import identicon from './index';
 
 const element = document.getElementById('demo');
-
-if (!element) {
-  throw new Error('Unable to find #demo element');
-}
 
 function generateIcon (seed: Uint8Array = randomAsU8a(32)): void {
   const start = Date.now();
 
-  element.append(
+  if (isNull(element)) {
+    throw new Error('Unable to find #demo element');
+  }
+
+  element.appendChild(
     identicon(seed, 100, 'padded')
   );
 

@@ -3,14 +3,14 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const colors = require('./colors');
-const newContainer = require('./container');
-const newSeeder = require('./seeder');
-const newShape = require('./shape/circle');
-const newElement = require('./svg/element');
-const { SHAPE_COUNT } = require('./defaults');
+import colors from './colors';
+import newContainer from './container';
+import newSeeder from './seeder';
+import newShape from './shape/circle';
+import newElement from './svg/element';
+import { SHAPE_COUNT } from './defaults';
 
-module.exports = function identicon (seed: string | Uint8Array, diameter: number = 256, className: string = '', style?: { [index: string]: string }): HTMLElement {
+export default function identicon (seed: string | Uint8Array, diameter: number = 256, className: string = '', style?: { [index: string]: string }): HTMLElement {
   const seeder = newSeeder(seed);
   const colorGen = colors(seeder);
   const outer = newContainer(diameter, 'white', className, style);

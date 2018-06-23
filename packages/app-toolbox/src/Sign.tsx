@@ -215,19 +215,19 @@ class Sign extends React.PureComponent<Props, State> {
 
     this.nextState({
       isUnlockVisible: !isUnlockVisible
-    });
+    } as State);
   }
 
   onChangeAccount = (publicKey: Uint8Array): void => {
     const currentPair = keyring.getPair(publicKey);
 
-    this.nextState({ currentPair });
+    this.nextState({ currentPair } as State);
   }
 
   onChangeData = (data: string): void => {
     const isHexData = isHex(data);
 
-    this.nextState({ data, isHexData });
+    this.nextState({ data, isHexData } as State);
   }
 
   onUnlock = (): void => {
