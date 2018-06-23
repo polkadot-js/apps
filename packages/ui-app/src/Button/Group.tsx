@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { BareProps } from '../types';
+import { GroupProps, GroupType } from './types';
 
 import React from 'react';
 import SUIButton from 'semantic-ui-react/dist/es/elements/Button';
@@ -11,11 +11,7 @@ import Button from '@polkadot/ui-app/Button';
 import classes from '../util/classes';
 import Divider from './Divider';
 
-type Props = BareProps & {
-  children?: React$Node
-};
-
-function ButtonGroup ({ children, className, style }: Props) {
+function ButtonGroup ({ children, className, style }: GroupProps) {
   return (
     <div
       className={classes('ui--Button-Group', className)}
@@ -29,6 +25,6 @@ function ButtonGroup ({ children, className, style }: Props) {
   );
 }
 
-ButtonGroup.Divider = Divider;
+(ButtonGroup as GroupType).Divider = Divider;
 
-export default ButtonGroup;
+export default (ButtonGroup as GroupType);

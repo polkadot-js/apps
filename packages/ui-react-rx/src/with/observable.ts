@@ -26,7 +26,7 @@ type State<T> = RxProps<T> & {
 }
 
 export default function withObservable<T, ComponentProps: $Shape<OutProps<T>>, InputProps: InProps<T>> (observable: rxjs$Observable<T> | rxjs$Subject<T>, { onChange, propName = 'value', transform = echoTransform }: Options<T> = {}): HOC<T> {
-  return (Component: React$ComponentType<ComponentProps>, defaultProps?: DefaultProps<T> = {}): Class<React.Component<InputProps, State<T>>> =>
+  return (Component: React.ComponentType<ComponentProps>, defaultProps?: DefaultProps<T> = {}): Class<React.Component<InputProps, State<T>>> =>
     class WithObservable extends React.Component<InputProps, State<T>> {
       state: State<T>;
 

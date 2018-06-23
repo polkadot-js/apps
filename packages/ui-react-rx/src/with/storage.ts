@@ -48,7 +48,7 @@ export default function withStorage<T, ComponentProps: $Shape<OutProps<T>>, Inpu
     return keyCreator.apply(null, values);
   };
 
-  return (Component: React$ComponentType<ComponentProps>, defaultProps?: DefaultProps<T> = {}): Class<React.Component<InputProps>> => {
+  return (Component: React.ComponentType<ComponentProps>, defaultProps?: DefaultProps<T> = {}): Class<React.Component<InputProps>> => {
     class WithStorage extends React.Component<InputApiProps, State<T>> {
       state: State<T>;
 

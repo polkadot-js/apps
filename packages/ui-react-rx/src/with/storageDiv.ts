@@ -10,7 +10,7 @@ import Div from '../Div';
 import withStorage from './storage';
 
 export default function withStorageDiv<T, Props: BaseProps<T>> (key: Storage$Key, options?: StorageOptions<T>): ComponentRenderer<T> {
-  return (render: RenderFn, defaultProps?: DefaultProps<T> = {}): React$ComponentType<Props> =>
+  return (render: RenderFn, defaultProps?: DefaultProps<T> = {}): React.ComponentType<Props> =>
     withStorage(key, options)(Div, {
       ...defaultProps,
       render

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { BareProps } from '../types';
+import { ButtonProps, ButtonType } from './types';
 
 import './Button.css';
 
@@ -15,29 +15,7 @@ import Divider from './Divider';
 import Group from './Group';
 import Or from './Or';
 
-export type Button$Sizes = 'mini' | 'tiny' | 'small' | 'medium' | 'large' | 'big' | 'huge' | 'massive';
-
-type Props = BareProps & {
-  children?: any,
-  floated?: 'left' | 'right',
-  icon?: string,
-  isBasic?: boolean,
-  isCircular?: boolean,
-  isDisabled?: boolean,
-  isNegative?: boolean,
-  isPrimary?: boolean,
-  onClick?: () => void | Promise<void>,
-  size?: Button$Sizes,
-  text?: any
-};
-
-type ButtonType = React.ComponentType<Props> & {
-  Divider: React.ComponentType<BareProps>,
-  Group: React.ComponentType<BareProps>,
-  Or: React.ComponentType<BareProps>
-}
-
-function Button ({ children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isNegative = false, isPrimary = false, onClick, size, style, text }: Props) {
+function Button ({ children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isNegative = false, isPrimary = false, onClick, size, style, text }: ButtonProps) {
   const props = {
     basic: isBasic,
     circular: isCircular,

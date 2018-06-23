@@ -20,12 +20,12 @@ type WithApiProps<T> = InProps<T> & ApiProps;
 type OutProps<T> = WithApiProps<T> & RxProps<T>;
 
 type State<ComponentProps> = ParamProps & {
-  Component: React$ComponentType<ComponentProps>,
+  Component: React.ComponentType<ComponentProps>,
   fn: RxApiInterface$Method
 }
 
 export default function withApiCall<T, ComponentProps: $Shape<OutProps<T>>, InputProps: InProps<T>, InputApiProps: WithApiProps<T>> ({ name, section }: ApiMethod, options?: Options<T>): HOC<T> {
-  return (Component: React$ComponentType<ComponentProps>, defaultProps?: DefaultProps<T> = {}): Class<React.Component<InputProps>> => {
+  return (Component: React.ComponentType<ComponentProps>, defaultProps?: DefaultProps<T> = {}): Class<React.Component<InputProps>> => {
     class WithApiCall extends React.Component<InputApiProps, State<InputApiProps>> {
       state: State<InputApiProps>;
 

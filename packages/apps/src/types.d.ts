@@ -5,7 +5,7 @@
 import { BareProps } from '@polkadot/ui-app/types';
 
 export type Route = {
-  Component: React$ComponentType<BareProps>,
+  Component: React.ComponentType<BareProps>,
   i18n: I18Next$Translate$Config,
   icon: string,
   isExact: boolean,

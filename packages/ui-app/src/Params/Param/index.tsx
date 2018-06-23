@@ -18,7 +18,7 @@ type Props = I18nProps & BaseProps & {
 };
 
 type State = {
-  Component: React$ComponentType<BaseProps> | null
+  Component: React.ComponentType<BaseProps> | null
 }
 
 class ParamComponent extends React.PureComponent<Props, State> {

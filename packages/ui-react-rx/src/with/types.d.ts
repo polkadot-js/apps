@@ -28,10 +28,10 @@ export type StorageOptions<T> = Options<T> & {
   params?: Storage$Key$Values;
 };
 
-export type HOC<T> = (Component: React$ComponentType<any>, defaultProps?: DefaultProps<T>) => Class<React.Component<any, any>>;
+export type HOC<T> = (Component: React.ComponentType<any>, defaultProps?: DefaultProps<T>) => Class<React.Component<any, any>>;
 
 export type ApiMethod = $Shape<Interface$Method>;
 
 export type RenderFn = (value?: any) => any;
 
-export type ComponentRenderer<T> = (render: RenderFn, defaultProps?: DefaultProps<T>) => React$ComponentType<any>;
+export type ComponentRenderer<T> = (render: RenderFn, defaultProps?: DefaultProps<T>) => React.ComponentType<any>;

@@ -25,7 +25,7 @@ type ComponentProps = {};
 
 type State = {
   inputs: Array<React$Node>,
-  Component: React$ComponentType<ComponentProps>;
+  Component: React.ComponentType<ComponentProps>;
 };
 
 const cache = [];
@@ -33,7 +33,7 @@ const cache = [];
 class Query extends React.PureComponent<Props, State> {
   state: State = ({}: State);
 
-  static getCachedComponent ({ id, key, params }: StorageQuery): React$ComponentType<ComponentProps> {
+  static getCachedComponent ({ id, key, params }: StorageQuery): React.ComponentType<ComponentProps> {
     if (!cache[id]) {
       const values = params.map(({ value }) => value);
 
