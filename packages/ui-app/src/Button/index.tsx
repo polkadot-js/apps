@@ -7,7 +7,7 @@ import { ButtonProps, ButtonType } from './types';
 import './Button.css';
 
 import React from 'react';
-import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button';
+import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 
 import isUndefined from '@polkadot/util/is/undefined';
 

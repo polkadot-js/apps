@@ -14,8 +14,8 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   defaultValue: Extrinsic$Method,
-  isDisabled: boolean,
-  isError: boolean,
+  isDisabled?: boolean,
+  isError?: boolean,
   isPrivate: boolean,
   label: string,
   onChange: RawParam$OnChange,

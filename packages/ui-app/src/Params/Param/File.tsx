@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { TranslationFunction } from 'i18next';
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
@@ -16,7 +17,7 @@ type Props = BareProps & {
   isError?: boolean,
   label: string,
   onChange: (contents: Uint8Array) => void,
-  t: I18Next$Translate,
+  t: TranslationFunction,
   withLabel?: boolean
 }
 
@@ -77,6 +78,7 @@ class BytesFile extends React.PureComponent<Props, State> {
 
       reader.onabort = () => {};
       reader.onerror = () => {};
+      // @ts-ignore ummm... events are not properly specoified here?
       reader.onload = ({ target: { result } }: LoadEvent) => {
         const data = new Uint8Array(result);
 

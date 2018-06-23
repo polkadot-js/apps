@@ -5,7 +5,7 @@
 import { BareProps } from './types';
 
 import React from 'react';
-import SUIDropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
+import SUIDropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
 
 import classes from './util/classes';
 import Labelled from './Labelled';
@@ -43,9 +43,11 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
           defaultValue={defaultValue}
           disabled={isDisabled}
           error={isError}
+          // @ts-ignore some mismatch here, look into it
           onChange={this.onChange}
           options={options}
           placeholder={placeholder}
+          // @ts-ignore some mismatch here, look into it
           search={onSearch}
           selection
           value={value}

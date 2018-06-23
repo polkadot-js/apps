@@ -5,7 +5,7 @@
 import { GroupProps, GroupType } from './types';
 
 import React from 'react';
-import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button';
+import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 
 import Button from '@polkadot/ui-app/Button';
 import classes from '../util/classes';

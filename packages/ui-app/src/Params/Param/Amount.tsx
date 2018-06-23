@@ -13,7 +13,7 @@ import Bare from './Bare';
 export default class Amount extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = new BN(((value: any): BN) || 0).toNumber();
+    const defaultValue = new BN(value || 0).toNumber();
 
     return (
       <Bare

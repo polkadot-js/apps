@@ -30,7 +30,8 @@ function SelectMethod ({ className, isError, label = '', onChange, options, styl
   }
 
   const transform = (name: string): Extrinsic$Method =>
-    extrinsics[section][type][name];
+    // @ts-ignore check?
+    extrinsics.get(section)[type][name];
 
   return (
     <Dropdown

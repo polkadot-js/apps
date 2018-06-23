@@ -42,7 +42,7 @@ const components: ComponentMap = {
   'VoteThreshold': VoteThreshold
 };
 
-export default function findComponent (type: Param$Types, overrides?: ComponentMap = {}): React.ComponentType<Props> {
+export default function findComponent (type: Param$Types, overrides: ComponentMap = {}): React.ComponentType<Props> {
   if (Array.isArray(type)) {
     return Unknown;
   }

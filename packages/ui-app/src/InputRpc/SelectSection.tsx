@@ -15,7 +15,7 @@ import translate from '../translate';
 type Props = I18nProps & {
   defaultValue?: Interface$Sections,
   isError?: boolean,
-  label: string,
+  label?: string,
   onChange: (value: Interface$Sections) => void,
   options: DropdownOptions,
   value: Interface$Method,

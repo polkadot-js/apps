@@ -29,7 +29,8 @@ function SelectMethod ({ className, isError, label = '', onChange, options, styl
   }
 
   const transform = (name: Interface$Sections): Interface$Method =>
-    map[section].public[name];
+    // @ts-ignore check?
+    map.get(section).public[name];
 
   return (
     <Dropdown

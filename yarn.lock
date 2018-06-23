@@ -1214,6 +1214,12 @@
     "@types/node" "*"
     "@types/react" "*"
 
+"@types/react-dropzone@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@types/react-dropzone/-/react-dropzone-4.2.0.tgz#c4a290c784456e3c939dff75dba6b66b61f212e5"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-i18next@^7.6.1":
   version "7.6.1"
   resolved "https://registry.yarnpkg.com/@types/react-i18next/-/react-i18next-7.6.1.tgz#62162cc796a78db4c11b3d82d76d3a0d94a9b6eb"

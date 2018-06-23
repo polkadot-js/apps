@@ -5,7 +5,7 @@
 import { BareProps } from './types';
 
 import React from 'react';
-import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
+import Label from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
 
 import classes from './util/classes';
 

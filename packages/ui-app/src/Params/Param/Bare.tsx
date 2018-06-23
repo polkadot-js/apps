@@ -9,7 +9,7 @@ import React from 'react';
 import classes from '../../util/classes';
 
 type Props = BareProps & {
-  children: React$Node
+  children: any // node?
 };
 
 export default function Bare ({ children, className, style }: Props) {

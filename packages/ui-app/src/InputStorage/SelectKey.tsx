@@ -29,7 +29,8 @@ function SelectKey ({ className, isError, label = '', onChange, options, style, 
   }
 
   const transform = (name: string): Storage$Key =>
-    map[section].public[name];
+    // @ts-ignore check?
+    map.get(section).public[name];
 
   return (
     <Dropdown

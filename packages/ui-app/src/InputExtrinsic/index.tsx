@@ -43,12 +43,12 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    this.state = ({
+    this.state = {
       value: this.props.defaultValue
-    }: State);
+    } as State;
   }
 
-  static getDerivedStateFromProps ({ isPrivate = false }: Props, { type, value: { section } }: State): State {
+  static getDerivedStateFromProps ({ isPrivate = false }: Props, { type, value: { section } }: State): State | null {
     const newType = isPrivate ? 'private' : 'public';
 
     if (newType === type) {
@@ -59,7 +59,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
       optionsMethod: methodOptions(section, newType),
       optionsSection: sectionOptions(newType),
       type: newType
-    };
+    } as State;
   }
 
   render () {
@@ -113,7 +113,8 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     }
 
     const optionsMethod = methodOptions(newSection, type);
-    const value = map[newSection][type][optionsMethod[0].value];
+    // @ts-ignore check?
+    const value = map.get(newSection)[type][optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
       this.onKeyChange(value)

@@ -20,6 +20,7 @@ import addressToAddress from './addressToAddress';
 type Props = BareProps & {
   defaultValue?: string | Uint8Array,
   hideAddress?: boolean;
+  isDisabled?: boolean,
   isError?: boolean,
   isInput?: boolean,
   label?: string,
@@ -31,7 +32,7 @@ type Props = BareProps & {
 };
 
 type State = {
-  defaultValue: ?string,
+  defaultValue: string | undefined,
   options: KeyringOptions,
   value?: string
 }
@@ -51,23 +52,23 @@ export default class InputAddress extends React.Component<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    this.state = ({
+    this.state = {
       defaultValue: addressToAddress(props.defaultValue)
-    }: State);
+    } as State;
   }
 
   static getDerivedStateFromProps ({ value }: Props): State | null {
     try {
       return {
         value: addressToAddress(value) || undefined
-      };
+      } as State;
     } catch (error) {
       return null;
     }
   }
 
   render () {
-    const { className, hideAddress = false, isError, label, onChange, type = 'all', style, withLabel } = this.props;
+    const { className, hideAddress = false, isDisabled = false, isError, label, onChange, type = 'all', style, withLabel } = this.props;
     const { defaultValue, value } = this.state;
     const options = keyring.getOptions(type);
 
@@ -79,6 +80,7 @@ export default class InputAddress extends React.Component<Props, State> {
             ? undefined
             : defaultValue
         }
+        isDisabled={isDisabled}
         isError={isError}
         label={label}
         onChange={onChange}

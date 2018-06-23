@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { TranslationFunction } from 'i18next';
 import { RxApiInterface } from '@polkadot/api-rx/types';
 
 export type BareProps = {
@@ -12,7 +13,7 @@ export type BareProps = {
 };
 
 export type I18nProps = BareProps & {
-  t: I18Next$Translate
+  t: TranslationFunction
 };
 
 export type BaseContext = {

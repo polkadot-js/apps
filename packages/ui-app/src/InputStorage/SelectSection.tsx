@@ -15,7 +15,7 @@ import translate from '../translate';
 type Props = I18nProps & {
   defaultValue?: Storage$Sections,
   isError?: boolean,
-  label: string,
+  label?: string,
   onChange: (value: Storage$Sections) => void,
   options: DropdownOptions,
   value: Storage$Key,

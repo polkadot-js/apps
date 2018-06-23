@@ -101,7 +101,8 @@ class InputStorage extends React.PureComponent<Props, State> {
     }
 
     const optionsMethod = keyOptions(newSection);
-    const value = map[newSection].public[optionsMethod[0].value];
+    // @ts-ignore check?
+    const value = map.get(newSection).public[optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
       this.onKeyChange(value)
