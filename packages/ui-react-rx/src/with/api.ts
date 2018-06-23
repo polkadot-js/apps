@@ -14,7 +14,7 @@ type InProps<T> = BareProps & ChangeProps<T>;
 
 type OutProps<T> = InProps<T> & ApiProps;
 
-export default function withApi<T, ComponentProps: $Shape<OutProps<T>>, InputProps: InProps<T>> (Component: React.ComponentType<ComponentProps>, defaultProps?: DefaultProps<T> = {}): Class<React.Component<InputProps>> {
+export default function withApi<T, ComponentProps extends OutProps<T>, InputProps extends InProps<T>> (Component: React.ComponentType<ComponentProps>, defaultProps: DefaultProps<T> = {}): React.Component<InputProps> {
   return class WithApi extends React.Component<InputProps> {
     constructor (props: InputProps) {
       super(props);

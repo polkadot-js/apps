@@ -41,13 +41,12 @@ const apiOptions = {
 };
 
 export default withApiDiv(apiMethod, apiOptions)(
-  (value?: Array<Header> = []): Array<React$Node> => {
-    return value.map((value) => (
+  (value: Array<Header> = []) =>
+    value.map((value) => (
       <BlockHeader
         key={value.number.toString()}
         value={value}
       />
-    ));
-  },
+    )),
   { className: 'explorer--BlockHeaders' }
 );

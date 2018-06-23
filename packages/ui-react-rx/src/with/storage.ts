@@ -29,10 +29,10 @@ type InApiProps<T> = ApiProps & InProps<T>;
 type OutProps<T> = InApiProps<T> & RxProps<T>;
 
 type State<T> = RxProps<T> & {
-  subscriptions: Array<rxjs$ISubscription>;
+  subscriptions: Array<any>;
 }
 
-export default function withStorage<T, ComponentProps: $Shape<OutProps<T>>, InputProps: InProps<T>, InputApiProps: InApiProps<T>> (key: Storage$Key, { onChange, params, propName = 'value', transform }: StorageOptions<T> = {}): HOC<T> {
+export default function withStorage<T, ComponentProps extends OutProps<T>, InputProps extends InProps<T>, InputApiProps extends InApiProps<T>> (key: Storage$Key, { onChange, params, propName = 'value', transform }: StorageOptions<T> = {}): HOC<T> {
   const keyCreator = storageKey(key);
   const storageTransform = createTransform(key);
   const createKey = (propParams?: Storage$Key$Values): Uint8Array => {

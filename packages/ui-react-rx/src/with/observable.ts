@@ -22,11 +22,11 @@ type InProps<T> = BareProps & ChangeProps<T>;
 type OutProps<T> = InProps<T> & RxProps<T>;
 
 type State<T> = RxProps<T> & {
-  subscriptions: Array<rxjs$ISubscription>;
+  subscriptions: Array<any>;
 }
 
-export default function withObservable<T, ComponentProps: $Shape<OutProps<T>>, InputProps: InProps<T>> (observable: rxjs$Observable<T> | rxjs$Subject<T>, { onChange, propName = 'value', transform = echoTransform }: Options<T> = {}): HOC<T> {
-  return (Component: React.ComponentType<ComponentProps>, defaultProps?: DefaultProps<T> = {}): Class<React.Component<InputProps, State<T>>> =>
+export default function withObservable<T, ComponentProps extends OutProps<T>, InputProps extends InProps<T>> (observable:rObservable<T> | $Subject<T>, { onChange, propName = 'value', transform = echoTransform }: Options<T> = {}): HOC<T> {
+  return (Component: React.ComponentType<ComponentProps>, defaultProps?: DefaultProps<T> = {}): React.Component<InputProps, State<T>> =>
     class WithObservable extends React.Component<InputProps, State<T>> {
       state: State<T>;
 
@@ -45,10 +45,10 @@ export default function withObservable<T, ComponentProps: $Shape<OutProps<T>>, I
       }
 
       componentDidMount () {
-        const subscriptions: Array<rxjs$ISubscription> = [
+        const subscriptions = [
           observable
             .pipe(map(transform))
-            .subscribe((value) => {
+            .subscribe((value: any) => {
               this.triggerUpdate(this.props, value);
             }),
           intervalSubscribe(this)

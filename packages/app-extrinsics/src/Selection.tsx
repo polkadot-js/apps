@@ -29,13 +29,15 @@ type State = {
   publicKey: Uint8Array
 };
 
-const defaultExtrinsic = extrinsics.staking.public.transfer;
-const defaultRpc = rpc.author.public.submitExtrinsic;
+// @ts-ignore check?
+const defaultExtrinsic = extrinsics.get('staking').public.transfer;
+// @ts-ignore check?
+const defaultRpc = rpc.get('author').public.submitExtrinsic;
 
 class Selection extends React.PureComponent<Props, State> {
-  state: State = ({
+  state: State = {
     isValid: false
-  }: State);
+  } as State;
 
   render () {
     const { className, style, t } = this.props;
@@ -104,15 +106,15 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   onChangeMessage = (encoded: EncodedMessage): void => {
-    this.nextState({ encoded });
+    this.nextState({ encoded } as State);
   }
 
   onChangeNonce = (nonce: BN): void => {
-    this.nextState({ nonce });
+    this.nextState({ nonce } as State);
   }
 
   onChangeSender = (publicKey: Uint8Array): void => {
-    this.nextState({ publicKey });
+    this.nextState({ publicKey } as State);
   }
 
   onQueue = (): void => {

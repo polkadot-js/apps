@@ -11,7 +11,7 @@ import BaseAccount from '../Account';
 export default class Account extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = ((value: any): Uint8Array);
+    const defaultValue = (value as Uint8Array);
 
     return (
       <BaseAccount

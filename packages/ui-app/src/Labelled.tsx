@@ -12,17 +12,17 @@ import classes from './util/classes';
 type Props = BareProps & {
   isHidden?: boolean,
   label?: any,
-  children: React$Node,
+  children: any, // node?
   withLabel?: boolean,
 };
 
-const defaultLabel: React$Node = (
+const defaultLabel: any = ( // node?
   <div>&nbsp;</div>
 );
 
 export default function Labelled ({ className, children, isHidden = false, label = defaultLabel, style, withLabel = true }: Props) {
   if (isHidden) {
-    return false;
+    return null;
   }
 
   return (

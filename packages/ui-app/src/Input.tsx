@@ -14,15 +14,15 @@ import Labelled from './Labelled';
 type Input$Type = 'number' | 'password' | 'text';
 
 type Props = BareProps & {
-  children?: React$Node,
+  children?: any, // node?
   defaultValue?: any,
-  icon?: React$Node,
+  icon?: any, // node?
   isAction?: boolean,
   isDisabled?: boolean,
   isEditable?: boolean,
   isError?: boolean,
   isHidden?: boolean,
-  label?: React$Node,
+  label?: any, // node?
   max?: any,
   min?: any,
   onChange: (value: string) => void,

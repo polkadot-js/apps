@@ -14,10 +14,11 @@ type Props<Option> = BareProps & {
   defaultValue?: any,
   isDisabled?: boolean,
   isError?: boolean,
-  label?: React$Node,
+  label?: any, // node?
   onChange: (value: any) => void,
   onSearch?: (filteredOptions: Array<Option>, query: string) => Array<Option>,
   options: Array<Option>,
+  placeholder?: string,
   transform?: (value: any) => any,
   value?: any,
   withLabel?: boolean,
@@ -29,7 +30,7 @@ type SUIEvent = {
 
 export default class Dropdown<Option> extends React.PureComponent<Props<Option>> {
   render () {
-    const { className, defaultValue, isDisabled, isError, label, onSearch, options, style, withLabel, value } = this.props;
+    const { className, defaultValue, isDisabled, isError, label, onSearch, options, placeholder, style, withLabel, value } = this.props;
 
     return (
       <Labelled
@@ -44,6 +45,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
           error={isError}
           onChange={this.onChange}
           options={options}
+          placeholder={placeholder}
           search={onSearch}
           selection
           value={value}

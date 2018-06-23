@@ -10,7 +10,8 @@ import extrinsics from '@polkadot/extrinsics';
 
 import Extrinsic from './Extrinsic';
 
-const defaultValue = extrinsics.consensus.private.setCode;
+// @ts-ignore check?
+const defaultValue = extrinsics.get('consensus').private.setCode;
 
 export default function Proposal ({ className, isDisabled, isError, label, onChange, style, withLabel }: Props) {
   return (

@@ -57,7 +57,7 @@ class Extrinsic extends React.PureComponent<Props> {
 
     onChange({
       isValid,
-      value: ((values[0]: any): Uint8Array)
+      value: (values[0] as Uint8Array)
     });
   }
 }

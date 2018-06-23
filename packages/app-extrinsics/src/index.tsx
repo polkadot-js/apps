@@ -10,7 +10,7 @@ import './index.css';
 import React from 'react';
 
 import classes from '@polkadot/ui-app/util/classes';
-import Signer from '@polkadot/ui-signer';
+import Signer from '@polkadot/ui-signer/index';
 
 import Selection from './Selection';
 
@@ -23,7 +23,7 @@ export default function ExtrinsicsApp ({ className, style }: Props) {
       style={style}
     >
       <Signer.Queue.Consumer>
-        {({ queueAdd }: QueueProps = {}) => (
+        {({ queueAdd }: QueueProps = {} as QueueProps) => (
           <Selection queueAdd={queueAdd} />
         )}
       </Signer.Queue.Consumer>

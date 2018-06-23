@@ -24,6 +24,7 @@ type Props = BareProps & {
   isInput?: boolean,
   label?: string,
   onChange: (value: Uint8Array) => void,
+  placeholder?: string,
   type?: KeyringOption$Type,
   value?: string | Uint8Array,
   withLabel?: boolean

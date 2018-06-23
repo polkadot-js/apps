@@ -28,7 +28,7 @@ type State<SectionItem> = {
   values: RawParams
 };
 
-class Params<T, SectionItem: Section$Item<T>> extends React.PureComponent<Props<SectionItem>, State<SectionItem>> {
+class Params<T, SectionItem extends Section$Item<T>> extends React.PureComponent<Props<SectionItem>, State<SectionItem>> {
   state: State<SectionItem>;
 
   constructor (props: Props<SectionItem>) {
@@ -36,10 +36,10 @@ class Params<T, SectionItem: Section$Item<T>> extends React.PureComponent<Props<
 
     this.state = ({
       onChangeParam: this.onChangeParam
-    }: $Shape<State<SectionItem>>);
+    } as State<SectionItem>);
   }
 
-  static getDerivedStateFromProps ({ item }: Props<SectionItem>, { item: { name, section } = {}, onChangeParam }: State<SectionItem>): $Shape<State<SectionItem>> | null {
+  static getDerivedStateFromProps ({ item }: Props<SectionItem>, { item: { name, section } = {}, onChangeParam }: State<SectionItem>): State<SectionItem> | null {
     if (name === item.name && section === item.section) {
       return null;
     }
@@ -98,7 +98,7 @@ class Params<T, SectionItem: Section$Item<T>> extends React.PureComponent<Props<
 
   onChangeParam = (at: number, { isValid = false, value }: RawParam): void => {
     this.setState(
-      (prevState: State<SectionItem>): $Shape<State<SectionItem>> => ({
+      (prevState: State<SectionItem>): State<SectionItem> => ({
         values: prevState.values.map((prev, index) =>
           index !== at
             ? prev
@@ -108,7 +108,7 @@ class Params<T, SectionItem: Section$Item<T>> extends React.PureComponent<Props<
               value
             }
         )
-      }),
+      }) as State<SectionItem>,
       this.notifyChange
     );
   }

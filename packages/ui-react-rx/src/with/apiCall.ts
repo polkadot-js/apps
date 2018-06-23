@@ -24,8 +24,8 @@ type State<ComponentProps> = ParamProps & {
   fn: RxApiInterface$Method
 }
 
-export default function withApiCall<T, ComponentProps: $Shape<OutProps<T>>, InputProps: InProps<T>, InputApiProps: WithApiProps<T>> ({ name, section }: ApiMethod, options?: Options<T>): HOC<T> {
-  return (Component: React.ComponentType<ComponentProps>, defaultProps?: DefaultProps<T> = {}): Class<React.Component<InputProps>> => {
+export default function withApiCall<T, ComponentProps extends OutProps<T>, InputProps extends InProps<T>, InputApiProps extends WithApiProps<T>> ({ name, section }: ApiMethod, options?: Options<T>): HOC<T> {
+  return (Component: React.ComponentType<ComponentProps>, defaultProps: DefaultProps<T> = {}): React.Component<InputProps> => {
     class WithApiCall extends React.Component<InputApiProps, State<InputApiProps>> {
       state: State<InputApiProps>;
 
@@ -38,14 +38,14 @@ export default function withApiCall<T, ComponentProps: $Shape<OutProps<T>>, Inpu
 
         const fn: RxApiInterface$Method = hasSection
           ? props.api[section][name]
-          : ((props.api[name]: any): RxApiInterface$Method);
+          : ((props.api[name] as any) as RxApiInterface$Method);
 
         assert(fn, `Unable to find 'api${hasSection ? '.' : ''}${section || ''}.${name}'`);
 
-        this.state = ({ fn }: $Shape<State<InputApiProps>>);
+        this.state = { fn } as State<InputApiProps>;
       }
 
-      static getDerivedStateFromProps ({ params = [] }: InputApiProps, prevState: State<ComponentProps>): $Shape<State<InputApiProps>> | null {
+      static getDerivedStateFromProps ({ params = [] }: InputApiProps, prevState: State<ComponentProps>): State<InputApiProps> | null {
         if (isEqual(params, prevState.params)) {
           return null;
         }

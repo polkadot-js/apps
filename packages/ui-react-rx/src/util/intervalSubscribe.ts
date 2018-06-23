@@ -8,7 +8,7 @@ import { interval } from 'rxjs/observable/interval';
 
 const interval$ = interval(500);
 
-export default function intervalSubscribe<T, Props, State: RxProps<T>> (that: React$Component<Props, State>): rxjs$ISubscription {
+export default function intervalSubscribe<T, Props, State extends RxProps<T>> (that: React.Component<Props, State>): ISubscription {
   return interval$.subscribe(() => {
     const rxUpdated = (Date.now() - (that.state.rxUpdatedAt || 0)) <= 1500;
 

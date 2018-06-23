@@ -8,7 +8,7 @@ import Account from './Account';
 import Call from './Call';
 import Proposal from './Proposal';
 
-const components: $Shape<ComponentMap> = {
+const components: ComponentMap = {
   'AccountId': Account,
   'Call': Call,
   'Proposal': Proposal
