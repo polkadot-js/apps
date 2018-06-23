@@ -17,7 +17,7 @@ type Props = I18nProps & {
   value?: Array<StorageQuery>
 };
 
-function Queries ({ className, onRemove, style, value }: Props): React$Node {
+function Queries ({ className, onRemove, style, value }: Props) {
   if (!value || !value.length) {
     return null;
   }

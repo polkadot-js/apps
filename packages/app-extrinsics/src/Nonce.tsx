@@ -17,7 +17,7 @@ type Props = BareProps & {
   value?: Uint8Array
 };
 
-export default function Nonce ({ className, label, style, onChange, value }: Props): React$Node {
+export default function Nonce ({ className, label, style, onChange, value }: Props) {
   return (
     <div
       className={classes('ui--row', className)}

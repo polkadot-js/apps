@@ -55,7 +55,7 @@ class VanityApp extends React.PureComponent<Props, State> {
     withCase: true
   };
 
-  render (): React$Node {
+  render () {
     const { className, style } = this.props;
 
     return (
@@ -71,7 +71,7 @@ class VanityApp extends React.PureComponent<Props, State> {
     );
   }
 
-  renderButtons (): React$Node {
+  renderButtons () {
     const { t } = this.props;
     const { isMatchValid, isRunning } = this.state;
 
@@ -91,7 +91,7 @@ class VanityApp extends React.PureComponent<Props, State> {
     );
   }
 
-  renderMatches (): React$Node {
+  renderMatches () {
     const { matches } = this.state;
 
     return (
@@ -107,7 +107,7 @@ class VanityApp extends React.PureComponent<Props, State> {
     );
   }
 
-  renderOptions (): React$Node {
+  renderOptions () {
     const { t } = this.props;
     const { isMatchValid, isRunning, match, withCase } = this.state;
 
@@ -146,7 +146,7 @@ class VanityApp extends React.PureComponent<Props, State> {
     );
   }
 
-  renderStats (): React$Node {
+  renderStats () {
     const { t } = this.props;
     const { elapsed, keyCount } = this.state;
 

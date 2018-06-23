@@ -65,7 +65,7 @@ export default class InputAddress extends React.Component<Props, State> {
     }
   }
 
-  render (): React$Node {
+  render () {
     const { className, hideAddress = false, isError, label, onChange, type = 'all', style, withLabel } = this.props;
     const { defaultValue, value } = this.state;
     const options = keyring.getOptions(type);

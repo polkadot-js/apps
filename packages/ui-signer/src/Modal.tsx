@@ -78,7 +78,7 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  render (): React$Node {
+  render () {
     const { className, style } = this.props;
     const { currentItem } = this.state;
 
@@ -99,7 +99,7 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  renderButtons (): React$Node {
+  renderButtons () {
     const { t } = this.props;
     const { currentItem: { rpc: { isSigned = false } = {} } = {} } = this.state;
 
@@ -132,7 +132,7 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  renderContent (): React$Node {
+  renderContent () {
     const { currentItem } = this.state;
 
     if (!currentItem) {
@@ -146,7 +146,7 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  renderUnlock (): React$Node {
+  renderUnlock () {
     const { t } = this.props;
     const { currentItem, password, unlockError } = this.state;
 

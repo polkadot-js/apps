@@ -68,7 +68,7 @@ class Params<T, SectionItem: Section$Item<T>> extends React.PureComponent<Props<
     }
   }
 
-  render (): React$Node {
+  render () {
     const { className, item: { params }, overrides, style } = this.props;
     const { handlers, values } = this.state;
 

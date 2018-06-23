@@ -18,7 +18,7 @@ type Props = BareProps & {
   value?: any
 }
 
-export default function CopyButton ({ className, icon = 'copy', isCircular = true, isPrimary = true, size = 'tiny', style, value }: Props): React$Node {
+export default function CopyButton ({ className, icon = 'copy', isCircular = true, isPrimary = true, size = 'tiny', style, value }: Props) {
   return (
     <CopyToClipboard text={value}>
       <Button

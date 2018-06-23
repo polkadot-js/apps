@@ -47,7 +47,7 @@ export default class Input extends React.PureComponent<Props, State> {
     name: `in_${counter++}_at_${Date.now()}`
   };
 
-  render (): React$Node {
+  render () {
     const { children, className, defaultValue, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, placeholder, style, type = 'text', value, withLabel } = this.props;
     const { name } = this.state;
 

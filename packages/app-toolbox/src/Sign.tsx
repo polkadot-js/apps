@@ -56,7 +56,7 @@ class Sign extends React.PureComponent<Props, State> {
     };
   }
 
-  render (): React$Node {
+  render () {
     const { className, style } = this.props;
 
     return (
@@ -73,7 +73,7 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  renderAccount (): React$Node {
+  renderAccount () {
     const { t } = this.props;
     const { defaultValue } = this.state;
 
@@ -93,7 +93,7 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  renderButtons (): React$Node {
+  renderButtons () {
     const { t } = this.props;
     const { isLocked } = this.state;
 
@@ -114,7 +114,7 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  renderInput (): React$Node {
+  renderInput () {
     const { t } = this.props;
     const { data, isHexData } = this.state;
 
@@ -147,7 +147,7 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  renderSignature (): React$Node {
+  renderSignature () {
     const { t } = this.props;
     const { signature } = this.state;
 
@@ -166,7 +166,7 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  renderUnlock (): React$Node {
+  renderUnlock () {
     const { currentPair, isUnlockVisible } = this.state;
 
     if (!isUnlockVisible) {

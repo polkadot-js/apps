@@ -20,7 +20,7 @@ type Props = I18nProps & {
   value?: Header
 };
 
-function BlockHeader ({ className, value, style }: Props): React$Node {
+function BlockHeader ({ className, value, style }: Props) {
   if (!value) {
     return null;
   }

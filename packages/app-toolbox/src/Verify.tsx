@@ -54,7 +54,7 @@ class Verify extends React.PureComponent<Props, State> {
     };
   }
 
-  render (): React$Node {
+  render () {
     const { className, style } = this.props;
 
     return (
@@ -69,7 +69,7 @@ class Verify extends React.PureComponent<Props, State> {
     );
   }
 
-  renderAddress (): React$Node {
+  renderAddress () {
     const { t } = this.props;
     const { defaultPublicKey, isValidAddress } = this.state;
 
@@ -89,7 +89,7 @@ class Verify extends React.PureComponent<Props, State> {
     );
   }
 
-  renderInput (): React$Node {
+  renderInput () {
     const { t } = this.props;
     const { data, isHexData } = this.state;
 
@@ -122,7 +122,7 @@ class Verify extends React.PureComponent<Props, State> {
     );
   }
 
-  renderSignature (): React$Node {
+  renderSignature () {
     const { t } = this.props;
     const { isValid, isValidSignature, signature } = this.state;
 

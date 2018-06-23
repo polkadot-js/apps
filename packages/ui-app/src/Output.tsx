@@ -20,7 +20,7 @@ type Props = BareProps & {
   withLabel?: boolean
 };
 
-export default function Output ({ className, children, isError = false, isHidden, label, style, value, withCopy = false, withLabel }: Props): React$Node {
+export default function Output ({ className, children, isError = false, isHidden, label, style, value, withCopy = false, withLabel }: Props) {
   return (
     <Labelled
       className={className}

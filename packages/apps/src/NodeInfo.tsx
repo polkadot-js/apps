@@ -21,7 +21,7 @@ function updateTestInfo (chain?: string) {
   keyring.setTestMode(chain === 'dev');
 }
 
-function NodeInfo ({ className, style, t }: Props): React$Node {
+function NodeInfo ({ className, style, t }: Props) {
   return (
     <div className={classes('apps--NodeInfo', className)}>
       <Chain

@@ -17,7 +17,7 @@ type Props = {
   }
 };
 
-export default function KeyPair ({ address, className, name, style }: Props): React$Node {
+export default function KeyPair ({ address, className, name, style }: Props) {
   return (
     <div
       className={['ui--KeyPair', className].join(' ')}

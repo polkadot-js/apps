@@ -62,7 +62,7 @@ class Query extends React.PureComponent<Props, State> {
     };
   }
 
-  render (): React$Node {
+  render () {
     const { className, style, value: { key } } = this.props;
     const { Component, inputs } = this.state;
 

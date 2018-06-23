@@ -39,7 +39,7 @@ class Account extends React.PureComponent<Props, State> {
     };
   }
 
-  render (): React$Node {
+  render () {
     const { className, defaultValue, isError, isInput, label, style, t, type, withLabel } = this.props;
     const { publicKey } = this.state;
 

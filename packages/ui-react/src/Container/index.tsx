@@ -12,7 +12,7 @@ type Props = BaseProps & {
   children: React$Node
 };
 
-export default function Container ({ children, className, style }: Props): React$Node {
+export default function Container ({ children, className, style }: Props) {
   return (
     <div
       className={['ui--Container', className].join(' ')}

@@ -17,7 +17,7 @@ type Props = BareProps & {
   withLabel?: boolean
 };
 
-export default function Base ({ children, className, label, size = 'medium', style, withLabel }: Props): React$Node {
+export default function Base ({ children, className, label, size = 'medium', style, withLabel }: Props) {
   return (
     <Bare
       className={className}

@@ -20,7 +20,7 @@ const defaultLabel: React$Node = (
   <div>&nbsp;</div>
 );
 
-export default function Labelled ({ className, children, isHidden = false, label = defaultLabel, style, withLabel = true }: Props): React$Node {
+export default function Labelled ({ className, children, isHidden = false, label = defaultLabel, style, withLabel = true }: Props) {
   if (isHidden) {
     return false;
   }

@@ -51,7 +51,7 @@ class InputRpc extends React.PureComponent<Props, State> {
     };
   }
 
-  render (): React$Node {
+  render () {
     const { className, labelMethod, labelSection, style, withLabel } = this.props;
     const { optionsMethod, optionsSection, value } = this.state;
 

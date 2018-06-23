@@ -12,7 +12,7 @@ type Props = BareProps & {
   children: React$Node
 };
 
-export default function Bare ({ children, className, style }: Props): React$Node {
+export default function Bare ({ children, className, style }: Props) {
   return (
     <div
       className={classes('ui--row', className)}

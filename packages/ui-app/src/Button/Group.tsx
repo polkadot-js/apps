@@ -15,7 +15,7 @@ type Props = BareProps & {
   children?: React$Node
 };
 
-function ButtonGroup ({ children, className, style }: Props): React$Node {
+function ButtonGroup ({ children, className, style }: Props) {
   return (
     <div
       className={classes('ui--Button-Group', className)}

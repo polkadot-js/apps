@@ -13,7 +13,7 @@ type Props = BareProps & {
   queue: Array<QueueTx>
 }
 
-export default function Status ({ className, queue, style }: Props): React$Node {
+export default function Status ({ className, queue, style }: Props) {
   const available = queue.filter(({ isValid, status }) =>
     !['completed', 'incomplete'].includes(status)
   );

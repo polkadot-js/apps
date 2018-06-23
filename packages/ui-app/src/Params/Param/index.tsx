@@ -34,7 +34,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
     };
   }
 
-  render (): React$Node {
+  render () {
     const { Component } = this.state;
 
     if (Component === null) {

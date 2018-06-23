@@ -17,7 +17,7 @@ type Props = BareProps & {
   withLabel?: boolean
 };
 
-function Unknown ({ defaultValue: { type }, label, t, withLabel }: Props): React$Node {
+function Unknown ({ defaultValue: { type }, label, t, withLabel }: Props) {
   return (
     <Base
       size='full'

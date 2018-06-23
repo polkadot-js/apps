@@ -60,7 +60,7 @@ class Creator extends React.PureComponent<Props, State> {
     this.state = this.emptyState();
   }
 
-  render (): React$Node {
+  render () {
     const { className, style } = this.props;
     const { address, isSeedValid } = this.state;
 
@@ -85,7 +85,7 @@ class Creator extends React.PureComponent<Props, State> {
     );
   }
 
-  renderButtons (): React$Node {
+  renderButtons () {
     const { t } = this.props;
     const { isValid } = this.state;
 
@@ -109,7 +109,7 @@ class Creator extends React.PureComponent<Props, State> {
     );
   }
 
-  renderInput (): React$Node {
+  renderInput () {
     const { t } = this.props;
     const { isNameValid, isPassValid, isSeedValid, name, password, seed } = this.state;
 

@@ -23,7 +23,7 @@ type Props = I18nProps & {
 };
 
 class Extrinsic extends React.PureComponent<Props> {
-  render (): React$Node {
+  render () {
     const { className, defaultValue, isDisabled, isError, isPrivate, label, style, t, withLabel } = this.props;
 
     return (

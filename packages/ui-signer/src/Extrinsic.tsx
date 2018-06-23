@@ -39,7 +39,7 @@ function findExtrinsic (sectionId: number, methodId: number): { method: ?string,
   };
 }
 
-function Extrinsic ({ children, className, style, t, value: { nonce = new BN(0), publicKey, values: [_value] } }: Props): React$Node {
+function Extrinsic ({ children, className, style, t, value: { nonce = new BN(0), publicKey, values: [_value] } }: Props) {
   const unknown = t('decoded.unknown', {
     defaultValue: 'unknown'
   });

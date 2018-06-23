@@ -17,7 +17,7 @@ type Props = BareProps & {
   queue: Array<QueueTx>
 };
 
-export default function Results ({ className, queue = [], style }: Props): React$Node {
+export default function Results ({ className, queue = [], style }: Props) {
   const filtered = queue
     .filter(({ error, result }) =>
       !isUndefined(error) || !isUndefined(result)

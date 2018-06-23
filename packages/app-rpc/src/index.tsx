@@ -17,7 +17,7 @@ import Selection from './Selection';
 
 type Props = BareProps & {};
 
-export default function RpcApp ({ className, style }: Props): React$Node {
+export default function RpcApp ({ className, style }: Props) {
   return (
     <div
       className={classes('rpc--App', className)}

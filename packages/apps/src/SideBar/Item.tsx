@@ -17,7 +17,7 @@ type Props = I18nProps & {
   route: Route
 };
 
-export default function Item ({ route: { i18n, icon, isExact, name, path = '' }, t }: Props): React$Node {
+export default function Item ({ route: { i18n, icon, isExact, name, path = '' }, t }: Props) {
   return (
     <Menu.Item className='apps--SideBar-Item'>
       <NavLink

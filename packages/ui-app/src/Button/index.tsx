@@ -31,7 +31,7 @@ type Props = BareProps & {
   text?: any
 };
 
-function Button ({ children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isNegative = false, isPrimary = false, onClick, size, style, text }: Props): React$Node {
+function Button ({ children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isNegative = false, isPrimary = false, onClick, size, style, text }: Props) {
   const props = {
     basic: isBasic,
     circular: isCircular,

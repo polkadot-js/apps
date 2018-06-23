@@ -37,7 +37,7 @@ class Account extends React.PureComponent<Props, State> {
     };
   }
 
-  render (): React$Node {
+  render () {
     const { className, defaultValue, isError, style, t } = this.props;
 
     return (
@@ -62,7 +62,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  renderNonce (): React$Node {
+  renderNonce () {
     const { t } = this.props;
     const { publicKey } = this.state;
 

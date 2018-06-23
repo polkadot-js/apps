@@ -14,7 +14,7 @@ import translate from '../translate';
 
 type Props = I18nProps & {};
 
-function NotFound ({ className, style, t }: Props): React$Node {
+function NotFound ({ className, style, t }: Props) {
   return (
     <div
       className={classes('apps--NotFound', className)}

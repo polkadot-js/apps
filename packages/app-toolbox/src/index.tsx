@@ -36,7 +36,7 @@ class ToolboxApp extends React.PureComponent<Props, State> {
     action: 'hash'
   };
 
-  render (): React$Node {
+  render () {
     const { className, style } = this.props;
     const { action } = this.state;
     const Component = Components[action];
@@ -52,7 +52,7 @@ class ToolboxApp extends React.PureComponent<Props, State> {
     );
   }
 
-  renderButtons (): React$Node {
+  renderButtons () {
     const { t } = this.props;
     const { action } = this.state;
 

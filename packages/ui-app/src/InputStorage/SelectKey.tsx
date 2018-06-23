@@ -23,7 +23,7 @@ type Props = I18nProps & {
   withLabel?: boolean
 };
 
-function SelectKey ({ className, isError, label = '', onChange, options, style, t, value: { name, section }, withLabel }: Props): React$Node {
+function SelectKey ({ className, isError, label = '', onChange, options, style, t, value: { name, section }, withLabel }: Props) {
   if (!options.length) {
     return null;
   }

@@ -26,7 +26,7 @@ class StorageApp extends React.PureComponent<Props, State> {
     queue: []
   };
 
-  render (): React$Node {
+  render () {
     const { className, style } = this.props;
     const { queue } = this.state;
 

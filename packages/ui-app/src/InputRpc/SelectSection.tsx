@@ -22,7 +22,7 @@ type Props = I18nProps & {
   withLabel?: boolean
 };
 
-function SelectSection ({ className, defaultValue, isError, label, onChange, options, style, t, value: { section }, withLabel }: Props): React$Node {
+function SelectSection ({ className, defaultValue, isError, label, onChange, options, style, t, value: { section }, withLabel }: Props) {
   return (
     <Dropdown
       className={classes('ui--DropdownLinked-Sections', className)}

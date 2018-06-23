@@ -47,7 +47,7 @@ class Unlock extends React.PureComponent<Props, State> {
     };
   }
 
-  render (): React$Node {
+  render () {
     const { className, style, t } = this.props;
 
     return (
@@ -72,7 +72,7 @@ class Unlock extends React.PureComponent<Props, State> {
     );
   }
 
-  renderActions (): React$Node {
+  renderActions () {
     const { t } = this.props;
 
     return (
@@ -96,7 +96,7 @@ class Unlock extends React.PureComponent<Props, State> {
     );
   }
 
-  renderContent (): React$Node {
+  renderContent () {
     const { t } = this.props;
     const { address, password, unlockError } = this.state;
 

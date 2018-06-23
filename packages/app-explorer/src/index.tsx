@@ -17,7 +17,7 @@ import translate from './translate';
 
 type Props = I18nProps & {};
 
-function ExplorerApp ({ className, style, t }: Props): React$Node {
+function ExplorerApp ({ className, style, t }: Props) {
   return (
     <div
       className={classes('explorer--App', className)}

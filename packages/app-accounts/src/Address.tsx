@@ -50,7 +50,7 @@ export default class Address extends React.PureComponent<Props, State> {
     };
   }
 
-  render (): React$Node {
+  render () {
     const { className, style } = this.props;
     const { address, isValid, shortValue } = this.state;
 
@@ -75,7 +75,7 @@ export default class Address extends React.PureComponent<Props, State> {
     );
   }
 
-  renderBalance (): React$Node {
+  renderBalance () {
     const { isValid, publicKey } = this.state;
 
     if (!isValid) {

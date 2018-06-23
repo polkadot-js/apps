@@ -19,7 +19,7 @@ import SideBar from './SideBar';
 
 type Props = BareProps & {};
 
-function App ({ className, style }: Props): React$Node {
+function App ({ className, style }: Props) {
   return (
     <div
       className={classes('apps--App', className)}

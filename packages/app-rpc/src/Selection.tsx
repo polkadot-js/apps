@@ -45,7 +45,7 @@ class Selection extends React.PureComponent<Props, State> {
     values: []
   };
 
-  render (): React$Node {
+  render () {
     const { className, style, t } = this.props;
     const { isValid, rpc } = this.state;
 
@@ -77,7 +77,7 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  renderAccount (): React$Node {
+  renderAccount () {
     const { rpc: { isSigned = false }, publicKey } = this.state;
 
     if (!isSigned) {

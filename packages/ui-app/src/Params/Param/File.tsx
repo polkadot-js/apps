@@ -36,7 +36,7 @@ type LoadEvent = {
 class BytesFile extends React.PureComponent<Props, State> {
   state: State = {};
 
-  render (): React$Node {
+  render () {
     const { className, isDisabled, isError = false, label, t, withLabel } = this.props;
     const { file } = this.state;
 

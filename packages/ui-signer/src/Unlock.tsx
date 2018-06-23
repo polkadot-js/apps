@@ -40,7 +40,7 @@ class Unlock extends React.PureComponent<Props, State> {
     };
   }
 
-  render (): React$Node {
+  render () {
     const { className, onChange, password, style, t } = this.props;
     const { isError, isLocked } = this.state;
 

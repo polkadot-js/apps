@@ -12,7 +12,7 @@ import Extrinsic from './Extrinsic';
 
 const defaultValue = extrinsics.consensus.private.setCode;
 
-export default function Proposal ({ className, isDisabled, isError, label, onChange, style, withLabel }: Props): React$Node {
+export default function Proposal ({ className, isDisabled, isError, label, onChange, style, withLabel }: Props) {
   return (
     <Extrinsic
       className={className}

@@ -37,7 +37,7 @@ class Creator extends React.PureComponent<Props, State> {
     this.state = this.emptyState();
   }
 
-  render (): React$Node {
+  render () {
     const { className, style } = this.props;
     const { address } = this.state;
 
@@ -58,7 +58,7 @@ class Creator extends React.PureComponent<Props, State> {
     );
   }
 
-  renderButtons (): React$Node {
+  renderButtons () {
     const { t } = this.props;
     const { isValid } = this.state;
 
@@ -82,7 +82,7 @@ class Creator extends React.PureComponent<Props, State> {
     );
   }
 
-  renderInput (): React$Node {
+  renderInput () {
     const { t } = this.props;
     const { address, isAddressValid, isNameValid, name } = this.state;
 

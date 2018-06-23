@@ -33,7 +33,7 @@ export default class Match extends React.PureComponent<Props, State> {
     };
   }
 
-  render (): React$Node {
+  render () {
     const { address, className, count, offset, style } = this.props;
     const { hexSeed } = this.state;
 

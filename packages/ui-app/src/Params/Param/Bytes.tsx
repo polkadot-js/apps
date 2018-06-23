@@ -8,7 +8,7 @@ import React from 'react';
 
 import BaseBytes from './BaseBytes';
 
-export default function Bytes ({ className, defaultValue, isDisabled, isError, label, name, onChange, style, withLabel }: Props): React$Node {
+export default function Bytes ({ className, defaultValue, isDisabled, isError, label, name, onChange, style, withLabel }: Props) {
   return (
     <BaseBytes
       className={className}

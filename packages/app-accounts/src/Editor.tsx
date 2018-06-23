@@ -42,7 +42,7 @@ class Editor extends React.PureComponent<Props, State> {
       : void 0;
   }
 
-  render (): React$Node {
+  render () {
     const { className, style } = this.props;
 
     return (
@@ -56,7 +56,7 @@ class Editor extends React.PureComponent<Props, State> {
     );
   }
 
-  renderButtons (): React$Node {
+  renderButtons () {
     const { t } = this.props;
     const { currentPair, isEdited } = this.state;
 
@@ -93,7 +93,7 @@ class Editor extends React.PureComponent<Props, State> {
     );
   }
 
-  renderData (): React$Node {
+  renderData () {
     const { t } = this.props;
     const { currentPair, defaultValue, editedName } = this.state;
 

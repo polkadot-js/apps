@@ -18,7 +18,7 @@ type Props = I18nProps & {
   location: Location
 };
 
-function Content ({ children, className, location, style }: Props): React$Node {
+function Content ({ children, className, location, style }: Props) {
   const app = location.pathname.slice(1) || routing.default;
   const { Component } = routing.routes.find((route) =>
     route && route.name === app

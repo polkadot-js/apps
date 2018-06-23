@@ -24,7 +24,7 @@ type Props = I18nProps & {
   withLabel?: boolean
 };
 
-function SelectMethod ({ className, isError, label = '', onChange, options, style, t, type, value: { name, section }, withLabel }: Props): React$Node {
+function SelectMethod ({ className, isError, label = '', onChange, options, style, t, type, value: { name, section }, withLabel }: Props) {
   if (!options.length) {
     return null;
   }

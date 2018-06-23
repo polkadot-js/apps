@@ -12,7 +12,7 @@ import u8aConcat from '@polkadot/util/u8a/concat';
 import BytesFile from './File';
 
 export default class Code extends React.PureComponent<Props> {
-  render (): React$Node {
+  render () {
     const { className, isDisabled, isError, label, style, withLabel } = this.props;
 
     return (

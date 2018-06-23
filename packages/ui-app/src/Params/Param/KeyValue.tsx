@@ -35,7 +35,7 @@ export default class KeyValue extends React.PureComponent<Props, State> {
     }
   };
 
-  render (): React$Node {
+  render () {
     const { className, isDisabled, label, style, withLabel } = this.props;
     const { key, value } = this.state;
 

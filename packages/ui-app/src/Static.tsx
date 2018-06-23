@@ -16,7 +16,7 @@ type Props = BareProps & {
   withLabel?: boolean
 };
 
-export default function Static ({ className, children, isHidden, label, style, value, withLabel }: Props): React$Node {
+export default function Static ({ className, children, isHidden, label, style, value, withLabel }: Props) {
   return (
     <Labelled
       className={className}

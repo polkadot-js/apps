@@ -15,7 +15,7 @@ type Props = I18nProps & {
   text?: string
 };
 
-function ButtonOr ({ className, style, t, text }: Props): React$Node {
+function ButtonOr ({ className, style, t, text }: Props) {
   return (
     <SUIButton.Or
       className={className}

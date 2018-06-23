@@ -16,7 +16,7 @@ import translate from '../translate';
 
 type Props = I18nProps & ApiProps;
 
-function Connecting ({ apiConnected, className, style, t }: Props): React$Node {
+function Connecting ({ apiConnected, className, style, t }: Props) {
   if (apiConnected) {
     return null;
   }

@@ -21,7 +21,7 @@ const defaultValidate = (u8a: Uint8Array): boolean =>
   true;
 
 export default class BaseBytes extends React.PureComponent<Props> {
-  render (): React$Node {
+  render () {
     const { className, isDisabled, isError, label, size = 'full', style, withLabel } = this.props;
 
     return (

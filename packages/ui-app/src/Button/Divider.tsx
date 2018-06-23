@@ -10,7 +10,7 @@ import classes from '../util/classes';
 
 type Props = BareProps;
 
-function ButtonDivider ({ className, style }: Props): React$Node {
+function ButtonDivider ({ className, style }: Props) {
   return (
     <div
       className={classes('ui button compact mini basic', className)}

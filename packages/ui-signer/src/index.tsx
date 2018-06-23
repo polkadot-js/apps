@@ -17,7 +17,7 @@ type Props = BareProps & {
   children: React$Node
 };
 
-function Signer ({ children, className, style }: Props): React$Node {
+function Signer ({ children, className, style }: Props) {
   return (
     <Queue>
       {children}

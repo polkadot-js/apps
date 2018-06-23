@@ -13,7 +13,7 @@ type DemoProps = {
   component: string
 };
 
-export default function Demo ({ attrs, attrsReq, children, component }: DemoProps): React$Node {
+export default function Demo ({ attrs, attrsReq, children, component }: DemoProps) {
   const allAttrs = Object.assign({ className: '"..."', style: '{...}' }, attrs);
   const attrsText = Object
     .keys(allAttrs)

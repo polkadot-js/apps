@@ -16,7 +16,7 @@ import Selection from './Selection';
 
 type Props = BareProps;
 
-export default function ExtrinsicsApp ({ className, style }: Props): React$Node {
+export default function ExtrinsicsApp ({ className, style }: Props) {
   return (
     <div
       className={classes('extrinsics--App', className)}

@@ -10,7 +10,7 @@ import Input from '../../Input';
 import Bare from './Bare';
 
 export default class StringParam extends React.PureComponent<Props> {
-  render (): React$Node {
+  render () {
     const { className, isDisabled, isError, label, style, withLabel } = this.props;
 
     return (

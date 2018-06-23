@@ -32,7 +32,7 @@ const Components: { [Actions]: React$ComponentType<{}> } = {
 class AddressesApp extends React.PureComponent<Props, State> {
   state: State = { action: 'edit' };
 
-  render (): React$Node {
+  render () {
     const { className, style, t } = this.props;
     const { action } = this.state;
     const Component = Components[action];

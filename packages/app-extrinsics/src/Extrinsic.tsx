@@ -45,7 +45,7 @@ class Extrinsic extends React.PureComponent<Props, State> {
     };
   }
 
-  render (): React$Node {
+  render () {
     const { className, defaultValue, isError, isPrivate, labelMethod, labelSection, style } = this.props;
     const { extrinsic } = this.state;
 

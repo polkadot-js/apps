@@ -39,7 +39,7 @@ class Selection extends React.PureComponent<Props, State> {
     params: []
   };
 
-  render (): React$Node {
+  render () {
     const { className, style, t } = this.props;
     const { isValid, key } = this.state;
 

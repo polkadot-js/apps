@@ -20,7 +20,7 @@ type Props = I18nProps & {
   children?: React$Node
 };
 
-function SideBar ({ children, className, style, t }: Props): React$Node {
+function SideBar ({ children, className, style, t }: Props) {
   return (
     <div
       className={classes('apps--SideBar', className)}

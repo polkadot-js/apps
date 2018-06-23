@@ -28,7 +28,7 @@ type SUIEvent = {
 };
 
 export default class Dropdown<Option> extends React.PureComponent<Props<Option>> {
-  render (): React$Node {
+  render () {
     const { className, defaultValue, isDisabled, isError, label, onSearch, options, style, withLabel, value } = this.props;
 
     return (

@@ -12,7 +12,7 @@ type Props<T> = BaseProps<T>;
 const echoFormatter = (value?: any): any =>
   value;
 
-export default function Div<T> ({ children, className = 'rx--Div', render = echoFormatter, rxUpdated = false, label = '', style, value }: Props<T>): React$Node {
+export default function Div<T> ({ children, className = 'rx--Div', render = echoFormatter, rxUpdated = false, label = '', style, value }: Props<T>) {
   const props: BareProps = {
     className: [className, rxUpdated ? 'rx--updated' : undefined]
       .filter((c) => c)

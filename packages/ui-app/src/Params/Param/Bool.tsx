@@ -15,7 +15,7 @@ const options = [
 ];
 
 export default class Bool extends React.PureComponent<Props> {
-  render (): React$Node {
+  render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
     const defaultValue = ((value: any): boolean);
 
