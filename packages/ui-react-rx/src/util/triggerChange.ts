@@ -2,21 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { OnChangeCb } from '../types';
+import { OnChangeCb, OnChangeCb$Obs, OnChangeCb$Fn } from '../types';
 
 import isFunction from '@polkadot/util/is/function';
 import isObservable from '@polkadot/util/is/observable';
 
-export default function triggerChange<T> (value?: T, ...onChange: Array<?OnChangeCb<T>>): void {
+export default function triggerChange<T> (value?: T, ...onChange: Array<OnChangeCb<T>>): void {
   if (!onChange || !onChange.length) {
     return;
   }
 
   onChange.forEach((onChange) => {
     if (isObservable(onChange)) {
-      onChange.next(value);
+      (onChange as OnChangeCb$Obs<T>).next(value);
     } else if (isFunction(onChange)) {
-      onChange(value);
+      (onChange as OnChangeCb$Fn<T>)(value);
     }
   });
 }

@@ -42,8 +42,12 @@ export type KeyringAddress = {
 export type State = {
   isTestMode: boolean,
   available: {
-    account: { [index: string]: KeyringJson },
-    address: { [index: string]: KeyringJson }
+    account: {
+      [index: string]: KeyringJson
+    },
+    address: {
+      [index: string]: KeyringJson
+    }
   },
   keyring: BaseKeyringInstance,
   options: {

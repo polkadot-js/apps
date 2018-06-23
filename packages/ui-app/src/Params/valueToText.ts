@@ -56,19 +56,19 @@ function valueToText (type: Param$Types, value: any, swallowError: boolean = tru
     }
 
     if (type === 'AccountId') {
-      return addressEncode((value: Uint8Array));
+      return addressEncode((value as Uint8Array));
     }
 
     if (type === 'Proposal') {
-      return proposalToText((value: ExtrinsicDecoded));
+      return proposalToText((value as ExtrinsicDecoded));
     }
 
     if (isU8a(value)) {
-      return u8aToHex((value: Uint8Array), 256);
+      return u8aToHex((value as Uint8Array), 256);
     }
 
     if (isBn(value)) {
-      return numberFormat((value: BN));
+      return numberFormat((value as BN));
     }
   } catch (error) {
     if (!swallowError) {

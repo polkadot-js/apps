@@ -21,10 +21,10 @@ export type ApiProps = {
   setApiWsUrl: (url?: string) => void
 };
 
-type OnChangeCb$Obs<T> = { next: (value: T) => any };
-type OnChangeCb$Fn<T> = (value: T) => void;
+type OnChangeCb$Obs<T> = { next: (value?: T) => any };
+type OnChangeCb$Fn<T> = (value?: T) => void;
 
-export type OnChangeCb<T> = OnChangeCb$Obs<T> | OnChangeCb$Fn<T>;
+export type OnChangeCb<T> = OnChangeCb$Obs<T> | OnChangeCb$Fn<T> | undefined;
 
 export type ChangeProps<T> = {
   onChange?: OnChangeCb<T>

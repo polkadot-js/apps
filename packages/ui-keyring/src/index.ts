@@ -65,4 +65,4 @@ export default ({
     saveRecent(state, address),
   setTestMode: (isTest: boolean): void =>
     setTestMode(state, isTest)
-}: KeyringInstance);
+} as KeyringInstance);

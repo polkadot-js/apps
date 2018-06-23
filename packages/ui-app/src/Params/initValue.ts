@@ -55,11 +55,12 @@ export default function getInitValue (type: Param$Types): RawParam$Values {
 
     default:
       if (Array.isArray(type)) {
-        return type.map(getInitValue);
+        return type.map((value) =>
+          getInitValue(value as Param$Types)
+        );
       }
 
-      // NOTE for @flow, if it fails here, we know what is missing
-      (type: empty); // eslint-disable-line no-unused-expressions
+      (type: never); // eslint-disable-line no-unused-expressions
       throw new Error(`Unable to determine default type for ${typeToString(type)}`);
   }
 }

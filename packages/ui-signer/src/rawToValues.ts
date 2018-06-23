@@ -7,7 +7,7 @@ import { RawParam } from '@polkadot/ui-app/Params/types';
 
 function rawToValues (raw: Array<RawParam>): Array<Param$Values> {
   return raw.map(({ value }) =>
-    ((value: any): Param$Value)
+    (value as Param$Value)
   );
 }
 

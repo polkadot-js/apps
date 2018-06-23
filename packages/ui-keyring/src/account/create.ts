@@ -7,7 +7,7 @@ import { State } from '../types';
 
 import saveAccount from './save';
 
-export default function accountCreate (state: State, seed: Uint8Array, password?: string, meta?: KeyringPair$Meta = {}): KeyringPair {
+export default function accountCreate (state: State, seed: Uint8Array, password?: string, meta: KeyringPair$Meta = {}): KeyringPair {
   const pair = state.keyring.addFromSeed(seed, meta);
 
   saveAccount(state, pair, password);

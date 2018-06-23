@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/ui-identicon authors & contributors
+// Copyright 2017-2018 @polkadot/ui-react-rx authors & contributors
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
@@ -14,14 +14,17 @@ module.exports = {
     path: __dirname,
     filename: './demo.js'
   },
+  resolve: {
+    alias: {}
+  },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|ts|tsx)$/,
         exclude: /(node_modules)/,
-        use: [
-          'babel-loader'
-        ]
+        use: {
+          loader: 'babel-loader'
+        }
       }
     ]
   },

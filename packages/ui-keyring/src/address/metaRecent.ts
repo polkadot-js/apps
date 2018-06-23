@@ -22,7 +22,7 @@ export default function saveRecent (state: State, address: string): KeyringOptio
     };
 
     store.set(addressKey(json.address), json);
-    state.available.address[address] = (json: $Shape<KeyringJson>);
+    state.available.address[address] = (json as KeyringJson);
   }
 
   createOptions(state);
