@@ -15,4 +15,4 @@ export default ({
   isExact: false,
   isHidden: true,
   name: 'unknown'
-}: Route);
+} as Route);

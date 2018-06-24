@@ -2,10 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const bufferToU8a = require('@polkadot/util/buffer/toU8a');
-const u8aToBuffer = require('@polkadot/util/u8a/toBuffer');
+import bufferToU8a from '@polkadot/util/buffer/toU8a';
+import u8aToBuffer from '@polkadot/util/u8a/toBuffer';
 
-let pkFromSeed = void 0;
+type PkSeedFn = (seed: Uint8Array) => Uint8Array;
+
+let pkFromSeed: PkSeedFn | undefined;
 
 try {
   const sodium = require('sodium');
@@ -21,6 +23,6 @@ try {
   console.log(`Using NaCl bindings from 'tweet-nacl' (faster 'sodium' dependency not installed)`);
 }
 
-module.exports = {
+export {
   pkFromSeed
 };

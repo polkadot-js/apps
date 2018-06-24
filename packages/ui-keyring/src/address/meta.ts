@@ -11,7 +11,7 @@ import { addressKey } from '../defaults';
 import createOptions from '../options';
 
 export default function saveMeta (state: State, address: string, meta: KeyringPair$Meta): void {
-  const json = state.available[address] || {
+  const json = state.available.address[address] || {
     address,
     meta: {
       isRecent: void 0,

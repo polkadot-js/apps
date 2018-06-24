@@ -4,16 +4,16 @@
 
 import { Generator$PkFromSeed, Generator$Match, Generator$Options } from './types';
 
-const randomBytes = require('@polkadot/util-crypto/random/asU8a');
-const addressEncode = require('@polkadot/util-keyring/address/encode');
-const pairFromSeed = require('@polkadot/util-crypto/nacl/keypair/fromSeed');
+import randomBytes from '@polkadot/util-crypto/random/asU8a';
+import addressEncode from '@polkadot/util-keyring/address/encode';
+import pairFromSeed from '@polkadot/util-crypto/nacl/keypair/fromSeed';
 
-const calculate = require('./calculate');
+import calculate from './calculate';
 
 const tweetPkFromSeed = (seed: Uint8Array): Uint8Array =>
   pairFromSeed(seed).publicKey;
 
-module.exports = function generator (test: Array<string>, options: Generator$Options, pkFromSeed?: Generator$PkFromSeed = tweetPkFromSeed): Generator$Match {
+export default function generator (test: Array<string>, options: Generator$Options, pkFromSeed: Generator$PkFromSeed = tweetPkFromSeed): Generator$Match {
   const seed = randomBytes();
   const address = addressEncode(pkFromSeed(seed));
   const { count, offset } = calculate(test, address, options);
@@ -24,4 +24,4 @@ module.exports = function generator (test: Array<string>, options: Generator$Opt
     offset,
     seed
   };
-};
+}

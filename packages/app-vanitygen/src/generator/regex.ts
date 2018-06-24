@@ -4,4 +4,4 @@
 
 const regex = new RegExp('^[1-9A-HJ-NP-Za-km-z]*$', '');
 
-module.exports = regex;
+export default regex;

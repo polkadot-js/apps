@@ -1067,9 +1067,9 @@
     "@polkadot/util-crypto" "^0.24.1"
     "@polkadot/util-keyring" "^0.24.1"
 
-"@polkadot/ts@^0.0.18":
-  version "0.0.18"
-  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.0.18.tgz#1b8801bd22a9aa0c568d018c059f6086cf91903d"
+"@polkadot/ts@^0.0.19":
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.0.19.tgz#eba79d4db732522f210cc70eda9b22c60474330b"
 
 "@polkadot/util-crypto@^0.24.1":
   version "0.24.1"
@@ -1339,6 +1339,10 @@
 "@types/xxhashjs@^0.1.1":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@types/xxhashjs/-/xxhashjs-0.1.1.tgz#980709096c7138713b7777f49dccd4b8f93908e5"
+
+"@types/yargs@^11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-11.0.0.tgz#124b9ed9c65b7091cc36da59ae12cbd47d8745ea"
 
 "@webassemblyjs/ast@1.4.3":
   version "1.4.3"

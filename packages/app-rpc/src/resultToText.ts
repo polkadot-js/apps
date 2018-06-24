@@ -33,10 +33,10 @@ function resultToText (result: any): any {
         Object
           .keys(result)
           .reduce((map, key) => {
-            map[key] = resultToText(result[key]);
+            map[key] = resultToText((result as { [index: string]: string })[key]);
 
             return map;
-          }, {})
+          }, ({} as { [index: string]: string }))
       )
       .replace(/\\"/g, '"')
       .replace(/":"/g, '": "');

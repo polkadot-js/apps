@@ -24,7 +24,8 @@ export type KeyringJson$Meta = {
   name?: string,
   whenCreated?: number,
   whenEdited?: number,
-  whenUsed?: number
+  whenUsed?: number,
+  [index: string]: any
 };
 
 export type KeyringJson = {

@@ -16,23 +16,27 @@ import translate from '../translate';
 
 type Props = I18nProps & ApiProps;
 
-function Connecting ({ apiConnected, className, style, t }: Props) {
-  if (apiConnected) {
-    return null;
-  }
+class Connecting extends React.PureComponent<Props> {
+  render () {
+    const { apiConnected, className, style, t } = this.props;
 
-  return (
-    <div
-      className={classes('apps--Connecting', className)}
-      style={style}
-    >
-      <div className='apps--Connecting-text'>
-        {t('connecting.disconnected', {
-          defaultValue: 'You are not connected to a node. Ensure that your node is running and that the Websocket endpoint is reachable.'
-        })}
+    if (apiConnected) {
+      return null;
+    }
+
+    return (
+      <div
+        className={classes('apps--Connecting', className)}
+        style={style}
+      >
+        <div className='apps--Connecting-text'>
+          {t('connecting.disconnected', {
+            defaultValue: 'You are not connected to a node. Ensure that your node is running and that the Websocket endpoint is reachable.'
+          })}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default translate(

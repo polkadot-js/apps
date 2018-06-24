@@ -22,4 +22,4 @@ export default ({
     explorer, extrinsics, storage, null, accounts, addresses, vanitygen, null, rpc, toolbox
   ),
   unknown
-}: Routing);
+} as Routing);

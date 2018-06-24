@@ -15,14 +15,14 @@ import Nonce from '@polkadot/ui-react-rx/Nonce';
 import translate from './translate';
 
 type Props = I18nProps & {
-  defaultValue?: Uint8Array,
+  defaultValue?: Uint8Array | null,
   isError?: boolean,
   onChange: (publicKey: Uint8Array | undefined, nonce: BN) => void
 };
 
 type State = {
   nonce: BN,
-  publicKey?: Uint8Array
+  publicKey?: Uint8Array | null
 };
 
 class Account extends React.PureComponent<Props, State> {

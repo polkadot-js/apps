@@ -17,7 +17,7 @@ function calculateAt (atOffset: number, test: Array<string>, address: string): G
   };
 }
 
-module.exports = function calculate (test: Array<string>, _address: string, { atOffset = -1, withCase = false }: Generator$Options): Generator$Calculation {
+export default function calculate (test: Array<string>, _address: string, { atOffset = -1, withCase = false }: Generator$Options): Generator$Calculation {
   const address = withCase
     ? _address
     : _address.toLowerCase();
@@ -43,4 +43,4 @@ module.exports = function calculate (test: Array<string>, _address: string, { at
     count: bestCount,
     offset: bestOffset
   };
-};
+}

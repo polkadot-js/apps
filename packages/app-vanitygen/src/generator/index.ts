@@ -4,9 +4,9 @@
 
 import { Generator$PkFromSeed, Generator$Matches, Generator$Result, Generator$Options } from './types';
 
-const generate = require('./generate');
+import generate from './generate';
 
-module.exports = function generator (options: Generator$Options, pkFromSeed?: Generator$PkFromSeed): Generator$Result {
+export default function generator (options: Generator$Options, pkFromSeed?: Generator$PkFromSeed): Generator$Result {
   const { match, runs = 10, withCase = false } = options;
   const test = withCase
     ? match.split('')
@@ -22,4 +22,4 @@ module.exports = function generator (options: Generator$Options, pkFromSeed?: Ge
     elapsed: Date.now() - startAt,
     found
   };
-};
+}

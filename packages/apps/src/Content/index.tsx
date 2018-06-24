@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Location } from 'react-router-dom';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { Route } from '../types';
 
 import './Content.css';
 
@@ -18,20 +18,26 @@ type Props = I18nProps & {
   location: Location
 };
 
-function Content ({ children, className, location, style }: Props) {
-  const app = location.pathname.slice(1) || routing.default;
-  const { Component } = routing.routes.find((route) =>
-    route && route.name === app
-  ) || routing.unknown;
+class Content extends React.PureComponent<Props> {
+  render () {
+    const { className, location, style } = this.props;
 
-  return (
-    <div
-      className={classes('apps--Content', className)}
-      style={style}
-    >
-      <Component />
-    </div>
-  );
+    const app = location.pathname.slice(1) || routing.default;
+    const { Component } = routing.routes.find((route: Route | null) =>
+      route
+        ? route.name === app
+        : false
+    ) || routing.unknown;
+
+    return (
+      <div
+        className={classes('apps--Content', className)}
+        style={style}
+      >
+        <Component />
+      </div>
+    );
+  }
 }
 
 export default withRouter(Content);

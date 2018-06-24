@@ -4,7 +4,7 @@
 
 import { Routes } from '../types';
 
-import Toolbox from '@polkadot/app-toolbox';
+import Toolbox from '@polkadot/app-toolbox/index';
 
 export default ([
   {
@@ -17,4 +17,4 @@ export default ([
     isHidden: false,
     name: 'toolbox'
   }
-]: Routes);
+] as Routes);

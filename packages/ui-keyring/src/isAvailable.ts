@@ -9,7 +9,7 @@ import addressEncode from '@polkadot/util-keyring/address/encode';
 
 export default function isAvailable (state: State, _address: Uint8Array | string): boolean {
   const address = isString(_address)
-    ? ((_address: any): string)
+    ? _address
     : addressEncode(_address);
 
   console.log('isAvailable', address, state.available.account[address], state.available.address[address]);

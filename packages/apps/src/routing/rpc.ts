@@ -4,7 +4,7 @@
 
 import { Routes } from '../types';
 
-import Rpc from '@polkadot/app-rpc';
+import Rpc from '@polkadot/app-rpc/index';
 
 export default ([
   {
@@ -17,4 +17,4 @@ export default ([
     isHidden: false,
     name: 'rpc'
   }
-]: Routes);
+] as Routes);

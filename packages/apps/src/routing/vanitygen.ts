@@ -4,7 +4,7 @@
 
 import { Routes } from '../types';
 
-import Vanity from '@polkadot/app-vanitygen';
+import Vanity from '@polkadot/app-vanitygen/index';
 
 export default ([
   {
@@ -17,4 +17,4 @@ export default ([
     isHidden: false,
     name: 'vanitygen'
   }
-]: Routes);
+] as Routes);

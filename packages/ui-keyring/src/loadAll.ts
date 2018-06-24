@@ -15,7 +15,7 @@ export default function loadAll (state: State): void {
 
   store.each((json: KeyringJson, key: string) => {
     if (accountRegex.test(key)) {
-      keyring.addFromJson(json as KeyringPair$Json>);
+      keyring.addFromJson(json as KeyringPair$Json);
       available.account[json.address] = json;
     } else if (addressRegex.test(key)) {
       available.address[json.address] = json;

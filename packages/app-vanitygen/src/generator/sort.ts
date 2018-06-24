@@ -14,7 +14,7 @@ function numberSort (a: number, b: number): number {
   return 0;
 }
 
-module.exports = function sort (a: Generator$Match, b: Generator$Match): number {
+export default function sort (a: Generator$Match, b: Generator$Match): number {
   const countResult = numberSort(a.count, b.count);
 
   if (countResult !== 0) {

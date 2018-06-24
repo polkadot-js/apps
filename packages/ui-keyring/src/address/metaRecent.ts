@@ -12,7 +12,7 @@ import createOptions from '../options';
 export default function saveRecent (state: State, address: string): KeyringOption {
   console.log('saveRecent', address);
 
-  if (!state.available[address]) {
+  if (!state.available.address[address]) {
     const json = {
       address,
       meta: {
@@ -27,5 +27,6 @@ export default function saveRecent (state: State, address: string): KeyringOptio
 
   createOptions(state);
 
+  // @ts-ignore it should be there now...
   return state.options.recent.find(({ value }) => value === address);
 }

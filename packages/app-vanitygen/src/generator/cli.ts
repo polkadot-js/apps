@@ -3,13 +3,20 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const yargs = require('yargs');
-const chalk = require('chalk');
-const u8aToHex = require('@polkadot/util/u8a/toHex');
+import yargs from 'yargs';
+import chalk from 'chalk';
+import u8aToHex from '@polkadot/util/u8a/toHex';
 
-const generator = require('./index.js');
-const matchRegex = require('./regex');
-const { pkFromSeed } = require('./sodium');
+import generator from './index';
+import matchRegex from './regex';
+import { pkFromSeed } from './sodium';
+
+type Best = {
+  address: string,
+  count: number,
+  offset: number,
+  seed?: Uint8Array
+}
 
 const { match, withCase } = yargs
   .option('match', {
@@ -29,8 +36,12 @@ const options = {
   withCase
 };
 const startAt = Date.now();
-let best = { count: -1 };
-let total = 0;
+let best: Best = {
+  address: '',
+  count: -1,
+  offset: 65536
+};
+let total: number = 0;
 let indicator = -1;
 
 if (!matchRegex.test(match)) {
@@ -49,7 +60,7 @@ function showProgress () {
     indicator = 0;
   }
 
-  process.stdout.write(`\r[${INDICATORS[indicator]}] ${total.toString().match(NUMBER_REGEX).join(',')} keys in ${(elapsed).toFixed(2)}s (${(total / elapsed).toFixed(0)} keys/s)`);
+  process.stdout.write(`\r[${INDICATORS[indicator]}] ${(total.toString().match(NUMBER_REGEX) || []).join(',')} keys in ${(elapsed).toFixed(2)}s (${(total / elapsed).toFixed(0)} keys/s)`);
 }
 
 function showBest () {

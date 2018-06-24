@@ -4,7 +4,7 @@
 
 import { Routes } from '../types';
 
-import Accounts from '@polkadot/app-accounts';
+import Accounts from '@polkadot/app-accounts/index';
 
 export default ([
   {
@@ -17,4 +17,4 @@ export default ([
     isHidden: false,
     name: 'accounts'
   }
-]: Routes);
+] as Routes);

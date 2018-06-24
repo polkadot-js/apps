@@ -4,7 +4,7 @@
 
 import { Routes } from '../types';
 
-import Storage from '@polkadot/app-storage';
+import Storage from '@polkadot/app-storage/index';
 
 export default ([
   {
@@ -17,4 +17,4 @@ export default ([
     isHidden: false,
     name: 'storage'
   }
-]: Routes);
+] as Routes);

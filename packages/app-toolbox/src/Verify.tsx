@@ -181,19 +181,19 @@ class Verify extends React.PureComponent<Props, State> {
   onChangeData = (data: string): void => {
     const isHexData = isHex(data);
 
-    this.nextState({ data, isHexData });
+    this.nextState({ data, isHexData } as State);
   }
 
   onChangeSignature = (signature: string): void => {
     const isValidSignature = isHex(signature) && signature.length === 130;
 
-    this.nextState({ signature, isValidSignature });
+    this.nextState({ signature, isValidSignature } as State);
   }
 
   onChangeAddress = (currentPublicKey: Uint8Array): void => {
     const isValidAddress = currentPublicKey && currentPublicKey.length === 32;
 
-    this.nextState({ currentPublicKey, isValidAddress });
+    this.nextState({ currentPublicKey, isValidAddress } as State);
   }
 }
 

@@ -4,7 +4,7 @@
 
 import { Routes } from '../types';
 
-import Explorer from '@polkadot/app-explorer';
+import Explorer from '@polkadot/app-explorer/index';
 
 export default ([
   {
@@ -18,4 +18,4 @@ export default ([
     name: 'explorer',
     path: '/'
   }
-]: Routes);
+] as Routes);

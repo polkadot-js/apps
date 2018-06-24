@@ -18,7 +18,7 @@ import classes from '../util/classes';
 import addressToAddress from './addressToAddress';
 
 type Props = BareProps & {
-  defaultValue?: string | Uint8Array,
+  defaultValue?: string | Uint8Array | null,
   hideAddress?: boolean;
   isDisabled?: boolean,
   isError?: boolean,
@@ -53,7 +53,7 @@ export default class InputAddress extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      defaultValue: addressToAddress(props.defaultValue)
+      defaultValue: addressToAddress(props.defaultValue as string)
     } as State;
   }
 

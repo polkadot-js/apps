@@ -18,12 +18,12 @@ import translate from './translate';
 
 type Props = I18nProps & {
   onClose: () => void,
-  pair: KeyringPair
+  pair: KeyringPair | null
 };
 
 type UnlockI18n = {
   key: string,
-  value: I18Next$Translate$Config
+  value: any // I18Next$Translate$Config
 }
 
 type State = {
@@ -44,7 +44,7 @@ class Unlock extends React.PureComponent<Props, State> {
       address: pair
         ? pair.address()
         : ''
-    };
+    } as State;
   }
 
   render () {
@@ -104,6 +104,7 @@ class Unlock extends React.PureComponent<Props, State> {
       <div className='toolbox--Unlock-Content' key='content'>
         <div className='expanded'>
           <p>
+            // @ts-ignore ok, Trans def seems wrong?
             <Trans i18nkey='unlock.info'>
               You are about to unlock your account <span className='code'>{address}</span> to allow for the signing of messages.
             </Trans>
@@ -130,10 +131,10 @@ class Unlock extends React.PureComponent<Props, State> {
     ];
   }
 
-  unlockAccount (password?: string): ?UnlockI18n {
+  unlockAccount (password?: string): UnlockI18n | null {
     const { pair } = this.props;
 
-    if (pair.hasSecretKey()) {
+    if (!pair || pair.hasSecretKey()) {
       return null;
     }
 

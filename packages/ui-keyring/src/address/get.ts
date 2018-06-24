@@ -10,7 +10,7 @@ import addressEncode from '@polkadot/util-keyring/address/encode';
 
 export default function get (state: State, _address: string | Uint8Array): KeyringAddress {
   const address = isString(_address)
-    ? ((_address: any): string)
+    ? _address
     : addressEncode(_address);
   const publicKey = addressDecode(address);
 
