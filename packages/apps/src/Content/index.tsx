@@ -40,4 +40,5 @@ class Content extends React.PureComponent<Props> {
   }
 }
 
+// @ts-ignore Ok, here the definition doesn't like this one... at all :(
 export default withRouter(Content);

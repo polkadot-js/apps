@@ -39,7 +39,7 @@ class Params<T, SectionItem extends Section$Item<T>> extends React.PureComponent
     } as State<SectionItem>);
   }
 
-  static getDerivedStateFromProps ({ item }: Props<SectionItem>, { item: { name, section } = {}, onChangeParam }: State<SectionItem>): State<SectionItem> | null {
+  static getDerivedStateFromProps ({ item }: Props<any>, { item: { name, section } = {}, onChangeParam }: State<any>): State<any> | null {
     if (name === item.name && section === item.section) {
       return null;
     }
@@ -56,7 +56,7 @@ class Params<T, SectionItem extends Section$Item<T>> extends React.PureComponent
       item,
       handlers,
       values
-    };
+    } as State;
   }
 
   componentDidUpdate (prevProps: Props<SectionItem>, prevState: State<SectionItem>) {

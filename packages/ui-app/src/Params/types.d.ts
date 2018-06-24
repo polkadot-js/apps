@@ -17,7 +17,7 @@ export type RawParam = {
   value: RawParam$Values,
 }
 
-export type RawParam$OnChange = (value: RawParam) => void;
+export type RawParam$OnChange = (value: { isValid: boolean, value: RawParam$Values }) => void;
 
 export type RawParams = Array<RawParam>;
 

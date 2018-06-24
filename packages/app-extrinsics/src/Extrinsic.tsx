@@ -21,11 +21,13 @@ import paramComponents from './Params';
 
 type Props = BareProps & ApiProps & {
   defaultValue: Extrinsic$Method,
+  isDisabled?: boolean,
   isError?: boolean,
   isPrivate?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (encoded: EncodedMessage) => void
+  onChange: (encoded: EncodedMessage) => void,
+  withLabel?: boolean
 };
 
 type State = {
@@ -46,7 +48,7 @@ class Extrinsic extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, defaultValue, isError, isPrivate, labelMethod, labelSection, style } = this.props;
+    const { className, defaultValue, isDisabled, isError, isPrivate, labelMethod, labelSection, style, withLabel } = this.props;
     const { extrinsic } = this.state;
 
     return (
@@ -56,11 +58,13 @@ class Extrinsic extends React.PureComponent<Props, State> {
       >
         <InputExtrinsic
           defaultValue={defaultValue}
+          isDisabled={isDisabled}
           isError={isError}
           isPrivate={isPrivate}
           labelMethod={labelMethod}
           labelSection={labelSection}
           onChange={this.onChangeExtrinsic}
+          withLabel={withLabel}
         />
         <Params
           item={extrinsic}

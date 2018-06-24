@@ -22,6 +22,7 @@ import sectionOptions from './options/section';
 
 type Props = I18nProps & {
   defaultValue: Extrinsic$Method,
+  isDisabled?: boolean,
   isError?: boolean,
   isPrivate?: boolean,
   labelMethod?: string,

@@ -105,10 +105,10 @@ export default class KeyValue extends React.PureComponent<Props, State> {
   }
 
   onChangeKey = (key: string): void => {
-    this.nextState({ key: this.createParam(key) });
+    this.nextState({ key: this.createParam(key) } as State);
   };
 
   onChangeValue = (value: string): void => {
-    this.nextState({ value: this.createParam(value) });
+    this.nextState({ value: this.createParam(value) } as State);
   };
 }
