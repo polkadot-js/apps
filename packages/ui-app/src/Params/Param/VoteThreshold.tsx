@@ -18,7 +18,7 @@ const options = [
 export default class VoteThreshold extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = ((value: any): number);
+    const defaultValue = (value as number);
 
     return (
       <Bare

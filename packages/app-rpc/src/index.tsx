@@ -10,7 +10,7 @@ import './index.css';
 import React from 'react';
 
 import classes from '@polkadot/ui-app/util/classes';
-import Signer from '@polkadot/ui-signer/index';
+import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
 import Results from './Results';
 import Selection from './Selection';
@@ -23,8 +23,8 @@ export default function RpcApp ({ className, style }: Props) {
       className={classes('rpc--App', className)}
       style={style}
     >
-      <Signer.Queue.Consumer>
-        {({ queue, queueAdd }: QueueProps = {}) => [
+      <QueueConsumer>
+        {({ queue, queueAdd }: QueueProps) => [
           <Selection
             key='add'
             queueAdd={queueAdd}
@@ -34,7 +34,7 @@ export default function RpcApp ({ className, style }: Props) {
             queue={queue}
           />
         ]}
-      </Signer.Queue.Consumer>
+      </QueueConsumer>
     </div>
   );
 }

@@ -34,15 +34,13 @@ export default function withApiCall<T> ({ name, section }: ApiMethod, options?: 
       constructor (props: any) {
         super(props);
 
-        const hasSection = !!section;
+        assert(section && props.api[section], `Unable to find 'api.${section}'`);
 
-        assert(!hasSection || props.api[section], `Unable to find 'api.${section}'`);
-
-        const fn: RxApiInterface$Method = hasSection
+        const fn: RxApiInterface$Method = section
           ? props.api[section][name]
           : ((props.api[name] as any) as RxApiInterface$Method);
 
-        assert(fn, `Unable to find 'api${hasSection ? '.' : ''}${section || ''}.${name}'`);
+        assert(fn, `Unable to find 'api${section ? '.' : ''}${section || ''}.${name}'`);
 
         this.state = { fn } as State;
       }

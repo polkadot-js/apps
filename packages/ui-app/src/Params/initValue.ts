@@ -60,7 +60,7 @@ export default function getInitValue (type: Param$Types): RawParam$Values {
         );
       }
 
-      (type: never); // eslint-disable-line no-unused-expressions
+      (type as never); // eslint-disable-line no-unused-expressions
       throw new Error(`Unable to determine default type for ${typeToString(type)}`);
   }
 }

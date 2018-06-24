@@ -4,7 +4,7 @@
 
 import { Interface$Method } from '@polkadot/jsonrpc/types';
 import { Param$Values } from '@polkadot/params/types';
-import { Storage$Key$Values } from '@polkadot/storage/types';
+import { Storage$Key$Value } from '@polkadot/storage/types';
 import { OnChangeCb } from '../types';
 
 import React from 'react';
@@ -22,15 +22,18 @@ export type Options<T> = {
   transform?: Transform
 };
 
-export type StorageTransform = (value?: Uint8Array, index: number) => Param$Values | null;
+export type StorageTransform = (input: any, index: number) => Param$Values | null;
 
 export type StorageOptions<T> = Options<T> & {
-  params?: Storage$Key$Values;
+  params?: Array<Storage$Key$Value>;
 };
 
-export type HOC<T> = (Component: React.ComponentType<any>, defaultProps?: DefaultProps<T>) => Class<React.Component<any, any>>;
+export type HOC<T> = (Component: React.ComponentType<any>, defaultProps?: DefaultProps<T>) => React.ComponentType<any>;
 
-export type ApiMethod = $Shape<Interface$Method>;
+export type ApiMethod = {
+  name: string,
+  section?: string
+};
 
 export type RenderFn = (value?: any) => any;
 

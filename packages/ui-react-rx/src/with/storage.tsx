@@ -45,7 +45,7 @@ export default function withStorage<T> (key: Storage$Key, { onChange, params, pr
 
       result.push(input);
       return result;
-    }, []);
+    }, ([] as any[]));
 
     return keyCreator.apply(null, values);
   };

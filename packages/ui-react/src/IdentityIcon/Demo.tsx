@@ -10,7 +10,7 @@ import Container from '../Container/Demo';
 import IdentityIcon from './index';
 
 export default function Demo () {
-  const identities = [new Uint8Array(32)];
+  const identities: Array<Uint8Array | string> = [new Uint8Array(32)];
 
   while (identities.length !== 10) {
     identities.push(

@@ -11,7 +11,7 @@ export default ({
   i18n: {
     defaultValue: 'Not found'
   },
-  icon: 'error',
+  icon: 'warning circle',
   isExact: false,
   isHidden: true,
   name: 'unknown'

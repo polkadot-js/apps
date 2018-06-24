@@ -5,8 +5,8 @@
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
-export default function addressToAddress (value?: string | Uint8Array): ?string {
-  if (value === undefined) {
+export default function addressToAddress (value?: string | Uint8Array): string | undefined {
+  if (!value) {
     return;
   }
 

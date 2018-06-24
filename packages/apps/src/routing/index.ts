@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Routing } from '../types';
+import { Routing, Routes } from '../types';
 
 import accounts from './accounts';
 import addresses from './addresses';
@@ -18,7 +18,7 @@ import vanitygen from './vanitygen';
 
 export default ({
   default: 'explorer',
-  routes: [].concat(
+  routes: ([] as Routes).concat(
     explorer, extrinsics, storage, null, accounts, addresses, vanitygen, null, rpc, toolbox
   ),
   unknown

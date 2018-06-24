@@ -9,6 +9,7 @@ import './index.css';
 
 import React from 'react';
 
+import { QueueConsumer } from './Context';
 import Modal from './Modal';
 import Status from './Status';
 import Queue, { Props as QueueComponentProps } from './Queue';
@@ -25,8 +26,8 @@ function Signer ({ children, className, style }: Props) {
   return (
     <Queue>
       {children}
-      <Queue.Consumer>
-        {({ queue, queueSetStatus }: QueueProps = {} as QueueProps) => [
+      <QueueConsumer>
+        {({ queue, queueSetStatus }: QueueProps) => [
           <Modal
             className={className}
             key='signer-modal'
@@ -39,7 +40,7 @@ function Signer ({ children, className, style }: Props) {
             queue={queue}
           />
         ]}
-      </Queue.Consumer>
+      </QueueConsumer>
     </Queue>
   );
 }

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { State, KeyringJson } from '../types';
+import { State, KeyringJson, KeyringOptions } from '../types';
 
 import createItem from './item';
 import createHeader from './header';
@@ -69,18 +69,21 @@ export default function createOptions (state: State): void {
 
   const { options } = state;
 
-  options.address = [].concat(
+  options.address = ([] as KeyringOptions).concat(
     options.address.length ? [ createHeader('Addresses') ] : [],
     options.address,
     options.recent.length ? [ createHeader('Recent') ] : [],
     options.recent
   );
-  options.account = [].concat(
+  options.account = ([] as KeyringOptions).concat(
     options.account.length ? [ createHeader('Accounts') ] : [],
     options.account,
     options.testing.length ? [ createHeader('Testing') ] : [],
     options.testing
   );
 
-  options.all = [].concat(options.account, options.address);
+  options.all = ([] as KeyringOptions).concat(
+    options.account,
+    options.address
+  );
 }

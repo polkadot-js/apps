@@ -31,101 +31,99 @@ function apiSupport (chain?: string): EncodingVersions {
     : 'latest';
 }
 
-export default class Api extends React.PureComponent {}
+export default class Api extends React.PureComponent<Props, State> {
+  state: State = {} as State;
 
-// export default class Api extends React.PureComponent<Props, State> {
-//   state: State = {} as State;
+  constructor (props: Props) {
+    super(props);
 
-//   constructor (props: Props) {
-//     super(props);
+    const { provider, url = '' } = props;
+    const api = props.api || createApi(
+      url && url.length
+        ? createWsProvider(url)
+        : provider
+    );
+    const setApi = (api: RxApiInterface): void => {
+      this.setState({ api }, () => {
+        this.updateSubscriptions();
+      });
+    };
+    const setApiProvider = (provider?: ProviderInterface): void =>
+      setApi(createApi(provider));
+    const setApiWsUrl = (url: string = defaults.WS_URL): void =>
+      setApiProvider(createWsProvider(url));
 
-//     const { provider, url = '' } = props;
-//     const api = props.api || createApi(
-//       url && url.length
-//         ? createWsProvider(url)
-//         : provider
-//     );
-//     const setApi = (api: RxApiInterface): void => {
-//       this.setState({ api }, () => {
-//         this.updateSubscriptions();
-//       });
-//     };
-//     const setApiProvider = (provider?: ProviderInterface): void =>
-//       setApi(createApi(provider));
-//     const setApiWsUrl = (url: string = defaults.WS_URL): void =>
-//       setApiProvider(createWsProvider(url));
+    this.state = {
+      api,
+      apiConnected: false,
+      apiSupport: 'poc-1',
+      setApi,
+      setApiProvider,
+      setApiWsUrl,
+      subscriptions: []
+    };
+  }
 
-//     this.state = {
-//       api,
-//       apiConnected: false,
-//       apiSupport: 'poc-1',
-//       setApi,
-//       setApiProvider,
-//       setApiWsUrl,
-//       subscriptions: []
-//     };
-//   }
+  componentDidMount () {
+    this.updateSubscriptions();
+  }
 
-//   componentDidMount () {
-//     this.updateSubscriptions();
-//   }
+  componentWillUnmount () {
+    this.unsubscribe();
+  }
 
-//   componentWillUnmount () {
-//     this.unsubscribe();
-//   }
+  updateSubscriptions () {
+    const { api } = this.state;
 
-//   updateSubscriptions () {
-//     const { api } = this.state;
+    this.unsubscribe();
+    this.setState({
+      subscriptions:
+        [
+          () => api.isConnected().subscribe((isConnected?: boolean) => {
+            this.setState({ apiConnected: !!isConnected });
+          }),
+          () => api.system.chain().subscribe((chain?: string) => {
+            this.setState({ apiSupport: apiSupport(chain) });
+          })
+        ].map((fn: Function) => {
+          try {
+            return fn();
+          } catch (error) {
+            console.error(error);
+            return null;
+          }
+        })
+    });
+  }
 
-//     this.unsubscribe();
-//     this.setState({
-//       subscriptions:
-//         [
-//           () => api.isConnected().subscribe((isConnected?: boolean) => {
-//             this.setState({ apiConnected: !!isConnected });
-//           }),
-//           () => api.system.chain().subscribe((chain?: string) => {
-//             this.setState({ apiSupport: apiSupport(chain) });
-//           })
-//         ].map((fn: Function) => {
-//           try {
-//             return fn();
-//           } catch (error) {
-//             console.error(error);
-//             return null;
-//           }
-//         })
-//     });
-//   }
+  unsubscribe (): void {
+    const { subscriptions } = this.state;
 
-//   unsubscribe (): void {
-//     const { subscriptions } = this.state;
+    subscriptions.forEach((subscription) => {
+      if (subscription) {
+        try {
+          subscription.unsubscribe();
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    });
+  }
 
-//     subscriptions.forEach((subscription) => {
-//       if (subscription) {
-//         try {
-//           subscription.unsubscribe();
-//         } catch (error) {
-//           console.error(error);
-//         }
-//       }
-//     });
-//   }
+  render () {
+    const { api, apiConnected, apiSupport, setApi, setApiProvider, setApiWsUrl } = this.state;
 
-//   render () {
-//     const { api, apiConnected, apiSupport, setApi, setApiProvider, setApiWsUrl } = this.state;
-
-//     return (
-//       <ApiContext.Provider value={{
-//         api,
-//         apiConnected,
-//         apiSupport,
-//         setApi,
-//         setApiProvider,
-//         setApiWsUrl
-//       }}>
-//         {this.props.children}
-//       </ApiContext.Provider>
-//     );
-//   }
-// }
+    return (
+      <ApiContext.Provider value={{
+        api,
+        apiConnected,
+        apiSupport,
+        setApi,
+        setApiProvider,
+        setApiWsUrl
+      }}>
+        {this.props.children}
+      </ApiContext.Provider>
+    );
+  }
+}

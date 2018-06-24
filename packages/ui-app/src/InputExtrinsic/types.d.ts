@@ -5,7 +5,7 @@
 export type DropdownOption = {
   className?: string,
   key?: string,
-  text: string | React$Node,
+  text: any, // string | React$Node,
   value: string
 };
 

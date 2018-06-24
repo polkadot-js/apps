@@ -7,11 +7,18 @@ import { DropdownOptions } from '../../InputExtrinsic/types';
 import map from '@polkadot/storage';
 
 export default function createOptions (): DropdownOptions {
-  return Object
-    .keys(map)
+  const keys = [...map.keys()];
+
+  return keys
     .sort()
     .filter((name) => {
-      const section = map[name];
+      const section = map.get(name);
+
+      // cannot really get here
+      if (!section) {
+        return false;
+      }
+
       const methods = Object
         .keys(section.public)
         .filter((name) => {

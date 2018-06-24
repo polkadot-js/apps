@@ -112,7 +112,7 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeAccount = (publicKey: Uint8Array | undefined, nonce: BN): void => {
+  onChangeAccount = (publicKey: Uint8Array | undefined | null, nonce: BN): void => {
     this.nextState({ nonce, publicKey } as State);
   }
 

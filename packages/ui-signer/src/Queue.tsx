@@ -7,6 +7,8 @@ import { QueueProps, QueueTx, QueueTx$Base, QueueTx$Id, QueueTx$Status } from '.
 
 import React from 'react';
 
+import { QueueProvider } from './Context';
+
 export type Props = BareProps & {
   children: any // node?
 };
@@ -17,13 +19,9 @@ const defaultState = {
   queue: [] as Array<QueueTx>
 } as QueueProps;
 
-const { Consumer, Provider } = React.createContext<QueueProps>(defaultState);
 let nextId: QueueTx$Id = 0;
 
 export default class Queue extends React.Component<Props, State> {
-  static Provider = Provider;
-  static Consumer = Consumer
-
   state: State = defaultState;
 
   constructor (props: Props) {
@@ -38,9 +36,9 @@ export default class Queue extends React.Component<Props, State> {
 
   render () {
     return (
-      <Provider value={this.state}>
+      <QueueProvider value={this.state}>
         {this.props.children}
-      </Provider>
+      </QueueProvider>
     );
   }
 

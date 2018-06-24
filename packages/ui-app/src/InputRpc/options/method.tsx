@@ -2,27 +2,30 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Extrinsic$Sections } from '@polkadot/extrinsics/types';
-import { DropdownOptions } from '../types';
+import { Interface$Sections } from '@polkadot/jsonrpc/types';
+import { DropdownOptions } from '../../InputExtrinsic/types';
 
 import React from 'react';
 
-import map from '@polkadot/extrinsics';
+import map from '@polkadot/jsonrpc';
 
-export default function createOptions (sectionName: Extrinsic$Sections, type: 'private' | 'public'): DropdownOptions {
-  const section = map[sectionName];
+export default function createOptions (sectionName: Interface$Sections): DropdownOptions {
+  const section = map.get(sectionName);
 
   if (!section) {
     return [];
   }
 
-  const methods = section[type];
-
   return Object
-    .keys(methods)
+    .keys(section.public)
     .sort()
+    .filter((name) => {
+      const { isDeprecated, isHidden, isSubscription } = section.public[name];
+
+      return !isDeprecated && !isHidden && !isSubscription;
+    })
     .map((name) => {
-      const { description, params } = methods[name];
+      const { description, params } = section.public[name];
       const inputs = params.map(({ name }) => name).join(', ');
 
       return {

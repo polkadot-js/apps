@@ -9,7 +9,7 @@ import './Container.css';
 import React from 'react';
 
 type Props = BaseProps & {
-  children: React$Node
+  children: any // React$Node
 };
 
 export default function Container ({ children, className, style }: Props) {

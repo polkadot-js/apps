@@ -13,7 +13,7 @@ import Base from './Base';
 
 type Props = BareProps & {
   defaultValue: RawParam,
-  t: I18Next$Translate,
+  t: any, // I18Next$Translate?
   withLabel?: boolean
 };
 
