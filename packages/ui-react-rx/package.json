@@ -35,10 +35,10 @@
     "test": "echo \"Tests only available from root wrapper\""
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.47",
-    "@polkadot/api-rx": "^0.14.2",
-    "@polkadot/extrinsics-codec": "^0.19.2",
-    "@polkadot/storage": "^0.19.2"
+    "@babel/runtime": "^7.0.0-beta.51",
+    "@polkadot/api-rx": "^0.14.4",
+    "@polkadot/extrinsics-codec": "^0.19.4",
+    "@polkadot/storage": "^0.19.4"
   },
   "devDependencies": {
     "babel-loader": "^8.0.0-beta.2",

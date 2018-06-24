@@ -15,11 +15,11 @@
   "contributors": [],
   "license": "ISC",
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.47",
+    "@babel/runtime": "^7.0.0-beta.51",
     "@polkadot/ui-identicon": "^0.17.15"
   },
   "devDependencies": {
-    "@polkadot/util-keyring": "^0.24.2",
+    "@polkadot/util-keyring": "^0.24.5",
     "babel-loader": "^8.0.0-beta.2",
     "css-loader": "0.28.9",
     "empty": "^0.10.1",

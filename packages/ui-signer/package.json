@@ -15,8 +15,8 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.47",
-    "@polkadot/extrinsics": "^0.19.2",
+    "@babel/runtime": "^7.0.0-beta.51",
+    "@polkadot/extrinsics": "^0.19.4",
     "@polkadot/ui-app": "^0.17.15",
     "@polkadot/ui-keyring": "^0.17.15"
   },
