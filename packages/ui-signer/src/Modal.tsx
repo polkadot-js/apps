@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/ui-react-rx/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { QueueTx, QueueTx$MessageSetStatus } from './types';
 
 import React from 'react';
@@ -20,10 +20,12 @@ import signMessage from './sign';
 import submitMessage from './submit';
 import translate from './translate';
 
-type Props = I18nProps & ApiProps & {
+type BaseProps = BareProps & {
   queue: Array<QueueTx>,
   queueSetStatus: QueueTx$MessageSetStatus
 };
+
+type Props = I18nProps & ApiProps & BaseProps;
 
 type UnlockI18n = {
   key: string,
@@ -245,6 +247,8 @@ class Signer extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(
+const Component: React.ComponentType<BaseProps> = translate(
   withApi(Signer)
 );
+
+export default Component;

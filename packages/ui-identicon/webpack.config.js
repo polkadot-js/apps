@@ -8,11 +8,14 @@ const isProd = ENV === 'production';
 module.exports = {
   context: __dirname,
   devtool: isProd ? 'source-map' : 'cheap-eval-source-map',
-  entry: './src/demo.js',
+  entry: './src/demo.ts',
   mode: ENV,
   output: {
     path: __dirname,
     filename: './demo.js'
+  },
+  resolve: {
+    extensions: ['.js', '.jsx', '.ts', '.tsx']
   },
   module: {
     rules: [

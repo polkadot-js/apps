@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { Storage$Key$Value } from '@polkadot/storage/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { StorageQuery } from './types';
 
@@ -35,7 +36,10 @@ class Query extends React.PureComponent<Props, State> {
 
   static getCachedComponent ({ id, key, params }: StorageQuery): React.ComponentType<ComponentProps> {
     if (!cache[id]) {
-      const values = params.map(({ value }) => value);
+      const values: Array<Storage$Key$Value> = params.map(({ value }) =>
+        // FIXME not 100% convinced, arrays could be an issue? (Plus, if we have to cast, something just _seems_ off)
+        value as Storage$Key$Value
+      );
 
       cache[id] = withStorageDiv(key, { params: values })(
         (value: any) =>

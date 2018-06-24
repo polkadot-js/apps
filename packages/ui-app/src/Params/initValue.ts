@@ -3,13 +3,13 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { Param$Types } from '@polkadot/params/types';
-import { RawParam$Values } from './types';
+import { RawParam$Value } from './types';
 
 import BN from 'bn.js';
 
 import typeToString from '@polkadot/params/typeToString';
 
-export default function getInitValue (type: Param$Types): RawParam$Values {
+export default function getInitValue (type: Param$Types): RawParam$Value | Array<RawParam$Value>{
   switch (type) {
     case 'Balance':
       return new BN(1);
@@ -56,7 +56,8 @@ export default function getInitValue (type: Param$Types): RawParam$Values {
     default:
       if (Array.isArray(type)) {
         return type.map((value) =>
-          getInitValue(value as Param$Types)
+          // NOTE since TS is not quite good at recursives, cast to a single
+          getInitValue(value) as RawParam$Value
         );
       }
 

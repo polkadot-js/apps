@@ -9,7 +9,7 @@ const isProd = ENV === 'production';
 module.exports = {
   context: __dirname,
   devtool: isProd ? 'source-map' : 'cheap-eval-source-map',
-  entry: './src/demo.js',
+  entry: './src/demo.tsx',
   mode: ENV,
   output: {
     path: __dirname,
@@ -17,8 +17,9 @@ module.exports = {
   },
   resolve: {
     alias: {
-      '@polkadot/ui-identicon': path.resolve(__dirname, '../ui-identicon/src/index.js')
-    }
+      '@polkadot/ui-identicon/index': path.resolve(__dirname, '../ui-identicon/src/index.ts')
+    },
+    extensions: ['.js', '.jsx', '.ts', '.tsx']
   },
   module: {
     rules: [

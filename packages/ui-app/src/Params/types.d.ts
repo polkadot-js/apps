@@ -7,7 +7,7 @@ import { BareProps } from '../types';
 
 export type RawParam$Value = Param$Value | undefined;
 
-export type RawParam$ValueArray = Array<Param$Value | undefined | Array<Param$Value | undefined>>;
+export type RawParam$ValueArray = Array<RawParam$Value | Array<RawParam$Value>>;
 
 export type RawParam$Values = RawParam$Value | RawParam$ValueArray;
 
@@ -17,7 +17,8 @@ export type RawParam = {
   value: RawParam$Values,
 }
 
-export type RawParam$OnChange = (value: { isValid: boolean, value: RawParam$Values }) => void;
+export type RawParam$OnChange$Value = { isValid: boolean, value: RawParam$Values };
+export type RawParam$OnChange = (value: RawParam$OnChange$Value) => void;
 
 export type RawParams = Array<RawParam>;
 

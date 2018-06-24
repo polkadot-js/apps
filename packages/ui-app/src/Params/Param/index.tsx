@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '../../types';
-import { Props as BaseProps, ComponentMap } from '../types';
+import { BaseProps, Props as ComponentProps, ComponentMap } from '../types';
 
 import React from 'react';
 
@@ -18,7 +18,7 @@ type Props = I18nProps & BaseProps & {
 };
 
 type State = {
-  Component: React.ComponentType<BaseProps> | null
+  Component: React.ComponentType<ComponentProps> | null
 }
 
 class ParamComponent extends React.PureComponent<Props, State> {
@@ -31,7 +31,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
       Component: !type
         ? null
         : findComponent(type, overrides)
-    };
+    } as State;
   }
 
   render () {

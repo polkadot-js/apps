@@ -4,7 +4,7 @@
 
 import { Section$Item } from '@polkadot/params/types';
 import { I18nProps } from '../types';
-import { ComponentMap, RawParam, RawParams, RawParam$OnChange } from './types';
+import { ComponentMap, RawParam, RawParams, RawParam$OnChange, RawParam$OnChange$Value } from './types';
 
 import './Params.css';
 
@@ -24,7 +24,7 @@ type Props<SectionItem> = I18nProps & {
 type State<SectionItem> = {
   item: SectionItem,
   handlers: Array<RawParam$OnChange>,
-  onChangeParam: (at: number, next: RawParam) => void,
+  onChangeParam: (at: number, next: RawParam$OnChange$Value) => void,
   values: RawParams
 };
 
@@ -39,8 +39,10 @@ class Params<T, SectionItem extends Section$Item<T>> extends React.PureComponent
     } as State<SectionItem>);
   }
 
-  static getDerivedStateFromProps ({ item }: Props<any>, { item: { name, section } = {}, onChangeParam }: State<any>): State<any> | null {
-    if (name === item.name && section === item.section) {
+  static getDerivedStateFromProps (props: Props<any>, { item = {}, onChangeParam }: State<any>): State<any> | null {
+    const { name, section } = item;
+
+    if (name === props.item.name && section === props.item.section) {
       return null;
     }
 
@@ -48,7 +50,7 @@ class Params<T, SectionItem extends Section$Item<T>> extends React.PureComponent
     const values = createValues(params);
     const handlers = values.map(
       (value, index): RawParam$OnChange =>
-        (value: RawParam): void =>
+        (value: RawParam$OnChange$Value): void =>
           onChangeParam(index, value)
     );
 
@@ -56,7 +58,7 @@ class Params<T, SectionItem extends Section$Item<T>> extends React.PureComponent
       item,
       handlers,
       values
-    } as State;
+    } as State<any>;
   }
 
   componentDidUpdate (prevProps: Props<SectionItem>, prevState: State<SectionItem>) {
@@ -96,7 +98,7 @@ class Params<T, SectionItem extends Section$Item<T>> extends React.PureComponent
     );
   }
 
-  onChangeParam = (at: number, { isValid = false, value }: RawParam): void => {
+  onChangeParam = (at: number, { isValid = false, value }: RawParam$OnChange$Value): void => {
     this.setState(
       (prevState: State<SectionItem>): State<SectionItem> => ({
         values: prevState.values.map((prev, index) =>
