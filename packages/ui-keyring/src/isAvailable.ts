@@ -12,7 +12,5 @@ export default function isAvailable (state: State, _address: Uint8Array | string
     ? _address
     : addressEncode(_address);
 
-  console.log('isAvailable', address, state.available.account[address], state.available.address[address]);
-
   return !state.available.account[address] && !state.available.address[address];
 }

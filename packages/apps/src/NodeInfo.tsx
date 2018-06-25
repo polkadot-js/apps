@@ -17,7 +17,6 @@ import translate from './translate';
 type Props = I18nProps & {};
 
 function updateTestInfo (chain?: string) {
-  console.log('updateTestInfo:chain', chain);
   keyring.setTestMode(chain === 'dev');
 }
 

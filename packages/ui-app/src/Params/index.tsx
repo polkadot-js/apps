@@ -99,8 +99,8 @@ class Params<T, SectionItem extends Section$Item<T>> extends React.PureComponent
 
   onChangeParam = (at: number, { isValid = false, value }: RawParam$OnChange$Value): void => {
     this.setState(
-      (prevState: State<SectionItem>): State<SectionItem> => ({
-        values: prevState.values.map((prev, index) =>
+      (prevState: State<SectionItem>): State<SectionItem> => {
+        const values = prevState.values.map((prev, index) =>
           index !== at
             ? prev
             : {
@@ -108,17 +108,18 @@ class Params<T, SectionItem extends Section$Item<T>> extends React.PureComponent
               type: prev.type,
               value
             }
-        )
-      }) as State<SectionItem>,
-      this.notifyChange
+        );
+
+        // FICME this should really be as the second paramater of setState, however... that stopped working, never getting the latest version from the actual state
+        const { onChange } = this.props;
+
+        onChange(values);
+
+        return {
+          values
+        } as State<SectionItem>;
+      }
     );
-  }
-
-  notifyChange = (): void => {
-    const { onChange } = this.props;
-    const { values } = this.state;
-
-    onChange(values);
   }
 }
 
