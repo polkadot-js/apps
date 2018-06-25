@@ -39,14 +39,12 @@ class Params<T, SectionItem extends Section$Item<T>> extends React.PureComponent
     } as State<SectionItem>);
   }
 
-  static getDerivedStateFromProps (props: Props<any>, { item = {}, onChangeParam }: State<any>): State<any> | null {
-    const { name, section } = item;
-
-    if (name === props.item.name && section === props.item.section) {
+  static getDerivedStateFromProps (props: Props<any>, { item, onChangeParam }: State<any>): State<any> | null {
+    if (item && item.name === props.item.name && item.section === props.item.section) {
       return null;
     }
 
-    const { params } = item;
+    const { params } = props.item;
     const values = createValues(params);
     const handlers = values.map(
       (value, index): RawParam$OnChange =>
@@ -61,11 +59,12 @@ class Params<T, SectionItem extends Section$Item<T>> extends React.PureComponent
     } as State<any>;
   }
 
+  // FIXME Do we really need this one? The fact that we have to do deep inspection here just shows something is amis? We notify on param change below. Really cannot remember or see the actual real need here - apart from making things more complicated than they should be. (But there must be a reason)
   componentDidUpdate (prevProps: Props<SectionItem>, prevState: State<SectionItem>) {
     const { onChange } = this.props;
     const { values } = this.state;
 
-    if (prevState.values !== values) {
+    if (JSON.stringify(prevState.values) !== JSON.stringify(values)) {
       onChange(values);
     }
   }
