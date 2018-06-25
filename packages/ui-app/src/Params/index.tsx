@@ -60,14 +60,14 @@ class Params<T, SectionItem extends Section$Item<T>> extends React.PureComponent
   }
 
   // FIXME Do we really need this one? The fact that we have to do deep inspection here just shows something is amis? We notify on param change below. Really cannot remember or see the actual real need here - apart from making things more complicated than they should be. (But there must be a reason)
-  componentDidUpdate (prevProps: Props<SectionItem>, prevState: State<SectionItem>) {
-    const { onChange } = this.props;
-    const { values } = this.state;
+  // componentDidUpdate (prevProps: Props<SectionItem>, prevState: State<SectionItem>) {
+  //   const { onChange } = this.props;
+  //   const { values } = this.state;
 
-    if (JSON.stringify(prevState.values) !== JSON.stringify(values)) {
-      onChange(values);
-    }
-  }
+  //   if (JSON.stringify(prevState.values) !== JSON.stringify(values)) {
+  //     onChange(values);
+  //   }
+  // }
 
   render () {
     const { className, item: { params }, overrides, style } = this.props;
@@ -110,16 +110,21 @@ class Params<T, SectionItem extends Section$Item<T>> extends React.PureComponent
             }
         );
 
-        // FICME this should really be as the second paramater of setState, however... that stopped working, never getting the latest version from the actual state
-        const { onChange } = this.props;
-
-        onChange(values);
+        // FIXME this should really be as the second parameter of setState, however... that stopped working, never getting the latest version from the actual state
+        this.props.onChange(values);
 
         return {
           values
         } as State<SectionItem>;
-      }
+      },
+      this.triggerUpdate
     );
+  }
+
+  triggerUpdate = (): void => {
+    // BUG The actual values here is not the actual new values - seems React related, was working on 16.3
+    // console.log('triggerUpdate', arguments, this.state.values);
+    // this.props.onChange(this.state.values);
   }
 }
 
