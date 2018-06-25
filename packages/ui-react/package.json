@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-react",
-  "version": "0.17.15",
+  "version": "0.18.0",
   "description": "A collection of base React components",
   "main": "index.js",
   "scripts": {
@@ -15,11 +15,11 @@
   "contributors": [],
   "license": "ISC",
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.47",
-    "@polkadot/ui-identicon": "^0.17.15"
+    "@babel/runtime": "^7.0.0-beta.51",
+    "@polkadot/ui-identicon": "^0.18.0"
   },
   "devDependencies": {
-    "@polkadot/util-keyring": "^0.22.9",
+    "@polkadot/util-keyring": "^0.24.6",
     "babel-loader": "^8.0.0-beta.2",
     "css-loader": "0.28.9",
     "empty": "^0.10.1",
@@ -28,12 +28,13 @@
     "postcss": "^6.0.22",
     "postcss-loader": "2.0.10",
     "postcss-sass": "^0.3.0",
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
     "style-loader": "^0.19.1"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
-    "react-router-dom": "^4.2.2"
+    "react": "^16.4.1",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-react-rx",
-  "version": "0.17.15",
+  "version": "0.18.0",
   "description": "A collection of RxJs React components the Polkadot JS API",
   "main": "index.js",
   "keywords": [
@@ -35,20 +35,19 @@
     "test": "echo \"Tests only available from root wrapper\""
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.47",
-    "@polkadot/api-rx": "^0.13.7",
-    "@polkadot/extrinsics-codec": "^0.17.24",
-    "@polkadot/storage": "^0.17.24",
-    "semver": "^5.5.0"
+    "@babel/runtime": "^7.0.0-beta.51",
+    "@polkadot/api-rx": "^0.14.5",
+    "@polkadot/extrinsics-codec": "^0.19.5",
+    "@polkadot/storage": "^0.19.5"
   },
   "devDependencies": {
     "babel-loader": "^8.0.0-beta.2",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0"
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
   },
   "peerDependencies": {
-    "react": "^16.4.0"
+    "react": "^16.4.1"
   }
 }

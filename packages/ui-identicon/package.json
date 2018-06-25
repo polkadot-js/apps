@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-identicon",
-  "version": "0.17.15",
+  "version": "0.18.0",
   "description": "Renders an SVG picture representing an address",
   "main": "index.js",
   "scripts": {
@@ -17,11 +17,12 @@
   ],
   "license": "ISC",
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.47",
+    "@babel/runtime": "^7.0.0-beta.51",
+    "@types/color": "^3.0.0",
     "color": "^3.0.0"
   },
   "devDependencies": {
-    "@polkadot/util-crypto": "^0.22.9",
+    "@polkadot/util-crypto": "^0.24.6",
     "xmlserializer": "^0.6.1"
   }
 }

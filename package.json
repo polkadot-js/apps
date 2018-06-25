@@ -10,20 +10,21 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "polkadot-dev-build-babel",
-    "check": "eslint packages && flow check",
+    "build": "polkadot-dev-build-ts",
+    "check": "tsc --noEmit",
     "clean": "polkadot-dev-clean-build",
+    "postinstall": "polkadot-dev-yarn-only",
+    "test": "jest --coverage",
     "demo:identicon": "webpack-serve --config packages/ui-identicon/webpack.config.js --content packages/ui-identicon --port 3000",
     "demo:rx": "webpack-serve --config packages/ui-react-rx/webpack.config.js --content packages/ui-react-rx --port 3000",
     "demo:ui": "webpack-serve --config packages/ui-react/webpack.config.js --content packages/ui-react --port 3000",
     "deploy:ghpages": "gh-pages -d packages/apps/build",
-    "postinstall": "polkadot-dev-yarn-only",
     "vanitygen": "polkadot-dev-build-babel && node packages/app-vanitygen/build/generator/cli.js",
-    "start": "cd packages/apps && webpack-serve --config webpack.config.js --port 3000",
-    "test": "jest --coverage"
+    "start": "cd packages/apps && webpack-serve --config webpack.config.js --port 3000"
   },
   "devDependencies": {
-    "@polkadot/dev-react": "^0.19.25",
+    "@polkadot/dev-react": "^0.20.3",
+    "@polkadot/ts": "^0.1.2",
     "autoprefixer": "^8.6.2",
     "gh-pages": "^1.1.0",
     "postcss-import": "^11.1.0",

@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const xmlserializer = require('xmlserializer');
+import xmlserializer from 'xmlserializer';
 
-const identicon = require('./index');
+import identicon from './index';
 
 describe('identicon', () => {
   it('generates a basic [0,..,0] identicon', () => {

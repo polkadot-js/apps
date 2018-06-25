@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const newSeeder = require('./seeder');
+import newSeeder from './seeder';
 
 describe('seeder', () => {
   let seeder;

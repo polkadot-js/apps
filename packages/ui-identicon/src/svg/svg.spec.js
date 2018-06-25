@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const xmlserializer = require('xmlserializer');
+import xmlserializer from 'xmlserializer';
 
-const svg = require('./svg');
+import svg from './svg';
 
 describe('svg', () => {
   it('creates a basic SVG element', () => {

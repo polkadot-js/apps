@@ -24,7 +24,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
   return {
     context,
     devtool: isProd ? 'source-map' : 'cheap-eval-source-map',
-    entry: `./src/${name}.js`,
+    entry: `./src/${name}.tsx`,
     mode: ENV,
     output: {
       path: path.join(context, 'build'),
@@ -32,7 +32,8 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       chunkFilename: `[name].[chunkhash:8].js`
     },
     resolve: {
-      alias
+      alias,
+      extensions: ['.js', '.jsx', '.ts', '.tsx']
     },
     module: {
       rules: [
@@ -77,7 +78,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
           ]
         },
         {
-          test: /\.js$/,
+          test: /\.(js|ts|tsx)$/,
           exclude: /(node_modules)/,
           use: [
             require.resolve('thread-loader'),
