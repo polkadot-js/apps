@@ -23,7 +23,7 @@
     "start": "cd packages/apps && webpack-serve --config webpack.config.js --port 3000"
   },
   "devDependencies": {
-    "@polkadot/dev-react": "^0.20.3",
+    "@polkadot/dev-react": "^0.20.7",
     "@polkadot/ts": "^0.1.3",
     "autoprefixer": "^8.6.2",
     "gh-pages": "^1.1.0",
