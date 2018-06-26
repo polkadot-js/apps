@@ -29,10 +29,8 @@ type State = {
   publicKey: Uint8Array
 };
 
-// @ts-ignore check?
-const defaultExtrinsic = extrinsics.get('staking').public.transfer;
-// @ts-ignore check?
-const defaultRpc = rpc.get('author').public.submitExtrinsic;
+const defaultExtrinsic = extrinsics.staking.public.transfer;
+const defaultRpc = rpc.author.public.submitExtrinsic;
 
 class Selection extends React.PureComponent<Props, State> {
   state: State = {

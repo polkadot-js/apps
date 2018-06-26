@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Interface$Method, Interface$Sections } from '@polkadot/jsonrpc/types';
+import { SectionItem } from '@polkadot/params/types';
+import { Interfaces, Interface$Sections } from '@polkadot/jsonrpc/types';
 import { DropdownOptions } from '../InputExtrinsic/types';
 import { I18nProps } from '../types';
 
@@ -17,9 +18,9 @@ import translate from '../translate';
 type Props = I18nProps & {
   isError?: boolean,
   label?: string,
-  onChange: (value: Interface$Method) => void,
+  onChange: (value: SectionItem<Interfaces>) => void,
   options: DropdownOptions,
-  value: Interface$Method,
+  value: SectionItem<Interfaces>,
   withLabel?: boolean
 };
 
@@ -28,9 +29,8 @@ function SelectMethod ({ className, isError, label = '', onChange, options, styl
     return null;
   }
 
-  const transform = (name: Interface$Sections): Interface$Method =>
-    // @ts-ignore check?
-    map.get(section).public[name];
+  const transform = (name: Interface$Sections): SectionItem<Interfaces> =>
+    map[section].public[name];
 
   return (
     <Dropdown

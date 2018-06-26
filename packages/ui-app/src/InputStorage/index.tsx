@@ -4,7 +4,8 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic
 
-import { Storage$Key, Storage$Sections } from '@polkadot/storage/types';
+import { SectionItem } from '@polkadot/params/types';
+import { Storages, Storage$Sections } from '@polkadot/storage/types';
 import { DropdownOptions } from '../InputExtrinsic/types';
 import { I18nProps } from '../types';
 
@@ -22,18 +23,18 @@ import keyOptions from './options/key';
 import sectionOptions from './options/section';
 
 type Props = I18nProps & {
-  defaultValue: Storage$Key,
+  defaultValue: SectionItem<Storages>,
   isError?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (value: Storage$Key) => void,
+  onChange: (value: SectionItem<Storages>) => void,
   withLabel?: boolean
 };
 
 type State = {
   optionsMethod: DropdownOptions,
   optionsSection: DropdownOptions,
-  value: Storage$Key
+  value: SectionItem<Storages>
 };
 
 class InputStorage extends React.PureComponent<Props, State> {
@@ -80,7 +81,7 @@ class InputStorage extends React.PureComponent<Props, State> {
     );
   }
 
-  onKeyChange = (value: Storage$Key): void => {
+  onKeyChange = (value: SectionItem<Storages>): void => {
     const { onChange } = this.props;
     const { value: { name, section } } = this.state;
 
@@ -101,8 +102,7 @@ class InputStorage extends React.PureComponent<Props, State> {
     }
 
     const optionsMethod = keyOptions(newSection);
-    // @ts-ignore check?
-    const value = map.get(newSection).public[optionsMethod[0].value];
+    const value = map[newSection].public[optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
       this.onKeyChange(value)

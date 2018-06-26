@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Extrinsic$Method } from '@polkadot/extrinsics/types';
+import { SectionItem } from '@polkadot/params/types';
+import { Extrinsics } from '@polkadot/extrinsics/types';
 import { BareProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { RawParam } from '@polkadot/ui-app/Params/types';
@@ -20,7 +21,7 @@ import withApi from '@polkadot/ui-react-rx/with/api';
 import paramComponents from './Params';
 
 type Props = BareProps & ApiProps & {
-  defaultValue: Extrinsic$Method,
+  defaultValue: SectionItem<Extrinsics>,
   isDisabled?: boolean,
   isError?: boolean,
   isPrivate?: boolean,
@@ -31,7 +32,7 @@ type Props = BareProps & ApiProps & {
 };
 
 type State = {
-  extrinsic: Extrinsic$Method,
+  extrinsic: SectionItem<Extrinsics>,
   values: Array<RawParam>
 };
 
@@ -98,7 +99,7 @@ class Extrinsic extends React.PureComponent<Props, State> {
     });
   }
 
-  onChangeExtrinsic = (extrinsic: Extrinsic$Method): void => {
+  onChangeExtrinsic = (extrinsic: SectionItem<Extrinsics>): void => {
     this.nextState({ extrinsic } as State);
   };
 

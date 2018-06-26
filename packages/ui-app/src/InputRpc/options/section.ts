@@ -2,17 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { Interface$Sections } from '@polkadot/jsonrpc/types';
+
 import { DropdownOptions } from '../../InputExtrinsic/types';
 
 import map from '@polkadot/jsonrpc';
 
 export default function createOptions (): DropdownOptions {
-  const keys = [...map.keys()];
-
-  return keys
+  return Object
+    .keys(map)
     .sort()
     .filter((name) => {
-      const section = map.get(name);
+      const section = map[name as Interface$Sections];
 
       // cannot really get here
       if (!section) {

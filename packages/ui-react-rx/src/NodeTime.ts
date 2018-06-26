@@ -6,8 +6,7 @@ import storage from '@polkadot/storage';
 
 import withStorageDiv from './with/storageDiv';
 
-// @ts-ignore check?
-const method = storage.get('timestamp').public.current;
+const method = storage.timestamp.public.current;
 
 const Component: React.ComponentType<any> = withStorageDiv(method)(
   (value?: Date): string => {

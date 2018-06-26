@@ -9,8 +9,7 @@ import rpcs from '@polkadot/jsonrpc';
 import numberFormat from './util/numberFormat';
 import withApiDiv from './with/apiDiv';
 
-// @ts-ignore check?
-const method = rpcs.get('chain').public.newHead;
+const method = rpcs.chain.public.newHead;
 
 const Component: React.ComponentType<any> = withApiDiv(method)(
   (value?: Header): string => {

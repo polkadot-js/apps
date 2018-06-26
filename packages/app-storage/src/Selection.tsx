@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Storage$Key } from '@polkadot/storage/types';
+import { SectionItem } from '@polkadot/params/types';
+import { Storages } from '@polkadot/storage/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParams } from '@polkadot/ui-app/Params/types';
 import { StorageQuery } from './types';
@@ -25,12 +26,11 @@ type Props = I18nProps & {
 
 type State = {
   isValid: boolean,
-  key: Storage$Key,
+  key: SectionItem<Storages>,
   params: RawParams
 };
 
-// @ts-ignore check?
-const defaultValue = storage.get('timestamp').public.current;
+const defaultValue = storage.timestamp.public.current;
 let id = -1;
 
 class Selection extends React.PureComponent<Props, State> {
@@ -106,7 +106,7 @@ class Selection extends React.PureComponent<Props, State> {
     });
   }
 
-  onChangeKey = (key: Storage$Key): void => {
+  onChangeKey = (key: SectionItem<Storages>): void => {
     this.nextState({ key } as State);
   }
 

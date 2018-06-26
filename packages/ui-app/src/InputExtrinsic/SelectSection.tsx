@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Extrinsic$Method, Extrinsic$Sections } from '@polkadot/extrinsics/types';
+import { SectionItem } from '@polkadot/params/types';
+import { Extrinsics, Extrinsic$Sections } from '@polkadot/extrinsics/types';
 import { I18nProps } from '../types';
 import { DropdownOptions } from './types';
 
@@ -18,7 +19,7 @@ type Props = I18nProps & {
   label?: string,
   onChange: (value: Extrinsic$Sections) => void,
   options: DropdownOptions,
-  value: Extrinsic$Method,
+  value: SectionItem<Extrinsics>,
   withLabel?: boolean
 };
 

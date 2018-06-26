@@ -7,8 +7,7 @@ import storage from '@polkadot/storage';
 import numberFormat from './util/numberFormat';
 import withStorageDiv from './with/storageDiv';
 
-// @ts-ignore check?
-const method = storage.get('staking').public.freeBalanceOf;
+const method = storage.staking.public.freeBalanceOf;
 
 const Component: React.ComponentType<any> = withStorageDiv(method)(
   numberFormat,

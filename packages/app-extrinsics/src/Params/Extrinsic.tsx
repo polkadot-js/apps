@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Extrinsic$Method } from '@polkadot/extrinsics/types';
+import { SectionItem } from '@polkadot/params/types';
+import { Extrinsics } from '@polkadot/extrinsics/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParam$OnChange } from '@polkadot/ui-app/Params/types';
 import { EncodedMessage } from '@polkadot/ui-signer/types';
@@ -13,7 +14,7 @@ import BaseExtrinsic from '../Extrinsic';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  defaultValue: Extrinsic$Method,
+  defaultValue: SectionItem<Extrinsics>,
   isDisabled?: boolean,
   isError?: boolean,
   isPrivate: boolean,

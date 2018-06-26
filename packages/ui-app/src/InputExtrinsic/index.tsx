@@ -4,7 +4,8 @@
 
 // TODO: We have a lot shared between this and InputStorage
 
-import { Extrinsic$Method, Extrinsic$Sections } from '@polkadot/extrinsics/types';
+import { SectionItem } from '@polkadot/params/types';
+import { Extrinsics, Extrinsic$Sections } from '@polkadot/extrinsics/types';
 import { I18nProps } from '../types';
 import { DropdownOptions } from './types';
 
@@ -21,13 +22,13 @@ import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
 type Props = I18nProps & {
-  defaultValue: Extrinsic$Method,
+  defaultValue: SectionItem<Extrinsics>,
   isDisabled?: boolean,
   isError?: boolean,
   isPrivate?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (value: Extrinsic$Method) => void,
+  onChange: (value: SectionItem<Extrinsics>) => void,
   withLabel?: boolean
 };
 
@@ -35,7 +36,7 @@ type State = {
   optionsMethod: DropdownOptions,
   optionsSection: DropdownOptions,
   type: 'private' | 'public',
-  value: Extrinsic$Method
+  value: SectionItem<Extrinsics>
 };
 
 class InputExtrinsic extends React.PureComponent<Props, State> {
@@ -93,7 +94,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     );
   }
 
-  onKeyChange = (value: Extrinsic$Method): void => {
+  onKeyChange = (value: SectionItem<Extrinsics>): void => {
     const { onChange } = this.props;
     const { value: { name, section } } = this.state;
 
@@ -114,8 +115,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     }
 
     const optionsMethod = methodOptions(newSection, type);
-    // @ts-ignore check?
-    const value = map.get(newSection)[type][optionsMethod[0].value];
+    const value = map[newSection][type][optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
       this.onKeyChange(value)

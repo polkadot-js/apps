@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Section$Item } from '@polkadot/params/types';
+import { SectionItem } from '@polkadot/params/types';
 import { I18nProps } from '../types';
-import { ComponentMap, RawParam, RawParams, RawParam$OnChange, RawParam$OnChange$Value } from './types';
+import { ComponentMap, RawParams, RawParam$OnChange, RawParam$OnChange$Value } from './types';
 
 import './Params.css';
 
@@ -15,28 +15,28 @@ import translate from '../translate';
 import Param from './Param';
 import createValues from './values';
 
-type Props<SectionItem> = I18nProps & {
-  item: SectionItem,
+type Props<S> = I18nProps & {
+  item: S,
   onChange: (value: RawParams) => void,
   overrides?: ComponentMap
 };
 
-type State<SectionItem> = {
-  item: SectionItem,
+type State<S> = {
+  item: S,
   handlers: Array<RawParam$OnChange>,
   onChangeParam: (at: number, next: RawParam$OnChange$Value) => void,
   values: RawParams
 };
 
-class Params<T, SectionItem extends Section$Item<T>> extends React.PureComponent<Props<SectionItem>, State<SectionItem>> {
-  state: State<SectionItem>;
+class Params<T, S extends SectionItem<T>> extends React.PureComponent<Props<S>, State<S>> {
+  state: State<S>;
 
-  constructor (props: Props<SectionItem>) {
+  constructor (props: Props<S>) {
     super(props);
 
     this.state = ({
       onChangeParam: this.onChangeParam
-    } as State<SectionItem>);
+    } as State<S>);
   }
 
   static getDerivedStateFromProps (props: Props<any>, { item, onChangeParam }: State<any>): State<any> | null {
@@ -53,21 +53,11 @@ class Params<T, SectionItem extends Section$Item<T>> extends React.PureComponent
     );
 
     return {
-      item,
+      item: props.item,
       handlers,
       values
     } as State<any>;
   }
-
-  // FIXME Do we really need this one? The fact that we have to do deep inspection here just shows something is amis? We notify on param change below. Really cannot remember or see the actual real need here - apart from making things more complicated than they should be. (But there must be a reason)
-  // componentDidUpdate (prevProps: Props<SectionItem>, prevState: State<SectionItem>) {
-  //   const { onChange } = this.props;
-  //   const { values } = this.state;
-
-  //   if (JSON.stringify(prevState.values) !== JSON.stringify(values)) {
-  //     onChange(values);
-  //   }
-  // }
 
   render () {
     const { className, item: { params }, overrides, style } = this.props;
@@ -99,8 +89,8 @@ class Params<T, SectionItem extends Section$Item<T>> extends React.PureComponent
 
   onChangeParam = (at: number, { isValid = false, value }: RawParam$OnChange$Value): void => {
     this.setState(
-      (prevState: State<SectionItem>): State<SectionItem> => {
-        const values = prevState.values.map((prev, index) =>
+      (prevState: State<S>): State<S> => ({
+        values: prevState.values.map((prev, index) =>
           index !== at
             ? prev
             : {
@@ -108,24 +98,19 @@ class Params<T, SectionItem extends Section$Item<T>> extends React.PureComponent
               type: prev.type,
               value
             }
-        );
-
-        // FIXME this should really be as the second parameter of setState, however... that stopped working, never getting the latest version from the actual state
-        this.props.onChange(values);
-
-        return {
-          values
-        } as State<SectionItem>;
-      },
+        )
+      } as State<S>),
       this.triggerUpdate
     );
   }
 
   triggerUpdate = (): void => {
-    // BUG The actual values here is not the actual new values - seems React related, was working on 16.3
-    // console.log('triggerUpdate', arguments, this.state.values);
-    // this.props.onChange(this.state.values);
+    const { values } = this.state;
+    const { onChange } = this.props;
+
+    onChange(values);
   }
 }
 
+// @ts-ignore something is wrong with generics and these imports
 export default translate(Params);
