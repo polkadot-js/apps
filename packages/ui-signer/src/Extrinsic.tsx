@@ -23,7 +23,7 @@ type Props = I18nProps & {
 };
 
 function findExtrinsic (sectionId: number, methodId: number): { method: string | undefined, section: string | undefined } {
-  const section = [...extrinsics.values()].find(({ index }) =>
+  const section = Object.values(extrinsics).find(({ index }) =>
     index[0] === sectionId
   );
   const methods = section

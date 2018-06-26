@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Interface$Method, Interface$Sections } from '@polkadot/jsonrpc/types';
+import { SectionItem } from '@polkadot/params/types';
+import { Interfaces, Interface$Sections } from '@polkadot/jsonrpc/types';
 import { DropdownOptions } from '../InputExtrinsic/types';
 import { I18nProps } from '../types';
 
@@ -18,7 +19,7 @@ type Props = I18nProps & {
   label?: string,
   onChange: (value: Interface$Sections) => void,
   options: DropdownOptions,
-  value: Interface$Method,
+  value: SectionItem<Interfaces>,
   withLabel?: boolean
 };
 

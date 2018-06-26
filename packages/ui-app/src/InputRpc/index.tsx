@@ -4,7 +4,8 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic & InputStorage
 
-import { Interface$Method, Interface$Sections } from '@polkadot/jsonrpc/types';
+import { SectionItem } from '@polkadot/params/types';
+import { Interfaces, Interface$Sections } from '@polkadot/jsonrpc/types';
 import { DropdownOptions } from '../InputExtrinsic/types';
 import { I18nProps } from '../types';
 
@@ -22,18 +23,18 @@ import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
 type Props = I18nProps & {
-  defaultValue: Interface$Method,
+  defaultValue: SectionItem<Interfaces>,
   isError?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (value: Interface$Method) => void,
+  onChange: (value: SectionItem<Interfaces>) => void,
   withLabel?: boolean
 };
 
 type State = {
   optionsMethod: DropdownOptions,
   optionsSection: DropdownOptions,
-  value: Interface$Method
+  value: SectionItem<Interfaces>
 };
 
 class InputRpc extends React.PureComponent<Props, State> {
@@ -80,7 +81,7 @@ class InputRpc extends React.PureComponent<Props, State> {
     );
   }
 
-  onMethodChange = (value: Interface$Method): void => {
+  onMethodChange = (value: SectionItem<Interfaces>): void => {
     const { onChange } = this.props;
     const { value: { name, section } } = this.state;
 
@@ -101,8 +102,7 @@ class InputRpc extends React.PureComponent<Props, State> {
     }
 
     const optionsMethod = methodOptions(newSection);
-    // @ts-ignore check?
-    const value = map.get(newSection).public[optionsMethod[0].value];
+    const value = map[newSection].public[optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
       this.onMethodChange(value)

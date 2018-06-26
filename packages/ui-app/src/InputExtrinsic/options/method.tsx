@@ -10,7 +10,7 @@ import React from 'react';
 import map from '@polkadot/extrinsics';
 
 export default function createOptions (sectionName: Extrinsic$Sections, type: 'private' | 'public'): DropdownOptions {
-  const section = map.get(sectionName);
+  const section = map[sectionName];
 
   if (!section) {
     return [];

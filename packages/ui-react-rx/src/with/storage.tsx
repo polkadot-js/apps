@@ -4,7 +4,8 @@
 
 // TODO: Lots of duplicated code between this and withObservable, surely there ois a better way of doing this?
 
-import { Storage$Key, Storage$Key$Value } from '@polkadot/storage/types';
+import { SectionItem } from '@polkadot/params/types';
+import { Storages, Storage$Key$Value } from '@polkadot/storage/types';
 import { ApiProps, BareProps, ChangeProps, ParamProps, RxProps } from '../types';
 import { HOC, StorageOptions, DefaultProps, Transform } from './types';
 
@@ -34,7 +35,7 @@ type State<T> = RxProps<T> & {
 
 // FIXME proper types for attributes
 
-export default function withStorage<T> (key: Storage$Key, { onChange, params, propName = 'value', transform }: StorageOptions<T> = {}): HOC<T> {
+export default function withStorage<T> (key: SectionItem<Storages>, { onChange, params, propName = 'value', transform }: StorageOptions<T> = {}): HOC<T> {
   const keyCreator = storageKey(key);
   const storageTransform = createTransform(key);
   const createKey = (propParams?: Array<Storage$Key$Value>): Uint8Array => {

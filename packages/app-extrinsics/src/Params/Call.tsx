@@ -10,8 +10,7 @@ import extrinsics from '@polkadot/extrinsics';
 
 import Extrinsic from './Extrinsic';
 
-// @ts-ignore checking?
-const defaultValue = extrinsics.get('staking').public.transfer;
+const defaultValue = extrinsics.staking.public.transfer;
 
 export default function Call ({ className, isDisabled, isError, label, onChange, style, withLabel }: Props) {
   return (

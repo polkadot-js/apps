@@ -6,8 +6,7 @@ import rpcs from '@polkadot/jsonrpc';
 
 import withApiDiv from './with/apiDiv';
 
-// @ts-ignore check?
-const method = rpcs.get('system').public.name;
+const method = rpcs.system.public.name;
 
 const Component: React.ComponentType<any> = withApiDiv(method)(
   (value: string = 'unknown'): string =>

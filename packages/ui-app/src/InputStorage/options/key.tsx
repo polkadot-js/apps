@@ -10,7 +10,7 @@ import React from 'react';
 import map from '@polkadot/storage';
 
 export default function createOptions (sectionName: Storage$Sections): DropdownOptions {
-  const section = map.get(sectionName);
+  const section = map[sectionName];
 
   if (!section) {
     return [];

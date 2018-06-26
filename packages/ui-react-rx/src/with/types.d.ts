@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Interface$Method } from '@polkadot/jsonrpc/types';
 import { Param$Values } from '@polkadot/params/types';
 import { Storage$Key$Value } from '@polkadot/storage/types';
 import { OnChangeCb } from '../types';

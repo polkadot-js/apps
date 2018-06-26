@@ -3,7 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { Interface$Method } from '@polkadot/jsonrpc/types';
+import { SectionItem } from '@polkadot/params/types';
+import { Interfaces } from '@polkadot/jsonrpc/types';
 import { Param$Values } from '@polkadot/params/types';
 
 export type EncodedMessage = {
@@ -22,7 +23,7 @@ export type QueueTx$Result = {
 }
 
 export type QueueTx$Base = EncodedMessage & {
-  rpc: Interface$Method,
+  rpc: SectionItem<Interfaces>,
   nonce: BN,
   publicKey?: Uint8Array | null
 };

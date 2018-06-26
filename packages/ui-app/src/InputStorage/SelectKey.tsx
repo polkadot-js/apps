@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Storage$Key } from '@polkadot/storage/types';
+import { SectionItem } from '@polkadot/params/types';
+import { Storages } from '@polkadot/storage/types';
 import { DropdownOptions } from '../InputExtrinsic/types';
 import { I18nProps } from '../types';
 
@@ -17,9 +18,9 @@ import translate from '../translate';
 type Props = I18nProps & {
   isError?: boolean,
   label?: string,
-  onChange: (value: Storage$Key) => void,
+  onChange: (value: SectionItem<Storages>) => void,
   options: DropdownOptions,
-  value: Storage$Key,
+  value: SectionItem<Storages>,
   withLabel?: boolean
 };
 
@@ -28,7 +29,7 @@ function SelectKey ({ className, isError, label = '', onChange, options, style, 
     return null;
   }
 
-  const transform = (name: string): Storage$Key =>
+  const transform = (name: string): SectionItem<Storages> =>
     // @ts-ignore check?
     map.get(section).public[name];
 

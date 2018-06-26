@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Interface$Method } from '@polkadot/jsonrpc/types';
+import { SectionItem } from '@polkadot/params/types';
+import { Interfaces } from '@polkadot/jsonrpc/types';
 import { RawParam } from '@polkadot/ui-app/Params/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$MessageAdd } from '@polkadot/ui-signer/types';
@@ -30,12 +31,11 @@ type State = {
   isValid: boolean,
   nonce: BN,
   publicKey?: Uint8Array | null,
-  rpc: Interface$Method,
+  rpc: SectionItem<Interfaces>,
   values: Array<RawParam>
 }
 
-// @ts-ignore check?
-const defaultMethod = rpc.get('author').public.submitExtrinsic;
+const defaultMethod = rpc.author.public.submitExtrinsic;
 
 class Selection extends React.PureComponent<Props, State> {
   state: State = {
@@ -116,7 +116,7 @@ class Selection extends React.PureComponent<Props, State> {
     this.nextState({ nonce, publicKey } as State);
   }
 
-  onChangeMethod = (rpc: Interface$Method): void => {
+  onChangeMethod = (rpc: SectionItem<Interfaces>): void => {
     this.nextState({ rpc } as State);
   }
 

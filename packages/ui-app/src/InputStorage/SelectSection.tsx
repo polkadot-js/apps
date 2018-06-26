@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Storage$Key, Storage$Sections } from '@polkadot/storage/types';
+import { SectionItem } from '@polkadot/params/types';
+import { Storages, Storage$Sections } from '@polkadot/storage/types';
 import { DropdownOptions } from '../InputExtrinsic/types';
 import { I18nProps } from '../types';
 
@@ -18,7 +19,7 @@ type Props = I18nProps & {
   label?: string,
   onChange: (value: Storage$Sections) => void,
   options: DropdownOptions,
-  value: Storage$Key,
+  value: SectionItem<Storages>,
   withLabel?: boolean
 };
 
