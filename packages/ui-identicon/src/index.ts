@@ -28,4 +28,4 @@ export default function identicon (seed: string | Uint8Array, diameter: number =
   }
 
   return outer;
-};
+}

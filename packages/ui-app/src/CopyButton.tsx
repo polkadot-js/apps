@@ -16,7 +16,7 @@ type Props = BareProps & {
   isPrimary?: boolean,
   size?: Button$Sizes,
   value?: any
-}
+};
 
 export default function CopyButton ({ className, icon = 'copy', isCircular = true, isPrimary = true, size = 'tiny', style, value }: Props) {
   return (

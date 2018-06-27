@@ -39,7 +39,7 @@ type SUIEvent = {
 
 type State = {
   name: string;
-}
+};
 
 let counter = 0;
 

@@ -11,4 +11,4 @@ export default function rect (size: number): Element {
   elem.setAttributeNS('', 'ry', `${size / 16}`);
 
   return elem;
-};
+}

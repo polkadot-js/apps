@@ -9,7 +9,7 @@ import BN from 'bn.js';
 
 import typeToString from '@polkadot/params/typeToString';
 
-export default function getInitValue (type: Param$Types): RawParam$Value | Array<RawParam$Value>{
+export default function getInitValue (type: Param$Types): RawParam$Value | Array<RawParam$Value> {
   switch (type) {
     case 'Balance':
       return new BN(1);
@@ -61,7 +61,8 @@ export default function getInitValue (type: Param$Types): RawParam$Value | Array
         );
       }
 
-      (type as never); // eslint-disable-line no-unused-expressions
+      // tslint:disable-next-line
+      (type as never);
       throw new Error(`Unable to determine default type for ${typeToString(type)}`);
   }
 }

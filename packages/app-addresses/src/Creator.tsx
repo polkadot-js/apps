@@ -26,7 +26,7 @@ type State = {
   isNameValid: boolean,
   isValid: boolean,
   name: string
-}
+};
 
 class Creator extends React.PureComponent<Props, State> {
   state: State;

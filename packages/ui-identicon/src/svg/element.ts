@@ -14,4 +14,4 @@ export default function element (size: number, type: string = 'svg', x: number =
   elem.setAttributeNS('', 'height', `${size}`);
 
   return elem;
-};
+}

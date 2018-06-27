@@ -17,7 +17,7 @@ import translate from '../translate';
 import Item from './Item';
 
 type Props = I18nProps & {
-  children?: any, // React$Node
+  children?: any // React$Node
 };
 
 function SideBar ({ children, className, style, t }: Props) {

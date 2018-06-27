@@ -229,9 +229,6 @@ class Sign extends React.PureComponent<Props, State> {
 
     this.nextState({ data, isHexData } as State);
   }
-
-  onUnlock = (): void => {
-  }
 }
 
 export default translate(Sign);

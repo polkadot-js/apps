@@ -25,4 +25,4 @@ export default function container (diameter: number, background: string = 'white
   });
 
   return element;
-};
+}

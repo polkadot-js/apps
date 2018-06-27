@@ -29,8 +29,8 @@ type Props = I18nProps & ApiProps & BaseProps;
 
 type UnlockI18n = {
   key: string,
-  value: any, // I18Next$Translate$Config
-}
+  value: any // I18Next$Translate$Config
+};
 
 type State = {
   currentItem?: QueueTx,
@@ -72,11 +72,11 @@ class Signer extends React.PureComponent<Props, State> {
     };
   }
 
-  componentDidUpdate (prevProps: Props, prevState: State) {
+  async componentDidUpdate (prevProps: Props, prevState: State) {
     const { currentItem } = this.state;
 
     if (currentItem && currentItem.status === 'queued' && currentItem.rpc.isSigned !== true) {
-      this.sendItem(currentItem);
+      return this.sendItem(currentItem);
     }
   }
 
@@ -206,7 +206,7 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetStatus(currentItem.id, 'cancelled');
   }
 
-  onSend = (): void => {
+  onSend = async (): Promise<any> => {
     const { currentItem, password } = this.state;
 
     // This should never be executed
@@ -214,8 +214,8 @@ class Signer extends React.PureComponent<Props, State> {
       return;
     }
 
-    this.sendItem(currentItem, password);
-  };
+    return this.sendItem(currentItem, password);
+  }
 
   sendItem = async ({ id, nonce, publicKey, rpc, values }: QueueTx, password?: string): Promise<void> => {
     if (rpc.isSigned === true && publicKey) {

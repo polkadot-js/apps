@@ -21,7 +21,7 @@ type Props<Option> = BareProps & {
   placeholder?: string,
   transform?: (value: any) => any,
   value?: any,
-  withLabel?: boolean,
+  withLabel?: boolean
 };
 
 type SUIEvent = {

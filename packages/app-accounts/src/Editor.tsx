@@ -25,7 +25,7 @@ type State = {
   defaultValue?: string,
   editedName: string,
   isEdited: boolean
-}
+};
 
 class Editor extends React.PureComponent<Props, State> {
   state: State;

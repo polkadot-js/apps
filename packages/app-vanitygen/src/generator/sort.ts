@@ -28,4 +28,4 @@ export default function sort (a: Generator$Match, b: Generator$Match): number {
   }
 
   return a.address.localeCompare(b.address);
-};
+}

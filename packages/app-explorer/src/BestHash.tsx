@@ -4,7 +4,7 @@
 
 import { Header } from '@polkadot/primitives/header';
 
-import headerHash from '@polkadot/primitives-codec/header/hash';
+import headerHash from '@polkadot/primitives/codec/header/hash';
 import withApiDiv from '@polkadot/ui-react-rx/with/apiDiv';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 

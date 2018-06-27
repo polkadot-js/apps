@@ -9,7 +9,7 @@ import './BlockHeader.css';
 
 import React from 'react';
 
-import headerHash from '@polkadot/primitives-codec/header/hash';
+import headerHash from '@polkadot/primitives/codec/header/hash';
 import classes from '@polkadot/ui-app/util/classes';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
@@ -26,6 +26,7 @@ function BlockHeader ({ className, value, style }: Props) {
   }
 
   const hash = headerHash(value);
+  // tslint:disable-next-line:variable-name
   const { extrinsicsRoot, number, parentHash, stateRoot } = value;
 
   return (

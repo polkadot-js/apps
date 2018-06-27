@@ -12,4 +12,4 @@ export default function circle (r: number, cx: number, cy: number): Element {
   elem.setAttributeNS('', 'r', `${r}`);
 
   return elem;
-};
+}

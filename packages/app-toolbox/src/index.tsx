@@ -22,7 +22,7 @@ type Props = I18nProps & {};
 
 type State = {
   action: Actions
-}
+};
 
 // FIXME React-router would probably be the best route, not home-grown
 const Components: { [index: string]: React.ComponentType<any> } = { // Actions

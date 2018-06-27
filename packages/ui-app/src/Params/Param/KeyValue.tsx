@@ -16,7 +16,7 @@ import Bare from './Bare';
 type State$Param = {
   isValid: boolean,
   u8a: Uint8Array
-}
+};
 
 type State = {
   key: State$Param,
@@ -106,9 +106,9 @@ export default class KeyValue extends React.PureComponent<Props, State> {
 
   onChangeKey = (key: string): void => {
     this.nextState({ key: this.createParam(key) } as State);
-  };
+  }
 
   onChangeValue = (value: string): void => {
     this.nextState({ value: this.createParam(value) } as State);
-  };
+  }
 }

@@ -33,7 +33,7 @@ type State = {
   matches: Generator$Matches,
   startAt: number,
   withCase: boolean
-}
+};
 
 const DEFAULT_MATCH = 'Some';
 const BOOL_OPTIONS = [

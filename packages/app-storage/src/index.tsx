@@ -19,7 +19,7 @@ type Props = I18nProps & {};
 
 type State = {
   queue: Array<StorageQuery>
-}
+};
 
 class StorageApp extends React.PureComponent<Props, State> {
   state: State = {

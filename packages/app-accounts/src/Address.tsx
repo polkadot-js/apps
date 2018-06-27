@@ -16,14 +16,14 @@ import addressEncode from '@polkadot/util-keyring/address/encode';
 
 type Props = BareProps & {
   value: string;
-}
+};
 
 type State = {
   address: string,
   isValid: boolean,
   publicKey: Uint8Array | null,
   shortValue: string
-}
+};
 
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 const DEFAULT_SHORT = `${DEFAULT_ADDR.slice(0, 7)}…${DEFAULT_ADDR.slice(-7)}`;

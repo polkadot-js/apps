@@ -13,10 +13,10 @@ type Props = BareProps & {
   isHidden?: boolean,
   label?: any,
   children: any, // node?
-  withLabel?: boolean,
+  withLabel?: boolean
 };
 
-const defaultLabel: any = ( // node?
+const defaultLabel: any = (// node?
   <div>&nbsp;</div>
 );
 

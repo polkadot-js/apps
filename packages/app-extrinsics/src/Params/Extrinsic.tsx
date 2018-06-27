@@ -20,7 +20,7 @@ type Props = I18nProps & {
   isPrivate: boolean,
   label: string,
   onChange: RawParam$OnChange,
-  withLabel?: boolean,
+  withLabel?: boolean
 };
 
 class Extrinsic extends React.PureComponent<Props> {

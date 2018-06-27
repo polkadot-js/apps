@@ -84,7 +84,7 @@ class Account extends React.PureComponent<Props, State> {
     this.setState({ publicKey }, () =>
       onChange(publicKey)
     );
-  };
+  }
 }
 
 export default translate(Account);

@@ -41,5 +41,5 @@ export default class StringParam extends React.PureComponent<Props> {
       isValid,
       value
     });
-  };
+  }
 }

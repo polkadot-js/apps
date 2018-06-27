@@ -18,7 +18,7 @@ type Props = BareProps & {
   offset: number;
   onRemove: (address: string) => void,
   seed: Uint8Array;
-}
+};
 
 type State = {
   hexSeed: string

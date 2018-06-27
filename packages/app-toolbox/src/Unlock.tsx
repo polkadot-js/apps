@@ -24,7 +24,7 @@ type Props = I18nProps & {
 type UnlockI18n = {
   key: string,
   value: any // I18Next$Translate$Config
-}
+};
 
 type State = {
   address: string,
@@ -176,7 +176,7 @@ class Unlock extends React.PureComponent<Props, State> {
     }
 
     onClose();
-  };
+  }
 }
 
 export default translate(Unlock);

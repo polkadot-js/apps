@@ -35,7 +35,7 @@ type State = {
   defaultValue: string | undefined,
   options: KeyringOptions,
   value?: string
-}
+};
 
 const RECENT_KEY = 'header-recent';
 
@@ -138,5 +138,5 @@ export default class InputAddress extends React.Component<Props, State> {
 
       return false;
     });
-  };
+  }
 }
