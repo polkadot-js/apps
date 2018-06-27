@@ -19,7 +19,7 @@ type Props = BareProps & {
   api?: RxApiInterface,
   provider?: ProviderInterface,
   url?: string
-}
+};
 
 export default function createApp (App: React.ComponentType<BareProps>, { api, className, provider, style, url }: Props = {}, rootId: string = 'root'): void {
   const rootElement = document.getElementById(rootId);

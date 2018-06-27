@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import BN from 'bn.js';
 import { Param$Types, Param$Type$Array, ExtrinsicDecoded } from '@polkadot/params/types';
 
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
@@ -56,19 +55,19 @@ function valueToText (type: Param$Types, value: any, swallowError: boolean = tru
     }
 
     if (type === 'AccountId') {
-      return addressEncode((value as Uint8Array));
+      return addressEncode(value as Uint8Array);
     }
 
     if (type === 'Proposal') {
-      return proposalToText((value as ExtrinsicDecoded));
+      return proposalToText(value as ExtrinsicDecoded);
     }
 
     if (isU8a(value)) {
-      return u8aToHex((value as Uint8Array), 256);
+      return u8aToHex(value, 256);
     }
 
     if (isBn(value)) {
-      return numberFormat((value as BN));
+      return numberFormat(value);
     }
   } catch (error) {
     if (!swallowError) {

@@ -23,4 +23,4 @@ export default function square (seeder: Seeder, fill: string, diameter: number, 
   svg.setAttributeNS('', 'fill', fill);
 
   return svg;
-};
+}

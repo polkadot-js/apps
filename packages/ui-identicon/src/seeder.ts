@@ -29,4 +29,4 @@ export default function seeder (_seed: string | Uint8Array = new Uint8Array(32))
   return (): number => {
     return ((next() * 256) + next()) / DIVISOR;
   };
-};
+}

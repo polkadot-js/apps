@@ -17,14 +17,14 @@ type Props = I18nProps & {
   error?: string,
   onChange: (password: string) => void,
   password: string,
-  value?: Uint8Array | null,
-}
+  value?: Uint8Array | null
+};
 
 type State = {
   isError: boolean,
   isLocked: boolean,
   pair: KeyringPair
-}
+};
 
 class Unlock extends React.PureComponent<Props, State> {
   state: State = {} as State;

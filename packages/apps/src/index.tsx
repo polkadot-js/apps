@@ -37,7 +37,8 @@ function App ({ className, style }: Props) {
 }
 
 createApp(App, {
-  url: process.env.WS_URL === null || process.env.WS_URL === ''
+  // tslint:disable-next-line
+  url: (process.env.WS_URL === null) || (process.env.WS_URL === '')
     ? undefined
     : process.env.WS_URL
 });

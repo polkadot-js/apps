@@ -11,10 +11,10 @@ import classes from '@polkadot/ui-app/util/classes';
 
 type Props = BareProps & {
   queue: Array<QueueTx>
-}
+};
 
 export default function Status ({ className, queue, style }: Props) {
-  const available = queue.filter(({ isValid, status }) =>
+  const available = queue.filter(({ status }) =>
     !['completed', 'incomplete'].includes(status)
   );
 

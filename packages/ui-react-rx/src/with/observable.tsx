@@ -19,7 +19,7 @@ import echoTransform from './transform/echo';
 
 type State<T> = RxProps<T> & {
   subscriptions: Array<any>;
-}
+};
 
 // FIXME Observables here are NOT any, horribly defined (leave until rx-lite decicion is made)
 // FIXME proper props augmentation

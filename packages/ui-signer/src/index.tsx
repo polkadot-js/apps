@@ -20,7 +20,7 @@ type Props = BareProps & {
 
 export type SignerType = React.ComponentType<Props> & {
   Queue: React.ComponentType<QueueComponentProps>
-}
+};
 
 function Signer ({ children, className, style }: Props) {
   return (

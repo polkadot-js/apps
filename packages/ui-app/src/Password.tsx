@@ -23,7 +23,7 @@ type Props = BareProps & {
 
 type State = {
   isVisible: boolean
-}
+};
 
 export default class Password extends React.PureComponent<Props, State> {
   state: State = {

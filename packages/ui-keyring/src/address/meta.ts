@@ -26,7 +26,7 @@ export default function saveMeta (state: State, address: string, meta: KeyringPa
   delete json.meta.isRecent;
 
   store.set(addressKey(address), json);
-  state.available.address[address] = (json as KeyringJson);
+  state.available.address[address] = json;
 
   createOptions(state);
 }

@@ -33,7 +33,7 @@ type State = {
   publicKey?: Uint8Array | null,
   rpc: SectionItem<Interfaces>,
   values: Array<RawParam>
-}
+};
 
 const defaultMethod = rpc.author.public.submitExtrinsic;
 

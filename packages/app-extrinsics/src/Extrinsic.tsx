@@ -11,7 +11,7 @@ import { EncodedMessage } from '@polkadot/ui-signer/types';
 
 import React from 'react';
 
-import encode from '@polkadot/extrinsics-codec/encode/extrinsic';
+import encode from '@polkadot/extrinsics/codec/encode/extrinsic';
 import InputExtrinsic from '@polkadot/ui-app/InputExtrinsic';
 import Params from '@polkadot/ui-app/Params';
 import classes from '@polkadot/ui-app/util/classes';
@@ -101,7 +101,7 @@ class Extrinsic extends React.PureComponent<Props, State> {
 
   onChangeExtrinsic = (extrinsic: SectionItem<Extrinsics>): void => {
     this.nextState({ extrinsic } as State);
-  };
+  }
 
   onChangeValues = (values: Array<RawParam>): void => {
     this.nextState({ values } as State);

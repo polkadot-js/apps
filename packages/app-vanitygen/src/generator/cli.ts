@@ -16,7 +16,7 @@ type Best = {
   count: number,
   offset: number,
   seed?: Uint8Array
-}
+};
 
 const { match, withCase } = yargs
   .option('match', {

@@ -26,4 +26,4 @@ export default function colors (seeder: Seeder): ColorGen {
       .alpha(alpha)
       .string();
   };
-};
+}

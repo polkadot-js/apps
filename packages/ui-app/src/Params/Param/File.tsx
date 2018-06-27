@@ -19,7 +19,7 @@ type Props = BareProps & {
   onChange: (contents: Uint8Array) => void,
   t: TranslationFunction,
   withLabel?: boolean
-}
+};
 
 type State = {
   file?: {
@@ -76,8 +76,12 @@ class BytesFile extends React.PureComponent<Props, State> {
     files.forEach((file) => {
       const reader = new FileReader();
 
-      reader.onabort = () => {};
-      reader.onerror = () => {};
+      reader.onabort = () => {
+        // ignore
+      };
+      reader.onerror = () => {
+        // ignore
+      };
       // @ts-ignore ummm... events are not properly specoified here?
       reader.onload = ({ target: { result } }: LoadEvent) => {
         const data = new Uint8Array(result);
@@ -94,7 +98,7 @@ class BytesFile extends React.PureComponent<Props, State> {
 
       reader.readAsArrayBuffer(file);
     });
-  };
+  }
 }
 
 export default translate(BytesFile);

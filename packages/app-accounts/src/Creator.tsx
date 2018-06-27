@@ -35,7 +35,7 @@ type State = {
   name: string,
   password: string,
   seed: string
-}
+};
 
 function formatSeed (seed: string): Uint8Array {
   return isHex(seed)

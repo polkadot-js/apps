@@ -6,7 +6,7 @@
 
 import { SectionItem } from '@polkadot/params/types';
 import { Storages, Storage$Key$Value } from '@polkadot/storage/types';
-import { ApiProps, BareProps, ChangeProps, ParamProps, RxProps } from '../types';
+import { RxProps } from '../types';
 import { HOC, StorageOptions, DefaultProps, Transform } from './types';
 
 import React from 'react';
@@ -21,17 +21,9 @@ import echoTransform from './transform/echo';
 import createTransform from './transform/storage';
 import withApi from './api';
 
-type InProps<T> = BareProps & ChangeProps<T> & ParamProps & {
-  transform?: Transform
-};
-
-type InApiProps<T> = ApiProps & InProps<T>;
-
-type OutProps<T> = InApiProps<T> & RxProps<T>;
-
 type State<T> = RxProps<T> & {
   subscriptions: Array<any>; // FIXME subscriptions
-}
+};
 
 // FIXME proper types for attributes
 
@@ -66,9 +58,9 @@ export default function withStorage<T> (key: SectionItem<Storages>, { onChange, 
         };
       }
 
-      componentDidUpdate (prevProps: any) {
+      async componentDidUpdate (prevProps: any) {
         if (!isEqual(this.props.params, prevProps.params)) {
-          this.triggerUpdate();
+          await this.triggerUpdate();
         }
       }
 
@@ -76,8 +68,8 @@ export default function withStorage<T> (key: SectionItem<Storages>, { onChange, 
         const subscriptions = [
           this.props.api.chain
             .newHead()
-            .subscribe((value: any) => {
-              this.triggerUpdate();
+            .subscribe(async (value: any) => {
+              await this.triggerUpdate();
             }),
           intervalSubscribe(this)
         ];

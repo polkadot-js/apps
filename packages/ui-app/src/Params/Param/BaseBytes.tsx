@@ -62,5 +62,5 @@ export default class BaseBytes extends React.PureComponent<Props> {
       isValid: isValidLength && validate(u8a),
       value: u8a
     });
-  };
+  }
 }

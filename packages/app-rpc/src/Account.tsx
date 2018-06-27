@@ -92,7 +92,7 @@ class Account extends React.PureComponent<Props, State> {
     this.setState({ publicKey }, () =>
       onChange(publicKey, this.state.nonce)
     );
-  };
+  }
 
   onChangeNonce = (nonce: BN): void => {
     const { onChange } = this.props;
@@ -100,7 +100,7 @@ class Account extends React.PureComponent<Props, State> {
     this.setState({ nonce }, () =>
       onChange(this.state.publicKey, nonce)
     );
-  };
+  }
 }
 
 export default translate(Account);

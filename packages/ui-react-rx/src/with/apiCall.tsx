@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { RxApiInterface$Method } from '@polkadot/api-rx/types';
-import { ApiProps, BareProps, ChangeProps, ParamProps, RxProps } from '../types';
+import { ParamProps } from '../types';
 import { ApiMethod, HOC, Options, DefaultProps } from './types';
 
 import React from 'react';
@@ -13,16 +13,10 @@ import isEqual from '../util/isEqual';
 import withObservable from './observable';
 import withApi from './api';
 
-type InProps<T> = BareProps & ChangeProps<T> & ParamProps;
-
-type WithApiProps<T> = InProps<T> & ApiProps;
-
-type OutProps<T> = WithApiProps<T> & RxProps<T>;
-
 type State = ParamProps & {
   Component: React.ComponentType<any>,
   fn: RxApiInterface$Method
-}
+};
 
 // FIXME properly type input and agumented props, e.g. P extends object (in) & P & AugProps (out)
 
@@ -38,7 +32,7 @@ export default function withApiCall<T> ({ name, section }: ApiMethod, options?: 
 
         const fn: RxApiInterface$Method = section
           ? props.api[section][name]
-          : ((props.api[name] as any) as RxApiInterface$Method);
+          : ((props.api[name]) as RxApiInterface$Method);
 
         assert(fn, `Unable to find 'api${section ? '.' : ''}${section || ''}.${name}'`);
 
