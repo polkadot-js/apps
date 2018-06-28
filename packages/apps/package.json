@@ -24,6 +24,7 @@
     "@polkadot/app-rpc": "^0.18.5",
     "@polkadot/app-storage": "^0.18.5",
     "@polkadot/app-toolbox": "^0.18.5",
+    "@polkadot/app-settings": "^0.18.5",
     "@polkadot/app-vanitygen": "^0.18.5",
     "@polkadot/ui-app": "^0.18.5",
     "@polkadot/ui-signer": "^0.18.5"
