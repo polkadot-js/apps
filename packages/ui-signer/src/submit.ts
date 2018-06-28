@@ -9,6 +9,8 @@ import { QueueTx$Result } from './types';
 
 export default async function submitMessage (api: RxApiInterface, params: Array<Param$Values>, { name, section }: SectionItem<Interfaces>): Promise<QueueTx$Result> {
   try {
+    console.log(`submitMessage : ${section}.${name} :`, params);
+
     const result = await api[section][name].apply(null, params).toPromise();
 
     console.log(`${section}.${name}: result ::`, result);
