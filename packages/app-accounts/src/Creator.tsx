@@ -40,7 +40,7 @@ type State = {
 function formatSeed (seed: string): Uint8Array {
   return isHex(seed)
     ? hexToU8a(seed)
-    : u8aFromString((seed as string).padEnd(32, ' '));
+    : u8aFromString(seed.padEnd(32, ' '));
 }
 
 function addressFromSeed (seed: string): string {
@@ -176,7 +176,7 @@ class Creator extends React.PureComponent<Props, State> {
         const isNameValid = !!name;
         const isSeedValid = isHex(seed)
           ? seed.length === 66
-          : (seed as string).length <= 32;
+          : seed.length <= 32;
         const isPassValid = password.length > 0 && password.length <= 32;
 
         if (isSeedValid && seed !== prevState.seed) {
