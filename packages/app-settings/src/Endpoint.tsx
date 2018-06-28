@@ -14,6 +14,7 @@ import InputEndpoint from '@polkadot/ui-app/InputEndpoint';
 type State = {
   endpoint: string,
   endpoints: Array<string>,
+  isError: boolean
 };
 
 const knownEndpoints = [
@@ -24,7 +25,8 @@ const knownEndpoints = [
 class Endpoint extends React.PureComponent<Props, State> {
   state: State = {
     endpoint: knownEndpoints[0],
-    endpoints: knownEndpoints
+    endpoints: knownEndpoints,
+    isError: false
   };
 
   render () {
@@ -42,7 +44,7 @@ class Endpoint extends React.PureComponent<Props, State> {
 
   renderInput () {
     const { t } = this.props;
-    const { endpoint, endpoints } = this.state;
+    const { endpoint, endpoints, isError } = this.state;
 
     return (
       <div>
@@ -55,15 +57,20 @@ class Endpoint extends React.PureComponent<Props, State> {
             })}
             onChange={this.onChangeData}
             value={endpoint}
+            isError={isError}
           />
         </div>
       </div>
     );
   }
 
+  isEndpointValid = (endpoint: string): boolean => {
+    const regexp = /^wss?:\/\/([A-Z0-9\.-]{3,})(\.[A-Z]{3})?((\:)(\d{2,5}))?$/gmi
+    return regexp.test(endpoint)
+  }
+
   onChangeData = (endpoint: string): void => {
-    console.log(endpoint);
-    this.setState({ endpoint });
+    this.setState({ endpoint, isError: !this.isEndpointValid(endpoint) });
   }
 }
 

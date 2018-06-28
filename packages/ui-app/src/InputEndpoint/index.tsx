@@ -55,16 +55,6 @@ const transform = (value: string): string => {
 
 // NOTE: We are not extending Component here since the options may change in the keyring (which needs a re-render), however the input props will be the same (so, no PureComponent with shallow compare here)
 export default class InputEndpoint extends React.Component<Props, State> {
-  static getDerivedStateFromProps ({ value }: Props): State | null {
-    try {
-      return {
-        value: 'TODO'
-      } as State;
-    } catch (error) {
-      return null;
-    }
-  }
-
   getDefaultValues = (): EndpointOptions => {
     const { defaultValues = [], value } = this.props;
 
@@ -110,7 +100,6 @@ export default class InputEndpoint extends React.Component<Props, State> {
   }
 
   onSearch = (filteredOptions: EndpointOptions, query: string): EndpointOptions => {
-
     const { isInput = true } = this.props;
     const { defaultValues = [] } = this.state;
     const queryLower = query.toLowerCase();
