@@ -11,5 +11,5 @@ export default function numberFormat (value?: BN | number): string {
     return '0';
   }
 
-  return (value.toString().match(NUMBER_REGEX) || []).join(',');
+  return ((value as number).toString().match(NUMBER_REGEX) || []).join(',');
 }
