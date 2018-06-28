@@ -20,7 +20,7 @@ type State = {
 
 // FIXME React-router would probably be the best route, not home-grown
 const Components: { [index: string]: React.ComponentType<any> } = {
-  'endpoint': Endpoint,
+  'endpoint': Endpoint
 };
 
 class SettingsApp extends React.PureComponent<Props, State> {
@@ -29,7 +29,7 @@ class SettingsApp extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { className, style, t } = this.props;
+    const { className, style } = this.props;
     const { action } = this.state;
     const Component = Components[action];
 

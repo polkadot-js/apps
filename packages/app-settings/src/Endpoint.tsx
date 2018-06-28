@@ -5,23 +5,26 @@
 import { I18nProps as Props } from '@polkadot/ui-app/types';
 import React from 'react';
 import Input from '@polkadot/ui-app/Input';
-import Static from '@polkadot/ui-app/Static';
 import classes from '@polkadot/ui-app/util/classes';
 
 import translate from './translate';
+
+import InputEndpoint from '@polkadot/ui-app/InputEndpoint';
 
 type State = {
   endpoint: string,
   endpoints: Array<string>,
 };
 
+const knownEndpoints = [
+  'wss://poc-1.polkadot.io:9944',
+  'ws://127.0.0.1:9944'
+]
+
 class Endpoint extends React.PureComponent<Props, State> {
   state: State = {
-    endpoint: 'wss://poc-1.polkadot.io:9944',
-    endpoints: [
-      'wss://poc-1.polkadot.io:9944',
-      'ws://127.0.0.1:9944'
-     ],
+    endpoint: knownEndpoints[0],
+    endpoints: knownEndpoints
   };
 
   render () {
@@ -42,20 +45,24 @@ class Endpoint extends React.PureComponent<Props, State> {
     const { endpoint, endpoints } = this.state;
 
     return (
-      <div className='ui--row'>
-        <Input
-          className='large'
-          label={t('endpoint.data', {
-            defaultValue: 'the endpoint (ws/wss) the UI should connect to'
-          })}
-          onChange={this.onChangeData}
-          value={endpoint}
-        />
+      <div>
+        <div className='ui--row'>
+          <InputEndpoint
+            className='full'
+            defaultValues={endpoints}
+            label={t('editor.select', {
+              defaultValue: 'the endpoint (ws/wss) the UI should connect to'
+            })}
+            onChange={this.onChangeData}
+            value={endpoint}
+          />
+        </div>
       </div>
     );
   }
 
   onChangeData = (endpoint: string): void => {
+    console.log(endpoint);
     this.setState({ endpoint });
   }
 }
