@@ -30,8 +30,7 @@ function SelectKey ({ className, isError, label = '', onChange, options, style, 
   }
 
   const transform = (name: string): SectionItem<Storages> =>
-    // @ts-ignore check?
-    map.get(section).public[name];
+    map[section].public[name];
 
   return (
     <Dropdown
