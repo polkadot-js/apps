@@ -10,16 +10,30 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const packages = ['app-accounts', 'app-addresses', 'app-explorer', 'app-extrinsics', 'app-rpc', 'app-storage', 'app-toolbox', 'app-vanitygen', 'ui-app', 'ui-identicon', 'ui-keyring', 'ui-react-rx', 'ui-react', 'ui-signer'];
+const packages = [
+  'app-accounts',
+  'app-addresses',
+  'app-explorer',
+  'app-extrinsics',
+  'app-rpc',
+  'app-storage',
+  'app-staking',
+  'app-toolbox',
+  'app-vanitygen',
+  'ui-app',
+  'ui-identicon',
+  'ui-keyring',
+  'ui-react-rx',
+  'ui-react',
+  'ui-signer'
+];
 
 function createWebpack ({ alias = {}, context, name = 'index' }) {
   const pkgJson = require(path.join(context, 'package.json'));
   const ENV = process.env.NODE_ENV || 'development';
   const isProd = ENV === 'production';
   const hasPublic = fs.existsSync(path.join(context, 'public'));
-  const plugins = hasPublic
-    ? [new CopyWebpackPlugin([{ from: 'public' }])]
-    : [];
+  const plugins = hasPublic ? [new CopyWebpackPlugin([{ from: 'public' }])] : [];
 
   return {
     context,
@@ -41,9 +55,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
           test: /\.css$/,
           exclude: /(node_modules)/,
           use: [
-            isProd
-              ? MiniCssExtractPlugin.loader
-              : require.resolve('style-loader'),
+            isProd ? MiniCssExtractPlugin.loader : require.resolve('style-loader'),
             {
               loader: require.resolve('css-loader'),
               options: {
@@ -70,12 +82,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
         {
           test: /\.css$/,
           include: /node_modules/,
-          use: [
-            isProd
-              ? MiniCssExtractPlugin.loader
-              : require.resolve('style-loader'),
-            require.resolve('css-loader')
-          ]
+          use: [isProd ? MiniCssExtractPlugin.loader : require.resolve('style-loader'), require.resolve('css-loader')]
         },
         {
           test: /\.(js|ts|tsx)$/,

@@ -11,15 +11,26 @@ import extrinsics from './extrinsics';
 // import home from './home';
 import rpc from './rpc';
 // import settings from './settings';
+import staking from './staking';
 import storage from './storage';
 import toolbox from './toolbox';
 import unknown from './unknown';
 import vanitygen from './vanitygen';
 
-export default ({
+export default {
   default: 'explorer',
   routes: ([] as Routes).concat(
-    explorer, extrinsics, storage, null, accounts, addresses, vanitygen, null, rpc, toolbox
+    explorer,
+    extrinsics,
+    staking,
+    storage,
+    null,
+    accounts,
+    addresses,
+    vanitygen,
+    null,
+    rpc,
+    toolbox
   ),
   unknown
-} as Routing);
+} as Routing;
