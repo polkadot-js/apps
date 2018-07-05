@@ -6,9 +6,7 @@
   "homepage": ".",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [
-    "Jaco Greeff <jacogr@gmail.com>"
-  ],
+  "maintainers": ["Jaco Greeff <jacogr@gmail.com>"],
   "contributors": [],
   "license": "ISC",
   "scripts": {
@@ -22,6 +20,7 @@
     "@polkadot/app-explorer": "^0.18.8",
     "@polkadot/app-extrinsics": "^0.18.8",
     "@polkadot/app-rpc": "^0.18.8",
+    "@polkadot/app-staking": "^0.18.8",
     "@polkadot/app-storage": "^0.18.8",
     "@polkadot/app-toolbox": "^0.18.8",
     "@polkadot/app-vanitygen": "^0.18.8",
