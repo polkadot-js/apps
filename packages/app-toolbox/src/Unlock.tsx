@@ -104,8 +104,7 @@ class Unlock extends React.PureComponent<Props, State> {
       <div className='toolbox--Unlock-Content' key='content'>
         <div className='expanded'>
           <p>
-            // @ts-ignore ok, Trans def seems wrong?
-            <Trans i18nkey='unlock.info'>
+            <Trans i18nKey='unlock.info'>
               You are about to unlock your account <span className='code'>{address}</span> to allow for the signing of messages.
             </Trans>
           </p>
