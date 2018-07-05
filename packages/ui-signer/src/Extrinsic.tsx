@@ -62,8 +62,7 @@ class Extrinsic extends React.PureComponent<Props> {
         <div className='ui--signer-Signer-Decoded'>
           <div className='expanded'>
             <p>
-              // @ts-ignore weird... the attribute doesn't exist, check base definitions
-              <Trans i18nkey='decoded.short'>
+              <Trans i18nKey='decoded.short'>
                 You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{section}.{method}</span> with an index of <span className='code'>{nonce.toString()}</span>
               </Trans>
             </p>
