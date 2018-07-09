@@ -1,10 +1,9 @@
 {
   "name": "@polkadot/app-example",
-  "version": "0.18.9",
+  "version": "0.18.10",
   "description": "A basic example app",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [
     "Jaco Greeff <jacogr@gmail.com>"
@@ -13,7 +12,7 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
     "@polkadot/storage": "^0.26.9",
-    "@polkadot/ui-react-rx": "^0.18.9",
+    "@polkadot/ui-react-rx": "^0.18.10",
     "@polkadot/util-keyring": "^0.26.9"
   }
 }
