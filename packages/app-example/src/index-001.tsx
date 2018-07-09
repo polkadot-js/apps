@@ -7,7 +7,7 @@ import React from 'react';
 export default class App extends React.PureComponent<any> {
   render () {
     return (
-      <div>hello world</div>
+      <div className='example--App'>hello world</div>
     );
   }
 }

@@ -9,7 +9,9 @@ import Comp from './comp-002';
 export default class App extends React.PureComponent<any> {
   render () {
     return (
-      <Comp />
+      <div className='example--App'>
+        <Comp />
+      </div>
     );
   }
 }
