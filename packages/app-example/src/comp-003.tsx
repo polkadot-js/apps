@@ -15,7 +15,6 @@ import encodeAddress from '@polkadot/util-keyring/address/encode';
 const method = storage.democracy.public.proposals;
 
 type State = {
-  subscriptions: any[],
   proposals: {
     [index: string]: number[]
   }
@@ -26,7 +25,6 @@ class Comp extends React.PureComponent<ApiProps, State> {
     super(props);
 
     this.state = {
-      subscriptions: [],
       proposals: {}
     };
   }
@@ -35,12 +33,13 @@ class Comp extends React.PureComponent<ApiProps, State> {
     this.subscribeProposals();
   }
 
+  // TODO We should unsubscribe from subscriptions
   subscribeProposals () {
     const { api } = this.props;
-    const { subscriptions } = this.state;
     const key = createStorageKey(method)();
     const transform = storageTransform(method);
-    const subId = api.state
+
+    api.state
       .getStorage(key)
       .subscribe((value) => {
         this.setState({
@@ -58,16 +57,6 @@ class Comp extends React.PureComponent<ApiProps, State> {
           }, {})
         });
       });
-
-    this.setState({
-      subscriptions: subscriptions.concat([subId])
-    });
-  }
-
-  componentWillUnmount () {
-    const { subscriptions } = this.state;
-
-    subscriptions.forEach((sub) => sub.unsubscribe());
   }
 
   render () {

@@ -247,7 +247,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 }
 
-const Component: React.ComponentType<BaseProps> = translate(
+const Component: React.ComponentType<any> = translate(
   withApi(Signer)
 );
 

@@ -35,8 +35,6 @@ class Comp extends React.PureComponent<ApiProps, State> {
   }
 
   componentDidMount () {
-    const { subscriptions } = this.state;
-
     this.setState({
       subscriptions: [
         this.subscribeIntentions(),
