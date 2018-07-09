@@ -31,22 +31,26 @@ function SideBar ({ children, className, style, t }: Props) {
         vertical
       >
         {
-          routing.routes.map((route, index) => (
-            route
-              ? (
-                <Item
-                  key={route.name}
-                  t={t}
-                  route={route}
-                />
-              )
-              : (
-                <Menu.Divider
-                  hidden
-                  key={index}
-                />
-              )
-          ))
+          routing.routes
+            .filter((route) =>
+              !route || !route.isHidden
+            )
+            .map((route, index) => (
+              route
+                ? (
+                  <Item
+                    key={route.name}
+                    t={t}
+                    route={route}
+                  />
+                )
+                : (
+                  <Menu.Divider
+                    hidden
+                    key={index}
+                  />
+                )
+            ))
         }
         <Menu.Divider hidden />
         <Menu.Item className='apps--SideBar-Item'>

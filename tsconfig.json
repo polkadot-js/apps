@@ -6,6 +6,7 @@
       "@polkadot/app-accounts/*": [ "packages/app-accounts/src/*" ],
       "@polkadot/app-addresses/*": [ "packages/app-addresses/src/*" ],
       "@polkadot/app-explorer/*": [ "packages/app-explorer/src/*" ],
+      "@polkadot/app-example/*": [ "packages/app-example/src/*" ],
       "@polkadot/app-extrinsics/*": [ "packages/app-extrinsics/src/*" ],
       "@polkadot/app-rpc/*": [ "packages/app-rpc/src/*" ],
       "@polkadot/app-storage/*": [ "packages/app-storage/src/*" ],
