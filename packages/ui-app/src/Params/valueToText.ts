@@ -28,6 +28,7 @@ function arrayToText (type: Param$Type$Array, value: Array<any>, withBound: bool
   }
 
   if (type.length === 1) {
+    console.error('value.length', value);
     return value.map((value) =>
       valueToText(type[0], value, false)
     ).join(', ');

@@ -20,6 +20,7 @@
     "@polkadot/app-accounts": "^0.18.9",
     "@polkadot/app-addresses": "^0.18.9",
     "@polkadot/app-explorer": "^0.18.9",
+    "@polkadot/app-example": "^0.18.9",
     "@polkadot/app-extrinsics": "^0.18.9",
     "@polkadot/app-rpc": "^0.18.9",
     "@polkadot/app-storage": "^0.18.9",

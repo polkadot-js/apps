@@ -6,6 +6,7 @@ import { Routing, Routes } from '../types';
 
 import accounts from './accounts';
 import addresses from './addresses';
+import example from './example';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
 // import home from './home';
@@ -19,7 +20,7 @@ import vanitygen from './vanitygen';
 export default ({
   default: 'explorer',
   routes: ([] as Routes).concat(
-    explorer, extrinsics, storage, null, accounts, addresses, vanitygen, null, rpc, toolbox
+    example, explorer, extrinsics, storage, null, accounts, addresses, vanitygen, null, rpc, toolbox
   ),
   unknown
 } as Routing);
