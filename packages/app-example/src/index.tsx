@@ -4,7 +4,7 @@
 
 import React from 'react';
 
-import Comp from './comp-002';
+import Comp from './comp-003';
 
 export default class App extends React.PureComponent<any> {
   render () {
