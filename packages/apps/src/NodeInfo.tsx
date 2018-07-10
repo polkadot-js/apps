@@ -16,12 +16,15 @@ import translate from './translate';
 
 type Props = I18nProps & {};
 
-export function updateTestInfo (chain?: string): Boolean {
+export function isTestChain(chain?: string): boolean {
   if (typeof chain === 'undefined') return false;
   const re = new RegExp("(dev|loc)", "i");
   const match = re.test(chain.toLowerCase());
-  keyring.setTestMode(match);
   return match ? true : false;
+}
+
+function updateTestInfo (chain?: string) {
+  keyring.setTestMode(isTestChain(chain));
 }
 
 function NodeInfo ({ className, style, t }: Props) {

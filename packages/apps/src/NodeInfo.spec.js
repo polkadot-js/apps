@@ -2,25 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { updateTestInfo } from './NodeInfo';
+import { isTestChain } from './NodeInfo';
 
-describe('configure keyring test mode and dev accounts availability', () => {
+describe('check chain spec to configure keyring test mode and dev accounts availability', () => {
   it('enables test environment when chain specification matches text of dev or loc(al)', () => {
-    expect(updateTestInfo('Development')).toEqual(true);
-    expect(updateTestInfo(' development')).toEqual(true);
-    expect(updateTestInfo('dev')).toEqual(true);
-    expect(updateTestInfo('Local')).toEqual(true);
-    expect(updateTestInfo(' local ')).toEqual(true);
-    expect(updateTestInfo('loc')).toEqual(true);
+    expect(isTestChain('Development')).toEqual(true);
+    expect(isTestChain(' development')).toEqual(true);
+    expect(isTestChain('dev')).toEqual(true);
+    expect(isTestChain('Local')).toEqual(true);
+    expect(isTestChain(' local ')).toEqual(true);
+    expect(isTestChain('loc')).toEqual(true);
   });
 
   it('disables keyring test mode when chain specification is undefined', () => {
-    expect(updateTestInfo(undefined)).toEqual(false);
+    expect(isTestChain(undefined)).toEqual(false);
   });
 
   it('disables keyring test mode when chain specification is not a test mode', () => {
-    expect(updateTestInfo('PoC-1 Testnet')).toEqual(false);
-    expect(updateTestInfo('PoC-2 Testnet')).toEqual(false);
-    expect(updateTestInfo('')).toEqual(false);
+    expect(isTestChain('PoC-1 Testnet')).toEqual(false);
+    expect(isTestChain('PoC-2 Testnet')).toEqual(false);
+    expect(isTestChain('')).toEqual(false);
   });
 });
