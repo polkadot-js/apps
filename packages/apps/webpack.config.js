@@ -23,7 +23,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
 
   return {
     context,
-    devtool: isProd ? 'source-map' : 'cheap-eval-source-map',
+    devtool: isProd ? 'source-map' : 'source-map',
     entry: `./src/${name}.tsx`,
     mode: ENV,
     output: {

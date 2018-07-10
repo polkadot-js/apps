@@ -25,10 +25,16 @@ type State = ApiProps & {
   subscriptions: Array<any> // rxjs$ISubscription | null>;
 };
 
+export function shouldUseLatestChain(chain?: string): boolean {
+  if (typeof chain === 'undefined') return false;
+  const re = new RegExp("(poc-1)", "i");
+  const match = re.test(chain.toLowerCase());
+  if (match) return false;
+  return true;
+}
+
 function apiSupport (chain?: string): EncodingVersions {
-  return chain === undefined || chain === 'poc-1'
-    ? 'poc-1'
-    : 'latest';
+  return shouldUseLatestChain(chain) ? 'latest' : 'poc-1';
 }
 
 export default class Api extends React.PureComponent<Props, State> {
@@ -45,6 +51,7 @@ export default class Api extends React.PureComponent<Props, State> {
     );
     const setApi = (api: RxApiInterface): void => {
       this.setState({ api }, () => {
+        console.log('updating subscriptions with api: ', api)
         this.updateSubscriptions();
       });
     };
