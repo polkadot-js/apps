@@ -16,11 +16,16 @@ import translate from './translate';
 
 type Props = I18nProps & {};
 
-function updateTestInfo (chain?: string) {
-  keyring.setTestMode(chain === 'dev');
+export function updateTestInfo (chain?: string): Boolean {
+  if (typeof chain === 'undefined') return false;
+  const re = new RegExp("(dev|loc)", "i");
+  const match = re.test(chain.toLowerCase());
+  keyring.setTestMode(match);
+  return match ? true : false;
 }
 
 function NodeInfo ({ className, style, t }: Props) {
+  console.log('t', t)
   return (
     <div className={classes('apps--NodeInfo', className)}>
       <Chain
