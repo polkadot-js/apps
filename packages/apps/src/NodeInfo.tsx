@@ -28,7 +28,6 @@ function updateTestInfo (chain?: string) {
 }
 
 function NodeInfo ({ className, style, t }: Props) {
-  console.log('t', t)
   return (
     <div className={classes('apps--NodeInfo', className)}>
       <Chain
