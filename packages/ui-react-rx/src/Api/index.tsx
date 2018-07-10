@@ -51,7 +51,6 @@ export default class Api extends React.PureComponent<Props, State> {
     );
     const setApi = (api: RxApiInterface): void => {
       this.setState({ api }, () => {
-        console.log('updating subscriptions with api: ', api)
         this.updateSubscriptions();
       });
     };
