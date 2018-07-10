@@ -15,6 +15,10 @@
   margin-right: 0.5em;
 }
 
-.example--App td {
+.example--App table.accounts td {
   padding: 0.125em 0.5em;
+}
+
+.example--App table.accounts tr.validator {
+  background: #f2f2f2;
 }

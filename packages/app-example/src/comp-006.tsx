@@ -16,13 +16,15 @@ import Balance from '@polkadot/ui-react-rx/Balance';
 
 const intentionsMethod = storage.staking.public.intentions;
 const proposalMethod = storage.democracy.public.proposals;
+const validatorsMethod = storage.session.public.validators;
 
 type State = {
   intentions: string[],
   proposals: {
     [index: string]: number[]
   },
-  subscriptions: any[]
+  subscriptions: any[],
+  validators: string[]
 };
 
 class Comp extends React.PureComponent<ApiProps, State> {
@@ -32,7 +34,8 @@ class Comp extends React.PureComponent<ApiProps, State> {
     this.state = {
       intentions: [],
       proposals: {},
-      subscriptions: []
+      subscriptions: [],
+      validators: []
     };
   }
 
@@ -40,7 +43,8 @@ class Comp extends React.PureComponent<ApiProps, State> {
     this.setState({
       subscriptions: [
         this.subscribeIntentions(),
-        this.subscribeProposals()
+        this.subscribeProposals(),
+        this.subscribeValidators()
       ]
     });
   }
@@ -84,6 +88,20 @@ class Comp extends React.PureComponent<ApiProps, State> {
       });
   }
 
+  subscribeValidators () {
+    const { api } = this.props;
+    const key = createStorageKey(validatorsMethod)();
+    const transform = storageTransform(validatorsMethod);
+
+    return api.state
+      .getStorage(key)
+      .subscribe((value) => {
+        this.setState({
+          validators: (transform(value, 0) as any[]).map(encodeAddress)
+        });
+      });
+  }
+
   componentWillUnmount () {
     const { subscriptions } = this.state;
 
@@ -91,7 +109,7 @@ class Comp extends React.PureComponent<ApiProps, State> {
   }
 
   render () {
-    const { intentions, proposals } = this.state;
+    const { intentions, proposals, validators } = this.state;
 
     return (
       <table className='accounts'>
@@ -105,16 +123,16 @@ class Comp extends React.PureComponent<ApiProps, State> {
         </thead>
         <tbody>
           {intentions.map((address) => (
-            this.renderAccount(address, proposals[address])
+            this.renderAccount(address, proposals[address], validators.includes(address))
           ))}
         </tbody>
       </table>
     );
   }
 
-  renderAccount = (address: string, proposals: number[] = []) => {
+  renderAccount = (address: string, proposals: number[] = [], isValidator: boolean = false) => {
     return (
-      <tr key={address}>
+      <tr className={isValidator ? 'validator' : ''} key={address}>
         <td><IdentityIcon size={24} value={address} /></td>
         <td>{address}</td>
         <td><Balance params={address} /></td>

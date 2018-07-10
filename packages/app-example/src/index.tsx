@@ -10,9 +10,11 @@ import Tut002 from './comp-002';
 import Tut003 from './comp-003';
 import Tut004 from './comp-004';
 import Tut005 from './comp-005';
+import Tut006 from './comp-006';
+import Tut007 from './comp-007';
 
 const Components: { [index: string]: React.ComponentType<any> } = {
-  Tut002, Tut003, Tut004, Tut005
+  Tut002, Tut003, Tut004, Tut005, Tut006, Tut007
 };
 
 type State = {
