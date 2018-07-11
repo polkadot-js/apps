@@ -22,27 +22,30 @@ export type SignerType = React.ComponentType<Props> & {
   Queue: React.ComponentType<QueueComponentProps>
 };
 
-function Signer ({ children, className, style }: Props) {
-  return (
-    <Queue>
-      {children}
-      <QueueConsumer>
-        {({ queue, queueSetStatus }: QueueProps) => [
-          <Modal
-            className={className}
-            key='signer-modal'
-            queue={queue}
-            queueSetStatus={queueSetStatus}
-            style={style}
-          />,
-          <Status
-            key='signer-status'
-            queue={queue}
-          />
-        ]}
-      </QueueConsumer>
-    </Queue>
-  );
+// function Signer ({ children, className, style }: Props) {
+class Signer extends React.PureComponent<Props, State> {
+  render () {
+    return (
+      <Queue>
+        {this.props.children}
+        <QueueConsumer>
+          {({ queue, queueSetStatus }: QueueProps) => [
+            <Modal
+              className={this.props.className}
+              key='signer-modal'
+              queue={queue}
+              queueSetStatus={queueSetStatus}
+              style={this.props.style}
+            />,
+            <Status
+              key='signer-status'
+              queue={queue}
+            />
+          ]}
+        </QueueConsumer>
+      </Queue>
+    );
+  }
 }
 
 (Signer as SignerType).Queue = Queue;
