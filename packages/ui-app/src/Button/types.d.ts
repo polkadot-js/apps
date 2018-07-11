@@ -7,7 +7,7 @@ import { BareProps } from '../types';
 export type Button$Sizes = 'mini' | 'tiny' | 'small' | 'medium' | 'large' | 'big' | 'huge' | 'massive';
 
 export type ButtonProps = BareProps & {
-  children?: any,
+  children?: React.ReactNode,
   floated?: 'left' | 'right',
   icon?: string,
   isBasic?: boolean,
@@ -23,7 +23,7 @@ export type ButtonProps = BareProps & {
 export type DividerProps = BareProps;
 
 export type GroupProps = BareProps & {
-  children?: any
+  children?: React.ReactNode
 };
 
 export type GroupType = React.ComponentType<GroupProps> & {
