@@ -14,7 +14,7 @@ import Labelled from './Labelled';
 type Input$Type = 'number' | 'password' | 'text';
 
 type Props = BareProps & {
-  children?: any, // node?
+  children?: React.ReactNode,
   defaultValue?: any,
   icon?: any, // node?
   isAction?: boolean,

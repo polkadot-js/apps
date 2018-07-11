@@ -18,7 +18,7 @@ import addressEncode from '@polkadot/util-keyring/address/encode';
 import translate from './translate';
 
 type Props = I18nProps & {
-  children?: any, // node?
+  children?: React.ReactNode,
   value: QueueTx
 };
 
