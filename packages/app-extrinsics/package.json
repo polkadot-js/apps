@@ -16,9 +16,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
-    "@polkadot/extrinsics": "^0.26.15",
-    "@polkadot/ui-app": "^0.18.11",
-    "@polkadot/ui-signer": "^0.18.11",
+    "@polkadot/extrinsics": "^0.26.16",
     "@polkadot/ui-app": "^0.18.12",
     "@polkadot/ui-signer": "^0.18.12",
     "react-dropzone": "^4.2.9"
