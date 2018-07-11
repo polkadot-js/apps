@@ -17,9 +17,13 @@ import translate from './translate';
 type Props = I18nProps & {};
 
 export function isTestChain(chain?: string): boolean {
-  if (typeof chain === 'undefined') return false;
+  if (typeof chain === 'undefined') {
+    return false;
+  }
+
   const re = new RegExp("(dev|loc)", "i");
   const match = re.test(chain.toString().toLowerCase());
+
   return match ? true : false;
 }
 

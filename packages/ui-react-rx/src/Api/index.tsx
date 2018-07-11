@@ -26,11 +26,14 @@ type State = ApiProps & {
 };
 
 export function shouldUseLatestChain(chain?: string): boolean {
-  if (typeof chain === 'undefined') return false;
+  if (typeof chain === 'undefined') {
+    return false;
+  }
+
   const re = new RegExp("(poc-1)", "i");
   const match = re.test(chain.toString().toLowerCase());
-  if (match) return false;
-  return true;
+
+  return match ? false : true;
 }
 
 function apiSupport (chain?: string): EncodingVersions {
