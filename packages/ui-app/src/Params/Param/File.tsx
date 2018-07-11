@@ -57,7 +57,7 @@ class BytesFile extends React.PureComponent<Props, State> {
           <div className='label'>
             {
               !file
-                ? t('file.dnd', {
+                ? placeholder || t('file.dnd', {
                   defaultValue: 'drag and drop the file here'
                 })
                 : placeholder || t('file.description', {
