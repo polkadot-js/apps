@@ -64,7 +64,7 @@ class KeyValueStorageArray extends React.PureComponent<Props, State> {
 
       this.setState({
         placeholder: t('kvarray.values', {
-          defaultValue: '{{count}} keypairs encoded for submission',
+          defaultValue: '{{count}} key/value pairs encoded for submission',
           replace: {
             count: value.length
           }
