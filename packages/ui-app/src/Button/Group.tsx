@@ -12,16 +12,18 @@ import classes from '../util/classes';
 import Divider from './Divider';
 
 // ({ children, className, style }: GroupProps)
-class ButtonGroup extends React.PureComponent<Props> {
+class ButtonGroup extends React.PureComponent<GroupProps> {
   render () {
+    const { children, className, style } = this.props;
+
     return (
       <div
-        className={classes('ui--Button-Group', this.props.className)}
-        style={this.props.style}
+        className={classes('ui--Button-Group', className)}
+        style={style}
       >
         <SUIButton.Group>
           <Button.Group.Divider style={{ padding: '0em' }} />
-          {this.props.children}
+          {children}
         </SUIButton.Group>
       </div>
     );

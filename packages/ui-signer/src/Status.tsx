@@ -15,7 +15,7 @@ type Props = BareProps & {
 
 export default class Status extends React.PureComponent<Props, State> {
   render () {
-    const { queue, className, status, section } = this.props;
+    const { queue, className } = this.props;
     const available = queue.filter(({ status }) =>
 
       !['completed', 'incomplete'].includes(status)

@@ -14,15 +14,17 @@ type DemoProps = {
 };
 
 // ({ attrs, attrsReq, children, component }: DemoProps) {
-export default class Demo extends React.PureComponent<Props> {
+export default class Demo extends React.PureComponent<DemoProps> {
   render () {
-    const allAttrs = Object.assign({ className: '"..."', style: '{...}' }, this.props.attrs);
+    const { attrs, attrsReq, children, component } = this.props;
+
+    const allAttrs = Object.assign({ className: '"..."', style: '{...}' }, attrs);
     const attrsText = Object
       .keys(allAttrs)
       .map((attr) => {
         const value = allAttrs[attr];
         const bool = value === 'bool';
-        const opt = bool || !this.props.attrsReq.includes(attr);
+        const opt = bool || !attrsReq.includes(attr);
 
         return `${opt ? '[' : ''}${attr}${bool ? '' : '='}${bool ? '' : value}${opt ? ']' : ''}`;
       })
@@ -31,9 +33,9 @@ export default class Demo extends React.PureComponent<Props> {
     return (
       <Container className='ui--DemoContainer'>
         <pre className='ui--DemoHeader'>
-          {`<${this.props.component}\n  ${attrsText}\n/>`}
+          {`<${component}\n  ${attrsText}\n/>`}
         </pre>
-        {this.props.children}
+        {children}
       </Container>
     );
   }

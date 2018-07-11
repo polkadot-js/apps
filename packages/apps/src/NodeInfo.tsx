@@ -24,7 +24,7 @@ class NodeInfo extends React.PureComponent<Props> {
   render () {
     const { className, style, t } = this.props;
     return (
-      <div className={classes('apps--NodeInfo', className)}>
+      <div className={classes('apps--NodeInfo', className)} style={style}>
         <Chain
           label={t('info.chain', {
             defaultValue: 'chain: '
