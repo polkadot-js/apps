@@ -24,6 +24,16 @@ export default function values (params: Params): Array<RawParam> {
         };
       }
 
+      // NOTE special cases for where we have a known override formatter. See comments
+      // in ./inintValueArray.ts
+      if (type[0] === 'KeyValueStorage') {
+        return {
+          isValid: false, // invalid to start with, empty array
+          type,
+          value: []
+        };
+      }
+
       const value: RawParam$ValueArray = [];
 
       return type.reduce(({ isValid, type }, subtype) => {
