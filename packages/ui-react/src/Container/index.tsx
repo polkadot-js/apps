@@ -11,14 +11,16 @@ import React from 'react';
 type Props = BaseProps & {
   children: any // React$Node
 };
-
-export default function Container ({ children, className, style }: Props) {
-  return (
-    <div
-      className={['ui--Container', className].join(' ')}
-      style={style}
-    >
-      {children}
-    </div>
-  );
+ // ({ children, className, style }: Props) {
+export default class Container extends React.PureComponent<> {
+  render () {
+    return (
+      <div
+        className={['ui--Container', this.props.className].join(' ')}
+        style={this.props.style}
+      >
+        {this.props.children}
+      </div>
+    );
+  }
 }

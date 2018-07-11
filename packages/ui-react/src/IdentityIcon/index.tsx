@@ -14,13 +14,15 @@ type Props = BaseProps & {
   size?: number,
   value: string | Uint8Array
 };
-
-export default function IdentityIcon ({ className, size = 64, style, value }: Props) {
-  return (
-    <div
-      className={['ui--IdentityIcon', className].join(' ')}
-      ref={appendIcon(value, size)}
-      style={style}
-    />
-  );
+// { className, size = 64, style, value }:
+export default class IdentityIcon extends React.PureComponent<Props> {
+  render () {
+    return (
+      <div
+        className={['ui--IdentityIcon', this.props.className].join(' ')}
+        ref={appendIcon(this.props.value, this.props.size)}
+        style={this.props.style}
+      />
+    );
+  }
 }
