@@ -14,32 +14,37 @@ import isUndefined from '@polkadot/util/is/undefined';
 import Divider from './Divider';
 import Group from './Group';
 import Or from './Or';
+// ({ children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isNegative = false, isPrimary = false, onClick, size, style, text }: ButtonProps) {
 
-function Button ({ children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isNegative = false, isPrimary = false, onClick, size, style, text }: ButtonProps) {
-  const props = {
-    basic: isBasic,
-    circular: isCircular,
-    className,
-    disabled: isDisabled,
-    floated,
-    icon,
-    negative: isNegative,
-    onClick,
-    primary: isPrimary,
-    size,
-    secondary: isBasic && !(isPrimary || isNegative),
-    style
-  };
+class Button extends React.PureComponent<Props> {
+  render () {
+    const { children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isNegative = false, isPrimary = false, onClick, size, style, text } = this.props;
 
-  return isUndefined(text) && isUndefined(children)
-    ? (
-      <SUIButton {...props} />
-    )
-    : (
-      <SUIButton {...props}>
-        {text}{children}
-      </SUIButton>
-    );
+    const props = {
+      basic: isBasic || false,
+      circular: isCircular,
+      className,
+      disabled: isDisabled,
+      floated,
+      icon,
+      negative: isNegative,
+      onClick,
+      primary: isPrimary,
+      size,
+      secondary: isBasic && !(isPrimary || isNegative || false),
+      style
+    };
+
+    return isUndefined(text) && isUndefined(children)
+      ? (
+        <SUIButton {...props} />
+      )
+      : (
+        <SUIButton {...props}>
+          {text}{children}
+        </SUIButton>
+      );
+  }
 }
 
 (Button as ButtonType).Divider = Divider;
