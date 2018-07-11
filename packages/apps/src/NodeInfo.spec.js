@@ -6,21 +6,17 @@ import { isTestChain } from './NodeInfo';
 
 describe('check chain spec to configure keyring test mode and dev accounts availability', () => {
   it('enables test environment when chain specification matches text of dev or loc(al)', () => {
-    expect(isTestChain('Development')).toEqual(true);
-    expect(isTestChain(' development')).toEqual(true);
-    expect(isTestChain('dev')).toEqual(true);
-    expect(isTestChain('Local')).toEqual(true);
-    expect(isTestChain(' local ')).toEqual(true);
-    expect(isTestChain('loc')).toEqual(true);
+    const validTestModeChainSpecsWithDev = ['Development disorder', 'my development', 'a devotion to'];
+    const validTestModeChainSpecsWithLoc = ['Local beer', 'one local beer', 'one good locust'];
+    for (let s of validTestModeChainSpecsWithDev.concat(validTestModeChainSpecsWithLoc)) {
+      expect(isTestChain(s)).toEqual(true);
+    }
   });
 
-  it('disables keyring test mode when chain specification is undefined', () => {
-    expect(isTestChain(undefined)).toEqual(false);
-  });
-
-  it('disables keyring test mode when chain specification is not a test mode', () => {
-    expect(isTestChain('PoC-1 Testnet')).toEqual(false);
-    expect(isTestChain('PoC-2 Testnet')).toEqual(false);
-    expect(isTestChain('')).toEqual(false);
+  it('disables keyring test mode when chain specification is not a test mode or undefined or number type', () => {
+    const invalidTestModeChainSpecs = ['PoC-1 Testnet', 'future PoC-2 Testnet', 'a pocadot?', undefined, 0];
+    for (let s of invalidTestModeChainSpecs) {
+      expect(isTestChain(s)).toEqual(false);
+    }
   });
 });
