@@ -15,8 +15,8 @@ describe('check chain spec to configure encoding', () => {
   });
 
   it('enables Latest encoding when chain specification is NOT PoC-1 or undefined', () => {
-    const invalidChainSpecWithoutPoC1OrUndefined = ['poc-2', 'PoC-2 Testnet', 'Local', 
-      'Development', ' development', 'dev', 'Local', ' local ', 'loc', 0];
+    const invalidChainSpecWithoutPoC1OrUndefined = ['poc-2', 'PoC-2 Testnet', 'staging',
+      'Staging Testnet', 'Local', 'Development', ' development', 'dev', 'Local', ' local ', 'loc', 0];
 
     for (let s of invalidChainSpecWithoutPoC1OrUndefined) {
       expect(shouldUseLatestChain(s)).toEqual(true);

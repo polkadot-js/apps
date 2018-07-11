@@ -15,7 +15,7 @@ describe('check chain spec to configure keyring test mode and dev accounts avail
   });
 
   it('disables keyring test mode when chain specification is not a test mode or undefined or number type', () => {
-    const invalidTestModeChainSpecs = ['PoC-1 Testnet', 'future PoC-2 Testnet', 'a pocadot?', undefined, 0];
+    const invalidTestModeChainSpecs = ['PoC-1 Testnet', 'Staging Testnet', 'future PoC-2 Testnet', 'a pocadot?', undefined, 0];
 
     for (let s of invalidTestModeChainSpecs) {
       expect(isTestChain(s)).toEqual(false);
