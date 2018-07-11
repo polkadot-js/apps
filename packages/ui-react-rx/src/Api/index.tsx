@@ -8,7 +8,8 @@ import { EncodingVersions } from '@polkadot/params/types';
 import { ApiProps } from '../types';
 
 import React from 'react';
-import isUndefined from '@polkadot/util/is/undefined';
+
+import shouldUseLatestChain from '@polkadot/ui-react-rx/util/shouldUseLatestChain';
 import createWsProvider from '@polkadot/api-provider/ws';
 import createApi from '@polkadot/api-rx';
 import defaults from '@polkadot/api-rx/defaults';
@@ -25,18 +26,6 @@ type Props = {
 type State = ApiProps & {
   subscriptions: Array<any> // rxjs$ISubscription | null>;
 };
-
-const re = new RegExp('(poc-1)', 'i');
-
-export function shouldUseLatestChain (chain?: string): boolean {
-  if (isUndefined(chain)) {
-    return false;
-  }
-
-  const match = re.test(chain.toString().toLowerCase());
-
-  return match ? false : true;
-}
 
 function apiSupport (chain?: string): EncodingVersions {
   return shouldUseLatestChain(chain) ? 'latest' : 'poc-1';

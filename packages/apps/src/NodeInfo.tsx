@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
-import isUndefined from '@polkadot/util/is/undefined';
+import isTestChain from '@polkadot/ui-react-rx/util/isTestChain';
 import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 import Chain from '@polkadot/ui-react-rx/Chain';
@@ -16,18 +16,6 @@ import NodeVersion from '@polkadot/ui-react-rx/NodeVersion';
 import translate from './translate';
 
 type Props = I18nProps & {};
-
-const re = new RegExp('(dev|loc)', 'i');
-
-export function isTestChain (chain?: string): boolean {
-  if (isUndefined(chain)) {
-    return false;
-  }
-
-  const match = re.test(chain.toString().toLowerCase());
-
-  return match ? true : false;
-}
 
 function updateTestInfo (chain?: string) {
   keyring.setTestMode(isTestChain(chain));

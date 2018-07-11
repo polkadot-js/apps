@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { shouldUseLatestChain } from './index';
+import shouldUseLatestChain from './shouldUseLatestChain';
 
 describe('check chain spec to configure encoding', () => {
   it('enables PoC-1 encoding when chain specification is PoC-1 or undefined', () => {
