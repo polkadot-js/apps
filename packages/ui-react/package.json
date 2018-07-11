@@ -19,7 +19,7 @@
     "@polkadot/ui-identicon": "^0.18.13"
   },
   "devDependencies": {
-    "@polkadot/util-keyring": "^0.26.9",
+    "@polkadot/util-keyring": "^0.26.16",
     "babel-loader": "^8.0.0-beta.2",
     "css-loader": "0.28.9",
     "empty": "^0.10.1",
