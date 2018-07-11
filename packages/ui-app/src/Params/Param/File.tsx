@@ -83,7 +83,7 @@ class BytesFile extends React.PureComponent<Props, State> {
       reader.onerror = () => {
         // ignore
       };
-      // @ts-ignore ummm... events are not properly specoified here?
+      // @ts-ignore ummm... events are not properly specified here?
       reader.onload = ({ target: { result } }: LoadEvent) => {
         const data = new Uint8Array(result);
 

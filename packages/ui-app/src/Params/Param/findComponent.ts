@@ -47,7 +47,7 @@ const components: ComponentMap = {
 
 export default function findComponent (type: Param$Types, overrides: ComponentMap = {}): React.ComponentType<Props> {
   if (Array.isArray(type)) {
-    // Special case for components where we have a specific ovcerride formatter
+    // Special case for components where we have a specific override formatter
     if (type.length === 1) {
       const arrayType = `${type}[]`;
 
