@@ -6,6 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
+import isUndefined from '@polkadot/util/is/undefined';
 import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 import Chain from '@polkadot/ui-react-rx/Chain';
@@ -17,7 +18,7 @@ import translate from './translate';
 type Props = I18nProps & {};
 
 export function isTestChain(chain?: string): boolean {
-  if (typeof chain === 'undefined') {
+  if (isUndefined(chain)) {
     return false;
   }
 

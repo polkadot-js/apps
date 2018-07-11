@@ -8,6 +8,7 @@ import { EncodingVersions } from '@polkadot/params/types';
 import { ApiProps } from '../types';
 
 import React from 'react';
+import isUndefined from '@polkadot/util/is/undefined';
 import createWsProvider from '@polkadot/api-provider/ws';
 import createApi from '@polkadot/api-rx';
 import defaults from '@polkadot/api-rx/defaults';
@@ -26,7 +27,7 @@ type State = ApiProps & {
 };
 
 export function shouldUseLatestChain(chain?: string): boolean {
-  if (typeof chain === 'undefined') {
+  if (isUndefined(chain)) {
     return false;
   }
 
