@@ -14,21 +14,20 @@ type DemoProps = {
 };
 
 // ({ attrs, attrsReq, children, component }: DemoProps) {
-export default class Demo extends React.PureComponent {
-  const allAttrs = Object.assign({ className: '"..."', style: '{...}' }, this.props.attrs);
-  const attrsText = Object
-    .keys(allAttrs)
-    .map((attr) => {
-      const value = allAttrs[attr];
-      const bool = value === 'bool';
-      const opt = bool || !this.props.attrsReq.includes(attr);
-
-      return `${opt ? '[' : ''}${attr}${bool ? '' : '='}${bool ? '' : value}${opt ? ']' : ''}`;
-    })
-    .sort()
-    .join('\n  ');
-
+export default class Demo extends React.PureComponent<Props> {
   render () {
+    const allAttrs = Object.assign({ className: '"..."', style: '{...}' }, this.props.attrs);
+    const attrsText = Object
+      .keys(allAttrs)
+      .map((attr) => {
+        const value = allAttrs[attr];
+        const bool = value === 'bool';
+        const opt = bool || !this.props.attrsReq.includes(attr);
+
+        return `${opt ? '[' : ''}${attr}${bool ? '' : '='}${bool ? '' : value}${opt ? ']' : ''}`;
+      })
+      .sort()
+      .join('\n  ');
     return (
       <Container className='ui--DemoContainer'>
         <pre className='ui--DemoHeader'>

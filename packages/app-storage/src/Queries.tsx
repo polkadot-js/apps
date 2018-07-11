@@ -17,25 +17,28 @@ type Props = I18nProps & {
   value?: Array<StorageQuery>
 };
 
-function Queries ({ className, onRemove, style, value }: Props) {
-  if (!value || !value.length) {
-    return null;
-  }
+class Queries extends React.PureComponent<Props> {
+  render () {
+    const { className, onRemove, style, value } = this.props;
+    if (!value || !value.length) {
+      return null;
+    }
 
-  return (
-    <div
-      className={classes('storage--Queries', className)}
-      style={style}
-    >
-      {value.map((query) =>
-        <Query
-          key={query.id}
-          onRemove={onRemove}
-          value={query}
-        />
-      )}
-    </div>
-  );
+    return (
+      <div
+        className={classes('storage--Queries', className)}
+        style={style}
+      >
+        {value.map((query) =>
+          <Query
+            key={query.id}
+            onRemove={onRemove}
+            value={query}
+          />
+        )}
+      </div>
+    );
+  }
 }
 
 export default translate(Queries);

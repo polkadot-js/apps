@@ -12,7 +12,7 @@ type Props = BaseProps & {
   children: any // React$Node
 };
  // ({ children, className, style }: Props) {
-export default class Container extends React.PureComponent<> {
+export default class Container extends React.PureComponent<Props> {
   render () {
     return (
       <div
