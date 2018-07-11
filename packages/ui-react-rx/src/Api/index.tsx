@@ -26,12 +26,13 @@ type State = ApiProps & {
   subscriptions: Array<any> // rxjs$ISubscription | null>;
 };
 
-export function shouldUseLatestChain(chain?: string): boolean {
+const re = new RegExp('(poc-1)', 'i');
+
+export function shouldUseLatestChain (chain?: string): boolean {
   if (isUndefined(chain)) {
     return false;
   }
 
-  const re = new RegExp("(poc-1)", "i");
   const match = re.test(chain.toString().toLowerCase());
 
   return match ? false : true;
