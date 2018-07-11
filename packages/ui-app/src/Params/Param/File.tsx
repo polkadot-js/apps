@@ -17,6 +17,7 @@ type Props = BareProps & {
   isError?: boolean,
   label: string,
   onChange: (contents: Uint8Array) => void,
+  placeholder?: string,
   t: TranslationFunction,
   withLabel?: boolean
 };
@@ -38,7 +39,7 @@ class BytesFile extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { className, isDisabled, isError = false, label, t, withLabel } = this.props;
+    const { className, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
     const { file } = this.state;
 
     return (
@@ -56,10 +57,10 @@ class BytesFile extends React.PureComponent<Props, State> {
           <div className='label'>
             {
               !file
-                ? t('file.dnd', {
+                ? placeholder || t('file.dnd', {
                   defaultValue: 'drag and drop the file here'
                 })
-                : t('file.description', {
+                : placeholder || t('file.description', {
                   defaultValue: '{{name}} ({{size}} bytes)',
                   replace: file
                 })
@@ -82,7 +83,7 @@ class BytesFile extends React.PureComponent<Props, State> {
       reader.onerror = () => {
         // ignore
       };
-      // @ts-ignore ummm... events are not properly specoified here?
+      // @ts-ignore ummm... events are not properly specified here?
       reader.onload = ({ target: { result } }: LoadEvent) => {
         const data = new Uint8Array(result);
 
