@@ -789,7 +789,7 @@
     isomorphic-fetch "^2.2.1"
     websocket "^1.0.25"
 
-"@polkadot/api-rx@^0.14.15":
+"@polkadot/api-rx@^0.14.16":
   version "0.14.16"
   resolved "https://registry.yarnpkg.com/@polkadot/api-rx/-/api-rx-0.14.16.tgz#6958404b2d6323c43868dae7675a46a1febb39c8"
   dependencies:
