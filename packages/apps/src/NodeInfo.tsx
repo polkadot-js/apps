@@ -6,6 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
+import isTestChain from '@polkadot/ui-react-rx/util/isTestChain';
 import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 import Chain from '@polkadot/ui-react-rx/Chain';
@@ -17,7 +18,7 @@ import translate from './translate';
 type Props = I18nProps & {};
 
 function updateTestInfo (chain?: string) {
-  keyring.setTestMode(chain === 'dev');
+  keyring.setTestMode(isTestChain(chain));
 }
 
 function NodeInfo ({ className, style, t }: Props) {
