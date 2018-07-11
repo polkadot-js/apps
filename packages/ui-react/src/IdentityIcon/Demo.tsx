@@ -9,7 +9,7 @@ import addressEncode from '@polkadot/util-keyring/address/encode';
 import Container from '../Container/Demo';
 import IdentityIcon from './index';
 
-export default class Demo extends React.PureComponent<Props> {
+export default class Demo extends React.PureComponent {
   render () {
     const identities: Array<Uint8Array | string> = [new Uint8Array(32)];
 
