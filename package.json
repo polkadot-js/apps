@@ -9,9 +9,13 @@
   "workspaces": [
     "packages/*"
   ],
+  "resolutions": {
+    "babel-core": "^7.0.0-bridge.0",
+    "typescript": "^2.9.2"
+  },
   "scripts": {
     "build": "polkadot-dev-build-ts",
-    "check": "tslint --project . && tsc --noEmit",
+    "check": "tslint --project . && node_modules/typescript/bin/tsc --noEmit",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "jest --coverage",
@@ -23,7 +27,7 @@
     "start": "cd packages/apps && webpack-serve --config webpack.config.js --port 3000"
   },
   "devDependencies": {
-    "@polkadot/dev-react": "^0.20.9",
+    "@polkadot/dev-react": "^0.20.11",
     "@polkadot/ts": "^0.1.8",
     "autoprefixer": "^8.6.2",
     "gh-pages": "^1.1.0",
