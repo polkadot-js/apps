@@ -9,6 +9,10 @@
   "workspaces": [
     "packages/*"
   ],
+  "resolutions": {
+    "babel-core": "^7.0.0-bridge.0",
+    "typescript": "^2.9.2"
+  },
   "scripts": {
     "build": "polkadot-dev-build-ts",
     "check": "tslint --project . && tsc --noEmit",
