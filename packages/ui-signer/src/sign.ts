@@ -24,9 +24,9 @@ export default function signMessage (publicKey: Uint8Array, nonce: BN | number, 
     signature
   );
 
-  console.log(`signMessage :   message :: ${u8aToHex(message)}`);
-  console.log(`signMessage : signature :: ${u8aToHex(signature)}`);
-  console.log(`signMessage :      data :: ${u8aToHex(data)}`);
+  console.log(`signMessage (${apiSupport}) :   message :: ${u8aToHex(message)}`);
+  console.log(`signMessage (${apiSupport}) : signature :: ${u8aToHex(signature)}`);
+  console.log(`signMessage (${apiSupport}) :      data :: ${u8aToHex(data)}`);
 
   return {
     data: u8aConcat(
