@@ -9,11 +9,19 @@ import React from 'react';
 import Dropdown from '../../Dropdown';
 import Bare from './Bare';
 
+type TextMap = { [index: number]: string };
+
 const options = [
   { text: 'Super majority approval', value: 0 },
   { text: 'Super majority rejection', value: 1 },
   { text: 'Simple majority', value: 2 }
 ];
+
+export const textMap = options.reduce((textMap, { text, value }) => {
+  textMap[value] = text;
+
+  return textMap;
+}, {} as TextMap);
 
 export default class VoteThreshold extends React.PureComponent<Props> {
   render () {
