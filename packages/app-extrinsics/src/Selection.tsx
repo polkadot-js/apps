@@ -107,12 +107,12 @@ class Selection extends React.PureComponent<Props, State> {
     this.nextState({ encoded } as State);
   }
 
-  onChangeNonce = (nonce: BN): void => {
+  onChangeNonce = (nonce: BN = new BN(0)): void => {
     this.nextState({ nonce } as State);
   }
 
   onChangeSender = (publicKey: Uint8Array): void => {
-    this.nextState({ publicKey } as State);
+    this.nextState({ publicKey, nonce: new BN(0) } as State);
   }
 
   onQueue = (): void => {
