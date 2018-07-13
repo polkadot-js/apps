@@ -7,24 +7,40 @@ import { BaseProps } from '../types';
 import './IdentityIcon.css';
 
 import React from 'react';
-
-import appendIcon from './appendIcon';
+import identicon from '@polkadot/ui-identicon/index';
 
 type Props = BaseProps & {
   size?: number,
   value: string | Uint8Array
 };
 
+const DEFAULT_SIZE = 64;
+
 export default class IdentityIcon extends React.PureComponent<Props> {
   render () {
-    const { className, size = 64, style, value } = this.props;
+    const { className, style } = this.props;
 
     return (
       <div
         className={['ui--IdentityIcon', className].join(' ')}
-        ref={appendIcon(value, size)} // TODO: The append should probably be in this class and done in a more "React-y" way
+        ref={this.appendIcon}
         style={style}
       />
     );
+  }
+
+  appendIcon = (node: Element | null): void => {
+    const { size = DEFAULT_SIZE, value } = this.props;
+
+    // https://stackoverflow.com/a/22966637
+    if (node && node.parentNode) {
+      const cloned = node.cloneNode(false);
+
+      cloned.appendChild(
+        identicon(value, size)
+      );
+
+      node.parentNode.replaceChild(cloned, node);
+    }
   }
 }
