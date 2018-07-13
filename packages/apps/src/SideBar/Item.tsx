@@ -8,6 +8,7 @@ import { Route } from '../types';
 import './Item.css';
 
 import React from 'react';
+import { withRouter } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
 import Icon from '@polkadot/ui-app/Icon';
@@ -17,7 +18,7 @@ type Props = I18nProps & {
   route: Route
 };
 
-export default class Item extends React.PureComponent<Props> {
+class Item extends React.PureComponent<Props> {
   render () {
     const { route: { i18n, icon, isExact, name, path = '' }, t } = this.props;
 
@@ -35,3 +36,6 @@ export default class Item extends React.PureComponent<Props> {
     );
   }
 }
+
+// @ts-ignore the definitions complain here, however the use is valid
+export default withRouter(Item);
