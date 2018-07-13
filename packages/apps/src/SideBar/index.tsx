@@ -7,7 +7,6 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import './SideBar.css';
 
 import React from 'react';
-
 import Icon from '@polkadot/ui-app/Icon';
 import Menu from '@polkadot/ui-app/Menu';
 import classes from '@polkadot/ui-app/util/classes';
