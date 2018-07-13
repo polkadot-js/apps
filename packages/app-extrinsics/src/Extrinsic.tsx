@@ -92,7 +92,6 @@ class Extrinsic extends React.PureComponent<Props, State> {
         : new Uint8Array([]);
 
       onChange({
-        // extrinsic,
         isValid,
         values: [value]
       });
@@ -100,7 +99,7 @@ class Extrinsic extends React.PureComponent<Props, State> {
   }
 
   onChangeExtrinsic = (extrinsic: SectionItem<Extrinsics>): void => {
-    this.nextState({ extrinsic } as State);
+    this.nextState({ extrinsic, values: [] } as State);
   }
 
   onChangeValues = (values: Array<RawParam>): void => {
