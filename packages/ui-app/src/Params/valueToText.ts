@@ -9,6 +9,9 @@ import addressEncode from '@polkadot/util-keyring/address/encode';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import isBn from '@polkadot/util/is/bn';
 import isU8a from '@polkadot/util/is/u8a';
+import isUndefined from '@polkadot/util/is/undefined';
+
+import { textMap as thresholdTextMap } from './Param/VoteThreshold';
 
 function proposalToText ({ extrinsic, params }: ExtrinsicDecoded): string {
   if (!extrinsic) {
@@ -32,7 +35,6 @@ function arrayToText (type: Param$Type$Array, value: Array<any>, withBound: bool
       return `${value.length}`;
     }
 
-    console.error('value.length', value);
     return value.map((value) =>
       valueToText(type[0], value, false)
     ).join(', ');
@@ -51,7 +53,7 @@ function valueToText (type: Param$Types, value: any, swallowError: boolean = tru
       return value ? 'Yes' : 'No';
     }
 
-    if (!value) {
+    if (isUndefined(value)) {
       return 'unknown';
     }
 
@@ -67,6 +69,10 @@ function valueToText (type: Param$Types, value: any, swallowError: boolean = tru
 
     if (type === 'Proposal') {
       return proposalToText(value as ExtrinsicDecoded);
+    }
+
+    if (type === 'VoteThreshold') {
+      return thresholdTextMap[value];
     }
 
     if (isU8a(value)) {
