@@ -16,7 +16,7 @@ type Props = BaseProps & {
 
 export default class IdentityIcon extends React.PureComponent<Props> {
   render () {
-    const { className, size = 64, style, value } = this.props;
+    const { className, style } = this.props;
 
     return (
       <div
