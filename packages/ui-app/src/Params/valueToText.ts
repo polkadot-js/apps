@@ -28,6 +28,10 @@ function arrayToText (type: Param$Type$Array, value: Array<any>, withBound: bool
   }
 
   if (type.length === 1) {
+    if (type[0] === 'KeyValueStorage') {
+      return `${value.length}`;
+    }
+
     console.error('value.length', value);
     return value.map((value) =>
       valueToText(type[0], value, false)
@@ -56,7 +60,9 @@ function valueToText (type: Param$Types, value: any, swallowError: boolean = tru
     }
 
     if (type === 'AccountId') {
-      return addressEncode(value as Uint8Array);
+      return value && value.length
+        ? addressEncode(value as Uint8Array)
+        : '<none>';
     }
 
     if (type === 'Proposal') {

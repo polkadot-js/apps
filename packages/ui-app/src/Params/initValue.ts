@@ -2,12 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Param$Types } from '@polkadot/params/types';
+import { Param$Type, Param$Types } from '@polkadot/params/types';
 import { RawParam$Value } from './types';
 
 import BN from 'bn.js';
 
 import typeToString from '@polkadot/params/typeToString';
+
+import getInitValueArray from './initValueArray';
 
 export default function getInitValue (type: Param$Types): RawParam$Value | Array<RawParam$Value> {
   switch (type) {
@@ -55,10 +57,7 @@ export default function getInitValue (type: Param$Types): RawParam$Value | Array
 
     default:
       if (Array.isArray(type)) {
-        return type.map((value) =>
-          // NOTE since TS is not quite good at recursives, cast to a single
-          getInitValue(value) as RawParam$Value
-        );
+        return getInitValueArray(type as Array<Param$Type>);
       }
 
       // tslint:disable-next-line

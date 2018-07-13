@@ -11,7 +11,7 @@ import Labelled from './Labelled';
 import classes from './util/classes';
 
 type Props = BareProps & {
-  children?: any, // node?,
+  children?: React.ReactNode,
   isError?: boolean,
   isHidden?: boolean,
   label?: any, // node?

@@ -12,6 +12,7 @@ import Bytes from './Bytes';
 import Code from './Code';
 import Hash from './Hash';
 import KeyValue from './KeyValue';
+import KeyValueStorageArray from './KeyValueStorageArray';
 import StringParam from './String';
 import Unknown from './Unknown';
 import VoteThreshold from './VoteThreshold';
@@ -28,6 +29,8 @@ const components: ComponentMap = {
   'Hash': Hash,
   'Index': Amount,
   'KeyValue': KeyValue,
+  'KeyValueStorage': KeyValue,
+  'KeyValueStorage[]': KeyValueStorageArray,
   'MisbehaviorReport': Unknown,
   'PropIndex': Amount,
   'Proposal': Unknown,
@@ -44,6 +47,13 @@ const components: ComponentMap = {
 
 export default function findComponent (type: Param$Types, overrides: ComponentMap = {}): React.ComponentType<Props> {
   if (Array.isArray(type)) {
+    // Special case for components where we have a specific override formatter
+    if (type.length === 1) {
+      const arrayType = `${type}[]`;
+
+      return overrides[arrayType] || components[arrayType] || Unknown;
+    }
+
     return Unknown;
   }
 

@@ -8,6 +8,8 @@ import { EncodingVersions } from '@polkadot/params/types';
 import { ApiProps } from '../types';
 
 import React from 'react';
+
+import shouldUseLatestChain from '@polkadot/ui-react-rx/util/shouldUseLatestChain';
 import createWsProvider from '@polkadot/api-provider/ws';
 import createApi from '@polkadot/api-rx';
 import defaults from '@polkadot/api-rx/defaults';
@@ -26,9 +28,7 @@ type State = ApiProps & {
 };
 
 function apiSupport (chain?: string): EncodingVersions {
-  return chain === undefined || chain === 'poc-1'
-    ? 'poc-1'
-    : 'latest';
+  return shouldUseLatestChain(chain) ? 'latest' : 'poc-1';
 }
 
 export default class Api extends React.PureComponent<Props, State> {

@@ -17,7 +17,7 @@ import translate from '../translate';
 import Item from './Item';
 
 type Props = I18nProps & {
-  children?: any // React$Node
+  children?: React.ReactNode
 };
 
 class SideBar extends React.PureComponent<Props> {

@@ -4,25 +4,26 @@
 
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 
+import BN from 'bn.js';
 import React from 'react';
 
 import storage from '@polkadot/storage';
-import createStorageKey from '@polkadot/storage/key';
 import withApi from '@polkadot/ui-react-rx/with/api';
-import storageTransform from '@polkadot/ui-react-rx/with/transform/storage';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Balance from '@polkadot/ui-react-rx/Balance';
 
-const intentionsMethod = storage.staking.public.intentions;
-const proposalMethod = storage.democracy.public.proposals;
+type StorageProposal = [BN, any, Uint8Array];
+type StorageIntentions = Array<Uint8Array>;
+
+type StateProposals = {
+  [index: string]: number[]
+};
 
 type State = {
-  intentions: string[],
-  proposals: {
-    [index: string]: number[]
-  },
-  subscriptions: any[]
+  intentions: Array<string>,
+  proposals: StateProposals,
+  subscriptions: Array<any>
 };
 
 class Comp extends React.PureComponent<ApiProps, State> {
@@ -47,39 +48,34 @@ class Comp extends React.PureComponent<ApiProps, State> {
 
   subscribeIntentions () {
     const { api } = this.props;
-    const key = createStorageKey(intentionsMethod)();
-    const transform = storageTransform(intentionsMethod);
 
     return api.state
-      .getStorage(key)
-      .subscribe((value) => {
+      .getStorage(storage.staking.public.intentions)
+      .subscribe((intentions: StorageIntentions) => {
         this.setState({
-          intentions: (transform(value, 0) as any[]).map(encodeAddress)
+          intentions: intentions.map(encodeAddress)
         });
       });
   }
 
   subscribeProposals () {
     const { api } = this.props;
-    const key = createStorageKey(proposalMethod)();
-    const transform = storageTransform(proposalMethod);
 
     return api.state
-      .getStorage(key)
-      .subscribe((value) => {
+      .getStorage(storage.democracy.public.proposals)
+      .subscribe((value: Array<StorageProposal>) => {
         this.setState({
-          proposals: (transform(value, 0) as any[])
-          .reduce((proposals, [propIdx, proposal, accountId]) => {
+          proposals: value.reduce((proposals: StateProposals, [propIdx, proposal, accountId]) => {
             const address = encodeAddress(accountId);
 
             if (!proposals[address]) {
-              proposals[address] = [propIdx];
+              proposals[address] = [propIdx.toNumber()];
             } else {
-              proposals[address].push(propIdx);
+              proposals[address].push(propIdx.toNumber());
             }
 
             return proposals;
-          }, {})
+          }, {} as StateProposals)
         });
       });
   }

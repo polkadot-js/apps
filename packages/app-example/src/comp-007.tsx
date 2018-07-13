@@ -8,31 +8,31 @@ import BN from 'bn.js';
 import React from 'react';
 
 import storage from '@polkadot/storage';
-import createStorageKey from '@polkadot/storage/key';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import withApi from '@polkadot/ui-react-rx/with/api';
-import storageTransform from '@polkadot/ui-react-rx/with/transform/storage';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
-import u8aToBn from '@polkadot/util/u8a/toBn';
 
-const balanceMethod = storage.staking.public.freeBalanceOf;
-const intentionsMethod = storage.staking.public.intentions;
-const proposalMethod = storage.democracy.public.proposals;
-const validatorsMethod = storage.session.public.validators;
+type StorageProposal = [BN, any, Uint8Array];
+type StorageIntentions = Array<Uint8Array>;
+type StorageValidators = Array<Uint8Array>;
 
-const ZERO = new BN(0);
+type StateBalances = {
+  [index: string]: BN
+};
+
+type StateProposals = {
+  [index: string]: number[]
+};
 
 type State = {
-  balances: {
-    [index: string]: BN
-  },
-  intentions: string[],
-  proposals: {
-    [index: string]: number[]
-  },
-  subscriptions: any[],
-  validators: string[]
+  balances: StateBalances,
+  intentions: Array<string>,
+  proposals: StateProposals,
+  subscriptions: Array<any>,
+  validators: Array<string>
 };
+
+const ZERO = new BN(0);
 
 class Comp extends React.PureComponent<ApiProps, State> {
   constructor (props: ApiProps) {
@@ -59,13 +59,11 @@ class Comp extends React.PureComponent<ApiProps, State> {
 
   subscribeIntentions () {
     const { api } = this.props;
-    const key = createStorageKey(intentionsMethod)();
-    const transform = storageTransform(intentionsMethod);
 
     return api.state
-      .getStorage(key)
-      .subscribe((value) => {
-        const intentions = (transform(value, 0) as any[]).map(encodeAddress);
+      .getStorage(storage.staking.public.intentions)
+      .subscribe((storage: StorageIntentions) => {
+        const intentions = storage.map(encodeAddress);
 
         this.setState({ intentions }, () => {
           this.subscribeBalances(intentions);
@@ -75,46 +73,40 @@ class Comp extends React.PureComponent<ApiProps, State> {
 
   subscribeProposals () {
     const { api } = this.props;
-    const key = createStorageKey(proposalMethod)();
-    const transform = storageTransform(proposalMethod);
 
     return api.state
-      .getStorage(key)
-      .subscribe((value) => {
+      .getStorage(storage.democracy.public.proposals)
+      .subscribe((value: Array<StorageProposal>) => {
         this.setState({
-          proposals: (transform(value, 0) as any[])
-          .reduce((proposals, [propIdx, proposal, accountId]) => {
+          proposals: value.reduce((proposals: StateProposals, [propIdx, proposal, accountId]) => {
             const address = encodeAddress(accountId);
 
             if (!proposals[address]) {
-              proposals[address] = [propIdx];
+              proposals[address] = [propIdx.toNumber()];
             } else {
-              proposals[address].push(propIdx);
+              proposals[address].push(propIdx.toNumber());
             }
 
             return proposals;
-          }, {})
+          }, {} as StateProposals)
         });
       });
   }
 
   subscribeValidators () {
     const { api } = this.props;
-    const key = createStorageKey(validatorsMethod)();
-    const transform = storageTransform(validatorsMethod);
 
     return api.state
-      .getStorage(key)
-      .subscribe((value) => {
-        const validators = (transform(value, 0) as any[]).map(encodeAddress);
-
-        this.setState({ validators });
+      .getStorage(storage.session.public.validators)
+      .subscribe((validators: StorageValidators) => {
+        this.setState({
+          validators: validators.map(encodeAddress)
+        });
       });
   }
 
   subscribeBalances (accounts: string[]) {
     const { api } = this.props;
-    const keyCreator = createStorageKey(balanceMethod);
     const { balances, subscriptions } = this.state;
     const newBalances = { ...balances };
 
@@ -128,12 +120,12 @@ class Comp extends React.PureComponent<ApiProps, State> {
       subscriptions.push(
         api.state
           // Here we pass a parameter to the key generator, so it points to the correct storage entry
-          .getStorage(keyCreator(account))
-          .subscribe((balance) => {
+          .getStorage(storage.staking.public.freeBalanceOf, account)
+          .subscribe((balance: BN) => {
             this.setState(({ balances }: State) => {
               const newBalances = { ...balances };
 
-              newBalances[account] = u8aToBn(balance, true);
+              newBalances[account] = balance;
 
               return {
                 balances: newBalances
