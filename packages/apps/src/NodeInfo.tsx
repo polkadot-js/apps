@@ -23,6 +23,7 @@ function updateTestInfo (chain?: string) {
 class NodeInfo extends React.PureComponent<Props> {
   render () {
     const { className, style, t } = this.props;
+    
     return (
       <div className={classes('apps--NodeInfo', className)} style={style}>
         <Chain
