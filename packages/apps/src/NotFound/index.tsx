@@ -17,7 +17,7 @@ type Props = I18nProps & {};
 class NotFound extends React.PureComponent<Props> {
   render () {
     const { className, style, t } = this.props;
-    
+
     return (
       <div
         className={classes('apps--NotFound', className)}

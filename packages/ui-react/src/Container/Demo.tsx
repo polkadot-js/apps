@@ -28,7 +28,7 @@ export default class Demo extends React.PureComponent<DemoProps> {
       })
       .sort()
       .join('\n  ');
-      
+
     return (
       <Container className='ui--DemoContainer'>
         <pre className='ui--DemoHeader'>

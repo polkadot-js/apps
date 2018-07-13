@@ -20,7 +20,7 @@ type Props = I18nProps & {
 class Queries extends React.PureComponent<Props> {
   render () {
     const { className, onRemove, style, value } = this.props;
-    
+
     if (!value || !value.length) {
       return null;
     }

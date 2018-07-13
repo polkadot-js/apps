@@ -21,7 +21,7 @@ type Props = BareProps & {
 export default class CopyButton extends React.PureComponent<Props> {
   render () {
     const { className, icon = 'copy', isCircular = true, isPrimary = true, size = 'tiny', style, value } = this.props;
-    
+
     return (
       <CopyToClipboard text={value}>
         <Button

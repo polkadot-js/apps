@@ -18,7 +18,7 @@ type Props = I18nProps & {
 class ButtonOr extends React.PureComponent<Props> {
   render () {
     const { className, style, t, text } = this.props;
-    
+
     return (
       <SUIButton.Or
         className={className}

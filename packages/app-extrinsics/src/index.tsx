@@ -19,7 +19,7 @@ type Props = BareProps;
 export default class ExtrinsicsApp extends React.PureComponent<Props> {
   render () {
     const { className, style } = this.props;
-    
+
     return (
       <div
         className={classes('extrinsics--App', className)}
