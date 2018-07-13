@@ -14,6 +14,8 @@ type Props = BaseProps & {
   value: string | Uint8Array
 };
 
+const DEFAULT_SIZE = 64;
+
 export default class IdentityIcon extends React.PureComponent<Props> {
   render () {
     const { className, style } = this.props;
@@ -28,7 +30,7 @@ export default class IdentityIcon extends React.PureComponent<Props> {
   }
 
   appendIcon = (node: Element | null): void => {
-    const { size = 64, value } = this.props;
+    const { size = DEFAULT_SIZE, value } = this.props;
 
     // https://stackoverflow.com/a/22966637
     if (node && node.parentNode) {
