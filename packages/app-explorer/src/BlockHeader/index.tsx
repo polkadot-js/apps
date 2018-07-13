@@ -22,7 +22,8 @@ type Props = I18nProps & {
 
 class BlockHeader extends React.PureComponent<Props> {
   render () {
-    const { className, value, style } = this.props;if (!value) {
+    const { className, value, style } = this.props;
+    if (!value) {
       return null;
     }
 

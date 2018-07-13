@@ -18,9 +18,9 @@ import Selection from './Selection';
 type Props = BareProps & {};
 
 export default class RpcApp extends React.PureComponent<Props> {
-
   render () {
     const { className, style } = this.props;
+    
     return (
       <div
         className={classes('rpc--App', className)}

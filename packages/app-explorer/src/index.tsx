@@ -20,7 +20,7 @@ type Props = I18nProps & {};
 class ExplorerApp extends React.PureComponent<Props> {
   render () {
     const { className, style, t } = this.props;
-        
+    
     return (
       <div
         className={classes('explorer--App', className)}
