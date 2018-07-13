@@ -4,14 +4,18 @@
 
 import { Props } from '../types';
 
+import isValidBalance from '../../util/isValidBalance';
+
+import BN from 'bn.js';
 import React from 'react';
 
 import Input from '../../Input';
 import Bare from './Bare';
 
-export default class StringBalance extends React.PureComponent<Props> {
+export default class Balance extends React.PureComponent<Props> {
   render () {
-    const { className, isDisabled, isError, label, style, withLabel } = this.props;
+    const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
+    const defaultValue = String(new BN(String(value) || 0));
 
     return (
       <Bare
@@ -20,11 +24,12 @@ export default class StringBalance extends React.PureComponent<Props> {
       >
         <Input
           className='large'
+          defaultValue={defaultValue || String(0)}
           isDisabled={isDisabled}
           isError={isError}
           label={label}
           onChange={this.onChange}
-          placeholder='<any number between [0.000000000000001] and [available balance minus 1])>'
+          placeholder='<any number between 1 testnet DOT and the available testnet DOT balance minus 1>'
           type='text'
           withLabel={withLabel}
         />
@@ -35,11 +40,11 @@ export default class StringBalance extends React.PureComponent<Props> {
   onChange = (value: string): void => {
     const { onChange } = this.props;
 
-    const isValid = value.length !== 0;
+    const isValid = isValidBalance(value.trim());
 
     onChange({
       isValid,
-      value
+      value: String(new BN(String(value.trim()) || '0'))
     });
   }
 }
