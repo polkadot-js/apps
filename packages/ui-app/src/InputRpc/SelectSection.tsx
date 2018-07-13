@@ -23,22 +23,26 @@ type Props = I18nProps & {
   withLabel?: boolean
 };
 
-function SelectSection ({ className, defaultValue, isError, label, onChange, options, style, t, value: { section }, withLabel }: Props) {
-  return (
-    <Dropdown
-      className={classes('ui--DropdownLinked-Sections', className)}
-      defaultValue={defaultValue}
-      isError={isError}
-      label={label || t('input.rpc.section', {
-        defaultValue: 'rpc area'
-      })}
-      onChange={onChange}
-      options={options}
-      style={style}
-      value={section}
-      withLabel={withLabel}
-    />
-  );
+class SelectSection extends React.PureComponent<Props> {
+  render () {
+    const { className, defaultValue, isError, label, onChange, options, style, t, value: { section }, withLabel } = this.props;
+
+    return (
+      <Dropdown
+        className={classes('ui--DropdownLinked-Sections', className)}
+        defaultValue={defaultValue}
+        isError={isError}
+        label={label || t('input.rpc.section', {
+          defaultValue: 'rpc area'
+        })}
+        onChange={onChange}
+        options={options}
+        style={style}
+        value={section}
+        withLabel={withLabel}
+      />
+    );
+  }
 }
 
 export default translate(SelectSection);

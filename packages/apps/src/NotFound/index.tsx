@@ -14,17 +14,21 @@ import translate from '../translate';
 
 type Props = I18nProps & {};
 
-function NotFound ({ className, style, t }: Props) {
-  return (
-    <div
-      className={classes('apps--NotFound', className)}
-      style={style}
-    >
-      {t('notfound.error', {
-        defaultValue: 'ERROR: You have tried to access an application that does not exist'
-      })}
-    </div>
-  );
+class NotFound extends React.PureComponent<Props> {
+  render () {
+    const { className, style, t } = this.props;
+
+    return (
+      <div
+        className={classes('apps--NotFound', className)}
+        style={style}
+      >
+        {t('notfound.error', {
+          defaultValue: 'ERROR: You have tried to access an application that does not exist'
+        })}
+      </div>
+    );
+  }
 }
 
 export default translate(NotFound);

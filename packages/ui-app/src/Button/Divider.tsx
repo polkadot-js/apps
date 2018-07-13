@@ -8,13 +8,15 @@ import React from 'react';
 
 import classes from '../util/classes';
 
-function ButtonDivider ({ className, style }: DividerProps) {
-  return (
-    <div
-      className={classes('ui button compact mini basic', className)}
-      style={style}
-    />
-  );
-}
+export default class ButtonDivider extends React.Component<DividerProps> {
+  render () {
+    const { className, style } = this.props;
 
-export default ButtonDivider;
+    return (
+      <div
+        className={classes('ui button compact mini basic', className)}
+        style={style}
+      />
+    );
+  }
+}

@@ -13,33 +13,37 @@ type Props = BareProps & {
   queue: Array<QueueTx>
 };
 
-export default function Status ({ className, queue, style }: Props) {
-  const available = queue.filter(({ status }) =>
-    !['completed', 'incomplete'].includes(status)
-  );
+export default class Status extends React.PureComponent<Props> {
+  render () {
+    const { queue, className, style } = this.props;
+    const available = queue.filter(({ status }) =>
 
-  if (!available.length) {
-    return null;
+      !['completed', 'incomplete'].includes(status)
+    );
+
+    if (!available.length) {
+      return null;
+    }
+
+    return (
+      <div
+        className={classes('ui--signer-Status', className)}
+        style={style}
+      >
+        {available.map(({ rpc: { name, section }, id, status }) =>
+          <div
+            className={classes('ui--signer-Status-Item', status)}
+            key={id}
+          >
+            <div className='header'>
+              {section}.{name}
+            </div>
+            <div className='status'>
+              {status}
+            </div>
+          </div>
+        )}
+      </div>
+    );
   }
-
-  return (
-    <div
-      className={classes('ui--signer-Status', className)}
-      style={style}
-    >
-      {available.map(({ rpc: { name, section }, id, status }) =>
-        <div
-          className={classes('ui--signer-Status-Item', status)}
-          key={id}
-        >
-          <div className='header'>
-            {section}.{name}
-          </div>
-          <div className='status'>
-            {status}
-          </div>
-        </div>
-      )}
-    </div>
-  );
 }

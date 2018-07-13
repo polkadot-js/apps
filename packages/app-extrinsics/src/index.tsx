@@ -16,17 +16,21 @@ import Selection from './Selection';
 
 type Props = BareProps;
 
-export default function ExtrinsicsApp ({ className, style }: Props) {
-  return (
-    <div
-      className={classes('extrinsics--App', className)}
-      style={style}
-    >
-      <QueueConsumer>
-        {({ queueAdd }: QueueProps) => (
-          <Selection queueAdd={queueAdd} />
-        )}
-      </QueueConsumer>
-    </div>
-  );
+export default class ExtrinsicsApp extends React.PureComponent<Props> {
+  render () {
+    const { className, style } = this.props;
+
+    return (
+      <div
+        className={classes('extrinsics--App', className)}
+        style={style}
+      >
+        <QueueConsumer>
+          {({ queueAdd }: QueueProps) => (
+            <Selection queueAdd={queueAdd} />
+          )}
+        </QueueConsumer>
+      </div>
+    );
+  }
 }

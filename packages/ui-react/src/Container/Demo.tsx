@@ -13,26 +13,29 @@ type DemoProps = {
   component: string
 };
 
-export default function Demo ({ attrs, attrsReq, children, component }: DemoProps) {
-  const allAttrs = Object.assign({ className: '"..."', style: '{...}' }, attrs);
-  const attrsText = Object
-    .keys(allAttrs)
-    .map((attr) => {
-      const value = allAttrs[attr];
-      const bool = value === 'bool';
-      const opt = bool || !attrsReq.includes(attr);
+export default class Demo extends React.PureComponent<DemoProps> {
+  render () {
+    const { attrs, attrsReq, children, component } = this.props;
+    const allAttrs = Object.assign({ className: '"..."', style: '{...}' }, attrs);
+    const attrsText = Object
+      .keys(allAttrs)
+      .map((attr) => {
+        const value = allAttrs[attr];
+        const bool = value === 'bool';
+        const opt = bool || !attrsReq.includes(attr);
 
-      return `${opt ? '[' : ''}${attr}${bool ? '' : '='}${bool ? '' : value}${opt ? ']' : ''}`;
-    })
-    .sort()
-    .join('\n  ');
+        return `${opt ? '[' : ''}${attr}${bool ? '' : '='}${bool ? '' : value}${opt ? ']' : ''}`;
+      })
+      .sort()
+      .join('\n  ');
 
-  return (
-    <Container className='ui--DemoContainer'>
-      <pre className='ui--DemoHeader'>
-        {`<${component}\n  ${attrsText}\n/>`}
-      </pre>
-      {children}
-    </Container>
-  );
+    return (
+      <Container className='ui--DemoContainer'>
+        <pre className='ui--DemoHeader'>
+          {`<${component}\n  ${attrsText}\n/>`}
+        </pre>
+        {children}
+      </Container>
+    );
+  }
 }

@@ -20,22 +20,26 @@ const defaultLabel: any = (// node?
   <div>&nbsp;</div>
 );
 
-export default function Labelled ({ className, children, isHidden = false, label = defaultLabel, style, withLabel = true }: Props) {
-  if (isHidden) {
-    return null;
-  }
+export default class Labelled extends React.PureComponent<Props> {
+  render () {
+    const { className, children, isHidden = false, label = defaultLabel, style, withLabel = true } = this.props;
 
-  return (
-    <div
-      className={classes('ui--Labelled', className)}
-      style={style}
-    >
-      {
-        withLabel
-          ? <Label>{label}</Label>
-          : null
-      }
-      {children}
-    </div>
-  );
+    if (isHidden) {
+      return null;
+    }
+
+    return (
+      <div
+        className={classes('ui--Labelled', className)}
+        style={style}
+      >
+        {
+          withLabel
+            ? <Label>{label}</Label>
+            : null
+        }
+        {children}
+      </div>
+    );
+  }
 }

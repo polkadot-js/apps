@@ -17,17 +17,21 @@ type Props = I18nProps & {
   route: Route
 };
 
-export default function Item ({ route: { i18n, icon, isExact, name, path = '' }, t }: Props) {
-  return (
-    <Menu.Item className='apps--SideBar-Item'>
-      <NavLink
-        activeClassName='apps--SideBar-Item-NavLink-active'
-        className='apps--SideBar-Item-NavLink'
-        exact={isExact}
-        to={path || `/${name}`}
-      >
-        <Icon name={icon} /> {t(`sidebar.${name}`, i18n)}
-      </NavLink>
-    </Menu.Item>
-  );
+export default class Item extends React.PureComponent<Props> {
+  render () {
+    const { route: { i18n, icon, isExact, name, path = '' }, t } = this.props;
+
+    return (
+      <Menu.Item className='apps--SideBar-Item'>
+        <NavLink
+          activeClassName='apps--SideBar-Item-NavLink-active'
+          className='apps--SideBar-Item-NavLink'
+          exact={isExact}
+          to={path || `/${name}`}
+        >
+          <Icon name={icon} /> {t(`sidebar.${name}`, i18n)}
+        </NavLink>
+      </Menu.Item>
+    );
+  }
 }

@@ -9,34 +9,37 @@ import addressEncode from '@polkadot/util-keyring/address/encode';
 import Container from '../Container/Demo';
 import IdentityIcon from './index';
 
-export default function Demo () {
-  const identities: Array<Uint8Array | string> = [new Uint8Array(32)];
+export default class Demo extends React.PureComponent {
+  render () {
+    const identities: Array<Uint8Array | string> = [new Uint8Array(32)];
 
-  while (identities.length !== 10) {
-    identities.push(
-      addressEncode(randomAsU8a(32))
+    while (identities.length !== 10) {
+      identities.push(
+        addressEncode(randomAsU8a(32))
+      );
+    }
+
+    return (
+      <Container
+        component='IdentityIcon'
+        attrs={{
+          size: '<number>',
+          value: '{...}'
+        }}
+        attrsReq={[
+          'value'
+        ]}
+      >
+        {
+          identities.map((value) => (
+            <IdentityIcon
+              key={value.toString()}
+              value={value}
+            />
+          ))
+        }
+      </Container>
     );
   }
 
-  return (
-    <Container
-      component='IdentityIcon'
-      attrs={{
-        size: '<number>',
-        value: '{...}'
-      }}
-      attrsReq={[
-        'value'
-      ]}
-    >
-      {
-        identities.map((value) => (
-          <IdentityIcon
-            key={value.toString()}
-            value={value}
-          />
-        ))
-      }
-    </Container>
-  );
 }

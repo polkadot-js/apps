@@ -16,19 +16,23 @@ type Props = BareProps & {
   withLabel?: boolean
 };
 
-export default function Static ({ className, children, isHidden, label, style, value, withLabel }: Props) {
-  return (
-    <Labelled
-      className={className}
-      isHidden={isHidden}
-      label={label}
-      style={style}
-      withLabel={withLabel}
-    >
-      <div className='ui dropdown selection disabled'>
-        {value}
-        {children}
-      </div>
-    </Labelled>
-  );
+export default class Static extends React.PureComponent<Props> {
+  render () {
+    const { className, children, isHidden, label, style, value, withLabel } = this.props;
+
+    return (
+      <Labelled
+        className={className}
+        isHidden={isHidden}
+        label={label}
+        style={style}
+        withLabel={withLabel}
+      >
+        <div className='ui dropdown selection disabled'>
+          {value}
+          {children}
+        </div>
+      </Labelled>
+    );
+  }
 }

@@ -20,52 +20,55 @@ type Props = I18nProps & {
   value?: Header
 };
 
-function BlockHeader ({ className, value, style }: Props) {
-  if (!value) {
-    return null;
-  }
+class BlockHeader extends React.PureComponent<Props> {
+  render () {
+    const { className, value, style } = this.props;
+    if (!value) {
+      return null;
+    }
 
-  const hash = headerHash(value);
-  // tslint:disable-next-line:variable-name
-  const { extrinsicsRoot, number, parentHash, stateRoot } = value;
+    const hash = headerHash(value);
+    // tslint:disable-next-line:variable-name
+    const { extrinsicsRoot, number, parentHash, stateRoot } = value;
 
-  return (
-    <div
-      className={classes('explorer--BlockHeader', className)}
-      style={style}
-    >
-      <div className='number'>
-        <div>{numberFormat(number)}</div>
-      </div>
-      <div className='details'>
-        <div className='hash'>
-          {u8aToHex(hash)}
+    return (
+      <div
+        className={classes('explorer--BlockHeader', className)}
+        style={style}
+      >
+        <div className='number'>
+          <div>{numberFormat(number)}</div>
         </div>
-        <table className='contains'>
-          <tbody>
-            <tr>
-              <td className='type'>parentHash</td>
-              <td className='hash'>
-                {u8aToHex(parentHash)}
-              </td>
-            </tr>
-            <tr>
-              <td className='type'>extrinsicsRoot</td>
-              <td className='hash'>
-                {u8aToHex(extrinsicsRoot)}
-              </td>
-            </tr>
-            <tr>
-              <td className='type'>stateRoot</td>
-              <td className='hash'>
-                {u8aToHex(stateRoot)}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div className='details'>
+          <div className='hash'>
+            {u8aToHex(hash)}
+          </div>
+          <table className='contains'>
+            <tbody>
+              <tr>
+                <td className='type'>parentHash</td>
+                <td className='hash'>
+                  {u8aToHex(parentHash)}
+                </td>
+              </tr>
+              <tr>
+                <td className='type'>extrinsicsRoot</td>
+                <td className='hash'>
+                  {u8aToHex(extrinsicsRoot)}
+                </td>
+              </tr>
+              <tr>
+                <td className='type'>stateRoot</td>
+                <td className='hash'>
+                  {u8aToHex(stateRoot)}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default translate(BlockHeader);

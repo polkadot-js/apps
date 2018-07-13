@@ -17,22 +17,26 @@ type Props = BareProps & {
   value?: Uint8Array
 };
 
-export default function Nonce ({ className, label, style, onChange, value }: Props) {
-  return (
-    <div
-      className={classes('ui--row', className)}
-      style={style}
-    >
-      <Labelled
-        className='small'
-        label={label}
+export default class Nonce extends React.PureComponent<Props> {
+  render () {
+    const { className, label, style, onChange, value } = this.props;
+
+    return (
+      <div
+        className={classes('ui--row', className)}
+        style={style}
       >
-        <RxNonce
-          className='ui disabled dropdown selection'
-          onChange={onChange}
-          params={value}
-        />
-      </Labelled>
-    </div>
-  );
+        <Labelled
+          className='small'
+          label={label}
+        >
+          <RxNonce
+            className='ui disabled dropdown selection'
+            onChange={onChange}
+            params={value}
+          />
+        </Labelled>
+      </div>
+    );
+  }
 }

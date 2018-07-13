@@ -15,20 +15,24 @@ type Props = I18nProps & {
   text?: string
 };
 
-function ButtonOr ({ className, style, t, text }: Props) {
-  return (
-    <SUIButton.Or
-      className={className}
-      style={style}
-      text={
-        isUndefined(text)
-          ? t('button.or', {
-            defaultValue: 'or'
-          })
-          : text
-      }
-    />
-  );
+class ButtonOr extends React.PureComponent<Props> {
+  render () {
+    const { className, style, t, text } = this.props;
+
+    return (
+      <SUIButton.Or
+        className={className}
+        style={style}
+        text={
+          isUndefined(text)
+            ? t('button.or', {
+              defaultValue: 'or'
+            })
+            : text
+        }
+      />
+    );
+  }
 }
 
 export default translate(ButtonOr);

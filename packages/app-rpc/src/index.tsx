@@ -17,24 +17,28 @@ import Selection from './Selection';
 
 type Props = BareProps & {};
 
-export default function RpcApp ({ className, style }: Props) {
-  return (
-    <div
-      className={classes('rpc--App', className)}
-      style={style}
-    >
-      <QueueConsumer>
-        {({ queue, queueAdd }: QueueProps) => [
-          <Selection
-            key='add'
-            queueAdd={queueAdd}
-          />,
-          <Results
-            key='results'
-            queue={queue}
-          />
-        ]}
-      </QueueConsumer>
-    </div>
-  );
+export default class RpcApp extends React.PureComponent<Props> {
+  render () {
+    const { className, style } = this.props;
+
+    return (
+      <div
+        className={classes('rpc--App', className)}
+        style={style}
+      >
+        <QueueConsumer>
+          {({ queue, queueAdd }: QueueProps) => [
+            <Selection
+              key='add'
+              queueAdd={queueAdd}
+            />,
+            <Results
+              key='results'
+              queue={queue}
+            />
+          ]}
+        </QueueConsumer>
+      </div>
+    );
+  }
 }

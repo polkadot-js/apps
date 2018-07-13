@@ -15,12 +15,16 @@ type Props = BaseProps & {
   value: string | Uint8Array
 };
 
-export default function IdentityIcon ({ className, size = 64, style, value }: Props) {
-  return (
-    <div
-      className={['ui--IdentityIcon', className].join(' ')}
-      ref={appendIcon(value, size)}
-      style={style}
-    />
-  );
+export default class IdentityIcon extends React.PureComponent<Props> {
+  render () {
+    const { className, size = 64, style, value } = this.props;
+
+    return (
+      <div
+        className={['ui--IdentityIcon', className].join(' ')}
+        ref={appendIcon(value, size)} // TODO: The append should probably be in this class and done in a more "React-y" way
+        style={style}
+      />
+    );
+  }
 }

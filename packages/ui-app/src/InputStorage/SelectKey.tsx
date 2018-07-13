@@ -24,29 +24,33 @@ type Props = I18nProps & {
   withLabel?: boolean
 };
 
-function SelectKey ({ className, isError, label = '', onChange, options, style, t, value: { name, section }, withLabel }: Props) {
-  if (!options.length) {
-    return null;
+class SelectKey extends React.PureComponent<Props> {
+  render () {
+    const { className, isError, label = '', onChange, options, style, t, value: { name, section }, withLabel } = this.props;
+
+    if (!options.length) {
+      return null;
+    }
+
+    const transform = (name: string): SectionItem<Storages> =>
+      map[section].public[name];
+
+    return (
+      <Dropdown
+        className={classes('ui--DropdownLinked-Items', className)}
+        isError={isError}
+        label={label || t('input.storage.key', {
+          defaultValue: 'with storage key'
+        })}
+        onChange={onChange}
+        options={options}
+        style={style}
+        transform={transform}
+        value={name}
+        withLabel={withLabel}
+      />
+    );
   }
-
-  const transform = (name: string): SectionItem<Storages> =>
-    map[section].public[name];
-
-  return (
-    <Dropdown
-      className={classes('ui--DropdownLinked-Items', className)}
-      isError={isError}
-      label={label || t('input.storage.key', {
-        defaultValue: 'with storage key'
-      })}
-      onChange={onChange}
-      options={options}
-      style={style}
-      transform={transform}
-      value={name}
-      withLabel={withLabel}
-    />
-  );
 }
 
 export default translate(SelectKey);

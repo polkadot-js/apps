@@ -17,34 +17,38 @@ type Props = BareProps & {
   queue: Array<QueueTx>
 };
 
-export default function Results ({ className, queue = [], style }: Props) {
-  const filtered = queue
-    .filter(({ error, result }) =>
-      !isUndefined(error) || !isUndefined(result)
-    )
-    .reverse();
+export default class Results extends React.PureComponent<Props> {
+  render () {
+    const { className, queue = [], style } = this.props;
 
-  if (!filtered.length) {
-    return null;
+    const filtered = queue
+      .filter(({ error, result }) =>
+        !isUndefined(error) || !isUndefined(result)
+      )
+      .reverse();
+
+    if (!filtered.length) {
+      return null;
+    }
+
+    return (
+      <div
+        className={classes('rpc--Results', className)}
+        style={style}
+      >
+        {filtered.map(({ error, id, result, rpc: { section, name } }) => (
+          <Output
+            isError={!!error}
+            key={id}
+            label={`${id}: ${section}.${name}`}
+            value={
+              error
+                ? error.message
+                : resultToText(result)
+            }
+          />
+        ))}
+      </div>
+    );
   }
-
-  return (
-    <div
-      className={classes('rpc--Results', className)}
-      style={style}
-    >
-      {filtered.map(({ error, id, result, rpc: { section, name } }) => (
-        <Output
-          isError={!!error}
-          key={id}
-          label={`${id}: ${section}.${name}`}
-          value={
-            error
-              ? error.message
-              : resultToText(result)
-          }
-        />
-      ))}
-    </div>
-  );
 }

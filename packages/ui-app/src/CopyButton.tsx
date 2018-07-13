@@ -18,17 +18,21 @@ type Props = BareProps & {
   value?: any
 };
 
-export default function CopyButton ({ className, icon = 'copy', isCircular = true, isPrimary = true, size = 'tiny', style, value }: Props) {
-  return (
-    <CopyToClipboard text={value}>
-      <Button
-        className={className}
-        icon={icon}
-        isCircular={isCircular}
-        isPrimary={isPrimary}
-        size={size}
-        style={style}
-      />
-    </CopyToClipboard>
-  );
+export default class CopyButton extends React.PureComponent<Props> {
+  render () {
+    const { className, icon = 'copy', isCircular = true, isPrimary = true, size = 'tiny', style, value } = this.props;
+
+    return (
+      <CopyToClipboard text={value}>
+        <Button
+          className={className}
+          icon={icon}
+          isCircular={isCircular}
+          isPrimary={isPrimary}
+          size={size}
+          style={style}
+        />
+      </CopyToClipboard>
+    );
+  }
 }

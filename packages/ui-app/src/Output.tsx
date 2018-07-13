@@ -20,26 +20,30 @@ type Props = BareProps & {
   withLabel?: boolean
 };
 
-export default function Output ({ className, children, isError = false, isHidden, label, style, value, withCopy = false, withLabel }: Props) {
-  return (
-    <Labelled
-      className={className}
-      isHidden={isHidden}
-      label={label}
-      style={style}
-      withLabel={withLabel}
-    >
-      <div className={classes('ui--output', isError && 'error')}>
-        {value}
-        {children}
-        {
-          withCopy
-            ? (
-              <CopyButton className='ui--output-button' value={value} />
-            )
-            : null
-        }
-      </div>
-    </Labelled>
-  );
+export default class Output extends React.PureComponent<Props> {
+  render () {
+    const { className, children, isError = false, isHidden, label, style, value, withCopy = false, withLabel } = this.props;
+
+    return (
+      <Labelled
+        className={className}
+        isHidden={isHidden}
+        label={label}
+        style={style}
+        withLabel={withLabel}
+      >
+        <div className={classes('ui--output', isError && 'error')}>
+          {value}
+          {children}
+          {
+            withCopy
+              ? (
+                <CopyButton className='ui--output-button' value={value} />
+              )
+              : null
+          }
+        </div>
+      </Labelled>
+    );
+  }
 }

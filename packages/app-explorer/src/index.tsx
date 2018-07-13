@@ -17,22 +17,26 @@ import translate from './translate';
 
 type Props = I18nProps & {};
 
-function ExplorerApp ({ className, style, t }: Props) {
-  return (
-    <div
-      className={classes('explorer--App', className)}
-      style={style}
-    >
-      <BestNumber
-        className='explorer--BestNumber'
-        label={t('app.bestNumber', {
-          defaultValue: 'best #'
-        })}
-      />
-      <BestHash />
-      <BlockHeaders />
-    </div>
-  );
+class ExplorerApp extends React.PureComponent<Props> {
+  render () {
+    const { className, style, t } = this.props;
+
+    return (
+      <div
+        className={classes('explorer--App', className)}
+        style={style}
+      >
+        <BestNumber
+          className='explorer--BestNumber'
+          label={t('app.bestNumber', {
+            defaultValue: 'best #'
+          })}
+        />
+        <BestHash />
+        <BlockHeaders />
+      </div>
+    );
+  }
 }
 
 export default translate(ExplorerApp);

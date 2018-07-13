@@ -21,24 +21,28 @@ function updateTestInfo (chain?: string) {
   keyring.setTestMode(isTestChain(chain));
 }
 
-function NodeInfo ({ className, style, t }: Props) {
-  return (
-    <div className={classes('apps--NodeInfo', className)}>
-      <Chain
-        label={t('info.chain', {
-          defaultValue: 'chain: '
+class NodeInfo extends React.PureComponent<Props> {
+  render () {
+    const { className, style, t } = this.props;
+
+    return (
+      <div className={classes('apps--NodeInfo', className)} style={style}>
+        <Chain
+          label={t('info.chain', {
+            defaultValue: 'chain: '
+          })}
+          onChange={updateTestInfo}
+        />
+        <NodeName label={t('info.name', {
+          defaultValue: 'client: '
         })}
-        onChange={updateTestInfo}
-      />
-      <NodeName label={t('info.name', {
-        defaultValue: 'client: '
-      })}
-      />
-      <NodeVersion label={t('info.name', {
-        defaultValue: 'version: '
-      })} />
-    </div>
-  );
+        />
+        <NodeVersion label={t('info.name', {
+          defaultValue: 'version: '
+        })} />
+      </div>
+    );
+  }
 }
 
 export default translate(NodeInfo);

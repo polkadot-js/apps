@@ -20,51 +20,55 @@ type Props = I18nProps & {
   children?: React.ReactNode
 };
 
-function SideBar ({ children, className, style, t }: Props) {
-  return (
-    <div
-      className={classes('apps--SideBar', className)}
-      style={style}
-    >
-      <Menu
-        secondary
-        vertical
+class SideBar extends React.PureComponent<Props> {
+  render () {
+    const { children, className, style, t } = this.props;
+
+    return (
+      <div
+        className={classes('apps--SideBar', className)}
+        style={style}
       >
-        {
-          routing.routes
-            .filter((route) =>
-              !route || !route.isHidden
-            )
-            .map((route, index) => (
-              route
-                ? (
-                  <Item
-                    key={route.name}
-                    t={t}
-                    route={route}
-                  />
-                )
-                : (
-                  <Menu.Divider
-                    hidden
-                    key={index}
-                  />
-                )
-            ))
-        }
-        <Menu.Divider hidden />
-        <Menu.Item className='apps--SideBar-Item'>
-          <a
-            className='apps--SideBar-Item-NavLink'
-            href='https://github.com/polkadot-js/apps'>
-            <Icon name='github' /> GitHub
-          </a>
-        </Menu.Item>
-        <Menu.Divider hidden />
-        {children}
-      </Menu>
-    </div>
-  );
+        <Menu
+          secondary
+          vertical
+        >
+          {
+            routing.routes
+              .filter((route) =>
+                !route || !route.isHidden
+              )
+              .map((route, index) => (
+                route
+                  ? (
+                    <Item
+                      key={route.name}
+                      t={t}
+                      route={route}
+                    />
+                  )
+                  : (
+                    <Menu.Divider
+                      hidden
+                      key={index}
+                    />
+                  )
+              ))
+          }
+          <Menu.Divider hidden />
+          <Menu.Item className='apps--SideBar-Item'>
+            <a
+              className='apps--SideBar-Item-NavLink'
+              href='https://github.com/polkadot-js/apps'>
+              <Icon name='github' /> GitHub
+            </a>
+          </Menu.Item>
+          <Menu.Divider hidden />
+          {children}
+        </Menu>
+      </div>
+    );
+  }
 }
 
 export default translate(SideBar);

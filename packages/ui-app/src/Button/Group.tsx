@@ -11,18 +11,23 @@ import Button from '@polkadot/ui-app/Button';
 import classes from '../util/classes';
 import Divider from './Divider';
 
-function ButtonGroup ({ children, className, style }: GroupProps) {
-  return (
-    <div
-      className={classes('ui--Button-Group', className)}
-      style={style}
-    >
-      <SUIButton.Group>
-        <Button.Group.Divider style={{ padding: '0em' }} />
-        {children}
-      </SUIButton.Group>
-    </div>
-  );
+// ({ children, className, style }: GroupProps)
+class ButtonGroup extends React.PureComponent<GroupProps> {
+  render () {
+    const { children, className, style } = this.props;
+
+    return (
+      <div
+        className={classes('ui--Button-Group', className)}
+        style={style}
+      >
+        <SUIButton.Group>
+          <Button.Group.Divider style={{ padding: '0em' }} />
+          {children}
+        </SUIButton.Group>
+      </div>
+    );
+  }
 }
 
 (ButtonGroup as GroupType).Divider = Divider;
