@@ -15,11 +15,13 @@ import StorageKeyValue from './StorageKeyValue';
 import StorageKeyValueArray from './StorageKeyValueArray';
 import StringParam from './String';
 import Timestamp from './Timestamp';
+import Balance from './Balance';
 import Unknown from './Unknown';
 import VoteThreshold from './VoteThreshold';
 
 const components: ComponentMap = {
   'AccountId': Account,
+  'Balance': Balance,
   'BlockNumber': Amount,
   'bool': Bool,
   'Bytes': Bytes,
