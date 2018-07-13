@@ -27,6 +27,7 @@ type Props = I18nProps & {
 class SelectKey extends React.PureComponent<Props> {
   render () {
     const { className, isError, label = '', onChange, options, style, t, value: { name, section }, withLabel } = this.props;
+    
     if (!options.length) {
       return null;
     }

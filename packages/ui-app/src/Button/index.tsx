@@ -14,7 +14,6 @@ import isUndefined from '@polkadot/util/is/undefined';
 import Divider from './Divider';
 import Group from './Group';
 import Or from './Or';
-// ({ children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isNegative = false, isPrimary = false, onClick, size, style, text }: ButtonProps) {
 
 class Button extends React.PureComponent<ButtonProps> {
   render () {

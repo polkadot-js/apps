@@ -21,9 +21,9 @@ const defaultLabel: any = (// node?
 );
 
 export default class Labelled extends React.PureComponent<Props> {
-
   render () {
     const { className, children, isHidden = false, label = defaultLabel, style, withLabel = true } = this.props;
+
     if (isHidden) {
       return null;
     }

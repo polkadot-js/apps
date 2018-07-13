@@ -23,6 +23,7 @@ type Props = I18nProps & {
 class SideBar extends React.PureComponent<Props> {
   render () {
     const { children, className, style, t } = this.props;
+    
     return (
       <div
         className={classes('apps--SideBar', className)}

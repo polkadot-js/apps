@@ -13,11 +13,9 @@ type DemoProps = {
   component: string
 };
 
-// ({ attrs, attrsReq, children, component }: DemoProps) {
 export default class Demo extends React.PureComponent<DemoProps> {
   render () {
     const { attrs, attrsReq, children, component } = this.props;
-
     const allAttrs = Object.assign({ className: '"..."', style: '{...}' }, attrs);
     const attrsText = Object
       .keys(allAttrs)
@@ -30,6 +28,7 @@ export default class Demo extends React.PureComponent<DemoProps> {
       })
       .sort()
       .join('\n  ');
+      
     return (
       <Container className='ui--DemoContainer'>
         <pre className='ui--DemoHeader'>

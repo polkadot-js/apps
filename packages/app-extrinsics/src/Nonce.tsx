@@ -20,6 +20,7 @@ type Props = BareProps & {
 export default class Nonce extends React.PureComponent<Props> {
   render () {
     const { className, label, style, onChange, value } = this.props;
+    
     return (
       <div
         className={classes('ui--row', className)}

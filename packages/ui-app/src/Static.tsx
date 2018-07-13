@@ -17,9 +17,9 @@ type Props = BareProps & {
 };
 
 export default class Static extends React.PureComponent<Props> {
-
   render () {
     const { className, children, isHidden, label, style, value, withLabel } = this.props;
+
     return (
       <Labelled
         className={className}

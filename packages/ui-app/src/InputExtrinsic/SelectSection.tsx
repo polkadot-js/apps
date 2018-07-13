@@ -24,9 +24,9 @@ type Props = I18nProps & {
 };
 
 class SelectSection extends React.PureComponent<Props> {
-
   render () {
     const { className, defaultValue, isError, label = '', onChange, options, style, t, value: { section }, withLabel } = this.props;
+
     return (
       <Dropdown
         className={classes('ui--DropdownLinked-Sections', className)}

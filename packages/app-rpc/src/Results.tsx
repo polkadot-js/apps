@@ -20,6 +20,7 @@ type Props = BareProps & {
 export default class Results extends React.PureComponent<Props> {
   render () {
     const { className, queue = [], style } = this.props;
+    
     const filtered = queue
       .filter(({ error, result }) =>
         !isUndefined(error) || !isUndefined(result)

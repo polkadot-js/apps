@@ -23,6 +23,7 @@ type Props = BareProps & {
 export default class Output extends React.PureComponent<Props> {
   render () {
     const { className, children, isError = false, isHidden, label, style, value, withCopy = false, withLabel } = this.props;
+    
     return (
       <Labelled
         className={className}
