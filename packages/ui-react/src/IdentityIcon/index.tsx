@@ -30,6 +30,7 @@ export default class IdentityIcon extends React.PureComponent<Props> {
   appendIcon = (node: Element | null): void => {
     const { size = 64, value } = this.props;
 
+    // https://stackoverflow.com/a/22966637
     if (node && node.parentNode) {
       const cloned = node.cloneNode(false);
 
