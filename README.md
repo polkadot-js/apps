@@ -63,4 +63,4 @@ Demos for the different libraries can be viewed with `yarn run demo:<name>` and 
 
 ## tutorials
 
-Looking for tutorials to get started? Look at [examples](examples/README.md) for a step-by-step guide to warning the API and Components to display some information.
+Looking for tutorials to get started? Look at [examples](examples/README.md) for a step-by-step guide to using the API and Components to display some information.
