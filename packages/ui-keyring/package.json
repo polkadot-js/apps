@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-keyring",
-  "version": "0.18.20",
+  "version": "0.18.21",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
-    "@polkadot/ui-react": "^0.18.20",
+    "@polkadot/ui-react": "^0.18.21",
     "@polkadot/util-keyring": "^0.26.20",
     "store": "^2.0.12"
   },
