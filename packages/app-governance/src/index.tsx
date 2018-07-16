@@ -4,15 +4,15 @@
 
 import React from 'react';
 
-import CouncilVotingProposals from './CouncilVotingProposals';
-import DemocracyProposals from './DemocracyProposals';
+import CouncilVotingProposalsHOC from './CouncilVotingProposalsHOC';
+import DemocracyProposalsHOC from './DemocracyProposalsHOC';
 
 export default class App extends React.PureComponent<any> {
   render () {
     return (
       <div>
-        <CouncilVotingProposals />
-        <DemocracyProposals />
+        <CouncilVotingProposalsHOC />
+        <DemocracyProposalsHOC />
       </div>
     );
   }
