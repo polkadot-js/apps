@@ -6,6 +6,7 @@ import React from 'react';
 
 import CouncilVotingProposalsHOC from './CouncilVotingProposalsHOC';
 import DemocracyProposalsHOC from './DemocracyProposalsHOC';
+import DemocracyProposalsRxAPI from './DemocracyProposalsRxAPI';
 
 export default class App extends React.PureComponent<any> {
   render () {
@@ -13,6 +14,7 @@ export default class App extends React.PureComponent<any> {
       <div>
         <CouncilVotingProposalsHOC />
         <DemocracyProposalsHOC />
+        <DemocracyProposalsRxAPI />
       </div>
     );
   }
