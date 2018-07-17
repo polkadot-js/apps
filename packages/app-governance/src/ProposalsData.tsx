@@ -11,6 +11,7 @@ import storage from '@polkadot/storage';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import withApi from '@polkadot/ui-react-rx/with/api';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
+import isUndefined from '@polkadot/util/is/undefined';
 
 type StorageProposal = [BN, any, Uint8Array];
 type StorageIntentions = Array<Uint8Array>;
@@ -24,17 +25,23 @@ type StateProposals = {
   [index: string]: number[]
 };
 
+// accountId: referendum/proposal index's
+type StateVotesFor = {
+  [index: string]: Array<number>
+}
+
 type State = {
   balances: StateBalances,
   intentions: Array<string>,
   proposals: StateProposals,
   subscriptions: Array<any>,
-  validators: Array<string>
+  validators: Array<string>,
+  votesFor: StateVotesFor
 };
 
 const ZERO = new BN(0);
 
-class Comp extends React.PureComponent<ApiProps, State> {
+class ProposalsData extends React.PureComponent<ApiProps, State> {
   constructor (props: ApiProps) {
     super(props);
 
@@ -43,7 +50,8 @@ class Comp extends React.PureComponent<ApiProps, State> {
       intentions: [],
       proposals: {},
       subscriptions: [],
-      validators: []
+      validators: [],
+      votesFor: {}
     };
   }
 
@@ -87,6 +95,8 @@ class Comp extends React.PureComponent<ApiProps, State> {
               proposals[address].push(propIdx.toNumber());
             }
 
+            this.subscribeVotesFor(proposals);
+
             return proposals;
           }, {} as StateProposals)
         });
@@ -103,6 +113,53 @@ class Comp extends React.PureComponent<ApiProps, State> {
           validators: validators.map(encodeAddress)
         });
       });
+  }
+
+  subscribeVotesFor (proposals: StateProposals) {
+    const { api } = this.props;
+    const { votesFor, subscriptions } = this.state;
+    const newVotesFor: StateVotesFor = { ...votesFor };
+
+    console.log('proposals: ', proposals);
+
+    for (let address in proposals) {
+      console.log('address in proposals hash: ', address);
+
+      for (let propIdx of proposals[address]) {
+        console.log('propIdx in proposals[address] array: ', propIdx);
+
+        subscriptions.push(
+          api.state
+            .getStorage(storage.democracy.public.votersFor, propIdx)
+            .subscribe((addresses: Array<string>) => {
+              console.log('subscribe returned addresses: ', addresses);
+
+              this.setState(({ votesFor }: State) => {
+
+                for (let address of addresses) {
+                  if (newVotesFor[address]) {
+                    // update the array of proposal indexes that an address has voted for if it exists
+                    newVotesFor[address].push(propIdx);
+                  } else {
+                    // add new key with the address to the hash if it has not voted before
+                    newVotesFor[address] = [];
+                  }
+                }
+                console.log('setting newVotesFor state: ', newVotesFor);
+
+                return {
+                  votesFor: newVotesFor
+                };
+              });
+            })
+        );
+      }
+    };
+
+    this.setState({
+      votesFor: newVotesFor,
+      subscriptions
+    });
   }
 
   subscribeBalances (accounts: string[]) {
@@ -148,7 +205,7 @@ class Comp extends React.PureComponent<ApiProps, State> {
   }
 
   render () {
-    const { balances, intentions, proposals, validators } = this.state;
+    const { balances, intentions, proposals, validators, votesFor } = this.state;
     const sortedIntentions = intentions.sort((a, b) =>
       (balances[b] || ZERO).cmp(balances[a] || ZERO)
     );
@@ -161,27 +218,37 @@ class Comp extends React.PureComponent<ApiProps, State> {
             <th>Address</th>
             <th>Balance</th>
             <th>Proposals</th>
+            <th>VotesFor</th>
           </tr>
         </thead>
         <tbody>
           {sortedIntentions.map((address) => (
-            this.renderAccount(address, balances[address], proposals[address], validators.includes(address))
+            this.renderAccount(address, balances[address], proposals[address], validators.includes(address), votesFor[address])
           ))}
         </tbody>
       </table>
     );
   }
 
-  renderAccount = (address: string, balance: BN = ZERO, proposals: number[] = [], isValidator: boolean = false) => {
+  renderAccount = (address: string, balance: BN = ZERO, proposalIndexes: number[] = [], isValidator: boolean = false, votes: Array<BN> = []) => {
     return (
       <tr className={isValidator ? 'validator' : ''} key={address}>
         <td><IdentityIcon size={24} value={address} /></td>
         <td>{address}</td>
         <td>{balance.toString(10)}</td>
-        <td>{proposals.length}</td>
+        <td>
+          Proposals Quantity: {proposalIndexes.length}
+          <br />
+          Proposals Indexes: {proposalIndexes.join(', ') }
+        </td>
+        <td>
+          Votes Quantity: {votes.length}
+          <br />
+          Votes For Proposal Indexes: {votes.map((pIdx) => pIdx.toNumber()).join(', ') }
+        </td>
       </tr>
     );
   }
 }
 
-export default withApi(Comp);
+export default withApi(ProposalsData);
