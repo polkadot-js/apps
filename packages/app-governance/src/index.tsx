@@ -8,6 +8,7 @@ import CouncilVotingProposalsHOC from './CouncilVotingProposalsHOC';
 import DemocracyProposalsHOC from './DemocracyProposalsHOC';
 import DemocracyProposalsRxAPI from './DemocracyProposalsRxAPI';
 import MultipleProposalsRxAPI from './MultipleProposalsRxAPI';
+import ProposalsData from './ProposalsData';
 
 export default class App extends React.PureComponent<any> {
   render () {
@@ -16,7 +17,8 @@ export default class App extends React.PureComponent<any> {
         {/* <CouncilVotingProposalsHOC />
         <DemocracyProposalsHOC />
         <DemocracyProposalsRxAPI /> */}
-        <MultipleProposalsRxAPI />
+        {/* <MultipleProposalsRxAPI /> */}
+        <ProposalsData />
       </div>
     );
   }
