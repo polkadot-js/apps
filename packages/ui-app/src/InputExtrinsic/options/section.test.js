@@ -3,7 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { shouldDisplaySection } from './section';
-import { textChangeRangeIsUnchanged } from '../../../../../node_modules/typescript';
 
 describe('input extrinsic section', () => {
   let type, dummySection;
