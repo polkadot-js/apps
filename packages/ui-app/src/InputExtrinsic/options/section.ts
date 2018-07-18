@@ -8,6 +8,21 @@ import { DropdownOptions } from '../types';
 
 import map from '@polkadot/extrinsics';
 
+function anyMethodToDisplay(methods: any) {
+  return Object
+    .keys(methods)
+    .filter((name) => {
+      const { isDeprecated, isHidden } = methods[name];
+
+      return !isDeprecated && !isHidden;
+    })
+    .length !== 0
+};
+
+function shouldDisplaySection(section: any, methods: any) {
+  return !section.isDeprecated && !section.isHidden && anyMethodToDisplay(methods);
+};
+
 export default function createOptions (type: 'private' | 'public'): DropdownOptions {
   return Object
     .keys(map)
@@ -22,15 +37,7 @@ export default function createOptions (type: 'private' | 'public'): DropdownOpti
 
       const methods = section[type];
 
-      const methodsToDisplay = Object
-        .keys(methods)
-        .filter((name) => {
-          const { isDeprecated, isHidden } = methods[name];
-
-          return !isDeprecated && !isHidden;
-        })
-
-      return !section.isDeprecated && !section.isHidden && Object.keys(methodsToDisplay).length !== 0;
+      return shouldDisplaySection(section, methods);
     })
     .map((name) => ({
       text: name,
