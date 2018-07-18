@@ -22,7 +22,15 @@ export default function createOptions (type: 'private' | 'public'): DropdownOpti
 
       const methods = section[type];
 
-      return Object.keys(methods).length !== 0;
+      const methodsToDisplay = Object
+        .keys(methods)
+        .filter((name) => {
+          const { isDeprecated, isHidden } = methods[name];
+
+          return !isDeprecated && !isHidden;
+        })
+
+      return !section.isDeprecated && !section.isHidden && Object.keys(methodsToDisplay).length !== 0;
     })
     .map((name) => ({
       text: name,
