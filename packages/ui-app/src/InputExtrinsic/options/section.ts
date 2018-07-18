@@ -8,7 +8,7 @@ import { DropdownOptions } from '../types';
 
 import map from '@polkadot/extrinsics';
 
-function anyMethodToDisplay (methods: any) {
+export function anyMethodToDisplay (methods: any) {
   return Object
     .keys(methods)
     .filter((name) => {
@@ -19,7 +19,7 @@ function anyMethodToDisplay (methods: any) {
     .length !== 0;
 }
 
-function shouldDisplaySection (section: any, methods: any) {
+export function shouldDisplaySection (section: any, methods: any) {
   return !section.isDeprecated && !section.isHidden && anyMethodToDisplay(methods);
 }
 
