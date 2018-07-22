@@ -32,6 +32,7 @@ const components: ComponentMap = {
   'KeyValueStorage': KeyValue,
   'KeyValueStorage[]': KeyValueStorageArray,
   'MisbehaviorReport': Unknown,
+  'ParachainId': Amount,
   'PropIndex': Amount,
   'Proposal': Unknown,
   'ReferendumIndex': Amount,
