@@ -17,7 +17,7 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
     "@polkadot/ui-react": "^0.18.25",
-    "@polkadot/util-keyring": "^0.26.21",
+    "@polkadot/util-keyring": "^0.26.24",
     "store": "^2.0.12"
   },
   "peerDependencies": {
