@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-react",
-  "version": "0.18.26",
+  "version": "0.19.0",
   "description": "A collection of base React components",
   "main": "index.js",
   "scripts": {
@@ -16,10 +16,10 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
-    "@polkadot/ui-identicon": "^0.18.26"
+    "@polkadot/ui-identicon": "^0.19.0"
   },
   "devDependencies": {
-    "@polkadot/util-keyring": "^0.26.24",
+    "@polkadot/util-keyring": "^0.26.25",
     "babel-loader": "^8.0.0-beta.2",
     "css-loader": "0.28.9",
     "empty": "^0.10.1",
