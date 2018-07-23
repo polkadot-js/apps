@@ -19,7 +19,7 @@ import classes from '../util/classes';
 import translate from '../translate';
 import SelectKey from './SelectKey';
 import SelectSection from './SelectSection';
-import keyOptions from './options/key';
+import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
 type Props = I18nProps & {
@@ -46,7 +46,7 @@ class InputStorage extends React.PureComponent<Props, State> {
     const { section } = this.props.defaultValue;
 
     this.state = {
-      optionsMethod: keyOptions(section),
+      optionsMethod: methodOptions(section),
       optionsSection: sectionOptions(),
       value: this.props.defaultValue
     };
@@ -101,7 +101,7 @@ class InputStorage extends React.PureComponent<Props, State> {
       return;
     }
 
-    const optionsMethod = keyOptions(newSection);
+    const optionsMethod = methodOptions(newSection);
     const value = map[newSection].public[optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
