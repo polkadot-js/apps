@@ -3,7 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 
 import isUndefined from '@polkadot/util/is/undefined';
-import isObject from '@polkadot/util/is/object';
 import isNull from '@polkadot/util/is/null';
 
 function anyMethodToDisplay (methods: any) {
