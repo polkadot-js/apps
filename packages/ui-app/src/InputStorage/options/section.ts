@@ -2,32 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Storage$Sections } from '@polkadot/storage/types';
+import { Section } from '@polkadot/params/types';
+import { Storage$Sections, Storages } from '@polkadot/storage/types';
 import { DropdownOptions } from '../../InputExtrinsic/types';
+import { shouldDisplaySection } from '../../util/shouldDisplaySection';
 
 import map from '@polkadot/storage';
 
-export default function createOptions (): DropdownOptions {
+export default function createOptions (type: string = 'public'): DropdownOptions {
   return Object
     .keys(map)
     .sort()
     .filter((name) => {
-      const section = map[name as Storage$Sections];
+      const section: Section<Storages> = map[name as Storage$Sections];
 
-      // cannot really get here
-      if (!section) {
-        return false;
-      }
-
-      const methods = Object
-        .keys(section.public)
-        .filter((name) => {
-          const { isDeprecated, isHidden } = section.public[name];
-
-          return !isDeprecated && !isHidden;
-        });
-
-      return !section.isDeprecated && methods.length !== 0;
+      return shouldDisplaySection(section, type);
     })
     .map((name) => ({
       text: name,
