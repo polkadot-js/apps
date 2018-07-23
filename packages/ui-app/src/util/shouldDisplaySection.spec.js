@@ -27,7 +27,7 @@ describe('input extrinsic section', () => {
 
   it('will be shown if section and its associated methods are not deprecated or hidden', () => {
     const expectedOutput = true;
-    const actualOutput = shouldDisplaySection(dummySection, dummySection[type]);
+    const actualOutput = shouldDisplaySection(dummySection, type);
 
     expect(actualOutput).toEqual(expectedOutput);
   });
@@ -35,7 +35,7 @@ describe('input extrinsic section', () => {
   it('will not be shown if section is hidden', () => {
     dummySection['isHidden'] = true; 
     const expectedOutput = false;
-    const actualOutput = shouldDisplaySection(dummySection, dummySection[type]);
+    const actualOutput = shouldDisplaySection(dummySection, type);
 
     expect(actualOutput).toEqual(expectedOutput);
   });
@@ -43,7 +43,7 @@ describe('input extrinsic section', () => {
   it('will not be shown if section is deprecated', () => {
     dummySection['isDeprecated'] = true; 
     const expectedOutput = false;
-    const actualOutput = shouldDisplaySection(dummySection, dummySection[type]);
+    const actualOutput = shouldDisplaySection(dummySection, type);
 
     expect(actualOutput).toEqual(expectedOutput);
   });
@@ -51,7 +51,7 @@ describe('input extrinsic section', () => {
   it('will not be shown if section is not deprecated or hidden and no associated methods exist', () => {
     type = 'private';
     const expectedOutput = false;
-    const actualOutput = shouldDisplaySection(dummySection, dummySection[type]);
+    const actualOutput = shouldDisplaySection(dummySection, type);
 
     expect(actualOutput).toEqual(expectedOutput);
   });
@@ -59,7 +59,15 @@ describe('input extrinsic section', () => {
   it('will not be shown if section is not deprecated or hidden but an associated method is deprecated or hidden', () => {
     dummySection['public']['didUpdate']['isHidden'] = true;
     const expectedOutput = false;
-    const actualOutput = shouldDisplaySection(dummySection, dummySection[type]);
+    const actualOutput = shouldDisplaySection(dummySection, type);
+
+    expect(actualOutput).toEqual(expectedOutput);
+  });
+
+  it('will not be shown if section methods are undefined or not an object', () => {
+    type = 'non-existant-type';
+    const expectedOutput = false;
+    const actualOutput = shouldDisplaySection(dummySection, type);
 
     expect(actualOutput).toEqual(expectedOutput);
   });

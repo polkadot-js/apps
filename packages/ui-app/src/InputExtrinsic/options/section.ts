@@ -2,28 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Extrinsic$Sections } from '@polkadot/extrinsics/types';
-
+import { Section } from '@polkadot/params/types';
+import { Extrinsic$Sections, Extrinsics } from '@polkadot/extrinsics/types';
 import { DropdownOptions } from '../types';
 import { shouldDisplaySection } from '../../util/shouldDisplaySection';
 
 import map from '@polkadot/extrinsics';
 
-export default function createOptions (type: 'private' | 'public'): DropdownOptions {
+export default function createOptions (type: string = 'private' || 'public'): DropdownOptions {
   return Object
     .keys(map)
     .sort()
     .filter((name) => {
-      const section = map[name as Extrinsic$Sections];
+      const section: Section<Extrinsics> = map[name as Extrinsic$Sections];
 
-      // cannot really get here
-      if (!section) {
-        return false;
-      }
-
-      const methods = section[type];
-
-      return shouldDisplaySection(section, methods);
+      return shouldDisplaySection(section, type);
     })
     .map((name) => ({
       text: name,
