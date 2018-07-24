@@ -51,7 +51,7 @@ To get started -
 5. Ready! Now you can launch the UI (assuming you have a local Polkadot Node running), via `yarn run start`
 6. Access the UI via [http://localhost:3000](http://localhost:3000)
 
-Alternatively, should you not have a local Node, you can connect to a remote node (POC-1 network, although not fully up-to-date with features) with the `WS_URL` parameter. For eample - the apps entry point can be launched with a WebSocket connection to Polkadot PoC-1 with `WS_URL=wss://poc-1.polkadot.io:9944 yarn run start` and accessing the application of [http://localhost:3000](http://localhost:3000)
+Alternatively, should you not have a local Node, you can connect to a remote node (POC-2 network, although not fully up-to-date with features) with the `WS_URL` parameter. For eample - the apps entry point can be launched with a WebSocket connection to Polkadot PoC-1 with `WS_URL=wss://poc-2.polkadot.io:9944 yarn run start` and accessing the application of [http://localhost:3000](http://localhost:3000)
 
 ## demos
 
