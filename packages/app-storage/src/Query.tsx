@@ -14,6 +14,8 @@ import Labelled from '@polkadot/ui-app/Labelled';
 import valueToText from '@polkadot/ui-app/Params/valueToText';
 import classes from '@polkadot/ui-app/util/classes';
 import withStorageDiv from '@polkadot/ui-react-rx/with/storageDiv';
+import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
+import addressEncode from '@polkadot/util-keyring/address/encode';
 
 import translate from './translate';
 
@@ -41,11 +43,51 @@ class Query extends React.PureComponent<Props, State> {
         value as Storage$Key$Value
       );
 
-      cache[id] = withStorageDiv(key, { params: values })(
-        (value: any) =>
-          valueToText(key.type, value),
-        { className: 'ui--output' }
-      );
+      // FIXME - Move into ui-app/src/Params/valueToAccountList for reuse
+      const renderAccounts = (addresses) => {
+        return (
+          <table className='accounts'>
+            <thead>
+              <tr>
+                <th>Identitycon</th>
+                <th>Account ID</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                addresses && addresses.length ?
+                  (
+                    addresses
+                      .map((address) => {
+                        return addressEncode(address as Uint8Array);
+                      })
+                      .map((accountId) => (
+                        <tr key={accountId}>
+                          <td><IdentityIcon size={24} value={accountId} /></td>
+                          <td>{accountId}</td>
+                        </tr>
+                      ))
+                  )
+                : null
+              }
+            </tbody>
+          </table>
+        );
+      };
+
+      if (key.type[0] === 'AccountId') {
+        cache[id] = withStorageDiv(key, { params: values })(
+          (value: any) =>
+            renderAccounts(value),
+          { className: 'ui--output', style: { lineHeight: '2em' } }
+        );
+      } else {
+        cache[id] = withStorageDiv(key, { params: values })(
+          (value: any) =>
+            valueToText(key.type, value),
+          { className: 'ui--output' }
+        );
+      }
     }
 
     return cache[id];
