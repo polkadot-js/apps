@@ -11,7 +11,6 @@ import storage from '@polkadot/storage';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import withApi from '@polkadot/ui-react-rx/with/api';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
-import isUndefined from '@polkadot/util/is/undefined';
 
 type StorageProposal = [BN, any, Uint8Array];
 type StorageIntentions = Array<Uint8Array>;
@@ -28,7 +27,7 @@ type StateProposals = {
 // accountId: referendum/proposal index's
 type StateVotesFor = {
   [index: string]: Array<number>
-}
+};
 
 type State = {
   balances: StateBalances,
@@ -230,7 +229,7 @@ class ProposalsData extends React.PureComponent<ApiProps, State> {
     );
   }
 
-  renderAccount = (address: string, balance: BN = ZERO, proposalIndexes: number[] = [], isValidator: boolean = false, votes: Array<BN> = []) => {
+  renderAccount = (address: string, balance: BN = ZERO, proposalIndexes: number[] = [], isValidator: boolean = false, votes: Array<number> = []) => {
     return (
       <tr className={isValidator ? 'validator' : ''} key={address}>
         <td><IdentityIcon size={24} value={address} /></td>
@@ -244,7 +243,7 @@ class ProposalsData extends React.PureComponent<ApiProps, State> {
         <td>
           Votes Quantity: {votes.length}
           <br />
-          Votes For Proposal Indexes: {votes.map((pIdx) => pIdx.toNumber()).join(', ') }
+          Votes For Proposal Indexes: {votes.map((pIdx) => pIdx).join(', ') }
         </td>
       </tr>
     );
