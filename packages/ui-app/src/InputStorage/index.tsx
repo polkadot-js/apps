@@ -44,10 +44,11 @@ class InputStorage extends React.PureComponent<Props, State> {
     super(props);
 
     const { section } = this.props.defaultValue;
+    const type = 'public';
 
     this.state = {
       optionsMethod: keyOptions(section),
-      optionsSection: sectionOptions(),
+      optionsSection: sectionOptions(type),
       value: this.props.defaultValue
     };
   }

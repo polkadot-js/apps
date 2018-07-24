@@ -2,19 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Section } from '@polkadot/params/types';
-import { Storage$Sections, Storages } from '@polkadot/storage/types';
+import { Storage$Sections } from '@polkadot/storage/types';
 import { DropdownOptions } from '../../InputExtrinsic/types';
 import { shouldDisplaySection } from '../../util/shouldDisplaySection';
 
 import map from '@polkadot/storage';
 
-export default function createOptions (type: string = 'public'): DropdownOptions {
+export default function createOptions (type: 'public'): DropdownOptions {
   return Object
     .keys(map)
     .sort()
     .filter((name) => {
-      const section: Section<Storages> = map[name as Storage$Sections];
+      const section = map[name as Storage$Sections];
 
       return shouldDisplaySection(section, type);
     })
