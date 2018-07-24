@@ -4,7 +4,8 @@
 
 import { Routes } from '../types';
 
-import Governance from '@polkadot/app-governance/index';
+// import Governance from '@polkadot/app-governance/index';
+import Governance from '../../../app-governance/src/index';
 
 export default ([
   {
