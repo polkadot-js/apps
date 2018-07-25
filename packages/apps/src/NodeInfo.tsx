@@ -17,6 +17,10 @@ import translate from './translate';
 
 type Props = I18nProps & {};
 
+const pkgJson = require('../package.json');
+
+console.log('@polkadot/apps', pkgJson.version);
+
 function updateTestInfo (chain?: string) {
   keyring.setTestMode(isTestChain(chain));
 }
@@ -33,13 +37,16 @@ class NodeInfo extends React.PureComponent<Props> {
           })}
           onChange={updateTestInfo}
         />
-        <NodeName label={t('info.name', {
+        <NodeName label={t('info.clientName', {
           defaultValue: 'client: '
         })}
         />
-        <NodeVersion label={t('info.name', {
-          defaultValue: 'version: '
+        <NodeVersion label={t('info.clientVersion', {
+          defaultValue: 'client version: '
         })} />
+        <div>{t('info.uiVersion', {
+          defaultValue: 'ui version:'
+        })} {pkgJson.version}</div>
       </div>
     );
   }

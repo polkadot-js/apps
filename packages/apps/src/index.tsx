@@ -19,10 +19,6 @@ import SideBar from './SideBar';
 
 type Props = BareProps & {};
 
-const pkgJson = require('../package.json');
-
-console.log('@polkadot/apps', pkgJson.version);
-
 function App ({ className, style }: Props) {
   return (
     <div
