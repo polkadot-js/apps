@@ -44,7 +44,7 @@ class Query extends React.PureComponent<Props, State> {
       );
 
       // FIXME - Move into ui-app/src/Params/valueToAccountList for reuse
-      const renderAccounts = (addresses) => {
+      const renderAccounts = (addresses: Array<Uint8Array | string>) => {
         return (
           <table className='accounts'>
             <thead>
