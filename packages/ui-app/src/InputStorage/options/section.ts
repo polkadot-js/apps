@@ -8,14 +8,14 @@ import { shouldDisplaySection } from '../../util/shouldDisplaySection';
 
 import map from '@polkadot/storage';
 
-export default function createOptions (type: 'public'): DropdownOptions {
+export default function createOptions (): DropdownOptions {
   return Object
     .keys(map)
     .sort()
     .filter((name) => {
       const section = map[name as Storage$Sections];
 
-      return shouldDisplaySection(section, type);
+      return shouldDisplaySection(section, 'public');
     })
     .map((name) => ({
       text: name,
