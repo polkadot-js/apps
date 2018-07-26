@@ -13,7 +13,7 @@ export default ([
     i18n: {
       defaultValue: 'Telemetry'
     },
-    icon: 'beer',
+    icon: 'signal',
     isExact: false,
     isHidden: false,
     name: 'telemetry'
