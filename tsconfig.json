@@ -10,6 +10,8 @@
       "@polkadot/app-extrinsics/*": [ "packages/app-extrinsics/src/*" ],
       "@polkadot/app-rpc/*": [ "packages/app-rpc/src/*" ],
       "@polkadot/app-storage/*": [ "packages/app-storage/src/*" ],
+      "@polkadot/app-telemetry/*": [ "packages/app-telemetry/src/*" ],
+      "@polkadot/app-telemetry-common/*": [ "packages/app-telemetry-common/src/*" ],
       "@polkadot/app-toolbox/*": [ "packages/app-toolbox/src/*" ],
       "@polkadot/app-vanitygen/*": [ "packages/app-vanitygen/src/*" ],
       "@polkadot/apps/*": [ "packages/apps/src/*" ],
