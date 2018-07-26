@@ -48,7 +48,7 @@ export function Header () {
         <th style={{ width: 100 }}><Icon src={lastTimeIcon} alt='Last Block Time' /></th>
       </tr>
     </thead>
-  )
+  );
 }
 
 export function Row (props: Props) {
