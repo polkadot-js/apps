@@ -33,3 +33,5 @@ export function sleep (time: Milliseconds): Promise<void> {
 }
 
 export const timestamp = Date.now as () => Timestamp;
+
+export function noop () {}
