@@ -4,7 +4,7 @@ import { Milliseconds, Timestamp } from './types';
  * PhantomData akin to Rust, because sometimes you need to be smarter than
  * the compiler.
  */
-export abstract class PhantomData<P> { public __PHANTOM__: P }
+export abstract class PhantomData<P> { public __PHANTOM__!: P; }
 
 /**
  * Opaque type, similar to `opaque type` in Flow, or new types in Rust/C.
