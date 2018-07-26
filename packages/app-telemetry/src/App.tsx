@@ -1,6 +1,11 @@
 import * as React from 'react';
-import { Types } from '@dotstats/common';
-import { Chains, Chain, Ago, OfflineIndicator } from './components';
+import { Types } from '../../app-telemetry-common/src';
+import {
+  Chains,
+  Chain,
+  Ago,
+  OfflineIndicator
+} from './components';
 import { Connection } from './Connection';
 import { State } from './state';
 
@@ -20,7 +25,7 @@ export default class App extends React.Component<{}, State> {
 
   private connection: Promise<Connection>;
 
-  constructor(props: {}) {
+  constructor (props: {}) {
     super(props);
 
     this.connection = Connection.create((changes) => {
@@ -32,14 +37,14 @@ export default class App extends React.Component<{}, State> {
     });
   }
 
-  public render() {
+  public render () {
     const { chains, timeDiff, subscribed, status } = this.state;
 
     Ago.timeDiff = timeDiff;
 
     if (chains.size === 0) {
       return (
-        <div className="App App-no-telemetry">
+        <div className='App App-no-telemetry'>
           <OfflineIndicator status={status} />
           Waiting for telemetry data...
         </div>
@@ -47,7 +52,7 @@ export default class App extends React.Component<{}, State> {
     }
 
     return (
-      <div className="App">
+      <div className='App'>
         <OfflineIndicator status={status} />
         <Chains chains={chains} subscribed={subscribed} connection={this.connection} />
         <Chain appState={this.state} />
@@ -55,11 +60,11 @@ export default class App extends React.Component<{}, State> {
     );
   }
 
-  public componentWillMount() {
+  public componentWillMount () {
     window.addEventListener('keydown', this.onKeyPress);
   }
 
-  public componentWillUnmount() {
+  public componentWillUnmount () {
     window.removeEventListener('keydown', this.onKeyPress);
   }
 
@@ -86,6 +91,6 @@ export default class App extends React.Component<{}, State> {
 
     this.connection.then((connection) => {
       connection.subscribe(chains[index]);
-    })
+    });
   }
 }

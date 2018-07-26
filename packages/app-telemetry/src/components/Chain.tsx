@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { State as AppState } from '../state';
 import { formatNumber, secondsWithPrecision, viewport } from '../utils';
-import { Tile, Icon, Node, Ago } from './';
-import { Types } from '@dotstats/common';
+import { Tile, Icon, NodeProps, NodeLocation, NodeRow, NodeHeader, NodePixelPosition, Ago } from './';
+import { Types } from '../../../app-telemetry-common/src';
 
 import blockIcon from '../icons/package.svg';
 import blockTimeIcon from '../icons/history.svg';
@@ -15,23 +15,21 @@ const HEADER = 148;
 
 import './Chain.css';
 
-export namespace Chain {
-  export interface Props {
-    appState: Readonly<AppState>;
-  }
-
-  export interface State {
-    display: 'map' | 'table';
-    map: {
-      width: number;
-      height: number;
-      top: number;
-      left: number;
-    }
-  }
+export interface Props {
+  appState: Readonly<AppState>;
 }
 
-function sortNodes(a: Node.Props, b: Node.Props): number {
+export interface State {
+  display: 'map' | 'table';
+  map: {
+    width: number;
+    height: number;
+    top: number;
+    left: number;
+  };
+}
+
+function sortNodes (a: NodeProps, b: NodeProps): number {
   if (a.blockDetails[0] === b.blockDetails[0]) {
     const aPropagation = a.blockDetails[4] == null ? Infinity : a.blockDetails[4] as number;
     const bPropagation = b.blockDetails[4] == null ? Infinity : b.blockDetails[4] as number;
@@ -44,8 +42,8 @@ function sortNodes(a: Node.Props, b: Node.Props): number {
   return b.blockDetails[0] - a.blockDetails[0];
 }
 
-export class Chain extends React.Component<Chain.Props, Chain.State> {
-  constructor(props: Chain.Props) {
+export class Chain extends React.Component<Props, State> {
+  constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -59,17 +57,17 @@ export class Chain extends React.Component<Chain.Props, Chain.State> {
     };
   }
 
-  public componentWillMount() {
+  public componentWillMount () {
     this.calculateMapDimensions();
 
     window.addEventListener('resize', this.calculateMapDimensions);
   }
 
-  public componentWillUnmount() {
+  public componentWillUnmount () {
     window.removeEventListener('resize', this.calculateMapDimensions);
   }
 
-  public render() {
+  public render () {
     const { best, blockTimestamp, blockAverage } = this.props.appState;
     const { display } = this.state;
 
@@ -80,17 +78,17 @@ export class Chain extends React.Component<Chain.Props, Chain.State> {
     }
 
     return (
-      <div className="Chain">
-        <div className="Chain-header">
-          <Tile icon={blockIcon} title="Best Block">#{formatNumber(best)}</Tile>
-          <Tile icon={blockTimeIcon} title="Average Time">{ blockAverage == null ? '-' : secondsWithPrecision(blockAverage / 1000) }</Tile>
-          <Tile icon={lastTimeIcon} title="Last Block"><Ago when={blockTimestamp} /></Tile>
+      <div className='Chain'>
+        <div className='Chain-header'>
+          <Tile icon={blockIcon} title='Best Block'>#{formatNumber(best)}</Tile>
+          <Tile icon={blockTimeIcon} title='Average Time'>{ blockAverage == null ? '-' : secondsWithPrecision(blockAverage / 1000) }</Tile>
+          <Tile icon={lastTimeIcon} title='Last Block'><Ago when={blockTimestamp} /></Tile>
           <div className={toggleClass.join(' ')}>
-            <Icon src={worldIcon} alt="Toggle Map" onClick={this.toggleMap} />
+            <Icon src={worldIcon} alt='Toggle Map' onClick={this.toggleMap} />
           </div>
         </div>
-        <div className="Chain-content-container">
-          <div className="Chain-content">
+        <div className='Chain-content-container'>
+          <div className='Chain-content'>
           {
             display === 'table'
               ? this.renderTable()
@@ -110,9 +108,9 @@ export class Chain extends React.Component<Chain.Props, Chain.State> {
     }
   }
 
-  private renderMap() {
+  private renderMap () {
     return (
-      <div className="Chain-map">
+      <div className='Chain-map'>
       {
         this.nodes().map((node) => {
           const location = node.location || [0, 0, ''] as Types.NodeLocation;
@@ -120,7 +118,7 @@ export class Chain extends React.Component<Chain.Props, Chain.State> {
           const { left, top } = this.pixelPosition(location[0], location[1]);
 
           return (
-            <Node.Location key={node.id} left={left} top={top} {...node} />
+            <NodeLocation key={node.id} left={left} top={top} {...node} />
           );
         })
       }
@@ -128,24 +126,24 @@ export class Chain extends React.Component<Chain.Props, Chain.State> {
     );
   }
 
-  private renderTable() {
+  private renderTable () {
     return (
-      <table className="Chain-node-list">
-        <Node.Header />
+      <table className='Chain-node-list'>
+        <NodeHeader />
         <tbody>
         {
-          this.nodes().sort(sortNodes).map((node) => <Node.Row key={node.id} {...node} />)
+          this.nodes().sort(sortNodes).map((node) => <NodeRow key={node.id} {...node} />)
         }
         </tbody>
       </table>
     );
   }
 
-  private nodes() {
+  private nodes () {
     return Array.from(this.props.appState.nodes.values());
   }
 
-  private pixelPosition(lat: Types.Latitude, lon: Types.Longitude): Node.PixelPosition {
+  private pixelPosition (lat: Types.Latitude, lon: Types.Longitude): NodePixelPosition {
     const { map } = this.state;
 
     // Longitude ranges -180 (west) to +180 (east)
@@ -153,7 +151,7 @@ export class Chain extends React.Component<Chain.Props, Chain.State> {
     const left = Math.round(((180 + lon) / 360) * map.width + map.left);
     const top = Math.round(((90 - lat) / 180) * map.height + map.top) * MAP_HEIGHT_ADJUST;
 
-    return { left, top }
+    return { left, top };
   }
 
   private calculateMapDimensions: () => void = () => {
@@ -179,6 +177,6 @@ export class Chain extends React.Component<Chain.Props, Chain.State> {
       top = (vp.height - height) / 2;
     }
 
-    this.setState({ map: { top, left, width, height }});
+    this.setState({ map: { top, left, width, height } });
   }
 }

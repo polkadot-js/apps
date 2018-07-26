@@ -1,5 +1,5 @@
-import { Node } from './components/Node';
-import { Types, Maybe } from '@dotstats/common';
+import { NodeProps } from './components';
+import { Types, Maybe } from '../../app-telemetry-common/src';
 
 export interface State {
   status: 'online' | 'offline' | 'upgrade-requested';
@@ -9,7 +9,7 @@ export interface State {
   timeDiff: Types.Milliseconds;
   subscribed: Maybe<Types.ChainLabel>;
   chains: Map<Types.ChainLabel, Types.NodeCount>;
-  nodes: Map<Types.NodeId, Node.Props>;
+  nodes: Map<Types.NodeId, NodeProps>;
 }
 
 export type Update = <K extends keyof State>(changes: Pick<State, K> | null) => Readonly<State>;

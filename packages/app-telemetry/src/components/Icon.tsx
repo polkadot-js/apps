@@ -7,16 +7,16 @@ export interface Props {
   alt: string;
   className?: string;
   onClick?: () => void;
-};
+}
 
 export class Icon extends React.Component<{}, Props> {
-  public props: Props;
+  public props!: Props;
 
-  public shouldComponentUpdate() {
+  public shouldComponentUpdate () {
     return false;
   }
 
-  public render() {
+  public render () {
     const { alt, className, onClick, src } = this.props;
 
     return <ReactSVG title={alt} className={`Icon ${ className || '' }`} path={src} onClick={onClick} />;

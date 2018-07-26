@@ -1,4 +1,4 @@
-import { VERSION, timestamp, FeedMessage, Types, Maybe, sleep } from '@dotstats/common';
+import { VERSION, timestamp, FeedMessage, Types, Maybe, sleep } from '../../app-telemetry-common/src';
 import { State, Update } from './state';
 
 const { Actions } = FeedMessage;
@@ -7,7 +7,7 @@ const TIMEOUT_BASE = (1000 * 5) as Types.Milliseconds; // 5 seconds
 const TIMEOUT_MAX = (1000 * 60 * 5) as Types.Milliseconds; // 5 minutes
 
 export class Connection {
-  public static async create(update: Update): Promise<Connection> {
+  public static async create (update: Update): Promise<Connection> {
     return new Connection(await Connection.socket(), update);
   }
 
@@ -17,7 +17,7 @@ export class Connection {
 
   // private static readonly address = 'wss://telemetry.polkadot.io/feed/';
 
-  private static async socket(): Promise<WebSocket> {
+  private static async socket (): Promise<WebSocket> {
     let socket = await Connection.trySocket();
     let timeout = TIMEOUT_BASE;
 
@@ -31,20 +31,20 @@ export class Connection {
     return socket;
   }
 
-  private static async trySocket(): Promise<Maybe<WebSocket>> {
+  private static async trySocket (): Promise<Maybe<WebSocket>> {
     return new Promise<Maybe<WebSocket>>((resolve, _) => {
-      function clean() {
+      function clean () {
         socket.removeEventListener('open', onSuccess);
         socket.removeEventListener('close', onFailure);
         socket.removeEventListener('error', onFailure);
       }
 
-      function onSuccess() {
+      function onSuccess () {
         clean();
         resolve(socket);
       }
 
-      function onFailure() {
+      function onFailure () {
         clean();
         resolve(null);
       }
@@ -58,23 +58,23 @@ export class Connection {
   }
 
   private pingId = 0;
-  private pingTimeout: NodeJS.Timer;
+  private pingTimeout!: NodeJS.Timer;
   private pingSent: Maybe<Types.Timestamp> = null;
   private socket: WebSocket;
-  private state: Readonly<State>;
+  private state!: Readonly<State>;
   private readonly update: Update;
 
-  constructor(socket: WebSocket, update: Update) {
+  constructor (socket: WebSocket, update: Update) {
     this.socket = socket;
     this.update = update;
     this.bindSocket();
   }
 
-  public subscribe(chain: Types.ChainLabel) {
+  public subscribe (chain: Types.ChainLabel) {
     this.socket.send(`subscribe:${chain}`);
   }
 
-  private bindSocket() {
+  private bindSocket () {
     this.ping();
 
     this.state = this.update({
@@ -104,7 +104,7 @@ export class Connection {
     this.socket.send(`ping:${this.pingId}`);
   }
 
-  private pong(id: number) {
+  private pong (id: number) {
     if (!this.pingSent) {
       console.error('Received a pong without sending a ping first');
 
@@ -126,7 +126,7 @@ export class Connection {
     this.pingTimeout = setTimeout(this.ping, 30000);
   }
 
-  private clean() {
+  private clean () {
     clearTimeout(this.pingTimeout);
 
     this.socket.removeEventListener('message', this.handleMessages);
@@ -281,7 +281,7 @@ export class Connection {
     this.autoSubscribe();
   }
 
-  private autoSubscribe() {
+  private autoSubscribe () {
     const { subscribed, chains } = this.state;
 
     if (subscribed) {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Connection } from '../Connection';
 import { Icon } from './Icon';
-import { Types, Maybe } from '@dotstats/common';
+import { Types, Maybe } from '../../../app-telemetry-common/src';
 
 import chainIcon from '../icons/link.svg';
 import githubIcon from '../icons/mark-github.svg';
@@ -12,30 +12,28 @@ interface ChainData {
   nodeCount: Types.NodeCount;
 }
 
-export namespace Chains {
-  export interface Props {
-    chains: Map<Types.ChainLabel, Types.NodeCount>,
-    subscribed: Maybe<Types.ChainLabel>,
-    connection: Promise<Connection>
-  }
+export interface Props {
+  chains: Map<Types.ChainLabel, Types.NodeCount>;
+  subscribed: Maybe<Types.ChainLabel>;
+  connection: Promise<Connection>;
 }
 
-export class Chains extends React.Component<Chains.Props, {}> {
-  public render() {
+export class Chains extends React.Component<Props, {}> {
+  public render () {
     return (
-      <div className="Chains">
-        <Icon src={chainIcon} alt="Observed Chain" />
+      <div className='Chains'>
+        <Icon src={chainIcon} alt='Observed Chain' />
         {
           this.chains.map((chain) => this.renderChain(chain))
         }
-        <a className="Chains-fork-me" href="https://github.com/polkadot-js/dotstats" target="_blank">
-          <Icon src={githubIcon} alt="Fork Me!" />
+        <a className='Chains-fork-me' href='https://github.com/polkadot-js/dotstats' target='_blank'>
+          <Icon src={githubIcon} alt='Fork Me!' />
         </a>
       </div>
     );
   }
 
-  private renderChain(chain: ChainData): React.ReactNode {
+  private renderChain (chain: ChainData): React.ReactNode {
     const { label, nodeCount } = chain;
 
     const className = label === this.props.subscribed
@@ -44,12 +42,12 @@ export class Chains extends React.Component<Chains.Props, {}> {
 
     return (
       <a key={label} className={className} onClick={this.subscribe.bind(this, label)}>
-        {label} <span className="Chains-node-count" title="Node Count">{nodeCount}</span>
+        {label} <span className='Chains-node-count' title='Node Count'>{nodeCount}</span>
       </a>
     )
   }
 
-  private get chains(): ChainData[] {
+  private get chains (): ChainData[] {
     return Array
       .from(this.props.chains.entries())
       .sort((a, b) => {
@@ -58,7 +56,7 @@ export class Chains extends React.Component<Chains.Props, {}> {
       .map(([label, nodeCount]) => ({ label, nodeCount }));
   }
 
-  private async subscribe(chain: Types.ChainLabel) {
+  private async subscribe (chain: Types.ChainLabel) {
     const connection = await this.props.connection;
 
     connection.subscribe(chain);

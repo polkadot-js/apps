@@ -9,7 +9,8 @@ import React from 'react';
 
 import classes from '@polkadot/ui-app/util/classes';
 
-// import TelemetryData from './TelemetryData';
+import App from './App';
+
 export default class TelemetryApp extends React.PureComponent<any> {
   render () {
     const { className, style } = this.props;
@@ -19,7 +20,7 @@ export default class TelemetryApp extends React.PureComponent<any> {
         className={classes('telemetry--App', className)}
         style={style}
       >
-        {/* <TelemetryData /> */}
+        <App />
       </div>
     );
   }

@@ -1,20 +1,18 @@
 import * as React from 'react';
 import './Tile.css';
-import { timestamp, Types } from '@dotstats/common';
+import { timestamp, Types } from '../../../app-telemetry-common/src';
 
-export namespace Ago {
-  export interface Props {
-    when: Types.Timestamp,
-  }
+export interface Props {
+  when: Types.Timestamp;
+}
 
-  export interface State {
-    now: Types.Timestamp,
-  }
+export interface State {
+  now: Types.Timestamp;
 }
 
 const tickers = new Map<Ago, (ts: Types.Timestamp) => void>();
 
-function tick() {
+function tick () {
   const now = timestamp();
 
   for (const ticker of tickers.values()) {
@@ -26,18 +24,12 @@ function tick() {
 
 tick();
 
-export namespace Ago {
-  export interface State {
-    now: Types.Timestamp
-  }
-}
-
-export class Ago extends React.Component<Ago.Props, Ago.State> {
+export class Ago extends React.Component<Props, State> {
   public static timeDiff = 0 as Types.Milliseconds;
 
-  public state: Ago.State;
+  public state: State;
 
-  constructor(props: Ago.Props) {
+  constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -45,7 +37,7 @@ export class Ago extends React.Component<Ago.Props, Ago.State> {
     };
   }
 
-  public componentWillMount() {
+  public componentWillMount () {
     tickers.set(this, (now) => {
       this.setState({
         now: (now - Ago.timeDiff) as Types.Timestamp
@@ -53,11 +45,11 @@ export class Ago extends React.Component<Ago.Props, Ago.State> {
     })
   }
 
-  public componentWillUnmount() {
+  public componentWillUnmount () {
     tickers.delete(this);
   }
 
-  public render() {
+  public render () {
     if (this.props.when === 0) {
       return <span>-</span>;
     }

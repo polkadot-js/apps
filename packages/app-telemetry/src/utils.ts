@@ -3,15 +3,15 @@ export interface Viewport {
   height: number;
 }
 
-export function viewport(): Viewport {
+export function viewport (): Viewport {
   const width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
   const height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
   return { width, height };
 }
 
-export function formatNumber(num: number): string {
-  const input =  num.toString();
+export function formatNumber (num: number): string {
+  const input = num.toString();
 
   let output = '';
   let length = input.length;
@@ -26,7 +26,7 @@ export function formatNumber(num: number): string {
   return output;
 }
 
-export function trimHash(hash: string, length: number): string {
+export function trimHash (hash: string, length: number): string {
   if (hash.length < length) {
     return hash;
   }
@@ -44,8 +44,8 @@ export function milliOrSecond(num: number): string {
   return `${(num / 1000) | 0}s`;
 }
 
-export function secondsWithPrecision(num: number): string {
-  const intString = (num | 0).toString()
+export function secondsWithPrecision (num: number): string {
+  const intString = (num | 0).toString();
   const intDigits = intString.length;
 
   switch (intDigits) {
