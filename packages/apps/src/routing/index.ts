@@ -5,6 +5,7 @@
 import { Routing, Routes } from '../types';
 
 import accounts from './accounts';
+import telemetry from './telemetry';
 import addresses from './addresses';
 import example from './example';
 import explorer from './explorer';
@@ -20,7 +21,7 @@ import vanitygen from './vanitygen';
 export default ({
   default: 'explorer',
   routes: ([] as Routes).concat(
-    example, explorer, extrinsics, storage, null, accounts, addresses, vanitygen, null, rpc, toolbox
+    example, explorer, extrinsics, storage, null, accounts, addresses, vanitygen, null, rpc, telemetry, toolbox
   ),
   unknown
 } as Routing);

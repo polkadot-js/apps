@@ -1,0 +1,12 @@
+/* Copyright 2017-2018 @polkadot/app-telemetry authors & contributors
+/* This software may be modified and distributed under the terms
+/* of the GPL-3.0 license. See the LICENSE file for details. */
+
+.telemetry--App {
+  /* styles from @dotstats packages/frontend/public/index.html */
+  background: #fff;
+  color: #111;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}

@@ -1,0 +1,56 @@
+.Node-Location {
+  width: 6px;
+  height: 6px;
+  background: transparent;
+  border: 2px solid #666;
+  border-radius: 6px;
+  margin-left: -4px;
+  margin-top: -4px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  cursor: pointer;
+  z-index: 1;
+  transition: border-color 0.25s linear;
+}
+
+.Node-Location-odd {
+  border-color: #bbb;
+}
+
+.Node-Location-synced {
+  z-index: 2;
+  border-color: #d64ca8;
+}
+
+.Node-Location:hover {
+  z-index: 3;
+  border-color: #fff;
+}
+
+.Node-details {
+  min-width: 335px;
+  position: absolute;
+  left: 16px;
+  top: -4px;
+  font-family: monospace, sans-serif;
+  background: #222;
+  color: #fff;
+  box-shadow: 0 3px 20px rgba(0,0,0,0.5);
+  border-collapse: collapse;
+}
+
+.Node-details td {
+  text-align: left;
+  padding: 0.5em 1em;
+}
+
+.Node-details td:nth-child(odd) {
+  width: 16px;
+  text-align: center;
+  padding-right: 0.2em;
+}
+
+.Node-details td:nth-child(even) {
+  padding-left: 0.2em;
+}
