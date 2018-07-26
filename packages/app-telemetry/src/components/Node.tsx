@@ -64,7 +64,7 @@ export function Row (props: Props) {
       <td>{txcount}</td>
       <td>#{formatNumber(height)}</td>
       <td><span title={hash}>{trimHash(hash, 16)}</span></td>
-      <td>{secondsWithPrecision(blockTime/1000)}</td>
+      <td>{secondsWithPrecision(blockTime / 1000)}</td>
       <td>{propagationTime === null ? '∞' : milliOrSecond(propagationTime as number)}</td>
       <td><Ago when={blockTimestamp} /></td>
     </tr>
@@ -124,7 +124,7 @@ export class Location extends React.Component<Props & PixelPosition, LocationSta
           </tr>
           <tr>
             <td><Icon src={blockTimeIcon} alt='Block Time' /></td>
-            <td style={{ width: 80 }}>{secondsWithPrecision(blockTime/1000)}</td>
+            <td style={{ width: 80 }}>{secondsWithPrecision(blockTime / 1000)}</td>
             <td><Icon src={propagationTimeIcon} alt='Block Propagation Time' /></td>
             <td style={{ width: 58 }}>{propagationTime === null ? '∞' : milliOrSecond(propagationTime as number)}</td>
             <td><Icon src={lastTimeIcon} alt='Last Block Time' /></td>

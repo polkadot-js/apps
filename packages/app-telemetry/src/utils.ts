@@ -36,7 +36,7 @@ export function trimHash (hash: string, length: number): string {
   return hash.substr(0, side) + '..' + hash.substr(-side, side);
 }
 
-export function milliOrSecond(num: number): string {
+export function milliOrSecond (num: number): string {
   if (num < 10000) {
     return `${num}ms`;
   }

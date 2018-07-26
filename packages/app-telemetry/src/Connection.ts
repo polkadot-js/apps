@@ -33,6 +33,8 @@ export class Connection {
 
   private static async trySocket (): Promise<Maybe<WebSocket>> {
     return new Promise<Maybe<WebSocket>>((resolve, _) => {
+      const socket = new WebSocket(Connection.address);
+
       function clean () {
         socket.removeEventListener('open', onSuccess);
         socket.removeEventListener('close', onFailure);
@@ -48,8 +50,6 @@ export class Connection {
         clean();
         resolve(null);
       }
-
-      const socket = new WebSocket(Connection.address);
 
       socket.addEventListener('open', onSuccess);
       socket.addEventListener('error', onFailure);

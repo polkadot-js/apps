@@ -42,7 +42,7 @@ export class Ago extends React.Component<Props, State> {
       this.setState({
         now: (now - Ago.timeDiff) as Types.Timestamp
       });
-    })
+    });
   }
 
   public componentWillUnmount () {
@@ -66,6 +66,6 @@ export class Ago extends React.Component<Props, State> {
       agoStr = `${ ago / 60 | 0}m`;
     }
 
-    return <span title={new Date(this.props.when).toUTCString()}>{agoStr} ago</span>
+    return <span title={new Date(this.props.when).toUTCString()}>{agoStr} ago</span>;
   }
 }
