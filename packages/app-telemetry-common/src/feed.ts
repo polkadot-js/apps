@@ -35,91 +35,93 @@ export const Actions = {
 export type Action = typeof Actions[keyof typeof Actions];
 export type Payload = Message['payload'];
 
-export namespace Variants {
-  export interface MessageBase {
-    action: Action;
-  }
+export interface MessageBase {
+  action: Action;
+}
 
-  export interface FeedVersionMessage extends MessageBase {
-    action: typeof Actions.FeedVersion;
-    payload: FeedVersion;
-  }
+export interface FeedVersionMessage extends MessageBase {
+  action: typeof Actions.FeedVersion;
+  payload: FeedVersion;
+}
 
-  export interface BestBlockMessage extends MessageBase {
-    action: typeof Actions.BestBlock;
-    payload: [BlockNumber, Timestamp, Maybe<Milliseconds>];
-  }
+export interface BestBlockMessage extends MessageBase {
+  action: typeof Actions.BestBlock;
+  payload: [BlockNumber, Timestamp, Maybe<Milliseconds>];
+}
 
-  export interface AddedNodeMessage extends MessageBase {
-    action: typeof Actions.AddedNode;
-    payload: [NodeId, NodeDetails, NodeStats, BlockDetails, Maybe<NodeLocation>];
-  }
+export interface AddedNodeMessage extends MessageBase {
+  action: typeof Actions.AddedNode;
+  payload: [NodeId, NodeDetails, NodeStats, BlockDetails, Maybe<NodeLocation>];
+}
 
-  export interface RemovedNodeMessage extends MessageBase {
-    action: typeof Actions.RemovedNode;
-    payload: NodeId;
-  }
+export interface RemovedNodeMessage extends MessageBase {
+  action: typeof Actions.RemovedNode;
+  payload: NodeId;
+}
 
-  export interface LocatedNodeMessage extends MessageBase {
-    action: typeof Actions.LocatedNode;
-    payload: [NodeId, Latitude, Longitude, City];
-  }
+export interface LocatedNodeMessage extends MessageBase {
+  action: typeof Actions.LocatedNode;
+  payload: [NodeId, Latitude, Longitude, City];
+}
 
-  export interface ImportedBlockMessage extends MessageBase {
-    action: typeof Actions.ImportedBlock;
-    payload: [NodeId, BlockDetails];
-  }
+export interface ImportedBlockMessage extends MessageBase {
+  action: typeof Actions.ImportedBlock;
+  payload: [NodeId, BlockDetails];
+}
 
-  export interface NodeStatsMessage extends MessageBase {
-    action: typeof Actions.NodeStats;
-    payload: [NodeId, NodeStats];
-  }
+export interface NodeStatsMessage extends MessageBase {
+  action: typeof Actions.NodeStats;
+  payload: [NodeId, NodeStats];
+}
 
-  export interface TimeSyncMessage extends MessageBase {
-    action: typeof Actions.TimeSync;
-    payload: Timestamp;
-  }
+export interface TimeSyncMessage extends MessageBase {
+  action: typeof Actions.TimeSync;
+  payload: Timestamp;
+}
 
-  export interface AddedChainMessage extends MessageBase {
-    action: typeof Actions.AddedChain;
-    payload: [ChainLabel, NodeCount];
-  }
+export interface AddedChainMessage extends MessageBase {
+  action: typeof Actions.AddedChain;
+  payload: [ChainLabel, NodeCount];
+}
 
-  export interface RemovedChainMessage extends MessageBase {
-    action: typeof Actions.RemovedChain;
-    payload: ChainLabel;
-  }
+export interface RemovedChainMessage extends MessageBase {
+  action: typeof Actions.RemovedChain;
+  payload: ChainLabel;
+}
 
-  export interface SubscribedToMessage extends MessageBase {
-    action: typeof Actions.SubscribedTo;
-    payload: ChainLabel;
-  }
+export interface SubscribedToMessage extends MessageBase {
+  action: typeof Actions.SubscribedTo;
+  payload: ChainLabel;
+}
 
-  export interface UnsubscribedFromMessage extends MessageBase {
-    action: typeof Actions.UnsubscribedFrom;
-    payload: ChainLabel;
-  }
+export interface UnsubscribedFromMessage extends MessageBase {
+  action: typeof Actions.UnsubscribedFrom;
+  payload: ChainLabel;
+}
 
-  export interface PongMessage extends MessageBase {
-    action: typeof Actions.Pong;
-    payload: string; // just echo whatever `ping` sent
-  }
+export interface PongMessage extends MessageBase {
+  action: typeof Actions.Pong;
+  payload: string; // just echo whatever `ping` sent
+}
+
+export interface Variants {
+  MessageBase: MessageBase;
 }
 
 export type Message =
-  | Variants.FeedVersionMessage
-  | Variants.BestBlockMessage
-  | Variants.AddedNodeMessage
-  | Variants.RemovedNodeMessage
-  | Variants.LocatedNodeMessage
-  | Variants.ImportedBlockMessage
-  | Variants.NodeStatsMessage
-  | Variants.TimeSyncMessage
-  | Variants.AddedChainMessage
-  | Variants.RemovedChainMessage
-  | Variants.SubscribedToMessage
-  | Variants.UnsubscribedFromMessage
-  | Variants.PongMessage;
+  | FeedVersionMessage
+  | BestBlockMessage
+  | AddedNodeMessage
+  | RemovedNodeMessage
+  | LocatedNodeMessage
+  | ImportedBlockMessage
+  | NodeStatsMessage
+  | TimeSyncMessage
+  | AddedChainMessage
+  | RemovedChainMessage
+  | SubscribedToMessage
+  | UnsubscribedFromMessage
+  | PongMessage;
 
 /**
  * Opaque data type to be sent to the feed. Passing through
