@@ -1,0 +1,65 @@
+.Chains {
+  background: #ccc;
+  color: #000;
+  padding: 0 16px;
+  height: 40px;
+  min-width: 1318px;
+  position: relative;
+}
+
+.Chains .Icon {
+  margin-right: 1em;
+}
+
+.Chains-chain {
+  padding: 0 12px;
+  background: #bbb;
+  color: #444;
+  display: inline-block;
+  margin: 0 0 0 1px;
+  height: 40px;
+  line-height: 40px;
+  cursor: pointer;
+  font-family: monospace, sans-serif;
+  font-size: 0.8em;
+  font-weight: bold;
+  position: relative;
+}
+
+.Chains-fork-me {
+  display: block;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  right: 12px;
+  top: 6px;
+}
+
+.Chains-fork-me .Icon {
+  font-size: 24px;
+  margin: 0;
+  height: 24px;
+  width: 24px;
+  background: #3c3c3b;
+  border: 2px solid #3c3c3b;
+  border-radius: 24px;
+  color: #ccc;
+}
+
+.Chains-node-count {
+  padding: 0.2em 0.5em;
+  border-radius: 0.3em;
+  background: #888;
+  color: #fff;
+  text-shadow: rgba(0,0,0,0.5) 0 1px 0;
+}
+
+.Chains-chain-selected {
+  background: #fff;
+  color: #000;
+  z-index: 1;
+}
+
+.Chains-chain-selected .Chains-node-count {
+  background: #d64ca8;
+}

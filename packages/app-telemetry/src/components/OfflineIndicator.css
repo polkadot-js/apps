@@ -1,0 +1,17 @@
+.OfflineIndicator {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  z-index: 10;
+  background: #c00;
+  line-height: 16px;
+  color: #fff;
+  font-size: 30px;
+  padding: 16px;
+  border-radius: 50px;
+  box-shadow: rgba(0,0,0,0.5) 0 3px 20px;
+}
+
+.OfflineIndicator-upgrade {
+  background: #282;
+}

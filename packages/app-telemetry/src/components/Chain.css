@@ -1,0 +1,73 @@
+.Chain-header {
+  width: 100%;
+  height: 108px;
+  overflow: hidden;
+  background: #fff;
+  color: #000;
+  min-width: 1350px;
+  position: relative;
+}
+
+.Chain-map-toggle .Icon {
+  position: absolute;
+  right: 20px;
+  bottom: 0;
+  font-size: 32px;
+  padding: 6px;
+  background: #222;
+  color: #aaa;
+  cursor: pointer;
+  border-top: 2px solid #5e5e5e;
+  border-radius: 4px 4px 0 0;
+}
+
+.Chain-map-toggle-on .Icon {
+  color: #fff;
+}
+
+.Chain-content-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 148px;
+}
+
+.Chain-content {
+  width: 100%;
+  min-width: 1350px;
+  min-height: 100%;
+  background: #222;
+  color: #fff;
+  box-shadow: rgba(0,0,0,0.5) 0 3px 30px;
+}
+
+.Chain-map {
+  min-width: 1350px;
+  background: url('../assets/world-map.svg') no-repeat;
+  background-size: contain;
+  background-position: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.Chain-node-list {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.Chain-node-list thead {
+  background: #3c3c3b;
+}
+
+.Chain-node-list tbody {
+  font-family: monospace, sans-serif;
+}
+
+.Chain-node-list th, .Chain-node-list td {
+  text-align: left;
+  padding: 0.8em 1em;
+}
