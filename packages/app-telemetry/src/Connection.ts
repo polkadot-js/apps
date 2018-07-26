@@ -24,7 +24,7 @@ export class Connection {
     while (!socket) {
       await sleep(timeout);
 
-      timeout = Math.max(timeout * 2, TIMEOUT_MAX) as Types.Milliseconds;
+      timeout = Math.min(timeout * 2, TIMEOUT_MAX) as Types.Milliseconds;
       socket = await Connection.trySocket();
     }
 
@@ -60,6 +60,7 @@ export class Connection {
   private pingId = 0;
   private pingTimeout!: NodeJS.Timer;
   private pingSent: Maybe<Types.Timestamp> = null;
+  private resubscribeTo: Maybe<Types.ChainLabel> = null;
   private socket: WebSocket;
   private state!: Readonly<State>;
   private readonly update: Update;
@@ -82,9 +83,8 @@ export class Connection {
       nodes: new Map()
     });
 
-    // Re-subscribe to previously selected chain
     if (this.state.subscribed) {
-      // TODO: Remember the previous subscription for after we get chain info
+      this.resubscribeTo = this.state.subscribed;
       this.state = this.update({ subscribed: null });
     }
 
@@ -102,6 +102,8 @@ export class Connection {
     this.pingId += 1;
     this.pingSent = timestamp();
     this.socket.send(`ping:${this.pingId}`);
+
+    this.pingTimeout = setTimeout(this.ping, 30000);
   }
 
   private pong (id: number) {
@@ -122,12 +124,11 @@ export class Connection {
     this.pingSent = null;
 
     console.log('latency', latency);
-
-    this.pingTimeout = setTimeout(this.ping, 30000);
   }
 
   private clean () {
     clearTimeout(this.pingTimeout);
+    this.pingSent = null;
 
     this.socket.removeEventListener('message', this.handleMessages);
     this.socket.removeEventListener('close', this.handleDisconnect);
@@ -283,9 +284,19 @@ export class Connection {
 
   private autoSubscribe () {
     const { subscribed, chains } = this.state;
+    const { resubscribeTo } = this;
 
     if (subscribed) {
       return;
+    }
+
+    if (resubscribeTo) {
+      this.resubscribeTo = null;
+
+      if (chains.has(resubscribeTo)) {
+        this.subscribe(resubscribeTo);
+        return;
+      }
     }
 
     let topLabel: Maybe<Types.ChainLabel> = null;
