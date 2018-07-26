@@ -8,8 +8,8 @@ export type Id<T> = Opaque<number, T>;
 /**
  * Higher order function producing new auto-incremented `Id`s.
  */
-export function idGenerator<I extends Id<any>>(): () => I {
-    let current = 0;
+export function idGenerator<I extends Id<any>> (): () => I {
+  let current = 0;
 
-    return () => current++ as I;
+  return () => current++ as I;
 }

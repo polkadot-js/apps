@@ -29,7 +29,7 @@ export const Actions = {
   RemovedChain     : 0x09 as 0x09,
   SubscribedTo     : 0x0A as 0x0A,
   UnsubscribedFrom : 0x0B as 0x0B,
-  Pong             : 0x0C as 0x0C,
+  Pong             : 0x0C as 0x0C
 };
 
 export type Action = typeof Actions[keyof typeof Actions];
@@ -137,7 +137,7 @@ export type Data = Opaque<string, 'FeedMessage.Data'>;
  *
  * Action `string`s are converted to opcodes using the `actionToCode` mapping.
  */
-export function serialize(messages: Array<Message>): Data {
+export function serialize (messages: Array<Message>): Data {
   const squashed = new Array(messages.length * 2);
   let index = 0;
 
@@ -146,7 +146,7 @@ export function serialize(messages: Array<Message>): Data {
 
     squashed[index++] = action;
     squashed[index++] = payload;
-  })
+  });
 
   return JSON.stringify(squashed) as Data;
 }
@@ -154,7 +154,7 @@ export function serialize(messages: Array<Message>): Data {
 /**
  * Deserialize data to an array of `Message`s.
  */
-export function deserialize(data: Data): Array<Message> {
+export function deserialize (data: Data): Array<Message> {
   const json: Array<Action | Payload> = JSON.parse(data);
 
   if (!Array.isArray(json) || json.length === 0 || json.length % 2 !== 0) {
