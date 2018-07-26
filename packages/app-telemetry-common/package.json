@@ -2,10 +2,10 @@
 {
   "name": "@polkadot/app-telemetry-common",
   "version": "0.19.5",
-  "main": "index.js",
+  "author": "Parity Technologies Ltd. <admin@parity.io>",
+  "license": "GPL-3.0",
   "repository": "https://github.com/polkadot-js/apps.git",
-  "contributors": [],
-  "license": "GPL",
+  "description": "Shared utils and types for backend and frontend",
   "scripts": {
     "build": "polkadot-dev-build-babel",
     "check": "stylelint 'src/**/*.css' && eslint src && flow check",

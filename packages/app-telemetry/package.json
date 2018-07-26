@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "contributors": [],
-  "license": "GPL",
+  "license": "GPL-3.0",
   "scripts": {
     "build": "polkadot-dev-build-babel",
     "check": "stylelint 'src/**/*.css' && eslint src && flow check",
