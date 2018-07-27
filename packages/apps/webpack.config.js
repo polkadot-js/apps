@@ -11,7 +11,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const packages = ['app-accounts', 'app-addresses', 'app-example', 'app-explorer', 'app-extrinsics', 'app-rpc', 'app-storage', 'app-toolbox', 'app-vanitygen', 'ui-app', 'ui-identicon', 'ui-keyring', 'ui-react-rx', 'ui-react', 'ui-signer'];
-const dotstatPackages = ['common', 'ui'];
+const dotstatPackages = ['common', 'frontend'];
 
 function createWebpack ({ alias = {}, context, name = 'index' }) {
   const pkgJson = require(path.join(context, 'package.json'));
@@ -81,6 +81,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
         {
           test: /\.(js|ts|tsx)$/,
           exclude: /(node_modules)/,
+          include: '/node_modules/@dotstats/full/packages/',
           use: [
             require.resolve('thread-loader'),
             {
@@ -165,7 +166,7 @@ function createAliases () {
   }, {});
 
   const dPkgs = dotstatPackages.reduce((alias, pkg) => {
-    alias[`@dotstats/${pkg}`] = path.resolve(__dirname, `../../node_modules/@dotstats/full/${pkg}/src`);
+    alias[`@dotstats/${pkg}`] = path.resolve(__dirname, `../../node_modules/@dotstats/full/packages/${pkg}/src`);
 
     return alias;
   }, {});
