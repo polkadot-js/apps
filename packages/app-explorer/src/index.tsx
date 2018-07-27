@@ -15,6 +15,8 @@ import BestHash from './BestHash';
 import BlockHeaders from './BlockHeaders';
 import translate from './translate';
 
+import App from '@dotstats/ui/App';
+
 type Props = I18nProps & {};
 
 class ExplorerApp extends React.PureComponent<Props> {
@@ -34,6 +36,7 @@ class ExplorerApp extends React.PureComponent<Props> {
         />
         <BestHash />
         <BlockHeaders />
+        <App />
       </div>
     );
   }

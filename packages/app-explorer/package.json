@@ -18,6 +18,7 @@
     "@babel/runtime": "^7.0.0-beta.51",
     "@polkadot/primitives": "^0.26.33",
     "@polkadot/ui-app": "^0.19.9",
-    "@polkadot/util-crypto": "^0.26.33"
+    "@polkadot/util-crypto": "^0.26.25",
+    "@dotstats/full": "polkadot-js/dotstats#master"
   }
 }
