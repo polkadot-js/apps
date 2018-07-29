@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
-    "@polkadot/extrinsics": "^0.26.25",
+    "@polkadot/extrinsics": "^0.26.31",
     "@polkadot/ui-app": "^0.19.5",
     "@polkadot/ui-keyring": "^0.19.5"
   },
