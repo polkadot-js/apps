@@ -12,6 +12,7 @@ import isU8a from '@polkadot/util/is/u8a';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import { textMap as thresholdTextMap } from './Param/VoteThreshold';
+import AccountId from './accountId';
 
 function proposalToText ({ extrinsic, params }: ExtrinsicDecoded): string {
   if (!extrinsic) {
@@ -25,7 +26,7 @@ function proposalToText ({ extrinsic, params }: ExtrinsicDecoded): string {
   return `${extrinsic.section}.${extrinsic.name}(${inputs})`;
 }
 
-function arrayToText (type: Param$Type$Array, value: Array<any>, withBound: boolean = true): string {
+function arrayToText (type: Param$Type$Array, value: Array<any>, withBound: boolean = true): any {
   if (value.length === 0) {
     return 'empty';
   }
@@ -33,6 +34,12 @@ function arrayToText (type: Param$Type$Array, value: Array<any>, withBound: bool
   if (type.length === 1) {
     if (type[0] === 'KeyValueStorage') {
       return `${value.length}`;
+    }
+
+    if (type[0] === 'AccountId') {
+      return value.map((value) => valueToText(type, value, false)).map((value) =>
+        <AccountId value={value} />
+      );
     }
 
     return value.map((value) =>
@@ -47,7 +54,7 @@ function arrayToText (type: Param$Type$Array, value: Array<any>, withBound: bool
   return `(${values})`;
 }
 
-function valueToText (type: Param$Types, value: any, swallowError: boolean = true): string {
+function valueToText (type: Param$Types, value: any, swallowError: boolean = true): any {
   try {
     if (type === 'bool') {
       return value ? 'Yes' : 'No';

@@ -14,7 +14,6 @@ import Labelled from '@polkadot/ui-app/Labelled';
 import valueToText from '@polkadot/ui-app/Params/valueToText';
 import classes from '@polkadot/ui-app/util/classes';
 import withStorageDiv from '@polkadot/ui-react-rx/with/storageDiv';
-import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 
 import translate from './translate';
 
@@ -42,48 +41,14 @@ class Query extends React.PureComponent<Props, State> {
         value as Storage$Key$Value
       );
 
-      const renderAccounts = (accountIds: Array<string>) => {
-        return (
-          <table className='accounts'>
-            <thead>
-              <tr>
-                <th />
-                <th>Account ID</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                accountIds && accountIds.length ?
-                  (
-                    accountIds
-                      .map((accountId) => (
-                        <tr key={accountId}>
-                          <td><IdentityIcon size={24} value={accountId} /></td>
-                          <td>{accountId}</td>
-                        </tr>
-                      ))
-                  )
-                : null
-              }
-            </tbody>
-          </table>
-        );
-      };
-
       const lineHeight = key.type[0] === 'AccountId' ? '2em' : '1em';
 
       cache[id] = withStorageDiv(key, { params: values })(
         (value: any) => {
-          const accountIds: Array<string> = valueToText(key.type, value).split(', ');
-          if (key.type[0] === 'AccountId') {
-            return renderAccounts(accountIds);
-          } else {
-            return accountIds;
-          }
+          return valueToText(key.type, value);
         },
         { className: 'ui--output', style: { lineHeight: lineHeight } }
       );
-    //   }
     }
 
     return cache[id];
