@@ -6,7 +6,7 @@
 
 import { SectionItem } from '@polkadot/params/types';
 import { Storages, Storage$Sections } from '@polkadot/storage/types';
-import { DropdownOptions } from '../InputExtrinsic/types';
+import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 
 import '../InputExtrinsic/InputExtrinsic.css';

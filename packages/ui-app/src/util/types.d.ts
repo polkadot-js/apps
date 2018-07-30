@@ -10,3 +10,5 @@ export type DropdownOption = {
 };
 
 export type DropdownOptions = Array<DropdownOption>;
+
+export type SectionVisibilityAll = 'private' | 'public';

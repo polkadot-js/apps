@@ -5,7 +5,7 @@
 import { SectionItem } from '@polkadot/params/types';
 import { Extrinsics, Extrinsic$Sections } from '@polkadot/extrinsics/types';
 import { I18nProps } from '../types';
-import { DropdownOptions } from './types';
+import { DropdownOptions, SectionVisibilityAll } from '../util/types';
 
 import React from 'react';
 
@@ -20,7 +20,7 @@ type Props = I18nProps & {
   label?: string,
   onChange: (value: SectionItem<Extrinsics>) => void,
   options: DropdownOptions,
-  type: 'private' | 'public',
+  type: SectionVisibilityAll,
   value: SectionItem<Extrinsics>,
   withLabel?: boolean
 };

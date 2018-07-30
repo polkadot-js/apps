@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { Interface$Sections } from '@polkadot/jsonrpc/types';
-import { DropdownOptions } from '../../InputExtrinsic/types';
+import { DropdownOptions } from '../../util/types';
 
 import React from 'react';
 
