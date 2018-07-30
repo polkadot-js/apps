@@ -2,12 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { Section, SectionItems } from '@polkadot/params/types';
 import { SectionVisibilityAll } from '../util/types';
 
 import isUndefined from '@polkadot/util/is/undefined';
 import isNull from '@polkadot/util/is/null';
 
-function anyMethodToDisplay (methods: any) {
+// methods: <T extends SectionItems<T>>
+function anyMethodToDisplay<SectionItems, K extends keyof SectionItems> (methods: SectionItems[K]) {
   if (isUndefined(methods) || isNull(methods)) {
     return false;
   }
@@ -22,7 +24,9 @@ function anyMethodToDisplay (methods: any) {
     .length !== 0;
 }
 
-export function shouldDisplaySection (section: any, type: SectionVisibilityAll) {
+// section: Section<Storages> or Section<Extrinsics> or Section<Interfaces>
+// type: 'public' | 'private'
+export function shouldDisplaySection<T extends Section<T>, SectionVisibilityAll extends keyof T> (section: T, type: SectionVisibilityAll) {
   if (isUndefined(section)) {
     return false;
   }
