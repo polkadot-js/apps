@@ -5,7 +5,7 @@
 import { SectionItem } from '@polkadot/params/types';
 import { Extrinsics, Extrinsic$Sections } from '@polkadot/extrinsics/types';
 import { I18nProps } from '../types';
-import { DropdownOptions } from './types';
+import { DropdownOptions } from '../util/types';
 
 import React from 'react';
 
