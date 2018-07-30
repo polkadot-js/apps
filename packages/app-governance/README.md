@@ -42,3 +42,10 @@
 
 * Vote on Proposal #1
   * Go to Extrinsics tab, select EVE > democracy > vote, enter the Referendum Index generated with second proposal (i.e. 1), choose "Yes" on how to vote, click Submit Transaction
+
+* Note:
+  * Run Polkadot Node using v0.2 branch in develepment mode with `./target/debug/polkadot --dev`
+
+  * Temporarily increase the voting period in the following file on line ~332 of substrate/runtime/democracy/src/lib.rs to `voting_period: T::BlockNumber::sa(1000000000000),` so that proposals do not time-out too quickly before having enough time to vote and submit a query
+
+  * Only accounts that have submitted an intention to stake at extrinsics > staking > stake() prior to them creating a proposal will show up in the list at http://localhost:3000/#/governance
