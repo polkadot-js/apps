@@ -70,8 +70,10 @@ class ProposalsData extends React.PureComponent<ApiProps, State> {
     return api.state
       .getStorage(storage.staking.public.intentions)
       .subscribe((storage: StorageIntentions) => {
+        console.log('subscribeIntentions - storage: ', storage);
         const intentions = storage.map(encodeAddress);
 
+        console.log('subscribeIntentions - subscribing to balances for intentions: ', intentions);
         this.setState({ intentions }, () => {
           this.subscribeBalances(intentions);
         });
@@ -84,6 +86,7 @@ class ProposalsData extends React.PureComponent<ApiProps, State> {
     return api.state
       .getStorage(storage.democracy.public.proposals)
       .subscribe((value: Array<StorageProposal>) => {
+        console.log('subscribeProposals - value: ', value);
         this.setState({
           proposals: value.reduce((proposals: StateProposals, [propIdx, proposal, accountId]) => {
             const address = encodeAddress(accountId);
@@ -108,6 +111,7 @@ class ProposalsData extends React.PureComponent<ApiProps, State> {
     return api.state
       .getStorage(storage.session.public.validators)
       .subscribe((validators: StorageValidators) => {
+        console.log('subscribeValidators - validators: ', validators);
         this.setState({
           validators: validators.map(encodeAddress)
         });
@@ -119,19 +123,19 @@ class ProposalsData extends React.PureComponent<ApiProps, State> {
     const { votesFor, subscriptions } = this.state;
     const newVotesFor: StateVotesFor = { ...votesFor };
 
-    console.log('proposals: ', proposals);
+    console.log('subscribeVotesFor - proposals: ', proposals);
 
     for (let address in proposals) {
-      console.log('address in proposals hash: ', address);
+      console.log('subscribeVotesFor - address in proposals hash: ', address);
 
       for (let propIdx of proposals[address]) {
-        console.log('propIdx in proposals[address] array: ', propIdx);
+        console.log('subscribeVotesFor - propIdx in proposals[address] array: ', propIdx);
 
         subscriptions.push(
           api.state
             .getStorage(storage.democracy.public.votersFor, propIdx)
             .subscribe((addresses: Array<string>) => {
-              console.log('subscribe returned addresses: ', addresses);
+              console.log('subscribeVotesFor - subscribe returned addresses: ', addresses);
 
               this.setState(({ votesFor }: State) => {
 
@@ -144,7 +148,7 @@ class ProposalsData extends React.PureComponent<ApiProps, State> {
                     newVotesFor[address] = [];
                   }
                 }
-                console.log('setting newVotesFor state: ', newVotesFor);
+                console.log('subscribeVotesFor - setting newVotesFor state: ', newVotesFor);
 
                 return {
                   votesFor: newVotesFor
@@ -153,7 +157,7 @@ class ProposalsData extends React.PureComponent<ApiProps, State> {
             })
         );
       }
-    };
+    }
 
     this.setState({
       votesFor: newVotesFor,
@@ -179,9 +183,9 @@ class ProposalsData extends React.PureComponent<ApiProps, State> {
           .getStorage(storage.staking.public.freeBalanceOf, account)
           .subscribe((balance: BN) => {
             this.setState(({ balances }: State) => {
-              const newBalances = { ...balances };
-
               newBalances[account] = balance;
+
+              console.log('subscribeBalances - setting new balance for account, old balance, balance: ', account, newBalances[account], balance);
 
               return {
                 balances: newBalances

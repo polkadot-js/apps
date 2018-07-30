@@ -18,7 +18,7 @@
   * Click "+" to show the Block and associated Hash of the Proposal.
     * Note: If you do not view the Proposal quickly before expires it will return `empty`)
 
-## Referendum
+## Referendum #1
 
 * Create two proposals, each with a Referendum ID, and vote on each proposal
 
