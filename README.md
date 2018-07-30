@@ -64,3 +64,13 @@ Demos for the different libraries can be viewed with `yarn run demo:<name>` and 
 ## tutorials
 
 Looking for tutorials to get started? Look at [examples](examples/README.md) for a step-by-step guide to using the API and Components to display some information.
+
+## Docker
+
+### Run
+
+  docker run --rm -it --name polkadot-ui -p 80:80 chevdor/polkadot-ui:latest
+
+### Build
+
+  docker build -t chevdor/polkadot-ui:latest .
