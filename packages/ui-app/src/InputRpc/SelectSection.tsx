@@ -4,7 +4,7 @@
 
 import { SectionItem } from '@polkadot/params/types';
 import { Interfaces, Interface$Sections } from '@polkadot/jsonrpc/types';
-import { DropdownOptions } from '../InputExtrinsic/types';
+import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 
 import React from 'react';
