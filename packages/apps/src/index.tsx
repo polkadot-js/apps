@@ -36,9 +36,14 @@ function App ({ className, style }: Props) {
   );
 }
 
-createApp(App, {
-  // tslint:disable-next-line
-  url: (process.env.WS_URL === null) || (process.env.WS_URL === '')
+// tslint:disable-next-line
+var url = (process.env.WS_URL === null) || (process.env.WS_URL === '')
     ? undefined
-    : process.env.WS_URL
+    : process.env.WS_URL;
+
+console.log('process.env.WS_URL=', process.env.WS_URL);
+console.log('Web socket url=', url);
+
+createApp(App, {
+  url
 });
