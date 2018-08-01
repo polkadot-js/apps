@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { Header } from '@polkadot/primitives/Header';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 
@@ -25,8 +26,11 @@ type StateBalances = {
 
 type State = {
   balances: StateBalances,
+  blockNumber: BN,
   intentions: Array<string>,
   intentionHigh: BN | null,
+  sessionLast: BN,
+  sessionLength: BN,
   subscriptions: Array<any>,
   validators: Array<string>,
   validatorLow: BN | null
@@ -42,8 +46,11 @@ class Summary extends React.PureComponent<Props, State> {
 
     this.state = {
       balances: {},
+      blockNumber: new BN(0),
       intentions: [],
       intentionHigh: null,
+      sessionLength: new BN(60),
+      sessionLast: new BN(0),
       subscriptions: [],
       validators: [],
       validatorLow: null
@@ -53,10 +60,27 @@ class Summary extends React.PureComponent<Props, State> {
   componentDidMount () {
     this.setState({
       subscriptions: [
+        this.subscribeBlocks(),
         this.subscribeIntentions(),
-        this.subscribeValidators()
+        this.subscribeValidators(),
+        this.subscribeLength(),
+        this.subscribeLast()
       ]
     });
+  }
+
+  private subscribeBlocks () {
+    const { api } = this.props;
+
+    return api.chain
+      .newHead()
+      .subscribe((header: Header) => {
+        if (!header) {
+          return;
+        }
+
+        this.setState({ blockNumber: header.number });
+      });
   }
 
   private subscribeIntentions () {
@@ -121,6 +145,26 @@ class Summary extends React.PureComponent<Props, State> {
     } as State);
   }
 
+  private subscribeLength () {
+    const { api } = this.props;
+
+    return api.state
+      .getStorage(storage.session.public.length)
+      .subscribe((sessionLength: BN) => {
+        this.setState({ sessionLength });
+      });
+  }
+
+  private subscribeLast () {
+    const { api } = this.props;
+
+    return api.state
+      .getStorage(storage.session.public.lastSessionChange)
+      .subscribe((sessionLast: BN) => {
+        this.setState({ sessionLast });
+      });
+  }
+
   componentWillUnmount () {
     const { subscriptions } = this.state;
 
@@ -164,7 +208,7 @@ class Summary extends React.PureComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { intentions, intentionHigh, validators, validatorLow } = this.state;
+    const { blockNumber, intentions, intentionHigh, sessionLast, sessionLength, validators, validatorLow } = this.state;
 
     return (
       <div>
@@ -180,6 +224,14 @@ class Summary extends React.PureComponent<Props, State> {
           replace: {
             intentionHigh: intentionHigh ? intentionHigh.toString() : 'unknown',
             validatorLow: validatorLow ? validatorLow.toString() : 'unknown'
+          }
+        })}</div>
+        <div>{t('summary.countdown', {
+          defaultValue: 'session block {{remainder}} / {{length}} at #{{blockNumber}}',
+          replace: {
+            blockNumber: blockNumber.toString(),
+            remainder: blockNumber.sub(sessionLast).mod(sessionLength).addn(1).toString(),
+            length: sessionLength.toString()
           }
         })}</div>
       </div>
