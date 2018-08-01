@@ -25,6 +25,7 @@ type Props = BareProps & {
   label?: any, // node?
   max?: any,
   min?: any,
+  maxLength?: number,
   name?: string,
   onChange: (value: string) => void,
   placeholder?: string,
@@ -49,7 +50,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { children, className, defaultValue, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, name, placeholder, style, type = 'text', value, withLabel } = this.props;
+    const { children, className, defaultValue, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, maxLength, name, placeholder, style, type = 'text', value, withLabel } = this.props;
 
     return (
       <Labelled
@@ -73,6 +74,7 @@ export default class Input extends React.PureComponent<Props, State> {
           hidden={isHidden}
           max={max}
           min={min}
+          maxLength={maxLength}
           name={name || this.state.name}
           onChange={this.onChange}
           placeholder={placeholder}
