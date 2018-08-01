@@ -41,10 +41,13 @@ class Query extends React.PureComponent<Props, State> {
         value as Storage$Key$Value
       );
 
+      const lineHeight = key.type[0] === 'AccountId' ? '2em' : '1em';
+
       cache[id] = withStorageDiv(key, { params: values })(
-        (value: any) =>
-          valueToText(key.type, value),
-        { className: 'ui--output' }
+        (value: any) => {
+          return valueToText(key.type, value);
+        },
+        { className: 'ui--output', style: { lineHeight: lineHeight } }
       );
     }
 
