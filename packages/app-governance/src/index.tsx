@@ -9,6 +9,7 @@ import DemocracyProposalsHOC from './DemocracyProposalsHOC';
 import DemocracyProposalsRxAPI from './DemocracyProposalsRxAPI';
 import MultipleProposalsRxAPI from './MultipleProposalsRxAPI';
 import ProposalsData from './ProposalsData';
+import Test from './Test';
 
 export default class App extends React.PureComponent<any> {
   render () {
@@ -18,12 +19,12 @@ export default class App extends React.PureComponent<any> {
         <DemocracyProposalsHOC />
         <DemocracyProposalsRxAPI /> */}
         {/* <MultipleProposalsRxAPI /> */}
-        <ProposalsData />
+        {/* <ProposalsData /> */}
+        <Test />
       </div>
     );
   }
 }
-
 
 // import { I18nProps } from '@polkadot/ui-app/types';
 // import { StorageQuery } from './types';
