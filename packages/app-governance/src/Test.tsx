@@ -10,6 +10,7 @@ import React from 'react';
 import storage from '@polkadot/storage';
 import withApi from '@polkadot/ui-react-rx/with/api';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
+import { mergeMap } from 'rxjs/operators';
 
 type StorageProposal = [BN, any, Uint8Array];
 
@@ -50,16 +51,36 @@ class Test extends React.PureComponent<ApiProps, State> {
     };
   }
 
-  // TODO We should unsubscribe from subscriptions
   componentDidMount () {
     this.setState({
       subscriptions: [
         this.subscribeProposals(),
         this.subscribeNextTally(),
-        this.subscribeReferendumCount()
+        this.subscribeReferendumCount(),
+        this.subscribeBothNextTallyAndReferendumCount()
+        // ,
         // this.subscribeReferendumInfoOf()
       ]
     });
+  }
+
+  subscribeBothNextTallyAndReferendumCount () {
+    const { api } = this.props;
+
+    const nt = storage.democracy.public.nextTally;
+    const rc = storage.democracy.public.referendumCount;
+
+    let requestStream1 = api.state.getStorage(rc);
+    let requestStream2 = api.state.getStorage(nt);
+
+    requestStream1
+      .pipe(mergeMap((value: BN) => {
+        console.log('rc: ', value.toNumber());
+        return requestStream2;
+      }))
+      .subscribe((value: BN) => {
+        console.log('nt: ', value.toNumber());
+      });
   }
 
   subscribeProposals () {
@@ -68,7 +89,7 @@ class Test extends React.PureComponent<ApiProps, State> {
     api.state
       .getStorage(storage.democracy.public.proposals)
       .subscribe((value: Array<StorageProposal>) => {
-        console.log('value: ', value);
+        console.log('proposals: ', value);
         this.setState({
           proposals: value.reduce((proposals: StateProposals, [propIdx, proposal, accountId]) => {
             const address = encodeAddress(accountId);
@@ -110,6 +131,19 @@ class Test extends React.PureComponent<ApiProps, State> {
         });
       });
   }
+
+  // subscribeReferendumInfoOf () {
+  //   const { api } = this.props;
+
+  //   api.state
+  //     .getStorage(storage.democracy.public.referendumCount)
+  //     .subscribe((value: BN) => {
+  //       console.log('referendumCount: ', value);
+  //       this.setState({
+  //         referendumCount: value.toNumber()
+  //       });
+  //     });
+  // }
 
   componentWillUnmount () {
     const { subscriptions } = this.state;
