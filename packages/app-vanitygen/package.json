@@ -20,6 +20,7 @@
     "@types/yargs": "^11.0.0",
     "babel-plugin-module-resolver": "^3.1.1",
     "chalk": "^2.4.1",
+    "libsodium-wrappers": "^0.7.3",
     "yargs": "10.1.2"
   },
   "optionalDependencies": {
