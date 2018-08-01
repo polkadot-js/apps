@@ -55,8 +55,8 @@ class Test extends React.PureComponent<ApiProps, State> {
     this.setState({
       subscriptions: [
         this.subscribeProposals(),
-        this.subscribeNextTally()
-        // this.subscribeReferendumCount(),
+        this.subscribeNextTally(),
+        this.subscribeReferendumCount()
         // this.subscribeReferendumInfoOf()
       ]
     });
@@ -98,15 +98,36 @@ class Test extends React.PureComponent<ApiProps, State> {
       });
   }
 
+  subscribeReferendumCount () {
+    const { api } = this.props;
+
+    api.state
+      .getStorage(storage.democracy.public.referendumCount)
+      .subscribe((value: BN) => {
+        console.log('referendumCount: ', value);
+        this.setState({
+          referendumCount: value.toNumber()
+        });
+      });
+  }
+
+  componentWillUnmount () {
+    const { subscriptions } = this.state;
+
+    subscriptions.forEach((sub) => sub.unsubscribe());
+  }
+
   render () {
-    const { proposals, nextTally } = this.state;
+    const { proposals, nextTally, referendumCount } = this.state;
     console.log('proposals: ', proposals);
     console.log('nextTally: ', nextTally);
+    console.log('referendumCount: ', referendumCount);
 
     return (
       <div>
         <div>Found {Object.keys(proposals).length} accounts making proposals.</div>
         <div>Next tally (next Referendum ID to be tallied) {nextTally}.</div>
+        <div>Referendum Count is {referendumCount}.</div>
       </div>
     );
   }
