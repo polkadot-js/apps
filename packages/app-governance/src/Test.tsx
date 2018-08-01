@@ -55,11 +55,11 @@ class Test extends React.PureComponent<ApiProps, State> {
     this.setState({
       subscriptions: [
         this.subscribeProposals(),
-        this.subscribeNextTally(),
-        this.subscribeReferendumCount(),
+        // this.subscribeNextTally(),
+        // this.subscribeReferendumCount(),
         this.subscribeBothNextTallyAndReferendumCount()
         // ,
-        // this.subscribeReferendumInfoOf()
+        // this.subscribeReferendumInfoOf() // called by other function
       ]
     });
   }
@@ -74,12 +74,23 @@ class Test extends React.PureComponent<ApiProps, State> {
     let requestStream2 = api.state.getStorage(nt);
 
     requestStream1
-      .pipe(mergeMap((value: BN) => {
-        console.log('rc: ', value.toNumber());
+      .pipe(mergeMap((referendumCount: BN) => {
+        console.log('rc: ', referendumCount.toNumber());
+        this.setState({
+          referendumCount: referendumCount.toNumber()
+        });
         return requestStream2;
       }))
-      .subscribe((value: BN) => {
-        console.log('nt: ', value.toNumber());
+      .subscribe((nextTally: BN) => {
+        console.log('nt: ', nextTally.toNumber());
+        this.setState({
+          nextTally: nextTally.toNumber()
+        });
+
+        console.log('calling subscribeReferendumInfoOf');
+        // this.setState({ intentions }, () => {
+        this.subscribeReferendumInfoOf(this.state.nextTally, this.state.referendumCount);
+        // });
       });
   }
 
@@ -106,33 +117,20 @@ class Test extends React.PureComponent<ApiProps, State> {
       });
   }
 
-  subscribeNextTally () {
-    const { api } = this.props;
+  // subscribeNextTally () {
+  //   const { api } = this.props;
 
-    api.state
-      .getStorage(storage.democracy.public.nextTally)
-      .subscribe((value: BN) => {
-        console.log('nextTally: ', value);
-        this.setState({
-          nextTally: value.toNumber()
-        });
-      });
-  }
+  //   api.state
+  //     .getStorage(storage.democracy.public.nextTally)
+  //     .subscribe((value: BN) => {
+  //       console.log('nextTally: ', value);
+  //       this.setState({
+  //         nextTally: value.toNumber()
+  //       });
+  //     });
+  // }
 
-  subscribeReferendumCount () {
-    const { api } = this.props;
-
-    api.state
-      .getStorage(storage.democracy.public.referendumCount)
-      .subscribe((value: BN) => {
-        console.log('referendumCount: ', value);
-        this.setState({
-          referendumCount: value.toNumber()
-        });
-      });
-  }
-
-  // subscribeReferendumInfoOf () {
+  // subscribeReferendumCount () {
   //   const { api } = this.props;
 
   //   api.state
@@ -145,6 +143,33 @@ class Test extends React.PureComponent<ApiProps, State> {
   //     });
   // }
 
+  subscribeReferendumInfoOf (nextTally: number, referendumCount: number) {
+    const { api } = this.props;
+
+    // Create array filled with values containing the Referendum Id's to subscribe to
+    // https://davidwalsh.name/fill-array-javascript
+    const fillRange = (start: number, end: number) => {
+      return [...Array(end - start + 1)].map((item, index) => start + index);
+    };
+
+    const referendumIdsToSubscribeTo = fillRange(nextTally - 1, referendumCount - 1);
+
+    const { referendumInfoOf } = this.state;
+
+    referendumIdsToSubscribeTo.forEach((referendumId) => {
+      api.state
+        .getStorage(storage.democracy.public.referendumInfoOf, referendumId)
+        .subscribe((referendumInfoForGivenId: any) => {
+          referendumInfoOf[referendumId] = referendumInfoForGivenId;
+
+          console.log('this.state.referendumInfos updated to: ', referendumInfoOf);
+          this.setState({
+            referendumInfoOf: referendumInfoOf
+          });
+        });
+    });
+  }
+
   componentWillUnmount () {
     const { subscriptions } = this.state;
 
@@ -152,16 +177,26 @@ class Test extends React.PureComponent<ApiProps, State> {
   }
 
   render () {
-    const { proposals, nextTally, referendumCount } = this.state;
+    const { proposals, nextTally, referendumCount, referendumInfoOf } = this.state;
     console.log('proposals: ', proposals);
     console.log('nextTally: ', nextTally);
     console.log('referendumCount: ', referendumCount);
+    console.log('referendumInfoOf: ', referendumInfoOf);
+
+    const showReferendumInfoOf = (referendumInfoOf: any) => {
+      return (
+        Object.keys(referendumInfoOf).forEach(function (key: any, value: any) {
+          return `key: ${key}, value: ${value}`;
+        })
+      );
+    };
 
     return (
       <div>
         <div>Found {Object.keys(proposals).length} accounts making proposals.</div>
         <div>Next tally (next Referendum ID to be tallied) {nextTally}.</div>
         <div>Referendum Count is {referendumCount}.</div>
+        <div>Referendum Info Of KV pairs are: {showReferendumInfoOf(referendumInfoOf)}</div>
       </div>
     );
   }
