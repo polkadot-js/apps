@@ -18,7 +18,11 @@
       "@polkadot/ui-keyring/*": [ "packages/ui-keyring/src/*" ],
       "@polkadot/ui-react/*": [ "packages/ui-react/src/*" ],
       "@polkadot/ui-react-rx/*": [ "packages/ui-react-rx/src/*" ],
-      "@polkadot/ui-signer/*": [ "packages/ui-signer/src/*" ]
+      "@polkadot/ui-signer/*": [ "packages/ui-signer/src/*" ],
+      "@dotstats/common/*": [ "node_modules/@dotstats/full/packages/common/src/*" ],
+      "@dotstats/common": [ "node_modules/@dotstats/full/packages/common/src" ],
+      "@dotstats/ui/*": [ "node_modules/@dotstats/full/packages/frontend/src/*" ],
+      "@dotstats/ui": [ "node_modules/@dotstats/full/packages/frontend/src" ]
     },
     "typeRoots": [
       "./node_modules/@polkadot/ts",
