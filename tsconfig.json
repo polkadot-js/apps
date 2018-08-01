@@ -9,6 +9,7 @@
       "@polkadot/app-example/*": [ "packages/app-example/src/*" ],
       "@polkadot/app-extrinsics/*": [ "packages/app-extrinsics/src/*" ],
       "@polkadot/app-rpc/*": [ "packages/app-rpc/src/*" ],
+      "@polkadot/app-staking/*": [ "packages/app-staking/src/*" ],
       "@polkadot/app-storage/*": [ "packages/app-storage/src/*" ],
       "@polkadot/app-toolbox/*": [ "packages/app-toolbox/src/*" ],
       "@polkadot/app-vanitygen/*": [ "packages/app-vanitygen/src/*" ],
