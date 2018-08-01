@@ -27,10 +27,10 @@ const DemocracyProposalsHOC: React.ComponentType<any> = withStorageDiv(method)(
     for (let democracyProposalData of value) {
       console.log('democracyProposalData: ', democracyProposalData);
       democracyProposal = democracyProposalData[2];
-      console.log('democracyProposal: ', democracyProposal)
+      console.log('democracyProposal: ', democracyProposal);
       democracyProposals.push(encodeAddress(democracyProposal));
     }
-  
+
     return democracyProposals.join(', ');
   }
 );

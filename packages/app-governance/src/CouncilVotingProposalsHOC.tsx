@@ -28,10 +28,10 @@ const CouncilVotingProposalsHOC: React.ComponentType<any> = withStorageDiv(metho
     for (let councilVotingProposalData of value) {
       console.log('councilVotingProposalData: ', councilVotingProposalData);
       councilVotingProposal = councilVotingProposalData[1];
-      console.log('councilVotingProposal: ', councilVotingProposal)
+      console.log('councilVotingProposal: ', councilVotingProposal);
       councilVotingProposals.push(encodeAddress(councilVotingProposal));
     }
-  
+
     return councilVotingProposals.join(', ');
   }
 );

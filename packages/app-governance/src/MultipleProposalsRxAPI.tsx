@@ -59,9 +59,9 @@ class MultipleProposalsRxAPI extends React.PureComponent<ApiProps, State> {
         console.log('proposals: ', proposals);
         return api.state.getStorage(vtrs, 1);
       }))
-      .subscribe((value: any) => { //: Array<StorageProposal>
+      .subscribe((value: any) => { // Array<StorageProposal>
         console.log('value: ', value);
-      })
+      });
     // let responseStream = requestStream1
     //   .pipe(flatMap((val) => {
     //     return requestStream2;
