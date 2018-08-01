@@ -9,9 +9,9 @@ import sodiumKeygen from './sodiumKeygen';
 let pkFromSeed: Generator$PkFromSeed | undefined;
 
 try {
-  pkFromSeed = sodiumKeygen(
-    require('sodium')
-  );
+  const sodium = require('sodium');
+
+  pkFromSeed = sodiumKeygen(sodium.api);
 } catch (error) {
   console.log(`Using NaCl bindings from 'tweet-nacl' (faster 'sodium' dependency not installed)`);
 }

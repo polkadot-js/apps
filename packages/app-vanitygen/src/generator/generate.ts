@@ -17,27 +17,16 @@ const tweetPkFromSeed = (seed: Uint8Array): Uint8Array =>
 
 let defaultPkFromSeed: Generator$PkFromSeed = tweetPkFromSeed;
 
+// tslint:disable-next-line
 (async () => {
   try {
-    console.error('_sodium', sodiumWasm);
     await sodiumWasm.ready;
-    const sodium = sodiumWasm;
-    console.error('sodium', sodium);
 
-    defaultPkFromSeed = sodiumKeygen(sodium);
+    defaultPkFromSeed = sodiumKeygen(sodiumWasm);
   } catch (error) {
-    // ok, we can't use bindings
-    console.error('sodium.ready', error);
+    console.log(`Using NaCl bindings from 'tweet-nacl' (faster 'libsodium-wrappers' dependency not available)`);
   }
 })();
-
-// (async () => {
-//   console.error('123');
-//   await sodiumWasm.ready;
-//   console.error('456');
-
-//   defaultPkFromSeed = sodiumKeygen(sodiumWasm);
-// })();
 
 export default function generator (test: Array<string>, options: Generator$Options, pkFromSeed: Generator$PkFromSeed = defaultPkFromSeed): Generator$Match {
   const seed = randomBytes();

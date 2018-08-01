@@ -154,14 +154,16 @@ class VanityApp extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const secs = elapsed / 1000;
+
     return (
       <div className='vanity--App-stats'>
         {t('vanity.stats', {
-          defaultValue: 'Evaluated {{count}} keys in {{elapsed}}s ({{avg}}ms/key)',
+          defaultValue: 'Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)',
           replace: {
-            avg: (elapsed / keyCount).toFixed(3),
+            avg: (keyCount / secs).toFixed(3),
             count: keyCount,
-            elapsed: (elapsed / 1000).toFixed(2)
+            elapsed: secs.toFixed(2)
           }
         })}
       </div>
@@ -211,7 +213,7 @@ class VanityApp extends React.PureComponent<Props, State> {
     }
 
     setTimeout(() => {
-      if (this.results.length === 5) {
+      if (this.results.length === 25) {
         this.checkMatches();
       }
 

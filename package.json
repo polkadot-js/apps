@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@polkadot/dev-react": "^0.20.12",
-    "@polkadot/ts": "^0.1.9",
+    "@polkadot/ts": "^0.1.10",
     "autoprefixer": "^8.6.2",
     "gh-pages": "^1.1.0",
     "postcss-import": "^11.1.0",
