@@ -9,7 +9,6 @@ import './UploadButton.css';
 
 import React from 'react';
 import store from 'store';
-import decodeAddress from '@polkadot/util-keyring/address/decode';
 import ReactFileReader from 'react-file-reader';
 
 import Button from './Button';
@@ -28,32 +27,22 @@ export default class UploadButton extends React.PureComponent<Props> {
     const fileList: FileList = files;
 
     if (!fileList.length) {
-      console.log('Error retrieving file list');
+      console.error('Error retrieving file list');
       return;
     }
 
     const fileToUpload: File = fileList[0];
     const fileReader: FileReader = new FileReader();
-    let fileContents: string = '';
-    let localStorageAccountKey: string = '';
-    let localStorageAccountValue: string = '';
 
     fileReader.onload = (e) => {
-      console.log(e.target.result);
-      fileContents = JSON.parse(e.target.result);
-
-      console.log('Uploading to Local Storage');
-      localStorageAccountKey = fileContents['key'];
-      localStorageAccountValue = JSON.parse(fileContents['value']);
+      const fileContents: string = JSON.parse(e.target.result);
+      const localStorageAccountKey: string = fileContents['key'];
+      const localStorageAccountValue: string = JSON.parse(fileContents['value']);
 
       try {
-        // TODO - Check that decoded account key is valid to prevent assertion error
-        // `Invalid decoded address prefix error` from util-keyring/address/decode.js
-
         store.set(localStorageAccountKey, localStorageAccountValue);
-        console.log('Success uploading account to local storage: ', localStorageAccountKey, localStorageAccountValue);
       } catch (e) {
-        console.log('Error uploading account to local storage ', e);
+        console.error('Error uploading account to local storage ', e);
       }
     };
     fileReader.readAsText(fileToUpload);

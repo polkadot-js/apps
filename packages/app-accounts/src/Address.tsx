@@ -55,9 +55,15 @@ export default class Address extends React.PureComponent<Props, State> {
   render () {
     const { className, style } = this.props;
     const { address, isValid, shortValue } = this.state;
-    console.log('address: ', address);
-    console.log('isValid: ', isValid);
-    console.log('shortValue: ', shortValue);
+
+    const showUploadDownloadButtons = () => {
+      return (
+        <div className='accounts--Address-file'>
+          <DownloadButton address={address} />
+          <UploadButton />
+        </div>
+      );
+    };
 
     return (
       <div
@@ -74,14 +80,7 @@ export default class Address extends React.PureComponent<Props, State> {
             {shortValue}
           </div>
           <CopyButton value={address} />
-          {
-            isValid ? (
-              <div>
-                <DownloadButton address={address} />
-                <UploadButton />
-              </div>
-            ) : null
-          }
+          { isValid ? showUploadDownloadButtons() : null }
         </div>
         {this.renderBalance()}
       </div>
