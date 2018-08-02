@@ -14,6 +14,10 @@ import ReactFileReader from 'react-file-reader';
 
 import Button from './Button';
 
+type State = {
+  address: string
+};
+
 type Props = BareProps & {
   icon?: string,
   isCircular?: boolean,
@@ -21,7 +25,8 @@ type Props = BareProps & {
   size?: Button$Sizes
 };
 
-export default class UploadButton extends React.PureComponent<Props> {
+export default class UploadButton extends React.PureComponent<Props, State> {
+  state: State = {} as State;
 
   handleUploadAccount = (files: FileList): void => {
     const fileList: FileList = files;
@@ -43,6 +48,12 @@ export default class UploadButton extends React.PureComponent<Props> {
             const localStorageAccountValue: string = JSON.parse(fileContents.value);
 
             store.set(localStorageAccountKey, localStorageAccountValue);
+
+            // FIXME - does not force browser to refresh if account address added to local storage
+            const foundAddress = localStorageAccountKey.substr(localStorageAccountKey.indexOf(':') + 1);
+            const address = foundAddress || '';
+
+            this.setState({ address: address });
           }
         }
       } catch (e) {

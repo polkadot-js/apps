@@ -9,7 +9,8 @@ import './DownloadButton.css';
 
 import React from 'react';
 import store from 'store';
-import { FileSaver } from 'file-saver';
+/// <reference path="./@types/file-saver/index.d.ts" />
+import FileSaver from 'file-saver';
 import { accountKey } from '@polkadot/ui-keyring/defaults';
 
 import Button from './Button';
