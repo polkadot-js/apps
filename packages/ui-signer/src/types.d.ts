@@ -3,9 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
+import { Extrinsics } from '@polkadot/extrinsics/types';
 import { SectionItem } from '@polkadot/params/types';
 import { Interfaces } from '@polkadot/jsonrpc/types';
 import { Param$Values } from '@polkadot/params/types';
+import { RawParam$Value } from '@polkadot/ui-app/Params/types';
 
 export type EncodedMessage = {
   isValid: boolean,
@@ -22,11 +24,19 @@ export type QueueTx$Result = {
   status: QueueTx$Status
 }
 
-export type QueueTx$Base = EncodedMessage & {
-  rpc: SectionItem<Interfaces>,
+export type AccountInfo = {
   nonce: BN,
   publicKey?: Uint8Array | null
 };
+
+export type QueueTx$Base = EncodedMessage & AccountInfo & {
+  rpc: SectionItem<Interfaces>
+};
+
+export type QueueTx$Extrinsic = AccountInfo & {
+  extrinsic: SectionItem<Extrinsics>,
+  values: Array<RawParam$Value>
+}
 
 export type QueueTx = QueueTx$Base & {
   error?: Error,
@@ -37,11 +47,14 @@ export type QueueTx = QueueTx$Base & {
 
 export type QueueTx$MessageAdd = (value: QueueTx$Base) => QueueTx$Id;
 
+export type QueueTx$ExtrinsicAdd = (value: QueueTx$Extrinsic) => QueueTx$Id;
+
 export type QueueTx$MessageSetStatus = (id: number, status: QueueTx$Status, result?: any, error?: Error) => void;
 
 export type QueueProps = {
   queue: Array<QueueTx>,
   queueAdd: QueueTx$MessageAdd,
+  queueExtrinsic: QueueTx$ExtrinsicAdd,
   queueSetStatus: QueueTx$MessageSetStatus
 };
 

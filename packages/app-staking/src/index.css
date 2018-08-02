@@ -20,10 +20,14 @@
   vertical-align: top;
 }
 
-.staking--Account-info {
+.staking--Account-details {
   display: inline-block;
   margin-right: 1em;
   text-align: left;
+}
+
+.staking--Account-info {
+  display: inline-block;
 }
 
 .staking--Account-address {
@@ -33,4 +37,10 @@
 
 .staking--Account-icon {
   margin-right: 1em;
+}
+
+.staking--Account-balance,
+.staking--Account-nonce {
+  opacity: 0.45;
+  text-align: right;
 }

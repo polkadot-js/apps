@@ -3,10 +3,12 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { QueueProps } from '@polkadot/ui-signer/types';
 
 import React from 'react';
 import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
+import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
 import Account from './Account';
 import translate from './translate';
@@ -21,26 +23,31 @@ class StakeList extends React.PureComponent<Props> {
     const { className, intentions, style, t, validators } = this.props;
 
     return (
-      <div
-        className={classes('staking--StakeList', className)}
-        style={style}
-      >
-        {keyring.getAccounts().map((account) => {
-          const address = account.address();
-          const name = account.getMeta().name || '';
+      <QueueConsumer>
+        {({ queueExtrinsic }: QueueProps) => (
+          <div
+            className={classes('staking--StakeList', className)}
+            style={style}
+          >
+            {keyring.getAccounts().map((account) => {
+              const address = account.address();
+              const name = account.getMeta().name || '';
 
-          return (
-            <Account
-              address={address}
-              intentionPosition={intentions.indexOf(address)}
-              isIntending={intentions.includes(address)}
-              isValidator={validators.includes(address)}
-              key={address}
-              name={name}
-            />
-          );
-        })}
-      </div>
+              return (
+                <Account
+                  address={address}
+                  intentionPosition={intentions.indexOf(address)}
+                  isIntending={intentions.includes(address)}
+                  isValidator={validators.includes(address)}
+                  key={address}
+                  name={name}
+                  queueExtrinsic={queueExtrinsic}
+                />
+              );
+            })}
+          </div>
+        )}
+      </QueueConsumer>
     );
   }
 }
