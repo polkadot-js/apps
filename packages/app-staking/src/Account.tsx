@@ -17,7 +17,6 @@ import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import RxBalance from '@polkadot/ui-react-rx/Balance';
 import RxNonce from '@polkadot/ui-react-rx/Nonce';
 import decodeAddress from '@polkadot/util-keyring/address/decode';
-// import withMulti from '@polkadot/ui-react-rx/with/multi';
 
 import translate from './translate';
 
@@ -44,43 +43,14 @@ class Account extends React.PureComponent<Props, State> {
     };
   }
   render () {
-    const { address, className, isIntending, name, style, t } = this.props;
-    const addrShort = `${address.slice(0, 7)}…${address.slice(-7)}`;
+    const { className, isIntending, style, t } = this.props;
 
     return (
       <div
         className={classes('staking--Account', className)}
         style={style}
       >
-        <div className='staking--Account-details'>
-          <div>
-            <IdentityIcon
-              className='staking--Account-icon'
-              size={32}
-              value={address}
-            />
-            <div className='staking--Account-info'>
-              <div className='staking--Account-name'>{name}</div>
-              <div className='staking--Account-address'>{addrShort}</div>
-            </div>
-          </div>
-          <RxBalance
-            className='staking--Account-balance'
-            label={t('account.balance', {
-              defaultValue: 'balance '
-            })}
-            params={address}
-          />
-          <RxNonce
-            className='staking--Account-nonce'
-            onChange={this.onChangeNonce}
-            params={address}
-          >
-            {t('account.transactions', {
-              defaultValue: ' transactions'
-            })}
-          </RxNonce>
-        </div>
+        {this.renderAccount()}
         <Button
           isDisabled={isIntending}
           isPrimary
@@ -97,6 +67,43 @@ class Account extends React.PureComponent<Props, State> {
             defaultValue: 'unstake'
           })}
         />
+      </div>
+    );
+  }
+
+  private renderAccount () {
+    const { address, name, t } = this.props;
+    const addrShort = `${address.slice(0, 7)}…${address.slice(-7)}`;
+
+    return (
+      <div className='staking--Account-details'>
+        <div>
+          <IdentityIcon
+            className='staking--Account-icon'
+            size={32}
+            value={address}
+          />
+          <div className='staking--Account-info'>
+            <div className='staking--Account-name'>{name}</div>
+            <div className='staking--Account-address'>{addrShort}</div>
+          </div>
+        </div>
+        <RxBalance
+          className='staking--Account-balance'
+          label={t('account.balance', {
+            defaultValue: 'balance '
+          })}
+          params={address}
+        />
+        <RxNonce
+          className='staking--Account-nonce'
+          onChange={this.onChangeNonce}
+          params={address}
+        >
+          {t('account.transactions', {
+            defaultValue: ' transactions'
+          })}
+        </RxNonce>
       </div>
     );
   }
