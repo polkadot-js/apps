@@ -10,7 +10,7 @@ import React from 'react';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
-import UploadButton from '@polkadot/ui-app/UploadButton';
+import showUploadButton from './util/showUploadButton';
 import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 
@@ -98,19 +98,11 @@ class Editor extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { currentPair, defaultValue, editedName } = this.state;
 
-    const showUploadButton = (size?: string) => {
-      return (
-        <div className='accounts--Address-file'>
-          <UploadButton size={'big'} />
-        </div>
-      );
-    };
-
     if (!currentPair) {
       return (
         <div>
           <div>There are no saved accounts. Create an account or upload a JSON file of a saved account.</div>
-          <div className='accounts--Address-wrapper'>{ showUploadButton() }</div>
+          <div className='accounts--Address-wrapper'>{ showUploadButton('big') }</div>
         </div>
       );
     }

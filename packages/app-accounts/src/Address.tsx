@@ -8,8 +8,8 @@ import React from 'react';
 import store from 'store';
 
 import CopyButton from '@polkadot/ui-app/CopyButton';
-import DownloadButton from '@polkadot/ui-app/DownloadButton';
-import UploadButton from '@polkadot/ui-app/UploadButton';
+import showUploadButton from './util/showUploadButton';
+import showUploadAndDownloadButtons from './util/showUploadAndDownloadButtons';
 import classes from '@polkadot/ui-app/util/classes';
 import isUndefined from '@polkadot/util/is/undefined';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
@@ -77,23 +77,6 @@ export default class Address extends React.PureComponent<Props, State> {
       return false;
     };
 
-    const showUploadButton = () => {
-      return (
-        <div className='accounts--Address-file'>
-          <UploadButton />
-        </div>
-      );
-    };
-
-    const showUploadDownloadButtons = () => {
-      return (
-        <div className='accounts--Address-file'>
-          <DownloadButton address={address} />
-          <UploadButton />
-        </div>
-      );
-    };
-
     return (
       <div
         className={classes('accounts--Address', !isValid && 'invalid', className)}
@@ -113,7 +96,7 @@ export default class Address extends React.PureComponent<Props, State> {
             hideAllFileIcons ? (
               null
             ) : (
-              isValid && isAccountAlreadySaved() ? showUploadDownloadButtons() : showUploadButton()
+              isValid && isAccountAlreadySaved() ? showUploadAndDownloadButtons(address) : showUploadButton()
             )
           }
         </div>
