@@ -32,6 +32,7 @@ class StakeList extends React.PureComponent<Props> {
           return (
             <Account
               address={address}
+              intentionPosition={intentions.indexOf(address)}
               isIntending={intentions.includes(address)}
               isValidator={validators.includes(address)}
               key={address}

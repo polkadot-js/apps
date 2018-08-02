@@ -8,16 +8,20 @@ import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import apimethods from '@polkadot/jsonrpc';
 import storage from '@polkadot/storage';
 import classes from '@polkadot/ui-app/util/classes';
-import withApi from '@polkadot/ui-react-rx/with/api';
-import isFunction from '@polkadot/util/is/function';
-import encodeAddress from '@polkadot/util-keyring/address/encode';
+import withApiCall from '@polkadot/ui-react-rx/with/apiCall';
+import withMulti from '@polkadot/ui-react-rx/with/multi';
+import withStorage from '@polkadot/ui-react-rx/with/storage';
 
 import translate from './translate';
 
 type Props = ApiProps & I18nProps & {
   intentions: Array<string>,
+  lastBlockHeader?: Header,
+  lastSessionChange?: BN,
+  sessionLength?: BN,
   validators: Array<string>
 };
 
@@ -27,17 +31,15 @@ type StateBalances = {
 
 type State = {
   balances: StateBalances,
-  blockNumber: BN,
-  intentionHigh: BN | null,
-  sessionLast: BN,
-  sessionLength: BN,
-  subscriptions: Array<any>,
-  validatorLow: BN | null
+  subscriptions: Array<any>
 };
 
 type StateCb = (prevState: State) => State;
 
-const ZERO = new BN(0);
+const DEFAULT_BALANCE = new BN(0);
+const DEFAULT_BLOCKNUMBER = new BN(0);
+const DEFAULT_SESSION_CHANGE = new BN(0);
+const DEFAULT_SESSION_LENGTH = new BN(60);
 
 class Summary extends React.PureComponent<Props, State> {
   constructor (props: Props) {
@@ -45,45 +47,16 @@ class Summary extends React.PureComponent<Props, State> {
 
     this.state = {
       balances: {},
-      blockNumber: new BN(0),
-      intentionHigh: null,
-      sessionLength: new BN(60),
-      sessionLast: new BN(0),
-      subscriptions: [],
-      validatorLow: null
+      subscriptions: []
     };
   }
 
-  componentDidMount () {
-    this.setState({
-      subscriptions: [
-        this.subscribeBlocks(),
-        this.subscribeLength(),
-        this.subscribeLast()
-      ]
-    });
-  }
-
-  componentDidUpdate (prevProps: Props, prevState: State) {
+  componentDidUpdate (prevProps: Props) {
     const { intentions } = this.props;
 
     if (intentions !== prevProps.intentions) {
       this.subscribeBalances(intentions);
     }
-  }
-
-  private subscribeBlocks () {
-    const { api } = this.props;
-
-    return api.chain
-      .newHead()
-      .subscribe((header: Header) => {
-        if (!header) {
-          return;
-        }
-
-        this.setState({ blockNumber: header.number });
-      });
   }
 
   private subscribeBalances (accounts: string[]) {
@@ -95,7 +68,7 @@ class Summary extends React.PureComponent<Props, State> {
       if (newBalances[account]) {
         return;
       } else {
-        newBalances[account] = ZERO;
+        newBalances[account] = DEFAULT_BALANCE;
       }
 
       subscriptions.push(
@@ -103,7 +76,7 @@ class Summary extends React.PureComponent<Props, State> {
           // Here we pass a parameter to the key generator, so it points to the correct storage entry
           .getStorage(storage.staking.public.freeBalanceOf, account)
           .subscribe((balance: BN) => {
-            this.nextState(({ balances }: State) => {
+            this.setState(({ balances }: State) => {
               const newBalances = { ...balances };
 
               newBalances[account] = balance;
@@ -116,30 +89,10 @@ class Summary extends React.PureComponent<Props, State> {
       );
     });
 
-    this.nextState({
+    this.setState({
       balances: newBalances,
       subscriptions
     } as State);
-  }
-
-  private subscribeLength () {
-    const { api } = this.props;
-
-    return api.state
-      .getStorage(storage.session.public.length)
-      .subscribe((sessionLength: BN) => {
-        this.setState({ sessionLength });
-      });
-  }
-
-  private subscribeLast () {
-    const { api } = this.props;
-
-    return api.state
-      .getStorage(storage.session.public.lastSessionChange)
-      .subscribe((sessionLast: BN) => {
-        this.setState({ sessionLast });
-      });
   }
 
   componentWillUnmount () {
@@ -148,45 +101,13 @@ class Summary extends React.PureComponent<Props, State> {
     subscriptions.forEach((sub) => sub.unsubscribe());
   }
 
-  private nextState (_nextState: State | StateCb, onDone?: () => void | Promise<void>) {
-    this.setState((prevState: State) => {
-      const nextState = isFunction(_nextState)
-        ? _nextState(prevState)
-        : _nextState;
-      const { intentions, validators } = this.props;
-      const { balances = prevState.balances } = nextState;
-      const validatorLow = validators.reduce((low: BN | null, addr) => {
-        const balance = balances[addr] || null;
-
-        if (low === null || (balance && low.gt(balance))) {
-          return balance;
-        }
-
-        return low;
-      }, null);
-      const intentionHigh = intentions.reduce((high: BN | null, addr) => {
-        const balance = validators.includes(addr)
-          ? null
-          : balances[addr] || null;
-
-        if (high === null || (balance && high.lt(balance))) {
-          return balance;
-        }
-
-        return high;
-      }, null);
-
-      return {
-        ...nextState,
-        intentionHigh,
-        validatorLow
-      };
-    }, onDone);
-  }
-
   render () {
-    const { className, intentions, style, t, validators } = this.props;
-    const { blockNumber, intentionHigh, sessionLast, sessionLength, validatorLow } = this.state;
+    const { className, intentions, lastBlockHeader, lastSessionChange = DEFAULT_SESSION_CHANGE, style, sessionLength = DEFAULT_SESSION_LENGTH, t, validators, api } = this.props;
+    const blockNumber = lastBlockHeader
+      ? lastBlockHeader.number
+      : DEFAULT_BLOCKNUMBER;
+    const intentionHigh = this.calcIntentionsHigh();
+    const validatorLow = this.calcValidatorLow();
 
     return (
       <div
@@ -216,15 +137,60 @@ class Summary extends React.PureComponent<Props, State> {
           defaultValue: 'session block {{remainder}} / {{length}} at #{{blockNumber}}',
           replace: {
             blockNumber: blockNumber.toString(),
-            remainder: Math.max(1, blockNumber.sub(sessionLast).mod(sessionLength).addn(1).toNumber()).toString(),
+            remainder: Math.max(1, blockNumber.sub(lastSessionChange).mod(sessionLength).addn(1).toNumber()).toString(),
             length: sessionLength.toString()
           }
         })}</div>
       </div>
     );
   }
+
+  private calcIntentionsHigh (): BN | null {
+    const { intentions, validators } = this.props;
+    const { balances } = this.state;
+
+    return intentions.reduce((high: BN | null, addr) => {
+      const balance = validators.includes(addr)
+        ? null
+        : balances[addr] || null;
+
+      if (high === null || (balance && high.lt(balance))) {
+        return balance;
+      }
+
+      return high;
+    }, null);
+  }
+
+  private calcValidatorLow (): BN | null {
+    const { validators } = this.props;
+    const { balances } = this.state;
+
+    return validators.reduce((low: BN | null, addr) => {
+      const balance = balances[addr] || null;
+
+      if (low === null || (balance && low.gt(balance))) {
+        return balance;
+      }
+
+      return low;
+    }, null);
+  }
 }
 
-export default translate(
-  withApi(Summary)
+export default withMulti(
+  Summary,
+  translate,
+  withApiCall(
+    apimethods.chain.public.newHead,
+    { propName: 'lastBlockHeader' }
+  ),
+  withStorage(
+    storage.session.public.length,
+    { propName: 'sessionLength' }
+  ),
+  withStorage(
+    storage.session.public.lastSessionChange,
+    { propName: 'lastSessionChange' }
+  )
 );

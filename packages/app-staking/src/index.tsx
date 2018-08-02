@@ -9,6 +9,7 @@ import storage from '@polkadot/storage';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 import classes from '@polkadot/ui-app/util/classes';
 import withStorage from '@polkadot/ui-react-rx/with/storage';
+import withMulti from '@polkadot/ui-react-rx/with/multi';
 
 import './index.css';
 
@@ -22,22 +23,6 @@ type Props = BareProps & {
 
 const transformAddress = (publicKeys: Array<Uint8Array>) =>
   publicKeys.map(encodeAddress);
-
-const propIntentions = withStorage(
-  storage.staking.public.intentions,
-  {
-    propName: 'intentions',
-    transform: transformAddress
-  }
-);
-
-const propValidators = withStorage(
-  storage.session.public.validators,
-  {
-    propName: 'validators',
-    transform: transformAddress
-  }
-);
 
 class App extends React.PureComponent<Props> {
   render () {
@@ -61,4 +46,20 @@ class App extends React.PureComponent<Props> {
   }
 }
 
-export default propIntentions(propValidators(App));
+export default withMulti(
+  App,
+  withStorage(
+    storage.staking.public.intentions,
+    {
+      propName: 'intentions',
+      transform: transformAddress
+    }
+  ),
+  withStorage(
+    storage.session.public.validators,
+    {
+      propName: 'validators',
+      transform: transformAddress
+    }
+  )
+);
