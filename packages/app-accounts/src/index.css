@@ -54,3 +54,8 @@
   font-size: 1.5em;
   padding: 0;
 }
+
+.accounts--Address-wrapper {
+  text-align: center;
+  padding-top: 1.5em;
+}

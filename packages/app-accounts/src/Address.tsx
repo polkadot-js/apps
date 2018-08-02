@@ -5,23 +5,28 @@
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
+import store from 'store';
 
 import CopyButton from '@polkadot/ui-app/CopyButton';
 import DownloadButton from '@polkadot/ui-app/DownloadButton';
 import UploadButton from '@polkadot/ui-app/UploadButton';
 import classes from '@polkadot/ui-app/util/classes';
+import isUndefined from '@polkadot/util/is/undefined';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Balance from '@polkadot/ui-react-rx/Balance';
 import Nonce from '@polkadot/ui-react-rx/Nonce';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
+import { accountKey } from '@polkadot/ui-keyring/defaults';
 
 type Props = BareProps & {
   value: string;
+  hideAllFileIcons?: boolean;
 };
 
 type State = {
   address: string,
+  hideAllFileIcons: boolean | false,
   isValid: boolean,
   publicKey: Uint8Array | null,
   shortValue: string
@@ -33,8 +38,9 @@ const DEFAULT_SHORT = `${DEFAULT_ADDR.slice(0, 7)}…${DEFAULT_ADDR.slice(-7)}`;
 export default class Address extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
-  static getDerivedStateFromProps ({ value }: Props, { address, publicKey, shortValue }: State): State {
+  static getDerivedStateFromProps ({ value, hideAllFileIcons }: Props, { address, publicKey, shortValue }: State): State {
     try {
+      hideAllFileIcons = hideAllFileIcons;
       publicKey = addressDecode(value);
       address = addressEncode(publicKey);
       shortValue = `${address.slice(0, 7)}…${address.slice(-7)}`;
@@ -46,6 +52,7 @@ export default class Address extends React.PureComponent<Props, State> {
 
     return {
       address: isValid ? address : DEFAULT_ADDR,
+      hideAllFileIcons,
       isValid,
       publicKey,
       shortValue: isValid ? shortValue : DEFAULT_SHORT
@@ -54,7 +61,29 @@ export default class Address extends React.PureComponent<Props, State> {
 
   render () {
     const { className, style } = this.props;
-    const { address, isValid, shortValue } = this.state;
+    const { address, hideAllFileIcons, isValid, shortValue } = this.state;
+
+    const isAccountAlreadySaved = () => {
+      const localStorageAccountKey = accountKey(address);
+
+      try {
+        const localStorageAccountValue = store.get(localStorageAccountKey);
+
+        return isUndefined(localStorageAccountValue) ? false : true;
+      } catch (e) {
+        console.error('Error finding account from local storage: ', e);
+      }
+
+      return false;
+    };
+
+    const showUploadButton = () => {
+      return (
+        <div className='accounts--Address-file'>
+          <UploadButton />
+        </div>
+      );
+    };
 
     const showUploadDownloadButtons = () => {
       return (
@@ -80,7 +109,13 @@ export default class Address extends React.PureComponent<Props, State> {
             {shortValue}
           </div>
           <CopyButton value={address} />
-          { isValid ? showUploadDownloadButtons() : null }
+          {
+            hideAllFileIcons ? (
+              null
+            ) : (
+              isValid && isAccountAlreadySaved() ? showUploadDownloadButtons() : showUploadButton()
+            )
+          }
         </div>
         {this.renderBalance()}
       </div>

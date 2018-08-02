@@ -48,7 +48,7 @@ export default class DownloadButton extends React.PureComponent<Props> {
   }
 
   render () {
-    const { className, icon = 'download', isCircular = true, isPrimary = true, size = 'tiny', style, address } = this.props;
+    const { className, icon = 'download', isCircular = true, isPrimary = true, size = 'tiny', style } = this.props;
 
     return (
       <div className={'accounts--Address-download'}>

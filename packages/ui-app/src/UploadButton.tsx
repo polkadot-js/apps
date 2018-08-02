@@ -17,13 +17,12 @@ type Props = BareProps & {
   icon?: string,
   isCircular?: boolean,
   isPrimary?: boolean,
-  size?: Button$Sizes,
-  address: string
+  size?: Button$Sizes
 };
 
 export default class UploadButton extends React.PureComponent<Props> {
 
-  handleUploadAccount = (files): void => {
+  handleUploadAccount = (files: FileList): void => {
     const fileList: FileList = files;
 
     if (!fileList.length) {
@@ -35,11 +34,11 @@ export default class UploadButton extends React.PureComponent<Props> {
     const fileReader: FileReader = new FileReader();
 
     fileReader.onload = (e) => {
-      const fileContents: string = JSON.parse(e.target.result);
-      const localStorageAccountKey: string = fileContents['key'];
-      const localStorageAccountValue: string = JSON.parse(fileContents['value']);
-
       try {
+        const fileContents: string = JSON.parse(e.target.result);
+        const localStorageAccountKey: string = fileContents.key;
+        const localStorageAccountValue: string = JSON.parse(fileContents.value);
+
         store.set(localStorageAccountKey, localStorageAccountValue);
       } catch (e) {
         console.error('Error uploading account to local storage ', e);
