@@ -16,30 +16,49 @@ import StakeList from './StakeList';
 import Summary from './Summary';
 
 type Props = BareProps & {
-  intentions?: Array<string>
+  intentions?: Array<string>,
+  validators?: Array<string>
 };
+
+const transformAddress = (publicKeys: Array<Uint8Array>) =>
+  publicKeys.map(encodeAddress);
+
+const propIntentions = withStorage(
+  storage.staking.public.intentions,
+  {
+    propName: 'intentions',
+    transform: transformAddress
+  }
+);
+
+const propValidators = withStorage(
+  storage.session.public.validators,
+  {
+    propName: 'validators',
+    transform: transformAddress
+  }
+);
 
 class App extends React.PureComponent<Props> {
   render () {
-    const { className, intentions = [], style } = this.props;
+    const { className, intentions = [], style, validators = [] } = this.props;
 
     return (
       <div
         className={classes('staking--App', className)}
         style={style}
       >
-        <Summary intentions={intentions} />
-        <StakeList intentions={intentions} />
+        <Summary
+          intentions={intentions}
+          validators={validators}
+        />
+        <StakeList
+          intentions={intentions}
+          validators={validators}
+        />
       </div>
     );
   }
 }
 
-export default withStorage(
-  storage.staking.public.intentions,
-  {
-    propName: 'intentions',
-    transform: (intentions) =>
-      intentions.map(encodeAddress)
-  }
-)(App);
+export default propIntentions(propValidators(App));

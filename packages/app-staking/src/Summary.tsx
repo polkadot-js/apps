@@ -17,10 +17,9 @@ import encodeAddress from '@polkadot/util-keyring/address/encode';
 import translate from './translate';
 
 type Props = ApiProps & I18nProps & {
-  intentions: Array<string>
+  intentions: Array<string>,
+  validators: Array<string>
 };
-
-type StorageValidators = Array<Uint8Array>;
 
 type StateBalances = {
   [index: string]: BN
@@ -33,7 +32,6 @@ type State = {
   sessionLast: BN,
   sessionLength: BN,
   subscriptions: Array<any>,
-  validators: Array<string>,
   validatorLow: BN | null
 };
 
@@ -52,7 +50,6 @@ class Summary extends React.PureComponent<Props, State> {
       sessionLength: new BN(60),
       sessionLast: new BN(0),
       subscriptions: [],
-      validators: [],
       validatorLow: null
     };
   }
@@ -61,7 +58,6 @@ class Summary extends React.PureComponent<Props, State> {
     this.setState({
       subscriptions: [
         this.subscribeBlocks(),
-        this.subscribeValidators(),
         this.subscribeLength(),
         this.subscribeLast()
       ]
@@ -87,18 +83,6 @@ class Summary extends React.PureComponent<Props, State> {
         }
 
         this.setState({ blockNumber: header.number });
-      });
-  }
-
-  private subscribeValidators () {
-    const { api } = this.props;
-
-    return api.state
-      .getStorage(storage.session.public.validators)
-      .subscribe((validators: StorageValidators) => {
-        this.nextState({
-          validators: validators.map(encodeAddress)
-        } as State);
       });
   }
 
@@ -169,8 +153,8 @@ class Summary extends React.PureComponent<Props, State> {
       const nextState = isFunction(_nextState)
         ? _nextState(prevState)
         : _nextState;
-      const { intentions } = this.props;
-      const { balances = prevState.balances, validators = prevState.validators } = nextState;
+      const { intentions, validators } = this.props;
+      const { balances = prevState.balances } = nextState;
       const validatorLow = validators.reduce((low: BN | null, addr) => {
         const balance = balances[addr] || null;
 
@@ -201,8 +185,8 @@ class Summary extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, intentions, style, t } = this.props;
-    const { blockNumber, intentionHigh, sessionLast, sessionLength, validators, validatorLow } = this.state;
+    const { className, intentions, style, t, validators } = this.props;
+    const { blockNumber, intentionHigh, sessionLast, sessionLength, validatorLow } = this.state;
 
     return (
       <div

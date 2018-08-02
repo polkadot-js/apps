@@ -12,31 +12,33 @@ import Account from './Account';
 import translate from './translate';
 
 type Props = I18nProps & {
-  intentions: Array<string>
+  intentions: Array<string>,
+  validators: Array<string>
 };
 
 class StakeList extends React.PureComponent<Props> {
   render () {
-    const { className, intentions, style, t } = this.props;
+    const { className, intentions, style, t, validators } = this.props;
 
     return (
       <div
         className={classes('staking--StakeList', className)}
         style={style}
       >
-        {keyring
-          .getAccounts()
-          .map((a) =>
-            a.address()
-          )
-          .map((address) => (
+        {keyring.getAccounts().map((account) => {
+          const address = account.address();
+          const name = account.getMeta().name || '';
+
+          return (
             <Account
               address={address}
               isIntending={intentions.includes(address)}
+              isValidator={validators.includes(address)}
               key={address}
+              name={name}
             />
-          ))
-        }
+          );
+        })}
       </div>
     );
   }

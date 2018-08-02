@@ -13,11 +13,24 @@
 
 .staking--Account {
   text-align: center;
-  margin-bottom: 0.5em;
+  margin-bottom: 1em;
+}
+
+.staking--Account > .button {
+  vertical-align: top;
+}
+
+.staking--Account-info {
+  display: inline-block;
+  margin-right: 1em;
+  text-align: left;
 }
 
 .staking--Account-address {
-  display: inline-block;
   font-family: monospace;
+  font-size: 1.5em;
+}
+
+.staking--Account-icon {
   margin-right: 1em;
 }
