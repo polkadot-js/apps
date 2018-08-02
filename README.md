@@ -23,6 +23,7 @@ The repo is split into a number of packages, each representing an application. T
 - [app-explorer](packages/app-explorer/) A simple block explorer. It only shows the most recent blocks, updating as they become available.
 - [app-extrinsics](packages/app-extrinsics/) Submission of extrinsics to a node.
 - [app-rpc](packages/app-rpc/) Sumission of raw data to RPC endpoints.
+- [app-staking](packages/app-staking/) A basic staking management app.
 - [app-storage](packages/app-storage/) A simple node storage query application. Multiple queries can be queued and updates as new values become available.
 - [app-toolbox](packages/app-toolbox/) Utilities to manage data.
 - [app-vanitygen](packages/app-vanitygen/) A toy that allows you to generate vanity addresses. Running `yarn run vanitygen --match <string>` runs the generator as a Node CLI app. (Orders of a magnitude faster due to the use of libsoldium bindings)

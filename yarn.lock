@@ -910,7 +910,7 @@
     "@polkadot/trie-hash" "^0.26.35"
     "@polkadot/util" "^0.26.35"
 
-"@polkadot/storage@^0.26.35":
+"@polkadot/storage@^0.26.33", "@polkadot/storage@^0.26.35":
   version "0.26.35"
   resolved "https://registry.yarnpkg.com/@polkadot/storage/-/storage-0.26.35.tgz#2d4e3aac47612b0319c0c69f369974266d1c1d04"
   dependencies:
@@ -945,7 +945,7 @@
     tweetnacl "^1.0.0"
     xxhashjs "^0.2.2"
 
-"@polkadot/util-keyring@^0.26.35":
+"@polkadot/util-keyring@^0.26.33", "@polkadot/util-keyring@^0.26.35":
   version "0.26.35"
   resolved "https://registry.yarnpkg.com/@polkadot/util-keyring/-/util-keyring-0.26.35.tgz#266002c6591665cf8a7df6c5ad3ed840f8b400a5"
   dependencies:

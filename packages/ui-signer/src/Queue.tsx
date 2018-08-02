@@ -3,13 +3,20 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
-import { QueueProps, QueueTx, QueueTx$Base, QueueTx$Id, QueueTx$Status } from './types';
+import { ApiProps } from '@polkadot/ui-react-rx/types';
+import { QueueProps, QueueTx, QueueTx$Extrinsic, QueueTx$Base, QueueTx$Id, QueueTx$Status } from './types';
 
 import React from 'react';
+import rpcs from '@polkadot/jsonrpc';
+import withApi from '@polkadot/ui-react-rx/with/api';
+import encode from '@polkadot/extrinsics/codec/encode/extrinsic';
+import isUndefined from '@polkadot/util/is/undefined';
 
 import { QueueProvider } from './Context';
 
-export type Props = BareProps & {
+const rpc = rpcs.author.public.submitExtrinsic;
+
+export type Props = BareProps & ApiProps & {
   children: any // node?
 };
 
@@ -21,7 +28,7 @@ const defaultState = {
 
 let nextId: QueueTx$Id = 0;
 
-export default class Queue extends React.Component<Props, State> {
+class Queue extends React.Component<Props, State> {
   state: State = defaultState;
 
   constructor (props: Props) {
@@ -30,6 +37,7 @@ export default class Queue extends React.Component<Props, State> {
     this.state = {
       queue: [],
       queueAdd: this.queueAdd,
+      queueExtrinsic: this.queueExtrinsic,
       queueSetStatus: this.queueSetStatus
     };
   }
@@ -84,4 +92,27 @@ export default class Queue extends React.Component<Props, State> {
 
     return id;
   }
+
+  queueExtrinsic = ({ extrinsic, nonce, publicKey, values }: QueueTx$Extrinsic): QueueTx$Id => {
+    const { apiSupport } = this.props;
+    const params = Object.values(extrinsic.params);
+    const isValid = values.length === params.length &&
+      params.reduce((isValid, param, index) =>
+        isValid && !isUndefined(values[index]),
+        true
+      );
+    const encoded = isValid && extrinsic.params
+      ? encode(extrinsic, values, apiSupport)
+      : new Uint8Array([]);
+
+    return this.queueAdd({
+      isValid,
+      nonce,
+      publicKey,
+      rpc,
+      values: [encoded]
+    });
+  }
 }
+
+export default withApi(Queue);

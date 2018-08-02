@@ -1,0 +1,58 @@
+/* Copyright 2017-2018 @polkadot/app-staking authors & contributors
+/* This software may be modified and distributed under the terms
+/* of the ISC license. See the LICENSE file for details. */
+
+.staking--App {
+  padding: 1em 2rem;
+}
+
+.staking--Summary {
+  margin-bottom: 2rem;
+  text-align: right;
+}
+
+.staking--Account {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.staking--Account > .button {
+  margin-top: 1.25rem;
+  vertical-align: top;
+}
+
+.staking--Account-details {
+  display: inline-block;
+  margin-right: 1rem;
+  text-align: left;
+}
+
+.staking--Account-info {
+  display: inline-block;
+}
+
+.staking--Account-address {
+  font-family: monospace;
+  font-size: 1.5rem;
+}
+
+.staking--Account-icon {
+  margin-right: 1rem;
+}
+
+.staking--Account-validating {
+  opacity: 0.25 !important;
+  padding-top: 8px;
+  vertical-align: top !important;
+}
+
+.staking--Account-validating.isValidator {
+  color: red;
+  opacity: 1 !important;
+}
+
+.staking--Account-balance,
+.staking--Account-nonce {
+  opacity: 0.45;
+  text-align: right;
+}
