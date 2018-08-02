@@ -9,15 +9,17 @@ import { ApiProps } from '@polkadot/ui-react-rx/types';
 import BN from 'bn.js';
 import React from 'react';
 import storage from '@polkadot/storage';
+import classes from '@polkadot/ui-app/util/classes';
 import withApi from '@polkadot/ui-react-rx/with/api';
 import isFunction from '@polkadot/util/is/function';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 
 import translate from './translate';
 
-type Props = ApiProps & I18nProps & {};
+type Props = ApiProps & I18nProps & {
+  intentions: Array<string>
+};
 
-type StorageIntentions = Array<Uint8Array>;
 type StorageValidators = Array<Uint8Array>;
 
 type StateBalances = {
@@ -27,7 +29,6 @@ type StateBalances = {
 type State = {
   balances: StateBalances,
   blockNumber: BN,
-  intentions: Array<string>,
   intentionHigh: BN | null,
   sessionLast: BN,
   sessionLength: BN,
@@ -47,7 +48,6 @@ class Summary extends React.PureComponent<Props, State> {
     this.state = {
       balances: {},
       blockNumber: new BN(0),
-      intentions: [],
       intentionHigh: null,
       sessionLength: new BN(60),
       sessionLast: new BN(0),
@@ -61,12 +61,19 @@ class Summary extends React.PureComponent<Props, State> {
     this.setState({
       subscriptions: [
         this.subscribeBlocks(),
-        this.subscribeIntentions(),
         this.subscribeValidators(),
         this.subscribeLength(),
         this.subscribeLast()
       ]
     });
+  }
+
+  componentDidUpdate (prevProps: Props, prevState: State) {
+    const { intentions } = this.props;
+
+    if (intentions !== prevProps.intentions) {
+      this.subscribeBalances(intentions);
+    }
   }
 
   private subscribeBlocks () {
@@ -80,20 +87,6 @@ class Summary extends React.PureComponent<Props, State> {
         }
 
         this.setState({ blockNumber: header.number });
-      });
-  }
-
-  private subscribeIntentions () {
-    const { api } = this.props;
-
-    return api.state
-      .getStorage(storage.staking.public.intentions)
-      .subscribe((storage: StorageIntentions) => {
-        const intentions = storage.map(encodeAddress);
-
-        this.nextState({ intentions } as State, () => {
-          this.subscribeBalances(intentions);
-        });
       });
   }
 
@@ -176,7 +169,8 @@ class Summary extends React.PureComponent<Props, State> {
       const nextState = isFunction(_nextState)
         ? _nextState(prevState)
         : _nextState;
-      const { balances = prevState.balances, intentions = prevState.intentions, validators = prevState.validators } = nextState;
+      const { intentions } = this.props;
+      const { balances = prevState.balances, validators = prevState.validators } = nextState;
       const validatorLow = validators.reduce((low: BN | null, addr) => {
         const balance = balances[addr] || null;
 
@@ -207,30 +201,38 @@ class Summary extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { t } = this.props;
-    const { blockNumber, intentions, intentionHigh, sessionLast, sessionLength, validators, validatorLow } = this.state;
+    const { className, intentions, style, t } = this.props;
+    const { blockNumber, intentionHigh, sessionLast, sessionLength, validators, validatorLow } = this.state;
 
     return (
-      <div>
+      <div
+        className={classes('staking--Summary', className)}
+        style={style}
+      >
         <div>{t('summary.headline', {
-          defaultValue: '{{validatorCount}} validators, {{intentionCount}} accounts with intentions to stake',
+          defaultValue: '{{validatorCount}} validators, {{intentionCount}} accounts with intentions',
           replace: {
             intentionCount: intentions.length,
             validatorCount: validators.length
           }
         })}</div>
-        <div>{t('summary.balances', {
-          defaultValue: 'lowest validator balance is {{validatorLow}}, highest balance intending to stake is {{intentionHigh}}',
+        <div>{t('summary.balance.validator', {
+          defaultValue: 'lowest validator balance is {{validatorLow}}',
           replace: {
-            intentionHigh: intentionHigh ? intentionHigh.toString() : 'unknown',
             validatorLow: validatorLow ? validatorLow.toString() : 'unknown'
+          }
+        })}</div>
+        <div>{t('summary.balance.stake', {
+          defaultValue: ' highest balance intending to stake is {{intentionHigh}}',
+          replace: {
+            intentionHigh: intentionHigh ? intentionHigh.toString() : 'unknown'
           }
         })}</div>
         <div>{t('summary.countdown', {
           defaultValue: 'session block {{remainder}} / {{length}} at #{{blockNumber}}',
           replace: {
             blockNumber: blockNumber.toString(),
-            remainder: blockNumber.sub(sessionLast).mod(sessionLength).addn(1).toString(),
+            remainder: Math.max(1, blockNumber.sub(sessionLast).mod(sessionLength).addn(1).toNumber()).toString(),
             length: sessionLength.toString()
           }
         })}</div>

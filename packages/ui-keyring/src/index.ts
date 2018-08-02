@@ -14,6 +14,7 @@ import isAvailable from './isAvailable';
 import saveAccount from './account/save';
 import saveAccountMeta from './account/meta';
 import forgetAddress from './address/forget';
+import getAccounts from './account/all';
 import getAddress from './address/get';
 import getAddresses from './address/all';
 import saveAddress from './address/meta';
@@ -41,6 +42,8 @@ export default ({
     forgetAddress(state, address),
   isAvailable: (address: string | Uint8Array): boolean =>
     isAvailable(state, address),
+  getAccounts: (): Array<KeyringAddress> =>
+    getAccounts(state),
   getAddress: (address: string | Uint8Array): KeyringAddress =>
     getAddress(state, address),
   getAddresses: (): Array<KeyringAddress> =>

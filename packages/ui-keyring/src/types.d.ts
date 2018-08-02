@@ -60,6 +60,7 @@ export type KeyringInstance = {
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta) => KeyringPair,
   forgetAccount: (address: string) => void,
   forgetAddress: (address: string) => void,
+  getAccounts: () => Array<KeyringAddress>,
   getAddress: (address: string | Uint8Array) => KeyringAddress,
   getAddresses: () => Array<KeyringAddress>,
   getOptions: (type: KeyringOption$Type) => KeyringOptions,

@@ -5,25 +5,41 @@
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
+import storage from '@polkadot/storage';
+import encodeAddress from '@polkadot/util-keyring/address/encode';
 import classes from '@polkadot/ui-app/util/classes';
+import withStorage from '@polkadot/ui-react-rx/with/storage';
 
 import './index.css';
 
+import StakeList from './StakeList';
 import Summary from './Summary';
 
-type Props = BareProps;
+type Props = BareProps & {
+  intentions?: Array<string>
+};
 
-export default class App extends React.PureComponent<Props> {
+class App extends React.PureComponent<Props> {
   render () {
-    const { className, style } = this.props;
+    const { className, intentions = [], style } = this.props;
 
     return (
       <div
         className={classes('staking--App', className)}
         style={style}
       >
-        <Summary />
+        <Summary intentions={intentions} />
+        <StakeList intentions={intentions} />
       </div>
     );
   }
 }
+
+export default withStorage(
+  storage.staking.public.intentions,
+  {
+    propName: 'intentions',
+    transform: (intentions) =>
+      intentions.map(encodeAddress)
+  }
+)(App);

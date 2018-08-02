@@ -8,7 +8,7 @@ import isString from '@polkadot/util/is/string';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
-export default function get (state: State, _address: string | Uint8Array): KeyringAddress {
+export default function get (state: State, _address: string | Uint8Array, type: 'account' | 'address' = 'address'): KeyringAddress {
   const address = isString(_address)
     ? _address
     : addressEncode(_address);
@@ -18,10 +18,10 @@ export default function get (state: State, _address: string | Uint8Array): Keyri
     address: (): string =>
       address,
     isValid: (): boolean =>
-      !!state.available.address[address],
+      !!state.available[type][address],
     publicKey: (): Uint8Array =>
       publicKey,
     getMeta: (): KeyringJson$Meta =>
-      state.available.address[address].meta
+      state.available[type][address].meta
   };
 }
