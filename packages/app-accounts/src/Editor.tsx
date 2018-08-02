@@ -29,7 +29,7 @@ type State = {
   isEdited: boolean
 };
 
-class Editor extends React.Component<Props, State> {
+class Editor extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -50,21 +50,6 @@ class Editor extends React.Component<Props, State> {
 
   componentWillUnmount () {
     window.removeEventListener('storage', this.processStorageChange);
-  }
-
-  // FIXME - does not works as window does not refresh when the address changes
-  shouldComponentUpdate (nextProps: any, nextState: any) {
-    const address = this.getAddressForCurrentPair();
-
-    if (!address || !nextState.hasOwnProperty('currentPair') || !nextState.currentPair) {
-      return false;
-    }
-
-    if (address !== nextState.currentPair.address()) {
-      return true;
-    }
-
-    return false;
   }
 
   processStorageChange = () => {

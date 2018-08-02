@@ -52,7 +52,7 @@ function addressFromSeed (seed: string): string {
   );
 }
 
-class Creator extends React.Component<Props, State> {
+class Creator extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -67,21 +67,6 @@ class Creator extends React.Component<Props, State> {
 
   componentWillUnmount () {
     window.removeEventListener('storage', this.processStorageChange);
-  }
-
-  // FIXME - does not works as window does not refresh when the address changes
-  shouldComponentUpdate (nextProps: any, nextState: any) {
-    const { address } = this.state;
-
-    if (!address || !nextState.hasOwnProperty('address') || !nextState.address) {
-      return false;
-    }
-
-    if (address !== nextState.address) {
-      return true;
-    }
-
-    return false;
   }
 
   processStorageChange = () => {
