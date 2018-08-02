@@ -73,6 +73,7 @@ class Creator extends React.PureComponent<Props, State> {
         <div className='ui--grid'>
           <AddressSummary
             className='shrink'
+            hideAllFileIcons={true}
             value={
               isSeedValid
                 ? address
