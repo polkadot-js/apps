@@ -27,33 +27,23 @@ export default class DownloadButton extends React.PureComponent<Props> {
   handleDownloadAccount = (): void => {
     const { address } = this.props;
 
-    // TODO - Add feature to download all accounts by cycling through all accounts
-    // in local storage and download them for the user to separate JSON files. Use a
-    // separate Download All icon. Add feature to allow user to switch between different accounts
-    // stored in local storage
-
-    console.log('Download from local storage account address: ', address);
     const localStorageAccountKey = accountKey(address);
 
     try {
       const localStorageAccountValue = store.get(localStorageAccountKey);
-      console.log('Success retrieving account from local storage: ', localStorageAccountValue);
 
-      // convert to JSON stringified format
       const accountDataJSONObject = {
         key: localStorageAccountKey,
         value: JSON.stringify(localStorageAccountValue).replace(/"/g, '\"')
       };
 
       const accountDataJSONStringified = JSON.stringify(accountDataJSONObject);
-      console.log('accountDataJSONStringified: ', accountDataJSONStringified);
-
-      // TODO - download the JSON stringified account data to a JSON file
 
       const blob: Blob = new Blob([accountDataJSONStringified], { type: 'text/plain;charset=utf-8' });
+
       saveAs(blob, `paritytech-polkadot-publickey-${address}.json`);
     } catch (e) {
-      console.log('Error retrieving account from local storage: ', e);
+      console.error('Error retrieving account from local storage: ', e);
     }
   }
 
