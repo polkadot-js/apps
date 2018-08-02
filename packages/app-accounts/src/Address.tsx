@@ -26,7 +26,7 @@ type Props = BareProps & {
 
 type State = {
   address: string,
-  hideAllFileIcons: boolean | false,
+  hideAllFileIcons: boolean,
   isValid: boolean,
   publicKey: Uint8Array | null,
   shortValue: string
@@ -52,7 +52,7 @@ export default class Address extends React.PureComponent<Props, State> {
 
     return {
       address: isValid ? address : DEFAULT_ADDR,
-      hideAllFileIcons,
+      hideAllFileIcons: hideAllFileIcons ? hideAllFileIcons : false,
       isValid,
       publicKey,
       shortValue: isValid ? shortValue : DEFAULT_SHORT

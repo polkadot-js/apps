@@ -9,6 +9,7 @@ import './UploadButton.css';
 
 import React from 'react';
 import store from 'store';
+import isUndefined from '@polkadot/util/is/undefined';
 import ReactFileReader from 'react-file-reader';
 
 import Button from './Button';
@@ -35,11 +36,15 @@ export default class UploadButton extends React.PureComponent<Props> {
 
     fileReader.onload = (e) => {
       try {
-        const fileContents: string = JSON.parse(e.target.result);
-        const localStorageAccountKey: string = fileContents.key;
-        const localStorageAccountValue: string = JSON.parse(fileContents.value);
+        if (!isUndefined(e) && e.target !== null) {
+          const fileContents: any = JSON.parse(e.target.result);
+          if (Object.keys(fileContents).includes('key' && 'value')) {
+            const localStorageAccountKey: string = fileContents.key;
+            const localStorageAccountValue: string = JSON.parse(fileContents.value);
 
-        store.set(localStorageAccountKey, localStorageAccountValue);
+            store.set(localStorageAccountKey, localStorageAccountValue);
+          }
+        }
       } catch (e) {
         console.error('Error uploading account to local storage ', e);
       }

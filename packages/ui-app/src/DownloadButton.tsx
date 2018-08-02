@@ -9,7 +9,7 @@ import './DownloadButton.css';
 
 import React from 'react';
 import store from 'store';
-import { saveAs } from 'file-saver/FileSaver';
+import { FileSaver } from 'file-saver';
 import { accountKey } from '@polkadot/ui-keyring/defaults';
 
 import Button from './Button';
@@ -41,7 +41,7 @@ export default class DownloadButton extends React.PureComponent<Props> {
 
       const blob: Blob = new Blob([accountDataJSONStringified], { type: 'text/plain;charset=utf-8' });
 
-      saveAs(blob, `paritytech-polkadot-publickey-${address}.json`);
+      FileSaver.saveAs(blob, `paritytech-polkadot-publickey-${address}.json`);
     } catch (e) {
       console.error('Error retrieving account from local storage: ', e);
     }
