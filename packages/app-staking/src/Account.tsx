@@ -12,6 +12,7 @@ import BN from 'bn.js';
 import React from 'react';
 import extrinsics from '@polkadot/extrinsics';
 import Button from '@polkadot/ui-app/Button';
+import Icon from '@polkadot/ui-app/Icon';
 import classes from '@polkadot/ui-app/util/classes';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import RxBalance from '@polkadot/ui-react-rx/Balance';
@@ -72,12 +73,17 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderAccount () {
-    const { address, name, t } = this.props;
+    const { address, isValidator, name, t } = this.props;
     const addrShort = `${address.slice(0, 7)}…${address.slice(-7)}`;
 
     return (
       <div className='staking--Account-details'>
         <div>
+          <Icon
+            className={classes('staking--Account-validating', isValidator ? 'isValidator' : '')}
+            name='certificate'
+            size='large'
+          />
           <IdentityIcon
             className='staking--Account-icon'
             size={32}
