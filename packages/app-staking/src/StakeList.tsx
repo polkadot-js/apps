@@ -20,7 +20,7 @@ type Props = I18nProps & {
 
 class StakeList extends React.PureComponent<Props> {
   render () {
-    const { className, intentions, style, t, validators } = this.props;
+    const { className, intentions, style, validators } = this.props;
 
     return (
       <QueueConsumer>

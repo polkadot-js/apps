@@ -66,15 +66,20 @@ class Account extends React.PureComponent<Props, State> {
           </div>
           <RxBalance
             className='staking--Account-balance'
-            label='balance '
+            label={t('account.balance', {
+              defaultValue: 'balance '
+            })}
             params={address}
           />
           <RxNonce
             className='staking--Account-nonce'
-            label='transactions '
             onChange={this.onChangeNonce}
             params={address}
-          />
+          >
+            {t('account.transactions', {
+              defaultValue: ' transactions'
+            })}
+          </RxNonce>
         </div>
         <Button
           isDisabled={isIntending}

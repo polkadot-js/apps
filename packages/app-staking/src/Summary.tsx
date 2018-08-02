@@ -34,8 +34,6 @@ type State = {
   subscriptions: Array<any>
 };
 
-type StateCb = (prevState: State) => State;
-
 const DEFAULT_BALANCE = new BN(0);
 const DEFAULT_BLOCKNUMBER = new BN(0);
 const DEFAULT_SESSION_CHANGE = new BN(0);
@@ -102,7 +100,7 @@ class Summary extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, intentions, lastBlockHeader, lastSessionChange = DEFAULT_SESSION_CHANGE, style, sessionLength = DEFAULT_SESSION_LENGTH, t, validators, api } = this.props;
+    const { className, intentions, lastBlockHeader, lastSessionChange = DEFAULT_SESSION_CHANGE, style, sessionLength = DEFAULT_SESSION_LENGTH, t, validators } = this.props;
     const blockNumber = lastBlockHeader
       ? lastBlockHeader.number
       : DEFAULT_BLOCKNUMBER;

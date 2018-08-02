@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
@@ -14,7 +14,9 @@ import Nonce from '@polkadot/ui-react-rx/Nonce';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
-type Props = BareProps & {
+import translate from './translate';
+
+type Props = I18nProps & {
   value: string;
 };
 
@@ -28,7 +30,7 @@ type State = {
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 const DEFAULT_SHORT = `${DEFAULT_ADDR.slice(0, 7)}…${DEFAULT_ADDR.slice(-7)}`;
 
-export default class Address extends React.PureComponent<Props, State> {
+class Address extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
   static getDerivedStateFromProps ({ value }: Props, { address, publicKey, shortValue }: State): State {
@@ -76,6 +78,7 @@ export default class Address extends React.PureComponent<Props, State> {
   }
 
   renderBalance () {
+    const { t } = this.props;
     const { isValid, publicKey } = this.state;
 
     if (!isValid) {
@@ -86,7 +89,9 @@ export default class Address extends React.PureComponent<Props, State> {
       <Balance
         className='accounts--Address-balance'
         key='balance'
-        label='balance '
+        label={t('address.balance', {
+          defaultValue: 'balance '
+        })}
         params={publicKey}
       />,
       <Nonce
@@ -94,8 +99,12 @@ export default class Address extends React.PureComponent<Props, State> {
         key='nonce'
         params={publicKey}
       >
-        {' transactions'}
+        {t('address.transactions', {
+          defaultValue: ' transactions'
+        })}
       </Nonce>
     ];
   }
 }
+
+export default translate(Address);
