@@ -13,6 +13,7 @@ import InputAddress from '@polkadot/ui-app/InputAddress';
 import showUploadButton from './util/showUploadButton';
 import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
+import wasAddressRemoved from './util/wasAddressRemoved';
 
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';
@@ -28,7 +29,7 @@ type State = {
   isEdited: boolean
 };
 
-class Editor extends React.PureComponent<Props, State> {
+class Editor extends React.Component<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -41,6 +42,45 @@ class Editor extends React.PureComponent<Props, State> {
     this.state.defaultValue = currentPair
       ? currentPair.address()
       : void 0;
+  }
+
+  componentDidMount () {
+    window.addEventListener('storage', () => this.processStorageChange(), false);
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('storage', this.processStorageChange);
+  }
+
+  // FIXME - does not works as window does not refresh when the address changes
+  shouldComponentUpdate (nextProps: any, nextState: any) {
+    const address = this.getAddressForCurrentPair();
+
+    if (!address || !nextState.hasOwnProperty('currentPair') || !nextState.currentPair) {
+      return false;
+    }
+
+    if (address !== nextState.currentPair.address()) {
+      return true;
+    }
+
+    return false;
+  }
+
+  processStorageChange = () => {
+    if (wasAddressRemoved(this.getAddressForCurrentPair())) {
+      this.forceUpdate();
+    }
+  }
+
+  getAddressForCurrentPair = () => {
+    const { currentPair } = this.state;
+    let address = '';
+
+    if (currentPair) {
+      address = currentPair.address();
+    }
+    return address;
   }
 
   render () {
