@@ -35,8 +35,8 @@ function arrayToText (type: Param$Type$Array, value: Array<any>, withBound: bool
       return `${value.length}`;
     }
 
-    return value.map((value) =>
-      valueToText(type[0], value, false)
+    return value.map((value, index) =>
+      `${index}: ${valueToText(type[0], value, false)}`
     ).join(', ');
   }
 
