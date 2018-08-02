@@ -8,8 +8,7 @@ import { SectionVisibilityAll } from '../util/types';
 import isUndefined from '@polkadot/util/is/undefined';
 import isNull from '@polkadot/util/is/null';
 
-// methods: <T extends SectionItems<T>>
-function anyMethodToDisplay<SectionItems, K extends keyof SectionItems> (methods: SectionItems[K]) {
+function anyMethodToDisplay <T> (methods: SectionItems<T>) {
   if (isUndefined(methods) || isNull(methods)) {
     return false;
   }
@@ -24,9 +23,7 @@ function anyMethodToDisplay<SectionItems, K extends keyof SectionItems> (methods
     .length !== 0;
 }
 
-// section: Section<Storages> or Section<Extrinsics> or Section<Interfaces>
-// type: 'public' | 'private'
-export function shouldDisplaySection<T extends Section<T>, SectionVisibilityAll extends keyof T> (section: T, type: SectionVisibilityAll) {
+export function shouldDisplaySection<T> (section: Section<T>, type: SectionVisibilityAll) {
   if (isUndefined(section)) {
     return false;
   }
