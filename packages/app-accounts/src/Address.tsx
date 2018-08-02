@@ -7,6 +7,8 @@ import { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 
 import CopyButton from '@polkadot/ui-app/CopyButton';
+import DownloadButton from '@polkadot/ui-app/DownloadButton';
+import UploadButton from '@polkadot/ui-app/UploadButton';
 import classes from '@polkadot/ui-app/util/classes';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Balance from '@polkadot/ui-react-rx/Balance';
@@ -53,6 +55,9 @@ export default class Address extends React.PureComponent<Props, State> {
   render () {
     const { className, style } = this.props;
     const { address, isValid, shortValue } = this.state;
+    console.log('address: ', address);
+    console.log('isValid: ', isValid);
+    console.log('shortValue: ', shortValue);
 
     return (
       <div
@@ -69,6 +74,14 @@ export default class Address extends React.PureComponent<Props, State> {
             {shortValue}
           </div>
           <CopyButton value={address} />
+          {
+            isValid ? (
+              <div>
+                <DownloadButton address={address} />
+                <UploadButton />
+              </div>
+            ) : null
+          }
         </div>
         {this.renderBalance()}
       </div>
