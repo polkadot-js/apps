@@ -77,3 +77,11 @@
   left: -7px;
   opacity: 1;
 }
+
+.ui.button:disabled,
+.ui.buttons .disabled.button,
+.ui.disabled.active.button,
+.ui.disabled.button,
+.ui.disabled.button:hover {
+  opacity: 0.1 !important;
+}

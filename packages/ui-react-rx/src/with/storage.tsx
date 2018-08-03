@@ -27,7 +27,7 @@ type State<T> = RxProps<T> & {
 
 // FIXME proper types for attributes
 
-export default function withStorage<T> (key: SectionItem<Storages>, { onChange, params, propName = 'value', transform }: StorageOptions<T> = {}): HOC<T> {
+export default function withStorage<T> (key: SectionItem<Storages>, { onChange, params, paramProp = 'params', propName = 'value', transform }: StorageOptions<T> = {}): HOC<T> {
   const keyCreator = storageKey(key);
   const storageTransform = createTransform(key);
   const createKey = (propParams?: Array<Storage$Key$Value>): Uint8Array => {
@@ -59,7 +59,7 @@ export default function withStorage<T> (key: SectionItem<Storages>, { onChange, 
       }
 
       async componentDidUpdate (prevProps: any) {
-        if (!isEqual(this.props.params, prevProps.params)) {
+        if (!isEqual(this.props[paramProp], prevProps[paramProp])) {
           await this.triggerUpdate();
         }
       }
@@ -99,7 +99,7 @@ export default function withStorage<T> (key: SectionItem<Storages>, { onChange, 
           );
         };
 
-        const key = createKey(this.props.params);
+        const key = createKey(this.props[paramProp]);
         let value;
 
         try {

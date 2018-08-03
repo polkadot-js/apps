@@ -25,6 +25,7 @@ export type StorageTransform = (input: any, index: number) => Param$Values | nul
 
 export type StorageOptions<T> = Options<T> & {
   params?: Array<Storage$Key$Value | undefined>;
+  paramProp?: string,
 };
 
 export type HOC<T> = (Component: React.ComponentType<any>, defaultProps?: DefaultProps<T>) => React.ComponentType<any>;
