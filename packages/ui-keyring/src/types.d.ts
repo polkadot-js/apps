@@ -52,4 +52,5 @@ export type KeyringInstance = {
   saveAddress: (address: string, meta: KeyringPair$Meta) => void,
   saveRecent: (address: string) => SingleAddress,
   setTestMode: (isTest: boolean) => void
+  toJson: (address: string | Uint8Array, passphrase?: string) => KeyringPair$Json
 };
