@@ -7,7 +7,7 @@
 import { SectionItem } from '@polkadot/params/types';
 import { Extrinsics, Extrinsic$Sections } from '@polkadot/extrinsics/types';
 import { I18nProps } from '../types';
-import { DropdownOptions } from './types';
+import { DropdownOptions, SectionVisibilityAll } from '../util/types';
 
 import './InputExtrinsic.css';
 
@@ -35,7 +35,7 @@ type Props = I18nProps & {
 type State = {
   optionsMethod: DropdownOptions,
   optionsSection: DropdownOptions,
-  type: 'private' | 'public',
+  type: SectionVisibilityAll,
   value: SectionItem<Extrinsics>
 };
 
