@@ -10,8 +10,10 @@ import React from 'react';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
+import showUploadButton from './util/showUploadButton';
 import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
+import wasAddressRemoved from './util/wasAddressRemoved';
 
 import Address from './Address';
 import translate from './translate';
@@ -40,6 +42,30 @@ class Editor extends React.PureComponent<Props, State> {
     this.state.defaultValue = currentPair
       ? currentPair.address()
       : void 0;
+  }
+
+  componentDidMount () {
+    window.addEventListener('storage', () => this.processStorageChange(), false);
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('storage', this.processStorageChange);
+  }
+
+  processStorageChange = () => {
+    if (wasAddressRemoved(this.getAddressForCurrentPair())) {
+      this.forceUpdate();
+    }
+  }
+
+  getAddressForCurrentPair = () => {
+    const { currentPair } = this.state;
+    let address = '';
+
+    if (currentPair) {
+      address = currentPair.address();
+    }
+    return address;
   }
 
   render () {
@@ -98,9 +124,12 @@ class Editor extends React.PureComponent<Props, State> {
     const { currentPair, defaultValue, editedName } = this.state;
 
     if (!currentPair) {
-      return t('editor.none', {
-        defaultValue: 'There are no saved accounts. Add some first.'
-      });
+      return (
+        <div>
+          <div>There are no saved accounts. Create an account or upload a JSON file of a saved account.</div>
+          <div className='accounts--Address-wrapper'>{ showUploadButton('big') }</div>
+        </div>
+      );
     }
 
     const address = currentPair.address();
