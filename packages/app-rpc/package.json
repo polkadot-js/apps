@@ -16,8 +16,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
-    "@polkadot/ui-app": "^0.19.13",
-    "@polkadot/ui-keyring": "^0.19.13",
-    "@polkadot/ui-signer": "^0.19.13"
+    "@polkadot/ui-app": "^0.19.12",
+    "@polkadot/ui-keyring": "^0.19.12",
+    "@polkadot/ui-signer": "^0.19.12"
   }
 }
