@@ -21,7 +21,7 @@ type Props = BareProps & {
   validators?: Array<string>
 };
 
-const transformAddress = (publicKeys: Array<Uint8Array>) =>
+const transformAddresses = (publicKeys: Array<Uint8Array>) =>
   publicKeys.map(encodeAddress);
 
 class App extends React.PureComponent<Props> {
@@ -52,14 +52,14 @@ export default withMulti(
     storage.staking.public.intentions,
     {
       propName: 'intentions',
-      transform: transformAddress
+      transform: transformAddresses
     }
   ),
   withStorage(
     storage.session.public.validators,
     {
       propName: 'validators',
-      transform: transformAddress
+      transform: transformAddresses
     }
   )
 );

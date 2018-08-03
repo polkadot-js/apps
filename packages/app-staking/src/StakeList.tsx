@@ -42,6 +42,7 @@ class StakeList extends React.PureComponent<Props> {
                   key={address}
                   name={name}
                   queueExtrinsic={queueExtrinsic}
+                  validators={validators}
                 />
               );
             })}

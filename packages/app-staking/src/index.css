@@ -12,19 +12,29 @@
 }
 
 .staking--Account {
-  text-align: center;
   margin-bottom: 1rem;
 }
 
-.staking--Account > .button {
+.staking--Account .ui--Button-Group {
+  display: inline-block;
   margin-top: 1.25rem;
+  margin-left: 1em;
   vertical-align: top;
 }
 
+.staking--Account .ui--Button-Group {
+  text-align: left;
+}
+
+.staking--Account-buttons,
 .staking--Account-details {
   display: inline-block;
-  margin-right: 1rem;
   text-align: left;
+  vertical-align: top;
+}
+
+.staking--Account-nominate {
+  padding: 0 0 3em 3em;
 }
 
 .staking--Account-info {

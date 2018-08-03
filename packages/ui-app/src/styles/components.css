@@ -27,16 +27,6 @@
   border-color: #e0b4b4;
 }
 
-.ui--Button-Group {
-  .ui.buttons {
-    .ui.button.compact.mini.basic + .button:nth-child(2) {
-      border-top-right-radius: $small-corner;
-      border-bottom-right-radius: $small-corner;
-    }
-    .ui.button.compact.mini.basic + .button:nth-child(2),
-    .ui.button.compact.mini.basic + .button:nth-child(4) {
-      border-top-left-radius: $small-corner;
-      border-bottom-left-radius: $small-corner;
-    }
-  }
+.ui--Button-Group .button {
+  border-radius: .28571429rem !important;
 }
