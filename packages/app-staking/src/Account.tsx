@@ -76,6 +76,7 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderAccount () {
     const { address, isValidator, name, t } = this.props;
+    // TODO: Still now sure what the best layout is, so just keeping the shortened around
     // const addrShort = `${address.slice(0, 7)}…${address.slice(-7)}`;
 
     return (

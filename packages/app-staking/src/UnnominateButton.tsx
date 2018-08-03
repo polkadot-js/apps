@@ -25,8 +25,6 @@ class UnnominateButton extends React.Component<Props> {
   render () {
     const { className, nominating, nominatorsFor, style, t } = this.props;
 
-    console.log('nominatorsFor', nominatorsFor, nominating);
-
     if (!nominating || !nominatorsFor || nominatorsFor.length === 0) {
       return null;
     }
