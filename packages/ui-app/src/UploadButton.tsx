@@ -4,13 +4,14 @@
 
 import { Button$Sizes } from './Button/types';
 import { BareProps } from './types';
+import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 
 import './UploadButton.css';
 
 import React from 'react';
-import store from 'store';
 import isUndefined from '@polkadot/util/is/undefined';
 import ReactFileReader from 'react-file-reader';
+import keyring from '@polkadot/ui-keyring/index';
 
 import Button from './Button';
 
@@ -43,17 +44,11 @@ export default class UploadButton extends React.PureComponent<Props, State> {
       try {
         if (!isUndefined(e) && e.target !== null) {
           const fileContents: any = JSON.parse(e.target.result);
-          if (Object.keys(fileContents).includes('key' && 'value')) {
-            const localStorageAccountKey: string = fileContents.key;
-            const localStorageAccountValue: string = JSON.parse(fileContents.value);
-
-            store.set(localStorageAccountKey, localStorageAccountValue);
+          if (Object.keys(fileContents).includes('address' && 'encoding' && 'encoded' && 'meta')) {
+            const json: KeyringPair$Json = fileContents;
 
             // FIXME - does not force browser to refresh if account address added to local storage
-            const foundAddress = localStorageAccountKey.substr(localStorageAccountKey.indexOf(':') + 1);
-            const address = foundAddress || '';
-
-            this.setState({ address: address });
+            keyring.addFromJson(json);
           }
         }
       } catch (e) {
