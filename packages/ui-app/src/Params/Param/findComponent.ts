@@ -14,12 +14,13 @@ import Hash from './Hash';
 import KeyValue from './KeyValue';
 import KeyValueStorageArray from './KeyValueStorageArray';
 import StringParam from './String';
+import Balance from './Balance';
 import Unknown from './Unknown';
 import VoteThreshold from './VoteThreshold';
 
 const components: ComponentMap = {
   'AccountId': Account,
-  'Balance': Amount,
+  'Balance': Balance,
   'BlockNumber': Amount,
   'bool': Bool,
   'Bytes': Bytes,
