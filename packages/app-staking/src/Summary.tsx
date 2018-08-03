@@ -20,7 +20,7 @@ import translate from './translate';
 type Props = ApiProps & I18nProps & {
   intentions: Array<string>,
   lastBlockHeader?: Header,
-  lastSessionChange?: BN,
+  lastLengthChange?: BN,
   sessionLength?: BN,
   validators: Array<string>
 };
@@ -100,7 +100,7 @@ class Summary extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, intentions, lastBlockHeader, lastSessionChange = DEFAULT_SESSION_CHANGE, style, sessionLength = DEFAULT_SESSION_LENGTH, t, validators } = this.props;
+    const { className, intentions, lastBlockHeader, lastLengthChange = DEFAULT_SESSION_CHANGE, style, sessionLength = DEFAULT_SESSION_LENGTH, t, validators } = this.props;
     const blockNumber = lastBlockHeader
       ? lastBlockHeader.number
       : DEFAULT_BLOCKNUMBER;
@@ -135,7 +135,7 @@ class Summary extends React.PureComponent<Props, State> {
           defaultValue: 'session block {{remainder}} / {{length}} at #{{blockNumber}}',
           replace: {
             blockNumber: blockNumber.toString(),
-            remainder: Math.max(1, blockNumber.sub(lastSessionChange).mod(sessionLength).addn(1).toNumber()).toString(),
+            remainder: Math.max(1, blockNumber.sub(lastLengthChange).mod(sessionLength).addn(1).toNumber()).toString(),
             length: sessionLength.toString()
           }
         })}</div>
@@ -188,7 +188,7 @@ export default withMulti(
     { propName: 'sessionLength' }
   ),
   withStorage(
-    storage.session.public.lastSessionChange,
-    { propName: 'lastSessionChange' }
+    storage.session.public.lastLengthChange,
+    { propName: 'lastLengthChange' }
   )
 );
