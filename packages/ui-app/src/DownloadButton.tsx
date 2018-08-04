@@ -37,8 +37,7 @@ type Props = I18nProps & ApiProps & BareProps & {
   isCircular?: boolean,
   isPrimary?: boolean,
   size?: Button$Sizes,
-  address: string,
-  onBack: () => void
+  address: string
 };
 
 type UnlockI18n = {
@@ -60,6 +59,8 @@ class DownloadButton extends React.PureComponent<Props, State> {
 
     try {
       const json: KeyringPair$Json = keyring.toJson(address, password);
+
+      console.log('json', json);
 
       if (!isUndefined(json)) {
         const blob: Blob = new Blob([JSON.stringify(json)], { type: 'text/plain;charset=utf-8' });
@@ -138,6 +139,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
   renderContent () {
     const { address } = this.state;
 
+    // FIXME - need to refresh the page after creating an account since the address won't be available
     if (!address) {
       return null;
     }
@@ -239,15 +241,12 @@ class DownloadButton extends React.PureComponent<Props, State> {
 
   onSubmit = (): void => {
     const { address } = this.state;
-    const { onBack } = this.props;
 
     if (!address) {
       return;
     }
 
     this.handleDownloadAccount();
-
-    onBack();
   }
 
   onDiscard = (): void => {
