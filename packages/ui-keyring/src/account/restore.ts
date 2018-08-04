@@ -35,13 +35,12 @@ export default function accountRestore (state: State, json: KeyringPair$Json, pa
     // Note: Use KeyringInstance, not Pair (otherwise it requires secret key)
     // const jsonDecrypted: KeyringPair$Json = pair.toJson(password);
 
-    const jsonDecrypted: KeyringPair$Json = keyring.toJson(_address, password);
-
     // if password correct it sets hasSecretKey (private key) to true in @polkadot/util-keyring/pair/index.ts
-    // pair.decodePkcs8(password, u8aFromString(jsonDecrypted.encoded));
-    // if (pair.hasSecretKey()) {
-      // saveAccount(state, pair, password);
-    // }
-    saveAccount(state, pair, password);
+    pair.decodePkcs8(password, u8aFromString(json.encoded));
+    if (pair.hasSecretKey()) {
+      const jsonDecrypted: KeyringPair$Json = keyring.toJson(_address, password);
+
+      saveAccount(state, pair, password);
+    }
   }
 }
