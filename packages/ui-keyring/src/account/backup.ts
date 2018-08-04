@@ -18,6 +18,7 @@ export default function accountBackup (state: State, _address: string, password?
   const pair: KeyringPair = keyring.getPair(_address);
 
   // FIXME - resolve why getting `ExtError: Unable to unencrypt using the supplied passphrase` when correct passphrase provided
+  // FIXME - shouldn't this be somehow called after `decodePkcs8` below, since `toJson` may require secret key to be available in state of decode.ts of util-keyring
   const jsonDecrypted: KeyringPair$Json = pair.toJson(password);
   // const jsonDecrypted = store.get(accountKey(_address));
 
