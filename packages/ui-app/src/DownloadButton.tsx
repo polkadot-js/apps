@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { Button$Sizes } from './Button/types';
 import { BareProps } from './types';
@@ -15,7 +14,6 @@ import React from 'react';
 /// <reference path="./@types/file-saver/index.d.ts" />
 import FileSaver from 'file-saver';
 import keyring from '@polkadot/ui-keyring/index';
-import withApi from '@polkadot/ui-react-rx/with/api';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import isUndefined from '@polkadot/util/is/undefined';
 
@@ -32,7 +30,7 @@ type State = {
   unlockError: UnlockI18n | null
 };
 
-type Props = I18nProps & ApiProps & BareProps & {
+type Props = I18nProps & BareProps & {
   icon?: string,
   isCircular?: boolean,
   isPrimary?: boolean,
@@ -58,7 +56,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
     const { address, password } = this.state;
 
     try {
-      const json: KeyringPair$Json = keyring.toJson(address, password);
+      const json: KeyringPair$Json | void = keyring.backupAccount(address, password);
 
       console.log('json', json);
 
@@ -254,8 +252,4 @@ class DownloadButton extends React.PureComponent<Props, State> {
   }
 }
 
-const Component: React.ComponentType<any> = translate(
-  withApi(DownloadButton)
-);
-
-export default Component;
+export default translate(DownloadButton);

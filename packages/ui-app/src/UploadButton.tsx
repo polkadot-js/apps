@@ -2,37 +2,71 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { I18nProps } from '@polkadot/ui-app/types';
 import { Button$Sizes } from './Button/types';
 import { BareProps } from './types';
 import { KeyringPair$Json } from '@polkadot/util-keyring/types';
+import { KeyringAddress } from '@polkadot/ui-keyring/types';
 
 import './UploadButton.css';
 
 import React from 'react';
+import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import isUndefined from '@polkadot/util/is/undefined';
 import ReactFileReader from 'react-file-reader';
 import keyring from '@polkadot/ui-keyring/index';
 
 import Button from './Button';
+import Modal from './Modal';
+import Unlock from '@polkadot/ui-signer/Unlock';
+
+import translate from './translate';
 
 type State = {
-  address: string
+  address: string,
+  password: string,
+  isPasswordModalOpen: boolean,
+  unlockError: UnlockI18n | null
 };
 
-type Props = BareProps & {
+type Props = I18nProps & BareProps & {
   icon?: string,
   isCircular?: boolean,
   isPrimary?: boolean,
-  size?: Button$Sizes
+  size?: Button$Sizes,
+  address: string
 };
 
-export default class UploadButton extends React.PureComponent<Props, State> {
-  state: State = {} as State;
+type UnlockI18n = {
+  key: string,
+  value: any // I18Next$Translate$Config
+};
 
-  handleUploadAccount = (files: FileList): void => {
+class UploadButton extends React.PureComponent<Props, State> {
+  state: State;
+
+  constructor (props: Props) {
+    super(props);
+
+    this.state = this.emptyState();
+  }
+
+  handleFileButtonClick = () => {
+    const buttonFileUpload = document.querySelectorAll('div.accounts--Address-file-upload button')[0];
+
+    // type guard - https://github.com/Microsoft/TypeScript/issues/3263
+    if (buttonFileUpload instanceof HTMLElement) {
+      buttonFileUpload.click();
+    } else {
+      throw new Error('element button file upload not in document');
+    }
+  }
+
+  handleUploadedFiles = (files: FileList): void => {
+    const { password } = this.state;
     const fileList: FileList = files;
 
-    if (!fileList.length) {
+    if (!fileList || fileList && !fileList.length) {
       console.error('Error retrieving file list');
       return;
     }
@@ -44,11 +78,12 @@ export default class UploadButton extends React.PureComponent<Props, State> {
       try {
         if (!isUndefined(e) && e.target !== null) {
           const fileContents: any = JSON.parse(e.target.result);
+
           if (Object.keys(fileContents).includes('address' && 'encoding' && 'encoded' && 'meta')) {
             const json: KeyringPair$Json = fileContents;
 
             // FIXME - does not force browser to refresh if account address added to local storage
-            keyring.addFromJson(json);
+            keyring.restoreAccount(json, password);
           }
         }
       } catch (e) {
@@ -58,22 +93,197 @@ export default class UploadButton extends React.PureComponent<Props, State> {
     fileReader.readAsText(fileToUpload);
   }
 
+  showPasswordModal = (): void => {
+    this.setState({ isPasswordModalOpen: true });
+  }
+
+  hidePasswordModal = (): void => {
+    this.setState({ isPasswordModalOpen: false });
+  }
+
   render () {
+    const { address, isPasswordModalOpen } = this.state;
     const { className, icon = 'upload', isCircular = true, isPrimary = true, size = 'tiny', style } = this.props;
+    let shortValue = '';
+
+    if (address) {
+      // TODO - do not duplicate this from Address component. move into common utility for reuse
+      shortValue = `${address.slice(0, 7)}…${address.slice(-7)}`;
+    }
+
+    // TODO - move Modal into separate component common to both DownloadButton and UploadButton
 
     return (
       <div className={'accounts--Address-upload'}>
-        <ReactFileReader fileTypes={['.json']} base64={false} multipleFiles={false} handleFiles={this.handleUploadAccount}>
-          <Button
-            className={className}
-            icon={icon}
-            isCircular={isCircular}
-            isPrimary={isPrimary}
-            size={size}
-            style={style}
-          />
-        </ReactFileReader>
+        { address && isPasswordModalOpen ? (
+            <Modal
+              dimmer='inverted'
+              open={isPasswordModalOpen}
+              onClose={this.hidePasswordModal}
+              size={'mini'}
+            >
+              <Modal.Content>
+                <div className='ui--grid'>
+                  <div className={'accounts--Address accounts--Address-modal'}>
+                    <IdentityIcon
+                      className='accounts--Address-icon'
+                      size={48}
+                      value={address}
+                    />
+                    <div className='accounts--Address-data'>
+                      <div className='accounts--Address-address'>
+                        {shortValue}
+                      </div>
+                    </div>
+                    {this.renderContent()}
+                  </div>
+                  {this.renderButtons()}
+                </div>
+              </Modal.Content>
+            </Modal>
+          ) : null
+        }
+        <Button
+          className={className}
+          icon={icon}
+          isCircular={isCircular}
+          isPrimary={isPrimary}
+          onClick={this.showPasswordModal}
+          size={size}
+          style={style}
+        />
+        <div className={'accounts--Address-file-upload'}>
+          <ReactFileReader fileTypes={['.json']} base64={false} multipleFiles={false} handleFiles={this.handleUploadedFiles}>
+            <Button
+              className={className}
+              icon={'exchange'}
+              isCircular={isCircular}
+              isPrimary={isPrimary}
+              size={size}
+              style={style}
+            />
+          </ReactFileReader>
+        </div>
       </div>
     );
   }
+
+  renderContent () {
+    const { address } = this.state;
+
+    // FIXME - need to refresh the page after creating an account since the address won't be available
+    if (!address) {
+      return null;
+    }
+
+    return (
+      <div>
+        { this.renderUnlock() }
+      </div>
+    );
+  }
+
+  renderUnlock () {
+    const { t } = this.props;
+    const { address, password, unlockError } = this.state;
+
+    if (!address) {
+      return null;
+    }
+
+    const keyringAddress: KeyringAddress = keyring.getAddress(address);
+
+    return (
+      <Unlock
+        error={unlockError && t(unlockError.key, unlockError.value)}
+        onChange={this.onChangePassword}
+        password={password}
+        passwordWidth={'full'}
+        value={keyringAddress.publicKey()}
+      />
+    );
+  }
+
+  renderButtons () {
+    const { t } = this.props;
+
+    return (
+      <Modal.Actions>
+        <Button.Group>
+          <Button
+            isNegative
+            onClick={this.onDiscard}
+            text={t('creator.discard', {
+              defaultValue: 'Cancel'
+            })}
+          />
+          <Button.Or />
+          <Button
+            isDisabled={false}
+            isPrimary
+            onClick={this.onSubmit}
+            text={t('creator.submit', {
+              defaultValue: 'Submit'
+            })}
+          />
+        </Button.Group>
+      </Modal.Actions>
+    );
+  }
+
+  emptyState (): State {
+    const { address } = this.props;
+
+    return {
+      address: address,
+      password: '',
+      isPasswordModalOpen: false,
+      unlockError: null
+    };
+  }
+
+  nextState (newState: State): void {
+    this.setState(
+      (prevState: State, props: Props): State => {
+        const {
+          password = prevState.password,
+          isPasswordModalOpen = prevState.isPasswordModalOpen,
+          unlockError = prevState.unlockError
+        } = newState;
+
+        let address = prevState.address;
+
+        return {
+          address,
+          password,
+          isPasswordModalOpen,
+          unlockError
+        };
+      }
+    );
+  }
+
+  onChangePassword = (password: string): void => {
+    this.nextState({ password, unlockError: null } as State);
+    this.setState({
+      password,
+      unlockError: null
+    });
+  }
+
+  onSubmit = (): void => {
+    const { address } = this.state;
+
+    if (!address) {
+      return;
+    }
+
+    this.handleFileButtonClick();
+  }
+
+  onDiscard = (): void => {
+    this.setState(this.emptyState());
+  }
 }
+
+export default translate(UploadButton);
