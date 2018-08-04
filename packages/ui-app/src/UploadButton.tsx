@@ -26,7 +26,8 @@ type State = {
   address: string,
   password: string,
   isPasswordModalOpen: boolean,
-  unlockError: UnlockI18n | null
+  unlockError: UnlockI18n | null,
+  uploadedFileKeyringPair: KeyringPair$Json | undefined
 };
 
 type Props = I18nProps & BareProps & {
@@ -51,19 +52,7 @@ class UploadButton extends React.PureComponent<Props, State> {
     this.state = this.emptyState();
   }
 
-  handleFileButtonClick = () => {
-    const buttonFileUpload = document.querySelectorAll('div.accounts--Address-file-upload button')[0];
-
-    // type guard - https://github.com/Microsoft/TypeScript/issues/3263
-    if (buttonFileUpload instanceof HTMLElement) {
-      buttonFileUpload.click();
-    } else {
-      throw new Error('element button file upload not in document');
-    }
-  }
-
   handleUploadedFiles = (files: FileList): void => {
-    const { password } = this.state;
     const fileList: FileList = files;
 
     if (!fileList || fileList && !fileList.length) {
@@ -80,17 +69,34 @@ class UploadButton extends React.PureComponent<Props, State> {
           const fileContents: any = JSON.parse(e.target.result);
 
           if (Object.keys(fileContents).includes('address' && 'encoding' && 'encoded' && 'meta')) {
-            const json: KeyringPair$Json = fileContents;
+            const json: KeyringPair$Json | undefined = fileContents;
 
-            // FIXME - does not force browser to refresh if account address added to local storage
-            keyring.restoreAccount(json, password);
+            // store uploaded wallet in state and open modal to get their password for it
+            this.setState(
+              { uploadedFileKeyringPair: json },
+              () => this.showPasswordModal()
+            );
           }
         }
       } catch (e) {
-        console.error('Error uploading account to local storage ', e);
+        console.error('Error uploading file: ', e);
       }
     };
     fileReader.readAsText(fileToUpload);
+  }
+
+  processUploadedFileStorage = () => {
+    const { password, uploadedFileKeyringPair } = this.state;
+    const json: KeyringPair$Json | undefined = uploadedFileKeyringPair;
+
+    try {
+      if (json && Object.keys(json).length) {
+        // FIXME - does not force browser to refresh if account address added to local storage
+        keyring.restoreAccount(json, password);
+      }
+    } catch (e) {
+      console.error('Error processing uploaded file to local storage: ', e);
+    }
   }
 
   showPasswordModal = (): void => {
@@ -143,27 +149,16 @@ class UploadButton extends React.PureComponent<Props, State> {
             </Modal>
           ) : null
         }
-        <Button
-          className={className}
-          icon={icon}
-          isCircular={isCircular}
-          isPrimary={isPrimary}
-          onClick={this.showPasswordModal}
-          size={size}
-          style={style}
-        />
-        <div className={'accounts--Address-file-upload'}>
-          <ReactFileReader fileTypes={['.json']} base64={false} multipleFiles={false} handleFiles={this.handleUploadedFiles}>
-            <Button
-              className={className}
-              icon={'exchange'}
-              isCircular={isCircular}
-              isPrimary={isPrimary}
-              size={size}
-              style={style}
-            />
-          </ReactFileReader>
-        </div>
+        <ReactFileReader fileTypes={['.json']} base64={false} multipleFiles={false} handleFiles={this.handleUploadedFiles}>
+          <Button
+            className={className}
+            icon={icon}
+            isCircular={isCircular}
+            isPrimary={isPrimary}
+            size={size}
+            style={style}
+          />
+        </ReactFileReader>
       </div>
     );
   }
@@ -238,7 +233,8 @@ class UploadButton extends React.PureComponent<Props, State> {
       address: address,
       password: '',
       isPasswordModalOpen: false,
-      unlockError: null
+      unlockError: null,
+      uploadedFileKeyringPair: undefined
     };
   }
 
@@ -248,7 +244,8 @@ class UploadButton extends React.PureComponent<Props, State> {
         const {
           password = prevState.password,
           isPasswordModalOpen = prevState.isPasswordModalOpen,
-          unlockError = prevState.unlockError
+          unlockError = prevState.unlockError,
+          uploadedFileKeyringPair = prevState.uploadedFileKeyringPair
         } = newState;
 
         let address = prevState.address;
@@ -257,7 +254,8 @@ class UploadButton extends React.PureComponent<Props, State> {
           address,
           password,
           isPasswordModalOpen,
-          unlockError
+          unlockError,
+          uploadedFileKeyringPair
         };
       }
     );
@@ -278,7 +276,7 @@ class UploadButton extends React.PureComponent<Props, State> {
       return;
     }
 
-    this.handleFileButtonClick();
+    this.processUploadedFileStorage();
   }
 
   onDiscard = (): void => {
