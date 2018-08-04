@@ -26,16 +26,22 @@ export default function accountRestore (state: State, json: KeyringPair$Json, pa
     keyring.addFromJson(json as KeyringPair$Json);
     available.account[_address] = json;
 
-    createOptions(state);
+    // this is done in save.ts
+    // createOptions(state);
 
     const pair: KeyringPair = keyring.getPair(_address);
 
-    const jsonDecrypted: KeyringPair$Json = pair.toJson(password);
+    // FIXME - resolve why getting `ExtError: Unable to unencrypt using the supplied passphrase` when correct passphrase provided
+    // Note: Use KeyringInstance, not Pair (otherwise it requires secret key)
+    // const jsonDecrypted: KeyringPair$Json = pair.toJson(password);
+
+    const jsonDecrypted: KeyringPair$Json = keyring.toJson(_address, password);
 
     // if password correct it sets hasSecretKey (private key) to true in @polkadot/util-keyring/pair/index.ts
-    pair.decodePkcs8(password, u8aFromString(jsonDecrypted.encoded));
-    if (pair.hasSecretKey()) {
-      saveAccount(state, pair, password);
-    }
+    // pair.decodePkcs8(password, u8aFromString(jsonDecrypted.encoded));
+    // if (pair.hasSecretKey()) {
+      // saveAccount(state, pair, password);
+    // }
+    saveAccount(state, pair, password);
   }
 }

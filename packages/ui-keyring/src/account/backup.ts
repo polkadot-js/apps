@@ -7,10 +7,6 @@ import { State } from '../types';
 
 import u8aFromString from '@polkadot/util/u8a/fromString';
 
-import store from 'store';
-
-import { accountKey } from '../defaults';
-
 // Download - takes what is in the keyring and creates the json, in this case the json does not go to storage
 export default function accountBackup (state: State, _address: string, password?: string): KeyringPair$Json | void {
   const { keyring } = state;
@@ -21,6 +17,7 @@ export default function accountBackup (state: State, _address: string, password?
 
   const pair: KeyringPair = keyring.getPair(_address);
 
+  // FIXME - resolve why getting `ExtError: Unable to unencrypt using the supplied passphrase` when correct passphrase provided
   const jsonDecrypted: KeyringPair$Json = pair.toJson(password);
   // const jsonDecrypted = store.get(accountKey(_address));
 
