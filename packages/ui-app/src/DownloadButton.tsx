@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { Button$Sizes } from './Button/types';
 import { BareProps } from './types';
 import { KeyringPair$Json } from '@polkadot/util-keyring/types';
-import { QueueTx, QueueTx$MessageSetStatus } from '@polkadot/ui-signer/types';
+import { KeyringAddress } from '@polkadot/ui-keyring/types';
 
 import './DownloadButton.css';
 
@@ -23,25 +23,17 @@ import Address from '@polkadot/app-accounts/Address';
 import Button from './Button';
 import Modal from './Modal';
 import Unlock from '@polkadot/ui-signer/Unlock';
-import signMessage from '@polkadot/ui-signer/sign';
-import submitMessage from '@polkadot/ui-signer/submit';
 
 import translate from './translate';
 
 type State = {
-  currentItem?: QueueTx,
   address: string,
   password: string,
   isPasswordModalOpen: boolean,
   unlockError: UnlockI18n | null
 };
 
-type BaseProps = BareProps & {
-  queue: Array<QueueTx>,
-  queueSetStatus: QueueTx$MessageSetStatus
-};
-
-type Props = I18nProps & ApiProps & BaseProps & BareProps & {
+type Props = I18nProps & ApiProps & BareProps & {
   icon?: string,
   isCircular?: boolean,
   isPrimary?: boolean,
@@ -64,42 +56,8 @@ class DownloadButton extends React.PureComponent<Props, State> {
     this.state = this.emptyState();
   }
 
-  static getDerivedStateFromProps ({ queue }: Props, { currentItem, address, password, isPasswordModalOpen, unlockError }: State): State {
-    const nextItem = queue && queue.find(({ status }) =>
-      status === 'queued'
-    );
-    const isSame =
-      !!nextItem &&
-      !!currentItem &&
-      (
-        (!nextItem.publicKey && !currentItem.publicKey) ||
-        (
-          (nextItem.publicKey && nextItem.publicKey.toString()) === (currentItem.publicKey && currentItem.publicKey.toString())
-        )
-      );
-
-    return {
-      currentItem: nextItem,
-      address: address,
-      password: isSame ? password : '',
-      isPasswordModalOpen: isPasswordModalOpen,
-      unlockError: isSame ? unlockError : null
-    };
-  }
-
-  async componentDidUpdate (prevProps: Props, prevState: State) {
-    const { currentItem } = this.state;
-
-    if (currentItem && currentItem.status === 'queued' && currentItem.rpc.isSigned !== true) {
-      return this.sendItem(currentItem);
-    } else {
-      this.handleDownloadAccount();
-    }
-  }
-
   handleDownloadAccount = (): void => {
-    const { password } = this.state;
-    const { address } = this.props;
+    const { address, password } = this.state;
 
     try {
       const json: KeyringPair$Json = keyring.toJson(address, password);
@@ -125,10 +83,10 @@ class DownloadButton extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { currentItem, address, isPasswordModalOpen } = this.state;
+    const { address, isPasswordModalOpen } = this.state;
     const { className, icon = 'download', isCircular = true, isPrimary = true, size = 'tiny', style } = this.props;
 
-    if (!currentItem || !address || currentItem.rpc.isSigned !== true) {
+    if (!address) {
       return null;
     }
 
@@ -174,9 +132,9 @@ class DownloadButton extends React.PureComponent<Props, State> {
   }
 
   renderContent () {
-    const { currentItem } = this.state;
+    const { address } = this.state;
 
-    if (!currentItem) {
+    if (!address) {
       return null;
     }
 
@@ -189,54 +147,32 @@ class DownloadButton extends React.PureComponent<Props, State> {
 
   renderUnlock () {
     const { t } = this.props;
-    const { currentItem, password, unlockError } = this.state;
+    const { address, password, unlockError } = this.state;
 
-    // const json: KeyringPair$Json = keyring.toJson(address, password);
-    // const publicKey = json.encoded;
-
-    if (!currentItem) {
+    if (!address) {
       return null;
     }
+
+    const keyringAddress: KeyringAddress = keyring.getAddress(address);
 
     return (
       <Unlock
         error={unlockError && t(unlockError.key, unlockError.value)}
         onChange={this.onChangePassword}
         password={password}
-        value={currentItem.publicKey}
+        value={keyringAddress.publicKey()}
       />
     );
   }
 
-  unlockAccount (publicKey: Uint8Array, password?: string): UnlockI18n | null {
-    const pair = keyring.getPair(publicKey);
-
-    if (pair.hasSecretKey()) {
-      return null;
-    }
-
-    try {
-      pair.decodePkcs8(password);
-    } catch (error) {
-      return {
-        key: 'signer.unlock.generic',
-        value: {
-          defaultValue: error.message
-        }
-      };
-    }
-
-    return null;
-  }
-
   renderButtons () {
     const { t } = this.props;
-    const { currentItem: { rpc: { isSigned = false } = {} } = {} } = this.state;
 
     return (
       <Modal.Actions>
         <Button.Group>
           <Button
+            isNegative
             onClick={this.onDiscard}
             text={t('creator.discard', {
               defaultValue: 'Reset'
@@ -244,26 +180,12 @@ class DownloadButton extends React.PureComponent<Props, State> {
           />
           <Button.Or />
           <Button
-              isNegative
-              onClick={this.onCancel}
-              text={t('creator.cancel', {
-                defaultValue: 'Cancel'
-              })}
-            />
-          <Button.Or />
-          <Button
             isDisabled={false}
             isPrimary
-            onClick={this.onSend}
-            text={
-              isSigned
-                ? t('creator.signedSend', {
-                  defaultValue: 'Sign and Submit'
-                })
-                : t('creator.send', {
-                  defaultValue: 'Submit'
-                })
-            }
+            onClick={this.onSubmit}
+            text={t('creator.send', {
+              defaultValue: 'Submit'
+            })}
           />
         </Button.Group>
       </Modal.Actions>
@@ -310,58 +232,17 @@ class DownloadButton extends React.PureComponent<Props, State> {
     });
   }
 
-  onCancel = (): void => {
-    const { queueSetStatus } = this.props;
-    const { currentItem } = this.state;
+  onSubmit = (): void => {
+    const { address, password } = this.state;
+    const { onBack } = this.props;
 
-    // This should never be executed
-    if (!currentItem) {
+    if (!address) {
       return;
     }
 
-    queueSetStatus(currentItem.id, 'cancelled');
-  }
+    this.handleDownloadAccount();
 
-  onSend = async (): Promise<any> => {
-    const { currentItem, password } = this.state;
-    // const { onBack } = this.props;
-
-    if (!currentItem) {
-      return;
-    }
-
-    return this.sendItem(currentItem, password);
-
-    // onBack();
-  }
-
-  sendItem = async ({ id, nonce, publicKey, rpc, values }: QueueTx, password?: string): Promise<void> => {
-    if (rpc.isSigned === true && publicKey) {
-      const unlockError = this.unlockAccount(publicKey, password);
-
-      if (unlockError) {
-        this.setState({ unlockError });
-        return;
-      }
-    }
-
-    const { api, apiSupport, queueSetStatus } = this.props;
-
-    queueSetStatus(id, 'sending');
-
-    let data = values;
-
-    if (rpc.isSigned === true && publicKey) {
-      data = [
-        signMessage(
-          publicKey, nonce, (data[0] as Uint8Array), apiSupport
-        ).data
-      ];
-    }
-
-    const { error, result, status } = await submitMessage(api, data, rpc);
-
-    queueSetStatus(id, status, result, error);
+    onBack();
   }
 
   onDiscard = (): void => {
