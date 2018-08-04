@@ -16,10 +16,9 @@ import React from 'react';
 import FileSaver from 'file-saver';
 import keyring from '@polkadot/ui-keyring/index';
 import withApi from '@polkadot/ui-react-rx/with/api';
-import classes from '@polkadot/ui-app/util/classes';
+import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import isUndefined from '@polkadot/util/is/undefined';
 
-import Address from '@polkadot/app-accounts/Address';
 import Button from './Button';
 import Modal from './Modal';
 import Unlock from '@polkadot/ui-signer/Unlock';
@@ -90,11 +89,11 @@ class DownloadButton extends React.PureComponent<Props, State> {
       return null;
     }
 
+    // TODO - do not duplicate this from Address component. move into common utility for reuse
+    const shortValue = `${address.slice(0, 7)}…${address.slice(-7)}`;
+
     return (
-      <div
-        className={classes('accounts--Address-download', className)}
-        style={style}
-      >
+      <div className={'accounts--Address-download'}>
         { isPasswordModalOpen ? (
             <Modal
               dimmer='inverted'
@@ -104,12 +103,17 @@ class DownloadButton extends React.PureComponent<Props, State> {
             >
               <Modal.Content>
                 <div className='ui--grid'>
-                  <div>
-                    <Address
-                      className='shrink'
-                      hideAllFileIcons={true}
-                      value={address ? address : ''}
+                  <div className={'accounts--Address accounts--Address-modal'}>
+                    <IdentityIcon
+                      className='accounts--Address-icon'
+                      size={48}
+                      value={address}
                     />
+                    <div className='accounts--Address-data'>
+                      <div className='accounts--Address-address'>
+                        {shortValue}
+                      </div>
+                    </div>
                     {this.renderContent()}
                   </div>
                   {this.renderButtons()}
@@ -160,6 +164,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
         error={unlockError && t(unlockError.key, unlockError.value)}
         onChange={this.onChangePassword}
         password={password}
+        passwordWidth={'full'}
         value={keyringAddress.publicKey()}
       />
     );
@@ -175,7 +180,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
             isNegative
             onClick={this.onDiscard}
             text={t('creator.discard', {
-              defaultValue: 'Reset'
+              defaultValue: 'Cancel'
             })}
           />
           <Button.Or />
@@ -183,7 +188,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
             isDisabled={false}
             isPrimary
             onClick={this.onSubmit}
-            text={t('creator.send', {
+            text={t('creator.submit', {
               defaultValue: 'Submit'
             })}
           />
@@ -233,7 +238,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
   }
 
   onSubmit = (): void => {
-    const { address, password } = this.state;
+    const { address } = this.state;
     const { onBack } = this.props;
 
     if (!address) {

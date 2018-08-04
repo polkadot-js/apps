@@ -5,3 +5,7 @@
 .accounts--Address-download {
   display: inline-block;
 }
+
+.accounts--Address-modal {
+  padding-bottom: 1em;
+}

@@ -17,6 +17,7 @@ type Props = I18nProps & {
   error?: string,
   onChange: (password: string) => void,
   password: string,
+  passwordWidth?: string,
   value?: Uint8Array | null
 };
 
@@ -41,7 +42,7 @@ class Unlock extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, onChange, password, style, t } = this.props;
+    const { className, onChange, password, passwordWidth, style, t } = this.props;
     const { isError, isLocked } = this.state;
 
     if (!isLocked) {
@@ -55,7 +56,7 @@ class Unlock extends React.PureComponent<Props, State> {
       >
         <div className='ui--row'>
           <Password
-            className='medium'
+            className={passwordWidth ? passwordWidth : 'medium'}
             isError={isError}
             label={t('unlock.password', {
               defaultValue: 'unlock account using'
