@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Routing, Routes } from '../types';
+import { Routing,
+  Routes } from '../types';
 
 import accounts from './accounts';
 import addresses from './addresses';
@@ -17,11 +18,24 @@ import storage from './storage';
 import toolbox from './toolbox';
 import unknown from './unknown';
 import vanitygen from './vanitygen';
+import validators from './validators';
 
 export default ({
   default: 'explorer',
   routes: ([] as Routes).concat(
-    example, explorer, staking, extrinsics, storage, null, accounts, addresses, vanitygen, null, rpc, toolbox
+    example,
+    explorer,
+    validators,
+    staking,
+    extrinsics,
+    storage,
+    null,
+    accounts,
+    addresses,
+    vanitygen,
+    null,
+    rpc,
+    toolbox
   ),
   unknown
 } as Routing);
