@@ -94,6 +94,20 @@
   margin-left: 0.5em;
 } */
 
+.validator--ValidatorsList{
+  border: 1px solid green ;
+  border-radius: 10px;
+  background-color: #e0f8e0;
+  padding: 20px;
+}
+
+.validator--IntensionsList{
+  border: 1px solid blue ;
+  border-radius: 10px;
+  background-color: #e0e6f8;
+  padding: 20px;
+}
+
 .app-validators--Query .app-validators--actionrow-value {
   padding: 0 0.25rem;
 }

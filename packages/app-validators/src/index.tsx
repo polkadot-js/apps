@@ -17,9 +17,11 @@ import withMulti from '@polkadot/ui-react-rx/with/multi';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 
 import ValidatorsList from './ValidatorsList';
+import IntensionsList from './IntensionsList';
 
 type Props = BareProps & {
-  validators?: Array<string>
+  intentions?: Array<string>
+  validators?: Array<string>,
 };
 
 type State = {
@@ -31,7 +33,7 @@ const transformAddresses = (publicKeys: Array<Uint8Array>) =>
 
 class App extends React.PureComponent<Props> {
   render () {
-    const { className, style, validators = [] } = this.props;
+    const { className, intentions = [], style, validators = [] } = this.props;
 
     return (
       <div
@@ -42,6 +44,11 @@ class App extends React.PureComponent<Props> {
         {<ValidatorsList
           validators={validators}
         />}
+
+     <h1>Intensions: {intentions.length}</h1>
+        {<IntensionsList
+          intentions={intentions}
+        />}
       </div>
     );
   }
@@ -49,6 +56,13 @@ class App extends React.PureComponent<Props> {
 
 export default withMulti(
   App,
+  withStorage(
+    storage.staking.public.intentions,
+    {
+      propName: 'intentions',
+      transform: transformAddresses
+    }
+  ),
   withStorage(
     storage.session.public.validators,
     {
