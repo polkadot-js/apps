@@ -16,10 +16,10 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
-    "@polkadot/ui-identicon": "^0.19.18"
+    "@polkadot/ui-identicon": "^0.19.16"
   },
   "devDependencies": {
-    "@polkadot/util-keyring": "^0.26.36",
+    "@polkadot/util-keyring": "^0.27.1",
     "babel-loader": "^8.0.0-beta.2",
     "css-loader": "0.28.9",
     "empty": "^0.10.1",

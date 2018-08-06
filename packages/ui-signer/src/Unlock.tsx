@@ -31,7 +31,7 @@ class Unlock extends React.PureComponent<Props, State> {
 
   static getDerivedStateFromProps ({ error, password, value }: Props): State {
     const pair = keyring.getPair(value as Uint8Array);
-    const isLocked = !pair.hasSecretKey();
+    const isLocked = pair.isLocked();
 
     return {
       isError: !!error,
