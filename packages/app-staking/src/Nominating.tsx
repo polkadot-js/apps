@@ -100,7 +100,7 @@ class Nominating extends React.PureComponent<Props> {
           className='medium'
           isError={!isNomineeValid}
           label={t('nominator.address', {
-            defaultValue: 'nominate the following validator'
+            defaultValue: 'nominate the following address (validator or intention)'
           })}
           onChange={this.onChangeNominee}
           value={nominee}
