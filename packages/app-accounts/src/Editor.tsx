@@ -102,7 +102,7 @@ class Editor extends React.PureComponent<Props, State> {
       return (
         <div>
           <div>There are no saved accounts. Create an account or upload a JSON file of a saved account.</div>
-          <div className='accounts--Address-wrapper'>{ showUploadButton('big') }</div>
+          <div className='accounts--Address-wrapper'>{ showUploadButton(undefined, 'big') }</div>
         </div>
       );
     }

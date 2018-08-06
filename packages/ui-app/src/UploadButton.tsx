@@ -34,8 +34,7 @@ type Props = I18nProps & BareProps & {
   icon?: string,
   isCircular?: boolean,
   isPrimary?: boolean,
-  size?: Button$Sizes,
-  address: string
+  size?: Button$Sizes
 };
 
 type UnlockI18n = {
@@ -71,7 +70,11 @@ class UploadButton extends React.PureComponent<Props, State> {
           if (Object.keys(fileContents).includes('address' && 'encoding' && 'meta')) {
             const json: KeyringPair$Json | undefined = fileContents;
 
-            // store uploaded wallet in state and open modal to get their password for it
+            console.log('Load account keyring pair using account JSON into keyring memory');
+
+            const pair: KeyringPair = keyring.addFromJson(json);
+
+            // Store uploaded wallet in state and open modal to get their password for it
             this.setState(
               { uploadedFileKeyringPair: json },
               () => this.showPasswordModal()
@@ -234,10 +237,8 @@ class UploadButton extends React.PureComponent<Props, State> {
   }
 
   emptyState (): State {
-    const { address } = this.props;
-
     return {
-      address: address,
+      address: '',
       password: '',
       isPasswordModalOpen: false,
       unlockError: null,
@@ -249,13 +250,12 @@ class UploadButton extends React.PureComponent<Props, State> {
     this.setState(
       (prevState: State, props: Props): State => {
         const {
+          address = prevState.address,
           password = prevState.password,
           isPasswordModalOpen = prevState.isPasswordModalOpen,
           unlockError = prevState.unlockError,
           uploadedFileKeyringPair = prevState.uploadedFileKeyringPair
         } = newState;
-
-        let address = prevState.address;
 
         return {
           address,

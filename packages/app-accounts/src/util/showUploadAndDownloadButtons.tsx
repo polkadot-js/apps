@@ -11,7 +11,7 @@ export default function showUploadAndDownloadButtons (address: string): any {
   return (
     <div className='accounts--Address-file'>
       <DownloadButton address={address} />
-      <UploadButton address={address}/>
+      <UploadButton />
     </div>
   );
 }

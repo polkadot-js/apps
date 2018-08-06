@@ -8,10 +8,10 @@ import React from 'react';
 
 import UploadButton from '@polkadot/ui-app/UploadButton';
 
-export default function showUploadButton (address: string, size?: Button$Sizes): any {
+export default function showUploadButton (size?: Button$Sizes): any {
   return (
     <div className='accounts--Address-file'>
-      <UploadButton address={address} size={size}/>
+      <UploadButton size={size}/>
     </div>
   );
 }
