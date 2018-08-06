@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps, UnlockI18n } from '@polkadot/ui-app/types';
 import { KeyringPair } from '@polkadot/util-keyring/types';
 
 import React from 'react';
@@ -14,7 +14,7 @@ import keyring from '@polkadot/ui-keyring/index';
 import translate from './translate';
 
 type Props = I18nProps & {
-  error?: string,
+  error?: UnlockI18n | null,
   onChange: (password: string) => void,
   password: string,
   passwordWidth?: string,
@@ -36,6 +36,7 @@ class Unlock extends React.PureComponent<Props, State> {
 
     return {
       isError: !!error,
+      error: error,
       isLocked,
       pair
     };
@@ -43,7 +44,7 @@ class Unlock extends React.PureComponent<Props, State> {
 
   render () {
     const { className, onChange, password, passwordWidth, style, t } = this.props;
-    const { isError, isLocked } = this.state;
+    const { isError, isLocked, error } = this.state;
 
     if (!isLocked) {
       // FIXME - console.log('Remove secret key from keyring memory');
@@ -59,6 +60,7 @@ class Unlock extends React.PureComponent<Props, State> {
           <Password
             className={passwordWidth ? passwordWidth : 'medium'}
             isError={isError}
+            error={error}
             label={t('unlock.password', {
               defaultValue: 'unlock account using'
             })}

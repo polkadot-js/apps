@@ -2,9 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
 import { Button$Sizes } from './Button/types';
-import { BareProps } from './types';
+import { BareProps, I18nProps, UnlockI18n } from './types';
 import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 
@@ -39,11 +38,6 @@ type Props = I18nProps & BareProps & {
   address: string
 };
 
-type UnlockI18n = {
-  key: string,
-  value: any // I18Next$Translate$Config
-};
-
 class DownloadButton extends React.PureComponent<Props, State> {
   state: State;
 
@@ -67,14 +61,15 @@ class DownloadButton extends React.PureComponent<Props, State> {
             const blob: Blob = new Blob([JSON.stringify(json)], { type: 'text/plain;charset=utf-8' });
 
             FileSaver.saveAs(blob, `paritytech-polkadot-publickey-${address}.json`);
+
+            this.hidePasswordModal();
           } else {
-            console.error('Error obtaining account data to save to file');
+            this.setState({ unlockError: { key: 'error', value: 'Unable to obtain account from memory' } });
           }
         } catch (e) {
+          this.setState({ unlockError: { key: 'error', value: 'Unable to save file' } });
           console.error('Error retrieving account from local storage and saving account to file: ', e);
         }
-
-        this.hidePasswordModal();
       }
     );
   }
@@ -173,9 +168,18 @@ class DownloadButton extends React.PureComponent<Props, State> {
 
     const keyringAddress: KeyringAddress = keyring.getAddress(address);
 
+    let translateError = null;
+
+    if (unlockError && unlockError.key && unlockError.value) {
+      translateError = {
+        key: t(unlockError.key),
+        value: t(unlockError.value)
+      };
+    }
+
     return (
       <Unlock
-        error={unlockError && t(unlockError.key, unlockError.value)}
+        error={translateError || null}
         onChange={this.onChangePassword}
         password={password}
         passwordWidth={'full'}

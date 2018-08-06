@@ -2,9 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
 import { Button$Sizes } from './Button/types';
-import { BareProps } from './types';
+import { BareProps, I18nProps } from './types';
 import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 
@@ -22,6 +21,11 @@ import Unlock from '@polkadot/ui-signer/Unlock';
 
 import translate from './translate';
 import { Trans } from 'react-i18next';
+
+type UnlockI18n = {
+  key: string,
+  value: string
+};
 
 type State = {
   address: string,
@@ -84,6 +88,7 @@ class UploadButton extends React.PureComponent<Props, State> {
         }
       } catch (e) {
         console.error('Error uploading file: ', e);
+        this.setState({ unlockError: { key: 'error', value: 'Unable to upload account from file' } });
       }
     };
     fileReader.readAsText(fileToUpload);
@@ -105,10 +110,15 @@ class UploadButton extends React.PureComponent<Props, State> {
               this.hidePasswordModal();
 
               return true;
+            } else {
+              this.setState({ unlockError: { key: 'error', value: 'Unable to upload account into memory' } });
+              return false;
             }
           }
         } catch (e) {
           console.error('Error processing uploaded file to local storage: ', e);
+          this.setState({ unlockError: { key: 'error', value: 'Unable to upload account into memory' } });
+          return false;
         }
         return false;
       }
@@ -205,6 +215,7 @@ class UploadButton extends React.PureComponent<Props, State> {
   renderUnlock () {
     const { t } = this.props;
     const { uploadedFileKeyringPair, password, unlockError } = this.state;
+    let translateError = null;
 
     if (isUndefined(uploadedFileKeyringPair) || !uploadedFileKeyringPair.address) {
       return null;
@@ -212,9 +223,16 @@ class UploadButton extends React.PureComponent<Props, State> {
 
     const keyringAddress: KeyringAddress = keyring.getAddress(uploadedFileKeyringPair.address);
 
+    if (unlockError && unlockError.key && unlockError.value) {
+      translateError = {
+        key: t(unlockError.key),
+        value: t(unlockError.value)
+      };
+    }
+
     return (
       <Unlock
-        error={unlockError && t(unlockError.key, unlockError.value)}
+        error={translateError || null}
         onChange={this.onChangePassword}
         password={password}
         passwordWidth={'full'}

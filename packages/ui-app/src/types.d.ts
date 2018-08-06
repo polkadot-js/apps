@@ -25,3 +25,8 @@ export type BaseContext = {
     }
   }
 };
+
+export type UnlockI18n = {
+  key: string,
+  value: string
+};
