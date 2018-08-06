@@ -78,7 +78,7 @@ class UploadButton extends React.PureComponent<Props, State> {
 
             console.log('Load account keyring pair using account JSON into keyring memory');
 
-            const pair: KeyringPair = keyring.addFromJson(json);
+            keyring.addFromJson(json);
 
             // Store uploaded wallet in state and open modal to get their password for it
             this.setState(

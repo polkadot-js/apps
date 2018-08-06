@@ -32,12 +32,17 @@ export default class Password extends React.PureComponent<Props, State> {
     isVisible: false
   };
 
+  componentDidMount () {
+    const passwordInputField = document.querySelectorAll('input[type=password]')[0];
+    passwordInputField.focus();
+  }
+
   render () {
     const { children, className, defaultValue, isDisabled, isError, label, name, onChange, style, value, withLabel, error } = this.props;
     const { isVisible } = this.state;
 
     return (
-      <div>
+      <div className='ui--Password'>
         <Input
           className={className}
           defaultValue={defaultValue}
