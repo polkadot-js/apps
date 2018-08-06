@@ -33,12 +33,16 @@
 
 .ui--AddressSummary {
   padding: 0 2em;
-  text-align: center;
+  text-align: left;
   white-space: nowrap
 }
 
-.ui--AddressSummary .ui--AddressSummary-base,
-.ui--AddressSummary .ui--AddressSummary-children {
+.ui--AddressSummary-base {
+  text-align: center;
+}
+
+.ui--AddressSummary-base,
+.ui--AddressSummary-children {
   display: inline-block;
   vertical-align: top;
 }

@@ -70,13 +70,15 @@ class Account extends React.PureComponent<Props, State> {
           name={name}
           value={address}
         >
-          <Icon
-            className={classes('staking--Account-validating', isValidator ? 'isValidator' : '')}
-            name='certificate'
-            size='large'
-          />
-          {this.renderButtons()}
-          <AddressMini value={nominating} />
+          <div className='staking--Account-expand'>
+            <Icon
+              className={classes('staking--Account-validating', isValidator ? 'isValidator' : '')}
+              name='certificate'
+              size='large'
+            />
+            {this.renderButtons()}
+            <AddressMini value={nominating} />
+          </div>
         </AddressSummary>
       </div>
     );

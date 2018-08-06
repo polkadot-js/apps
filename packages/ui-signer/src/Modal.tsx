@@ -169,7 +169,7 @@ class Signer extends React.PureComponent<Props, State> {
   unlockAccount (publicKey: Uint8Array, password?: string): UnlockI18n | null {
     const pair = keyring.getPair(publicKey);
 
-    if (pair.hasSecretKey()) {
+    if (!pair.isLocked()) {
       return null;
     }
 

@@ -16,7 +16,9 @@
   border-radius: 0.25rem;
   display: inline-block;
   margin: 1rem;
-  padding: 1rem;
+  padding: 1rem 0;
+  /* FIXME: HACK: We need flexbox layout */
+  min-width: 528px;
 }
 
 .staking--Account .ui--Button-Group {
@@ -26,7 +28,11 @@
 }
 
 .staking--Account .ui--Button-Group {
-  text-align: left;
+  text-align: right;
+}
+
+.staking--Account-expand {
+  padding-left: 1em;
 }
 
 .staking--Account-buttons,
