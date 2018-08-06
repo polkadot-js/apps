@@ -38,9 +38,9 @@ export default class Overview extends React.PureComponent<Props> {
         <ValidatorsList
           validators={validators}
         />
-        <h1>Intentions: {intentions.length + validators.length}</h1>
+        <h1>Intentions: {intentionsExVal.length + validators.length}</h1>
         <IntensionsList
-          intentions={intentions}
+          intentions={intentionsExVal}
         />
       </div>
     );

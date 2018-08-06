@@ -34,6 +34,7 @@ const transformAddresses = (publicKeys: Array<Uint8Array>) =>
 class App extends React.PureComponent<Props> {
   render () {
     const { className, intentions = [], style, validators = [] } = this.props;
+    const filteredIntentions = intentions.filter (i => validators.includes(i))
 
     return (
       <div
@@ -45,9 +46,9 @@ class App extends React.PureComponent<Props> {
           validators={validators}
         />}
 
-     <h1>Intensions: {intentions.length}</h1>
+     <h1>Intensions: {filteredIntentions.length}</h1>
         {<IntensionsList
-          intentions={intentions}
+          intentions={filteredIntentions}
         />}
       </div>
     );

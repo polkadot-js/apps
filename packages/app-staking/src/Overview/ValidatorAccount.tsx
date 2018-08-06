@@ -66,34 +66,34 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <div className='validator--Account-details'>
-        <div>
-          <IdentityIcon
+
+          {/*<IdentityIcon
             className='validator--Account-icon'
             size={32}
             value={address}
-          />
+          />*/}
           <div className='validator--Account-info'>
             <div className='validator--Account-name'>{name}</div>
             <div className={classes('validator--Account-address', isMine ? 'isMine' : '')} >{address}</div>
           </div>
-        </div>
-
-        <RxBalance
-          className='validator--Account-balance'
-          label={t('account.balance', {
-            defaultValue: 'balance '
-          })}
-          params={address}
-        />
-        <RxNonce
-          className='validator--Account-nonce'
-          onChange={this.onChangeNonce}
-          params={address}
-        >
-          {t('account.transactions', {
-            defaultValue: ' transactions'
-          })}
-        </RxNonce>
+          <div className='validator--Account-info'>
+            <RxNonce
+              className='validator--Account-nonce'
+              onChange={this.onChangeNonce}
+              params={address}
+            >
+              {t('account.transactions', {
+                defaultValue: ' transactions'
+              })}
+            </RxNonce>
+            <RxBalance
+              className='validator--Account-balance'
+              label={t('', {
+                defaultValue: 'balance '
+              })}
+              params={address}
+            />
+          </div>
       </div>
     );
   }
