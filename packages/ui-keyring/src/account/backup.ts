@@ -7,7 +7,7 @@ import { State } from '../types';
 
 export default function accountBackup (state: State, _address: string, password: string): KeyringPair$Json | void {
   const { keyring } = state;
-  let jsonDecrypted: KeyringPair$Json = undefined;
+  let jsonDecrypted = undefined;
 
   if (!_address || !password) {
     console.log('Missing address or password');
