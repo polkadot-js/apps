@@ -13,7 +13,6 @@ import InputAddress from '@polkadot/ui-app/InputAddress';
 import showUploadButton from './util/showUploadButton';
 import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
-import wasAddressRemoved from './util/wasAddressRemoved';
 
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';
@@ -42,30 +41,6 @@ class Editor extends React.PureComponent<Props, State> {
     this.state.defaultValue = currentPair
       ? currentPair.address()
       : void 0;
-  }
-
-  componentDidMount () {
-    window.addEventListener('storage', () => this.processStorageChange(), false);
-  }
-
-  componentWillUnmount () {
-    window.removeEventListener('storage', this.processStorageChange);
-  }
-
-  processStorageChange = () => {
-    if (wasAddressRemoved(this.getAddressForCurrentPair())) {
-      this.forceUpdate();
-    }
-  }
-
-  getAddressForCurrentPair = () => {
-    const { currentPair } = this.state;
-    let address = '';
-
-    if (currentPair) {
-      address = currentPair.address();
-    }
-    return address;
   }
 
   render () {

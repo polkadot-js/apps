@@ -193,8 +193,6 @@ class UploadButton extends React.PureComponent<Props, State> {
       return null;
     }
 
-    keyring.loadAccount(uploadedFileKeyringPair.address, uploadedFileKeyringPair as KeyringPair$Json, uploadedFileKeyringPair.meta);
-
     const keyringAddress: KeyringAddress = keyring.getAddress(uploadedFileKeyringPair.address);
 
     return (

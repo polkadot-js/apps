@@ -11,7 +11,6 @@ import testKeyring from '@polkadot/util-keyring/testing';
 import accounts from './observable/accounts';
 import addresses from './observable/addresses';
 import loadAll from './loadAll';
-import loadAccount from './account/load';
 import backupAccount from './account/backup';
 import createAccount from './account/create';
 import forgetAccount from './account/forget';
@@ -59,8 +58,6 @@ export default ({
     state.keyring.getPairs().filter((pair) =>
       state.isTestMode || pair.getMeta().isTesting !== true
     ),
-  loadAccount: (address: string, encoded: KeyringPair$Json, meta?: KeyringPair$Meta): KeyringPair =>
-    loadAccount(state, address, encoded, meta),
   loadAll: (): void =>
     loadAll(state),
   restoreAccount: (json: KeyringPair$Json, passphrase?: string): boolean =>

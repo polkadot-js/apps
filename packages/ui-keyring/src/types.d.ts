@@ -46,7 +46,6 @@ export type KeyringInstance = {
   getPair: (address: string | Uint8Array) => KeyringPair,
   getPairs: () => Array<KeyringPair>,
   isAvailable: (address: string | Uint8Array) => boolean,
-  loadAccount: (address: string, encoded: KeyringPair$Json, meta?: KeyringPair$Meta) => KeyringPair,
   loadAll: () => void,
   restoreAccount: (json: KeyringPair$Json, passphrase?: string) => boolean,
   saveAccount: (pair: KeyringPair, password?: string) => void,

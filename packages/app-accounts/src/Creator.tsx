@@ -19,7 +19,6 @@ import u8aToHex from '@polkadot/util/u8a/toHex';
 import keypairFromSeed from '@polkadot/util-crypto/nacl/keypair/fromSeed';
 import randomBytes from '@polkadot/util-crypto/random/asU8a';
 import addressEncode from '@polkadot/util-keyring/address/encode';
-import wasAddressRemoved from './util/wasAddressRemoved';
 
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';
@@ -60,21 +59,6 @@ class Creator extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = this.emptyState();
-  }
-
-  componentDidMount () {
-    window.addEventListener('storage', () => this.processStorageChange(), false);
-  }
-
-  componentWillUnmount () {
-    window.removeEventListener('storage', this.processStorageChange);
-  }
-
-  processStorageChange = () => {
-    const { address } = this.state;
-    if (wasAddressRemoved(address)) {
-      this.forceUpdate();
-    }
   }
 
   render () {
