@@ -37,7 +37,7 @@ export default class IdentityIcon extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, style, value, size } = this.props;
+    const { className, style } = this.props;
     const { address } = this.state;
 
     return (
