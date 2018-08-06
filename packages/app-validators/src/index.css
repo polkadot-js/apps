@@ -1,0 +1,138 @@
+/* Copyright 2017-2018 @polkadot/app-app-validators authors & contributors
+/* This software may be modified and distributed under the terms
+/* of the ISC license. See the LICENSE file for details. */
+
+/* Copyright 2017-2018 @polkadot/app-validator authors & contributors
+/* This software may be modified and distributed under the terms
+/* of the ISC license. See the LICENSE file for details. */
+
+.validator--App {
+  padding: 1em 2rem;
+}
+
+.validator--Summary {
+  margin-bottom: 2rem;
+  text-align: right;
+}
+
+.validator--Account {
+  margin-bottom: 1rem;
+}
+
+.validator--Account .ui--Button-Group {
+  display: inline-block;
+  margin-top: 1.25rem;
+  margin-left: 1em;
+  vertical-align: top;
+}
+
+.validator--Account .ui--Button-Group {
+  text-align: left;
+}
+
+.validator--Account-buttons,
+.validator--Account-details {
+  display: inline-block;
+  text-align: left;
+  vertical-align: top;
+}
+
+.validator--Account-nominate {
+  padding: 0 0 3em 3em;
+}
+
+.validator--Account-info {
+  display: inline-block;
+}
+
+.validator--Account-address {
+  font-family: monospace;
+  font-size: 1.5rem;
+}
+
+.validator--Account-icon {
+  margin-right: 1rem;
+}
+
+.validator--Account-validating {
+  opacity: 0.25 !important;
+  padding-top: 8px;
+  vertical-align: top !important;
+}
+
+.validator--Account-validating.isValidator {
+  color: red;
+  opacity: 1 !important;
+}
+
+.validator--Account-balance,
+.validator--Account-nonce {
+  opacity: 0.45;
+  text-align: right;
+}
+
+
+.app-validators--App {
+  padding: 1em 2em;
+}
+
+.app-validators--Queries {
+  margin-top: 2em;
+}
+
+.app-validators--Query {
+  margin-bottom: 0.25em;
+  padding: 0.25em 0;
+}
+
+.app-validators--Query .ui.disabled.dropdown.selection {
+  color: #aaa;
+  opacity: 1;
+}
+
+/* .app-validators--Query span+span {
+  margin-left: 0.5em;
+} */
+
+.validator--ValidatorsList{
+  border: 1px solid green ;
+  border-radius: 10px;
+  background-color: #e0f8e0;
+  padding: 20px;
+}
+
+.validator--IntensionsList{
+  border: 1px solid blue ;
+  border-radius: 10px;
+  background-color: #e0e6f8;
+  padding: 20px;
+}
+
+.app-validators--Query .app-validators--actionrow-value {
+  padding: 0 0.25rem;
+}
+
+.app-validators--Query .ui--IdentityIcon {
+  margin: -10px 0;
+  vertical-align: middle;
+}
+
+.app-validators--actionrow {
+  display: flex;
+}
+
+.app-validators--actionrow-value {
+  flex: 1;
+  min-width: 0;
+}
+
+.app-validators--actionrow-button {
+  flex: 0;
+  padding: 0 0.25rem;
+}
+
+.validator--Account-address.isMine {
+  color: #47b547;
+  font-weight: 500;
+  opacity: 1 !important;
+}
