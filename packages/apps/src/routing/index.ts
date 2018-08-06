@@ -18,14 +18,12 @@ import storage from './storage';
 import toolbox from './toolbox';
 import unknown from './unknown';
 import vanitygen from './vanitygen';
-import validators from './validators';
 
 export default ({
   default: 'explorer',
   routes: ([] as Routes).concat(
     example,
     explorer,
-    validators,
     staking,
     extrinsics,
     storage,

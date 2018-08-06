@@ -15,7 +15,7 @@ import withApiCall from '@polkadot/ui-react-rx/with/apiCall';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withStorage from '@polkadot/ui-react-rx/with/storage';
 
-import translate from './translate';
+import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
   intentions: Array<string>,

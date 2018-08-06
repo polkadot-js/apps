@@ -26,8 +26,8 @@
     "@polkadot/app-staking": "^0.19.16",
     "@polkadot/app-storage": "^0.19.16",
     "@polkadot/app-toolbox": "^0.19.16",
-    "@polkadot/app-vanitygen": "^0.19.16",
     "@polkadot/app-validators": "^0.19.16",
+    "@polkadot/app-vanitygen": "^0.19.16",
     "@polkadot/ui-app": "^0.19.16",
     "@polkadot/ui-signer": "^0.19.16"
   },

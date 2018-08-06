@@ -10,31 +10,31 @@ import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
-import translate from './translate';
+import translate from '../translate';
 import ValidatorAccount from './ValidatorAccount';
 
 type Props = I18nProps & {
-  intentions: Array<string>
+  validators: Array<string>
 };
 
-class IntensionsList extends React.PureComponent<Props> {
+class ValidatorsList extends React.PureComponent<Props> {
   render () {
-    const { className, style, intentions } = this.props;
+    const { className, style, validators } = this.props;
 
     return (
       <QueueConsumer>
         {({ queueExtrinsic }: QueueProps) => (
           <div
-            className={classes('validator--IntensionsList', className)}
+            className={classes('validator--ValidatorsList', className)}
             style={style}
           >
-            {intentions.map((account) => {
+            {validators.map((account) => {
               return (
                 <div key={account}>
                    <ValidatorAccount
                       address={account}
                       key={account}
-                      name={name || 'candidate'} // TODO: check in our list of address is we named it
+                      name={name || 'validator'} // TODO: check in our list of address is we named it
                       queueExtrinsic={queueExtrinsic}
                     />
                 </div>
@@ -47,4 +47,4 @@ class IntensionsList extends React.PureComponent<Props> {
   }
 }
 
-export default translate(IntensionsList);
+export default translate(ValidatorsList);
