@@ -21,6 +21,7 @@ import Modal from './Modal';
 import Unlock from '@polkadot/ui-signer/Unlock';
 
 import translate from './translate';
+import { Trans } from 'react-i18next';
 
 type State = {
   address: string,
@@ -156,6 +157,13 @@ class UploadButton extends React.PureComponent<Props, State> {
                       <div className='accounts--Address-address'>
                         {shortValue}
                       </div>
+                    </div>
+                    <div className='expanded'>
+                      <p>
+                        <Trans i18nKey='unlock.info'>
+                          Please enter password for account <span className='code'>{shortValue}</span> to upload it encrypted.
+                        </Trans>
+                      </p>
                     </div>
                     {this.renderContent()}
                   </div>
