@@ -5,29 +5,47 @@
 import { KeyringPair, KeyringPair$Json } from '@polkadot/util-keyring/types';
 import { State } from '../types';
 
-import u8aFromString from '@polkadot/util/u8a/fromString';
-
-// Download - takes what is in the keyring and creates the json, in this case the json does not go to storage
-export default function accountBackup (state: State, _address: string, password?: string): KeyringPair$Json | void {
+export default function accountBackup (state: State, _address: string, password: string): KeyringPair$Json | void {
   const { keyring } = state;
+  let jsonDecrypted: KeyringPair$Json = undefined;
 
-  if (!_address) {
+  if (!_address || !password) {
+    console.log('Missing address or password');
     return;
   }
 
-  // retrieve account pair from keyring memory for given address
+  console.log('Load account keyring pair using account address from keyring memory');
   const pair: KeyringPair = keyring.getPair(_address);
 
-  // FIXME - resolve why getting `ExtError: Unable to unencrypt using the supplied passphrase` when correct passphrase provided
-  // FIXME - shouldn't this be somehow called after `decodePkcs8` below, since `toJson` may require secret key to be available in state of decode.ts of util-keyring
-  // create json after decryption with provided password
-  const jsonDecrypted: KeyringPair$Json = pair.toJson(password);
-  // const jsonDecrypted = store.get(accountKey(_address));
+  if (!pair) {
+    return;
+  }
 
-  // if password correct it sets hasSecretKey (private key) to true in @polkadot/util-keyring/pair/index.ts
-  pair.decodePkcs8(password, u8aFromString(jsonDecrypted.encoded));
-  if (pair.hasSecretKey()) {
-    return jsonDecrypted;
+  const isLocked = !pair.hasSecretKey();
+
+  console.log('Account locked: ', isLocked);
+
+  if (isLocked) {
+    try {
+      console.log('Decrypting the pair with password to generate the secret key in keyring memory');
+      pair.decodePkcs8(password);
+
+      console.log('Obtaining account JSON using password with secret key now in keyring memory');
+      jsonDecrypted = keyring.toJson(_address, password);
+      return jsonDecrypted;
+    } catch (error) {
+      console.error('Unable to decrypt account with given password: ', error);
+      return;
+    }
+  } else {
+    try {
+      console.log('Obtaining account JSON using password with secret key already in keyring memory');
+      jsonDecrypted = keyring.toJson(_address, password);
+      return jsonDecrypted;
+    } catch (error) {
+      console.error('Unable to decrypt account without password: ', error);
+      return;
+    }
   }
   return;
 }

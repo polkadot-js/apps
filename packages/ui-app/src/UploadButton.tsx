@@ -85,18 +85,27 @@ class UploadButton extends React.PureComponent<Props, State> {
     fileReader.readAsText(fileToUpload);
   }
 
-  processUploadedFileStorage = () => {
+  processUploadedFileStorage = (): boolean => {
     const { password, uploadedFileKeyringPair } = this.state;
     const json: KeyringPair$Json | undefined = uploadedFileKeyringPair;
 
     try {
       if (json && Object.keys(json).length) {
         // FIXME - does not force browser to refresh if account address added to local storage
-        keyring.restoreAccount(json, password);
+        const isRestored = keyring.restoreAccount(json, password);
+        if (isRestored) {
+          this.hidePasswordModal();
+
+          this.forceUpdate();
+
+          // FIXME - remove secret key that was generated in memory for the purpose of the one-off download
+          return true;
+        }
       }
     } catch (e) {
       console.error('Error processing uploaded file to local storage: ', e);
     }
+    return false;
   }
 
   showPasswordModal = (): void => {

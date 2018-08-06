@@ -58,18 +58,20 @@ class DownloadButton extends React.PureComponent<Props, State> {
     try {
       const json: KeyringPair$Json | void = keyring.backupAccount(address, password);
 
-      console.log('json', json);
-
       if (!isUndefined(json)) {
         const blob: Blob = new Blob([JSON.stringify(json)], { type: 'text/plain;charset=utf-8' });
 
         FileSaver.saveAs(blob, `paritytech-polkadot-publickey-${address}.json`);
+
+        // FIXME - remove secret key that was generated in memory for the purpose of the one-off download
       } else {
         console.error('Error obtaining account data to save to file');
       }
     } catch (e) {
       console.error('Error retrieving account from local storage and saving account to file: ', e);
     }
+
+    this.hidePasswordModal();
   }
 
   showPasswordModal = (): void => {

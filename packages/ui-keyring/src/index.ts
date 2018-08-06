@@ -37,7 +37,7 @@ const state: State = {
 loadAll(state);
 
 export default ({
-  backupAccount: (address: string, passphrase?: string): KeyringPair$Json | void =>
+  backupAccount: (address: string, passphrase: string): KeyringPair$Json | void =>
     backupAccount(state, address, passphrase),
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta): KeyringPair =>
     createAccount(state, seed, password, meta),
@@ -63,7 +63,7 @@ export default ({
     loadAccount(state, address, encoded, meta),
   loadAll: (): void =>
     loadAll(state),
-  restoreAccount: (json: KeyringPair$Json, passphrase?: string): void =>
+  restoreAccount: (json: KeyringPair$Json, passphrase?: string): boolean =>
     restoreAccount(state, json, passphrase),
   saveAccount: (pair: KeyringPair, password?: string): void =>
     saveAccount(state, pair, password),
