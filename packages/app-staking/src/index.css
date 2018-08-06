@@ -12,12 +12,15 @@
 }
 
 .staking--Account {
-  margin-bottom: 1rem;
+  background: #f9f9f9;
+  border-radius: 0.25rem;
+  display: inline-block;
+  margin: 1rem;
+  padding: 1rem;
 }
 
 .staking--Account .ui--Button-Group {
   display: inline-block;
-  margin-top: 1.25rem;
   margin-left: 1em;
   vertical-align: top;
 }

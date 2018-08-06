@@ -12,13 +12,12 @@ import BN from 'bn.js';
 import React from 'react';
 import extrinsics from '@polkadot/extrinsics';
 import storage from '@polkadot/storage';
+import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
 import Icon from '@polkadot/ui-app/Icon';
 import Input from '@polkadot/ui-app/Input';
 import classes from '@polkadot/ui-app/util/classes';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
-import RxBalance from '@polkadot/ui-react-rx/Balance';
-import RxNonce from '@polkadot/ui-react-rx/Nonce';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withStorage from '@polkadot/ui-react-rx/with/storage';
 import decodeAddress from '@polkadot/util-keyring/address/decode';
@@ -28,9 +27,9 @@ import UnnominateButton from './UnnominateButton';
 import translate from './translate';
 
 type Props = I18nProps & {
+  accountIndex?: BN,
   address: string,
   name: string,
-  nonce?: BN,
   nominating?: string,
   nominatorsFor?: Array<string>,
   intentionPosition: number,
@@ -43,8 +42,7 @@ type Props = I18nProps & {
 type State = {
   isInNominate: boolean,
   isNomineeValid: boolean,
-  nominee: string,
-  nonce: BN
+  nominee: string
 };
 
 class Account extends React.PureComponent<Props, State> {
@@ -54,21 +52,29 @@ class Account extends React.PureComponent<Props, State> {
     this.state = {
       isInNominate: false,
       isNomineeValid: false,
-      nonce: new BN(0),
       nominee: ''
     };
   }
 
   render () {
-    const { className, style } = this.props;
+    const { address, className, isValidator, name, style } = this.props;
 
     return (
       <div
         className={classes('staking--Account', className)}
         style={style}
       >
-        {this.renderAccount()}
-        {this.renderButtons()}
+        <AddressSummary
+          name={name}
+          value={address}
+        >
+          <Icon
+            className={classes('staking--Account-validating', isValidator ? 'isValidator' : '')}
+            name='certificate'
+            size='large'
+          />
+          {this.renderButtons()}
+        </AddressSummary>
         {this.renderNominate()}
       </div>
     );
@@ -97,22 +103,6 @@ class Account extends React.PureComponent<Props, State> {
             <div className='staking--Account-address'>{address}</div>
           </div>
         </div>
-        <RxBalance
-          className='staking--Account-balance'
-          label={t('account.balance', {
-            defaultValue: 'balance '
-          })}
-          params={address}
-        />
-        <RxNonce
-          className='staking--Account-nonce'
-          onChange={this.onChangeNonce}
-          params={address}
-        >
-          {t('account.transactions', {
-            defaultValue: ' transactions'
-          })}
-        </RxNonce>
       </div>
     );
   }
@@ -228,13 +218,12 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private send (extrinsic: SectionItem<Extrinsics>, values: Array<RawParam$Value>) {
-    const { address, queueExtrinsic } = this.props;
-    const { nonce } = this.state;
+    const { accountIndex = new BN(0), address, queueExtrinsic } = this.props;
     const publicKey = decodeAddress(address);
 
     queueExtrinsic({
       extrinsic,
-      nonce,
+      nonce: accountIndex,
       publicKey,
       values
     });
@@ -278,10 +267,6 @@ class Account extends React.PureComponent<Props, State> {
 
     this.send(extrinsics.staking.public.unstake, [intentionPosition]);
   }
-
-  private onChangeNonce = (nonce: BN) => {
-    this.setState({ nonce });
-  }
 }
 
 export default withMulti(
@@ -302,6 +287,13 @@ export default withMulti(
       propName: 'nominating',
       paramProp: 'address',
       transform: encodeAddress
+    }
+  ),
+  withStorage(
+    storage.system.public.accountIndexOf,
+    {
+      propName: 'accountIndex',
+      paramProp: 'address'
     }
   )
 );
