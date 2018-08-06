@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
@@ -6,18 +6,21 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
-import CopyButton from '@polkadot/ui-app/CopyButton';
-import classes from '@polkadot/ui-app/util/classes';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Balance from '@polkadot/ui-react-rx/Balance';
 import Nonce from '@polkadot/ui-react-rx/Nonce';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
+import classes from './util/classes';
+import CopyButton from './CopyButton';
 import translate from './translate';
 
 type Props = I18nProps & {
-  value: string;
+  name?: string,
+  value: string,
+  withBalance?: boolean,
+  withNonce?: boolean
 };
 
 type State = {
@@ -30,7 +33,7 @@ type State = {
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 const DEFAULT_SHORT = `${DEFAULT_ADDR.slice(0, 7)}…${DEFAULT_ADDR.slice(-7)}`;
 
-class Address extends React.PureComponent<Props, State> {
+class AddressSummary extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
   static getDerivedStateFromProps ({ value }: Props, { address, publicKey, shortValue }: State): State {
@@ -53,21 +56,24 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, style } = this.props;
+    const { className, name, style } = this.props;
     const { address, isValid, shortValue } = this.state;
 
     return (
       <div
-        className={classes('accounts--Address', !isValid && 'invalid', className)}
+        className={classes('ui--AddressSummary', !isValid && 'invalid', className)}
         style={style}
       >
         <IdentityIcon
-          className='accounts--Address-icon'
+          className='ui--AddressSummary-icon'
           size={96}
           value={address}
         />
-        <div className='accounts--Address-data'>
-          <div className='accounts--Address-address'>
+        <div className='ui--AddressSummary-data'>
+          <div className='ui--AddressSummary-name'>
+            {name}
+          </div>
+          <div className='ui--AddressSummary-address'>
             {shortValue}
           </div>
           <CopyButton value={address} />
@@ -78,33 +84,42 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   renderBalance () {
-    const { t } = this.props;
     const { isValid, publicKey } = this.state;
 
     if (!isValid) {
       return null;
     }
 
+    const { t, withBalance = true, withNonce = true } = this.props;
+
     return [
-      <Balance
-        className='accounts--Address-balance'
-        key='balance'
-        label={t('address.balance', {
-          defaultValue: 'balance '
-        })}
-        params={publicKey}
-      />,
-      <Nonce
-        className='accounts--Address-nonce'
-        key='nonce'
-        params={publicKey}
-      >
-        {t('address.transactions', {
-          defaultValue: ' transactions'
-        })}
-      </Nonce>
+      withBalance
+        ? (
+          <Balance
+            className='ui--AddressSummary-balance'
+            key='balance'
+            label={t('addressSummary.balance', {
+              defaultValue: 'balance '
+            })}
+            params={publicKey}
+          />
+        )
+        : null,
+      withNonce
+        ? (
+          <Nonce
+            className='ui--AddressSummary-nonce'
+            key='nonce'
+            params={publicKey}
+          >
+            {t('addressSummary.transactions', {
+              defaultValue: ' transactions'
+            })}
+          </Nonce>
+        )
+        : null
     ];
   }
 }
 
-export default translate(Address);
+export default translate(AddressSummary);
