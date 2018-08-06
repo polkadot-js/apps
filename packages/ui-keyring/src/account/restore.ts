@@ -10,7 +10,7 @@ import store from 'store';
 import { accountKey } from '../defaults';
 import createOptions from '../options';
 
-export default function accountRestore (state: State, json: KeyringPair$Json, password?: string): KeyringPair | null {
+export default function accountRestore (state: State, json: KeyringPair$Json, password?: string): KeyringPair | undefined {
   const { available, keyring } = state;
 
   const _address = json.address;

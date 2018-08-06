@@ -34,7 +34,7 @@ export default class Password extends React.PureComponent<Props, State> {
 
   componentDidMount () {
     const passwordInputField = document.querySelectorAll('input[type=password]')[0];
-    passwordInputField.focus();
+    (passwordInputField as HTMLElement).focus();
   }
 
   render () {

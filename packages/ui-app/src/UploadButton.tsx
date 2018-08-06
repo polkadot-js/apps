@@ -4,7 +4,7 @@
 
 import { Button$Sizes } from './Button/types';
 import { BareProps, I18nProps } from './types';
-import { KeyringPair$Json } from '@polkadot/util-keyring/types';
+import { KeyringPair, KeyringPair$Json } from '@polkadot/util-keyring/types';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 
 import './UploadButton.css';
@@ -43,11 +43,6 @@ type Props = I18nProps & BareProps & {
   handleChangeAccount: any
 };
 
-type UnlockI18n = {
-  key: string,
-  value: any // I18Next$Translate$Config
-};
-
 class UploadButton extends React.PureComponent<Props, State> {
   state: State;
 
@@ -76,9 +71,9 @@ class UploadButton extends React.PureComponent<Props, State> {
           if (Object.keys(fileContents).includes('address' && 'encoding' && 'meta')) {
             const json: KeyringPair$Json | undefined = fileContents;
 
-            console.log('Load account keyring pair using account JSON into keyring memory');
+            const pair: KeyringPair = keyring.addFromJson(json as KeyringPair$Json);
 
-            keyring.addFromJson(json);
+            console.log('Load account keyring pair using account JSON into keyring memory: ', pair);
 
             // Store uploaded wallet in state and open modal to get their password for it
             this.setState(
@@ -106,7 +101,7 @@ class UploadButton extends React.PureComponent<Props, State> {
       () => {
         try {
           if (json && Object.keys(json).length) {
-            const pairRestored: KeyringPair = keyring.restoreAccount(json, password);
+            const pairRestored: KeyringPair | void = keyring.restoreAccount(json, password);
             if (pairRestored) {
               this.hidePasswordModal();
 
@@ -126,6 +121,7 @@ class UploadButton extends React.PureComponent<Props, State> {
         return false;
       }
     );
+    return false;
   }
 
   showPasswordModal = (): void => {

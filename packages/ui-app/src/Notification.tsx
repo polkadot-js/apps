@@ -6,11 +6,11 @@ import { BareProps, UnlockI18n } from './types';
 
 import React from 'react';
 
-import { Message } from 'semantic-ui-react';
+import Message from 'semantic-ui-react/dist/commonjs/collections/Message/index';
 
 type Props = BareProps & {
   error?: UnlockI18n | null,
-  size?: string
+  size?: 'mini' | 'tiny' | 'small' | 'large' | 'big' | 'huge' | 'massive'
 };
 
 export default class Notifications extends React.PureComponent<Props> {
@@ -21,7 +21,7 @@ export default class Notifications extends React.PureComponent<Props> {
       return null;
     }
 
-    const renderMessageBody = (error) => {
+    const renderMessageBody = (error: UnlockI18n) => {
       return (
         <div>
           {/* <Message.Header>{error.key}</Message.Header> */}

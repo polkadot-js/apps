@@ -23,6 +23,7 @@ type Props = I18nProps & {
 
 type State = {
   isError: boolean,
+  error?: UnlockI18n | null,
   isLocked: boolean,
   pair: KeyringPair
 };

@@ -8,7 +8,7 @@ import React from 'react';
 
 import UploadButton from '@polkadot/ui-app/UploadButton';
 
-export default function showUploadButton (size?: Button$Sizes, handleChangeAccount: any): any {
+export default function showUploadButton (size?: Button$Sizes, handleChangeAccount?: any): any {
   return (
     <div className='accounts--Address-file'>
       <UploadButton size={size} handleChangeAccount={handleChangeAccount} />

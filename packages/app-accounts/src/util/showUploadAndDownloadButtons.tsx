@@ -7,7 +7,7 @@ import React from 'react';
 import DownloadButton from '@polkadot/ui-app/DownloadButton';
 import UploadButton from '@polkadot/ui-app/UploadButton';
 
-export default function showUploadAndDownloadButtons (address: string, handleChangeAccount: any): any {
+export default function showUploadAndDownloadButtons (address: string, handleChangeAccount?: any): any {
   return (
     <div className='accounts--Address-file'>
       <DownloadButton address={address} />
