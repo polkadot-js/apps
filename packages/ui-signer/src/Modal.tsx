@@ -166,10 +166,20 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  unlockAccount (publicKey: Uint8Array, password?: string): UnlockI18n | null {
+  private lockAccount (publicKey: Uint8Array): void {
     const pair = keyring.getPair(publicKey);
 
-    if (pair.hasSecretKey()) {
+    if (pair.getMeta().unlockStrategy === 'session') {
+      return;
+    }
+
+    pair.lock();
+  }
+
+  private unlockAccount (publicKey: Uint8Array, password?: string): UnlockI18n | null {
+    const pair = keyring.getPair(publicKey);
+
+    if (!pair.isLocked()) {
       return null;
     }
 
@@ -239,6 +249,7 @@ class Signer extends React.PureComponent<Props, State> {
           publicKey, nonce, (data[0] as Uint8Array), apiSupport
         ).data
       ];
+      this.lockAccount(publicKey);
     }
 
     const { error, result, status } = await submitMessage(api, data, rpc);

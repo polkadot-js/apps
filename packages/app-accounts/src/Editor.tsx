@@ -4,6 +4,7 @@
 
 import { KeyringPair } from '@polkadot/util-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { UnlockStrategy } from './types';
 
 import React from 'react';
 
@@ -24,6 +25,7 @@ type State = {
   currentPair: KeyringPair | null,
   defaultValue?: string,
   editedName: string,
+  editedStrategy: UnlockStrategy,
   isEdited: boolean
 };
 
@@ -143,11 +145,14 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   createState (currentPair: KeyringPair | null): State {
+    const meta = currentPair
+      ? currentPair.getMeta()
+      : {};
+
     return {
       currentPair,
-      editedName: currentPair
-        ? currentPair.getMeta().name || ''
-        : '',
+      editedName: meta.name || '',
+      editedStrategy: meta.unlockStrategy || 'use',
       isEdited: false
     };
   }
@@ -155,23 +160,28 @@ class Editor extends React.PureComponent<Props, State> {
   nextState (newState: State = {} as State): void {
     this.setState(
       (prevState: State): State => {
-        let { currentPair = prevState.currentPair, editedName = prevState.editedName } = newState;
+        let { currentPair = prevState.currentPair, editedName = prevState.editedName, editedStrategy = prevState.editedStrategy } = newState;
         const previous = prevState.currentPair || { address: () => null };
         let isEdited = false;
 
         if (currentPair) {
+          const meta = currentPair.getMeta();
+
           if (currentPair.address() !== previous.address()) {
-            editedName = currentPair.getMeta().name || '';
-          } else if (editedName !== currentPair.getMeta().name) {
+            editedName = meta.name || '';
+            editedStrategy = meta.editedStrategy || 'use';
+          } else if (editedName !== meta.name || editedStrategy !== meta.unlockStrategy) {
             isEdited = true;
           }
         } else {
           editedName = '';
+          editedStrategy = 'use';
         }
 
         return {
           currentPair,
           editedName,
+          editedStrategy,
           isEdited
         };
       }
@@ -190,8 +200,12 @@ class Editor extends React.PureComponent<Props, State> {
     this.nextState({ editedName } as State);
   }
 
+  onChangeUnlockStrategy = (editedStrategy: UnlockStrategy): void => {
+    this.nextState({ editedStrategy } as State);
+  }
+
   onCommit = (): void => {
-    const { currentPair, editedName } = this.state;
+    const { currentPair, editedName, editedStrategy } = this.state;
 
     if (!currentPair) {
       return;
@@ -199,8 +213,13 @@ class Editor extends React.PureComponent<Props, State> {
 
     keyring.saveAccountMeta(currentPair, {
       name: editedName,
+      unlockStrategy: editedStrategy,
       whenEdited: Date.now()
     });
+
+    if (editedStrategy === 'use') {
+      currentPair.lock();
+    }
 
     this.nextState({} as State);
   }
@@ -212,8 +231,11 @@ class Editor extends React.PureComponent<Props, State> {
       return;
     }
 
+    const meta = currentPair.getMeta();
+
     this.nextState({
-      editedName: currentPair.getMeta().name
+      editedName: meta.name,
+      editedStrategy: meta.updateStrategy || 'use'
     } as State);
   }
 
