@@ -17,6 +17,7 @@ import CopyButton from './CopyButton';
 import translate from './translate';
 
 type Props = I18nProps & {
+  children?: React.ReactNode,
   name?: string,
   value: string,
   withBalance?: boolean,
@@ -56,7 +57,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, name, style } = this.props;
+    const { children, className, name, style } = this.props;
     const { address, isValid, shortValue } = this.state;
 
     return (
@@ -64,21 +65,26 @@ class AddressSummary extends React.PureComponent<Props, State> {
         className={classes('ui--AddressSummary', !isValid && 'invalid', className)}
         style={style}
       >
-        <IdentityIcon
-          className='ui--AddressSummary-icon'
-          size={96}
-          value={address}
-        />
-        <div className='ui--AddressSummary-data'>
-          <div className='ui--AddressSummary-name'>
-            {name}
+        <div className='ui--AddressSummary-base'>
+          <IdentityIcon
+            className='ui--AddressSummary-icon'
+            size={96}
+            value={address}
+          />
+          <div className='ui--AddressSummary-data'>
+            <div className='ui--AddressSummary-name'>
+              {name}
+            </div>
+            <div className='ui--AddressSummary-address'>
+              {shortValue}
+            </div>
+            <CopyButton value={address} />
           </div>
-          <div className='ui--AddressSummary-address'>
-            {shortValue}
-          </div>
-          <CopyButton value={address} />
+          {this.renderBalance()}
         </div>
-        {this.renderBalance()}
+        <div className='ui--AddressSummary-children'>
+          {children}
+        </div>
       </div>
     );
   }

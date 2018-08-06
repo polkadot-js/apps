@@ -34,6 +34,13 @@
 .ui--AddressSummary {
   padding: 0 2em;
   text-align: center;
+  white-space: nowrap
+}
+
+.ui--AddressSummary .ui--AddressSummary-base,
+.ui--AddressSummary .ui--AddressSummary-children {
+  display: inline-block;
+  vertical-align: top;
 }
 
 .ui--AddressSummary .rx--updated {
