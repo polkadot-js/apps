@@ -12,12 +12,12 @@ import BN from 'bn.js';
 import React from 'react';
 import extrinsics from '@polkadot/extrinsics';
 import storage from '@polkadot/storage';
+import AddressMini from '@polkadot/ui-app/AddressMini';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
 import Icon from '@polkadot/ui-app/Icon';
 import Input from '@polkadot/ui-app/Input';
 import classes from '@polkadot/ui-app/util/classes';
-import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withStorage from '@polkadot/ui-react-rx/with/storage';
 import decodeAddress from '@polkadot/util-keyring/address/decode';
@@ -57,7 +57,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { address, className, isValidator, name, style } = this.props;
+    const { address, className, isValidator, name, nominating, style } = this.props;
 
     return (
       <div
@@ -74,35 +74,9 @@ class Account extends React.PureComponent<Props, State> {
             size='large'
           />
           {this.renderButtons()}
+          <AddressMini value={nominating} />
         </AddressSummary>
         {this.renderNominate()}
-      </div>
-    );
-  }
-
-  private renderAccount () {
-    const { address, isValidator, name, t } = this.props;
-    // TODO: Still now sure what the best layout is, so just keeping the shortened around
-    // const addrShort = `${address.slice(0, 7)}…${address.slice(-7)}`;
-
-    return (
-      <div className='staking--Account-details'>
-        <div>
-          <Icon
-            className={classes('staking--Account-validating', isValidator ? 'isValidator' : '')}
-            name='certificate'
-            size='large'
-          />
-          <IdentityIcon
-            className='staking--Account-icon'
-            size={32}
-            value={address}
-          />
-          <div className='staking--Account-info'>
-            <div className='staking--Account-name'>{name}</div>
-            <div className='staking--Account-address'>{address}</div>
-          </div>
-        </div>
       </div>
     );
   }
