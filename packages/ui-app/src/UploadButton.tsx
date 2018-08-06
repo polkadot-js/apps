@@ -68,7 +68,7 @@ class UploadButton extends React.PureComponent<Props, State> {
         if (!isUndefined(e) && e.target !== null) {
           const fileContents: any = JSON.parse(e.target.result);
 
-          if (Object.keys(fileContents).includes('address' && 'encoding' && 'encoded' && 'meta')) {
+          if (Object.keys(fileContents).includes('address' && 'encoding' && 'meta')) {
             const json: KeyringPair$Json | undefined = fileContents;
 
             // store uploaded wallet in state and open modal to get their password for it
@@ -108,9 +108,10 @@ class UploadButton extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { address, isPasswordModalOpen } = this.state;
+    const { uploadedFileKeyringPair, isPasswordModalOpen } = this.state;
     const { className, icon = 'upload', isCircular = true, isPrimary = true, size = 'tiny', style } = this.props;
     let shortValue = '';
+    const address = uploadedFileKeyringPair && uploadedFileKeyringPair.address;
 
     if (address) {
       // TODO - do not duplicate this from Address component. move into common utility for reuse
@@ -164,10 +165,10 @@ class UploadButton extends React.PureComponent<Props, State> {
   }
 
   renderContent () {
-    const { address } = this.state;
+    const { uploadedFileKeyringPair } = this.state;
 
     // FIXME - need to refresh the page after creating an account since the address won't be available
-    if (!address) {
+    if (isUndefined(uploadedFileKeyringPair) || !uploadedFileKeyringPair.address) {
       return null;
     }
 
@@ -180,13 +181,15 @@ class UploadButton extends React.PureComponent<Props, State> {
 
   renderUnlock () {
     const { t } = this.props;
-    const { address, password, unlockError } = this.state;
+    const { uploadedFileKeyringPair, password, unlockError } = this.state;
 
-    if (!address) {
+    if (isUndefined(uploadedFileKeyringPair) || !uploadedFileKeyringPair.address) {
       return null;
     }
 
-    const keyringAddress: KeyringAddress = keyring.getAddress(address);
+    keyring.loadAccount(uploadedFileKeyringPair.address, uploadedFileKeyringPair as KeyringPair$Json, uploadedFileKeyringPair.meta);
+
+    const keyringAddress: KeyringAddress = keyring.getAddress(uploadedFileKeyringPair.address);
 
     return (
       <Unlock
@@ -270,9 +273,9 @@ class UploadButton extends React.PureComponent<Props, State> {
   }
 
   onSubmit = (): void => {
-    const { address } = this.state;
+    const { uploadedFileKeyringPair } = this.state;
 
-    if (!address) {
+    if (isUndefined(uploadedFileKeyringPair) || !uploadedFileKeyringPair.address) {
       return;
     }
 

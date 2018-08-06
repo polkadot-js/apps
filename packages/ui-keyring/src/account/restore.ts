@@ -9,38 +9,28 @@ import u8aFromString from '@polkadot/util/u8a/fromString';
 
 import store from 'store';
 
-import saveAccount from './save';
 import { accountKey } from '../defaults';
 import createOptions from '../options';
 
-// Upload - account creation. takes values, encrypts it and stores in localStorage.
-// (And displays the account in the drop down)
 export default function accountRestore (state: State, json: KeyringPair$Json, password?: string): void {
   const { available, keyring } = state;
 
   const _address = json.address;
 
   if (_address) {
-
-    // reference: loadAll
-    keyring.addFromJson(json as KeyringPair$Json);
+    // load the account into keyring memory
+    const pair = keyring.addFromJson(json);
     available.account[_address] = json;
 
-    // this is done in save.ts
-    // createOptions(state);
-
-    const pair: KeyringPair = keyring.getPair(_address);
-
-    // FIXME - resolve why getting `ExtError: Unable to unencrypt using the supplied passphrase` when correct passphrase provided
-    // Note: Use KeyringInstance, not Pair (otherwise it requires secret key)
-    // const jsonDecrypted: KeyringPair$Json = pair.toJson(password);
-
-    // if password correct it sets hasSecretKey (private key) to true in @polkadot/util-keyring/pair/index.ts
-    pair.decodePkcs8(password, u8aFromString(json.encoded));
-    if (pair.hasSecretKey()) {
-      const jsonDecrypted: KeyringPair$Json = keyring.toJson(_address, password);
-
-      saveAccount(state, pair, password);
+    // unlock account
+    try {
+      pair.decodePkcs8(password);
+    } catch (error) {
+      console.error('Unable to restore account when invalid password provided');
     }
+
+    store.set(accountKey(_address), json);
+
+    createOptions(state);
   }
 }
