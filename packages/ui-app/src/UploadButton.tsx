@@ -106,7 +106,6 @@ class UploadButton extends React.PureComponent<Props, State> {
       () => {
         try {
           if (json && Object.keys(json).length) {
-            // FIXME - does not force browser to refresh if account address added to local storage
             const pairRestored: KeyringPair = keyring.restoreAccount(json, password);
             if (pairRestored) {
               this.hidePasswordModal();
