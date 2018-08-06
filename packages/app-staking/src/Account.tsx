@@ -16,13 +16,13 @@ import AddressMini from '@polkadot/ui-app/AddressMini';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
 import Icon from '@polkadot/ui-app/Icon';
-import Input from '@polkadot/ui-app/Input';
 import classes from '@polkadot/ui-app/util/classes';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withStorage from '@polkadot/ui-react-rx/with/storage';
 import decodeAddress from '@polkadot/util-keyring/address/decode';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 
+import Nominating from './Nominating';
 import UnnominateButton from './UnnominateButton';
 import translate from './translate';
 
@@ -40,9 +40,7 @@ type Props = I18nProps & {
 };
 
 type State = {
-  isInNominate: boolean,
-  isNomineeValid: boolean,
-  nominee: string
+  isNominateOpen: boolean
 };
 
 class Account extends React.PureComponent<Props, State> {
@@ -50,20 +48,25 @@ class Account extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      isInNominate: false,
-      isNomineeValid: false,
-      nominee: ''
+      isNominateOpen: false
     };
   }
 
   render () {
-    const { address, className, isValidator, name, nominating, style } = this.props;
+    const { address, className, isValidator, name, nominating, style, validators } = this.props;
+    const { isNominateOpen } = this.state;
 
     return (
       <div
         className={classes('staking--Account', className)}
         style={style}
       >
+        <Nominating
+          isOpen={isNominateOpen}
+          onClose={this.toggleNominate}
+          onNominate={this.nominate}
+          validators={validators}
+        />
         <AddressSummary
           name={name}
           value={address}
@@ -76,18 +79,11 @@ class Account extends React.PureComponent<Props, State> {
           {this.renderButtons()}
           <AddressMini value={nominating} />
         </AddressSummary>
-        {this.renderNominate()}
       </div>
     );
   }
 
   private renderButtons () {
-    const { isInNominate } = this.state;
-
-    if (isInNominate) {
-      return null;
-    }
-
     const { address, isIntending, nominating, t } = this.props;
     const isNominating = !!nominating;
     const canStake = !isIntending && !isNominating;
@@ -145,52 +141,6 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderNominate () {
-    const { isInNominate, isNomineeValid, nominee } = this.state;
-
-    if (!isInNominate) {
-      return null;
-    }
-
-    const { t } = this.props;
-
-    return (
-      <div className='staking--Account-nominate'>
-        <div className='ui--row'>
-          <Input
-            className='medium'
-            isError={!isNomineeValid}
-            label={t('nominator.address', {
-              defaultValue: 'nominate the following validator'
-            })}
-            onChange={this.onChangeNominee}
-            value={nominee}
-          />
-        </div>
-        <div className='ui--row'>
-          <div className='medium'>
-          <Button.Group>
-            <Button
-              onClick={this.toggleNominate}
-              text={t('nominators.discard', {
-                defaultValue: 'Cancel'
-              })}
-            />
-            <Button
-              isDisabled={!isNomineeValid}
-              isPrimary
-              onClick={this.nominate}
-              text={t('nominator.nominate', {
-                defaultValue: 'nominate'
-              })}
-            />
-          </Button.Group>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   private send (extrinsic: SectionItem<Extrinsics>, values: Array<RawParam$Value>) {
     const { accountIndex = new BN(0), address, queueExtrinsic } = this.props;
     const publicKey = decodeAddress(address);
@@ -205,24 +155,13 @@ class Account extends React.PureComponent<Props, State> {
 
   private toggleNominate = () => {
     this.setState(
-      ({ isInNominate }: State) => ({
-        isInNominate: !isInNominate
+      ({ isNominateOpen }: State) => ({
+        isNominateOpen: !isNominateOpen
       })
     );
   }
 
-  private onChangeNominee = (nominee: string) => {
-    const { validators } = this.props;
-
-    this.setState({
-      isNomineeValid: validators.includes(nominee),
-      nominee
-    });
-  }
-
-  private nominate = () => {
-    const { nominee } = this.state;
-
+  private nominate = (nominee: string) => {
     this.send(extrinsics.staking.public.nominate, [nominee]);
 
     this.toggleNominate();
