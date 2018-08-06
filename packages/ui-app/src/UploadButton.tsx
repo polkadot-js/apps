@@ -39,7 +39,8 @@ type Props = I18nProps & BareProps & {
   icon?: string,
   isCircular?: boolean,
   isPrimary?: boolean,
-  size?: Button$Sizes
+  size?: Button$Sizes,
+  handleChangeAccount: any
 };
 
 type UnlockI18n = {
@@ -96,6 +97,7 @@ class UploadButton extends React.PureComponent<Props, State> {
 
   processUploadedFileStorage = (): boolean => {
     const { password, uploadedFileKeyringPair } = this.state;
+    const { handleChangeAccount } = this.props;
     const json: KeyringPair$Json | undefined = uploadedFileKeyringPair;
 
     // Reset password so it is not pre-populated on the form on subsequent uploads
@@ -105,9 +107,11 @@ class UploadButton extends React.PureComponent<Props, State> {
         try {
           if (json && Object.keys(json).length) {
             // FIXME - does not force browser to refresh if account address added to local storage
-            const isRestored = keyring.restoreAccount(json, password);
-            if (isRestored) {
+            const pairRestored: KeyringPair = keyring.restoreAccount(json, password);
+            if (pairRestored) {
               this.hidePasswordModal();
+
+              handleChangeAccount(pairRestored.publicKey());
 
               return true;
             } else {

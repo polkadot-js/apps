@@ -10,7 +10,7 @@ import store from 'store';
 import { accountKey } from '../defaults';
 import createOptions from '../options';
 
-export default function accountRestore (state: State, json: KeyringPair$Json, password?: string): boolean {
+export default function accountRestore (state: State, json: KeyringPair$Json, password?: string): KeyringPair | null {
   const { available, keyring } = state;
 
   const _address = json.address;
@@ -31,11 +31,11 @@ export default function accountRestore (state: State, json: KeyringPair$Json, pa
       // FIXME - console.log('Remove secret key from keyring memory');
       // pair.lock();
 
-      return true;
+      return pair;
     } catch (error) {
       console.error('Unable to restore account when invalid password provided');
-      return false;
+      return;
     }
   }
-  return false;
+  return;
 }

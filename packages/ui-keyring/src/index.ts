@@ -63,7 +63,7 @@ export default ({
     ),
   loadAll: (): void =>
     loadAll(state),
-  restoreAccount: (json: KeyringPair$Json, passphrase?: string): boolean =>
+  restoreAccount: (json: KeyringPair$Json, passphrase?: string): KeyringPair | void =>
     restoreAccount(state, json, passphrase),
   saveAccount: (pair: KeyringPair, password?: string): void =>
     saveAccount(state, pair, password),
