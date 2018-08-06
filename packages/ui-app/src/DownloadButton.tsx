@@ -55,21 +55,27 @@ class DownloadButton extends React.PureComponent<Props, State> {
   handleDownloadAccount = (): void => {
     const { address, password } = this.state;
 
-    try {
-      const json: KeyringPair$Json | void = keyring.backupAccount(address, password);
+    // Reset password so it is not pre-populated on the form on subsequent uploads
+    this.setState(
+      { password: '' },
+      () => {
+        try {
+          const json: KeyringPair$Json | void = keyring.backupAccount(address, password);
 
-      if (!isUndefined(json)) {
-        const blob: Blob = new Blob([JSON.stringify(json)], { type: 'text/plain;charset=utf-8' });
+          if (!isUndefined(json)) {
+            const blob: Blob = new Blob([JSON.stringify(json)], { type: 'text/plain;charset=utf-8' });
 
-        FileSaver.saveAs(blob, `paritytech-polkadot-publickey-${address}.json`);
-      } else {
-        console.error('Error obtaining account data to save to file');
+            FileSaver.saveAs(blob, `paritytech-polkadot-publickey-${address}.json`);
+          } else {
+            console.error('Error obtaining account data to save to file');
+          }
+        } catch (e) {
+          console.error('Error retrieving account from local storage and saving account to file: ', e);
+        }
+
+        this.hidePasswordModal();
       }
-    } catch (e) {
-      console.error('Error retrieving account from local storage and saving account to file: ', e);
-    }
-
-    this.hidePasswordModal();
+    );
   }
 
   showPasswordModal = (): void => {
@@ -212,7 +218,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
     this.setState(
       (prevState: State, props: Props): State => {
         const {
-          password = prevState.password,
+          password = '',
           isPasswordModalOpen = prevState.isPasswordModalOpen,
           unlockError = prevState.unlockError
         } = newState;

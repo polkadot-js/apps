@@ -92,20 +92,26 @@ class UploadButton extends React.PureComponent<Props, State> {
     const { password, uploadedFileKeyringPair } = this.state;
     const json: KeyringPair$Json | undefined = uploadedFileKeyringPair;
 
-    try {
-      if (json && Object.keys(json).length) {
-        // FIXME - does not force browser to refresh if account address added to local storage
-        const isRestored = keyring.restoreAccount(json, password);
-        if (isRestored) {
-          this.hidePasswordModal();
+    // Reset password so it is not pre-populated on the form on subsequent uploads
+    this.setState(
+      { password: '' },
+      () => {
+        try {
+          if (json && Object.keys(json).length) {
+            // FIXME - does not force browser to refresh if account address added to local storage
+            const isRestored = keyring.restoreAccount(json, password);
+            if (isRestored) {
+              this.hidePasswordModal();
 
-          return true;
+              return true;
+            }
+          }
+        } catch (e) {
+          console.error('Error processing uploaded file to local storage: ', e);
         }
+        return false;
       }
-    } catch (e) {
-      console.error('Error processing uploaded file to local storage: ', e);
-    }
-    return false;
+    );
   }
 
   showPasswordModal = (): void => {
@@ -251,7 +257,7 @@ class UploadButton extends React.PureComponent<Props, State> {
       (prevState: State, props: Props): State => {
         const {
           address = prevState.address,
-          password = prevState.password,
+          password = '',
           isPasswordModalOpen = prevState.isPasswordModalOpen,
           unlockError = prevState.unlockError,
           uploadedFileKeyringPair = prevState.uploadedFileKeyringPair
