@@ -47,7 +47,8 @@ class Unlock extends React.PureComponent<Props, State> {
 
     console.log('state: ', this.state);
     if (!isLocked) {
-      return null;
+      // FIXME - console.log('Remove secret key from keyring memory');
+      // pair.lock();
     }
 
     return (

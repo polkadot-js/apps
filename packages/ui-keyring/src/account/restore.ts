@@ -21,13 +21,16 @@ export default function accountRestore (state: State, json: KeyringPair$Json, pa
     const pair: KeyringPair = keyring.addFromJson(json);
     available.account[_address] = json;
 
-    // unlock account
     try {
       console.log('Decrypting the pair with password to generate the secret key in keyring memory');
       pair.decodePkcs8(password);
 
       store.set(accountKey(_address), json);
       createOptions(state);
+
+      // FIXME - console.log('Remove secret key from keyring memory');
+      // pair.lock();
+
       return true;
     } catch (error) {
       console.error('Unable to restore account when invalid password provided');

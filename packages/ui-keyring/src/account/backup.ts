@@ -32,6 +32,10 @@ export default function accountBackup (state: State, _address: string, password:
 
       console.log('Obtaining account JSON using password with secret key now in keyring memory');
       jsonDecrypted = keyring.toJson(_address, password);
+
+      // FIXME - console.log('Remove secret key from keyring memory');
+      // pair.lock();
+
       return jsonDecrypted;
     } catch (error) {
       console.error('Unable to decrypt account with given password: ', error);
@@ -41,6 +45,10 @@ export default function accountBackup (state: State, _address: string, password:
     try {
       console.log('Obtaining account JSON using password with secret key already in keyring memory');
       jsonDecrypted = keyring.toJson(_address, password);
+
+      // FIXME - console.log('Remove secret key from keyring memory');
+      // pair.lock();
+
       return jsonDecrypted;
     } catch (error) {
       console.error('Unable to decrypt account without password: ', error);

@@ -96,9 +96,6 @@ class UploadButton extends React.PureComponent<Props, State> {
         if (isRestored) {
           this.hidePasswordModal();
 
-          this.forceUpdate();
-
-          // FIXME - remove secret key that was generated in memory for the purpose of the one-off download
           return true;
         }
       }
