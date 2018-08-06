@@ -32,8 +32,7 @@ type Props = I18nProps & {
   name: string,
   nominating?: string,
   nominatorsFor?: Array<string>,
-  intentionPosition: number,
-  isIntending: boolean,
+  intentions: Array<string>,
   isValidator: boolean,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
   validators: Array<string>
@@ -53,7 +52,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { address, className, isValidator, name, nominating, style, validators } = this.props;
+    const { address, className, intentions, isValidator, name, nominating, style } = this.props;
     const { isNominateOpen } = this.state;
 
     return (
@@ -65,7 +64,7 @@ class Account extends React.PureComponent<Props, State> {
           isOpen={isNominateOpen}
           onClose={this.toggleNominate}
           onNominate={this.nominate}
-          validators={validators}
+          intentions={intentions}
         />
         <AddressSummary
           name={name}
@@ -84,7 +83,8 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { address, isIntending, nominating, t } = this.props;
+    const { address, intentions, nominating, t } = this.props;
+    const isIntending = intentions.includes(address);
     const isNominating = !!nominating;
     const canStake = !isIntending && !isNominating;
 
@@ -176,9 +176,9 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private unstake = () => {
-    const { intentionPosition } = this.props;
+    const { address, intentions } = this.props;
 
-    this.send(extrinsics.staking.public.unstake, [intentionPosition]);
+    this.send(extrinsics.staking.public.unstake, [intentions.indexOf(address)]);
   }
 }
 

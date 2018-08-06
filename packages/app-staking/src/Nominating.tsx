@@ -17,7 +17,7 @@ type Props = I18nProps & {
   isOpen: boolean,
   onClose: () => void,
   onNominate: (nominee: string) => void,
-  validators: Array<string>
+  intentions: Array<string>
 };
 
 type State = {
@@ -110,10 +110,10 @@ class Nominating extends React.PureComponent<Props> {
   }
 
   private onChangeNominee = (nominee: string) => {
-    const { validators } = this.props;
+    const { intentions } = this.props;
 
     this.setState({
-      isNomineeValid: validators.includes(nominee),
+      isNomineeValid: intentions.includes(nominee),
       nominee
     });
   }
