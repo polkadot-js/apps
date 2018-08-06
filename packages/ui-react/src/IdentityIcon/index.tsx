@@ -26,7 +26,7 @@ const DEFAULT_SIZE = 64;
 export default class IdentityIcon extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
-  static getDerivedStateFromProps ({ value, size }: Props, prevState: State): State | null {
+  static getDerivedStateFromProps ({ value }: Props, prevState: State): State | null {
     const address = isU8a(value) || isHex(value)
       ? encodeAddress(value)
       : value;
