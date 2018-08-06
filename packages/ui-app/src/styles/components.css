@@ -30,3 +30,54 @@
 .ui--Button-Group .button {
   border-radius: .28571429rem !important;
 }
+
+.ui--AddressSummary {
+  padding: 0 2em;
+  text-align: center;
+  white-space: nowrap
+}
+
+.ui--AddressSummary .ui--AddressSummary-base,
+.ui--AddressSummary .ui--AddressSummary-children {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.ui--AddressSummary .rx--updated {
+  background: transparent !important;
+}
+
+.ui--AddressSummary.invalid {
+  filter: grayscale(100);
+  opacity: 0.45;
+}
+
+.ui--AddressSummary-icon {
+  display: block
+}
+
+.ui--AddressSummary-balance,
+.ui--AddressSummary-nonce {
+  opacity: 0.45;
+}
+
+.ui--AddressSummary-balance.rx--updated,
+.ui--AddressSummary-nonce.rx--updated {
+  opacity: 1;
+}
+
+.ui--AddressSummary-data {
+  padding: 0.5em 0;
+}
+
+.ui--AddressSummary-data * {
+  margin: 0 0.25rem !important;
+  vertical-align: middle;
+}
+
+.ui--AddressSummary-address {
+  display: inline-block;
+  font-family: monospace;
+  font-size: 1.5em;
+  padding: 0;
+}

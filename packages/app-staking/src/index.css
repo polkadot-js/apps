@@ -12,12 +12,15 @@
 }
 
 .staking--Account {
-  margin-bottom: 1rem;
+  background: #f9f9f9;
+  border-radius: 0.25rem;
+  display: inline-block;
+  margin: 1rem;
+  padding: 1rem;
 }
 
 .staking--Account .ui--Button-Group {
   display: inline-block;
-  margin-top: 1.25rem;
   margin-left: 1em;
   vertical-align: top;
 }
@@ -35,6 +38,18 @@
 
 .staking--Account-nominate {
   padding: 0 0 3em 3em;
+}
+
+.staking--Account-nominating {
+  margin-top: 1rem;
+}
+
+.staking--Account-nominating * {
+  vertical-align: middle;
+}
+
+.staking--Account-nominating .ui--IdentityIcon {
+  margin-right: 0.25rem;
 }
 
 .staking--Account-info {

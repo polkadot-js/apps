@@ -13,7 +13,7 @@ import keyring from '@polkadot/ui-keyring/index';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
-import Address from '@polkadot/app-accounts/Address';
+import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -47,7 +47,7 @@ class Creator extends React.PureComponent<Props, State> {
         style={style}
       >
         <div className='ui--grid'>
-          <Address
+          <AddressSummary
             className='shrink'
             value={address}
           />

@@ -12,39 +12,34 @@ import BN from 'bn.js';
 import React from 'react';
 import extrinsics from '@polkadot/extrinsics';
 import storage from '@polkadot/storage';
+import AddressMini from '@polkadot/ui-app/AddressMini';
+import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
 import Icon from '@polkadot/ui-app/Icon';
-import Input from '@polkadot/ui-app/Input';
 import classes from '@polkadot/ui-app/util/classes';
-import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
-import RxBalance from '@polkadot/ui-react-rx/Balance';
-import RxNonce from '@polkadot/ui-react-rx/Nonce';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withStorage from '@polkadot/ui-react-rx/with/storage';
 import decodeAddress from '@polkadot/util-keyring/address/decode';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 
+import Nominating from './Nominating';
 import UnnominateButton from './UnnominateButton';
 import translate from './translate';
 
 type Props = I18nProps & {
+  accountIndex?: BN,
   address: string,
   name: string,
-  nonce?: BN,
   nominating?: string,
   nominatorsFor?: Array<string>,
-  intentionPosition: number,
-  isIntending: boolean,
+  intentions: Array<string>,
   isValidator: boolean,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
   validators: Array<string>
 };
 
 type State = {
-  isInNominate: boolean,
-  isNomineeValid: boolean,
-  nominee: string,
-  nonce: BN
+  isNominateOpen: boolean
 };
 
 class Account extends React.PureComponent<Props, State> {
@@ -52,79 +47,44 @@ class Account extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      isInNominate: false,
-      isNomineeValid: false,
-      nonce: new BN(0),
-      nominee: ''
+      isNominateOpen: false
     };
   }
 
   render () {
-    const { className, style } = this.props;
+    const { address, className, intentions, isValidator, name, nominating, style } = this.props;
+    const { isNominateOpen } = this.state;
 
     return (
       <div
         className={classes('staking--Account', className)}
         style={style}
       >
-        {this.renderAccount()}
-        {this.renderButtons()}
-        {this.renderNominate()}
-      </div>
-    );
-  }
-
-  private renderAccount () {
-    const { address, isValidator, name, t } = this.props;
-    // TODO: Still now sure what the best layout is, so just keeping the shortened around
-    // const addrShort = `${address.slice(0, 7)}…${address.slice(-7)}`;
-
-    return (
-      <div className='staking--Account-details'>
-        <div>
+        <Nominating
+          isOpen={isNominateOpen}
+          onClose={this.toggleNominate}
+          onNominate={this.nominate}
+          intentions={intentions}
+        />
+        <AddressSummary
+          name={name}
+          value={address}
+        >
           <Icon
             className={classes('staking--Account-validating', isValidator ? 'isValidator' : '')}
             name='certificate'
             size='large'
           />
-          <IdentityIcon
-            className='staking--Account-icon'
-            size={32}
-            value={address}
-          />
-          <div className='staking--Account-info'>
-            <div className='staking--Account-name'>{name}</div>
-            <div className='staking--Account-address'>{address}</div>
-          </div>
-        </div>
-        <RxBalance
-          className='staking--Account-balance'
-          label={t('account.balance', {
-            defaultValue: 'balance '
-          })}
-          params={address}
-        />
-        <RxNonce
-          className='staking--Account-nonce'
-          onChange={this.onChangeNonce}
-          params={address}
-        >
-          {t('account.transactions', {
-            defaultValue: ' transactions'
-          })}
-        </RxNonce>
+          {this.renderButtons()}
+          <AddressMini value={nominating} />
+        </AddressSummary>
       </div>
     );
   }
 
   private renderButtons () {
-    const { isInNominate } = this.state;
-
-    if (isInNominate) {
-      return null;
-    }
-
-    const { address, isIntending, nominating, t } = this.props;
+    const { address, intentions, nominating, t } = this.props;
+    const isIntending = intentions.includes(address);
     const isNominating = !!nominating;
     const canStake = !isIntending && !isNominating;
 
@@ -181,60 +141,13 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderNominate () {
-    const { isInNominate, isNomineeValid, nominee } = this.state;
-
-    if (!isInNominate) {
-      return null;
-    }
-
-    const { t } = this.props;
-
-    return (
-      <div className='staking--Account-nominate'>
-        <div className='ui--row'>
-          <Input
-            className='medium'
-            isError={!isNomineeValid}
-            label={t('nominator.address', {
-              defaultValue: 'nominate the following validator'
-            })}
-            onChange={this.onChangeNominee}
-            value={nominee}
-          />
-        </div>
-        <div className='ui--row'>
-          <div className='medium'>
-          <Button.Group>
-            <Button
-              onClick={this.toggleNominate}
-              text={t('nominators.discard', {
-                defaultValue: 'Cancel'
-              })}
-            />
-            <Button
-              isDisabled={!isNomineeValid}
-              isPrimary
-              onClick={this.nominate}
-              text={t('nominator.nominate', {
-                defaultValue: 'nominate'
-              })}
-            />
-          </Button.Group>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   private send (extrinsic: SectionItem<Extrinsics>, values: Array<RawParam$Value>) {
-    const { address, queueExtrinsic } = this.props;
-    const { nonce } = this.state;
+    const { accountIndex = new BN(0), address, queueExtrinsic } = this.props;
     const publicKey = decodeAddress(address);
 
     queueExtrinsic({
       extrinsic,
-      nonce,
+      nonce: accountIndex,
       publicKey,
       values
     });
@@ -242,24 +155,13 @@ class Account extends React.PureComponent<Props, State> {
 
   private toggleNominate = () => {
     this.setState(
-      ({ isInNominate }: State) => ({
-        isInNominate: !isInNominate
+      ({ isNominateOpen }: State) => ({
+        isNominateOpen: !isNominateOpen
       })
     );
   }
 
-  private onChangeNominee = (nominee: string) => {
-    const { validators } = this.props;
-
-    this.setState({
-      isNomineeValid: validators.includes(nominee),
-      nominee
-    });
-  }
-
-  private nominate = () => {
-    const { nominee } = this.state;
-
+  private nominate = (nominee: string) => {
     this.send(extrinsics.staking.public.nominate, [nominee]);
 
     this.toggleNominate();
@@ -274,13 +176,9 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private unstake = () => {
-    const { intentionPosition } = this.props;
+    const { address, intentions } = this.props;
 
-    this.send(extrinsics.staking.public.unstake, [intentionPosition]);
-  }
-
-  private onChangeNonce = (nonce: BN) => {
-    this.setState({ nonce });
+    this.send(extrinsics.staking.public.unstake, [intentions.indexOf(address)]);
   }
 }
 
@@ -302,6 +200,13 @@ export default withMulti(
       propName: 'nominating',
       paramProp: 'address',
       transform: encodeAddress
+    }
+  ),
+  withStorage(
+    storage.system.public.accountIndexOf,
+    {
+      propName: 'accountIndex',
+      paramProp: 'address'
     }
   )
 );
