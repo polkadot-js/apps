@@ -62,8 +62,6 @@ class DownloadButton extends React.PureComponent<Props, State> {
         const blob: Blob = new Blob([JSON.stringify(json)], { type: 'text/plain;charset=utf-8' });
 
         FileSaver.saveAs(blob, `paritytech-polkadot-publickey-${address}.json`);
-
-        // FIXME - remove secret key that was generated in memory for the purpose of the one-off download
       } else {
         console.error('Error obtaining account data to save to file');
       }
