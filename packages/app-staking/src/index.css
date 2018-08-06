@@ -6,6 +6,11 @@
   padding: 1em 2rem;
 }
 
+.staking--App-navigation.ui--Button-Group {
+  margin-bottom: 2em;
+  text-align: center;
+}
+
 .staking--Summary {
   margin-bottom: 2rem;
   text-align: right;

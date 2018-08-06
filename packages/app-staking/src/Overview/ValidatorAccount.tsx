@@ -25,13 +25,13 @@ import decodeAddress from '@polkadot/util-keyring/address/decode';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 import keyring from '@polkadot/ui-keyring/index';
 
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & {
   address: string,
   name: string,
   nonce?: BN,
-  queueExtrinsic: QueueTx$ExtrinsicAdd,
+  queueExtrinsic: QueueTx$ExtrinsicAdd
 };
 
 type State = {
@@ -43,7 +43,7 @@ class Account extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      nonce: new BN(0),
+      nonce: new BN(0)
     };
   }
 
@@ -62,7 +62,7 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderAccount () {
     const { address, name, t } = this.props;
-    const isMine = false; //keyring.getAccounts().includes(address)
+    const isMine = false; // keyring.getAccounts().includes(address)
 
     return (
       <div className='validator--Account-details'>
@@ -111,7 +111,6 @@ class Account extends React.PureComponent<Props, State> {
     });
   }
 
-
   private onChangeNonce = (nonce: BN) => {
     this.setState({ nonce });
   }
@@ -119,5 +118,5 @@ class Account extends React.PureComponent<Props, State> {
 
 export default withMulti(
   Account,
-  translate,
+  translate
 );

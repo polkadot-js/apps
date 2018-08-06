@@ -10,7 +10,7 @@ import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
-import translate from './translate';
+import translate from '../translate';
 import ValidatorAccount from './ValidatorAccount';
 
 type Props = I18nProps & {
