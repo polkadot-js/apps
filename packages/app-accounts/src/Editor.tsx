@@ -7,7 +7,6 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { Button$Sizes } from '@polkadot/ui-app/Button/types';
 
 import React from 'react';
-import store from 'store';
 
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
@@ -27,7 +26,6 @@ type Props = I18nProps & {
 };
 
 type State = {
-  accountAlreadySaved: boolean,
   currentPair: KeyringPair | null,
   defaultValue?: string,
   editedName: string,
@@ -47,33 +45,6 @@ class Editor extends React.PureComponent<Props, State> {
     this.state.defaultValue = currentPair
       ? currentPair.address()
       : void 0;
-  }
-
-  componentDidMount () {
-    if (this.isAccountAlreadySaved()) {
-      this.setState({
-        accountAlreadySaved: true
-      });
-    }
-  }
-
-  isAccountAlreadySaved = () => {
-    const { currentPair } = this.state;
-    if (!currentPair) {
-      return false;
-    }
-    const address = currentPair.address();
-    const localStorageAccountKey = accountKey(address);
-
-    try {
-      const localStorageAccountValue = store.get(localStorageAccountKey);
-
-      return isUndefined(localStorageAccountValue) ? false : true;
-    } catch (e) {
-      console.error('Error finding account from local storage: ', e);
-    }
-
-    return false;
   }
 
   render () {
@@ -191,7 +162,6 @@ class Editor extends React.PureComponent<Props, State> {
 
   createState (currentPair: KeyringPair | null): State {
     return {
-      accountAlreadySaved: false,
       currentPair,
       editedName: currentPair
         ? currentPair.getMeta().name || ''
@@ -203,7 +173,7 @@ class Editor extends React.PureComponent<Props, State> {
   nextState (newState: State = {} as State): void {
     this.setState(
       (prevState: State): State => {
-        let { currentPair = prevState.currentPair, editedName = prevState.editedName, accountAlreadySaved = prevState.accountAlreadySaved } = newState;
+        let { currentPair = prevState.currentPair, editedName = prevState.editedName } = newState;
         const previous = prevState.currentPair || { address: () => null };
         let isEdited = false;
 
@@ -218,7 +188,6 @@ class Editor extends React.PureComponent<Props, State> {
         }
 
         return {
-          accountAlreadySaved,
           currentPair,
           editedName,
           isEdited
