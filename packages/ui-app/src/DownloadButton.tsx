@@ -10,7 +10,6 @@ import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import './DownloadButton.css';
 
 import React from 'react';
-/// <reference path="./@types/file-saver/index.d.ts" />
 import FileSaver from 'file-saver';
 import keyring from '@polkadot/ui-keyring/index';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
