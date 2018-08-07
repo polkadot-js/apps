@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Observable } from 'rxjs/Observable';
 import { RxApiInterface } from '@polkadot/api-rx/types';
 import { Balance } from './types';
 
-import { combineLatest } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 
 import votingBalance from './votingBalance';
 
