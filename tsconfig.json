@@ -24,8 +24,7 @@
     },
     "typeRoots": [
       "./node_modules/@polkadot/ts",
-      "./node_modules/@types",
-      "packages/ui-app/src/@types"
+      "./node_modules/@types"
     ]
   }
 }
