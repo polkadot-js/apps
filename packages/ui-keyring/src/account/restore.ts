@@ -36,6 +36,5 @@ export default function accountRestore (state: State, json: KeyringPair$Json, pa
     return pair;
   } catch (error) {
     console.error('Unable to restore account when invalid password provided');
-    return;
   }
 }
