@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { RxApiInterface } from '@polkadot/api-rx/types';
 import { Balance } from './types';
 
-import { combineLatest } from 'rxjs/observable/combineLatest';
+import { combineLatest } from 'rxjs';
 
 import votingBalance from './votingBalance';
 

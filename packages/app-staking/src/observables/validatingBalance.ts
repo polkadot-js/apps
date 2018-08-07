@@ -7,10 +7,8 @@ import { RxApiInterface } from '@polkadot/api-rx/types';
 import { Balance } from './types';
 
 import BN from 'bn.js';
-import { combineLatest } from 'rxjs/observable/combineLatest';
-import { switchMap } from 'rxjs/operators/switchMap';
-import { toArray } from 'rxjs/operators/toArray';
-import { map } from 'rxjs/operators/map';
+import { combineLatest } from 'rxjs';
+import { map, switchMap, toArray } from 'rxjs/operators';
 import storage from '@polkadot/storage';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 

@@ -7,8 +7,8 @@ import { RxApiInterface } from '@polkadot/api-rx/types';
 import { Balance } from './types';
 
 import BN from 'bn.js';
-import { combineLatest } from 'rxjs/observable/combineLatest';
-import { map } from 'rxjs/operators/map';
+import { combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 import storage from '@polkadot/storage';
 
 const ZERO = new BN(0);

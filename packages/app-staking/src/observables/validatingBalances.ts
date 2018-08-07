@@ -6,8 +6,8 @@ import { Observable } from 'rxjs/Observable';
 import { RxApiInterface } from '@polkadot/api-rx/types';
 import { Balance, BalanceMap } from './types';
 
-import { combineLatest } from 'rxjs/observable/combineLatest';
-import { map } from 'rxjs/operators/map';
+import { combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import validatingBalance from './validatingBalance';
 

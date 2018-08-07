@@ -16,6 +16,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
-    "@polkadot/ui-app": "^0.19.19"
+    "@polkadot/ui-app": "^0.19.12"
   }
 }
