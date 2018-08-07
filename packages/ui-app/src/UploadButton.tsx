@@ -199,7 +199,6 @@ class UploadButton extends React.PureComponent<Props, State> {
   renderContent () {
     const { uploadedFileKeyringPair } = this.state;
 
-    // FIXME - need to refresh the page after creating an account since the address won't be available
     if (isUndefined(uploadedFileKeyringPair) || !uploadedFileKeyringPair.address) {
       return null;
     }

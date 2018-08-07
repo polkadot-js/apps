@@ -10,7 +10,7 @@ import React from 'react';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
-import showUploadButton from './util/showUploadButton';
+import showUploadButton from '@polkadot/ui-app/util/showUploadButton';
 import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 

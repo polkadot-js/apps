@@ -6,10 +6,12 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
+
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Nonce from '@polkadot/ui-react-rx/Nonce';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
+import isUndefined from '@polkadot/util/is/undefined';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
@@ -20,6 +22,8 @@ import translate from './translate';
 export type Props = I18nProps & {
   balance?: BN | Array<BN>,
   children?: React.ReactNode,
+  hideAllFileIcons?: boolean,
+  handleChangeAccount?: any,
   name?: string,
   value: string,
   withBalance?: boolean,
@@ -28,6 +32,7 @@ export type Props = I18nProps & {
 
 export type State = {
   address: string,
+  hideAllFileIcons: boolean,
   isValid: boolean,
   publicKey: Uint8Array | null,
   shortValue: string
@@ -39,8 +44,9 @@ const DEFAULT_SHORT = toShortAddress(DEFAULT_ADDR);
 class AddressSummary extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
-  static getDerivedStateFromProps ({ value }: Props, { address, publicKey, shortValue }: State): State {
+  static getDerivedStateFromProps ({ value, hideAllFileIcons }: Props, { address, publicKey, shortValue }: State): State {
     try {
+      hideAllFileIcons = hideAllFileIcons;
       publicKey = addressDecode(value);
       address = addressEncode(publicKey);
       shortValue = toShortAddress(address);
@@ -52,6 +58,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
 
     return {
       address: isValid ? address : DEFAULT_ADDR,
+      hideAllFileIcons: hideAllFileIcons ? hideAllFileIcons : false,
       isValid,
       publicKey,
       shortValue: isValid ? shortValue : DEFAULT_SHORT

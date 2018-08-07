@@ -21,7 +21,7 @@ export default function accountBackup (state: State, _address: string, password:
     return;
   }
 
-  const isLocked = !pair.hasSecretKey();
+  const isLocked = pair.isLocked();
 
   console.log('Account locked: ', isLocked);
 
