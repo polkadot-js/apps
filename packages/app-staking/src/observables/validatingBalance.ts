@@ -30,9 +30,7 @@ export default function validatingBalance (api: RxApiInterface, address: string)
         toArray()
       )
   ).pipe(
-    map((result: any): Balance => {
-      const [balance, [nominators = []]]: Result = result;
-
+    map(([balance, [nominators = []]]: Result): Balance => {
       const nominatedBalance = nominators.reduce((total, nominator: Balance) => {
         return total.add(nominator.votingBalance);
       }, new BN(0));
