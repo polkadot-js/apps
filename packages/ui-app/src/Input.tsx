@@ -15,6 +15,7 @@ type Input$Type = 'number' | 'password' | 'text';
 
 type Props = BareProps & {
   children?: React.ReactNode,
+  autoFocus?: boolean,
   defaultValue?: any,
   icon?: any, // node?
   isAction?: boolean,
@@ -49,7 +50,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { children, className, defaultValue, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, name, placeholder, style, type = 'text', value, withLabel } = this.props;
+    const { children, autoFocus = false, className, defaultValue, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, name, placeholder, style, type = 'text', value, withLabel } = this.props;
 
     return (
       <Labelled
@@ -60,6 +61,7 @@ export default class Input extends React.PureComponent<Props, State> {
       >
         <SUIInput
           action={isAction}
+          autoFocus={autoFocus}
           className={isEditable ? 'edit icon' : ''}
           defaultValue={defaultValue}
           disabled={isDisabled}

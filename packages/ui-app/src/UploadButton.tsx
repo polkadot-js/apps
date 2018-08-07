@@ -230,6 +230,7 @@ class UploadButton extends React.PureComponent<Props, State> {
 
     return (
       <Unlock
+        autoFocus={true}
         error={translateError || null}
         onChange={this.onChangePassword}
         password={password}

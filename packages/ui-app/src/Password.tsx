@@ -13,6 +13,7 @@ import Input from './Input';
 import Notification from './Notification';
 
 type Props = BareProps & {
+  autoFocus?: boolean,
   defaultValue?: any,
   children?: React.ReactNode,
   isDisabled?: boolean,
@@ -34,17 +35,13 @@ export default class Password extends React.PureComponent<Props, State> {
     isVisible: false
   };
 
-  componentDidMount () {
-    const passwordInputField = document.querySelectorAll('input[type=password]')[0];
-    (passwordInputField as HTMLElement).focus();
-  }
-
   render () {
-    const { children, className, defaultValue, isDisabled, isError, label, name, onChange, style, value, withLabel, error } = this.props;
+    const { children, autoFocus, className, defaultValue, isDisabled, isError, label, name, onChange, style, value, withLabel, error } = this.props;
     const { isVisible } = this.state;
 
     return (
       <Input
+        autoFocus={autoFocus}
         className={classes('ui--Password', className)}
         defaultValue={defaultValue}
         isAction

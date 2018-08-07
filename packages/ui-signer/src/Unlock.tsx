@@ -14,6 +14,7 @@ import keyring from '@polkadot/ui-keyring/index';
 import translate from './translate';
 
 type Props = I18nProps & {
+  autoFocus?: boolean,
   error?: UnlockI18n | null,
   onChange: (password: string) => void,
   password: string,
@@ -44,7 +45,7 @@ class Unlock extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, onChange, password, passwordWidth, style, t } = this.props;
+    const { autoFocus, className, onChange, password, passwordWidth, style, t } = this.props;
     const { isError, isLocked, error } = this.state;
 
     if (!isLocked) {
@@ -59,6 +60,7 @@ class Unlock extends React.PureComponent<Props, State> {
       >
         <div className='ui--row'>
           <Password
+            autoFocus={autoFocus}
             className={passwordWidth ? passwordWidth : 'medium'}
             isError={isError}
             error={error}
