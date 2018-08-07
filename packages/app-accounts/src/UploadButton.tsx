@@ -14,6 +14,7 @@ import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import isUndefined from '@polkadot/util/is/undefined';
 import ReactFileReader from 'react-file-reader';
 import keyring from '@polkadot/ui-keyring/index';
+import getAddressShortValue from './util/getAddressShortValue';
 
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
@@ -138,8 +139,7 @@ class UploadButton extends React.PureComponent<Props, State> {
     const address = uploadedFileKeyringPair && uploadedFileKeyringPair.address;
 
     if (address) {
-      // TODO - do not duplicate this from Address component. move into common utility for reuse
-      shortValue = `${address.slice(0, 7)}…${address.slice(-7)}`;
+      shortValue = getAddressShortValue(address);
     }
 
     // TODO - move Modal into separate component common to both DownloadButton and UploadButton
