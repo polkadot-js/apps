@@ -6,6 +6,8 @@ import { BareProps, UnlockI18n } from './types';
 
 import React from 'react';
 
+import classes from '@polkadot/ui-app/util/classes';
+
 import Button from './Button';
 import Input from './Input';
 import Notification from './Notification';
@@ -42,38 +44,36 @@ export default class Password extends React.PureComponent<Props, State> {
     const { isVisible } = this.state;
 
     return (
-      <div className='ui--Password'>
-        <Input
-          className={className}
-          defaultValue={defaultValue}
-          isAction
-          isDisabled={isDisabled}
-          isError={isError}
-          label={label}
-          name={name}
-          onChange={onChange}
-          style={style}
-          type={
+      <Input
+        className={classes('ui--Password', className)}
+        defaultValue={defaultValue}
+        isAction
+        isDisabled={isDisabled}
+        isError={isError}
+        label={label}
+        name={name}
+        onChange={onChange}
+        style={style}
+        type={
+          isVisible
+            ? 'text'
+            : 'password'
+        }
+        value={value}
+        withLabel={withLabel}
+      >
+        <Button
+          icon={
             isVisible
-              ? 'text'
-              : 'password'
+              ? 'hide'
+              : 'unhide'
           }
-          value={value}
-          withLabel={withLabel}
-        >
-          <Button
-            icon={
-              isVisible
-                ? 'hide'
-                : 'unhide'
-            }
-            isPrimary
-            onClick={this.onToggleVisible}
-          />
-          {children}
-        </Input>
-        <Notification error={error} />
-      </div>
+          isPrimary
+          onClick={this.onToggleVisible}
+        />
+        {children}
+      </Input>
+      // <Notification error={error} />
     );
   }
 
