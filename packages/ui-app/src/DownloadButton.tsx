@@ -60,7 +60,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
           if (!isUndefined(json)) {
             const blob: Blob = new Blob([JSON.stringify(json)], { type: 'text/plain;charset=utf-8' });
 
-            FileSaver.saveAs(blob, `paritytech-polkadot-publickey-${address}.json`);
+            FileSaver.saveAs(blob, `${address}.json`);
 
             this.hidePasswordModal();
           } else {
