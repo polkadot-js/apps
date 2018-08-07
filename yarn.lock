@@ -765,9 +765,9 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.0.tgz#50c1e2260ac0ed9439a181de3725a0168d59c48a"
 
-"@polkadot/api-format@^0.15.5":
-  version "0.15.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-format/-/api-format-0.15.5.tgz#eee22f41681e836baee70ee822eba9a3d25fb0de"
+"@polkadot/api-format@^0.15.6":
+  version "0.15.6"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-format/-/api-format-0.15.6.tgz#9d50258df3fcd9e11ad591d43a3f25db3647ff7a"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.51"
     "@polkadot/jsonrpc" "^0.27.9"
@@ -775,9 +775,9 @@
     "@polkadot/util" "^0.27.9"
     "@polkadot/util-keyring" "^0.27.9"
 
-"@polkadot/api-provider@^0.15.5":
-  version "0.15.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-provider/-/api-provider-0.15.5.tgz#ecbb790280373d8dc823a89215317637ac2e210d"
+"@polkadot/api-provider@^0.15.6":
+  version "0.15.6"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-provider/-/api-provider-0.15.6.tgz#e3c664687d9d82d59d16e9b5a8e3d10fd285a7a0"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.51"
     "@polkadot/storage" "^0.27.9"
@@ -789,23 +789,23 @@
     isomorphic-fetch "^2.2.1"
     websocket "^1.0.25"
 
-"@polkadot/api-rx@^0.15.5":
-  version "0.15.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-rx/-/api-rx-0.15.5.tgz#bdf3e09f1cb18b1d0270ecc218c226dde71befee"
+"@polkadot/api-rx@^0.15.6":
+  version "0.15.6"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-rx/-/api-rx-0.15.6.tgz#849adc73d129d87eaf3c9463f9eb7201b8d6bfa7"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.51"
-    "@polkadot/api" "^0.15.5"
-    "@polkadot/api-provider" "^0.15.5"
+    "@polkadot/api" "^0.15.6"
+    "@polkadot/api-provider" "^0.15.6"
     "@types/rx" "^4.1.1"
     rxjs "^6.2.2"
 
-"@polkadot/api@^0.15.5":
-  version "0.15.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.15.5.tgz#fd57fa8eb0420030a5697f565dcbda58910da420"
+"@polkadot/api@^0.15.6":
+  version "0.15.6"
+  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.15.6.tgz#6bf02708c5ef77d71ca0b00bdbbf6154abe80f6f"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.51"
-    "@polkadot/api-format" "^0.15.5"
-    "@polkadot/api-provider" "^0.15.5"
+    "@polkadot/api-format" "^0.15.6"
+    "@polkadot/api-provider" "^0.15.6"
     "@polkadot/jsonrpc" "^0.27.9"
     "@polkadot/params" "^0.27.9"
     "@polkadot/util" "^0.27.9"
