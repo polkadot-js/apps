@@ -23,7 +23,7 @@ export type Props = I18nProps & {
   balance?: BN | Array<BN>,
   children?: React.ReactNode,
   hideAllFileIcons?: boolean,
-  handleChangeAccount?: any,
+  onAccountChange?: any,
   name?: string,
   value: string,
   withBalance?: boolean,
@@ -42,10 +42,21 @@ const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 const DEFAULT_SHORT = toShortAddress(DEFAULT_ADDR);
 
 class AddressSummary extends React.PureComponent<Props, State> {
-  state: State = {} as State;
+  state: State = {
+    accountAlreadySaved: false
+  } as State;
 
-  static getDerivedStateFromProps ({ value, hideAllFileIcons }: Props, { address, publicKey, shortValue }: State): State {
+  componentDidMount () {
+    if (this.isAccountAlreadySaved()) {
+      this.setState({
+        accountAlreadySaved: true
+      });
+    }
+  }
+
+  static getDerivedStateFromProps ({ value, hideAllFileIcons }: Props, { accountAlreadySaved, address, publicKey, shortValue }: State): State {
     try {
+      accountAlreadySaved = accountAlreadySaved;
       hideAllFileIcons = hideAllFileIcons;
       publicKey = addressDecode(value);
       address = addressEncode(publicKey);
@@ -57,6 +68,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     const isValid = !!publicKey && publicKey.length === 32;
 
     return {
+      accountAlreadySaved: accountAlreadySaved,
       address: isValid ? address : DEFAULT_ADDR,
       hideAllFileIcons: hideAllFileIcons ? hideAllFileIcons : false,
       isValid,

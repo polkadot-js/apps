@@ -5,55 +5,35 @@
 import { KeyringPair, KeyringPair$Json } from '@polkadot/util-keyring/types';
 import { State } from '../types';
 
+/*
+ * Load account keyring pair from memory using account address.
+ * Decrypt the pair with password to generate the secret key in keyring memory if locked.
+ * Obtain account JSON using password when secret key is in keyring memory.
+ * Remove secret key from keyring memory.
+ */
 export default function accountBackup (state: State, _address: string, password: string): KeyringPair$Json | void {
   const { keyring } = state;
   let jsonDecrypted = undefined;
 
   if (!_address || !password) {
-    console.log('Missing address or password');
+    console.error('Missing address or password');
     return;
   }
 
-  console.log('Load account keyring pair using account address from keyring memory');
   const pair: KeyringPair = keyring.getPair(_address);
 
   if (!pair) {
     return;
   }
 
-  const isLocked = pair.isLocked();
+  try {
+    pair.decodePkcs8(password);
+    jsonDecrypted = keyring.toJson(_address, password);
+    pair.lock();
 
-  console.log('Account locked: ', isLocked);
-
-  if (isLocked) {
-    try {
-      console.log('Decrypting the pair with password to generate the secret key in keyring memory');
-      pair.decodePkcs8(password);
-
-      console.log('Obtaining account JSON using password with secret key now in keyring memory');
-      jsonDecrypted = keyring.toJson(_address, password);
-
-      // FIXME - console.log('Remove secret key from keyring memory');
-      // pair.lock();
-
-      return jsonDecrypted;
-    } catch (error) {
-      console.error('Unable to decrypt account with given password: ', error);
-      return;
-    }
-  } else {
-    try {
-      console.log('Obtaining account JSON using password with secret key already in keyring memory');
-      jsonDecrypted = keyring.toJson(_address, password);
-
-      // FIXME - console.log('Remove secret key from keyring memory');
-      // pair.lock();
-
-      return jsonDecrypted;
-    } catch (error) {
-      console.error('Unable to decrypt account without password: ', error);
-      return;
-    }
+    return jsonDecrypted;
+  } catch (error) {
+    console.error('Unable to decrypt account with given password: ', error);
+    return;
   }
-  return;
 }

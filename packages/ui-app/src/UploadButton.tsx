@@ -40,7 +40,7 @@ type Props = I18nProps & BareProps & {
   isCircular?: boolean,
   isPrimary?: boolean,
   size?: Button$Sizes,
-  handleChangeAccount: any
+  onAccountChange: any
 };
 
 class UploadButton extends React.PureComponent<Props, State> {
@@ -92,7 +92,7 @@ class UploadButton extends React.PureComponent<Props, State> {
 
   processUploadedFileStorage = (): boolean => {
     const { password, uploadedFileKeyringPair } = this.state;
-    const { handleChangeAccount } = this.props;
+    const { onAccountChange } = this.props;
     const json: KeyringPair$Json | undefined = uploadedFileKeyringPair;
 
     // Reset password so it is not pre-populated on the form on subsequent uploads
@@ -105,7 +105,7 @@ class UploadButton extends React.PureComponent<Props, State> {
             if (pairRestored) {
               this.hidePasswordModal();
 
-              handleChangeAccount(pairRestored.publicKey());
+              onAccountChange(pairRestored.publicKey());
 
               return true;
             } else {

@@ -10,32 +10,32 @@ import store from 'store';
 import { accountKey } from '../defaults';
 import createOptions from '../options';
 
+/*
+ * Load account keyring pair into memory using account JSON file.
+ * Decrypt the pair with password to generate the secret key in keyring memory (whether locked or not).
+ * Remove secret key from keyring memory.
+ */
 export default function accountRestore (state: State, json: KeyringPair$Json, password?: string): KeyringPair | undefined {
   const { available, keyring } = state;
-
   const _address = json.address;
 
-  if (_address) {
-    console.log('Load account keyring pair using account JSON into keyring memory');
-
-    const pair: KeyringPair = keyring.addFromJson(json);
-    available.account[_address] = json;
-
-    try {
-      console.log('Decrypting the pair with password to generate the secret key in keyring memory');
-      pair.decodePkcs8(password);
-
-      store.set(accountKey(_address), json);
-      createOptions(state);
-
-      // FIXME - console.log('Remove secret key from keyring memory');
-      // pair.lock();
-
-      return pair;
-    } catch (error) {
-      console.error('Unable to restore account when invalid password provided');
-      return;
-    }
+  if (!_address) {
+    return;
   }
-  return;
+
+  const pair: KeyringPair = keyring.addFromJson(json);
+
+  try {
+    pair.decodePkcs8(password);
+
+    store.set(accountKey(_address), json);
+
+    createOptions(state);
+    pair.lock();
+
+    return pair;
+  } catch (error) {
+    console.error('Unable to restore account when invalid password provided');
+    return;
+  }
 }
