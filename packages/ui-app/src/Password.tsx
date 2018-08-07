@@ -10,7 +10,6 @@ import classes from '@polkadot/ui-app/util/classes';
 
 import Button from './Button';
 import Input from './Input';
-import Notification from './Notification';
 
 type Props = BareProps & {
   autoFocus?: boolean,
@@ -36,7 +35,7 @@ export default class Password extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { children, autoFocus, className, defaultValue, isDisabled, isError, label, name, onChange, style, value, withLabel, error } = this.props;
+    const { children, autoFocus, className, defaultValue, error, isDisabled, isError, label, name, onChange, style, value, withLabel } = this.props;
     const { isVisible } = this.state;
 
     return (
@@ -44,6 +43,7 @@ export default class Password extends React.PureComponent<Props, State> {
         autoFocus={autoFocus}
         className={classes('ui--Password', className)}
         defaultValue={defaultValue}
+        error={error}
         isAction
         isDisabled={isDisabled}
         isError={isError}
@@ -70,7 +70,6 @@ export default class Password extends React.PureComponent<Props, State> {
         />
         {children}
       </Input>
-      // <Notification error={error} />
     );
   }
 
