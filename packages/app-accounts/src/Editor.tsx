@@ -117,17 +117,21 @@ class Editor extends React.PureComponent<Props, State> {
     const address = currentPair.address();
 
     return (
-      <div className='ui--grid'>
-        <div className='accounts--Address-file'>
-          <DownloadButton address={address} />
-          <UploadButton onChangeAccount={this.onChangeAccount} />
+      <div className='flex-group-row'>
+        <div className='flex-container-col'>
+          <div className='flex-item'>
+            <AddressSummary
+              className='shrink'
+              value={address}
+            />
+          </div>
+          <div className='flex-item-file'>
+            <DownloadButton address={address} />
+            <UploadButton onChangeAccount={this.onChangeAccount} />
+          </div>
         </div>
-        <AddressSummary
-          className='shrink'
-          value={address}
-        />
-        <div className='grow'>
-          <div className='ui--row'>
+        <div className='flex-container-col'>
+          <div className='flex-item'>
             <InputAddress
               className='full'
               defaultValue={defaultValue}
@@ -141,7 +145,7 @@ class Editor extends React.PureComponent<Props, State> {
               value={address}
             />
           </div>
-          <div className='ui--row'>
+          <div className='flex-item'>
             <Input
               className='full'
               isEditable
