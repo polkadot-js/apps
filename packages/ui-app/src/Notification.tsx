@@ -9,13 +9,12 @@ import React from 'react';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message/index';
 // import { SemanticSIZES } from 'semantic-ui-react/dist/commonjs/index';
 
+type SemanticMessageSizes = 'mini' | 'tiny' | 'small' | 'large' | 'big' | 'huge' | 'massive';
+
 type Props = BareProps & {
   error?: UnlockI18n | null,
-  // FIXME - Temporary hack (without `| 'medium'`) until PR accepted by semantic-ui-react. After PR resolved
-  // then replace with just `size?: SemanticSIZES`
   // Issue: https://github.com/Semantic-Org/Semantic-UI-React/issues/3071
-  // PR: https://github.com/Semantic-Org/Semantic-UI-React/pull/3072
-  size?: 'mini' | 'tiny' | 'small' | 'large' | 'big' | 'huge' | 'massive'
+  size?: SemanticMessageSizes
 };
 
 export default class Notification extends React.PureComponent<Props> {
