@@ -53,6 +53,7 @@ class UploadButton extends React.PureComponent<Props, State> {
   }
 
   handleUploadedFiles = (files: FileList): void => {
+    const { t } = this.props;
     const fileList: FileList = files;
 
     if (!fileList || fileList && !fileList.length) {
@@ -73,8 +74,6 @@ class UploadButton extends React.PureComponent<Props, State> {
 
             const pair: KeyringPair = keyring.addFromJson(json as KeyringPair$Json);
 
-            console.log('Load account keyring pair using account JSON into keyring memory: ', pair);
-
             // Store uploaded wallet in state and open modal to get their password for it
             this.setState(
               { uploadedFileKeyringPair: json },
@@ -84,7 +83,7 @@ class UploadButton extends React.PureComponent<Props, State> {
         }
       } catch (e) {
         console.error('Error uploading file: ', e);
-        this.setState({ unlockError: { key: 'error', value: 'Unable to upload account from file' } });
+        this.setState({ unlockError: { key: t('error'), value: t('Unable to upload account from file') } });
       }
     };
     fileReader.readAsText(fileToUpload);
@@ -92,7 +91,7 @@ class UploadButton extends React.PureComponent<Props, State> {
 
   processUploadedFileStorage = (): boolean => {
     const { password, uploadedFileKeyringPair } = this.state;
-    const { onChangeAccount } = this.props;
+    const { t, onChangeAccount } = this.props;
     const json: KeyringPair$Json | undefined = uploadedFileKeyringPair;
 
     // Reset password so it is not pre-populated on the form on subsequent uploads
@@ -109,13 +108,13 @@ class UploadButton extends React.PureComponent<Props, State> {
 
               return true;
             } else {
-              this.setState({ unlockError: { key: 'error', value: 'Unable to upload account into memory' } });
+              this.setState({ unlockError: { key: t('error'), value: t('Unable to upload account into memory') } });
               return false;
             }
           }
         } catch (e) {
           console.error('Error processing uploaded file to local storage: ', e);
-          this.setState({ unlockError: { key: 'error', value: 'Unable to upload account into memory' } });
+          this.setState({ unlockError: { key: t('error'), value: t('Unable to upload account into memory') } });
           return false;
         }
         return false;

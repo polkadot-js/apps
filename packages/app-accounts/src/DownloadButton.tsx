@@ -47,6 +47,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
   }
 
   handleDownloadAccount = (): void => {
+    const { t } = this.props;
     const { address, password } = this.state;
 
     // Reset password so it is not pre-populated on the form on subsequent uploads
@@ -63,10 +64,10 @@ class DownloadButton extends React.PureComponent<Props, State> {
 
             this.hidePasswordModal();
           } else {
-            this.setState({ unlockError: { key: 'error', value: 'Unable to obtain account from memory' } });
+            this.setState({ unlockError: { key: t('error'), value: t('Unable to obtain account from memory') } });
           }
         } catch (e) {
-          this.setState({ unlockError: { key: 'error', value: 'Unable to save file' } });
+          this.setState({ unlockError: { key: t('error'), value: t('Unable to save file') } });
           console.error('Error retrieving account from local storage and saving account to file: ', e);
         }
       }
@@ -145,7 +146,6 @@ class DownloadButton extends React.PureComponent<Props, State> {
   renderContent () {
     const { address } = this.state;
 
-    // FIXME - need to refresh the page after creating an account since the address won't be available
     if (!address) {
       return null;
     }
