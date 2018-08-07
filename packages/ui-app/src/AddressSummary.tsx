@@ -11,7 +11,6 @@ import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Nonce from '@polkadot/ui-react-rx/Nonce';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
-import isUndefined from '@polkadot/util/is/undefined';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
@@ -22,8 +21,6 @@ import translate from './translate';
 export type Props = I18nProps & {
   balance?: BN | Array<BN>,
   children?: React.ReactNode,
-  hideAllFileIcons?: boolean,
-  onAccountChange?: any,
   name?: string,
   value: string,
   withBalance?: boolean,
@@ -32,7 +29,6 @@ export type Props = I18nProps & {
 
 export type State = {
   address: string,
-  hideAllFileIcons: boolean,
   isValid: boolean,
   publicKey: Uint8Array | null,
   shortValue: string
@@ -42,22 +38,10 @@ const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 const DEFAULT_SHORT = toShortAddress(DEFAULT_ADDR);
 
 class AddressSummary extends React.PureComponent<Props, State> {
-  state: State = {
-    accountAlreadySaved: false
-  } as State;
+  state: State = {} as State;
 
-  componentDidMount () {
-    if (this.isAccountAlreadySaved()) {
-      this.setState({
-        accountAlreadySaved: true
-      });
-    }
-  }
-
-  static getDerivedStateFromProps ({ value, hideAllFileIcons }: Props, { accountAlreadySaved, address, publicKey, shortValue }: State): State {
+  static getDerivedStateFromProps ({ value }: Props, { address, publicKey, shortValue }: State): State {
     try {
-      accountAlreadySaved = accountAlreadySaved;
-      hideAllFileIcons = hideAllFileIcons;
       publicKey = addressDecode(value);
       address = addressEncode(publicKey);
       shortValue = toShortAddress(address);
@@ -68,9 +52,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     const isValid = !!publicKey && publicKey.length === 32;
 
     return {
-      accountAlreadySaved: accountAlreadySaved,
       address: isValid ? address : DEFAULT_ADDR,
-      hideAllFileIcons: hideAllFileIcons ? hideAllFileIcons : false,
       isValid,
       publicKey,
       shortValue: isValid ? shortValue : DEFAULT_SHORT

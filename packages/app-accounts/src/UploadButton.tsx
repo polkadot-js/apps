@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Button$Sizes } from './Button/types';
-import { BareProps, I18nProps } from './types';
+import { Button$Sizes } from '@polkadot/ui-app/Button/types';
+import { BareProps, I18nProps } from '@polkadot/ui-app/types';
 import { KeyringPair, KeyringPair$Json } from '@polkadot/util-keyring/types';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 
@@ -15,8 +15,8 @@ import isUndefined from '@polkadot/util/is/undefined';
 import ReactFileReader from 'react-file-reader';
 import keyring from '@polkadot/ui-keyring/index';
 
-import Button from './Button';
-import Modal from './Modal';
+import Button from '@polkadot/ui-app/Button';
+import Modal from '@polkadot/ui-app/Modal';
 import Unlock from '@polkadot/ui-signer/Unlock';
 
 import translate from './translate';
@@ -40,7 +40,7 @@ type Props = I18nProps & BareProps & {
   isCircular?: boolean,
   isPrimary?: boolean,
   size?: Button$Sizes,
-  onAccountChange: any
+  onChangeAccount: any
 };
 
 class UploadButton extends React.PureComponent<Props, State> {
@@ -92,7 +92,7 @@ class UploadButton extends React.PureComponent<Props, State> {
 
   processUploadedFileStorage = (): boolean => {
     const { password, uploadedFileKeyringPair } = this.state;
-    const { onAccountChange } = this.props;
+    const { onChangeAccount } = this.props;
     const json: KeyringPair$Json | undefined = uploadedFileKeyringPair;
 
     // Reset password so it is not pre-populated on the form on subsequent uploads
@@ -105,7 +105,7 @@ class UploadButton extends React.PureComponent<Props, State> {
             if (pairRestored) {
               this.hidePasswordModal();
 
-              onAccountChange(pairRestored.publicKey());
+              onChangeAccount(pairRestored.publicKey());
 
               return true;
             } else {

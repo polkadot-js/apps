@@ -4,17 +4,22 @@
 
 import { KeyringPair } from '@polkadot/util-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { Button$Sizes } from '@polkadot/ui-app/Button/types';
 
 import React from 'react';
+import store from 'store';
 
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
-import showUploadButton from '@polkadot/ui-app/util/showUploadButton';
 import classes from '@polkadot/ui-app/util/classes';
+import { accountKey } from '@polkadot/ui-keyring/defaults';
 import keyring from '@polkadot/ui-keyring/index';
+import isUndefined from '@polkadot/util/is/undefined';
 
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
+import UploadButton from './UploadButton';
+import DownloadButton from './DownloadButton';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -22,6 +27,7 @@ type Props = I18nProps & {
 };
 
 type State = {
+  accountAlreadySaved: boolean,
   currentPair: KeyringPair | null,
   defaultValue?: string,
   editedName: string,
@@ -41,6 +47,33 @@ class Editor extends React.PureComponent<Props, State> {
     this.state.defaultValue = currentPair
       ? currentPair.address()
       : void 0;
+  }
+
+  componentDidMount () {
+    if (this.isAccountAlreadySaved()) {
+      this.setState({
+        accountAlreadySaved: true
+      });
+    }
+  }
+
+  isAccountAlreadySaved = () => {
+    const { currentPair } = this.state;
+    if (!currentPair) {
+      return false;
+    }
+    const address = currentPair.address();
+    const localStorageAccountKey = accountKey(address);
+
+    try {
+      const localStorageAccountValue = store.get(localStorageAccountKey);
+
+      return isUndefined(localStorageAccountValue) ? false : true;
+    } catch (e) {
+      console.error('Error finding account from local storage: ', e);
+    }
+
+    return false;
   }
 
   render () {
@@ -99,10 +132,15 @@ class Editor extends React.PureComponent<Props, State> {
     const { currentPair, defaultValue, editedName } = this.state;
 
     if (!currentPair) {
+      const size: Button$Sizes = 'big';
       return (
         <div>
           <div>{t('There are no saved accounts. Create an account or upload a JSON file of a saved account.')}</div>
-          <div className='accounts--Address-wrapper'>{ showUploadButton('big', this.onChangeAccount) }</div>
+          <div className='accounts--Address-wrapper'>
+            <div className='accounts--Address-file'>
+              <UploadButton size={size} onChangeAccount={this.onChangeAccount} />
+            </div>
+          </div>
         </div>
       );
     }
@@ -114,8 +152,12 @@ class Editor extends React.PureComponent<Props, State> {
         <AddressSummary
           className='shrink'
           value={address}
-          onAccountChange={this.onChangeAccount}
-        />
+        >
+          <div className='accounts--Address-file'>
+            <DownloadButton address={address} />
+            <UploadButton onChangeAccount={this.onChangeAccount} />
+          </div>
+        </AddressSummary>
         <div className='grow'>
           <div className='ui--row'>
             <InputAddress
@@ -149,6 +191,7 @@ class Editor extends React.PureComponent<Props, State> {
 
   createState (currentPair: KeyringPair | null): State {
     return {
+      accountAlreadySaved: false,
       currentPair,
       editedName: currentPair
         ? currentPair.getMeta().name || ''
@@ -160,7 +203,7 @@ class Editor extends React.PureComponent<Props, State> {
   nextState (newState: State = {} as State): void {
     this.setState(
       (prevState: State): State => {
-        let { currentPair = prevState.currentPair, editedName = prevState.editedName } = newState;
+        let { currentPair = prevState.currentPair, editedName = prevState.editedName, accountAlreadySaved = prevState.accountAlreadySaved } = newState;
         const previous = prevState.currentPair || { address: () => null };
         let isEdited = false;
 
@@ -175,6 +218,7 @@ class Editor extends React.PureComponent<Props, State> {
         }
 
         return {
+          accountAlreadySaved,
           currentPair,
           editedName,
           isEdited

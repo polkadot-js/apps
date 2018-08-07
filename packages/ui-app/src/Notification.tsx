@@ -7,7 +7,7 @@ import { BareProps, UnlockI18n } from './types';
 import React from 'react';
 
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message/index';
-import { SemanticSIZES } from 'semantic-ui-react/dist/commonjs/index';
+// import { SemanticSIZES } from 'semantic-ui-react/dist/commonjs/index';
 
 type Props = BareProps & {
   error?: UnlockI18n | null,

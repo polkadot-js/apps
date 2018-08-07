@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Button$Sizes } from './Button/types';
-import { BareProps, I18nProps, UnlockI18n } from './types';
+import { Button$Sizes } from '@polkadot/ui-app/Button/types';
+import { BareProps, I18nProps, UnlockI18n } from '@polkadot/ui-app/types';
 import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 
@@ -15,8 +15,8 @@ import keyring from '@polkadot/ui-keyring/index';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import isUndefined from '@polkadot/util/is/undefined';
 
-import Button from './Button';
-import Modal from './Modal';
+import Button from '@polkadot/ui-app/Button';
+import Modal from '@polkadot/ui-app/Modal';
 import Unlock from '@polkadot/ui-signer/Unlock';
 
 import translate from './translate';
