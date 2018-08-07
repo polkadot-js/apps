@@ -118,15 +118,14 @@ class Editor extends React.PureComponent<Props, State> {
 
     return (
       <div className='ui--grid'>
+        <div className='accounts--Address-file'>
+          <DownloadButton address={address} />
+          <UploadButton onChangeAccount={this.onChangeAccount} />
+        </div>
         <AddressSummary
           className='shrink'
           value={address}
-        >
-          <div className='accounts--Address-file'>
-            <DownloadButton address={address} />
-            <UploadButton onChangeAccount={this.onChangeAccount} />
-          </div>
-        </AddressSummary>
+        />
         <div className='grow'>
           <div className='ui--row'>
             <InputAddress
