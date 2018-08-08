@@ -10,7 +10,7 @@ import { ApiProps } from '../types';
 import React from 'react';
 
 import shouldUseLatestChain from '@polkadot/ui-react-rx/util/shouldUseLatestChain';
-import createWsProvider from '@polkadot/api-provider/ws';
+import WsProvider from '@polkadot/api-provider/ws';
 import createApi from '@polkadot/api-rx';
 import defaults from '@polkadot/api-rx/defaults';
 
@@ -40,7 +40,7 @@ export default class Api extends React.PureComponent<Props, State> {
     const { provider, url = '' } = props;
     const api = props.api || createApi(
       url && url.length
-        ? createWsProvider(url)
+        ? new WsProvider(url)
         : provider
     );
     const setApi = (api: RxApiInterface): void => {
@@ -51,7 +51,7 @@ export default class Api extends React.PureComponent<Props, State> {
     const setApiProvider = (provider?: ProviderInterface): void =>
       setApi(createApi(provider));
     const setApiWsUrl = (url: string = defaults.WS_URL): void =>
-      setApiProvider(createWsProvider(url));
+      setApiProvider(new WsProvider(url));
 
     this.state = {
       api,
