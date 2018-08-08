@@ -11,7 +11,7 @@ import keyring from '@polkadot/ui-keyring/index';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
 import translate from '../translate';
-import ValidatorAccount from './ValidatorAccount';
+import AddressRow from '@polkadot/ui-app/AddressRow'
 
 type Props = I18nProps & {
   intentions: Array<string>
@@ -31,11 +31,13 @@ class IntensionsList extends React.PureComponent<Props> {
             {intentions.map((account) => {
               return (
                 <div key={account}>
-                   <ValidatorAccount
-                      address={account}
+                   <AddressRow
+                      value={account}
                       key={account}
                       name={name || 'candidate'} // TODO: check in our list of address is we named it
+                      identIconSize={48}
                       queueExtrinsic={queueExtrinsic}
+                      isShort={false}
                     />
                 </div>
               );

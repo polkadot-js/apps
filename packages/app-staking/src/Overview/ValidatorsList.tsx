@@ -11,7 +11,8 @@ import keyring from '@polkadot/ui-keyring/index';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
 import translate from '../translate';
-import ValidatorAccount from './ValidatorAccount';
+// import ValidatorAccount from './ValidatorAccount';
+import AddressRow from '@polkadot/ui-app/AddressRow'
 
 type Props = I18nProps & {
   validators: Array<string>
@@ -34,11 +35,20 @@ class ValidatorsList extends React.PureComponent<Props> {
               // - 0 balance accounts
               return (
                 <div key={account}>
-                   <ValidatorAccount
+                   {/*<ValidatorAccount
                       address={account}
                       key={account}
                       name={name || 'validator'} // TODO: check in our list of address is we named it
                       queueExtrinsic={queueExtrinsic}
+                    />*/}
+                    <AddressRow
+                      className={classes('validator--Account', className)}
+                      name={name || 'validator'} // TODO: check in our list of address is we named it
+                      value={account}
+                      withBalance={true}
+                      withNonce={false}
+                      identIconSize={48}
+                      isShort={false}
                     />
                 </div>
               );

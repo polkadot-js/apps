@@ -22,7 +22,9 @@ export type Props = I18nProps & {
   name?: string,
   value: string,
   withBalance?: boolean,
-  withNonce?: boolean
+  withNonce?: boolean,
+  identIconSize?: number,
+  isShort?: boolean
 };
 
 export type State = {
@@ -67,11 +69,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
         style={style}
       >
         <div className='ui--AddressSummary-base'>
-          <IdentityIcon
-            className='ui--AddressSummary-icon'
-            size={96}
-            value={address}
-          />
+          {this.renderIdentIcon()}
           {this.renderAddress()}
           {this.renderBalance()}
         </div>
@@ -81,7 +79,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderAddress () {
-    const { name } = this.props;
+    const { name, value, isShort = true } = this.props;
     const { address, shortValue } = this.state;
 
     return (
@@ -90,10 +88,27 @@ class AddressSummary extends React.PureComponent<Props, State> {
           {name}
         </div>
         <div className='ui--AddressSummary-address'>
-          {shortValue}
+          {isShort ? shortValue: value}
         </div>
         <CopyButton value={address} />
       </div>
+    );
+  }
+
+  protected renderIdentIcon () {
+    const { identIconSize } = this.props;
+    const { address, shortValue } = this.state;
+
+    if (identIconSize == 0) {
+      return null;
+    }
+
+    return (
+      <IdentityIcon
+        className='ui--AddressSummary-icon'
+        size={identIconSize}
+        value={address}
+      />
     );
   }
 

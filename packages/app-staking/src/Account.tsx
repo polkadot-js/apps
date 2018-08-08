@@ -69,6 +69,7 @@ class Account extends React.PureComponent<Props, State> {
         <AddressSummary
           name={name}
           value={address}
+          identIconSize={96}
         >
           <div className='staking--Account-expand'>
             <Icon

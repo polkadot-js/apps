@@ -10,9 +10,18 @@
   padding-bottom: 2px;
 }
 
-.validator--Account-info {
+.validator--Account-info-address {
+  flex: 3;
+  margin: 0px 5px 0px 5px;
+}
+
+.validator--Account-info-details {
   flex: 1;
   margin: 0px 5px 0px 5px;
+}
+
+.validator--Account {
+  /*height: 50px;*/
 }
 
 .validator--Account-address {
