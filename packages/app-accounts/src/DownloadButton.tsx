@@ -5,7 +5,6 @@
 import { Button$Sizes } from '@polkadot/ui-app/Button/types';
 import { BareProps, I18nProps, UnlockI18n } from '@polkadot/ui-app/types';
 import { KeyringPair$Json } from '@polkadot/util-keyring/types';
-import { KeyringAddress } from '@polkadot/ui-keyring/types';
 
 import React from 'react';
 import translate from './translate';
@@ -48,6 +47,10 @@ class DownloadButton extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { address, password } = this.state;
 
+    if (!address) {
+      return;
+    }
+
     // Reset password so it is not pre-populated on the form on subsequent uploads
     this.setState(
       { password: '' },
@@ -56,7 +59,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
           const json: KeyringPair$Json | void = keyring.backupAccount(address, password);
 
           if (!isUndefined(json)) {
-            const blob: Blob = new Blob([JSON.stringify(json)], { type: 'text/plain;charset=utf-8' });
+            const blob = new Blob([JSON.stringify(json)], { type: 'text/plain;charset=utf-8' });
 
             FileSaver.saveAs(blob, `${address}.json`);
 
@@ -162,8 +165,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const keyringAddress: KeyringAddress = keyring.getAddress(address);
-
+    const keyringAddress = keyring.getAddress(address);
     let translateError = null;
 
     if (unlockError && unlockError.key && unlockError.value) {
@@ -202,7 +204,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
           <Button
             isDisabled={false}
             isPrimary
-            onClick={this.onSubmit}
+            onClick={this.handleDownloadAccount}
             text={t('creator.submit', {
               defaultValue: 'Submit'
             })}
@@ -245,21 +247,10 @@ class DownloadButton extends React.PureComponent<Props, State> {
   }
 
   onChangePassword = (password: string): void => {
-    this.nextState({ password, unlockError: null } as State);
     this.setState({
       password,
       unlockError: null
     });
-  }
-
-  onSubmit = (): void => {
-    const { address } = this.state;
-
-    if (!address) {
-      return;
-    }
-
-    this.handleDownloadAccount();
   }
 
   onDiscard = (): void => {
