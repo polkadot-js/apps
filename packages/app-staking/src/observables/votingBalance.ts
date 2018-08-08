@@ -10,14 +10,12 @@ import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import storage from '@polkadot/storage';
 
-const ZERO = new BN(0);
-
 export default function votingBalance (api: RxApiInterface, address: string): Observable<Balance> {
   return combineLatest(
     api.state.getStorage(storage.staking.public.freeBalanceOf, address),
     api.state.getStorage(storage.staking.public.reservedBalanceOf, address)
   ).pipe(
-    map(([freeBalance = ZERO, reservedBalance = ZERO]): Balance => ({
+    map(([freeBalance = new BN(0), reservedBalance = new BN(0)]): Balance => ({
       address,
       freeBalance,
       nominatedBalance: new BN(0),
