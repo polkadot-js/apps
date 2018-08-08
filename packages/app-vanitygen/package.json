@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-vanitygen",
-  "version": "0.19.19",
+  "version": "0.19.20",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
-    "@polkadot/ui-app": "^0.19.19",
+    "@polkadot/ui-app": "^0.19.20",
     "@types/yargs": "^11.0.0",
     "babel-plugin-module-resolver": "^3.1.1",
     "chalk": "^2.4.1",
