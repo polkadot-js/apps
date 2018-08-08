@@ -118,7 +118,7 @@ class Editor extends React.PureComponent<Props, State> {
 
     return (
       <div className='flex-group-row'>
-        <div className='flex-container-col'>
+        <div className='flex-container-col-summary'>
           <div className='flex-item'>
             <AddressSummary
               className='shrink'
@@ -130,7 +130,7 @@ class Editor extends React.PureComponent<Props, State> {
             <UploadButton onChangeAccount={this.onChangeAccount} />
           </div>
         </div>
-        <div className='flex-container-col'>
+        <div className='flex-container-col-inputs'>
           <div className='flex-item'>
             <InputAddress
               className='full'
