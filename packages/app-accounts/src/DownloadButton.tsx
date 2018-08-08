@@ -12,11 +12,11 @@ import FileSaver from 'file-saver';
 import keyring from '@polkadot/ui-keyring/index';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import isUndefined from '@polkadot/util/is/undefined';
-import getAddressShortValue from './util/getAddressShortValue';
 
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
 import Unlock from '@polkadot/ui-signer/Unlock';
+import getAddressShortValue from './util/getAddressShortValue';
 
 import translate from './translate';
 import { Trans } from 'react-i18next';
