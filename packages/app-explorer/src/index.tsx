@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import './index.css';
 
 import React from 'react';
-
+import Page from '@polkadot/ui-app/Page';
 import classes from '@polkadot/ui-app/util/classes';
 import BestNumber from '@polkadot/ui-react-rx/BestNumber';
 
@@ -22,7 +22,7 @@ class ExplorerApp extends React.PureComponent<Props> {
     const { className, style, t } = this.props;
 
     return (
-      <div
+      <Page
         className={classes('explorer--App', className)}
         style={style}
       >
@@ -34,7 +34,7 @@ class ExplorerApp extends React.PureComponent<Props> {
         />
         <BestHash />
         <BlockHeaders />
-      </div>
+      </Page>
     );
   }
 }
