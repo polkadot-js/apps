@@ -16,8 +16,8 @@ import keyring from '@polkadot/ui-keyring/index';
 
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
+import toShortAddress from '@polkadot/ui-app/util/toShortAddress';
 import Unlock from '@polkadot/ui-signer/Unlock';
-import getAddressShortValue from './util/getAddressShortValue';
 
 type State = {
   address: string,
@@ -134,7 +134,7 @@ class UploadButton extends React.PureComponent<Props, State> {
     const address = uploadedFileKeyringPair && uploadedFileKeyringPair.address;
 
     if (address) {
-      shortValue = getAddressShortValue(address);
+      shortValue = toShortAddress(address);
     }
 
     // TODO - move Modal into separate component common to both DownloadButton and UploadButton
