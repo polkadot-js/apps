@@ -8,6 +8,7 @@ import React from 'react';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 
 import classes from './util/classes';
+import toShortAddress from './util/toShortAddress';
 import translate from './translate';
 
 type Props = BareProps & {
@@ -23,18 +24,18 @@ class AddressMini extends React.PureComponent<Props> {
       return null;
     }
 
-    const shortValue = `${value.slice(0, 7)}…${value.slice(-7)}`;
+    const shortValue = toShortAddress(value);
 
     return (
       <div
-        className={classes('staking--Account-nominating', className)}
+        className={classes('ui--AddressMini', className)}
         style={style}
       >
         <IdentityIcon
           size={24}
           value={value}
         />
-        {isShort ? shortValue : value}
+        <div>{isShort ? shortValue : value}</div>
       </div>
     );
   }
