@@ -31,6 +31,40 @@
   border-radius: .28571429rem !important;
 }
 
+.ui--AddressMini {
+  display: inline-block;
+  padding: 0.25rem;
+}
+
+.ui--AddressMini-info div {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.ui--AddressMini .ui--IdentityIcon {
+  margin-left: 1rem;
+  margin-right: 0.5rem;
+}
+
+.ui--AddressMini .ui--Balance {
+  font-size: 0.75rem;
+  margin-top: -0.5rem;
+  text-align: right;
+}
+
+.ui--AddressRow {
+  display: flex;
+  width: 100%;
+}
+
+.ui--AddressRow-base {
+  display: flex;
+}
+
+.ui--AddressRow-icon {
+  margin-right: 1em;
+}
+
 .ui--AddressSummary {
   padding: 0 2em;
   text-align: left;
@@ -60,6 +94,7 @@
   display: block
 }
 
+.ui--Balance,
 .ui--AddressSummary-balance,
 .ui--AddressSummary-nonce {
   opacity: 0.45;
@@ -72,6 +107,7 @@
 
 .ui--AddressSummary-data {
   padding: 0.5em 0;
+  white-space: nowrap;
 }
 
 .ui--AddressSummary-data * {

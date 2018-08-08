@@ -4,18 +4,22 @@
 
 import { BareProps } from '@polkadot/ui-app/types';
 
+import BN from 'bn.js';
 import React from 'react';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 
 import classes from './util/classes';
-import translate from './translate';
+import toShortAddress from './util/toShortAddress';
+import Balance from './Balance';
 
 type Props = BareProps & {
+  balance?: BN | Array<BN>,
   isShort?: boolean,
-  value?: string
+  value?: string,
+  withBalance?: boolean
 };
 
-class AddressMini extends React.PureComponent<Props> {
+export default class AddressMini extends React.PureComponent<Props> {
   render () {
     const { className, isShort = true, style, value } = this.props;
 
@@ -23,21 +27,36 @@ class AddressMini extends React.PureComponent<Props> {
       return null;
     }
 
-    const shortValue = `${value.slice(0, 7)}…${value.slice(-7)}`;
-
     return (
       <div
-        className={classes('staking--Account-nominating', className)}
+        className={classes('ui--AddressMini', className)}
         style={style}
       >
-        <IdentityIcon
-          size={24}
-          value={value}
-        />
-        {isShort ? shortValue : value}
+        <div className='ui--AddressMini-info'>
+          <IdentityIcon
+            size={24}
+            value={value}
+          />
+          <div>{isShort ? toShortAddress(value) : value}</div>
+        </div>
+        {this.renderBalance()}
       </div>
     );
   }
-}
 
-export default translate(AddressMini);
+  private renderBalance () {
+    const { balance, value, withBalance = false } = this.props;
+
+    if (!withBalance || !value) {
+      return null;
+    }
+
+    return (
+      <Balance
+        balance={balance}
+        className='ui--AddressSummary-balance'
+        value={value}
+      />
+    );
+  }
+}
