@@ -4,6 +4,7 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueProps } from '@polkadot/ui-signer/types';
+import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
 
 import React from 'react';
 import classes from '@polkadot/ui-app/util/classes';
@@ -14,13 +15,14 @@ import Account from './Account';
 import translate from './translate';
 
 type Props = I18nProps & {
+  balances: ExtendedBalanceMap,
   intentions: Array<string>,
   validators: Array<string>
 };
 
 class StakeList extends React.PureComponent<Props> {
   render () {
-    const { className, intentions, style, validators } = this.props;
+    const { balances, className, intentions, style, validators } = this.props;
 
     return (
       <QueueConsumer>
@@ -36,6 +38,7 @@ class StakeList extends React.PureComponent<Props> {
               return (
                 <Account
                   address={address}
+                  balances={balances}
                   intentions={intentions}
                   isValidator={validators.includes(address)}
                   key={address}

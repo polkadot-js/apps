@@ -12,7 +12,6 @@ import apimethods from '@polkadot/jsonrpc';
 import storage from '@polkadot/storage';
 import classes from '@polkadot/ui-app/util/classes';
 import withApiCall from '@polkadot/ui-react-rx/with/apiCall';
-import withApiObservable from '@polkadot/ui-react-rx/with/apiObservable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withStorage from '@polkadot/ui-react-rx/with/storage';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
@@ -20,7 +19,7 @@ import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import translate from './translate';
 
 type Props = ApiProps & I18nProps & {
-  balances?: ExtendedBalanceMap,
+  balances: ExtendedBalanceMap,
   intentions: Array<string>,
   lastBlockHeader?: Header,
   lastLengthChange?: BN,
@@ -82,7 +81,7 @@ class Summary extends React.PureComponent<Props> {
   }
 
   private calcIntentionsHigh (): ExtendedBalance | null {
-    const { balances = {}, intentions, validators } = this.props;
+    const { balances, intentions, validators } = this.props;
 
     return intentions.reduce((high: ExtendedBalance | null, addr) => {
       const balance = validators.includes(addr) || !balances[addr]
@@ -98,7 +97,7 @@ class Summary extends React.PureComponent<Props> {
   }
 
   private calcValidatorLow (): ExtendedBalance | null {
-    const { balances = {}, validators } = this.props;
+    const { balances, validators } = this.props;
 
     return validators.reduce((low: ExtendedBalance | null, addr) => {
       const balance = balances[addr] || null;
@@ -126,12 +125,5 @@ export default withMulti(
   withStorage(
     storage.session.public.lastLengthChange,
     { propName: 'lastLengthChange' }
-  ),
-  withApiObservable(
-    'validatingBalances',
-    {
-      paramProp: 'intentions',
-      propName: 'balances'
-    }
   )
 );

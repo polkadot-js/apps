@@ -54,7 +54,7 @@ class Balance extends React.PureComponent<Props> {
 
     return (
       <div
-        className={classes('ui--AddressSummary-balance', className)}
+        className={classes('ui--Balance', className)}
         style={style}
       >
         {label}{value}
