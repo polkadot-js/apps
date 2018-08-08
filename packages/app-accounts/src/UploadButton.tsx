@@ -8,18 +8,17 @@ import { KeyringPair, KeyringPair$Json } from '@polkadot/util-keyring/types';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 
 import React from 'react';
+import translate from './translate';
+import { Trans } from 'react-i18next';
+import ReactFileReader from 'react-file-reader';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import isUndefined from '@polkadot/util/is/undefined';
-import ReactFileReader from 'react-file-reader';
 import keyring from '@polkadot/ui-keyring/index';
-import getAddressShortValue from './util/getAddressShortValue';
 
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
 import Unlock from '@polkadot/ui-signer/Unlock';
-
-import translate from './translate';
-import { Trans } from 'react-i18next';
+import getAddressShortValue from './util/getAddressShortValue';
 
 type UnlockI18n = {
   key: string,

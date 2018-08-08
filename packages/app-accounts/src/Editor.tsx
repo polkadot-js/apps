@@ -4,7 +4,6 @@
 
 import { KeyringPair } from '@polkadot/util-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { Button$Sizes } from '@polkadot/ui-app/Button/types';
 
 import React from 'react';
 
@@ -101,13 +100,12 @@ class Editor extends React.PureComponent<Props, State> {
     const { currentPair, defaultValue, editedName } = this.state;
 
     if (!currentPair) {
-      const size: Button$Sizes = 'big';
       return (
         <div>
           <div>{t('There are no saved accounts. Create an account or upload a JSON file of a saved account.')}</div>
           <div className='accounts--Address-wrapper'>
             <div className='accounts--Address-file'>
-              <UploadButton size={size} onChangeAccount={this.onChangeAccount} />
+              <UploadButton size={'big'} onChangeAccount={this.onChangeAccount} />
             </div>
           </div>
         </div>
