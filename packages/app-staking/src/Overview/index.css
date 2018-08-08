@@ -12,6 +12,7 @@
 
 .validator--Account-info {
   flex: 1;
+  margin: 0px 5px 0px 5px;
 }
 
 .validator--Account-address {
