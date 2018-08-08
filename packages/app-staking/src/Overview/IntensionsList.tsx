@@ -11,7 +11,7 @@ import keyring from '@polkadot/ui-keyring/index';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
 import translate from '../translate';
-import AddressRow from '@polkadot/ui-app/AddressRow'
+import AddressNominator from '@polkadot/ui-app/Address/AddressNominator'
 
 type Props = I18nProps & {
   intentions: Array<string>
@@ -31,7 +31,8 @@ class IntensionsList extends React.PureComponent<Props> {
             {intentions.map((account) => {
               return (
                 <div key={account}>
-                   <AddressRow
+                   <AddressNominator
+                      className={classes('row', className)}
                       value={account}
                       key={account}
                       name={name || 'candidate'} // TODO: check in our list of address is we named it
