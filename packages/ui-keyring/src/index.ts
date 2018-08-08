@@ -15,6 +15,7 @@ import backupAccount from './account/backup';
 import createAccount from './account/create';
 import forgetAccount from './account/forget';
 import isAvailable from './isAvailable';
+import loadAccount from './account/load';
 import saveAccount from './account/save';
 import saveAccountMeta from './account/meta';
 import forgetAddress from './address/forget';
@@ -60,6 +61,8 @@ export default ({
     state.keyring.getPairs().filter((pair) =>
       state.isTestMode || pair.getMeta().isTesting !== true
     ),
+  loadAccount: (json: KeyringPair$Json): void =>
+    loadAccount(state, json),
   loadAll: (): void =>
     loadAll(state),
   restoreAccount: (json: KeyringPair$Json, passphrase?: string): KeyringPair | void =>
