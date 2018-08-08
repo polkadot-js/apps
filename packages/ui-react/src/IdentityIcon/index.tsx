@@ -7,57 +7,30 @@ import { BaseProps } from '../types';
 import './IdentityIcon.css';
 
 import React from 'react';
-import identicon from '@polkadot/ui-identicon/index';
-import encodeAddress from '@polkadot/util-keyring/address/encode';
-import isHex from '@polkadot/util/is/hex';
-import isU8a from '@polkadot/util/is/u8a';
+import Identicon from 'polkadot-identicon';
 
 type Props = BaseProps & {
   size?: number,
   value: string | Uint8Array
 };
 
-type State = {
-  address: string
-};
-
 const DEFAULT_SIZE = 64;
 
-export default class IdentityIcon extends React.PureComponent<Props, State> {
-  state: State = {} as State;
-
-  static getDerivedStateFromProps ({ value }: Props, prevState: State): State | null {
-    const address = isU8a(value) || isHex(value)
-      ? encodeAddress(value)
-      : value;
-
-    return address === prevState.address
-      ? null
-      : { address };
-  }
-
+export default class IdentityIcon extends React.PureComponent<Props> {
   render () {
-    const { className, style } = this.props;
-    const { address } = this.state;
+    const { className, size = DEFAULT_SIZE, style, value } = this.props;
 
     return (
       <div
         className={['ui--IdentityIcon', className].join(' ')}
-        key={address}
-        ref={this.appendIcon}
+        key={value.toString()}
         style={style}
-      />
+      >
+        <Identicon
+          id={value}
+          size={size}
+        />
+      </div>
     );
-  }
-
-  private appendIcon = (node: Element | null): void => {
-    const { size = DEFAULT_SIZE } = this.props;
-    const { address } = this.state;
-
-    if (node) {
-      node.appendChild(
-        identicon(address, size)
-      );
-    }
   }
 }
