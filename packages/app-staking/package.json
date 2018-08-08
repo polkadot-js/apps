@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-staking",
-  "version": "0.19.21",
+  "version": "0.19.22",
   "description": "A basic staking app",
   "main": "index.js",
   "scripts": {},
@@ -11,12 +11,12 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
-    "@polkadot/app-extrinsics": "^0.19.21",
+    "@polkadot/app-extrinsics": "^0.19.22",
     "@polkadot/storage": "^0.27.9",
-    "@polkadot/ui-app": "^0.19.21",
-    "@polkadot/ui-keyring": "^0.19.21",
-    "@polkadot/ui-react": "^0.19.21",
-    "@polkadot/ui-react-rx": "^0.19.21",
+    "@polkadot/ui-app": "^0.19.22",
+    "@polkadot/ui-keyring": "^0.19.22",
+    "@polkadot/ui-react": "^0.19.22",
+    "@polkadot/ui-react-rx": "^0.19.22",
     "@polkadot/util-keyring": "^0.27.9"
   }
 }
