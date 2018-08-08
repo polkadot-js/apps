@@ -80,6 +80,7 @@ class Account extends React.PureComponent<Props, State> {
             />
             {this.renderButtons()}
             {this.renderNominee()}
+            {this.renderNominators()}
           </div>
         </AddressSummary>
       </div>
@@ -104,6 +105,22 @@ class Account extends React.PureComponent<Props, State> {
         withBalance
       />
     );
+  }
+
+  private renderNominators () {
+    const { nominatorsFor } = this.props;
+
+    if (!nominatorsFor) {
+      return null;
+    }
+
+    return nominatorsFor.map((nominator) => (
+      <AddressMini
+        key={nominator}
+        value={nominator}
+        withBalance
+      />
+    ));
   }
 
   private renderButtons () {
