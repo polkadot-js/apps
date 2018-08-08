@@ -7,8 +7,6 @@ import { BareProps, I18nProps, UnlockI18n } from '@polkadot/ui-app/types';
 import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 
-import './DownloadButton.css';
-
 import React from 'react';
 import FileSaver from 'file-saver';
 import keyring from '@polkadot/ui-keyring/index';
@@ -104,14 +102,14 @@ class DownloadButton extends React.PureComponent<Props, State> {
             >
               <Modal.Content>
                 <div className='ui--grid'>
-                  <div className={'accounts--Address accounts--Address-modal'}>
+                  <div className={'accounts--Address-modal'}>
                     <IdentityIcon
-                      className='accounts--Address-icon'
+                      className='accounts--Address-modal-icon'
                       size={48}
                       value={address}
                     />
-                    <div className='accounts--Address-data'>
-                      <div className='accounts--Address-address'>
+                    <div className='accounts--Address-modal-data'>
+                      <div className='accounts--Address-modal-address'>
                         {shortValue}
                       </div>
                     </div>
