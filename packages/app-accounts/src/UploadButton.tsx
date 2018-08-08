@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { Button$Sizes } from '@polkadot/ui-app/Button/types';
-import { BareProps, I18nProps } from '@polkadot/ui-app/types';
+import { BareProps, I18nProps, UnlockI18n } from '@polkadot/ui-app/types';
 import { KeyringPair, KeyringPair$Json } from '@polkadot/util-keyring/types';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 
@@ -19,11 +19,6 @@ import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
 import Unlock from '@polkadot/ui-signer/Unlock';
 import getAddressShortValue from './util/getAddressShortValue';
-
-type UnlockI18n = {
-  key: string,
-  value: string
-};
 
 type State = {
   address: string,
