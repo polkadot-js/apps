@@ -5,6 +5,7 @@
 import { Header } from '@polkadot/primitives/header';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
+import { Balance, BalanceMap } from './observables/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -14,7 +15,9 @@ import classes from '@polkadot/ui-app/util/classes';
 import withApiCall from '@polkadot/ui-react-rx/with/apiCall';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withStorage from '@polkadot/ui-react-rx/with/storage';
+import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
+import validatingBalances from './observables/validatingBalances';
 import translate from './translate';
 
 type Props = ApiProps & I18nProps & {
@@ -25,16 +28,11 @@ type Props = ApiProps & I18nProps & {
   validators: Array<string>
 };
 
-type StateBalances = {
-  [index: string]: BN
-};
-
 type State = {
-  balances: StateBalances,
-  subscriptions: Array<any>
+  balances: BalanceMap,
+  subBalances: any
 };
 
-const DEFAULT_BALANCE = new BN(0);
 const DEFAULT_BLOCKNUMBER = new BN(0);
 const DEFAULT_SESSION_CHANGE = new BN(0);
 const DEFAULT_SESSION_LENGTH = new BN(60);
@@ -45,7 +43,7 @@ class Summary extends React.PureComponent<Props, State> {
 
     this.state = {
       balances: {},
-      subscriptions: []
+      subBalances: null
     };
   }
 
@@ -57,46 +55,31 @@ class Summary extends React.PureComponent<Props, State> {
     }
   }
 
-  private subscribeBalances (accounts: string[]) {
+  private unsubscribeBalances () {
+    const { subBalances } = this.state;
+
+    if (subBalances) {
+      subBalances.unsubscribe();
+    }
+  }
+
+  private subscribeBalances (accounts: string[] = []) {
     const { api } = this.props;
-    const { balances, subscriptions } = this.state;
-    const newBalances = { ...balances };
 
-    accounts.forEach((account) => {
-      if (newBalances[account]) {
-        return;
-      } else {
-        newBalances[account] = DEFAULT_BALANCE;
-      }
+    this.unsubscribeBalances();
 
-      subscriptions.push(
-        api.state
-          // Here we pass a parameter to the key generator, so it points to the correct storage entry
-          .getStorage(storage.staking.public.freeBalanceOf, account)
-          .subscribe((balance: BN) => {
-            this.setState(({ balances }: State) => {
-              const newBalances = { ...balances };
-
-              newBalances[account] = balance;
-
-              return {
-                balances: newBalances
-              } as State;
-            });
-          })
-      );
+    // FIXME: We want these as a HOC on the class
+    const subBalances = validatingBalances(api, accounts).subscribe((balances: BalanceMap) => {
+      this.setState({ balances });
     });
 
     this.setState({
-      balances: newBalances,
-      subscriptions
+      subBalances
     } as State);
   }
 
   componentWillUnmount () {
-    const { subscriptions } = this.state;
-
-    subscriptions.forEach((sub) => sub.unsubscribe());
+    this.unsubscribeBalances();
   }
 
   render () {
@@ -122,19 +105,23 @@ class Summary extends React.PureComponent<Props, State> {
         <div>{t('summary.balance.validator', {
           defaultValue: 'lowest validator balance is {{validatorLow}}',
           replace: {
-            validatorLow: validatorLow ? validatorLow.toString() : 'unknown'
+            validatorLow: validatorLow && validatorLow.stakingBalance
+              ? `${numberFormat(validatorLow.stakingBalance)} (+${numberFormat(validatorLow.nominatedBalance)})`
+              : 'unknown'
           }
         })}</div>
         <div>{t('summary.balance.stake', {
           defaultValue: ' highest balance intending to stake is {{intentionHigh}}',
           replace: {
-            intentionHigh: intentionHigh ? intentionHigh.toString() : 'unknown'
+            intentionHigh: intentionHigh
+              ? `${numberFormat(intentionHigh.stakingBalance)} (+${numberFormat(intentionHigh.nominatedBalance)})`
+              : 'unknown'
           }
         })}</div>
         <div>{t('summary.countdown', {
           defaultValue: 'session block {{remainder}} / {{length}} at #{{blockNumber}}',
           replace: {
-            blockNumber: blockNumber.toString(),
+            blockNumber: numberFormat(blockNumber),
             remainder: Math.max(1, blockNumber.sub(lastLengthChange).mod(sessionLength).addn(1).toNumber()).toString(),
             length: sessionLength.toString()
           }
@@ -143,16 +130,16 @@ class Summary extends React.PureComponent<Props, State> {
     );
   }
 
-  private calcIntentionsHigh (): BN | null {
+  private calcIntentionsHigh (): Balance | null {
     const { intentions, validators } = this.props;
     const { balances } = this.state;
 
-    return intentions.reduce((high: BN | null, addr) => {
-      const balance = validators.includes(addr)
+    return intentions.reduce((high: Balance | null, addr) => {
+      const balance = validators.includes(addr) || !balances[addr]
         ? null
-        : balances[addr] || null;
+        : balances[addr];
 
-      if (high === null || (balance && high.lt(balance))) {
+      if (high === null || (balance && high.stakingBalance.lt(balance.stakingBalance))) {
         return balance;
       }
 
@@ -160,14 +147,14 @@ class Summary extends React.PureComponent<Props, State> {
     }, null);
   }
 
-  private calcValidatorLow (): BN | null {
+  private calcValidatorLow (): Balance | null {
     const { validators } = this.props;
     const { balances } = this.state;
 
-    return validators.reduce((low: BN | null, addr) => {
+    return validators.reduce((low: Balance | null, addr) => {
       const balance = balances[addr] || null;
 
-      if (low === null || (balance && low.gt(balance))) {
+      if (low === null || (balance && low.stakingBalance.gt(balance.stakingBalance))) {
         return balance;
       }
 

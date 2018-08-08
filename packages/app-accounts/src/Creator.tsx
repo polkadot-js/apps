@@ -21,7 +21,7 @@ import keypairFromSeed from '@polkadot/util-crypto/nacl/keypair/fromSeed';
 import randomBytes from '@polkadot/util-crypto/random/asU8a';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
-import Address from './Address';
+import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';
 import unlockOptions from './unlockOptions';
 
@@ -74,7 +74,7 @@ class Creator extends React.PureComponent<Props, State> {
         style={style}
       >
         <div className='ui--grid'>
-          <Address
+          <AddressSummary
             className='shrink'
             value={
               isSeedValid
