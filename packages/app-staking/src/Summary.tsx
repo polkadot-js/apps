@@ -5,19 +5,19 @@
 import { Header } from '@polkadot/primitives/header';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
-import { Balance, BalanceMap } from './observables/types';
+import { Balance, BalanceMap } from '@polkadot/ui-react-rx/observables/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import apimethods from '@polkadot/jsonrpc';
 import storage from '@polkadot/storage';
 import classes from '@polkadot/ui-app/util/classes';
+import validatingBalances from '@polkadot/ui-react-rx/observables/validatingBalances';
 import withApiCall from '@polkadot/ui-react-rx/with/apiCall';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withStorage from '@polkadot/ui-react-rx/with/storage';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
-import validatingBalances from './observables/validatingBalances';
 import translate from './translate';
 
 type Props = ApiProps & I18nProps & {

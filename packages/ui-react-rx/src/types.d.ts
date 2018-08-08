@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import BN from 'bn.js';
 import { ProviderInterface } from '@polkadot/api-provider/types';
 import { RxApiInterface } from '@polkadot/api-rx/types';
 import { EncodingVersions } from '@polkadot/params/types';
@@ -47,3 +48,17 @@ export type BaseProps<T> = BareProps & ApiProps & ChangeProps<T> & ParamProps & 
 };
 
 export type Formatter = (value?: any) => string;
+
+export type ExtendedBalance = {
+  address: string,
+  freeBalance: BN,
+  nominatedBalance: BN,
+  reservedBalance: BN,
+  votingBalance: BN,
+  stakingBalance: BN,
+  nominators?: Array<ExtendedBalance>
+}
+
+export type ExtendedBalanceMap = {
+  [index: string]: ExtendedBalance
+}
