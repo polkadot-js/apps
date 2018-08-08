@@ -41,9 +41,15 @@
   vertical-align: middle;
 }
 
-.ui--AddressMini > .ui--IdentityIcon {
+.ui--AddressMini .ui--IdentityIcon {
   margin-left: 1rem;
   margin-right: 0.5rem;
+}
+
+.ui--AddressMini .ui--Balance {
+  font-size: 0.75rem;
+  margin-top: -0.5rem;
+  text-align: right;
 }
 
 .ui--AddressRow {

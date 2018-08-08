@@ -77,7 +77,10 @@ class Account extends React.PureComponent<Props, State> {
               size='large'
             />
             {this.renderButtons()}
-            <AddressMini value={nominating} />
+            <AddressMini
+              value={nominating}
+              withBalance
+            />
           </div>
         </AddressSummary>
       </div>
