@@ -177,7 +177,12 @@ class UploadButton extends React.PureComponent<Props, State> {
             </Modal>
           ) : null
         }
-        <ReactFileReader fileTypes={['.json']} base64={false} multipleFiles={false} handleFiles={this.handleUploadedFiles}>
+        <ReactFileReader
+          fileTypes={['.json']}
+          base64={false}
+          multipleFiles={false}
+          handleFiles={this.handleUploadedFiles}
+        >
           <Button
             className={className}
             icon={icon}
