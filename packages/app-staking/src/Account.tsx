@@ -7,6 +7,7 @@ import { Extrinsics } from '@polkadot/extrinsics/types';
 import { SectionItem } from '@polkadot/params/types';
 import { RawParam$Value } from '@polkadot/ui-app/Params/types';
 import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/types';
+import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -29,8 +30,9 @@ import translate from './translate';
 type Props = I18nProps & {
   accountIndex?: BN,
   address: string,
+  balances: ExtendedBalanceMap,
   name: string,
-  nominating?: string,
+  nominee?: string,
   nominatorsFor?: Array<string>,
   intentions: Array<string>,
   isValidator: boolean,
@@ -52,7 +54,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { address, className, intentions, isValidator, name, nominating, style } = this.props;
+    const { address, className, intentions, isValidator, name, style } = this.props;
     const { isNominateOpen } = this.state;
 
     return (
@@ -67,6 +69,7 @@ class Account extends React.PureComponent<Props, State> {
           intentions={intentions}
         />
         <AddressSummary
+          balance={this.balanceArray(address)}
           name={name}
           value={address}
         >
@@ -77,17 +80,58 @@ class Account extends React.PureComponent<Props, State> {
               size='large'
             />
             {this.renderButtons()}
-            <AddressMini value={nominating} />
+            {this.renderNominee()}
+            {this.renderNominators()}
           </div>
         </AddressSummary>
       </div>
     );
   }
 
+  private balanceArray (address: string): Array<BN> | undefined {
+    const { balances } = this.props;
+
+    return balances[address]
+      ? [balances[address].stakingBalance, balances[address].nominatedBalance]
+      : undefined;
+  }
+
+  private renderNominee () {
+    const { nominee } = this.props;
+
+    if (!nominee) {
+      return null;
+    }
+
+    return (
+      <AddressMini
+        balance={this.balanceArray(nominee)}
+        value={nominee}
+        withBalance
+      />
+    );
+  }
+
+  private renderNominators () {
+    const { nominatorsFor } = this.props;
+
+    if (!nominatorsFor) {
+      return null;
+    }
+
+    return nominatorsFor.map((nominator) => (
+      <AddressMini
+        key={nominator}
+        value={nominator}
+        withBalance
+      />
+    ));
+  }
+
   private renderButtons () {
-    const { address, intentions, nominating, t } = this.props;
+    const { address, intentions, nominee, t } = this.props;
     const isIntending = intentions.includes(address);
-    const isNominating = !!nominating;
+    const isNominating = !!nominee;
     const canStake = !isIntending && !isNominating;
 
     if (canStake) {
@@ -120,7 +164,7 @@ class Account extends React.PureComponent<Props, State> {
           <Button.Group>
             <UnnominateButton
               address={address || ''}
-              nominating={nominating || ''}
+              nominating={nominee || ''}
               onClick={this.unnominate}
             />
           </Button.Group>
@@ -199,7 +243,7 @@ export default withMulti(
   withStorage(
     storage.staking.public.nominating,
     {
-      propName: 'nominating',
+      propName: 'nominee',
       paramProp: 'address',
       transform: encodeAddress
     }

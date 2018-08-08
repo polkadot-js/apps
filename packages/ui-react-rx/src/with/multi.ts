@@ -7,7 +7,11 @@ import React from 'react';
 type HOC = (Component: React.ComponentType<any>) => React.ComponentType<any>;
 
 export default function withMulti<T> (Component: React.ComponentType<any>, ...hocs: Array<HOC>): React.ComponentType<any> {
-  return hocs.reduce((Component, hoc) => {
-    return hoc(Component);
-  }, Component);
+  // NOTE: Order is reversed so it makes sense in the props, i.e. component
+  // after something can use the value of the preceding version
+  return hocs
+    .reverse()
+    .reduce((Component, hoc) => {
+      return hoc(Component);
+    }, Component);
 }

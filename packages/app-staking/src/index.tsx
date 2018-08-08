@@ -3,11 +3,13 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
+import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
 
 import React from 'react';
 import storage from '@polkadot/storage';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 import classes from '@polkadot/ui-app/util/classes';
+import withApiObservable from '@polkadot/ui-react-rx/with/apiObservable';
 import withStorage from '@polkadot/ui-react-rx/with/storage';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 
@@ -17,6 +19,7 @@ import StakeList from './StakeList';
 import Summary from './Summary';
 
 type Props = BareProps & {
+  balances?: ExtendedBalanceMap,
   intentions?: Array<string>,
   validators?: Array<string>
 };
@@ -26,7 +29,7 @@ const transformAddresses = (publicKeys: Array<Uint8Array>) =>
 
 class App extends React.PureComponent<Props> {
   render () {
-    const { className, intentions = [], style, validators = [] } = this.props;
+    const { balances = {}, className, intentions = [], style, validators = [] } = this.props;
 
     return (
       <div
@@ -34,10 +37,12 @@ class App extends React.PureComponent<Props> {
         style={style}
       >
         <Summary
+          balances={balances}
           intentions={intentions}
           validators={validators}
         />
         <StakeList
+          balances={balances}
           intentions={intentions}
           validators={validators}
         />
@@ -60,6 +65,13 @@ export default withMulti(
     {
       propName: 'validators',
       transform: transformAddresses
+    }
+  ),
+  withApiObservable(
+    'validatingBalances',
+    {
+      paramProp: 'intentions',
+      propName: 'balances'
     }
   )
 );
