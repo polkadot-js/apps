@@ -66,12 +66,13 @@
 }
 
 .ui--AddressSummary {
-  padding: 0 2em;
+  padding: 0 1em;
   text-align: left;
   white-space: nowrap
 }
 
 .ui--AddressSummary-base {
+  padding: 0 1em;
   text-align: center;
 }
 
