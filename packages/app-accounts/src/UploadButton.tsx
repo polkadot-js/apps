@@ -299,7 +299,6 @@ class UploadButton extends React.PureComponent<Props, State> {
   }
 
   onChangePassword = (password: string): void => {
-    this.nextState({ password, unlockError: null } as State);
     this.setState({
       password,
       unlockError: null
