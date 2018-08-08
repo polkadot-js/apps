@@ -69,6 +69,7 @@ class Account extends React.PureComponent<Props, State> {
           intentions={intentions}
         />
         <AddressSummary
+          balance={this.balanceArray(address)}
           name={name}
           value={address}
         >
@@ -87,8 +88,16 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
+  private balanceArray (address: string): Array<BN> | undefined {
+    const { balances } = this.props;
+
+    return balances[address]
+      ? [balances[address].stakingBalance, balances[address].nominatedBalance]
+      : undefined;
+  }
+
   private renderNominee () {
-    const { balances, nominee } = this.props;
+    const { nominee } = this.props;
 
     if (!nominee) {
       return null;
@@ -96,11 +105,7 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <AddressMini
-        balance={
-          balances[nominee]
-            ? [balances[nominee].stakingBalance, balances[nominee].nominatedBalance]
-            : undefined
-        }
+        balance={this.balanceArray(nominee)}
         value={nominee}
         withBalance
       />
