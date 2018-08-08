@@ -85,6 +85,11 @@ class UploadButton extends React.PureComponent<Props, State> {
   processUploadedFileStorage = (): boolean => {
     const { password, uploadedFileKeyringPair } = this.state;
     const { t, onChangeAccount } = this.props;
+
+    if (isUndefined(uploadedFileKeyringPair) || !uploadedFileKeyringPair.address) {
+      return;
+    }
+
     const json = uploadedFileKeyringPair;
 
     // Reset password so it is not pre-populated on the form on subsequent uploads
@@ -249,7 +254,7 @@ class UploadButton extends React.PureComponent<Props, State> {
           <Button
             isDisabled={false}
             isPrimary
-            onClick={this.onSubmit}
+            onClick={this.processUploadedFileStorage}
             text={t('creator.submit', {
               defaultValue: 'Submit'
             })}
@@ -297,16 +302,6 @@ class UploadButton extends React.PureComponent<Props, State> {
       password,
       unlockError: null
     });
-  }
-
-  onSubmit = (): void => {
-    const { uploadedFileKeyringPair } = this.state;
-
-    if (isUndefined(uploadedFileKeyringPair) || !uploadedFileKeyringPair.address) {
-      return;
-    }
-
-    this.processUploadedFileStorage();
   }
 
   onDiscard = (): void => {
