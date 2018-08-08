@@ -13,10 +13,11 @@ import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
 import classes from './util/classes';
+import toShortAddress from './util/toShortAddress';
 import CopyButton from './CopyButton';
 import translate from './translate';
 
-type Props = I18nProps & {
+export type Props = I18nProps & {
   children?: React.ReactNode,
   name?: string,
   value: string,
@@ -24,7 +25,7 @@ type Props = I18nProps & {
   withNonce?: boolean
 };
 
-type State = {
+export type State = {
   address: string,
   isValid: boolean,
   publicKey: Uint8Array | null,
@@ -32,7 +33,7 @@ type State = {
 };
 
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
-const DEFAULT_SHORT = `${DEFAULT_ADDR.slice(0, 7)}…${DEFAULT_ADDR.slice(-7)}`;
+const DEFAULT_SHORT = toShortAddress(DEFAULT_ADDR);
 
 class AddressSummary extends React.PureComponent<Props, State> {
   state: State = {} as State;
@@ -41,7 +42,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     try {
       publicKey = addressDecode(value);
       address = addressEncode(publicKey);
-      shortValue = `${address.slice(0, 7)}…${address.slice(-7)}`;
+      shortValue = toShortAddress(address);
     } catch (error) {
       publicKey = null;
     }
@@ -57,8 +58,8 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { children, className, name, style } = this.props;
-    const { address, isValid, shortValue } = this.state;
+    const { className, style } = this.props;
+    const { address, isValid } = this.state;
 
     return (
       <div
@@ -71,25 +72,32 @@ class AddressSummary extends React.PureComponent<Props, State> {
             size={96}
             value={address}
           />
-          <div className='ui--AddressSummary-data'>
-            <div className='ui--AddressSummary-name'>
-              {name}
-            </div>
-            <div className='ui--AddressSummary-address'>
-              {shortValue}
-            </div>
-            <CopyButton value={address} />
-          </div>
+          {this.renderAddress()}
           {this.renderBalance()}
         </div>
-        <div className='ui--AddressSummary-children'>
-          {children}
-        </div>
+        {this.renderChildren()}
       </div>
     );
   }
 
-  renderBalance () {
+  protected renderAddress () {
+    const { name } = this.props;
+    const { address, shortValue } = this.state;
+
+    return (
+      <div className='ui--AddressSummary-data'>
+        <div className='ui--AddressSummary-name'>
+          {name}
+        </div>
+        <div className='ui--AddressSummary-address'>
+          {shortValue}
+        </div>
+        <CopyButton value={address} />
+      </div>
+    );
+  }
+
+  protected renderBalance () {
     const { isValid, publicKey } = this.state;
 
     if (!isValid) {
@@ -126,6 +134,26 @@ class AddressSummary extends React.PureComponent<Props, State> {
         : null
     ];
   }
+
+  protected renderChildren () {
+    const { children } = this.props;
+
+    if (!children) {
+      return null;
+    }
+
+    return (
+      <div className='ui--AddressSummary-children'>
+        {children}
+      </div>
+    );
+  }
 }
+
+export {
+  DEFAULT_ADDR,
+  DEFAULT_SHORT,
+  AddressSummary
+};
 
 export default translate(AddressSummary);
