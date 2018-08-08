@@ -7,14 +7,13 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
-import Balance from '@polkadot/ui-react-rx/Balance';
 import Nonce from '@polkadot/ui-react-rx/Nonce';
-import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
+import Balance from './Balance';
 import CopyButton from './CopyButton';
 import translate from './translate';
 
@@ -104,40 +103,19 @@ class AddressSummary extends React.PureComponent<Props, State> {
     const { isValid, publicKey } = this.state;
     const { balance, t, withBalance = true } = this.props;
 
-    if (!withBalance || !isValid) {
+    if (!withBalance || !isValid || !publicKey) {
       return null;
     }
 
-    const label = t('addressSummary.balance', {
-      defaultValue: 'balance '
-    });
-
-    return balance
-      ? this.renderBalanceProvided(label, balance)
-      : (
-        <Balance
-          className='ui--AddressSummary-balance'
-          label={label}
-          params={publicKey}
-        />
-      );
-  }
-
-  private renderBalanceProvided (label: string, balance: BN | Array<BN>) {
-    let value = `${numberFormat(Array.isArray(balance) ? balance[0] : balance)}`;
-
-    if (Array.isArray(balance)) {
-      const totals = balance
-        .filter((value, index) => index !== 0)
-        .map(numberFormat);
-
-      value = `${value}  (${totals.length === 1 ? '+' : ''}${totals.join(', ')})`;
-    }
-
     return (
-      <div className='ui--AddressSummary-balance'>
-        {label}{value}
-      </div>
+      <Balance
+        balance={balance}
+        className='ui--AddressSummary-balance'
+        label={t('addressSummary.balance', {
+          defaultValue: 'balance '
+        })}
+        value={publicKey}
+      />
     );
   }
 
