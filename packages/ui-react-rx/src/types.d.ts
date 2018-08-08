@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
+import { Observable } from 'rxjs';
 import { ProviderInterface } from '@polkadot/api-provider/types';
 import { RxApiInterface } from '@polkadot/api-rx/types';
 import { EncodingVersions } from '@polkadot/params/types';
@@ -13,9 +14,31 @@ export type BareProps = {
   style?: { [index: string]: any }
 };
 
+export type ExtendedBalance = {
+  address: string,
+  freeBalance: BN,
+  nominatedBalance: BN,
+  reservedBalance: BN,
+  votingBalance: BN,
+  stakingBalance: BN,
+  nominators?: Array<ExtendedBalance>
+}
+
+export type ExtendedBalanceMap = {
+  [index: string]: ExtendedBalance
+}
+
+export interface ObservableApiInterface {
+  validatingBalance: (address: string) => Observable<ExtendedBalance>,
+  validatingBalances: (addresses: Array<string>) => Observable<ExtendedBalanceMap>,
+  votingBalance: (address: string) => Observable<ExtendedBalance>,
+  votingBalances: (addresses: Array<string>) => Observable<ExtendedBalance[]>
+}
+
 export type ApiProps = {
   api: RxApiInterface,
   apiConnected: boolean,
+  apiObservable: ObservableApiInterface,
   apiSupport: EncodingVersions,
   setApi: (api: RxApiInterface) => void,
   setApiProvider: (provider?: ProviderInterface) => void,
@@ -48,17 +71,3 @@ export type BaseProps<T> = BareProps & ApiProps & ChangeProps<T> & ParamProps & 
 };
 
 export type Formatter = (value?: any) => string;
-
-export type ExtendedBalance = {
-  address: string,
-  freeBalance: BN,
-  nominatedBalance: BN,
-  reservedBalance: BN,
-  votingBalance: BN,
-  stakingBalance: BN,
-  nominators?: Array<ExtendedBalance>
-}
-
-export type ExtendedBalanceMap = {
-  [index: string]: ExtendedBalance
-}

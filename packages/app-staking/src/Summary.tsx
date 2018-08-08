@@ -4,15 +4,13 @@
 
 import { Header } from '@polkadot/primitives/header';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-react-rx/types';
-import { Balance, BalanceMap } from '@polkadot/ui-react-rx/observables/types';
+import { ApiProps, ExtendedBalance, ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import apimethods from '@polkadot/jsonrpc';
 import storage from '@polkadot/storage';
 import classes from '@polkadot/ui-app/util/classes';
-import validatingBalances from '@polkadot/ui-react-rx/observables/validatingBalances';
 import withApiCall from '@polkadot/ui-react-rx/with/apiCall';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withStorage from '@polkadot/ui-react-rx/with/storage';
@@ -29,7 +27,7 @@ type Props = ApiProps & I18nProps & {
 };
 
 type State = {
-  balances: BalanceMap,
+  balances: ExtendedBalanceMap,
   subBalances: any
 };
 
@@ -64,14 +62,16 @@ class Summary extends React.PureComponent<Props, State> {
   }
 
   private subscribeBalances (accounts: string[] = []) {
-    const { api } = this.props;
+    const { apiObservable } = this.props;
 
     this.unsubscribeBalances();
 
     // FIXME: We want these as a HOC on the class
-    const subBalances = validatingBalances(api, accounts).subscribe((balances: BalanceMap) => {
-      this.setState({ balances });
-    });
+    const subBalances = apiObservable
+      .validatingBalances(accounts)
+      .subscribe((balances: ExtendedBalanceMap) => {
+        this.setState({ balances });
+      });
 
     this.setState({
       subBalances
@@ -130,11 +130,11 @@ class Summary extends React.PureComponent<Props, State> {
     );
   }
 
-  private calcIntentionsHigh (): Balance | null {
+  private calcIntentionsHigh (): ExtendedBalance | null {
     const { intentions, validators } = this.props;
     const { balances } = this.state;
 
-    return intentions.reduce((high: Balance | null, addr) => {
+    return intentions.reduce((high: ExtendedBalance | null, addr) => {
       const balance = validators.includes(addr) || !balances[addr]
         ? null
         : balances[addr];
@@ -147,11 +147,11 @@ class Summary extends React.PureComponent<Props, State> {
     }, null);
   }
 
-  private calcValidatorLow (): Balance | null {
+  private calcValidatorLow (): ExtendedBalance | null {
     const { validators } = this.props;
     const { balances } = this.state;
 
-    return validators.reduce((low: Balance | null, addr) => {
+    return validators.reduce((low: ExtendedBalance | null, addr) => {
       const balance = balances[addr] || null;
 
       if (low === null || (balance && low.stakingBalance.gt(balance.stakingBalance))) {

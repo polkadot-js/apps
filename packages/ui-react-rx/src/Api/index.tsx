@@ -14,6 +14,7 @@ import WsProvider from '@polkadot/api-provider/ws';
 import createApi from '@polkadot/api-rx';
 import defaults from '@polkadot/api-rx/defaults';
 
+import ApiObservable from '../ApiObservable';
 import ApiContext from './Context';
 
 type Props = {
@@ -44,7 +45,9 @@ export default class Api extends React.PureComponent<Props, State> {
         : provider
     );
     const setApi = (api: RxApiInterface): void => {
-      this.setState({ api }, () => {
+      const apiObservable = new ApiObservable(api);
+
+      this.setState({ api, apiObservable }, () => {
         this.updateSubscriptions();
       });
     };
@@ -56,6 +59,7 @@ export default class Api extends React.PureComponent<Props, State> {
     this.state = {
       api,
       apiConnected: false,
+      apiObservable: new ApiObservable(api),
       apiSupport: 'poc-1',
       setApi,
       setApiProvider,
@@ -111,12 +115,13 @@ export default class Api extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { api, apiConnected, apiSupport, setApi, setApiProvider, setApiWsUrl } = this.state;
+    const { api, apiConnected, apiObservable, apiSupport, setApi, setApiProvider, setApiWsUrl } = this.state;
 
     return (
       <ApiContext.Provider value={{
         api,
         apiConnected,
+        apiObservable,
         apiSupport,
         setApi,
         setApiProvider,
