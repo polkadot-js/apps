@@ -4,11 +4,12 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
+import BN from 'bn.js';
 import React from 'react';
-
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Balance from '@polkadot/ui-react-rx/Balance';
 import Nonce from '@polkadot/ui-react-rx/Nonce';
+import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
@@ -18,6 +19,7 @@ import CopyButton from './CopyButton';
 import translate from './translate';
 
 export type Props = I18nProps & {
+  balance?: BN | Array<BN>,
   children?: React.ReactNode,
   name?: string,
   value: string,
@@ -74,6 +76,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
           />
           {this.renderAddress()}
           {this.renderBalance()}
+          {this.renderNonce()}
         </div>
         {this.renderChildren()}
       </div>
@@ -99,40 +102,63 @@ class AddressSummary extends React.PureComponent<Props, State> {
 
   protected renderBalance () {
     const { isValid, publicKey } = this.state;
+    const { balance, t, withBalance = true } = this.props;
 
-    if (!isValid) {
+    if (!withBalance || !isValid) {
       return null;
     }
 
-    const { t, withBalance = true, withNonce = true } = this.props;
+    const label = t('addressSummary.balance', {
+      defaultValue: 'balance '
+    });
 
-    return [
-      withBalance
-        ? (
-          <Balance
-            className='ui--AddressSummary-balance'
-            key='balance'
-            label={t('addressSummary.balance', {
-              defaultValue: 'balance '
-            })}
-            params={publicKey}
-          />
-        )
-        : null,
-      withNonce
-        ? (
-          <Nonce
-            className='ui--AddressSummary-nonce'
-            key='nonce'
-            params={publicKey}
-          >
-            {t('addressSummary.transactions', {
-              defaultValue: ' transactions'
-            })}
-          </Nonce>
-        )
-        : null
-    ];
+    return balance
+      ? this.renderBalanceProvided(label, balance)
+      : (
+        <Balance
+          className='ui--AddressSummary-balance'
+          label={label}
+          params={publicKey}
+        />
+      );
+  }
+
+  private renderBalanceProvided (label: string, balance: BN | Array<BN>) {
+    let value = `${numberFormat(Array.isArray(balance) ? balance[0] : balance)}`;
+
+    if (Array.isArray(balance)) {
+      const totals = balance
+        .filter((value, index) => index !== 0)
+        .map(numberFormat);
+
+      value = `${value}  (${totals.length === 1 ? '+' : ''}${totals.join(', ')})`;
+    }
+
+    return (
+      <div className='ui--AddressSummary-balance'>
+        {label}{value}
+      </div>
+    );
+  }
+
+  protected renderNonce () {
+    const { isValid, publicKey } = this.state;
+    const { t, withNonce = true } = this.props;
+
+    if (!withNonce || !isValid) {
+      return null;
+    }
+
+    return (
+      <Nonce
+        className='ui--AddressSummary-nonce'
+        params={publicKey}
+      >
+        {t('addressSummary.transactions', {
+          defaultValue: ' transactions'
+        })}
+      </Nonce>
+    );
   }
 
   protected renderChildren () {
