@@ -12,6 +12,7 @@ import apimethods from '@polkadot/jsonrpc';
 import storage from '@polkadot/storage';
 import classes from '@polkadot/ui-app/util/classes';
 import withApiCall from '@polkadot/ui-react-rx/with/apiCall';
+import withApiObservable from '@polkadot/ui-react-rx/with/apiObservable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withStorage from '@polkadot/ui-react-rx/with/storage';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
@@ -19,6 +20,7 @@ import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import translate from './translate';
 
 type Props = ApiProps & I18nProps & {
+  balances?: ExtendedBalanceMap,
   intentions: Array<string>,
   lastBlockHeader?: Header,
   lastLengthChange?: BN,
@@ -26,62 +28,11 @@ type Props = ApiProps & I18nProps & {
   validators: Array<string>
 };
 
-type State = {
-  balances: ExtendedBalanceMap,
-  subBalances: any
-};
-
 const DEFAULT_BLOCKNUMBER = new BN(0);
 const DEFAULT_SESSION_CHANGE = new BN(0);
 const DEFAULT_SESSION_LENGTH = new BN(60);
 
-class Summary extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      balances: {},
-      subBalances: null
-    };
-  }
-
-  componentDidUpdate (prevProps: Props) {
-    const { intentions } = this.props;
-
-    if (intentions !== prevProps.intentions) {
-      this.subscribeBalances(intentions);
-    }
-  }
-
-  private unsubscribeBalances () {
-    const { subBalances } = this.state;
-
-    if (subBalances) {
-      subBalances.unsubscribe();
-    }
-  }
-
-  private subscribeBalances (accounts: string[] = []) {
-    const { apiObservable } = this.props;
-
-    this.unsubscribeBalances();
-
-    // FIXME: We want these as a HOC on the class
-    const subBalances = apiObservable
-      .validatingBalances(accounts)
-      .subscribe((balances: ExtendedBalanceMap) => {
-        this.setState({ balances });
-      });
-
-    this.setState({
-      subBalances
-    } as State);
-  }
-
-  componentWillUnmount () {
-    this.unsubscribeBalances();
-  }
-
+class Summary extends React.PureComponent<Props> {
   render () {
     const { className, intentions, lastBlockHeader, lastLengthChange = DEFAULT_SESSION_CHANGE, style, sessionLength = DEFAULT_SESSION_LENGTH, t, validators } = this.props;
     const blockNumber = lastBlockHeader
@@ -131,8 +82,7 @@ class Summary extends React.PureComponent<Props, State> {
   }
 
   private calcIntentionsHigh (): ExtendedBalance | null {
-    const { intentions, validators } = this.props;
-    const { balances } = this.state;
+    const { balances = {}, intentions, validators } = this.props;
 
     return intentions.reduce((high: ExtendedBalance | null, addr) => {
       const balance = validators.includes(addr) || !balances[addr]
@@ -148,8 +98,7 @@ class Summary extends React.PureComponent<Props, State> {
   }
 
   private calcValidatorLow (): ExtendedBalance | null {
-    const { validators } = this.props;
-    const { balances } = this.state;
+    const { balances = {}, validators } = this.props;
 
     return validators.reduce((low: ExtendedBalance | null, addr) => {
       const balance = balances[addr] || null;
@@ -177,5 +126,12 @@ export default withMulti(
   withStorage(
     storage.session.public.lastLengthChange,
     { propName: 'lastLengthChange' }
+  ),
+  withApiObservable(
+    'validatingBalances',
+    {
+      paramProp: 'intentions',
+      propName: 'balances'
+    }
   )
 );
