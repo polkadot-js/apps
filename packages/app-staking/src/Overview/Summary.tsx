@@ -5,7 +5,7 @@
 import { Header } from '@polkadot/primitives/header';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
-import { Balance, BalanceMap } from './observables/types';
+import { Balance, BalanceMap } from '../observables/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -17,8 +17,8 @@ import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withStorage from '@polkadot/ui-react-rx/with/storage';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
+import validatingBalances from '../observables/validatingBalances';
 import translate from '../translate';
-import validatingBalances from './observables/validatingBalances';
 
 type Props = ApiProps & I18nProps & {
   intentions: Array<string>,
