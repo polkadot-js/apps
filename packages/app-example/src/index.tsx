@@ -3,6 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 
 import React from 'react';
+import Navigation from '@polkadot/ui-app/Navigation';
+import Page from '@polkadot/ui-app/Page';
 
 import './index.css';
 
@@ -34,14 +36,14 @@ export default class App extends React.PureComponent<any, State> {
     const { Component } = this.state;
 
     return (
-      <div className='example--App'>
-        <div className='navigation'>{
+      <Page className='example--App'>
+        <Navigation className='navigation'>{
           Object.keys(Components).map((name) => (
             <a key={name} onClick={() => this.onSelect(name)}>{name}</a>
           ))
-        }</div>
+        }</Navigation>
         <div><Component /></div>
-      </div>
+      </Page>
     );
   }
 

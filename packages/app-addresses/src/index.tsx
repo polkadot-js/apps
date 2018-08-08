@@ -9,6 +9,9 @@ import './index.css';
 import React from 'react';
 
 import Button from '@polkadot/ui-app/Button';
+import Navigation from '@polkadot/ui-app/Navigation';
+import Page from '@polkadot/ui-app/Page';
+
 import classes from '@polkadot/ui-app/util/classes';
 
 import Creator from './Creator';
@@ -38,29 +41,31 @@ class AddressesApp extends React.PureComponent<Props, State> {
     const Component = Components[action];
 
     return (
-      <div
+      <Page
         className={classes('addresses--App', className)}
         style={style}
       >
-        <Button.Group className='addresses--App-navigation'>
-          <Button
-            isPrimary={action === 'edit'}
-            onClick={this.selectEdit}
-            text={t('app.edit', {
-              defaultValue: 'Edit address'
-            })}
-          />
-          <Button.Or />
-          <Button
-            isPrimary={action === 'create'}
-            onClick={this.selectCreate}
-            text={t('app.create', {
-              defaultValue: 'Add address'
-            })}
-          />
-        </Button.Group>
+        <Navigation>
+          <Button.Group>
+            <Button
+              isPrimary={action === 'edit'}
+              onClick={this.selectEdit}
+              text={t('app.edit', {
+                defaultValue: 'Edit address'
+              })}
+            />
+            <Button.Or />
+            <Button
+              isPrimary={action === 'create'}
+              onClick={this.selectCreate}
+              text={t('app.create', {
+                defaultValue: 'Add address'
+              })}
+            />
+          </Button.Group>
+        </Navigation>
         <Component onBack={this.selectEdit} />
-      </div>
+      </Page>
     );
   }
 

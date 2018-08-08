@@ -8,7 +8,7 @@ import { StorageQuery } from './types';
 import './index.css';
 
 import React from 'react';
-
+import Page from '@polkadot/ui-app/Page';
 import classes from '@polkadot/ui-app/util/classes';
 
 import Queries from './Queries';
@@ -31,7 +31,7 @@ class StorageApp extends React.PureComponent<Props, State> {
     const { queue } = this.state;
 
     return (
-      <div
+      <Page
         className={classes('storage--App', className)}
         style={style}
       >
@@ -40,7 +40,7 @@ class StorageApp extends React.PureComponent<Props, State> {
           onRemove={this.onRemove}
           value={queue}
         />
-      </div>
+      </Page>
     );
   }
 

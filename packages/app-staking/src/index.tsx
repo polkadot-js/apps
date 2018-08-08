@@ -7,6 +7,7 @@ import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
 
 import React from 'react';
 import storage from '@polkadot/storage';
+import Page from '@polkadot/ui-app/Page';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 import classes from '@polkadot/ui-app/util/classes';
 import withApiObservable from '@polkadot/ui-react-rx/with/apiObservable';
@@ -32,7 +33,7 @@ class App extends React.PureComponent<Props> {
     const { balances = {}, className, intentions = [], style, validators = [] } = this.props;
 
     return (
-      <div
+      <Page
         className={classes('staking--App', className)}
         style={style}
       >
@@ -46,7 +47,7 @@ class App extends React.PureComponent<Props> {
           intentions={intentions}
           validators={validators}
         />
-      </div>
+      </Page>
     );
   }
 }

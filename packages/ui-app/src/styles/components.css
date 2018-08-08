@@ -66,12 +66,13 @@
 }
 
 .ui--AddressSummary {
-  padding: 0 2em;
+  padding: 0 1em;
   text-align: left;
   white-space: nowrap
 }
 
 .ui--AddressSummary-base {
+  padding: 0 1em;
   text-align: center;
 }
 
@@ -120,4 +121,17 @@
   font-family: monospace;
   font-size: 1.5em;
   padding: 0;
+}
+
+.ui--Navigation {
+  margin-bottom: 2em;
+  text-align: center;
+}
+
+.ui--Navigation .ui--Button-Group {
+  text-align: center;
+}
+
+.ui--Page {
+  padding: 1em 2em;
 }
