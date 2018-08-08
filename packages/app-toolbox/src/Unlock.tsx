@@ -133,7 +133,7 @@ class Unlock extends React.PureComponent<Props, State> {
   unlockAccount (password?: string): UnlockI18n | null {
     const { pair } = this.props;
 
-    if (!pair || pair.hasSecretKey()) {
+    if (!pair || !pair.isLocked()) {
       return null;
     }
 
