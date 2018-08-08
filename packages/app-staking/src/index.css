@@ -31,6 +31,10 @@
   text-align: right;
 }
 
+.staking--Account .ui--AddressMini {
+  display: block;
+}
+
 .staking--Account-expand {
   padding-left: 1em;
 }
