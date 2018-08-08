@@ -68,10 +68,7 @@ class UploadButton extends React.PureComponent<Props, State> {
             keyring.addFromJson(json as KeyringPair$Json);
 
             // Store uploaded wallet in state and open modal to get their password for it
-            this.setState(
-              { uploadedFileKeyringPair: json },
-              () => this.showPasswordModal()
-            );
+            this.setState({ uploadedFileKeyringPair: json }, () => this.showPasswordModal());
           }
         }
       } catch (e) {
@@ -79,10 +76,11 @@ class UploadButton extends React.PureComponent<Props, State> {
         this.setState({ unlockError: { key: t('error'), value: t('Unable to upload account from file') } });
       }
     };
+
     fileReader.readAsText(fileToUpload);
   }
 
-  processUploadedFileStorage = (): boolean => {
+  processUploadedFileStorage = (): void => {
     const { password, uploadedFileKeyringPair } = this.state;
     const { t, onChangeAccount } = this.props;
 
@@ -96,7 +94,7 @@ class UploadButton extends React.PureComponent<Props, State> {
     this.setState({ password: '' }, () => {
       try {
         if (!json || !Object.keys(json).length) {
-          return false;
+          return;
         }
 
         const pairRestored = keyring.restoreAccount(json, password);
@@ -105,21 +103,21 @@ class UploadButton extends React.PureComponent<Props, State> {
           this.hidePasswordModal();
           onChangeAccount(pairRestored.publicKey());
 
-          return true;
+          return;
         } else {
           this.setState({ unlockError: { key: t('error'), value: t('Unable to upload account into memory') } });
 
-          return false;
+          return;
         }
       } catch (e) {
         console.error('Error processing uploaded file to local storage: ', e);
         this.setState({ unlockError: { key: t('error'), value: t('Unable to upload account into memory') } });
 
-        return false;
+        return;
       }
     });
 
-    return false;
+    return;
   }
 
   showPasswordModal = (): void => {
