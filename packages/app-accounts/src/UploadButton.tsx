@@ -5,7 +5,6 @@
 import { Button$Sizes } from '@polkadot/ui-app/Button/types';
 import { BareProps, I18nProps, UnlockI18n } from '@polkadot/ui-app/types';
 import { KeyringPair$Json } from '@polkadot/util-keyring/types';
-import { KeyringAddress } from '@polkadot/ui-keyring/types';
 
 import React from 'react';
 import translate from './translate';
@@ -219,7 +218,7 @@ class UploadButton extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const keyringAddress: KeyringAddress = keyring.getAddress(uploadedFileKeyringPair.address);
+    const keyringAddress = keyring.getAddress(uploadedFileKeyringPair.address);
 
     if (unlockError && unlockError.key && unlockError.value) {
       translateError = {
