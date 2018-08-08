@@ -8358,9 +8358,9 @@ pn@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
 
-polkadot-identicon@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/polkadot-identicon/-/polkadot-identicon-1.0.3.tgz#525aac828c352d979f4ae433bfba240ad7a099ca"
+polkadot-identicon@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/polkadot-identicon/-/polkadot-identicon-1.0.4.tgz#28b210cd28086792c764fed0a50195ee51df4d75"
   dependencies:
     blake2js "^1.0.0"
     oo7-react "^0.4.9"
