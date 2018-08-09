@@ -69,8 +69,11 @@ class DownloadButton extends React.PureComponent<Props, State> {
   }
 
   showPasswordModal = (): void => {
+    const { address } = this.props;
+
     this.setState({
       isPasswordModalOpen: true,
+      address: address,
       password: ''
     });
   }
