@@ -24,6 +24,10 @@
   display: block;
 }
 
+.staking--Account .ui--AddressSummary {
+  padding: 0;
+}
+
 .staking--Account-expand {
   min-width: 14rem;
   text-align: right;
