@@ -1,3 +1,56 @@
 /* Copyright 2017-2018 @polkadot/app-accounts authors & contributors
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
+
+.accounts--App {
+  padding: 1em 2em;
+}
+
+.accounts--Address-wrapper {
+  text-align: center;
+  padding-top: 1.5em;
+}
+
+.accounts--Address-download,
+.accounts--Address-upload {
+  display: inline-block;
+}
+
+.accounts--Address-modal {
+  padding: 0 2em 1em 2em;
+  text-align: center;
+}
+
+.accounts--Address-modal-message {
+  padding-top: 1.0em;
+}
+
+.accounts--flex-group-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.accounts--flex-container-col-summary,
+.accounts--flex-container-col-inputs {
+  display: flex;
+  flex-direction: column;
+}
+
+.accounts--flex-container-col-summary {
+  flex: 0 0 auto;
+}
+
+.accounts--flex-container-col-inputs {
+  flex: 1 0 auto;
+}
+
+.accounts--flex-item-file {
+  margin-left: 8em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.accounts--flex-item {
+  text-align: left;
+}

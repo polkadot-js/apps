@@ -42,7 +42,6 @@ class AccountsApp extends React.PureComponent<Props, State> {
     const Component = Components[action];
 
     return (
-<<<<<<< HEAD
       <Page
         className={classes('accounts--App', className)}
         style={style}
@@ -68,31 +67,6 @@ class AccountsApp extends React.PureComponent<Props, State> {
         </Navigation>
         <Component onBack={this.selectEdit} />
       </Page>
-=======
-      <div
-        className={classes('accounts--App', className)}
-        style={style}
-      >
-        <Button.Group className={classes('accounts--App-navigation')}>
-          <Button
-            isPrimary={action === 'edit'}
-            onClick={this.selectEdit}
-            text={t('app.edit', {
-              defaultValue: 'Edit account'
-            })}
-          />
-          <Button.Or />
-          <Button
-            isPrimary={action === 'create'}
-            onClick={this.selectCreate}
-            text={t('app.create', {
-              defaultValue: 'Create account'
-            })}
-          />
-        </Button.Group>
-        <Component onBack={this.selectEdit} />
-      </div>
->>>>>>> 251bf4f... fix: Prefix flex styles with 'account--' by passing down classNamePrefix to avoid duplication/error
     );
   }
 
