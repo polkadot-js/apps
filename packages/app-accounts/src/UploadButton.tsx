@@ -10,7 +10,6 @@ import React from 'react';
 import translate from './translate';
 import { Trans } from 'react-i18next';
 import ReactFileReader from 'react-file-reader';
-import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import isUndefined from '@polkadot/util/is/undefined';
 import keyring from '@polkadot/ui-keyring/index';
 

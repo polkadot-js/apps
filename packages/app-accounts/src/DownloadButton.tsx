@@ -11,7 +11,6 @@ import translate from './translate';
 import { Trans } from 'react-i18next';
 import FileSaver from 'file-saver';
 import keyring from '@polkadot/ui-keyring/index';
-import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import AddressMini from '@polkadot/ui-app/AddressMini';
