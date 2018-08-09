@@ -137,7 +137,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
     }
 
     const keyringAddress = keyring.getAddress(address);
-    let translateError: InputErrorMessage | undefined = undefined;
+    let translateError: InputErrorMessage | undefined;
 
     if (error && error.key && error.value) {
       translateError = {
