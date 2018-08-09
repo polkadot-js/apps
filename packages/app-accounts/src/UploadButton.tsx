@@ -88,38 +88,30 @@ class UploadButton extends React.PureComponent<Props, State> {
 
     const json = uploadedFileKeyringPair;
 
-    // Reset password so it is not pre-populated on the form on subsequent uploads
-    this.setState({ password: '' }, () => {
-      try {
-        if (!json || !Object.keys(json).length) {
-          return;
-        }
-
-        const pairRestored = keyring.restoreAccount(json, password);
-
-        if (pairRestored) {
-          this.hidePasswordModal();
-          onChangeAccount(pairRestored.publicKey());
-
-          return;
-        } else {
-          this.setState({ error: { key: t('error'), value: t('Unable to upload account into memory') } });
-
-          return;
-        }
-      } catch (e) {
-        console.error('Error processing uploaded file to local storage: ', e);
-        this.setState({ error: { key: t('error'), value: t('Unable to upload account into memory') } });
-
+    try {
+      if (!json || !Object.keys(json).length) {
         return;
       }
-    });
 
-    return;
+      const pairRestored = keyring.restoreAccount(json, password);
+
+      if (pairRestored) {
+        this.hidePasswordModal();
+        onChangeAccount(pairRestored.publicKey());
+      } else {
+        this.setState({ error: { key: t('error'), value: t('Unable to upload account into memory') } });
+      }
+    } catch (e) {
+      console.error('Error processing uploaded file to local storage: ', e);
+      this.setState({ error: { key: t('error'), value: t('Unable to upload account into memory') } });
+    }
   }
 
   showPasswordModal = (): void => {
-    this.setState({ isPasswordModalOpen: true });
+    this.setState({
+      isPasswordModalOpen: true,
+      password: '' // Reset password so not pre-populated on form on subsequent uploads
+    });
   }
 
   hidePasswordModal = (): void => {
