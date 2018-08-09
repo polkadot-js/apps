@@ -110,7 +110,7 @@ class UploadButton extends React.PureComponent<Props, State> {
   showPasswordModal = (): void => {
     this.setState({
       isPasswordModalOpen: true,
-      password: '' // Reset password so not pre-populated on form on subsequent uploads
+      password: ''
     });
   }
 
