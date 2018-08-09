@@ -18,7 +18,6 @@ type Props = I18nProps & {
   error?: InputErrorMessage,
   onChange: (password: string) => void,
   password: string,
-  passwordWidth?: string,
   value?: Uint8Array | null
 };
 
@@ -45,7 +44,7 @@ class Unlock extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { autoFocus, className, onChange, password, passwordWidth, style, t } = this.props;
+    const { autoFocus, className, onChange, password, style, t } = this.props;
     const { error, isError, isLocked, pair } = this.state;
 
     if (pair && !isLocked) {
@@ -60,7 +59,7 @@ class Unlock extends React.PureComponent<Props, State> {
         <div className='ui--row'>
           <Password
             autoFocus={autoFocus}
-            className={passwordWidth ? passwordWidth : 'medium'}
+            className='medium'
             isError={isError}
             error={error}
             label={t('unlock.password', {

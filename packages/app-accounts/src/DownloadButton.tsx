@@ -167,7 +167,6 @@ class DownloadButton extends React.PureComponent<Props, State> {
         error={translateError || undefined}
         onChange={this.onChangePassword}
         password={password}
-        passwordWidth={'full'}
         value={keyringAddress.publicKey()}
       />
     );
