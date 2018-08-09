@@ -19,6 +19,7 @@ import DownloadButton from './DownloadButton';
 import translate from './translate';
 
 type Props = I18nProps & {
+  classNamePrefix: string,
   onBack: () => void
 };
 
@@ -45,11 +46,11 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, style } = this.props;
+    const { className, classNamePrefix, style } = this.props;
 
     return (
       <div
-        className={classes('accounts--Editor', className)}
+        className={classes(`${classNamePrefix}Editor`, className)}
         style={style}
       >
         {this.renderData()}
@@ -96,15 +97,15 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   renderData () {
-    const { t } = this.props;
+    const { classNamePrefix, t } = this.props;
     const { currentPair, defaultValue, editedName } = this.state;
 
     if (!currentPair) {
       return (
         <div>
           <div>{t('There are no saved accounts. Create an account or upload a JSON file of a saved account.')}</div>
-          <div className='accounts--Address-wrapper'>
-            <div className='accounts--Address-file'>
+          <div className={`${classNamePrefix}Address-wrapper`}>
+            <div className={`${classNamePrefix}Address-file`}>
               <UploadButton size={'big'} onChangeAccount={this.onChangeAccount} />
             </div>
           </div>
@@ -115,21 +116,21 @@ class Editor extends React.PureComponent<Props, State> {
     const address = currentPair.address();
 
     return (
-      <div className='flex-group-row'>
-        <div className='flex-container-col-summary'>
-          <div className='flex-item'>
+      <div className={`${classNamePrefix}flex-group-row`}>
+        <div className={`${classNamePrefix}flex-container-col-summary`}>
+          <div className={`${classNamePrefix}flex-item`}>
             <AddressSummary
               className='shrink'
               value={address}
             />
           </div>
-          <div className='flex-item-file'>
+          <div className={`${classNamePrefix}flex-item-file`}>
             <DownloadButton address={address} />
             <UploadButton onChangeAccount={this.onChangeAccount} />
           </div>
         </div>
-        <div className='flex-container-col-inputs'>
-          <div className='flex-item'>
+        <div className={`${classNamePrefix}flex-container-col-inputs`}>
+          <div className={`${classNamePrefix}flex-item`}>
             <InputAddress
               className='full'
               defaultValue={defaultValue}
@@ -143,7 +144,7 @@ class Editor extends React.PureComponent<Props, State> {
               value={address}
             />
           </div>
-          <div className='flex-item'>
+          <div className={`${classNamePrefix}flex-item`}>
             <Input
               className='full'
               isEditable
