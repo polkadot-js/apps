@@ -14,9 +14,9 @@ import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import isUndefined from '@polkadot/util/is/undefined';
 import keyring from '@polkadot/ui-keyring/index';
 
+import AddressMini from '@polkadot/ui-app/AddressMini';
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
-import toShortAddress from '@polkadot/ui-app/util/toShortAddress';
 import Unlock from '@polkadot/ui-signer/Unlock';
 
 type State = {
@@ -130,14 +130,7 @@ class UploadButton extends React.PureComponent<Props, State> {
   render () {
     const { uploadedFileKeyringPair, isPasswordModalOpen } = this.state;
     const { className, icon = 'upload', isCircular = true, isPrimary = true, size = 'tiny', style } = this.props;
-    let shortValue = '';
     const address = uploadedFileKeyringPair && uploadedFileKeyringPair.address;
-
-    if (address) {
-      shortValue = toShortAddress(address);
-    }
-
-    // TODO - move Modal into separate component common to both DownloadButton and UploadButton
 
     return (
       <div className={'accounts--Address-upload'}>
@@ -151,20 +144,11 @@ class UploadButton extends React.PureComponent<Props, State> {
               <Modal.Content>
                 <div className='ui--grid'>
                   <div className={'accounts--Address-modal'}>
-                    <IdentityIcon
-                      className='accounts--Address-modal-icon'
-                      size={48}
-                      value={address}
-                    />
-                    <div className='accounts--Address-modal-data'>
-                      <div className='accounts--Address-modal-address'>
-                        {shortValue}
-                      </div>
-                    </div>
-                    <div className='expanded'>
+                    <AddressMini isShort={true} value={address} />
+                    <div className='accounts--Address-modal-message expanded'>
                       <p>
                         <Trans i18nKey='unlock.info'>
-                          Please enter password for account <span className='code'>{shortValue}</span> to upload it encrypted.
+                          Please enter your account password to upload and restore it encrypted.
                         </Trans>
                       </p>
                     </div>

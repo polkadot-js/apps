@@ -14,9 +14,9 @@ import keyring from '@polkadot/ui-keyring/index';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import isUndefined from '@polkadot/util/is/undefined';
 
+import AddressMini from '@polkadot/ui-app/AddressMini';
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
-import toShortAddress from '@polkadot/ui-app/util/toShortAddress';
 import Unlock from '@polkadot/ui-signer/Unlock';
 
 type State = {
@@ -91,8 +91,6 @@ class DownloadButton extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const shortValue = toShortAddress(address);
-
     return (
       <div className={'accounts--Address-download'}>
         { isPasswordModalOpen ? (
@@ -105,20 +103,11 @@ class DownloadButton extends React.PureComponent<Props, State> {
               <Modal.Content>
                 <div className='ui--grid'>
                   <div className={'accounts--Address-modal'}>
-                    <IdentityIcon
-                      className='accounts--Address-modal-icon'
-                      size={48}
-                      value={address}
-                    />
-                    <div className='accounts--Address-modal-data'>
-                      <div className='accounts--Address-modal-address'>
-                        {shortValue}
-                      </div>
-                    </div>
-                    <div className='expanded'>
+                    <AddressMini isShort={true} value={address} />
+                    <div className='accounts--Address-modal-message expanded'>
                       <p>
                         <Trans i18nKey='unlock.info'>
-                          Please enter password for account <span className='code'>{shortValue}</span> to unlock and download a decrypted backup.
+                          Please enter your account password to unlock and download a decrypted backup.
                         </Trans>
                       </p>
                     </div>
