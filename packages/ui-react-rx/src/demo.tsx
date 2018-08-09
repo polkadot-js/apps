@@ -12,7 +12,6 @@ import BestNumber from './BestNumber';
 import Chain from './Chain';
 import Connected from './Connected';
 import NodeName from './NodeName';
-import NodeTime from './NodeTime';
 import NodeVersion from './NodeVersion';
 import Nonce from './Nonce';
 import withApi from './with/api';
@@ -46,7 +45,6 @@ ReactDOM.render(
     <BestNumber label='best block #' />
     <Balance label='balance =' params={[ALICE_PUBLIC]} />
     <Nonce label='nonce =' params={ALICE_ADDR} />
-    <NodeTime label='node time =' />
     <br />
     <WithApiDebug />
   </Api>,

@@ -2,21 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import BN from 'bn.js';
 import storage from '@polkadot/storage';
 
+import numberFormat from './util/numberFormat';
 import withStorageDiv from './with/storageDiv';
 
-const method = storage.timestamp.public.current;
+const method = storage.timestamp.public.blockPeriod;
 
 const Component: React.ComponentType<any> = withStorageDiv(method)(
-  (value?: Date): string => {
-    if (!value || value.getTime() === 0) {
-      return 'unknown';
-    }
-
-    return value.toString();
-  },
-  { className: 'rx--NodeTime' }
+  (value?: BN | number): string =>
+    `${numberFormat(value)}.0s`,
+  { className: 'rx--TimePeriod' }
 );
 
 export default Component;
