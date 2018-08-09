@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Header } from '@polkadot/primitives/header';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
@@ -19,64 +18,29 @@ import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withStorage from '@polkadot/ui-react-rx/with/storage';
 
 import translate from './translate';
+import withApiObservable from '@polkadot/ui-react-rx/with/apiObservable';
 
 type Props = I18nProps & {
-  brokenPercentLate?: BN,
-  lastEraLengthChange?: BN,
-  lastSessionLengthChange?: BN,
-  sessionLength?: BN,
-  sessionCurrentIndex?: BN,
-  sessionCurrentStart?: Date,
-  sessionsPerEra?: BN
+  eraBlockLength?: BN,
+  eraBlockProgress?: BN,
+  sessionBlockProgress?: BN,
+  sessionBrokenValue?: BN,
+  sessionBrokenPercentMax?: BN,
+  sessionLength?: BN
 };
 
 type State = {
-  bestNumber?: BN,
-  timePeriod?: BN,
-  timeNow?: Date
+  bestNumber?: BN
 };
 
 class Summary extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    // FIXME These calculations should all be done as observables inside ApiObservable
-    // (Initially here for testing purposes)
     // FIXME Shared components for the Cards
-    const { brokenPercentLate, className, lastEraLengthChange, lastSessionLengthChange, sessionCurrentIndex, sessionCurrentStart, sessionLength, sessionsPerEra, style, t } = this.props;
-    const { bestNumber, timePeriod, timeNow } = this.state;
-    const eraLength = sessionsPerEra && sessionLength
-      ? sessionsPerEra.mul(sessionLength)
-      : undefined;
-    const sessionProgress = bestNumber && lastSessionLengthChange && sessionLength
-      ? bestNumber
-          .sub(lastSessionLengthChange)
-          .add(sessionLength)
-          .mod(sessionLength)
-      : undefined;
-    const sessionRemaining = sessionProgress && sessionLength
-      ? sessionLength.sub(sessionProgress)
-      : undefined;
-    const eraProgress = sessionsPerEra && sessionCurrentIndex && sessionLength && sessionProgress && lastEraLengthChange
-      ? sessionCurrentIndex
-          .sub(lastEraLengthChange)
-          .mod(sessionsPerEra)
-          .mul(sessionLength)
-          .add(sessionProgress)
-      : undefined;
-    const expectedTime = timePeriod && sessionLength
-      ? timePeriod.mul(sessionLength).muln(1000)
-      : undefined;
-    const remainingTime = timePeriod && sessionRemaining
-      ? timePeriod.mul(sessionRemaining).muln(1000)
-      : undefined;
-    const brokenValue = expectedTime && remainingTime && sessionCurrentStart && sessionRemaining && timePeriod && timeNow
-      ? new BN(Math.round(
-        (timeNow.getTime() + remainingTime.toNumber() - sessionCurrentStart.getTime()) / expectedTime.toNumber() * 100 - 100
-      ))
-      : undefined;
-    const brokenPercent = brokenValue && brokenPercentLate
-      ? 100 * brokenValue.toNumber() / brokenPercentLate.toNumber()
+    const { className, eraBlockLength, eraBlockProgress, sessionBlockProgress, sessionBrokenValue, sessionBrokenPercentMax, sessionLength, style, t } = this.props;
+    const sessionBrokenPercent = sessionBrokenValue && sessionBrokenPercentMax
+      ? 100 * sessionBrokenValue.toNumber() / sessionBrokenPercentMax.toNumber()
       : 0;
 
     return (
@@ -89,20 +53,14 @@ class Summary extends React.PureComponent<Props, State> {
             <Labelled label={t('summary.period', {
               defaultValue: 'target time'
             })}>
-              <TimePeriod
-                className='explorer--Summary-large'
-                onChange={this.setTimePeriod}
-              />
+              <TimePeriod className='explorer--Summary-large' />
             </Labelled>
           </Card>
           <Card>
             <Labelled label={t('summary.now', {
               defaultValue: 'last block'
             })}>
-              <TimeNow
-                className='explorer--Summary-large'
-                onChange={this.setTimeNow}
-              />
+              <TimeNow className='explorer--Summary-large' />
             </Labelled>
           </Card>
         </div>
@@ -113,16 +71,16 @@ class Summary extends React.PureComponent<Props, State> {
             })}>
               <div className='explorer--Summary-large'>
                 {
-                  sessionLength && sessionProgress
-                    ? `${sessionProgress.toString()}/${sessionLength.toString()}`
+                  sessionLength && sessionBlockProgress
+                    ? `${sessionBlockProgress.toString()}/${sessionLength.toString()}`
                     : '-'
                 }
                 {
-                  sessionLength && sessionProgress
+                  sessionLength && sessionBlockProgress
                     ? (
                       <Progress
                         className='explorer--Summary-progress'
-                        percent={100.0 * sessionProgress.toNumber() / sessionLength.toNumber()}
+                        percent={100.0 * sessionBlockProgress.toNumber() / sessionLength.toNumber()}
                       />
                     )
                     : undefined
@@ -136,16 +94,16 @@ class Summary extends React.PureComponent<Props, State> {
             })}>
               <div className='explorer--Summary-large'>
                 {
-                  eraLength && eraProgress
-                    ? `${eraProgress.toString()}/${eraLength.toString()}`
+                  eraBlockLength && eraBlockProgress
+                    ? `${eraBlockProgress.toString()}/${eraBlockLength.toString()}`
                     : '-'
                 }
                 {
-                  eraLength && eraProgress
+                  eraBlockLength && eraBlockProgress
                     ? (
                       <Progress
                         className='explorer--Summary-progress'
-                        percent={100.0 * eraProgress.toNumber() / eraLength.toNumber()}
+                        percent={100.0 * eraBlockProgress.toNumber() / eraBlockLength.toNumber()}
                       />
                     )
                     : undefined
@@ -159,25 +117,25 @@ class Summary extends React.PureComponent<Props, State> {
             })}>
               <div className='explorer--Summary-large'>
                 {
-                  brokenValue && brokenPercentLate
-                    ? `${brokenValue.toString()}/${brokenPercentLate.toString()}%`
+                  sessionBrokenPercent && sessionBrokenPercentMax
+                    ? `${sessionBrokenPercent.toString()}/${sessionBrokenPercentMax.toString()}%`
                     : '-'
                 }
                 {
-                  brokenValue && brokenPercentLate
+                  sessionBrokenPercent && sessionBrokenPercent
                     ? (
                       <Progress
                         className='explorer--Summary-progress'
                         color={(() => {
-                          if (brokenPercent > 70) {
+                          if (sessionBrokenPercent > 70) {
                             return 'red';
-                          } else if (brokenPercent > 25) {
+                          } else if (sessionBrokenPercent > 25) {
                             return 'orange';
                           } else {
                             return 'green';
                           }
                         })()}
-                        percent={brokenPercent}
+                        percent={sessionBrokenPercent}
                       />
                     )
                     : undefined
@@ -191,63 +149,40 @@ class Summary extends React.PureComponent<Props, State> {
             <Labelled label={t('summary.best', {
               defaultValue: 'best'
             })}>
-              <BestNumber
-                className='explorer--Summary-large'
-                onChange={this.setBestNumber}
-              />
+              <BestNumber className='explorer--Summary-large' />
             </Labelled>
           </Card>
         </div>
       </div>
     );
   }
-
-  private setBestNumber = (header?: Header) => {
-    this.setState({
-      bestNumber: header
-        ? header.number
-        : undefined
-    });
-  }
-
-  private setTimePeriod = (timePeriod?: BN) => {
-    this.setState({ timePeriod });
-  }
-
-  private setTimeNow = (timeNow?: Date) => {
-    this.setState({ timeNow });
-  }
 }
 
 export default withMulti(
   Summary,
   translate,
+  withApiObservable(
+    'eraBlockLength',
+    { propName: 'eraBlockLength' }
+  ),
+  withApiObservable(
+    'eraBlockProgress',
+    { propName: 'eraBlockProgress' }
+  ),
+  withApiObservable(
+    'sessionBlockProgress',
+    { propName: 'sessionBlockProgress' }
+  ),
+  withApiObservable(
+    'sessionBrokenValue',
+    { propName: 'sessionBrokenValue' }
+  ),
   withStorage(
     storage.session.public.length,
     { propName: 'sessionLength' }
   ),
   withStorage(
-    storage.session.public.lastLengthChange,
-    { propName: 'lastSessionLengthChange' }
-  ),
-  withStorage(
-    storage.staking.public.sessionsPerEra,
-    { propName: 'sessionsPerEra' }
-  ),
-  withStorage(
-    storage.session.public.currentIndex,
-    { propName: 'sessionCurrentIndex' }
-  ),
-  withStorage(
-    storage.session.public.currentStart,
-    { propName: 'sessionCurrentStart' }
-  ),
-  withStorage(
-    storage.staking.public.lastEraLengthChange,
-    { propName: 'lastEraLengthChange' }
-  ),
-  withStorage(
     storage.session.public.brokenPercentLate,
-    { propName: 'brokenPercentLate' }
+    { propName: 'sessionBrokenPercentMax' }
   )
 );

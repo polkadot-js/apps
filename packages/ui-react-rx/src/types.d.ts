@@ -29,6 +29,15 @@ export type ExtendedBalanceMap = {
 }
 
 export interface ObservableApiInterface {
+  bestNumber: () => Observable<BN | undefined>,
+  eraBlockLength: () => Observable<BN | undefined>,
+  eraBlockProgress: () => Observable<BN | undefined>,
+  eraBlockRemaining: () => Observable<BN | undefined>,
+  sessionBlockProgress: () => Observable<BN | undefined>,
+  sessionBlockRemaining: () => Observable<BN | undefined>,
+  sessionBrokenValue: () => Observable<BN | undefined>,
+  sessionTimeExpected: () => Observable<BN | undefined>,
+  sessionTimeRemaining: () => Observable<BN | undefined>,
   validatingBalance: (address: string) => Observable<ExtendedBalance>,
   validatingBalances: (addresses: Array<string>) => Observable<ExtendedBalanceMap>,
   votingBalance: (address: string) => Observable<ExtendedBalance>,
