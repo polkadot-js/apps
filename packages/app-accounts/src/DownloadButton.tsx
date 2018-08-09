@@ -172,7 +172,6 @@ class DownloadButton extends React.PureComponent<Props, State> {
           />
           <Button.Or />
           <Button
-            isDisabled={false}
             isPrimary
             onClick={this.handleDownloadAccount}
             text={t('creator.submit', {

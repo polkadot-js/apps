@@ -204,7 +204,6 @@ class UploadButton extends React.PureComponent<Props, State> {
           />
           <Button.Or />
           <Button
-            isDisabled={false}
             isPrimary
             onClick={this.processUploadedFileStorage}
             text={t('creator.submit', {
