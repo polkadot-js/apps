@@ -7,7 +7,6 @@ import { BareProps, UnlockI18n } from './types';
 import React from 'react';
 
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message/index';
-// import { SemanticSIZES } from 'semantic-ui-react/dist/commonjs/index';
 
 type SemanticMessageSizes = 'mini' | 'tiny' | 'small' | 'large' | 'big' | 'huge' | 'massive';
 
@@ -28,7 +27,6 @@ export default class Notification extends React.PureComponent<Props> {
     const renderMessageBody = (error: UnlockI18n) => {
       return (
         <div>
-          {/* <Message.Header>{error.key}</Message.Header> */}
           <p>{error.key}: <b>{error.value}</b></p>
         </div>
       );
