@@ -149,7 +149,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
     return (
       <Unlock
         autoFocus
-        error={translateError || undefined}
+        error={translateError}
         onChange={this.onChangePassword}
         password={password}
         value={keyringAddress.publicKey()}
