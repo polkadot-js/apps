@@ -101,7 +101,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
           <Modal.Content>
             <div className='ui--grid'>
               <div className={'accounts--Address-modal'}>
-                <AddressMini isShort={true} value={address} />
+                <AddressMini isShort value={address} />
                 <div className='accounts--Address-modal-message expanded'>
                   <p>
                     <Trans i18nKey='unlock.info'>
@@ -148,7 +148,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
 
     return (
       <Unlock
-        autoFocus={true}
+        autoFocus
         error={translateError || undefined}
         onChange={this.onChangePassword}
         password={password}
