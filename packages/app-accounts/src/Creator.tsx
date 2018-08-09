@@ -24,7 +24,6 @@ import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';
 
 type Props = I18nProps & {
-  classNamePrefix: string,
   onBack: () => void
 };
 
@@ -63,12 +62,12 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, classNamePrefix, style } = this.props;
+    const { className, style } = this.props;
     const { address, isSeedValid } = this.state;
 
     return (
       <div
-        className={classes(`${classNamePrefix}Creator`, className)}
+        className={classes('accounts--Creator', className)}
         style={style}
       >
         <div className='ui--grid'>

@@ -40,7 +40,6 @@ class AccountsApp extends React.PureComponent<Props, State> {
     const { className, style, t } = this.props;
     const { action } = this.state;
     const Component = Components[action];
-    const classNamePrefix = 'accounts--';
 
     return (
 <<<<<<< HEAD
@@ -71,10 +70,10 @@ class AccountsApp extends React.PureComponent<Props, State> {
       </Page>
 =======
       <div
-        className={classes(`${classNamePrefix}App`, className)}
+        className={classes('accounts--App', className)}
         style={style}
       >
-        <Button.Group className={classes(`${classNamePrefix}App-navigation`)}>
+        <Button.Group className={classes('accounts--App-navigation')}>
           <Button
             isPrimary={action === 'edit'}
             onClick={this.selectEdit}
@@ -91,7 +90,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
             })}
           />
         </Button.Group>
-        <Component classNamePrefix={classNamePrefix} onBack={this.selectEdit} />
+        <Component onBack={this.selectEdit} />
       </div>
 >>>>>>> 251bf4f... fix: Prefix flex styles with 'account--' by passing down classNamePrefix to avoid duplication/error
     );
