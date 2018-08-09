@@ -17,7 +17,6 @@ import accountLoad from './load';
  * Remove secret key from keyring memory.
  */
 export default function accountRestore (state: State, json: KeyringPair$Json, password?: string): KeyringPair | undefined {
-  const { keyring } = state;
   const _address = json.address;
 
   if (!_address) {
