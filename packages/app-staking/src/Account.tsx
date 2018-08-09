@@ -16,6 +16,7 @@ import storage from '@polkadot/storage';
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
+import Card from '@polkadot/ui-app/Card';
 import Icon from '@polkadot/ui-app/Icon';
 import classes from '@polkadot/ui-app/util/classes';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
@@ -58,10 +59,15 @@ class Account extends React.PureComponent<Props, State> {
     const { isNominateOpen } = this.state;
 
     return (
-      <div
+      <Card
         className={classes('staking--Account', className)}
         style={style}
       >
+        <Icon
+          className={classes('staking--Account-validating', isValidator ? 'isValidator' : '')}
+          name='certificate'
+          size='large'
+        />
         <Nominating
           isOpen={isNominateOpen}
           onClose={this.toggleNominate}
@@ -74,17 +80,12 @@ class Account extends React.PureComponent<Props, State> {
           value={address}
         >
           <div className='staking--Account-expand'>
-            <Icon
-              className={classes('staking--Account-validating', isValidator ? 'isValidator' : '')}
-              name='certificate'
-              size='large'
-            />
             {this.renderButtons()}
             {this.renderNominee()}
             {this.renderNominators()}
           </div>
         </AddressSummary>
-      </div>
+      </Card>
     );
   }
 
@@ -136,54 +137,48 @@ class Account extends React.PureComponent<Props, State> {
 
     if (canStake) {
       return (
-        <div className='staking--Account-buttons'>
-          <Button.Group>
-            <Button
-              isPrimary
-              onClick={this.stake}
-              text={t('account.stake', {
-                defaultValue: 'stake'
-              })}
-            />
-            <Button.Or />
-            <Button
-              isPrimary
-              onClick={this.toggleNominate}
-              text={t('account.nominate', {
-                defaultValue: 'nominate'
-              })}
-            />
-          </Button.Group>
-        </div>
+        <Button.Group>
+          <Button
+            isPrimary
+            onClick={this.stake}
+            text={t('account.stake', {
+              defaultValue: 'stake'
+            })}
+          />
+          <Button.Or />
+          <Button
+            isPrimary
+            onClick={this.toggleNominate}
+            text={t('account.nominate', {
+              defaultValue: 'nominate'
+            })}
+          />
+        </Button.Group>
       );
     }
 
     if (isNominating) {
       return (
-        <div className='staking--Account-buttons'>
-          <Button.Group>
-            <UnnominateButton
-              address={address || ''}
-              nominating={nominee || ''}
-              onClick={this.unnominate}
-            />
-          </Button.Group>
-        </div>
+        <Button.Group>
+          <UnnominateButton
+            address={address || ''}
+            nominating={nominee || ''}
+            onClick={this.unnominate}
+          />
+        </Button.Group>
       );
     }
 
     return (
-      <div className='staking--Account-buttons'>
-        <Button.Group>
-          <Button
-            isNegative
-            onClick={this.unstake}
-            text={t('account.unstake', {
-              defaultValue: 'unstake'
-            })}
-          />
-        </Button.Group>
-      </div>
+      <Button.Group>
+        <Button
+          isNegative
+          onClick={this.unstake}
+          text={t('account.unstake', {
+            defaultValue: 'unstake'
+          })}
+        />
+      </Button.Group>
     );
   }
 

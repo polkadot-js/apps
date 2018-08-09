@@ -123,6 +123,14 @@
   padding: 0;
 }
 
+.ui--Card {
+  background: #fefefe;
+  border: 1px solid #f5f5f5;
+  border-radius: 0.25rem;
+  margin: 1rem;
+  padding: 1rem 0;
+}
+
 .ui--Navigation {
   margin-bottom: 2em;
   text-align: center;

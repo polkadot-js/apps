@@ -7,24 +7,17 @@
   text-align: right;
 }
 
+.staking--StakeList {
+  text-align: center;
+}
+
 .staking--Account {
-  border: 1px solid #f5f5f5;
-  border-radius: 0.25rem;
   display: inline-block;
-  margin: 1rem;
-  padding: 1rem 0;
-  /* FIXME: HACK: We need flexbox layout */
-  min-width: 528px;
+  position: relative;
 }
 
 .staking--Account .ui--Button-Group {
-  display: inline-block;
-  margin-left: 1em;
-  vertical-align: top;
-}
-
-.staking--Account .ui--Button-Group {
-  text-align: right;
+  margin-bottom: 1em;
 }
 
 .staking--Account .ui--AddressMini {
@@ -32,10 +25,10 @@
 }
 
 .staking--Account-expand {
-  padding-left: 1em;
+  min-width: 14rem;
+  text-align: right;
 }
 
-.staking--Account-buttons,
 .staking--Account-details {
   display: inline-block;
   text-align: left;
@@ -73,8 +66,9 @@
 
 .staking--Account-validating {
   opacity: 0.25 !important;
-  padding-top: 8px;
-  vertical-align: top !important;
+  position: absolute;
+  top: 1em;
+  left: 1em;
 }
 
 .staking--Account-validating.isValidator {
