@@ -125,8 +125,8 @@ class Editor extends React.PureComponent<Props, State> {
           </div>
           <div className={'accounts--flex-item-file'}>
             <DownloadButton address={address} />
-            <UploadButton onChangeAccount={this.onChangeAccount} />
           </div>
+          <UploadButton onChangeAccount={this.onChangeAccount} />
         </div>
         <div className={'accounts--flex-container-col-inputs'}>
           <div className={'accounts--flex-item'}>

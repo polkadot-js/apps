@@ -19,7 +19,9 @@ type Props = BareProps & {
   onChange?: (contents: Uint8Array) => void,
   placeholder?: string,
   t: TranslationFunction,
-  withLabel?: boolean
+  withLabel?: boolean,
+  acceptedFormats?: string,
+  shouldDisplayFile?: boolean
 };
 
 type State = {
@@ -39,7 +41,7 @@ class BytesFile extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { className, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
+    const { className, isDisabled, isError = false, label, placeholder, t, withLabel, acceptedFormats, shouldDisplayFile } = this.props;
     const { file } = this.state;
 
     return (
@@ -52,11 +54,12 @@ class BytesFile extends React.PureComponent<Props, State> {
           className={classes('ui--Param-File', isError ? 'error' : '', className)}
           disabled={isDisabled}
           multiple={false}
+          accept={acceptedFormats}
           onDrop={this.onDrop}
         >
           <div className='label'>
             {
-              !file
+              !file || !shouldDisplayFile
                 ? placeholder || t('file.dnd', {
                   defaultValue: 'drag and drop the file here'
                 })

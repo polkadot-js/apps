@@ -19,6 +19,10 @@
   width: 100% !important;
 }
 
+.ui--Param-File-account {
+  padding: 0em 2em 0em 2em;
+}
+
 .ui--Param-File.true {
   border-style: solid;
 }

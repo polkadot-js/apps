@@ -9,12 +9,12 @@ import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 import React from 'react';
 import translate from './translate';
 import { Trans } from 'react-i18next';
-import ReactFileReader from 'react-file-reader';
 import isUndefined from '@polkadot/util/is/undefined';
 import keyring from '@polkadot/ui-keyring/index';
 
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import Button from '@polkadot/ui-app/Button';
+import File from '@polkadot/ui-app/Params/Param/File';
 import Modal from '@polkadot/ui-app/Modal';
 import Unlock from '@polkadot/ui-signer/Unlock';
 
@@ -43,17 +43,17 @@ class UploadButton extends React.PureComponent<Props, State> {
     this.state = this.emptyState();
   }
 
-  handleUploadedFiles = (files: FileList): void => {
+  handleUploadedFiles = (fileBytes: Uint8Array): void => {
     const { t } = this.props;
-    const fileList: FileList = files;
 
-    if (!fileList || fileList && !fileList.length) {
+    if (!fileBytes || !fileBytes.length) {
       console.error('Error retrieving file list');
       return;
     }
 
-    const fileToUpload: File = fileList[0];
-    const fileReader: FileReader = new FileReader();
+    const blob = new Blob([fileBytes], { type: 'text/plain;charset=utf-8' });
+
+    const fileReader = new FileReader();
 
     fileReader.onload = (e) => {
       try {
@@ -75,7 +75,7 @@ class UploadButton extends React.PureComponent<Props, State> {
       }
     };
 
-    fileReader.readAsText(fileToUpload);
+    fileReader.readAsText(blob);
   }
 
   processUploadedFileStorage = (): void => {
@@ -159,21 +159,14 @@ class UploadButton extends React.PureComponent<Props, State> {
             </Modal>
           ) : null
         }
-        <ReactFileReader
-          fileTypes={['.json']}
-          base64={false}
-          multipleFiles={false}
-          handleFiles={this.handleUploadedFiles}
-        >
-          <Button
-            className={className}
-            icon={icon}
-            isCircular={isCircular}
-            isPrimary={isPrimary}
-            size={size}
-            style={style}
-          />
-        </ReactFileReader>
+        <File
+          className={'ui--Param-File-account'}
+          withLabel={true}
+          label={'upload account'}
+          onChange={this.handleUploadedFiles}
+          acceptedFormats={'.json'}
+          shouldDisplayFile={false}
+        />
       </div>
     );
   }
