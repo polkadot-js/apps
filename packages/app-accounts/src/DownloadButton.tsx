@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { Button$Sizes } from '@polkadot/ui-app/Button/types';
-import { BareProps, I18nProps, UnlockI18n } from '@polkadot/ui-app/types';
+import { BareProps, I18nProps, InputErrorMessage } from '@polkadot/ui-app/types';
 import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 
 import React from 'react';
@@ -23,7 +23,7 @@ type State = {
   address: string,
   password: string,
   isPasswordModalOpen: boolean,
-  unlockError: UnlockI18n | null
+  error?: InputErrorMessage
 };
 
 type Props = I18nProps & BareProps & {
@@ -65,10 +65,10 @@ class DownloadButton extends React.PureComponent<Props, State> {
 
             this.hidePasswordModal();
           } else {
-            this.setState({ unlockError: { key: t('error'), value: t('Unable to obtain account from memory') } });
+            this.setState({ error: { key: t('error'), value: t('Unable to obtain account from memory') } });
           }
         } catch (e) {
-          this.setState({ unlockError: { key: t('error'), value: t('Unable to save file') } });
+          this.setState({ error: { key: t('error'), value: t('Unable to save file') } });
           console.error('Error retrieving account from local storage and saving account to file: ', e);
         }
       }
@@ -159,26 +159,26 @@ class DownloadButton extends React.PureComponent<Props, State> {
 
   renderUnlock () {
     const { t } = this.props;
-    const { address, password, unlockError } = this.state;
+    const { address, password, error } = this.state;
 
     if (!address) {
       return null;
     }
 
     const keyringAddress = keyring.getAddress(address);
-    let translateError = null;
+    let translateError: InputErrorMessage | undefined = undefined;
 
-    if (unlockError && unlockError.key && unlockError.value) {
+    if (error && error.key && error.value) {
       translateError = {
-        key: t(unlockError.key),
-        value: t(unlockError.value)
+        key: t(error.key),
+        value: t(error.value)
       };
     }
 
     return (
       <Unlock
         autoFocus={true}
-        error={translateError || null}
+        error={translateError || undefined}
         onChange={this.onChangePassword}
         password={password}
         passwordWidth={'full'}
@@ -221,7 +221,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
       address: address,
       password: '',
       isPasswordModalOpen: false,
-      unlockError: null
+      error: undefined
     };
   }
 
@@ -231,7 +231,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
         const {
           password = '',
           isPasswordModalOpen = prevState.isPasswordModalOpen,
-          unlockError = prevState.unlockError
+          error = prevState.error
         } = newState;
 
         let address = prevState.address;
@@ -240,7 +240,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
           address,
           password,
           isPasswordModalOpen,
-          unlockError
+          error
         };
       }
     );
@@ -249,7 +249,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
   onChangePassword = (password: string): void => {
     this.setState({
       password,
-      unlockError: null
+      error: undefined
     });
   }
 

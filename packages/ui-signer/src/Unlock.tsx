@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { I18nProps, UnlockI18n } from '@polkadot/ui-app/types';
+import { I18nProps, InputErrorMessage } from '@polkadot/ui-app/types';
 import { KeyringPair } from '@polkadot/util-keyring/types';
 
 import React from 'react';
@@ -15,7 +15,7 @@ import translate from './translate';
 
 type Props = I18nProps & {
   autoFocus?: boolean,
-  error?: UnlockI18n | null,
+  error?: InputErrorMessage,
   onChange: (password: string) => void,
   password: string,
   passwordWidth?: string,
@@ -24,7 +24,7 @@ type Props = I18nProps & {
 
 type State = {
   isError: boolean,
-  error?: UnlockI18n | null,
+  error?: InputErrorMessage,
   isLocked: boolean,
   pair: KeyringPair
 };

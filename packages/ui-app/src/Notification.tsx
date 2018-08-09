@@ -2,16 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { BareProps, UnlockI18n } from './types';
+import { BareProps, InputErrorMessage } from './types';
 
 import React from 'react';
 
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message/index';
 
+import InputError from './InputError';
+
 type SemanticMessageSizes = 'mini' | 'tiny' | 'small' | 'large' | 'big' | 'huge' | 'massive';
 
 type Props = BareProps & {
-  error?: UnlockI18n | null,
+  error?: InputErrorMessage,
   // Issue: https://github.com/Semantic-Org/Semantic-UI-React/issues/3071
   size?: SemanticMessageSizes
 };
@@ -24,18 +26,11 @@ export default class Notification extends React.PureComponent<Props> {
       return null;
     }
 
-    const renderMessageBody = (error: UnlockI18n) => {
-      return (
-        <div>
-          <p>{error.key}: <b>{error.value}</b></p>
-        </div>
-      );
-    };
-
     return (
       <div className='ui--Notifications'>
-        { error.key === 'error' ? <Message size={size} error>{ renderMessageBody(error) }</Message> : null }
-        { error.key === 'warning' ? <Message size={size} negative>{ renderMessageBody(error) }</Message> : null }
+        <Message size={size} error>
+          <InputError error={error} />
+        </Message>
       </div>
     );
   }

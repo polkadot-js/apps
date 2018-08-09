@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { Button$Sizes } from '@polkadot/ui-app/Button/types';
-import { BareProps, I18nProps, UnlockI18n } from '@polkadot/ui-app/types';
+import { BareProps, I18nProps, InputErrorMessage } from '@polkadot/ui-app/types';
 import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 
 import React from 'react';
@@ -23,7 +23,7 @@ type State = {
   address: string,
   password: string,
   isPasswordModalOpen: boolean,
-  unlockError: UnlockI18n | null,
+  error?: InputErrorMessage,
   uploadedFileKeyringPair: KeyringPair$Json | undefined
 };
 
@@ -72,7 +72,7 @@ class UploadButton extends React.PureComponent<Props, State> {
         }
       } catch (e) {
         console.error('Error uploading file: ', e);
-        this.setState({ unlockError: { key: t('error'), value: t('Unable to upload account from file') } });
+        this.setState({ error: { key: t('error'), value: t('Unable to upload account from file') } });
       }
     };
 
@@ -104,13 +104,13 @@ class UploadButton extends React.PureComponent<Props, State> {
 
           return;
         } else {
-          this.setState({ unlockError: { key: t('error'), value: t('Unable to upload account into memory') } });
+          this.setState({ error: { key: t('error'), value: t('Unable to upload account into memory') } });
 
           return;
         }
       } catch (e) {
         console.error('Error processing uploaded file to local storage: ', e);
-        this.setState({ unlockError: { key: t('error'), value: t('Unable to upload account into memory') } });
+        this.setState({ error: { key: t('error'), value: t('Unable to upload account into memory') } });
 
         return;
       }
@@ -211,8 +211,8 @@ class UploadButton extends React.PureComponent<Props, State> {
 
   renderUnlock () {
     const { t } = this.props;
-    const { uploadedFileKeyringPair, password, unlockError } = this.state;
-    let translateError = null;
+    const { uploadedFileKeyringPair, password, error } = this.state;
+    let translateError: InputErrorMessage | undefined = undefined;
 
     if (isUndefined(uploadedFileKeyringPair) || !uploadedFileKeyringPair.address) {
       return null;
@@ -220,17 +220,17 @@ class UploadButton extends React.PureComponent<Props, State> {
 
     const keyringAddress = keyring.getAddress(uploadedFileKeyringPair.address);
 
-    if (unlockError && unlockError.key && unlockError.value) {
+    if (error && error.key && error.value) {
       translateError = {
-        key: t(unlockError.key),
-        value: t(unlockError.value)
+        key: t(error.key),
+        value: t(error.value)
       };
     }
 
     return (
       <Unlock
         autoFocus={true}
-        error={translateError || null}
+        error={translateError || undefined}
         onChange={this.onChangePassword}
         password={password}
         passwordWidth={'full'}
@@ -271,7 +271,7 @@ class UploadButton extends React.PureComponent<Props, State> {
       address: '',
       password: '',
       isPasswordModalOpen: false,
-      unlockError: null,
+      error: undefined,
       uploadedFileKeyringPair: undefined
     };
   }
@@ -283,7 +283,7 @@ class UploadButton extends React.PureComponent<Props, State> {
           address = prevState.address,
           password = '',
           isPasswordModalOpen = prevState.isPasswordModalOpen,
-          unlockError = prevState.unlockError,
+          error = prevState.error,
           uploadedFileKeyringPair = prevState.uploadedFileKeyringPair
         } = newState;
 
@@ -291,7 +291,7 @@ class UploadButton extends React.PureComponent<Props, State> {
           address,
           password,
           isPasswordModalOpen,
-          unlockError,
+          error,
           uploadedFileKeyringPair
         };
       }
@@ -301,7 +301,7 @@ class UploadButton extends React.PureComponent<Props, State> {
   onChangePassword = (password: string): void => {
     this.setState({
       password,
-      unlockError: null
+      error: undefined
     });
   }
 

@@ -30,3 +30,8 @@ export type UnlockI18n = {
   key: string,
   value: any
 };
+
+export type InputErrorMessage = {
+  key: string,
+  value: any
+};

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { BareProps, UnlockI18n } from './types';
+import { BareProps, InputErrorMessage } from './types';
 
 import React from 'react';
 import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
@@ -18,7 +18,7 @@ type Props = BareProps & {
   children?: React.ReactNode,
   autoFocus?: boolean,
   defaultValue?: any,
-  error?: UnlockI18n | null,
+  error?: InputErrorMessage,
   icon?: any, // node?
   isAction?: boolean,
   isDisabled?: boolean,
