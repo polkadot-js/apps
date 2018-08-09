@@ -55,49 +55,47 @@ export default class Input extends React.PureComponent<Props, State> {
     const { children, autoFocus = false, className, defaultValue, error, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, name, placeholder, style, type = 'text', value, withLabel } = this.props;
 
     return (
-      <div>
-        <Labelled
-          className={className}
-          label={label}
-          style={style}
-          withLabel={withLabel}
+      <Labelled
+        className={className}
+        label={label}
+        style={style}
+        withLabel={withLabel}
+      >
+        <SUIInput
+          action={isAction}
+          autoFocus={autoFocus}
+          className={isEditable ? 'edit icon' : ''}
+          defaultValue={defaultValue}
+          disabled={isDisabled}
+          id={name}
+          iconPosition={
+            isUndefined(icon)
+              ? void 0
+              : 'left'
+          }
+          error={isError}
+          hidden={isHidden}
+          max={max}
+          min={min}
+          name={name || this.state.name}
+          onChange={this.onChange}
+          placeholder={placeholder}
+          type={type}
+          value={value}
         >
-          <SUIInput
-            action={isAction}
-            autoFocus={autoFocus}
-            className={isEditable ? 'edit icon' : ''}
-            defaultValue={defaultValue}
-            disabled={isDisabled}
-            id={name}
-            iconPosition={
-              isUndefined(icon)
-                ? void 0
-                : 'left'
+          <input
+            autoComplete={
+              type === 'password'
+                ? 'new-password'
+                : 'off'
             }
-            error={isError}
-            hidden={isHidden}
-            max={max}
-            min={min}
-            name={name || this.state.name}
-            onChange={this.onChange}
-            placeholder={placeholder}
-            type={type}
-            value={value}
-          >
-            <input
-              autoComplete={
-                type === 'password'
-                  ? 'new-password'
-                  : 'off'
-              }
-            />
-            {isEditable ? <i className='edit icon' /> : null}
-            {icon}
-            {children}
-          </SUIInput>
-        </Labelled>
+          />
+          {isEditable ? <i className='edit icon' /> : null}
+          {icon}
+          {children}
+        </SUIInput>
         <Notification error={error} />
-      </div>
+      </Labelled>
     );
   }
 
