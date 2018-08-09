@@ -29,6 +29,7 @@ class AddressRow extends AddressSummary {
           <div className='ui--AddressRow-details'>
             {this.renderAddress()}
             {this.renderBalance()}
+            {this.renderNonce()}
           </div>
         </div>
         {this.renderChildren()}

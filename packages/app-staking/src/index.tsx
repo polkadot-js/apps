@@ -2,13 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { BareProps } from '@polkadot/ui-app/types';
+import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
 
 import React from 'react';
 import storage from '@polkadot/storage';
+import Page from '@polkadot/ui-app/Page';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 import Button from '@polkadot/ui-app/Button';
 import classes from '@polkadot/ui-app/util/classes';
+import withApiObservable from '@polkadot/ui-react-rx/with/apiObservable';
 import withStorage from '@polkadot/ui-react-rx/with/storage';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 
@@ -20,7 +23,8 @@ import translate from './translate';
 
 type Actions = 'actions' | 'overview';
 
-type Props = I18nProps & {
+type Props = BareProps & {
+  balances?: ExtendedBalanceMap,
   intentions?: Array<string>,
   validators?: Array<string>
 };
@@ -49,44 +53,51 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  // componentDidMount() {
-  //   const { className, intentions = [], style, t, validators = [] } = this.props;
-
-  //   getInfos(intentions)
-  // }
-
   render () {
-    const { className, intentions = [], style, t, validators = [] } = this.props;
     const { action } = this.state;
     const Component = Components[action];
+    const { balances = {}, className, intentions = [], style, t, validators = [] } = this.props;
 
     return (
-      <div
+      <Page
         className={classes('staking--App', className)}
         style={style}
       >
-        <Button.Group className='staking--App-navigation'>
-          <Button
-            isPrimary={action === 'overview'}
-            onClick={this.selectOverview}
-            text={t('app.overview', {
-              defaultValue: 'Staking Overview'
-            })}
-          />
-          <Button.Or />
-          <Button
-            isPrimary={action === 'actions'}
-            onClick={this.selectActions}
-            text={t('app.actions', {
-              defaultValue: 'Account Actions'
-            })}
-          />
-        </Button.Group>
-        <Component
+
+        {/*<Summary
+          balances={balances}
+          intentions={intentions}
+          validators={validators}
+        />*/}
+          <Button.Group className='staking--App-navigation'>
+            <Button
+              isPrimary={action === 'overview'}
+              onClick={this.selectOverview}
+              text={t('app.overview', {
+                defaultValue: 'Staking Overview'
+              })}
+            />
+            <Button.Or />
+            <Button
+              isPrimary={action === 'actions'}
+              onClick={this.selectActions}
+              text={t('app.actions', {
+                defaultValue: 'Account Actions'
+              })}
+            />
+          </Button.Group>
+
+           <Component
           intentions={intentions}
           validators={validators}
         />
-      </div>
+
+       {/* <StakeList
+          balances={balances}
+          intentions={intentions}
+          validators={validators}
+        />*/}
+      </Page>
     );
   }
 
@@ -114,6 +125,13 @@ export default withMulti(
     {
       propName: 'validators',
       transform: transformAddresses
+    }
+  ),
+  withApiObservable(
+    'validatingBalances',
+    {
+      paramProp: 'intentions',
+      propName: 'balances'
     }
   )
 );

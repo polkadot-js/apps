@@ -17,7 +17,7 @@
 }
 
 .staking--Account {
-  background: #f9f9f9;
+  border: 1px solid #f5f5f5;
   border-radius: 0.25rem;
   display: inline-block;
   margin: 1rem;
@@ -34,6 +34,10 @@
 
 .staking--Account .ui--Button-Group {
   text-align: right;
+}
+
+.staking--Account .ui--AddressMini {
+  display: block;
 }
 
 .staking--Account-expand {
