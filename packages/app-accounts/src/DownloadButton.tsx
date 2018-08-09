@@ -144,22 +144,8 @@ class DownloadButton extends React.PureComponent<Props, State> {
   }
 
   renderContent () {
-    const { address } = this.state;
-
-    if (!address) {
-      return null;
-    }
-
-    return (
-      <div>
-        { this.renderUnlock() }
-      </div>
-    );
-  }
-
-  renderUnlock () {
+    const { address, error, password } = this.state;
     const { t } = this.props;
-    const { address, password, error } = this.state;
 
     if (!address) {
       return null;

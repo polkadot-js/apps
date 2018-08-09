@@ -196,22 +196,8 @@ class UploadButton extends React.PureComponent<Props, State> {
   }
 
   renderContent () {
-    const { uploadedFileKeyringPair } = this.state;
-
-    if (isUndefined(uploadedFileKeyringPair) || !uploadedFileKeyringPair.address) {
-      return null;
-    }
-
-    return (
-      <div>
-        { this.renderUnlock() }
-      </div>
-    );
-  }
-
-  renderUnlock () {
+    const { error, password, uploadedFileKeyringPair } = this.state;
     const { t } = this.props;
-    const { uploadedFileKeyringPair, password, error } = this.state;
     let translateError: InputErrorMessage | undefined = undefined;
 
     if (isUndefined(uploadedFileKeyringPair) || !uploadedFileKeyringPair.address) {
