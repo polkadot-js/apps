@@ -15,6 +15,7 @@ import backupAccount from './account/backup';
 import createAccount from './account/create';
 import forgetAccount from './account/forget';
 import isAvailable from './isAvailable';
+import loadAccount from './account/load';
 import saveAccount from './account/save';
 import saveAccountMeta from './account/meta';
 import forgetAddress from './address/forget';
@@ -36,8 +37,8 @@ const state: State = {
 loadAll(state);
 
 export default ({
-  addFromJson: (json: KeyringPair$Json): KeyringPair =>
-    state.keyring.addFromAddress(json.address, json.meta),
+  loadAccount: (json: KeyringPair$Json): KeyringPair =>
+    loadAccount(state, json),
   backupAccount: (address: string, passphrase: string): KeyringPair$Json | void =>
     backupAccount(state, address, passphrase),
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta): KeyringPair =>

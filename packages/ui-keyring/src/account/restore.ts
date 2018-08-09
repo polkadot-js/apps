@@ -9,6 +9,7 @@ import store from 'store';
 
 import { accountKey } from '../defaults';
 import createOptions from '../options';
+import accountLoad from './load';
 
 /*
  * Load account keyring pair into memory using account JSON file.
@@ -23,7 +24,7 @@ export default function accountRestore (state: State, json: KeyringPair$Json, pa
     return;
   }
 
-  const pair: KeyringPair = keyring.addFromJson(json);
+  const pair = accountLoad(state, json);
 
   try {
     pair.decodePkcs8(password);
