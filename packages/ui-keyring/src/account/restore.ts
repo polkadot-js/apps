@@ -18,12 +18,11 @@ import accountLoad from './load';
  */
 export default function accountRestore (state: State, json: KeyringPair$Json, password?: string): KeyringPair | undefined {
   const _address = json.address;
+  const pair = accountLoad(state, json);
 
-  if (!_address) {
+  if (!_address || !pair) {
     return;
   }
-
-  const pair = accountLoad(state, json);
 
   try {
     pair.decodePkcs8(password);

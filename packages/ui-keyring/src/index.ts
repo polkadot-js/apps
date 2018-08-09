@@ -37,8 +37,6 @@ const state: State = {
 loadAll(state);
 
 export default ({
-  loadAccount: (json: KeyringPair$Json): KeyringPair =>
-    loadAccount(state, json),
   backupAccount: (address: string, passphrase: string): KeyringPair$Json | void =>
     backupAccount(state, address, passphrase),
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta): KeyringPair =>
@@ -61,6 +59,8 @@ export default ({
     state.keyring.getPairs().filter((pair) =>
       state.isTestMode || pair.getMeta().isTesting !== true
     ),
+  loadAccount: (json: KeyringPair$Json): KeyringPair | void =>
+    loadAccount(state, json),
   loadAll: (): void =>
     loadAll(state),
   restoreAccount: (json: KeyringPair$Json, passphrase?: string): KeyringPair | void =>

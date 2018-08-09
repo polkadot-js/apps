@@ -127,7 +127,7 @@ class UploadButton extends React.PureComponent<Props, State> {
       <div className={'accounts--Address-upload'}>
         <Modal
           dimmer='inverted'
-          open={address && isPasswordModalOpen}
+          open={address && isPasswordModalOpen ? true : false}
           onClose={this.hidePasswordModal}
           size={'mini'}
         >

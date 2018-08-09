@@ -6,7 +6,7 @@ import { KeyringPair, KeyringPair$Json } from '@polkadot/util-keyring/types';
 import { State } from '../types';
 
 // Load account keyring pair into memory using account JSON file.
-export default function accountLoad (state: State, json: KeyringPair$Json): KeyringPair | undefined {
+export default function accountLoad (state: State, json: KeyringPair$Json): KeyringPair | void {
   const { keyring } = state;
   const _address = json.address;
 
