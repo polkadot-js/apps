@@ -125,32 +125,29 @@ class UploadButton extends React.PureComponent<Props, State> {
 
     return (
       <div className={'accounts--Address-upload'}>
-        { address && isPasswordModalOpen ? (
-            <Modal
-              dimmer='inverted'
-              open={isPasswordModalOpen}
-              onClose={this.hidePasswordModal}
-              size={'mini'}
-            >
-              <Modal.Content>
-                <div className='ui--grid'>
-                  <div className={'accounts--Address-modal'}>
-                    <AddressMini isShort={true} value={address} />
-                    <div className='accounts--Address-modal-message expanded'>
-                      <p>
-                        <Trans i18nKey='unlock.info'>
-                          Please enter your account password to upload and restore it encrypted.
-                        </Trans>
-                      </p>
-                    </div>
-                    {this.renderContent()}
-                  </div>
-                  {this.renderButtons()}
+        <Modal
+          dimmer='inverted'
+          open={address && isPasswordModalOpen}
+          onClose={this.hidePasswordModal}
+          size={'mini'}
+        >
+          <Modal.Content>
+            <div className='ui--grid'>
+              <div className={'accounts--Address-modal'}>
+                <AddressMini isShort={true} value={address} />
+                <div className='accounts--Address-modal-message expanded'>
+                  <p>
+                    <Trans i18nKey='unlock.info'>
+                      Please enter your account password to upload and restore it encrypted.
+                    </Trans>
+                  </p>
                 </div>
-              </Modal.Content>
-            </Modal>
-          ) : null
-        }
+                {this.renderContent()}
+              </div>
+              {this.renderButtons()}
+            </div>
+          </Modal.Content>
+        </Modal>
         <File
           className={'ui--Param-File-account'}
           withLabel={true}
