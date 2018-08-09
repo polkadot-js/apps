@@ -105,7 +105,10 @@ class Editor extends React.PureComponent<Props, State> {
           <div>{t('editor.nosaved', { defaultValue: 'There are no saved accounts. Create an account or upload a JSON file of a saved account.' })}</div>
           <div className={'accounts--Address-wrapper'}>
             <div className={'accounts--Address-file'}>
-              <UploadButton size={'big'} onChangeAccount={this.onChangeAccount} />
+              <UploadButton
+                size='big'
+                onChangeAccount={this.onChangeAccount}
+              />
             </div>
           </div>
         </div>
