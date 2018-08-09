@@ -50,32 +50,29 @@ class DownloadButton extends React.PureComponent<Props, State> {
       return;
     }
 
-    // Reset password so it is not pre-populated on the form on subsequent uploads
-    this.setState(
-      { password: '' },
-      () => {
-        try {
-          const json: KeyringPair$Json | void = keyring.backupAccount(address, password);
+    try {
+      const json: KeyringPair$Json | void = keyring.backupAccount(address, password);
 
-          if (!isUndefined(json)) {
-            const blob = new Blob([JSON.stringify(json)], { type: 'text/plain;charset=utf-8' });
+      if (!isUndefined(json)) {
+        const blob = new Blob([JSON.stringify(json)], { type: 'text/plain;charset=utf-8' });
 
-            FileSaver.saveAs(blob, `${address}.json`);
+        FileSaver.saveAs(blob, `${address}.json`);
 
-            this.hidePasswordModal();
-          } else {
-            this.setState({ error: { key: t('error'), value: t('Unable to obtain account from memory') } });
-          }
-        } catch (e) {
-          this.setState({ error: { key: t('error'), value: t('Unable to save file') } });
-          console.error('Error retrieving account from local storage and saving account to file: ', e);
-        }
+        this.hidePasswordModal();
+      } else {
+        this.setState({ error: { key: t('error'), value: t('Unable to obtain account from memory') } });
       }
-    );
+    } catch (e) {
+      this.setState({ error: { key: t('error'), value: t('Unable to save file') } });
+      console.error('Error retrieving account from local storage and saving account to file: ', e);
+    }
   }
 
   showPasswordModal = (): void => {
-    this.setState({ isPasswordModalOpen: true });
+    this.setState({
+      isPasswordModalOpen: true,
+      password: '' // Reset password so not pre-populated on form on subsequent uploads
+    });
   }
 
   hidePasswordModal = (): void => {
