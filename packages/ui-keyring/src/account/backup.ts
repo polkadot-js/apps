@@ -20,7 +20,7 @@ export default function accountBackup (state: State, _address: string, password:
     return;
   }
 
-  const pair: KeyringPair = keyring.getPair(_address);
+  const pair = keyring.getPair(_address);
 
   if (!pair) {
     return;
