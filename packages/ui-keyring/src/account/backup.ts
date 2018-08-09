@@ -34,6 +34,5 @@ export default function accountBackup (state: State, _address: string, password:
     return jsonDecrypted;
   } catch (error) {
     console.error('Unable to decrypt account with given password: ', error);
-    return;
   }
 }
