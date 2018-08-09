@@ -225,27 +225,6 @@ class DownloadButton extends React.PureComponent<Props, State> {
     };
   }
 
-  nextState (newState: State): void {
-    this.setState(
-      (prevState: State, props: Props): State => {
-        const {
-          password = '',
-          isPasswordModalOpen = prevState.isPasswordModalOpen,
-          error = prevState.error
-        } = newState;
-
-        let address = prevState.address;
-
-        return {
-          address,
-          password,
-          isPasswordModalOpen,
-          error
-        };
-      }
-    );
-  }
-
   onChangePassword = (password: string): void => {
     this.setState({
       password,

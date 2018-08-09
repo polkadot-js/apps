@@ -276,28 +276,6 @@ class UploadButton extends React.PureComponent<Props, State> {
     };
   }
 
-  nextState (newState: State): void {
-    this.setState(
-      (prevState: State, props: Props): State => {
-        const {
-          address = prevState.address,
-          password = '',
-          isPasswordModalOpen = prevState.isPasswordModalOpen,
-          error = prevState.error,
-          uploadedFileKeyringPair = prevState.uploadedFileKeyringPair
-        } = newState;
-
-        return {
-          address,
-          password,
-          isPasswordModalOpen,
-          error,
-          uploadedFileKeyringPair
-        };
-      }
-    );
-  }
-
   onChangePassword = (password: string): void => {
     this.setState({
       password,
