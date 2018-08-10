@@ -183,12 +183,12 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private send (extrinsic: SectionItem<Extrinsics>, values: Array<RawParam$Value>) {
-    const { systemAccountIndexOf = new BN(0), address, queueExtrinsic } = this.props;
+    const { systemAccountIndexOf, address, queueExtrinsic } = this.props;
     const publicKey = decodeAddress(address);
 
     queueExtrinsic({
       extrinsic,
-      nonce: systemAccountIndexOf,
+      nonce: systemAccountIndexOf || new BN(0),
       publicKey,
       values
     });
@@ -243,8 +243,6 @@ export default withMulti(
   ),
   withStorage(
     storage.system.public.accountIndexOf,
-    {
-      paramProp: 'address'
-    }
+    { paramProp: 'address' }
   )
 );
