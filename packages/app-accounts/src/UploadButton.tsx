@@ -71,7 +71,13 @@ class UploadButton extends React.PureComponent<Props, State> {
         }
       } catch (e) {
         console.error('Error uploading file: ', e);
-        this.setState({ error: { key: t('error'), value: t('Unable to upload account from file') } });
+        this.setState({
+          error: React.createElement(
+            'div',
+            null,
+            t('error', { defaultValue: 'Unable to upload account from file' })
+          )
+        });
       }
     };
 
@@ -102,8 +108,8 @@ class UploadButton extends React.PureComponent<Props, State> {
         this.setState({
           error: React.createElement(
             'div',
-            t('error', { defaultValue: 'Unable to upload account into memory' }),
-            null
+            null,
+            t('error', { defaultValue: 'Unable to upload account into memory' })
           )
         });
       }
@@ -112,8 +118,8 @@ class UploadButton extends React.PureComponent<Props, State> {
       this.setState({
         error: React.createElement(
           'div',
-          t('error', { defaultValue: 'Unable to upload account into memory' }),
-          null
+          null,
+          t('error', { defaultValue: 'Unable to upload account into memory' })
         )
       });
     }

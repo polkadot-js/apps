@@ -63,8 +63,8 @@ class DownloadButton extends React.PureComponent<Props, State> {
         this.setState({
           error: React.createElement(
             'div',
-            t('error', { defaultValue: 'Unable to obtain account from memory' }),
-            null
+            null,
+            t('error', { defaultValue: 'Unable to obtain account from memory' })
           )
         });
       }
@@ -73,8 +73,8 @@ class DownloadButton extends React.PureComponent<Props, State> {
         // https://www.reactenlightenment.com/react-nodes/4.2.html
         error: React.createElement(
           'div',
-          t('error', { defaultValue: 'Unable to save file' }),
-          null
+          null,
+          t('error', { defaultValue: 'Unable to save file' })
         )
       });
       console.error('Error retrieving account from local storage and saving account to file: ', e);
