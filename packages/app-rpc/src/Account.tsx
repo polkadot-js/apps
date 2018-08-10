@@ -94,8 +94,9 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeNonce = (nonce: BN): void => {
+  onChangeNonce = (_nonce: BN): void => {
     const { onChange } = this.props;
+    const nonce = _nonce || new BN(0);
 
     this.setState({ nonce }, () =>
       onChange(this.state.publicKey, nonce)
