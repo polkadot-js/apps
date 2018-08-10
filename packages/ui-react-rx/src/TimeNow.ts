@@ -9,7 +9,7 @@ import withStorage from './with/storage';
 
 const method = storage.timestamp.public.now;
 
-const Component: React.ComponentType<any> = withStorage(method)(
+const Component: React.ComponentType<any> = withStorage(method, { propName: 'value' })(
   Elapsed,
   { className: 'rx--TimeNow' }
 );

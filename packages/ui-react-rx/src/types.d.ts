@@ -44,6 +44,8 @@ export interface ObservableApiInterface {
   votingBalances: (addresses: Array<string>) => Observable<ExtendedBalance[]>
 }
 
+export type ObservableApiNames = keyof ObservableApiInterface;
+
 export type ApiProps = {
   api: RxApiInterface,
   apiConnected: boolean,

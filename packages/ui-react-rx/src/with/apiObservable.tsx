@@ -4,12 +4,11 @@
 
 // TODO: Lots of duplicated code between this and withObservable, surely there ois a better way of doing this?
 
-import { RxProps, ObservableApiInterface } from '../types';
+import { RxProps, ObservableApiNames } from '../types';
 import { HOC, StorageOptions, DefaultProps } from './types';
 
 import React from 'react';
 import { map } from 'rxjs/operators/map';
-import isUndefined from '@polkadot/util/is/undefined';
 
 import intervalSubscribe from '../util/intervalSubscribe';
 import isEqual from '../util/isEqual';
@@ -21,11 +20,9 @@ type State<T> = RxProps<T> & {
   subscriptions: Array<any>; // FIXME subscriptions
 };
 
-type ObservableNames = keyof ObservableApiInterface;
-
 // FIXME proper types for attributes
 
-export default function withApiObservable<T> (observable: ObservableNames, { onChange, params, paramProp = 'params', propName = observable, transform = echoTransform }: StorageOptions<T> = {}): HOC<T> {
+export default function withApiObservable<T> (observable: ObservableApiNames, { onChange, params, paramProp = 'params', propName = observable, transform = echoTransform }: StorageOptions<T> = {}): HOC<T> {
   return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}): React.ComponentType<any> => {
     class WithStorage extends React.Component<any, State<T>> {
       state: State<T>;
@@ -56,11 +53,6 @@ export default function withApiObservable<T> (observable: ObservableNames, { onC
         const propValue = params || this.props[paramProp];
 
         this.unsubscribe();
-
-        if (isUndefined(propValue)) {
-          return;
-        }
-
         this.setState({
           subscriptions: [
             apiObservable[observable](propValue)

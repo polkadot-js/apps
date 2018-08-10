@@ -27,15 +27,13 @@ export default class ObservableApi implements ObservableApiInterface {
   }
 
   bestNumber = (): Observable<OptBN> => {
-    return this.api.chain
-      .newHead()
-      .pipe(
-        map((header?: Header): OptBN =>
-          header && header.number
-            ? header.number
-            : undefined
-        )
-      );
+    return this.api.chain.newHead().pipe(
+      map((header?: Header): OptBN =>
+        header && header.number
+          ? header.number
+          : undefined
+      )
+    );
   }
 
   eraBlockLength = (): Observable<OptBN> => {
