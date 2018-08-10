@@ -25,7 +25,7 @@ type ObservableNames = keyof ObservableApiInterface;
 
 // FIXME proper types for attributes
 
-export default function withApiObservable<T> (observable: ObservableNames, { onChange, params, paramProp = 'params', propName = 'value', transform = echoTransform }: StorageOptions<T> = {}): HOC<T> {
+export default function withApiObservable<T> (observable: ObservableNames, { onChange, params, paramProp = 'params', propName = observable, transform = echoTransform }: StorageOptions<T> = {}): HOC<T> {
   return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}): React.ComponentType<any> => {
     class WithStorage extends React.Component<any, State<T>> {
       state: State<T>;

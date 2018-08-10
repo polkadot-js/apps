@@ -12,33 +12,27 @@ import CardSummary from '@polkadot/ui-app/CardSummary';
 import BestNumber from '@polkadot/ui-react-rx/BestNumber';
 import TimePeriod from '@polkadot/ui-react-rx/TimePeriod';
 import TimeNow from '@polkadot/ui-react-rx/TimeNow';
+import withApiObservable from '@polkadot/ui-react-rx/with/apiObservable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withStorage from '@polkadot/ui-react-rx/with/storage';
 
 import translate from './translate';
-import withApiObservable from '@polkadot/ui-react-rx/with/apiObservable';
 
 type Props = I18nProps & {
   eraBlockLength?: BN,
   eraBlockProgress?: BN,
   sessionBlockProgress?: BN,
   sessionBrokenValue?: BN,
-  sessionBrokenPercentMax?: BN,
+  sessionBrokenPercentLate?: BN,
   sessionLength?: BN
 };
 
-type State = {
-  bestNumber?: BN
-};
-
-class Summary extends React.PureComponent<Props, State> {
-  state: State = {};
-
+class Summary extends React.PureComponent<Props> {
   render () {
-    const { className, eraBlockLength, eraBlockProgress, sessionBlockProgress, sessionBrokenValue, sessionBrokenPercentMax, sessionLength, style, t } = this.props;
+    const { className, eraBlockLength, eraBlockProgress, sessionBlockProgress, sessionBrokenValue, sessionBrokenPercentLate, sessionLength, style, t } = this.props;
     const sessionBrokenPercent = new BN(Math.round(
-      sessionBrokenValue && sessionBrokenPercentMax
-        ? 100 * sessionBrokenValue.toNumber() / sessionBrokenPercentMax.toNumber()
+      sessionBrokenValue && sessionBrokenPercentLate
+        ? 100 * sessionBrokenValue.toNumber() / sessionBrokenPercentLate.toNumber()
         : 0
     ));
 
@@ -83,7 +77,7 @@ class Summary extends React.PureComponent<Props, State> {
             })}
             progressColor='autoReverse'
             progressValue={sessionBrokenPercent}
-            progressTotal={sessionBrokenPercentMax}
+            progressTotal={sessionBrokenPercentLate}
           />
         </div>
         <div className='explorer--Summary-column'>
@@ -101,28 +95,16 @@ class Summary extends React.PureComponent<Props, State> {
 export default withMulti(
   Summary,
   translate,
-  withApiObservable(
-    'eraBlockLength',
-    { propName: 'eraBlockLength' }
-  ),
-  withApiObservable(
-    'eraBlockProgress',
-    { propName: 'eraBlockProgress' }
-  ),
-  withApiObservable(
-    'sessionBlockProgress',
-    { propName: 'sessionBlockProgress' }
-  ),
-  withApiObservable(
-    'sessionBrokenValue',
-    { propName: 'sessionBrokenValue' }
-  ),
+  withApiObservable('eraBlockLength'),
+  withApiObservable('eraBlockProgress'),
+  withApiObservable('sessionBlockProgress'),
+  withApiObservable('sessionBrokenValue'),
   withStorage(
     storage.session.public.length,
     { propName: 'sessionLength' }
   ),
   withStorage(
     storage.session.public.brokenPercentLate,
-    { propName: 'sessionBrokenPercentMax' }
+    { propName: 'sessionBrokenPercentLate' }
   )
 );

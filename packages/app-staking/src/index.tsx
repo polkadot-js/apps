@@ -20,7 +20,7 @@ import StakeList from './StakeList';
 import Summary from './Summary';
 
 type Props = BareProps & {
-  balances?: ExtendedBalanceMap,
+  validatingBalances?: ExtendedBalanceMap,
   intentions?: Array<string>,
   validators?: Array<string>
 };
@@ -30,7 +30,7 @@ const transformAddresses = (publicKeys: Array<Uint8Array>) =>
 
 class App extends React.PureComponent<Props> {
   render () {
-    const { balances = {}, className, intentions = [], style, validators = [] } = this.props;
+    const { className, intentions = [], style, validatingBalances = {}, validators = [] } = this.props;
 
     return (
       <Page
@@ -38,12 +38,12 @@ class App extends React.PureComponent<Props> {
         style={style}
       >
         <Summary
-          balances={balances}
+          balances={validatingBalances}
           intentions={intentions}
           validators={validators}
         />
         <StakeList
-          balances={balances}
+          balances={validatingBalances}
           intentions={intentions}
           validators={validators}
         />
@@ -70,9 +70,6 @@ export default withMulti(
   ),
   withApiObservable(
     'validatingBalances',
-    {
-      paramProp: 'intentions',
-      propName: 'balances'
-    }
+    { paramProp: 'intentions' }
   )
 );
