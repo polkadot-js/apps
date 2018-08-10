@@ -22,10 +22,8 @@ export default class ObservableApi implements ObservableApiInterface {
     this.api = api;
   }
 
-  private combine <T> (observables: Array<Observable<any>>, mapfn: (combined: any) => T): Observable<T> {
-    return combineLatest
-      .apply(null, observables)
-      .pipe(mapfn);
+  private combine <T, R> (observables: Array<Observable<any>>, mapfn: (combined: R) => T): Observable<T> {
+    return combineLatest(...observables).pipe(map(mapfn));
   }
 
   bestNumber = (): Observable<OptBN> => {
@@ -212,7 +210,7 @@ export default class ObservableApi implements ObservableApiInterface {
         this.api.state.getStorage(storage.staking.public.freeBalanceOf, address),
         this.api.state.getStorage(storage.staking.public.reservedBalanceOf, address)
       ],
-      ([freeBalance = new BN(0), reservedBalance = new BN(0)]): ExtendedBalance => ({
+      ([freeBalance = new BN(0), reservedBalance = new BN(0)]: [OptBN, OptBN]): ExtendedBalance => ({
         address,
         freeBalance,
         nominatedBalance: new BN(0),
