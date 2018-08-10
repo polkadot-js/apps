@@ -8,7 +8,7 @@ import { ApiProps, ExtendedBalance, ExtendedBalanceMap } from '@polkadot/ui-reac
 
 import BN from 'bn.js';
 import React from 'react';
-import apimethods from '@polkadot/jsonrpc';
+import rpcs from '@polkadot/jsonrpc';
 import storage from '@polkadot/storage';
 import classes from '@polkadot/ui-app/util/classes';
 import withApiCall from '@polkadot/ui-react-rx/with/apiCall';
@@ -115,7 +115,7 @@ export default withMulti(
   Summary,
   translate,
   withApiCall(
-    apimethods.chain.public.newHead,
+    rpcs.chain.public.newHead,
     { propName: 'lastBlockHeader' }
   ),
   withStorage(

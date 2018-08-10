@@ -66,6 +66,7 @@ export default function withStorage<T> (key: SectionItem<Storages>, { onChange, 
 
       componentDidMount () {
         const subscriptions = [
+          // FIXME With 0.3, this can be removed - auto-updating storage
           this.props.api.chain
             .newHead()
             .subscribe(async (value: any) => {

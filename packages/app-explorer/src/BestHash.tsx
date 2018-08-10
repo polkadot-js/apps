@@ -4,11 +4,14 @@
 
 import { Header } from '@polkadot/primitives/header';
 
+import rpcs from '@polkadot/jsonrpc';
 import headerHash from '@polkadot/primitives/codec/header/hash';
 import withApiDiv from '@polkadot/ui-react-rx/with/apiDiv';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
-const Component: React.ComponentType<any> = withApiDiv({ name: 'newHead', section: 'chain' })(
+const method = rpcs.chain.public.newHead;
+
+const Component: React.ComponentType<any> = withApiDiv(method)(
   (value?: Header): string | undefined =>
     value
       ? u8aToHex(headerHash(value), 64)
