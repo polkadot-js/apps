@@ -13,7 +13,7 @@ import isUndefined from '@polkadot/util/is/undefined';
 import classes from './util/classes';
 
 type BaseColors = 'blue' | 'green' | 'red' | 'orange';
-type Colors = 'auto' | 'autoReverse' | BaseColors;
+export type Colors = 'auto' | 'autoReverse' | BaseColors;
 
 type Props = BareProps & {
   color?: Colors,
@@ -25,14 +25,19 @@ type Props = BareProps & {
 export default class Progress extends React.PureComponent<Props> {
   render () {
     const { className, color = 'blue', percent, total, style, value } = this.props;
-    let calculated: number;
-    let rainbow: BaseColors;
+    let calculated: number | undefined;
 
     if (!isUndefined(total) && !isUndefined(value)) {
       calculated = 100.0 * (isBn(value) ? value.toNumber() : value) / (isBn(total) ? total.toNumber() : total);
     } else {
-      calculated = (isBn(percent) ? percent.toNumber() : percent) || 0;
+      calculated = isBn(percent) ? percent.toNumber() : percent;
     }
+
+    if (isUndefined(calculated)) {
+      return null;
+    }
+
+    let rainbow: BaseColors;
 
     if (color === 'auto' || color === 'autoReverse') {
       if (calculated > 66.6) {
@@ -48,7 +53,7 @@ export default class Progress extends React.PureComponent<Props> {
 
     return (
       <SUIProgress
-        className={classes('ui--Card', className)}
+        className={classes('ui--Progress', className)}
         color={rainbow}
         percent={calculated}
         size='tiny'

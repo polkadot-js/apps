@@ -23,20 +23,11 @@
   line-height: 1.2;
 }
 
-.explorer--BestNumber,
-.explorer--Summary-large {
+.explorer--BestNumber {
   font-size: 3rem;
   line-height: 3rem;
   position: relative;
   text-align: right;
-}
-
-.explorer--Summary-progress {
-  position: absolute !important;
-  bottom: -0.7em;
-  right: 0;
-  left: 0;
-  margin: 0 !important;
 }
 
 .explorer--Summary {

@@ -8,9 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 import storage from '@polkadot/storage';
 import classes from '@polkadot/ui-app/util/classes';
-import Card from '@polkadot/ui-app/Card';
-import Labelled from '@polkadot/ui-app/Labelled';
-import Progress from '@polkadot/ui-app/Progress';
+import CardSummary from '@polkadot/ui-app/CardSummary';
 import BestNumber from '@polkadot/ui-react-rx/BestNumber';
 import TimePeriod from '@polkadot/ui-react-rx/TimePeriod';
 import TimeNow from '@polkadot/ui-react-rx/TimeNow';
@@ -37,11 +35,12 @@ class Summary extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    // FIXME Shared components for the Cards
     const { className, eraBlockLength, eraBlockProgress, sessionBlockProgress, sessionBrokenValue, sessionBrokenPercentMax, sessionLength, style, t } = this.props;
-    const sessionBrokenPercent = sessionBrokenValue && sessionBrokenPercentMax
-      ? 100 * sessionBrokenValue.toNumber() / sessionBrokenPercentMax.toNumber()
-      : 0;
+    const sessionBrokenPercent = new BN(Math.round(
+      sessionBrokenValue && sessionBrokenPercentMax
+        ? 100 * sessionBrokenValue.toNumber() / sessionBrokenPercentMax.toNumber()
+        : 0
+    ));
 
     return (
       <div
@@ -49,103 +48,50 @@ class Summary extends React.PureComponent<Props, State> {
         style={style}
       >
         <div className='explorer--Summary-column'>
-          <Card>
-            <Labelled label={t('summary.period', {
-              defaultValue: 'target time'
-            })}>
-              <TimePeriod className='explorer--Summary-large' />
-            </Labelled>
-          </Card>
-          <Card>
-            <Labelled label={t('summary.now', {
-              defaultValue: 'last block'
-            })}>
-              <TimeNow className='explorer--Summary-large' />
-            </Labelled>
-          </Card>
+          <CardSummary label={t('summary.period', {
+            defaultValue: 'target time'
+          })}>
+            <TimePeriod />
+          </CardSummary>
+          <CardSummary label={t('summary.now', {
+            defaultValue: 'last block'
+          })}>
+            <TimeNow />
+          </CardSummary>
         </div>
         <div className='explorer--Summary-column'>
-          <Card>
-            <Labelled label={t('summary.sessionProgress', {
+          <CardSummary
+            isProgress
+            label={t('summary.sessionProgress', {
               defaultValue: 'session'
-            })}>
-              <div className='explorer--Summary-large'>
-                {
-                  sessionLength && sessionBlockProgress
-                    ? `${sessionBlockProgress.toString()}/${sessionLength.toString()}`
-                    : '-'
-                }
-                {
-                  sessionLength && sessionBlockProgress
-                    ? (
-                      <Progress
-                        className='explorer--Summary-progress'
-                        value={sessionBlockProgress}
-                        total={sessionLength}
-                      />
-                    )
-                    : undefined
-                }
-              </div>
-            </Labelled>
-          </Card>
-          <Card>
-            <Labelled label={t('summary.eraProgress', {
+            })}
+            progressValue={sessionBlockProgress}
+            progressTotal={sessionLength}
+          />
+          <CardSummary
+            isProgress
+            label={t('summary.eraProgress', {
               defaultValue: 'era'
-            })}>
-              <div className='explorer--Summary-large'>
-                {
-                  eraBlockLength && eraBlockProgress
-                    ? `${eraBlockProgress.toString()}/${eraBlockLength.toString()}`
-                    : '-'
-                }
-                {
-                  eraBlockLength && eraBlockProgress
-                    ? (
-                      <Progress
-                        className='explorer--Summary-progress'
-                        value={eraBlockProgress}
-                        total={eraBlockLength}
-                      />
-                    )
-                    : undefined
-                }
-              </div>
-            </Labelled>
-          </Card>
-          <Card>
-            <Labelled label={t('summary.brokenCount', {
+            })}
+            progressValue={eraBlockProgress}
+            progressTotal={eraBlockLength}
+          />
+          <CardSummary
+            isProgress
+            label={t('summary.brokenCount', {
               defaultValue: 'broken'
-            })}>
-              <div className='explorer--Summary-large'>
-                {
-                  sessionBrokenPercent && sessionBrokenPercentMax
-                    ? `${sessionBrokenPercent.toString()}/${sessionBrokenPercentMax.toString()}%`
-                    : '-'
-                }
-                {
-                  sessionBrokenPercent && sessionBrokenPercent
-                    ? (
-                      <Progress
-                        className='explorer--Summary-progress'
-                        color='autoReverse'
-                        percent={sessionBrokenPercent}
-                      />
-                    )
-                    : undefined
-                }
-              </div>
-            </Labelled>
-          </Card>
+            })}
+            progressColor='autoReverse'
+            progressValue={sessionBrokenPercent}
+            progressTotal={sessionBrokenPercentMax}
+          />
         </div>
         <div className='explorer--Summary-column'>
-          <Card>
-            <Labelled label={t('summary.best', {
-              defaultValue: 'best'
-            })}>
-              <BestNumber className='explorer--Summary-large' />
-            </Labelled>
-          </Card>
+          <CardSummary label={t('summary.best', {
+            defaultValue: 'best'
+          })}>
+            <BestNumber />
+          </CardSummary>
         </div>
       </div>
     );

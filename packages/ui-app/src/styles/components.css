@@ -131,6 +131,16 @@
   padding: 1rem;
 }
 
+.ui--CardSummary-large {
+  font-size: 3rem;
+  line-height: 3rem;
+  text-align: right;
+}
+
+.ui--CardSummary-progress {
+  margin: 0 0 -0.5em !important;
+}
+
 .ui--Navigation {
   margin-bottom: 2em;
   text-align: center;
