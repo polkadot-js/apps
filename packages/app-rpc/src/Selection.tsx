@@ -104,7 +104,7 @@ class Selection extends React.PureComponent<Props, State> {
         return {
           isValid,
           rpc,
-          nonce,
+          nonce: nonce || new BN(0),
           publicKey,
           values
         };

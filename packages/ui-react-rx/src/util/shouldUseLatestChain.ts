@@ -7,7 +7,7 @@ import isUndefined from '@polkadot/util/is/undefined';
 const re = new RegExp('(poc-1)', 'i');
 
 export default function shouldUseLatestChain (chain?: string): boolean {
-  if (isUndefined(chain) || chain === null) {
+  if (isUndefined(chain)) {
     return false;
   }
 

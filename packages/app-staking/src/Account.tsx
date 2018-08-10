@@ -188,12 +188,12 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private send (extrinsic: SectionItem<Extrinsics>, values: Array<RawParam$Value>) {
-    const { accountIndex = new BN(0), address, queueExtrinsic } = this.props;
+    const { accountIndex, address, queueExtrinsic } = this.props;
     const publicKey = decodeAddress(address);
 
     queueExtrinsic({
       extrinsic,
-      nonce: accountIndex,
+      nonce: accountIndex || new BN(0),
       publicKey,
       values
     });

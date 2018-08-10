@@ -17,10 +17,10 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
     "@polkadot/ui-identicon": "^0.19.27",
-    "polkadot-identicon": "^1.0.5"
+    "polkadot-identicon": "^1.0.2"
   },
   "devDependencies": {
-    "@polkadot/util-keyring": "^0.27.9",
+    "@polkadot/util-keyring": "^0.27.12",
     "babel-loader": "^8.0.0-beta.2",
     "css-loader": "0.28.9",
     "empty": "^0.10.1",

@@ -36,9 +36,9 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
-    "@polkadot/api-rx": "^0.15.6",
-    "@polkadot/extrinsics": "^0.27.9",
-    "@polkadot/storage": "^0.27.9",
+    "@polkadot/api-rx": "^0.15.9",
+    "@polkadot/extrinsics": "^0.27.12",
+    "@polkadot/storage": "^0.27.12",
     "rxjs-compat": "^6.2.2"
   },
   "devDependencies": {
