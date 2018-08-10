@@ -30,11 +30,6 @@ type Props = I18nProps & {
 class Summary extends React.PureComponent<Props> {
   render () {
     const { className, eraBlockLength, eraBlockProgress, sessionBlockProgress, sessionBrokenValue, sessionBrokenPercentLate, sessionLength, style, t } = this.props;
-    const sessionBrokenPercent = new BN(Math.round(
-      sessionBrokenValue && sessionBrokenPercentLate
-        ? 100 * sessionBrokenValue.toNumber() / sessionBrokenPercentLate.toNumber()
-        : 0
-    ));
 
     return (
       <div
@@ -74,12 +69,12 @@ class Summary extends React.PureComponent<Props> {
           />
           <CardSummary
             label={t('summary.brokenCount', {
-              defaultValue: 'broken'
+              defaultValue: 'lateness'
             })}
             progress={{
               color: 'autoReverse',
               total: sessionBrokenPercentLate,
-              value: sessionBrokenPercent
+              value: sessionBrokenValue
             }}
           />
         </div>

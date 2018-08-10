@@ -7,7 +7,7 @@
 import { SectionItem } from '@polkadot/params/types';
 import { Storages, Storage$Key$Value } from '@polkadot/storage/types';
 import { RxProps } from '../types';
-import { HOC, StorageOptions, DefaultProps, Transform } from './types';
+import { HOC, StorageOptions, DefaultProps } from './types';
 
 import React from 'react';
 import { map } from 'rxjs/operators/map';

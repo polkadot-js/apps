@@ -4,11 +4,13 @@
 
 import { Header } from '@polkadot/primitives/header';
 import { RxApiInterface } from '@polkadot/api-rx/types';
+import { SectionItem } from '@polkadot/params/types';
+import { Storages } from '@polkadot/storage/types';
 import { ExtendedBalance, ExtendedBalanceMap, ObservableApiInterface } from './types';
 
 import BN from 'bn.js';
-import { Observable, combineLatest } from 'rxjs';
-import { map, switchMap, toArray, startWith } from 'rxjs/operators';
+import { Observable, combineLatest, from } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import storage from '@polkadot/storage';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 
@@ -17,54 +19,48 @@ type OptDate = Date | undefined;
 
 export default class ObservableApi implements ObservableApiInterface {
   private api: RxApiInterface;
-  private lastBestNumber: OptBN;
 
   constructor (api: RxApiInterface) {
     this.api = api;
-
-    this.api.chain
-      .getHead()
-      .pipe(
-        switchMap((hash: Uint8Array) =>
-          this.api.chain.getHeader(hash)
-        ),
-        map((header?: Header) =>
-          header && header.number
-        )
-      )
-      .toPromise()
-      .catch(() => undefined)
-      .then((bestNumber?: BN) => {
-        this.lastBestNumber = this.lastBestNumber || bestNumber;
-
-        console.error('this.lastBestNumber', this.lastBestNumber);
-      });
   }
 
   private combine <T, R> (observables: Array<Observable<any>>, mapfn: (combined: R) => T): Observable<T> {
     return combineLatest(...observables).pipe(map(mapfn));
   }
 
+  // FIXME This should not be needed when we have the auto-update storage entries, well, at
+  // least not the polling and then updating
+  private getStorage <T> (key: SectionItem<Storages>, ...params: Array<any>): Observable<T> {
+    return this
+      .bestNumber()
+      .pipe(
+        switchMap(() =>
+          from(
+            this.api.state.getStorage
+              .apply(null, [key, ...params])
+              .toPromise()
+          )
+        )
+      );
+  }
+
   bestNumber = (): Observable<OptBN> => {
     return this.api.chain
       .newHead()
       .pipe(
-        // startWith(this.lastBestNumber),
-        map((header?: Header): OptBN => {
-          this.lastBestNumber = (header && header.number
+        map((header?: Header): OptBN =>
+          header && header.number
             ? header.number
-            : undefined) || this.lastBestNumber;
-
-          return this.lastBestNumber;
-        })
+            : undefined
+        )
       );
   }
 
   eraBlockLength = (): Observable<OptBN> => {
     return this.combine(
       [
-        this.api.state.getStorage(storage.session.public.length),
-        this.api.state.getStorage(storage.staking.public.sessionsPerEra)
+        this.sessionLength(),
+        this.sessionsPerEra()
       ],
       ([sessionLength, sessionsPerEra]: [OptBN, OptBN]): OptBN =>
         sessionLength && sessionsPerEra
@@ -77,15 +73,15 @@ export default class ObservableApi implements ObservableApiInterface {
     return this.combine(
       [
         this.sessionBlockProgress(),
-        this.api.state.getStorage(storage.session.public.length),
-        this.api.state.getStorage(storage.session.public.currentIndex),
-        this.api.state.getStorage(storage.staking.public.sessionsPerEra),
-        this.api.state.getStorage(storage.staking.public.lastEraLengthChange)
+        this.sessionLength(),
+        this.sessionCurrentIndex(),
+        this.sessionsPerEra(),
+        this.eraLastLengthChange()
       ],
-      ([sessionBlockProgress, sessionLength, sessionCurrentIndex, sessionsPerEra, lastEraLengthChange]: [OptBN, OptBN, OptBN, OptBN, OptBN]): OptBN =>
-        sessionsPerEra && sessionCurrentIndex && sessionLength && sessionBlockProgress && lastEraLengthChange
+      ([sessionBlockProgress, sessionLength, sessionCurrentIndex, sessionsPerEra, eraLastLengthChange = new BN(0)]: [OptBN, OptBN, OptBN, OptBN, OptBN]): OptBN =>
+        sessionsPerEra && sessionCurrentIndex && sessionLength && sessionBlockProgress && eraLastLengthChange
           ? sessionCurrentIndex
-              .sub(lastEraLengthChange)
+              .sub(eraLastLengthChange)
               .mod(sessionsPerEra)
               .mul(sessionLength)
               .add(sessionBlockProgress)
@@ -106,12 +102,16 @@ export default class ObservableApi implements ObservableApiInterface {
     );
   }
 
+  eraLastLengthChange = (): Observable<OptBN> => {
+    return this.getStorage(storage.staking.public.lastEraLengthChange);
+  }
+
   sessionBlockProgress = (): Observable<OptBN> => {
     return this.combine(
       [
         this.bestNumber(),
-        this.api.state.getStorage(storage.session.public.length),
-        this.api.state.getStorage(storage.session.public.lastLengthChange)
+        this.sessionLength(),
+        this.sessionLastLengthChange()
       ],
       ([bestNumber, sessionLength, lastSessionLengthChange]: [OptBN, OptBN, OptBN]): OptBN =>
         bestNumber && sessionLength && lastSessionLengthChange
@@ -127,7 +127,7 @@ export default class ObservableApi implements ObservableApiInterface {
     return this.combine(
       [
         this.sessionBlockProgress(),
-        this.api.state.getStorage(storage.session.public.length)
+        this.sessionLength()
       ],
       ([sessionBlockProgress, sessionLength]: [OptBN, OptBN]): OptBN =>
         sessionBlockProgress && sessionLength
@@ -139,15 +139,13 @@ export default class ObservableApi implements ObservableApiInterface {
   sessionBrokenValue = (): Observable<OptBN> => {
     return this.combine(
       [
-        this.sessionBlockRemaining(),
+        this.timestampNow(),
         this.sessionTimeExpected(),
         this.sessionTimeRemaining(),
-        this.api.state.getStorage(storage.session.public.currentStart),
-        this.api.state.getStorage(storage.timestamp.public.blockPeriod),
-        this.api.state.getStorage(storage.timestamp.public.now)
+        this.sessionCurrentStart()
       ],
-      ([sessionBlockRemaining, sessionTimeExpected, sessionTimeRemaining, sessionCurrentStart, blockPeriod, now]: [OptBN, OptBN, OptBN, OptDate, OptDate, OptDate]): OptBN =>
-        sessionBlockRemaining && sessionTimeExpected && sessionTimeRemaining && sessionCurrentStart && blockPeriod && now
+      ([now, sessionTimeExpected, sessionTimeRemaining, sessionCurrentStart]: [OptDate, OptBN, OptBN, OptDate]): OptBN =>
+        sessionTimeExpected && sessionTimeRemaining && sessionCurrentStart && now
           ? new BN(
             Math.round(
               100 * (now.getTime() + sessionTimeRemaining.toNumber() - sessionCurrentStart.getTime()) / sessionTimeExpected.toNumber() - 100
@@ -157,11 +155,31 @@ export default class ObservableApi implements ObservableApiInterface {
     );
   }
 
+  sessionCurrentIndex = (): Observable<OptBN> => {
+    return this.getStorage(storage.session.public.currentIndex);
+  }
+
+  sessionCurrentStart = (): Observable<OptBN> => {
+    return this.getStorage(storage.session.public.currentStart);
+  }
+
+  sessionLastLengthChange = (): Observable<OptBN> => {
+    return this.getStorage(storage.session.public.lastLengthChange);
+  }
+
+  sessionLength = (): Observable<OptBN> => {
+    return this.getStorage(storage.session.public.length);
+  }
+
+  sessionsPerEra = (): Observable<OptBN> => {
+    return this.getStorage(storage.staking.public.sessionsPerEra);
+  }
+
   sessionTimeExpected = (): Observable<OptBN> => {
     return this.combine(
       [
-        this.api.state.getStorage(storage.session.public.length),
-        this.api.state.getStorage(storage.timestamp.public.blockPeriod)
+        this.sessionLength(),
+        this.timestampBlockPeriod()
       ],
       ([sessionLength, blockPeriod]: [OptBN, OptBN]): OptBN =>
         sessionLength && blockPeriod
@@ -174,7 +192,7 @@ export default class ObservableApi implements ObservableApiInterface {
     return this.combine(
       [
         this.sessionBlockRemaining(),
-        this.api.state.getStorage(storage.timestamp.public.blockPeriod)
+        this.timestampBlockPeriod()
       ],
       ([sessionBlockRemaining, blockPeriod]: [OptBN, OptBN]): OptBN =>
         blockPeriod && sessionBlockRemaining
@@ -183,21 +201,45 @@ export default class ObservableApi implements ObservableApiInterface {
     );
   }
 
+  statkingFreeBalanceOf = (address: string): Observable<OptBN> => {
+    return this.getStorage(storage.staking.public.freeBalanceOf, address);
+  }
+
+  stakingNominatorsFor = (address: string): Observable<Array<string>> => {
+    return this.api.state
+      .getStorage(storage.staking.public.nominatorsFor, address)
+      .pipe(
+        map((nominators = []) =>
+         nominators.map(encodeAddress)
+        )
+      );
+  }
+
+  stakingReservedBalanceOf = (address: string): Observable<OptBN> => {
+    return this.getStorage(storage.staking.public.reservedBalanceOf, address);
+  }
+
+  timestampBlockPeriod = (): Observable<OptBN> => {
+    return this.getStorage(storage.timestamp.public.blockPeriod);
+  }
+
+  timestampNow = (): Observable<OptBN> => {
+    return this.getStorage(storage.timestamp.public.now);
+  }
+
   validatingBalance = (address: string): Observable<ExtendedBalance> => {
     return this.combine(
       [
         this.votingBalance(address),
-        this.api.state
-          .getStorage(storage.staking.public.nominatorsFor, address)
-          .pipe(
-            switchMap((nominators = []) =>
-              // FIXME: Will not be needed after https://github.com/polkadot-js/apps/issues/128
-              this.votingBalances(nominators.map(encodeAddress))
-            ),
-            toArray()
+        this.stakingNominatorsFor(address).pipe(
+          switchMap((nominators: Array<string>) =>
+            this.votingBalances(nominators)
           )
+        )
       ],
-      ([balance, [nominators = []]]: [ExtendedBalance, [Array<ExtendedBalance>]]): ExtendedBalance => {
+      (test: [ExtendedBalance, Array<ExtendedBalance>]): ExtendedBalance => {
+        const [balance, nominators = []] = test;
+
         const nominatedBalance = nominators.reduce((total, nominator: ExtendedBalance) => {
           return total.add(nominator.votingBalance);
         }, new BN(0));
@@ -229,8 +271,8 @@ export default class ObservableApi implements ObservableApiInterface {
   votingBalance = (address: string): Observable<ExtendedBalance> => {
     return this.combine(
       [
-        this.api.state.getStorage(storage.staking.public.freeBalanceOf, address),
-        this.api.state.getStorage(storage.staking.public.reservedBalanceOf, address)
+        this.statkingFreeBalanceOf(address),
+        this.stakingReservedBalanceOf(address)
       ],
       ([freeBalance = new BN(0), reservedBalance = new BN(0)]: [OptBN, OptBN]): ExtendedBalance => ({
         address,
