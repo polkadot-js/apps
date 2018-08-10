@@ -17,15 +17,15 @@ import translate from './translate';
 type Props = I18nProps & {
   address: string,
   nominating: string,
-  nominatorsFor: Array<string>,
+  stakingNominatorsFor: Array<string>,
   onClick: (index: number) => void
 };
 
 class UnnominateButton extends React.Component<Props> {
   render () {
-    const { className, nominating, nominatorsFor, style, t } = this.props;
+    const { className, nominating, stakingNominatorsFor, style, t } = this.props;
 
-    if (!nominating || !nominatorsFor || nominatorsFor.length === 0) {
+    if (!nominating || !stakingNominatorsFor || stakingNominatorsFor.length === 0) {
       return null;
     }
 
@@ -43,9 +43,9 @@ class UnnominateButton extends React.Component<Props> {
   }
 
   onClick = () => {
-    const { address, nominatorsFor, onClick } = this.props;
+    const { address, stakingNominatorsFor, onClick } = this.props;
 
-    onClick(nominatorsFor.indexOf(address));
+    onClick(stakingNominatorsFor.indexOf(address));
   }
 }
 
@@ -55,7 +55,6 @@ export default withMulti(
   withStorage(
     storage.staking.public.nominatorsFor,
     {
-      propName: 'nominatorsFor',
       paramProp: 'nominating',
       transform: (publicKeys: Array<Uint8Array>) =>
         publicKeys.map(encodeAddress)

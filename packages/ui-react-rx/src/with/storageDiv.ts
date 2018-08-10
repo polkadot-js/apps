@@ -12,7 +12,7 @@ import withStorage from './storage';
 
 export default function withStorageDiv<T, Props extends BaseProps<T>> (key: SectionItem<Storages>, options?: StorageOptions<T>): ComponentRenderer<T> {
   return (render: RenderFn, defaultProps: DefaultProps<T> = {}): React.ComponentType<Props> =>
-    withStorage(key, options)(Div, {
+    withStorage(key, { ...options, propName: 'value' })(Div, {
       ...defaultProps,
       render
     });

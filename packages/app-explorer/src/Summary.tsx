@@ -102,12 +102,6 @@ export default withMulti(
   withApiObservable('eraBlockProgress'),
   withApiObservable('sessionBlockProgress'),
   withApiObservable('sessionBrokenValue'),
-  withStorage(
-    storage.session.public.length,
-    { propName: 'sessionLength' }
-  ),
-  withStorage(
-    storage.session.public.brokenPercentLate,
-    { propName: 'sessionBrokenPercentLate' }
-  )
+  withStorage(storage.session.public.length),
+  withStorage(storage.session.public.brokenPercentLate)
 );

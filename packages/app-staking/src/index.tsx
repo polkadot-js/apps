@@ -21,8 +21,8 @@ import Summary from './Summary';
 
 type Props = BareProps & {
   validatingBalances?: ExtendedBalanceMap,
-  intentions?: Array<string>,
-  validators?: Array<string>
+  stakingIntentions?: Array<string>,
+  sessionValidators?: Array<string>
 };
 
 const transformAddresses = (publicKeys: Array<Uint8Array>) =>
@@ -30,7 +30,7 @@ const transformAddresses = (publicKeys: Array<Uint8Array>) =>
 
 class App extends React.PureComponent<Props> {
   render () {
-    const { className, intentions = [], style, validatingBalances = {}, validators = [] } = this.props;
+    const { className, sessionValidators = [], stakingIntentions = [], style, validatingBalances = {} } = this.props;
 
     return (
       <Page
@@ -39,13 +39,13 @@ class App extends React.PureComponent<Props> {
       >
         <Summary
           balances={validatingBalances}
-          intentions={intentions}
-          validators={validators}
+          intentions={stakingIntentions}
+          validators={sessionValidators}
         />
         <StakeList
           balances={validatingBalances}
-          intentions={intentions}
-          validators={validators}
+          intentions={stakingIntentions}
+          validators={sessionValidators}
         />
       </Page>
     );
@@ -56,20 +56,14 @@ export default withMulti(
   App,
   withStorage(
     storage.staking.public.intentions,
-    {
-      propName: 'intentions',
-      transform: transformAddresses
-    }
+    { transform: transformAddresses }
   ),
   withStorage(
     storage.session.public.validators,
-    {
-      propName: 'validators',
-      transform: transformAddresses
-    }
+    { transform: transformAddresses }
   ),
   withApiObservable(
     'validatingBalances',
-    { paramProp: 'intentions' }
+    { paramProp: 'stakingIntentions' }
   )
 );

@@ -29,12 +29,12 @@ import UnnominateButton from './UnnominateButton';
 import translate from './translate';
 
 type Props = I18nProps & {
-  accountIndex?: BN,
+  systemAccountIndexOf?: BN,
   address: string,
   balances: ExtendedBalanceMap,
   name: string,
-  nominee?: string,
-  nominatorsFor?: Array<string>,
+  stakingNominating?: string,
+  stakingNominatorsFor?: Array<string>,
   intentions: Array<string>,
   isValidator: boolean,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
@@ -98,29 +98,29 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderNominee () {
-    const { nominee } = this.props;
+    const { stakingNominating } = this.props;
 
-    if (!nominee) {
+    if (!stakingNominating) {
       return null;
     }
 
     return (
       <AddressMini
-        balance={this.balanceArray(nominee)}
-        value={nominee}
+        balance={this.balanceArray(stakingNominating)}
+        value={stakingNominating}
         withBalance
       />
     );
   }
 
   private renderNominators () {
-    const { nominatorsFor } = this.props;
+    const { stakingNominatorsFor } = this.props;
 
-    if (!nominatorsFor) {
+    if (!stakingNominatorsFor) {
       return null;
     }
 
-    return nominatorsFor.map((nominator) => (
+    return stakingNominatorsFor.map((nominator) => (
       <AddressMini
         key={nominator}
         value={nominator}
@@ -130,9 +130,9 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { address, intentions, nominee, t } = this.props;
+    const { address, intentions, stakingNominating, t } = this.props;
     const isIntending = intentions.includes(address);
-    const isNominating = !!nominee;
+    const isNominating = !!stakingNominating;
     const canStake = !isIntending && !isNominating;
 
     if (canStake) {
@@ -162,7 +162,7 @@ class Account extends React.PureComponent<Props, State> {
         <Button.Group>
           <UnnominateButton
             address={address || ''}
-            nominating={nominee || ''}
+            nominating={stakingNominating || ''}
             onClick={this.unnominate}
           />
         </Button.Group>
@@ -183,12 +183,12 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private send (extrinsic: SectionItem<Extrinsics>, values: Array<RawParam$Value>) {
-    const { accountIndex = new BN(0), address, queueExtrinsic } = this.props;
+    const { systemAccountIndexOf = new BN(0), address, queueExtrinsic } = this.props;
     const publicKey = decodeAddress(address);
 
     queueExtrinsic({
       extrinsic,
-      nonce: accountIndex,
+      nonce: systemAccountIndexOf,
       publicKey,
       values
     });
@@ -202,8 +202,8 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private nominate = (nominee: string) => {
-    this.send(extrinsics.staking.public.nominate, [nominee]);
+  private nominate = (stakingNominating: string) => {
+    this.send(extrinsics.staking.public.nominate, [stakingNominating]);
 
     this.toggleNominate();
   }
@@ -229,7 +229,6 @@ export default withMulti(
   withStorage(
     storage.staking.public.nominatorsFor,
     {
-      propName: 'nominatorsFor',
       paramProp: 'address',
       transform: (publicKeys: Array<Uint8Array>) =>
         publicKeys.map(encodeAddress)
@@ -238,7 +237,6 @@ export default withMulti(
   withStorage(
     storage.staking.public.nominating,
     {
-      propName: 'nominee',
       paramProp: 'address',
       transform: encodeAddress
     }
@@ -246,7 +244,6 @@ export default withMulti(
   withStorage(
     storage.system.public.accountIndexOf,
     {
-      propName: 'accountIndex',
       paramProp: 'address'
     }
   )

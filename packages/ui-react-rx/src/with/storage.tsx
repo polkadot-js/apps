@@ -27,7 +27,7 @@ type State<T> = RxProps<T> & {
 
 // FIXME proper types for attributes
 
-export default function withStorage<T> (key: SectionItem<Storages>, { onChange, params, paramProp = 'params', propName = 'value', transform }: StorageOptions<T> = {}): HOC<T> {
+export default function withStorage<T> (key: SectionItem<Storages>, { onChange, params, paramProp = 'params', propName, transform }: StorageOptions<T> = {}): HOC<T> {
   const keyCreator = storageKey(key);
   const storageTransform = createTransform(key);
   const createKey = (propParams?: Array<Storage$Key$Value>): Uint8Array => {
@@ -42,6 +42,7 @@ export default function withStorage<T> (key: SectionItem<Storages>, { onChange, 
 
     return keyCreator.apply(null, values);
   };
+  const defaultPropName = `${key.section}${key.name.charAt(0).toUpperCase()}${key.name.slice(1)}`;
 
   return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}): React.ComponentType<any> => {
     class WithStorage extends React.Component<any, State<T>> {
@@ -133,7 +134,7 @@ export default function withStorage<T> (key: SectionItem<Storages>, { onChange, 
           ...this.props,
           rxUpdated,
           rxUpdatedAt,
-          [propName]: value
+          [propName || defaultPropName]: value
         };
 
         delete _props.onChange;
