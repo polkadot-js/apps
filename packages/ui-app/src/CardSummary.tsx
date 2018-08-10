@@ -39,17 +39,18 @@ export default class CardSummary extends React.PureComponent<Props> {
                   ? '-'
                   : `${progressValue.toString()}/${progressTotal.toString()}`
               )
-            }{
-              isProgress && (
-                <Progress
-                  className='ui--CardSummary-progress'
-                  color={progressColor}
-                  total={progressTotal}
-                  value={progressValue}
-                />
-              )
             }
           </div>
+          {
+            isProgress && (
+              <Progress
+                className='ui--CardSummary-progress'
+                color={progressColor}
+                total={progressTotal}
+                value={progressValue}
+              />
+            )
+          }
         </Labelled>
       </Card>
     );
