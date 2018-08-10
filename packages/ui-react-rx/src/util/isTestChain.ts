@@ -7,7 +7,7 @@ import isUndefined from '@polkadot/util/is/undefined';
 const re = new RegExp('(dev|loc)', 'i');
 
 export default function isTestChain (chain?: string): boolean {
-  if (isUndefined(chain)) {
+  if (isUndefined(chain) || chain === null) {
     return false;
   }
 

@@ -7,7 +7,7 @@ import BN from 'bn.js';
 const NUMBER_REGEX = new RegExp('(\\d+?)(?=(\\d{3})+(?!\\d)|$)', 'g');
 
 export default function numberFormat (value?: BN | number): string {
-  if (value === undefined) {
+  if (value === undefined || value === null) {
     return '0';
   }
 
