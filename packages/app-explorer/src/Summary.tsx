@@ -80,7 +80,8 @@ class Summary extends React.PureComponent<Props, State> {
                     ? (
                       <Progress
                         className='explorer--Summary-progress'
-                        percent={100.0 * sessionBlockProgress.toNumber() / sessionLength.toNumber()}
+                        value={sessionBlockProgress}
+                        total={sessionLength}
                       />
                     )
                     : undefined
@@ -103,7 +104,8 @@ class Summary extends React.PureComponent<Props, State> {
                     ? (
                       <Progress
                         className='explorer--Summary-progress'
-                        percent={100.0 * eraBlockProgress.toNumber() / eraBlockLength.toNumber()}
+                        value={eraBlockProgress}
+                        total={eraBlockLength}
                       />
                     )
                     : undefined
@@ -126,15 +128,7 @@ class Summary extends React.PureComponent<Props, State> {
                     ? (
                       <Progress
                         className='explorer--Summary-progress'
-                        color={(() => {
-                          if (sessionBrokenPercent > 70) {
-                            return 'red';
-                          } else if (sessionBrokenPercent > 25) {
-                            return 'orange';
-                          } else {
-                            return 'green';
-                          }
-                        })()}
+                        color='autoReverse'
                         percent={sessionBrokenPercent}
                       />
                     )
