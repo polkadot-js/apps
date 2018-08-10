@@ -61,21 +61,12 @@ class DownloadButton extends React.PureComponent<Props, State> {
         this.hidePasswordModal();
       } else {
         this.setState({
-          error: React.createElement(
-            'div',
-            null,
-            t('error', { defaultValue: 'Unable to obtain account from memory' })
-          )
+          error: React.createElement('div', null, t('error', { defaultValue: 'Unable to obtain account from memory' }))
         });
       }
     } catch (e) {
       this.setState({
-        // https://www.reactenlightenment.com/react-nodes/4.2.html
-        error: React.createElement(
-          'div',
-          null,
-          t('error', { defaultValue: 'Unable to save file' })
-        )
+        error: React.createElement('div', null, t('error', { defaultValue: 'Unable to save file' }))
       });
       console.error('Error retrieving account from local storage and saving account to file: ', e);
     }
@@ -143,7 +134,6 @@ class DownloadButton extends React.PureComponent<Props, State> {
 
   renderContent () {
     const { address, error, password } = this.state;
-    const { t } = this.props;
 
     if (!address) {
       return null;

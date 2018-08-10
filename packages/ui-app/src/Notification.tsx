@@ -20,7 +20,7 @@ type Props = BareProps & {
 export default class Notification extends React.PureComponent<Props> {
   render () {
     const { error, size = 'tiny' } = this.props;
-    console.log('error: ', error);
+
     if (!error) {
       return null;
     }
