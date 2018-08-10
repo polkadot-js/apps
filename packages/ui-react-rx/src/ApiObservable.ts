@@ -188,7 +188,7 @@ export default class ObservableApi implements ObservableApiInterface {
     );
   }
 
-  validatingBalances = (addresses: Array<string>): Observable<ExtendedBalanceMap> => {
+  validatingBalances = (addresses: Array<string> = []): Observable<ExtendedBalanceMap> => {
     return this.combine(
       addresses.map((address) =>
         this.validatingBalance(address)
@@ -219,7 +219,7 @@ export default class ObservableApi implements ObservableApiInterface {
     );
   }
 
-  votingBalances = (addresses: Array<string>): Observable<ExtendedBalance[]> => {
+  votingBalances = (addresses: Array<string> = []): Observable<ExtendedBalance[]> => {
     return combineLatest(
       addresses.map((address) =>
         this.votingBalance(address)
