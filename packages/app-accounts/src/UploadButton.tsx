@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { Button$Sizes } from '@polkadot/ui-app/Button/types';
-import { BareProps, I18nProps, InputErrorMessage } from '@polkadot/ui-app/types';
+import { BareProps, I18nProps } from '@polkadot/ui-app/types';
 import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 
 import React from 'react';
@@ -22,7 +22,7 @@ type State = {
   address: string,
   password: string,
   isPasswordModalOpen: boolean,
-  error?: InputErrorMessage,
+  error?: React.ReactNode,
   uploadedFileKeyringPair: KeyringPair$Json | undefined
 };
 
@@ -99,11 +99,23 @@ class UploadButton extends React.PureComponent<Props, State> {
         this.hidePasswordModal();
         onChangeAccount(pairRestored.publicKey());
       } else {
-        this.setState({ error: { key: t('error'), value: t('Unable to upload account into memory') } });
+        this.setState({
+          error: React.createElement(
+            'div',
+            t('error', { defaultValue: 'Unable to upload account into memory' }),
+            null
+          )
+        });
       }
     } catch (e) {
       console.error('Error processing uploaded file to local storage: ', e);
-      this.setState({ error: { key: t('error'), value: t('Unable to upload account into memory') } });
+      this.setState({
+        error: React.createElement(
+          'div',
+          t('error', { defaultValue: 'Unable to upload account into memory' }),
+          null
+        )
+      });
     }
   }
 
@@ -163,7 +175,6 @@ class UploadButton extends React.PureComponent<Props, State> {
   renderContent () {
     const { error, password, uploadedFileKeyringPair } = this.state;
     const { t } = this.props;
-    let translateError: InputErrorMessage | undefined;
 
     if (isUndefined(uploadedFileKeyringPair) || !uploadedFileKeyringPair.address) {
       return null;
@@ -171,17 +182,10 @@ class UploadButton extends React.PureComponent<Props, State> {
 
     const keyringAddress = keyring.getAddress(uploadedFileKeyringPair.address);
 
-    if (error && error.key && error.value) {
-      translateError = {
-        key: t(error.key),
-        value: t(error.value)
-      };
-    }
-
     return (
       <Unlock
         autoFocus
-        error={translateError}
+        error={error}
         onChange={this.onChangePassword}
         password={password}
         value={keyringAddress.publicKey()}

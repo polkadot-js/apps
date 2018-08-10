@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { Button$Sizes } from '@polkadot/ui-app/Button/types';
-import { BareProps, I18nProps, InputErrorMessage } from '@polkadot/ui-app/types';
+import { BareProps, I18nProps } from '@polkadot/ui-app/types';
 import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 
 import React from 'react';
@@ -22,7 +22,7 @@ type State = {
   address: string,
   password: string,
   isPasswordModalOpen: boolean,
-  error?: InputErrorMessage
+  error?: React.ReactNode
 };
 
 type Props = I18nProps & BareProps & {
@@ -60,10 +60,23 @@ class DownloadButton extends React.PureComponent<Props, State> {
 
         this.hidePasswordModal();
       } else {
-        this.setState({ error: { key: t('error'), value: t('Unable to obtain account from memory') } });
+        this.setState({
+          error: React.createElement(
+            'div',
+            t('error', { defaultValue: 'Unable to obtain account from memory' }),
+            null
+          )
+        });
       }
     } catch (e) {
-      this.setState({ error: { key: t('error'), value: t('Unable to save file') } });
+      this.setState({
+        // https://www.reactenlightenment.com/react-nodes/4.2.html
+        error: React.createElement(
+          'div',
+          t('error', { defaultValue: 'Unable to save file' }),
+          null
+        )
+      });
       console.error('Error retrieving account from local storage and saving account to file: ', e);
     }
   }
@@ -137,19 +150,11 @@ class DownloadButton extends React.PureComponent<Props, State> {
     }
 
     const keyringAddress = keyring.getAddress(address);
-    let translateError: InputErrorMessage | undefined;
-
-    if (error && error.key && error.value) {
-      translateError = {
-        key: t(error.key),
-        value: t(error.value)
-      };
-    }
 
     return (
       <Unlock
         autoFocus
-        error={translateError}
+        error={error}
         onChange={this.onChangePassword}
         password={password}
         value={keyringAddress.publicKey()}
