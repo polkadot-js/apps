@@ -55,29 +55,32 @@ class Summary extends React.PureComponent<Props> {
         </div>
         <div className='explorer--Summary-column'>
           <CardSummary
-            isProgress
             label={t('summary.sessionProgress', {
               defaultValue: 'session'
             })}
-            progressValue={sessionBlockProgress}
-            progressTotal={sessionLength}
+            progress={{
+              total: sessionLength,
+              value: sessionBlockProgress
+            }}
           />
           <CardSummary
-            isProgress
             label={t('summary.eraProgress', {
               defaultValue: 'era'
             })}
-            progressValue={eraBlockProgress}
-            progressTotal={eraBlockLength}
+            progress={{
+              total: eraBlockLength,
+              value: eraBlockProgress
+            }}
           />
           <CardSummary
-            isProgress
             label={t('summary.brokenCount', {
               defaultValue: 'broken'
             })}
-            progressColor='autoReverse'
-            progressValue={sessionBrokenPercent}
-            progressTotal={sessionBrokenPercentLate}
+            progress={{
+              color: 'autoReverse',
+              total: sessionBrokenPercentLate,
+              value: sessionBrokenPercent
+            }}
           />
         </div>
         <div className='explorer--Summary-column'>

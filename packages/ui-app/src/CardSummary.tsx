@@ -13,18 +13,21 @@ import Progress, { Colors as ProgressColors } from './Progress';
 import Labelled from './Labelled';
 import classes from './util/classes';
 
+type ProgressProps = {
+  color?: ProgressColors,
+  total?: BN,
+  value?: BN
+};
+
 type Props = BareProps & {
   children?: React.ReactNode,
-  isProgress?: boolean,
   label: React.ReactNode,
-  progressColor?: ProgressColors,
-  progressValue?: BN,
-  progressTotal?: BN
+  progress?: ProgressProps
 };
 
 export default class CardSummary extends React.PureComponent<Props> {
   render () {
-    const { children, className, isProgress = false, label, progressColor, progressValue, progressTotal, style } = this.props;
+    const { children, className, progress, label, style } = this.props;
 
     return (
       <Card
@@ -34,20 +37,18 @@ export default class CardSummary extends React.PureComponent<Props> {
         <Labelled label={label}>
           <div className='ui--CardSummary-large'>
             {children}{
-              isProgress && (
-                isUndefined(progressValue) || isUndefined(progressTotal)
+              progress && (
+                isUndefined(progress.value) || isUndefined(progress.total)
                   ? '-'
-                  : `${progressValue.toString()}/${progressTotal.toString()}`
+                  : `${progress.value.toString()}/${progress.total.toString()}`
               )
             }
           </div>
           {
-            isProgress && (
+            progress && (
               <Progress
                 className='ui--CardSummary-progress'
-                color={progressColor}
-                total={progressTotal}
-                value={progressValue}
+                {...progress}
               />
             )
           }
