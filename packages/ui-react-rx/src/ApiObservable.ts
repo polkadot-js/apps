@@ -8,7 +8,7 @@ import { ExtendedBalance, ExtendedBalanceMap, ObservableApiInterface } from './t
 
 import BN from 'bn.js';
 import { Observable, combineLatest } from 'rxjs';
-import { map, switchMap, toArray } from 'rxjs/operators';
+import { map, switchMap, toArray, startWith } from 'rxjs/operators';
 import storage from '@polkadot/storage';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 
@@ -17,9 +17,28 @@ type OptDate = Date | undefined;
 
 export default class ObservableApi implements ObservableApiInterface {
   private api: RxApiInterface;
+  private lastBestNumber: OptBN;
 
   constructor (api: RxApiInterface) {
     this.api = api;
+
+    this.api.chain
+      .getHead()
+      .pipe(
+        switchMap((hash: Uint8Array) =>
+          this.api.chain.getHeader(hash)
+        ),
+        map((header?: Header) =>
+          header && header.number
+        )
+      )
+      .toPromise()
+      .catch(() => undefined)
+      .then((bestNumber?: BN) => {
+        this.lastBestNumber = this.lastBestNumber || bestNumber;
+
+        console.error('this.lastBestNumber', this.lastBestNumber);
+      });
   }
 
   private combine <T, R> (observables: Array<Observable<any>>, mapfn: (combined: R) => T): Observable<T> {
@@ -27,13 +46,18 @@ export default class ObservableApi implements ObservableApiInterface {
   }
 
   bestNumber = (): Observable<OptBN> => {
-    return this.api.chain.newHead().pipe(
-      map((header?: Header): OptBN =>
-        header && header.number
-          ? header.number
-          : undefined
-      )
-    );
+    return this.api.chain
+      .newHead()
+      .pipe(
+        // startWith(this.lastBestNumber),
+        map((header?: Header): OptBN => {
+          this.lastBestNumber = (header && header.number
+            ? header.number
+            : undefined) || this.lastBestNumber;
+
+          return this.lastBestNumber;
+        })
+      );
   }
 
   eraBlockLength = (): Observable<OptBN> => {
