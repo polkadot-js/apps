@@ -13,7 +13,7 @@ import Button from '@polkadot/ui-app/Button';
 import Labelled from '@polkadot/ui-app/Labelled';
 import valueToText from '@polkadot/ui-app/Params/valueToText';
 import classes from '@polkadot/ui-app/util/classes';
-import withStorageDiv from '@polkadot/ui-react-rx/with/storageDiv';
+// import withStorageDiv from '@polkadot/ui-react-rx/with/storageDiv';
 
 import translate from './translate';
 

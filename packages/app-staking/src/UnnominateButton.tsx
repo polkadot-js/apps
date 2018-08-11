@@ -5,12 +5,10 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import storage from '@polkadot/storage';
 import Button from '@polkadot/ui-app/Button';
 import classes from '@polkadot/ui-app/util/classes';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
-import withStorage from '@polkadot/ui-react-rx/with/storage';
-import encodeAddress from '@polkadot/util-keyring/address/encode';
+import withApiObservable from '@polkadot/ui-react-rx/with/apiObservable';
 
 import translate from './translate';
 
@@ -52,12 +50,8 @@ class UnnominateButton extends React.Component<Props> {
 export default withMulti(
   UnnominateButton,
   translate,
-  withStorage(
-    storage.staking.public.nominatorsFor,
-    {
-      paramProp: 'nominating',
-      transform: (publicKeys: Array<Uint8Array>) =>
-        publicKeys.map(encodeAddress)
-    }
+  withApiObservable(
+    'stakingNominatorsFor',
+    { paramProp: 'nominating' }
   )
 );

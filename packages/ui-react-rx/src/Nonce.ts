@@ -2,14 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import storage from '@polkadot/storage';
-
 import numberFormat from './util/numberFormat';
-import withStorageDiv from './with/storageDiv';
+import withApiObservableDiv from './with/apiObservableDiv';
 
-const method = storage.system.public.accountIndexOf;
-
-const Component: React.ComponentType<any> = withStorageDiv(method)(
+const Component: React.ComponentType<any> = withApiObservableDiv('systemAccountIndexOf')(
   numberFormat,
   { className: 'rx--Nonce' }
 );

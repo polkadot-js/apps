@@ -6,12 +6,10 @@ import { BareProps } from '@polkadot/ui-app/types';
 import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
 
 import React from 'react';
-import storage from '@polkadot/storage';
 import Page from '@polkadot/ui-app/Page';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 import classes from '@polkadot/ui-app/util/classes';
 import withApiObservable from '@polkadot/ui-react-rx/with/apiObservable';
-import withStorage from '@polkadot/ui-react-rx/with/storage';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 
 import './index.css';
@@ -24,9 +22,6 @@ type Props = BareProps & {
   stakingIntentions?: Array<string>,
   sessionValidators?: Array<string>
 };
-
-const transformAddresses = (publicKeys: Array<Uint8Array>) =>
-  publicKeys.map(encodeAddress);
 
 class App extends React.PureComponent<Props> {
   render () {
@@ -54,14 +49,8 @@ class App extends React.PureComponent<Props> {
 
 export default withMulti(
   App,
-  withStorage(
-    storage.staking.public.intentions,
-    { transform: transformAddresses }
-  ),
-  withStorage(
-    storage.session.public.validators,
-    { transform: transformAddresses }
-  ),
+  withApiObservable('stakingIntentions'),
+  withApiObservable('sessionValidators'),
   withApiObservable(
     'validatingBalances',
     { paramProp: 'stakingIntentions' }

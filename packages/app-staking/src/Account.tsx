@@ -20,7 +20,7 @@ import Card from '@polkadot/ui-app/Card';
 import Icon from '@polkadot/ui-app/Icon';
 import classes from '@polkadot/ui-app/util/classes';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
-import withStorage from '@polkadot/ui-react-rx/with/storage';
+import withApiObservable from '@polkadot/ui-react-rx/with/apiObservable';
 import decodeAddress from '@polkadot/util-keyring/address/decode';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 
@@ -226,23 +226,16 @@ class Account extends React.PureComponent<Props, State> {
 export default withMulti(
   Account,
   translate,
-  withStorage(
-    storage.staking.public.nominatorsFor,
-    {
-      paramProp: 'address',
-      transform: (publicKeys: Array<Uint8Array>) =>
-        publicKeys.map(encodeAddress)
-    }
+  withApiObservable(
+    'stakingNominatorsFor',
+    { paramProp: 'address' }
   ),
-  withStorage(
-    storage.staking.public.nominating,
-    {
-      paramProp: 'address',
-      transform: encodeAddress
-    }
+  withApiObservable(
+    'stakingNominating',
+    { paramProp: 'address' }
   ),
-  withStorage(
-    storage.system.public.accountIndexOf,
+  withApiObservable(
+    'systemAccountIndexOf',
     { paramProp: 'address' }
   )
 );

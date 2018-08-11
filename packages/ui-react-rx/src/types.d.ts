@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { ProviderInterface } from '@polkadot/api-provider/types';
 import { RxApiInterface } from '@polkadot/api-rx/types';
 import { EncodingVersions } from '@polkadot/params/types';
+import { Header } from '@polkadot/primitives/header';
 import { Storage$Key$Value } from '@polkadot/storage/types';
 
 export type BareProps = {
@@ -30,14 +31,26 @@ export type ExtendedBalanceMap = {
 
 export interface ObservableApiInterface {
   bestNumber: () => Observable<BN | undefined>,
+  chainNewHead: () => Observable<Header | undefined>,
   eraBlockLength: () => Observable<BN | undefined>,
   eraBlockProgress: () => Observable<BN | undefined>,
   eraBlockRemaining: () => Observable<BN | undefined>,
   sessionBlockProgress: () => Observable<BN | undefined>,
   sessionBlockRemaining: () => Observable<BN | undefined>,
+  sessionBrokenPercentLate: () => Observable<BN | undefined>,
   sessionBrokenValue: () => Observable<BN | undefined>,
+  sessionLength: () => Observable<BN | undefined>,
   sessionTimeExpected: () => Observable<BN | undefined>,
   sessionTimeRemaining: () => Observable<BN | undefined>,
+  sessionValidators: () => Observable<Array<string>>,
+  stakingFreeBalanceOf: (address: string) => Observable<BN | undefined>,
+  stakingIntentions: () => Observable<Array<string>>,
+  stakingNominatorsFor: (address: string) => Observable<Array<string>>,
+  stakingNominating: (address: string) => Observable<string | undefined>,
+  stakingReservedBalanceOf: (address: string) => Observable<BN | undefined>,
+  systemAccountIndexOf: (address: string) => Observable<BN | undefined>,
+  timestampBlockPeriod: () => Observable<BN | undefined>,
+  timestampNow: () => Observable<Date | undefined>,
   validatingBalance: (address: string) => Observable<ExtendedBalance>,
   validatingBalances: (addresses: Array<string>) => Observable<ExtendedBalanceMap>,
   votingBalance: (address: string) => Observable<ExtendedBalance>,

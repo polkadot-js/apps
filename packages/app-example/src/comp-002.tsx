@@ -4,19 +4,15 @@
 
 import React from 'react';
 
-import storage from '@polkadot/storage';
-import withStorageDiv from '@polkadot/ui-react-rx/with/storageDiv';
-import encodeAddress from '@polkadot/util-keyring/address/encode';
+import withApiObservableDiv from '@polkadot/ui-react-rx/with/apiObservableDiv';
 
-const method = storage.staking.public.intentions;
-
-const Comp: React.ComponentType<any> = withStorageDiv(method)(
+const Comp: React.ComponentType<any> = withApiObservableDiv('stakingIntentions')(
   (value: Uint8Array[]): string => {
     if (!value || !value.length) {
       return 'No intentions found';
     }
 
-    return value.map(encodeAddress).join(', ');
+    return value.join(', ');
   }
 );
 

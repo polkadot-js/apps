@@ -6,7 +6,6 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import storage from '@polkadot/storage';
 import classes from '@polkadot/ui-app/util/classes';
 import CardSummary from '@polkadot/ui-app/CardSummary';
 import BestNumber from '@polkadot/ui-react-rx/BestNumber';
@@ -14,7 +13,6 @@ import TimePeriod from '@polkadot/ui-react-rx/TimePeriod';
 import TimeNow from '@polkadot/ui-react-rx/TimeNow';
 import withApiObservable from '@polkadot/ui-react-rx/with/apiObservable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
-import withStorage from '@polkadot/ui-react-rx/with/storage';
 
 import translate from './translate';
 
@@ -97,6 +95,6 @@ export default withMulti(
   withApiObservable('eraBlockProgress'),
   withApiObservable('sessionBlockProgress'),
   withApiObservable('sessionBrokenValue'),
-  withStorage(storage.session.public.length),
-  withStorage(storage.session.public.brokenPercentLate)
+  withApiObservable('sessionLength'),
+  withApiObservable('sessionBrokenPercentLate')
 );

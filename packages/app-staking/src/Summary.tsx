@@ -7,11 +7,9 @@ import { ApiProps, ExtendedBalance, ExtendedBalanceMap } from '@polkadot/ui-reac
 
 import BN from 'bn.js';
 import React from 'react';
-import storage from '@polkadot/storage';
 import classes from '@polkadot/ui-app/util/classes';
 import withApiObservable from '@polkadot/ui-react-rx/with/apiObservable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
-import withStorage from '@polkadot/ui-react-rx/with/storage';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
 import translate from './translate';
@@ -112,5 +110,5 @@ export default withMulti(
   translate,
   withApiObservable('bestNumber'),
   withApiObservable('sessionBlockProgress'),
-  withStorage(storage.session.public.length)
+  withApiObservable('sessionLength')
 );

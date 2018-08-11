@@ -6,12 +6,12 @@ import BN from 'bn.js';
 import storage from '@polkadot/storage';
 
 import numberFormat from './util/numberFormat';
-import withStorageDiv from './with/storageDiv';
+import withObservableDiv from './with/apiObservableDiv';
 
 const method = storage.timestamp.public.blockPeriod;
 
-const Component: React.ComponentType<any> = withStorageDiv(method)(
-  (value?: BN | number): string =>
+const Component: React.ComponentType<any> = withObservableDiv('timestampBlockPeriod')(
+  (value?: BN): string =>
     `${numberFormat(value)}.0s`,
   { className: 'rx--TimePeriod' }
 );
