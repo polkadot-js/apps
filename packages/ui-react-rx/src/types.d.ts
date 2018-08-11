@@ -5,10 +5,11 @@
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { ProviderInterface } from '@polkadot/api-provider/types';
-import { RxApiInterface } from '@polkadot/api-rx/types';
-import { EncodingVersions } from '@polkadot/params/types';
+import { RxApiInterface, RxApiInterface$Method } from '@polkadot/api-rx/types';
+import { Interfaces } from '@polkadot/jsonrpc/types';
+import { EncodingVersions, SectionItem } from '@polkadot/params/types';
 import { Header } from '@polkadot/primitives/header';
-import { Storage$Key$Value } from '@polkadot/storage/types';
+import { Storages, Storage$Key$Value } from '@polkadot/storage/types';
 
 export type BareProps = {
   className?: string,
@@ -30,6 +31,9 @@ export type ExtendedBalanceMap = {
 }
 
 export interface ObservableApiInterface {
+  rawCall: <T> ({ name, section }: SectionItem<Interfaces>, ...params: Array<any>) => Observable<T>,
+  rawStorage: <T> (key: SectionItem<Storages>, ...params: Array<any>) => Observable<T>,
+  rawStorageMulti: <T> (keys: Array<[SectionItem<Storages>, any] | [SectionItem<Storages>]>) => Observable<T>,
   bestNumber: () => Observable<BN | undefined>,
   chainNewHead: () => Observable<Header | undefined>,
   eraBlockLength: () => Observable<BN | undefined>,

@@ -17,24 +17,21 @@ export type DefaultProps<T> = {
 
 export type Options<T> = {
   onChange?: OnChangeCb<T>,
+  params?: Array<any>,
+  paramProp?: string,
   propName?: string,
   transform?: Transform
 };
 
+export type RenderFn = (value?: any) => React.ReactNode;
+
 export type StorageTransform = (input: any, index: number) => Param$Values | null;
 
-export type StorageOptions<T> = Options<T> & {
-  params?: Array<Storage$Key$Value | undefined>;
-  paramProp?: string,
-};
-
-export type HOC<T> = (Component: React.ComponentType<any>, defaultProps?: DefaultProps<T>) => React.ComponentType<any>;
+export type HOC<T> = (Component: React.ComponentType<any>, defaultProps?: DefaultProps<T>, render?: RenderFn) => React.ComponentType<any>;
 
 export type ApiMethod = {
   name: string,
   section?: string
 };
-
-export type RenderFn = (value?: any) => any;
 
 export type ComponentRenderer<T> = (render: RenderFn, defaultProps?: DefaultProps<T>) => React.ComponentType<any>;

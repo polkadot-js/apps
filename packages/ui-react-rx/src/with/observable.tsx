@@ -5,10 +5,11 @@
 // TODO: Lots of duplicated code between this and withObservable, surely there ois a better way of doing this?
 
 import { RxProps, ObservableApiNames } from '../types';
-import { HOC, StorageOptions, DefaultProps } from './types';
+import { HOC, Options, DefaultProps, RenderFn } from './types';
 
 import React from 'react';
 import { map } from 'rxjs/operators/map';
+import isUndefined from '@polkadot/util/is/undefined';
 
 import intervalSubscribe from '../util/intervalSubscribe';
 import isEqual from '../util/isEqual';
@@ -22,11 +23,11 @@ type State<T> = RxProps<T> & {
 
 // FIXME proper types for attributes
 
-export default function withObservable<T> (observable: ObservableApiNames, { onChange, params, paramProp = 'params', propName = observable, transform = echoTransform }: StorageOptions<T> = {}): HOC<T> {
+export default function withObservable<T> (observable: ObservableApiNames, { onChange, params = [], paramProp = 'params', propName = observable, transform = echoTransform }: Options<T> = {}): HOC<T> {
   console.log('observable', observable, paramProp);
 
-  return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}): React.ComponentType<any> => {
-    class WithStorage extends React.Component<any, State<T>> {
+  return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}, render?: RenderFn): React.ComponentType<any> => {
+    class WithObservable extends React.Component<any, State<T>> {
       state: State<T>;
 
       constructor (props: any) {
@@ -40,24 +41,37 @@ export default function withObservable<T> (observable: ObservableApiNames, { onC
         };
       }
 
+      private getParams (props: any): Array<any> {
+        const paramValue = props[paramProp];
+
+        return isUndefined(paramValue)
+          ? params
+          : params.concat(
+            Array.isArray(paramValue)
+              ? paramValue
+              : [paramValue]
+          );
+      }
+
       componentDidUpdate (prevProps: any) {
-        if (!isEqual(this.props[paramProp], prevProps[paramProp])) {
-          this.subscribe();
+        const newParams = this.getParams(this.props);
+
+        if (!isEqual(newParams, this.getParams(prevProps))) {
+          this.subscribe(newParams);
         }
       }
 
       componentDidMount () {
-        this.subscribe();
+        this.subscribe(this.getParams(this.props));
       }
 
-      private subscribe () {
+      private subscribe (newParams: Array<any>) {
         const { apiObservable } = this.props;
-        const propValue = params || this.props[paramProp];
 
         this.unsubscribe();
         this.setState({
           subscriptions: [
-            apiObservable[observable](propValue)
+            apiObservable[observable](...newParams)
               .pipe(map(transform))
               .subscribe((value: any) =>
                 this.triggerUpdate(this.props, value)
@@ -78,6 +92,8 @@ export default function withObservable<T> (observable: ObservableApiNames, { onC
       }
 
       triggerUpdate = (props: any, value?: T): void => {
+        console.error('triggerUpdate', observable, value);
+
         if (isEqual(value, this.state.value)) {
           return;
         }
@@ -96,6 +112,7 @@ export default function withObservable<T> (observable: ObservableApiNames, { onC
         const _props = {
           ...defaultProps,
           ...this.props,
+          children: render && render(value),
           rxUpdated,
           rxUpdatedAt,
           [propName]: value
@@ -109,6 +126,6 @@ export default function withObservable<T> (observable: ObservableApiNames, { onC
       }
     }
 
-    return withApi(WithStorage);
+    return withApi(WithObservable);
   };
 }

@@ -8,10 +8,7 @@ import { ComponentRenderer, DefaultProps, RenderFn, Options } from './types';
 import Div from '../Div';
 import withObservable from './observable';
 
-export default function withObservableDiv<T, Props extends BaseProps<T>> (call: ObservableApiNames, options: Options<T> = {}): ComponentRenderer<T> {
+export default function withObservableDiv<T, Props extends BaseProps<T>> (call: ObservableApiNames, options?: Options<T>): ComponentRenderer<T> {
   return (render: RenderFn, defaultProps: DefaultProps<T> = {}): React.ComponentType<Props> =>
-    withObservable(call, { ...options, propName: 'value' })(Div, {
-      ...defaultProps,
-      render
-    });
+    withObservable(call, options)(Div, defaultProps, render);
 }

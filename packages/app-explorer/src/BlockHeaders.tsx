@@ -6,16 +6,11 @@ import { Header } from '@polkadot/primitives/header';
 
 import React from 'react';
 
-import withApiDiv from '@polkadot/ui-react-rx/with/apiDiv';
+import withObservableDiv from '@polkadot/ui-react-rx/with/observableDiv';
 
 import BlockHeader from './BlockHeader';
 
 let blockHeaders: Array<Header> = [];
-
-const apiMethod = {
-  name: 'newHead',
-  section: 'chain'
-};
 
 const apiOptions = {
   transform: (header: Header): Array<Header> => {
@@ -40,7 +35,7 @@ const apiOptions = {
   }
 };
 
-export default withApiDiv(apiMethod, apiOptions)(
+export default withObservableDiv('chainNewHead', apiOptions)(
   (value: Array<Header> = []) =>
     value.map((value) => (
       <BlockHeader
