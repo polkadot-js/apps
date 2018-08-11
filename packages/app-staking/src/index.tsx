@@ -9,7 +9,7 @@ import React from 'react';
 import Page from '@polkadot/ui-app/Page';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 import classes from '@polkadot/ui-app/util/classes';
-import withApiObservable from '@polkadot/ui-react-rx/with/apiObservable';
+import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 
 import './index.css';
@@ -49,9 +49,9 @@ class App extends React.PureComponent<Props> {
 
 export default withMulti(
   App,
-  withApiObservable('stakingIntentions'),
-  withApiObservable('sessionValidators'),
-  withApiObservable(
+  withObservable('stakingIntentions'),
+  withObservable('sessionValidators'),
+  withObservable(
     'validatingBalances',
     { paramProp: 'stakingIntentions' }
   )

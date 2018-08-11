@@ -5,9 +5,9 @@
 import storage from '@polkadot/storage';
 
 import numberFormat from './util/numberFormat';
-import withApiObservableDiv from './with/apiObservableDiv';
+import withObservableDiv from './with/observableDiv';
 
-const Component: React.ComponentType<any> = withApiObservableDiv('stakingFreeBalanceOf')(
+const Component: React.ComponentType<any> = withObservableDiv('stakingFreeBalanceOf')(
   numberFormat,
   { className: 'rx--Balance' }
 );

@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import Elapsed from '@polkadot/ui-react/Elapsed';
-import withApiObservble from './with/apiObservable';
+import withApiObservble from './with/observable';
 
 const Component: React.ComponentType<any> = withApiObservble('timestampNow', { propName: 'value' })(
   Elapsed,

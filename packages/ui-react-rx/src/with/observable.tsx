@@ -22,7 +22,7 @@ type State<T> = RxProps<T> & {
 
 // FIXME proper types for attributes
 
-export default function withApiObservable<T> (observable: ObservableApiNames, { onChange, params, paramProp = 'params', propName = observable, transform = echoTransform }: StorageOptions<T> = {}): HOC<T> {
+export default function withObservable<T> (observable: ObservableApiNames, { onChange, params, paramProp = 'params', propName = observable, transform = echoTransform }: StorageOptions<T> = {}): HOC<T> {
   console.log('observable', observable, paramProp);
 
   return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}): React.ComponentType<any> => {

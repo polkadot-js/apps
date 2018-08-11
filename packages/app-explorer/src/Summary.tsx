@@ -11,7 +11,7 @@ import CardSummary from '@polkadot/ui-app/CardSummary';
 import BestNumber from '@polkadot/ui-react-rx/BestNumber';
 import TimePeriod from '@polkadot/ui-react-rx/TimePeriod';
 import TimeNow from '@polkadot/ui-react-rx/TimeNow';
-import withApiObservable from '@polkadot/ui-react-rx/with/apiObservable';
+import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 
 import translate from './translate';
@@ -91,10 +91,10 @@ class Summary extends React.PureComponent<Props> {
 export default withMulti(
   Summary,
   translate,
-  withApiObservable('eraBlockLength'),
-  withApiObservable('eraBlockProgress'),
-  withApiObservable('sessionBlockProgress'),
-  withApiObservable('sessionBrokenValue'),
-  withApiObservable('sessionLength'),
-  withApiObservable('sessionBrokenPercentLate')
+  withObservable('eraBlockLength'),
+  withObservable('eraBlockProgress'),
+  withObservable('sessionBlockProgress'),
+  withObservable('sessionBrokenValue'),
+  withObservable('sessionLength'),
+  withObservable('sessionBrokenPercentLate')
 );

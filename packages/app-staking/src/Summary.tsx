@@ -8,7 +8,7 @@ import { ApiProps, ExtendedBalance, ExtendedBalanceMap } from '@polkadot/ui-reac
 import BN from 'bn.js';
 import React from 'react';
 import classes from '@polkadot/ui-app/util/classes';
-import withApiObservable from '@polkadot/ui-react-rx/with/apiObservable';
+import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
@@ -108,7 +108,7 @@ class Summary extends React.PureComponent<Props> {
 export default withMulti(
   Summary,
   translate,
-  withApiObservable('bestNumber'),
-  withApiObservable('sessionBlockProgress'),
-  withApiObservable('sessionLength')
+  withObservable('bestNumber'),
+  withObservable('sessionBlockProgress'),
+  withObservable('sessionLength')
 );

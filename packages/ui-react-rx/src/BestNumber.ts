@@ -5,9 +5,9 @@
 import BN from 'bn.js';
 
 import numberFormat from './util/numberFormat';
-import withApiObservableDiv from './with/apiObservableDiv';
+import withObservableDiv from './with/observableDiv';
 
-const Component: React.ComponentType<any> = withApiObservableDiv('bestNumber')(
+const Component: React.ComponentType<any> = withObservableDiv('bestNumber')(
   (value?: BN): string => {
     return value
       ? numberFormat(value)

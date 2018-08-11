@@ -20,7 +20,7 @@ import Card from '@polkadot/ui-app/Card';
 import Icon from '@polkadot/ui-app/Icon';
 import classes from '@polkadot/ui-app/util/classes';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
-import withApiObservable from '@polkadot/ui-react-rx/with/apiObservable';
+import withObservable from '@polkadot/ui-react-rx/with/observable';
 import decodeAddress from '@polkadot/util-keyring/address/decode';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 
@@ -226,15 +226,15 @@ class Account extends React.PureComponent<Props, State> {
 export default withMulti(
   Account,
   translate,
-  withApiObservable(
+  withObservable(
     'stakingNominatorsFor',
     { paramProp: 'address' }
   ),
-  withApiObservable(
+  withObservable(
     'stakingNominating',
     { paramProp: 'address' }
   ),
-  withApiObservable(
+  withObservable(
     'systemAccountIndexOf',
     { paramProp: 'address' }
   )

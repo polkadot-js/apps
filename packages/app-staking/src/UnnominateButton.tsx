@@ -8,7 +8,7 @@ import React from 'react';
 import Button from '@polkadot/ui-app/Button';
 import classes from '@polkadot/ui-app/util/classes';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
-import withApiObservable from '@polkadot/ui-react-rx/with/apiObservable';
+import withObservable from '@polkadot/ui-react-rx/with/observable';
 
 import translate from './translate';
 
@@ -50,7 +50,7 @@ class UnnominateButton extends React.Component<Props> {
 export default withMulti(
   UnnominateButton,
   translate,
-  withApiObservable(
+  withObservable(
     'stakingNominatorsFor',
     { paramProp: 'nominating' }
   )

@@ -3,9 +3,9 @@
 // of the ISC license. See the LICENSE file for details.
 
 import numberFormat from './util/numberFormat';
-import withApiObservableDiv from './with/apiObservableDiv';
+import withObservableDiv from './with/observableDiv';
 
-const Component: React.ComponentType<any> = withApiObservableDiv('systemAccountIndexOf')(
+const Component: React.ComponentType<any> = withObservableDiv('systemAccountIndexOf')(
   numberFormat,
   { className: 'rx--Nonce' }
 );

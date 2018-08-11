@@ -4,9 +4,9 @@
 
 import React from 'react';
 
-import withApiObservableDiv from '@polkadot/ui-react-rx/with/apiObservableDiv';
+import withObservableDiv from '@polkadot/ui-react-rx/with/observableDiv';
 
-const Comp: React.ComponentType<any> = withApiObservableDiv('stakingIntentions')(
+const Comp: React.ComponentType<any> = withObservableDiv('stakingIntentions')(
   (value: Uint8Array[]): string => {
     if (!value || !value.length) {
       return 'No intentions found';

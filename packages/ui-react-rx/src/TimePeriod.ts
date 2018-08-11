@@ -6,7 +6,7 @@ import BN from 'bn.js';
 import storage from '@polkadot/storage';
 
 import numberFormat from './util/numberFormat';
-import withObservableDiv from './with/apiObservableDiv';
+import withObservableDiv from './with/observableDiv';
 
 const method = storage.timestamp.public.blockPeriod;
 
