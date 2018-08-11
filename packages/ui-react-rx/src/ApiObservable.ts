@@ -10,7 +10,7 @@ import { ExtendedBalance, ExtendedBalanceMap, ObservableApiInterface } from './t
 
 import BN from 'bn.js';
 import { Observable, combineLatest, from } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, startWith } from 'rxjs/operators';
 import storage from '@polkadot/storage';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 
@@ -31,29 +31,27 @@ export default class ObservableApi implements ObservableApiInterface {
   // FIXME This should not be needed when we have the auto-update storage entries, well, at
   // least not the polling and then updating
   private getStorage <T> (key: SectionItem<Storages>, ...params: Array<any>): Observable<T> {
-    return this
-      .bestNumber()
-      .pipe(
-        switchMap(() =>
-          from(
-            this.api.state.getStorage
-              .apply(null, [key, ...params])
-              .toPromise()
-          )
+    return this.bestNumber().pipe(
+      switchMap(() =>
+        from(
+          this.api.state.getStorage
+            .apply(null, [key, ...params])
+            .toPromise()
         )
-      );
+      )
+    );
   }
 
   bestNumber = (): Observable<OptBN> => {
-    return this.api.chain
-      .newHead()
-      .pipe(
-        map((header?: Header): OptBN =>
-          header && header.number
-            ? header.number
-            : undefined
-        )
-      );
+    return this.api.chain.newHead().pipe(
+      // NOTE: kickstart when not already available
+      startWith({ number: new BN(0) }),
+      map((header?: Header): OptBN =>
+        header && header.number
+          ? header.number
+          : undefined
+      )
+    );
   }
 
   eraBlockLength = (): Observable<OptBN> => {
@@ -201,15 +199,15 @@ export default class ObservableApi implements ObservableApiInterface {
     );
   }
 
-  statkingFreeBalanceOf = (address: string): Observable<OptBN> => {
+  stakingFreeBalanceOf = (address: string): Observable<OptBN> => {
     return this.getStorage(storage.staking.public.freeBalanceOf, address);
   }
 
   stakingNominatorsFor = (address: string): Observable<Array<string>> => {
-    return this.api.state
+    return this
       .getStorage(storage.staking.public.nominatorsFor, address)
       .pipe(
-        map((nominators = []) =>
+        map((nominators: Array<Uint8Array> = []) =>
          nominators.map(encodeAddress)
         )
       );
@@ -228,6 +226,7 @@ export default class ObservableApi implements ObservableApiInterface {
   }
 
   validatingBalance = (address: string): Observable<ExtendedBalance> => {
+    console.log('validatingBalance', address);
     return this.combine(
       [
         this.votingBalance(address),
@@ -239,6 +238,8 @@ export default class ObservableApi implements ObservableApiInterface {
       ],
       (test: [ExtendedBalance, Array<ExtendedBalance>]): ExtendedBalance => {
         const [balance, nominators = []] = test;
+
+        console.log('test', test);
 
         const nominatedBalance = nominators.reduce((total, nominator: ExtendedBalance) => {
           return total.add(nominator.votingBalance);
@@ -255,23 +256,26 @@ export default class ObservableApi implements ObservableApiInterface {
   }
 
   validatingBalances = (addresses: Array<string> = []): Observable<ExtendedBalanceMap> => {
+    console.log('validatingBalances', addresses);
     return this.combine(
       addresses.map((address) =>
         this.validatingBalance(address)
       ),
-      (result: Array<ExtendedBalance>): ExtendedBalanceMap =>
-        result.reduce((balances, balance) => {
+      (result: Array<ExtendedBalance>): ExtendedBalanceMap => {
+        console.error('result', result);
+        return result.reduce((balances, balance) => {
           balances[balance.address] = balance;
 
           return balances;
         }, {} as ExtendedBalanceMap)
+      }
     );
   }
 
   votingBalance = (address: string): Observable<ExtendedBalance> => {
     return this.combine(
       [
-        this.statkingFreeBalanceOf(address),
+        this.stakingFreeBalanceOf(address),
         this.stakingReservedBalanceOf(address)
       ],
       ([freeBalance = new BN(0), reservedBalance = new BN(0)]: [OptBN, OptBN]): ExtendedBalance => ({
@@ -290,6 +294,12 @@ export default class ObservableApi implements ObservableApiInterface {
       addresses.map((address) =>
         this.votingBalance(address)
       )
+    ).pipe(
+      map((value) => {
+        console.log(value);
+
+        return value;
+      })
     );
   }
 }
