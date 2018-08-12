@@ -200,8 +200,8 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private nominate = (stakingNominating: string) => {
-    this.send(extrinsics.staking.public.nominate, [stakingNominating]);
+  private nominate = (nominee: string) => {
+    this.send(extrinsics.staking.public.nominate, [nominee]);
 
     this.toggleNominate();
   }
