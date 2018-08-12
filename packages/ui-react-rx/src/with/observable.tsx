@@ -92,8 +92,6 @@ export default function withObservable<T> (observable: ObservableApiNames, { onC
       }
 
       triggerUpdate = (props: any, value?: T): void => {
-        console.error('triggerUpdate', observable, value);
-
         if (isEqual(value, this.state.value)) {
           return;
         }

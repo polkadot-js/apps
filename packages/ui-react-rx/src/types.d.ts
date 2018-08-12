@@ -30,10 +30,12 @@ export type ExtendedBalanceMap = {
   [index: string]: ExtendedBalance
 }
 
+export type KeyWithParams = [SectionItem<Storages>, any];
+
 export interface ObservableApiInterface {
   rawCall: <T> ({ name, section }: SectionItem<Interfaces>, ...params: Array<any>) => Observable<T>,
   rawStorage: <T> (key: SectionItem<Storages>, ...params: Array<any>) => Observable<T>,
-  rawStorageMulti: <T> (keys: Array<[SectionItem<Storages>, any] | [SectionItem<Storages>]>) => Observable<T>,
+  rawStorageMulti: <T> (...keys: Array<[SectionItem<Storages>, any]>) => Observable<T>,
   bestNumber: () => Observable<BN | undefined>,
   chainNewHead: () => Observable<Header | undefined>,
   eraBlockLength: () => Observable<BN | undefined>,
@@ -56,9 +58,9 @@ export interface ObservableApiInterface {
   timestampBlockPeriod: () => Observable<BN | undefined>,
   timestampNow: () => Observable<Date | undefined>,
   validatingBalance: (address: string) => Observable<ExtendedBalance>,
-  validatingBalances: (addresses: Array<string>) => Observable<ExtendedBalanceMap>,
+  validatingBalances: (...addresses: Array<string>) => Observable<ExtendedBalanceMap>,
   votingBalance: (address: string) => Observable<ExtendedBalance>,
-  votingBalances: (addresses: Array<string>) => Observable<ExtendedBalance[]>
+  votingBalances: (...addresses: Array<string>) => Observable<ExtendedBalance[]>
 }
 
 export type ObservableApiNames = keyof ObservableApiInterface;

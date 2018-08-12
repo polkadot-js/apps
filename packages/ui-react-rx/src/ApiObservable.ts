@@ -7,17 +7,21 @@ import { RxApiInterface, RxApiInterface$Method } from '@polkadot/api-rx/types';
 import { Interfaces } from '@polkadot/jsonrpc/types';
 import { SectionItem } from '@polkadot/params/types';
 import { Storages } from '@polkadot/storage/types';
-import { ExtendedBalance, ExtendedBalanceMap, ObservableApiInterface } from './types';
+import { ExtendedBalance, ExtendedBalanceMap, ObservableApiInterface, KeyWithParams } from './types';
 
 import BN from 'bn.js';
-import { Observable, combineLatest } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, combineLatest, empty } from 'rxjs';
+import { concatMap, defaultIfEmpty, map } from 'rxjs/operators';
 import storage from '@polkadot/storage';
 import assert from '@polkadot/util/assert';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 
 type OptBN = BN | undefined;
 type OptDate = Date | undefined;
+type MapFn<R, T> = (combined: R) => T;
+
+const defaultMapFn = (result: any): any =>
+  result;
 
 export default class ObservableApi implements ObservableApiInterface {
   private api: RxApiInterface;
@@ -26,18 +30,20 @@ export default class ObservableApi implements ObservableApiInterface {
     this.api = api;
   }
 
-  private combine = <T, R> (observables: Array<Observable<any>>, mapfn: (combined: R) => T): Observable<T> => {
-    return combineLatest(...observables).pipe(map(mapfn));
+  private combine = <T, R> (observables: Array<Observable<any>>, mapfn: MapFn<R, T> = defaultMapFn): Observable<T> => {
+    return combineLatest(...observables).pipe(
+      defaultIfEmpty([]),
+      map(mapfn)
+    );
   }
 
   rawCall = <T> ({ name, section }: SectionItem<Interfaces>, ...params: Array<any>): Observable<T> => {
-    console.error('calling', section, name);
-
     assert(section && this.api[section], `Unable to find 'api.${section}'`);
 
     const fn: RxApiInterface$Method = section
       ? this.api[section][name]
-      : (this.api[name] as RxApiInterface$Method);
+      // @ts-ignore This one is done for 'isConnected'
+      : this.api[name];
 
     assert(fn, `Unable to find 'api${section ? '.' : ''}${section || ''}.${name}'`);
 
@@ -46,7 +52,7 @@ export default class ObservableApi implements ObservableApiInterface {
 
   rawStorage = <T> (key: SectionItem<Storages>, ...params: Array<any>): Observable<T> => {
     return this
-      .rawStorageMulti([key, ...params])
+      .rawStorageMulti([key, ...params] as KeyWithParams)
       .pipe(
         map(([result]: Array<T>): T =>
           result
@@ -54,7 +60,7 @@ export default class ObservableApi implements ObservableApiInterface {
       );
   }
 
-  rawStorageMulti = <T> (keys: Array<[SectionItem<Storages>, any] | [SectionItem<Storages>]>): Observable<T> => {
+  rawStorageMulti = <T> (...keys: Array<KeyWithParams>): Observable<T> => {
     return this.api.state
       .subscribeStorage(keys)
       .pipe(
@@ -290,37 +296,29 @@ export default class ObservableApi implements ObservableApiInterface {
   }
 
   validatingBalance = (address: string): Observable<ExtendedBalance> => {
-    console.log('validatingBalance', address);
     return this.combine(
       [
         this.votingBalance(address),
-        this.stakingNominatorsFor(address).pipe(
-          switchMap((nominators: Array<string>) =>
-            this.votingBalances(nominators)
-          )
-        )
+        this.votingBalancesNominatorsFor(address)
       ],
-      (test: [ExtendedBalance, Array<ExtendedBalance>]): ExtendedBalance => {
-        const [balance, nominators = []] = test;
-
-        console.log('test', test);
-
+      ([balance, nominators = []]: [ExtendedBalance, Array<ExtendedBalance>]): ExtendedBalance => {
         const nominatedBalance = nominators.reduce((total, nominator: ExtendedBalance) => {
           return total.add(nominator.votingBalance);
         }, new BN(0));
 
-        return {
+        const result = {
           ...balance,
           nominators,
           nominatedBalance,
           stakingBalance: nominatedBalance.add(balance.votingBalance)
         };
+
+        return result;
       }
     );
   }
 
-  validatingBalances = (addresses: Array<string> = []): Observable<ExtendedBalanceMap> => {
-    console.log('validatingBalances', addresses);
+  validatingBalances = (...addresses: Array<string>): Observable<ExtendedBalanceMap> => {
     return this.combine(
       addresses.map((address) =>
         this.validatingBalance(address)
@@ -351,17 +349,20 @@ export default class ObservableApi implements ObservableApiInterface {
     );
   }
 
-  votingBalances = (addresses: Array<string> = []): Observable<ExtendedBalance[]> => {
-    return combineLatest(
+  votingBalancesNominatorsFor = (address: string) => {
+    return this.stakingNominatorsFor(address).pipe(
+      concatMap((nominators: Array<string>) =>
+        this.votingBalances(...nominators)
+      ),
+      defaultIfEmpty([])
+    );
+  }
+
+  votingBalances = (...addresses: Array<string>): Observable<ExtendedBalance[]> => {
+    return this.combine(
       addresses.map((address) =>
         this.votingBalance(address)
       )
-    ).pipe(
-      map((value) => {
-        console.log(value);
-
-        return value;
-      })
     );
   }
 }
