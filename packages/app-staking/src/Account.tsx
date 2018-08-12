@@ -12,7 +12,6 @@ import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
 import BN from 'bn.js';
 import React from 'react';
 import extrinsics from '@polkadot/extrinsics';
-import storage from '@polkadot/storage';
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
@@ -22,7 +21,6 @@ import classes from '@polkadot/ui-app/util/classes';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import decodeAddress from '@polkadot/util-keyring/address/decode';
-import encodeAddress from '@polkadot/util-keyring/address/encode';
 
 import Nominating from './Nominating';
 import UnnominateButton from './UnnominateButton';

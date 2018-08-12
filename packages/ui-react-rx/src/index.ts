@@ -12,8 +12,6 @@ import NodeName from './NodeName';
 import NodeVersion from './NodeVersion';
 import Nonce from './Nonce';
 
-export * from './with';
-
 export {
   Api,
   Balance,

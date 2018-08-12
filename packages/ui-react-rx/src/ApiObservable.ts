@@ -10,7 +10,7 @@ import { Storages } from '@polkadot/storage/types';
 import { ExtendedBalance, ExtendedBalanceMap, ObservableApiInterface, KeyWithParams } from './types';
 
 import BN from 'bn.js';
-import { Observable, combineLatest, empty } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { concatMap, defaultIfEmpty, map } from 'rxjs/operators';
 import storage from '@polkadot/storage';
 import assert from '@polkadot/util/assert';
@@ -238,6 +238,7 @@ export default class ObservableApi implements ObservableApiInterface {
       .rawStorage(storage.session.public.validators)
       .pipe(
         map((validators: Array<Uint8Array> = []) =>
+          // FIXME: Remove as soon as storage returns encoded
           validators.map(encodeAddress)
         )
       );
@@ -248,6 +249,7 @@ export default class ObservableApi implements ObservableApiInterface {
       .rawStorage(storage.staking.public.intentions)
       .pipe(
         map((intentions: Array<Uint8Array> = []) =>
+          // FIXME: Remove as soon as storage returns encoded
           intentions.map(encodeAddress)
         )
       );
@@ -262,7 +264,8 @@ export default class ObservableApi implements ObservableApiInterface {
       .rawStorage(storage.staking.public.nominatorsFor, address)
       .pipe(
         map((nominators: Array<Uint8Array> = []) =>
-         nominators.map(encodeAddress)
+          // FIXME: Remove as soon as storage returns encoded
+          nominators.map(encodeAddress)
         )
       );
   }
@@ -271,6 +274,7 @@ export default class ObservableApi implements ObservableApiInterface {
     return this
       .rawStorage(storage.staking.public.nominating, address)
       .pipe(
+        // FIXME: Remove as soon as storage returns encoded
         map((address?: Uint8Array) =>
           address
             ? encodeAddress(address)

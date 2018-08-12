@@ -3,12 +3,9 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import storage from '@polkadot/storage';
 
 import numberFormat from './util/numberFormat';
 import withObservableDiv from './with/observableDiv';
-
-const method = storage.timestamp.public.blockPeriod;
 
 const Component: React.ComponentType<any> = withObservableDiv('timestampBlockPeriod')(
   (value?: BN): string =>

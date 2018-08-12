@@ -7,7 +7,6 @@ import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
 
 import React from 'react';
 import Page from '@polkadot/ui-app/Page';
-import encodeAddress from '@polkadot/util-keyring/address/encode';
 import classes from '@polkadot/ui-app/util/classes';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';

@@ -5,7 +5,6 @@
 import { BaseProps } from '../types';
 import { ApiMethod, ComponentRenderer, DefaultProps, RenderFn, Options } from './types';
 
-import Div from '../Div';
 import withObservableDiv from './observableDiv';
 
 export default function withApiDiv<T, Props extends BaseProps<T>> (call: ApiMethod, options?: Options<T>): ComponentRenderer<T> {
