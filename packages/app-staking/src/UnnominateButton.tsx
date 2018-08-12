@@ -50,8 +50,5 @@ class UnnominateButton extends React.Component<Props> {
 export default withMulti(
   UnnominateButton,
   translate,
-  withObservable(
-    'stakingNominatorsFor',
-    { paramProp: 'nominating' }
-  )
+  withObservable('stakingNominatorsFor', { paramProp: 'nominating' })
 );

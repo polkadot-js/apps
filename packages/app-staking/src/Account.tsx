@@ -226,16 +226,7 @@ class Account extends React.PureComponent<Props, State> {
 export default withMulti(
   Account,
   translate,
-  withObservable(
-    'stakingNominatorsFor',
-    { paramProp: 'address' }
-  ),
-  withObservable(
-    'stakingNominating',
-    { paramProp: 'address' }
-  ),
-  withObservable(
-    'systemAccountIndexOf',
-    { paramProp: 'address' }
-  )
+  withObservable('stakingNominatorsFor', { paramProp: 'address' }),
+  withObservable('stakingNominating', { paramProp: 'address' }),
+  withObservable('systemAccountIndexOf', { paramProp: 'address' })
 );
