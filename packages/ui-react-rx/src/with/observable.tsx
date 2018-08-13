@@ -2,40 +2,36 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-// TODO: This is now way more messy and way longer than it should be. Maintainability is lacking - apply some effort and split it into managable parts
+// TODO: Lots of duplicated code between this and withObservable, surely there ois a better way of doing this?
 
-import { RxProps } from '../types';
-import { HOC, Options, DefaultProps } from './types';
+import { RxProps, ObservableApiNames } from '../types';
+import { HOC, Options, DefaultProps, RenderFn } from './types';
 
 import React from 'react';
 import { map } from 'rxjs/operators/map';
-
-import assert from '@polkadot/util/assert';
+import isUndefined from '@polkadot/util/is/undefined';
 
 import intervalSubscribe from '../util/intervalSubscribe';
 import isEqual from '../util/isEqual';
 import triggerChange from '../util/triggerChange';
 import echoTransform from './transform/echo';
+import withApi from './api';
 
 type State<T> = RxProps<T> & {
-  subscriptions: Array<any>;
+  subscriptions: Array<any>; // FIXME subscriptions
 };
 
-// FIXME Observables here are NOT any, horribly defined (leave until rx-lite decicion is made)
-// FIXME proper props augmentation
+// FIXME proper types for attributes
 
-export default function withObservable<T> (observable: any, options: Options<T> = {}): HOC<T> {
-  const { onChange, propName = 'value', transform = echoTransform } = options;
+export default function withObservable<T> (observable: ObservableApiNames, { onChange, params = [], paramProp = 'params', propName = observable, transform = echoTransform }: Options<T> = {}): HOC<T> {
+  console.log('observable', observable, paramProp);
 
-  return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}): React.ComponentType<any> => {
-    return class WithObservable extends React.Component<any, State<T>> {
+  return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}, render?: RenderFn): React.ComponentType<any> => {
+    class WithObservable extends React.Component<any, State<T>> {
       state: State<T>;
 
       constructor (props: any) {
         super(props);
-
-        assert(observable, `Component should have Observable to wrap`);
-        assert(Inner, `Expected 'with*' to wrap a React Component`);
 
         this.state = {
           rxUpdated: false,
@@ -45,25 +41,54 @@ export default function withObservable<T> (observable: any, options: Options<T> 
         };
       }
 
-      componentDidMount () {
-        const subscriptions = [
-          observable
-            .pipe(map(transform))
-            .subscribe((value: any) => {
-              this.triggerUpdate(this.props, value);
-            }),
-          intervalSubscribe(this)
-        ];
+      private getParams (props: any): Array<any> {
+        const paramValue = props[paramProp];
 
+        return isUndefined(paramValue)
+          ? params
+          : params.concat(
+            Array.isArray(paramValue)
+              ? paramValue
+              : [paramValue]
+          );
+      }
+
+      componentDidUpdate (prevProps: any) {
+        const newParams = this.getParams(this.props);
+
+        if (!isEqual(newParams, this.getParams(prevProps))) {
+          this.subscribe(newParams);
+        }
+      }
+
+      componentDidMount () {
+        this.subscribe(this.getParams(this.props));
+      }
+
+      private subscribe (newParams: Array<any>) {
+        const { apiObservable } = this.props;
+
+        this.unsubscribe();
         this.setState({
-          subscriptions
+          subscriptions: [
+            apiObservable[observable](...newParams)
+              .pipe(map(transform))
+              .subscribe((value: any) =>
+                this.triggerUpdate(this.props, value)
+              ),
+            intervalSubscribe(this)
+          ]
         });
       }
 
+      private unsubscribe () {
+        this.state.subscriptions.forEach((subscription) =>
+          subscription.unsubscribe()
+        );
+      }
+
       componentWillUnmount () {
-        this.state.subscriptions.forEach((subscription) => {
-          subscription.unsubscribe();
-        });
+        this.unsubscribe();
       }
 
       triggerUpdate = (props: any, value?: T): void => {
@@ -81,10 +106,10 @@ export default function withObservable<T> (observable: any, options: Options<T> 
       }
 
       render () {
+        const { children } = this.props;
         const { rxUpdated, rxUpdatedAt, value } = this.state;
         const _props = {
           ...defaultProps,
-          // @ts-ignore umpf
           ...this.props,
           rxUpdated,
           rxUpdatedAt,
@@ -94,9 +119,13 @@ export default function withObservable<T> (observable: any, options: Options<T> 
         delete _props.onChange;
 
         return (
-          <Inner {..._props} />
+          <Inner {..._props}>
+            {render && render(value)}{children}
+          </Inner>
         );
       }
-    };
+    }
+
+    return withApi(WithObservable);
   };
 }

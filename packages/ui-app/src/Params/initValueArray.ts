@@ -11,7 +11,7 @@ export default function getInitValueArray (type: Param$Type[]): RawParam$Value |
   // NOTE special cases for where we have a known override formatter. The only horrible thing with
   // this atm is that we need to add the same override in ./values.ts - which is actually horrible,
   // need a single place for both the actual raw values and wrapped values
-  if (type.length === 1 && type[0] === 'KeyValueStorage') {
+  if (type.length === 1 && type[0] === 'StorageKeyValue') {
     return [];
   }
 

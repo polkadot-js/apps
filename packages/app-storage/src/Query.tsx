@@ -13,7 +13,7 @@ import Button from '@polkadot/ui-app/Button';
 import Labelled from '@polkadot/ui-app/Labelled';
 import valueToText from '@polkadot/ui-app/Params/valueToText';
 import classes from '@polkadot/ui-app/util/classes';
-import withStorageDiv from '@polkadot/ui-react-rx/with/storageDiv';
+import withObservableDiv from '@polkadot/ui-react-rx/with/observableDiv';
 
 import translate from './translate';
 
@@ -41,7 +41,7 @@ class Query extends React.PureComponent<Props, State> {
         value as Storage$Key$Value
       );
 
-      cache[id] = withStorageDiv(key, { params: values })(
+      cache[id] = withObservableDiv('rawStorage', { params: [key, ...values] })(
         (value: any) =>
           valueToText(key.type, value),
         { className: 'ui--output' }

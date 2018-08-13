@@ -6,6 +6,7 @@ import { BareProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { QueueProps, QueueTx, QueueTx$Extrinsic, QueueTx$Base, QueueTx$Id, QueueTx$Status } from './types';
 
+import BN from 'bn.js';
 import React from 'react';
 import rpcs from '@polkadot/jsonrpc';
 import withApi from '@polkadot/ui-react-rx/with/api';
@@ -107,7 +108,7 @@ class Queue extends React.Component<Props, State> {
 
     return this.queueAdd({
       isValid,
-      nonce,
+      nonce: nonce || new BN(0),
       publicKey,
       rpc,
       values: [encoded]

@@ -9,43 +9,44 @@ import './Params.css';
 import React from 'react';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
-import addressEncode from '@polkadot/util-keyring/address/encode';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import isBn from '@polkadot/util/is/bn';
+import isNull from '@polkadot/util/is/null';
 import isU8a from '@polkadot/util/is/u8a';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import classes from '../util/classes';
 import { textMap as thresholdTextMap } from './Param/VoteThreshold';
 
-const empty = div('<empty>');
-const unknown = div('<unknown>');
+const empty = div({}, '<empty>');
+const unknown = div({}, '<unknown>');
 
-function divWithClass (className: string, ...values: Array<React.ReactNode>): React.ReactNode {
+type DivProps = {
+  className?: string,
+  key?: any
+};
+
+function div ({ key, className }: DivProps, ...values: Array<React.ReactNode>): React.ReactNode {
   return (
-    <div className={classes('ui--Param-text', className)}>
+    <div
+      className={classes('ui--Param-text', className)}
+      key={key}
+    >
       {values}
     </div>
   );
 }
 
-function div (...values: Array<React.ReactNode>): React.ReactNode {
-  return divWithClass.apply(
-    null, [undefined as React.ReactNode].concat(values)
-  );
-}
-
-function accountToText (publicKey: Uint8Array): React.ReactNode {
-  const address = addressEncode(publicKey);
-
-  return divWithClass(
-    'nowrap',
+function accountToText (address: string): React.ReactNode {
+  return div(
+    { className: 'nowrap', key: `account_${address}` },
     <IdentityIcon
       className='icon'
+      key='icon'
       size={24}
       value={address}
     />,
-    address
+    div({ key: 'address' }, address)
   );
 }
 
@@ -56,15 +57,17 @@ function proposalToText ({ extrinsic, params }: ExtrinsicDecoded): React.ReactNo
 
   const inputs = extrinsic.params.map(({ name, type }, index) =>
     div(
-      divWithClass('name', `${name}=`),
+      { key: `param_${index}` },
+      div({ className: 'name', key: 'param_name' }, `${name}=`),
       valueToText(type, params[index])
     )
   );
 
   return div(
-    divWithClass('name', `${extrinsic.section}.${extrinsic.name}(`),
+    {},
+    div({ className: 'name' }, `${extrinsic.section}.${extrinsic.name}(`),
     inputs,
-    divWithClass('name', ')')
+    div({ className: 'name' }, ')')
   );
 }
 
@@ -75,12 +78,13 @@ function arrayToText (type: Param$Type$Array, value: Array<any>, withBound: bool
 
   if (type.length === 1) {
     if (type[0] === 'KeyValueStorage') {
-      return div(value.length);
+      return div({}, value.length);
     }
 
     return value.map((value, index) =>
       div(
-        divWithClass('name', `${index}:`),
+        { key: `value_${index}` },
+        div({ className: 'name', key: 'name' }, `${index}:`),
         valueToText(type[0], value, false)
       )
     );
@@ -91,16 +95,17 @@ function arrayToText (type: Param$Type$Array, value: Array<any>, withBound: bool
   );
 
   return div(
-    divWithClass('name', '('),
+    {},
+    div({ className: 'name' }, '('),
     values,
-    divWithClass('name', ')')
+    div({ className: 'name' }, ')')
   );
 }
 
 function valueToText (type: Param$Types, value: any, swallowError: boolean = true): React.ReactNode {
   try {
     if (type === 'bool') {
-      return div(value ? 'Yes' : 'No');
+      return div({}, value ? 'Yes' : 'No');
     }
 
     if (isUndefined(value)) {
@@ -113,7 +118,7 @@ function valueToText (type: Param$Types, value: any, swallowError: boolean = tru
 
     if (type === 'AccountId') {
       return value && value.length
-        ? accountToText(value as Uint8Array)
+        ? accountToText(value as string)
         : unknown;
     }
 
@@ -122,15 +127,15 @@ function valueToText (type: Param$Types, value: any, swallowError: boolean = tru
     }
 
     if (type === 'VoteThreshold') {
-      return div(thresholdTextMap[value]);
+      return div({}, thresholdTextMap[value]);
     }
 
     if (isU8a(value)) {
-      return div(u8aToHex(value, 256));
+      return div({}, u8aToHex(value, 256));
     }
 
     if (isBn(value)) {
-      return div(numberFormat(value));
+      return div({}, numberFormat(value));
     }
   } catch (error) {
     if (!swallowError) {
@@ -140,7 +145,9 @@ function valueToText (type: Param$Types, value: any, swallowError: boolean = tru
     }
   }
 
-  return div(value.toString());
+  return isNull(value) || isUndefined(value)
+    ? unknown
+    : div({}, value.toString());
 }
 
 export default valueToText;

@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import './index.css';
@@ -14,13 +15,14 @@ import ValidatorsList from './ValidatorsList';
 import Summary from './Summary';
 
 type Props = I18nProps & {
+  balances: ExtendedBalanceMap,
   intentions: Array<string>,
   validators: Array<string>
 };
 
 export default class Overview extends React.PureComponent<Props> {
   render () {
-    const { className, intentions, style, validators } = this.props;
+    const { className, balances, intentions, style, validators } = this.props;
     const intentionsExVal = intentions.filter((address) =>
       !validators.includes(address)
     );
@@ -31,6 +33,7 @@ export default class Overview extends React.PureComponent<Props> {
         style={style}
       >
         <Summary
+          balances={balances}
           intentions={intentions}
           validators={validators}
         />

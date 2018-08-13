@@ -5,13 +5,9 @@
 import { BaseProps } from '../types';
 import { ApiMethod, ComponentRenderer, DefaultProps, RenderFn, Options } from './types';
 
-import Div from '../Div';
-import withApiCall from './apiCall';
+import withObservableDiv from './observableDiv';
 
 export default function withApiDiv<T, Props extends BaseProps<T>> (call: ApiMethod, options?: Options<T>): ComponentRenderer<T> {
   return (render: RenderFn, defaultProps: DefaultProps<T> = {}): React.ComponentType<Props> =>
-    withApiCall(call, options)(Div, {
-      ...defaultProps,
-      render
-    });
+    withObservableDiv('rawCall', { ...options, params: [call] })(render, defaultProps);
 }

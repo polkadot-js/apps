@@ -2,19 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Header } from '@polkadot/primitives/header';
-
-import rpcs from '@polkadot/jsonrpc';
+import BN from 'bn.js';
 
 import numberFormat from './util/numberFormat';
-import withApiDiv from './with/apiDiv';
+import withObservableDiv from './with/observableDiv';
 
-const method = rpcs.chain.public.newHead;
-
-const Component: React.ComponentType<any> = withApiDiv(method)(
-  (value?: Header): string => {
-    return value && value.number
-      ? numberFormat(value.number)
+const Component: React.ComponentType<any> = withObservableDiv('bestNumber')(
+  (value?: BN): string => {
+    return value
+      ? numberFormat(value)
       : 'unknown';
   },
   { className: 'rx--BestNumber' }
