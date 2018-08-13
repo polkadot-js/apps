@@ -33,7 +33,7 @@ type Props = I18nProps & BareProps & {
   address: string
 };
 
-class DownloadButton extends React.PureComponent<Props, State> {
+export class DownloadButton extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -168,6 +168,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
           <Button.Or />
           <Button
             isPrimary
+            className='ui--Button-submit'
             onClick={this.handleDownloadAccount}
             text={t('creator.submit', {
               defaultValue: 'Submit'
