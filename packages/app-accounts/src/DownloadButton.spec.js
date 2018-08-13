@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from '../test/enzyme';
+import { shallow } from '../../../test/enzyme';
 
 import { DownloadButton } from './DownloadButton';
 
