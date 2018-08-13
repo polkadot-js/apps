@@ -6,7 +6,7 @@ import { BareProps } from './types';
 
 import React from 'react';
 
-import classes from '@polkadot/ui-app/util/classes';
+import classes from './util/classes';
 
 import Button from './Button';
 import Input from './Input';
