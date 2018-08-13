@@ -22,7 +22,20 @@ import vanitygen from './vanitygen';
 export default ({
   default: 'explorer',
   routes: ([] as Routes).concat(
-    example, explorer, staking, democracy, extrinsics, storage, null, accounts, addresses, vanitygen, null, rpc, toolbox
+    example,
+    explorer,
+    staking,
+    democracy,
+    null,
+    extrinsics,
+    storage,
+    null,
+    accounts,
+    addresses,
+    vanitygen,
+    null,
+    rpc,
+    toolbox
   ),
   unknown
 } as Routing);

@@ -33,6 +33,7 @@ export interface ObservableApiInterface {
   chainNewHead: () => Observable<Header | undefined>,
   democracyLaunchPeriod: () => Observable<BN | undefined>,
   democracyNextTally: () => Observable<BN | undefined>,
+  democracyProposalCount: () => Observable<number>,
   democracyReferendumCount: () => Observable<BN | undefined>,
   democracyVotingPeriod: () => Observable<BN | undefined>,
   eraBlockLength: () => Observable<BN | undefined>,

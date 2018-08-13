@@ -16,18 +16,41 @@ import translate from './translate';
 
 type Props = I18nProps & {
   democracyLaunchPeriod?: BN,
+  democracyNextTally?: BN,
+  democracyProposalCount?: BN,
+  democracyReferendumCount?: BN,
   democracyVotingPeriod?: BN
 };
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { className, democracyLaunchPeriod, democracyVotingPeriod, style, t } = this.props;
+    const { className, democracyLaunchPeriod, democracyNextTally, democracyProposalCount, democracyReferendumCount, democracyVotingPeriod, style, t } = this.props;
 
     return (
       <div
         className={classes('democracy--Summary', className)}
         style={style}
       >
+        <div className='democracy--Summary-column'>
+          <CardSummary label={t('summary.referendumCount', {
+            defaultValue: 'referendums'
+          })}>
+            {numberFormat(democracyReferendumCount)}
+          </CardSummary>
+          <CardSummary label={t('summary.proposalCount', {
+            defaultValue: 'proposals'
+          })}>
+            {numberFormat(democracyProposalCount)}
+          </CardSummary>
+          <CardSummary label={t('summary.active', {
+            defaultValue: 'active num'
+          })}>
+            {democracyNextTally && democracyReferendumCount
+              ? numberFormat(democracyReferendumCount.sub(democracyNextTally))
+              : 0
+            }
+          </CardSummary>
+        </div>
         <div className='democracy--Summary-column'>
           <CardSummary label={t('summary.votingPeriod', {
             defaultValue: 'voting period'
@@ -49,5 +72,8 @@ export default withMulti(
   Summary,
   translate,
   withObservable('democracyLaunchPeriod'),
+  withObservable('democracyReferendumCount'),
+  withObservable('democracyNextTally'),
+  withObservable('democracyProposalCount'),
   withObservable('democracyVotingPeriod')
 );

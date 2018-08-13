@@ -4,4 +4,4 @@
 
 import { translate } from 'react-i18next';
 
-export default translate(['democacy', 'ui']);
+export default translate(['democracy', 'ui']);

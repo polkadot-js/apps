@@ -10,7 +10,7 @@ import { Storages } from '@polkadot/storage/types';
 import { ExtendedBalance, ExtendedBalanceMap, ObservableApiInterface, KeyWithParams, ReferendumVotes } from './types';
 
 import BN from 'bn.js';
-import { Observable, combineLatest } from 'rxjs';
+import { EMPTY, Observable, combineLatest } from 'rxjs';
 import { concatMap, defaultIfEmpty, map } from 'rxjs/operators';
 import storage from '@polkadot/storage';
 import assert from '@polkadot/util/assert';
@@ -18,7 +18,10 @@ import assert from '@polkadot/util/assert';
 type OptBN = BN | undefined;
 type OptDate = Date | undefined;
 type MapFn<R, T> = (combined: R) => T;
+
+// FIXME These should be pulled int from the decoder types
 type Referendum = [BN, any, BN];
+type Proposal = [BN, any, string];
 
 const defaultMapFn = (result: any): any =>
   result;
@@ -88,12 +91,51 @@ export default class ObservableApi implements ObservableApiInterface {
     return this.rawStorage(storage.democracy.public.nextTally);
   }
 
+  democracyProposals = (): Observable<Array<Proposal>> => {
+    return this.rawStorage(storage.democracy.public.proposals);
+  }
+
+  democracyProposalCount = (): Observable<number> => {
+    return this.democracyProposals().pipe(map((proposals: Array<Proposal> = []) => {
+      console.error(proposals);
+      return proposals.length;
+    }));
+  }
+
   democracyReferendumCount = (): Observable<OptBN> => {
     return this.rawStorage(storage.democracy.public.referendumCount);
   }
 
   democracyReferendumInfoOf = (index: BN): Observable<Referendum> => {
     return this.rawStorage(storage.democracy.public.referendumInfoOf, index);
+  }
+
+  democracyReferendumInfos = (indexes: Array<BN>): Observable<Array<Referendum>> => {
+    return this.combine(
+      indexes.map((index) =>
+        this.democracyReferendumInfoOf(index)
+      )
+    );
+  }
+
+  democracyReferendumsActive = (): Observable<Array<Referendum>> => {
+    return this.combine(
+      [
+        this.democracyReferendumCount(),
+        this.democracyNextTally()
+      ]
+    ).pipe(
+      concatMap(([referendumCount, nextTally]: [OptBN, OptBN]): Observable<Array<Referendum>> =>
+        referendumCount && nextTally
+          ? this.democracyReferendumInfos(
+            [...Array(referendumCount.sub(nextTally).toNumber())].map((_, i) =>
+              nextTally.addn(i)
+            )
+          )
+          : EMPTY
+      ),
+      defaultIfEmpty([])
+    );
   }
 
   democacyVoteOf = (index: BN, address: string): Observable<boolean> => {
