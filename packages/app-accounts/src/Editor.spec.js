@@ -3,7 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 
 import React from 'react';
-import { expect } from 'chai';
 import { shallow } from '../../../test/enzyme';
 
 import { Editor } from './Editor';
@@ -20,17 +19,17 @@ describe('Editor', () => {
   });
 
   it('creates the element', () => {
-    expect(wrapper).to.have.length(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   it('should only display Upload Button when no current address in state', () => {
     wrapper.setState({ currentPair: null });
-    expect(wrapper.find(UploadButton)).to.have.length(1);
+    expect(wrapper.find(UploadButton)).toHaveLength(1);
   });
 
   it('should display both Upload and Download Button when current pair has address in state', () => {
     wrapper.setState({ currentPair: { address: jest.fn() } });
-    expect(wrapper.find(UploadButton)).to.have.length(1);
-    expect(wrapper.find(DownloadButton)).to.have.length(1);
+    expect(wrapper.find(UploadButton)).toHaveLength(1);
+    expect(wrapper.find(DownloadButton)).toHaveLength(1);
   });
 });
