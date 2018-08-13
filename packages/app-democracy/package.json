@@ -1,5 +1,5 @@
 {
-  "name": "@polkadot/app-democrzcy",
+  "name": "@polkadot/app-democracy",
   "version": "0.19.30",
   "description": "A referendum & proposal app",
   "main": "index.js",
