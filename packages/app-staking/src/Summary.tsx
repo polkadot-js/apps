@@ -2,41 +2,35 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Header } from '@polkadot/primitives/header';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps, ExtendedBalance, ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import apimethods from '@polkadot/jsonrpc';
-import storage from '@polkadot/storage';
 import classes from '@polkadot/ui-app/util/classes';
-import withApiCall from '@polkadot/ui-react-rx/with/apiCall';
+import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
-import withStorage from '@polkadot/ui-react-rx/with/storage';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
 import translate from './translate';
 
 type Props = ApiProps & I18nProps & {
   balances: ExtendedBalanceMap,
+  bestNumber?: BN,
   intentions: Array<string>,
-  lastBlockHeader?: Header,
   lastLengthChange?: BN,
+  sessionBlockProgress?: BN,
   sessionLength?: BN,
   validators: Array<string>
 };
 
 const DEFAULT_BLOCKNUMBER = new BN(0);
-const DEFAULT_SESSION_CHANGE = new BN(0);
+const DEFAULT_SESSION_PROGRESS = new BN(0);
 const DEFAULT_SESSION_LENGTH = new BN(60);
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { className, intentions, lastBlockHeader, lastLengthChange = DEFAULT_SESSION_CHANGE, style, sessionLength = DEFAULT_SESSION_LENGTH, t, validators } = this.props;
-    const blockNumber = lastBlockHeader
-      ? lastBlockHeader.number
-      : DEFAULT_BLOCKNUMBER;
+    const { bestNumber = DEFAULT_BLOCKNUMBER, className, intentions, style, sessionLength = DEFAULT_SESSION_LENGTH, sessionBlockProgress = DEFAULT_SESSION_PROGRESS, t, validators } = this.props;
     const intentionHigh = this.calcIntentionsHigh();
     const validatorLow = this.calcValidatorLow();
 
@@ -71,8 +65,8 @@ class Summary extends React.PureComponent<Props> {
         <div>{t('summary.countdown', {
           defaultValue: 'session block {{remainder}} / {{length}} at #{{blockNumber}}',
           replace: {
-            blockNumber: numberFormat(blockNumber),
-            remainder: Math.max(1, blockNumber.sub(lastLengthChange).mod(sessionLength).addn(1).toNumber()).toString(),
+            blockNumber: numberFormat(bestNumber),
+            remainder: sessionBlockProgress.toString(),
             length: sessionLength.toString()
           }
         })}</div>
@@ -114,16 +108,7 @@ class Summary extends React.PureComponent<Props> {
 export default withMulti(
   Summary,
   translate,
-  withApiCall(
-    apimethods.chain.public.newHead,
-    { propName: 'lastBlockHeader' }
-  ),
-  withStorage(
-    storage.session.public.length,
-    { propName: 'sessionLength' }
-  ),
-  withStorage(
-    storage.session.public.lastLengthChange,
-    { propName: 'lastLengthChange' }
-  )
+  withObservable('bestNumber'),
+  withObservable('sessionBlockProgress'),
+  withObservable('sessionLength')
 );

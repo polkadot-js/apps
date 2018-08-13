@@ -12,28 +12,27 @@ import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
 import BN from 'bn.js';
 import React from 'react';
 import extrinsics from '@polkadot/extrinsics';
-import storage from '@polkadot/storage';
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
+import Card from '@polkadot/ui-app/Card';
 import Icon from '@polkadot/ui-app/Icon';
 import classes from '@polkadot/ui-app/util/classes';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
-import withStorage from '@polkadot/ui-react-rx/with/storage';
+import withObservable from '@polkadot/ui-react-rx/with/observable';
 import decodeAddress from '@polkadot/util-keyring/address/decode';
-import encodeAddress from '@polkadot/util-keyring/address/encode';
 
 import Nominating from './Nominating';
 import UnnominateButton from './UnnominateButton';
 import translate from './translate';
 
 type Props = I18nProps & {
-  accountIndex?: BN,
+  systemAccountIndexOf?: BN,
   address: string,
   balances: ExtendedBalanceMap,
   name: string,
-  nominee?: string,
-  nominatorsFor?: Array<string>,
+  stakingNominating?: string,
+  stakingNominatorsFor?: Array<string>,
   intentions: Array<string>,
   isValidator: boolean,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
@@ -58,10 +57,15 @@ class Account extends React.PureComponent<Props, State> {
     const { isNominateOpen } = this.state;
 
     return (
-      <div
+      <Card
         className={classes('staking--Account', className)}
         style={style}
       >
+        <Icon
+          className={classes('staking--Account-validating', isValidator ? 'isValidator' : '')}
+          name='certificate'
+          size='large'
+        />
         <Nominating
           isOpen={isNominateOpen}
           onClose={this.toggleNominate}
@@ -74,17 +78,12 @@ class Account extends React.PureComponent<Props, State> {
           value={address}
         >
           <div className='staking--Account-expand'>
-            <Icon
-              className={classes('staking--Account-validating', isValidator ? 'isValidator' : '')}
-              name='certificate'
-              size='large'
-            />
             {this.renderButtons()}
             {this.renderNominee()}
             {this.renderNominators()}
           </div>
         </AddressSummary>
-      </div>
+      </Card>
     );
   }
 
@@ -97,29 +96,29 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderNominee () {
-    const { nominee } = this.props;
+    const { stakingNominating } = this.props;
 
-    if (!nominee) {
+    if (!stakingNominating) {
       return null;
     }
 
     return (
       <AddressMini
-        balance={this.balanceArray(nominee)}
-        value={nominee}
+        balance={this.balanceArray(stakingNominating)}
+        value={stakingNominating}
         withBalance
       />
     );
   }
 
   private renderNominators () {
-    const { nominatorsFor } = this.props;
+    const { stakingNominatorsFor } = this.props;
 
-    if (!nominatorsFor) {
+    if (!stakingNominatorsFor) {
       return null;
     }
 
-    return nominatorsFor.map((nominator) => (
+    return stakingNominatorsFor.map((nominator) => (
       <AddressMini
         key={nominator}
         value={nominator}
@@ -129,71 +128,65 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { address, intentions, nominee, t } = this.props;
+    const { address, intentions, stakingNominating, t } = this.props;
     const isIntending = intentions.includes(address);
-    const isNominating = !!nominee;
+    const isNominating = !!stakingNominating;
     const canStake = !isIntending && !isNominating;
 
     if (canStake) {
       return (
-        <div className='staking--Account-buttons'>
-          <Button.Group>
-            <Button
-              isPrimary
-              onClick={this.stake}
-              text={t('account.stake', {
-                defaultValue: 'stake'
-              })}
-            />
-            <Button.Or />
-            <Button
-              isPrimary
-              onClick={this.toggleNominate}
-              text={t('account.nominate', {
-                defaultValue: 'nominate'
-              })}
-            />
-          </Button.Group>
-        </div>
+        <Button.Group>
+          <Button
+            isPrimary
+            onClick={this.stake}
+            text={t('account.stake', {
+              defaultValue: 'stake'
+            })}
+          />
+          <Button.Or />
+          <Button
+            isPrimary
+            onClick={this.toggleNominate}
+            text={t('account.nominate', {
+              defaultValue: 'nominate'
+            })}
+          />
+        </Button.Group>
       );
     }
 
     if (isNominating) {
       return (
-        <div className='staking--Account-buttons'>
-          <Button.Group>
-            <UnnominateButton
-              address={address || ''}
-              nominating={nominee || ''}
-              onClick={this.unnominate}
-            />
-          </Button.Group>
-        </div>
+        <Button.Group>
+          <UnnominateButton
+            address={address || ''}
+            nominating={stakingNominating || ''}
+            onClick={this.unnominate}
+          />
+        </Button.Group>
       );
     }
 
     return (
-      <div className='staking--Account-buttons'>
-        <Button.Group>
-          <Button
-            isNegative
-            onClick={this.unstake}
-            text={t('account.unstake', {
-              defaultValue: 'unstake'
-            })}
-          />
-        </Button.Group>
-      </div>
+      <Button.Group>
+        <Button
+          isNegative
+          onClick={this.unstake}
+          text={t('account.unstake', {
+            defaultValue: 'unstake'
+          })}
+        />
+      </Button.Group>
     );
   }
 
   private send (extrinsic: SectionItem<Extrinsics>, values: Array<RawParam$Value>) {
-    const { accountIndex, address, queueExtrinsic } = this.props;
+    const { systemAccountIndexOf, address, queueExtrinsic } = this.props;
     const publicKey = decodeAddress(address);
 
     queueExtrinsic({
       extrinsic,
-      nonce: accountIndex || new BN(0),
+      nonce: systemAccountIndexOf || new BN(0),
       publicKey,
       values
     });
@@ -231,28 +224,7 @@ class Account extends React.PureComponent<Props, State> {
 export default withMulti(
   Account,
   translate,
-  withStorage(
-    storage.staking.public.nominatorsFor,
-    {
-      propName: 'nominatorsFor',
-      paramProp: 'address',
-      transform: (publicKeys: Array<Uint8Array>) =>
-        publicKeys.map(encodeAddress)
-    }
-  ),
-  withStorage(
-    storage.staking.public.nominating,
-    {
-      propName: 'nominee',
-      paramProp: 'address',
-      transform: encodeAddress
-    }
-  ),
-  withStorage(
-    storage.system.public.accountIndexOf,
-    {
-      propName: 'accountIndex',
-      paramProp: 'address'
-    }
-  )
+  withObservable('stakingNominatorsFor', { paramProp: 'address' }),
+  withObservable('stakingNominating', { paramProp: 'address' }),
+  withObservable('systemAccountIndexOf', { paramProp: 'address' })
 );

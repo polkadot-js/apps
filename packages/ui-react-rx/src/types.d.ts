@@ -5,9 +5,11 @@
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { ProviderInterface } from '@polkadot/api-provider/types';
-import { RxApiInterface } from '@polkadot/api-rx/types';
-import { EncodingVersions } from '@polkadot/params/types';
-import { Storage$Key$Value } from '@polkadot/storage/types';
+import { RxApiInterface, RxApiInterface$Method } from '@polkadot/api-rx/types';
+import { Interfaces } from '@polkadot/jsonrpc/types';
+import { EncodingVersions, SectionItem } from '@polkadot/params/types';
+import { Header } from '@polkadot/primitives/header';
+import { Storages, Storage$Key$Value } from '@polkadot/storage/types';
 
 export type BareProps = {
   className?: string,
@@ -28,12 +30,40 @@ export type ExtendedBalanceMap = {
   [index: string]: ExtendedBalance
 }
 
+export type KeyWithParams = [SectionItem<Storages>, any];
+
 export interface ObservableApiInterface {
+  rawCall: <T> ({ name, section }: SectionItem<Interfaces>, ...params: Array<any>) => Observable<T>,
+  rawStorage: <T> (key: SectionItem<Storages>, ...params: Array<any>) => Observable<T>,
+  rawStorageMulti: <T> (...keys: Array<[SectionItem<Storages>, any]>) => Observable<T>,
+  bestNumber: () => Observable<BN | undefined>,
+  chainNewHead: () => Observable<Header | undefined>,
+  eraBlockLength: () => Observable<BN | undefined>,
+  eraBlockProgress: () => Observable<BN | undefined>,
+  eraBlockRemaining: () => Observable<BN | undefined>,
+  sessionBlockProgress: () => Observable<BN | undefined>,
+  sessionBlockRemaining: () => Observable<BN | undefined>,
+  sessionBrokenPercentLate: () => Observable<BN | undefined>,
+  sessionBrokenValue: () => Observable<BN | undefined>,
+  sessionLength: () => Observable<BN | undefined>,
+  sessionTimeExpected: () => Observable<BN | undefined>,
+  sessionTimeRemaining: () => Observable<BN | undefined>,
+  sessionValidators: () => Observable<Array<string>>,
+  stakingFreeBalanceOf: (address: string) => Observable<BN | undefined>,
+  stakingIntentions: () => Observable<Array<string>>,
+  stakingNominatorsFor: (address: string) => Observable<Array<string>>,
+  stakingNominating: (address: string) => Observable<string | undefined>,
+  stakingReservedBalanceOf: (address: string) => Observable<BN | undefined>,
+  systemAccountIndexOf: (address: string) => Observable<BN | undefined>,
+  timestampBlockPeriod: () => Observable<BN | undefined>,
+  timestampNow: () => Observable<Date | undefined>,
   validatingBalance: (address: string) => Observable<ExtendedBalance>,
-  validatingBalances: (addresses: Array<string>) => Observable<ExtendedBalanceMap>,
+  validatingBalances: (...addresses: Array<string>) => Observable<ExtendedBalanceMap>,
   votingBalance: (address: string) => Observable<ExtendedBalance>,
-  votingBalances: (addresses: Array<string>) => Observable<ExtendedBalance[]>
+  votingBalances: (...addresses: Array<string>) => Observable<ExtendedBalance[]>
 }
+
+export type ObservableApiNames = keyof ObservableApiInterface;
 
 export type ApiProps = {
   api: RxApiInterface,

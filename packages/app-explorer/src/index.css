@@ -21,12 +21,30 @@
 .explorer--BestHash {
   font-size: 1.5em;
   line-height: 1.2;
-  margin-bottom: 0.75em;
 }
 
 .explorer--BestNumber {
   font-size: 3rem;
   line-height: 3rem;
+  position: relative;
+  text-align: right;
 }
 
-.explorer--BlockHeaders {}
+.explorer--Summary {
+  align-items: stretch;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 2em;
+}
+
+.explorer--Summary-column {
+  display: flex;
+  flex: 0 1 auto;
+  text-align: left;
+}
+
+.explorer--Summary-card {
+  flex: 0 1 auto;
+  text-align: left;
+}

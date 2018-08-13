@@ -69,6 +69,10 @@
   display: flex !important;
 }
 
+.ui.progress .bar {
+  min-width: 0 !important;
+}
+
 .ui[class*="left icon"].input.left.icon > input {
   padding-left: 4rem !important;
 }

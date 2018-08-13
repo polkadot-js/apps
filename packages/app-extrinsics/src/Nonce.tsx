@@ -21,6 +21,10 @@ export default class Nonce extends React.PureComponent<Props> {
   render () {
     const { className, label, style, onChange, value } = this.props;
 
+    if (!value) {
+      return null;
+    }
+
     return (
       <div
         className={classes('ui--row', className)}

@@ -9,11 +9,8 @@ import Chain from './Chain';
 import Connected from './Connected';
 import Div from './Div';
 import NodeName from './NodeName';
-import NodeTime from './NodeTime';
 import NodeVersion from './NodeVersion';
 import Nonce from './Nonce';
-
-export * from './with';
 
 export {
   Api,
@@ -23,7 +20,6 @@ export {
   Connected,
   Div,
   NodeName,
-  NodeTime,
   NodeVersion,
   Nonce
 };

@@ -6,12 +6,9 @@ import { BareProps } from '@polkadot/ui-app/types';
 import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
 
 import React from 'react';
-import storage from '@polkadot/storage';
 import Page from '@polkadot/ui-app/Page';
-import encodeAddress from '@polkadot/util-keyring/address/encode';
 import classes from '@polkadot/ui-app/util/classes';
-import withApiObservable from '@polkadot/ui-react-rx/with/apiObservable';
-import withStorage from '@polkadot/ui-react-rx/with/storage';
+import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 
 import './index.css';
@@ -20,17 +17,14 @@ import StakeList from './StakeList';
 import Summary from './Summary';
 
 type Props = BareProps & {
-  balances?: ExtendedBalanceMap,
-  intentions?: Array<string>,
-  validators?: Array<string>
+  validatingBalances?: ExtendedBalanceMap,
+  stakingIntentions?: Array<string>,
+  sessionValidators?: Array<string>
 };
-
-const transformAddresses = (publicKeys: Array<Uint8Array>) =>
-  publicKeys.map(encodeAddress);
 
 class App extends React.PureComponent<Props> {
   render () {
-    const { balances = {}, className, intentions = [], style, validators = [] } = this.props;
+    const { className, sessionValidators = [], stakingIntentions = [], style, validatingBalances = {} } = this.props;
 
     return (
       <Page
@@ -38,14 +32,14 @@ class App extends React.PureComponent<Props> {
         style={style}
       >
         <Summary
-          balances={balances}
-          intentions={intentions}
-          validators={validators}
+          balances={validatingBalances}
+          intentions={stakingIntentions}
+          validators={sessionValidators}
         />
         <StakeList
-          balances={balances}
-          intentions={intentions}
-          validators={validators}
+          balances={validatingBalances}
+          intentions={stakingIntentions}
+          validators={sessionValidators}
         />
       </Page>
     );
@@ -54,25 +48,7 @@ class App extends React.PureComponent<Props> {
 
 export default withMulti(
   App,
-  withStorage(
-    storage.staking.public.intentions,
-    {
-      propName: 'intentions',
-      transform: transformAddresses
-    }
-  ),
-  withStorage(
-    storage.session.public.validators,
-    {
-      propName: 'validators',
-      transform: transformAddresses
-    }
-  ),
-  withApiObservable(
-    'validatingBalances',
-    {
-      paramProp: 'intentions',
-      propName: 'balances'
-    }
-  )
+  withObservable('stakingIntentions'),
+  withObservable('sessionValidators'),
+  withObservable('validatingBalances', { paramProp: 'stakingIntentions' })
 );
