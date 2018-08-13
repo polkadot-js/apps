@@ -95,16 +95,16 @@ export class DownloadButton extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div className={'accounts--Address-download'}>
+      <div className='accounts--Address-download'>
         <Modal
           dimmer='inverted'
           open={isPasswordModalOpen}
           onClose={this.hidePasswordModal}
-          size={'mini'}
+          size='mini'
         >
           <Modal.Content>
             <div className='ui--grid'>
-              <div className={'accounts--Address-modal'}>
+              <div className='accounts--Address-modal'>
                 <AddressMini isShort value={address} />
                 <div className='accounts--Address-modal-message expanded'>
                   <p>

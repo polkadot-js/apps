@@ -103,8 +103,8 @@ export class Editor extends React.PureComponent<Props, State> {
       return (
         <div>
           <div>{t('editor.nosaved', { defaultValue: 'There are no saved accounts. Create an account or upload a JSON file of a saved account.' })}</div>
-          <div className={'accounts--Address-wrapper'}>
-            <div className={'accounts--Address-file'}>
+          <div className='accounts--Address-wrapper'>
+            <div className='accounts--Address-file'>
               <UploadButton
                 size='big'
                 onChangeAccount={this.onChangeAccount}
@@ -118,21 +118,21 @@ export class Editor extends React.PureComponent<Props, State> {
     const address = currentPair.address();
 
     return (
-      <div className={'accounts--flex-group-row'}>
-        <div className={'accounts--flex-container-col-summary'}>
-          <div className={'accounts--flex-item'}>
+      <div className='accounts--flex-group-row'>
+        <div className='accounts--flex-container-col-summary'>
+          <div className='accounts--flex-item'>
             <AddressSummary
               className='shrink'
               value={address}
             />
           </div>
-          <div className={'accounts--flex-item-file'}>
+          <div className='accounts--flex-item-file'>
             <DownloadButton address={address} />
           </div>
           <UploadButton onChangeAccount={this.onChangeAccount} />
         </div>
-        <div className={'accounts--flex-container-col-inputs'}>
-          <div className={'accounts--flex-item'}>
+        <div className='accounts--flex-container-col-inputs'>
+          <div className='accounts--flex-item'>
             <InputAddress
               className='full'
               defaultValue={defaultValue}
@@ -146,7 +146,7 @@ export class Editor extends React.PureComponent<Props, State> {
               value={address}
             />
           </div>
-          <div className={'accounts--flex-item'}>
+          <div className='accounts--flex-item'>
             <Input
               className='full'
               isEditable

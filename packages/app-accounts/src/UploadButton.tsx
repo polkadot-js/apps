@@ -130,16 +130,16 @@ export class UploadButton extends React.PureComponent<Props, State> {
     const address = uploadedFileKeyringPair && uploadedFileKeyringPair.address;
 
     return (
-      <div className={'accounts--Address-upload'}>
+      <div className='accounts--Address-upload'>
         <Modal
           dimmer='inverted'
           open={address && isPasswordModalOpen ? true : false}
           onClose={this.hidePasswordModal}
-          size={'mini'}
+          size='mini'
         >
           <Modal.Content>
             <div className='ui--grid'>
-              <div className={'accounts--Address-modal'}>
+              <div className='accounts--Address-modal'>
                 <AddressMini isShort value={address} />
                 <div className='accounts--Address-modal-message expanded'>
                   <p>
@@ -155,11 +155,11 @@ export class UploadButton extends React.PureComponent<Props, State> {
           </Modal.Content>
         </Modal>
         <File
-          className={'ui--Param-File-account'}
+          className='ui--Param-File-account'
           withLabel
-          label={'upload account'}
+          label='upload account'
           onChange={this.handleUploadedFiles}
-          acceptedFormats={'.json'}
+          acceptedFormats='.json'
           shouldDisplayFile={false}
         />
       </div>
