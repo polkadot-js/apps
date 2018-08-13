@@ -24,7 +24,17 @@ type Props = I18nProps & {
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { className, democracyLaunchPeriod, democracyNextTally, democracyProposalCount, democracyReferendumCount, democracyVotingPeriod, style, t } = this.props;
+    const { className, democracyLaunchPeriod, democracyNextTally = new BN(0), democracyProposalCount, democracyReferendumCount = new BN(0), democracyVotingPeriod, style, t } = this.props;
+
+    console.error('Summary', [democracyReferendumCount, democracyNextTally].map((bn) => {
+      return bn ? bn.toNumber() : null;
+    }));
+
+    if (democracyReferendumCount.gt(democracyNextTally)) {
+      console.error('numbers', [...Array(democracyReferendumCount.sub(democracyNextTally).toNumber())].map((_, i) =>
+        democracyNextTally.addn(i).toNumber()
+      ));
+    }
 
     return (
       <div
@@ -32,15 +42,15 @@ class Summary extends React.PureComponent<Props> {
         style={style}
       >
         <div className='democracy--Summary-column'>
-          <CardSummary label={t('summary.referendumCount', {
-            defaultValue: 'referendums'
-          })}>
-            {numberFormat(democracyReferendumCount)}
-          </CardSummary>
           <CardSummary label={t('summary.proposalCount', {
             defaultValue: 'proposals'
           })}>
             {numberFormat(democracyProposalCount)}
+          </CardSummary>
+          <CardSummary label={t('summary.referendumCount', {
+            defaultValue: 'referendums'
+          })}>
+            {numberFormat(democracyReferendumCount)}
           </CardSummary>
           <CardSummary label={t('summary.active', {
             defaultValue: 'active num'

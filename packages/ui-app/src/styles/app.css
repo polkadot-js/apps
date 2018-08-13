@@ -16,3 +16,9 @@ body {
   font-family: sans-serif;
   height: 100%;
 }
+
+h1 {
+  color: rgba(0, 0, 0, .6);
+  font-weight: 400;
+  text-transform: lowercase;
+}

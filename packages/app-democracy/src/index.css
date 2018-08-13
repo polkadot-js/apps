@@ -27,3 +27,8 @@
   flex: 0 1 auto;
   text-align: left;
 }
+
+.democracy--Proposals,
+.democracy--Referendums {
+  margin-bottom: 2rem;
+}

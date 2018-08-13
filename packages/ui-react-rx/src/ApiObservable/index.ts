@@ -83,6 +83,10 @@ export default class ObservableApi implements ObservableApiInterface {
     return this.api.chain.subscribeNewHead();
   }
 
+  democracyDepositOf = (index: BN): Observable<[BN, Array<string>] | undefined> => {
+    return this.rawStorage(storage.democracy.public.depositOf, index);
+  }
+
   democracyLaunchPeriod = (): Observable<OptBN> => {
     return this.rawStorage(storage.democracy.public.launchPeriod);
   }
@@ -92,29 +96,42 @@ export default class ObservableApi implements ObservableApiInterface {
   }
 
   democracyProposals = (): Observable<Array<Proposal>> => {
-    return this.rawStorage(storage.democracy.public.proposals);
+    return this
+      .rawStorage(storage.democracy.public.proposals)
+      .pipe((map((proposals: Array<Proposal> = []) =>
+        proposals
+      ))
+    );
   }
 
   democracyProposalCount = (): Observable<number> => {
-    return this.democracyProposals().pipe(map((proposals: Array<Proposal> = []) => {
-      console.error(proposals);
-      return proposals.length;
-    }));
+    return this.democracyProposals().pipe(map((proposals: Array<Proposal>) =>
+      proposals.length
+    ));
   }
 
   democracyReferendumCount = (): Observable<OptBN> => {
     return this.rawStorage(storage.democracy.public.referendumCount);
   }
 
-  democracyReferendumInfoOf = (index: BN): Observable<Referendum> => {
+  democracyReferendumInfoOf = (index: BN | number): Observable<Referendum> => {
+    console.error('democracyReferendumInfoOf', index);
+
     return this.rawStorage(storage.democracy.public.referendumInfoOf, index);
   }
 
-  democracyReferendumInfos = (indexes: Array<BN>): Observable<Array<Referendum>> => {
+  democracyReferendumInfos = (indexes: Array<number>): Observable<Array<Referendum>> => {
+    console.error('democracyReferendumInfos', indexes);
+
     return this.combine(
       indexes.map((index) =>
         this.democracyReferendumInfoOf(index)
-      )
+      ),
+      (referendums: Array<Referendum> = []): Array<Referendum> => {
+        console.error('referendums', referendums);
+
+        return referendums;
+      }
     );
   }
 
@@ -125,15 +142,17 @@ export default class ObservableApi implements ObservableApiInterface {
         this.democracyNextTally()
       ]
     ).pipe(
-      concatMap(([referendumCount, nextTally]: [OptBN, OptBN]): Observable<Array<Referendum>> =>
-        referendumCount && nextTally
+      concatMap(([referendumCount, nextTally]: [OptBN, OptBN]): Observable<Array<Referendum>> => {
+        console.error('democracyReferendumsActive', JSON.stringify({ referendumCount, nextTally }));
+
+       return referendumCount && nextTally && referendumCount.gt(nextTally) && referendumCount.gtn(0)
           ? this.democracyReferendumInfos(
             [...Array(referendumCount.sub(nextTally).toNumber())].map((_, i) =>
-              nextTally.addn(i)
+              nextTally.addn(i).toNumber()
             )
           )
           : EMPTY
-      ),
+      }),
       defaultIfEmpty([])
     );
   }
