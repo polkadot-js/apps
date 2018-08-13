@@ -11,6 +11,7 @@ import translate from './translate';
 import { Trans } from 'react-i18next';
 import isUndefined from '@polkadot/util/is/undefined';
 import keyring from '@polkadot/ui-keyring/index';
+import arrayContainsArray from '@polkadot/ui-app/util/arrayContainsArray';
 
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import Button from '@polkadot/ui-app/Button';
@@ -56,14 +57,18 @@ export class UploadButton extends React.PureComponent<Props, State> {
       try {
         if (!isUndefined(e) && e.target !== null) {
           const fileContents: any = JSON.parse(e.target.result);
+          const expectedJsonProperties = ['address', 'encoding', 'meta'];
+          const actualJsonProperties = Object.keys(fileContents);
 
-          if (Object.keys(fileContents).includes('address' && 'encoding' && 'meta')) {
+          if (arrayContainsArray(actualJsonProperties, expectedJsonProperties)) {
             const json: KeyringPair$Json | undefined = fileContents;
 
             keyring.loadAccount(json as KeyringPair$Json);
 
             // Store uploaded wallet in state and open modal to get their password for it
             this.setState({ uploadedFileKeyringPair: json }, () => this.showPasswordModal());
+          } else {
+            throw Error('Unable to load account with invalid JSON property names');
           }
         }
       } catch (e) {
