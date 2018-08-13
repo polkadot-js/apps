@@ -34,7 +34,7 @@ type Props = I18nProps & BareProps & {
   onChangeAccount: any
 };
 
-class UploadButton extends React.PureComponent<Props, State> {
+export class UploadButton extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
