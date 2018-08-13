@@ -27,7 +27,10 @@ export default class Notification extends React.PureComponent<Props> {
 
     return (
       <div className='ui--Notifications'>
-        <Message size={size} error={!isUndefined(error)}>
+        <Message
+          size={size}
+          error={!!error}
+        >
           {error}
         </Message>
       </div>
