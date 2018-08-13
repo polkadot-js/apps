@@ -106,11 +106,11 @@ export default function withObservable<T> (observable: ObservableApiNames, { onC
       }
 
       render () {
+        const { children } = this.props;
         const { rxUpdated, rxUpdatedAt, value } = this.state;
         const _props = {
           ...defaultProps,
           ...this.props,
-          children: render && render(value),
           rxUpdated,
           rxUpdatedAt,
           [propName]: value
@@ -119,7 +119,9 @@ export default function withObservable<T> (observable: ObservableApiNames, { onC
         delete _props.onChange;
 
         return (
-          <Inner {..._props} />
+          <Inner {..._props}>
+            {render && render(value)}{children}
+          </Inner>
         );
       }
     }

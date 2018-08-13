@@ -11,6 +11,7 @@ import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import isBn from '@polkadot/util/is/bn';
+import isNull from '@polkadot/util/is/null';
 import isU8a from '@polkadot/util/is/u8a';
 import isUndefined from '@polkadot/util/is/undefined';
 
@@ -45,7 +46,7 @@ function accountToText (address: string): React.ReactNode {
       size={24}
       value={address}
     />,
-    address
+    div({ key: 'address' }, address)
   );
 }
 
@@ -144,7 +145,9 @@ function valueToText (type: Param$Types, value: any, swallowError: boolean = tru
     }
   }
 
-  return div({}, value.toString());
+  return isNull(value) || isUndefined(value)
+    ? unknown
+    : div({}, value.toString());
 }
 
 export default valueToText;

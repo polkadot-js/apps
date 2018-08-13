@@ -24,7 +24,7 @@
   align-items: center;
   box-sizing: border-box;
   display: flex;
-  flex: 1 25%;
+  flex: 1 33%;
   font-size: 3rem;
   font-weight: 100;
 }
@@ -36,7 +36,7 @@
 
 .explorer--BlockHeader > .details {
   box-sizing: border-box;
-  flex: 1 75%;
+  flex: 1 67%;
   text-align: left;
 }
 

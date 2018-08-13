@@ -52,21 +52,17 @@ export default class ObservableApi implements ObservableApiInterface {
   rawStorage = <T> (key: SectionItem<Storages>, ...params: Array<any>): Observable<T> => {
     return this
       .rawStorageMulti([key, ...params] as KeyWithParams)
-      .pipe(
-        map(([result]: Array<T>): T =>
-          result
-        )
-      );
+      .pipe(map(([result]: Array<T>): T =>
+        result
+      ));
   }
 
   rawStorageMulti = <T> (...keys: Array<KeyWithParams>): Observable<T> => {
     return this.api.state
       .subscribeStorage(keys)
-      .pipe(
-        map((result?: any) =>
-          result || []
-        )
-      );
+      .pipe(map((result?: any) =>
+        result || []
+      ));
   }
 
   bestNumber = (): Observable<OptBN> => {
@@ -235,21 +231,17 @@ export default class ObservableApi implements ObservableApiInterface {
   sessionValidators = (): Observable<Array<string>> => {
     return this
       .rawStorage(storage.session.public.validators)
-      .pipe(
-        map((validators: Array<string> = []) =>
-          validators
-        )
-      );
+      .pipe(map((validators: Array<string> = []) =>
+        validators
+      ));
   }
 
   stakingIntentions = (): Observable<Array<string>> => {
     return this
       .rawStorage(storage.staking.public.intentions)
-      .pipe(
-        map((intentions: Array<string> = []) =>
-          intentions
-        )
-      );
+      .pipe(map((intentions: Array<string> = []) =>
+        intentions
+      ));
   }
 
   stakingFreeBalanceOf = (address: string): Observable<OptBN> => {
@@ -259,11 +251,9 @@ export default class ObservableApi implements ObservableApiInterface {
   stakingNominatorsFor = (address: string): Observable<Array<string>> => {
     return this
       .rawStorage(storage.staking.public.nominatorsFor, address)
-      .pipe(
-        map((nominators: Array<string> = []) =>
-          nominators
-        )
-      );
+      .pipe(map((nominators: Array<string> = []) =>
+        nominators
+      ));
   }
 
   stakingNominating = (address: string): Observable<string | undefined> => {

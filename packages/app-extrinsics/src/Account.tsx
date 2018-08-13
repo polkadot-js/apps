@@ -41,8 +41,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, defaultValue, isDisabled, isError, isInput, label, style, t, type, withLabel } = this.props;
-    const { publicKey } = this.state;
+    const { className, defaultValue, isDisabled, isError, isInput, label, style, type, withLabel } = this.props;
 
     return (
       <div
@@ -62,23 +61,36 @@ class Account extends React.PureComponent<Props, State> {
             withLabel={withLabel}
           />
         </div>
-        <Labelled
-          className='small'
-          label={t('account.balance', {
-            defaultValue: 'with an available balance of'
-          })}
-          withLabel={withLabel}
-        >
-          <Balance
-            className='ui disabled dropdown selection'
-            params={publicKey}
-          />
-        </Labelled>
+        {this.renderBalance()}
       </div>
     );
   }
 
-  onChange = (publicKey: Uint8Array): void => {
+  private renderBalance (): React.ReactNode {
+    const { t, withLabel } = this.props;
+    const { publicKey } = this.state;
+
+    if (!publicKey) {
+      return null;
+    }
+
+    return (
+      <Labelled
+        className='small'
+        label={t('account.balance', {
+          defaultValue: 'with an available balance of'
+        })}
+        withLabel={withLabel}
+      >
+        <Balance
+          className='ui disabled dropdown selection'
+          params={publicKey}
+        />
+      </Labelled>
+    );
+  }
+
+  private onChange = (publicKey: Uint8Array): void => {
     const { onChange } = this.props;
 
     this.setState({ publicKey }, () =>

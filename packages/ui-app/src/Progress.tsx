@@ -27,13 +27,13 @@ export default class Progress extends React.PureComponent<Props> {
     const { className, color = 'blue', percent, total, style, value } = this.props;
     let calculated: number | undefined;
 
-    if (!isUndefined(total) && !isUndefined(value)) {
+    if (!isUndefined(value) && !isUndefined(total) && (isBn(total) ? total.gtn(0) : total > 0)) {
       calculated = 100.0 * (isBn(value) ? value.toNumber() : value) / (isBn(total) ? total.toNumber() : total);
     } else {
       calculated = isBn(percent) ? percent.toNumber() : percent;
     }
 
-    if (isUndefined(calculated)) {
+    if (isUndefined(calculated) || calculated < 0) {
       return null;
     }
 
