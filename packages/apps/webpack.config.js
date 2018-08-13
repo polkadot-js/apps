@@ -10,7 +10,25 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const packages = ['app-accounts', 'app-addresses', 'app-example', 'app-explorer', 'app-extrinsics', 'app-rpc', 'app-staking', 'app-storage', 'app-toolbox', 'app-vanitygen', 'ui-app', 'ui-identicon', 'ui-keyring', 'ui-react-rx', 'ui-react', 'ui-signer'];
+const packages = [
+  'app-accounts',
+  'app-addresses',
+  'app-democracy',
+  'app-example',
+  'app-explorer',
+  'app-extrinsics',
+  'app-rpc',
+  'app-staking',
+  'app-storage',
+  'app-toolbox',
+  'app-vanitygen',
+  'ui-app',
+  'ui-identicon',
+  'ui-keyring',
+  'ui-react-rx',
+  'ui-react',
+  'ui-signer'
+];
 
 function createWebpack ({ alias = {}, context, name = 'index' }) {
   const pkgJson = require(path.join(context, 'package.json'));

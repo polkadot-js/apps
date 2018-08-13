@@ -7,7 +7,7 @@ import { RxApiInterface, RxApiInterface$Method } from '@polkadot/api-rx/types';
 import { Interfaces } from '@polkadot/jsonrpc/types';
 import { SectionItem } from '@polkadot/params/types';
 import { Storages } from '@polkadot/storage/types';
-import { ExtendedBalance, ExtendedBalanceMap, ObservableApiInterface, KeyWithParams } from './types';
+import { ExtendedBalance, ExtendedBalanceMap, ObservableApiInterface, KeyWithParams, ReferendumVotes } from './types';
 
 import BN from 'bn.js';
 import { Observable, combineLatest } from 'rxjs';
@@ -18,6 +18,7 @@ import assert from '@polkadot/util/assert';
 type OptBN = BN | undefined;
 type OptDate = Date | undefined;
 type MapFn<R, T> = (combined: R) => T;
+type Referendum = [BN, any, BN];
 
 const defaultMapFn = (result: any): any =>
   result;
@@ -77,6 +78,93 @@ export default class ObservableApi implements ObservableApiInterface {
 
   chainNewHead = (): Observable<Header | undefined> => {
     return this.api.chain.subscribeNewHead();
+  }
+
+  democracyLaunchPeriod = (): Observable<OptBN> => {
+    return this.rawStorage(storage.democracy.public.launchPeriod);
+  }
+
+  democracyNextTally = (): Observable<OptBN> => {
+    return this.rawStorage(storage.democracy.public.nextTally);
+  }
+
+  democracyReferendumCount = (): Observable<OptBN> => {
+    return this.rawStorage(storage.democracy.public.referendumCount);
+  }
+
+  democracyReferendumInfoOf = (index: BN): Observable<Referendum> => {
+    return this.rawStorage(storage.democracy.public.referendumInfoOf, index);
+  }
+
+  democacyVoteOf = (index: BN, address: string): Observable<boolean> => {
+    return this
+      .rawStorage(storage.democracy.public.votersFor, index, address)
+      .pipe(map((intentions: Array<string> = []) =>
+        intentions
+      ));
+  }
+
+  democracyVotesOf = (index: BN, addresses: Array<string>): Observable<boolean> => {
+    return this.combine(
+      addresses.map((address) =>
+        this.democacyVoteOf(index, address)
+      )
+    );
+  }
+
+  democacyVotersFor = (index: BN): Observable<Array<string>> => {
+    return this
+      .rawStorage(storage.democracy.public.votersFor, index)
+      .pipe(map((voters: Array<string> = []) =>
+        voters
+      ));
+  }
+
+  democracyVotersBalancesOf = (index: BN): Observable<Array<BN>> => {
+    return this.democacyVotersFor(index).pipe(
+      concatMap((voters: Array<string>) =>
+        this.votingBalances(...voters)
+      ),
+      defaultIfEmpty([]),
+      map((balances: Array<ExtendedBalance>) =>
+        balances.map(({ votingBalance }) =>
+          votingBalance
+        )
+      )
+    );
+  }
+
+  democracyVotersVotesOf = (index: BN): Observable<Array<boolean>> => {
+    return this.democacyVotersFor(index).pipe(
+      concatMap((voters: Array<string>) =>
+        this.democracyVotesOf(index, voters)
+      ),
+      defaultIfEmpty([])
+    );
+  }
+
+  democracyVotersInfoOf = (index: BN): Observable<ReferendumVotes> => {
+    return this.combine(
+      [
+        this.democacyVotersFor(index),
+        this.democracyVotersBalancesOf(index),
+        this.democracyVotersVotesOf(index)
+      ],
+      ([voters, balances, votes]: [Array<string>, Array<BN>, Array<boolean>]): ReferendumVotes =>
+        voters.reduce((info, address, index) => {
+          info[address] = {
+            address,
+            balance: balances[index] || new BN(0),
+            vote: votes[index] || false
+          };
+
+          return info;
+        }, {} as ReferendumVotes)
+    );
+  }
+
+  democracyVotingPeriod = (): Observable<OptBN> => {
+    return this.rawStorage(storage.democracy.public.votingPeriod);
   }
 
   eraBlockLength = (): Observable<OptBN> => {

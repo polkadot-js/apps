@@ -4,7 +4,7 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueProps } from '@polkadot/ui-signer/types';
-import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
+import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
 
 import React from 'react';
 import classes from '@polkadot/ui-app/util/classes';

@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
-import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
+import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
 
 import React from 'react';
 import Page from '@polkadot/ui-app/Page';

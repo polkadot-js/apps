@@ -7,7 +7,7 @@ import { Extrinsics } from '@polkadot/extrinsics/types';
 import { SectionItem } from '@polkadot/params/types';
 import { RawParam$Value } from '@polkadot/ui-app/Params/types';
 import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/types';
-import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
+import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
 
 import BN from 'bn.js';
 import React from 'react';

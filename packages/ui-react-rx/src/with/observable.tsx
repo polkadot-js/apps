@@ -4,7 +4,8 @@
 
 // TODO: Lots of duplicated code between this and withObservable, surely there ois a better way of doing this?
 
-import { RxProps, ObservableApiNames } from '../types';
+import { ObservableApiNames } from '../ApiObservable/types';
+import { RxProps } from '../types';
 import { HOC, Options, DefaultProps, RenderFn } from './types';
 
 import React from 'react';

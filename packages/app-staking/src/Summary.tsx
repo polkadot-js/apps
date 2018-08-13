@@ -3,7 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps, ExtendedBalance, ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
+import { ExtendedBalance, ExtendedBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
+import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import BN from 'bn.js';
 import React from 'react';
