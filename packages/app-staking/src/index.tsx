@@ -50,8 +50,5 @@ export default withMulti(
   App,
   withObservable('stakingIntentions'),
   withObservable('sessionValidators'),
-  withObservable(
-    'validatingBalances',
-    { paramProp: 'stakingIntentions' }
-  )
+  withObservable('validatingBalances', { paramProp: 'stakingIntentions' })
 );
