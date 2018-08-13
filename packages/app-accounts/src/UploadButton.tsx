@@ -52,7 +52,6 @@ export class UploadButton extends React.PureComponent<Props, State> {
     }
 
     const blob = new Blob([fileBytes], { type: 'text/plain;charset=utf-8' });
-
     const fileReader = new FileReader();
 
     fileReader.onload = (e) => {
