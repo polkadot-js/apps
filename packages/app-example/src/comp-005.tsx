@@ -9,12 +9,11 @@ import React from 'react';
 
 import storage from '@polkadot/storage';
 import withApi from '@polkadot/ui-react-rx/with/api';
-import encodeAddress from '@polkadot/util-keyring/address/encode';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Balance from '@polkadot/ui-react-rx/Balance';
 
-type StorageProposal = [BN, any, Uint8Array];
-type StorageIntentions = Array<Uint8Array>;
+type StorageProposal = [BN, any, string];
+type StorageIntentions = Array<string>;
 
 type StateProposals = {
   [index: string]: number[]
@@ -52,9 +51,7 @@ class Comp extends React.PureComponent<ApiProps, State> {
     return api.state
       .getStorage(storage.staking.public.intentions)
       .subscribe((intentions: StorageIntentions) => {
-        this.setState({
-          intentions: intentions.map(encodeAddress)
-        });
+        this.setState({ intentions });
       });
   }
 
@@ -66,12 +63,10 @@ class Comp extends React.PureComponent<ApiProps, State> {
       .subscribe((value: Array<StorageProposal>) => {
         this.setState({
           proposals: value.reduce((proposals: StateProposals, [propIdx, proposal, accountId]) => {
-            const address = encodeAddress(accountId);
-
-            if (!proposals[address]) {
-              proposals[address] = [propIdx.toNumber()];
+            if (!proposals[accountId]) {
+              proposals[accountId] = [propIdx.toNumber()];
             } else {
-              proposals[address].push(propIdx.toNumber());
+              proposals[accountId].push(propIdx.toNumber());
             }
 
             return proposals;

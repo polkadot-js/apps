@@ -14,7 +14,6 @@ import { Observable, combineLatest } from 'rxjs';
 import { concatMap, defaultIfEmpty, map } from 'rxjs/operators';
 import storage from '@polkadot/storage';
 import assert from '@polkadot/util/assert';
-import encodeAddress from '@polkadot/util-keyring/address/encode';
 
 type OptBN = BN | undefined;
 type OptDate = Date | undefined;
@@ -237,9 +236,8 @@ export default class ObservableApi implements ObservableApiInterface {
     return this
       .rawStorage(storage.session.public.validators)
       .pipe(
-        map((validators: Array<Uint8Array> = []) =>
-          // FIXME: Remove as soon as storage returns encoded
-          validators.map(encodeAddress)
+        map((validators: Array<string> = []) =>
+          validators
         )
       );
   }
@@ -248,9 +246,8 @@ export default class ObservableApi implements ObservableApiInterface {
     return this
       .rawStorage(storage.staking.public.intentions)
       .pipe(
-        map((intentions: Array<Uint8Array> = []) =>
-          // FIXME: Remove as soon as storage returns encoded
-          intentions.map(encodeAddress)
+        map((intentions: Array<string> = []) =>
+          intentions
         )
       );
   }
@@ -263,24 +260,14 @@ export default class ObservableApi implements ObservableApiInterface {
     return this
       .rawStorage(storage.staking.public.nominatorsFor, address)
       .pipe(
-        map((nominators: Array<Uint8Array> = []) =>
-          // FIXME: Remove as soon as storage returns encoded
-          nominators.map(encodeAddress)
+        map((nominators: Array<string> = []) =>
+          nominators
         )
       );
   }
 
   stakingNominating = (address: string): Observable<string | undefined> => {
-    return this
-      .rawStorage(storage.staking.public.nominating, address)
-      .pipe(
-        // FIXME: Remove as soon as storage returns encoded
-        map((address?: Uint8Array) =>
-          address
-            ? encodeAddress(address)
-            : undefined
-        )
-      );
+    return this.rawStorage(storage.staking.public.nominating, address);
   }
 
   stakingReservedBalanceOf = (address: string): Observable<OptBN> => {

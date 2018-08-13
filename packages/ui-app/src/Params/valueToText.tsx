@@ -9,7 +9,6 @@ import './Params.css';
 import React from 'react';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
-import addressEncode from '@polkadot/util-keyring/address/encode';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import isBn from '@polkadot/util/is/bn';
 import isU8a from '@polkadot/util/is/u8a';
@@ -37,9 +36,7 @@ function div ({ key, className }: DivProps, ...values: Array<React.ReactNode>): 
   );
 }
 
-function accountToText (publicKey: Uint8Array): React.ReactNode {
-  const address = addressEncode(publicKey);
-
+function accountToText (address: string): React.ReactNode {
   return div(
     { className: 'nowrap', key: `account_${address}` },
     <IdentityIcon
@@ -120,7 +117,7 @@ function valueToText (type: Param$Types, value: any, swallowError: boolean = tru
 
     if (type === 'AccountId') {
       return value && value.length
-        ? accountToText(value as Uint8Array)
+        ? accountToText(value as string)
         : unknown;
     }
 
