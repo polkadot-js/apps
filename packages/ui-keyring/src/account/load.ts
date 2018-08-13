@@ -11,7 +11,7 @@ export default function accountLoad (state: State, json: KeyringPair$Json): Keyr
   const _address = json.address;
 
   if (!_address) {
-    return;
+    throw Error('Unable to load account without JSON containing an address');
   }
 
   try {
@@ -19,6 +19,6 @@ export default function accountLoad (state: State, json: KeyringPair$Json): Keyr
 
     return pair;
   } catch (error) {
-    console.error('Unable to load account');
+    console.error('Unable to load account from memory', error);
   }
 }

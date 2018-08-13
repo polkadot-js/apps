@@ -16,14 +16,13 @@ export default function accountBackup (state: State, _address: string, password:
   let jsonDecrypted = undefined;
 
   if (!_address || !password) {
-    console.error('Missing address or password');
-    return;
+    throw Error('Unable to load account without JSON containing address or password');
   }
 
   const pair = keyring.getPair(_address);
 
   if (!pair) {
-    return;
+    throw Error('Unable to load account from memory using the JSON address');
   }
 
   try {

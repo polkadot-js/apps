@@ -21,7 +21,7 @@ export default function accountRestore (state: State, json: KeyringPair$Json, pa
   const pair = accountLoad(state, json);
 
   if (!_address || !pair) {
-    return;
+    throw Error('Unable to load account to restore from memory using the JSON address');
   }
 
   try {
@@ -33,6 +33,6 @@ export default function accountRestore (state: State, json: KeyringPair$Json, pa
 
     return pair;
   } catch (error) {
-    console.error('Unable to restore account when invalid password provided');
+    console.error('Unable to restore account when invalid password provided', error);
   }
 }
