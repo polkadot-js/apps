@@ -26,7 +26,6 @@ export default function accountRestore (state: State, json: KeyringPair$Json, pa
 
   try {
     pair.decodePkcs8(password);
-
     store.set(accountKey(_address), json);
 
     createOptions(state);
