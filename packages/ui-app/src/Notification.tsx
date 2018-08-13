@@ -7,7 +7,6 @@ import { BareProps } from './types';
 import React from 'react';
 
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message/index';
-import isUndefined from '@polkadot/util/is/undefined';
 
 type SemanticMessageSizes = 'mini' | 'tiny' | 'small' | 'large' | 'big' | 'huge' | 'massive';
 
