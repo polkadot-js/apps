@@ -72,7 +72,7 @@ export class UploadButton extends React.PureComponent<Props, State> {
       } catch (e) {
         console.error('Error uploading file: ', e);
         this.setState({
-          error: React.createElement('div', null, t('error', { defaultValue: 'Unable to upload account from file' }))
+          error: 'Unable to upload account from file'
         });
       }
     };
@@ -102,13 +102,13 @@ export class UploadButton extends React.PureComponent<Props, State> {
         onChangeAccount(pairRestored.publicKey());
       } else {
         this.setState({
-          error: React.createElement('div', null, t('error', { defaultValue: 'Unable to upload account into memory' }))
+          error: 'Unable to upload account into memory'
         });
       }
     } catch (e) {
       console.error('Error processing uploaded file to local storage: ', e);
       this.setState({
-        error: React.createElement('div', null, t('error', { defaultValue: 'Unable to upload account into memory' }))
+        error: 'Unable to upload account into memory'
       });
     }
   }
