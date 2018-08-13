@@ -29,7 +29,7 @@ type State = {
   isEdited: boolean
 };
 
-class Editor extends React.PureComponent<Props, State> {
+export class Editor extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
