@@ -43,7 +43,6 @@ export class DownloadButton extends React.PureComponent<Props, State> {
   }
 
   handleDownloadAccount = (): void => {
-    const { t } = this.props;
     const { address, password } = this.state;
 
     if (!address) {

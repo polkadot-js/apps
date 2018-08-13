@@ -44,8 +44,6 @@ export class UploadButton extends React.PureComponent<Props, State> {
   }
 
   handleUploadedFiles = (fileBytes: Uint8Array): void => {
-    const { t } = this.props;
-
     if (!fileBytes || !fileBytes.length) {
       console.error('Error retrieving file list');
       return;
@@ -81,7 +79,7 @@ export class UploadButton extends React.PureComponent<Props, State> {
 
   processUploadedFileStorage = (): void => {
     const { password, uploadedFileKeyringPair } = this.state;
-    const { t, onChangeAccount } = this.props;
+    const { onChangeAccount } = this.props;
 
     if (isUndefined(uploadedFileKeyringPair) || !uploadedFileKeyringPair.address) {
       return;
@@ -162,7 +160,6 @@ export class UploadButton extends React.PureComponent<Props, State> {
           label='upload account'
           onChange={this.handleUploadedFiles}
           acceptedFormats='.json'
-          shouldDisplayFile={false}
         />
       </div>
     );
