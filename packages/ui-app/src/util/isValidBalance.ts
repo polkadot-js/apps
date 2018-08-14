@@ -12,9 +12,9 @@ const re = RegExp('^[0-9]+[0-9]*$');
 
 export default function isValidBalance (input: any, chain: string): boolean {
   if (!(typeof input === 'string')) {
-    throw Error('Input value must be of string type');
-  } else if (input.indexOf('e') !== -1) {
-    throw Error('Input value must not be in scientific notation');
+    throw Error('Balance input value must be of string type');
+  } else if (input.indexOf('e+') !== -1) {
+    throw Error('Balance input value must not be in scientific notation');
   }
 
   // apiSupport.chain is either 'poc-1' (64 bit) or 'latest' (128 bit)
