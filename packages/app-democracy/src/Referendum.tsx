@@ -17,6 +17,7 @@ import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 
 import Item from './Item';
+import Voting from './Voting';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -85,8 +86,8 @@ class Referendum extends React.PureComponent<Props, State> {
         proposalExtra={this.renderExtra()}
         style={style}
       >
+        <Voting referendumId={idNumber} />
         {this.renderResults()}
-        {this.renderVoting()}
       </Item>
     );
   }
@@ -128,13 +129,7 @@ class Referendum extends React.PureComponent<Props, State> {
     const { voteCount, votedYay, votedNay } = this.state;
 
     if (voteCount === 0) {
-      return (
-        <div className='democracy--Referendum-results'>
-          {t('referendum.noVotes', {
-            defaultValue: 'No votes found for this referendum'
-          })}
-        </div>
-      );
+      return null;
     }
 
     return (
@@ -145,10 +140,6 @@ class Referendum extends React.PureComponent<Props, State> {
         ]} />
       </div>
     );
-  }
-
-  private renderVoting () {
-    return 'extra voting stuff goes here';
   }
 }
 

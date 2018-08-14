@@ -27,7 +27,7 @@ class Referendums extends React.PureComponent<Props> {
         style={style}
       >
         <h1>{t('referendums.header', {
-          defaultValue: 'Active referendums'
+          defaultValue: 'referendums'
         })}</h1>
         {this.renderReferendums()}
       </div>

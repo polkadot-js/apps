@@ -27,7 +27,7 @@ class Proposals extends React.PureComponent<Props> {
         style={style}
       >
         <h1>{t('proposals.header', {
-          defaultValue: 'Incomming proposals'
+          defaultValue: 'proposals'
         })}</h1>
         {this.renderProposals()}
       </div>

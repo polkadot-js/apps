@@ -14,6 +14,7 @@ export type ButtonProps = BareProps & {
   isCircular?: boolean,
   isDisabled?: boolean,
   isNegative?: boolean,
+  isPositive?: boolean,
   isPrimary?: boolean,
   onClick?: () => void | Promise<void>,
   size?: Button$Sizes,
