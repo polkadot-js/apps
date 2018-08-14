@@ -20,7 +20,7 @@ type Props = I18nProps & {
   isError?: boolean,
   isInput?: boolean,
   label: string,
-  onChange: (publicKey: Uint8Array) => void,
+  onChange?: (publicKey: Uint8Array) => void,
   type?: KeyringOption$Type,
   withLabel?: boolean
 };
@@ -94,7 +94,7 @@ class Account extends React.PureComponent<Props, State> {
     const { onChange } = this.props;
 
     this.setState({ publicKey }, () =>
-      onChange(publicKey)
+      onChange && onChange(publicKey)
     );
   }
 }

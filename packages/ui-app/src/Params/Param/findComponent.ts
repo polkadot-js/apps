@@ -11,8 +11,8 @@ import Bool from './Bool';
 import Bytes from './Bytes';
 import Code from './Code';
 import Hash from './Hash';
-import KeyValue from './KeyValue';
-import KeyValueStorageArray from './KeyValueStorageArray';
+import StorageKeyValue from './StorageKeyValue';
+import StorageKeyValueArray from './StorageKeyValueArray';
 import StringParam from './String';
 import Unknown from './Unknown';
 import VoteThreshold from './VoteThreshold';
@@ -23,14 +23,14 @@ const components: ComponentMap = {
   'BlockNumber': Amount,
   'bool': Bool,
   'Bytes': Bytes,
-  'Code': [Code, Bytes],
+  'Code': Code,
   'Call': Unknown,
   'Digest': Unknown,
   'Hash': Hash,
   'Index': Amount,
-  'KeyValue': KeyValue,
-  'KeyValueStorage': KeyValue,
-  'KeyValueStorage[]': KeyValueStorageArray,
+  'KeyValue': StorageKeyValue,
+  'StorageKeyValue': StorageKeyValue,
+  'StorageKeyValue[]': StorageKeyValueArray,
   'MisbehaviorReport': Unknown,
   'ParachainId': Amount,
   'PropIndex': Amount,
@@ -64,11 +64,7 @@ function getFromMap (type: Param$Types, overrides: ComponentMap): React.Componen
 export default function findComponent (type: Param$Types, overrides: ComponentMap = {}, isDisabled: boolean = false): React.ComponentType<Props> {
   const component = getFromMap(type, overrides);
 
-  if (Array.isArray(component)) {
-    return isDisabled
-      ? component[1]
-      : component[0];
-  }
-
-  return component;
+  return Array.isArray(component)
+    ? component[0]
+    : component;
 }

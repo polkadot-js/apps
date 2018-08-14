@@ -21,8 +21,8 @@ export default class Amount extends React.PureComponent<Props> {
         style={style}
       >
         <Input
-          className='small'
-          defaultValue={defaultValue || 0}
+          className={isDisabled ? 'full' : 'small'}
+          defaultValue={defaultValue}
           isDisabled={isDisabled}
           isError={isError}
           label={label}
@@ -38,7 +38,7 @@ export default class Amount extends React.PureComponent<Props> {
   onChange = (value: string): void => {
     const { onChange } = this.props;
 
-    onChange({
+    onChange && onChange({
       isValid: true,
       value: new BN(value || 0)
     });

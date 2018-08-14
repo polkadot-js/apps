@@ -7,7 +7,6 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParam } from '@polkadot/ui-app/Params/types';
 
 import React from 'react';
-import Labelled from '@polkadot/ui-app/Labelled';
 import Params from '@polkadot/ui-app/Params';
 import classes from '@polkadot/ui-app/util/classes';
 
@@ -20,7 +19,7 @@ export type Props = I18nProps & {
 
 class Extrinsic extends React.PureComponent<Props> {
   render () {
-    const { children, className, style, t, value: { extrinsic, params } } = this.props;
+    const { children, className, style, value: { extrinsic, params } } = this.props;
     const values: Array<RawParam> = extrinsic.params.map(({ type }, index) => ({
       isValid: true,
       value: params[index],
@@ -32,22 +31,12 @@ class Extrinsic extends React.PureComponent<Props> {
         className={classes('democracy--Extrinsic', className)}
         style={style}
       >
-        <Labelled label={t('extrinsic.description', {
-          defaultValue: 'description'
-        })}>
-          <div>{extrinsic.description}</div>
-        </Labelled>
-        <Labelled label={t('extrinsic.name', {
-          defaultValue: 'execute'
-        })}>
-          <div>{`${extrinsic.section}.${extrinsic.name}`}</div>
-        </Labelled>
+        {children}
         <Params
           isDisabled
           item={extrinsic}
           values={values}
         />
-        {children}
       </div>
     );
   }

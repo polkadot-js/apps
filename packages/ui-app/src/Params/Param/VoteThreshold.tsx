@@ -35,7 +35,7 @@ export default class VoteThreshold extends React.PureComponent<Props> {
         style={style}
       >
         <Dropdown
-          className='small'
+          className={isDisabled ? 'full' : 'small'}
           defaultValue={defaultValue}
           isDisabled={isDisabled}
           isError={isError}
@@ -51,7 +51,7 @@ export default class VoteThreshold extends React.PureComponent<Props> {
   onChange = (value: number): void => {
     const { onChange } = this.props;
 
-    onChange({
+    onChange && onChange({
       isValid: true,
       value
     });

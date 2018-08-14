@@ -4,15 +4,18 @@
 
 import { TranslationFunction } from 'i18next';
 import { KeyValue } from '@polkadot/params/types';
-import { Props as BaseProps } from '../types';
+import { Props as BaseProps, RawParam } from '../types';
 
 import React from 'react';
 import assert from '@polkadot/util/assert';
 import isHex from '@polkadot/util/is/hex';
 import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
 import toU8a from '@polkadot/util/u8a/toU8a';
+import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import translate from '../../translate';
+import Base from './Base';
+import Bytes from './Bytes';
 import BytesFile from './File';
 
 type Props = BaseProps & {
@@ -23,7 +26,9 @@ type State = {
   placeholder?: string;
 };
 
-class KeyValueStorageArray extends React.PureComponent<Props, State> {
+type Pairs = Array<KeyValue>;
+
+class StorageKeyValueArray extends React.PureComponent<Props, State> {
   private placeholderEmpty: string;
 
   constructor (props: Props) {
@@ -41,6 +46,10 @@ class KeyValueStorageArray extends React.PureComponent<Props, State> {
     const { className, isDisabled, isError, label, style, withLabel } = this.props;
     const { placeholder } = this.state;
 
+    if (isDisabled) {
+      return this.renderReadOnly();
+    }
+
     return (
       <BytesFile
         className={className}
@@ -55,7 +64,33 @@ class KeyValueStorageArray extends React.PureComponent<Props, State> {
     );
   }
 
-  onChange = (raw: Uint8Array): void => {
+  private renderReadOnly () {
+    const { className, defaultValue: { value }, label, style } = this.props;
+
+    return (
+      <Base
+        className={className}
+        label={label}
+        size='full'
+        style={style}
+      >
+        {(value as Pairs).map(({ key, value }) => {
+          const keyHex = u8aToHex(key);
+
+          return (
+            <Bytes
+              defaultValue={{ value } as RawParam}
+              key={keyHex}
+              label={keyHex}
+              name={keyHex}
+            />
+          );
+        })}
+      </Base>
+    );
+  }
+
+  private onChange = (raw: Uint8Array): void => {
     const { onChange, t } = this.props;
     let value: KeyValue[] = [];
 
@@ -78,7 +113,7 @@ class KeyValueStorageArray extends React.PureComponent<Props, State> {
       });
     }
 
-    onChange({
+    onChange && onChange({
       isValid: value.length !== 0,
       value
     });
@@ -100,4 +135,4 @@ class KeyValueStorageArray extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(KeyValueStorageArray);
+export default translate(StorageKeyValueArray);

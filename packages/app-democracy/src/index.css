@@ -33,10 +33,30 @@
   margin-bottom: 2rem;
 }
 
-.democracy--Item-id {
+.democracy--Item-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.democracy--Item-header-info,
+.democracy--Item-header-id {
+  flex: 1;
+}
+
+.democracy--Item-header-id {
   font-size: 2rem;
   line-height: 2rem;
   text-align: right;
+}
+
+.democracy--Item-header-description {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.democracy--Item-header-name {
+  font-size: 1.2rem;
+  line-height: 1.2rem;
 }
 
 .democracy--Item-body {
@@ -48,7 +68,12 @@
 .democracy--Item-extrinsic,
 .democracy--Item-children {
   flex: 1 0 0;
+  padding: 0 1em;
   text-align: left;
+}
+
+.democracy--Item-extrinsic .ui--Params-Content {
+  padding-left: 0;
 }
 
 .democracy--Extrinsic .ui--Labelled {
@@ -58,4 +83,8 @@
 .democracy--Extrinsic .ui--Labelled .ui.label {
   display: block;
   padding-left: 0;
+}
+
+.democracy--Referendum-info {
+  margin-bottom: 1em;
 }

@@ -19,7 +19,7 @@ type OptBN = BN | undefined;
 type OptDate = Date | undefined;
 type MapFn<R, T> = (combined: R) => T;
 
-type ResultReferendum = [BN, ExtrinsicDecoded, BN];
+type ResultReferendum = [BN, ExtrinsicDecoded, number];
 type ResultProposal = [BN, ExtrinsicDecoded, string];
 
 const defaultMapFn = (result: any): any =>

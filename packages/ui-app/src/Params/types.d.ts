@@ -25,7 +25,7 @@ export type RawParams = Array<RawParam>;
 export type BaseProps = BareProps & {
   defaultValue: RawParam,
   name: string,
-  onChange: RawParam$OnChange
+  onChange?: RawParam$OnChange
 };
 
 export type Props = BaseProps & {

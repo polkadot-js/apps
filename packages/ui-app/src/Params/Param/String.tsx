@@ -36,10 +36,9 @@ export default class StringParam extends React.PureComponent<Props> {
 
   onChange = (value: string): void => {
     const { onChange } = this.props;
-
     const isValid = value.length !== 0;
 
-    onChange({
+    onChange && onChange({
       isValid,
       value
     });

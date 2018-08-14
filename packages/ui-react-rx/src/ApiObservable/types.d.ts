@@ -28,7 +28,7 @@ export type RxReferendum = {
   blockNumber: BN,
   id: BN,
   proposal: ExtrinsicDecoded,
-  voteThreshold: BN
+  voteThreshold: number
 }
 
 export type RxBalanceMap = {

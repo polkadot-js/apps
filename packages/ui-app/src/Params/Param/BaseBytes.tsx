@@ -66,7 +66,7 @@ export default class BaseBytes extends React.PureComponent<Props> {
       : u8a.length !== 0;
     const isValid = isValidLength && validate(u8a);
 
-    onChange({
+    onChange && onChange({
       isValid,
       value: u8aConcat(
         withLength

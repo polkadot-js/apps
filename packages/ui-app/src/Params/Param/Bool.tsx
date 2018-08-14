@@ -25,7 +25,7 @@ export default class Bool extends React.PureComponent<Props> {
         style={style}
       >
         <Dropdown
-          className='small'
+          className={isDisabled ? 'full' : 'small'}
           defaultValue={defaultValue}
           isDisabled={isDisabled}
           isError={isError}
@@ -41,7 +41,7 @@ export default class Bool extends React.PureComponent<Props> {
   onChange = (value: boolean): void => {
     const { onChange } = this.props;
 
-    onChange({
+    onChange && onChange({
       isValid: true,
       value
     });

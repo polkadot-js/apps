@@ -18,7 +18,7 @@ import createValues from './values';
 type Props<S> = I18nProps & {
   isDisabled?: boolean,
   item: S,
-  onChange: (value: RawParams) => void,
+  onChange?: (value: RawParams) => void,
   overrides?: ComponentMap,
   values?: RawParams
 };
@@ -69,7 +69,7 @@ class Params<T, S extends SectionItem<T>> extends React.PureComponent<Props<S>, 
     const { values } = this.state;
 
     if (!isDisabled && prevState.values !== values) {
-      onChange(values);
+      onChange && onChange(values);
     }
   }
 
@@ -80,8 +80,6 @@ class Params<T, S extends SectionItem<T>> extends React.PureComponent<Props<S>, 
     if (!values || values.length === 0 || params.length === 0) {
       return null;
     }
-
-    console.error('Params', params);
 
     return (
       <div
@@ -95,17 +93,13 @@ class Params<T, S extends SectionItem<T>> extends React.PureComponent<Props<S>, 
               isDisabled={isDisabled}
               key={`${name}:${name}:${index}`}
               name={name}
-              onChange={handlers[index] || this.onChangeNone}
+              onChange={handlers[index]}
               overrides={overrides}
             />
           ))}
         </div>
       </div>
     );
-  }
-
-  private onChangeNone = (): void => {
-    // Do nothing
   }
 
   private onChangeParam = (at: number, { isValid = false, value }: RawParam$OnChange$Value): void => {
@@ -139,7 +133,7 @@ class Params<T, S extends SectionItem<T>> extends React.PureComponent<Props<S>, 
       return;
     }
 
-    onChange(values);
+    onChange && onChange(values);
   }
 }
 

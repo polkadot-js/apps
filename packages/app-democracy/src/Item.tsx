@@ -32,8 +32,18 @@ class Item extends React.PureComponent<Props> {
         className={classes('democracy--Item', className)}
         style={style}
       >
-        <div className='democracy--Item-id'>
-          #{numberFormat(idNumber)}
+        <div className='democracy--Item-header'>
+          <div className='democracy--Item-header-info'>
+            <div className='democracy--Item-header-name'>
+              {proposal.extrinsic.section}.{proposal.extrinsic.name}
+            </div>
+            <div className='democracy--Item-header-description'>
+              {proposal.extrinsic.description}
+            </div>
+          </div>
+          <div className='democracy--Item-header-id'>
+            #{numberFormat(idNumber)}
+          </div>
         </div>
         <div className='democracy--Item-body'>
           <Extrinsic

@@ -26,12 +26,20 @@ class Proposal extends React.PureComponent<Props> {
         className={classes('democracy--Proposal', className)}
         idNumber={value.id}
         proposal={value.proposal}
-        proposalExtra='extra extrinsic stuff goes here'
+        proposalExtra={this.renderExtra()}
         style={style}
       >
-        extra seconding stuff goes here
+        {this.renderVoting()}
       </Item>
     );
+  }
+
+  private renderExtra () {
+    return 'extra extrinsic stuff goes here';
+  }
+
+  private renderVoting () {
+    return 'extra seconding stuff goes here';
   }
 }
 

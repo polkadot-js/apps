@@ -16,7 +16,7 @@ type Props = BareProps & {
   isDisabled?: boolean,
   isError?: boolean,
   label: string,
-  onChange: (contents: Uint8Array) => void,
+  onChange?: (contents: Uint8Array) => void,
   placeholder?: string,
   t: TranslationFunction,
   withLabel?: boolean
@@ -87,7 +87,7 @@ class BytesFile extends React.PureComponent<Props, State> {
       reader.onload = ({ target: { result } }: LoadEvent) => {
         const data = new Uint8Array(result);
 
-        onChange(data);
+        onChange && onChange(data);
 
         this.setState({
           file: {
