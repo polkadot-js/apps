@@ -6,14 +6,10 @@ import { EncodingVersions } from '@polkadot/params/types';
 
 import BN from 'bn.js';
 import sizes from '@polkadot/params/sizes';
+import { IsValidWithMessage } from './types';
 
 // RegEx Pattern (positive int): http://regexlib.com/REDetails.aspx?regexp_id=330
 const re = RegExp('^[0-9]+[0-9]*$');
-
-type IsValidWithMessage = {
-  isValid: boolean,
-  errorMessage?: string
-};
 
 export default function isValidBalance (input: any, chain: string): IsValidWithMessage {
   if (!(typeof input === 'string')) {
@@ -46,5 +42,5 @@ export default function isValidBalance (input: any, chain: string): IsValidWithM
     return { isValid: true };
   }
 
-  return { isValid: false, errorMessage: 'Balance is invalid' };
+  return { isValid: false, errorMessage: 'Balance exceeds maximum' };
 }

@@ -1,0 +1,19 @@
+// Copyright 2017-2018 @polkadot/ui-app authors & contributors
+// This software may be modified and distributed under the terms
+// of the ISC license. See the LICENSE file for details.
+
+import { IsValidWithMessage } from './types';
+
+export enum ErrorMessage {
+  BalanceMustBeNumber = 'Balance to transfer in DOTs must be a number',
+  BalanceMinimumRequired = 'Balance of at least 1 DOT to transfer must be provided',
+  BalanceExceedsMaximum = 'Balance exceeds maximum'
+}
+
+export const expectedIsValidResponse = (isValid: boolean = false, errorMessage?: ErrorMessage): IsValidWithMessage => {
+  let response: IsValidWithMessage = { isValid: isValid };
+  if (errorMessage) {
+    response.errorMessage = errorMessage;
+  }
+  return response;
+};

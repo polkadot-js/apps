@@ -12,3 +12,8 @@ export type DropdownOption = {
 export type DropdownOptions = Array<DropdownOption>;
 
 export type SectionVisibilityAll = 'private' | 'public';
+
+export type IsValidWithMessage = {
+  isValid: boolean,
+  errorMessage?: string
+};
