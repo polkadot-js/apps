@@ -47,6 +47,24 @@ describe('checks extrinsic balance', () => {
     expect(isValidBalance(invalidBalance, chainLatest)).toEqual(false);
   });
 
+  it('throws an error if input value for comparison is not a string', () => {
+    const chainLatest = 'latest';
+    const invalidInputValueType = 340282366920938463463374607431768211456;
+
+    expect(() => {
+      isValidBalance(invalidInputValueType, chainLatest);
+    }).toThrow();
+  });
+
+  it('throws an error if input value for comparison is a string amount in scientific notation', () => {
+    const chainLatest = 'latest';
+    const invalidInputValueType = String(340282366920938463463374607431768211456); // '3.402823669209385e+38';
+
+    expect(() => {
+      isValidBalance(invalidInputValueType, chainLatest);
+    }).toThrow();
+  });
+
   it('detects valid balance is positive integers less than 64 bits maximum for poc-1 chain', () => {
     const chainPoC1 = 'poc-1';
     const maxValidBalance64Bit = '18446744073709551615'; // 2^64 − 1
