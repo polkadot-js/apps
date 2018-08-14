@@ -36,18 +36,28 @@ describe('checks extrinsic balance', () => {
   it('detects valid balance is positive integers less than 128 bits maximum for latest chain', () => {
     const chainLatest = 'latest';
     const maxValidBalance128Bit = '340282366920938463463374607431768211455'; // 2^128 − 1
-    const invalidBalance = '340282366920938463463374607431768211456'; // 2^128
 
     expect(isValidBalance(maxValidBalance128Bit, chainLatest)).toEqual(true);
+  });
+
+  it('detects invalid balance for positive integers above the 128 bits maximum for latest chain', () => {
+    const chainLatest = 'latest';
+    const invalidBalance = '340282366920938463463374607431768211456'; // 2^128
+
     expect(isValidBalance(invalidBalance, chainLatest)).toEqual(false);
   });
 
   it('detects valid balance is positive integers less than 64 bits maximum for poc-1 chain', () => {
     const chainPoC1 = 'poc-1';
     const maxValidBalance64Bit = '18446744073709551615'; // 2^64 − 1
-    const invalidBalance = '18446744073709551616'; // 2^64
 
     expect(isValidBalance(maxValidBalance64Bit, chainPoC1)).toEqual(true);
+  });
+
+  it('detects invalid balance for positive integers above the 64 bits maximum for poc-1 chain', () => {
+    const chainPoC1 = 'poc-1';
+    const invalidBalance = '18446744073709551616'; // 2^64
+
     expect(isValidBalance(invalidBalance, chainPoC1)).toEqual(false);
   });
 });

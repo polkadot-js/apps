@@ -12,8 +12,8 @@ const re = RegExp('^[0-9]+[0-9]*$');
 export default function isValidBalance (input: string, chain: string): boolean {
   // apiSupport.chain is either 'poc-1' (64 bit) or 'latest' (128 bit)
   const balanceSize: any = sizes.Balance.get(chain as EncodingVersions) || 64;
-  const max64Bit = 18446744073709551615;
-  const max128Bit = 340282366920938463463374607431768211455;
+  const max64Bit = '18446744073709551615';
+  const max128Bit = '340282366920938463463374607431768211455';
   const maxBN64Bit = new BN(String(max64Bit));
   const maxBN128Bit = new BN(String(max128Bit));
   const inputBN = new BN(String(input));
@@ -22,11 +22,11 @@ export default function isValidBalance (input: string, chain: string): boolean {
     return false;
   }
 
-  if (chain === 'poc-1' && balanceSize === 64) { // && maxBN64Bit.gte(inputBN)
+  if (chain === 'poc-1' && balanceSize === 64 && maxBN64Bit.gte(inputBN)) {
     return true;
   }
 
-  if (chain === 'latest' && balanceSize === 128) { // && maxBN128Bit.gte(inputBN)
+  if (chain === 'latest' && balanceSize === 128 && maxBN128Bit.gte(inputBN)) {
     return true;
   }
 
