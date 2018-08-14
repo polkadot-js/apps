@@ -22,7 +22,7 @@ type Props = I18nProps & ApiProps & BareProps;
 
 class Balance extends React.PureComponent<Props> {
   render () {
-    const { apiSupport, className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
+    const { apiSupport, className, defaultValue: { value }, isDisabled, isError, label, style, t, withLabel } = this.props;
     const defaultValue = new BN((value as BN).toString(10) || '0').toString(10);
 
     return (
@@ -38,7 +38,9 @@ class Balance extends React.PureComponent<Props> {
           label={label}
           maxLength={apiSupport === 'poc-1' ? 19 : 38}
           onChange={this.onChange}
-          placeholder='<any number between 1 testnet DOT and the available testnet DOT balance minus 1>'
+          placeholder={t('account.balance.placeholder', {
+            defaultValue: '<any number between 1 testnet DOT and the available testnet DOT balance minus 1>'
+          })}
           type='text'
           withLabel={withLabel}
         />
