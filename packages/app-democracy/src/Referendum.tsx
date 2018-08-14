@@ -62,8 +62,6 @@ class Referendum extends React.PureComponent<Props, State> {
         : nay.add(balance);
     }, new BN(0));
 
-    console.error(JSON.stringify(democracyReferendumVoters), votedYay.toString(), votedNay.toString());
-
     if (votedYay.eq(prevState.votedNay) && votedNay.eq(prevState.votedNay)) {
       return null;
     }

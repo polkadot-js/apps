@@ -514,7 +514,6 @@ export default class ObservableApi implements ObservableApiInterface {
   }
 
   votingBalances = (...addresses: Array<string>): Observable<RxBalance[]> => {
-    console.error('votingBalances', addresses);
     return this.combine(
       addresses.map((address) =>
         this.votingBalance(address)

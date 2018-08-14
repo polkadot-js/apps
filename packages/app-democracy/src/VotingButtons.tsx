@@ -55,13 +55,6 @@ class VotingButton extends React.PureComponent<Props> {
       return;
     }
 
-    console.log(JSON.stringify({
-      extrinsic: extrinsics.democracy.public.vote,
-      nonce: systemAccountIndexOf,
-      publicKey,
-      values: [referendumId, vote]
-    }));
-
     queueExtrinsic({
       extrinsic: extrinsics.democracy.public.vote,
       nonce: systemAccountIndexOf,
