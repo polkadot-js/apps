@@ -10,7 +10,12 @@ import sizes from '@polkadot/params/sizes';
 // RegEx Pattern (positive int): http://regexlib.com/REDetails.aspx?regexp_id=330
 const re = RegExp('^[0-9]+[0-9]*$');
 
-export default function isValidBalance (input: any, chain: string): boolean {
+type IsValidWithMessage = {
+  isValid: boolean,
+  errorMessage?: string
+};
+
+export default function isValidBalance (input: any, chain: string): IsValidWithMessage {
   if (!(typeof input === 'string')) {
     throw Error('Balance input value must be of string type');
   } else if (input.indexOf('e+') !== -1) {
@@ -25,17 +30,21 @@ export default function isValidBalance (input: any, chain: string): boolean {
   const maxBN128Bit = new BN(max128Bit);
   const inputBN = new BN(input);
 
-  if (input.trim().length === 0 || !re.test(input.trim())) {
-    return false;
+  if (input.trim().length === 0) {
+    return { isValid: false, errorMessage: 'Balance of at least 1 DOT to transfer must be provided' };
+  }
+
+  if (!re.test(input.trim())) {
+    return { isValid: false, errorMessage: 'Balance to transfer in DOTs must be a number' };
   }
 
   if (chain === 'poc-1' && balanceSize === 64 && maxBN64Bit.gte(inputBN)) {
-    return true;
+    return { isValid: true };
   }
 
   if (chain === 'latest' && balanceSize === 128 && maxBN128Bit.gte(inputBN)) {
-    return true;
+    return { isValid: true };
   }
 
-  return false;
+  return { isValid: false, errorMessage: 'Balance is invalid' };
 }

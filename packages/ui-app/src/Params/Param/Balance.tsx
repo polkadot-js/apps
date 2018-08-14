@@ -12,14 +12,30 @@ import withApi from '@polkadot/ui-react-rx/with/api';
 
 import isValidBalance from '../../util/isValidBalance';
 import Input from '../../Input';
+import Notification from '../../Notification';
 import Bare from './Bare';
 import translate from '../../translate';
 
 type Props = I18nProps & ApiProps & BareProps;
 
-class Balance extends React.PureComponent<Props> {
+type State = {
+  error?: React.ReactNode
+};
+
+class Balance extends React.PureComponent<Props, State> {
+  state: State;
+
+  constructor (props: Props) {
+    super(props);
+
+    this.state = {
+      error: ''
+    };
+  }
+
   render () {
     const { apiSupport, className, defaultValue: { value }, isDisabled, isError, label, style, t, withLabel } = this.props;
+    const { error } = this.state;
     const defaultValue = new BN((value as BN).toString(10) || '0').toString(10);
 
     return (
@@ -36,11 +52,12 @@ class Balance extends React.PureComponent<Props> {
           maxLength={apiSupport === 'poc-1' ? 19 : 38}
           onChange={this.onChange}
           placeholder={t('account.balance.placeholder', {
-            defaultValue: '<any number between 1 testnet DOT and the available testnet DOT balance minus 1>'
+            defaultValue: 'Between 1 testnet DOT and the available testnet DOT balance (minus 1) of the account'
           })}
           type='text'
           withLabel={withLabel}
         />
+        <Notification error={error} />
       </Bare>
     );
   }
@@ -48,7 +65,11 @@ class Balance extends React.PureComponent<Props> {
   onChange = (value: string): void => {
     const { onChange, apiSupport } = this.props;
 
-    const isValid = isValidBalance(value.trim(), apiSupport);
+    const { isValid, errorMessage } = isValidBalance(value.trim(), apiSupport);
+
+    this.setState({
+      error: isValid ? '' : errorMessage
+    });
 
     onChange({
       isValid,
