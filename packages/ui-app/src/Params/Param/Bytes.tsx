@@ -12,6 +12,8 @@ export default class Bytes extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue, isDisabled, isError, label, name, onChange, style, withLabel } = this.props;
 
+    console.log('Bytes:defaultValue', defaultValue);
+
     return (
       <BaseBytes
         className={className}

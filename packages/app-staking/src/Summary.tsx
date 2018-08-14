@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ExtendedBalance, ExtendedBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
+import { RxBalance, RxBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import BN from 'bn.js';
@@ -16,7 +16,7 @@ import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import translate from './translate';
 
 type Props = ApiProps & I18nProps & {
-  balances: ExtendedBalanceMap,
+  balances: RxBalanceMap,
   bestNumber?: BN,
   intentions: Array<string>,
   lastLengthChange?: BN,
@@ -75,10 +75,10 @@ class Summary extends React.PureComponent<Props> {
     );
   }
 
-  private calcIntentionsHigh (): ExtendedBalance | null {
+  private calcIntentionsHigh (): RxBalance | null {
     const { balances, intentions, validators } = this.props;
 
-    return intentions.reduce((high: ExtendedBalance | null, addr) => {
+    return intentions.reduce((high: RxBalance | null, addr) => {
       const balance = validators.includes(addr) || !balances[addr]
         ? null
         : balances[addr];
@@ -91,10 +91,10 @@ class Summary extends React.PureComponent<Props> {
     }, null);
   }
 
-  private calcValidatorLow (): ExtendedBalance | null {
+  private calcValidatorLow (): RxBalance | null {
     const { balances, validators } = this.props;
 
-    return validators.reduce((low: ExtendedBalance | null, addr) => {
+    return validators.reduce((low: RxBalance | null, addr) => {
       const balance = balances[addr] || null;
 
       if (low === null || (balance && low.stakingBalance.gt(balance.stakingBalance))) {

@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { RxReferendum } from '@polkadot/ui-react-rx/ApiObservable/types';
 
 import React from 'react';
 import classes from '@polkadot/ui-app/util/classes';
@@ -13,7 +14,7 @@ import Referendum from './Referendum';
 import translate from './translate';
 
 type Props = I18nProps & {
-  democracyReferendumsActive?: Array<any>
+  democracyReferendums?: Array<RxReferendum>
 };
 
 class Referendums extends React.PureComponent<Props> {
@@ -34,14 +35,9 @@ class Referendums extends React.PureComponent<Props> {
   }
 
   private renderReferendums () {
-    const { democracyReferendumsActive, t } = this.props;
-    const referendums = !democracyReferendumsActive || !democracyReferendumsActive.length
-      ? []
-      : democracyReferendumsActive.filter((referendum) =>
-        Array.isArray(referendum) && referendum[0]
-      );
+    const { democracyReferendums, t } = this.props;
 
-    if (!referendums.length) {
+    if (!democracyReferendums || !democracyReferendums.length) {
       return (
         <div className='ui disabled'>
           {t('proposals.none', {
@@ -51,9 +47,9 @@ class Referendums extends React.PureComponent<Props> {
       );
     }
 
-    return referendums.map((referendum) => (
+    return democracyReferendums.map((referendum) => (
       <Referendum
-        key={referendum[0].toNumber()}
+        key={referendum.id.toString()}
         value={referendum}
       />
     ));
@@ -63,5 +59,5 @@ class Referendums extends React.PureComponent<Props> {
 export default withMulti(
   Referendums,
   translate,
-  withObservable('democracyReferendumsActive')
+  withObservable('democracyReferendums')
 );

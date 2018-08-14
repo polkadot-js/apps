@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { RxProposal } from '@polkadot/ui-react-rx/ApiObservable/types';
 
 import React from 'react';
 import classes from '@polkadot/ui-app/util/classes';
@@ -13,7 +14,7 @@ import Proposal from './Proposal';
 import translate from './translate';
 
 type Props = I18nProps & {
-  democracyProposals?: Array<any>
+  democracyProposals?: Array<RxProposal>
 };
 
 class Proposals extends React.PureComponent<Props> {
@@ -35,13 +36,8 @@ class Proposals extends React.PureComponent<Props> {
 
   private renderProposals () {
     const { democracyProposals, t } = this.props;
-    const proposals = !democracyProposals || !democracyProposals.length
-      ? []
-      : democracyProposals.filter((proposal) =>
-        Array.isArray(proposal) && proposal[0]
-      );
 
-    if (!proposals.length) {
+    if (!democracyProposals || !democracyProposals.length) {
       return (
         <div className='ui disabled'>
           {t('proposals.none', {
@@ -51,9 +47,9 @@ class Proposals extends React.PureComponent<Props> {
       );
     }
 
-    return proposals.map((proposal) => (
+    return democracyProposals.map((proposal) => (
       <Proposal
-        key={proposal[0].toNumber()}
+        key={proposal.id.toString()}
         value={proposal}
       />
     ));

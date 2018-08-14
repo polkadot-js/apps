@@ -23,7 +23,7 @@ const components: ComponentMap = {
   'BlockNumber': Amount,
   'bool': Bool,
   'Bytes': Bytes,
-  'Code': Code,
+  'Code': [Code, Bytes],
   'Call': Unknown,
   'Digest': Unknown,
   'Hash': Hash,
@@ -46,7 +46,7 @@ const components: ComponentMap = {
   'VoteThreshold': VoteThreshold
 };
 
-export default function findComponent (type: Param$Types, overrides: ComponentMap = {}): React.ComponentType<Props> {
+function getFromMap (type: Param$Types, overrides: ComponentMap): React.ComponentType<Props> | [React.ComponentType<Props>, React.ComponentType<Props>] {
   if (Array.isArray(type)) {
     // Special case for components where we have a specific override formatter
     if (type.length === 1) {
@@ -59,4 +59,16 @@ export default function findComponent (type: Param$Types, overrides: ComponentMa
   }
 
   return overrides[type] || components[type] || Unknown;
+}
+
+export default function findComponent (type: Param$Types, overrides: ComponentMap = {}, isDisabled: boolean = false): React.ComponentType<Props> {
+  const component = getFromMap(type, overrides);
+
+  if (Array.isArray(component)) {
+    return isDisabled
+      ? component[1]
+      : component[0];
+  }
+
+  return component;
 }

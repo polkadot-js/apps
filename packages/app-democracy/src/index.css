@@ -32,3 +32,30 @@
 .democracy--Referendums {
   margin-bottom: 2rem;
 }
+
+.democracy--Item-id {
+  font-size: 2rem;
+  line-height: 2rem;
+  text-align: right;
+}
+
+.democracy--Item-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+}
+
+.democracy--Item-extrinsic,
+.democracy--Item-children {
+  flex: 1 0 0;
+  text-align: left;
+}
+
+.democracy--Extrinsic .ui--Labelled {
+  margin-bottom: 0.25rem;
+}
+
+.democracy--Extrinsic .ui--Labelled .ui.label {
+  display: block;
+  padding-left: 0;
+}

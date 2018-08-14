@@ -3,29 +3,34 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { RxProposal } from '@polkadot/ui-react-rx/ApiObservable/types';
 
 import React from 'react';
 import classes from '@polkadot/ui-app/util/classes';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 
+import Item from './Item';
 import translate from './translate';
 
 type Props = I18nProps & {
-  value: any
+  value: RxProposal
 };
 
 class Proposal extends React.PureComponent<Props> {
   render () {
-    const { className, style, t, value } = this.props;
+    const { className, style, value } = this.props;
 
     return (
-      <div
+      <Item
         className={classes('democracy--Proposal', className)}
+        idNumber={value.id}
+        proposal={value.proposal}
+        proposalExtra='extra extrinsic stuff goes here'
         style={style}
       >
-        {JSON.stringify(value)}
-      </div>
+        extra seconding stuff goes here
+      </Item>
     );
   }
 }

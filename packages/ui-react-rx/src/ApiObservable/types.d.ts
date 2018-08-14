@@ -5,22 +5,34 @@
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { Interfaces } from '@polkadot/jsonrpc/types';
-import { SectionItem } from '@polkadot/params/types';
+import { ExtrinsicDecoded, SectionItem } from '@polkadot/params/types';
 import { Header } from '@polkadot/primitives/header';
 import { Storages } from '@polkadot/storage/types';
 
-export type ExtendedBalance = {
+export type RxBalance = {
   address: string,
   freeBalance: BN,
   nominatedBalance: BN,
   reservedBalance: BN,
   votingBalance: BN,
   stakingBalance: BN,
-  nominators?: Array<ExtendedBalance>
+  nominators?: Array<RxBalance>
 }
 
-export type ExtendedBalanceMap = {
-  [index: string]: ExtendedBalance
+export type RxProposal = {
+  id: BN,
+  proposal: ExtrinsicDecoded
+};
+
+export type RxReferendum = {
+  blockNumber: BN,
+  id: BN,
+  proposal: ExtrinsicDecoded,
+  voteThreshold: BN
+}
+
+export type RxBalanceMap = {
+  [index: string]: RxBalance
 }
 
 export type KeyWithParams = [SectionItem<Storages>, any];
@@ -34,9 +46,9 @@ export interface ObservableApiInterface {
   democracyLaunchPeriod: () => Observable<BN | undefined>,
   democracyNextTally: () => Observable<BN | undefined>,
   democracyProposalCount: () => Observable<number>,
-  democracyProposals: () => Observable<Array<any>>,
+  democracyProposals: () => Observable<Array<RxProposal>>,
   democracyReferendumCount: () => Observable<BN | undefined>,
-  democracyReferendumsActive: () => Observable<Array<any>>,
+  democracyReferendums: () => Observable<Array<RxReferendum>>,
   democracyVotingPeriod: () => Observable<BN | undefined>,
   eraBlockLength: () => Observable<BN | undefined>,
   eraBlockProgress: () => Observable<BN | undefined>,
@@ -57,10 +69,10 @@ export interface ObservableApiInterface {
   systemAccountIndexOf: (address: string) => Observable<BN | undefined>,
   timestampBlockPeriod: () => Observable<BN | undefined>,
   timestampNow: () => Observable<Date | undefined>,
-  validatingBalance: (address: string) => Observable<ExtendedBalance>,
-  validatingBalances: (...addresses: Array<string>) => Observable<ExtendedBalanceMap>,
-  votingBalance: (address: string) => Observable<ExtendedBalance>,
-  votingBalances: (...addresses: Array<string>) => Observable<ExtendedBalance[]>
+  validatingBalance: (address: string) => Observable<RxBalance>,
+  validatingBalances: (...addresses: Array<string>) => Observable<RxBalanceMap>,
+  votingBalance: (address: string) => Observable<RxBalance>,
+  votingBalances: (...addresses: Array<string>) => Observable<RxBalance[]>
 }
 
 export type ObservableApiNames = keyof ObservableApiInterface;

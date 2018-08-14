@@ -16,9 +16,11 @@ import Param from './Param';
 import createValues from './values';
 
 type Props<S> = I18nProps & {
+  isDisabled?: boolean,
   item: S,
   onChange: (value: RawParams) => void,
-  overrides?: ComponentMap
+  overrides?: ComponentMap,
+  values?: RawParams
 };
 
 type State<S> = {
@@ -40,7 +42,9 @@ class Params<T, S extends SectionItem<T>> extends React.PureComponent<Props<S>, 
   }
 
   static getDerivedStateFromProps (props: Props<any>, { item, onChangeParam }: State<any>): State<any> | null {
-    if (item && item.name === props.item.name && item.section === props.item.section) {
+    const isSame = item && item.name === props.item.name && item.section === props.item.section;
+
+    if (props.isDisabled || isSame) {
       return null;
     }
 
@@ -61,21 +65,23 @@ class Params<T, S extends SectionItem<T>> extends React.PureComponent<Props<S>, 
 
    // NOTE This is needed in the case where the item changes, i.e. the values get initialised and we need to alert the parent that we have new values
   componentDidUpdate (prevProps: Props<S>, prevState: State<S>) {
-    const { onChange } = this.props;
+    const { onChange, isDisabled } = this.props;
     const { values } = this.state;
 
-    if (prevState.values !== values) {
+    if (!isDisabled && prevState.values !== values) {
       onChange(values);
     }
   }
 
   render () {
-    const { className, item: { params }, overrides, style } = this.props;
-    const { handlers, values } = this.state;
+    const { className, isDisabled, item: { params }, overrides, style } = this.props;
+    const { handlers = [], values = this.props.values } = this.state;
 
-    if (values.length === 0 || params.length === 0) {
+    if (!values || values.length === 0 || params.length === 0) {
       return null;
     }
+
+    console.error('Params', params);
 
     return (
       <div
@@ -86,9 +92,10 @@ class Params<T, S extends SectionItem<T>> extends React.PureComponent<Props<S>, 
           {params.map(({ name }, index) => (
             <Param
               defaultValue={values[index]}
+              isDisabled={isDisabled}
               key={`${name}:${name}:${index}`}
               name={name}
-              onChange={handlers[index]}
+              onChange={handlers[index] || this.onChangeNone}
               overrides={overrides}
             />
           ))}
@@ -97,7 +104,17 @@ class Params<T, S extends SectionItem<T>> extends React.PureComponent<Props<S>, 
     );
   }
 
-  onChangeParam = (at: number, { isValid = false, value }: RawParam$OnChange$Value): void => {
+  private onChangeNone = (): void => {
+    // Do nothing
+  }
+
+  private onChangeParam = (at: number, { isValid = false, value }: RawParam$OnChange$Value): void => {
+    const { isDisabled } = this.props;
+
+    if (isDisabled) {
+      return;
+    }
+
     this.setState(
       (prevState: State<S>): State<S> => ({
         values: prevState.values.map((prev, index) =>
@@ -116,7 +133,11 @@ class Params<T, S extends SectionItem<T>> extends React.PureComponent<Props<S>, 
 
   triggerUpdate = (): void => {
     const { values } = this.state;
-    const { onChange } = this.props;
+    const { onChange, isDisabled } = this.props;
+
+    if (isDisabled) {
+      return;
+    }
 
     onChange(values);
   }

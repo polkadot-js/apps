@@ -14,6 +14,7 @@ import translate from '../../translate';
 import findComponent from './findComponent';
 
 type Props = I18nProps & BaseProps & {
+  isDisabled?: boolean,
   overrides?: ComponentMap
 };
 
@@ -26,11 +27,11 @@ class ParamComponent extends React.PureComponent<Props, State> {
     Component: null
   };
 
-  static getDerivedStateFromProps ({ defaultValue: { type }, overrides }: Props): State {
+  static getDerivedStateFromProps ({ defaultValue: { type }, isDisabled, overrides }: Props): State {
     return {
       Component: !type
         ? null
-        : findComponent(type, overrides)
+        : findComponent(type, overrides, isDisabled)
     } as State;
   }
 
@@ -41,7 +42,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { className, defaultValue, name, onChange, style } = this.props;
+    const { className, defaultValue, isDisabled, name, onChange, style } = this.props;
     const type = typeToString(defaultValue.type);
 
     return (
@@ -49,6 +50,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
         className={classes('ui--Param', className)}
         defaultValue={defaultValue}
         key={`${name}:${type}`}
+        isDisabled={isDisabled}
         label={`${name}: ${type}`}
         name={name}
         onChange={onChange}
