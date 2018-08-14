@@ -85,6 +85,15 @@
   padding-left: 0;
 }
 
+.democracy--Proposal-info,
 .democracy--Referendum-info {
+  margin-bottom: 0;
+}
+
+.democracy--Referendum-results {
   margin-bottom: 1em;
+}
+
+.democracy--Referendum-results.chart {
+  text-align: center;
 }

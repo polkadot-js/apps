@@ -20,9 +20,15 @@ export type RxBalance = {
 }
 
 export type RxProposal = {
+  address: string,
   id: BN,
   proposal: ExtrinsicDecoded
 };
+
+export type RxProposalDeposits = {
+  balance: BN,
+  addresses: Array<string>
+}
 
 export type RxReferendum = {
   blockNumber: BN,
@@ -30,6 +36,12 @@ export type RxReferendum = {
   proposal: ExtrinsicDecoded,
   voteThreshold: number
 }
+
+export type RxReferendumVote = {
+  address: string,
+  balance: BN,
+  vote: boolean
+};
 
 export type RxBalanceMap = {
   [index: string]: RxBalance
@@ -46,9 +58,11 @@ export interface ObservableApiInterface {
   democracyLaunchPeriod: () => Observable<BN | undefined>,
   democracyNextTally: () => Observable<BN | undefined>,
   democracyProposalCount: () => Observable<number>,
+  democracyProposalDeposits: (index: BN) => Observable<RxProposalDeposits | undefined>,
   democracyProposals: () => Observable<Array<RxProposal>>,
   democracyReferendumCount: () => Observable<BN | undefined>,
   democracyReferendums: () => Observable<Array<RxReferendum>>,
+  democracyReferendumVoters:(index: BN) => Observable<Array<RxReferendumVote>>,
   democracyVotingPeriod: () => Observable<BN | undefined>,
   eraBlockLength: () => Observable<BN | undefined>,
   eraBlockProgress: () => Observable<BN | undefined>,
@@ -76,11 +90,3 @@ export interface ObservableApiInterface {
 }
 
 export type ObservableApiNames = keyof ObservableApiInterface;
-
-export type ReferendumVotes = {
-  [index: string]: {
-    address: string,
-    balance: BN,
-    vote: boolean
-  }
-};

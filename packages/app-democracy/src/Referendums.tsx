@@ -49,6 +49,7 @@ class Referendums extends React.PureComponent<Props> {
 
     return democracyReferendums.map((referendum) => (
       <Referendum
+        idNumber={referendum.id}
         key={referendum.id.toString()}
         value={referendum}
       />

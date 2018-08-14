@@ -7,13 +7,14 @@ import { RxApiInterface, RxApiInterface$Method } from '@polkadot/api-rx/types';
 import { Interfaces } from '@polkadot/jsonrpc/types';
 import { ExtrinsicDecoded, SectionItem } from '@polkadot/params/types';
 import { Storages } from '@polkadot/storage/types';
-import { RxBalance, RxBalanceMap, RxProposal, RxReferendum, ObservableApiInterface, KeyWithParams, ReferendumVotes } from './types';
+import { RxBalance, RxBalanceMap, RxProposal, RxProposalDeposits, RxReferendum, ObservableApiInterface, KeyWithParams, RxReferendumVote } from './types';
 
 import BN from 'bn.js';
 import { EMPTY, Observable, combineLatest } from 'rxjs';
 import { concatMap, defaultIfEmpty, map } from 'rxjs/operators';
 import storage from '@polkadot/storage';
 import assert from '@polkadot/util/assert';
+import isUndefined from '@polkadot/util/is/undefined';
 
 type OptBN = BN | undefined;
 type OptDate = Date | undefined;
@@ -21,6 +22,7 @@ type MapFn<R, T> = (combined: R) => T;
 
 type ResultReferendum = [BN, ExtrinsicDecoded, number];
 type ResultProposal = [BN, ExtrinsicDecoded, string];
+type ResultProposalDeposits = [BN, Array<string>];
 
 const defaultMapFn = (result: any): any =>
   result;
@@ -64,7 +66,9 @@ export default class ObservableApi implements ObservableApiInterface {
     return this.api.state
       .subscribeStorage(keys)
       .pipe(map((result?: any) =>
-        result || []
+        isUndefined(result)
+          ? []
+          : result
       ));
   }
 
@@ -82,10 +86,6 @@ export default class ObservableApi implements ObservableApiInterface {
     return this.api.chain.subscribeNewHead();
   }
 
-  democracyDepositOf = (index: BN): Observable<[BN, Array<string>] | undefined> => {
-    return this.rawStorage(storage.democracy.public.depositOf, index);
-  }
-
   democracyLaunchPeriod = (): Observable<OptBN> => {
     return this.rawStorage(storage.democracy.public.launchPeriod);
   }
@@ -100,17 +100,17 @@ export default class ObservableApi implements ObservableApiInterface {
       .pipe(
         map((proposals: Array<ResultProposal> = []) =>
           proposals
-            .map((proposal: ResultProposal) =>
-              proposal && proposal[0]
+            .map((result: ResultProposal): RxProposal | undefined =>
+              result && result[1]
                 ? {
-                  address: proposal[2],
-                  id: proposal[0],
-                  proposal: proposal[1]
+                  address: result[2],
+                  id: result[0],
+                  proposal: result[1]
                 }
                 : undefined
             )
             .filter((proposal) =>
-              proposal && proposal.id
+              proposal
             )
         )
     );
@@ -122,6 +122,21 @@ export default class ObservableApi implements ObservableApiInterface {
     ));
   }
 
+  democracyProposalDeposits = (index: BN): Observable<RxProposalDeposits | undefined> => {
+    return this
+      .rawStorage(storage.democracy.public.depositOf, index)
+      .pipe(
+        map((result: ResultProposalDeposits): RxProposalDeposits | undefined =>
+          result && result[0]
+            ? {
+              addresses: result[1] || [],
+              balance: result[0]
+            }
+            : undefined
+        )
+      );
+  }
+
   democracyReferendumCount = (): Observable<OptBN> => {
     return this.rawStorage(storage.democracy.public.referendumCount);
   }
@@ -130,13 +145,13 @@ export default class ObservableApi implements ObservableApiInterface {
     return this
       .rawStorage(storage.democracy.public.referendumInfoOf, index)
       .pipe(
-        map((referendum: ResultReferendum) =>
-          referendum && referendum[0]
+        map((result: ResultReferendum) =>
+          result && result[1]
             ? {
-              blockNumber: referendum[0],
+              blockNumber: result[0],
               id: new BN(index),
-              proposal: referendum[1],
-              voteThreshold: referendum[2]
+              proposal: result[1],
+              voteThreshold: result[2]
             }
             : undefined
         )
@@ -150,8 +165,24 @@ export default class ObservableApi implements ObservableApiInterface {
       ),
       (referendums: Array<RxReferendum> = []): Array<RxReferendum> =>
         referendums.filter((referendum) =>
-          referendum && referendum.id
+          referendum
         )
+    );
+  }
+
+  democracyReferendumVoters = (index: BN): Observable<Array<RxReferendumVote>> => {
+    return this.combine(
+      [
+        this.democacyVotersFor(index),
+        this.democracyVotersBalancesOf(index),
+        this.democracyVotersVotesOf(index)
+      ],
+      ([voters, balances, votes]: [Array<string>, Array<BN>, Array<boolean>]): Array<RxReferendumVote> =>
+        voters.map((address, index): RxReferendumVote => ({
+          address,
+          balance: balances[index] || new BN(0),
+          vote: votes[index] || false
+        }))
     );
   }
 
@@ -176,11 +207,7 @@ export default class ObservableApi implements ObservableApiInterface {
   }
 
   democacyVoteOf = (index: BN, address: string): Observable<boolean> => {
-    return this
-      .rawStorage(storage.democracy.public.votersFor, index, address)
-      .pipe(map((intentions: Array<string> = []) =>
-        intentions
-      ));
+    return this.rawStorage(storage.democracy.public.voteOf, index, address);
   }
 
   democracyVotesOf = (index: BN, addresses: Array<string>): Observable<boolean> => {
@@ -219,26 +246,6 @@ export default class ObservableApi implements ObservableApiInterface {
         this.democracyVotesOf(index, voters)
       ),
       defaultIfEmpty([])
-    );
-  }
-
-  democracyVotersInfoOf = (index: BN): Observable<ReferendumVotes> => {
-    return this.combine(
-      [
-        this.democacyVotersFor(index),
-        this.democracyVotersBalancesOf(index),
-        this.democracyVotersVotesOf(index)
-      ],
-      ([voters, balances, votes]: [Array<string>, Array<BN>, Array<boolean>]): ReferendumVotes =>
-        voters.reduce((info, address, index) => {
-          info[address] = {
-            address,
-            balance: balances[index] || new BN(0),
-            vote: votes[index] || false
-          };
-
-          return info;
-        }, {} as ReferendumVotes)
     );
   }
 

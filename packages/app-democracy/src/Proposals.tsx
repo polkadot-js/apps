@@ -49,6 +49,7 @@ class Proposals extends React.PureComponent<Props> {
 
     return democracyProposals.map((proposal) => (
       <Proposal
+        idNumber={proposal.id}
         key={proposal.id.toString()}
         value={proposal}
       />
