@@ -53,12 +53,17 @@
 
 .validator--ValidatorsList{
   padding: 10px;
+  display: flex;
 }
 
 .validator--IntensionsList{
   padding: 10px;
 }
 
+.validator--current,.validator--next{
+  margin: 20px;
+  flex: 1;
+}
 .app-validators--Query .app-validators--actionrow-value {
   padding: 0 0.25rem;
 }

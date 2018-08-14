@@ -11,7 +11,7 @@ import Input from '@polkadot/ui-app/Input';
 import Modal from '@polkadot/ui-app/Modal';
 import classes from '@polkadot/ui-app/util/classes';
 
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & {
   isOpen: boolean,

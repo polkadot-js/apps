@@ -12,46 +12,68 @@ import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
 import translate from '../translate';
 import AddressValidator from '@polkadot/ui-app/Address/AddressValidator'
+import AddressIntention from '@polkadot/ui-app/Address/AddressIntention'
 
 type Props = I18nProps & {
-  validators: Array<string>
-  intentions: Array<string>,
+  current: Array<string>
+  next: Array<string>,
 };
 
-class ValidatorsList extends React.PureComponent<Props> {
+class currentList extends React.PureComponent<Props> {
   render () {
-    const { className, style, validators } = this.props;
+    const { className, style, current, next } = this.props;
 
     return (
       <QueueConsumer>
         {({ queueExtrinsic }: QueueProps) => (
-          <div
-            className={classes('validator--ValidatorsList', className)}
-            style={style}
-          >
-            {validators.map((account) => {
-              // TODO: filter out
-              // - validators
-              // - 0 balance accounts
-              return (
-                <div key={account}>
-                    <AddressValidator
-                      className={classes('row', className)}
-                      name={name || 'validator'} // TODO: check in our list of address is we named it
-                      value={account}
-                      withBalance={true}
-                      withNonce={false}
-                      identIconSize={48}
-                      isShort={false}
-                    />
-                </div>
-              );
-            })}
-          </div>
-        )}
+            <div
+              className={classes('validator--ValidatorsList', className)}
+              style={style}
+            >
+              <div className="validator--current">
+                <h4>Current: {current.length}</h4>
+                {current.map((account) => {
+                  return (
+                    <div key={account}>
+                        <AddressValidator
+                          className={classes('row', className)}
+                          name={name || 'validator'} // TODO: check in our list of address is we named it
+                          value={account}
+                          withBalance={true}
+                          withNonce={false}
+                          identIconSize={48}
+                          isShort={true}
+                        />
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="validator--next">
+                <h4>Next: {next.length}</h4>
+                {next.map((account) => {
+                  // TODO: filter out
+                  // - current
+                  // - 0 balance accounts
+                  return (
+                    <div key={account}>
+                        <AddressIntention
+                          className={classes('row', className)}
+                          name={name || 'validator'} // TODO: check in our list of address is we named it
+                          value={account}
+                          withBalance={true}
+                          withNonce={false}
+                          identIconSize={48}
+                          isShort={true}
+                        />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
       </QueueConsumer>
     );
   }
 }
 
-export default translate(ValidatorsList);
+export default translate(currentList);

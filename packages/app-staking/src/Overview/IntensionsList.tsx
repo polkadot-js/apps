@@ -11,7 +11,7 @@ import keyring from '@polkadot/ui-keyring/index';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
 import translate from '../translate';
-import AddressNominator from '@polkadot/ui-app/Address/AddressNominator'
+import AddressIntention from '@polkadot/ui-app/Address/AddressIntention'
 
 type Props = I18nProps & {
   intentions: Array<string>
@@ -31,7 +31,7 @@ class IntensionsList extends React.PureComponent<Props> {
             {intentions.map((account) => {
               return (
                 <div key={account}>
-                   <AddressNominator
+                   <AddressIntention
                       className={classes('row', className)}
                       value={account}
                       key={account}

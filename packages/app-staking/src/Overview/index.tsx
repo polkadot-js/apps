@@ -21,11 +21,23 @@ type Props = I18nProps & {
 };
 
 export default class Overview extends React.PureComponent<Props> {
+  getNextValidators() {
+    const { intentions, balances } = this.props;
+    // console.log(balances);
+    // const sorted = intentions.sort((a, b) => {
+    //   return balances[a].stakingBalance.cmp(balances[b].stakingBalance);
+    // })
+
+    return intentions;
+  }
+
   render () {
     const { className, balances, intentions, style, validators } = this.props;
     const intentionsExVal = intentions.filter((address) =>
       !validators.includes(address)
     );
+
+    const next = this.getNextValidators();
 
     return (
       <div
@@ -37,14 +49,15 @@ export default class Overview extends React.PureComponent<Props> {
           intentions={intentions}
           validators={validators}
         />
-        <h1>Validators: {validators.length}</h1>
+
         <ValidatorsList
-          validators={validators}
+          current={validators}
+          next={intentions}
         />
-        <h1>Intentions: {intentionsExVal.length + validators.length}</h1>
+      {/*  <h1>Intentions: {intentionsExVal.length + validators.length}</h1>
         <IntensionsList
           intentions={intentionsExVal}
-        />
+        />*/}
       </div>
     );
   }

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-// If you need to display a nominators address, this is the component
+// If you need to display a validator´s address, this is the component
 // you should use.
 
 import React from 'react';
@@ -15,7 +15,7 @@ import { AddressSummary } from '../AddressSummary';
 import translate from '../translate';
 import Icon from '@polkadot/ui-app/Icon';
 
-class AddressValidator extends AddressSummary {
+class AddressIntension extends AddressSummary {
   render () {
     const { className, style, identIconSize } = this.props;
     const { address, isValid } = this.state;
@@ -31,7 +31,9 @@ class AddressValidator extends AddressSummary {
             size={identIconSize}
             value={address}
           />
-
+          <Icon
+            className='nominator-icon'
+            name='hourglass empty' />
           <div className='ui--AddressRow-details'>
             {this.renderAddress()}
             {this.renderBalance()}
@@ -43,4 +45,4 @@ class AddressValidator extends AddressSummary {
   }
 }
 
-export default translate(AddressValidator);
+export default translate(AddressIntension);
