@@ -18,6 +18,7 @@ describe('checks extrinsic balance', () => {
 
     expect(isValidBalance(invalidBalance, chain)).toEqual(false);
   });
+
   it('detects invalid balance for balance with positive integers with spaces between', () => {
     const invalidBalance = ' 05 9 ';
     const chain = 'latest';

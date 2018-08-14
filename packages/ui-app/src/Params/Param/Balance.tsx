@@ -2,20 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Props as BareProps } from '../types';
-import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
-
-import isValidBalance from '../../util/isValidBalance';
+import { I18nProps } from '../../types';
+import { Props as BareProps } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
-
-import Input from '../../Input';
-import Bare from './Bare';
-
 import withApi from '@polkadot/ui-react-rx/with/api';
 
+import isValidBalance from '../../util/isValidBalance';
+import Input from '../../Input';
+import Bare from './Bare';
 import translate from '../../translate';
 
 type Props = I18nProps & ApiProps & BareProps;
