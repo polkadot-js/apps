@@ -23,7 +23,7 @@ type Props = I18nProps & ApiProps & BareProps;
 class Balance extends React.PureComponent<Props> {
   render () {
     const { apiSupport, className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = String(new BN(String(value) || 0));
+    const defaultValue = new BN((value as BN).toString(10) || '0').toString(10);
 
     return (
       <Bare
@@ -32,7 +32,7 @@ class Balance extends React.PureComponent<Props> {
       >
         <Input
           className='large'
-          defaultValue={defaultValue || String(0)}
+          defaultValue={defaultValue || '0'}
           isDisabled={isDisabled}
           isError={isError}
           label={label}
@@ -53,7 +53,7 @@ class Balance extends React.PureComponent<Props> {
 
     onChange({
       isValid,
-      value: new BN(String(value.trim()) || '0')
+      value: new BN(value.trim() || '0')
     });
   }
 }
