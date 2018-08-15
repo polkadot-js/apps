@@ -21,6 +21,10 @@
   text-align: center;
 }
 
+.accounts--Address-modal .ui--row > .ui--Password {
+	flex: 0 1 100%;
+}
+
 .accounts--Address-modal-message {
   padding-top: 1.0em;
 }
