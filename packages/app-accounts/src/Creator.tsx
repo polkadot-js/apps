@@ -3,10 +3,12 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { UnlockStrategy } from './types';
 
 import React from 'react';
 
 import Button from '@polkadot/ui-app/Button';
+import Dropdown from '@polkadot/ui-app/Dropdown';
 import Input from '@polkadot/ui-app/Input';
 import Password from '@polkadot/ui-app/Password';
 import classes from '@polkadot/ui-app/util/classes';
@@ -21,6 +23,7 @@ import addressEncode from '@polkadot/util-keyring/address/encode';
 
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';
+import unlockOptions from './unlockOptions';
 
 type Props = I18nProps & {
   onBack: () => void
@@ -34,7 +37,8 @@ type State = {
   isValid: boolean,
   name: string,
   password: string,
-  seed: string
+  seed: string,
+  unlockStrategy: UnlockStrategy
 };
 
 function formatSeed (seed: string): Uint8Array {
@@ -111,7 +115,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   renderInput () {
     const { t } = this.props;
-    const { isNameValid, isPassValid, isSeedValid, name, password, seed } = this.state;
+    const { isNameValid, isPassValid, isSeedValid, name, password, seed, unlockStrategy } = this.state;
 
     return (
       <div className='grow'>
@@ -148,6 +152,16 @@ class Creator extends React.PureComponent<Props, State> {
             value={password}
           />
         </div>
+        <div className='ui--row'>
+          <Dropdown
+            label={t('createor.unlockStrategy', {
+              defaultValue: 'account locking strategy'
+            })}
+            onChange={this.onChangeUnlockStrategy}
+            options={unlockOptions(t)}
+            value={unlockStrategy}
+          />
+        </div>
       </div>
     );
   }
@@ -164,14 +178,15 @@ class Creator extends React.PureComponent<Props, State> {
       isValid: false,
       name: 'new keypair',
       password: '',
-      seed
+      seed,
+      unlockStrategy: 'use'
     };
   }
 
   nextState (newState: State): void {
     this.setState(
       (prevState: State, props: Props): State => {
-        const { name = prevState.name, password = prevState.password, seed = prevState.seed } = newState;
+        const { name = prevState.name, password = prevState.password, seed = prevState.seed, unlockStrategy = prevState.unlockStrategy } = newState;
         let address = prevState.address;
         const isNameValid = !!name;
         const isSeedValid = isHex(seed)
@@ -191,7 +206,8 @@ class Creator extends React.PureComponent<Props, State> {
           isValid: isNameValid && isPassValid && isSeedValid,
           name,
           password,
-          seed
+          seed,
+          unlockStrategy
         };
       }
     );
@@ -209,13 +225,25 @@ class Creator extends React.PureComponent<Props, State> {
     this.nextState({ password } as State);
   }
 
+  onChangeUnlockStrategy = (unlockStrategy: UnlockStrategy): void => {
+    this.nextState({ unlockStrategy } as State);
+  }
+
   onCommit = (): void => {
     const { onBack } = this.props;
-    const { name, password, seed } = this.state;
-
-    keyring.createAccount(
-      formatSeed(seed), password, { name }
+    const { name, password, seed, unlockStrategy } = this.state;
+    const pair = keyring.createAccount(
+      formatSeed(seed),
+      password,
+      {
+        name,
+        unlockStrategy
+      }
     );
+
+    if (unlockStrategy === 'use') {
+      pair.lock();
+    }
 
     onBack();
   }
