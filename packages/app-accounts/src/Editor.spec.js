@@ -7,7 +7,7 @@ import { shallow } from '../../../test/enzyme';
 
 import { Editor } from './Editor';
 import UploadButton from './UploadButton';
-import DownloadButton from './DownloadButton';
+import DownloadModal from './DownloadModal';
 
 const mockT = (key, options) => (key);
 
@@ -30,6 +30,6 @@ describe('Editor', () => {
   it('should display both Upload and Download Button when current pair has address in state', () => {
     wrapper.setState({ currentPair: { address: jest.fn() } });
     expect(wrapper.find(UploadButton)).toHaveLength(1);
-    expect(wrapper.find(DownloadButton)).toHaveLength(1);
+    expect(wrapper.find(DownloadModal)).toHaveLength(1);
   });
 });

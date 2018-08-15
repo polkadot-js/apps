@@ -43,6 +43,7 @@ export default class AddressMini extends React.PureComponent<Props> {
           />
           <div className='ui--AddressMini-address'>{isShort ? toShortAddress(value) : value}</div>
           {children}
+          <div>{isShort ? toShortAddress(value) : value}</div>
         </div>
         {this.renderBalance()}
       </div>
