@@ -54,6 +54,7 @@ export interface ObservableApiInterface {
   rawStorage: <T> (key: SectionItem<Storages>, ...params: Array<any>) => Observable<T>,
   rawStorageMulti: <T> (...keys: Array<[SectionItem<Storages>, any]>) => Observable<T>,
   bestNumber: () => Observable<BN | undefined>,
+  chainGetBlock: (hash: Uint8Array) => Observable<any>,
   chainNewHead: () => Observable<Header | undefined>,
   democracyLaunchPeriod: () => Observable<BN | undefined>,
   democracyNextTally: () => Observable<BN | undefined>,

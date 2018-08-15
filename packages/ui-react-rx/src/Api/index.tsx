@@ -5,6 +5,7 @@
 import { ProviderInterface } from '@polkadot/api-provider/types';
 import { RxApiInterface } from '@polkadot/api-rx/types';
 import { EncodingVersions } from '@polkadot/params/types';
+import { Header } from '@polkadot/primitives/header';
 import { ApiProps } from '../types';
 
 import React from 'react';
@@ -16,6 +17,7 @@ import defaults from '@polkadot/api-rx/defaults';
 
 import ApiObservable from '../ApiObservable';
 import ApiContext from './Context';
+import isUndefined from '@polkadot/util/is/undefined';
 
 type Props = {
   api?: RxApiInterface,
@@ -59,6 +61,7 @@ export default class Api extends React.PureComponent<Props, State> {
     this.state = {
       api,
       apiConnected: false,
+      apiMethods: {},
       apiObservable: new ApiObservable(api),
       apiSupport: 'poc-1',
       setApi,
@@ -76,22 +79,19 @@ export default class Api extends React.PureComponent<Props, State> {
     this.unsubscribe();
   }
 
-  updateSubscriptions () {
+  private updateSubscriptions () {
     const { api } = this.state;
 
     this.unsubscribe();
     this.setState({
       subscriptions:
         [
-          () => api.isConnected().subscribe((isConnected?: boolean) => {
-            this.setState({ apiConnected: !!isConnected });
-          }),
-          () => api.system.chain().subscribe((chain?: string) => {
-            this.setState({ apiSupport: apiSupport(chain) });
-          })
+          this.subscribeIsConnected,
+          this.subscribeChain,
+          this.subscribeMethodCheck
         ].map((fn: Function) => {
           try {
-            return fn();
+            return fn(api);
           } catch (error) {
             console.error(error);
             return null;
@@ -100,7 +100,49 @@ export default class Api extends React.PureComponent<Props, State> {
     });
   }
 
-  unsubscribe (): void {
+  private subscribeIsConnected = (api: RxApiInterface): void => {
+    api
+      .isConnected()
+      .subscribe((isConnected?: boolean) => {
+        this.setState({ apiConnected: !!isConnected });
+      });
+  }
+
+  private subscribeChain = (api: RxApiInterface): void => {
+    api.system
+      .chain()
+      .subscribe((chain?: string) => {
+        this.setState({ apiSupport: apiSupport(chain) });
+      });
+  }
+
+  private subscribeMethodCheck = (api: RxApiInterface): void => {
+    api.chain
+      .newHead()
+      .subscribe(async (header?: Header) => {
+        if (!header || !isUndefined(this.state.apiMethods['chain_getBlock'])) {
+          return;
+        }
+
+        let isSupported = false;
+
+        try {
+          await api.chain.getBlock(header.parentHash).toPromise();
+          isSupported = true;
+        } catch (error) {
+          // console.error('chain_getBlock not supported, ignoring');
+        }
+
+        this.setState(({ apiMethods }: State) => ({
+          apiMethods: {
+            ...apiMethods,
+            'chain_getBlock': isSupported
+          }
+        }));
+      });
+  }
+
+  private unsubscribe (): void {
     const { subscriptions } = this.state;
 
     subscriptions.forEach((subscription) => {
@@ -115,12 +157,13 @@ export default class Api extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { api, apiConnected, apiObservable, apiSupport, setApi, setApiProvider, setApiWsUrl } = this.state;
+    const { api, apiConnected, apiMethods, apiObservable, apiSupport, setApi, setApiProvider, setApiWsUrl } = this.state;
 
     return (
       <ApiContext.Provider value={{
         api,
         apiConnected,
+        apiMethods,
         apiObservable,
         apiSupport,
         setApi,
