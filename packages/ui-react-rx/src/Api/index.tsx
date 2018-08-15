@@ -5,6 +5,7 @@
 import { ProviderInterface } from '@polkadot/api-provider/types';
 import { RxApiInterface } from '@polkadot/api-rx/types';
 import { EncodingVersions } from '@polkadot/params/types';
+import { Header } from '@polkadot/primitives/header';
 import { ApiProps } from '../types';
 
 import React from 'react';
@@ -16,6 +17,7 @@ import defaults from '@polkadot/api-rx/defaults';
 
 import ApiObservable from '../ApiObservable';
 import ApiContext from './Context';
+import isUndefined from '@polkadot/util/is/undefined';
 
 type Props = {
   api?: RxApiInterface,
@@ -59,6 +61,7 @@ export default class Api extends React.PureComponent<Props, State> {
     this.state = {
       api,
       apiConnected: false,
+      apiMethods: {},
       apiObservable: new ApiObservable(api),
       apiSupport: 'poc-1',
       setApi,
@@ -77,7 +80,7 @@ export default class Api extends React.PureComponent<Props, State> {
   }
 
   updateSubscriptions () {
-    const { api } = this.state;
+    const { api, apiMethods } = this.state;
 
     this.unsubscribe();
     this.setState({
@@ -88,6 +91,25 @@ export default class Api extends React.PureComponent<Props, State> {
           }),
           () => api.system.chain().subscribe((chain?: string) => {
             this.setState({ apiSupport: apiSupport(chain) });
+          }),
+          () => api.chain.newHead().subscribe(async (header?: Header) => {
+            if (header && isUndefined(apiMethods['chain_getBlock'])) {
+              let isSupported = false;
+
+              try {
+                await api.chain.getBlock(header.parentHash);
+                isSupported = true;
+              } catch (error) {
+                console.error('chain_getBlock not supported, ignoring');
+              }
+
+              this.setState(({ apiMethods }: State) => ({
+                apiMethods: {
+                  ...apiMethods,
+                  'chain_getBlock': isSupported
+                }
+              }));
+            }
           })
         ].map((fn: Function) => {
           try {
@@ -115,12 +137,13 @@ export default class Api extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { api, apiConnected, apiObservable, apiSupport, setApi, setApiProvider, setApiWsUrl } = this.state;
+    const { api, apiConnected, apiMethods, apiObservable, apiSupport, setApi, setApiProvider, setApiWsUrl } = this.state;
 
     return (
       <ApiContext.Provider value={{
         api,
         apiConnected,
+        apiMethods,
         apiObservable,
         apiSupport,
         setApi,

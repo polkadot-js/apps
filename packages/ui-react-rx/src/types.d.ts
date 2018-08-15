@@ -20,6 +20,9 @@ export type BareProps = {
 export type ApiProps = {
   api: RxApiInterface,
   apiConnected: boolean,
+  apiMethods: {
+    [index: string]: boolean
+  },
   apiObservable: ObservableApiInterface,
   apiSupport: EncodingVersions,
   setApi: (api: RxApiInterface) => void,

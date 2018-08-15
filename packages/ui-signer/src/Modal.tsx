@@ -6,7 +6,6 @@ import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { QueueTx, QueueTx$MessageSetStatus } from './types';
 
-import BN from 'bn.js';
 import React from 'react';
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
@@ -45,7 +44,6 @@ class Signer extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      // apiSupport: 'poc-1',
       password: '',
       unlockError: null
     };

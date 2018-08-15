@@ -66,7 +66,7 @@ export default class ObservableApi implements ObservableApiInterface {
 
   rawStorageMulti = <T> (...keys: Array<KeyWithParams>): Observable<T> => {
     return this.api.state
-      .subscribeStorage(keys)
+      .storage(keys)
       .pipe(
         map((result?: any) =>
           isUndefined(result)
@@ -89,7 +89,7 @@ export default class ObservableApi implements ObservableApiInterface {
   }
 
   chainNewHead = (): Observable<Header | undefined> => {
-    return this.api.chain.subscribeNewHead().pipe(
+    return this.api.chain.newHead().pipe(
       defaultIfEmpty()
     );
   }
