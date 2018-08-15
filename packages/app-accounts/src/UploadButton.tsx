@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Button$Sizes } from '@polkadot/ui-app/Button/types';
 import { BareProps, I18nProps } from '@polkadot/ui-app/types';
 import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 
@@ -31,7 +30,6 @@ type Props = I18nProps & BareProps & {
   icon?: string,
   isCircular?: boolean,
   isPrimary?: boolean,
-  size?: Button$Sizes,
   onChangeAccount: any
 };
 
@@ -128,7 +126,7 @@ export class UploadButton extends React.PureComponent<Props, State> {
 
   render () {
     const { uploadedFileKeyringPair, isPasswordModalOpen } = this.state;
-    const { className, icon = 'upload', isCircular = true, isPrimary = true, size = 'tiny', style } = this.props;
+    const { className, icon = 'upload', isCircular = true, isPrimary = true, style } = this.props;
     const address = uploadedFileKeyringPair && uploadedFileKeyringPair.address;
 
     return (
