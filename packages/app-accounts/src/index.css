@@ -21,6 +21,11 @@
   text-align: center;
 }
 
+.accounts--Address-modal > .ui--AddressMini,
+.accounts--Address-modal > .ui--AddressSummary {
+	display: none;
+}
+
 .accounts--Address-modal .ui--row > .ui--Password {
 	flex: 0 1 100%;
 }
@@ -57,4 +62,15 @@
 
 .accounts--flex-item {
   text-align: left;
+}
+
+@media (min-width: 1024px) {
+	.accounts--Address-modal > .ui--AddressSummary { 
+		display: block; 
+	}
+}
+ @media (max-width: 1023px) {
+	.accounts--Address-modal > .ui--AddressMini { 
+		display: block; 
+	}
 }
