@@ -46,6 +46,7 @@ export class DownloadModal extends React.PureComponent<Props> {
               <AddressMini
                 isShort
                 value={address}
+                withCopyIcon
               />
               <AddressSummary
                 withBalance={false}
