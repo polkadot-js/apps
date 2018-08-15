@@ -4,6 +4,7 @@
 
 import { Header } from '@polkadot/primitives/header';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import './BlockHeader.css';
 
@@ -12,17 +13,20 @@ import React from 'react';
 import headerHash from '@polkadot/primitives/codec/header/hash';
 import classes from '@polkadot/ui-app/util/classes';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
+import withApi from '@polkadot/ui-react-rx/with/api';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import translate from '../translate';
+import Extrinsics from './Extrinsics';
 
-type Props = I18nProps & {
+type Props = ApiProps & I18nProps & {
   value?: Header
 };
 
 class BlockHeader extends React.PureComponent<Props> {
   render () {
     const { className, value, style } = this.props;
+
     if (!value) {
       return null;
     }
@@ -63,12 +67,27 @@ class BlockHeader extends React.PureComponent<Props> {
                   {u8aToHex(stateRoot)}
                 </td>
               </tr>
+              {this.renderExtrinsics(hash)}
             </tbody>
           </table>
         </div>
       </div>
     );
   }
+
+  private renderExtrinsics (hash: Uint8Array) {
+    const { apiMethods } = this.props;
+
+    if (!apiMethods['chain_getBlock']) {
+      return null;
+    }
+
+    return (
+      <Extrinsics hash={hash} />
+    );
+  }
 }
 
-export default translate(BlockHeader);
+export default withApi(
+  translate(BlockHeader)
+);

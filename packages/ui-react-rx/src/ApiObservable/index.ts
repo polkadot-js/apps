@@ -88,6 +88,10 @@ export default class ObservableApi implements ObservableApiInterface {
       );
   }
 
+  chainGetBlock = (hash: Uint8Array): Observable<any> => {
+    return this.api.chain.getBlock(hash);
+  }
+
   chainNewHead = (): Observable<Header | undefined> => {
     return this.api.chain.newHead().pipe(
       defaultIfEmpty()

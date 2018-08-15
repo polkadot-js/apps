@@ -8,7 +8,7 @@ import { SectionVisibilityAll } from '../util/types';
 import isUndefined from '@polkadot/util/is/undefined';
 import isNull from '@polkadot/util/is/null';
 
-function anyMethodToDisplay <T> (methods: SectionItems<T>) {
+function anyMethodToDisplay <T> (methods: SectionItems<T, any>) {
   if (isUndefined(methods) || isNull(methods)) {
     return false;
   }
@@ -23,7 +23,7 @@ function anyMethodToDisplay <T> (methods: SectionItems<T>) {
     .length !== 0;
 }
 
-export function shouldDisplaySection<T> (section: Section<T>, type: SectionVisibilityAll) {
+export function shouldDisplaySection<T> (section: Section<T, any, any>, type: SectionVisibilityAll) {
   if (isUndefined(section)) {
     return false;
   }

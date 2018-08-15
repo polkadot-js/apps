@@ -127,7 +127,7 @@ export default class Api extends React.PureComponent<Props, State> {
         let isSupported = false;
 
         try {
-          await api.chain.getBlock(header.parentHash);
+          await api.chain.getBlock(header.parentHash).toPromise();
           isSupported = true;
         } catch (error) {
           // console.error('chain_getBlock not supported, ignoring');
