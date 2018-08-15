@@ -18,6 +18,7 @@
 
 .accounts--Address-modal {
   text-align: center;
+  padding-bottom: 0.5em;
 }
 
 .accounts--Address-modal > .ui--AddressMini,
