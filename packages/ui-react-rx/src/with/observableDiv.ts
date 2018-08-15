@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { BaseProps, ObservableApiNames } from '../types';
+import { ObservableApiNames } from '../ApiObservable/types';
+import { BaseProps } from '../types';
 import { ComponentRenderer, DefaultProps, RenderFn, Options } from './types';
 
 import Div from '../Div';

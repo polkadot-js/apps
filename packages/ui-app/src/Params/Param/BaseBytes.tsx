@@ -8,6 +8,7 @@ import React from 'react';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
+import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import Input from '../../Input';
 import Bare from './Bare';
@@ -24,7 +25,10 @@ const defaultValidate = (u8a: Uint8Array): boolean =>
 
 export default class BaseBytes extends React.PureComponent<Props> {
   render () {
-    const { className, isDisabled, isError, label, size = 'full', style, withLabel } = this.props;
+    const { className, defaultValue: { value }, isDisabled, isError, label, size = 'full', style, withLabel } = this.props;
+    const defaultValue = value
+      ? u8aToHex(value as Uint8Array)
+      : undefined;
 
     return (
       <Bare
@@ -33,6 +37,7 @@ export default class BaseBytes extends React.PureComponent<Props> {
       >
         <Input
           className={size}
+          defaultValue={defaultValue}
           isDisabled={isDisabled}
           isError={isError}
           label={label}
@@ -61,7 +66,7 @@ export default class BaseBytes extends React.PureComponent<Props> {
       : u8a.length !== 0;
     const isValid = isValidLength && validate(u8a);
 
-    onChange({
+    onChange && onChange({
       isValid,
       value: u8aConcat(
         withLength

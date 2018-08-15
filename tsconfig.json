@@ -5,6 +5,7 @@
     "paths": {
       "@polkadot/app-accounts/*": [ "packages/app-accounts/src/*" ],
       "@polkadot/app-addresses/*": [ "packages/app-addresses/src/*" ],
+      "@polkadot/app-democracy/*": [ "packages/app-democracy/src/*" ],
       "@polkadot/app-explorer/*": [ "packages/app-explorer/src/*" ],
       "@polkadot/app-example/*": [ "packages/app-example/src/*" ],
       "@polkadot/app-extrinsics/*": [ "packages/app-extrinsics/src/*" ],

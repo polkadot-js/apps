@@ -5,19 +5,24 @@
 import { Header } from '@polkadot/primitives/header';
 import { RxApiInterface, RxApiInterface$Method } from '@polkadot/api-rx/types';
 import { Interfaces } from '@polkadot/jsonrpc/types';
-import { SectionItem } from '@polkadot/params/types';
+import { ExtrinsicDecoded, SectionItem } from '@polkadot/params/types';
 import { Storages } from '@polkadot/storage/types';
-import { ExtendedBalance, ExtendedBalanceMap, ObservableApiInterface, KeyWithParams } from './types';
+import { RxBalance, RxBalanceMap, RxProposal, RxProposalDeposits, RxReferendum, ObservableApiInterface, KeyWithParams, RxReferendumVote } from './types';
 
 import BN from 'bn.js';
-import { Observable, combineLatest } from 'rxjs';
-import { concatMap, defaultIfEmpty, map } from 'rxjs/operators';
+import { EMPTY, Observable, combineLatest } from 'rxjs';
+import { switchMap, defaultIfEmpty, map } from 'rxjs/operators';
 import storage from '@polkadot/storage';
 import assert from '@polkadot/util/assert';
+import isUndefined from '@polkadot/util/is/undefined';
 
 type OptBN = BN | undefined;
 type OptDate = Date | undefined;
 type MapFn<R, T> = (combined: R) => T;
+
+type ResultReferendum = [BN, ExtrinsicDecoded, number];
+type ResultProposal = [BN, ExtrinsicDecoded, string];
+type ResultProposalDeposits = [BN, Array<string>];
 
 const defaultMapFn = (result: any): any =>
   result;
@@ -52,31 +57,218 @@ export default class ObservableApi implements ObservableApiInterface {
   rawStorage = <T> (key: SectionItem<Storages>, ...params: Array<any>): Observable<T> => {
     return this
       .rawStorageMulti([key, ...params] as KeyWithParams)
-      .pipe(map(([result]: Array<T>): T =>
-        result
-      ));
+      .pipe(
+        map(([result]: Array<T>): T =>
+          result
+        )
+      );
   }
 
   rawStorageMulti = <T> (...keys: Array<KeyWithParams>): Observable<T> => {
     return this.api.state
       .subscribeStorage(keys)
-      .pipe(map((result?: any) =>
-        result || []
-      ));
+      .pipe(
+        map((result?: any) =>
+          isUndefined(result)
+            ? []
+            : result
+        )
+      );
   }
 
   bestNumber = (): Observable<OptBN> => {
-    return this.chainNewHead().pipe(
-      map((header?: Header): OptBN =>
-        header && header.number
-          ? header.number
-          : undefined
+    return this
+      .chainNewHead()
+      .pipe(
+        map((header?: Header): OptBN =>
+          header && header.number
+            ? header.number
+            : undefined
+        )
+      );
+  }
+
+  chainNewHead = (): Observable<Header | undefined> => {
+    return this.api.chain.subscribeNewHead().pipe(
+      defaultIfEmpty()
+    );
+  }
+
+  democracyLaunchPeriod = (): Observable<OptBN> => {
+    return this.rawStorage(storage.democracy.public.launchPeriod);
+  }
+
+  democracyNextTally = (): Observable<OptBN> => {
+    return this.rawStorage(storage.democracy.public.nextTally);
+  }
+
+  democracyProposals = (): Observable<Array<RxProposal>> => {
+    return this
+      .rawStorage(storage.democracy.public.proposals)
+      .pipe(
+        map((proposals: Array<ResultProposal> = []) =>
+          proposals
+            .map((result: ResultProposal): RxProposal | undefined =>
+              result && result[1]
+                ? {
+                  address: result[2],
+                  id: result[0],
+                  proposal: result[1]
+                }
+                : undefined
+            )
+            .filter((proposal) =>
+              proposal
+            )
+        )
+    );
+  }
+
+  democracyProposalCount = (): Observable<number> => {
+    return this
+      .democracyProposals()
+      .pipe(
+        map((proposals: Array<RxProposal>) =>
+          proposals.length
+        )
+      );
+  }
+
+  democracyProposalDeposits = (proposalId: BN): Observable<RxProposalDeposits | undefined> => {
+    return this
+      .rawStorage(storage.democracy.public.depositOf, proposalId)
+      .pipe(
+        map((result: ResultProposalDeposits): RxProposalDeposits | undefined =>
+          result && result[0]
+            ? {
+              addresses: result[1] || [],
+              balance: result[0]
+            }
+            : undefined
+        )
+      );
+  }
+
+  democracyReferendumCount = (): Observable<OptBN> => {
+    return this.rawStorage(storage.democracy.public.referendumCount);
+  }
+
+  democracyReferendumInfoOf = (referendumId: BN | number): Observable<RxReferendum> => {
+    return this
+      .rawStorage(storage.democracy.public.referendumInfoOf, referendumId)
+      .pipe(
+        map((result: ResultReferendum) =>
+          result && result[1]
+            ? {
+              blockNumber: result[0],
+              id: new BN(referendumId),
+              proposal: result[1],
+              voteThreshold: result[2]
+            }
+            : undefined
+        )
+      );
+  }
+
+  democracyReferendumInfos = (referendumIds: Array<number>): Observable<Array<RxReferendum>> => {
+    return this.combine(
+      referendumIds.map((referendumId) =>
+        this.democracyReferendumInfoOf(referendumId)
+      ),
+      (referendums: Array<RxReferendum> = []): Array<RxReferendum> =>
+        referendums.filter((referendum) =>
+          referendum
+        )
+    );
+  }
+
+  democracyReferendumVoters = (referendumId: BN): Observable<Array<RxReferendumVote>> => {
+    return this.combine(
+      [
+        this.democacyVotersFor(referendumId),
+        this.democracyVotersBalancesOf(referendumId),
+        this.democracyVotersVotesOf(referendumId)
+      ],
+      ([voters, balances, votes]: [Array<string>, Array<BN>, Array<boolean>]): Array<RxReferendumVote> =>
+        voters.map((address, index): RxReferendumVote => ({
+          address,
+          balance: balances[index] || new BN(0),
+          vote: votes[index] || false
+        }))
+    );
+  }
+
+  democracyReferendums = (): Observable<Array<RxReferendum>> => {
+    return this.combine(
+      [
+        this.democracyReferendumCount(),
+        this.democracyNextTally()
+      ]
+    ).pipe(
+      switchMap(([referendumCount, nextTally]: [OptBN, OptBN]): Observable<Array<RxReferendum>> =>
+        referendumCount && nextTally && referendumCount.gt(nextTally) && referendumCount.gtn(0)
+          ? this.democracyReferendumInfos(
+            [...Array(referendumCount.sub(nextTally).toNumber())].map((_, i) =>
+              nextTally.addn(i).toNumber()
+            )
+          )
+          : EMPTY
+      ),
+      defaultIfEmpty([])
+    );
+  }
+
+  democacyVoteOf = (index: BN, address: string): Observable<boolean> => {
+    return this.rawStorage(storage.democracy.public.voteOf, index, address);
+  }
+
+  democracyVotesOf = (index: BN, addresses: Array<string>): Observable<boolean> => {
+    return this.combine(
+      addresses.map((address) =>
+        this.democacyVoteOf(index, address)
       )
     );
   }
 
-  chainNewHead = (): Observable<Header | undefined> => {
-    return this.api.chain.subscribeNewHead();
+  democacyVotersFor = (index: BN): Observable<Array<string>> => {
+    return this
+      .rawStorage(storage.democracy.public.votersFor, index)
+      .pipe(
+        map((voters: Array<string> = []) =>
+          voters
+        )
+      );
+  }
+
+  democracyVotersBalancesOf = (referendumId: BN): Observable<Array<BN>> => {
+    return this
+      .democacyVotersFor(referendumId)
+      .pipe(
+        switchMap((voters: Array<string> = []) =>
+          this.votingBalances(...voters)
+        ),
+        defaultIfEmpty([]),
+        map((balances: Array<RxBalance>) =>
+          balances.map(({ votingBalance }) =>
+            votingBalance
+          )
+        )
+      );
+  }
+
+  democracyVotersVotesOf = (referendumId: BN): Observable<Array<boolean>> => {
+    return this
+      .democacyVotersFor(referendumId)
+      .pipe(
+        switchMap((voters: Array<string> = []) =>
+          this.democracyVotesOf(referendumId, voters)
+        ),
+        defaultIfEmpty([])
+      );
+  }
+
+  democracyVotingPeriod = (): Observable<OptBN> => {
+    return this.rawStorage(storage.democracy.public.votingPeriod);
   }
 
   eraBlockLength = (): Observable<OptBN> => {
@@ -231,17 +423,21 @@ export default class ObservableApi implements ObservableApiInterface {
   sessionValidators = (): Observable<Array<string>> => {
     return this
       .rawStorage(storage.session.public.validators)
-      .pipe(map((validators: Array<string> = []) =>
-        validators
-      ));
+      .pipe(
+        map((validators: Array<string> = []) =>
+          validators
+        )
+      );
   }
 
   stakingIntentions = (): Observable<Array<string>> => {
     return this
       .rawStorage(storage.staking.public.intentions)
-      .pipe(map((intentions: Array<string> = []) =>
-        intentions
-      ));
+      .pipe(
+        map((intentions: Array<string> = []) =>
+          intentions
+        )
+      );
   }
 
   stakingFreeBalanceOf = (address: string): Observable<OptBN> => {
@@ -251,9 +447,11 @@ export default class ObservableApi implements ObservableApiInterface {
   stakingNominatorsFor = (address: string): Observable<Array<string>> => {
     return this
       .rawStorage(storage.staking.public.nominatorsFor, address)
-      .pipe(map((nominators: Array<string> = []) =>
-        nominators
-      ));
+      .pipe(
+        map((nominators: Array<string> = []) =>
+          nominators
+        )
+      );
   }
 
   stakingNominating = (address: string): Observable<string | undefined> => {
@@ -276,14 +474,14 @@ export default class ObservableApi implements ObservableApiInterface {
     return this.rawStorage(storage.system.public.accountIndexOf, address);
   }
 
-  validatingBalance = (address: string): Observable<ExtendedBalance> => {
+  validatingBalance = (address: string): Observable<RxBalance> => {
     return this.combine(
       [
         this.votingBalance(address),
         this.votingBalancesNominatorsFor(address)
       ],
-      ([balance, nominators = []]: [ExtendedBalance, Array<ExtendedBalance>]): ExtendedBalance => {
-        const nominatedBalance = nominators.reduce((total, nominator: ExtendedBalance) => {
+      ([balance, nominators = []]: [RxBalance, Array<RxBalance>]): RxBalance => {
+        const nominatedBalance = nominators.reduce((total, nominator: RxBalance) => {
           return total.add(nominator.votingBalance);
         }, new BN(0));
 
@@ -299,27 +497,27 @@ export default class ObservableApi implements ObservableApiInterface {
     );
   }
 
-  validatingBalances = (...addresses: Array<string>): Observable<ExtendedBalanceMap> => {
+  validatingBalances = (...addresses: Array<string>): Observable<RxBalanceMap> => {
     return this.combine(
       addresses.map((address) =>
         this.validatingBalance(address)
       ),
-      (result: Array<ExtendedBalance>): ExtendedBalanceMap =>
+      (result: Array<RxBalance>): RxBalanceMap =>
         result.reduce((balances, balance) => {
           balances[balance.address] = balance;
 
           return balances;
-        }, {} as ExtendedBalanceMap)
+        }, {} as RxBalanceMap)
     );
   }
 
-  votingBalance = (address: string): Observable<ExtendedBalance> => {
+  votingBalance = (address: string): Observable<RxBalance> => {
     return this.combine(
       [
         this.stakingFreeBalanceOf(address),
         this.stakingReservedBalanceOf(address)
       ],
-      ([freeBalance = new BN(0), reservedBalance = new BN(0)]: [OptBN, OptBN]): ExtendedBalance => ({
+      ([freeBalance = new BN(0), reservedBalance = new BN(0)]: [OptBN, OptBN]): RxBalance => ({
         address,
         freeBalance,
         nominatedBalance: new BN(0),
@@ -331,15 +529,17 @@ export default class ObservableApi implements ObservableApiInterface {
   }
 
   votingBalancesNominatorsFor = (address: string) => {
-    return this.stakingNominatorsFor(address).pipe(
-      concatMap((nominators: Array<string>) =>
-        this.votingBalances(...nominators)
-      ),
-      defaultIfEmpty([])
-    );
+    return this
+      .stakingNominatorsFor(address)
+      .pipe(
+        switchMap((nominators: Array<string>) =>
+          this.votingBalances(...nominators)
+        ),
+        defaultIfEmpty([])
+      );
   }
 
-  votingBalances = (...addresses: Array<string>): Observable<ExtendedBalance[]> => {
+  votingBalances = (...addresses: Array<string>): Observable<RxBalance[]> => {
     return this.combine(
       addresses.map((address) =>
         this.votingBalance(address)

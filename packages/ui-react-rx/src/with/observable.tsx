@@ -4,7 +4,8 @@
 
 // TODO: Lots of duplicated code between this and withObservable, surely there ois a better way of doing this?
 
-import { RxProps, ObservableApiNames } from '../types';
+import { ObservableApiNames } from '../ApiObservable/types';
+import { RxProps } from '../types';
 import { HOC, Options, DefaultProps, RenderFn } from './types';
 
 import React from 'react';
@@ -24,8 +25,6 @@ type State<T> = RxProps<T> & {
 // FIXME proper types for attributes
 
 export default function withObservable<T> (observable: ObservableApiNames, { onChange, params = [], paramProp = 'params', propName = observable, transform = echoTransform }: Options<T> = {}): HOC<T> {
-  console.log('observable', observable, paramProp);
-
   return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}, render?: RenderFn): React.ComponentType<any> => {
     class WithObservable extends React.Component<any, State<T>> {
       state: State<T>;

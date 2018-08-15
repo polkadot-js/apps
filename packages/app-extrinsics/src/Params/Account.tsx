@@ -31,7 +31,7 @@ export default class Account extends React.PureComponent<Props> {
   onChange = (publicKey?: Uint8Array): void => {
     const { onChange } = this.props;
 
-    onChange({
+    onChange && onChange({
       isValid: !!publicKey && publicKey.length === 32,
       value: publicKey
     });

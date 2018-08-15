@@ -14,6 +14,7 @@ import Balance from './Balance';
 
 type Props = BareProps & {
   balance?: BN | Array<BN>,
+  isPadded?: boolean,
   isShort?: boolean,
   value?: string,
   withBalance?: boolean
@@ -21,7 +22,7 @@ type Props = BareProps & {
 
 export default class AddressMini extends React.PureComponent<Props> {
   render () {
-    const { className, isShort = true, style, value } = this.props;
+    const { className, isPadded = true, isShort = true, style, value } = this.props;
 
     if (!value) {
       return null;
@@ -29,7 +30,7 @@ export default class AddressMini extends React.PureComponent<Props> {
 
     return (
       <div
-        className={classes('ui--AddressMini', className)}
+        className={classes('ui--AddressMini', isPadded ? 'padded' : '', className)}
         style={style}
       >
         <div className='ui--AddressMini-info'>

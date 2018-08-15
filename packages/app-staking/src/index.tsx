@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
-import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
+import { RxBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
 
 import React from 'react';
 import Page from '@polkadot/ui-app/Page';
@@ -17,7 +17,7 @@ import StakeList from './StakeList';
 import Summary from './Summary';
 
 type Props = BareProps & {
-  validatingBalances?: ExtendedBalanceMap,
+  validatingBalances?: RxBalanceMap,
   stakingIntentions?: Array<string>,
   sessionValidators?: Array<string>
 };

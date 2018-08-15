@@ -5,6 +5,7 @@
 import { Props } from '../types';
 
 import React from 'react';
+import bnToBn from '@polkadot/util/bn/toBn';
 
 import Dropdown from '../../Dropdown';
 import Bare from './Bare';
@@ -26,7 +27,7 @@ export const textMap = options.reduce((textMap, { text, value }) => {
 export default class VoteThreshold extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = (value as number);
+    const defaultValue = bnToBn(value as number).toNumber();
 
     return (
       <Bare
@@ -34,7 +35,7 @@ export default class VoteThreshold extends React.PureComponent<Props> {
         style={style}
       >
         <Dropdown
-          className='small'
+          className={isDisabled ? 'full' : 'small'}
           defaultValue={defaultValue}
           isDisabled={isDisabled}
           isError={isError}
@@ -50,7 +51,7 @@ export default class VoteThreshold extends React.PureComponent<Props> {
   onChange = (value: number): void => {
     const { onChange } = this.props;
 
-    onChange({
+    onChange && onChange({
       isValid: true,
       value
     });

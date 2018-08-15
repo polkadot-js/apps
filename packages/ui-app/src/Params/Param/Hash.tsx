@@ -19,7 +19,7 @@ export default function Hash ({ className, defaultValue, isDisabled, isError, la
       length={32}
       name={name}
       onChange={onChange}
-      size='medium'
+      size={isDisabled ? 'full' : 'medium'}
       style={style}
       withLabel={withLabel}
     />

@@ -765,22 +765,22 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.0.tgz#50c1e2260ac0ed9439a181de3725a0168d59c48a"
 
-"@polkadot/api-format@^0.28.9":
-  version "0.28.9"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-format/-/api-format-0.28.9.tgz#1360e37534d21e871b1bee0d58a0a2ebb99ad753"
+"@polkadot/api-format@^0.28.11":
+  version "0.28.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-format/-/api-format-0.28.11.tgz#7497f36d764016cd715795b6a62de62424d78c5b"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.51"
-    "@polkadot/jsonrpc" "^0.28.9"
-    "@polkadot/primitives" "^0.28.9"
+    "@polkadot/jsonrpc" "^0.28.11"
+    "@polkadot/primitives" "^0.28.11"
     "@polkadot/util" "^0.28.1"
     "@polkadot/util-keyring" "^0.28.1"
 
-"@polkadot/api-provider@^0.28.9":
-  version "0.28.9"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-provider/-/api-provider-0.28.9.tgz#642cc45d9248a61c7f80969290e19461c8f67047"
+"@polkadot/api-provider@^0.28.11":
+  version "0.28.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-provider/-/api-provider-0.28.11.tgz#3d2ccbb039d84130e828e8a9883d4e5cdee10d99"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.51"
-    "@polkadot/storage" "^0.28.9"
+    "@polkadot/storage" "^0.28.11"
     "@polkadot/util" "^0.28.1"
     "@polkadot/util-crypto" "^0.28.1"
     "@polkadot/util-keyring" "^0.28.1"
@@ -789,25 +789,25 @@
     isomorphic-fetch "^2.2.1"
     websocket "^1.0.25"
 
-"@polkadot/api-rx@^0.28.9":
-  version "0.28.9"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-rx/-/api-rx-0.28.9.tgz#5ad6352ce42df7888c37baef40c2acf24e5a7d76"
+"@polkadot/api-rx@^0.28.11":
+  version "0.28.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-rx/-/api-rx-0.28.11.tgz#5f0a057ea7b160b3242f12f153bff581278c9271"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.51"
-    "@polkadot/api" "^0.28.9"
-    "@polkadot/api-provider" "^0.28.9"
+    "@polkadot/api" "^0.28.11"
+    "@polkadot/api-provider" "^0.28.11"
     "@types/rx" "^4.1.1"
     rxjs "^6.2.2"
 
-"@polkadot/api@^0.28.9":
-  version "0.28.9"
-  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.28.9.tgz#86c2f2db81256ba4d101d37ca18c3fcaa076e0c7"
+"@polkadot/api@^0.28.11":
+  version "0.28.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.28.11.tgz#46b2a7b395dabdc9cb47a769aec3c419a7c2e405"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.51"
-    "@polkadot/api-format" "^0.28.9"
-    "@polkadot/api-provider" "^0.28.9"
-    "@polkadot/jsonrpc" "^0.28.9"
-    "@polkadot/params" "^0.28.9"
+    "@polkadot/api-format" "^0.28.11"
+    "@polkadot/api-provider" "^0.28.11"
+    "@polkadot/jsonrpc" "^0.28.11"
+    "@polkadot/params" "^0.28.11"
     "@polkadot/util" "^0.28.1"
 
 "@polkadot/dev-react@^0.20.12":
@@ -877,48 +877,48 @@
     typedoc "^0.11.1"
     typescript "^2.9.2"
 
-"@polkadot/extrinsics@^0.28.9":
-  version "0.28.9"
-  resolved "https://registry.yarnpkg.com/@polkadot/extrinsics/-/extrinsics-0.28.9.tgz#b7804179153c29e793a9d549b566f23a13f98558"
+"@polkadot/extrinsics@^0.28.11":
+  version "0.28.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/extrinsics/-/extrinsics-0.28.11.tgz#834c04b58dbdeee9750bdca7a2cc125c2411bb2e"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.51"
-    "@polkadot/params" "^0.28.9"
-    "@polkadot/primitives" "^0.28.9"
+    "@polkadot/params" "^0.28.11"
+    "@polkadot/primitives" "^0.28.11"
     "@polkadot/util" "^0.28.1"
 
-"@polkadot/jsonrpc@^0.28.9":
-  version "0.28.9"
-  resolved "https://registry.yarnpkg.com/@polkadot/jsonrpc/-/jsonrpc-0.28.9.tgz#564116660f703084048139c3bda7f01c979e55b4"
+"@polkadot/jsonrpc@^0.28.11":
+  version "0.28.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/jsonrpc/-/jsonrpc-0.28.11.tgz#0687b93077be6ed3dc16f1d8937918ed9647b5e8"
   dependencies:
-    "@polkadot/params" "^0.28.9"
+    "@polkadot/params" "^0.28.11"
     babel-runtime "^6.26.0"
 
-"@polkadot/params@^0.28.9":
-  version "0.28.9"
-  resolved "https://registry.yarnpkg.com/@polkadot/params/-/params-0.28.9.tgz#220888b70d147c71f195d06b1e38525c520e04aa"
+"@polkadot/params@^0.28.11":
+  version "0.28.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/params/-/params-0.28.11.tgz#9dea2efa3c6b4725547fd6dd8b3c2312d1d226d7"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.51"
-    "@polkadot/extrinsics" "^0.28.9"
-    "@polkadot/params" "^0.28.9"
-    "@polkadot/primitives" "^0.28.9"
+    "@polkadot/extrinsics" "^0.28.11"
+    "@polkadot/params" "^0.28.11"
+    "@polkadot/primitives" "^0.28.11"
     "@polkadot/util" "^0.28.1"
     "@polkadot/util-keyring" "^0.28.1"
 
-"@polkadot/primitives@^0.28.9":
-  version "0.28.9"
-  resolved "https://registry.yarnpkg.com/@polkadot/primitives/-/primitives-0.28.9.tgz#e451adc1faf78b397f7020f0f036d8542e48aab0"
+"@polkadot/primitives@^0.28.11":
+  version "0.28.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/primitives/-/primitives-0.28.11.tgz#4c32f181a779f002d9def60cecf46237034ef270"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.51"
     "@polkadot/trie-hash" "^0.28.1"
     "@polkadot/util" "^0.28.1"
 
-"@polkadot/storage@^0.28.9":
-  version "0.28.9"
-  resolved "https://registry.yarnpkg.com/@polkadot/storage/-/storage-0.28.9.tgz#2ac372d64ba1f92310da88476a1be16f92a30443"
+"@polkadot/storage@^0.28.11":
+  version "0.28.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/storage/-/storage-0.28.11.tgz#c388142dcc409fb151512f2c34b6d191656c9bd3"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.51"
-    "@polkadot/params" "^0.28.9"
-    "@polkadot/primitives" "^0.28.9"
+    "@polkadot/params" "^0.28.11"
+    "@polkadot/primitives" "^0.28.11"
     "@polkadot/util" "^0.28.1"
     "@polkadot/util-crypto" "^0.28.1"
     "@polkadot/util-keyring" "^0.28.1"
@@ -1020,6 +1020,10 @@
   resolved "https://registry.yarnpkg.com/@types/bs58/-/bs58-3.0.30.tgz#916ba10992465e56f81afc735e7935fd749893e1"
   dependencies:
     "@types/base-x" "*"
+
+"@types/chart.js@^2.7.30":
+  version "2.7.30"
+  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.7.30.tgz#b3a973d4790ff5cbf1352ee756f4bfde5ae1cd27"
 
 "@types/color-convert@*":
   version "1.9.0"
@@ -2862,6 +2866,26 @@ chardet@^0.4.0:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.4.2.tgz#b5473b33dc97c424e5d98dc87d55d4d8a29c8bf2"
 
+chart.js@^2.7.2:
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-2.7.2.tgz#3c9fde4dc5b95608211bdefeda7e5d33dffa5714"
+  dependencies:
+    chartjs-color "^2.1.0"
+    moment "^2.10.2"
+
+chartjs-color-string@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/chartjs-color-string/-/chartjs-color-string-0.5.0.tgz#8d3752d8581d86687c35bfe2cb80ac5213ceb8c1"
+  dependencies:
+    color-name "^1.0.0"
+
+chartjs-color@^2.1.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/chartjs-color/-/chartjs-color-2.2.0.tgz#84a2fb755787ed85c39dd6dd8c7b1d88429baeae"
+  dependencies:
+    chartjs-color-string "^0.5.0"
+    color-convert "^0.5.3"
+
 cheerio@^1.0.0-rc.2:
   version "1.0.0-rc.2"
   resolved "https://registry.yarnpkg.com/cheerio/-/cheerio-1.0.0-rc.2.tgz#4b9f53a81b27e4d5dac31c0ffd0cfa03cc6830db"
@@ -3091,6 +3115,10 @@ collection-visit@^1.0.0:
   dependencies:
     map-visit "^1.0.0"
     object-visit "^1.0.0"
+
+color-convert@^0.5.3:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-0.5.3.tgz#bdb6c69ce660fadffe0b0007cc447e1b9f7282bd"
 
 color-convert@^1.3.0, color-convert@^1.8.2, color-convert@^1.9.0, color-convert@^1.9.1:
   version "1.9.2"
@@ -7570,7 +7598,7 @@ modify-values@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/modify-values/-/modify-values-1.0.1.tgz#b3939fa605546474e3e3e3c63d64bd43b4ee6022"
 
-moment@^2.22.2, moment@^2.6.0:
+moment@^2.10.2, moment@^2.22.2, moment@^2.6.0:
   version "2.22.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
@@ -9224,6 +9252,13 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.2.7:
     ini "~1.3.0"
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
+
+react-chartjs-2@^2.7.4:
+  version "2.7.4"
+  resolved "https://registry.yarnpkg.com/react-chartjs-2/-/react-chartjs-2-2.7.4.tgz#e41ea4e81491dc78347111126a48e96ee57db1a6"
+  dependencies:
+    lodash "^4.17.4"
+    prop-types "^15.5.8"
 
 react-copy-to-clipboard@^5.0.1:
   version "5.0.1"

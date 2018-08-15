@@ -23,7 +23,7 @@ type State = {
   value: State$Param
 };
 
-export default class KeyValue extends React.PureComponent<Props, State> {
+export default class StorageKeyValue extends React.PureComponent<Props, State> {
   state: State = {
     key: {
       isValid: false,
@@ -91,7 +91,7 @@ export default class KeyValue extends React.PureComponent<Props, State> {
       (prevState: State, { onChange }: Props) => {
         const { key = prevState.key, value = prevState.value } = newState;
 
-        onChange({
+        onChange && onChange({
           isValid: key.isValid && value.isValid,
           value: u8aConcat(
             u8aConcat(bnToU8a(key.u8a.length, 32, true), key.u8a),

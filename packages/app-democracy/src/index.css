@@ -1,0 +1,100 @@
+/* Copyright 2017-2018 @polkadot/app-democracy authors & contributors
+/* This software may be modified and distributed under the terms
+/* of the ISC license. See the LICENSE file for details. */
+
+.democracy--App {
+  margin-bottom: 1em;
+}
+
+/* FIXME These are just copied as-is from staking/Summary - once happy and proven to be
+  shareable, it needs to be moved into ui-app for consistency.
+*/
+.democracy--Summary {
+  align-items: stretch;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 2em;
+}
+
+.democracy--Summary-column {
+  display: flex;
+  flex: 0 1 auto;
+  text-align: left;
+}
+
+.democracy--Summary-card {
+  flex: 0 1 auto;
+  text-align: left;
+}
+
+.democracy--Proposals,
+.democracy--Referendums {
+  margin-bottom: 2rem;
+}
+
+.democracy--Item-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.democracy--Item-header-info,
+.democracy--Item-header-id {
+  flex: 1;
+}
+
+.democracy--Item-header-id {
+  font-size: 2rem;
+  line-height: 2rem;
+  text-align: right;
+}
+
+.democracy--Item-header-description {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.democracy--Item-header-name {
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+}
+
+.democracy--Item-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+}
+
+.democracy--Item-extrinsic,
+.democracy--Item-children {
+  flex: 1;
+  width: 0;
+  padding: 0 1em;
+  text-align: left;
+}
+
+.democracy--Item-extrinsic .ui--Params-Content {
+  padding-left: 0;
+}
+
+.democracy--Extrinsic .ui--Labelled {
+  margin-bottom: 0.25rem;
+}
+
+.democracy--Extrinsic .ui--Labelled .ui.label {
+  display: block;
+  padding-left: 0;
+}
+
+.democracy--Proposal-info,
+.democracy--Referendum-info {
+  margin-bottom: 0;
+}
+
+.democracy--Referendum-results {
+  margin-bottom: 1em;
+}
+
+.democracy--Referendum-results.chart {
+  text-align: center;
+}

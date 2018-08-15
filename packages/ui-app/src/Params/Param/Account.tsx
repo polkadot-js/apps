@@ -20,7 +20,7 @@ export default class Account extends React.PureComponent<Props> {
         style={style}
       >
         <InputAddress
-          className='large'
+          className={isDisabled ? 'full' : 'large'}
           defaultValue={defaultValue}
           isDisabled={isDisabled}
           isError={isError}
@@ -37,7 +37,7 @@ export default class Account extends React.PureComponent<Props> {
   onChange = (value?: Uint8Array): void => {
     const { onChange } = this.props;
 
-    onChange({
+    onChange && onChange({
       isValid: !!value && value.length === 32,
       value
     });

@@ -11,20 +11,21 @@ import Labelled from '../../Labelled';
 import Bare from './Bare';
 
 type Props = BareProps & {
-  children: any, // node?
+  children: React.ReactNode,
+  isDisabled?: boolean,
   label?: string,
   size?: Size,
   withLabel?: boolean
 };
 
-export default function Base ({ children, className, label, size = 'medium', style, withLabel }: Props) {
+export default function Base ({ children, className, isDisabled, label, size = 'medium', style, withLabel }: Props) {
   return (
     <Bare
       className={className}
       style={style}
     >
       <Labelled
-        className={size}
+        className={isDisabled ? 'full' : size}
         label={label}
         withLabel={withLabel}
       >
