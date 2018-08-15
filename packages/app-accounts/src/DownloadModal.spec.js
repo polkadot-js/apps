@@ -5,23 +5,23 @@
 import React from 'react';
 import { shallow } from '../../../test/enzyme';
 
-import { DownloadButton } from './DownloadButton';
+import { DownloadModal } from './DownloadModal';
 
 const mockT = (key, options) => (key);
 
-describe('DownloadButton', () => {
+describe('DownloadModal', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<DownloadButton t={mockT} />, {});
+    wrapper = shallow(<DownloadModal t={mockT} />, {});
   });
 
   it('creates the element', () => {
     expect(wrapper).toHaveLength(1);
   });
 
-  it('should only render Modal when state values set for address and password modal toggler', () => {
-    wrapper.setState({ address: '5G2nJMC7RxpTNuiQdN12zz8jZb1wGt3HozLqumZ1PFEDNNe8', isPasswordModalOpen: true });
+  it('should only render Modal when prop values set for address and password modal toggler', () => {
+    wrapper.setProps({ address: '5G2nJMC7RxpTNuiQdN12zz8jZb1wGt3HozLqumZ1PFEDNNe8', isPasswordModalOpen: true });
     expect(wrapper.find('.accounts--Address-modal')).toHaveLength(1);
   });
 });

@@ -7,16 +7,13 @@ import { BareProps, I18nProps } from '@polkadot/ui-app/types';
 import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 
 import React from 'react';
-import translate from './translate';
-import { Trans } from 'react-i18next';
 import FileSaver from 'file-saver';
 import keyring from '@polkadot/ui-keyring/index';
 import isUndefined from '@polkadot/util/is/undefined';
-
-import AddressMini from '@polkadot/ui-app/AddressMini';
 import Button from '@polkadot/ui-app/Button';
-import Modal from '@polkadot/ui-app/Modal';
-import Unlock from '@polkadot/ui-signer/Unlock';
+
+import DownloadModal from './DownloadModal';
+import translate from './translate';
 
 type State = {
   address: string,
@@ -86,7 +83,7 @@ export class DownloadButton extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { address, isPasswordModalOpen } = this.state;
+    const { address, error, password, isPasswordModalOpen } = this.state;
     const { className, icon = 'download', isCircular = true, isPrimary = true, size = 'tiny', style } = this.props;
 
     if (!address) {
@@ -95,32 +92,19 @@ export class DownloadButton extends React.PureComponent<Props, State> {
 
     return (
       <div className='accounts--Address-download'>
-        <Modal
-          dimmer='inverted'
-          open={isPasswordModalOpen}
-          onClose={this.hidePasswordModal}
-          size='mini'
-        >
-          <Modal.Content>
-            <div className='ui--grid'>
-              <div className='accounts--Address-modal'>
-                <AddressMini
-                  isShort
-                  value={address}
-                />
-                <div className='accounts--Address-modal-message expanded'>
-                  <p>
-                    <Trans i18nKey='unlock.info'>
-                      Please enter your account password to unlock and download a decrypted backup.
-                    </Trans>
-                  </p>
-                </div>
-                {this.renderContent()}
-              </div>
-              {this.renderButtons()}
-            </div>
-          </Modal.Content>
-        </Modal>
+        <DownloadModal
+          address={address}
+          className={className}
+          error={error}
+          handleDownloadAccount={this.handleDownloadAccount}
+          hidePasswordModal={this.hidePasswordModal}
+          isPasswordModalOpen={isPasswordModalOpen}
+          key='accounts-download-signer-modal'
+          onChangePassword={this.onChangePassword}
+          onDiscard={this.onDiscard}
+          password={password}
+          style={style}
+        />
         <Button
           className={className}
           icon={icon}
@@ -131,53 +115,6 @@ export class DownloadButton extends React.PureComponent<Props, State> {
           style={style}
         />
       </div>
-    );
-  }
-
-  renderContent () {
-    const { address, error, password } = this.state;
-
-    if (!address) {
-      return null;
-    }
-
-    const keyringAddress = keyring.getAddress(address);
-
-    return (
-      <Unlock
-        autoFocus
-        error={error}
-        onChange={this.onChangePassword}
-        password={password}
-        value={keyringAddress.publicKey()}
-      />
-    );
-  }
-
-  renderButtons () {
-    const { t } = this.props;
-
-    return (
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            onClick={this.onDiscard}
-            text={t('creator.discard', {
-              defaultValue: 'Cancel'
-            })}
-          />
-          <Button.Or />
-          <Button
-            isPrimary
-            className='ui--Button-submit'
-            onClick={this.handleDownloadAccount}
-            text={t('creator.submit', {
-              defaultValue: 'Submit'
-            })}
-          />
-        </Button.Group>
-      </Modal.Actions>
     );
   }
 
