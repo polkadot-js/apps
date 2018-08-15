@@ -79,41 +79,19 @@ export default class Api extends React.PureComponent<Props, State> {
     this.unsubscribe();
   }
 
-  updateSubscriptions () {
-    const { api, apiMethods } = this.state;
+  private updateSubscriptions () {
+    const { api } = this.state;
 
     this.unsubscribe();
     this.setState({
       subscriptions:
         [
-          () => api.isConnected().subscribe((isConnected?: boolean) => {
-            this.setState({ apiConnected: !!isConnected });
-          }),
-          () => api.system.chain().subscribe((chain?: string) => {
-            this.setState({ apiSupport: apiSupport(chain) });
-          }),
-          () => api.chain.newHead().subscribe(async (header?: Header) => {
-            if (header && isUndefined(apiMethods['chain_getBlock'])) {
-              let isSupported = false;
-
-              try {
-                await api.chain.getBlock(header.parentHash);
-                isSupported = true;
-              } catch (error) {
-                console.error('chain_getBlock not supported, ignoring');
-              }
-
-              this.setState(({ apiMethods }: State) => ({
-                apiMethods: {
-                  ...apiMethods,
-                  'chain_getBlock': isSupported
-                }
-              }));
-            }
-          })
+          this.subscribeIsConnected,
+          this.subscribeChain,
+          this.subscribeMethodCheck
         ].map((fn: Function) => {
           try {
-            return fn();
+            return fn(api);
           } catch (error) {
             console.error(error);
             return null;
@@ -122,7 +100,49 @@ export default class Api extends React.PureComponent<Props, State> {
     });
   }
 
-  unsubscribe (): void {
+  private subscribeIsConnected = (api: RxApiInterface): void => {
+    api
+      .isConnected()
+      .subscribe((isConnected?: boolean) => {
+        this.setState({ apiConnected: !!isConnected });
+      });
+  }
+
+  private subscribeChain = (api: RxApiInterface): void => {
+    api.system
+      .chain()
+      .subscribe((chain?: string) => {
+        this.setState({ apiSupport: apiSupport(chain) });
+      });
+  }
+
+  private subscribeMethodCheck = (api: RxApiInterface): void => {
+    api.chain
+      .newHead()
+      .subscribe(async (header?: Header) => {
+        if (!header || !isUndefined(this.state.apiMethods['chain_getBlock'])) {
+          return;
+        }
+
+        let isSupported = false;
+
+        try {
+          await api.chain.getBlock(header.parentHash);
+          isSupported = true;
+        } catch (error) {
+          // console.error('chain_getBlock not supported, ignoring');
+        }
+
+        this.setState(({ apiMethods }: State) => ({
+          apiMethods: {
+            ...apiMethods,
+            'chain_getBlock': isSupported
+          }
+        }));
+      });
+  }
+
+  private unsubscribe (): void {
     const { subscriptions } = this.state;
 
     subscriptions.forEach((subscription) => {
