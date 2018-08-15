@@ -152,6 +152,7 @@
 
 .ui--CardSummary-large {
   font-size: 3rem;
+  font-weight: 100;
   line-height: 3rem;
   text-align: right;
 }
