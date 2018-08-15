@@ -57,33 +57,41 @@ export default class ObservableApi implements ObservableApiInterface {
   rawStorage = <T> (key: SectionItem<Storages>, ...params: Array<any>): Observable<T> => {
     return this
       .rawStorageMulti([key, ...params] as KeyWithParams)
-      .pipe(map(([result]: Array<T>): T =>
-        result
-      ));
+      .pipe(
+        map(([result]: Array<T>): T =>
+          result
+        )
+      );
   }
 
   rawStorageMulti = <T> (...keys: Array<KeyWithParams>): Observable<T> => {
     return this.api.state
       .subscribeStorage(keys)
-      .pipe(map((result?: any) =>
-        isUndefined(result)
-          ? []
-          : result
-      ));
+      .pipe(
+        map((result?: any) =>
+          isUndefined(result)
+            ? []
+            : result
+        )
+      );
   }
 
   bestNumber = (): Observable<OptBN> => {
-    return this.chainNewHead().pipe(
-      map((header?: Header): OptBN =>
-        header && header.number
-          ? header.number
-          : undefined
-      )
-    );
+    return this
+      .chainNewHead()
+      .pipe(
+        map((header?: Header): OptBN =>
+          header && header.number
+            ? header.number
+            : undefined
+        )
+      );
   }
 
   chainNewHead = (): Observable<Header | undefined> => {
-    return this.api.chain.subscribeNewHead();
+    return this.api.chain.subscribeNewHead().pipe(
+      defaultIfEmpty()
+    );
   }
 
   democracyLaunchPeriod = (): Observable<OptBN> => {
@@ -117,9 +125,13 @@ export default class ObservableApi implements ObservableApiInterface {
   }
 
   democracyProposalCount = (): Observable<number> => {
-    return this.democracyProposals().pipe(map((proposals: Array<RxProposal>) =>
-      proposals.length
-    ));
+    return this
+      .democracyProposals()
+      .pipe(
+        map((proposals: Array<RxProposal>) =>
+          proposals.length
+        )
+      );
   }
 
   democracyProposalDeposits = (proposalId: BN): Observable<RxProposalDeposits | undefined> => {
@@ -221,32 +233,38 @@ export default class ObservableApi implements ObservableApiInterface {
   democacyVotersFor = (index: BN): Observable<Array<string>> => {
     return this
       .rawStorage(storage.democracy.public.votersFor, index)
-      .pipe(map((voters: Array<string> = []) =>
-        voters
-      ));
+      .pipe(
+        map((voters: Array<string> = []) =>
+          voters
+        )
+      );
   }
 
   democracyVotersBalancesOf = (referendumId: BN): Observable<Array<BN>> => {
-    return this.democacyVotersFor(referendumId).pipe(
-      switchMap((voters: Array<string> = []) =>
-        this.votingBalances(...voters)
-      ),
-      defaultIfEmpty([]),
-      map((balances: Array<RxBalance>) =>
-        balances.map(({ votingBalance }) =>
-          votingBalance
+    return this
+      .democacyVotersFor(referendumId)
+      .pipe(
+        switchMap((voters: Array<string> = []) =>
+          this.votingBalances(...voters)
+        ),
+        defaultIfEmpty([]),
+        map((balances: Array<RxBalance>) =>
+          balances.map(({ votingBalance }) =>
+            votingBalance
+          )
         )
-      )
-    );
+      );
   }
 
   democracyVotersVotesOf = (referendumId: BN): Observable<Array<boolean>> => {
-    return this.democacyVotersFor(referendumId).pipe(
-      switchMap((voters: Array<string> = []) =>
-        this.democracyVotesOf(referendumId, voters)
-      ),
-      defaultIfEmpty([])
-    );
+    return this
+      .democacyVotersFor(referendumId)
+      .pipe(
+        switchMap((voters: Array<string> = []) =>
+          this.democracyVotesOf(referendumId, voters)
+        ),
+        defaultIfEmpty([])
+      );
   }
 
   democracyVotingPeriod = (): Observable<OptBN> => {
@@ -405,17 +423,21 @@ export default class ObservableApi implements ObservableApiInterface {
   sessionValidators = (): Observable<Array<string>> => {
     return this
       .rawStorage(storage.session.public.validators)
-      .pipe(map((validators: Array<string> = []) =>
-        validators
-      ));
+      .pipe(
+        map((validators: Array<string> = []) =>
+          validators
+        )
+      );
   }
 
   stakingIntentions = (): Observable<Array<string>> => {
     return this
       .rawStorage(storage.staking.public.intentions)
-      .pipe(map((intentions: Array<string> = []) =>
-        intentions
-      ));
+      .pipe(
+        map((intentions: Array<string> = []) =>
+          intentions
+        )
+      );
   }
 
   stakingFreeBalanceOf = (address: string): Observable<OptBN> => {
@@ -425,9 +447,11 @@ export default class ObservableApi implements ObservableApiInterface {
   stakingNominatorsFor = (address: string): Observable<Array<string>> => {
     return this
       .rawStorage(storage.staking.public.nominatorsFor, address)
-      .pipe(map((nominators: Array<string> = []) =>
-        nominators
-      ));
+      .pipe(
+        map((nominators: Array<string> = []) =>
+          nominators
+        )
+      );
   }
 
   stakingNominating = (address: string): Observable<string | undefined> => {
@@ -505,12 +529,14 @@ export default class ObservableApi implements ObservableApiInterface {
   }
 
   votingBalancesNominatorsFor = (address: string) => {
-    return this.stakingNominatorsFor(address).pipe(
-      switchMap((nominators: Array<string>) =>
-        this.votingBalances(...nominators)
-      ),
-      defaultIfEmpty([])
-    );
+    return this
+      .stakingNominatorsFor(address)
+      .pipe(
+        switchMap((nominators: Array<string>) =>
+          this.votingBalances(...nominators)
+        ),
+        defaultIfEmpty([])
+      );
   }
 
   votingBalances = (...addresses: Array<string>): Observable<RxBalance[]> => {

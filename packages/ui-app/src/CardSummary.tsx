@@ -38,7 +38,7 @@ export default class CardSummary extends React.PureComponent<Props> {
           <div className='ui--CardSummary-large'>
             {children}{
               progress && (
-                (isUndefined(progress.value) || progress.value.ltn(0)) || isUndefined(progress.total)
+                (isUndefined(progress.value) || isUndefined(progress.total) || progress.value.ltn(0)) || progress.value.gt(progress.total) || progress.total.eqn(0)
                   ? '-'
                   : `${progress.value.toString()}/${progress.total.toString()}`
               )

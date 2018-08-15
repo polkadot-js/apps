@@ -12,7 +12,7 @@ import bnToBn from '@polkadot/util/bn/toBn';
 import classes from '../util/classes';
 
 type Value = {
-  colors: [string, string],
+  colors: Array<string>,
   label: string,
   value: number | BN
 };
@@ -33,9 +33,9 @@ export default class ChartDoughnut extends React.PureComponent<Props> {
   render () {
     const { className, size = 100, style, values } = this.props;
 
-    const options = values.reduce((options, { colors: [normalColor, hoverColor], label, value }) => {
+    const options = values.reduce((options, { colors: [normalColor = '#00f', hoverColor], label, value }) => {
       options.colorNormal.push(normalColor);
-      options.colorHover.push(hoverColor);
+      options.colorHover.push(hoverColor || normalColor);
       options.data.push(bnToBn(value).toNumber());
       options.labels.push(label);
 
