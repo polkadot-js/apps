@@ -82,12 +82,12 @@ export class DownloadButton extends React.PureComponent<Props, State> {
     this.setState({ isPasswordModalOpen: false });
   }
 
-  render () {
+  render (): JSX.Element {
     const { address, error, password, isPasswordModalOpen } = this.state;
     const { className, icon = 'download', isCircular = true, isPrimary = true, size = 'tiny', style } = this.props;
 
     if (!address) {
-      return null;
+      return (<div></div>);
     }
 
     return (
