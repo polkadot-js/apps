@@ -22,6 +22,6 @@ describe('DownloadModal', () => {
 
   it('should only render Modal when prop values set for address and password modal toggler', () => {
     wrapper.setProps({ address: '5G2nJMC7RxpTNuiQdN12zz8jZb1wGt3HozLqumZ1PFEDNNe8', isPasswordModalOpen: true });
-    expect(wrapper.find('.accounts--Address-modal')).toHaveLength(1);
+    expect(wrapper.find('.ui--accounts-download-Signer')).toHaveLength(1);
   });
 });

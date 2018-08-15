@@ -5,23 +5,23 @@
 import React from 'react';
 import { shallow } from '../../../test/enzyme';
 
-import { UploadButton } from './UploadButton';
+import { UploadModal } from './UploadModal';
 
 const mockT = (key, options) => (key);
 
-describe('UploadButton', () => {
+describe('UploadModal', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<UploadButton t={mockT} />, {});
+    wrapper = shallow(<UploadModal t={mockT} />, {});
   });
 
   it('creates the element', () => {
     expect(wrapper).toHaveLength(1);
   });
 
-  it('should only render Modal when state values set for address and password modal toggler', () => {
-    wrapper.setState({ address: '5G2nJMC7RxpTNuiQdN12zz8jZb1wGt3HozLqumZ1PFEDNNe8', isPasswordModalOpen: true });
-    expect(wrapper.find('.accounts--Address-modal')).toHaveLength(1);
+  it('should only render Modal when prop values set for address and password modal toggler', () => {
+    wrapper.setProps({ address: '5G2nJMC7RxpTNuiQdN12zz8jZb1wGt3HozLqumZ1PFEDNNe8', isPasswordModalOpen: true });
+    expect(wrapper.find('.ui--accounts-upload-Signer')).toHaveLength(1);
   });
 });

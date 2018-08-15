@@ -6,17 +6,13 @@ import { BareProps, I18nProps } from '@polkadot/ui-app/types';
 import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 
 import React from 'react';
-import translate from './translate';
-import { Trans } from 'react-i18next';
 import isUndefined from '@polkadot/util/is/undefined';
 import keyring from '@polkadot/ui-keyring/index';
 import arrayContainsArray from '@polkadot/ui-app/util/arrayContainsArray';
-
-import AddressMini from '@polkadot/ui-app/AddressMini';
-import Button from '@polkadot/ui-app/Button';
 import File from '@polkadot/ui-app/Params/Param/File';
-import Modal from '@polkadot/ui-app/Modal';
-import Unlock from '@polkadot/ui-signer/Unlock';
+
+import UploadModal from './UploadModal';
+import translate from './translate';
 
 type State = {
   address: string,
@@ -27,9 +23,6 @@ type State = {
 };
 
 type Props = I18nProps & BareProps & {
-  icon?: string,
-  isCircular?: boolean,
-  isPrimary?: boolean,
   onChangeAccount: any
 };
 
@@ -125,38 +118,26 @@ export class UploadButton extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { uploadedFileKeyringPair, isPasswordModalOpen } = this.state;
-    const { className, icon = 'upload', isCircular = true, isPrimary = true, style } = this.props;
-    const address = uploadedFileKeyringPair && uploadedFileKeyringPair.address;
+    const { error, isPasswordModalOpen, password, uploadedFileKeyringPair } = this.state;
+    const { className, style } = this.props;
+    const address = uploadedFileKeyringPair && uploadedFileKeyringPair.address || undefined;
 
     return (
       <div className='accounts--Address-upload'>
-        <Modal
-          dimmer='inverted'
-          open={address && isPasswordModalOpen ? true : false}
-          onClose={this.hidePasswordModal}
-          size='mini'
-        >
-          <Modal.Content>
-            <div className='ui--grid'>
-              <div className='accounts--Address-modal'>
-                <AddressMini
-                  isShort
-                  value={address}
-                />
-                <div className='accounts--Address-modal-message expanded'>
-                  <p>
-                    <Trans i18nKey='unlock.info'>
-                      Please enter your account password to upload and restore it encrypted.
-                    </Trans>
-                  </p>
-                </div>
-                {this.renderContent()}
-              </div>
-              {this.renderButtons()}
-            </div>
-          </Modal.Content>
-        </Modal>
+        <UploadModal
+          address={address}
+          className={className}
+          error={error}
+          hidePasswordModal={this.hidePasswordModal}
+          isPasswordModalOpen={isPasswordModalOpen}
+          key='accounts-upload-signer-modal'
+          onChangePassword={this.onChangePassword}
+          onDiscard={this.onDiscard}
+          password={password}
+          processUploadedFileStorage={this.processUploadedFileStorage}
+          style={style}
+          uploadedFileKeyringPair={uploadedFileKeyringPair}
+        />
         <File
           className='ui--Param-File-account'
           withLabel
@@ -165,52 +146,6 @@ export class UploadButton extends React.PureComponent<Props, State> {
           acceptedFormats='.json'
         />
       </div>
-    );
-  }
-
-  renderContent () {
-    const { error, password, uploadedFileKeyringPair } = this.state;
-
-    if (isUndefined(uploadedFileKeyringPair) || !uploadedFileKeyringPair.address) {
-      return null;
-    }
-
-    const keyringAddress = keyring.getAddress(uploadedFileKeyringPair.address);
-
-    return (
-      <Unlock
-        autoFocus
-        error={error}
-        onChange={this.onChangePassword}
-        password={password}
-        value={keyringAddress.publicKey()}
-      />
-    );
-  }
-
-  renderButtons () {
-    const { t } = this.props;
-
-    return (
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            onClick={this.onDiscard}
-            text={t('creator.discard', {
-              defaultValue: 'Cancel'
-            })}
-          />
-          <Button.Or />
-          <Button
-            isPrimary
-            onClick={this.processUploadedFileStorage}
-            text={t('creator.submit', {
-              defaultValue: 'Submit'
-            })}
-          />
-        </Button.Group>
-      </Modal.Actions>
     );
   }
 
