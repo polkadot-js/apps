@@ -13,7 +13,6 @@ export default ([
       defaultValue: 'Storage'
     },
     icon: 'database',
-    isExact: false,
     isHidden: false,
     name: 'storage'
   }

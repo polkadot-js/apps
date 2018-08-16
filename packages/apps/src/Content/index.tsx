@@ -13,21 +13,24 @@ import { withRouter } from 'react-router';
 import classes from '@polkadot/ui-app/util/classes';
 
 import routing from '../routing';
+import NotFound from './NotFound';
 
 type Props = I18nProps & {
   location: Location
+};
+
+const unknown = {
+  Component: NotFound
 };
 
 class Content extends React.PureComponent<Props> {
   render () {
     const { className, location, style } = this.props;
 
-    const app = location.pathname.slice(1) || routing.default;
+    const app = location.pathname.slice(1);
     const { Component } = routing.routes.find((route: Route | null) =>
-      route
-        ? route.name === app
-        : false
-    ) || routing.unknown;
+      !!(route && route.name === app)
+    ) || unknown;
 
     return (
       <div

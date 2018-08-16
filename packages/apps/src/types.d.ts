@@ -9,7 +9,6 @@ export type Route = {
   Component: React.ComponentType<BareProps>,
   i18n: any, // I18Next$Translate$Config,
   icon: SemanticICONS,
-  isExact: boolean,
   isHidden: boolean,
   name: string,
   path?: string
@@ -19,6 +18,5 @@ export type Routes = Array<Route | null>;
 
 export type Routing = {
   default: string,
-  routes: Routes,
-  unknown: Route
+  routes: Routes
 }

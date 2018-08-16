@@ -13,7 +13,6 @@ export default ([
       defaultValue: 'Extrinsics'
     },
     icon: 'send',
-    isExact: false,
     isHidden: false,
     name: 'extrinsics'
   }

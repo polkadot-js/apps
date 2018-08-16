@@ -13,7 +13,6 @@ export default ([
       defaultValue: 'Accounts'
     },
     icon: 'users',
-    isExact: false,
     isHidden: false,
     name: 'accounts'
   }
