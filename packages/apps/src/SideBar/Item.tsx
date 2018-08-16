@@ -20,15 +20,14 @@ type Props = I18nProps & {
 
 class Item extends React.PureComponent<Props> {
   render () {
-    const { route: { i18n, icon, isExact, name, path = '' }, t } = this.props;
+    const { route: { i18n, icon, name }, t } = this.props;
 
     return (
       <Menu.Item className='apps--SideBar-Item'>
         <NavLink
           activeClassName='apps--SideBar-Item-NavLink-active'
           className='apps--SideBar-Item-NavLink'
-          exact={isExact}
-          to={path || `/${name}`}
+          to={`/${name}`}
         >
           <Icon name={icon} /> {t(`sidebar.${name}`, i18n)}
         </NavLink>

@@ -19,7 +19,9 @@ import translate from './translate';
 
 type Actions = 'hash' | 'sign' | 'verify';
 
-type Props = I18nProps & {};
+type Props = I18nProps & {
+  basePath: string
+};
 
 type State = {
   action: Actions

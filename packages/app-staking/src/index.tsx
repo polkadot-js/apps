@@ -17,6 +17,7 @@ import StakeList from './StakeList';
 import Summary from './Summary';
 
 type Props = BareProps & {
+  basePath: string,
   validatingBalances?: RxBalanceMap,
   stakingIntentions?: Array<string>,
   sessionValidators?: Array<string>

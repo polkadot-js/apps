@@ -13,7 +13,6 @@ export default ([
       defaultValue: 'Toolbox'
     },
     icon: 'configure',
-    isExact: false,
     isHidden: false,
     name: 'toolbox'
   }

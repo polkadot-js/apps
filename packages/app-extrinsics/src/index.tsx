@@ -14,7 +14,9 @@ import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
 import Selection from './Selection';
 
-type Props = BareProps;
+type Props = BareProps & {
+  basePath: string
+};
 
 export default class ExtrinsicsApp extends React.PureComponent<Props> {
   render () {

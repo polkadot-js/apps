@@ -16,7 +16,6 @@ import rpc from './rpc';
 import staking from './staking';
 import storage from './storage';
 import toolbox from './toolbox';
-import unknown from './unknown';
 import vanitygen from './vanitygen';
 
 export default ({
@@ -36,6 +35,5 @@ export default ({
     null,
     rpc,
     toolbox
-  ),
-  unknown
+  )
 } as Routing);

@@ -21,7 +21,9 @@ import matchRegex from './generator/regex';
 import generatorSort from './generator/sort';
 import translate from './translate';
 
-type Props = I18nProps & {};
+type Props = I18nProps & {
+  basePath: string
+};
 
 type State = {
   elapsed: number,

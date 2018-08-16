@@ -13,7 +13,6 @@ export default ([
       defaultValue: 'Democracy'
     },
     icon: 'calendar check',
-    isExact: false,
     isHidden: false,
     name: 'democracy'
   }
