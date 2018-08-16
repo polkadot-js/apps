@@ -36,7 +36,10 @@ class BlockByHash extends React.PureComponent<Props> {
 
     return (
       <div className='explorer--BlockByHash'>
-        <BlockHeader value={header} />
+        <BlockHeader
+          value={header}
+          withExtrinsics
+        />
         <div className='explorer--BlockByHash-extrinsics'>
           {extrinsics.map((extrinsic: any, index: number) => (
             <div

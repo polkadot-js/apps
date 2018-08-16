@@ -22,12 +22,13 @@ import Extrinsics from './Extrinsics';
 
 type Props = I18nProps & {
   value?: Header,
+  withExtrinsics?: boolean,
   withLink?: boolean
 };
 
 class BlockHeader extends React.PureComponent<Props> {
   render () {
-    const { className, value, style, withLink } = this.props;
+    const { className, value, style, withExtrinsics = false, withLink = false } = this.props;
 
     if (!value) {
       return null;
@@ -73,7 +74,10 @@ class BlockHeader extends React.PureComponent<Props> {
                   {u8aToHex(stateRoot)}
                 </td>
               </tr>
-              <Extrinsics hash={hash} />
+              {withExtrinsics
+                ? <Extrinsics hash={hash} />
+                : undefined
+              }
             </tbody>
           </table>
         </div>
