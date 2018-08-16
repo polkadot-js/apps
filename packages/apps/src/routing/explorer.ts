@@ -13,9 +13,7 @@ export default ([
       defaultValue: 'Explorer'
     },
     icon: 'braille',
-    isExact: true,
     isHidden: false,
-    name: 'explorer',
-    path: '/'
+    name: 'explorer'
   }
 ] as Routes);

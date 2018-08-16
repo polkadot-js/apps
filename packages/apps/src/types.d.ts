@@ -5,20 +5,21 @@
 import { SemanticICONS } from 'semantic-ui-react/dist/commonjs';
 import { BareProps } from '@polkadot/ui-app/types';
 
+export type RouteProps = BareProps & {
+  basePath: string
+}
+
 export type Route = {
-  Component: React.ComponentType<BareProps>,
+  Component: React.ComponentType<RouteProps>,
   i18n: any, // I18Next$Translate$Config,
   icon: SemanticICONS,
-  isExact: boolean,
   isHidden: boolean,
-  name: string,
-  path?: string
+  name: string
 };
 
 export type Routes = Array<Route | null>;
 
 export type Routing = {
   default: string,
-  routes: Routes,
-  unknown: Route
+  routes: Routes
 }

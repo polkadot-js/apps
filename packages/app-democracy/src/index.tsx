@@ -13,7 +13,9 @@ import Proposals from './Proposals';
 import Referendums from './Referendums';
 import Summary from './Summary';
 
-type Props = BareProps & {};
+type Props = BareProps & {
+  basePath: string
+};
 
 export default class App extends React.PureComponent<Props> {
   render () {

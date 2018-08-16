@@ -15,7 +15,9 @@ import { QueueConsumer } from '@polkadot/ui-signer/Context';
 import Results from './Results';
 import Selection from './Selection';
 
-type Props = BareProps & {};
+type Props = BareProps & {
+  basePath: string
+};
 
 export default class RpcApp extends React.PureComponent<Props> {
   render () {

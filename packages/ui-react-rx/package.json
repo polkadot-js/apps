@@ -29,11 +29,6 @@
     "url": "https://github.com/polkadot-js/ui/issues"
   },
   "homepage": "https://github.com/polkadot-js/ui/tree/master/packages/ui-react-rx#readme",
-  "scripts": {
-    "build": "polkadot-dev-build-babel",
-    "check": "eslint src && flow check",
-    "test": "echo \"Tests only available from root wrapper\""
-  },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
     "@polkadot/api-rx": "^0.28.14",
