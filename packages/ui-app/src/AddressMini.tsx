@@ -14,6 +14,7 @@ import Balance from './Balance';
 
 type Props = BareProps & {
   balance?: BN | Array<BN>,
+  children?: React.ReactNode,
   isPadded?: boolean,
   isShort?: boolean,
   value?: string,
@@ -22,7 +23,7 @@ type Props = BareProps & {
 
 export default class AddressMini extends React.PureComponent<Props> {
   render () {
-    const { className, isPadded = true, isShort = true, style, value } = this.props;
+    const { children, className, isPadded = true, isShort = true, style, value } = this.props;
 
     if (!value) {
       return null;
@@ -39,6 +40,7 @@ export default class AddressMini extends React.PureComponent<Props> {
             value={value}
           />
           <div>{isShort ? toShortAddress(value) : value}</div>
+          {children}
         </div>
         {this.renderBalance()}
       </div>

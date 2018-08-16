@@ -30,10 +30,14 @@
   text-align: right;
 }
 
-.explorer--BlockByHash-extrinsics {
+.explorer--BlockByHash-extrinsics,
+.explorer--BlockByHash-justification {
+  margin-top: 2em;
+}
+
+.explorer--BlockByHash-flexable {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 2em;
 }
 
 .explorer--BlockByHash-extrinsic {
@@ -55,10 +59,23 @@
   line-height: 1.2rem;
 }
 
+.explorer--BlockByHash-accountIndex {
+  font-size: .75rem;
+  margin-top: -0.5rem;
+  opacity: 0.45;
+  text-align: right;
+}
+
+.explorer--BlockByHash-justification-signature span {
+  color: rgba(0, 0, 0, 0.6);
+  font-style: italic;
+  padding-left: 0.5rem;
+}
+
 .explorer--BlockByHash-header-right {
   position: absolute;
-  top: 0em;
-  right: 1em;
+  top: -0.5rem;
+  right: 0rem;
 }
 
 .explorer--Summary {

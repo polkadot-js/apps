@@ -12,7 +12,7 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0-rc.1",
     "@polkadot/app-extrinsics": "^0.19.36",
-    "@polkadot/storage": "^0.28.16",
+    "@polkadot/storage": "^0.28.17",
     "@polkadot/ui-app": "^0.19.36",
     "@polkadot/ui-keyring": "^0.19.36",
     "@polkadot/ui-react": "^0.19.36",
