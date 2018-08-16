@@ -15,7 +15,9 @@ import Queries from './Queries';
 import Selection from './Selection';
 import translate from './translate';
 
-type Props = I18nProps & {};
+type Props = I18nProps & {
+  basePath: string
+};
 
 type State = {
   queue: Array<StorageQuery>

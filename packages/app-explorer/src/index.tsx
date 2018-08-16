@@ -13,7 +13,9 @@ import classes from '@polkadot/ui-app/util/classes';
 import Summary from './Summary';
 import BlockHeaders from './BlockHeaders';
 
-type Props = BareProps & {};
+type Props = BareProps & {
+  basePath: string
+};
 
 export default class ExplorerApp extends React.PureComponent<Props> {
   render () {

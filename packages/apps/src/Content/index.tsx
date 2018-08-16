@@ -19,7 +19,8 @@ type Props = I18nProps & {
 };
 
 const unknown = {
-  Component: NotFound
+  Component: NotFound,
+  name: ''
 };
 
 class Content extends React.PureComponent<Props> {
@@ -27,7 +28,7 @@ class Content extends React.PureComponent<Props> {
     const { className, location, style } = this.props;
 
     const app = location.pathname.slice(1) || '';
-    const { Component } = routing.routes.find((route) =>
+    const { Component, name } = routing.routes.find((route) =>
       !!(route && app.indexOf(route.name) === 0)
     ) || unknown;
 
@@ -36,7 +37,7 @@ class Content extends React.PureComponent<Props> {
         className={classes('apps--Content', className)}
         style={style}
       >
-        <Component />
+        <Component basePath={`/${name}`} />
       </div>
     );
   }

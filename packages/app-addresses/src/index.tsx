@@ -18,7 +18,9 @@ import Creator from './Creator';
 import Editor from './Editor';
 import translate from './translate';
 
-type Props = I18nProps & {};
+type Props = I18nProps & {
+  basePath: string
+};
 
 type Actions = 'create' | 'edit';
 
