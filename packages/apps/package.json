@@ -16,7 +16,7 @@
     "check": "stylelint 'src/**/*.css' && eslint src && flow check"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.51",
+    "@babel/runtime": "^7.0.0-rc.1",
     "@polkadot/app-accounts": "^0.19.33",
     "@polkadot/app-addresses": "^0.19.33",
     "@polkadot/app-democracy": "^0.19.33",
