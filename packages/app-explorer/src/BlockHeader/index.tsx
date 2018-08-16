@@ -38,6 +38,7 @@ class BlockHeader extends React.PureComponent<Props> {
     // tslint:disable-next-line:variable-name
     const { extrinsicsRoot, number, parentHash, stateRoot } = value;
     const hashHex = u8aToHex(hash);
+    const parentHex = u8aToHex(parentHash);
     const linkable = withLink
       ? <Link to={`/explorer/hash/${hashHex}`}>{hashHex}</Link>
       : hashHex;
@@ -59,7 +60,9 @@ class BlockHeader extends React.PureComponent<Props> {
               <tr>
                 <td className='type'>parentHash</td>
                 <td className='hash'>
-                  {u8aToHex(parentHash)}
+                  <Link to={`/explorer/hash/${parentHex}`}>
+                    {parentHex}
+                  </Link>
                 </td>
               </tr>
               <tr>

@@ -25,7 +25,10 @@ export default class Entry extends React.PureComponent<Props> {
     }
 
     return (
-      <BlockByHash value={hash} />
+      <BlockByHash
+        key={hash}
+        value={hash}
+      />
     );
   }
 }

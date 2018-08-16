@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { Interfaces } from '@polkadot/jsonrpc/types';
-import { ExtrinsicDecoded, SectionItem } from '@polkadot/params/types';
+import { BlockDecoded, ExtrinsicDecoded, SectionItem } from '@polkadot/params/types';
 import { Header } from '@polkadot/primitives/header';
 import { Storages } from '@polkadot/storage/types';
 
@@ -54,7 +54,7 @@ export interface ObservableApiInterface {
   rawStorage: <T> (key: SectionItem<Storages>, ...params: Array<any>) => Observable<T>,
   rawStorageMulti: <T> (...keys: Array<[SectionItem<Storages>, any]>) => Observable<T>,
   bestNumber: () => Observable<BN | undefined>,
-  chainGetBlock: (hash: Uint8Array) => Observable<any>,
+  chainGetBlock: (hash: Uint8Array) => Observable<BlockDecoded | undefined>,
   chainNewHead: () => Observable<Header | undefined>,
   democracyLaunchPeriod: () => Observable<BN | undefined>,
   democracyNextTally: () => Observable<BN | undefined>,

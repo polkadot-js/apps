@@ -5,7 +5,7 @@
 import { Header } from '@polkadot/primitives/header';
 import { RxApiInterface, RxApiInterface$Method } from '@polkadot/api-rx/types';
 import { Interfaces } from '@polkadot/jsonrpc/types';
-import { ExtrinsicDecoded, SectionItem } from '@polkadot/params/types';
+import { BlockDecoded, ExtrinsicDecoded, SectionItem } from '@polkadot/params/types';
 import { Storages } from '@polkadot/storage/types';
 import { RxBalance, RxBalanceMap, RxProposal, RxProposalDeposits, RxReferendum, ObservableApiInterface, KeyWithParams, RxReferendumVote } from './types';
 
@@ -88,7 +88,7 @@ export default class ObservableApi implements ObservableApiInterface {
       );
   }
 
-  chainGetBlock = (hash: Uint8Array): Observable<any> => {
+  chainGetBlock = (hash: Uint8Array): Observable<BlockDecoded | undefined> => {
     return this.api.chain.getBlock(hash);
   }
 

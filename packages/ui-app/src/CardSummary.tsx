@@ -28,6 +28,13 @@ type Props = BareProps & {
 export default class CardSummary extends React.PureComponent<Props> {
   render () {
     const { children, className, progress, label, style } = this.props;
+    const left = progress && !isUndefined(progress.value) && !isUndefined(progress.total) && progress.value.gten(0) && progress.total.gtn(0)
+      ? (
+        progress.value.gt(progress.total)
+          ? `>${progress.total.toString()}`
+          : progress.value.toString()
+      )
+      : undefined;
 
     return (
       <Card
@@ -38,9 +45,9 @@ export default class CardSummary extends React.PureComponent<Props> {
           <div className='ui--CardSummary-large'>
             {children}{
               progress && (
-                (isUndefined(progress.value) || isUndefined(progress.total) || progress.value.ltn(0)) || progress.value.gt(progress.total) || progress.total.eqn(0)
+                !left || isUndefined(progress.total)
                   ? '-'
-                  : `${progress.value.toString()}/${progress.total.toString()}`
+                  : `${left}/${progress.total.toString()}`
               )
             }
           </div>
