@@ -3,7 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { Route } from '../types';
 
 import './Content.css';
 
@@ -27,9 +26,9 @@ class Content extends React.PureComponent<Props> {
   render () {
     const { className, location, style } = this.props;
 
-    const app = location.pathname.slice(1);
-    const { Component } = routing.routes.find((route: Route | null) =>
-      !!(route && route.name === app)
+    const app = location.pathname.slice(1) || '';
+    const { Component } = routing.routes.find((route) =>
+      !!(route && app.indexOf(route.name) === 0)
     ) || unknown;
 
     return (
