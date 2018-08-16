@@ -12,6 +12,7 @@ import React from 'react';
 import keyring from '@polkadot/ui-keyring/index';
 import createOptionHeader from '@polkadot/ui-keyring/options/header';
 import addressDecode from '@polkadot/util-keyring/address/decode';
+import makeOption from '@polkadot/ui-keyring/options/item';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
@@ -71,6 +72,9 @@ export default class InputAddress extends React.Component<Props, State> {
     const { className, hideAddress = false, isDisabled = false, isError, label, onChange, type = 'all', style, withLabel } = this.props;
     const { defaultValue, value } = this.state;
     const options = keyring.getOptions(type);
+    const hasValue = !!options.find(({ key }) =>
+      key === defaultValue
+    );
 
     return (
       <Dropdown
@@ -85,7 +89,11 @@ export default class InputAddress extends React.Component<Props, State> {
         label={label}
         onChange={onChange}
         onSearch={this.onSearch}
-        options={options}
+        options={
+          isDisabled && !hasValue && defaultValue
+            ? [makeOption(defaultValue)]
+            : options
+        }
         style={style}
         transform={transform}
         value={value}

@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import './BlockHeader.css';
 
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 import headerHash from '@polkadot/primitives/codec/header/hash';
 import classes from '@polkadot/ui-app/util/classes';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
@@ -17,16 +17,17 @@ import u8aToHex from '@polkadot/util/u8a/toHex';
 import translate from '../translate';
 
 // NOTE This add unneeded load, for now just on click-through
-// import Extrinsics from './Extrinsics';
+import Extrinsics from './Extrinsics';
 // <Extrinsics hash={hash} />
 
 type Props = I18nProps & {
-  value?: Header
+  value?: Header,
+  withLink?: boolean
 };
 
 class BlockHeader extends React.PureComponent<Props> {
   render () {
-    const { className, value, style } = this.props;
+    const { className, value, style, withLink } = this.props;
 
     if (!value) {
       return null;
@@ -35,6 +36,10 @@ class BlockHeader extends React.PureComponent<Props> {
     const hash = headerHash(value);
     // tslint:disable-next-line:variable-name
     const { extrinsicsRoot, number, parentHash, stateRoot } = value;
+    const hashHex = u8aToHex(hash);
+    const linkable = withLink
+      ? <Link to={`/explorer/hash/${hashHex}`}>{hashHex}</Link>
+      : hashHex;
 
     return (
       <div
@@ -46,7 +51,7 @@ class BlockHeader extends React.PureComponent<Props> {
         </div>
         <div className='details'>
           <div className='hash'>
-            {u8aToHex(hash)}
+            {linkable}
           </div>
           <table className='contains'>
             <tbody>
@@ -68,6 +73,7 @@ class BlockHeader extends React.PureComponent<Props> {
                   {u8aToHex(stateRoot)}
                 </td>
               </tr>
+              <Extrinsics hash={hash} />
             </tbody>
           </table>
         </div>
