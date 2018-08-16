@@ -15,18 +15,10 @@
     "polkadot-identicon": "^1.0.2"
   },
   "devDependencies": {
-    "@polkadot/util-keyring": "^0.28.2",
-    "babel-loader": "^8.0.0-beta.2",
-    "css-loader": "0.28.9",
+    "@polkadot/util-keyring": "^0.28.3",
     "empty": "^0.10.1",
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.1",
-    "postcss": "^6.0.22",
-    "postcss-loader": "2.0.10",
-    "postcss-sass": "^0.3.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "style-loader": "^0.19.1"
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2"
   },
   "peerDependencies": {
     "react": "^16.4.1"
