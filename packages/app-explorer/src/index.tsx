@@ -8,16 +8,17 @@ import './index.css';
 
 import React from 'react';
 import Page from '@polkadot/ui-app/Page';
+import { Route, Switch } from 'react-router';
 import classes from '@polkadot/ui-app/util/classes';
 
-import Summary from './Summary';
-import BlockHeaders from './BlockHeaders';
+import BlockByHash from './BlockByHash';
+import Main from './Main';
 
 type Props = BareProps & {
   basePath: string
 };
 
-export default class ExplorerApp extends React.PureComponent<Props> {
+export default class ExplorerApp extends React.Component<Props> {
   render () {
     const { className, style } = this.props;
 
@@ -26,8 +27,10 @@ export default class ExplorerApp extends React.PureComponent<Props> {
         className={classes('explorer--App', className)}
         style={style}
       >
-        <Summary />
-        <BlockHeaders />
+        <Switch>
+          <Route path='/explorer/hash/:hash' component={BlockByHash} />
+          <Route component={Main} />
+        </Switch>
       </Page>
     );
   }

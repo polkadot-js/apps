@@ -14,6 +14,7 @@ import Hash from './Hash';
 import StorageKeyValue from './StorageKeyValue';
 import StorageKeyValueArray from './StorageKeyValueArray';
 import StringParam from './String';
+import Timestamp from './Timestamp';
 import Unknown from './Unknown';
 import VoteThreshold from './VoteThreshold';
 
@@ -39,7 +40,7 @@ const components: ComponentMap = {
   'SessionKey': Amount,
   'Signature': Hash,
   'String': StringParam,
-  'Timestamp': Amount,
+  'Timestamp': Timestamp,
   'u32': Amount,
   'u64': Amount,
   'VoteIndex': Amount,

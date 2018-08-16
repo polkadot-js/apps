@@ -10,6 +10,7 @@ import Labelled from './Labelled';
 
 type Props = BareProps & {
   children?: React.ReactNode,
+  defaultValue?: any,
   isHidden?: boolean,
   label?: any, // node?
   value?: any, // node?
@@ -18,7 +19,7 @@ type Props = BareProps & {
 
 export default class Static extends React.PureComponent<Props> {
   render () {
-    const { className, children, isHidden, label, style, value, withLabel } = this.props;
+    const { className, children, defaultValue, isHidden, label, style, value, withLabel } = this.props;
 
     return (
       <Labelled
@@ -29,7 +30,7 @@ export default class Static extends React.PureComponent<Props> {
         withLabel={withLabel}
       >
         <div className='ui dropdown selection disabled'>
-          {value}
+          {value || defaultValue}
           {children}
         </div>
       </Labelled>
