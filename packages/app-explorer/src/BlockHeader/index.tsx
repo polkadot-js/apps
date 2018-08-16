@@ -4,28 +4,31 @@
 
 import { Header } from '@polkadot/primitives/header';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import './BlockHeader.css';
 
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 import headerHash from '@polkadot/primitives/codec/header/hash';
 import classes from '@polkadot/ui-app/util/classes';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
-import withApi from '@polkadot/ui-react-rx/with/api';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import translate from '../translate';
-import Extrinsics from './Extrinsics';
 
-type Props = ApiProps & I18nProps & {
-  value?: Header
+// NOTE This add unneeded load, for now just on click-through
+import Extrinsics from './Extrinsics';
+// <Extrinsics hash={hash} />
+
+type Props = I18nProps & {
+  value?: Header,
+  withExtrinsics?: boolean,
+  withLink?: boolean
 };
 
 class BlockHeader extends React.PureComponent<Props> {
   render () {
-    const { className, value, style } = this.props;
+    const { className, value, style, withExtrinsics = false, withLink = false } = this.props;
 
     if (!value) {
       return null;
@@ -34,6 +37,10 @@ class BlockHeader extends React.PureComponent<Props> {
     const hash = headerHash(value);
     // tslint:disable-next-line:variable-name
     const { extrinsicsRoot, number, parentHash, stateRoot } = value;
+    const hashHex = u8aToHex(hash);
+    const linkable = withLink
+      ? <Link to={`/explorer/hash/${hashHex}`}>{hashHex}</Link>
+      : hashHex;
 
     return (
       <div
@@ -45,7 +52,7 @@ class BlockHeader extends React.PureComponent<Props> {
         </div>
         <div className='details'>
           <div className='hash'>
-            {u8aToHex(hash)}
+            {linkable}
           </div>
           <table className='contains'>
             <tbody>
@@ -67,27 +74,16 @@ class BlockHeader extends React.PureComponent<Props> {
                   {u8aToHex(stateRoot)}
                 </td>
               </tr>
-              {this.renderExtrinsics(hash)}
+              {withExtrinsics
+                ? <Extrinsics hash={hash} />
+                : undefined
+              }
             </tbody>
           </table>
         </div>
       </div>
     );
   }
-
-  private renderExtrinsics (hash: Uint8Array) {
-    const { apiMethods } = this.props;
-
-    if (!apiMethods['chain_getBlock']) {
-      return null;
-    }
-
-    return (
-      <Extrinsics hash={hash} />
-    );
-  }
 }
 
-export default withApi(
-  translate(BlockHeader)
-);
+export default translate(BlockHeader);

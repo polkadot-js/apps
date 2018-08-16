@@ -8,16 +8,27 @@ import React from 'react';
 
 import typeToString from '@polkadot/params/typeToString';
 
+import Static from '../../Static';
 import translate from '../../translate';
 import Base from './Base';
 
 type Props = BareProps & {
+  isDiabled?: boolean,
   defaultValue: RawParam,
   t: any, // I18Next$Translate?
   withLabel?: boolean
 };
 
-function Unknown ({ defaultValue: { type }, label, t, withLabel }: Props) {
+function Unknown ({ defaultValue: { value, type }, isDisabled, label, t, withLabel }: Props) {
+  if (isDisabled) {
+    return (
+      <Static
+        label={label}
+        value={(value && value.toString()) || t('unknown.empty', { defaultValue: 'empty' })}
+      />
+    );
+  }
+
   return (
     <Base
       size='full'

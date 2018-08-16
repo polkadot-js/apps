@@ -17,7 +17,6 @@ import defaults from '@polkadot/api-rx/defaults';
 
 import ApiObservable from '../ApiObservable';
 import ApiContext from './Context';
-import isUndefined from '@polkadot/util/is/undefined';
 
 type Props = {
   api?: RxApiInterface,
@@ -119,26 +118,8 @@ export default class Api extends React.PureComponent<Props, State> {
   private subscribeMethodCheck = (api: RxApiInterface): void => {
     api.chain
       .newHead()
-      .subscribe(async (header?: Header) => {
-        if (!header || !isUndefined(this.state.apiMethods['chain_getBlock'])) {
-          return;
-        }
-
-        let isSupported = false;
-
-        try {
-          await api.chain.getBlock(header.parentHash).toPromise();
-          isSupported = true;
-        } catch (error) {
-          // console.error('chain_getBlock not supported, ignoring');
-        }
-
-        this.setState(({ apiMethods }: State) => ({
-          apiMethods: {
-            ...apiMethods,
-            'chain_getBlock': isSupported
-          }
-        }));
+      .subscribe((header?: Header) => {
+        // here we can check for missing methods
       });
   }
 

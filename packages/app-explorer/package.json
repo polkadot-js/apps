@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.0.0-rc.1",
-    "@polkadot/primitives": "^0.28.15",
+    "@polkadot/primitives": "^0.28.16",
     "@polkadot/ui-app": "^0.19.35",
     "@polkadot/util-crypto": "^0.28.3"
   }

@@ -8,12 +8,12 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import Card from '@polkadot/ui-app/Card';
+import Extrinsic from '@polkadot/ui-app/Extrinsic';
 import classes from '@polkadot/ui-app/util/classes';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
 // TODO This would be nice as a shared component, move to ui-app as soon as
 // we have actual "more-than-one-use" apps
-import Extrinsic from './Extrinsic';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -23,6 +23,7 @@ type Props = I18nProps & {
   idNumber: BN
 };
 
+// FIXME Duplicated layout here and in explorer, clean up with extrinsics
 class Item extends React.PureComponent<Props> {
   render () {
     const { children, className, idNumber, proposal, proposalExtra, style } = this.props;

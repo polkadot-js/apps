@@ -41,6 +41,7 @@ export default withObservableDiv('chainNewHead', apiOptions)(
       <BlockHeader
         key={value.number.toString()}
         value={value}
+        withLink
       />
     )),
   { className: 'explorer--BlockHeaders' }

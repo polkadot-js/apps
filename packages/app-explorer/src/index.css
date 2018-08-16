@@ -30,12 +30,42 @@
   text-align: right;
 }
 
+.explorer--BlockByHash-extrinsics {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 2em;
+}
+
+.explorer--BlockByHash-extrinsic {
+  flex: 0 0 50%;
+  min-width: 0;
+}
+
+.explorer--BlockByHash-extrinsic-header {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.explorer--BlockByHash-extrinsic-header-description {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.explorer--BlockByHash-extrinsic-header-name {
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+}
+
+.explorer--BlockByHash-header-right {
+  position: absolute;
+  top: 0em;
+  right: 1em;
+}
+
 .explorer--Summary {
   align-items: stretch;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin-bottom: 2em;
 }
 
 .explorer--Summary-column {
@@ -47,4 +77,22 @@
 .explorer--Summary-card {
   flex: 0 1 auto;
   text-align: left;
+}
+
+.explorer--Query {
+  margin-bottom: 2em;
+}
+
+.storage--Query-actionrow {
+  display: flex;
+}
+
+.storage--Query-actionrow-hash {
+  flex: 1;
+  min-width: 0;
+}
+
+.storage--Query-actionrow-button {
+  flex: 0;
+  padding: 0 0.25rem;
 }

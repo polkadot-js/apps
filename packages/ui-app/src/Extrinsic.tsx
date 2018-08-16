@@ -3,13 +3,13 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { ExtrinsicDecoded } from '@polkadot/params/types';
-import { I18nProps } from '@polkadot/ui-app/types';
-import { RawParam } from '@polkadot/ui-app/Params/types';
+import { I18nProps } from './types';
+import { RawParam } from './Params/types';
 
 import React from 'react';
-import Params from '@polkadot/ui-app/Params';
-import classes from '@polkadot/ui-app/util/classes';
 
+import classes from './util/classes';
+import Params from './Params';
 import translate from './translate';
 
 export type Props = I18nProps & {
@@ -28,7 +28,7 @@ class Extrinsic extends React.PureComponent<Props> {
 
     return (
       <div
-        className={classes('democracy--Extrinsic', className)}
+        className={classes('ui--Extrinsic', className)}
         style={style}
       >
         {children}
