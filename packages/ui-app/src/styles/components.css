@@ -46,6 +46,10 @@
   vertical-align: middle;
 }
 
+.ui--AddressMini-address {
+  font-family: monospace;
+}
+
 .ui--AddressMini .ui--IdentityIcon {
   margin-left: 1rem;
   margin-right: 0.5rem;

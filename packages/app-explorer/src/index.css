@@ -68,6 +68,7 @@
 
 .explorer--BlockByHash-justification-signature span {
   color: rgba(0, 0, 0, 0.6);
+  font-family: monospace;
   font-style: italic;
   padding-left: 0.5rem;
 }
