@@ -56,9 +56,11 @@ export default function isValidBalance (input: any): IsValidWithMessage {
   }
 
   // chain specification 'latest' (128 bit). 2^128-1 is ~3.40 × 10^38
-  // which is ~3e38 or ~3e+38
-  const max128Bit = '340282366920938463463374607431768211455';
-  const maxBN128Bit = new BN(max128Bit);
+  // which is ~3e38 or ~3e+38 or 340282366920938463463374607431768211455
+  const supportedBitLength = '128';
+  // show is equilant to 340282366920938463463374607431768211455 by calling .toString(10)
+  const maxBN128Bit = new BN('2').pow(new BN(supportedBitLength)).sub(new BN('1'));
+  console.log('maxBN128Bit.bitLength()', maxBN128Bit.bitLength());
   const inputBN = new BN(input);
 
   if (!inputBN.lt(maxBN128Bit)) {
