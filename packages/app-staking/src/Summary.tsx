@@ -4,74 +4,70 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RxBalance, RxBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
-import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import classes from '@polkadot/ui-app/util/classes';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
+import CardBar from '@polkadot/ui-app/CardBar';
+import CardSummary from '@polkadot/ui-app/CardSummary';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
+import SummarySession from '@polkadot/app-explorer/SummarySession';
 import translate from './translate';
 
-type Props = ApiProps & I18nProps & {
+type Props = I18nProps & {
   balances: RxBalanceMap,
-  bestNumber?: BN,
   intentions: Array<string>,
   lastLengthChange?: BN,
-  sessionBlockProgress?: BN,
-  sessionLength?: BN,
   validators: Array<string>
 };
 
-const DEFAULT_BLOCKNUMBER = new BN(0);
-const DEFAULT_SESSION_PROGRESS = new BN(0);
-const DEFAULT_SESSION_LENGTH = new BN(60);
-
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { bestNumber = DEFAULT_BLOCKNUMBER, className, intentions, style, sessionLength = DEFAULT_SESSION_LENGTH, sessionBlockProgress = DEFAULT_SESSION_PROGRESS, t, validators } = this.props;
+    const { className, intentions, style, t, validators } = this.props;
     const intentionHigh = this.calcIntentionsHigh();
     const validatorLow = this.calcValidatorLow();
 
     return (
-      <div
-        className={classes('staking--Summary', className)}
+      <CardBar
+        className={className}
+        expanded={
+          <div className='staking--Summary-text'>
+            <div>{t('summary.balance.validator', {
+              defaultValue: 'lowest validator balance is {{validatorLow}}',
+              replace: {
+                validatorLow: validatorLow && validatorLow.stakingBalance
+                  ? `${numberFormat(validatorLow.stakingBalance)} (+${numberFormat(validatorLow.nominatedBalance)})`
+                  : 'unknown'
+              }
+            })}</div>
+            <div>{t('summary.balance.stake', {
+              defaultValue: ' highest balance intending to stake is {{intentionHigh}}',
+              replace: {
+                intentionHigh: intentionHigh
+                  ? `${numberFormat(intentionHigh.stakingBalance)} (+${numberFormat(intentionHigh.nominatedBalance)})`
+                  : 'unknown'
+              }
+            })}</div>
+          </div>
+        }
         style={style}
       >
-        <div>{t('summary.headline', {
-          defaultValue: '{{validatorCount}} validators, {{intentionCount}} accounts with intentions',
-          replace: {
-            intentionCount: intentions.length,
-            validatorCount: validators.length
-          }
-        })}</div>
-        <div>{t('summary.balance.validator', {
-          defaultValue: 'lowest validator balance is {{validatorLow}}',
-          replace: {
-            validatorLow: validatorLow && validatorLow.stakingBalance
-              ? `${numberFormat(validatorLow.stakingBalance)} (+${numberFormat(validatorLow.nominatedBalance)})`
-              : 'unknown'
-          }
-        })}</div>
-        <div>{t('summary.balance.stake', {
-          defaultValue: ' highest balance intending to stake is {{intentionHigh}}',
-          replace: {
-            intentionHigh: intentionHigh
-              ? `${numberFormat(intentionHigh.stakingBalance)} (+${numberFormat(intentionHigh.nominatedBalance)})`
-              : 'unknown'
-          }
-        })}</div>
-        <div>{t('summary.countdown', {
-          defaultValue: 'session block {{remainder}} / {{length}} at #{{blockNumber}}',
-          replace: {
-            blockNumber: numberFormat(bestNumber),
-            remainder: sessionBlockProgress.toString(),
-            length: sessionLength.toString()
-          }
-        })}</div>
-      </div>
+        <div className='column'>
+          <CardSummary label={t('summary.validators', {
+            defaultValue: 'validators'
+          })}>
+            {validators.length}
+          </CardSummary>
+          <CardSummary label={t('summary.intentions', {
+            defaultValue: 'intentions'
+          })}>
+            {intentions.length}
+          </CardSummary>
+        </div>
+        <div className='column'>
+          <SummarySession />
+        </div>
+      </CardBar>
     );
   }
 
@@ -106,10 +102,4 @@ class Summary extends React.PureComponent<Props> {
   }
 }
 
-export default withMulti(
-  Summary,
-  translate,
-  withObservable('bestNumber'),
-  withObservable('sessionBlockProgress'),
-  withObservable('sessionLength')
-);
+export default translate(Summary);

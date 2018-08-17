@@ -85,3 +85,8 @@
   opacity: 0.45;
   text-align: right;
 }
+
+.staking--Summary-text {
+  text-align: right;
+  color: rgba(0, 0, 0, 0.6);
+}

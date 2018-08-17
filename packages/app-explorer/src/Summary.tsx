@@ -4,31 +4,22 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
-import BN from 'bn.js';
 import React from 'react';
 import CardBar from '@polkadot/ui-app/CardBar';
 import CardSummary from '@polkadot/ui-app/CardSummary';
 import BestNumber from '@polkadot/ui-react-rx/BestNumber';
 import TimePeriod from '@polkadot/ui-react-rx/TimePeriod';
 import TimeNow from '@polkadot/ui-react-rx/TimeNow';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
 
 import Query from './Query';
+import SummarySession from './SummarySession';
 import translate from './translate';
 
-type Props = I18nProps & {
-  eraBlockLength?: BN,
-  eraBlockProgress?: BN,
-  sessionBlockProgress?: BN,
-  sessionBrokenValue?: BN,
-  sessionBrokenPercentLate?: BN,
-  sessionLength?: BN
-};
+type Props = I18nProps & {};
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { className, eraBlockLength, eraBlockProgress, sessionBlockProgress, sessionBrokenValue, sessionBrokenPercentLate, sessionLength, style, t } = this.props;
+    const { className, style, t } = this.props;
 
     return (
       <CardBar
@@ -51,34 +42,7 @@ class Summary extends React.PureComponent<Props> {
           </CardSummary>
         </div>
         <div className='column'>
-          <CardSummary
-            label={t('summary.sessionProgress', {
-              defaultValue: 'session'
-            })}
-            progress={{
-              total: sessionLength,
-              value: sessionBlockProgress
-            }}
-          />
-          <CardSummary
-            label={t('summary.eraProgress', {
-              defaultValue: 'era'
-            })}
-            progress={{
-              total: eraBlockLength,
-              value: eraBlockProgress
-            }}
-          />
-          <CardSummary
-            label={t('summary.brokenCount', {
-              defaultValue: 'lateness'
-            })}
-            progress={{
-              color: 'autoReverse',
-              total: sessionBrokenPercentLate,
-              value: sessionBrokenValue
-            }}
-          />
+          <SummarySession />
         </div>
         <div className='column'>
           <CardSummary label={t('summary.best', {
@@ -92,13 +56,4 @@ class Summary extends React.PureComponent<Props> {
   }
 }
 
-export default withMulti(
-  Summary,
-  translate,
-  withObservable('eraBlockLength'),
-  withObservable('eraBlockProgress'),
-  withObservable('sessionBlockProgress'),
-  withObservable('sessionBrokenValue'),
-  withObservable('sessionLength'),
-  withObservable('sessionBrokenPercentLate')
-);
+export default translate(Summary);
