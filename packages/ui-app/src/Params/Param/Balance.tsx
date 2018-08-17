@@ -105,9 +105,9 @@ class Balance extends React.PureComponent<Props, State> {
     // allow input of tab key (9) to change to next input field
     // allow left/right arrow keys (37, 39) to change values
     // allow SHIFT, CTRL, ALT (16, 17, 18) for copy/paste input values
-    // allow CMD (86), x (88), c (67), or v (91) to paste an input value
+    // allow CMD (86), a (65), x (88), c (67), or v (91) to paste an input value
     // allow e (69), + (187) for scientific notation
-    if ([8, 9, 16, 17, 18, 37, 39, 67, 69, 86, 88, 91, 187].includes(event.keyCode)) {
+    if ([8, 9, 16, 17, 18, 37, 39, 65, 67, 69, 86, 88, 91, 187].includes(event.keyCode)) {
       return;
     }
 
@@ -130,10 +130,11 @@ class Balance extends React.PureComponent<Props, State> {
 
     // remove any c, v, or x values (case insensitive) immediately when entered by user since
     // we allow those keys so user may copy/cut/paste
-    const regexCopyCutPaste = /[c|v|x]/gi;
+    const regexCopyCutPaste = /[a,c|v|x]/gi;
 
     if (event.target.value.match(regexCopyCutPaste)) {
       event.target.value = event.target.value
+        .replace(/a+/gi, '')
         .replace(/c+/gi, '')
         .replace(/v+/gi, '')
         .replace(/x+/gi, '');
