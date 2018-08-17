@@ -12,10 +12,9 @@ import withObservable from '@polkadot/ui-react-rx/with/observable';
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import Card from '@polkadot/ui-app/Card';
 import Extrinsic from '@polkadot/ui-app/Extrinsic';
+import prettyJson from '@polkadot/ui-app/util/prettyJson';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
-import isBn from '@polkadot/util/is/bn';
 import isHex from '@polkadot/util/is/hex';
-import isU8a from '@polkadot/util/is/u8a';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import BlockHeader from '../BlockHeader';
@@ -25,16 +24,6 @@ type Props = ApiProps & I18nProps & {
   chainGetBlock: BlockDecoded,
   value: string
 };
-
-function debugJSON (key: string, value: any) {
-  return isU8a(value)
-    ? u8aToHex(value)
-    : (
-      isBn(value)
-        ? value.toString()
-        : value
-    );
-}
 
 // FIXME Duplicated layout here and in democracy, clean up with extrinsics
 class BlockByHash extends React.PureComponent<Props> {
@@ -48,7 +37,7 @@ class BlockByHash extends React.PureComponent<Props> {
     const { header } = chainGetBlock;
 
     // TODO Remove, debug info for reverse-engineering
-    console.log(JSON.stringify(chainGetBlock, debugJSON));
+    console.log(prettyJson(chainGetBlock));
 
     return (
       <div className='explorer--BlockByHash'>
