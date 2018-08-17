@@ -55,7 +55,8 @@ export default function isValidBalance (input: any): IsValidWithMessage {
     return { isValid: false, errorMessage: 'Balance to transfer in DOTs must be greater than zero' };
   }
 
-  // chain specification 'latest' (128 bit)
+  // chain specification 'latest' (128 bit). 2^128-1 is ~3.40 × 10^38
+  // which is ~3e38 or ~3e+38
   const max128Bit = '340282366920938463463374607431768211455';
   const maxBN128Bit = new BN(max128Bit);
   const inputBN = new BN(input);

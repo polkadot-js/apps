@@ -93,7 +93,7 @@ class Extrinsic extends React.PureComponent<Props, State> {
           values[index].isValid, true);
 
       // FIXME - remove as used temporarily for debugging
-      console.log('Extrinsic extrinsic.params: ', (values[1] && values[1].value as BN).toNumber());
+      // console.log('Extrinsic extrinsic.params: ', (values[1] && values[1].value as BN).toNumber());
 
       const value = isValid && extrinsic.params
         ? encode(extrinsic, values.map((p) => p.value), apiSupport)
