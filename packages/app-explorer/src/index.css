@@ -79,24 +79,6 @@
   right: 0rem;
 }
 
-.explorer--Summary {
-  align-items: stretch;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.explorer--Summary-column {
-  display: flex;
-  flex: 0 1 auto;
-  text-align: left;
-}
-
-.explorer--Summary-card {
-  flex: 0 1 auto;
-  text-align: left;
-}
-
 .explorer--Query {
   margin-bottom: 2em;
 }

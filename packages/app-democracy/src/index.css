@@ -6,28 +6,6 @@
   margin-bottom: 1em;
 }
 
-/* FIXME These are just copied as-is from staking/Summary - once happy and proven to be
-  shareable, it needs to be moved into ui-app for consistency.
-*/
-.democracy--Summary {
-  align-items: stretch;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin-bottom: 2em;
-}
-
-.democracy--Summary-column {
-  display: flex;
-  flex: 0 1 auto;
-  text-align: left;
-}
-
-.democracy--Summary-card {
-  flex: 0 1 auto;
-  text-align: left;
-}
-
 .democracy--Proposals,
 .democracy--Referendums {
   margin-bottom: 2rem;

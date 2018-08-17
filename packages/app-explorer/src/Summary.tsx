@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import classes from '@polkadot/ui-app/util/classes';
+import CardBar from '@polkadot/ui-app/CardBar';
 import CardSummary from '@polkadot/ui-app/CardSummary';
 import BestNumber from '@polkadot/ui-react-rx/BestNumber';
 import TimePeriod from '@polkadot/ui-react-rx/TimePeriod';
@@ -14,6 +14,7 @@ import TimeNow from '@polkadot/ui-react-rx/TimeNow';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 
+import Query from './Query';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -30,11 +31,14 @@ class Summary extends React.PureComponent<Props> {
     const { className, eraBlockLength, eraBlockProgress, sessionBlockProgress, sessionBrokenValue, sessionBrokenPercentLate, sessionLength, style, t } = this.props;
 
     return (
-      <div
-        className={classes('explorer--Summary', className)}
+      <CardBar
+        className={className}
+        expanded={
+          <Query />
+        }
         style={style}
       >
-        <div className='explorer--Summary-column'>
+        <div className='column'>
           <CardSummary label={t('summary.period', {
             defaultValue: 'target time'
           })}>
@@ -46,7 +50,7 @@ class Summary extends React.PureComponent<Props> {
             <TimeNow />
           </CardSummary>
         </div>
-        <div className='explorer--Summary-column'>
+        <div className='column'>
           <CardSummary
             label={t('summary.sessionProgress', {
               defaultValue: 'session'
@@ -76,14 +80,14 @@ class Summary extends React.PureComponent<Props> {
             }}
           />
         </div>
-        <div className='explorer--Summary-column'>
+        <div className='column'>
           <CardSummary label={t('summary.best', {
             defaultValue: 'best'
           })}>
             <BestNumber />
           </CardSummary>
         </div>
-      </div>
+      </CardBar>
     );
   }
 }
