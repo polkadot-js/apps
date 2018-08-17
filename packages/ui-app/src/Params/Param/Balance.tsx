@@ -113,8 +113,8 @@ class Balance extends React.PureComponent<Props, State> {
     // allow left/right arrow keys (37, 39) to change values
     // allow SHIFT, CTRL, ALT (16, 17, 18) for copy/paste input values
     // allow CMD (86), a (65), x (88), c (67), or v (91) to paste an input value
-    // allow e (69), + (187) for scientific notation
-    if ([8, 9, 16, 17, 18, 37, 39, 65, 67, 69, 86, 88, 91, 187].includes(event.keyCode)) {
+    // allow e (69), + (187), . (190) for scientific notation
+    if ([8, 9, 16, 17, 18, 37, 39, 65, 67, 69, 86, 88, 91, 187, 190].includes(event.keyCode)) {
       return;
     }
 
@@ -153,6 +153,14 @@ class Balance extends React.PureComponent<Props, State> {
     if (event.target.value.match(regexE)) {
       event.target.value = event.target.value
         .replace(/e+/gi, 'e');
+    }
+
+    // after user inputs further values of '.' (for use with scientific notation)
+    const regexFullStop = /[.]/gi;
+
+    if (event.target.value.match(regexFullStop)) {
+      event.target.value = event.target.value
+        .replace(/\.+/gi, '.');
     }
   }
 }

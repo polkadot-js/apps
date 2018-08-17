@@ -7,7 +7,7 @@ import { IsValidWithMessage } from './types';
 import scientificNotationToNumber from './scientificNotationToNumber';
 
 // RegEx Pattern (positive int or scientific notation): http://regexlib.com/REDetails.aspx?regexp_id=330
-const re = RegExp('^[0-9\e\+]+[0-9\e\+]*$');
+const re = RegExp('^[0-9\e\+\.]+[0-9\e\+\.]*$');
 
 export default function isValidBalance (input: any): IsValidWithMessage {
   console.log('input: ', input);
@@ -65,6 +65,13 @@ export default function isValidBalance (input: any): IsValidWithMessage {
 
   if (!inputBN.lt(maxBN128Bit)) {
     return { isValid: false, errorMessage: 'Balance exceeds maximum for 128 bit' };
+  }
+
+  // if there's a full stop '.' (only allowed for scientific notation) but they
+  // have not yet entered an 'e', then generate an error until they add one
+
+  if (input.indexOf('.') !== -1 && input.indexOf('e') === -1) {
+    return { isValid: false, errorMessage: 'Decimals points are only allowed in scientific notation by using an \'e\' (i.e. 3.4e38) ' };
   }
 
   if (input.indexOf('e') !== -1) {
