@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import { IsValidWithMessage } from './types';
-import scientificNotation from './scientificNotationToNumber';
+import scientificNotationToNumber from './scientificNotationToNumber';
 
 // RegEx Pattern (positive int or scientific notation): http://regexlib.com/REDetails.aspx?regexp_id=330
 const re = RegExp('^[0-9\e\+]+[0-9\e\+]*$');
@@ -66,7 +66,7 @@ export default function isValidBalance (input: any): IsValidWithMessage {
 
   if (input.indexOf('e') !== -1) {
     console.log('doing info message');
-    const inputConvertedFromScientificNotation = scientificNotation(input);
+    const inputConvertedFromScientificNotation = scientificNotationToNumber(input);
     const inputConvertedFromScientificNotationBN = new BN(inputConvertedFromScientificNotation);
 
     if (!inputConvertedFromScientificNotation) {
@@ -76,7 +76,11 @@ export default function isValidBalance (input: any): IsValidWithMessage {
     if (!inputConvertedFromScientificNotationBN.lt(maxBN128Bit)) {
       return { isValid: false, errorMessage: 'Balance value after converting from scientific notation exceeds maximum for 128 bit' };
     } else {
-      return { isValid: true, infoMessage: `Equivalent: ${inputConvertedFromScientificNotation}` };
+      return {
+        isValid: true,
+        infoMessage: `Equivalent: ${inputConvertedFromScientificNotation}`,
+        inputConvertedFromScientificNotation: inputConvertedFromScientificNotation
+      };
     }
   }
 

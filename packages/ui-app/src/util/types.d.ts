@@ -16,5 +16,6 @@ export type SectionVisibilityAll = 'private' | 'public';
 export type IsValidWithMessage = {
   isValid: boolean,
   errorMessage?: string,
-  infoMessage?: string
+  infoMessage?: string,
+  inputConvertedFromScientificNotation?: string
 };

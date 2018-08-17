@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 // Convert positive number from scientific notation (i.e. scientificToDecimal('2.594e40'))
+// Reference: https://gist.github.com/jiggzson/b5f489af9ad931e3d186
 export default function scientificToDecimal (num: string): string {
   if (/\d+\.?\d*e[\+\-]*\d+/i.test(num)) {
     const zero = '0';

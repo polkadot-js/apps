@@ -78,7 +78,7 @@ class Balance extends React.PureComponent<Props, State> {
     value = value.split(' ').join('');
 
     try {
-      const { isValid, errorMessage, infoMessage } = isValidBalance(value);
+      const { isValid, errorMessage, infoMessage, inputConvertedFromScientificNotation } = isValidBalance(value);
 
       this.setState({
         error: !isValid && errorMessage ? t(errorMessage) : '',
@@ -87,9 +87,16 @@ class Balance extends React.PureComponent<Props, State> {
 
       if (!onChange) return;
 
+      let newValue: BN;
+      if (inputConvertedFromScientificNotation) {
+        newValue = new BN(inputConvertedFromScientificNotation || '0');
+      } else {
+        newValue = new BN(value || '0');
+      }
+
       onChange({
         isValid,
-        value: new BN(value || '0')
+        value: newValue
       });
     } catch (e) {
       console.error('error: ', e);
