@@ -5,9 +5,9 @@
 import { IsValidWithMessage } from './types';
 
 export enum ErrorMessage {
-  BalanceMustBeNumber = 'Balance to transfer in DOTs must be a number',
+  BalanceMustBeNumber = 'Balance to transfer in DOTs must be a number or expressed in scientific notation',
   BalanceMinimumRequired = 'Balance to transfer in DOTs must be greater than zero',
-  BalanceExceedsMaximum = 'Balance exceeds maximum'
+  BalanceExceedsMaximum = 'Balance exceeds maximum for 128 bit'
 }
 
 export const expectedIsValidResponse = (isValid: boolean = false, errorMessage?: ErrorMessage): IsValidWithMessage => {

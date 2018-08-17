@@ -12,25 +12,29 @@ type SemanticMessageSizes = 'mini' | 'tiny' | 'small' | 'large' | 'big' | 'huge'
 
 type Props = BareProps & {
   error?: React.ReactNode,
+  info?: React.ReactNode,
   // Issue: https://github.com/Semantic-Org/Semantic-UI-React/issues/3071
   size?: SemanticMessageSizes
 };
 
 export default class Notification extends React.PureComponent<Props> {
   render () {
-    const { error, size = 'tiny' } = this.props;
+    const { error, info, size = 'tiny' } = this.props;
 
-    if (!error) {
+    if (!error && !info) {
       return null;
     }
+    console.log('error, info', error, info);
 
     return (
       <div className='ui--Notifications'>
         <Message
           size={size}
           error={!!error}
+          info={!error && !!info}
         >
           {error}
+          {info}
         </Message>
       </div>
     );

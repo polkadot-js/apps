@@ -4,9 +4,10 @@
 
 import BN from 'bn.js';
 import { IsValidWithMessage } from './types';
+import scientificNotation from './scientificNotationToNumber';
 
-// RegEx Pattern (positive int): http://regexlib.com/REDetails.aspx?regexp_id=330
-const re = RegExp('^[0-9]+[0-9]*$');
+// RegEx Pattern (positive int or scientific notation): http://regexlib.com/REDetails.aspx?regexp_id=330
+const re = RegExp('^[0-9\e\+]+[0-9\e\+]*$');
 
 export default function isValidBalance (input: any): IsValidWithMessage {
   console.log('input: ', input);
@@ -23,33 +24,60 @@ export default function isValidBalance (input: any): IsValidWithMessage {
   // note: impossible since usng <input type='number'> and prevents spaces
   input = input.toLowerCase().split(' ').join('');
 
-  // given that it's a string, check it's non-exponential
-  if (input.indexOf('e+') !== -1) {
-    throw Error('Balance input value must not be in scientific notation');
+  // given that it's a string, check it's non-scientific notation
+  //
+  // note: not required at the moment since we're only allowing numeric values on key down
+  // TODO - check that only one instance of 'e+' combination before submit once we permit these values and convert
+  // if (input.indexOf('e+') !== -1) {
+  //   throw Error('Balance input value must not be in scientific notation');
+  // }
+  const matchE = input.match(/e/gi);
+  const matchPlus = input.match(/\+/gi);
+
+  if (matchE && matchE.length > 1 || matchPlus && matchPlus.length > 1) {
+    return { isValid: false, errorMessage: 'Scientific notation may only contain one instance of e+' };
   }
 
-  // check the string only contains integers digits
+  // check the string only contains integers digits or scientific notation
   if (!re.test(input)) {
-    return { isValid: false, errorMessage: 'Balance to transfer in DOTs must be a number' };
+    return { isValid: false, errorMessage: 'Balance to transfer in DOTs must be a number or expressed in scientific notation' };
   }
 
-  // remove all preceding zeros (i.e. since '01' to BN isn't same as '1' to BN)
+  // remove all preceding zeros (i.e. since for example '001' to BN isn't same as '1' to BN)
+  //
+  // note: not required since already preventing user from entering preceding zeros
   input = input.replace(/\b0+/g, '');
 
   // check value is a number and greater than zero
-  if (!isNaN(parseInt(input, 10)) || Number(parseInt(input, 10)) < 1) {
+  //
+  // note: not required since input only allows numeric values but no decimals, negatives, or zero
+  if (isNaN(parseInt(input, 10)) || Number(parseInt(input, 10)) < 1) {
     return { isValid: false, errorMessage: 'Balance to transfer in DOTs must be greater than zero' };
   }
-
-// check that only one instance of 'e+' combination before submit
 
   // chain specification 'latest' (128 bit)
   const max128Bit = '340282366920938463463374607431768211455';
   const maxBN128Bit = new BN(max128Bit);
   const inputBN = new BN(input);
 
-  if (!inputBN.lte(maxBN128Bit)) {
+  if (!inputBN.lt(maxBN128Bit)) {
     return { isValid: false, errorMessage: 'Balance exceeds maximum for 128 bit' };
+  }
+
+  if (input.indexOf('e') !== -1) {
+    console.log('doing info message');
+    const inputConvertedFromScientificNotation = scientificNotation(input);
+    const inputConvertedFromScientificNotationBN = new BN(inputConvertedFromScientificNotation);
+
+    if (!inputConvertedFromScientificNotation) {
+      throw Error('Unable to convert scientific notation to number');
+    }
+
+    if (!inputConvertedFromScientificNotationBN.lt(maxBN128Bit)) {
+      return { isValid: false, errorMessage: 'Balance value after converting from scientific notation exceeds maximum for 128 bit' };
+    } else {
+      return { isValid: true, infoMessage: `Equivalent: ${inputConvertedFromScientificNotation}` };
+    }
   }
 
   return { isValid: true };

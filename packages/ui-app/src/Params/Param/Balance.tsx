@@ -19,7 +19,8 @@ import translate from '../../translate';
 type Props = I18nProps & ApiProps & BareProps;
 
 type State = {
-  error?: React.ReactNode
+  error?: React.ReactNode,
+  info?: React.ReactNode
 };
 
 class Balance extends React.PureComponent<Props, State> {
@@ -29,16 +30,17 @@ class Balance extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      error: ''
+      error: '',
+      info: ''
     };
   }
 
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, t, withLabel } = this.props;
-    const { error } = this.state;
+    const { error, info } = this.state;
     const defaultValue = new BN((value as BN).toString(10) || '0').toString(10);
 
-    const maxLengthForLatestChainSpec = 38;
+    const maxLengthForLatestChainSpec = 39;
 
     return (
       <Bare
@@ -62,7 +64,7 @@ class Balance extends React.PureComponent<Props, State> {
           // step='1'
           withLabel={withLabel}
         />
-        <Notification error={error} />
+        <Notification error={error} info={info} />
       </Bare>
     );
   }
@@ -76,10 +78,11 @@ class Balance extends React.PureComponent<Props, State> {
     value = value.split(' ').join('');
 
     try {
-      const { isValid, errorMessage } = isValidBalance(value);
+      const { isValid, errorMessage, infoMessage } = isValidBalance(value);
 
       this.setState({
-        error: !isValid && errorMessage ? t(errorMessage) : ''
+        error: !isValid && errorMessage ? t(errorMessage) : '',
+        info: isValid && infoMessage ? t(infoMessage) : ''
       });
 
       if (!onChange) return;
@@ -94,20 +97,25 @@ class Balance extends React.PureComponent<Props, State> {
   }
 
   onKeyDown = (event: any): void => {
+    const { t } = this.props;
+
     console.log('onKeyDown event.keyCode: ', event.keyCode);
 
-    // allow input of delete key, tab key, or arrow keys
-    if ([8, 9, 37, 38, 39, 40].includes(event.keyCode)) {
+    // allow input of delete key (8) to undo input
+    // allow input of tab key (9) to change to next input field
+    // allow left/right arrow keys (37, 39) to change values
+    // allow SHIFT, CTRL, ALT (16, 17, 18) for copy/paste input values
+    // allow CMD (86), x (88), c (67), or v (91) to paste an input value
+    // allow e (69), + (187) for scientific notation
+    if ([8, 9, 16, 17, 18, 37, 39, 67, 69, 86, 88, 91, 187].includes(event.keyCode)) {
       return;
-    }
-
-    // prevent input of decimal point
-    if (event.keyCode === 190) {
-      event.preventDefault();
     }
 
     // prevent input of non-integer values
     if (event.keyCode < 48 || event.keyCode > 57) {
+      this.setState({
+        error: t('Non-numeric values are not permitted')
+      });
       event.preventDefault();
     }
   }
@@ -118,7 +126,25 @@ class Balance extends React.PureComponent<Props, State> {
     // remove preceding 0's in the value even if user tries to add them to the start
     if (event.target.value.substring(0, 1) === '0') {
       event.target.value = event.target.value.replace(/^0+/g, '');
-      event.preventDefault();
+    }
+
+    // remove any c, v, or x values (case insensitive) immediately when entered by user since
+    // we allow those keys so user may copy/cut/paste
+    const regexCopyCutPaste = /[c|v|x]/gi;
+
+    if (event.target.value.match(regexCopyCutPaste)) {
+      event.target.value = event.target.value
+        .replace(/c+/gi, '')
+        .replace(/v+/gi, '')
+        .replace(/x+/gi, '');
+    }
+
+    // after user inputs the value of 'e' or 'E', replace it with 'e'
+    const regexE = /[e]/gi;
+
+    if (event.target.value.match(regexE)) {
+      event.target.value = event.target.value
+        .replace(/e+/gi, 'e');
     }
   }
 }
