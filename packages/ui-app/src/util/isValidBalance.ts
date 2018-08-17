@@ -40,7 +40,7 @@ export default function isValidBalance (input: any): IsValidWithMessage {
 
   // check the string only contains integers digits or scientific notation
   if (!re.test(input)) {
-    return { isValid: false, errorMessage: 'Balance to transfer in DOTs must be a number or expressed in scientific notation' };
+    return { isValid: false, errorMessage: 'Balance to transfer in DOTs must be a number or expressed in scientific notation (i.e. 3.4e38)' };
   }
 
   // remove all preceding zeros (i.e. since for example '001' to BN isn't same as '1' to BN)
