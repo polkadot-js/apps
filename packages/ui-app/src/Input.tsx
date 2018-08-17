@@ -28,7 +28,9 @@ type Props = BareProps & {
   maxLength?: number,
   name?: string,
   onChange: (value: string) => void,
+  onKeyDown: (event: SUIEvent) => void,
   placeholder?: string,
+  step?: any,
   type?: Input$Type,
   value?: any,
   withLabel?: boolean
@@ -50,7 +52,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { children, className, defaultValue, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, maxLength, name, placeholder, style, type = 'text', value, withLabel } = this.props;
+    const { children, className, defaultValue, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, maxLength, name, placeholder, step, style, type = 'text', value, withLabel } = this.props;
 
     return (
       <Labelled
@@ -77,7 +79,9 @@ export default class Input extends React.PureComponent<Props, State> {
           maxLength={maxLength}
           name={name || this.state.name}
           onChange={this.onChange}
+          onKeyDown={this.onKeyDown}
           placeholder={placeholder}
+          step={step}
           type={type}
           value={value}
         >
@@ -98,5 +102,9 @@ export default class Input extends React.PureComponent<Props, State> {
 
   onChange = (event: React.SyntheticEvent<Element>, { value }: SUIEvent): void => {
     this.props.onChange(value);
+  }
+
+  onKeyDown = (event: SUIEvent): void => {
+    this.props.onKeyDown(event);
   }
 }

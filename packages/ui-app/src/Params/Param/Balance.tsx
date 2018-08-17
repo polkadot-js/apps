@@ -34,9 +34,11 @@ class Balance extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { apiSupport, className, defaultValue: { value }, isDisabled, isError, label, style, t, withLabel } = this.props;
+    const { className, defaultValue: { value }, isDisabled, isError, label, style, t, withLabel } = this.props;
     const { error } = this.state;
     const defaultValue = new BN((value as BN).toString(10) || '0').toString(10);
+
+    const maxLengthForLatestChainSpec = 38;
 
     return (
       <Bare
@@ -46,15 +48,17 @@ class Balance extends React.PureComponent<Props, State> {
         <Input
           className='large'
           defaultValue={defaultValue || '0'}
-          isDisabled={isDisabled}
           isError={isError}
           label={label}
-          maxLength={apiSupport === 'poc-1' ? 19 : 38}
+          maxLength={maxLengthForLatestChainSpec}
           onChange={this.onChange}
+          onKeyDown={this.onKeyDown}
           placeholder={t('account.balance.placeholder', {
             defaultValue: 'Between 1 testnet DOT and the available testnet DOT balance (minus 1) of the account'
           })}
-          type='text'
+          type='number'
+          min='1'
+          step='1'
           withLabel={withLabel}
         />
         <Notification error={error} />
@@ -63,18 +67,34 @@ class Balance extends React.PureComponent<Props, State> {
   }
 
   onChange = (value: string): void => {
-    const { onChange, apiSupport } = this.props;
+    const { onChange, t } = this.props;
 
-    const { isValid, errorMessage } = isValidBalance(value.trim(), apiSupport);
+    // prepare value by remove all whitespace
+    value = value.split(' ').join('');
 
-    this.setState({
-      error: isValid ? '' : errorMessage
-    });
+    try {
+      const { isValid, errorMessage } = isValidBalance(value);
 
-    onChange({
-      isValid,
-      value: new BN(value.trim() || '0')
-    });
+      this.setState({
+        error: !isValid && errorMessage ? t(errorMessage) : ''
+      });
+
+      if (!onChange) return;
+
+      onChange({
+        isValid,
+        value: new BN(value || '0')
+      });
+    } catch (e) {
+      console.error('error: ', e);
+    }
+  }
+
+  onKeyDown = (event: any): void => {
+    // ignore decimal point
+    if (event.keyCode === 190) {
+      event.preventDefault();
+    }
   }
 }
 

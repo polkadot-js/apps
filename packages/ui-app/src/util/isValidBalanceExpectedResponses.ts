@@ -6,7 +6,7 @@ import { IsValidWithMessage } from './types';
 
 export enum ErrorMessage {
   BalanceMustBeNumber = 'Balance to transfer in DOTs must be a number',
-  BalanceMinimumRequired = 'Balance of at least 1 DOT to transfer must be provided',
+  BalanceMinimumRequired = 'Balance to transfer in DOTs must be greater than zero',
   BalanceExceedsMaximum = 'Balance exceeds maximum'
 }
 
