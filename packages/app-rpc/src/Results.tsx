@@ -9,9 +9,8 @@ import React from 'react';
 
 import Output from '@polkadot/ui-app/Output';
 import classes from '@polkadot/ui-app/util/classes';
+import prettyJson from '@polkadot/ui-app/util/prettyJson';
 import isUndefined from '@polkadot/util/is/undefined';
-
-import resultToText from './resultToText';
 
 type Props = BareProps & {
   queue: Array<QueueTx>
@@ -44,7 +43,7 @@ export default class Results extends React.PureComponent<Props> {
             value={
               error
                 ? error.message
-                : resultToText(result)
+                : prettyJson(result)
             }
           />
         ))}
