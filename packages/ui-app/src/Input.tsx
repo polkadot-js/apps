@@ -29,6 +29,7 @@ type Props = BareProps & {
   name?: string,
   onChange: (value: string) => void,
   onKeyDown: (event: SUIEvent) => void,
+  onKeyUp: (event: SUIEvent) => void,
   placeholder?: string,
   step?: any,
   type?: Input$Type,
@@ -80,6 +81,7 @@ export default class Input extends React.PureComponent<Props, State> {
           name={name || this.state.name}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
+          onKeyUp={this.onKeyUp}
           placeholder={placeholder}
           step={step}
           type={type}
@@ -106,5 +108,9 @@ export default class Input extends React.PureComponent<Props, State> {
 
   onKeyDown = (event: SUIEvent): void => {
     this.props.onKeyDown(event);
+  }
+
+  onKeyUp = (event: SUIEvent): void => {
+    this.props.onKeyUp(event);
   }
 }

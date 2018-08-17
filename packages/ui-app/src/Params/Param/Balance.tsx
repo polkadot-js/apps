@@ -53,12 +53,13 @@ class Balance extends React.PureComponent<Props, State> {
           maxLength={maxLengthForLatestChainSpec}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
+          onKeyUp={this.onKeyUp}
           placeholder={t('account.balance.placeholder', {
             defaultValue: 'Between 1 testnet DOT and the available testnet DOT balance (minus 1) of the account'
           })}
-          type='number'
-          min='1'
-          step='1'
+          type='text'
+          // min='1'
+          // step='1'
           withLabel={withLabel}
         />
         <Notification error={error} />
@@ -68,6 +69,8 @@ class Balance extends React.PureComponent<Props, State> {
 
   onChange = (value: string): void => {
     const { onChange, t } = this.props;
+
+    console.log('onChange value: ', value);
 
     // prepare value by remove all whitespace
     value = value.split(' ').join('');
@@ -91,8 +94,30 @@ class Balance extends React.PureComponent<Props, State> {
   }
 
   onKeyDown = (event: any): void => {
-    // ignore decimal point
+    console.log('onKeyDown event.keyCode: ', event.keyCode);
+
+    // allow input of delete key, tab key, or arrow keys
+    if ([8, 9, 37, 38, 39, 40].includes(event.keyCode)) {
+      return;
+    }
+
+    // prevent input of decimal point
     if (event.keyCode === 190) {
+      event.preventDefault();
+    }
+
+    // prevent input of non-integer values
+    if (event.keyCode < 48 || event.keyCode > 57) {
+      event.preventDefault();
+    }
+  }
+
+  onKeyUp = (event: any): void => {
+    console.log('onKeyUp event.keyCode: ', event.keyCode);
+
+    // remove preceding 0's in the value even if user tries to add them to the start
+    if (event.target.value.substring(0, 1) === '0') {
+      event.target.value = event.target.value.replace(/^0+/g, '');
       event.preventDefault();
     }
   }

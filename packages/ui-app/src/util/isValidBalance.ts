@@ -9,13 +9,18 @@ import { IsValidWithMessage } from './types';
 const re = RegExp('^[0-9]+[0-9]*$');
 
 export default function isValidBalance (input: any): IsValidWithMessage {
+  console.log('input: ', input);
   // check it's a string
+  //
+  // note: always a string from <input type='number'>
   if (!(typeof input === 'string')) {
     throw Error('Balance input value must be of string type');
   }
 
   // input passed in is a string and already trimmed of whitespace
   // but do it again incase pass in value that hasn't been prepared
+  //
+  // note: impossible since usng <input type='number'> and prevents spaces
   input = input.toLowerCase().split(' ').join('');
 
   // given that it's a string, check it's non-exponential
@@ -35,6 +40,8 @@ export default function isValidBalance (input: any): IsValidWithMessage {
   if (!isNaN(parseInt(input, 10)) || Number(parseInt(input, 10)) < 1) {
     return { isValid: false, errorMessage: 'Balance to transfer in DOTs must be greater than zero' };
   }
+
+// check that only one instance of 'e+' combination before submit
 
   // chain specification 'latest' (128 bit)
   const max128Bit = '340282366920938463463374607431768211455';
