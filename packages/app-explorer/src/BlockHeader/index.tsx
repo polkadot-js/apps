@@ -39,9 +39,6 @@ class BlockHeader extends React.PureComponent<Props> {
     const { extrinsicsRoot, number, parentHash, stateRoot } = value;
     const hashHex = u8aToHex(hash);
     const parentHex = u8aToHex(parentHash);
-    const linkable = withLink
-      ? <Link to={`/explorer/hash/${hashHex}`}>{hashHex}</Link>
-      : hashHex;
 
     return (
       <div
@@ -52,30 +49,28 @@ class BlockHeader extends React.PureComponent<Props> {
           <div>{numberFormat(number)}</div>
         </div>
         <div className='details'>
-          <div className='hash'>
-            {linkable}
-          </div>
+          <div className='hash'>{
+            withLink
+              ? <Link to={`/explorer/hash/${hashHex}`}>{hashHex}</Link>
+              : hashHex
+          }</div>
           <table className='contains'>
             <tbody>
               <tr>
                 <td className='type'>parentHash</td>
-                <td className='hash'>
-                  <Link to={`/explorer/hash/${parentHex}`}>
-                    {parentHex}
-                  </Link>
-                </td>
+                <td className='hash'>{
+                  number.gtn(1)
+                    ? <Link to={`/explorer/hash/${parentHex}`}>{parentHex}</Link>
+                    : parentHex
+                }</td>
               </tr>
               <tr>
                 <td className='type'>extrinsicsRoot</td>
-                <td className='hash'>
-                  {u8aToHex(extrinsicsRoot)}
-                </td>
+                <td className='hash'>{u8aToHex(extrinsicsRoot)}</td>
               </tr>
               <tr>
                 <td className='type'>stateRoot</td>
-                <td className='hash'>
-                  {u8aToHex(stateRoot)}
-                </td>
+                <td className='hash'>{u8aToHex(stateRoot)}</td>
               </tr>
               {withExtrinsics
                 ? <Extrinsics hash={hash} />

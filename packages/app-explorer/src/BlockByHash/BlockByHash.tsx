@@ -72,7 +72,7 @@ class BlockByHash extends React.PureComponent<Props> {
           defaultValue: 'extrinsics'
         })}</h1>
         <div className='explorer--BlockByHash-flexable'>
-          {extrinsics.map((extrinsic: any, index: number) => (
+          {extrinsics.map((extrinsic, index) => (
             <div
               className='explorer--BlockByHash-extrinsic'
               key={`${value}:extrinsic:${index}`}
@@ -90,9 +90,9 @@ class BlockByHash extends React.PureComponent<Props> {
                       ? extrinsic.address
                       : <AddressMini value={extrinsic.address} />
                     }</div>
-                    <div className='explorer--BlockByHash-accountIndex'>{t('block.nonce', {
+                    <div className='explorer--BlockByHash-accountIndex'>{t('block.accountIndex', {
                       defaultValue: 'index'
-                    })} {numberFormat(extrinsic.nonce)}</div>
+                    })} {numberFormat(extrinsic.accountIndex)}</div>
                   </div>
                 </div>
                 <Extrinsic value={extrinsic} />
