@@ -38,9 +38,21 @@ export default function isValidBalance (input: any): IsValidWithMessage {
   // }
   const matchE = input.match(/e/gi);
   const matchPlus = input.match(/\+/gi);
+  const matchEPlus = input.match(/e\+/gi);
+
+  const matchEBeforeNumberOrPlus = input.match(/(e)(?=[0-9+])/ig);
+  const matchEPlusBeforeNumber = input.match(/(e\+)(?=[0-9])/ig);
 
   if (matchE && matchE.length > 1 || matchPlus && matchPlus.length > 1) {
     return { isValid: false, errorMessage: 'Scientific notation may only contain one instance of \'e\' for scientific notation or exponential with \'e+\'' };
+  }
+
+  if (matchEPlus && matchEPlus.length === 1 && !matchEPlusBeforeNumber) {
+    return { isValid: false, errorMessage: 'Exponential \'e+\' notation when used must be followed by a number' };
+  }
+
+  if (matchE && matchE.length === 1 && !matchEBeforeNumberOrPlus) {
+    return { isValid: false, errorMessage: 'Scientific notation \'e\' when used must be followed by a number' };
   }
 
   // check the string only contains integers digits or scientific notation
