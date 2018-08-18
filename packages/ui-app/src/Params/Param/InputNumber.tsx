@@ -70,8 +70,6 @@ class InputNumber extends React.PureComponent<Props, State> {
   onChange = (value: string): void => {
     const { onChange, t } = this.props;
 
-    console.log('onChange value: ', value);
-
     // prepare value by remove all whitespace
     value = value.split(' ').join('');
 
@@ -87,7 +85,7 @@ class InputNumber extends React.PureComponent<Props, State> {
 
       let newValue: BN;
       if (inputConvertedFromScientificNotation) {
-        newValue = new BN(inputConvertedFromScientificNotation || '0');
+        newValue = new BN(inputConvertedFromScientificNotation);
       } else {
         newValue = new BN(value || '0');
       }
