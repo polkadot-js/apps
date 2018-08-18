@@ -60,8 +60,6 @@ class InputNumber extends React.PureComponent<Props, State> {
             defaultValue: 'Between 1 testnet DOT and the available testnet DOT balance (minus 1) of the account'
           })}
           type='text'
-          // min='1'
-          // step='1'
           withLabel={withLabel}
         />
         <Notification error={error} info={info} />
