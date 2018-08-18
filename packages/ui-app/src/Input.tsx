@@ -82,7 +82,6 @@ export default class Input extends React.PureComponent<Props, State> {
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
           placeholder={placeholder}
-          step={step}
           type={type}
           value={value}
         >
