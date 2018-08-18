@@ -31,7 +31,7 @@ export default class Notification extends React.PureComponent<Props> {
         <Message
           size={size}
           error={!!error}
-          info={!error && !!info}
+          info={!!info}
         >
           {error}
           {info}
