@@ -106,7 +106,7 @@ export default class Input extends React.PureComponent<Props, State> {
 
   onKeyDown = (event: SUIEvent): void => {
     const { onKeyDown } = this.props;
-    // note: required since onKeyUp prop is not defined in modal when submit transaction
+
     if (onKeyDown) {
       onKeyDown(event);
     }
@@ -114,7 +114,7 @@ export default class Input extends React.PureComponent<Props, State> {
 
   onKeyUp = (event: SUIEvent): void => {
     const { onKeyUp } = this.props;
-    // note: required since onKeyUp prop is not defined in modal when submit transaction
+
     if (onKeyUp) {
       onKeyUp(event);
     }
