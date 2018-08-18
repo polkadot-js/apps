@@ -18,6 +18,8 @@ export default function getInitValue (type: Param$Types): RawParam$Value | Array
 
     case 'BlockNumber':
     case 'Index':
+    case 'InputNumber':
+      return new BN(1);
     case 'ParachainId':
     case 'PropIndex':
     case 'ReferendumIndex':

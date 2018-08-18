@@ -23,7 +23,7 @@ type State = {
   info?: React.ReactNode
 };
 
-class Balance extends React.PureComponent<Props, State> {
+class InputNumber extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -165,4 +165,4 @@ class Balance extends React.PureComponent<Props, State> {
   }
 }
 
-export default withApi(translate(Balance));
+export default withApi(translate(InputNumber));

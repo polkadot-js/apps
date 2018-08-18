@@ -28,8 +28,8 @@ type Props = BareProps & {
   maxLength?: number,
   name?: string,
   onChange: (value: string) => void,
-  onKeyDown: (event: SUIEvent) => void,
-  onKeyUp: (event: SUIEvent) => void,
+  onKeyDown?: (event: SUIEvent) => void,
+  onKeyUp?: (event: SUIEvent) => void,
   placeholder?: string,
   step?: any,
   type?: Input$Type,
@@ -107,10 +107,18 @@ export default class Input extends React.PureComponent<Props, State> {
   }
 
   onKeyDown = (event: SUIEvent): void => {
-    this.props.onKeyDown(event);
+    const { onKeyDown } = this.props;
+    // note: required since onKeyUp prop is not defined in modal when submit transaction
+    if (onKeyDown) {
+      onKeyDown(event);
+    }
   }
 
   onKeyUp = (event: SUIEvent): void => {
-    this.props.onKeyUp(event);
+    const { onKeyUp } = this.props;
+    // note: required since onKeyUp prop is not defined in modal when submit transaction
+    if (onKeyUp) {
+      onKeyUp(event);
+    }
   }
 }

@@ -11,17 +11,16 @@ import Bool from './Bool';
 import Bytes from './Bytes';
 import Code from './Code';
 import Hash from './Hash';
+import InputNumber from './InputNumber';
 import StorageKeyValue from './StorageKeyValue';
 import StorageKeyValueArray from './StorageKeyValueArray';
 import StringParam from './String';
 import Timestamp from './Timestamp';
-import Balance from './Balance';
 import Unknown from './Unknown';
 import VoteThreshold from './VoteThreshold';
 
 const components: ComponentMap = {
   'AccountId': Account,
-  'Balance': Balance,
   'BlockNumber': Amount,
   'bool': Bool,
   'Bytes': Bytes,
@@ -30,6 +29,7 @@ const components: ComponentMap = {
   'Digest': Unknown,
   'Hash': Hash,
   'Index': Amount,
+  'InputNumber': InputNumber,
   'KeyValue': StorageKeyValue,
   'StorageKeyValue': StorageKeyValue,
   'StorageKeyValue[]': StorageKeyValueArray,
