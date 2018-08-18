@@ -18,10 +18,6 @@ import classes from '@polkadot/ui-app/util/classes';
 import isUndefined from '@polkadot/util/is/undefined';
 import withApi from '@polkadot/ui-react-rx/with/api';
 
-// FIXME - remove as used temporarily for debugging
-import scientificNotationToNumber from '../../ui-app/src/util/scientificNotationToNumber';
-import BN from 'bn.js';
-
 import paramComponents from './Params';
 
 type Props = BareProps & ApiProps & {
@@ -91,9 +87,6 @@ class Extrinsic extends React.PureComponent<Props, State> {
           !isUndefined(values[index]) &&
           !isUndefined(values[index].value) &&
           values[index].isValid, true);
-
-      // FIXME - remove as used temporarily for debugging
-      // console.log('Extrinsic extrinsic.params: ', (values[1] && values[1].value as BN).toNumber());
 
       const value = isValid && extrinsic.params
         ? encode(extrinsic, values.map((p) => p.value), apiSupport)
