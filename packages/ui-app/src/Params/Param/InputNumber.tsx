@@ -36,7 +36,7 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, defaultValue: { value }, isDisabled, isError, label, style, t, withLabel } = this.props;
+    const { className, defaultValue: { value }, isError, label, style, t, withLabel } = this.props;
     const { error, info } = this.state;
     const defaultValue = new BN((value as BN).toString(10) || '0').toString(10);
 

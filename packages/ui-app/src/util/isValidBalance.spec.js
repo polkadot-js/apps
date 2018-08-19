@@ -15,30 +15,30 @@ describe('checks extrinsic balance', () => {
   it('detects invalid balance for input with no length', () => {
     const invalidBalance = '';
 
-    expect(isValidBalance(invalidBalance)).toEqual(expectedIsValidResponse(false, ErrorMessage.BalanceMinimumRequired));
+    expect(isValidBalance(invalidBalance)).toEqual(expectedIsValidResponse(false, ErrorMessage.BalanceMustBeNumber));
   });
 
-  it('detects invalid balance for balance with positive integers with spaces between', () => {
-    const invalidBalance = ' 05 9 ';
+  it('detects valid balance for balance with positive integers with spaces between', () => {
+    const validBalance = ' 05 9 ';
 
-    expect(isValidBalance(invalidBalance)).toEqual(expectedIsValidResponse(false, ErrorMessage.BalanceMustBeNumber));
+    expect(isValidBalance(validBalance)).toEqual(expectedIsValidResponse(true, undefined, '5.90e+1'));
   });
 
   it('detects valid balance for balance with positive integers', () => {
     const validBalance = ' 059 ';
 
-    expect(isValidBalance(validBalance)).toEqual(expectedIsValidResponse(true));
+    expect(isValidBalance(validBalance)).toEqual(expectedIsValidResponse(true, undefined, '5.90e+1'));
   });
 
   // max balance size for different chains are specified in @polkadot/params/sizes.ts
   it('detects valid balance is positive integers less than 128 bits maximum for latest chain', () => {
-    const maxValidBalance128Bit = '340282366920938463463374607431768211455'; // 2^128 − 1
+    const maxValidBalance128Bit = '340282366920938463463374607431768211454'; // 2^128 − 1
 
-    expect(isValidBalance(maxValidBalance128Bit)).toEqual(expectedIsValidResponse(true));
+    expect(isValidBalance(maxValidBalance128Bit)).toEqual(expectedIsValidResponse(true, undefined, '3.40e+38'));
   });
 
-  it('detects invalid balance for positive integers above the 128 bits maximum for latest chain', () => {
-    const invalidBalance = '340282366920938463463374607431768211456'; // 2^128
+  it('detects invalid balance for positive integers greater than or equal to the 128 bits maximum for latest chain', () => {
+    const invalidBalance = '340282366920938463463374607431768211455'; // 2^128
 
     expect(isValidBalance(invalidBalance)).toEqual(expectedIsValidResponse(false, ErrorMessage.BalanceExceedsMaximum));
   });
@@ -51,11 +51,30 @@ describe('checks extrinsic balance', () => {
     }).toThrow();
   });
 
-  // it('throws an error if input value for comparison is a string amount in scientific notation', () => {
-  //   const invalidInputValueType = String(340282366920938463463374607431768211456); // '3.402823669209385e+38';
+  it('detects valid balance from conversion if input value for comparison is a string amount in exponential notation less than maximum', () => {
+    const validInputValueExponentialType = '3.40e+38';
 
-  //   expect(() => {
-  //     isValidBalance(invalidInputValueType);
-  //   }).toThrow();
-  // });
+    expect(isValidBalance(validInputValueExponentialType)).toEqual(expectedIsValidResponse(true, undefined, '340000000000000000000000000000000000000', '340000000000000000000000000000000000000'));
+  });
+
+  it('detects invalid balance from conversion if input value for comparison is a string amount in exponential notation that exceeds maximum', () => {
+    const invalidInputValueExponentialType = String(340282366920938463463374607431768211456); // '3.402823669209385e+38';
+
+    expect(isValidBalance(invalidInputValueExponentialType)).toEqual(expectedIsValidResponse(false, ErrorMessage.BalanceExceedsMaximumScientificNotation));
+  });
+
+  it('detects valid balance from conversion if input value for comparison is a string amount in scientific notation less than maximum', () => {
+    const validInputValueScientificType = '3.40e+38';
+
+    expect(isValidBalance(validInputValueScientificType)).toEqual(expectedIsValidResponse(true, undefined, '340000000000000000000000000000000000000', '340000000000000000000000000000000000000'));
+  });
+
+  // FIXME - should be error message for scientific, not exponential
+  it('detects invalid balance from conversion if input value for comparison is a string amount in scientific notation that exceeds maximum', () => {
+    const invalidInputValueExponentialType = String(340282366920938463463374607431768211456); // '3.402823669209385e+38';
+
+    expect(isValidBalance(invalidInputValueExponentialType)).toEqual(expectedIsValidResponse(false, ErrorMessage.BalanceExceedsMaximumScientificNotation));
+  });
+
+  // TODO - add unit tests for other scenarios in isValidBalance
 });

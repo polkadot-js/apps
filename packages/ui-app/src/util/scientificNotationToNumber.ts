@@ -10,9 +10,7 @@ export default function scientificToDecimal (num: string): string {
     const parts = String(num).toLowerCase().split('e'); // split into coeff and exponent
     let e = parts.pop(); // store the exponential part
     if (e) {
-      const eNumber = Number(e);
       let l = Math.abs(Number(e)); // get the number of zeros
-      const sign = eNumber / l;
       const coeffArray = parts[0].split('.');
       const dec = coeffArray[1];
       if (dec) {
