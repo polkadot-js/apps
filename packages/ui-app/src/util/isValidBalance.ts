@@ -7,24 +7,16 @@ import { IsValidWithMessage } from './types';
 import scientificNotationToNumber from './scientificNotationToNumber';
 
 // RegEx Pattern (positive int or scientific notation): http://regexlib.com/REDetails.aspx?regexp_id=330
-const re = RegExp('^[0-9\e\+\.]+[0-9\e\+\.]*$');
+const reValidInputChars = RegExp('^[0-9\e\+\.]+[0-9\e\+\.]*$');
 
 export default function isValidBalance (input: any): IsValidWithMessage {
-  // note: always a string from <input type='number'>
+  // always a string from <input type='number'> but leave as failsafe
   if (!(typeof input === 'string')) {
     throw Error('Balance input value must be of string type');
   }
 
-  // input passed in is a string and already trimmed of whitespace
-  // but do it again incase pass in value that hasn't been prepared
-  //
-  // note: impossible since usng <input type='number'> and prevents spaces
+  // impossible since using <input type='number'> and prevents spaces but leave as failsafe
   input = input.toLowerCase().split(' ').join('');
-
-  // remove all preceding zeros (i.e. since for example '001' to BN isn't same as '1' to BN)
-  //
-  // note: not required since already preventing user from entering preceding zeros
-  // input = input.replace(/\b0+/g, '');
 
   const matchE = input.match(/e/gi);
   const matchPlus = input.match(/\+/gi);
@@ -46,7 +38,7 @@ export default function isValidBalance (input: any): IsValidWithMessage {
   }
 
   // check the string only contains integers digits or scientific notation
-  if (!re.test(input)) {
+  if (!reValidInputChars.test(input)) {
     return { isValid: false, errorMessage: 'Balance to transfer in DOTs must be a number or expressed in scientific notation (i.e. 3.4e38) or exponential with \'e+\'' };
   }
 
@@ -68,7 +60,7 @@ export default function isValidBalance (input: any): IsValidWithMessage {
   // chain specification 'latest' is 128 bit and supports below 2^128-1, which is ~3.40×10^38
   // and may be entered as 3.4e38, 3.4e+38 or 340282366920938463463374607431768211455
   const supportedBitLength = '128';
-  // show is equilant to 340282366920938463463374607431768211455 by calling .toString(10)
+  // show is equivalent to 340282366920938463463374607431768211455 by calling .toString(10)
   const maxBN128Bit = new BN('2').pow(new BN(supportedBitLength)).sub(new BN('1'));
   const inputBN = new BN(input);
 
