@@ -14,11 +14,9 @@ export default function toAddress (value?: string | Uint8Array): string | undefi
 
   try {
     return addressEncode(
-      addressDecode(
-        isHex(value)
-          ? hexToU8a(value as string)
-          : value
-      )
+      isHex(value)
+        ? hexToU8a(value as string)
+        : addressDecode(value)
     );
   } catch (error) {
     console.error('Unable to encode address', value);
