@@ -100,7 +100,6 @@ class InputAddress extends React.PureComponent<Props, State> {
       return null;
     }
 
-    // const defaultValue = addressToAddress(this.props.defaultValue as string);
     const lastValue = InputAddress.getLastValue(type);
     const actualValue = isDisabled || (defaultValue && this.hasValue(defaultValue))
       ? defaultValue
