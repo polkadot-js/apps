@@ -24,7 +24,7 @@ import classes from '../util/classes';
 import addressToAddress from '../util/toAddress';
 
 type Props = BareProps & {
-  defaultValue?: string | Uint8Array | null,
+  defaultValue?: string | null,
   hideAddress?: boolean;
   isDisabled?: boolean,
   isError?: boolean,
@@ -39,8 +39,6 @@ type Props = BareProps & {
 };
 
 type State = {
-  defaultValue: string | undefined,
-  options: KeyringOptions,
   value?: string
 };
 
@@ -64,14 +62,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const defaultValue = addressToAddress(props.defaultValue as string);
-    const lastValue = this.getLastValue();
-
-    this.state = {
-      defaultValue: this.props.isDisabled
-        ? defaultValue
-        : (lastValue || defaultValue)
-    } as State;
+    this.state = {};
   }
 
   static getDerivedStateFromProps ({ value }: Props): State | null {
@@ -84,28 +75,40 @@ class InputAddress extends React.PureComponent<Props, State> {
     }
   }
 
-  private readOptions () {
+  static readOptions () {
     return store.get(STORAGE_KEY) || { defaults: {} };
   }
 
-  private getLastValue () {
-    const options = this.readOptions();
+  static getLastValue (type: KeyringOption$Type = DEFAULT_TYPE) {
+    const options = InputAddress.readOptions();
 
-    return options.defaults[this.props.type || DEFAULT_TYPE];
+    return options.defaults[type];
+  }
+
+  static setLastValue (type: KeyringOption$Type = DEFAULT_TYPE, value: string) {
+    const options = InputAddress.readOptions();
+
+    options.defaults[type] = value;
+    store.set(STORAGE_KEY, options);
   }
 
   render () {
-    const { className, hideAddress = false, isDisabled = false, isError, label, optionsAll, type = DEFAULT_TYPE, style, withLabel } = this.props;
-    const { defaultValue, value } = this.state;
+    const { className, defaultValue, hideAddress = false, isDisabled = false, isError, label, optionsAll, type = DEFAULT_TYPE, style, withLabel } = this.props;
+    const { value } = this.state;
 
     if (!optionsAll) {
       return null;
     }
 
-    const options = optionsAll[type];
-    const hasValue = !!options.find(({ key }) =>
-      key === defaultValue
-    );
+    // const defaultValue = addressToAddress(this.props.defaultValue as string);
+    const lastValue = InputAddress.getLastValue(type);
+    const actualValue = isDisabled || (defaultValue && this.hasValue(defaultValue))
+      ? defaultValue
+      : (
+        this.hasValue(lastValue)
+          ? lastValue
+          : undefined
+      );
 
     return (
       <Dropdown
@@ -113,11 +116,7 @@ class InputAddress extends React.PureComponent<Props, State> {
         defaultValue={
           value !== undefined
             ? undefined
-            : (
-              hasValue
-                ? defaultValue
-                : this.props.defaultValue
-            )
+            : actualValue
         }
         isDisabled={isDisabled}
         isError={isError}
@@ -125,9 +124,9 @@ class InputAddress extends React.PureComponent<Props, State> {
         onChange={this.onChange}
         onSearch={this.onSearch}
         options={
-          isDisabled && !hasValue && defaultValue
-            ? [makeOption(defaultValue)]
-            : options
+          isDisabled && actualValue
+            ? [makeOption(actualValue)]
+            : optionsAll[type]
         }
         style={style}
         value={value}
@@ -136,12 +135,22 @@ class InputAddress extends React.PureComponent<Props, State> {
     );
   }
 
-  onChange = (address: string) => {
-    const { onChange, type = DEFAULT_TYPE } = this.props;
-    const options = this.readOptions();
+  private hasValue (value?: string): boolean {
+    const { optionsAll, type = DEFAULT_TYPE } = this.props;
 
-    options.defaults[type] = address;
-    store.set(STORAGE_KEY, options);
+    if (!optionsAll) {
+      return false;
+    }
+
+    return !!optionsAll[type].find(({ key }) =>
+      key === value
+    );
+  }
+
+  onChange = (address: string) => {
+    const { onChange, type } = this.props;
+
+    InputAddress.setLastValue(type, address);
 
     onChange(transform(address));
   }
@@ -186,6 +195,8 @@ class InputAddress extends React.PureComponent<Props, State> {
     });
   }
 }
+
+export { InputAddress };
 
 // @ts-ignore There are still some issues with props and types - this is valid
 export default withObservableBase(optionsSubject, { propName: 'optionsAll' })(InputAddress);
