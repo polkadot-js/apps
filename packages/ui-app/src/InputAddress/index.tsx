@@ -2,26 +2,26 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringOptions, KeyringOption$Type } from '@polkadot/ui-keyring/types';
+import { KeyringOptions, KeyringOptionsSection, KeyringOption$Type } from '@polkadot/ui-keyring/options/types';
 import { BareProps } from '../types';
 
 import './InputAddress.css';
 
 import React from 'react';
-
+import store from 'store';
 import keyring from '@polkadot/ui-keyring/index';
-import keyringObservable from '@polkadot/ui-keyring/observable';
 import createOptionHeader from '@polkadot/ui-keyring/options/header';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
+import { optionsSubject } from '@polkadot/ui-keyring/options';
 import makeOption from '@polkadot/ui-keyring/options/item';
+import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 import isHex from '@polkadot/util/is/hex';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
 import addressToAddress from '../util/toAddress';
-import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
 type Props = BareProps & {
   defaultValue?: string | Uint8Array | null,
@@ -31,6 +31,7 @@ type Props = BareProps & {
   isInput?: boolean,
   label?: string,
   onChange: (value: Uint8Array) => void,
+  optionsAll?: KeyringOptions,
   placeholder?: string,
   type?: KeyringOption$Type,
   value?: string | Uint8Array,
@@ -44,6 +45,8 @@ type State = {
 };
 
 const RECENT_KEY = 'header-recent';
+const STORAGE_KEY = 'options:InputAddress';
+const DEFAULT_TYPE = 'all';
 
 const transform = (value: string): Uint8Array => {
   if (isHex(value)) {
@@ -61,8 +64,13 @@ class InputAddress extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
+    const defaultValue = addressToAddress(props.defaultValue as string);
+    const lastValue = this.getLastValue();
+
     this.state = {
-      defaultValue: addressToAddress(props.defaultValue as string)
+      defaultValue: this.props.isDisabled
+        ? defaultValue
+        : (lastValue || defaultValue)
     } as State;
   }
 
@@ -76,15 +84,28 @@ class InputAddress extends React.PureComponent<Props, State> {
     }
   }
 
+  private readOptions () {
+    return store.get(STORAGE_KEY) || { defaults: {} };
+  }
+
+  private getLastValue () {
+    const options = this.readOptions();
+
+    return options.defaults[this.props.type || DEFAULT_TYPE];
+  }
+
   render () {
-    const { className, hideAddress = false, isDisabled = false, isError, label, onChange, type = 'all', style, withLabel } = this.props;
+    const { className, hideAddress = false, isDisabled = false, isError, label, optionsAll, type = DEFAULT_TYPE, style, withLabel } = this.props;
     const { defaultValue, value } = this.state;
-    const options = keyring.getOptions(type);
+
+    if (!optionsAll) {
+      return null;
+    }
+
+    const options = optionsAll[type];
     const hasValue = !!options.find(({ key }) =>
       key === defaultValue
     );
-
-    console.log('render', options, this.props);
 
     return (
       <Dropdown
@@ -92,12 +113,16 @@ class InputAddress extends React.PureComponent<Props, State> {
         defaultValue={
           value !== undefined
             ? undefined
-            : defaultValue
+            : (
+              hasValue
+                ? defaultValue
+                : this.props.defaultValue
+            )
         }
         isDisabled={isDisabled}
         isError={isError}
         label={label}
-        onChange={onChange}
+        onChange={this.onChange}
         onSearch={this.onSearch}
         options={
           isDisabled && !hasValue && defaultValue
@@ -105,29 +130,34 @@ class InputAddress extends React.PureComponent<Props, State> {
             : options
         }
         style={style}
-        transform={transform}
         value={value}
         withLabel={withLabel}
       />
     );
   }
 
-  onSearch = (filteredOptions: KeyringOptions, query: string): KeyringOptions => {
+  onChange = (address: string) => {
+    const { onChange, type = DEFAULT_TYPE } = this.props;
+    const options = this.readOptions();
+
+    options.defaults[type] = address;
+    store.set(STORAGE_KEY, options);
+
+    onChange(transform(address));
+  }
+
+  onSearch = (filteredOptions: KeyringOptionsSection, query: string): KeyringOptionsSection => {
     const { isInput = true } = this.props;
     const queryLower = query.toLowerCase();
-    const matches = filteredOptions.filter((item) => {
-      if (item.value === null) {
-        return true;
-      }
+    const matches = filteredOptions.filter((item) =>
+      item.value === null ||
+      item.name.toLowerCase().indexOf(queryLower) !== -1 ||
+      item.value.toLowerCase().indexOf(queryLower) !== -1
+    );
 
-      const { name, value } = item;
-      const hasMatch = name.toLowerCase().indexOf(queryLower) !== -1 ||
-      value.toLowerCase().indexOf(queryLower) !== -1;
-
-      return hasMatch;
-    });
-
-    const valueMatches = matches.filter((item) => item.value !== null);
+    const valueMatches = matches.filter((item) =>
+      item.value !== null
+    );
 
     if (isInput && valueMatches.length === 0) {
       const publicKey = transform(query);
@@ -142,7 +172,7 @@ class InputAddress extends React.PureComponent<Props, State> {
         matches.push(
           keyring.saveRecent(
             addressEncode(publicKey)
-          )
+          ).option
         );
       }
     }
@@ -152,14 +182,10 @@ class InputAddress extends React.PureComponent<Props, State> {
       const nextItem = matches[index + 1];
       const hasNext = nextItem && nextItem.value;
 
-      if (item.value !== null || (!isLast && hasNext)) {
-        return true;
-      }
-
-      return false;
+      return item.value !== null || (!isLast && hasNext);
     });
   }
 }
 
 // @ts-ignore There are still some issues with props and types - this is valid
-export default withObservableBase(keyringObservable, { propName: 'keyringAll' })(InputAddress);
+export default withObservableBase(optionsSubject, { propName: 'optionsAll' })(InputAddress);

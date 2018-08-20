@@ -25,6 +25,6 @@ export default function get (state: State, _address: string | Uint8Array, type: 
     publicKey: (): Uint8Array =>
       publicKey,
     getMeta: (): KeyringJson$Meta =>
-      subject.getValue()[address].meta
+      subject.getValue()[address].json.meta
   };
 }

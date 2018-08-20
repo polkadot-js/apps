@@ -4,10 +4,6 @@
 
 import { State } from '../types';
 
-import createOptions from '../options';
-
 export default function forgetAddress (state: State, address: string): void {
   state.addresses.remove(address);
-
-  createOptions(state);
 }

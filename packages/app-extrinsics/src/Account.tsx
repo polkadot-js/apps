@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringOption$Type } from '@polkadot/ui-keyring/types';
+import { KeyringOption$Type } from '@polkadot/ui-keyring/options/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';

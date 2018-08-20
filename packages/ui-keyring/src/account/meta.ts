@@ -8,7 +8,6 @@ import { State } from '../types';
 import store from 'store';
 
 import { accountKey } from '../defaults';
-import createOptions from '../options';
 
 export default function saveAccountMeta (state: State, pair: KeyringPair, meta: KeyringPair$Meta): void {
   const address = pair.address();
@@ -18,6 +17,4 @@ export default function saveAccountMeta (state: State, pair: KeyringPair, meta: 
   json.meta = pair.getMeta();
 
   state.accounts.add(json.address, json);
-
-  createOptions(state);
 }

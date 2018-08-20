@@ -4,11 +4,7 @@
 
 import { State } from '../types';
 
-import createOptions from '../options';
-
 export default function forgetAccount (state: State, address: string): void {
   state.keyring.removePair(address);
   state.accounts.remove(address);
-
-  createOptions(state);
 }

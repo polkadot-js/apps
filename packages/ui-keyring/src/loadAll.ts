@@ -11,11 +11,26 @@ import isHex from '@polkadot/util/is/hex';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 
 import saveAddress from './address/meta';
-import createOptions from './options';
+import initOptions from './options';
 import { accountRegex, addressRegex } from './defaults';
+
+function addPairs ({ accounts, keyring }: State): void {
+  keyring
+    .getPairs()
+    .forEach((pair) => {
+      const address = pair.address();
+
+      accounts.add(address, {
+        address,
+        meta: pair.getMeta()
+      });
+    });
+}
 
 export default function loadAll (state: State): void {
   const { accounts, addresses, keyring } = state;
+
+  addPairs(state);
 
   store.each((json: KeyringJson, key: string) => {
     if (accountRegex.test(key)) {
@@ -39,5 +54,5 @@ export default function loadAll (state: State): void {
     }
   });
 
-  createOptions(state);
+  initOptions(state);
 }

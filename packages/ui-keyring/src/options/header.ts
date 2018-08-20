@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringOption } from '../types';
+import { KeyringSectionOption } from './types';
 
-export default function createHeader (name: string): KeyringOption {
+export default function createHeader (name: string): KeyringSectionOption {
   return {
     className: 'header disabled',
     name,

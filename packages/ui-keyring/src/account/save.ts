@@ -5,8 +5,6 @@
 import { KeyringPair } from '@polkadot/util-keyring/types';
 import { State } from '../types';
 
-import createOptions from '../options';
-
 export default function saveAccount (state: State, pair: KeyringPair, password?: string): void {
   const json = pair.toJson(password);
 
@@ -15,6 +13,4 @@ export default function saveAccount (state: State, pair: KeyringPair, password?:
   }
 
   state.accounts.add(json.address, json);
-
-  createOptions(state);
 }

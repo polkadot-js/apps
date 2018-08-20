@@ -57,6 +57,12 @@ export default function withObservable<T> (subscription: ObservableApiNames, { r
         this.subscribe(this.getParams(this.props));
       }
 
+      componentWillUnmount () {
+        this.setState({
+          Component: undefined
+        });
+      }
+
       private subscribe (newParams: Array<any>) {
         const { apiObservable } = this.props;
         const observable = apiObservable[subscription](...newParams);

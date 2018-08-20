@@ -123,7 +123,6 @@ class Editor extends React.PureComponent<Props, State> {
               })}
               onChange={this.onChangeAccount}
               type='account'
-              value={address}
             />
           </div>
           <div className='ui--row'>
