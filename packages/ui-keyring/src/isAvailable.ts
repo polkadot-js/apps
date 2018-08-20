@@ -8,9 +8,12 @@ import isString from '@polkadot/util/is/string';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
 export default function isAvailable (state: State, _address: Uint8Array | string): boolean {
+  const accounts = state.accounts.subject.getValue();
+  const addresses = state.addresses.subject.getValue();
+
   const address = isString(_address)
     ? _address
     : addressEncode(_address);
 
-  return !state.available.account[address] && !state.available.address[address];
+  return !accounts[address] && !addresses[address];
 }

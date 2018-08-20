@@ -10,7 +10,7 @@ import KeyPair from './KeyPair';
 
 export default function createItem (address: string, _name?: string): KeyringOption {
   const name = _name === undefined
-    ? `${address.slice(0, 16)}…`
+    ? `${address.slice(0, 7)}…${address.slice(-7)}`
     : _name;
 
   return {

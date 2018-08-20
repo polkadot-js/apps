@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { KeyringInstance as BaseKeyringInstance, KeyringPair, KeyringPair$Meta } from '@polkadot/util-keyring/types';
+import { AddressSubject } from './observable/types';
 
 export type KeyringOption$Type = 'account' | 'address' | 'all' | 'recent' | 'testing';
 
@@ -42,14 +43,8 @@ export type KeyringAddress = {
 
 export type State = {
   isTestMode: boolean,
-  available: {
-    account: {
-      [index: string]: KeyringJson
-    },
-    address: {
-      [index: string]: KeyringJson
-    }
-  },
+  accounts: AddressSubject,
+  addresses: AddressSubject,
   keyring: BaseKeyringInstance,
   options: {
     [index: string]: KeyringOptions // KeyringOption$Type

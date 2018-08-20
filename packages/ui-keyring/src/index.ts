@@ -7,6 +7,8 @@ import { KeyringAddress, KeyringInstance, KeyringOption$Type, KeyringOption, Key
 
 import testKeyring from '@polkadot/util-keyring/testing';
 
+import accounts from './observable/accounts';
+import addresses from './observable/addresses';
 import loadAll from './loadAll';
 import createAccount from './account/create';
 import forgetAccount from './account/forget';
@@ -23,10 +25,8 @@ import setTestMode from './setTestMode';
 
 const state: State = {
   isTestMode: false,
-  available: {
-    account: {},
-    address: {}
-  },
+  accounts,
+  addresses,
   keyring: testKeyring(),
   options: {}
 };

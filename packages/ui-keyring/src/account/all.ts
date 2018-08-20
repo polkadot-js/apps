@@ -7,10 +7,14 @@ import { KeyringAddress, State } from '../types';
 import get from '../address/get';
 
 export default function all (state: State): Array<KeyringAddress> {
+  const available = state.accounts.subject.getValue();
+
   return Object
-    .keys(state.available.account)
+    .keys(available)
     .map((address) =>
       get(state, address, 'account')
     )
-    .filter((account) => !account.getMeta().isTesting);
+    .filter((account) =>
+      !account.getMeta().isTesting
+    );
 }

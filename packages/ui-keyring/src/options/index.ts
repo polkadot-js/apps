@@ -7,23 +7,27 @@ import { State, KeyringJson, KeyringOptions } from '../types';
 import createItem from './item';
 import createHeader from './header';
 
-function addPairs ({ available, keyring }: State): void {
+function addPairs ({ accounts, keyring }: State): void {
   keyring
     .getPairs()
     .forEach((pair) => {
       const address = pair.address();
 
-      available.account[address] = {
+      accounts.add(address, {
         address,
         meta: pair.getMeta()
-      };
+      });
     });
 }
 
-function addAccounts ({ available, isTestMode, options }: State): void {
+function addAccounts ({ accounts, isTestMode, options }: State): void {
+  const available = accounts.subject.getValue();
+
   Object
-    .keys(available.account)
-    .map((address) => available.account[address])
+    .keys(available)
+    .map((address) =>
+      available[address]
+    )
     .forEach(({ address, meta: { name, isTesting = false } }: KeyringJson) => {
       const option = createItem(address, name);
 
@@ -35,15 +39,15 @@ function addAccounts ({ available, isTestMode, options }: State): void {
     });
 }
 
-function addAddresses ({ available, options }: State): void {
-  Object
-    .keys(available.address)
-    .map((address) => available.address[address])
-    .forEach(({ address, meta: { name, isRecent = false } }: KeyringJson) => {
-      if (available.account[address]) {
-        return;
-      }
+function addAddresses ({ addresses, options }: State): void {
+  const available = addresses.subject.getValue();
 
+  Object
+    .keys(available)
+    .map((address) =>
+      available[address]
+    )
+    .forEach(({ address, meta: { name, isRecent = false } }: KeyringJson) => {
       const option = createItem(address, name);
 
       if (isRecent) {

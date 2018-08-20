@@ -4,13 +4,12 @@
 
 import { KeyringJson, KeyringOption, State } from '../types';
 
-import store from 'store';
-
-import { addressKey } from '../defaults';
 import createOptions from '../options';
 
 export default function saveRecent (state: State, address: string): KeyringOption {
-  if (!state.available.address[address]) {
+  const available = state.addresses.subject.getValue();
+
+  if (!available[address]) {
     const json = {
       address,
       meta: {
@@ -19,8 +18,7 @@ export default function saveRecent (state: State, address: string): KeyringOptio
       }
     };
 
-    store.set(addressKey(json.address), json);
-    state.available.address[address] = (json as KeyringJson);
+    state.addresses.add(address, (json as KeyringJson));
   }
 
   createOptions(state);

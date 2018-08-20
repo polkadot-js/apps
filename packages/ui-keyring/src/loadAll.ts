@@ -15,12 +15,12 @@ import createOptions from './options';
 import { accountRegex, addressRegex } from './defaults';
 
 export default function loadAll (state: State): void {
-  const { available, keyring } = state;
+  const { accounts, addresses, keyring } = state;
 
   store.each((json: KeyringJson, key: string) => {
     if (accountRegex.test(key)) {
       keyring.addFromJson(json as KeyringPair$Json);
-      available.account[json.address] = json;
+      accounts.add(json.address, json);
     } else if (addressRegex.test(key)) {
       const address = isHex(json.address)
         ? addressEncode(hexToU8a(json.address))
@@ -35,7 +35,7 @@ export default function loadAll (state: State): void {
         saveAddress(state, address, json.meta);
       }
 
-      available.address[json.address] = json;
+      addresses.add(json.address, json);
     }
   });
 

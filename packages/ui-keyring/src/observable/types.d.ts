@@ -11,5 +11,6 @@ export type AddressInfo = {
 
 export type AddressSubject = {
   add: (address: string, json: KeyringJson) => void,
+  remove: (address: string) => void,
   subject: BehaviorSubject<AddressInfo>
 };

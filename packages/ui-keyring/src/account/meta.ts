@@ -17,7 +17,7 @@ export default function saveAccountMeta (state: State, pair: KeyringPair, meta: 
   pair.setMeta(meta);
   json.meta = pair.getMeta();
 
-  store.set(accountKey(json.address), json);
+  state.accounts.add(json.address, json);
 
   createOptions(state);
 }

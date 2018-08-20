@@ -2,6 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import genericSubject from './genericSubject';
+import { combineLatest } from 'rxjs';
 
-export default genericSubject();
+import accounts from './accounts';
+import addresses from './addresses';
+
+export default combineLatest(
+  accounts.subject,
+  addresses.subject
+);

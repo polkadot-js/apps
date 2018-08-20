@@ -6,14 +6,27 @@ import { BehaviorSubject } from 'rxjs';
 import { AddressInfo, AddressSubject } from './types';
 import { KeyringJson } from '../types';
 
-export default function genericSubject (): AddressSubject {
+import store from 'store';
+
+export default function genericSubject (keyCreator: (address: string) => string): AddressSubject {
   let current: AddressInfo = {};
   const subject = new BehaviorSubject({});
 
   return {
     add: (address: string, json: KeyringJson) => {
-      current = { ...current, [address]: json };
+      current = { ...current };
 
+      current[address] = json;
+
+      store.set(keyCreator(address), json);
+      subject.next(current);
+    },
+    remove: (address: string) => {
+      current = { ...current };
+
+      delete current[address];
+
+      store.remove(keyCreator(address));
       subject.next(current);
     },
     subject
