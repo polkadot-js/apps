@@ -19,3 +19,8 @@ export type IsValidWithMessage = {
   infoMessage?: string,
   inputConvertedFromScientificNotation?: string
 };
+
+export type ScientificNotation = {
+  errorMessage?: string,
+  inputConvertedFromScientificNotation?: string
+};

@@ -69,12 +69,13 @@ export default function isValidBalance (input: any): IsValidWithMessage {
   }
 
   if (input.indexOf('e') !== -1) {
-    const inputConvertedFromScientificNotation = scientificNotationToNumber(input);
-    const inputConvertedFromScientificNotationBN = new BN(inputConvertedFromScientificNotation);
+    const { inputConvertedFromScientificNotation, errorMessage } = scientificNotationToNumber(input);
 
     if (!inputConvertedFromScientificNotation) {
-      throw Error('Unable to convert scientific or exponential notation to number');
+      return { isValid: false, errorMessage: errorMessage };
     }
+
+    const inputConvertedFromScientificNotationBN = new BN(inputConvertedFromScientificNotation);
 
     if (matchEPlus && !inputConvertedFromScientificNotationBN.lt(maxBN128Bit)) {
       return { isValid: false, errorMessage: 'Balance value after converting from exponential notation exceeds maximum for 128 bit' };

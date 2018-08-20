@@ -140,6 +140,14 @@ class InputNumber extends React.PureComponent<Props, State> {
       return;
     }
 
+    // prevent user entering the '+' symbol unless immediately after the 'e' letter (i.e. 'e+') for exponential notation
+    const inputCursorIndex = event.target.value.slice(0, event.target.selectionStart).length;
+
+    if (event.keyCode === plusKey && event.target.value.charAt(inputCursorIndex - 1) !== 'e') {
+      event.preventDefault();
+      return;
+    }
+
     // allow users to to use cut/copy/paste combinations, but not non-numeric letters individually
     // allow users to use the + key for exponential notation
     if (
