@@ -2,15 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringJson, KeyringOption, State } from '../types';
+import { SingleAddress } from '../observable/types';
+import { KeyringJson, State } from '../types';
 
-import store from 'store';
+export default function saveRecent (state: State, address: string): SingleAddress {
+  const available = state.addresses.subject.getValue();
 
-import { addressKey } from '../defaults';
-import createOptions from '../options';
-
-export default function saveRecent (state: State, address: string): KeyringOption {
-  if (!state.available.address[address]) {
+  if (!available[address]) {
     const json = {
       address,
       meta: {
@@ -19,12 +17,8 @@ export default function saveRecent (state: State, address: string): KeyringOptio
       }
     };
 
-    store.set(addressKey(json.address), json);
-    state.available.address[address] = (json as KeyringJson);
+    state.addresses.add(address, (json as KeyringJson));
   }
 
-  createOptions(state);
-
-  // @ts-ignore it should be there now...
-  return state.options.recent.find(({ value }) => value === address);
+  return state.addresses.subject.getValue()[address];
 }

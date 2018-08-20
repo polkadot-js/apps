@@ -11,16 +11,31 @@ import isHex from '@polkadot/util/is/hex';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 
 import saveAddress from './address/meta';
-import createOptions from './options';
+import initOptions from './options';
 import { accountRegex, addressRegex } from './defaults';
 
+function addPairs ({ accounts, keyring }: State): void {
+  keyring
+    .getPairs()
+    .forEach((pair) => {
+      const address = pair.address();
+
+      accounts.add(address, {
+        address,
+        meta: pair.getMeta()
+      });
+    });
+}
+
 export default function loadAll (state: State): void {
-  const { available, keyring } = state;
+  const { accounts, addresses, keyring } = state;
+
+  addPairs(state);
 
   store.each((json: KeyringJson, key: string) => {
     if (accountRegex.test(key)) {
       keyring.addFromJson(json as KeyringPair$Json);
-      available.account[json.address] = json;
+      accounts.add(json.address, json);
     } else if (addressRegex.test(key)) {
       const address = isHex(json.address)
         ? addressEncode(hexToU8a(json.address))
@@ -35,9 +50,9 @@ export default function loadAll (state: State): void {
         saveAddress(state, address, json.meta);
       }
 
-      available.address[json.address] = json;
+      addresses.add(json.address, json);
     }
   });
 
-  createOptions(state);
+  initOptions(state);
 }

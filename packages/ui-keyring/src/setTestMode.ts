@@ -4,10 +4,6 @@
 
 import { State } from './types';
 
-import createOptions from './options';
-
 export default function setTestMode (state: State, isTest: boolean): void {
   state.isTestMode = isTest;
-
-  createOptions(state);
 }

@@ -9,22 +9,20 @@ import { RxProps } from '../types';
 import { HOC, Options, DefaultProps, RenderFn } from './types';
 
 import React from 'react';
-import { map } from 'rxjs/operators/map';
 import isUndefined from '@polkadot/util/is/undefined';
 
-import intervalSubscribe from '../util/intervalSubscribe';
 import isEqual from '../util/isEqual';
-import triggerChange from '../util/triggerChange';
 import echoTransform from './transform/echo';
 import withApi from './api';
+import withObservableBase from './observableBase';
 
 type State<T> = RxProps<T> & {
-  subscriptions: Array<any>; // FIXME subscriptions
+  Component?: React.ComponentType<any>
 };
 
 // FIXME proper types for attributes
 
-export default function withObservable<T> (observable: ObservableApiNames, { onChange, params = [], paramProp = 'params', propName = observable, transform = echoTransform }: Options<T> = {}): HOC<T> {
+export default function withObservable<T> (subscription: ObservableApiNames, { rxChange, params = [], paramProp = 'params', propName = subscription, transform = echoTransform }: Options<T> = {}): HOC<T> {
   return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}, render?: RenderFn): React.ComponentType<any> => {
     class WithObservable extends React.Component<any, State<T>> {
       state: State<T>;
@@ -32,12 +30,7 @@ export default function withObservable<T> (observable: ObservableApiNames, { onC
       constructor (props: any) {
         super(props);
 
-        this.state = {
-          rxUpdated: false,
-          rxUpdatedAt: 0,
-          subscriptions: [],
-          value: void 0
-        };
+        this.state = {};
       }
 
       private getParams (props: any): Array<any> {
@@ -64,63 +57,34 @@ export default function withObservable<T> (observable: ObservableApiNames, { onC
         this.subscribe(this.getParams(this.props));
       }
 
-      private subscribe (newParams: Array<any>) {
-        const { apiObservable } = this.props;
-
-        this.unsubscribe();
+      componentWillUnmount () {
         this.setState({
-          subscriptions: [
-            apiObservable[observable](...newParams)
-              .pipe(map(transform))
-              .subscribe((value: any) =>
-                this.triggerUpdate(this.props, value)
-              ),
-            intervalSubscribe(this)
-          ]
+          Component: undefined
         });
       }
 
-      private unsubscribe () {
-        this.state.subscriptions.forEach((subscription) =>
-          subscription.unsubscribe()
-        );
-      }
-
-      componentWillUnmount () {
-        this.unsubscribe();
-      }
-
-      triggerUpdate = (props: any, value?: T): void => {
-        if (isEqual(value, this.state.value)) {
-          return;
-        }
-
-        triggerChange(value, onChange, props.onChange || defaultProps.onChange);
+      private subscribe (newParams: Array<any>) {
+        const { apiObservable } = this.props;
+        const observable = apiObservable[subscription](...newParams);
 
         this.setState({
-          rxUpdated: true,
-          rxUpdatedAt: Date.now(),
-          value
+          Component: withObservableBase(observable, {
+            rxChange,
+            propName,
+            transform
+          })(Inner, defaultProps, render)
         });
       }
 
       render () {
-        const { children } = this.props;
-        const { rxUpdated, rxUpdatedAt, value } = this.state;
-        const _props = {
-          ...defaultProps,
-          ...this.props,
-          rxUpdated,
-          rxUpdatedAt,
-          [propName]: value
-        };
+        const { Component } = this.state;
 
-        delete _props.onChange;
+        if (!Component) {
+          return null;
+        }
 
         return (
-          <Inner {..._props}>
-            {render && render(value)}{children}
-          </Inner>
+          <Component {...this.props} />
         );
       }
     }

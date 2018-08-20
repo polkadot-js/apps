@@ -3,10 +3,13 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { KeyringPair, KeyringPair$Meta } from '@polkadot/util-keyring/types';
-import { KeyringAddress, KeyringInstance, KeyringOption$Type, KeyringOption, KeyringOptions, State } from './types';
+import { SingleAddress } from './observable/types';
+import { KeyringAddress, KeyringInstance, State } from './types';
 
 import testKeyring from '@polkadot/util-keyring/testing';
 
+import accounts from './observable/accounts';
+import addresses from './observable/addresses';
 import loadAll from './loadAll';
 import createAccount from './account/create';
 import forgetAccount from './account/forget';
@@ -23,12 +26,9 @@ import setTestMode from './setTestMode';
 
 const state: State = {
   isTestMode: false,
-  available: {
-    account: {},
-    address: {}
-  },
-  keyring: testKeyring(),
-  options: {}
+  accounts,
+  addresses,
+  keyring: testKeyring()
 };
 
 loadAll(state);
@@ -48,8 +48,6 @@ export default ({
     getAddress(state, address),
   getAddresses: (): Array<KeyringAddress> =>
     getAddresses(state),
-  getOptions: (type: KeyringOption$Type): KeyringOptions =>
-    state.options[type],
   getPair: (address: string | Uint8Array): KeyringPair =>
     state.keyring.getPair(address),
   getPairs: (): Array<KeyringPair> =>
@@ -64,7 +62,7 @@ export default ({
     saveAccountMeta(state, pair, meta),
   saveAddress: (address: string, meta: KeyringPair$Meta): void =>
     saveAddress(state, address, meta),
-  saveRecent: (address: string): KeyringOption =>
+  saveRecent: (address: string): SingleAddress =>
     saveRecent(state, address),
   setTestMode: (isTest: boolean): void =>
     setTestMode(state, isTest)

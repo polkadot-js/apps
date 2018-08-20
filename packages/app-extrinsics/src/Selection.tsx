@@ -65,7 +65,7 @@ class Selection extends React.PureComponent<Props, State> {
           label={t('display.nonce', {
             defaultValue: 'with an index'
           })}
-          onChange={this.onChangeNonce}
+          rxChange={this.onChangeNonce}
           value={publicKey}
         />
         <Button.Group>

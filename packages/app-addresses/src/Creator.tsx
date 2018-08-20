@@ -8,6 +8,7 @@ import React from 'react';
 
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
+import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 import addressDecode from '@polkadot/util-keyring/address/decode';
@@ -167,6 +168,7 @@ class Creator extends React.PureComponent<Props, State> {
     const { address, name } = this.state;
 
     keyring.saveAddress(address, { name });
+    InputAddress.setLastValue('address', address);
 
     onBack();
   }

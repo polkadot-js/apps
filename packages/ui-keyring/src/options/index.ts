@@ -2,31 +2,24 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { State, KeyringJson, KeyringOptions } from '../types';
+import { State } from '../types';
+import { SingleAddress } from '../observable/types';
+import { KeyringOptions, KeyringOptionsSection } from './types';
 
-import createItem from './item';
+import { BehaviorSubject } from 'rxjs';
+
+import observableAll from '../observable';
 import createHeader from './header';
 
-function addPairs ({ available, keyring }: State): void {
-  keyring
-    .getPairs()
-    .forEach((pair) => {
-      const address = pair.address();
+function addAccounts ({ accounts, isTestMode }: State, options: KeyringOptions): void {
+  const available = accounts.subject.getValue();
 
-      available.account[address] = {
-        address,
-        meta: pair.getMeta()
-      };
-    });
-}
-
-function addAccounts ({ available, isTestMode, options }: State): void {
   Object
-    .keys(available.account)
-    .map((address) => available.account[address])
-    .forEach(({ address, meta: { name, isTesting = false } }: KeyringJson) => {
-      const option = createItem(address, name);
-
+    .keys(available)
+    .map((address) =>
+      available[address]
+    )
+    .forEach(({ json: { meta: { isTesting = false } }, option }: SingleAddress) => {
       if (!isTesting) {
         options.account.push(option);
       } else if (isTestMode) {
@@ -35,17 +28,15 @@ function addAccounts ({ available, isTestMode, options }: State): void {
     });
 }
 
-function addAddresses ({ available, options }: State): void {
+function addAddresses ({ addresses }: State, options: KeyringOptions): void {
+  const available = addresses.subject.getValue();
+
   Object
-    .keys(available.address)
-    .map((address) => available.address[address])
-    .forEach(({ address, meta: { name, isRecent = false } }: KeyringJson) => {
-      if (available.account[address]) {
-        return;
-      }
-
-      const option = createItem(address, name);
-
+    .keys(available)
+    .map((address) =>
+      available[address]
+    )
+    .forEach(({ json: { meta: { isRecent = false } }, option }: SingleAddress) => {
       if (isRecent) {
         options.recent.push(option);
       } else {
@@ -54,36 +45,48 @@ function addAddresses ({ available, options }: State): void {
     });
 }
 
-export default function createOptions (state: State): void {
-  state.options = {
+function emptyOptions (): KeyringOptions {
+  return {
     account: [],
     address: [],
     all: [],
     recent: [],
     testing: []
   };
-
-  addPairs(state);
-  addAccounts(state);
-  addAddresses(state);
-
-  const { options } = state;
-
-  options.address = ([] as KeyringOptions).concat(
-    options.address.length ? [ createHeader('Addresses') ] : [],
-    options.address,
-    options.recent.length ? [ createHeader('Recent') ] : [],
-    options.recent
-  );
-  options.account = ([] as KeyringOptions).concat(
-    options.account.length ? [ createHeader('Accounts') ] : [],
-    options.account,
-    options.testing.length ? [ createHeader('Testing') ] : [],
-    options.testing
-  );
-
-  options.all = ([] as KeyringOptions).concat(
-    options.account,
-    options.address
-  );
 }
+
+const optionsSubject: BehaviorSubject<KeyringOptions> = new BehaviorSubject(emptyOptions());
+
+// NOTE To be called _only_ once (should be addressed with https://github.com/polkadot-js/apps/issues/138)
+export default function initOptions (state: State): void {
+  observableAll.subscribe((value) => {
+    const options = emptyOptions();
+
+    addAccounts(state, options);
+    addAddresses(state, options);
+
+    options.address = ([] as KeyringOptionsSection).concat(
+      options.address.length ? [ createHeader('Addresses') ] : [],
+      options.address,
+      options.recent.length ? [ createHeader('Recent') ] : [],
+      options.recent
+    );
+    options.account = ([] as KeyringOptionsSection).concat(
+      options.account.length ? [ createHeader('Accounts') ] : [],
+      options.account,
+      options.testing.length ? [ createHeader('Testing') ] : [],
+      options.testing
+    );
+
+    options.all = ([] as KeyringOptionsSection).concat(
+      options.account,
+      options.address
+    );
+
+    optionsSubject.next(options);
+  });
+}
+
+export {
+  optionsSubject
+};

@@ -36,7 +36,7 @@ type OnChangeCb$Fn<T> = (value?: T) => void;
 export type OnChangeCb<T> = OnChangeCb$Obs<T> | OnChangeCb$Fn<T> | undefined;
 
 export type ChangeProps<T> = {
-  onChange?: OnChangeCb<T>
+  rxChange?: OnChangeCb<T>
 };
 
 export type ParamProps = {

@@ -5,13 +5,10 @@
 import { KeyringPair$Meta } from '@polkadot/util-keyring/types';
 import { State } from '../types';
 
-import store from 'store';
-
-import { addressKey } from '../defaults';
-import createOptions from '../options';
-
 export default function saveMeta (state: State, address: string, meta: KeyringPair$Meta): void {
-  const json = state.available.address[address] || {
+  const available = state.addresses.subject.getValue();
+
+  const json = (available[address] && available[address].json) || {
     address,
     meta: {
       isRecent: void 0,
@@ -25,8 +22,5 @@ export default function saveMeta (state: State, address: string, meta: KeyringPa
 
   delete json.meta.isRecent;
 
-  store.set(addressKey(address), json);
-  state.available.address[address] = json;
-
-  createOptions(state);
+  state.addresses.add(address, json);
 }

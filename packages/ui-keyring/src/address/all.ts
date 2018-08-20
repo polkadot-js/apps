@@ -7,8 +7,10 @@ import { KeyringAddress, State } from '../types';
 import get from './get';
 
 export default function all (state: State): Array<KeyringAddress> {
+  const available = state.addresses.subject.getValue();
+
   return Object
-    .keys(state.available.address)
+    .keys(available)
     .map((address) =>
       get(state, address)
     );
