@@ -118,6 +118,4 @@ describe('checks extrinsic balance', () => {
 
     expect(isValidBalance(invalidInputValueExponentialType)).toEqual(expectedIsValidResponse(false, ErrorMessage.BalanceExceedsMaximumExponentialNotation));
   });
-
-  // TODO - PREVENT SHOWING ERROR AND INFO MESSAGE. PREVENT ALLOWING CHARACTERS LIKE %*^%^$% BEING ENTERED
 });
