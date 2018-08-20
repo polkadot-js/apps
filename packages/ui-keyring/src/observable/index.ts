@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import accounts from './accounts';
 import addresses from './addresses';
@@ -10,4 +11,9 @@ import addresses from './addresses';
 export default combineLatest(
   accounts.subject,
   addresses.subject
+).pipe(
+  map(([accounts, addresses]) => ({
+    accounts,
+    addresses
+  }))
 );

@@ -10,6 +10,7 @@ import './InputAddress.css';
 import React from 'react';
 
 import keyring from '@polkadot/ui-keyring/index';
+import keyringObservable from '@polkadot/ui-keyring/observable';
 import createOptionHeader from '@polkadot/ui-keyring/options/header';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
@@ -20,6 +21,7 @@ import hexToU8a from '@polkadot/util/hex/toU8a';
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
 import addressToAddress from '../util/toAddress';
+import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
 type Props = BareProps & {
   defaultValue?: string | Uint8Array | null,
@@ -55,8 +57,7 @@ const transform = (value: string): Uint8Array => {
   }
 };
 
-// NOTE: We are not extending Component here since the options may change in the keyring (which needs a re-render), however the input props will be the same (so, no PureComponent with shallow compare here)
-export default class InputAddress extends React.Component<Props, State> {
+class InputAddress extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
@@ -83,7 +84,7 @@ export default class InputAddress extends React.Component<Props, State> {
       key === defaultValue
     );
 
-    console.log('render', options);
+    console.log('render', options, this.props);
 
     return (
       <Dropdown
@@ -159,3 +160,6 @@ export default class InputAddress extends React.Component<Props, State> {
     });
   }
 }
+
+// @ts-ignore There are still some issues with props and types - this is valid
+export default withObservableBase(keyringObservable, { propName: 'keyringAll' })(InputAddress);

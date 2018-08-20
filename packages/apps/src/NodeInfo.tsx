@@ -19,8 +19,6 @@ type Props = I18nProps & {};
 
 const pkgJson = require('../package.json');
 
-console.log('@polkadot/apps', pkgJson.version);
-
 function updateTestInfo (chain?: string) {
   keyring.setTestMode(isTestChain(chain));
 }
@@ -35,7 +33,7 @@ class NodeInfo extends React.PureComponent<Props> {
           label={t('info.chain', {
             defaultValue: 'chain: '
           })}
-          onChange={updateTestInfo}
+          rxChange={updateTestInfo}
         />
         <NodeName label={t('info.clientName', {
           defaultValue: 'client: '

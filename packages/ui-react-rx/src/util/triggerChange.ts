@@ -7,16 +7,16 @@ import { OnChangeCb, OnChangeCb$Obs } from '../types';
 import isFunction from '@polkadot/util/is/function';
 import isObservable from '@polkadot/util/is/observable';
 
-export default function triggerChange<T> (value?: T, ...onChange: Array<OnChangeCb<T>>): void {
-  if (!onChange || !onChange.length) {
+export default function triggerChange<T> (value?: T, ...rxChange: Array<OnChangeCb<T>>): void {
+  if (!rxChange || !rxChange.length) {
     return;
   }
 
-  onChange.forEach((onChange) => {
-    if (isObservable(onChange)) {
-      (onChange as OnChangeCb$Obs<T>).next(value);
-    } else if (isFunction(onChange)) {
-      onChange(value);
+  rxChange.forEach((rxChange) => {
+    if (isObservable(rxChange)) {
+      (rxChange as OnChangeCb$Obs<T>).next(value);
+    } else if (isFunction(rxChange)) {
+      rxChange(value);
     }
   });
 }
