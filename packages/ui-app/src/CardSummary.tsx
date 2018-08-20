@@ -15,6 +15,7 @@ import classes from './util/classes';
 
 type ProgressProps = {
   color?: ProgressColors,
+  isPercent?: boolean,
   total?: BN,
   value?: BN
 };
@@ -31,8 +32,16 @@ export default class CardSummary extends React.PureComponent<Props> {
     const left = progress && !isUndefined(progress.value) && !isUndefined(progress.total) && progress.value.gten(0) && progress.total.gtn(0)
       ? (
         progress.value.gt(progress.total)
-          ? `>${progress.total.toString()}`
-          : progress.value.toString()
+          ? `>${
+            progress.isPercent
+              ? '100'
+              : progress.total.toString()
+            }`
+          : (
+            progress.isPercent
+              ? progress.value.muln(100).div(progress.total).toString()
+              : progress.value.toString()
+          )
       )
       : undefined;
 
@@ -47,7 +56,11 @@ export default class CardSummary extends React.PureComponent<Props> {
               progress && (
                 !left || isUndefined(progress.total)
                   ? '-'
-                  : `${left}/${progress.total.toString()}`
+                  : `${left}${progress.isPercent ? '' : '/'}${
+                    progress.isPercent
+                      ? '%'
+                      : progress.total.toString()
+                  }`
               )
             }
           </div>

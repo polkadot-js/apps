@@ -10,7 +10,6 @@ import RxBalance from '@polkadot/ui-react-rx/Balance';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
 import classes from './util/classes';
-import translate from './translate';
 
 export type Props = BareProps & {
   balance?: BN | Array<BN>,
@@ -19,7 +18,7 @@ export type Props = BareProps & {
   withLabel?: boolean
 };
 
-class Balance extends React.PureComponent<Props> {
+export default class Balance extends React.PureComponent<Props> {
   render () {
     const { balance, className, label, value, style } = this.props;
 
@@ -62,5 +61,3 @@ class Balance extends React.PureComponent<Props> {
     );
   }
 }
-
-export default translate(Balance);

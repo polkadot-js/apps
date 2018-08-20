@@ -85,3 +85,10 @@
   opacity: 0.45;
   text-align: right;
 }
+
+.staking--Summary-text {
+  text-align: right;
+  font-size: 1rem;
+  font-weight: normal;
+  line-height: 1.2rem;
+}
