@@ -53,6 +53,7 @@ class SummarySession extends React.PureComponent<Props> {
         })}
         progress={{
           color: 'autoReverse',
+          isPercent: true,
           total: sessionBrokenPercentLate,
           value: sessionBrokenValue
         }}
