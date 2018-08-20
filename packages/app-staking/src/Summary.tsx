@@ -11,7 +11,6 @@ import CardBar from '@polkadot/ui-app/CardBar';
 import CardSummary from '@polkadot/ui-app/CardSummary';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
-import SummarySession from '@polkadot/app-explorer/SummarySession';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -24,32 +23,10 @@ type Props = I18nProps & {
 class Summary extends React.PureComponent<Props> {
   render () {
     const { className, intentions, style, t, validators } = this.props;
-    const intentionHigh = this.calcIntentionsHigh();
-    const validatorLow = this.calcValidatorLow();
 
     return (
       <CardBar
         className={className}
-        expanded={
-          <div className='staking--Summary-text'>
-            <div>{t('summary.balance.validator', {
-              defaultValue: 'lowest validator balance is {{validatorLow}}',
-              replace: {
-                validatorLow: validatorLow && validatorLow.stakingBalance
-                  ? `${numberFormat(validatorLow.stakingBalance)} (+${numberFormat(validatorLow.nominatedBalance)})`
-                  : 'unknown'
-              }
-            })}</div>
-            <div>{t('summary.balance.stake', {
-              defaultValue: ' highest balance intending to stake is {{intentionHigh}}',
-              replace: {
-                intentionHigh: intentionHigh
-                  ? `${numberFormat(intentionHigh.stakingBalance)} (+${numberFormat(intentionHigh.nominatedBalance)})`
-                  : 'unknown'
-              }
-            })}</div>
-          </div>
-        }
         style={style}
       >
         <div className='column'>
@@ -65,9 +42,40 @@ class Summary extends React.PureComponent<Props> {
           </CardSummary>
         </div>
         <div className='column'>
-          <SummarySession />
+          <CardSummary label={t('summary.balances', {
+            defaultValue: 'balances'
+          })}>
+            {this.renderBalances()}
+          </CardSummary>
         </div>
       </CardBar>
+    );
+  }
+
+  private renderBalances () {
+    const { t } = this.props;
+    const intentionHigh = this.calcIntentionsHigh();
+    const validatorLow = this.calcValidatorLow();
+
+    return (
+      <div className='staking--Summary-text'>
+        <div>{t('summary.balance.validator', {
+          defaultValue: 'lowest validator {{validatorLow}}',
+          replace: {
+            validatorLow: validatorLow && validatorLow.stakingBalance
+              ? `${numberFormat(validatorLow.stakingBalance)} (+${numberFormat(validatorLow.nominatedBalance)})`
+              : 'unknown'
+          }
+        })}</div>
+        <div>{t('summary.balance.stake', {
+          defaultValue: 'highest intention {{intentionHigh}}',
+          replace: {
+            intentionHigh: intentionHigh
+              ? `${numberFormat(intentionHigh.stakingBalance)} (+${numberFormat(intentionHigh.nominatedBalance)})`
+              : 'unknown'
+          }
+        })}</div>
+      </div>
     );
   }
 

@@ -88,5 +88,7 @@
 
 .staking--Summary-text {
   text-align: right;
-  color: rgba(0, 0, 0, 0.6);
+  font-size: 1rem;
+  font-weight: normal;
+  line-height: 1.2rem;
 }
