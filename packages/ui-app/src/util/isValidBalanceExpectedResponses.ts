@@ -5,16 +5,16 @@
 import { IsValidWithMessage } from './types';
 
 export enum ErrorMessage {
+  BalanceMustContainOnlySingleEOrPlus = 'Scientific notation may only contain one instance of \'e\' for scientific notation or exponential with \'e+\'',
+  BalanceInExponentialNotationMustHaveExponent = 'Exponential \'e+\' notation when used must be followed by a number',
+  BalanceInScientificNotationMustHaveExponent = 'Scientific notation \'e\' when used must be followed by a number',
   BalanceMustBeNumber = 'Balance to transfer in DOTs must be a number or expressed in scientific notation (i.e. 3.4e38) or exponential with \'e+\'',
   BalanceMinimumRequired = 'Balance to transfer in DOTs must be greater than zero',
+  BalanceMustBeFinite = 'Balance to transfer in DOTs must not be infinite',
+  BalanceWithDecimalsOnlyWithE = 'Decimals points are only allowed in scientific notation by using an \'e\' (i.e. 3.4e38) or exponential with \'e+\'',
   BalanceExceedsMaximum = 'Balance exceeds maximum for 128 bit',
   BalanceExceedsMaximumScientificNotation = 'Balance value after converting from scientific notation exceeds maximum for 128 bit',
-  BalanceExceedsMaximumExponentialNotation = 'Balance value after converting from exponential notation exceeds maximum for 128 bit',
-  DecimalsOnlyWithE = 'Decimals points are only allowed in scientific notation by using an \'e\' (i.e. 3.4e38) or exponential with \'e+\'',
-  BalanceMustBeFinite = 'Balance to transfer in DOTs must not be infinite',
-  BalanceMustContainOnlySingleEOrPlus = 'Scientific notation may only contain one instance of \'e\' for scientific notation or exponential with \'e+\'',
-  ExponentialNotationWithoutExponent = 'Exponential \'e+\' notation when used must be followed by a number',
-  ScientificNotationWithoutExponent = 'Scientific notation \'e\' when used must be followed by a number'
+  BalanceExceedsMaximumExponentialNotation = 'Balance value after converting from exponential notation exceeds maximum for 128 bit'
 }
 
 export const expectedIsValidResponse = (isValid: boolean = false, errorMessage?: ErrorMessage, infoMessage?: string, inputConvertedFromScientificNotation?: string): IsValidWithMessage => {

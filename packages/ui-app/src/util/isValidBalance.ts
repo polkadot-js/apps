@@ -10,9 +10,6 @@ import scientificNotationToNumber from './scientificNotationToNumber';
 const re = RegExp('^[0-9\e\+\.]+[0-9\e\+\.]*$');
 
 export default function isValidBalance (input: any): IsValidWithMessage {
-  console.log('input: ', input);
-  // check it's a string
-  //
   // note: always a string from <input type='number'>
   if (!(typeof input === 'string')) {
     throw Error('Balance input value must be of string type');
@@ -27,15 +24,8 @@ export default function isValidBalance (input: any): IsValidWithMessage {
   // remove all preceding zeros (i.e. since for example '001' to BN isn't same as '1' to BN)
   //
   // note: not required since already preventing user from entering preceding zeros
-  input = input.replace(/\b0+/g, '');
+  // input = input.replace(/\b0+/g, '');
 
-  // given that it's a string, check it's non-scientific notation
-  //
-  // note: not required at the moment since we're only allowing numeric values on key down
-  // TODO - check that only one instance of 'e+' combination before submit once we permit these values and convert
-  // if (input.indexOf('e+') !== -1) {
-  //   throw Error('Balance input value must not be in scientific notation');
-  // }
   const matchE = input.match(/e/gi);
   const matchPlus = input.match(/\+/gi);
   const matchEPlus = input.match(/e\+/gi);
