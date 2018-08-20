@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { KeyringPair$Meta } from '@polkadot/util-keyring/types';
-import { KeyringJson, State } from '../types';
+import { State } from '../types';
 
 import store from 'store';
 

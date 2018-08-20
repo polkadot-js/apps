@@ -4,15 +4,19 @@
 
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
+import isHex from '@polkadot/util/is/hex';
+import hexToU8a from '@polkadot/util/hex/toU8a';
 
-export default function addressToAddress (value?: string | Uint8Array): string | undefined {
+export default function toAddress (value?: string | Uint8Array): string | undefined {
   if (!value) {
     return;
   }
 
   try {
     return addressEncode(
-      addressDecode(value)
+      isHex(value)
+        ? hexToU8a(value as string)
+        : addressDecode(value)
     );
   } catch (error) {
     console.error('Unable to encode address', value);

@@ -12,11 +12,14 @@ import React from 'react';
 import keyring from '@polkadot/ui-keyring/index';
 import createOptionHeader from '@polkadot/ui-keyring/options/header';
 import addressDecode from '@polkadot/util-keyring/address/decode';
+import addressEncode from '@polkadot/util-keyring/address/encode';
 import makeOption from '@polkadot/ui-keyring/options/item';
+import isHex from '@polkadot/util/is/hex';
+import hexToU8a from '@polkadot/util/hex/toU8a';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
-import addressToAddress from './addressToAddress';
+import addressToAddress from '../util/toAddress';
 
 type Props = BareProps & {
   defaultValue?: string | Uint8Array | null,
@@ -41,6 +44,10 @@ type State = {
 const RECENT_KEY = 'header-recent';
 
 const transform = (value: string): Uint8Array => {
+  if (isHex(value)) {
+    return hexToU8a(value);
+  }
+
   try {
     return addressDecode(value);
   } catch (error) {
@@ -130,7 +137,9 @@ export default class InputAddress extends React.Component<Props, State> {
         }
 
         matches.push(
-          keyring.saveRecent(query)
+          keyring.saveRecent(
+            addressEncode(publicKey)
+          )
         );
       }
     }
