@@ -102,7 +102,6 @@ class InputNumber extends React.PureComponent<Props, State> {
   onKeyDown = (event: any): void => {
     const { t } = this.props;
 
-    console.log('onKeyDown event.keyCode: ', event.keyCode);
     const altKey = 18;
     const arrowLeftKey = 37;
     const arrowRightKey = 39;
@@ -164,8 +163,6 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 
   onKeyUp = (event: any): void => {
-    console.log('onKeyUp event.keyCode: ', event.keyCode);
-
     // remove preceding 0's in the value even if user tries to add them to the start
     if (event.target.value.substring(0, 1) === '0') {
       event.target.value = event.target.value.replace(/^0+/g, '');
