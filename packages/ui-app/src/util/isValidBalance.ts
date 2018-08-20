@@ -67,7 +67,7 @@ export default function isValidBalance (input: any): IsValidWithMessage {
 
   // check value is not finite (infinite)
   if (!isFinite(parseFloat(input))) {
-    return { isValid: false, errorMessage: 'Balance to transfer in DOTs must be infinite' };
+    return { isValid: false, errorMessage: 'Balance to transfer in DOTs must not be infinite' };
   }
 
   // if there is a full stop '.' (only allowed for scientific notation) but they have not yet entered an 'e', then generate error until 'e' provided

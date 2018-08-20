@@ -77,5 +77,39 @@ describe('checks extrinsic balance', () => {
     expect(isValidBalance(invalidInputValueExponentialType)).toEqual(expectedIsValidResponse(false, ErrorMessage.BalanceExceedsMaximumScientificNotation));
   });
 
-  // TODO - add unit tests for other scenarios in isValidBalance
+  it('shows an error message when a decimal point used without scientific or exponential notation', () => {
+    let invalidDecimalWithoutE = '3.4';
+
+    expect(isValidBalance(invalidDecimalWithoutE)).toEqual(expectedIsValidResponse(false, ErrorMessage.DecimalsOnlyWithE));
+  });
+
+  it('shows an error message when an infinite value generated from the provided scientific or exponential notation', () => {
+    let invalidInfiniteValue = '3.4e308';
+
+    expect(isValidBalance(invalidInfiniteValue)).toEqual(expectedIsValidResponse(false, ErrorMessage.BalanceMustBeFinite));
+  });
+
+  it('shows an error message when more than one instance of scientific notation with \'e\' used', () => {
+    let invalidWithMultipleE = '3.4e00e';
+
+    expect(isValidBalance(invalidWithMultipleE)).toEqual(expectedIsValidResponse(false, ErrorMessage.BalanceMustContainOnlySingleEOrPlus));
+  });
+
+  it('shows an error message when more than one instance of  \'+\' used for exponential notation (with or without \'e\')', () => {
+    let invalidWithMultiplePlus = '3.4+00+';
+
+    expect(isValidBalance(invalidWithMultiplePlus)).toEqual(expectedIsValidResponse(false, ErrorMessage.BalanceMustContainOnlySingleEOrPlus));
+  });
+
+  it('shows an error message when a exponential notation used without an exponent', () => {
+    let invalidExponentialNotationWithoutExponent = '3.4e+';
+
+    expect(isValidBalance(invalidExponentialNotationWithoutExponent)).toEqual(expectedIsValidResponse(false, ErrorMessage.ExponentialNotationWithoutExponent));
+  });
+
+  it('shows an error message when a scientific notation used without an exponent', () => {
+    let invalidScientificNotationWithoutExponent = '3.4e';
+
+    expect(isValidBalance(invalidScientificNotationWithoutExponent)).toEqual(expectedIsValidResponse(false, ErrorMessage.ScientificNotationWithoutExponent));
+  });
 });
