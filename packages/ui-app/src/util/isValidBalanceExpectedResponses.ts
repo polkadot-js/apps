@@ -9,7 +9,7 @@ export enum ErrorMessage {
   BalanceInExponentialNotationMustHaveExponent = 'Exponential \'e+\' notation when used must be followed by a number',
   BalanceInScientificNotationMustHaveExponent = 'Scientific notation \'e\' when used must be followed by a number',
   BalanceMustBeNumber = 'Balance to transfer in DOTs must be a number or expressed in scientific notation (i.e. 3.4e38) or exponential with \'e+\'',
-  BalanceMinimumRequired = 'Balance to transfer in DOTs must be greater than zero',
+  BalanceMinimumRequired = 'Balance to transfer in DOTs must be greater than or equal to one',
   BalanceMustBeFinite = 'Balance to transfer in DOTs must not be infinite',
   BalanceWithDecimalsOnlyWithE = 'Decimals points are only allowed in scientific notation by using an \'e\' (i.e. 3.4e38) or exponential with \'e+\'',
   BalanceExceedsMaximum = 'Balance exceeds maximum for 128 bit',

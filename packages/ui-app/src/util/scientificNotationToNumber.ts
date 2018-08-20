@@ -25,6 +25,11 @@ export default function scientificToDecimal (num: string): ScientificNotation {
         l = l - dec.length;
       }
       num = coeffArray.join('') + new Array(l + 1).join(zero);
+
+      // remove preceding 0's (i.e. 0.1e4 produces 1000 instead of 01000)
+      if (num.substring(0, 1) === '0') {
+        num = num.replace(/^0+/g, '');
+      }
     } else {
       return {
         errorMessage: 'Exponential part of scientific notation is missing',

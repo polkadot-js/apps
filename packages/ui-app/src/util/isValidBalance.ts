@@ -42,9 +42,9 @@ export default function isValidBalance (input: any): IsValidWithMessage {
     return { isValid: false, errorMessage: 'Balance to transfer in DOTs must be a number or expressed in scientific notation (i.e. 3.4e38) or exponential with \'e+\'' };
   }
 
-  // check value is greater than zero, whether it be scientific notation, exponential (which allow decimal)
+  // check value is greater than or equal to one, whether it be scientific notation, exponential (which allow decimal)
   if (isNaN(parseFloat(input)) || Number(parseFloat(input)) < 1) {
-    return { isValid: false, errorMessage: 'Balance to transfer in DOTs must be greater than zero' };
+    return { isValid: false, errorMessage: 'Balance to transfer in DOTs must be greater than or equal to one' };
   }
 
   // check value is not finite (infinite)

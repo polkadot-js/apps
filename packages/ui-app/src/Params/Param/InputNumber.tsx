@@ -119,6 +119,8 @@ class InputNumber extends React.PureComponent<Props, State> {
     const cKey = 67; // copy balance
     const eKey = 69; // scientific or exponential notation
     const vKey = 86; // paste balance
+    const zeroKey = 48;
+    const zeroNumpadKey = 96;
 
     const regexE = /[e]/gi;
     const regexPlus = /[\+]/gi;
@@ -149,6 +151,12 @@ class InputNumber extends React.PureComponent<Props, State> {
       return;
     }
 
+    // prevent user entering 0 at start index of input field
+    if ((event.keyCode === zeroKey || event.keyCode === zeroNumpadKey) && inputCursorIndex === 0) {
+      event.preventDefault();
+      return;
+    }
+
     // allow users to to use cut/copy/paste combinations, but not non-numeric letters individually
     // allow users to use the + key for exponential notation
     if (
@@ -172,11 +180,6 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 
   onKeyUp = (event: any): void => {
-    // remove preceding 0's in the value even if user tries to add them to the start
-    if (event.target.value.substring(0, 1) === '0') {
-      event.target.value = event.target.value.replace(/^0+/g, '');
-    }
-
     // if user inputs the value of 'E', replace it with lowercase 'e'
     const regexE = /[E]/gi;
 
