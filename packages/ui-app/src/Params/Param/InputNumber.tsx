@@ -103,23 +103,63 @@ class InputNumber extends React.PureComponent<Props, State> {
     const { t } = this.props;
 
     console.log('onKeyDown event.keyCode: ', event.keyCode);
+    const altKey = 18;
+    const arrowLeftKey = 37;
+    const arrowRightKey = 39;
+    const backspaceKey = 46;
+    const cmdKey = event.metaKey; // firefox (91), safari (224)
+    const ctrlKey = 17;
+    const decimalPointKey = 190; // decimals allowed for scientific or exponential notation
+    const delKey = 8;
+    const escapeKey = 27;
+    const enterKey = 13;
+    const plusKey = 187; // '+'
+    const tabKey = 9; // next input field
+    const aKey = 65; // select all from balance input
+    const xKey = 88; // cut balance
+    const cKey = 67; // copy balance
+    const eKey = 69; // scientific or exponential notation
+    const vKey = 86; // paste balance
 
-    // allow input of delete key (8) to undo input
-    // allow input of tab key (9) to change to next input field
-    // allow left/right arrow keys (37, 39) to change values
-    // allow SHIFT, CTRL, ALT (16, 17, 18) for copy/paste input values
-    // allow CMD (86), a (65), x (88), c (67), or v (91) to paste an input value
-    // allow e (69), + (187), . (190) for scientific notation
-    if ([8, 9, 16, 17, 18, 37, 39, 65, 67, 69, 86, 88, 91, 187, 190].includes(event.keyCode)) {
+    const regexE = /[e]/gi;
+    const regexPlus = /[\+]/gi;
+    const regexDecimalPoint = /[\.]/gi;
+
+    // only allow user balance input to contain one instance of 'e', '+', and '.' for decimal in scientific or exponential notation
+    if (
+      (event.keyCode === eKey && event.target.value.match(regexE)) ||
+      (event.keyCode === plusKey && event.target.value.match(regexPlus)) ||
+      (event.keyCode === decimalPointKey && event.target.value.match(regexDecimalPoint))
+    ) {
+      event.preventDefault();
       return;
     }
 
-    // prevent input of non-integer values
-    if (event.keyCode < 48 || event.keyCode > 57) {
+    // allow these keys
+    if ([escapeKey, enterKey, backspaceKey, delKey, tabKey, ctrlKey, altKey, cmdKey, eKey, arrowLeftKey,
+      arrowRightKey, decimalPointKey].includes(event.keyCode)) {
+      return;
+    }
+
+    // allow users to to use cut/copy/paste combinations, but not non-numeric letters individually
+    // allow users to use the + key for exponential notation
+    if (
+      ((event.ctrlKey || cmdKey) && event.which === aKey) || // select all
+      ((event.ctrlKey || cmdKey) && event.which === cKey) || // copy
+      ((event.ctrlKey || cmdKey) && event.which === vKey) || // paste
+      ((event.ctrlKey || cmdKey) && event.which === xKey) || // cut
+      event.shiftKey && event.which === plusKey              // '+' for exponential notation (i.e. 'e+')
+    ) {
+      return;
+    }
+
+    // prevent input of non-integer values (allow numeric including from keyboards with numpad)
+    if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
       this.setState({
         error: t('Non-numeric values are not permitted')
       });
       event.preventDefault();
+      return;
     }
   }
 
@@ -131,32 +171,12 @@ class InputNumber extends React.PureComponent<Props, State> {
       event.target.value = event.target.value.replace(/^0+/g, '');
     }
 
-    // remove any c, v, or x values (case insensitive) immediately when entered by user since
-    // we allow those keys so user may copy/cut/paste
-    const regexCopyCutPaste = /[a,c|v|x]/gi;
-
-    if (event.target.value.match(regexCopyCutPaste)) {
-      event.target.value = event.target.value
-        .replace(/a+/gi, '')
-        .replace(/c+/gi, '')
-        .replace(/v+/gi, '')
-        .replace(/x+/gi, '');
-    }
-
-    // after user inputs the value of 'e' or 'E', replace it with 'e'
-    const regexE = /[e]/gi;
+    // if user inputs the value of 'E', replace it with lowercase 'e'
+    const regexE = /[E]/gi;
 
     if (event.target.value.match(regexE)) {
       event.target.value = event.target.value
-        .replace(/e+/gi, 'e');
-    }
-
-    // after user inputs further values of '.' (for use with scientific notation)
-    const regexFullStop = /[.]/gi;
-
-    if (event.target.value.match(regexFullStop)) {
-      event.target.value = event.target.value
-        .replace(/\.+/gi, '.');
+        .replace(/E+/gi, 'e');
     }
   }
 }
