@@ -52,26 +52,27 @@ describe('checks extrinsic balance', () => {
   });
 
   it('detects valid balance from conversion if input value for comparison is a string amount in exponential notation less than maximum', () => {
-    const validInputValueExponentialType = '3.40e+38';
+    let validInputValueExponentialType = String(340000000000000000000000000000000000000); // 3.4e+38
 
     expect(isValidBalance(validInputValueExponentialType)).toEqual(expectedIsValidResponse(true, undefined, '340000000000000000000000000000000000000', '340000000000000000000000000000000000000'));
   });
 
   it('detects invalid balance from conversion if input value for comparison is a string amount in exponential notation that exceeds maximum', () => {
-    const invalidInputValueExponentialType = String(340282366920938463463374607431768211456); // '3.402823669209385e+38';
+    const invalidInputValueExponentialType = String(340282366920938463463374607431768211455); // '3.402823669209385e+38';
 
-    expect(isValidBalance(invalidInputValueExponentialType)).toEqual(expectedIsValidResponse(false, ErrorMessage.BalanceExceedsMaximumScientificNotation));
+    expect(isValidBalance(invalidInputValueExponentialType)).toEqual(expectedIsValidResponse(false, ErrorMessage.BalanceExceedsMaximumExponentialNotation));
   });
 
   it('detects valid balance from conversion if input value for comparison is a string amount in scientific notation less than maximum', () => {
-    const validInputValueScientificType = '3.40e+38';
+    let validInputValueScientificType = String(340000000000000000000000000000000000000); // 3.4e+38
+    validInputValueScientificType = validInputValueScientificType.replace(/\+/g, ''); // 3.4e38
 
     expect(isValidBalance(validInputValueScientificType)).toEqual(expectedIsValidResponse(true, undefined, '340000000000000000000000000000000000000', '340000000000000000000000000000000000000'));
   });
 
-  // FIXME - should be error message for scientific, not exponential
   it('detects invalid balance from conversion if input value for comparison is a string amount in scientific notation that exceeds maximum', () => {
-    const invalidInputValueExponentialType = String(340282366920938463463374607431768211456); // '3.402823669209385e+38';
+    let invalidInputValueExponentialType = String(340282366920938463463374607431768211455); // '3.402823669209385e+38';
+    invalidInputValueExponentialType = invalidInputValueExponentialType.replace(/\+/g, ''); // '3.402823669209385e38';
 
     expect(isValidBalance(invalidInputValueExponentialType)).toEqual(expectedIsValidResponse(false, ErrorMessage.BalanceExceedsMaximumScientificNotation));
   });

@@ -8,7 +8,8 @@ export enum ErrorMessage {
   BalanceMustBeNumber = 'Balance to transfer in DOTs must be a number or expressed in scientific notation (i.e. 3.4e38) or exponential with \'e+\'',
   BalanceMinimumRequired = 'Balance to transfer in DOTs must be greater than zero',
   BalanceExceedsMaximum = 'Balance exceeds maximum for 128 bit',
-  BalanceExceedsMaximumScientificNotation = 'Balance value after converting from scientific notation exceeds maximum for 128 bit'
+  BalanceExceedsMaximumScientificNotation = 'Balance value after converting from scientific notation exceeds maximum for 128 bit',
+  BalanceExceedsMaximumExponentialNotation = 'Balance value after converting from exponential notation exceeds maximum for 128 bit'
 }
 
 export const expectedIsValidResponse = (isValid: boolean = false, errorMessage?: ErrorMessage, infoMessage?: string, inputConvertedFromScientificNotation?: string): IsValidWithMessage => {
