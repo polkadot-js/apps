@@ -15,7 +15,6 @@ import intervalSubscribe from '../util/intervalSubscribe';
 import isEqual from '../util/isEqual';
 import triggerChange from '../util/triggerChange';
 import echoTransform from './transform/echo';
-import withApi from './api';
 
 type State<T> = RxProps<T> & {
   subscriptions: Array<any>; // FIXME subscriptions
@@ -25,7 +24,7 @@ type State<T> = RxProps<T> & {
 
 export default function withObservableBase<T> (observable: Observable<any>, { rxChange, propName = 'value', transform = echoTransform }: Options<T> = {}): HOC<T> {
   return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}, render?: RenderFn): React.ComponentType<any> => {
-    class WithObservable extends React.Component<any, State<T>> {
+    return class WithObservable extends React.Component<any, State<T>> {
       state: State<T>;
 
       constructor (props: any) {
@@ -89,8 +88,6 @@ export default function withObservableBase<T> (observable: Observable<any>, { rx
           </Inner>
         );
       }
-    }
-
-    return withApi(WithObservable);
+    };
   };
 }

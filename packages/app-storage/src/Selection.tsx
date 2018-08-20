@@ -59,6 +59,7 @@ class Selection extends React.PureComponent<Props, State> {
           />
           <Params
             item={key}
+            key={`${key.section}.${key.name}`}
             onChange={this.onChangeParams}
           />
         </div>
@@ -107,7 +108,11 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   onChangeKey = (key: SectionItem<Storages>): void => {
-    this.nextState({ key } as State);
+    this.nextState({
+      isValid: false,
+      key,
+      params: []
+    });
   }
 
   onChangeParams = (params: RawParams = []): void => {
