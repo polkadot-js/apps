@@ -14,7 +14,7 @@ export default function saveAccount (state: State, pair: KeyringPair, password?:
     json.meta.whenCreated = Date.now();
   }
 
-  state.addresses.add(json.address, json);
+  state.accounts.add(json.address, json);
 
   createOptions(state);
 }

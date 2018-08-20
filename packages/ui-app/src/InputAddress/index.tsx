@@ -83,6 +83,8 @@ export default class InputAddress extends React.Component<Props, State> {
       key === defaultValue
     );
 
+    console.log('render', options);
+
     return (
       <Dropdown
         className={classes('ui--InputAddress', hideAddress ? 'flag--hideAddress' : '', className)}

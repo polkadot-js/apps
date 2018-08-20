@@ -23,6 +23,10 @@ export default function saveRecent (state: State, address: string): KeyringOptio
 
   createOptions(state);
 
+  console.log('saveRecent', state.options);
+
   // @ts-ignore it should be there now...
-  return state.options.recent.find(({ value }) => value === address);
+  return state.options.recent.find(({ value }) =>
+    value === address
+  );
 }
