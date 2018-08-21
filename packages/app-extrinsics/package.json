@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-extrinsics",
-  "version": "0.19.42",
+  "version": "0.19.43",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -12,8 +12,8 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0-rc.1",
     "@polkadot/extrinsics": "^0.28.18",
-    "@polkadot/ui-app": "^0.19.42",
-    "@polkadot/ui-signer": "^0.19.42",
+    "@polkadot/ui-app": "^0.19.43",
+    "@polkadot/ui-signer": "^0.19.43",
     "react-dropzone": "^4.3.0"
   }
 }
