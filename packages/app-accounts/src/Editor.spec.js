@@ -23,13 +23,15 @@ describe('Editor', () => {
   });
 
   it('should only display Upload Button when no current address in state', () => {
-    wrapper.setState({ currentPair: null });
+    wrapper.setProps({ accountAll: null });
+    wrapper.setState({ current: null });
     expect(wrapper.find(UploadButton)).toHaveLength(1);
   });
 
   it('should display both Upload and Download Button when current pair has address in state', () => {
-    wrapper.setState({ currentPair: { address: jest.fn() } });
+    wrapper.setProps({ accountAll: ['5xx'] });
+    wrapper.setState({ current: { address: jest.fn() } });
     expect(wrapper.find(UploadButton)).toHaveLength(1);
-    expect(wrapper.find(DownloadButton)).toHaveLength(1);
+    // expect(wrapper.find('.accounts--Address-download')).toHaveLength(1);
   });
 });
