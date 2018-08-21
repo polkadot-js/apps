@@ -47,7 +47,9 @@ export class UploadButton extends React.PureComponent<Props, State> {
     fileReader.onload = (e) => {
       try {
         if (!isUndefined(e) && e.target !== null) {
-          const fileContents: any = JSON.parse(e.target.result);
+          // Cast to type 'any' since property 'result' does exist on type 'EventTarget'
+          // Reference: https://stackoverflow.com/a/45017155/3208553
+          const fileContents: any = JSON.parse((e.target as any).result);
           const expectedJsonProperties = ['address', 'encoding', 'meta'];
           const actualJsonProperties = Object.keys(fileContents);
 
