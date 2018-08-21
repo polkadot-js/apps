@@ -24,3 +24,7 @@
   opacity: 0.5;
   text-align: right;
 }
+
+.apps--NodeInfo div {
+  margin-bottom: -0.125em;
+}

@@ -11,6 +11,7 @@ import Icon from '@polkadot/ui-app/Icon';
 import Menu from '@polkadot/ui-app/Menu';
 import classes from '@polkadot/ui-app/util/classes';
 
+import polkadotLogo from '../static/polkadot.svg';
 import routing from '../routing';
 import translate from '../translate';
 import Item from './Item';
@@ -32,6 +33,11 @@ class SideBar extends React.PureComponent<Props> {
           secondary
           vertical
         >
+          <img
+            alt='polkadot'
+            className='apps--SideBar-logo'
+            src={polkadotLogo}
+          />
           {
             routing.routes
               .filter((route) =>

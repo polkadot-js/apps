@@ -12,7 +12,7 @@ body {
 }
 
 #root {
-  color: #333;
+  color: #4e4e4e;
   font-family: sans-serif;
   height: 100%;
 }
@@ -22,3 +22,9 @@ h1 {
   font-weight: 100;
   text-transform: lowercase;
 }
+
+/*
+a:hover {
+  color: #D75EA1;
+}
+*/
