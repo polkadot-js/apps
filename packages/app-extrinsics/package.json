@@ -11,9 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.0.0-rc.1",
-    "@polkadot/extrinsics": "^0.28.18",
+    "@polkadot/extrinsics": "^0.28.19",
     "@polkadot/ui-app": "^0.19.44",
-    "@polkadot/ui-signer": "^0.19.44",
-    "react-dropzone": "^4.3.0"
+    "@polkadot/ui-signer": "^0.19.44"
   }
 }

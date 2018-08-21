@@ -28,17 +28,17 @@
     "start": "cd packages/apps && webpack-serve --config webpack.config.js --port 3000"
   },
   "devDependencies": {
-    "@polkadot/dev-react": "^0.20.16",
-    "@polkadot/ts": "^0.1.12",
-    "autoprefixer": "^9.1.1",
+    "@polkadot/dev-react": "^0.20.17",
+    "@polkadot/ts": "^0.1.13",
+    "autoprefixer": "^9.1.2",
     "babel-loader": "^8.0.0-beta.2",
     "css-loader": "^1.0.0",
-    "enzyme": "^3.4.2",
+    "enzyme": "^3.4.4",
     "enzyme-adapter-react-16": "^1.2.0",
     "file-loader": "^1.1.11",
     "gh-pages": "^1.1.0",
     "html-webpack-plugin": "^3.2.0",
-    "mini-css-extract-plugin": "^0.4.0",
+    "mini-css-extract-plugin": "^0.4.2",
     "postcss": "^7.0.2",
     "postcss-clean": "^1.1.0",
     "postcss-flexbugs-fixes": "^4.1.0",
@@ -50,6 +50,6 @@
     "precss": "^3.1.2",
     "style-loader": "^0.22.1",
     "thread-loader": "^1.2.0",
-    "url-loader": "^1.1.0"
+    "url-loader": "^1.1.1"
   }
 }
