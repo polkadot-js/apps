@@ -21,3 +21,33 @@
   bottom: 1.5em;
   left: 1.5em;
 }
+
+.apps--SideBar-logo {
+  width: 100%;
+  margin: 0 0 0.75rem 0.5rem;
+  width: 10rem;
+}
+
+.apps--SideBar-Item {
+  padding: 0 !important;
+  text-align: left;
+}
+
+.apps--SideBar-Item-NavLink {
+  color: #4E4E4E;
+  display: block;
+  padding: 0.75em 0.75em;
+  white-space: nowrap;
+}
+
+.apps--SideBar-Item-NavLink-active {
+  background: white;
+  border-radius: 0.28571429rem 0 0 0;
+  border-bottom: 1px solid #D75EA1;
+  color: #D75EA1;
+  /* color: inherit; */
+}
+
+.apps--SideBar-Item-NavLink:hover {
+  color: #D75EA1;
+}
