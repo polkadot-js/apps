@@ -9,6 +9,7 @@ import { Trans } from 'react-i18next';
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
+import CopyButton from '@polkadot/ui-app/CopyButton';
 import Modal from '@polkadot/ui-app/Modal';
 import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
@@ -46,8 +47,9 @@ export class DownloadModal extends React.PureComponent<Props> {
               <AddressMini
                 isShort
                 value={address}
-                withCopyIcon
-              />
+              >
+                <CopyButton />
+              </AddressMini>
               <AddressSummary
                 withBalance={false}
                 withNonce={false}

@@ -219,6 +219,11 @@ class Creator extends React.PureComponent<Props, State> {
 
     InputAddress.setLastValue('account', pair.address());
 
+    const json = pair.toJson(password);
+
+    // add encrypted data to keyring since immediately after account creation only secret key is in memory
+    keyring.loadAccount(json);
+
     onBack();
   }
 

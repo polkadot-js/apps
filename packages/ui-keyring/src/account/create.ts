@@ -8,11 +8,9 @@ import { State } from '../types';
 import saveAccount from './save';
 
 export default function accountCreate (state: State, seed: Uint8Array, password?: string, meta: KeyringPair$Meta = {}): KeyringPair {
-  return state.keyring.addFromJson(
-    saveAccount(
-      state,
-      state.keyring.addFromSeed(seed, meta),
-      password
-    ) as KeyringPair$Json
-  );
+  const pair = state.keyring.addFromSeed(seed, meta);
+
+  saveAccount(state, pair, password);
+
+  return pair;
 }
