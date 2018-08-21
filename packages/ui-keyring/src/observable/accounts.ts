@@ -6,4 +6,4 @@ import { accountKey } from '../defaults';
 
 import genericSubject from './genericSubject';
 
-export default genericSubject(accountKey);
+export default genericSubject(accountKey, true);

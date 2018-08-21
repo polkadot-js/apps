@@ -20,7 +20,7 @@ type Props = I18nProps & {};
 const pkgJson = require('../package.json');
 
 function updateTestInfo (chain?: string) {
-  keyring.setTestMode(isTestChain(chain));
+  keyring.setDevMode(isTestChain(chain));
 }
 
 class NodeInfo extends React.PureComponent<Props> {

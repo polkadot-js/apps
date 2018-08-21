@@ -12,17 +12,19 @@ import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
+import accountObservable from '@polkadot/ui-keyring/observable/accounts';
+import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';
 
 type Props = I18nProps & {
+  accountAll?: Array<any>,
   onBack: () => void
 };
 
 type State = {
-  currentPair: KeyringPair | null,
-  defaultValue?: string,
+  current: KeyringPair | null,
   editedName: string,
   isEdited: boolean
 };
@@ -33,13 +35,7 @@ class Editor extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const pairs = keyring.getPairs();
-    const currentPair = pairs[pairs.length - 1] || null;
-
-    this.state = this.createState(currentPair);
-    this.state.defaultValue = currentPair
-      ? currentPair.address()
-      : void 0;
+    this.state = this.createState(null);
   }
 
   render () {
@@ -58,9 +54,9 @@ class Editor extends React.PureComponent<Props, State> {
 
   renderButtons () {
     const { t } = this.props;
-    const { currentPair, isEdited } = this.state;
+    const { current, isEdited } = this.state;
 
-    if (!currentPair) {
+    if (!current) {
       return null;
     }
 
@@ -94,28 +90,29 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   renderData () {
-    const { t } = this.props;
-    const { currentPair, defaultValue, editedName } = this.state;
+    const { accountAll, t } = this.props;
+    const { current, editedName } = this.state;
 
-    if (!currentPair) {
+    if (!accountAll || !Object.keys(accountAll).length) {
       return t('editor.none', {
         defaultValue: 'There are no saved accounts. Add some first.'
       });
     }
 
-    const address = currentPair.address();
+    const address = current
+      ? current.address()
+      : undefined;
 
     return (
       <div className='ui--grid'>
         <AddressSummary
           className='shrink'
-          value={address}
+          value={address || ''}
         />
         <div className='grow'>
           <div className='ui--row'>
             <InputAddress
               className='full'
-              defaultValue={defaultValue}
               hideAddress
               isInput={false}
               label={t('editor.select', {
@@ -142,11 +139,11 @@ class Editor extends React.PureComponent<Props, State> {
     );
   }
 
-  createState (currentPair: KeyringPair | null): State {
+  createState (current: KeyringPair | null): State {
     return {
-      currentPair,
-      editedName: currentPair
-        ? currentPair.getMeta().name || ''
+      current,
+      editedName: current
+        ? current.getMeta().name || ''
         : '',
       isEdited: false
     };
@@ -155,14 +152,14 @@ class Editor extends React.PureComponent<Props, State> {
   nextState (newState: State = {} as State): void {
     this.setState(
       (prevState: State): State => {
-        let { currentPair = prevState.currentPair, editedName = prevState.editedName } = newState;
-        const previous = prevState.currentPair || { address: () => null };
+        let { current = prevState.current, editedName = prevState.editedName } = newState;
+        const previous = prevState.current || { address: () => undefined };
         let isEdited = false;
 
-        if (currentPair) {
-          if (currentPair.address() !== previous.address()) {
-            editedName = currentPair.getMeta().name || '';
-          } else if (editedName !== currentPair.getMeta().name) {
+        if (current) {
+          if (current.address() !== previous.address()) {
+            editedName = current.getMeta().name || '';
+          } else if (editedName !== current.getMeta().name) {
             isEdited = true;
           }
         } else {
@@ -170,7 +167,7 @@ class Editor extends React.PureComponent<Props, State> {
         }
 
         return {
-          currentPair,
+          current,
           editedName,
           isEdited
         };
@@ -179,10 +176,12 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onChangeAccount = (publicKey: Uint8Array): void => {
-    const currentPair = keyring.getPair(publicKey);
+    const current = publicKey && publicKey.length === 32
+      ? keyring.getPair(publicKey)
+      : null;
 
     this.nextState({
-      currentPair
+      current
     } as State);
   }
 
@@ -191,13 +190,13 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onCommit = (): void => {
-    const { currentPair, editedName } = this.state;
+    const { current, editedName } = this.state;
 
-    if (!currentPair) {
+    if (!current) {
       return;
     }
 
-    keyring.saveAccountMeta(currentPair, {
+    keyring.saveAccountMeta(current, {
       name: editedName,
       whenEdited: Date.now()
     });
@@ -206,40 +205,35 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onDiscard = (): void => {
-    const { currentPair } = this.state;
+    const { current } = this.state;
 
-    if (!currentPair) {
+    if (!current) {
       return;
     }
 
     this.nextState({
-      editedName: currentPair.getMeta().name
+      editedName: current.getMeta().name
     } as State);
   }
 
   onForget = (): void => {
-    const { currentPair } = this.state;
+    const { current } = this.state;
 
-    if (!currentPair) {
+    if (!current) {
       return;
     }
 
-    const address = currentPair.address();
-    const pairs = keyring.getPairs().filter((item) =>
-      item.address() !== address
+    this.setState(
+      this.createState(null),
+      () => {
+        keyring.forgetAccount(
+          current.address()
+        );
+      }
     );
-    const nextPair = pairs[pairs.length - 1] || null;
-    const defaultValue = nextPair
-      ? nextPair.address()
-      : void 0;
-
-    keyring.forgetAccount(address);
-
-    this.nextState({
-      currentPair: nextPair,
-      defaultValue
-    } as State);
   }
 }
 
-export default translate(Editor);
+export default withObservableBase(
+  accountObservable.subject, { propName: 'accountAll' }
+)(translate(Editor));

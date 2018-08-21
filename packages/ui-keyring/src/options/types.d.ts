@@ -12,14 +12,14 @@ export type KeyringSectionOption = {
   value: string | null
 };
 
-export type KeyringOptionsSection = Array<KeyringSectionOption>;
+export type KeyringSectionOptions = Array<KeyringSectionOption>;
 
 export type KeyringOptions  = {
-  account: KeyringOptionsSection,
-  address: KeyringOptionsSection,
-  all: KeyringOptionsSection,
-  recent: KeyringOptionsSection,
-  testing: KeyringOptionsSection
+  account: KeyringSectionOptions,
+  address: KeyringSectionOptions,
+  all: KeyringSectionOptions,
+  recent: KeyringSectionOptions,
+  testing: KeyringSectionOptions
 }
 
 export type KeyringOption$Type = keyof KeyringOptions;

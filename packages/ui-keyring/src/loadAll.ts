@@ -34,8 +34,10 @@ export default function loadAll (state: State): void {
 
   store.each((json: KeyringJson, key: string) => {
     if (accountRegex.test(key)) {
-      keyring.addFromJson(json as KeyringPair$Json);
-      accounts.add(json.address, json);
+      if (!json.meta || !json.meta.isTesting) {
+        keyring.addFromJson(json as KeyringPair$Json);
+        accounts.add(json.address, json);
+      }
     } else if (addressRegex.test(key)) {
       const address = isHex(json.address)
         ? addressEncode(hexToU8a(json.address))
