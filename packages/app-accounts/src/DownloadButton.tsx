@@ -30,7 +30,7 @@ type Props = I18nProps & BareProps & {
   address: string
 };
 
-export class DownloadButton extends React.PureComponent<Props, State> {
+class DownloadButton extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -140,5 +140,9 @@ export class DownloadButton extends React.PureComponent<Props, State> {
     this.setState(this.emptyState());
   }
 }
+
+export {
+  DownloadButton
+};
 
 export default translate(DownloadButton);

@@ -7,7 +7,6 @@ import { shallow } from '../../../test/enzyme';
 
 import { Editor } from './Editor';
 import UploadButton from './UploadButton';
-import DownloadButton from './DownloadButton';
 
 const mockT = (key, options) => (key);
 
@@ -28,10 +27,9 @@ describe('Editor', () => {
     expect(wrapper.find(UploadButton)).toHaveLength(1);
   });
 
-  it('should display both Upload and Download Button when current pair has address in state', () => {
+  it('should display Upload Button when current pair has address in state', () => {
     wrapper.setProps({ accountAll: ['5xx'] });
     wrapper.setState({ current: { address: jest.fn() } });
     expect(wrapper.find(UploadButton)).toHaveLength(1);
-    // expect(wrapper.find('.accounts--Address-download')).toHaveLength(1);
   });
 });

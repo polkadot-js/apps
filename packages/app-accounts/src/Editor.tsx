@@ -17,7 +17,6 @@ import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import UploadButton from './UploadButton';
-import DownloadButton from './DownloadButton';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -31,7 +30,7 @@ type State = {
   isEdited: boolean
 };
 
-export class Editor extends React.PureComponent<Props, State> {
+class Editor extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -119,10 +118,8 @@ export class Editor extends React.PureComponent<Props, State> {
             <AddressSummary
               className='shrink'
               value={address || ''}
+              withDownloadButton
             />
-          </div>
-          <div className='accounts--flex-item-file'>
-            { address ? <DownloadButton address={address} /> : null }
           </div>
           <UploadButton onChangeAccount={this.onChangeAccount} />
         </div>
@@ -250,6 +247,10 @@ export class Editor extends React.PureComponent<Props, State> {
     );
   }
 }
+
+export {
+  Editor
+};
 
 export default withObservableBase(
   accountObservable.subject, { propName: 'accountAll' }

@@ -28,7 +28,7 @@ type Props = I18nProps & BareProps & {
   uploadedFileKeyringPair: KeyringPair$Json | undefined
 };
 
-export class UploadModal extends React.PureComponent<Props> {
+class UploadModal extends React.PureComponent<Props> {
   render () {
     const { address, className, hidePasswordModal, isPasswordModalOpen, style } = this.props;
 
@@ -106,5 +106,9 @@ export class UploadModal extends React.PureComponent<Props> {
     );
   }
 }
+
+export {
+  UploadModal
+};
 
 export default translate(UploadModal);

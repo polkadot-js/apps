@@ -28,7 +28,7 @@ type Props = I18nProps & BareProps & {
   password: string
 };
 
-export class DownloadModal extends React.PureComponent<Props> {
+class DownloadModal extends React.PureComponent<Props> {
   render () {
     const { address, className, hidePasswordModal, isPasswordModalOpen, style } = this.props;
 
@@ -118,5 +118,9 @@ export class DownloadModal extends React.PureComponent<Props> {
     );
   }
 }
+
+export {
+  DownloadModal
+};
 
 export default translate(DownloadModal);

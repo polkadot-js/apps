@@ -54,12 +54,6 @@
   flex: 1 0 auto;
 }
 
-.accounts--flex-item-file {	
-  margin-left: 9em;	
-  padding-top: 1em;	
-  padding-bottom: 1em;	
-}
-
 .accounts--flex-item {
   text-align: left;
 }
