@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-democracy",
-  "version": "0.19.43",
+  "version": "0.19.44",
   "description": "A referendum & proposal app",
   "main": "index.js",
   "scripts": {},
@@ -12,8 +12,8 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0-rc.1",
     "@polkadot/storage": "^0.28.18",
-    "@polkadot/ui-react": "^0.19.43",
-    "@polkadot/ui-react-rx": "^0.19.43",
+    "@polkadot/ui-react": "^0.19.44",
+    "@polkadot/ui-react-rx": "^0.19.44",
     "@polkadot/util-keyring": "^0.28.3"
   }
 }
