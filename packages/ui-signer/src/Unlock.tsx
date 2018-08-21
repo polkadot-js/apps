@@ -29,7 +29,7 @@ type State = {
 class Unlock extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
-  static getDerivedStateFromProps ({ error, password, value }: Props): State {
+  static getDerivedStateFromProps ({ error, value }: Props): State {
     const pair = keyring.getPair(value as Uint8Array);
     const isLocked = pair.isLocked();
 

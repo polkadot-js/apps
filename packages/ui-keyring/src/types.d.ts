@@ -29,7 +29,6 @@ export type KeyringAddress = {
 }
 
 export type State = {
-  isTestMode: boolean,
   accounts: AddressSubject,
   addresses: AddressSubject,
   keyring: BaseKeyringInstance
@@ -50,5 +49,5 @@ export type KeyringInstance = {
   saveAccountMeta: (pair: KeyringPair, meta: KeyringPair$Meta) => void,
   saveAddress: (address: string, meta: KeyringPair$Meta) => void,
   saveRecent: (address: string) => SingleAddress,
-  setTestMode: (isTest: boolean) => void
+  setDevMode: (isDevelopment: boolean) => void
 };

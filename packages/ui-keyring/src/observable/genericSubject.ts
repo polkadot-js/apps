@@ -9,10 +9,30 @@ import { KeyringJson } from '../types';
 import store from 'store';
 
 import createOptionItem from '../options/item';
+import development from './development';
 
-export default function genericSubject (keyCreator: (address: string) => string): AddressSubject {
+export default function genericSubject (keyCreator: (address: string) => string, withTest: boolean = false): AddressSubject {
   let current: SubjectInfo = {};
   const subject = new BehaviorSubject({});
+  const next = (): void => {
+    const isDevMode = development.isDevelopment();
+
+    subject.next(
+      Object
+        .keys(current)
+        .reduce((filtered, key) => {
+          const { json: { meta: { isTesting = false } = {} } = {} } = current[key];
+
+          if (!withTest || isDevMode || isTesting !== true) {
+            filtered[key] = current[key];
+          }
+
+          return filtered;
+        }, {} as SubjectInfo)
+    );
+  };
+
+  development.subject.subscribe(next);
 
   return {
     add: (address: string, json: KeyringJson): SingleAddress => {
@@ -24,7 +44,7 @@ export default function genericSubject (keyCreator: (address: string) => string)
       };
 
       store.set(keyCreator(address), json);
-      subject.next(current);
+      next();
 
       return current[address];
     },
@@ -34,7 +54,7 @@ export default function genericSubject (keyCreator: (address: string) => string)
       delete current[address];
 
       store.remove(keyCreator(address));
-      subject.next(current);
+      next();
     },
     subject
   };
