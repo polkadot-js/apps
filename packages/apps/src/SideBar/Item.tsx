@@ -5,8 +5,6 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 import { Route } from '../types';
 
-import './Item.css';
-
 import React from 'react';
 import { withRouter } from 'react-router';
 import { NavLink } from 'react-router-dom';
