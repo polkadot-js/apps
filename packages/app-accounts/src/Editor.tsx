@@ -17,7 +17,6 @@ import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import UploadButton from './UploadButton';
-import DownloadButton from './DownloadButton';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -119,10 +118,8 @@ class Editor extends React.PureComponent<Props, State> {
             <AddressSummary
               className='shrink'
               value={address || ''}
+              withDownloadButton
             />
-          </div>
-          <div className='accounts--flex-item-file'>
-            <DownloadButton address={address || ''} />
           </div>
           <UploadButton onChangeAccount={this.onChangeAccount} />
         </div>
