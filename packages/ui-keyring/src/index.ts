@@ -10,6 +10,7 @@ import testKeyring from '@polkadot/util-keyring/testing';
 
 import accounts from './observable/accounts';
 import addresses from './observable/addresses';
+import development from './observable/development';
 import loadAll from './loadAll';
 import backupAccount from './account/backup';
 import createAccount from './account/create';
@@ -25,10 +26,8 @@ import getAddresses from './address/all';
 import restoreAccount from './account/restore';
 import saveAddress from './address/meta';
 import saveRecent from './address/metaRecent';
-import setTestMode from './setTestMode';
 
 const state: State = {
-  isTestMode: false,
   accounts,
   addresses,
   keyring: testKeyring()
@@ -57,7 +56,7 @@ export default ({
     state.keyring.getPair(address),
   getPairs: (): Array<KeyringPair> =>
     state.keyring.getPairs().filter((pair) =>
-      state.isTestMode || pair.getMeta().isTesting !== true
+      development.isDevelopment() || pair.getMeta().isTesting !== true
     ),
   loadAccount: (json: KeyringPair$Json): KeyringPair | void =>
     loadAccount(state, json),
@@ -74,6 +73,6 @@ export default ({
     saveAddress(state, address, meta),
   saveRecent: (address: string): SingleAddress =>
     saveRecent(state, address),
-  setTestMode: (isTest: boolean): void =>
-    setTestMode(state, isTest)
+  setDevMode: (isDevelopment: boolean): void =>
+    development.set(isDevelopment)
 } as KeyringInstance);

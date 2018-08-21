@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringOptions, KeyringOptionsSection, KeyringOption$Type } from '@polkadot/ui-keyring/options/types';
+import { KeyringOptions, KeyringSectionOption, KeyringSectionOptions, KeyringOption$Type } from '@polkadot/ui-keyring/options/types';
 import { BareProps } from '../types';
 
 import './InputAddress.css';
@@ -96,17 +96,18 @@ class InputAddress extends React.PureComponent<Props, State> {
     const { className, defaultValue, hideAddress = false, isDisabled = false, isError, label, optionsAll, type = DEFAULT_TYPE, style, withLabel } = this.props;
     const { value } = this.state;
 
-    if (!optionsAll) {
+    if (!optionsAll || !Object.keys(optionsAll[type]).length) {
       return null;
     }
 
     const lastValue = InputAddress.getLastValue(type);
+    const lastOption = this.getLastOptionValue();
     const actualValue = isDisabled || (defaultValue && this.hasValue(defaultValue))
       ? defaultValue
       : (
         this.hasValue(lastValue)
           ? lastValue
-          : undefined
+          : (lastOption && lastOption.value)
       );
 
     return (
@@ -134,19 +135,35 @@ class InputAddress extends React.PureComponent<Props, State> {
     );
   }
 
-  private hasValue (value?: string): boolean {
+  private getLastOptionValue (): KeyringSectionOption | undefined {
+    const { optionsAll, type = DEFAULT_TYPE } = this.props;
+
+    if (!optionsAll) {
+      return;
+    }
+
+    const available = optionsAll[type].filter(({ value }) =>
+      !!value
+    );
+
+    return available.length
+      ? available[available.length - 1]
+      : undefined;
+  }
+
+  private hasValue (test?: string): boolean {
     const { optionsAll, type = DEFAULT_TYPE } = this.props;
 
     if (!optionsAll) {
       return false;
     }
 
-    return !!optionsAll[type].find(({ key }) =>
-      key === value
+    return !!optionsAll[type].find(({ value }) =>
+      test === value
     );
   }
 
-  onChange = (address: string) => {
+  private onChange = (address: string) => {
     const { onChange, type } = this.props;
 
     InputAddress.setLastValue(type, address);
@@ -154,7 +171,7 @@ class InputAddress extends React.PureComponent<Props, State> {
     onChange(transform(address));
   }
 
-  onSearch = (filteredOptions: KeyringOptionsSection, query: string): KeyringOptionsSection => {
+  private onSearch = (filteredOptions: KeyringSectionOptions, query: string): KeyringSectionOptions => {
     const { isInput = true } = this.props;
     const queryLower = query.toLowerCase();
     const matches = filteredOptions.filter((item) =>

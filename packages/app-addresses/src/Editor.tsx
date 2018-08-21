@@ -9,20 +9,22 @@ import React from 'react';
 
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
+import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
+import addressObservable from '@polkadot/ui-keyring/observable/addresses';
+import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';
 
 type Props = I18nProps & {
+  addressAll?: Array<any>,
   onBack: () => void
 };
 
 type State = {
-  currentAddress: KeyringAddress | null,
-  defaultValue?: string,
+  current: KeyringAddress | null,
   editedName: string,
   isEdited: boolean
 };
@@ -33,13 +35,7 @@ class Editor extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const addresses = keyring.getAddresses();
-    const currentAddress = addresses[addresses.length - 1] || null;
-
-    this.state = this.createState(currentAddress);
-    this.state.defaultValue = currentAddress
-      ? currentAddress.address()
-      : void 0;
+    this.state = this.createState(null);
   }
 
   render () {
@@ -58,9 +54,9 @@ class Editor extends React.PureComponent<Props, State> {
 
   renderButtons () {
     const { t } = this.props;
-    const { currentAddress, isEdited } = this.state;
+    const { current, isEdited } = this.state;
 
-    if (!currentAddress) {
+    if (!current) {
       return null;
     }
 
@@ -94,28 +90,29 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   renderData () {
-    const { t } = this.props;
-    const { currentAddress, defaultValue, editedName } = this.state;
+    const { addressAll, t } = this.props;
+    const { current, editedName } = this.state;
 
-    if (!currentAddress) {
+    if (!addressAll || !Object.keys(addressAll).length) {
       return t('editor.none', {
         defaultValue: 'There are no saved addresses. Add some first.'
       });
     }
 
-    const address = currentAddress.address();
+    const address = current
+      ? current.address()
+      : undefined;
 
     return (
       <div className='ui--grid'>
         <AddressSummary
           className='shrink'
-          value={address}
+          value={address || ''}
         />
         <div className='grow'>
           <div className='ui--row'>
             <InputAddress
               className='full'
-              defaultValue={defaultValue}
               hideAddress
               isInput={false}
               label={t('editor.select', {
@@ -141,13 +138,13 @@ class Editor extends React.PureComponent<Props, State> {
     );
   }
 
-  createState (currentAddress: KeyringAddress | null): State {
-    const { name = '' } = currentAddress
-      ? currentAddress.getMeta()
+  createState (current: KeyringAddress | null): State {
+    const { name = '' } = current
+      ? current.getMeta()
       : {};
 
     return {
-      currentAddress,
+      current,
       editedName: name,
       isEdited: false
     };
@@ -156,14 +153,14 @@ class Editor extends React.PureComponent<Props, State> {
   nextState (newState: State = {} as State): void {
     this.setState(
       (prevState: State): State => {
-        let { currentAddress = prevState.currentAddress, editedName = prevState.editedName } = newState;
-        const previous = prevState.currentAddress || { address: () => null };
+        let { current = prevState.current, editedName = prevState.editedName } = newState;
+        const previous = prevState.current || { address: () => null };
         let isEdited = false;
 
-        if (currentAddress && currentAddress.isValid()) {
-          if (currentAddress.address() !== previous.address()) {
-            editedName = currentAddress.getMeta().name || '';
-          } else if (editedName !== currentAddress.getMeta().name) {
+        if (current && current.isValid()) {
+          if (current.address() !== previous.address()) {
+            editedName = current.getMeta().name || '';
+          } else if (editedName !== current.getMeta().name) {
             isEdited = true;
           }
         } else {
@@ -171,7 +168,7 @@ class Editor extends React.PureComponent<Props, State> {
         }
 
         return {
-          currentAddress,
+          current,
           editedName,
           isEdited
         };
@@ -180,9 +177,11 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onChangeAddress = (publicKey: Uint8Array): void => {
-    const currentAddress = keyring.getAddress(publicKey) || null;
+    const current = publicKey && publicKey.length === 32
+      ? (keyring.getAddress(publicKey) || null)
+      : null;
 
-    this.nextState({ currentAddress } as State);
+    this.nextState({ current } as State);
   }
 
   onChangeName = (editedName: string): void => {
@@ -190,55 +189,48 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onCommit = (): void => {
-    const { currentAddress, editedName } = this.state;
+    const { current, editedName } = this.state;
 
-    if (!currentAddress) {
+    if (!current) {
       return;
     }
 
-    keyring.saveAddress(currentAddress.address(), {
+    keyring.saveAddress(current.address(), {
       name: editedName,
       whenEdited: Date.now()
     });
-
-    this.nextState({} as State);
   }
 
   onDiscard = (): void => {
-    const { currentAddress } = this.state;
+    const { current } = this.state;
 
-    if (!currentAddress) {
+    if (!current) {
       return;
     }
 
     this.nextState({
-      editedName: currentAddress.getMeta().name
+      editedName: current.getMeta().name
     } as State);
   }
 
   onForget = (): void => {
-    const { currentAddress } = this.state;
+    const { current } = this.state;
 
-    if (!currentAddress) {
+    if (!current) {
       return;
     }
 
-    const address = currentAddress.address();
-    const addresses = keyring.getAddresses().filter((item) =>
-      item.address() !== address
+    this.setState(
+      this.createState(null),
+      () => {
+        keyring.forgetAddress(
+          current.address()
+        );
+      }
     );
-    const nextAddress = addresses[0] || null;
-    const defaultValue = nextAddress
-      ? nextAddress.address()
-      : void 0;
-
-    keyring.forgetAddress(address);
-
-    this.nextState({
-      currentAddress: nextAddress,
-      defaultValue
-    } as State);
   }
 }
 
-export default translate(Editor);
+export default withObservableBase(
+  addressObservable.subject, { propName: 'addressAll' }
+)(translate(Editor));
