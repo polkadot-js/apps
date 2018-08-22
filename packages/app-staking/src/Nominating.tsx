@@ -9,7 +9,6 @@ import React from 'react';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import Modal from '@polkadot/ui-app/Modal';
-import classes from '@polkadot/ui-app/util/classes';
 
 import translate from './translate';
 
@@ -38,7 +37,7 @@ class Nominating extends React.PureComponent<Props> {
   }
 
   render () {
-    const { className, isOpen, style } = this.props;
+    const { isOpen, style } = this.props;
 
     if (!isOpen) {
       return null;
@@ -46,7 +45,7 @@ class Nominating extends React.PureComponent<Props> {
 
     return (
       <Modal
-        className={classes('ui--signer-Signer', className)}
+        className='staking--Nominating'
         dimmer='inverted'
         open
         style={style}

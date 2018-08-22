@@ -10,7 +10,6 @@ import React from 'react';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import AddressMini from '@polkadot/ui-app/AddressMini';
-import Card from '@polkadot/ui-app/Card';
 import Extrinsic from '@polkadot/ui-app/Extrinsic';
 import prettyJson from '@polkadot/ui-app/util/prettyJson';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
@@ -39,16 +38,16 @@ class BlockByHash extends React.PureComponent<Props> {
     // TODO Remove, debug info for reverse-engineering
     console.log(prettyJson(chainGetBlock));
 
-    return (
-      <div className='explorer--BlockByHash'>
+    return [
+      <header key='header'>
         <BlockHeader
           value={header}
           withExtrinsics
         />
-        {this.renderExtrinsics()}
-        {this.renderJustification()}
-      </div>
-    );
+      </header>,
+      this.renderExtrinsics(),
+      this.renderJustification()
+    ];
   }
 
   private renderExtrinsics () {
@@ -56,7 +55,7 @@ class BlockByHash extends React.PureComponent<Props> {
     const { extrinsics } = chainGetBlock;
 
     return (
-      <div className='explorer--BlockByHash-extrinsics'>
+      <section key='extrinsics'>
         <h1>{t('block.extrinsics', {
           defaultValue: 'extrinsics'
         })}</h1>
@@ -66,7 +65,7 @@ class BlockByHash extends React.PureComponent<Props> {
               className='explorer--BlockByHash-extrinsic'
               key={`${value}:extrinsic:${index}`}
             >
-              <Card>
+              <article>
                 <div className='explorer--BlockByHash-extrinsic-header'>
                   <div className='explorer--BlockByHash-extrinsic-header-name'>
                     {extrinsic.extrinsic.section}.{extrinsic.extrinsic.name}
@@ -85,11 +84,11 @@ class BlockByHash extends React.PureComponent<Props> {
                   </div>
                 </div>
                 <Extrinsic value={extrinsic} />
-              </Card>
+              </article>
             </div>
           ))}
         </div>
-      </div>
+      </section>
     );
   }
 
@@ -98,7 +97,7 @@ class BlockByHash extends React.PureComponent<Props> {
     const { justification } = chainGetBlock;
 
     return (
-      <div className='explorer--BlockByHash-justification'>
+      <section key='justification'>
         <h1>{t('block.justifications', {
           defaultValue: 'justifications'
         })}</h1>
@@ -116,7 +115,7 @@ class BlockByHash extends React.PureComponent<Props> {
             </div>
           ))}
         </div>
-      </div>
+      </section>
     );
   }
 }

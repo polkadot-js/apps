@@ -7,9 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import Card from '@polkadot/ui-app/Card';
 import Extrinsic from '@polkadot/ui-app/Extrinsic';
-import classes from '@polkadot/ui-app/util/classes';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
 // TODO This would be nice as a shared component, move to ui-app as soon as
@@ -26,13 +24,10 @@ type Props = I18nProps & {
 // FIXME Duplicated layout here and in explorer, clean up with extrinsics
 class Item extends React.PureComponent<Props> {
   render () {
-    const { children, className, idNumber, proposal, proposalExtra, style } = this.props;
+    const { children, idNumber, proposal, proposalExtra } = this.props;
 
     return (
-      <Card
-        className={classes('democracy--Item', className)}
-        style={style}
-      >
+      <article className='democracy--Item'>
         <div className='democracy--Item-header'>
           <div className='democracy--Item-header-info'>
             <div className='democracy--Item-header-name'>
@@ -57,7 +52,7 @@ class Item extends React.PureComponent<Props> {
             {children}
           </div>
         </div>
-      </Card>
+      </article>
     );
   }
 }

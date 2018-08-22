@@ -3,16 +3,18 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import React from 'react';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import Labelled from '@polkadot/ui-app/Labelled';
+import withApi from '@polkadot/ui-react-rx/with/api';
 import isHex from '@polkadot/util/is/hex';
 
 import translate from './translate';
 
-type Props = I18nProps & {};
+type Props = ApiProps & I18nProps & {};
 
 type State = {
   hash: string
@@ -26,11 +28,15 @@ class Query extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { t } = this.props;
+    const { apiMethods, t } = this.props;
     const { hash, isValid } = this.state;
 
+    if (!apiMethods.chain_getBlock) {
+      return null;
+    }
+
     return (
-      <div className='explorer--Query'>
+      <header>
         <div className='ui--row'>
           <div className='small' />
           <div className='storage--Query-actionrow medium'>
@@ -52,7 +58,7 @@ class Query extends React.PureComponent<Props, State> {
             </Labelled>
           </div>
         </div>
-      </div>
+      </header>
     );
   }
 
@@ -70,4 +76,4 @@ class Query extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(Query);
+export default translate(withApi(Query));

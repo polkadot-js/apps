@@ -5,13 +5,11 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import CardBar from '@polkadot/ui-app/CardBar';
 import CardSummary from '@polkadot/ui-app/CardSummary';
 import BestNumber from '@polkadot/ui-react-rx/BestNumber';
 import TimePeriod from '@polkadot/ui-react-rx/TimePeriod';
 import TimeNow from '@polkadot/ui-react-rx/TimeNow';
 
-import Query from './Query';
 import SummarySession from './SummarySession';
 import translate from './translate';
 
@@ -22,14 +20,11 @@ class Summary extends React.PureComponent<Props> {
     const { className, style, t } = this.props;
 
     return (
-      <CardBar
+      <summary
         className={className}
-        expanded={
-          <Query />
-        }
         style={style}
       >
-        <div className='column'>
+        <section>
           <CardSummary label={t('summary.period', {
             defaultValue: 'target time'
           })}>
@@ -40,18 +35,18 @@ class Summary extends React.PureComponent<Props> {
           })}>
             <TimeNow />
           </CardSummary>
-        </div>
-        <div className='column'>
+        </section>
+        <section>
           <SummarySession />
-        </div>
-        <div className='column'>
+        </section>
+        <section>
           <CardSummary label={t('summary.best', {
             defaultValue: 'best'
           })}>
             <BestNumber />
           </CardSummary>
-        </div>
-      </CardBar>
+        </section>
+      </summary>
     );
   }
 }

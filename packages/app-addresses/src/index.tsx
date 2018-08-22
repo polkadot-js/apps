@@ -7,12 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import './index.css';
 
 import React from 'react';
-
 import Button from '@polkadot/ui-app/Button';
-import Navigation from '@polkadot/ui-app/Navigation';
-import Page from '@polkadot/ui-app/Page';
-
-import classes from '@polkadot/ui-app/util/classes';
 
 import Creator from './Creator';
 import Editor from './Editor';
@@ -38,16 +33,13 @@ class AddressesApp extends React.PureComponent<Props, State> {
   state: State = { action: 'edit' };
 
   render () {
-    const { className, style, t } = this.props;
+    const { t } = this.props;
     const { action } = this.state;
     const Component = Components[action];
 
     return (
-      <Page
-        className={classes('addresses--App', className)}
-        style={style}
-      >
-        <Navigation>
+      <main className='addresses--App'>
+        <header>
           <Button.Group>
             <Button
               isPrimary={action === 'edit'}
@@ -65,9 +57,9 @@ class AddressesApp extends React.PureComponent<Props, State> {
               })}
             />
           </Button.Group>
-        </Navigation>
+        </header>
         <Component onBack={this.selectEdit} />
-      </Page>
+      </main>
     );
   }
 

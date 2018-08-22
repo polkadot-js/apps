@@ -14,6 +14,7 @@ import shouldUseLatestChain from '@polkadot/ui-react-rx/util/shouldUseLatestChai
 import WsProvider from '@polkadot/api-provider/ws';
 import createApi from '@polkadot/api-rx';
 import defaults from '@polkadot/api-rx/defaults';
+import isUndefined from '@polkadot/util/is/undefined';
 
 import ApiObservable from '../ApiObservable';
 import ApiContext from './Context';
@@ -118,9 +119,40 @@ export default class Api extends React.PureComponent<Props, State> {
   private subscribeMethodCheck = (api: RxApiInterface): void => {
     api.chain
       .newHead()
-      .subscribe((header?: Header) => {
-        // here we can check for missing methods
+      .subscribe(async (header?: Header) => {
+        if (!header || !header.parentHash) {
+          return;
+        }
+
+        try {
+          await this.hasChainGetBlock(header.parentHash);
+        } catch (error) {
+          // swallow
+        }
       });
+  }
+
+  private async hasChainGetBlock (hash: Uint8Array) {
+    const { api, apiMethods: { chain_getBlock } } = this.state;
+
+    if (!isUndefined(chain_getBlock)) {
+      return;
+    }
+
+    let available = false;
+
+    try {
+      available = !!(await api.chain.getBlock(hash).toPromise());
+    } catch (error) {
+      // swallow
+    }
+
+    this.setState(({ apiMethods }) => ({
+      apiMethods: {
+        ...apiMethods,
+        chain_getBlock: available
+      }
+    }));
   }
 
   private unsubscribe (): void {

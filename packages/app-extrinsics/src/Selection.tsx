@@ -11,7 +11,6 @@ import React from 'react';
 import extrinsics from '@polkadot/extrinsics';
 import rpc from '@polkadot/jsonrpc';
 import Button from '@polkadot/ui-app/Button';
-import classes from '@polkadot/ui-app/util/classes';
 
 import Account from './Account';
 import Extrinsic from './Extrinsic';
@@ -38,14 +37,11 @@ class Selection extends React.PureComponent<Props, State> {
   } as State;
 
   render () {
-    const { className, style, t } = this.props;
+    const { t } = this.props;
     const { publicKey, isValid } = this.state;
 
     return (
-      <div
-        className={classes('extrinsics--Selection', className)}
-        style={style}
-      >
+      <div className='extrinsics--Selection'>
         <Account
           isInput={false}
           label={t('display.sender', {

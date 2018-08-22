@@ -10,7 +10,6 @@ import Icon from '@polkadot/ui-app/Icon';
 import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import Static from '@polkadot/ui-app/Static';
-import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import isHex from '@polkadot/util/is/hex';
@@ -55,13 +54,8 @@ class Verify extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, style } = this.props;
-
     return (
-      <div
-        className={classes('toolbox--Verify', className)}
-        style={style}
-      >
+      <div className='toolbox--Verify'>
         {this.renderInput()}
         {this.renderAddress()}
         {this.renderSignature()}

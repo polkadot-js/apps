@@ -8,7 +8,6 @@ import { KeyringPair } from '@polkadot/util-keyring/types';
 import React from 'react';
 
 import Password from '@polkadot/ui-app/Password';
-import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
@@ -44,7 +43,7 @@ class Unlock extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { autoFocus, className, onChange, password, style, t } = this.props;
+    const { autoFocus, onChange, password, t } = this.props;
     const { error, isError, isLocked, pair } = this.state;
 
     if (pair && !isLocked) {
@@ -52,10 +51,7 @@ class Unlock extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div
-        className={classes('ui--signer-Signer-Unlock', className)}
-        style={style}
-      >
+      <div className='ui--signer-Signer-Unlock'>
         <div className='ui--row'>
           <Password
             autoFocus={autoFocus}
