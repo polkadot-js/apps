@@ -10,7 +10,6 @@ import React from 'react';
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import Labelled from '@polkadot/ui-app/Labelled';
 import Static from '@polkadot/ui-app/Static';
-import classes from '@polkadot/ui-app/util/classes';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
@@ -26,15 +25,13 @@ type Props = I18nProps & {
 
 class Proposal extends React.PureComponent<Props> {
   render () {
-    const { className, idNumber, style, value } = this.props;
+    const { idNumber, value } = this.props;
 
     return (
       <Item
-        className={classes('democracy--Proposal', className)}
         idNumber={idNumber}
         proposal={value.proposal}
         proposalExtra={this.renderExtra()}
-        style={style}
       >
         {this.renderVoting()}
       </Item>

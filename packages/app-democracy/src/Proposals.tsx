@@ -6,7 +6,6 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { RxProposal } from '@polkadot/ui-react-rx/ApiObservable/types';
 
 import React from 'react';
-import classes from '@polkadot/ui-app/util/classes';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 
@@ -19,18 +18,15 @@ type Props = I18nProps & {
 
 class Proposals extends React.PureComponent<Props> {
   render () {
-    const { className, style, t } = this.props;
+    const { t } = this.props;
 
     return (
-      <div
-        className={classes('democracy--Proposals', className)}
-        style={style}
-      >
+      <section className='democracy--Proposals'>
         <h1>{t('proposals.header', {
           defaultValue: 'proposals'
         })}</h1>
         {this.renderProposals()}
-      </div>
+      </section>
     );
   }
 

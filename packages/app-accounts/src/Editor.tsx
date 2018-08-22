@@ -10,7 +10,6 @@ import React from 'react';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
-import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
@@ -39,13 +38,8 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, style } = this.props;
-
     return (
-      <div
-        className={classes('accounts--Editor', className)}
-        style={style}
-      >
+      <div className='accounts--Editor'>
         {this.renderData()}
         {this.renderButtons()}
       </div>

@@ -11,7 +11,6 @@ import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import InputAddress from '@polkadot/ui-app/InputAddress';
-import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 import addressObservable from '@polkadot/ui-keyring/observable/addresses';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
@@ -39,13 +38,8 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, style } = this.props;
-
     return (
-      <div
-        className={classes('addresses--Editor', className)}
-        style={style}
-      >
+      <div className='addresses--Editor'>
         {this.renderData()}
         {this.renderButtons()}
       </div>

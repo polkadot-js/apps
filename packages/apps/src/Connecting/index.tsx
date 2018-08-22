@@ -8,8 +8,6 @@ import { ApiProps } from '@polkadot/ui-react-rx/types';
 import './Connecting.css';
 
 import React from 'react';
-
-import classes from '@polkadot/ui-app/util/classes';
 import withApi from '@polkadot/ui-react-rx/with/api';
 
 import translate from '../translate';
@@ -18,17 +16,14 @@ type Props = I18nProps & ApiProps;
 
 class Connecting extends React.PureComponent<Props> {
   render () {
-    const { apiConnected, className, style, t } = this.props;
+    const { apiConnected, t } = this.props;
 
     if (apiConnected) {
       return null;
     }
 
     return (
-      <div
-        className={classes('apps--Connecting', className)}
-        style={style}
-      >
+      <div className='apps--Connecting'>
         <div className='apps--Connecting-text'>
           {t('connecting.disconnected', {
             defaultValue: 'You are not connected to a node. Ensure that your node is running and that the Websocket endpoint is reachable.'

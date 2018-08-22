@@ -12,12 +12,10 @@ import './index.css';
 
 import BN from 'bn.js';
 import React from 'react';
-
 import rpc from '@polkadot/jsonrpc';
 import Button from '@polkadot/ui-app/Button';
 import InputRpc from '@polkadot/ui-app/InputRpc';
 import Params from '@polkadot/ui-app/Params';
-import classes from '@polkadot/ui-app/util/classes';
 import rawToValues from '@polkadot/ui-signer/rawToValues';
 
 import Account from './Account';
@@ -47,14 +45,11 @@ class Selection extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { className, style, t } = this.props;
+    const { t } = this.props;
     const { isValid, rpc } = this.state;
 
     return (
-      <div
-        className={classes('rpc--Selection', className)}
-        style={style}
-      >
+      <section className='rpc--Selection'>
         <InputRpc
           defaultValue={defaultMethod}
           onChange={this.onChangeMethod}
@@ -74,7 +69,7 @@ class Selection extends React.PureComponent<Props, State> {
             })}
           />
         </Button.Group>
-      </div>
+      </section>
     );
   }
 

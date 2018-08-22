@@ -8,7 +8,6 @@ import React from 'react';
 
 import CopyButton from '@polkadot/ui-app/CopyButton';
 import Button from '@polkadot/ui-app/Button';
-import classes from '@polkadot/ui-app/util/classes';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
@@ -34,14 +33,11 @@ export default class Match extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { address, className, count, offset, style } = this.props;
+    const { address, count, offset } = this.props;
     const { hexSeed } = this.state;
 
     return (
-      <div
-        className={classes('vanity--Match', className)}
-        style={style}
-      >
+      <div className='vanity--Match'>
         <div className='vanity--Match-item'>
           <IdentityIcon
             className='vanity--Match-icon'

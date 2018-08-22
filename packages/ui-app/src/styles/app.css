@@ -33,6 +33,18 @@ main {
   padding: 1em 2em;
 }
 
+main > section {
+  margin-bottom: 2em;
+}
+
+article {
+  background: #fefefe;
+  border: 1px solid #fafafa;
+  border-radius: 0.25rem;
+  margin: 0.5rem;
+  padding: 1.5rem;
+}
+
 header,
 summary {
   margin-bottom: 2em;
@@ -50,6 +62,11 @@ summary {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+}
+
+summary article {
+  flex: 0 1 auto;
+  text-align: left;
 }
 
 summary > section {

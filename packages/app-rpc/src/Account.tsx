@@ -9,7 +9,6 @@ import React from 'react';
 
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import Labelled from '@polkadot/ui-app/Labelled';
-import classes from '@polkadot/ui-app/util/classes';
 import Nonce from '@polkadot/ui-react-rx/Nonce';
 
 import translate from './translate';
@@ -38,13 +37,10 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, defaultValue, isError, style, t } = this.props;
+    const { defaultValue, isError, t } = this.props;
 
     return (
-      <div
-        className={classes('rpc--Account', 'ui--row', className)}
-        style={style}
-      >
+      <div className='rpc--Account ui--row'>
         <div className='large'>
           <InputAddress
             defaultValue={defaultValue}

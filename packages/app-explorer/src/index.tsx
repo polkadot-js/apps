@@ -8,7 +8,6 @@ import './index.css';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import classes from '@polkadot/ui-app/util/classes';
 
 import BlockByHash from './BlockByHash';
 import Main from './Main';
@@ -19,13 +18,8 @@ type Props = BareProps & {
 
 export default class ExplorerApp extends React.Component<Props> {
   render () {
-    const { className, style } = this.props;
-
     return (
-      <main
-        className={classes('explorer--App', className)}
-        style={style}
-      >
+      <main className='explorer--App'>
         <Switch>
           <Route path='/explorer/hash/:hash' component={BlockByHash} />
           <Route component={Main} />

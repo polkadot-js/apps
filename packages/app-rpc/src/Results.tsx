@@ -8,7 +8,6 @@ import { QueueTx } from '@polkadot/ui-signer/types';
 import React from 'react';
 
 import Output from '@polkadot/ui-app/Output';
-import classes from '@polkadot/ui-app/util/classes';
 import prettyJson from '@polkadot/ui-app/util/prettyJson';
 import isUndefined from '@polkadot/util/is/undefined';
 
@@ -18,7 +17,7 @@ type Props = BareProps & {
 
 export default class Results extends React.PureComponent<Props> {
   render () {
-    const { className, queue = [], style } = this.props;
+    const { queue = [] } = this.props;
 
     const filtered = queue
       .filter(({ error, result }) =>
@@ -31,10 +30,7 @@ export default class Results extends React.PureComponent<Props> {
     }
 
     return (
-      <div
-        className={classes('rpc--Results', className)}
-        style={style}
-      >
+      <section className='rpc--Results'>
         {filtered.map(({ error, id, result, rpc: { section, name } }) => (
           <Output
             isError={!!error}
@@ -47,7 +43,7 @@ export default class Results extends React.PureComponent<Props> {
             }
           />
         ))}
-      </div>
+      </section>
     );
   }
 }

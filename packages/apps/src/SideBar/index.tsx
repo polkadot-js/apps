@@ -9,7 +9,6 @@ import './SideBar.css';
 import React from 'react';
 import Icon from '@polkadot/ui-app/Icon';
 import Menu from '@polkadot/ui-app/Menu';
-import classes from '@polkadot/ui-app/util/classes';
 
 import polkadotLogo from '../static/polkadot-white.svg';
 import routing from '../routing';
@@ -22,13 +21,10 @@ type Props = I18nProps & {
 
 class SideBar extends React.PureComponent<Props> {
   render () {
-    const { children, className, style, t } = this.props;
+    const { children, t } = this.props;
 
     return (
-      <div
-        className={classes('apps--SideBar', className)}
-        style={style}
-      >
+      <div className='apps--SideBar'>
         <Menu
           secondary
           vertical

@@ -23,13 +23,10 @@ type Props = I18nProps & {
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { className, democracyLaunchPeriod, democracyNextTally = new BN(0), democracyProposalCount, democracyReferendumCount = new BN(0), democracyVotingPeriod, style, t } = this.props;
+    const { democracyLaunchPeriod, democracyNextTally = new BN(0), democracyProposalCount, democracyReferendumCount = new BN(0), democracyVotingPeriod, t } = this.props;
 
     return (
-      <summary
-        className={className}
-        style={style}
-      >
+      <summary>
         <section>
           <CardSummary label={t('summary.proposalCount', {
             defaultValue: 'proposals'

@@ -6,7 +6,6 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import Button from '@polkadot/ui-app/Button';
-import classes from '@polkadot/ui-app/util/classes';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 
@@ -21,7 +20,7 @@ type Props = I18nProps & {
 
 class UnnominateButton extends React.Component<Props> {
   render () {
-    const { className, nominating, stakingNominatorsFor, style, t } = this.props;
+    const { nominating, stakingNominatorsFor, style, t } = this.props;
 
     if (!nominating || !stakingNominatorsFor || stakingNominatorsFor.length === 0) {
       return null;
@@ -29,7 +28,7 @@ class UnnominateButton extends React.Component<Props> {
 
     return (
       <Button
-        className={classes('staking--Account-buttons', className)}
+        className='staking--Account-buttons'
         style={style}
         isNegative
         onClick={this.onClick}
