@@ -14,6 +14,7 @@ import isValidBalance from '../../util/isValidBalance';
 import Input from '../../Input';
 import Notification from '../../Notification';
 import Bare from './Bare';
+import GenericInputNumber from './GenericInputNumber';
 import translate from '../../translate';
 
 type Props = I18nProps & ApiProps & BareProps;
@@ -47,21 +48,23 @@ class Balance extends React.PureComponent<Props, State> {
         className={className}
         style={style}
       >
-        <Input
-          className='large'
-          defaultValue={defaultValue || '0'}
-          isError={isError}
-          label={label}
-          maxLength={maxLengthForLatestChainSpec}
-          onChange={this.onChange}
-          onKeyDown={this.onKeyDown}
-          onKeyUp={this.onKeyUp}
-          placeholder={t('account.balance.placeholder', {
-            defaultValue: 'Between 1 testnet DOT and the available testnet DOT balance (minus 1) of the account'
-          })}
-          type='text'
-          withLabel={withLabel}
-        />
+        <GenericInputNumber>
+          <Input
+            className='large'
+            defaultValue={defaultValue || '0'}
+            isError={isError}
+            label={label}
+            maxLength={maxLengthForLatestChainSpec}
+            onChange={this.onChange}
+            onKeyDown={this.onKeyDown}
+            onKeyUp={this.onKeyUp}
+            placeholder={t('account.balance.placeholder', {
+              defaultValue: 'Between 1 testnet DOT and the available testnet DOT balance (minus 1) of the account'
+            })}
+            type='text'
+            withLabel={withLabel}
+          />
+        </GenericInputNumber>
         <Notification error={error} info={info} />
       </Bare>
     );
