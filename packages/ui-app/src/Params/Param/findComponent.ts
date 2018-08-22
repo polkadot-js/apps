@@ -19,9 +19,17 @@ import Timestamp from './Timestamp';
 import Unknown from './Unknown';
 import VoteThreshold from './VoteThreshold';
 
+// TODO - move type definition into ui-app/src/Params/types.d.ts
+// reference: https://www.typescriptlang.org/docs/handbook/generics.html
+type InputNumber = React.ComponentType<Props>;
+
+function balance<InputNumber> (arg: InputNumber): InputNumber {
+  return arg;
+}
+
 const components: ComponentMap = {
   'AccountId': Account,
-  'Balance': Balance,
+  'Balance': balance<InputNumber>(Balance),
   'BlockNumber': Amount,
   'bool': Bool,
   'Bytes': Bytes,
