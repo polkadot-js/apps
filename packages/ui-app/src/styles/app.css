@@ -40,7 +40,7 @@ summary {
 }
 
 header+header,
-heder+summary,
+header+summary,
 summary+header {
   margin-top: -1em;
 }
