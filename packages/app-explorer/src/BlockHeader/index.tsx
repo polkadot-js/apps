@@ -4,6 +4,7 @@
 
 import { Header } from '@polkadot/primitives/header';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import './BlockHeader.css';
 
@@ -12,6 +13,7 @@ import { Link } from 'react-router-dom';
 import headerHash from '@polkadot/primitives/codec/header/hash';
 import classes from '@polkadot/ui-app/util/classes';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
+import withApi from '@polkadot/ui-react-rx/with/api';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import translate from '../translate';
@@ -20,7 +22,7 @@ import translate from '../translate';
 import Extrinsics from './Extrinsics';
 // <Extrinsics hash={hash} />
 
-type Props = I18nProps & {
+type Props = ApiProps & I18nProps & {
   value?: Header,
   withExtrinsics?: boolean,
   withLink?: boolean
@@ -28,12 +30,13 @@ type Props = I18nProps & {
 
 class BlockHeader extends React.PureComponent<Props> {
   render () {
-    const { className, value, style, withExtrinsics = false, withLink = false } = this.props;
+    const { apiMethods, className, value, style, withExtrinsics = false, withLink = false } = this.props;
 
     if (!value) {
       return null;
     }
 
+    const isLinkable = !!apiMethods.chain_getBlock;
     const hash = headerHash(value);
     // tslint:disable-next-line:variable-name
     const { extrinsicsRoot, number, parentHash, stateRoot } = value;
@@ -50,7 +53,7 @@ class BlockHeader extends React.PureComponent<Props> {
         </div>
         <div className='details'>
           <div className='hash'>{
-            withLink
+            isLinkable && withLink
               ? <Link to={`/explorer/hash/${hashHex}`}>{hashHex}</Link>
               : hashHex
           }</div>
@@ -59,7 +62,7 @@ class BlockHeader extends React.PureComponent<Props> {
               <tr>
                 <td className='type'>parentHash</td>
                 <td className='hash'>{
-                  number.gtn(1)
+                  isLinkable && number.gtn(1)
                     ? <Link to={`/explorer/hash/${parentHex}`}>{parentHex}</Link>
                     : parentHex
                 }</td>
@@ -84,4 +87,4 @@ class BlockHeader extends React.PureComponent<Props> {
   }
 }
 
-export default translate(BlockHeader);
+export default translate(withApi(BlockHeader));
