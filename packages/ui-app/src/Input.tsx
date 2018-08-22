@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { BareProps } from './types';
+import { BareProps, SUIEvent } from './types';
 
 import React from 'react';
 import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
@@ -34,10 +34,6 @@ type Props = BareProps & {
   type?: Input$Type,
   value?: any,
   withLabel?: boolean
-};
-
-type SUIEvent = {
-  value: any
 };
 
 type State = {
