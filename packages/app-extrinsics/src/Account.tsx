@@ -9,7 +9,6 @@ import React from 'react';
 
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import Labelled from '@polkadot/ui-app/Labelled';
-import classes from '@polkadot/ui-app/util/classes';
 import Balance from '@polkadot/ui-react-rx/Balance';
 
 import translate from './translate';
@@ -41,13 +40,10 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, defaultValue, isDisabled, isError, isInput, label, style, type, withLabel } = this.props;
+    const { defaultValue, isDisabled, isError, isInput, label, type, withLabel } = this.props;
 
     return (
-      <div
-        className={classes('extrinsics--Account', 'ui--row', className)}
-        style={style}
-      >
+      <div className='extrinsics--Account ui--row'>
         <div className='large'>
           <InputAddress
             defaultValue={defaultValue}

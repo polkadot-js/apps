@@ -12,7 +12,6 @@ import Button from '@polkadot/ui-app/Button';
 import Dropdown from '@polkadot/ui-app/Dropdown';
 import Input from '@polkadot/ui-app/Input';
 import Static from '@polkadot/ui-app/Static';
-import classes from '@polkadot/ui-app/util/classes';
 
 import Match from './Match';
 import generator from './generator';
@@ -57,13 +56,8 @@ class VanityApp extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { className, style } = this.props;
-
     return (
-      <main
-        className={classes('vanity--App', className)}
-        style={style}
-      >
+      <main className='vanity--App'>
         {this.renderOptions()}
         {this.renderButtons()}
         {this.renderStats()}

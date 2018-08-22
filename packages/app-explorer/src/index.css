@@ -30,11 +30,6 @@
   text-align: right;
 }
 
-.explorer--BlockByHash-extrinsics,
-.explorer--BlockByHash-justification {
-  margin-top: 2em;
-}
-
 .explorer--BlockByHash-flexable {
   display: flex;
   flex-wrap: wrap;

@@ -11,7 +11,6 @@ import './BlockHeader.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import headerHash from '@polkadot/primitives/codec/header/hash';
-import classes from '@polkadot/ui-app/util/classes';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import withApi from '@polkadot/ui-react-rx/with/api';
 import u8aToHex from '@polkadot/util/u8a/toHex';
@@ -26,7 +25,7 @@ type Props = ApiProps & BareProps & {
 
 class BlockHeader extends React.PureComponent<Props> {
   render () {
-    const { apiMethods, className, value, style, withExtrinsics = false, withLink = false } = this.props;
+    const { apiMethods, value, withExtrinsics = false, withLink = false } = this.props;
 
     if (!value) {
       return null;
@@ -40,10 +39,7 @@ class BlockHeader extends React.PureComponent<Props> {
     const parentHex = u8aToHex(parentHash);
 
     return (
-      <div
-        className={classes('explorer--BlockHeader', className)}
-        style={style}
-      >
+      <div className='explorer--BlockHeader'>
         <div className='number'>
           <div>{numberFormat(number)}</div>
         </div>

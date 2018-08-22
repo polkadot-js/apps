@@ -6,11 +6,6 @@
   margin-bottom: 1em;
 }
 
-.democracy--Proposals,
-.democracy--Referendums {
-  margin-bottom: 2rem;
-}
-
 .democracy--Item-header {
   display: flex;
   justify-content: space-between;

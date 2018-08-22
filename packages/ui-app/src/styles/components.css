@@ -136,19 +136,6 @@ header .ui--Button-Group {
   padding: 0;
 }
 
-.ui--Card {
-  background: #fcfcfc;
-  border: 1px solid #fafafa;
-  border-radius: 0.25rem;
-  margin: 0.5rem;
-  padding: 1.5rem;
-}
-
-summary .ui--Card {
-  flex: 0 1 auto;
-  text-align: left;
-}
-
 .ui--CardSummary .ui.label {
   padding-left: 0;
   padding-right: 0;

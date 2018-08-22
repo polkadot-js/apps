@@ -8,7 +8,6 @@ import { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 
 import Labelled from '@polkadot/ui-app/Labelled';
-import classes from '@polkadot/ui-app/util/classes';
 import RxNonce from '@polkadot/ui-react-rx/Nonce';
 
 type Props = BareProps & {
@@ -19,17 +18,14 @@ type Props = BareProps & {
 
 export default class Nonce extends React.PureComponent<Props> {
   render () {
-    const { className, label, style, rxChange, value } = this.props;
+    const { label, rxChange, value } = this.props;
 
     if (!value) {
       return null;
     }
 
     return (
-      <div
-        className={classes('ui--row', className)}
-        style={style}
-      >
+      <div className='ui--row'>
         <Labelled
           className='small'
           label={label}

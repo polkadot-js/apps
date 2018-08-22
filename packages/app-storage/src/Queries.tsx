@@ -2,34 +2,28 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { BareProps } from '@polkadot/ui-app/types';
 import { StorageQuery } from './types';
 
 import React from 'react';
 
-import classes from '@polkadot/ui-app/util/classes';
-
-import translate from './translate';
 import Query from './Query';
 
-type Props = I18nProps & {
+type Props = BareProps & {
   onRemove: (id: number) => void,
   value?: Array<StorageQuery>
 };
 
-class Queries extends React.PureComponent<Props> {
+export default class Queries extends React.PureComponent<Props> {
   render () {
-    const { className, onRemove, style, value } = this.props;
+    const { onRemove, value } = this.props;
 
     if (!value || !value.length) {
       return null;
     }
 
     return (
-      <div
-        className={classes('storage--Queries', className)}
-        style={style}
-      >
+      <section className='storage--Queries'>
         {value.map((query) =>
           <Query
             key={query.id}
@@ -37,9 +31,7 @@ class Queries extends React.PureComponent<Props> {
             value={query}
           />
         )}
-      </div>
+      </section>
     );
   }
 }
-
-export default translate(Queries);

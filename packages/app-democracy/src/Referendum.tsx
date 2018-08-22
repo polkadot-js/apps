@@ -11,7 +11,6 @@ import React from 'react';
 import Static from '@polkadot/ui-app/Static';
 import Doughnut from '@polkadot/ui-app/Chart/Doughnut';
 import VoteThreshold from '@polkadot/ui-app/Params/Param/VoteThreshold';
-import classes from '@polkadot/ui-app/util/classes';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
@@ -90,15 +89,13 @@ class Referendum extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, idNumber, style, value } = this.props;
+    const { idNumber, value } = this.props;
 
     return (
       <Item
-        className={classes('democracy--Referendum', className)}
         idNumber={idNumber}
         proposal={value.proposal}
         proposalExtra={this.renderExtra()}
-        style={style}
       >
         <Voting referendumId={idNumber} />
         {this.renderResults()}
