@@ -7,7 +7,6 @@ import { BareProps } from '@polkadot/ui-app/types';
 import './index.css';
 
 import React from 'react';
-import Page from '@polkadot/ui-app/Page';
 import { Route, Switch } from 'react-router';
 import classes from '@polkadot/ui-app/util/classes';
 
@@ -23,7 +22,7 @@ export default class ExplorerApp extends React.Component<Props> {
     const { className, style } = this.props;
 
     return (
-      <Page
+      <main
         className={classes('explorer--App', className)}
         style={style}
       >
@@ -31,7 +30,7 @@ export default class ExplorerApp extends React.Component<Props> {
           <Route path='/explorer/hash/:hash' component={BlockByHash} />
           <Route component={Main} />
         </Switch>
-      </Page>
+      </main>
     );
   }
 }

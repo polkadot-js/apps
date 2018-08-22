@@ -5,8 +5,6 @@
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import Navigation from '@polkadot/ui-app/Navigation';
-import Page from '@polkadot/ui-app/Page';
 
 import './index.css';
 
@@ -42,14 +40,14 @@ export default class App extends React.PureComponent<Props, State> {
     const { Component } = this.state;
 
     return (
-      <Page className='example--App'>
-        <Navigation className='navigation'>{
+      <main className='example--App'>
+        <header className='navigation'>{
           Object.keys(Components).map((name) => (
             <a key={name} onClick={() => this.onSelect(name)}>{name}</a>
           ))
-        }</Navigation>
+        }</header>
         <div><Component /></div>
-      </Page>
+      </main>
     );
   }
 

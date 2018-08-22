@@ -8,7 +8,6 @@ import { QueueProps } from '@polkadot/ui-signer/types';
 import './index.css';
 
 import React from 'react';
-import Page from '@polkadot/ui-app/Page';
 import classes from '@polkadot/ui-app/util/classes';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
@@ -24,7 +23,7 @@ export default class RpcApp extends React.PureComponent<Props> {
     const { className, style } = this.props;
 
     return (
-      <Page
+      <main
         className={classes('rpc--App', className)}
         style={style}
       >
@@ -40,7 +39,7 @@ export default class RpcApp extends React.PureComponent<Props> {
             />
           ]}
         </QueueConsumer>
-      </Page>
+      </main>
     );
   }
 }

@@ -7,7 +7,6 @@ import { RxBalance, RxBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/typ
 
 import BN from 'bn.js';
 import React from 'react';
-import CardBar from '@polkadot/ui-app/CardBar';
 import CardSummary from '@polkadot/ui-app/CardSummary';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
@@ -25,11 +24,11 @@ class Summary extends React.PureComponent<Props> {
     const { className, intentions, style, t, validators } = this.props;
 
     return (
-      <CardBar
+      <summary
         className={className}
         style={style}
       >
-        <div className='column'>
+        <section>
           <CardSummary label={t('summary.validators', {
             defaultValue: 'validators'
           })}>
@@ -40,15 +39,15 @@ class Summary extends React.PureComponent<Props> {
           })}>
             {intentions.length}
           </CardSummary>
-        </div>
-        <div className='column'>
+        </section>
+        <section>
           <CardSummary label={t('summary.balances', {
             defaultValue: 'balances'
           })}>
             {this.renderBalances()}
           </CardSummary>
-        </div>
-      </CardBar>
+        </section>
+      </summary>
     );
   }
 

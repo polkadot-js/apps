@@ -7,7 +7,6 @@ import { BareProps } from '@polkadot/ui-app/types';
 import './index.css';
 
 import React from 'react';
-import Page from '@polkadot/ui-app/Page';
 
 import Proposals from './Proposals';
 import Referendums from './Referendums';
@@ -20,11 +19,11 @@ type Props = BareProps & {
 export default class App extends React.PureComponent<Props> {
   render () {
     return (
-      <Page className='democracy--App'>
+      <main className='democracy--App'>
         <Summary />
         <Referendums />
         <Proposals />
-      </Page>
+      </main>
     );
   }
 }
