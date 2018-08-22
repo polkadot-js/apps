@@ -2,20 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
 import isTestChain from '@polkadot/ui-react-rx/util/isTestChain';
 import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
+import BestNumber from '@polkadot/ui-react-rx/BestNumber';
 import Chain from '@polkadot/ui-react-rx/Chain';
 import NodeName from '@polkadot/ui-react-rx/NodeName';
 import NodeVersion from '@polkadot/ui-react-rx/NodeVersion';
 
-import translate from './translate';
-
-type Props = I18nProps & {};
+type Props = BareProps & {};
 
 const pkgJson = require('../package.json');
 
@@ -23,31 +22,22 @@ function updateTestInfo (chain?: string) {
   keyring.setDevMode(isTestChain(chain));
 }
 
-class NodeInfo extends React.PureComponent<Props> {
+export default class NodeInfo extends React.PureComponent<Props> {
   render () {
-    const { className, style, t } = this.props;
+    const { className, style } = this.props;
 
     return (
       <div className={classes('apps--NodeInfo', className)} style={style}>
-        <Chain
-          label={t('info.chain', {
-            defaultValue: 'chain: '
-          })}
-          rxChange={updateTestInfo}
-        />
-        <NodeName label={t('info.clientName', {
-          defaultValue: 'client: '
-        })}
-        />
-        <NodeVersion label={t('info.clientVersion', {
-          defaultValue: 'client version: '
-        })} />
-        <div>{t('info.uiVersion', {
-          defaultValue: 'ui version:'
-        })} {pkgJson.version}</div>
+        <div className='apps--NodeInfo-inline'>
+          <Chain rxChange={updateTestInfo} />&nbsp;
+          <BestNumber label='#' />
+        </div>
+        <div className='apps--NodeInfo-inline'>
+          <NodeName />&nbsp;
+          <NodeVersion label='v' />
+        </div>
+        <div>polkadot-js-ui&nbsp;v{pkgJson.version}</div>
       </div>
     );
   }
 }
-
-export default translate(NodeInfo);
