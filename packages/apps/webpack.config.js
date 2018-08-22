@@ -142,17 +142,23 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
-          crypto: {
+          vendorOther: {
             chunks: 'initial',
             enforce: true,
-            name: 'crypto',
-            test: /node_modules\/(libsodium)/
+            name: 'vendor-other',
+            test: /node_modules\/(asn1|bn\.js|buffer|cuint|elliptic|lodash|moment|readable-stream|rxjs)/
           },
-          vendor: {
+          vendorReact: {
             chunks: 'initial',
             enforce: true,
-            name: 'vendor',
-            test: /node_modules\/(bn\.js|i18next|lodash|react|rxjs|semantic-ui)/
+            name: 'vendor-react',
+            test: /node_modules\/(chart|i18next|react|semantic-ui)/
+          },
+          vendorSodium: {
+            chunks: 'initial',
+            enforce: true,
+            name: 'vendor-sodium',
+            test: /node_modules\/(libsodium)/
           }
         }
       }
