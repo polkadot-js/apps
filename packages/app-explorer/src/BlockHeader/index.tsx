@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { Header } from '@polkadot/primitives/header';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { BareProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import './BlockHeader.css';
@@ -16,13 +16,9 @@ import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import withApi from '@polkadot/ui-react-rx/with/api';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
-import translate from '../translate';
-
-// NOTE This add unneeded load, for now just on click-through
 import Extrinsics from './Extrinsics';
-// <Extrinsics hash={hash} />
 
-type Props = ApiProps & I18nProps & {
+type Props = ApiProps & BareProps & {
   value?: Header,
   withExtrinsics?: boolean,
   withLink?: boolean
@@ -87,4 +83,4 @@ class BlockHeader extends React.PureComponent<Props> {
   }
 }
 
-export default translate(withApi(BlockHeader));
+export default withApi(BlockHeader);

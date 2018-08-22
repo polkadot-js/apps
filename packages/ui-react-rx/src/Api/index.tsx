@@ -14,10 +14,10 @@ import shouldUseLatestChain from '@polkadot/ui-react-rx/util/shouldUseLatestChai
 import WsProvider from '@polkadot/api-provider/ws';
 import createApi from '@polkadot/api-rx';
 import defaults from '@polkadot/api-rx/defaults';
+import isUndefined from '@polkadot/util/is/undefined';
 
 import ApiObservable from '../ApiObservable';
 import ApiContext from './Context';
-import { isUndefined } from 'util';
 
 type Props = {
   api?: RxApiInterface,
