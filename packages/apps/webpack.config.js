@@ -145,19 +145,19 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
           vendorOther: {
             chunks: 'initial',
             enforce: true,
-            name: 'vendor-other',
+            name: 'vendor',
             test: /node_modules\/(asn1|bn\.js|buffer|cuint|elliptic|lodash|moment|readable-stream|rxjs)/
           },
           vendorReact: {
             chunks: 'initial',
             enforce: true,
-            name: 'vendor-react',
+            name: 'react',
             test: /node_modules\/(chart|i18next|react|semantic-ui)/
           },
           vendorSodium: {
             chunks: 'initial',
             enforce: true,
-            name: 'vendor-sodium',
+            name: 'sodium',
             test: /node_modules\/(libsodium)/
           }
         }
