@@ -15,6 +15,7 @@
     "typescript": "^3.0.1"
   },
   "scripts": {
+    "analyze": "yarn run build && cd packages/apps && yarn run source-map-explorer build/main.*.js",
     "build": "polkadot-dev-build-ts",
     "check": "tslint --project . && tsc --noEmit",
     "clean": "polkadot-dev-clean-build",

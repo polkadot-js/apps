@@ -142,11 +142,17 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
+          crypto: {
+            chunks: 'initial',
+            enforce: true,
+            name: 'crypto',
+            test: /node_modules\/(libsodium)/
+          },
           vendor: {
             chunks: 'initial',
             enforce: true,
             name: 'vendor',
-            test: /node_modules\/(bn\.js|i18next|lodash|react|semantic-ui)/
+            test: /node_modules\/(bn\.js|i18next|lodash|react|rxjs|semantic-ui)/
           }
         }
       }
@@ -155,6 +161,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       hints: false
     },
     plugins: plugins.concat([
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify(ENV),
