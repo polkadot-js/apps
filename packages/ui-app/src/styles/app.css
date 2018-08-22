@@ -28,3 +28,32 @@ a:hover {
   color: #D75EA1;
 }
 */
+
+main {
+  padding: 1em 2em;
+}
+
+header,
+summary {
+  margin-bottom: 2em;
+  text-align: center;
+}
+
+header+header,
+header+summary,
+summary+header {
+  margin-top: -1em;
+}
+
+summary {
+  align-items: stretch;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+summary > section {
+  display: flex;
+  flex: 0 1 auto;
+  text-align: left;
+}

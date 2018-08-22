@@ -9,8 +9,6 @@ import './index.css';
 import React from 'react';
 
 import Button from '@polkadot/ui-app/Button';
-import Navigation from '@polkadot/ui-app/Navigation';
-import Page from '@polkadot/ui-app/Page';
 
 import classes from '@polkadot/ui-app/util/classes';
 
@@ -43,11 +41,11 @@ class AddressesApp extends React.PureComponent<Props, State> {
     const Component = Components[action];
 
     return (
-      <Page
+      <main
         className={classes('addresses--App', className)}
         style={style}
       >
-        <Navigation>
+        <header>
           <Button.Group>
             <Button
               isPrimary={action === 'edit'}
@@ -65,9 +63,9 @@ class AddressesApp extends React.PureComponent<Props, State> {
               })}
             />
           </Button.Group>
-        </Navigation>
+        </header>
         <Component onBack={this.selectEdit} />
-      </Page>
+      </main>
     );
   }
 

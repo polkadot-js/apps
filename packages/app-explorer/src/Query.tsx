@@ -36,7 +36,7 @@ class Query extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div className='explorer--Query'>
+      <header>
         <div className='ui--row'>
           <div className='small' />
           <div className='storage--Query-actionrow medium'>
@@ -58,7 +58,7 @@ class Query extends React.PureComponent<Props, State> {
             </Labelled>
           </div>
         </div>
-      </div>
+      </header>
     );
   }
 

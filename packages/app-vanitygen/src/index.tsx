@@ -11,7 +11,6 @@ import React from 'react';
 import Button from '@polkadot/ui-app/Button';
 import Dropdown from '@polkadot/ui-app/Dropdown';
 import Input from '@polkadot/ui-app/Input';
-import Page from '@polkadot/ui-app/Page';
 import Static from '@polkadot/ui-app/Static';
 import classes from '@polkadot/ui-app/util/classes';
 
@@ -61,7 +60,7 @@ class VanityApp extends React.PureComponent<Props, State> {
     const { className, style } = this.props;
 
     return (
-      <Page
+      <main
         className={classes('vanity--App', className)}
         style={style}
       >
@@ -69,7 +68,7 @@ class VanityApp extends React.PureComponent<Props, State> {
         {this.renderButtons()}
         {this.renderStats()}
         {this.renderMatches()}
-      </Page>
+      </main>
     );
   }
 

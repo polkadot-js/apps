@@ -8,8 +8,6 @@ import './index.css';
 
 import React from 'react';
 import Button from '@polkadot/ui-app/Button';
-import Navigation from '@polkadot/ui-app/Navigation';
-import Page from '@polkadot/ui-app/Page';
 import classes from '@polkadot/ui-app/util/classes';
 
 import Hash from './Hash';
@@ -45,13 +43,13 @@ class ToolboxApp extends React.PureComponent<Props, State> {
     const Component = Components[action];
 
     return (
-      <Page
+      <main
         className={classes('toolbox--App', className)}
         style={style}
       >
         {this.renderButtons()}
         <Component />
-      </Page>
+      </main>
     );
   }
 
@@ -60,7 +58,7 @@ class ToolboxApp extends React.PureComponent<Props, State> {
     const { action } = this.state;
 
     return (
-      <Navigation>
+      <header>
         <Button.Group>
           <Button
             isPrimary={action === 'hash'}
@@ -86,7 +84,7 @@ class ToolboxApp extends React.PureComponent<Props, State> {
             })}
           />
         </Button.Group>
-      </Navigation>
+      </header>
     );
   }
 

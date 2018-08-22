@@ -3,8 +3,11 @@
 /* of the ISC license. See the LICENSE file for details. */
 
 .apps--SideBar {
+  /*
   background: #fcfcfc;
   border-right: 1px solid rgba(34, 36, 38, 0.15);
+  */
+  background: #4e4e4e;
   flex-shrink: 0;
   min-width: 10em;
   padding: 0.75em 0 0 0.75em;
@@ -36,7 +39,10 @@
 }
 
 .apps--SideBar-Item-NavLink {
+  /*
   color: #4E4E4E;
+  */
+  color: #eee;
   display: block;
   padding: 0.75em 0.75em;
   white-space: nowrap;
@@ -45,10 +51,12 @@
 .apps--SideBar-Item-NavLink-active {
   background: white;
   border-radius: 0.28571429rem 0 0 0.28571429rem;
+  /*
   border: 1px solid rgba(34, 36, 38, 0.15);
   border-right-color: white;
-  color: #D75EA1;
   margin-right: -1px;
+  */
+  color: #D75EA1;
   /* color: inherit; */
 }
 
