@@ -11,7 +11,7 @@ import Icon from '@polkadot/ui-app/Icon';
 import Menu from '@polkadot/ui-app/Menu';
 import classes from '@polkadot/ui-app/util/classes';
 
-import polkadotLogo from '../static/polkadot.svg';
+import polkadotLogo from '../static/polkadot-white.svg';
 import routing from '../routing';
 import translate from '../translate';
 import Item from './Item';

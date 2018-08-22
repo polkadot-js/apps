@@ -7,7 +7,6 @@ import { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 
 import isTestChain from '@polkadot/ui-react-rx/util/isTestChain';
-import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 import BestNumber from '@polkadot/ui-react-rx/BestNumber';
 import Chain from '@polkadot/ui-react-rx/Chain';
@@ -24,10 +23,8 @@ function updateTestInfo (chain?: string) {
 
 export default class NodeInfo extends React.PureComponent<Props> {
   render () {
-    const { className, style } = this.props;
-
     return (
-      <div className={classes('apps--NodeInfo', className)} style={style}>
+      <div className='apps--NodeInfo'>
         <div className='apps--NodeInfo-inline'>
           <Chain rxChange={updateTestInfo} />&nbsp;
           <BestNumber label='#' />
