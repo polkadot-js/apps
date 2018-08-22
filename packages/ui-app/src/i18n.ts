@@ -12,13 +12,16 @@ i18n
   .use(LanguageDetector)
   .use(reactI18nextModule)
   .init({
-    fallbackLng: 'en',
-    ns: ['ui'],
-    defaultNS: 'ui',
+    backend: {
+      loadPath: 'locales/{{lng}}/{{ns}}.json'
+    },
     debug: false,
+    defaultNS: 'ui',
+    fallbackLng: 'en',
     interpolation: {
       escapeValue: false
     },
+    ns: ['ui'],
     react: {
       wait: true
     }

@@ -3,16 +3,16 @@
 /* of the ISC license. See the LICENSE file for details. */
 
 .apps--App {
+  align-items: stretch;
   box-sizing: border-box;
   display: flex;
-  height: 100%;
+  min-height: 100vh;
 }
 
 .apps--App .apps--Content,
 .apps--App .apps--SideBar, {
   display: flex;
   flex-direction: column;
-  height: 100%;
   flex-grow: 1;
   overflow-y: auto;
 }
