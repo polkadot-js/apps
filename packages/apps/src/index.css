@@ -19,8 +19,9 @@
 
 .apps--NodeInfo {
   background: transparent;
+  display: inline-block;
   font-size: 0.75rem;
-  padding-right: 1em;
+  padding: 0 0.75rem;
   opacity: 0.5;
   text-align: right;
 }
