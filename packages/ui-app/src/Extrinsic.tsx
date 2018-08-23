@@ -19,12 +19,15 @@ export type Props = I18nProps & {
 
 class Extrinsic extends React.PureComponent<Props> {
   render () {
-    const { children, className, style, value: { extrinsic, params } } = this.props;
+    const { children, className, style, value } = this.props;
+    const { extrinsic, params } = value;
     const values: Array<RawParam> = extrinsic.params.map(({ type }, index) => ({
       isValid: true,
       value: params[index],
       type
     }));
+
+    console.log('Extrinsic', value);
 
     return (
       <div
