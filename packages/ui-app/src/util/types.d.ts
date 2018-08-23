@@ -19,6 +19,8 @@ export type IsValidWithMessage = {
   isValid: boolean,
   errorMessage?: TranslationFunction,
   errorMessageUntranslated?: string,
+  warnMessage?: TranslationFunction,
+  warnMessageUntranslated?: string,
   infoMessage?: string,
   num?: string
 };

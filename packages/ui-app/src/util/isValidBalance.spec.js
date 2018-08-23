@@ -4,7 +4,7 @@
 
 import { BIT_LENGTH_128 } from '../constants';
 import isValidBalance from './isValidBalance';
-import { ErrorMessage } from './isValidBalanceExpectedResponses';
+import { ErrorMessage, WarnMessage } from './isValidBalanceExpectedResponses';
 import translate from '../translate';
 
 describe('checks extrinsic balance', () => {
@@ -72,10 +72,10 @@ describe('checks extrinsic balance', () => {
 
   it('detects invalid balance for input that is NaN or less than 1', () => {
     const invalidBalance = '0';
-    const { isValid, errorMessageUntranslated } = isValidBalance(invalidBalance, t);
+    const { isValid, warnMessageUntranslated } = isValidBalance(invalidBalance, t);
 
     expect(isValid).toEqual(false);
-    expect(errorMessageUntranslated).toEqual(ErrorMessage.MinRequired);
+    expect(warnMessageUntranslated).toEqual(WarnMessage.MinRequired);
   });
 
   it('shows an error message when an infinite value generated from the provided scientific or exponential notation', () => {

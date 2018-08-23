@@ -22,7 +22,8 @@ type Props = I18nProps & ApiProps & BareProps;
 
 type State = {
   error?: React.ReactNode,
-  info?: React.ReactNode
+  info?: React.ReactNode,
+  warn?: React.ReactNode
 };
 
 class Balance extends React.PureComponent<Props, State> {
@@ -33,13 +34,14 @@ class Balance extends React.PureComponent<Props, State> {
 
     this.state = {
       error: '',
+      warn: '',
       info: ''
     };
   }
 
   render () {
     const { className, defaultValue: { value }, isError, label, style, t, withLabel } = this.props;
-    const { error, info } = this.state;
+    const { error, info, warn } = this.state;
     const defaultValue = new BN((value as BN).toString(10) || '0').toString(10);
 
     return (
@@ -59,9 +61,10 @@ class Balance extends React.PureComponent<Props, State> {
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
           placeholder={t('account.balance.placeholder', {
-            defaultValue: 'Between 1 DOT and the available DOT balance (minus 1) of the account'
+            defaultValue: 'Between 1 DOT and the available DOT balance of the account'
           })}
           withLabel={withLabel}
+          warn={warn}
         />
       </Bare>
     );
@@ -74,11 +77,12 @@ class Balance extends React.PureComponent<Props, State> {
     value = value.split(' ').join('');
 
     try {
-      const { isValid, errorMessage, infoMessage, num } = isValidBalance(value, t);
+      const { isValid, errorMessage, infoMessage, num, warnMessage } = isValidBalance(value, t);
 
       this.setState({
         error: !isValid && errorMessage ? errorMessage : '',
-        info: isValid && infoMessage ? infoMessage : ''
+        info: isValid && infoMessage ? infoMessage : '',
+        warn: isValid && warnMessage ? warnMessage : ''
       });
 
       if (!onChange) {
@@ -126,7 +130,7 @@ class Balance extends React.PureComponent<Props, State> {
       return;
     }
 
-    // prevent user entering 0 at start index of input field
+    // prevent user entering 0 at start index of input field infront of a value that is already in the first input index
     if (keydown.isZeroAtInitCursorIndex(event)) {
       event.preventDefault();
       return;

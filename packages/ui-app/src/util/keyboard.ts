@@ -25,7 +25,7 @@ const keydown = {
   isPaste: (event: any): boolean => (event.ctrlKey || KEYS.CMD) && event.which === KEYS.V,
   isPlus: (event: any): boolean => event.shiftKey && (event.which || event.keyCode) === KEYS.PLUS,
   isSelectAll: (event: any): boolean => (event.ctrlKey || KEYS.CMD) && (event.which || event.keyCode) === KEYS.A,
-  isZeroAtInitCursorIndex: (event: any): boolean => (event.keyCode === KEYS.ZERO || event.keyCode === KEYS.ZERO_NUMPAD) && cursorIndexInputField(event) === 0
+  isZeroAtInitCursorIndex: (event: any): boolean => (event.keyCode === KEYS.ZERO || event.keyCode === KEYS.ZERO_NUMPAD) && event.target.value.charAt(0)
 };
 
 const keyup = {

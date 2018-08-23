@@ -20,12 +20,13 @@ type Props = BareProps & {
   onKeyDown?: (event: SUIEvent) => void,
   onKeyUp?: (event: SUIEvent) => void,
   placeholder?: string,
+  warn?: React.ReactNode,
   withLabel?: boolean
 };
 
 class InputNumber extends React.PureComponent<Props> {
   render () {
-    const { className, defaultValue, error, info, isError, label, maxLength, onChange, onKeyDown, onKeyUp, placeholder, style, withLabel } = this.props;
+    const { className, defaultValue, error, info, isError, label, maxLength, onChange, onKeyDown, onKeyUp, placeholder, style, warn, withLabel } = this.props;
 
     return (
       <div
@@ -46,6 +47,7 @@ class InputNumber extends React.PureComponent<Props> {
           placeholder={placeholder}
           style={style}
           type='text'
+          warn={warn}
           withLabel={withLabel}
         />
       </div>

@@ -36,6 +36,7 @@ type Props = BareProps & {
   placeholder?: string,
   type?: Input$Type,
   value?: any,
+  warn?: React.ReactNode,
   withLabel?: boolean
 };
 
@@ -51,7 +52,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { children, className, defaultValue, error, icon, info, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, maxLength, name, placeholder, style, type = 'text', value, withLabel } = this.props;
+    const { children, className, defaultValue, error, icon, info, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, maxLength, name, placeholder, style, type = 'text', value, warn, withLabel } = this.props;
 
     return (
       <Labelled
@@ -98,6 +99,7 @@ export default class Input extends React.PureComponent<Props, State> {
         <Notification
           error={error}
           info={info}
+          warn={warn}
         />
       </Labelled>
     );

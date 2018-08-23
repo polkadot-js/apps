@@ -35,6 +35,9 @@ export default function isValidBalance (input: any, t: TranslationFunction, bitL
   let errorMessageKey: string = '';
   let errorMessageUntranslated: string = '';
 
+  let warnMessageKey: string = '';
+  let warnMessageUntranslated: string = '';
+
   if (matchE && matchE.length > 1 || matchPlus && matchPlus.length > 1) {
     errorMessageKey = 'balance.error.notation.scientific.duplicate';
     errorMessageUntranslated = 'Scientific notation may only contain one instance of \'e\' for scientific notation or exponential with \'e+\'';
@@ -88,10 +91,10 @@ export default function isValidBalance (input: any, t: TranslationFunction, bitL
     };
   }
 
-  // check value is greater than or equal to one, whether it be scientific notation, exponential (which allow decimal)
-  if (isNaN(parseFloat(input)) || Number(parseFloat(input)) < 1) {
-    errorMessageKey = 'balance.error.insufficient';
-    errorMessageUntranslated = 'Balance to transfer in DOTs must be greater than or equal to one';
+  // check value is valid number, whether it be scientific notation, exponential (which allow decimal)
+  if (isNaN(parseFloat(input))) {
+    errorMessageKey = 'balance.error.nan';
+    errorMessageUntranslated = 'Balance to transfer in DOTs should be a valid number';
 
     return {
       isValid: false,
@@ -99,6 +102,20 @@ export default function isValidBalance (input: any, t: TranslationFunction, bitL
         defaultValue: errorMessageUntranslated
       }),
       errorMessageUntranslated
+    };
+  }
+
+  // check value is greater than or equal to one, whether it be scientific notation, exponential (which allow decimal)
+  if (Number(parseFloat(input)) < 1) {
+    warnMessageKey = 'balance.warn.insufficient';
+    warnMessageUntranslated = 'Balance to transfer in DOTs should be greater than or equal to one';
+
+    return {
+      isValid: true,
+      warnMessage: t(warnMessageKey, {
+        defaultValue: warnMessageUntranslated
+      }),
+      warnMessageUntranslated
     };
   }
 

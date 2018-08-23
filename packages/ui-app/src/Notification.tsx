@@ -15,17 +15,21 @@ type Props = BareProps & {
   error?: React.ReactNode,
   info?: React.ReactNode,
   // Issue: https://github.com/Semantic-Org/Semantic-UI-React/issues/3071
-  size?: SemanticMessageSizes
+  size?: SemanticMessageSizes,
+  warn?: React.ReactNode
 };
 
 export default class Notification extends React.PureComponent<Props> {
   render () {
-    const { className, error, info, size = 'tiny', style } = this.props;
+    const { className, error, info, size = 'tiny', style, warn } = this.props;
 
-    const isError = !!error;
-    const isInfo = !isError && !!info;
+    const isError: boolean = !!error;
+    const isInfo: boolean = !isError && !!info;
+    const isWarn: boolean = !isError && !!warn;
 
-    if (!isError && !isInfo) {
+    console.log(isError, isInfo, isWarn);
+
+    if (!isError && !isInfo && !isWarn) {
       return null;
     }
 
@@ -38,9 +42,11 @@ export default class Notification extends React.PureComponent<Props> {
           size={size}
           error={isError}
           info={isInfo}
+          warning={isWarn}
         >
           {error}
-          {!isError ? info : null}
+          {!isError && !isWarn ? info : null}
+          {!isError && !isInfo ? warn : null}
         </Message>
       </div>
     );
