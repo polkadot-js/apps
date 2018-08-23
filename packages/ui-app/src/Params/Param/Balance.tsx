@@ -157,8 +157,7 @@ class Balance extends React.PureComponent<Props, State> {
   onKeyUp = (event: any): void => {
     // if user inputs the value of 'E', replace it with lowercase 'e'
     if (keyup.isExistE(event)) {
-      event.target.value = event.target.value
-        .replace(/E+/gi, 'e');
+      event.target.value = event.target.value.replace(/E+/gi, 'e');
     }
   }
 }

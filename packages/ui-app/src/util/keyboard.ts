@@ -10,6 +10,9 @@ const regex = {
   decimalPoint: /[\.]/gi
 };
 
+// obtain current cursor index position of an input field
+const cursorIndexInputField = (event: any) => event.target.value.slice(0, event.target.selectionStart).length;
+
 const keydown = {
   // Reference: Degrade to keyCode for cross-browser compatibility https://www.w3schools.com/jsref/event_key_keycode.asp
   isCopy: (event: any): boolean => (event.ctrlKey || KEYS.CMD) && (event.which || event.keyCode) === KEYS.C,
@@ -28,9 +31,6 @@ const keydown = {
 const keyup = {
   isExistE: (event: any): boolean => event.target.value.match(regex.e)
 };
-
-// obtain current cursor index position of an input field
-const cursorIndexInputField = (event: any) => event.target.value.slice(0, event.target.selectionStart).length;
 
 export {
   cursorIndexInputField,
