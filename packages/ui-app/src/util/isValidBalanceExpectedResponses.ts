@@ -4,29 +4,36 @@
 
 import { IsValidWithMessage } from './types';
 
+import { TranslationFunction } from 'i18next';
+
 export enum ErrorMessage {
-  BalanceMustContainOnlySingleEOrPlus = 'Scientific notation may only contain one instance of \'e\' for scientific notation or exponential with \'e+\'',
-  BalanceInExponentialNotationMustHaveExponent = 'Exponential \'e+\' notation when used must be followed by a number',
-  BalanceInScientificNotationMustHaveExponent = 'Scientific notation \'e\' when used must be followed by a number',
-  BalanceMustBeNumber = 'Balance to transfer in DOTs must be a number or expressed in scientific notation (i.e. 3.4e38) or exponential with \'e+\'',
-  BalanceMinimumRequired = 'Balance to transfer in DOTs must be greater than or equal to one',
-  BalanceMustBeFinite = 'Balance to transfer in DOTs must not be infinite',
-  BalanceWithDecimalsOnlyWithE = 'Decimals points are only allowed in scientific notation by using an \'e\' (i.e. 3.4e38) or exponential with \'e+\'',
-  BalanceExceedsMaximum = 'Balance exceeds maximum for 128 bit',
-  BalanceExceedsMaximumScientificNotation = 'Balance value after converting from scientific notation exceeds maximum for 128 bit',
-  BalanceExceedsMaximumExponentialNotation = 'Balance value after converting from exponential notation exceeds maximum for 128 bit'
+  MustContainOnlySingleEOrPlus = 'Scientific notation may only contain one instance of \'e\' for scientific notation or exponential with \'e+\'',
+  ExponentialNotationMissingExponent = 'Exponential \'e+\' notation when used must be followed by a number',
+  ScientificNotationMissingExponent = 'Scientific notation \'e\' when used must be followed by a number',
+  MustBeNumber = 'Balance to transfer in DOTs must be a number or expressed in scientific notation (i.e. 3.4e38) or exponential with \'e+\'',
+  MinRequired = 'Balance to transfer in DOTs must be greater than or equal to one',
+  MustBeFinite = 'Balance to transfer in DOTs must not be infinite',
+  WithDecimalsOnlyWithE = 'Decimals points are only allowed in scientific notation by using an \'e\' (i.e. 3.4e38) or exponential with \'e+\'',
+  AboveMax = 'Balance above max for {{bitLength}} bit',
+  AboveMaxScientificNotation = 'Balance value after converting from scientific notation is above max for {{bitLength}} bit',
+  AboveMaxExponentialNotation = 'Balance value after converting from exponential notation is above max for {{bitLength}} bit'
 }
 
-export const expectedIsValidResponse = (isValid: boolean = false, errorMessage?: ErrorMessage, infoMessage?: string, inputConvertedFromScientificNotation?: string): IsValidWithMessage => {
-  let response: IsValidWithMessage = { isValid: isValid };
+export const expectedIsValidResponse = (isValid: boolean = false, errorMessage?: TranslationFunction, errorMessageUntranslated?: ErrorMessage, infoMessage?: string, num?: string): IsValidWithMessage => {
+  let response: IsValidWithMessage = {
+    isValid
+  };
   if (errorMessage) {
     response.errorMessage = errorMessage;
+  }
+  if (errorMessageUntranslated) {
+    response.errorMessageUntranslated = errorMessageUntranslated;
   }
   if (infoMessage) {
     response.infoMessage = infoMessage;
   }
-  if (inputConvertedFromScientificNotation) {
-    response.inputConvertedFromScientificNotation = inputConvertedFromScientificNotation;
+  if (num) {
+    response.num = num;
   }
   return response;
 };

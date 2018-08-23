@@ -8,7 +8,6 @@ import React from 'react';
 
 import classes from './util/classes';
 import Input from './Input';
-import Notification from './Notification';
 
 type Props = BareProps & {
   defaultValue?: string,
@@ -36,6 +35,8 @@ class InputNumber extends React.PureComponent<Props> {
         <Input
           className={className}
           defaultValue={defaultValue || '0'}
+          error={error}
+          info={info}
           isError={isError}
           label={label}
           maxLength={maxLength}
@@ -46,10 +47,6 @@ class InputNumber extends React.PureComponent<Props> {
           style={style}
           type='text'
           withLabel={withLabel}
-        />
-        <Notification
-          error={error}
-          info={info}
         />
       </div>
     );

@@ -11,9 +11,12 @@ import React from 'react';
 import withApi from '@polkadot/ui-react-rx/with/api';
 
 import isValidBalance from '../../util/isValidBalance';
-import Bare from './Bare';
+import { defaultMaxLength } from '../../util/chainSpec';
+import { keydown, keyup } from '../../util/keyboard';
 import InputNumber from '../../InputNumber';
 import translate from '../../translate';
+import { KEYS_ALLOWED } from '../../constants';
+import Bare from './Bare';
 
 type Props = I18nProps & ApiProps & BareProps;
 
@@ -39,8 +42,6 @@ class Balance extends React.PureComponent<Props, State> {
     const { error, info } = this.state;
     const defaultValue = new BN((value as BN).toString(10) || '0').toString(10);
 
-    const maxLengthForLatestChainSpec = 39;
-
     return (
       <Bare
         className={className}
@@ -53,12 +54,12 @@ class Balance extends React.PureComponent<Props, State> {
           info={info}
           isError={isError}
           label={label}
-          maxLength={maxLengthForLatestChainSpec}
+          maxLength={defaultMaxLength}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
           placeholder={t('account.balance.placeholder', {
-            defaultValue: 'Between 1 testnet DOT and the available testnet DOT balance (minus 1) of the account'
+            defaultValue: 'Between 1 DOT and the available DOT balance (minus 1) of the account'
           })}
           withLabel={withLabel}
         />
@@ -73,18 +74,21 @@ class Balance extends React.PureComponent<Props, State> {
     value = value.split(' ').join('');
 
     try {
-      const { isValid, errorMessage, infoMessage, inputConvertedFromScientificNotation } = isValidBalance(value);
+      const { isValid, errorMessage, infoMessage, num } = isValidBalance(value, t);
 
       this.setState({
-        error: !isValid && errorMessage ? t(errorMessage) : '',
-        info: isValid && infoMessage ? t(infoMessage) : ''
+        error: !isValid && errorMessage ? errorMessage : '',
+        info: isValid && infoMessage ? infoMessage : ''
       });
 
-      if (!onChange) return;
+      if (!onChange) {
+        return;
+      }
 
       let newValue: BN;
-      if (inputConvertedFromScientificNotation) {
-        newValue = new BN(inputConvertedFromScientificNotation);
+
+      if (num) {
+        newValue = new BN(num);
       } else {
         newValue = new BN(value || '0');
       }
@@ -93,65 +97,37 @@ class Balance extends React.PureComponent<Props, State> {
         isValid,
         value: newValue
       });
-    } catch (e) {
-      console.error('error: ', e);
+    } catch (error) {
+      console.error(error);
     }
   }
 
   onKeyDown = (event: any): void => {
     const { t } = this.props;
 
-    const altKey = 18;
-    const arrowLeftKey = 37;
-    const arrowRightKey = 39;
-    const backspaceKey = 46;
-    const cmdKey = event.metaKey; // firefox (91), safari (224)
-    const ctrlKey = 17;
-    const decimalPointKey = 190; // decimals allowed for scientific or exponential notation
-    const delKey = 8;
-    const escapeKey = 27;
-    const enterKey = 13;
-    const plusKey = 187; // '+'
-    const tabKey = 9; // next input field
-    const aKey = 65; // select all from balance input
-    const xKey = 88; // cut balance
-    const cKey = 67; // copy balance
-    const eKey = 69; // scientific or exponential notation
-    const vKey = 86; // paste balance
-    const zeroKey = 48;
-    const zeroNumpadKey = 96;
-
-    const regexE = /[e]/gi;
-    const regexPlus = /[\+]/gi;
-    const regexDecimalPoint = /[\.]/gi;
-
     // only allow user balance input to contain one instance of 'e', '+', and '.' for decimal in scientific or exponential notation
     if (
-      (event.keyCode === eKey && event.target.value.match(regexE)) ||
-      (event.keyCode === plusKey && event.target.value.match(regexPlus)) ||
-      (event.keyCode === decimalPointKey && event.target.value.match(regexDecimalPoint))
+      (keydown.isDuplicateE(event)) ||
+      (keydown.isDuplicatePlus(event)) ||
+      (keydown.isDuplicateDecimalPoint(event))
     ) {
       event.preventDefault();
       return;
     }
 
-    // obtain the current cursor index position in the Balance input field
-    const inputCursorIndex = event.target.value.slice(0, event.target.selectionStart).length;
-
     // allow these keys
-    if ([escapeKey, enterKey, backspaceKey, delKey, tabKey, ctrlKey, altKey, cmdKey, eKey, arrowLeftKey,
-      arrowRightKey, decimalPointKey].includes(event.keyCode)) {
+    if (KEYS_ALLOWED.includes(event.keyCode)) {
       return;
     }
 
     // prevent user entering the '+' symbol unless immediately after the 'e' letter (i.e. 'e+') for exponential notation
-    if (event.keyCode === plusKey && event.target.value.charAt(inputCursorIndex - 1) !== 'e') {
+    if (keydown.isNotEBeforePlus(event)) {
       event.preventDefault();
       return;
     }
 
     // prevent user entering 0 at start index of input field
-    if ((event.keyCode === zeroKey || event.keyCode === zeroNumpadKey) && inputCursorIndex === 0) {
+    if (keydown.isZeroAtInitCursorIndex(event)) {
       event.preventDefault();
       return;
     }
@@ -159,17 +135,17 @@ class Balance extends React.PureComponent<Props, State> {
     // allow users to to use cut/copy/paste combinations, but not non-numeric letters individually
     // allow users to use the + key for exponential notation
     if (
-      ((event.ctrlKey || cmdKey) && event.which === aKey) || // select all
-      ((event.ctrlKey || cmdKey) && event.which === cKey) || // copy
-      ((event.ctrlKey || cmdKey) && event.which === vKey) || // paste
-      ((event.ctrlKey || cmdKey) && event.which === xKey) || // cut
-      event.shiftKey && event.which === plusKey              // '+' for exponential notation (i.e. 'e+')
+      (keydown.isSelectAll(event)) ||
+      (keydown.isCut(event)) ||
+      (keydown.isCopy(event)) ||
+      (keydown.isPaste(event)) ||
+      keydown.isPlus(event) // '+' for exponential notation (i.e. 'e+')
     ) {
       return;
     }
 
     // prevent input of non-integer values (allow numeric including from keyboards with numpad)
-    if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+    if (keydown.isNonNumeric(event)) {
       this.setState({
         error: t('Non-numeric values are not permitted')
       });
@@ -180,9 +156,7 @@ class Balance extends React.PureComponent<Props, State> {
 
   onKeyUp = (event: any): void => {
     // if user inputs the value of 'E', replace it with lowercase 'e'
-    const regexE = /[E]/gi;
-
-    if (event.target.value.match(regexE)) {
+    if (keyup.isExistE(event)) {
       event.target.value = event.target.value
         .replace(/E+/gi, 'e');
     }

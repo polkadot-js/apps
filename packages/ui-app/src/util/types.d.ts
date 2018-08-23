@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { TranslationFunction } from 'i18next';
+
 export type DropdownOption = {
   className?: string,
   key?: string,
@@ -15,12 +17,14 @@ export type SectionVisibilityAll = 'private' | 'public';
 
 export type IsValidWithMessage = {
   isValid: boolean,
-  errorMessage?: string,
+  errorMessage?: TranslationFunction,
+  errorMessageUntranslated?: string,
   infoMessage?: string,
-  inputConvertedFromScientificNotation?: string
+  num?: string
 };
 
 export type ScientificNotation = {
-  errorMessage?: string,
-  inputConvertedFromScientificNotation?: string
+  errorMessage?: TranslationFunction,
+  errorMessageUntranslated?: string,
+  num?: string
 };
