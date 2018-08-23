@@ -11,6 +11,7 @@ import Bool from './Bool';
 import Bytes from './Bytes';
 import Code from './Code';
 import Hash from './Hash';
+import Proposal from './Proposal';
 import StorageKeyValue from './StorageKeyValue';
 import StorageKeyValueArray from './StorageKeyValueArray';
 import StringParam from './String';
@@ -35,7 +36,7 @@ const components: ComponentMap = {
   'MisbehaviorReport': Unknown,
   'ParachainId': Amount,
   'PropIndex': Amount,
-  'Proposal': Unknown,
+  'Proposal': Proposal,
   'ReferendumIndex': Amount,
   'SessionKey': Amount,
   'Signature': Hash,
