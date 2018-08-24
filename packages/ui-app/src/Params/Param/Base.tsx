@@ -18,19 +18,23 @@ type Props = BareProps & {
   withLabel?: boolean
 };
 
-export default function Base ({ children, className, isDisabled, label, size = 'medium', style, withLabel }: Props) {
-  return (
-    <Bare
-      className={className}
-      style={style}
-    >
-      <Labelled
-        className={isDisabled ? 'full' : size}
-        label={label}
-        withLabel={withLabel}
+export default class Base extends React.PureComponent<Props> {
+  render () {
+    const { children, className, isDisabled, label, size = 'medium', style, withLabel } = this.props;
+
+    return (
+      <Bare
+        className={className}
+        style={style}
       >
-        {children}
-      </Labelled>
-    </Bare>
-  );
+        <Labelled
+          className={isDisabled ? 'full' : size}
+          label={label}
+          withLabel={withLabel}
+        >
+          {children}
+        </Labelled>
+      </Bare>
+    );
+  }
 }

@@ -9,7 +9,6 @@ import { QueueTx, QueueTx$MessageSetStatus } from './types';
 import React from 'react';
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
-import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 import withApi from '@polkadot/ui-react-rx/with/api';
 
@@ -79,7 +78,6 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, style } = this.props;
     const { currentItem } = this.state;
 
     if (!currentItem || currentItem.rpc.isSigned !== true) {
@@ -88,10 +86,9 @@ class Signer extends React.PureComponent<Props, State> {
 
     return (
       <Modal
-        className={classes('ui--signer-Signer', className)}
+        className='ui--signer-Signer'
         dimmer='inverted'
         open
-        style={style}
       >
         {this.renderContent()}
         {this.renderButtons()}

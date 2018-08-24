@@ -4,14 +4,14 @@
 
 import { State } from '../types';
 import { SingleAddress } from '../observable/types';
-import { KeyringOptions, KeyringOptionsSection } from './types';
+import { KeyringOptions, KeyringSectionOptions } from './types';
 
 import { BehaviorSubject } from 'rxjs';
 
 import observableAll from '../observable';
 import createHeader from './header';
 
-function addAccounts ({ accounts, isTestMode }: State, options: KeyringOptions): void {
+function addAccounts ({ accounts }: State, options: KeyringOptions): void {
   const available = accounts.subject.getValue();
 
   Object
@@ -22,7 +22,7 @@ function addAccounts ({ accounts, isTestMode }: State, options: KeyringOptions):
     .forEach(({ json: { meta: { isTesting = false } }, option }: SingleAddress) => {
       if (!isTesting) {
         options.account.push(option);
-      } else if (isTestMode) {
+      } else {
         options.testing.push(option);
       }
     });
@@ -65,20 +65,20 @@ export default function initOptions (state: State): void {
     addAccounts(state, options);
     addAddresses(state, options);
 
-    options.address = ([] as KeyringOptionsSection).concat(
+    options.address = ([] as KeyringSectionOptions).concat(
       options.address.length ? [ createHeader('Addresses') ] : [],
       options.address,
       options.recent.length ? [ createHeader('Recent') ] : [],
       options.recent
     );
-    options.account = ([] as KeyringOptionsSection).concat(
+    options.account = ([] as KeyringSectionOptions).concat(
       options.account.length ? [ createHeader('Accounts') ] : [],
       options.account,
-      options.testing.length ? [ createHeader('Testing') ] : [],
+      options.testing.length ? [ createHeader('Development') ] : [],
       options.testing
     );
 
-    options.all = ([] as KeyringOptionsSection).concat(
+    options.all = ([] as KeyringSectionOptions).concat(
       options.account,
       options.address
     );

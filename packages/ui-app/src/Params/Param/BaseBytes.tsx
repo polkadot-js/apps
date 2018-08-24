@@ -27,7 +27,7 @@ export default class BaseBytes extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, size = 'full', style, withLabel } = this.props;
     const defaultValue = value
-      ? u8aToHex(value as Uint8Array)
+      ? u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
       : undefined;
 
     return (

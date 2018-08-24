@@ -6,7 +6,6 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import CardBar from '@polkadot/ui-app/CardBar';
 import CardSummary from '@polkadot/ui-app/CardSummary';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
@@ -24,14 +23,11 @@ type Props = I18nProps & {
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { className, democracyLaunchPeriod, democracyNextTally = new BN(0), democracyProposalCount, democracyReferendumCount = new BN(0), democracyVotingPeriod, style, t } = this.props;
+    const { democracyLaunchPeriod, democracyNextTally = new BN(0), democracyProposalCount, democracyReferendumCount = new BN(0), democracyVotingPeriod, t } = this.props;
 
     return (
-      <CardBar
-        className={className}
-        style={style}
-      >
-        <div className='column'>
+      <summary>
+        <section>
           <CardSummary label={t('summary.proposalCount', {
             defaultValue: 'proposals'
           })}>
@@ -50,8 +46,8 @@ class Summary extends React.PureComponent<Props> {
               : 0
             }
           </CardSummary>
-        </div>
-        <div className='column'>
+        </section>
+        <section>
           <CardSummary label={t('summary.votingPeriod', {
             defaultValue: 'voting period'
           })}>
@@ -62,8 +58,8 @@ class Summary extends React.PureComponent<Props> {
           })}>
             {numberFormat(democracyLaunchPeriod)}
           </CardSummary>
-        </div>
-      </CardBar>
+        </section>
+      </summary>
     );
   }
 }

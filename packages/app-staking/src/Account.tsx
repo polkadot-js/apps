@@ -15,7 +15,6 @@ import extrinsics from '@polkadot/extrinsics';
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
-import Card from '@polkadot/ui-app/Card';
 import Icon from '@polkadot/ui-app/Icon';
 import classes from '@polkadot/ui-app/util/classes';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
@@ -53,14 +52,11 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { address, className, intentions, isValidator, name, style } = this.props;
+    const { address, intentions, isValidator, name } = this.props;
     const { isNominateOpen } = this.state;
 
     return (
-      <Card
-        className={classes('staking--Account', className)}
-        style={style}
-      >
+      <article className='staking--Account'>
         <Icon
           className={classes('staking--Account-validating', isValidator ? 'isValidator' : '')}
           name='certificate'
@@ -83,7 +79,7 @@ class Account extends React.PureComponent<Props, State> {
             {this.renderNominators()}
           </div>
         </AddressSummary>
-      </Card>
+      </article>
     );
   }
 

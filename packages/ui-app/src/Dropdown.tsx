@@ -31,13 +31,22 @@ type SUIEvent = {
 
 export default class Dropdown<Option> extends React.PureComponent<Props<Option>> {
   componentDidMount () {
+    this.componentDidUpdate({} as Props<Option>);
+  }
+
+  componentDidUpdate (prevProps: Props<Option>) {
     const { defaultValue, value } = this.props;
     const startValue = isUndefined(value)
       ? defaultValue
       : value;
+    const prevStart = isUndefined(prevProps.value)
+      ? prevProps.defaultValue
+      : prevProps.value;
 
-    if (startValue) {
-      this.onChange(null, { value: startValue });
+    if (startValue !== prevStart) {
+      this.onChange(null, {
+        value: startValue
+      });
     }
   }
 
@@ -52,7 +61,6 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
         withLabel={withLabel}
       >
         <SUIDropdown
-          defaultValue={defaultValue}
           disabled={isDisabled}
           error={isError}
           // @ts-ignore some mismatch here, look into it
@@ -62,7 +70,11 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
           // @ts-ignore some mismatch here, look into it
           search={onSearch}
           selection
-          value={value}
+          value={
+            isUndefined(value)
+              ? defaultValue
+              : value
+            }
         />
       </Labelled>
     );

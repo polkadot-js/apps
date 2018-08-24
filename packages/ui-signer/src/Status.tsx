@@ -15,7 +15,7 @@ type Props = BareProps & {
 
 export default class Status extends React.PureComponent<Props> {
   render () {
-    const { queue, className, style } = this.props;
+    const { queue } = this.props;
     const available = queue.filter(({ status }) =>
 
       !['completed', 'incomplete'].includes(status)
@@ -26,10 +26,7 @@ export default class Status extends React.PureComponent<Props> {
     }
 
     return (
-      <div
-        className={classes('ui--signer-Status', className)}
-        style={style}
-      >
+      <div className='ui--signer-Status'>
         {available.map(({ rpc: { name, section }, id, status }) =>
           <div
             className={classes('ui--signer-Status-Item', status)}

@@ -6,8 +6,6 @@ import { BareProps } from '@polkadot/ui-app/types';
 import { RxBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
 
 import React from 'react';
-import Page from '@polkadot/ui-app/Page';
-import classes from '@polkadot/ui-app/util/classes';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 
@@ -25,13 +23,10 @@ type Props = BareProps & {
 
 class App extends React.PureComponent<Props> {
   render () {
-    const { className, sessionValidators = [], stakingIntentions = [], style, validatingBalances = {} } = this.props;
+    const { sessionValidators = [], stakingIntentions = [], validatingBalances = {} } = this.props;
 
     return (
-      <Page
-        className={classes('staking--App', className)}
-        style={style}
-      >
+      <main className='staking--App'>
         <Summary
           balances={validatingBalances}
           intentions={stakingIntentions}
@@ -42,7 +37,7 @@ class App extends React.PureComponent<Props> {
           intentions={stakingIntentions}
           validators={sessionValidators}
         />
-      </Page>
+      </main>
     );
   }
 }

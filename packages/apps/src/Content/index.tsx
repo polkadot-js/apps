@@ -9,8 +9,6 @@ import './Content.css';
 import React from 'react';
 import { withRouter } from 'react-router';
 
-import classes from '@polkadot/ui-app/util/classes';
-
 import routing from '../routing';
 import NotFound from './NotFound';
 
@@ -25,7 +23,7 @@ const unknown = {
 
 class Content extends React.PureComponent<Props> {
   render () {
-    const { className, location, style } = this.props;
+    const { location } = this.props;
 
     const app = location.pathname.slice(1) || '';
     const { Component, name } = routing.routes.find((route) =>
@@ -33,10 +31,7 @@ class Content extends React.PureComponent<Props> {
     ) || unknown;
 
     return (
-      <div
-        className={classes('apps--Content', className)}
-        style={style}
-      >
+      <div className='apps--Content'>
         <Component basePath={`/${name}`} />
       </div>
     );

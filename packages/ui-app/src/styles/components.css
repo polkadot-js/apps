@@ -31,6 +31,10 @@
   border-radius: .28571429rem !important;
 }
 
+header .ui--Button-Group {
+  text-align: center;
+}
+
 .ui--AddressMini {
   display: inline-block;
   padding: 0 0.25rem 0 0;
@@ -132,36 +136,6 @@
   padding: 0;
 }
 
-.ui--Card {
-  background: #fcfcfc;
-  border: 1px solid #fafafa;
-  border-radius: 0.25rem;
-  margin: 0.5rem;
-  padding: 1.5rem;
-}
-
-.ui--CardBar {
-  margin-bottom: 2em;
-}
-
-.ui--CardBar-cards {
-  align-items: stretch;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.ui--CardBar-cards .column {
-  display: flex;
-  flex: 0 1 auto;
-  text-align: left;
-}
-
-.ui--CardBar-cards .ui--Card {
-  flex: 0 1 auto;
-  text-align: left;
-}
-
 .ui--CardSummary .ui.label {
   padding-left: 0;
   padding-right: 0;
@@ -185,17 +159,4 @@
 
 .ui--CardSummary-progress {
   margin: 0.25rem 0 -0.5rem !important;
-}
-
-.ui--Navigation {
-  margin-bottom: 2em;
-  text-align: center;
-}
-
-.ui--Navigation .ui--Button-Group {
-  text-align: center;
-}
-
-.ui--Page {
-  padding: 1em 2em;
 }

@@ -8,7 +8,6 @@ import BN from 'bn.js';
 import React from 'react';
 import isUndefined from '@polkadot/util/is/undefined';
 
-import Card from './Card';
 import Progress, { Colors as ProgressColors } from './Progress';
 import Labelled from './Labelled';
 import classes from './util/classes';
@@ -46,7 +45,7 @@ export default class CardSummary extends React.PureComponent<Props> {
       : undefined;
 
     return (
-      <Card
+      <article
         className={classes('ui--CardSummary', className)}
         style={style}
       >
@@ -73,7 +72,7 @@ export default class CardSummary extends React.PureComponent<Props> {
             )
           }
         </Labelled>
-      </Card>
+      </article>
     );
   }
 }

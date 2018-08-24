@@ -9,16 +9,20 @@ import React from 'react';
 import classes from '../../util/classes';
 
 type Props = BareProps & {
-  children: any // node?
+  children: React.ReactNode
 };
 
-export default function Bare ({ children, className, style }: Props) {
-  return (
-    <div
-      className={classes('ui--row', className)}
-      style={style}
-    >
-      {children}
-    </div>
-  );
+export default class Bare extends React.PureComponent<Props> {
+  render () {
+    const { children, className, style } = this.props;
+
+    return (
+      <div
+        className={classes('ui--row', className)}
+        style={style}
+      >
+        {children}
+      </div>
+    );
+  }
 }

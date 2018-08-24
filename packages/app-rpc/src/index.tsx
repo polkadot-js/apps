@@ -8,8 +8,6 @@ import { QueueProps } from '@polkadot/ui-signer/types';
 import './index.css';
 
 import React from 'react';
-import Page from '@polkadot/ui-app/Page';
-import classes from '@polkadot/ui-app/util/classes';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
 import Results from './Results';
@@ -21,13 +19,8 @@ type Props = BareProps & {
 
 export default class RpcApp extends React.PureComponent<Props> {
   render () {
-    const { className, style } = this.props;
-
     return (
-      <Page
-        className={classes('rpc--App', className)}
-        style={style}
-      >
+      <main className='rpc--App'>
         <QueueConsumer>
           {({ queue, queueAdd }: QueueProps) => [
             <Selection
@@ -40,7 +33,7 @@ export default class RpcApp extends React.PureComponent<Props> {
             />
           ]}
         </QueueConsumer>
-      </Page>
+      </main>
     );
   }
 }
