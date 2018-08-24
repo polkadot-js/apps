@@ -6,7 +6,6 @@ import React from 'react';
 import { shallow } from '../../../test/enzyme';
 
 import { AddressSummary } from './AddressSummary';
-import DownloadButton from './DownloadButton';
 
 const mockT = (key, options) => (key);
 
@@ -22,12 +21,7 @@ describe('AddressSummary', () => {
   });
 
   it('should not display Download Button when no current address in state', () => {
-    wrapper.setProps({ address: '', withDownloadButton: false });
-    expect(wrapper.find(DownloadButton)).toHaveLength(0);
-  });
-
-  it.skip('should display Download Button when current pair has address in state', () => {
-    wrapper.setState({ address: '5G2nJMC7RxpTNuiQdN12zz8jZb1wGt3HozLqumZ1PFEDNNe8', withDownloadButton: false });
-    expect(wrapper.find(DownloadButton)).toHaveLength(1);
+    wrapper.setProps({ address: '' });
+    expect(wrapper.find('.accounts--Address-download')).toHaveLength(0);
   });
 });

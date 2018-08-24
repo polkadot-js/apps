@@ -11,7 +11,6 @@ import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Nonce from '@polkadot/ui-react-rx/Nonce';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
-import DownloadButton from './DownloadButton';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
@@ -21,11 +20,11 @@ import translate from './translate';
 
 export type Props = I18nProps & {
   balance?: BN | Array<BN>,
+  buttonChildren?: React.ReactNode,
   children?: React.ReactNode,
   name?: string,
   value: string,
   withBalance?: boolean,
-  withDownloadButton?: boolean,
   withNonce?: boolean
 };
 
@@ -86,7 +85,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderAddress () {
-    const { name, withDownloadButton } = this.props;
+    const { buttonChildren, name } = this.props;
     const { address, shortValue } = this.state;
 
     return (
@@ -97,8 +96,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
         <div className='ui--AddressSummary-address'>
           {shortValue}
         </div>
-        <CopyButton value={address} />
-        { withDownloadButton ? <DownloadButton address={address} /> : null }
+        <CopyButton value={address} />{buttonChildren}
       </div>
     );
   }
