@@ -80,6 +80,7 @@ class StorageKeyValueArray extends React.PureComponent<Props, State> {
           return (
             <Bytes
               defaultValue={{ value } as RawParam}
+              isDisabled
               key={keyHex}
               label={keyHex}
               name={keyHex}

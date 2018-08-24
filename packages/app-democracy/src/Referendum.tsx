@@ -110,6 +110,8 @@ class Referendum extends React.PureComponent<Props, State> {
       return null;
     }
 
+    console.error('Referendum:: best:', numberFormat(bestNumber), 'target:', numberFormat(blockNumber), 'remaining:', numberFormat(blockNumber.sub(bestNumber)));
+
     return (
       <div className='democracy--Referendum-info'>
         <Static label={t('referendum.endLabel', {
