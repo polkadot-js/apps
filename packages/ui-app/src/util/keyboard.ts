@@ -13,18 +13,21 @@ const regex = {
 // obtain current cursor index position of an input field
 const cursorIndexInputField = (event: any) => event.target.value.slice(0, event.target.selectionStart).length;
 
+const isNotDigit = (event: any): boolean => (event.keyCode < 48 || event.keyCode > 57);
+const isNotDigitOnNumpad = (event: any): boolean => (event.keyCode < 96 || event.keyCode > 105);
+
 const keydown = {
   // Reference: Degrade to keyCode for cross-browser compatibility https://www.w3schools.com/jsref/event_key_keycode.asp
-  isCopy: (event: any): boolean => (event.ctrlKey || KEYS.CMD) && (event.which || event.keyCode) === KEYS.C,
-  isCut: (event: any): boolean => (event.ctrlKey || KEYS.CMD) && (event.which || event.keyCode) === KEYS.X,
+  isCopy: (event: any, isPreKeyDown: boolean): boolean => isPreKeyDown && (event.which || event.keyCode) === KEYS.C,
+  isCut: (event: any, isPreKeyDown: boolean): boolean => isPreKeyDown && (event.which || event.keyCode) === KEYS.X,
   isDuplicateE: (event: any): boolean => event.keyCode === KEYS.E && event.target.value.match(regex.e),
   isDuplicatePlus: (event: any): boolean => event.keyCode === KEYS.PLUS && event.target.value.match(regex.plus),
   isDuplicateDecimalPoint: (event: any): boolean => event.keyCode === KEYS.DECIMAL_POINT && event.target.value.match(regex.decimalPoint),
   isNotEBeforePlus: (event: any): boolean => event.keyCode === KEYS.PLUS && event.target.value.charAt(cursorIndexInputField(event) - 1) !== 'e',
-  isNonNumeric: (event: any): boolean => (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105),
-  isPaste: (event: any): boolean => (event.ctrlKey || KEYS.CMD) && event.which === KEYS.V,
+  isNonNumeric: (event: any): boolean => isNotDigit(event) && isNotDigitOnNumpad(event),
+  isPaste: (event: any, isPreKeyDown: boolean): boolean => isPreKeyDown && event.which === KEYS.V,
   isPlus: (event: any): boolean => event.shiftKey && (event.which || event.keyCode) === KEYS.PLUS,
-  isSelectAll: (event: any): boolean => (event.ctrlKey || KEYS.CMD) && (event.which || event.keyCode) === KEYS.A,
+  isSelectAll: (event: any, isPreKeyDown: boolean): boolean => isPreKeyDown && (event.which || event.keyCode) === KEYS.A,
   isZeroAtInitCursorIndex: (event: any): boolean => (event.keyCode === KEYS.ZERO || event.keyCode === KEYS.ZERO_NUMPAD) && event.target.value.charAt(0)
 };
 

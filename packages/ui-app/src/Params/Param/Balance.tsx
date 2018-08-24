@@ -15,7 +15,7 @@ import { defaultMaxLength } from '../../util/chainSpec';
 import { keydown, keyup } from '../../util/keyboard';
 import InputNumber from '../../InputNumber';
 import translate from '../../translate';
-import { KEYS_ALLOWED } from '../../constants';
+import { KEYS, KEYS_ALLOWED, KEYS_PRE } from '../../constants';
 import Bare from './Bare';
 
 type Props = I18nProps & ApiProps & BareProps;
@@ -23,7 +23,8 @@ type Props = I18nProps & ApiProps & BareProps;
 type State = {
   error?: React.ReactNode,
   info?: React.ReactNode,
-  warn?: React.ReactNode
+  warn?: React.ReactNode,
+  isPreKeyDown: boolean
 };
 
 class Balance extends React.PureComponent<Props, State> {
@@ -35,7 +36,8 @@ class Balance extends React.PureComponent<Props, State> {
     this.state = {
       error: '',
       warn: '',
-      info: ''
+      info: '',
+      isPreKeyDown: false
     };
   }
 
@@ -108,6 +110,7 @@ class Balance extends React.PureComponent<Props, State> {
 
   onKeyDown = (event: any): void => {
     const { t } = this.props;
+    const { isPreKeyDown } = this.state;
 
     // only allow user balance input to contain one instance of 'e', '+', and '.' for decimal in scientific or exponential notation
     if (
@@ -119,7 +122,6 @@ class Balance extends React.PureComponent<Props, State> {
       return;
     }
 
-    // allow these keys
     if (KEYS_ALLOWED.includes(event.keyCode)) {
       return;
     }
@@ -136,13 +138,17 @@ class Balance extends React.PureComponent<Props, State> {
       return;
     }
 
+    if (KEYS_PRE.includes(event.keyCode)) {
+      this.setState({ isPreKeyDown: true });
+    }
+
     // allow users to to use cut/copy/paste combinations, but not non-numeric letters individually
     // allow users to use the + key for exponential notation
     if (
-      (keydown.isSelectAll(event)) ||
-      (keydown.isCut(event)) ||
-      (keydown.isCopy(event)) ||
-      (keydown.isPaste(event)) ||
+      (keydown.isSelectAll(event, isPreKeyDown)) ||
+      (keydown.isCut(event, isPreKeyDown)) ||
+      (keydown.isCopy(event, isPreKeyDown)) ||
+      (keydown.isPaste(event, isPreKeyDown)) ||
       keydown.isPlus(event) // '+' for exponential notation (i.e. 'e+')
     ) {
       return;
@@ -159,6 +165,10 @@ class Balance extends React.PureComponent<Props, State> {
   }
 
   onKeyUp = (event: any): void => {
+    if (KEYS_PRE.includes(event.keyCode)) {
+      this.setState({ isPreKeyDown: false });
+    }
+
     // if user inputs the value of 'E', replace it with lowercase 'e'
     if (keyup.isExistE(event)) {
       event.target.value = event.target.value.replace(/E+/gi, 'e');
