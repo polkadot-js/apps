@@ -27,8 +27,7 @@ const keydown = {
   isNonNumeric: (event: any): boolean => isNotDigit(event) && isNotDigitOnNumpad(event),
   isPaste: (event: any, isPreKeyDown: boolean): boolean => isPreKeyDown && event.which === KEYS.V,
   isPlus: (event: any): boolean => event.shiftKey && (event.which || event.keyCode) === KEYS.PLUS,
-  isSelectAll: (event: any, isPreKeyDown: boolean): boolean => isPreKeyDown && (event.which || event.keyCode) === KEYS.A,
-  isZeroAtInitCursorIndex: (event: any): boolean => (event.keyCode === KEYS.ZERO || event.keyCode === KEYS.ZERO_NUMPAD) && event.target.value.charAt(0)
+  isSelectAll: (event: any, isPreKeyDown: boolean): boolean => isPreKeyDown && (event.which || event.keyCode) === KEYS.A
 };
 
 const keyup = {

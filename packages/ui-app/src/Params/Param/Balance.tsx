@@ -132,12 +132,6 @@ class Balance extends React.PureComponent<Props, State> {
       return;
     }
 
-    // prevent user entering 0 at start index of input field infront of a value that is already in the first input index
-    if (keydown.isZeroAtInitCursorIndex(event)) {
-      event.preventDefault();
-      return;
-    }
-
     if (KEYS_PRE.includes(event.keyCode)) {
       this.setState({ isPreKeyDown: true });
     }
