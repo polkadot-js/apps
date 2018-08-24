@@ -15,7 +15,7 @@ import { defaultMaxLength } from '../../util/chainSpec';
 import { keydown, keyup } from '../../util/keyboard';
 import InputNumber from '../../InputNumber';
 import translate from '../../translate';
-import { KEYS, KEYS_ALLOWED, KEYS_PRE } from '../../constants';
+import { KEYS_ALLOWED, KEYS_PRE } from '../../constants';
 import Bare from './Bare';
 
 type Props = I18nProps & ApiProps & BareProps;
