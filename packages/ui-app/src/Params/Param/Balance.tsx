@@ -170,4 +170,8 @@ class Balance extends React.PureComponent<Props, State> {
   }
 }
 
+export {
+  Balance
+};
+
 export default withApi(translate(Balance));
