@@ -27,8 +27,6 @@ export default class Notification extends React.PureComponent<Props> {
     const isInfo: boolean = !isError && !!info;
     const isWarn: boolean = !isError && !!warn;
 
-    console.log(isError, isInfo, isWarn);
-
     if (!isError && !isInfo && !isWarn) {
       return null;
     }

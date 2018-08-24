@@ -15,10 +15,30 @@ const reValidInputChars = RegExp('^[0-9\e\+\.]+[0-9\e\+\.]*$');
 export default function isValidBalance (input: any, t: TranslationFunction, bitLength?: number): IsValidWithMessage {
   bitLength = bitLength || BIT_LENGTH_128;
 
+  let errorMessageKey: string = '';
+  let errorMessageUntranslated: string = '';
+
+  let warnMessageKey: string = '';
+  let warnMessageUntranslated: string = '';
+
+  // check value is valid number, whether it be scientific notation, exponential (which allow decimal)
+  if (isNaN(parseFloat(input))) {
+    errorMessageKey = 'balance.error.format';
+    errorMessageUntranslated = 'Balance to transfer in DOTs must be a number or expressed in scientific notation (i.e. 3.4e38) or exponential with \'e+\'';
+
+    return {
+      isValid: false,
+      errorMessage: t(errorMessageKey, {
+        defaultValue: errorMessageUntranslated
+      }),
+      errorMessageUntranslated
+    };
+  }
+
   // always a string from <input type='number'> but leave as failsafe
   if (!(typeof input === 'string')) {
     throw Error(t('balance.error.string.required', {
-      defaultValue: 'Balance input value must be of string type'
+      defaultValue: 'Balance input value must be valid type'
     }));
   }
 
@@ -31,12 +51,6 @@ export default function isValidBalance (input: any, t: TranslationFunction, bitL
 
   const matchEBeforeNumberOrPlus = input.match(/(e)(?=[0-9+])/ig);
   const matchEPlusBeforeNumber = input.match(/(e\+)(?=[0-9])/ig);
-
-  let errorMessageKey: string = '';
-  let errorMessageUntranslated: string = '';
-
-  let warnMessageKey: string = '';
-  let warnMessageUntranslated: string = '';
 
   if (matchE && matchE.length > 1 || matchPlus && matchPlus.length > 1) {
     errorMessageKey = 'balance.error.notation.scientific.duplicate';
@@ -91,10 +105,10 @@ export default function isValidBalance (input: any, t: TranslationFunction, bitL
     };
   }
 
-  // check value is valid number, whether it be scientific notation, exponential (which allow decimal)
-  if (isNaN(parseFloat(input))) {
-    errorMessageKey = 'balance.error.nan';
-    errorMessageUntranslated = 'Balance to transfer in DOTs should be a valid number';
+  // check value is not decimal and greater than or equal to one, whether it be scientific notation, exponential (which allow decimal)
+  if (Number(parseFloat(input)) < 1 && Number(parseFloat(input)) !== 0) {
+    errorMessageKey = 'balance.error.decimal';
+    errorMessageUntranslated = 'Decimal points are only allowed in scientific notation by using an \'e\' (i.e. 3.4e38) or exponential with \'e+\'';
 
     return {
       isValid: false,
@@ -105,9 +119,9 @@ export default function isValidBalance (input: any, t: TranslationFunction, bitL
     };
   }
 
-  // check value is greater than or equal to one, whether it be scientific notation, exponential (which allow decimal)
-  if (Number(parseFloat(input)) < 1) {
-    warnMessageKey = 'balance.warn.insufficient';
+  // check value is zero
+  if (Number(parseFloat(input)) === 0) {
+    warnMessageKey = 'balance.warn.zero';
     warnMessageUntranslated = 'Balance to transfer in DOTs should be greater than or equal to one';
 
     return {
@@ -136,7 +150,7 @@ export default function isValidBalance (input: any, t: TranslationFunction, bitL
   // if there is a full stop '.' (only allowed for scientific notation) but they have not yet entered an 'e', then generate error until 'e' provided
   if (input.indexOf('.') !== -1 && input.indexOf('e') === -1) {
     errorMessageKey = 'balance.error.decimals.restricted';
-    errorMessageUntranslated = 'Decimals points are only allowed in scientific notation by using an \'e\' (i.e. 3.4e38) or exponential with \'e+\'';
+    errorMessageUntranslated = 'Decimal points are only allowed in scientific notation by using an \'e\' (i.e. 3.4e38) or exponential with \'e+\'';
 
     return {
       isValid: false,

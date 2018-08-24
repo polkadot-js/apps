@@ -9,12 +9,14 @@ import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { RawParam } from '@polkadot/ui-app/Params/types';
 import { EncodedMessage } from '@polkadot/ui-signer/types';
 
+import BN from 'bn.js';
 import React from 'react';
 
 import encode from '@polkadot/extrinsics/codec/encode/extrinsic';
 import InputExtrinsic from '@polkadot/ui-app/InputExtrinsic';
 import Params from '@polkadot/ui-app/Params';
 import classes from '@polkadot/ui-app/util/classes';
+import { checkValueBitLength } from '@polkadot/ui-app/util/chainSpec';
 import isUndefined from '@polkadot/util/is/undefined';
 import withApi from '@polkadot/ui-react-rx/with/api';
 
@@ -86,6 +88,7 @@ class Extrinsic extends React.PureComponent<Props, State> {
           isValid &&
           !isUndefined(values[index]) &&
           !isUndefined(values[index].value) &&
+          (values[index].type === 'Balance' ? checkValueBitLength(values[index].value as BN) : true) &&
           values[index].isValid, true);
 
       const value = isValid && extrinsic.params

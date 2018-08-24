@@ -18,7 +18,7 @@ describe('checks extrinsic balance', () => {
     const invalidInputValueType = 340282366920938463463374607431768211456;
 
     expect(() => {
-      isValidBalance(invalidInputValueType, BIT_LENGTH_128);
+      isValidBalance(invalidInputValueType, t, BIT_LENGTH_128);
     }).toThrow();
   });
 
@@ -70,12 +70,20 @@ describe('checks extrinsic balance', () => {
     expect(errorMessageUntranslated).toEqual(ErrorMessage.MustBeNumber);
   });
 
-  it('detects invalid balance for input that is NaN or less than 1', () => {
-    const invalidBalance = '0';
-    const { isValid, warnMessageUntranslated } = isValidBalance(invalidBalance, t);
+  it('detects invalid balance for input that is NaN', () => {
+    const invalidInputValueType = Number('x');
+    const { isValid, errorMessageUntranslated } = isValidBalance(invalidInputValueType, t);
 
     expect(isValid).toEqual(false);
-    expect(warnMessageUntranslated).toEqual(WarnMessage.MinRequired);
+    expect(errorMessageUntranslated).toEqual(ErrorMessage.MustBeNumber);
+  });
+
+  it('detects valid balance for input that is 0', () => {
+    const validBalance = '0';
+    const { isValid, warnMessageUntranslated } = isValidBalance(validBalance, t);
+
+    expect(isValid).toEqual(true);
+    expect(warnMessageUntranslated).toEqual(WarnMessage.Zero);
   });
 
   it('shows an error message when an infinite value generated from the provided scientific or exponential notation', () => {
