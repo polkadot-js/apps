@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringPair, KeyringPair$Json, KeyringPair$Meta } from '@polkadot/util-keyring/types';
+import { KeyringPair, KeyringPair$Meta } from '@polkadot/util-keyring/types';
 import { SingleAddress } from './observable/types';
 import { KeyringAddress, KeyringInstance, State } from './types';
 
-import hexToU8a from '@polkadot/util/hex/toU8a';
 import testKeyring from '@polkadot/util-keyring/testing';
 
 import accounts from './observable/accounts';
@@ -35,11 +34,6 @@ const state: State = {
 loadAll(state);
 
 export default ({
-  // addFromJson: ({ address, encoded, meta }: KeyringPair$Json): KeyringPair =>
-  //   state.keyring.getPair(address).add() 
-  //   // (address, meta, hexToU8a(encoded)) =>
-  //   //   state.keyring.pairs.add(createPair({ publicKey: addressDecode(address) }, meta, defaultEncoded));
-
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta): KeyringPair =>
     createAccount(state, seed, password, meta),
   changeAccountPassword: (address: string, password: string, newPassword: string): boolean =>
