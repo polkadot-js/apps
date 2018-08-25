@@ -10,12 +10,15 @@ import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import Labelled from './Labelled';
+import Notification from './Notification';
 
 type Input$Type = 'number' | 'password' | 'text';
 
 type Props = BareProps & {
   children?: React.ReactNode,
+  autoFocus?: boolean,
   defaultValue?: any,
+  error?: React.ReactNode,
   icon?: any, // node?
   isAction?: boolean,
   isDisabled?: boolean,
@@ -49,7 +52,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { children, className, defaultValue, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, name, placeholder, style, type = 'text', value, withLabel } = this.props;
+    const { autoFocus = false, children, className, defaultValue, error, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, name, placeholder, style, type = 'text', value, withLabel } = this.props;
 
     return (
       <Labelled
@@ -59,6 +62,7 @@ export default class Input extends React.PureComponent<Props, State> {
         withLabel={withLabel}
       >
         <SUIInput
+          autoFocus={autoFocus}
           action={isAction}
           className={isEditable ? 'edit icon' : ''}
           defaultValue={defaultValue}
@@ -90,6 +94,7 @@ export default class Input extends React.PureComponent<Props, State> {
           {icon}
           {children}
         </SUIInput>
+        <Notification error={error} />
       </Labelled>
     );
   }

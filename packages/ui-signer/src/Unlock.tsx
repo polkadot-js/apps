@@ -13,13 +13,16 @@ import keyring from '@polkadot/ui-keyring/index';
 import translate from './translate';
 
 type Props = I18nProps & {
-  error?: string,
+  autoFocus?: boolean,
+  error?: React.ReactNode,
+  label?: string,
   onChange: (password: string) => void,
   password: string,
   value?: Uint8Array | null
 };
 
 type State = {
+  error?: React.ReactNode,
   isError: boolean,
   isLocked: boolean,
   pair: KeyringPair
@@ -33,6 +36,7 @@ class Unlock extends React.PureComponent<Props, State> {
     const isLocked = pair.isLocked();
 
     return {
+      error: error,
       isError: !!error,
       isLocked,
       pair
@@ -40,20 +44,22 @@ class Unlock extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { onChange, password, t } = this.props;
-    const { isError, isLocked } = this.state;
+    const { autoFocus, label, onChange, password, t } = this.props;
+    const { error, isError, isLocked, pair } = this.state;
 
-    if (!isLocked) {
-      return null;
+    if (pair && !isLocked) {
+      pair.lock();
     }
 
     return (
       <div className='ui--signer-Signer-Unlock'>
         <div className='ui--row'>
           <Password
+            autoFocus={autoFocus}
             className='medium'
+            error={error}
             isError={isError}
-            label={t('unlock.password', {
+            label={label || t('unlock.password', {
               defaultValue: 'unlock account using'
             })}
             onChange={onChange}

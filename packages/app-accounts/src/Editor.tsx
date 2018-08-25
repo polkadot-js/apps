@@ -15,6 +15,7 @@ import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
+import ChangePasswordButton from './ChangePasswordButton';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -54,8 +55,16 @@ class Editor extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const address = current
+      ? current.address()
+      : undefined;
+
     return (
       <Button.Group>
+        <ChangePasswordButton
+          address={address || ''}
+        />
+        <Button.Group.Divider />
         <Button
           isNegative
           onClick={this.onForget}

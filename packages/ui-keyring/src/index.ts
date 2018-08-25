@@ -12,6 +12,7 @@ import accounts from './observable/accounts';
 import addresses from './observable/addresses';
 import development from './observable/development';
 import loadAll from './loadAll';
+import changeAccountPassword from './account/changePassword';
 import createAccount from './account/create';
 import forgetAccount from './account/forget';
 import isAvailable from './isAvailable';
@@ -35,6 +36,8 @@ loadAll(state);
 export default ({
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta): KeyringPair =>
     createAccount(state, seed, password, meta),
+  changeAccountPassword: (address: string, password: string, newPassword: string): boolean =>
+    changeAccountPassword(state, address, password, newPassword),
   forgetAccount: (address: string): void =>
     forgetAccount(state, address),
   forgetAddress: (address: string): void =>
