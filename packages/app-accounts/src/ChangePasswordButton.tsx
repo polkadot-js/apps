@@ -67,6 +67,11 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
       });
       console.error('Error retrieving account to change password: ', e);
     }
+
+    this.setState({
+      password: '',
+      newPassword: ''
+    });
   }
 
   showPasswordModal = (): void => {
