@@ -10,6 +10,7 @@ import Button from './Button';
 import Input from './Input';
 
 type Props = BareProps & {
+  autoFocus?: boolean,
   defaultValue?: any,
   children?: React.ReactNode,
   isDisabled?: boolean,
@@ -17,6 +18,7 @@ type Props = BareProps & {
   label?: string,
   name?: string,
   onChange: (value: string) => void,
+  tabIndex?: number | string,
   value: any,
   withLabel?: boolean
 };
@@ -31,11 +33,12 @@ export default class Password extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { children, className, defaultValue, isDisabled, isError, label, name, onChange, style, value, withLabel } = this.props;
+    const { autoFocus, children, className, defaultValue, isDisabled, isError, label, name, onChange, style, tabIndex, value, withLabel } = this.props;
     const { isVisible } = this.state;
 
     return (
       <Input
+        autoFocus={autoFocus}
         className={className}
         defaultValue={defaultValue}
         isAction
@@ -45,6 +48,7 @@ export default class Password extends React.PureComponent<Props, State> {
         name={name}
         onChange={onChange}
         style={style}
+        tabIndex={tabIndex}
         type={
           isVisible
             ? 'text'
@@ -61,6 +65,7 @@ export default class Password extends React.PureComponent<Props, State> {
           }
           isPrimary
           onClick={this.onToggleVisible}
+          tabIndex='-1'
         />
         {children}
       </Input>

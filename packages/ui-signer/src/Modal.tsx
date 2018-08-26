@@ -106,6 +106,7 @@ class Signer extends React.PureComponent<Props, State> {
           <Button
             isNegative
             onClick={this.onCancel}
+            tabIndex='3'
             text={t('extrinsic.cancel', {
               defaultValue: 'Cancel'
             })}
@@ -114,6 +115,7 @@ class Signer extends React.PureComponent<Props, State> {
           <Button
             isPrimary
             onClick={this.onSend}
+            tabIndex='2'
             text={
               isSigned
                 ? t('extrinsic.signedSend', {
@@ -153,10 +155,12 @@ class Signer extends React.PureComponent<Props, State> {
 
     return (
       <Unlock
+        autoFocus
         error={unlockError && t(unlockError.key, unlockError.value)}
         onChange={this.onChangePassword}
         password={password}
         value={currentItem.publicKey}
+        tabIndex='1'
       />
     );
   }
@@ -245,5 +249,9 @@ class Signer extends React.PureComponent<Props, State> {
 const Component: React.ComponentType<any> = translate(
   withApi(Signer)
 );
+
+export {
+  Signer
+};
 
 export default Component;
