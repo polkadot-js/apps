@@ -31,6 +31,7 @@ type Props = BareProps & {
   name?: string,
   onChange: (value: string) => void,
   placeholder?: string,
+  tabIndex?: number | string,
   type?: Input$Type,
   value?: any,
   withLabel?: boolean
@@ -52,7 +53,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { autoFocus = false, children, className, defaultValue, error, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, name, placeholder, style, type = 'text', value, withLabel } = this.props;
+    const { autoFocus = false, children, className, defaultValue, error, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, name, placeholder, style, tabIndex, type = 'text', value, withLabel } = this.props;
 
     return (
       <Labelled
@@ -80,6 +81,7 @@ export default class Input extends React.PureComponent<Props, State> {
           name={name || this.state.name}
           onChange={this.onChange}
           placeholder={placeholder}
+          tabIndex={tabIndex}
           type={type}
           value={value}
         >

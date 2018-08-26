@@ -94,6 +94,7 @@ class ChangePasswordModal extends React.PureComponent<Props> {
         })}
         onChange={onChangePassword}
         password={password}
+        tabIndex='1'
         value={keyringAddress.publicKey()}
       />
     );
@@ -116,6 +117,7 @@ class ChangePasswordModal extends React.PureComponent<Props> {
         })}
         onChange={onChangeNewPassword}
         password={newPassword}
+        tabIndex='2'
         value={keyringAddress.publicKey()}
       />
     );
@@ -130,6 +132,7 @@ class ChangePasswordModal extends React.PureComponent<Props> {
           <Button
             isNegative
             onClick={onDiscard}
+            tabIndex='4'
             text={t('creator.discard', {
               defaultValue: 'Cancel'
             })}
@@ -139,6 +142,7 @@ class ChangePasswordModal extends React.PureComponent<Props> {
             isPrimary
             className='ui--Button-submit'
             onClick={handleChangeAccountPassword}
+            tabIndex='3'
             text={t('creator.submit', {
               defaultValue: 'Submit'
             })}

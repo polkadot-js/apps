@@ -21,6 +21,7 @@ type Props = BareProps & {
   label?: string,
   name?: string,
   onChange: (value: string) => void,
+  tabIndex?: number | string,
   value: any,
   withLabel?: boolean
 };
@@ -35,7 +36,7 @@ export default class Password extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { autoFocus, children, className, defaultValue, error, isDisabled, isError, label, name, onChange, style, value, withLabel } = this.props;
+    const { autoFocus, children, className, defaultValue, error, isDisabled, isError, label, name, onChange, style, tabIndex, value, withLabel } = this.props;
     const { isVisible } = this.state;
 
     return (
@@ -51,6 +52,7 @@ export default class Password extends React.PureComponent<Props, State> {
         name={name}
         onChange={onChange}
         style={style}
+        tabIndex={tabIndex}
         type={
           isVisible
             ? 'text'

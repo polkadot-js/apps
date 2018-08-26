@@ -18,6 +18,7 @@ type Props = I18nProps & {
   label?: string,
   onChange: (password: string) => void,
   password: string,
+  tabIndex?: number | string,
   value?: Uint8Array | null
 };
 
@@ -44,7 +45,7 @@ class Unlock extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { autoFocus, label, onChange, password, t } = this.props;
+    const { autoFocus, label, onChange, password, t, tabIndex } = this.props;
     const { error, isError, isLocked, pair } = this.state;
 
     if (pair && !isLocked) {
@@ -63,6 +64,7 @@ class Unlock extends React.PureComponent<Props, State> {
               defaultValue: 'unlock account using'
             })}
             onChange={onChange}
+            tabIndex={tabIndex}
             value={password}
           />
         </div>
