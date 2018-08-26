@@ -18,7 +18,8 @@ export type ButtonProps = BareProps & {
   isPrimary?: boolean,
   onClick?: () => void | Promise<void>,
   size?: Button$Sizes,
-  text?: any
+  text?: any,
+  tabIndex?: number | string
 };
 
 export type DividerProps = BareProps;
