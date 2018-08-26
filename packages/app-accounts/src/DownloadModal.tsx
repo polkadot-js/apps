@@ -87,6 +87,7 @@ class DownloadModal extends React.PureComponent<Props> {
         onChange={onChangePassword}
         password={password}
         value={keyringAddress.publicKey()}
+        tabIndex='1'
       />
     );
   }
@@ -100,6 +101,7 @@ class DownloadModal extends React.PureComponent<Props> {
           <Button
             isNegative
             onClick={onDiscard}
+            tabIndex='3'
             text={t('creator.discard', {
               defaultValue: 'Cancel'
             })}
@@ -109,6 +111,7 @@ class DownloadModal extends React.PureComponent<Props> {
             isPrimary
             className='ui--Button-submit'
             onClick={handleDownloadAccount}
+            tabIndex='2'
             text={t('creator.submit', {
               defaultValue: 'Submit'
             })}

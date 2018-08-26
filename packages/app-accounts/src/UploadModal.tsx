@@ -75,6 +75,7 @@ class UploadModal extends React.PureComponent<Props> {
         error={error}
         onChange={onChangePassword}
         password={password}
+        tabIndex='1'
         value={keyringAddress.publicKey()}
       />
     );
@@ -89,6 +90,7 @@ class UploadModal extends React.PureComponent<Props> {
           <Button
             isNegative
             onClick={onDiscard}
+            tabIndex='3'
             text={t('creator.discard', {
               defaultValue: 'Cancel'
             })}
@@ -97,6 +99,7 @@ class UploadModal extends React.PureComponent<Props> {
           <Button
             isPrimary
             onClick={processUploadedFileStorage}
+            tabIndex='2'
             text={t('creator.submit', {
               defaultValue: 'Submit'
             })}
