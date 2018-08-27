@@ -158,6 +158,7 @@ class Signer extends React.PureComponent<Props, State> {
         autoFocus
         error={unlockError && t(unlockError.key, unlockError.value)}
         onChange={this.onChangePassword}
+        onKeyDown={this.onKeyDown}
         password={password}
         value={currentItem.publicKey}
         tabIndex='1'
@@ -191,6 +192,33 @@ class Signer extends React.PureComponent<Props, State> {
       password,
       unlockError: null
     });
+  }
+
+  onKeyDown = (event: any): void => {
+    let buttonEls: any = [];
+    let inputList: any = [];
+    let buttonFilteredEls: any = [];
+
+    if (event.keyCode === 13) {
+      buttonEls = document.getElementsByTagName('button');
+
+      // convert node list to array
+      if (buttonEls.length) {
+        inputList = Array.prototype.slice.call(buttonEls);
+        buttonFilteredEls = inputList.filter((el: any) => el.hasAttribute('tabIndex') && el.tabIndex === 2);
+
+        if (buttonFilteredEls.length) {
+          const buttonSubmitEl = buttonFilteredEls[0];
+
+          if (buttonSubmitEl) {
+            console.log('buttonSubmitEl: ', buttonSubmitEl);
+            buttonSubmitEl.focus();
+            buttonSubmitEl.click();
+            event.preventDefault();
+          }
+        }
+      }
+    }
   }
 
   onCancel = (): void => {
