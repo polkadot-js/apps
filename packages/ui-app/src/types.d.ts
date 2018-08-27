@@ -12,10 +12,6 @@ export type BareProps = {
   }
 };
 
-export type I18nProps = BareProps & {
-  t: TranslationFunction
-};
-
 export type BaseContext = {
   api: RxApiInterface,
   // TODO: Set the correct type
@@ -24,4 +20,16 @@ export type BaseContext = {
       location: Location
     }
   }
+};
+
+// export type FormError = React.ReactNode; 
+// {
+//   inputError: {
+//     [index: string]: string
+//   },
+//   formError: string
+// };
+
+export type I18nProps = BareProps & {
+  t: TranslationFunction
 };

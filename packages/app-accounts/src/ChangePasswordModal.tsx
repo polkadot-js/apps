@@ -35,6 +35,10 @@ class ChangePasswordModal extends React.PureComponent<Props> {
   render () {
     const { address, className, error, hidePasswordModal, isPasswordModalOpen, style, success } = this.props;
 
+    console.log('error.props in ChangePasswordModal: ', error.props);
+
+    const { formError } = error.props as React.Props<any>;
+
     return (
       <Modal
         className={classes('ui--Accounts-change-password-Signer', className)}
@@ -69,7 +73,7 @@ class ChangePasswordModal extends React.PureComponent<Props> {
               {this.renderContentNewPassword()}
             </div>
             {this.renderButtons()}
-            <Notification error={error} success={success} />
+            <Notification error={formError} success={success} />
           </div>
         </Modal.Content>
       </Modal>
@@ -78,6 +82,11 @@ class ChangePasswordModal extends React.PureComponent<Props> {
 
   renderContentPassword () {
     const { address, error, onChangePassword, password, t } = this.props;
+
+    console.log('error.props.inputError: ', error.props.inputError);
+
+    const { inputError } = error.props as React.Props<any>;
+    const passwordError = inputError.hasOwnProperty('password') ? inputError.password : undefined;
 
     if (!address) {
       return null;
@@ -88,7 +97,7 @@ class ChangePasswordModal extends React.PureComponent<Props> {
     return (
       <Unlock
         autoFocus
-        error={error}
+        error={passwordError}
         label={t('unlock.password', {
           defaultValue: 'existing password to unlock your account'
         })}
@@ -103,6 +112,9 @@ class ChangePasswordModal extends React.PureComponent<Props> {
   renderContentNewPassword () {
     const { address, error, onChangeNewPassword, newPassword, t } = this.props;
 
+    const { inputError } = error.props as React.Props<any>;
+    const newPasswordError = inputError.hasOwnProperty('newPassword') ? inputError.newPassword : undefined;
+
     if (!address) {
       return null;
     }
@@ -111,7 +123,7 @@ class ChangePasswordModal extends React.PureComponent<Props> {
 
     return (
       <Unlock
-        error={error}
+        error={newPasswordError}
         label={t('unlock.password.new', {
           defaultValue: 'new password for your account'
         })}
