@@ -211,8 +211,6 @@ class Signer extends React.PureComponent<Props, State> {
           const buttonSubmitEl = buttonFilteredEls[0];
 
           if (buttonSubmitEl) {
-            console.log('buttonSubmitEl: ', buttonSubmitEl);
-            buttonSubmitEl.focus();
             buttonSubmitEl.click();
             event.preventDefault();
           }
