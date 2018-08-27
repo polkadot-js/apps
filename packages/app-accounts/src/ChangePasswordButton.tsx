@@ -44,7 +44,7 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
 
     try {
       // TODO - implement initial change password functionality, and then allow change by use of seed phrase
-      const result: boolean | void = keyring.changeAccountPassword(address, password, newPassword);
+      const result: boolean = keyring.changeAccountPassword(address, password, newPassword);
 
       if (result) {
         this.setState({

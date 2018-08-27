@@ -37,7 +37,7 @@ export type State = {
 export type KeyringInstance = {
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta) => KeyringPair,
   // TODO - allow changing password by providing seed instead of existing password (i.e. seed?: string)
-  changeAccountPassword: (address: string, password: string, newPassword: string) => void,
+  changeAccountPassword: (address: string, password: string, newPassword: string) => boolean,
   forgetAccount: (address: string) => void,
   forgetAddress: (address: string) => void,
   getAccounts: () => Array<KeyringAddress>,
