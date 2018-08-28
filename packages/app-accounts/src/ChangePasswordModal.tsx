@@ -34,10 +34,7 @@ type Props = I18nProps & BareProps & {
 class ChangePasswordModal extends React.PureComponent<Props> {
   render () {
     const { address, className, error, hidePasswordModal, isPasswordModalOpen, style, success } = this.props;
-
-    console.log('error.props in ChangePasswordModal: ', error.props);
-
-    const { formError } = error.props as React.Props<any>;
+    const { formError } = error.props.props as React.Props<any>;
 
     return (
       <Modal
@@ -83,10 +80,8 @@ class ChangePasswordModal extends React.PureComponent<Props> {
   renderContentPassword () {
     const { address, error, onChangePassword, password, t } = this.props;
 
-    console.log('error.props.inputError: ', error.props.inputError);
-
-    const { inputError } = error.props as React.Props<any>;
-    const passwordError = inputError.hasOwnProperty('password') ? inputError.password : undefined;
+    const { inputError } = error.props.props as React.Props<any>;
+    const passwordError = inputError && inputError.hasOwnProperty('password') ? inputError.password : undefined;
 
     if (!address) {
       return null;
@@ -112,8 +107,8 @@ class ChangePasswordModal extends React.PureComponent<Props> {
   renderContentNewPassword () {
     const { address, error, onChangeNewPassword, newPassword, t } = this.props;
 
-    const { inputError } = error.props as React.Props<any>;
-    const newPasswordError = inputError.hasOwnProperty('newPassword') ? inputError.newPassword : undefined;
+    const { inputError } = error.props.props as React.Props<any>;
+    const newPasswordError = inputError && inputError.hasOwnProperty('newPassword') ? inputError.newPassword : undefined;
 
     if (!address) {
       return null;
