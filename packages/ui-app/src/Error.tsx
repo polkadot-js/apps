@@ -10,12 +10,8 @@ type Props = {
   props?: FormErrors
 };
 
-export default class Error extends React.PureComponent<Props> {
-  render () {
-    const { props } = this.props;
-
-    return (
-      <div props={props}></div>
-    );
-  }
+export default function Error ({}: Props) {
+  return (
+    <div></div>
+  );
 }
