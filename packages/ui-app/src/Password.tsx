@@ -67,7 +67,6 @@ export default class Password extends React.PureComponent<Props, State> {
           }
           isPrimary
           onClick={this.onToggleVisible}
-          tabIndex='-1'
         />
         {children}
       </Input>

@@ -106,7 +106,7 @@ class Signer extends React.PureComponent<Props, State> {
           <Button
             isNegative
             onClick={this.onCancel}
-            tabIndex='3'
+            tabIndex={3}
             text={t('extrinsic.cancel', {
               defaultValue: 'Cancel'
             })}
@@ -115,7 +115,7 @@ class Signer extends React.PureComponent<Props, State> {
           <Button
             isPrimary
             onClick={this.onSend}
-            tabIndex='2'
+            tabIndex={2}
             text={
               isSigned
                 ? t('extrinsic.signedSend', {
@@ -161,7 +161,7 @@ class Signer extends React.PureComponent<Props, State> {
         onKeyDown={this.onKeyDown}
         password={password}
         value={currentItem.publicKey}
-        tabIndex='1'
+        tabIndex={1}
       />
     );
   }

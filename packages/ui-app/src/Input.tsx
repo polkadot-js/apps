@@ -102,6 +102,7 @@ export default class Input extends React.PureComponent<Props, State> {
 
   onKeyDown = (event: SUIEvent): void => {
     const { onKeyDown } = this.props;
+
     if (onKeyDown) {
       onKeyDown(event);
     }
