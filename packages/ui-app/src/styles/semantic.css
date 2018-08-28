@@ -102,13 +102,13 @@
 .ui.buttons .primary.button:active,
 .ui.primary.button:focus,
 .ui.buttons .primary.button:focus {
-  background-color: $dark-sky-blue;
+  background-color: $button-primary-color;
 }
 
 
 .ui.primary.button:hover,
 .ui.buttons .primary.button:hover {
-  background-color: $pewter-blue;
+  background-color: $button-primary-color-hover;
 }
 
 .ui.button,
@@ -123,7 +123,7 @@
 .ui.buttons .positive.button:active,
 .ui.positive.button:focus,
 .ui.buttons .positive.button:focus {
-  background-color: $silver-chalice;
+  background-color: $button-color;
   color: white;
 }
 
@@ -131,7 +131,7 @@
 .ui.buttons .button:hover,
 .ui.positive.button:hover,
 .ui.buttons .positive.button:hover {
-  background-color: $cadet-grey;
+  background-color: $button-color-hover;
   color: white;
 }
 
@@ -141,24 +141,24 @@
 .ui.buttons .negative.button:focus,
 .ui.negative.button:active,
 .ui.buttons .negative.button:active {
-  background-color: $wild-orchid;
+  background-color: $button-negative-color;
 }
 
 .ui.negative.button:hover,
 .ui.buttons .negative.button:hover {
-  background-color: $middle-purple;
+  background-color: $button-negative-color-hover;
 }
 
 .ui.blue.progress .bar {
-  background-color: $dark-sky-blue;
+  background-color: $progress-bar-color;
 }
 
 a {
-  color: $spanish-gray;
+  color: $anchor-color;
 }
 
 a:hover {
-  color: $cadet-grey;
+  color: $anchor-color-hover;
 }
 
 .ui.green.progress .bar {
