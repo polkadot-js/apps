@@ -2,6 +2,8 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
+@import 'partials/_variables.css';
+
 .ui.hidden.divider {
   margin: 0.5rem 0;
 }
@@ -100,15 +102,14 @@
 .ui.buttons .primary.button:active,
 .ui.primary.button:focus,
 .ui.buttons .primary.button:focus {
-  background-color: #96bdc6;
+  background-color: $dark-sky-blue;
 }
 
 
 .ui.primary.button:hover,
 .ui.buttons .primary.button:hover {
-  background-color: #89acb4;
+  background-color: $pewter-blue;
 }
-
 
 .ui.button,
 .ui.buttons .button,
@@ -122,7 +123,7 @@
 .ui.buttons .positive.button:active,
 .ui.positive.button:focus,
 .ui.buttons .positive.button:focus {
-  background-color: #a1b1b5;
+  background-color: $silver-chalice;
   color: white;
 }
 
@@ -130,7 +131,7 @@
 .ui.buttons .button:hover,
 .ui.positive.button:hover,
 .ui.buttons .positive.button:hover {
-  background-color: #98aaae;
+  background-color: $cadet-grey;
   color: white;
 }
 
@@ -140,22 +141,33 @@
 .ui.buttons .negative.button:focus,
 .ui.negative.button:active,
 .ui.buttons .negative.button:active {
-  background-color: #d75ea1;
+  background-color: $wild-orchid;
 }
 
 .ui.negative.button:hover,
 .ui.buttons .negative.button:hover {
-  background-color: #e189ba;
+  background-color: $middle-purple;
 }
 
 .ui.blue.progress .bar {
-  background-color: #96bdc6
+  background-color: $dark-sky-blue;
 }
 
 a {
-  color: #98aaae;
+  color: $spanish-gray;
 }
 
 a:hover {
-  color: #a1b1b5;
+  color: $cadet-grey;
+}
+
+.ui.green.progress .bar {
+    background-color: $green;
+}
+
+.ui.orange.progress .bar {
+    background-color: $orange;
+}
+.ui.red.progress .bar {
+    background-color: $red;
 }
