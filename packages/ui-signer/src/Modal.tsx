@@ -39,6 +39,8 @@ type State = {
 class Signer extends React.PureComponent<Props, State> {
   state: State;
 
+  private submitButtonDiv: React.RefObject<HTMLDivElement>;
+
   constructor (props: Props) {
     super(props);
 
@@ -46,6 +48,8 @@ class Signer extends React.PureComponent<Props, State> {
       password: '',
       unlockError: null
     };
+
+    this.submitButtonDiv = React.createRef();
   }
 
   static getDerivedStateFromProps ({ queue }: Props, { currentItem, password, unlockError }: State): State {
@@ -112,20 +116,23 @@ class Signer extends React.PureComponent<Props, State> {
             })}
           />
           <Button.Or />
-          <Button
-            isPrimary
-            onClick={this.onSend}
-            tabIndex={2}
-            text={
-              isSigned
-                ? t('extrinsic.signedSend', {
-                  defaultValue: 'Sign and Submit'
-                })
-                : t('extrinsic.send', {
-                  defaultValue: 'Submit'
-                })
-            }
-          />
+          <div ref={this.submitButtonDiv}>
+            <Button
+              className='ui--signer-Signer-Submit'
+              isPrimary
+              onClick={this.onSend}
+              tabIndex={2}
+              text={
+                isSigned
+                  ? t('extrinsic.signedSend', {
+                    defaultValue: 'Sign and Submit'
+                  })
+                  : t('extrinsic.send', {
+                    defaultValue: 'Submit'
+                  })
+              }
+            />
+          </div>
         </Button.Group>
       </Modal.Actions>
     );
@@ -195,25 +202,15 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   onKeyDown = (event: any): void => {
-    let buttonEls: any = [];
-    let inputList: any = [];
-    let buttonFilteredEls: any = [];
-
     if (event.keyCode === 13) {
-      buttonEls = document.getElementsByTagName('button');
+      const node = this.submitButtonDiv.current;
 
-      // convert node list to array
-      if (buttonEls.length) {
-        inputList = Array.prototype.slice.call(buttonEls);
-        buttonFilteredEls = inputList.filter((el: any) => el.hasAttribute('tabIndex') && el.tabIndex === 2);
+      if (node instanceof HTMLElement) {
+        const child = node.querySelector('.ui--signer-Signer-Submit');
 
-        if (buttonFilteredEls.length) {
-          const buttonSubmitEl = buttonFilteredEls[0];
-
-          if (buttonSubmitEl) {
-            buttonSubmitEl.click();
-            event.preventDefault();
-          }
+        if (child instanceof HTMLElement) {
+          child.click();
+          event.preventDefault();
         }
       }
     }
