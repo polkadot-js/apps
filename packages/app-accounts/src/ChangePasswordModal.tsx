@@ -1,7 +1,7 @@
 // Copyright 2017-2018 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
-import { I18nProps, BareProps } from '@polkadot/ui-app/types';
+import { I18nProps, FormErrorProps, BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { Trans } from 'react-i18next';
@@ -19,22 +19,22 @@ import translate from './translate';
 
 type Props = I18nProps & BareProps & {
   address: string,
-  error?: React.ReactNode,
+  error?: FormErrorProps,
   handleChangeAccountPassword: () => void,
   hidePasswordModal: () => void,
   isPasswordModalOpen: boolean,
   onChangePassword: (password: string) => void,
   onChangeNewPassword: (newPassword: string) => void,
   onDiscard: () => void,
-  password: string,
   newPassword: string,
+  password: string,
   success?: React.ReactNode
 };
 
 class ChangePasswordModal extends React.PureComponent<Props> {
   render () {
     const { address, className, error, hidePasswordModal, isPasswordModalOpen, style, success } = this.props;
-    const { formError } = error.props.props;
+    const { formError } = error && error.props.props;
 
     return (
       <Modal
@@ -83,7 +83,7 @@ class ChangePasswordModal extends React.PureComponent<Props> {
   renderContentPassword () {
     const { address, error, onChangePassword, password, t } = this.props;
 
-    const { inputError } = error.props.props;
+    const { inputError } = error && error.props.props;
     const passwordError = inputError && inputError.hasOwnProperty('password') ? inputError.password : undefined;
 
     if (!address) {
@@ -111,7 +111,7 @@ class ChangePasswordModal extends React.PureComponent<Props> {
   renderContentNewPassword () {
     const { address, error, onChangeNewPassword, newPassword, t } = this.props;
 
-    const { inputError } = error.props.props;
+    const { inputError } = error && error.props.props;
     const newPasswordError = inputError && inputError.hasOwnProperty('newPassword') ? inputError.newPassword : undefined;
 
     if (!address) {
@@ -136,9 +136,9 @@ class ChangePasswordModal extends React.PureComponent<Props> {
   }
 
   renderButtons () {
-    const { error, handleChangeAccountPassword, onDiscard, password, newPassword, t } = this.props;
+    const { error, handleChangeAccountPassword, newPassword, onDiscard, password, t } = this.props;
 
-    const { inputError } = error.props.props;
+    const { inputError } = error && error.props.props;
 
     const emptyInputValues = !password || !newPassword;
     const isInputError = !!inputError.password || !!inputError.newPassword;

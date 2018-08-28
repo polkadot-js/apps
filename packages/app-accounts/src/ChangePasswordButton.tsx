@@ -2,20 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { BareProps, I18nProps } from '@polkadot/ui-app/types';
+import { BareProps, FormErrorProps, I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import keyring from '@polkadot/ui-keyring/index';
 import Button from '@polkadot/ui-app/Button';
 import Error from '@polkadot/ui-app/Error';
 import classes from '@polkadot/ui-app/util/classes';
+import keyring from '@polkadot/ui-keyring/index';
 
 import ChangePasswordModal from './ChangePasswordModal';
 import translate from './translate';
 
 type State = {
   address: string,
-  error?: React.ReactNode,
+  error?: FormErrorProps,
   isPasswordModalOpen: boolean,
   password: string,
   newPassword: string,
@@ -37,68 +37,43 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
 
   handleChangeAccountPassword = (): void => {
     const { t } = this.props;
-    const { address, error, error: { props: { props: { inputError } } }, password, newPassword } = this.state;
+    const { address, error, newPassword, password } = this.state;
 
-    let newErrorProps = error.props;
-    let newErrorComp: React.ReactNode = undefined;
+    let newErrorComp;
+    let newErrorProps = error && error.props.props || this.emptyErrorProps();
 
-    // prevent form submission if any input fields invalid
-    if (inputError.password || inputError.newPassword) {
-      newErrorComp = (
-        <Error
-          props={
-            Object.assign({
-              formError: t('editor.change.password.form.error', {
-                defaultValue: 'Unable to submit form due to input error(s)'
-              }),
-              inputError
-            }, newErrorProps)
-          }
-        />
-      );
+    const isInputError = newErrorProps.inputError.password || newErrorProps.inputError.newPassword;
+
+    // prevent form submission if any input fields invalid, even though
+    // should not be possible since submit button disabled when input error exists
+    if (isInputError) {
+      newErrorProps.formError = t('editor.change.password.form.error', {
+        defaultValue: 'Unable to submit form due to input error(s)'
+      });
+
+      newErrorComp = <Error props={newErrorProps} />;
 
       this.setState({
         error: newErrorComp
       });
 
       return;
-    }
+    } else {
+      newErrorProps.formError = t('editor.change.password.form.error', {
+        defaultValue: 'Unable to changed account password'
+      });
 
-    newErrorComp = (
-      <Error
-        props={
-          Object.assign({
-            formError: t('editor.change.password.form.error', {
-              defaultValue: 'Unable to changed account password'
-            }),
-            inputError
-          }, newErrorProps)
-        }
-      />
-    );
+      newErrorComp = <Error props={newErrorProps} />;
+    }
 
     if (!address) {
       return;
     }
 
     try {
-      // TODO - implement initial change password functionality, and then allow change by use of seed phrase
       const result: boolean = keyring.changeAccountPassword(address, password, newPassword);
 
-      // TODO - remove since is duplicate
-      const emptyErrorComp: React.ReactNode = (
-        <Error
-          props={
-          {
-            inputError: {
-              password: '',
-              newPassword: ''
-            },
-            formError: ''
-          }
-          }
-        />
-      );
+      const emptyErrorComp = <Error props={this.emptyErrorProps()}/>;
 
       if (result) {
         this.setState({
@@ -116,13 +91,11 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
       this.setState({
         error: newErrorComp
       });
+
       console.error('Error retrieving account to change password: ', e);
     }
 
-    this.setState({
-      password: '',
-      newPassword: ''
-    });
+    this.resetPasswordInputs();
   }
 
   showPasswordModal = (): void => {
@@ -130,10 +103,10 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
 
     this.setState({
       isPasswordModalOpen: true,
-      address: address,
-      password: '',
-      newPassword: ''
+      address
     });
+
+    this.resetPasswordInputs();
   }
 
   hidePasswordModal = (): void => {
@@ -182,19 +155,7 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
   emptyState (): State {
     const { address } = this.props;
 
-    const emptyErrorComp: React.ReactNode = (
-      <Error
-        props={
-        {
-          inputError: {
-            password: '',
-            newPassword: ''
-          },
-          formError: ''
-        }
-        }
-      />
-    );
+    const emptyErrorComp = <Error props={this.emptyErrorProps()} />;
 
     return {
       address: address,
@@ -210,14 +171,14 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { error, newPassword } = this.state;
 
-    let newErrorComp: React.ReactNode = error;
-    let newErrorProps = error.props.props;
+    let newErrorComp = error;
+    let newErrorProps = error && error.props.props || this.emptyErrorProps();
 
-    if (password === newPassword) {
+    if (this.isSamePassword(password, newPassword)) {
       newErrorProps.inputError.password = t('editor.change.password.input.password.differ.error', {
         defaultValue: 'Existing password must differ from new password'
       });
-    } else if (password.length === 0) {
+    } else if (this.isEmptyPassword(password)) {
       newErrorProps.inputError.password = t('editor.change.password.input.password.empty.error', {
         defaultValue: 'Existing password must not be empty'
       });
@@ -239,14 +200,14 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { error, password } = this.state;
 
-    let newErrorComp: React.ReactNode = error;
-    let newErrorProps = error.props.props;
+    let newErrorComp = error;
+    let newErrorProps = error && error.props.props || this.emptyErrorProps();
 
-    if (password === newPassword) {
+    if (this.isSamePassword(password, newPassword)) {
       newErrorProps.inputError.newPassword = t('editor.change.password.input.newpassword.differ.error', {
         defaultValue: 'New password must differ from existing password'
       });
-    } else if (password.length === 0) {
+    } else if (this.isEmptyPassword(newPassword)) {
       newErrorProps.inputError.newPassword = t('editor.change.password.input.newPassword.empty.error', {
         defaultValue: 'New password must not be empty'
       });
@@ -266,6 +227,33 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
 
   onDiscard = (): void => {
     this.setState(this.emptyState());
+  }
+
+  emptyErrorProps = () => {
+    return (
+      {
+        inputError: {
+          password: '',
+          newPassword: ''
+        },
+        formError: ''
+      }
+    );
+  }
+
+  isSamePassword = (password: string, newPassword: string) => {
+    return password === newPassword;
+  }
+
+  isEmptyPassword = (password: string) => {
+    return password.length === 0;
+  }
+
+  resetPasswordInputs = (): void => {
+    this.setState({
+      password: '',
+      newPassword: ''
+    });
   }
 }
 
