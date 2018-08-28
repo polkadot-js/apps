@@ -10,7 +10,7 @@ type Props = {
 
 export default class Error extends React.PureComponent<Props> {
   render () {
-    const { error: { props } } = this.props;
+    const { props } = this.props;
 
     return (
       <div props={props}></div>

@@ -70,7 +70,10 @@ class ChangePasswordModal extends React.PureComponent<Props> {
               {this.renderContentNewPassword()}
             </div>
             {this.renderButtons()}
-            <Notification error={formError} success={success} />
+            <Notification
+              formError={formError}
+              success={success}
+            />
           </div>
         </Modal.Content>
       </Modal>

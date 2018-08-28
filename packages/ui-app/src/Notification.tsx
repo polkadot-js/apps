@@ -12,6 +12,7 @@ type SemanticMessageSizes = 'mini' | 'tiny' | 'small' | 'large' | 'big' | 'huge'
 
 type Props = BareProps & {
   error?: React.ReactNode,
+  formError?: React.ReactNode,
   // Issue: https://github.com/Semantic-Org/Semantic-UI-React/issues/3071
   size?: SemanticMessageSizes,
   success?: React.ReactNode
@@ -19,9 +20,9 @@ type Props = BareProps & {
 
 export default class Notification extends React.PureComponent<Props> {
   render () {
-    const { error, size = 'tiny', success } = this.props;
+    const { error, formError, size = 'tiny', success } = this.props;
 
-    const isError: boolean = !!error;
+    const isError: boolean = !!error || !!formError;
     const isSuccess: boolean = !isError && !!success;
 
     if (!isError && !isSuccess) {
@@ -35,7 +36,7 @@ export default class Notification extends React.PureComponent<Props> {
           error={isError}
           success={isSuccess}
         >
-          {error}
+          {error || formError}
           {!isError && isSuccess ? success : null}
         </Message>
       </div>

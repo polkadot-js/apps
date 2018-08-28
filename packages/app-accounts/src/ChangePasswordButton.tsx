@@ -39,7 +39,7 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { address, error, error: { props: { props: { inputError } } }, password, newPassword } = this.state;
 
-    let newErrorProps: React.Props<Object> = error.props.props;
+    let newErrorProps: React.Props<Object> = error.props;
     let newErrorComp: React.ReactNode = undefined;
 
     // prevent form submission if any input fields invalid
@@ -85,8 +85,24 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
       // TODO - implement initial change password functionality, and then allow change by use of seed phrase
       const result: boolean = keyring.changeAccountPassword(address, password, newPassword);
 
+      // TODO - remove since is duplicate
+      const emptyErrorComp: React.ReactNode = (
+        <Error 
+          props={
+          {
+            inputError: {
+              password: '',
+              newPassword: ''
+            },
+            formError: ''
+          }
+          }
+        />
+      );
+
       if (result) {
         this.setState({
+          error: emptyErrorComp, // reset input and form errors
           success: t('editor.change.password.success', {
             defaultValue: 'Successfully changed account password'
           })
@@ -198,8 +214,12 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
     let newErrorProps = error.props.props;
 
     if (password === newPassword) {
-      newErrorProps.inputError.password = t('editor.change.password.input.password.error', {
+      newErrorProps.inputError.password = t('editor.change.password.input.password.differ.error', {
         defaultValue: 'Existing password must differ from new password'
+      });
+    } else if (password.length === 0) {
+      newErrorProps.inputError.password = t('editor.change.password.input.password.empty.error', {
+        defaultValue: 'Existing password must not be empty'
       });
     } else {
       newErrorProps.inputError.password = '';
@@ -222,8 +242,12 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
     let newErrorProps = error.props.props;
 
     if (password === newPassword) {
-      newErrorProps.inputError.newPassword = t('editor.change.password.input.newpassword.error', {
+      newErrorProps.inputError.newPassword = t('editor.change.password.input.newpassword.differ.error', {
         defaultValue: 'New password must differ from existing password'
+      });
+    } else if (password.length === 0) {
+      newErrorProps.inputError.newPassword = t('editor.change.password.input.newPassword.empty.error', {
+        defaultValue: 'New password must not be empty'
       });
     } else {
       newErrorProps.inputError.newPassword = '';
