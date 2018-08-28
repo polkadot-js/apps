@@ -34,10 +34,47 @@ describe('Signer', () => {
     expect(wrapper).toHaveLength(1);
   });
 
-  it.skip('sets the state of the component', () => {
-    wrapper.setState({ currentItem: fixtureCurrentItemState });
-    wrapper = wrapper.update(); // immutable usage
-    expect(wrapper.state('currentItem')).toEqual(fixtureCurrentItemState);
-    console.log(wrapper.debug());
+  // Pending resolution of Enzyme issue: https://github.com/airbnb/enzyme/issues/1794
+  it.skip('set the state of the component using callbacks and anonymous function', (done) => {
+    wrapper.setState({ currentItem: fixtureCurrentItemState }, () => {
+      expect(wrapper.update().state('currentItem')).toEqual(fixtureCurrentItemState);
+      expect(wrapper.update().find('.ui--signer-Signer')).toHaveLength(1);
+      done();
+    });
+  });
+
+  it.skip('set the state of the component using callbacks and named functions', (done) => {
+    const checkExpectation = (done) => {
+      expect(wrapper.update().state('currentItem')).toEqual(fixtureCurrentItemState);
+      done();
+    };
+
+    const doAsyncAction = (callback, done) => {
+      wrapper.setState({ currentItem: fixtureCurrentItemState }, () => {
+        callback(done);
+      });
+    };
+
+    doAsyncAction(checkExpectation, done);
+  });
+
+  it.skip('set the state of the component using promises', () => {
+    Promise.resolve(wrapper.setState({ currentItem: fixtureCurrentItemState }))
+      .then(_ => {
+        expect(wrapper.update().state('currentItem')).toEqual(fixtureCurrentItemState);
+        expect(wrapper.update().find('.ui--signer-Signer')).toHaveLength(1);
+      })
+      .catch((error) => console.log('error', error));
+  });
+
+  it.skip('set the state of the component using async await', async () => {
+    try {
+      await wrapper.setState({ currentItem: fixtureCurrentItemState });
+
+      expect(wrapper.update().state('currentItem')).toEqual(fixtureCurrentItemState);
+      expect(wrapper.update().find('.ui--signer-Signer')).toHaveLength(1);
+    } catch (error) {
+      console.error(error);
+    }
   });
 });
