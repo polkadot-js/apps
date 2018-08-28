@@ -222,6 +222,7 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
         defaultValue: 'Existing password must not be empty'
       });
     } else {
+      newErrorProps.formError = '';
       newErrorProps.inputError.password = '';
     }
 
@@ -250,6 +251,7 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
         defaultValue: 'New password must not be empty'
       });
     } else {
+      newErrorProps.formError = '';
       newErrorProps.inputError.newPassword = '';
     }
 

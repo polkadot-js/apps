@@ -136,7 +136,12 @@ class ChangePasswordModal extends React.PureComponent<Props> {
   }
 
   renderButtons () {
-    const { handleChangeAccountPassword, onDiscard, t } = this.props;
+    const { error, handleChangeAccountPassword, onDiscard, password, newPassword, t } = this.props;
+
+    const { inputError } = error.props.props;
+
+    const emptyInputValues = !password || !newPassword;
+    const isInputError = !!inputError.password || !!inputError.newPassword;
 
     return (
       <Modal.Actions>
@@ -151,6 +156,7 @@ class ChangePasswordModal extends React.PureComponent<Props> {
           />
           <Button.Or />
           <Button
+            isDisabled={emptyInputValues || isInputError}
             isPrimary
             className='ui--Button-submit'
             onClick={handleChangeAccountPassword}
