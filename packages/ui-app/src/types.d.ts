@@ -22,6 +22,14 @@ export type BaseContext = {
   }
 };
 
+export type FormErrors = {
+  inputError: {
+    password: string,
+    newPassword: string
+  },
+  formError: string
+};
+
 export type I18nProps = BareProps & {
   t: TranslationFunction
 };
