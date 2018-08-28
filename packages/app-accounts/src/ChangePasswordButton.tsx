@@ -39,7 +39,7 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { address, error, error: { props: { props: { inputError } } }, password, newPassword } = this.state;
 
-    let newErrorProps: React.Props<Object> = error.props;
+    let newErrorProps = error.props;
     let newErrorComp: React.ReactNode = undefined;
 
     // prevent form submission if any input fields invalid
@@ -87,7 +87,7 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
 
       // TODO - remove since is duplicate
       const emptyErrorComp: React.ReactNode = (
-        <Error 
+        <Error
           props={
           {
             inputError: {
@@ -183,7 +183,7 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
     const { address } = this.props;
 
     const emptyErrorComp: React.ReactNode = (
-      <Error 
+      <Error
         props={
         {
           inputError: {
