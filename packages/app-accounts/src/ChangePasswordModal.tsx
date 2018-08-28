@@ -100,6 +100,7 @@ class ChangePasswordModal extends React.PureComponent<Props> {
           defaultValue: 'existing password to unlock your account'
         })}
         onChange={onChangePassword}
+        onKeyDown={this.onKeyDown}
         password={password}
         tabIndex='1'
         value={keyringAddress.publicKey()}
@@ -126,6 +127,7 @@ class ChangePasswordModal extends React.PureComponent<Props> {
           defaultValue: 'new password for your account'
         })}
         onChange={onChangeNewPassword}
+        onKeyDown={this.onKeyDown}
         password={newPassword}
         tabIndex='2'
         value={keyringAddress.publicKey()}
@@ -160,6 +162,13 @@ class ChangePasswordModal extends React.PureComponent<Props> {
         </Button.Group>
       </Modal.Actions>
     );
+  }
+
+  onKeyDown = (event: any): void => {
+    const isSpacebar = event.keyCode === 32;
+    if (isSpacebar) {
+      event.preventDefault();
+    }
   }
 }
 

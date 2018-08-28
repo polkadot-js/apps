@@ -30,6 +30,7 @@ type Props = BareProps & {
   min?: any,
   name?: string,
   onChange: (value: string) => void,
+  onKeyDown?: (event: SUIEvent) => void,
   placeholder?: string,
   tabIndex?: number | string,
   type?: Input$Type,
@@ -80,6 +81,7 @@ export default class Input extends React.PureComponent<Props, State> {
           min={min}
           name={name || this.state.name}
           onChange={this.onChange}
+          onKeyDown={this.onKeyDown}
           placeholder={placeholder}
           tabIndex={tabIndex}
           type={type}
@@ -103,5 +105,12 @@ export default class Input extends React.PureComponent<Props, State> {
 
   onChange = (event: React.SyntheticEvent<Element>, { value }: SUIEvent): void => {
     this.props.onChange(value);
+  }
+
+  onKeyDown = (event: SUIEvent): void => {
+    const { onKeyDown } = this.props;
+    if (onKeyDown) {
+      onKeyDown(event);
+    }
   }
 }

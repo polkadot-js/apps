@@ -22,14 +22,10 @@ export type BaseContext = {
   }
 };
 
-// export type FormError = React.ReactNode; 
-// {
-//   inputError: {
-//     [index: string]: string
-//   },
-//   formError: string
-// };
-
 export type I18nProps = BareProps & {
   t: TranslationFunction
+};
+
+export type SUIEvent = {
+  value: any
 };

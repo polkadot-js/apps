@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps, SUIEvent } from '@polkadot/ui-app/types';
 import { KeyringPair } from '@polkadot/util-keyring/types';
 
 import React from 'react';
@@ -17,6 +17,7 @@ type Props = I18nProps & {
   error?: React.ReactNode,
   label?: string,
   onChange: (password: string) => void,
+  onKeyDown?: (event: SUIEvent) => void,
   password: string,
   tabIndex?: number | string,
   value?: Uint8Array | null
@@ -45,7 +46,7 @@ class Unlock extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { autoFocus, label, onChange, password, t, tabIndex } = this.props;
+    const { autoFocus, label, onChange, onKeyDown, password, t, tabIndex } = this.props;
     const { error, isError, isLocked, pair } = this.state;
 
     if (pair && !isLocked) {
@@ -64,6 +65,7 @@ class Unlock extends React.PureComponent<Props, State> {
               defaultValue: 'unlock account using'
             })}
             onChange={onChange}
+            onKeyDown={onKeyDown}
             tabIndex={tabIndex}
             value={password}
           />
