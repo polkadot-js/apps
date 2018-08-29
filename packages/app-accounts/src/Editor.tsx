@@ -71,6 +71,7 @@ class Editor extends React.PureComponent<Props, State> {
             defaultValue: 'Reset'
           })}
         />
+        <Button.Or />
         <Button
           isDisabled={!isEdited}
           isPrimary
