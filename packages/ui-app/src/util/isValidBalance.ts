@@ -4,6 +4,9 @@
 
 import BN from 'bn.js';
 import { TranslationFunction } from 'i18next';
+
+import isString from '@polkadot/util/is/string';
+
 import { maxValue } from '../util/chainSpec';
 import { BIT_LENGTH_128 } from '../constants';
 import { IsValidWithMessage } from './types';
@@ -36,7 +39,7 @@ export default function isValidBalance (input: any, t: TranslationFunction, bitL
   }
 
   // always a string from <input type='number'> but leave as failsafe
-  if (!(typeof input === 'string')) {
+  if (!isString(input)) {
     throw Error(t('balance.error.string.required', {
       defaultValue: 'Balance input value must be valid type'
     }));

@@ -35,23 +35,30 @@ export const expectedIsValidResponse = (
   let response: IsValidWithMessage = {
     isValid
   };
+
   if (errorMessage) {
     response.errorMessage = errorMessage;
   }
+
   if (errorMessageUntranslated) {
     response.errorMessageUntranslated = errorMessageUntranslated;
   }
+
   if (warningMessage) {
     response.warnMessage = warningMessage;
   }
+
   if (warningMessageUntranslated) {
     response.warnMessageUntranslated = warningMessageUntranslated;
   }
+
   if (infoMessage) {
     response.infoMessage = infoMessage;
   }
+
   if (num) {
     response.num = num;
   }
+
   return response;
 };

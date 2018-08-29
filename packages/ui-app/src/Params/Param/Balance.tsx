@@ -63,7 +63,7 @@ class Balance extends React.PureComponent<Props, State> {
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
           placeholder={t('account.balance.placeholder', {
-            defaultValue: 'Between 1 DOT and the available DOT balance of the account'
+            defaultValue: 'Between 0 DOT and the available DOT balance of the account'
           })}
           withLabel={withLabel}
           warn={warn}

@@ -75,6 +75,10 @@ class Extrinsic extends React.PureComponent<Props, State> {
   }
 
   nextState (newState: State): void {
+    const isValidLength = (values: Array<RawParam>, index: number) => {
+      return (values[index].type === 'Balance' ? checkValueBitLength(values[index].value as BN) : true);
+    };
+
     this.setState(newState, () => {
       const { apiSupport, onChange } = this.props;
       const { extrinsic, values } = this.state;
@@ -84,7 +88,7 @@ class Extrinsic extends React.PureComponent<Props, State> {
           isValid &&
           !isUndefined(values[index]) &&
           !isUndefined(values[index].value) &&
-          (values[index].type === 'Balance' ? checkValueBitLength(values[index].value as BN) : true) &&
+          isValidLength(values, index) &&
           values[index].isValid, true);
 
       const value = isValid && extrinsic.params

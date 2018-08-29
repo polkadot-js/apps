@@ -27,8 +27,8 @@ type Props = BareProps & {
   isHidden?: boolean,
   label?: any, // node?
   max?: any,
-  min?: any,
   maxLength?: number,
+  min?: any,
   name?: string,
   onChange: (value: string) => void,
   onKeyDown?: (event: SUIEvent) => void,
@@ -52,7 +52,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { children, className, defaultValue, error, icon, info, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, maxLength, name, placeholder, style, type = 'text', value, warn, withLabel } = this.props;
+    const { children, className, defaultValue, error, icon, info, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, maxLength, min, name, placeholder, style, type = 'text', value, warn, withLabel } = this.props;
 
     return (
       <Labelled
