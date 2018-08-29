@@ -10,18 +10,19 @@ import Dropzone from 'react-dropzone';
 
 import classes from '../../util/classes';
 import translate from '../../translate';
+
 import Base from './Base';
 
 type Props = BareProps & {
+  acceptedFormats?: string,
   isDisabled?: boolean,
   isError?: boolean,
   label: string,
   onChange?: (contents: Uint8Array) => void,
   placeholder?: string,
-  t: TranslationFunction,
-  withLabel?: boolean,
-  acceptedFormats?: string,
   shouldDisplayFile?: boolean
+  t: TranslationFunction,
+  withLabel?: boolean
 };
 
 type State = {
@@ -41,7 +42,7 @@ class BytesFile extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { className, isDisabled, isError = false, label, placeholder, t, withLabel, acceptedFormats, shouldDisplayFile } = this.props;
+    const { acceptedFormats, className, isDisabled, isError = false, label, placeholder, shouldDisplayFile, t, withLabel } = this.props;
     const { file } = this.state;
 
     return (
@@ -51,10 +52,10 @@ class BytesFile extends React.PureComponent<Props, State> {
         withLabel={withLabel}
       >
         <Dropzone
+          accept={acceptedFormats}
           className={classes('ui--Param-File', isError ? 'error' : '', className)}
           disabled={isDisabled}
           multiple={false}
-          accept={acceptedFormats}
           onDrop={this.onDrop}
         >
           <div className='label'>

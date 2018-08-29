@@ -6,7 +6,7 @@ import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 
 import React from 'react';
-import { Trans } from 'react-i18next';
+
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
 import classes from '@polkadot/ui-app/util/classes';
@@ -30,7 +30,7 @@ type Props = I18nProps & BareProps & {
 
 class UploadModal extends React.PureComponent<Props> {
   render () {
-    const { address, className, hidePasswordModal, isPasswordModalOpen, style } = this.props;
+    const { address, className, hidePasswordModal, isPasswordModalOpen, style, t } = this.props;
 
     return (
       <Modal
@@ -46,9 +46,9 @@ class UploadModal extends React.PureComponent<Props> {
             <div className='accounts--Address-modal'>
               <div className='accounts--Address-modal-message expanded'>
                 <p>
-                  <Trans i18nKey='unlock.info'>
-                    Please enter your account password to upload and restore it encrypted.
-                  </Trans>
+                  {t('upload.unlock.info', {
+                    defaultValue: 'Please enter your account password to upload and restore it encrypted.'
+                  })}
                 </p>
               </div>
               {this.renderContent()}
@@ -75,7 +75,7 @@ class UploadModal extends React.PureComponent<Props> {
         error={error}
         onChange={onChangePassword}
         password={password}
-        tabIndex='1'
+        tabIndex={1}
         value={keyringAddress.publicKey()}
       />
     );
@@ -90,7 +90,7 @@ class UploadModal extends React.PureComponent<Props> {
           <Button
             isNegative
             onClick={onDiscard}
-            tabIndex='3'
+            tabIndex={3}
             text={t('creator.discard', {
               defaultValue: 'Cancel'
             })}
@@ -99,7 +99,7 @@ class UploadModal extends React.PureComponent<Props> {
           <Button
             isPrimary
             onClick={processUploadedFileStorage}
-            tabIndex='2'
+            tabIndex={2}
             text={t('creator.submit', {
               defaultValue: 'Submit'
             })}

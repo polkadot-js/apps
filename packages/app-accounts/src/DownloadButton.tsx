@@ -8,6 +8,7 @@ import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 
 import React from 'react';
 import FileSaver from 'file-saver';
+
 import keyring from '@polkadot/ui-keyring/index';
 import isUndefined from '@polkadot/util/is/undefined';
 import Button from '@polkadot/ui-app/Button';
@@ -27,7 +28,7 @@ type Props = I18nProps & BareProps & {
   isCircular?: boolean,
   isPrimary?: boolean,
   size?: Button$Sizes,
-  address: string
+  address: string | undefined
 };
 
 class DownloadButton extends React.PureComponent<Props, State> {
@@ -40,6 +41,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
   }
 
   handleDownloadAccount = (): void => {
+    const { t } = this.props;
     const { address, password } = this.state;
 
     if (!address) {
@@ -57,23 +59,31 @@ class DownloadButton extends React.PureComponent<Props, State> {
         this.hidePasswordModal();
       } else {
         this.setState({
-          error: 'Unable to obtain account from memory'
+          error: t('download.error.memory', {
+            defaultValue: 'Unable to obtain account from memory'
+          })
         });
       }
     } catch (e) {
       this.setState({
-        error: 'Unable to save file'
+        error: t('download.error.file', {
+          defaultValue: 'Unable to save file'
+        })
       });
       console.error('Error retrieving account from local storage and saving account to file: ', e);
     }
   }
 
   showPasswordModal = (): void => {
-    const { address } = this.props;
+    const { address } = this.state;
+
+    if (!address) {
+      return;
+    }
 
     this.setState({
       isPasswordModalOpen: true,
-      address: address,
+      address,
       password: ''
     });
   }
@@ -83,7 +93,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { address, error, password, isPasswordModalOpen } = this.state;
+    const { address, error, isPasswordModalOpen, password } = this.state;
     const { className, icon = 'download', isCircular = true, isPrimary = true, size = 'tiny', style } = this.props;
 
     if (!address) {
@@ -99,7 +109,6 @@ class DownloadButton extends React.PureComponent<Props, State> {
           handleDownloadAccount={this.handleDownloadAccount}
           hidePasswordModal={this.hidePasswordModal}
           isPasswordModalOpen={isPasswordModalOpen}
-          key='accounts-download-signer-modal'
           onChangePassword={this.onChangePassword}
           onDiscard={this.onDiscard}
           password={password}
@@ -122,7 +131,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
     const { address } = this.props;
 
     return {
-      address: address,
+      address: address ? address : '',
       password: '',
       isPasswordModalOpen: false,
       error: undefined

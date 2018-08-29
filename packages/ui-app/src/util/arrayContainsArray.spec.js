@@ -35,6 +35,7 @@ describe('arrayContainsArray', () => {
 
     expect(actualOutput).toEqual(expectedOutput);
   });
+
   it('will return false if superset has all items in the subset but one is misspelt', () => {
     const expectedJsonProperties = ['address', 'misspelt', 'meta'];
     const actualJsonProperties = Object.keys(dummyJson);

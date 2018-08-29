@@ -7,6 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
+import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
@@ -14,9 +15,8 @@ import keyring from '@polkadot/ui-keyring/index';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
-import UploadButton from './UploadButton';
 import DownloadButton from './DownloadButton';
+import UploadButton from './UploadButton';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -111,9 +111,9 @@ class Editor extends React.PureComponent<Props, State> {
         <div className='accounts--flex-container-col-summary'>
           <div className='accounts--flex-item'>
             <AddressSummary
-              buttonChildren={<DownloadButton address={address || ''} />}
+              buttonChildren={<DownloadButton address={address} />}
               className='shrink'
-              value={address || ''}
+              value={address}
             />
           </div>
 

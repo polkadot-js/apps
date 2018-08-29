@@ -36,7 +36,7 @@ export default class Password extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { children, autoFocus, className, defaultValue, error, isDisabled, isError, label, name, onChange, style, tabIndex, value, withLabel } = this.props;
+    const { autoFocus, children, className, defaultValue, error, isDisabled, isError, label, name, onChange, style, tabIndex, value, withLabel } = this.props;
     const { isVisible } = this.state;
 
     return (
@@ -69,7 +69,6 @@ export default class Password extends React.PureComponent<Props, State> {
           }
           isPrimary
           onClick={this.onToggleVisible}
-          tabIndex='-1'
         />
         {children}
       </Input>

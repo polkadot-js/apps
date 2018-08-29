@@ -5,7 +5,7 @@
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Trans } from 'react-i18next';
+
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
@@ -30,7 +30,7 @@ type Props = I18nProps & BareProps & {
 
 class DownloadModal extends React.PureComponent<Props> {
   render () {
-    const { address, className, hidePasswordModal, isPasswordModalOpen, style } = this.props;
+    const { address, className, hidePasswordModal, isPasswordModalOpen, style, t } = this.props;
 
     return (
       <Modal
@@ -57,9 +57,9 @@ class DownloadModal extends React.PureComponent<Props> {
               />
               <div className='accounts--Address-modal-message expanded'>
                 <p>
-                  <Trans i18nKey='unlock.info'>
-                    Please enter your account password to unlock and download a decrypted backup.
-                  </Trans>
+                  {t('download.unlock.info', {
+                    defaultValue: 'Please enter your account password to unlock and download a decrypted backup.'
+                  })}
                 </p>
               </div>
               {this.renderContent()}
@@ -87,7 +87,7 @@ class DownloadModal extends React.PureComponent<Props> {
         onChange={onChangePassword}
         password={password}
         value={keyringAddress.publicKey()}
-        tabIndex='1'
+        tabIndex={1}
       />
     );
   }
@@ -101,7 +101,7 @@ class DownloadModal extends React.PureComponent<Props> {
           <Button
             isNegative
             onClick={onDiscard}
-            tabIndex='3'
+            tabIndex={3}
             text={t('creator.discard', {
               defaultValue: 'Cancel'
             })}
@@ -111,7 +111,7 @@ class DownloadModal extends React.PureComponent<Props> {
             isPrimary
             className='ui--Button-submit'
             onClick={handleDownloadAccount}
-            tabIndex='2'
+            tabIndex={2}
             text={t('creator.submit', {
               defaultValue: 'Submit'
             })}

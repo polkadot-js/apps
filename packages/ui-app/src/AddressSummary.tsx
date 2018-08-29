@@ -23,7 +23,7 @@ export type Props = I18nProps & {
   buttonChildren?: React.ReactNode,
   children?: React.ReactNode,
   name?: string,
-  value: string,
+  value: string | undefined,
   withBalance?: boolean,
   withNonce?: boolean
 };
@@ -42,12 +42,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
   static getDerivedStateFromProps ({ value }: Props, { address, publicKey, shortValue }: State): State {
-    try {
-      publicKey = addressDecode(value);
-      address = addressEncode(publicKey);
-      shortValue = toShortAddress(address);
-    } catch (error) {
+    if (!value) {
       publicKey = null;
+    } else {
+      try {
+        publicKey = addressDecode(value);
+        address = addressEncode(publicKey);
+        shortValue = toShortAddress(address);
+      } catch (error) {
+        publicKey = null;
+      }
     }
 
     const isValid = !!publicKey && publicKey.length === 32;
