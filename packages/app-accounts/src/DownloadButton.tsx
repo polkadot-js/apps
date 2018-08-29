@@ -40,6 +40,12 @@ class DownloadButton extends React.PureComponent<Props, State> {
     this.state = this.emptyState();
   }
 
+  static getDerivedStateFromProps ({ address }: Props, prevState: State): State {
+    return {
+      address: address
+    } as State;
+  }
+
   handleDownloadAccount = (): void => {
     const { t } = this.props;
     const { address, password } = this.state;

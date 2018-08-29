@@ -12,6 +12,9 @@ import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
 
+let pair: KeyringPair | undefined = undefined;
+let isLocked: boolean | undefined = undefined;
+
 type Props = I18nProps & {
   autoFocus?: boolean,
   error?: React.ReactNode,
@@ -24,20 +27,24 @@ type Props = I18nProps & {
 type State = {
   isError: boolean,
   error?: React.ReactNode,
-  isLocked: boolean,
-  pair: KeyringPair
+  isLocked: boolean | undefined,
+  pair: KeyringPair | undefined
 };
 
 class Unlock extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
   static getDerivedStateFromProps ({ error, value }: Props): State {
-    const pair = keyring.getPair(value as Uint8Array);
-    const isLocked = pair.isLocked();
+    try {
+      pair = keyring.getPair(value as Uint8Array);
+      isLocked = pair.isLocked();
+    } catch (error) {
+      console.error('Unable to retrieve keypair', error);
+    }
 
     return {
       isError: !!error,
-      error: error,
+      error,
       isLocked,
       pair
     };
