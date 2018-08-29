@@ -12,13 +12,14 @@ import Button from '@polkadot/ui-app/Button';
 
 import Creator from './Creator';
 import Editor from './Editor';
+import Restorer from './Restorer';
 import translate from './translate';
 
 type Props = I18nProps & {
   basePath: string
 };
 
-type Actions = 'create' | 'edit';
+type Actions = 'create' | 'edit' | 'restore';
 
 type State = {
   action: Actions
@@ -27,7 +28,8 @@ type State = {
 // FIXME React-router would probably be the best route, not home-grown
 const Components: { [index: string]: React.ComponentType<any> } = {
   'create': Creator,
-  'edit': Editor
+  'edit': Editor,
+  'restore': Restorer
 };
 
 class AccountsApp extends React.PureComponent<Props, State> {
@@ -57,6 +59,14 @@ class AccountsApp extends React.PureComponent<Props, State> {
                 defaultValue: 'Create account'
               })}
             />
+            <Button.Or />
+            <Button
+              isPrimary={action === 'restore'}
+              onClick={this.selectRestore}
+              text={t('app.restore', {
+                defaultValue: 'Restore account'
+              })}
+            />
           </Button.Group>
         </header>
         <Component onBack={this.selectEdit} />
@@ -70,6 +80,10 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
   selectEdit = (): void => {
     this.setState({ action: 'edit' });
+  }
+
+  selectRestore = (): void => {
+    this.setState({ action: 'restore' });
   }
 }
 
