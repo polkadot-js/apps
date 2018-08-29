@@ -93,7 +93,7 @@
 .ui.disabled.active.button,
 .ui.disabled.button,
 .ui.disabled.button:hover {
-  opacity: 0.4 !important;
+  opacity: 0.1 !important;
 }
 
 .ui.primary.button,
