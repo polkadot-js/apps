@@ -1,1 +1,26 @@
 $small-corner: .28571429rem;
+
+$green: #77c689;
+$orange: #f6a46e;
+$red: #e97f7f;
+
+$pewter-blue: #89acb4;
+$dark-sky-blue: #96bdc6;
+
+$silver-chalice: #a1b1b5;
+$cadet-grey: #98aaae;
+
+$wild-orchid: #d75ea1;
+$middle-purple: #e189ba;
+
+$light-slate-gray: #718d94;
+
+$button-primary-color: $dark-sky-blue;
+$button-primary-color-hover: $pewter-blue;
+$button-color: $silver-chalice;
+$button-color-hover: $cadet-grey;
+$button-negative-color: $wild-orchid;
+$button-negative-color-hover: $middle-purple;
+$anchor-color: $light-slate-gray;
+$anchor-color-hover: $cadet-grey;
+$progress-bar-color: $dark-sky-blue;
