@@ -12,8 +12,6 @@ import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring/index';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
 import DownloadButton from './DownloadButton';
 import UploadButton from './UploadButton';
@@ -248,6 +246,4 @@ export {
   Editor
 };
 
-export default withObservableBase(
-  accountObservable.subject, { propName: 'accountAll' }
-)(translate(Editor));
+export default translate(Editor);

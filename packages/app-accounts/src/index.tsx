@@ -2,13 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { KeyringPair } from '@polkadot/util-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import './index.css';
 
 import React from 'react';
 
+import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import Button from '@polkadot/ui-app/Button';
+import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
 import Creator from './Creator';
 import Editor from './Editor';
@@ -16,13 +19,15 @@ import Restorer from './Restorer';
 import translate from './translate';
 
 type Props = I18nProps & {
+  accountAll?: Array<any>,
   basePath: string
 };
 
 type Actions = 'create' | 'edit' | 'restore';
 
 type State = {
-  action: Actions
+  action: Actions,
+  current: KeyringPair | null
 };
 
 // FIXME React-router would probably be the best route, not home-grown
@@ -33,12 +38,20 @@ const Components: { [index: string]: React.ComponentType<any> } = {
 };
 
 class AccountsApp extends React.PureComponent<Props, State> {
-  state: State = { action: 'edit' };
+  state: State;
+
+  constructor (props: Props) {
+    super(props);
+
+    this.state = this.createState(null);
+  }
 
   render () {
-    const { t } = this.props;
-    const { action } = this.state;
+    const { accountAll, t } = this.props;
+    const { action, current } = this.state;
     const Component = Components[action];
+
+    console.log('index.tsx current.address(), accountAll: ', current && current.address(), accountAll);
 
     return (
       <main className='accounts--App'>
@@ -69,7 +82,11 @@ class AccountsApp extends React.PureComponent<Props, State> {
             />
           </Button.Group>
         </header>
-        <Component onBack={this.selectEdit} />
+        <Component
+          accountAll={accountAll}
+          current={current}
+          onBack={this.selectEdit}
+        />
       </main>
     );
   }
@@ -85,6 +102,15 @@ class AccountsApp extends React.PureComponent<Props, State> {
   selectRestore = (): void => {
     this.setState({ action: 'restore' });
   }
+
+  createState (current: KeyringPair | null): State {
+    return {
+      action: 'edit',
+      current
+    };
+  }
 }
 
-export default translate(AccountsApp);
+export default withObservableBase(
+  accountObservable.subject, { propName: 'accountAll' }
+)(translate(AccountsApp));

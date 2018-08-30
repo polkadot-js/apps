@@ -6,9 +6,6 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
-
 import UploadButton from './UploadButton';
 import translate from './translate';
 
@@ -63,6 +60,4 @@ export {
   Restorer
 };
 
-export default withObservableBase(
-  accountObservable.subject, { propName: 'accountAll' }
-)(translate(Restorer));
+export default translate(Restorer);
