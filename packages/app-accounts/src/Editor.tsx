@@ -14,16 +14,16 @@ import InputAddress from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring/index';
 
 import DownloadButton from './DownloadButton';
-import UploadButton from './UploadButton';
 import translate from './translate';
 
 type Props = I18nProps & {
-  accountAll?: Array<any>,
-  onBack: () => void
+  current: KeyringPair | null,
+  onChangeAccount: () => void,
+  onForget: () => void,
+  previous: KeyringPair | null
 };
 
 type State = {
-  current: KeyringPair | null,
   editedName: string,
   isEdited: boolean
 };
@@ -34,7 +34,7 @@ class Editor extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    this.state = this.createState(null);
+    this.state = this.createState();
   }
 
   render () {
@@ -47,8 +47,8 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   renderButtons () {
-    const { t } = this.props;
-    const { current, isEdited } = this.state;
+    const { current, onForget, t } = this.props;
+    const { isEdited } = this.state;
 
     if (!current) {
       return null;
@@ -58,7 +58,7 @@ class Editor extends React.PureComponent<Props, State> {
       <Button.Group>
         <Button
           isNegative
-          onClick={this.onForget}
+          onClick={onForget}
           text={t('editor.forget', {
             defaultValue: 'Forget'
           })}
@@ -84,25 +84,10 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   renderData () {
-    const { accountAll, t } = this.props;
-    const { current, editedName } = this.state;
+    const { current, onChangeAccount, t } = this.props;
+    const { editedName } = this.state;
 
-    if (!accountAll || !Object.keys(accountAll).length) {
-      return (
-        <div>
-          <div>{t('editor.none', { defaultValue: 'There are no saved accounts. Create an account or upload a JSON file of a saved account.' })}</div>
-          <div className='accounts--Address-wrapper'>
-            <div className='accounts--Address-file'>
-              <UploadButton onChangeAccount={this.onChangeAccount} />
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    const address = current
-      ? current.address()
-      : undefined;
+    const address = current ? current.address() : undefined;
 
     return (
       <div className='accounts--flex-group-row'>
@@ -114,8 +99,6 @@ class Editor extends React.PureComponent<Props, State> {
               value={address}
             />
           </div>
-
-          <UploadButton onChangeAccount={this.onChangeAccount} />
         </div>
         <div className='accounts--flex-container-col-inputs'>
           <div className='accounts--flex-item'>
@@ -126,7 +109,7 @@ class Editor extends React.PureComponent<Props, State> {
               label={t('editor.select', {
                 defaultValue: 'using my account'
               })}
-              onChange={this.onChangeAccount}
+              onChange={onChangeAccount}
               type='account'
               value={address}
             />
@@ -147,9 +130,10 @@ class Editor extends React.PureComponent<Props, State> {
     );
   }
 
-  createState (current: KeyringPair | null): State {
+  createState (): State {
+    const { current } = this.props;
+
     return {
-      current,
       editedName: current
         ? current.getMeta().name || ''
         : '',
@@ -158,14 +142,16 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   nextState (newState: State = {} as State): void {
+    const { current, previous } = this.props;
+
     this.setState(
       (prevState: State): State => {
-        let { current = prevState.current, editedName = prevState.editedName } = newState;
-        const previous = prevState.current || { address: () => undefined };
+        let { editedName = prevState.editedName } = newState;
+        const previousPair = previous || { address: () => undefined };
         let isEdited = false;
 
         if (current) {
-          if (current.address() !== previous.address()) {
+          if (current.address() !== previousPair.address()) {
             editedName = current.getMeta().name || '';
           } else if (editedName !== current.getMeta().name) {
             isEdited = true;
@@ -175,7 +161,6 @@ class Editor extends React.PureComponent<Props, State> {
         }
 
         return {
-          current,
           editedName,
           isEdited
         };
@@ -183,22 +168,13 @@ class Editor extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeAccount = (publicKey: Uint8Array): void => {
-    const current = publicKey && publicKey.length === 32
-      ? keyring.getPair(publicKey)
-      : null;
-
-    this.nextState({
-      current
-    } as State);
-  }
-
   onChangeName = (editedName: string): void => {
     this.nextState({ editedName } as State);
   }
 
   onCommit = (): void => {
-    const { current, editedName } = this.state;
+    const { current } = this.props;
+    const { editedName } = this.state;
 
     if (!current) {
       return;
@@ -213,7 +189,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onDiscard = (): void => {
-    const { current } = this.state;
+    const { current } = this.props;
 
     if (!current) {
       return;
@@ -222,23 +198,6 @@ class Editor extends React.PureComponent<Props, State> {
     this.nextState({
       editedName: current.getMeta().name
     } as State);
-  }
-
-  onForget = (): void => {
-    const { current } = this.state;
-
-    if (!current) {
-      return;
-    }
-
-    this.setState(
-      this.createState(null),
-      () => {
-        keyring.forgetAccount(
-          current.address()
-        );
-      }
-    );
   }
 }
 

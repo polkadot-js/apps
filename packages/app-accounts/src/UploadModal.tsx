@@ -14,6 +14,7 @@ import keyring from '@polkadot/ui-keyring/index';
 import Unlock from '@polkadot/ui-signer/Unlock';
 import isUndefined from '@polkadot/util/is/undefined';
 
+import inputSubmitWithEnter from './util/inputSubmitWithEnter';
 import translate from './translate';
 
 type Props = I18nProps & BareProps & {
@@ -29,6 +30,14 @@ type Props = I18nProps & BareProps & {
 };
 
 class UploadModal extends React.PureComponent<Props> {
+  private submitButtonDiv: React.RefObject<HTMLDivElement>;
+
+  constructor (props: Props) {
+    super(props);
+
+    this.submitButtonDiv = React.createRef();
+  }
+
   render () {
     const { address, className, hidePasswordModal, isPasswordModalOpen, style, t } = this.props;
 
@@ -74,6 +83,7 @@ class UploadModal extends React.PureComponent<Props> {
         autoFocus
         error={error}
         onChange={onChangePassword}
+        onKeyDown={this.onKeyDown}
         password={password}
         tabIndex={1}
         value={keyringAddress.publicKey()}
@@ -96,17 +106,24 @@ class UploadModal extends React.PureComponent<Props> {
             })}
           />
           <Button.Or />
-          <Button
-            isPrimary
-            onClick={processUploadedFileStorage}
-            tabIndex={2}
-            text={t('creator.submit', {
-              defaultValue: 'Submit'
-            })}
-          />
+          <div ref={this.submitButtonDiv}>
+            <Button
+              className='ui--accounts-Submit'
+              isPrimary
+              onClick={processUploadedFileStorage}
+              tabIndex={2}
+              text={t('creator.submit', {
+                defaultValue: 'Submit'
+              })}
+            />
+          </div>
         </Button.Group>
       </Modal.Actions>
     );
+  }
+
+  onKeyDown = (event: any): void => {
+    inputSubmitWithEnter(event, this.submitButtonDiv.current);
   }
 }
 

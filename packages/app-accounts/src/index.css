@@ -6,7 +6,8 @@
   padding: 1em 2em;
 }
 
-.accounts--Address-wrapper {
+.accounts--Address-wrapper,
+.accounts--Restorer-wrapper {
   text-align: center;
   padding-top: 1.5em;
 }

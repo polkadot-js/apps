@@ -12,10 +12,6 @@ export type BareProps = {
   }
 };
 
-export type I18nProps = BareProps & {
-  t: TranslationFunction
-};
-
 export type BaseContext = {
   api: RxApiInterface,
   // TODO: Set the correct type
@@ -24,6 +20,14 @@ export type BaseContext = {
       location: Location
     }
   }
+};
+
+export type I18nProps = BareProps & {
+  t: TranslationFunction
+};
+
+export type SUIEvent = {
+  value: any
 };
 
 export type UnlockI18n = {

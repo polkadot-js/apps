@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { BareProps } from './types';
+import { BareProps, SUIEvent } from './types';
 
 import React from 'react';
 import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
@@ -30,15 +30,12 @@ type Props = BareProps & {
   min?: any,
   name?: string,
   onChange: (value: string) => void,
+  onKeyDown?: (event: SUIEvent) => void,
   placeholder?: string,
   tabIndex?: number | string,
   type?: Input$Type,
   value?: any,
   withLabel?: boolean
-};
-
-type SUIEvent = {
-  value: any
 };
 
 type State = {
@@ -80,6 +77,7 @@ export default class Input extends React.PureComponent<Props, State> {
           min={min}
           name={name || this.state.name}
           onChange={this.onChange}
+          onKeyDown={this.onKeyDown}
           placeholder={placeholder}
           tabIndex={tabIndex}
           type={type}
@@ -103,5 +101,13 @@ export default class Input extends React.PureComponent<Props, State> {
 
   onChange = (event: React.SyntheticEvent<Element>, { value }: SUIEvent): void => {
     this.props.onChange(value);
+  }
+
+  onKeyDown = (event: SUIEvent): void => {
+    const { onKeyDown } = this.props;
+
+    if (onKeyDown) {
+      onKeyDown(event);
+    }
   }
 }

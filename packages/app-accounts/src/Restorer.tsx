@@ -6,19 +6,16 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
+import { accountsQty, showIsOrAre, showPlural } from './util/accounts';
 import UploadButton from './UploadButton';
 import translate from './translate';
 
 type Props = I18nProps & {
   accountAll?: Array<any>,
-  onBack: () => void
+  onChangeAccount: () => void
 };
 
 class Restorer extends React.PureComponent<Props> {
-  constructor (props: Props) {
-    super(props);
-  }
-
   render () {
     return (
       <div className='accounts--Restorer'>
@@ -27,32 +24,23 @@ class Restorer extends React.PureComponent<Props> {
     );
   }
 
-  renderData () {
-    const { accountAll, t } = this.props;
-
-    const isNoAccounts = !accountAll || !Object.keys(accountAll).length;
-    let accountsQty = !isNoAccounts && accountAll ? Object.keys(accountAll).length : 0;
+  private renderData () {
+    const { accountAll, onChangeAccount, t } = this.props;
 
     return (
       <div>
-        <div>
+        <div className='accounts--Restorer-message'>
           {t('restorer.existing', {
-            defaultValue: `There are ${accountsQty} saved accounts. Create an account or upload a JSON file of a saved account.`
+            defaultValue: `There ${showIsOrAre(accountAll)} ${accountsQty(accountAll)} saved account${showPlural(accountAll)}. Create an account or upload a JSON file of a saved account.`
           })}
         </div>
         <div className='accounts--Address-wrapper'>
           <div className='accounts--Address-file'>
-            <UploadButton onChangeAccount={this.onChangeAccount} />
+            <UploadButton onChangeAccount={onChangeAccount} />
           </div>
         </div>
       </div>
     );
-  }
-
-  onChangeAccount = (publicKey: Uint8Array): void => {
-    const { onBack } = this.props;
-
-    onBack();
   }
 }
 

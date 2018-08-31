@@ -23,7 +23,7 @@ import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';
 
 type Props = I18nProps & {
-  onBack: () => void
+  onCreateAccount: (publicKey: Uint8Array) => void
 };
 
 type State = {
@@ -206,7 +206,7 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   onCommit = (): void => {
-    const { onBack } = this.props;
+    const { onCreateAccount } = this.props;
     const { name, password, seed } = this.state;
     const pair = keyring.createAccount(
       formatSeed(seed), password, { name }
@@ -219,7 +219,7 @@ class Creator extends React.PureComponent<Props, State> {
     // add encrypted data to keyring since immediately after account creation only secret key is in memory
     keyring.loadAccount(json);
 
-    onBack();
+    onCreateAccount(pair.publicKey());
   }
 
   onDiscard = (): void => {
