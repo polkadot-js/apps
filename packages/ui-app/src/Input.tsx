@@ -32,7 +32,7 @@ type Props = BareProps & {
   onChange: (value: string) => void,
   onKeyDown?: (event: SUIEvent) => void,
   placeholder?: string,
-  tabIndex?: number | string,
+  tabIndex?: number,
   type?: Input$Type,
   value?: any,
   withLabel?: boolean

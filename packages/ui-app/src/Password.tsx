@@ -22,7 +22,7 @@ type Props = BareProps & {
   name?: string,
   onChange: (value: string) => void,
   onKeyDown?: (event: SUIEvent) => void,
-  tabIndex?: number | string,
+  tabIndex?: number,
   value: any,
   withLabel?: boolean
 };

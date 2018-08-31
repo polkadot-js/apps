@@ -21,7 +21,7 @@ type Props = I18nProps & {
   onChange: (password: string) => void,
   onKeyDown?: (event: SUIEvent) => void,
   password: string,
-  tabIndex?: number | string,
+  tabIndex?: number,
   value?: Uint8Array | null
 };
 

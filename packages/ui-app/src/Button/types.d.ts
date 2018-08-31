@@ -18,7 +18,7 @@ export type ButtonProps = BareProps & {
   isPrimary?: boolean,
   onClick?: () => void | Promise<void>,
   size?: Button$Sizes,
-  tabIndex?: string | number,
+  tabIndex?: number,
   text?: any
 };
 
