@@ -78,7 +78,7 @@ class Query extends React.PureComponent<Props, State> {
               <div className='ui--Param-text name'>{key.section}.{key.name}(</div>
               {inputs}
               <div className='ui--Param-text name'>):</div>
-              <div className='ui--Param-text'>{typeToString(key.type)}</div>
+              <div className='ui--Param-text'>{typeToString(key.type)} </div>
             </div>
           }
         >
