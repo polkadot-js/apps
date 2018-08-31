@@ -11,32 +11,23 @@ import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
-import keyring from '@polkadot/ui-keyring/index';
 
 import DownloadButton from './DownloadButton';
 import translate from './translate';
 
 type Props = I18nProps & {
   current: KeyringPair | null,
+  editedName: string,
+  isEdited: boolean,
   onChangeAccount: () => void,
+  onChangeName: () => void,
+  onCommit: () => void,
+  onDiscard: () => void,
   onForget: () => void,
   previous: KeyringPair | null
 };
 
-type State = {
-  editedName: string,
-  isEdited: boolean
-};
-
-class Editor extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = this.createState();
-  }
-
+class Editor extends React.PureComponent<Props> {
   render () {
     return (
       <div className='accounts--Editor'>
@@ -47,8 +38,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   renderButtons () {
-    const { current, onForget, t } = this.props;
-    const { isEdited } = this.state;
+    const { current, isEdited, onCommit, onDiscard, onForget, t } = this.props;
 
     if (!current) {
       return null;
@@ -66,7 +56,7 @@ class Editor extends React.PureComponent<Props, State> {
         <Button.Group.Divider />
         <Button
           isDisabled={!isEdited}
-          onClick={this.onDiscard}
+          onClick={onDiscard}
           text={t('editor.reset', {
             defaultValue: 'Reset'
           })}
@@ -74,7 +64,7 @@ class Editor extends React.PureComponent<Props, State> {
         <Button
           isDisabled={!isEdited}
           isPrimary
-          onClick={this.onCommit}
+          onClick={onCommit}
           text={t('editor.save', {
             defaultValue: 'Save'
           })}
@@ -84,8 +74,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   renderData () {
-    const { current, onChangeAccount, t } = this.props;
-    const { editedName } = this.state;
+    const { current, editedName, onChangeAccount, onChangeName, t } = this.props;
 
     const address = current ? current.address() : undefined;
 
@@ -121,83 +110,13 @@ class Editor extends React.PureComponent<Props, State> {
               label={t('editor.name', {
                 defaultValue: 'identified by the name'
               })}
-              onChange={this.onChangeName}
+              onChange={onChangeName}
               value={editedName}
             />
           </div>
         </div>
       </div>
     );
-  }
-
-  createState (): State {
-    const { current } = this.props;
-
-    return {
-      editedName: current
-        ? current.getMeta().name || ''
-        : '',
-      isEdited: false
-    };
-  }
-
-  nextState (newState: State = {} as State): void {
-    const { current, previous } = this.props;
-
-    this.setState(
-      (prevState: State): State => {
-        let { editedName = prevState.editedName } = newState;
-        const previousPair = previous || { address: () => undefined };
-        let isEdited = false;
-
-        if (current) {
-          if (current.address() !== previousPair.address()) {
-            editedName = current.getMeta().name || '';
-          } else if (editedName !== current.getMeta().name) {
-            isEdited = true;
-          }
-        } else {
-          editedName = '';
-        }
-
-        return {
-          editedName,
-          isEdited
-        };
-      }
-    );
-  }
-
-  onChangeName = (editedName: string): void => {
-    this.nextState({ editedName } as State);
-  }
-
-  onCommit = (): void => {
-    const { current } = this.props;
-    const { editedName } = this.state;
-
-    if (!current) {
-      return;
-    }
-
-    keyring.saveAccountMeta(current, {
-      name: editedName,
-      whenEdited: Date.now()
-    });
-
-    this.nextState({} as State);
-  }
-
-  onDiscard = (): void => {
-    const { current } = this.props;
-
-    if (!current) {
-      return;
-    }
-
-    this.nextState({
-      editedName: current.getMeta().name
-    } as State);
   }
 }
 

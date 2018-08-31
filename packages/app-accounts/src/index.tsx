@@ -30,6 +30,8 @@ type Actions = 'create' | 'edit' | 'restore';
 type State = {
   action: Actions,
   current: KeyringPair | null,
+  editedName: string,
+  isEdited: boolean
   previous: KeyringPair | null
 };
 
@@ -60,13 +62,8 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
   render () {
     const { accountAll, t } = this.props;
-    const { action, current, previous } = this.state;
+    const { action, current, editedName, isEdited, previous } = this.state;
     const Component = Components[action];
-
-    console.log('current: ', current);
-    console.log('accountAll: ', accountAll);
-    console.log('isAccounts(accountAll): ', isAccounts(accountAll));
-    console.log('isNoAccounts(accountAll): ', isNoAccounts(accountAll));
 
     return (
       <main className='accounts--App'>
@@ -108,9 +105,14 @@ class AccountsApp extends React.PureComponent<Props, State> {
         <Component
           accountAll={accountAll}
           current={current}
+          editedName={editedName}
+          isEdited={isEdited}
           onChangeAccount={this.onChangeAccount}
-          onCreateAccount={this.onCreateAccount}
-          onForget={this.onForget}
+          onCreate={this.onCreatorCreate}
+          onChangeName={this.onEditorChangeName}
+          onCommit={this.onEditorCommit}
+          onDiscard={this.onEditorDiscard}
+          onForget={this.onEditorForget}
           previous={previous}
         />
       </main>
@@ -133,6 +135,8 @@ class AccountsApp extends React.PureComponent<Props, State> {
     return {
       action: 'edit',
       current,
+      editedName: current ? current.getMeta().name || '' : '',
+      isEdited: false,
       previous
     };
   }
@@ -149,7 +153,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
     this.selectEdit();
   }
 
-  onCreateAccount = (publicKey: Uint8Array): void => {
+  onCreatorCreate = (publicKey: Uint8Array): void => {
     const current = publicKey && publicKey.length === 32
       ? keyring.getPair(publicKey)
       : null;
@@ -161,7 +165,39 @@ class AccountsApp extends React.PureComponent<Props, State> {
     this.selectEdit();
   }
 
-  onForget = (): void => {
+  onEditorChangeName = (editedName: string): void => {
+    this.nextState({ editedName } as State);
+  }
+
+  onEditorCommit = (): void => {
+    const { current } = this.state;
+    const { editedName } = this.state;
+
+    if (!current) {
+      return;
+    }
+
+    keyring.saveAccountMeta(current, {
+      name: editedName,
+      whenEdited: Date.now()
+    });
+
+    this.nextState({} as State);
+  }
+
+  onEditorDiscard = (): void => {
+    const { current } = this.state;
+
+    if (!current) {
+      return;
+    }
+
+    this.nextState({
+      editedName: current.getMeta().name
+    } as State);
+  }
+
+  onEditorForget = (): void => {
     const { current } = this.state;
 
     if (!current) {
@@ -181,12 +217,31 @@ class AccountsApp extends React.PureComponent<Props, State> {
   nextState (newState: State = {} as State): void {
     this.setState(
       (prevState: State): State => {
-        let { action = prevState.action, current = prevState.current } = newState;
+        let {
+          action = prevState.action,
+          current = prevState.current,
+          editedName = prevState.editedName
+        } = newState;
+
         const previous = prevState.current || null;
+        const previousPair = previous || { address: () => undefined };
+        let isEdited = false;
+
+        if (current) {
+          if (current.address() !== previousPair.address()) {
+            editedName = current.getMeta().name || '';
+          } else if (editedName !== current.getMeta().name) {
+            isEdited = true;
+          }
+        } else {
+          editedName = '';
+        }
 
         return {
           action: action,
           current,
+          editedName,
+          isEdited,
           previous
         };
       }
