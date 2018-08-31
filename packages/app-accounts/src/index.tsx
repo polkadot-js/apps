@@ -106,6 +106,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
           </Button.Group>
         </header>
         <Component
+          accountAll={accountAll}
           current={current}
           onChangeAccount={this.onChangeAccount}
           onCreateAccount={this.onCreateAccount}
