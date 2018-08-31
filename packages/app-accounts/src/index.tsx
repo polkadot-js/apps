@@ -10,11 +10,11 @@ import './index.css';
 import React from 'react';
 
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import Button from '@polkadot/ui-app/Button';
 import keyring from '@polkadot/ui-keyring/index';
+import Tabs from '@polkadot/ui-app/Tabs';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
-import { isAccounts, isNoAccounts } from './util/accounts';
+import { isNoAccounts } from './util/accounts';
 import Creator from './Creator';
 import Editor from './Editor';
 import Restorer from './Restorer';
@@ -55,6 +55,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
     const { accountAll } = this.props;
     const { action } = this.state;
 
+    // Show Restorer tab instead of Editor tab when no accounts exist
     if (action === 'edit' && isNoAccounts(accountAll)) {
       this.selectRestore();
     }
@@ -64,43 +65,34 @@ class AccountsApp extends React.PureComponent<Props, State> {
     const { accountAll, t } = this.props;
     const { action, current, editedName, isEdited, previous } = this.state;
     const Component = Components[action];
+    const items = [
+      {
+        name: 'edit',
+        text: t('app.edit', { defaultValue: 'Edit account' })
+      },
+      {
+        name: 'create',
+        text: t('app.create', { defaultValue: 'Create account' })
+      },
+      {
+        name: 'restore',
+        text: t('app.restore', { defaultValue: 'Restore account' })
+      }
+    ];
+
+    // Do not load Editor tab if no accounts
+    if (isNoAccounts(accountAll)) {
+      items.splice(0, 1);
+    }
 
     return (
       <main className='accounts--App'>
         <header>
-          <Button.Group>
-            {
-              isAccounts(accountAll)
-                ? <Button
-                    isPrimary={action === 'edit'}
-                    onClick={this.selectEdit}
-                    text={t('app.edit', {
-                      defaultValue: 'Edit account'
-                    })}
-                  />
-                : null
-            }
-            {
-              isAccounts(accountAll)
-                ? <Button.Or />
-                : null
-            }
-            <Button
-              isPrimary={action === 'create'}
-              onClick={this.selectCreate}
-              text={t('app.create', {
-                defaultValue: 'Create account'
-              })}
-            />
-            <Button.Or />
-            <Button
-              isPrimary={action === 'restore'}
-              onClick={this.selectRestore}
-              text={t('app.restore', {
-                defaultValue: 'Restore account'
-              })}
-            />
-          </Button.Group>
+          <Tabs
+            activeItem={action}
+            items={items}
+            onChange={this.onMenuChange}
+          />
         </header>
         <Component
           accountAll={accountAll}
@@ -119,8 +111,8 @@ class AccountsApp extends React.PureComponent<Props, State> {
     );
   }
 
-  selectCreate = (): void => {
-    this.setState({ action: 'create' });
+  onMenuChange = (action: Actions) => {
+    this.setState({ action });
   }
 
   selectEdit = (): void => {
