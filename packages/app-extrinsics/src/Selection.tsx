@@ -136,11 +136,6 @@ class Selection extends React.PureComponent<Props, State> {
     });
   }
 
-  toAddresses = () => {
-    console.log('you clicked to addresses');
-
-  }
-
 }
 
 export default translate(Selection);
