@@ -135,7 +135,6 @@ class Selection extends React.PureComponent<Props, State> {
       values
     });
   }
-
 }
 
 export default translate(Selection);
