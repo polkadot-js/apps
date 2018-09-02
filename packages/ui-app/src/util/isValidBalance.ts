@@ -24,8 +24,18 @@ export default function isValidBalance (input: any, t: TranslationFunction, bitL
   let warnMessageKey: string = '';
   let warnMessageUntranslated: string = '';
 
-  // check value is valid number, whether it be scientific notation, exponential (which allow decimal)
-  if (isNaN(parseFloat(input))) {
+  // always a string from <input type='number'> but leave as failsafe
+  if (!isString(input)) {
+    throw Error(t('balance.error.string.required', {
+      defaultValue: 'Balance input value must be valid type'
+    }));
+  }
+
+  // impossible since using <input type='number'> and prevents spaces but leave as failsafe
+  input = input.toLowerCase().split(' ').join('');
+
+  // match 'e' when first input index (i.e 'e2')
+  if (input === 'e') {
     errorMessageKey = 'balance.error.format';
     errorMessageUntranslated = 'Balance to transfer in DOTs must be a number or expressed in scientific notation (i.e. 3.4e38) or exponential with \'e+\'';
 
@@ -38,16 +48,6 @@ export default function isValidBalance (input: any, t: TranslationFunction, bitL
     };
   }
 
-  // always a string from <input type='number'> but leave as failsafe
-  if (!isString(input)) {
-    throw Error(t('balance.error.string.required', {
-      defaultValue: 'Balance input value must be valid type'
-    }));
-  }
-
-  // impossible since using <input type='number'> and prevents spaces but leave as failsafe
-  input = input.toLowerCase().split(' ').join('');
-
   const matchE = input.match(/e/gi);
   const matchPlus = input.match(/\+/gi);
   const matchEPlus = input.match(/e\+/gi);
@@ -55,6 +55,7 @@ export default function isValidBalance (input: any, t: TranslationFunction, bitL
   const matchEBeforeNumberOrPlus = input.match(/(e)(?=[0-9+])/ig);
   const matchEPlusBeforeNumber = input.match(/(e\+)(?=[0-9])/ig);
 
+  // match 'e' when not first input index (i.e. '1e2') since input starting with 'e' matched in earlier condition
   if (matchE && matchE.length > 1 || matchPlus && matchPlus.length > 1) {
     errorMessageKey = 'balance.error.notation.scientific.duplicate';
     errorMessageUntranslated = 'Scientific notation may only contain one instance of \'e\' for scientific notation or exponential with \'e+\'';
@@ -167,6 +168,7 @@ export default function isValidBalance (input: any, t: TranslationFunction, bitL
   const maxBN = maxValue(bitLength);
   const inputBN = new BN(input);
 
+  // if 128 bit then max is 340282366920938463463374607431768211455
   if (!inputBN.lt(maxBN)) {
     errorMessageKey = 'balance.error.above.max';
     errorMessageUntranslated = 'Balance above max for {{bitLength}} bit';

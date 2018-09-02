@@ -70,14 +70,6 @@ describe('checks extrinsic balance', () => {
     expect(errorMessageUntranslated).toEqual(ErrorMessage.MustBeNumber);
   });
 
-  it('detects invalid balance for input that is NaN', () => {
-    const invalidInputValueType = Number('x');
-    const { isValid, errorMessageUntranslated } = isValidBalance(invalidInputValueType, t);
-
-    expect(isValid).toEqual(false);
-    expect(errorMessageUntranslated).toEqual(ErrorMessage.MustBeNumber);
-  });
-
   it('detects valid balance for input that is 0', () => {
     const validBalance = '0';
     const { isValid, warnMessageUntranslated } = isValidBalance(validBalance, t);
