@@ -12,7 +12,7 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0-rc.1",
     "@polkadot/ui-identicon": "^0.19.53",
-    "polkadot-identicon": "^1.0.2"
+    "polkadot-identicon": "^1.1.0"
   },
   "devDependencies": {
     "@polkadot/util-keyring": "^0.28.4",
