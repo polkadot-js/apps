@@ -11,20 +11,20 @@ import { maxValue } from '../util/chainSpec';
 import { BIT_LENGTH_128, MAX_SAFE_INTEGER } from '../constants';
 import { IsValidWithMessage } from './types';
 
-// RegEx Pattern (positive decimal values)
+// RegEx Pattern (positive integers or decimal values)
 const reValidInputChars = RegExp('^[0-9\.]+[0-9\.]*$');
 
 export default function isValidBalance (input: string, t: TranslationFunction, bitLength?: number): IsValidWithMessage {
   bitLength = bitLength || BIT_LENGTH_128;
 
-  // always a string from <input type='number'> but leave as failsafe
+  // always a string from <input type='text'> but leave as failsafe
   if (!isString(input)) {
     throw Error(t('balance.error.string.required', {
       defaultValue: 'Balance input value must be valid type'
     }));
   }
 
-  // impossible since using <input type='number'> and prevents spaces but leave as failsafe
+  // impossible if we have not set space as an allowed key but leave as failsafe
   input = input.toLowerCase().split(' ').join('');
 
   // check the string only contains integers or decimals
