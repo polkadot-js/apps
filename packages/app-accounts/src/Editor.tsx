@@ -37,21 +37,18 @@ class Editor extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = this.createState(null);
-    this.state = {
-      isForgetOpen: false
-    }
   }
 
   render () {
+    const { t } = this.props;
     const { isForgetOpen } = this.state;
-
     return (
       <div className='accounts--Editor'>
         <Forgetting
           isOpen={isForgetOpen}
           onClose={this.toggleForget}
           doForget={this.onForget}
-
+          t={t}
         />
         {this.renderData()}
         {this.renderButtons()}
@@ -75,7 +72,7 @@ class Editor extends React.PureComponent<Props, State> {
           text={t('editor.forget', {
             defaultValue: 'Forget'
           })}
-          t={this.t}
+
         />
         <Button.Group.Divider />
         <Button
@@ -154,7 +151,8 @@ class Editor extends React.PureComponent<Props, State> {
       editedName: current
         ? current.getMeta().name || ''
         : '',
-      isEdited: false
+      isEdited: false,
+      isForgetOpen: false
     };
   }
 
@@ -174,11 +172,13 @@ class Editor extends React.PureComponent<Props, State> {
         } else {
           editedName = '';
         }
+        let isForgetOpen = false;
 
         return {
           current,
           editedName,
-          isEdited
+          isEdited,
+          isForgetOpen
         };
       }
     );
@@ -225,12 +225,12 @@ class Editor extends React.PureComponent<Props, State> {
     } as State);
   }
 
-  private toggleForget = () => {
+  toggleForget = (): void => {
     this.setState(
       ({ isForgetOpen }: State) => ({
         isForgetOpen: !isForgetOpen
       })
-    )
+    );
   }
 
   onForget = (): void => {

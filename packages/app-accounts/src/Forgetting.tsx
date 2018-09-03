@@ -1,41 +1,23 @@
 // Copyright 2017-2018 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
-
-import { KeyringPair } from '@polkadot/util-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
 import Button from '@polkadot/ui-app/Button';
-import Input from '@polkadot/ui-app/Input';
 import Modal from '@polkadot/ui-app/Modal';
-import InputAddress from '@polkadot/ui-app/InputAddress';
-import keyring from '@polkadot/ui-keyring/index';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
-
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
-import translate from './translate';
 
 type Props = I18nProps & {
   isOpen: boolean,
-  onCLose: () => void,
-  onForget: () => void
+  onClose: () => void,
+  doForget: () => void
 };
 
-type State = {
-  current: KeyringPair | null
-};
-
-class Forgetting extends React.PureComponent<Props, State> {
-  state: State;
+class Forgetting extends React.PureComponent<Props> {
 
   constructor (props: Props) {
     super(props);
-    this.state = {
-      current: ''
-    }
   }
 
   render () {
@@ -59,8 +41,7 @@ class Forgetting extends React.PureComponent<Props, State> {
   }
 
   renderButtons () {
-    const { onClose, t } = this.props;
-    const { current } = this.state;
+    const { onClose, doForget } = this.props;
 
     return (
       <Modal.Actions>
@@ -68,17 +49,13 @@ class Forgetting extends React.PureComponent<Props, State> {
           <Button
             isNegative
             onClick={onClose}
-            text={t('forget.cancel', {
-              defaultValue: 'Cancel'
-            })}
+            text='Cancel'
           />
           <Button.Or />
           <Button
             isPrimary
-            onClick={this.doForget}
-            text={t('editor.forget', {
-              defaultValue: 'Delete'
-            })}
+            onClick={doForget}
+            text='Delete'
           />
         </Button.Group>
       </Modal.Actions>
@@ -86,25 +63,13 @@ class Forgetting extends React.PureComponent<Props, State> {
   }
 
   renderContent () {
-    const { t } = this.props;
-    const { current } = this.state;
 
     return [
       <Modal.Header key='header'>
-        {t('forget.header', {
-          defaultValue: 'Forget Validator'
-        })}
-      </Modal.Header>,
+        Are you sure you want to delete this account?
+      </Modal.Header>
     ];
   }
-
-  private doForget = () => {
-    const { onClose, onForget } = this.props;
-    const { current } = this.state;
-    //use prop of onForget to actually forget it
-    onForget();
-  }
-
 }
 
 export default Forgetting;
