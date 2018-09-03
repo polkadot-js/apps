@@ -14,6 +14,7 @@ import keyring from '@polkadot/ui-keyring/index';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
+import Forgetting from './Forgetting';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';
 
@@ -25,7 +26,8 @@ type Props = I18nProps & {
 type State = {
   current: KeyringPair | null,
   editedName: string,
-  isEdited: boolean
+  isEdited: boolean,
+  isForgetOpen: boolean
 };
 
 class Editor extends React.PureComponent<Props, State> {
@@ -35,11 +37,22 @@ class Editor extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = this.createState(null);
+    this.state = {
+      isForgetOpen: false
+    }
   }
 
   render () {
+    const { isForgetOpen } = this.state;
+
     return (
       <div className='accounts--Editor'>
+        <Forgetting
+          isOpen={isForgetOpen}
+          onClose={this.toggleForget}
+          doForget={this.onForget}
+
+        />
         {this.renderData()}
         {this.renderButtons()}
       </div>
@@ -58,10 +71,11 @@ class Editor extends React.PureComponent<Props, State> {
       <Button.Group>
         <Button
           isNegative
-          onClick={this.onForget}
+          onClick={this.toggleForget}
           text={t('editor.forget', {
             defaultValue: 'Forget'
           })}
+          t={this.t}
         />
         <Button.Group.Divider />
         <Button
@@ -209,6 +223,14 @@ class Editor extends React.PureComponent<Props, State> {
     this.nextState({
       editedName: current.getMeta().name
     } as State);
+  }
+
+  private toggleForget = () => {
+    this.setState(
+      ({ isForgetOpen }: State) => ({
+        isForgetOpen: !isForgetOpen
+      })
+    )
   }
 
   onForget = (): void => {
