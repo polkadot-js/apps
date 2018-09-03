@@ -37,36 +37,12 @@ describe('Balance', () => {
     expect(divNotificationsText.text()).toEqual('1.00e+0');
   });
 
-  it('should display correct Info Notification when user enters scientific notation value', () => {
-    inputElementBalance.instance().value = '3.4e38';
-    inputElementBalance.simulate('change');
-    divNotificationsText = wrapper.find('.ui--Notifications').find('div.message');
-    expect(divNotificationsText.hasClass('info')).toBe(true);
-    expect(divNotificationsText.text()).toEqual('340000000000000000000000000000000000000');
-  });
-
-  it('should display correct Info Notification when user enters exponential notation value', () => {
-    inputElementBalance.instance().value = '3.4e+38';
-    inputElementBalance.simulate('change');
-    divNotificationsText = wrapper.find('.ui--Notifications').find('div.message');
-    expect(divNotificationsText.hasClass('info')).toBe(true);
-    expect(divNotificationsText.text()).toEqual('340000000000000000000000000000000000000');
-  });
-
   it('should display correct i18n Warning Notification when user enters zero', () => {
     inputElementBalance.instance().value = '0';
     inputElementBalance.simulate('change');
     divNotificationsText = wrapper.find('.ui--Notifications').find('div.message');
     expect(divNotificationsText.hasClass('warning')).toBe(true);
     expect(divNotificationsText.text()).toEqual('balance.warn.zero');
-  });
-
-  it('should display correct i18n Error Notification when user inputs invalid value of just scientific notation symbol', () => {
-    inputElementBalance.instance().value = 'e';
-    inputElementBalance.simulate('change');
-    divNotificationsText = wrapper.find('.ui--Notifications').find('div.message');
-    expect(divNotificationsText.hasClass('error')).toBe(true);
-    expect(divNotificationsText.text()).toEqual('balance.error.format');
   });
 
   it('should display correct i18n Error Notification when user resets the value', () => {
@@ -77,11 +53,41 @@ describe('Balance', () => {
     expect(divNotificationsText.text()).toEqual('balance.error.format');
   });
 
-  it('should display correct i18n Error Notification when user enters long decimal value without scientific or exponential symbol', () => {
+  it('should display correct i18n Error Notification when user enters decimal value greater than max bit length', () => {
     inputElementBalance.instance().value = '0.1111111111111111111111111111111111111';
     inputElementBalance.simulate('change');
     divNotificationsText = wrapper.find('.ui--Notifications').find('div.message');
     expect(divNotificationsText.hasClass('error')).toBe(true);
-    expect(divNotificationsText.text()).toEqual('balance.error.decimal');
+    expect(divNotificationsText.text()).toEqual('balance.error.above.max');
+  });
+
+  it('should display correct i18n Error Notification when user enters positive value greater than or equal to the 128 bits maximum for latest chain', () => {
+    inputElementBalance.instance().value = '340282366920938463463374607431768211455'; // 2^128
+    inputElementBalance.simulate('change');
+    divNotificationsText = wrapper.find('.ui--Notifications').find('div.message');
+    expect(divNotificationsText.hasClass('error')).toBe(true);
+    expect(divNotificationsText.text()).toEqual('balance.error.above.max');
+  });
+
+  it('should not display error when user enters positive value less than the 128 bits maximum for latest chain', () => {
+    inputElementBalance.instance().value = '340282366920938463463374607431768211454'; // 2^128 - 1
+    inputElementBalance.simulate('change');
+    expect(divNotifications).toHaveLength(0);
+  });
+
+  it('should display correct i18n Error Notification when user enters letter value', () => {
+    inputElementBalance.instance().value = 'e';
+    inputElementBalance.simulate('change');
+    divNotificationsText = wrapper.find('.ui--Notifications').find('div.message');
+    expect(divNotificationsText.hasClass('error')).toBe(true);
+    expect(divNotificationsText.text()).toEqual('balance.error.format');
+  });
+
+  it('should display correct i18n Error Notification when user enters symbol value', () => {
+    inputElementBalance.instance().value = '%';
+    inputElementBalance.simulate('change');
+    divNotificationsText = wrapper.find('.ui--Notifications').find('div.message');
+    expect(divNotificationsText.hasClass('error')).toBe(true);
+    expect(divNotificationsText.text()).toEqual('balance.error.format');
   });
 });

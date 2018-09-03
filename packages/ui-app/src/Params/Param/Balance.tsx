@@ -12,7 +12,7 @@ import withApi from '@polkadot/ui-react-rx/with/api';
 
 import isValidBalance from '../../util/isValidBalance';
 import { defaultMaxLength } from '../../util/chainSpec';
-import { keydown, keyup } from '../../util/keyboard';
+import { keydown } from '../../util/keyboard';
 import InputNumber from '../../InputNumber';
 import translate from '../../translate';
 import { KEYS_ALLOWED, KEYS_PRE } from '../../constants';
@@ -75,11 +75,8 @@ class Balance extends React.PureComponent<Props, State> {
   onChange = (value: string): void => {
     const { onChange, t } = this.props;
 
-    // prepare value by remove all whitespace
-    value = value.split(' ').join('');
-
     try {
-      const { isValid, errorMessage, infoMessage, num, warnMessage } = isValidBalance(value, t);
+      const { isValid, errorMessage, infoMessage, warnMessage } = isValidBalance(value, t);
 
       this.setState({
         error: !isValid && errorMessage ? errorMessage : '',
@@ -91,17 +88,12 @@ class Balance extends React.PureComponent<Props, State> {
         return;
       }
 
-      let newValue: BN;
-
-      if (num) {
-        newValue = new BN(num);
-      } else {
-        newValue = new BN(value || '0');
-      }
+      let valueBN: BN;
+      valueBN = new BN(value || '0');
 
       onChange({
         isValid,
-        value: newValue
+        value: valueBN
       });
     } catch (error) {
       console.error(error);
@@ -112,11 +104,11 @@ class Balance extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { isPreKeyDown } = this.state;
 
-    // only allow user balance input to contain one instance of 'e', '+', and '.' for decimal in scientific or exponential notation
+    // only allow user balance input to contain one instance of '.' for decimals.
+    // prevent use of shift key
     if (
-      (keydown.isDuplicateE(event)) ||
-      (keydown.isDuplicatePlus(event)) ||
-      (keydown.isDuplicateDecimalPoint(event))
+      (keydown.isDuplicateDecimalPoint(event)) ||
+      (keydown.isShift(event))
     ) {
       event.preventDefault();
       return;
@@ -126,24 +118,16 @@ class Balance extends React.PureComponent<Props, State> {
       return;
     }
 
-    // prevent user entering the '+' symbol unless immediately after the 'e' letter (i.e. 'e+') for exponential notation
-    if (keydown.isNotEBeforePlus(event)) {
-      event.preventDefault();
-      return;
-    }
-
     if (KEYS_PRE.includes(event.keyCode)) {
       this.setState({ isPreKeyDown: true });
     }
 
     // allow users to to use cut/copy/paste combinations, but not non-numeric letters individually
-    // allow users to use the + key for exponential notation
     if (
       (keydown.isSelectAll(event, isPreKeyDown)) ||
       (keydown.isCut(event, isPreKeyDown)) ||
       (keydown.isCopy(event, isPreKeyDown)) ||
-      (keydown.isPaste(event, isPreKeyDown)) ||
-      keydown.isPlus(event) // '+' for exponential notation (i.e. 'e+')
+      (keydown.isPaste(event, isPreKeyDown))
     ) {
       return;
     }
@@ -151,7 +135,9 @@ class Balance extends React.PureComponent<Props, State> {
     // prevent input of non-integer values (allow numeric including from keyboards with numpad)
     if (keydown.isNonNumeric(event)) {
       this.setState({
-        error: t('Non-numeric values are not permitted')
+        error: t('balance.error.format', {
+          defaultValue: 'Balance to transfer in DOTs must be a number'
+        })
       });
       event.preventDefault();
       return;
@@ -161,11 +147,6 @@ class Balance extends React.PureComponent<Props, State> {
   onKeyUp = (event: any): void => {
     if (KEYS_PRE.includes(event.keyCode)) {
       this.setState({ isPreKeyDown: false });
-    }
-
-    // if user inputs the value of 'E', replace it with lowercase 'e'
-    if (keyup.isExistE(event)) {
-      event.target.value = event.target.value.replace(/E+/gi, 'e');
     }
   }
 }

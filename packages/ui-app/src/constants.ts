@@ -13,7 +13,7 @@ const KEYS = {
   isCMD: (event: any): void => event.metaKey,
   CMD: 91, // || 224, // firefox (91), safari (224)
   CTRL: 17,
-  DECIMAL_POINT: 190, // decimals allowed for scientific or exponential notation
+  DECIMAL_POINT: 190, // decimals
   DEL: 8,
   ESCAPE: 27,
   ENTER: 13,
@@ -29,13 +29,16 @@ const KEYS = {
   ZERO_NUMPAD: 96
 };
 
-const KEYS_ALLOWED: Array<any> = [KEYS.ARROW_LEFT, KEYS.ARROW_RIGHT, KEYS.BACKSPACE, KEYS.DECIMAL_POINT, KEYS.DEL, KEYS.E, KEYS.ESCAPE, KEYS.ENTER, KEYS.TAB, KEYS.ZERO, KEYS.ZERO_NUMPAD];
+const KEYS_ALLOWED: Array<any> = [KEYS.ARROW_LEFT, KEYS.ARROW_RIGHT, KEYS.BACKSPACE, KEYS.DECIMAL_POINT, KEYS.DEL, KEYS.ESCAPE, KEYS.ENTER, KEYS.TAB, KEYS.ZERO, KEYS.ZERO_NUMPAD];
 
 const KEYS_PRE: Array<any> = [KEYS.ALT, KEYS.CMD, KEYS.CTRL];
+
+const MAX_SAFE_INTEGER: number = 9007199254740991; // 2**53-1
 
 export {
   BIT_LENGTH_128,
   KEYS,
   KEYS_ALLOWED,
-  KEYS_PRE
+  KEYS_PRE,
+  MAX_SAFE_INTEGER
 };

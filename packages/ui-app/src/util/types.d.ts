@@ -18,15 +18,6 @@ export type SectionVisibilityAll = 'private' | 'public';
 export type IsValidWithMessage = {
   isValid: boolean,
   errorMessage?: TranslationFunction,
-  errorMessageUntranslated?: string,
   warnMessage?: TranslationFunction,
-  warnMessageUntranslated?: string,
-  infoMessage?: string,
-  num?: string
-};
-
-export type ScientificNotation = {
-  errorMessage?: TranslationFunction,
-  errorMessageUntranslated?: string,
-  num?: string
+  infoMessage?: string
 };

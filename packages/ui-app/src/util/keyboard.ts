@@ -5,8 +5,6 @@
 import { KEYS } from '../constants';
 
 const regex = {
-  e: /[e]/gi,
-  plus: /[\+]/gi,
   decimalPoint: /[\.]/gi
 };
 
@@ -20,23 +18,15 @@ const keydown = {
   // Reference: Degrade to keyCode for cross-browser compatibility https://www.w3schools.com/jsref/event_key_keycode.asp
   isCopy: (event: any, isPreKeyDown: boolean): boolean => isPreKeyDown && (event.which || event.keyCode) === KEYS.C,
   isCut: (event: any, isPreKeyDown: boolean): boolean => isPreKeyDown && (event.which || event.keyCode) === KEYS.X,
-  isDuplicateE: (event: any): boolean => event.keyCode === KEYS.E && event.target.value.match(regex.e),
-  isDuplicatePlus: (event: any): boolean => event.keyCode === KEYS.PLUS && event.target.value.match(regex.plus),
   isDuplicateDecimalPoint: (event: any): boolean => event.keyCode === KEYS.DECIMAL_POINT && event.target.value.match(regex.decimalPoint),
-  isNotEBeforePlus: (event: any): boolean => event.keyCode === KEYS.PLUS && event.target.value.charAt(cursorIndexInputField(event) - 1) !== 'e',
   isNonNumeric: (event: any): boolean => isNotDigit(event) && isNotDigitOnNumpad(event),
   isPaste: (event: any, isPreKeyDown: boolean): boolean => isPreKeyDown && event.which === KEYS.V,
-  isPlus: (event: any): boolean => event.shiftKey && (event.which || event.keyCode) === KEYS.PLUS,
-  isSelectAll: (event: any, isPreKeyDown: boolean): boolean => isPreKeyDown && (event.which || event.keyCode) === KEYS.A
-};
-
-const keyup = {
-  isExistE: (event: any): boolean => event.target.value.match(regex.e)
+  isSelectAll: (event: any, isPreKeyDown: boolean): boolean => isPreKeyDown && (event.which || event.keyCode) === KEYS.A,
+  isShift: (event: any): boolean => event.shiftKey
 };
 
 export {
   cursorIndexInputField,
   keydown,
-  keyup,
   regex
 };
