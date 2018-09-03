@@ -7,8 +7,6 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { EncodedMessage, QueueTx$MessageAdd } from '@polkadot/ui-signer/types';
 
 import React from 'react';
-import { withRouter } from 'react-router';
-import { Link } from 'react-router-dom';
 
 import extrinsics from '@polkadot/extrinsics';
 import rpc from '@polkadot/jsonrpc';
@@ -67,24 +65,14 @@ class Selection extends React.PureComponent<Props, State> {
           value={publicKey}
         />
         <Button.Group>
-        {!isValid ?
-          <Link to="/accounts">
-            <Button
-              isPrimary
-              text={t('submit.none', {
-                defaultValue: 'Add Accounts to Create Transaction'
-              })}
-            />
-          </Link>
-        :
           <Button
+            isDisabled={!isValid}
             isPrimary
             onClick={this.onQueue}
             text={t('submit.label', {
               defaultValue: 'Submit Transaction'
             })}
           />
-        }
         </Button.Group>
       </div>
     );
