@@ -1483,9 +1483,9 @@
     "@polkadot/util-crypto" "^0.29.18"
     "@polkadot/util-rlp" "^0.29.18"
 
-"@polkadot/ts@^0.1.23":
-  version "0.1.23"
-  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.23.tgz#8515963f514ef62c1fa97b656a18553c01c32530"
+"@polkadot/ts@^0.1.24":
+  version "0.1.24"
+  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.24.tgz#a5202626f394114831851b476beba8a3a334ba79"
 
 "@polkadot/util-crypto@^0.29.18":
   version "0.29.18"
@@ -1493,6 +1493,17 @@
   dependencies:
     "@babel/runtime" "^7.0.0-rc.1"
     "@polkadot/util" "^0.29.18"
+    blakejs "^1.1.0"
+    js-sha3 "^0.8.0"
+    tweetnacl "^1.0.0"
+    xxhashjs "^0.2.2"
+
+"@polkadot/util-crypto@^0.29.19":
+  version "0.29.19"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.29.19.tgz#544e150bea32d6f24f48641a25d4b711114c05ce"
+  dependencies:
+    "@babel/runtime" "^7.0.0-rc.1"
+    "@polkadot/util" "^0.29.19"
     blakejs "^1.1.0"
     js-sha3 "^0.8.0"
     tweetnacl "^1.0.0"
@@ -1508,6 +1519,16 @@
     "@types/bs58" "^3.0.30"
     bs58 "^4.0.1"
 
+"@polkadot/util-keyring@^0.29.19":
+  version "0.29.19"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-keyring/-/util-keyring-0.29.19.tgz#f1e962c260dbb63ee31439f3c92607b67147d617"
+  dependencies:
+    "@babel/runtime" "^7.0.0-rc.1"
+    "@polkadot/util" "^0.29.19"
+    "@polkadot/util-crypto" "^0.29.19"
+    "@types/bs58" "^3.0.30"
+    bs58 "^4.0.1"
+
 "@polkadot/util-rlp@^0.29.18":
   version "0.29.18"
   resolved "https://registry.yarnpkg.com/@polkadot/util-rlp/-/util-rlp-0.29.18.tgz#afbb7bb0c094e1d1c3ea7dc1e4ff654513de3bd7"
@@ -1518,6 +1539,21 @@
 "@polkadot/util@^0.29.18":
   version "0.29.18"
   resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.29.18.tgz#5ae4bdd3d376d7030f174c30338fc36309c236d8"
+  dependencies:
+    "@babel/runtime" "^7.0.0-rc.1"
+    "@types/bn.js" "^4.11.1"
+    "@types/deasync" "^0.1.0"
+    "@types/ip-regex" "^2.0.0"
+    "@types/xxhashjs" "^0.1.1"
+    bn.js "^4.11.8"
+    chalk "^2.4.1"
+    deasync "^0.1.13"
+    ip-regex "^3.0.0"
+    moment "^2.22.2"
+
+"@polkadot/util@^0.29.19":
+  version "0.29.19"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.29.19.tgz#2d7f0cf1b06797c1a11e80dd1155e79cec3b1496"
   dependencies:
     "@babel/runtime" "^7.0.0-rc.1"
     "@types/bn.js" "^4.11.1"
