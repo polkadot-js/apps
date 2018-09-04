@@ -16,7 +16,6 @@ type Props = I18nProps & {
 };
 
 class Forgetting extends React.PureComponent<Props> {
-
   constructor (props: Props) {
     super(props);
   }
@@ -42,7 +41,7 @@ class Forgetting extends React.PureComponent<Props> {
   }
 
   renderButtons () {
-    const { onClose, doForget } = this.props;
+    const { onClose, doForget, t } = this.props;
 
     return (
       <Modal.Actions>
@@ -50,7 +49,9 @@ class Forgetting extends React.PureComponent<Props> {
           <Button
             isNegative
             onClick={onClose}
-            text='Cancel'
+            text={t('forget.close', {
+              defaultValue: 'Cancel'
+            })}
           />
           <Button.Or />
           <Button
@@ -64,10 +65,12 @@ class Forgetting extends React.PureComponent<Props> {
   }
 
   renderContent () {
-
+    const { t } = this.props;
     return [
       <Modal.Header key='header'>
-        Are you sure you want to delete this account?
+        {t('forget.header', {
+          defaultValue: 'Are you sure you want to delete this account?'
+        })}
       </Modal.Header>
     ];
   }

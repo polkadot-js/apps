@@ -40,7 +40,6 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { t } = this.props;
     const { isForgetOpen } = this.state;
     return (
       <div className='accounts--Editor'>
