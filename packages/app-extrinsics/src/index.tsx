@@ -7,11 +7,11 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import './index.css';
 
 import React from 'react';
-import Button from '@polkadot/ui-app/Button';
 import { Link } from 'react-router-dom';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
 import accountsObservable from '@polkadot/ui-keyring/observable/accounts';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
+import translate from './translate';
 
 import Selection from './Selection';
 
@@ -23,19 +23,18 @@ type Props = I18nProps & {
 class ExtrinsicsApp extends React.PureComponent<Props> {
   render () {
 
-    const { accountAll } = this.props;
+    const { accountAll, t } = this.props;
 
     if (!accountAll || !Object.keys(accountAll).length) {
       return (
-        <div>
-          <p>There are no saved accounts. Add some first.</p>
+        <main className='extrinsics--App'>
+          {t('accounts.none', {
+            defaultValue: 'There are no saved accounts. '
+          })}
           <Link to='/accounts'>
-            <Button
-              isPrimary
-            >Add Accounts
-            </Button>
+          Add Accounts.
           </Link>
-        </div>
+        </main>
       );
     }
 
@@ -53,4 +52,4 @@ class ExtrinsicsApp extends React.PureComponent<Props> {
 
 export { ExtrinsicsApp };
 
-export default withObservableBase(accountsObservable.subject, { propName: 'accountAll' })(ExtrinsicsApp);
+export default withObservableBase(accountsObservable.subject, { propName: 'accountAll' })(translate(ExtrinsicsApp));
