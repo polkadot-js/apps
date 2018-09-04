@@ -7,6 +7,7 @@ import React from 'react';
 
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
+import translate from './translate';
 
 type Props = I18nProps & {
   isOpen: boolean,
@@ -72,4 +73,4 @@ class Forgetting extends React.PureComponent<Props> {
   }
 }
 
-export default Forgetting;
+export default translate(Forgetting);

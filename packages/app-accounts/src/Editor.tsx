@@ -48,7 +48,6 @@ class Editor extends React.PureComponent<Props, State> {
           isOpen={isForgetOpen}
           onClose={this.toggleForget}
           doForget={this.onForget}
-          t={t}
         />
         {this.renderData()}
         {this.renderButtons()}
