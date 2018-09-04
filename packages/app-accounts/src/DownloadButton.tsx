@@ -42,7 +42,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
 
   static getDerivedStateFromProps ({ address }: Props, prevState: State): State {
     return {
-      address: address
+      address
     } as State;
   }
 

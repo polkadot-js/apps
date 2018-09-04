@@ -29,7 +29,7 @@ type State = {
   password: string,
   isPasswordModalOpen: boolean,
   error?: React.ReactNode,
-  uploadedFileKeyringPair: KeyringPair$Json | undefined
+  uploadedFileKeyringPair?: KeyringPair$Json
 };
 
 type Props = I18nProps & BareProps & {
@@ -173,9 +173,7 @@ class UploadButton extends React.PureComponent<Props, State> {
     return {
       address: '',
       password: '',
-      isPasswordModalOpen: false,
-      error: undefined,
-      uploadedFileKeyringPair: undefined
+      isPasswordModalOpen: false
     };
   }
 

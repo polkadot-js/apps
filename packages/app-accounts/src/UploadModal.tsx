@@ -25,7 +25,7 @@ type Props = I18nProps & BareProps & {
   onDiscard: () => void,
   password: string,
   processUploadedFileStorage: () => void,
-  uploadedFileKeyringPair: KeyringPair$Json | undefined
+  uploadedFileKeyringPair?: KeyringPair$Json
 };
 
 class UploadModal extends React.PureComponent<Props> {
