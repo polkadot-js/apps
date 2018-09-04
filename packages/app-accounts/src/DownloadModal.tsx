@@ -14,7 +14,6 @@ import Modal from '@polkadot/ui-app/Modal';
 import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 import Unlock from '@polkadot/ui-signer/Unlock';
-import inputSubmitWithEnter from '@polkadot/ui-app/util/inputSubmitWithEnter';
 
 import translate from './translate';
 
@@ -30,14 +29,6 @@ type Props = I18nProps & BareProps & {
 };
 
 class DownloadModal extends React.PureComponent<Props> {
-  private submitButtonDiv: React.RefObject<HTMLDivElement>;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.submitButtonDiv = React.createRef();
-  }
-
   render () {
     const { address, className, hidePasswordModal, isPasswordModalOpen, style, t } = this.props;
 
@@ -94,7 +85,6 @@ class DownloadModal extends React.PureComponent<Props> {
         autoFocus
         error={error}
         onChange={onChangePassword}
-        onKeyDown={this.onKeyDown}
         password={password}
         value={keyringAddress.publicKey()}
         tabIndex={1}
@@ -117,7 +107,7 @@ class DownloadModal extends React.PureComponent<Props> {
             })}
           />
           <Button.Or />
-          <div ref={this.submitButtonDiv}>
+          <div>
             <Button
               className='ui--accounts-Submit'
               isPrimary
@@ -131,10 +121,6 @@ class DownloadModal extends React.PureComponent<Props> {
         </Button.Group>
       </Modal.Actions>
     );
-  }
-
-  onKeyDown = (event: any): void => {
-    inputSubmitWithEnter(event, this.submitButtonDiv.current);
   }
 }
 

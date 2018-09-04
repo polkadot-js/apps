@@ -26,10 +26,6 @@ export type I18nProps = BareProps & {
   t: TranslationFunction
 };
 
-export type SUIEvent = {
-  value: any
-};
-
 export type UnlockI18n = {
   key: string,
   value: any
