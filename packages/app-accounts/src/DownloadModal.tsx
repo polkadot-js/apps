@@ -14,8 +14,8 @@ import Modal from '@polkadot/ui-app/Modal';
 import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 import Unlock from '@polkadot/ui-signer/Unlock';
+import inputSubmitWithEnter from '@polkadot/ui-app/util/inputSubmitWithEnter';
 
-import inputSubmitWithEnter from './util/inputSubmitWithEnter';
 import translate from './translate';
 
 type Props = I18nProps & BareProps & {
