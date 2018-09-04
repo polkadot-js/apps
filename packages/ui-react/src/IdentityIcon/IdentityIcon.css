@@ -3,5 +3,6 @@
 /* of the ISC license. See the LICENSE file for details. */
 
 .ui--IdentityIcon {
+  cursor: copy;
   display: inline-block;
 }
