@@ -22,7 +22,7 @@
     "color": "^3.0.0"
   },
   "devDependencies": {
-    "@polkadot/util-crypto": "^0.29.19",
+    "@polkadot/util-crypto": "^0.29.21",
     "xmlserializer": "^0.6.1"
   }
 }
