@@ -11,23 +11,34 @@ import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
+import keyring from '@polkadot/ui-keyring/index';
+import accountObservable from '@polkadot/ui-keyring/observable/accounts';
+import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
 import DownloadButton from './DownloadButton';
 import translate from './translate';
 
 type Props = I18nProps & {
+  accountAll?: Array<any>,
+  onChangeAccount: () => void
+};
+
+type State = {
   current: KeyringPair | null,
   editedName: string,
-  isEdited: boolean,
-  onChangeAccount: () => void,
-  onChangeName: () => void,
-  onCommit: () => void,
-  onDiscard: () => void,
-  onForget: () => void,
+  isEdited: boolean
   previous: KeyringPair | null
 };
 
-class Editor extends React.PureComponent<Props> {
+class Editor extends React.PureComponent<Props, State> {
+  state: State;
+
+  constructor (props: Props) {
+    super(props);
+
+    this.state = this.createState(null, null);
+  }
+
   render () {
     return (
       <div className='accounts--Editor'>
@@ -38,7 +49,8 @@ class Editor extends React.PureComponent<Props> {
   }
 
   renderButtons () {
-    const { current, isEdited, onCommit, onDiscard, onForget, t } = this.props;
+    const { t } = this.props;
+    const { current, isEdited } = this.state;
 
     if (!current) {
       return null;
@@ -48,7 +60,7 @@ class Editor extends React.PureComponent<Props> {
       <Button.Group>
         <Button
           isNegative
-          onClick={onForget}
+          onClick={this.onForget}
           text={t('editor.forget', {
             defaultValue: 'Forget'
           })}
@@ -56,7 +68,7 @@ class Editor extends React.PureComponent<Props> {
         <Button.Group.Divider />
         <Button
           isDisabled={!isEdited}
-          onClick={onDiscard}
+          onClick={this.onDiscard}
           text={t('editor.reset', {
             defaultValue: 'Reset'
           })}
@@ -65,7 +77,7 @@ class Editor extends React.PureComponent<Props> {
         <Button
           isDisabled={!isEdited}
           isPrimary
-          onClick={onCommit}
+          onClick={this.onCommit}
           text={t('editor.save', {
             defaultValue: 'Save'
           })}
@@ -75,9 +87,12 @@ class Editor extends React.PureComponent<Props> {
   }
 
   renderData () {
-    const { current, editedName, onChangeAccount, onChangeName, t } = this.props;
+    const { t } = this.props;
+    const { current, editedName } = this.state;
 
-    const address = current ? current.address() : undefined;
+    const address = current
+      ? current.address()
+      : undefined;
 
     return (
       <div className='accounts--flex-group-row'>
@@ -99,7 +114,7 @@ class Editor extends React.PureComponent<Props> {
               label={t('editor.select', {
                 defaultValue: 'using my account'
               })}
-              onChange={onChangeAccount}
+              onChange={this.onChangeAccount}
               type='account'
               value={address}
             />
@@ -111,7 +126,7 @@ class Editor extends React.PureComponent<Props> {
               label={t('editor.name', {
                 defaultValue: 'identified by the name'
               })}
-              onChange={onChangeName}
+              onChange={this.onChangeName}
               value={editedName}
             />
           </div>
@@ -119,10 +134,115 @@ class Editor extends React.PureComponent<Props> {
       </div>
     );
   }
+
+  createState (current: KeyringPair | null, previous: KeyringPair | null): State {
+    return {
+      current,
+      editedName: current ? current.getMeta().name || '' : '',
+      isEdited: false,
+      previous
+    };
+  }
+
+  nextState (newState: State = {} as State): void {
+    this.setState(
+      (prevState: State): State => {
+        let {
+          current = prevState.current,
+          editedName = prevState.editedName
+        } = newState;
+
+        const previous = prevState.current || null;
+        const previousPair = previous || { address: () => undefined };
+        let isEdited = false;
+
+        if (current) {
+          if (current.address() !== previousPair.address()) {
+            editedName = current.getMeta().name || '';
+          } else if (editedName !== current.getMeta().name) {
+            isEdited = true;
+          }
+        } else {
+          editedName = '';
+        }
+
+        return {
+          current,
+          editedName,
+          isEdited,
+          previous
+        };
+      }
+    );
+  }
+
+  onChangeAccount = (publicKey: Uint8Array): void => {
+    const { onChangeAccount } = this.props;
+
+    const current = publicKey && publicKey.length === 32
+      ? keyring.getPair(publicKey)
+      : null;
+
+    this.nextState({
+      current
+    } as State);
+
+    onChangeAccount();
+  }
+
+  onChangeName = (editedName: string): void => {
+    this.nextState({ editedName } as State);
+  }
+
+  onCommit = (): void => {
+    const { current, editedName } = this.state;
+
+    if (!current) {
+      return;
+    }
+
+    keyring.saveAccountMeta(current, {
+      name: editedName,
+      whenEdited: Date.now()
+    });
+
+    this.nextState({} as State);
+  }
+
+  onForget = (): void => {
+    const { current } = this.state;
+
+    if (!current) {
+      return;
+    }
+
+    this.setState(
+      this.createState(null, null),
+      () => {
+        keyring.forgetAccount(
+          current.address()
+        );
+      }
+    );
+  }
+
+  onDiscard = (): void => {
+    const { current } = this.state;
+
+    if (!current) {
+      return;
+    }
+
+    this.nextState({
+      editedName: current.getMeta().name
+    } as State);
+  }
 }
 
 export {
   Editor
 };
 
-export default translate(Editor);
+export default withObservableBase(
+  accountObservable.subject, { propName: 'accountAll' }
+)(translate(Editor));

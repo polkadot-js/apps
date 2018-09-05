@@ -7,6 +7,7 @@ import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 
 import React from 'react';
 
+import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import isUndefined from '@polkadot/util/is/undefined';
 import arrayContainsArray from '@polkadot/ui-app/util/arrayContainsArray';
 import File from '@polkadot/ui-app/Params/Param/File';
@@ -107,6 +108,14 @@ class UploadButton extends React.PureComponent<Props, State> {
 
       if (pairRestored) {
         this.hidePasswordModal();
+
+        InputAddress.setLastValue('account', pairRestored.address());
+
+        const json = pairRestored.toJson(password);
+
+        // add encrypted data to keyring since immediately after account creation only secret key is in memory
+        keyring.loadAccount(json);
+
         onChangeAccount(pairRestored.publicKey());
       } else {
         this.setState({
