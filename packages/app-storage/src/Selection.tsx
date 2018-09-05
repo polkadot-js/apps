@@ -55,7 +55,6 @@ class Selection extends React.PureComponent<Props, State> {
           />
           <Params
             item={key}
-            key={`${key.section}.${key.name}`}
             onChange={this.onChangeParams}
           />
         </div>
