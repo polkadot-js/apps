@@ -49,7 +49,7 @@ class Selection extends React.PureComponent<Props, State> {
           <InputStorage
             defaultValue={defaultValue}
             labelSection={t('selection.section', {
-              defaultValue: 'query storage area'
+              defaultValue: 'query state section'
             })}
             onChange={this.onChangeKey}
           />

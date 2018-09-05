@@ -10,10 +10,10 @@ export default ([
   {
     Component: Storage,
     i18n: {
-      defaultValue: 'Storage'
+      defaultValue: 'Chain state'
     },
     icon: 'database',
     isHidden: false,
-    name: 'storage'
+    name: 'chainstate'
   }
 ] as Routes);
