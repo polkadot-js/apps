@@ -21,6 +21,7 @@ import VoteThreshold from './VoteThreshold';
 
 const components: ComponentMap = {
   'AccountId': Account,
+  'AccountIndex': Amount,
   'Balance': Amount,
   'BlockNumber': Amount,
   'bool': Bool,

@@ -16,6 +16,7 @@ import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
 import DownloadButton from './DownloadButton';
+import Forgetting from './Forgetting';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -26,7 +27,8 @@ type Props = I18nProps & {
 type State = {
   current: KeyringPair | null,
   editedName: string,
-  isEdited: boolean
+  isEdited: boolean,
+  isForgetOpen: boolean,
   previous: KeyringPair | null
 };
 
@@ -40,8 +42,14 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   render () {
+    const { isForgetOpen } = this.state;
     return (
       <div className='accounts--Editor'>
+        <Forgetting
+          isOpen={isForgetOpen}
+          onClose={this.toggleForget}
+          doForget={this.onForget}
+        />
         {this.renderData()}
         {this.renderButtons()}
       </div>
@@ -60,10 +68,11 @@ class Editor extends React.PureComponent<Props, State> {
       <Button.Group>
         <Button
           isNegative
-          onClick={this.onForget}
+          onClick={this.toggleForget}
           text={t('editor.forget', {
             defaultValue: 'Forget'
           })}
+
         />
         <Button.Group.Divider />
         <Button
@@ -138,8 +147,11 @@ class Editor extends React.PureComponent<Props, State> {
   createState (current: KeyringPair | null, previous: KeyringPair | null): State {
     return {
       current,
-      editedName: current ? current.getMeta().name || '' : '',
+      editedName: current
+        ? current.getMeta().name || ''
+        : '',
       isEdited: false,
+      isForgetOpen: false,
       previous
     };
   }
@@ -165,11 +177,13 @@ class Editor extends React.PureComponent<Props, State> {
         } else {
           editedName = '';
         }
+        let isForgetOpen = false;
 
         return {
           current,
           editedName,
           isEdited,
+          isForgetOpen,
           previous
         };
       }
@@ -209,6 +223,26 @@ class Editor extends React.PureComponent<Props, State> {
     this.nextState({} as State);
   }
 
+  onDiscard = (): void => {
+    const { current } = this.state;
+
+    if (!current) {
+      return;
+    }
+
+    this.nextState({
+      editedName: current.getMeta().name
+    } as State);
+  }
+
+  toggleForget = (): void => {
+    this.setState(
+      ({ isForgetOpen }: State) => ({
+        isForgetOpen: !isForgetOpen
+      })
+    );
+  }
+
   onForget = (): void => {
     const { current } = this.state;
 
@@ -224,18 +258,6 @@ class Editor extends React.PureComponent<Props, State> {
         );
       }
     );
-  }
-
-  onDiscard = (): void => {
-    const { current } = this.state;
-
-    if (!current) {
-      return;
-    }
-
-    this.nextState({
-      editedName: current.getMeta().name
-    } as State);
   }
 }
 
