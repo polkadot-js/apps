@@ -1,6 +1,7 @@
 // Copyright 2017-2018 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
+
 import { KeyringPair } from '@polkadot/util-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
@@ -32,8 +33,9 @@ class Forgetting extends React.PureComponent<Props> {
     }
 
     return (
+      <article>
       <Modal
-        className='staking--Nominating'
+        size='tiny'
         dimmer='inverted'
         open
         style={style}
@@ -41,6 +43,7 @@ class Forgetting extends React.PureComponent<Props> {
         {this.renderContent()}
         {this.renderButtons()}
       </Modal>
+      </article>
     );
   }
 
@@ -61,8 +64,8 @@ class Forgetting extends React.PureComponent<Props> {
           <Button
             isPrimary
             onClick={doForget}
-            text={t('forget.delete', {
-              defaultValue: 'Delete'
+            text={t('forget.forget', {
+              defaultValue: 'Forget'
             })}
           />
         </Button.Group>
@@ -80,13 +83,15 @@ class Forgetting extends React.PureComponent<Props> {
     return [
       <Modal.Header key='header'>
         {t('forget.header', {
-          defaultValue: 'Are you sure you want to delete this account?'
+          defaultValue: 'Are you sure you want to remove this account from this browser?'
         })}
+      </Modal.Header>,
+      <Modal.Content className='forgetting--Account' key='content'>
         <AddressSummary
-          className='shrink'
+          className='ui--AddressSummary-base'
           value={address || ''}
         />
-      </Modal.Header>
+      </Modal.Content>
     ];
   }
 }
