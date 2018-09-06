@@ -125,11 +125,6 @@ class UploadButton extends React.PureComponent<Props, State> {
 
         InputAddress.setLastValue('account', this.pairRestored.address());
 
-        const json = this.pairRestored.toJson(password);
-
-        // add encrypted data to keyring since immediately after account creation only secret key is in memory
-        keyring.loadAccount(json);
-
         onChangeAccount(this.pairRestored.publicKey());
       } else {
         this.setState({
