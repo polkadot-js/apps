@@ -51,16 +51,13 @@ export default function isValidBalance (input: string, t: TranslationFunction, b
         }
       })
     };
-  } else {
-    // check if value is zero
-    if (inputBN.isZero()) {
-      return {
-        isValid: true,
-        warnMessage: t('balance.warn.zero', {
-          defaultValue: 'Balance to transfer 0 DOTs'
-        })
-      };
-    }
+  } else if (inputBN.isZero()) {
+    return {
+      isValid: true,
+      warnMessage: t('balance.warn.zero', {
+        defaultValue: 'Balance to transfer 0 DOTs'
+      })
+    };
   }
 
   const infoMessage = Number(input) <= MAX_SAFE_INTEGER ? Number.parseFloat(input).toExponential(2) : undefined;
