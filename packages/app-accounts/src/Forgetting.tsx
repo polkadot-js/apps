@@ -33,7 +33,6 @@ class Forgetting extends React.PureComponent<Props> {
     }
 
     return (
-      <article>
       <Modal
         size='tiny'
         dimmer='inverted'
@@ -43,7 +42,6 @@ class Forgetting extends React.PureComponent<Props> {
         {this.renderContent()}
         {this.renderButtons()}
       </Modal>
-      </article>
     );
   }
 
