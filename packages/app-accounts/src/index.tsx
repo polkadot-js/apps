@@ -26,7 +26,8 @@ type Props = I18nProps & {
 type Actions = 'create' | 'edit' | 'restore';
 
 type State = {
-  action: Actions
+  action: Actions,
+  isLoading: boolean
 };
 
 // FIXME React-router would probably be the best route, not home-grown
@@ -37,7 +38,14 @@ const Components: { [index: string]: React.ComponentType<any> } = {
 };
 
 class AccountsApp extends React.PureComponent<Props, State> {
-  state: State = { action: 'edit' };
+  state: State = {
+    action: 'edit',
+    isLoading: true
+  };
+
+  componentDidMount () {
+    this.setState({ isLoading: false });
+  }
 
   componentDidUpdate () {
     const { accountAll } = this.props;
@@ -50,7 +58,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
   render () {
     const { accountAll, t } = this.props;
-    const { action } = this.state;
+    const { action, isLoading } = this.state;
     const Component = Components[action];
     const items = [
       {
@@ -70,6 +78,10 @@ class AccountsApp extends React.PureComponent<Props, State> {
     // Do not load Editor tab if no accounts
     if (isNoAccounts(accountAll)) {
       items.splice(0, 1);
+    }
+
+    if (isLoading) {
+      return null;
     }
 
     return (
