@@ -5,8 +5,6 @@
 let accountsQty: (accountAll?: Array<any>) => number;
 let isAccounts: (accountAll?: Array<any>) => boolean;
 let isNoAccounts: (accountAll?: Array<any>) => boolean;
-let showIsOrAre: (accountAll?: Array<any>) => string;
-let showPlural: (accountAll?: Array<any>) => string;
 
 accountsQty = (accountAll?: Array<any>): number =>
   isAccounts(accountAll) && accountAll ? Object.keys(accountAll).length : 0;
@@ -17,14 +15,8 @@ isAccounts = (accountAll?: Array<any>): boolean =>
 isNoAccounts = (accountAll?: Array<any>): boolean =>
   !accountAll || !Object.keys(accountAll).length;
 
-showIsOrAre = (accountAll?: Array<any>): string => accountsQty(accountAll) === 0 || accountsQty(accountAll) > 1 ? 'are' : 'is';
-
-showPlural = (accountAll?: Array<any>): string => accountsQty(accountAll) === 0 || accountsQty(accountAll) > 1 ? 's' : '';
-
 export {
   accountsQty,
   isAccounts,
-  isNoAccounts,
-  showIsOrAre,
-  showPlural
+  isNoAccounts
 };

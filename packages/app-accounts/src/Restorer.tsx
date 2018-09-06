@@ -9,7 +9,7 @@ import React from 'react';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
-import { accountsQty, showIsOrAre, showPlural } from './util/accounts';
+import { accountsQty } from './util/accounts';
 import UploadButton from './UploadButton';
 import translate from './translate';
 
@@ -34,7 +34,11 @@ class Restorer extends React.PureComponent<Props> {
       <div>
         <div className='accounts--Restorer-message'>
           {t('restorer.existing', {
-            defaultValue: `There ${showIsOrAre(accountAll)} ${accountsQty(accountAll)} saved account${showPlural(accountAll)}. Create an account or upload a JSON file of a saved account.`
+            defaultValue: 'There are {{count}} saved accounts. {{instruction}}',
+            replace: {
+              instruction: 'Create an account or upload a JSON file of a saved account.',
+              count: accountsQty(accountAll)
+            }
           })}
         </div>
         <div className='accounts--Address-wrapper'>
