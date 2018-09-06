@@ -44,7 +44,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
     const { action } = this.state;
 
     if (action === 'edit' && isNoAccounts(accountAll)) {
-      this.selectRestore();
+      this.selectCreate();
     }
   }
 
@@ -99,6 +99,10 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
   onMenuChange = (action: Actions) => {
     this.setState({ action });
+  }
+
+  selectCreate = (): void => {
+    this.setState({ action: 'create' });
   }
 
   selectEdit = (): void => {
