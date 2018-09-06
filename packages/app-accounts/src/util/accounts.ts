@@ -8,11 +8,14 @@ let isNoAccounts: (accountAll?: Array<any>) => boolean;
 let showIsOrAre: (accountAll?: Array<any>) => string;
 let showPlural: (accountAll?: Array<any>) => string;
 
-accountsQty = (accountAll?: Array<any>): number => isAccounts(accountAll) && accountAll ? Object.keys(accountAll).length : 0;
+accountsQty = (accountAll?: Array<any>): number =>
+  isAccounts(accountAll) && accountAll ? Object.keys(accountAll).length : 0;
 
-isAccounts = (accountAll?: Array<any>): boolean => !isNoAccounts(accountAll);
+isAccounts = (accountAll?: Array<any>): boolean =>
+  !isNoAccounts(accountAll);
 
-isNoAccounts = (accountAll?: Array<any>): boolean => !accountAll || !Object.keys(accountAll).length;
+isNoAccounts = (accountAll?: Array<any>): boolean =>
+  !accountAll || !Object.keys(accountAll).length;
 
 showIsOrAre = (accountAll?: Array<any>): string => accountsQty(accountAll) === 0 || accountsQty(accountAll) > 1 ? 'are' : 'is';
 
