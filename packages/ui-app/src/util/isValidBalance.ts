@@ -38,7 +38,6 @@ export default function isValidBalance (input: string, t: TranslationFunction, b
   }
 
   const maxBN = maxValue(bitLength);
-
   const inputBN = new BN(input);
 
   // if 128 bit then max is 340282366920938463463374607431768211455
