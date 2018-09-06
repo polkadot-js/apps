@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { BareProps, I18nProps } from '@polkadot/ui-app/types';
-import { KeyringPair$Json } from '@polkadot/util-keyring/types';
+import { KeyringPair, KeyringPair$Json } from '@polkadot/util-keyring/types';
 
 import React from 'react';
 
@@ -16,15 +16,8 @@ import keyring from '@polkadot/ui-keyring/index';
 import UploadModal from './UploadModal';
 import translate from './translate';
 
-let actualJsonProperties: Array<string> = [];
-let blob: Blob;
 const createBlob = (fileBytes: Uint8Array): Blob =>
   new Blob([fileBytes], { type: 'text/plain;charset=utf-8' });
-let expectedJsonProperties: Array<string> = [];
-let fileContents: Object = {};
-const fileReader: FileReader = new FileReader();
-let json;
-let pairRestored;
 
 type State = {
   address: string,
@@ -41,10 +34,26 @@ type Props = I18nProps & BareProps & {
 class UploadButton extends React.PureComponent<Props, State> {
   state: State;
 
+  private actualJsonProperties: Array<string>;
+  private blob: Blob | undefined;
+  private expectedJsonProperties: Array<string>;
+  private fileContents: Object;
+  private fileReader: FileReader;
+  private json: KeyringPair$Json | undefined;
+  private pairRestored: KeyringPair | undefined;
+
   constructor (props: Props) {
     super(props);
 
     this.state = this.emptyState();
+
+    this.actualJsonProperties = [];
+    this.blob = undefined;
+    this.expectedJsonProperties = [];
+    this.fileContents = {};
+    this.fileReader = new FileReader();
+    this.json = undefined;
+    this.pairRestored = undefined;
   }
 
   handleUploadedFiles = (fileBytes: Uint8Array): void => {
@@ -55,25 +64,25 @@ class UploadButton extends React.PureComponent<Props, State> {
       return;
     }
 
-    blob = createBlob(fileBytes);
+    this.blob = createBlob(fileBytes);
 
-    fileReader.onload = (e) => {
+    this.fileReader.onload = (e) => {
       try {
         if (!isUndefined(e) && e.target !== null) {
           // Cast to type 'any' since property 'result' does exist on type 'EventTarget'
           // Reference: https://stackoverflow.com/a/45017155/3208553
-          fileContents = JSON.parse((e.target as any).result);
-          expectedJsonProperties = ['address', 'encoding', 'meta'];
-          actualJsonProperties = Object.keys(fileContents);
+          this.fileContents = JSON.parse((e.target as any).result);
+          this.expectedJsonProperties = ['address', 'encoding', 'meta'];
+          this.actualJsonProperties = Object.keys(this.fileContents);
 
-          if (arrayContainsArray(actualJsonProperties, expectedJsonProperties)) {
-            json = fileContents;
+          if (arrayContainsArray(this.actualJsonProperties, this.expectedJsonProperties)) {
+            this.json = this.fileContents as KeyringPair$Json;
 
-            keyring.loadAccount(json as KeyringPair$Json);
+            keyring.loadAccount(this.json);
 
             // Store uploaded wallet in state and open modal to get their password for it
             this.setState({
-              uploadedFileKeyringPair: json as KeyringPair$Json
+              uploadedFileKeyringPair: this.json
             }, () =>
               this.showPasswordModal()
             );
@@ -91,7 +100,7 @@ class UploadButton extends React.PureComponent<Props, State> {
       }
     };
 
-    fileReader.readAsText(blob);
+    this.fileReader.readAsText(this.blob);
   }
 
   processUploadedFileStorage = (): void => {
@@ -102,26 +111,26 @@ class UploadButton extends React.PureComponent<Props, State> {
       return;
     }
 
-    json = uploadedFileKeyringPair;
+    this.json = uploadedFileKeyringPair;
 
     try {
-      if (!json || !Object.keys(json).length) {
+      if (!this.json || !Object.keys(this.json).length) {
         return;
       }
 
-      pairRestored = keyring.restoreAccount(json, password);
+      this.pairRestored = keyring.restoreAccount(this.json, password);
 
-      if (pairRestored) {
+      if (this.pairRestored) {
         this.hidePasswordModal();
 
-        InputAddress.setLastValue('account', pairRestored.address());
+        InputAddress.setLastValue('account', this.pairRestored.address());
 
-        const json = pairRestored.toJson(password);
+        const json = this.pairRestored.toJson(password);
 
         // add encrypted data to keyring since immediately after account creation only secret key is in memory
         keyring.loadAccount(json);
 
-        onChangeAccount(pairRestored.publicKey());
+        onChangeAccount(this.pairRestored.publicKey());
       } else {
         this.setState({
           error: t('upload.error.memory', {
