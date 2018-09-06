@@ -18,7 +18,8 @@ import translate from './translate';
 
 let actualJsonProperties: Array<string> = [];
 let blob: Blob;
-const createBlob = (fileBytes: Uint8Array): Blob => new Blob([fileBytes], { type: 'text/plain;charset=utf-8' });
+const createBlob = (fileBytes: Uint8Array): Blob =>
+  new Blob([fileBytes], { type: 'text/plain;charset=utf-8' });
 let expectedJsonProperties: Array<string> = [];
 let fileContents: Object = {};
 const fileReader: FileReader = new FileReader();
@@ -71,7 +72,11 @@ class UploadButton extends React.PureComponent<Props, State> {
             keyring.loadAccount(json as KeyringPair$Json);
 
             // Store uploaded wallet in state and open modal to get their password for it
-            this.setState({ uploadedFileKeyringPair: json as KeyringPair$Json }, () => this.showPasswordModal());
+            this.setState({
+              uploadedFileKeyringPair: json as KeyringPair$Json
+            }, () =>
+              this.showPasswordModal()
+            );
           } else {
             throw Error('Unable to load account with invalid JSON property names');
           }
