@@ -16,7 +16,6 @@ import addressObservable from '@polkadot/ui-keyring/observable/addresses';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
 import Forgetting from './Forgetting';
-
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -41,13 +40,14 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isForgetOpen } = this.state;
+    const { isForgetOpen, current } = this.state;
     return (
       <div className='addresses--Editor'>
         <Forgetting
           isOpen={isForgetOpen}
           onClose={this.toggleForget}
           doForget={this.onForget}
+          currentAddress={current}
         />
         {this.renderData()}
         {this.renderButtons()}
