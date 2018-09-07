@@ -63,7 +63,7 @@ class Balance extends React.PureComponent<Props, State> {
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
           placeholder={t('account.balance.placeholder', {
-            defaultValue: 'Between 0 DOT and the available DOT balance of the account'
+            defaultValue: 'Positive number'
           })}
           withLabel={withLabel}
           warn={warn}
@@ -136,7 +136,7 @@ class Balance extends React.PureComponent<Props, State> {
     if (keydown.isNonNumeric(event)) {
       this.setState({
         error: t('balance.error.format', {
-          defaultValue: 'Balance to transfer in DOTs must be a number'
+          defaultValue: 'Balance to transfer in DOTs must be a positive number'
         })
       });
       event.preventDefault();
