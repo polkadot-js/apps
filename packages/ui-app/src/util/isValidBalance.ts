@@ -7,7 +7,7 @@ import { TranslationFunction } from 'i18next';
 
 import isString from '@polkadot/util/is/string';
 
-import { maxValue } from '../util/chainSpec';
+import { isValidBitLength, maxValue } from '../util/chainSpec';
 import { BIT_LENGTH_128, MAX_SAFE_INTEGER } from '../constants';
 import { IsValidWithMessage } from './types';
 
@@ -41,13 +41,13 @@ export default function isValidBalance (input: string, t: TranslationFunction, b
   const inputBN = new BN(input);
 
   // if 128 bit then max is 340282366920938463463374607431768211455
-  if (!inputBN.lt(maxBN)) {
+  if (!inputBN.lt(maxBN) || !isValidBitLength(inputBN, bitLength)) {
     return {
       isValid: false,
       errorMessage: t('balance.error.above.max', {
-        defaultValue: 'Balance above max for {{bitLength}} bit',
+        defaultValue: 'Balance above max bit-length for {{bitLength}} bit',
         replace: {
-          bitLength: bitLength
+          bitLength
         }
       })
     };
