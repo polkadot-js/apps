@@ -7,6 +7,7 @@ import { BareProps } from './types';
 import React from 'react';
 
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message/index';
+
 import classes from './util/classes';
 
 type SemanticMessageSizes = 'mini' | 'tiny' | 'small' | 'large' | 'big' | 'huge' | 'massive';
