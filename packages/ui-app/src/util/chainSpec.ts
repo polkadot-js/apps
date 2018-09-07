@@ -16,9 +16,11 @@ const isValidBitLength = (value: BN, bitLength?: number): boolean => {
  * and may be entered as 3.4e38, 3.4e+38 or 340282366920938463463374607431768211455. we may
  * show it is equivalent to 340282366920938463463374607431768211455 by calling .toString(10)
  */
-const maxValue = (bitLength?: number): BN => new BN(2).pow(new BN(bitLength || BIT_LENGTH_128)).subn(1);
+const maxValue = (bitLength?: number): BN =>
+  new BN(2).pow(new BN(bitLength || BIT_LENGTH_128)).subn(1);
 
-const maxLength = (maxValue: BN): number => maxValue.toString().length; // returns 39 for 128 bit arg
+const maxLength = (maxValue: BN): number =>
+  maxValue.toString().length; // returns 39 for 128 bit arg
 
 const defaultMaxLength = maxLength(maxValue());
 
