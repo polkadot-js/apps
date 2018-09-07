@@ -10,7 +10,7 @@
   "contributors": [],
   "license": "ISC",
   "dependencies": {
-    "@babel/runtime": "^7.0.0-rc.1",
+    "@babel/runtime": "^7.0.0",
     "@polkadot/ui-app": "^0.19.58",
     "@polkadot/ui-keyring": "^0.19.58"
   }
