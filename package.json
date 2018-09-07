@@ -11,7 +11,7 @@
   ],
   "resolutions": {
     "babel-core": "^7.0.0-bridge.0",
-    "rxjs": "^6.2.2",
+    "rxjs": "^6.3.2",
     "typescript": "^3.0.1"
   },
   "scripts": {
@@ -29,14 +29,14 @@
     "start": "cd packages/apps && webpack-serve --config webpack.config.js --port 3000"
   },
   "devDependencies": {
-    "@polkadot/dev-react": "^0.20.18",
-    "@polkadot/ts": "^0.1.24",
-    "autoprefixer": "^9.1.2",
-    "babel-loader": "^8.0.0-beta.2",
+    "@polkadot/dev-react": "^0.20.19",
+    "@polkadot/ts": "^0.1.25",
+    "autoprefixer": "^9.1.5",
+    "babel-loader": "^8.0.2",
     "css-loader": "^1.0.0",
-    "enzyme": "^3.4.4",
-    "enzyme-adapter-react-16": "^1.2.0",
-    "file-loader": "^1.1.11",
+    "enzyme": "^3.6.0",
+    "enzyme-adapter-react-16": "^1.5.0",
+    "file-loader": "^2.0.0",
     "gh-pages": "^1.1.0",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.4.2",
@@ -46,10 +46,10 @@
     "postcss-import": "^12.0.0",
     "postcss-loader": "^3.0.0",
     "postcss-nested": "^3.0.0",
-    "postcss-sass": "^0.3.0",
+    "postcss-sass": "^0.3.3",
     "postcss-simple-vars": "^4.1.0",
     "precss": "^3.1.2",
-    "style-loader": "^0.22.1",
+    "style-loader": "^0.23.0",
     "thread-loader": "^1.2.0",
     "url-loader": "^1.1.1"
   }
