@@ -114,11 +114,11 @@ class Balance extends React.PureComponent<Props, State> {
       return;
     }
 
-    if (KEYS_ALLOWED.includes(event.keyCode)) {
+    if (KEYS_ALLOWED.includes(event.key)) {
       return;
     }
 
-    if (KEYS_PRE.includes(event.keyCode)) {
+    if (KEYS_PRE.includes(event.key)) {
       this.setState({ isPreKeyDown: true });
     }
 
@@ -145,7 +145,7 @@ class Balance extends React.PureComponent<Props, State> {
   }
 
   onKeyUp = (event: any): void => {
-    if (KEYS_PRE.includes(event.keyCode)) {
+    if (KEYS_PRE.includes(event.key)) {
       this.setState({ isPreKeyDown: false });
     }
   }
