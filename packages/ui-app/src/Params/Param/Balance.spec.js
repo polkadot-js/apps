@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import React from 'react';
+
 import { mount } from '../../../../../test/enzyme';
 import { Balance } from './Balance';
 
