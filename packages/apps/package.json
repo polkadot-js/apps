@@ -12,7 +12,7 @@
   "contributors": [],
   "license": "ISC",
   "dependencies": {
-    "@babel/runtime": "^7.0.0-rc.1",
+    "@babel/runtime": "^7.0.0",
     "@polkadot/app-accounts": "^0.19.58",
     "@polkadot/app-addresses": "^0.19.58",
     "@polkadot/app-democracy": "^0.19.58",

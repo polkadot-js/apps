@@ -17,12 +17,12 @@
   ],
   "license": "ISC",
   "dependencies": {
-    "@babel/runtime": "^7.0.0-rc.1",
+    "@babel/runtime": "^7.0.0",
     "@types/color": "^3.0.0",
     "color": "^3.0.0"
   },
   "devDependencies": {
-    "@polkadot/util-crypto": "^0.29.21",
+    "@polkadot/util-crypto": "^0.29.32",
     "xmlserializer": "^0.6.1"
   }
 }

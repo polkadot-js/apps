@@ -10,17 +10,14 @@
   "contributors": [],
   "license": "ISC",
   "dependencies": {
-    "@babel/runtime": "^7.0.0-rc.1",
+    "@babel/runtime": "^7.0.0",
     "@polkadot/ui-identicon": "^0.19.58",
     "polkadot-identicon": "^1.0.2"
   },
   "devDependencies": {
-    "@polkadot/util-keyring": "^0.29.21",
+    "@polkadot/util-keyring": "^0.29.32",
     "empty": "^0.10.1",
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2"
-  },
-  "peerDependencies": {
-    "react": "^16.4.1"
+    "react": "^16.5.0",
+    "react-dom": "^16.5.0"
   }
 }
