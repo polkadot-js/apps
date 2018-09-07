@@ -2,6 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-export default function isNotDigit (event: any): boolean {
+export default function isNotDigit (event: KeyboardEvent): boolean {
   return event.keyCode < 48 || event.keyCode > 57;
 }

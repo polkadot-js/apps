@@ -6,6 +6,9 @@ import { KEYS } from '../../constants';
 
 const regexDecimalPoint = /[\.]/gi;
 
-export default function isDuplicateDecimalPoint (event: any): boolean {
-  return event.keyCode === KEYS.DECIMAL_POINT && event.target.value.match(regexDecimalPoint);
+export default function isDuplicateDecimalPoint (event: KeyboardEvent): boolean {
+  const inputValue: string = (event.target as HTMLInputElement).value;
+  const didPressDecimalPoint: boolean = event.keyCode === KEYS.DECIMAL_POINT;
+  const foundExistingDecimalPoint: boolean = inputValue.match(regexDecimalPoint) ? true : false;
+  return didPressDecimalPoint && foundExistingDecimalPoint;
 }

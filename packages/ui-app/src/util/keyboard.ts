@@ -12,19 +12,19 @@ import isShift from './keyboard/isShift';
 
 const keydown = {
   // Reference: Degrade to keyCode for cross-browser compatibility https://www.w3schools.com/jsref/event_key_keycode.asp
-  isCopy: (event: any, isPreKeyDown: boolean): boolean =>
+  isCopy: (event: KeyboardEvent, isPreKeyDown: boolean): boolean =>
     isCopy(event, isPreKeyDown),
-  isCut: (event: any, isPreKeyDown: boolean): boolean =>
+  isCut: (event: KeyboardEvent, isPreKeyDown: boolean): boolean =>
     isCut(event, isPreKeyDown),
-  isDuplicateDecimalPoint: (event: any): boolean =>
+  isDuplicateDecimalPoint: (event: KeyboardEvent): boolean =>
     isDuplicateDecimalPoint(event),
-  isNonNumeric: (event: any): boolean =>
+  isNonNumeric: (event: KeyboardEvent): boolean =>
     isNonNumeric(event),
-  isPaste: (event: any, isPreKeyDown: boolean): boolean =>
+  isPaste: (event: KeyboardEvent, isPreKeyDown: boolean): boolean =>
     isPaste(event, isPreKeyDown),
-  isSelectAll: (event: any, isPreKeyDown: boolean): boolean =>
+  isSelectAll: (event: KeyboardEvent, isPreKeyDown: boolean): boolean =>
     isSelectAll(event, isPreKeyDown),
-  isShift: (event: any): boolean =>
+  isShift: (event: KeyboardEvent): boolean =>
     isShift(event)
 };
 

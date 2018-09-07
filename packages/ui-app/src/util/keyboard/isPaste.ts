@@ -4,6 +4,6 @@
 
 import { KEYS } from '../../constants';
 
-export default function isPaste (event: any, isPreKeyDown: boolean): boolean {
+export default function isPaste (event: KeyboardEvent, isPreKeyDown: boolean): boolean {
   return isPreKeyDown && event.which === KEYS.V;
 }

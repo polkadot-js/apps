@@ -4,6 +4,6 @@
 
 import { KEYS } from '../../constants';
 
-export default function isCopy (event: any, isPreKeyDown: boolean): boolean {
+export default function isCopy (event: KeyboardEvent, isPreKeyDown: boolean): boolean {
   return isPreKeyDown && (event.which || event.keyCode) === KEYS.C;
 }
