@@ -60,7 +60,7 @@ export default function isValidBalance (input: string, t: TranslationFunction, b
     };
   }
 
-  const infoMessage = Number(input) <= MAX_SAFE_INTEGER ? Number.parseFloat(input).toExponential(2) : undefined;
+  const infoMessage: string | undefined = Number(input) <= MAX_SAFE_INTEGER ? Number.parseFloat(input).toExponential(2) : undefined;
 
   return {
     isValid: true,
