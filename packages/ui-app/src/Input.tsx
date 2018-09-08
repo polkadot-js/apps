@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { BareProps, SUIEvent } from './types';
+import { BareProps } from './types';
 
 import React from 'react';
 import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
@@ -31,8 +31,8 @@ type Props = BareProps & {
   min?: any,
   name?: string,
   onChange: (value: string) => void,
-  onKeyDown?: (event: SUIEvent) => void,
-  onKeyUp?: (event: SUIEvent) => void,
+  onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
+  onKeyUp?: (key: string) => void,
   placeholder?: string,
   type?: Input$Type,
   value?: any,
@@ -105,11 +105,13 @@ export default class Input extends React.PureComponent<Props, State> {
     );
   }
 
-  onChange = (event: React.SyntheticEvent<Element>, { value }: SUIEvent): void => {
-    this.props.onChange(value);
+  onChange = (event: React.SyntheticEvent<Element>): void => {
+    const { onChange } = this.props;
+
+    onChange((event.target as HTMLInputElement).value);
   }
 
-  onKeyDown = (event: SUIEvent): void => {
+  onKeyDown = (event: React.KeyboardEvent<Element>): void => {
     const { onKeyDown } = this.props;
 
     if (onKeyDown) {
@@ -117,11 +119,11 @@ export default class Input extends React.PureComponent<Props, State> {
     }
   }
 
-  onKeyUp = (event: SUIEvent): void => {
+  onKeyUp = ({ key }: React.KeyboardEvent<Element>): void => {
     const { onKeyUp } = this.props;
 
     if (onKeyUp) {
-      onKeyUp(event);
+      onKeyUp(key);
     }
   }
 }

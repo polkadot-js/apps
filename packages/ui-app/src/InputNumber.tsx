@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { BareProps, SUIEvent } from './types';
+import { BareProps } from './types';
 
 import React from 'react';
 
@@ -17,8 +17,8 @@ type Props = BareProps & {
   label?: any,
   maxLength?: number,
   onChange: (value: string) => void,
-  onKeyDown?: (event: SUIEvent) => void,
-  onKeyUp?: (event: SUIEvent) => void,
+  onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
+  onKeyUp?: (key: string) => void,
   placeholder?: string,
   warn?: React.ReactNode,
   withLabel?: boolean

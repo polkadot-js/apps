@@ -4,6 +4,6 @@
 
 import { KEYS } from '../../constants';
 
-export default function isSelectAll (event: KeyboardEvent, isPreKeyDown: boolean): boolean {
-  return isPreKeyDown && event.key === KEYS.A;
+export default function isSelectAll (key: string, isPreKeyDown: boolean): boolean {
+  return isPreKeyDown && key === KEYS.A;
 }

@@ -12,20 +12,20 @@ import isShift from './keyboard/isShift';
 
 const keydown = {
   // Reference: Degrade to keyCode for cross-browser compatibility https://www.w3schools.com/jsref/event_key_keycode.asp
-  isCopy: (event: KeyboardEvent, isPreKeyDown: boolean): boolean =>
-    isCopy(event, isPreKeyDown),
-  isCut: (event: KeyboardEvent, isPreKeyDown: boolean): boolean =>
-    isCut(event, isPreKeyDown),
-  isDuplicateDecimalPoint: (event: KeyboardEvent): boolean =>
-    isDuplicateDecimalPoint(event),
-  isNonNumeric: (event: KeyboardEvent): boolean =>
-    isNonNumeric(event),
-  isPaste: (event: KeyboardEvent, isPreKeyDown: boolean): boolean =>
-    isPaste(event, isPreKeyDown),
-  isSelectAll: (event: KeyboardEvent, isPreKeyDown: boolean): boolean =>
-    isSelectAll(event, isPreKeyDown),
-  isShift: (event: KeyboardEvent): boolean =>
-    isShift(event)
+  isCopy: (key: string, isPreKeyDown: boolean): boolean =>
+    isCopy(key, isPreKeyDown),
+  isCut: (key: string, isPreKeyDown: boolean): boolean =>
+    isCut(key, isPreKeyDown),
+  isDuplicateDecimalPoint: (key: string, value: string): boolean =>
+    isDuplicateDecimalPoint(key, value),
+  isNonNumeric: (key: string): boolean =>
+    isNonNumeric(key),
+  isPaste: (key: string, isPreKeyDown: boolean): boolean =>
+    isPaste(key, isPreKeyDown),
+  isSelectAll: (key: string, isPreKeyDown: boolean): boolean =>
+    isSelectAll(key, isPreKeyDown),
+  isShift: (shiftKey: boolean): boolean =>
+    isShift(shiftKey)
 };
 
 export {

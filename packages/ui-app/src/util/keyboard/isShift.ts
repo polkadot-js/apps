@@ -2,6 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-export default function isShift (event: KeyboardEvent): boolean {
-  return event.shiftKey;
+export default function isShift (shiftKey: boolean): boolean {
+  return shiftKey;
 }

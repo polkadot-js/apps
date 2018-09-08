@@ -100,15 +100,15 @@ class Balance extends React.PureComponent<Props, State> {
     }
   }
 
-  onKeyDown = (event: any): void => {
+  onKeyDown = (event: React.KeyboardEvent<Element>): void => {
     const { t } = this.props;
     const { isPreKeyDown } = this.state;
 
     // only allow user balance input to contain one instance of '.' for decimals.
     // prevent use of shift key
     if (
-      (keydown.isDuplicateDecimalPoint(event)) ||
-      (keydown.isShift(event))
+      (keydown.isDuplicateDecimalPoint(event.key, (event.target as HTMLInputElement).value)) ||
+      (keydown.isShift(event.shiftKey))
     ) {
       event.preventDefault();
       return;
@@ -124,16 +124,16 @@ class Balance extends React.PureComponent<Props, State> {
 
     // allow users to to use cut/copy/paste combinations, but not non-numeric letters individually
     if (
-      (keydown.isSelectAll(event, isPreKeyDown)) ||
-      (keydown.isCut(event, isPreKeyDown)) ||
-      (keydown.isCopy(event, isPreKeyDown)) ||
-      (keydown.isPaste(event, isPreKeyDown))
+      (keydown.isSelectAll(event.key, isPreKeyDown)) ||
+      (keydown.isCut(event.key, isPreKeyDown)) ||
+      (keydown.isCopy(event.key, isPreKeyDown)) ||
+      (keydown.isPaste(event.key, isPreKeyDown))
     ) {
       return;
     }
 
     // prevent input of non-integer values (allow numeric including from keyboards with numpad)
-    if (keydown.isNonNumeric(event)) {
+    if (keydown.isNonNumeric(event.key)) {
       this.setState({
         error: t('balance.error.format', {
           defaultValue: 'Balance to transfer in DOTs must be a positive number'
@@ -144,8 +144,8 @@ class Balance extends React.PureComponent<Props, State> {
     }
   }
 
-  onKeyUp = (event: any): void => {
-    if (KEYS_PRE.includes(event.key)) {
+  onKeyUp = (key: string): void => {
+    if (KEYS_PRE.includes(key)) {
       this.setState({ isPreKeyDown: false });
     }
   }
