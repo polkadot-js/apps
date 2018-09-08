@@ -13,6 +13,7 @@ import { IsValidWithMessage } from './types';
 
 // RegEx Pattern (positive integers or decimal values)
 const reValidInputChars = RegExp('^[0-9\.]+[0-9\.]*$');
+const reZero = /[.]/gi;
 
 export default function isValidBalance (input: string, t: TranslationFunction, bitLength?: number): IsValidWithMessage {
   bitLength = bitLength || BIT_LENGTH_128;
@@ -60,12 +61,30 @@ export default function isValidBalance (input: string, t: TranslationFunction, b
     };
   }
 
-  const infoMessage: string | undefined = Number(input) <= MAX_SAFE_INTEGER
-    ? Number.parseFloat(input).toExponential(2)
-    : undefined;
+  const maxSafeIntegerBN = new BN(String(MAX_SAFE_INTEGER));
+
+  if (inputBN.gt(maxSafeIntegerBN)) {
+    return {
+      isValid: false
+    };
+  }
+
+  /* Use BN.js to generate approximate value in scientific notation without
+   * using Number (i.e. `Number.parseFloat(input).toExponential(2)`).
+   * Display an info message only if the input string does not contain decimal point
+   */
+  if (!input.match(reZero)) {
+    const inputValue = inputBN.toString(10);
+    const inputValueExponent = inputValue.length - 1;
+    const infoMessage: string = `${inputValue.charAt(0)}e+${inputValueExponent}`;
+
+    return {
+      isValid: true,
+      infoMessage
+    };
+  }
 
   return {
-    isValid: true,
-    infoMessage
+    isValid: true
   };
 }

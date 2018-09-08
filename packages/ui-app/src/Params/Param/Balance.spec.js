@@ -31,11 +31,23 @@ describe('Balance', () => {
   });
 
   it('should display correct Info Notification in exponential notation when user inputs integer value', () => {
-    inputElementBalance.instance().value = '1';
+    inputElementBalance.instance().value = '99';
     inputElementBalance.simulate('change');
     divNotificationsText = wrapper.find('.ui--Notifications').find('div.message');
     expect(divNotificationsText.hasClass('info')).toBe(true);
-    expect(divNotificationsText.text()).toEqual('1.00e+0');
+    expect(divNotificationsText.text()).toEqual('9e+1');
+  });
+
+  it('should not display Info Notification when user inputs a value containing a decimal point', () => {
+    inputElementBalance.instance().value = '9.';
+    inputElementBalance.simulate('change');
+    expect(divNotifications).toHaveLength(0);
+  });
+
+  it('should not display Info Notification when user inputs a value where first character is a decimal point', () => {
+    inputElementBalance.instance().value = '.';
+    inputElementBalance.simulate('change');
+    expect(divNotifications).toHaveLength(0);
   });
 
   it('should display correct i18n Warning Notification when user enters zero', () => {
