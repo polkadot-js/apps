@@ -3,76 +3,72 @@
 // of the ISC license. See the LICENSE file for details.
 
 import React from 'react';
-import { mount } from '../../../test/enzyme';
+import { shallow } from '../../../test/enzyme';
 import { Signer } from './Modal';
 
 const mockT = (key, options) => (key);
 
 describe('Signer', () => {
-  let wrapper, fixtureQueueProp, fixtureCurrentItemState;
+  let wrapper, expectedNextCurrentItemState, fixtureCurrentItemState, fixtureQueueProp, inputPassword;
 
   beforeEach(() => {
+    fixtureCurrentItemState = {
+      rpc: {
+        isSigned: true
+      },
+      id: 'test1',
+      publicKey: new Uint8Array([1]),
+      status: 'sending'
+    };
+
     fixtureQueueProp = [{
       rpc: {
         isSigned: true
       },
-      id: 'test',
-      status: 'test'
+      id: 'test2',
+      publicKey: new Uint8Array([2]),
+      status: 'queued'
     }];
 
-    fixtureCurrentItemState = fixtureQueueProp[0];
+    expectedNextCurrentItemState = fixtureQueueProp[0];
 
-    wrapper = mount(
+    wrapper = shallow(
       <Signer
         t={mockT}
-        queue={fixtureQueueProp}
-      />, {}
+        queue={[]}
+      />
     );
   });
 
   it('creates the element', () => {
     expect(wrapper).toHaveLength(1);
+    console.log(wrapper.debug());
   });
 
-  // Pending resolution of Enzyme issue: https://github.com/airbnb/enzyme/issues/1794
-  it.skip('set the state of the component using callbacks and anonymous function', (done) => {
-    wrapper.setState({ currentItem: fixtureCurrentItemState }, () => {
-      expect(wrapper.update().state('currentItem')).toEqual(fixtureCurrentItemState);
-      expect(wrapper.update().find('.ui--signer-Signer')).toHaveLength(1);
-      done();
-    });
-  });
-
-  it.skip('set the state of the component using callbacks and named functions', (done) => {
-    const checkExpectation = (done) => {
-      expect(wrapper.update().state('currentItem')).toEqual(fixtureCurrentItemState);
-      done();
-    };
-
-    const doAsyncAction = (callback, done) => {
-      wrapper.setState({ currentItem: fixtureCurrentItemState }, () => {
-        callback(done);
-      });
-    };
-
-    doAsyncAction(checkExpectation, done);
-  });
-
-  it.skip('set the state of the component using promises', () => {
-    Promise.resolve(wrapper.setState({ currentItem: fixtureCurrentItemState }))
-      .then(_ => {
-        expect(wrapper.update().state('currentItem')).toEqual(fixtureCurrentItemState);
-        expect(wrapper.update().find('.ui--signer-Signer')).toHaveLength(1);
-      })
-      .catch((error) => console.log('error', error));
-  });
-
+  // Resolution of Enzyme issue: https://github.com/airbnb/enzyme/issues/1794
   it.skip('set the state of the component using async await', async () => {
     try {
-      await wrapper.setState({ currentItem: fixtureCurrentItemState });
+      await wrapper.setState({
+        currentItem: fixtureCurrentItemState,
+        password: '123',
+        unlockError: null
+      });
 
-      expect(wrapper.update().state('currentItem')).toEqual(fixtureCurrentItemState);
+      await wrapper.setProps({
+        queue: fixtureQueueProp
+      });
+
+      expect(wrapper.update().state('currentItem')).toEqual(expectedNextCurrentItemState);
+      wrapper.children().debug();
       expect(wrapper.update().find('.ui--signer-Signer')).toHaveLength(1);
+      expect(wrapper.update().find('.ui--signer-Signer-Unlock')).toHaveLength(1);
+      // check no password input field validation error
+      expect(wrapper.update().find('.ui--signer-Signer-Unlock').closest('input').parent().hasClass('ui action input')).toBe(true);
+      inputPassword = wrapper.find('.ui--signer-Signer-Unlock').find('input');
+      const enterKey = 'Enter';
+      inputPassword.simulate('keyDown', {key: enterKey});
+      // check password input field validation error when press enter without password
+      expect(wrapper.update().find('.ui--signer-Signer-Unlock').closest('input').parent().hasClass('ui error action input')).toBe(true);
     } catch (error) {
       console.error(error);
     }
