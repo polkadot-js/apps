@@ -18,8 +18,16 @@ const isValidBitLength = (value: BN, bitLength?: number): boolean =>
 const maxValue = (bitLength?: number): BN =>
   new BN(2).pow(new BN(bitLength || BIT_LENGTH_128)).subn(1);
 
-const maxLength = (maxValue: BN): number =>
-  maxValue.toString().length; // returns 39 for 128 bit arg
+/* max length in digits the user may enter in input field is reduced by conservativeness factor.
+ * i.e. 16 bit largest allowable number in decimal is 2**16-1 (65535) having 5 digits.
+ * if user is allowed to enter 5 digits and they enter >65535 then an error notification appears.
+ * but we only allow user to enter 4 digits (i.e. max 9999) when conservativeness factor is set to 1,
+ * so with the conservativeness factor set they are should not encounter the error notification.
+ */
+const maxLength = (maxValue: BN): number => {
+  const conservativenessFactor = 1;
+  return maxValue.toString().length - conservativenessFactor; // returns 38 for 128 bit arg
+};
 
 const defaultMaxLength = maxLength(maxValue());
 
