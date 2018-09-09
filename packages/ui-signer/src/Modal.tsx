@@ -201,12 +201,12 @@ class Signer extends React.PureComponent<Props, State> {
     });
   }
 
-  onKeyDown = (event: any): void => {
+  onKeyDown = (event: React.KeyboardEvent<Element>): void => {
     if (event.keyCode === 13) {
       const node = this.submitButtonDiv.current;
 
       if (node instanceof HTMLElement) {
-        const child = node.querySelector('.ui--signer-Signer-Submit');
+        const child = node.firstChild;
 
         if (child instanceof HTMLElement) {
           child.click();

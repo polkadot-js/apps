@@ -25,7 +25,3 @@ export type BaseContext = {
     }
   }
 };
-
-export type SUIEvent = {
-  value: any
-};
