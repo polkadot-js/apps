@@ -36,7 +36,8 @@ export default class ObservableApi implements ObservableApiInterface {
 
   private combine = <T, R> (observables: Array<Observable<any>>, mapfn: MapFn<R, T> = defaultMapFn): Observable<T> => {
     return combineLatest(...observables).pipe(
-      defaultIfEmpty([]),
+      // FIXME There are a couple of places now where this casting happens after rxjs 6.3.2
+      defaultIfEmpty([] as any),
       map(mapfn)
     );
   }
@@ -58,6 +59,7 @@ export default class ObservableApi implements ObservableApiInterface {
     return this
       .rawStorageMulti([key, ...params] as KeyWithParams)
       .pipe(
+        // @ts-ignore After upgrade to 6.3.2
         map(([result]: Array<T>): T =>
           result
         )
@@ -110,6 +112,7 @@ export default class ObservableApi implements ObservableApiInterface {
     return this
       .rawStorage(storage.democracy.public.proposals)
       .pipe(
+        // @ts-ignore After upgrade to 6.3.2
         map((proposals: Array<ResultProposal> = []) =>
           proposals
             .map((result: ResultProposal): RxProposal | undefined =>
@@ -142,6 +145,7 @@ export default class ObservableApi implements ObservableApiInterface {
     return this
       .rawStorage(storage.democracy.public.depositOf, proposalId)
       .pipe(
+        // @ts-ignore After upgrade to 6.3.2
         map((result: ResultProposalDeposits): RxProposalDeposits | undefined =>
           result && result[0]
             ? {
@@ -161,6 +165,7 @@ export default class ObservableApi implements ObservableApiInterface {
     return this
       .rawStorage(storage.democracy.public.referendumInfoOf, referendumId)
       .pipe(
+        // @ts-ignore After upgrade to 6.3.2
         map((result: ResultReferendum) =>
           result && result[1]
             ? {
@@ -209,6 +214,7 @@ export default class ObservableApi implements ObservableApiInterface {
         this.democracyNextTally()
       ]
     ).pipe(
+      // @ts-ignore After upgrade to 6.3.2
       switchMap(([referendumCount, nextTally]: [OptBN, OptBN]): Observable<Array<RxReferendum>> =>
         referendumCount && nextTally && referendumCount.gt(nextTally) && referendumCount.gtn(0)
           ? this.democracyReferendumInfos(
@@ -238,6 +244,7 @@ export default class ObservableApi implements ObservableApiInterface {
     return this
       .rawStorage(storage.democracy.public.votersFor, index)
       .pipe(
+        // @ts-ignore After upgrade to 6.3.2
         map((voters: Array<string> = []) =>
           voters
         )
@@ -251,7 +258,7 @@ export default class ObservableApi implements ObservableApiInterface {
         switchMap((voters: Array<string> = []) =>
           this.votingBalances(...voters)
         ),
-        defaultIfEmpty([]),
+        defaultIfEmpty([] as any),
         map((balances: Array<RxBalance>) =>
           balances.map(({ votingBalance }) =>
             votingBalance
@@ -267,7 +274,7 @@ export default class ObservableApi implements ObservableApiInterface {
         switchMap((voters: Array<string> = []) =>
           this.democracyVotesOf(referendumId, voters)
         ),
-        defaultIfEmpty([])
+        defaultIfEmpty([] as any)
       );
   }
 
@@ -428,6 +435,7 @@ export default class ObservableApi implements ObservableApiInterface {
     return this
       .rawStorage(storage.session.public.validators)
       .pipe(
+        // @ts-ignore After upgrade to 6.3.2
         map((validators: Array<string> = []) =>
           validators
         )
@@ -438,6 +446,7 @@ export default class ObservableApi implements ObservableApiInterface {
     return this
       .rawStorage(storage.staking.public.intentions)
       .pipe(
+        // @ts-ignore After upgrade to 6.3.2
         map((intentions: Array<string> = []) =>
           intentions
         )
@@ -452,6 +461,7 @@ export default class ObservableApi implements ObservableApiInterface {
     return this
       .rawStorage(storage.staking.public.nominatorsFor, address)
       .pipe(
+        // @ts-ignore After upgrade to 6.3.2
         map((nominators: Array<string> = []) =>
           nominators
         )
@@ -539,7 +549,7 @@ export default class ObservableApi implements ObservableApiInterface {
         switchMap((nominators: Array<string>) =>
           this.votingBalances(...nominators)
         ),
-        defaultIfEmpty([])
+        defaultIfEmpty([] as any)
       );
   }
 

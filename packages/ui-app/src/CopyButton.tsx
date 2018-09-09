@@ -9,6 +9,7 @@ import React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 import Button from './Button';
+import classes from './util/classes';
 
 type Props = BareProps & {
   icon?: string,
@@ -25,7 +26,7 @@ export default class CopyButton extends React.PureComponent<Props> {
     return (
       <CopyToClipboard text={value}>
         <Button
-          className={className}
+          className={classes('ui--CopyButton', className)}
           icon={icon}
           isCircular={isCircular}
           isPrimary={isPrimary}

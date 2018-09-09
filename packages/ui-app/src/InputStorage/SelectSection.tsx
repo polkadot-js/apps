@@ -33,7 +33,7 @@ class SelectSection extends React.PureComponent<Props> {
         defaultValue={defaultValue}
         isError={isError}
         label={label || t('input.storage.section', {
-          defaultValue: 'storage area'
+          defaultValue: 'state section'
         })}
         onChange={onChange}
         options={options}

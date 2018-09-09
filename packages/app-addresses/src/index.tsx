@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import './index.css';
 
 import React from 'react';
-import Button from '@polkadot/ui-app/Button';
+import Tabs from '@polkadot/ui-app/Tabs';
 
 import Creator from './Creator';
 import Editor from './Editor';
@@ -36,35 +36,33 @@ class AddressesApp extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { action } = this.state;
     const Component = Components[action];
+    const items = [
+      {
+        name: 'edit',
+        text: t('app.edit', { defaultValue: 'Edit address' })
+      },
+      {
+        name: 'create',
+        text: t('app.create', { defaultValue: 'Add address' })
+      }
+    ];
 
     return (
       <main className='addresses--App'>
         <header>
-          <Button.Group>
-            <Button
-              isPrimary={action === 'edit'}
-              onClick={this.selectEdit}
-              text={t('app.edit', {
-                defaultValue: 'Edit address'
-              })}
-            />
-            <Button.Or />
-            <Button
-              isPrimary={action === 'create'}
-              onClick={this.selectCreate}
-              text={t('app.create', {
-                defaultValue: 'Add address'
-              })}
-            />
-          </Button.Group>
+          <Tabs
+            activeItem={action}
+            items={items}
+            onChange={this.onMenuChange}
+          />
         </header>
         <Component onBack={this.selectEdit} />
       </main>
     );
   }
 
-  selectCreate = (): void => {
-    this.setState({ action: 'create' });
+  onMenuChange = (action: Actions) => {
+    this.setState({ action });
   }
 
   selectEdit = (): void => {

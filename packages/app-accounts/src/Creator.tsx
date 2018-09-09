@@ -93,6 +93,7 @@ class Creator extends React.PureComponent<Props, State> {
             defaultValue: 'Reset'
           })}
         />
+        <Button.Or />
         <Button
           isDisabled={!isValid}
           isPrimary

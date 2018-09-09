@@ -76,7 +76,7 @@
 }
 
 .staking--Account-validating.isValidator {
-  color: red;
+  color: #d75ea1;
   opacity: 1 !important;
 }
 
