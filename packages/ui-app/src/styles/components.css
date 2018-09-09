@@ -160,3 +160,7 @@ header .ui--Button-Group {
 .ui--CardSummary-progress {
   margin: 0.25rem 0 -0.5rem !important;
 }
+
+.ui--CopyButton {
+  cursor: copy !important;
+}

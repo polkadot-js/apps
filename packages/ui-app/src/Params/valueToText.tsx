@@ -14,6 +14,7 @@ import isBn from '@polkadot/util/is/bn';
 import isNull from '@polkadot/util/is/null';
 import isU8a from '@polkadot/util/is/u8a';
 import isUndefined from '@polkadot/util/is/undefined';
+import encodeAddress from '@polkadot/util-keyring/address/encode';
 
 import classes from '../util/classes';
 import { textMap as thresholdTextMap } from './Param/VoteThreshold';
@@ -37,7 +38,11 @@ function div ({ key, className }: DivProps, ...values: Array<React.ReactNode>): 
   );
 }
 
-function accountToText (address: string): React.ReactNode {
+function accountToText (_address: string | Uint8Array): React.ReactNode {
+  const address = isU8a(_address)
+    ? encodeAddress(_address)
+    : _address;
+
   return div(
     { className: 'nowrap', key: `account_${address}` },
     <IdentityIcon
