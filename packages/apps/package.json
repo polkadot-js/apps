@@ -23,6 +23,7 @@
     "@polkadot/app-staking": "^0.19.59",
     "@polkadot/app-storage": "^0.19.59",
     "@polkadot/app-toolbox": "^0.19.59",
+    "@polkadot/app-transfer": "^0.19.59",
     "@polkadot/app-vanitygen": "^0.19.59",
     "@polkadot/ui-app": "^0.19.59",
     "@polkadot/ui-signer": "^0.19.59"

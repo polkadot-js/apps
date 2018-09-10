@@ -1,0 +1,16 @@
+{
+  "name": "@polkadot/app-transfer",
+  "version": "0.19.59",
+  "description": "A basic transfer app",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [
+    "Jaco Greeff <jacogr@gmail.com>"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "@babel/runtime": "^7.0.0",
+    "@polkadot/ui-app": "^0.19.59"
+  }
+}
