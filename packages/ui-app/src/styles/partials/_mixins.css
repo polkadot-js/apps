@@ -7,10 +7,3 @@
 @define-mixin hash-font-traits {
   font-family: $hash-font-family;
 }
-
-@define-mixin hash-block-font-traits {
-  @add-mixin hash-font-traits;
-  color: rgba(0, 0, 0, 0.6);
-  font-style: italic;
-}
-

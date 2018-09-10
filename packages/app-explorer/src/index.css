@@ -64,7 +64,9 @@
 }
 
 .explorer--BlockByHash-justification-signature span {
-  @add-mixin hash-block-font-family;
+  @add-mixin hash-font-traits;
+  color: rgba(0, 0, 0, 0.6);
+  font-style: italic;
   padding-left: 0.5rem;
 }
 
