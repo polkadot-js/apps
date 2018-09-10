@@ -42,6 +42,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     this.state = {
       hasAvailable: false,
       isCreation: false,
+      isNoEffect: false,
       isRemovable: false,
       isReserved: false,
       txfees: ZERO,
@@ -65,12 +66,14 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     const txtotal = amount.add(txfees);
     const hasAvailable = balanceFrom.freeBalance.gte(txtotal);
     const isCreation = balanceTo.votingBalance.isZero();
-    const isRemovable = balanceFrom.votingBalance.sub(txtotal).lt(fees.existentialDeposit);
+    const isNoEffect = amount.add(balanceTo.votingBalance).lte(fees.existentialDeposit);
+    const isRemovable = balanceFrom.votingBalance.sub(txtotal).lte(fees.existentialDeposit);
     const isReserved = balanceFrom.freeBalance.isZero() && balanceFrom.reservedBalance.gtn(0);
 
     return {
       hasAvailable,
       isCreation,
+      isNoEffect,
       isRemovable,
       isReserved,
       txfees,
@@ -86,7 +89,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
 
   render () {
     const { className, fees, from, to, t } = this.props;
-    const { hasAvailable, isCreation, isRemovable, isReserved, txfees, txtotal } = this.state;
+    const { hasAvailable, isCreation, isNoEffect, isRemovable, isReserved, txfees, txtotal } = this.state;
 
     if (!from || !to) {
       return null;
@@ -102,7 +105,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         value={txfees.toString()}
       />,
       <article
-        className={hasAvailable ? (isRemovable ? 'warning' : '') : 'error'}
+        className={hasAvailable ? ((isRemovable || isNoEffect) ? 'warning' : '') : 'error'}
         key='txinfo'
       >
         {
@@ -110,6 +113,12 @@ class FeeDisplay extends React.PureComponent<Props, State> {
               ? t('fees.remove', {
                 defaultValue: 'Submitting this transaction will drop the account balance to below the existential amount, removing the account from the chain state and burning associated funds. '
               })
+            : undefined
+        }{
+          isNoEffect && hasAvailable
+            ? t('fees.noeffect', {
+              defaultValue: 'The final recipient amount is less than the existential amount, hence the total will be deducted from the sender, however the recipient account will not reflect the amount sent. '
+            })
             : undefined
         }{
           hasAvailable

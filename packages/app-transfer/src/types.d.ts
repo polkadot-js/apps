@@ -7,6 +7,7 @@ import BN from 'bn.js';
 export type Fees = {
   hasAvailable: boolean,
   isCreation: boolean,
+  isNoEffect: boolean,
   isRemovable: boolean,
   isReserved: boolean,
   txfees: BN,
