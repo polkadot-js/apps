@@ -81,7 +81,7 @@ class Forgetting extends React.PureComponent<Props> {
     return [
       <Modal.Header key='header'>
         {t('forget.header', {
-          defaultValue: 'Are you sure you want to remove this account from this browser?'
+          defaultValue: 'Confirm account removal'
         })}
       </Modal.Header>,
       <Modal.Content className='forgetting--Account' key='content'>
