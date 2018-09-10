@@ -3,6 +3,7 @@
 /* of the ISC license. See the LICENSE file for details. */
 
 @import 'partials/_variables.css';
+@import 'partials/_mixins.css';
 
 .ui--output {
   background: #f9f9f9;
@@ -51,7 +52,7 @@ header .ui--Button-Group {
 }
 
 .ui--AddressMini-address {
-  font-family: monospace;
+  @add-mixin hash-font-family;
 }
 
 .ui--AddressMini .ui--IdentityIcon {
@@ -130,8 +131,8 @@ header .ui--Button-Group {
 }
 
 .ui--AddressSummary-address {
+  @add-mixin hash-font-family;
   display: inline-block;
-  font-family: monospace;
   font-size: 1.5em;
   padding: 0;
 }

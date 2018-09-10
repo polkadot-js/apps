@@ -75,6 +75,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
                 plugins: () => [
                   require('precss'),
                   require('autoprefixer'),
+                  require('postcss-mixins'),
                   require('postcss-simple-vars'),
                   require('postcss-nested'),
                   require('postcss-import'),

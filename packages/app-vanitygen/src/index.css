@@ -2,6 +2,8 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
+@import '../../ui-app/src/styles/partials/_mixins.css';
+
 .vanity--App-matches {
   padding: 1em 0;
 }
@@ -21,8 +23,8 @@
 }
 
 .vanity--Match-item {
+  @add-mixin hash-font-family;
   display: inline-block;
-  font-family: monospace;
   margin: 0 auto;
   padding: 0.5em;
   position: relative;
