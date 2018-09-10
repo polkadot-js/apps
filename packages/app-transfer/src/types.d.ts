@@ -8,6 +8,7 @@ export type Fees = {
   hasAvailable: boolean,
   isCreation: boolean,
   isRemovable: boolean,
+  isReserved: boolean,
   txfees: BN,
   txtotal: BN
 };

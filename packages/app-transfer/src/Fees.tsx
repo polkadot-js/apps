@@ -43,6 +43,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
       hasAvailable: false,
       isCreation: false,
       isRemovable: false,
+      isReserved: false,
       txfees: ZERO,
       txtotal: ZERO
     };
@@ -65,11 +66,15 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     const hasAvailable = balanceFrom.freeBalance.gte(txtotal);
     const isCreation = balanceTo.votingBalance.isZero();
     const isRemovable = balanceFrom.votingBalance.sub(txtotal).lt(fees.existentialDeposit);
+    const isReserved = balanceFrom.freeBalance.isZero() && balanceFrom.reservedBalance.gtn(0);
+
+    console.log(balanceFrom);
 
     return {
       hasAvailable,
       isCreation,
       isRemovable,
+      isReserved,
       txfees,
       txtotal
     };
@@ -83,7 +88,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
 
   render () {
     const { className, fees, from, to, t } = this.props;
-    const { hasAvailable, isCreation, isRemovable, txfees, txtotal } = this.state;
+    const { hasAvailable, isCreation, isRemovable, isReserved, txfees, txtotal } = this.state;
 
     if (!from || !to) {
       return null;
@@ -102,19 +107,38 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         className={hasAvailable ? (isRemovable ? 'warning' : '') : 'error'}
         key='txinfo'
       >
-        {isRemovable && hasAvailable ? t('fees.remove', {
-          defaultValue: 'Submitting this transaction will drop the account balance to below the existential amount, removing the account from the chain state and burning associated funds. '
-        }) : undefined}{hasAvailable ? undefined : t('fees.available', {
-          defaultValue: 'The account does not have the required funds available for this transaction with the current values. '
-        })}{t('fees.explain', {
-          defaultValue: 'Fees includes the transaction fee and the per-byte fee. '
-        })}
-        {isCreation && fees.creationFee.gtn(0) ? t('fees.create', {
-          defaultValue: 'A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist.',
-          replace: {
-            creationFee: fees.creationFee.toString()
-          }
-        }) : undefined}
+        {
+          isRemovable && hasAvailable
+              ? t('fees.remove', {
+                defaultValue: 'Submitting this transaction will drop the account balance to below the existential amount, removing the account from the chain state and burning associated funds. '
+              })
+            : undefined
+        }{
+          hasAvailable
+            ? undefined
+            : t('fees.available', {
+              defaultValue: 'The account does not have the required funds available for this transaction with the current values. '
+            })
+        }{
+          isReserved
+          ? t('fees.reserved', {
+            defaultValue: '(This account does have a reserved/locked balance, staking locks up the available funds) '
+          })
+          : undefined
+        }{
+          t('fees.explain', {
+            defaultValue: 'Fees includes the transaction fee and the per-byte fee. '
+          })
+        }{
+          isCreation && fees.creationFee.gtn(0)
+            ? t('fees.create', {
+              defaultValue: 'A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist.',
+              replace: {
+                creationFee: fees.creationFee.toString()
+              }
+            })
+          : undefined
+        }
       </article>,
       <Static
         className='medium'
