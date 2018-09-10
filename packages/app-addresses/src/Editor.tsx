@@ -18,8 +18,7 @@ import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 import translate from './translate';
 
 type Props = I18nProps & {
-  addressAll?: Array<any>,
-  onBack: () => void
+  addressAll?: Array<any>
 };
 
 type State = {

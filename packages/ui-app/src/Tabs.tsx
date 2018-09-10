@@ -34,7 +34,7 @@ export default class Tabs extends React.PureComponent<Props, State> {
     };
   }
 
-  componentDidUpdate (prevState: any) {
+  componentDidUpdate (prevProps: Props, prevState: State) {
     const { activeItem } = this.props;
 
     if (activeItem !== prevState.active) {
