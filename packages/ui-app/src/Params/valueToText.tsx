@@ -7,6 +7,7 @@ import { Param$Types, Param$Type$Array, ExtrinsicDecoded } from '@polkadot/param
 import './Params.css';
 
 import React from 'react';
+import CopyButton from '@polkadot/ui-app/CopyButton';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
@@ -51,7 +52,11 @@ function accountToText (_address: string | Uint8Array): React.ReactNode {
       size={24}
       value={address}
     />,
-    div({ key: 'address' }, address)
+    div({ key: 'address', className: 'ui--Param-Address' }, address),
+    <CopyButton
+      size='mini'
+      value={address}
+    />
   );
 }
 
@@ -123,7 +128,7 @@ function valueToText (type: Param$Types, value: any, swallowError: boolean = tru
 
     if (type === 'AccountId') {
       return value && value.length
-        ? accountToText(value as string)
+        ? accountToText(value.trim() as string)
         : unknown;
     }
 
