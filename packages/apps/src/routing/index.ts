@@ -28,11 +28,11 @@ export default ({
     null,
     accounts,
     addresses,
-    vanitygen,
     null,
     storage,
     extrinsics,
     null,
+    vanitygen,
     rpc,
     toolbox
   )
