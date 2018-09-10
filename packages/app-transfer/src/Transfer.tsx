@@ -126,7 +126,6 @@ class Transfer extends React.PureComponent<Props, State> {
         <AddressSummary
           value={publicKey}
           withCopy={false}
-          withIcon={true}
         />
       </div>
     );
