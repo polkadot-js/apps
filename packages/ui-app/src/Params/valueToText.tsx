@@ -51,7 +51,9 @@ function accountToText (_address: string | Uint8Array): React.ReactNode {
       size={24}
       value={address}
     />,
-    div({ key: 'address', className: 'ui--Param-Address' }, address)
+    div({ key: 'address', className: 'ui--Param-Address' }, address),
+    // Empty div so double clicking on the address only selects the address
+    <div></div>
   );
 }
 
