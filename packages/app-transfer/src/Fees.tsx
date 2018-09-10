@@ -68,8 +68,6 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     const isRemovable = balanceFrom.votingBalance.sub(txtotal).lt(fees.existentialDeposit);
     const isReserved = balanceFrom.freeBalance.isZero() && balanceFrom.reservedBalance.gtn(0);
 
-    console.log(balanceFrom);
-
     return {
       hasAvailable,
       isCreation,
