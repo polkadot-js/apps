@@ -12,7 +12,7 @@ import addressObservable from '@polkadot/ui-keyring/observable/addresses';
 import Tabs from '@polkadot/ui-app/Tabs';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
-import { isNoAddress } from './util/address';
+import { hasNoAddresses } from './util/addresses';
 import Creator from './Creator';
 import Editor from './Editor';
 import translate from './translate';
@@ -41,7 +41,7 @@ class AddressesApp extends React.PureComponent<Props, State> {
     const { addressAll } = this.props;
     const { action } = this.state;
 
-    if (action === 'edit' && isNoAddress(addressAll)) {
+    if (action === 'edit' && hasNoAddresses(addressAll)) {
       this.selectCreate();
     }
   }
@@ -62,7 +62,7 @@ class AddressesApp extends React.PureComponent<Props, State> {
     ];
 
     // Do not load Editor tab if no addresses
-    if (isNoAddress(addressAll)) {
+    if (hasNoAddresses(addressAll)) {
       items.splice(0, 1);
     }
 
