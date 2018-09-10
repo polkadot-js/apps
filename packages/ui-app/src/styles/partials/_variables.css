@@ -30,4 +30,4 @@ $anchor-color-hover: $cadet-grey;
 $progress-bar-color: $dark-sky-blue;
 
 /* fallback font families included */
-$address-font-family: monospace, 'Courier New', Courier;
+$hash-font-family: monospace, 'Courier New', Courier;

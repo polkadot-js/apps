@@ -5,7 +5,7 @@
 @import '../styles/partials/_mixins.css';
 
 .ui--Param-Address {
-  @add-mixin hash-font-family;
+  @add-mixin hash-font-traits;
 }
 
 .ui--Params-Content {

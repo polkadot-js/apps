@@ -62,7 +62,7 @@
 }
 
 .staking--Account-address {
-  @add-mixin hash-font-family;
+  @add-mixin hash-font-traits;
   font-size: 1.5rem;
 }
 

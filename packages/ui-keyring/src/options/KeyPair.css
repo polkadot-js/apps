@@ -24,7 +24,7 @@
 }
 
 .ui--KeyPair-address {
-  @add-mixin hash-font-family;
+  @add-mixin hash-font-traits;
   flex: 1;
   margin-left: 1rem;
   opacity: 0.5;

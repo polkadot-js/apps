@@ -4,12 +4,12 @@
 
 @import './_variables.css';
 
-@define-mixin hash-font-family {
-  font-family: $address-font-family;
+@define-mixin hash-font-traits {
+  font-family: $hash-font-family;
 }
 
-@define-mixin hash-block-font-family {
-  @add-mixin hash-font-family;
+@define-mixin hash-block-font-traits {
+  @add-mixin hash-font-traits;
   color: rgba(0, 0, 0, 0.6);
   font-style: italic;
 }

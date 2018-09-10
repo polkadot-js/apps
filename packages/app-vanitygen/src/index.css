@@ -23,7 +23,7 @@
 }
 
 .vanity--Match-item {
-  @add-mixin hash-font-family;
+  @add-mixin hash-font-traits;
   display: inline-block;
   margin: 0 auto;
   padding: 0.5em;
