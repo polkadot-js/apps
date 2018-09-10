@@ -28,6 +28,3 @@ $button-negative-color-hover: $middle-purple;
 $anchor-color: $light-slate-gray;
 $anchor-color-hover: $cadet-grey;
 $progress-bar-color: $dark-sky-blue;
-
-/* fallback font families included */
-$hash-font-family: monospace, 'Courier New', Courier;

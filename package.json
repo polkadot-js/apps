@@ -45,7 +45,6 @@
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-import": "^12.0.0",
     "postcss-loader": "^3.0.0",
-    "postcss-mixins": "^6.2.0",
     "postcss-nested": "^3.0.0",
     "postcss-sass": "^0.3.3",
     "postcss-simple-vars": "^4.1.0",

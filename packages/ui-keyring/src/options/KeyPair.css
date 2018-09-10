@@ -2,8 +2,6 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
-@import '../../../ui-app/src/styles/partials/_mixins.css';
-
 .ui--KeyPair {
   display: flex;
   flex-wrap: nowrap;
@@ -24,8 +22,8 @@
 }
 
 .ui--KeyPair-address {
-  @add-mixin hash-font-traits;
   flex: 1;
+  font-family: monospace;
   margin-left: 1rem;
   opacity: 0.5;
   overflow: hidden;
