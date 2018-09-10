@@ -159,7 +159,6 @@ class FeeDisplay extends React.PureComponent<Props, State> {
   }
 }
 
-// FIXME We really want to move all the fee-based items into a signgular API call
 export default withMulti(
   translate(FeeDisplay),
   withObservable('votingBalance', { paramProp: 'from', propName: 'balanceFrom' }),
