@@ -39,8 +39,8 @@ class Restorer extends React.PureComponent<Props> {
             }
           })}
         </div>
-        <div className='accounts--Address-wrapper'>
-          <div className='accounts--Address-file'>
+        <div className='accounts--Restorer-file-wrapper'>
+          <div className='accounts--Restorer-file'>
             <UploadButton onChangeAccount={onChangeAccount} />
           </div>
         </div>

@@ -140,7 +140,7 @@ class UploadButton extends React.PureComponent<Props, State> {
     const address = uploadedFileKeyringPair && uploadedFileKeyringPair.address || undefined;
 
     return (
-      <div className='accounts--Address-upload'>
+      <div className='accounts--UploadButton'>
         <UploadModal
           address={address}
           className={className}
@@ -155,7 +155,7 @@ class UploadButton extends React.PureComponent<Props, State> {
           uploadedFileKeyringPair={uploadedFileKeyringPair}
         />
         <File
-          className='ui--Param-File-account'
+          className='accounts--UploadButton-File'
           withLabel
           label={t('upload.label.file', {
             defaultValue: 'upload account'

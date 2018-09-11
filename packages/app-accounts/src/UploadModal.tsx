@@ -33,7 +33,7 @@ class UploadModal extends React.PureComponent<Props> {
 
     return (
       <Modal
-        className={classes('ui--accounts-upload-Signer', className)}
+        className={classes('accounts-UploadModal', className)}
         dimmer='inverted'
         open={address && isPasswordModalOpen ? true : false}
         onClose={hidePasswordModal}
@@ -42,8 +42,8 @@ class UploadModal extends React.PureComponent<Props> {
       >
         <Modal.Content>
           <div className='ui--grid'>
-            <div className='accounts--Address-modal'>
-              <div className='accounts--Address-modal-message expanded'>
+            <div className='accounts-UploadModal-Content'>
+              <div className='accounts-UploadModal-Content-message expanded'>
                 <p>
                   {t('upload.unlock.info', {
                     defaultValue: 'Please enter your account password to upload and restore it encrypted.'
@@ -97,7 +97,7 @@ class UploadModal extends React.PureComponent<Props> {
           <Button.Or />
           <div>
             <Button
-              className='ui--accounts-Submit'
+              className='accounts-UploadModal-Actions-Submit'
               isPrimary
               onClick={processUploadedFileStorage}
               tabIndex={2}

@@ -33,7 +33,7 @@ class DownloadModal extends React.PureComponent<Props> {
 
     return (
       <Modal
-        className={classes('ui--accounts-download-Signer', className)}
+        className={classes('accounts-DownloadModal', className)}
         dimmer='inverted'
         open={isPasswordModalOpen}
         onClose={hidePasswordModal}
@@ -42,7 +42,7 @@ class DownloadModal extends React.PureComponent<Props> {
       >
         <Modal.Content>
           <div className='ui--grid'>
-            <div className='accounts--Address-modal'>
+            <div className='accounts-DownloadModal-Content'>
               <AddressMini
                 isShort
                 value={address}
@@ -54,7 +54,7 @@ class DownloadModal extends React.PureComponent<Props> {
                 withNonce={false}
                 value={address}
               />
-              <div className='accounts--Address-modal-message expanded'>
+              <div className='accounts-DownloadModal-Content-message expanded'>
                 <p>
                   {t('download.unlock.info', {
                     defaultValue: 'Please enter your account password to unlock and download a decrypted backup.'
@@ -108,7 +108,7 @@ class DownloadModal extends React.PureComponent<Props> {
           <Button.Or />
           <div>
             <Button
-              className='ui--accounts-Submit'
+              className='accounts-DownloadModal-Actions-Submit'
               isPrimary
               onClick={handleDownloadAccount}
               tabIndex={2}

@@ -22,6 +22,6 @@ describe('AddressSummary', () => {
 
   it('should not display Download Button when no current address in state', () => {
     wrapper.setProps({ address: '' });
-    expect(wrapper.find('.accounts--Address-download')).toHaveLength(0);
+    expect(wrapper.find('.accounts--DownloadButton')).toHaveLength(0);
   });
 });

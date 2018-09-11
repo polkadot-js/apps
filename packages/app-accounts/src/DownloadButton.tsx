@@ -106,7 +106,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div className='accounts--Address-download'>
+      <div className='accounts--DownloadButton'>
         <DownloadModal
           address={address}
           className={className}
