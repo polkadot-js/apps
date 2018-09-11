@@ -40,13 +40,15 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isForgetOpen } = this.state;
+    const { isForgetOpen, current } = this.state;
+
     return (
       <div className='accounts--Editor'>
         <Forgetting
           isOpen={isForgetOpen}
           onClose={this.toggleForget}
           doForget={this.onForget}
+          currentAddress={current}
         />
         {this.renderData()}
         {this.renderButtons()}
