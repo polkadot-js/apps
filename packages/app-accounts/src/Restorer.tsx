@@ -34,15 +34,11 @@ class Restorer extends React.PureComponent<Props> {
       <div>
         <div className='accounts--Restorer-message'>
           {t('restorer.existing', {
-            defaultValue: '{{message_plural}} {{instruction}}',
-            defaultValue_0: '{{message_plural}} {{instruction}}',
-            defaultValue_1: '{{message}} {{instruction}}',
-            defaultValue_plural: '{{message_plural}} {{instruction}}',
+            defaultValue: '{{message}} {{instruction}}',
             replace: {
               count: accountsQty(allAccounts),
               instruction: 'Create an account or upload a JSON file of a saved account.',
-              message_1: 'There is {{count}} saved account.',
-              message_plural: 'There are {{count}} saved accounts.'
+              message: '{{count}} saved account(s) exist.'
             }
           })}
         </div>
