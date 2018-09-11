@@ -11,7 +11,7 @@ import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import Tabs from '@polkadot/ui-app/Tabs';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
-import { isNoAccounts } from './util/accounts';
+import { isAccounts, isNoAccounts } from './util/accounts';
 import Creator from './Creator';
 import Editor from './Editor';
 import Restorer from './Restorer';
@@ -61,10 +61,6 @@ class AccountsApp extends React.PureComponent<Props, State> {
     const Component = Components[action];
     const items = [
       {
-        name: 'edit',
-        text: t('app.edit', { defaultValue: 'Edit account' })
-      },
-      {
         name: 'create',
         text: t('app.create', { defaultValue: 'Create account' })
       },
@@ -73,10 +69,14 @@ class AccountsApp extends React.PureComponent<Props, State> {
         text: t('app.restore', { defaultValue: 'Restore account' })
       }
     ];
+    const editItem = {
+      name: 'edit',
+      text: t('app.edit', { defaultValue: 'Edit account' })
+    };
 
-    // Do not load Editor tab if no accounts
-    if (isNoAccounts(allAccounts)) {
-      items.splice(0, 1);
+    // Prepend Editor tab if any accounts exist
+    if (isAccounts(allAccounts)) {
+      items.unshift(editItem);
     }
 
     if (isLoading) {
