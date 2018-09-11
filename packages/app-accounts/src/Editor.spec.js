@@ -3,10 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 
 import React from 'react';
-import { shallow } from '../../../test/enzyme';
 
+import AddressSummary from '@polkadot/ui-app/AddressSummary';
+
+import { shallow } from '../../../test/enzyme';
 import { Editor } from './Editor';
-import { DownloadButton } from './DownloadButton';
 
 const sampleAddress = '5Fpq7JD6W441h1NFt3ayHrj6jGeacuK4d6EYq7GcfvQuAHuP';
 const mockT = (key, options) => (key);
@@ -34,13 +35,13 @@ describe('Editor', () => {
     expect(wrapper).toHaveLength(1);
   });
 
-  it('should display download button when a current address exists', (done) => {
+  it('should render DownloadButton component with address prop equal to current pair address', (done) => {
     try {
       wrapper.setState(fixtureState, () => {
         wrapper.update();
         expect(wrapper.state('editedName')).toEqual(fixtureState.editedName);
-        // console.log(wrapper.debug());
-        expect(wrapper.find(DownloadButton)).toHaveLength(1);
+        expect(wrapper.find(AddressSummary)).toHaveLength(1);
+        expect(wrapper.find(AddressSummary).props().buttonChildren.props).toEqual({ address: sampleAddress });
         done();
       });
     } catch (error) {
