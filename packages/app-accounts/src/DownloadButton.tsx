@@ -8,7 +8,6 @@ import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 
 import React from 'react';
 import FileSaver from 'file-saver';
-
 import Button from '@polkadot/ui-app/Button';
 import keyring from '@polkadot/ui-keyring/index';
 import isUndefined from '@polkadot/util/is/undefined';

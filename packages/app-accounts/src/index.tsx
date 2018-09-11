@@ -7,7 +7,6 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import './index.css';
 
 import React from 'react';
-
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import Tabs from '@polkadot/ui-app/Tabs';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';

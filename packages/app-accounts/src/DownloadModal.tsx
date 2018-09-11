@@ -5,7 +5,6 @@
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';

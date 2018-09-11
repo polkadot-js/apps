@@ -6,10 +6,9 @@ import { BareProps, I18nProps } from '@polkadot/ui-app/types';
 import { KeyringPair, KeyringPair$Json } from '@polkadot/util-keyring/types';
 
 import React from 'react';
-
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
-import isUndefined from '@polkadot/util/is/undefined';
 import arrayContainsArray from '@polkadot/ui-app/util/arrayContainsArray';
+import isUndefined from '@polkadot/util/is/undefined';
 import File from '@polkadot/ui-app/Params/Param/File';
 import keyring from '@polkadot/ui-keyring/index';
 
@@ -18,12 +17,14 @@ import translate from './translate';
 
 const createBlob = (fileBytes: Uint8Array): Blob =>
   new Blob([fileBytes], { type: 'text/plain;charset=utf-8' });
+const expectedJsonProperties: Array<string> = ['address', 'encoding', 'meta'];
+const fileReader = new FileReader();
 
 type State = {
   address: string,
-  password: string,
   isPasswordModalOpen: boolean,
   error?: React.ReactNode,
+  password: string,
   uploadedFileKeyringPair?: KeyringPair$Json
 };
 
@@ -34,26 +35,10 @@ type Props = I18nProps & BareProps & {
 class UploadButton extends React.PureComponent<Props, State> {
   state: State;
 
-  private actualJsonProperties: Array<string>;
-  private blob: Blob | undefined;
-  private expectedJsonProperties: Array<string>;
-  private fileContents: Object;
-  private fileReader: FileReader;
-  private json: KeyringPair$Json | undefined;
-  private pairRestored: KeyringPair | undefined;
-
   constructor (props: Props) {
     super(props);
 
     this.state = this.emptyState();
-
-    this.actualJsonProperties = [];
-    this.blob = undefined;
-    this.expectedJsonProperties = [];
-    this.fileContents = {};
-    this.fileReader = new FileReader();
-    this.json = undefined;
-    this.pairRestored = undefined;
   }
 
   handleUploadedFiles = (fileBytes: Uint8Array): void => {
@@ -64,25 +49,22 @@ class UploadButton extends React.PureComponent<Props, State> {
       return;
     }
 
-    this.blob = createBlob(fileBytes);
+    const blob: Blob = createBlob(fileBytes);
 
-    this.fileReader.onload = (e) => {
+    fileReader.onload = (event) => {
       try {
-        if (!isUndefined(e) && e.target !== null) {
+        if (!isUndefined(event) && event.target !== null) {
           // Cast to type 'any' since property 'result' does exist on type 'EventTarget'
           // Reference: https://stackoverflow.com/a/45017155/3208553
-          this.fileContents = JSON.parse((e.target as any).result);
-          this.expectedJsonProperties = ['address', 'encoding', 'meta'];
-          this.actualJsonProperties = Object.keys(this.fileContents);
+          const uploadedFileKeyringPair: KeyringPair$Json = JSON.parse((event.target as any).result);
+          const actualJsonProperties: Array<string> = Object.keys(uploadedFileKeyringPair);
 
-          if (arrayContainsArray(this.actualJsonProperties, this.expectedJsonProperties)) {
-            this.json = this.fileContents as KeyringPair$Json;
-
-            keyring.loadAccount(this.json);
+          if (arrayContainsArray(actualJsonProperties, expectedJsonProperties)) {
+            keyring.loadAccount(uploadedFileKeyringPair);
 
             // Store uploaded wallet in state and open modal to get their password for it
             this.setState({
-              uploadedFileKeyringPair: this.json
+              uploadedFileKeyringPair
             }, () =>
               this.showPasswordModal()
             );
@@ -90,8 +72,8 @@ class UploadButton extends React.PureComponent<Props, State> {
             throw Error('Unable to load account with invalid JSON property names');
           }
         }
-      } catch (e) {
-        console.error('Error uploading file: ', e);
+      } catch (error) {
+        console.error('Error uploading file: ', error);
         this.setState({
           error: t('upload.error.file', {
             defaultValue: 'Unable to upload account from file'
@@ -100,7 +82,7 @@ class UploadButton extends React.PureComponent<Props, State> {
       }
     };
 
-    this.fileReader.readAsText(this.blob);
+    fileReader.readAsText(blob);
   }
 
   processUploadedFileStorage = (): void => {
@@ -111,21 +93,19 @@ class UploadButton extends React.PureComponent<Props, State> {
       return;
     }
 
-    this.json = uploadedFileKeyringPair;
-
     try {
-      if (!this.json || !Object.keys(this.json).length) {
+      if (!uploadedFileKeyringPair || !Object.keys(uploadedFileKeyringPair).length) {
         return;
       }
 
-      this.pairRestored = keyring.restoreAccount(this.json, password);
+      const pairRestored: KeyringPair | undefined = keyring.restoreAccount(uploadedFileKeyringPair, password);
 
-      if (this.pairRestored) {
+      if (pairRestored) {
         this.hidePasswordModal();
 
-        InputAddress.setLastValue('account', this.pairRestored.address());
+        InputAddress.setLastValue('account', pairRestored.address());
 
-        onChangeAccount(this.pairRestored.publicKey());
+        onChangeAccount(pairRestored.publicKey());
       } else {
         this.setState({
           error: t('upload.error.memory', {
@@ -133,8 +113,8 @@ class UploadButton extends React.PureComponent<Props, State> {
           })
         });
       }
-    } catch (e) {
-      console.error('Error processing uploaded file to local storage: ', e);
+    } catch (error) {
+      console.error('Error processing uploaded file to local storage: ', error);
       this.setState({
         error: t('upload.error.memory', {
           defaultValue: 'Unable to upload account into memory'

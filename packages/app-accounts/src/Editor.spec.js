@@ -3,10 +3,9 @@
 // of the ISC license. See the LICENSE file for details.
 
 import React from 'react';
-
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
-
 import { shallow } from '../../../test/enzyme';
+
 import { Editor } from './Editor';
 
 const sampleAddress = '5Fpq7JD6W441h1NFt3ayHrj6jGeacuK4d6EYq7GcfvQuAHuP';

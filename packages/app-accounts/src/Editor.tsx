@@ -6,7 +6,6 @@ import { KeyringPair } from '@polkadot/util-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
@@ -71,7 +70,6 @@ class Editor extends React.PureComponent<Props, State> {
           text={t('editor.forget', {
             defaultValue: 'Forget'
           })}
-
         />
         <Button.Group.Divider />
         <Button
@@ -97,7 +95,6 @@ class Editor extends React.PureComponent<Props, State> {
   renderData () {
     const { t } = this.props;
     const { current, editedName } = this.state;
-
     const address = current
       ? current.address()
       : undefined;
@@ -162,7 +159,6 @@ class Editor extends React.PureComponent<Props, State> {
           current = prevState.current,
           editedName = prevState.editedName
         } = newState;
-
         const previous = prevState.current || null;
         const previousPair = previous || { address: () => undefined };
         let isEdited = false;
@@ -191,7 +187,6 @@ class Editor extends React.PureComponent<Props, State> {
 
   onChangeAccount = (publicKey: Uint8Array): void => {
     const { onChangeAccount } = this.props;
-
     const current = publicKey && publicKey.length === 32
       ? keyring.getPair(publicKey)
       : null;
