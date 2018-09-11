@@ -6,7 +6,6 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Nonce from '@polkadot/ui-react-rx/Nonce';
 import addressDecode from '@polkadot/util-keyring/address/decode';
@@ -26,8 +25,8 @@ export type Props = I18nProps & {
   value: string | Uint8Array | undefined,
   withBalance?: boolean,
   withCopy?: boolean,
-  withIcon?: boolean,
   withNonce?: boolean
+  withIcon?: boolean
 };
 
 export type State = {
