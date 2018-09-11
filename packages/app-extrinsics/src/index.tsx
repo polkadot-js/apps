@@ -17,15 +17,15 @@ import Selection from './Selection';
 
 type Props = I18nProps & {
   basePath: string,
-  accountAll?: Array<any>
+  allAccounts?: Array<any>
 };
 
 class ExtrinsicsApp extends React.PureComponent<Props> {
   render () {
 
-    const { accountAll, t } = this.props;
+    const { allAccounts, t } = this.props;
 
-    if (!accountAll || !Object.keys(accountAll).length) {
+    if (!allAccounts || !Object.keys(allAccounts).length) {
       return (
         <main className='extrinsics--App'>
           {t('accounts.none', {
@@ -52,4 +52,4 @@ class ExtrinsicsApp extends React.PureComponent<Props> {
 
 export { ExtrinsicsApp };
 
-export default withObservableBase(accountsObservable.subject, { propName: 'accountAll' })(translate(ExtrinsicsApp));
+export default withObservableBase(accountsObservable.subject, { propName: 'allAccounts' })(translate(ExtrinsicsApp));

@@ -14,7 +14,7 @@ import UploadButton from './UploadButton';
 import translate from './translate';
 
 type Props = I18nProps & {
-  accountAll?: Array<any>,
+  allAccounts?: Array<any>,
   onChangeAccount: () => void
 };
 
@@ -28,7 +28,7 @@ class Restorer extends React.PureComponent<Props> {
   }
 
   private renderData () {
-    const { accountAll, onChangeAccount, t } = this.props;
+    const { allAccounts, onChangeAccount, t } = this.props;
 
     return (
       <div>
@@ -39,7 +39,7 @@ class Restorer extends React.PureComponent<Props> {
             defaultValue_1: '{{message}} {{instruction}}',
             defaultValue_plural: '{{message_plural}} {{instruction}}',
             replace: {
-              count: accountsQty(accountAll),
+              count: accountsQty(allAccounts),
               instruction: 'Create an account or upload a JSON file of a saved account.',
               message_1: 'There is {{count}} saved account.',
               message_plural: 'There are {{count}} saved accounts.'
@@ -61,5 +61,5 @@ export {
 };
 
 export default withObservableBase(
-  accountObservable.subject, { propName: 'accountAll' }
+  accountObservable.subject, { propName: 'allAccounts' }
 )(translate(Restorer));

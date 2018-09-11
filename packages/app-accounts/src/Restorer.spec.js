@@ -21,12 +21,12 @@ describe('Restorer', () => {
   });
 
   it('should only display Upload Button when no current address in state', () => {
-    wrapper.setProps({ accountAll: null });
+    wrapper.setProps({ allAccounts: null });
     expect(wrapper.find('.accounts--Restorer-message').text()).toEqual('restorer.existing');
   });
 
   it('should display Upload Button when an address exists', () => {
-    wrapper.setProps({ accountAll: ['5xx'] });
+    wrapper.setProps({ allAccounts: ['5xx'] });
     expect(wrapper.find('.accounts--Restorer-message').text()).toEqual('restorer.existing');
   });
 });

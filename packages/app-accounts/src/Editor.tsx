@@ -20,7 +20,7 @@ import Forgetting from './Forgetting';
 import translate from './translate';
 
 type Props = I18nProps & {
-  accountAll?: Array<any>,
+  allAccounts?: Array<any>,
   onChangeAccount: () => void
 };
 
@@ -266,5 +266,5 @@ export {
 };
 
 export default withObservableBase(
-  accountObservable.subject, { propName: 'accountAll' }
+  accountObservable.subject, { propName: 'allAccounts' }
 )(translate(Editor));

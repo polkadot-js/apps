@@ -19,7 +19,7 @@ import Restorer from './Restorer';
 import translate from './translate';
 
 type Props = I18nProps & {
-  accountAll?: Array<any>,
+  allAccounts?: Array<any>,
   basePath: string
 };
 
@@ -48,16 +48,16 @@ class AccountsApp extends React.PureComponent<Props, State> {
   }
 
   componentDidUpdate () {
-    const { accountAll } = this.props;
+    const { allAccounts } = this.props;
     const { action } = this.state;
 
-    if (action === 'edit' && isNoAccounts(accountAll)) {
+    if (action === 'edit' && isNoAccounts(allAccounts)) {
       this.selectCreate();
     }
   }
 
   render () {
-    const { accountAll, t } = this.props;
+    const { allAccounts, t } = this.props;
     const { action, isLoading } = this.state;
     const Component = Components[action];
     const items = [
@@ -76,7 +76,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
     ];
 
     // Do not load Editor tab if no accounts
-    if (isNoAccounts(accountAll)) {
+    if (isNoAccounts(allAccounts)) {
       items.splice(0, 1);
     }
 
@@ -127,5 +127,5 @@ class AccountsApp extends React.PureComponent<Props, State> {
 }
 
 export default withObservableBase(
-  accountObservable.subject, { propName: 'accountAll' }
+  accountObservable.subject, { propName: 'allAccounts' }
 )(translate(AccountsApp));
