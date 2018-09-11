@@ -34,17 +34,14 @@ describe('Editor', () => {
     expect(wrapper).toHaveLength(1);
   });
 
-  it('should render DownloadButton component with address prop equal to current pair address', (done) => {
-    try {
-      wrapper.setState(fixtureState, () => {
-        wrapper.update();
-        expect(wrapper.state('editedName')).toEqual(fixtureState.editedName);
-        expect(wrapper.find(AddressSummary)).toHaveLength(1);
-        expect(wrapper.find(AddressSummary).props().buttonChildren.props).toEqual({ address: sampleAddress });
-        done();
-      });
-    } catch (error) {
-      console.error(error);
-    }
+  it('should render DownloadButton component with address prop equal to current pair address', () => {
+    return new Promise((resolve) => {
+      wrapper.setState(fixtureState, resolve);
+    }).then(() => {
+      wrapper.update();
+      expect(wrapper.state('editedName')).toEqual(fixtureState.editedName);
+      expect(wrapper.find(AddressSummary)).toHaveLength(1);
+      expect(wrapper.find(AddressSummary).props().buttonChildren.props).toEqual({ address: sampleAddress });
+    });
   });
 });
