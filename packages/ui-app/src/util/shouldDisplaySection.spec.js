@@ -33,7 +33,7 @@ describe('input extrinsic section', () => {
   });
 
   it('will not be shown if section is hidden', () => {
-    dummySection['isHidden'] = true; 
+    dummySection['isHidden'] = true;
     const expectedOutput = false;
     const actualOutput = shouldDisplaySection(dummySection, type);
 
@@ -41,7 +41,7 @@ describe('input extrinsic section', () => {
   });
 
   it('will not be shown if section is deprecated', () => {
-    dummySection['isDeprecated'] = true; 
+    dummySection['isDeprecated'] = true;
     const expectedOutput = false;
     const actualOutput = shouldDisplaySection(dummySection, type);
 
@@ -71,5 +71,4 @@ describe('input extrinsic section', () => {
 
     expect(actualOutput).toEqual(expectedOutput);
   });
-
 });

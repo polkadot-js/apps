@@ -10,7 +10,6 @@ import Dropzone from 'react-dropzone';
 
 import classes from '../../util/classes';
 import translate from '../../translate';
-
 import Base from './Base';
 
 type Props = BareProps & {

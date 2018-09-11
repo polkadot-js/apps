@@ -19,7 +19,6 @@ describe('arrayContainsArray', () => {
   it('will return true if superset contains all items in subset', () => {
     const expectedJsonProperties = ['address', 'encoding', 'meta'];
     const actualJsonProperties = Object.keys(dummyJson);
-
     const expectedOutput = true;
     const actualOutput = arrayContainsArray(actualJsonProperties, expectedJsonProperties);
 
@@ -29,7 +28,6 @@ describe('arrayContainsArray', () => {
   it('will return false if superset is missing an item in the subset', () => {
     const expectedJsonProperties = ['address', 'encoding', 'meta'];
     let actualJsonProperties = ['address', 'encoded', 'meta']; // missing encoding
-
     const expectedOutput = false;
     const actualOutput = arrayContainsArray(actualJsonProperties, expectedJsonProperties);
 
@@ -40,7 +38,6 @@ describe('arrayContainsArray', () => {
     const expectedJsonProperties = ['address', 'misspelt', 'meta'];
     const actualJsonProperties = Object.keys(dummyJson);
     delete dummyJson.encoded;
-
     const expectedOutput = false;
     const actualOutput = arrayContainsArray(actualJsonProperties, expectedJsonProperties);
 
@@ -50,7 +47,6 @@ describe('arrayContainsArray', () => {
   it('will return false if superset has no values', () => {
     const expectedJsonProperties = ['address', 'encoding', 'meta'];
     const actualJsonProperties = {};
-
     const expectedOutput = false;
     const actualOutput = arrayContainsArray(actualJsonProperties, expectedJsonProperties);
 
@@ -60,7 +56,6 @@ describe('arrayContainsArray', () => {
   it('will return false if subset has no values', () => {
     const expectedJsonProperties = [];
     const actualJsonProperties = Object.keys(dummyJson);
-
     const expectedOutput = false;
     const actualOutput = arrayContainsArray(actualJsonProperties, expectedJsonProperties);
 
