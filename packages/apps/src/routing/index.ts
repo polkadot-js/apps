@@ -10,12 +10,11 @@ import democracy from './democracy';
 import example from './example';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
-// import home from './home';
 import rpc from './rpc';
-// import settings from './settings';
 import staking from './staking';
 import storage from './storage';
 import toolbox from './toolbox';
+import transfer from './transfer';
 import vanitygen from './vanitygen';
 
 export default ({
@@ -23,16 +22,17 @@ export default ({
   routes: ([] as Routes).concat(
     example,
     explorer,
+    transfer,
     staking,
     democracy,
     null,
-    extrinsics,
-    storage,
-    null,
     accounts,
     addresses,
-    vanitygen,
     null,
+    storage,
+    extrinsics,
+    null,
+    vanitygen,
     rpc,
     toolbox
   )

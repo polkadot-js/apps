@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@polkadot/dev-react": "^0.20.19",
-    "@polkadot/ts": "^0.1.25",
+    "@polkadot/ts": "^0.1.27",
     "autoprefixer": "^9.1.5",
     "babel-loader": "^8.0.2",
     "css-loader": "^1.0.0",

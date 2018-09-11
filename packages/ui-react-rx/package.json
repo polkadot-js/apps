@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-react-rx",
-  "version": "0.19.61",
+  "version": "0.20.0",
   "description": "A collection of RxJs React components the Polkadot JS API",
   "main": "index.js",
   "keywords": [
@@ -31,9 +31,9 @@
   "homepage": "https://github.com/polkadot-js/ui/tree/master/packages/ui-react-rx#readme",
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@polkadot/api-rx": "^0.28.28",
-    "@polkadot/extrinsics": "^0.28.28",
-    "@polkadot/storage": "^0.28.28",
+    "@polkadot/api-rx": "^0.28.29",
+    "@polkadot/extrinsics": "^0.28.29",
+    "@polkadot/storage": "^0.28.29",
     "rxjs-compat": "^6.3.2"
   },
   "devDependencies": {

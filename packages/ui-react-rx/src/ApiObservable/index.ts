@@ -7,7 +7,7 @@ import { RxApiInterface, RxApiInterface$Method } from '@polkadot/api-rx/types';
 import { Interfaces } from '@polkadot/jsonrpc/types';
 import { BlockDecoded, ExtrinsicDecoded, SectionItem } from '@polkadot/params/types';
 import { Storages } from '@polkadot/storage/types';
-import { RxBalance, RxBalanceMap, RxProposal, RxProposalDeposits, RxReferendum, ObservableApiInterface, KeyWithParams, RxReferendumVote } from './types';
+import { RxBalance, RxBalanceMap, RxFees, RxProposal, RxProposalDeposits, RxReferendum, ObservableApiInterface, KeyWithParams, KeyWithoutParams, RxReferendumVote } from './types';
 
 import BN from 'bn.js';
 import { EMPTY, Observable, combineLatest } from 'rxjs';
@@ -66,7 +66,7 @@ export default class ObservableApi implements ObservableApiInterface {
       );
   }
 
-  rawStorageMulti = <T> (...keys: Array<KeyWithParams>): Observable<T> => {
+  rawStorageMulti = <T> (...keys: Array<KeyWithParams | KeyWithoutParams>): Observable<T> => {
     return this.api.state
       .storage(keys)
       .pipe(
@@ -326,6 +326,27 @@ export default class ObservableApi implements ObservableApiInterface {
           ? eraBlockLength.sub(eraBlockProgress)
           : undefined
     );
+  }
+
+  fees = (): Observable<RxFees> => {
+    return this
+      .rawStorageMulti(
+        [storage.staking.public.transactionBaseFee],
+        [storage.staking.public.transactionByteFee],
+        [storage.staking.public.creationFee],
+        [storage.staking.public.existentialDeposit ],
+        [storage.staking.public.transferFee ]
+      )
+      .pipe(
+        // @ts-ignore After upgrade to 6.3.2
+        map(([baseFee = new BN(0), byteFee = new BN(0), creationFee = new BN(0), existentialDeposit = new BN(0), transferFee = new BN(0)]: [OptBN, OptBN, OptBN, OptBN, OptBN]) => ({
+          baseFee,
+          byteFee,
+          creationFee,
+          existentialDeposit,
+          transferFee
+        }))
+      );
   }
 
   eraLastLengthChange = (): Observable<OptBN> => {

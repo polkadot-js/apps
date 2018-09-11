@@ -1,16 +1,18 @@
 {
-  "name": "@polkadot/app-accounts",
+  "name": "@polkadot/app-transfer",
   "version": "0.20.0",
+  "description": "A basic transfer app",
   "main": "index.js",
-  "repository": "https://github.com/polkadot-js/apps.git",
+  "scripts": {},
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [
     "Jaco Greeff <jacogr@gmail.com>"
   ],
-  "contributors": [],
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@polkadot/ui-app": "^0.20.0"
+    "@polkadot/ui-app": "^0.20.0",
+    "@polkadot/ui-keyring": "^0.20.0",
+    "@polkadot/ui-react-rx": "^0.20.0"
   }
 }
