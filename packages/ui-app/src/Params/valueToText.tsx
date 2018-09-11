@@ -51,7 +51,9 @@ function accountToText (_address: string | Uint8Array): React.ReactNode {
       size={24}
       value={address}
     />,
-    div({ key: 'address' }, address)
+    div({ key: 'address', className: 'ui--Param-Address' }, address),
+    // Empty div so double clicking on the address only selects the address
+    <div key={address}></div>
   );
 }
 
@@ -123,7 +125,7 @@ function valueToText (type: Param$Types, value: any, swallowError: boolean = tru
 
     if (type === 'AccountId') {
       return value && value.length
-        ? accountToText(value as string)
+        ? accountToText(value.trim() as string)
         : unknown;
     }
 
