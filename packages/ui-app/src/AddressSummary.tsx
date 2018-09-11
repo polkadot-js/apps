@@ -23,8 +23,10 @@ export type Props = I18nProps & {
   buttonChildren?: React.ReactNode,
   children?: React.ReactNode,
   name?: string,
-  value: string | undefined,
+  value: string | Uint8Array | undefined,
   withBalance?: boolean,
+  withCopy?: boolean,
+  withIcon?: boolean,
   withNonce?: boolean
 };
 
@@ -66,7 +68,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
 
   render () {
     const { className, style } = this.props;
-    const { address, isValid } = this.state;
+    const { isValid } = this.state;
 
     return (
       <div
@@ -74,11 +76,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
         style={style}
       >
         <div className='ui--AddressSummary-base'>
-          <IdentityIcon
-            className='ui--AddressSummary-icon'
-            size={96}
-            value={address}
-          />
+          {this.renderIcon()}
           {this.renderAddress()}
           {this.renderBalance()}
           {this.renderNonce()}
@@ -89,8 +87,8 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderAddress () {
-    const { buttonChildren, name } = this.props;
-    const { address, shortValue } = this.state;
+    const { name } = this.props;
+    const { shortValue } = this.state;
 
     return (
       <div className='ui--AddressSummary-data'>
@@ -100,7 +98,8 @@ class AddressSummary extends React.PureComponent<Props, State> {
         <div className='ui--AddressSummary-address'>
           {shortValue}
         </div>
-        <CopyButton value={address} />{buttonChildren}
+        {this.renderCopy()}
+        {this.renderDownload()}
       </div>
     );
   }
@@ -121,6 +120,42 @@ class AddressSummary extends React.PureComponent<Props, State> {
           defaultValue: 'balance '
         })}
         value={publicKey}
+      />
+    );
+  }
+
+  protected renderCopy () {
+    const { withCopy = true } = this.props;
+    const { address } = this.state;
+
+    if (!withCopy) {
+      return null;
+    }
+
+    return (
+      <CopyButton value={address} />
+    );
+  }
+
+  protected renderDownload () {
+    const { buttonChildren } = this.props;
+
+    return buttonChildren ? buttonChildren : null;
+  }
+
+  protected renderIcon () {
+    const { withIcon = true } = this.props;
+    const { address } = this.state;
+
+    if (!withIcon) {
+      return null;
+    }
+
+    return (
+      <IdentityIcon
+        className='ui--AddressSummary-icon'
+        size={96}
+        value={address}
       />
     );
   }

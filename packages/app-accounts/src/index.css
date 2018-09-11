@@ -59,13 +59,18 @@
   text-align: left;
 }
 
+.forgetting--Account {
+  text-align: center;
+}
+
 @media (min-width: 1024px) {
 	.accounts--Address-modal > .ui--AddressSummary { 
 		display: block; 
 	}
 }
- @media (max-width: 1023px) {
+
+@media (max-width: 1023px) {
 	.accounts--Address-modal > .ui--AddressMini { 
 		display: block; 
-	}
+  }
 }

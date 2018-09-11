@@ -9,26 +9,26 @@ import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 import React from 'react';
 import FileSaver from 'file-saver';
 
+import Button from '@polkadot/ui-app/Button';
 import keyring from '@polkadot/ui-keyring/index';
 import isUndefined from '@polkadot/util/is/undefined';
-import Button from '@polkadot/ui-app/Button';
 
 import DownloadModal from './DownloadModal';
 import translate from './translate';
 
 type State = {
   address: string,
-  password: string,
+  error?: React.ReactNode,
   isPasswordModalOpen: boolean,
-  error?: React.ReactNode
+  password: string
 };
 
 type Props = I18nProps & BareProps & {
+  address: string | undefined,
   icon?: string,
   isCircular?: boolean,
   isPrimary?: boolean,
-  size?: Button$Sizes,
-  address: string | undefined
+  size?: Button$Sizes
 };
 
 class DownloadButton extends React.PureComponent<Props, State> {
