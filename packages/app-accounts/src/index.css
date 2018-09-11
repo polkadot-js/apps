@@ -30,6 +30,7 @@
 	display: none;
 }
 
+.accounts--DownloadModal-Content .ui--row > .ui--Password,
 .accounts--UploadModal-Content .ui--row > .ui--Password {
 	flex: 0 1 100%;
 }
