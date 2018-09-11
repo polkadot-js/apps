@@ -12,8 +12,8 @@ import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
 
-let pair: KeyringPair | undefined = undefined;
-let isLocked: boolean | undefined = undefined;
+let isLocked: boolean | undefined;
+let pair: KeyringPair | undefined;
 
 type Props = I18nProps & {
   autoFocus?: boolean,
@@ -25,10 +25,10 @@ type Props = I18nProps & {
 };
 
 type State = {
-  isError: boolean,
   error?: React.ReactNode,
-  isLocked: boolean | undefined,
-  pair: KeyringPair | undefined
+  isError: boolean,
+  isLocked?: boolean,
+  pair?: KeyringPair
 };
 
 class Unlock extends React.PureComponent<Props, State> {
@@ -43,8 +43,8 @@ class Unlock extends React.PureComponent<Props, State> {
     }
 
     return {
-      isError: !!error,
       error,
+      isError: !!error,
       isLocked,
       pair
     };
