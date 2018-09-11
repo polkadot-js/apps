@@ -7,17 +7,16 @@ import { BareProps } from './types';
 import React from 'react';
 
 import classes from './util/classes';
-
 import Button from './Button';
 import Input from './Input';
 
 type Props = BareProps & {
   autoFocus?: boolean,
-  defaultValue?: any,
   children?: React.ReactNode,
+  defaultValue?: any,
+  error?: React.ReactNode,
   isDisabled?: boolean,
   isError?: boolean,
-  error?: React.ReactNode,
   label?: string,
   name?: string,
   onChange: (value: string) => void,
