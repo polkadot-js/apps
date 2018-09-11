@@ -16,6 +16,7 @@ import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
 import Forgetting from './Forgetting';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
+
 import translate from './translate';
 
 type Props = I18nProps & {
