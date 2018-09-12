@@ -20,10 +20,6 @@ type Props = I18nProps & {
   children?: React.ReactNode
 };
 
-type ThemeIndex = {
-  [index: string]: any
-};
-
 const LOGOS: Map<string | undefined, any> = new Map([
   ['polkadot', polkadotLogo],
   ['substrate', substrateLogo]
