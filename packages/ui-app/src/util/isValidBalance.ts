@@ -33,7 +33,7 @@ export default function isValidBalance (input: string, t: TranslationFunction, b
     return {
       isValid: false,
       errorMessage: t('balance.error.format', {
-        defaultValue: 'Balance to transfer in DOTs must be a positive number'
+        defaultValue: 'Balance in DOTs must be a positive number'
       })
     };
   }

@@ -136,7 +136,7 @@ class Balance extends React.PureComponent<Props, State> {
     if (keydown.isNonNumeric(event.key)) {
       this.setState({
         error: t('balance.error.format', {
-          defaultValue: 'Balance to transfer in DOTs must be a positive number'
+          defaultValue: 'Balance in DOTs must be a positive number'
         })
       });
       event.preventDefault();
