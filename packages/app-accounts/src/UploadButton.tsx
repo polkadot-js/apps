@@ -9,9 +9,9 @@ import React from 'react';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import arrayContainsArray from '@polkadot/ui-app/util/arrayContainsArray';
 import isUndefined from '@polkadot/util/is/undefined';
-import File from '@polkadot/ui-app/Params/Param/File';
 import keyring from '@polkadot/ui-keyring/index';
 
+import AccountsFile from './AccountsFile';
 import UploadModal from './UploadModal';
 import translate from './translate';
 
@@ -154,7 +154,7 @@ class UploadButton extends React.PureComponent<Props, State> {
           style={style}
           uploadedFileKeyringPair={uploadedFileKeyringPair}
         />
-        <File
+        <AccountsFile
           className='accounts--UploadButton-File'
           withLabel
           label={t('upload.label.file', {

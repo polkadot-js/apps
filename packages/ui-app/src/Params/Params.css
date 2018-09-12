@@ -11,7 +11,7 @@
   padding-left: 2em;
 }
 
-.ui--Param-File {
+.ui--InputFile-File {
   align-items: center;
   border: 1px dashed rgba(34, 36, 38, 0.15);
   border-radius: 0.28571429rem;
@@ -23,16 +23,15 @@
   width: 100% !important;
 }
 
-.ui--Param-File.true {
+.ui--InputFile-File.true {
   border-style: solid;
 }
-
-.ui--Params-File:hover {
+.ui--InputFile-File:hover {
   background: rgba(200, 200, 200, 0.8);
   cursor: pointer;
 }
 
-.ui--Param-File .label {
+.ui--InputFile-File .label {
   color: rgba(0, 0, 0, .6);
 }
 
