@@ -7,13 +7,18 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import './index.css';
 
 import React from 'react';
-import Tabs from '@polkadot/ui-app/Tabs';
 
+import addressObservable from '@polkadot/ui-keyring/observable/addresses';
+import Tabs from '@polkadot/ui-app/Tabs';
+import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
+
+import { hasNoAddresses } from './util/addresses';
 import Creator from './Creator';
 import Editor from './Editor';
 import translate from './translate';
 
 type Props = I18nProps & {
+  addressAll?: Array<any>,
   basePath: string
 };
 
@@ -32,8 +37,17 @@ const Components: { [index: string]: React.ComponentType<any> } = {
 class AddressesApp extends React.PureComponent<Props, State> {
   state: State = { action: 'edit' };
 
+  componentDidUpdate () {
+    const { addressAll } = this.props;
+    const { action } = this.state;
+
+    if (action === 'edit' && hasNoAddresses(addressAll)) {
+      this.selectCreate();
+    }
+  }
+
   render () {
-    const { t } = this.props;
+    const { addressAll, t } = this.props;
     const { action } = this.state;
     const Component = Components[action];
     const items = [
@@ -47,6 +61,11 @@ class AddressesApp extends React.PureComponent<Props, State> {
       }
     ];
 
+    // Do not load Editor tab if no addresses
+    if (hasNoAddresses(addressAll)) {
+      items.splice(0, 1);
+    }
+
     return (
       <main className='addresses--App'>
         <header>
@@ -56,7 +75,7 @@ class AddressesApp extends React.PureComponent<Props, State> {
             onChange={this.onMenuChange}
           />
         </header>
-        <Component onBack={this.selectEdit} />
+        <Component onCreateAddress={this.selectEdit} />
       </main>
     );
   }
@@ -65,9 +84,15 @@ class AddressesApp extends React.PureComponent<Props, State> {
     this.setState({ action });
   }
 
+  selectCreate = (): void => {
+    this.setState({ action: 'create' });
+  }
+
   selectEdit = (): void => {
     this.setState({ action: 'edit' });
   }
 }
 
-export default translate(AddressesApp);
+export default withObservableBase(
+  addressObservable.subject, { propName: 'addressAll' }
+)(translate(AddressesApp));

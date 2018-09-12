@@ -21,6 +21,7 @@ const packages = [
   'app-staking',
   'app-storage',
   'app-toolbox',
+  'app-transfer',
   'app-vanitygen',
   'ui-app',
   'ui-identicon',

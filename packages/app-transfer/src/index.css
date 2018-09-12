@@ -1,0 +1,42 @@
+/* Copyright 2017-2018 @polkadot/app-transfer authors & contributors
+/* This software may be modified and distributed under the terms
+/* of the ISC license. See the LICENSE file for details. */
+
+.transfer--Transfer-selection,
+.transfer--Transfer-info {
+  display: flex;
+  flex-direction: row;
+}
+
+.transfer--Transfer-data,
+.transfer--Transfer-mid {
+  flex: 1 1;
+}
+
+.transfer--Transfer-mid {
+  padding: 2.5em 0.5em;
+  text-align: center;
+}
+
+.transfer--Transfer-address {
+  flex: 0 1;
+  padding: 2em 0;
+}
+
+.transfer--Transfer-address .ui--AddressSummary {
+  text-align: center;
+}
+
+.transfer--Transfer-amounts {
+  padding: 0 26%;
+}
+
+.error {
+  background-color: #fff6f6;
+  border-color: #e0b4b4;
+  color: #9f3a38;
+}
+
+.warning {
+  background: #ffffe0;
+}

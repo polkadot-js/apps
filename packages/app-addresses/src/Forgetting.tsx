@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringPair } from '@polkadot/util-keyring/types';
+import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
@@ -17,7 +17,7 @@ type Props = I18nProps & {
   isOpen: boolean,
   onClose: () => void,
   doForget: () => void,
-  currentAddress: KeyringPair | null
+  currentAddress: KeyringAddress | null
 };
 
 class Forgetting extends React.PureComponent<Props> {
@@ -81,10 +81,10 @@ class Forgetting extends React.PureComponent<Props> {
     return [
       <Modal.Header key='header'>
         {t('forget.header', {
-          defaultValue: 'Confirm account removal'
+          defaultValue: 'Confirm address removal'
         })}
       </Modal.Header>,
-      <Modal.Content className='forgetting--Account' key='content'>
+      <Modal.Content className='forgetting-Address' key='content'>
         <AddressSummary
           className='ui--AddressSummary-base'
           value={address || ''}

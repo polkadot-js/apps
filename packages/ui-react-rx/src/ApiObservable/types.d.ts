@@ -19,6 +19,14 @@ export type RxBalance = {
   nominators?: Array<RxBalance>
 }
 
+export type RxFees = {
+  baseFee: BN,
+  byteFee: BN,
+  creationFee: BN,
+  existentialDeposit: BN,
+  transferFee: BN,
+};
+
 export type RxProposal = {
   address: string,
   id: BN,
@@ -47,12 +55,13 @@ export type RxBalanceMap = {
   [index: string]: RxBalance
 }
 
+export type KeyWithoutParams = [SectionItem<Storages>];
 export type KeyWithParams = [SectionItem<Storages>, any];
 
 export interface ObservableApiInterface {
   rawCall: <T> ({ name, section }: SectionItem<Interfaces>, ...params: Array<any>) => Observable<T>,
   rawStorage: <T> (key: SectionItem<Storages>, ...params: Array<any>) => Observable<T>,
-  rawStorageMulti: <T> (...keys: Array<[SectionItem<Storages>, any]>) => Observable<T>,
+  rawStorageMulti: <T> (...keys: Array<KeyWithParams | KeyWithoutParams>) => Observable<T>,
   bestNumber: () => Observable<BN | undefined>,
   chainGetBlock: (hash: Uint8Array) => Observable<BlockDecoded | undefined>,
   chainNewHead: () => Observable<Header | undefined>,
@@ -68,6 +77,7 @@ export interface ObservableApiInterface {
   eraBlockLength: () => Observable<BN | undefined>,
   eraBlockProgress: () => Observable<BN | undefined>,
   eraBlockRemaining: () => Observable<BN | undefined>,
+  fees: () => Observable<RxFees | undefined>,
   sessionBlockProgress: () => Observable<BN | undefined>,
   sessionBlockRemaining: () => Observable<BN | undefined>,
   sessionBrokenPercentLate: () => Observable<BN | undefined>,
