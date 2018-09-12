@@ -179,7 +179,10 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       }),
       new HtmlWebpackPlugin({
         inject: true,
-        template: path.join(context, `${hasPublic ? 'public/' : ''}${name}.html`)
+        template: path.join(context, `${hasPublic ? 'public/' : ''}${name}.html`),
+        PAGE_TITLE: process.env.THEME === 'substrate'
+          ? 'Substrate Apps Portal'
+          : 'Polkadot Apps Portal'
       }),
       new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({

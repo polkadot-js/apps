@@ -25,8 +25,6 @@ const LOGOS: Map<string | undefined, any> = new Map([
   ['substrate', substrateLogo]
 ]);
 
-console.log('THEME', process.env);
-
 const LOGO = LOGOS.get(process.env.THEME) || polkadotLogo;
 
 class SideBar extends React.PureComponent<Props> {
