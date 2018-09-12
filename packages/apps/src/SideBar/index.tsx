@@ -11,6 +11,7 @@ import Icon from '@polkadot/ui-app/Icon';
 import Menu from '@polkadot/ui-app/Menu';
 
 import polkadotLogo from '../static/polkadot-white.svg';
+import substrateLogo from '../static/parity-substrate-white.svg';
 import routing from '../routing';
 import translate from '../translate';
 import Item from './Item';
@@ -18,6 +19,19 @@ import Item from './Item';
 type Props = I18nProps & {
   children?: React.ReactNode
 };
+
+type ThemeIndex = {
+  [index: string]: any
+};
+
+const LOGOS: Map<string | undefined, any> = new Map([
+  ['polkadot', polkadotLogo],
+  ['substrate', substrateLogo]
+]);
+
+console.log('THEME', process.env);
+
+const LOGO = LOGOS.get(process.env.THEME) || polkadotLogo;
 
 class SideBar extends React.PureComponent<Props> {
   render () {
@@ -32,7 +46,7 @@ class SideBar extends React.PureComponent<Props> {
           <img
             alt='polkadot'
             className='apps--SideBar-logo'
-            src={polkadotLogo}
+            src={LOGO}
           />
           {
             routing.routes
