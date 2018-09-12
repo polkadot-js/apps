@@ -24,19 +24,10 @@ type Props = BareProps & {
 
 class AccountsFile extends React.PureComponent<Props> {
   render () {
-    const { acceptedFormats, className, isDisabled, isError = false, label, onChange, placeholder, shouldDisplayFile, withLabel } = this.props;
-
     return (
       <InputFile
-        acceptedFormats={acceptedFormats}
-        className={className}
-        isDisabled={isDisabled}
-        isError={isError}
-        label={label}
-        onChange={onChange}
-        placeholder={placeholder}
-        shouldDisplayFile={shouldDisplayFile}
-        withLabel={withLabel}
+        {...this.props}
+        isError={false}
       />
     );
   }

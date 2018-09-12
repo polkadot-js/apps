@@ -98,8 +98,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { address, error, isPasswordModalOpen, password } = this.state;
-    const { className, icon = 'download', isCircular = true, isPrimary = true, size = 'tiny', style } = this.props;
+    const { address } = this.state;
 
     if (!address) {
       return null;
@@ -108,25 +107,20 @@ class DownloadButton extends React.PureComponent<Props, State> {
     return (
       <div className='accounts--DownloadButton'>
         <DownloadModal
-          address={address}
-          className={className}
-          error={error}
+          {...this.props}
+          {...this.state}
           handleDownloadAccount={this.handleDownloadAccount}
           hidePasswordModal={this.hidePasswordModal}
-          isPasswordModalOpen={isPasswordModalOpen}
           onChangePassword={this.onChangePassword}
           onDiscard={this.onDiscard}
-          password={password}
-          style={style}
         />
         <Button
-          className={className}
-          icon={icon}
-          isCircular={isCircular}
-          isPrimary={isPrimary}
+          {...this.props}
+          icon='download'
+          isCircular
+          isPrimary
           onClick={this.showPasswordModal}
-          size={size}
-          style={style}
+          size='tiny'
         />
       </div>
     );

@@ -22,17 +22,10 @@ type Props = BareProps & {
 
 class BytesFile extends React.PureComponent<Props> {
   render () {
-    const { className, isDisabled, isError = false, label, onChange, placeholder, withLabel } = this.props;
-
     return (
       <InputFile
-        className={className}
-        isDisabled={isDisabled}
-        isError={isError}
-        label={label}
-        onChange={onChange}
-        placeholder={placeholder}
-        withLabel={withLabel}
+        {...this.props}
+        isError={false}
       />
     );
   }

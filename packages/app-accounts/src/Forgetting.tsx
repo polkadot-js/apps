@@ -45,7 +45,7 @@ class Forgetting extends React.PureComponent<Props> {
   }
 
   renderButtons () {
-    const { onClose, doForget, t } = this.props;
+    const { doForget, onClose, t } = this.props;
 
     return (
       <Modal.Actions>

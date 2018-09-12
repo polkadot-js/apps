@@ -35,8 +35,8 @@ class UploadModal extends React.PureComponent<Props> {
       <Modal
         className={classes('accounts--UploadModal', className)}
         dimmer='inverted'
-        open={address && isPasswordModalOpen ? true : false}
         onClose={hidePasswordModal}
+        open={address && isPasswordModalOpen ? true : false}
         size='mini'
         style={style}
       >

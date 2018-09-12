@@ -155,13 +155,13 @@ class UploadButton extends React.PureComponent<Props, State> {
           uploadedFileKeyringPair={uploadedFileKeyringPair}
         />
         <AccountsFile
+          acceptedFormats='.json'
           className='accounts--UploadButton-File'
-          withLabel
           label={t('upload.label.file', {
             defaultValue: 'upload account'
           })}
           onChange={this.handleUploadedFiles}
-          acceptedFormats='.json'
+          withLabel
         />
       </div>
     );
@@ -170,15 +170,15 @@ class UploadButton extends React.PureComponent<Props, State> {
   emptyState (): State {
     return {
       address: '',
-      password: '',
-      isPasswordModalOpen: false
+      isPasswordModalOpen: false,
+      password: ''
     };
   }
 
   onChangePassword = (password: string): void => {
     this.setState({
-      password,
-      error: undefined
+      error: undefined,
+      password
     });
   }
 
