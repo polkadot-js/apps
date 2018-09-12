@@ -22,8 +22,8 @@ const fileReader = new FileReader();
 
 type State = {
   address: string,
-  isPasswordModalOpen: boolean,
   error?: React.ReactNode,
+  isPasswordModalOpen: boolean,
   password: string,
   uploadedFileKeyringPair?: KeyringPair$Json
 };
