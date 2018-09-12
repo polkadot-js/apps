@@ -3,18 +3,14 @@
 // of the ISC license. See the LICENSE file for details.
 
 import React from 'react';
-import { mount, shallow } from '../../../test/enzyme';
+
+import { shallow } from '../../../test/enzyme';
 import { Signer } from './Modal';
 
 const mockT = (key, options) => (key);
 
-// jest.mock('react-i18next', () => ({
-//   // this mock makes sure any components using the translate HoC receive the t function as a prop
-//   translate: () => Component => props => <Component t={k => k} {...props} />
-// }));
-
 describe('Signer', () => {
-  let wrapper, expectedNextCurrentItemState, fixtureCurrentItemState, fixtureQueueProp, inputPassword;
+  let expectedNextCurrentItemState, fixtureCurrentItemState, fixtureQueueProp, unlockComponent, wrapper;
 
   beforeEach(() => {
     fixtureCurrentItemState = {
@@ -45,76 +41,41 @@ describe('Signer', () => {
     );
   });
 
-  it('creates the element', async () => {
-    try {
-      await wrapper.setState({
+  it('creates the element', () => {
+    return new Promise((resolve) => {
+      wrapper.setState({
         currentItem: fixtureCurrentItemState,
         password: '123',
         unlockError: null
-      });
-
-      await wrapper.setProps({
-        queue: fixtureQueueProp
-      });
-
-      wrapper.update();
-
-      expect(wrapper).toHaveLength(1);
-
-      // console.log(wrapper.debug());
-    } catch (error) {
-      console.error(error);
-    }
-  });
-
-  it('testing', (done) => {
-    try {
-      wrapper.setState({ currentItem: fixtureCurrentItemState }, () => {
+      }, () => {
         wrapper.setProps({
           queue: fixtureQueueProp
-        }, () => {
-          wrapper.update();
-          expect(wrapper.state('currentItem')).toEqual(expectedNextCurrentItemState);
-          expect(wrapper.find('.ui--signer-Signer')).toHaveLength(1);
-
-          console.log(wrapper.debug());
-          done();
-        });
+        }, resolve);
       });
-    } catch (error) {
-      console.error(error);
-    }
+    }).then(() => {
+      wrapper.update();
+      expect(wrapper).toHaveLength(1);
+    });
   });
 
-  // Resolution of Enzyme issue: https://github.com/airbnb/enzyme/issues/1794
-  it.skip('set the state of the component using async await', async () => {
-    try {
-      await wrapper.setState({
+  // Reference: https://github.com/airbnb/enzyme/issues/1794
+  it('renders Unlock component with empty password', () => {
+    return new Promise((resolve) => {
+      wrapper.setState({
         currentItem: fixtureCurrentItemState,
         password: '123',
         unlockError: null
+      }, () => {
+        wrapper.setProps({
+          queue: fixtureQueueProp
+        }, resolve);
       });
-
-      await wrapper.setProps({
-        queue: fixtureQueueProp
-      });
-
+    }).then(() => {
       wrapper.update();
-
       expect(wrapper.state('currentItem')).toEqual(expectedNextCurrentItemState);
       expect(wrapper.find('.ui--signer-Signer')).toHaveLength(1);
-      // expect(wrapper.find('.ui--signer-Signer-Unlock')).toHaveLength(1);
-
-      console.log(wrapper.find('.ui--signer-Signer').debug());
-      // // check no password input field validation error
-      // expect(wrapper.update().find('.ui--signer-Signer-Unlock').closest('input').parent().hasClass('ui action input')).toBe(true);
-      // inputPassword = wrapper.find('.ui--signer-Signer-Unlock').find('input');
-      // const enterKey = 'Enter';
-      // inputPassword.simulate('keyDown', {key: enterKey});
-      // // check password input field validation error when press enter without password
-      // expect(wrapper.update().find('.ui--signer-Signer-Unlock').closest('input').parent().hasClass('ui error action input')).toBe(true);
-    } catch (error) {
-      console.error(error);
-    }
+      unlockComponent = wrapper.find('.ui--signer-Signer').children().at(0).childAt(0);
+      expect(unlockComponent.props().password).toEqual('');
+    });
   });
 });
