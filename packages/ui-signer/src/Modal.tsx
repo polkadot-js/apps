@@ -39,8 +39,6 @@ type State = {
 class Signer extends React.PureComponent<Props, State> {
   state: State;
 
-  private submitButtonDiv: React.RefObject<HTMLDivElement>;
-
   constructor (props: Props) {
     super(props);
 
@@ -48,8 +46,6 @@ class Signer extends React.PureComponent<Props, State> {
       password: '',
       unlockError: null
     };
-
-    this.submitButtonDiv = React.createRef();
   }
 
   static getDerivedStateFromProps ({ queue }: Props, { currentItem, password, unlockError }: State): State {
@@ -116,7 +112,7 @@ class Signer extends React.PureComponent<Props, State> {
             })}
           />
           <Button.Or />
-          <div ref={this.submitButtonDiv}>
+          <div>
             <Button
               className='ui--signer-Signer-Submit'
               isPrimary
@@ -203,16 +199,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   onKeyDown = (event: React.KeyboardEvent<Element>): void => {
     if (event.keyCode === 13) {
-      const node = this.submitButtonDiv.current;
-
-      if (node instanceof HTMLElement) {
-        const child = node.firstChild;
-
-        if (child instanceof HTMLElement) {
-          child.click();
-          event.preventDefault();
-        }
-      }
+      this.onSend();
     }
   }
 
