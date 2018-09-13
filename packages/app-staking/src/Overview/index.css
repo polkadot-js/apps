@@ -15,9 +15,7 @@
 .validator--row {
   display: flex;
   flex-direction: row;
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 5px;
-  padding-bottom: 2px;
+  padding-bottom: 1.5em;
 }
 
 .validator--Account-address {
@@ -31,7 +29,7 @@
 
 .validator--Account-validating {
   opacity: 0.25 !important;
-  padding-top: 8px;
+  padding-top: 0.5em;
   vertical-align: top !important;
 }
 
@@ -51,40 +49,15 @@
   text-align: right;
 }
 
-.validator--ValidatorsList{
-  padding: 10px;
+.validator--IntensionsList,
+.validator--ValidatorsList {
   display: flex;
 }
 
-.validator--IntensionsList{
-  padding: 10px;
-}
-
-.validator--current,.validator--next{
-  margin: 20px;
+.validator--current,
+.validator--next {
+  margin: 1em;
   flex: 1;
-}
-.app-validators--Query .app-validators--actionrow-value {
-  padding: 0 0.25rem;
-}
-
-.app-validators--Query .ui--IdentityIcon {
-  margin: -10px 0;
-  vertical-align: middle;
-}
-
-.app-validators--actionrow {
-  display: flex;
-}
-
-.app-validators--actionrow-value {
-  flex: 1;
-  min-width: 0;
-}
-
-.app-validators--actionrow-button {
-  flex: 0;
-  padding: 0 0.25rem;
 }
 
 .validator--Account-address.isMine {
@@ -103,8 +76,4 @@
   color: #aaa;
   position: absolute;
   font-size: 1.5em !important;
-}
-
-.ui--AddressRow-icon {
-  margin: 12px;
 }

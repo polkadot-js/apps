@@ -3,13 +3,16 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { RxBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
 
 import React from 'react';
+import AddressMini from '@polkadot/ui-app/AddressMini';
 import AddressRow from '@polkadot/ui-app/AddressRow';
 
 import translate from '../translate';
 
 type Props = I18nProps & {
+  balances: RxBalanceMap,
   current: Array<string>
   next: Array<string>
 };
@@ -36,28 +39,15 @@ class CurrentList extends React.PureComponent<Props> {
     }
 
     return [
-      <h4>
+      <h1>
         {t('list.current', {
-          defaultValue: 'Current: {{count}}',
+          defaultValue: 'validators',
           replace: {
             count: current.length
           }
         })}
-      </h4>,
-      ...current.map((account) => {
-        return (
-          <AddressRow
-            className='validator--row'
-            key={account}
-            name={name || t('name.validator', { defaultValue: 'validator' })}
-            value={account}
-            withBalance={true}
-            withNonce={false}
-            identIconSize={48}
-            isShort={true}
-          />
-        );
-      })
+      </h1>,
+      ...this.renderRow(current, t('name.validator', { defaultValue: 'validator' }))
     ];
   }
 
@@ -69,29 +59,39 @@ class CurrentList extends React.PureComponent<Props> {
     }
 
     return [
-      <h4>
+      <h1>
         {t('list.next', {
-          defaultValue: 'Next up: {{count}}',
-          replace: {
-            count: next.length
-          }
+          defaultValue: 'next up'
         })}
-      </h4>,
-      ...next.map((account) => {
-        return (
-          <AddressRow
-            className='validator--row'
-            key={account}
-            name={name || t('name.intention', { defaultValue: 'intention' })}
-            value={account}
-            withBalance={true}
-            withNonce={false}
-            identIconSize={48}
-            isShort={true}
-          />
-        );
-      })
+      </h1>,
+      ...this.renderRow(next, t('name.intention', { defaultValue: 'intention' }))
     ];
+  }
+
+  private renderRow (addresses: Array<string>, defaultName: string) {
+    const { balances } = this.props;
+
+    return addresses.map((address) => {
+      const nominators = (balances[address] || {}).nominators || [];
+
+      return (
+        <article key={address}>
+          <AddressRow
+            name={name || defaultName}
+            value={address}
+            withCopy={false}
+            withNonce={false}
+          >
+            {nominators.map(({ address }) =>
+              <AddressMini
+                key={address}
+                value={address}
+              />
+            )}
+          </AddressRow>
+        </article>
+      );
+    });
   }
 }
 
