@@ -37,7 +37,15 @@ const Components: { [index: string]: React.ComponentType<any> } = {
 class AddressesApp extends React.PureComponent<Props, State> {
   state: State = { action: 'edit' };
 
+  componentWillMount () {
+    this.toggleCreateForNoAddresses();
+  }
+
   componentDidUpdate () {
+    this.toggleCreateForNoAddresses();
+  }
+
+  toggleCreateForNoAddresses = () => {
     const { addressAll } = this.props;
     const { action } = this.state;
 
