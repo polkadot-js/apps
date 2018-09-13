@@ -172,8 +172,9 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify(ENV),
-          THEME: JSON.stringify(process.env.THEME || 'polkadot'),
           VERSION: JSON.stringify(pkgJson.version),
+          UI_MODE: JSON.stringify(process.env.UI_MODE || 'full'),
+          UI_THEME: JSON.stringify(process.env.UI_THEME || 'polkadot'),
           WS_URL: JSON.stringify(process.env.WS_URL)
         }
       }),
