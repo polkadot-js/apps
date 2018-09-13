@@ -23,7 +23,7 @@ import decodeAddress from '@polkadot/util-keyring/address/decode';
 
 import Nominating from './Nominating';
 import UnnominateButton from './UnnominateButton';
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & {
   systemAccountIndexOf?: BN,
@@ -72,6 +72,7 @@ class Account extends React.PureComponent<Props, State> {
           balance={this.balanceArray(address)}
           name={name}
           value={address}
+          identIconSize={96}
         >
           <div className='staking--Account-expand'>
             {this.renderButtons()}

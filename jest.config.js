@@ -8,6 +8,6 @@ module.exports = Object.assign({}, config, {
     '\\.(css|less)$': 'empty/object'
   },
   transformIgnorePatterns: [
-    "node_modules/(?!polkadot-identicon)"
+    'node_modules/(?!polkadot-identicon)'
   ]
 });

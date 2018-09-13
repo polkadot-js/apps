@@ -2,12 +2,12 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
-.staking--App {
-  padding: 1em 2rem;
+.staking--Summary {
+  margin-bottom: 2rem;
+  text-align: right;
 }
 
-.staking--App-navigation.ui--Button-Group {
-  margin-bottom: 2em;
+.staking--StakeList {
   text-align: center;
 }
 
@@ -76,7 +76,7 @@
 }
 
 .staking--Account-validating.isValidator {
-  color: #d75ea1;
+  color: red;
   opacity: 1 !important;
 }
 
@@ -84,11 +84,4 @@
 .staking--Account-nonce {
   opacity: 0.45;
   text-align: right;
-}
-
-.staking--Summary-text {
-  text-align: right;
-  font-size: 1rem;
-  font-weight: normal;
-  line-height: 1.2rem;
 }

@@ -19,6 +19,7 @@ type Props = I18nProps & {
   autoFocus?: boolean,
   error?: React.ReactNode,
   onChange: (password: string) => void,
+  onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
   password: string,
   tabIndex?: number,
   value?: Uint8Array | null
@@ -51,7 +52,7 @@ class Unlock extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { autoFocus, onChange, password, t, tabIndex } = this.props;
+    const { autoFocus, onChange, onKeyDown, password, t, tabIndex } = this.props;
     const { error, isError, isLocked, pair } = this.state;
 
     if (pair && !isLocked) {
@@ -70,6 +71,7 @@ class Unlock extends React.PureComponent<Props, State> {
               defaultValue: 'unlock account using'
             })}
             onChange={onChange}
+            onKeyDown={onKeyDown}
             tabIndex={tabIndex}
             value={password}
           />

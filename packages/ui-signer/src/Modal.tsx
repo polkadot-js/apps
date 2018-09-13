@@ -101,24 +101,29 @@ class Signer extends React.PureComponent<Props, State> {
           <Button
             isNegative
             onClick={this.onCancel}
+            tabIndex={3}
             text={t('extrinsic.cancel', {
               defaultValue: 'Cancel'
             })}
           />
           <Button.Or />
-          <Button
-            isPrimary
-            onClick={this.onSend}
-            text={
-              isSigned
-                ? t('extrinsic.signedSend', {
-                  defaultValue: 'Sign and Submit'
-                })
-                : t('extrinsic.send', {
-                  defaultValue: 'Submit'
-                })
-            }
-          />
+          <div>
+            <Button
+              className='ui--signer-Signer-Submit'
+              isPrimary
+              onClick={this.onSend}
+              tabIndex={2}
+              text={
+                isSigned
+                  ? t('extrinsic.signedSend', {
+                    defaultValue: 'Sign and Submit'
+                  })
+                  : t('extrinsic.send', {
+                    defaultValue: 'Submit'
+                  })
+              }
+            />
+          </div>
         </Button.Group>
       </Modal.Actions>
     );
@@ -148,10 +153,13 @@ class Signer extends React.PureComponent<Props, State> {
 
     return (
       <Unlock
+        autoFocus
         error={unlockError && t(unlockError.key, unlockError.value)}
         onChange={this.onChangePassword}
+        onKeyDown={this.onKeyDown}
         password={password}
         value={currentItem.publicKey}
+        tabIndex={1}
       />
     );
   }
@@ -182,6 +190,12 @@ class Signer extends React.PureComponent<Props, State> {
       password,
       unlockError: null
     });
+  }
+
+  onKeyDown = async (event: React.KeyboardEvent<Element>): Promise<any> => {
+    if (event.key === 'Enter') {
+      await this.onSend();
+    }
   }
 
   onCancel = (): void => {
@@ -240,5 +254,9 @@ class Signer extends React.PureComponent<Props, State> {
 const Component: React.ComponentType<any> = translate(
   withApi(Signer)
 );
+
+export {
+  Signer
+};
 
 export default Component;

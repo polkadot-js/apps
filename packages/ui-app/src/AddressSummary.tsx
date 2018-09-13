@@ -24,6 +24,8 @@ export type Props = I18nProps & {
   name?: string,
   value: string | Uint8Array | undefined,
   withBalance?: boolean,
+  identIconSize?: number,
+  isShort?: boolean
   withCopy?: boolean,
   withNonce?: boolean
   withIcon?: boolean
@@ -86,7 +88,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderAddress () {
-    const { name } = this.props;
+    const { name, value, isShort = true } = this.props;
     const { shortValue } = this.state;
 
     return (
@@ -95,7 +97,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
           {name}
         </div>
         <div className='ui--AddressSummary-address'>
-          {shortValue}
+          {isShort ? shortValue : value}
         </div>
         {this.renderCopy()}
         {this.renderDownload()}
@@ -143,7 +145,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderIcon () {
-    const { withIcon = true } = this.props;
+    const { identIconSize = 96, withIcon = true } = this.props;
     const { address } = this.state;
 
     if (!withIcon) {
@@ -153,7 +155,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     return (
       <IdentityIcon
         className='ui--AddressSummary-icon'
-        size={96}
+        size={identIconSize}
         value={address}
       />
     );
