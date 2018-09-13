@@ -78,20 +78,21 @@ class CurrentList extends React.PureComponent<Props> {
       const nominators = (balances[address] || {}).nominators || [];
 
       return (
-        <AddressRow
-          className='validator--row'
-          key={address}
-          name={name || defaultName}
-          value={address}
-          withBalance={true}
-          withNonce={false}
-          identIconSize={48}
-          isShort={true}
-        >
-          {nominators.map(({ address }) =>
-            <AddressMini value={address} />
-          )}
-        </AddressRow>
+        <article key={address}>
+          <AddressRow
+            name={name || defaultName}
+            value={address}
+            withCopy={false}
+            withNonce={false}
+          >
+            {nominators.map(({ address }) =>
+              <AddressMini
+                key={address}
+                value={address}
+              />
+            )}
+          </AddressRow>
+        </article>
       );
     });
   }

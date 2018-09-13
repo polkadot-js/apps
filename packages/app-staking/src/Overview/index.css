@@ -49,16 +49,16 @@
   text-align: right;
 }
 
-.validator--ValidatorsList{
+.validator--ValidatorsList {
   padding: 10px;
   display: flex;
 }
 
-.validator--IntensionsList{
+.validator--IntensionsList {
   padding: 10px;
 }
 
-.validator--current,.validator--next{
+.validator--current,.validator--next {
   margin: 20px;
   flex: 1;
 }
