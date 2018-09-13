@@ -10,6 +10,7 @@ import Button from './Button';
 import Input from './Input';
 
 type Props = BareProps & {
+  autoFocus?: boolean,
   defaultValue?: any,
   children?: React.ReactNode,
   isDisabled?: boolean,
@@ -17,6 +18,8 @@ type Props = BareProps & {
   label?: string,
   name?: string,
   onChange: (value: string) => void,
+  onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
+  tabIndex?: number,
   value: any,
   withLabel?: boolean
 };
@@ -31,11 +34,12 @@ export default class Password extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { children, className, defaultValue, isDisabled, isError, label, name, onChange, style, value, withLabel } = this.props;
+    const { autoFocus, children, className, defaultValue, isDisabled, isError, label, name, onChange, onKeyDown, style, tabIndex, value, withLabel } = this.props;
     const { isVisible } = this.state;
 
     return (
       <Input
+        autoFocus={autoFocus}
         className={className}
         defaultValue={defaultValue}
         isAction
@@ -44,7 +48,9 @@ export default class Password extends React.PureComponent<Props, State> {
         label={label}
         name={name}
         onChange={onChange}
+        onKeyDown={onKeyDown}
         style={style}
+        tabIndex={tabIndex}
         type={
           isVisible
             ? 'text'

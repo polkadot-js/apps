@@ -14,6 +14,7 @@ import Labelled from './Labelled';
 type Input$Type = 'number' | 'password' | 'text';
 
 type Props = BareProps & {
+  autoFocus?: boolean,
   children?: React.ReactNode,
   defaultValue?: any,
   icon?: any, // node?
@@ -27,14 +28,12 @@ type Props = BareProps & {
   min?: any,
   name?: string,
   onChange: (value: string) => void,
+  onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
   placeholder?: string,
+  tabIndex?: number,
   type?: Input$Type,
   value?: any,
   withLabel?: boolean
-};
-
-type SUIEvent = {
-  value: any
 };
 
 type State = {
@@ -49,7 +48,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { children, className, defaultValue, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, name, placeholder, style, type = 'text', value, withLabel } = this.props;
+    const { autoFocus = false, children, className, defaultValue, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, name, placeholder, style, tabIndex, type = 'text', value, withLabel } = this.props;
 
     return (
       <Labelled
@@ -59,6 +58,7 @@ export default class Input extends React.PureComponent<Props, State> {
         withLabel={withLabel}
       >
         <SUIInput
+          autoFocus={autoFocus}
           action={isAction}
           className={isEditable ? 'edit icon' : ''}
           defaultValue={defaultValue}
@@ -75,7 +75,9 @@ export default class Input extends React.PureComponent<Props, State> {
           min={min}
           name={name || this.state.name}
           onChange={this.onChange}
+          onKeyDown={this.onKeyDown}
           placeholder={placeholder}
+          tabIndex={tabIndex}
           type={type}
           value={value}
         >
@@ -94,7 +96,17 @@ export default class Input extends React.PureComponent<Props, State> {
     );
   }
 
-  onChange = (event: React.SyntheticEvent<Element>, { value }: SUIEvent): void => {
-    this.props.onChange(value);
+  onChange = (event: React.SyntheticEvent<Element>): void => {
+    const { onChange } = this.props;
+
+    onChange((event.target as HTMLInputElement).value);
+  }
+
+  onKeyDown = (event: React.KeyboardEvent<Element>): void => {
+    const { onKeyDown } = this.props;
+
+    if (onKeyDown) {
+      onKeyDown(event);
+    }
   }
 }
