@@ -7,10 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import './index.css';
 
 import React from 'react';
-import Button from '@polkadot/ui-app/Button';
-import Navigation from '@polkadot/ui-app/Navigation';
-import Page from '@polkadot/ui-app/Page';
-import classes from '@polkadot/ui-app/util/classes';
+import Tabs from '@polkadot/ui-app/Tabs';
 
 import Hash from './Hash';
 import Sign from './Sign';
@@ -19,7 +16,9 @@ import translate from './translate';
 
 type Actions = 'hash' | 'sign' | 'verify';
 
-type Props = I18nProps & {};
+type Props = I18nProps & {
+  basePath: string
+};
 
 type State = {
   action: Actions
@@ -38,66 +37,40 @@ class ToolboxApp extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { className, style } = this.props;
-    const { action } = this.state;
-    const Component = Components[action];
-
-    return (
-      <Page
-        className={classes('toolbox--App', className)}
-        style={style}
-      >
-        {this.renderButtons()}
-        <Component />
-      </Page>
-    );
-  }
-
-  renderButtons () {
     const { t } = this.props;
     const { action } = this.state;
+    const Component = Components[action];
+    const items = [
+      {
+        name: 'hash',
+        text: t('app.hash', { defaultValue: 'Hash data' })
+      },
+      {
+        name: 'sign',
+        text: t('app.sign', { defaultValue: 'Sign message' })
+      },
+      {
+        name: 'verify',
+        text: t('app.verify', { defaultValue: 'Verify signature' })
+      }
+    ];
 
     return (
-      <Navigation>
-        <Button.Group>
-          <Button
-            isPrimary={action === 'hash'}
-            onClick={this.selectHash}
-            text={t('app.hash', {
-              defaultValue: 'Hash data'
-            })}
+      <main className='toolbox--App'>
+        <header>
+          <Tabs
+            activeItem={action}
+            items={items}
+            onChange={this.onMenuChange}
           />
-          <Button.Or />
-          <Button
-            isPrimary={action === 'sign'}
-            onClick={this.selectSign}
-            text={t('app.sign', {
-              defaultValue: 'Sign message'
-            })}
-          />
-          <Button.Or />
-          <Button
-            isPrimary={action === 'verify'}
-            onClick={this.selectVerify}
-            text={t('app.verify', {
-              defaultValue: 'Verify signature'
-            })}
-          />
-        </Button.Group>
-      </Navigation>
+        </header>
+        <Component />
+      </main>
     );
   }
 
-  selectHash = (): void => {
-    this.setState({ action: 'hash' });
-  }
-
-  selectSign = (): void => {
-    this.setState({ action: 'sign' });
-  }
-
-  selectVerify = (): void => {
-    this.setState({ action: 'verify' });
+  onMenuChange = (action: Actions) => {
+    this.setState({ action });
   }
 }
 

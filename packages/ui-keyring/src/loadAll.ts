@@ -6,21 +6,55 @@ import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 import { State, KeyringJson } from './types';
 
 import store from 'store';
+import addressEncode from '@polkadot/util-keyring/address/encode';
+import isHex from '@polkadot/util/is/hex';
+import hexToU8a from '@polkadot/util/hex/toU8a';
 
-import createOptions from './options';
+import saveAddress from './address/meta';
+import initOptions from './options';
 import { accountRegex, addressRegex } from './defaults';
 
+function addPairs ({ accounts, keyring }: State): void {
+  keyring
+    .getPairs()
+    .forEach((pair) => {
+      const address = pair.address();
+
+      accounts.add(address, {
+        address,
+        meta: pair.getMeta()
+      });
+    });
+}
+
 export default function loadAll (state: State): void {
-  const { available, keyring } = state;
+  const { accounts, addresses, keyring } = state;
+
+  addPairs(state);
 
   store.each((json: KeyringJson, key: string) => {
     if (accountRegex.test(key)) {
-      keyring.addFromJson(json as KeyringPair$Json);
-      available.account[json.address] = json;
+      if (!json.meta || !json.meta.isTesting) {
+        keyring.addFromJson(json as KeyringPair$Json);
+        accounts.add(json.address, json);
+      }
     } else if (addressRegex.test(key)) {
-      available.address[json.address] = json;
+      const address = isHex(json.address)
+        ? addressEncode(hexToU8a(json.address))
+        : json.address;
+
+      // NOTE This is a fix for an older version where publicKeys instead of addresses
+      // were saved. Here we clean the old and replace with a new address-specific key
+      if (address !== json.address) {
+        json.address = address;
+
+        store.remove(key);
+        saveAddress(state, address, json.meta);
+      }
+
+      addresses.add(json.address, json);
     }
   });
 
-  createOptions(state);
+  initOptions(state);
 }

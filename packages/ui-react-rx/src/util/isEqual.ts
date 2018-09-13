@@ -2,6 +2,24 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+function flatten (key: string | null, value: any): any {
+  if (!value) {
+    return value;
+  }
+
+  if (value.$$typeof) {
+    return '';
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((item) =>
+      flatten(null, item)
+    );
+  }
+
+  return value;
+}
+
 export default function isEqual <T> (a?: T, b?: T): boolean {
-  return JSON.stringify({ test: a }) === JSON.stringify({ test: b });
+  return JSON.stringify({ test: a }, flatten) === JSON.stringify({ test: b }, flatten);
 }

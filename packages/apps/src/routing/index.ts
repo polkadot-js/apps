@@ -7,33 +7,47 @@ import { Routing,
 
 import accounts from './accounts';
 import addresses from './addresses';
+import democracy from './democracy';
 import example from './example';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
-// import home from './home';
 import rpc from './rpc';
-// import settings from './settings';
 import staking from './staking';
 import storage from './storage';
 import toolbox from './toolbox';
-import unknown from './unknown';
+import transfer from './transfer';
 import vanitygen from './vanitygen';
 
-export default ({
-  default: 'explorer',
-  routes: ([] as Routes).concat(
+const routes: Routes = process.env.UI_MODE === 'light'
+  ? ([] as Routes).concat(
+    transfer,
+    staking,
+    democracy,
+    null,
+    accounts,
+    addresses
+  )
+  : ([] as Routes).concat(
     example,
     explorer,
+    transfer,
     staking,
-    extrinsics,
-    storage,
+    democracy,
     null,
     accounts,
     addresses,
-    vanitygen,
     null,
+    storage,
+    extrinsics,
+    null,
+    vanitygen,
     rpc,
     toolbox
-  ),
-  unknown
+  );
+
+export default ({
+  default: process.env.UI_MODE === 'light'
+    ? 'transfer'
+    : 'explorer',
+  routes
 } as Routing);

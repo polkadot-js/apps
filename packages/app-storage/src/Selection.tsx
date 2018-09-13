@@ -15,7 +15,6 @@ import Button from '@polkadot/ui-app/Button';
 import InputStorage from '@polkadot/ui-app/InputStorage';
 import Labelled from '@polkadot/ui-app/Labelled';
 import Params from '@polkadot/ui-app/Params';
-import classes from '@polkadot/ui-app/util/classes';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import translate from './translate';
@@ -41,19 +40,16 @@ class Selection extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { className, style, t } = this.props;
+    const { t } = this.props;
     const { isValid, key } = this.state;
 
     return (
-      <div
-        className={classes('storage--Selection', 'storage--actionrow', className)}
-        style={style}
-      >
+      <section className='storage--Selection storage--actionrow'>
         <div className='storage--actionrow-value'>
           <InputStorage
             defaultValue={defaultValue}
             labelSection={t('selection.section', {
-              defaultValue: 'query storage area'
+              defaultValue: 'query state section'
             })}
             onChange={this.onChangeKey}
           />
@@ -70,7 +66,7 @@ class Selection extends React.PureComponent<Props, State> {
             onClick={this.onAdd}
           />
         </Labelled>
-      </div>
+      </section>
     );
   }
 
@@ -107,7 +103,11 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   onChangeKey = (key: SectionItem<Storages>): void => {
-    this.nextState({ key } as State);
+    this.nextState({
+      isValid: false,
+      key,
+      params: []
+    });
   }
 
   onChangeParams = (params: RawParams = []): void => {

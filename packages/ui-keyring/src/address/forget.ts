@@ -4,15 +4,6 @@
 
 import { State } from '../types';
 
-import store from 'store';
-
-import { addressKey } from '../defaults';
-import createOptions from '../options';
-
 export default function forgetAddress (state: State, address: string): void {
-  store.remove(addressKey(address));
-
-  delete state.available.address[address];
-
-  createOptions(state);
+  state.addresses.remove(address);
 }

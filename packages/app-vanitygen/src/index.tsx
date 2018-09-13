@@ -11,9 +11,7 @@ import React from 'react';
 import Button from '@polkadot/ui-app/Button';
 import Dropdown from '@polkadot/ui-app/Dropdown';
 import Input from '@polkadot/ui-app/Input';
-import Page from '@polkadot/ui-app/Page';
 import Static from '@polkadot/ui-app/Static';
-import classes from '@polkadot/ui-app/util/classes';
 
 import Match from './Match';
 import generator from './generator';
@@ -21,7 +19,9 @@ import matchRegex from './generator/regex';
 import generatorSort from './generator/sort';
 import translate from './translate';
 
-type Props = I18nProps & {};
+type Props = I18nProps & {
+  basePath: string
+};
 
 type State = {
   elapsed: number,
@@ -56,18 +56,13 @@ class VanityApp extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { className, style } = this.props;
-
     return (
-      <Page
-        className={classes('vanity--App', className)}
-        style={style}
-      >
+      <main className='vanity--App'>
         {this.renderOptions()}
         {this.renderButtons()}
         {this.renderStats()}
         {this.renderMatches()}
-      </Page>
+      </main>
     );
   }
 

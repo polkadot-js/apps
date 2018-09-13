@@ -11,23 +11,25 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const packages = [
- 'app-accounts',
- 'app-addresses',
- 'app-example',
- 'app-explorer',
- 'app-extrinsics',
- 'app-rpc',
- 'app-staking',
- 'app-storage',
- 'app-toolbox',
- 'app-vanitygen',
- 'app-validators',
- 'ui-app',
- 'ui-identicon',
- 'ui-keyring',
- 'ui-react-rx',
- 'ui-react',
- 'ui-signer'];
+  'app-accounts',
+  'app-addresses',
+  'app-democracy',
+  'app-example',
+  'app-explorer',
+  'app-extrinsics',
+  'app-rpc',
+  'app-staking',
+  'app-storage',
+  'app-toolbox',
+  'app-transfer',
+  'app-vanitygen',
+  'ui-app',
+  'ui-identicon',
+  'ui-keyring',
+  'ui-react-rx',
+  'ui-react',
+  'ui-signer'
+];
 
 function createWebpack ({ alias = {}, context, name = 'index' }) {
   const pkgJson = require(path.join(context, 'package.json'));
@@ -141,11 +143,23 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
-          vendor: {
+          vendorOther: {
             chunks: 'initial',
             enforce: true,
             name: 'vendor',
-            test: /node_modules\/(bn\.js|i18next|lodash|react|semantic-ui)/
+            test: /node_modules\/(asn1|bn\.js|buffer|cuint|elliptic|lodash|moment|readable-stream|rxjs)/
+          },
+          vendorReact: {
+            chunks: 'initial',
+            enforce: true,
+            name: 'react',
+            test: /node_modules\/(chart|i18next|react|semantic-ui)/
+          },
+          vendorSodium: {
+            chunks: 'initial',
+            enforce: true,
+            name: 'sodium',
+            test: /node_modules\/(libsodium)/
           }
         }
       }
@@ -154,16 +168,22 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       hints: false
     },
     plugins: plugins.concat([
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify(ENV),
           VERSION: JSON.stringify(pkgJson.version),
+          UI_MODE: JSON.stringify(process.env.UI_MODE || 'full'),
+          UI_THEME: JSON.stringify(process.env.UI_THEME || 'polkadot'),
           WS_URL: JSON.stringify(process.env.WS_URL)
         }
       }),
       new HtmlWebpackPlugin({
         inject: true,
-        template: path.join(context, `${hasPublic ? 'public/' : ''}${name}.html`)
+        template: path.join(context, `${hasPublic ? 'public/' : ''}${name}.html`),
+        PAGE_TITLE: process.env.UI_THEME === 'substrate'
+          ? 'Substrate Apps Portal'
+          : 'Polkadot Apps Portal'
       }),
       new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({

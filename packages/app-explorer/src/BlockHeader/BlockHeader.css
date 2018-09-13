@@ -13,7 +13,7 @@
 }
 
 .explorer--BlockHeader:nth-child(even) {
-  background: #f9f9f9;
+  background: #fcfcfc;
 }
 
 .explorer--BlockHeader > div {
@@ -40,9 +40,6 @@
   text-align: left;
 }
 
-.explorer--BlockHeader > .details > .hash {
-}
-
 .explorer--BlockHeader > .details > .contains {
   border: 0;
   font-size: 0.75em;
@@ -56,7 +53,4 @@
 .explorer--BlockHeader > .details > .contains td.type {
   opacity: 0.75;
   text-align: right;
-}
-
-.explorer--BlockHeader > .details > .contains td.hash {
 }

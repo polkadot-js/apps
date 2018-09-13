@@ -14,7 +14,6 @@ import React from 'react';
 import encode from '@polkadot/extrinsics/codec/encode/extrinsic';
 import InputExtrinsic from '@polkadot/ui-app/InputExtrinsic';
 import Params from '@polkadot/ui-app/Params';
-import classes from '@polkadot/ui-app/util/classes';
 import isUndefined from '@polkadot/util/is/undefined';
 import withApi from '@polkadot/ui-react-rx/with/api';
 
@@ -49,14 +48,11 @@ class Extrinsic extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, defaultValue, isDisabled, isError, isPrivate, labelMethod, labelSection, style, withLabel } = this.props;
+    const { defaultValue, isDisabled, isError, isPrivate, labelMethod, labelSection, withLabel } = this.props;
     const { extrinsic } = this.state;
 
     return (
-      <div
-        className={classes('extrinsics--Extrinsic', className)}
-        style={style}
-      >
+      <div className='extrinsics--Extrinsic'>
         <InputExtrinsic
           defaultValue={defaultValue}
           isDisabled={isDisabled}

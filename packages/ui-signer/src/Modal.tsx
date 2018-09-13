@@ -6,11 +6,9 @@ import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { QueueTx, QueueTx$MessageSetStatus } from './types';
 
-import BN from 'bn.js';
 import React from 'react';
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
-import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 import withApi from '@polkadot/ui-react-rx/with/api';
 
@@ -45,7 +43,6 @@ class Signer extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      // apiSupport: 'poc-1',
       password: '',
       unlockError: null
     };
@@ -81,7 +78,6 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, style } = this.props;
     const { currentItem } = this.state;
 
     if (!currentItem || currentItem.rpc.isSigned !== true) {
@@ -90,10 +86,9 @@ class Signer extends React.PureComponent<Props, State> {
 
     return (
       <Modal
-        className={classes('ui--signer-Signer', className)}
+        className='ui--signer-Signer'
         dimmer='inverted'
         open
-        style={style}
       >
         {this.renderContent()}
         {this.renderButtons()}
@@ -111,24 +106,29 @@ class Signer extends React.PureComponent<Props, State> {
           <Button
             isNegative
             onClick={this.onCancel}
+            tabIndex={3}
             text={t('extrinsic.cancel', {
               defaultValue: 'Cancel'
             })}
           />
           <Button.Or />
-          <Button
-            isPrimary
-            onClick={this.onSend}
-            text={
-              isSigned
-                ? t('extrinsic.signedSend', {
-                  defaultValue: 'Sign and Submit'
-                })
-                : t('extrinsic.send', {
-                  defaultValue: 'Submit'
-                })
-            }
-          />
+          <div>
+            <Button
+              className='ui--signer-Signer-Submit'
+              isPrimary
+              onClick={this.onSend}
+              tabIndex={2}
+              text={
+                isSigned
+                  ? t('extrinsic.signedSend', {
+                    defaultValue: 'Sign and Submit'
+                  })
+                  : t('extrinsic.send', {
+                    defaultValue: 'Submit'
+                  })
+              }
+            />
+          </div>
         </Button.Group>
       </Modal.Actions>
     );
@@ -158,10 +158,13 @@ class Signer extends React.PureComponent<Props, State> {
 
     return (
       <Unlock
+        autoFocus
         error={unlockError && t(unlockError.key, unlockError.value)}
         onChange={this.onChangePassword}
+        onKeyDown={this.onKeyDown}
         password={password}
         value={currentItem.publicKey}
+        tabIndex={1}
       />
     );
   }
@@ -192,6 +195,12 @@ class Signer extends React.PureComponent<Props, State> {
       password,
       unlockError: null
     });
+  }
+
+  onKeyDown = async (event: React.KeyboardEvent<Element>): Promise<any> => {
+    if (event.key === 'Enter') {
+      await this.onSend();
+    }
   }
 
   onCancel = (): void => {
@@ -250,5 +259,9 @@ class Signer extends React.PureComponent<Props, State> {
 const Component: React.ComponentType<any> = translate(
   withApi(Signer)
 );
+
+export {
+  Signer
+};
 
 export default Component;

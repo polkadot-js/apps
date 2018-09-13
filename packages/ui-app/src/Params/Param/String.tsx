@@ -11,7 +11,8 @@ import Bare from './Bare';
 
 export default class StringParam extends React.PureComponent<Props> {
   render () {
-    const { className, isDisabled, isError, label, style, withLabel } = this.props;
+    const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
+    const defaultValue = value as string;
 
     return (
       <Bare
@@ -20,6 +21,7 @@ export default class StringParam extends React.PureComponent<Props> {
       >
         <Input
           className='full'
+          defaultValue={defaultValue}
           isDisabled={isDisabled}
           isError={isError}
           label={label}
@@ -34,10 +36,9 @@ export default class StringParam extends React.PureComponent<Props> {
 
   onChange = (value: string): void => {
     const { onChange } = this.props;
-
     const isValid = value.length !== 0;
 
-    onChange({
+    onChange && onChange({
       isValid,
       value
     });

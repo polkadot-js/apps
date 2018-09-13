@@ -3,20 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { KeyringInstance as BaseKeyringInstance, KeyringPair, KeyringPair$Meta } from '@polkadot/util-keyring/types';
-
-export type KeyringOption$Type = 'account' | 'address' | 'all' | 'recent' | 'testing';
-
-export type KeyringOption = {
-  className?: string,
-  disabled?: boolean,
-  content?: any | string, // node?
-  key: string | null,
-  name: string,
-  text: any | string, // node?
-  value: string | null
-};
-
-export type KeyringOptions = Array<KeyringOption>;
+import { AddressSubject, SingleAddress } from './observable/types';
+import { KeyringSectionOption } from './options/types';
 
 export type KeyringJson$Meta = {
   isRecent?: boolean,
@@ -41,19 +29,9 @@ export type KeyringAddress = {
 }
 
 export type State = {
-  isTestMode: boolean,
-  available: {
-    account: {
-      [index: string]: KeyringJson
-    },
-    address: {
-      [index: string]: KeyringJson
-    }
-  },
-  keyring: BaseKeyringInstance,
-  options: {
-    [index: string]: KeyringOptions // KeyringOption$Type
-  }
+  accounts: AddressSubject,
+  addresses: AddressSubject,
+  keyring: BaseKeyringInstance
 };
 
 export type KeyringInstance = {
@@ -63,7 +41,6 @@ export type KeyringInstance = {
   getAccounts: () => Array<KeyringAddress>,
   getAddress: (address: string | Uint8Array) => KeyringAddress,
   getAddresses: () => Array<KeyringAddress>,
-  getOptions: (type: KeyringOption$Type) => KeyringOptions,
   getPair: (address: string | Uint8Array) => KeyringPair,
   getPairs: () => Array<KeyringPair>,
   isAvailable: (address: string | Uint8Array) => boolean,
@@ -71,6 +48,6 @@ export type KeyringInstance = {
   saveAccount: (pair: KeyringPair, password?: string) => void,
   saveAccountMeta: (pair: KeyringPair, meta: KeyringPair$Meta) => void,
   saveAddress: (address: string, meta: KeyringPair$Meta) => void,
-  saveRecent: (address: string) => KeyringOption,
-  setTestMode: (isTest: boolean) => void
+  saveRecent: (address: string) => SingleAddress,
+  setDevMode: (isDevelopment: boolean) => void
 };

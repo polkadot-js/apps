@@ -2,8 +2,10 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
+@import 'partials/_variables.css';
+
 .ui.hidden.divider {
-  margin: 0.75rem 0;
+  margin: 0.5rem 0;
 }
 
 .ui.dropdown {
@@ -71,6 +73,10 @@
 
 .ui.progress .bar {
   min-width: 0 !important;
+}
+
+.ui.secondary.vertical.menu > .item {
+  margin: 0;
 }
 
 .ui[class*="left icon"].input.left.icon > input {

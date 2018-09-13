@@ -25,12 +25,13 @@ export type RawParams = Array<RawParam>;
 export type BaseProps = BareProps & {
   defaultValue: RawParam,
   name: string,
-  onChange: RawParam$OnChange
+  onChange?: RawParam$OnChange
 };
 
 export type Props = BaseProps & {
   isDisabled?: boolean,
   isError?: boolean,
+  isReadOnly?: boolean,
   label: string,
   withLabel?: boolean
 };
@@ -38,5 +39,5 @@ export type Props = BaseProps & {
 export type Size = 'full' | 'large' | 'medium' | 'small';
 
 export type ComponentMap = {
-  [index: string]: React.ComponentType<Props> // Param$Type
+  [index: string]: React.ComponentType<Props> | [React.ComponentType<Props>, React.ComponentType<Props>] // Param$Type
 };

@@ -3,13 +3,10 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
+import { RxBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
 
 import React from 'react';
-import Page from '@polkadot/ui-app/Page';
-import Navigation from '@polkadot/ui-app/Navigation';
-import Button from '@polkadot/ui-app/Button';
-import classes from '@polkadot/ui-app/util/classes';
+import Tabs from '@polkadot/ui-app/Tabs';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 
@@ -22,7 +19,8 @@ import translate from './translate';
 type Actions = 'actions' | 'overview';
 
 type Props = I18nProps & {
-  validatingBalances?: ExtendedBalanceMap,
+  basePath: string,
+  validatingBalances?: RxBalanceMap,
   stakingIntentions?: Array<string>,
   sessionValidators?: Array<string>
 };
@@ -50,48 +48,39 @@ class App extends React.PureComponent<Props, State> {
 
   render () {
     const { action } = this.state;
+    const { sessionValidators = [], stakingIntentions = [], style, t, validatingBalances = {} } = this.props;
     const Component = Components[action];
-    const { className, sessionValidators = [], stakingIntentions = [], style, t, validatingBalances = {} } = this.props;
+    const items = [
+      {
+        name: 'overview',
+        text: t('app.overview', { defaultValue: 'Staking Overview' })
+      },
+      {
+        name: 'actions',
+        text: t('app.actions', { defaultValue: 'Account Actions' })
+      }
+    ];
 
     return (
-      <Page
-        className={classes('staking--App', className)}
-        style={style}
-      >
-        <Navigation>
-          <Button.Group className='staking--App-navigation'>
-            <Button
-              isPrimary={action === 'overview'}
-              onClick={this.selectOverview}
-              text={t('app.overview', {
-                defaultValue: 'Staking Overview'
-              })}
-            />
-            <Button.Or />
-            <Button
-              isPrimary={action === 'actions'}
-              onClick={this.selectActions}
-              text={t('app.actions', {
-                defaultValue: 'Account Actions'
-              })}
-            />
-          </Button.Group>
-        </Navigation>
+      <main className='staking--App'>
+        <header>
+          <Tabs
+            activeItem={action}
+            items={items}
+            onChange={this.onMenuChange}
+          />
+        </header>
         <Component
           balances={validatingBalances}
           intentions={stakingIntentions}
           validators={sessionValidators}
         />
-      </Page>
+      </main>
     );
   }
 
-  selectActions = () => {
-    this.setState({ action: 'actions' });
-  }
-
-  selectOverview = () => {
-    this.setState({ action: 'overview' });
+  onMenuChange = (action: Actions) => {
+    this.setState({ action });
   }
 }
 

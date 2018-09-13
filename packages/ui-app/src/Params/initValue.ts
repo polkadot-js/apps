@@ -17,6 +17,7 @@ export default function getInitValue (type: Param$Types): RawParam$Value | Array
       return new BN(1);
 
     case 'BlockNumber':
+    case 'AccountIndex':
     case 'Index':
     case 'ParachainId':
     case 'PropIndex':
@@ -49,7 +50,7 @@ export default function getInitValue (type: Param$Types): RawParam$Value | Array
     case 'Hash':
     case 'Header':
     case 'KeyValue':
-    case 'KeyValueStorage':
+    case 'StorageKeyValue':
     case 'MisbehaviorReport':
     case 'Proposal':
     case 'Signature':

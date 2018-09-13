@@ -13,7 +13,6 @@ export default ([
       defaultValue: 'Example'
     },
     icon: 'hand spock',
-    isExact: false,
     isHidden: true,
     name: 'example'
   }

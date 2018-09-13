@@ -2,14 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringOption$Type } from '@polkadot/ui-keyring/types';
+import { KeyringOption$Type } from '@polkadot/ui-keyring/options/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import Labelled from '@polkadot/ui-app/Labelled';
-import classes from '@polkadot/ui-app/util/classes';
 import Balance from '@polkadot/ui-react-rx/Balance';
 
 import translate from './translate';
@@ -20,7 +19,7 @@ type Props = I18nProps & {
   isError?: boolean,
   isInput?: boolean,
   label: string,
-  onChange: (publicKey: Uint8Array) => void,
+  onChange?: (publicKey: Uint8Array) => void,
   type?: KeyringOption$Type,
   withLabel?: boolean
 };
@@ -41,13 +40,10 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, defaultValue, isDisabled, isError, isInput, label, style, type, withLabel } = this.props;
+    const { defaultValue, isDisabled, isError, isInput, label, type, withLabel } = this.props;
 
     return (
-      <div
-        className={classes('extrinsics--Account', 'ui--row', className)}
-        style={style}
-      >
+      <div className='extrinsics--Account ui--row'>
         <div className='large'>
           <InputAddress
             defaultValue={defaultValue}
@@ -94,7 +90,7 @@ class Account extends React.PureComponent<Props, State> {
     const { onChange } = this.props;
 
     this.setState({ publicKey }, () =>
-      onChange(publicKey)
+      onChange && onChange(publicKey)
     );
   }
 }

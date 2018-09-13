@@ -9,7 +9,6 @@ import React from 'react';
 import Input from '@polkadot/ui-app/Input';
 import Output from '@polkadot/ui-app/Output';
 import Static from '@polkadot/ui-app/Static';
-import classes from '@polkadot/ui-app/util/classes';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import isHex from '@polkadot/util/is/hex';
 import u8aFromString from '@polkadot/util/u8a/fromString';
@@ -31,13 +30,8 @@ class Hash extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { className, style } = this.props;
-
     return (
-      <div
-        className={classes('toolbox--Hash', className)}
-        style={style}
-      >
+      <div className='toolbox--Hash'>
         {this.renderInput()}
         {this.renderOutput()}
       </div>

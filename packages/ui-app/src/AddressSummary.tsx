@@ -21,11 +21,13 @@ export type Props = I18nProps & {
   balance?: BN | Array<BN>,
   children?: React.ReactNode,
   name?: string,
-  value: string,
+  value: string | Uint8Array,
   withBalance?: boolean,
-  withNonce?: boolean,
   identIconSize?: number,
   isShort?: boolean
+  withCopy?: boolean,
+  withIcon?: boolean,
+  withNonce?: boolean
 };
 
 export type State = {
@@ -62,7 +64,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
 
   render () {
     const { className, style } = this.props;
-    const { address, isValid } = this.state;
+    const { isValid } = this.state;
 
     return (
       <div
@@ -70,7 +72,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
         style={style}
       >
         <div className='ui--AddressSummary-base'>
-          {this.renderIdentIcon()}
+          {this.renderIcon()}
           {this.renderAddress()}
           {this.renderBalance()}
           {this.renderNonce()}
@@ -81,22 +83,8 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderAddress () {
-    const { name } = this.props;
-    const { address, shortValue } = this.state;
-
-    return (
-      <div className='ui--AddressSummary-data'>
-        <div className='ui--AddressSummary-name'>
-          {name}
-        </div>
-        {this.renderChildren()}
-      </div>
-    );
-  }
-
-  protected renderAddress () {
     const { name, value, isShort = true } = this.props;
-    const { address, shortValue } = this.state;
+    const { shortValue } = this.state;
 
     return (
       <div className='ui--AddressSummary-data'>
@@ -104,27 +92,10 @@ class AddressSummary extends React.PureComponent<Props, State> {
           {name}
         </div>
         <div className='ui--AddressSummary-address'>
-          {isShort ? shortValue: value}
+          {isShort ? shortValue : value}
         </div>
-        <CopyButton value={address} />
+        {this.renderCopy()}
       </div>
-    );
-  }
-
-  protected renderIdentIcon () {
-    const { identIconSize } = this.props;
-    const { address, shortValue } = this.state;
-
-    if (identIconSize == 0) {
-      return null;
-    }
-
-    return (
-      <IdentityIcon
-        className='ui--AddressSummary-icon'
-        size={identIconSize}
-        value={address}
-      />
     );
   }
 
@@ -148,6 +119,36 @@ class AddressSummary extends React.PureComponent<Props, State> {
     );
   }
 
+  protected renderCopy () {
+    const { withCopy = true } = this.props;
+    const { address } = this.state;
+
+    if (!withCopy) {
+      return null;
+    }
+
+    return (
+      <CopyButton value={address} />
+    );
+  }
+
+  protected renderIcon () {
+    const { identIconSize = 96, withIcon = true } = this.props;
+    const { address } = this.state;
+
+    if (!withIcon) {
+      return null;
+    }
+
+    return (
+      <IdentityIcon
+        className='ui--AddressSummary-icon'
+        size={identIconSize}
+        value={address}
+      />
+    );
+  }
+
   protected renderNonce () {
     const { isValid, publicKey } = this.state;
     const { t, withNonce = true } = this.props;
@@ -165,20 +166,6 @@ class AddressSummary extends React.PureComponent<Props, State> {
           defaultValue: ' transactions'
         })}
       </Nonce>
-    );
-  }
-
-  protected renderChildren () {
-    const { children } = this.props;
-
-    if (!children) {
-      return null;
-    }
-
-    return (
-      <div className='ui--AddressSummary-children'>
-        {children}
-      </div>
     );
   }
 

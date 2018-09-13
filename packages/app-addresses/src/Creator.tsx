@@ -8,7 +8,7 @@ import React from 'react';
 
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
-import classes from '@polkadot/ui-app/util/classes';
+import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring/index';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
@@ -17,7 +17,7 @@ import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';
 
 type Props = I18nProps & {
-  onBack: () => void
+  onCreateAddress: () => void
 };
 
 type State = {
@@ -38,14 +38,10 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, style } = this.props;
     const { address } = this.state;
 
     return (
-      <div
-        className={classes('addresses--Creator', className)}
-        style={style}
-      >
+      <div className='addresses--Creator'>
         <div className='ui--grid'>
           <AddressSummary
             className='shrink'
@@ -70,6 +66,7 @@ class Creator extends React.PureComponent<Props, State> {
             defaultValue: 'Reset'
           })}
         />
+        <Button.Or />
         <Button
           isDisabled={!isValid}
           isPrimary
@@ -163,12 +160,13 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   onCommit = (): void => {
-    const { onBack } = this.props;
+    const { onCreateAddress } = this.props;
     const { address, name } = this.state;
 
     keyring.saveAddress(address, { name });
+    InputAddress.setLastValue('address', address);
 
-    onBack();
+    onCreateAddress();
   }
 
   onDiscard = (): void => {

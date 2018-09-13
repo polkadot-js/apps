@@ -8,15 +8,17 @@ import { KeyringPair } from '@polkadot/util-keyring/types';
 import React from 'react';
 
 import Password from '@polkadot/ui-app/Password';
-import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
 
 type Props = I18nProps & {
+  autoFocus?: boolean,
   error?: string,
   onChange: (password: string) => void,
+  onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
   password: string,
+  tabIndex?: number,
   value?: Uint8Array | null
 };
 
@@ -29,7 +31,7 @@ type State = {
 class Unlock extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
-  static getDerivedStateFromProps ({ error, password, value }: Props): State {
+  static getDerivedStateFromProps ({ error, value }: Props): State {
     const pair = keyring.getPair(value as Uint8Array);
     const isLocked = pair.isLocked();
 
@@ -41,7 +43,7 @@ class Unlock extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, onChange, password, style, t } = this.props;
+    const { autoFocus, onChange, onKeyDown, password, t, tabIndex } = this.props;
     const { isError, isLocked } = this.state;
 
     if (!isLocked) {
@@ -49,18 +51,18 @@ class Unlock extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div
-        className={classes('ui--signer-Signer-Unlock', className)}
-        style={style}
-      >
+      <div className='ui--signer-Signer-Unlock'>
         <div className='ui--row'>
           <Password
+            autoFocus={autoFocus}
             className='medium'
             isError={isError}
             label={t('unlock.password', {
               defaultValue: 'unlock account using'
             })}
             onChange={onChange}
+            onKeyDown={onKeyDown}
+            tabIndex={tabIndex}
             value={password}
           />
         </div>

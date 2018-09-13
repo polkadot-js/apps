@@ -3,66 +3,74 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { Header } from '@polkadot/primitives/header';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { BareProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import './BlockHeader.css';
 
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 import headerHash from '@polkadot/primitives/codec/header/hash';
-import classes from '@polkadot/ui-app/util/classes';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
+import withApi from '@polkadot/ui-react-rx/with/api';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
-import translate from '../translate';
+import Extrinsics from './Extrinsics';
 
-type Props = I18nProps & {
-  value?: Header
+type Props = ApiProps & BareProps & {
+  value?: Header,
+  withExtrinsics?: boolean,
+  withLink?: boolean
 };
 
 class BlockHeader extends React.PureComponent<Props> {
   render () {
-    const { className, value, style } = this.props;
+    const { apiMethods, value, withExtrinsics = false, withLink = false } = this.props;
+
     if (!value) {
       return null;
     }
 
+    const isLinkable = !!apiMethods.chain_getBlock;
     const hash = headerHash(value);
     // tslint:disable-next-line:variable-name
     const { extrinsicsRoot, number, parentHash, stateRoot } = value;
+    const hashHex = u8aToHex(hash);
+    const parentHex = u8aToHex(parentHash);
 
     return (
-      <div
-        className={classes('explorer--BlockHeader', className)}
-        style={style}
-      >
+      <div className='explorer--BlockHeader'>
         <div className='number'>
           <div>{numberFormat(number)}</div>
         </div>
         <div className='details'>
-          <div className='hash'>
-            {u8aToHex(hash)}
-          </div>
+          <div className='hash'>{
+            isLinkable && withLink
+              ? <Link to={`/explorer/hash/${hashHex}`}>{hashHex}</Link>
+              : hashHex
+          }</div>
           <table className='contains'>
             <tbody>
               <tr>
                 <td className='type'>parentHash</td>
-                <td className='hash'>
-                  {u8aToHex(parentHash)}
-                </td>
+                <td className='hash'>{
+                  isLinkable && number.gtn(1)
+                    ? <Link to={`/explorer/hash/${parentHex}`}>{parentHex}</Link>
+                    : parentHex
+                }</td>
               </tr>
               <tr>
                 <td className='type'>extrinsicsRoot</td>
-                <td className='hash'>
-                  {u8aToHex(extrinsicsRoot)}
-                </td>
+                <td className='hash'>{u8aToHex(extrinsicsRoot)}</td>
               </tr>
               <tr>
                 <td className='type'>stateRoot</td>
-                <td className='hash'>
-                  {u8aToHex(stateRoot)}
-                </td>
+                <td className='hash'>{u8aToHex(stateRoot)}</td>
               </tr>
+              {withExtrinsics
+                ? <Extrinsics hash={hash} />
+                : undefined
+              }
             </tbody>
           </table>
         </div>
@@ -71,4 +79,4 @@ class BlockHeader extends React.PureComponent<Props> {
   }
 }
 
-export default translate(BlockHeader);
+export default withApi(BlockHeader);

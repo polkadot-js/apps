@@ -11,12 +11,12 @@ import React from 'react';
 export type Transform = (value: any, index: number) => any;
 
 export type DefaultProps<T> = {
-  onChange?: OnChangeCb<T>,
+  rxChange?: OnChangeCb<T>,
   [index: string]: any
 };
 
 export type Options<T> = {
-  onChange?: OnChangeCb<T>,
+  rxChange?: OnChangeCb<T>,
   params?: Array<any>,
   paramProp?: string,
   propName?: string,

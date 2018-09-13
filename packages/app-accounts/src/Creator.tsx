@@ -8,8 +8,8 @@ import React from 'react';
 
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
+import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import Password from '@polkadot/ui-app/Password';
-import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 import isHex from '@polkadot/util/is/hex';
 import hexToU8a from '@polkadot/util/hex/toU8a';
@@ -61,14 +61,10 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, style } = this.props;
     const { address, isSeedValid } = this.state;
 
     return (
-      <div
-        className={classes('accounts--Creator', className)}
-        style={style}
-      >
+      <div className='accounts--Creator'>
         <div className='ui--grid'>
           <AddressSummary
             className='shrink'
@@ -97,6 +93,7 @@ class Creator extends React.PureComponent<Props, State> {
             defaultValue: 'Reset'
           })}
         />
+        <Button.Or />
         <Button
           isDisabled={!isValid}
           isPrimary
@@ -212,10 +209,11 @@ class Creator extends React.PureComponent<Props, State> {
   onCommit = (): void => {
     const { onBack } = this.props;
     const { name, password, seed } = this.state;
-
-    keyring.createAccount(
+    const pair = keyring.createAccount(
       formatSeed(seed), password, { name }
     );
+
+    InputAddress.setLastValue('account', pair.address());
 
     onBack();
   }

@@ -70,8 +70,10 @@ export default class Elapsed extends React.PureComponent<Props, State> {
         display = `${elapsed.toFixed(1)}s`;
       } else if (elapsed < 60) {
         display = `${elapsed | 0}s`;
+      } else if (elapsed < 3600) {
+        display = `${elapsed / 60 | 0}m`;
       } else {
-        display = `${ elapsed / 60 | 0}m`;
+        display = `${elapsed / 3600 | 0}h`;
       }
     }
 

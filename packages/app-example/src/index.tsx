@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { BareProps } from '@polkadot/ui-app/types';
+
 import React from 'react';
-import Navigation from '@polkadot/ui-app/Navigation';
-import Page from '@polkadot/ui-app/Page';
 
 import './index.css';
 
@@ -19,12 +19,16 @@ const Components: { [index: string]: React.ComponentType<any> } = {
   Tut002, Tut003, Tut004, Tut005, Tut006, Tut007
 };
 
+type Props = BareProps & {
+  basePath: string
+};
+
 type State = {
   Component: React.ComponentType<any>
 };
 
-export default class App extends React.PureComponent<any, State> {
-  constructor (props: any) {
+export default class App extends React.PureComponent<Props, State> {
+  constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -36,14 +40,14 @@ export default class App extends React.PureComponent<any, State> {
     const { Component } = this.state;
 
     return (
-      <Page className='example--App'>
-        <Navigation className='navigation'>{
+      <main className='example--App'>
+        <header className='navigation'>{
           Object.keys(Components).map((name) => (
             <a key={name} onClick={() => this.onSelect(name)}>{name}</a>
           ))
-        }</Navigation>
+        }</header>
         <div><Component /></div>
-      </Page>
+      </main>
     );
   }
 

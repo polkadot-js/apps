@@ -17,7 +17,7 @@ import Or from './Or';
 
 class Button extends React.PureComponent<ButtonProps> {
   render () {
-    const { children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isNegative = false, isPrimary = false, onClick, size, style, text } = this.props;
+    const { children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isNegative = false, isPositive = false, isPrimary = false, onClick, size, style, tabIndex, text } = this.props;
 
     const props = {
       basic: isBasic || false,
@@ -28,10 +28,12 @@ class Button extends React.PureComponent<ButtonProps> {
       icon,
       negative: isNegative,
       onClick,
+      positive: isPositive,
       primary: isPrimary,
       size,
-      secondary: isBasic && !(isPrimary || isNegative || false),
-      style
+      secondary: isBasic && !(isPositive || isPrimary || isNegative || false),
+      style,
+      tabIndex
     };
 
     return isUndefined(text) && isUndefined(children)

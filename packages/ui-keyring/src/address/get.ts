@@ -13,15 +13,18 @@ export default function get (state: State, _address: string | Uint8Array, type: 
     ? _address
     : addressEncode(_address);
   const publicKey = addressDecode(address);
+  const subject = type === 'account'
+    ? state.accounts.subject
+    : state.addresses.subject;
 
   return {
     address: (): string =>
       address,
     isValid: (): boolean =>
-      !!state.available[type][address],
+      !!subject.getValue()[address],
     publicKey: (): Uint8Array =>
       publicKey,
     getMeta: (): KeyringJson$Meta =>
-      state.available[type][address].meta
+      subject.getValue()[address].json.meta
   };
 }

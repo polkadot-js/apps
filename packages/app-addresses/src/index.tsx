@@ -8,17 +8,19 @@ import './index.css';
 
 import React from 'react';
 
-import Button from '@polkadot/ui-app/Button';
-import Navigation from '@polkadot/ui-app/Navigation';
-import Page from '@polkadot/ui-app/Page';
+import addressObservable from '@polkadot/ui-keyring/observable/addresses';
+import Tabs from '@polkadot/ui-app/Tabs';
+import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
-import classes from '@polkadot/ui-app/util/classes';
-
+import { hasNoAddresses } from './util/addresses';
 import Creator from './Creator';
 import Editor from './Editor';
 import translate from './translate';
 
-type Props = I18nProps & {};
+type Props = I18nProps & {
+  addressAll?: Array<any>,
+  basePath: string
+};
 
 type Actions = 'create' | 'edit';
 
@@ -35,38 +37,51 @@ const Components: { [index: string]: React.ComponentType<any> } = {
 class AddressesApp extends React.PureComponent<Props, State> {
   state: State = { action: 'edit' };
 
+  componentDidUpdate () {
+    const { addressAll } = this.props;
+    const { action } = this.state;
+
+    if (action === 'edit' && hasNoAddresses(addressAll)) {
+      this.selectCreate();
+    }
+  }
+
   render () {
-    const { className, style, t } = this.props;
+    const { addressAll, t } = this.props;
     const { action } = this.state;
     const Component = Components[action];
+    const items = [
+      {
+        name: 'edit',
+        text: t('app.edit', { defaultValue: 'Edit address' })
+      },
+      {
+        name: 'create',
+        text: t('app.create', { defaultValue: 'Add address' })
+      }
+    ];
+
+    // Do not load Editor tab if no addresses
+    if (hasNoAddresses(addressAll)) {
+      items.splice(0, 1);
+    }
 
     return (
-      <Page
-        className={classes('addresses--App', className)}
-        style={style}
-      >
-        <Navigation>
-          <Button.Group>
-            <Button
-              isPrimary={action === 'edit'}
-              onClick={this.selectEdit}
-              text={t('app.edit', {
-                defaultValue: 'Edit address'
-              })}
-            />
-            <Button.Or />
-            <Button
-              isPrimary={action === 'create'}
-              onClick={this.selectCreate}
-              text={t('app.create', {
-                defaultValue: 'Add address'
-              })}
-            />
-          </Button.Group>
-        </Navigation>
-        <Component onBack={this.selectEdit} />
-      </Page>
+      <main className='addresses--App'>
+        <header>
+          <Tabs
+            activeItem={action}
+            items={items}
+            onChange={this.onMenuChange}
+          />
+        </header>
+        <Component onCreateAddress={this.selectEdit} />
+      </main>
     );
+  }
+
+  onMenuChange = (action: Actions) => {
+    this.setState({ action });
   }
 
   selectCreate = (): void => {
@@ -78,4 +93,6 @@ class AddressesApp extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(AddressesApp);
+export default withObservableBase(
+  addressObservable.subject, { propName: 'addressAll' }
+)(translate(AddressesApp));

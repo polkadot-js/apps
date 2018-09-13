@@ -11,14 +11,17 @@ import Bool from './Bool';
 import Bytes from './Bytes';
 import Code from './Code';
 import Hash from './Hash';
-import KeyValue from './KeyValue';
-import KeyValueStorageArray from './KeyValueStorageArray';
+import Proposal from './Proposal';
+import StorageKeyValue from './StorageKeyValue';
+import StorageKeyValueArray from './StorageKeyValueArray';
 import StringParam from './String';
+import Timestamp from './Timestamp';
 import Unknown from './Unknown';
 import VoteThreshold from './VoteThreshold';
 
 const components: ComponentMap = {
   'AccountId': Account,
+  'AccountIndex': Amount,
   'Balance': Amount,
   'BlockNumber': Amount,
   'bool': Bool,
@@ -28,25 +31,25 @@ const components: ComponentMap = {
   'Digest': Unknown,
   'Hash': Hash,
   'Index': Amount,
-  'KeyValue': KeyValue,
-  'KeyValueStorage': KeyValue,
-  'KeyValueStorage[]': KeyValueStorageArray,
+  'KeyValue': StorageKeyValue,
+  'StorageKeyValue': StorageKeyValue,
+  'StorageKeyValue[]': StorageKeyValueArray,
   'MisbehaviorReport': Unknown,
   'ParachainId': Amount,
   'PropIndex': Amount,
-  'Proposal': Unknown,
+  'Proposal': Proposal,
   'ReferendumIndex': Amount,
   'SessionKey': Amount,
   'Signature': Hash,
   'String': StringParam,
-  'Timestamp': Amount,
+  'Timestamp': Timestamp,
   'u32': Amount,
   'u64': Amount,
   'VoteIndex': Amount,
   'VoteThreshold': VoteThreshold
 };
 
-export default function findComponent (type: Param$Types, overrides: ComponentMap = {}): React.ComponentType<Props> {
+function getFromMap (type: Param$Types, overrides: ComponentMap): React.ComponentType<Props> | [React.ComponentType<Props>, React.ComponentType<Props>] {
   if (Array.isArray(type)) {
     // Special case for components where we have a specific override formatter
     if (type.length === 1) {
@@ -59,4 +62,12 @@ export default function findComponent (type: Param$Types, overrides: ComponentMa
   }
 
   return overrides[type] || components[type] || Unknown;
+}
+
+export default function findComponent (type: Param$Types, overrides: ComponentMap = {}, isDisabled: boolean = false): React.ComponentType<Props> {
+  const component = getFromMap(type, overrides);
+
+  return Array.isArray(component)
+    ? component[0]
+    : component;
 }

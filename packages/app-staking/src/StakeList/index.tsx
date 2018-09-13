@@ -4,10 +4,9 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueProps } from '@polkadot/ui-signer/types';
-import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
+import { RxBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
 
 import React from 'react';
-import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
@@ -15,22 +14,19 @@ import Account from './Account';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  balances: ExtendedBalanceMap,
+  balances: RxBalanceMap,
   intentions: Array<string>,
   validators: Array<string>
 };
 
 class StakeList extends React.PureComponent<Props> {
   render () {
-    const { balances, className, intentions, style, validators } = this.props;
+    const { balances, intentions, validators } = this.props;
 
     return (
       <QueueConsumer>
         {({ queueExtrinsic }: QueueProps) => (
-          <div
-            className={classes('staking--StakeList', className)}
-            style={style}
-          >
+          <div className='staking--StakeList'>
             {keyring.getAccounts().map((account) => {
               const address = account.address();
               const name = account.getMeta().name || '';

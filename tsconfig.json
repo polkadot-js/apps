@@ -5,6 +5,7 @@
     "paths": {
       "@polkadot/app-accounts/*": [ "packages/app-accounts/src/*" ],
       "@polkadot/app-addresses/*": [ "packages/app-addresses/src/*" ],
+      "@polkadot/app-democracy/*": [ "packages/app-democracy/src/*" ],
       "@polkadot/app-explorer/*": [ "packages/app-explorer/src/*" ],
       "@polkadot/app-example/*": [ "packages/app-example/src/*" ],
       "@polkadot/app-extrinsics/*": [ "packages/app-extrinsics/src/*" ],
@@ -12,6 +13,7 @@
       "@polkadot/app-staking/*": [ "packages/app-staking/src/*" ],
       "@polkadot/app-storage/*": [ "packages/app-storage/src/*" ],
       "@polkadot/app-toolbox/*": [ "packages/app-toolbox/src/*" ],
+      "@polkadot/app-transfer/*": [ "packages/app-transfer/src/*" ],
       "@polkadot/app-vanitygen/*": [ "packages/app-vanitygen/src/*" ],
       "@polkadot/app-validators/*": [ "packages/app-validators/src/*" ],
       "@polkadot/apps/*": [ "packages/apps/src/*" ],

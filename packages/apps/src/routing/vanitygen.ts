@@ -13,7 +13,6 @@ export default ([
       defaultValue: 'Vanity'
     },
     icon: 'hand lizard',
-    isExact: false,
     isHidden: false,
     name: 'vanitygen'
   }

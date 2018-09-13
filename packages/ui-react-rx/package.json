@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-react-rx",
-  "version": "0.19.30",
+  "version": "0.20.3",
   "description": "A collection of RxJs React components the Polkadot JS API",
   "main": "index.js",
   "keywords": [
@@ -29,26 +29,15 @@
     "url": "https://github.com/polkadot-js/ui/issues"
   },
   "homepage": "https://github.com/polkadot-js/ui/tree/master/packages/ui-react-rx#readme",
-  "scripts": {
-    "build": "polkadot-dev-build-babel",
-    "check": "eslint src && flow check",
-    "test": "echo \"Tests only available from root wrapper\""
-  },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.51",
-    "@polkadot/api-rx": "^0.28.9",
-    "@polkadot/extrinsics": "^0.28.9",
-    "@polkadot/storage": "^0.28.9",
-    "rxjs-compat": "^6.2.2"
+    "@babel/runtime": "^7.0.0",
+    "@polkadot/api-rx": "^0.28.35",
+    "@polkadot/extrinsics": "^0.28.35",
+    "@polkadot/storage": "^0.28.35",
+    "rxjs-compat": "^6.3.2"
   },
   "devDependencies": {
-    "babel-loader": "^8.0.0-beta.2",
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.1",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1"
-  },
-  "peerDependencies": {
-    "react": "^16.4.1"
+    "react": "^16.5.0",
+    "react-dom": "^16.5.0"
   }
 }

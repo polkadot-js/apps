@@ -7,10 +7,9 @@ import { BareProps } from '@polkadot/ui-app/types';
 import './index.css';
 
 import React from 'react';
-
 import createApp from '@polkadot/ui-app/index';
-import classes from '@polkadot/ui-app/util/classes';
 import Signer from '@polkadot/ui-signer/index';
+import classes from '@polkadot/ui-app/util/classes';
 
 import Connecting from './Connecting';
 import Content from './Content';
@@ -19,12 +18,9 @@ import SideBar from './SideBar';
 
 type Props = BareProps & {};
 
-function App ({ className, style }: Props) {
+function App (props: Props) {
   return (
-    <div
-      className={classes('apps--App', className)}
-      style={style}
-    >
+    <div className={classes(`theme--${process.env.UI_THEME}`, 'apps--App')}>
       <SideBar>
         <NodeInfo />
       </SideBar>

@@ -19,7 +19,7 @@ type Props = I18nProps & {
   isError?: boolean,
   isPrivate: boolean,
   label: string,
-  onChange: RawParam$OnChange,
+  onChange?: RawParam$OnChange,
   withLabel?: boolean
 };
 
@@ -56,7 +56,7 @@ class Extrinsic extends React.PureComponent<Props> {
   onChange = ({ isValid, values }: EncodedMessage): void => {
     const { onChange } = this.props;
 
-    onChange({
+    onChange && onChange({
       isValid,
       value: (values[0] as Uint8Array)
     });

@@ -11,7 +11,6 @@ import { Trans } from 'react-i18next';
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
 import Password from '@polkadot/ui-app/Password';
-import classes from '@polkadot/ui-app/util/classes';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 
 import translate from './translate';
@@ -48,14 +47,13 @@ class Unlock extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, style, t } = this.props;
+    const { t } = this.props;
 
     return (
       <Modal
-        className={classes('toolbox--Unlock', className)}
+        className='toolbox--Unlock'
         dimmer='inverted'
         open
-        style={style}
       >
         <Modal.Header>
           {t('unlock.header', {
