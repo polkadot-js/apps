@@ -7,7 +7,7 @@ import { BaseProps } from '../types';
 import './IdentityIcon.css';
 
 import React from 'react';
-import Identicon from 'polkadot-identicon';
+import PolkadotIdenticon from 'polkadot-identicon';
 
 type Props = BaseProps & {
   size?: number,
@@ -20,13 +20,14 @@ export default class IdentityIcon extends React.PureComponent<Props> {
   render () {
     const { className, size = DEFAULT_SIZE, style, value } = this.props;
 
+    // FIXME For UI_THEME=substrate we want to change the icon
     return (
       <div
         className={['ui--IdentityIcon', className].join(' ')}
         key={value.toString()}
         style={style}
       >
-        <Identicon
+        <PolkadotIdenticon
           id={value}
           size={size}
         />

@@ -12,7 +12,7 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "@polkadot/ui-react": "^0.20.2",
-    "@polkadot/util-keyring": "^0.29.33",
+    "@polkadot/util-keyring": "^0.30.2",
     "store": "^2.0.12"
   },
   "peerDependencies": {
