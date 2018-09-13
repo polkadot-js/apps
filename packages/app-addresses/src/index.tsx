@@ -25,7 +25,8 @@ type Props = I18nProps & {
 type Actions = 'create' | 'edit';
 
 type State = {
-  action: Actions
+  action: Actions,
+  isLoading: boolean
 };
 
 // FIXME React-router would probably be the best route, not home-grown
@@ -35,9 +36,24 @@ const Components: { [index: string]: React.ComponentType<any> } = {
 };
 
 class AddressesApp extends React.PureComponent<Props, State> {
-  state: State = { action: 'edit' };
+  state: State = {
+    action: 'edit',
+    isLoading: true
+  };
+
+  componentWillMount () {
+    this.toggleCreateForNoAddresses();
+  }
+
+  componentDidMount () {
+    this.setState({ isLoading: false });
+  }
 
   componentDidUpdate () {
+    this.toggleCreateForNoAddresses();
+  }
+
+  toggleCreateForNoAddresses = () => {
     const { addressAll } = this.props;
     const { action } = this.state;
 
@@ -48,7 +64,12 @@ class AddressesApp extends React.PureComponent<Props, State> {
 
   render () {
     const { addressAll, t } = this.props;
-    const { action } = this.state;
+    const { action, isLoading } = this.state;
+
+    if (isLoading) {
+      return null;
+    }
+
     const Component = Components[action];
     const items = [
       {

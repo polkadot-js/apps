@@ -39,7 +39,8 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isForgetOpen, current } = this.state;
+    const { current, isForgetOpen } = this.state;
+
     return (
       <div className='addresses--Editor'>
         <Forgetting
@@ -97,9 +98,7 @@ class Editor extends React.PureComponent<Props, State> {
     const { current, editedName } = this.state;
 
     if (!addressAll || !Object.keys(addressAll).length) {
-      return t('editor.none', {
-        defaultValue: 'There are no saved addresses. Add some first.'
-      });
+      return null;
     }
 
     const address = current
