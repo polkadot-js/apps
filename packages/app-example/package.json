@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-example",
-  "version": "0.20.3",
+  "version": "0.20.4",
   "description": "A basic example app",
   "main": "index.js",
   "scripts": {},
@@ -12,8 +12,8 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "@polkadot/storage": "^0.28.35",
-    "@polkadot/ui-react": "^0.20.3",
-    "@polkadot/ui-react-rx": "^0.20.3",
+    "@polkadot/ui-react": "^0.20.4",
+    "@polkadot/ui-react-rx": "^0.20.4",
     "@polkadot/util-keyring": "^0.30.3"
   }
 }
