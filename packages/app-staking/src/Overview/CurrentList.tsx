@@ -3,13 +3,16 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { RxBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
 
 import React from 'react';
+import AddressMini from '@polkadot/ui-app/AddressMini';
 import AddressRow from '@polkadot/ui-app/AddressRow';
 
 import translate from '../translate';
 
 type Props = I18nProps & {
+  balances: RxBalanceMap,
   current: Array<string>
   next: Array<string>
 };
@@ -44,20 +47,7 @@ class CurrentList extends React.PureComponent<Props> {
           }
         })}
       </h4>,
-      ...current.map((account) => {
-        return (
-          <AddressRow
-            className='validator--row'
-            key={account}
-            name={name || t('name.validator', { defaultValue: 'validator' })}
-            value={account}
-            withBalance={true}
-            withNonce={false}
-            identIconSize={48}
-            isShort={true}
-          />
-        );
-      })
+      ...this.renderRow(current, t('name.validator', { defaultValue: 'validator' }))
     ];
   }
 
@@ -77,21 +67,33 @@ class CurrentList extends React.PureComponent<Props> {
           }
         })}
       </h4>,
-      ...next.map((account) => {
-        return (
-          <AddressRow
-            className='validator--row'
-            key={account}
-            name={name || t('name.intention', { defaultValue: 'intention' })}
-            value={account}
-            withBalance={true}
-            withNonce={false}
-            identIconSize={48}
-            isShort={true}
-          />
-        );
-      })
+      ...this.renderRow(next, t('name.intention', { defaultValue: 'intention' }))
     ];
+  }
+
+  private renderRow (addresses: Array<string>, defaultName: string) {
+    const { balances } = this.props;
+
+    return addresses.map((address) => {
+      const nominators = (balances[address] || {}).nominators || [];
+
+      return (
+        <AddressRow
+          className='validator--row'
+          key={address}
+          name={name || defaultName}
+          value={address}
+          withBalance={true}
+          withNonce={false}
+          identIconSize={48}
+          isShort={true}
+        >
+          {nominators.map(({ address }) =>
+            <AddressMini value={address} />
+          )}
+        </AddressRow>
+      );
+    });
   }
 }
 

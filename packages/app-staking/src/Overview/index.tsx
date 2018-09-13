@@ -39,6 +39,7 @@ export default class Overview extends React.PureComponent<Props> {
           validators={validators}
         />
         <CurrentList
+          balances={balances}
           current={validatorsSorted}
           next={intentionsSorted}
         />
