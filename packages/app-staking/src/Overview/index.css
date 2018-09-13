@@ -12,7 +12,7 @@
   margin: 0px 5px 0px 5px;
 }
 
-.row {
+.validator--row {
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid #ccc;
@@ -91,4 +91,20 @@
   color: #47b547;
   font-weight: 500;
   opacity: 1 !important;
+}
+
+.validator-icon {
+  color: #2284d0;
+  position: absolute;
+  font-size: 1.5em !important;
+}
+
+.nominator-icon {
+  color: #aaa;
+  position: absolute;
+  font-size: 1.5em !important;
+}
+
+.ui--AddressRow-icon {
+  margin: 12px;
 }

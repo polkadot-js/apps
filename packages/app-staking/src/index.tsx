@@ -48,7 +48,7 @@ class App extends React.PureComponent<Props, State> {
 
   render () {
     const { action } = this.state;
-    const { sessionValidators = [], stakingIntentions = [], style, t, validatingBalances = {} } = this.props;
+    const { sessionValidators = [], stakingIntentions = [], t, validatingBalances = {} } = this.props;
     const Component = Components[action];
     const items = [
       {

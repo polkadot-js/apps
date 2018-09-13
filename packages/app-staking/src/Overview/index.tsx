@@ -2,63 +2,58 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { ExtendedBalanceMap } from '@polkadot/ui-react-rx/types';
+import { RxBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import './index.css';
 
+import BN from 'bn.js';
 import React from 'react';
-import classes from '@polkadot/ui-app/util/classes';
 
-import IntensionsList from './IntensionsList';
-import ValidatorsList from './ValidatorsList';
+import CurrentList from './CurrentList';
 import Summary from './Summary';
 
 type Props = I18nProps & {
-  balances: ExtendedBalanceMap,
+  balances: RxBalanceMap,
   intentions: Array<string>,
   validators: Array<string>
 };
 
+const ZERO = new BN(0);
+
 export default class Overview extends React.PureComponent<Props> {
-  getNextValidators() {
-    const { intentions, balances } = this.props;
-    // console.log(balances);
-    // const sorted = intentions.sort((a, b) => {
-    //   return balances[a].stakingBalance.cmp(balances[b].stakingBalance);
-    // })
-
-    return intentions;
-  }
-
   render () {
-    const { className, balances, intentions, style, validators } = this.props;
-    const intentionsExVal = intentions.filter((address) =>
-      !validators.includes(address)
+    const { balances, intentions, validators } = this.props;
+    const intentionsSorted = this.sortByBalance(
+      intentions.filter((address) =>
+        !validators.includes(address)
+      )
     );
-
-    const next = this.getNextValidators();
+    const validatorsSorted = this.sortByBalance(validators);
 
     return (
-      <div
-        className={classes('staking--Overview', className)}
-        style={style}
-      >
+      <div className='staking--Overview'>
         <Summary
           balances={balances}
           intentions={intentions}
           validators={validators}
         />
-
-        <ValidatorsList
-          current={validators}
-          next={intentions}
+        <CurrentList
+          current={validatorsSorted}
+          next={intentionsSorted}
         />
-      {/*  <h1>Intentions: {intentionsExVal.length + validators.length}</h1>
-        <IntensionsList
-          intentions={intentionsExVal}
-        />*/}
       </div>
     );
+  }
+
+  private sortByBalance (list: Array<string>): Array<string> {
+    const { balances } = this.props;
+
+    return list.sort((a, b) => {
+      const balanceA = balances[a] || { stakingBalance: ZERO };
+      const balanceB = balances[b] || { stakingBalance: ZERO };
+
+      return balanceB.stakingBalance.cmp(balanceA.stakingBalance);
+    });
   }
 }
