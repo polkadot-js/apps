@@ -29,7 +29,7 @@
 
 .validator--Account-validating {
   opacity: 0.25 !important;
-  padding-top: 8px;
+  padding-top: 0.5em;
   vertical-align: top !important;
 }
 
@@ -49,17 +49,14 @@
   text-align: right;
 }
 
+.validator--IntensionsList,
 .validator--ValidatorsList {
-  padding: 10px;
   display: flex;
 }
 
-.validator--IntensionsList {
-  padding: 10px;
-}
-
-.validator--current,.validator--next {
-  margin: 20px;
+.validator--current,
+.validator--next {
+  margin: 1em;
   flex: 1;
 }
 
