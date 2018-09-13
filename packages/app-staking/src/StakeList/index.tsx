@@ -11,7 +11,7 @@ import keyring from '@polkadot/ui-keyring/index';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
 import Account from './Account';
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & {
   balances: RxBalanceMap,

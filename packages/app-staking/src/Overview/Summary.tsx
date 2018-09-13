@@ -10,7 +10,7 @@ import React from 'react';
 import CardSummary from '@polkadot/ui-app/CardSummary';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & {
   balances: RxBalanceMap,
