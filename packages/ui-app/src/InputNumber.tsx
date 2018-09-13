@@ -34,18 +34,7 @@ type State = {
 };
 
 class InputNumber extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      error: '',
-      warn: '',
-      info: '',
-      isPreKeyDown: false
-    };
-  }
+  state: State = { isPreKeyDown: false };
 
   render () {
     const { className, defaultValue, isError, label, maxLength, placeholder, style, withLabel } = this.props;
