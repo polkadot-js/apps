@@ -17,9 +17,16 @@ import toolbox from './toolbox';
 import transfer from './transfer';
 import vanitygen from './vanitygen';
 
-export default ({
-  default: 'explorer',
-  routes: ([] as Routes).concat(
+const routes: Routes = process.env.UI_MODE === 'light'
+  ? ([] as Routes).concat(
+    transfer,
+    staking,
+    democracy,
+    null,
+    accounts,
+    addresses
+  )
+  : ([] as Routes).concat(
     example,
     explorer,
     transfer,
@@ -35,5 +42,11 @@ export default ({
     vanitygen,
     rpc,
     toolbox
-  )
+  );
+
+export default ({
+  default: process.env.UI_MODE === 'light'
+    ? 'transfer'
+    : 'explorer',
+  routes
 } as Routing);
