@@ -18,8 +18,6 @@ import signMessage from './sign';
 import submitMessage from './submit';
 import translate from './translate';
 
-console.error('Modal', Modal);
-
 type BaseProps = BareProps & {
   queue: Array<QueueTx>,
   queueSetStatus: QueueTx$MessageSetStatus
