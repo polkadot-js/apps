@@ -39,14 +39,14 @@ class CurrentList extends React.PureComponent<Props> {
     }
 
     return [
-      <h4>
+      <h1>
         {t('list.current', {
-          defaultValue: 'Current: {{count}}',
+          defaultValue: 'validators',
           replace: {
             count: current.length
           }
         })}
-      </h4>,
+      </h1>,
       ...this.renderRow(current, t('name.validator', { defaultValue: 'validator' }))
     ];
   }
@@ -59,14 +59,11 @@ class CurrentList extends React.PureComponent<Props> {
     }
 
     return [
-      <h4>
+      <h1>
         {t('list.next', {
-          defaultValue: 'Next up: {{count}}',
-          replace: {
-            count: next.length
-          }
+          defaultValue: 'next up'
         })}
-      </h4>,
+      </h1>,
       ...this.renderRow(next, t('name.intention', { defaultValue: 'intention' }))
     ];
   }
