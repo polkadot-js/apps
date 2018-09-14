@@ -56,8 +56,8 @@ class Transfer extends React.PureComponent<Props, State> {
 
     return (
       <div className='transfer--Transfer'>
-        <div className='transfer--Transfer-selection'>
-          <div className='transfer--Transfer-data'>
+        <div className='ui--row'>
+          <div className='medium'>
             <InputAddress
               label={t('from', {
                 defaultValue: 'transfer from my account'
@@ -66,8 +66,7 @@ class Transfer extends React.PureComponent<Props, State> {
               type='account'
             />
           </div>
-          <div className='transfer--Transfer-mid'>>></div>
-          <div className='transfer--Transfer-data'>
+          <div className='medium'>
             <InputAddress
               label={t('to', {
                 defaultValue: 'to the recipient address'
