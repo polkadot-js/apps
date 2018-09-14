@@ -94,6 +94,7 @@ export interface ObservableApiInterface {
   systemAccountIndexOf: (address: string) => Observable<BN | undefined>,
   timestampBlockPeriod: () => Observable<BN | undefined>,
   timestampNow: () => Observable<Date | undefined>,
+  validatorCount: () => Observable<BN | undefined>,
   validatingBalance: (address: string) => Observable<RxBalance>,
   validatingBalances: (...addresses: Array<string>) => Observable<RxBalanceMap>,
   votingBalance: (address: string) => Observable<RxBalance>,

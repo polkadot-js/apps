@@ -18,34 +18,29 @@ type Props = I18nProps & {
   sessionBlockProgress?: BN,
   sessionBrokenValue?: BN,
   sessionBrokenPercentLate?: BN,
-  sessionLength?: BN
+  sessionLength?: BN,
+  withBroken?: boolean,
+  withEra?: boolean,
+  withSession?: boolean
 };
 
 class SummarySession extends React.PureComponent<Props> {
   render () {
-    const { eraBlockLength, eraBlockProgress, sessionBlockProgress, sessionBrokenValue, sessionBrokenPercentLate, sessionLength, t } = this.props;
-
     return [
-      <CardSummary
-        key='sessionProgress'
-        label={t('summary.sessionProgress', {
-          defaultValue: 'session'
-        })}
-        progress={{
-          total: sessionLength,
-          value: sessionBlockProgress
-        }}
-      />,
-      <CardSummary
-        key='eraProgress'
-        label={t('summary.eraProgress', {
-          defaultValue: 'era'
-        })}
-        progress={{
-          total: eraBlockLength,
-          value: eraBlockProgress
-        }}
-      />,
+      this.renderSession(),
+      this.renderEra(),
+      this.renderBroken()
+    ];
+  }
+
+  private renderBroken () {
+    const { sessionBrokenValue, sessionBrokenPercentLate, t, withBroken = true } = this.props;
+
+    if (!withBroken) {
+      return null;
+    }
+
+    return (
       <CardSummary
         key='brokenCount'
         label={t('summary.brokenCount', {
@@ -58,7 +53,49 @@ class SummarySession extends React.PureComponent<Props> {
           value: sessionBrokenValue
         }}
       />
-    ];
+    );
+  }
+
+  private renderEra () {
+    const { eraBlockLength, eraBlockProgress, t, withEra = true } = this.props;
+
+    if (!withEra) {
+      return null;
+    }
+
+    return (
+      <CardSummary
+        key='eraProgress'
+        label={t('summary.eraProgress', {
+          defaultValue: 'era'
+        })}
+        progress={{
+          total: eraBlockLength,
+          value: eraBlockProgress
+        }}
+      />
+    );
+  }
+
+  private renderSession () {
+    const { sessionBlockProgress, sessionLength, t, withSession = true } = this.props;
+
+    if (!withSession) {
+      return null;
+    }
+
+    return (
+      <CardSummary
+        key='sessionProgress'
+        label={t('summary.sessionProgress', {
+          defaultValue: 'session'
+        })}
+        progress={{
+          total: sessionLength,
+          value: sessionBlockProgress
+        }}
+      />
+    );
   }
 }
 

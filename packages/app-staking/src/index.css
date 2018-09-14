@@ -4,6 +4,10 @@
 
 .staking--App {
   padding: 1em 2rem;
+
+  .rx--updated {
+    background: transparent !important;
+  }
 }
 
 .staking--App-navigation.ui--Button-Group {

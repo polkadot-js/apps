@@ -40,7 +40,7 @@ header .ui--Button-Group {
 
 .ui--AddressMini.padded {
   display: inline-block;
-  padding: 0.25rem;
+  padding: 0.25rem 0 0 0;
 }
 
 .ui--AddressMini-info div {
@@ -93,6 +93,10 @@ header .ui--Button-Group {
   vertical-align: top;
 }
 
+.ui--AddressSummary-children {
+  padding-top: 0.5rem;
+}
+
 .ui--AddressSummary .rx--updated {
   background: transparent !important;
 }
@@ -123,7 +127,7 @@ header .ui--Button-Group {
 }
 
 .ui--AddressSummary-data * {
-  margin: 0 0.25rem !important;
+  /* margin: 0 0.25rem !important; */
   vertical-align: middle;
 }
 

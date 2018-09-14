@@ -45,7 +45,9 @@ export default class Balance extends React.PureComponent<Props> {
 
     if (Array.isArray(balance)) {
       const totals = balance
-        .filter((value, index) => index !== 0)
+        .filter((value, index) =>
+          index !== 0
+        )
         .map(numberFormat);
 
       value = `${value}  (${totals.length === 1 ? '+' : ''}${totals.join(', ')})`;

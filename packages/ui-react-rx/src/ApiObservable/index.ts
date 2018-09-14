@@ -509,6 +509,10 @@ export default class ObservableApi implements ObservableApiInterface {
     return this.rawStorage(storage.system.public.accountIndexOf, address);
   }
 
+  validatorCount = (): Observable<OptBN> => {
+    return this.rawStorage(storage.staking.public.validatorCount);
+  }
+
   validatingBalance = (address: string): Observable<RxBalance> => {
     return this.combine(
       [

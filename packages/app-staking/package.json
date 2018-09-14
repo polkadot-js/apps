@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@polkadot/app-extrinsics": "^0.20.8",
+    "@polkadot/app-explorer": "^0.20.8",
     "@polkadot/storage": "^0.28.35",
     "@polkadot/ui-app": "^0.20.8",
     "@polkadot/ui-keyring": "^0.20.8",
