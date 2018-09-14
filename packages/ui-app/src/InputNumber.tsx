@@ -28,8 +28,8 @@ type Props = BareProps & I18nProps & {
 type State = {
   error?: React.ReactNode,
   info?: React.ReactNode,
-  warn?: React.ReactNode,
-  isPreKeyDown: boolean
+  isPreKeyDown: boolean,
+  warn?: React.ReactNode
 };
 
 class InputNumber extends React.PureComponent<Props, State> {
