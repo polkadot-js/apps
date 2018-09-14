@@ -99,7 +99,9 @@ class AddressSummary extends React.PureComponent<Props, State> {
         <div className='ui--AddressSummary-address'>
           {isShort ? shortValue : value}
         </div>
-        {this.renderCopy()}
+        <div className='ui--AddressSummary-copy'>
+          {this.renderCopy()}
+        </div>
         {this.renderDownload()}
       </div>
     );
@@ -134,7 +136,9 @@ class AddressSummary extends React.PureComponent<Props, State> {
     }
 
     return (
-      <CopyButton value={address} />
+      <CopyButton
+        value={address}
+      />
     );
   }
 

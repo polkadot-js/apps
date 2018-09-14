@@ -20,14 +20,15 @@
   padding: 0em 2em 0em 2em;
 }
 
+.accounts--DownloadModal-Content,
 .accounts--UploadModal-Content {
   text-align: center;
   padding-bottom: 0.5em;
 }
 
-.accounts--UploadModal-Content > .ui--AddressMini,
-.accounts--UploadModal-Content > .ui--AddressSummary {
-	display: none;
+.accounts--DownloadModal-Content > .ui--AddressMini,
+.accounts--DownloadModal-Content > .ui--AddressSummary {
+  display: none;
 }
 
 .accounts--DownloadModal-Content .ui--row > .ui--Password,
@@ -68,13 +69,15 @@
 }
 
 @media (min-width: 1024px) {
-	.accounts--UploadModal-Content > .ui--AddressSummary { 
-		display: block; 
-	}
+	.accounts--DownloadModal-Content > .ui--AddressSummary {
+    display: block;
+    text-align: center;
+  }
 }
 
 @media (max-width: 1023px) {
-	.accounts--UploadModal-Content > .ui--AddressMini { 
-		display: block; 
+	.accounts--DownloadModal-Content > .ui--AddressMini {
+    display: block;
+    text-align: center;
   }
 }
