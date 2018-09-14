@@ -3,8 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { BIT_LENGTH_128 } from '../constants';
-import isValidBalance from './isValidBalance';
 import translate from '../translate';
+import isValidBalance from './isValidBalance';
 
 describe('checks extrinsic balance', () => {
   let t;

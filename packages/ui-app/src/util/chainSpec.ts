@@ -26,6 +26,7 @@ const maxValue = (bitLength?: number): BN =>
  */
 const maxLength = (maxValue: BN): number => {
   const conservativenessFactor = 1;
+
   return maxValue.toString().length - conservativenessFactor; // returns 38 for 128 bit arg
 };
 

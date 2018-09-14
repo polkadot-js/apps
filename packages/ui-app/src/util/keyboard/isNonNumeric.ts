@@ -4,5 +4,6 @@
 
 export default function isNonNumeric (key: string): boolean {
   const digits = new Array(9).join().split(',').map((item, index) => String(++index));
+
   return !digits.includes(key);
 }

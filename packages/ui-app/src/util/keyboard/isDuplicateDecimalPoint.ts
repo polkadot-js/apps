@@ -10,5 +10,6 @@ export default function isDuplicateDecimalPoint (key: string, value: string): bo
   const inputValue: string = value;
   const didPressDecimalPoint: boolean = key === KEYS.DECIMAL_POINT;
   const foundExistingDecimalPoint: boolean = inputValue.match(regexDecimalPoint) ? true : false;
+
   return didPressDecimalPoint && foundExistingDecimalPoint;
 }
