@@ -87,6 +87,7 @@ class Creator extends React.PureComponent<Props, State> {
       <div className='grow'>
         <div className='ui--row'>
           <Input
+            autoFocus
             className='full'
             isError={!isAddressValid}
             label={t('creator.address', {
