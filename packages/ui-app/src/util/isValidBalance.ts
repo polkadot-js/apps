@@ -34,13 +34,7 @@ export default function isValidBalance (input: string, t: TranslationFunction, b
   // if 128 bit then max is 340282366920938463463374607431768211455
   if (!inputBN.lt(maxBN) || !isValidBitLength(inputBN, bitLength)) {
     return {
-      isValid: false,
-      errorMessage: t('balance.error.above.max', {
-        defaultValue: 'Balance above max bit-length for {{bitLength}} bit',
-        replace: {
-          bitLength
-        }
-      })
+      isValid: false
     };
   } else if (inputBN.isZero()) {
     return {

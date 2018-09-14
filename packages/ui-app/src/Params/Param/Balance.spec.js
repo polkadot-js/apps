@@ -4,7 +4,7 @@
 
 import React from 'react';
 
-import { shallow, mount } from '../../../../../test/enzyme';
+import { mount } from '../../../../../test/enzyme';
 import InputNumber from '../../InputNumber';
 import { Balance } from './Balance';
 
@@ -69,20 +69,16 @@ describe('Balance', () => {
     expect(divNotifications).toHaveLength(0);
   });
 
-  it('should display correct i18n Error Notification when user enters decimal value greater than max bit length', () => {
+  it('should not display i18n Error Notification when user enters decimal value greater than max bit length', () => {
     inputElementBalance.instance().value = '0.1111111111111111111111111111111111111';
     inputElementBalance.simulate('change');
-    divNotificationsText = wrapper.find('.ui--Notifications').find('div.message');
-    expect(divNotificationsText.hasClass('error')).toBe(true);
-    expect(divNotificationsText.text()).toEqual('balance.error.above.max');
+    expect(divNotifications).toHaveLength(0);
   });
 
-  it('should display correct i18n Error Notification when user enters positive value greater than or equal to the 128 bits maximum for latest chain', () => {
+  it('should not display i18n Error Notification when user enters positive value greater than or equal to the 128 bits maximum for latest chain', () => {
     inputElementBalance.instance().value = '340282366920938463463374607431768211455'; // 2^128
     inputElementBalance.simulate('change');
-    divNotificationsText = wrapper.find('.ui--Notifications').find('div.message');
-    expect(divNotificationsText.hasClass('error')).toBe(true);
-    expect(divNotificationsText.text()).toEqual('balance.error.above.max');
+    expect(divNotifications).toHaveLength(0);
   });
 
   it('should not display error when user enters positive value less than the 128 bits maximum for latest chain', () => {
