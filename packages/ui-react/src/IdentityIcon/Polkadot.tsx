@@ -12,7 +12,7 @@ type Props = BaseProps & {
   value: string | Uint8Array
 };
 
-export default class Polkdot extends React.PureComponent<Props> {
+export default class Polkadot extends React.PureComponent<Props> {
   render () {
     const { size, value } = this.props;
 
