@@ -3,29 +3,31 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import './index.css';
 
 import React from 'react';
 
 import addressObservable from '@polkadot/ui-keyring/observable/addresses';
-import Tabs from '@polkadot/ui-app/Tabs';
+import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
-import { hasNoAddresses } from './util/addresses';
 import Creator from './Creator';
 import Editor from './Editor';
 import translate from './translate';
 
 type Props = I18nProps & {
-  addressAll?: Array<any>,
+  allAddresses?: SubjectInfo,
   basePath: string
 };
 
 type Actions = 'create' | 'edit';
 
 type State = {
-  action: Actions
+  action: Actions,
+  hidden: Array<string>,
+  items: Array<TabItem>
 };
 
 // FIXME React-router would probably be the best route, not home-grown
@@ -35,64 +37,89 @@ const Components: { [index: string]: React.ComponentType<any> } = {
 };
 
 class AddressesApp extends React.PureComponent<Props, State> {
-  state: State = { action: 'edit' };
+  state: State;
 
-  componentDidUpdate () {
-    const { addressAll } = this.props;
-    const { action } = this.state;
+  constructor (props: Props) {
+    super(props);
 
-    if (action === 'edit' && hasNoAddresses(addressAll)) {
-      this.selectCreate();
+    const { allAddresses = {}, t } = props;
+    const baseState = Object.keys(allAddresses).length !== 0
+      ? AddressesApp.showEditState()
+      : AddressesApp.hideEditState();
+
+    this.state = {
+      ...baseState,
+      items: [
+        {
+          name: 'edit',
+          text: t('app.edit', { defaultValue: 'Edit address' })
+        },
+        {
+          name: 'create',
+          text: t('app.create', { defaultValue: 'Add address' })
+        }
+      ]
+    };
+  }
+
+  static showEditState () {
+    return {
+      action: 'edit' as Actions,
+      hidden: []
+    };
+  }
+
+  static hideEditState () {
+    return {
+      action: 'create' as Actions,
+      hidden: ['edit']
+    };
+  }
+
+  static getDerivedStateFromProps ({ allAddresses = {} }: Props, { hidden }: State) {
+    const hasAddresses = Object.keys(allAddresses).length !== 0;
+
+    if (hidden.length === 0) {
+      return hasAddresses
+        ? null
+        : AddressesApp.hideEditState();
     }
+
+    return hasAddresses
+      ? AddressesApp.showEditState()
+      : null;
   }
 
   render () {
-    const { addressAll, t } = this.props;
-    const { action } = this.state;
+    const { action, hidden, items } = this.state;
     const Component = Components[action];
-    const items = [
-      {
-        name: 'edit',
-        text: t('app.edit', { defaultValue: 'Edit address' })
-      },
-      {
-        name: 'create',
-        text: t('app.create', { defaultValue: 'Add address' })
-      }
-    ];
-
-    // Do not load Editor tab if no addresses
-    if (hasNoAddresses(addressAll)) {
-      items.splice(0, 1);
-    }
 
     return (
       <main className='addresses--App'>
         <header>
           <Tabs
             activeItem={action}
+            hidden={hidden}
             items={items}
             onChange={this.onMenuChange}
           />
         </header>
-        <Component onCreateAddress={this.selectEdit} />
+        <Component onCreateAddress={this.activateEdit} />
       </main>
     );
   }
 
-  onMenuChange = (action: Actions) => {
+  private onMenuChange = (action: Actions) => {
     this.setState({ action });
   }
 
-  selectCreate = (): void => {
-    this.setState({ action: 'create' });
-  }
-
-  selectEdit = (): void => {
-    this.setState({ action: 'edit' });
+  private activateEdit = (): void => {
+    this.setState(
+      AddressesApp.showEditState()
+    );
   }
 }
 
 export default withObservableBase(
-  addressObservable.subject, { propName: 'addressAll' }
+  addressObservable.subject, { propName: 'allAddresses' }
 )(translate(AddressesApp));

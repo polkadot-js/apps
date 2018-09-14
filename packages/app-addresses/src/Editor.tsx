@@ -12,15 +12,11 @@ import Input from '@polkadot/ui-app/Input';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring/index';
-import addressObservable from '@polkadot/ui-keyring/observable/addresses';
-import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
 import Forgetting from './Forgetting';
 import translate from './translate';
 
-type Props = I18nProps & {
-  addressAll?: Array<any>
-};
+type Props = I18nProps;
 
 type State = {
   current: KeyringAddress | null,
@@ -93,14 +89,8 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   renderData () {
-    const { addressAll, t } = this.props;
+    const { t } = this.props;
     const { current, editedName } = this.state;
-
-    if (!addressAll || !Object.keys(addressAll).length) {
-      return t('editor.none', {
-        defaultValue: 'There are no saved addresses. Add some first.'
-      });
-    }
 
     const address = current
       ? current.address()
@@ -245,6 +235,4 @@ class Editor extends React.PureComponent<Props, State> {
   }
 }
 
-export default withObservableBase(
-  addressObservable.subject, { propName: 'addressAll' }
-)(translate(Editor));
+export default translate(Editor);
