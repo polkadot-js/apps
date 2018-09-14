@@ -4,7 +4,8 @@
 
 import React from 'react';
 
-import { mount } from '../../../../../test/enzyme';
+import { shallow, mount } from '../../../../../test/enzyme';
+import InputNumber from '../../InputNumber';
 import { Balance } from './Balance';
 
 const mockT = (key, options) => (key);
@@ -14,7 +15,7 @@ describe('Balance', () => {
 
   beforeEach(() => {
     defaultValue = { value: '0' };
-    wrapper = mount(<Balance t={mockT} defaultValue={defaultValue} />, {});
+    wrapper = mount(<Balance defaultValue={defaultValue} t={mockT} />, {});
     divInputNumber = wrapper.find('.ui--InputNumber');
     divNotifications = wrapper.find('.ui--Notifications');
     inputElementBalance = wrapper.find('.ui--InputNumber').find('.input').find('input');
@@ -22,6 +23,10 @@ describe('Balance', () => {
 
   it('creates the element', () => {
     expect(wrapper).toHaveLength(1);
+  });
+
+  it('should display InputNumber component', () => {
+    expect(wrapper.find(InputNumber)).toHaveLength(1);
   });
 
   it('should display InputNumber component with default value and no Notifications by default', () => {
@@ -61,9 +66,7 @@ describe('Balance', () => {
   it('should display correct i18n Error Notification when user resets the value', () => {
     inputElementBalance.instance().value = '';
     inputElementBalance.simulate('change');
-    divNotificationsText = wrapper.find('.ui--Notifications').find('div.message');
-    expect(divNotificationsText.hasClass('error')).toBe(true);
-    expect(divNotificationsText.text()).toEqual('balance.error.format');
+    expect(divNotifications).toHaveLength(0);
   });
 
   it('should display correct i18n Error Notification when user enters decimal value greater than max bit length', () => {
@@ -88,19 +91,15 @@ describe('Balance', () => {
     expect(divNotifications).toHaveLength(0);
   });
 
-  it('should display correct i18n Error Notification when user enters letter value', () => {
+  it('should not display i18n Error Notification when user enters letter value', () => {
     inputElementBalance.instance().value = 'e';
     inputElementBalance.simulate('change');
-    divNotificationsText = wrapper.find('.ui--Notifications').find('div.message');
-    expect(divNotificationsText.hasClass('error')).toBe(true);
-    expect(divNotificationsText.text()).toEqual('balance.error.format');
+    expect(divNotifications).toHaveLength(0);
   });
 
-  it('should display correct i18n Error Notification when user enters symbol value', () => {
+  it('should not display i18n Error Notification when user enters symbol value', () => {
     inputElementBalance.instance().value = '%';
     inputElementBalance.simulate('change');
-    divNotificationsText = wrapper.find('.ui--Notifications').find('div.message');
-    expect(divNotificationsText.hasClass('error')).toBe(true);
-    expect(divNotificationsText.text()).toEqual('balance.error.format');
+    expect(divNotifications).toHaveLength(0);
   });
 });

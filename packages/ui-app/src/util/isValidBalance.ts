@@ -8,13 +8,13 @@ import { TranslationFunction } from 'i18next';
 import isString from '@polkadot/util/is/string';
 
 import { isValidBitLength, maxValue } from '../util/chainSpec';
-import { BIT_LENGTH_128, MAX_SAFE_INTEGER } from '../constants';
+import { BIT_LENGTH_128 } from '../constants';
 import { IsValidWithMessage } from './types';
 
 // RegEx Pattern (positive integers or decimal values)
-const reValidInputChars = RegExp('^[0-9\.]+[0-9\.]*$');
 const reZero = /[.]/gi;
 
+// receives only positive integers and decimal point as permited by onKeyDown in InputNumber.
 export default function isValidBalance (input: string, t: TranslationFunction, bitLength?: number): IsValidWithMessage {
   bitLength = bitLength || BIT_LENGTH_128;
 
@@ -27,16 +27,6 @@ export default function isValidBalance (input: string, t: TranslationFunction, b
 
   // impossible if we have not set space as an allowed key but leave as failsafe
   input = input.toLowerCase().split(' ').join('');
-
-  // check the string only contains integers or decimals
-  if (!reValidInputChars.test(input)) {
-    return {
-      isValid: false,
-      errorMessage: t('balance.error.format', {
-        defaultValue: 'Balance must be a positive number'
-      })
-    };
-  }
 
   const maxBN = maxValue(bitLength);
   const inputBN = new BN(input);
@@ -56,12 +46,12 @@ export default function isValidBalance (input: string, t: TranslationFunction, b
     return {
       isValid: true,
       warnMessage: t('balance.warn.zero', {
-        defaultValue: 'Balance to transfer 0'
+        defaultValue: 'Balance value of 0'
       })
     };
   }
 
-  const maxSafeIntegerBN = new BN(String(MAX_SAFE_INTEGER));
+  const maxSafeIntegerBN = new BN(Number.MAX_SAFE_INTEGER);
 
   if (inputBN.gt(maxSafeIntegerBN)) {
     return {

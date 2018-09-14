@@ -2,10 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { TranslationFunction } from 'i18next';
-import { RawParam$OnChange } from './Params/types';
-import { BareProps } from './types';
+import { BareProps, I18nProps } from './types';
 
+import { TranslationFunction } from 'i18next';
 import BN from 'bn.js';
 import React from 'react';
 
@@ -15,12 +14,12 @@ import classes from './util/classes';
 import Input from './Input';
 import { KEYS_ALLOWED, KEYS_PRE } from './constants';
 
-type Props = BareProps & {
+type Props = BareProps & I18nProps & {
   defaultValue?: string,
   isError?: boolean,
   label?: any,
   maxLength?: number,
-  onChange?: RawParam$OnChange | undefined,
+  onChange?: (value: { isValid: boolean, value: BN }) => void,
   placeholder?: string,
   t: TranslationFunction,
   withLabel?: boolean
@@ -95,7 +94,6 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 
   onKeyDown = (event: React.KeyboardEvent<Element>): void => {
-    const { t } = this.props;
     const { isPreKeyDown } = this.state;
 
     // only allow user balance input to contain one instance of '.' for decimals.
@@ -128,11 +126,7 @@ class InputNumber extends React.PureComponent<Props, State> {
 
     // prevent input of non-integer values (allow numeric including from keyboards with numpad)
     if (keydown.isNonNumeric(event.key)) {
-      this.setState({
-        error: t('balance.error.format', {
-          defaultValue: 'Balance must be a positive number'
-        })
-      });
+      console.error('Balance must be a positive number');
       event.preventDefault();
       return;
     }
