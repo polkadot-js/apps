@@ -16,7 +16,7 @@ import keyring from '@polkadot/ui-keyring/index';
 import Forgetting from './Forgetting';
 import translate from './translate';
 
-type Props = I18nProps & {};
+type Props = I18nProps;
 
 type State = {
   current: KeyringAddress | null,
