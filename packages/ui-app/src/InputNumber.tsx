@@ -95,11 +95,12 @@ class InputNumber extends React.PureComponent<Props, State> {
 
   onKeyDown = (event: React.KeyboardEvent<Element>): void => {
     const { isPreKeyDown } = this.state;
+    const eventValue = (event.target as HTMLInputElement).value;
 
     // only allow user balance input to contain one instance of '.' for decimals.
     // prevent use of shift key
     if (
-      (keydown.isDuplicateDecimalPoint(event.key, (event.target as HTMLInputElement).value)) ||
+      (keydown.isDuplicateDecimalPoint(event.key, eventValue)) ||
       (keydown.isShift(event.shiftKey))
     ) {
       event.preventDefault();
@@ -127,6 +128,14 @@ class InputNumber extends React.PureComponent<Props, State> {
     // prevent input of non-integer values (allow numeric including from keyboards with numpad)
     if (keydown.isNonNumeric(event.key)) {
       console.error('Balance must be a positive number');
+      event.preventDefault();
+      return;
+    }
+
+    const inputBN = new BN(eventValue);
+    const maxSafeIntegerBN = new BN(Number.MAX_SAFE_INTEGER);
+
+    if (inputBN.gt(maxSafeIntegerBN)) {
       event.preventDefault();
       return;
     }
