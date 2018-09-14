@@ -109,11 +109,11 @@ class AddressesApp extends React.PureComponent<Props, State> {
     );
   }
 
-  onMenuChange = (action: Actions) => {
+  private onMenuChange = (action: Actions) => {
     this.setState({ action });
   }
 
-  activateEdit = (): void => {
+  private activateEdit = (): void => {
     this.setState(
       AddressesApp.showEditState()
     );
