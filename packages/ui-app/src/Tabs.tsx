@@ -36,7 +36,7 @@ export default class Tabs extends React.PureComponent<Props, State> {
   }
 
   componentDidUpdate (prevProps: Props, prevState: State) {
-    const { activeItem, hidden = [] } = this.props;
+    const { activeItem } = this.props;
 
     if (activeItem !== prevState.active) {
       this.setState({ active: activeItem });
