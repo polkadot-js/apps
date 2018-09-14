@@ -2,6 +2,9 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
+@import '../../../ui-app/src/styles/theme/_colors-polkadot.css';
+@import '../../../ui-app/src/styles/theme/_colors-substrate.css';
+
 .apps--SideBar {
   /*
   background: #fcfcfc;
@@ -13,11 +16,11 @@
   padding: 0.75em 0 0 0.75em;
   position: relative;
   text-align: left;
-}
 
-.apps--SideBar .ui.vertical.menu {
-  margin: 0;
-  width: auto;
+  .ui.vertical.menu {
+    margin: 0;
+    width: auto;
+  }
 }
 
 .apps--SideBar-github {
@@ -38,17 +41,14 @@
   text-align: left;
 }
 
-.apps--SideBar-Item-NavLink {
-  /*
-  color: #4E4E4E;
-  */
+a.apps--SideBar-Item-NavLink {
   color: #eee;
   display: block;
   padding: 0.75em 0.75em;
   white-space: nowrap;
 }
 
-.apps--SideBar-Item-NavLink-active {
+a.apps--SideBar-Item-NavLink-active {
   background: white;
   border-radius: 0.28571429rem 0 0 0.28571429rem;
   /*
@@ -56,10 +56,23 @@
   border-right-color: white;
   margin-right: -1px;
   */
-  color: #D75EA1;
-  /* color: inherit; */
+  color: inherit;
+
+  &:hover {
+    color: inherit;
+  }
 }
 
-.apps--SideBar-Item-NavLink:hover {
-  color: #D75EA1;
+.theme--polkadot {
+  a.apps--SideBar-Item-NavLink:hover {
+    color: $nav-link;
+  }
+
+  a.apps--SideBar-Item-NavLink-active {
+    color: $nav-link;
+
+    &:hover {
+      color: $nav-link;
+    }
+  }
 }

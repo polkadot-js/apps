@@ -13,6 +13,7 @@
       "@polkadot/app-staking/*": [ "packages/app-staking/src/*" ],
       "@polkadot/app-storage/*": [ "packages/app-storage/src/*" ],
       "@polkadot/app-toolbox/*": [ "packages/app-toolbox/src/*" ],
+      "@polkadot/app-transfer/*": [ "packages/app-transfer/src/*" ],
       "@polkadot/app-vanitygen/*": [ "packages/app-vanitygen/src/*" ],
       "@polkadot/apps/*": [ "packages/apps/src/*" ],
       "@polkadot/ui-app/*": [ "packages/ui-app/src/*" ],

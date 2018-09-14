@@ -16,6 +16,7 @@ import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
 import Forgetting from './Forgetting';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
+
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -40,13 +41,15 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isForgetOpen } = this.state;
+    const { isForgetOpen, current } = this.state;
+
     return (
       <div className='accounts--Editor'>
         <Forgetting
           isOpen={isForgetOpen}
           onClose={this.toggleForget}
           doForget={this.onForget}
+          currentAddress={current}
         />
         {this.renderData()}
         {this.renderButtons()}

@@ -17,7 +17,7 @@ import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';
 
 type Props = I18nProps & {
-  onBack: () => void
+  onCreateAddress: () => void
 };
 
 type State = {
@@ -87,6 +87,7 @@ class Creator extends React.PureComponent<Props, State> {
       <div className='grow'>
         <div className='ui--row'>
           <Input
+            autoFocus
             className='full'
             isError={!isAddressValid}
             label={t('creator.address', {
@@ -160,13 +161,13 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   onCommit = (): void => {
-    const { onBack } = this.props;
+    const { onCreateAddress } = this.props;
     const { address, name } = this.state;
 
     keyring.saveAddress(address, { name });
     InputAddress.setLastValue('address', address);
 
-    onBack();
+    onCreateAddress();
   }
 
   onDiscard = (): void => {

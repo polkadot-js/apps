@@ -15,6 +15,7 @@ import Notification from './Notification';
 type Input$Type = 'number' | 'password' | 'text';
 
 type Props = BareProps & {
+  autoFocus?: boolean,
   children?: React.ReactNode,
   defaultValue?: any,
   error?: React.ReactNode,
@@ -34,6 +35,7 @@ type Props = BareProps & {
   onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
   onKeyUp?: (key: string) => void,
   placeholder?: string,
+  tabIndex?: number,
   type?: Input$Type,
   value?: any,
   warn?: React.ReactNode,
@@ -52,7 +54,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { children, className, defaultValue, error, icon, info, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, maxLength, min, name, placeholder, style, type = 'text', value, warn, withLabel } = this.props;
+    const { autoFocus = false, children, className, defaultValue, error, icon, info, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, maxLength, min, name, placeholder, style, tabIndex, type = 'text', value, warn, withLabel } = this.props;
 
     return (
       <Labelled
@@ -62,6 +64,7 @@ export default class Input extends React.PureComponent<Props, State> {
         withLabel={withLabel}
       >
         <SUIInput
+          autoFocus={autoFocus}
           action={isAction}
           className={isEditable ? 'edit icon' : ''}
           defaultValue={defaultValue}
@@ -82,6 +85,7 @@ export default class Input extends React.PureComponent<Props, State> {
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
           placeholder={placeholder}
+          tabIndex={tabIndex}
           type={type}
           value={value}
         >

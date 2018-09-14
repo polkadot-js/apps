@@ -12,7 +12,7 @@ import translate from './translate';
 
 class AddressRow extends AddressSummary {
   render () {
-    const { className, style } = this.props;
+    const { className, style, identIconSize } = this.props;
     const { address, isValid } = this.state;
 
     return (
@@ -23,16 +23,16 @@ class AddressRow extends AddressSummary {
         <div className='ui--AddressRow-base'>
           <IdentityIcon
             className='ui--AddressRow-icon'
-            size={96}
+            size={identIconSize}
             value={address}
           />
           <div className='ui--AddressRow-details'>
             {this.renderAddress()}
             {this.renderBalance()}
             {this.renderNonce()}
+            {this.renderChildren()}
           </div>
         </div>
-        {this.renderChildren()}
       </div>
     );
   }

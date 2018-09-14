@@ -7,7 +7,9 @@ import { BaseProps } from '../types';
 import './IdentityIcon.css';
 
 import React from 'react';
-import Identicon from 'polkadot-identicon';
+
+import Polkadot from './Polkadot';
+import Substrate from './Substrate';
 
 type Props = BaseProps & {
   size?: number,
@@ -15,6 +17,9 @@ type Props = BaseProps & {
 };
 
 const DEFAULT_SIZE = 64;
+const Component = process.env.UI_THEME === 'substrate'
+  ? Substrate
+  : Polkadot;
 
 export default class IdentityIcon extends React.PureComponent<Props> {
   render () {
@@ -26,9 +31,9 @@ export default class IdentityIcon extends React.PureComponent<Props> {
         key={value.toString()}
         style={style}
       >
-        <Identicon
-          id={value}
+        <Component
           size={size}
+          value={value}
         />
       </div>
     );

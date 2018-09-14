@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Routing, Routes } from '../types';
+import { Routing,
+  Routes } from '../types';
 
 import accounts from './accounts';
 import addresses from './addresses';
@@ -10,30 +11,43 @@ import democracy from './democracy';
 import example from './example';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
-// import home from './home';
 import rpc from './rpc';
-// import settings from './settings';
 import staking from './staking';
 import storage from './storage';
 import toolbox from './toolbox';
+import transfer from './transfer';
 import vanitygen from './vanitygen';
 
-export default ({
-  default: 'explorer',
-  routes: ([] as Routes).concat(
-    example,
-    explorer,
+const routes: Routes = process.env.UI_MODE === 'light'
+  ? ([] as Routes).concat(
+    transfer,
     staking,
     democracy,
     null,
-    extrinsics,
-    storage,
+    accounts,
+    addresses
+  )
+  : ([] as Routes).concat(
+    example,
+    explorer,
+    transfer,
+    staking,
+    democracy,
     null,
     accounts,
     addresses,
-    vanitygen,
     null,
+    storage,
+    extrinsics,
+    null,
+    vanitygen,
     rpc,
     toolbox
-  )
+  );
+
+export default ({
+  default: process.env.UI_MODE === 'light'
+    ? 'transfer'
+    : 'explorer',
+  routes
 } as Routing);

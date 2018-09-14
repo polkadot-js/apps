@@ -1,0 +1,83 @@
+/* Copyright 2017-2018 @polkadot/app-staking authors & contributors
+/* This software may be modified and distributed under the terms
+/* of the ISC license. See the LICENSE file for details. */
+
+.validator--Account-info-address {
+  flex: 3;
+  margin: 0px 5px 0px 5px;
+}
+
+.validator--Account-info-details {
+  flex: 1;
+  margin: 0px 5px 0px 5px;
+}
+
+.validator--row {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 1.5em;
+}
+
+.validator--Account-address {
+  font-family: monospace;
+  font-size: 1.5rem;
+}
+
+.validator--Account-icon {
+  margin-right: 1rem;
+}
+
+.validator--Account-validating {
+  opacity: 0.25 !important;
+  padding-top: 0.5em;
+  vertical-align: top !important;
+}
+
+.validator--Account-validating.isValidator {
+  color: red;
+  opacity: 1 !important;
+}
+
+.validator--Account-details,.column{
+  flex: 1;
+  border: 1px, solid blue;
+}
+
+.validator--Account-balance,
+.validator--Account-nonce {
+  opacity: 0.45;
+  text-align: right;
+}
+
+.validator--IntensionsList,
+.validator--ValidatorsList {
+  display: flex;
+}
+
+.validator--current,
+.validator--next {
+  margin: 1em;
+  flex: 1;
+
+  .ui--AddressRow + .ui--AddressRow {
+    margin-top: 1em;
+  }
+}
+
+.validator--Account-address.isMine {
+  color: #47b547;
+  font-weight: 500;
+  opacity: 1 !important;
+}
+
+.validator-icon {
+  color: #2284d0;
+  position: absolute;
+  font-size: 1.5em !important;
+}
+
+.nominator-icon {
+  color: #aaa;
+  position: absolute;
+  font-size: 1.5em !important;
+}

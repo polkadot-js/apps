@@ -12,20 +12,17 @@ import Input from '@polkadot/ui-app/Input';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring/index';
-import addressObservable from '@polkadot/ui-keyring/observable/addresses';
-import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
+import Forgetting from './Forgetting';
 import translate from './translate';
 
-type Props = I18nProps & {
-  addressAll?: Array<any>,
-  onBack: () => void
-};
+type Props = I18nProps;
 
 type State = {
   current: KeyringAddress | null,
   editedName: string,
-  isEdited: boolean
+  isEdited: boolean,
+  isForgetOpen: boolean
 };
 
 class Editor extends React.PureComponent<Props, State> {
@@ -38,8 +35,15 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   render () {
+    const { isForgetOpen, current } = this.state;
     return (
       <div className='addresses--Editor'>
+        <Forgetting
+          isOpen={isForgetOpen}
+          onClose={this.toggleForget}
+          doForget={this.onForget}
+          currentAddress={current}
+        />
         {this.renderData()}
         {this.renderButtons()}
       </div>
@@ -58,7 +62,7 @@ class Editor extends React.PureComponent<Props, State> {
       <Button.Group>
         <Button
           isNegative
-          onClick={this.onForget}
+          onClick={this.toggleForget}
           text={t('editor.forget', {
             defaultValue: 'Forget'
           })}
@@ -85,14 +89,8 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   renderData () {
-    const { addressAll, t } = this.props;
+    const { t } = this.props;
     const { current, editedName } = this.state;
-
-    if (!addressAll || !Object.keys(addressAll).length) {
-      return t('editor.none', {
-        defaultValue: 'There are no saved addresses. Add some first.'
-      });
-    }
 
     const address = current
       ? current.address()
@@ -141,7 +139,8 @@ class Editor extends React.PureComponent<Props, State> {
     return {
       current,
       editedName: name,
-      isEdited: false
+      isEdited: false,
+      isForgetOpen: false
     };
   }
 
@@ -161,11 +160,13 @@ class Editor extends React.PureComponent<Props, State> {
         } else {
           editedName = '';
         }
+        let isForgetOpen = false;
 
         return {
           current,
           editedName,
-          isEdited
+          isEdited,
+          isForgetOpen
         };
       }
     );
@@ -208,6 +209,14 @@ class Editor extends React.PureComponent<Props, State> {
     } as State);
   }
 
+  toggleForget = (): void => {
+    this.setState(
+      ({ isForgetOpen }: State) => ({
+        isForgetOpen: !isForgetOpen
+      })
+    );
+  }
+
   onForget = (): void => {
     const { current } = this.state;
 
@@ -226,6 +235,4 @@ class Editor extends React.PureComponent<Props, State> {
   }
 }
 
-export default withObservableBase(
-  addressObservable.subject, { propName: 'addressAll' }
-)(translate(Editor));
+export default translate(Editor);
