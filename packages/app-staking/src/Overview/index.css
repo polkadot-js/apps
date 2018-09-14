@@ -58,6 +58,10 @@
 .validator--next {
   margin: 1em;
   flex: 1;
+
+  .ui--AddressRow + .ui--AddressRow {
+    margin-top: 1em;
+  }
 }
 
 .validator--Account-address.isMine {

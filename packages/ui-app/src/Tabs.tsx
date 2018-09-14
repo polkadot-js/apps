@@ -8,14 +8,15 @@ import React from 'react';
 
 import classes from './util/classes';
 
-type Item = {
+export type TabItem = {
   name: string,
   text: React.ReactNode
 };
 
 type Props = BareProps & {
   activeItem: string,
-  items: Array<Item>,
+  hidden?: Array<string>,
+  items: Array<TabItem>,
   onChange: (name: any) => void
 };
 
@@ -34,16 +35,16 @@ export default class Tabs extends React.PureComponent<Props, State> {
     };
   }
 
-  componentDidUpdate (prevProps: Props, prevState: State) {
-    const { activeItem } = this.props;
-
-    if (activeItem !== prevState.active) {
-      this.setState({ active: activeItem });
-    }
+  static getDerivedStateFromProps ({ activeItem }: Props, { active }: State) {
+    return activeItem === active
+      ? null
+      : {
+        active: activeItem
+      };
   }
 
   render () {
-    const { className, activeItem, items, style } = this.props;
+    const { className, activeItem, hidden = [], items, style } = this.props;
     const { active } = this.state;
     const currentItem = active || activeItem;
 
@@ -52,15 +53,20 @@ export default class Tabs extends React.PureComponent<Props, State> {
         className={classes('ui--Menu', 'ui menu tabular', className)}
         style={style}
       >
-        {items.map(({ name, text }) => (
-          <a
-            className={classes('item', currentItem === name ? 'active' : '')}
-            key={name}
-            onClick={this.onSelect(name)}
-          >
-            {text}
-          </a>
-        ))}
+        {items
+          .filter(({ name }) =>
+            !hidden.includes(name)
+          )
+          .map(({ name, text }) => (
+            <a
+              className={classes('item', currentItem === name ? 'active' : '')}
+              key={name}
+              onClick={this.onSelect(name)}
+            >
+              {text}
+            </a>
+          ))
+        }
       </div>
     );
   }

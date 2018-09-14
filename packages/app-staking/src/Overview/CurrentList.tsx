@@ -5,6 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RxBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
 
+import BN from 'bn.js';
 import React from 'react';
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import AddressRow from '@polkadot/ui-app/AddressRow';
@@ -34,12 +35,8 @@ class CurrentList extends React.PureComponent<Props> {
   private renderCurrent () {
     const { current, t } = this.props;
 
-    if (current.length === 0) {
-      return null;
-    }
-
     return [
-      <h1>
+      <h1 key='header'>
         {t('list.current', {
           defaultValue: 'validators',
           replace: {
@@ -47,51 +44,68 @@ class CurrentList extends React.PureComponent<Props> {
           }
         })}
       </h1>,
-      ...this.renderRow(current, t('name.validator', { defaultValue: 'validator' }))
+      this.renderRow(current, t('name.validator', { defaultValue: 'validator' }))
     ];
   }
 
   private renderNext () {
     const { next, t } = this.props;
 
-    if (next.length === 0) {
-      return null;
-    }
-
     return [
-      <h1>
+      <h1 key='header'>
         {t('list.next', {
           defaultValue: 'next up'
         })}
       </h1>,
-      ...this.renderRow(next, t('name.intention', { defaultValue: 'intention' }))
+      this.renderRow(next, t('name.intention', { defaultValue: 'intention' }))
     ];
   }
 
   private renderRow (addresses: Array<string>, defaultName: string) {
+    const { balances, t } = this.props;
+
+    if (addresses.length === 0) {
+      return (
+        <div key='none'>{t('list.empty', {
+          defaultValue: 'no addresses found'
+        })}</div>
+      );
+    }
+
+    return (
+      <article key='list'>
+        {addresses.map((address) => {
+          const nominators = (balances[address] || {}).nominators || [];
+
+          return (
+            <AddressRow
+              balance={this.balanceArray(address)}
+              key={address}
+              name={name || defaultName}
+              value={address}
+              withCopy={false}
+              withNonce={false}
+            >
+              {nominators.map(({ address }) =>
+                <AddressMini
+                  key={address}
+                  value={address}
+                  withBalance
+                />
+              )}
+            </AddressRow>
+          );
+        })}
+      </article>
+    );
+  }
+
+  private balanceArray (address: string): Array<BN> | undefined {
     const { balances } = this.props;
 
-    return addresses.map((address) => {
-      const nominators = (balances[address] || {}).nominators || [];
-
-      return (
-        <article key={address}>
-          <AddressRow
-            name={name || defaultName}
-            value={address}
-            withCopy={false}
-            withNonce={false}
-          >
-            {nominators.map(({ address }) =>
-              <AddressMini
-                key={address}
-                value={address}
-              />
-            )}
-          </AddressRow>
-        </article>
-      );
-    });
+    return balances[address]
+      ? [balances[address].stakingBalance, balances[address].nominatedBalance]
+      : undefined;
   }
 }
 
