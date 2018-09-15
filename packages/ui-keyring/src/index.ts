@@ -59,8 +59,8 @@ export default ({
     loadAccount(state, json),
   loadAll: (): void =>
     loadAll(state),
-  lockAccount: (json: KeyringPair$Json, passphrase?: string): KeyringPair | void =>
-    lockAccount(state, json, passphrase),
+  lockAccount: (json: KeyringPair$Json): KeyringPair | void =>
+    lockAccount(state, json),
   saveAccount: (pair: KeyringPair, password?: string): void =>
     saveAccount(state, pair, password),
   saveAccountMeta: (pair: KeyringPair, meta: KeyringPair$Meta): void =>

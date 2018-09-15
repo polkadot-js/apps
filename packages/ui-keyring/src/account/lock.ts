@@ -15,7 +15,7 @@ import accountLoad from './load';
  * Decrypt the pair with password to generate the secret key in keyring memory (whether locked or not).
  * Remove secret key from keyring memory by locking the pair.
  */
-export default function accountLock (state: State, json: KeyringPair$Json, password?: string): KeyringPair | undefined {
+export default function accountLock (state: State, json: KeyringPair$Json): KeyringPair | undefined {
   const address = json.address;
   const pair = accountLoad(state, json);
 
@@ -24,12 +24,11 @@ export default function accountLock (state: State, json: KeyringPair$Json, passw
   }
 
   try {
-    pair.decodePkcs8(password);
+    // FIXME - generates error `Uncaught (in promise) Error: bad secret key size` from nacl-fast.js
+    pair.lock();
     store.set(accountKey(address), json);
-    state.keyring.addFromJson(json as KeyringPair$Json);
     state.accounts.add(address, json);
     createOptions(state);
-    pair.lock();
 
     return pair;
   } catch (error) {

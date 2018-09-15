@@ -241,9 +241,8 @@ class Signer extends React.PureComponent<Props, State> {
         const json = pair.toJson(password);
         // given that the user was able to sign and unlock the account with their password.
         // we now want to re-lock the account again so they must enter password on subsequent transactions
-        const lockedPair = keyring.lockAccount(json, password);
+        const lockedPair = keyring.lockAccount(json);
 
-        // FIXME - running pair.lock() in lockAccount is generating error `Uncaught (in promise) TypeError: unexpected type, use Uint8Array` from nacl-fast.js
         if (lockedPair) {
           assert(lockedPair.isLocked(), `account should be locked`);
         } else {
