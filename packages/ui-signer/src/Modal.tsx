@@ -7,6 +7,7 @@ import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { QueueTx, QueueTx$MessageSetStatus } from './types';
 
 import React from 'react';
+import assert from '@polkadot/util/assert';
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
 import keyring from '@polkadot/ui-keyring/index';
@@ -233,6 +234,22 @@ class Signer extends React.PureComponent<Props, State> {
       if (unlockError) {
         this.setState({ unlockError });
         return;
+      } else {
+        // given that the user was able to sign and unlock the account with their password.
+        // we now want to re-lock the account again so they must enter password on subsequent transactions
+        const pair = keyring.getPair(publicKey as Uint8Array);
+
+        if (pair) {
+          console.log('re-locking the pair that was unlocked for the current transaction');
+
+          // FIXME - error `Uncaught (in promise) Error: bad secret key size` in util-crypto/nacl/sign.tsx
+          pair.lock();
+
+          assert(pair.isLocked(), `account should be locked`);
+
+        } else {
+          console.error('Unable to retrieve account in order to re-lock it');
+        }
       }
     }
 
