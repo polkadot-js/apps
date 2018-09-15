@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringPair, KeyringPair$Meta } from '@polkadot/util-keyring/types';
+import { KeyringPair, KeyringPair$Meta, KeyringPair$Json } from '@polkadot/util-keyring/types';
 import { SingleAddress } from './observable/types';
 import { KeyringAddress, KeyringInstance, State } from './types';
 
@@ -11,7 +11,9 @@ import testKeyring from '@polkadot/util-keyring/testing';
 import accounts from './observable/accounts';
 import addresses from './observable/addresses';
 import development from './observable/development';
+import loadAccount from './account/load';
 import loadAll from './loadAll';
+import lockAccount from './account/lock';
 import createAccount from './account/create';
 import forgetAccount from './account/forget';
 import isAvailable from './isAvailable';
@@ -53,8 +55,12 @@ export default ({
     state.keyring.getPairs().filter((pair) =>
       development.isDevelopment() || pair.getMeta().isTesting !== true
     ),
+  loadAccount: (json: KeyringPair$Json): KeyringPair | void =>
+    loadAccount(state, json),
   loadAll: (): void =>
     loadAll(state),
+  lockAccount: (json: KeyringPair$Json, passphrase?: string): KeyringPair | void =>
+    lockAccount(state, json, passphrase),
   saveAccount: (pair: KeyringPair, password?: string): void =>
     saveAccount(state, pair, password),
   saveAccountMeta: (pair: KeyringPair, meta: KeyringPair$Meta): void =>
