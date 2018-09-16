@@ -229,11 +229,11 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
   emptyErrorProps = () => {
     return (
       {
+        formError: '',
         inputError: {
           password: '',
           newPassword: ''
-        },
-        formError: ''
+        }
       }
     );
   }
