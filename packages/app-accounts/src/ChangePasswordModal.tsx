@@ -39,8 +39,8 @@ class ChangePasswordModal extends React.PureComponent<Props> {
       <Modal
         className={classes('accounts--ChangePassword-Modal', className)}
         dimmer='inverted'
-        open={isPasswordModalOpen}
         onClose={hidePasswordModal}
+        open={isPasswordModalOpen}
         size='mini'
         style={style}
       >

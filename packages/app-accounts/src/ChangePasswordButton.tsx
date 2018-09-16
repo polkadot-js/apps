@@ -238,12 +238,12 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
     );
   }
 
-  isSamePassword = (password: string, newPassword: string) => {
-    return password === newPassword;
-  }
-
   isEmptyPassword = (password: string) => {
     return password.length === 0;
+  }
+
+  isSamePassword = (password: string, newPassword: string) => {
+    return password === newPassword;
   }
 
   resetPasswordInputs = (): void => {
