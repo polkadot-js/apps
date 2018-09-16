@@ -100,7 +100,7 @@ export default class Input extends React.PureComponent<Props, State> {
 
   onChange = (event: React.SyntheticEvent<Element>): void => {
     const { onChange } = this.props;
-    const { value } = (event.target as HTMLInputElement);
+    const { value } = event.target as HTMLInputElement;
 
     onChange(value);
   }
