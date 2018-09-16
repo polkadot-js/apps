@@ -21,7 +21,7 @@ type Props = BareProps & {
   name?: string,
   onChange: (value: string) => void,
   onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
-  tabIndex?: number | string,
+  tabIndex?: number,
   value: any,
   withLabel?: boolean
 };

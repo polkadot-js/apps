@@ -1,0 +1,87 @@
+/* Copyright 2017-2018 @polkadot/app-staking authors & contributors
+/* This software may be modified and distributed under the terms
+/* of the ISC license. See the LICENSE file for details. */
+
+.staking--Summary {
+  margin-bottom: 2rem;
+  text-align: right;
+}
+
+.staking--StakeList {
+  text-align: center;
+}
+
+.staking--Account {
+  display: inline-block;
+  position: relative;
+}
+
+.staking--Account .ui--Button-Group {
+  margin-bottom: 1em;
+}
+
+.staking--Account .ui--AddressMini {
+  display: block;
+}
+
+.staking--Account .ui--AddressSummary {
+  padding: 0;
+}
+
+.staking--Account-expand {
+  min-width: 14rem;
+  text-align: right;
+}
+
+.staking--Account-details {
+  display: inline-block;
+  text-align: left;
+  vertical-align: top;
+}
+
+.staking--Account-nominate {
+  padding: 0 0 3em 3em;
+}
+
+.staking--Account-nominating {
+  margin-top: 1rem;
+}
+
+.staking--Account-nominating * {
+  vertical-align: middle;
+}
+
+.staking--Account-nominating .ui--IdentityIcon {
+  margin-right: 0.25rem;
+}
+
+.staking--Account-info {
+  display: inline-block;
+}
+
+.staking--Account-address {
+  font-family: monospace;
+  font-size: 1.5rem;
+}
+
+.staking--Account-icon {
+  margin-right: 1rem;
+}
+
+.staking--Account-validating {
+  opacity: 0.25 !important;
+  position: absolute;
+  top: 1em;
+  left: 1em;
+}
+
+.staking--Account-validating.isValidator {
+  color: red;
+  opacity: 1 !important;
+}
+
+.staking--Account-balance,
+.staking--Account-nonce {
+  opacity: 0.45;
+  text-align: right;
+}

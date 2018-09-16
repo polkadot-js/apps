@@ -6,7 +6,6 @@ import { BareProps } from './types';
 
 import React from 'react';
 import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
-
 import isUndefined from '@polkadot/util/is/undefined';
 
 import Labelled from './Labelled';
@@ -32,7 +31,7 @@ type Props = BareProps & {
   onChange: (value: string) => void,
   onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
   placeholder?: string,
-  tabIndex?: number | string,
+  tabIndex?: number,
   type?: Input$Type,
   value?: any,
   withLabel?: boolean
@@ -99,9 +98,11 @@ export default class Input extends React.PureComponent<Props, State> {
     );
   }
 
-  onChange = (event: React.SyntheticEvent<HTMLInputElement>): void => {
-    const value = (event.target as HTMLInputElement).value;
-    this.props.onChange(value);
+  onChange = (event: React.SyntheticEvent<Element>): void => {
+    const { onChange } = this.props;
+    const { value } = (event.target as HTMLInputElement);
+
+    onChange(value);
   }
 
   onKeyDown = (event: React.KeyboardEvent<Element>): void => {

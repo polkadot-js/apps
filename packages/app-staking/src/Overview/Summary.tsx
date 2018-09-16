@@ -9,19 +9,23 @@ import BN from 'bn.js';
 import React from 'react';
 import CardSummary from '@polkadot/ui-app/CardSummary';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
+import SummarySession from '@polkadot/app-explorer/SummarySession';
+import withObservable from '@polkadot/ui-react-rx/with/observable';
+import withMulti from '@polkadot/ui-react-rx/with/multi';
 
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & {
   balances: RxBalanceMap,
   intentions: Array<string>,
   lastLengthChange?: BN,
+  validatorCount?: BN,
   validators: Array<string>
 };
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { className, intentions, style, t, validators } = this.props;
+    const { className, intentions, style, t, validatorCount, validators } = this.props;
 
     return (
       <summary
@@ -32,13 +36,16 @@ class Summary extends React.PureComponent<Props> {
           <CardSummary label={t('summary.validators', {
             defaultValue: 'validators'
           })}>
-            {validators.length}
+            {validators.length}/{validatorCount ? validatorCount.toString() : '-'}
           </CardSummary>
           <CardSummary label={t('summary.intentions', {
             defaultValue: 'intentions'
           })}>
             {intentions.length}
           </CardSummary>
+        </section>
+        <section>
+          <SummarySession withBroken={false} />
         </section>
         <section>
           <CardSummary label={t('summary.balances', {
@@ -109,4 +116,7 @@ class Summary extends React.PureComponent<Props> {
   }
 }
 
-export default translate(Summary);
+export default withMulti(
+  translate(Summary),
+  withObservable('validatorCount')
+);

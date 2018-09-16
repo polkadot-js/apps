@@ -171,8 +171,9 @@ class InputAddress extends React.PureComponent<Props, State> {
     onChange(transform(address));
   }
 
-  private onSearch = (filteredOptions: KeyringSectionOptions, query: string): KeyringSectionOptions => {
+  private onSearch = (filteredOptions: KeyringSectionOptions, _query: string): KeyringSectionOptions => {
     const { isInput = true } = this.props;
+    const query = _query.trim();
     const queryLower = query.toLowerCase();
     const matches = filteredOptions.filter((item) =>
       item.value === null ||

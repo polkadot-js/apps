@@ -2,8 +2,6 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
-@import 'partials/_variables.css';
-
 .ui--output {
   background: #f9f9f9;
   border-radius: 4px;
@@ -42,7 +40,7 @@ header .ui--Button-Group {
 
 .ui--AddressMini.padded {
   display: inline-block;
-  padding: 0.25rem;
+  padding: 0.25rem 0 0 0;
 }
 
 .ui--AddressMini-info div {
@@ -99,6 +97,10 @@ header .ui--Button-Group {
   vertical-align: top;
 }
 
+.ui--AddressSummary-children {
+  padding-top: 0.5rem;
+}
+
 .ui--AddressSummary .rx--updated {
   background: transparent !important;
 }
@@ -129,7 +131,7 @@ header .ui--Button-Group {
 }
 
 .ui--AddressSummary-data * {
-  margin: 0 0.25rem !important;
+  /* margin: 0 0.25rem !important; */
   vertical-align: middle;
 }
 
@@ -163,4 +165,8 @@ header .ui--Button-Group {
 
 .ui--CardSummary-progress {
   margin: 0.25rem 0 -0.5rem !important;
+}
+
+.ui--CopyButton {
+  cursor: copy !important;
 }

@@ -24,6 +24,10 @@
   padding-top: 1.0em;
 }
 
+.forgetting--Account {
+  text-align: center;
+}
+
 @media (min-width: 1024px) {
 	.accounts--ChangePassword-Modal-Content > .ui--AddressSummary {
 		display: block;

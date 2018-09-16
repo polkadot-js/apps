@@ -21,6 +21,7 @@ const packages = [
   'app-staking',
   'app-storage',
   'app-toolbox',
+  'app-transfer',
   'app-vanitygen',
   'ui-app',
   'ui-identicon',
@@ -172,12 +173,17 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
         'process.env': {
           NODE_ENV: JSON.stringify(ENV),
           VERSION: JSON.stringify(pkgJson.version),
+          UI_MODE: JSON.stringify(process.env.UI_MODE || 'full'),
+          UI_THEME: JSON.stringify(process.env.UI_THEME || 'polkadot'),
           WS_URL: JSON.stringify(process.env.WS_URL)
         }
       }),
       new HtmlWebpackPlugin({
         inject: true,
-        template: path.join(context, `${hasPublic ? 'public/' : ''}${name}.html`)
+        template: path.join(context, `${hasPublic ? 'public/' : ''}${name}.html`),
+        PAGE_TITLE: process.env.UI_THEME === 'substrate'
+          ? 'Substrate Apps Portal'
+          : 'Polkadot Apps Portal'
       }),
       new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({

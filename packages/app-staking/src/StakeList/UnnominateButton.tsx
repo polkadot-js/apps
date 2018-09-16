@@ -9,7 +9,7 @@ import Button from '@polkadot/ui-app/Button';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & {
   address: string,

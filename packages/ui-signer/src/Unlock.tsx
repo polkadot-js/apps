@@ -6,7 +6,6 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringPair } from '@polkadot/util-keyring/types';
 
 import React from 'react';
-
 import Password from '@polkadot/ui-app/Password';
 import keyring from '@polkadot/ui-keyring/index';
 
@@ -19,7 +18,7 @@ type Props = I18nProps & {
   onChange: (password: string) => void,
   onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
   password: string,
-  tabIndex?: number | string,
+  tabIndex?: number,
   value?: Uint8Array | null
 };
 

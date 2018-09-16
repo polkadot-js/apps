@@ -7,6 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
+import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
@@ -14,8 +15,8 @@ import keyring from '@polkadot/ui-keyring/index';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import ChangePasswordButton from './ChangePasswordButton';
+import Forgetting from './Forgetting';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -26,7 +27,8 @@ type Props = I18nProps & {
 type State = {
   current: KeyringPair | null,
   editedName: string,
-  isEdited: boolean
+  isEdited: boolean,
+  isForgetOpen: boolean
 };
 
 class Editor extends React.PureComponent<Props, State> {
@@ -39,8 +41,16 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   render () {
+    const { current, isForgetOpen } = this.state;
+
     return (
       <div className='accounts--Editor'>
+        <Forgetting
+          currentAddress={current}
+          doForget={this.onForget}
+          isOpen={isForgetOpen}
+          onClose={this.toggleForget}
+        />
         {this.renderData()}
         {this.renderButtons()}
       </div>
@@ -67,10 +77,11 @@ class Editor extends React.PureComponent<Props, State> {
         <Button.Group.Divider />
         <Button
           isNegative
-          onClick={this.onForget}
+          onClick={this.toggleForget}
           text={t('editor.forget', {
             defaultValue: 'Forget'
           })}
+
         />
         <Button.Group.Divider />
         <Button
@@ -80,6 +91,7 @@ class Editor extends React.PureComponent<Props, State> {
             defaultValue: 'Reset'
           })}
         />
+        <Button.Or />
         <Button
           isDisabled={!isEdited}
           isPrimary
@@ -148,7 +160,8 @@ class Editor extends React.PureComponent<Props, State> {
       editedName: current
         ? current.getMeta().name || ''
         : '',
-      isEdited: false
+      isEdited: false,
+      isForgetOpen: false
     };
   }
 
@@ -168,11 +181,13 @@ class Editor extends React.PureComponent<Props, State> {
         } else {
           editedName = '';
         }
+        let isForgetOpen = false;
 
         return {
           current,
           editedName,
-          isEdited
+          isEdited,
+          isForgetOpen
         };
       }
     );
@@ -217,6 +232,14 @@ class Editor extends React.PureComponent<Props, State> {
     this.nextState({
       editedName: current.getMeta().name
     } as State);
+  }
+
+  toggleForget = (): void => {
+    this.setState(
+      ({ isForgetOpen }: State) => ({
+        isForgetOpen: !isForgetOpen
+      })
+    );
   }
 
   onForget = (): void => {
