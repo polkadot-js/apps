@@ -7,7 +7,6 @@ import { BareProps, SUIEvent } from './types';
 import React from 'react';
 
 import classes from './util/classes';
-
 import Button from './Button';
 import Input from './Input';
 

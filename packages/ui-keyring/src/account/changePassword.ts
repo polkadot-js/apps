@@ -6,8 +6,7 @@ import { State } from '../types';
 
 import updateAccount from './update';
 
-/*
- * Load account keyring pair from memory using account address.
+/* Load account keyring pair from memory using account address.
  * Verify old password by trying to decrypt the pair with password to generate the secret key in keyring memory if locked.
  * Update account password with new password when secret key is in keyring memory.
  * Remove secret key from keyring memory.
@@ -27,9 +26,7 @@ export default function changeAccountPassword (state: State, address: string, pa
 
   try {
     pair.decodePkcs8(password);
-
     updateAccount(state, pair, password, newPassword);
-
     pair.lock();
 
     return true;

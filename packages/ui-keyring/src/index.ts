@@ -34,10 +34,10 @@ const state: State = {
 loadAll(state);
 
 export default ({
-  createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta): KeyringPair =>
-    createAccount(state, seed, password, meta),
   changeAccountPassword: (address: string, password: string, newPassword: string): boolean =>
     changeAccountPassword(state, address, password, newPassword),
+  createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta): KeyringPair =>
+    createAccount(state, seed, password, meta),
   forgetAccount: (address: string): void =>
     forgetAccount(state, address),
   forgetAddress: (address: string): void =>

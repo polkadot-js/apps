@@ -33,7 +33,12 @@ describe('ChangePasswordModal', () => {
   });
 
   it('should only render Change Password Modal when prop values set for isPasswordModalOpen modal toggler', () => {
-    wrapper.setProps({ isPasswordModalOpen: true });
-    expect(wrapper.find('.ui--Accounts-change-password-Signer')).toHaveLength(1);
+    return new Promise((resolve) => {
+      wrapper.setProps({ isPasswordModalOpen: true }, resolve);
+    }).then(() => {
+      wrapper.update();
+
+      expect(wrapper.find('.accounts--ChangePassword-Modal')).toHaveLength(1);
+    });
   });
 });

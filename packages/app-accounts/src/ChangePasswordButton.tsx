@@ -5,9 +5,9 @@
 import { BareProps, FormErrorProps, I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
+import classes from '@polkadot/ui-app/util/classes';
 import Button from '@polkadot/ui-app/Button';
 import Error from '@polkadot/ui-app/Error';
-import classes from '@polkadot/ui-app/util/classes';
 import keyring from '@polkadot/ui-keyring/index';
 
 import ChangePasswordModal from './ChangePasswordModal';
@@ -17,8 +17,8 @@ type State = {
   address: string,
   error?: FormErrorProps,
   isPasswordModalOpen: boolean,
-  password: string,
   newPassword: string,
+  password: string,
   success?: React.ReactNode
 };
 
@@ -38,10 +38,8 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
   handleChangeAccountPassword = (): void => {
     const { t } = this.props;
     const { address, error, newPassword, password } = this.state;
-
-    let newErrorComp;
+    let newError;
     let newErrorProps = error && error.props.props || this.emptyErrorProps();
-
     const isInputError = newErrorProps.inputError.password || newErrorProps.inputError.newPassword;
 
     // prevent form submission if any input fields invalid, even though
@@ -51,10 +49,10 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
         defaultValue: 'Unable to submit form due to input error(s)'
       });
 
-      newErrorComp = <Error props={newErrorProps} />;
+      newError = <Error props={newErrorProps} />;
 
       this.setState({
-        error: newErrorComp
+        error: newError
       });
 
       return;
@@ -63,7 +61,7 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
         defaultValue: 'Unable to changed account password'
       });
 
-      newErrorComp = <Error props={newErrorProps} />;
+      newError = <Error props={newErrorProps} />;
     }
 
     if (!address) {
@@ -72,24 +70,23 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
 
     try {
       const result: boolean = keyring.changeAccountPassword(address, password, newPassword);
-
-      const emptyErrorComp = <Error props={this.emptyErrorProps()}/>;
+      const emptyError = <Error props={this.emptyErrorProps()}/>;
 
       if (result) {
         this.setState({
-          error: emptyErrorComp, // reset input and form errors
+          error: emptyError, // reset input and form errors
           success: t('editor.change.password.success', {
             defaultValue: 'Successfully changed account password'
           })
         });
       } else {
         this.setState({
-          error: newErrorComp
+          error: newError
         });
       }
     } catch (e) {
       this.setState({
-        error: newErrorComp
+        error: newError
       });
 
       console.error('Error retrieving account to change password: ', e);
@@ -102,8 +99,8 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
     const { address } = this.props;
 
     this.setState({
-      isPasswordModalOpen: true,
-      address
+      address,
+      isPasswordModalOpen: true
     });
 
     this.resetPasswordInputs();
@@ -123,7 +120,7 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={classes('ui--Accounts-change-password', className)}
+        className={classes('accounts--ChangePassword', className)}
         style={style}
       >
         <ChangePasswordModal
@@ -133,10 +130,10 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
           handleChangeAccountPassword={this.handleChangeAccountPassword}
           hidePasswordModal={this.hidePasswordModal}
           isPasswordModalOpen={isPasswordModalOpen}
-          key='accounts-change-password-signer-modal'
+          key='accounts-change-password-modal'
           newPassword={newPassword}
-          onChangePassword={this.onChangePassword}
           onChangeNewPassword={this.onChangeNewPassword}
+          onChangePassword={this.onChangePassword}
           onDiscard={this.onDiscard}
           password={password}
           style={style}
@@ -154,12 +151,11 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
 
   emptyState (): State {
     const { address } = this.props;
-
-    const emptyErrorComp = <Error props={this.emptyErrorProps()} />;
+    const emptyError = <Error props={this.emptyErrorProps()} />;
 
     return {
-      address: address,
-      error: emptyErrorComp,
+      address,
+      error: emptyError,
       isPasswordModalOpen: false,
       newPassword: '',
       password: '',
@@ -171,7 +167,7 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { error, newPassword } = this.state;
 
-    let newErrorComp = error;
+    let newError = error;
     let newErrorProps = error && error.props.props || this.emptyErrorProps();
 
     if (this.isSamePassword(password, newPassword)) {
@@ -187,10 +183,10 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
       newErrorProps.inputError.password = '';
     }
 
-    newErrorComp = <Error props={newErrorProps} />;
+    newError = <Error props={newErrorProps} />;
 
     this.setState({
-      error: newErrorComp,
+      error: newError,
       password,
       success: undefined
     });
@@ -200,7 +196,7 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { error, password } = this.state;
 
-    let newErrorComp = error;
+    let newError = error;
     let newErrorProps = error && error.props.props || this.emptyErrorProps();
 
     if (this.isSamePassword(password, newPassword)) {
@@ -216,10 +212,10 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
       newErrorProps.inputError.newPassword = '';
     }
 
-    newErrorComp = <Error props={newErrorProps} />;
+    newError = <Error props={newErrorProps} />;
 
     this.setState({
-      error: newErrorComp,
+      error: newError,
       newPassword,
       success: undefined
     });
@@ -251,8 +247,8 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
 
   resetPasswordInputs = (): void => {
     this.setState({
-      password: '',
-      newPassword: ''
+      newPassword: '',
+      password: ''
     });
   }
 }
