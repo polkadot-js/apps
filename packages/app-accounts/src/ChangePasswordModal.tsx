@@ -169,7 +169,7 @@ class ChangePasswordModal extends React.PureComponent<Props> {
     );
   }
 
-  onKeyDown = (event: any): void => {
+  onKeyDown = (event: React.KeyboardEvent<Element>): void => {
     const isSpacebar = event.keyCode === 32;
     if (isSpacebar) {
       event.preventDefault();

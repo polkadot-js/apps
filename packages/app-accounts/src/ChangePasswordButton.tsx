@@ -42,8 +42,9 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
     let newErrorProps = error && error.props.props || this.emptyErrorProps();
     const isInputError = newErrorProps.inputError.password || newErrorProps.inputError.newPassword;
 
-    // prevent form submission if any input fields invalid, even though
-    // should not be possible since submit button disabled when input error exists
+    /* Prevent form submission if any input fields invalid, even though
+     * should not be possible since submit button disabled when input error exists
+     */
     if (isInputError) {
       newErrorProps.formError = t('editor.change.password.form.error', {
         defaultValue: 'Unable to submit form due to input error(s)'
@@ -84,12 +85,12 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
           error: newError
         });
       }
-    } catch (e) {
+    } catch (error) {
       this.setState({
         error: newError
       });
 
-      console.error('Error retrieving account to change password: ', e);
+      console.error('Error retrieving account to change password: ', error);
     }
 
     this.resetPasswordInputs();

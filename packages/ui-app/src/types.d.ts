@@ -31,13 +31,9 @@ export type FormErrors = {
 };
 
 type FormErrorProps = React.ReactNode & {
-  props: any
+  props: React.ReactNode
 };
 
 export type I18nProps = BareProps & {
   t: TranslationFunction
-};
-
-export type SUIEvent = {
-  value: any
 };

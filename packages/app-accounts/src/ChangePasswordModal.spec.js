@@ -25,7 +25,10 @@ describe('ChangePasswordModal', () => {
       }
     };
 
-    wrapper = shallow(<ChangePasswordModal error={emptyErrorPropFixture} t={mockT} />, {});
+    wrapper = shallow(<ChangePasswordModal
+      error={emptyErrorPropFixture}
+      t={mockT} />, {}
+    );
   });
 
   it('creates the element', () => {

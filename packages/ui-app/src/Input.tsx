@@ -15,8 +15,8 @@ import Notification from './Notification';
 type Input$Type = 'number' | 'password' | 'text';
 
 type Props = BareProps & {
-  children?: React.ReactNode,
   autoFocus?: boolean,
+  children?: React.ReactNode,
   defaultValue?: any,
   error?: React.ReactNode,
   icon?: any, // node?
@@ -30,16 +30,12 @@ type Props = BareProps & {
   min?: any,
   name?: string,
   onChange: (value: string) => void,
-  onKeyDown?: (event: SUIEvent) => void,
+  onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
   placeholder?: string,
   tabIndex?: number | string,
   type?: Input$Type,
   value?: any,
   withLabel?: boolean
-};
-
-type SUIEvent = {
-  value: any
 };
 
 type State = {
@@ -54,7 +50,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { autoFocus = false, children, className, defaultValue, error, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, min, name, placeholder, style, tabIndex, type = 'text', value, withLabel } = this.props;
+    const { autoFocus = false, children, className, defaultValue, error, icon, isAction = false, isDisabled = false, isEditable = false, isError = false, isHidden = false, label, max, min, name, placeholder, style, tabIndex, type = 'text', value, withLabel } = this.props;
 
     return (
       <Labelled
@@ -69,12 +65,12 @@ export default class Input extends React.PureComponent<Props, State> {
           className={isEditable ? 'edit icon' : ''}
           defaultValue={defaultValue}
           disabled={isDisabled}
-          id={name}
           iconPosition={
             isUndefined(icon)
               ? void 0
               : 'left'
           }
+          id={name}
           error={isError}
           hidden={isHidden}
           max={max}
@@ -103,11 +99,12 @@ export default class Input extends React.PureComponent<Props, State> {
     );
   }
 
-  onChange = (event: React.SyntheticEvent<Element>, { value }: SUIEvent): void => {
+  onChange = (event: React.SyntheticEvent<HTMLInputElement>): void => {
+    const value = (event.target as HTMLInputElement).value;
     this.props.onChange(value);
   }
 
-  onKeyDown = (event: SUIEvent): void => {
+  onKeyDown = (event: React.KeyboardEvent<Element>): void => {
     const { onKeyDown } = this.props;
 
     if (onKeyDown) {
