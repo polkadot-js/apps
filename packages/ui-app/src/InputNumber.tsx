@@ -147,4 +147,8 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 }
 
+export {
+  InputNumber
+};
+
 export default translate(InputNumber);
