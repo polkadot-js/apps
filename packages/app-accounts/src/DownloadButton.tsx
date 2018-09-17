@@ -79,7 +79,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
     }
   }
 
-  showPasswordModal = (): void => {
+  showModal = (): void => {
     const { address } = this.state;
 
     if (!address) {
@@ -111,7 +111,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
           {...this.state}
           handleDownloadAccount={this.handleDownloadAccount}
           hideModal={this.hideModal}
-          onChangePassword={this.onChangePassword}
+          onChange={this.onChange}
           onDiscard={this.onDiscard}
         />
         <Button
@@ -119,7 +119,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
           icon='download'
           isCircular
           isPrimary
-          onClick={this.showPasswordModal}
+          onClick={this.showModal}
           size='tiny'
         />
       </div>
@@ -137,7 +137,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
     };
   }
 
-  onChangePassword = (password: string): void => {
+  onChange = (password: string): void => {
     this.setState({
       password,
       error: undefined

@@ -22,7 +22,7 @@ type Props = I18nProps & BareProps & {
   handleDownloadAccount: () => void,
   hideModal: () => void,
   isOpen: boolean,
-  onChangePassword: (password: string) => void,
+  onChange: (password: string) => void,
   onDiscard: () => void,
   password: string
 };
@@ -71,7 +71,7 @@ class DownloadModal extends React.PureComponent<Props> {
   }
 
   renderContent () {
-    const { address, error, onChangePassword, password } = this.props;
+    const { address, error, onChange, password } = this.props;
 
     if (!address) {
       return null;
@@ -83,7 +83,7 @@ class DownloadModal extends React.PureComponent<Props> {
       <Unlock
         autoFocus
         error={error}
-        onChange={onChangePassword}
+        onChange={onChange}
         password={password}
         value={keyringAddress.publicKey()}
         tabIndex={1}

@@ -20,7 +20,7 @@ type Props = I18nProps & BareProps & {
   error?: React.ReactNode,
   hideModal: () => void,
   isOpen: boolean,
-  onChangePassword: (password: string) => void,
+  onChange: (password: string) => void,
   onDiscard: () => void,
   password: string,
   processUploadedFileStorage: () => void,
@@ -64,7 +64,7 @@ class UploadModal extends React.PureComponent<Props> {
   }
 
   renderContent () {
-    const { error, onChangePassword, password, uploadedFileKeyringPair } = this.props;
+    const { error, onChange, password, uploadedFileKeyringPair } = this.props;
 
     if (isUndefined(uploadedFileKeyringPair) || !uploadedFileKeyringPair.address) {
       return null;
@@ -76,7 +76,7 @@ class UploadModal extends React.PureComponent<Props> {
       <Unlock
         autoFocus
         error={error}
-        onChange={onChangePassword}
+        onChange={onChange}
         password={password}
         tabIndex={1}
         value={keyringAddress.publicKey()}

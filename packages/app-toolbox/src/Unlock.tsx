@@ -115,7 +115,7 @@ class Unlock extends React.PureComponent<Props, State> {
             label={t('unlock.password', {
               defaultValue: 'unlock account using'
             })}
-            onChange={this.onChangePassword}
+            onChange={this.onChange}
             value={password}
           />
         </div>
@@ -144,7 +144,7 @@ class Unlock extends React.PureComponent<Props, State> {
     return null;
   }
 
-  onChangePassword = (password: string): void => {
+  onChange = (password: string): void => {
     this.setState({
       password,
       unlockError: null

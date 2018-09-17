@@ -66,7 +66,7 @@ class UploadButton extends React.PureComponent<Props, State> {
             this.setState({
               uploadedFileKeyringPair
             }, () =>
-              this.showPasswordModal()
+              this.showModal()
             );
           } else {
             throw Error('Unable to load account with invalid JSON property names');
@@ -123,7 +123,7 @@ class UploadButton extends React.PureComponent<Props, State> {
     }
   }
 
-  showPasswordModal = (): void => {
+  showModal = (): void => {
     this.setState({
       isOpen: true,
       password: ''
@@ -147,7 +147,7 @@ class UploadButton extends React.PureComponent<Props, State> {
           error={error}
           hideModal={this.hideModal}
           isOpen={isOpen}
-          onChangePassword={this.onChangePassword}
+          onChange={this.onChange}
           onDiscard={this.onDiscard}
           password={password}
           processUploadedFileStorage={this.processUploadedFileStorage}
@@ -175,7 +175,7 @@ class UploadButton extends React.PureComponent<Props, State> {
     };
   }
 
-  onChangePassword = (password: string): void => {
+  onChange = (password: string): void => {
     this.setState({
       error: undefined,
       password

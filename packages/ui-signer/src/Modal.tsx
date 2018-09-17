@@ -155,7 +155,7 @@ class Signer extends React.PureComponent<Props, State> {
       <Unlock
         autoFocus
         error={unlockError && t(unlockError.key, unlockError.value)}
-        onChange={this.onChangePassword}
+        onChange={this.onChange}
         onKeyDown={this.onKeyDown}
         password={password}
         value={currentItem.publicKey}
@@ -185,7 +185,7 @@ class Signer extends React.PureComponent<Props, State> {
     return null;
   }
 
-  onChangePassword = (password: string): void => {
+  onChange = (password: string): void => {
     this.setState({
       password,
       unlockError: null
