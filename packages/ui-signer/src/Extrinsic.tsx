@@ -44,12 +44,17 @@ function findExtrinsic (sectionId: number, methodId: number): { method: string |
 class Extrinsic extends React.PureComponent<Props> {
   render () {
     const { children, t, value: { nonce = new BN(0), publicKey, values: [_value] } } = this.props;
-
     const unknown = t('decoded.unknown', {
       defaultValue: 'unknown'
     });
+    const defaultExtrinsic = {
+      method: unknown,
+      section: unknown
+    };
     const value = _value as Uint8Array;
-    const { method = unknown, section = unknown } = findExtrinsic(value[0], value[1]);
+    const { method, section } = value
+      ? findExtrinsic(value[0], value[1])
+      : defaultExtrinsic;
     const from = addressEncode(publicKey as Uint8Array);
 
     return [
