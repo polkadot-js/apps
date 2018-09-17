@@ -6,7 +6,6 @@ import { TranslationFunction } from 'i18next';
 import { Props as BareProps, RawParam } from '../types';
 
 import React from 'react';
-
 import typeToString from '@polkadot/params/typeToString';
 
 import Static from '../../Static';

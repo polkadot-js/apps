@@ -6,9 +6,9 @@ import { BareProps } from './types';
 
 import React from 'react';
 
+import classes from './util/classes';
 import CopyButton from './CopyButton';
 import Labelled from './Labelled';
-import classes from './util/classes';
 
 type Props = BareProps & {
   children?: React.ReactNode,

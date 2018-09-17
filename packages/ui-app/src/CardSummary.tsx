@@ -8,9 +8,9 @@ import BN from 'bn.js';
 import React from 'react';
 import isUndefined from '@polkadot/util/is/undefined';
 
+import classes from './util/classes';
 import Progress, { Colors as ProgressColors } from './Progress';
 import Labelled from './Labelled';
-import classes from './util/classes';
 
 type ProgressProps = {
   color?: ProgressColors,

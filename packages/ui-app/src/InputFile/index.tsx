@@ -41,7 +41,7 @@ class InputFile extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { acceptedFormats, className, isDisabled, isError = false, label, placeholder, shouldDisplayFile = true, t, withLabel } = this.props;
+    const { acceptedFormats, className, isDisabled, isError = false, label, placeholder, shouldDisplayFile = true, style, t, withLabel } = this.props;
     const { file } = this.state;
 
     return (
@@ -49,6 +49,7 @@ class InputFile extends React.PureComponent<Props, State> {
         label={label}
         size='full'
         withLabel={withLabel}
+        style={style}
       >
         <Dropzone
           accept={acceptedFormats}

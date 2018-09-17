@@ -5,7 +5,6 @@
 import './KeyPair.css';
 
 import React from 'react';
-
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 
 type Props = {

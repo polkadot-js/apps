@@ -5,7 +5,7 @@
 import { BareProps } from './types';
 
 import React from 'react';
-
+import classes from './util/classes';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message/index';
 
 type SemanticMessageSizes = 'mini' | 'tiny' | 'small' | 'large' | 'big' | 'huge' | 'massive';
@@ -18,14 +18,14 @@ type Props = BareProps & {
 
 export default class Notification extends React.PureComponent<Props> {
   render () {
-    const { error, size = 'tiny' } = this.props;
+    const { className, error, size = 'tiny' } = this.props;
 
     if (!error) {
       return null;
     }
 
     return (
-      <div className='ui--Notifications'>
+      <div className={classes('ui--Notifications', className)}>
         <Message
           size={size}
           error={!!error}

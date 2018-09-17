@@ -6,6 +6,7 @@ import { BareProps } from './types';
 
 import React from 'react';
 
+import classes from './util/classes';
 import Labelled from './Labelled';
 
 type Props = BareProps & {
@@ -23,7 +24,7 @@ export default class Static extends React.PureComponent<Props> {
 
     return (
       <Labelled
-        className={className}
+        className={classes('ui--Static', className)}
         isHidden={isHidden}
         label={label}
         style={style}
