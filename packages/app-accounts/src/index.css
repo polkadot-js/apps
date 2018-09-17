@@ -33,7 +33,7 @@
 
 .accounts--DownloadModal-Content .ui--row > .ui--Password,
 .accounts--UploadModal-Content .ui--row > .ui--Password {
-	flex: 0 1 100%;
+  flex: 0 1 100%;
 }
 
 .accounts--UploadModal-Content-message {
@@ -69,14 +69,14 @@
 }
 
 @media (min-width: 1024px) {
-	.accounts--DownloadModal-Content > .ui--AddressSummary {
+  .accounts--DownloadModal-Content > .ui--AddressSummary {
     display: block;
     text-align: center;
   }
 }
 
 @media (max-width: 1023px) {
-	.accounts--DownloadModal-Content > .ui--AddressMini {
+  .accounts--DownloadModal-Content > .ui--AddressMini {
     display: block;
     text-align: center;
   }
