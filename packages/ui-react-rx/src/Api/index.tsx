@@ -4,15 +4,13 @@
 
 import { ProviderInterface } from '@polkadot/api-provider/types';
 import { RxApiInterface } from '@polkadot/api-rx/types';
-import { EncodingVersions } from '@polkadot/params/types';
 import { Header } from '@polkadot/primitives/header';
 import { ApiProps } from '../types';
 
 import React from 'react';
 
-import shouldUseLatestChain from '@polkadot/ui-react-rx/util/shouldUseLatestChain';
 import WsProvider from '@polkadot/api-provider/ws';
-import createApi from '@polkadot/api-rx';
+import RxApi from '@polkadot/api-rx';
 import defaults from '@polkadot/api-rx/defaults';
 import isUndefined from '@polkadot/util/is/undefined';
 
@@ -30,10 +28,6 @@ type State = ApiProps & {
   subscriptions: Array<any> // rxjs$ISubscription | null>;
 };
 
-function apiSupport (chain?: string): EncodingVersions {
-  return shouldUseLatestChain(chain) ? 'latest' : 'poc-1';
-}
-
 export default class Api extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
@@ -41,7 +35,7 @@ export default class Api extends React.PureComponent<Props, State> {
     super(props);
 
     const { provider, url = '' } = props;
-    const api = props.api || createApi(
+    const api = props.api || new RxApi(
       url && url.length
         ? new WsProvider(url)
         : provider
@@ -54,7 +48,7 @@ export default class Api extends React.PureComponent<Props, State> {
       });
     };
     const setApiProvider = (provider?: ProviderInterface): void =>
-      setApi(createApi(provider));
+      setApi(new RxApi(provider));
     const setApiWsUrl = (url: string = defaults.WS_URL): void =>
       setApiProvider(new WsProvider(url));
 
@@ -63,7 +57,7 @@ export default class Api extends React.PureComponent<Props, State> {
       apiConnected: false,
       apiMethods: {},
       apiObservable: new ApiObservable(api),
-      apiSupport: 'poc-1',
+      apiSupport: 'latest',
       setApi,
       setApiProvider,
       setApiWsUrl,
@@ -87,7 +81,6 @@ export default class Api extends React.PureComponent<Props, State> {
       subscriptions:
         [
           this.subscribeIsConnected,
-          this.subscribeChain,
           this.subscribeMethodCheck
         ].map((fn: Function) => {
           try {
@@ -105,14 +98,6 @@ export default class Api extends React.PureComponent<Props, State> {
       .isConnected()
       .subscribe((isConnected?: boolean) => {
         this.setState({ apiConnected: !!isConnected });
-      });
-  }
-
-  private subscribeChain = (api: RxApiInterface): void => {
-    api.system
-      .chain()
-      .subscribe((chain?: string) => {
-        this.setState({ apiSupport: apiSupport(chain) });
       });
   }
 

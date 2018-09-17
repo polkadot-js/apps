@@ -17,9 +17,7 @@ export default function signMessage (publicKey: Uint8Array, nonce: BN | number, 
   const message = encodeCall(publicKey, nonce, value, apiSupport);
   const signature = keyring.getPair(publicKey).sign(message);
   const data = u8aConcat(
-    apiSupport === 'poc-1'
-      ? new Uint8Array([])
-      : prefixes.publicKey,
+    prefixes.publicKey,
     message,
     signature
   );
@@ -30,10 +28,7 @@ export default function signMessage (publicKey: Uint8Array, nonce: BN | number, 
 
   return {
     data: u8aConcat(
-      // TODO We append the length here, but it probably needs to be done in the actual formatter - however there are differences between different encodings, here the extrinsic requires a length, where some other 'Bytes' types do not
-      apiSupport === 'poc-1'
-        ? new Uint8Array([])
-        : bnToU8a(data.length, 32, true),
+      bnToU8a(data.length, 32, true),
       data
     ),
     message,
