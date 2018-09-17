@@ -18,7 +18,7 @@ import Restorer from './Restorer';
 import translate from './translate';
 
 type Props = I18nProps & {
-  allAccounts?: Array<any>,
+  allAccounts?: Array<Object>,
   basePath: string
 };
 

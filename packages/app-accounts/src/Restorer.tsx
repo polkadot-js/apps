@@ -13,7 +13,7 @@ import UploadButton from './UploadButton';
 import translate from './translate';
 
 type Props = I18nProps & {
-  allAccounts?: Array<any>,
+  allAccounts?: Array<Object>,
   onChangeAccount: () => void
 };
 

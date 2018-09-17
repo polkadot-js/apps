@@ -17,7 +17,7 @@ import Selection from './Selection';
 
 type Props = I18nProps & {
   basePath: string,
-  allAccounts?: Array<any>
+  allAccounts?: Array<Object>
 };
 
 class ExtrinsicsApp extends React.PureComponent<Props> {
