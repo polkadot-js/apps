@@ -4,7 +4,6 @@
 
 import { BareProps, I18nProps } from './types';
 
-import { TranslationFunction } from 'i18next';
 import BN from 'bn.js';
 import React from 'react';
 
@@ -13,6 +12,7 @@ import { keydown } from './util/keyboard';
 import classes from './util/classes';
 import Input from './Input';
 import { KEYS_ALLOWED, KEYS_PRE } from './constants';
+import translate from './translate';
 
 type Props = BareProps & I18nProps & {
   defaultValue?: string,
@@ -21,7 +21,6 @@ type Props = BareProps & I18nProps & {
   maxLength?: number,
   onChange?: (value: { isValid: boolean, value: BN }) => void,
   placeholder?: string,
-  t: TranslationFunction,
   withLabel?: boolean
 };
 
@@ -148,4 +147,4 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 }
 
-export default InputNumber;
+export default translate(InputNumber);

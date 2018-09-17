@@ -37,7 +37,6 @@ class Balance extends React.PureComponent<Props> {
           placeholder={t('account.balance.placeholder', {
             defaultValue: 'Positive number'
           })}
-          t={t}
           withLabel={withLabel}
         />
       </Bare>

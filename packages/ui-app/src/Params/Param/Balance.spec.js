@@ -4,21 +4,23 @@
 
 import React from 'react';
 
-import { mount } from '../../../../../test/enzyme';
+import { shallow } from '../../../../../test/enzyme';
 import InputNumber from '../../InputNumber';
 import { Balance } from './Balance';
 
 const mockT = (key, options) => (key);
 
 describe('Balance', () => {
-  let wrapper, divInputNumber, divNotifications, divNotificationsText, inputElementBalance, defaultValue;
+  let wrapper, defaultValue;
 
   beforeEach(() => {
     defaultValue = { value: '0' };
-    wrapper = mount(<Balance defaultValue={defaultValue} t={mockT} />, {});
-    divInputNumber = wrapper.find('.ui--InputNumber');
-    divNotifications = wrapper.find('.ui--Notifications');
-    inputElementBalance = wrapper.find('.ui--InputNumber').find('.input').find('input');
+    wrapper = shallow(
+      <Balance
+        defaultValue={defaultValue}
+        t={mockT}
+      />, {}
+    );
   });
 
   it('creates the element', () => {
@@ -27,75 +29,5 @@ describe('Balance', () => {
 
   it('should display InputNumber component', () => {
     expect(wrapper.find(InputNumber)).toHaveLength(1);
-  });
-
-  it('should display InputNumber component with default value and no Notifications by default', () => {
-    expect(inputElementBalance.instance().value).toBe('0');
-    expect(divInputNumber).toHaveLength(1);
-    expect(divNotifications).toHaveLength(0);
-  });
-
-  it('should display correct Info Notification in exponential notation when user inputs integer value', () => {
-    inputElementBalance.instance().value = '99';
-    inputElementBalance.simulate('change');
-    divNotificationsText = wrapper.find('.ui--Notifications').find('div.message');
-    expect(divNotificationsText.hasClass('info')).toBe(true);
-    expect(divNotificationsText.text()).toEqual('9e+1');
-  });
-
-  it('should not display Info Notification when user inputs a value containing a decimal point', () => {
-    inputElementBalance.instance().value = '9.';
-    inputElementBalance.simulate('change');
-    expect(divNotifications).toHaveLength(0);
-  });
-
-  it('should not display Info Notification when user inputs a value where first character is a decimal point', () => {
-    inputElementBalance.instance().value = '.';
-    inputElementBalance.simulate('change');
-    expect(divNotifications).toHaveLength(0);
-  });
-
-  it('should display correct i18n Warning Notification when user enters zero', () => {
-    inputElementBalance.instance().value = '0';
-    inputElementBalance.simulate('change');
-    divNotificationsText = wrapper.find('.ui--Notifications').find('div.message');
-    expect(divNotificationsText.hasClass('warning')).toBe(true);
-    expect(divNotificationsText.text()).toEqual('balance.warn.zero');
-  });
-
-  it('should display correct i18n Error Notification when user resets the value', () => {
-    inputElementBalance.instance().value = '';
-    inputElementBalance.simulate('change');
-    expect(divNotifications).toHaveLength(0);
-  });
-
-  it('should not display i18n Error Notification when user enters decimal value greater than max bit length', () => {
-    inputElementBalance.instance().value = '0.1111111111111111111111111111111111111';
-    inputElementBalance.simulate('change');
-    expect(divNotifications).toHaveLength(0);
-  });
-
-  it('should not display i18n Error Notification when user enters positive value greater than or equal to the 128 bits maximum for latest chain', () => {
-    inputElementBalance.instance().value = '340282366920938463463374607431768211455'; // 2^128
-    inputElementBalance.simulate('change');
-    expect(divNotifications).toHaveLength(0);
-  });
-
-  it('should not display error when user enters positive value less than the 128 bits maximum for latest chain', () => {
-    inputElementBalance.instance().value = '340282366920938463463374607431768211454'; // 2^128 - 1
-    inputElementBalance.simulate('change');
-    expect(divNotifications).toHaveLength(0);
-  });
-
-  it('should not display i18n Error Notification when user enters letter value', () => {
-    inputElementBalance.instance().value = 'e';
-    inputElementBalance.simulate('change');
-    expect(divNotifications).toHaveLength(0);
-  });
-
-  it('should not display i18n Error Notification when user enters symbol value', () => {
-    inputElementBalance.instance().value = '%';
-    inputElementBalance.simulate('change');
-    expect(divNotifications).toHaveLength(0);
   });
 });
