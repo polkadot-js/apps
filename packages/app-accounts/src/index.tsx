@@ -11,7 +11,7 @@ import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import Tabs from '@polkadot/ui-app/Tabs';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
-import { isAccounts, isNoAccounts } from './util/accounts';
+import { isAccounts, hasNoAccounts } from './util/accounts';
 import Creator from './Creator';
 import Editor from './Editor';
 import Restorer from './Restorer';
@@ -50,7 +50,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
     const { allAccounts } = this.props;
     const { action } = this.state;
 
-    if (action === 'edit' && isNoAccounts(allAccounts)) {
+    if (action === 'edit' && hasNoAccounts(allAccounts)) {
       this.selectCreate();
     }
   }
