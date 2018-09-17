@@ -21,7 +21,7 @@ describe('DownloadModal', () => {
   });
 
   it('should only render Modal when prop values set for address and password modal toggler', () => {
-    wrapper.setProps({ address: '5G2nJMC7RxpTNuiQdN12zz8jZb1wGt3HozLqumZ1PFEDNNe8', isPasswordModalOpen: true });
+    wrapper.setProps({ address: '5G2nJMC7RxpTNuiQdN12zz8jZb1wGt3HozLqumZ1PFEDNNe8', isOpen: true });
     expect(wrapper.find('.accounts--DownloadModal')).toHaveLength(1);
   });
 });

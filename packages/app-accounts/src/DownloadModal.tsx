@@ -20,8 +20,8 @@ type Props = I18nProps & BareProps & {
   address: string,
   error?: React.ReactNode,
   handleDownloadAccount: () => void,
-  hidePasswordModal: () => void,
-  isPasswordModalOpen: boolean,
+  hideModal: () => void,
+  isOpen: boolean,
   onChangePassword: (password: string) => void,
   onDiscard: () => void,
   password: string
@@ -29,14 +29,14 @@ type Props = I18nProps & BareProps & {
 
 class DownloadModal extends React.PureComponent<Props> {
   render () {
-    const { address, className, hidePasswordModal, isPasswordModalOpen, style, t } = this.props;
+    const { address, className, hideModal, isOpen, style, t } = this.props;
 
     return (
       <Modal
         className={classes('accounts--DownloadModal', className)}
         dimmer='inverted'
-        open={isPasswordModalOpen}
-        onClose={hidePasswordModal}
+        open={isOpen}
+        onClose={hideModal}
         size='mini'
         style={style}
       >

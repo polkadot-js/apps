@@ -18,7 +18,7 @@ import translate from './translate';
 type State = {
   address: string,
   error?: React.ReactNode,
-  isPasswordModalOpen: boolean,
+  isOpen: boolean,
   password: string
 };
 
@@ -61,7 +61,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
 
         FileSaver.saveAs(blob, `${address}.json`);
 
-        this.hidePasswordModal();
+        this.hideModal();
       } else {
         this.setState({
           error: t('download.error.memory', {
@@ -87,14 +87,14 @@ class DownloadButton extends React.PureComponent<Props, State> {
     }
 
     this.setState({
-      isPasswordModalOpen: true,
+      isOpen: true,
       address,
       password: ''
     });
   }
 
-  hidePasswordModal = (): void => {
-    this.setState({ isPasswordModalOpen: false });
+  hideModal = (): void => {
+    this.setState({ isOpen: false });
   }
 
   render () {
@@ -110,7 +110,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
           {...this.props}
           {...this.state}
           handleDownloadAccount={this.handleDownloadAccount}
-          hidePasswordModal={this.hidePasswordModal}
+          hideModal={this.hideModal}
           onChangePassword={this.onChangePassword}
           onDiscard={this.onDiscard}
         />
@@ -132,7 +132,7 @@ class DownloadButton extends React.PureComponent<Props, State> {
     return {
       address: address ? address : '',
       password: '',
-      isPasswordModalOpen: false,
+      isOpen: false,
       error: undefined
     };
   }

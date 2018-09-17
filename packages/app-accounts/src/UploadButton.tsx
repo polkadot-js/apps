@@ -23,7 +23,7 @@ const fileReader = new FileReader();
 type State = {
   address: string,
   error?: React.ReactNode,
-  isPasswordModalOpen: boolean,
+  isOpen: boolean,
   password: string,
   uploadedFileKeyringPair?: KeyringPair$Json
 };
@@ -101,7 +101,7 @@ class UploadButton extends React.PureComponent<Props, State> {
       const pairRestored: KeyringPair | undefined = keyring.restoreAccount(uploadedFileKeyringPair, password);
 
       if (pairRestored) {
-        this.hidePasswordModal();
+        this.hideModal();
 
         InputAddress.setLastValue('account', pairRestored.address());
 
@@ -125,17 +125,17 @@ class UploadButton extends React.PureComponent<Props, State> {
 
   showPasswordModal = (): void => {
     this.setState({
-      isPasswordModalOpen: true,
+      isOpen: true,
       password: ''
     });
   }
 
-  hidePasswordModal = (): void => {
-    this.setState({ isPasswordModalOpen: false });
+  hideModal = (): void => {
+    this.setState({ isOpen: false });
   }
 
   render () {
-    const { error, isPasswordModalOpen, password, uploadedFileKeyringPair } = this.state;
+    const { error, isOpen, password, uploadedFileKeyringPair } = this.state;
     const { className, style, t } = this.props;
     const address = uploadedFileKeyringPair && uploadedFileKeyringPair.address || undefined;
 
@@ -145,8 +145,8 @@ class UploadButton extends React.PureComponent<Props, State> {
           address={address}
           className={className}
           error={error}
-          hidePasswordModal={this.hidePasswordModal}
-          isPasswordModalOpen={isPasswordModalOpen}
+          hideModal={this.hideModal}
+          isOpen={isOpen}
           onChangePassword={this.onChangePassword}
           onDiscard={this.onDiscard}
           password={password}
@@ -170,7 +170,7 @@ class UploadButton extends React.PureComponent<Props, State> {
   emptyState (): State {
     return {
       address: '',
-      isPasswordModalOpen: false,
+      isOpen: false,
       password: ''
     };
   }

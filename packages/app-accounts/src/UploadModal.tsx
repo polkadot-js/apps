@@ -18,8 +18,8 @@ import translate from './translate';
 type Props = I18nProps & BareProps & {
   address?: string,
   error?: React.ReactNode,
-  hidePasswordModal: () => void,
-  isPasswordModalOpen: boolean,
+  hideModal: () => void,
+  isOpen: boolean,
   onChangePassword: (password: string) => void,
   onDiscard: () => void,
   password: string,
@@ -29,9 +29,9 @@ type Props = I18nProps & BareProps & {
 
 class UploadModal extends React.PureComponent<Props> {
   render () {
-    const { address, className, hidePasswordModal, isPasswordModalOpen, style, t } = this.props;
+    const { address, className, hideModal, isOpen, style, t } = this.props;
 
-    if (!address || !isPasswordModalOpen) {
+    if (!address || !isOpen) {
       return null;
     }
 
@@ -39,7 +39,7 @@ class UploadModal extends React.PureComponent<Props> {
       <Modal
         className={classes('accounts--UploadModal', className)}
         dimmer='inverted'
-        onClose={hidePasswordModal}
+        onClose={hideModal}
         open
         size='mini'
         style={style}
