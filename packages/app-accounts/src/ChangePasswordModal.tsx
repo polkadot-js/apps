@@ -44,6 +44,11 @@ class ChangePasswordModal extends React.PureComponent<Props> {
         size='mini'
         style={style}
       >
+        <Modal.Header key='header'>
+          {t('account.change.password', {
+            defaultValue: 'Change Password'
+          })}
+        </Modal.Header>,
         <Modal.Content>
           <div className='accounts--ChangePassword-Modal-Content-wrapper ui--grid'>
             <div className='accounts--ChangePassword-Modal-Content'>
