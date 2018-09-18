@@ -83,7 +83,6 @@ class Extrinsic extends React.PureComponent<Props, State> {
           !isUndefined(values[index]) &&
           !isUndefined(values[index].value) &&
           values[index].isValid, true);
-
       const value = isValid && extrinsic.params
         ? encode(extrinsic, values.map((p) => p.value), apiSupport)
         : new Uint8Array([]);
