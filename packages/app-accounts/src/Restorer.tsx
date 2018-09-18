@@ -5,45 +5,21 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
-import { accountsQty } from './util/accounts';
 import UploadButton from './UploadButton';
 import translate from './translate';
 
 type Props = I18nProps & {
-  allAccounts?: Array<Object>,
   onChangeAccount: () => void
 };
 
 class Restorer extends React.PureComponent<Props> {
   render () {
+    const { onChangeAccount } = this.props;
+
     return (
       <div className='accounts--Restorer'>
-        {this.renderData()}
-      </div>
-    );
-  }
-
-  private renderData () {
-    const { allAccounts, onChangeAccount, t } = this.props;
-
-    return (
-      <div>
-        <div className='accounts--Restorer-message'>
-          {t('restorer.existing', {
-            defaultValue: '{{count}} saved account(s) exist. Create an account or upload a JSON file of a saved account.',
-            replace: {
-              count: accountsQty(allAccounts)
-            }
-          })}
-        </div>
-        <div className='accounts--Restorer-file-wrapper'>
-          <div className='accounts--Restorer-file'>
-            <UploadButton onChangeAccount={onChangeAccount} />
-          </div>
-        </div>
+        <UploadButton onChangeAccount={onChangeAccount} />
       </div>
     );
   }
@@ -53,6 +29,4 @@ export {
   Restorer
 };
 
-export default withObservableBase(
-  accountObservable.subject, { propName: 'allAccounts' }
-)(translate(Restorer));
+export default translate(Restorer);

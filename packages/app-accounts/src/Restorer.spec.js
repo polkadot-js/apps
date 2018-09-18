@@ -6,6 +6,7 @@ import React from 'react';
 import { shallow } from '../../../test/enzyme';
 
 import { Restorer } from './Restorer';
+import UploadButton from './UploadButton';
 
 const mockT = (key, options) => (key);
 
@@ -20,13 +21,7 @@ describe('Restorer', () => {
     expect(wrapper).toHaveLength(1);
   });
 
-  it('should only display Upload Button when no current address in state', () => {
-    wrapper.setProps({ allAccounts: null });
-    expect(wrapper.find('.accounts--Restorer-message').text()).toEqual('restorer.existing');
-  });
-
-  it('should display Upload Button when an address exists', () => {
-    wrapper.setProps({ allAccounts: ['5xx'] });
-    expect(wrapper.find('.accounts--Restorer-message').text()).toEqual('restorer.existing');
+  it('should render UploadButton component', () => {
+    expect(wrapper.find(UploadButton)).toHaveLength(1);
   });
 });

@@ -11,13 +11,20 @@
   display: inline-block;
 }
 
-.accounts--Restorer-file-wrapper {
+.accounts--Restorer {
   text-align: center;
-  padding-top: 1.5em;
+}
+
+.accounts--Restorer > .accounts--UploadButton {
+  width: 100%;
 }
 
 .accounts--UploadButton-File {
   padding: 0em 2em 0em 2em;
+}
+
+.accounts--Restorer .accounts--UploadButton-File {
+  height: 10em;
 }
 
 .accounts--DownloadModal-Content,
@@ -72,6 +79,10 @@
   .accounts--DownloadModal-Content > .ui--AddressSummary {
     display: block;
     text-align: center;
+  }
+
+  .accounts--Restorer .accounts--UploadButton-File {
+    height: 15em;
   }
 }
 
