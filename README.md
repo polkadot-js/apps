@@ -52,7 +52,12 @@ To get started -
 5. Ready! Now you can launch the UI (assuming you have a local Polkadot Node running), via `yarn run start`
 6. Access the UI via [http://localhost:3000](http://localhost:3000)
 
-Alternatively, should you not have a local Node, you can connect to a remote node (POC-2 network, although not fully up-to-date with features) with the `WS_URL` parameter. For eample - the apps entry point can be launched with a WebSocket connection to Polkadot PoC-1 with `WS_URL=wss://poc-2.polkadot.io:9944 yarn run start` and accessing the application of [http://localhost:3000](http://localhost:3000)
+Should you not run a local Node, you can connect to a remote node on the POC-2 network with the `WS_URL` environment variable. For example - the apps entry point can be launched with a WebSocket connection to Polkadot POC-2 with `WS_URL=wss://poc-2.polkadot.io:9944 yarn run start` and accessing the application of [http://localhost:3000](http://localhost:3000)
+
+There are additional environment UI flags that change both the theme and mode -
+
+- Running with `UI_MODE=light|full` switches from a full (the default) to a light mode interface that only has specific applications highlighted.
+- Running with `UI_THEME=substrate|polkadot` switches from a Polkadot theme (the default) to a Substrate-branded UI
 
 ## demos
 
