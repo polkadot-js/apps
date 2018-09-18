@@ -171,7 +171,7 @@ class Creator extends React.PureComponent<Props, State> {
           <Button
             isPrimary
             onClick={this.onCommit}
-            text={t('creator.continue', {
+            text={t('seedWarning.continue', {
               defaultValue: 'Continue'
             })}
           />
@@ -179,7 +179,7 @@ class Creator extends React.PureComponent<Props, State> {
           <Button
             isNegative
             onClick={this.onHideWarning}
-            text={t('creator.cancel', {
+            text={t('seedWarning.cancel', {
               defaultValue: 'Cancel'
             })}
           />
@@ -193,12 +193,12 @@ class Creator extends React.PureComponent<Props, State> {
 
     return [
       <Modal.Header key='header'>
-        {t('creator.header', {
+        {t('seedWarning.header', {
           defaultValue: 'Warning'
         })}
       </Modal.Header>,
       <Modal.Content key='content'>
-        {t('creator.content', {
+        {t('seedWarning.content', {
           defaultValue: 'Before you continue, make sure you have properly backed up your seed in a safe place as it is needed to restore your account.'
         })}
       </Modal.Content>
