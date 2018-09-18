@@ -102,7 +102,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         label={t('fees', {
           defaultValue: 'with fees totalling'
         })}
-        value={txfees.toString()}
+        value={`${txfees.toString()}μ`}
       />,
       <article
         className={hasAvailable ? ((isRemovable || isNoEffect) ? 'warning' : '') : 'error'}
@@ -141,7 +141,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
             ? t('fees.create', {
               defaultValue: 'A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist.',
               replace: {
-                creationFee: fees.creationFee.toString()
+                creationFee: `${fees.creationFee.toString()}μ`
               }
             })
           : undefined
@@ -153,7 +153,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         label={t('total', {
           defaultValue: 'total transaction amount (fees + value)'
         })}
-        value={txtotal.toString()}
+        value={`${txtotal.toString()}μ`}
     />
     ];
   }

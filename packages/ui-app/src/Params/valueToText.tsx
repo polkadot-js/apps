@@ -8,6 +8,7 @@ import './Params.css';
 
 import React from 'react';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
+import balanceFormat from '@polkadot/ui-react-rx/util/balanceFormat';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import isBn from '@polkadot/util/is/bn';
@@ -135,6 +136,10 @@ function valueToText (type: Param$Types, value: any, swallowError: boolean = tru
 
     if (type === 'VoteThreshold') {
       return div({}, thresholdTextMap[value]);
+    }
+
+    if (type === 'Balance') {
+      return div({}, balanceFormat(value));
     }
 
     if (isU8a(value)) {
