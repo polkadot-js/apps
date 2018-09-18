@@ -2,23 +2,36 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { TranslationFunction } from 'i18next';
 import { KeyringPair, KeyringPair$Json } from '@polkadot/util-keyring/types';
-import { State } from '../types';
+import { AccountResponse, State } from '../types';
 
 // Load account keyring pair into memory using account JSON file.
-export default function accountLoad (state: State, json: KeyringPair$Json): KeyringPair | void {
+export default function accountLoad (state: State, t: TranslationFunction, json: KeyringPair$Json): AccountResponse {
   const { keyring } = state;
-  const _address = json.address;
+  const address = json.address;
+  let response = {
+    pair: {} as KeyringPair,
+    error: undefined
+  };
 
-  if (!_address) {
-    throw Error('Unable to load account without JSON containing an address');
+  if (!address) {
+    response.error = t('restore.error.missing.address', {
+      defaultValue: 'Unable to load account address from JSON file. Address missing'
+    });
+
+    return response;
   }
 
   try {
-    const pair = keyring.addFromJson(json);
+    response.pair = keyring.addFromJson(json);
 
-    return pair;
+    return response;
   } catch (error) {
     console.error('Unable to load account from memory', error);
+    response.error = t('restore.error.incorrect.json', {
+      defaultValue: 'Unable to load account with JSON file'
+    });
   }
+  return response;
 }

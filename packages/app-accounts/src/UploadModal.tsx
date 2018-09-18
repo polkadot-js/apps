@@ -49,7 +49,7 @@ class UploadModal extends React.PureComponent<Props> {
             <div className='accounts--UploadModal-Content'>
               <div className='accounts--UploadModal-Content-message expanded'>
                 <p>
-                  {t('upload.unlock.info', {
+                  {t('restore.unlock.info', {
                     defaultValue: 'Please enter your account password to upload and restore it encrypted.'
                   })}
                 </p>

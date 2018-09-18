@@ -206,7 +206,7 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   onCommit = (): void => {
-    const { onCreateAccount } = this.props;
+    const { onCreateAccount, t } = this.props;
     const { name, password, seed } = this.state;
     const pair = keyring.createAccount(
       formatSeed(seed), password, { name }
@@ -216,7 +216,7 @@ class Creator extends React.PureComponent<Props, State> {
     InputAddress.setLastValue('account', pair.address());
 
     // add encrypted data to keyring since immediately after account creation only secret key is in memory
-    keyring.loadAccount(json);
+    keyring.loadAccount(t, json);
 
     onCreateAccount();
   }

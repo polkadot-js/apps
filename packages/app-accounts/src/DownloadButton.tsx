@@ -4,7 +4,7 @@
 
 import { Button$Sizes } from '@polkadot/ui-app/Button/types';
 import { BareProps, I18nProps } from '@polkadot/ui-app/types';
-import { KeyringPair$Json } from '@polkadot/util-keyring/types';
+import { AccountResponse } from '@polkadot/ui-keyring/types';
 
 import React from 'react';
 import FileSaver from 'file-saver';
@@ -54,9 +54,16 @@ class DownloadButton extends React.PureComponent<Props, State> {
     }
 
     try {
-      const json: KeyringPair$Json | void = keyring.backupAccount(address, password);
+      const { json, error }: AccountResponse = keyring.backupAccount(t, address, password);
+      const isValidJsonPair = json && Object.keys(json).length !== 0;
 
-      if (!isUndefined(json)) {
+      if (!isUndefined(error)) {
+        this.setState({ error });
+
+        return;
+      }
+
+      if (isValidJsonPair) {
         const blob = new Blob([JSON.stringify(json)], { type: 'text/plain;charset=utf-8' });
 
         FileSaver.saveAs(blob, `${address}.json`);
@@ -64,18 +71,21 @@ class DownloadButton extends React.PureComponent<Props, State> {
         this.hideModal();
       } else {
         this.setState({
-          error: t('download.error.memory', {
-            defaultValue: 'Unable to obtain account from memory'
+          error: t('download.error.corrupt.json', {
+            defaultValue: 'Unable to save account to file. Account corrupt'
           })
         });
       }
     } catch (e) {
       this.setState({
-        error: t('download.error.file', {
-          defaultValue: 'Unable to save file'
+        error: t('download.error.catch', {
+          defaultValue: 'Unable to save account to file due to error: {{error}}',
+          replace: {
+            error: e
+          }
         })
       });
-      console.error('Error retrieving account from local storage and saving account to file: ', e);
+      console.error('Error saving file: ', e);
     }
   }
 

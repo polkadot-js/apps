@@ -3,7 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { BareProps, I18nProps } from '@polkadot/ui-app/types';
-import { KeyringPair, KeyringPair$Json } from '@polkadot/util-keyring/types';
+import { KeyringPair$Json } from '@polkadot/util-keyring/types';
+import { AccountResponse } from '@polkadot/ui-keyring/types';
 
 import React from 'react';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
@@ -60,7 +61,7 @@ class UploadButton extends React.PureComponent<Props, State> {
           const actualJsonProperties: Array<string> = Object.keys(uploadedFileKeyringPair);
 
           if (arrayContainsArray(actualJsonProperties, expectedJsonProperties)) {
-            keyring.loadAccount(uploadedFileKeyringPair);
+            keyring.loadAccount(t, uploadedFileKeyringPair);
 
             // Store uploaded wallet in state and open modal to get their password for it
             this.setState({
@@ -75,7 +76,7 @@ class UploadButton extends React.PureComponent<Props, State> {
       } catch (error) {
         console.error('Error uploading file: ', error);
         this.setState({
-          error: t('upload.error.file', {
+          error: t('restore.error.file', {
             defaultValue: 'Unable to upload account from file'
           })
         });
@@ -98,28 +99,37 @@ class UploadButton extends React.PureComponent<Props, State> {
         return;
       }
 
-      const pairRestored: KeyringPair | undefined = keyring.restoreAccount(uploadedFileKeyringPair, password);
+      const { pair, error }: AccountResponse = keyring.restoreAccount(t, uploadedFileKeyringPair, password);
 
-      if (pairRestored) {
+      if (!isUndefined(error)) {
+        this.setState({ error });
+
+        return;
+      }
+
+      if (pair && Object.keys(pair).length !== 0) {
         this.hideModal();
 
-        InputAddress.setLastValue('account', pairRestored.address());
+        InputAddress.setLastValue('account', pair.address());
 
-        onChangeAccount(pairRestored.publicKey());
+        onChangeAccount(pair.publicKey());
       } else {
         this.setState({
-          error: t('upload.error.memory', {
-            defaultValue: 'Unable to upload account into memory'
+          error: t('restore.error.corrupt.pair', {
+            defaultValue: 'Unable to restore account. Account corrupt'
           })
         });
       }
-    } catch (error) {
-      console.error('Error processing uploaded file to local storage: ', error);
+    } catch (e) {
       this.setState({
-        error: t('upload.error.memory', {
-          defaultValue: 'Unable to upload account into memory'
+        error: t('restore.error.catch', {
+          defaultValue: 'Unable to restore account from file due to error: {{error}}',
+          replace: {
+            error: e
+          }
         })
       });
+      console.error('Error uploading file: ', e);
     }
   }
 
@@ -158,7 +168,7 @@ class UploadButton extends React.PureComponent<Props, State> {
         <AccountsFile
           acceptedFormats='.json'
           className='accounts--UploadButton-File'
-          label={t('upload.label.file', {
+          label={t('restore.label.file', {
             defaultValue: 'upload account'
           })}
           onChange={this.handleUploadedFiles}

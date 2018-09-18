@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { TranslationFunction } from 'i18next';
 import { KeyringPair, KeyringPair$Json, KeyringPair$Meta } from '@polkadot/util-keyring/types';
 import { SingleAddress } from './observable/types';
-import { KeyringAddress, KeyringInstance, State } from './types';
+import { AccountResponse, KeyringAddress, KeyringInstance, State } from './types';
 
 import testKeyring from '@polkadot/util-keyring/testing';
 
@@ -36,8 +37,8 @@ const state: State = {
 loadAll(state);
 
 export default ({
-  backupAccount: (address: string, passphrase: string): KeyringPair$Json | void =>
-    backupAccount(state, address, passphrase),
+  backupAccount: (t: TranslationFunction, address: string, passphrase: string): AccountResponse =>
+    backupAccount(state, t, address, passphrase),
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta): KeyringPair =>
     createAccount(state, seed, password, meta),
   forgetAccount: (address: string): void =>
@@ -58,12 +59,12 @@ export default ({
     state.keyring.getPairs().filter((pair) =>
       development.isDevelopment() || pair.getMeta().isTesting !== true
     ),
-  loadAccount: (json: KeyringPair$Json): KeyringPair | void =>
-    loadAccount(state, json),
+  loadAccount: (t: TranslationFunction, json: KeyringPair$Json): AccountResponse =>
+    loadAccount(state, t, json),
   loadAll: (): void =>
     loadAll(state),
-  restoreAccount: (json: KeyringPair$Json, passphrase?: string): KeyringPair | void =>
-    restoreAccount(state, json, passphrase),
+  restoreAccount: (t: TranslationFunction, json: KeyringPair$Json, passphrase?: string): AccountResponse =>
+    restoreAccount(state, t, json, passphrase),
   saveAccount: (pair: KeyringPair, password?: string): void => {
     saveAccount(state, pair, password);
   },
