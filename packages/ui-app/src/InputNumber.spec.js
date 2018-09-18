@@ -45,7 +45,7 @@ describe('Balance', () => {
     wrapper.update();
     divNotificationsText = wrapper.find('.ui--Notifications').find('div.message');
     expect(divNotificationsText.hasClass('info')).toBe(true);
-    expect(divNotificationsText.text()).toEqual('9e+1');
+    expect(divNotificationsText.text()).toEqual('number.info.scientific');
   });
 
   it('should not display Info Notification when user inputs a value containing a decimal point', () => {
@@ -65,7 +65,7 @@ describe('Balance', () => {
     wrapper.update();
     divNotificationsText = wrapper.find('.ui--Notifications').find('div.message');
     expect(divNotificationsText.hasClass('warning')).toBe(true);
-    expect(divNotificationsText.text()).toEqual('balance.warn.zero');
+    expect(divNotificationsText.text()).toEqual('number.warn.zero');
   });
 
   it('should display correct i18n Error Notification when user resets the value', () => {

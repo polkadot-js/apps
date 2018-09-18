@@ -7,11 +7,11 @@ import { BareProps, I18nProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 
-import isValidBalance from './util/isValidBalance';
-import { keydown } from './util/keyboard';
+import isValidKey from './util/isValidKey';
+import isValidNumber from './util/isValidNumber';
 import classes from './util/classes';
 import Input from './Input';
-import { KEYS_ALLOWED, KEYS_PRE } from './constants';
+import { KEYS_PRE } from './constants';
 import translate from './translate';
 
 type Props = BareProps & I18nProps & {
@@ -28,15 +28,23 @@ type State = {
   error?: React.ReactNode,
   info?: React.ReactNode,
   isPreKeyDown: boolean,
+  isValid: boolean,
+  previousValue: string,
   warn?: React.ReactNode
 };
 
 class InputNumber extends React.PureComponent<Props, State> {
-  state: State = { isPreKeyDown: false };
+  state: State = {
+    isPreKeyDown: false,
+    isValid: false,
+    previousValue: '0'
+  };
 
   render () {
     const { className, defaultValue, isError, label, maxLength, placeholder, style, withLabel } = this.props;
-    const { error, info, warn } = this.state;
+    const { error, info, isValid, previousValue, warn } = this.state;
+    const shouldRevertValue = !isValid;
+    const revertedValue = shouldRevertValue ? previousValue : undefined;
 
     return (
       <div
@@ -57,6 +65,7 @@ class InputNumber extends React.PureComponent<Props, State> {
           placeholder={placeholder}
           style={style}
           type='text'
+          value={revertedValue}
           warn={warn}
           withLabel={withLabel}
         />
@@ -68,14 +77,13 @@ class InputNumber extends React.PureComponent<Props, State> {
     const { onChange, t } = this.props;
 
     try {
-      const { isValid, errorMessage, infoMessage, warnMessage } = isValidBalance(value, t);
       const valueBN = new BN(value || '0');
-
-      console.log('isValid: ', isValid);
+      const { isValid, errorMessage, infoMessage, warnMessage } = isValidNumber(value, t);
 
       this.setState({
         error: !isValid && errorMessage ? errorMessage : '',
-        info: isValid && infoMessage ? infoMessage : '',
+        info: infoMessage ? infoMessage : '',
+        isValid: isValid,
         warn: isValid && warnMessage ? warnMessage : ''
       });
 
@@ -89,51 +97,25 @@ class InputNumber extends React.PureComponent<Props, State> {
     }
   }
 
+  /* KeyDown used since it can restrict input of certain keys. Its value is the previous input
+   * field value before the new character entered. Previous input field value is stored in state
+   * incase the user pastes an invalid value and we need to revert the input value.
+   */
   onKeyDown = (event: React.KeyboardEvent<Element>): void => {
     const { isPreKeyDown } = this.state;
-    const eventValue = (event.target as HTMLInputElement).value;
+    const { t } = this.props;
+    const { value: previousValue } = event.target as HTMLInputElement;
 
-    // only allow user balance input to contain one instance of '.' for decimals.
-    // prevent use of shift key
-    if (
-      (keydown.isDuplicateDecimalPoint(event.key, eventValue)) ||
-      (keydown.isShift(event.shiftKey))
-    ) {
-      event.preventDefault();
-      return;
-    }
-
-    if (KEYS_ALLOWED.includes(event.key)) {
-      return;
-    }
+    this.setState({ previousValue });
 
     if (KEYS_PRE.includes(event.key)) {
       this.setState({ isPreKeyDown: true });
     }
 
-    // allow users to to use cut/copy/paste combinations, but not non-numeric letters individually
-    if (
-      (keydown.isSelectAll(event.key, isPreKeyDown)) ||
-      (keydown.isCut(event.key, isPreKeyDown)) ||
-      (keydown.isCopy(event.key, isPreKeyDown)) ||
-      (keydown.isPaste(event.key, isPreKeyDown))
-    ) {
-      return;
-    }
+    const { isValid } = isValidKey(event, isPreKeyDown, t);
 
-    // prevent input of non-integer values (allow numeric including from keyboards with numpad)
-    if (keydown.isNonNumeric(event.key)) {
-      console.error('Balance must be a positive number');
+    if (!isValid) {
       event.preventDefault();
-      return;
-    }
-
-    const inputBN = new BN(eventValue);
-    const maxSafeIntegerBN = new BN(Number.MAX_SAFE_INTEGER);
-
-    if (inputBN.gt(maxSafeIntegerBN)) {
-      event.preventDefault();
-      return;
     }
   }
 

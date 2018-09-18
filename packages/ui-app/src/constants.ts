@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-// chain specification bit length
+// Chain specification bit length
 const BIT_LENGTH_128 = 128;
 
 // Note: KeyboardEvent.keyCode and KeyboardEvent.which are deprecated
@@ -27,7 +27,7 @@ const KEYS = {
   ZERO: '0'
 };
 
-const KEYS_ALLOWED: Array<any> = [KEYS.ARROW_LEFT, KEYS.ARROW_RIGHT, KEYS.BACKSPACE, KEYS.DECIMAL_POINT, KEYS.BACKSPACE, KEYS.ESCAPE, KEYS.ENTER, KEYS.TAB, KEYS.ZERO];
+const KEYS_ALLOWED: Array<any> = [KEYS.ARROW_LEFT, KEYS.ARROW_RIGHT, KEYS.BACKSPACE, KEYS.DECIMAL_POINT, KEYS.ENTER, KEYS.ESCAPE, KEYS.TAB];
 
 const KEYS_PRE: Array<any> = [KEYS.ALT, KEYS.CMD, KEYS.CTRL];
 

@@ -4,20 +4,16 @@
 
 import { BIT_LENGTH_128 } from '../constants';
 import translate from '../translate';
-import isValidBalance from './isValidBalance';
+import isValidNumber from './isValidNumber';
 
 describe('checks extrinsic balance', () => {
-  let t;
-
-  beforeEach(() => {
-    t = translate;
-  });
+  let t = translate;
 
   it('throws an error if input value for comparison is not a string', () => {
     const invalidInputValueType = 340282366920938463463374607431768211456;
 
     expect(() => {
-      isValidBalance(invalidInputValueType, t, BIT_LENGTH_128);
+      isValidNumber(invalidInputValueType, '0', t, BIT_LENGTH_128);
     }).toThrow();
   });
 });

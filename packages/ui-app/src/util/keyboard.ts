@@ -5,7 +5,6 @@
 import isCopy from './keyboard/isCopy';
 import isCut from './keyboard/isCut';
 import isDuplicateDecimalPoint from './keyboard/isDuplicateDecimalPoint';
-import isNonNumeric from './keyboard/isNonNumeric';
 import isPaste from './keyboard/isPaste';
 import isSelectAll from './keyboard/isSelectAll';
 import isShift from './keyboard/isShift';
@@ -18,8 +17,6 @@ const keydown = {
     isCut(key, isPreKeyDown),
   isDuplicateDecimalPoint: (key: string, value: string): boolean =>
     isDuplicateDecimalPoint(key, value),
-  isNonNumeric: (key: string): boolean =>
-    isNonNumeric(key),
   isPaste: (key: string, isPreKeyDown: boolean): boolean =>
     isPaste(key, isPreKeyDown),
   isSelectAll: (key: string, isPreKeyDown: boolean): boolean =>
