@@ -92,9 +92,10 @@ class Selection extends React.PureComponent<Props, State> {
     this.setState(
       (prevState: State): State => {
         const { rpc = prevState.rpc, nonce = prevState.nonce, publicKey = prevState.publicKey, values = prevState.values } = newState;
+        const hasNeededKey = rpc.isSigned !== true || (!!publicKey && publicKey.length === 32);
         const isValid = values.reduce((isValid, value) => {
           return isValid && value.isValid === true;
-        }, rpc.isSigned !== true || (!!publicKey && publicKey.length === 32));
+        }, rpc.params.length === values.length && hasNeededKey);
 
         return {
           isValid,
@@ -108,11 +109,17 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   onChangeAccount = (publicKey: Uint8Array | undefined | null, nonce: BN): void => {
-    this.nextState({ nonce, publicKey } as State);
+    this.nextState({
+      nonce,
+      publicKey
+    } as State);
   }
 
   onChangeMethod = (rpc: SectionItem<Interfaces>): void => {
-    this.nextState({ rpc } as State);
+    this.nextState({
+      rpc,
+      values: [] as Array<RawParam>
+    } as State);
   }
 
   onChangeValues = (values: Array<RawParam>): void => {
