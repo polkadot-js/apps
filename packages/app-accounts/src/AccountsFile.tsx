@@ -19,7 +19,8 @@ type Props = BareProps & {
   placeholder?: string,
   shouldDisplayFile?: boolean,
   t: TranslationFunction,
-  withLabel?: boolean
+  withLabel?: boolean,
+  withIcon?: boolean
 };
 
 class AccountsFile extends React.PureComponent<Props> {

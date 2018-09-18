@@ -125,6 +125,7 @@ class UploadButton extends React.PureComponent<Props, State> {
 
   showModal = (): void => {
     this.setState({
+      error: undefined,
       isOpen: true,
       password: ''
     });
@@ -162,6 +163,7 @@ class UploadButton extends React.PureComponent<Props, State> {
           })}
           onChange={this.handleUploadedFiles}
           withLabel
+          withIcon
         />
       </div>
     );
@@ -170,6 +172,7 @@ class UploadButton extends React.PureComponent<Props, State> {
   emptyState (): State {
     return {
       address: '',
+      error: undefined,
       isOpen: false,
       password: ''
     };

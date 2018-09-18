@@ -7,6 +7,7 @@ import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import Dropzone from 'react-dropzone';
+import UploadIcon from '@polkadot/ui-app/UploadIcon';
 
 import classes from '../util/classes';
 import translate from '../translate';
@@ -21,7 +22,8 @@ type Props = BareProps & {
   placeholder?: string,
   shouldDisplayFile?: boolean,
   t: TranslationFunction,
-  withLabel?: boolean
+  withLabel?: boolean,
+  withIcon?: boolean
 };
 
 type State = {
@@ -59,19 +61,34 @@ class InputFile extends React.PureComponent<Props, State> {
           onDrop={this.onDrop}
         >
           <div className='label'>
-            {
-              !file || !shouldDisplayFile
-                ? placeholder || t('file.dnd', {
-                  defaultValue: 'drag and drop the file here'
-                })
-                : placeholder || t('file.description', {
-                  defaultValue: '{{name}} ({{size}} bytes)',
-                  replace: file
-                })
-            }
+            <div className='ui--InputFile-UploadIcon'>{ this.renderIcon() }</div>
+            <div className='ui--InputFile-messages'>
+              {
+                !file || !shouldDisplayFile
+                  ? placeholder || t('file.dnd', {
+                    defaultValue: 'drag and drop the file here'
+                  })
+                  : placeholder || t('file.description', {
+                    defaultValue: '{{name}} ({{size}} bytes)',
+                    replace: file
+                  })
+              }
+            </div>
           </div>
         </Dropzone>
       </Base>
+    );
+  }
+
+  protected renderIcon () {
+    const { withIcon = true } = this.props;
+
+    if (!withIcon) {
+      return null;
+    }
+
+    return (
+      <UploadIcon />
     );
   }
 

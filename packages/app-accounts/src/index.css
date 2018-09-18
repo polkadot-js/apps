@@ -2,6 +2,11 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
+/* FIXME - unable to import theme styles below so copying relevant vars across */
+/* @import '../../ui-app/src/styles/theme/_colors-polkadot.css'; */
+$dark-sky-blue: #96bdc6;
+$white: #ffffff;
+
 .accounts--App {
   padding: 1em 2em;
 }
@@ -17,6 +22,12 @@
 
 .accounts--Restorer > .accounts--UploadButton {
   width: 100%;
+}
+
+.accounts--UploadButton button.ui.icon.button.ui--UploadIcon {
+  color: $dark-sky-blue;
+  background-color: $white;
+  background: none;
 }
 
 .accounts--UploadButton-File {
@@ -83,6 +94,13 @@
 
   .accounts--Restorer .accounts--UploadButton-File {
     height: 15em;
+  }
+
+  /* Override styles here since setting Button size to 'massive' in
+   * in UploadIcon.tsx component is not large enough on desktop/tablet
+   */
+  .accounts--UploadButton .ui--UploadIcon i.cloud.upload.icon {
+    font-size: 1.5em;
   }
 }
 

@@ -87,8 +87,9 @@ class DownloadButton extends React.PureComponent<Props, State> {
     }
 
     this.setState({
-      isOpen: true,
       address,
+      error: undefined,
+      isOpen: true,
       password: ''
     });
   }
@@ -131,16 +132,16 @@ class DownloadButton extends React.PureComponent<Props, State> {
 
     return {
       address: address ? address : '',
-      password: '',
+      error: undefined,
       isOpen: false,
-      error: undefined
+      password: ''
     };
   }
 
   onChange = (password: string): void => {
     this.setState({
-      password,
-      error: undefined
+      error: undefined,
+      password
     });
   }
 
