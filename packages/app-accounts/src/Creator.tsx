@@ -18,6 +18,7 @@ import u8aToHex from '@polkadot/util/u8a/toHex';
 import keypairFromSeed from '@polkadot/util-crypto/nacl/keypair/fromSeed';
 import randomBytes from '@polkadot/util-crypto/random/asU8a';
 import addressEncode from '@polkadot/util-keyring/address/encode';
+import Modal from '@polkadot/ui-app/Modal';
 
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';
@@ -34,7 +35,8 @@ type State = {
   isValid: boolean,
   name: string,
   password: string,
-  seed: string
+  seed: string,
+  showWarning: boolean
 };
 
 function formatSeed (seed: string): Uint8Array {
@@ -97,7 +99,7 @@ class Creator extends React.PureComponent<Props, State> {
         <Button
           isDisabled={!isValid}
           isPrimary
-          onClick={this.onCommit}
+          onClick={this.onShowWarning}
           text={t('creator.save', {
             defaultValue: 'Save'
           })}
@@ -108,7 +110,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   renderInput () {
     const { t } = this.props;
-    const { isNameValid, isPassValid, isSeedValid, name, password, seed } = this.state;
+    const { isNameValid, isPassValid, isSeedValid, name, password, seed, showWarning } = this.state;
 
     return (
       <div className='grow'>
@@ -145,8 +147,58 @@ class Creator extends React.PureComponent<Props, State> {
             value={password}
           />
         </div>
+        <Modal
+          dimmer='inverted'
+          open={showWarning}
+        >
+          {this.renderModalContent()}
+          {this.renderModalButtons()}
+        </Modal>
       </div>
     );
+  }
+
+  renderModalButtons () {
+    const { t } = this.props;
+
+    return (
+      <Modal.Actions>
+        <Button.Group>
+          <Button
+            isPrimary
+            onClick={this.onCommit}
+            text={t('seedWarning.continue', {
+              defaultValue: 'Continue'
+            })}
+          />
+          <Button.Or />
+          <Button
+            isNegative
+            onClick={this.onHideWarning}
+            text={t('seedWarning.cancel', {
+              defaultValue: 'Cancel'
+            })}
+          />
+        </Button.Group>
+      </Modal.Actions>
+    );
+  }
+
+  renderModalContent () {
+    const { t } = this.props;
+
+    return [
+      <Modal.Header key='header'>
+        {t('seedWarning.header', {
+          defaultValue: 'Warning'
+        })}
+      </Modal.Header>,
+      <Modal.Content key='content'>
+        {t('seedWarning.content', {
+          defaultValue: 'Before you continue, make sure you have properly backed up your seed in a safe place as it is needed to restore your account.'
+        })}
+      </Modal.Content>
+    ];
   }
 
   emptyState (): State {
@@ -161,14 +213,15 @@ class Creator extends React.PureComponent<Props, State> {
       isValid: false,
       name: 'new keypair',
       password: '',
-      seed
+      seed,
+      showWarning: false
     };
   }
 
   nextState (newState: State): void {
     this.setState(
       (prevState: State, props: Props): State => {
-        const { name = prevState.name, password = prevState.password, seed = prevState.seed } = newState;
+        const { name = prevState.name, password = prevState.password, seed = prevState.seed, showWarning = prevState.showWarning } = newState;
         let address = prevState.address;
         const isNameValid = !!name;
         const isSeedValid = isHex(seed)
@@ -188,7 +241,8 @@ class Creator extends React.PureComponent<Props, State> {
           isValid: isNameValid && isPassValid && isSeedValid,
           name,
           password,
-          seed
+          seed,
+          showWarning
         };
       }
     );
@@ -206,6 +260,14 @@ class Creator extends React.PureComponent<Props, State> {
     this.nextState({ password } as State);
   }
 
+  onShowWarning = (): void => {
+    this.nextState({ showWarning: true } as State);
+  }
+
+  onHideWarning = (): void => {
+    this.nextState({ showWarning: false } as State);
+  }
+
   onCommit = (): void => {
     const { onBack } = this.props;
     const { name, password, seed } = this.state;
@@ -213,6 +275,7 @@ class Creator extends React.PureComponent<Props, State> {
       formatSeed(seed), password, { name }
     );
 
+    this.onHideWarning();
     InputAddress.setLastValue('account', pair.address());
 
     onBack();
