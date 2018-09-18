@@ -11,8 +11,7 @@ import decodeParams from '@polkadot/params/decode';
 export default function storageTransform ({ type }: SectionItem<Storages>): StorageTransform {
   return (input: Uint8Array = new Uint8Array(0), index: number): Param$Values | null => {
     try {
-      // FIXME We don't do any conversion checks for the type, currently not an issue, but _could_ turn out to be problematic (since this is storage, apply no transforms)
-      return decodeParams(type, input, 'poc-1').value;
+      return decodeParams(type, input, 'latest', true).value;
     } catch (error) {
       console.error('Decoding', type, '::', error);
       return null;
