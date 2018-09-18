@@ -7,6 +7,7 @@ import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { QueueTx, QueueTx$MessageSetStatus } from './types';
 
 import React from 'react';
+import assert from '@polkadot/util/assert';
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
 import keyring from '@polkadot/ui-keyring/index';
@@ -231,8 +232,22 @@ class Signer extends React.PureComponent<Props, State> {
       const unlockError = this.unlockAccount(publicKey, password);
 
       if (unlockError) {
+        console.error('Unable to unlock account to send item: ', unlockError);
         this.setState({ unlockError });
         return;
+      } else {
+        const pair = keyring.getPair(publicKey as Uint8Array);
+        // FIXME - account should already be locked at this stage anyway if the user has just created an account, but it isn't
+        const json = pair.toJson(password);
+        // given that the user was able to sign and unlock the account with their password.
+        // we now want to re-lock the account again so they must enter password on subsequent transactions
+        const lockedPair = keyring.lockAccount(json);
+
+        if (lockedPair) {
+          assert(lockedPair.isLocked(), `account should be locked`);
+        } else {
+          console.error('Unable to retrieve account in order to re-lock it');
+        }
       }
     }
 

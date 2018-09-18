@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringPair } from '@polkadot/util-keyring/types';
+import { KeyringPair, KeyringPair$Json } from '@polkadot/util-keyring/types';
 import { State } from '../types';
 
 export default function saveAccount (state: State, pair: KeyringPair, password?: string): void {
@@ -12,5 +12,6 @@ export default function saveAccount (state: State, pair: KeyringPair, password?:
     json.meta.whenCreated = Date.now();
   }
 
+  state.keyring.addFromJson(json as KeyringPair$Json);
   state.accounts.add(json.address, json);
 }
