@@ -19,7 +19,7 @@ type Props = BareProps & I18nProps & {
   isError?: boolean,
   label?: any,
   maxLength?: number,
-  onChange?: (value: { isValid: boolean, value: BN }) => void,
+  onChange: (value: BN) => void,
   placeholder?: string,
   withLabel?: boolean
 };
@@ -69,6 +69,9 @@ class InputNumber extends React.PureComponent<Props, State> {
 
     try {
       const { isValid, errorMessage, infoMessage, warnMessage } = isValidBalance(value, t);
+      const valueBN = new BN(value || '0');
+
+      console.log('isValid: ', isValid);
 
       this.setState({
         error: !isValid && errorMessage ? errorMessage : '',
@@ -76,17 +79,11 @@ class InputNumber extends React.PureComponent<Props, State> {
         warn: isValid && warnMessage ? warnMessage : ''
       });
 
-      let valueBN: BN;
-      valueBN = new BN(value || '0');
-
-      if (!onChange) {
+      if (!onChange || !isValid) {
         return;
       }
 
-      onChange({
-        isValid,
-        value: valueBN
-      });
+      onChange(valueBN);
     } catch (error) {
       console.error(error);
     }

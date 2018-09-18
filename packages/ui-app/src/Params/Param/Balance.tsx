@@ -19,7 +19,7 @@ type Props = I18nProps & ApiProps & BareProps;
 
 class Balance extends React.PureComponent<Props> {
   render () {
-    const { className, defaultValue: { value }, isError, label, onChange, style, t, withLabel } = this.props;
+    const { className, defaultValue: { value }, isError, label, style, t, withLabel } = this.props;
     const defaultValue = new BN((value as BN).toString(10) || '0').toString(10);
 
     return (
@@ -33,7 +33,7 @@ class Balance extends React.PureComponent<Props> {
           isError={isError}
           label={label}
           maxLength={defaultMaxLength}
-          onChange={onChange}
+          onChange={this.onChange}
           placeholder={t('account.balance.placeholder', {
             defaultValue: 'Positive number'
           })}
@@ -41,6 +41,19 @@ class Balance extends React.PureComponent<Props> {
         />
       </Bare>
     );
+  }
+
+  onChange = (value: BN): void => {
+    const { onChange } = this.props;
+
+    if (!onChange) {
+      return;
+    }
+
+    onChange({
+      isValid: true,
+      value
+    });
   }
 }
 
