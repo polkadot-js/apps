@@ -2,7 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { State } from '../types';
+import { TranslationFunction } from 'i18next';
+import { AccountResponse, State } from '../types';
+
+import isUndefined from '@polkadot/util/is/undefined';
 
 import updateAccount from './update';
 
@@ -11,17 +14,36 @@ import updateAccount from './update';
  * Update account password with new password when secret key is in keyring memory.
  * Remove secret key from keyring memory.
  */
-export default function changeAccountPassword (state: State, address: string, password: string, newPassword: string): boolean {
+export default function changeAccountPassword (state: State, t: TranslationFunction, address: string, password: string, newPassword: string): AccountResponse {
   const { keyring } = state;
+  let response = {
+    error: undefined
+  };
 
-  if (!address || !password || !newPassword) {
-    throw Error('Unable to load account without an address or password being provided');
+  if (!address) {
+    response.error = t('editor.change.password.error.missing.address', {
+      defaultValue: 'Address missing'
+    });
+
+    return response;
+  }
+
+  if (!password || !newPassword) {
+    response.error = t('editor.change.password.error.missing.password', {
+      defaultValue: 'Existing password and new password missing'
+    });
+
+    return response;
   }
 
   const pair = keyring.getPair(address);
 
-  if (!pair) {
-    throw Error('Unable to load account from memory using the provided address');
+  if (isUndefined(pair)) {
+    response.error = t('editor.change.password.error.invalid.address', {
+      defaultValue: 'Invalid address'
+    });
+
+    return response;
   }
 
   try {
@@ -29,9 +51,15 @@ export default function changeAccountPassword (state: State, address: string, pa
     updateAccount(state, pair, password, newPassword);
     pair.lock();
 
-    return true;
+    return response;
   } catch (error) {
     console.error('Unable to decrypt account with given password: ', error);
+    response.error = t('editor.change.password.error.incorrect.password', {
+      defaultValue: 'Unable to decrypt account from memory with given password due to incorrect password or corrupt account. Error: {{error}}',
+      replace: {
+        error
+      }
+    });
   }
-  return false;
+  return response;
 }

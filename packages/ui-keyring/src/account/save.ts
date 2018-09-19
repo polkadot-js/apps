@@ -13,6 +13,5 @@ export default function saveAccount (state: State, pair: KeyringPair, password?:
   }
 
   state.accounts.add(json.address, json);
-
   state.keyring.addFromJson(json);
 }

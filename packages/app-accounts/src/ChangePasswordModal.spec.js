@@ -10,24 +10,20 @@ import { ChangePasswordModal } from './ChangePasswordModal';
 const mockT = (key, options) => (key);
 
 describe('ChangePasswordModal', () => {
-  let wrapper, emptyErrorPropFixture;
+  let wrapper, emptyErrorsFixture;
 
   beforeEach(() => {
-    emptyErrorPropFixture = {
-      props: {
-        props: {
-          inputError: {
-            password: '',
-            newPassword: ''
-          },
-          formError: ''
-        }
-      }
+    emptyErrorsFixture = {
+      inputError: {
+        password: '',
+        newPassword: ''
+      },
+      formError: ''
     };
 
     wrapper = shallow(
       <ChangePasswordModal
-        error={emptyErrorPropFixture}
+        error={emptyErrorsFixture}
         t={mockT}
       />, {}
     );

@@ -30,10 +30,6 @@ export type FormErrors = {
   formError: string
 };
 
-type FormErrorProps = React.ReactNode & {
-  props: React.ReactNode
-};
-
 export type I18nProps = BareProps & {
   t: TranslationFunction
 };
