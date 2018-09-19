@@ -17,10 +17,15 @@ $middle-purple: #e189ba;
 
 $light-slate-gray: #718d94;
 
+$moonstone-blue: #64bebe;
+$verdigris: #5badad;
+
 $button-primary-color: $dark-sky-blue;
 $button-primary-color-hover: $pewter-blue;
 $button-color: $silver-chalice;
 $button-color-hover: $cadet-grey;
+$button-positive-color: $moonstone-blue;
+$button-positive-color-hover: $verdigris;
 $button-negative-color: $wild-orchid;
 $button-negative-color-hover: $middle-purple;
 $anchor-color: $light-slate-gray;
