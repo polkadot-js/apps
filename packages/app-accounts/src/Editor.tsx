@@ -72,7 +72,7 @@ class Editor extends React.PureComponent<Props, State> {
           isDisabled={isEdited}
           onClick={this.togglePass}
           text={t('editor.changePass', {
-            defaultValue: 'Password'
+            defaultValue: 'Change Password'
           })}
         />
         <Button.Group.Divider />
