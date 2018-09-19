@@ -19,8 +19,12 @@ import Item from './Item';
 import Voting from './Voting';
 import translate from './translate';
 
-const COLORS_YAY = ['#4d4', '#4e4'];
-const COLORS_NAY = ['#d44', '#e44'];
+const COLORS_YAY = process.env.UI_THEME === 'substrate'
+  ? ['#4d4', '#4e4']
+  : ['#64bebe', '#5badad'];
+const COLORS_NAY = process.env.UI_THEME === 'substrate'
+  ? ['#d44', '#e44']
+  : ['#d75ea1', '#e189ba'];
 
 type Props = I18nProps & {
   bestNumber?: BN,
