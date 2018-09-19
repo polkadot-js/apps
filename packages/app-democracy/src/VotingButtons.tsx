@@ -29,20 +29,20 @@ class VotingButton extends React.PureComponent<Props> {
       <Button.Group>
         <Button
           isDisabled={!publicKey}
-          isPositive
-          text={t('votebtn.aye', {
-            defaultValue: 'aye'
+          isNegative
+          text={t('votebtn.nay', {
+            defaultValue: 'Nay'
           })}
-          onClick={this.onClickYes}
+          onClick={this.onClickNo}
         />
         <Button.Or />
         <Button
           isDisabled={!publicKey}
-          isNegative
-          text={t('votebtn.nay', {
-            defaultValue: 'nay'
+          isPositive
+          text={t('votebtn.aye', {
+            defaultValue: 'Aye'
           })}
-          onClick={this.onClickNo}
+          onClick={this.onClickYes}
         />
       </Button.Group>
     );

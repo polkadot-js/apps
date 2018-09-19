@@ -125,7 +125,7 @@ function valueToText (type: Param$Types, value: any, swallowError: boolean = tru
 
     if (type === 'AccountId') {
       return value && value.length
-        ? accountToText(value.trim() as string)
+        ? accountToText(value as string)
         : unknown;
     }
 
