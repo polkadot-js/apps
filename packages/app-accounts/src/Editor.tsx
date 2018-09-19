@@ -71,9 +71,7 @@ class Editor extends React.PureComponent<Props, State> {
 
     return (
       <Button.Group>
-        <ChangePasswordButton
-          address={address || ''}
-        />
+        <ChangePasswordButton address={address || ''} />
         <Button.Group.Divider />
         <Button
           isNegative

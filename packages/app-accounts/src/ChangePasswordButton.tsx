@@ -10,15 +10,16 @@ import Button from '@polkadot/ui-app/Button';
 import keyring from '@polkadot/ui-keyring/index';
 import isUndefined from '@polkadot/util/is/undefined';
 
+import { emptyErrors, emptyPasswords, emptyStateForModal, errorForKey, isEmptyPassword, isSamePassword } from './helpers/changePassword';
 import ChangePasswordModal from './ChangePasswordModal';
 import translate from './translate';
 
 type State = {
   address: string,
   error: FormErrors,
-  isPasswordModalOpen: boolean,
   newPassword: string,
   password: string,
+  showModal: boolean,
   success?: React.ReactNode
 };
 
@@ -35,88 +36,37 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
     this.state = this.emptyState();
   }
 
-  handleChangeAccountPassword = (): void => {
+  private handleChangeAccountPassword = (): void => {
     const { t } = this.props;
-    const { address, error, newPassword, password } = this.state;
-    let newError = error || this.emptyErrors();
-    const isInputError = newError.inputError.password || newError.inputError.newPassword;
-
-    /* Prevent form submission if any input fields invalid, even though
-     * should not be possible since submit button disabled when input error exists
-     */
-    if (isInputError) {
-      newError.formError = t('editor.change.password.form.error', {
-        defaultValue: 'Unable to submit form due to input error(s)'
-      });
-
-      this.setState({ error: newError });
-
-      return;
-    } else {
-      newError.formError = t('editor.change.password.form.error', {
-        defaultValue: 'Unable to changed account password'
-      });
-    }
-
-    if (!address) {
-      return;
-    }
+    const { address, error: stateError, newPassword, password } = this.state;
+    let newError = stateError || emptyErrors();
 
     try {
-      const { error } = keyring.changeAccountPassword(t, address, password, newPassword);
-      const emptyError = this.emptyErrors();
+      const { error: keyringError } = keyring.changeAccountPassword(t, address, password, newPassword);
 
-      if (isUndefined(error)) {
+      if (isUndefined(keyringError)) {
         this.setState({
-          error: emptyError, // reset input and form errors
+          error: emptyErrors(),
           success: t('editor.change.password.success', {
-            defaultValue: 'Successfully changed account password'
+            defaultValue: 'Success changing password'
           })
         });
       } else {
-        newError.formError = error;
+        newError.formError = keyringError;
         this.setState({ error: newError });
       }
-    } catch (e) {
+    } catch (error) {
       newError.formError = t('editor.change.password.error.catch', {
-        defaultValue: 'Unable to change account password due to error: {{error}}',
-        replace: {
-          error: e
-        }
+        defaultValue: `${error}`
       });
 
-      this.setState({
-        error: newError
-      });
-      console.error('Error changing password: ', e);
+      this.setState({ error: newError });
     }
-
-    this.setState({
-      newPassword: '',
-      password: ''
-    });
-  }
-
-  showPasswordModal = (): void => {
-    const { address } = this.props;
-    const emptyError = this.emptyErrors();
-
-    this.setState({
-      address,
-      error: emptyError,
-      isPasswordModalOpen: true,
-      newPassword: '',
-      password: '',
-      success: undefined
-    });
-  }
-
-  hidePasswordModal = (): void => {
-    this.setState({ isPasswordModalOpen: false });
+    this.setState(emptyPasswords);
   }
 
   render () {
-    const { address, error, isPasswordModalOpen, newPassword, password, success } = this.state;
+    const { address } = this.state;
     const { className, style, t } = this.props;
 
     if (!address) {
@@ -129,23 +79,17 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
         style={style}
       >
         <ChangePasswordModal
-          address={address}
-          className={className}
-          error={error}
+          {...this.props}
+          {...this.state}
           handleChangeAccountPassword={this.handleChangeAccountPassword}
-          hidePasswordModal={this.hidePasswordModal}
-          isPasswordModalOpen={isPasswordModalOpen}
           key='accounts-change-password-modal'
-          newPassword={newPassword}
           onChangeNewPassword={this.onChangeNewPassword}
           onChangePassword={this.onChangePassword}
           onDiscard={this.onDiscard}
-          password={password}
-          style={style}
-          success={success}
+          onHideModal={this.onHideModal}
         />
         <Button
-          onClick={this.showPasswordModal}
+          onClick={this.onShowModal}
           text={t('editor.change.password', {
             defaultValue: 'Change Password'
           })}
@@ -154,35 +98,21 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
     );
   }
 
-  emptyState (): State {
-    const { address } = this.props;
-    const emptyError = this.emptyErrors();
-
-    return {
-      address,
-      error: emptyError,
-      isPasswordModalOpen: false,
-      newPassword: '',
-      password: '',
-      success: undefined
-    };
+  private emptyState (): State {
+    return emptyStateForModal(false, this.props.address);
   }
 
-  onChangePassword = (password: string): void => {
+  private onChangePassword = (password: string): void => {
     const { t } = this.props;
     const { error, newPassword } = this.state;
-    let newError = error || this.emptyErrors();
+    let newError = error || emptyErrors();
     let shouldResetExistingPassword = true;
 
-    if (this.isEmptyPassword(password)) {
-      newError.inputError.password = t('editor.change.password.input.password.empty.error', {
-        defaultValue: 'Existing password must not be empty'
-      });
+    if (isEmptyPassword(password)) {
+      newError.inputError.password = errorForKey('editor.change.password.input.password.empty.error', t);
       shouldResetExistingPassword = false;
-    } else if (this.isSamePassword(password, newPassword)) {
-      newError.inputError.password = t('editor.change.password.input.password.differ.error', {
-        defaultValue: 'Existing password must differ from new password'
-      });
+    } else if (isSamePassword(password, newPassword)) {
+      newError.inputError.password = errorForKey('editor.change.password.input.password.differ.error', t);
       shouldResetExistingPassword = false;
     }
 
@@ -200,21 +130,17 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
     });
   }
 
-  onChangeNewPassword = (newPassword: string): void => {
+  private onChangeNewPassword = (newPassword: string): void => {
     const { t } = this.props;
     const { error, password } = this.state;
-    let newError = error || this.emptyErrors();
+    let newError = error || emptyErrors();
     let shouldResetNewPassword = true;
 
-    if (this.isEmptyPassword(newPassword)) {
-      newError.inputError.newPassword = t('editor.change.password.input.newPassword.empty.error', {
-        defaultValue: 'New password must not be empty'
-      });
+    if (isEmptyPassword(newPassword)) {
+      newError.inputError.newPassword = errorForKey('editor.change.password.input.newPassword.empty.error', t);
       shouldResetNewPassword = false;
-    } else if (this.isSamePassword(password, newPassword)) {
-      newError.inputError.newPassword = t('editor.change.password.input.newpassword.differ.error', {
-        defaultValue: 'New password must differ from existing password'
-      });
+    } else if (isSamePassword(password, newPassword)) {
+      newError.inputError.newPassword = errorForKey('editor.change.password.input.newpassword.differ.error', t);
       shouldResetNewPassword = false;
     }
 
@@ -232,28 +158,16 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
     });
   }
 
-  onDiscard = (): void => {
+  private onDiscard = (): void => {
     this.setState(this.emptyState());
   }
 
-  emptyErrors = () => {
-    return (
-      {
-        formError: '',
-        inputError: {
-          password: '',
-          newPassword: ''
-        }
-      }
-    );
+  private onHideModal = (): void => {
+    this.setState({ showModal: false });
   }
 
-  isEmptyPassword = (password: string) => {
-    return password.length === 0;
-  }
-
-  isSamePassword = (password: string, newPassword: string) => {
-    return password === newPassword;
+  private onShowModal = (): void => {
+    this.setState(emptyStateForModal(true, this.props.address));
   }
 }
 

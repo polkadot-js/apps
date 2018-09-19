@@ -5,60 +5,30 @@
 import { TranslationFunction } from 'i18next';
 import { AccountResponse, State } from '../types';
 
-import isUndefined from '@polkadot/util/is/undefined';
-
 import updateAccount from './update';
 
-/* Load account keyring pair from memory using account address.
- * Verify old password by trying to decrypt the pair with password to generate the secret key in keyring memory if locked.
- * Update account password with new password when secret key is in keyring memory.
- * Remove secret key from keyring memory.
- */
 export default function changeAccountPassword (state: State, t: TranslationFunction, address: string, password: string, newPassword: string): AccountResponse {
   const { keyring } = state;
-  let response = {
-    error: undefined
-  };
+  let response = { error: undefined };
 
-  if (!address) {
-    response.error = t('editor.change.password.error.missing.address', {
-      defaultValue: 'Address missing'
-    });
-
-    return response;
-  }
-
-  if (!password || !newPassword) {
-    response.error = t('editor.change.password.error.missing.password', {
-      defaultValue: 'Existing password and new password missing'
-    });
-
-    return response;
-  }
-
-  const pair = keyring.getPair(address);
-
-  if (isUndefined(pair)) {
-    response.error = t('editor.change.password.error.invalid.address', {
-      defaultValue: 'Invalid address'
+  if (!address || !password || !newPassword) {
+    response.error = t('editor.change.password.error.missing.address.password', {
+      defaultValue: 'Missing existing password, new password, or address'
     });
 
     return response;
   }
 
   try {
+    const pair = keyring.getPair(address);
     pair.decodePkcs8(password);
     updateAccount(state, pair, password, newPassword);
     pair.lock();
 
     return response;
   } catch (error) {
-    console.error('Unable to decrypt account with given password: ', error);
-    response.error = t('editor.change.password.error.incorrect.password', {
-      defaultValue: 'Unable to decrypt account from memory with given password due to incorrect password or corrupt account. Error: {{error}}',
-      replace: {
-        error
-      }
+    response.error = t('editor.change.password.error.incorrect.address.password', {
+      defaultValue: `${error}`
     });
   }
   return response;

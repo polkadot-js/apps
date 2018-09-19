@@ -1,6 +1,7 @@
 // Copyright 2017-2018 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
+
 import { I18nProps, FormErrors, BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
@@ -20,27 +21,26 @@ type Props = I18nProps & BareProps & {
   address: string,
   error: FormErrors,
   handleChangeAccountPassword: () => void,
-  hidePasswordModal: () => void,
-  isPasswordModalOpen: boolean,
   onChangeNewPassword: (newPassword: string) => void,
   onChangePassword: (password: string) => void,
   onDiscard: () => void,
+  onHideModal: () => void,
   newPassword: string,
   password: string,
+  showModal: boolean,
   success?: React.ReactNode
 };
 
 class ChangePasswordModal extends React.PureComponent<Props> {
   render () {
-    const { address, className, error, hidePasswordModal, isPasswordModalOpen, style, success, t } = this.props;
-    const { formError } = error;
+    const { address, className, error: { formError }, onHideModal, showModal, style, success, t } = this.props;
 
     return (
       <Modal
         className={classes('accounts--ChangePassword-Modal', className)}
         dimmer='inverted'
-        onClose={hidePasswordModal}
-        open={isPasswordModalOpen}
+        onClose={onHideModal}
+        open={showModal}
         size='mini'
         style={style}
       >
@@ -66,7 +66,7 @@ class ChangePasswordModal extends React.PureComponent<Props> {
               <div className='accounts--ChangePassword-Modal-Content-message expanded'>
                 <p>
                   {t('unlock.info', {
-                    defaultValue: 'Please enter your existing account password and new account password to unlock and change it.'
+                    defaultValue: 'Press submit after entering the existing password and a new unique password below.'
                   })}
                 </p>
               </div>
@@ -84,7 +84,7 @@ class ChangePasswordModal extends React.PureComponent<Props> {
     );
   }
 
-  renderContentPassword () {
+  private renderContentPassword () {
     const { address, error: { inputError }, onChangePassword, password, t } = this.props;
     const passwordError = inputError && inputError.hasOwnProperty('password')
       ? inputError.password
@@ -93,8 +93,6 @@ class ChangePasswordModal extends React.PureComponent<Props> {
     if (!address) {
       return null;
     }
-
-    const keyringAddress = keyring.getAddress(address);
 
     return (
       <Unlock
@@ -107,12 +105,12 @@ class ChangePasswordModal extends React.PureComponent<Props> {
         onKeyDown={this.onKeyDown}
         password={password}
         tabIndex={1}
-        value={keyringAddress.publicKey()}
+        value={keyring.getAddress(address).publicKey()}
       />
     );
   }
 
-  renderContentNewPassword () {
+  private renderContentNewPassword () {
     const { address, error: { inputError }, onChangeNewPassword, newPassword, t } = this.props;
     const newPasswordError = inputError && inputError.hasOwnProperty('newPassword')
       ? inputError.newPassword
@@ -121,8 +119,6 @@ class ChangePasswordModal extends React.PureComponent<Props> {
     if (!address) {
       return null;
     }
-
-    const keyringAddress = keyring.getAddress(address);
 
     return (
       <Unlock
@@ -134,12 +130,12 @@ class ChangePasswordModal extends React.PureComponent<Props> {
         onKeyDown={this.onKeyDown}
         password={newPassword}
         tabIndex={2}
-        value={keyringAddress.publicKey()}
+        value={keyring.getAddress(address).publicKey()}
       />
     );
   }
 
-  renderButtons () {
+  private renderButtons () {
     const { error: { inputError }, handleChangeAccountPassword, newPassword, onDiscard, password, t } = this.props;
     const emptyInputValues = !password || !newPassword;
     const isInputError = !!inputError.password || !!inputError.newPassword;
@@ -171,7 +167,7 @@ class ChangePasswordModal extends React.PureComponent<Props> {
     );
   }
 
-  onKeyDown = (event: React.KeyboardEvent<Element>): void => {
+  private onKeyDown = (event: React.KeyboardEvent<Element>): void => {
     const isSpacebar = event.keyCode === 32;
 
     if (isSpacebar) {

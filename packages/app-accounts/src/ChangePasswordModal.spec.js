@@ -5,6 +5,7 @@
 import React from 'react';
 import { shallow } from '../../../test/enzyme';
 
+import { emptyErrors } from './helpers/changePassword';
 import { ChangePasswordModal } from './ChangePasswordModal';
 
 const mockT = (key, options) => (key);
@@ -13,13 +14,7 @@ describe('ChangePasswordModal', () => {
   let wrapper, emptyErrorsFixture;
 
   beforeEach(() => {
-    emptyErrorsFixture = {
-      inputError: {
-        password: '',
-        newPassword: ''
-      },
-      formError: ''
-    };
+    emptyErrorsFixture = emptyErrors();
 
     wrapper = shallow(
       <ChangePasswordModal
