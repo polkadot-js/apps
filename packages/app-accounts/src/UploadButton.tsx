@@ -172,8 +172,8 @@ class UploadButton extends React.PureComponent<Props, State> {
             defaultValue: 'upload account'
           })}
           onChange={this.handleUploadedFiles}
-          withLabel
           withIcon
+          withLabel
         />
       </div>
     );

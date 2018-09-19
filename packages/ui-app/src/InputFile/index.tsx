@@ -22,8 +22,8 @@ type Props = BareProps & {
   placeholder?: string,
   shouldDisplayFile?: boolean,
   t: TranslationFunction,
-  withLabel?: boolean,
-  withIcon?: boolean
+  withIcon?: boolean,
+  withLabel?: boolean
 };
 
 type State = {
@@ -81,7 +81,7 @@ class InputFile extends React.PureComponent<Props, State> {
   }
 
   protected renderIcon () {
-    const { withIcon = true } = this.props;
+    const { withIcon } = this.props;
 
     if (!withIcon) {
       return null;

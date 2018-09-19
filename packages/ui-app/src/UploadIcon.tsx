@@ -20,7 +20,7 @@ type Props = BareProps & {
 
 export default class UploadIcon extends React.PureComponent<Props> {
   render () {
-    const { className, icon = 'cloud upload', isCircular = false, isPrimary = false, size = 'massive', style } = this.props;
+    const { className, icon = 'cloud upload', isCircular = true, isPrimary = true, size = 'massive', style } = this.props;
 
     return (
       <Button

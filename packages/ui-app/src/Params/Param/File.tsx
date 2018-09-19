@@ -26,6 +26,7 @@ class BytesFile extends React.PureComponent<Props> {
       <InputFile
         {...this.props}
         isError={false}
+        withIcon
       />
     );
   }
