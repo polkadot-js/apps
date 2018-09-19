@@ -85,11 +85,11 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
           key='accounts-change-password-modal'
           onChangeNewPassword={this.onChangeNewPassword}
           onChangePassword={this.onChangePassword}
-          onDiscard={this.onDiscard}
-          onHideModal={this.onHideModal}
+          onDiscard={() => this.setState(this.emptyState())}
+          onHideModal={() => this.setState({ showModal: false })}
         />
         <Button
-          onClick={this.onShowModal}
+          onClick={() => this.setState(emptyStateForModal(true, this.props.address))}
           text={t('editor.change.password', {
             defaultValue: 'Change Password'
           })}
@@ -156,18 +156,6 @@ class ChangePasswordButton extends React.PureComponent<Props, State> {
       newPassword,
       success: undefined
     });
-  }
-
-  private onDiscard = (): void => {
-    this.setState(this.emptyState());
-  }
-
-  private onHideModal = (): void => {
-    this.setState({ showModal: false });
-  }
-
-  private onShowModal = (): void => {
-    this.setState(emptyStateForModal(true, this.props.address));
   }
 }
 
