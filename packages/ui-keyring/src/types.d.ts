@@ -2,9 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringInstance as BaseKeyringInstance, KeyringPair, KeyringPair$Meta } from '@polkadot/util-keyring/types';
+import { TranslationFunction } from 'i18next';
+import { KeyringInstance as BaseKeyringInstance, KeyringPair, KeyringPair$Json, KeyringPair$Meta } from '@polkadot/util-keyring/types';
 import { AddressSubject, SingleAddress } from './observable/types';
 import { KeyringSectionOption } from './options/types';
+
+export type AccountResponse = {
+  error?: string
+};
 
 export type KeyringJson$Meta = {
   isRecent?: boolean,
@@ -35,6 +40,7 @@ export type State = {
 };
 
 export type KeyringInstance = {
+  changeAccountPassword: (t: TranslationFunction, address: string, password: string, newPassword: string) => AccountResponse,
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta) => KeyringPair,
   forgetAccount: (address: string) => void,
   forgetAddress: (address: string) => void,
@@ -49,5 +55,6 @@ export type KeyringInstance = {
   saveAccountMeta: (pair: KeyringPair, meta: KeyringPair$Meta) => void,
   saveAddress: (address: string, meta: KeyringPair$Meta) => void,
   saveRecent: (address: string) => SingleAddress,
-  setDevMode: (isDevelopment: boolean) => void
+  setDevMode: (isDevelopment: boolean) => void,
+  updateAccount: (pair: KeyringPair, password?: string, newPassword?: string) => void
 };

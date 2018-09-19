@@ -7,6 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
+import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
@@ -14,9 +15,8 @@ import keyring from '@polkadot/ui-keyring/index';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
+import ChangePasswordButton from './ChangePasswordButton';
 import Forgetting from './Forgetting';
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
-
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -41,15 +41,15 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isForgetOpen, current } = this.state;
+    const { current, isForgetOpen } = this.state;
 
     return (
       <div className='accounts--Editor'>
         <Forgetting
+          currentAddress={current}
+          doForget={this.onForget}
           isOpen={isForgetOpen}
           onClose={this.toggleForget}
-          doForget={this.onForget}
-          currentAddress={current}
         />
         {this.renderData()}
         {this.renderButtons()}
@@ -65,8 +65,14 @@ class Editor extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const address = current
+      ? current.address()
+      : undefined;
+
     return (
       <Button.Group>
+        <ChangePasswordButton address={address || ''} />
+        <Button.Group.Divider />
         <Button
           isNegative
           onClick={this.toggleForget}

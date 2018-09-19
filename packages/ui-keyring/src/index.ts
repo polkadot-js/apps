@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { TranslationFunction } from 'i18next';
 import { KeyringPair, KeyringPair$Meta } from '@polkadot/util-keyring/types';
 import { SingleAddress } from './observable/types';
-import { KeyringAddress, KeyringInstance, State } from './types';
+import { AccountResponse, KeyringAddress, KeyringInstance, State } from './types';
 
 import testKeyring from '@polkadot/util-keyring/testing';
 
@@ -12,6 +13,7 @@ import accounts from './observable/accounts';
 import addresses from './observable/addresses';
 import development from './observable/development';
 import loadAll from './loadAll';
+import changeAccountPassword from './account/changePassword';
 import createAccount from './account/create';
 import forgetAccount from './account/forget';
 import isAvailable from './isAvailable';
@@ -19,6 +21,7 @@ import saveAccount from './account/save';
 import saveAccountMeta from './account/meta';
 import forgetAddress from './address/forget';
 import getAccounts from './account/all';
+import updateAccount from './account/update';
 import getAddress from './address/get';
 import getAddresses from './address/all';
 import saveAddress from './address/meta';
@@ -33,6 +36,8 @@ const state: State = {
 loadAll(state);
 
 export default ({
+  changeAccountPassword: (t: TranslationFunction, address: string, password: string, newPassword: string): AccountResponse =>
+    changeAccountPassword(state, t, address, password, newPassword),
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta): KeyringPair =>
     createAccount(state, seed, password, meta),
   forgetAccount: (address: string): void =>
@@ -64,5 +69,7 @@ export default ({
   saveRecent: (address: string): SingleAddress =>
     saveRecent(state, address),
   setDevMode: (isDevelopment: boolean): void =>
-    development.set(isDevelopment)
+    development.set(isDevelopment),
+  updateAccount: (pair: KeyringPair, password?: string, newPassword?: string): void =>
+    updateAccount(state, pair, password, newPassword)
 } as KeyringInstance);

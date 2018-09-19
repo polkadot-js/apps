@@ -6,6 +6,7 @@ import { BareProps } from './types';
 
 import React from 'react';
 
+import classes from './util/classes';
 import Button from './Button';
 import Input from './Input';
 
@@ -13,6 +14,7 @@ type Props = BareProps & {
   autoFocus?: boolean,
   defaultValue?: any,
   children?: React.ReactNode,
+  error?: React.ReactNode,
   isDisabled?: boolean,
   isError?: boolean,
   label?: string,
@@ -34,14 +36,15 @@ export default class Password extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { autoFocus, children, className, defaultValue, isDisabled, isError, label, name, onChange, onKeyDown, style, tabIndex, value, withLabel } = this.props;
+    const { autoFocus, children, className, defaultValue, error, isDisabled, isError, label, name, onChange, onKeyDown, style, tabIndex, value, withLabel } = this.props;
     const { isVisible } = this.state;
 
     return (
       <Input
         autoFocus={autoFocus}
-        className={className}
+        className={classes('ui--Password', className)}
         defaultValue={defaultValue}
+        error={error}
         isAction
         isDisabled={isDisabled}
         isError={isError}

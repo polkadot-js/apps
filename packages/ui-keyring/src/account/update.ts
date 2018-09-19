@@ -5,13 +5,18 @@
 import { KeyringPair } from '@polkadot/util-keyring/types';
 import { State } from '../types';
 
-export default function saveAccount (state: State, pair: KeyringPair, password?: string): void {
-  const json = pair.toJson(password);
+export default function updateAccount (state: State, pair: KeyringPair, password?: string, newPassword?: string): void {
+  const { accounts, keyring } = state;
+  const json = pair.toJson(newPassword);
 
   if (!json.meta.whenCreated) {
     json.meta.whenCreated = Date.now();
   }
 
-  state.accounts.add(json.address, json);
-  state.keyring.addFromJson(json);
+  if (!json.meta.whenEdited) {
+    json.meta.whenEdited = Date.now();
+  }
+
+  keyring.addFromJson(json);
+  accounts.add(json.address, json);
 }

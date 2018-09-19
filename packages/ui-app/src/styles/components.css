@@ -48,6 +48,10 @@ header .ui--Button-Group {
   vertical-align: middle;
 }
 
+.ui--AddressMini-info .button {
+  margin-left: 0.5em;
+}
+
 .ui--AddressMini-address {
   font-family: monospace;
 }
