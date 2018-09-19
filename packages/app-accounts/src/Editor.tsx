@@ -6,7 +6,7 @@ import { KeyringPair } from '@polkadot/util-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
+import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
@@ -14,9 +14,8 @@ import keyring from '@polkadot/ui-keyring/index';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
+import ChangePass from './ChangePass';
 import Forgetting from './Forgetting';
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
-
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -28,7 +27,8 @@ type State = {
   current: KeyringPair | null,
   editedName: string,
   isEdited: boolean,
-  isForgetOpen: boolean
+  isForgetOpen: boolean,
+  isPasswordOpen: boolean
 };
 
 class Editor extends React.PureComponent<Props, State> {
@@ -41,16 +41,9 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isForgetOpen, current } = this.state;
-
     return (
       <div className='accounts--Editor'>
-        <Forgetting
-          isOpen={isForgetOpen}
-          onClose={this.toggleForget}
-          doForget={this.onForget}
-          currentAddress={current}
-        />
+        {this.renderModals()}
         {this.renderData()}
         {this.renderButtons()}
       </div>
@@ -73,7 +66,14 @@ class Editor extends React.PureComponent<Props, State> {
           text={t('editor.forget', {
             defaultValue: 'Forget'
           })}
-
+        />
+         <Button.Group.Divider />
+        <Button
+          isDisabled={isEdited}
+          onClick={this.togglePass}
+          text={t('editor.changePass', {
+            defaultValue: 'Password'
+          })}
         />
         <Button.Group.Divider />
         <Button
@@ -146,6 +146,40 @@ class Editor extends React.PureComponent<Props, State> {
     );
   }
 
+  renderModals () {
+    const { current, isForgetOpen, isPasswordOpen } = this.state;
+
+    if (!current) {
+      return null;
+    }
+
+    const address = current.address();
+    const modals = [];
+
+    if (isForgetOpen) {
+      modals.push(
+        <Forgetting
+          key='modal-forget-account'
+          address={address}
+          onClose={this.toggleForget}
+          doForget={this.onForget}
+        />
+      );
+    }
+
+    if (isPasswordOpen) {
+      modals.push(
+        <ChangePass
+          account={current}
+          key='modal-change-pass'
+          onClose={this.togglePass}
+        />
+      );
+    }
+
+    return modals;
+  }
+
   createState (current: KeyringPair | null): State {
     return {
       current,
@@ -153,7 +187,8 @@ class Editor extends React.PureComponent<Props, State> {
         ? current.getMeta().name || ''
         : '',
       isEdited: false,
-      isForgetOpen: false
+      isForgetOpen: false,
+      isPasswordOpen: false
     };
   }
 
@@ -173,13 +208,13 @@ class Editor extends React.PureComponent<Props, State> {
         } else {
           editedName = '';
         }
-        let isForgetOpen = false;
 
         return {
           current,
           editedName,
           isEdited,
-          isForgetOpen
+          isForgetOpen: false,
+          isPasswordOpen: false
         };
       }
     );
@@ -231,6 +266,23 @@ class Editor extends React.PureComponent<Props, State> {
       ({ isForgetOpen }: State) => ({
         isForgetOpen: !isForgetOpen
       })
+    );
+  }
+
+  togglePass = (): void => {
+    this.setState(
+      ({ current, isPasswordOpen }: State) => {
+        if (!current) {
+          return null;
+        }
+
+        // NOTE We re-get the account from the keyring, if changed it will load the
+        // new instance (this is not quite obvious...)
+        return {
+          current: keyring.getPair(current.publicKey()),
+          isPasswordOpen: !isPasswordOpen
+        };
+      }
     );
   }
 

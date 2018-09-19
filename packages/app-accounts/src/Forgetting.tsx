@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringPair } from '@polkadot/util-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
@@ -14,10 +13,9 @@ import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';
 
 type Props = I18nProps & {
-  isOpen: boolean,
+  address: string,
   onClose: () => void,
-  doForget: () => void,
-  currentAddress: KeyringPair | null
+  doForget: () => void
 };
 
 class Forgetting extends React.PureComponent<Props> {
@@ -26,18 +24,11 @@ class Forgetting extends React.PureComponent<Props> {
   }
 
   render () {
-    const { isOpen, style } = this.props;
-
-    if (!isOpen) {
-      return null;
-    }
-
     return (
       <Modal
         size='tiny'
         dimmer='inverted'
         open
-        style={style}
       >
         {this.renderContent()}
         {this.renderButtons()}
@@ -72,11 +63,7 @@ class Forgetting extends React.PureComponent<Props> {
   }
 
   renderContent () {
-    const { t, currentAddress } = this.props;
-
-    const address = currentAddress
-      ? currentAddress.address()
-      : undefined;
+    const { address, t } = this.props;
 
     return [
       <Modal.Header key='header'>
@@ -84,10 +71,14 @@ class Forgetting extends React.PureComponent<Props> {
           defaultValue: 'Confirm account removal'
         })}
       </Modal.Header>,
-      <Modal.Content className='forgetting--Account' key='content'>
+      <Modal.Content
+        className='accounts--Forgetting-content'
+        key='content'
+      >
         <AddressSummary
-          className='ui--AddressSummary-base'
-          value={address || ''}
+          className='accounts--Modal-Address'
+          value={address}
+          withCopy={false}
         />
       </Modal.Content>
     ];
