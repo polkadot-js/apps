@@ -47,14 +47,8 @@ class Extrinsic extends React.PureComponent<Props> {
     const unknown = t('decoded.unknown', {
       defaultValue: 'unknown'
     });
-    const defaultExtrinsic = {
-      method: unknown,
-      section: unknown
-    };
     const value = _value as Uint8Array;
-    const { method, section } = value
-      ? findExtrinsic(value[0], value[1])
-      : defaultExtrinsic;
+    const { method = unknown, section = unknown } = findExtrinsic(value[0], value[1]);
     const from = addressEncode(publicKey as Uint8Array);
 
     return [
