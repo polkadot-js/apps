@@ -26,7 +26,7 @@ type State = {
   oldPass: string
 };
 
-class ChangePass extends React.PureComponent<Props> {
+class ChangePass extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
