@@ -2,6 +2,8 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
+@import './theme/_colors-polkadot.css';
+
 .ui--output {
   background: #f9f9f9;
   border-radius: 4px;
@@ -46,6 +48,10 @@ header .ui--Button-Group {
 .ui--AddressMini-info div {
   display: inline-block;
   vertical-align: middle;
+}
+
+.ui--AddressMini-info .button {
+  margin-left: 0.5em;
 }
 
 .ui--AddressMini-address {
@@ -138,6 +144,11 @@ header .ui--Button-Group {
   padding: 0;
 }
 
+.ui--AddressSummary-copy {
+  display: inline-block;
+  padding: 0 0.25em 0 0.5em;
+}
+
 .ui--CardSummary .ui.label {
   padding-left: 0;
   padding-right: 0;
@@ -165,4 +176,16 @@ header .ui--Button-Group {
 
 .ui--CopyButton {
   cursor: copy !important;
+  padding-left: 0.5em;
+}
+
+.ui--InputFile-File {
+  text-align: center;
+}
+
+.ui--InputFile-File button.ui.icon.button.ui--UploadIcon,
+.accounts--UploadButton button.ui.icon.button.ui--UploadIcon {
+  color: $dark-sky-blue;
+  background: none;
+  background-color: transparent;
 }

@@ -2,6 +2,93 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
+.accounts--App {
+  padding: 1em 2em;
+}
+
+.accounts--DownloadButton,
+.accounts--UploadButton {
+  display: inline-block;
+}
+
+.accounts--Restorer {
+  text-align: center;
+}
+
+.accounts--Restorer > .accounts--UploadButton {
+  width: 100%;
+}
+
+.accounts--UploadButton-File {
+  padding: 0em 2em 0em 2em;
+}
+
+.accounts--Restorer .accounts--UploadButton-File {
+  height: 10em;
+}
+
+.accounts--DownloadModal-Content,
+.accounts--UploadModal-Content {
+  text-align: center;
+  padding-bottom: 0.5em;
+}
+
+.accounts--DownloadModal-Content > .ui--AddressMini,
+.accounts--DownloadModal-Content > .ui--AddressSummary {
+  display: none;
+}
+
+.accounts--DownloadModal-Content .ui--row > .ui--Password,
+.accounts--UploadModal-Content .ui--row > .ui--Password {
+  flex: 0 1 100%;
+}
+
+.accounts--UploadModal-Content-message {
+  padding-top: 1.0em;
+}
+
+.accounts--flex-group-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.accounts--flex-container-col-summary,
+.accounts--flex-container-col-inputs {
+  display: flex;
+  flex-direction: column;
+}
+
+.accounts--flex-container-col-summary {
+  flex: 0 0 auto;
+}
+
+.accounts--flex-container-col-inputs {
+  flex: 1 0 auto;
+}
+
+.accounts--flex-item {
+  text-align: left;
+}
+
 .forgetting--Account {
   text-align: center;
+}
+
+@media (min-width: 1024px) {
+  .accounts--DownloadModal-Content > .ui--AddressSummary {
+    display: block;
+    text-align: center;
+  }
+
+  .accounts--Restorer .accounts--UploadButton-File {
+    height: 15em;
+  }
+}
+
+@media (max-width: 1023px) {
+  .accounts--DownloadModal-Content > .ui--AddressMini {
+    display: block;
+    text-align: center;
+  }
 }

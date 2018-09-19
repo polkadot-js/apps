@@ -12,9 +12,12 @@ import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
 
+let isLocked: boolean | undefined;
+let pair: KeyringPair | undefined;
+
 type Props = I18nProps & {
   autoFocus?: boolean,
-  error?: string,
+  error?: React.ReactNode,
   onChange: (password: string) => void,
   onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
   password: string,
@@ -23,19 +26,25 @@ type Props = I18nProps & {
 };
 
 type State = {
+  error?: React.ReactNode,
   isError: boolean,
-  isLocked: boolean,
-  pair: KeyringPair
+  isLocked?: boolean,
+  pair?: KeyringPair
 };
 
 class Unlock extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
   static getDerivedStateFromProps ({ error, value }: Props): State {
-    const pair = keyring.getPair(value as Uint8Array);
-    const isLocked = pair.isLocked();
+    try {
+      pair = keyring.getPair(value as Uint8Array);
+      isLocked = pair.isLocked();
+    } catch (error) {
+      console.error('Unable to retrieve keypair', error);
+    }
 
     return {
+      error,
       isError: !!error,
       isLocked,
       pair
@@ -44,10 +53,10 @@ class Unlock extends React.PureComponent<Props, State> {
 
   render () {
     const { autoFocus, onChange, onKeyDown, password, t, tabIndex } = this.props;
-    const { isError, isLocked } = this.state;
+    const { error, isError, isLocked, pair } = this.state;
 
-    if (!isLocked) {
-      return null;
+    if (pair && !isLocked) {
+      pair.lock();
     }
 
     return (
@@ -57,6 +66,7 @@ class Unlock extends React.PureComponent<Props, State> {
             autoFocus={autoFocus}
             className='medium'
             isError={isError}
+            error={error}
             label={t('unlock.password', {
               defaultValue: 'unlock account using'
             })}

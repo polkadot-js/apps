@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/ui-react-rx/types';
-import { I18nProps, BareProps } from '@polkadot/ui-app/types';
+import { I18nProps, BareProps, UnlockI18n } from '@polkadot/ui-app/types';
 import { QueueTx, QueueTx$MessageSetStatus } from './types';
 
 import React from 'react';
@@ -24,11 +24,6 @@ type BaseProps = BareProps & {
 };
 
 type Props = I18nProps & ApiProps & BaseProps;
-
-type UnlockI18n = {
-  key: string,
-  value: any // I18Next$Translate$Config
-};
 
 type State = {
   currentItem?: QueueTx,
@@ -160,7 +155,7 @@ class Signer extends React.PureComponent<Props, State> {
       <Unlock
         autoFocus
         error={unlockError && t(unlockError.key, unlockError.value)}
-        onChange={this.onChangePassword}
+        onChange={this.onChange}
         onKeyDown={this.onKeyDown}
         password={password}
         value={currentItem.publicKey}
@@ -190,7 +185,7 @@ class Signer extends React.PureComponent<Props, State> {
     return null;
   }
 
-  onChangePassword = (password: string): void => {
+  onChange = (password: string): void => {
     this.setState({
       password,
       unlockError: null

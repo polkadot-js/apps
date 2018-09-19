@@ -19,15 +19,16 @@ import translate from './translate';
 
 export type Props = I18nProps & {
   balance?: BN | Array<BN>,
+  buttonChildren?: React.ReactNode,
   children?: React.ReactNode,
   name?: string,
-  value: string | Uint8Array,
+  value: string | Uint8Array | undefined,
   withBalance?: boolean,
   identIconSize?: number,
   isShort?: boolean
   withCopy?: boolean,
-  withIcon?: boolean,
   withNonce?: boolean
+  withIcon?: boolean
 };
 
 export type State = {
@@ -44,12 +45,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
   static getDerivedStateFromProps ({ value }: Props, { address, publicKey, shortValue }: State): State {
-    try {
-      publicKey = addressDecode(value);
-      address = addressEncode(publicKey);
-      shortValue = toShortAddress(address);
-    } catch (error) {
+    if (!value) {
       publicKey = null;
+    } else {
+      try {
+        publicKey = addressDecode(value);
+        address = addressEncode(publicKey);
+        shortValue = toShortAddress(address);
+      } catch (error) {
+        publicKey = null;
+      }
     }
 
     const isValid = !!publicKey && publicKey.length === 32;
@@ -94,7 +99,10 @@ class AddressSummary extends React.PureComponent<Props, State> {
         <div className='ui--AddressSummary-address'>
           {isShort ? shortValue : value}
         </div>
-        {this.renderCopy()}
+        <div className='ui--AddressSummary-copy'>
+          {this.renderCopy()}
+        </div>
+        {this.renderDownload()}
       </div>
     );
   }
@@ -128,8 +136,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
     }
 
     return (
-      <CopyButton value={address} />
+      <CopyButton
+        value={address}
+      />
     );
+  }
+
+  protected renderDownload () {
+    const { buttonChildren } = this.props;
+
+    return buttonChildren ? buttonChildren : null;
   }
 
   protected renderIcon () {

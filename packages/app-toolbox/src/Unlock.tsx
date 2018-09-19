@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps, UnlockI18n } from '@polkadot/ui-app/types';
 import { KeyringPair } from '@polkadot/util-keyring/types';
 
 import React from 'react';
@@ -18,11 +18,6 @@ import translate from './translate';
 type Props = I18nProps & {
   onClose: () => void,
   pair: KeyringPair | null
-};
-
-type UnlockI18n = {
-  key: string,
-  value: any // I18Next$Translate$Config
 };
 
 type State = {
@@ -120,7 +115,7 @@ class Unlock extends React.PureComponent<Props, State> {
             label={t('unlock.password', {
               defaultValue: 'unlock account using'
             })}
-            onChange={this.onChangePassword}
+            onChange={this.onChange}
             value={password}
           />
         </div>
@@ -149,7 +144,7 @@ class Unlock extends React.PureComponent<Props, State> {
     return null;
   }
 
-  onChangePassword = (password: string): void => {
+  onChange = (password: string): void => {
     this.setState({
       password,
       unlockError: null

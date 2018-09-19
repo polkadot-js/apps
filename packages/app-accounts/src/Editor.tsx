@@ -6,29 +6,26 @@ import { KeyringPair } from '@polkadot/util-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
+import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring/index';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
+import DownloadButton from './DownloadButton';
 import Forgetting from './Forgetting';
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
-
 import translate from './translate';
 
 type Props = I18nProps & {
-  accountAll?: Array<any>,
-  onBack: () => void
+  onChangeAccount: () => void
 };
 
 type State = {
   current: KeyringPair | null,
   editedName: string,
   isEdited: boolean,
-  isForgetOpen: boolean
+  isForgetOpen: boolean,
+  previous: KeyringPair | null
 };
 
 class Editor extends React.PureComponent<Props, State> {
@@ -37,7 +34,7 @@ class Editor extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    this.state = this.createState(null);
+    this.state = this.createState(null, null);
   }
 
   render () {
@@ -73,7 +70,6 @@ class Editor extends React.PureComponent<Props, State> {
           text={t('editor.forget', {
             defaultValue: 'Forget'
           })}
-
         />
         <Button.Group.Divider />
         <Button
@@ -97,27 +93,25 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   renderData () {
-    const { accountAll, t } = this.props;
+    const { t } = this.props;
     const { current, editedName } = this.state;
-
-    if (!accountAll || !Object.keys(accountAll).length) {
-      return t('editor.none', {
-        defaultValue: 'There are no saved accounts. Add some first.'
-      });
-    }
-
     const address = current
       ? current.address()
       : undefined;
 
     return (
-      <div className='ui--grid'>
-        <AddressSummary
-          className='shrink'
-          value={address || ''}
-        />
-        <div className='grow'>
-          <div className='ui--row'>
+      <div className='accounts--flex-group-row'>
+        <div className='accounts--flex-container-col-summary'>
+          <div className='accounts--flex-item'>
+            <AddressSummary
+              buttonChildren={<DownloadButton address={address} />}
+              className='shrink'
+              value={address}
+            />
+          </div>
+        </div>
+        <div className='accounts--flex-container-col-inputs'>
+          <div className='accounts--flex-item'>
             <InputAddress
               className='full'
               hideAddress
@@ -130,7 +124,7 @@ class Editor extends React.PureComponent<Props, State> {
               value={address}
             />
           </div>
-          <div className='ui--row'>
+          <div className='accounts--flex-item'>
             <Input
               className='full'
               isEditable
@@ -146,26 +140,31 @@ class Editor extends React.PureComponent<Props, State> {
     );
   }
 
-  createState (current: KeyringPair | null): State {
+  createState (current: KeyringPair | null, previous: KeyringPair | null): State {
     return {
       current,
       editedName: current
         ? current.getMeta().name || ''
         : '',
       isEdited: false,
-      isForgetOpen: false
+      isForgetOpen: false,
+      previous
     };
   }
 
   nextState (newState: State = {} as State): void {
     this.setState(
       (prevState: State): State => {
-        let { current = prevState.current, editedName = prevState.editedName } = newState;
-        const previous = prevState.current || { address: () => undefined };
+        let {
+          current = prevState.current,
+          editedName = prevState.editedName
+        } = newState;
+        const previous = prevState.current || null;
+        const previousPair = previous || { address: () => undefined };
         let isEdited = false;
 
         if (current) {
-          if (current.address() !== previous.address()) {
+          if (current.address() !== previousPair.address()) {
             editedName = current.getMeta().name || '';
           } else if (editedName !== current.getMeta().name) {
             isEdited = true;
@@ -179,13 +178,15 @@ class Editor extends React.PureComponent<Props, State> {
           current,
           editedName,
           isEdited,
-          isForgetOpen
+          isForgetOpen,
+          previous
         };
       }
     );
   }
 
   onChangeAccount = (publicKey: Uint8Array): void => {
+    const { onChangeAccount } = this.props;
     const current = publicKey && publicKey.length === 32
       ? keyring.getPair(publicKey)
       : null;
@@ -193,6 +194,8 @@ class Editor extends React.PureComponent<Props, State> {
     this.nextState({
       current
     } as State);
+
+    onChangeAccount();
   }
 
   onChangeName = (editedName: string): void => {
@@ -242,7 +245,7 @@ class Editor extends React.PureComponent<Props, State> {
     }
 
     this.setState(
-      this.createState(null),
+      this.createState(null, null),
       () => {
         keyring.forgetAccount(
           current.address()
@@ -252,6 +255,8 @@ class Editor extends React.PureComponent<Props, State> {
   }
 }
 
-export default withObservableBase(
-  accountObservable.subject, { propName: 'accountAll' }
-)(translate(Editor));
+export {
+  Editor
+};
+
+export default translate(Editor);

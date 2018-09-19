@@ -6,30 +6,32 @@ import { TranslationFunction } from 'i18next';
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
+import InputFile from '@polkadot/ui-app/InputFile';
 
-import InputFile from '../../InputFile';
-import translate from '../../translate';
+import translate from './translate';
 
 type Props = BareProps & {
+  acceptedFormats?: string,
   isDisabled?: boolean,
   isError?: boolean,
   label: string,
   onChange?: (contents: Uint8Array) => void,
   placeholder?: string,
+  shouldDisplayFile?: boolean,
   t: TranslationFunction,
-  withLabel?: boolean
+  withLabel?: boolean,
+  withIcon?: boolean
 };
 
-class BytesFile extends React.PureComponent<Props> {
+class AccountsFile extends React.PureComponent<Props> {
   render () {
     return (
       <InputFile
         {...this.props}
         isError={false}
-        withIcon
       />
     );
   }
 }
 
-export default translate(BytesFile);
+export default translate(AccountsFile);
