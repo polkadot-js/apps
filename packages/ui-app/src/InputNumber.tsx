@@ -121,20 +121,8 @@ class InputNumber extends React.PureComponent<Props, State> {
 
   private defaultMaxLength = this.maxLength(this.maxValue());
 
-  private isNonDecimal = (value: string): boolean => {
-    const chars = '.0123456789';
-
-    if (value.length === 1) {
-      return chars.indexOf(value) === -1;
-    } else {
-      for (let el of value) {
-        if (chars.indexOf(el) === -1) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
+  private isNonDecimal = (value: string): boolean =>
+    value && value.length && value.split('').find(value => '.0123456789'.indexOf(value) === -1) ? true : false
 
   private isValidBitLength = (value: BN, bitLength?: number): boolean =>
     value.bitLength() <= (bitLength || BIT_LENGTH_128)
