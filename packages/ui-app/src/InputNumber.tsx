@@ -28,10 +28,10 @@ type State = {
   previousValue: string
 };
 
-// Chain specification bit length
+// chain specification bit length
 const BIT_LENGTH_128 = 128;
 
-// Note: KeyboardEvent.keyCode and KeyboardEvent.which are deprecated
+// note: KeyboardEvent.keyCode and KeyboardEvent.which are deprecated
 const KEYS = {
   A: 'a',
   ALT: 'Alt',
@@ -53,7 +53,7 @@ const KEYS_ALLOWED: Array<any> = [KEYS.ARROW_LEFT, KEYS.ARROW_RIGHT, KEYS.BACKSP
 
 const KEYS_PRE: Array<any> = [KEYS.ALT, KEYS.CMD, KEYS.CTRL];
 
-// Reference: Degrade to keyCode for cross-browser compatibility https://www.w3schools.com/jsref/event_key_keycode.asp
+// reference: degrade key to keyCode for cross-browser compatibility https://www.w3schools.com/jsref/event_key_keycode.asp
 const isCopy = (key: string, isPreKeyDown: boolean): boolean =>
   isPreKeyDown && key === KEYS.C;
 
@@ -86,8 +86,7 @@ class InputNumber extends React.PureComponent<Props, State> {
   render () {
     const { className, defaultValue, maxLength, style, t } = this.props;
     const { isValid, previousValue } = this.state;
-    const shouldRevertValue = !isValid;
-    const revertedValue = shouldRevertValue ? previousValue : undefined;
+    const revertedValue = !isValid ? previousValue : undefined;
 
     return (
       <div
@@ -117,12 +116,11 @@ class InputNumber extends React.PureComponent<Props, State> {
   private maxLength = (maxValue: BN): number => {
     const conservativenessFactor = 1;
 
-    return this.maxValue.toString().length - conservativenessFactor; // returns 38 for 128 bit
+    return this.maxValue.toString().length - conservativenessFactor;
   }
 
   private defaultMaxLength = this.maxLength(this.maxValue());
 
-  // Check if all characters in given string are decimal (without parsing number values)
   private isNonDecimal = (value: string): boolean => {
     const chars = '.0123456789';
 
@@ -141,17 +139,15 @@ class InputNumber extends React.PureComponent<Props, State> {
   private isValidBitLength = (value: BN, bitLength?: number): boolean =>
     value.bitLength() <= (bitLength || BIT_LENGTH_128)
 
-  /* Only allows user balance input to contain one instance of '.' for decimals.
-   * Prevents use of shift key.
-   * Allow users to use cut/copy/paste combinations, but not non-numeric letters (i.e. a, c, x, v) individually
-   */
   private isValidKey = (event: React.KeyboardEvent<Element>, isPreKeyDown: boolean): boolean => {
     const { value: previousValue } = event.target as HTMLInputElement;
 
+    // only allow one instance of a decimal point in a decimal number. prevent use of shift key
     if (isDuplicateDecimalPoint(event.key, previousValue) || event.shiftKey) {
       return false;
     }
 
+    // allow cut/copy/paste combinations but not non-numeric letters (i.e. a, c, x, v) individually
     if (
       (isSelectAll(event.key, isPreKeyDown)) ||
       (isCut(event.key, isPreKeyDown)) ||
@@ -168,27 +164,25 @@ class InputNumber extends React.PureComponent<Props, State> {
     return true;
   }
 
-  /* Receives only positive integers and decimal point as permited by onKeyDown in InputNumber.
-   * Receives `input` value that is always a string from <input type='text'> but check type as failsafe.
-   * Converts `input` to lowercase and strips spaces even though not be possible since user restricted from entering spacebar key.
-   * Note: If bitLength provided is 128 bit then max is (2 ** 128 - 1), i.e. 340282366920938463463374607431768211455
-   */
   private isValidNumber = (input: string, bitLength?: number): boolean => {
     const { t } = this.props;
     bitLength = bitLength || BIT_LENGTH_128;
 
+    // failsafe as expects only positive integers or decimals as permitted by onKeyDown from input of type text
     if (!isString(input)) {
       throw Error(t('inputnumber.error.string.required', {
         defaultValue: 'Number input value must be valid type'
       }));
     }
 
+    // remove spaces even though not possible as user restricted from entering spacebar key in onKeyDown
     input = input.toLowerCase().split(' ').join('');
 
     if (this.isNonDecimal(input)) {
       return false;
     }
 
+    // max is (2 ** 128 - 1) for bitLength of 128 bit
     const maxBN = this.maxValue(bitLength);
     const inputBN = new BN(input);
     const maxSafeIntegerBN = new BN(Number.MAX_SAFE_INTEGER);
@@ -225,20 +219,18 @@ class InputNumber extends React.PureComponent<Props, State> {
     }
   }
 
-  /* KeyDown used since it can restrict input of certain keys. Its value is the previous input
-   * field value before the new character entered. Previous input field value is stored in state
-   * incase the user pastes an invalid value and we need to revert the input value.
-   */
   private onKeyDown = (event: React.KeyboardEvent<Element>): void => {
     const { isPreKeyDown } = this.state;
     const { value: previousValue } = event.target as HTMLInputElement;
 
+    // store previous input field in state incase user pastes invalid value and we need to revert the input value
     this.setState({ previousValue });
 
     if (KEYS_PRE.includes(event.key)) {
       this.setState({ isPreKeyDown: true });
     }
 
+    // restrict input of certain keys
     const isValid = this.isValidKey(event, isPreKeyDown);
 
     if (!isValid) {
