@@ -10,8 +10,8 @@ import { Fees } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
-import Balance from '@polkadot/ui-app/Params/Param/Balance';
 import InputAddress from '@polkadot/ui-app/InputAddress';
+import InputNumber from '@polkadot/ui-app/InputNumber';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
@@ -79,8 +79,7 @@ class Transfer extends React.PureComponent<Props, State> {
         <div className='transfer--Transfer-info'>
           {this.renderAddress(from)}
           <div className='transfer--Transfer-data'>
-            <Balance
-              defaultValue={{ value: '0' }}
+            <InputNumber
               isError={!hasAvailable}
               label={t('transfer.amount', {
                 defaultValue: 'send a value of'
@@ -128,8 +127,8 @@ class Transfer extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeAmount = (amount: string) => {
-    this.setState({ amount: new BN(amount || 0) });
+  private onChangeAmount = (amount: BN) => {
+    this.setState({ amount });
   }
 
   private onChangeFrom = (from: Uint8Array) => {
