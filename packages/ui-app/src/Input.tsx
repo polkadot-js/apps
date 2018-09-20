@@ -42,6 +42,49 @@ type State = {
   name: string;
 };
 
+// note: KeyboardEvent.keyCode and KeyboardEvent.which are deprecated
+const KEYS = {
+  A: 'a',
+  ALT: 'Alt',
+  ARROW_LEFT: 'ArrowLeft',
+  ARROW_RIGHT: 'ArrowRight',
+  BACKSPACE: 'Backspace',
+  C: 'c',
+  CMD: 'Meta',
+  CTRL: 'Control',
+  DECIMAL_POINT: '.',
+  ENTER: 'Enter',
+  ESCAPE: 'Escape',
+  TAB: 'Tab',
+  V: 'v',
+  X: 'x'
+};
+
+const KEYS_PRE: Array<any> = [KEYS.ALT, KEYS.CMD, KEYS.CTRL];
+
+// reference: degrade key to keyCode for cross-browser compatibility https://www.w3schools.com/jsref/event_key_keycode.asp
+const isCopy = (key: string, isPreKeyDown: boolean): boolean =>
+  isPreKeyDown && key === KEYS.C;
+
+const isCut = (key: string, isPreKeyDown: boolean): boolean =>
+  isPreKeyDown && key === KEYS.X;
+
+const regexDecimalPoint = /[\.]/gi;
+
+const isDuplicateDecimalPoint = (key: string, value: string): boolean => {
+  const inputValue: string = value;
+  const didPressDecimalPoint: boolean = key === KEYS.DECIMAL_POINT;
+  const foundExistingDecimalPoint: boolean = inputValue.match(regexDecimalPoint) ? true : false;
+
+  return didPressDecimalPoint && foundExistingDecimalPoint;
+};
+
+const isPaste = (key: string, isPreKeyDown: boolean): boolean =>
+  isPreKeyDown && key === KEYS.V;
+
+const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
+  isPreKeyDown && key === KEYS.A;
+
 let counter = 0;
 
 export default class Input extends React.PureComponent<Props, State> {
@@ -123,3 +166,13 @@ export default class Input extends React.PureComponent<Props, State> {
     }
   }
 }
+
+export {
+  KEYS,
+  KEYS_PRE,
+  isCopy,
+  isCut,
+  isDuplicateDecimalPoint,
+  isPaste,
+  isSelectAll
+};
