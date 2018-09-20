@@ -185,15 +185,10 @@ class InputNumber extends React.PureComponent<Props, State> {
     // max is (2 ** 128 - 1) for bitLength of 128 bit
     const maxBN = this.maxValue(bitLength);
     const inputBN = new BN(input);
-    const maxSafeIntegerBN = new BN(Number.MAX_SAFE_INTEGER);
 
     if (!inputBN.lt(maxBN) || !this.isValidBitLength(inputBN, bitLength)) {
       return false;
     } else if (inputBN.isZero()) {
-      return true;
-    }
-
-    if (inputBN.gt(maxSafeIntegerBN)) {
       return true;
     }
 
