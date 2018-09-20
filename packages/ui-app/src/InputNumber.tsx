@@ -42,15 +42,11 @@ const KEYS = {
   CMD: 'Meta',
   CTRL: 'Control',
   DECIMAL_POINT: '.',
-  E: 'e',
   ENTER: 'Enter',
   ESCAPE: 'Escape',
-  PLUS: '+',
-  SHIFT: 'Shift',
   TAB: 'Tab',
   V: 'v',
-  X: 'x',
-  ZERO: '0'
+  X: 'x'
 };
 
 const KEYS_ALLOWED: Array<any> = [KEYS.ARROW_LEFT, KEYS.ARROW_RIGHT, KEYS.BACKSPACE, KEYS.DECIMAL_POINT, KEYS.ENTER, KEYS.ESCAPE, KEYS.TAB];
@@ -80,9 +76,6 @@ const isPaste = (key: string, isPreKeyDown: boolean): boolean =>
 const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
   isPreKeyDown && key === KEYS.A;
 
-const isShift = (shiftKey: boolean): boolean =>
-  shiftKey;
-
 class InputNumber extends React.PureComponent<Props, State> {
   state: State = {
     isPreKeyDown: false,
@@ -91,7 +84,7 @@ class InputNumber extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { className, defaultValue, isError, label, maxLength, style, t, withLabel } = this.props;
+    const { className, defaultValue, maxLength, style, t } = this.props;
     const { isValid, previousValue } = this.state;
     const shouldRevertValue = !isValid;
     const revertedValue = shouldRevertValue ? previousValue : undefined;
@@ -102,10 +95,8 @@ class InputNumber extends React.PureComponent<Props, State> {
         style={style}
       >
         <Input
-          className={className}
+          {...this.props}
           defaultValue={defaultValue || '0'}
-          isError={isError}
-          label={label}
           maxLength={maxLength || this.defaultMaxLength}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
@@ -113,10 +104,8 @@ class InputNumber extends React.PureComponent<Props, State> {
           placeholder={t('inputnumber.placeholder', {
             defaultValue: 'Positive number'
           })}
-          style={style}
           type='text'
           value={revertedValue}
-          withLabel={withLabel}
         />
       </div>
     );
@@ -159,10 +148,7 @@ class InputNumber extends React.PureComponent<Props, State> {
   private isValidKey = (event: React.KeyboardEvent<Element>, isPreKeyDown: boolean): boolean => {
     const { value: previousValue } = event.target as HTMLInputElement;
 
-    if (
-      (isDuplicateDecimalPoint(event.key, previousValue)) ||
-      (isShift(event.shiftKey))
-    ) {
+    if (isDuplicateDecimalPoint(event.key, previousValue) || event.shiftKey) {
       return false;
     }
 
