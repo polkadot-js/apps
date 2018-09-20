@@ -6,27 +6,25 @@ import { KeyringPair } from '@polkadot/util-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
+import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring/index';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
+import Backup from './Backup';
 import Forgetting from './Forgetting';
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
-
 import translate from './translate';
 
 type Props = I18nProps & {
-  accountAll?: Array<any>,
+  allAccounts?: Array<any>,
   onBack: () => void
 };
 
 type State = {
   current: KeyringPair | null,
   editedName: string,
+  isBackupOpen: boolean,
   isEdited: boolean,
   isForgetOpen: boolean
 };
@@ -41,16 +39,9 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isForgetOpen, current } = this.state;
-
     return (
       <div className='accounts--Editor'>
-        <Forgetting
-          isOpen={isForgetOpen}
-          onClose={this.toggleForget}
-          doForget={this.onForget}
-          currentAddress={current}
-        />
+        {this.renderModals()}
         {this.renderData()}
         {this.renderButtons()}
       </div>
@@ -77,6 +68,14 @@ class Editor extends React.PureComponent<Props, State> {
         />
         <Button.Group.Divider />
         <Button
+          isDisabled={isEdited}
+          onClick={this.toggleBackup}
+          text={t('editor.backup', {
+            defaultValue: 'Backup'
+          })}
+        />
+        <Button.Group.Divider />
+        <Button
           isDisabled={!isEdited}
           onClick={this.onDiscard}
           text={t('editor.reset', {
@@ -97,14 +96,8 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   renderData () {
-    const { accountAll, t } = this.props;
+    const { t } = this.props;
     const { current, editedName } = this.state;
-
-    if (!accountAll || !Object.keys(accountAll).length) {
-      return t('editor.none', {
-        defaultValue: 'There are no saved accounts. Add some first.'
-      });
-    }
 
     const address = current
       ? current.address()
@@ -146,12 +139,47 @@ class Editor extends React.PureComponent<Props, State> {
     );
   }
 
+  renderModals () {
+    const { current, isBackupOpen, isForgetOpen } = this.state;
+
+    if (!current) {
+      return null;
+    }
+
+    const address = current.address();
+    const modals = [];
+
+    if (isBackupOpen) {
+      modals.push(
+        <Backup
+          key='modal-backup-account'
+          pair={current}
+          onClose={this.toggleBackup}
+        />
+      );
+    }
+
+    if (isForgetOpen) {
+      modals.push(
+        <Forgetting
+          key='modal-forget-account'
+          address={address}
+          onClose={this.toggleForget}
+          doForget={this.onForget}
+        />
+      );
+    }
+
+    return modals;
+  }
+
   createState (current: KeyringPair | null): State {
     return {
       current,
       editedName: current
         ? current.getMeta().name || ''
         : '',
+      isBackupOpen: false,
       isEdited: false,
       isForgetOpen: false
     };
@@ -173,13 +201,13 @@ class Editor extends React.PureComponent<Props, State> {
         } else {
           editedName = '';
         }
-        let isForgetOpen = false;
 
         return {
           current,
           editedName,
+          isBackupOpen: false,
           isEdited,
-          isForgetOpen
+          isForgetOpen: false
         };
       }
     );
@@ -226,6 +254,14 @@ class Editor extends React.PureComponent<Props, State> {
     } as State);
   }
 
+  toggleBackup = (): void => {
+    this.setState(
+      ({ isBackupOpen }: State) => ({
+        isBackupOpen: !isBackupOpen
+      })
+    );
+  }
+
   toggleForget = (): void => {
     this.setState(
       ({ isForgetOpen }: State) => ({
@@ -252,6 +288,4 @@ class Editor extends React.PureComponent<Props, State> {
   }
 }
 
-export default withObservableBase(
-  accountObservable.subject, { propName: 'accountAll' }
-)(translate(Editor));
+export default translate(Editor);

@@ -35,6 +35,7 @@ export type State = {
 };
 
 export type KeyringInstance = {
+  addAccountPair: (pair: KeyringPair, password: string) => KeyringPair,
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta) => KeyringPair,
   forgetAccount: (address: string) => void,
   forgetAddress: (address: string) => void,
