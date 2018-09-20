@@ -96,7 +96,7 @@ class InputNumber extends React.PureComponent<Props, State> {
         <Input
           {...this.props}
           defaultValue={defaultValue || '0'}
-          maxLength={maxLength || this.defaultMaxLength}
+          maxLength={maxLength || this.maxLength()}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
@@ -113,13 +113,11 @@ class InputNumber extends React.PureComponent<Props, State> {
   private maxValue = (bitLength?: number): BN =>
     new BN(2).pow(new BN(bitLength || BIT_LENGTH_128)).subn(1)
 
-  private maxLength = (maxValue: BN): number => {
+  private maxLength = (): number => {
     const conservativenessFactor = 1;
 
     return this.maxValue.toString().length - conservativenessFactor;
   }
-
-  private defaultMaxLength = this.maxLength(this.maxValue());
 
   private isNonDecimal = (value: string): boolean =>
     value && value.length && value.split('').find(value => '.0123456789'.indexOf(value) === -1) ? true : false
