@@ -10,7 +10,6 @@ import isString from '@polkadot/util/is/string';
 
 import classes from './util/classes';
 import Input from './Input';
-import { BIT_LENGTH_128 } from './constants';
 import translate from './translate';
 
 type Props = BareProps & I18nProps & {
@@ -28,6 +27,9 @@ type State = {
   isValid: boolean,
   previousValue: string
 };
+
+// Chain specification bit length
+const BIT_LENGTH_128 = 128;
 
 // Note: KeyboardEvent.keyCode and KeyboardEvent.which are deprecated
 const KEYS = {
@@ -266,6 +268,7 @@ class InputNumber extends React.PureComponent<Props, State> {
 }
 
 export {
+  BIT_LENGTH_128,
   InputNumber
 };
 

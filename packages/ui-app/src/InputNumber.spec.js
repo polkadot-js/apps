@@ -5,9 +5,8 @@
 import React from 'react';
 
 import { mount } from '../../../test/enzyme';
-import { BIT_LENGTH_128 } from './constants';
 import Input from './Input';
-import { InputNumber } from './InputNumber';
+import { BIT_LENGTH_128, InputNumber } from './InputNumber';
 
 const mockT = (key, options) => (key);
 
