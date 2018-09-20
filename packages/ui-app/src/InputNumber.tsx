@@ -188,8 +188,6 @@ class InputNumber extends React.PureComponent<Props, State> {
 
     if (!inputBN.lt(maxBN) || !this.isValidBitLength(inputBN, bitLength)) {
       return false;
-    } else if (inputBN.isZero()) {
-      return true;
     }
 
     return true;
