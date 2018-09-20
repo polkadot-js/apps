@@ -46,15 +46,11 @@ const RECENT_KEY = 'header-recent';
 const STORAGE_KEY = 'options:InputAddress';
 const DEFAULT_TYPE = 'all';
 
-const transform = (value: string): Uint8Array => {
-  if (isHex(value)) {
-    return hexToU8a(value);
-  }
-
+const transformToSs58 = (value: string): string => {
   try {
-    return addressDecode(value);
+    return addressToAddress(value);
   } catch (error) {
-    return new Uint8Array([]);
+    return '';
   }
 };
 
@@ -168,7 +164,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     InputAddress.setLastValue(type, address);
 
-    onChange(transform(address));
+    onChange(transformToSs58(address));
   }
 
   private onSearch = (filteredOptions: KeyringSectionOptions, _query: string): KeyringSectionOptions => {
