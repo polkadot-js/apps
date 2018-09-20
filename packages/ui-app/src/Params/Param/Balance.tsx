@@ -10,7 +10,6 @@ import BN from 'bn.js';
 import React from 'react';
 import withApi from '@polkadot/ui-react-rx/with/api';
 
-import { defaultMaxLength } from '../../util/chainSpec';
 import InputNumber from '../../InputNumber';
 import translate from '../../translate';
 import Bare from './Bare';
@@ -19,7 +18,7 @@ type Props = I18nProps & ApiProps & BareProps;
 
 class Balance extends React.PureComponent<Props> {
   render () {
-    const { className, defaultValue: { value }, isError, label, style, t, withLabel } = this.props;
+    const { className, defaultValue: { value }, isError, label, style, withLabel } = this.props;
     const defaultValue = new BN((value as BN).toString(10) || '0').toString(10);
 
     return (
@@ -32,11 +31,7 @@ class Balance extends React.PureComponent<Props> {
           defaultValue={defaultValue || '0'}
           isError={isError}
           label={label}
-          maxLength={defaultMaxLength}
           onChange={this.onChange}
-          placeholder={t('account.balance.placeholder', {
-            defaultValue: 'Positive number'
-          })}
           withLabel={withLabel}
         />
       </Bare>
@@ -44,14 +39,14 @@ class Balance extends React.PureComponent<Props> {
   }
 
   onChange = (value: BN): void => {
-    const { onChange } = this.props;
+    const { isError, onChange } = this.props;
 
     if (!onChange) {
       return;
     }
 
     onChange({
-      isValid: true,
+      isValid: !isError,
       value
     });
   }
