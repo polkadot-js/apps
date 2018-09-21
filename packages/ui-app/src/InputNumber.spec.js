@@ -37,6 +37,13 @@ describe('InputNumber', () => {
     expect(wrapper.find(Input)).toHaveLength(1);
   });
 
+  describe('maxLength', () => {
+    it('returns max length for use on number input fields that is the length of the max BN value minus a conservativeness factor for 128 bit', () => {
+      const expectedMaxLength = 38;
+      expect(wrapper.instance().maxLength(BIT_LENGTH_128)).toBe(expectedMaxLength);
+    });
+  });
+
   describe('maxValue', () => {
     it('returns max BN value for given bitlength or uses 128 bit bitlength fallback', () => {
       expect(wrapper.instance().maxValue(128)).toEqual(max128BN);
