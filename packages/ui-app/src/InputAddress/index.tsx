@@ -42,7 +42,7 @@ const RECENT_KEY = 'header-recent';
 const STORAGE_KEY = 'options:InputAddress';
 const DEFAULT_TYPE = 'all';
 
-const transformToSs58 = (value?: string): string? => {
+const transformToSs58 = (value: string): string | null => {
   if (!value) {
     return null;
   }
