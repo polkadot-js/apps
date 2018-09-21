@@ -11,13 +11,9 @@ import React from 'react';
 import store from 'store';
 import keyring from '@polkadot/ui-keyring/index';
 import createOptionHeader from '@polkadot/ui-keyring/options/header';
-import addressDecode from '@polkadot/util-keyring/address/decode';
-import addressEncode from '@polkadot/util-keyring/address/encode';
 import { optionsSubject } from '@polkadot/ui-keyring/options';
 import makeOption from '@polkadot/ui-keyring/options/item';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
-import isHex from '@polkadot/util/is/hex';
-import hexToU8a from '@polkadot/util/hex/toU8a';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
@@ -46,12 +42,18 @@ const RECENT_KEY = 'header-recent';
 const STORAGE_KEY = 'options:InputAddress';
 const DEFAULT_TYPE = 'all';
 
-const transformToSs58 = (value: string): string => {
-  try {
-    return addressToAddress(value);
-  } catch (error) {
-    return '';
+const transformToSs58 = (value?: string): string? => {
+  if (!value) {
+    return null;
   }
+
+  const ss58 = addressToAddress(value);
+
+  if (ss58 === undefined) {
+    return null;
+  }
+
+  return ss58;
 };
 
 class InputAddress extends React.PureComponent<Props, State> {
@@ -182,9 +184,9 @@ class InputAddress extends React.PureComponent<Props, State> {
     );
 
     if (isInput && valueMatches.length === 0) {
-      const publicKey = transform(query);
+      const ss58 = transformToSs58(query);
 
-      if (publicKey.length === 32) {
+      if (ss58) {
         if (!matches.find((item) => item.key === RECENT_KEY)) {
           matches.push(
             createOptionHeader('Recent')
@@ -193,7 +195,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
         matches.push(
           keyring.saveRecent(
-            addressEncode(publicKey)
+            ss58
           ).option
         );
       }
