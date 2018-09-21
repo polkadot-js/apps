@@ -25,7 +25,7 @@ type State = {
   isValid: boolean,
   encoded: EncodedMessage,
   nonce: BN,
-  publicKey: Uint8Array
+  ss58: string
 };
 
 const defaultExtrinsic = extrinsics.staking.public.transfer;
@@ -38,7 +38,7 @@ class Selection extends React.PureComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { publicKey, isValid } = this.state;
+    const { ss58, isValid } = this.state;
 
     return (
       <div className='extrinsics--Selection'>
@@ -62,7 +62,7 @@ class Selection extends React.PureComponent<Props, State> {
             defaultValue: 'with an index'
           })}
           rxChange={this.onChangeNonce}
-          value={publicKey}
+          value={ss58}
         />
         <Button.Group>
           <Button
@@ -81,10 +81,10 @@ class Selection extends React.PureComponent<Props, State> {
   nextState (newState: State): void {
     this.setState(
       (prevState: State): State => {
-        const { encoded = prevState.encoded, nonce = prevState.nonce, publicKey = prevState.publicKey } = newState;
+        const { encoded = prevState.encoded, nonce = prevState.nonce, ss58 = prevState.ss58 } = newState;
         const isValid = !!(
-          publicKey &&
-          publicKey.length &&
+          ss58 &&
+          ss58.length &&
           encoded &&
           encoded.isValid
         );
@@ -93,7 +93,7 @@ class Selection extends React.PureComponent<Props, State> {
           encoded,
           isValid,
           nonce,
-          publicKey
+          ss58
         };
       }
     );
@@ -107,18 +107,18 @@ class Selection extends React.PureComponent<Props, State> {
     this.nextState({ nonce } as State);
   }
 
-  onChangeSender = (publicKey: Uint8Array): void => {
-    this.nextState({ publicKey, nonce: new BN(0) } as State);
+  onChangeSender = (ss58: string): void => {
+    this.nextState({ ss58, nonce: new BN(0) } as State);
   }
 
   onQueue = (): void => {
     const { queueAdd } = this.props;
-    const { encoded: { isValid, values }, nonce, publicKey } = this.state;
+    const { encoded: { isValid, values }, nonce, ss58 } = this.state;
 
     queueAdd({
       isValid,
       nonce,
-      publicKey,
+      ss58,
       rpc: defaultRpc,
       values
     });

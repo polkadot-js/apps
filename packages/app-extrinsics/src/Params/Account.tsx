@@ -11,7 +11,7 @@ import BaseAccount from '../Account';
 export default class Account extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = (value as Uint8Array);
+    const defaultValue = (value as string);
 
     return (
       <BaseAccount
@@ -28,12 +28,12 @@ export default class Account extends React.PureComponent<Props> {
     );
   }
 
-  onChange = (publicKey?: Uint8Array): void => {
+  onChange = (ss58?: string): void => {
     const { onChange } = this.props;
 
     onChange && onChange({
-      isValid: !!publicKey && publicKey.length === 32,
-      value: publicKey
+      isValid: !!ss58 && ss58.length === 48,
+      value: ss58
     });
   }
 }
