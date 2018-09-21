@@ -73,7 +73,7 @@ class InputNumber extends React.PureComponent<Props, State> {
   private maxLength = (): number => {
     const conservativenessFactor = 1;
 
-    return this.maxValue.toString().length - conservativenessFactor;
+    return this.maxValue().toString().length - conservativenessFactor;
   }
 
   private isNonDecimal = (value: string): boolean =>
