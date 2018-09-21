@@ -15,7 +15,7 @@
     "polkadot-identicon": "^1.0.2"
   },
   "devDependencies": {
-    "@polkadot/util-keyring": "^0.30.3",
+    "@polkadot/util-keyring": "^0.30.4",
     "empty": "^0.10.1",
     "react": "^16.5.0",
     "react-dom": "^16.5.0"
