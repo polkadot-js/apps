@@ -6,7 +6,6 @@ import { BareProps } from './types';
 
 import React from 'react';
 import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
-
 import isUndefined from '@polkadot/util/is/undefined';
 
 import Labelled from './Labelled';
@@ -52,7 +51,6 @@ const KEYS = {
   C: 'c',
   CMD: 'Meta',
   CTRL: 'Control',
-  DECIMAL_POINT: '.',
   ENTER: 'Enter',
   ESCAPE: 'Escape',
   TAB: 'Tab',
@@ -68,16 +66,6 @@ const isCopy = (key: string, isPreKeyDown: boolean): boolean =>
 
 const isCut = (key: string, isPreKeyDown: boolean): boolean =>
   isPreKeyDown && key === KEYS.X;
-
-const regexDecimalPoint = /[\.]/gi;
-
-const isDuplicateDecimalPoint = (key: string, value: string): boolean => {
-  const inputValue: string = value;
-  const didPressDecimalPoint: boolean = key === KEYS.DECIMAL_POINT;
-  const foundExistingDecimalPoint: boolean = inputValue.match(regexDecimalPoint) ? true : false;
-
-  return didPressDecimalPoint && foundExistingDecimalPoint;
-};
 
 const isPaste = (key: string, isPreKeyDown: boolean): boolean =>
   isPreKeyDown && key === KEYS.V;
@@ -170,7 +158,6 @@ export default class Input extends React.PureComponent<Props, State> {
 export {
   isCopy,
   isCut,
-  isDuplicateDecimalPoint,
   isPaste,
   isSelectAll,
   KEYS,

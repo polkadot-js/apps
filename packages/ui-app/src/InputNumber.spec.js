@@ -49,32 +49,24 @@ describe('InputNumber', () => {
     });
   });
 
-  describe('isNonDecimal', () => {
+  describe('isNonInteger', () => {
     describe('invalid inputs', () => {
-      it('detects non-decimal value', () => {
-        expect(wrapper.instance().isNonDecimal('12.1copypastedvalue')).toBe(true);
+      it('detects decimal value', () => {
+        expect(wrapper.instance().isNonInteger('12.1')).toBe(true);
+      });
+
+      it('detects non-integer value', () => {
+        expect(wrapper.instance().isNonInteger('12.1copypastedvalue')).toBe(true);
       });
     });
 
     describe('valid inputs', () => {
-      it('detects integers as valid decimal values', () => {
-        expect(wrapper.instance().isNonDecimal('12')).toBe(false);
+      it('detects integers', () => {
+        expect(wrapper.instance().isNonInteger('12')).toBe(false);
       });
 
-      it('detects decimal value for single char without decimal point', () => {
-        expect(wrapper.instance().isNonDecimal('0')).toBe(false);
-      });
-
-      it('detects decimal value for single char with decimal point', () => {
-        expect(wrapper.instance().isNonDecimal('.')).toBe(false);
-      });
-
-      it('detects decimal value for string with multiple chars without decimal point', () => {
-        expect(wrapper.instance().isNonDecimal('123')).toBe(false);
-      });
-
-      it('detects decimal value for string with multiple chars with decimal point', () => {
-        expect(wrapper.instance().isNonDecimal('123.1')).toBe(false);
+      it('detects integer value with single digit', () => {
+        expect(wrapper.instance().isNonInteger('0')).toBe(false);
       });
     });
   });
@@ -93,13 +85,6 @@ describe('InputNumber', () => {
 
         expect(() => { wrapper.instance().isValidNumber(invalidInputValueType, '0', BIT_LENGTH_128); }).toThrow();
       });
-    });
-
-    it('should not be valid when user enters a small decimal value greater than max bit length when using 128 bit', () => {
-      const invalidValue = '0.00000000000000000000000000000001';
-      const validValue = '0.0000000000000000000000000000001';
-      expect(wrapper.instance().isValidNumber(invalidValue, BIT_LENGTH_128)).toBe(false);
-      expect(wrapper.instance().isValidNumber(validValue, BIT_LENGTH_128)).toBe(true);
     });
 
     it('should not be valid when user enters positive value greater than or equal to the 128 bit max for latest chain', () => {

@@ -9,7 +9,7 @@ import React from 'react';
 import isString from '@polkadot/util/is/string';
 
 import classes from './util/classes';
-import Input, { KEYS, KEYS_PRE, isCopy, isCut, isDuplicateDecimalPoint, isPaste, isSelectAll } from './Input';
+import Input, { KEYS, KEYS_PRE, isCopy, isCut, isPaste, isSelectAll } from './Input';
 import translate from './translate';
 
 type Props = BareProps & I18nProps & {
@@ -31,7 +31,7 @@ type State = {
 // chain specification bit length
 const BIT_LENGTH_128 = 128;
 
-const KEYS_ALLOWED: Array<any> = [KEYS.ARROW_LEFT, KEYS.ARROW_RIGHT, KEYS.BACKSPACE, KEYS.DECIMAL_POINT, KEYS.ENTER, KEYS.ESCAPE, KEYS.TAB];
+const KEYS_ALLOWED: Array<any> = [KEYS.ARROW_LEFT, KEYS.ARROW_RIGHT, KEYS.BACKSPACE, KEYS.ENTER, KEYS.ESCAPE, KEYS.TAB];
 
 class InputNumber extends React.PureComponent<Props, State> {
   state: State = {
@@ -76,17 +76,15 @@ class InputNumber extends React.PureComponent<Props, State> {
     return this.maxValue().toString().length - conservativenessFactor;
   }
 
-  private isNonDecimal = (value: string): boolean =>
-    value && value.length && value.split('').find(value => '.0123456789'.indexOf(value) === -1) ? true : false
+  private isNonInteger = (value: string): boolean =>
+    value && value.length && value.split('').find(value => '0123456789'.indexOf(value) === -1) ? true : false
 
   private isValidBitLength = (value: BN, bitLength?: number): boolean =>
     value.bitLength() <= (bitLength || BIT_LENGTH_128)
 
   private isValidKey = (event: React.KeyboardEvent<Element>, isPreKeyDown: boolean): boolean => {
-    const { value: previousValue } = event.target as HTMLInputElement;
-
-    // only allow one instance of a decimal point in a decimal number. prevent use of shift key
-    if (isDuplicateDecimalPoint(event.key, previousValue) || event.shiftKey) {
+    // prevent use of shift key
+    if (event.shiftKey) {
       return false;
     }
 
@@ -100,7 +98,7 @@ class InputNumber extends React.PureComponent<Props, State> {
       return true;
     }
 
-    if (this.isNonDecimal(event.key) && !KEYS_ALLOWED.includes(event.key)) {
+    if (this.isNonInteger(event.key) && !KEYS_ALLOWED.includes(event.key)) {
       return false;
     }
 
@@ -111,7 +109,7 @@ class InputNumber extends React.PureComponent<Props, State> {
     const { t } = this.props;
     bitLength = bitLength || BIT_LENGTH_128;
 
-    // failsafe as expects only positive integers or decimals as permitted by onKeyDown from input of type text
+    // failsafe as expects only positive integers as permitted by onKeyDown from input of type text
     if (!isString(input)) {
       throw Error(t('inputnumber.error.string.required', {
         defaultValue: 'Number input value must be valid type'
@@ -121,7 +119,7 @@ class InputNumber extends React.PureComponent<Props, State> {
     // remove spaces even though not possible as user restricted from entering spacebar key in onKeyDown
     input = input.toLowerCase().split(' ').join('');
 
-    if (this.isNonDecimal(input)) {
+    if (this.isNonInteger(input)) {
       return false;
     }
 
