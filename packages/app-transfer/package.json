@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-transfer",
-  "version": "0.20.16",
+  "version": "0.20.17",
   "description": "A basic transfer app",
   "main": "index.js",
   "scripts": {},
@@ -11,8 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@polkadot/ui-app": "^0.20.16",
-    "@polkadot/ui-keyring": "^0.20.16",
-    "@polkadot/ui-react-rx": "^0.20.16"
+    "@polkadot/ui-app": "^0.20.17",
+    "@polkadot/ui-keyring": "^0.20.17",
+    "@polkadot/ui-react-rx": "^0.20.17"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-toolbox",
-  "version": "0.20.16",
+  "version": "0.20.17",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@polkadot/ui-app": "^0.20.16",
-    "@polkadot/ui-keyring": "^0.20.16"
+    "@polkadot/ui-app": "^0.20.17",
+    "@polkadot/ui-keyring": "^0.20.17"
   }
 }
