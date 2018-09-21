@@ -5,9 +5,9 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
+import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
 
 import translate from './translate';
 
@@ -18,10 +18,6 @@ type Props = I18nProps & {
 };
 
 class Forgetting extends React.PureComponent<Props> {
-  constructor (props: Props) {
-    super(props);
-  }
-
   render () {
     return (
       <Modal
@@ -70,10 +66,7 @@ class Forgetting extends React.PureComponent<Props> {
           defaultValue: 'Confirm account removal'
         })}
       </Modal.Header>,
-      <Modal.Content
-        className='accounts--Forgetting-content'
-        key='content'
-      >
+      <Modal.Content key='content'>
         <AddressSummary
           className='accounts--Modal-Address'
           value={address}

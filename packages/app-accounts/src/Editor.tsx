@@ -64,7 +64,6 @@ class Editor extends React.PureComponent<Props, State> {
           text={t('editor.forget', {
             defaultValue: 'Forget'
           })}
-
         />
         <Button.Group.Divider />
         <Button
