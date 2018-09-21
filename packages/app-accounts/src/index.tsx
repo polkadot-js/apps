@@ -21,7 +21,7 @@ type Props = I18nProps & {
   basePath: string
 };
 
-type Actions = 'create' | 'edit' | 'restore';
+type Actions = 'create' | 'edit';
 
 type State = {
   action: Actions,
