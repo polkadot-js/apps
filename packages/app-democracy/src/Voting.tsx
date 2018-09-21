@@ -18,7 +18,7 @@ type Props = I18nProps & {
 };
 
 type State = {
-  publicKey?: Uint8Array
+  ss58?: string
 };
 
 class Voting extends React.PureComponent<Props, State> {
@@ -45,9 +45,9 @@ class Voting extends React.PureComponent<Props, State> {
 
   private renderButtons () {
     const { referendumId } = this.props;
-    const { publicKey } = this.state;
+    const { ss58 } = this.state;
 
-    if (!publicKey) {
+    if (!ss58) {
       return null;
     }
 
@@ -55,7 +55,7 @@ class Voting extends React.PureComponent<Props, State> {
       <QueueConsumer>
         {({ queueExtrinsic }: QueueProps) => (
           <VotingButtons
-            publicKey={publicKey}
+            ss58={ss58}
             queueExtrinsic={queueExtrinsic}
             referendumId={referendumId}
           />
@@ -64,8 +64,8 @@ class Voting extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeAccount = (publicKey?: Uint8Array) => {
-    this.setState({ publicKey });
+  private onChangeAccount = (ss58?: string) => {
+    this.setState({ ss58 });
   }
 }
 

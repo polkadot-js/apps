@@ -15,7 +15,7 @@ import withObservable from '@polkadot/ui-react-rx/with/observable';
 import translate from './translate';
 
 type Props = I18nProps & {
-  publicKey?: Uint8Array,
+  ss58?: string,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
   referendumId: BN,
   systemAccountIndexOf?: BN
@@ -23,12 +23,12 @@ type Props = I18nProps & {
 
 class VotingButton extends React.PureComponent<Props> {
   render () {
-    const { publicKey, t } = this.props;
+    const { ss58, t } = this.props;
 
     return (
       <Button.Group>
         <Button
-          isDisabled={!publicKey}
+          isDisabled={!ss58}
           isNegative
           text={t('votebtn.nay', {
             defaultValue: 'Nay'
@@ -37,7 +37,7 @@ class VotingButton extends React.PureComponent<Props> {
         />
         <Button.Or />
         <Button
-          isDisabled={!publicKey}
+          isDisabled={!ss58}
           isPositive
           text={t('votebtn.aye', {
             defaultValue: 'Aye'
@@ -49,16 +49,16 @@ class VotingButton extends React.PureComponent<Props> {
   }
 
   private doVote (vote: boolean) {
-    const { publicKey, queueExtrinsic, referendumId, systemAccountIndexOf = new BN(0) } = this.props;
+    const { ss58, queueExtrinsic, referendumId, systemAccountIndexOf = new BN(0) } = this.props;
 
-    if (!publicKey) {
+    if (!ss58) {
       return;
     }
 
     queueExtrinsic({
       extrinsic: extrinsics.democracy.public.vote,
       nonce: systemAccountIndexOf,
-      publicKey,
+      ss58,
       values: [referendumId, vote]
     });
   }
@@ -74,5 +74,5 @@ class VotingButton extends React.PureComponent<Props> {
 
 export default withMulti(
   translate(VotingButton),
-  withObservable('systemAccountIndexOf', { paramProp: 'publicKey' })
+  withObservable('systemAccountIndexOf', { paramProp: 'ss58' })
 );
