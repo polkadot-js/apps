@@ -13,6 +13,7 @@ import Input, { KEYS, KEYS_PRE, isCopy, isCut, isPaste, isSelectAll } from './In
 import translate from './translate';
 
 type Props = BareProps & I18nProps & {
+  bitLength?: number,
   defaultValue?: string,
   isError?: boolean,
   label?: any,
@@ -28,10 +29,16 @@ type State = {
   previousValue: string
 };
 
-// chain specification bit length
-const BIT_LENGTH_128 = 128;
+const BIT_LENGTH_32 = 32; // normal numbers
+const BIT_LENGTH_128 = 128; // chain specification
 
 const KEYS_ALLOWED: Array<any> = [KEYS.ARROW_LEFT, KEYS.ARROW_RIGHT, KEYS.BACKSPACE, KEYS.ENTER, KEYS.ESCAPE, KEYS.TAB];
+
+function maxConservativeLength (maxValueLength: number): number {
+  const conservativenessFactor = 1;
+
+  return maxValueLength - conservativenessFactor;
+}
 
 class InputNumber extends React.PureComponent<Props, State> {
   state: State = {
@@ -41,9 +48,10 @@ class InputNumber extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { className, defaultValue, maxLength, style, t } = this.props;
+    const { bitLength = BIT_LENGTH_32, className, defaultValue, maxLength, style, t } = this.props;
     const { isValid, previousValue } = this.state;
     const revertedValue = !isValid ? previousValue : undefined;
+    const maxValueLength = this.maxValue(bitLength).toString().length;
 
     return (
       <div
@@ -53,7 +61,7 @@ class InputNumber extends React.PureComponent<Props, State> {
         <Input
           {...this.props}
           defaultValue={defaultValue || '0'}
-          maxLength={maxLength || this.maxLength()}
+          maxLength={maxLength || maxConservativeLength(maxValueLength)}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
@@ -69,12 +77,6 @@ class InputNumber extends React.PureComponent<Props, State> {
 
   private maxValue = (bitLength?: number): BN =>
     new BN(2).pow(new BN(bitLength || BIT_LENGTH_128)).subn(1)
-
-  private maxLength = (): number => {
-    const conservativenessFactor = 1;
-
-    return this.maxValue().toString().length - conservativenessFactor;
-  }
 
   // check if string value is non-integer even if above MAX_SAFE_INTEGER. isNaN(Number(value)) is faster for values of length 1
   private isNonInteger = (value: string): boolean =>
@@ -182,7 +184,8 @@ class InputNumber extends React.PureComponent<Props, State> {
 
 export {
   BIT_LENGTH_128,
-  InputNumber
+  InputNumber,
+  maxConservativeLength
 };
 
 export default translate(InputNumber);

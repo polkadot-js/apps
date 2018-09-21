@@ -7,7 +7,7 @@ import React from 'react';
 
 import { mount } from '../../../test/enzyme';
 import Input from './Input';
-import { BIT_LENGTH_128, InputNumber } from './InputNumber';
+import { BIT_LENGTH_128, InputNumber, maxConservativeLength } from './InputNumber';
 
 const mockT = (key, options) => (key);
 
@@ -39,7 +39,8 @@ describe('InputNumber', () => {
 
   describe('maxLength', () => {
     it('returns max length for use on number input fields that is the length of the max BN value minus a conservativeness factor for 128 bit', () => {
-      expect(wrapper.instance().maxLength(BIT_LENGTH_128)).toBe(38);
+      const maxValueLength = wrapper.instance().maxValue(BIT_LENGTH_128).toString().length;
+      expect(maxConservativeLength(maxValueLength)).toBe(38);
     });
   });
 

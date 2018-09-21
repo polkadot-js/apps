@@ -7,7 +7,7 @@ import { Props as BareProps } from '../types';
 import BN from 'bn.js';
 import React from 'react';
 
-import InputNumber from '../../InputNumber';
+import InputNumber, { BIT_LENGTH_128 } from '../../InputNumber';
 import Bare from './Bare';
 
 type Props = BareProps;
@@ -23,6 +23,7 @@ class Balance extends React.PureComponent<Props> {
         style={style}
       >
         <InputNumber
+          bitLength={BIT_LENGTH_128}
           className='large'
           defaultValue={defaultValue || '0'}
           isError={isError}

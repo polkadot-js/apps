@@ -11,7 +11,7 @@ import BN from 'bn.js';
 import React from 'react';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import InputAddress from '@polkadot/ui-app/InputAddress';
-import InputNumber from '@polkadot/ui-app/InputNumber';
+import InputNumber, { BIT_LENGTH_128 } from '@polkadot/ui-app/InputNumber';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
@@ -80,6 +80,7 @@ class Transfer extends React.PureComponent<Props, State> {
           {this.renderAddress(from)}
           <div className='transfer--Transfer-data'>
             <InputNumber
+              bitLength={BIT_LENGTH_128}
               isError={!hasAvailable}
               label={t('transfer.amount', {
                 defaultValue: 'send a value of'
