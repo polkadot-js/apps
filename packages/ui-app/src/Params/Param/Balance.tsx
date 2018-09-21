@@ -14,16 +14,21 @@ type Props = BareProps;
 
 class Balance extends React.PureComponent<Props> {
   render () {
-    const { defaultValue: { value } } = this.props;
+    const { className, defaultValue: { value }, isError, label, style, withLabel } = this.props;
     const defaultValue = new BN(value as BN || '0').toString(10);
 
     return (
-      <Bare {...this.props}>
+      <Bare
+        className={className}
+        style={style}
+      >
         <InputNumber
-          {...this.props}
           className='large'
           defaultValue={defaultValue || '0'}
+          isError={isError}
+          label={label}
           onChange={this.onChange}
+          withLabel={withLabel}
         />
       </Bare>
     );
