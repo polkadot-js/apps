@@ -83,7 +83,7 @@ class Transfer extends React.PureComponent<Props, State> {
               defaultValue='0'
               isError={!hasAvailable}
               label={t('amount', {
-                defaultValue: 'send a value of'
+                defaultValue: 'send a value of (μ)'
               })}
               min={0}
               onChange={this.onChangeAmount}
