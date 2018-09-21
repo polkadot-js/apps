@@ -168,11 +168,11 @@ export default class Input extends React.PureComponent<Props, State> {
 }
 
 export {
-  KEYS,
-  KEYS_PRE,
   isCopy,
   isCut,
   isDuplicateDecimalPoint,
   isPaste,
-  isSelectAll
+  isSelectAll,
+  KEYS,
+  KEYS_PRE
 };
