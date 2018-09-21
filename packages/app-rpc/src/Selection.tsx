@@ -28,7 +28,7 @@ type Props = I18nProps & {
 type State = {
   isValid: boolean,
   nonce: BN,
-  publicKey?: Uint8Array | null,
+  ss58?: string | null,
   rpc: SectionItem<Interfaces>,
   values: Array<RawParam>
 };
@@ -39,7 +39,7 @@ class Selection extends React.PureComponent<Props, State> {
   state: State = {
     isValid: false,
     nonce: new BN(0),
-    publicKey: null,
+    ss58: null,
     rpc: defaultMethod,
     values: []
   };
@@ -74,7 +74,7 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   renderAccount () {
-    const { rpc: { isSigned = false }, publicKey } = this.state;
+    const { rpc: { isSigned = false }, ss58 } = this.state;
 
     if (!isSigned) {
       return null;
@@ -82,7 +82,7 @@ class Selection extends React.PureComponent<Props, State> {
 
     return (
       <Account
-        defaultValue={publicKey}
+        defaultValue={ss58}
         onChange={this.onChangeAccount}
       />
     );
@@ -91,8 +91,8 @@ class Selection extends React.PureComponent<Props, State> {
   nextState (newState: State): void {
     this.setState(
       (prevState: State): State => {
-        const { rpc = prevState.rpc, nonce = prevState.nonce, publicKey = prevState.publicKey, values = prevState.values } = newState;
-        const hasNeededKey = rpc.isSigned !== true || (!!publicKey && publicKey.length === 32);
+        const { rpc = prevState.rpc, nonce = prevState.nonce, ss58 = prevState.ss58, values = prevState.values } = newState;
+        const hasNeededKey = rpc.isSigned !== true || (!!ss58 && ss58.length === 48);
         const isValid = values.reduce((isValid, value) => {
           return isValid && value.isValid === true;
         }, rpc.params.length === values.length && hasNeededKey);
@@ -101,17 +101,17 @@ class Selection extends React.PureComponent<Props, State> {
           isValid,
           rpc,
           nonce: nonce || new BN(0),
-          publicKey,
+          ss58,
           values
         };
       }
     );
   }
 
-  onChangeAccount = (publicKey: Uint8Array | undefined | null, nonce: BN): void => {
+  onChangeAccount = (ss58: string | undefined | null, nonce: BN): void => {
     this.nextState({
       nonce,
-      publicKey
+      ss58
     } as State);
   }
 
@@ -128,12 +128,12 @@ class Selection extends React.PureComponent<Props, State> {
 
   onSubmit = (): void => {
     const { queueAdd } = this.props;
-    const { isValid, nonce, publicKey, rpc, values } = this.state;
+    const { isValid, nonce, ss58, rpc, values } = this.state;
 
     queueAdd({
       isValid,
       nonce,
-      publicKey,
+      ss58,
       rpc,
       values: rawToValues(values)
     });
