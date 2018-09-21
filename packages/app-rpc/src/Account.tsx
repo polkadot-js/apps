@@ -14,14 +14,14 @@ import Nonce from '@polkadot/ui-react-rx/Nonce';
 import translate from './translate';
 
 type Props = I18nProps & {
-  defaultValue?: Uint8Array | null,
+  defaultValue?: string | null,
   isError?: boolean,
-  onChange: (publicKey: Uint8Array | undefined | null, accountNonce: BN) => void
+  onChange: (accountId: string | undefined | null, accountNonce: BN) => void
 };
 
 type State = {
   accountNonce: BN,
-  publicKey?: Uint8Array | null
+  accountId?: string | null
 };
 
 class Account extends React.PureComponent<Props, State> {
@@ -31,7 +31,7 @@ class Account extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      publicKey: props.defaultValue,
+      accountId: props.defaultValue,
       accountNonce: new BN(0)
     };
   }
@@ -60,9 +60,9 @@ class Account extends React.PureComponent<Props, State> {
 
   renderNonce () {
     const { t } = this.props;
-    const { publicKey } = this.state;
+    const { accountId } = this.state;
 
-    if (!publicKey) {
+    if (!accountId) {
       return null;
     }
 
@@ -76,17 +76,17 @@ class Account extends React.PureComponent<Props, State> {
         <Nonce
           className='ui disabled dropdown selection'
           rxChange={this.onChangeNonce}
-          params={publicKey}
+          params={accountId}
         />
       </Labelled>
     );
   }
 
-  onChangeAccount = (publicKey: Uint8Array): void => {
+  onChangeAccount = (accountId: string): void => {
     const { onChange } = this.props;
 
-    this.setState({ publicKey }, () =>
-      onChange(publicKey, this.state.accountNonce)
+    this.setState({ accountId }, () =>
+      onChange(accountId, this.state.accountNonce)
     );
   }
 
@@ -95,7 +95,7 @@ class Account extends React.PureComponent<Props, State> {
     const accountNonce = _accountNonce || new BN(0);
 
     this.setState({ accountNonce }, () =>
-      onChange(this.state.publicKey, accountNonce)
+      onChange(this.state.accountId, accountNonce)
     );
   }
 }
