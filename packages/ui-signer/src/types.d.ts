@@ -21,7 +21,7 @@ export type QueueTx$Result = {
 
 export type AccountInfo = {
   accountNonce: UInt | BN,
-  publicKey?: Uint8Array | null
+  accountId?: string | null
 };
 
 export type QueueTx$Extrinsic = AccountInfo & {
