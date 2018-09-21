@@ -14,12 +14,12 @@ import Password from '@polkadot/ui-app/Password';
 import createPair from '@polkadot/util-keyring/pair';
 import decodeAddress from '@polkadot/util-keyring/address/decode';
 import isHex from '@polkadot/util/is/hex';
+import isObject from '@polkadot/util/is/object';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
 import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
-import { isObject } from 'util';
 
 type Props = I18nProps & {
   onBack: () => void
