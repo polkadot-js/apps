@@ -12,7 +12,7 @@ import withObservable from '@polkadot/ui-react-rx/with/observable';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  address: string,
+  ss58: string,
   nominating: string,
   stakingNominatorsFor: Array<string>,
   onClick: (index: number) => void
@@ -40,9 +40,9 @@ class UnnominateButton extends React.Component<Props> {
   }
 
   onClick = () => {
-    const { address, stakingNominatorsFor, onClick } = this.props;
+    const { ss58, stakingNominatorsFor, onClick } = this.props;
 
-    onClick(stakingNominatorsFor.indexOf(address));
+    onClick(stakingNominatorsFor.indexOf(ss58));
   }
 }
 
