@@ -91,7 +91,7 @@ class Selection extends React.PureComponent<Props, State> {
     this.setState(
       (prevState: State): State => {
         const { rpc = prevState.rpc, accountNonce = prevState.accountNonce, accountId = prevState.accountId, values = prevState.values } = newState;
-        const hasNeededKey = rpc.isSigned !== true || (!!accountId && accountId.length === 32);
+        const hasNeededKey = rpc.isSigned !== true || (!!accountId && accountId.length);
         const isValid = values.reduce((isValid, value) => {
           return isValid && value.isValid === true;
         }, rpc.params.length === values.length && hasNeededKey);
