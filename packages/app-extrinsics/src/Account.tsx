@@ -14,18 +14,18 @@ import Balance from '@polkadot/ui-react-rx/Balance';
 import translate from './translate';
 
 type Props = I18nProps & {
-  defaultValue?: Uint8Array,
+  defaultValue?: string,
   isDisabled?: boolean,
   isError?: boolean,
   isInput?: boolean,
   label: string,
-  onChange?: (publicKey: Uint8Array) => void,
+  onChange?: (accountId: string) => void,
   type?: KeyringOption$Type,
   withLabel?: boolean
 };
 
 type State = {
-  publicKey?: Uint8Array
+  accountId?: string
 };
 
 class Account extends React.PureComponent<Props, State> {
@@ -35,7 +35,7 @@ class Account extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      publicKey: props.defaultValue
+      accountId: props.defaultValue
     };
   }
 
@@ -64,9 +64,9 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderBalance (): React.ReactNode {
     const { t, withLabel } = this.props;
-    const { publicKey } = this.state;
+    const { accountId } = this.state;
 
-    if (!publicKey) {
+    if (!accountId) {
       return null;
     }
 
@@ -80,18 +80,20 @@ class Account extends React.PureComponent<Props, State> {
       >
         <Balance
           className='ui disabled dropdown selection'
-          params={publicKey}
+          params={accountId}
         />
       </Labelled>
     );
   }
 
-  private onChange = (publicKey: Uint8Array): void => {
+  private onChange = (accountId: string): void => {
     const { onChange } = this.props;
 
-    this.setState({ publicKey }, () =>
-      onChange && onChange(publicKey)
-    );
+    if (accountId) {
+      this.setState({ accountId }, () => {
+        onChange && onChange(accountId);
+      });
+    }
   }
 }
 
