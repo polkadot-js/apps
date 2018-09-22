@@ -85,6 +85,14 @@ class InputNumber extends React.PureComponent<Props, State> {
     value.bitLength() <= (bitLength || DEFAULT_BITLENGTH)
 
   private isValidKey = (event: React.KeyboardEvent<Element>, isPreKeyDown: boolean): boolean => {
+    const { value: previousValue } = event.target as HTMLInputElement;
+    // prevents entry of zero if initial digit is zero
+    const isDuplicateZero = previousValue[0] === '0' && event.key === KEYS.ZERO;
+
+    if (isDuplicateZero) {
+      return false;
+    }
+
     // prevent use of shift key
     if (event.shiftKey) {
       return false;
@@ -174,10 +182,24 @@ class InputNumber extends React.PureComponent<Props, State> {
     }
   }
 
-  private onKeyUp = (key: string): void => {
-    if (KEYS_PRE.includes(key)) {
+  private onKeyUp = (event: React.KeyboardEvent<Element>): void => {
+    const { value: newValue } = event.target as HTMLInputElement;
+    const isNewValueZero = new BN(newValue).isZero();
+
+    if (KEYS_PRE.includes(event.key)) {
       this.setState({ isPreKeyDown: false });
     }
+
+    /* if new value equates to '0' in BN when but it's length is >=1 (i.e. '012', '00', etc)
+     * then replace the input value with just '0'.
+     * otherwise remove the preceding zeros from the new value (i.e. '0123' -> '123')
+     * note: edge case glitch occurs if existing value is '0' and you 'hold down' and keep
+     * pasting a value of '00' after it, then sometimes when you let go the
+     * remaining value shown as '000' or '00000' in the UI, but it's still ok because
+     * the actual BN if the user submitted would still be '0', and if they then press any key
+     * the UI input value resets to '0'
+     */
+    (event.target as HTMLInputElement).value = (isNewValueZero && !!newValue.length) ? '0' : newValue.replace(/^0+/, '');
   }
 }
 

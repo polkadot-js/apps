@@ -29,7 +29,7 @@ type Props = BareProps & {
   name?: string,
   onChange: (value: string) => void,
   onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
-  onKeyUp?: (key: string) => void,
+  onKeyUp?: (event: React.KeyboardEvent<Element>) => void,
   placeholder?: string,
   tabIndex?: number,
   type?: Input$Type,
@@ -55,7 +55,8 @@ const KEYS = {
   ESCAPE: 'Escape',
   TAB: 'Tab',
   V: 'v',
-  X: 'x'
+  X: 'x',
+  ZERO: '0'
 };
 
 const KEYS_PRE: Array<any> = [KEYS.ALT, KEYS.CMD, KEYS.CTRL];
@@ -146,11 +147,11 @@ export default class Input extends React.PureComponent<Props, State> {
     }
   }
 
-  onKeyUp = ({ key }: React.KeyboardEvent<Element>): void => {
+  onKeyUp = (event: React.KeyboardEvent<Element>): void => {
     const { onKeyUp } = this.props;
 
     if (onKeyUp) {
-      onKeyUp(key);
+      onKeyUp(event);
     }
   }
 }
