@@ -2,15 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { BitLength } from '../../types';
 import { Props as BareProps } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
 
-import InputNumber, { BIT_LENGTH_128 } from '../../InputNumber';
+import { BitLengthOption } from '../../constants';
+import InputNumber from '../../InputNumber';
 import Bare from './Bare';
 
 type Props = BareProps;
+
+const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
 class Balance extends React.PureComponent<Props> {
   render () {
@@ -23,7 +27,7 @@ class Balance extends React.PureComponent<Props> {
         style={style}
       >
         <InputNumber
-          bitLength={BIT_LENGTH_128}
+          bitLength={DEFAULT_BITLENGTH}
           className='large'
           defaultValue={defaultValue || '0'}
           isError={isError}

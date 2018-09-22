@@ -25,3 +25,5 @@ export type BaseContext = {
     }
   }
 };
+
+export type BitLength = 32 | 64 | 128 | 256;

@@ -2,18 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { BareProps, I18nProps } from './types';
+import { BareProps, BitLength, I18nProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
 import isString from '@polkadot/util/is/string';
 
 import classes from './util/classes';
+import { BitLengthOption } from './constants';
 import Input, { KEYS, KEYS_PRE, isCopy, isCut, isPaste, isSelectAll } from './Input';
 import translate from './translate';
 
 type Props = BareProps & I18nProps & {
-  bitLength?: number,
+  bitLength?: BitLength,
   defaultValue?: string,
   isError?: boolean,
   label?: any,
@@ -29,9 +30,7 @@ type State = {
   previousValue: string
 };
 
-const BIT_LENGTH_32 = 32; // normal numbers
-const BIT_LENGTH_128 = 128; // chain specification
-
+const DEFAULT_BITLENGTH = BitLengthOption.NORMAL_NUMBERS as BitLength;
 const KEYS_ALLOWED: Array<any> = [KEYS.ARROW_LEFT, KEYS.ARROW_RIGHT, KEYS.BACKSPACE, KEYS.ENTER, KEYS.ESCAPE, KEYS.TAB];
 
 function maxConservativeLength (maxValueLength: number): number {
@@ -48,7 +47,7 @@ class InputNumber extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { bitLength = BIT_LENGTH_32, className, defaultValue, maxLength, style, t } = this.props;
+    const { bitLength = DEFAULT_BITLENGTH, className, defaultValue, maxLength, style, t } = this.props;
     const { isValid, previousValue } = this.state;
     const revertedValue = !isValid ? previousValue : undefined;
     const maxValueLength = this.maxValue(bitLength).toString().length;
@@ -76,14 +75,14 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 
   private maxValue = (bitLength?: number): BN =>
-    new BN(2).pow(new BN(bitLength || BIT_LENGTH_128)).subn(1)
+    new BN(2).pow(new BN(bitLength || DEFAULT_BITLENGTH)).subn(1)
 
   // check if string value is non-integer even if above MAX_SAFE_INTEGER. isNaN(Number(value)) is faster for values of length 1
   private isNonInteger = (value: string): boolean =>
     value && value.length && value.split('').find(value => '0123456789'.indexOf(value) === -1) ? true : false
 
   private isValidBitLength = (value: BN, bitLength?: number): boolean =>
-    value.bitLength() <= (bitLength || BIT_LENGTH_128)
+    value.bitLength() <= (bitLength || DEFAULT_BITLENGTH)
 
   private isValidKey = (event: React.KeyboardEvent<Element>, isPreKeyDown: boolean): boolean => {
     // prevent use of shift key
@@ -110,7 +109,7 @@ class InputNumber extends React.PureComponent<Props, State> {
 
   private isValidNumber = (input: string, bitLength?: number): boolean => {
     const { t } = this.props;
-    bitLength = bitLength || BIT_LENGTH_128;
+    bitLength = bitLength || DEFAULT_BITLENGTH;
 
     // failsafe as expects only positive integers as permitted by onKeyDown from input of type text
     if (!isString(input)) {
@@ -138,11 +137,11 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 
   private onChange = (value: string): void => {
-    const { onChange } = this.props;
+    const { bitLength, onChange } = this.props;
 
     try {
       const valueBN = new BN(value || 0);
-      const isValid = this.isValidNumber(value);
+      const isValid = this.isValidNumber(value, bitLength);
 
       this.setState({ isValid });
 
@@ -183,7 +182,6 @@ class InputNumber extends React.PureComponent<Props, State> {
 }
 
 export {
-  BIT_LENGTH_128,
   InputNumber,
   maxConservativeLength
 };

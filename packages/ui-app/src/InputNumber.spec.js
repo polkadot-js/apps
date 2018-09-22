@@ -6,15 +6,18 @@ import BN from 'bn.js';
 import React from 'react';
 
 import { mount } from '../../../test/enzyme';
+import { BitLengthOption } from './constants';
 import Input from './Input';
-import { BIT_LENGTH_128, InputNumber, maxConservativeLength } from './InputNumber';
+import { InputNumber, maxConservativeLength } from './InputNumber';
 
 const mockT = (key, options) => (key);
 
 describe('InputNumber', () => {
+  const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC;
   const max128BN = new BN(2).pow(new BN(128)).subn(1);
   const aboveMax128BN = max128BN.addn(1);
   const belowMax128BN = max128BN.subn(1);
+
   let wrapper, divInputNumber, defaultValue;
 
   beforeEach(() => {
@@ -39,7 +42,7 @@ describe('InputNumber', () => {
 
   describe('maxLength', () => {
     it('returns max length for use on number input fields that is the length of the max BN value minus a conservativeness factor for 128 bit', () => {
-      const maxValueLength = wrapper.instance().maxValue(BIT_LENGTH_128).toString().length;
+      const maxValueLength = wrapper.instance().maxValue(DEFAULT_BITLENGTH).toString().length;
       expect(maxConservativeLength(maxValueLength)).toBe(38);
     });
   });
@@ -74,8 +77,8 @@ describe('InputNumber', () => {
 
   describe('isValidBitLength', () => {
     it('returns whether value in BN is valid for given bitlength or uses 128 bit bitlength fallback', () => {
-      expect(wrapper.instance().isValidBitLength(aboveMax128BN, BIT_LENGTH_128)).toBe(false);
-      expect(wrapper.instance().isValidBitLength(max128BN, BIT_LENGTH_128)).toBe(true);
+      expect(wrapper.instance().isValidBitLength(aboveMax128BN, DEFAULT_BITLENGTH)).toBe(false);
+      expect(wrapper.instance().isValidBitLength(max128BN, DEFAULT_BITLENGTH)).toBe(true);
     });
   });
 
@@ -84,16 +87,16 @@ describe('InputNumber', () => {
       it('throws an error if input value for comparison is not a string', () => {
         const invalidInputValueType = 340282366920938463463374607431768211456;
 
-        expect(() => { wrapper.instance().isValidNumber(invalidInputValueType, '0', BIT_LENGTH_128); }).toThrow();
+        expect(() => { wrapper.instance().isValidNumber(invalidInputValueType, '0', DEFAULT_BITLENGTH); }).toThrow();
       });
     });
 
     it('should not be valid when user enters positive value greater than or equal to the 128 bit max for latest chain', () => {
-      expect(wrapper.instance().isValidNumber(max128BN.toString(10), BIT_LENGTH_128)).toBe(false);
+      expect(wrapper.instance().isValidNumber(max128BN.toString(10), DEFAULT_BITLENGTH)).toBe(false);
     });
 
     it('should be valid when user enters positive value less than the 128 bit max for latest chain', () => {
-      expect(wrapper.instance().isValidNumber(belowMax128BN.toString(10), BIT_LENGTH_128)).toBe(true);
+      expect(wrapper.instance().isValidNumber(belowMax128BN.toString(10), DEFAULT_BITLENGTH)).toBe(true);
     });
   });
 });
