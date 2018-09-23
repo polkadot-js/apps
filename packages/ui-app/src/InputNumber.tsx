@@ -199,7 +199,11 @@ class InputNumber extends React.PureComponent<Props, State> {
      * the actual BN if the user submitted would still be '0', and if they then press any key
      * the UI input value resets to '0'
      */
-    (event.target as HTMLInputElement).value = (isNewValueZero && !!newValue.length) ? '0' : newValue.replace(/^0+/, '');
+    if (isNewValueZero && newValue.length >= 1) {
+      (event.target as HTMLInputElement).value = '0';
+    } else {
+      (event.target as HTMLInputElement).value = newValue.replace(/^0+/, '');
+    }
   }
 }
 
