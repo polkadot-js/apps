@@ -7,6 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import FileSaver from 'file-saver';
+import classes from '@polkadot/ui-app/util/classes';
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
@@ -37,8 +38,11 @@ class Backup extends React.PureComponent<Props, State> {
   }
 
   render () {
+    const { className } = this.props;
+
     return (
       <Modal
+        className={classes('accounts--Backup', className)}
         dimmer='inverted'
         open
         size='tiny'
