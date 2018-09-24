@@ -35,7 +35,6 @@ export type State = {
 };
 
 export type KeyringInstance = {
-  addAccountPair: (pair: KeyringPair, password: string) => KeyringPair,
   backupAccount: (pair: KeyringPair, password: string) => KeyringPair$Json,
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta) => KeyringPair,
   forgetAccount: (address: string) => void,
@@ -46,7 +45,9 @@ export type KeyringInstance = {
   getPair: (address: string | Uint8Array) => KeyringPair,
   getPairs: () => Array<KeyringPair>,
   isAvailable: (address: string | Uint8Array) => boolean,
+  loadAccount: (json: KeyringPair$Json) => KeyringPair,
   loadAll: () => void,
+  restoreAccount: (json: KeyringPair$Json, password: string) => KeyringPair,
   saveAccount: (pair: KeyringPair, password?: string) => void,
   saveAccountMeta: (pair: KeyringPair, meta: KeyringPair$Meta) => void,
   saveAddress: (address: string, meta: KeyringPair$Meta) => void,

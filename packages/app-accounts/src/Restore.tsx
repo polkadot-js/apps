@@ -12,11 +12,9 @@ import Button from '@polkadot/ui-app/Button';
 import InputFile from '@polkadot/ui-app/InputFile';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import Password from '@polkadot/ui-app/Password';
-import createPair from '@polkadot/util-keyring/pair';
 import decodeAddress from '@polkadot/util-keyring/address/decode';
 import isHex from '@polkadot/util/is/hex';
 import isObject from '@polkadot/util/is/object';
-import hexToU8a from '@polkadot/util/hex/toU8a';
 import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
 import keyring from '@polkadot/ui-keyring/index';
 
@@ -128,6 +126,7 @@ class Restore extends React.PureComponent<Props, State> {
         isFileValid: false,
         json: null
       });
+      console.error(error);
     }
   }
 
@@ -147,20 +146,10 @@ class Restore extends React.PureComponent<Props, State> {
     }
 
     try {
-      const pair = createPair(
-        {
-          publicKey: decodeAddress(json.address),
-          secretKey: new Uint8Array()
-        },
-        json.meta,
-        hexToU8a(json.encoded)
-      );
+      const pair = keyring.restoreAccount(json, password);
 
-      pair.decodePkcs8(password);
-      pair.lock();
-
-      keyring.addAccountPair(pair, password);
       InputAddress.setLastValue('account', pair.address());
+
       onRestoreAccount();
     } catch (error) {
       this.setState({ isPassValid: false });
