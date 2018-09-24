@@ -46,6 +46,7 @@ export default class Password extends React.PureComponent<Props, State> {
         isDisabled={isDisabled}
         isError={isError}
         label={label}
+        maxLength={32}
         name={name}
         onChange={onChange}
         onKeyDown={onKeyDown}
