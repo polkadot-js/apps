@@ -35,7 +35,7 @@ export default class Password extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { autoFocus, children, className, defaultValue, isDisabled, isError, label, name, onChange, onKeyDown, style, tabIndex, value, withLabel } = this.props;
+    const { autoFocus, children, className, defaultValue, isDisabled, isError, label, name, onChange, style, tabIndex, value, withLabel } = this.props;
     const { isVisible } = this.state;
 
     return (
@@ -50,7 +50,7 @@ export default class Password extends React.PureComponent<Props, State> {
         maxLength={32}
         name={name}
         onChange={onChange}
-        onKeyDown={onKeyDown}
+        onKeyDown={this.onKeyDown}
         style={style}
         tabIndex={tabIndex}
         type={
@@ -75,7 +75,22 @@ export default class Password extends React.PureComponent<Props, State> {
     );
   }
 
-  onToggleVisible = (): void => {
+  private onKeyDown = (event: React.KeyboardEvent<Element>): void => {
+    const { onKeyDown } = this.props;
+    const isSpacebar = event.keyCode === 32;
+
+    if (isSpacebar) {
+      event.preventDefault();
+    }
+
+    if (!onKeyDown) {
+      return;
+    }
+
+    onKeyDown(event);
+  }
+
+  private onToggleVisible = (): void => {
     this.setState({
       isVisible: !this.state.isVisible
     });
