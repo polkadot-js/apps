@@ -9,12 +9,16 @@ import Identicon from 'polkadot-identicon';
 
 type Props = BaseProps & {
   size: number,
-  value: string | Uint8Array
+  value: string | null
 };
 
 export default class Polkadot extends React.PureComponent<Props> {
   render () {
     const { size, value } = this.props;
+
+    if (!value) {
+      return null;
+    }
 
     return (
       <Identicon
