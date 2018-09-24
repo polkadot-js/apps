@@ -20,7 +20,7 @@ type Props = BareProps & {
 
 export default class File extends React.PureComponent<Props> {
   render () {
-    const { className, isDisabled, isError = false, label, onChange, placeholder, style, withLabel } = this.props;
+    const { className, isError = false, style } = this.props;
 
     return (
       <Bare
@@ -28,12 +28,8 @@ export default class File extends React.PureComponent<Props> {
         style={style}
       >
         <InputFile
-          isDisabled={isDisabled}
+          {...this.props}
           isError={isError}
-          label={label}
-          onChange={onChange}
-          placeholder={placeholder}
-          withLabel={withLabel}
         />
       </Bare>
     );
