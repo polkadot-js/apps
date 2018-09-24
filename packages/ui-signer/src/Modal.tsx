@@ -56,9 +56,9 @@ class Signer extends React.PureComponent<Props, State> {
       !!nextItem &&
       !!currentItem &&
       (
-        (!nextItem.ss58 && !currentItem.ss58) ||
+        (!nextItem.accountId && !currentItem.accountId) ||
         (
-          (nextItem.ss58 && nextItem.ss58.toString()) === (currentItem.ss58 && currentItem.ss58.toString())
+          (nextItem.accountId && nextItem.accountId.toString()) === (currentItem.accountId && currentItem.accountId.toString())
         )
       );
 
@@ -163,14 +163,14 @@ class Signer extends React.PureComponent<Props, State> {
         onChange={this.onChangePassword}
         onKeyDown={this.onKeyDown}
         password={password}
-        value={currentItem.ss58}
+        value={currentItem.accountId}
         tabIndex={1}
       />
     );
   }
 
-  unlockAccount (ss58: string, password?: string): UnlockI18n | null {
-    const pair = keyring.getPair(ss58);
+  unlockAccount (accountId: string, password?: string): UnlockI18n | null {
+    const pair = keyring.getPair(accountId);
 
     if (!pair.isLocked()) {
       return null;
@@ -226,9 +226,9 @@ class Signer extends React.PureComponent<Props, State> {
     return this.sendItem(currentItem, password);
   }
 
-  sendItem = async ({ id, nonce, ss58, rpc, values }: QueueTx, password?: string): Promise<void> => {
-    if (rpc.isSigned === true && ss58) {
-      const unlockError = this.unlockAccount(ss58, password);
+  sendItem = async ({ id, nonce, accountId, rpc, values }: QueueTx, password?: string): Promise<void> => {
+    if (rpc.isSigned === true && accountId) {
+      const unlockError = this.unlockAccount(accountId, password);
 
       if (unlockError) {
         this.setState({ unlockError });
@@ -242,10 +242,10 @@ class Signer extends React.PureComponent<Props, State> {
 
     let data = values;
 
-    if (rpc.isSigned === true && ss58) {
+    if (rpc.isSigned === true && accountId) {
       data = [
         signMessage(
-          ss58, nonce, (data[0] as Uint8Array), apiSupport
+          accountId, nonce, (data[0] as Uint8Array), apiSupport
         ).data
       ];
     }

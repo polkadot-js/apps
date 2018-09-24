@@ -25,7 +25,7 @@ type State = {
   isValid: boolean,
   encoded: EncodedMessage,
   nonce: BN,
-  ss58: string
+  accountId: string
 };
 
 const defaultExtrinsic = extrinsics.staking.public.transfer;
@@ -38,7 +38,7 @@ class Selection extends React.PureComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { ss58, isValid } = this.state;
+    const { accountId, isValid } = this.state;
 
     return (
       <div className='extrinsics--Selection'>
@@ -62,7 +62,7 @@ class Selection extends React.PureComponent<Props, State> {
             defaultValue: 'with an index'
           })}
           rxChange={this.onChangeNonce}
-          value={ss58}
+          value={accountId}
         />
         <Button.Group>
           <Button
@@ -81,10 +81,10 @@ class Selection extends React.PureComponent<Props, State> {
   nextState (newState: State): void {
     this.setState(
       (prevState: State): State => {
-        const { encoded = prevState.encoded, nonce = prevState.nonce, ss58 = prevState.ss58 } = newState;
+        const { encoded = prevState.encoded, nonce = prevState.nonce, accountId = prevState.accountId } = newState;
         const isValid = !!(
-          ss58 &&
-          ss58.length &&
+          accountId &&
+          accountId.length &&
           encoded &&
           encoded.isValid
         );
@@ -93,7 +93,7 @@ class Selection extends React.PureComponent<Props, State> {
           encoded,
           isValid,
           nonce,
-          ss58
+          accountId
         };
       }
     );
@@ -107,18 +107,18 @@ class Selection extends React.PureComponent<Props, State> {
     this.nextState({ nonce } as State);
   }
 
-  onChangeSender = (ss58: string): void => {
-    this.nextState({ ss58, nonce: new BN(0) } as State);
+  onChangeSender = (accountId: string): void => {
+    this.nextState({ accountId, nonce: new BN(0) } as State);
   }
 
   onQueue = (): void => {
     const { queueAdd } = this.props;
-    const { encoded: { isValid, values }, nonce, ss58 } = this.state;
+    const { encoded: { isValid, values }, nonce, accountId } = this.state;
 
     queueAdd({
       isValid,
       nonce,
-      ss58,
+      accountId,
       rpc: defaultRpc,
       values
     });

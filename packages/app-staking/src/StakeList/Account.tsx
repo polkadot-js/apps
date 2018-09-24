@@ -26,7 +26,7 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   systemAccountIndexOf?: BN,
-  ss58: string,
+  accountId: string,
   balances: RxBalanceMap,
   name: string,
   stakingNominating?: string,
@@ -51,7 +51,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { ss58, intentions, isValidator, name } = this.props;
+    const { accountId, intentions, isValidator, name } = this.props;
     const { isNominateOpen } = this.state;
 
     return (
@@ -68,9 +68,9 @@ class Account extends React.PureComponent<Props, State> {
           intentions={intentions}
         />
         <AddressSummary
-          balance={this.balanceArray(ss58)}
+          balance={this.balanceArray(accountId)}
           name={name}
-          value={ss58}
+          value={accountId}
           identIconSize={96}
         >
           <div className='staking--Account-expand'>
@@ -83,11 +83,11 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private balanceArray (ss58: string): Array<BN> | undefined {
+  private balanceArray (accountId: string): Array<BN> | undefined {
     const { balances } = this.props;
 
-    return balances[ss58]
-      ? [balances[ss58].stakingBalance, balances[ss58].nominatedBalance]
+    return balances[accountId]
+      ? [balances[accountId].stakingBalance, balances[accountId].nominatedBalance]
       : undefined;
   }
 
@@ -124,8 +124,8 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { ss58, intentions, stakingNominating, t } = this.props;
-    const isIntending = intentions.includes(ss58);
+    const { accountId, intentions, stakingNominating, t } = this.props;
+    const isIntending = intentions.includes(accountId);
     const isNominating = !!stakingNominating;
     const canStake = !isIntending && !isNominating;
 
@@ -155,7 +155,7 @@ class Account extends React.PureComponent<Props, State> {
       return (
         <Button.Group>
           <UnnominateButton
-            address={ss58 || ''}
+            address={accountId || ''}
             nominating={stakingNominating || ''}
             onClick={this.unnominate}
           />
@@ -177,12 +177,12 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private send (extrinsic: SectionItem<Extrinsics>, values: Array<RawParam$Value>) {
-    const { systemAccountIndexOf, ss58, queueExtrinsic } = this.props;
+    const { systemAccountIndexOf, accountId, queueExtrinsic } = this.props;
 
     queueExtrinsic({
       extrinsic,
       nonce: systemAccountIndexOf || new BN(0),
-      ss58,
+      accountId,
       values
     });
   }
@@ -210,16 +210,16 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private unstake = () => {
-    const { ss58, intentions } = this.props;
+    const { accountId, intentions } = this.props;
 
-    this.send(extrinsics.staking.public.unstake, [intentions.indexOf(ss58)]);
+    this.send(extrinsics.staking.public.unstake, [intentions.indexOf(accountId)]);
   }
 }
 
 export default withMulti(
   Account,
   translate,
-  withObservable('stakingNominatorsFor', { paramProp: 'ss58' }),
-  withObservable('stakingNominating', { paramProp: 'ss58' }),
-  withObservable('systemAccountIndexOf', { paramProp: 'ss58' })
+  withObservable('stakingNominatorsFor', { paramProp: 'accountId' }),
+  withObservable('stakingNominating', { paramProp: 'accountId' }),
+  withObservable('systemAccountIndexOf', { paramProp: 'accountId' })
 );

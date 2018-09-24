@@ -47,7 +47,7 @@ class Submit extends React.PureComponent<Props> {
     queueExtrinsic({
       extrinsic: extrinsics.staking.public.transfer,
       nonce: accountIndex || new BN(0),
-      ss58: from,
+      accountId: from,
       values: [to, amount]
     });
   }

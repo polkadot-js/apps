@@ -16,12 +16,12 @@ import translate from './translate';
 type Props = I18nProps & {
   defaultValue?: string | null,
   isError?: boolean,
-  onChange: (ss58: string | undefined | null, nonce: BN) => void
+  onChange: (accountId: string | undefined | null, nonce: BN) => void
 };
 
 type State = {
   nonce: BN,
-  ss58?: string | null
+  accountId?: string | null
 };
 
 class Account extends React.PureComponent<Props, State> {
@@ -31,7 +31,7 @@ class Account extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      ss58: props.defaultValue,
+      accountId: props.defaultValue,
       nonce: new BN(0)
     };
   }
@@ -60,9 +60,9 @@ class Account extends React.PureComponent<Props, State> {
 
   renderNonce () {
     const { t } = this.props;
-    const { ss58 } = this.state;
+    const { accountId } = this.state;
 
-    if (!ss58) {
+    if (!accountId) {
       return null;
     }
 
@@ -76,18 +76,18 @@ class Account extends React.PureComponent<Props, State> {
         <Nonce
           className='ui disabled dropdown selection'
           rxChange={this.onChangeNonce}
-          params={ss58}
+          params={accountId}
         />
       </Labelled>
     );
   }
 
-  onChangeAccount = (ss58: string): void => {
+  onChangeAccount = (accountId: string): void => {
     const { onChange } = this.props;
 
-    if (ss58) {
-      this.setState({ ss58 }, () =>
-        onChange(ss58, this.state.nonce)
+    if (accountId) {
+      this.setState({ accountId }, () =>
+        onChange(accountId, this.state.nonce)
       );
     }
   }
@@ -97,7 +97,7 @@ class Account extends React.PureComponent<Props, State> {
     const nonce = _nonce || new BN(0);
 
     this.setState({ nonce }, () =>
-      onChange(this.state.ss58, nonce)
+      onChange(this.state.accountId, nonce)
     );
   }
 }

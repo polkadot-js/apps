@@ -42,18 +42,18 @@ const RECENT_KEY = 'header-recent';
 const STORAGE_KEY = 'options:InputAddress';
 const DEFAULT_TYPE = 'all';
 
-const transformToSs58 = (value: string): string | null => {
+const transformToAccountId = (value: string): string | null => {
   if (!value) {
     return null;
   }
 
-  const ss58 = addressToAddress(value);
+  const accountId = addressToAddress(value);
 
-  if (ss58 === undefined) {
+  if (accountId === undefined) {
     return null;
   }
 
-  return ss58;
+  return accountId;
 };
 
 class InputAddress extends React.PureComponent<Props, State> {
@@ -166,7 +166,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     InputAddress.setLastValue(type, address);
 
-    onChange(transformToSs58(address));
+    onChange(transformToAccountId(address));
   }
 
   private onSearch = (filteredOptions: KeyringSectionOptions, _query: string): KeyringSectionOptions => {
@@ -184,9 +184,9 @@ class InputAddress extends React.PureComponent<Props, State> {
     );
 
     if (isInput && valueMatches.length === 0) {
-      const ss58 = transformToSs58(query);
+      const accountId = transformToAccountId(query);
 
-      if (ss58) {
+      if (accountId) {
         if (!matches.find((item) => item.key === RECENT_KEY)) {
           matches.push(
             createOptionHeader('Recent')
@@ -195,7 +195,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
         matches.push(
           keyring.saveRecent(
-            ss58
+            accountId
           ).option
         );
       }

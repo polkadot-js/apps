@@ -14,8 +14,8 @@ import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
-export default function signMessage (ss58: string, nonce: BN | number, value: Uint8Array, apiSupport: EncodingVersions): Signed {
-  const publicKey = addressDecode(ss58);
+export default function signMessage (accountId: string, nonce: BN | number, value: Uint8Array, apiSupport: EncodingVersions): Signed {
+  const publicKey = addressDecode(accountId);
   const message = encodeCall(publicKey, nonce, value, apiSupport);
   const signature = keyring.getPair(publicKey).sign(message);
   const data = u8aConcat(

@@ -19,13 +19,13 @@ type Props = I18nProps & {
   isError?: boolean,
   isInput?: boolean,
   label: string,
-  onChange?: (ss58: string) => void,
+  onChange?: (accountId: string) => void,
   type?: KeyringOption$Type,
   withLabel?: boolean
 };
 
 type State = {
-  ss58?: string
+  accountId?: string
 };
 
 class Account extends React.PureComponent<Props, State> {
@@ -35,7 +35,7 @@ class Account extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      ss58: props.defaultValue
+      accountId: props.defaultValue
     };
   }
 
@@ -64,9 +64,9 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderBalance (): React.ReactNode {
     const { t, withLabel } = this.props;
-    const { ss58 } = this.state;
+    const { accountId } = this.state;
 
-    if (!ss58) {
+    if (!accountId) {
       return null;
     }
 
@@ -80,18 +80,18 @@ class Account extends React.PureComponent<Props, State> {
       >
         <Balance
           className='ui disabled dropdown selection'
-          params={ss58}
+          params={accountId}
         />
       </Labelled>
     );
   }
 
-  private onChange = (ss58: string): void => {
+  private onChange = (accountId: string): void => {
     const { onChange } = this.props;
 
-    if (ss58) {
-      this.setState({ ss58 }, () => {
-        onChange && onChange(ss58);
+    if (accountId) {
+      this.setState({ accountId }, () => {
+        onChange && onChange(accountId);
       });
     }
   }

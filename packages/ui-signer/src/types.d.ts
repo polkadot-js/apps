@@ -25,7 +25,7 @@ export type QueueTx$Result = {
 
 export type AccountInfo = {
   nonce: BN,
-  ss58: string | null
+  accountId: string | null
 };
 
 export type QueueTx$Base = EncodedMessage & AccountInfo & {

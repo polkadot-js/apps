@@ -28,12 +28,12 @@ export default class Account extends React.PureComponent<Props> {
     );
   }
 
-  onChange = (ss58?: string): void => {
+  onChange = (accountId?: string): void => {
     const { onChange } = this.props;
 
     onChange && onChange({
-      isValid: !!ss58 && ss58.length === 48,
-      value: ss58
+      isValid: !!accountId && accountId.length === 48,
+      value: accountId
     });
   }
 }
