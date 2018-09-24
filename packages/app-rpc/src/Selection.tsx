@@ -28,7 +28,7 @@ type Props = I18nProps & {
 type State = {
   isValid: boolean,
   nonce: BN,
-  ss58?: string | null,
+  ss58: string | null,
   rpc: SectionItem<Interfaces>,
   values: Array<RawParam>
 };
