@@ -5,12 +5,13 @@
 
 import isNull from '@polkadot/util/is/null';
 import randomAsU8a from '@polkadot/util-crypto/random/asU8a';
+import addressEncode from '@polkadot/util-keyring/address/encode';
 
 import identicon from './index';
 
 const element = document.getElementById('demo');
 
-function generateIcon (seed: Uint8Array = randomAsU8a(32)): void {
+function generateIcon (seed: string = addressEncode(randomAsU8a(32))): void {
   const start = Date.now();
 
   if (isNull(element)) {
@@ -25,7 +26,7 @@ function generateIcon (seed: Uint8Array = randomAsU8a(32)): void {
 }
 
 function generateIcons (count: number = 512): void {
-  generateIcon(new Uint8Array(32));
+  generateIcon(addressEncode(new Uint8Array(32)));
 
   for (let index = 1; index < count; index++) {
     generateIcon();
