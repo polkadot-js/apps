@@ -56,9 +56,9 @@ class Signer extends React.PureComponent<Props, State> {
       !!nextItem &&
       !!currentItem &&
       (
-        (!nextItem.ss58 && !currentItem.ss58) ||
+        (!nextItem.accountId && !currentItem.accountId) ||
         (
-          (nextItem.ss58 && nextItem.ss58.toString()) === (currentItem.ss58 && currentItem.ss58.toString())
+          (nextItem.accountId && nextItem.accountId.toString()) === (currentItem.accountId && currentItem.accountId.toString())
         )
       );
 
@@ -158,7 +158,7 @@ class Signer extends React.PureComponent<Props, State> {
         onChange={this.onChangePassword}
         onKeyDown={this.onKeyDown}
         password={password}
-        value={currentItem.ss58}
+        value={currentItem.accountId}
         tabIndex={1}
       />
     );

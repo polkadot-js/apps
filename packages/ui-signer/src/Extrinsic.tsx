@@ -48,7 +48,7 @@ class Extrinsic extends React.PureComponent<Props> {
     });
     const value = _value as Uint8Array;
     const { method = unknown, section = unknown } = findExtrinsic(value[0], value[1]);
-    const from = ss58 as string;
+    const from = accountId as string;
 
     return [
       <Modal.Header key='header'>

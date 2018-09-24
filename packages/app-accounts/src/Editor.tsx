@@ -234,9 +234,9 @@ class Editor extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeAccount = (ss58?: string): void => {
-    const current = ss58
-        ? keyring.getPair(ss58)
+  onChangeAccount = (accountId?: string): void => {
+    const current = accountId
+        ? keyring.getPair(accountId)
         : null;
 
     this.nextState({

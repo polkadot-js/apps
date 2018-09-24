@@ -49,7 +49,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { ss58, intentions, isValidator, name } = this.props;
+    const { accountId, intentions, isValidator, name } = this.props;
     const { isNominateOpen } = this.state;
 
     return (
@@ -66,9 +66,9 @@ class Account extends React.PureComponent<Props, State> {
           intentions={intentions}
         />
         <AddressSummary
-          balance={this.balanceArray(ss58)}
+          balance={this.balanceArray(accountId)}
           name={name}
-          value={ss58}
+          value={accountId}
           identIconSize={96}
         >
           <div className='staking--Account-expand'>
