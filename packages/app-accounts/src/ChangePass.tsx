@@ -6,6 +6,7 @@ import { KeyringPair } from '@polkadot/util-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
+import classes from '@polkadot/ui-app/util/classes';
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
 import Password from '@polkadot/ui-app/Password';
@@ -41,8 +42,11 @@ class ChangePass extends React.PureComponent<Props, State> {
   }
 
   render () {
+    const { className } = this.props;
+
     return (
       <Modal
+        className={classes('accounts--ChangePass-Modal', className)}
         size='tiny'
         dimmer='inverted'
         open
