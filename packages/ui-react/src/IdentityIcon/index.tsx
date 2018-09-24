@@ -13,7 +13,7 @@ import Substrate from './Substrate';
 
 type Props = BaseProps & {
   size?: number,
-  value: string | Uint8Array
+  value: string | null
 };
 
 const DEFAULT_SIZE = 64;
@@ -24,6 +24,10 @@ const Component = process.env.UI_THEME === 'substrate'
 export default class IdentityIcon extends React.PureComponent<Props> {
   render () {
     const { className, size = DEFAULT_SIZE, style, value } = this.props;
+
+    if (!value) {
+      return null;
+    }
 
     return (
       <div
