@@ -59,8 +59,8 @@ export default class Input extends React.PureComponent<Props, State> {
         withLabel={withLabel}
       >
         <SUIInput
-          autoFocus={autoFocus}
           action={isAction}
+          autoFocus={autoFocus}
           className={isEditable ? 'edit icon' : ''}
           defaultValue={defaultValue}
           disabled={isDisabled}
