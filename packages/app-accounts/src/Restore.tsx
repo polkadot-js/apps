@@ -23,7 +23,7 @@ import keyring from '@polkadot/ui-keyring/index';
 import translate from './translate';
 
 type Props = I18nProps & {
-  onBack: () => void
+  onRestoreAccount: () => void
 };
 
 type State = {
@@ -139,7 +139,7 @@ class Restore extends React.PureComponent<Props, State> {
   }
 
   private onSave = (): void => {
-    const { onBack } = this.props;
+    const { onRestoreAccount } = this.props;
     const { json, password } = this.state;
 
     if (!json) {
@@ -161,7 +161,7 @@ class Restore extends React.PureComponent<Props, State> {
 
       keyring.addAccountPair(pair, password);
       InputAddress.setLastValue('account', pair.address());
-      onBack();
+      onRestoreAccount();
     } catch (error) {
       this.setState({ isPassValid: false });
     }

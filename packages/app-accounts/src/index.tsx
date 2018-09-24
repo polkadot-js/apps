@@ -109,7 +109,10 @@ class AccountsApp extends React.PureComponent<Props, State> {
             onChange={this.onMenuChange}
           />
         </header>
-        <Component onBack={this.selectEdit} />
+        <Component
+          onCreateAccount={this.selectEdit}
+          onRestoreAccount={this.selectEdit}
+        />
       </main>
     );
   }
