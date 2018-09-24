@@ -6,7 +6,7 @@ import { KeyringPair, KeyringPair$Json } from '@polkadot/util-keyring/types';
 import { State } from '../types';
 
 export default function accountBackup (state: State, pair: KeyringPair, password: string): KeyringPair$Json {
-  if (pair.isLocked()) {
+  if (!pair.isLocked()) {
     pair.lock();
   }
 
