@@ -12,7 +12,6 @@ import Api from '@polkadot/api-observable';
 import Modal from '@polkadot/ui-app/Modal';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHex from '@polkadot/util/u8a/toHex';
-import addressEncode from '@polkadot/util-keyring/address/encode';
 
 import translate from './translate';
 
@@ -42,14 +41,14 @@ function findExtrinsic (sectionId: number, methodId: number): { method: string |
 
 class Extrinsic extends React.PureComponent<Props> {
   render () {
-    const { children, t, value: { accountNonce = new BN(0), publicKey, values: [_value] } } = this.props;
+    const { children, t, value: { accountNonce = new BN(0), accountId, values: [_value] } } = this.props;
 
     const unknown = t('decoded.unknown', {
       defaultValue: 'unknown'
     });
     const value = _value as Uint8Array;
     const { method = unknown, section = unknown } = findExtrinsic(value[0], value[1]);
-    const from = addressEncode(publicKey as Uint8Array);
+    const from = ss58 as string;
 
     return [
       <Modal.Header key='header'>

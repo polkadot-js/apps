@@ -56,9 +56,9 @@ class Signer extends React.PureComponent<Props, State> {
       !!nextItem &&
       !!currentItem &&
       (
-        (!nextItem.publicKey && !currentItem.publicKey) ||
+        (!nextItem.ss58 && !currentItem.ss58) ||
         (
-          (nextItem.publicKey && nextItem.publicKey.toString()) === (currentItem.publicKey && currentItem.publicKey.toString())
+          (nextItem.ss58 && nextItem.ss58.toString()) === (currentItem.ss58 && currentItem.ss58.toString())
         )
       );
 
@@ -158,13 +158,22 @@ class Signer extends React.PureComponent<Props, State> {
         onChange={this.onChangePassword}
         onKeyDown={this.onKeyDown}
         password={password}
-        value={currentItem.publicKey}
+        value={currentItem.ss58}
         tabIndex={1}
       />
     );
   }
 
-  private unlockAccount (publicKey: Uint8Array, password?: string): UnlockI18n | null {
+  private unlockAccount (accountId: string, password?: string): UnlockI18n | null {
+    let publicKey;
+
+    try {
+      publicKey = addressDecode(accountId);
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+
     const pair = keyring.getPair(publicKey);
 
     if (!pair.isLocked()) {
@@ -221,7 +230,18 @@ class Signer extends React.PureComponent<Props, State> {
     return this.sendItem(currentItem, password);
   }
 
-  private sendItem = async ({ extrinsic, id, accountNonce, publicKey }: QueueTx, password?: string): Promise<void> => {
+  private sendItem = async ({ extrinsic, id, accountNonce, accountId }: QueueTx, password?: string): Promise<void> => {
+    let publicKey;
+
+    try {
+      publicKey = addressDecode(accountId);
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+
+    const pair = keyring.getPair(publicKey);
+
     if (publicKey) {
       const unlockError = this.unlockAccount(publicKey, password);
 
