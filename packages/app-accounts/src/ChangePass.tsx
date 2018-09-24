@@ -97,7 +97,7 @@ class ChangePass extends React.PureComponent<Props, State> {
       </Modal.Header>,
       <Modal.Content key='content'>
         <AddressSummary
-          className='accounts--Modal-Address'
+          className='accounts--ChangePass-Modal-Address'
           value={account.address()}
         />
         <div className='ui--row'>
