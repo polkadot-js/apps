@@ -56,9 +56,9 @@ class Signer extends React.PureComponent<Props, State> {
       !!nextItem &&
       !!currentItem &&
       (
-        (!nextItem.publicKey && !currentItem.publicKey) ||
+        (!nextItem.ss58 && !currentItem.ss58) ||
         (
-          (nextItem.publicKey && nextItem.publicKey.toString()) === (currentItem.publicKey && currentItem.publicKey.toString())
+          (nextItem.ss58 && nextItem.ss58.toString()) === (currentItem.ss58 && currentItem.ss58.toString())
         )
       );
 
@@ -163,14 +163,14 @@ class Signer extends React.PureComponent<Props, State> {
         onChange={this.onChangePassword}
         onKeyDown={this.onKeyDown}
         password={password}
-        value={currentItem.publicKey}
+        value={currentItem.ss58}
         tabIndex={1}
       />
     );
   }
 
-  unlockAccount (publicKey: Uint8Array, password?: string): UnlockI18n | null {
-    const pair = keyring.getPair(publicKey);
+  unlockAccount (ss58: string, password?: string): UnlockI18n | null {
+    const pair = keyring.getPair(ss58);
 
     if (!pair.isLocked()) {
       return null;
@@ -226,9 +226,9 @@ class Signer extends React.PureComponent<Props, State> {
     return this.sendItem(currentItem, password);
   }
 
-  sendItem = async ({ id, nonce, publicKey, rpc, values }: QueueTx, password?: string): Promise<void> => {
-    if (rpc.isSigned === true && publicKey) {
-      const unlockError = this.unlockAccount(publicKey, password);
+  sendItem = async ({ id, nonce, ss58, rpc, values }: QueueTx, password?: string): Promise<void> => {
+    if (rpc.isSigned === true && ss58) {
+      const unlockError = this.unlockAccount(ss58, password);
 
       if (unlockError) {
         this.setState({ unlockError });
@@ -242,10 +242,10 @@ class Signer extends React.PureComponent<Props, State> {
 
     let data = values;
 
-    if (rpc.isSigned === true && publicKey) {
+    if (rpc.isSigned === true && ss58) {
       data = [
         signMessage(
-          publicKey, nonce, (data[0] as Uint8Array), apiSupport
+          ss58, nonce, (data[0] as Uint8Array), apiSupport
         ).data
       ];
     }

@@ -19,7 +19,7 @@ type Props = I18nProps & {
   onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
   password: string,
   tabIndex?: number,
-  value?: Uint8Array | null
+  value?: string | null
 };
 
 type State = {
@@ -32,7 +32,7 @@ class Unlock extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
   static getDerivedStateFromProps ({ error, value }: Props): State {
-    const pair = keyring.getPair(value as Uint8Array);
+    const pair = keyring.getPair(value as string);
     const isLocked = pair.isLocked();
 
     return {

@@ -94,7 +94,7 @@ class Queue extends React.Component<Props, State> {
     return id;
   }
 
-  queueExtrinsic = ({ extrinsic, nonce, publicKey, values }: QueueTx$Extrinsic): QueueTx$Id => {
+  queueExtrinsic = ({ extrinsic, nonce, ss58, values }: QueueTx$Extrinsic): QueueTx$Id => {
     const { apiSupport } = this.props;
     const params = Object.values(extrinsic.params);
     const isValid = values.length === params.length &&
@@ -109,7 +109,7 @@ class Queue extends React.Component<Props, State> {
     return this.queueAdd({
       isValid,
       nonce: nonce || new BN(0),
-      publicKey,
+      ss58,
       rpc,
       values: [encoded]
     });
