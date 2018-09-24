@@ -4,9 +4,8 @@
 
 import BN from 'bn.js';
 import { Extrinsics } from '@polkadot/extrinsics/types';
-import { SectionItem } from '@polkadot/params/types';
+import { SectionItem, Param$Values } from '@polkadot/params/types';
 import { Interfaces } from '@polkadot/jsonrpc/types';
-import { Param$Values } from '@polkadot/params/types';
 import { RawParam$Value } from '@polkadot/ui-app/Params/types';
 
 export type EncodedMessage = {
@@ -26,7 +25,7 @@ export type QueueTx$Result = {
 
 export type AccountInfo = {
   nonce: BN,
-  publicKey?: Uint8Array | null
+  ss58: string | null
 };
 
 export type QueueTx$Base = EncodedMessage & AccountInfo & {
