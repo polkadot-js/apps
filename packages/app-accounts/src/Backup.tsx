@@ -5,12 +5,12 @@
 import { KeyringPair } from '@polkadot/util-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
-import FileSaver from 'file-saver';
 import React from 'react';
+import FileSaver from 'file-saver';
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
-import Password from '@polkadot/ui-app/Password';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
+import Password from '@polkadot/ui-app/Password';
 
 import translate from './translate';
 
@@ -39,9 +39,9 @@ class Backup extends React.PureComponent<Props, State> {
   render () {
     return (
       <Modal
-        size='tiny'
         dimmer='inverted'
         open
+        size='tiny'
       >
         {this.renderContent()}
         {this.renderButtons()}

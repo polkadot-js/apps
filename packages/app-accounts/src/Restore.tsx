@@ -39,9 +39,9 @@ class Restore extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      json: null,
       isFileValid: false,
       isPassValid: false,
+      json: null,
       password: ''
     };
   }
