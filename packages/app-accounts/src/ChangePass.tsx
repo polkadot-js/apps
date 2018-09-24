@@ -6,6 +6,7 @@ import { KeyringPair } from '@polkadot/util-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
+import Message from 'semantic-ui-react/dist/commonjs/collections/Message/index';
 import classes from '@polkadot/ui-app/util/classes';
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
@@ -20,7 +21,11 @@ type Props = I18nProps & {
   onClose: () => void
 };
 
+// Issue: https://github.com/Semantic-Org/Semantic-UI-React/issues/3071
+type SemanticMessageSizes = 'mini' | 'tiny' | 'small' | 'large' | 'big' | 'huge' | 'massive';
+
 type State = {
+  error: string,
   isNewValid: boolean,
   isOldValid: boolean,
   newPass: string,
@@ -34,6 +39,7 @@ class ChangePass extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
+      error: '',
       isNewValid: false,
       isOldValid: false,
       newPass: '',
@@ -52,6 +58,7 @@ class ChangePass extends React.PureComponent<Props, State> {
         size='tiny'
       >
         {this.renderContent()}
+        {this.renderErrors()}
         {this.renderButtons()}
       </Modal>
     );
@@ -121,8 +128,29 @@ class ChangePass extends React.PureComponent<Props, State> {
     ];
   }
 
+  private renderErrors () {
+    const { error } = this.state;
+    const isError: boolean = !!error;
+    const size: SemanticMessageSizes = 'tiny';
+
+    if (!isError) {
+      return null;
+    }
+
+    return (
+      <div className='accounts--ChangePass-Modal-error'>
+        <Message
+          error={isError}
+          size={size}
+        >
+          {error}
+        </Message>
+      </div>
+    );
+  }
+
   private doChange = (): void => {
-    const { account, onClose } = this.props;
+    const { account, onClose, t } = this.props;
     const { newPass, oldPass } = this.state;
 
     try {
@@ -132,14 +160,20 @@ class ChangePass extends React.PureComponent<Props, State> {
 
       account.decodePkcs8(oldPass);
     } catch (error) {
-      this.setState({ isOldValid: false });
+      this.setState({
+        error: t('change.error.old', { defaultValue: 'Incorrect old password' }),
+        isOldValid: false
+      });
       return;
     }
 
     try {
       keyring.encryptAccount(account, newPass);
     } catch (error) {
-      this.setState({ isNewValid: false });
+      this.setState({
+        error: t('change.error.new', { defaultValue: 'Internal error updating account with new password' }),
+        isNewValid: false
+      });
       return;
     }
 
