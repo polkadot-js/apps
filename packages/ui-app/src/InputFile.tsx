@@ -13,6 +13,7 @@ import Labelled from './Labelled';
 import translate from './translate';
 
 type Props = BareProps & {
+  acceptedFormats?: string,
   isDisabled?: boolean,
   isError?: boolean,
   label: string,
@@ -39,7 +40,7 @@ class InputFile extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { className, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
+    const { acceptedFormats, className, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
     const { file } = this.state;
 
     return (
@@ -48,6 +49,7 @@ class InputFile extends React.PureComponent<Props, State> {
         withLabel={withLabel}
       >
         <Dropzone
+          accept={acceptedFormats}
           className={classes('ui--InputFile', isError ? 'error' : '', className)}
           disabled={isDisabled}
           multiple={false}
@@ -79,9 +81,11 @@ class InputFile extends React.PureComponent<Props, State> {
       reader.onabort = () => {
         // ignore
       };
+
       reader.onerror = () => {
         // ignore
       };
+
       // @ts-ignore ummm... events are not properly specified here?
       reader.onload = ({ target: { result } }: LoadEvent) => {
         const data = new Uint8Array(result);
