@@ -77,7 +77,7 @@ class Restore extends React.PureComponent<Props, State> {
     );
   }
 
-  renderInput () {
+  private renderInput () {
     const { t } = this.props;
     const { isFileValid, isPassValid, password } = this.state;
 
@@ -108,7 +108,7 @@ class Restore extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeFile = (file: Uint8Array): void => {
+  private onChangeFile = (file: Uint8Array): void => {
     try {
       const json = JSON.parse(u8aToUtf8(file));
       const isFileValid = decodeAddress(json.address).length === 32 &&
@@ -128,14 +128,14 @@ class Restore extends React.PureComponent<Props, State> {
     }
   }
 
-  onChangePass = (password: string): void => {
+  private onChangePass = (password: string): void => {
     this.setState({
       isPassValid: password.length > 0 && password.length <= 32,
       password
     });
   }
 
-  onSave = (): void => {
+  private onSave = (): void => {
     const { onBack } = this.props;
     const { json, password } = this.state;
 
