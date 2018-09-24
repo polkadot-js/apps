@@ -12,10 +12,10 @@ import accounts from './observable/accounts';
 import addresses from './observable/addresses';
 import development from './observable/development';
 import loadAll from './loadAll';
+import addPair from './account/addPair';
 import backupAccount from './account/backup';
 import createAccount from './account/create';
 import forgetAccount from './account/forget';
-import loadAccount from './account/load';
 import restoreAccount from './account/restore';
 import isAvailable from './isAvailable';
 import saveAccount from './account/save';
@@ -38,6 +38,10 @@ class Keyring implements KeyringInstance {
     };
 
     this.loadAll();
+  }
+
+  addPair (json: KeyringPair$Json): void {
+    return addPair(this.state, json);
   }
 
   backupAccount (pair: KeyringPair, password: string): KeyringPair$Json {
@@ -80,10 +84,6 @@ class Keyring implements KeyringInstance {
     return this.state.keyring.getPairs().filter((pair) =>
       development.isDevelopment() || pair.getMeta().isTesting !== true
     );
-  }
-
-  loadAccount (json: KeyringPair$Json): KeyringPair {
-    return loadAccount(this.state, json);
   }
 
   loadAll (): void {
