@@ -35,7 +35,7 @@ export default class Password extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { autoFocus, children, className, defaultValue, isDisabled, isError, label, name, onChange, onKeyDown, style, tabIndex, value, withLabel } = this.props;
+    const { autoFocus, children, className, defaultValue, isDisabled, isError, label, name, onChange, style, tabIndex, value, withLabel } = this.props;
     const { isVisible } = this.state;
 
     return (
