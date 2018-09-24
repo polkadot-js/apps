@@ -5,3 +5,7 @@
 .accounts--ChangePass-Modal-Address {
   text-align: center;
 }
+
+.accounts--ChangePass-Modal-error {
+  padding: 0 1em;
+}
