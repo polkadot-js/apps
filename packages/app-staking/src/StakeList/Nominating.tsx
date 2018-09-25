@@ -12,6 +12,8 @@ import Modal from '@polkadot/ui-app/Modal';
 
 import translate from '../translate';
 
+import addressDecode from '@polkadot/util-keyring/address/decode';
+
 type Props = I18nProps & {
   isOpen: boolean,
   onClose: () => void,
@@ -106,19 +108,19 @@ class Nominating extends React.PureComponent<Props> {
           onChange={this.onChangeNominee}
           value={nominee}
         />
-        {
-          isNomineeValid
-          ?
-          null
+        { !isNomineeValid ?
+          t('nominator.error', {
+            defaultValue: 'The address you input is not intending to stake, and is therefore invalid. Please try again with a different address.'
+          })
           :
-          <p> The address you input is not intending to stake, and is therefore invalid. Please try again with a different address.</p>
+          null
         }
-        {
-          isAddressFormatValid
-          ?
-          null
+        { !isAddressFormatValid ?
+          t('nominator.error', {
+            defaultValue: 'The address you input does not conform to a recognized address format. Please make sure youve entered the address correctly and try again.'
+          })
           :
-          <p> The address you input is does not conform to a recognized address format. Please make sure you've entered the address correctly and try again.</p>
+          null
         }
       </Modal.Content>
     ];
@@ -127,9 +129,11 @@ class Nominating extends React.PureComponent<Props> {
   private onChangeNominee = (nominee: string) => {
     const { intentions } = this.props;
 
+    const publicKey = addressDecode(nominee);
+
     this.setState({
       isNomineeValid: intentions.includes(nominee),
-      isAddressFormatValid: nominee && nominee.length === 48,
+      isAddressFormatValid: publicKey && publicKey.length === 32,
       nominee
     });
   }
