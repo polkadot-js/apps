@@ -21,6 +21,7 @@ type Props = I18nProps & {
 
 type State = {
   isNomineeValid: boolean,
+  isAddressFormatValid: boolean,
   nominee: string
 };
 
@@ -32,6 +33,7 @@ class Nominating extends React.PureComponent<Props> {
 
     this.state = {
       isNomineeValid: false,
+      isAddressFormatValid: false,
       nominee: ''
     };
   }
@@ -86,7 +88,7 @@ class Nominating extends React.PureComponent<Props> {
 
   renderContent () {
     const { t } = this.props;
-    const { isNomineeValid, nominee } = this.state;
+    const { isNomineeValid, isAddressFormatValid, nominee } = this.state;
 
     return [
       <Modal.Header key='header'>
