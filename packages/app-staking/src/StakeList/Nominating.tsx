@@ -111,6 +111,13 @@ class Nominating extends React.PureComponent<Props> {
           :
           <p> The address you input is not intending to stake, and is therefore invalid. Please try again with a different address.</p>
         }
+        {
+          isAddressFormatValid
+          ?
+          null
+          :
+          <p> The address you input is does not conform to a recognized address format. Please make sure you've entered the address correctly and try again.</p>
+        }
       </Modal.Content>
     ];
   }
@@ -120,6 +127,7 @@ class Nominating extends React.PureComponent<Props> {
 
     this.setState({
       isNomineeValid: intentions.includes(nominee),
+      isAddressFormatValid: nominee && nominee.length === 48,
       nominee
     });
   }
