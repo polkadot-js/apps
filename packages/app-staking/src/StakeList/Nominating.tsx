@@ -104,6 +104,13 @@ class Nominating extends React.PureComponent<Props> {
           onChange={this.onChangeNominee}
           value={nominee}
         />
+        {
+          isNomineeValid
+          ?
+          null
+          :
+          <p> The address you input is not intending to stake, and is therefore invalid. Please try again with a different address.</p>
+        }
       </Modal.Content>
     ];
   }
