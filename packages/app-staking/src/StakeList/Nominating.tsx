@@ -9,6 +9,7 @@ import React from 'react';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import Modal from '@polkadot/ui-app/Modal';
+import Labelled from '@polkadot/ui-app/Labelled';
 
 import translate from '../translate';
 
