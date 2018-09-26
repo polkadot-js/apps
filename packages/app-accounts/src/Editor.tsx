@@ -12,6 +12,7 @@ import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring/index';
 
+import ChangePass from './ChangePass';
 import Forgetting from './Forgetting';
 import translate from './translate';
 
@@ -24,7 +25,8 @@ type State = {
   current: KeyringPair | null,
   editedName: string,
   isEdited: boolean,
-  isForgetOpen: boolean
+  isForgetOpen: boolean,
+  isPasswordOpen: boolean
 };
 
 class Editor extends React.PureComponent<Props, State> {
@@ -61,6 +63,14 @@ class Editor extends React.PureComponent<Props, State> {
           onClick={this.toggleForget}
           text={t('editor.forget', {
             defaultValue: 'Forget'
+          })}
+        />
+        <Button.Group.Divider />
+        <Button
+          isDisabled={isEdited}
+          onClick={this.togglePass}
+          text={t('editor.changePass', {
+            defaultValue: 'Change Password'
           })}
         />
         <Button.Group.Divider />
@@ -129,7 +139,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   renderModals () {
-    const { current, isForgetOpen } = this.state;
+    const { current, isForgetOpen, isPasswordOpen } = this.state;
 
     if (!current) {
       return null;
@@ -149,6 +159,16 @@ class Editor extends React.PureComponent<Props, State> {
       );
     }
 
+    if (isPasswordOpen) {
+      modals.push(
+        <ChangePass
+          account={current}
+          key='modal-change-pass'
+          onClose={this.togglePass}
+        />
+      );
+    }
+
     return modals;
   }
 
@@ -159,7 +179,8 @@ class Editor extends React.PureComponent<Props, State> {
         ? current.getMeta().name || ''
         : '',
       isEdited: false,
-      isForgetOpen: false
+      isForgetOpen: false,
+      isPasswordOpen: false
     };
   }
 
@@ -184,7 +205,8 @@ class Editor extends React.PureComponent<Props, State> {
           current,
           editedName,
           isEdited,
-          isForgetOpen: false
+          isForgetOpen: false,
+          isPasswordOpen: false
         };
       }
     );
@@ -236,6 +258,23 @@ class Editor extends React.PureComponent<Props, State> {
       ({ isForgetOpen }: State) => ({
         isForgetOpen: !isForgetOpen
       })
+    );
+  }
+
+  togglePass = (): void => {
+    this.setState(
+      ({ current, isPasswordOpen }: State) => {
+        if (!current) {
+          return null;
+        }
+
+        // NOTE We re-get the account from the keyring, if changed it will load the
+        // new instance (this is not quite obvious...)
+        return {
+          current: keyring.getPair(current.publicKey()),
+          isPasswordOpen: !isPasswordOpen
+        };
+      }
     );
   }
 
