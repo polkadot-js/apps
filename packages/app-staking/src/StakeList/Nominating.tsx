@@ -109,19 +109,29 @@ class Nominating extends React.PureComponent<Props> {
           onChange={this.onChangeNominee}
           value={nominee}
         />
-        { !isNomineeValid ?
-          t('nominator.error', {
-            defaultValue: 'The address you input is not intending to stake, and is therefore invalid. Please try again with a different address.'
-          })
-          :
-          null
+        {
+          !isNomineeValid
+          ? <Labelled>
+              {
+                t('nominator.error', {
+                  defaultValue: '* The address you input is not intending to stake, and is therefore invalid. \
+                                Please try again with a different address.'
+                })
+              }
+            </Labelled>
+          : null
         }
-        { !isAddressFormatValid ?
-          t('nominator.error', {
-            defaultValue: 'The address you input does not conform to a recognized address format. Please make sure youve entered the address correctly and try again.'
-          })
-          :
-          null
+        {
+          !isAddressFormatValid
+          ? <Labelled>
+              {
+                t('nominator.error', {
+                  defaultValue: '* The address you input does not conform to a recognized address format. \
+                                Please make sure youve entered the address correctly and try again.'
+                })
+              }
+            </Labelled>
+          : null
         }
       </Modal.Content>
     ];
