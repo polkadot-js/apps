@@ -9,7 +9,7 @@ import React from 'react';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import Modal from '@polkadot/ui-app/Modal';
-import Labelled from '@polkadot/ui-app/Labelled';
+import InputError from '@polkadot/ui-app/InputError';
 
 import translate from '../translate';
 
@@ -111,26 +111,18 @@ class Nominating extends React.PureComponent<Props> {
         />
         {
           !isNomineeValid
-          ? <Labelled>
-              {
-                t('nominator.error', {
-                  defaultValue: '* The address you input is not intending to stake, and is therefore invalid. \
-                                Please try again with a different address.'
-                })
-              }
-            </Labelled>
+          ? <InputError label={t('nominator.error', {
+            defaultValue: 'The address you input is not intending to stake, and is therefore invalid. \
+                          Please try again with a different address.'
+          })} />
           : null
         }
         {
           !isAddressFormatValid
-          ? <Labelled>
-              {
-                t('nominator.error', {
-                  defaultValue: '* The address you input does not conform to a recognized address format. \
-                                Please make sure youve entered the address correctly and try again.'
-                })
-              }
-            </Labelled>
+          ? <InputError label={t('nominator.error', {
+            defaultValue: 'The address you input does not conform to a recognized address format. \
+                          Please make sure youve entered the address correctly and try again.'
+          })} />
           : null
         }
       </Modal.Content>
