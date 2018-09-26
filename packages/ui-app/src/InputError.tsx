@@ -10,10 +10,10 @@ import Label from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
 import classes from './util/classes';
 
 type Props = BareProps & {
-  label?: any
+  label?: React.ReactNode
 };
 
-const defaultLabel: any = (// node?
+const defaultLabel: React.ReactNode = (
   <div>&nbsp;</div>
 );
 
