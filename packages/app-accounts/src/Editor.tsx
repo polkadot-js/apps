@@ -12,6 +12,7 @@ import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring/index';
 
+import Backup from './Backup';
 import ChangePass from './ChangePass';
 import Forgetting from './Forgetting';
 import translate from './translate';
@@ -24,6 +25,7 @@ type Props = I18nProps & {
 type State = {
   current: KeyringPair | null,
   editedName: string,
+  isBackupOpen: boolean,
   isEdited: boolean,
   isForgetOpen: boolean,
   isPasswordOpen: boolean
@@ -66,6 +68,14 @@ class Editor extends React.PureComponent<Props, State> {
           })}
         />
         <Button.Group.Divider />
+        <Button
+          isDisabled={isEdited}
+          onClick={this.toggleBackup}
+          text={t('editor.backup', {
+            defaultValue: 'Backup'
+          })}
+        />
+        <Button.Or />
         <Button
           isDisabled={isEdited}
           onClick={this.togglePass}
@@ -139,7 +149,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   renderModals () {
-    const { current, isForgetOpen, isPasswordOpen } = this.state;
+    const { current, isBackupOpen, isForgetOpen, isPasswordOpen } = this.state;
 
     if (!current) {
       return null;
@@ -147,6 +157,16 @@ class Editor extends React.PureComponent<Props, State> {
 
     const address = current.address();
     const modals = [];
+
+    if (isBackupOpen) {
+      modals.push(
+        <Backup
+          key='modal-backup-account'
+          pair={current}
+          onClose={this.toggleBackup}
+        />
+      );
+    }
 
     if (isForgetOpen) {
       modals.push(
@@ -178,6 +198,7 @@ class Editor extends React.PureComponent<Props, State> {
       editedName: current
         ? current.getMeta().name || ''
         : '',
+      isBackupOpen: false,
       isEdited: false,
       isForgetOpen: false,
       isPasswordOpen: false
@@ -204,6 +225,7 @@ class Editor extends React.PureComponent<Props, State> {
         return {
           current,
           editedName,
+          isBackupOpen: false,
           isEdited,
           isForgetOpen: false,
           isPasswordOpen: false
@@ -251,6 +273,14 @@ class Editor extends React.PureComponent<Props, State> {
     this.nextState({
       editedName: current.getMeta().name
     } as State);
+  }
+
+  toggleBackup = (): void => {
+    this.setState(
+      ({ isBackupOpen }: State) => ({
+        isBackupOpen: !isBackupOpen
+      })
+    );
   }
 
   toggleForget = (): void => {

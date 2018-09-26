@@ -14,6 +14,7 @@ import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
 import Creator from './Creator';
 import Editor from './Editor';
+import Restore from './Restore';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -21,7 +22,7 @@ type Props = I18nProps & {
   basePath: string
 };
 
-type Actions = 'create' | 'edit';
+type Actions = 'create' | 'edit' | 'restore';
 
 type State = {
   action: Actions,
@@ -32,7 +33,8 @@ type State = {
 // FIXME React-router would probably be the best route, not home-grown
 const Components: { [index: string]: React.ComponentType<any> } = {
   'create': Creator,
-  'edit': Editor
+  'edit': Editor,
+  'restore': Restore
 };
 
 class AccountsApp extends React.PureComponent<Props, State> {
@@ -56,6 +58,10 @@ class AccountsApp extends React.PureComponent<Props, State> {
         {
           name: 'create',
           text: t('app.create', { defaultValue: 'Create account' })
+        },
+        {
+          name: 'restore',
+          text: t('app.restore', { defaultValue: 'Restore account' })
         }
       ]
     };
