@@ -131,25 +131,22 @@ class Nominating extends React.PureComponent<Props> {
 
   private onChangeNominee = (nominee: string) => {
     const { intentions } = this.props;
+    let publicKey;
 
     try {
-      this.setState({
-        isNomineeValid: intentions.includes(nominee),
-        nominee
-      });
-
-      const publicKey = addressDecode(nominee);
-
-      this.setState({
-        isAddressFormatValid: publicKey && publicKey.length === 32
-      });
+      publicKey = addressDecode(nominee);
     } catch (err) {
+      console.error(err);
       this.setState({
         isAddressFormatValid: false
       });
-
-      console.error(err);
     }
+
+    this.setState({
+      isNomineeValid: intentions.includes(nominee),
+      isAddressFormatValid: publicKey && publicKey.length === 32,
+      nominee
+    });
   }
 
   private nominate = () => {
