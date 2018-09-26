@@ -75,6 +75,7 @@ class Editor extends React.PureComponent<Props, State> {
             defaultValue: 'Backup'
           })}
         />
+        <Button.Or />
         <Button
           isDisabled={isEdited}
           onClick={this.togglePass}
