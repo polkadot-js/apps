@@ -16,6 +16,7 @@ import addAccountPair from './account/addPair';
 import createAccount from './account/create';
 import forgetAccount from './account/forget';
 import isAvailable from './isAvailable';
+import encryptAccount from './account/encrypt';
 import saveAccount from './account/save';
 import saveAccountMeta from './account/meta';
 import forgetAddress from './address/forget';
@@ -40,6 +41,8 @@ export default ({
     addAccountPair(state, pair, password),
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta): KeyringPair =>
     createAccount(state, seed, password, meta),
+  encryptAccount: (pair: KeyringPair, password: string): void =>
+    encryptAccount(state, pair, password),
   forgetAccount: (address: string): void =>
     forgetAccount(state, address),
   forgetAddress: (address: string): void =>
