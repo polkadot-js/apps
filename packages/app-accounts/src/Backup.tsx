@@ -116,7 +116,7 @@ class Backup extends React.PureComponent<Props, State> {
     }
 
     try {
-      if (pair.isLocked()) {
+      if (!pair.isLocked()) {
         pair.lock();
       }
 
