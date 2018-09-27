@@ -13,7 +13,7 @@ import Substrate from './Substrate';
 
 type Props = BaseProps & {
   size?: number,
-  value: string | null
+  value: string | Uint8Array | null
 };
 
 const DEFAULT_SIZE = 64;
