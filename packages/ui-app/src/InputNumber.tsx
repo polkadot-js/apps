@@ -126,9 +126,6 @@ class InputNumber extends React.PureComponent<Props, State> {
       }));
     }
 
-    // remove spaces even though not possible as user restricted from entering spacebar key in onKeyDown
-    input = input.toLowerCase().split(' ').join('');
-
     if (this.isNonInteger(input)) {
       return false;
     }
