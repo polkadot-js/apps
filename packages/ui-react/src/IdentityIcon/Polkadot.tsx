@@ -9,7 +9,7 @@ import Identicon from 'polkadot-identicon';
 
 type Props = BaseProps & {
   size: number,
-  value: string | null
+  value: string | Uint8Array | null
 };
 
 export default class Polkadot extends React.PureComponent<Props> {

@@ -12,7 +12,7 @@ import isU8a from '@polkadot/util/is/u8a';
 
 type Props = BaseProps & {
   size: number,
-  value: string | null
+  value: string | Uint8Array | null
 };
 
 type State = {
