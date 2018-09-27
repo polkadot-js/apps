@@ -20,11 +20,18 @@ import addresses from './observable/addresses';
 import development from './observable/development';
 import { accountKey, accountRegex, addressRegex, MAX_PASS_LEN } from './defaults';
 import initOptions from './options';
+import assert from '@polkadot/util/assert';
 
 class Keyring implements KeyringInstance {
   private state: State;
+  private id: number = 0;
+
+  static counter: number;
 
   constructor () {
+    this.id = ++Keyring.counter;
+    assert(this.id > 1, 'KeyringInstance should be singleton');
+
     this.state = {
       accounts,
       addresses,
@@ -267,6 +274,7 @@ class Keyring implements KeyringInstance {
   }
 }
 
+Keyring.counter = 0;
 const keyringInstance = new Keyring();
 
 export default keyringInstance;
