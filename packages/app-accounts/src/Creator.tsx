@@ -227,7 +227,7 @@ class Creator extends React.PureComponent<Props, State> {
         const isSeedValid = isHex(seed)
           ? seed.length === 66
           : seed.length <= 32;
-        const isPassValid = password.length > 0 && password.length <= 32;
+        const isPassValid = keyring.isPassValid(password);
 
         if (isSeedValid && seed !== prevState.seed) {
           address = addressFromSeed(seed);

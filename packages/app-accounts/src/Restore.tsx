@@ -131,7 +131,7 @@ class Restore extends React.PureComponent<Props, State> {
 
   private onChangePass = (password: string): void => {
     this.setState({
-      isPassValid: this.validatePass(password),
+      isPassValid: keyring.isPassValid(password),
       password
     });
   }
@@ -154,10 +154,6 @@ class Restore extends React.PureComponent<Props, State> {
       this.setState({ isPassValid: false });
       console.error(error);
     }
-  }
-
-  private validatePass (password: string): boolean {
-    return password.length > 0 && password.length <= 32;
   }
 }
 

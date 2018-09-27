@@ -4,6 +4,7 @@
 
 const ACCOUNT_PREFIX = 'account:';
 const ADDRESS_PREFIX = 'address:';
+export const MAX_PASS_LEN = 32;
 
 export const accountKey = (address: string): string =>
   `${ACCOUNT_PREFIX}${address}`;

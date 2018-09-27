@@ -46,6 +46,7 @@ export interface KeyringInstance {
   getPair: (address: string | Uint8Array) => KeyringPair,
   getPairs: () => Array<KeyringPair>,
   isAvailable: (address: string | Uint8Array) => boolean,
+  isPassValid: (password: string) => boolean,
   loadAll: () => void,
   restoreAccount: (json: KeyringPair$Json, password: string) => KeyringPair,
   saveAccount: (pair: KeyringPair, password?: string) => void,

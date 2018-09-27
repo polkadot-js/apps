@@ -18,6 +18,7 @@ import createAccount from './account/create';
 import forgetAccount from './account/forget';
 import restoreAccount from './account/restore';
 import isAvailable from './isAvailable';
+import isPassValid from './isPassValid';
 import saveAccount from './account/save';
 import saveAccountMeta from './account/meta';
 import forgetAddress from './address/forget';
@@ -62,6 +63,10 @@ class Keyring implements KeyringInstance {
 
   isAvailable (address: string | Uint8Array): boolean {
     return isAvailable(this.state, address);
+  }
+
+  isPassValid (password: string): boolean {
+    return isPassValid(this.state, password);
   }
 
   getAccounts (): Array<KeyringAddress> {
