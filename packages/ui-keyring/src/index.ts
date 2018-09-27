@@ -15,11 +15,9 @@ import accounts from './observable/accounts';
 import addresses from './observable/addresses';
 import development from './observable/development';
 import loadAll from './loadAll';
-import createAccount from './account/create';
 import forgetAccount from './account/forget';
 import isAvailable from './isAvailable';
 import isPassValid from './isPassValid';
-import saveAccount from './account/save';
 import saveAccountMeta from './account/meta';
 import forgetAddress from './address/forget';
 import getAccounts from './account/all';
@@ -61,7 +59,11 @@ class Keyring implements KeyringInstance {
   }
 
   createAccount (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta): KeyringPair {
-    return createAccount(this.state, seed, password, meta);
+    const pair = this.state.keyring.addFromSeed(seed, meta);
+
+    this.saveAccount(pair, password);
+
+    return pair;
   }
 
   forgetAccount (address: string): void {
@@ -125,7 +127,14 @@ class Keyring implements KeyringInstance {
   }
 
   saveAccount (pair: KeyringPair, password?: string): void {
-    return saveAccount(this.state, pair, password);
+    const json = pair.toJson(password);
+
+    if (!json.meta.whenCreated) {
+      json.meta.whenCreated = Date.now();
+    }
+
+    this.state.keyring.addFromJson(json);
+    this.state.accounts.add(json.address, json);
   }
 
   saveAccountMeta (pair: KeyringPair, meta: KeyringPair$Meta): void {
