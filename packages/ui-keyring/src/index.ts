@@ -24,6 +24,8 @@ import observableAddresses from './observable/addresses';
 import observableDevelopment from './observable/development';
 import { accountKey, accountRegex, addressRegex, MAX_PASS_LEN } from './defaults';
 
+let singletonInstance: Keyring | null = null;
+
 class Keyring implements KeyringInstance {
   private state: State;
   private emptyOptions (): KeyringOptions {
@@ -41,16 +43,25 @@ class Keyring implements KeyringInstance {
   static counter: number;
 
   constructor () {
-    this.id = ++Keyring.counter;
-    assert(this.id <= 1, 'KeyringInstance should be singleton');
-
+    // state must be always defined in the constructor even if trying to create second instance to overcome TSLint error
     this.state = {
       accounts: observableAccounts,
       addresses: observableAddresses,
       keyring: testKeyring()
     };
 
+    if (!singletonInstance) {
+      singletonInstance = this;
+    } else {
+      return;
+    }
+
     this.loadAll();
+
+    this.id = ++Keyring.counter;
+    assert(this.id <= 1, 'KeyringInstance should be singleton');
+
+    return singletonInstance;
   }
 
   addAccounts (options: KeyringOptions): void {
