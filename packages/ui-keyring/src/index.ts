@@ -15,7 +15,6 @@ import accounts from './observable/accounts';
 import addresses from './observable/addresses';
 import development from './observable/development';
 import loadAll from './loadAll';
-import forgetAccount from './account/forget';
 import isAvailable from './isAvailable';
 import isPassValid from './isPassValid';
 import saveAccountMeta from './account/meta';
@@ -67,7 +66,8 @@ class Keyring implements KeyringInstance {
   }
 
   forgetAccount (address: string): void {
-    return forgetAccount(this.state, address);
+    this.state.keyring.removePair(address);
+    this.state.accounts.remove(address);
   }
 
   forgetAddress (address: string): void {
