@@ -36,7 +36,7 @@ class Keyring implements KeyringInstance {
     this.loadAll();
   }
 
-  addAccountPair (json: KeyringPair$Json): void {
+  addPair (json: KeyringPair$Json): void {
     if (!json.meta.whenCreated) {
       json.meta.whenCreated = Date.now();
     }
@@ -45,7 +45,7 @@ class Keyring implements KeyringInstance {
     this.state.accounts.add(json.address, json);
   }
 
-  addAccountPairs (): void {
+  addPairs (): void {
     this.state.keyring
       .getPairs()
       .forEach((pair) => {
@@ -150,7 +150,7 @@ class Keyring implements KeyringInstance {
   loadAll (): void {
     const { accounts, addresses, keyring } = this.state;
 
-    this.addAccountPairs();
+    this.addPairs();
 
     store.each((json: KeyringJson, key: string) => {
       if (accountRegex.test(key)) {
@@ -193,7 +193,7 @@ class Keyring implements KeyringInstance {
     pair.decodePkcs8(password);
     pair.lock();
     this.state.keyring.addPair(pair);
-    this.addAccountPair(json);
+    this.addPair(json);
 
     return pair;
   }

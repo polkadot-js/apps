@@ -35,7 +35,7 @@ export type State = {
 };
 
 export interface KeyringInstance {
-  addAccountPair: (json: KeyringPair$Json) => void,
+  addPair: (json: KeyringPair$Json) => void,
   backupAccount: (pair: KeyringPair, password: string) => KeyringPair$Json,
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta) => KeyringPair,
   forgetAccount: (address: string) => void,
