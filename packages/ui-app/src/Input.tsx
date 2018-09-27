@@ -6,7 +6,6 @@ import { BareProps } from './types';
 
 import React from 'react';
 import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
-
 import isUndefined from '@polkadot/util/is/undefined';
 
 import Labelled from './Labelled';
@@ -30,6 +29,7 @@ type Props = BareProps & {
   name?: string,
   onChange: (value: string) => void,
   onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
+  onKeyUp?: (event: React.KeyboardEvent<Element>) => void,
   placeholder?: string,
   tabIndex?: number,
   type?: Input$Type,
@@ -40,6 +40,39 @@ type Props = BareProps & {
 type State = {
   name: string;
 };
+
+// note: KeyboardEvent.keyCode and KeyboardEvent.which are deprecated
+const KEYS = {
+  A: 'a',
+  ALT: 'Alt',
+  ARROW_LEFT: 'ArrowLeft',
+  ARROW_RIGHT: 'ArrowRight',
+  BACKSPACE: 'Backspace',
+  C: 'c',
+  CMD: 'Meta',
+  CTRL: 'Control',
+  ENTER: 'Enter',
+  ESCAPE: 'Escape',
+  TAB: 'Tab',
+  V: 'v',
+  X: 'x',
+  ZERO: '0'
+};
+
+const KEYS_PRE: Array<any> = [KEYS.ALT, KEYS.CMD, KEYS.CTRL];
+
+// reference: degrade key to keyCode for cross-browser compatibility https://www.w3schools.com/jsref/event_key_keycode.asp
+const isCopy = (key: string, isPreKeyDown: boolean): boolean =>
+  isPreKeyDown && key === KEYS.C;
+
+const isCut = (key: string, isPreKeyDown: boolean): boolean =>
+  isPreKeyDown && key === KEYS.X;
+
+const isPaste = (key: string, isPreKeyDown: boolean): boolean =>
+  isPreKeyDown && key === KEYS.V;
+
+const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
+  isPreKeyDown && key === KEYS.A;
 
 let counter = 0;
 
@@ -78,6 +111,7 @@ export default class Input extends React.PureComponent<Props, State> {
           name={name || this.state.name}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
+          onKeyUp={this.onKeyUp}
           placeholder={placeholder}
           tabIndex={tabIndex}
           type={type}
@@ -112,4 +146,21 @@ export default class Input extends React.PureComponent<Props, State> {
       onKeyDown(event);
     }
   }
+
+  onKeyUp = (event: React.KeyboardEvent<Element>): void => {
+    const { onKeyUp } = this.props;
+
+    if (onKeyUp) {
+      onKeyUp(event);
+    }
+  }
 }
+
+export {
+  isCopy,
+  isCut,
+  isPaste,
+  isSelectAll,
+  KEYS,
+  KEYS_PRE
+};

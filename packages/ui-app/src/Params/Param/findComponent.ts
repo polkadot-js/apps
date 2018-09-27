@@ -7,6 +7,7 @@ import { Props, ComponentMap } from '../types';
 
 import Account from './Account';
 import Amount from './Amount';
+import Balance from './Balance';
 import Bool from './Bool';
 import Bytes from './Bytes';
 import Code from './Code';
@@ -22,7 +23,7 @@ import VoteThreshold from './VoteThreshold';
 const components: ComponentMap = {
   'AccountId': Account,
   'AccountIndex': Amount,
-  'Balance': Amount,
+  'Balance': Balance,
   'BlockNumber': Amount,
   'bool': Bool,
   'Bytes': Bytes,

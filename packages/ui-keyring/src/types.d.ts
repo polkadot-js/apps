@@ -37,6 +37,7 @@ export interface KeyringInstance {
   addPair: (json: KeyringPair$Json) => void,
   backupAccount: (pair: KeyringPair, password: string) => KeyringPair$Json,
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta) => KeyringPair,
+  encryptAccount: (pair: KeyringPair, password: string) => void,
   forgetAccount: (address: string) => void,
   forgetAddress: (address: string) => void,
   getAccounts: () => Array<KeyringAddress>,

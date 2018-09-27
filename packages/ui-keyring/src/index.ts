@@ -153,6 +153,16 @@ class Keyring implements KeyringInstance {
     };
   }
 
+  encryptAccount (pair: KeyringPair, password: string): void {
+    const { accounts, keyring } = this.state;
+    const json = pair.toJson(password);
+
+    json.meta.whenEdited = Date.now();
+
+    keyring.addFromJson(json);
+    accounts.add(json.address, json);
+  }
+
   forgetAccount (address: string): void {
     const { accounts, keyring } = this.state;
 

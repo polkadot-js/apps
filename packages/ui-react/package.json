@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-react",
-  "version": "0.20.17",
+  "version": "0.20.20",
   "description": "A collection of base React components",
   "main": "index.js",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@polkadot/ui-identicon": "^0.20.17",
+    "@polkadot/ui-identicon": "^0.20.20",
     "polkadot-identicon": "^1.0.2"
   },
   "devDependencies": {
