@@ -18,7 +18,6 @@ import testKeyring from '@polkadot/util-keyring/testing';
 import accounts from './observable/accounts';
 import addresses from './observable/addresses';
 import development from './observable/development';
-import saveRecent from './address/metaRecent';
 import isAvailable from './isAvailable';
 import isPassValid from './isPassValid';
 import { accountKey, accountRegex, addressRegex } from './defaults';
@@ -241,7 +240,21 @@ class Keyring implements KeyringInstance {
   }
 
   saveRecent (address: string): SingleAddress {
-    return saveRecent(this.state, address);
+    const available = this.state.addresses.subject.getValue();
+
+    if (!available[address]) {
+      const json = {
+        address,
+        meta: {
+          isRecent: true,
+          whenCreated: Date.now()
+        }
+      };
+
+      this.state.addresses.add(address, (json as KeyringJson));
+    }
+
+    return this.state.addresses.subject.getValue()[address];
   }
 
   setDevMode (isDevelopment: boolean): void {
