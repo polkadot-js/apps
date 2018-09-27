@@ -51,7 +51,7 @@ export interface KeyringInstance {
   restoreAccount: (json: KeyringPair$Json, password: string) => KeyringPair,
   saveAccount: (pair: KeyringPair, password?: string) => void,
   saveAccountMeta: (pair: KeyringPair, meta: KeyringPair$Meta) => void,
-  saveAddress: (address: string, meta: KeyringPair$Meta) => void,
+  saveAddressMeta: (address: string, meta: KeyringPair$Meta) => void,
   saveRecent: (address: string) => SingleAddress,
   setDevMode: (isDevelopment: boolean) => void
 }

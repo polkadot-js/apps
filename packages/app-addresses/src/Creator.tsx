@@ -164,7 +164,7 @@ class Creator extends React.PureComponent<Props, State> {
     const { onCreateAddress } = this.props;
     const { address, name } = this.state;
 
-    keyring.saveAddress(address, { name });
+    keyring.saveAddressMeta(address, { name });
     InputAddress.setLastValue('address', address);
 
     onCreateAddress();
