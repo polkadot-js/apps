@@ -4,7 +4,6 @@
 
 import { KeyringInstance as BaseKeyringInstance, KeyringPair, KeyringPair$Meta, KeyringPair$Json } from '@polkadot/util-keyring/types';
 import { AddressSubject, SingleAddress } from './observable/types';
-import { KeyringSectionOption } from './options/types';
 
 export type KeyringJson$Meta = {
   isRecent?: boolean,

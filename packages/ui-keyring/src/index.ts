@@ -5,8 +5,11 @@
 import { KeyringPair, KeyringPair$Meta, KeyringPair$Json } from '@polkadot/util-keyring/types';
 import { SingleAddress } from './observable/types';
 import { KeyringAddress, KeyringInstance, KeyringJson, KeyringJson$Meta, State } from './types';
+import { KeyringOptions, KeyringSectionOption, KeyringSectionOptions } from './options/types';
 
+import { BehaviorSubject } from 'rxjs';
 import store from 'store';
+import assert from '@polkadot/util/assert';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import isHex from '@polkadot/util/is/hex';
 import isString from '@polkadot/util/is/string';
@@ -15,30 +18,74 @@ import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 import testKeyring from '@polkadot/util-keyring/testing';
 
-import accounts from './observable/accounts';
-import addresses from './observable/addresses';
-import development from './observable/development';
+import observableAll from './observable';
+import observableAccounts from './observable/accounts';
+import observableAddresses from './observable/addresses';
+import observableDevelopment from './observable/development';
 import { accountKey, accountRegex, addressRegex, MAX_PASS_LEN } from './defaults';
-import initOptions from './options';
-import assert from '@polkadot/util/assert';
 
 class Keyring implements KeyringInstance {
   private state: State;
+
+  private emptyOptions (): KeyringOptions {
+    return {
+      account: [],
+      address: [],
+      all: [],
+      recent: [],
+      testing: []
+    };
+  }
   private id: number = 0;
+  private optionsSubject: BehaviorSubject<KeyringOptions> = new BehaviorSubject(this.emptyOptions());
 
   static counter: number;
 
   constructor () {
     this.id = ++Keyring.counter;
-    assert(this.id > 1, 'KeyringInstance should be singleton');
+    assert(this.id <= 1, 'KeyringInstance should be singleton');
 
     this.state = {
-      accounts,
-      addresses,
+      accounts: observableAccounts,
+      addresses: observableAddresses,
       keyring: testKeyring()
     };
 
     this.loadAll();
+  }
+
+  addAccounts ({ accounts }: State, options: KeyringOptions): void {
+    const available = accounts.subject.getValue();
+
+    Object
+      .keys(available)
+      .map((address) =>
+        available[address]
+      )
+      .forEach(({ json: { meta: { isTesting = false } }, option }: SingleAddress) => {
+        if (!isTesting) {
+          options.account.push(option);
+        } else {
+          options.testing.push(option);
+        }
+      });
+  }
+
+  addAddresses ({ addresses }: State, options: KeyringOptions): void {
+    const available = addresses.subject.getValue();
+
+    Object
+      .keys(available)
+      .map((address) =>
+        available[address]
+      )
+      .forEach(({ json: { meta: { isRecent = false } }, option }: SingleAddress) => {
+        if (isRecent) {
+          options.recent.push(option);
+        } else {
+          options.address.push(option);
+        }
+      });
   }
 
   addPair (json: KeyringPair$Json): void {
@@ -81,6 +128,16 @@ class Keyring implements KeyringInstance {
     return pair;
   }
 
+  createOptionHeader (name: string): KeyringSectionOption {
+    return {
+      className: 'header disabled',
+      name,
+      key: `header-${name.toLowerCase()}`,
+      text: name,
+      value: null
+    };
+  }
+
   forgetAccount (address: string): void {
     this.state.keyring.removePair(address);
     this.state.accounts.remove(address);
@@ -88,21 +145,6 @@ class Keyring implements KeyringInstance {
 
   forgetAddress (address: string): void {
     this.state.addresses.remove(address);
-  }
-
-  isAvailable (_address: string | Uint8Array): boolean {
-    const accounts = this.state.accounts.subject.getValue();
-    const addresses = this.state.addresses.subject.getValue();
-
-    const address = isString(_address)
-      ? _address
-      : addressEncode(_address);
-
-    return !accounts[address] && !addresses[address];
-  }
-
-  isPassValid (password: string): boolean {
-    return password.length > 0 && password.length <= MAX_PASS_LEN;
   }
 
   getAccounts (): Array<KeyringAddress> {
@@ -155,8 +197,53 @@ class Keyring implements KeyringInstance {
 
   getPairs (): Array<KeyringPair> {
     return this.state.keyring.getPairs().filter((pair) =>
-      development.isDevelopment() || pair.getMeta().isTesting !== true
+      observableDevelopment.isDevelopment() || pair.getMeta().isTesting !== true
     );
+  }
+
+  // NOTE To be called _only_ once (should be addressed with https://github.com/polkadot-js/apps/issues/138)
+  initOptions (): void {
+    observableAll.subscribe((value) => {
+      const options = this.emptyOptions();
+
+      this.addAccounts(this.state, options);
+      this.addAddresses(this.state, options);
+
+      options.address = ([] as KeyringSectionOptions).concat(
+        options.address.length ? [ this.createOptionHeader('Addresses') ] : [],
+        options.address,
+        options.recent.length ? [ this.createOptionHeader('Recent') ] : [],
+        options.recent
+      );
+      options.account = ([] as KeyringSectionOptions).concat(
+        options.account.length ? [ this.createOptionHeader('Accounts') ] : [],
+        options.account,
+        options.testing.length ? [ this.createOptionHeader('Development') ] : [],
+        options.testing
+      );
+
+      options.all = ([] as KeyringSectionOptions).concat(
+        options.account,
+        options.address
+      );
+
+      this.optionsSubject.next(options);
+    });
+  }
+
+  isAvailable (_address: string | Uint8Array): boolean {
+    const accounts = this.state.accounts.subject.getValue();
+    const addresses = this.state.addresses.subject.getValue();
+
+    const address = isString(_address)
+      ? _address
+      : addressEncode(_address);
+
+    return !accounts[address] && !addresses[address];
+  }
+
+  isPassValid (password: string): boolean {
+    return password.length > 0 && password.length <= MAX_PASS_LEN;
   }
 
   loadAll (): void {
@@ -188,8 +275,7 @@ class Keyring implements KeyringInstance {
       }
     });
 
-    // TODO - refactor initOptions into this Keyring class file?
-    initOptions(this.state);
+    this.initOptions();
   }
 
   restoreAccount (json: KeyringPair$Json, password: string): KeyringPair {
@@ -270,7 +356,7 @@ class Keyring implements KeyringInstance {
   }
 
   setDevMode (isDevelopment: boolean): void {
-    return development.set(isDevelopment);
+    return observableDevelopment.set(isDevelopment);
   }
 }
 
