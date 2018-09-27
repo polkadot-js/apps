@@ -21,7 +21,7 @@ export type Props = I18nProps & {
   balance?: BN | Array<BN>,
   children?: React.ReactNode,
   name?: string,
-  value: string | Uint8Array,
+  value: string | Uint8Array | null,
   withBalance?: boolean,
   identIconSize?: number,
   isShort?: boolean
@@ -45,7 +45,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
 
   static getDerivedStateFromProps ({ value }: Props, { address, publicKey, shortValue }: State): State {
     try {
-      publicKey = addressDecode(value);
+      publicKey = addressDecode(value as string);
       address = addressEncode(publicKey);
       shortValue = toShortAddress(address);
     } catch (error) {
@@ -121,9 +121,9 @@ class AddressSummary extends React.PureComponent<Props, State> {
 
   protected renderCopy () {
     const { withCopy = true } = this.props;
-    const { address } = this.state;
+    const { address, publicKey } = this.state;
 
-    if (!withCopy) {
+    if (!withCopy || !publicKey) {
       return null;
     }
 

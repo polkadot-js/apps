@@ -6,7 +6,6 @@ import { KeyringPair } from '@polkadot/util-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import classes from '@polkadot/ui-app/util/classes';
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
 import Password from '@polkadot/ui-app/Password';
@@ -42,11 +41,9 @@ class ChangePass extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className } = this.props;
-
     return (
       <Modal
-        className={classes('accounts--ChangePass-Modal', className)}
+        className='accounts--ChangePass-Modal'
         dimmer='inverted'
         open
         size='tiny'
@@ -97,7 +94,7 @@ class ChangePass extends React.PureComponent<Props, State> {
       </Modal.Header>,
       <Modal.Content key='content'>
         <AddressSummary
-          className='accounts--ChangePass-Modal-Address'
+          className='accounts--Modal-Address'
           value={account.address()}
         />
         <div className='ui--row'>
