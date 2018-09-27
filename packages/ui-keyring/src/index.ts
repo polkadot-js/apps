@@ -4,12 +4,14 @@
 
 import { KeyringPair, KeyringPair$Meta, KeyringPair$Json } from '@polkadot/util-keyring/types';
 import { SingleAddress } from './observable/types';
-import { KeyringAddress, KeyringInstance, State } from './types';
+import { KeyringAddress, KeyringInstance, KeyringJson$Meta, State } from './types';
 
 import store from 'store';
 import hexToU8a from '@polkadot/util/hex/toU8a';
+import isString from '@polkadot/util/is/string';
 import createPair from '@polkadot/util-keyring/pair';
-import decodeAddress from '@polkadot/util-keyring/address/decode';
+import addressDecode from '@polkadot/util-keyring/address/decode';
+import addressEncode from '@polkadot/util-keyring/address/encode';
 import testKeyring from '@polkadot/util-keyring/testing';
 
 import accounts from './observable/accounts';
@@ -19,8 +21,6 @@ import loadAll from './loadAll';
 import isAvailable from './isAvailable';
 import isPassValid from './isPassValid';
 import forgetAddress from './address/forget';
-import getAddress from './address/get';
-import getAddresses from './address/all';
 import saveAddress from './address/meta';
 import saveRecent from './address/metaRecent';
 import { accountKey } from './defaults';
@@ -88,19 +88,42 @@ class Keyring implements KeyringInstance {
     return Object
       .keys(available)
       .map((address) =>
-        getAddress(this.state, address, 'account')
+        this.getAddress(address, 'account')
       )
       .filter((account) =>
         !account.getMeta().isTesting
       );
   }
 
-  getAddress (address: string | Uint8Array): KeyringAddress {
-    return getAddress(this.state, address);
+  getAddress (_address: string | Uint8Array, type: 'account' | 'address' = 'address'): KeyringAddress {
+    const address = isString(_address)
+      ? _address
+      : addressEncode(_address);
+    const publicKey = addressDecode(address);
+    const subject = type === 'account'
+      ? this.state.accounts.subject
+      : this.state.addresses.subject;
+
+    return {
+      address: (): string =>
+        address,
+      isValid: (): boolean =>
+        !!subject.getValue()[address],
+      publicKey: (): Uint8Array =>
+        publicKey,
+      getMeta: (): KeyringJson$Meta =>
+        subject.getValue()[address].json.meta
+    };
   }
 
   getAddresses (): Array<KeyringAddress> {
-    return getAddresses(this.state);
+    const available = this.state.addresses.subject.getValue();
+
+    return Object
+      .keys(available)
+      .map((address) =>
+        this.getAddress(address)
+      );
   }
 
   getPair (address: string | Uint8Array): KeyringPair {
@@ -120,7 +143,7 @@ class Keyring implements KeyringInstance {
   restoreAccount (json: KeyringPair$Json, password: string): KeyringPair {
     const pair = createPair(
       {
-        publicKey: decodeAddress(json.address),
+        publicKey: addressDecode(json.address),
         secretKey: new Uint8Array()
       },
       json.meta,
