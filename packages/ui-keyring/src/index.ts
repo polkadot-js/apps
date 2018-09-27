@@ -20,7 +20,6 @@ import development from './observable/development';
 import loadAll from './loadAll';
 import isAvailable from './isAvailable';
 import isPassValid from './isPassValid';
-import forgetAddress from './address/forget';
 import saveAddress from './address/meta';
 import saveRecent from './address/metaRecent';
 import { accountKey } from './defaults';
@@ -71,7 +70,7 @@ class Keyring implements KeyringInstance {
   }
 
   forgetAddress (address: string): void {
-    return forgetAddress(this.state, address);
+    this.state.addresses.remove(address);
   }
 
   isAvailable (address: string | Uint8Array): boolean {
