@@ -21,9 +21,10 @@ class Forgetting extends React.PureComponent<Props> {
   render () {
     return (
       <Modal
-        size='tiny'
+        className='accounts--Forgetting-Modal'
         dimmer='inverted'
         open
+        size='tiny'
       >
         {this.renderContent()}
         {this.renderButtons()}
@@ -66,10 +67,7 @@ class Forgetting extends React.PureComponent<Props> {
           defaultValue: 'Confirm account removal'
         })}
       </Modal.Header>,
-      <Modal.Content
-        className='accounts--Forgetting-content'
-        key='content'
-      >
+      <Modal.Content key='content'>
         <AddressSummary
           className='accounts--Modal-Address'
           value={address}
