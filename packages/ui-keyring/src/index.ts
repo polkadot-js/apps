@@ -25,6 +25,7 @@ import observableDevelopment from './observable/development';
 import { accountKey, accountRegex, addressRegex, MAX_PASS_LEN } from './defaults';
 
 let singletonInstance: Keyring | null = null;
+let hasCalledInitOptions = false;
 
 class Keyring implements KeyringInstance {
   private state: State;
@@ -219,8 +220,11 @@ class Keyring implements KeyringInstance {
     );
   }
 
-  // NOTE To be called _only_ once (should be addressed with https://github.com/polkadot-js/apps/issues/138)
   initOptions (): void {
+    if (hasCalledInitOptions) {
+      return;
+    }
+
     observableAll.subscribe((value) => {
       const options = this.emptyOptions();
 
@@ -233,6 +237,7 @@ class Keyring implements KeyringInstance {
         options.recent.length ? [ this.createOptionHeader('Recent') ] : [],
         options.recent
       );
+
       options.account = ([] as KeyringSectionOptions).concat(
         options.account.length ? [ this.createOptionHeader('Accounts') ] : [],
         options.account,
@@ -246,6 +251,8 @@ class Keyring implements KeyringInstance {
       );
 
       this.optionsSubject.next(options);
+
+      hasCalledInitOptions = true;
     });
   }
 
