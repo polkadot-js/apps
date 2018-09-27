@@ -6,7 +6,6 @@ import { KeyringPair$Json } from '@polkadot/util-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import classes from '@polkadot/ui-app/util/classes';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
 import InputFile from '@polkadot/ui-app/InputFile';
@@ -46,11 +45,11 @@ class Restore extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, t } = this.props;
+    const { t } = this.props;
     const { isFileValid, isPassValid, json } = this.state;
 
     return (
-      <div className={classes('accounts--Restore', className)}>
+      <div className='accounts--Restore'>
         <div className='ui--grid'>
           <AddressSummary
             className='shrink'
