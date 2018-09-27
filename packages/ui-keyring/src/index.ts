@@ -19,7 +19,6 @@ import loadAll from './loadAll';
 import isAvailable from './isAvailable';
 import isPassValid from './isPassValid';
 import forgetAddress from './address/forget';
-import getAccounts from './account/all';
 import getAddress from './address/get';
 import getAddresses from './address/all';
 import saveAddress from './address/meta';
@@ -84,7 +83,16 @@ class Keyring implements KeyringInstance {
   }
 
   getAccounts (): Array<KeyringAddress> {
-    return getAccounts(this.state);
+    const available = this.state.accounts.subject.getValue();
+
+    return Object
+      .keys(available)
+      .map((address) =>
+        getAddress(this.state, address, 'account')
+      )
+      .filter((account) =>
+        !account.getMeta().isTesting
+      );
   }
 
   getAddress (address: string | Uint8Array): KeyringAddress {
