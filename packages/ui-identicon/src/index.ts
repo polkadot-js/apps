@@ -12,8 +12,7 @@ import { SHAPE_COUNT } from './defaults';
 
 export default function identicon (seed: string | null, diameter: number = 256, className: string = '', style?: { [index: string]: string }): HTMLElement {
   if (!seed) {
-    // should return a more descriptive error HTML Element
-    return newContainer(diameter, 'white', className, style);
+    throw new Error('Unable to generate identicon from empty seed');
   }
 
   const seeder = newSeeder(seed);
