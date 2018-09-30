@@ -194,7 +194,7 @@ export default class ObservableApi implements ObservableApiInterface {
   democracyReferendumVoters = (referendumId: BN): Observable<Array<RxReferendumVote>> => {
     return this.combine(
       [
-        this.democacyVotersFor(referendumId),
+        this.democracyVotersFor(referendumId),
         this.democracyVotersBalancesOf(referendumId),
         this.democracyVotersVotesOf(referendumId)
       ],
@@ -240,7 +240,7 @@ export default class ObservableApi implements ObservableApiInterface {
     );
   }
 
-  democacyVotersFor = (index: BN): Observable<Array<string>> => {
+  democracyVotersFor = (index: BN): Observable<Array<string>> => {
     return this
       .rawStorage(storage.democracy.public.votersFor, index)
       .pipe(
@@ -253,7 +253,7 @@ export default class ObservableApi implements ObservableApiInterface {
 
   democracyVotersBalancesOf = (referendumId: BN): Observable<Array<BN>> => {
     return this
-      .democacyVotersFor(referendumId)
+      .democracyVotersFor(referendumId)
       .pipe(
         switchMap((voters: Array<string> = []) =>
           this.votingBalances(...voters)
@@ -269,7 +269,7 @@ export default class ObservableApi implements ObservableApiInterface {
 
   democracyVotersVotesOf = (referendumId: BN): Observable<Array<boolean>> => {
     return this
-      .democacyVotersFor(referendumId)
+      .democracyVotersFor(referendumId)
       .pipe(
         switchMap((voters: Array<string> = []) =>
           this.democracyVotesOf(referendumId, voters)
