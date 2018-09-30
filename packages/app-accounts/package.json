@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-accounts",
-  "version": "0.20.22",
+  "version": "0.20.23",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@polkadot/ui-app": "^0.20.22",
+    "@polkadot/ui-app": "^0.20.23",
     "@types/file-saver": "^1.3.0",
     "file-saver": "^1.3.8"
   }
