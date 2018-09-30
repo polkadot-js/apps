@@ -87,8 +87,14 @@ describe('InputNumber', () => {
       it('throws an error if input value for comparison is not a string', () => {
         const invalidInputValueType = 340282366920938463463374607431768211456;
 
-        expect(() => { wrapper.instance().isValidNumber(invalidInputValueType, '0', DEFAULT_BITLENGTH); }).toThrow();
+        expect(() => { wrapper.instance().isValidNumber(invalidInputValueType, DEFAULT_BITLENGTH); }).toThrow();
       });
+    });
+
+    it('should not be valid when input contains spaces', () => {
+      const invalidInputValueType = '3 4';
+
+      expect(wrapper.instance().isValidNumber(invalidInputValueType, DEFAULT_BITLENGTH)).toBe(false);
     });
 
     it('should not be valid when user enters positive value greater than or equal to the 128 bit max for latest chain', () => {
