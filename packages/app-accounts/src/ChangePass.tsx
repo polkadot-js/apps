@@ -43,9 +43,10 @@ class ChangePass extends React.PureComponent<Props, State> {
   render () {
     return (
       <Modal
-        size='tiny'
+        className='accounts--ChangePass-Modal'
         dimmer='inverted'
         open
+        size='tiny'
       >
         {this.renderContent()}
         {this.renderButtons()}

@@ -21,9 +21,10 @@ class Forgetting extends React.PureComponent<Props> {
   render () {
     return (
       <Modal
-        size='tiny'
+        className='accounts--Forgetting-Modal'
         dimmer='inverted'
         open
+        size='tiny'
       >
         {this.renderContent()}
         {this.renderButtons()}

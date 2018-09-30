@@ -106,8 +106,8 @@ export default class Input extends React.PureComponent<Props, State> {
           error={isError}
           hidden={isHidden}
           max={max}
-          min={min}
           maxLength={maxLength}
+          min={min}
           name={name || this.state.name}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
