@@ -7,6 +7,7 @@ import { QueueTx$Extrinsic, QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/typ
 
 import BN from 'bn.js';
 import React from 'react';
+import { Index } from '@polkadot/api-codec';
 // FIXME
 // import extrinsics from '@polkadot/extrinsics';
 import Button from '@polkadot/ui-app/Button';
@@ -17,7 +18,7 @@ import translate from './translate';
 
 type Props = I18nProps & {
   isDisabled: boolean,
-  accountIndex?: BN,
+  accountNonce?: Index,
   amount: BN,
   from: Uint8Array,
   to: Uint8Array,
@@ -43,12 +44,12 @@ class Submit extends React.PureComponent<Props> {
   }
 
   private onMakeTransfer = () => {
-    const { accountIndex, amount, from, to, queueExtrinsic } = this.props;
+    const { accountNonce, amount, from, to, queueExtrinsic } = this.props;
 
     queueExtrinsic({
       // FIXME
       // extrinsic: extrinsics.staking.public.transfer,
-      accountNonce: accountIndex || new BN(0),
+      accountNonce: accountNonce || new Index(0),
       publicKey: from,
       values: [to, amount]
     } as QueueTx$Extrinsic);
@@ -57,5 +58,5 @@ class Submit extends React.PureComponent<Props> {
 
 export default withMulti(
   translate(Submit),
-  withObservable('accountNonce', { paramProp: 'from', propName: 'accountIndex' })
+  withObservable('accountNonce', { paramProp: 'from' })
 );
