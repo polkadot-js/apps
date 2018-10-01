@@ -6,6 +6,7 @@ import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
+import { Text } from '@polkadot/api-codec';
 import isTestChain from '@polkadot/ui-react-rx/util/isTestChain';
 import keyring from '@polkadot/ui-keyring/index';
 import BestNumber from '@polkadot/ui-react-rx/BestNumber';
@@ -17,8 +18,14 @@ type Props = BareProps & {};
 
 const pkgJson = require('../package.json');
 
-function updateTestInfo (chain?: string) {
-  keyring.setDevMode(isTestChain(chain));
+function updateTestInfo (chain?: Text) {
+  keyring.setDevMode(
+    isTestChain(
+      chain
+        ? chain.toString()
+        : ''
+    )
+  );
 }
 
 export default class NodeInfo extends React.PureComponent<Props> {

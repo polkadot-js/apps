@@ -49,26 +49,34 @@ export default class ApiBase {
     return fn.apply(null, params);
   }
 
-  rawStorage = <T> (key: StorageFunction, ...params: Array<any>): Observable<T> => {
+  rawStorage = <T> (key: StorageFunction, ...params: Array<any>): Observable<T | undefined> => {
     return this
       .rawStorageMulti([key, ...params] as [StorageFunction, any])
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map(([result]: Array<T>): T =>
+        map((result: Array<T>): T | undefined =>
           result
+            ? result[0] as T
+            : undefined
         )
       );
   }
 
   rawStorageMulti = <T> (...keys: Array<[StorageFunction] | [StorageFunction, any]>): Observable<T> => {
-    return this.api.state
-      .storage(keys)
-      .pipe(
-        map((result?: any) =>
-          isUndefined(result)
-            ? []
-            : result
-        )
-      );
+    try {
+      return this.api.state
+        .storage(keys)
+        .pipe(
+          map((result?: any) =>
+            isUndefined(result)
+              ? []
+              : result
+          )
+        );
+    } catch (error) {
+      console.error(error);
+
+      throw error;
+    }
   }
 }

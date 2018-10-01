@@ -73,7 +73,7 @@ export default class ApiQueries extends ApiBase {
       );
   }
 
-  democacyVoteOf = (index: ReferendumIndex | BN | number, address: AccountId | string): Observable<Bool> => {
+  democacyVoteOf = (index: ReferendumIndex | BN | number, address: AccountId | string): Observable<Bool | undefined> => {
     return this.rawStorage(storage.democracy.voteOf, index, address);
   }
 
@@ -99,7 +99,7 @@ export default class ApiQueries extends ApiBase {
         [storage.balances.transactionByteFee],
         [storage.balances.creationFee],
         [storage.balances.existentialDeposit],
-        [storage.balances.transferFee ]
+        [storage.balances.transferFee]
       )
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
@@ -204,7 +204,7 @@ export default class ApiQueries extends ApiBase {
     return this.rawStorage(storage.system.accountNonce, address);
   }
 
-  validatorCount = (): Observable<u32> => {
+  validatorCount = (): Observable<u32 | undefined> => {
     return this.rawStorage(storage.staking.validatorCount);
   }
 }

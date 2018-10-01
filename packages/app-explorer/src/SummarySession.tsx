@@ -16,8 +16,9 @@ type Props = I18nProps & {
   eraBlockLength?: BN,
   eraBlockProgress?: BN,
   sessionBlockProgress?: BN,
-  sessionBrokenValue?: BN,
-  sessionBrokenPercentLate?: BN,
+  // FIXME Replaced in poc-3
+  // sessionBrokenValue?: BN,
+  // sessionBrokenPercentLate?: BN,
   sessionLength?: BN,
   withBroken?: boolean,
   withEra?: boolean,
@@ -28,33 +29,34 @@ class SummarySession extends React.PureComponent<Props> {
   render () {
     return [
       this.renderSession(),
-      this.renderEra(),
-      this.renderBroken()
+      this.renderEra()
+      // FIXME Replace with "reward"
+      // this.renderBroken()
     ];
   }
 
-  private renderBroken () {
-    const { sessionBrokenValue, sessionBrokenPercentLate, t, withBroken = true } = this.props;
+  // private renderBroken () {
+  //   const { sessionBrokenValue, sessionBrokenPercentLate, t, withBroken = true } = this.props;
 
-    if (!withBroken) {
-      return null;
-    }
+  //   if (!withBroken) {
+  //     return null;
+  //   }
 
-    return (
-      <CardSummary
-        key='brokenCount'
-        label={t('summary.brokenCount', {
-          defaultValue: 'lateness'
-        })}
-        progress={{
-          color: 'autoReverse',
-          isPercent: true,
-          total: sessionBrokenPercentLate,
-          value: sessionBrokenValue
-        }}
-      />
-    );
-  }
+  //   return (
+  //     <CardSummary
+  //       key='brokenCount'
+  //       label={t('summary.brokenCount', {
+  //         defaultValue: 'lateness'
+  //       })}
+  //       progress={{
+  //         color: 'autoReverse',
+  //         isPercent: true,
+  //         total: sessionBrokenPercentLate,
+  //         value: sessionBrokenValue
+  //       }}
+  //     />
+  //   );
+  // }
 
   private renderEra () {
     const { eraBlockLength, eraBlockProgress, t, withEra = true } = this.props;
@@ -106,6 +108,5 @@ export default withMulti(
   withObservable('eraBlockProgress'),
   withObservable('sessionBlockProgress'),
   withObservable('sessionBrokenValue'),
-  withObservable('sessionLength'),
-  withObservable('sessionBrokenPercentLate')
+  withObservable('sessionLength')
 );

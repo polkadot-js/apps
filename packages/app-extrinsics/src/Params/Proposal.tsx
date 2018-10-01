@@ -6,11 +6,13 @@ import { Props } from '@polkadot/ui-app/Params/types';
 
 import React from 'react';
 
-import extrinsics from '@polkadot/extrinsics';
+// FIXME
+// import extrinsics from '@polkadot/extrinsics';
 
 import Extrinsic from './Extrinsic';
 
-const defaultValue = extrinsics.consensus.private.setCode;
+// FIXME
+const defaultValue = void 0; // extrinsics.consensus.private.setCode;
 
 export default function Proposal ({ className, isDisabled, isError, label, onChange, style, withLabel }: Props) {
   return (

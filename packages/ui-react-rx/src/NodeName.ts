@@ -2,15 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import rpcs from '@polkadot/jsonrpc';
+import { Text } from '@polkadot/api-codec';
 
-import withApiDiv from './with/apiDiv';
+import withObservableDiv from './with/observableDiv';
 
-const method = rpcs.system.public.name;
-
-const Component: React.ComponentType<any> = withApiDiv(method)(
-  (value: string = 'unknown'): string =>
-    value,
+const Component: React.ComponentType<any> = withObservableDiv('nodeName')(
+  (value: Text | string = 'unknown'): string =>
+    value.toString(),
   { className: 'rx--NodeName' }
 );
 

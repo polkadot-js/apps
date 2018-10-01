@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { SectionItem } from '@polkadot/params/types';
-import { Interfaces } from '@polkadot/jsonrpc/types';
+// FIXME
+// import { SectionItem } from '@polkadot/params/types';
+// import { Interfaces } from '@polkadot/jsonrpc/types';
 import { RawParam } from '@polkadot/ui-app/Params/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$MessageAdd } from '@polkadot/ui-signer/types';
@@ -12,7 +13,8 @@ import './index.css';
 
 import BN from 'bn.js';
 import React from 'react';
-import rpc from '@polkadot/jsonrpc';
+// FIXME
+// import rpc from '@polkadot/jsonrpc';
 import Button from '@polkadot/ui-app/Button';
 import InputRpc from '@polkadot/ui-app/InputRpc';
 import Params from '@polkadot/ui-app/Params';
@@ -29,11 +31,13 @@ type State = {
   isValid: boolean,
   nonce: BN,
   publicKey?: Uint8Array | null,
-  rpc: SectionItem<Interfaces>,
+  // FIXME
+  rpc: any; // SectionItem<Interfaces>,
   values: Array<RawParam>
 };
 
-const defaultMethod = rpc.author.public.submitExtrinsic;
+// FIXME
+const defaultMethod = void 0; // rpc.author.public.submitExtrinsic;
 
 class Selection extends React.PureComponent<Props, State> {
   state: State = {

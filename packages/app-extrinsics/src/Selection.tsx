@@ -8,8 +8,10 @@ import { EncodedMessage, QueueTx$MessageAdd } from '@polkadot/ui-signer/types';
 
 import React from 'react';
 
-import extrinsics from '@polkadot/extrinsics';
-import rpc from '@polkadot/jsonrpc';
+// FIXME
+// import extrinsics from '@polkadot/extrinsics';
+// FIXME
+// import rpc from '@polkadot/jsonrpc';
 import Button from '@polkadot/ui-app/Button';
 
 import Account from './Account';
@@ -28,8 +30,10 @@ type State = {
   publicKey: Uint8Array
 };
 
-const defaultExtrinsic = extrinsics.staking.public.transfer;
-const defaultRpc = rpc.author.public.submitExtrinsic;
+// FIXME
+const defaultExtrinsic = void 0; // extrinsics.staking.public.transfer;
+// FIXME
+const defaultRpc = void 0; // rpc.author.submitExtrinsic;
 
 class Selection extends React.PureComponent<Props, State> {
   state: State = {

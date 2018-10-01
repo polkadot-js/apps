@@ -4,11 +4,10 @@
 
 import { ProviderInterface } from '@polkadot/api-provider/types';
 import { RxApiInterface } from '@polkadot/api-rx/types';
-import { Header } from '@polkadot/primitives/header';
 import { ApiProps } from '../types';
 
 import React from 'react';
-
+import { Hash, Header } from '@polkadot/api-codec';
 import WsProvider from '@polkadot/api-provider/ws';
 import RxApi from '@polkadot/api-rx';
 import defaults from '@polkadot/api-rx/defaults';
@@ -117,7 +116,7 @@ export default class Api extends React.PureComponent<Props, State> {
       });
   }
 
-  private async hasChainGetBlock (hash: Uint8Array) {
+  private async hasChainGetBlock (hash: Hash) {
     const { api, apiMethods: { chain_getBlock } } = this.state;
 
     if (!isUndefined(chain_getBlock)) {

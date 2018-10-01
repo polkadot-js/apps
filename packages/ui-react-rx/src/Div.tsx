@@ -9,8 +9,10 @@ import React from 'react';
 type Props<T> = BaseProps<T>;
 
 // FIXME Not 100% on how to push through the generic type when used
-const echoFormatter = (value?: any): any =>
-  value;
+const echoFormatter = (value?: any): string | undefined =>
+  value
+    ? value.toString()
+    : undefined;
 
 export default function Div<T> ({ children, className = 'rx--Div', render = echoFormatter, rxUpdated = false, label = '', style, value }: Props<T>) {
   const props: BareProps = {

@@ -22,6 +22,10 @@ export default class ApiCalls extends ApiQueries {
       );
   }
 
+  chain = (): Observable<Text | undefined> => {
+    return this.api.system.chain();
+  }
+
   chainGetBlock = (hash: Uint8Array): Observable<SignedBlock | undefined> => {
     return this.api.chain.getBlock(hash);
   }
@@ -30,5 +34,13 @@ export default class ApiCalls extends ApiQueries {
     return this.api.chain.newHead().pipe(
       defaultIfEmpty()
     );
+  }
+
+  nodeName = (): Observable<Text | undefined> => {
+    return this.api.system.name();
+  }
+
+  nodeVersion = (): Observable<Text | undefined> => {
+    return this.api.system.version();
   }
 }

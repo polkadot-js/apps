@@ -8,9 +8,10 @@ import { ProviderInterface } from '@polkadot/api-provider/types';
 import { RxApiInterface, RxApiInterface$Method } from '@polkadot/api-rx/types';
 import { Interfaces } from '@polkadot/jsonrpc/types';
 import { EncodingVersions, SectionItem } from '@polkadot/params/types';
-import { Header } from '@polkadot/primitives/header';
+import { Header } from '@polkadot/api-codec';
 import { Storages, Storage$Key$Value } from '@polkadot/storage/types';
-import { ObservableApiInterface } from './ApiObservable/types';
+
+import ApiObservable from './ApiObservable';
 
 export type BareProps = {
   className?: string,
@@ -23,7 +24,7 @@ export type ApiProps = {
   apiMethods: {
     [index: string]: boolean
   },
-  apiObservable: ObservableApiInterface,
+  apiObservable: ApiObservable,
   apiSupport: EncodingVersions,
   setApi: (api: RxApiInterface) => void,
   setApiProvider: (provider?: ProviderInterface) => void,

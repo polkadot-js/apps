@@ -10,12 +10,14 @@ import BN from 'bn.js';
 import React from 'react';
 import rpcs from '@polkadot/jsonrpc';
 import withApi from '@polkadot/ui-react-rx/with/api';
-import encode from '@polkadot/extrinsics/codec/encode/extrinsic';
+// FIXME
+// import encode from '@polkadot/extrinsics/codec/encode/extrinsic';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import { QueueProvider } from './Context';
 
-const rpc = rpcs.author.public.submitExtrinsic;
+// @ts-ignore
+const rpc = rpcs.author.submitExtrinsic;
 
 export type Props = BareProps & ApiProps & {
   children: any // node?
@@ -103,7 +105,8 @@ class Queue extends React.Component<Props, State> {
         true
       );
     const encoded = isValid && extrinsic.params
-      ? encode(extrinsic, values, apiSupport)
+      // FIXME
+      ? new Uint8Array([]) // encode(extrinsic, values, apiSupport)
       : new Uint8Array([]);
 
     return this.queueAdd({

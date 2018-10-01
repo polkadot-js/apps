@@ -11,7 +11,8 @@ import { EncodedMessage } from '@polkadot/ui-signer/types';
 
 import React from 'react';
 
-import encode from '@polkadot/extrinsics/codec/encode/extrinsic';
+// FIXME
+// import encode from '@polkadot/extrinsics/codec/encode/extrinsic';
 import InputExtrinsic from '@polkadot/ui-app/InputExtrinsic';
 import Params from '@polkadot/ui-app/Params';
 import isUndefined from '@polkadot/util/is/undefined';
@@ -84,7 +85,8 @@ class Extrinsic extends React.PureComponent<Props, State> {
           !isUndefined(values[index].value) &&
           values[index].isValid, true);
       const value = isValid && extrinsic.params
-        ? encode(extrinsic, values.map((p) => p.value), apiSupport)
+        // FIXME with new Extrinsic
+        ? new Uint8Array([]) // encode(extrinsic, values.map((p) => p.value), apiSupport)
         : new Uint8Array([]);
 
       onChange({

@@ -2,15 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { SectionItem } from '@polkadot/params/types';
-import { Storages } from '@polkadot/storage/types';
+// FIXME
+// import { SectionItem } from '@polkadot/params/types';
+// import { Storages } from '@polkadot/storage/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParams } from '@polkadot/ui-app/Params/types';
 import { StorageQuery } from './types';
 
 import React from 'react';
 
-import storage from '@polkadot/storage';
+// FIXME
+// import storage from '@polkadot/storage';
 import Button from '@polkadot/ui-app/Button';
 import InputStorage from '@polkadot/ui-app/InputStorage';
 import Labelled from '@polkadot/ui-app/Labelled';
@@ -25,11 +27,13 @@ type Props = I18nProps & {
 
 type State = {
   isValid: boolean,
-  key: SectionItem<Storages>,
+  // FIXME
+  key: any, // SectionItem<Storages>,
   params: RawParams
 };
 
-const defaultValue = storage.timestamp.public.now;
+// FIXME
+const defaultValue = void 0; // storage.timestamp.public.now;
 let id = -1;
 
 class Selection extends React.PureComponent<Props, State> {

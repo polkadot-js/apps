@@ -6,11 +6,12 @@ import { Props } from '@polkadot/ui-app/Params/types';
 
 import React from 'react';
 
-import extrinsics from '@polkadot/extrinsics';
+// FIXME
+// import extrinsics from '@polkadot/extrinsics';
 
 import Extrinsic from './Extrinsic';
 
-const defaultValue = extrinsics.staking.public.transfer;
+const defaultValue = void 0; // extrinsics.staking.public.transfer;
 
 export default function Call ({ className, isDisabled, isError, label, onChange, style, withLabel }: Props) {
   return (
