@@ -18,7 +18,7 @@ type Props = I18nProps & {
   publicKey?: Uint8Array,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
   referendumId: BN,
-  systemAccountIndexOf?: BN
+  accountNonce?: BN
 };
 
 class VotingButton extends React.PureComponent<Props> {
@@ -49,7 +49,7 @@ class VotingButton extends React.PureComponent<Props> {
   }
 
   private doVote (vote: boolean) {
-    const { publicKey, queueExtrinsic, referendumId, systemAccountIndexOf = new BN(0) } = this.props;
+    const { publicKey, queueExtrinsic, referendumId, accountNonce = new BN(0) } = this.props;
 
     if (!publicKey) {
       return;
@@ -57,7 +57,7 @@ class VotingButton extends React.PureComponent<Props> {
 
     queueExtrinsic({
       extrinsic: extrinsics.democracy.public.vote,
-      accountNonce: systemAccountIndexOf,
+      accountNonce: accountNonce,
       publicKey,
       values: [referendumId, vote]
     });
@@ -74,5 +74,5 @@ class VotingButton extends React.PureComponent<Props> {
 
 export default withMulti(
   translate(VotingButton),
-  withObservable('systemAccountIndexOf', { paramProp: 'publicKey' })
+  withObservable('accountNonce', { paramProp: 'publicKey' })
 );

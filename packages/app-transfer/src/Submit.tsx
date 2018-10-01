@@ -57,5 +57,5 @@ class Submit extends React.PureComponent<Props> {
 
 export default withMulti(
   translate(Submit),
-  withObservable('systemAccountIndexOf', { paramProp: 'from', propName: 'accountIndex' })
+  withObservable('accountNonce', { paramProp: 'from', propName: 'accountIndex' })
 );

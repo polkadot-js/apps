@@ -16,6 +16,26 @@ import { RxProposal, RxProposalDeposits, RxReferendum } from './classes';
 
 // Perform storage queries to the API endpoints.
 export default class ApiQueries extends ApiBase {
+  accountNonce = (address: AccountId | string): Observable<Index | undefined> => {
+    return this.rawStorage(storage.system.accountNonce, address);
+  }
+
+  balanceFree = (address: AccountId | string): Observable<Balance | undefined> => {
+    return this.rawStorage(storage.balances.freeBalance, address);
+  }
+
+  balanceReserved = (address: AccountId | string): Observable<Balance | undefined> => {
+    return this.rawStorage(storage.balances.reservedBalance, address);
+  }
+
+  blockPeriod = (): Observable<Moment | undefined> => {
+    return this.rawStorage(storage.timestamp.blockPeriod);
+  }
+
+  blockNow = (): Observable<Moment | undefined> => {
+    return this.rawStorage(storage.timestamp.now);
+  }
+
   democracyLaunchPeriod = (): Observable<BlockNumber | undefined> => {
     return this.rawStorage(storage.democracy.launchPeriod);
   }
@@ -37,7 +57,7 @@ export default class ApiQueries extends ApiBase {
       );
   }
 
-  democracyPublicProposals = (): Observable<Array<RxProposal>> => {
+  publicProposals = (): Observable<Array<RxProposal>> => {
     return this
       .rawStorage(storage.democracy.publicProps)
       .pipe(
@@ -56,11 +76,11 @@ export default class ApiQueries extends ApiBase {
     );
   }
 
-  democracyReferendumCount = (): Observable<ReferendumIndex | undefined> => {
+  referendumCount = (): Observable<ReferendumIndex | undefined> => {
     return this.rawStorage(storage.democracy.referendumCount);
   }
 
-  democracyReferendumInfoOf = (referendumId: ReferendumIndex | BN | number): Observable<RxReferendum | undefined> => {
+  referendumInfo = (referendumId: ReferendumIndex | BN | number): Observable<RxReferendum | undefined> => {
     return this
       .rawStorage(storage.democracy.referendumInfoOf, referendumId)
       .pipe(
@@ -167,11 +187,6 @@ export default class ApiQueries extends ApiBase {
       );
   }
 
-  // FIXME -> freeBalance
-  stakingFreeBalanceOf = (address: AccountId | string): Observable<Balance | undefined> => {
-    return this.rawStorage(storage.balances.freeBalance, address);
-  }
-
   stakingNominatorsFor = (address: AccountId | string): Observable<Array<AccountId>> => {
     return this
       .rawStorage(storage.staking.nominatorsFor, address)
@@ -185,23 +200,6 @@ export default class ApiQueries extends ApiBase {
 
   stakingNominating = (address: AccountId | string): Observable<AccountId | undefined> => {
     return this.rawStorage(storage.staking.nominating, address);
-  }
-
-  // FIXME -> reservedBalance
-  stakingReservedBalanceOf = (address: AccountId | string): Observable<Balance | undefined> => {
-    return this.rawStorage(storage.balances.reservedBalance, address);
-  }
-
-  timestampBlockPeriod = (): Observable<Moment | undefined> => {
-    return this.rawStorage(storage.timestamp.blockPeriod);
-  }
-
-  timestampNow = (): Observable<Moment | undefined> => {
-    return this.rawStorage(storage.timestamp.now);
-  }
-
-  systemAccountIndexOf = (address: AccountId | string): Observable<Index | undefined> => {
-    return this.rawStorage(storage.system.accountNonce, address);
   }
 
   validatorCount = (): Observable<u32 | undefined> => {

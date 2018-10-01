@@ -7,7 +7,7 @@ import { Moment } from '@polkadot/api-codec';
 import numberFormat from './util/numberFormat';
 import withObservableDiv from './with/observableDiv';
 
-const Component: React.ComponentType<any> = withObservableDiv('timestampBlockPeriod')(
+const Component: React.ComponentType<any> = withObservableDiv('blockPeriod')(
   (value?: Moment): string =>
     `${numberFormat(value ? value.toNumber() : 0)}.0s`,
   { className: 'rx--TimePeriod' }

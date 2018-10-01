@@ -5,7 +5,7 @@
 import Elapsed from '@polkadot/ui-react/Elapsed';
 import withApiObservble from './with/observable';
 
-const Component: React.ComponentType<any> = withApiObservble('timestampNow', { propName: 'value' })(
+const Component: React.ComponentType<any> = withApiObservble('blockNow', { propName: 'value' })(
   Elapsed,
   { className: 'rx--TimeNow' }
 );

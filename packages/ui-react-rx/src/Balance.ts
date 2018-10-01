@@ -5,7 +5,7 @@
 import numberFormat from './util/numberFormat';
 import withObservableDiv from './with/observableDiv';
 
-const Component: React.ComponentType<any> = withObservableDiv('stakingFreeBalanceOf')(
+const Component: React.ComponentType<any> = withObservableDiv('balanceFree')(
   numberFormat,
   { className: 'rx--Balance' }
 );

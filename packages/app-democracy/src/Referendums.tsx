@@ -13,7 +13,7 @@ import Referendum from './Referendum';
 import translate from './translate';
 
 type Props = I18nProps & {
-  democracyReferendums?: Array<RxReferendum>
+  referendums?: Array<RxReferendum>
 };
 
 class Referendums extends React.PureComponent<Props> {
@@ -31,9 +31,9 @@ class Referendums extends React.PureComponent<Props> {
   }
 
   private renderReferendums () {
-    const { democracyReferendums, t } = this.props;
+    const { referendums, t } = this.props;
 
-    if (!democracyReferendums || !democracyReferendums.length) {
+    if (!referendums || !referendums.length) {
       return (
         <div className='ui disabled'>
           {t('proposals.none', {
@@ -43,7 +43,7 @@ class Referendums extends React.PureComponent<Props> {
       );
     }
 
-    return democracyReferendums.map((referendum) => (
+    return referendums.map((referendum) => (
       <Referendum
         idNumber={referendum.id}
         key={referendum.id.toString()}
@@ -56,5 +56,5 @@ class Referendums extends React.PureComponent<Props> {
 export default withMulti(
   Referendums,
   translate,
-  withObservable('democracyReferendums')
+  withObservable('referendums')
 );

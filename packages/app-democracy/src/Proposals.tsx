@@ -13,7 +13,7 @@ import Proposal from './Proposal';
 import translate from './translate';
 
 type Props = I18nProps & {
-  democracyPublicProposals?: Array<RxProposal>
+  publicProposals?: Array<RxProposal>
 };
 
 class Proposals extends React.PureComponent<Props> {
@@ -31,9 +31,9 @@ class Proposals extends React.PureComponent<Props> {
   }
 
   private renderProposals () {
-    const { democracyPublicProposals, t } = this.props;
+    const { publicProposals, t } = this.props;
 
-    if (!democracyPublicProposals || !democracyPublicProposals.length) {
+    if (!publicProposals || !publicProposals.length) {
       return (
         <div className='ui disabled'>
           {t('proposals.none', {
@@ -43,7 +43,7 @@ class Proposals extends React.PureComponent<Props> {
       );
     }
 
-    return democracyPublicProposals.map((proposal) => (
+    return publicProposals.map((proposal) => (
       <Proposal
         idNumber={proposal.id}
         key={proposal.id.toString()}
@@ -56,5 +56,5 @@ class Proposals extends React.PureComponent<Props> {
 export default withMulti(
   Proposals,
   translate,
-  withObservable('democracyPublicProposals')
+  withObservable('publicProposals')
 );
