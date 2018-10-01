@@ -118,6 +118,10 @@ class Transfer extends React.PureComponent<Props, State> {
   }
 
   private renderAddress (accountId: string | null) {
+    if (!accountId) {
+      return null;
+    }
+
     let publicKey;
 
     try {
