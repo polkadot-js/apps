@@ -96,12 +96,12 @@ class InputStorage extends React.PureComponent<Props, State> {
   private onSectionChange = (newSection: string): void => {
     const { value } = this.state;
 
-    if (newSection === section) {
+    if (newSection === value.section) {
       return;
     }
 
     const optionsMethod = keyOptions(newSection);
-    const newValue = map[newSection].public[optionsMethod[0].value];
+    const newValue = map[newSection][optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
       this.onKeyChange(newValue)
