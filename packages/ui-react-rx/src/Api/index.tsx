@@ -7,11 +7,10 @@ import { RxApiInterface } from '@polkadot/api-rx/types';
 import { ApiProps } from '../types';
 
 import React from 'react';
-import { Hash, Header } from '@polkadot/api-codec';
+import { Header } from '@polkadot/api-codec';
 import WsProvider from '@polkadot/api-provider/ws';
 import RxApi from '@polkadot/api-rx';
 import defaults from '@polkadot/api-rx/defaults';
-import isUndefined from '@polkadot/util/is/undefined';
 
 import ApiObservable from '../ApiObservable';
 import ApiContext from './Context';
@@ -108,36 +107,8 @@ export default class Api extends React.PureComponent<Props, State> {
           return;
         }
 
-        try {
-          // FIXME This should be removed for poc-3
-          await this.hasChainGetBlock(header.parentHash);
-        } catch (error) {
-          // swallow
-        }
+        // NOTE no checks atm, add when new method checks are required
       });
-  }
-
-  private async hasChainGetBlock (hash: Hash) {
-    const { api, apiMethods: { chain_getBlock } } = this.state;
-
-    if (!isUndefined(chain_getBlock)) {
-      return;
-    }
-
-    let available = false;
-
-    try {
-      available = !!(await api.chain.getBlock(hash).toPromise());
-    } catch (error) {
-      // swallow
-    }
-
-    this.setState(({ apiMethods }) => ({
-      apiMethods: {
-        ...apiMethods,
-        chain_getBlock: available
-      }
-    }));
   }
 
   private unsubscribe (): void {

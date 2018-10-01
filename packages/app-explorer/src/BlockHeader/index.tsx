@@ -4,32 +4,29 @@
 
 import { Header } from '@polkadot/api-codec';
 import { BareProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import './BlockHeader.css';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
-import withApi from '@polkadot/ui-react-rx/with/api';
 
 import Extrinsics from './Extrinsics';
 
-type Props = ApiProps & BareProps & {
+type Props = BareProps & {
   value?: Header,
   withExtrinsics?: boolean,
   withLink?: boolean
 };
 
-class BlockHeader extends React.PureComponent<Props> {
+export default class BlockHeader extends React.PureComponent<Props> {
   render () {
-    const { apiMethods, value, withExtrinsics = false, withLink = false } = this.props;
+    const { value, withExtrinsics = false, withLink = false } = this.props;
 
     if (!value) {
       return null;
     }
 
-    const isLinkable = !!apiMethods.chain_getBlock;
     const hashHex = value.hash.toHex();
     const parentHex = value.parentHash.toHex();
 
@@ -40,7 +37,7 @@ class BlockHeader extends React.PureComponent<Props> {
         </div>
         <div className='details'>
           <div className='hash'>{
-            isLinkable && withLink
+            withLink
               ? <Link to={`/explorer/hash/${hashHex}`}>{hashHex}</Link>
               : hashHex
           }</div>
@@ -49,7 +46,7 @@ class BlockHeader extends React.PureComponent<Props> {
               <tr>
                 <td className='type'>parentHash</td>
                 <td className='hash'>{
-                  isLinkable && value.blockNumber.gt(1)
+                  value.blockNumber.gt(1)
                     ? <Link to={`/explorer/hash/${parentHex}`}>{parentHex}</Link>
                     : parentHex
                 }</td>
@@ -73,5 +70,3 @@ class BlockHeader extends React.PureComponent<Props> {
     );
   }
 }
-
-export default withApi(BlockHeader);
