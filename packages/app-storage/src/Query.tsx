@@ -2,13 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Storage$Key$Value } from '@polkadot/storage/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { StorageQuery } from './types';
 
 import React from 'react';
-
-import typeToString from '@polkadot/params/typeToString';
 import Button from '@polkadot/ui-app/Button';
 import Labelled from '@polkadot/ui-app/Labelled';
 import valueToText from '@polkadot/ui-app/Params/valueToText';
@@ -35,14 +32,13 @@ class Query extends React.PureComponent<Props, State> {
 
   static getCachedComponent ({ id, key, params }: StorageQuery): React.ComponentType<ComponentProps> {
     if (!cache[id]) {
-      const values: Array<Storage$Key$Value> = params.map(({ value }) =>
-        // FIXME not 100% convinced, arrays could be an issue? (Plus, if we have to cast, something just _seems_ off)
-        value as Storage$Key$Value
+      const values: Array<any> = params.map(({ value }) =>
+        value
       );
 
       cache[id] = withObservableDiv('rawStorage', { params: [key, ...values] })(
         (value: any) =>
-          valueToText(key.type, value),
+          valueToText(key.meta.type.toString(), value),
         { className: 'ui--output' }
       );
     }
@@ -78,7 +74,7 @@ class Query extends React.PureComponent<Props, State> {
               <div className='ui--Param-text name'>{key.section}.{key.name}(</div>
               {inputs}
               <div className='ui--Param-text name'>):</div>
-              <div className='ui--Param-text'>{typeToString(key.type)}</div>
+              <div className='ui--Param-text'>{key.meta.type.toString()}</div>
             </div>
           }
         >
@@ -95,7 +91,7 @@ class Query extends React.PureComponent<Props, State> {
     );
   }
 
-  onRemove = (): void => {
+  private onRemove = (): void => {
     const { onRemove, value: { id } } = this.props;
 
     delete cache[id];

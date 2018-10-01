@@ -2,17 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-// FIXME
-// import { SectionItem } from '@polkadot/params/types';
-// import { Storages } from '@polkadot/storage/types';
+import { StorageFunction } from '@polkadot/api-codec/StorageKey';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParams } from '@polkadot/ui-app/Params/types';
 import { StorageQuery } from './types';
 
 import React from 'react';
 
-// FIXME
-// import storage from '@polkadot/storage';
+// FIXME Swap to dynamic via fromMetadata
+import storage from '@polkadot/storage/testing';
 import Button from '@polkadot/ui-app/Button';
 import InputStorage from '@polkadot/ui-app/InputStorage';
 import Labelled from '@polkadot/ui-app/Labelled';
@@ -27,13 +25,11 @@ type Props = I18nProps & {
 
 type State = {
   isValid: boolean,
-  // FIXME
-  key: any, // SectionItem<Storages>,
+  key: StorageFunction,
   params: RawParams
 };
 
-// FIXME
-const defaultValue = void 0; // storage.timestamp.public.now;
+const defaultValue = storage.timestamp.now;
 let id = -1;
 
 class Selection extends React.PureComponent<Props, State> {
@@ -74,17 +70,19 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  nextState (newState: State): void {
+  private nextState (newState: State): void {
     this.setState(
       (prevState: State) => {
         const { key = prevState.key, params = prevState.params } = newState;
-        const keyParams = Object.values(key.params);
-        const isValid = params.length === keyParams.length &&
-          keyParams.reduce((isValid, param, index) =>
+        const hasParam = key.meta.type.isMap;
+        const isValid = params.length === (hasParam ? 1 : 0) &&
+          params.reduce((isValid, param) =>
             isValid &&
-            !isUndefined(params[index]) &&
-            !isUndefined(params[index].value) &&
-            params[index].isValid, true);
+            !isUndefined(param) &&
+            !isUndefined(param.value) &&
+            param.isValid,
+            true
+          );
 
         return {
           isValid,
@@ -95,7 +93,7 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  onAdd = (): void => {
+  private onAdd = (): void => {
     const { onAdd } = this.props;
     const { key, params } = this.state;
 
@@ -106,7 +104,7 @@ class Selection extends React.PureComponent<Props, State> {
     });
   }
 
-  onChangeKey = (key: SectionItem<Storages>): void => {
+  private onChangeKey = (key: StorageFunction): void => {
     this.nextState({
       isValid: false,
       key,
@@ -114,7 +112,7 @@ class Selection extends React.PureComponent<Props, State> {
     });
   }
 
-  onChangeParams = (params: RawParams = []): void => {
+  private onChangeParams = (params: RawParams = []): void => {
     this.nextState({ params } as State);
   }
 }

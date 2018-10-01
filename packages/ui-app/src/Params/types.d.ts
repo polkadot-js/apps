@@ -2,10 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Param$Type, Param$Types, Param$Value } from '@polkadot/params/types';
+import { CodecTypes } from '@polkadot/api-codec/types';
 import { BareProps } from '../types';
 
-export type RawParam$Value = Param$Value | undefined;
+// FIXME Ideally, we want these as Base from api-codec - as a stop-gap, any this until we have
+// params returning types extending Base (i.e. anything from api-codec)
+export type RawParam$Value = any | undefined;
 
 export type RawParam$ValueArray = Array<RawParam$Value | Array<RawParam$Value>>;
 
@@ -13,7 +15,7 @@ export type RawParam$Values = RawParam$Value | RawParam$ValueArray;
 
 export type RawParam = {
   isValid: boolean,
-  type: Param$Types,
+  type: CodecTypes,
   value: RawParam$Values,
 }
 
@@ -39,5 +41,5 @@ export type Props = BaseProps & {
 export type Size = 'full' | 'large' | 'medium' | 'small';
 
 export type ComponentMap = {
-  [index: string]: React.ComponentType<Props> | [React.ComponentType<Props>, React.ComponentType<Props>] // Param$Type
+  [index: string]: React.ComponentType<Props> | [React.ComponentType<Props>, React.ComponentType<Props>]
 };

@@ -109,7 +109,7 @@ function arrayToText (type: Param$Type$Array, value: Array<any>, withBound: bool
   );
 }
 
-function valueToText (type: Param$Types, value: any, swallowError: boolean = true): React.ReactNode {
+function valueToText (type: string, value: any, swallowError: boolean = true): React.ReactNode {
   try {
     if (type === 'bool') {
       return div({}, value ? 'Yes' : 'No');

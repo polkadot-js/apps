@@ -2,14 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Storage$Sections } from '@polkadot/storage/types';
 import { DropdownOptions } from '../../util/types';
 
 import React from 'react';
+// FIXME Swap to dynamic via fromMetadata
+import map from '@polkadot/storage/testing';
 
-import map from '@polkadot/storage';
-
-export default function createOptions (sectionName: Storage$Sections): DropdownOptions {
+export default function createOptions (sectionName: keyof typeof map): DropdownOptions {
   const section = map[sectionName];
 
   if (!section) {
@@ -17,16 +16,14 @@ export default function createOptions (sectionName: Storage$Sections): DropdownO
   }
 
   return Object
-    .keys(section.public)
+    .keys(section)
     .sort()
-    .filter((name) => {
-      const { isDeprecated, isHidden } = section.public[name];
-
-      return !isDeprecated && !isHidden;
-    })
     .map((name) => {
-      const { description, params } = section.public[name];
-      const inputs = params.map(({ name }) => name).join(', ');
+      const method = section[name];
+      const type = method.meta.type;
+      let input = type.isMap
+        ? type.asMap.key.toString()
+        : '';
 
       return {
         className: 'ui--DropdownLinked-Item',
@@ -36,13 +33,13 @@ export default function createOptions (sectionName: Storage$Sections): DropdownO
             className='ui--DropdownLinked-Item-call'
             key={`${sectionName}_${name}:call`}
           >
-            {name}({inputs})
+            {name}({input}): {type.toString()}
           </div>,
           <div
             className='ui--DropdownLinked-Item-text'
             key={`${sectionName}_${name}:text`}
           >
-            {description || name}
+            {method.meta.documentation.get(0).toString()}
           </div>
         ],
         value: name

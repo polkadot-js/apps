@@ -40,7 +40,7 @@ class StorageApp extends React.PureComponent<Props, State> {
     );
   }
 
-  onAdd = (query: StorageQuery): void => {
+  private onAdd = (query: StorageQuery): void => {
     this.setState(
       (prevState: State): State => ({
         queue: [query].concat(prevState.queue)
@@ -48,7 +48,7 @@ class StorageApp extends React.PureComponent<Props, State> {
     );
   }
 
-  onRemove = (id: number): void => {
+  private onRemove = (id: number): void => {
     this.setState(
       (prevState: State): State => ({
         queue: prevState.queue.filter((item) => item.id !== id)
