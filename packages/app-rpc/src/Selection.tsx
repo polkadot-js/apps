@@ -17,6 +17,7 @@ import Button from '@polkadot/ui-app/Button';
 import InputRpc from '@polkadot/ui-app/InputRpc';
 import Params from '@polkadot/ui-app/Params';
 import rawToValues from '@polkadot/ui-signer/rawToValues';
+import addressDecode from '@polkadot/util-keyring/address/decode';
 
 import Account from './Account';
 import translate from './translate';
@@ -76,7 +77,7 @@ class Selection extends React.PureComponent<Props, State> {
   renderAccount () {
     const { rpc: { isSigned = false }, accountId } = this.state;
 
-    if (!isSigned) {
+    if (!isSigned || !accountId) {
       return null;
     }
 
@@ -92,7 +93,7 @@ class Selection extends React.PureComponent<Props, State> {
     this.setState(
       (prevState: State): State => {
         const { rpc = prevState.rpc, nonce = prevState.nonce, accountId = prevState.accountId, values = prevState.values } = newState;
-        const hasNeededKey = rpc.isSigned !== true || (!!accountId && accountId.length === 48);
+        const hasNeededKey = rpc.isSigned !== true || (!!accountId && addressDecode(prevState.accountId));
         const isValid = values.reduce((isValid, value) => {
           return isValid && value.isValid === true;
         }, rpc.params.length === values.length && hasNeededKey);

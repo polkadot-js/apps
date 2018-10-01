@@ -12,6 +12,7 @@ import Input from '@polkadot/ui-app/Input';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring/index';
+import addressDecode from '@polkadot/util-keyring/address/decode';
 
 import Forgetting from './Forgetting';
 import translate from './translate';
@@ -172,9 +173,9 @@ class Editor extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeAddress = (publicKey: Uint8Array): void => {
-    const current = publicKey && publicKey.length === 32
-      ? (keyring.getAddress(publicKey) || null)
+  onChangeAddress = (accountId: string): void => {
+    const current = accountId && addressDecode(accountId)
+      ? (keyring.getAddress(accountId) || null)
       : null;
 
     this.nextState({ current } as State);

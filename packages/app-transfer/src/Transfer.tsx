@@ -12,6 +12,7 @@ import React from 'react';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import Input from '@polkadot/ui-app/Input';
+import addressDecode from '@polkadot/util-keyring/address/decode';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
@@ -26,8 +27,8 @@ type Props = I18nProps & {
 
 type State = {
   amount: BN,
-  from: Uint8Array | null,
-  to: Uint8Array | null,
+  from: string | null,
+  to: string | null,
   txfees: Fees
 };
 
@@ -115,8 +116,12 @@ class Transfer extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderAddress (publicKey: Uint8Array | null) {
-    if (!publicKey) {
+  private renderAddress (accountId: string | null) {
+    let publicKey;
+
+    try {
+      publicKey = addressDecode(accountId);
+    } catch (err) {
       return null;
     }
 
@@ -134,11 +139,11 @@ class Transfer extends React.PureComponent<Props, State> {
     this.setState({ amount: new BN(amount || 0) });
   }
 
-  private onChangeFrom = (from: Uint8Array) => {
+  private onChangeFrom = (from: string) => {
     this.setState({ from });
   }
 
-  private onChangeTo = (to: Uint8Array) => {
+  private onChangeTo = (to: string) => {
     this.setState({ to });
   }
 

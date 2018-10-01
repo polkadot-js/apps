@@ -21,7 +21,7 @@ export type QueueTx$Result = {
   error?: Error,
   result?: any,
   status: QueueTx$Status
-}
+};
 
 export type AccountInfo = {
   nonce: BN,

@@ -5,6 +5,7 @@
 import BN from 'bn.js';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { EncodedMessage, QueueTx$MessageAdd } from '@polkadot/ui-signer/types';
+import addressDecode from '@polkadot/util-keyring/address/decode';
 
 import React from 'react';
 
@@ -84,7 +85,7 @@ class Selection extends React.PureComponent<Props, State> {
         const { encoded = prevState.encoded, nonce = prevState.nonce, accountId = prevState.accountId } = newState;
         const isValid = !!(
           accountId &&
-          accountId.length &&
+          addressDecode(accountId) &&
           encoded &&
           encoded.isValid
         );
