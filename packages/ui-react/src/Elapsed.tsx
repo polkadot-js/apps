@@ -5,9 +5,10 @@
 import { BaseProps } from './types';
 
 import React from 'react';
+import { Moment } from '@polkadot/api-codec';
 
 type Props = BaseProps & {
-  value?: Date
+  value?: Moment | Date
 };
 
 type State = {
@@ -58,7 +59,7 @@ export default class Elapsed extends React.PureComponent<Props, State> {
     );
   }
 
-  private getDisplayValue (now?: Date, value?: Date): string {
+  private getDisplayValue (now?: Date, value?: Moment | Date): string {
     const tsNow = (now && now.getTime()) || 0;
     const tsValue = (value && value.getTime()) || 0;
     let display = '-';
