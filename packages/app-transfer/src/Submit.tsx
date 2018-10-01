@@ -20,7 +20,7 @@ type Props = I18nProps & {
   accountNonce?: Index,
   amount: BN,
   from: string,
-  to: Uint8Array,
+  to: string,
   queueExtrinsic: QueueTx$ExtrinsicAdd
 };
 

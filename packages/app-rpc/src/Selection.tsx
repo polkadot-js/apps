@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/app-rpc authors & contributors
+
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
@@ -16,6 +16,7 @@ import Button from '@polkadot/ui-app/Button';
 import InputRpc from '@polkadot/ui-app/InputRpc';
 import Params from '@polkadot/ui-app/Params';
 import rawToValues from '@polkadot/ui-signer/rawToValues';
+import addressDecode from '@polkadot/util-keyring/address/decode';
 
 import Account from './Account';
 import translate from './translate';
@@ -75,7 +76,7 @@ class Selection extends React.PureComponent<Props, State> {
   private renderAccount () {
     const { rpc: { isSigned = false }, accountId } = this.state;
 
-    if (!isSigned) {
+    if (!isSigned || !accountId) {
       return null;
     }
 
@@ -90,6 +91,8 @@ class Selection extends React.PureComponent<Props, State> {
   private nextState (newState: State): void {
     this.setState(
       (prevState: State): State => {
+        const { rpc = prevState.rpc, nonce = prevState.nonce, accountId = prevState.accountId, values = prevState.values } = newState;
+        const hasNeededKey = rpc.isSigned !== true || (!!accountId && accountId.length === 48);
         const { rpc = prevState.rpc, accountNonce = prevState.accountNonce, accountId = prevState.accountId, values = prevState.values } = newState;
         const hasNeededKey = rpc.isSigned !== true || (!!accountId && accountId.length);
         const isValid = values.reduce((isValid, value) => {
