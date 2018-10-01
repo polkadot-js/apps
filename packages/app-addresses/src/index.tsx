@@ -12,7 +12,6 @@ import React from 'react';
 import addressObservable from '@polkadot/ui-keyring/observable/addresses';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
-import addressDecode from '@polkadot/util-keyring/address/decode';
 
 import Creator from './Creator';
 import Editor from './Editor';

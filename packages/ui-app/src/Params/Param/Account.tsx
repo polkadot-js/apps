@@ -8,6 +8,7 @@ import React from 'react';
 
 import InputAddress from '../../InputAddress';
 import Bare from './Bare';
+import addressDecode from '@polkadot/util-keyring/address/decode';
 
 export default class Account extends React.PureComponent<Props> {
   render () {
@@ -39,10 +40,12 @@ export default class Account extends React.PureComponent<Props> {
 
     let publicKey;
 
-    try {
-      publicKey = addressDecode(value);
-    } catch (err) {
-      console.error(err);
+    if (value) {
+      try {
+        publicKey = addressDecode(value);
+      } catch (err) {
+        console.error(err);
+      }
     }
 
     onChange && onChange({
