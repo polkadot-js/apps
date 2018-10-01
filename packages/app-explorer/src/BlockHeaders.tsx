@@ -28,7 +28,7 @@ const apiOptions = {
         return next;
       }, [header])
       .sort((a, b) =>
-        b.blockNumber.toBn().cmp(a.blockNumber.toBn())
+        b.blockNumber.cmp(a.blockNumber)
       );
 
     return blockHeaders;

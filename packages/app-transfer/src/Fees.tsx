@@ -59,16 +59,16 @@ class FeeDisplay extends React.PureComponent<Props, State> {
       .add(fees.transferFee)
       .add(fees.byteFee.mul(TRANSFER_SIZE));
 
-    if (balanceTo.votingBalance.toBn().isZero()) {
+    if (balanceTo.votingBalance.isZero()) {
       txfees = txfees.add(fees.creationFee.toBn());
     }
 
     const txtotal = amount.add(txfees);
     const hasAvailable = balanceFrom.freeBalance.gte(txtotal);
-    const isCreation = balanceTo.votingBalance.toBn().isZero();
+    const isCreation = balanceTo.votingBalance.isZero();
     const isNoEffect = amount.add(balanceTo.votingBalance.toBn()).lte(fees.existentialDeposit.toBn());
     const isRemovable = balanceFrom.votingBalance.sub(txtotal).lte(fees.existentialDeposit.toBn());
-    const isReserved = balanceFrom.freeBalance.toBn().isZero() && balanceFrom.reservedBalance.gt(0);
+    const isReserved = balanceFrom.freeBalance.isZero() && balanceFrom.reservedBalance.gt(0);
 
     return {
       hasAvailable,
