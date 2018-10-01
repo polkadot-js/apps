@@ -28,7 +28,6 @@ export default class ApiBase {
 
   protected combine = <T, R> (observables: Array<Observable<any>>, mapfn: MapFn<R, T> = defaultMapFn): Observable<T> => {
     return combineLatest(...observables).pipe(
-      // FIXME There are a couple of places now where this casting happens after rxjs 6.3.2
       defaultIfEmpty([] as any),
       map(mapfn)
     );
@@ -54,7 +53,6 @@ export default class ApiBase {
     return this
       .rawStorageMulti([key, ...params] as [StorageFunction, any])
       .pipe(
-        // @ts-ignore After upgrade to 6.3.2
         map((result: Array<T>): T | undefined =>
           result
             ? result[0] as T
