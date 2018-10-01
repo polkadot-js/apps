@@ -89,15 +89,9 @@ export default function withObservable<T> (subscription: ApiFunctions, { rxChang
           return null;
         }
 
-        try {
-          return (
-            <Component {...this.props} />
-          );
-        } catch (error) {
-          console.error('withObservable:render', subscription, error);
-
-          throw error;
-        }
+        return (
+          <Component {...this.props} />
+        );
       }
     }
 
