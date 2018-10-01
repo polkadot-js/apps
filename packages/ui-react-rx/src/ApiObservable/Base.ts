@@ -7,6 +7,7 @@ import { Method } from '@polkadot/jsonrpc/types';
 
 import { Observable, combineLatest } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
+import { Vector } from '@polkadot/api-codec/codec';
 import { StorageFunction } from '@polkadot/api-codec/StorageKey';
 import assert from '@polkadot/util/assert';
 import isUndefined from '@polkadot/util/is/undefined';
@@ -62,15 +63,16 @@ export default class ApiBase {
       );
   }
 
-  rawStorageMulti = <T> (...keys: Array<[StorageFunction] | [StorageFunction, any]>): Observable<T> => {
+  rawStorageMulti = <T extends []> (...keys: Array<[StorageFunction] | [StorageFunction, any]>): Observable<T> => {
     try {
       return this.api.state
         .storage(keys)
         .pipe(
-          map((result?: any) =>
+          map((result?: Vector<any>): T =>
             isUndefined(result)
-              ? []
-              : result
+              ? [] as T
+              // FIXME When Vector extends Array, this mapping can be removed
+              : result.map((item: any) => item) as T
           )
         );
     } catch (error) {
