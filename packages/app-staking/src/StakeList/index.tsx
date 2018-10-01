@@ -33,7 +33,7 @@ class StakeList extends React.PureComponent<Props> {
 
               return (
                 <Account
-                  address={address}
+                  accountId={address}
                   balances={balances}
                   intentions={intentions}
                   isValidator={validators.includes(address)}
