@@ -3,11 +3,12 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/types';
+import { QueueTx$Extrinsic, QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import extrinsics from '@polkadot/extrinsics';
+// FIXME
+// import extrinsics from '@polkadot/extrinsics';
 import Button from '@polkadot/ui-app/Button';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
@@ -45,11 +46,12 @@ class Submit extends React.PureComponent<Props> {
     const { accountIndex, amount, from, to, queueExtrinsic } = this.props;
 
     queueExtrinsic({
-      extrinsic: extrinsics.staking.public.transfer,
+      // FIXME
+      // extrinsic: extrinsics.staking.public.transfer,
       nonce: accountIndex || new BN(0),
       publicKey: from,
       values: [to, amount]
-    });
+    } as QueueTx$Extrinsic);
   }
 }
 
