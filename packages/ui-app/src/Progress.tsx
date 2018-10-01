@@ -7,10 +7,12 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import SUIProgress from 'semantic-ui-react/dist/commonjs/modules/Progress/Progress';
+import UInt from '@polkadot/api-codec/codec/UInt';
 import isBn from '@polkadot/util/is/bn';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import classes from './util/classes';
+import bnToBn from '@polkadot/util/bn/toBn';
 
 type BaseColors = 'blue' | 'green' | 'red' | 'orange';
 export type Colors = 'auto' | 'autoReverse' | BaseColors;
@@ -18,17 +20,23 @@ export type Colors = 'auto' | 'autoReverse' | BaseColors;
 type Props = BareProps & {
   color?: Colors,
   percent?: BN | number,
-  total?: BN | number,
-  value?: BN | number
+  total?: UInt | BN | number,
+  value?: UInt | BN | number
 };
 
 export default class Progress extends React.PureComponent<Props> {
   render () {
     const { className, color = 'blue', percent, total, style, value } = this.props;
     let calculated: number | undefined;
+    const _total = total && total instanceof UInt
+      ? total.toBn()
+      : bnToBn(total);
+    const _value = value && value instanceof UInt
+      ? value.toBn()
+      : bnToBn(value);
 
-    if (!isUndefined(value) && !isUndefined(total) && (isBn(total) ? total.gtn(0) : total > 0)) {
-      calculated = 100.0 * (isBn(value) ? value.toNumber() : value) / (isBn(total) ? total.toNumber() : total);
+    if (_total.gtn(0)) {
+      calculated = 100.0 * _value.toNumber() / _total.toNumber();
     } else {
       calculated = isBn(percent) ? percent.toNumber() : percent;
     }

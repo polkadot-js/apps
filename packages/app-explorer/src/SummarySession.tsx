@@ -4,8 +4,8 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
-import BN from 'bn.js';
 import React from 'react';
+import { BlockNumber } from '@polkadot/api-codec';
 import CardSummary from '@polkadot/ui-app/CardSummary';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
@@ -13,13 +13,13 @@ import withMulti from '@polkadot/ui-react-rx/with/multi';
 import translate from './translate';
 
 type Props = I18nProps & {
-  eraBlockLength?: BN,
-  eraBlockProgress?: BN,
-  sessionBlockProgress?: BN,
+  eraBlockLength?: BlockNumber,
+  eraBlockProgress?: BlockNumber,
+  sessionBlockProgress?: BlockNumber,
   // FIXME Replaced in poc-3
   // sessionBrokenValue?: BN,
   // sessionBrokenPercentLate?: BN,
-  sessionLength?: BN,
+  sessionLength?: BlockNumber,
   withBroken?: boolean,
   withEra?: boolean,
   withSession?: boolean

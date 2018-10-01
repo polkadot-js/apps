@@ -4,8 +4,8 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
-import BN from 'bn.js';
 import React from 'react';
+import { Balance } from '@polkadot/api-codec';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Nonce from '@polkadot/ui-react-rx/Nonce';
 import addressDecode from '@polkadot/util-keyring/address/decode';
@@ -13,12 +13,12 @@ import addressEncode from '@polkadot/util-keyring/address/encode';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
-import Balance from './Balance';
+import BalanceDisplay from './Balance';
 import CopyButton from './CopyButton';
 import translate from './translate';
 
 export type Props = I18nProps & {
-  balance?: BN | Array<BN>,
+  balance?: Balance | Array<Balance>,
   children?: React.ReactNode,
   name?: string,
   value: string | Uint8Array | null,
@@ -108,7 +108,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Balance
+      <BalanceDisplay
         balance={balance}
         className='ui--AddressSummary-balance'
         label={t('addressSummary.balance', {

@@ -117,12 +117,15 @@ export default class ApiCombined extends ApiCalls {
         this.sessionLength(),
         this.sessionsPerEra()
       ],
-      ([sessionLength, sessionsPerEra]: [BlockNumber | undefined, BlockNumber | undefined]): BlockNumber | undefined =>
-        sessionLength && sessionsPerEra
+      ([sessionLength, sessionsPerEra]: [BlockNumber | undefined, BlockNumber | undefined]): BlockNumber | undefined => {
+        console.error('sessionLength', sessionLength, sessionsPerEra);
+
+        return sessionLength && sessionsPerEra
           ? new BlockNumber(
             sessionLength.mul(sessionsPerEra)
           )
-          : undefined
+          : undefined;
+      }
     );
   }
 

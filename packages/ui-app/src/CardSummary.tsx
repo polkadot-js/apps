@@ -6,6 +6,7 @@ import { BareProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
+import UInt from '@polkadot/api-codec/codec/UInt';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import Progress, { Colors as ProgressColors } from './Progress';
@@ -15,8 +16,8 @@ import classes from './util/classes';
 type ProgressProps = {
   color?: ProgressColors,
   isPercent?: boolean,
-  total?: BN,
-  value?: BN
+  total?: BN | UInt,
+  value?: BN | UInt
 };
 
 type Props = BareProps & {
@@ -28,18 +29,24 @@ type Props = BareProps & {
 export default class CardSummary extends React.PureComponent<Props> {
   render () {
     const { children, className, progress, label, style } = this.props;
-    const left = progress && !isUndefined(progress.value) && !isUndefined(progress.total) && progress.value.gten(0) && progress.total.gtn(0)
+    const value = progress && progress.value instanceof UInt
+      ? progress.value.toBn()
+      : progress && progress.value as BN;
+    const total = progress && progress.total instanceof UInt
+      ? progress.total.toBn()
+      : progress && progress.total as BN;
+    const left = progress && !isUndefined(value) && !isUndefined(total) && value.gten(0) && total.gtn(0)
       ? (
-        progress.value.gt(progress.total)
+        value.gt(total)
           ? `>${
             progress.isPercent
               ? '100'
-              : progress.total.toString()
+              : total.toString()
             }`
           : (
             progress.isPercent
-              ? progress.value.muln(100).div(progress.total).toString()
-              : progress.value.toString()
+              ? value.muln(100).div(total).toString()
+              : value.toString()
           )
       )
       : undefined;

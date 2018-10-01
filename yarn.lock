@@ -1348,20 +1348,20 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.0.tgz#50c1e2260ac0ed9439a181de3725a0168d59c48a"
 
-"@polkadot/api-codec@^0.30.5":
-  version "0.30.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-codec/-/api-codec-0.30.5.tgz#bfa386bc781c5f8eb907cef8fb500a7138b32d52"
+"@polkadot/api-codec@^0.30.8":
+  version "0.30.8"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-codec/-/api-codec-0.30.8.tgz#e4d43d90a3e330fa443285ed9fc69944c4f55878"
   dependencies:
     "@babel/runtime" "^7.0.0"
     "@polkadot/util" "^0.30.7"
     "@polkadot/util-keyring" "^0.30.7"
 
-"@polkadot/api-provider@^0.30.5":
-  version "0.30.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-provider/-/api-provider-0.30.5.tgz#0c14df85dd2ed5a86f4ca2fdc249178c921b115b"
+"@polkadot/api-provider@^0.30.8":
+  version "0.30.8"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-provider/-/api-provider-0.30.8.tgz#7116db075a579a1223eab89234e5eb756040d42e"
   dependencies:
     "@babel/runtime" "^7.0.0"
-    "@polkadot/storage" "^0.30.5"
+    "@polkadot/storage" "^0.30.8"
     "@polkadot/util" "^0.30.7"
     "@polkadot/util-crypto" "^0.30.7"
     "@polkadot/util-keyring" "^0.30.7"
@@ -1370,23 +1370,23 @@
     isomorphic-fetch "^2.2.1"
     websocket "^1.0.25"
 
-"@polkadot/api-rx@^0.30.5":
-  version "0.30.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-rx/-/api-rx-0.30.5.tgz#0302f029e6650028ccbbed234d6178fc8b274fd5"
+"@polkadot/api-rx@^0.30.8":
+  version "0.30.8"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-rx/-/api-rx-0.30.8.tgz#cee9b2c5d3ebd5e85f1bca39a243456141ab82b6"
   dependencies:
     "@babel/runtime" "^7.0.0"
-    "@polkadot/api" "^0.30.5"
-    "@polkadot/api-provider" "^0.30.5"
+    "@polkadot/api" "^0.30.8"
+    "@polkadot/api-provider" "^0.30.8"
     "@types/rx" "^4.1.1"
     rxjs "^6.3.2"
 
-"@polkadot/api@^0.30.5":
-  version "0.30.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.30.5.tgz#3d9779085338c87de60180dca158d0f053e3f600"
+"@polkadot/api@^0.30.8":
+  version "0.30.8"
+  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.30.8.tgz#7bd5a7ad822d1d32c20611b6fb85a1ba438e095b"
   dependencies:
     "@babel/runtime" "^7.0.0"
-    "@polkadot/api-provider" "^0.30.5"
-    "@polkadot/jsonrpc" "^0.30.5"
+    "@polkadot/api-provider" "^0.30.8"
+    "@polkadot/jsonrpc" "^0.30.8"
     "@polkadot/util" "^0.30.7"
 
 "@polkadot/dev-react@^0.20.21":
@@ -1469,16 +1469,16 @@
     "@polkadot/primitives" "^0.30.3"
     "@polkadot/util" "^0.30.7"
 
-"@polkadot/extrinsics@^0.30.5":
-  version "0.30.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/extrinsics/-/extrinsics-0.30.5.tgz#8e0c3ac9584508f9e9c3a7ff250c60e6bf6b3793"
+"@polkadot/extrinsics@^0.30.8":
+  version "0.30.8"
+  resolved "https://registry.yarnpkg.com/@polkadot/extrinsics/-/extrinsics-0.30.8.tgz#836d204b8f37498bf917f85f21e802c66b129d16"
   dependencies:
     "@babel/runtime" "^7.0.0"
     "@polkadot/util" "^0.30.7"
 
-"@polkadot/jsonrpc@^0.30.5":
-  version "0.30.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/jsonrpc/-/jsonrpc-0.30.5.tgz#487e7b9b5e91631175883f1bcaa63e4557163648"
+"@polkadot/jsonrpc@^0.30.8":
+  version "0.30.8"
+  resolved "https://registry.yarnpkg.com/@polkadot/jsonrpc/-/jsonrpc-0.30.8.tgz#e73f96db035f4f3bb139aa714954945473f8fe50"
   dependencies:
     babel-runtime "^6.26.0"
 
@@ -1501,12 +1501,12 @@
     "@polkadot/trie-hash" "^0.30.7"
     "@polkadot/util" "^0.30.7"
 
-"@polkadot/storage@^0.30.5":
-  version "0.30.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/storage/-/storage-0.30.5.tgz#b890389dd1048b5be2c7eec8d099eddf1fdbbb07"
+"@polkadot/storage@^0.30.8":
+  version "0.30.8"
+  resolved "https://registry.yarnpkg.com/@polkadot/storage/-/storage-0.30.8.tgz#d5e773413bcfb4dece1ba64494cb0ebbb8a15fe0"
   dependencies:
     "@babel/runtime" "^7.0.0"
-    "@polkadot/api-codec" "^0.30.5"
+    "@polkadot/api-codec" "^0.30.8"
     "@polkadot/params" "^0.30.3"
     "@polkadot/primitives" "^0.30.3"
     "@polkadot/util" "^0.30.7"

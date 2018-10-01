@@ -8,6 +8,7 @@ import { Fees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { Balance } from '@polkadot/api-codec';
 import Static from '@polkadot/ui-app/Static';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
@@ -26,10 +27,9 @@ type Props = I18nProps & {
   onChange: (fees: Fees) => void
 };
 
-const ZERO = new BN(0);
 const ZERO_BALANCE = {
-  freeBalance: ZERO,
-  votingBalance: ZERO
+  freeBalance: new Balance(0),
+  votingBalance: new Balance(0)
 } as RxBalance;
 
 // FIXME Ok, this is really not cool. Based on the actual transaction we should calculate the size. However currently bacause of the "fully distant" nature of the signer component, we cannot really properly calculate the final size. So count it... and then fix it. (This needs to be sorted)
@@ -45,8 +45,8 @@ class FeeDisplay extends React.PureComponent<Props, State> {
       isNoEffect: false,
       isRemovable: false,
       isReserved: false,
-      txfees: ZERO,
-      txtotal: ZERO
+      txfees: new BN(0),
+      txtotal: new BN(0)
     };
   }
 
@@ -57,18 +57,18 @@ class FeeDisplay extends React.PureComponent<Props, State> {
 
     let txfees = fees.baseFee
       .add(fees.transferFee)
-      .add(fees.byteFee.muln(TRANSFER_SIZE));
+      .add(fees.byteFee.mul(TRANSFER_SIZE));
 
-    if (balanceTo.votingBalance.isZero()) {
-      txfees = txfees.add(fees.creationFee);
+    if (balanceTo.votingBalance.toBn().isZero()) {
+      txfees = txfees.add(fees.creationFee.toBn());
     }
 
     const txtotal = amount.add(txfees);
     const hasAvailable = balanceFrom.freeBalance.gte(txtotal);
-    const isCreation = balanceTo.votingBalance.isZero();
-    const isNoEffect = amount.add(balanceTo.votingBalance).lte(fees.existentialDeposit);
-    const isRemovable = balanceFrom.votingBalance.sub(txtotal).lte(fees.existentialDeposit);
-    const isReserved = balanceFrom.freeBalance.isZero() && balanceFrom.reservedBalance.gtn(0);
+    const isCreation = balanceTo.votingBalance.toBn().isZero();
+    const isNoEffect = amount.add(balanceTo.votingBalance.toBn()).lte(fees.existentialDeposit.toBn());
+    const isRemovable = balanceFrom.votingBalance.sub(txtotal).lte(fees.existentialDeposit.toBn());
+    const isReserved = balanceFrom.freeBalance.toBn().isZero() && balanceFrom.reservedBalance.gt(0);
 
     return {
       hasAvailable,
@@ -137,7 +137,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
             defaultValue: 'Fees includes the transaction fee and the per-byte fee. '
           })
         }{
-          isCreation && fees.creationFee.gtn(0)
+          isCreation && fees.creationFee.gt(0)
             ? t('fees.create', {
               defaultValue: 'A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist.',
               replace: {
