@@ -6,7 +6,7 @@ import { Header } from '@polkadot/api-codec';
 
 import withObservableDiv from '@polkadot/ui-react-rx/with/observableDiv';
 
-const Component: React.ComponentType<any> = withObservableDiv('chainNewHead')(
+const Component: React.ComponentType<any> = withObservableDiv('newHead')(
   (value?: Header): string | undefined =>
     value
       ? header.hash.toHex()

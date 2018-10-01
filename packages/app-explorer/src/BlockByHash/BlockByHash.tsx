@@ -20,23 +20,23 @@ import BlockHeader from '../BlockHeader';
 import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
-  chainGetBlock: BlockDecoded,
+  getBlock: BlockDecoded,
   value: string
 };
 
 // FIXME Duplicated layout here and in democracy, clean up with extrinsics
 class BlockByHash extends React.PureComponent<Props> {
   render () {
-    const { chainGetBlock } = this.props;
+    const { getBlock } = this.props;
 
-    if (!chainGetBlock) {
+    if (!getBlock) {
       return null;
     }
 
-    const { header } = chainGetBlock;
+    const { header } = getBlock;
 
     // TODO Remove, debug info for reverse-engineering
-    console.log(prettyJson(chainGetBlock));
+    console.log(prettyJson(getBlock));
 
     return [
       <header key='header'>
@@ -51,8 +51,8 @@ class BlockByHash extends React.PureComponent<Props> {
   }
 
   private renderExtrinsics () {
-    const { chainGetBlock, t, value } = this.props;
-    const { extrinsics } = chainGetBlock;
+    const { getBlock, t, value } = this.props;
+    const { extrinsics } = getBlock;
 
     return (
       <section key='extrinsics'>
@@ -93,8 +93,8 @@ class BlockByHash extends React.PureComponent<Props> {
   }
 
   private renderJustification () {
-    const { chainGetBlock, t, value } = this.props;
-    const { justification } = chainGetBlock;
+    const { getBlock, t, value } = this.props;
+    const { justification } = getBlock;
 
     return (
       <section key='justification'>
@@ -123,5 +123,5 @@ class BlockByHash extends React.PureComponent<Props> {
 export default withMulti(
   BlockByHash,
   translate,
-  withObservable('chainGetBlock', { paramProp: 'value' })
+  withObservable('getBlock', { paramProp: 'value' })
 );

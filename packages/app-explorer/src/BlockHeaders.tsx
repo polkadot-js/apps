@@ -35,7 +35,7 @@ const apiOptions = {
   }
 };
 
-export default withObservableDiv('chainNewHead', apiOptions)(
+export default withObservableDiv('newHead', apiOptions)(
   (value: Array<Header> = []) =>
     value.map((value) => (
       <BlockHeader

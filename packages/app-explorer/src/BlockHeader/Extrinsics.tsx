@@ -13,14 +13,14 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   hash: Uint8Array,
-  chainGetBlock: any
+  getBlock: any
 };
 
 class Extrinsics extends React.PureComponent<Props> {
   render () {
-    const { chainGetBlock, t } = this.props;
+    const { getBlock, t } = this.props;
 
-    if (!chainGetBlock || !chainGetBlock.extrinsics) {
+    if (!getBlock || !getBlock.extrinsics) {
       return null;
     }
 
@@ -31,7 +31,7 @@ class Extrinsics extends React.PureComponent<Props> {
           {t('extrinsics.count', {
             defaultValue: '{{count}} in block',
             replace: {
-              count: chainGetBlock.extrinsics.length
+              count: getBlock.extrinsics.length
             }
           })}
         </td>
@@ -44,5 +44,5 @@ class Extrinsics extends React.PureComponent<Props> {
 export default withMulti(
   Extrinsics,
   translate,
-  withObservable('chainGetBlock', { paramProp: 'hash' })
+  withObservable('getBlock', { paramProp: 'hash' })
 );
