@@ -9,8 +9,11 @@ import React from 'react';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import Modal from '@polkadot/ui-app/Modal';
+import InputError from '@polkadot/ui-app/InputError';
 
 import translate from '../translate';
+
+import addressDecode from '@polkadot/util-keyring/address/decode';
 
 type Props = I18nProps & {
   isOpen: boolean,
@@ -21,6 +24,7 @@ type Props = I18nProps & {
 
 type State = {
   isNomineeValid: boolean,
+  isAddressFormatValid: boolean,
   nominee: string
 };
 
@@ -32,6 +36,7 @@ class Nominating extends React.PureComponent<Props> {
 
     this.state = {
       isNomineeValid: false,
+      isAddressFormatValid: false,
       nominee: ''
     };
   }
@@ -86,7 +91,7 @@ class Nominating extends React.PureComponent<Props> {
 
   renderContent () {
     const { t } = this.props;
-    const { isNomineeValid, nominee } = this.state;
+    const { isNomineeValid, isAddressFormatValid, nominee } = this.state;
 
     return [
       <Modal.Header key='header'>
@@ -104,15 +109,44 @@ class Nominating extends React.PureComponent<Props> {
           onChange={this.onChangeNominee}
           value={nominee}
         />
+        {
+          !isNomineeValid
+            ? <InputError
+                label={t('nominator.error', {
+                  defaultValue: 'The address you input is not intending to stake, and is therefore invalid. \
+                                Please try again with a different address.'
+                })} />
+            : null
+        }
+        {
+          !isAddressFormatValid
+            ? <InputError
+                label={t('nominator.error', {
+                  defaultValue: 'The address you input does not conform to a recognized address format. \
+                            Please make sure youve entered the address correctly and try again.'
+                })} />
+            : null
+        }
       </Modal.Content>
     ];
   }
 
   private onChangeNominee = (nominee: string) => {
     const { intentions } = this.props;
+    let publicKey;
+
+    try {
+      publicKey = addressDecode(nominee);
+    } catch (err) {
+      console.error(err);
+      this.setState({
+        isAddressFormatValid: false
+      });
+    }
 
     this.setState({
       isNomineeValid: intentions.includes(nominee),
+      isAddressFormatValid: publicKey && publicKey.length === 32,
       nominee
     });
   }

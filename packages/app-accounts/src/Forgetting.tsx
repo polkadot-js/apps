@@ -2,42 +2,29 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringPair } from '@polkadot/util-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
+import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
 
 import translate from './translate';
 
 type Props = I18nProps & {
-  isOpen: boolean,
+  address: string,
   onClose: () => void,
-  doForget: () => void,
-  currentAddress: KeyringPair | null
+  doForget: () => void
 };
 
 class Forgetting extends React.PureComponent<Props> {
-  constructor (props: Props) {
-    super(props);
-  }
-
   render () {
-    const { isOpen, style } = this.props;
-
-    if (!isOpen) {
-      return null;
-    }
-
     return (
       <Modal
-        size='tiny'
+        className='accounts--Forgetting-Modal'
         dimmer='inverted'
         open
-        style={style}
+        size='tiny'
       >
         {this.renderContent()}
         {this.renderButtons()}
@@ -72,11 +59,7 @@ class Forgetting extends React.PureComponent<Props> {
   }
 
   renderContent () {
-    const { t, currentAddress } = this.props;
-
-    const address = currentAddress
-      ? currentAddress.address()
-      : undefined;
+    const { address, t } = this.props;
 
     return [
       <Modal.Header key='header'>
@@ -84,10 +67,11 @@ class Forgetting extends React.PureComponent<Props> {
           defaultValue: 'Confirm account removal'
         })}
       </Modal.Header>,
-      <Modal.Content className='forgetting--Account' key='content'>
+      <Modal.Content key='content'>
         <AddressSummary
-          className='ui--AddressSummary-base'
-          value={address || ''}
+          className='accounts--Modal-Address'
+          value={address}
+          withCopy={false}
         />
       </Modal.Content>
     ];

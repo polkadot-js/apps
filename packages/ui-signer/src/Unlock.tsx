@@ -15,6 +15,7 @@ import translate from './translate';
 type Props = I18nProps & {
   autoFocus?: boolean,
   error?: string,
+  label?: string,
   onChange: (password: string) => void,
   onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
   password: string,
@@ -43,7 +44,7 @@ class Unlock extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { autoFocus, onChange, onKeyDown, password, t, tabIndex } = this.props;
+    const { autoFocus, label, onChange, onKeyDown, password, t, tabIndex } = this.props;
     const { isError, isLocked } = this.state;
 
     if (!isLocked) {
@@ -57,7 +58,7 @@ class Unlock extends React.PureComponent<Props, State> {
             autoFocus={autoFocus}
             className='medium'
             isError={isError}
-            label={t('unlock.password', {
+            label={label || t('unlock.password', {
               defaultValue: 'unlock account using'
             })}
             onChange={onChange}
