@@ -109,6 +109,7 @@ export default class Api extends React.PureComponent<Props, State> {
         }
 
         try {
+          // FIXME This should be removed for poc-3
           await this.hasChainGetBlock(header.parentHash);
         } catch (error) {
           // swallow
