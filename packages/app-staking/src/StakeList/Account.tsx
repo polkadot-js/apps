@@ -183,7 +183,7 @@ class Account extends React.PureComponent<Props, State> {
 
     queueExtrinsic({
       extrinsic,
-      nonce: systemAccountIndexOf || new BN(0),
+      accountNonce: systemAccountIndexOf || new BN(0),
       publicKey,
       values
     });

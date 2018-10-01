@@ -226,7 +226,7 @@ class Signer extends React.PureComponent<Props, State> {
     return this.sendItem(currentItem, password);
   }
 
-  sendItem = async ({ id, nonce, publicKey, rpc, values }: QueueTx, password?: string): Promise<void> => {
+  sendItem = async ({ id, accountNonce, publicKey, rpc, values }: QueueTx, password?: string): Promise<void> => {
     if (rpc.isSigned === true && publicKey) {
       const unlockError = this.unlockAccount(publicKey, password);
 
@@ -245,7 +245,7 @@ class Signer extends React.PureComponent<Props, State> {
     if (rpc.isSigned === true && publicKey) {
       data = [
         signMessage(
-          publicKey, nonce, (data[0] as Uint8Array), apiSupport
+          publicKey, accountNonce, (data[0] as Uint8Array), apiSupport
         ).data
       ];
     }

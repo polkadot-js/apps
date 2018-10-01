@@ -3,9 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
+import UInt from '@polkadot/api-codec/codec/UInt';
 import { Extrinsics } from '@polkadot/extrinsics/types';
 import { SectionItem } from '@polkadot/params/types';
-import { Interfaces } from '@polkadot/jsonrpc/types';
+// FIXME
+// import { Interfaces } from '@polkadot/jsonrpc/types';
 import { Param$Values } from '@polkadot/params/types';
 import { RawParam$Value } from '@polkadot/ui-app/Params/types';
 
@@ -25,12 +27,13 @@ export type QueueTx$Result = {
 }
 
 export type AccountInfo = {
-  nonce: BN,
+  accountNonce: UInt | BN,
   publicKey?: Uint8Array | null
 };
 
 export type QueueTx$Base = EncodedMessage & AccountInfo & {
-  rpc: SectionItem<Interfaces>
+  // FIXME
+  rpc: any, // SectionItem<Interfaces>
 };
 
 export type QueueTx$Extrinsic = AccountInfo & {

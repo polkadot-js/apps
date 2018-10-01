@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
+import UInt from '@polkadot/api-codec/codec/UInt';
 import { EncodingVersions } from '@polkadot/params/types';
 import { Signed } from './types';
 
@@ -14,8 +15,8 @@ import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
-export default function signMessage (publicKey: Uint8Array, nonce: BN | number, value: Uint8Array, apiSupport: EncodingVersions): Signed {
-  const message = new Uint8Array(); // encodeCall(publicKey, nonce, value, apiSupport);
+export default function signMessage (publicKey: Uint8Array, accountNonce: UInt | BN | number, value: Uint8Array, apiSupport: EncodingVersions): Signed {
+  const message = new Uint8Array(); // encodeCall(publicKey, accountNonce, value, apiSupport);
   const signature = keyring.getPair(publicKey).sign(message);
   const data = u8aConcat(
     // prefixes.publicKey,

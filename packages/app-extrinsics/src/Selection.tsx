@@ -26,7 +26,7 @@ type Props = I18nProps & {
 type State = {
   isValid: boolean,
   encoded: EncodedMessage,
-  nonce: BN,
+  accountNonce: BN,
   publicKey: Uint8Array
 };
 
@@ -107,12 +107,12 @@ class Selection extends React.PureComponent<Props, State> {
     this.nextState({ encoded } as State);
   }
 
-  onChangeNonce = (nonce: BN = new BN(0)): void => {
+  onChangeNonce = (accountNonce: BN = new BN(0)): void => {
     this.nextState({ nonce } as State);
   }
 
   onChangeSender = (publicKey: Uint8Array): void => {
-    this.nextState({ publicKey, nonce: new BN(0) } as State);
+    this.nextState({ publicKey, accountNonce: new BN(0) } as State);
   }
 
   onQueue = (): void => {

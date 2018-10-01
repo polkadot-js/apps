@@ -29,7 +29,7 @@ type Props = I18nProps & {
 
 type State = {
   isValid: boolean,
-  nonce: BN,
+  accountNonce: BN,
   publicKey?: Uint8Array | null,
   // FIXME
   rpc: any; // SectionItem<Interfaces>,
@@ -42,7 +42,7 @@ const defaultMethod = void 0; // rpc.author.public.submitExtrinsic;
 class Selection extends React.PureComponent<Props, State> {
   state: State = {
     isValid: false,
-    nonce: new BN(0),
+    accountNonce: new BN(0),
     publicKey: null,
     rpc: defaultMethod,
     values: []
@@ -104,7 +104,7 @@ class Selection extends React.PureComponent<Props, State> {
         return {
           isValid,
           rpc,
-          nonce: nonce || new BN(0),
+          accountNonce: nonce || new BN(0),
           publicKey,
           values
         };
@@ -112,7 +112,7 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeAccount = (publicKey: Uint8Array | undefined | null, nonce: BN): void => {
+  onChangeAccount = (publicKey: Uint8Array | undefined | null, accountNonce: BN): void => {
     this.nextState({
       nonce,
       publicKey

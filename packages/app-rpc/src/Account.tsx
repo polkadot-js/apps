@@ -16,11 +16,11 @@ import translate from './translate';
 type Props = I18nProps & {
   defaultValue?: Uint8Array | null,
   isError?: boolean,
-  onChange: (publicKey: Uint8Array | undefined | null, nonce: BN) => void
+  onChange: (publicKey: Uint8Array | undefined | null, accountNonce: BN) => void
 };
 
 type State = {
-  nonce: BN,
+  accountNonce: BN,
   publicKey?: Uint8Array | null
 };
 
@@ -32,7 +32,7 @@ class Account extends React.PureComponent<Props, State> {
 
     this.state = {
       publicKey: props.defaultValue,
-      nonce: new BN(0)
+      accountNonce: new BN(0)
     };
   }
 
@@ -90,7 +90,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeNonce = (_nonce: BN): void => {
+  onChangeNonce = (_accountNonce: BN): void => {
     const { onChange } = this.props;
     const nonce = _nonce || new BN(0);
 
