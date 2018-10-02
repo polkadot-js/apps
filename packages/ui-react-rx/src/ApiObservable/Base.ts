@@ -37,14 +37,14 @@ export default class ApiBase {
     return this.api.isConnected();
   }
 
-  rawCall = <T> ({ name, section }: Method, ...params: Array<any>): Observable<T> => {
+  rawCall = <T> ({ method, section }: Method, ...params: Array<any>): Observable<T> => {
     const apiSection = this.api[section as keyof RxApiInterface] as RxApiInterface$Section;
 
     assert(apiSection, `Unable to find 'api.${section}'`);
 
-    const fn: RxApiInterface$Method = apiSection[name];
+    const fn: RxApiInterface$Method = apiSection[method];
 
-    assert(fn, `Unable to find 'api.${section}.${name}'`);
+    assert(fn, `Unable to find 'api.${section}.${method}'`);
 
     return fn.apply(null, params);
   }
