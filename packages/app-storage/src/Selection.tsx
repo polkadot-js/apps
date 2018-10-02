@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { TypeDef, getTypeDef } from '@polkadot/types/codec';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParams } from '@polkadot/ui-app/Params/types';
@@ -26,7 +27,8 @@ type Props = I18nProps & {
 type State = {
   isValid: boolean,
   key: StorageFunction,
-  params: RawParams
+  params: RawParams,
+  type: null | TypeDef
 };
 
 const defaultValue = storage.timestamp.now;
@@ -36,12 +38,13 @@ class Selection extends React.PureComponent<Props, State> {
   state: State = {
     isValid: true,
     key: defaultValue,
-    params: []
+    params: [],
+    type: null
   };
 
   render () {
     const { t } = this.props;
-    const { isValid, key } = this.state;
+    const { isValid, type } = this.state;
 
     return (
       <section className='storage--Selection storage--actionrow'>
@@ -54,8 +57,8 @@ class Selection extends React.PureComponent<Props, State> {
             onChange={this.onChangeKey}
           />
           <Params
-            item={key}
             onChange={this.onChangeParams}
+            type={type}
           />
         </div>
         <Labelled className='storage--actionrow-button'>
@@ -87,7 +90,10 @@ class Selection extends React.PureComponent<Props, State> {
         return {
           isValid,
           key,
-          params
+          params,
+          type: hasParam
+            ? getTypeDef(key.meta.type.asMap.key.toString())
+            : null
         };
       }
     );
@@ -108,7 +114,8 @@ class Selection extends React.PureComponent<Props, State> {
     this.nextState({
       isValid: false,
       key,
-      params: []
+      params: [],
+      type: null
     });
   }
 

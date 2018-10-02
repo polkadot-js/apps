@@ -2,14 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Params } from '@polkadot/params/types';
+import { TypeDef } from '@polkadot/types/codec';
 import { RawParam, RawParam$ValueArray } from './types';
 
 import isUndefined from '@polkadot/util/is/undefined';
 
 import getInitValue from './initValue';
 
-export default function values (params: Params): Array<RawParam> {
+// FIXME, FIXME, FIXME
+export default function values (type: TypeDef | null): Array<RawParam> {
+  if (!type) {
+    return [];
+  }
+
+  return [];
+
   const types = params.map(({ type }) => type);
 
   return types.map((type): RawParam => {

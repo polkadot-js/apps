@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { SectionItem } from '@polkadot/params/types';
+import { TypeDef } from '@polkadot/types/codec';
 import { I18nProps } from '../types';
 import { ComponentMap, RawParams, RawParam$OnChange, RawParam$OnChange$Value } from './types';
 
@@ -15,69 +15,71 @@ import translate from '../translate';
 import Param from './Param';
 import createValues from './values';
 
-type Props<S> = I18nProps & {
+type Props = I18nProps & {
   isDisabled?: boolean,
-  item: S,
   onChange?: (value: RawParams) => void,
   overrides?: ComponentMap,
+  type: null | TypeDef,
   values?: RawParams
 };
 
-type State<S> = {
-  item: S,
+type State = {
   handlers: Array<RawParam$OnChange>,
   onChangeParam: (at: number, next: RawParam$OnChange$Value) => void,
+  type: TypeDef,
   values: RawParams
 };
 
-class Params<T, S extends SectionItem<T>> extends React.PureComponent<Props<S>, State<S>> {
-  state: State<S>;
+class Params extends React.PureComponent<Props, State> {
+  state: State;
 
-  constructor (props: Props<S>) {
+  constructor (props: Props) {
     super(props);
 
     this.state = ({
       onChangeParam: this.onChangeParam
-    } as State<S>);
+    } as State);
   }
 
-  static getDerivedStateFromProps (props: Props<any>, { item, onChangeParam }: State<any>): State<any> | null {
-    const isSame = item && item.name === props.item.name && item.section === props.item.section;
+  // FIXME, FIXME
+  // static getDerivedStateFromProps (props: Props, { type, onChangeParam }: State): State | null {
+  //   const isSame = type && props.type && type.type === props.type.type;
 
-    if (props.isDisabled || isSame) {
-      return null;
-    }
+  //   if (props.isDisabled || isSame) {
+  //     return null;
+  //   }
 
-    const { params } = props.item;
-    const values = createValues(params);
-    const handlers = values.map(
-      (value, index): RawParam$OnChange =>
-        (value: RawParam$OnChange$Value): void =>
-          onChangeParam(index, value)
-    );
+  //   const values = createValues(type);
+  //   const handlers = values.map(
+  //     (value, index): RawParam$OnChange =>
+  //       (value: RawParam$OnChange$Value): void =>
+  //         onChangeParam(index, value)
+  //   );
 
-    return {
-      item: props.item,
-      handlers,
-      values
-    } as State<any>;
-  }
+  //   return {
+  //     type: props.type,
+  //     handlers,
+  //     values
+  //   } as State;
+  // }
 
-   // NOTE This is needed in the case where the item changes, i.e. the values get initialised and we need to alert the parent that we have new values
-  componentDidUpdate (prevProps: Props<S>, prevState: State<S>) {
-    const { onChange, isDisabled } = this.props;
-    const { values } = this.state;
+  //  // NOTE This is needed in the case where the item changes, i.e. the values get initialised and we need to alert the parent that we have new values
+  // componentDidUpdate (prevProps: Props, prevState: State) {
+  //   const { onChange, isDisabled } = this.props;
+  //   const { values } = this.state;
 
-    if (!isDisabled && prevState.values !== values) {
-      onChange && onChange(values);
-    }
-  }
+  //   if (!isDisabled && prevState.values !== values) {
+  //     onChange && onChange(values);
+  //   }
+  // }
 
   render () {
-    const { className, isDisabled, item: { params }, overrides, style } = this.props;
+    const { className, isDisabled, type, overrides, style } = this.props;
     const { handlers = [], values = this.props.values } = this.state;
 
-    if (!values || values.length === 0 || params.length === 0) {
+    return null;
+
+    if (!type || !values || values.length === 0) {
       return null;
     }
 
@@ -110,7 +112,7 @@ class Params<T, S extends SectionItem<T>> extends React.PureComponent<Props<S>, 
     }
 
     this.setState(
-      (prevState: State<S>): State<S> => ({
+      (prevState: State): State => ({
         values: prevState.values.map((prev, index) =>
           index !== at
             ? prev
@@ -120,7 +122,7 @@ class Params<T, S extends SectionItem<T>> extends React.PureComponent<Props<S>, 
               value
             }
         )
-      } as State<S>),
+      } as State),
       this.triggerUpdate
     );
   }

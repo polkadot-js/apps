@@ -48,16 +48,19 @@ class Query extends React.PureComponent<Props, State> {
 
   static getDerivedStateFromProps ({ value }: Props, prevState: State): State | null {
     const Component = Query.getCachedComponent(value);
-    const { key, params } = value;
-    const inputs = key.params.map(({ name, type }, index) => (
-      <span key={`param_${name}_${index}`}>
-        {name}={valueToText(type, params[index].value)}
-      </span>
-    ));
+
+    // FIXME
+    // const { key, params } = value;
+    // const inputs = key.params.map(({ name, type }, index) => (
+    //   <span key={`param_${name}_${index}`}>
+    //     {name}={valueToText(type, params[index].value)}
+    //   </span>
+    // ));
 
     return {
       Component,
-      inputs
+      // FIXME
+      inputs: []
     };
   }
 
@@ -71,7 +74,7 @@ class Query extends React.PureComponent<Props, State> {
           className='storage--actionrow-value'
           label={
             <div className='ui--Param-text'>
-              <div className='ui--Param-text name'>{key.section}.{key.name}(</div>
+              <div className='ui--Param-text name'>{key.section}.{key.method}(</div>
               {inputs}
               <div className='ui--Param-text name'>):</div>
               <div className='ui--Param-text'>{key.meta.type.toString()}</div>
