@@ -14,7 +14,6 @@ const packages = [
   'app-accounts',
   'app-addresses',
   'app-democracy',
-  'app-example',
   'app-explorer',
   'app-extrinsics',
   'app-rpc',

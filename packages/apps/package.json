@@ -16,7 +16,6 @@
     "@polkadot/app-accounts": "^0.20.23",
     "@polkadot/app-addresses": "^0.20.23",
     "@polkadot/app-democracy": "^0.20.23",
-    "@polkadot/app-example": "^0.20.23",
     "@polkadot/app-explorer": "^0.20.23",
     "@polkadot/app-extrinsics": "^0.20.23",
     "@polkadot/app-rpc": "^0.20.23",
