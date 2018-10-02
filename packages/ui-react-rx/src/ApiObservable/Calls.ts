@@ -36,11 +36,11 @@ export default class ApiCalls extends ApiQueries {
     );
   }
 
-  nodeName = (): Observable<Text | undefined> => {
+  systemName = (): Observable<Text | undefined> => {
     return this.api.system.name();
   }
 
-  nodeVersion = (): Observable<Text | undefined> => {
+  systemVersion = (): Observable<Text | undefined> => {
     return this.api.system.version();
   }
 }

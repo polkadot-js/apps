@@ -6,7 +6,7 @@ import { Text } from '@polkadot/types';
 
 import withObservableDiv from './with/observableDiv';
 
-const Component: React.ComponentType<any> = withObservableDiv('nodeName')(
+const Component: React.ComponentType<any> = withObservableDiv('systemName')(
   (value: Text | string = 'unknown'): string =>
     value.toString(),
   { className: 'rx--NodeName' }

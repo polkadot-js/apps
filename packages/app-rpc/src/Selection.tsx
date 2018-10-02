@@ -2,9 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-// FIXME
-// import { SectionItem } from '@polkadot/params/types';
-// import { Interfaces } from '@polkadot/jsonrpc/types';
+import { Method } from '@polkadot/jsonrpc/types';
 import { RawParam } from '@polkadot/ui-app/Params/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$MessageAdd } from '@polkadot/ui-signer/types';
@@ -13,8 +11,7 @@ import './index.css';
 
 import BN from 'bn.js';
 import React from 'react';
-// FIXME
-// import rpc from '@polkadot/jsonrpc';
+import rpc from '@polkadot/jsonrpc';
 import Button from '@polkadot/ui-app/Button';
 import InputRpc from '@polkadot/ui-app/InputRpc';
 import Params from '@polkadot/ui-app/Params';
@@ -31,13 +28,12 @@ type State = {
   isValid: boolean,
   accountNonce: BN,
   publicKey?: Uint8Array | null,
-  // FIXME
-  rpc: any; // SectionItem<Interfaces>,
+  rpc: Method,
   values: Array<RawParam>
 };
 
-// FIXME
-const defaultMethod = void 0; // rpc.author.public.submitExtrinsic;
+// @ts-ignore This is horrible, would like _some_ help from TS
+const defaultMethod = rpc.author.submitExtrinsic;
 
 class Selection extends React.PureComponent<Props, State> {
   state: State = {
@@ -77,7 +73,7 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  renderAccount () {
+  private renderAccount () {
     const { rpc: { isSigned = false }, publicKey } = this.state;
 
     if (!isSigned) {
@@ -92,10 +88,10 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  nextState (newState: State): void {
+  private nextState (newState: State): void {
     this.setState(
       (prevState: State): State => {
-        const { rpc = prevState.rpc, nonce = prevState.nonce, publicKey = prevState.publicKey, values = prevState.values } = newState;
+        const { rpc = prevState.rpc, accountNonce = prevState.accountNonce, publicKey = prevState.publicKey, values = prevState.values } = newState;
         const hasNeededKey = rpc.isSigned !== true || (!!publicKey && publicKey.length === 32);
         const isValid = values.reduce((isValid, value) => {
           return isValid && value.isValid === true;
@@ -104,7 +100,7 @@ class Selection extends React.PureComponent<Props, State> {
         return {
           isValid,
           rpc,
-          accountNonce: nonce || new BN(0),
+          accountNonce: accountNonce || new BN(0),
           publicKey,
           values
         };
@@ -112,31 +108,31 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeAccount = (publicKey: Uint8Array | undefined | null, accountNonce: BN): void => {
+  private onChangeAccount = (publicKey: Uint8Array | undefined | null, accountNonce: BN): void => {
     this.nextState({
-      nonce,
+      accountNonce,
       publicKey
     } as State);
   }
 
-  onChangeMethod = (rpc: SectionItem<Interfaces>): void => {
+  private onChangeMethod = (rpc: Method): void => {
     this.nextState({
       rpc,
       values: [] as Array<RawParam>
     } as State);
   }
 
-  onChangeValues = (values: Array<RawParam>): void => {
+  private onChangeValues = (values: Array<RawParam>): void => {
     this.nextState({ values } as State);
   }
 
-  onSubmit = (): void => {
+  private onSubmit = (): void => {
     const { queueAdd } = this.props;
-    const { isValid, nonce, publicKey, rpc, values } = this.state;
+    const { isValid, accountNonce, publicKey, rpc, values } = this.state;
 
     queueAdd({
       isValid,
-      nonce,
+      accountNonce,
       publicKey,
       rpc,
       values: rawToValues(values)

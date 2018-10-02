@@ -4,8 +4,7 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic & InputStorage
 
-import { SectionItem } from '@polkadot/params/types';
-import { Interfaces, Interface$Sections } from '@polkadot/jsonrpc/types';
+import { Method } from '@polkadot/jsonrpc/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 
@@ -23,18 +22,18 @@ import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
 type Props = I18nProps & {
-  defaultValue: SectionItem<Interfaces>,
+  defaultValue: Method,
   isError?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (value: SectionItem<Interfaces>) => void,
+  onChange: (value: Method) => void,
   withLabel?: boolean
 };
 
 type State = {
   optionsMethod: DropdownOptions,
   optionsSection: DropdownOptions,
-  value: SectionItem<Interfaces>
+  value: Method
 };
 
 class InputRpc extends React.PureComponent<Props, State> {
@@ -81,31 +80,32 @@ class InputRpc extends React.PureComponent<Props, State> {
     );
   }
 
-  onMethodChange = (value: SectionItem<Interfaces>): void => {
+  private onMethodChange = (newValue: Method): void => {
     const { onChange } = this.props;
-    const { value: { name, section } } = this.state;
+    const { value } = this.state;
 
-    if (value.section === section && value.name === name) {
+    if (value.section === newValue.section && value.name === newValue.name) {
       return;
     }
 
-    this.setState({ value }, () =>
-      onChange(value)
+    this.setState({ value: newValue }, () =>
+      onChange(newValue)
     );
   }
 
-  onSectionChange = (newSection: Interface$Sections): void => {
-    const { value: { section } } = this.state;
+  private onSectionChange = (newSection: string): void => {
+    const { value } = this.state;
 
-    if (newSection === section) {
+    if (newSection === value.section) {
       return;
     }
 
     const optionsMethod = methodOptions(newSection);
-    const value = map[newSection].public[optionsMethod[0].value];
+    // @ts-ignore this really should not compalin, indexes incorrect
+    const newValue = map[newSection][optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
-      this.onMethodChange(value)
+      this.onMethodChange(newValue)
     );
   }
 }
