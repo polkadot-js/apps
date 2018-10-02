@@ -6,7 +6,7 @@ import { BareProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import UInt from '@polkadot/api-codec/codec/UInt';
+import { UInt } from '@polkadot/types/codec';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import Progress, { Colors as ProgressColors } from './Progress';

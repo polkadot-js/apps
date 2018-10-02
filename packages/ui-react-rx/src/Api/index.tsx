@@ -7,7 +7,7 @@ import { RxApiInterface } from '@polkadot/api-rx/types';
 import { ApiProps } from '../types';
 
 import React from 'react';
-import { Header } from '@polkadot/api-codec';
+import { Header } from '@polkadot/types';
 import WsProvider from '@polkadot/api-provider/ws';
 import RxApi from '@polkadot/api-rx';
 import defaults from '@polkadot/api-rx/defaults';

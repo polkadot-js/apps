@@ -7,7 +7,7 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import SUIProgress from 'semantic-ui-react/dist/commonjs/modules/Progress/Progress';
-import UInt from '@polkadot/api-codec/codec/UInt';
+import { UInt } from '@polkadot/types/codec';
 import isBn from '@polkadot/util/is/bn';
 import isUndefined from '@polkadot/util/is/undefined';
 

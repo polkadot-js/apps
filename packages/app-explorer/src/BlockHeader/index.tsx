@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Header } from '@polkadot/api-codec';
+import { Header } from '@polkadot/types';
 import { BareProps } from '@polkadot/ui-app/types';
 
 import './BlockHeader.css';

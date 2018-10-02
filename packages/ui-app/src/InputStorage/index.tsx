@@ -4,7 +4,7 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic
 
-import { StorageFunction } from '@polkadot/api-codec/StorageKey';
+import { StorageFunction } from '@polkadot/types/StorageKey';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 

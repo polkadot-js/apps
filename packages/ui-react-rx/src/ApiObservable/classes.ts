@@ -3,8 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { AccountId, Balance, BlockNumber, PropIndex, Proposal, ReferendumIndex, VoteThreshold } from '@polkadot/api-codec/index';
-import { Struct, Tuple, Vector } from '@polkadot/api-codec/codec';
+import { AccountId, Balance, BlockNumber, PropIndex, Proposal, ReferendumIndex, VoteThreshold } from '@polkadot/types/index';
+import { Struct, Tuple, Vector } from '@polkadot/types/codec';
 
 export class RxProposal extends Struct.with({ id: PropIndex, proposal: Proposal, address: AccountId }) {
   constructor (value: Tuple) {

@@ -8,7 +8,7 @@ import { ProviderInterface } from '@polkadot/api-provider/types';
 import { RxApiInterface, RxApiInterface$Method } from '@polkadot/api-rx/types';
 import { Interfaces } from '@polkadot/jsonrpc/types';
 import { EncodingVersions, SectionItem } from '@polkadot/params/types';
-import { Header } from '@polkadot/api-codec';
+import { Header } from '@polkadot/types';
 import { Storages, Storage$Key$Value } from '@polkadot/storage/types';
 
 import ApiObservable from './ApiObservable';

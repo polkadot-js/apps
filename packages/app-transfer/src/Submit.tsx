@@ -7,7 +7,7 @@ import { QueueTx$Extrinsic, QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/typ
 
 import BN from 'bn.js';
 import React from 'react';
-import { Index } from '@polkadot/api-codec';
+import { Index } from '@polkadot/types';
 // FIXME
 // import extrinsics from '@polkadot/extrinsics';
 import Button from '@polkadot/ui-app/Button';

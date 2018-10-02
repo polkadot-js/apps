@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { CodecTypes } from '@polkadot/api-codec/types';
+import { CodecTypes } from '@polkadot/types/types';
 import { BareProps } from '../types';
 
 // FIXME Ideally, we want these as Base from api-codec - as a stop-gap, any this until we have

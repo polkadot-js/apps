@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import UInt from '@polkadot/api-codec/codec/UInt';
+import { UInt } from '@polkadot/types/codec';
 import { EncodingVersions } from '@polkadot/params/types';
 import { Signed } from './types';
 

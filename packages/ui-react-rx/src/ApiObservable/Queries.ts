@@ -7,8 +7,8 @@ import { RxFees } from './types';
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AccountId, Balance, Bool, BlockNumber, Index, Moment, Perbill, PropIndex, ReferendumIndex, u32 } from '@polkadot/api-codec/index';
-import { Tuple } from '@polkadot/api-codec/codec';
+import { AccountId, Balance, Bool, BlockNumber, Index, Moment, Perbill, PropIndex, ReferendumIndex, u32 } from '@polkadot/types/index';
+import { Tuple } from '@polkadot/types/codec';
 import storage from '@polkadot/storage/testing';
 
 import ApiBase from './Base';

@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import UInt from '@polkadot/api-codec/codec/UInt';
+import { UInt } from '@polkadot/types/codec';
 
 const NUMBER_REGEX = new RegExp('(\\d+?)(?=(\\d{3})+(?!\\d)|$)', 'g');
 

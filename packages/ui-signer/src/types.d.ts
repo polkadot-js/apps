@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import UInt from '@polkadot/api-codec/codec/UInt';
+import { UInt } from '@polkadot/types/codec';
 import { Extrinsics } from '@polkadot/extrinsics/types';
 import { SectionItem } from '@polkadot/params/types';
 // FIXME

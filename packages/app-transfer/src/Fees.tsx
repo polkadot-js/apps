@@ -8,7 +8,7 @@ import { Fees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Balance } from '@polkadot/api-codec';
+import { Balance } from '@polkadot/types';
 import Static from '@polkadot/ui-app/Static';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';

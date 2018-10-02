@@ -6,7 +6,7 @@ import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
-import { Text } from '@polkadot/api-codec';
+import { Text } from '@polkadot/types';
 import isTestChain from '@polkadot/ui-react-rx/util/isTestChain';
 import keyring from '@polkadot/ui-keyring/index';
 import BestNumber from '@polkadot/ui-react-rx/BestNumber';

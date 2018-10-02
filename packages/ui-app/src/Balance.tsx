@@ -6,7 +6,7 @@ import { BareProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Balance } from '@polkadot/api-codec';
+import { Balance } from '@polkadot/types';
 import RxBalance from '@polkadot/ui-react-rx/Balance';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 

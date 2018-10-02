@@ -7,7 +7,7 @@ import { RxBalance, RxBalanceMap, RxReferendumVote } from './types';
 import BN from 'bn.js';
 import { EMPTY, Observable } from 'rxjs';
 import { switchMap, defaultIfEmpty, map } from 'rxjs/operators';
-import { AccountId, Balance, Bool, BlockNumber, Moment, ReferendumIndex } from '@polkadot/api-codec/index';
+import { AccountId, Balance, Bool, BlockNumber, Moment, ReferendumIndex } from '@polkadot/types/index';
 import isString from '@polkadot/util/is/string';
 
 import ApiCalls from './Calls';

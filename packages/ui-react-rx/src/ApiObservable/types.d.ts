@@ -3,8 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { Observable } from 'rxjs';
-import { AccountId, Balance, BlockNumber, Bool, Header, PropIndex, Proposal, ReferendumIndex, u32, VoteThreshold } from '@polkadot/api-codec/index';
-import { Tuple } from '@polkadot/api-codec/codec';
+import { AccountId, Balance, BlockNumber, Bool, Header, PropIndex, Proposal, ReferendumIndex, u32, VoteThreshold } from '@polkadot/types/index';
+import { Tuple } from '@polkadot/types/codec';
 
 import ApiBase from './Base';
 import ApiCalls from './Calls';

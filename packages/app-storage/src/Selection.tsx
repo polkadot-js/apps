@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { StorageFunction } from '@polkadot/api-codec/StorageKey';
+import { StorageFunction } from '@polkadot/types/StorageKey';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParams } from '@polkadot/ui-app/Params/types';
 import { StorageQuery } from './types';

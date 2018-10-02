@@ -5,7 +5,7 @@
 import { BaseProps } from './types';
 
 import React from 'react';
-import { Moment } from '@polkadot/api-codec';
+import { Moment } from '@polkadot/types';
 
 type Props = BaseProps & {
   value?: Moment | Date

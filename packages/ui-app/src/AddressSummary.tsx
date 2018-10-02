@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Balance } from '@polkadot/api-codec';
+import { Balance } from '@polkadot/types';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Nonce from '@polkadot/ui-react-rx/Nonce';
 import addressDecode from '@polkadot/util-keyring/address/decode';

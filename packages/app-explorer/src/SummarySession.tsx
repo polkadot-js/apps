@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { BlockNumber } from '@polkadot/api-codec';
+import { BlockNumber } from '@polkadot/types';
 import CardSummary from '@polkadot/ui-app/CardSummary';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';

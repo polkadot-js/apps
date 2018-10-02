@@ -6,7 +6,7 @@ import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 
 import React from 'react';
-import { StorageFunction } from '@polkadot/api-codec/StorageKey';
+import { StorageFunction } from '@polkadot/types/StorageKey';
 // FIXME These should be created dynamically created via fromMetadata (storage)
 import map from '@polkadot/storage/testing';
 
