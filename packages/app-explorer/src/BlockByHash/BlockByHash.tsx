@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { BlockDecoded } from '@polkadot/params/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 
@@ -11,6 +10,7 @@ import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import Extrinsic from '@polkadot/ui-app/Extrinsic';
+import { Block } from '@polkadot/types';
 import prettyJson from '@polkadot/ui-app/util/prettyJson';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import isHex from '@polkadot/util/is/hex';
@@ -20,7 +20,7 @@ import BlockHeader from '../BlockHeader';
 import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
-  getBlock: BlockDecoded,
+  getBlock: Block,
   value: string
 };
 

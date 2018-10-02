@@ -4,7 +4,6 @@
 
 import BN from 'bn.js';
 import { UInt } from '@polkadot/types/codec';
-import { EncodingVersions } from '@polkadot/params/types';
 import { Signed } from './types';
 
 // FIXME Pull in new extrinsics
@@ -15,7 +14,7 @@ import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
-export default function signMessage (publicKey: Uint8Array, accountNonce: UInt | BN | number, value: Uint8Array, apiSupport: EncodingVersions): Signed {
+export default function signMessage (publicKey: Uint8Array, accountNonce: UInt | BN | number, value: Uint8Array): Signed {
   const message = new Uint8Array(); // encodeCall(publicKey, accountNonce, value, apiSupport);
   const signature = keyring.getPair(publicKey).sign(message);
   const data = u8aConcat(
@@ -24,9 +23,9 @@ export default function signMessage (publicKey: Uint8Array, accountNonce: UInt |
     signature
   );
 
-  console.log(`signMessage (${apiSupport}) :   message :: ${u8aToHex(message)}`);
-  console.log(`signMessage (${apiSupport}) : signature :: ${u8aToHex(signature)}`);
-  console.log(`signMessage (${apiSupport}) :      data :: ${u8aToHex(data)}`);
+  console.log(`signMessage :   message :: ${u8aToHex(message)}`);
+  console.log(`signMessage : signature :: ${u8aToHex(signature)}`);
+  console.log(`signMessage :      data :: ${u8aToHex(data)}`);
 
   return {
     data: u8aConcat(

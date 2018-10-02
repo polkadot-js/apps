@@ -5,15 +5,13 @@
 import BN from 'bn.js';
 import { UInt } from '@polkadot/types/codec';
 import { Extrinsics } from '@polkadot/extrinsics/types';
-import { SectionItem } from '@polkadot/params/types';
 // FIXME
 // import { Interfaces } from '@polkadot/jsonrpc/types';
-import { Param$Values } from '@polkadot/params/types';
 import { RawParam$Value } from '@polkadot/ui-app/Params/types';
 
 export type EncodedMessage = {
   isValid: boolean,
-  values: Array<Param$Values>
+  values: Array<any>
 };
 
 export type QueueTx$Status = 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent';
@@ -37,7 +35,8 @@ export type QueueTx$Base = EncodedMessage & AccountInfo & {
 };
 
 export type QueueTx$Extrinsic = AccountInfo & {
-  extrinsic: SectionItem<Extrinsics>,
+  // FIXME !!!
+  extrinsic: any,
   values: Array<RawParam$Value>
 }
 
