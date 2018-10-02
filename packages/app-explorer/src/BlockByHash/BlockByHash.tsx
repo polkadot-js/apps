@@ -10,7 +10,7 @@ import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import Extrinsic from '@polkadot/ui-app/Extrinsic';
-import { Block } from '@polkadot/types';
+import { SignedBlock } from '@polkadot/types';
 import prettyJson from '@polkadot/ui-app/util/prettyJson';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import isHex from '@polkadot/util/is/hex';
@@ -20,7 +20,7 @@ import BlockHeader from '../BlockHeader';
 import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
-  getBlock: Block,
+  getBlock: SignedBlock,
   value: string
 };
 
@@ -33,7 +33,7 @@ class BlockByHash extends React.PureComponent<Props> {
       return null;
     }
 
-    const { header } = getBlock;
+    const { block: { header } } = getBlock;
 
     // TODO Remove, debug info for reverse-engineering
     console.log(prettyJson(getBlock));
@@ -52,7 +52,7 @@ class BlockByHash extends React.PureComponent<Props> {
 
   private renderExtrinsics () {
     const { getBlock, t, value } = this.props;
-    const { extrinsics } = getBlock;
+    const { block: { extrinsics } } = getBlock;
 
     return (
       <section key='extrinsics'>
@@ -102,14 +102,14 @@ class BlockByHash extends React.PureComponent<Props> {
           defaultValue: 'justifications'
         })}</h1>
         <div className='explorer--BlockByHash-flexable'>
-          {justification.signatures.map(({ address, signature }) => (
+          {justification.signatures.map(({ authorityId, signature }) => (
             <div
               className='explorer--BlockByHash-justification-signature'
-              key={`${value}:justification:${address}`}
+              key={`${value}:justification:${authorityId}`}
             >
-              <AddressMini value={address}>
+              <AddressMini value={authorityId.toString()}>
                 <span>
-                  {u8aToHex(signature, 64)}
+                  {signature.toHex()}
                 </span>
               </AddressMini>
             </div>
