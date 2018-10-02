@@ -18,28 +18,28 @@ export default function createOptions (sectionName: string): DropdownOptions {
   return Object
     .keys(section)
     .sort()
-    .map((name) => {
-      const method = section[name];
+    .map((value) => {
+      const method = section[value];
       const inputs = params.map(({ name }) => name).join(', ');
 
       return {
         className: 'ui--DropdownLinked-Item',
-        key: `${sectionName}_${name}`,
+        key: `${sectionName}_${value}`,
         text: [
           <div
             className='ui--DropdownLinked-Item-call'
-            key={`${sectionName}_${name}:call`}
+            key={`${sectionName}_${value}:call`}
           >
-            {name}({inputs})
+            {value}({inputs})
           </div>,
           <div
             className='ui--DropdownLinked-Item-text'
-            key={`${sectionName}_${name}:text`}
+            key={`${sectionName}_${value}:text`}
           >
-            {method.meta.documentation.get(0).toString() || name}
+            {method.meta.documentation.get(0).toString() || value}
           </div>
         ],
-        value: name
+        value
       };
     });
 }

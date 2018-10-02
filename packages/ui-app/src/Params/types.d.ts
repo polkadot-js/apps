@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { TypeDef } from '@polkadot/types/codec';
 import { CodecTypes } from '@polkadot/types/types';
 import { BareProps } from '../types';
 
@@ -15,7 +16,6 @@ export type RawParam$Values = RawParam$Value | RawParam$ValueArray;
 
 export type RawParam = {
   isValid: boolean,
-  type: CodecTypes,
   value: RawParam$Values,
 }
 
@@ -26,8 +26,9 @@ export type RawParams = Array<RawParam>;
 
 export type BaseProps = BareProps & {
   defaultValue: RawParam,
-  name: string,
-  onChange?: RawParam$OnChange
+  name?: string,
+  onChange?: RawParam$OnChange,
+  type: TypeDef
 };
 
 export type Props = BaseProps & {

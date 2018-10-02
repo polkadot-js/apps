@@ -27,8 +27,8 @@ type Props = I18nProps & {
 type State = {
   isValid: boolean,
   key: StorageFunction,
-  params: RawParams,
-  type: null | TypeDef
+  values: RawParams,
+  params: Array<{ type: TypeDef }>
 };
 
 const defaultValue = storage.timestamp.now;
@@ -38,13 +38,13 @@ class Selection extends React.PureComponent<Props, State> {
   state: State = {
     isValid: true,
     key: defaultValue,
-    params: [],
-    type: null
+    values: [],
+    params: []
   };
 
   render () {
     const { t } = this.props;
-    const { isValid, type } = this.state;
+    const { isValid, params } = this.state;
 
     return (
       <section className='storage--Selection storage--actionrow'>
@@ -58,7 +58,7 @@ class Selection extends React.PureComponent<Props, State> {
           />
           <Params
             onChange={this.onChangeParams}
-            type={type}
+            params={params}
           />
         </div>
         <Labelled className='storage--actionrow-button'>
@@ -76,24 +76,24 @@ class Selection extends React.PureComponent<Props, State> {
   private nextState (newState: State): void {
     this.setState(
       (prevState: State) => {
-        const { key = prevState.key, params = prevState.params } = newState;
+        const { key = prevState.key, values = prevState.values } = newState;
         const hasParam = key.meta.type.isMap;
-        const isValid = params.length === (hasParam ? 1 : 0) &&
-          params.reduce((isValid, param) =>
+        const isValid = values.length === (hasParam ? 1 : 0) &&
+          values.reduce((isValid, value) =>
             isValid &&
-            !isUndefined(param) &&
-            !isUndefined(param.value) &&
-            param.isValid,
+            !isUndefined(value) &&
+            !isUndefined(value.value) &&
+            value.isValid,
             true
           );
 
         return {
           isValid,
           key,
-          params,
-          type: hasParam
-            ? getTypeDef(key.meta.type.asMap.key.toString())
-            : null
+          values,
+          params: hasParam
+            ? [{ type: getTypeDef(key.meta.type.asMap.key.toString()) }]
+            : []
         };
       }
     );
@@ -101,12 +101,12 @@ class Selection extends React.PureComponent<Props, State> {
 
   private onAdd = (): void => {
     const { onAdd } = this.props;
-    const { key, params } = this.state;
+    const { key, values } = this.state;
 
     onAdd({
       id: ++id,
       key,
-      params
+      params: values
     });
   }
 
@@ -114,13 +114,13 @@ class Selection extends React.PureComponent<Props, State> {
     this.nextState({
       isValid: false,
       key,
-      params: [],
-      type: null
+      values: [],
+      params: []
     });
   }
 
-  private onChangeParams = (params: RawParams = []): void => {
-    this.nextState({ params } as State);
+  private onChangeParams = (values: RawParams = []): void => {
+    this.nextState({ values } as State);
   }
 }
 

@@ -18,8 +18,8 @@ export default function createOptions (sectionName: keyof typeof map): DropdownO
   return Object
     .keys(section)
     .sort()
-    .map((name) => {
-      const method = section[name];
+    .map((value) => {
+      const method = section[value];
       const type = method.meta.type;
       let input = type.isMap
         ? type.asMap.key.toString()
@@ -27,22 +27,22 @@ export default function createOptions (sectionName: keyof typeof map): DropdownO
 
       return {
         className: 'ui--DropdownLinked-Item',
-        key: `${sectionName}_${name}`,
+        key: `${sectionName}_${value}`,
         text: [
           <div
             className='ui--DropdownLinked-Item-call'
-            key={`${sectionName}_${name}:call`}
+            key={`${sectionName}_${value}:call`}
           >
-            {name}({input}): {type.toString()}
+            {value}({input}): {type.toString()}
           </div>,
           <div
             className='ui--DropdownLinked-Item-text'
-            key={`${sectionName}_${name}:text`}
+            key={`${sectionName}_${value}:text`}
           >
-            {method.meta.documentation.get(0).toString()}
+            {(method.meta.documentation.get(0) || method.meta.name).toString()}
           </div>
         ],
-        value: name
+        value
       };
     });
 }

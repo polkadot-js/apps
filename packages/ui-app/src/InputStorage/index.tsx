@@ -84,7 +84,7 @@ class InputStorage extends React.PureComponent<Props, State> {
     const { onChange } = this.props;
     const { value } = this.state;
 
-    if (value.section === newValue.section && value.name === newValue.name) {
+    if (value.section === newValue.section && value.method === newValue.method) {
       return;
     }
 

@@ -18,33 +18,33 @@ export default function createOptions (sectionName: string): DropdownOptions {
   return Object
     .keys(section)
     .sort()
-    .filter((name) => {
-      const { isDeprecated, isHidden, isSubscription } = section[name];
+    .filter((value) => {
+      const { isDeprecated, isHidden, isSubscription } = section[value];
 
       return !isDeprecated && !isHidden && !isSubscription;
     })
-    .map((name) => {
-      const { description, params } = section[name];
+    .map((value) => {
+      const { description, params } = section[value];
       const inputs = params.map(({ name }) => name).join(', ');
 
       return {
         className: 'ui--DropdownLinked-Item',
-        key: `${sectionName}_${name}`,
+        key: `${sectionName}_${value}`,
         text: [
           <div
             className='ui--DropdownLinked-Item-call'
-            key={`${sectionName}_${name}:call`}
+            key={`${sectionName}_${value}:call`}
           >
-            {name}({inputs})
+            {value}({inputs})
           </div>,
           <div
             className='ui--DropdownLinked-Item-text'
-            key={`${sectionName}_${name}:text`}
+            key={`${sectionName}_${value}:text`}
           >
-            {description || name}
+            {description || value}
           </div>
         ],
-        value: name
+        value
       };
     });
 }

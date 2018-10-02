@@ -7,8 +7,6 @@ import { BaseProps, Props as ComponentProps, ComponentMap } from '../types';
 
 import React from 'react';
 
-import typeToString from '@polkadot/params/typeToString';
-
 import classes from '../../util/classes';
 import translate from '../../translate';
 import findComponent from './findComponent';
@@ -27,11 +25,11 @@ class ParamComponent extends React.PureComponent<Props, State> {
     Component: null
   };
 
-  static getDerivedStateFromProps ({ defaultValue: { type }, isDisabled, overrides }: Props): State {
+  static getDerivedStateFromProps ({ overrides, type }: Props): State {
     return {
       Component: !type
         ? null
-        : findComponent(type, overrides, isDisabled)
+        : findComponent(type, overrides)
     } as State;
   }
 
@@ -42,8 +40,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { className, defaultValue, isDisabled, name, onChange, style } = this.props;
-    const type = typeToString(defaultValue.type);
+    const { className, defaultValue, isDisabled, name, onChange, style, type } = this.props;
 
     return (
       <Component
@@ -51,10 +48,15 @@ class ParamComponent extends React.PureComponent<Props, State> {
         defaultValue={defaultValue}
         key={`${name}:${type}`}
         isDisabled={isDisabled}
-        label={`${name}: ${type}`}
+        label={
+          name
+            ? `${name}: ${type.type}`
+            : type.type
+        }
         name={name}
         onChange={onChange}
         style={style}
+        type={type}
       />
     );
   }
