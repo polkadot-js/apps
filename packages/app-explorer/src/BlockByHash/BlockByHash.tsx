@@ -14,7 +14,6 @@ import { SignedBlock } from '@polkadot/types';
 import prettyJson from '@polkadot/ui-app/util/prettyJson';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import isHex from '@polkadot/util/is/hex';
-import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import BlockHeader from '../BlockHeader';
 import translate from '../translate';

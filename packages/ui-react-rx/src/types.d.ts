@@ -6,10 +6,7 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { ProviderInterface } from '@polkadot/api-provider/types';
 import { RxApiInterface, RxApiInterface$Method } from '@polkadot/api-rx/types';
-import { Interfaces } from '@polkadot/jsonrpc/types';
-import { EncodingVersions, SectionItem } from '@polkadot/params/types';
 import { Header } from '@polkadot/types';
-import { Storages, Storage$Key$Value } from '@polkadot/storage/types';
 
 import ApiObservable from './ApiObservable';
 
@@ -25,7 +22,7 @@ export type ApiProps = {
     [index: string]: boolean
   },
   apiObservable: ApiObservable,
-  apiSupport: EncodingVersions,
+  apiSupport: 'latest',
   setApi: (api: RxApiInterface) => void,
   setApiProvider: (provider?: ProviderInterface) => void,
   setApiWsUrl: (url?: string) => void
@@ -41,7 +38,7 @@ export type ChangeProps<T> = {
 };
 
 export type ParamProps = {
-  params?: Array<Storage$Key$Value>
+  params?: Array<any>
 };
 
 export type RxProps<T> = {
