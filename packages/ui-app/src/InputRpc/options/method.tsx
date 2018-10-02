@@ -2,14 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Interface$Sections } from '@polkadot/jsonrpc/types';
 import { DropdownOptions } from '../../util/types';
 
 import React from 'react';
 
 import map from '@polkadot/jsonrpc';
 
-export default function createOptions (sectionName: Interface$Sections): DropdownOptions {
+export default function createOptions (sectionName: string): DropdownOptions {
   const section = map[sectionName];
 
   if (!section) {
@@ -17,15 +16,15 @@ export default function createOptions (sectionName: Interface$Sections): Dropdow
   }
 
   return Object
-    .keys(section.public)
+    .keys(section)
     .sort()
     .filter((name) => {
-      const { isDeprecated, isHidden, isSubscription } = section.public[name];
+      const { isDeprecated, isHidden, isSubscription } = section[name];
 
       return !isDeprecated && !isHidden && !isSubscription;
     })
     .map((name) => {
-      const { description, params } = section.public[name];
+      const { description, params } = section[name];
       const inputs = params.map(({ name }) => name).join(', ');
 
       return {
