@@ -18,7 +18,7 @@ import Item from './Item';
 import translate from './translate';
 
 type Props = I18nProps & {
-  democracyProposalDeposits?: RxProposalDeposits,
+  proposalDeposits?: RxProposalDeposits,
   idNumber: BN,
   value: RxProposal
 };
@@ -39,13 +39,13 @@ class Proposal extends React.PureComponent<Props> {
   }
 
   private renderExtra () {
-    const { democracyProposalDeposits, t } = this.props;
+    const { proposalDeposits, t } = this.props;
 
-    if (!democracyProposalDeposits) {
+    if (!proposalDeposits) {
       return null;
     }
 
-    const { balance, addresses } = democracyProposalDeposits;
+    const { balance, addresses } = proposalDeposits;
 
     return (
       <div className='democracy--Proposal-info'>
@@ -79,5 +79,5 @@ class Proposal extends React.PureComponent<Props> {
 export default withMulti(
   Proposal,
   translate,
-  withObservable('democracyProposalDeposits', { paramProp: 'idNumber' })
+  withObservable('proposalDeposits', { paramProp: 'idNumber' })
 );

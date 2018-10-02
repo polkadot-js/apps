@@ -44,7 +44,7 @@ export default class ApiQueries extends ApiBase {
     return this.rawStorage(storage.democracy.nextTally);
   }
 
-  democracyProposalDeposits = (proposalId: PropIndex | BN | number): Observable<RxProposalDeposits | undefined> => {
+  proposalDeposits = (proposalId: PropIndex | BN | number): Observable<RxProposalDeposits | undefined> => {
     return this
       .rawStorage(storage.democracy.depositOf, proposalId)
       .pipe(
@@ -93,11 +93,11 @@ export default class ApiQueries extends ApiBase {
       );
   }
 
-  democacyVoteOf = (index: ReferendumIndex | BN | number, address: AccountId | string): Observable<Bool | undefined> => {
+  referendumVote = (index: ReferendumIndex | BN | number, address: AccountId | string): Observable<Bool | undefined> => {
     return this.rawStorage(storage.democracy.voteOf, index, address);
   }
 
-  democacyVotersFor = (index: ReferendumIndex | BN | number): Observable<Array<AccountId>> => {
+  referendumVoters = (index: ReferendumIndex | BN | number): Observable<Array<AccountId>> => {
     return this
       .rawStorage(storage.democracy.votersFor, index)
       .pipe(

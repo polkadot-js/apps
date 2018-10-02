@@ -107,6 +107,5 @@ export default withMulti(
   withObservable('eraBlockLength'),
   withObservable('eraBlockProgress'),
   withObservable('sessionBlockProgress'),
-  withObservable('sessionBrokenValue'),
   withObservable('sessionLength')
 );

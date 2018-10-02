@@ -42,7 +42,7 @@ export default class ApiCombined extends ApiCalls {
   democracyReferendumVoters = (referendumId: ReferendumIndex | BN | number): Observable<Array<RxReferendumVote>> => {
     return this.combine(
       [
-        this.democacyVotersFor(referendumId),
+        this.referendumVoters(referendumId),
         this.democracyVotersBalancesOf(referendumId),
         this.democracyVotersVotesOf(referendumId)
       ],
@@ -76,17 +76,17 @@ export default class ApiCombined extends ApiCalls {
     );
   }
 
-  democracyVotesOf = (index: ReferendumIndex | BN | number, addresses: Array<AccountId | string>): Observable<boolean> => {
+  referendumVotes = (index: ReferendumIndex | BN | number, addresses: Array<AccountId | string>): Observable<boolean> => {
     return this.combine(
       addresses.map((address) =>
-        this.democacyVoteOf(index, address)
+        this.referendumVote(index, address)
       )
     );
   }
 
   democracyVotersBalancesOf = (referendumId: ReferendumIndex | BN | number): Observable<Array<Balance>> => {
     return this
-      .democacyVotersFor(referendumId)
+      .referendumVoters(referendumId)
       .pipe(
         switchMap((voters: Array<AccountId> = []) =>
           this.votingBalances(...voters)
@@ -102,10 +102,10 @@ export default class ApiCombined extends ApiCalls {
 
   democracyVotersVotesOf = (referendumId: ReferendumIndex | BN | number): Observable<Array<Bool>> => {
     return this
-      .democacyVotersFor(referendumId)
+      .referendumVoters(referendumId)
       .pipe(
         switchMap((voters: Array<AccountId> = []) =>
-          this.democracyVotesOf(referendumId, voters)
+          this.referendumVotes(referendumId, voters)
         ),
         defaultIfEmpty([] as any)
       );
