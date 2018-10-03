@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-identicon",
-  "version": "0.20.23",
+  "version": "0.20.24",
   "description": "Renders an SVG picture representing an address",
   "main": "index.js",
   "scripts": {
