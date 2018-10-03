@@ -165,18 +165,18 @@ class Creator extends React.PureComponent<Props, State> {
       <Modal.Actions>
         <Button.Group>
           <Button
-            isPrimary
-            onClick={this.onCommit}
-            text={t('seedWarning.continue', {
-              defaultValue: 'Continue'
-            })}
-          />
-          <Button.Or />
-          <Button
             isNegative
             onClick={this.onHideWarning}
             text={t('seedWarning.cancel', {
               defaultValue: 'Cancel'
+            })}
+          />
+          <Button.Or />
+          <Button
+            isPrimary
+            onClick={this.onCommit}
+            text={t('seedWarning.continue', {
+              defaultValue: 'Continue'
             })}
           />
         </Button.Group>
