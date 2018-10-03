@@ -32,8 +32,7 @@ type State = {
   values: Array<RawParam>
 };
 
-// @ts-ignore This is horrible, would like _some_ help from TS
-const defaultMethod = rpc.author.submitExtrinsic;
+const defaultMethod = rpc.author.methods.submitExtrinsic;
 
 class Selection extends React.PureComponent<Props, State> {
   state: State = {

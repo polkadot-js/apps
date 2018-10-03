@@ -42,5 +42,5 @@ export type Props = BaseProps & {
 export type Size = 'full' | 'large' | 'medium' | 'small';
 
 export type ComponentMap = {
-  [index: string]: React.ComponentType<Props> | [React.ComponentType<Props>, React.ComponentType<Props>]
+  [index: string]: React.ComponentType<Props>
 };

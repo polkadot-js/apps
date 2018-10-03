@@ -34,7 +34,7 @@ const components: ComponentMap = {
   'Index': Amount,
   'KeyValue': StorageKeyValue,
   'StorageKeyValue': StorageKeyValue,
-  'StorageKeyValue[]': StorageKeyValueArray,
+  'Vec<StorageKeyValue>': StorageKeyValueArray,
   'MisbehaviorReport': Unknown,
   'ParachainId': Amount,
   'PropIndex': Amount,
@@ -50,19 +50,13 @@ const components: ComponentMap = {
   'VoteThreshold': VoteThreshold
 };
 
-function getFromMap (type: TypeDef, overrides: ComponentMap): React.ComponentType<Props> | [React.ComponentType<Props>, React.ComponentType<Props>] {
+export default function findComponent ({ info, type }: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
+  const component = overrides[type] || components[type];
+
   // FIXME We still don't support either structure or Vector inputs
-  if (type.info !== TypeDefInfo.Plain) {
+  if (!component && info !== TypeDefInfo.Plain) {
     return Unknown;
   }
 
-  return overrides[type.type] || components[type.type] || Unknown;
-}
-
-export default function findComponent (type: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
-  const component = getFromMap(type, overrides);
-
-  return Array.isArray(component)
-    ? component[0]
-    : component;
+  return component || Unknown;
 }

@@ -31,9 +31,9 @@ class SelectMethod extends React.PureComponent<Props> {
       return null;
     }
 
-    const transform = (name: string): Method =>
+    const transform = (method: string): Method =>
       // @ts-ignore This whole map -> section.method typing...
-      map[value.section][name];
+      map[value.section].methods[method];
 
     return (
       <Dropdown
@@ -46,7 +46,7 @@ class SelectMethod extends React.PureComponent<Props> {
         options={options}
         style={style}
         transform={transform}
-        value={name}
+        value={value.method}
         withLabel={withLabel}
       />
     );

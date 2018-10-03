@@ -16,15 +16,15 @@ export default function createOptions (sectionName: string): DropdownOptions {
   }
 
   return Object
-    .keys(section)
+    .keys(section.methods)
     .sort()
     .filter((value) => {
-      const { isDeprecated, isHidden, isSubscription } = section[value];
+      const { isDeprecated, isHidden, isSubscription } = section.methods[value];
 
       return !isDeprecated && !isHidden && !isSubscription;
     })
     .map((value) => {
-      const { description, params } = section[value];
+      const { description, params } = section.methods[value];
       const inputs = params.map(({ name }) => name).join(', ');
 
       return {

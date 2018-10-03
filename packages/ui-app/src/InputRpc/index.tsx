@@ -11,7 +11,6 @@ import { I18nProps } from '../types';
 import '../InputExtrinsic/InputExtrinsic.css';
 
 import React from 'react';
-
 import map from '@polkadot/jsonrpc';
 
 import classes from '../util/classes';
@@ -93,7 +92,7 @@ class InputRpc extends React.PureComponent<Props, State> {
     );
   }
 
-  private onSectionChange = (newSection: string): void => {
+  private onSectionChange = (newSection: keyof typeof map): void => {
     const { value } = this.state;
 
     if (newSection === value.section) {
@@ -101,8 +100,7 @@ class InputRpc extends React.PureComponent<Props, State> {
     }
 
     const optionsMethod = methodOptions(newSection);
-    // @ts-ignore this really should not compalin, indexes incorrect
-    const newValue = map[newSection][optionsMethod[0].value];
+    const newValue = map[newSection].methods[optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
       this.onMethodChange(newValue)
