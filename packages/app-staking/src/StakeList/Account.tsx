@@ -115,18 +115,13 @@ class Account extends React.PureComponent<Props, State> {
       return null;
     }
 
-    return (
-      <div className='ui--Nominators'>
-        {stakingNominatorsFor.map((nominator) => (
-          <AddressMini
-            isPadded={false}
-            key={nominator}
-            value={nominator}
-            withBalance
-          />
-        ))}
-      </div>
-    );
+    return stakingNominatorsFor.map((nominator) => (
+      <AddressMini
+        key={nominator}
+        value={nominator}
+        withBalance
+      />
+    ));
   }
 
   private renderButtons () {

@@ -33,7 +33,7 @@ class CurrentList extends React.PureComponent<Props> {
     );
   }
 
-  private renderAddress (address) {
+  private renderAddress (address: string) {
     if (keyring.getAccounts()) {
       let pair = keyring.getAccounts().map(account => account.getMeta().name);
       return pair;
