@@ -5,19 +5,15 @@
 import { Props } from '@polkadot/ui-app/Params/types';
 
 import React from 'react';
-
-// FIXME
-// import extrinsics from '@polkadot/extrinsics';
+import Api from '@polkadot/api-observable';
 
 import Extrinsic from './Extrinsic';
-
-const defaultValue = void 0; // extrinsics.staking.public.transfer;
 
 export default function Call ({ className, isDisabled, isError, label, onChange, style, withLabel }: Props) {
   return (
     <Extrinsic
       className={className}
-      defaultValue={defaultValue}
+      defaultValue={Api.extrinsics.balances.transfer}
       isDisabled={isDisabled}
       isError={isError}
       isPrivate={false}

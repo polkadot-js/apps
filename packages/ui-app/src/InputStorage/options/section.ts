@@ -4,12 +4,11 @@
 
 import { DropdownOptions } from '../../util/types';
 
-// FIXME Swap to dynamic via fromMetadata
-import map from '@polkadot/storage/static';
+import Api from '@polkadot/api-observable';
 
 export default function createOptions (): DropdownOptions {
   return Object
-    .keys(map)
+    .keys(Api.storage)
     .sort()
     .map((name) => ({
       text: name,

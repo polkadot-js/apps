@@ -4,11 +4,11 @@
 
 import { DropdownOptions } from '../../util/types';
 
-import map from '@polkadot/extrinsics';
+import Api from '@polkadot/api-observable';
 
 export default function createOptions (): DropdownOptions {
   return Object
-    .keys(map)
+    .keys(Api.extrinsics)
     .sort()
     .map((name) => ({
       text: name,

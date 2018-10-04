@@ -2,14 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { SectionItem } from '@polkadot/params/types';
-import { Extrinsics, Extrinsic$Sections } from '@polkadot/extrinsics/types';
+import { Extrinsics } from '@polkadot/extrinsics/types';
 import { I18nProps } from '../types';
-import { DropdownOptions, SectionVisibilityAll } from '../util/types';
+import { DropdownOptions } from '../util/types';
 
 import React from 'react';
-
-import extrinsics from '@polkadot/extrinsics';
+import Api from '@polkadot/api-observable';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
@@ -20,7 +18,6 @@ type Props = I18nProps & {
   label?: string,
   onChange: (value: SectionItem<Extrinsics>) => void,
   options: DropdownOptions,
-  type: SectionVisibilityAll,
   value: SectionItem<Extrinsics>,
   withLabel?: boolean
 };
@@ -29,14 +26,14 @@ type Props = I18nProps & {
 class SelectMethod extends React.PureComponent<Props> {
 
   render () {
-    const { className, isError, label = '', onChange, options, style, t, type, value: { name, section }, withLabel } = this.props;
+    const { className, isError, label = '', onChange, options, style, t, value: { name, section }, withLabel } = this.props;
 
     if (!options.length) {
       return null;
     }
 
     const transform = (name: Extrinsic$Sections): SectionItem<Extrinsics> =>
-      extrinsics[section][type][name];
+      Api.extrinsics[section][name];
 
     return (
         <Dropdown

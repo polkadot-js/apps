@@ -10,7 +10,7 @@ import { DropdownOptions } from '../util/types';
 import './InputExtrinsic.css';
 
 import React from 'react';
-import map from '@polkadot/extrinsics';
+import Api from '@polkadot/api-observable';
 
 import classes from '../util/classes';
 import translate from '../translate';
@@ -33,7 +33,6 @@ type Props = I18nProps & {
 type State = {
   optionsMethod: DropdownOptions,
   optionsSection: DropdownOptions,
-  type: SectionVisibilityAll,
   value: SectionItem<Extrinsics>
 };
 
@@ -48,23 +47,17 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  static getDerivedStateFromProps ({ isPrivate = false }: Props, { type, value: { section } }: State): State | null {
-    const newType = isPrivate ? 'private' : 'public';
-
-    if (newType === type) {
-      return null;
-    }
-
+  static getDerivedStateFromProps ({ isPrivate = false }: Props, { value: { section } }: State): State | null {
     return {
-      optionsMethod: methodOptions(section, newType),
-      optionsSection: sectionOptions(newType),
+      optionsMethod: methodOptions(section),
+      optionsSection: sectionOptions(),
       type: newType
     } as State;
   }
 
   render () {
     const { className, labelMethod, labelSection, style, withLabel } = this.props;
-    const { optionsMethod, optionsSection, type, value } = this.state;
+    const { optionsMethod, optionsSection, value } = this.state;
 
     return (
       <div
@@ -85,7 +78,6 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
           onChange={this.onKeyChange}
           options={optionsMethod}
           value={value}
-          type={type}
           withLabel={withLabel}
         />
       </div>
@@ -106,14 +98,14 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
   }
 
   onSectionChange = (newSection: Extrinsic$Sections): void => {
-    const { type, value: { section } } = this.state;
+    const { value: { section } } = this.state;
 
     if (newSection === section) {
       return;
     }
 
-    const optionsMethod = methodOptions(newSection, type);
-    const value = map[newSection][type][optionsMethod[0].value];
+    const optionsMethod = methodOptions(newSection);
+    const value = Api.extrinsics[newSection][optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
       this.onKeyChange(value)

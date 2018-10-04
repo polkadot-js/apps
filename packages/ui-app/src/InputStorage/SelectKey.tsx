@@ -6,9 +6,8 @@ import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 
 import React from 'react';
+import Api from '@polkadot/api-observable';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-// FIXME These should be created dynamically created via fromMetadata (storage)
-import map from '@polkadot/storage/static';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
@@ -32,7 +31,7 @@ class SelectKey extends React.PureComponent<Props> {
     }
 
     const transform = (method: string): StorageFunction =>
-      map[value.section][method];
+      Api.storage[value.section][method];
 
     return (
       <Dropdown

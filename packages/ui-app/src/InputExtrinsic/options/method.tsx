@@ -5,11 +5,10 @@
 import { DropdownOptions } from '../../util/types';
 
 import React from 'react';
-
-import map from '@polkadot/extrinsics';
+import Api from '@polkadot/api-observable';
 
 export default function createOptions (sectionName: string): DropdownOptions {
-  const section = map[sectionName];
+  const section = Api.extrinsics[sectionName];
 
   if (!section) {
     return [];

@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { SectionItem } from '@polkadot/params/types';
-import { Extrinsics, Extrinsic$Sections } from '@polkadot/extrinsics/types';
+import { Extrinsics } from '@polkadot/extrinsics/types';
 import { I18nProps } from '../types';
 import { DropdownOptions } from '../util/types';
 

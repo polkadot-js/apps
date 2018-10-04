@@ -4,14 +4,10 @@
 
 import BN from 'bn.js';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { EncodedMessage, QueueTx$MessageAdd } from '@polkadot/ui-signer/types';
+import { QueueTx$MessageAdd } from '@polkadot/ui-signer/types';
 
 import React from 'react';
-
-// FIXME
-// import extrinsics from '@polkadot/extrinsics';
-// FIXME
-// import rpc from '@polkadot/jsonrpc';
+import Api from '@polkadot/api-observable';
 import Button from '@polkadot/ui-app/Button';
 
 import Account from './Account';
@@ -29,11 +25,6 @@ type State = {
   accountNonce: BN,
   publicKey: Uint8Array
 };
-
-// FIXME
-const defaultExtrinsic = void 0; // extrinsics.staking.public.transfer;
-// FIXME
-const defaultRpc = void 0; // rpc.author.submitExtrinsic;
 
 class Selection extends React.PureComponent<Props, State> {
   state: State = {
@@ -55,7 +46,7 @@ class Selection extends React.PureComponent<Props, State> {
           type='account'
         />
         <Extrinsic
-          defaultValue={defaultExtrinsic}
+          defaultValue={Api.extrinsics.balances.transfer}
           labelMethod={t('display.method', {
             defaultValue: 'submit the following extrinsic'
           })}
@@ -85,7 +76,7 @@ class Selection extends React.PureComponent<Props, State> {
   nextState (newState: State): void {
     this.setState(
       (prevState: State): State => {
-        const { encoded = prevState.encoded, nonce = prevState.nonce, publicKey = prevState.publicKey } = newState;
+        const { encoded = prevState.encoded, accountNonce = prevState.accountNonce, publicKey = prevState.publicKey } = newState;
         const isValid = !!(
           publicKey &&
           publicKey.length &&
@@ -96,7 +87,7 @@ class Selection extends React.PureComponent<Props, State> {
         return {
           encoded,
           isValid,
-          nonce,
+          accountNonce,
           publicKey
         };
       }
@@ -108,7 +99,7 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   onChangeNonce = (accountNonce: BN = new BN(0)): void => {
-    this.nextState({ nonce } as State);
+    this.nextState({ accountNonce } as State);
   }
 
   onChangeSender = (publicKey: Uint8Array): void => {
@@ -117,13 +108,12 @@ class Selection extends React.PureComponent<Props, State> {
 
   onQueue = (): void => {
     const { queueAdd } = this.props;
-    const { encoded: { isValid, values }, nonce, publicKey } = this.state;
+    const { encoded: { isValid, values }, accountNonce, publicKey } = this.state;
 
     queueAdd({
       isValid,
       nonce,
       publicKey,
-      rpc: defaultRpc,
       values
     });
   }

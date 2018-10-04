@@ -5,11 +5,10 @@
 import { DropdownOptions } from '../../util/types';
 
 import React from 'react';
-// FIXME Swap to dynamic via fromMetadata
-import map from '@polkadot/storage/static';
+import Api from '@polkadot/api-observable';
 
-export default function createOptions (sectionName: keyof typeof map): DropdownOptions {
-  const section = map[sectionName];
+export default function createOptions (sectionName: keyof typeof Api.storage): DropdownOptions {
+  const section = Api.storage[sectionName];
 
   if (!section) {
     return [];

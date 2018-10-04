@@ -11,8 +11,7 @@ import { I18nProps } from '../types';
 import '../InputExtrinsic/InputExtrinsic.css';
 
 import React from 'react';
-// FIXME Swap to dynamic via fromMetadata
-import map from '@polkadot/storage/static';
+import Api from '@polkadot/api-observable';
 
 import classes from '../util/classes';
 import translate from '../translate';
@@ -101,7 +100,7 @@ class InputStorage extends React.PureComponent<Props, State> {
     }
 
     const optionsMethod = keyOptions(newSection);
-    const newValue = map[newSection][optionsMethod[0].value];
+    const newValue = Api.storage[newSection][optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
       this.onKeyChange(newValue)

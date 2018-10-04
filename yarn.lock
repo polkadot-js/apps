@@ -1348,6 +1348,16 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.0.tgz#50c1e2260ac0ed9439a181de3725a0168d59c48a"
 
+"@polkadot/api-observable@^0.30.21":
+  version "0.30.21"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-observable/-/api-observable-0.30.21.tgz#b89269888ed88215033032503721bc19a74e378e"
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    "@polkadot/api" "^0.30.21"
+    "@polkadot/api-provider" "^0.30.21"
+    "@types/rx" "^4.1.1"
+    rxjs "^6.3.2"
+
 "@polkadot/api-provider@^0.30.21":
   version "0.30.21"
   resolved "https://registry.yarnpkg.com/@polkadot/api-provider/-/api-provider-0.30.21.tgz#55f2b44ddf6f40937a2f3e1383d1fa86da03ed55"

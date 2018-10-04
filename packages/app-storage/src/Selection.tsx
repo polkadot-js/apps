@@ -9,9 +9,7 @@ import { RawParams } from '@polkadot/ui-app/Params/types';
 import { StorageQuery } from './types';
 
 import React from 'react';
-
-// FIXME Swap to dynamic via fromMetadata
-import storage from '@polkadot/storage/static';
+import Api from '@polkadot/api-observable';
 import Button from '@polkadot/ui-app/Button';
 import InputStorage from '@polkadot/ui-app/InputStorage';
 import Labelled from '@polkadot/ui-app/Labelled';
@@ -31,16 +29,23 @@ type State = {
   params: Array<{ type: TypeDef }>
 };
 
-const defaultValue = storage.timestamp.now;
 let id = -1;
 
 class Selection extends React.PureComponent<Props, State> {
-  state: State = {
-    isValid: true,
-    key: defaultValue,
-    values: [],
-    params: []
-  };
+  private defaultValue: any;
+  state: State;
+
+  constructor (props: Props) {
+    super(props);
+
+    this.defaultValue = Api.storage.timestamp.now;
+    this.state = {
+      isValid: true,
+      key: this.defaultValue,
+      values: [],
+      params: []
+    };
+  }
 
   render () {
     const { t } = this.props;
@@ -50,7 +55,7 @@ class Selection extends React.PureComponent<Props, State> {
       <section className='storage--Selection storage--actionrow'>
         <div className='storage--actionrow-value'>
           <InputStorage
-            defaultValue={defaultValue}
+            defaultValue={this.defaultValue}
             labelSection={t('selection.section', {
               defaultValue: 'query state section'
             })}

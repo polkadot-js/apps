@@ -10,9 +10,6 @@ import { RawParam } from '@polkadot/ui-app/Params/types';
 import { EncodedMessage } from '@polkadot/ui-signer/types';
 
 import React from 'react';
-
-// FIXME
-// import encode from '@polkadot/extrinsics/codec/encode/extrinsic';
 import InputExtrinsic from '@polkadot/ui-app/InputExtrinsic';
 import Params from '@polkadot/ui-app/Params';
 import isUndefined from '@polkadot/util/is/undefined';

@@ -7,7 +7,7 @@ import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import extrinsics from '@polkadot/extrinsics';
+import Api from '@polkadot/api-observable';
 import Button from '@polkadot/ui-app/Button';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
@@ -56,7 +56,7 @@ class VotingButton extends React.PureComponent<Props> {
     }
 
     queueExtrinsic({
-      extrinsic: extrinsics.democracy.vote,
+      extrinsic: Api.extrinsics.democracy.vote,
       accountNonce,
       publicKey,
       values: [referendumId, vote]
