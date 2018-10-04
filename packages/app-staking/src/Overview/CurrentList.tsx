@@ -9,6 +9,7 @@ import BN from 'bn.js';
 import React from 'react';
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import AddressRow from '@polkadot/ui-app/AddressRow';
+import keyring from '@polkadot/ui-keyring/index';
 
 import translate from '../translate';
 
@@ -30,6 +31,18 @@ class CurrentList extends React.PureComponent<Props> {
         </div>
       </div>
     );
+  }
+
+  private renderAddress (address) {
+    if (keyring.getAccounts()) {
+      let pair = keyring.getAccounts().map(account => account.getMeta().name);
+      return pair;
+    } else if (keyring.getAddress(address)) {
+      let pair = keyring.getAddress(address);
+      return pair.getMeta().name;
+    } else {
+      return address;
+    }
   }
 
   private renderCurrent () {
@@ -77,11 +90,13 @@ class CurrentList extends React.PureComponent<Props> {
         {addresses.map((address) => {
           const nominators = (balances[address] || {}).nominators || [];
 
+          let addressName = this.renderAddress(address)[0];
+
           return (
             <AddressRow
               balance={this.balanceArray(address)}
               key={address}
-              name={name || defaultName}
+              name={addressName || defaultName}
               value={address}
               withCopy={false}
               withNonce={false}
