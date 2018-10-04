@@ -8,7 +8,7 @@ import { I18nProps } from '../types';
 import React from 'react';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 // FIXME These should be created dynamically created via fromMetadata (storage)
-import map from '@polkadot/storage/testing';
+import map from '@polkadot/storage/static';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';

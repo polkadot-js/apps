@@ -4,18 +4,18 @@
 
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
-import { QueueTx, QueueTx$MessageSetStatus } from './types';
+import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result } from './types';
 
 import React from 'react';
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
 import keyring from '@polkadot/ui-keyring/index';
 import withApi from '@polkadot/ui-react-rx/with/api';
+import { format } from '@polkadot/util/logger';
+import { UncheckedMortalExtrinsic } from '@polkadot/types';
 
 import Extrinsic from './Extrinsic';
 import Unlock from './Unlock';
-import signMessage from './sign';
-import submitMessage from './submit';
 import translate from './translate';
 
 type BaseProps = BareProps & {
@@ -72,7 +72,7 @@ class Signer extends React.PureComponent<Props, State> {
   async componentDidUpdate (prevProps: Props, prevState: State) {
     const { currentItem } = this.state;
 
-    if (currentItem && currentItem.status === 'queued' && currentItem.rpc.isSigned !== true) {
+    if (currentItem && currentItem.status === 'queued') {
       return this.sendItem(currentItem);
     }
   }
@@ -80,7 +80,7 @@ class Signer extends React.PureComponent<Props, State> {
   render () {
     const { currentItem } = this.state;
 
-    if (!currentItem || currentItem.rpc.isSigned !== true) {
+    if (!currentItem) {
       return null;
     }
 
@@ -96,9 +96,8 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  renderButtons () {
+  private renderButtons () {
     const { t } = this.props;
-    const { currentItem: { rpc: { isSigned = false } = {} } = {} } = this.state;
 
     return (
       <Modal.Actions>
@@ -119,13 +118,9 @@ class Signer extends React.PureComponent<Props, State> {
               onClick={this.onSend}
               tabIndex={2}
               text={
-                isSigned
-                  ? t('extrinsic.signedSend', {
-                    defaultValue: 'Sign and Submit'
-                  })
-                  : t('extrinsic.send', {
-                    defaultValue: 'Submit'
-                  })
+                t('extrinsic.signedSend', {
+                  defaultValue: 'Sign and Submit'
+                })
               }
             />
           </div>
@@ -134,7 +129,7 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  renderContent () {
+  private renderContent () {
     const { currentItem } = this.state;
 
     if (!currentItem) {
@@ -148,7 +143,7 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  renderUnlock () {
+  private renderUnlock () {
     const { t } = this.props;
     const { currentItem, password, unlockError } = this.state;
 
@@ -169,7 +164,7 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  unlockAccount (publicKey: Uint8Array, password?: string): UnlockI18n | null {
+  private unlockAccount (publicKey: Uint8Array, password?: string): UnlockI18n | null {
     const pair = keyring.getPair(publicKey);
 
     if (!pair.isLocked()) {
@@ -190,20 +185,20 @@ class Signer extends React.PureComponent<Props, State> {
     return null;
   }
 
-  onChangePassword = (password: string): void => {
+  private onChangePassword = (password: string): void => {
     this.setState({
       password,
       unlockError: null
     });
   }
 
-  onKeyDown = async (event: React.KeyboardEvent<Element>): Promise<any> => {
+  private onKeyDown = async (event: React.KeyboardEvent<Element>): Promise<any> => {
     if (event.key === 'Enter') {
       await this.onSend();
     }
   }
 
-  onCancel = (): void => {
+  private onCancel = (): void => {
     const { queueSetStatus } = this.props;
     const { currentItem } = this.state;
 
@@ -215,7 +210,7 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetStatus(currentItem.id, 'cancelled');
   }
 
-  onSend = async (): Promise<any> => {
+  private onSend = async (): Promise<any> => {
     const { currentItem, password } = this.state;
 
     // This should never be executed
@@ -226,8 +221,8 @@ class Signer extends React.PureComponent<Props, State> {
     return this.sendItem(currentItem, password);
   }
 
-  sendItem = async ({ id, accountNonce, publicKey, rpc, values }: QueueTx, password?: string): Promise<void> => {
-    if (rpc.isSigned === true && publicKey) {
+  private sendItem = async ({ extrinsic, id, accountNonce, publicKey }: QueueTx, password?: string): Promise<void> => {
+    if (publicKey) {
       const unlockError = this.unlockAccount(publicKey, password);
 
       if (unlockError) {
@@ -236,23 +231,47 @@ class Signer extends React.PureComponent<Props, State> {
       }
     }
 
-    const { api, apiSupport, queueSetStatus } = this.props;
+    const { apiObservable, queueSetStatus } = this.props;
 
     queueSetStatus(id, 'sending');
 
-    let data = values;
+    if (publicKey) {
+      const pair = keyring.getPair(publicKey);
 
-    if (rpc.isSigned === true && publicKey) {
-      data = [
-        signMessage(
-          publicKey, accountNonce, (data[0] as Uint8Array), apiSupport
-        ).data
-      ];
+      console.error('signing:', pair.address(), accountNonce.toString(), apiObservable.genesisHash.toHex());
+
+      extrinsic.sign(pair, accountNonce, apiObservable.genesisHash);
     }
 
-    const { error, result, status } = await submitMessage(api, data, rpc);
+    const { error, result, status } = await this.submitExtrinsic(extrinsic);
 
     queueSetStatus(id, status, result, error);
+  }
+
+  private async submitExtrinsic (extrinsic: UncheckedMortalExtrinsic): Promise<QueueTx$Result> {
+    const { apiObservable } = this.props;
+
+    try {
+      const encoded = extrinsic.toJSON();
+
+      console.log('submitExtrinsic: encode ::', encoded);
+
+      const result = await apiObservable.submitExtrinsic(extrinsic).toPromise();
+
+      console.log('submitExtrinsic: result ::', format(result));
+
+      return {
+        result,
+        status: 'sent'
+      };
+    } catch (error) {
+      console.error(error);
+
+      return {
+        error,
+        status: 'error'
+      };
+    }
   }
 }
 

@@ -3,24 +3,15 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-react-rx/types';
-import { QueueProps, QueueTx, QueueTx$Extrinsic, QueueTx$Base, QueueTx$Id, QueueTx$Status } from './types';
+import { QueueProps, QueueTx, QueueTx$Extrinsic, QueueTx$Id, QueueTx$Status } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import rpcs from '@polkadot/jsonrpc';
-import withApi from '@polkadot/ui-react-rx/with/api';
-// FIXME
-// import encode from '@polkadot/extrinsics/codec/encode/extrinsic';
-import isUndefined from '@polkadot/util/is/undefined';
 
 import { QueueProvider } from './Context';
 
-// @ts-ignore
-const rpc = rpcs.author.submitExtrinsic;
-
-export type Props = BareProps & ApiProps & {
-  children: any // node?
+export type Props = BareProps & {
+  children: React.ReactNode
 };
 
 type State = QueueProps;
@@ -31,7 +22,7 @@ const defaultState = {
 
 let nextId: QueueTx$Id = 0;
 
-class Queue extends React.Component<Props, State> {
+export default class Queue extends React.Component<Props, State> {
   state: State = defaultState;
 
   constructor (props: Props) {
@@ -80,7 +71,7 @@ class Queue extends React.Component<Props, State> {
     }
   }
 
-  queueAdd = (value: QueueTx$Base): QueueTx$Id => {
+  queueAdd = (value: QueueTx$Extrinsic): QueueTx$Id => {
     const id: QueueTx$Id = ++nextId;
 
     this.setState(
@@ -96,27 +87,11 @@ class Queue extends React.Component<Props, State> {
     return id;
   }
 
-  queueExtrinsic = ({ extrinsic, accountNonce, publicKey, values }: QueueTx$Extrinsic): QueueTx$Id => {
-    const { apiSupport } = this.props;
-    const params = Object.values(extrinsic.params);
-    const isValid = values.length === params.length &&
-      params.reduce((isValid, param, index) =>
-        isValid && !isUndefined(values[index]),
-        true
-      );
-    const encoded = isValid && extrinsic.params
-      // FIXME
-      ? new Uint8Array([]) // encode(extrinsic, values, apiSupport)
-      : new Uint8Array([]);
-
+  queueExtrinsic = ({ extrinsic, accountNonce = new BN(0), publicKey }: QueueTx$Extrinsic): QueueTx$Id => {
     return this.queueAdd({
-      isValid,
-      accountNonce: accountNonce || new BN(0),
-      publicKey,
-      rpc,
-      values: [encoded]
+      accountNonce,
+      extrinsic,
+      publicKey
     });
   }
 }
-
-export default withApi(Queue);

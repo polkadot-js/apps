@@ -11,7 +11,7 @@ import { StorageQuery } from './types';
 import React from 'react';
 
 // FIXME Swap to dynamic via fromMetadata
-import storage from '@polkadot/storage/testing';
+import storage from '@polkadot/storage/static';
 import Button from '@polkadot/ui-app/Button';
 import InputStorage from '@polkadot/ui-app/InputStorage';
 import Labelled from '@polkadot/ui-app/Labelled';

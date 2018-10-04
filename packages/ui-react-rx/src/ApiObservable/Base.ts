@@ -5,9 +5,14 @@
 import { RxApiInterface, RxApiInterface$Method, RxApiInterface$Section } from '@polkadot/api-rx/types';
 import { Method } from '@polkadot/jsonrpc/types';
 
-import { EMPTY, Observable, combineLatest } from 'rxjs';
+import { EMPTY, Observable, combineLatest, from } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
+import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
+import extrinsicsStatic from '@polkadot/extrinsics/static';
+import storageFromMeta from '@polkadot/storage/fromMetadata';
+import storageStatic from '@polkadot/storage/static';
 import { Vector } from '@polkadot/types/codec';
+import { Hash } from '@polkadot/types/index';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import assert from '@polkadot/util/assert';
 import isUndefined from '@polkadot/util/is/undefined';
@@ -20,10 +25,47 @@ const defaultMapFn = (result: any): any =>
 // Raw base implementation for the observable API. It simply provides access to raw calls, allowing
 // decendants to make direct queries to either API methods or actual storage
 export default class ApiBase {
-  protected api: RxApiInterface;
+  protected _api: RxApiInterface;
+  protected _genesisHash: Hash;
+
+  // Observable that returns the first time we are connected and loaded
+  whenReady: Observable<boolean>;
 
   constructor (api: RxApiInterface) {
-    this.api = api;
+    this._api = api;
+    this._genesisHash = new Hash();
+    this.whenReady = from(this.init());
+  }
+
+  static extrinsics = extrinsicsStatic;
+  static storage = storageStatic;
+
+  private init (): Promise<boolean> {
+    let isReady: boolean = false;
+
+    return new Promise((resolveReady) => {
+      // On connection, load data from chain
+      this.isConnected().subscribe(async (isConnected) => {
+        if (!isConnected) {
+          return;
+        }
+
+        try {
+          const meta = await this._api.state.getMetadata().toPromise();
+
+          this._genesisHash = await this._api.chain.getBlockHash(0).toPromise();
+          ApiBase.extrinsics = extrinsicsFromMeta(meta);
+          ApiBase.storage = storageFromMeta(meta);
+
+          if (!isReady) {
+            isReady = true;
+            resolveReady(true);
+          }
+        } catch (error) {
+          console.error('ApiBase:init:', error);
+        }
+      });
+    });
   }
 
   protected combine = <T, R> (observables: Array<Observable<any>>, mapfn: MapFn<R, T> = defaultMapFn): Observable<T> => {
@@ -33,12 +75,16 @@ export default class ApiBase {
     );
   }
 
+  get genesisHash (): Hash {
+    return this._genesisHash;
+  }
+
   isConnected = (): Observable<boolean> => {
-    return this.api.isConnected();
+    return this._api.isConnected();
   }
 
   rawCall = <T> ({ method, section }: Method, ...params: Array<any>): Observable<T> => {
-    const apiSection = this.api[section as keyof RxApiInterface] as RxApiInterface$Section;
+    const apiSection = this._api[section as keyof RxApiInterface] as RxApiInterface$Section;
 
     assert(apiSection, `Unable to find 'api.${section}'`);
 
@@ -65,7 +111,7 @@ export default class ApiBase {
     let observable;
 
     try {
-      observable = this.api.state.storage(keys);
+      observable = this._api.state.storage(keys);
     } catch (error) {
       observable = EMPTY;
     }

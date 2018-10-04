@@ -5,7 +5,7 @@
 import { DropdownOptions } from '../../util/types';
 
 // FIXME Swap to dynamic via fromMetadata
-import map from '@polkadot/storage/testing';
+import map from '@polkadot/storage/static';
 
 export default function createOptions (): DropdownOptions {
   return Object

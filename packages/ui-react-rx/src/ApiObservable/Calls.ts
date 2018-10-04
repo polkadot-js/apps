@@ -4,7 +4,7 @@
 
 import { Observable } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
-import { BlockNumber, Header, SignedBlock } from '@polkadot/types/index';
+import { BlockNumber, Hash, Header, SignedBlock, UncheckedMortalExtrinsic } from '@polkadot/types/index';
 
 import ApiQueries from './Queries';
 
@@ -23,24 +23,28 @@ export default class ApiCalls extends ApiQueries {
   }
 
   chain = (): Observable<Text | undefined> => {
-    return this.api.system.chain();
+    return this._api.system.chain();
   }
 
   getBlock = (hash: Uint8Array): Observable<SignedBlock | undefined> => {
-    return this.api.chain.getBlock(hash);
+    return this._api.chain.getBlock(hash);
   }
 
   newHead = (): Observable<Header | undefined> => {
-    return this.api.chain.newHead().pipe(
+    return this._api.chain.newHead().pipe(
       defaultIfEmpty()
     );
   }
 
   systemName = (): Observable<Text | undefined> => {
-    return this.api.system.name();
+    return this._api.system.name();
   }
 
   systemVersion = (): Observable<Text | undefined> => {
-    return this.api.system.version();
+    return this._api.system.version();
+  }
+
+  submitExtrinsic = (extrinsic: UncheckedMortalExtrinsic): Observable<Hash | undefined> => {
+    return this._api.author.submitExtrinsic(extrinsic.toU8a());
   }
 }

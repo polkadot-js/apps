@@ -8,8 +8,7 @@ import { QueueTx$Extrinsic, QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/typ
 import BN from 'bn.js';
 import React from 'react';
 import { Index } from '@polkadot/types';
-// FIXME
-// import extrinsics from '@polkadot/extrinsics';
+import extrinsics from '@polkadot/extrinsics/static';
 import Button from '@polkadot/ui-app/Button';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
@@ -47,11 +46,9 @@ class Submit extends React.PureComponent<Props> {
     const { accountNonce, amount, from, to, queueExtrinsic } = this.props;
 
     queueExtrinsic({
-      // FIXME
-      // extrinsic: extrinsics.staking.public.transfer,
+      extrinsic: extrinsics.balances.transfer(to, amount),
       accountNonce: accountNonce || new Index(0),
-      publicKey: from,
-      values: [to, amount]
+      publicKey: from
     } as QueueTx$Extrinsic);
   }
 }

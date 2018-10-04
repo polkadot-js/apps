@@ -12,7 +12,7 @@ import '../InputExtrinsic/InputExtrinsic.css';
 
 import React from 'react';
 // FIXME Swap to dynamic via fromMetadata
-import map from '@polkadot/storage/testing';
+import map from '@polkadot/storage/static';
 
 import classes from '../util/classes';
 import translate from '../translate';
