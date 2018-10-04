@@ -4,10 +4,8 @@
 
 // TODO: We have a lot shared between this and InputStorage
 
-import { SectionItem } from '@polkadot/params/types';
-import { Extrinsics, Extrinsic$Sections } from '@polkadot/extrinsics/types';
 import { I18nProps } from '../types';
-import { DropdownOptions, SectionVisibilityAll } from '../util/types';
+import { DropdownOptions } from '../util/types';
 
 import './InputExtrinsic.css';
 

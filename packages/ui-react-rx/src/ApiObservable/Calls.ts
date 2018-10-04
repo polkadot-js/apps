@@ -45,6 +45,6 @@ export default class ApiCalls extends ApiQueries {
   }
 
   submitExtrinsic = (extrinsic: UncheckedMortalExtrinsic): Observable<Hash | undefined> => {
-    return this._api.author.submitExtrinsic(extrinsic.toU8a());
+    return this._api.author.submitExtrinsic(extrinsic);
   }
 }
