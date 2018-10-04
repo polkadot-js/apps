@@ -28,6 +28,12 @@
   display: block;
 }
 
+.ui--Nominators {
+  overflow-y: overlay;
+  max-height: 196px;
+  padding-right: 18px;
+}
+
 .staking--Account .ui--AddressSummary {
   padding: 0;
 }
