@@ -1,6 +1,8 @@
 language: node_js
 node_js:
   - "10"
+env:
+  - GH_PAGES_SRC="packages/apps/build"
 cache:
   yarn: true
   directories:
