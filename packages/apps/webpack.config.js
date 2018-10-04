@@ -30,6 +30,10 @@ const packages = [
   'ui-signer'
 ];
 
+const DEFAULT_THEME = process.env.TRAVIS_BRANCH === 'next'
+  ? 'substrate'
+  : 'polkadot';
+
 function createWebpack ({ alias = {}, context, name = 'index' }) {
   const pkgJson = require(path.join(context, 'package.json'));
   const ENV = process.env.NODE_ENV || 'development';
@@ -173,7 +177,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
           NODE_ENV: JSON.stringify(ENV),
           VERSION: JSON.stringify(pkgJson.version),
           UI_MODE: JSON.stringify(process.env.UI_MODE || 'full'),
-          UI_THEME: JSON.stringify(process.env.UI_THEME || 'polkadot'),
+          UI_THEME: JSON.stringify(process.env.UI_THEME || DEFAULT_THEME),
           WS_URL: JSON.stringify(process.env.WS_URL)
         }
       }),
