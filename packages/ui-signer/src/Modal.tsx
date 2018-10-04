@@ -69,14 +69,6 @@ class Signer extends React.PureComponent<Props, State> {
     };
   }
 
-  async componentDidUpdate (prevProps: Props, prevState: State) {
-    const { currentItem } = this.state;
-
-    if (currentItem && currentItem.status === 'queued') {
-      return this.sendItem(currentItem);
-    }
-  }
-
   render () {
     const { currentItem } = this.state;
 
