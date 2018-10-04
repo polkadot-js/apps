@@ -2,10 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Extrinsics } from '@polkadot/extrinsics/types';
+import { ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParam$OnChange } from '@polkadot/ui-app/Params/types';
-import { EncodedMessage } from '@polkadot/ui-signer/types';
 
 import React from 'react';
 
@@ -13,7 +12,7 @@ import BaseExtrinsic from '../Extrinsic';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  defaultValue: SectionItem<Extrinsics>,
+  defaultValue: ExtrinsicFunction,
   isDisabled?: boolean,
   isError?: boolean,
   isPrivate: boolean,
@@ -52,7 +51,8 @@ class Extrinsic extends React.PureComponent<Props> {
     );
   }
 
-  onChange = ({ isValid, values }: EncodedMessage): void => {
+  // FIXME
+  onChange = ({ isValid, values }: any): void => {
     const { onChange } = this.props;
 
     onChange && onChange({

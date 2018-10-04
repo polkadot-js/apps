@@ -3,27 +3,28 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from './types';
-import { RawParam } from './Params/types';
 
 import React from 'react';
+import { UncheckedMortalExtrinsic } from '@polkadot/types';
 
 import classes from './util/classes';
-import Params from './Params';
+// import Params from './Params';
 import translate from './translate';
 
 export type Props = I18nProps & {
   children?: React.ReactNode,
-  value: ExtrinsicDecoded
+  value: UncheckedMortalExtrinsic
 };
 
 class Extrinsic extends React.PureComponent<Props> {
   render () {
-    const { children, className, style, value: { extrinsic, params } } = this.props;
-    const values: Array<RawParam> = extrinsic.params.map(({ type }, index) => ({
-      isValid: true,
-      value: params[index],
-      type
-    }));
+    const { children, className, style } = this.props;
+    // FIXME
+    // const values: Array<RawParam> = extrinsic.params.map(({ type }, index) => ({
+    //   isValid: true,
+    //   value: params[index],
+    //   type
+    // }));
 
     return (
       <div
@@ -31,11 +32,11 @@ class Extrinsic extends React.PureComponent<Props> {
         style={style}
       >
         {children}
-        <Params
+        {/* FIXME <Params
           isDisabled
           item={extrinsic}
           values={values}
-        />
+        /> */}
       </div>
     );
   }

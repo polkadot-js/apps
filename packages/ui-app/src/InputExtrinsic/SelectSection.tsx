@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Extrinsics } from '@polkadot/extrinsics/types';
+import { ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import { I18nProps } from '../types';
 import { DropdownOptions } from '../util/types';
 
@@ -13,18 +13,18 @@ import classes from '../util/classes';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  defaultValue?: Extrinsic$Sections,
+  defaultValue?: string,
   isError?: boolean,
   label?: string,
-  onChange: (value: Extrinsic$Sections) => void,
+  onChange: (value: string) => void,
   options: DropdownOptions,
-  value: SectionItem<Extrinsics>,
+  value: ExtrinsicFunction,
   withLabel?: boolean
 };
 
 class SelectSection extends React.PureComponent<Props> {
   render () {
-    const { className, defaultValue, isError, label = '', onChange, options, style, t, value: { section }, withLabel } = this.props;
+    const { className, defaultValue, isError, label = '', onChange, options, style, t, value, withLabel } = this.props;
 
     return (
       <Dropdown
@@ -37,7 +37,7 @@ class SelectSection extends React.PureComponent<Props> {
         onChange={onChange}
         options={options}
         style={style}
-        value={section}
+        value={value.section}
         withLabel={withLabel}
       />
     );

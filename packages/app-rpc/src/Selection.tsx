@@ -15,7 +15,6 @@ import rpc from '@polkadot/jsonrpc';
 import Button from '@polkadot/ui-app/Button';
 import InputRpc from '@polkadot/ui-app/InputRpc';
 import Params from '@polkadot/ui-app/Params';
-import rawToValues from '@polkadot/ui-signer/rawToValues';
 
 import Account from './Account';
 import translate from './translate';
@@ -45,7 +44,7 @@ class Selection extends React.PureComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { isValid, rpc } = this.state;
+    const { isValid } = this.state;
 
     return (
       <section className='rpc--Selection'>
@@ -55,8 +54,8 @@ class Selection extends React.PureComponent<Props, State> {
         />
         {this.renderAccount()}
         <Params
-          item={rpc}
           onChange={this.onChangeValues}
+          params={[]}
         />
         <Button.Group>
           <Button
@@ -126,16 +125,15 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   private onSubmit = (): void => {
-    const { queueAdd } = this.props;
-    const { isValid, accountNonce, publicKey, rpc, values } = this.state;
+    // const { queueAdd } = this.props;
+    // const { isValid, accountNonce, publicKey, rpc, values } = this.state;
 
-    queueAdd({
-      isValid,
-      accountNonce,
-      publicKey,
-      rpc,
-      values: rawToValues(values)
-    });
+    // FIXMe direct call here
+    // queueAdd({
+    //   accountNonce,
+    //   publicKey,
+    //   extrinsic: null,
+    // });
   }
 }
 

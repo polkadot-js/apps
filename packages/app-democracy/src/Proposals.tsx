@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RxProposal } from '@polkadot/api-observable/types';
+import { RxProposal } from '@polkadot/api-observable/classes';
 
 import React from 'react';
 import withObservable from '@polkadot/ui-react-rx/with/observable';

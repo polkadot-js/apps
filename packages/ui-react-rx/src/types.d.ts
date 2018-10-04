@@ -8,7 +8,7 @@ import { ProviderInterface } from '@polkadot/api-provider/types';
 import { RxApiInterface, RxApiInterface$Method } from '@polkadot/api-rx/types';
 import { Header } from '@polkadot/types';
 
-import ApiObservable from './ApiObservable';
+import ApiObservable from '@polkadot/api-observable';
 
 export type BareProps = {
   className?: string,

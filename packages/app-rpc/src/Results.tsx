@@ -31,11 +31,11 @@ export default class Results extends React.PureComponent<Props> {
 
     return (
       <section className='rpc--Results'>
-        {filtered.map(({ error, id, result, rpc: { section, name } }) => (
+        {filtered.map(({ error, id, result }) => (
           <Output
             isError={!!error}
             key={id}
-            label={`${id}: ${section}.${name}`}
+            label={`${id}: section.name`}
             value={
               error
                 ? error.message

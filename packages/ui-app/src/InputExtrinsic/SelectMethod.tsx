@@ -12,7 +12,6 @@ import Api from '@polkadot/api-observable';
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
 import translate from '../translate';
-import values from '@polkadot/ui-app/Params/values';
 
 type Props = I18nProps & {
   isError?: boolean,

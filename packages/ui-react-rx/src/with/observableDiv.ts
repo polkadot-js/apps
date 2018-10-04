@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { ApiFunctions } from '../ApiObservable/types';
+import { ApiFunctions } from '@polkadot/api-observable/types';
 import { BaseProps } from '../types';
 import { ComponentRenderer, DefaultProps, RenderFn, Options } from './types';
 

@@ -9,7 +9,7 @@ import React from 'react';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import AddressMini from '@polkadot/ui-app/AddressMini';
-import Extrinsic from '@polkadot/ui-app/Extrinsic';
+// import Extrinsic from '@polkadot/ui-app/Extrinsic';
 import { SignedBlock } from '@polkadot/types';
 import prettyJson from '@polkadot/ui-app/util/prettyJson';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
@@ -67,22 +67,22 @@ class BlockByHash extends React.PureComponent<Props> {
               <article>
                 <div className='explorer--BlockByHash-extrinsic-header'>
                   <div className='explorer--BlockByHash-extrinsic-header-name'>
-                    {extrinsic.extrinsic.section}.{extrinsic.extrinsic.name}
+                    extrinsic.extrinsic.section.extrinsic.extrinsic.name
                   </div>
                   <div className='explorer--BlockByHash-extrinsic-header-description'>
-                    {extrinsic.extrinsic.description}
+                    extrinsic.extrinsic.description
                   </div>
                   <div className='explorer--BlockByHash-header-right'>
-                    <div>{isHex(extrinsic.address)
-                      ? extrinsic.address
-                      : <AddressMini value={extrinsic.address} />
+                    <div>{isHex((extrinsic as any).address)
+                      ? (extrinsic as any).address
+                      : <AddressMini value={(extrinsic as any).address} />
                     }</div>
                     <div className='explorer--BlockByHash-accountIndex'>{t('block.accountIndex', {
                       defaultValue: 'index'
-                    })} {numberFormat(extrinsic.accountIndex)}</div>
+                    })} {numberFormat((extrinsic as any).accountIndex)}</div>
                   </div>
                 </div>
-                <Extrinsic value={extrinsic} />
+                {/* FIXME <Extrinsic value={extrinsic} /> */}
               </article>
             </div>
           ))}

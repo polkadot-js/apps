@@ -7,8 +7,8 @@ import { Header } from '@polkadot/types';
 import withObservableDiv from '@polkadot/ui-react-rx/with/observableDiv';
 
 const Component: React.ComponentType<any> = withObservableDiv('newHead')(
-  (value?: Header): string | undefined =>
-    value
+  (header?: Header): string | undefined =>
+    header
       ? header.hash.toHex()
       : undefined,
   { className: 'explorer--BestHash' }

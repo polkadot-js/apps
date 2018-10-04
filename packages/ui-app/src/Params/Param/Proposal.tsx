@@ -5,6 +5,7 @@
 import { Props } from '../types';
 
 import React from 'react';
+import { UncheckedMortalExtrinsic } from '@polkadot/types';
 
 import Extrinsic from '../../Extrinsic';
 import Static from '../../Static';
@@ -22,8 +23,9 @@ export default class Proposal extends React.PureComponent<Props> {
       );
     }
 
-    const proposal = value as ExtrinsicDecoded;
-    const { extrinsic: { name, section } } = proposal;
+    // FIXME !!!
+    const proposal = value as UncheckedMortalExtrinsic;
+    // const { extrinsic: { name, section } } = proposal;
 
     return (
       <Bare>
@@ -33,7 +35,7 @@ export default class Proposal extends React.PureComponent<Props> {
           style={style}
           withLabel={withLabel}
         >
-          {section}.{name}
+          section.name
         </Static>
         <Extrinsic value={proposal} />
       </Bare>

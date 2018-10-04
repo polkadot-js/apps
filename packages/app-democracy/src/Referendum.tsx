@@ -4,7 +4,8 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParam } from '@polkadot/ui-app/Params/types';
-import { RxReferendum, RxReferendumVote } from '@polkadot/api-observable/types';
+import { RxReferendum } from '@polkadot/api-observable/classes';
+import { RxReferendumVote } from '@polkadot/api-observable/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -66,14 +67,14 @@ class Referendum extends React.PureComponent<Props, State> {
     const newState: State = democracyReferendumVoters.reduce((state, { balance, vote }) => {
       if (vote) {
         state.voteCountYay++;
-        state.votedYay = state.votedYay.add(balance);
+        state.votedYay = state.votedYay.add(balance.toBn());
       } else {
         state.voteCountNay++;
-        state.votedNay = state.votedNay.add(balance);
+        state.votedNay = state.votedNay.add(balance.toBn());
       }
 
       state.voteCount++;
-      state.votedTotal = state.votedTotal.add(balance);
+      state.votedTotal = state.votedTotal.add(balance.toBn());
 
       return state;
     }, {
@@ -136,6 +137,7 @@ class Referendum extends React.PureComponent<Props, State> {
             defaultValue: 'vote threshold'
           })}
           name='voteThreshold'
+          type={{ info: 0, type: 'VoteThreshold' }}
         />
       </div>
     );

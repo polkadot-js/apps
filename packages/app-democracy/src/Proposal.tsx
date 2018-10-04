@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RxProposal, RxProposalDeposits } from '@polkadot/api-observable/types';
+import { RxProposal, RxProposalDeposits } from '@polkadot/api-observable/classes';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -56,7 +56,7 @@ class Proposal extends React.PureComponent<Props> {
             {addresses.map((address) => (
               <AddressMini
                 isPadded={false}
-                key={address}
+                key={address.toString()}
                 value={address}
               />
             ))}

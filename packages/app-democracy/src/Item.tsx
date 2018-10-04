@@ -6,7 +6,8 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import Extrinsic from '@polkadot/ui-app/Extrinsic';
+import { Proposal } from '@polkadot/types';
+// import Extrinsic from '@polkadot/ui-app/Extrinsic';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
 // TODO This would be nice as a shared component, move to ui-app as soon as
@@ -15,7 +16,7 @@ import translate from './translate';
 
 type Props = I18nProps & {
   children?: React.ReactNode,
-  proposal: ExtrinsicDecoded,
+  proposal: Proposal,
   proposalExtra?: React.ReactNode,
   idNumber: BN
 };
@@ -23,17 +24,17 @@ type Props = I18nProps & {
 // FIXME Duplicated layout here and in explorer, clean up with extrinsics
 class Item extends React.PureComponent<Props> {
   render () {
-    const { children, idNumber, proposal, proposalExtra } = this.props;
+    const { children, idNumber } = this.props;
 
     return (
       <article className='democracy--Item'>
         <div className='democracy--Item-header'>
           <div className='democracy--Item-header-info'>
             <div className='democracy--Item-header-name'>
-              {proposal.extrinsic.section}.{proposal.extrinsic.name}
+              proposal.extrinsic.section.proposal.extrinsic.name
             </div>
             <div className='democracy--Item-header-description'>
-              {proposal.extrinsic.description}
+              proposal.extrinsic.description
             </div>
           </div>
           <div className='democracy--Item-header-id'>
@@ -41,12 +42,12 @@ class Item extends React.PureComponent<Props> {
           </div>
         </div>
         <div className='democracy--Item-body'>
-          <Extrinsic
+          {/* FIXME <Extrinsic
             className='democracy--Item-extrinsic'
             value={proposal}
           >
             {proposalExtra}
-          </Extrinsic>
+          </Extrinsic> */}
           <div className='democracy--Item-children'>
             {children}
           </div>

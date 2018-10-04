@@ -4,7 +4,7 @@
 
 // TODO: Lots of duplicated code between this and withObservable, surely there ois a better way of doing this?
 
-import { ApiFunctions } from '../ApiObservable/types';
+import { ApiFunctions } from '@polkadot/api-observable/types';
 import { RxProps } from '../types';
 import { HOC, Options, DefaultProps, RenderFn } from './types';
 

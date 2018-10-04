@@ -8,4 +8,4 @@ cache:
   directories:
     - node_modules
 script:
-  - yarn polkadot-dev-build-travis
+  - if [ "$TRAVIS_BRANCH" === "next" ]; then UI_THEME=substrate yarn polkadot-dev-build-travis; else UI_THEME=polkadot yarn polkadot-dev-build-travis; fi
