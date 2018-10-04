@@ -116,7 +116,7 @@ class Account extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div className="ui--Nominators">
+      <div className='ui--Nominators'>
         {stakingNominatorsFor.map((nominator) => (
           <AddressMini
             isPadded={false}
