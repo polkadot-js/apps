@@ -1393,14 +1393,14 @@
     "@polkadot/jsonrpc" "^0.30.24"
     "@polkadot/util" "^0.30.7"
 
-"@polkadot/dev-react@^0.20.22":
-  version "0.20.22"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev-react/-/dev-react-0.20.22.tgz#fd251d74e8b10b848a31bfffb2a18d9b0b50d14b"
+"@polkadot/dev-react@^0.20.23":
+  version "0.20.23"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev-react/-/dev-react-0.20.23.tgz#650835a779b20e4292ff31d26fd81e638d29d29f"
   dependencies:
     "@babel/core" "^7.0.0"
     "@babel/plugin-syntax-dynamic-import" "^7.0.0"
     "@babel/preset-react" "^7.0.0"
-    "@polkadot/dev" "^0.20.22"
+    "@polkadot/dev" "^0.20.23"
     "@types/react-dom" "^16.0.7"
     browserslist "^4.1.1"
     eslint-config-standard-jsx "^6.0.2"
@@ -1415,9 +1415,9 @@
     webpack-cli "^3.1.0"
     webpack-serve "^2.0.1"
 
-"@polkadot/dev@^0.20.22":
-  version "0.20.22"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.20.22.tgz#74ac7ac4dd7028ba6d76b8eb04b10d851b6a51f1"
+"@polkadot/dev@^0.20.23":
+  version "0.20.23"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.20.23.tgz#92b8a761de96a46b2990dbaed14377058532803a"
   dependencies:
     "@babel/cli" "^7.0.0"
     "@babel/core" "^7.0.0"
