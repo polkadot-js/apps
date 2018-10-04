@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RxProposal, RxProposalDeposits } from '@polkadot/ui-react-rx/ApiObservable/types';
+import { RxProposal, RxProposalDeposits } from '@polkadot/api-observable/types';
 
 import BN from 'bn.js';
 import React from 'react';

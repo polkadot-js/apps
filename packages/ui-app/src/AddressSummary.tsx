@@ -5,11 +5,12 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Balance } from '@polkadot/types';
+import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Nonce from '@polkadot/ui-react-rx/Nonce';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import addressEncode from '@polkadot/util-keyring/address/encode';
+import isU8a from '@polkadot/util/is/u8a';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
@@ -21,7 +22,7 @@ export type Props = I18nProps & {
   balance?: Balance | Array<Balance>,
   children?: React.ReactNode,
   name?: string,
-  value: string | Uint8Array | null,
+  value: AccountId | AccountIndex | Address | string | Uint8Array | null,
   withBalance?: boolean,
   identIconSize?: number,
   isShort?: boolean
@@ -45,7 +46,9 @@ class AddressSummary extends React.PureComponent<Props, State> {
 
   static getDerivedStateFromProps ({ value }: Props, { address, publicKey, shortValue }: State): State {
     try {
-      publicKey = addressDecode(value as string);
+      publicKey = isU8a(value)
+        ? value
+        : addressDecode(value ? value.toString() : '');
       address = addressEncode(publicKey);
       shortValue = toShortAddress(address);
     } catch (error) {

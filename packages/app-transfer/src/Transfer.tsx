@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { BitLength, I18nProps } from '@polkadot/ui-app/types';
-import { RxFees } from '@polkadot/ui-react-rx/ApiObservable/types';
+import { RxFees } from '@polkadot/api-observable/types';
 import { QueueProps } from '@polkadot/ui-signer/types';
 import { Fees } from './types';
 

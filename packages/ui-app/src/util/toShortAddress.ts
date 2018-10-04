@@ -2,6 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-export default function toShortAddress (address: string): string {
+import { AccountId, AccountIndex, Address } from '@polkadot/types';
+
+export default function toShortAddress (_address: AccountId | AccountIndex | Address | string): string {
+  const address = _address.toString();
+
   return `${address.slice(0, 7)}…${address.slice(-7)}`;
 }

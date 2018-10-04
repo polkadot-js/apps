@@ -4,7 +4,7 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueProps } from '@polkadot/ui-signer/types';
-import { RxBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
+import { RxBalanceMap } from '@polkadot/api-observable/types';
 
 import React from 'react';
 import keyring from '@polkadot/ui-keyring/index';

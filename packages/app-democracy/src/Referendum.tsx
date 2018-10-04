@@ -4,7 +4,7 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParam } from '@polkadot/ui-app/Params/types';
-import { RxReferendum, RxReferendumVote } from '@polkadot/ui-react-rx/ApiObservable/types';
+import { RxReferendum, RxReferendumVote } from '@polkadot/api-observable/types';
 
 import BN from 'bn.js';
 import React from 'react';
