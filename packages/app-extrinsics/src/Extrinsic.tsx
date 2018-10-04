@@ -43,7 +43,7 @@ class Extrinsic extends React.PureComponent<Props, State> {
 
     this.state = {
       method: props.defaultValue,
-      params: [],
+      params: this.getParams(props.defaultValue),
       values: []
     };
   }
@@ -73,21 +73,26 @@ class Extrinsic extends React.PureComponent<Props, State> {
     );
   }
 
-  nextState (newState: State): void {
+  private nextState (newState: State): void {
     this.setState(newState, () => {
       const { onChange } = this.props;
-      const { method, values } = this.state;
+      const { method, params, values } = this.state;
+
       const isValid = values.reduce((isValid, value) =>
           isValid &&
           !isUndefined(value) &&
           !isUndefined(value.value) &&
-          value.isValid, true);
+          value.isValid, params.length === values.length);
 
       let extrinsic;
 
       if (isValid) {
         try {
-          extrinsic = method(...values);
+          extrinsic = method(
+            ...values.map(({ value }) =>
+              value
+            )
+          );
         } catch (error) {
           // swallow
         }
@@ -97,8 +102,20 @@ class Extrinsic extends React.PureComponent<Props, State> {
     });
   }
 
-  onChangeExtrinsic = (method: ExtrinsicFunction): void => {
-    const params = method.meta.arguments
+  private onChangeExtrinsic = (method: ExtrinsicFunction): void => {
+    this.nextState({
+      method,
+      params: this.getParams(method),
+      values: []
+    });
+  }
+
+  private onChangeValues = (values: Array<RawParam>): void => {
+    this.nextState({ values } as State);
+  }
+
+  private getParams (method: ExtrinsicFunction): Array<{ name: string, type: TypeDef }> {
+    return method.meta.arguments
       .filter((arg) =>
         arg.type.toString() !== 'Origin'
       )
@@ -106,16 +123,6 @@ class Extrinsic extends React.PureComponent<Props, State> {
         name: arg.name.toString(),
         type: getTypeDef(arg.type.toString())
       }));
-
-    this.nextState({
-      method,
-      params,
-      values: []
-    });
-  }
-
-  onChangeValues = (values: Array<RawParam>): void => {
-    this.nextState({ values } as State);
   }
 }
 

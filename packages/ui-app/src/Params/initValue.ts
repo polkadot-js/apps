@@ -38,6 +38,7 @@ export default function getInitValue (type: TypeDef): RawParam$Value | Array<Raw
       return 0;
 
     case 'AccountId':
+    case 'Address':
     case 'Bytes':
     case 'Call':
     case 'CandidateReceipt':
