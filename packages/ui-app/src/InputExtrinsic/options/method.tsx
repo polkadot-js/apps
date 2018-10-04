@@ -19,7 +19,10 @@ export default function createOptions (sectionName: string): DropdownOptions {
     .sort()
     .map((value) => {
       const method = section[value];
-      const inputs = params.map(({ name }) => name).join(', ');
+      const inputs = method.meta.arguments
+        .filter((arg) => arg.type.toString() !== 'Origin')
+        .map((arg) => arg.name.toString())
+        .join(', ');
 
       return {
         className: 'ui--DropdownLinked-Item',
@@ -35,7 +38,7 @@ export default function createOptions (sectionName: string): DropdownOptions {
             className='ui--DropdownLinked-Item-text'
             key={`${sectionName}_${value}:text`}
           >
-            {method.meta.documentation.get(0).toString() || value}
+            {(method.meta.documentation.get(0) || value).toString()}
           </div>
         ],
         value

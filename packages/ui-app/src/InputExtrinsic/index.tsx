@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-// TODO: We have a lot shared between this and InputStorage
-
+import { ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import { I18nProps } from '../types';
 import { DropdownOptions } from '../util/types';
 
@@ -20,20 +19,20 @@ import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
 type Props = I18nProps & {
-  defaultValue: SectionItem<Extrinsics>,
+  defaultValue: ExtrinsicFunction,
   isDisabled?: boolean,
   isError?: boolean,
   isPrivate?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (value: SectionItem<Extrinsics>) => void,
+  onChange: (value: ExtrinsicFunction) => void,
   withLabel?: boolean
 };
 
 type State = {
   optionsMethod: DropdownOptions,
   optionsSection: DropdownOptions,
-  value: SectionItem<Extrinsics>
+  value: ExtrinsicFunction
 };
 
 class InputExtrinsic extends React.PureComponent<Props, State> {
@@ -47,11 +46,10 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  static getDerivedStateFromProps ({ isPrivate = false }: Props, { value: { section } }: State): State | null {
+  static getDerivedStateFromProps (props: Props, { value }: State): State | null {
     return {
-      optionsMethod: methodOptions(section),
-      optionsSection: sectionOptions(),
-      type: newType
+      optionsMethod: methodOptions(value.section),
+      optionsSection: sectionOptions()
     } as State;
   }
 
@@ -84,31 +82,31 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     );
   }
 
-  onKeyChange = (value: SectionItem<Extrinsics>): void => {
+  onKeyChange = (newValue: ExtrinsicFunction): void => {
     const { onChange } = this.props;
-    const { value: { name, section } } = this.state;
+    const { value } = this.state;
 
-    if (value.section === section && value.name === name) {
+    if (value.section === newValue.section && value.method === newValue.method) {
       return;
     }
 
-    this.setState({ value }, () =>
-      onChange(value)
+    this.setState({ value: newValue }, () =>
+      onChange(newValue)
     );
   }
 
-  onSectionChange = (newSection: Extrinsic$Sections): void => {
-    const { value: { section } } = this.state;
+  onSectionChange = (newSection: string): void => {
+    const { value } = this.state;
 
-    if (newSection === section) {
+    if (newSection === value.section) {
       return;
     }
 
     const optionsMethod = methodOptions(newSection);
-    const value = Api.extrinsics[newSection][optionsMethod[0].value];
+    const fn = Api.extrinsics[newSection][optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
-      this.onKeyChange(value)
+      this.onKeyChange(fn)
     );
   }
 }

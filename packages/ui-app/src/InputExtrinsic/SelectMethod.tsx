@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Extrinsics } from '@polkadot/extrinsics/types';
+import { ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import { I18nProps } from '../types';
 import { DropdownOptions } from '../util/types';
 
@@ -12,28 +12,27 @@ import Api from '@polkadot/api-observable';
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
 import translate from '../translate';
+import values from '@polkadot/ui-app/Params/values';
 
 type Props = I18nProps & {
   isError?: boolean,
   label?: string,
-  onChange: (value: SectionItem<Extrinsics>) => void,
+  onChange: (value: ExtrinsicFunction) => void,
   options: DropdownOptions,
-  value: SectionItem<Extrinsics>,
+  value: ExtrinsicFunction,
   withLabel?: boolean
 };
 
-// ({ className, isError, label = '', onChange, options, style, t, type, value: { name, section }, withLabel }: Props) {
 class SelectMethod extends React.PureComponent<Props> {
-
   render () {
-    const { className, isError, label = '', onChange, options, style, t, value: { name, section }, withLabel } = this.props;
+    const { className, isError, label = '', onChange, options, style, t, value, withLabel } = this.props;
 
     if (!options.length) {
       return null;
     }
 
-    const transform = (name: Extrinsic$Sections): SectionItem<Extrinsics> =>
-      Api.extrinsics[section][name];
+    const transform = (method: string): ExtrinsicFunction =>
+      Api.extrinsics[value.section][method];
 
     return (
         <Dropdown
@@ -46,7 +45,7 @@ class SelectMethod extends React.PureComponent<Props> {
           options={options}
           style={style}
           transform={transform}
-          value={name}
+          value={value.method}
           withLabel={withLabel}
         />
     );
