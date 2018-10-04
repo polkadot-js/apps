@@ -27,13 +27,13 @@ export default class Status extends React.PureComponent<Props> {
 
     return (
       <div className='ui--signer-Status'>
-        {available.map(({ rpc: { name, section }, id, status }) =>
+        {available.map(({ id, status }) =>
           <div
             className={classes('ui--signer-Status-Item', status)}
             key={id}
           >
             <div className='header'>
-              {section}.{name}
+              author.submitExtrinsic
             </div>
             <div className='status'>
               {status}

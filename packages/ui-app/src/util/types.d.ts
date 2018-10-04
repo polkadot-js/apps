@@ -5,10 +5,8 @@
 export type DropdownOption = {
   className?: string,
   key?: string,
-  text: any, // string | React$Node,
+  text: React.ReactNode,
   value: string
 };
 
 export type DropdownOptions = Array<DropdownOption>;
-
-export type SectionVisibilityAll = 'private' | 'public';

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Param$Types } from '@polkadot/params/types';
+import { TypeDef, TypeDefInfo } from '@polkadot/types/codec';
 import { Props, ComponentMap } from '../types';
 
 import Account from './Account';
@@ -22,7 +22,8 @@ import VoteThreshold from './VoteThreshold';
 
 const components: ComponentMap = {
   'AccountId': Account,
-  'AccountIndex': Amount,
+  'AccountIndex': Account,
+  'Address': Account,
   'Balance': Balance,
   'BlockNumber': Amount,
   'bool': Bool,
@@ -34,7 +35,7 @@ const components: ComponentMap = {
   'Index': Amount,
   'KeyValue': StorageKeyValue,
   'StorageKeyValue': StorageKeyValue,
-  'StorageKeyValue[]': StorageKeyValueArray,
+  'Vec<StorageKeyValue>': StorageKeyValueArray,
   'MisbehaviorReport': Unknown,
   'ParachainId': Amount,
   'PropIndex': Amount,
@@ -50,25 +51,13 @@ const components: ComponentMap = {
   'VoteThreshold': VoteThreshold
 };
 
-function getFromMap (type: Param$Types, overrides: ComponentMap): React.ComponentType<Props> | [React.ComponentType<Props>, React.ComponentType<Props>] {
-  if (Array.isArray(type)) {
-    // Special case for components where we have a specific override formatter
-    if (type.length === 1) {
-      const arrayType = `${type}[]`;
+export default function findComponent ({ info, type }: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
+  const component = overrides[type] || components[type];
 
-      return overrides[arrayType] || components[arrayType] || Unknown;
-    }
-
+  // FIXME We still don't support either structure or Vector inputs
+  if (!component && info !== TypeDefInfo.Plain) {
     return Unknown;
   }
 
-  return overrides[type] || components[type] || Unknown;
-}
-
-export default function findComponent (type: Param$Types, overrides: ComponentMap = {}, isDisabled: boolean = false): React.ComponentType<Props> {
-  const component = getFromMap(type, overrides);
-
-  return Array.isArray(component)
-    ? component[0]
-    : component;
+  return component || Unknown;
 }

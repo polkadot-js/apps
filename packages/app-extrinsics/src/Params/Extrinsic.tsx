@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { SectionItem } from '@polkadot/params/types';
 import { Extrinsics } from '@polkadot/extrinsics/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParam$OnChange } from '@polkadot/ui-app/Params/types';

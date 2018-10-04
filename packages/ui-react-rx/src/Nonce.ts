@@ -5,7 +5,7 @@
 import numberFormat from './util/numberFormat';
 import withObservableDiv from './with/observableDiv';
 
-const Component: React.ComponentType<any> = withObservableDiv('systemAccountIndexOf')(
+const Component: React.ComponentType<any> = withObservableDiv('accountNonce')(
   numberFormat,
   { className: 'rx--Nonce' }
 );

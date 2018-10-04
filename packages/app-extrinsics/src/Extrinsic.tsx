@@ -2,16 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { SectionItem } from '@polkadot/params/types';
-import { Extrinsics } from '@polkadot/extrinsics/types';
+import { ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import { BareProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { RawParam } from '@polkadot/ui-app/Params/types';
-import { EncodedMessage } from '@polkadot/ui-signer/types';
 
 import React from 'react';
+import { TypeDef, getTypeDef } from '@polkadot/types/codec';
+import { UncheckedMortalExtrinsic } from '@polkadot/types';
 
-import encode from '@polkadot/extrinsics/codec/encode/extrinsic';
 import InputExtrinsic from '@polkadot/ui-app/InputExtrinsic';
 import Params from '@polkadot/ui-app/Params';
 import isUndefined from '@polkadot/util/is/undefined';
@@ -20,18 +19,19 @@ import withApi from '@polkadot/ui-react-rx/with/api';
 import paramComponents from './Params';
 
 type Props = BareProps & ApiProps & {
-  defaultValue: SectionItem<Extrinsics>,
+  defaultValue: ExtrinsicFunction,
   isDisabled?: boolean,
   isError?: boolean,
   isPrivate?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (encoded: EncodedMessage) => void,
+  onChange: (extrinsic?: UncheckedMortalExtrinsic) => void,
   withLabel?: boolean
 };
 
 type State = {
-  extrinsic: SectionItem<Extrinsics>,
+  method: ExtrinsicFunction,
+  params: Array<{ name: string, type: TypeDef }>,
   values: Array<RawParam>
 };
 
@@ -42,14 +42,15 @@ class Extrinsic extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      extrinsic: props.defaultValue,
+      method: props.defaultValue,
+      params: this.getParams(props.defaultValue),
       values: []
     };
   }
 
   render () {
     const { defaultValue, isDisabled, isError, isPrivate, labelMethod, labelSection, withLabel } = this.props;
-    const { extrinsic } = this.state;
+    const { params } = this.state;
 
     return (
       <div className='extrinsics--Extrinsic'>
@@ -64,42 +65,64 @@ class Extrinsic extends React.PureComponent<Props, State> {
           withLabel={withLabel}
         />
         <Params
-          item={extrinsic}
           onChange={this.onChangeValues}
           overrides={paramComponents}
+          params={params}
         />
       </div>
     );
   }
 
-  nextState (newState: State): void {
+  private nextState (newState: State): void {
     this.setState(newState, () => {
-      const { apiSupport, onChange } = this.props;
-      const { extrinsic, values } = this.state;
-      const params = Object.values(extrinsic.params);
-      const isValid = values.length === params.length &&
-        params.reduce((isValid, param, index) =>
-          isValid &&
-          !isUndefined(values[index]) &&
-          !isUndefined(values[index].value) &&
-          values[index].isValid, true);
-      const value = isValid && extrinsic.params
-        ? encode(extrinsic, values.map((p) => p.value), apiSupport)
-        : new Uint8Array([]);
+      const { onChange } = this.props;
+      const { method, params, values } = this.state;
 
-      onChange({
-        isValid,
-        values: [value]
-      });
+      const isValid = values.reduce((isValid, value) =>
+          isValid &&
+          !isUndefined(value) &&
+          !isUndefined(value.value) &&
+          value.isValid, params.length === values.length);
+
+      let extrinsic;
+
+      if (isValid) {
+        try {
+          extrinsic = method(
+            ...values.map(({ value }) =>
+              value
+            )
+          );
+        } catch (error) {
+          // swallow
+        }
+      }
+
+      onChange(extrinsic);
     });
   }
 
-  onChangeExtrinsic = (extrinsic: SectionItem<Extrinsics>): void => {
-    this.nextState({ extrinsic, values: [] } as State);
+  private onChangeExtrinsic = (method: ExtrinsicFunction): void => {
+    this.nextState({
+      method,
+      params: this.getParams(method),
+      values: []
+    });
   }
 
-  onChangeValues = (values: Array<RawParam>): void => {
+  private onChangeValues = (values: Array<RawParam>): void => {
     this.nextState({ values } as State);
+  }
+
+  private getParams (method: ExtrinsicFunction): Array<{ name: string, type: TypeDef }> {
+    return method.meta.arguments
+      .filter((arg) =>
+        arg.type.toString() !== 'Origin'
+      )
+      .map((arg) => ({
+        name: arg.name.toString(),
+        type: getTypeDef(arg.type.toString())
+      }));
   }
 }
 

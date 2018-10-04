@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Header } from '@polkadot/primitives/header';
+import { Header } from '@polkadot/types';
 
 import React from 'react';
 
@@ -20,7 +20,7 @@ const apiOptions = {
 
     blockHeaders = blockHeaders
       .filter((old, index) =>
-        index < 9 && old.number.lt(header.number)
+        index < 9 && old.blockNumber.lt(header.blockNumber)
       )
       .reduce((next, header) => {
         next.push(header);
@@ -28,18 +28,18 @@ const apiOptions = {
         return next;
       }, [header])
       .sort((a, b) =>
-        b.number.cmp(a.number)
+        b.blockNumber.cmp(a.blockNumber)
       );
 
     return blockHeaders;
   }
 };
 
-export default withObservableDiv('chainNewHead', apiOptions)(
+export default withObservableDiv('newHead', apiOptions)(
   (value: Array<Header> = []) =>
     value.map((value) => (
       <BlockHeader
-        key={value.number.toString()}
+        key={value.blockNumber.toString()}
         value={value}
         withLink
       />

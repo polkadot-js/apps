@@ -7,7 +7,7 @@ import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import extrinsics from '@polkadot/extrinsics';
+import Api from '@polkadot/api-observable';
 import Button from '@polkadot/ui-app/Button';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
@@ -18,7 +18,7 @@ type Props = I18nProps & {
   publicKey?: Uint8Array,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
   referendumId: BN,
-  systemAccountIndexOf?: BN
+  accountNonce?: BN
 };
 
 class VotingButton extends React.PureComponent<Props> {
@@ -49,17 +49,16 @@ class VotingButton extends React.PureComponent<Props> {
   }
 
   private doVote (vote: boolean) {
-    const { publicKey, queueExtrinsic, referendumId, systemAccountIndexOf = new BN(0) } = this.props;
+    const { publicKey, queueExtrinsic, referendumId, accountNonce = new BN(0) } = this.props;
 
     if (!publicKey) {
       return;
     }
 
     queueExtrinsic({
-      extrinsic: extrinsics.democracy.public.vote,
-      nonce: systemAccountIndexOf,
-      publicKey,
-      values: [referendumId, vote]
+      extrinsic: Api.extrinsics.democracy.vote(referendumId, vote),
+      accountNonce,
+      publicKey
     });
   }
 
@@ -74,5 +73,5 @@ class VotingButton extends React.PureComponent<Props> {
 
 export default withMulti(
   translate(VotingButton),
-  withObservable('systemAccountIndexOf', { paramProp: 'publicKey' })
+  withObservable('accountNonce', { paramProp: 'publicKey' })
 );

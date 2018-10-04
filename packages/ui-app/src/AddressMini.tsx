@@ -6,18 +6,19 @@ import { BareProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
-import Balance from './Balance';
+import BalanceDisplay from './Balance';
 
 type Props = BareProps & {
-  balance?: BN | Array<BN>,
+  balance?: Balance | Array<Balance> | BN,
   children?: React.ReactNode,
   isPadded?: boolean,
   isShort?: boolean,
-  value?: string,
+  value?: AccountId | AccountIndex | Address | string,
   withBalance?: boolean
 };
 
@@ -37,7 +38,7 @@ export default class AddressMini extends React.PureComponent<Props> {
         <div className='ui--AddressMini-info'>
           <IdentityIcon
             size={24}
-            value={value}
+            value={value.toString()}
           />
           <div className='ui--AddressMini-address'>{isShort ? toShortAddress(value) : value}</div>
           {children}
@@ -55,7 +56,7 @@ export default class AddressMini extends React.PureComponent<Props> {
     }
 
     return (
-      <Balance
+      <BalanceDisplay
         balance={balance}
         className='ui--AddressSummary-balance'
         value={value}

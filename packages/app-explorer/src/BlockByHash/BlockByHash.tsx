@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { BlockDecoded } from '@polkadot/params/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 
@@ -11,32 +10,32 @@ import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import Extrinsic from '@polkadot/ui-app/Extrinsic';
+import { SignedBlock } from '@polkadot/types';
 import prettyJson from '@polkadot/ui-app/util/prettyJson';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import isHex from '@polkadot/util/is/hex';
-import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import BlockHeader from '../BlockHeader';
 import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
-  chainGetBlock: BlockDecoded,
+  getBlock: SignedBlock,
   value: string
 };
 
 // FIXME Duplicated layout here and in democracy, clean up with extrinsics
 class BlockByHash extends React.PureComponent<Props> {
   render () {
-    const { chainGetBlock } = this.props;
+    const { getBlock } = this.props;
 
-    if (!chainGetBlock) {
+    if (!getBlock) {
       return null;
     }
 
-    const { header } = chainGetBlock;
+    const { block: { header } } = getBlock;
 
     // TODO Remove, debug info for reverse-engineering
-    console.log(prettyJson(chainGetBlock));
+    console.log(prettyJson(getBlock));
 
     return [
       <header key='header'>
@@ -51,8 +50,8 @@ class BlockByHash extends React.PureComponent<Props> {
   }
 
   private renderExtrinsics () {
-    const { chainGetBlock, t, value } = this.props;
-    const { extrinsics } = chainGetBlock;
+    const { getBlock, t, value } = this.props;
+    const { block: { extrinsics } } = getBlock;
 
     return (
       <section key='extrinsics'>
@@ -93,8 +92,8 @@ class BlockByHash extends React.PureComponent<Props> {
   }
 
   private renderJustification () {
-    const { chainGetBlock, t, value } = this.props;
-    const { justification } = chainGetBlock;
+    const { getBlock, t, value } = this.props;
+    const { justification } = getBlock;
 
     return (
       <section key='justification'>
@@ -102,14 +101,14 @@ class BlockByHash extends React.PureComponent<Props> {
           defaultValue: 'justifications'
         })}</h1>
         <div className='explorer--BlockByHash-flexable'>
-          {justification.signatures.map(({ address, signature }) => (
+          {justification.signatures.map(({ authorityId, signature }) => (
             <div
               className='explorer--BlockByHash-justification-signature'
-              key={`${value}:justification:${address}`}
+              key={`${value}:justification:${authorityId}`}
             >
-              <AddressMini value={address}>
+              <AddressMini value={authorityId.toString()}>
                 <span>
-                  {u8aToHex(signature, 64)}
+                  {signature.toHex()}
                 </span>
               </AddressMini>
             </div>
@@ -123,5 +122,5 @@ class BlockByHash extends React.PureComponent<Props> {
 export default withMulti(
   BlockByHash,
   translate,
-  withObservable('chainGetBlock', { paramProp: 'value' })
+  withObservable('getBlock', { paramProp: 'value' })
 );

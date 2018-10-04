@@ -5,18 +5,15 @@
 import { Props } from '@polkadot/ui-app/Params/types';
 
 import React from 'react';
-
-import extrinsics from '@polkadot/extrinsics';
+import Api from '@polkadot/api-observable';
 
 import Extrinsic from './Extrinsic';
-
-const defaultValue = extrinsics.consensus.private.setCode;
 
 export default function Proposal ({ className, isDisabled, isError, label, onChange, style, withLabel }: Props) {
   return (
     <Extrinsic
       className={className}
-      defaultValue={defaultValue}
+      defaultValue={Api.extrinsics.sonsensus.setCode}
       isDisabled={isDisabled}
       isError={isError}
       isPrivate

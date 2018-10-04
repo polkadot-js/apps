@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Param$Types, Param$Type$Array, ExtrinsicDecoded } from '@polkadot/params/types';
-
 import './Params.css';
 
 import React from 'react';
@@ -109,7 +107,7 @@ function arrayToText (type: Param$Type$Array, value: Array<any>, withBound: bool
   );
 }
 
-function valueToText (type: Param$Types, value: any, swallowError: boolean = true): React.ReactNode {
+function valueToText (type: string, value: any, swallowError: boolean = true): React.ReactNode {
   try {
     if (type === 'bool') {
       return div({}, value ? 'Yes' : 'No');

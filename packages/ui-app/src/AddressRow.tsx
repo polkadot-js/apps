@@ -3,7 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 
 import React from 'react';
-
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 
 import classes from './util/classes';

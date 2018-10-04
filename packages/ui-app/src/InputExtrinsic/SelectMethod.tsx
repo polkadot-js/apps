@@ -2,41 +2,37 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { SectionItem } from '@polkadot/params/types';
-import { Extrinsics, Extrinsic$Sections } from '@polkadot/extrinsics/types';
+import { ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import { I18nProps } from '../types';
-import { DropdownOptions, SectionVisibilityAll } from '../util/types';
+import { DropdownOptions } from '../util/types';
 
 import React from 'react';
-
-import extrinsics from '@polkadot/extrinsics';
+import Api from '@polkadot/api-observable';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
 import translate from '../translate';
+import values from '@polkadot/ui-app/Params/values';
 
 type Props = I18nProps & {
   isError?: boolean,
   label?: string,
-  onChange: (value: SectionItem<Extrinsics>) => void,
+  onChange: (value: ExtrinsicFunction) => void,
   options: DropdownOptions,
-  type: SectionVisibilityAll,
-  value: SectionItem<Extrinsics>,
+  value: ExtrinsicFunction,
   withLabel?: boolean
 };
 
-// ({ className, isError, label = '', onChange, options, style, t, type, value: { name, section }, withLabel }: Props) {
 class SelectMethod extends React.PureComponent<Props> {
-
   render () {
-    const { className, isError, label = '', onChange, options, style, t, type, value: { name, section }, withLabel } = this.props;
+    const { className, isError, label = '', onChange, options, style, t, value, withLabel } = this.props;
 
     if (!options.length) {
       return null;
     }
 
-    const transform = (name: Extrinsic$Sections): SectionItem<Extrinsics> =>
-      extrinsics[section][type][name];
+    const transform = (method: string): ExtrinsicFunction =>
+      Api.extrinsics[value.section][method];
 
     return (
         <Dropdown
@@ -49,7 +45,7 @@ class SelectMethod extends React.PureComponent<Props> {
           options={options}
           style={style}
           transform={transform}
-          value={name}
+          value={value.method}
           withLabel={withLabel}
         />
     );

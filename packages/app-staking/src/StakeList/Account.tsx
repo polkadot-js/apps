@@ -3,15 +3,13 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { Extrinsics } from '@polkadot/extrinsics/types';
-import { SectionItem } from '@polkadot/params/types';
-import { RawParam$Value } from '@polkadot/ui-app/Params/types';
 import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/types';
-import { RxBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
+import { RxBalanceMap } from '@polkadot/api-observable/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import extrinsics from '@polkadot/extrinsics';
+import Api from '@polkadot/api-observable';
+import { Balance, UncheckedMortalExtrinsic } from '@polkadot/types';
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
@@ -26,7 +24,7 @@ import UnnominateButton from './UnnominateButton';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  systemAccountIndexOf?: BN,
+  accountNonce?: BN,
   address: string,
   balances: RxBalanceMap,
   name: string,
@@ -84,7 +82,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private balanceArray (address: string): Array<BN> | undefined {
+  private balanceArray (address: string): Array<Balance> | undefined {
     const { balances } = this.props;
 
     return balances[address]
@@ -177,15 +175,14 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private send (extrinsic: SectionItem<Extrinsics>, values: Array<RawParam$Value>) {
-    const { systemAccountIndexOf, address, queueExtrinsic } = this.props;
+  private send (extrinsic: UncheckedMortalExtrinsic) {
+    const { accountNonce, address, queueExtrinsic } = this.props;
     const publicKey = decodeAddress(address);
 
     queueExtrinsic({
       extrinsic,
-      nonce: systemAccountIndexOf || new BN(0),
-      publicKey,
-      values
+      accountNonce: accountNonce || new BN(0),
+      publicKey
     });
   }
 
@@ -198,23 +195,23 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private nominate = (nominee: string) => {
-    this.send(extrinsics.staking.public.nominate, [nominee]);
+    this.send(Api.extrinsics.staking.nominate(nominee));
 
     this.toggleNominate();
   }
 
   private unnominate = (index: number) => {
-    this.send(extrinsics.staking.public.unnominate, [index]);
+    this.send(Api.extrinsics.staking.unnominate(index));
   }
 
   private stake = () => {
-    this.send(extrinsics.staking.public.stake, []);
+    this.send(Api.extrinsics.staking.stake());
   }
 
   private unstake = () => {
     const { address, intentions } = this.props;
 
-    this.send(extrinsics.staking.public.unstake, [intentions.indexOf(address)]);
+    this.send(Api.extrinsics.staking.unstake(intentions.indexOf(address)));
   }
 }
 
@@ -223,5 +220,5 @@ export default withMulti(
   translate,
   withObservable('stakingNominatorsFor', { paramProp: 'address' }),
   withObservable('stakingNominating', { paramProp: 'address' }),
-  withObservable('systemAccountIndexOf', { paramProp: 'address' })
+  withObservable('accountNonce', { paramProp: 'address' })
 );

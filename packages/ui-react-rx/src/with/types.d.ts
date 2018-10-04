@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Param$Values } from '@polkadot/params/types';
-import { Storage$Key$Value } from '@polkadot/storage/types';
 import { OnChangeCb } from '../types';
 
 import React from 'react';
@@ -25,7 +23,7 @@ export type Options<T> = {
 
 export type RenderFn = (value?: any) => React.ReactNode;
 
-export type StorageTransform = (input: any, index: number) => Param$Values | null;
+export type StorageTransform = (input: any, index: number) => any | null;
 
 export type HOC<T> = (Component: React.ComponentType<any>, defaultProps?: DefaultProps<T>, render?: RenderFn) => React.ComponentType<any>;
 

@@ -3,16 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
+import { Base, UInt } from '@polkadot/types/codec';
+import { Hash, UncheckedMortalExtrinsic } from '@polkadot/types';
 import { Extrinsics } from '@polkadot/extrinsics/types';
-import { SectionItem } from '@polkadot/params/types';
-import { Interfaces } from '@polkadot/jsonrpc/types';
-import { Param$Values } from '@polkadot/params/types';
+import { Method } from '@polkadot/jsonrpc/types';
 import { RawParam$Value } from '@polkadot/ui-app/Params/types';
-
-export type EncodedMessage = {
-  isValid: boolean,
-  values: Array<Param$Values>
-};
 
 export type QueueTx$Status = 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent';
 
@@ -25,27 +20,22 @@ export type QueueTx$Result = {
 }
 
 export type AccountInfo = {
-  nonce: BN,
+  accountNonce: UInt | BN,
   publicKey?: Uint8Array | null
 };
 
-export type QueueTx$Base = EncodedMessage & AccountInfo & {
-  rpc: SectionItem<Interfaces>
-};
-
 export type QueueTx$Extrinsic = AccountInfo & {
-  extrinsic: SectionItem<Extrinsics>,
-  values: Array<RawParam$Value>
+  extrinsic: UncheckedMortalExtrinsic
 }
 
-export type QueueTx = QueueTx$Base & {
+export type QueueTx = QueueTx$Extrinsic & {
   error?: Error,
   id: QueueTx$Id,
   result?: any,
   status: QueueTx$Status
 };
 
-export type QueueTx$MessageAdd = (value: QueueTx$Base) => QueueTx$Id;
+export type QueueTx$MessageAdd = (value: QueueTx$Extrinsic) => QueueTx$Id;
 
 export type QueueTx$ExtrinsicAdd = (value: QueueTx$Extrinsic) => QueueTx$Id;
 

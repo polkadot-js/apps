@@ -3,10 +3,10 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RxBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
+import { RxBalanceMap } from '@polkadot/api-observable/types';
 
-import BN from 'bn.js';
 import React from 'react';
+import { Balance } from '@polkadot/types';
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import AddressRow from '@polkadot/ui-app/AddressRow';
 
@@ -88,7 +88,7 @@ class CurrentList extends React.PureComponent<Props> {
             >
               {nominators.map(({ address }) =>
                 <AddressMini
-                  key={address}
+                  key={address.toString()}
                   value={address}
                   withBalance
                 />
@@ -100,7 +100,7 @@ class CurrentList extends React.PureComponent<Props> {
     );
   }
 
-  private balanceArray (address: string): Array<BN> | undefined {
+  private balanceArray (address: string): Array<Balance> | undefined {
     const { balances } = this.props;
 
     return balances[address]

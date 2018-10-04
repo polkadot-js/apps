@@ -4,8 +4,8 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
-import BN from 'bn.js';
 import React from 'react';
+import { BlockNumber } from '@polkadot/types';
 import CardSummary from '@polkadot/ui-app/CardSummary';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
@@ -13,12 +13,13 @@ import withMulti from '@polkadot/ui-react-rx/with/multi';
 import translate from './translate';
 
 type Props = I18nProps & {
-  eraBlockLength?: BN,
-  eraBlockProgress?: BN,
-  sessionBlockProgress?: BN,
-  sessionBrokenValue?: BN,
-  sessionBrokenPercentLate?: BN,
-  sessionLength?: BN,
+  eraBlockLength?: BlockNumber,
+  eraBlockProgress?: BlockNumber,
+  sessionBlockProgress?: BlockNumber,
+  // FIXME Replaced in poc-3
+  // sessionBrokenValue?: BN,
+  // sessionBrokenPercentLate?: BN,
+  sessionLength?: BlockNumber,
   withBroken?: boolean,
   withEra?: boolean,
   withSession?: boolean
@@ -28,33 +29,34 @@ class SummarySession extends React.PureComponent<Props> {
   render () {
     return [
       this.renderSession(),
-      this.renderEra(),
-      this.renderBroken()
+      this.renderEra()
+      // FIXME Replace with "reward"
+      // this.renderBroken()
     ];
   }
 
-  private renderBroken () {
-    const { sessionBrokenValue, sessionBrokenPercentLate, t, withBroken = true } = this.props;
+  // private renderBroken () {
+  //   const { sessionBrokenValue, sessionBrokenPercentLate, t, withBroken = true } = this.props;
 
-    if (!withBroken) {
-      return null;
-    }
+  //   if (!withBroken) {
+  //     return null;
+  //   }
 
-    return (
-      <CardSummary
-        key='brokenCount'
-        label={t('summary.brokenCount', {
-          defaultValue: 'lateness'
-        })}
-        progress={{
-          color: 'autoReverse',
-          isPercent: true,
-          total: sessionBrokenPercentLate,
-          value: sessionBrokenValue
-        }}
-      />
-    );
-  }
+  //   return (
+  //     <CardSummary
+  //       key='brokenCount'
+  //       label={t('summary.brokenCount', {
+  //         defaultValue: 'lateness'
+  //       })}
+  //       progress={{
+  //         color: 'autoReverse',
+  //         isPercent: true,
+  //         total: sessionBrokenPercentLate,
+  //         value: sessionBrokenValue
+  //       }}
+  //     />
+  //   );
+  // }
 
   private renderEra () {
     const { eraBlockLength, eraBlockProgress, t, withEra = true } = this.props;
@@ -105,7 +107,5 @@ export default withMulti(
   withObservable('eraBlockLength'),
   withObservable('eraBlockProgress'),
   withObservable('sessionBlockProgress'),
-  withObservable('sessionBrokenValue'),
-  withObservable('sessionLength'),
-  withObservable('sessionBrokenPercentLate')
+  withObservable('sessionLength')
 );

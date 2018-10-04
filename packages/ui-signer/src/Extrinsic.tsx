@@ -8,8 +8,7 @@ import { QueueTx } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { Trans } from 'react-i18next';
-
-import extrinsics from '@polkadot/extrinsics';
+import Api from '@polkadot/api-observable';
 import Modal from '@polkadot/ui-app/Modal';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHex from '@polkadot/util/u8a/toHex';
@@ -43,7 +42,7 @@ function findExtrinsic (sectionId: number, methodId: number): { method: string |
 
 class Extrinsic extends React.PureComponent<Props> {
   render () {
-    const { children, t, value: { nonce = new BN(0), publicKey, values: [_value] } } = this.props;
+    const { children, t, value: { accountNonce = new BN(0), publicKey, values: [_value] } } = this.props;
 
     const unknown = t('decoded.unknown', {
       defaultValue: 'unknown'
