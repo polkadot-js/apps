@@ -4,7 +4,6 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { Extrinsics } from '@polkadot/extrinsics/types';
-import { SectionItem } from '@polkadot/params/types';
 import { RawParam$Value } from '@polkadot/ui-app/Params/types';
 import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/types';
 import { RxBalanceMap } from '@polkadot/api-observable/types';

@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { ExtrinsicDecoded } from '@polkadot/params/types';
 import { I18nProps } from './types';
 import { RawParam } from './Params/types';
 

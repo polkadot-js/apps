@@ -3,7 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { TranslationFunction } from 'i18next';
-import { KeyValue } from '@polkadot/params/types';
 import { Props as BaseProps, RawParam } from '../types';
 
 import React from 'react';
