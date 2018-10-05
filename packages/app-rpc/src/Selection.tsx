@@ -12,11 +12,12 @@ import './index.css';
 import BN from 'bn.js';
 import React from 'react';
 import rpc from '@polkadot/jsonrpc';
+import { getTypeDef } from '@polkadot/types/codec';
 import Button from '@polkadot/ui-app/Button';
 import InputRpc from '@polkadot/ui-app/InputRpc';
 import Params from '@polkadot/ui-app/Params';
 
-import Account from './Account';
+// import Account from './Account';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -44,7 +45,11 @@ class Selection extends React.PureComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { isValid } = this.state;
+    const { isValid, rpc } = this.state;
+    const params = rpc.params.map(({ name, type }) => ({
+      name,
+      type: getTypeDef(type)
+    }));
 
     return (
       <section className='rpc--Selection'>
@@ -55,7 +60,7 @@ class Selection extends React.PureComponent<Props, State> {
         {this.renderAccount()}
         <Params
           onChange={this.onChangeValues}
-          params={[]}
+          params={params}
         />
         <Button.Group>
           <Button
@@ -71,26 +76,29 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
+  // FICME Currently the UI doesn't support signing for rpc-submitted calls
   private renderAccount () {
-    const { rpc: { isSigned = false }, publicKey } = this.state;
+    // const { rpc: { isSigned = false }, publicKey } = this.state;
 
-    if (!isSigned) {
-      return null;
-    }
+    return null;
 
-    return (
-      <Account
-        defaultValue={publicKey}
-        onChange={this.onChangeAccount}
-      />
-    );
+    // if (!isSigned) {
+    //   return null;
+    // }
+
+    // return (
+    //   <Account
+    //     defaultValue={publicKey}
+    //     onChange={this.onChangeAccount}
+    //   />
+    // );
   }
 
   private nextState (newState: State): void {
     this.setState(
       (prevState: State): State => {
         const { rpc = prevState.rpc, accountNonce = prevState.accountNonce, publicKey = prevState.publicKey, values = prevState.values } = newState;
-        const hasNeededKey = rpc.isSigned !== true || (!!publicKey && publicKey.length === 32);
+        const hasNeededKey = true; // rpc.isSigned !== true || (!!publicKey && publicKey.length === 32);
         const isValid = values.reduce((isValid, value) => {
           return isValid && value.isValid === true;
         }, rpc.params.length === values.length && hasNeededKey);
@@ -106,12 +114,12 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeAccount = (publicKey: Uint8Array | undefined | null, accountNonce: BN): void => {
-    this.nextState({
-      accountNonce,
-      publicKey
-    } as State);
-  }
+  // private onChangeAccount = (publicKey: Uint8Array | undefined | null, accountNonce: BN): void => {
+  //   this.nextState({
+  //     accountNonce,
+  //     publicKey
+  //   } as State);
+  // }
 
   private onChangeMethod = (rpc: RpcMethod): void => {
     this.nextState({
@@ -132,7 +140,9 @@ class Selection extends React.PureComponent<Props, State> {
       accountNonce,
       publicKey,
       rpc,
-      values: values.map(({ value }) => value)
+      values: values.map(({ value }) =>
+        value
+      )
     });
   }
 }
