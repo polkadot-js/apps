@@ -12,11 +12,11 @@ import AddressMini from '@polkadot/ui-app/AddressMini';
 import ExtrinsicDisplay from '@polkadot/ui-app/Extrinsic';
 import { Extrinsic, SignedBlock } from '@polkadot/types';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
-import isHex from '@polkadot/util/is/hex';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import BlockHeader from '../BlockHeader';
 import translate from '../translate';
+import findFunction from '@polkadot/ui-signer/findFunction';
 
 type Props = ApiProps & I18nProps & {
   getBlock: SignedBlock,
@@ -62,7 +62,8 @@ class BlockByHash extends React.PureComponent<Props> {
   }
 
   private renderExtrinsic = (extrinsic: Extrinsic, index?: number) => {
-    const { t, value } = this.props;
+    const { value } = this.props;
+    const { meta, method, section } = findFunction(extrinsic.callIndex);
 
     return (
       <div
@@ -72,22 +73,21 @@ class BlockByHash extends React.PureComponent<Props> {
         <article>
           <div className='explorer--BlockByHash-extrinsic-header'>
             <div className='explorer--BlockByHash-extrinsic-header-name'>
-              extrinsic.extrinsic.section.extrinsic.extrinsic.name
+              {section}.{method}
             </div>
             <div className='explorer--BlockByHash-extrinsic-header-description'>
-              extrinsic.extrinsic.description
+              {
+                meta && meta.documentation && meta.documentation.length
+                  ? meta.documentation.get(0).toString
+                  : ''
+              }
             </div>
-            <div className='explorer--BlockByHash-header-right'>
-              <div>{isHex((extrinsic as any).address)
-                ? (extrinsic as any).address
-                : <AddressMini value={(extrinsic as any).address} />
-              }</div>
-              <div className='explorer--BlockByHash-accountIndex'>{t('block.accountIndex', {
-                defaultValue: 'index'
-              })} {numberFormat((extrinsic as any).accountIndex)}</div>
-            </div>
+            {this.renderSigner(extrinsic)}
           </div>
-          <ExtrinsicDisplay value={extrinsic} />
+          <ExtrinsicDisplay
+            meta={meta}
+            value={extrinsic}
+          />
         </article>
       </div>
     );
@@ -117,6 +117,25 @@ class BlockByHash extends React.PureComponent<Props> {
           ))}
         </div>
       </section>
+    );
+  }
+
+  private renderSigner (extrinsic: Extrinsic) {
+    const { t } = this.props;
+
+    if (!extrinsic.signature.isSigned) {
+      return null;
+    }
+
+    return (
+      <div className='explorer--BlockByHash-header-right'>
+        <div>
+          <AddressMini value={extrinsic.signature.signer} />
+        </div>
+        <div className='explorer--BlockByHash-accountIndex'>{t('block.nonce', {
+          defaultValue: 'index'
+        })} {numberFormat(extrinsic.signature.nonce)}</div>
+      </div>
     );
   }
 }

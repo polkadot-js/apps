@@ -16,6 +16,7 @@ import translate from './translate';
 type Props = BareProps & I18nProps & {
   bitLength?: BitLength,
   defaultValue?: string,
+  isDisabled?: boolean,
   isError?: boolean,
   label?: any,
   maxLength?: number,
@@ -47,10 +48,12 @@ class InputNumber extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { bitLength = DEFAULT_BITLENGTH, className, defaultValue, maxLength, style, t } = this.props;
+    const { bitLength = DEFAULT_BITLENGTH, className, defaultValue, isDisabled, maxLength, style, t } = this.props;
     const { isValid, previousValue } = this.state;
-    const revertedValue = !isValid ? previousValue : undefined;
     const maxValueLength = this.maxValue(bitLength).toString().length;
+    const revertedValue = !isValid && !isDisabled
+      ? previousValue
+      : undefined;
 
     return (
       <div
@@ -60,6 +63,7 @@ class InputNumber extends React.PureComponent<Props, State> {
         <Input
           {...this.props}
           defaultValue={defaultValue || '0'}
+          isDisabled={isDisabled}
           maxLength={maxLength || maxConservativeLength(maxValueLength)}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
@@ -115,9 +119,8 @@ class InputNumber extends React.PureComponent<Props, State> {
     return true;
   }
 
-  private isValidNumber = (input: string, bitLength?: number): boolean => {
+  private isValidNumber = (input: string, bitLength: number = DEFAULT_BITLENGTH): boolean => {
     const { t } = this.props;
-    bitLength = bitLength || DEFAULT_BITLENGTH;
 
     // failsafe as expects only positive integers as permitted by onKeyDown from input of type text
     if (!isString(input)) {
