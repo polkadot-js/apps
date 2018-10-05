@@ -13,7 +13,7 @@ export default function Proposal ({ className, isDisabled, isError, label, onCha
   return (
     <Extrinsic
       className={className}
-      defaultValue={Api.extrinsics.sonsensus.setCode}
+      defaultValue={Api.extrinsics.consensus.setCode}
       isDisabled={isDisabled}
       isError={isError}
       isPrivate

@@ -6,10 +6,33 @@ import { Props } from '../types';
 
 import React from 'react';
 
+import Button from '../../Button';
 import BaseBytes from './BaseBytes';
+import File from './File';
 
-export default class Bytes extends React.PureComponent<Props> {
+type State = {
+  isFileDrop: boolean
+};
+
+export default class Bytes extends React.PureComponent<Props, State> {
+  constructor (props: Props) {
+    super(props);
+
+    this.state = {
+      isFileDrop: false
+    };
+  }
+
   render () {
+    const { isDisabled } = this.props;
+    const { isFileDrop } = this.state;
+
+    return !isDisabled && isFileDrop
+      ? this.renderFile()
+      : this.renderInput();
+  }
+
+  private renderInput () {
     const { className, defaultValue, isDisabled, isError, label, name, onChange, style, type, withLabel } = this.props;
 
     return (
@@ -27,7 +50,56 @@ export default class Bytes extends React.PureComponent<Props> {
         type={type}
         withLabel={withLabel}
         withLength
+      >
+        {this.renderFileButton()}
+      </BaseBytes>
+    );
+  }
+
+  private renderFileButton () {
+    const { isDisabled } = this.props;
+
+    if (isDisabled) {
+      return null;
+    }
+
+    return (
+      <Button
+        icon='file'
+        isPrimary
+        onClick={this.toggleFile}
       />
     );
+  }
+
+  private renderFile () {
+    const { className, isDisabled, isError, label, style, withLabel } = this.props;
+
+    return (
+      <File
+        className={className}
+        isDisabled={isDisabled}
+        isError={isError}
+        label={label}
+        onChange={this.onChangeFile}
+        style={style}
+        withLabel={withLabel}
+      />
+    );
+  }
+
+  private toggleFile = () => {
+    this.setState(({ isFileDrop }: State) => ({
+      isFileDrop: !isFileDrop
+    }));
+  }
+
+  private onChangeFile = (value: Uint8Array): void => {
+    const { onChange } = this.props;
+
+    onChange && onChange({
+      isValid: value.length !== 0,
+      value
+    });
   }
 }

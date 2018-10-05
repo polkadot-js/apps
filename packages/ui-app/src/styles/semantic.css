@@ -95,3 +95,8 @@
 .ui.disabled.button:hover {
   opacity: 0.1 !important;
 }
+
+/* modals aligned to top, not center */
+.ui.dimmer {
+  justify-content: flex-start;
+}

@@ -9,8 +9,9 @@ import BN from 'bn.js';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import Modal from '@polkadot/ui-app/Modal';
+import Extrinsic from '@polkadot/ui-app/Extrinsic';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
-import u8aToHex from '@polkadot/util/u8a/toHex';
+// import u8aToHex from '@polkadot/util/u8a/toHex';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
 import findFunction from './findFunction';
@@ -21,7 +22,7 @@ type Props = I18nProps & {
   value: QueueTx
 };
 
-class Extrinsic extends React.PureComponent<Props> {
+class Transaction extends React.PureComponent<Props> {
   render () {
     const { children, t, value: { accountNonce = new BN(0), extrinsic, publicKey } } = this.props;
 
@@ -31,6 +32,15 @@ class Extrinsic extends React.PureComponent<Props> {
 
     const from = addressEncode(publicKey as Uint8Array);
     const fn = findFunction(extrinsic.callIndex);
+
+    // <p>
+    //           {t('decoded.data', {
+    //             defaultValue: 'The encoded parameters contains the data'
+    //           })}
+    //         </p>
+    //         <p className='code'>
+    //           {u8aToHex(extrinsic.toU8a(), 512)}
+    //         </p>
 
     return [
       <Modal.Header key='header'>
@@ -46,14 +56,7 @@ class Extrinsic extends React.PureComponent<Props> {
                 You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{fn.section}.{fn.method}</span> with an index of <span className='code'>{accountNonce.toString()}</span>
               </Trans>
             </p>
-            <p>
-              {t('decoded.data', {
-                defaultValue: 'The encoded parameters contains the data'
-              })}
-            </p>
-            <p className='code'>
-              {u8aToHex(extrinsic.toU8a(), 512)}
-            </p>
+            <Extrinsic value={extrinsic} />
           </div>
           <IdentityIcon
             className='icon'
@@ -66,4 +69,4 @@ class Extrinsic extends React.PureComponent<Props> {
   }
 }
 
-export default translate(Extrinsic);
+export default translate(Transaction);
