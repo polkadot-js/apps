@@ -30,7 +30,6 @@ type State = {
   items: Array<TabItem>
 };
 
-// FIXME React-router would probably be the best route, not home-grown
 const Components: { [index: string]: React.ComponentType<any> } = {
   'create': Creator,
   'edit': Editor

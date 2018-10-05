@@ -12,11 +12,12 @@ import Modal from '@polkadot/ui-app/Modal';
 import keyring from '@polkadot/ui-keyring/index';
 import withApi from '@polkadot/ui-react-rx/with/api';
 import { format } from '@polkadot/util/logger';
-import { UncheckedMortalExtrinsic } from '@polkadot/types';
+import { Extrinsic } from '@polkadot/types';
 
-import Extrinsic from './Extrinsic';
+import ExtrinsicDisplay from './Extrinsic';
 import Unlock from './Unlock';
 import translate from './translate';
+import { RpcMethod } from '@polkadot/jsonrpc/types';
 
 type BaseProps = BareProps & {
   queue: Array<QueueTx>,
@@ -67,6 +68,14 @@ class Signer extends React.PureComponent<Props, State> {
       password: isSame ? password : '',
       unlockError: isSame ? unlockError : null
     };
+  }
+
+  async componentDidUpdate (prevProps: Props, prevState: State) {
+    const { currentItem } = this.state;
+
+    if (currentItem && currentItem.status === 'queued' && !currentItem.extrinsic) {
+      return this.sendRpc(currentItem);
+    }
   }
 
   render () {
@@ -129,9 +138,9 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Extrinsic value={currentItem}>
+      <ExtrinsicDisplay value={currentItem}>
         {this.renderUnlock()}
-      </Extrinsic>
+      </ExtrinsicDisplay>
     );
   }
 
@@ -210,10 +219,28 @@ class Signer extends React.PureComponent<Props, State> {
       return;
     }
 
-    return this.sendItem(currentItem, password);
+    return this.sendExtrinsic(currentItem, password);
   }
 
-  private sendItem = async ({ extrinsic, id, accountNonce, publicKey }: QueueTx, password?: string): Promise<void> => {
+  private sendRpc = async ({ id, rpc, values = [] }: QueueTx): Promise<void> => {
+    if (!rpc) {
+      return;
+    }
+
+    const { queueSetStatus } = this.props;
+
+    queueSetStatus(id, 'sending');
+
+    const { error, result, status } = await this.submitRpc(rpc, values);
+
+    queueSetStatus(id, status, result, error);
+  }
+
+  private sendExtrinsic = async ({ extrinsic, id, accountNonce, publicKey }: QueueTx, password?: string): Promise<void> => {
+    if (!extrinsic) {
+      return;
+    }
+
     if (publicKey) {
       const unlockError = this.unlockAccount(publicKey, password);
 
@@ -240,7 +267,29 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetStatus(id, status, result, error);
   }
 
-  private async submitExtrinsic (extrinsic: UncheckedMortalExtrinsic): Promise<QueueTx$Result> {
+  private async submitRpc (rpc: RpcMethod, values: Array<any>): Promise<QueueTx$Result> {
+    const { apiObservable } = this.props;
+
+    try {
+      const result = await apiObservable.rawCall(rpc, ...values).toPromise();
+
+      console.log('submitRpc: result ::', format(result));
+
+      return {
+        result,
+        status: 'sent'
+      };
+    } catch (error) {
+      console.error(error);
+
+      return {
+        error,
+        status: 'error'
+      };
+    }
+  }
+
+  private async submitExtrinsic (extrinsic: Extrinsic): Promise<QueueTx$Result> {
     const { apiObservable } = this.props;
 
     try {

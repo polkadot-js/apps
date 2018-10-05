@@ -9,7 +9,7 @@ import { RawParam } from '@polkadot/ui-app/Params/types';
 
 import React from 'react';
 import { TypeDef, getTypeDef } from '@polkadot/types/codec';
-import { UncheckedMortalExtrinsic } from '@polkadot/types';
+import { Extrinsic } from '@polkadot/types';
 
 import InputExtrinsic from '@polkadot/ui-app/InputExtrinsic';
 import Params from '@polkadot/ui-app/Params';
@@ -25,7 +25,7 @@ type Props = BareProps & ApiProps & {
   isPrivate?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (extrinsic?: UncheckedMortalExtrinsic) => void,
+  onChange: (extrinsic?: Extrinsic) => void,
   withLabel?: boolean
 };
 
@@ -35,7 +35,7 @@ type State = {
   values: Array<RawParam>
 };
 
-class Extrinsic extends React.PureComponent<Props, State> {
+class ExtrinsicDisplay extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -126,4 +126,4 @@ class Extrinsic extends React.PureComponent<Props, State> {
   }
 }
 
-export default withApi(Extrinsic);
+export default withApi(ExtrinsicDisplay);

@@ -17,7 +17,6 @@ export default class Status extends React.PureComponent<Props> {
   render () {
     const { queue } = this.props;
     const available = queue.filter(({ status }) =>
-
       !['completed', 'incomplete'].includes(status)
     );
 
@@ -27,13 +26,13 @@ export default class Status extends React.PureComponent<Props> {
 
     return (
       <div className='ui--signer-Status'>
-        {available.map(({ id, status }) =>
+        {available.map(({ id, rpc: { method, section }, status }) =>
           <div
             className={classes('ui--signer-Status-Item', status)}
             key={id}
           >
             <div className='header'>
-              author.submitExtrinsic
+              {section}.{method}
             </div>
             <div className='status'>
               {status}

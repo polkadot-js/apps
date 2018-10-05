@@ -13,7 +13,7 @@ export default function getInitValue (type: TypeDef): RawParam$Value | Array<Raw
       return new BN(1);
 
     case 'BlockNumber':
-    case 'AccountIndex':
+    case 'Gas':
     case 'Index':
     case 'ParachainId':
     case 'PropIndex':
@@ -38,11 +38,11 @@ export default function getInitValue (type: TypeDef): RawParam$Value | Array<Raw
       return 0;
 
     case 'AccountId':
+    case 'AccountIndex':
     case 'Address':
     case 'Bytes':
     case 'Call':
     case 'CandidateReceipt':
-    case 'Code':
     case 'Digest':
     case 'Hash':
     case 'Header':

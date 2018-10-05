@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Method } from '@polkadot/jsonrpc/types';
+import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 
@@ -19,7 +19,7 @@ type Props = I18nProps & {
   label?: string,
   onChange: (value: keyof typeof map) => void,
   options: DropdownOptions,
-  value: Method,
+  value: RpcMethod,
   withLabel?: boolean
 };
 

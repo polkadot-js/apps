@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Method } from '@polkadot/jsonrpc/types';
+import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { RawParam } from '@polkadot/ui-app/Params/types';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTx$MessageAdd } from '@polkadot/ui-signer/types';
+import { QueueTx$RpcAdd } from '@polkadot/ui-signer/types';
 
 import './index.css';
 
@@ -20,14 +20,14 @@ import Account from './Account';
 import translate from './translate';
 
 type Props = I18nProps & {
-  queueAdd: QueueTx$MessageAdd
+  queueRpc: QueueTx$RpcAdd
 };
 
 type State = {
   isValid: boolean,
   accountNonce: BN,
   publicKey?: Uint8Array | null,
-  rpc: Method,
+  rpc: RpcMethod,
   values: Array<RawParam>
 };
 
@@ -113,7 +113,7 @@ class Selection extends React.PureComponent<Props, State> {
     } as State);
   }
 
-  private onChangeMethod = (rpc: Method): void => {
+  private onChangeMethod = (rpc: RpcMethod): void => {
     this.nextState({
       rpc,
       values: [] as Array<RawParam>
@@ -125,15 +125,15 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   private onSubmit = (): void => {
-    // const { queueAdd } = this.props;
-    // const { isValid, accountNonce, publicKey, rpc, values } = this.state;
+    const { queueRpc } = this.props;
+    const { accountNonce, publicKey, rpc, values } = this.state;
 
-    // FIXMe direct call here
-    // queueAdd({
-    //   accountNonce,
-    //   publicKey,
-    //   extrinsic: null,
-    // });
+    queueRpc({
+      accountNonce,
+      publicKey,
+      rpc,
+      values: values.map(({ value }) => value)
+    });
   }
 }
 

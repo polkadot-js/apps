@@ -31,6 +31,7 @@ const components: ComponentMap = {
   'Code': Code,
   'Call': Unknown,
   'Digest': Unknown,
+  'Gas': Amount,
   'Hash': Hash,
   'Index': Amount,
   'KeyValue': StorageKeyValue,

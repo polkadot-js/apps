@@ -3,10 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
-import { QueueProps, QueueTx, QueueTx$Extrinsic, QueueTx$Id, QueueTx$Status } from './types';
+import { QueueProps, QueueTx, QueueTx$Extrinsic, QueueTx$Id, QueueTx$Rpc, QueueTx$Status } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
+import jsonrpc from '@polkadot/jsonrpc';
 
 import { QueueProvider } from './Context';
 
@@ -30,7 +31,7 @@ export default class Queue extends React.Component<Props, State> {
 
     this.state = {
       queue: [],
-      queueAdd: this.queueAdd,
+      queueRpc: this.queueRpc,
       queueExtrinsic: this.queueExtrinsic,
       queueSetStatus: this.queueSetStatus
     };
@@ -71,13 +72,16 @@ export default class Queue extends React.Component<Props, State> {
     }
   }
 
-  queueAdd = (value: QueueTx$Extrinsic): QueueTx$Id => {
+  queueAdd = (value: QueueTx$Extrinsic | QueueTx$Rpc): QueueTx$Id => {
     const id: QueueTx$Id = ++nextId;
 
     this.setState(
       (prevState: State): State => ({
         queue: prevState.queue.concat([{
           ...value,
+          rpc: (value as QueueTx$Rpc).rpc
+            ? (value as QueueTx$Rpc).rpc
+            : jsonrpc.author.methods.submitExtrinsic,
           id,
           status: 'queued'
         }])
@@ -92,6 +96,15 @@ export default class Queue extends React.Component<Props, State> {
       accountNonce,
       extrinsic,
       publicKey
+    });
+  }
+
+  queueRpc = ({ accountNonce = new BN(0), publicKey, rpc, values }: QueueTx$Rpc): QueueTx$Id => {
+    return this.queueAdd({
+      accountNonce,
+      publicKey,
+      rpc,
+      values
     });
   }
 }

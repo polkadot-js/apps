@@ -21,7 +21,6 @@ type Props = I18nProps & {
   idNumber: BN
 };
 
-// FIXME Duplicated layout here and in explorer, clean up with extrinsics
 class Item extends React.PureComponent<Props> {
   render () {
     const { children, idNumber } = this.props;

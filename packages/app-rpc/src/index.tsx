@@ -22,10 +22,10 @@ export default class RpcApp extends React.PureComponent<Props> {
     return (
       <main className='rpc--App'>
         <QueueConsumer>
-          {({ queue, queueAdd }: QueueProps) => [
+          {({ queue, queueRpc }: QueueProps) => [
             <Selection
               key='add'
-              queueAdd={queueAdd}
+              queueRpc={queueRpc}
             />,
             <Results
               key='results'

@@ -9,11 +9,11 @@ import React from 'react';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import AddressMini from '@polkadot/ui-app/AddressMini';
-// import Extrinsic from '@polkadot/ui-app/Extrinsic';
-import { SignedBlock } from '@polkadot/types';
-import prettyJson from '@polkadot/ui-app/util/prettyJson';
+import ExtrinsicDisplay from '@polkadot/ui-app/Extrinsic';
+import { Extrinsic, SignedBlock } from '@polkadot/types';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import isHex from '@polkadot/util/is/hex';
+import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import BlockHeader from '../BlockHeader';
 import translate from '../translate';
@@ -23,7 +23,6 @@ type Props = ApiProps & I18nProps & {
   value: string
 };
 
-// FIXME Duplicated layout here and in democracy, clean up with extrinsics
 class BlockByHash extends React.PureComponent<Props> {
   render () {
     const { getBlock } = this.props;
@@ -33,9 +32,6 @@ class BlockByHash extends React.PureComponent<Props> {
     }
 
     const { block: { header } } = getBlock;
-
-    // TODO Remove, debug info for reverse-engineering
-    console.log(prettyJson(getBlock));
 
     return [
       <header key='header'>
@@ -50,7 +46,7 @@ class BlockByHash extends React.PureComponent<Props> {
   }
 
   private renderExtrinsics () {
-    const { getBlock, t, value } = this.props;
+    const { getBlock, t } = this.props;
     const { block: { extrinsics } } = getBlock;
 
     return (
@@ -59,35 +55,41 @@ class BlockByHash extends React.PureComponent<Props> {
           defaultValue: 'extrinsics'
         })}</h1>
         <div className='explorer--BlockByHash-flexable'>
-          {extrinsics.map((extrinsic, index) => (
-            <div
-              className='explorer--BlockByHash-extrinsic'
-              key={`${value}:extrinsic:${index}`}
-            >
-              <article>
-                <div className='explorer--BlockByHash-extrinsic-header'>
-                  <div className='explorer--BlockByHash-extrinsic-header-name'>
-                    extrinsic.extrinsic.section.extrinsic.extrinsic.name
-                  </div>
-                  <div className='explorer--BlockByHash-extrinsic-header-description'>
-                    extrinsic.extrinsic.description
-                  </div>
-                  <div className='explorer--BlockByHash-header-right'>
-                    <div>{isHex((extrinsic as any).address)
-                      ? (extrinsic as any).address
-                      : <AddressMini value={(extrinsic as any).address} />
-                    }</div>
-                    <div className='explorer--BlockByHash-accountIndex'>{t('block.accountIndex', {
-                      defaultValue: 'index'
-                    })} {numberFormat((extrinsic as any).accountIndex)}</div>
-                  </div>
-                </div>
-                {/* FIXME <Extrinsic value={extrinsic} /> */}
-              </article>
-            </div>
-          ))}
+          {extrinsics.map(this.renderExtrinsic)}
         </div>
       </section>
+    );
+  }
+
+  private renderExtrinsic = (extrinsic: Extrinsic, index?: number) => {
+    const { t, value } = this.props;
+
+    return (
+      <div
+        className='explorer--BlockByHash-extrinsic'
+        key={`${value}:extrinsic:${index}`}
+      >
+        <article>
+          <div className='explorer--BlockByHash-extrinsic-header'>
+            <div className='explorer--BlockByHash-extrinsic-header-name'>
+              extrinsic.extrinsic.section.extrinsic.extrinsic.name
+            </div>
+            <div className='explorer--BlockByHash-extrinsic-header-description'>
+              extrinsic.extrinsic.description
+            </div>
+            <div className='explorer--BlockByHash-header-right'>
+              <div>{isHex((extrinsic as any).address)
+                ? (extrinsic as any).address
+                : <AddressMini value={(extrinsic as any).address} />
+              }</div>
+              <div className='explorer--BlockByHash-accountIndex'>{t('block.accountIndex', {
+                defaultValue: 'index'
+              })} {numberFormat((extrinsic as any).accountIndex)}</div>
+            </div>
+          </div>
+          <ExtrinsicDisplay value={extrinsic} />
+        </article>
+      </div>
     );
   }
 
@@ -106,9 +108,9 @@ class BlockByHash extends React.PureComponent<Props> {
               className='explorer--BlockByHash-justification-signature'
               key={`${value}:justification:${authorityId}`}
             >
-              <AddressMini value={authorityId.toString()}>
+              <AddressMini value={authorityId}>
                 <span>
-                  {signature.toHex()}
+                  {u8aToHex(signature.toU8a(), 64)}
                 </span>
               </AddressMini>
             </div>

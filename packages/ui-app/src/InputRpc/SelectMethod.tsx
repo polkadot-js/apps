@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Method } from '@polkadot/jsonrpc/types';
+import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 
@@ -17,9 +17,9 @@ import translate from '../translate';
 type Props = I18nProps & {
   isError?: boolean,
   label?: string,
-  onChange: (value: Method) => void,
+  onChange: (value: RpcMethod) => void,
   options: DropdownOptions,
-  value: Method,
+  value: RpcMethod,
   withLabel?: boolean
 };
 
@@ -31,7 +31,7 @@ class SelectMethod extends React.PureComponent<Props> {
       return null;
     }
 
-    const transform = (method: string): Method =>
+    const transform = (method: string): RpcMethod =>
       // @ts-ignore This whole map -> section.method typing...
       map[value.section].methods[method];
 

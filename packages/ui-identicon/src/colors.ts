@@ -17,7 +17,9 @@ const WOBBLE = 30;
 
 export default function colors (seeder: Seeder): ColorGen {
   const amount = (seeder() * WOBBLE) - (WOBBLE / 2);
-  const all = COLORS.map((hex) => Color(hex).rotate(amount));
+  const all = COLORS.map((hex) =>
+    Color(hex).rotate(amount)
+  );
 
   return (alpha: number = 0.9): string => {
     const index = Math.floor(all.length * seeder());

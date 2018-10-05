@@ -9,7 +9,7 @@ import { RxBalanceMap } from '@polkadot/api-observable/types';
 import BN from 'bn.js';
 import React from 'react';
 import Api from '@polkadot/api-observable';
-import { Balance, UncheckedMortalExtrinsic } from '@polkadot/types';
+import { Balance, Extrinsic } from '@polkadot/types';
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
@@ -175,7 +175,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private send (extrinsic: UncheckedMortalExtrinsic) {
+  private send (extrinsic: Extrinsic) {
     const { accountNonce, address, queueExtrinsic } = this.props;
     const publicKey = decodeAddress(address);
 

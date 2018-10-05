@@ -25,7 +25,7 @@ type State = {
   placeholder?: string;
 };
 
-// FIXME !!!
+// FIXME
 type Pairs = Array<any>;
 
 class StorageKeyValueArray extends React.PureComponent<Props, State> {

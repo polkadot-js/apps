@@ -4,7 +4,7 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic & InputStorage
 
-import { Method } from '@polkadot/jsonrpc/types';
+import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 
@@ -21,18 +21,18 @@ import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
 type Props = I18nProps & {
-  defaultValue: Method,
+  defaultValue: RpcMethod,
   isError?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (value: Method) => void,
+  onChange: (value: RpcMethod) => void,
   withLabel?: boolean
 };
 
 type State = {
   optionsMethod: DropdownOptions,
   optionsSection: DropdownOptions,
-  value: Method
+  value: RpcMethod
 };
 
 class InputRpc extends React.PureComponent<Props, State> {
@@ -79,7 +79,7 @@ class InputRpc extends React.PureComponent<Props, State> {
     );
   }
 
-  private onMethodChange = (newValue: Method): void => {
+  private onMethodChange = (newValue: RpcMethod): void => {
     const { onChange } = this.props;
     const { value } = this.state;
 

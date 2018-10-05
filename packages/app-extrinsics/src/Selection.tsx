@@ -4,25 +4,25 @@
 
 import BN from 'bn.js';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTx$MessageAdd } from '@polkadot/ui-signer/types';
+import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/types';
 
 import React from 'react';
 import Api from '@polkadot/api-observable';
-import { UncheckedMortalExtrinsic } from '@polkadot/types';
+import { Extrinsic } from '@polkadot/types';
 import Button from '@polkadot/ui-app/Button';
 
 import Account from './Account';
-import Extrinsic from './Extrinsic';
+import ExtrinsicDisplay from './Extrinsic';
 import Nonce from './Nonce';
 import translate from './translate';
 
 type Props = I18nProps & {
-  queueAdd: QueueTx$MessageAdd
+  queueExtrinsic: QueueTx$ExtrinsicAdd
 };
 
 type State = {
   isValid: boolean,
-  extrinsic?: UncheckedMortalExtrinsic,
+  extrinsic?: Extrinsic,
   accountNonce: BN,
   publicKey: Uint8Array
 };
@@ -46,7 +46,7 @@ class Selection extends React.PureComponent<Props, State> {
           onChange={this.onChangeSender}
           type='account'
         />
-        <Extrinsic
+        <ExtrinsicDisplay
           defaultValue={Api.extrinsics.balances.transfer}
           labelMethod={t('display.method', {
             defaultValue: 'submit the following extrinsic'
@@ -94,7 +94,7 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeExtrinsic = (extrinsic?: UncheckedMortalExtrinsic): void => {
+  private onChangeExtrinsic = (extrinsic?: Extrinsic): void => {
     this.nextState({ extrinsic } as State);
   }
 
@@ -107,14 +107,14 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   onQueue = (): void => {
-    const { queueAdd } = this.props;
+    const { queueExtrinsic } = this.props;
     const { accountNonce, extrinsic, isValid, publicKey } = this.state;
 
     if (!isValid || !extrinsic) {
       return;
     }
 
-    queueAdd({
+    queueExtrinsic({
       accountNonce,
       extrinsic,
       publicKey

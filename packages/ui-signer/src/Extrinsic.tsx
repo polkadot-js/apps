@@ -13,6 +13,7 @@ import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
+import findFunction from './findFunction';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -24,9 +25,12 @@ class Extrinsic extends React.PureComponent<Props> {
   render () {
     const { children, t, value: { accountNonce = new BN(0), extrinsic, publicKey } } = this.props;
 
-    // const value = _value as Uint8Array;
-    // const { method = unknown, section = unknown } = findExtrinsic(value[0], value[1]);
+    if (!extrinsic) {
+      return null;
+    }
+
     const from = addressEncode(publicKey as Uint8Array);
+    const fn = findFunction(extrinsic.callIndex);
 
     return [
       <Modal.Header key='header'>
@@ -39,7 +43,7 @@ class Extrinsic extends React.PureComponent<Props> {
           <div className='expanded'>
             <p>
               <Trans i18nKey='decoded.short'>
-                You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>section.method</span> with an index of <span className='code'>{accountNonce.toString()}</span>
+                You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{fn.section}.{fn.method}</span> with an index of <span className='code'>{accountNonce.toString()}</span>
               </Trans>
             </p>
             <p>

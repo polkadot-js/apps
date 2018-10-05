@@ -5,9 +5,10 @@
 import { Props } from '../types';
 
 import React from 'react';
-import { UncheckedMortalExtrinsic } from '@polkadot/types';
+import { Extrinsic } from '@polkadot/types';
+import findFunction from '@polkadot/ui-signer/findFunction';
 
-import Extrinsic from '../../Extrinsic';
+import ExtrinsicDisplay from '../../Extrinsic';
 import Static from '../../Static';
 import classes from '../../util/classes';
 import Bare from './Bare';
@@ -23,9 +24,8 @@ export default class Proposal extends React.PureComponent<Props> {
       );
     }
 
-    // FIXME !!!
-    const proposal = value as UncheckedMortalExtrinsic;
-    // const { extrinsic: { name, section } } = proposal;
+    const proposal = value as Extrinsic;
+    const fn = findFunction(proposal.callIndex);
 
     return (
       <Bare>
@@ -35,9 +35,9 @@ export default class Proposal extends React.PureComponent<Props> {
           style={style}
           withLabel={withLabel}
         >
-          section.name
+          {fn.section}.{fn.name}
         </Static>
-        <Extrinsic value={proposal} />
+        <ExtrinsicDisplay value={proposal} />
       </Bare>
     );
   }

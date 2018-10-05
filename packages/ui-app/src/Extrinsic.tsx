@@ -5,7 +5,7 @@
 import { I18nProps } from './types';
 
 import React from 'react';
-import { UncheckedMortalExtrinsic } from '@polkadot/types';
+import { Extrinsic } from '@polkadot/types';
 
 import classes from './util/classes';
 // import Params from './Params';
@@ -13,10 +13,10 @@ import translate from './translate';
 
 export type Props = I18nProps & {
   children?: React.ReactNode,
-  value: UncheckedMortalExtrinsic
+  value: Extrinsic
 };
 
-class Extrinsic extends React.PureComponent<Props> {
+class ExtrinsicDisplay extends React.PureComponent<Props> {
   render () {
     const { children, className, style } = this.props;
     // FIXME
@@ -42,4 +42,4 @@ class Extrinsic extends React.PureComponent<Props> {
   }
 }
 
-export default translate(Extrinsic);
+export default translate(ExtrinsicDisplay);

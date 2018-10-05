@@ -3,10 +3,10 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { Base, UInt } from '@polkadot/types/codec';
-import { Hash, UncheckedMortalExtrinsic } from '@polkadot/types';
 import { Extrinsics } from '@polkadot/extrinsics/types';
-import { Method } from '@polkadot/jsonrpc/types';
+import { RpcMethod } from '@polkadot/jsonrpc/types';
+import { Base, UInt } from '@polkadot/types/codec';
+import { Hash, Extrinsic } from '@polkadot/types';
 import { RawParam$Value } from '@polkadot/ui-app/Params/types';
 
 export type QueueTx$Status = 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent';
@@ -25,17 +25,27 @@ export type AccountInfo = {
 };
 
 export type QueueTx$Extrinsic = AccountInfo & {
-  extrinsic: UncheckedMortalExtrinsic
+  extrinsic: Extrinsic
 }
 
-export type QueueTx = QueueTx$Extrinsic & {
+export type QueueTx$Rpc = AccountInfo & {
+  rpc: RpcMethod,
+  values: Array<any>
+};
+
+export type QueueTx = AccountInfo & {
   error?: Error,
+  extrinsic?: Extrinsic,
   id: QueueTx$Id,
   result?: any,
+  rpc: RpcMethod,
+  values?: Array<any>,
   status: QueueTx$Status
 };
 
-export type QueueTx$MessageAdd = (value: QueueTx$Extrinsic) => QueueTx$Id;
+export type QueueTx$Add = (value: QueueTx$Rpc | QueueTx$Extrinsic) => QueueTx$Id;
+
+export type QueueTx$RpcAdd = (value: QueueTx$Rpc) => QueueTx$Id;
 
 export type QueueTx$ExtrinsicAdd = (value: QueueTx$Extrinsic) => QueueTx$Id;
 
@@ -43,8 +53,8 @@ export type QueueTx$MessageSetStatus = (id: number, status: QueueTx$Status, resu
 
 export type QueueProps = {
   queue: Array<QueueTx>,
-  queueAdd: QueueTx$MessageAdd,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
+  queueRpc: QueueTx$RpcAdd,
   queueSetStatus: QueueTx$MessageSetStatus
 };
 
