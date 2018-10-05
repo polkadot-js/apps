@@ -24,13 +24,13 @@ type Props = I18nProps & {
 
 class Transaction extends React.PureComponent<Props> {
   render () {
-    const { children, t, value: { accountNonce = new BN(0), extrinsic, publicKey } } = this.props;
+    const { children, t, value: { accountNonce = new BN(0), extrinsic, accountId } } = this.props;
 
     if (!extrinsic) {
       return null;
     }
 
-    const from = addressEncode(publicKey as Uint8Array);
+    const from = accountId;
     const fn = findFunction(extrinsic.callIndex);
 
     // <p>

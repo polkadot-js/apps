@@ -24,7 +24,7 @@ type State = {
   isValid: boolean,
   extrinsic: Extrinsic | null,
   accountNonce: BN,
-  publicKey: Uint8Array
+  accountId: string
 };
 
 class Selection extends React.PureComponent<Props, State> {
@@ -34,7 +34,7 @@ class Selection extends React.PureComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { isValid, publicKey } = this.state;
+    const { isValid, accountId } = this.state;
 
     return (
       <div className='extrinsics--Selection'>
@@ -58,7 +58,7 @@ class Selection extends React.PureComponent<Props, State> {
             defaultValue: 'with an index'
           })}
           rxChange={this.onChangeNonce}
-          value={publicKey}
+          value={accountId}
         />
         <Button.Group>
           <Button
@@ -77,10 +77,10 @@ class Selection extends React.PureComponent<Props, State> {
   private nextState (newState: State): void {
     this.setState(
       (prevState: State): State => {
-        const { extrinsic = prevState.extrinsic, accountNonce = prevState.accountNonce, publicKey = prevState.publicKey } = newState;
+        const { extrinsic = prevState.extrinsic, accountNonce = prevState.accountNonce, accountId = prevState.accountId } = newState;
         const isValid = !!(
-          publicKey &&
-          publicKey.length &&
+          accountId &&
+          accountId.length &&
           extrinsic
         );
 
@@ -88,7 +88,7 @@ class Selection extends React.PureComponent<Props, State> {
           extrinsic,
           isValid,
           accountNonce,
-          publicKey
+          accountId
         };
       }
     );
@@ -102,13 +102,13 @@ class Selection extends React.PureComponent<Props, State> {
     this.nextState({ accountNonce } as State);
   }
 
-  onChangeSender = (publicKey: Uint8Array): void => {
-    this.nextState({ publicKey, accountNonce: new BN(0) } as State);
+  onChangeSender = (accountId: string): void => {
+    this.nextState({ accountId, accountNonce: new BN(0) } as State);
   }
 
   private onQueue = (): void => {
     const { queueExtrinsic } = this.props;
-    const { accountNonce, extrinsic, isValid, publicKey } = this.state;
+    const { accountNonce, extrinsic, isValid, accountId } = this.state;
 
     if (!isValid || !extrinsic) {
       return;
@@ -117,7 +117,7 @@ class Selection extends React.PureComponent<Props, State> {
     queueExtrinsic({
       accountNonce,
       extrinsic,
-      publicKey
+      accountId
     });
   }
 }

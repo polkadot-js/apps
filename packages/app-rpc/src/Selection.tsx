@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/app-rpc authors & contributors
+
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
@@ -16,6 +16,7 @@ import { getTypeDef } from '@polkadot/types/codec';
 import Button from '@polkadot/ui-app/Button';
 import InputRpc from '@polkadot/ui-app/InputRpc';
 import Params from '@polkadot/ui-app/Params';
+import addressDecode from '@polkadot/util-keyring/address/decode';
 
 // import Account from './Account';
 import translate from './translate';
@@ -27,7 +28,7 @@ type Props = I18nProps & {
 type State = {
   isValid: boolean,
   accountNonce: BN,
-  publicKey?: Uint8Array | null,
+  accountId?: string | null,
   rpc: RpcMethod,
   values: Array<RawParam>
 };
@@ -38,7 +39,7 @@ class Selection extends React.PureComponent<Props, State> {
   state: State = {
     isValid: false,
     accountNonce: new BN(0),
-    publicKey: null,
+    accountId: null,
     rpc: defaultMethod,
     values: []
   };
@@ -97,7 +98,7 @@ class Selection extends React.PureComponent<Props, State> {
   private nextState (newState: State): void {
     this.setState(
       (prevState: State): State => {
-        const { rpc = prevState.rpc, accountNonce = prevState.accountNonce, publicKey = prevState.publicKey, values = prevState.values } = newState;
+        const { rpc = prevState.rpc, accountNonce = prevState.accountNonce, accountId = prevState.accountId, values = prevState.values } = newState;
         const hasNeededKey = true; // rpc.isSigned !== true || (!!publicKey && publicKey.length === 32);
         const isValid = values.reduce((isValid, value) => {
           return isValid && value.isValid === true;
@@ -107,7 +108,7 @@ class Selection extends React.PureComponent<Props, State> {
           isValid,
           rpc,
           accountNonce: accountNonce || new BN(0),
-          publicKey,
+          accountId,
           values
         };
       }
@@ -134,11 +135,11 @@ class Selection extends React.PureComponent<Props, State> {
 
   private onSubmit = (): void => {
     const { queueRpc } = this.props;
-    const { accountNonce, publicKey, rpc, values } = this.state;
+    const { accountNonce, accountId, rpc, values } = this.state;
 
     queueRpc({
       accountNonce,
-      publicKey,
+      accountId,
       rpc,
       values: values.map(({ value }) =>
         value

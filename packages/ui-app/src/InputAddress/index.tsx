@@ -11,13 +11,9 @@ import React from 'react';
 import store from 'store';
 import keyring from '@polkadot/ui-keyring/index';
 import createOptionHeader from '@polkadot/ui-keyring/options/header';
-import addressDecode from '@polkadot/util-keyring/address/decode';
-import addressEncode from '@polkadot/util-keyring/address/encode';
 import { optionsSubject } from '@polkadot/ui-keyring/options';
 import makeOption from '@polkadot/ui-keyring/options/item';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
-import isHex from '@polkadot/util/is/hex';
-import hexToU8a from '@polkadot/util/hex/toU8a';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
@@ -30,7 +26,7 @@ type Props = BareProps & {
   isError?: boolean,
   isInput?: boolean,
   label?: string,
-  onChange: (value: Uint8Array) => void,
+  onChange: (value: string | null) => void,
   optionsAll?: KeyringOptions,
   placeholder?: string,
   type?: KeyringOption$Type,
@@ -46,16 +42,18 @@ const RECENT_KEY = 'header-recent';
 const STORAGE_KEY = 'options:InputAddress';
 const DEFAULT_TYPE = 'all';
 
-const transform = (value: string): Uint8Array => {
-  if (isHex(value)) {
-    return hexToU8a(value);
+const transformToAccountId = (value: string): string | null => {
+  if (!value) {
+    return null;
   }
 
-  try {
-    return addressDecode(value);
-  } catch (error) {
-    return new Uint8Array([]);
+  const accountId = addressToAddress(value);
+
+  if (accountId === undefined) {
+    return null;
   }
+
+  return accountId;
 };
 
 class InputAddress extends React.PureComponent<Props, State> {
@@ -168,7 +166,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     InputAddress.setLastValue(type, address);
 
-    onChange(transform(address));
+    onChange(transformToAccountId(address));
   }
 
   private onSearch = (filteredOptions: KeyringSectionOptions, _query: string): KeyringSectionOptions => {
@@ -186,9 +184,9 @@ class InputAddress extends React.PureComponent<Props, State> {
     );
 
     if (isInput && valueMatches.length === 0) {
-      const publicKey = transform(query);
+      const accountId = transformToAccountId(query);
 
-      if (publicKey.length === 32) {
+      if (accountId) {
         if (!matches.find((item) => item.key === RECENT_KEY)) {
           matches.push(
             createOptionHeader('Recent')
@@ -197,7 +195,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
         matches.push(
           keyring.saveRecent(
-            addressEncode(publicKey)
+            accountId
           ).option
         );
       }

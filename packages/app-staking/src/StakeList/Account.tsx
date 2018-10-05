@@ -17,7 +17,6 @@ import Icon from '@polkadot/ui-app/Icon';
 import classes from '@polkadot/ui-app/util/classes';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
-import decodeAddress from '@polkadot/util-keyring/address/decode';
 
 import Nominating from './Nominating';
 import UnnominateButton from './UnnominateButton';
@@ -50,7 +49,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { address, intentions, isValidator, name } = this.props;
+    const { accountId, intentions, isValidator, name } = this.props;
     const { isNominateOpen } = this.state;
 
     return (
@@ -67,9 +66,9 @@ class Account extends React.PureComponent<Props, State> {
           intentions={intentions}
         />
         <AddressSummary
-          balance={this.balanceArray(address)}
+          balance={this.balanceArray(accountId)}
           name={name}
-          value={address}
+          value={accountId}
           identIconSize={96}
         >
           <div className='staking--Account-expand'>
@@ -86,7 +85,7 @@ class Account extends React.PureComponent<Props, State> {
     const { balances } = this.props;
 
     return balances[address]
-      ? [balances[address].stakingBalance, balances[address].nominatedBalance]
+      ? [balances[add].stakingBalance, balances[address].nominatedBalance]
       : undefined;
   }
 

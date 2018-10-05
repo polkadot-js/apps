@@ -13,6 +13,7 @@ import keyring from '@polkadot/ui-keyring/index';
 import withApi from '@polkadot/ui-react-rx/with/api';
 import { format } from '@polkadot/util/logger';
 import { Extrinsic } from '@polkadot/types';
+import addressDecode from '@polkadot/util-keyring/address/decode';
 
 import ExtrinsicDisplay from './Extrinsic';
 import Unlock from './Unlock';
@@ -57,9 +58,9 @@ class Signer extends React.PureComponent<Props, State> {
       !!nextItem &&
       !!currentItem &&
       (
-        (!nextItem.publicKey && !currentItem.publicKey) ||
+        (!nextItem.accountId && !currentItem.accountId) ||
         (
-          (nextItem.publicKey && nextItem.publicKey.toString()) === (currentItem.publicKey && currentItem.publicKey.toString())
+          (nextItem.accountId && nextItem.accountId.toString()) === (currentItem.accountId && currentItem.accountId.toString())
         )
       );
 
@@ -159,13 +160,22 @@ class Signer extends React.PureComponent<Props, State> {
         onChange={this.onChangePassword}
         onKeyDown={this.onKeyDown}
         password={password}
-        value={currentItem.publicKey}
+        value={currentItem.accountId}
         tabIndex={1}
       />
     );
   }
 
-  private unlockAccount (publicKey: Uint8Array, password?: string): UnlockI18n | null {
+  private unlockAccount (accountId: string, password?: string): UnlockI18n | null {
+    let publicKey;
+
+    try {
+      publicKey = addressDecode(accountId);
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+
     const pair = keyring.getPair(publicKey);
 
     if (!pair.isLocked()) {
@@ -236,31 +246,36 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetStatus(id, status, result, error);
   }
 
-  private sendExtrinsic = async ({ extrinsic, id, accountNonce, publicKey }: QueueTx, password?: string): Promise<void> => {
+  private sendExtrinsic = async ({ extrinsic, id, accountNonce, accountId }: QueueTx, password?: string): Promise<void> => {
     if (!extrinsic) {
       return;
     }
 
-    if (publicKey) {
-      const unlockError = this.unlockAccount(publicKey, password);
+    let publicKey;
 
-      if (unlockError) {
-        this.setState({ unlockError });
-        return;
-      }
+    try {
+      publicKey = addressDecode(accountId);
+    } catch (err) {
+      console.error(err);
+      return;
+    }
+
+    const unlockError = this.unlockAccount(publicKey, password);
+
+    if (unlockError) {
+      this.setState({ unlockError });
+      return;
     }
 
     const { apiObservable, queueSetStatus } = this.props;
 
     queueSetStatus(id, 'sending');
 
-    if (publicKey) {
-      const pair = keyring.getPair(publicKey);
+    const pair = keyring.getPair(publicKey);
 
-      console.error('signing:', pair.address(), accountNonce.toString(), apiObservable.genesisHash.toHex());
+    console.error('signing:', pair.address(), accountNonce.toString(), apiObservable.genesisHash.toHex());
 
-      extrinsic.sign(pair, accountNonce, apiObservable.genesisHash);
-    }
+    extrinsic.sign(pair, accountNonce, apiObservable.genesisHash);
 
     const { error, result, status } = await this.submitExtrinsic(extrinsic);
 

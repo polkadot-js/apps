@@ -13,7 +13,7 @@ import RxNonce from '@polkadot/ui-react-rx/Nonce';
 type Props = BareProps & {
   label: string,
   rxChange: (value: BN) => void,
-  value?: Uint8Array
+  value?: string
 };
 
 export default class Nonce extends React.PureComponent<Props> {

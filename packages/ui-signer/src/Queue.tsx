@@ -91,11 +91,11 @@ export default class Queue extends React.Component<Props, State> {
     return id;
   }
 
-  queueExtrinsic = ({ extrinsic, accountNonce = new BN(0), publicKey }: QueueTx$Extrinsic): QueueTx$Id => {
+  queueExtrinsic = ({ extrinsic, accountNonce = new BN(0), accountId }: QueueTx$Extrinsic): QueueTx$Id => {
     return this.queueAdd({
       accountNonce,
       extrinsic,
-      publicKey
+      accountId
     });
   }
 
