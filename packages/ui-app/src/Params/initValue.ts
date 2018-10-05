@@ -54,8 +54,7 @@ export default function getInitValue (type: TypeDef): RawParam$Value | Array<Raw
       return void 0;
 
     default:
-      // tslint:disable-next-line
-      (type as never);
-      throw new Error(`Unable to determine default type for ${JSON.stringify(type)}`);
+      console.error(`Unable to determine default type for ${JSON.stringify(type)}`);
+      return void 0;
   }
 }
