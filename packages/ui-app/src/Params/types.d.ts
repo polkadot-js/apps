@@ -14,8 +14,8 @@ export type RawParam$Values = RawParam$Value | RawParam$ValueArray;
 export type RawParam = {
   isValid: boolean,
   type: Param$Types,
-  value: RawParam$Values,
-}
+  value: RawParam$Values
+};
 
 export type RawParam$OnChange$Value = { isValid: boolean, value: RawParam$Values };
 export type RawParam$OnChange = (value: RawParam$OnChange$Value) => void;

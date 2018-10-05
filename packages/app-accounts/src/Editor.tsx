@@ -234,10 +234,10 @@ class Editor extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeAccount = (publicKey: Uint8Array): void => {
-    const current = publicKey && publicKey.length === 32
-      ? keyring.getPair(publicKey)
-      : null;
+  onChangeAccount = (accountId?: string): void => {
+    const current = accountId
+        ? keyring.getPair(accountId)
+        : null;
 
     this.nextState({
       current

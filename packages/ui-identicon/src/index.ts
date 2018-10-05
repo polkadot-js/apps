@@ -10,7 +10,7 @@ import newShape from './shape/circle';
 import newElement from './svg/element';
 import { SHAPE_COUNT } from './defaults';
 
-export default function identicon (seed: string | Uint8Array, diameter: number = 256, className: string = '', style?: { [index: string]: string }): HTMLElement {
+export default function identicon (seed: string, diameter: number = 256, className: string = '', style?: { [index: string]: string }): HTMLElement {
   const seeder = newSeeder(seed);
   const colorGen = colors(seeder);
   const outer = newContainer(diameter, 'white', className, style);

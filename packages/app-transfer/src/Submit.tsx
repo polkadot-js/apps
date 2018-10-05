@@ -18,8 +18,8 @@ type Props = I18nProps & {
   isDisabled: boolean,
   accountIndex?: BN,
   amount: BN,
-  from: Uint8Array,
-  to: Uint8Array,
+  from: string,
+  to: string,
   queueExtrinsic: QueueTx$ExtrinsicAdd
 };
 
@@ -47,7 +47,7 @@ class Submit extends React.PureComponent<Props> {
     queueExtrinsic({
       extrinsic: extrinsics.staking.public.transfer,
       nonce: accountIndex || new BN(0),
-      publicKey: from,
+      accountId: from,
       values: [to, amount]
     });
   }

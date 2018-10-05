@@ -5,6 +5,7 @@
 import BN from 'bn.js';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { EncodedMessage, QueueTx$MessageAdd } from '@polkadot/ui-signer/types';
+import addressDecode from '@polkadot/util-keyring/address/decode';
 
 import React from 'react';
 
@@ -25,7 +26,7 @@ type State = {
   isValid: boolean,
   encoded: EncodedMessage,
   nonce: BN,
-  publicKey: Uint8Array
+  accountId: string
 };
 
 const defaultExtrinsic = extrinsics.staking.public.transfer;
@@ -38,7 +39,7 @@ class Selection extends React.PureComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { publicKey, isValid } = this.state;
+    const { accountId, isValid } = this.state;
 
     return (
       <div className='extrinsics--Selection'>
@@ -62,7 +63,7 @@ class Selection extends React.PureComponent<Props, State> {
             defaultValue: 'with an index'
           })}
           rxChange={this.onChangeNonce}
-          value={publicKey}
+          value={accountId}
         />
         <Button.Group>
           <Button
@@ -81,10 +82,10 @@ class Selection extends React.PureComponent<Props, State> {
   nextState (newState: State): void {
     this.setState(
       (prevState: State): State => {
-        const { encoded = prevState.encoded, nonce = prevState.nonce, publicKey = prevState.publicKey } = newState;
+        const { encoded = prevState.encoded, nonce = prevState.nonce, accountId = prevState.accountId } = newState;
         const isValid = !!(
-          publicKey &&
-          publicKey.length &&
+          accountId &&
+          addressDecode(accountId) &&
           encoded &&
           encoded.isValid
         );
@@ -93,7 +94,7 @@ class Selection extends React.PureComponent<Props, State> {
           encoded,
           isValid,
           nonce,
-          publicKey
+          accountId
         };
       }
     );
@@ -107,18 +108,18 @@ class Selection extends React.PureComponent<Props, State> {
     this.nextState({ nonce } as State);
   }
 
-  onChangeSender = (publicKey: Uint8Array): void => {
-    this.nextState({ publicKey, nonce: new BN(0) } as State);
+  onChangeSender = (accountId: string): void => {
+    this.nextState({ accountId, nonce: new BN(0) } as State);
   }
 
   onQueue = (): void => {
     const { queueAdd } = this.props;
-    const { encoded: { isValid, values }, nonce, publicKey } = this.state;
+    const { encoded: { isValid, values }, nonce, accountId } = this.state;
 
     queueAdd({
       isValid,
       nonce,
-      publicKey,
+      accountId,
       rpc: defaultRpc,
       values
     });

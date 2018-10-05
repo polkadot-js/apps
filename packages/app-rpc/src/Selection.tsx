@@ -17,6 +17,7 @@ import Button from '@polkadot/ui-app/Button';
 import InputRpc from '@polkadot/ui-app/InputRpc';
 import Params from '@polkadot/ui-app/Params';
 import rawToValues from '@polkadot/ui-signer/rawToValues';
+import addressDecode from '@polkadot/util-keyring/address/decode';
 
 import Account from './Account';
 import translate from './translate';
@@ -28,7 +29,7 @@ type Props = I18nProps & {
 type State = {
   isValid: boolean,
   nonce: BN,
-  publicKey?: Uint8Array | null,
+  accountId: string | null,
   rpc: SectionItem<Interfaces>,
   values: Array<RawParam>
 };
@@ -39,7 +40,7 @@ class Selection extends React.PureComponent<Props, State> {
   state: State = {
     isValid: false,
     nonce: new BN(0),
-    publicKey: null,
+    accountId: null,
     rpc: defaultMethod,
     values: []
   };
@@ -74,15 +75,15 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   renderAccount () {
-    const { rpc: { isSigned = false }, publicKey } = this.state;
+    const { rpc: { isSigned = false }, accountId } = this.state;
 
-    if (!isSigned) {
+    if (!isSigned || !accountId) {
       return null;
     }
 
     return (
       <Account
-        defaultValue={publicKey}
+        defaultValue={accountId}
         onChange={this.onChangeAccount}
       />
     );
@@ -91,8 +92,8 @@ class Selection extends React.PureComponent<Props, State> {
   nextState (newState: State): void {
     this.setState(
       (prevState: State): State => {
-        const { rpc = prevState.rpc, nonce = prevState.nonce, publicKey = prevState.publicKey, values = prevState.values } = newState;
-        const hasNeededKey = rpc.isSigned !== true || (!!publicKey && publicKey.length === 32);
+        const { rpc = prevState.rpc, nonce = prevState.nonce, accountId = prevState.accountId, values = prevState.values } = newState;
+        const hasNeededKey = rpc.isSigned !== true || (!!accountId && !!prevState.accountId && addressDecode(prevState.accountId).length === 32);
         const isValid = values.reduce((isValid, value) => {
           return isValid && value.isValid === true;
         }, rpc.params.length === values.length && hasNeededKey);
@@ -101,17 +102,17 @@ class Selection extends React.PureComponent<Props, State> {
           isValid,
           rpc,
           nonce: nonce || new BN(0),
-          publicKey,
+          accountId,
           values
         };
       }
     );
   }
 
-  onChangeAccount = (publicKey: Uint8Array | undefined | null, nonce: BN): void => {
+  onChangeAccount = (accountId: string | undefined | null, nonce: BN): void => {
     this.nextState({
       nonce,
-      publicKey
+      accountId
     } as State);
   }
 
@@ -128,12 +129,12 @@ class Selection extends React.PureComponent<Props, State> {
 
   onSubmit = (): void => {
     const { queueAdd } = this.props;
-    const { isValid, nonce, publicKey, rpc, values } = this.state;
+    const { isValid, nonce, accountId, rpc, values } = this.state;
 
     queueAdd({
       isValid,
       nonce,
-      publicKey,
+      accountId,
       rpc,
       values: rawToValues(values)
     });

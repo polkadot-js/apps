@@ -56,9 +56,9 @@ class Signer extends React.PureComponent<Props, State> {
       !!nextItem &&
       !!currentItem &&
       (
-        (!nextItem.publicKey && !currentItem.publicKey) ||
+        (!nextItem.accountId && !currentItem.accountId) ||
         (
-          (nextItem.publicKey && nextItem.publicKey.toString()) === (currentItem.publicKey && currentItem.publicKey.toString())
+          (nextItem.accountId && nextItem.accountId.toString()) === (currentItem.accountId && currentItem.accountId.toString())
         )
       );
 
@@ -163,14 +163,14 @@ class Signer extends React.PureComponent<Props, State> {
         onChange={this.onChangePassword}
         onKeyDown={this.onKeyDown}
         password={password}
-        value={currentItem.publicKey}
+        value={currentItem.accountId}
         tabIndex={1}
       />
     );
   }
 
-  unlockAccount (publicKey: Uint8Array, password?: string): UnlockI18n | null {
-    const pair = keyring.getPair(publicKey);
+  unlockAccount (accountId: string, password?: string): UnlockI18n | null {
+    const pair = keyring.getPair(accountId);
 
     if (!pair.isLocked()) {
       return null;
@@ -226,9 +226,9 @@ class Signer extends React.PureComponent<Props, State> {
     return this.sendItem(currentItem, password);
   }
 
-  sendItem = async ({ id, nonce, publicKey, rpc, values }: QueueTx, password?: string): Promise<void> => {
-    if (rpc.isSigned === true && publicKey) {
-      const unlockError = this.unlockAccount(publicKey, password);
+  sendItem = async ({ id, nonce, accountId, rpc, values }: QueueTx, password?: string): Promise<void> => {
+    if (rpc.isSigned === true && accountId) {
+      const unlockError = this.unlockAccount(accountId, password);
 
       if (unlockError) {
         this.setState({ unlockError });
@@ -242,10 +242,10 @@ class Signer extends React.PureComponent<Props, State> {
 
     let data = values;
 
-    if (rpc.isSigned === true && publicKey) {
+    if (rpc.isSigned === true && accountId) {
       data = [
         signMessage(
-          publicKey, nonce, (data[0] as Uint8Array), apiSupport
+          accountId, nonce, (data[0] as Uint8Array), apiSupport
         ).data
       ];
     }

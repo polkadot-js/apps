@@ -8,10 +8,12 @@ import React from 'react';
 
 import BaseAccount from '../Account';
 
+import addressDecode from '@polkadot/util-keyring/address/decode';
+
 export default class Account extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = (value as Uint8Array);
+    const defaultValue = (value as string);
 
     return (
       <BaseAccount
@@ -28,12 +30,20 @@ export default class Account extends React.PureComponent<Props> {
     );
   }
 
-  onChange = (publicKey?: Uint8Array): void => {
+  onChange = (accountId: string): void => {
     const { onChange } = this.props;
+
+    let publicKey;
+
+    try {
+      publicKey = addressDecode(accountId);
+    } catch (err) {
+      console.error(err);
+    }
 
     onChange && onChange({
       isValid: !!publicKey && publicKey.length === 32,
-      value: publicKey
+      value: accountId
     });
   }
 }
