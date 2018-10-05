@@ -5,6 +5,7 @@
 import { Props as BaseProps, Size } from '../types';
 
 import React from 'react';
+import { U8a } from '@polkadot/types/codec';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
@@ -28,7 +29,11 @@ export default class BaseBytes extends React.PureComponent<Props> {
   render () {
     const { children, className, defaultValue: { value }, isDisabled, isError, label, size = 'full', style, withLabel } = this.props;
     const defaultValue = value
-      ? u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
+      ? (
+        value instanceof U8a
+          ? value.toHex()
+          : u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
+      )
       : undefined;
 
     return (

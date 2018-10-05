@@ -22,7 +22,7 @@ type Props = I18nProps & {
 
 type State = {
   isValid: boolean,
-  extrinsic?: Extrinsic,
+  extrinsic: Extrinsic | null,
   accountNonce: BN,
   publicKey: Uint8Array
 };
@@ -94,7 +94,7 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeExtrinsic = (extrinsic?: Extrinsic): void => {
+  private onChangeExtrinsic = (extrinsic: Extrinsic | null = null): void => {
     this.nextState({ extrinsic } as State);
   }
 
@@ -106,7 +106,7 @@ class Selection extends React.PureComponent<Props, State> {
     this.nextState({ publicKey, accountNonce: new BN(0) } as State);
   }
 
-  onQueue = (): void => {
+  private onQueue = (): void => {
     const { queueExtrinsic } = this.props;
     const { accountNonce, extrinsic, isValid, publicKey } = this.state;
 
