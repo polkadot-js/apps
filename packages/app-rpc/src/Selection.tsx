@@ -16,7 +16,6 @@ import { getTypeDef } from '@polkadot/types/codec';
 import Button from '@polkadot/ui-app/Button';
 import InputRpc from '@polkadot/ui-app/InputRpc';
 import Params from '@polkadot/ui-app/Params';
-import addressDecode from '@polkadot/util-keyring/address/decode';
 
 // import Account from './Account';
 import translate from './translate';

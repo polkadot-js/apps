@@ -8,7 +8,6 @@ import { QueueTx } from '@polkadot/ui-signer/types';
 import React from 'react';
 
 import Output from '@polkadot/ui-app/Output';
-import prettyJson from '@polkadot/ui-app/util/prettyJson';
 import isUndefined from '@polkadot/util/is/undefined';
 
 type Props = BareProps & {
@@ -39,7 +38,7 @@ export default class Results extends React.PureComponent<Props> {
             value={
               error
                 ? error.message
-                : prettyJson(result)
+                : JSON.stringify(result)
             }
           />
         ))}

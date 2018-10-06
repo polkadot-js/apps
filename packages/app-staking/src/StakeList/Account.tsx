@@ -24,7 +24,7 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   accountNonce?: BN,
-  address: string,
+  accountId: string,
   balances: RxBalanceMap,
   name: string,
   stakingNominating?: string,
@@ -85,7 +85,7 @@ class Account extends React.PureComponent<Props, State> {
     const { balances } = this.props;
 
     return balances[address]
-      ? [balances[add].stakingBalance, balances[address].nominatedBalance]
+      ? [balances[address].stakingBalance, balances[address].nominatedBalance]
       : undefined;
   }
 
@@ -122,8 +122,8 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { address, intentions, stakingNominating, t } = this.props;
-    const isIntending = intentions.includes(address);
+    const { accountId, intentions, stakingNominating, t } = this.props;
+    const isIntending = intentions.includes(accountId);
     const isNominating = !!stakingNominating;
     const canStake = !isIntending && !isNominating;
 
@@ -153,7 +153,7 @@ class Account extends React.PureComponent<Props, State> {
       return (
         <Button.Group>
           <UnnominateButton
-            address={address || ''}
+            accountId={accountId || ''}
             nominating={stakingNominating || ''}
             onClick={this.unnominate}
           />
@@ -175,13 +175,12 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private send (extrinsic: Extrinsic) {
-    const { accountNonce, address, queueExtrinsic } = this.props;
-    const publicKey = decodeAddress(address);
+    const { accountNonce, accountId, queueExtrinsic } = this.props;
 
     queueExtrinsic({
       extrinsic,
       accountNonce: accountNonce || new BN(0),
-      publicKey
+      accountId
     });
   }
 
@@ -208,9 +207,9 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private unstake = () => {
-    const { address, intentions } = this.props;
+    const { accountId, intentions } = this.props;
 
-    this.send(Api.extrinsics.staking.unstake(intentions.indexOf(address)));
+    this.send(Api.extrinsics.staking.unstake(intentions.indexOf(accountId)));
   }
 }
 

@@ -247,20 +247,11 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private sendExtrinsic = async ({ extrinsic, id, accountNonce, accountId }: QueueTx, password?: string): Promise<void> => {
-    if (!extrinsic) {
+    if (!extrinsic || !accountId) {
       return;
     }
 
-    let publicKey;
-
-    try {
-      publicKey = addressDecode(accountId);
-    } catch (err) {
-      console.error(err);
-      return;
-    }
-
-    const unlockError = this.unlockAccount(publicKey, password);
+    const unlockError = this.unlockAccount(accountId, password);
 
     if (unlockError) {
       this.setState({ unlockError });
@@ -271,7 +262,7 @@ class Signer extends React.PureComponent<Props, State> {
 
     queueSetStatus(id, 'sending');
 
-    const pair = keyring.getPair(publicKey);
+    const pair = keyring.getPair(accountId);
 
     console.error('signing:', pair.address(), accountNonce.toString(), apiObservable.genesisHash.toHex());
 

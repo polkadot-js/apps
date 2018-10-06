@@ -99,10 +99,10 @@ export default class Queue extends React.Component<Props, State> {
     });
   }
 
-  queueRpc = ({ accountNonce = new BN(0), publicKey, rpc, values }: QueueTx$Rpc): QueueTx$Id => {
+  queueRpc = ({ accountNonce = new BN(0), accountId, rpc, values }: QueueTx$Rpc): QueueTx$Id => {
     return this.queueAdd({
       accountNonce,
-      publicKey,
+      accountId,
       rpc,
       values
     });
