@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
+import { UInt } from '@polkadot/types/codec';
 import bnToBn from '@polkadot/util/bn/toBn';
 
 import decimalFormat from './decimalFormat';
@@ -16,12 +17,14 @@ function toDecimal (value: string, split: number, indicator: string): string {
   return `${decimalFormat(prefix)}${postfix ? '.' : ''}${postfix}${indicator}`;
 }
 
-export default function numberFormat (_value?: BN | number | null): string {
+export default function balanceFormat (_value?: UInt | BN | number | null): string {
   if (_value === undefined || _value === null) {
     return '0';
   }
 
-  const value = bnToBn(_value).toString();
+  const value = _value instanceof UInt
+    ? _value.toBn().toString()
+    : bnToBn(_value).toString();
 
   if (value.length <= 6) {
     return toDecimal(value, 0, 'μ');
