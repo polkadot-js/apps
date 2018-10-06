@@ -9,12 +9,12 @@ import bnToBn from '@polkadot/util/bn/toBn';
 import decimalFormat from './decimalFormat';
 
 function toDecimal (value: string, split: number, indicator: string): string {
-  let postfix = split === 0
+  const postfix = split === 0
     ? ''
-    : value.slice(-1 * split).slice(0, 2);
-  let prefix = value.slice(0, value.length - split);
+    : `.${value.slice(-1 * split).substr(0, 2)}`;
+  const prefix = value.slice(0, value.length - split);
 
-  return `${decimalFormat(prefix)}${postfix ? '.' : ''}${postfix}${indicator}`;
+  return `${decimalFormat(prefix)}${postfix}${indicator}`;
 }
 
 export default function balanceFormat (_value?: UInt | BN | number | null): string {
