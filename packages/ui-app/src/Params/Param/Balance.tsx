@@ -7,7 +7,7 @@ import { Props as BareProps } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
-import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
+import balanceFormat from '@polkadot/ui-react-rx/util/balanceFormat';
 
 import { BitLengthOption } from '../../constants';
 import InputNumber from '../../InputNumber';
@@ -21,7 +21,7 @@ class Balance extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
     const defaultValue = isDisabled
-      ? numberFormat(value)
+      ? balanceFormat(value)
       : new BN(value as BN || '0').toString(10);
 
     return (
