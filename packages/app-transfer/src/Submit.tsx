@@ -3,11 +3,12 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/types';
+import { QueueTx$Extrinsic, QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import extrinsics from '@polkadot/extrinsics';
+import Api from '@polkadot/api-observable';
+import { Index } from '@polkadot/types';
 import Button from '@polkadot/ui-app/Button';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
@@ -16,10 +17,10 @@ import translate from './translate';
 
 type Props = I18nProps & {
   isDisabled: boolean,
-  accountIndex?: BN,
+  accountNonce?: Index,
   amount: BN,
-  from: Uint8Array,
-  to: Uint8Array,
+  from: string,
+  to: string,
   queueExtrinsic: QueueTx$ExtrinsicAdd
 };
 
@@ -42,18 +43,17 @@ class Submit extends React.PureComponent<Props> {
   }
 
   private onMakeTransfer = () => {
-    const { accountIndex, amount, from, to, queueExtrinsic } = this.props;
+    const { accountNonce, amount, from, to, queueExtrinsic } = this.props;
 
     queueExtrinsic({
-      extrinsic: extrinsics.staking.public.transfer,
-      nonce: accountIndex || new BN(0),
-      publicKey: from,
-      values: [to, amount]
-    });
+      extrinsic: Api.extrinsics.balances.transfer(to, amount),
+      accountNonce: accountNonce || new Index(0),
+      accountId: from
+    } as QueueTx$Extrinsic);
   }
 }
 
 export default withMulti(
   translate(Submit),
-  withObservable('systemAccountIndexOf', { paramProp: 'from', propName: 'accountIndex' })
+  withObservable('accountNonce', { paramProp: 'from' })
 );

@@ -6,6 +6,7 @@ import { BareProps } from './types';
 
 import React from 'react';
 
+import classes from './util/classes';
 import Button from './Button';
 import Input from './Input';
 
@@ -40,12 +41,13 @@ export default class Password extends React.PureComponent<Props, State> {
     return (
       <Input
         autoFocus={autoFocus}
-        className={className}
+        className={classes('ui--Password', className)}
         defaultValue={defaultValue}
         isAction
         isDisabled={isDisabled}
         isError={isError}
         label={label}
+        maxLength={32}
         name={name}
         onChange={onChange}
         onKeyDown={onKeyDown}
@@ -73,7 +75,7 @@ export default class Password extends React.PureComponent<Props, State> {
     );
   }
 
-  onToggleVisible = (): void => {
+  private onToggleVisible = (): void => {
     this.setState({
       isVisible: !this.state.isVisible
     });

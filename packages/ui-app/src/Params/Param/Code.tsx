@@ -6,9 +6,6 @@ import { Props } from '../types';
 
 import React from 'react';
 
-import bnToU8a from '@polkadot/util/bn/toU8a';
-import u8aConcat from '@polkadot/util/u8a/concat';
-
 import Bytes from './Bytes';
 import BytesFile from './File';
 
@@ -39,7 +36,7 @@ export default class Code extends React.PureComponent<Props> {
 
     onChange && onChange({
       isValid: value.length !== 0,
-      value: u8aConcat(bnToU8a(value.length, 32, true), value)
+      value
     });
   }
 }

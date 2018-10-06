@@ -6,6 +6,8 @@ import { Props } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { UInt } from '@polkadot/types/codec';
+import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
 import Input from '../../Input';
 import Bare from './Bare';
@@ -13,7 +15,13 @@ import Bare from './Bare';
 export default class Amount extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = new BN((value as number) || 0).toNumber();
+    const defaultValue = isDisabled
+      ? numberFormat(value)
+      : (
+        value instanceof UInt
+          ? value.toNumber()
+          : new BN((value as number) || 0).toNumber()
+      );
 
     return (
       <Bare
@@ -28,7 +36,11 @@ export default class Amount extends React.PureComponent<Props> {
           label={label}
           min={0}
           onChange={this.onChange}
-          type='number'
+          type={
+            isDisabled
+              ? 'text'
+              : 'number'
+          }
           withLabel={withLabel}
         />
       </Bare>

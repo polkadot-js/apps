@@ -212,8 +212,8 @@ class Sign extends React.PureComponent<Props, State> {
     } as State);
   }
 
-  onChangeAccount = (publicKey: Uint8Array): void => {
-    const currentPair = keyring.getPair(publicKey);
+  onChangeAccount = (accountId: string): void => {
+    const currentPair = keyring.getPair(accountId);
 
     this.nextState({ currentPair } as State);
   }

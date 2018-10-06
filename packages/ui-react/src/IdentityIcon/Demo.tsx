@@ -11,7 +11,7 @@ import IdentityIcon from './index';
 
 export default class Demo extends React.PureComponent {
   render () {
-    const identities: Array<Uint8Array | string> = [new Uint8Array(32)];
+    const identities: Array<string> = [];
 
     while (identities.length !== 10) {
       identities.push(

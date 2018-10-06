@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { SectionItem } from '@polkadot/params/types';
-import { Storages, Storage$Sections } from '@polkadot/storage/types';
+import { StorageFunction } from '@polkadot/types/StorageKey';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 
@@ -14,12 +13,12 @@ import classes from '../util/classes';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  defaultValue?: Storage$Sections,
+  defaultValue?: StorageFunction,
   isError?: boolean,
   label?: string,
-  onChange: (value: Storage$Sections) => void,
+  onChange: (value: string) => void,
   options: DropdownOptions,
-  value: SectionItem<Storages>,
+  value: StorageFunction,
   withLabel?: boolean
 };
 

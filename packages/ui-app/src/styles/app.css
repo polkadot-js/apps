@@ -51,6 +51,12 @@ summary {
   text-align: center;
 }
 
+/* header {
+  background: #f5f5f5;
+  margin: -1em -2em 2em;
+  padding: 1em 2em 0;
+} */
+
 header+header,
 header+summary,
 summary+header {

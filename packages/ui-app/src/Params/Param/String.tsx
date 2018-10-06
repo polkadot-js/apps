@@ -12,7 +12,7 @@ import Bare from './Bare';
 export default class StringParam extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = value as string;
+    const defaultValue = (value || '').toString();
 
     return (
       <Bare

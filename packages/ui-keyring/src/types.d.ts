@@ -26,7 +26,7 @@ export type KeyringAddress = {
   isValid: () => boolean,
   publicKey: () => Uint8Array,
   getMeta: () => KeyringJson$Meta
-}
+};
 
 export type State = {
   accounts: AddressSubject,
@@ -35,7 +35,9 @@ export type State = {
 };
 
 export type KeyringInstance = {
+  addAccountPair: (pair: KeyringPair, password: string) => KeyringPair,
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta) => KeyringPair,
+  encryptAccount: (pair: KeyringPair, password: string) => void,
   forgetAccount: (address: string) => void,
   forgetAddress: (address: string) => void,
   getAccounts: () => Array<KeyringAddress>,

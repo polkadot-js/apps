@@ -19,7 +19,6 @@ export default function container (diameter: number, background: string = 'white
   element.className = className;
   element.style.background = background;
 
-  // FIXME Flow seems to believe element.style[key] has number keys
   Object.keys(style).forEach((key: any) => {
     element.style[key] = style[key];
   });

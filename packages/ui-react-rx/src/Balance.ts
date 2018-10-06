@@ -5,7 +5,7 @@
 import balanceFormat from './util/balanceFormat';
 import withObservableDiv from './with/observableDiv';
 
-const Component: React.ComponentType<any> = withObservableDiv('stakingFreeBalanceOf')(
+const Component: React.ComponentType<any> = withObservableDiv('balanceFree')(
   balanceFormat,
   { className: 'rx--Balance' }
 );

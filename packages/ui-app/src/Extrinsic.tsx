@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { ExtrinsicDecoded } from '@polkadot/params/types';
+import { getTypeDef } from '@polkadot/types/codec';
+import { FunctionMetadata } from '@polkadot/types/Metadata';
 import { I18nProps } from './types';
-import { RawParam } from './Params/types';
 
 import React from 'react';
+import { Extrinsic, Method } from '@polkadot/types';
 
 import classes from './util/classes';
 import Params from './Params';
@@ -14,16 +15,20 @@ import translate from './translate';
 
 export type Props = I18nProps & {
   children?: React.ReactNode,
-  value: ExtrinsicDecoded
+  meta?: FunctionMetadata,
+  value: Extrinsic
 };
 
-class Extrinsic extends React.PureComponent<Props> {
+class ExtrinsicDisplay extends React.PureComponent<Props> {
   render () {
-    const { children, className, style, value: { extrinsic, params } } = this.props;
-    const values: Array<RawParam> = extrinsic.params.map(({ type }, index) => ({
+    const { children, className, meta, style, value } = this.props;
+    const params = Method.filterOrigin(meta || value.meta).map(({ name, type }) => ({
+      name: name.toString(),
+      type: getTypeDef(type)
+    }));
+    const values = Method.decode(meta || value.meta, value.data).map((value) => ({
       isValid: true,
-      value: params[index],
-      type
+      value
     }));
 
     return (
@@ -34,7 +39,7 @@ class Extrinsic extends React.PureComponent<Props> {
         {children}
         <Params
           isDisabled
-          item={extrinsic}
+          params={params}
           values={values}
         />
       </div>
@@ -42,4 +47,4 @@ class Extrinsic extends React.PureComponent<Props> {
   }
 }
 
-export default translate(Extrinsic);
+export default translate(ExtrinsicDisplay);

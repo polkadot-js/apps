@@ -5,6 +5,7 @@
 import { Props as BaseProps, Size } from '../types';
 
 import React from 'react';
+import { U8a } from '@polkadot/types/codec';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
@@ -14,6 +15,7 @@ import Input from '../../Input';
 import Bare from './Bare';
 
 type Props = BaseProps & {
+  children?: React.ReactNode,
   length?: number,
   size?: Size,
   validate?: (u8a: Uint8Array) => boolean,
@@ -25,9 +27,13 @@ const defaultValidate = (u8a: Uint8Array): boolean =>
 
 export default class BaseBytes extends React.PureComponent<Props> {
   render () {
-    const { className, defaultValue: { value }, isDisabled, isError, label, size = 'full', style, withLabel } = this.props;
+    const { children, className, defaultValue: { value }, isDisabled, isError, label, size = 'full', style, withLabel } = this.props;
     const defaultValue = value
-      ? u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
+      ? (
+        value instanceof U8a
+          ? value.toHex()
+          : u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
+      )
       : undefined;
 
     return (
@@ -38,6 +44,7 @@ export default class BaseBytes extends React.PureComponent<Props> {
         <Input
           className={size}
           defaultValue={defaultValue}
+          isAction
           isDisabled={isDisabled}
           isError={isError}
           label={label}
@@ -45,7 +52,9 @@ export default class BaseBytes extends React.PureComponent<Props> {
           placeholder='0x...'
           type='text'
           withLabel={withLabel}
-        />
+        >
+          {children}
+        </Input>
       </Bare>
     );
   }

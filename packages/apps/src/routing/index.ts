@@ -2,13 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Routing,
-  Routes } from '../types';
+import { Routing, Routes } from '../types';
 
 import accounts from './accounts';
 import addresses from './addresses';
 import democracy from './democracy';
-import example from './example';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
 import rpc from './rpc';
@@ -28,7 +26,6 @@ const routes: Routes = process.env.UI_MODE === 'light'
     addresses
   )
   : ([] as Routes).concat(
-    example,
     explorer,
     transfer,
     staking,

@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { RxBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
+import { RxBalanceMap } from '@polkadot/api-observable/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import './index.css';
 
-import BN from 'bn.js';
 import React from 'react';
+import { Balance } from '@polkadot/types';
 
 import CurrentList from './CurrentList';
 import Summary from './Summary';
@@ -19,7 +19,7 @@ type Props = I18nProps & {
   validators: Array<string>
 };
 
-const ZERO = new BN(0);
+const ZERO = new Balance(0);
 
 export default class Overview extends React.PureComponent<Props> {
   render () {

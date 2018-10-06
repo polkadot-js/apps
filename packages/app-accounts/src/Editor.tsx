@@ -6,29 +6,29 @@ import { KeyringPair } from '@polkadot/util-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
+import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring/index';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
+import Backup from './Backup';
+import ChangePass from './ChangePass';
 import Forgetting from './Forgetting';
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
-
 import translate from './translate';
 
 type Props = I18nProps & {
-  accountAll?: Array<any>,
+  allAccounts?: Array<any>,
   onBack: () => void
 };
 
 type State = {
   current: KeyringPair | null,
   editedName: string,
+  isBackupOpen: boolean,
   isEdited: boolean,
-  isForgetOpen: boolean
+  isForgetOpen: boolean,
+  isPasswordOpen: boolean
 };
 
 class Editor extends React.PureComponent<Props, State> {
@@ -41,16 +41,9 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isForgetOpen, current } = this.state;
-
     return (
       <div className='accounts--Editor'>
-        <Forgetting
-          isOpen={isForgetOpen}
-          onClose={this.toggleForget}
-          doForget={this.onForget}
-          currentAddress={current}
-        />
+        {this.renderModals()}
         {this.renderData()}
         {this.renderButtons()}
       </div>
@@ -73,7 +66,22 @@ class Editor extends React.PureComponent<Props, State> {
           text={t('editor.forget', {
             defaultValue: 'Forget'
           })}
-
+        />
+        <Button.Group.Divider />
+        <Button
+          isDisabled={isEdited}
+          onClick={this.toggleBackup}
+          text={t('editor.backup', {
+            defaultValue: 'Backup'
+          })}
+        />
+        <Button.Or />
+        <Button
+          isDisabled={isEdited}
+          onClick={this.togglePass}
+          text={t('editor.changePass', {
+            defaultValue: 'Change Password'
+          })}
         />
         <Button.Group.Divider />
         <Button
@@ -97,14 +105,8 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   renderData () {
-    const { accountAll, t } = this.props;
+    const { t } = this.props;
     const { current, editedName } = this.state;
-
-    if (!accountAll || !Object.keys(accountAll).length) {
-      return t('editor.none', {
-        defaultValue: 'There are no saved accounts. Add some first.'
-      });
-    }
 
     const address = current
       ? current.address()
@@ -146,14 +148,60 @@ class Editor extends React.PureComponent<Props, State> {
     );
   }
 
+  renderModals () {
+    const { current, isBackupOpen, isForgetOpen, isPasswordOpen } = this.state;
+
+    if (!current) {
+      return null;
+    }
+
+    const address = current.address();
+    const modals = [];
+
+    if (isBackupOpen) {
+      modals.push(
+        <Backup
+          key='modal-backup-account'
+          pair={current}
+          onClose={this.toggleBackup}
+        />
+      );
+    }
+
+    if (isForgetOpen) {
+      modals.push(
+        <Forgetting
+          key='modal-forget-account'
+          address={address}
+          onClose={this.toggleForget}
+          doForget={this.onForget}
+        />
+      );
+    }
+
+    if (isPasswordOpen) {
+      modals.push(
+        <ChangePass
+          account={current}
+          key='modal-change-pass'
+          onClose={this.togglePass}
+        />
+      );
+    }
+
+    return modals;
+  }
+
   createState (current: KeyringPair | null): State {
     return {
       current,
       editedName: current
         ? current.getMeta().name || ''
         : '',
+      isBackupOpen: false,
       isEdited: false,
-      isForgetOpen: false
+      isForgetOpen: false,
+      isPasswordOpen: false
     };
   }
 
@@ -173,22 +221,23 @@ class Editor extends React.PureComponent<Props, State> {
         } else {
           editedName = '';
         }
-        let isForgetOpen = false;
 
         return {
           current,
           editedName,
+          isBackupOpen: false,
           isEdited,
-          isForgetOpen
+          isForgetOpen: false,
+          isPasswordOpen: false
         };
       }
     );
   }
 
-  onChangeAccount = (publicKey: Uint8Array): void => {
-    const current = publicKey && publicKey.length === 32
-      ? keyring.getPair(publicKey)
-      : null;
+  onChangeAccount = (accountId?: string): void => {
+    const current = accountId
+        ? keyring.getPair(accountId)
+        : null;
 
     this.nextState({
       current
@@ -226,11 +275,36 @@ class Editor extends React.PureComponent<Props, State> {
     } as State);
   }
 
+  toggleBackup = (): void => {
+    this.setState(
+      ({ isBackupOpen }: State) => ({
+        isBackupOpen: !isBackupOpen
+      })
+    );
+  }
+
   toggleForget = (): void => {
     this.setState(
       ({ isForgetOpen }: State) => ({
         isForgetOpen: !isForgetOpen
       })
+    );
+  }
+
+  togglePass = (): void => {
+    this.setState(
+      ({ current, isPasswordOpen }: State) => {
+        if (!current) {
+          return null;
+        }
+
+        // NOTE We re-get the account from the keyring, if changed it will load the
+        // new instance (this is not quite obvious...)
+        return {
+          current: keyring.getPair(current.publicKey()),
+          isPasswordOpen: !isPasswordOpen
+        };
+      }
     );
   }
 
@@ -252,6 +326,4 @@ class Editor extends React.PureComponent<Props, State> {
   }
 }
 
-export default withObservableBase(
-  accountObservable.subject, { propName: 'accountAll' }
-)(translate(Editor));
+export default translate(Editor);

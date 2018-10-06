@@ -2,15 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { SectionItem } from '@polkadot/params/types';
-import { Storages } from '@polkadot/storage/types';
+import { TypeDef, getTypeDef } from '@polkadot/types/codec';
+import { StorageFunction } from '@polkadot/types/StorageKey';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParams } from '@polkadot/ui-app/Params/types';
 import { StorageQuery } from './types';
 
 import React from 'react';
-
-import storage from '@polkadot/storage';
+import Api from '@polkadot/api-observable';
 import Button from '@polkadot/ui-app/Button';
 import InputStorage from '@polkadot/ui-app/InputStorage';
 import Labelled from '@polkadot/ui-app/Labelled';
@@ -25,37 +24,46 @@ type Props = I18nProps & {
 
 type State = {
   isValid: boolean,
-  key: SectionItem<Storages>,
-  params: RawParams
+  key: StorageFunction,
+  values: RawParams,
+  params: Array<{ type: TypeDef }>
 };
 
-const defaultValue = storage.timestamp.public.now;
 let id = -1;
 
 class Selection extends React.PureComponent<Props, State> {
-  state: State = {
-    isValid: true,
-    key: defaultValue,
-    params: []
-  };
+  private defaultValue: any;
+  state: State;
+
+  constructor (props: Props) {
+    super(props);
+
+    this.defaultValue = Api.storage.timestamp.now;
+    this.state = {
+      isValid: true,
+      key: this.defaultValue,
+      values: [],
+      params: []
+    };
+  }
 
   render () {
     const { t } = this.props;
-    const { isValid, key } = this.state;
+    const { isValid, params } = this.state;
 
     return (
       <section className='storage--Selection storage--actionrow'>
         <div className='storage--actionrow-value'>
           <InputStorage
-            defaultValue={defaultValue}
+            defaultValue={this.defaultValue}
             labelSection={t('selection.section', {
               defaultValue: 'query state section'
             })}
             onChange={this.onChangeKey}
           />
           <Params
-            item={key}
             onChange={this.onChangeParams}
+            params={params}
           />
         </div>
         <Labelled className='storage--actionrow-button'>
@@ -70,48 +78,54 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  nextState (newState: State): void {
+  private nextState (newState: State): void {
     this.setState(
       (prevState: State) => {
-        const { key = prevState.key, params = prevState.params } = newState;
-        const keyParams = Object.values(key.params);
-        const isValid = params.length === keyParams.length &&
-          keyParams.reduce((isValid, param, index) =>
+        const { key = prevState.key, values = prevState.values } = newState;
+        const hasParam = key.meta.type.isMap;
+        const isValid = values.length === (hasParam ? 1 : 0) &&
+          values.reduce((isValid, value) =>
             isValid &&
-            !isUndefined(params[index]) &&
-            !isUndefined(params[index].value) &&
-            params[index].isValid, true);
+            !isUndefined(value) &&
+            !isUndefined(value.value) &&
+            value.isValid,
+            true
+          );
 
         return {
           isValid,
           key,
-          params
+          values,
+          params: hasParam
+            ? [{ type: getTypeDef(key.meta.type.asMap.key.toString()) }]
+            : []
         };
       }
     );
   }
 
-  onAdd = (): void => {
+  private onAdd = (): void => {
     const { onAdd } = this.props;
-    const { key, params } = this.state;
+    const { key, values } = this.state;
 
     onAdd({
       id: ++id,
       key,
-      params
+      params: values
     });
   }
 
-  onChangeKey = (key: SectionItem<Storages>): void => {
+  private onChangeKey = (key: StorageFunction): void => {
     this.nextState({
       isValid: false,
       key,
+      values: [],
       params: []
     });
   }
 
-  onChangeParams = (params: RawParams = []): void => {
-    this.nextState({ params } as State);
+  private onChangeParams = (values: RawParams = []): void => {
+    this.nextState({ values } as State);
   }
 }
 

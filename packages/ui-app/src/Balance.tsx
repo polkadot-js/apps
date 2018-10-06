@@ -6,19 +6,20 @@ import { BareProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
 import RxBalance from '@polkadot/ui-react-rx/Balance';
 import balanceFormat from '@polkadot/ui-react-rx/util/balanceFormat';
 
 import classes from './util/classes';
 
 export type Props = BareProps & {
-  balance?: BN | Array<BN>,
+  balance?: Balance | Array<Balance> | BN,
   label?: string,
-  value: string | Uint8Array,
+  value: AccountId | AccountIndex | Address | string | Uint8Array,
   withLabel?: boolean
 };
 
-export default class Balance extends React.PureComponent<Props> {
+export default class BalanceDisplay extends React.PureComponent<Props> {
   render () {
     const { balance, className, label, value, style } = this.props;
 

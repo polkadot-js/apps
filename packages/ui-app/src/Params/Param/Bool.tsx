@@ -5,6 +5,7 @@
 import { Props } from '../types';
 
 import React from 'react';
+import { Bool } from '@polkadot/types';
 
 import Dropdown from '../../Dropdown';
 import Bare from './Bare';
@@ -14,10 +15,12 @@ const options = [
   { text: 'Yes', value: true }
 ];
 
-export default class Bool extends React.PureComponent<Props> {
+export default class BoolParam extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = value as boolean;
+    const defaultValue = value instanceof Bool
+      ? value.raw
+      : value as boolean;
 
     return (
       <Bare

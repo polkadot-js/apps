@@ -25,21 +25,28 @@
   .ui.button:active,
   .ui.buttons .button:active,
   .ui.button:focus,
-  .ui.buttons .button:focus,
+  .ui.buttons .button:focus{
+    background-color: $button-color;
+    color: white;
+  }
+
   .ui.positive.button,
   .ui.buttons .positive.button,
   .ui.positive.button:active,
   .ui.buttons .positive.button:active,
   .ui.positive.button:focus,
   .ui.buttons .positive.button:focus {
-    background-color: $button-color;
+    background-color: $button-positive-color;
+    color: white;
+  }
+  .ui.positive.button:hover,
+  .ui.buttons .positive.button:hover {
+    background-color: $button-positive-color-hover;
     color: white;
   }
 
   .ui.button:hover,
-  .ui.buttons .button:hover,
-  .ui.positive.button:hover,
-  .ui.buttons .positive.button:hover {
+  .ui.buttons .button:hover {
     background-color: $button-color-hover;
     color: white;
   }

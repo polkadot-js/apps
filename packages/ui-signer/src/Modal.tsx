@@ -4,19 +4,21 @@
 
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
-import { QueueTx, QueueTx$MessageSetStatus } from './types';
+import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result } from './types';
 
 import React from 'react';
 import Button from '@polkadot/ui-app/Button';
 import Modal from '@polkadot/ui-app/Modal';
 import keyring from '@polkadot/ui-keyring/index';
 import withApi from '@polkadot/ui-react-rx/with/api';
+import { format } from '@polkadot/util/logger';
+import { Extrinsic } from '@polkadot/types';
+import addressDecode from '@polkadot/util-keyring/address/decode';
 
-import Extrinsic from './Extrinsic';
+import ExtrinsicDisplay from './Extrinsic';
 import Unlock from './Unlock';
-import signMessage from './sign';
-import submitMessage from './submit';
 import translate from './translate';
+import { RpcMethod } from '@polkadot/jsonrpc/types';
 
 type BaseProps = BareProps & {
   queue: Array<QueueTx>,
@@ -56,9 +58,9 @@ class Signer extends React.PureComponent<Props, State> {
       !!nextItem &&
       !!currentItem &&
       (
-        (!nextItem.publicKey && !currentItem.publicKey) ||
+        (!nextItem.accountId && !currentItem.accountId) ||
         (
-          (nextItem.publicKey && nextItem.publicKey.toString()) === (currentItem.publicKey && currentItem.publicKey.toString())
+          (nextItem.accountId && nextItem.accountId.toString()) === (currentItem.accountId && currentItem.accountId.toString())
         )
       );
 
@@ -72,15 +74,15 @@ class Signer extends React.PureComponent<Props, State> {
   async componentDidUpdate (prevProps: Props, prevState: State) {
     const { currentItem } = this.state;
 
-    if (currentItem && currentItem.status === 'queued' && currentItem.rpc.isSigned !== true) {
-      return this.sendItem(currentItem);
+    if (currentItem && currentItem.status === 'queued' && !currentItem.extrinsic) {
+      return this.sendRpc(currentItem);
     }
   }
 
   render () {
     const { currentItem } = this.state;
 
-    if (!currentItem || currentItem.rpc.isSigned !== true) {
+    if (!currentItem) {
       return null;
     }
 
@@ -96,9 +98,8 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  renderButtons () {
+  private renderButtons () {
     const { t } = this.props;
-    const { currentItem: { rpc: { isSigned = false } = {} } = {} } = this.state;
 
     return (
       <Modal.Actions>
@@ -119,13 +120,9 @@ class Signer extends React.PureComponent<Props, State> {
               onClick={this.onSend}
               tabIndex={2}
               text={
-                isSigned
-                  ? t('extrinsic.signedSend', {
-                    defaultValue: 'Sign and Submit'
-                  })
-                  : t('extrinsic.send', {
-                    defaultValue: 'Submit'
-                  })
+                t('extrinsic.signedSend', {
+                  defaultValue: 'Sign and Submit'
+                })
               }
             />
           </div>
@@ -134,7 +131,7 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  renderContent () {
+  private renderContent () {
     const { currentItem } = this.state;
 
     if (!currentItem) {
@@ -142,13 +139,13 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Extrinsic value={currentItem}>
+      <ExtrinsicDisplay value={currentItem}>
         {this.renderUnlock()}
-      </Extrinsic>
+      </ExtrinsicDisplay>
     );
   }
 
-  renderUnlock () {
+  private renderUnlock () {
     const { t } = this.props;
     const { currentItem, password, unlockError } = this.state;
 
@@ -163,13 +160,22 @@ class Signer extends React.PureComponent<Props, State> {
         onChange={this.onChangePassword}
         onKeyDown={this.onKeyDown}
         password={password}
-        value={currentItem.publicKey}
+        value={currentItem.accountId}
         tabIndex={1}
       />
     );
   }
 
-  unlockAccount (publicKey: Uint8Array, password?: string): UnlockI18n | null {
+  private unlockAccount (accountId: string, password?: string): UnlockI18n | null {
+    let publicKey;
+
+    try {
+      publicKey = addressDecode(accountId);
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+
     const pair = keyring.getPair(publicKey);
 
     if (!pair.isLocked()) {
@@ -190,20 +196,20 @@ class Signer extends React.PureComponent<Props, State> {
     return null;
   }
 
-  onChangePassword = (password: string): void => {
+  private onChangePassword = (password: string): void => {
     this.setState({
       password,
       unlockError: null
     });
   }
 
-  onKeyDown = async (event: React.KeyboardEvent<Element>): Promise<any> => {
+  private onKeyDown = async (event: React.KeyboardEvent<Element>): Promise<any> => {
     if (event.key === 'Enter') {
       await this.onSend();
     }
   }
 
-  onCancel = (): void => {
+  private onCancel = (): void => {
     const { queueSetStatus } = this.props;
     const { currentItem } = this.state;
 
@@ -215,7 +221,7 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetStatus(currentItem.id, 'cancelled');
   }
 
-  onSend = async (): Promise<any> => {
+  private onSend = async (): Promise<any> => {
     const { currentItem, password } = this.state;
 
     // This should never be executed
@@ -223,36 +229,96 @@ class Signer extends React.PureComponent<Props, State> {
       return;
     }
 
-    return this.sendItem(currentItem, password);
+    return this.sendExtrinsic(currentItem, password);
   }
 
-  sendItem = async ({ id, nonce, publicKey, rpc, values }: QueueTx, password?: string): Promise<void> => {
-    if (rpc.isSigned === true && publicKey) {
-      const unlockError = this.unlockAccount(publicKey, password);
-
-      if (unlockError) {
-        this.setState({ unlockError });
-        return;
-      }
+  private sendRpc = async ({ id, rpc, values = [] }: QueueTx): Promise<void> => {
+    if (!rpc) {
+      return;
     }
 
-    const { api, apiSupport, queueSetStatus } = this.props;
+    const { queueSetStatus } = this.props;
 
     queueSetStatus(id, 'sending');
 
-    let data = values;
-
-    if (rpc.isSigned === true && publicKey) {
-      data = [
-        signMessage(
-          publicKey, nonce, (data[0] as Uint8Array), apiSupport
-        ).data
-      ];
-    }
-
-    const { error, result, status } = await submitMessage(api, data, rpc);
+    const { error, result, status } = await this.submitRpc(rpc, values);
 
     queueSetStatus(id, status, result, error);
+  }
+
+  private sendExtrinsic = async ({ extrinsic, id, accountNonce, accountId }: QueueTx, password?: string): Promise<void> => {
+    if (!extrinsic || !accountId) {
+      return;
+    }
+
+    const unlockError = this.unlockAccount(accountId, password);
+
+    if (unlockError) {
+      this.setState({ unlockError });
+      return;
+    }
+
+    const { apiObservable, queueSetStatus } = this.props;
+
+    queueSetStatus(id, 'sending');
+
+    const pair = keyring.getPair(accountId);
+
+    console.error('signing:', pair.address(), accountNonce.toString(), apiObservable.genesisHash.toHex());
+
+    extrinsic.sign(pair, accountNonce, apiObservable.genesisHash);
+
+    const { error, result, status } = await this.submitExtrinsic(extrinsic);
+
+    queueSetStatus(id, status, result, error);
+  }
+
+  private async submitRpc (rpc: RpcMethod, values: Array<any>): Promise<QueueTx$Result> {
+    const { apiObservable } = this.props;
+
+    try {
+      const result = await apiObservable.rawCall(rpc, ...values).toPromise();
+
+      console.log('submitRpc: result ::', format(result));
+
+      return {
+        result,
+        status: 'sent'
+      };
+    } catch (error) {
+      console.error(error);
+
+      return {
+        error,
+        status: 'error'
+      };
+    }
+  }
+
+  private async submitExtrinsic (extrinsic: Extrinsic): Promise<QueueTx$Result> {
+    const { apiObservable } = this.props;
+
+    try {
+      const encoded = extrinsic.toJSON();
+
+      console.log('submitExtrinsic: encode ::', encoded);
+
+      const result = await apiObservable.submitExtrinsic(extrinsic).toPromise();
+
+      console.log('submitExtrinsic: result ::', format(result));
+
+      return {
+        result,
+        status: 'sent'
+      };
+    } catch (error) {
+      console.error(error);
+
+      return {
+        error,
+        status: 'error'
+      };
+    }
   }
 }
 

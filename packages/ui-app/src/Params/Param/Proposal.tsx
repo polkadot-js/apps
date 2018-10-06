@@ -2,12 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { ExtrinsicDecoded } from '@polkadot/params/types';
 import { Props } from '../types';
 
 import React from 'react';
+import { Extrinsic } from '@polkadot/types';
+import findFunction from '@polkadot/ui-signer/findFunction';
 
-import Extrinsic from '../../Extrinsic';
+import ExtrinsicDisplay from '../../Extrinsic';
 import Static from '../../Static';
 import classes from '../../util/classes';
 import Bare from './Bare';
@@ -23,8 +24,8 @@ export default class Proposal extends React.PureComponent<Props> {
       );
     }
 
-    const proposal = value as ExtrinsicDecoded;
-    const { extrinsic: { name, section } } = proposal;
+    const proposal = value as Extrinsic;
+    const fn = findFunction(proposal.callIndex);
 
     return (
       <Bare>
@@ -34,9 +35,9 @@ export default class Proposal extends React.PureComponent<Props> {
           style={style}
           withLabel={withLabel}
         >
-          {section}.{name}
+          {fn.section}.{fn.name}
         </Static>
-        <Extrinsic value={proposal} />
+        <ExtrinsicDisplay value={proposal} />
       </Bare>
     );
   }

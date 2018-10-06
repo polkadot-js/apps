@@ -4,15 +4,10 @@
 
 import BN from 'bn.js';
 import { Extrinsics } from '@polkadot/extrinsics/types';
-import { SectionItem } from '@polkadot/params/types';
-import { Interfaces } from '@polkadot/jsonrpc/types';
-import { Param$Values } from '@polkadot/params/types';
+import { RpcMethod } from '@polkadot/jsonrpc/types';
+import { Base, UInt } from '@polkadot/types/codec';
+import { Hash, Extrinsic } from '@polkadot/types';
 import { RawParam$Value } from '@polkadot/ui-app/Params/types';
-
-export type EncodedMessage = {
-  isValid: boolean,
-  values: Array<Param$Values>
-};
 
 export type QueueTx$Status = 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent';
 
@@ -22,30 +17,35 @@ export type QueueTx$Result = {
   error?: Error,
   result?: any,
   status: QueueTx$Status
-}
-
-export type AccountInfo = {
-  nonce: BN,
-  publicKey?: Uint8Array | null
 };
 
-export type QueueTx$Base = EncodedMessage & AccountInfo & {
-  rpc: SectionItem<Interfaces>
+export type AccountInfo = {
+  accountNonce: UInt | BN,
+  accountId?: string | null
 };
 
 export type QueueTx$Extrinsic = AccountInfo & {
-  extrinsic: SectionItem<Extrinsics>,
-  values: Array<RawParam$Value>
+  extrinsic: Extrinsic
 }
 
-export type QueueTx = QueueTx$Base & {
+export type QueueTx$Rpc = AccountInfo & {
+  rpc: RpcMethod,
+  values: Array<any>
+};
+
+export type QueueTx = AccountInfo & {
   error?: Error,
+  extrinsic?: Extrinsic,
   id: QueueTx$Id,
   result?: any,
+  rpc: RpcMethod,
+  values?: Array<any>,
   status: QueueTx$Status
 };
 
-export type QueueTx$MessageAdd = (value: QueueTx$Base) => QueueTx$Id;
+export type QueueTx$Add = (value: QueueTx$Rpc | QueueTx$Extrinsic) => QueueTx$Id;
+
+export type QueueTx$RpcAdd = (value: QueueTx$Rpc) => QueueTx$Id;
 
 export type QueueTx$ExtrinsicAdd = (value: QueueTx$Extrinsic) => QueueTx$Id;
 
@@ -53,8 +53,8 @@ export type QueueTx$MessageSetStatus = (id: number, status: QueueTx$Status, resu
 
 export type QueueProps = {
   queue: Array<QueueTx>,
-  queueAdd: QueueTx$MessageAdd,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
+  queueRpc: QueueTx$RpcAdd,
   queueSetStatus: QueueTx$MessageSetStatus
 };
 

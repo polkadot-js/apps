@@ -7,8 +7,6 @@ import { Props as BareProps, RawParam } from '../types';
 
 import React from 'react';
 
-import typeToString from '@polkadot/params/typeToString';
-
 import Static from '../../Static';
 import translate from '../../translate';
 import Base from './Base';
@@ -21,7 +19,7 @@ type Props = BareProps & {
 
 class Unknown extends React.PureComponent<Props> {
   render () {
-    const { defaultValue: { value, type }, isDisabled, label, t, withLabel } = this.props;
+    const { defaultValue: { value }, isDisabled, label, t, withLabel, type } = this.props;
 
     if (isDisabled) {
       return (
@@ -42,7 +40,7 @@ class Unknown extends React.PureComponent<Props> {
           {t('param.unknown', {
             defaultValue: `ERROR: Unimplemented type '{{type}}' requested. No renderer exists`,
             replace: {
-              type: typeToString(type)
+              type: type.type
             }
           })}
         </div>

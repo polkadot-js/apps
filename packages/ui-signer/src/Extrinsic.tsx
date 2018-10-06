@@ -8,13 +8,11 @@ import { QueueTx } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { Trans } from 'react-i18next';
-
-import extrinsics from '@polkadot/extrinsics';
 import Modal from '@polkadot/ui-app/Modal';
+import Extrinsic from '@polkadot/ui-app/Extrinsic';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
-import u8aToHex from '@polkadot/util/u8a/toHex';
-import addressEncode from '@polkadot/util-keyring/address/encode';
 
+import findFunction from './findFunction';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -22,35 +20,15 @@ type Props = I18nProps & {
   value: QueueTx
 };
 
-function findExtrinsic (sectionId: number, methodId: number): { method: string | undefined, section: string | undefined } {
-  const section = Object.values(extrinsics).find(({ index }) =>
-    index[0] === sectionId
-  );
-  const methods = section
-    ? section.public
-    : {};
-  const method = Object.keys(methods).find((method) =>
-    methods[method].index[1] === methodId
-  );
-
-  return {
-    method,
-    section: section
-      ? section.name
-      : undefined
-  };
-}
-
-class Extrinsic extends React.PureComponent<Props> {
+class Transaction extends React.PureComponent<Props> {
   render () {
-    const { children, t, value: { nonce = new BN(0), publicKey, values: [_value] } } = this.props;
+    const { children, t, value: { accountId, accountNonce = new BN(0), extrinsic } } = this.props;
 
-    const unknown = t('decoded.unknown', {
-      defaultValue: 'unknown'
-    });
-    const value = _value as Uint8Array;
-    const { method = unknown, section = unknown } = findExtrinsic(value[0], value[1]);
-    const from = addressEncode(publicKey as Uint8Array);
+    if (!extrinsic) {
+      return null;
+    }
+
+    const fn = findFunction(extrinsic.callIndex);
 
     return [
       <Modal.Header key='header'>
@@ -63,21 +41,14 @@ class Extrinsic extends React.PureComponent<Props> {
           <div className='expanded'>
             <p>
               <Trans i18nKey='decoded.short'>
-                You are about to sign a message from <span className='code'>{from}</span> calling <span className='code'>{section}.{method}</span> with an index of <span className='code'>{nonce.toString()}</span>
+                You are about to sign a message from <span className='code'>{accountId}</span> calling <span className='code'>{fn.section}.{fn.method}</span> with an index of <span className='code'>{accountNonce.toString()}</span>
               </Trans>
             </p>
-            <p>
-              {t('decoded.data', {
-                defaultValue: 'The encoded parameters contains the data'
-              })}
-            </p>
-            <p className='code'>
-              {u8aToHex(value, 512)}
-            </p>
+            <Extrinsic value={extrinsic} />
           </div>
           <IdentityIcon
             className='icon'
-            value={from}
+            value={accountId}
           />
         </div>
         {children}
@@ -86,4 +57,4 @@ class Extrinsic extends React.PureComponent<Props> {
   }
 }
 
-export default translate(Extrinsic);
+export default translate(Transaction);

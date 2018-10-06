@@ -2,16 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
-import { RxFees } from '@polkadot/ui-react-rx/ApiObservable/types';
+import { BitLength, I18nProps } from '@polkadot/ui-app/types';
+import { RxFees } from '@polkadot/api-observable/types';
 import { QueueProps } from '@polkadot/ui-signer/types';
 import { Fees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { BitLengthOption } from '@polkadot/ui-app/constants';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import InputAddress from '@polkadot/ui-app/InputAddress';
-import Input from '@polkadot/ui-app/Input';
+import InputNumber from '@polkadot/ui-app/InputNumber';
+import addressDecode from '@polkadot/util-keyring/address/decode';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
@@ -26,10 +28,12 @@ type Props = I18nProps & {
 
 type State = {
   amount: BN,
-  from: Uint8Array | null,
-  to: Uint8Array | null,
+  from: string | null,
+  to: string | null,
   txfees: Fees
 };
+
+const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
 const ZERO = new BN(0);
 
@@ -79,15 +83,13 @@ class Transfer extends React.PureComponent<Props, State> {
         <div className='transfer--Transfer-info'>
           {this.renderAddress(from)}
           <div className='transfer--Transfer-data'>
-            <Input
-              defaultValue='0'
+            <InputNumber
+              bitLength={DEFAULT_BITLENGTH}
               isError={!hasAvailable}
               label={t('amount', {
                 defaultValue: 'send a value of (μ)'
               })}
-              min={0}
               onChange={this.onChangeAmount}
-              type='number'
             />
             <FeeDisplay
               className='medium'
@@ -115,8 +117,16 @@ class Transfer extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderAddress (publicKey: Uint8Array | null) {
-    if (!publicKey) {
+  private renderAddress (accountId: string | null) {
+    if (!accountId) {
+      return null;
+    }
+
+    let publicKey;
+
+    try {
+      publicKey = addressDecode(accountId);
+    } catch (err) {
       return null;
     }
 
@@ -130,15 +140,15 @@ class Transfer extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeAmount = (amount: string) => {
-    this.setState({ amount: new BN(amount || 0) });
+  private onChangeAmount = (amount: BN) => {
+    this.setState({ amount });
   }
 
-  private onChangeFrom = (from: Uint8Array) => {
+  private onChangeFrom = (from: string) => {
     this.setState({ from });
   }
 
-  private onChangeTo = (to: Uint8Array) => {
+  private onChangeTo = (to: string) => {
     this.setState({ to });
   }
 

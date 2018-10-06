@@ -2,59 +2,37 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Params } from '@polkadot/params/types';
-import { RawParam, RawParam$ValueArray } from './types';
+import { TypeDef, TypeDefInfo } from '@polkadot/types/codec';
+import { RawParam } from './types';
 
 import isUndefined from '@polkadot/util/is/undefined';
 
 import getInitValue from './initValue';
 
-export default function values (params: Params): Array<RawParam> {
-  const types = params.map(({ type }) => type);
+export default function values (params: Array<{ type: TypeDef }>): Array<RawParam> {
+  return params.map(({ type }): RawParam => {
+    if (type.info !== TypeDefInfo.Plain) {
+      console.error('Unable to determine default values for type', type);
 
-  return types.map((type): RawParam => {
-    if (Array.isArray(type)) {
-      if (type.length !== 1) {
-        console.error('Unable to determine default values for tuple type', type);
+      return {
+        isValid: false,
+        value: void 0
+      };
 
-        return {
-          isValid: false,
-          type,
-          value: void 0
-        };
-      }
-
-      // NOTE special cases for where we have a known override formatter. See comments
-      // in ./inintValueArray.ts
-      if (type[0] === 'KeyValueStorage') {
-        return {
-          isValid: false, // invalid to start with, empty array
-          type,
-          value: []
-        };
-      }
-
-      const value: RawParam$ValueArray = [];
-
-      return type.reduce(({ isValid, type }, subtype) => {
-        const avalue = getInitValue(subtype);
-
-        value.push(avalue);
-
-        return {
-          isValid: isValid && !isUndefined(avalue),
-          type,
-          value
-        };
-      // FIXME Arrays are currently not valid as inputs, no rendered
-      }, { isValid: false, type, value });
+      // // NOTE special cases for where we have a known override formatter. See comments
+      // // in ./inintValueArray.ts
+      // if (type[0] === 'KeyValueStorage') {
+      //   return {
+      //     isValid: false, // invalid to start with, empty array
+      //     value: []
+      //   };
+      // }
     }
 
     const value = getInitValue(type);
 
     return {
       isValid: !isUndefined(value),
-      type,
       value
     };
   });

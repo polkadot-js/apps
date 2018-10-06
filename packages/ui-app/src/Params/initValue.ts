@@ -2,22 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Param$Type, Param$Types } from '@polkadot/params/types';
+import { TypeDef } from '@polkadot/types/codec';
 import { RawParam$Value } from './types';
 
 import BN from 'bn.js';
 
-import typeToString from '@polkadot/params/typeToString';
-
-import getInitValueArray from './initValueArray';
-
-export default function getInitValue (type: Param$Types): RawParam$Value | Array<RawParam$Value> {
-  switch (type) {
+export default function getInitValue (type: TypeDef): RawParam$Value | Array<RawParam$Value> {
+  switch (type.type) {
     case 'Balance':
       return new BN(1);
 
     case 'BlockNumber':
-    case 'AccountIndex':
+    case 'Gas':
     case 'Index':
     case 'ParachainId':
     case 'PropIndex':
@@ -42,10 +38,11 @@ export default function getInitValue (type: Param$Types): RawParam$Value | Array
       return 0;
 
     case 'AccountId':
+    case 'AccountIndex':
+    case 'Address':
     case 'Bytes':
     case 'Call':
     case 'CandidateReceipt':
-    case 'Code':
     case 'Digest':
     case 'Hash':
     case 'Header':
@@ -57,12 +54,7 @@ export default function getInitValue (type: Param$Types): RawParam$Value | Array
       return void 0;
 
     default:
-      if (Array.isArray(type)) {
-        return getInitValueArray(type as Array<Param$Type>);
-      }
-
-      // tslint:disable-next-line
-      (type as never);
-      throw new Error(`Unable to determine default type for ${typeToString(type)}`);
+      console.error(`Unable to determine default type for ${JSON.stringify(type)}`);
+      return void 0;
   }
 }

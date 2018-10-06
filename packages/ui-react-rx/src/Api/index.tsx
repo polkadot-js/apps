@@ -4,17 +4,15 @@
 
 import { ProviderInterface } from '@polkadot/api-provider/types';
 import { RxApiInterface } from '@polkadot/api-rx/types';
-import { Header } from '@polkadot/primitives/header';
 import { ApiProps } from '../types';
 
 import React from 'react';
-
+import Api from '@polkadot/api-observable';
 import WsProvider from '@polkadot/api-provider/ws';
 import RxApi from '@polkadot/api-rx';
 import defaults from '@polkadot/api-rx/defaults';
-import isUndefined from '@polkadot/util/is/undefined';
+import { Header } from '@polkadot/types';
 
-import ApiObservable from '../ApiObservable';
 import ApiContext from './Context';
 
 type Props = {
@@ -28,7 +26,7 @@ type State = ApiProps & {
   subscriptions: Array<any> // rxjs$ISubscription | null>;
 };
 
-export default class Api extends React.PureComponent<Props, State> {
+export default class ApiWrapper extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
   constructor (props: Props) {
@@ -41,7 +39,7 @@ export default class Api extends React.PureComponent<Props, State> {
         : provider
     );
     const setApi = (api: RxApiInterface): void => {
-      const apiObservable = new ApiObservable(api);
+      const apiObservable = new Api(api);
 
       this.setState({ api, apiObservable }, () => {
         this.updateSubscriptions();
@@ -56,7 +54,7 @@ export default class Api extends React.PureComponent<Props, State> {
       api,
       apiConnected: false,
       apiMethods: {},
-      apiObservable: new ApiObservable(api),
+      apiObservable: new Api(api),
       apiSupport: 'latest',
       setApi,
       setApiProvider,
@@ -109,35 +107,8 @@ export default class Api extends React.PureComponent<Props, State> {
           return;
         }
 
-        try {
-          await this.hasChainGetBlock(header.parentHash);
-        } catch (error) {
-          // swallow
-        }
+        // NOTE no checks atm, add when new method checks are required
       });
-  }
-
-  private async hasChainGetBlock (hash: Uint8Array) {
-    const { api, apiMethods: { chain_getBlock } } = this.state;
-
-    if (!isUndefined(chain_getBlock)) {
-      return;
-    }
-
-    let available = false;
-
-    try {
-      available = !!(await api.chain.getBlock(hash).toPromise());
-    } catch (error) {
-      // swallow
-    }
-
-    this.setState(({ apiMethods }) => ({
-      apiMethods: {
-        ...apiMethods,
-        chain_getBlock: available
-      }
-    }));
   }
 
   private unsubscribe (): void {

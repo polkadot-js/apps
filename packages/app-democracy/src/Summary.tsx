@@ -16,14 +16,14 @@ import translate from './translate';
 type Props = I18nProps & {
   democracyLaunchPeriod?: BN,
   democracyNextTally?: BN,
-  democracyProposalCount?: BN,
-  democracyReferendumCount?: BN,
+  publicProposalCount?: BN,
+  referendumCount?: BN,
   democracyVotingPeriod?: BN
 };
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { democracyLaunchPeriod, democracyNextTally = new BN(0), democracyProposalCount, democracyReferendumCount = new BN(0), democracyVotingPeriod, t } = this.props;
+    const { democracyLaunchPeriod, democracyNextTally = new BN(0), publicProposalCount, referendumCount = new BN(0), democracyVotingPeriod, t } = this.props;
 
     return (
       <summary>
@@ -31,18 +31,18 @@ class Summary extends React.PureComponent<Props> {
           <CardSummary label={t('summary.proposalCount', {
             defaultValue: 'proposals'
           })}>
-            {numberFormat(democracyProposalCount)}
+            {numberFormat(publicProposalCount)}
           </CardSummary>
           <CardSummary label={t('summary.referendumCount', {
             defaultValue: 'referendums'
           })}>
-            {numberFormat(democracyReferendumCount)}
+            {numberFormat(referendumCount)}
           </CardSummary>
           <CardSummary label={t('summary.active', {
             defaultValue: 'active num'
           })}>
-            {democracyNextTally && democracyReferendumCount
-              ? numberFormat(democracyReferendumCount.sub(democracyNextTally))
+            {democracyNextTally && referendumCount
+              ? numberFormat(referendumCount.sub(democracyNextTally))
               : 0
             }
           </CardSummary>
@@ -68,8 +68,8 @@ export default withMulti(
   Summary,
   translate,
   withObservable('democracyLaunchPeriod'),
-  withObservable('democracyReferendumCount'),
+  withObservable('referendumCount'),
   withObservable('democracyNextTally'),
-  withObservable('democracyProposalCount'),
+  withObservable('publicProposalCount'),
   withObservable('democracyVotingPeriod')
 );

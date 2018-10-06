@@ -15,6 +15,7 @@ import hexToU8a from '@polkadot/util/hex/toU8a';
 import isHex from '@polkadot/util/is/hex';
 import u8aFromString from '@polkadot/util/u8a/fromString';
 import naclVerify from '@polkadot/util-crypto/nacl/verify';
+import addressDecode from '@polkadot/util-keyring/address/decode';
 
 import translate from './translate';
 
@@ -184,7 +185,15 @@ class Verify extends React.PureComponent<Props, State> {
     this.nextState({ signature, isValidSignature } as State);
   }
 
-  onChangeAddress = (currentPublicKey: Uint8Array): void => {
+  onChangeAddress = (accountId: string): void => {
+    let currentPublicKey;
+
+    try {
+      currentPublicKey = addressDecode(accountId);
+    } catch (err) {
+      console.error(err);
+    }
+
     const isValidAddress = currentPublicKey && currentPublicKey.length === 32;
 
     this.nextState({ currentPublicKey, isValidAddress } as State);

@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RxProposal, RxProposalDeposits } from '@polkadot/ui-react-rx/ApiObservable/types';
+import { RxProposal, RxProposalDeposits } from '@polkadot/api-observable/classes';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -18,7 +18,7 @@ import Item from './Item';
 import translate from './translate';
 
 type Props = I18nProps & {
-  democracyProposalDeposits?: RxProposalDeposits,
+  proposalDeposits?: RxProposalDeposits,
   idNumber: BN,
   value: RxProposal
 };
@@ -39,13 +39,13 @@ class Proposal extends React.PureComponent<Props> {
   }
 
   private renderExtra () {
-    const { democracyProposalDeposits, t } = this.props;
+    const { proposalDeposits, t } = this.props;
 
-    if (!democracyProposalDeposits) {
+    if (!proposalDeposits) {
       return null;
     }
 
-    const { balance, addresses } = democracyProposalDeposits;
+    const { balance, addresses } = proposalDeposits;
 
     return (
       <div className='democracy--Proposal-info'>
@@ -56,7 +56,7 @@ class Proposal extends React.PureComponent<Props> {
             {addresses.map((address) => (
               <AddressMini
                 isPadded={false}
-                key={address}
+                key={address.toString()}
                 value={address}
               />
             ))}
@@ -79,5 +79,5 @@ class Proposal extends React.PureComponent<Props> {
 export default withMulti(
   Proposal,
   translate,
-  withObservable('democracyProposalDeposits', { paramProp: 'idNumber' })
+  withObservable('proposalDeposits', { paramProp: 'idNumber' })
 );

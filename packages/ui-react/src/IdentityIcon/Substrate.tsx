@@ -12,7 +12,7 @@ import isU8a from '@polkadot/util/is/u8a';
 
 type Props = BaseProps & {
   size: number,
-  value: string | Uint8Array
+  value: string | Uint8Array | null
 };
 
 type State = {
@@ -23,6 +23,10 @@ export default class Substrate extends React.PureComponent<Props> {
   state: State = {} as State;
 
   static getDerivedStateFromProps ({ value }: Props, prevState: State): State | null {
+    if (!value) {
+      return null;
+    }
+
     const address = isU8a(value) || isHex(value)
       ? encodeAddress(value)
       : value;
