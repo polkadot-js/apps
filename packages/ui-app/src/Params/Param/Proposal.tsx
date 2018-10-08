@@ -35,7 +35,7 @@ export default class Proposal extends React.PureComponent<Props> {
           style={style}
           withLabel={withLabel}
         >
-          {fn.section}.{fn.name}
+          {fn.section}.{fn.method}
         </Static>
         <ExtrinsicDisplay value={proposal} />
       </Bare>
