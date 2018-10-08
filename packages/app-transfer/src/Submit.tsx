@@ -5,10 +5,8 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$Extrinsic, QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/types';
 
-import BN from 'bn.js';
 import React from 'react';
-import Api from '@polkadot/api-observable';
-import { Index } from '@polkadot/types';
+import { Extrinsic, Index } from '@polkadot/types';
 import Button from '@polkadot/ui-app/Button';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
@@ -17,21 +15,20 @@ import translate from './translate';
 
 type Props = I18nProps & {
   isDisabled: boolean,
+  accountId?: string,
   accountNonce?: Index,
-  amount: BN,
-  from: string,
-  to: string,
+  extrinsic: Extrinsic | null,
   queueExtrinsic: QueueTx$ExtrinsicAdd
 };
 
 class Submit extends React.PureComponent<Props> {
   render () {
-    const { isDisabled, t } = this.props;
+    const { extrinsic, isDisabled, t } = this.props;
 
     return (
       <Button.Group>
         <Button
-          isDisabled={isDisabled}
+          isDisabled={isDisabled || !extrinsic}
           isPrimary
           onClick={this.onMakeTransfer}
           text={t('maketransfer', {
@@ -43,12 +40,16 @@ class Submit extends React.PureComponent<Props> {
   }
 
   private onMakeTransfer = () => {
-    const { accountNonce, amount, from, to, queueExtrinsic } = this.props;
+    const { accountId, accountNonce, extrinsic, queueExtrinsic } = this.props;
+
+    if (!extrinsic) {
+      return;
+    }
 
     queueExtrinsic({
-      extrinsic: Api.extrinsics.balances.transfer(to, amount),
-      accountNonce: accountNonce || new Index(0),
-      accountId: from
+      extrinsic,
+      accountId,
+      accountNonce: accountNonce || new Index(0)
     } as QueueTx$Extrinsic);
   }
 }
