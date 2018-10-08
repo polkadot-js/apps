@@ -34,5 +34,5 @@ export default function balanceFormat (_value?: UInt | BN | number | null): stri
     return toDecimal(value, 9, 'k');
   }
 
-  return toDecimal(value, 12, 'm');
+  return toDecimal(value, 12, 'M');
 }
