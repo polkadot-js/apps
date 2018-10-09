@@ -12,7 +12,7 @@ import Labelled from '@polkadot/ui-app/Labelled';
 import Static from '@polkadot/ui-app/Static';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
-import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
+import balanceFormat from '@polkadot/ui-react-rx/util/balanceFormat';
 
 import Item from './Item';
 import translate from './translate';
@@ -65,7 +65,7 @@ class Proposal extends React.PureComponent<Props> {
         <Static label={t('proposal.depositsBalanceLabel', {
           defaultValue: 'balance'
         })}>
-          {numberFormat(balance)}
+          {balanceFormat(balance)}
         </Static>
       </div>
     );

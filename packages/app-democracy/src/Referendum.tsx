@@ -12,6 +12,7 @@ import React from 'react';
 import Static from '@polkadot/ui-app/Static';
 import Doughnut from '@polkadot/ui-app/Chart/Doughnut';
 import VoteThreshold from '@polkadot/ui-app/Params/Param/VoteThreshold';
+import balanceFormat from '@polkadot/ui-react-rx/util/balanceFormat';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
@@ -155,12 +156,12 @@ class Referendum extends React.PureComponent<Props, State> {
         <Doughnut values={[
           {
             colors: COLORS_YAY,
-            label: `${numberFormat(votedYay)} (${numberFormat(voteCountYay)})`,
+            label: `${balanceFormat(votedYay)} (${numberFormat(voteCountYay)})`,
             value: votedYay.muln(10000).div(votedTotal).toNumber() / 100
           },
           {
             colors: COLORS_NAY,
-            label: `${numberFormat(votedNay)} (${numberFormat(voteCountNay)})`,
+            label: `${balanceFormat(votedNay)} (${numberFormat(voteCountNay)})`,
             value: votedNay.muln(10000).div(votedTotal).toNumber() / 100
           }
         ]} />

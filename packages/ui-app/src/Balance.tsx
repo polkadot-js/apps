@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
 import RxBalance from '@polkadot/ui-react-rx/Balance';
-import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
+import balanceFormat from '@polkadot/ui-react-rx/util/balanceFormat';
 
 import classes from './util/classes';
 
@@ -42,14 +42,14 @@ export default class BalanceDisplay extends React.PureComponent<Props> {
       return null;
     }
 
-    let value = `${numberFormat(Array.isArray(balance) ? balance[0] : balance)}`;
+    let value = `${balanceFormat(Array.isArray(balance) ? balance[0] : balance)}`;
 
     if (Array.isArray(balance)) {
       const totals = balance
         .filter((value, index) =>
           index !== 0
         )
-        .map(numberFormat);
+        .map(balanceFormat);
 
       value = `${value}  (${totals.length === 1 ? '+' : ''}${totals.join(', ')})`;
     }

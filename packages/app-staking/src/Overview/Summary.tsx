@@ -8,7 +8,7 @@ import { RxBalance, RxBalanceMap } from '@polkadot/api-observable/types';
 import BN from 'bn.js';
 import React from 'react';
 import CardSummary from '@polkadot/ui-app/CardSummary';
-import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
+import balanceFormat from '@polkadot/ui-react-rx/util/balanceFormat';
 import SummarySession from '@polkadot/app-explorer/SummarySession';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
@@ -69,7 +69,7 @@ class Summary extends React.PureComponent<Props> {
           defaultValue: 'lowest validator {{validatorLow}}',
           replace: {
             validatorLow: validatorLow && validatorLow.stakingBalance
-              ? `${numberFormat(validatorLow.stakingBalance)} (+${numberFormat(validatorLow.nominatedBalance)})`
+              ? `${balanceFormat(validatorLow.stakingBalance)} (+${balanceFormat(validatorLow.nominatedBalance)})`
               : 'unknown'
           }
         })}</div>
@@ -77,7 +77,7 @@ class Summary extends React.PureComponent<Props> {
           defaultValue: 'highest intention {{intentionHigh}}',
           replace: {
             intentionHigh: intentionHigh
-              ? `${numberFormat(intentionHigh.stakingBalance)} (+${numberFormat(intentionHigh.nominatedBalance)})`
+              ? `${balanceFormat(intentionHigh.stakingBalance)} (+${balanceFormat(intentionHigh.nominatedBalance)})`
               : 'unknown'
           }
         })}</div>
