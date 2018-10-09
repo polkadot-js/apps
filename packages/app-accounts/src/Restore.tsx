@@ -153,10 +153,11 @@ class Restore extends React.PureComponent<Props, State> {
         hexToU8a(json.encoded)
       );
 
+      // unlock, save account and then lock (locking cleans secretKey, so needs to be last)
       pair.decodePkcs8(password);
+      keyring.addAccountPair(pair, password);
       pair.lock();
 
-      keyring.addAccountPair(pair, password);
       InputAddress.setLastValue('account', pair.address());
       onBack();
     } catch (error) {
