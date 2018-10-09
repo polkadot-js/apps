@@ -22,7 +22,7 @@ class UnnominateButton extends React.Component<Props> {
   render () {
     const { nominating, stakingNominatorsFor, style, t } = this.props;
 
-    if (!nominating || !stakingNominatorsFor || stakingNominatorsFor.length === 0) {
+    if (!nominating || !stakingNominatorsFor) {
       return null;
     }
 

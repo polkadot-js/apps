@@ -49,10 +49,8 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accountId, intentions, isValidator, name, stakingNominatorsFor, stakingNominating } = this.props;
+    const { accountId, intentions, isValidator, name } = this.props;
     const { isNominateOpen } = this.state;
-
-    console.log('Account', stakingNominatorsFor, stakingNominating);
 
     return (
       <article className='staking--Account'>
