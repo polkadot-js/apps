@@ -5,7 +5,7 @@
 import { Props } from '../types';
 
 import React from 'react';
-import { Bool } from '@polkadot/types';
+import { bool as Bool } from '@polkadot/types';
 
 import Dropdown from '../../Dropdown';
 import Bare from './Bare';
