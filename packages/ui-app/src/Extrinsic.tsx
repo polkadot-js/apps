@@ -16,7 +16,7 @@ import translate from './translate';
 export type Props = I18nProps & {
   children?: React.ReactNode,
   meta?: FunctionMetadata,
-  value: Extrinsic
+  value: Extrinsic | Method
 };
 
 class ExtrinsicDisplay extends React.PureComponent<Props> {

@@ -96,6 +96,8 @@ class Referendum extends React.PureComponent<Props, State> {
   render () {
     const { idNumber, value } = this.props;
 
+    console.log('value', value);
+
     return (
       <Item
         idNumber={idNumber}
