@@ -8,8 +8,9 @@ import { Fees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Balance } from '@polkadot/types';
+import { Balance, Extrinsic } from '@polkadot/types';
 import Static from '@polkadot/ui-app/Static';
+import balanceFormat from '@polkadot/ui-react-rx/util/balanceFormat';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 
@@ -18,12 +19,13 @@ import translate from './translate';
 type State = Fees;
 
 type Props = I18nProps & {
+  accountId?: string | null,
   amount: BN,
   balanceFrom?: RxBalance,
   balanceTo?: RxBalance,
+  extrinsic: Extrinsic | null,
   fees: RxFees,
-  from?: Uint8Array | null,
-  to?: Uint8Array | null,
+  recipientId?: string | null,
   onChange: (fees: Fees) => void
 };
 
@@ -32,8 +34,16 @@ const ZERO_BALANCE = {
   votingBalance: new Balance(0)
 } as RxBalance;
 
-// FIXME Ok, this is really not cool. Based on the actual transaction we should calculate the size. However currently bacause of the "fully distant" nature of the signer component, we cannot really properly calculate the final size. So count it... and then fix it. (This needs to be sorted)
-const TRANSFER_SIZE = 156;
+const LENGTH_PUBLICKEY = 32 + 1; // publicKey + prefix
+const LENGTH_SIGNATURE = 64;
+const LENGTH_NONCE = 8;
+const LENGTH_ERA = 1;
+
+// FIXME Hardcoded signature size. This _should_ be ok for the poc-3 version, however in reality is needs to
+// come from somewhere else (signer?). The issue is that we don't have the tx signed at this point, so we are
+// manually adding the signature size. As it stands, this will be problematic with Compact encoding on accountNonce.
+// Additionally, era assumes immortal transcations...
+const SIGNATURE_SIZE = LENGTH_PUBLICKEY + LENGTH_SIGNATURE + LENGTH_NONCE + LENGTH_ERA;
 
 class FeeDisplay extends React.PureComponent<Props, State> {
   constructor (props: Props) {
@@ -50,14 +60,20 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ amount, to, from, fees, balanceTo = ZERO_BALANCE, balanceFrom = ZERO_BALANCE }: Props): State | null {
-    if (!from || !to) {
+  static getDerivedStateFromProps ({ accountId, amount, balanceTo = ZERO_BALANCE, balanceFrom = ZERO_BALANCE, extrinsic, fees, recipientId }: Props): State | null {
+    if (!accountId || !recipientId) {
       return null;
     }
 
+    const txLength = SIGNATURE_SIZE + (
+      extrinsic
+        ? extrinsic.byteLength()
+        : 0
+    );
+
     let txfees = fees.baseFee
       .add(fees.transferFee)
-      .add(fees.byteFee.mul(TRANSFER_SIZE));
+      .add(fees.byteFee.mul(txLength));
 
     if (balanceTo.votingBalance.isZero()) {
       txfees = txfees.add(fees.creationFee.toBn());
@@ -88,10 +104,10 @@ class FeeDisplay extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, fees, from, to, t } = this.props;
+    const { accountId, className, fees, recipientId, t } = this.props;
     const { hasAvailable, isCreation, isNoEffect, isRemovable, isReserved, txfees, txtotal } = this.state;
 
-    if (!from || !to) {
+    if (!accountId || !recipientId) {
       return null;
     }
 
@@ -102,7 +118,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         label={t('fees', {
           defaultValue: 'with fees totalling'
         })}
-        value={txfees.toString()}
+        value={`${balanceFormat(txfees)}`}
       />,
       <article
         className={hasAvailable ? ((isRemovable || isNoEffect) ? 'warning' : '') : 'error'}
@@ -141,7 +157,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
             ? t('fees.create', {
               defaultValue: 'A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist.',
               replace: {
-                creationFee: fees.creationFee.toString()
+                creationFee: `${balanceFormat(fees.creationFee)}`
               }
             })
           : undefined
@@ -153,7 +169,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         label={t('total', {
           defaultValue: 'total transaction amount (fees + value)'
         })}
-        value={txtotal.toString()}
+        value={`${balanceFormat(txtotal)}`}
     />
     ];
   }
@@ -161,6 +177,6 @@ class FeeDisplay extends React.PureComponent<Props, State> {
 
 export default withMulti(
   translate(FeeDisplay),
-  withObservable('votingBalance', { paramProp: 'from', propName: 'balanceFrom' }),
-  withObservable('votingBalance', { paramProp: 'to', propName: 'balanceTo' })
+  withObservable('votingBalance', { paramProp: 'accountId', propName: 'balanceFrom' }),
+  withObservable('votingBalance', { paramProp: 'recipientId', propName: 'balanceTo' })
 );

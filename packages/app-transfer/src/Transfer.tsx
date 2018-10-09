@@ -9,12 +9,14 @@ import { Fees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
+import Api from '@polkadot/api-observable';
+import { Extrinsic } from '@polkadot/types';
 import { BitLengthOption } from '@polkadot/ui-app/constants';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import InputNumber from '@polkadot/ui-app/InputNumber';
-import addressDecode from '@polkadot/util-keyring/address/decode';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
+import addressDecode from '@polkadot/util-keyring/address/decode';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
@@ -27,9 +29,10 @@ type Props = I18nProps & {
 };
 
 type State = {
+  accountId: string | null,
   amount: BN,
-  from: string | null,
-  to: string | null,
+  extrinsic: Extrinsic | null,
+  recipientId: string | null,
   txfees: Fees
 };
 
@@ -44,9 +47,10 @@ class Transfer extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
+      accountId: null,
       amount: ZERO,
-      from: null,
-      to: null,
+      extrinsic: null,
+      recipientId: null,
       txfees: {
         hasAvailable: false,
         txtotal: ZERO
@@ -56,7 +60,7 @@ class Transfer extends React.PureComponent<Props, State> {
 
   render () {
     const { fees, t } = this.props;
-    const { amount, from, to, txfees: { hasAvailable } } = this.state;
+    const { accountId, amount, extrinsic, recipientId, txfees: { hasAvailable } } = this.state;
 
     return (
       <div className='transfer--Transfer'>
@@ -81,37 +85,36 @@ class Transfer extends React.PureComponent<Props, State> {
           </div>
         </div>
         <div className='transfer--Transfer-info'>
-          {this.renderAddress(from)}
+          {this.renderAddress(accountId)}
           <div className='transfer--Transfer-data'>
             <InputNumber
               bitLength={DEFAULT_BITLENGTH}
               isError={!hasAvailable}
-              label={t('transfer.amount', {
-                defaultValue: 'send a value of'
+              label={t('amount', {
+                defaultValue: 'send a value of (μ)'
               })}
               onChange={this.onChangeAmount}
             />
             <FeeDisplay
               className='medium'
+              accountId={accountId}
               amount={amount}
               fees={fees}
-              from={from}
-              to={to}
+              recipientId={recipientId}
               onChange={this.onChangeFees}
             />
             <QueueConsumer>
               {({ queueExtrinsic }: QueueProps) => (
                 <Submit
+                  accountId={accountId}
                   isDisabled={!hasAvailable}
-                  amount={amount}
-                  from={from}
-                  to={to}
+                  extrinsic={extrinsic}
                   queueExtrinsic={queueExtrinsic}
                 />
               )}
             </QueueConsumer>
           </div>
-          {this.renderAddress(to)}
+          {this.renderAddress(recipientId)}
         </div>
       </div>
     );
@@ -140,16 +143,33 @@ class Transfer extends React.PureComponent<Props, State> {
     );
   }
 
+  private nextState (newState: Partial<State>): void {
+    this.setState((prevState: State): State => {
+      const { accountId = prevState.accountId, amount = prevState.amount, recipientId = prevState.recipientId, txfees = prevState.txfees } = newState;
+      const extrinsic = accountId && recipientId
+        ? Api.extrinsics.balances.transfer(recipientId, amount)
+        : null;
+
+      return {
+        accountId,
+        amount,
+        extrinsic,
+        recipientId,
+        txfees
+      };
+    });
+  }
+
+  private onChangeFrom = (accountId: string) => {
+    this.nextState({ accountId });
+  }
+
   private onChangeAmount = (amount: BN) => {
-    this.setState({ amount });
+    this.nextState({ amount });
   }
 
-  private onChangeFrom = (from: string) => {
-    this.setState({ from });
-  }
-
-  private onChangeTo = (to: string) => {
-    this.setState({ to });
+  private onChangeTo = (recipientId: string) => {
+    this.nextState({ recipientId });
   }
 
   private onChangeFees = (txfees: Fees) => {

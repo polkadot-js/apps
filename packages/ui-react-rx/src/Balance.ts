@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import numberFormat from './util/numberFormat';
+import balanceFormat from './util/balanceFormat';
 import withObservableDiv from './with/observableDiv';
 
 const Component: React.ComponentType<any> = withObservableDiv('balanceFree')(
-  numberFormat,
+  balanceFormat,
   { className: 'rx--Balance' }
 );
 
