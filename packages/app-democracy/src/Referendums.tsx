@@ -21,7 +21,7 @@ type Props = I18nProps & {
 
 class Referendums extends React.PureComponent<Props> {
   render () {
-    const { referendums, t } = this.props;
+    const { t } = this.props;
 
     return (
       <section className='democracy--Referendums'>
@@ -57,8 +57,7 @@ class Referendums extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  Referendums,
-  translate,
+  translate(Referendums),
   withObservable('referendums'),
   withObservable('referendumCount'),
   withObservable('democracyNextTally')

@@ -42,12 +42,16 @@ class UnnominateButton extends React.Component<Props> {
   onClick = () => {
     const { accountId, stakingNominatorsFor, onClick } = this.props;
 
-    onClick(stakingNominatorsFor.indexOf(accountId));
+    onClick(
+      stakingNominatorsFor
+        .map((accountId) =>
+          accountId.toString()
+        )
+        .indexOf(accountId));
   }
 }
 
 export default withMulti(
-  UnnominateButton,
-  translate,
+  translate(UnnominateButton),
   withObservable('stakingNominatorsFor', { paramProp: 'nominating' })
 );

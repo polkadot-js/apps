@@ -102,8 +102,7 @@ class SummarySession extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  SummarySession,
-  translate,
+  translate(SummarySession),
   withObservable('eraBlockLength'),
   withObservable('eraBlockProgress'),
   withObservable('sessionBlockProgress'),

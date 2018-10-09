@@ -6,6 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { RxBalanceMap } from '@polkadot/api-observable/types';
 
 import React from 'react';
+import { AccountId } from '@polkadot/types';
 import Tabs from '@polkadot/ui-app/Tabs';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
@@ -21,12 +22,14 @@ type Actions = 'actions' | 'overview';
 type Props = I18nProps & {
   basePath: string,
   validatingBalances?: RxBalanceMap,
-  stakingIntentions?: Array<string>,
-  sessionValidators?: Array<string>
+  stakingIntentions?: Array<AccountId>,
+  sessionValidators?: Array<AccountId>
 };
 
 type State = {
-  action: Actions
+  action: Actions,
+  intentions: Array<string>,
+  validators: Array<string>
 };
 
 const Components: { [index: string]: React.ComponentType<any> } = {
@@ -41,13 +44,26 @@ class App extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      action: 'overview'
+      action: 'overview',
+      intentions: [],
+      validators: []
     };
   }
 
+  static getDerivedStateFromProps ({ sessionValidators = [], stakingIntentions = [] }: Props): State {
+    return {
+      intentions: stakingIntentions.map((accountId) =>
+        accountId.toString()
+      ),
+      validators: sessionValidators.map((authorityId) =>
+        authorityId.toString()
+      )
+    } as State;
+  }
+
   render () {
-    const { action } = this.state;
-    const { sessionValidators = [], stakingIntentions = [], t, validatingBalances = {} } = this.props;
+    const { action, intentions, validators } = this.state;
+    const { t, validatingBalances = {} } = this.props;
     const Component = Components[action];
     const items = [
       {
@@ -71,8 +87,8 @@ class App extends React.PureComponent<Props, State> {
         </header>
         <Component
           balances={validatingBalances}
-          intentions={stakingIntentions}
-          validators={sessionValidators}
+          intentions={intentions}
+          validators={validators}
         />
       </main>
     );
@@ -84,8 +100,7 @@ class App extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  App,
-  translate,
+  translate(App),
   withObservable('stakingIntentions'),
   withObservable('sessionValidators'),
   withObservable('validatingBalances', { paramProp: 'stakingIntentions' })

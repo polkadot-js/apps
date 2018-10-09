@@ -5,6 +5,7 @@
 import { BaseProps } from '../types';
 
 import React from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import identicon from '@polkadot/ui-identicon/index';
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 import isHex from '@polkadot/util/is/hex';
@@ -37,8 +38,12 @@ export default class Substrate extends React.PureComponent<Props> {
   }
 
   render () {
+    const { address } = this.state;
+
     return (
-      <div ref={this.appendIcon} />
+      <CopyToClipboard text={address}>
+        <div ref={this.appendIcon} />
+      </CopyToClipboard>
     );
   }
 

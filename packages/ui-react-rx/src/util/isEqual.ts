@@ -21,5 +21,11 @@ function flatten (key: string | null, value: any): any {
 }
 
 export default function isEqual <T> (a?: T, b?: T): boolean {
-  return JSON.stringify({ test: a }, flatten) === JSON.stringify({ test: b }, flatten);
+  console.error(a, b);
+
+  try {
+    return JSON.stringify({ test: a }, flatten) === JSON.stringify({ test: b }, flatten);
+  } catch (error) {
+    return false;
+  }
 }
