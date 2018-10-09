@@ -41,10 +41,7 @@ class Summary extends React.PureComponent<Props> {
           <CardSummary label={t('summary.active', {
             defaultValue: 'active num'
           })}>
-            {democracyNextTally && referendumCount
-              ? numberFormat(referendumCount.sub(democracyNextTally))
-              : 0
-            }
+            {numberFormat(referendumCount.sub(democracyNextTally))}
           </CardSummary>
         </section>
         <section>
