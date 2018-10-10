@@ -16,7 +16,7 @@ import translate from './translate';
 export type Props = I18nProps & {
   children?: React.ReactNode,
   meta?: FunctionMetadata,
-  value: Extrinsic
+  value: Extrinsic | Method
 };
 
 class ExtrinsicDisplay extends React.PureComponent<Props> {
@@ -26,7 +26,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props> {
       name: name.toString(),
       type: getTypeDef(type)
     }));
-    const values = Method.decode(meta || value.meta, value.data).map((value) => ({
+    const values = Method.decodeMethod(meta || value.meta, value.data).map((value) => ({
       isValid: true,
       value
     }));

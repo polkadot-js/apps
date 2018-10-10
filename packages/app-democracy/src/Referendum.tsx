@@ -95,7 +95,11 @@ class Referendum extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { idNumber, value } = this.props;
+    const { bestNumber, idNumber, value } = this.props;
+
+    if (!bestNumber || value.blockNumber.sub(bestNumber).lten(0)) {
+      return null;
+    }
 
     return (
       <Item
@@ -115,8 +119,6 @@ class Referendum extends React.PureComponent<Props, State> {
     if (!bestNumber) {
       return null;
     }
-
-    console.error('Referendum:: best:', numberFormat(bestNumber), 'target:', numberFormat(blockNumber), 'remaining:', numberFormat(blockNumber.sub(bestNumber)));
 
     return (
       <div className='democracy--Referendum-info'>

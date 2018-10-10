@@ -32,9 +32,7 @@ class Proposal extends React.PureComponent<Props> {
         idNumber={idNumber}
         proposal={value.proposal}
         proposalExtra={this.renderExtra()}
-      >
-        {this.renderVoting()}
-      </Item>
+      />
     );
   }
 
@@ -70,14 +68,9 @@ class Proposal extends React.PureComponent<Props> {
       </div>
     );
   }
-
-  private renderVoting () {
-    return null;
-  }
 }
 
 export default withMulti(
-  Proposal,
-  translate,
+  translate(Proposal),
   withObservable('proposalDeposits', { paramProp: 'idNumber' })
 );

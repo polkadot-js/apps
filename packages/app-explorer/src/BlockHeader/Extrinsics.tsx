@@ -5,7 +5,6 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 
@@ -42,7 +41,6 @@ class Extrinsics extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  Extrinsics,
-  translate,
+  translate(Extrinsics),
   withObservable('getBlock', { paramProp: 'hash' })
 );

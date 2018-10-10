@@ -5,6 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RxReferendum } from '@polkadot/api-observable/classes';
 
+import BN from 'bn.js';
 import React from 'react';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
@@ -13,7 +14,9 @@ import Referendum from './Referendum';
 import translate from './translate';
 
 type Props = I18nProps & {
-  referendums?: Array<RxReferendum>
+  democracyNextTally?: BN,
+  referendums?: Array<RxReferendum>,
+  referendumCount?: BN
 };
 
 class Referendums extends React.PureComponent<Props> {
@@ -31,9 +34,9 @@ class Referendums extends React.PureComponent<Props> {
   }
 
   private renderReferendums () {
-    const { referendums, t } = this.props;
+    const { democracyNextTally = new BN(0), referendums, referendumCount = new BN(0), t } = this.props;
 
-    if (!referendums || !referendums.length) {
+    if (!referendums || !referendums.length || referendumCount.toNumber() === democracyNextTally.toNumber()) {
       return (
         <div className='ui disabled'>
           {t('proposals.none', {
@@ -54,7 +57,8 @@ class Referendums extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  Referendums,
-  translate,
-  withObservable('referendums')
+  translate(Referendums),
+  withObservable('referendums'),
+  withObservable('referendumCount'),
+  withObservable('democracyNextTally')
 );

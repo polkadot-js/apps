@@ -7,6 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParam$OnChange } from '@polkadot/ui-app/Params/types';
 
 import React from 'react';
+import { Extrinsic } from '@polkadot/types';
 
 import BaseExtrinsic from '../Extrinsic';
 import translate from '../translate';
@@ -21,7 +22,7 @@ type Props = I18nProps & {
   withLabel?: boolean
 };
 
-class Extrinsic extends React.PureComponent<Props> {
+class ExtrinsicDisplay extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue, isDisabled, isError, isPrivate, label, style, t, withLabel } = this.props;
 
@@ -51,15 +52,16 @@ class Extrinsic extends React.PureComponent<Props> {
     );
   }
 
-  // FIXME
-  onChange = ({ isValid, values }: any): void => {
+  onChange = (extrinsic: Extrinsic): void => {
     const { onChange } = this.props;
 
+    console.error('app-extrinsics/Params/Extrinsic', extrinsic);
+
     onChange && onChange({
-      isValid,
-      value: (values[0] as Uint8Array)
+      isValid: !!extrinsic,
+      value: extrinsic
     });
   }
 }
 
-export default translate(Extrinsic);
+export default translate(ExtrinsicDisplay);

@@ -9,7 +9,7 @@ import { RawParam } from '@polkadot/ui-app/Params/types';
 
 import React from 'react';
 import { TypeDef, getTypeDef } from '@polkadot/types/codec';
-import { Extrinsic } from '@polkadot/types';
+import { Extrinsic, Method } from '@polkadot/types';
 
 import InputExtrinsic from '@polkadot/ui-app/InputExtrinsic';
 import Params from '@polkadot/ui-app/Params';
@@ -115,14 +115,10 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
   }
 
   private getParams (method: ExtrinsicFunction): Array<{ name: string, type: TypeDef }> {
-    return method.meta.arguments
-      .filter((arg) =>
-        arg.type.toString() !== 'Origin'
-      )
-      .map((arg) => ({
-        name: arg.name.toString(),
-        type: getTypeDef(arg.type.toString())
-      }));
+    return Method.filterOrigin(method.meta).map((arg) => ({
+      name: arg.name.toString(),
+      type: getTypeDef(arg.type)
+    }));
   }
 }
 

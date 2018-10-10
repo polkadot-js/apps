@@ -5,7 +5,6 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
 import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import Modal from '@polkadot/ui-app/Modal';

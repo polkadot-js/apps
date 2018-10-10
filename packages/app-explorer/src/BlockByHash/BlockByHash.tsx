@@ -10,13 +10,12 @@ import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import ExtrinsicDisplay from '@polkadot/ui-app/Extrinsic';
-import { Extrinsic, SignedBlock } from '@polkadot/types';
+import { Extrinsic, Method, SignedBlock } from '@polkadot/types';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import BlockHeader from '../BlockHeader';
 import translate from '../translate';
-import findFunction from '@polkadot/ui-signer/findFunction';
 
 type Props = ApiProps & I18nProps & {
   getBlock: SignedBlock,
@@ -61,9 +60,10 @@ class BlockByHash extends React.PureComponent<Props> {
     );
   }
 
+  // FIXME This is _very_ similar to what we have in democary/Item
   private renderExtrinsic = (extrinsic: Extrinsic, index?: number) => {
     const { value } = this.props;
-    const { meta, method, section } = findFunction(extrinsic.callIndex);
+    const { meta, method, section } = Method.findFunction(extrinsic.callIndex);
 
     return (
       <div
@@ -141,7 +141,6 @@ class BlockByHash extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  BlockByHash,
-  translate,
+  translate(BlockByHash),
   withObservable('getBlock', { paramProp: 'value' })
 );

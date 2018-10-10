@@ -8,11 +8,11 @@ import { QueueTx } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { Trans } from 'react-i18next';
+import { Method } from '@polkadot/types';
 import Modal from '@polkadot/ui-app/Modal';
 import Extrinsic from '@polkadot/ui-app/Extrinsic';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 
-import findFunction from './findFunction';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -28,7 +28,7 @@ class Transaction extends React.PureComponent<Props> {
       return null;
     }
 
-    const fn = findFunction(extrinsic.callIndex);
+    const { method, section } = Method.findFunction(extrinsic.callIndex);
 
     return [
       <Modal.Header key='header'>
@@ -41,7 +41,7 @@ class Transaction extends React.PureComponent<Props> {
           <div className='expanded'>
             <p>
               <Trans i18nKey='decoded.short'>
-                You are about to sign a message from <span className='code'>{accountId}</span> calling <span className='code'>{fn.section}.{fn.method}</span> with an index of <span className='code'>{accountNonce.toString()}</span>
+                You are about to sign a message from <span className='code'>{accountId}</span> calling <span className='code'>{section}.{method}</span> with an index of <span className='code'>{accountNonce.toString()}</span>
               </Trans>
             </p>
             <Extrinsic value={extrinsic} />

@@ -5,8 +5,7 @@
 import { Props } from '../types';
 
 import React from 'react';
-import { Extrinsic } from '@polkadot/types';
-import findFunction from '@polkadot/ui-signer/findFunction';
+import { Extrinsic, Method } from '@polkadot/types';
 
 import ExtrinsicDisplay from '../../Extrinsic';
 import Static from '../../Static';
@@ -25,7 +24,7 @@ export default class Proposal extends React.PureComponent<Props> {
     }
 
     const proposal = value as Extrinsic;
-    const fn = findFunction(proposal.callIndex);
+    const { method, section } = Method.findFunction(proposal.callIndex);
 
     return (
       <Bare>
@@ -35,7 +34,7 @@ export default class Proposal extends React.PureComponent<Props> {
           style={style}
           withLabel={withLabel}
         >
-          {fn.section}.{fn.name}
+          {section}.{method}
         </Static>
         <ExtrinsicDisplay value={proposal} />
       </Bare>

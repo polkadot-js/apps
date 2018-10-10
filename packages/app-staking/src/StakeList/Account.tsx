@@ -9,7 +9,7 @@ import { RxBalanceMap } from '@polkadot/api-observable/types';
 import BN from 'bn.js';
 import React from 'react';
 import Api from '@polkadot/api-observable';
-import { Balance, Extrinsic } from '@polkadot/types';
+import { AccountId, Balance, Extrinsic } from '@polkadot/types';
 import AddressMini from '@polkadot/ui-app/AddressMini';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import Button from '@polkadot/ui-app/Button';
@@ -27,7 +27,7 @@ type Props = I18nProps & {
   accountId: string,
   balances: RxBalanceMap,
   name: string,
-  stakingNominating?: string,
+  stakingNominating?: AccountId,
   stakingNominatorsFor?: Array<string>,
   intentions: Array<string>,
   isValidator: boolean,
@@ -81,8 +81,14 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private balanceArray (address: string): Array<Balance> | undefined {
+  private balanceArray (_address: AccountId | string): Array<Balance> | undefined {
     const { balances } = this.props;
+
+    if (!_address) {
+      return undefined;
+    }
+
+    const address = _address.toString();
 
     return balances[address]
       ? [balances[address].stakingBalance, balances[address].nominatedBalance]
@@ -214,9 +220,8 @@ class Account extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  Account,
-  translate,
-  withObservable('stakingNominatorsFor', { paramProp: 'address' }),
-  withObservable('stakingNominating', { paramProp: 'address' }),
-  withObservable('accountNonce', { paramProp: 'address' })
+  translate(Account),
+  withObservable('stakingNominatorsFor', { paramProp: 'accountId' }),
+  withObservable('stakingNominating', { paramProp: 'accountId' }),
+  withObservable('accountNonce', { paramProp: 'accountId' })
 );
