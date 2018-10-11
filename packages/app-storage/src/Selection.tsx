@@ -81,7 +81,7 @@ class Selection extends React.PureComponent<Props, State> {
         const keyParams = Object.values(key.params);
 
         const params = keyParams.reduce(
-          (output : RawParams, keyParam, index) => {
+          (output: RawParams, keyParam, index) => {
             if (!isUndefined(nextParams[index]) &&
                 !isUndefined(nextParams[index].value) &&
                 keyParam.type === nextParams[index].type) {
