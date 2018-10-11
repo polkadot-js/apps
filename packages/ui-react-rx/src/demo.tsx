@@ -4,7 +4,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import mockProvider from '@polkadot/api-provider/mock';
+import mockProvider from '@polkadot/rpc-provider/mock';
 
 import Api from './Api';
 import Balance from './Balance';
