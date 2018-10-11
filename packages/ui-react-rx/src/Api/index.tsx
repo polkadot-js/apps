@@ -8,7 +8,7 @@ import { ApiProps } from '../types';
 
 import React from 'react';
 import Api from '@polkadot/api-observable';
-import defaults from '@polkadot/rpc-core/defaults';
+import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import RxApi from '@polkadot/rpc-rx';
 import { Header } from '@polkadot/types';
