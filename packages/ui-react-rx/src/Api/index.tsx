@@ -2,21 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { ProviderInterface } from '@polkadot/api-provider/types';
-import { RxApiInterface } from '@polkadot/api-rx/types';
+import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { RpcRxInterface } from '@polkadot/rpc-rx/types';
 import { ApiProps } from '../types';
 
 import React from 'react';
 import Api from '@polkadot/api-observable';
-import WsProvider from '@polkadot/api-provider/ws';
-import RxApi from '@polkadot/api-rx';
-import defaults from '@polkadot/api-rx/defaults';
+import defaults from '@polkadot/rpc-provider/defaults';
+import WsProvider from '@polkadot/rpc-provider/ws';
+import RxApi from '@polkadot/rpc-rx';
 import { Header } from '@polkadot/types';
 
 import ApiContext from './Context';
 
 type Props = {
-  api?: RxApiInterface,
+  api?: RpcRxInterface,
   children: any, // node?
   provider?: ProviderInterface,
   url?: string
@@ -38,7 +38,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
         ? new WsProvider(url)
         : provider
     );
-    const setApi = (api: RxApiInterface): void => {
+    const setApi = (api: RpcRxInterface): void => {
       const apiObservable = new Api(api);
 
       this.setState({ api, apiObservable }, () => {
@@ -91,7 +91,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     });
   }
 
-  private subscribeIsConnected = (api: RxApiInterface): void => {
+  private subscribeIsConnected = (api: RpcRxInterface): void => {
     api
       .isConnected()
       .subscribe((isConnected?: boolean) => {
@@ -99,7 +99,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       });
   }
 
-  private subscribeMethodCheck = (api: RxApiInterface): void => {
+  private subscribeMethodCheck = (api: RpcRxInterface): void => {
     api.chain
       .newHead()
       .subscribe(async (header?: Header) => {

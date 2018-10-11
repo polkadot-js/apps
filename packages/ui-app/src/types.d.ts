@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { TranslationFunction } from 'i18next';
-import { RxApiInterface } from '@polkadot/api-rx/types';
+import { RpcRxInterface } from '@polkadot/rpc-rx/types';
 
 export type BareProps = {
   className?: string,
@@ -17,7 +17,7 @@ export type I18nProps = BareProps & {
 };
 
 export type BaseContext = {
-  api: RxApiInterface,
+  api: RpcRxInterface,
   // TODO: Set the correct type
   router: {
     route: {

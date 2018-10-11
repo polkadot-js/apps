@@ -4,8 +4,8 @@
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
-import { ProviderInterface } from '@polkadot/api-provider/types';
-import { RxApiInterface, RxApiInterface$Method } from '@polkadot/api-rx/types';
+import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { RpcRxInterface } from '@polkadot/rpc-rx/types';
 import { Header } from '@polkadot/types';
 
 import ApiObservable from '@polkadot/api-observable';
@@ -16,14 +16,14 @@ export type BareProps = {
 };
 
 export type ApiProps = {
-  api: RxApiInterface,
+  api: RpcRxInterface,
   apiConnected: boolean,
   apiMethods: {
     [index: string]: boolean
   },
   apiObservable: ApiObservable,
   apiSupport: 'latest',
-  setApi: (api: RxApiInterface) => void,
+  setApi: (api: RpcRxInterface) => void,
   setApiProvider: (provider?: ProviderInterface) => void,
   setApiWsUrl: (url?: string) => void
 };

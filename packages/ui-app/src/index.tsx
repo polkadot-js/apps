@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { ProviderInterface } from '@polkadot/api-provider/types';
-import { RxApiInterface } from '@polkadot/api-rx/types';
+import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { RpcRxInterface } from '@polkadot/rpc-rx/types';
 import { BareProps } from './types';
 
 import './i18n';
@@ -12,11 +12,10 @@ import './styles';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
-
 import Api from '@polkadot/ui-react-rx/Api';
 
 type Props = BareProps & {
-  api?: RxApiInterface,
+  api?: RpcRxInterface,
   provider?: ProviderInterface,
   url?: string
 };
