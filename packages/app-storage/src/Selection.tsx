@@ -73,10 +73,40 @@ class Selection extends React.PureComponent<Props, State> {
   nextState (newState: State): void {
     this.setState(
       (prevState: State) => {
-        const { key = prevState.key, params = prevState.params } = newState;
+        const {
+          key = prevState.key,
+          params: nextParams = prevState.params
+        } = newState;
+        const prevParams = prevState.params;
         const keyParams = Object.values(key.params);
+
+        const params = keyParams.reduce(
+          (output: RawParams, keyParam, index) => {
+            if (!isUndefined(nextParams[index]) &&
+                !isUndefined(nextParams[index].value) &&
+                keyParam.type === nextParams[index].type) {
+              return [
+                ...output,
+                nextParams[index]
+              ];
+            }
+
+            if (!isUndefined(prevParams[index]) &&
+                !isUndefined(prevParams[index].value) &&
+                keyParam.type === prevParams[index].type) {
+              return [
+                ...output,
+                prevParams[index]
+              ];
+            }
+
+            return output;
+          },
+          []
+        );
+
         const isValid = params.length === keyParams.length &&
-          keyParams.reduce((isValid, param, index) =>
+          keyParams.reduce((isValid, keyParam, index) =>
             isValid &&
             !isUndefined(params[index]) &&
             !isUndefined(params[index].value) &&
