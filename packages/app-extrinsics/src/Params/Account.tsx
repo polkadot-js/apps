@@ -8,7 +8,7 @@ import React from 'react';
 
 import BaseAccount from '../Account';
 
-import addressDecode from '@polkadot/util-keyring/address/decode';
+import addressDecode from '@polkadot/keyring/address/decode';
 
 export default class Account extends React.PureComponent<Props> {
   render () {

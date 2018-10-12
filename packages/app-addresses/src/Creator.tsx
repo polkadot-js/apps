@@ -10,8 +10,8 @@ import Button from '@polkadot/ui-app/Button';
 import Input from '@polkadot/ui-app/Input';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring/index';
-import addressDecode from '@polkadot/util-keyring/address/decode';
-import addressEncode from '@polkadot/util-keyring/address/encode';
+import addressDecode from '@polkadot/keyring/address/decode';
+import addressEncode from '@polkadot/keyring/address/encode';
 
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';

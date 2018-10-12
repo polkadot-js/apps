@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringPair$Json } from '@polkadot/util-keyring/types';
+import { KeyringPair$Json } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
@@ -11,8 +11,8 @@ import Button from '@polkadot/ui-app/Button';
 import InputFile from '@polkadot/ui-app/InputFile';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import Password from '@polkadot/ui-app/Password';
-import createPair from '@polkadot/util-keyring/pair';
-import decodeAddress from '@polkadot/util-keyring/address/decode';
+import createPair from '@polkadot/keyring/pair';
+import decodeAddress from '@polkadot/keyring/address/decode';
 import isHex from '@polkadot/util/is/hex';
 import isObject from '@polkadot/util/is/object';
 import hexToU8a from '@polkadot/util/hex/toU8a';

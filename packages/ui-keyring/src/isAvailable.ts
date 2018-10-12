@@ -5,7 +5,7 @@
 import { State } from './types';
 
 import isString from '@polkadot/util/is/string';
-import addressEncode from '@polkadot/util-keyring/address/encode';
+import addressEncode from '@polkadot/keyring/address/encode';
 
 export default function isAvailable (state: State, _address: Uint8Array | string): boolean {
   const accounts = state.accounts.subject.getValue();

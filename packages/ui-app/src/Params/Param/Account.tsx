@@ -9,7 +9,7 @@ import { Base } from '@polkadot/types/codec';
 
 import InputAddress from '../../InputAddress';
 import Bare from './Bare';
-import addressDecode from '@polkadot/util-keyring/address/decode';
+import addressDecode from '@polkadot/keyring/address/decode';
 
 export default class Account extends React.PureComponent<Props> {
   render () {

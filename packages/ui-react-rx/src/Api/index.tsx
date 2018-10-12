@@ -101,7 +101,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
 
   private subscribeMethodCheck = (api: RpcRxInterface): void => {
     api.chain
-      .newHead()
+      .subscribeNewHead()
       .subscribe(async (header?: Header) => {
         if (!header || !header.parentHash) {
           return;

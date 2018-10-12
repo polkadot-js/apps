@@ -16,7 +16,7 @@ import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import InputNumber from '@polkadot/ui-app/InputNumber';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
-import addressDecode from '@polkadot/util-keyring/address/decode';
+import addressDecode from '@polkadot/keyring/address/decode';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
