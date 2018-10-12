@@ -79,7 +79,8 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       subscriptions:
         [
           this.subscribeIsConnected,
-          this.subscribeMethodCheck
+          this.subscribeMethodCheck,
+          this.subscribeExtrinsicUpdate,
         ].map((fn: Function) => {
           try {
             return fn(api);
@@ -108,6 +109,27 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
         }
 
         // NOTE no checks atm, add when new method checks are required
+      });
+  }
+
+  private subscribeExtrinsicUpdate = (api: RxApiInterface): void => {
+    api.author
+      .updateExtrinsic()
+      .subscribe(async (extrinsicUpdateStatus?: Status) => { // this is the Status of the extrinsic, different from RPC status
+        if (!extrinsicUpdateStatus) {
+          return;
+        }
+
+        switch (extrinsicUpdateStatus) {
+          case 'Dropped':
+          case 'Usurped':
+          case 'Broadcast':
+          case 'Finalized':
+          default:
+            return;
+        }
+
+        // Do other stuff
       });
   }
 
