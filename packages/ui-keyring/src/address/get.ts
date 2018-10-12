@@ -5,8 +5,8 @@
 import { KeyringAddress, KeyringJson$Meta, State } from '../types';
 
 import isString from '@polkadot/util/is/string';
-import addressDecode from '@polkadot/util-keyring/address/decode';
-import addressEncode from '@polkadot/util-keyring/address/encode';
+import addressDecode from '@polkadot/keyring/address/decode';
+import addressEncode from '@polkadot/keyring/address/encode';
 
 export default function get (state: State, _address: string | Uint8Array, type: 'account' | 'address' = 'address'): KeyringAddress {
   const address = isString(_address)

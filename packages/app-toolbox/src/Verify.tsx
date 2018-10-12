@@ -15,7 +15,7 @@ import hexToU8a from '@polkadot/util/hex/toU8a';
 import isHex from '@polkadot/util/is/hex';
 import u8aFromString from '@polkadot/util/u8a/fromString';
 import naclVerify from '@polkadot/util-crypto/nacl/verify';
-import addressDecode from '@polkadot/util-keyring/address/decode';
+import addressDecode from '@polkadot/keyring/address/decode';
 
 import translate from './translate';
 

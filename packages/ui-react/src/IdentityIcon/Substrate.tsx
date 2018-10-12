@@ -7,7 +7,7 @@ import { BaseProps } from '../types';
 import React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import identicon from '@polkadot/ui-identicon/index';
-import encodeAddress from '@polkadot/util-keyring/address/encode';
+import encodeAddress from '@polkadot/keyring/address/encode';
 import isHex from '@polkadot/util/is/hex';
 import isU8a from '@polkadot/util/is/u8a';
 

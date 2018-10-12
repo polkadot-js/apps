@@ -12,7 +12,7 @@ import Input from '@polkadot/ui-app/Input';
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import InputAddress from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring/index';
-import addressDecode from '@polkadot/util-keyring/address/decode';
+import addressDecode from '@polkadot/keyring/address/decode';
 
 import Forgetting from './Forgetting';
 import translate from './translate';

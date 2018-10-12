@@ -13,7 +13,7 @@ import keyring from '@polkadot/ui-keyring/index';
 import withApi from '@polkadot/ui-react-rx/with/api';
 import { format } from '@polkadot/util/logger';
 import { Extrinsic } from '@polkadot/types';
-import addressDecode from '@polkadot/util-keyring/address/decode';
+import addressDecode from '@polkadot/keyring/address/decode';
 
 import ExtrinsicDisplay from './Extrinsic';
 import Unlock from './Unlock';

@@ -4,7 +4,7 @@
 
 import React from 'react';
 import randomAsU8a from '@polkadot/util-crypto/random/asU8a';
-import addressEncode from '@polkadot/util-keyring/address/encode';
+import addressEncode from '@polkadot/keyring/address/encode';
 
 import Container from '../Container/Demo';
 import IdentityIcon from './index';

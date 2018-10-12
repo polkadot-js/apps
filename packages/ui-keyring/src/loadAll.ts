@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringPair$Json } from '@polkadot/util-keyring/types';
+import { KeyringPair$Json } from '@polkadot/keyring/types';
 import { State, KeyringJson } from './types';
 
 import store from 'store';
-import addressEncode from '@polkadot/util-keyring/address/encode';
+import addressEncode from '@polkadot/keyring/address/encode';
 import isHex from '@polkadot/util/is/hex';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 

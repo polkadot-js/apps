@@ -8,8 +8,8 @@ import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Nonce from '@polkadot/ui-react-rx/Nonce';
-import addressDecode from '@polkadot/util-keyring/address/decode';
-import addressEncode from '@polkadot/util-keyring/address/encode';
+import addressDecode from '@polkadot/keyring/address/decode';
+import addressEncode from '@polkadot/keyring/address/encode';
 import isU8a from '@polkadot/util/is/u8a';
 
 import classes from './util/classes';

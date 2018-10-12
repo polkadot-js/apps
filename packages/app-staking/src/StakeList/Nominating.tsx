@@ -12,7 +12,7 @@ import InputError from '@polkadot/ui-app/InputError';
 
 import translate from '../translate';
 
-import addressDecode from '@polkadot/util-keyring/address/decode';
+import addressDecode from '@polkadot/keyring/address/decode';
 
 type Props = I18nProps & {
   isOpen: boolean,
