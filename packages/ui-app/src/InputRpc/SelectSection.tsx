@@ -7,7 +7,6 @@ import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 
 import React from 'react';
-import map from '@polkadot/jsonrpc';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
@@ -17,7 +16,7 @@ type Props = I18nProps & {
   defaultValue?: string,
   isError?: boolean,
   label?: string,
-  onChange: (value: keyof typeof map) => void,
+  onChange: (value: string) => void,
   options: DropdownOptions,
   value: RpcMethod,
   withLabel?: boolean
