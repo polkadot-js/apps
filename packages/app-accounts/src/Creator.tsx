@@ -15,7 +15,6 @@ import isHex from '@polkadot/util/is/hex';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import u8aFromString from '@polkadot/util/u8a/fromString';
 import u8aToHex from '@polkadot/util/u8a/toHex';
-import keypairFromSecret from '@polkadot/util-crypto/nacl/keypair/fromSecret';
 import keypairFromSeed from '@polkadot/util-crypto/nacl/keypair/fromSeed';
 import generateMnemonic from '@polkadot/util-crypto/mnemonic/generate';
 import mnemonicToSecret from '@polkadot/util-crypto/mnemonic/toSecret';
@@ -53,9 +52,11 @@ function formatSeed (seed: string): Uint8Array {
 }
 
 function addressFromSeed (seed: string, seedType: SeedType): string {
-  const keypair = seedType === 'bip'
-    ? keypairFromSecret(mnemonicToSecret(seed))
-    : keypairFromSeed(formatSeed(seed));
+  const keypair = keypairFromSeed(
+    seedType === 'bip'
+      ? mnemonicToSecret(seed).subarray(0, 32)
+      : formatSeed(seed)
+  );
 
   return addressEncode(
     keypair.publicKey

@@ -1,0 +1,135 @@
+// Copyright 2017-2018 @polkadot/app-settings authors & contributors
+// This software may be modified and distributed under the terms
+// of the ISC license. See the LICENSE file for details.
+
+import { I18nProps } from '@polkadot/ui-app/types';
+
+import React from 'react';
+import settings, { SettingsStruct } from '@polkadot/ui-app/settings';
+import Button from '@polkadot/ui-app/Button';
+import Dropdown from '@polkadot/ui-app/Dropdown';
+
+import './index.css';
+
+import translate from './translate';
+
+type Props = I18nProps & {
+  basePath: string
+};
+
+type State = SettingsStruct;
+
+class App extends React.PureComponent<Props, State> {
+  constructor (props: Props) {
+    super(props);
+
+    this.state = settings.get();
+  }
+
+  render () {
+    const { t } = this.props;
+    const { apiUrl, i18nLang, uiMode, uiTheme } = this.state;
+    const optLang = settings.availableLanguages().map(({ id, desc }) => ({
+      text: desc,
+      value: id
+    }));
+    const optNodes = settings.availableChains().map(({ desc, url }) => ({
+      text: `${desc} (${url})`,
+      value: url
+    }));
+    const optMode = settings.availableUIModes().map(({ id, desc }) => ({
+      text: desc,
+      value: id
+    }));
+    const optTheme = settings.availableUIThemes().map(({ id, desc }) => ({
+      text: desc,
+      value: id
+    }));
+
+    return (
+      <main className='settings--App'>
+        <div className='ui--row'>
+          <div className='full'>
+            <Dropdown
+              defaultValue={apiUrl}
+              label={t('select.api.url', {
+                defaultValue: 'remote node/endpoint to connect to'
+              })}
+              onChange={this.onChangeApiUrl}
+              options={optNodes}
+            />
+          </div>
+        </div>
+        <div className='ui--row'>
+          <div className='medium'>
+            <Dropdown
+              defaultValue={uiTheme}
+              label={t('select.ui.theme', {
+                defaultValue: 'default interface theme'
+              })}
+              onChange={this.onChangeUiTheme}
+              options={optTheme}
+            />
+          </div>
+          <div className='medium'>
+            <Dropdown
+              defaultValue={uiMode}
+              label={t('select.ui.mode', {
+                defaultValue: 'interface operation mode'
+              })}
+              onChange={this.onChangeUiMode}
+              options={optMode}
+            />
+          </div>
+        </div>
+        <div className='ui--row'>
+          <div className='full'>
+            <Dropdown
+              defaultValue={i18nLang}
+              isDisabled
+              label={t('select.i18n.lang', {
+                defaultValue: 'default interface launguage'
+              })}
+              onChange={this.onChangeLang}
+              options={optLang}
+            />
+          </div>
+        </div>
+        <Button.Group>
+          <Button
+            isPrimary
+            onClick={this.save}
+            text={t('btn.do', {
+              defaultValue: 'Save & Reload'
+            })}
+          />
+        </Button.Group>
+      </main>
+    );
+  }
+
+  private onChangeApiUrl = (apiUrl: string): void => {
+    this.setState({ apiUrl });
+  }
+
+  private onChangeLang = (i18nLang: string): void => {
+    // ignore (for now), here to future-proof
+  }
+
+  private onChangeUiMode = (uiMode: string): void => {
+    this.setState({ uiMode });
+  }
+
+  private onChangeUiTheme = (uiTheme: string): void => {
+    this.setState({ uiTheme });
+  }
+
+  private save = (): void => {
+    settings.set(this.state);
+
+    // HACK This is terribe, but since the API needs to re-connect, it is what it is
+    window.location.reload();
+  }
+}
+
+export default translate(App);

@@ -20,11 +20,7 @@ export default class Polkadot extends React.PureComponent<Props> {
       return null;
     }
 
-    return (
-      <Identicon
-        id={value}
-        size={size}
-      />
-    );
+    // @ts-ignore Published version does not match up with actual repo version
+    return <Identicon account={value} size={size} />;
   }
 }
