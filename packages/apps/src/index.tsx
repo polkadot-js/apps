@@ -8,6 +8,7 @@ import './index.css';
 
 import React from 'react';
 import createApp from '@polkadot/ui-app/index';
+import settings from '@polkadot/ui-app/settings';
 import Signer from '@polkadot/ui-signer/index';
 import classes from '@polkadot/ui-app/util/classes';
 
@@ -20,7 +21,7 @@ type Props = BareProps & {};
 
 function App (props: Props) {
   return (
-    <div className={classes(`theme--${process.env.UI_THEME}`, 'apps--App')}>
+    <div className={classes(`theme--${settings.uiTheme}`, 'apps--App')}>
       <SideBar>
         <NodeInfo />
       </SideBar>
@@ -32,12 +33,10 @@ function App (props: Props) {
   );
 }
 
-// tslint:disable-next-line
-var url = (process.env.WS_URL === null) || (process.env.WS_URL === '')
-    ? undefined
-    : process.env.WS_URL;
+const url = !settings.apiUrl
+  ? undefined
+  : settings.apiUrl;
 
-console.log('process.env.WS_URL=', process.env.WS_URL);
 console.log('Web socket url=', url);
 
 createApp(App, {

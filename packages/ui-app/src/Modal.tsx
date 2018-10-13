@@ -8,6 +8,8 @@ import React from 'react';
 import SUIModal from 'semantic-ui-react/dist/commonjs/modules/Modal/Modal';
 import classes from '@polkadot/ui-app/util/classes';
 
+import settings from './settings';
+
 type Props = BareProps & {
   children: React.ReactNode,
   [index: string]: any
@@ -24,7 +26,7 @@ export default class Modal extends React.PureComponent<Props> {
     return (
       <SUIModal
         {...this.props}
-        className={classes(`theme--${process.env.UI_THEME}`, 'ui--Modal', className)}
+        className={classes(`theme--${settings.uiTheme}`, 'ui--Modal', className)}
       />
     );
   }

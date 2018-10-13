@@ -17,6 +17,7 @@ const packages = [
   'app-explorer',
   'app-extrinsics',
   'app-rpc',
+  'app-settings',
   'app-staking',
   'app-storage',
   'app-toolbox',

@@ -9,6 +9,7 @@ import { RxReferendumVote } from '@polkadot/api-observable/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import settings from '@polkadot/ui-app/settings';
 import Static from '@polkadot/ui-app/Static';
 import Doughnut from '@polkadot/ui-app/Chart/Doughnut';
 import VoteThreshold from '@polkadot/ui-app/Params/Param/VoteThreshold';
@@ -21,10 +22,10 @@ import Item from './Item';
 import Voting from './Voting';
 import translate from './translate';
 
-const COLORS_YAY = process.env.UI_THEME === 'substrate'
+const COLORS_YAY = settings.uiTheme === 'substrate'
   ? ['#4d4', '#4e4']
   : ['#64bebe', '#5badad'];
-const COLORS_NAY = process.env.UI_THEME === 'substrate'
+const COLORS_NAY = settings.uiTheme === 'substrate'
   ? ['#d44', '#e44']
   : ['#d75ea1', '#e189ba'];
 
