@@ -124,32 +124,15 @@ class Creator extends React.PureComponent<Props, State> {
 
     return (
       <div className='grow'>
-        <div>
-          <Button.Group>
-            <Button
-              isPrimary={seedType === 'bip'}
-              onClick={this.selectSeedBip39}
-              text={t('seed.select.bip39', {
-                defaultValue: 'Mnemonic Phrase'
-              })}
-            />
-            <Button
-              isPrimary={seedType === 'raw'}
-              onClick={this.selectSeedRaw}
-              text={t('seed.select.raw', {
-                defaultValue: 'Raw Seed'
-              })}
-            />
-          </Button.Group>
-        </div>
         <div className='ui--row'>
           <Input
             className='full'
+            isAction
             isError={!isSeedValid}
             label={
               seedType === 'bip'
                 ? t('creator.seed.bip', {
-                  defaultValue: 'create from the follow mnemonic seed'
+                  defaultValue: 'create from the following mnemonic seed'
                 })
                 : t('creator.seed.raw', {
                   defaultValue: 'create from the following seed (hex or string)'
@@ -157,7 +140,21 @@ class Creator extends React.PureComponent<Props, State> {
             }
             onChange={this.onChangeSeed}
             value={seed}
-          />
+          >
+            <Button
+              isPrimary
+              onClick={this.selectSeedType}
+              text={
+                seedType === 'bip'
+                  ? t('seed.select.raw', {
+                    defaultValue: 'Raw seed'
+                  })
+                  : t('seed.select.bip39', {
+                    defaultValue: 'Mnemonic'
+                  })
+              }
+            />
+          </Input>
         </div>
         <div className='ui--row'>
           <Input
@@ -336,12 +333,12 @@ class Creator extends React.PureComponent<Props, State> {
     this.setState(this.emptyState());
   }
 
-  selectSeedBip39 = (): void => {
-    this.setState({ ...this.generateSeed('bip'), seedType: 'bip' });
-  }
+  selectSeedType = (): void => {
+    const seedType = this.state.seedType === 'bip'
+      ? 'raw'
+      : 'bip';
 
-  selectSeedRaw = (): void => {
-    this.setState({ ...this.generateSeed('raw'), seedType: 'raw' });
+    this.setState({ ...this.generateSeed(seedType), seedType });
   }
 }
 
