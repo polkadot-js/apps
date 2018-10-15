@@ -1348,15 +1348,15 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.0.tgz#50c1e2260ac0ed9439a181de3725a0168d59c48a"
 
-"@polkadot/api-observable@^0.31.35":
-  version "0.31.35"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-observable/-/api-observable-0.31.35.tgz#039f3392781e8e7144b8183353acc06e4e492d30"
+"@polkadot/api-observable@^0.31.38":
+  version "0.31.38"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-observable/-/api-observable-0.31.38.tgz#e6eb8ef04fdec3aabd3fa9c962f56ca3c6eb7c4d"
   dependencies:
     "@babel/runtime" "^7.0.0"
-    "@polkadot/extrinsics" "^0.31.35"
-    "@polkadot/rpc-core" "^0.31.35"
-    "@polkadot/rpc-provider" "^0.31.35"
-    "@polkadot/storage" "^0.31.35"
+    "@polkadot/extrinsics" "^0.31.38"
+    "@polkadot/rpc-core" "^0.31.38"
+    "@polkadot/rpc-provider" "^0.31.38"
+    "@polkadot/storage" "^0.31.38"
     "@types/rx" "^4.1.1"
     rxjs "^6.3.2"
 
@@ -1431,16 +1431,16 @@
     typedoc-plugin-markdown "^1.1.15"
     typescript "^3.0.1"
 
-"@polkadot/extrinsics@^0.31.35":
-  version "0.31.35"
-  resolved "https://registry.yarnpkg.com/@polkadot/extrinsics/-/extrinsics-0.31.35.tgz#09c159e2df325a8fdc01e96c987f79c1b11cc0c3"
+"@polkadot/extrinsics@^0.31.38":
+  version "0.31.38"
+  resolved "https://registry.yarnpkg.com/@polkadot/extrinsics/-/extrinsics-0.31.38.tgz#c32ec91482c23b7e01b2af6b72eb0855456b1718"
   dependencies:
     "@babel/runtime" "^7.0.0"
     "@polkadot/util" "^0.31.5"
 
-"@polkadot/jsonrpc@^0.31.35":
-  version "0.31.35"
-  resolved "https://registry.yarnpkg.com/@polkadot/jsonrpc/-/jsonrpc-0.31.35.tgz#c41c1b27842d9f9899d4706d829a811b50476245"
+"@polkadot/jsonrpc@^0.31.38":
+  version "0.31.38"
+  resolved "https://registry.yarnpkg.com/@polkadot/jsonrpc/-/jsonrpc-0.31.38.tgz#38365c04389eb87ec80366a4a576e8bc1c44dd5e"
   dependencies:
     babel-runtime "^6.26.0"
 
@@ -1454,22 +1454,22 @@
     "@types/bs58" "^3.0.30"
     bs58 "^4.0.1"
 
-"@polkadot/rpc-core@^0.31.35":
-  version "0.31.35"
-  resolved "https://registry.yarnpkg.com/@polkadot/rpc-core/-/rpc-core-0.31.35.tgz#c81d38ac5caa82e0dec236592117551d95b92d8b"
+"@polkadot/rpc-core@^0.31.38":
+  version "0.31.38"
+  resolved "https://registry.yarnpkg.com/@polkadot/rpc-core/-/rpc-core-0.31.38.tgz#c32426a9a6a45b429b09b416ac0c5b67c4eb2309"
   dependencies:
     "@babel/runtime" "^7.0.0"
-    "@polkadot/jsonrpc" "^0.31.35"
-    "@polkadot/rpc-provider" "^0.31.35"
+    "@polkadot/jsonrpc" "^0.31.38"
+    "@polkadot/rpc-provider" "^0.31.38"
     "@polkadot/util" "^0.31.5"
 
-"@polkadot/rpc-provider@^0.31.35":
-  version "0.31.35"
-  resolved "https://registry.yarnpkg.com/@polkadot/rpc-provider/-/rpc-provider-0.31.35.tgz#3902c6ec63466db44a5333e81eacb8d7cce7fdc0"
+"@polkadot/rpc-provider@^0.31.38":
+  version "0.31.38"
+  resolved "https://registry.yarnpkg.com/@polkadot/rpc-provider/-/rpc-provider-0.31.38.tgz#bd3c8b871a44b16fd1ab73ba845024fe0bc68759"
   dependencies:
     "@babel/runtime" "^7.0.0"
     "@polkadot/keyring" "^0.31.5"
-    "@polkadot/storage" "^0.31.35"
+    "@polkadot/storage" "^0.31.38"
     "@polkadot/util" "^0.31.5"
     "@polkadot/util-crypto" "^0.31.5"
     "@types/nock" "^9.1.3"
@@ -1477,23 +1477,23 @@
     isomorphic-fetch "^2.2.1"
     websocket "^1.0.25"
 
-"@polkadot/rpc-rx@^0.31.35":
-  version "0.31.35"
-  resolved "https://registry.yarnpkg.com/@polkadot/rpc-rx/-/rpc-rx-0.31.35.tgz#a6eb9e967780e39fdb34ec577d30360bc4c64a31"
+"@polkadot/rpc-rx@^0.31.38":
+  version "0.31.38"
+  resolved "https://registry.yarnpkg.com/@polkadot/rpc-rx/-/rpc-rx-0.31.38.tgz#4f27f622dcc718584648b14c51cce230fbd3b5ff"
   dependencies:
     "@babel/runtime" "^7.0.0"
-    "@polkadot/rpc-core" "^0.31.35"
-    "@polkadot/rpc-provider" "^0.31.35"
+    "@polkadot/rpc-core" "^0.31.38"
+    "@polkadot/rpc-provider" "^0.31.38"
     "@types/rx" "^4.1.1"
     rxjs "^6.3.2"
 
-"@polkadot/storage@^0.31.35":
-  version "0.31.35"
-  resolved "https://registry.yarnpkg.com/@polkadot/storage/-/storage-0.31.35.tgz#7bfbd73f3c3175c53288be9c5a2a349036000f04"
+"@polkadot/storage@^0.31.38":
+  version "0.31.38"
+  resolved "https://registry.yarnpkg.com/@polkadot/storage/-/storage-0.31.38.tgz#22ad857d9c54cd11dae174134d8fc190a1b4c571"
   dependencies:
     "@babel/runtime" "^7.0.0"
     "@polkadot/keyring" "^0.31.5"
-    "@polkadot/types" "^0.31.35"
+    "@polkadot/types" "^0.31.38"
     "@polkadot/util" "^0.31.5"
     "@polkadot/util-crypto" "^0.31.5"
 
@@ -1501,9 +1501,9 @@
   version "0.1.30"
   resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.30.tgz#d6d1498a5597e09de88f6117663bcf842040c801"
 
-"@polkadot/types@^0.31.35":
-  version "0.31.35"
-  resolved "https://registry.yarnpkg.com/@polkadot/types/-/types-0.31.35.tgz#9b7db964050dd67d5092aa444db7ef6b6611d509"
+"@polkadot/types@^0.31.38":
+  version "0.31.38"
+  resolved "https://registry.yarnpkg.com/@polkadot/types/-/types-0.31.38.tgz#f9dca98bceb2fffde88b66cc25e36e31628f931f"
   dependencies:
     "@babel/runtime" "^7.0.0"
     "@polkadot/keyring" "^0.31.5"
@@ -8700,9 +8700,9 @@ oo7-react@^0.8.0:
     oo7 "^0.7.1"
     react "^15.4.2"
 
-oo7-substrate@^0.3.5:
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/oo7-substrate/-/oo7-substrate-0.3.5.tgz#d99b4d53e0b8e279b0bf53e389534c45ecb9d76b"
+oo7-substrate@^0.3.6:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/oo7-substrate/-/oo7-substrate-0.3.6.tgz#39b125dbba5484b48e1f17200de713a390ec6790"
   dependencies:
     base-x "^3.0.4"
     bip39 "^2.5.0"
@@ -9162,14 +9162,14 @@ pn@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
 
-polkadot-identicon@^1.0.2:
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/polkadot-identicon/-/polkadot-identicon-1.1.7.tgz#105c5f06ea4bd6dbcfb9bcd59087725aad8c63d8"
+polkadot-identicon@^1.1.8:
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/polkadot-identicon/-/polkadot-identicon-1.1.8.tgz#d0eff09863f086a2b7851933ede5e62120d9443a"
   dependencies:
     blake2js "^1.0.0"
     oo7 "^0.7.1"
     oo7-react "^0.8.0"
-    oo7-substrate "^0.3.5"
+    oo7-substrate "^0.3.6"
     react "^16.4.2"
     ss58 "^1.0.0"
 
