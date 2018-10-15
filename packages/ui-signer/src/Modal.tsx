@@ -264,6 +264,8 @@ class Signer extends React.PureComponent<Props, State> {
 
     const pair = keyring.getPair(accountId);
 
+    console.log(`sendExtrinsic: from=${pair.address()}, nonce=${accountNonce}, hash=${apiObservable.genesisHash.toHex()}`);
+
     extrinsic.sign(pair, accountNonce, apiObservable.genesisHash);
 
     const { error, result, status } = await this.submitExtrinsic(extrinsic);
