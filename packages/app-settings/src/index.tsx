@@ -29,22 +29,6 @@ class App extends React.PureComponent<Props, State> {
   render () {
     const { t } = this.props;
     const { apiUrl, i18nLang, uiMode, uiTheme } = this.state;
-    const optLang = settings.availableLanguages().map(({ id, desc }) => ({
-      text: desc,
-      value: id
-    }));
-    const optNodes = settings.availableChains().map(({ desc, url }) => ({
-      text: `${desc} (${url})`,
-      value: url
-    }));
-    const optMode = settings.availableUIModes().map(({ id, desc }) => ({
-      text: desc,
-      value: id
-    }));
-    const optTheme = settings.availableUIThemes().map(({ id, desc }) => ({
-      text: desc,
-      value: id
-    }));
 
     return (
       <main className='settings--App'>
@@ -56,7 +40,7 @@ class App extends React.PureComponent<Props, State> {
                 defaultValue: 'remote node/endpoint to connect to'
               })}
               onChange={this.onChangeApiUrl}
-              options={optNodes}
+              options={settings.availableNodes}
             />
           </div>
         </div>
@@ -68,7 +52,7 @@ class App extends React.PureComponent<Props, State> {
                 defaultValue: 'default interface theme'
               })}
               onChange={this.onChangeUiTheme}
-              options={optTheme}
+              options={settings.availableUIThemes}
             />
           </div>
           <div className='medium'>
@@ -78,7 +62,7 @@ class App extends React.PureComponent<Props, State> {
                 defaultValue: 'interface operation mode'
               })}
               onChange={this.onChangeUiMode}
-              options={optMode}
+              options={settings.availableUIModes}
             />
           </div>
         </div>
@@ -91,7 +75,7 @@ class App extends React.PureComponent<Props, State> {
                 defaultValue: 'default interface launguage'
               })}
               onChange={this.onChangeLang}
-              options={optLang}
+              options={settings.availableLanguages}
             />
           </div>
         </div>
@@ -127,7 +111,8 @@ class App extends React.PureComponent<Props, State> {
   private save = (): void => {
     settings.set(this.state);
 
-    // HACK This is terribe, but since the API needs to re-connect, it is what it is
+    // HACK This is terribe, but since the API needs to re-connect, but since
+    // the API does not yet handle re-connections properly, it is what it is
     window.location.reload();
   }
 }

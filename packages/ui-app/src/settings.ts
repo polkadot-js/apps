@@ -20,6 +20,11 @@ export type ChainInfo = {
   decimals: number
 };
 
+type Options = Array<{
+  text: string,
+  value: string
+}>;
+
 const chainInfos: Array<ChainInfo> = [
   {
     name: 'Development',
@@ -74,30 +79,30 @@ class Settings implements SettingsStruct {
     return this._uiTheme;
   }
 
-  availableChains (): Array<{ desc: string, url: string }> {
+  get availableNodes (): Options {
     return [
-      { desc: 'Local Node', url: 'ws://127.0.0.1:9944/' },
-      { desc: 'BBQ Birch', url: 'wss://substrate-rpc.parity.io/' }
+      { text: 'Local Node (127.0.0.1:9944)', value: 'ws://127.0.0.1:9944/' },
+      { text: 'BBQ Birch (hosted by Parity)', value: 'wss://substrate-rpc.parity.io/' }
     ];
   }
 
-  availableLanguages (): Array<{ id: string, desc: string }> {
+  get availableLanguages (): Options {
     return [
-      { id: 'default', desc: 'Default browser language (auto-detect)' }
+      { value: 'default', text: 'Default browser language (auto-detect)' }
     ];
   }
 
-  availableUIModes (): Array<{ id: string, desc: string }> {
+  get availableUIModes (): Options {
     return [
-      { id: 'full', desc: 'Fully featured' },
-      { id: 'light', desc: 'Basic features only' }
+      { value: 'full', text: 'Fully featured' },
+      { value: 'light', text: 'Basic features only' }
     ];
   }
 
-  availableUIThemes (): Array<{ id: string, desc: string }> {
+  get availableUIThemes (): Options {
     return [
-      { id: 'substrate', desc: 'Substrate' },
-      { id: 'polkadot', desc: 'Polkadot' }
+      { value: 'substrate', text: 'Substrate' },
+      { value: 'polkadot', text: 'Polkadot' }
     ];
   }
 
