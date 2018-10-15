@@ -11,7 +11,7 @@ import Api from '@polkadot/api-observable';
 import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import RxApi from '@polkadot/rpc-rx';
-import { Header } from '@polkadot/types';
+import { Header, ExtrinsicStatus } from '@polkadot/types';
 
 import ApiContext from './Context';
 
@@ -114,8 +114,8 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
 
   private subscribeExtrinsicUpdate = (api: RxApiInterface): void => {
     api.author
-      .updateExtrinsic()
-      .subscribe(async (extrinsicUpdateStatus?: Status) => { // this is the Status of the extrinsic, different from RPC status
+      .submitAndWatchExtrinsic()
+      .subscribe(async (extrinsicUpdateStatus?: ExtrinsicStatus) => {
         if (!extrinsicUpdateStatus) {
           return;
         }

@@ -25,21 +25,21 @@ export default class Status extends React.PureComponent<Props> {
     }
 
     return (
-      <div className='ui--signer-Status'>
-        {available.map(({ id, rpc: { method, section }, status }) =>
-          <div
-            className={classes('ui--signer-Status-Item', status)}
-            key={id}
-          >
-            <div className='header'>
-              {section}.{method}
+        <div className='ui--signer-Status'>
+          {available.map(({ id, rpc: { method, section }, status }) =>
+            <div
+              className={classes('ui--signer-Status-Item', status)}
+              key={id}
+            >
+              <div className='header'>
+                {section}.{method}
+              </div>
+              <div className='status'>
+                {status}
+              </div>
             </div>
-            <div className='status'>
-              {status}
-            </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
     );
   }
 }

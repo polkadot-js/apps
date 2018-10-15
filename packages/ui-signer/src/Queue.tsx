@@ -81,7 +81,7 @@ export default class Queue extends React.Component<Props, State> {
           ...value,
           rpc: (value as QueueTx$Rpc).rpc
             ? (value as QueueTx$Rpc).rpc
-            : jsonrpc.author.methods.submitExtrinsic,
+            : jsonrpc.author.methods.submitAndWatchExtrinsic,
           id,
           status: 'queued'
         }])
