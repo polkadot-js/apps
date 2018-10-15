@@ -5,12 +5,13 @@
 import { KeyringSectionOption } from './types';
 
 import React from 'react';
+import toShortAddress from '@polkadot/ui-app/util/toShortAddress';
 
 import KeyPair from './KeyPair';
 
 export default function createItem (address: string, _name?: string): KeyringSectionOption {
   const name = _name === undefined
-    ? `${address.slice(0, 7)}…${address.slice(-7)}`
+    ? toShortAddress(address)
     : _name;
 
   return {
