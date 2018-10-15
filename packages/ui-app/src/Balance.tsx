@@ -15,13 +15,17 @@ import classes from './util/classes';
 export type Props = BareProps & {
   balance?: Balance | Array<Balance> | BN,
   label?: string,
-  value: AccountId | AccountIndex | Address | string | Uint8Array,
+  value?: AccountId | AccountIndex | Address | string | Uint8Array,
   withLabel?: boolean
 };
 
 export default class BalanceDisplay extends React.PureComponent<Props> {
   render () {
     const { balance, className, label, value, style } = this.props;
+
+    if (!value) {
+      return null;
+    }
 
     return balance
       ? this.renderProvided()
