@@ -8700,9 +8700,9 @@ oo7-react@^0.8.0:
     oo7 "^0.7.1"
     react "^15.4.2"
 
-oo7-substrate@^0.3.5:
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/oo7-substrate/-/oo7-substrate-0.3.5.tgz#d99b4d53e0b8e279b0bf53e389534c45ecb9d76b"
+oo7-substrate@^0.3.6:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/oo7-substrate/-/oo7-substrate-0.3.6.tgz#39b125dbba5484b48e1f17200de713a390ec6790"
   dependencies:
     base-x "^3.0.4"
     bip39 "^2.5.0"
@@ -9162,14 +9162,14 @@ pn@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
 
-polkadot-identicon@^1.0.2:
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/polkadot-identicon/-/polkadot-identicon-1.1.7.tgz#105c5f06ea4bd6dbcfb9bcd59087725aad8c63d8"
+polkadot-identicon@^1.1.8:
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/polkadot-identicon/-/polkadot-identicon-1.1.8.tgz#d0eff09863f086a2b7851933ede5e62120d9443a"
   dependencies:
     blake2js "^1.0.0"
     oo7 "^0.7.1"
     oo7-react "^0.8.0"
-    oo7-substrate "^0.3.5"
+    oo7-substrate "^0.3.6"
     react "^16.4.2"
     ss58 "^1.0.0"
 
