@@ -26,13 +26,16 @@ export default function balanceFormat (_value?: UInt | BN | number | null): stri
     ? _value.toBn().toString()
     : bnToBn(_value).toString();
 
-  if (value.length <= 6) {
-    return toDecimal(value, 0, 'μ');
-  } else if (value.length <= 9) {
-    return toDecimal(value, 6, '');
-  } else if (value.length <= 12) {
-    return toDecimal(value, 9, 'k');
-  }
+  // FIXME We need to handle denominations properly on a pre-chain basis
+  return toDecimal(value, 0, '');
 
-  return toDecimal(value, 12, 'M');
+  // if (value.length <= 6) {
+  //   return toDecimal(value, 0, 'μ');
+  // } else if (value.length <= 9) {
+  //   return toDecimal(value, 6, '');
+  // } else if (value.length <= 12) {
+  //   return toDecimal(value, 9, 'k');
+  // }
+
+  // return toDecimal(value, 12, 'M');
 }

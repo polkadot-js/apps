@@ -91,7 +91,7 @@ class Transfer extends React.PureComponent<Props, State> {
               bitLength={DEFAULT_BITLENGTH}
               isError={!hasAvailable}
               label={t('amount', {
-                defaultValue: 'send a value of (μ)'
+                defaultValue: 'send a value of'
               })}
               onChange={this.onChangeAmount}
             />
