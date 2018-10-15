@@ -11,7 +11,7 @@ import Api from '@polkadot/api-observable';
 import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import RxApi from '@polkadot/rpc-rx';
-import { Header } from '@polkadot/types';
+import { Header, Method } from '@polkadot/types';
 
 import ApiContext from './Context';
 
@@ -25,6 +25,9 @@ type Props = {
 type State = ApiProps & {
   subscriptions: Array<any> // rxjs$ISubscription | null>;
 };
+
+// HACK Initialise with static data
+Method.injectExtrinsics(Api.extrinsics);
 
 export default class ApiWrapper extends React.PureComponent<Props, State> {
   state: State = {} as State;
