@@ -13,6 +13,7 @@ export default ([
       defaultValue: 'Settings'
     },
     icon: 'settings',
+    isApiGated: false,
     isHidden: false,
     name: 'settings'
   }

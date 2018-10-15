@@ -13,6 +13,7 @@ export default ([
       defaultValue: 'Chain state'
     },
     icon: 'database',
+    isApiGated: true,
     isHidden: false,
     name: 'chainstate'
   }

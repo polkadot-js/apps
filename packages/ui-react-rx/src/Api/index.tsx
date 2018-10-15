@@ -54,8 +54,9 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       setApiProvider(new WsProvider(url));
 
     this.state = {
+      isApiConnected: false,
+      isApiReady: false,
       api,
-      apiConnected: false,
       apiMethods: {},
       apiObservable: new Api(api),
       apiSupport: 'latest',
@@ -75,17 +76,18 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   }
 
   private updateSubscriptions () {
-    const { api } = this.state;
+    const { api, apiObservable } = this.state;
 
     this.unsubscribe();
     this.setState({
       subscriptions:
         [
           this.subscribeIsConnected,
+          this.subscribeIsReady,
           this.subscribeMethodCheck
         ].map((fn: Function) => {
           try {
-            return fn(api);
+            return fn(api, apiObservable);
           } catch (error) {
             console.error(error);
             return null;
@@ -94,12 +96,16 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     });
   }
 
-  private subscribeIsConnected = (api: RpcRxInterface): void => {
-    api
-      .isConnected()
-      .subscribe((isConnected?: boolean) => {
-        this.setState({ apiConnected: !!isConnected });
-      });
+  private subscribeIsConnected = (rpc: RpcRxInterface, api: Api): void => {
+    rpc.isConnected().subscribe((isConnected?: boolean) => {
+      this.setState({ isApiConnected: !!isConnected });
+    });
+  }
+
+  private subscribeIsReady = (rpc: RpcRxInterface, api: Api): void => {
+    api.whenReady.subscribe((isReady?: boolean) => {
+      this.setState({ isApiReady: !!isReady });
+    });
   }
 
   private subscribeMethodCheck = (api: RpcRxInterface): void => {
@@ -129,12 +135,13 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { api, apiConnected, apiMethods, apiObservable, apiSupport, setApi, setApiProvider, setApiWsUrl } = this.state;
+    const { isApiConnected, isApiReady, api, apiMethods, apiObservable, apiSupport, setApi, setApiProvider, setApiWsUrl } = this.state;
 
     return (
       <ApiContext.Provider value={{
+        isApiConnected,
+        isApiReady,
         api,
-        apiConnected,
         apiMethods,
         apiObservable,
         apiSupport,

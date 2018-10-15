@@ -13,6 +13,7 @@ export default ([
       defaultValue: 'Addresses'
     },
     icon: 'address book',
+    isApiGated: false,
     isHidden: false,
     name: 'addresses'
   }

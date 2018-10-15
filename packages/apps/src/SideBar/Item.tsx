@@ -3,22 +3,28 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { Route } from '../types';
 
 import React from 'react';
 import { withRouter } from 'react-router';
 import { NavLink } from 'react-router-dom';
+import withApi from '@polkadot/ui-react-rx/with/api';
 
 import Icon from '@polkadot/ui-app/Icon';
 import Menu from '@polkadot/ui-app/Menu';
 
-type Props = I18nProps & {
+type Props = I18nProps & ApiProps & {
   route: Route
 };
 
 class Item extends React.PureComponent<Props> {
   render () {
-    const { route: { i18n, icon, name }, t } = this.props;
+    const { isApiConnected, isApiReady, route: { isApiGated, i18n, icon, name }, t } = this.props;
+
+    if (isApiGated && (!isApiReady || !isApiConnected)) {
+      return null;
+    }
 
     return (
       <Menu.Item className='apps--SideBar-Item'>
@@ -35,4 +41,6 @@ class Item extends React.PureComponent<Props> {
 }
 
 // @ts-ignore the definitions complain here, however the use is valid
-export default withRouter(Item);
+export default withRouter(
+  withApi(Item)
+);

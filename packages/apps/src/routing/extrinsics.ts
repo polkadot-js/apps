@@ -13,6 +13,7 @@ export default ([
       defaultValue: 'Extrinsics'
     },
     icon: 'send',
+    isApiGated: true,
     isHidden: false,
     name: 'extrinsics'
   }
