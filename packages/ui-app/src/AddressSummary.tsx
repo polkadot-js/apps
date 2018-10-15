@@ -33,34 +33,39 @@ export type Props = I18nProps & {
 
 export type State = {
   address: string,
+  isAccountIndex: boolean,
   isValid: boolean,
-  publicKey: Uint8Array | null,
   shortValue: string
 };
 
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 const DEFAULT_SHORT = toShortAddress(DEFAULT_ADDR);
 
+// FIXME We try to get nonce, balance etc. for AccountIndex (not correct)
 class AddressSummary extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
-  static getDerivedStateFromProps ({ value }: Props, { address, publicKey, shortValue }: State): State {
-    try {
-      publicKey = isU8a(value)
-        ? value
-        : addressDecode(value ? value.toString() : '');
-      address = addressEncode(publicKey);
-      shortValue = toShortAddress(address);
-    } catch (error) {
-      publicKey = null;
-    }
+  static getDerivedStateFromProps ({ value }: Props, { address, shortValue }: State): State {
+    let isAccountIndex = false;
+    let isValid = false;
 
-    const isValid = !!publicKey && publicKey.length === 32;
+    try {
+      address = isU8a(value)
+        ? addressEncode(value)
+        : (value || '').toString();
+
+      isAccountIndex = addressDecode(value as string).length !== 32;
+
+      shortValue = toShortAddress(address);
+      isValid = true;
+    } catch (error) {
+      // swallow
+    }
 
     return {
       address: isValid ? address : DEFAULT_ADDR,
+      isAccountIndex,
       isValid,
-      publicKey,
       shortValue: isValid ? shortValue : DEFAULT_SHORT
     };
   }
@@ -103,10 +108,10 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderBalance () {
-    const { isValid, publicKey } = this.state;
+    const { isAccountIndex, isValid, address } = this.state;
     const { balance, t, withBalance = true } = this.props;
 
-    if (!withBalance || !isValid || !publicKey) {
+    if (!withBalance || !isValid || isAccountIndex) {
       return null;
     }
 
@@ -117,16 +122,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
         label={t('addressSummary.balance', {
           defaultValue: 'balance '
         })}
-        value={publicKey}
+        value={address}
       />
     );
   }
 
   protected renderCopy () {
     const { withCopy = true } = this.props;
-    const { address, publicKey } = this.state;
+    const { address, isValid } = this.state;
 
-    if (!withCopy || !publicKey) {
+    if (!withCopy || !isValid) {
       return null;
     }
 
@@ -153,17 +158,17 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderNonce () {
-    const { isValid, publicKey } = this.state;
+    const { isAccountIndex, isValid, address } = this.state;
     const { t, withNonce = true } = this.props;
 
-    if (!withNonce || !isValid) {
+    if (!withNonce || !isValid || isAccountIndex) {
       return null;
     }
 
     return (
       <Nonce
         className='ui--AddressSummary-nonce'
-        params={publicKey}
+        params={address}
       >
         {t('addressSummary.transactions', {
           defaultValue: ' transactions'
