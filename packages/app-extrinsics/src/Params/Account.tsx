@@ -30,20 +30,22 @@ export default class Account extends React.PureComponent<Props> {
     );
   }
 
-  onChange = (accountId: string): void => {
+  onChange = (value: string): void => {
     const { onChange } = this.props;
 
-    let publicKey;
+    let isValid = false;
 
     try {
-      publicKey = addressDecode(accountId);
+      addressDecode(value);
+
+      isValid = true;
     } catch (err) {
       console.error(err);
     }
 
     onChange && onChange({
-      isValid: !!publicKey && publicKey.length === 32,
-      value: accountId
+      isValid,
+      value
     });
   }
 }

@@ -13,6 +13,7 @@ export default ([
       defaultValue: 'Staking'
     },
     icon: 'certificate',
+    isApiGated: true,
     isHidden: false,
     name: 'staking'
   }

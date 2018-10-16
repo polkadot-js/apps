@@ -9,11 +9,34 @@ import setAddressPrefix from '@polkadot/keyring/address/setPrefix';
 
 export interface SettingsStruct {
   apiUrl: string;
-  chainPrefix: Prefix;
   i18nLang: string;
   uiMode: string;
   uiTheme: string;
 }
+
+export type ChainInfo = {
+  name: string,
+  chainId: number,
+  decimals: number
+};
+
+type Options = Array<{
+  text: string,
+  value: string
+}>;
+
+const chainInfos: Array<ChainInfo> = [
+  {
+    name: 'Development',
+    chainId: 0,
+    decimals: 0
+  },
+  {
+    name: 'BBQ Birch',
+    chainId: 68,
+    decimals: 15
+  }
+];
 
 class Settings implements SettingsStruct {
   private _apiUrl: string;
@@ -40,8 +63,8 @@ class Settings implements SettingsStruct {
     return this._apiUrl;
   }
 
-  get chainPrefix (): Prefix {
-    return this._chainPrefix;
+  get chainInfos (): Array<ChainInfo> {
+    return chainInfos;
   }
 
   get i18nLang (): string {
@@ -56,37 +79,36 @@ class Settings implements SettingsStruct {
     return this._uiTheme;
   }
 
-  availableChains (): Array<{ id: number, desc: string, url: string }> {
+  get availableNodes (): Options {
     return [
-      { id: 0, desc: 'Local Node', url: 'ws://127.0.0.1:9944/' },
-      { id: 68, desc: 'BBQ Birch', url: 'wss://substrate-rpc.parity.io/' }
+      { text: 'Local Node (127.0.0.1:9944)', value: 'ws://127.0.0.1:9944/' },
+      { text: 'BBQ Birch (hosted by Parity)', value: 'wss://substrate-rpc.parity.io/' }
     ];
   }
 
-  availableLanguages (): Array<{ id: string, desc: string }> {
+  get availableLanguages (): Options {
     return [
-      { id: 'default', desc: 'Default browser language (auto-detect)' }
+      { value: 'default', text: 'Default browser language (auto-detect)' }
     ];
   }
 
-  availableUIModes (): Array<{ id: string, desc: string }> {
+  get availableUIModes (): Options {
     return [
-      { id: 'full', desc: 'Fully featured' },
-      { id: 'light', desc: 'Basic features only' }
+      { value: 'full', text: 'Fully featured' },
+      { value: 'light', text: 'Basic features only' }
     ];
   }
 
-  availableUIThemes (): Array<{ id: string, desc: string }> {
+  get availableUIThemes (): Options {
     return [
-      { id: 'substrate', desc: 'Substrate' },
-      { id: 'polkadot', desc: 'Polkadot' }
+      { value: 'substrate', text: 'Substrate' },
+      { value: 'polkadot', text: 'Polkadot' }
     ];
   }
 
   get (): SettingsStruct {
     return {
       apiUrl: this._apiUrl,
-      chainPrefix: this._chainPrefix,
       i18nLang: this._i18nLang,
       uiMode: this._uiMode,
       uiTheme: this._uiTheme
@@ -95,7 +117,6 @@ class Settings implements SettingsStruct {
 
   set (settings: Partial<SettingsStruct>): void {
     this._apiUrl = settings.apiUrl || this._apiUrl;
-    this._chainPrefix = settings.chainPrefix || this._chainPrefix;
     this._i18nLang = settings.i18nLang || this._i18nLang;
     this._uiMode = settings.uiMode || this._uiMode;
     this._uiTheme = settings.uiTheme || this._uiTheme;

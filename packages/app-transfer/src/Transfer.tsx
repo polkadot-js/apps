@@ -125,10 +125,8 @@ class Transfer extends React.PureComponent<Props, State> {
       return null;
     }
 
-    let publicKey;
-
     try {
-      publicKey = addressDecode(accountId);
+      addressDecode(accountId);
     } catch (err) {
       return null;
     }
@@ -136,7 +134,7 @@ class Transfer extends React.PureComponent<Props, State> {
     return (
       <div className='transfer--Transfer-address'>
         <AddressSummary
-          value={publicKey}
+          value={accountId}
           withCopy={false}
         />
       </div>

@@ -13,6 +13,7 @@ export default ([
       defaultValue: 'Vanity'
     },
     icon: 'hand lizard',
+    isApiGated: false,
     isHidden: false,
     name: 'vanitygen'
   }

@@ -13,6 +13,7 @@ export default ([
       defaultValue: 'Explorer'
     },
     icon: 'braille',
+    isApiGated: true,
     isHidden: false,
     name: 'explorer'
   }

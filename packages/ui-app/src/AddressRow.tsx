@@ -11,19 +11,18 @@ import translate from './translate';
 
 class AddressRow extends AddressSummary {
   render () {
-    const { className, style, identIconSize } = this.props;
-    const { address, isValid } = this.state;
+    const { className, style, identIconSize, value } = this.props;
 
     return (
       <div
-        className={classes('ui--AddressRow', !isValid && 'invalid', className)}
+        className={classes('ui--AddressRow', !value && 'invalid', className)}
         style={style}
       >
         <div className='ui--AddressRow-base'>
           <IdentityIcon
             className='ui--AddressRow-icon'
             size={identIconSize}
-            value={address}
+            value={(value || '').toString()}
           />
           <div className='ui--AddressRow-details'>
             {this.renderAddress()}
