@@ -4,38 +4,42 @@
 
 import BN from 'bn.js';
 import { UInt } from '@polkadot/types/codec';
-import bnToBn from '@polkadot/util/bn/toBn';
 
 import decimalFormat from './decimalFormat';
 
-function toDecimal (value: string, split: number, indicator: string): string {
-  const postfix = split === 0
-    ? ''
-    : `.${value.slice(-1 * split).substr(0, 2)}`;
-  const prefix = value.slice(0, value.length - split);
+type Divisor = {
+  power: number,
+  text: string,
+  type: string
+};
 
-  return `${decimalFormat(prefix)}${postfix}${indicator}`;
-}
+const SI: Array<Divisor> = [
+  { power: -24, type: 'y', text: 'yocto' },
+  { power: -21, type: 'z', text: 'zepto' },
+  { power: -18, type: 'a', text: 'atto' },
+  { power: -15, type: 'f', text: 'femto' },
+  { power: -12, type: 'p', text: 'pico' },
+  { power: -9, type: 'n', text: 'nano' },
+  { power: -6, type: 'µ', text: 'micro' },
+  { power: -3, type: 'm', text: 'milli' },
+  { power: 0, type: '', text: '' }, // position 8
+  { power: 3, type: 'k', text: 'Kilo' },
+  { power: 6, type: 'M', text: 'Mega' },
+  { power: 9, type: 'G', text: 'Giga' },
+  { power: 12, type: 'T', text: 'Tera' },
+  { power: 15, type: 'P', text: 'Peta' },
+  { power: 18, type: 'E', text: 'Exa' },
+  { power: 21, type: 'Z', text: 'Zeta' },
+  { power: 24, type: 'Y', text: 'Yotta' }
+];
 
-export default function balanceFormat (_value?: UInt | BN | number | null): string {
-  if (_value === undefined || _value === null) {
-    return '0';
-  }
+export default function balanceFormat (input: BN | UInt, decimals: number): string {
+  const text = input.toString();
+  const si = SI[8 + Math.floor((text.length - decimals) / 3) - 1];
+  const length = decimals + si.power;
+  const mid = text.length - length;
+  const prefix = text.substr(0, mid);
+  const postfix = `${text.substr(mid)}000`.substr(0, 3);
 
-  const value = _value instanceof UInt
-    ? _value.toBn().toString()
-    : bnToBn(_value).toString();
-
-  // FIXME We need to handle denominations properly on a pre-chain basis
-  return toDecimal(value, 0, '');
-
-  // if (value.length <= 6) {
-  //   return toDecimal(value, 0, 'μ');
-  // } else if (value.length <= 9) {
-  //   return toDecimal(value, 6, '');
-  // } else if (value.length <= 12) {
-  //   return toDecimal(value, 9, 'k');
-  // }
-
-  // return toDecimal(value, 12, 'M');
+  return `${decimalFormat(prefix)}.${postfix}${si.type}`;
 }

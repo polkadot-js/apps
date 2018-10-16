@@ -11,6 +11,7 @@ import Api from '@polkadot/api-observable';
 import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import RxApi from '@polkadot/rpc-rx';
+import settings from '@polkadot/ui-app/settings';
 import { Header, Method } from '@polkadot/types';
 
 import ApiContext from './Context';
@@ -23,6 +24,7 @@ type Props = {
 };
 
 type State = ApiProps & {
+  chain?: string,
   subscriptions: Array<any> // rxjs$ISubscription | null>;
 };
 
@@ -84,6 +86,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
         [
           this.subscribeIsConnected,
           this.subscribeIsReady,
+          this.subscribeChain,
           this.subscribeMethodCheck
         ].map((fn: Function) => {
           try {
@@ -93,6 +96,18 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
             return null;
           }
         })
+    });
+  }
+
+  private subscribeChain = (rpc: RpcRxInterface, api: Api): void => {
+    api.chain().subscribe((value: any) => {
+      const chain = value
+        ? value.toString()
+        : null;
+
+      console.error('subscribeChain', value, chain);
+
+      this.setState({ chain });
     });
   }
 
@@ -108,8 +123,8 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     });
   }
 
-  private subscribeMethodCheck = (api: RpcRxInterface): void => {
-    api.chain
+  private subscribeMethodCheck = (rpc: RpcRxInterface, api: Api): void => {
+    rpc.chain
       .subscribeNewHead()
       .subscribe(async (header?: Header) => {
         if (!header || !header.parentHash) {
@@ -135,12 +150,12 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isApiConnected, isApiReady, api, apiMethods, apiObservable, apiSupport, setApi, setApiProvider, setApiWsUrl } = this.state;
+    const { isApiConnected, isApiReady, api, apiMethods, apiObservable, apiSupport, chain, setApi, setApiProvider, setApiWsUrl } = this.state;
 
     return (
       <ApiContext.Provider value={{
         isApiConnected,
-        isApiReady,
+        isApiReady: isApiReady && !!chain,
         api,
         apiMethods,
         apiObservable,
