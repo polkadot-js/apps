@@ -8,9 +8,6 @@ import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import Nonce from '@polkadot/ui-react-rx/Nonce';
-import addressDecode from '@polkadot/keyring/address/decode';
-import addressEncode from '@polkadot/keyring/address/encode';
-import isU8a from '@polkadot/util/is/u8a';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
@@ -21,8 +18,7 @@ import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 
 export type Props = I18nProps & {
-  accountIdFromIndex?: AccountId | undefined,
-  accountIndexFromId?: AccountIndex | undefined,
+  accountIdAndIndex?: [AccountId | undefined, AccountIndex | undefined],
   balance?: Balance | Array<Balance>,
   children?: React.ReactNode,
   name?: string,
@@ -36,48 +32,13 @@ export type Props = I18nProps & {
   withNonce?: boolean
 };
 
-export type State = {
-  address: string,
-  isAccountIndex: boolean,
-  isValid: boolean,
-  shortAddress: string
-};
-
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
-const DEFAULT_SHORT = toShortAddress(DEFAULT_ADDR);
 
-// FIXME We try to get nonce, balance etc. for AccountIndex (not correct)
-class AddressSummary extends React.PureComponent<Props, State> {
-  state: State = {} as State;
-
-  static getDerivedStateFromProps ({ value }: Props, { address, shortAddress }: State): State {
-    let isAccountIndex = false;
-    let isValid = false;
-
-    try {
-      address = isU8a(value)
-        ? addressEncode(value)
-        : (value || '').toString();
-
-      isAccountIndex = addressDecode(value as string).length !== 32;
-
-      shortAddress = toShortAddress(address);
-      isValid = true;
-    } catch (error) {
-      // swallow
-    }
-
-    return {
-      address: isValid ? address : DEFAULT_ADDR,
-      isAccountIndex,
-      isValid,
-      shortAddress: isValid ? shortAddress : DEFAULT_SHORT
-    };
-  }
-
+class AddressSummary extends React.PureComponent<Props> {
   render () {
-    const { className, style } = this.props;
-    const { isValid } = this.state;
+    const { accountIdAndIndex = [], className, style } = this.props;
+    const [accountId, accountIndex] = accountIdAndIndex;
+    const isValid = accountId || accountIndex;
 
     return (
       <div
@@ -86,8 +47,8 @@ class AddressSummary extends React.PureComponent<Props, State> {
       >
         <div className='ui--AddressSummary-base'>
           {this.renderIcon()}
-          {this.renderAddressFromIndex()}
-          {this.renderAddress()}
+          {this.renderAccountId()}
+          {this.renderAccountIndex()}
           {this.renderBalance()}
           {this.renderNonce()}
         </div>
@@ -96,19 +57,28 @@ class AddressSummary extends React.PureComponent<Props, State> {
     );
   }
 
-  protected renderAddress () {
-    const { name, isShort = true } = this.props;
-    const { address, isAccountIndex, shortAddress } = this.state;
+  protected renderAccountId () {
+    const { accountIdAndIndex = [], name, isShort = true } = this.props;
+
+    const [accountId, accountIndex] = accountIdAndIndex;
+
+    if (!accountId && accountIndex) {
+      return null;
+    }
+
+    const address = accountId
+      ? accountId.toString()
+      : DEFAULT_ADDR;
 
     return (
       <div className='ui--AddressSummary-data'>
         <div className='ui--AddressSummary-name'>
           {name}
         </div>
-        <div className='ui--AddressSummary-address'>
+        <div className='ui--AddressSummary-accountId'>
           {
-            (isShort && !isAccountIndex)
-              ? shortAddress
+            isShort
+              ? toShortAddress(address)
               : address
           }
         </div>
@@ -117,32 +87,33 @@ class AddressSummary extends React.PureComponent<Props, State> {
     );
   }
 
-  protected renderAddressFromIndex () {
-    const { accountIdFromIndex, withIndex = true, isShort = true } = this.props;
-    const { isAccountIndex } = this.state;
+  protected renderAccountIndex () {
+    const { accountIdAndIndex = [], isShort = true } = this.props;
 
-    if (!isAccountIndex || !withIndex || !accountIdFromIndex) {
+    const [, accountIndex] = accountIdAndIndex;
+
+    if (!accountIndex) {
       return null;
     }
 
-    const address = accountIdFromIndex.toString();
-    const shortAddress = toShortAddress(address);
+    const address = accountIndex.toString();
+    // {this.renderCopy(address)}
 
     return (
       <div className='ui--AddressSummary-data'>
-        <div className='ui--AddressSummary-address'>
-          {isShort ? shortAddress : address}
+        <div className='ui--AddressSummary-name'></div>
+        <div className='ui--AddressSummary-accountIndex'>
+          {address}
         </div>
-        {this.renderCopy(address)}
       </div>
     );
   }
 
   protected renderBalance () {
-    const { isAccountIndex, isValid, address } = this.state;
-    const { accountIdFromIndex, balance, t, withBalance = true } = this.props;
+    const { accountIdAndIndex = [], balance, t, withBalance = true } = this.props;
+    const [accountId] = accountIdAndIndex;
 
-    if (!withBalance || !isValid || (isAccountIndex && !accountIdFromIndex)) {
+    if (!withBalance || !accountId) {
       return null;
     }
 
@@ -153,16 +124,15 @@ class AddressSummary extends React.PureComponent<Props, State> {
         label={t('addressSummary.balance', {
           defaultValue: 'balance '
         })}
-        value={isAccountIndex ? accountIdFromIndex : address}
+        value={accountId.toString()}
       />
     );
   }
 
   protected renderCopy (address: string) {
     const { withCopy = true } = this.props;
-    const { isValid } = this.state;
 
-    if (!withCopy || !isValid || !address) {
+    if (!withCopy || !address) {
       return null;
     }
 
@@ -172,8 +142,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderIcon () {
-    const { identIconSize = 96, withIcon = true } = this.props;
-    const { address } = this.state;
+    const { identIconSize = 96, value, withIcon = true } = this.props;
 
     if (!withIcon) {
       return null;
@@ -183,23 +152,23 @@ class AddressSummary extends React.PureComponent<Props, State> {
       <IdentityIcon
         className='ui--AddressSummary-icon'
         size={identIconSize}
-        value={address}
+        value={value ? value.toString() : DEFAULT_ADDR}
       />
     );
   }
 
   protected renderNonce () {
-    const { isAccountIndex, isValid, address } = this.state;
-    const { accountIdFromIndex, t, withNonce = true } = this.props;
+    const { accountIdAndIndex = [], t, withNonce = true } = this.props;
+    const [accountId] = accountIdAndIndex;
 
-    if (!withNonce || !isValid || (isAccountIndex && !accountIdFromIndex)) {
+    if (!withNonce || !accountId) {
       return null;
     }
 
     return (
       <Nonce
         className='ui--AddressSummary-nonce'
-        params={isAccountIndex ? accountIdFromIndex : address}
+        params={accountId.toString()}
       >
         {t('addressSummary.transactions', {
           defaultValue: ' transactions'
@@ -225,12 +194,10 @@ class AddressSummary extends React.PureComponent<Props, State> {
 
 export {
   DEFAULT_ADDR,
-  DEFAULT_SHORT,
   AddressSummary
 };
 
 export default withMulti(
   translate(AddressSummary),
-  withObservable('accountIdFromIndex', { paramProp: 'value' }),
-  withObservable('accountIndexFromId', { paramProp: 'value' })
+  withObservable('accountIdAndIndex', { paramProp: 'value' })
 );

@@ -118,13 +118,17 @@ header .ui--Button-Group {
   opacity: 0.45;
 }
 
+.ui--AddressSummary-balance {
+  padding-top: 0.5em;
+}
+
 .ui--AddressSummary-balance.rx--updated,
 .ui--AddressSummary-nonce.rx--updated {
   opacity: 1;
 }
 
 .ui--AddressSummary-data {
-  padding: 0.5em 0;
+  padding: 0;
   white-space: nowrap;
 }
 
@@ -133,11 +137,17 @@ header .ui--Button-Group {
   vertical-align: middle;
 }
 
-.ui--AddressSummary-address {
+.ui--AddressSummary-accountId,
+.ui--AddressSummary-accountIndex {
   display: inline-block;
   font-family: monospace;
   font-size: 1.5em;
   padding: 0;
+}
+
+.ui--AddressSummary-accountIndex {
+  font-size: 1.25em;
+  font-style: italic;
 }
 
 .ui--CardSummary .ui.label {
