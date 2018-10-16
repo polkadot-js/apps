@@ -33,13 +33,24 @@ const SI: Array<Divisor> = [
   { power: 24, type: 'Y', text: 'Yotta' }
 ];
 
-export default function balanceFormat (input: BN | UInt, decimals: number): string {
-  const text = input.toString();
-  const si = SI[8 + Math.floor((text.length - decimals) / 3) - 1];
+let defaultDecimals = 0;
+
+export default function balanceFormat (input: string | BN | UInt, decimals: number = defaultDecimals): string {
+  const text = (input || '').toString();
+
+  if (text.length === 0) {
+    return text;
+  }
+
+  const si = SI[8 + Math.floor((text.length - decimals) / 3)];
   const length = decimals + si.power;
   const mid = text.length - length;
   const prefix = text.substr(0, mid);
   const postfix = `${text.substr(mid)}000`.substr(0, 3);
 
-  return `${decimalFormat(prefix)}.${postfix}${si.type}`;
+  return `${decimalFormat(prefix || '0')}.${postfix}${si.type}`;
 }
+
+balanceFormat.setDefaultDecimals = (decimals: number): void => {
+  defaultDecimals = decimals;
+};

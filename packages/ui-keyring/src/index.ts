@@ -6,8 +6,6 @@ import { KeyringPair, KeyringPair$Meta } from '@polkadot/keyring/types';
 import { SingleAddress } from './observable/types';
 import { KeyringAddress, KeyringInstance, State } from './types';
 
-import testKeyring from '@polkadot/keyring/testing';
-
 import accounts from './observable/accounts';
 import addresses from './observable/addresses';
 import development from './observable/development';
@@ -29,11 +27,11 @@ import saveRecent from './address/metaRecent';
 
 const state: State = {
   accounts,
-  addresses,
-  keyring: testKeyring()
-};
+  addresses
+} as State;
 
-loadAll(state);
+// NOTE Everything is loaded in API after chain is received
+// loadAll(state);
 
 // FIXME The quicker we get in https://github.com/polkadot-js/apps/issues/138
 // the better, this is now completely out of control

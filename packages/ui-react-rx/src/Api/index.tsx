@@ -8,12 +8,15 @@ import { ApiProps } from '../types';
 
 import React from 'react';
 import Api from '@polkadot/api-observable';
+import setAddressPrefix from '@polkadot/keyring/address/setPrefix';
 import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import RxApi from '@polkadot/rpc-rx';
 import settings from '@polkadot/ui-app/settings';
+import keyring from '@polkadot/ui-keyring/index';
 import { Header, Method } from '@polkadot/types';
 
+import balanceFormat from '../util/balanceFormat';
 import ApiContext from './Context';
 
 type Props = {
@@ -104,8 +107,13 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       const chain = value
         ? value.toString()
         : null;
+      const found = settings.availableChains.find(({ name }) => name === chain) || { chainId: 0, decimals: 0 };
 
-      console.error('subscribeChain', value, chain);
+      balanceFormat.setDefaultDecimals(found.decimals);
+      setAddressPrefix(found.chainId as any);
+
+      // load accounts only after prefix has been set
+      keyring.loadAll();
 
       this.setState({ chain });
     });
