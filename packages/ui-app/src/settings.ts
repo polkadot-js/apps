@@ -7,36 +7,14 @@ import { Prefix } from '@polkadot/keyring/address/types';
 import store from 'store';
 import setAddressPrefix from '@polkadot/keyring/address/setPrefix';
 
+import { ChainsInfo, Options, CHAINS, ENDPOINTS, LANGUAGES, UIMODES, UITHEMES } from './settingsDefaults';
+
 export interface SettingsStruct {
   apiUrl: string;
   i18nLang: string;
   uiMode: string;
   uiTheme: string;
 }
-
-export type ChainInfo = {
-  name: string,
-  chainId: number,
-  decimals: number
-};
-
-type Options = Array<{
-  text: string,
-  value: string
-}>;
-
-const chainInfos: Array<ChainInfo> = [
-  {
-    name: 'Development',
-    chainId: 0,
-    decimals: 0
-  },
-  {
-    name: 'BBQ Birch',
-    chainId: 68,
-    decimals: 15
-  }
-];
 
 class Settings implements SettingsStruct {
   private _apiUrl: string;
@@ -50,21 +28,17 @@ class Settings implements SettingsStruct {
 
     // FIXME Here we have the defaults for BBQ, swap to Polkadot as soon as poc-3 is there
     // FIXME WS_URL first, then substrate-rpc
-    this._apiUrl = settings.apiUrl || 'wss://substrate-rpc.parity.io/' || process.env.WS_URL;
+    this._apiUrl = settings.apiUrl || ENDPOINTS[0].value || process.env.WS_URL;
     this._chainPrefix = settings.chainPrefix || 68;
-    this._i18nLang = settings.i18nLang || 'default';
-    this._uiMode = settings.uiMode || process.env.UI_MODE || 'full';
-    this._uiTheme = settings.uiTheme || process.env.UI_THEME || 'substrate';
+    this._i18nLang = settings.i18nLang || LANGUAGES[0].value;
+    this._uiMode = settings.uiMode || process.env.UI_MODE || UIMODES[0].value;
+    this._uiTheme = settings.uiTheme || process.env.UI_THEME || UITHEMES[0].value;
 
     setAddressPrefix(this._chainPrefix);
   }
 
   get apiUrl (): string {
     return this._apiUrl;
-  }
-
-  get chainInfos (): Array<ChainInfo> {
-    return chainInfos;
   }
 
   get i18nLang (): string {
@@ -79,31 +53,24 @@ class Settings implements SettingsStruct {
     return this._uiTheme;
   }
 
+  get availableChains (): ChainsInfo {
+    return CHAINS;
+  }
+
   get availableNodes (): Options {
-    return [
-      { text: 'Local Node (127.0.0.1:9944)', value: 'ws://127.0.0.1:9944/' },
-      { text: 'BBQ Birch (hosted by Parity)', value: 'wss://substrate-rpc.parity.io/' }
-    ];
+    return ENDPOINTS;
   }
 
   get availableLanguages (): Options {
-    return [
-      { value: 'default', text: 'Default browser language (auto-detect)' }
-    ];
+    return LANGUAGES;
   }
 
   get availableUIModes (): Options {
-    return [
-      { value: 'full', text: 'Fully featured' },
-      { value: 'light', text: 'Basic features only' }
-    ];
+    return UIMODES;
   }
 
   get availableUIThemes (): Options {
-    return [
-      { value: 'substrate', text: 'Substrate' },
-      { value: 'polkadot', text: 'Polkadot' }
-    ];
+    return UITHEMES;
   }
 
   get (): SettingsStruct {
