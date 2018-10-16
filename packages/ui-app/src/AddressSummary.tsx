@@ -22,7 +22,7 @@ export type Props = I18nProps & {
   balance?: Balance | Array<Balance>,
   children?: React.ReactNode,
   name?: string,
-  value: AccountId | AccountIndex | Address | string | Uint8Array | null,
+  value: AccountId | AccountIndex | Address | string | null,
   withBalance?: boolean,
   withIndex?: boolean,
   identIconSize?: number,
@@ -57,9 +57,34 @@ class AddressSummary extends React.PureComponent<Props> {
     );
   }
 
+  protected renderAddress () {
+    const { name, isShort = true, value } = this.props;
+
+    if (!value) {
+      return null;
+    }
+
+    const address = value.toString();
+
+    return (
+      <div className='ui--AddressSummary-data'>
+        <div className='ui--AddressSummary-name'>
+          {name}
+        </div>
+        <div className='ui--AddressSummary-accountId'>
+          {
+            isShort
+              ? toShortAddress(address)
+              : value
+          }
+        </div>
+        {this.renderCopy(address)}
+      </div>
+    );
+  }
+
   protected renderAccountId () {
     const { accountIdAndIndex = [], name, isShort = true } = this.props;
-
     const [accountId, accountIndex] = accountIdAndIndex;
 
     if (!accountId && accountIndex) {
@@ -88,8 +113,7 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderAccountIndex () {
-    const { accountIdAndIndex = [], isShort = true } = this.props;
-
+    const { accountIdAndIndex = [] } = this.props;
     const [, accountIndex] = accountIdAndIndex;
 
     if (!accountIndex) {
