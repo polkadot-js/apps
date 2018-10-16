@@ -11,7 +11,11 @@ import Api from '@polkadot/api-observable';
 import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import RxApi from '@polkadot/rpc-rx';
+<<<<<<< HEAD
 import { Header, ExtrinsicStatus } from '@polkadot/types';
+=======
+import { Header, Method } from '@polkadot/types';
+>>>>>>> 2834f54c056a24681e9e7a2e164daedbb5b89432
 
 import ApiContext from './Context';
 
@@ -25,6 +29,9 @@ type Props = {
 type State = ApiProps & {
   subscriptions: Array<any> // rxjs$ISubscription | null>;
 };
+
+// HACK Initialise with static data
+Method.injectExtrinsics(Api.extrinsics);
 
 export default class ApiWrapper extends React.PureComponent<Props, State> {
   state: State = {} as State;
@@ -51,8 +58,9 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       setApiProvider(new WsProvider(url));
 
     this.state = {
+      isApiConnected: false,
+      isApiReady: false,
       api,
-      apiConnected: false,
       apiMethods: {},
       apiObservable: new Api(api),
       apiSupport: 'latest',
@@ -72,18 +80,18 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   }
 
   private updateSubscriptions () {
-    const { api } = this.state;
+    const { api, apiObservable } = this.state;
 
     this.unsubscribe();
     this.setState({
       subscriptions:
         [
           this.subscribeIsConnected,
-          this.subscribeMethodCheck,
-          this.subscribeExtrinsicUpdate,
+          this.subscribeIsReady,
+          this.subscribeMethodCheck
         ].map((fn: Function) => {
           try {
-            return fn(api);
+            return fn(api, apiObservable);
           } catch (error) {
             console.error(error);
             return null;
@@ -92,17 +100,21 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     });
   }
 
-  private subscribeIsConnected = (api: RpcRxInterface): void => {
-    api
-      .isConnected()
-      .subscribe((isConnected?: boolean) => {
-        this.setState({ apiConnected: !!isConnected });
-      });
+  private subscribeIsConnected = (rpc: RpcRxInterface, api: Api): void => {
+    rpc.isConnected().subscribe((isConnected?: boolean) => {
+      this.setState({ isApiConnected: !!isConnected });
+    });
+  }
+
+  private subscribeIsReady = (rpc: RpcRxInterface, api: Api): void => {
+    api.whenReady.subscribe((isReady?: boolean) => {
+      this.setState({ isApiReady: !!isReady });
+    });
   }
 
   private subscribeMethodCheck = (api: RpcRxInterface): void => {
     api.chain
-      .newHead()
+      .subscribeNewHead()
       .subscribe(async (header?: Header) => {
         if (!header || !header.parentHash) {
           return;
@@ -148,12 +160,13 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { api, apiConnected, apiMethods, apiObservable, apiSupport, setApi, setApiProvider, setApiWsUrl } = this.state;
+    const { isApiConnected, isApiReady, api, apiMethods, apiObservable, apiSupport, setApi, setApiProvider, setApiWsUrl } = this.state;
 
     return (
       <ApiContext.Provider value={{
+        isApiConnected,
+        isApiReady,
         api,
-        apiConnected,
         apiMethods,
         apiObservable,
         apiSupport,

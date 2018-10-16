@@ -13,6 +13,7 @@ export default ([
       defaultValue: 'Transfer'
     },
     icon: 'angle double right',
+    isApiGated: true,
     isHidden: false,
     name: 'transfer'
   }

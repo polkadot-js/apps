@@ -12,7 +12,7 @@ import InputError from '@polkadot/ui-app/InputError';
 
 import translate from '../translate';
 
-import addressDecode from '@polkadot/util-keyring/address/decode';
+import addressDecode from '@polkadot/keyring/address/decode';
 
 type Props = I18nProps & {
   isOpen: boolean,
@@ -132,20 +132,20 @@ class Nominating extends React.PureComponent<Props> {
 
   private onChangeNominee = (nominee: string) => {
     const { intentions } = this.props;
-    let publicKey;
+
+    let isAddressFormatValid = false;
 
     try {
-      publicKey = addressDecode(nominee);
+      addressDecode(nominee);
+
+      isAddressFormatValid = true;
     } catch (err) {
       console.error(err);
-      this.setState({
-        isAddressFormatValid: false
-      });
     }
 
     this.setState({
       isNomineeValid: intentions.includes(nominee),
-      isAddressFormatValid: publicKey && publicKey.length === 32,
+      isAddressFormatValid,
       nominee
     });
   }

@@ -6,6 +6,7 @@ import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface } from '@polkadot/rpc-rx/types';
 import { BareProps } from './types';
 
+import './settings';
 import './i18n';
 import './styles';
 

@@ -13,6 +13,7 @@ export default ([
       defaultValue: 'Toolbox'
     },
     icon: 'configure',
+    isApiGated: false,
     isHidden: false,
     name: 'toolbox'
   }

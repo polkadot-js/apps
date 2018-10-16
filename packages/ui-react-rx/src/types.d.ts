@@ -16,8 +16,9 @@ export type BareProps = {
 };
 
 export type ApiProps = {
+  isApiConnected: boolean,
+  isApiReady: boolean,
   api: RpcRxInterface,
-  apiConnected: boolean,
   apiMethods: {
     [index: string]: boolean
   },

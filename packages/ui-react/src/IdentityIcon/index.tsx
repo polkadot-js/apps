@@ -7,6 +7,7 @@ import { BaseProps } from '../types';
 import './IdentityIcon.css';
 
 import React from 'react';
+import settings from '@polkadot/ui-app/settings';
 
 import Polkadot from './Polkadot';
 import Substrate from './Substrate';
@@ -17,7 +18,7 @@ type Props = BaseProps & {
 };
 
 const DEFAULT_SIZE = 64;
-const Component = process.env.UI_THEME === 'substrate'
+const Component = settings.uiTheme === 'substrate'
   ? Substrate
   : Polkadot;
 

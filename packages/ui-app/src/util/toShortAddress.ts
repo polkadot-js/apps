@@ -4,8 +4,10 @@
 
 import { AccountId, AccountIndex, Address } from '@polkadot/types';
 
-export default function toShortAddress (_address: AccountId | AccountIndex | Address | string): string {
-  const address = _address.toString();
+export default function toShortAddress (_address?: AccountId | AccountIndex | Address | string | null): string {
+  const address = (_address || '').toString();
 
-  return `${address.slice(0, 7)}…${address.slice(-7)}`;
+  return (address.length > 15)
+    ? `${address.slice(0, 7)}…${address.slice(-7)}`
+    : address;
 }

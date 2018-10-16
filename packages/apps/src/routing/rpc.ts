@@ -13,6 +13,7 @@ export default ([
       defaultValue: 'Raw RPC'
     },
     icon: 'code',
+    isApiGated: true,
     isHidden: false,
     name: 'rpc'
   }

@@ -7,6 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import './SideBar.css';
 
 import React from 'react';
+import settings from '@polkadot/ui-app/settings';
 import Icon from '@polkadot/ui-app/Icon';
 import Menu from '@polkadot/ui-app/Menu';
 
@@ -25,7 +26,7 @@ const LOGOS: Map<string | undefined, any> = new Map([
   ['substrate', substrateLogo]
 ]);
 
-const LOGO = LOGOS.get(process.env.UI_THEME) || polkadotLogo;
+const LOGO = LOGOS.get(settings.uiTheme) || polkadotLogo;
 
 class SideBar extends React.PureComponent<Props> {
   render () {

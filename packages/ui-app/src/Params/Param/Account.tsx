@@ -9,7 +9,7 @@ import { Base } from '@polkadot/types/codec';
 
 import InputAddress from '../../InputAddress';
 import Bare from './Bare';
-import addressDecode from '@polkadot/util-keyring/address/decode';
+import addressDecode from '@polkadot/keyring/address/decode';
 
 export default class Account extends React.PureComponent<Props> {
   render () {
@@ -41,18 +41,20 @@ export default class Account extends React.PureComponent<Props> {
   onChange = (value?: string): void => {
     const { onChange } = this.props;
 
-    let publicKey;
+    let isValid = false;
 
     if (value) {
       try {
-        publicKey = addressDecode(value);
+        addressDecode(value);
+
+        isValid = true;
       } catch (err) {
         console.error(err);
       }
     }
 
     onChange && onChange({
-      isValid: !!publicKey && publicKey.length === 32,
+      isValid,
       value
     });
   }

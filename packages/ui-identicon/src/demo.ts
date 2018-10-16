@@ -5,7 +5,7 @@
 
 import isNull from '@polkadot/util/is/null';
 import randomAsU8a from '@polkadot/util-crypto/random/asU8a';
-import addressEncode from '@polkadot/util-keyring/address/encode';
+import addressEncode from '@polkadot/keyring/address/encode';
 
 import identicon from './index';
 

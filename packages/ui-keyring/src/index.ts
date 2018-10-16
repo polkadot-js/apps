@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringPair, KeyringPair$Meta } from '@polkadot/util-keyring/types';
+import { KeyringPair, KeyringPair$Meta } from '@polkadot/keyring/types';
 import { SingleAddress } from './observable/types';
 import { KeyringAddress, KeyringInstance, State } from './types';
 
-import testKeyring from '@polkadot/util-keyring/testing';
+import testKeyring from '@polkadot/keyring/testing';
 
 import accounts from './observable/accounts';
 import addresses from './observable/addresses';
@@ -15,6 +15,7 @@ import loadAll from './loadAll';
 import addAccountPair from './account/addPair';
 import createAccount from './account/create';
 import forgetAccount from './account/forget';
+import createAccountMnemonic from './account/mnemonic';
 import isAvailable from './isAvailable';
 import encryptAccount from './account/encrypt';
 import saveAccount from './account/save';
@@ -41,6 +42,8 @@ export default ({
     addAccountPair(state, pair, password),
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta): KeyringPair =>
     createAccount(state, seed, password, meta),
+  createAccountMnemonic: (seed: string, password?: string, meta?: KeyringPair$Meta): KeyringPair =>
+    createAccountMnemonic(state, seed, password, meta),
   encryptAccount: (pair: KeyringPair, password: string): void =>
     encryptAccount(state, pair, password),
   forgetAccount: (address: string): void =>

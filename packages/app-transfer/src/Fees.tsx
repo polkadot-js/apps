@@ -24,15 +24,24 @@ type Props = I18nProps & {
   balanceFrom?: RxBalance,
   balanceTo?: RxBalance,
   extrinsic: Extrinsic | null,
-  fees: RxFees,
+  fees?: RxFees,
   recipientId?: string | null,
   onChange: (fees: Fees) => void
 };
 
 const ZERO_BALANCE = {
   freeBalance: new Balance(0),
+  reservedBalance: new Balance(0),
   votingBalance: new Balance(0)
 } as RxBalance;
+
+const ZERO_FEES = {
+  baseFee: new Balance(0),
+  byteFee: new Balance(0),
+  creationFee: new Balance(0),
+  existentialDeposit: new Balance(0),
+  transferFee: new Balance(0)
+} as RxFees;
 
 const LENGTH_PUBLICKEY = 32 + 1; // publicKey + prefix
 const LENGTH_SIGNATURE = 64;
@@ -60,7 +69,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ accountId, amount, balanceTo = ZERO_BALANCE, balanceFrom = ZERO_BALANCE, extrinsic, fees, recipientId }: Props): State | null {
+  static getDerivedStateFromProps ({ accountId, amount, balanceTo = ZERO_BALANCE, balanceFrom = ZERO_BALANCE, extrinsic, fees = ZERO_FEES, recipientId }: Props): State | null {
     if (!accountId || !recipientId) {
       return null;
     }
@@ -72,8 +81,8 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     );
 
     let txfees = fees.baseFee
-      .add(fees.transferFee)
-      .add(fees.byteFee.mul(txLength));
+        .add(fees.transferFee)
+        .add(fees.byteFee.mul(txLength));
 
     if (balanceTo.votingBalance.isZero()) {
       txfees = txfees.add(fees.creationFee.toBn());
@@ -104,7 +113,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accountId, className, fees, recipientId, t } = this.props;
+    const { accountId, className, fees = ZERO_FEES, recipientId, t } = this.props;
     const { hasAvailable, isCreation, isNoEffect, isRemovable, isReserved, txfees, txtotal } = this.state;
 
     if (!accountId || !recipientId) {

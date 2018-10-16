@@ -16,9 +16,9 @@ type Props = I18nProps & ApiProps;
 
 class Connecting extends React.PureComponent<Props> {
   render () {
-    const { apiConnected, t } = this.props;
+    const { isApiConnected, t } = this.props;
 
-    if (apiConnected) {
+    if (isApiConnected) {
       return null;
     }
 

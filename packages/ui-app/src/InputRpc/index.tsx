@@ -92,7 +92,7 @@ class InputRpc extends React.PureComponent<Props, State> {
     );
   }
 
-  private onSectionChange = (newSection: keyof typeof map): void => {
+  private onSectionChange = (newSection: string): void => {
     const { value } = this.state;
 
     if (newSection === value.section) {

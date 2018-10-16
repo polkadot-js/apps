@@ -6,7 +6,7 @@ import { Generator$PkFromSeed, Generator$Match, Generator$Options } from './type
 
 import sodiumWasm from 'libsodium-wrappers';
 import randomBytes from '@polkadot/util-crypto/random/asU8a';
-import addressEncode from '@polkadot/util-keyring/address/encode';
+import addressEncode from '@polkadot/keyring/address/encode';
 import pairFromSeed from '@polkadot/util-crypto/nacl/keypair/fromSeed';
 
 import calculate from './calculate';

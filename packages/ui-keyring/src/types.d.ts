@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringInstance as BaseKeyringInstance, KeyringPair, KeyringPair$Meta } from '@polkadot/util-keyring/types';
+import { KeyringInstance as BaseKeyringInstance, KeyringPair, KeyringPair$Meta } from '@polkadot/keyring/types';
 import { AddressSubject, SingleAddress } from './observable/types';
 import { KeyringSectionOption } from './options/types';
 
@@ -37,6 +37,7 @@ export type State = {
 export type KeyringInstance = {
   addAccountPair: (pair: KeyringPair, password: string) => KeyringPair,
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta) => KeyringPair,
+  createAccountMnemonic: (seed: string, password?: string, meta?: KeyringPair$Meta) => KeyringPair,
   encryptAccount: (pair: KeyringPair, password: string) => void,
   forgetAccount: (address: string) => void,
   forgetAddress: (address: string) => void,
