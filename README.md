@@ -46,7 +46,7 @@ To start off, this repo (along with others in the [@polkadot](https://github.com
 To get started -
 
 1. Clone the repo locally, via `git clone https://github.com/polkadot-js/apps <optional local path>`
-2. Ensure that you have a recent version of Node.js, for development purposes [Node 10](https://nodejs.org/en/) is recommended.
+2. Ensure that you have a recent version of Node.js, for development purposes [Node >=10.1.0](https://nodejs.org/en/) is required.
 3. Ensure that you have a recent version of Yarn, for development purposes [Yarn >=1.3.2](https://yarnpkg.com/docs/install) is required.
 4. Install the dependencies by running `yarn`
 5. Ready! Now you can launch the UI (assuming you have a local Polkadot Node running), via `yarn run start`
