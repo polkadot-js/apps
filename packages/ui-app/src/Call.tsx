@@ -3,7 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { getTypeDef } from '@polkadot/types/codec';
-import { FunctionMetadata } from '@polkadot/types/Metadata';
 import { I18nProps } from './types';
 
 import React from 'react';
@@ -15,7 +14,6 @@ import translate from './translate';
 
 export type Props = I18nProps & {
   children?: React.ReactNode,
-  meta?: FunctionMetadata,
   value: Method
 };
 
