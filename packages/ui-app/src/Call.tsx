@@ -16,10 +16,10 @@ import translate from './translate';
 export type Props = I18nProps & {
   children?: React.ReactNode,
   meta?: FunctionMetadata,
-  value: Extrinsic | Method
+  value: Method
 };
 
-class ExtrinsicDisplay extends React.PureComponent<Props> {
+class Call extends React.PureComponent<Props> {
   render () {
     const { children, className, meta, style, value } = this.props;
     const method = new Method(value.data, meta || value.meta);
@@ -48,4 +48,4 @@ class ExtrinsicDisplay extends React.PureComponent<Props> {
   }
 }
 
-export default translate(ExtrinsicDisplay);
+export default translate(Call);
