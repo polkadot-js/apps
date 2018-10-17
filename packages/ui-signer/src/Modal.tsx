@@ -113,19 +113,17 @@ class Signer extends React.PureComponent<Props, State> {
             })}
           />
           <Button.Or />
-          <div>
-            <Button
-              className='ui--signer-Signer-Submit'
-              isPrimary
-              onClick={this.onSend}
-              tabIndex={2}
-              text={
-                t('extrinsic.signedSend', {
-                  defaultValue: 'Sign and Submit'
-                })
-              }
-            />
-          </div>
+          <Button
+            className='ui--signer-Signer-Submit'
+            isPrimary
+            onClick={this.onSend}
+            tabIndex={2}
+            text={
+              t('extrinsic.signedSend', {
+                defaultValue: 'Sign and Submit'
+              })
+            }
+          />
         </Button.Group>
       </Modal.Actions>
     );

@@ -18,6 +18,7 @@ import { Header, Method } from '@polkadot/types';
 
 import balanceFormat from '../util/balanceFormat';
 import ApiContext from './Context';
+import { InputNumber } from '@polkadot/ui-app/InputNumber';
 
 type Props = {
   api?: RpcRxInterface,
@@ -107,9 +108,10 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       const chain = value
         ? value.toString()
         : null;
-      const found = settings.availableChains.find(({ name }) => name === chain) || { chainId: 0, decimals: 0 };
+      const found = settings.availableChains.find(({ name }) => name === chain) || { chainId: 0, decimals: 0, unit: undefined };
 
       balanceFormat.setDefaultDecimals(found.decimals);
+      InputNumber.setUnit(found.unit);
       setAddressPrefix(found.chainId as any);
 
       // load accounts only after prefix has been set

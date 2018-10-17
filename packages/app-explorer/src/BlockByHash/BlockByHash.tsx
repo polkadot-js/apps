@@ -9,7 +9,7 @@ import React from 'react';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import AddressMini from '@polkadot/ui-app/AddressMini';
-import ExtrinsicDisplay from '@polkadot/ui-app/Extrinsic';
+import Call from '@polkadot/ui-app/Call';
 import { Extrinsic, Method, SignedBlock } from '@polkadot/types';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
@@ -84,10 +84,7 @@ class BlockByHash extends React.PureComponent<Props> {
             </div>
             {this.renderSigner(extrinsic)}
           </div>
-          <ExtrinsicDisplay
-            meta={meta}
-            value={extrinsic}
-          />
+          <Call value={extrinsic.method} />
         </article>
       </div>
     );

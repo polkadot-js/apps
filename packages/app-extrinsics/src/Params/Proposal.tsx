@@ -35,8 +35,7 @@ export default class ProposalDisplay extends React.PureComponent<Props> {
     let proposal = null;
 
     if (isValid && extrinsic) {
-      // FIXME Should just be `new Proposal(extrinsic)`, however API constructor seems a bit wrong here
-      proposal = new Proposal(extrinsic.callIndex, extrinsic.meta, extrinsic.method.args);
+      proposal = new Proposal(extrinsic.method, extrinsic.meta);
     }
 
     onChange && onChange({

@@ -80,7 +80,7 @@ balanceFormat.getOptions = (decimals: number = defaultDecimals): Array<SiDef> =>
   return SI.filter(({ power }) =>
     power < 0
       ? (decimals + power) >= 0
-      : (decimals - power) >= 0
+      : true
   );
 };
 

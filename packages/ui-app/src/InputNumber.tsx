@@ -31,6 +31,7 @@ type State = {
   isPreKeyDown: boolean,
   isValid: boolean,
   previousValue: string,
+  siOptions: Array<{ value: string, text: string }>,
   siUnit: string,
   valueBN: BN
 };
@@ -45,13 +46,28 @@ function maxConservativeLength (maxValueLength: number): number {
 }
 
 class InputNumber extends React.PureComponent<Props, State> {
-  state: State = {
-    isPreKeyDown: false,
-    isValid: false,
-    previousValue: '0',
-    siUnit: '-',
-    valueBN: new BN(0)
-  };
+  constructor (props: Props) {
+    super(props);
+
+    this.state = {
+      isPreKeyDown: false,
+      isValid: false,
+      previousValue: '0',
+      siOptions: balanceFormat.getOptions().map(({ power, text, value }) => ({
+        value,
+        text: power === 0
+          ? InputNumber.units
+          : text
+      })),
+      siUnit: '-',
+      valueBN: new BN(0)
+    };
+  }
+
+  static units: string = 'Unit';
+  static setUnit (units: string = InputNumber.units): void {
+    InputNumber.units = units;
+  }
 
   render () {
     const { bitLength = DEFAULT_BITLENGTH, className, defaultValue, isSi, isDisabled, maxLength, style, t } = this.props;
@@ -89,7 +105,7 @@ class InputNumber extends React.PureComponent<Props, State> {
 
   private renderSiDropdown () {
     const { isSi } = this.props;
-    const { siUnit } = this.state;
+    const { siOptions, siUnit } = this.state;
 
     if (!isSi) {
       return undefined;
@@ -100,7 +116,7 @@ class InputNumber extends React.PureComponent<Props, State> {
         isButton
         defaultValue={siUnit}
         onChange={this.selectSiUnit}
-        options={balanceFormat.getOptions()}
+        options={siOptions}
       />
     );
   }
