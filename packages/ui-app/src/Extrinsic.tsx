@@ -22,12 +22,12 @@ export type Props = I18nProps & {
 class ExtrinsicDisplay extends React.PureComponent<Props> {
   render () {
     const { children, className, meta, style, value } = this.props;
-
-    const params = Method.filterOrigin(meta || value.meta).map(({ name, type }) => ({
+    const method = new Method(value.data, meta || value.meta);
+    const params = Method.filterOrigin(method.meta).map(({ name, type }) => ({
       name: name.toString(),
       type: getTypeDef(type)
     }));
-    const values = Method.decodeMethod(meta || value.meta, value.data).map((value) => ({
+    const values = method.args.map((value) => ({
       isValid: true,
       value
     }));
