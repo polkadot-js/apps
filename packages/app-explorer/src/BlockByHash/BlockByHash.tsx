@@ -84,10 +84,7 @@ class BlockByHash extends React.PureComponent<Props> {
             </div>
             {this.renderSigner(extrinsic)}
           </div>
-          <Call
-            meta={meta}
-            value={extrinsic.method}
-          />
+          <Call value={extrinsic.method} />
         </article>
       </div>
     );

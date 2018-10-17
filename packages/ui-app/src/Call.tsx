@@ -7,7 +7,7 @@ import { FunctionMetadata } from '@polkadot/types/Metadata';
 import { I18nProps } from './types';
 
 import React from 'react';
-import { Extrinsic, Method } from '@polkadot/types';
+import { Method } from '@polkadot/types';
 
 import classes from './util/classes';
 import Params from './Params';
@@ -21,13 +21,12 @@ export type Props = I18nProps & {
 
 class Call extends React.PureComponent<Props> {
   render () {
-    const { children, className, meta, style, value } = this.props;
-    const method = new Method(value.data, meta || value.meta);
-    const params = Method.filterOrigin(method.meta).map(({ name, type }) => ({
+    const { children, className, style, value } = this.props;
+    const params = Method.filterOrigin(value.meta).map(({ name, type }) => ({
       name: name.toString(),
       type: getTypeDef(type)
     }));
-    const values = method.args.map((value) => ({
+    const values = value.args.map((value) => ({
       isValid: true,
       value
     }));
