@@ -22,7 +22,7 @@ const SI: Array<SiDef> = [
   { power: -9, value: 'n', text: 'nano' },
   { power: -6, value: 'µ', text: 'micro' },
   { power: -3, value: 'm', text: 'milli' },
-  { power: 0, value: '-', text: '-' }, // position 8
+  { power: 0, value: '-', text: '----' }, // position 8
   { power: 3, value: 'k', text: 'Kilo' },
   { power: 6, value: 'M', text: 'Mega' },
   { power: 9, value: 'G', text: 'Giga' },
@@ -59,6 +59,10 @@ export default function balanceFormat (input: string | BN | UInt, decimals: numb
 // Given a SI type (e.g. k, m, Y) find the SI definition
 balanceFormat.findSi = (type: string): SiDef => {
   return SI.find(({ value }) => value === type) || SI[SI_MID];
+};
+
+balanceFormat.getDefaultDecimals = (): number => {
+  return defaultDecimals;
 };
 
 // get allowable options to display in a dropdown
