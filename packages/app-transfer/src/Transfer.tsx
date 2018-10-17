@@ -90,6 +90,7 @@ class Transfer extends React.PureComponent<Props, State> {
             <InputNumber
               bitLength={DEFAULT_BITLENGTH}
               isError={!hasAvailable}
+              isSi
               label={t('amount', {
                 defaultValue: 'send a value of'
               })}
@@ -162,7 +163,7 @@ class Transfer extends React.PureComponent<Props, State> {
     this.nextState({ accountId });
   }
 
-  private onChangeAmount = (amount: BN) => {
+  private onChangeAmount = (amount: BN = new BN(0)) => {
     this.nextState({ amount });
   }
 

@@ -6,6 +6,7 @@ import { KeyringPair$Json } from '@polkadot/keyring/types';
 import { State, KeyringJson } from './types';
 
 import store from 'store';
+import testKeyring from '@polkadot/keyring/testing';
 import addressEncode from '@polkadot/keyring/address/encode';
 import isHex from '@polkadot/util/is/hex';
 import hexToU8a from '@polkadot/util/hex/toU8a';
@@ -28,7 +29,10 @@ function addPairs ({ accounts, keyring }: State): void {
 }
 
 export default function loadAll (state: State): void {
-  const { accounts, addresses, keyring } = state;
+  const { accounts, addresses } = state;
+  const keyring = testKeyring();
+
+  state.keyring = keyring;
 
   addPairs(state);
 

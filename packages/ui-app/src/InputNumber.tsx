@@ -6,10 +6,11 @@ import { BareProps, BitLength, I18nProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import isString from '@polkadot/util/is/string';
+import balanceFormat from '@polkadot/ui-react-rx/util/balanceFormat';
 
 import classes from './util/classes';
 import { BitLengthOption } from './constants';
+import Dropdown from './Dropdown';
 import Input, { KEYS, KEYS_PRE, isCopy, isCut, isPaste, isSelectAll } from './Input';
 import translate from './translate';
 
@@ -18,9 +19,10 @@ type Props = BareProps & I18nProps & {
   defaultValue?: string,
   isDisabled?: boolean,
   isError?: boolean,
+  isSi?: boolean,
   label?: any,
   maxLength?: number,
-  onChange: (value: BN) => void,
+  onChange: (value?: BN) => void,
   placeholder?: string,
   withLabel?: boolean
 };
@@ -28,7 +30,9 @@ type Props = BareProps & I18nProps & {
 type State = {
   isPreKeyDown: boolean,
   isValid: boolean,
-  previousValue: string
+  previousValue: string,
+  siUnit: string,
+  valueBN: BN
 };
 
 const DEFAULT_BITLENGTH = BitLengthOption.NORMAL_NUMBERS as BitLength;
@@ -44,11 +48,13 @@ class InputNumber extends React.PureComponent<Props, State> {
   state: State = {
     isPreKeyDown: false,
     isValid: false,
-    previousValue: '0'
+    previousValue: '0',
+    siUnit: '-',
+    valueBN: new BN(0)
   };
 
   render () {
-    const { bitLength = DEFAULT_BITLENGTH, className, defaultValue, isDisabled, maxLength, style, t } = this.props;
+    const { bitLength = DEFAULT_BITLENGTH, className, defaultValue, isSi, isDisabled, maxLength, style, t } = this.props;
     const { isValid, previousValue } = this.state;
     const maxValueLength = this.maxValue(bitLength).toString().length;
     const revertedValue = !isValid && !isDisabled
@@ -63,6 +69,7 @@ class InputNumber extends React.PureComponent<Props, State> {
         <Input
           {...this.props}
           defaultValue={defaultValue || '0'}
+          isAction={isSi}
           isDisabled={isDisabled}
           maxLength={maxLength || maxConservativeLength(maxValueLength)}
           onChange={this.onChange}
@@ -73,17 +80,33 @@ class InputNumber extends React.PureComponent<Props, State> {
           })}
           type='text'
           value={revertedValue}
-        />
+        >
+          {this.renderSiDropdown()}
+        </Input>
       </div>
+    );
+  }
+
+  private renderSiDropdown () {
+    const { isSi } = this.props;
+    const { siUnit } = this.state;
+
+    if (!isSi) {
+      return undefined;
+    }
+
+    return (
+      <Dropdown
+        isButton
+        defaultValue={siUnit}
+        onChange={this.selectSiUnit}
+        options={balanceFormat.getOptions()}
+      />
     );
   }
 
   private maxValue = (bitLength?: number): BN =>
     new BN(2).pow(new BN(bitLength || DEFAULT_BITLENGTH)).subn(1)
-
-  // check if string value is non-integer even if above MAX_SAFE_INTEGER. isNaN(Number(value)) is faster for values of length 1
-  private isNonInteger = (value: string): boolean =>
-    value && value.length && value.split('').find(value => '0123456789'.indexOf(value) === -1) ? true : false
 
   private isValidBitLength = (value: BN, bitLength?: number): boolean =>
     value.bitLength() <= (bitLength || DEFAULT_BITLENGTH)
@@ -119,25 +142,10 @@ class InputNumber extends React.PureComponent<Props, State> {
     return true;
   }
 
-  private isValidNumber = (input: string, bitLength: number = DEFAULT_BITLENGTH): boolean => {
-    const { t } = this.props;
-
-    // failsafe as expects only positive integers as permitted by onKeyDown from input of type text
-    if (!isString(input)) {
-      throw Error(t('inputnumber.error.string.required', {
-        defaultValue: 'Number input value must be valid type'
-      }));
-    }
-
-    if (this.isNonInteger(input)) {
-      return false;
-    }
-
-    // max is (2 ** 128 - 1) for bitLength of 128 bit
+  private isValidNumber = (input: BN, bitLength: number = DEFAULT_BITLENGTH): boolean => {
     const maxBN = this.maxValue(bitLength);
-    const inputBN = new BN(input);
 
-    if (!inputBN.lt(maxBN) || !this.isValidBitLength(inputBN, bitLength)) {
+    if (!input.lt(maxBN) || !this.isValidBitLength(input, bitLength)) {
       return false;
     }
 
@@ -146,18 +154,19 @@ class InputNumber extends React.PureComponent<Props, State> {
 
   private onChange = (value: string): void => {
     const { bitLength, onChange } = this.props;
+    const { siUnit } = this.state;
 
     try {
-      const valueBN = new BN(value || 0);
-      const isValid = this.isValidNumber(value, bitLength);
+      const valueBN = this.applySi(siUnit, new BN(value || 0));
+      const isValid = this.isValidNumber(valueBN, bitLength);
 
-      this.setState({ isValid });
+      this.setState({ isValid, valueBN });
 
-      if (!onChange || !isValid) {
-        return;
-      }
-
-      onChange(valueBN);
+      onChange(
+        isValid
+          ? valueBN
+          : undefined
+      );
     } catch (error) {
       console.error(error);
     }
@@ -204,6 +213,40 @@ class InputNumber extends React.PureComponent<Props, State> {
     } else {
       (event.target as HTMLInputElement).value = newValue.replace(/^0+/, '');
     }
+  }
+
+  private applySi (siUnit: string, value: BN): BN {
+    const si = balanceFormat.findSi(siUnit);
+    const power = new BN(balanceFormat.getDefaultDecimals() + si.power);
+
+    return value.mul(new BN(10).pow(power));
+  }
+
+  private applyNewSi (oldSi: string, newSi: string, value: BN): BN {
+    const si = balanceFormat.findSi(oldSi);
+    const power = new BN(balanceFormat.getDefaultDecimals() + si.power);
+
+    return this.applySi(newSi, value.div(new BN(10).pow(power)));
+  }
+
+  private selectSiUnit = (siUnit: string): void => {
+    this.setState((prevState: State) => {
+      const { bitLength, onChange } = this.props;
+      const valueBN = this.applyNewSi(prevState.siUnit, siUnit, prevState.valueBN);
+      const isValid = this.isValidNumber(valueBN, bitLength);
+
+      onChange(
+        isValid
+          ? valueBN
+          : undefined
+      );
+
+      return {
+        isValid,
+        siUnit,
+        valueBN
+      };
+    });
   }
 }
 

@@ -7,8 +7,10 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 
 import Button from '@polkadot/ui-app/Button';
+import Dropdown from '@polkadot/ui-app/Dropdown';
 import Input from '@polkadot/ui-app/Input';
-import { InputAddress } from '@polkadot/ui-app/InputAddress';
+import InputAddress from '@polkadot/ui-app/InputAddress';
+import Modal from '@polkadot/ui-app/Modal';
 import Password from '@polkadot/ui-app/Password';
 import keyring from '@polkadot/ui-keyring/index';
 import isHex from '@polkadot/util/is/hex';
@@ -21,7 +23,6 @@ import mnemonicToSecret from '@polkadot/util-crypto/mnemonic/toSecret';
 import isMnemonic from '@polkadot/util-crypto/mnemonic/validate';
 import randomBytes from '@polkadot/util-crypto/random/asU8a';
 import addressEncode from '@polkadot/keyring/address/encode';
-import Modal from '@polkadot/ui-app/Modal';
 
 import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';
@@ -41,6 +42,7 @@ type State = {
   name: string,
   password: string,
   seed: string,
+  seedOptions: Array<{ value: SeedType, text: string }>,
   seedType: SeedType,
   showWarning: boolean
 };
@@ -69,7 +71,15 @@ class Creator extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    this.state = this.emptyState();
+    const { t } = this.props;
+
+    this.state = {
+      ...this.emptyState(),
+      seedOptions: [
+        { value: 'bip', text: t('seedType.bip', { defaultValue: 'Mnemonic' }) },
+        { value: 'raw', text: t('seedType.raw', { defaultValue: 'Raw seed' }) }
+      ]
+    };
   }
 
   render () {
@@ -120,7 +130,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   renderInput () {
     const { t } = this.props;
-    const { isNameValid, isPassValid, isSeedValid, name, password, seed, seedType, showWarning } = this.state;
+    const { isNameValid, isPassValid, isSeedValid, name, password, seed, seedOptions, seedType, showWarning } = this.state;
 
     return (
       <div className='grow'>
@@ -141,18 +151,11 @@ class Creator extends React.PureComponent<Props, State> {
             onChange={this.onChangeSeed}
             value={seed}
           >
-            <Button
-              isPrimary
-              onClick={this.selectSeedType}
-              text={
-                seedType === 'bip'
-                  ? t('seed.select.raw', {
-                    defaultValue: 'Raw seed'
-                  })
-                  : t('seed.select.bip39', {
-                    defaultValue: 'Mnemonic'
-                  })
-              }
+            <Dropdown
+              isButton
+              defaultValue={seedType}
+              onChange={this.selectSeedType}
+              options={seedOptions}
             />
           </Input>
         </div>
@@ -232,7 +235,7 @@ class Creator extends React.PureComponent<Props, State> {
     ];
   }
 
-  generateSeed (seedType: SeedType): State {
+  private generateSeed (seedType: SeedType): State {
     const seed = seedType === 'bip'
       ? generateMnemonic()
       : u8aToHex(randomBytes());
@@ -245,7 +248,7 @@ class Creator extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  emptyState (): State {
+  private emptyState (): State {
     const { seedType } = this.state;
 
     return {
@@ -261,10 +264,10 @@ class Creator extends React.PureComponent<Props, State> {
     };
   }
 
-  nextState (newState: State): void {
+  private nextState (newState: State): void {
     this.setState(
       (prevState: State, props: Props): State => {
-        const { name = prevState.name, password = prevState.password, seed = prevState.seed, seedType = prevState.seedType, showWarning = prevState.showWarning } = newState;
+        const { name = prevState.name, password = prevState.password, seed = prevState.seed, seedOptions = prevState.seedOptions, seedType = prevState.seedType, showWarning = prevState.showWarning } = newState;
         let address = prevState.address;
         const isNameValid = !!name;
         const isSeedValid = seedType === 'bip'
@@ -289,6 +292,7 @@ class Creator extends React.PureComponent<Props, State> {
           name,
           password,
           seed,
+          seedOptions,
           seedType,
           showWarning
         };
@@ -296,27 +300,27 @@ class Creator extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeSeed = (seed: string): void => {
+  private onChangeSeed = (seed: string): void => {
     this.nextState({ seed } as State);
   }
 
-  onChangeName = (name: string): void => {
+  private onChangeName = (name: string): void => {
     this.nextState({ name } as State);
   }
 
-  onChangePass = (password: string): void => {
+  private onChangePass = (password: string): void => {
     this.nextState({ password } as State);
   }
 
-  onShowWarning = (): void => {
+  private onShowWarning = (): void => {
     this.nextState({ showWarning: true } as State);
   }
 
-  onHideWarning = (): void => {
+  private onHideWarning = (): void => {
     this.nextState({ showWarning: false } as State);
   }
 
-  onCommit = (): void => {
+  private onCommit = (): void => {
     const { onBack } = this.props;
     const { name, password, seed , seedType } = this.state;
     const pair = seedType === 'bip'
@@ -329,16 +333,15 @@ class Creator extends React.PureComponent<Props, State> {
     onBack();
   }
 
-  onDiscard = (): void => {
+  private onDiscard = (): void => {
     this.setState(this.emptyState());
   }
 
-  selectSeedType = (): void => {
-    const seedType = this.state.seedType === 'bip'
-      ? 'raw'
-      : 'bip';
-
-    this.setState({ ...this.generateSeed(seedType), seedType });
+  private selectSeedType = (seedType: SeedType): void => {
+    this.setState({
+      ...this.generateSeed(seedType),
+      seedType
+    });
   }
 }
 

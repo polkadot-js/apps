@@ -8,11 +8,15 @@ import { ApiProps } from '../types';
 
 import React from 'react';
 import Api from '@polkadot/api-observable';
+import setAddressPrefix from '@polkadot/keyring/address/setPrefix';
 import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import RxApi from '@polkadot/rpc-rx';
+import settings from '@polkadot/ui-app/settings';
+import keyring from '@polkadot/ui-keyring/index';
 import { Header, Method } from '@polkadot/types';
 
+import balanceFormat from '../util/balanceFormat';
 import ApiContext from './Context';
 
 type Props = {
@@ -23,6 +27,7 @@ type Props = {
 };
 
 type State = ApiProps & {
+  chain?: string,
   subscriptions: Array<any> // rxjs$ISubscription | null>;
 };
 
@@ -84,6 +89,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
         [
           this.subscribeIsConnected,
           this.subscribeIsReady,
+          this.subscribeChain,
           this.subscribeMethodCheck
         ].map((fn: Function) => {
           try {
@@ -93,6 +99,23 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
             return null;
           }
         })
+    });
+  }
+
+  private subscribeChain = (rpc: RpcRxInterface, api: Api): void => {
+    api.chain().subscribe((value: any) => {
+      const chain = value
+        ? value.toString()
+        : null;
+      const found = settings.availableChains.find(({ name }) => name === chain) || { chainId: 0, decimals: 0 };
+
+      balanceFormat.setDefaultDecimals(found.decimals);
+      setAddressPrefix(found.chainId as any);
+
+      // load accounts only after prefix has been set
+      keyring.loadAll();
+
+      this.setState({ chain });
     });
   }
 
@@ -108,8 +131,8 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     });
   }
 
-  private subscribeMethodCheck = (api: RpcRxInterface): void => {
-    api.chain
+  private subscribeMethodCheck = (rpc: RpcRxInterface, api: Api): void => {
+    rpc.chain
       .subscribeNewHead()
       .subscribe(async (header?: Header) => {
         if (!header || !header.parentHash) {
@@ -135,12 +158,12 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isApiConnected, isApiReady, api, apiMethods, apiObservable, apiSupport, setApi, setApiProvider, setApiWsUrl } = this.state;
+    const { isApiConnected, isApiReady, api, apiMethods, apiObservable, apiSupport, chain, setApi, setApiProvider, setApiWsUrl } = this.state;
 
     return (
       <ApiContext.Provider value={{
         isApiConnected,
-        isApiReady,
+        isApiReady: isApiReady && !!chain,
         api,
         apiMethods,
         apiObservable,
