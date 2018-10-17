@@ -13,6 +13,14 @@ type SiDef = {
   value: string
 };
 
+interface BalanceFormatter {
+  (input: string | BN | UInt, decimals?: number): string;
+  findSi (type: string): SiDef;
+  getDefaultDecimals (): number;
+  getOptions (decimals?: number): Array<SiDef>;
+  setDefaultDecimals (decimals: number): void;
+}
+
 const SI: Array<SiDef> = [
   { power: -24, value: 'y', text: 'yocto' },
   { power: -21, value: 'z', text: 'zepto' },
@@ -38,7 +46,7 @@ const SI_MID = 8;
 let defaultDecimals = 0;
 
 // Formats a string/number with <prefix>.<postfix><type> notation
-export default function balanceFormat (input: string | BN | UInt, decimals: number = defaultDecimals): string {
+function _balanceFormat (input: string | BN | UInt, decimals: number = defaultDecimals): string {
   const text = (input || '').toString();
 
   if (text.length === 0) {
@@ -55,6 +63,8 @@ export default function balanceFormat (input: string | BN | UInt, decimals: numb
 
   return `${decimalFormat(prefix || '0')}.${postfix}${si.value === '-' ? '' : si.value}`;
 }
+
+const balanceFormat = _balanceFormat as BalanceFormatter;
 
 // Given a SI type (e.g. k, m, Y) find the SI definition
 balanceFormat.findSi = (type: string): SiDef => {
@@ -78,3 +88,5 @@ balanceFormat.getOptions = (decimals: number = defaultDecimals): Array<SiDef> =>
 balanceFormat.setDefaultDecimals = (decimals: number): void => {
   defaultDecimals = decimals;
 };
+
+export default balanceFormat;
