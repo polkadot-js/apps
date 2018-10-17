@@ -61,7 +61,7 @@ describe('balanceFormat', () => {
     it('returns default on not found', () => {
       expect(
         balanceFormat.findSi('blah')
-      ).toEqual({ power: 0, value: '-', text: '-' });
+      ).toEqual({ power: 0, value: '-', text: '----' });
     });
   });
 
