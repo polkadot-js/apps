@@ -108,10 +108,6 @@ class InputNumber extends React.PureComponent<Props, State> {
   private maxValue = (bitLength?: number): BN =>
     new BN(2).pow(new BN(bitLength || DEFAULT_BITLENGTH)).subn(1)
 
-  // check if string value is non-integer even if above MAX_SAFE_INTEGER. isNaN(Number(value)) is faster for values of length 1
-  private isNonInteger = (value: string): boolean =>
-    value && value.length && value.split('').find(value => '0123456789'.indexOf(value) === -1) ? true : false
-
   private isValidBitLength = (value: BN, bitLength?: number): boolean =>
     value.bitLength() <= (bitLength || DEFAULT_BITLENGTH)
 
