@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import { Method, Proposal } from '@polkadot/types';
-import Extrinsic from '@polkadot/ui-app/Extrinsic';
+import Call from '@polkadot/ui-app/Call';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
 import translate from './translate';
@@ -45,12 +45,12 @@ class Item extends React.PureComponent<Props> {
           </div>
         </div>
         <div className='democracy--Item-body'>
-          <Extrinsic
+          <Call
             className='democracy--Item-extrinsic'
             value={proposal}
           >
             {proposalExtra}
-          </Extrinsic>
+          </Call>
           <div className='democracy--Item-children'>
             {children}
           </div>

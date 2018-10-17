@@ -9,8 +9,8 @@ import BN from 'bn.js';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import { Method } from '@polkadot/types';
+import Call from '@polkadot/ui-app/Call';
 import Modal from '@polkadot/ui-app/Modal';
-import Extrinsic from '@polkadot/ui-app/Extrinsic';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 
 import translate from './translate';
@@ -44,7 +44,7 @@ class Transaction extends React.PureComponent<Props> {
                 You are about to sign a message from <span className='code'>{accountId}</span> calling <span className='code'>{section}.{method}</span> with an index of <span className='code'>{accountNonce.toString()}</span>
               </Trans>
             </p>
-            <Extrinsic value={extrinsic} />
+            <Call value={extrinsic.method} />
           </div>
           <IdentityIcon
             className='icon'
