@@ -7,34 +7,37 @@ import { UInt } from '@polkadot/types/codec';
 
 import decimalFormat from './decimalFormat';
 
-type Divisor = {
+type SiDef = {
   power: number,
   text: string,
-  type: string
+  value: string
 };
 
-const SI: Array<Divisor> = [
-  { power: -24, type: 'y', text: 'yocto' },
-  { power: -21, type: 'z', text: 'zepto' },
-  { power: -18, type: 'a', text: 'atto' },
-  { power: -15, type: 'f', text: 'femto' },
-  { power: -12, type: 'p', text: 'pico' },
-  { power: -9, type: 'n', text: 'nano' },
-  { power: -6, type: 'µ', text: 'micro' },
-  { power: -3, type: 'm', text: 'milli' },
-  { power: 0, type: '', text: '' }, // position 8
-  { power: 3, type: 'k', text: 'Kilo' },
-  { power: 6, type: 'M', text: 'Mega' },
-  { power: 9, type: 'G', text: 'Giga' },
-  { power: 12, type: 'T', text: 'Tera' },
-  { power: 15, type: 'P', text: 'Peta' },
-  { power: 18, type: 'E', text: 'Exa' },
-  { power: 21, type: 'Z', text: 'Zeta' },
-  { power: 24, type: 'Y', text: 'Yotta' }
+const SI: Array<SiDef> = [
+  { power: -24, value: 'y', text: 'yocto' },
+  { power: -21, value: 'z', text: 'zepto' },
+  { power: -18, value: 'a', text: 'atto' },
+  { power: -15, value: 'f', text: 'femto' },
+  { power: -12, value: 'p', text: 'pico' },
+  { power: -9, value: 'n', text: 'nano' },
+  { power: -6, value: 'µ', text: 'micro' },
+  { power: -3, value: 'm', text: 'milli' },
+  { power: 0, value: '-', text: '-' }, // position 8
+  { power: 3, value: 'k', text: 'Kilo' },
+  { power: 6, value: 'M', text: 'Mega' },
+  { power: 9, value: 'G', text: 'Giga' },
+  { power: 12, value: 'T', text: 'Tera' },
+  { power: 15, value: 'P', text: 'Peta' },
+  { power: 18, value: 'E', text: 'Exa' },
+  { power: 21, value: 'Z', text: 'Zeta' },
+  { power: 24, value: 'Y', text: 'Yotta' }
 ];
+
+const SI_MID = 8;
 
 let defaultDecimals = 0;
 
+// Formats a string/number with <prefix>.<postfix><type> notation
 export default function balanceFormat (input: string | BN | UInt, decimals: number = defaultDecimals): string {
   const text = (input || '').toString();
 
@@ -42,15 +45,32 @@ export default function balanceFormat (input: string | BN | UInt, decimals: numb
     return text;
   }
 
-  const si = SI[8 + Math.floor((text.length - decimals) / 3)];
-  const length = decimals + si.power;
-  const mid = text.length - length;
+  // NOTE We start at midpoint (8) minus 1 - this means that values display as
+  // 123.456 instead of 0.123k (so always 6 relevant). Additionally we us ceil
+  // so there are at most 3 decimal before the decimal seperator
+  const si = SI[(SI_MID - 1) + Math.ceil((text.length - decimals) / 3)];
+  const mid = text.length - (decimals + si.power);
   const prefix = text.substr(0, mid);
   const postfix = `${text.substr(mid)}000`.substr(0, 3);
 
-  return `${decimalFormat(prefix || '0')}.${postfix}${si.type}`;
+  return `${decimalFormat(prefix || '0')}.${postfix}${si.value === '-' ? '' : si.value}`;
 }
 
+// Given a SI type (e.g. k, m, Y) find the SI definition
+balanceFormat.findSi = (type: string): SiDef => {
+  return SI.find(({ value }) => value === type) || SI[SI_MID];
+};
+
+// get allowable options to display in a dropdown
+balanceFormat.getOptions = (decimals: number = defaultDecimals): Array<SiDef> => {
+  return SI.filter(({ power }) =>
+    power < 0
+      ? (decimals + power) >= 0
+      : (decimals - power) >= 0
+  );
+};
+
+// Sets the default decimals to use for formatting (chain-wide)
 balanceFormat.setDefaultDecimals = (decimals: number): void => {
   defaultDecimals = decimals;
 };

@@ -36,18 +36,42 @@ describe('balanceFormat', () => {
   it('formats 123,456,789,000 * 10 (decimals=12)', () => {
     expect(
       balanceFormat(TESTVAL.muln(10), 12)
-    ).toEqual('1,234.567m');
+    ).toEqual('1.234');
   });
 
   it('formats 123,456,789,000 * 100 (decimals=12)', () => {
     expect(
       balanceFormat(TESTVAL.muln(100), 12)
-    ).toEqual('12,345.678m');
+    ).toEqual('12.345');
   });
 
   it('formats 123,456,789,000 * 1000 (decimals=12)', () => {
     expect(
       balanceFormat(TESTVAL.muln(1000), 12)
     ).toEqual('123.456');
+  });
+
+  describe('findSi', () => {
+    it('finds the SI value', () => {
+      expect(
+        balanceFormat.findSi('k')
+      ).toEqual({ power: 3, value: 'k', text: 'Kilo' });
+    });
+
+    it('returns default on not found', () => {
+      expect(
+        balanceFormat.findSi('blah')
+      ).toEqual({ power: 0, value: '-', text: '-' });
+    });
+  });
+
+  describe('setDefaultDecimals', () => {
+    it('formats 123,456,789,000 (defaultDecimals=15)', () => {
+      balanceFormat.setDefaultDecimals(15);
+
+      expect(
+        balanceFormat(TESTVAL)
+      ).toEqual('123.456µ');
+    });
   });
 });
