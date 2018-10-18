@@ -302,7 +302,7 @@ class Signer extends React.PureComponent<Props, State> {
       apiObservable.submitAndWatchExtrinsic(extrinsic).subscribe((result) => {
         console.log('submitAndWatchExtrinsic: updated status ::', format(result));
 
-        queueSetStatus(id, 'sent', result, null);
+        queueSetStatus(id, result.type, result, null);
       });
     } catch (error) {
       console.error(error);
