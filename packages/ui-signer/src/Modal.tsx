@@ -182,6 +182,7 @@ class Signer extends React.PureComponent<Props, State> {
     try {
       pair.decodePkcs8(password);
     } catch (error) {
+      console.error(error);
       return {
         key: 'signer.unlock.generic',
         value: {
