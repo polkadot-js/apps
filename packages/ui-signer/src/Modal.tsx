@@ -268,9 +268,7 @@ class Signer extends React.PureComponent<Props, State> {
 
     extrinsic.sign(pair, accountNonce, apiObservable.genesisHash);
 
-    const { error, result, status } = await this.submitAndWatchExtrinsic(extrinsic);
-
-    queueSetStatus(id, status, result, error);
+    this.submitAndWatchExtrinsic(extrinsic, id);
   }
 
   private async submitRpc (rpc: RpcMethod, values: Array<any>): Promise<QueueTx$Result> {
@@ -295,29 +293,23 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private async submitAndWatchExtrinsic (extrinsic: Extrinsic): Promise<QueueTx$Result> {
-    const { apiObservable } = this.props;
+  private async submitAndWatchExtrinsic (extrinsic: Extrinsic, id: QueueTx$Id): void {
+    const { apiObservable, queueSetStatus } = this.props;
 
     try {
       const encoded = extrinsic.toJSON();
 
       console.log('submitAndWatchExtrinsic: encode ::', encoded);
 
-      const result = await apiObservable.submitAndWatchExtrinsic(extrinsic).toPromise();
+      apiObservable.submitAndWatchExtrinsic(extrinsic).subscribe((result) => {
+        console.log('submitAndWatchExtrinsic: updated status ::', format(result));
 
-      console.log('submitAndWatchExtrinsic: result ::', format(result));
-
-      return {
-        result,
-        status: 'sent'
-      };
+        queueSetStatus(id, 'sent', result, null);
+      });
     } catch (error) {
       console.error(error);
 
-      return {
-        error,
-        status: 'error'
-      };
+      queueSetStatus(id, 'error', null, error);
     }
   }
 }
