@@ -7,13 +7,12 @@ import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result } from './types';
 
 import React from 'react';
-import Button from '@polkadot/ui-app/Button';
-import Modal from '@polkadot/ui-app/Modal';
+import { decodeAddress } from '@polkadot/keyring';
+import { Button, Modal } from '@polkadot/ui-app/index';
 import keyring from '@polkadot/ui-keyring/index';
 import withApi from '@polkadot/ui-react-rx/with/api';
 import { format } from '@polkadot/util/logger';
 import { Extrinsic } from '@polkadot/types';
-import addressDecode from '@polkadot/keyring/address/decode';
 
 import ExtrinsicDisplay from './Extrinsic';
 import Unlock from './Unlock';
@@ -113,19 +112,17 @@ class Signer extends React.PureComponent<Props, State> {
             })}
           />
           <Button.Or />
-          <div>
-            <Button
-              className='ui--signer-Signer-Submit'
-              isPrimary
-              onClick={this.onSend}
-              tabIndex={2}
-              text={
-                t('extrinsic.signedSend', {
-                  defaultValue: 'Sign and Submit'
-                })
-              }
-            />
-          </div>
+          <Button
+            className='ui--signer-Signer-Submit'
+            isPrimary
+            onClick={this.onSend}
+            tabIndex={2}
+            text={
+              t('extrinsic.signedSend', {
+                defaultValue: 'Sign and Submit'
+              })
+            }
+          />
         </Button.Group>
       </Modal.Actions>
     );
@@ -170,7 +167,7 @@ class Signer extends React.PureComponent<Props, State> {
     let publicKey;
 
     try {
-      publicKey = addressDecode(accountId);
+      publicKey = decodeAddress(accountId);
     } catch (err) {
       console.error(err);
       return null;
@@ -185,6 +182,7 @@ class Signer extends React.PureComponent<Props, State> {
     try {
       pair.decodePkcs8(password);
     } catch (error) {
+      console.error(error);
       return {
         key: 'signer.unlock.generic',
         value: {

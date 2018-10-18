@@ -6,10 +6,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
-import Button from '@polkadot/ui-app/Button';
-import Input from '@polkadot/ui-app/Input';
-import InputAddress from '@polkadot/ui-app/InputAddress';
+import { AddressSummary, Button, Input, InputAddress } from '@polkadot/ui-app/index';
 import keyring from '@polkadot/ui-keyring/index';
 
 import Backup from './Backup';

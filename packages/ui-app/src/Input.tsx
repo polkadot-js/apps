@@ -6,7 +6,7 @@ import { BareProps } from './types';
 
 import React from 'react';
 import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
-import isUndefined from '@polkadot/util/is/undefined';
+import { isUndefined } from '@polkadot/util';
 
 import Labelled from './Labelled';
 
@@ -16,13 +16,13 @@ type Props = BareProps & {
   autoFocus?: boolean,
   children?: React.ReactNode,
   defaultValue?: any,
-  icon?: any, // node?
+  icon?: React.ReactNode,
   isAction?: boolean,
   isDisabled?: boolean,
   isEditable?: boolean,
   isError?: boolean,
   isHidden?: boolean,
-  label?: any, // node?
+  label?: React.ReactNode,
   max?: any,
   maxLength?: number,
   min?: any,
@@ -94,17 +94,21 @@ export default class Input extends React.PureComponent<Props, State> {
         <SUIInput
           autoFocus={autoFocus}
           action={isAction}
-          className={isEditable ? 'edit icon' : ''}
+          className={
+            isEditable
+              ? 'edit icon'
+              : ''
+          }
           defaultValue={defaultValue}
           disabled={isDisabled}
+          error={isError}
+          hidden={isHidden}
           id={name}
           iconPosition={
             isUndefined(icon)
-              ? void 0
+              ? undefined
               : 'left'
           }
-          error={isError}
-          hidden={isHidden}
           max={max}
           maxLength={maxLength}
           min={min}

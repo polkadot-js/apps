@@ -5,17 +5,11 @@
 import { I18nProps as Props } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
-import Icon from '@polkadot/ui-app/Icon';
-import Input from '@polkadot/ui-app/Input';
-import InputAddress from '@polkadot/ui-app/InputAddress';
-import Static from '@polkadot/ui-app/Static';
+import { decodeAddress } from '@polkadot/keyring';
+import { Icon, Input, InputAddress, Static } from '@polkadot/ui-app/index';
 import keyring from '@polkadot/ui-keyring/index';
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import isHex from '@polkadot/util/is/hex';
-import u8aFromString from '@polkadot/util/u8a/fromString';
-import naclVerify from '@polkadot/util-crypto/nacl/verify';
-import addressDecode from '@polkadot/keyring/address/decode';
+import { hexToU8a, isHex, stringToU8a } from '@polkadot/util';
+import { naclVerify } from '@polkadot/util-crypto';
 
 import translate from './translate';
 
@@ -154,7 +148,7 @@ class Verify extends React.PureComponent<Props, State> {
           isValid = naclVerify(
             isHexData
               ? hexToU8a(data)
-              : u8aFromString(data),
+              : stringToU8a(data),
             hexToU8a(signature),
             currentPublicKey
           );
@@ -189,7 +183,7 @@ class Verify extends React.PureComponent<Props, State> {
     let currentPublicKey;
 
     try {
-      currentPublicKey = addressDecode(accountId);
+      currentPublicKey = decodeAddress(accountId);
     } catch (err) {
       console.error(err);
     }

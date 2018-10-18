@@ -10,13 +10,11 @@ import { Fees } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import Api from '@polkadot/api-observable';
+import { decodeAddress } from '@polkadot/keyring';
 import { Extrinsic } from '@polkadot/types';
 import { BitLengthOption } from '@polkadot/ui-app/constants';
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
-import InputAddress from '@polkadot/ui-app/InputAddress';
-import InputNumber from '@polkadot/ui-app/InputNumber';
+import { AddressSummary, InputAddress, InputNumber } from '@polkadot/ui-app/index';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
-import addressDecode from '@polkadot/keyring/address/decode';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
@@ -90,6 +88,7 @@ class Transfer extends React.PureComponent<Props, State> {
             <InputNumber
               bitLength={DEFAULT_BITLENGTH}
               isError={!hasAvailable}
+              isSi
               label={t('amount', {
                 defaultValue: 'send a value of'
               })}
@@ -126,7 +125,7 @@ class Transfer extends React.PureComponent<Props, State> {
     }
 
     try {
-      addressDecode(accountId);
+      decodeAddress(accountId);
     } catch (err) {
       return null;
     }
@@ -162,7 +161,7 @@ class Transfer extends React.PureComponent<Props, State> {
     this.nextState({ accountId });
   }
 
-  private onChangeAmount = (amount: BN) => {
+  private onChangeAmount = (amount: BN = new BN(0)) => {
     this.nextState({ amount });
   }
 

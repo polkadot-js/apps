@@ -35,6 +35,7 @@ class Balance extends React.PureComponent<Props> {
           defaultValue={defaultValue || '0'}
           isDisabled={isDisabled}
           isError={isError}
+          isSi
           label={label}
           onChange={this.onChange}
           withLabel={withLabel}
@@ -43,7 +44,7 @@ class Balance extends React.PureComponent<Props> {
     );
   }
 
-  onChange = (value: BN): void => {
+  onChange = (value?: BN): void => {
     const { isError, onChange } = this.props;
 
     if (!onChange) {
@@ -51,7 +52,7 @@ class Balance extends React.PureComponent<Props> {
     }
 
     onChange({
-      isValid: !isError,
+      isValid: !isError && !!value,
       value
     });
   }

@@ -3,11 +3,10 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { getTypeDef } from '@polkadot/types/codec';
-import { FunctionMetadata } from '@polkadot/types/Metadata';
 import { I18nProps } from './types';
 
 import React from 'react';
-import { Extrinsic, Method } from '@polkadot/types';
+import { Method } from '@polkadot/types';
 
 import classes from './util/classes';
 import Params from './Params';
@@ -15,19 +14,17 @@ import translate from './translate';
 
 export type Props = I18nProps & {
   children?: React.ReactNode,
-  meta?: FunctionMetadata,
-  value: Extrinsic | Method
+  value: Method
 };
 
-class ExtrinsicDisplay extends React.PureComponent<Props> {
+class Call extends React.PureComponent<Props> {
   render () {
-    const { children, className, meta, style, value } = this.props;
-
-    const params = Method.filterOrigin(meta || value.meta).map(({ name, type }) => ({
+    const { children, className, style, value } = this.props;
+    const params = Method.filterOrigin(value.meta).map(({ name, type }) => ({
       name: name.toString(),
       type: getTypeDef(type)
     }));
-    const values = Method.decodeMethod(meta || value.meta, value.data).map((value) => ({
+    const values = value.args.map((value) => ({
       isValid: true,
       value
     }));
@@ -48,4 +45,4 @@ class ExtrinsicDisplay extends React.PureComponent<Props> {
   }
 }
 
-export default translate(ExtrinsicDisplay);
+export default translate(Call);

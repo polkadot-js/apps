@@ -6,9 +6,8 @@ import { BareProps } from '@polkadot/ui-app/types';
 import { QueueTx } from '@polkadot/ui-signer/types';
 
 import React from 'react';
-
-import Output from '@polkadot/ui-app/Output';
-import isUndefined from '@polkadot/util/is/undefined';
+import { Output } from '@polkadot/ui-app/index';
+import { isUndefined } from '@polkadot/util';
 
 type Props = BareProps & {
   queue: Array<QueueTx>

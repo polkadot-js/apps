@@ -6,13 +6,12 @@ import { KeyringPair$Json } from '@polkadot/keyring/types';
 import { State, KeyringJson } from './types';
 
 import store from 'store';
-import addressEncode from '@polkadot/keyring/address/encode';
-import isHex from '@polkadot/util/is/hex';
-import hexToU8a from '@polkadot/util/hex/toU8a';
+import testKeyring from '@polkadot/keyring/testing';
+import { decodeAddress, encodeAddress } from '@polkadot/keyring';
+import { hexToU8a, isHex } from '@polkadot/util';
 
-import saveAddress from './address/meta';
 import initOptions from './options';
-import { accountRegex, addressRegex } from './defaults';
+import { accountRegex, addressRegex, accountKey, addressKey } from './defaults';
 
 function addPairs ({ accounts, keyring }: State): void {
   keyring
@@ -28,32 +27,41 @@ function addPairs ({ accounts, keyring }: State): void {
 }
 
 export default function loadAll (state: State): void {
-  const { accounts, addresses, keyring } = state;
+  const { accounts, addresses } = state;
+  const keyring = testKeyring();
+
+  state.keyring = keyring;
 
   addPairs(state);
 
   store.each((json: KeyringJson, key: string) => {
     if (accountRegex.test(key)) {
-      if (!json.meta || !json.meta.isTesting) {
+      if (!json.meta.isTesting && (json as KeyringPair$Json).encoded) {
         const pair = keyring.addFromJson(json as KeyringPair$Json);
 
         accounts.add(pair.address(), json);
       }
-    } else if (addressRegex.test(key)) {
-      const address = isHex(json.address)
-        ? addressEncode(hexToU8a(json.address))
-        : json.address;
 
-      // NOTE This is a fix for an older version where publicKeys instead of addresses
-      // were saved. Here we clean the old and replace with a new address-specific key
-      if (address !== json.address) {
-        json.address = address;
+      const [, hexAddr] = key.split(':');
 
+      if (hexAddr.substr(0, 2) !== '0x') {
         store.remove(key);
-        saveAddress(state, address, json.meta);
+        store.set(accountKey(hexAddr), json);
       }
+    } else if (addressRegex.test(key)) {
+      const address = encodeAddress(
+        isHex(json.address)
+          ? hexToU8a(json.address)
+          : decodeAddress(json.address)
+      );
+      const [, hexAddr] = key.split(':');
 
-      addresses.add(json.address, json);
+      addresses.add(address, json);
+
+      if (hexAddr.substr(0, 2) !== '0x') {
+        store.remove(key);
+        store.set(addressKey(hexAddr), json);
+      }
     }
   });
 

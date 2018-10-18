@@ -6,8 +6,7 @@ import { I18nProps } from '../types';
 
 import React from 'react';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
-
-import isUndefined from '@polkadot/util/is/undefined';
+import { isUndefined } from '@polkadot/util';
 
 import translate from '../translate';
 

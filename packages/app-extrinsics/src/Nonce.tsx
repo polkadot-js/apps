@@ -6,8 +6,7 @@ import BN from 'bn.js';
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
-import Labelled from '@polkadot/ui-app/Labelled';
+import { Labelled } from '@polkadot/ui-app/index';
 import RxNonce from '@polkadot/ui-react-rx/Nonce';
 
 type Props = BareProps & {

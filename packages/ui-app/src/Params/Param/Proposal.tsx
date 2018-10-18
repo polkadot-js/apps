@@ -7,7 +7,7 @@ import { Props } from '../types';
 import React from 'react';
 import { Extrinsic, Method } from '@polkadot/types';
 
-import ExtrinsicDisplay from '../../Extrinsic';
+import Call from '../../Call';
 import Static from '../../Static';
 import classes from '../../util/classes';
 import Bare from './Bare';
@@ -36,7 +36,7 @@ export default class Proposal extends React.PureComponent<Props> {
         >
           {section}.{method}
         </Static>
-        <ExtrinsicDisplay value={proposal} />
+        <Call value={proposal.method} />
       </Bare>
     );
   }

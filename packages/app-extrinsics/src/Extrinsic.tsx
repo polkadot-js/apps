@@ -11,9 +11,8 @@ import React from 'react';
 import { TypeDef, getTypeDef } from '@polkadot/types/codec';
 import { Extrinsic, Method } from '@polkadot/types';
 
-import InputExtrinsic from '@polkadot/ui-app/InputExtrinsic';
-import Params from '@polkadot/ui-app/Params';
-import isUndefined from '@polkadot/util/is/undefined';
+import { InputExtrinsic, Params } from '@polkadot/ui-app/index';
+import { isUndefined } from '@polkadot/util';
 import withApi from '@polkadot/ui-react-rx/with/api';
 
 import paramComponents from './Params';

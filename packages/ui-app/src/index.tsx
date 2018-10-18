@@ -15,10 +15,70 @@ import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
 import Api from '@polkadot/ui-react-rx/Api';
 
+import AddressMini from './AddressMini';
+import AddressRow from './AddressRow';
+import AddressSummary from './AddressSummary';
+import Balance from './Balance';
+import Button from './Button';
+import Call from './Call';
+import CardSummary from './CardSummary';
+import Chart from './Chart';
+import CopyButton from './CopyButton';
+import Dropdown from './Dropdown';
+import Icon from './Icon';
+import Input from './Input';
+import InputAddress from './InputAddress';
+import InputError from './InputError';
+import InputExtrinsic from './InputExtrinsic';
+import InputFile from './InputFile';
+import InputNumber from './InputNumber';
+import InputRpc from './InputRpc';
+import InputStorage from './InputStorage';
+import Labelled from './Labelled';
+import Menu from './Menu';
+import Modal from './Modal';
+import Output from './Output';
+import Params from './Params';
+import Password from './Password';
+import Progress from './Progress';
+import Static from './Static';
+import Tabs from './Tabs';
+
 type Props = BareProps & {
   api?: RpcRxInterface,
   provider?: ProviderInterface,
   url?: string
+};
+
+export {
+  AddressMini,
+  AddressRow,
+  AddressSummary,
+  Balance,
+  Button,
+  Call,
+  CardSummary,
+  Chart,
+  CopyButton,
+  Dropdown,
+  Icon,
+  Input,
+  InputAddress,
+  InputError,
+  InputExtrinsic,
+  InputFile,
+  InputNumber,
+  InputRpc,
+  InputStorage,
+  Labelled,
+  Menu,
+  Modal,
+  Output,
+  Params,
+  Password,
+  Progress,
+  Static,
+  Tabs
 };
 
 export default function createApp (App: React.ComponentType<BareProps>, { api, className, provider, style, url }: Props = {}, rootId: string = 'root'): void {

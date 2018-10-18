@@ -7,7 +7,7 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { UInt } from '@polkadot/types/codec';
-import isUndefined from '@polkadot/util/is/undefined';
+import { isUndefined } from '@polkadot/util';
 
 import Progress, { Colors as ProgressColors } from './Progress';
 import Labelled from './Labelled';

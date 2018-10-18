@@ -5,14 +5,13 @@
 import './Params.css';
 
 import React from 'react';
+import { isNull, isUndefined } from '@polkadot/util';
+// import { decodeAddress } from '@polkadot/keyring';
 // import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 // import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 // import u8aToHex from '@polkadot/util/u8a/toHex';
 // import isBn from '@polkadot/util/is/bn';
-import isNull from '@polkadot/util/is/null';
 // import isU8a from '@polkadot/util/is/u8a';
-import isUndefined from '@polkadot/util/is/undefined';
-// import encodeAddress from '@polkadot/keyring/address/encode';
 
 import classes from '../util/classes';
 // import { textMap as thresholdTextMap } from './Param/VoteThreshold';

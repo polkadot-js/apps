@@ -9,7 +9,7 @@ import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/types';
 import React from 'react';
 import Api from '@polkadot/api-observable';
 import { Extrinsic } from '@polkadot/types';
-import Button from '@polkadot/ui-app/Button';
+import { Button } from '@polkadot/ui-app/index';
 
 import Account from './Account';
 import ExtrinsicDisplay from './Extrinsic';

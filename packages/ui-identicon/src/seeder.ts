@@ -4,15 +4,14 @@
 
 import { Seeder } from './types';
 
-import isU8a from '@polkadot/util/is/u8a';
-import u8aFromString from '@polkadot/util/u8a/fromString';
+import { isU8a, stringToU8a } from '@polkadot/util';
 
 const DIVISOR = 256 * 256;
 
 export default function seeder (_seed: string | Uint8Array = new Uint8Array(32)): Seeder {
   const seed: Uint8Array = isU8a(_seed)
     ? _seed
-    : u8aFromString(_seed);
+    : stringToU8a(_seed);
 
   let index = (seed[Math.floor(seed.length / 2)] % seed.length) - 1;
 

@@ -3,13 +3,14 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { TabItem } from '@polkadot/ui-app/Tabs';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import './index.css';
 
 import React from 'react';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
+import { Tabs } from '@polkadot/ui-app/index';
 import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 
 import Creator from './Creator';

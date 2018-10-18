@@ -5,7 +5,8 @@
 export type ChainsInfo = Array<{
   name: string,
   chainId: number,
-  decimals: number
+  decimals: number,
+  unit: string
 }>;
 
 export type Options = Array<{
@@ -18,12 +19,14 @@ const CHAINS: ChainsInfo = [
   {
     name: 'Development',
     chainId: 0,
-    decimals: 0
+    decimals: 0,
+    unit: 'Unit'
   },
   {
     name: 'BBQ Birch',
     chainId: 68,
-    decimals: 15
+    decimals: 15,
+    unit: 'BBQ'
   }
 ];
 
