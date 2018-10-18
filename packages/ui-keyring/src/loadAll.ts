@@ -12,7 +12,6 @@ import addressEncode from '@polkadot/keyring/address/encode';
 import isHex from '@polkadot/util/is/hex';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 
-import saveAddress from './address/meta';
 import initOptions from './options';
 import { accountRegex, addressRegex } from './defaults';
 
