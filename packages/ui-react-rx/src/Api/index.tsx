@@ -8,7 +8,7 @@ import { ApiProps } from '../types';
 
 import React from 'react';
 import Api from '@polkadot/api-observable';
-import setAddressPrefix from '@polkadot/keyring/address/setPrefix';
+import { setAddressPrefix } from '@polkadot/keyring';
 import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import RxApi from '@polkadot/rpc-rx';

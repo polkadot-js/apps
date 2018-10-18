@@ -9,7 +9,7 @@ import { RxProps } from '../types';
 import { HOC, Options, DefaultProps, RenderFn } from './types';
 
 import React from 'react';
-import isUndefined from '@polkadot/util/is/undefined';
+import { isUndefined } from '@polkadot/util';
 
 import isEqual from '../util/isEqual';
 import echoTransform from './transform/echo';

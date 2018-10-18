@@ -9,7 +9,7 @@ import { Fees } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { Balance, Extrinsic } from '@polkadot/types';
-import Static from '@polkadot/ui-app/Static';
+import { Static } from '@polkadot/ui-app/index';
 import balanceFormat from '@polkadot/ui-react-rx/util/balanceFormat';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
@@ -76,7 +76,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
 
     const txLength = SIGNATURE_SIZE + (
       extrinsic
-        ? extrinsic.byteLength()
+        ? extrinsic.encodedLength
         : 0
     );
 

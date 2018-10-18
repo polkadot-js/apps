@@ -5,7 +5,7 @@
 import { TypeDef, TypeDefInfo } from '@polkadot/types/codec';
 import { RawParam } from './types';
 
-import isUndefined from '@polkadot/util/is/undefined';
+import { isUndefined } from '@polkadot/util';
 
 import getInitValue from './initValue';
 

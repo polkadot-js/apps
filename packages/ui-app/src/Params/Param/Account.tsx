@@ -5,11 +5,11 @@
 import { Props } from '../types';
 
 import React from 'react';
+import { decodeAddress } from '@polkadot/keyring';
 import { Base } from '@polkadot/types/codec';
 
 import InputAddress from '../../InputAddress';
 import Bare from './Bare';
-import addressDecode from '@polkadot/keyring/address/decode';
 
 export default class Account extends React.PureComponent<Props> {
   render () {
@@ -45,7 +45,7 @@ export default class Account extends React.PureComponent<Props> {
 
     if (value) {
       try {
-        addressDecode(value);
+        decodeAddress(value);
 
         isValid = true;
       } catch (err) {

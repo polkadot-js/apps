@@ -13,9 +13,7 @@ import BN from 'bn.js';
 import React from 'react';
 import rpc from '@polkadot/jsonrpc';
 import { getTypeDef } from '@polkadot/types/codec';
-import Button from '@polkadot/ui-app/Button';
-import InputRpc from '@polkadot/ui-app/InputRpc';
-import Params from '@polkadot/ui-app/Params';
+import { Button, InputRpc, Params } from '@polkadot/ui-app/index';
 
 // import Account from './Account';
 import translate from './translate';

@@ -4,8 +4,7 @@
 
 import { Generator$PkFromSeed } from './types';
 
-import bufferToU8a from '@polkadot/util/buffer/toU8a';
-import u8aToBuffer from '@polkadot/util/u8a/toBuffer';
+import { bufferToU8a, u8aToBuffer } from '@polkadot/util';
 
 export default function setupFn (sodium: any): Generator$PkFromSeed {
   return (seed: Uint8Array): Uint8Array =>

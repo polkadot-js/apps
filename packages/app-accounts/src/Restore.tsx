@@ -6,17 +6,10 @@ import { KeyringPair$Json } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
-import Button from '@polkadot/ui-app/Button';
-import InputFile from '@polkadot/ui-app/InputFile';
-import { InputAddress } from '@polkadot/ui-app/InputAddress';
-import Password from '@polkadot/ui-app/Password';
+import { AddressSummary, Button, InputAddress, InputFile, Password } from '@polkadot/ui-app/index';
 import createPair from '@polkadot/keyring/pair';
-import decodeAddress from '@polkadot/keyring/address/decode';
-import isHex from '@polkadot/util/is/hex';
-import isObject from '@polkadot/util/is/object';
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
+import { decodeAddress } from '@polkadot/keyring';
+import { hexToU8a, isHex, isObject, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
@@ -110,7 +103,7 @@ class Restore extends React.PureComponent<Props, State> {
 
   onChangeFile = (file: Uint8Array): void => {
     try {
-      const json = JSON.parse(u8aToUtf8(file));
+      const json = JSON.parse(u8aToString(file));
       const isFileValid = decodeAddress(json.address).length === 32 &&
         isHex(json.encoded) &&
         isObject(json.meta) &&

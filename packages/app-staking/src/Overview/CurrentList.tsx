@@ -7,8 +7,7 @@ import { RxBalanceMap } from '@polkadot/api-observable/types';
 
 import React from 'react';
 import { Balance } from '@polkadot/types';
-import AddressMini from '@polkadot/ui-app/AddressMini';
-import AddressRow from '@polkadot/ui-app/AddressRow';
+import { AddressMini, AddressRow } from '@polkadot/ui-app/index';
 
 import translate from '../translate';
 

@@ -6,11 +6,7 @@ import { TranslationFunction } from 'i18next';
 import { Props as BaseProps, RawParam } from '../types';
 
 import React from 'react';
-import assert from '@polkadot/util/assert';
-import isHex from '@polkadot/util/is/hex';
-import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
-import toU8a from '@polkadot/util/u8a/toU8a';
-import u8aToHex from '@polkadot/util/u8a/toHex';
+import { assert, isHex, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
 
 import translate from '../../translate';
 import Base from './Base';
@@ -122,9 +118,9 @@ class StorageKeyValueArray extends React.PureComponent<Props, State> {
     });
   }
 
-  // FIXME
+  // FIXME any...
   private parseFile (raw: Uint8Array): Array<any> {
-    const json = JSON.parse(u8aToUtf8(raw));
+    const json = JSON.parse(u8aToString(raw));
 
     return Object.keys(json).map((key) => {
       const value = json[key];
@@ -132,8 +128,8 @@ class StorageKeyValueArray extends React.PureComponent<Props, State> {
       assert(isHex(key) && isHex(value), `Non-hex key/value pair found in ${key.toString()} => ${value.toString()}`);
 
       return {
-        key: toU8a(key),
-        value: toU8a(value)
+        key: u8aToU8a(key),
+        value: u8aToU8a(value)
       };
     });
   }

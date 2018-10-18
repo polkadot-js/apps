@@ -8,11 +8,10 @@ import { ApiProps } from '@polkadot/ui-react-rx/types';
 import React from 'react';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
-import AddressMini from '@polkadot/ui-app/AddressMini';
-import Call from '@polkadot/ui-app/Call';
+import { AddressMini, Call } from '@polkadot/ui-app/index';
 import { Extrinsic, Method, SignedBlock } from '@polkadot/types';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
-import u8aToHex from '@polkadot/util/u8a/toHex';
+import { u8aToHex } from '@polkadot/util';
 
 import BlockHeader from '../BlockHeader';
 import translate from '../translate';

@@ -6,7 +6,6 @@ import { BareProps } from '@polkadot/ui-app/types';
 import { QueueTx } from './types';
 
 import React from 'react';
-
 import classes from '@polkadot/ui-app/util/classes';
 
 type Props = BareProps & {

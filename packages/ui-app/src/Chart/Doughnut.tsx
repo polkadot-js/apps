@@ -7,7 +7,7 @@ import { BareProps } from '../types';
 import BN from 'bn.js';
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
-import bnToBn from '@polkadot/util/bn/toBn';
+import { bnToBn } from '@polkadot/util';
 
 import classes from '../util/classes';
 

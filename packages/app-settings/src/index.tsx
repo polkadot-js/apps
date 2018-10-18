@@ -6,8 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import settings, { SettingsStruct } from '@polkadot/ui-app/settings';
-import Button from '@polkadot/ui-app/Button';
-import Dropdown from '@polkadot/ui-app/Dropdown';
+import { Button, Dropdown } from '@polkadot/ui-app/index';
 
 import './index.css';
 

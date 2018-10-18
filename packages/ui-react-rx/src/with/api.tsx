@@ -6,7 +6,7 @@ import { ApiProps } from '../types';
 import { DefaultProps } from './types';
 
 import React from 'react';
-import assert from '@polkadot/util/assert';
+import { assert } from '@polkadot/util';
 
 import { ApiConsumer } from '../Api/Context';
 

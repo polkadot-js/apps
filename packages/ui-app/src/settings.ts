@@ -2,10 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Prefix } from '@polkadot/keyring/address/types';
-
 import store from 'store';
-import setAddressPrefix from '@polkadot/keyring/address/setPrefix';
 
 import { ChainsInfo, Options, CHAINS, ENDPOINTS, LANGUAGES, UIMODES, UITHEMES } from './settingsDefaults';
 
@@ -18,7 +15,6 @@ export interface SettingsStruct {
 
 class Settings implements SettingsStruct {
   private _apiUrl: string;
-  private _chainPrefix: Prefix;
   private _i18nLang: string;
   private _uiMode: string;
   private _uiTheme: string;
@@ -29,12 +25,9 @@ class Settings implements SettingsStruct {
     // FIXME Here we have the defaults for BBQ, swap to Polkadot as soon as poc-3 is there
     // FIXME WS_URL first, then substrate-rpc
     this._apiUrl = settings.apiUrl || ENDPOINTS[0].value || process.env.WS_URL;
-    this._chainPrefix = settings.chainPrefix || 68;
     this._i18nLang = settings.i18nLang || LANGUAGES[0].value;
     this._uiMode = settings.uiMode || process.env.UI_MODE || UIMODES[0].value;
     this._uiTheme = settings.uiTheme || process.env.UI_THEME || UITHEMES[0].value;
-
-    setAddressPrefix(this._chainPrefix);
   }
 
   get apiUrl (): string {

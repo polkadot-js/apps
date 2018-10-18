@@ -5,15 +5,14 @@
 import { Generator$PkFromSeed, Generator$Match, Generator$Options } from './types';
 
 import sodiumWasm from 'libsodium-wrappers';
-import randomBytes from '@polkadot/util-crypto/random/asU8a';
-import addressEncode from '@polkadot/keyring/address/encode';
-import pairFromSeed from '@polkadot/util-crypto/nacl/keypair/fromSeed';
+import { encodeAddress } from '@polkadot/keyring';
+import { naclKeypairFromSeed, randomAsU8a } from '@polkadot/util-crypto';
 
 import calculate from './calculate';
 import sodiumKeygen from './sodiumKeygen';
 
 const tweetPkFromSeed = (seed: Uint8Array): Uint8Array =>
-  pairFromSeed(seed).publicKey;
+  naclKeypairFromSeed(seed).publicKey;
 
 let defaultPkFromSeed: Generator$PkFromSeed = tweetPkFromSeed;
 
@@ -29,8 +28,8 @@ let defaultPkFromSeed: Generator$PkFromSeed = tweetPkFromSeed;
 })();
 
 export default function generator (test: Array<string>, options: Generator$Options, pkFromSeed: Generator$PkFromSeed = defaultPkFromSeed): Generator$Match {
-  const seed = randomBytes();
-  const address = addressEncode(pkFromSeed(seed));
+  const seed = randomAsU8a();
+  const address = encodeAddress(pkFromSeed(seed));
   const { count, offset } = calculate(test, address, options);
 
   return {

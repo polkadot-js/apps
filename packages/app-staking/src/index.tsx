@@ -7,7 +7,7 @@ import { RxBalanceMap } from '@polkadot/api-observable/types';
 
 import React from 'react';
 import { AccountId } from '@polkadot/types';
-import Tabs from '@polkadot/ui-app/Tabs';
+import { Tabs } from '@polkadot/ui-app/index';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 

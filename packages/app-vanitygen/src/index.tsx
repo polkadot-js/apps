@@ -8,10 +8,7 @@ import { Generator$Matches, Generator$Result } from './generator/types';
 import './index.css';
 
 import React from 'react';
-import Button from '@polkadot/ui-app/Button';
-import Dropdown from '@polkadot/ui-app/Dropdown';
-import Input from '@polkadot/ui-app/Input';
-import Static from '@polkadot/ui-app/Static';
+import { Button, Dropdown, Input, Static } from '@polkadot/ui-app/index';
 
 import Match from './Match';
 import generator from './generator';

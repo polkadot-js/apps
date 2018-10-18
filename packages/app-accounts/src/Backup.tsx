@@ -7,10 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import FileSaver from 'file-saver';
 import React from 'react';
-import Button from '@polkadot/ui-app/Button';
-import Modal from '@polkadot/ui-app/Modal';
-import Password from '@polkadot/ui-app/Password';
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
+import { AddressSummary, Button, Modal, Password } from '@polkadot/ui-app/index';
 
 import translate from './translate';
 

@@ -3,15 +3,15 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import isNull from '@polkadot/util/is/null';
-import randomAsU8a from '@polkadot/util-crypto/random/asU8a';
-import addressEncode from '@polkadot/keyring/address/encode';
+import { encodeAddress } from '@polkadot/keyring';
+import { isNull } from '@polkadot/util';
+import { randomAsU8a } from '@polkadot/util-crypto';
 
 import identicon from './index';
 
 const element = document.getElementById('demo');
 
-function generateIcon (seed: string = addressEncode(randomAsU8a(32))): void {
+function generateIcon (seed: string = encodeAddress(randomAsU8a(32))): void {
   const start = Date.now();
 
   if (isNull(element)) {
@@ -26,7 +26,7 @@ function generateIcon (seed: string = addressEncode(randomAsU8a(32))): void {
 }
 
 function generateIcons (count: number = 512): void {
-  generateIcon(addressEncode(new Uint8Array(32)));
+  generateIcon(encodeAddress(new Uint8Array(32)));
 
   for (let index = 1; index < count; index++) {
     generateIcon();

@@ -7,7 +7,7 @@ import { QueueProps } from '@polkadot/ui-signer/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import InputAddress from '@polkadot/ui-app/InputAddress';
+import { InputAddress } from '@polkadot/ui-app/index';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
 import VotingButtons from './VotingButtons';

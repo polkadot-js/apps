@@ -5,10 +5,7 @@
 import { Props } from '../types';
 
 import React from 'react';
-
-import bnToU8a from '@polkadot/util/bn/toU8a';
-import u8aConcat from '@polkadot/util/u8a/concat';
-import hexToU8a from '@polkadot/util/hex/toU8a';
+import { bnToU8a, hexToU8a, u8aConcat } from '@polkadot/util';
 
 import Input from '../../Input';
 import Bare from './Bare';

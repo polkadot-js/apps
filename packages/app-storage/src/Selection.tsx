@@ -10,11 +10,8 @@ import { StorageQuery } from './types';
 
 import React from 'react';
 import Api from '@polkadot/api-observable';
-import Button from '@polkadot/ui-app/Button';
-import InputStorage from '@polkadot/ui-app/InputStorage';
-import Labelled from '@polkadot/ui-app/Labelled';
-import Params from '@polkadot/ui-app/Params';
-import isUndefined from '@polkadot/util/is/undefined';
+import { Button, InputStorage, Labelled, Params } from '@polkadot/ui-app/index';
+import { isUndefined } from '@polkadot/util';
 
 import translate from './translate';
 
