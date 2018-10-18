@@ -11,11 +11,7 @@ import Api from '@polkadot/api-observable';
 import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import RxApi from '@polkadot/rpc-rx';
-<<<<<<< HEAD
-import { Header, ExtrinsicStatus } from '@polkadot/types';
-=======
-import { Header, Method } from '@polkadot/types';
->>>>>>> 2834f54c056a24681e9e7a2e164daedbb5b89432
+import { ExtrinsicStatus, Header, Method } from '@polkadot/types';
 
 import ApiContext from './Context';
 
