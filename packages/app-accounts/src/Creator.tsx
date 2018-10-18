@@ -5,26 +5,12 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
-import Button from '@polkadot/ui-app/Button';
-import Dropdown from '@polkadot/ui-app/Dropdown';
-import Input from '@polkadot/ui-app/Input';
-import InputAddress from '@polkadot/ui-app/InputAddress';
-import Modal from '@polkadot/ui-app/Modal';
-import Password from '@polkadot/ui-app/Password';
+import { AddressSummary, Button, Dropdown, Input, InputAddress, Modal, Password } from '@polkadot/ui-app/index';
+import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
+import { mnemonicGenerate, mnemonicToSeed, mnemonicValidate, naclKeypairFromSeed, randomAsU8a } from '@polkadot/util-crypto';
+import { encodeAddress } from '@polkadot/keyring';
 import keyring from '@polkadot/ui-keyring/index';
-import isHex from '@polkadot/util/is/hex';
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import u8aFromString from '@polkadot/util/u8a/fromString';
-import u8aToHex from '@polkadot/util/u8a/toHex';
-import keypairFromSeed from '@polkadot/util-crypto/nacl/keypair/fromSeed';
-import generateMnemonic from '@polkadot/util-crypto/mnemonic/generate';
-import mnemonicToSecret from '@polkadot/util-crypto/mnemonic/toSecret';
-import isMnemonic from '@polkadot/util-crypto/mnemonic/validate';
-import randomBytes from '@polkadot/util-crypto/random/asU8a';
-import addressEncode from '@polkadot/keyring/address/encode';
 
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -50,17 +36,17 @@ type State = {
 function formatSeed (seed: string): Uint8Array {
   return isHex(seed)
     ? hexToU8a(seed)
-    : u8aFromString(seed.padEnd(32, ' '));
+    : stringToU8a(seed.padEnd(32, ' '));
 }
 
 function addressFromSeed (seed: string, seedType: SeedType): string {
-  const keypair = keypairFromSeed(
+  const keypair = naclKeypairFromSeed(
     seedType === 'bip'
-      ? mnemonicToSecret(seed).subarray(0, 32)
+      ? mnemonicToSeed(seed)
       : formatSeed(seed)
   );
 
-  return addressEncode(
+  return encodeAddress(
     keypair.publicKey
   );
 }
@@ -237,8 +223,8 @@ class Creator extends React.PureComponent<Props, State> {
 
   private generateSeed (seedType: SeedType): State {
     const seed = seedType === 'bip'
-      ? generateMnemonic()
-      : u8aToHex(randomBytes());
+      ? mnemonicGenerate()
+      : u8aToHex(randomAsU8a());
     const address = addressFromSeed(seed, seedType);
 
     return {
@@ -271,7 +257,7 @@ class Creator extends React.PureComponent<Props, State> {
         let address = prevState.address;
         const isNameValid = !!name;
         const isSeedValid = seedType === 'bip'
-          ? isMnemonic(seed)
+          ? mnemonicValidate(seed)
           : (
             isHex(seed)
               ? seed.length === 66

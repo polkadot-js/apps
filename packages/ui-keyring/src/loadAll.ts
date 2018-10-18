@@ -7,10 +7,8 @@ import { State, KeyringJson } from './types';
 
 import store from 'store';
 import testKeyring from '@polkadot/keyring/testing';
-import addressDecode from '@polkadot/keyring/address/decode';
-import addressEncode from '@polkadot/keyring/address/encode';
-import isHex from '@polkadot/util/is/hex';
-import hexToU8a from '@polkadot/util/hex/toU8a';
+import { decodeAddress, encodeAddress } from '@polkadot/keyring';
+import { hexToU8a, isHex } from '@polkadot/util';
 
 import initOptions from './options';
 import { accountRegex, addressRegex } from './defaults';
@@ -44,10 +42,10 @@ export default function loadAll (state: State): void {
         accounts.add(pair.address(), json);
       }
     } else if (addressRegex.test(key)) {
-      const address = addressEncode(
+      const address = encodeAddress(
         isHex(json.address)
           ? hexToU8a(json.address)
-          : addressDecode(json.address)
+          : decodeAddress(json.address)
       );
 
       addresses.add(address, json);

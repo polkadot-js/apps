@@ -9,7 +9,7 @@ import './Button.css';
 import React from 'react';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 
-import isUndefined from '@polkadot/util/is/undefined';
+import { isUndefined } from '@polkadot/util';
 
 import Divider from './Divider';
 import Group from './Group';

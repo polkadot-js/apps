@@ -4,8 +4,7 @@
 
 import { OnChangeCb, OnChangeCb$Obs } from '../types';
 
-import isFunction from '@polkadot/util/is/function';
-import isObservable from '@polkadot/util/is/observable';
+import { isFunction, isObservable } from '@polkadot/util';
 
 export default function triggerChange<T> (value?: T, ...rxChange: Array<OnChangeCb<T>>): void {
   if (!rxChange || !rxChange.length) {

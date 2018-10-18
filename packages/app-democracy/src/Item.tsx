@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import { Method, Proposal } from '@polkadot/types';
-import Call from '@polkadot/ui-app/Call';
+import { Call } from '@polkadot/ui-app/index';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
 import translate from './translate';

@@ -6,10 +6,9 @@ import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
-import CopyButton from '@polkadot/ui-app/CopyButton';
-import Button from '@polkadot/ui-app/Button';
+import { Button, CopyButton } from '@polkadot/ui-app/index';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
-import u8aToHex from '@polkadot/util/u8a/toHex';
+import { u8aToHex } from '@polkadot/util';
 
 type Props = BareProps & {
   address: string;

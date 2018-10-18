@@ -5,7 +5,7 @@
 
 import yargs from 'yargs';
 import chalk from 'chalk';
-import u8aToHex from '@polkadot/util/u8a/toHex';
+import { u8aToHex } from '@polkadot/util';
 
 import generator from './index';
 import matchRegex from './regex';

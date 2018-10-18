@@ -7,7 +7,7 @@ import { BareProps } from './types';
 import React from 'react';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import SUIDropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
-import isUndefined from '@polkadot/util/is/undefined';
+import { isUndefined } from '@polkadot/util';
 
 import classes from './util/classes';
 import Labelled from './Labelled';

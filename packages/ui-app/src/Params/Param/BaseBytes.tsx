@@ -6,10 +6,7 @@ import { Props as BaseProps, Size } from '../types';
 
 import React from 'react';
 import { U8a } from '@polkadot/types/codec';
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import bnToU8a from '@polkadot/util/bn/toU8a';
-import u8aConcat from '@polkadot/util/u8a/concat';
-import u8aToHex from '@polkadot/util/u8a/toHex';
+import { bnToU8a, hexToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import Input from '../../Input';
 import Bare from './Bare';

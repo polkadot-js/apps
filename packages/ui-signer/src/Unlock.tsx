@@ -6,8 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
 import React from 'react';
-
-import Password from '@polkadot/ui-app/Password';
+import { Password } from '@polkadot/ui-app/index';
 import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';

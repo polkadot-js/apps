@@ -6,9 +6,7 @@ import { KeyringOption$Type } from '@polkadot/ui-keyring/options/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
-import InputAddress from '@polkadot/ui-app/InputAddress';
-import Labelled from '@polkadot/ui-app/Labelled';
+import { InputAddress, Labelled } from '@polkadot/ui-app/index';
 import Balance from '@polkadot/ui-react-rx/Balance';
 
 import translate from './translate';

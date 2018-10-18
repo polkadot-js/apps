@@ -6,9 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-
-import InputAddress from '@polkadot/ui-app/InputAddress';
-import Labelled from '@polkadot/ui-app/Labelled';
+import { InputAddress, Labelled } from '@polkadot/ui-app/index';
 import Nonce from '@polkadot/ui-react-rx/Nonce';
 
 import translate from './translate';

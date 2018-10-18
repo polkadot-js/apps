@@ -148,7 +148,7 @@ class AddressSummary extends React.PureComponent<Props> {
         label={t('addressSummary.balance', {
           defaultValue: 'balance '
         })}
-        value={accountId.toString()}
+        value={accountId}
       />
     );
   }

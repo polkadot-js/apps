@@ -5,10 +5,9 @@
 import { Props } from '@polkadot/ui-app/Params/types';
 
 import React from 'react';
+import { decodeAddress } from '@polkadot/keyring';
 
 import BaseAccount from '../Account';
-
-import addressDecode from '@polkadot/keyring/address/decode';
 
 export default class Account extends React.PureComponent<Props> {
   render () {
@@ -36,7 +35,7 @@ export default class Account extends React.PureComponent<Props> {
     let isValid = false;
 
     try {
-      addressDecode(value);
+      decodeAddress(value);
 
       isValid = true;
     } catch (err) {

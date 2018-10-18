@@ -3,8 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 
 import React from 'react';
-import randomAsU8a from '@polkadot/util-crypto/random/asU8a';
-import addressEncode from '@polkadot/keyring/address/encode';
+import { encodeAddress } from '@polkadot/keyring';
+import { randomAsU8a } from '@polkadot/util-crypto';
 
 import Container from '../Container/Demo';
 import IdentityIcon from './index';
@@ -15,7 +15,7 @@ export default class Demo extends React.PureComponent {
 
     while (identities.length !== 10) {
       identities.push(
-        addressEncode(randomAsU8a(32))
+        encodeAddress(randomAsU8a(32))
       );
     }
 

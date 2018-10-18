@@ -8,11 +8,9 @@ import BN from 'bn.js';
 import React from 'react';
 import SUIProgress from 'semantic-ui-react/dist/commonjs/modules/Progress/Progress';
 import { UInt } from '@polkadot/types/codec';
-import isBn from '@polkadot/util/is/bn';
-import isUndefined from '@polkadot/util/is/undefined';
+import { bnToBn, isBn, isUndefined } from '@polkadot/util';
 
 import classes from './util/classes';
-import bnToBn from '@polkadot/util/bn/toBn';
 
 type BaseColors = 'blue' | 'green' | 'red' | 'orange';
 export type Colors = 'auto' | 'autoReverse' | BaseColors;

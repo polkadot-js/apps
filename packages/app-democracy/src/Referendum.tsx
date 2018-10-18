@@ -10,8 +10,7 @@ import { RxReferendumVote } from '@polkadot/api-observable/types';
 import BN from 'bn.js';
 import React from 'react';
 import settings from '@polkadot/ui-app/settings';
-import Static from '@polkadot/ui-app/Static';
-import Doughnut from '@polkadot/ui-app/Chart/Doughnut';
+import { Chart, Static } from '@polkadot/ui-app/index';
 import VoteThreshold from '@polkadot/ui-app/Params/Param/VoteThreshold';
 import balanceFormat from '@polkadot/ui-react-rx/util/balanceFormat';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
@@ -156,7 +155,7 @@ class Referendum extends React.PureComponent<Props, State> {
 
     return (
       <div className='democracy--Referendum-results chart'>
-        <Doughnut values={[
+        <Chart.Doughnut values={[
           {
             colors: COLORS_YAY,
             label: `${balanceFormat(votedYay)} (${numberFormat(voteCountYay)})`,

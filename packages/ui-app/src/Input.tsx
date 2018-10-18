@@ -6,7 +6,7 @@ import { BareProps } from './types';
 
 import React from 'react';
 import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
-import isUndefined from '@polkadot/util/is/undefined';
+import { isUndefined } from '@polkadot/util';
 
 import Labelled from './Labelled';
 
