@@ -11,7 +11,7 @@ import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import { hexToU8a, isHex } from '@polkadot/util';
 
 import initOptions from './options';
-import { accountRegex, addressRegex } from './defaults';
+import { accountRegex, addressRegex, accountKey, addressKey } from './defaults';
 
 function addPairs ({ accounts, keyring }: State): void {
   keyring
@@ -36,10 +36,17 @@ export default function loadAll (state: State): void {
 
   store.each((json: KeyringJson, key: string) => {
     if (accountRegex.test(key)) {
-      if (!json.meta || !json.meta.isTesting) {
+      if (!json.meta.isTesting && (json as KeyringPair$Json).encoded) {
         const pair = keyring.addFromJson(json as KeyringPair$Json);
 
         accounts.add(pair.address(), json);
+      }
+
+      const [, hexAddr] = key.split(':');
+
+      if (hexAddr.substr(0, 2) !== '0x') {
+        store.remove(key);
+        store.set(accountKey(hexAddr), json);
       }
     } else if (addressRegex.test(key)) {
       const address = encodeAddress(
@@ -47,8 +54,14 @@ export default function loadAll (state: State): void {
           ? hexToU8a(json.address)
           : decodeAddress(json.address)
       );
+      const [, hexAddr] = key.split(':');
 
       addresses.add(address, json);
+
+      if (hexAddr.substr(0, 2) !== '0x') {
+        store.remove(key);
+        store.set(addressKey(hexAddr), json);
+      }
     }
   });
 
