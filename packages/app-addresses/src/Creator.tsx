@@ -6,11 +6,11 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
-import { Button, Input, InputAddress } from '@polkadot/ui-app/index';
+import { AddressSummary, Button, Input } from '@polkadot/ui-app/index';
+import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring/index';
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';
 
 type Props = I18nProps & {

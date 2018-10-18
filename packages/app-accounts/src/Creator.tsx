@@ -5,7 +5,8 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AddressSummary, Button, Dropdown, Input, InputAddress, Modal, Password } from '@polkadot/ui-app/index';
+import { AddressSummary, Button, Dropdown, Input, Modal, Password } from '@polkadot/ui-app/index';
+import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
 import { mnemonicGenerate, mnemonicToSeed, mnemonicValidate, naclKeypairFromSeed, randomAsU8a } from '@polkadot/util-crypto';
 import { encodeAddress } from '@polkadot/keyring';
@@ -314,6 +315,7 @@ class Creator extends React.PureComponent<Props, State> {
       : keyring.createAccount(formatSeed(seed), password, { name });
 
     this.onHideWarning();
+
     InputAddress.setLastValue('account', pair.address());
 
     onBack();
