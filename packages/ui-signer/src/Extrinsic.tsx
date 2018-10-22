@@ -43,7 +43,7 @@ class Transaction extends React.PureComponent<Props> {
                 You are about to sign a message from <span className='code'>{accountId}</span> calling <span className='code'>{section}.{method}</span> with an index of <span className='code'>{accountNonce.toString()}</span>
               </Trans>
             </p>
-            <Call value={extrinsic.method} />
+            <Call value={extrinsic} />
           </div>
           <IdentityIcon
             className='icon'

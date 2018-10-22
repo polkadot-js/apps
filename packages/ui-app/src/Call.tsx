@@ -6,7 +6,7 @@ import { getTypeDef } from '@polkadot/types/codec';
 import { I18nProps } from './types';
 
 import React from 'react';
-import { Method } from '@polkadot/types';
+import { Extrinsic, Method, Proposal } from '@polkadot/types';
 
 import classes from './util/classes';
 import Params from './Params';
@@ -14,7 +14,7 @@ import translate from './translate';
 
 export type Props = I18nProps & {
   children?: React.ReactNode,
-  value: Method
+  value: Extrinsic | Method | Proposal
 };
 
 class Call extends React.PureComponent<Props> {
