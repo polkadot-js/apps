@@ -110,6 +110,8 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
         : null;
       const found = settings.availableChains.find(({ name }) => name === chain) || { chainId: 0, decimals: 0, unit: undefined };
 
+      console.log('found chain', chain);
+
       balanceFormat.setDefaultDecimals(found.decimals);
       InputNumber.setUnit(found.unit);
       setAddressPrefix(found.chainId as any);

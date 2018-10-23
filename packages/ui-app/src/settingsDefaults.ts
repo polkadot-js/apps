@@ -23,6 +23,12 @@ const CHAINS: ChainsInfo = [
     unit: 'Unit'
   },
   {
+    name: 'Local Testnet',
+    chainId: 0,
+    decimals: 0,
+    unit: 'Unit'
+  },
+  {
     name: 'BBQ Birch',
     chainId: 68,
     decimals: 15,
