@@ -9,7 +9,7 @@ import { Base, UInt } from '@polkadot/types/codec';
 import { Hash, Extrinsic } from '@polkadot/types';
 import { RawParam$Value } from '@polkadot/ui-app/Params/types';
 
-export type QueueTx$Status = 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent';
+export type QueueTx$Status = 'finalised' | 'usurped' | 'dropped' | 'broadcast' | 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent';
 
 export type QueueTx$Id = number;
 

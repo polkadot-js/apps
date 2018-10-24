@@ -4,7 +4,7 @@
 
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
-import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result } from './types';
+import { QueueTx, QueueTx$Id, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from './types';
 
 import React from 'react';
 import { decodeAddress } from '@polkadot/keyring';
@@ -266,9 +266,7 @@ class Signer extends React.PureComponent<Props, State> {
 
     extrinsic.sign(pair, accountNonce, apiObservable.genesisHash);
 
-    const { error, result, status } = await this.submitExtrinsic(extrinsic);
-
-    queueSetStatus(id, status, result, error);
+    await this.submitExtrinsic(extrinsic, id);
   }
 
   private async submitRpc (rpc: RpcMethod, values: Array<any>): Promise<QueueTx$Result> {
@@ -293,29 +291,29 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private async submitExtrinsic (extrinsic: Extrinsic): Promise<QueueTx$Result> {
-    const { apiObservable } = this.props;
+  private async submitExtrinsic (extrinsic: Extrinsic, id: QueueTx$Id): Promise<void> {
+    const { apiObservable, queueSetStatus } = this.props;
 
     try {
       const encoded = extrinsic.toJSON();
 
-      console.log('submitExtrinsic: encode ::', encoded);
+      console.log('submitAndWatchExtrinsic: encode ::', encoded);
 
-      const result = await apiObservable.submitExtrinsic(extrinsic).toPromise();
+      apiObservable.submitAndWatchExtrinsic(extrinsic).subscribe((result) => {
+        if (!result) {
+          return;
+        }
 
-      console.log('submitExtrinsic: result ::', format(result));
+        const status = result.type.toLowerCase() as QueueTx$Status;
 
-      return {
-        result,
-        status: 'sent'
-      };
+        console.log('submitAndWatchExtrinsic: updated status ::', result);
+
+        queueSetStatus(id, status, result);
+      });
     } catch (error) {
       console.error(error);
 
-      return {
-        error,
-        status: 'error'
-      };
+      queueSetStatus(id, 'error', null, error);
     }
   }
 }

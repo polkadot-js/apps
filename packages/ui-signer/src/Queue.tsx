@@ -23,6 +23,13 @@ const defaultState = {
 
 let nextId: QueueTx$Id = 0;
 
+const STATUS_COMPLETE: Array<QueueTx$Status> = [
+  // status from subscription
+  'finalised', 'usurped', 'dropped',
+  // normal completion
+  'cancelled', 'error', 'sent'
+];
+
 export default class Queue extends React.Component<Props, State> {
   state: State = defaultState;
 
@@ -65,7 +72,7 @@ export default class Queue extends React.Component<Props, State> {
       } as State)
     );
 
-    if (['cancelled', 'error', 'sent'].includes(status)) {
+    if (STATUS_COMPLETE.includes(status)) {
       setTimeout(() => {
         this.queueSetStatus(id, 'completed');
       }, 5000);
@@ -81,7 +88,7 @@ export default class Queue extends React.Component<Props, State> {
           ...value,
           rpc: (value as QueueTx$Rpc).rpc
             ? (value as QueueTx$Rpc).rpc
-            : jsonrpc.author.methods.submitExtrinsic,
+            : jsonrpc.author.methods.submitAndWatchExtrinsic,
           id,
           status: 'queued'
         }])
