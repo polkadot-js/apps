@@ -35,7 +35,7 @@ class Connecting extends React.PureComponent<Props> {
           {
             isFirefox && settings.apiUrl.indexOf('ws://') === 0
               ? t('connecting.ff', {
-                defaultValue: 'With the Firefox browser, connecting to insecure WebSockets, ie. {{url}} will fail due to the browser not allowing localhost access from a secure site.',
+                defaultValue: 'With the Firefox browser connecting to insecure WebSockets (in this case {{url}}) will fail due to the browser not allowing localhost access from a secure site.',
                 replace: {
                   url: settings.apiUrl
                 }
