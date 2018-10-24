@@ -4,7 +4,7 @@
 
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
-import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result } from './types';
+import { QueueTx, QueueTx$Id, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from './types';
 
 import React from 'react';
 import { decodeAddress } from '@polkadot/keyring';
@@ -266,7 +266,7 @@ class Signer extends React.PureComponent<Props, State> {
 
     extrinsic.sign(pair, accountNonce, apiObservable.genesisHash);
 
-    this.submitAndWatchExtrinsic(extrinsic, id);
+    await this.submitExtrinsic(extrinsic, id);
   }
 
   private async submitRpc (rpc: RpcMethod, values: Array<any>): Promise<QueueTx$Result> {
@@ -291,7 +291,7 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private async submitAndWatchExtrinsic (extrinsic: Extrinsic, id: QueueTx$Id): void {
+  private async submitExtrinsic (extrinsic: Extrinsic, id: QueueTx$Id): Promise<void> {
     const { apiObservable, queueSetStatus } = this.props;
 
     try {
@@ -300,9 +300,15 @@ class Signer extends React.PureComponent<Props, State> {
       console.log('submitAndWatchExtrinsic: encode ::', encoded);
 
       apiObservable.submitAndWatchExtrinsic(extrinsic).subscribe((result) => {
-        console.log('submitAndWatchExtrinsic: updated status ::', format(result));
+        if (!result) {
+          return;
+        }
 
-        queueSetStatus(id, result.type, result, null);
+        const status = result.type.toLowerCase() as QueueTx$Status;
+
+        console.log('submitAndWatchExtrinsic: updated status ::', result);
+
+        queueSetStatus(id, status, result);
       });
     } catch (error) {
       console.error(error);
