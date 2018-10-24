@@ -14,9 +14,5 @@
     "@polkadot/keyring": "^0.32.9",
     "@polkadot/ui-react": "^0.21.0",
     "store": "^2.0.12"
-  },
-  "peerDependencies": {
-    "react": "^16.5.0",
-    "semantic-ui-react": "^0.80.0"
   }
 }
