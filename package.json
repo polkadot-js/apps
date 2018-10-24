@@ -12,7 +12,7 @@
   "resolutions": {
     "babel-core": "^7.0.0-bridge.0",
     "rxjs": "^6.3.2",
-    "typescript": "^3.0.1"
+    "typescript": "^3.1.3"
   },
   "scripts": {
     "analyze": "yarn run build && cd packages/apps && yarn run source-map-explorer build/main.*.js",
@@ -29,8 +29,8 @@
     "start": "cd packages/apps && webpack-serve --config webpack.config.js --port 3000"
   },
   "devDependencies": {
-    "@polkadot/dev-react": "^0.20.26",
-    "@polkadot/ts": "^0.1.30",
+    "@polkadot/dev-react": "^0.21.1",
+    "@polkadot/ts": "^0.1.32",
     "autoprefixer": "^9.1.5",
     "babel-loader": "^8.0.2",
     "css-loader": "^1.0.0",
