@@ -36,7 +36,7 @@ export default class Proposal extends React.PureComponent<Props> {
         >
           {section}.{method}
         </Static>
-        <Call value={proposal.method} />
+        <Call value={proposal} />
       </Bare>
     );
   }
