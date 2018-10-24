@@ -3,9 +3,10 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
-import { QueueTx } from './types';
+import { QueueTx, QueueTx$Status } from './types';
 
 import React from 'react';
+import { Icon } from '@polkadot/ui-app/index';
 import classes from '@polkadot/ui-app/util/classes';
 
 type Props = BareProps & {
@@ -25,20 +26,53 @@ export default class Status extends React.PureComponent<Props> {
 
     return (
       <div className='ui--signer-Status'>
-        {available.map(({ id, rpc: { method, section }, status }) =>
-          <div
-            className={classes('ui--signer-Status-Item', status)}
-            key={id}
-          >
-            <div className='header'>
-              {section}.{method}
-            </div>
-            <div className='status'>
-              {status}
-            </div>
-          </div>
-        )}
+        {available.map(this.renderItem)}
       </div>
     );
+  }
+
+  private renderItem = ({ id, rpc: { method, section }, status }: QueueTx) => {
+    return (
+      <div
+        className={classes('ui--signer-Status-Item', status)}
+        key={id}
+      >
+        <div className='desc'>
+          <div className='header'>
+            {section}.{method}
+          </div>
+          <div className='status'>
+            {status}
+          </div>
+        </div>
+        <div className='short'>
+          <Icon name={this.iconName(status)} />
+        </div>
+      </div>
+    );
+  }
+
+  private iconName = (status: QueueTx$Status): any => {
+    switch (status) {
+      case 'cancelled':
+        return 'ban';
+
+      case 'completed':
+      case 'finalised':
+        return 'check';
+
+      case 'dropped':
+      case 'usurped':
+        return 'arrow down';
+
+      case 'error':
+        return 'warning sign';
+
+      case 'queued':
+        return 'random';
+
+      default:
+        return 'loading spinner';
+    }
   }
 }

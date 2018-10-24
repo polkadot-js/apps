@@ -43,26 +43,42 @@
 }
 
 .ui--signer-Status-Item {
+  align-items: center;
   background: #bcdaf0;
+  display: flex;
   margin: 0.125rem;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   text-align: center;
   opacity: 0.9;
-}
+  vertical-align: middle;
 
-.ui--signer-Status-Item .status {
-  font-weight: 700;
-}
+  .desc {
+    padding: 0 0.5rem;
 
-.ui--signer-Status-Item.dropped,
-.ui--signer-Status-Item.error,
-.ui--signer-Status-Item.usurped {
-  background: red;
-  color: white;
-}
+    .status {
+      font-weight: 700;
+    }
+  }
 
-.ui--signer-Status-Item.completed,
-.ui--signer-Status-Item.finalised {
-  background: green;
-  color: white;
+  .short {
+    font-size: 2.5rem;
+    padding: 0.5rem 0 0.5rem 0.5rem;
+
+    i.icon {
+      line-height: 1;
+    }
+  }
+
+  &.dropped,
+  &.error,
+  &.usurped {
+    background: red;
+    color: white;
+  }
+
+  &.completed,
+  &.finalised {
+    background: green;
+    color: white;
+  }
 }
