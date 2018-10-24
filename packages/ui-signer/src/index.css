@@ -47,13 +47,22 @@
   margin: 0.125rem;
   padding: 0.5rem 1rem;
   text-align: center;
+  opacity: 0.9;
 }
 
 .ui--signer-Status-Item .status {
   font-weight: 700;
 }
 
-.ui--signer-Status-Item.error {
+.ui--signer-Status-Item.dropped,
+.ui--signer-Status-Item.error,
+.ui--signer-Status-Item.usurped {
   background: red;
+  color: white;
+}
+
+.ui--signer-Status-Item.completed,
+.ui--signer-Status-Item.finalised {
+  background: green;
   color: white;
 }
