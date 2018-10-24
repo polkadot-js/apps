@@ -41,7 +41,7 @@ export default withObservableDiv('subscribeNewHead', apiOptions)(
       <BlockHeader
         key={value.blockNumber.toString()}
         value={value}
-        withLink
+        withLink={!value.blockNumber.isZero()}
       />
     )),
   { className: 'explorer--BlockHeaders' }
