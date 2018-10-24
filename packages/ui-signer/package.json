@@ -13,9 +13,5 @@
     "@babel/runtime": "^7.0.0",
     "@polkadot/ui-app": "^0.21.0",
     "@polkadot/ui-keyring": "^0.21.0"
-  },
-  "peerDependencies": {
-    "react": "^16.5.0",
-    "semantic-ui-react": "^0.80.0"
   }
 }
