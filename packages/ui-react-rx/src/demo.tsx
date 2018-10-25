@@ -4,7 +4,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import mockProvider from '@polkadot/rpc-provider/mock';
+import Mock from '@polkadot/rpc-provider/mock';
 
 import Api from './Api';
 import Balance from './Balance';
@@ -16,7 +16,7 @@ import NodeVersion from './NodeVersion';
 import Nonce from './Nonce';
 import withApi from './with/api';
 
-const provider = mockProvider();
+const provider = new Mock();
 
 const ALICE_ADDR = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 const ALICE_PUBLIC = '0xd172a74cda4c865912c32ba0a80a57ae69abae410e5ccb59dee84e2f4432db4f';
