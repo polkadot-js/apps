@@ -17,6 +17,7 @@ import forgetAccount from './account/forget';
 import createAccountMnemonic from './account/mnemonic';
 import restoreAccount from './account/restore';
 import isAvailable from './isAvailable';
+import isPassValid from './isPassValid';
 import encryptAccount from './account/encrypt';
 import saveAccount from './account/save';
 import saveAccountMeta from './account/meta';
@@ -54,6 +55,8 @@ export default ({
     forgetAddress(state, address),
   isAvailable: (address: string | Uint8Array): boolean =>
     isAvailable(state, address),
+  isPassValid: (password: string): boolean =>
+    isPassValid(state, password),
   getAccounts: (): Array<KeyringAddress> =>
     getAccounts(state),
   getAddress: (address: string | Uint8Array): KeyringAddress =>

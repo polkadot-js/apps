@@ -155,7 +155,7 @@ class ChangePass extends React.PureComponent<Props, State> {
   }
 
   private validatePass (password: string): boolean {
-    return password.length > 0 && password.length <= 32;
+    return keyring.isPassValid(password);
   }
 }
 
