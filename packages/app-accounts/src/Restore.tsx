@@ -158,6 +158,7 @@ class Restore extends React.PureComponent<Props, State> {
       onRestoreAccount();
     } catch (error) {
       this.setState({ isPassValid: false });
+      console.error(error);
     }
   }
 }

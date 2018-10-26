@@ -130,6 +130,7 @@ class Backup extends React.PureComponent<Props, State> {
       FileSaver.saveAs(blob, `${pair.address()}.json`);
     } catch (error) {
       this.setState({ isPassValid: false });
+      console.error(error);
       return;
     }
 
