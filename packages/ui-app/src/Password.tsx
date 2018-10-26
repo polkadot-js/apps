@@ -12,8 +12,8 @@ import Input from './Input';
 
 type Props = BareProps & {
   autoFocus?: boolean,
-  defaultValue?: any,
   children?: React.ReactNode,
+  defaultValue?: any,
   isDisabled?: boolean,
   isError?: boolean,
   label?: string,

@@ -8,8 +8,8 @@ import { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import Dropzone from 'react-dropzone';
 
-import Labelled from './Labelled';
 import classes from './util/classes';
+import Labelled from './Labelled';
 import translate from './translate';
 
 type Props = BareProps & {

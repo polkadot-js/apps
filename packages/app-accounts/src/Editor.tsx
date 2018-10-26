@@ -159,8 +159,8 @@ class Editor extends React.PureComponent<Props, State> {
       modals.push(
         <Backup
           key='modal-backup-account'
-          pair={current}
           onClose={this.toggleBackup}
+          pair={current}
         />
       );
     }
@@ -168,10 +168,10 @@ class Editor extends React.PureComponent<Props, State> {
     if (isForgetOpen) {
       modals.push(
         <Forgetting
-          key='modal-forget-account'
           address={address}
-          onClose={this.toggleForget}
           doForget={this.onForget}
+          key='modal-forget-account'
+          onClose={this.toggleForget}
         />
       );
     }
