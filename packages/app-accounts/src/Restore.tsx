@@ -90,12 +90,14 @@ class Restore extends React.PureComponent<Props, State> {
         </div>
         <div className='ui--row'>
           <InputFile
+            acceptedFormats='.json'
             className='full'
             isError={!isFileValid}
             label={t('restore.json', {
               defaultValue: 'previously backed-up json keyfile'
             })}
             onChange={this.onChangeFile}
+            withLabel
           />
         </div>
       </div>
