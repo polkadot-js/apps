@@ -70,7 +70,7 @@ class InputFile extends React.PureComponent<Props, State> {
     );
   }
 
-  onDrop = (files: Array<File>) => {
+  private onDrop = (files: Array<File>) => {
     const { onChange } = this.props;
 
     files.forEach((file) => {
