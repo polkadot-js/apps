@@ -2,6 +2,8 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
+@import '../../ui-app/src/styles/partials/_variables.css';
+
 .ui--signer-Signer {}
 
 .ui--signer-Signer-Decoded,
@@ -45,15 +47,15 @@
 .ui--signer-Status-Item {
   align-items: center;
   background: #bcdaf0;
+  border-radius: $small-corner;
   display: flex;
   margin: 0.125rem;
-  padding: 0.5rem;
   text-align: center;
   opacity: 0.9;
   vertical-align: middle;
 
   .desc {
-    padding: 0 0.5rem;
+    padding: 0.75rem 1rem;
 
     .status {
       font-weight: 700;
@@ -62,23 +64,23 @@
 
   .short {
     font-size: 2.5rem;
-    padding: 0.5rem 0 0.5rem 0.5rem;
+    padding: 0.5rem;
 
     i.icon {
       line-height: 1;
     }
   }
 
+  &.completed,
+  &.finalised {
+    background: green;
+    color: white;
+  }
+
   &.dropped,
   &.error,
   &.usurped {
     background: red;
-    color: white;
-  }
-
-  &.completed,
-  &.finalised {
-    background: green;
     color: white;
   }
 }
