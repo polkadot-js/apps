@@ -15,7 +15,7 @@ import Forgetting from './Forgetting';
 import translate from './translate';
 
 type Props = I18nProps & {
-  allAccounts?: Array<any>
+  allAccounts?: Array<Object>
 };
 
 type State = {
