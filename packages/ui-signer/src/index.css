@@ -2,7 +2,7 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
-.ui--signer-Signer {}
+@import '../../ui-app/src/styles/partials/_variables.css';
 
 .ui--signer-Signer-Decoded,
 .ui--signer-Signer-Unlock {
@@ -11,27 +11,23 @@
   line-height: 1.5em;
 }
 
-.ui--signer-Signer-Decoded {}
-
 .ui--signer-Signer-Unlock {
   padding-top: 1.5rem;
 }
 
-.ui--signer-Signer-Content {}
-
 .ui--signer-Signer-Content .expanded {
   padding-right: 2em;
-}
 
-.ui--signer-Signer-Content .expanded .code {
-  background: #f5f5f5;
-  font-family: monospace;
-  margin: 0 0.25em;
-  overflow-wrap: break-word;
-  padding: 0.25em 0.5em;
-  word-break: break-all;
-  word-break: break-word;
-  word-wrap: break-word;
+  .code {
+    background: #f5f5f5;
+    font-family: monospace;
+    margin: 0 0.25em;
+    overflow-wrap: break-word;
+    padding: 0.25em 0.5em;
+    word-break: break-all;
+    word-break: break-word;
+    word-wrap: break-word;
+  }
 }
 
 .ui--signer-Status {
@@ -44,16 +40,18 @@
 
 .ui--signer-Status-Item {
   align-items: center;
-  background: #bcdaf0;
+  background: #00688b;
+  border-radius: $small-corner;
+  color: white;
   display: flex;
   margin: 0.125rem;
-  padding: 0.5rem;
+  padding: 0 0.5rem;
   text-align: center;
   opacity: 0.9;
   vertical-align: middle;
 
   .desc {
-    padding: 0 0.5rem;
+    padding: 0.5rem 1rem;
 
     .status {
       font-weight: 700;
@@ -62,23 +60,25 @@
 
   .short {
     font-size: 2.5rem;
-    padding: 0.5rem 0 0.5rem 0.5rem;
+    padding: 0.5rem;
 
     i.icon {
       line-height: 1;
     }
   }
 
-  &.dropped,
-  &.error,
-  &.usurped {
-    background: red;
-    color: white;
+  &.cancelled {
+    background: #cd9b1d
   }
 
   &.completed,
   &.finalised {
     background: green;
-    color: white;
+  }
+
+  &.dropped,
+  &.error,
+  &.usurped {
+    background: red;
   }
 }
