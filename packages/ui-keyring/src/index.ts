@@ -15,6 +15,7 @@ import backupAccount from './account/backup';
 import createAccount from './account/create';
 import forgetAccount from './account/forget';
 import createAccountMnemonic from './account/mnemonic';
+import restoreAccount from './account/restore';
 import isAvailable from './isAvailable';
 import encryptAccount from './account/encrypt';
 import saveAccount from './account/save';
@@ -67,6 +68,8 @@ export default ({
     ),
   loadAll: (): void =>
     loadAll(state),
+  restoreAccount: (json: KeyringPair$Json, password: string): KeyringPair =>
+    restoreAccount(state, json, password),
   saveAccount: (pair: KeyringPair, password?: string): void =>
     saveAccount(state, pair, password),
   saveAccountMeta: (pair: KeyringPair, meta: KeyringPair$Meta): void =>
