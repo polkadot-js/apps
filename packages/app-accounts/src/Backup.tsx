@@ -8,6 +8,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import FileSaver from 'file-saver';
 import React from 'react';
 import { AddressSummary, Button, Modal, Password } from '@polkadot/ui-app/index';
+import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
 
@@ -113,19 +114,8 @@ class Backup extends React.PureComponent<Props, State> {
     }
 
     try {
-      if (!pair.isLocked()) {
-        pair.lock();
-      }
-
-      pair.decodePkcs8(password);
-    } catch (error) {
-      this.setState({ isPassValid: false });
-      return;
-    }
-
-    try {
-      const json = JSON.stringify(pair.toJson(password));
-      const blob = new Blob([json], { type: 'application/json; charset=utf-8' });
+      const json = keyring.backupAccount(pair, password);
+      const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
 
       FileSaver.saveAs(blob, `${pair.address()}.json`);
     } catch (error) {
