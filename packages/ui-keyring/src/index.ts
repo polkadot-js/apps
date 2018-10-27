@@ -15,10 +15,8 @@ import { hexToU8a, isString } from '@polkadot/util';
 import accounts from './observable/accounts';
 import addresses from './observable/addresses';
 import development from './observable/development';
-import { accountKey } from './defaults';
+import { accountKey, MAX_PASS_LEN } from './defaults';
 import loadAll from './loadAll';
-import isAvailable from './isAvailable';
-import isPassValid from './isPassValid';
 
 // NOTE Everything is loaded in API after chain is received
 // loadAll(state);
@@ -97,12 +95,19 @@ class Keyring implements KeyringInstance {
     this.state.addresses.remove(address);
   }
 
-  isAvailable (address: string | Uint8Array): boolean {
-    return isAvailable(this.state, address);
+  isAvailable (_address: Uint8Array | string): boolean {
+    const { accounts, addresses } = this.state;
+    const accountsValue = accounts.subject.getValue();
+    const addressesValue = addresses.subject.getValue();
+    const address = isString(_address)
+      ? _address
+      : encodeAddress(_address);
+
+    return !accountsValue[address] && !addressesValue[address];
   }
 
   isPassValid (password: string): boolean {
-    return isPassValid(this.state, password);
+    return password.length > 0 && password.length <= MAX_PASS_LEN;
   }
 
   getAccounts (): Array<KeyringAddress> {
