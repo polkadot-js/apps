@@ -4,13 +4,13 @@
 
 import { KeyringPair, KeyringPair$Meta, KeyringPair$Json } from '@polkadot/keyring/types';
 import { SingleAddress } from './observable/types';
-import { KeyringAddress, KeyringInstance, State } from './types';
+import { KeyringAddress, KeyringInstance, KeyringJson, KeyringJson$Meta, State } from './types';
 
 import store from 'store';
 import testKeyring from '@polkadot/keyring/testing';
 import createPair from '@polkadot/keyring/pair';
-import { decodeAddress } from '@polkadot/keyring';
-import { hexToU8a } from '@polkadot/util';
+import { decodeAddress, encodeAddress } from '@polkadot/keyring';
+import { hexToU8a, isString } from '@polkadot/util';
 
 import accounts from './observable/accounts';
 import addresses from './observable/addresses';
@@ -19,11 +19,6 @@ import { accountKey } from './defaults';
 import loadAll from './loadAll';
 import isAvailable from './isAvailable';
 import isPassValid from './isPassValid';
-import forgetAddress from './address/forget';
-import getAddress from './address/get';
-import getAddresses from './address/all';
-import saveAddress from './address/meta';
-import saveRecent from './address/metaRecent';
 
 // NOTE Everything is loaded in API after chain is received
 // loadAll(state);
@@ -99,7 +94,7 @@ class Keyring implements KeyringInstance {
   }
 
   forgetAddress (address: string): void {
-    forgetAddress(this.state, address);
+    this.state.addresses.remove(address);
   }
 
   isAvailable (address: string | Uint8Array): boolean {
@@ -117,19 +112,44 @@ class Keyring implements KeyringInstance {
     return Object
       .keys(available)
       .map((address) =>
-        getAddress(this.state, address, 'account')
+        this.getAddress(address, 'account')
       )
       .filter((account) =>
         !account.getMeta().isTesting
       );
   }
 
-  getAddress (address: string | Uint8Array): KeyringAddress {
-    return getAddress(this.state, address);
+  getAddress (_address: string | Uint8Array, type: 'account' | 'address' = 'address'): KeyringAddress {
+    const { accounts, addresses } = this.state;
+    const address = isString(_address)
+      ? _address
+      : encodeAddress(_address);
+    const publicKey = decodeAddress(address);
+    const subject = type === 'account'
+      ? accounts.subject
+      : addresses.subject;
+
+    return {
+      address: (): string =>
+        address,
+      isValid: (): boolean =>
+        !!subject.getValue()[address],
+      publicKey: (): Uint8Array =>
+        publicKey,
+      getMeta: (): KeyringJson$Meta =>
+        subject.getValue()[address].json.meta
+    };
   }
 
   getAddresses (): Array<KeyringAddress> {
-    return getAddresses(this.state);
+    const { addresses } = this.state;
+    const available = addresses.subject.getValue();
+
+    return Object
+      .keys(available)
+      .map((address) =>
+        this.getAddress(address)
+      );
   }
 
   getPair (address: string | Uint8Array): KeyringPair {
@@ -188,11 +208,43 @@ class Keyring implements KeyringInstance {
   }
 
   saveAddress (address: string, meta: KeyringPair$Meta): void {
-    saveAddress(this.state, address, meta);
+    const { addresses } = this.state;
+    const available = addresses.subject.getValue();
+
+    const json = (available[address] && available[address].json) || {
+      address,
+      meta: {
+        isRecent: void 0,
+        whenCreated: Date.now()
+      }
+    };
+
+    Object.keys(meta).forEach((key) => {
+      json.meta[key] = meta[key];
+    });
+
+    delete json.meta.isRecent;
+
+    addresses.add(address, json);
   }
 
   saveRecent (address: string): SingleAddress {
-    return saveRecent(this.state, address);
+    const { addresses } = this.state;
+    const available = addresses.subject.getValue();
+
+    if (!available[address]) {
+      const json = {
+        address,
+        meta: {
+          isRecent: true,
+          whenCreated: Date.now()
+        }
+      };
+
+      addresses.add(address, (json as KeyringJson));
+    }
+
+    return addresses.subject.getValue()[address];
   }
 
   setDevMode (isDevelopment: boolean): void {
