@@ -10,16 +10,13 @@ import store from 'store';
 import testKeyring from '@polkadot/keyring/testing';
 import createPair from '@polkadot/keyring/pair';
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
-import { hexToU8a, isString } from '@polkadot/util';
+import { hexToU8a, isHex, isString } from '@polkadot/util';
 
 import accounts from './observable/accounts';
 import addresses from './observable/addresses';
 import development from './observable/development';
-import { accountKey, MAX_PASS_LEN } from './defaults';
-import loadAll from './loadAll';
-
-// NOTE Everything is loaded in API after chain is received
-// loadAll(state);
+import { accountKey, addressKey, accountRegex, addressRegex, MAX_PASS_LEN } from './defaults';
+import initOptions from './options';
 
 // FIXME The quicker we get in https://github.com/polkadot-js/apps/issues/138
 // the better, this is now completely out of control
@@ -32,6 +29,9 @@ class Keyring implements KeyringInstance {
       addresses,
       keyring: testKeyring()
     };
+
+    // NOTE Everything is loaded in API after chain is received
+    // this.loadAll();
   }
 
   addAccountPair (pair: KeyringPair, password: string): KeyringPair {
@@ -168,7 +168,42 @@ class Keyring implements KeyringInstance {
   }
 
   loadAll (): void {
-    loadAll(this.state);
+    const { accounts, addresses, keyring } = this.state;
+
+    this.addAccountPairs();
+
+    store.each((json: KeyringJson, key: string) => {
+      if (accountRegex.test(key)) {
+        if (!json.meta.isTesting && (json as KeyringPair$Json).encoded) {
+          const pair = keyring.addFromJson(json as KeyringPair$Json);
+
+          accounts.add(pair.address(), json);
+        }
+
+        const [, hexAddr] = key.split(':');
+
+        if (hexAddr.substr(0, 2) !== '0x') {
+          store.remove(key);
+          store.set(accountKey(hexAddr), json);
+        }
+      } else if (addressRegex.test(key)) {
+        const address = encodeAddress(
+          isHex(json.address)
+            ? hexToU8a(json.address)
+            : decodeAddress(json.address)
+        );
+        const [, hexAddr] = key.split(':');
+
+        addresses.add(address, json);
+
+        if (hexAddr.substr(0, 2) !== '0x') {
+          store.remove(key);
+          store.set(addressKey(hexAddr), json);
+        }
+      }
+    });
+
+    initOptions(this.state);
   }
 
   restoreAccount (json: KeyringPair$Json, password: string): KeyringPair {
@@ -254,6 +289,21 @@ class Keyring implements KeyringInstance {
 
   setDevMode (isDevelopment: boolean): void {
     development.set(isDevelopment);
+  }
+
+  private addAccountPairs (): void {
+    const { accounts, keyring } = this.state;
+
+    keyring
+      .getPairs()
+      .forEach((pair) => {
+        const address = pair.address();
+
+        accounts.add(address, {
+          address,
+          meta: pair.getMeta()
+        });
+      });
   }
 }
 
