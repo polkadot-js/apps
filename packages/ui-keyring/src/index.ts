@@ -7,21 +7,19 @@ import { SingleAddress } from './observable/types';
 import { KeyringAddress, KeyringInstance, State } from './types';
 
 import testKeyring from '@polkadot/keyring/testing';
+import createPair from '@polkadot/keyring/pair';
+import { decodeAddress } from '@polkadot/keyring';
+import { hexToU8a } from '@polkadot/util';
 
 import accounts from './observable/accounts';
 import addresses from './observable/addresses';
 import development from './observable/development';
 import loadAll from './loadAll';
-import addAccountPair from './account/addPair';
 import backupAccount from './account/backup';
-import createAccount from './account/create';
 import forgetAccount from './account/forget';
-import createAccountMnemonic from './account/mnemonic';
-import restoreAccount from './account/restore';
 import isAvailable from './isAvailable';
 import isPassValid from './isPassValid';
 import encryptAccount from './account/encrypt';
-import saveAccount from './account/save';
 import saveAccountMeta from './account/meta';
 import forgetAddress from './address/forget';
 import getAccounts from './account/all';
@@ -47,19 +45,37 @@ class Keyring implements KeyringInstance {
   }
 
   addAccountPair (pair: KeyringPair, password: string): KeyringPair {
-    return addAccountPair(this.state, pair, password);
+    const { keyring } = this.state;
+
+    keyring.addPair(pair);
+
+    this.saveAccount(pair, password);
+
+    return pair;
   }
 
   backupAccount (pair: KeyringPair, password: string): KeyringPair$Json {
     return backupAccount(this.state, pair, password);
   }
 
-  createAccount (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta): KeyringPair {
-    return createAccount(this.state, seed, password, meta);
+  createAccount (seed: Uint8Array, password?: string, meta: KeyringPair$Meta = {}): KeyringPair {
+    const { keyring } = this.state;
+
+    const pair = keyring.addFromSeed(seed, meta);
+
+    this.saveAccount(pair, password);
+
+    return pair;
   }
 
-  createAccountMnemonic (seed: string, password?: string, meta?: KeyringPair$Meta): KeyringPair {
-    return createAccountMnemonic(this.state, seed, password, meta);
+  createAccountMnemonic (seed: string, password?: string, meta: KeyringPair$Meta = {}): KeyringPair {
+    const { keyring } = this.state;
+
+    const pair = keyring.addFromMnemonic(seed, meta);
+
+    this.saveAccount(pair, password);
+
+    return pair;
   }
 
   encryptAccount (pair: KeyringPair, password: string): void {
@@ -109,11 +125,33 @@ class Keyring implements KeyringInstance {
   }
 
   restoreAccount (json: KeyringPair$Json, password: string): KeyringPair {
-    return restoreAccount(this.state, json, password);
+    const pair = createPair(
+      {
+        publicKey: decodeAddress(json.address),
+        secretKey: new Uint8Array()
+      },
+      json.meta,
+      hexToU8a(json.encoded)
+    );
+
+    // unlock, save account and then lock (locking cleans secretKey, so needs to be last)
+    pair.decodePkcs8(password);
+    this.addAccountPair(pair, password);
+    pair.lock();
+
+    return pair;
   }
 
   saveAccount (pair: KeyringPair, password?: string): void {
-    saveAccount(this.state, pair, password);
+    const { accounts, keyring } = this.state;
+    const json = pair.toJson(password);
+
+    if (!json.meta.whenCreated) {
+      json.meta.whenCreated = Date.now();
+    }
+
+    keyring.addFromJson(json);
+    accounts.add(json.address, json);
   }
 
   saveAccountMeta (pair: KeyringPair, meta: KeyringPair$Meta): void {
