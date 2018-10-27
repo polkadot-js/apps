@@ -34,7 +34,7 @@ export type State = {
   keyring: BaseKeyringInstance
 };
 
-export type KeyringInstance = {
+export interface KeyringInstance {
   addAccountPair: (pair: KeyringPair, password: string) => KeyringPair,
   backupAccount: (pair: KeyringPair, password: string) => KeyringPair$Json,
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta) => KeyringPair,
@@ -56,4 +56,4 @@ export type KeyringInstance = {
   saveAddress: (address: string, meta: KeyringPair$Meta) => void,
   saveRecent: (address: string) => SingleAddress,
   setDevMode: (isDevelopment: boolean) => void
-};
+}

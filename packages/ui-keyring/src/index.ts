@@ -6,6 +6,8 @@ import { KeyringPair, KeyringPair$Meta, KeyringPair$Json } from '@polkadot/keyri
 import { SingleAddress } from './observable/types';
 import { KeyringAddress, KeyringInstance, State } from './types';
 
+import testKeyring from '@polkadot/keyring/testing';
+
 import accounts from './observable/accounts';
 import addresses from './observable/addresses';
 import development from './observable/development';
@@ -28,65 +30,109 @@ import getAddresses from './address/all';
 import saveAddress from './address/meta';
 import saveRecent from './address/metaRecent';
 
-const state: State = {
-  accounts,
-  addresses
-} as State;
-
 // NOTE Everything is loaded in API after chain is received
 // loadAll(state);
 
 // FIXME The quicker we get in https://github.com/polkadot-js/apps/issues/138
 // the better, this is now completely out of control
-function keyringInstance (): KeyringInstance {
-  return {
-    addAccountPair: (pair: KeyringPair, password: string): KeyringPair =>
-      addAccountPair(state, pair, password),
-    backupAccount: (pair: KeyringPair, password: string): KeyringPair$Json =>
-      backupAccount(state, pair, password),
-    createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta): KeyringPair =>
-      createAccount(state, seed, password, meta),
-    createAccountMnemonic: (seed: string, password?: string, meta?: KeyringPair$Meta): KeyringPair =>
-      createAccountMnemonic(state, seed, password, meta),
-    encryptAccount: (pair: KeyringPair, password: string): void =>
-      encryptAccount(state, pair, password),
-    forgetAccount: (address: string): void =>
-      forgetAccount(state, address),
-    forgetAddress: (address: string): void =>
-      forgetAddress(state, address),
-    isAvailable: (address: string | Uint8Array): boolean =>
-      isAvailable(state, address),
-    isPassValid: (password: string): boolean =>
-      isPassValid(state, password),
-    getAccounts: (): Array<KeyringAddress> =>
-      getAccounts(state),
-    getAddress: (address: string | Uint8Array): KeyringAddress =>
-      getAddress(state, address),
-    getAddresses: (): Array<KeyringAddress> =>
-      getAddresses(state),
-    getPair: (address: string | Uint8Array): KeyringPair =>
-      state.keyring.getPair(address),
-    getPairs: (): Array<KeyringPair> =>
-      state.keyring.getPairs().filter((pair) =>
-        development.isDevelopment() || pair.getMeta().isTesting !== true
-      ),
-    loadAll: (): void =>
-      loadAll(state),
-    restoreAccount: (json: KeyringPair$Json, password: string): KeyringPair =>
-      restoreAccount(state, json, password),
-    saveAccount: (pair: KeyringPair, password?: string): void =>
-      saveAccount(state, pair, password),
-    saveAccountMeta: (pair: KeyringPair, meta: KeyringPair$Meta): void =>
-      saveAccountMeta(state, pair, meta),
-    saveAddress: (address: string, meta: KeyringPair$Meta): void =>
-      saveAddress(state, address, meta),
-    saveRecent: (address: string): SingleAddress =>
-      saveRecent(state, address),
-    setDevMode: (isDevelopment: boolean): void =>
-      development.set(isDevelopment)
-  };
+class Keyring implements KeyringInstance {
+  private state: State;
+
+  constructor () {
+    this.state = {
+      accounts,
+      addresses,
+      keyring: testKeyring()
+    };
+  }
+
+  addAccountPair (pair: KeyringPair, password: string): KeyringPair {
+    return addAccountPair(this.state, pair, password);
+  }
+
+  backupAccount (pair: KeyringPair, password: string): KeyringPair$Json {
+    return backupAccount(this.state, pair, password);
+  }
+
+  createAccount (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta): KeyringPair {
+    return createAccount(this.state, seed, password, meta);
+  }
+
+  createAccountMnemonic (seed: string, password?: string, meta?: KeyringPair$Meta): KeyringPair {
+    return createAccountMnemonic(this.state, seed, password, meta);
+  }
+
+  encryptAccount (pair: KeyringPair, password: string): void {
+    encryptAccount(this.state, pair, password);
+  }
+
+  forgetAccount (address: string): void {
+    forgetAccount(this.state, address);
+  }
+
+  forgetAddress (address: string): void {
+    forgetAddress(this.state, address);
+  }
+
+  isAvailable (address: string | Uint8Array): boolean {
+    return isAvailable(this.state, address);
+  }
+
+  isPassValid (password: string): boolean {
+    return isPassValid(this.state, password);
+  }
+
+  getAccounts (): Array<KeyringAddress> {
+    return getAccounts(this.state);
+  }
+
+  getAddress (address: string | Uint8Array): KeyringAddress {
+    return getAddress(this.state, address);
+  }
+
+  getAddresses (): Array<KeyringAddress> {
+    return getAddresses(this.state);
+  }
+
+  getPair (address: string | Uint8Array): KeyringPair {
+    return this.state.keyring.getPair(address);
+  }
+
+  getPairs (): Array<KeyringPair> {
+    return this.state.keyring.getPairs().filter((pair) =>
+      development.isDevelopment() || pair.getMeta().isTesting !== true
+    );
+  }
+
+  loadAll (): void {
+    loadAll(this.state);
+  }
+
+  restoreAccount (json: KeyringPair$Json, password: string): KeyringPair {
+    return restoreAccount(this.state, json, password);
+  }
+
+  saveAccount (pair: KeyringPair, password?: string): void {
+    saveAccount(this.state, pair, password);
+  }
+
+  saveAccountMeta (pair: KeyringPair, meta: KeyringPair$Meta): void {
+    saveAccountMeta(this.state, pair, meta);
+  }
+
+  saveAddress (address: string, meta: KeyringPair$Meta): void {
+    saveAddress(this.state, address, meta);
+  }
+
+  saveRecent (address: string): SingleAddress {
+    return saveRecent(this.state, address);
+  }
+
+  setDevMode (isDevelopment: boolean): void {
+    development.set(isDevelopment);
+  }
 }
 
-const Keyring = keyringInstance();
+const keyringInstance = new Keyring();
 
-export default Keyring;
+export default keyringInstance;
