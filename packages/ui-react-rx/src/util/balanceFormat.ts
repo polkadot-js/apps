@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import { UInt } from '@polkadot/types/codec';
 
-import decimalFormat from './decimalFormat';
+import { decimalFormat } from './index';
 
 type SiDef = {
   power: number,

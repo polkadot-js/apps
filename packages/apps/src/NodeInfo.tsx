@@ -7,7 +7,7 @@ import { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 
 import { Text } from '@polkadot/types';
-import isTestChain from '@polkadot/ui-react-rx/util/isTestChain';
+import { isTestChain } from '@polkadot/ui-react-rx/util/index';
 import keyring from '@polkadot/ui-keyring/index';
 import BestNumber from '@polkadot/ui-react-rx/BestNumber';
 import Chain from '@polkadot/ui-react-rx/Chain';
