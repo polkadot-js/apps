@@ -12,7 +12,7 @@ import store from 'store';
 import testKeyring from '@polkadot/keyring/testing';
 import createPair from '@polkadot/keyring/pair';
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
-import { hexToU8a, isHex, isString } from '@polkadot/util';
+import { assert, hexToU8a, isHex, isString } from '@polkadot/util';
 
 import observableAll from './observable';
 import observableAccounts from './observable/accounts';
@@ -20,20 +20,37 @@ import observableAddresses from './observable/addresses';
 import observableDevelopment from './observable/development';
 import { accountKey, addressKey, accountRegex, addressRegex, MAX_PASS_LEN } from './defaults';
 
+let singletonInstance: Keyring | null = null;
+
 // FIXME The quicker we get in https://github.com/polkadot-js/apps/issues/138
 // the better, this is now completely out of control
 class Keyring implements KeyringInstance {
   private state: State;
+  private id: number = 0;
+
+  static counter: number;
 
   constructor () {
+    // state must be always defined in the constructor even if trying to create second instance to overcome TSLint error
     this.state = {
       accounts: observableAccounts,
       addresses: observableAddresses,
       keyring: testKeyring()
     };
 
+    if (!singletonInstance) {
+      singletonInstance = this;
+    } else {
+      return;
+    }
+
     // NOTE Everything is loaded in API after chain is received
     // this.loadAll();
+
+    this.id = ++Keyring.counter;
+    assert(this.id <= 1, 'KeyringInstance should be singleton');
+
+    return singletonInstance;
   }
 
   private addAccountPairs (): void {
@@ -397,6 +414,7 @@ class Keyring implements KeyringInstance {
   }
 }
 
+Keyring.counter = 0;
 const keyringInstance = new Keyring();
 
 export default keyringInstance;
