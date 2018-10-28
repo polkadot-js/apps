@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React from 'react';
 import { Trans } from 'react-i18next';
@@ -15,7 +16,7 @@ import Transfer from './Transfer';
 import translate from './translate';
 
 type Props = I18nProps & {
-  allAccounts?: Array<Object>
+  allAccounts?: SubjectInfo
 };
 
 type State = {
