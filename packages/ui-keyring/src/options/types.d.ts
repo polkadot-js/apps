@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { State } from '../types';
+
 export type KeyringSectionOption = {
   className?: string,
   disabled?: boolean,
@@ -23,3 +25,11 @@ export type KeyringOptions  = {
 }
 
 export type KeyringOption$Type = keyof KeyringOptions;
+
+export interface KeyringOptionInstance {
+  createOptionHeader: (name: string) => KeyringSectionOption,
+  initOptions: (state: State) => void,
+  addAccounts: ({ accounts }: State, options: KeyringOptions) => void,
+  addAddresses: ({ addresses }: State, options: KeyringOptions) => void,
+  emptyOptions: () => KeyringOptions
+}

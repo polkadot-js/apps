@@ -4,97 +4,107 @@
 
 import { State } from '../types';
 import { SingleAddress } from '../observable/types';
-import { KeyringOptions, KeyringSectionOptions } from './types';
+import { KeyringOptions, KeyringOptionInstance, KeyringSectionOption, KeyringSectionOptions } from './types';
 
 import { BehaviorSubject } from 'rxjs';
 
 import observableAll from '../observable';
-import createHeader from './header';
-
-function addAccounts ({ accounts }: State, options: KeyringOptions): void {
-  const available = accounts.subject.getValue();
-
-  Object
-    .keys(available)
-    .map((address) =>
-      available[address]
-    )
-    .forEach(({ json: { meta: { isTesting = false } }, option }: SingleAddress) => {
-      if (!isTesting) {
-        options.account.push(option);
-      } else {
-        options.testing.push(option);
-      }
-    });
-}
-
-function addAddresses ({ addresses }: State, options: KeyringOptions): void {
-  const available = addresses.subject.getValue();
-
-  Object
-    .keys(available)
-    .map((address) =>
-      available[address]
-    )
-    .forEach(({ json: { meta: { isRecent = false } }, option }: SingleAddress) => {
-      if (isRecent) {
-        options.recent.push(option);
-      } else {
-        options.address.push(option);
-      }
-    });
-}
-
-function emptyOptions (): KeyringOptions {
-  return {
-    account: [],
-    address: [],
-    all: [],
-    recent: [],
-    testing: []
-  };
-}
-
-const optionsSubject: BehaviorSubject<KeyringOptions> = new BehaviorSubject(emptyOptions());
 
 let hasCalledInitOptions = false;
 
-// NOTE To be called _only_ once (should be addressed with https://github.com/polkadot-js/apps/issues/138)
-export default function initOptions (state: State): void {
-  if (hasCalledInitOptions) {
-    throw new Error('Unable to initialise options more than once');
+class KeyringOption implements KeyringOptionInstance {
+  optionsSubject: BehaviorSubject<KeyringOptions> = new BehaviorSubject(this.emptyOptions());
+
+  createOptionHeader (name: string): KeyringSectionOption {
+    return {
+      className: 'header disabled',
+      name,
+      key: `header-${name.toLowerCase()}`,
+      text: name,
+      value: null
+    };
   }
 
-  observableAll.subscribe((value) => {
-    const options = emptyOptions();
+  initOptions (state: State): void {
+    if (hasCalledInitOptions) {
+      throw new Error('Unable to initialise options more than once');
+    }
 
-    addAccounts(state, options);
-    addAddresses(state, options);
+    observableAll.subscribe((value) => {
+      const options = this.emptyOptions();
 
-    options.address = ([] as KeyringSectionOptions).concat(
-      options.address.length ? [ createHeader('Addresses') ] : [],
-      options.address,
-      options.recent.length ? [ createHeader('Recent') ] : [],
-      options.recent
-    );
-    options.account = ([] as KeyringSectionOptions).concat(
-      options.account.length ? [ createHeader('Accounts') ] : [],
-      options.account,
-      options.testing.length ? [ createHeader('Development') ] : [],
-      options.testing
-    );
+      this.addAccounts(state, options);
+      this.addAddresses(state, options);
 
-    options.all = ([] as KeyringSectionOptions).concat(
-      options.account,
-      options.address
-    );
+      options.address = ([] as KeyringSectionOptions).concat(
+        options.address.length ? [ this.createOptionHeader('Addresses') ] : [],
+        options.address,
+        options.recent.length ? [ this.createOptionHeader('Recent') ] : [],
+        options.recent
+      );
+      options.account = ([] as KeyringSectionOptions).concat(
+        options.account.length ? [ this.createOptionHeader('Accounts') ] : [],
+        options.account,
+        options.testing.length ? [ this.createOptionHeader('Development') ] : [],
+        options.testing
+      );
 
-    optionsSubject.next(options);
+      options.all = ([] as KeyringSectionOptions).concat(
+        options.account,
+        options.address
+      );
+
+      this.optionsSubject.next(options);
+    });
 
     hasCalledInitOptions = true;
-  });
+  }
+
+  addAccounts ({ accounts }: State, options: KeyringOptions): void {
+    const available = accounts.subject.getValue();
+
+    Object
+      .keys(available)
+      .map((address) =>
+        available[address]
+      )
+      .forEach(({ json: { meta: { isTesting = false } }, option }: SingleAddress) => {
+        if (!isTesting) {
+          options.account.push(option);
+        } else {
+          options.testing.push(option);
+        }
+      });
+  }
+
+  addAddresses ({ addresses }: State, options: KeyringOptions): void {
+    const available = addresses.subject.getValue();
+
+    Object
+      .keys(available)
+      .map((address) =>
+        available[address]
+      )
+      .forEach(({ json: { meta: { isRecent = false } }, option }: SingleAddress) => {
+        if (isRecent) {
+          options.recent.push(option);
+        } else {
+          options.address.push(option);
+        }
+      });
+  }
+
+  emptyOptions (): KeyringOptions {
+    return {
+      account: [],
+      address: [],
+      all: [],
+      recent: [],
+      testing: []
+    };
+  }
 }
 
-export {
-  optionsSubject
-};
+const keyringOptionInstance = new KeyringOption();
+
+export default keyringOptionInstance;

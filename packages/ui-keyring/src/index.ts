@@ -16,7 +16,7 @@ import observableAccounts from './observable/accounts';
 import observableAddresses from './observable/addresses';
 import observableDevelopment from './observable/development';
 import { accountKey, addressKey, accountRegex, addressRegex, MAX_PASS_LEN } from './defaults';
-import initOptions from './options';
+import keyringOption from './options';
 
 // FIXME The quicker we get in https://github.com/polkadot-js/apps/issues/138
 // the better, this is now completely out of control
@@ -219,7 +219,7 @@ class Keyring implements KeyringInstance {
       }
     });
 
-    initOptions(this.state);
+    keyringOption.initOptions(this.state);
   }
 
   restoreAccount (json: KeyringPair$Json, password: string): KeyringPair {
