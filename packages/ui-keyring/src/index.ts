@@ -5,31 +5,23 @@
 import { KeyringPair, KeyringPair$Meta, KeyringPair$Json } from '@polkadot/keyring/types';
 import { SingleAddress } from './observable/types';
 import { KeyringAddress, KeyringInstance, KeyringJson, KeyringJson$Meta, State } from './types';
-import { KeyringOptions, KeyringSectionOption, KeyringSectionOptions } from './options/types';
 
-import { BehaviorSubject } from 'rxjs';
 import store from 'store';
 import testKeyring from '@polkadot/keyring/testing';
 import createPair from '@polkadot/keyring/pair';
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
-import { assert, hexToU8a, isHex, isString } from '@polkadot/util';
+import { hexToU8a, isHex, isString } from '@polkadot/util';
 
-import observableAll from './observable';
 import observableAccounts from './observable/accounts';
 import observableAddresses from './observable/addresses';
 import observableDevelopment from './observable/development';
 import { accountKey, addressKey, accountRegex, addressRegex, MAX_PASS_LEN } from './defaults';
-
-let singletonInstance: Keyring | null = null;
-let hasCalledInitOptions = false;
+import initOptions from './options';
 
 // FIXME The quicker we get in https://github.com/polkadot-js/apps/issues/138
 // the better, this is now completely out of control
 class Keyring implements KeyringInstance {
   private state: State;
-  private id: number = 0;
-
-  static counter: number;
 
   constructor () {
     // state must be always defined in the constructor even if trying to create second instance to overcome TSLint error
@@ -39,19 +31,8 @@ class Keyring implements KeyringInstance {
       keyring: testKeyring()
     };
 
-    if (!singletonInstance) {
-      singletonInstance = this;
-    } else {
-      return;
-    }
-
     // NOTE Everything is loaded in API after chain is received
     // this.loadAll();
-
-    this.id = ++Keyring.counter;
-    assert(this.id <= 1, 'KeyringInstance should be singleton');
-
-    return singletonInstance;
   }
 
   private addAccountPairs (): void {
@@ -59,7 +40,7 @@ class Keyring implements KeyringInstance {
 
     keyring
       .getPairs()
-      .forEach((pair) => {
+      .forEach((pair: KeyringPair) => {
         const address = pair.address();
 
         accounts.add(address, {
@@ -68,36 +49,6 @@ class Keyring implements KeyringInstance {
         });
       });
   }
-
-  private addAddresses (options: KeyringOptions): void {
-    const { addresses } = this.state;
-    const addressesAvailable = addresses.subject.getValue();
-
-    Object
-      .keys(addressesAvailable)
-      .map((address) =>
-        addressesAvailable[address]
-      )
-      .forEach(({ json: { meta: { isRecent = false } }, option }: SingleAddress) => {
-        if (isRecent) {
-          options.recent.push(option);
-        } else {
-          options.address.push(option);
-        }
-      });
-  }
-
-  private emptyOptions (): KeyringOptions {
-    return {
-      account: [],
-      address: [],
-      all: [],
-      recent: [],
-      testing: []
-    };
-  }
-
-  private optionsSubject: BehaviorSubject<KeyringOptions> = new BehaviorSubject(this.emptyOptions());
 
   addAccountPair (pair: KeyringPair, password: string): KeyringPair {
     const { keyring } = this.state;
@@ -137,16 +88,6 @@ class Keyring implements KeyringInstance {
     this.saveAccount(pair, password);
 
     return pair;
-  }
-
-  createOptionHeader (name: string): KeyringSectionOption {
-    return {
-      className: 'header disabled',
-      name,
-      key: `header-${name.toLowerCase()}`,
-      text: name,
-      value: null
-    };
   }
 
   encryptAccount (pair: KeyringPair, password: string): void {
@@ -222,45 +163,9 @@ class Keyring implements KeyringInstance {
   }
 
   getPairs (): Array<KeyringPair> {
-    return this.state.keyring.getPairs().filter((pair) =>
+    return this.state.keyring.getPairs().filter((pair: KeyringPair) =>
       observableDevelopment.isDevelopment() || pair.getMeta().isTesting !== true
     );
-  }
-
-  initOptions (): void {
-    if (hasCalledInitOptions) {
-      throw new Error('Unable to initialise options more than once');
-    }
-
-    observableAll.subscribe((value) => {
-      const options = this.emptyOptions();
-
-      this.addAccounts(options);
-      this.addAddresses(options);
-
-      options.address = ([] as KeyringSectionOptions).concat(
-        options.address.length ? [ this.createOptionHeader('Addresses') ] : [],
-        options.address,
-        options.recent.length ? [ this.createOptionHeader('Recent') ] : [],
-        options.recent
-      );
-
-      options.account = ([] as KeyringSectionOptions).concat(
-        options.account.length ? [ this.createOptionHeader('Accounts') ] : [],
-        options.account,
-        options.testing.length ? [ this.createOptionHeader('Development') ] : [],
-        options.testing
-      );
-
-      options.all = ([] as KeyringSectionOptions).concat(
-        options.account,
-        options.address
-      );
-
-      this.optionsSubject.next(options);
-
-      hasCalledInitOptions = true;
-    });
   }
 
   isAvailable (_address: Uint8Array | string): boolean {
@@ -314,7 +219,7 @@ class Keyring implements KeyringInstance {
       }
     });
 
-    this.initOptions();
+    initOptions(this.state);
   }
 
   restoreAccount (json: KeyringPair$Json, password: string): KeyringPair {
@@ -401,31 +306,7 @@ class Keyring implements KeyringInstance {
   setDevMode (isDevelopment: boolean): void {
     observableDevelopment.set(isDevelopment);
   }
-
-  private addAccounts (options: KeyringOptions): void {
-    const { accounts } = this.state;
-    const accountsAvailable = accounts.subject.getValue();
-
-    Object
-      .keys(accountsAvailable)
-      .map((address) =>
-        accountsAvailable[address]
-      )
-      .forEach(({ json: { meta: { isTesting = false } }, option }: SingleAddress) => {
-        if (!isTesting) {
-          options.account.push(option);
-        } else {
-          options.testing.push(option);
-        }
-      });
-  }
 }
-
-Keyring.counter = 0;
-
-export {
-  Keyring
-};
 
 const keyringInstance = new Keyring();
 
