@@ -8,6 +8,7 @@ import { QueueTx, QueueTx$Status } from './types';
 import React from 'react';
 import { Icon } from '@polkadot/ui-app/index';
 import classes from '@polkadot/ui-app/util/classes';
+import { Method } from '@polkadot/types';
 
 type Props = BareProps & {
   queue: Array<QueueTx>
@@ -31,7 +32,18 @@ export default class Status extends React.PureComponent<Props> {
     );
   }
 
-  private renderItem = ({ id, rpc: { method, section }, status }: QueueTx) => {
+  private renderItem = ({ id, extrinsic, rpc, status }: QueueTx) => {
+    let { method, section } = rpc;
+
+    if (extrinsic) {
+      const found = Method.findFunction(extrinsic.callIndex);
+
+      if (found.section !== 'unknown') {
+        method = found.method;
+        section = found.section;
+      }
+    }
+
     return (
       <div
         className={classes('ui--signer-Status-Item', status)}

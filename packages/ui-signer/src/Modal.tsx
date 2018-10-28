@@ -5,7 +5,10 @@
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { QueueTx, QueueTx$Id, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from './types';
+// TODO - reuse instead of obtaining from app-transfer
+import { Fees } from '@polkadot/app-transfer/types';
 
+import BN from 'bn.js';
 import React from 'react';
 import { decodeAddress } from '@polkadot/keyring';
 import { Button, Modal } from '@polkadot/ui-app/index';
@@ -34,8 +37,12 @@ type UnlockI18n = {
 type State = {
   currentItem?: QueueTx,
   password: string,
+  hasAvailable: boolean,
   unlockError: UnlockI18n | null
 };
+
+// TODO - reuse instead of obtaining from app-transfer
+const ZERO = new BN(0);
 
 class Signer extends React.PureComponent<Props, State> {
   state: State;
@@ -45,11 +52,12 @@ class Signer extends React.PureComponent<Props, State> {
 
     this.state = {
       password: '',
+      hasAvailable: false,
       unlockError: null
     };
   }
 
-  static getDerivedStateFromProps ({ queue }: Props, { currentItem, password, unlockError }: State): State {
+  static getDerivedStateFromProps ({ queue }: Props, { currentItem, password, txfees, unlockError }: State): State {
     const nextItem = queue.find(({ status }) =>
       status === 'queued'
     );
@@ -66,6 +74,7 @@ class Signer extends React.PureComponent<Props, State> {
     return {
       currentItem: nextItem,
       password: isSame ? password : '',
+      txfees: txfees,
       unlockError: isSame ? unlockError : null
     };
   }
@@ -97,8 +106,13 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
+  private onChangeFees = (hasAvailable: boolean) => {
+    this.setState({ hasAvailable });
+  }
+
   private renderButtons () {
     const { t } = this.props;
+    const { hasAvailable } = this.state;
 
     return (
       <Modal.Actions>
@@ -114,6 +128,7 @@ class Signer extends React.PureComponent<Props, State> {
           <Button.Or />
           <Button
             className='ui--signer-Signer-Submit'
+            isDisabled={!hasAvailable}
             isPrimary
             onClick={this.onSend}
             tabIndex={2}
@@ -136,7 +151,10 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <ExtrinsicDisplay value={currentItem}>
+      <ExtrinsicDisplay
+        onChangeFees={this.onChangeFees}
+        value={currentItem}
+      >
         {this.renderUnlock()}
       </ExtrinsicDisplay>
     );
