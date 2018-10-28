@@ -7,7 +7,7 @@ import { BaseProps } from '../types';
 import { ComponentRenderer, DefaultProps, RenderFn, Options } from './types';
 
 import Div from '../Div';
-import { withObservable } from './';
+import withObservable from './observable';
 
 export default function withObservableDiv<T, Props extends BaseProps<T>> (call: ApiFunctions, options?: Options<T>): ComponentRenderer<T> {
   return (render: RenderFn, defaultProps: DefaultProps<T> = {}): React.ComponentType<Props> =>

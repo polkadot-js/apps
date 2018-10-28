@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { isTestChain } from './index';
+import isTestChain from './isTestChain';
 
 describe('check chain spec to configure keyring test mode and dev accounts availability', () => {
   it('enables test environment when chain specification matches text of dev or loc(al)', () => {

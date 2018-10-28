@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import { UInt } from '@polkadot/types/codec';
 
-import { decimalFormat } from './index';
+import decimalFormat from './decimalFormat';
 
 export default function numberFormat (value?: UInt | BN | number | null): string {
   if (value === undefined || value === null) {
