@@ -6,14 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Mock from '@polkadot/rpc-provider/mock';
 
-import Api from './Api';
-import Balance from './Balance';
-import BestNumber from './BestNumber';
-import Chain from './Chain';
-import Connected from './Connected';
-import NodeName from './NodeName';
-import NodeVersion from './NodeVersion';
-import Nonce from './Nonce';
+import { Api, Balance, BestNumber, Chain, Connected, NodeName, NodeVersion, Nonce } from './index';
 import { withApi } from './with/index';
 
 const provider = new Mock();
