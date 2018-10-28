@@ -5,7 +5,7 @@
 import { RxBalance } from '@polkadot/api-observable/types';
 
 import balanceFormat from './util/balanceFormat';
-import withObservableDiv from './with/observableDiv';
+import { withObservableDiv } from './with/index';
 
 const Component: React.ComponentType<any> = withObservableDiv('votingBalance')(
   (balance?: RxBalance): string => {

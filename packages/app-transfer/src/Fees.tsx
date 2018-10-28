@@ -11,8 +11,7 @@ import React from 'react';
 import { Balance, Extrinsic } from '@polkadot/types';
 import { Static } from '@polkadot/ui-app/index';
 import balanceFormat from '@polkadot/ui-react-rx/util/balanceFormat';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import translate from './translate';
 

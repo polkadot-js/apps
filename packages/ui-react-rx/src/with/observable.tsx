@@ -13,8 +13,7 @@ import { isUndefined } from '@polkadot/util';
 
 import isEqual from '../util/isEqual';
 import echoTransform from './transform/echo';
-import withApi from './api';
-import withObservableBase from './observableBase';
+import { withApi, withObservableBase } from './index';
 
 type State<T> = RxProps<T> & {
   Component?: React.ComponentType<any>

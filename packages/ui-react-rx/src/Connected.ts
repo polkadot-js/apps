@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import withObservableDiv from './with/observableDiv';
+import { withObservableDiv } from './with/index';
 
 const Component: React.ComponentType<any> = withObservableDiv('isConnected')(
   (value: boolean = false): string => {

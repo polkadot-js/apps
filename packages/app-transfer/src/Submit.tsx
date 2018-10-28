@@ -8,8 +8,7 @@ import { QueueTx$Extrinsic, QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/typ
 import React from 'react';
 import { Extrinsic, Index } from '@polkadot/types';
 import Button from '@polkadot/ui-app/Button';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import translate from './translate';
 
