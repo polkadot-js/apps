@@ -10,6 +10,8 @@ import withObservableDiv from '@polkadot/ui-react-rx/with/observableDiv';
 
 import BlockHeader from './BlockHeader';
 
+export const MAX_ITEMS = 15;
+
 let blockHeaders: Array<Header> = [];
 
 const apiOptions = {
@@ -20,7 +22,7 @@ const apiOptions = {
 
     blockHeaders = blockHeaders
       .filter((old, index) =>
-        index < 9 && old.blockNumber.lt(header.blockNumber)
+        index < MAX_ITEMS && old.blockNumber.lt(header.blockNumber)
       )
       .reduce((next, header) => {
         next.push(header);

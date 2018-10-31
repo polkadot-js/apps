@@ -74,6 +74,15 @@
   right: 0rem;
 }
 
+.explorer--Overview {
+  display: flex;
+
+  .column {
+    flex: 1 1;
+    margin: 0 1em 1em;
+  }
+}
+
 .storage--Query-actionrow {
   display: flex;
 }

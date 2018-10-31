@@ -10,6 +10,7 @@ import './BlockHeader.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
+import { u8aToHex } from '@polkadot/util';
 
 import Extrinsics from './Extrinsics';
 
@@ -27,8 +28,8 @@ export default class BlockHeader extends React.PureComponent<Props> {
       return null;
     }
 
-    const hashHex = value.hash.toHex();
-    const parentHex = value.parentHash.toHex();
+    const hashHex = u8aToHex(value.hash.toU8a(), 96);
+    const parentHex = u8aToHex(value.parentHash.toU8a(), 64);
 
     return (
       <div className='explorer--BlockHeader'>
@@ -38,7 +39,7 @@ export default class BlockHeader extends React.PureComponent<Props> {
         <div className='details'>
           <div className='hash'>{
             withLink
-              ? <Link to={`/explorer/hash/${hashHex}`}>{hashHex}</Link>
+              ? <Link to={`/explorer/hash/${value.hash.toHex()}`}>{hashHex}</Link>
               : hashHex
           }</div>
           <table className='contains'>
@@ -47,17 +48,17 @@ export default class BlockHeader extends React.PureComponent<Props> {
                 <td className='type'>parentHash</td>
                 <td className='hash'>{
                   value.blockNumber.gt(1)
-                    ? <Link to={`/explorer/hash/${parentHex}`}>{parentHex}</Link>
+                    ? <Link to={`/explorer/hash/${value.parentHash.toHex()}`}>{parentHex}</Link>
                     : parentHex
                 }</td>
               </tr>
               <tr>
                 <td className='type'>extrinsicsRoot</td>
-                <td className='hash'>{value.extrinsicsRoot.toHex()}</td>
+                <td className='hash'>{u8aToHex(value.extrinsicsRoot.toU8a(), 64)}</td>
               </tr>
               <tr>
                 <td className='type'>stateRoot</td>
-                <td className='hash'>{value.stateRoot.toHex()}</td>
+                <td className='hash'>{u8aToHex(value.stateRoot.toU8a(), 64)}</td>
               </tr>
               {withExtrinsics
                 ? <Extrinsics hash={value.hash} />
