@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringPair, KeyringPair$Meta, KeyringPair$Json } from '@polkadot/keyring/types';
-import { SingleAddress } from './observable/types';
-import { KeyringAddress, KeyringInstance, KeyringJson, KeyringJson$Meta, State } from './types';
+import { KeyringInstance as BaseKeyringInstance, KeyringPair, KeyringPair$Meta, KeyringPair$Json } from '@polkadot/keyring/types';
+import { AccountSubject, AddressSubject, SingleAddress } from './observable/types';
+import { KeyringAddress, KeyringJson, KeyringJson$Meta, State, KeyringStruct } from './types';
 
 import store from 'store';
 import createPair from '@polkadot/keyring/pair';
@@ -18,24 +18,47 @@ import observableDevelopment from './observable/development';
 import { accountKey, addressKey, accountRegex, addressRegex, MAX_PASS_LEN } from './defaults';
 import keyringOption from './options';
 
-const state: State = {
-  accounts,
-  addresses
-} as State;
-
 // No accounts (or test accounts) should be loaded until after the chain determination.
 // Chain determination occurs outside of Keyring. Loading `keyring.loadAll()` is triggered
 // from the API after the chain is received in ui-react-rx/src/Api/index.tsx.
-class Keyring implements KeyringInstance {
-  private addAccountPairs (): void {
-    const { accounts, keyring } = state;
+class Keyring implements KeyringStruct {
+  private _accounts: AccountSubject;
+  private _addresses: AddressSubject;
+  private _keyring: BaseKeyringInstance | undefined;
 
-    keyring
+  constructor () {
+    this._accounts = accounts;
+    this._addresses = addresses;
+    this._keyring = undefined;
+  }
+
+  get accounts () {
+    return this._accounts;
+  }
+
+  get addresses () {
+    return this._addresses;
+  }
+
+  get keyring (): BaseKeyringInstance {
+    if (this._keyring) {
+      return this._keyring;
+    }
+
+    throw new Error(`Keyring should be initialised via 'loadAll' before use`);
+  }
+
+  set (keyring: BaseKeyringInstance): void {
+    this._keyring = keyring;
+  }
+
+  private addAccountPairs (): void {
+    this.keyring
       .getPairs()
       .forEach((pair: KeyringPair) => {
         const address = pair.address();
 
-        accounts.add(address, {
+        this.accounts.add(address, {
           address,
           meta: pair.getMeta()
         });
@@ -43,9 +66,7 @@ class Keyring implements KeyringInstance {
   }
 
   addAccountPair (pair: KeyringPair, password: string): KeyringPair {
-    const { keyring } = state;
-
-    keyring.addPair(pair);
+    this.keyring.addPair(pair);
 
     this.saveAccount(pair, password);
 
@@ -63,9 +84,7 @@ class Keyring implements KeyringInstance {
   }
 
   createAccount (seed: Uint8Array, password?: string, meta: KeyringPair$Meta = {}): KeyringPair {
-    const { keyring } = state;
-
-    const pair = keyring.addFromSeed(seed, meta);
+    const pair = this.keyring.addFromSeed(seed, meta);
 
     this.saveAccount(pair, password);
 
@@ -73,9 +92,7 @@ class Keyring implements KeyringInstance {
   }
 
   createAccountMnemonic (seed: string, password?: string, meta: KeyringPair$Meta = {}): KeyringPair {
-    const { keyring } = state;
-
-    const pair = keyring.addFromMnemonic(seed, meta);
+    const pair = this.keyring.addFromMnemonic(seed, meta);
 
     this.saveAccount(pair, password);
 
@@ -83,29 +100,25 @@ class Keyring implements KeyringInstance {
   }
 
   encryptAccount (pair: KeyringPair, password: string): void {
-    const { accounts, keyring } = state;
     const json = pair.toJson(password);
 
     json.meta.whenEdited = Date.now();
 
-    keyring.addFromJson(json);
-    accounts.add(json.address, json);
+    this.keyring.addFromJson(json);
+    this.accounts.add(json.address, json);
   }
 
   forgetAccount (address: string): void {
-    const { accounts, keyring } = state;
-
-    keyring.removePair(address);
-    accounts.remove(address);
+    this.keyring.removePair(address);
+    this.accounts.remove(address);
   }
 
   forgetAddress (address: string): void {
-    state.addresses.remove(address);
+    this.addresses.remove(address);
   }
 
   getAccounts (): Array<KeyringAddress> {
-    const { accounts } = state;
-    const available = accounts.subject.getValue();
+    const available = this.accounts.subject.getValue();
 
     return Object
       .keys(available)
@@ -118,14 +131,13 @@ class Keyring implements KeyringInstance {
   }
 
   getAddress (_address: string | Uint8Array, type: 'account' | 'address' = 'address'): KeyringAddress {
-    const { accounts, addresses } = state;
     const address = isString(_address)
       ? _address
       : encodeAddress(_address);
     const publicKey = decodeAddress(address);
     const subject = type === 'account'
-      ? accounts.subject
-      : addresses.subject;
+      ? this.accounts.subject
+      : this.addresses.subject;
 
     return {
       address: (): string =>
@@ -140,8 +152,7 @@ class Keyring implements KeyringInstance {
   }
 
   getAddresses (): Array<KeyringAddress> {
-    const { addresses } = state;
-    const available = addresses.subject.getValue();
+    const available = this.addresses.subject.getValue();
 
     return Object
       .keys(available)
@@ -151,19 +162,18 @@ class Keyring implements KeyringInstance {
   }
 
   getPair (address: string | Uint8Array): KeyringPair {
-    return state.keyring.getPair(address);
+    return this.keyring.getPair(address);
   }
 
   getPairs (): Array<KeyringPair> {
-    return state.keyring.getPairs().filter((pair: KeyringPair) =>
+    return this.keyring.getPairs().filter((pair: KeyringPair) =>
       observableDevelopment.isDevelopment() || pair.getMeta().isTesting !== true
     );
   }
 
   isAvailable (_address: Uint8Array | string): boolean {
-    const { accounts, addresses } = state;
-    const accountsValue = accounts.subject.getValue();
-    const addressesValue = addresses.subject.getValue();
+    const accountsValue = this.accounts.subject.getValue();
+    const addressesValue = this.addresses.subject.getValue();
     const address = isString(_address)
       ? _address
       : encodeAddress(_address);
@@ -176,11 +186,9 @@ class Keyring implements KeyringInstance {
   }
 
   loadAll (): void {
-    const { accounts, addresses } = state;
-
     const keyring = testKeyring();
 
-    state.keyring = keyring;
+    this.set(keyring);
 
     this.addAccountPairs();
 
@@ -189,7 +197,7 @@ class Keyring implements KeyringInstance {
         if (!json.meta.isTesting && (json as KeyringPair$Json).encoded) {
           const pair = keyring.addFromJson(json as KeyringPair$Json);
 
-          accounts.add(pair.address(), json);
+          this.accounts.add(pair.address(), json);
         }
 
         const [, hexAddr] = key.split(':');
@@ -206,7 +214,7 @@ class Keyring implements KeyringInstance {
         );
         const [, hexAddr] = key.split(':');
 
-        addresses.add(address, json);
+        this.addresses.add(address, json);
 
         if (hexAddr.substr(0, 2) !== '0x') {
           store.remove(key);
@@ -215,7 +223,13 @@ class Keyring implements KeyringInstance {
       }
     });
 
-    keyringOption.initOptions(state);
+    const keyringState: State = {
+      accounts: this.accounts,
+      addresses: this.addresses,
+      keyring: this.keyring
+    };
+
+    keyringOption.initOptions(keyringState);
   }
 
   restoreAccount (json: KeyringPair$Json, password: string): KeyringPair {
@@ -237,31 +251,28 @@ class Keyring implements KeyringInstance {
   }
 
   saveAccount (pair: KeyringPair, password?: string): void {
-    const { accounts, keyring } = state;
     const json = pair.toJson(password);
 
     if (!json.meta.whenCreated) {
       json.meta.whenCreated = Date.now();
     }
 
-    keyring.addFromJson(json);
-    accounts.add(json.address, json);
+    this.keyring.addFromJson(json);
+    this.accounts.add(json.address, json);
   }
 
   saveAccountMeta (pair: KeyringPair, meta: KeyringPair$Meta): void {
-    const { accounts } = state;
     const address = pair.address();
     const json = store.get(accountKey(address));
 
     pair.setMeta(meta);
     json.meta = pair.getMeta();
 
-    accounts.add(json.address, json);
+    this.accounts.add(json.address, json);
   }
 
   saveAddress (address: string, meta: KeyringPair$Meta): void {
-    const { addresses } = state;
-    const available = addresses.subject.getValue();
+    const available = this.addresses.subject.getValue();
 
     const json = (available[address] && available[address].json) || {
       address,
@@ -277,12 +288,11 @@ class Keyring implements KeyringInstance {
 
     delete json.meta.isRecent;
 
-    addresses.add(address, json);
+    this.addresses.add(address, json);
   }
 
   saveRecent (address: string): SingleAddress {
-    const { addresses } = state;
-    const available = addresses.subject.getValue();
+    const available = this.addresses.subject.getValue();
 
     if (!available[address]) {
       const json = {
@@ -293,10 +303,10 @@ class Keyring implements KeyringInstance {
         }
       };
 
-      addresses.add(address, (json as KeyringJson));
+      this.addresses.add(address, (json as KeyringJson));
     }
 
-    return addresses.subject.getValue()[address];
+    return this.addresses.subject.getValue()[address];
   }
 
   setDevMode (isDevelopment: boolean): void {
