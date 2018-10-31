@@ -15,7 +15,8 @@ import keyring from '@polkadot/ui-keyring/index';
 import translate from './translate';
 
 type Props = I18nProps & {
-  onBack: () => void
+  onBack: () => void,
+  onStatusChange: () => void
 };
 
 type SeedType = 'bip' | 'raw';
@@ -308,11 +309,17 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   private onCommit = (): void => {
-    const { onBack } = this.props;
+    const { onBack, onStatusChange } = this.props;
     const { name, password, seed , seedType } = this.state;
     const pair = seedType === 'bip'
       ? keyring.createAccountMnemonic(seed, password, { name })
       : keyring.createAccount(formatSeed(seed), password, { name });
+
+    onStatusChange({
+      action: 'create',
+      success: true,
+      message: `Create Account: ${pair.address()}`
+    } as ActionStatus);
 
     this.onHideWarning();
 

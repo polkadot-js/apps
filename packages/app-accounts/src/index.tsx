@@ -5,6 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 import { TabItem } from '@polkadot/ui-app/Tabs';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
+import { Actions, ActionStatus } from './types';
 
 import './index.css';
 
@@ -16,6 +17,7 @@ import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
 import Creator from './Creator';
 import Editor from './Editor';
 import Restore from './Restore';
+import Status from './Status';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -23,12 +25,11 @@ type Props = I18nProps & {
   basePath: string
 };
 
-type Actions = 'create' | 'edit' | 'restore';
-
 type State = {
   action: Actions,
   hidden: Array<string>,
-  items: Array<TabItem>
+  items: Array<TabItem>,
+  actionStatus?: ActionStatus
 };
 
 const Components: { [index: string]: React.ComponentType<any> } = {
@@ -96,7 +97,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { action, hidden, items } = this.state;
+    const { action, hidden, items, actionStatus } = this.state;
     const Component = Components[action];
 
     return (
@@ -109,9 +110,20 @@ class AccountsApp extends React.PureComponent<Props, State> {
             onChange={this.onMenuChange}
           />
         </header>
-        <Component onBack={this.selectEdit} />
+        <Component
+          onBack={this.selectEdit}
+          onStatusChange={this.updateStatus}
+        />
+        <Status
+          key='account-action-status'
+          status={actionStatus}
+        />
       </main>
     );
+  }
+
+  private updateStatus = ({ action, success, message }: ActionStatus): void => {
+    this.setState({ actionStatus: { action, success, message } });
   }
 
   private onMenuChange = (action: Actions) => {

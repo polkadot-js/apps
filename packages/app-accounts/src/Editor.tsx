@@ -16,7 +16,8 @@ import translate from './translate';
 
 type Props = I18nProps & {
   allAccounts?: Array<any>,
-  onBack: () => void
+  onBack: () => void,
+  onStatusChange: () => void
 };
 
 type State = {
@@ -246,6 +247,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onCommit = (): void => {
+    const { onStatusChange } = this.props;
     const { current, editedName } = this.state;
 
     if (!current) {
@@ -256,6 +258,12 @@ class Editor extends React.PureComponent<Props, State> {
       name: editedName,
       whenEdited: Date.now()
     });
+
+    onStatusChange({
+      action: 'edit',
+      success: true,
+      message: `Edited to: ${editedName}`
+    } as ActionStatus);
 
     this.nextState({} as State);
   }
@@ -306,6 +314,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onForget = (): void => {
+    const { onStatusChange } = this.props;
     const { current } = this.state;
 
     if (!current) {
@@ -320,6 +329,12 @@ class Editor extends React.PureComponent<Props, State> {
         );
       }
     );
+
+    onStatusChange({
+      action: 'forget',
+      success: true,
+      message: `Forget: ${current.address()}`
+    } as ActionStatus);
   }
 }
 
