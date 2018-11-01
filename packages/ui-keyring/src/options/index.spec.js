@@ -8,11 +8,11 @@ describe('KeyringOption', () => {
   it('should not allow initOptions to be called more than once', () => {
     const state = {};
     // first call
-    keyringOptionInstance.initOptions(state);
+    keyringOptionInstance.init(state);
 
     // second call
     expect(() => {
-      keyringOptionInstance.initOptions(state);
-    }).toThrowError('Unable to initialise options more than once');  
+      keyringOptionInstance.init(state);
+    }).toThrowError('Unable to initialise options more than once');
   });
 });
