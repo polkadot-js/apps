@@ -11,6 +11,8 @@ import Div from './Div';
 import NodeName from './NodeName';
 import NodeVersion from './NodeVersion';
 import Nonce from './Nonce';
+import TimeNow from './TimeNow';
+import TimePeriod from './TimePeriod';
 
 export {
   Api,
@@ -21,5 +23,7 @@ export {
   Div,
   NodeName,
   NodeVersion,
-  Nonce
+  Nonce,
+  TimeNow,
+  TimePeriod
 };

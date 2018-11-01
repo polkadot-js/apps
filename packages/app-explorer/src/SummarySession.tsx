@@ -7,8 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { BlockNumber } from '@polkadot/types';
 import { CardSummary } from '@polkadot/ui-app/index';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import translate from './translate';
 

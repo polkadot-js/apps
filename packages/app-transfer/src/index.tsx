@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
+import { withObservableBase } from '@polkadot/ui-react-rx/with/index';
 
 import './index.css';
 

@@ -9,7 +9,7 @@ import './Content.css';
 
 import React from 'react';
 import { withRouter } from 'react-router';
-import withApi from '@polkadot/ui-react-rx/with/api';
+import { withApi } from '@polkadot/ui-react-rx/with/index';
 
 import routing from '../routing';
 import translate from '../translate';

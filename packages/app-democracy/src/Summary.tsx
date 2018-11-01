@@ -7,9 +7,8 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import { CardSummary } from '@polkadot/ui-app/index';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
-import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { numberFormat } from '@polkadot/ui-react-rx/util/index';
 
 import translate from './translate';
 

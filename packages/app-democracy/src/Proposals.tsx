@@ -6,8 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { RxProposal } from '@polkadot/api-observable/classes';
 
 import React from 'react';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import Proposal from './Proposal';
 import translate from './translate';

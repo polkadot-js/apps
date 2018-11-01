@@ -4,7 +4,7 @@
 
 import { Text } from '@polkadot/types';
 
-import withObservableDiv from './with/observableDiv';
+import { withObservableDiv } from './with/index';
 
 const Component: React.ComponentType<any> = withObservableDiv('systemVersion')(
   (value: Text | string = 'unknown'): string =>
