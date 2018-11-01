@@ -25,6 +25,7 @@ import CardSummary from './CardSummary';
 import Chart from './Chart';
 import CopyButton from './CopyButton';
 import Dropdown from './Dropdown';
+import Event from './Event';
 import Icon from './Icon';
 import Input from './Input';
 import InputAddress from './InputAddress';
@@ -61,6 +62,7 @@ export {
   Chart,
   CopyButton,
   Dropdown,
+  Event,
   Icon,
   Input,
   InputAddress,

@@ -69,15 +69,15 @@ class BlockByHash extends React.PureComponent<Props> {
         className='explorer--BlockByHash-extrinsic'
         key={`${value}:extrinsic:${index}`}
       >
-        <article>
-          <div className='explorer--BlockByHash-extrinsic-header'>
-            <div className='explorer--BlockByHash-extrinsic-header-name'>
+        <article className='explorer--Container'>
+          <div className='header'>
+            <div className='name'>
               {section}.{method}
             </div>
-            <div className='explorer--BlockByHash-extrinsic-header-description'>
+            <div className='description'>
               {
                 meta && meta.documentation && meta.documentation.length
-                  ? meta.documentation.get(0).toString
+                  ? meta.documentation.map((doc) => doc.toString()).join(' ')
                   : ''
               }
             </div>

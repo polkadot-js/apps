@@ -10,6 +10,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { Event, EventRecord } from '@polkadot/types';
+import { Event as EventDisplay } from '@polkadot/ui-app/index';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import { stringToU8a } from '@polkadot/util';
@@ -75,12 +76,30 @@ class Events extends React.PureComponent<Props, State> {
     }
 
     return (
-      recentEvents.map((event, index) => (
-        <pre key={index}>
-          {event.section}.{event.method}({event.typeDef.map(({ type }) => type).join(', ')})
-          {JSON.stringify(event, null, 2)}
-        </pre>
-      ))
+      recentEvents.map(this.renderEvent)
+    );
+  }
+
+  private renderEvent = (event: Event, index: number) => {
+    return (
+      <article
+        className='explorer--Container'
+        key={index}
+      >
+        <div className='header'>
+          <div className='name'>
+            {event.section}.{event.method}
+          </div>
+          <div className='description'>
+            {
+              event.meta.documentation && event.meta.documentation.length
+                ? event.meta.documentation.map((doc) => doc.toString()).join(' ')
+                : ''
+            }
+          </div>
+        </div>
+        <EventDisplay value={event} />
+      </article>
     );
   }
 }
