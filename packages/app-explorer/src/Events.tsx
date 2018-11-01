@@ -12,6 +12,8 @@ import React from 'react';
 import { Event, EventRecord } from '@polkadot/types';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
+import { stringToU8a } from '@polkadot/util';
+import { blake2AsHex } from '@polkadot/util-crypto';
 
 import { MAX_ITEMS } from './BlockHeaders';
 import translate from './translate';
@@ -21,6 +23,7 @@ type Props = I18nProps & {
 };
 
 type State = {
+  prevEventHash: string;
   recentEvents: Array<Event>;
 };
 
@@ -29,24 +32,32 @@ class Events extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
+      prevEventHash: '',
       recentEvents: []
     };
   }
 
-  static getDerivedStateFromProps ({ systemEvents = [] }: Props, prevState: State): State {
+  static getDerivedStateFromProps ({ systemEvents = [] }: Props, prevState: State): State | null {
+    const prevEventHash = blake2AsHex(stringToU8a(JSON.stringify(systemEvents)));
+
+    if (prevEventHash === prevState.prevEventHash) {
+      return null;
+    }
+
     const recentEvents = systemEvents
       .filter(({ event }) =>
-        event.index.toHex() !== '0x0000'
+        event.section !== 'system'
       )
       .map(({ event }) =>
         event
       )
       .concat(prevState.recentEvents)
       .filter((_, index) =>
-          index < MAX_ITEMS
-        );
+        index < MAX_ITEMS
+      );
 
     return {
+      prevEventHash,
       recentEvents
     };
   }
@@ -64,7 +75,12 @@ class Events extends React.PureComponent<Props, State> {
     }
 
     return (
-      <pre>{JSON.stringify(recentEvents, null, 2)}</pre>
+      recentEvents.map((event, index) => (
+        <pre key={index}>
+          {event.section}.{event.method}({event.typeDef.map(({ type }) => type).join(', ')})
+          {JSON.stringify(event, null, 2)}
+        </pre>
+      ))
     );
   }
 }
