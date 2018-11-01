@@ -22,17 +22,10 @@ type Props = ApiProps & I18nProps & {
 
 class BlockByHash extends React.PureComponent<Props> {
   render () {
-    const { getBlock, t, value } = this.props;
+    const { getBlock } = this.props;
 
     if (!getBlock || !getBlock.block) {
-      return (
-        <div>{t('getBlock.notfound', {
-          defaultValue: 'Unable to retrieve block for hash {{hash}}',
-          replace: {
-            hash: value
-          }
-        })}</div>
-      );
+      return null;
     }
 
     const { block: { header } } = getBlock;
