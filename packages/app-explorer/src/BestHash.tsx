@@ -4,7 +4,7 @@
 
 import { Header } from '@polkadot/types';
 
-import withObservableDiv from '@polkadot/ui-react-rx/with/observableDiv';
+import { withObservableDiv } from '@polkadot/ui-react-rx/with/index';
 
 const Component: React.ComponentType<any> = withObservableDiv('subscribeNewHead')(
   (header?: Header): string | undefined =>

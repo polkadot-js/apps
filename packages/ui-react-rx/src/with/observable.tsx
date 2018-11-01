@@ -11,7 +11,7 @@ import { HOC, Options, DefaultProps, RenderFn } from './types';
 import React from 'react';
 import { isUndefined } from '@polkadot/util';
 
-import isEqual from '../util/isEqual';
+import { isEqual } from '../util/index';
 import echoTransform from './transform/echo';
 import withApi from './api';
 import withObservableBase from './observableBase';

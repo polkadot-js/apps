@@ -52,11 +52,14 @@ const components: ComponentMap = {
   'VoteThreshold': VoteThreshold
 };
 
-export default function findComponent ({ info, type }: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
+export default function findComponent (def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
+  const type = def.info === TypeDefInfo.Compact
+    ? (def.sub as TypeDef).type
+    : def.type;
   const component = overrides[type] || components[type];
 
   // FIXME We still don't support either structure or Vector inputs
-  if (!component && info !== TypeDefInfo.Plain) {
+  if (!component && def.info !== TypeDefInfo.Plain) {
     return Unknown;
   }
 

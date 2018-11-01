@@ -5,8 +5,7 @@
 import { Header } from '@polkadot/types';
 
 import React from 'react';
-
-import withObservableDiv from '@polkadot/ui-react-rx/with/observableDiv';
+import { withObservableDiv } from '@polkadot/ui-react-rx/with/index';
 
 import BlockHeader from './BlockHeader';
 

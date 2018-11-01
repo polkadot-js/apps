@@ -13,7 +13,7 @@ import keyring from '@polkadot/ui-keyring/index';
 import createOptionHeader from '@polkadot/ui-keyring/options/header';
 import { optionsSubject } from '@polkadot/ui-keyring/options';
 import makeOption from '@polkadot/ui-keyring/options/item';
-import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
+import { withObservableBase } from '@polkadot/ui-react-rx/with/index';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';

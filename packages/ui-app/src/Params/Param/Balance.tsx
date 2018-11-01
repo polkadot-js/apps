@@ -7,7 +7,7 @@ import { Props as BareProps } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
-import balanceFormat from '@polkadot/ui-react-rx/util/balanceFormat';
+import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
 
 import { BitLengthOption } from '../../constants';
 import InputNumber from '../../InputNumber';

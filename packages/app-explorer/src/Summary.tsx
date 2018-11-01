@@ -6,9 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { CardSummary } from '@polkadot/ui-app/index';
-import BestNumber from '@polkadot/ui-react-rx/BestNumber';
-import TimePeriod from '@polkadot/ui-react-rx/TimePeriod';
-import TimeNow from '@polkadot/ui-react-rx/TimeNow';
+import { BestNumber, TimeNow, TimePeriod } from '@polkadot/ui-react-rx/index';
 
 import SummarySession from './SummarySession';
 import translate from './translate';

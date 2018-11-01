@@ -8,10 +8,9 @@ import { RxBalance, RxBalanceMap } from '@polkadot/api-observable/types';
 import BN from 'bn.js';
 import React from 'react';
 import { CardSummary } from '@polkadot/ui-app/index';
-import balanceFormat from '@polkadot/ui-react-rx/util/balanceFormat';
 import SummarySession from '@polkadot/app-explorer/SummarySession';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
 
 import translate from '../translate';
 
