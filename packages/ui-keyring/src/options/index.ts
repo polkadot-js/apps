@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { State } from '../types';
+import { KeyringStruct } from '../types';
 import { SingleAddress } from '../observable/types';
 import { KeyringOptions, KeyringOptionInstance, KeyringSectionOption, KeyringSectionOptions } from './types';
 
@@ -25,7 +25,7 @@ class KeyringOption implements KeyringOptionInstance {
     };
   }
 
-  initOptions (state: State): void {
+  initOptions (keyring: KeyringStruct): void {
     if (hasCalledInitOptions) {
       throw new Error('Unable to initialise options more than once');
     }
@@ -33,8 +33,8 @@ class KeyringOption implements KeyringOptionInstance {
     observableAll.subscribe((value) => {
       const options = this.emptyOptions();
 
-      this.addAccounts(state, options);
-      this.addAddresses(state, options);
+      this.addAccounts(keyring, options);
+      this.addAddresses(keyring, options);
 
       options.address = ([] as KeyringSectionOptions).concat(
         options.address.length ? [ this.createOptionHeader('Addresses') ] : [],
@@ -60,8 +60,8 @@ class KeyringOption implements KeyringOptionInstance {
     hasCalledInitOptions = true;
   }
 
-  addAccounts ({ accounts }: State, options: KeyringOptions): void {
-    const available = accounts.subject.getValue();
+  private addAccounts (keyring: KeyringStruct, options: KeyringOptions): void {
+    const available = keyring.accounts.subject.getValue();
 
     Object
       .keys(available)
@@ -77,8 +77,8 @@ class KeyringOption implements KeyringOptionInstance {
       });
   }
 
-  addAddresses ({ addresses }: State, options: KeyringOptions): void {
-    const available = addresses.subject.getValue();
+  private addAddresses (keyring: KeyringStruct, options: KeyringOptions): void {
+    const available = keyring.addresses.subject.getValue();
 
     Object
       .keys(available)
@@ -94,7 +94,7 @@ class KeyringOption implements KeyringOptionInstance {
       });
   }
 
-  emptyOptions (): KeyringOptions {
+  private emptyOptions (): KeyringOptions {
     return {
       account: [],
       address: [],

@@ -4,7 +4,7 @@
 
 import { KeyringInstance as BaseKeyringInstance, KeyringPair, KeyringPair$Meta, KeyringPair$Json } from '@polkadot/keyring/types';
 import { AccountSubject, AddressSubject, SingleAddress } from './observable/types';
-import { KeyringAddress, KeyringJson, KeyringJson$Meta, State, KeyringStruct } from './types';
+import { KeyringAddress, KeyringJson, KeyringJson$Meta, KeyringStruct } from './types';
 
 import store from 'store';
 import createPair from '@polkadot/keyring/pair';
@@ -24,7 +24,7 @@ import keyringOption from './options';
 class Keyring implements KeyringStruct {
   private _accounts: AccountSubject;
   private _addresses: AddressSubject;
-  private _keyring: BaseKeyringInstance | undefined;
+  private _keyring?: BaseKeyringInstance;
 
   constructor () {
     this._accounts = accounts;
@@ -48,7 +48,7 @@ class Keyring implements KeyringStruct {
     throw new Error(`Keyring should be initialised via 'loadAll' before use`);
   }
 
-  set (keyring: BaseKeyringInstance): void {
+  private setKeyring (keyring: BaseKeyringInstance): void {
     this._keyring = keyring;
   }
 
@@ -67,7 +67,6 @@ class Keyring implements KeyringStruct {
 
   addAccountPair (pair: KeyringPair, password: string): KeyringPair {
     this.keyring.addPair(pair);
-
     this.saveAccount(pair, password);
 
     return pair;
@@ -188,8 +187,7 @@ class Keyring implements KeyringStruct {
   loadAll (): void {
     const keyring = testKeyring();
 
-    this.set(keyring);
-
+    this.setKeyring(keyring);
     this.addAccountPairs();
 
     store.each((json: KeyringJson, key: string) => {
@@ -223,13 +221,7 @@ class Keyring implements KeyringStruct {
       }
     });
 
-    const keyringState: State = {
-      accounts: this.accounts,
-      addresses: this.addresses,
-      keyring: this.keyring
-    };
-
-    keyringOption.initOptions(keyringState);
+    keyringOption.initOptions(this);
   }
 
   restoreAccount (json: KeyringPair$Json, password: string): KeyringPair {

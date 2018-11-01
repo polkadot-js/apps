@@ -27,13 +27,11 @@ export type KeyringAddress = {
   getMeta: () => KeyringJson$Meta
 };
 
-export type State = {
-  accounts: AccountSubject,
-  addresses: AddressSubject,
-  keyring: BaseKeyringInstance
-};
-
 export interface KeyringStruct {
+  readonly accounts: AccountSubject;
+  readonly addresses: AddressSubject;
+  readonly keyring: BaseKeyringInstance | undefined;
+
   addAccountPair: (pair: KeyringPair, password: string) => KeyringPair,
   backupAccount: (pair: KeyringPair, password: string) => KeyringPair$Json,
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta) => KeyringPair,
