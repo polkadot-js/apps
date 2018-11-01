@@ -28,5 +28,5 @@ export type KeyringOption$Type = keyof KeyringOptions;
 
 export interface KeyringOptionInstance {
   createOptionHeader: (name: string) => KeyringSectionOption,
-  initOptions: (keyring: KeyringStruct) => void
+  init: (keyring: KeyringStruct) => void
 }

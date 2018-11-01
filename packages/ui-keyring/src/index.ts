@@ -221,7 +221,7 @@ class Keyring implements KeyringStruct {
       }
     });
 
-    keyringOption.initOptions(this);
+    keyringOption.init(this);
   }
 
   restoreAccount (json: KeyringPair$Json, password: string): KeyringPair {

@@ -25,7 +25,7 @@ class KeyringOption implements KeyringOptionInstance {
     };
   }
 
-  initOptions (keyring: KeyringStruct): void {
+  init (keyring: KeyringStruct): void {
     if (hasCalledInitOptions) {
       throw new Error('Unable to initialise options more than once');
     }
