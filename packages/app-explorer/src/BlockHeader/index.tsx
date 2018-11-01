@@ -10,7 +10,6 @@ import './BlockHeader.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
-import { u8aToHex } from '@polkadot/util';
 
 import Extrinsics from './Extrinsics';
 
