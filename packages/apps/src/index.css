@@ -13,9 +13,12 @@
 .apps--App .apps--SideBar {
   display: flex;
   flex-direction: column;
+}
+
+.apps--App .apps--Content {
   flex-grow: 1;
-  overflow-y: auto;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .apps--NodeInfo {

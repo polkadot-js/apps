@@ -17,10 +17,13 @@
 
   > div {
     padding: 0.5em;
+    overflow: hidden;
   }
 
   .hash {
     font-family: monospace;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   .number {
@@ -40,19 +43,30 @@
   .details {
     box-sizing: border-box;
     flex: 1 67%;
+    min-width: 0;
     text-align: left;
+    overflow: hidden;
 
     .contains {
       border: 0;
       font-size: 0.75em;
       opacity: 0.75;
 
-      td {
-        padding: 0 0.25em;
+      div {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
 
-        &.type {
-          opacity: 0.75;
-          text-align: right;
+        div {
+          display: inline-block;
+          padding: 0 0.25em;
+          vertical-align: middle;
+
+          &.type {
+            opacity: 0.75;
+            text-align: right;
+            width: 10em;
+          }
         }
       }
     }
