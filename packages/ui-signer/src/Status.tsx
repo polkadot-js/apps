@@ -44,6 +44,8 @@ export default class Status extends React.PureComponent<Props> {
       }
     }
 
+    const icon = this.iconName(status);
+
     return (
       <div
         className={classes('ui--signer-Status-Item', status)}
@@ -58,7 +60,10 @@ export default class Status extends React.PureComponent<Props> {
           </div>
         </div>
         <div className='short'>
-          <Icon name={this.iconName(status)} />
+          <Icon
+            loading={icon === 'spinner'}
+            name={icon}
+          />
         </div>
       </div>
     );
@@ -84,7 +89,7 @@ export default class Status extends React.PureComponent<Props> {
         return 'random';
 
       default:
-        return 'loading spinner';
+        return 'spinner';
     }
   }
 }
