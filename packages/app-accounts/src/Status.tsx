@@ -10,13 +10,12 @@ import { Icon } from '@polkadot/ui-app/index';
 import classes from '@polkadot/ui-app/util/classes';
 
 type Props = BareProps & {
-  status: ActionStatus | null,
-  onStatusChange: () => void
+  status: ActionStatus | null
 };
 
 export default class Status extends React.PureComponent<Props> {
   render () {
-    const { status, onStatusChange } = this.props;
+    const { status } = this.props;
 
     if (!status) {
       return null;

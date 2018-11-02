@@ -51,6 +51,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
     this.state = {
       ...baseState,
+      actionStatus: null,
       items: [
         {
           name: 'edit',
@@ -117,7 +118,6 @@ class AccountsApp extends React.PureComponent<Props, State> {
         <Status
           key='account-action-status'
           status={actionStatus}
-          onStatusChange={this.updateStatus}
         />
       </main>
     );

@@ -13,11 +13,12 @@ import Backup from './Backup';
 import ChangePass from './ChangePass';
 import Forgetting from './Forgetting';
 import translate from './translate';
+import { ActionStatus } from './types';
 
 type Props = I18nProps & {
   allAccounts?: Array<any>,
   onBack: () => void,
-  onStatusChange: () => void
+  onStatusChange: (status: ActionStatus) => void
 };
 
 type State = {

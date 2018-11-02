@@ -14,10 +14,11 @@ import { hexToU8a, isHex, isObject, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
+import { ActionStatus } from './types';
 
 type Props = I18nProps & {
   onBack: () => void,
-  onStatusChange: () => void
+  onStatusChange: (status: ActionStatus) => void
 };
 
 type State = {

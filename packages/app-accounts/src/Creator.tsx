@@ -13,10 +13,11 @@ import { encodeAddress } from '@polkadot/keyring';
 import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
+import { ActionStatus } from './types';
 
 type Props = I18nProps & {
   onBack: () => void,
-  onStatusChange: () => void
+  onStatusChange: (status: ActionStatus) => void
 };
 
 type SeedType = 'bip' | 'raw';
