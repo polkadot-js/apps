@@ -261,7 +261,7 @@ class Editor extends React.PureComponent<Props, State> {
 
     onStatusChange({
       action: 'edit',
-      success: true,
+      success: !!(current.getMeta().name === editedName),
       message: `Edited to: ${editedName}`
     } as ActionStatus);
 
@@ -332,7 +332,7 @@ class Editor extends React.PureComponent<Props, State> {
 
     onStatusChange({
       action: 'forget',
-      success: true,
+      success: !(current.address()),
       message: `Forget: ${current.address()}`
     } as ActionStatus);
   }

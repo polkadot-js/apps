@@ -317,7 +317,7 @@ class Creator extends React.PureComponent<Props, State> {
 
     onStatusChange({
       action: 'create',
-      success: true,
+      success: !!(pair),
       message: `Create Account: ${pair.address()}`
     } as ActionStatus);
 

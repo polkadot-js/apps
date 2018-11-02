@@ -10,12 +10,13 @@ import { Icon } from '@polkadot/ui-app/index';
 import classes from '@polkadot/ui-app/util/classes';
 
 type Props = BareProps & {
-  status: ActionStatus | null
+  status: ActionStatus | null,
+  onStatusChange: () => void
 };
 
 export default class Status extends React.PureComponent<Props> {
   render () {
-    const { status } = this.props;
+    const { status, onStatusChange } = this.props;
 
     if (!status) {
       return null;
@@ -24,7 +25,7 @@ export default class Status extends React.PureComponent<Props> {
     return (
       <div className='app--account-Status'>
         <div
-          className={classes('app--account-Status-Item', status.success)}
+          className={classes('app--account-Status-Item', status.success ? 'success' : 'error')}
         >
           <div className='desc'>
             <div className='header'>

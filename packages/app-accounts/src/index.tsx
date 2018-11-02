@@ -29,7 +29,7 @@ type State = {
   action: Actions,
   hidden: Array<string>,
   items: Array<TabItem>,
-  actionStatus?: ActionStatus
+  actionStatus: ActionStatus | null
 };
 
 const Components: { [index: string]: React.ComponentType<any> } = {
@@ -117,6 +117,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
         <Status
           key='account-action-status'
           status={actionStatus}
+          onStatusChange={this.updateStatus}
         />
       </main>
     );
@@ -124,6 +125,12 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
   private updateStatus = ({ action, success, message }: ActionStatus): void => {
     this.setState({ actionStatus: { action, success, message } });
+
+    setTimeout(() => {
+      this.setState({
+        actionStatus: null
+      });
+    }, 5000);
   }
 
   private onMenuChange = (action: Actions) => {
