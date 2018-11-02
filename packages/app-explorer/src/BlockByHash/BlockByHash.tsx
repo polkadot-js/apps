@@ -22,17 +22,10 @@ type Props = ApiProps & I18nProps & {
 
 class BlockByHash extends React.PureComponent<Props> {
   render () {
-    const { getBlock, t, value } = this.props;
+    const { getBlock } = this.props;
 
     if (!getBlock || !getBlock.block) {
-      return (
-        <div>{t('getBlock.notfound', {
-          defaultValue: 'Unable to retrieve block for hash {{hash}}',
-          replace: {
-            hash: value
-          }
-        })}</div>
-      );
+      return null;
     }
 
     const { block: { header } } = getBlock;
@@ -75,15 +68,15 @@ class BlockByHash extends React.PureComponent<Props> {
         className='explorer--BlockByHash-extrinsic'
         key={`${value}:extrinsic:${index}`}
       >
-        <article>
-          <div className='explorer--BlockByHash-extrinsic-header'>
-            <div className='explorer--BlockByHash-extrinsic-header-name'>
+        <article className='explorer--Container'>
+          <div className='header'>
+            <div className='name'>
               {section}.{method}
             </div>
-            <div className='explorer--BlockByHash-extrinsic-header-description'>
+            <div className='description'>
               {
                 meta && meta.documentation && meta.documentation.length
-                  ? meta.documentation.get(0).toString
+                  ? meta.documentation.map((doc) => doc.toString()).join(' ')
                   : ''
               }
             </div>
