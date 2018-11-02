@@ -92,8 +92,8 @@ export default class Input extends React.PureComponent<Props, State> {
         withLabel={withLabel}
       >
         <SUIInput
-          autoFocus={autoFocus}
           action={isAction}
+          autoFocus={autoFocus}
           className={
             isEditable
               ? 'edit icon'
@@ -136,14 +136,14 @@ export default class Input extends React.PureComponent<Props, State> {
     );
   }
 
-  onChange = (event: React.SyntheticEvent<Element>): void => {
+  private onChange = (event: React.SyntheticEvent<Element>): void => {
     const { onChange } = this.props;
     const { value } = event.target as HTMLInputElement;
 
     onChange(value);
   }
 
-  onKeyDown = (event: React.KeyboardEvent<Element>): void => {
+  private onKeyDown = (event: React.KeyboardEvent<Element>): void => {
     const { onKeyDown } = this.props;
 
     if (onKeyDown) {
@@ -151,7 +151,7 @@ export default class Input extends React.PureComponent<Props, State> {
     }
   }
 
-  onKeyUp = (event: React.KeyboardEvent<Element>): void => {
+  private onKeyUp = (event: React.KeyboardEvent<Element>): void => {
     const { onKeyUp } = this.props;
 
     if (onKeyUp) {
