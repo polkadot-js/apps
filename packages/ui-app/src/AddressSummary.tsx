@@ -120,7 +120,6 @@ class AddressSummary extends React.PureComponent<Props> {
     }
 
     const address = accountIndex.toString();
-    // {this.renderCopy(address)}
 
     return (
       <div className='ui--AddressSummary-data'>

@@ -5,6 +5,7 @@
 import { BareProps } from './types';
 
 import React from 'react';
+import { MAX_PASS_LEN } from '@polkadot/ui-keyring/defaults';
 
 import classes from './util/classes';
 import Button from './Button';
@@ -12,8 +13,8 @@ import Input from './Input';
 
 type Props = BareProps & {
   autoFocus?: boolean,
-  defaultValue?: any,
   children?: React.ReactNode,
+  defaultValue?: any,
   isDisabled?: boolean,
   isError?: boolean,
   label?: string,
@@ -47,7 +48,7 @@ export default class Password extends React.PureComponent<Props, State> {
         isDisabled={isDisabled}
         isError={isError}
         label={label}
-        maxLength={32}
+        maxLength={MAX_PASS_LEN}
         name={name}
         onChange={onChange}
         onKeyDown={onKeyDown}

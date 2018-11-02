@@ -6,6 +6,11 @@ import { BehaviorSubject } from 'rxjs';
 import { KeyringSectionOption } from '../options/types';
 import { KeyringJson } from '../types';
 
+export type SingleAccount = {
+  json: KeyringJson,
+  option: KeyringSectionOption
+}
+
 export type SingleAddress = {
   json: KeyringJson,
   option: KeyringSectionOption
@@ -13,6 +18,12 @@ export type SingleAddress = {
 
 export type SubjectInfo = {
   [index: string]: SingleAddress
+};
+
+export type AccountSubject = {
+  add: (account: string, json: KeyringJson) => SingleAccount,
+  remove: (account: string) => void,
+  subject: BehaviorSubject<SubjectInfo>
 };
 
 export type AddressSubject = {

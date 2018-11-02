@@ -7,6 +7,7 @@ import { decodeAddress } from '@polkadot/keyring';
 
 const ACCOUNT_PREFIX = 'account:';
 const ADDRESS_PREFIX = 'address:';
+const MAX_PASS_LEN = 32;
 
 function toHex (address: string): string {
   return u8aToHex(
@@ -14,12 +15,20 @@ function toHex (address: string): string {
   );
 }
 
-export const accountKey = (address: string): string =>
+const accountKey = (address: string): string =>
   `${ACCOUNT_PREFIX}${toHex(address)}`;
 
-export const addressKey = (address: string): string =>
+const addressKey = (address: string): string =>
   `${ADDRESS_PREFIX}${toHex(address)}`;
 
-export const accountRegex = new RegExp(`^${ACCOUNT_PREFIX}`, '');
+const accountRegex = new RegExp(`^${ACCOUNT_PREFIX}`, '');
 
-export const addressRegex = new RegExp(`^${ADDRESS_PREFIX}`, '');
+const addressRegex = new RegExp(`^${ADDRESS_PREFIX}`, '');
+
+export {
+  accountKey,
+  accountRegex,
+  addressKey,
+  addressRegex,
+  MAX_PASS_LEN
+};
