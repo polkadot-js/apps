@@ -3,8 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { KeyringInstance as BaseKeyringInstance, KeyringPair, KeyringPair$Meta, KeyringPair$Json } from '@polkadot/keyring/types';
-import { AddressSubject, SingleAddress } from './observable/types';
-import { KeyringSectionOption } from './options/types';
+import { AccountSubject, AddressSubject, SingleAddress } from './observable/types';
 
 export type KeyringJson$Meta = {
   isRecent?: boolean,
@@ -28,13 +27,11 @@ export type KeyringAddress = {
   getMeta: () => KeyringJson$Meta
 };
 
-export type State = {
-  accounts: AddressSubject,
-  addresses: AddressSubject,
-  keyring: BaseKeyringInstance
-};
+export interface KeyringStruct {
+  readonly accounts: AccountSubject;
+  readonly addresses: AddressSubject;
+  readonly keyring: BaseKeyringInstance | undefined;
 
-export type KeyringInstance = {
   addAccountPair: (pair: KeyringPair, password: string) => KeyringPair,
   backupAccount: (pair: KeyringPair, password: string) => KeyringPair$Json,
   createAccount: (seed: Uint8Array, password?: string, meta?: KeyringPair$Meta) => KeyringPair,
@@ -56,4 +53,4 @@ export type KeyringInstance = {
   saveAddress: (address: string, meta: KeyringPair$Meta) => void,
   saveRecent: (address: string) => SingleAddress,
   setDevMode: (isDevelopment: boolean) => void
-};
+}
