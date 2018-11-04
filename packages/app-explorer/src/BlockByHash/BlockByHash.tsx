@@ -6,11 +6,10 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import React from 'react';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
 import { AddressMini, Call } from '@polkadot/ui-app/index';
 import { Extrinsic, Method, SignedBlock } from '@polkadot/types';
-import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { numberFormat } from '@polkadot/ui-react-rx/util/index';
 import { u8aToHex } from '@polkadot/util';
 
 import BlockHeader from '../BlockHeader';
@@ -25,7 +24,7 @@ class BlockByHash extends React.PureComponent<Props> {
   render () {
     const { getBlock } = this.props;
 
-    if (!getBlock) {
+    if (!getBlock || !getBlock.block) {
       return null;
     }
 
@@ -69,15 +68,15 @@ class BlockByHash extends React.PureComponent<Props> {
         className='explorer--BlockByHash-extrinsic'
         key={`${value}:extrinsic:${index}`}
       >
-        <article>
-          <div className='explorer--BlockByHash-extrinsic-header'>
-            <div className='explorer--BlockByHash-extrinsic-header-name'>
+        <article className='explorer--Container'>
+          <div className='header'>
+            <div className='name'>
               {section}.{method}
             </div>
-            <div className='explorer--BlockByHash-extrinsic-header-description'>
+            <div className='description'>
               {
                 meta && meta.documentation && meta.documentation.length
-                  ? meta.documentation.get(0).toString
+                  ? meta.documentation.map((doc) => doc.toString()).join(' ')
                   : ''
               }
             </div>

@@ -3,9 +3,9 @@
 // of the ISC license. See the LICENSE file for details.
 
 import Elapsed from '@polkadot/ui-react/Elapsed';
-import withApiObservble from './with/observable';
+import { withObservable } from './with/index';
 
-const Component: React.ComponentType<any> = withApiObservble('blockNow', { propName: 'value' })(
+const Component: React.ComponentType<any> = withObservable('blockNow', { propName: 'value' })(
   Elapsed,
   { className: 'rx--TimeNow' }
 );

@@ -4,8 +4,8 @@
 
 import { BlockNumber } from '@polkadot/types';
 
-import numberFormat from './util/numberFormat';
-import withObservableDiv from './with/observableDiv';
+import { numberFormat } from './util/index';
+import { withObservableDiv } from './with/index';
 
 const Component: React.ComponentType<any> = withObservableDiv('bestNumber')(
   (value?: BlockNumber): string => {

@@ -11,7 +11,7 @@ import getInitValue from './initValue';
 
 export default function values (params: Array<{ type: TypeDef }>): Array<RawParam> {
   return params.map(({ type }): RawParam => {
-    if (type.info !== TypeDefInfo.Plain) {
+    if (![TypeDefInfo.Compact, TypeDefInfo.Plain].includes(type.info)) {
       console.error('Unable to determine default values for type', type);
 
       return {

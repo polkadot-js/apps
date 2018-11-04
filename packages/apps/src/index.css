@@ -10,10 +10,14 @@
 }
 
 .apps--App .apps--Content,
-.apps--App .apps--SideBar, {
+.apps--App .apps--SideBar {
   display: flex;
   flex-direction: column;
+}
+
+.apps--App .apps--Content {
   flex-grow: 1;
+  overflow-x: hidden;
   overflow-y: auto;
 }
 

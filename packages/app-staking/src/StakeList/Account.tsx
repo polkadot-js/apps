@@ -12,8 +12,7 @@ import Api from '@polkadot/api-observable';
 import { AccountId, Balance, Extrinsic } from '@polkadot/types';
 import { AddressMini, AddressSummary, Button, Icon } from '@polkadot/ui-app/index';
 import classes from '@polkadot/ui-app/util/classes';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import Nominating from './Nominating';
 import UnnominateButton from './UnnominateButton';

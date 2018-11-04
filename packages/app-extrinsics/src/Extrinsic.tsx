@@ -13,7 +13,7 @@ import { Extrinsic, Method } from '@polkadot/types';
 
 import { InputExtrinsic, Params } from '@polkadot/ui-app/index';
 import { isUndefined } from '@polkadot/util';
-import withApi from '@polkadot/ui-react-rx/with/api';
+import { withApi } from '@polkadot/ui-react-rx/with/index';
 
 import paramComponents from './Params';
 

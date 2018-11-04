@@ -41,30 +41,28 @@ export default class BlockHeader extends React.PureComponent<Props> {
               ? <Link to={`/explorer/hash/${hashHex}`}>{hashHex}</Link>
               : hashHex
           }</div>
-          <table className='contains'>
-            <tbody>
-              <tr>
-                <td className='type'>parentHash</td>
-                <td className='hash'>{
-                  value.blockNumber.gt(1)
-                    ? <Link to={`/explorer/hash/${parentHex}`}>{parentHex}</Link>
-                    : parentHex
-                }</td>
-              </tr>
-              <tr>
-                <td className='type'>extrinsicsRoot</td>
-                <td className='hash'>{value.extrinsicsRoot.toHex()}</td>
-              </tr>
-              <tr>
-                <td className='type'>stateRoot</td>
-                <td className='hash'>{value.stateRoot.toHex()}</td>
-              </tr>
-              {withExtrinsics
-                ? <Extrinsics hash={value.hash} />
-                : undefined
-              }
-            </tbody>
-          </table>
+          <div className='contains'>
+            <div>
+              <div className='type'>parentHash</div>
+              <div className='hash'>{
+                value.blockNumber.gt(1)
+                  ? <Link to={`/explorer/hash/${parentHex}`}>{parentHex}</Link>
+                  : parentHex
+              }</div>
+            </div>
+            <div>
+              <div className='type'>extrinsicsRoot</div>
+              <div className='hash'>{value.extrinsicsRoot.toHex()}</div>
+            </div>
+            <div>
+              <div className='type'>stateRoot</div>
+              <div className='hash'>{value.stateRoot.toHex()}</div>
+            </div>
+            {withExtrinsics
+              ? <Extrinsics hash={value.hash} />
+              : undefined
+            }
+          </div>
         </div>
       </div>
     );

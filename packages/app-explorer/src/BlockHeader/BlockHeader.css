@@ -2,55 +2,73 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
-.explorer--BlockHeader {
-  animation: fadein 1.5s;
-  display: flex;
-}
-
 @keyframes fadein {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-.explorer--BlockHeader:nth-child(even) {
-  background: #fcfcfc;
-}
-
-.explorer--BlockHeader > div {
-  padding: 0.5em;
-}
-
-.explorer--BlockHeader > .number {
-  align-items: center;
-  box-sizing: border-box;
+.explorer--BlockHeader {
+  animation: fadein 1.5s;
   display: flex;
-  flex: 1 33%;
-  font-size: 3rem;
-  font-weight: 100;
-}
 
-.explorer--BlockHeader > .number div {
-  flex: 1;
-  text-align: right;
-}
+  &:nth-child(even) {
+    background: #fcfcfc;
+  }
 
-.explorer--BlockHeader > .details {
-  box-sizing: border-box;
-  flex: 1 67%;
-  text-align: left;
-}
+  > div {
+    padding: 0.5em;
+    overflow: hidden;
+  }
 
-.explorer--BlockHeader > .details > .contains {
-  border: 0;
-  font-size: 0.75em;
-  opacity: 0.75;
-}
+  .hash {
+    font-family: monospace;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 
-.explorer--BlockHeader > .details > .contains td {
-  padding: 0 0.25em;
-}
+  .number {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex: 1 33%;
+    font-size: 3rem;
+    font-weight: 100;
 
-.explorer--BlockHeader > .details > .contains td.type {
-  opacity: 0.75;
-  text-align: right;
+    div {
+      flex: 1;
+      text-align: right;
+    }
+  }
+
+  .details {
+    box-sizing: border-box;
+    flex: 1 67%;
+    min-width: 0;
+    text-align: left;
+    overflow: hidden;
+
+    .contains {
+      border: 0;
+      font-size: 0.75em;
+      opacity: 0.75;
+
+      div {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        div {
+          display: inline-block;
+          padding: 0 0.25em;
+          vertical-align: middle;
+
+          &.type {
+            opacity: 0.75;
+            text-align: right;
+            width: 10em;
+          }
+        }
+      }
+    }
+  }
 }

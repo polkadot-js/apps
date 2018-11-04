@@ -11,9 +11,7 @@ import React from 'react';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import intervalSubscribe from '../util/intervalSubscribe';
-import isEqual from '../util/isEqual';
-import triggerChange from '../util/triggerChange';
+import { intervalSubscribe, isEqual, triggerChange } from '../util/index';
 import echoTransform from './transform/echo';
 
 type State<T> = RxProps<T> & {

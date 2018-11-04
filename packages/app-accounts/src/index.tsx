@@ -11,7 +11,7 @@ import './index.css';
 import React from 'react';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { Tabs } from '@polkadot/ui-app/index';
-import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
+import { withObservableBase } from '@polkadot/ui-react-rx/with/index';
 
 import Creator from './Creator';
 import Editor from './Editor';
@@ -109,7 +109,10 @@ class AccountsApp extends React.PureComponent<Props, State> {
             onChange={this.onMenuChange}
           />
         </header>
-        <Component onBack={this.selectEdit} />
+        <Component
+          onCreateAccount={this.selectEdit}
+          onRestoreAccount={this.selectEdit}
+        />
       </main>
     );
   }

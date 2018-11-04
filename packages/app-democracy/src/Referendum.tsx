@@ -12,10 +12,8 @@ import React from 'react';
 import settings from '@polkadot/ui-app/settings';
 import { Chart, Static } from '@polkadot/ui-app/index';
 import VoteThreshold from '@polkadot/ui-app/Params/Param/VoteThreshold';
-import balanceFormat from '@polkadot/ui-react-rx/util/balanceFormat';
-import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { balanceFormat, numberFormat } from '@polkadot/ui-react-rx/util/index';
 
 import Item from './Item';
 import Voting from './Voting';
