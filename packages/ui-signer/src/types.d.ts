@@ -24,6 +24,16 @@ export type AccountInfo = {
   accountId?: string | null
 };
 
+export type Fees = {
+  hasAvailable: boolean,
+  isCreation: boolean,
+  isNoEffect: boolean,
+  isRemovable: boolean,
+  isReserved: boolean,
+  txfees: BN,
+  txtotal: BN
+};
+
 export type QueueTx$Extrinsic = AccountInfo & {
   extrinsic: Extrinsic
 }

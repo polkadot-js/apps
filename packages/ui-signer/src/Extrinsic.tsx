@@ -4,21 +4,18 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RxFees } from '@polkadot/api-observable/types';
-import { QueueTx } from './types';
-// TODO - reuse instead of obtaining from app-transfer
-import { Fees } from '@polkadot/app-transfer/types';
+import { Fees, QueueTx } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import { Method } from '@polkadot/types';
 import { Call, Modal } from '@polkadot/ui-app/index';
-// TODO - reuse instead of obtaining from app-transfer
-import FeeDisplay from '@polkadot/app-transfer/Fees';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 
+import FeeDisplay from './Fees';
 import translate from './translate';
 
 type Props = I18nProps & {

@@ -4,20 +4,18 @@
 
 import { BitLength, I18nProps } from '@polkadot/ui-app/types';
 import { RxFees } from '@polkadot/api-observable/types';
-import { QueueProps } from '@polkadot/ui-signer/types';
-import { Fees } from './types';
+import { Fees, QueueProps } from '@polkadot/ui-signer/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import Api from '@polkadot/api-observable';
 import { decodeAddress } from '@polkadot/keyring';
 import { Extrinsic } from '@polkadot/types';
-import { BitLengthOption } from '@polkadot/ui-app/constants';
+import { BitLengthOption, ZERO } from '@polkadot/ui-app/constants';
 import { AddressSummary, InputAddress, InputNumber } from '@polkadot/ui-app/index';
 import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
-
-import FeeDisplay from './Fees';
+import FeeDisplay from '@polkadot/ui-signer/Fees';
 import Submit from './Submit';
 import translate from './translate';
 
@@ -34,8 +32,6 @@ type State = {
 };
 
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
-
-const ZERO = new BN(0);
 
 class Transfer extends React.PureComponent<Props, State> {
   state: State;

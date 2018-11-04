@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import './index.css';
 
 import React from 'react';
-import { Balance } from '@polkadot/types';
+import { ZERO } from '@polkadot/ui-app/constants';
 
 import CurrentList from './CurrentList';
 import Summary from './Summary';
@@ -18,8 +18,6 @@ type Props = I18nProps & {
   intentions: Array<string>,
   validators: Array<string>
 };
-
-const ZERO = new Balance(0);
 
 export default class Overview extends React.PureComponent<Props> {
   render () {

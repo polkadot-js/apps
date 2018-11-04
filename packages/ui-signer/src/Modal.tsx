@@ -6,13 +6,12 @@ import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { QueueTx, QueueTx$Id, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from './types';
-// TODO - reuse instead of obtaining from app-transfer
-import { Fees } from '@polkadot/app-transfer/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { decodeAddress } from '@polkadot/keyring';
 import { Button, Modal } from '@polkadot/ui-app/index';
+import { ZERO } from '@polkadot/ui-app/constants';
 import keyring from '@polkadot/ui-keyring/index';
 import { withApi } from '@polkadot/ui-react-rx/with/index';
 import { format } from '@polkadot/util/logger';
@@ -38,11 +37,9 @@ type State = {
   currentItem?: QueueTx,
   password: string,
   hasAvailable: boolean,
+  txfees: BN,
   unlockError: UnlockI18n | null
 };
-
-// TODO - reuse instead of obtaining from app-transfer
-const ZERO = new BN(0);
 
 class Signer extends React.PureComponent<Props, State> {
   state: State;
@@ -53,11 +50,12 @@ class Signer extends React.PureComponent<Props, State> {
     this.state = {
       password: '',
       hasAvailable: false,
+      txfees: ZERO,
       unlockError: null
     };
   }
 
-  static getDerivedStateFromProps ({ queue }: Props, { currentItem, password, txfees, unlockError }: State): State {
+  static getDerivedStateFromProps ({ queue }: Props, { currentItem, hasAvailable, password, txfees, unlockError }: State): State {
     const nextItem = queue.find(({ status }) =>
       status === 'queued'
     );
@@ -73,6 +71,7 @@ class Signer extends React.PureComponent<Props, State> {
 
     return {
       currentItem: nextItem,
+      hasAvailable: hasAvailable,
       password: isSame ? password : '',
       txfees: txfees,
       unlockError: isSame ? unlockError : null
