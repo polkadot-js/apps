@@ -51,7 +51,7 @@ export default class BalanceDisplay extends React.PureComponent<Props> {
     if (Array.isArray(balance)) {
       const totals = balance.filter((value, index) => index !== 0);
       const total = totals.reduce((total, value) => total.add(value.toBn()), new BN(0)).gtn(0)
-        ? `(+${totals.map(balanceFormat).join(', ')})`
+        ? `(+${totals.map((balance) => balanceFormat(balance)).join(', ')})`
         : '';
 
       value = `${value}  ${total}`;
