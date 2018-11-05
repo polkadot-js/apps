@@ -8,17 +8,16 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { AddressSummary, Button, InputFile, Password } from '@polkadot/ui-app/index';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
-import createPair from '@polkadot/keyring/pair';
 import { decodeAddress } from '@polkadot/keyring';
-import { hexToU8a, isHex, isObject, u8aToString } from '@polkadot/util';
+import { isHex, isObject, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
 import { ActionStatus } from './types';
 
 type Props = I18nProps & {
-  onBack: () => void,
-  onStatusChange: (status: ActionStatus) => void
+  onStatusChange: (status: ActionStatus) => void,
+  onRestoreAccount: () => void
 };
 
 type State = {
@@ -35,9 +34,9 @@ class Restore extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      json: null,
       isFileValid: false,
       isPassValid: false,
+      json: null,
       password: ''
     };
   }
@@ -73,7 +72,7 @@ class Restore extends React.PureComponent<Props, State> {
     );
   }
 
-  renderInput () {
+  private renderInput () {
     const { t } = this.props;
     const { isFileValid, isPassValid, password } = this.state;
 
@@ -92,19 +91,21 @@ class Restore extends React.PureComponent<Props, State> {
         </div>
         <div className='ui--row'>
           <InputFile
+            acceptedFormats='.json'
             className='full'
             isError={!isFileValid}
             label={t('restore.json', {
               defaultValue: 'previously backed-up json keyfile'
             })}
             onChange={this.onChangeFile}
+            withLabel
           />
         </div>
       </div>
     );
   }
 
-  onChangeFile = (file: Uint8Array): void => {
+  private onChangeFile = (file: Uint8Array): void => {
     try {
       const json = JSON.parse(u8aToString(file));
       const isFileValid = decodeAddress(json.address).length === 32 &&
@@ -121,18 +122,19 @@ class Restore extends React.PureComponent<Props, State> {
         isFileValid: false,
         json: null
       });
+      console.error(error);
     }
   }
 
-  onChangePass = (password: string): void => {
+  private onChangePass = (password: string): void => {
     this.setState({
-      isPassValid: password.length > 0 && password.length <= 32,
+      isPassValid: keyring.isPassValid(password),
       password
     });
   }
 
-  onSave = (): void => {
-    const { onBack, onStatusChange } = this.props;
+  private onSave = (): void => {
+    const { onRestoreAccount, onStatusChange } = this.props;
     const { json, password } = this.state;
 
     if (!json) {
@@ -140,19 +142,7 @@ class Restore extends React.PureComponent<Props, State> {
     }
 
     try {
-      const pair = createPair(
-        {
-          publicKey: decodeAddress(json.address),
-          secretKey: new Uint8Array()
-        },
-        json.meta,
-        hexToU8a(json.encoded)
-      );
-
-      // unlock, save account and then lock (locking cleans secretKey, so needs to be last)
-      pair.decodePkcs8(password);
-      keyring.addAccountPair(pair, password);
-      pair.lock();
+      const pair = keyring.restoreAccount(json, password);
 
       onStatusChange({
         action: 'restore',
@@ -161,9 +151,10 @@ class Restore extends React.PureComponent<Props, State> {
       } as ActionStatus);
 
       InputAddress.setLastValue('account', pair.address());
-      onBack();
+      onRestoreAccount();
     } catch (error) {
       this.setState({ isPassValid: false });
+      console.error(error);
     }
   }
 }

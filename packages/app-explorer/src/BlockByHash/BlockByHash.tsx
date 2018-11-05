@@ -6,15 +6,15 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import React from 'react';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
 import { AddressMini, Call } from '@polkadot/ui-app/index';
 import { Extrinsic, Method, SignedBlock } from '@polkadot/types';
-import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { numberFormat } from '@polkadot/ui-react-rx/util/index';
 import { u8aToHex } from '@polkadot/util';
 
 import BlockHeader from '../BlockHeader';
 import translate from '../translate';
+import Logs from './Logs';
 
 type Props = ApiProps & I18nProps & {
   getBlock: SignedBlock,
@@ -25,7 +25,7 @@ class BlockByHash extends React.PureComponent<Props> {
   render () {
     const { getBlock } = this.props;
 
-    if (!getBlock) {
+    if (!getBlock || !getBlock.block) {
       return null;
     }
 
@@ -39,7 +39,11 @@ class BlockByHash extends React.PureComponent<Props> {
         />
       </header>,
       this.renderExtrinsics(),
-      this.renderJustification()
+      this.renderJustification(),
+      <Logs
+        key='logs'
+        value={header.digest.logs}
+      />
     ];
   }
 
@@ -66,18 +70,18 @@ class BlockByHash extends React.PureComponent<Props> {
 
     return (
       <div
-        className='explorer--BlockByHash-extrinsic'
+        className='explorer--BlockByHash-block'
         key={`${value}:extrinsic:${index}`}
       >
-        <article>
-          <div className='explorer--BlockByHash-extrinsic-header'>
-            <div className='explorer--BlockByHash-extrinsic-header-name'>
+        <article className='explorer--Container'>
+          <div className='header'>
+            <div className='name'>
               {section}.{method}
             </div>
-            <div className='explorer--BlockByHash-extrinsic-header-description'>
+            <div className='description'>
               {
                 meta && meta.documentation && meta.documentation.length
-                  ? meta.documentation.get(0).toString
+                  ? meta.documentation.map((doc) => doc.toString()).join(' ')
                   : ''
               }
             </div>
@@ -91,7 +95,11 @@ class BlockByHash extends React.PureComponent<Props> {
 
   private renderJustification () {
     const { getBlock, t, value } = this.props;
-    const { justification } = getBlock;
+    const { justification: { signatures } } = getBlock;
+
+    if (!signatures || !signatures.length) {
+      return null;
+    }
 
     return (
       <section key='justification'>
@@ -99,7 +107,7 @@ class BlockByHash extends React.PureComponent<Props> {
           defaultValue: 'justifications'
         })}</h1>
         <div className='explorer--BlockByHash-flexable'>
-          {justification.signatures.map(({ authorityId, signature }) => (
+          {signatures.map(({ authorityId, signature }) => (
             <div
               className='explorer--BlockByHash-justification-signature'
               key={`${value}:justification:${authorityId}`}

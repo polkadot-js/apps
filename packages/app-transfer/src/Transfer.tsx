@@ -14,8 +14,7 @@ import { decodeAddress } from '@polkadot/keyring';
 import { Extrinsic } from '@polkadot/types';
 import { BitLengthOption } from '@polkadot/ui-app/constants';
 import { AddressSummary, InputAddress, InputNumber } from '@polkadot/ui-app/index';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
 import FeeDisplay from './Fees';

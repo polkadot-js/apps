@@ -7,15 +7,14 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
-import Nonce from '@polkadot/ui-react-rx/Nonce';
+import { Nonce } from '@polkadot/ui-react-rx/index';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
 import BalanceDisplay from './Balance';
 import CopyButton from './CopyButton';
 import translate from './translate';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
 
 export type Props = I18nProps & {
   accountIdAndIndex?: [AccountId | undefined, AccountIndex | undefined],
@@ -121,7 +120,6 @@ class AddressSummary extends React.PureComponent<Props> {
     }
 
     const address = accountIndex.toString();
-    // {this.renderCopy(address)}
 
     return (
       <div className='ui--AddressSummary-data'>
@@ -134,10 +132,9 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderBalance () {
-    const { accountIdAndIndex = [], balance, t, withBalance = true } = this.props;
-    const [accountId] = accountIdAndIndex;
+    const { balance, t, withBalance = true, value } = this.props;
 
-    if (!withBalance || !accountId) {
+    if (!withBalance) {
       return null;
     }
 
@@ -148,7 +145,7 @@ class AddressSummary extends React.PureComponent<Props> {
         label={t('addressSummary.balance', {
           defaultValue: 'balance '
         })}
-        value={accountId}
+        value={value}
       />
     );
   }

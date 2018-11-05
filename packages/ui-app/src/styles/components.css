@@ -189,9 +189,9 @@ header .ui--Button-Group {
   border: 1px dashed rgba(34, 36, 38, 0.15);
   border-radius: $small-corner;
   display: flex;
-  justify-content: center;
   font-size: 1.2em;
   height: 5em;
+  justify-content: center;
   margin-bottom: 0.5rem;
   width: 100% !important;
 

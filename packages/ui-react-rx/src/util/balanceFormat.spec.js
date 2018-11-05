@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 
-import balanceFormat from './balanceFormat';
+import { balanceFormat } from './';
 
 describe('balanceFormat', () => {
   const TESTVAL = new BN('123456789000');

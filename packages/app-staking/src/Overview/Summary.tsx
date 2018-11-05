@@ -8,10 +8,9 @@ import { RxBalance, RxBalanceMap } from '@polkadot/api-observable/types';
 import BN from 'bn.js';
 import React from 'react';
 import { CardSummary } from '@polkadot/ui-app/index';
-import balanceFormat from '@polkadot/ui-react-rx/util/balanceFormat';
 import SummarySession from '@polkadot/app-explorer/SummarySession';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
 
 import translate from '../translate';
 
@@ -62,6 +61,12 @@ class Summary extends React.PureComponent<Props> {
     const { t } = this.props;
     const intentionHigh = this.calcIntentionsHigh();
     const validatorLow = this.calcValidatorLow();
+    const nominatedLow = validatorLow && validatorLow.nominatedBalance.gt(0)
+      ? `(+${balanceFormat(validatorLow.nominatedBalance)})`
+      : '';
+    const nominatedHigh = intentionHigh && intentionHigh.nominatedBalance.gt(0)
+      ? `(+${balanceFormat(intentionHigh.nominatedBalance)})`
+      : '';
 
     return (
       <div className='staking--Summary-text'>
@@ -69,16 +74,16 @@ class Summary extends React.PureComponent<Props> {
           defaultValue: 'lowest validator {{validatorLow}}',
           replace: {
             validatorLow: validatorLow && validatorLow.stakingBalance
-              ? `${balanceFormat(validatorLow.stakingBalance)} (+${balanceFormat(validatorLow.nominatedBalance)})`
-              : 'unknown'
+              ? `${balanceFormat(validatorLow.stakingBalance)} ${nominatedLow}`
+              : '-'
           }
         })}</div>
         <div>{t('summary.balance.stake', {
           defaultValue: 'highest intention {{intentionHigh}}',
           replace: {
             intentionHigh: intentionHigh
-              ? `${balanceFormat(intentionHigh.stakingBalance)} (+${balanceFormat(intentionHigh.nominatedBalance)})`
-              : 'unknown'
+              ? `${balanceFormat(intentionHigh.stakingBalance)} ${nominatedHigh}`
+              : '-'
           }
         })}</div>
       </div>

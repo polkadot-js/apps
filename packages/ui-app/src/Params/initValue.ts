@@ -2,17 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { TypeDef } from '@polkadot/types/codec';
+import { TypeDef, TypeDefInfo } from '@polkadot/types/codec';
 import { RawParam$Value } from './types';
 
 import BN from 'bn.js';
 
-export default function getInitValue (type: TypeDef): RawParam$Value | Array<RawParam$Value> {
-  switch (type.type) {
+export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawParam$Value> {
+  const type = def.info === TypeDefInfo.Compact
+    ? (def.sub as TypeDef).type
+    : def.type;
+
+  switch (type) {
     case 'Balance':
       return new BN(1);
 
     case 'BlockNumber':
+    case 'Compact':
     case 'Gas':
     case 'Index':
     case 'ParachainId':
@@ -54,7 +59,7 @@ export default function getInitValue (type: TypeDef): RawParam$Value | Array<Raw
       return void 0;
 
     default:
-      console.error(`Unable to determine default type for ${JSON.stringify(type)}`);
+      console.error(`Unable to determine default type for ${JSON.stringify(def)}`);
       return void 0;
   }
 }

@@ -6,31 +6,30 @@ import { getTypeDef } from '@polkadot/types/codec';
 import { BareProps } from './types';
 
 import React from 'react';
-import { Extrinsic, Method, Proposal } from '@polkadot/types';
+import { Event } from '@polkadot/types';
 
 import classes from './util/classes';
 import Params from './Params';
 
 export type Props = BareProps & {
   children?: React.ReactNode,
-  value: Extrinsic | Method | Proposal
+  value: Event
 };
 
-export default class Call extends React.PureComponent<Props> {
+export default class EventDisplay extends React.PureComponent<Props> {
   render () {
     const { children, className, style, value } = this.props;
-    const params = Method.filterOrigin(value.meta).map(({ name, type }) => ({
-      name: name.toString(),
+    const params = value.typeDef.map(({ type }) => ({
       type: getTypeDef(type)
     }));
-    const values = value.args.map((value) => ({
+    const values = value.data.toArray().map((value) => ({
       isValid: true,
       value
     }));
 
     return (
       <div
-        className={classes('ui--Extrinsic', className)}
+        className={classes('ui--Event', className)}
         style={style}
       >
         {children}

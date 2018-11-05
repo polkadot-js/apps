@@ -16,7 +16,7 @@ import settings from '@polkadot/ui-app/settings';
 import keyring from '@polkadot/ui-keyring/index';
 import { Header, Method } from '@polkadot/types';
 
-import balanceFormat from '../util/balanceFormat';
+import { balanceFormat } from '../util/index';
 import ApiContext from './Context';
 import { InputNumber } from '@polkadot/ui-app/InputNumber';
 

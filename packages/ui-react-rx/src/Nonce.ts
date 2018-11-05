@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import numberFormat from './util/numberFormat';
-import withObservableDiv from './with/observableDiv';
+import { withObservableDiv } from './with/index';
 
 const Component: React.ComponentType<any> = withObservableDiv('accountNonce')(
   numberFormat,

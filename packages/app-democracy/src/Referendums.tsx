@@ -7,8 +7,7 @@ import { RxReferendum } from '@polkadot/api-observable/classes';
 
 import BN from 'bn.js';
 import React from 'react';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import Referendum from './Referendum';
 import translate from './translate';

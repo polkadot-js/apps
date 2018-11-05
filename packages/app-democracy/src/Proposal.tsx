@@ -8,9 +8,8 @@ import { RxProposal, RxProposalDeposits } from '@polkadot/api-observable/classes
 import BN from 'bn.js';
 import React from 'react';
 import { AddressMini, Labelled, Static } from '@polkadot/ui-app/index';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
-import balanceFormat from '@polkadot/ui-react-rx/util/balanceFormat';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
 
 import Item from './Item';
 import translate from './translate';
