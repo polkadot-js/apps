@@ -14,7 +14,7 @@ import { hexToU8a, isHex, isString } from '@polkadot/util';
 
 import accounts from './observable/accounts';
 import addresses from './observable/addresses';
-import observableDevelopment from './observable/development';
+import env from './observable/development';
 import { accountKey, addressKey, accountRegex, addressRegex, MAX_PASS_LEN } from './defaults';
 import keyringOption from './options';
 
@@ -125,7 +125,7 @@ class Keyring implements KeyringStruct {
         this.getAddress(address, 'account')
       )
       .filter((account) =>
-        !account.getMeta().isTesting
+        env.isDevelopment() || account.getMeta().isTesting !== true
       );
   }
 
@@ -166,7 +166,7 @@ class Keyring implements KeyringStruct {
 
   getPairs (): Array<KeyringPair> {
     return this.keyring.getPairs().filter((pair: KeyringPair) =>
-      observableDevelopment.isDevelopment() || pair.getMeta().isTesting !== true
+      env.isDevelopment() || pair.getMeta().isTesting !== true
     );
   }
 
@@ -302,7 +302,7 @@ class Keyring implements KeyringStruct {
   }
 
   setDevMode (isDevelopment: boolean): void {
-    observableDevelopment.set(isDevelopment);
+    env.set(isDevelopment);
   }
 }
 

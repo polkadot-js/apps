@@ -15,7 +15,7 @@ import classes from './util/classes';
 export type Props = BareProps & {
   balance?: Balance | Array<Balance> | BN,
   label?: string,
-  value?: AccountId | AccountIndex | Address | string | Uint8Array,
+  value?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   withLabel?: boolean
 };
 
@@ -49,13 +49,12 @@ export default class BalanceDisplay extends React.PureComponent<Props> {
     let value = `${balanceFormat(Array.isArray(balance) ? balance[0] : balance)}`;
 
     if (Array.isArray(balance)) {
-      const totals = balance
-        .filter((value, index) =>
-          index !== 0
-        )
-        .map(balanceFormat);
+      const totals = balance.filter((value, index) => index !== 0);
+      const total = totals.reduce((total, value) => total.add(value.toBn()), new BN(0)).gtn(0)
+        ? `(+${totals.map((balance) => balanceFormat(balance)).join(', ')})`
+        : '';
 
-      value = `${value}  (${totals.length === 1 ? '+' : ''}${totals.join(', ')})`;
+      value = `${value}  ${total}`;
     }
 
     return (

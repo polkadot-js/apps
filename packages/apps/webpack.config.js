@@ -51,9 +51,10 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
     entry: `./src/${name}.tsx`,
     mode: ENV,
     output: {
-      path: path.join(context, 'build'),
+      chunkFilename: `[name].[chunkhash:8].js`,
       filename: `[name].[hash:8].js`,
-      chunkFilename: `[name].[chunkhash:8].js`
+      globalObject: `(typeof self !== 'undefined' ? self : this)`,
+      path: path.join(context, 'build')
     },
     resolve: {
       alias,

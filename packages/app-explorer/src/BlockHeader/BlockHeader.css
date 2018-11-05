@@ -9,7 +9,6 @@
 
 .explorer--BlockHeader {
   animation: fadein 1.5s;
-  display: flex;
 
   &:nth-child(even) {
     background: #fcfcfc;
@@ -20,39 +19,51 @@
     overflow: hidden;
   }
 
+  .header {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+
+    > div {
+      display: inline-block;
+      font-size: 2rem;
+      font-weight: 100;
+      line-height: 1;
+      margin-bottom: 0.25em;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    .hash {
+      font-size: 1.2em;
+    }
+  }
+
   .hash {
     font-family: monospace;
-    text-overflow: ellipsis;
     overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .number {
     align-items: center;
     box-sizing: border-box;
-    display: flex;
-    flex: 1 33%;
-    font-size: 3rem;
-    font-weight: 100;
-
-    div {
-      flex: 1;
-      text-align: right;
-    }
   }
 
   .details {
     box-sizing: border-box;
-    flex: 1 67%;
+    flex: 1;
     min-width: 0;
-    text-align: left;
+    text-align: center;
     overflow: hidden;
 
     .contains {
       border: 0;
-      font-size: 0.75em;
       opacity: 0.75;
 
       div {
+        margin-bottom: 0.125em;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
