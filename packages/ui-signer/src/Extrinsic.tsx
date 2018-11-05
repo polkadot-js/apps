@@ -9,7 +9,7 @@ import { Fees, QueueTx } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { Trans } from 'react-i18next';
-import { Method } from '@polkadot/types';
+import { Balance, Method } from '@polkadot/types';
 import { Call, Modal } from '@polkadot/ui-app/index';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
@@ -42,6 +42,12 @@ class Transaction extends React.PureComponent<Props> {
     const recipientId = methodInstance.args[0].raw.toString();
 
     const { method, section } = Method.findFunction(extrinsic.callIndex);
+
+    const isTransfer = fees && fees.transferFee && section === 'balances' && method === 'transfer';
+
+    if (isTransfer) {
+      fees.transferFee = new Balance(0);
+    }
 
     return [
       <Modal.Header key='header'>
