@@ -8,7 +8,7 @@ import { StorageQuery } from './types';
 import React from 'react';
 import { Button, Labelled } from '@polkadot/ui-app/index';
 import valueToText from '@polkadot/ui-app/Params/valueToText';
-import withObservableDiv from '@polkadot/ui-react-rx/with/observableDiv';
+import { withObservableDiv } from '@polkadot/ui-react-rx/with/index';
 
 import translate from './translate';
 

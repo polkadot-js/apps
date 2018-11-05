@@ -14,7 +14,7 @@ import Connected from './Connected';
 import NodeName from './NodeName';
 import NodeVersion from './NodeVersion';
 import Nonce from './Nonce';
-import withApi from './with/api';
+import { withApi } from './with/index';
 
 const provider = new Mock();
 

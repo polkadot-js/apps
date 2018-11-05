@@ -2,55 +2,84 @@
 /* This software may be modified and distributed under the terms
 /* of the ISC license. See the LICENSE file for details. */
 
-.explorer--BlockHeader {
-  animation: fadein 1.5s;
-  display: flex;
-}
-
 @keyframes fadein {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-.explorer--BlockHeader:nth-child(even) {
-  background: #fcfcfc;
-}
+.explorer--BlockHeader {
+  animation: fadein 1.5s;
 
-.explorer--BlockHeader > div {
-  padding: 0.5em;
-}
+  &:nth-child(even) {
+    background: #fcfcfc;
+  }
 
-.explorer--BlockHeader > .number {
-  align-items: center;
-  box-sizing: border-box;
-  display: flex;
-  flex: 1 33%;
-  font-size: 3rem;
-  font-weight: 100;
-}
+  > div {
+    padding: 0.5em;
+    overflow: hidden;
+  }
 
-.explorer--BlockHeader > .number div {
-  flex: 1;
-  text-align: right;
-}
+  .header {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
 
-.explorer--BlockHeader > .details {
-  box-sizing: border-box;
-  flex: 1 67%;
-  text-align: left;
-}
+    > div {
+      display: inline-block;
+      font-size: 2rem;
+      font-weight: 100;
+      line-height: 1;
+      margin-bottom: 0.25em;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
 
-.explorer--BlockHeader > .details > .contains {
-  border: 0;
-  font-size: 0.75em;
-  opacity: 0.75;
-}
+    .hash {
+      font-size: 1.2em;
+    }
+  }
 
-.explorer--BlockHeader > .details > .contains td {
-  padding: 0 0.25em;
-}
+  .hash {
+    font-family: monospace;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-.explorer--BlockHeader > .details > .contains td.type {
-  opacity: 0.75;
-  text-align: right;
+  .number {
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .details {
+    box-sizing: border-box;
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+    overflow: hidden;
+
+    .contains {
+      border: 0;
+      opacity: 0.75;
+
+      div {
+        margin-bottom: 0.125em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        div {
+          display: inline-block;
+          padding: 0 0.25em;
+          vertical-align: middle;
+
+          &.type {
+            opacity: 0.75;
+            text-align: right;
+            width: 10em;
+          }
+        }
+      }
+    }
+  }
 }

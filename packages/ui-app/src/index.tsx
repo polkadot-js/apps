@@ -13,7 +13,7 @@ import './styles';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
-import Api from '@polkadot/ui-react-rx/Api';
+import { Api } from '@polkadot/ui-react-rx/index';
 
 import AddressMini from './AddressMini';
 import AddressRow from './AddressRow';
@@ -25,6 +25,7 @@ import CardSummary from './CardSummary';
 import Chart from './Chart';
 import CopyButton from './CopyButton';
 import Dropdown from './Dropdown';
+import Event from './Event';
 import Icon from './Icon';
 import Input from './Input';
 import InputAddress from './InputAddress';
@@ -61,6 +62,7 @@ export {
   Chart,
   CopyButton,
   Dropdown,
+  Event,
   Icon,
   Input,
   InputAddress,

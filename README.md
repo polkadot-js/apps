@@ -22,12 +22,15 @@ The repo is split into a number of packages, each representing an application. T
 - [apps](packages/apps/) This is the main entry point. It handles the selection sidebar and routing to the specific application being displayed.
 - [app-accounts](packages/app-accounts/) A basic account management app.
 - [app-addresses](packages/app-addresses/) A basic address management app.
+- [app-democracy](packages/app-democracy/) A basic voting app, allowing votes on activate proposals and referendums.
 - [app-explorer](packages/app-explorer/) A simple block explorer. It only shows the most recent blocks, updating as they become available.
 - [app-extrinsics](packages/app-extrinsics/) Submission of extrinsics to a node.
 - [app-rpc](packages/app-rpc/) Sumission of raw data to RPC endpoints.
+- [app-settings](packages/app-settings/) A basic settings management app, allowing choice of language, node to connect to, and theme
 - [app-staking](packages/app-staking/) A basic staking management app, allowing staking and nominations.
 - [app-storage](packages/app-storage/) A simple node storage query application. Multiple queries can be queued and updates as new values become available.
 - [app-toolbox](packages/app-toolbox/) Utilities to manage data.
+- [app-transfer](packages/app-transfer/) A basic account management app, allowing transfer of DOTs between accounts.
 - [app-vanitygen](packages/app-vanitygen/) A toy that allows you to generate vanity addresses. Running `yarn run vanitygen --match <string>` runs the generator as a Node CLI app. (Orders of a magnitude faster due to the use of libsoldium bindings)
 
 In addition the following libraries are also included in the repo. These are to be moved to the [@polkadot/ui](https://github.com/polkadot-js/ui/) repository once it reaches a base level of stability and usability. (At this point with the framework being tested on the apps above, it makes development easier having it close)
@@ -48,7 +51,7 @@ To start off, this repo (along with others in the [@polkadot](https://github.com
 To get started -
 
 1. Clone the repo locally, via `git clone https://github.com/polkadot-js/apps <optional local path>`
-2. Ensure that you have a recent version of Node.js, for development purposes [Node 10](https://nodejs.org/en/) is recommended.
+2. Ensure that you have a recent LTS version of Node.js, for development purposes [Node >=10.13.0](https://nodejs.org/en/) is recommended.
 3. Ensure that you have a recent version of Yarn, for development purposes [Yarn >=1.10.1](https://yarnpkg.com/docs/install) is required.
 4. Install the dependencies by running `yarn`
 5. Ready! Now you can launch the UI (assuming you have a local Polkadot Node running), via `yarn run start`

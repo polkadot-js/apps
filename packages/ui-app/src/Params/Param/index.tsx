@@ -6,6 +6,7 @@ import { I18nProps } from '../../types';
 import { BaseProps, Props as ComponentProps, ComponentMap } from '../types';
 
 import React from 'react';
+import { isUndefined } from '@polkadot/util';
 
 import classes from '../../util/classes';
 import translate from '../../translate';
@@ -49,9 +50,9 @@ class ParamComponent extends React.PureComponent<Props, State> {
         key={`${name}:${type}`}
         isDisabled={isDisabled}
         label={
-          name
-            ? `${name}: ${type.type}`
-            : type.type
+          isUndefined(name)
+            ? type.type
+            : `${name}: ${type.type}`
         }
         name={name}
         onChange={onChange}
