@@ -10,8 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import Api from '@polkadot/api-observable';
 import { AccountId, Balance, Extrinsic } from '@polkadot/types';
-import { AddressMini, AddressSummary, Button, Icon } from '@polkadot/ui-app/index';
-import classes from '@polkadot/ui-app/util/classes';
+import { AddressMini, AddressSummary, Button } from '@polkadot/ui-app/index';
 import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import Nominating from './Nominating';
@@ -45,16 +44,11 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accountId, intentions, isValidator, name } = this.props;
+    const { accountId, intentions, name } = this.props;
     const { isNominateOpen } = this.state;
 
     return (
       <article className='staking--Account'>
-        <Icon
-          className={classes('staking--Account-validating', isValidator ? 'isValidator' : '')}
-          name='certificate'
-          size='large'
-        />
         <Nominating
           isOpen={isNominateOpen}
           onClose={this.toggleNominate}

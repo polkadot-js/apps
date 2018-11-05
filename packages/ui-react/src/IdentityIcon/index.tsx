@@ -13,7 +13,7 @@ import Polkadot from './Polkadot';
 import Substrate from './Substrate';
 
 type Props = BaseProps & {
-  isHighligt?: boolean,
+  isHighlight?: boolean,
   size?: number,
   value?: string | Uint8Array | null
 };
