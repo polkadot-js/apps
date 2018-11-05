@@ -77,6 +77,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
+  // FIXME Duplicated in ../Overview/CurrentList
   private balanceArray (_address: AccountId | string): Array<Balance> | undefined {
     const { balances } = this.props;
 

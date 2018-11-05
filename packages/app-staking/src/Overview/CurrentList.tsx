@@ -6,15 +6,15 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { RxBalanceMap } from '@polkadot/api-observable/types';
 
 import React from 'react';
-import { Balance } from '@polkadot/types';
+import { AccountId, Balance } from '@polkadot/types';
 import { AddressMini, AddressRow } from '@polkadot/ui-app/index';
 
 import translate from '../translate';
 
 type Props = I18nProps & {
   balances: RxBalanceMap,
-  current: Array<string>
-  next: Array<string>
+  current: Array<AccountId>
+  next: Array<AccountId>
 };
 
 class CurrentList extends React.PureComponent<Props> {
@@ -60,7 +60,7 @@ class CurrentList extends React.PureComponent<Props> {
     ];
   }
 
-  private renderRow (addresses: Array<string>, defaultName: string) {
+  private renderRow (addresses: Array<AccountId>, defaultName: string) {
     const { balances, t } = this.props;
 
     if (addresses.length === 0) {
@@ -74,7 +74,7 @@ class CurrentList extends React.PureComponent<Props> {
     return (
       <article key='list'>
         {addresses.map((address) => {
-          const nominators = (balances[address] || {}).nominators || [];
+          const nominators = (balances[address.toString()] || {}).nominators || [];
 
           return (
             <AddressRow
@@ -99,8 +99,17 @@ class CurrentList extends React.PureComponent<Props> {
     );
   }
 
-  private balanceArray (address: string): Array<Balance> | undefined {
+  // FIXME Duplicated in ../StakeList/Account
+  private balanceArray (_address: AccountId | string): Array<Balance> | undefined {
     const { balances } = this.props;
+
+    if (!_address) {
+      return undefined;
+    }
+
+    const address = _address.toString();
+
+    console.log('balance', address, balances[address], balances);
 
     return balances[address]
       ? [balances[address].stakingBalance, balances[address].nominatedBalance]

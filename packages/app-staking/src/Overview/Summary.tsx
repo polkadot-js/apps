@@ -61,6 +61,12 @@ class Summary extends React.PureComponent<Props> {
     const { t } = this.props;
     const intentionHigh = this.calcIntentionsHigh();
     const validatorLow = this.calcValidatorLow();
+    const nominatedLow = validatorLow && validatorLow.nominatedBalance.gt(0)
+      ? `(+${balanceFormat(validatorLow.nominatedBalance)})`
+      : '';
+    const nominatedHigh = intentionHigh && intentionHigh.nominatedBalance.gt(0)
+      ? `(+${balanceFormat(intentionHigh.nominatedBalance)})`
+      : '';
 
     return (
       <div className='staking--Summary-text'>
@@ -68,16 +74,16 @@ class Summary extends React.PureComponent<Props> {
           defaultValue: 'lowest validator {{validatorLow}}',
           replace: {
             validatorLow: validatorLow && validatorLow.stakingBalance
-              ? `${balanceFormat(validatorLow.stakingBalance)} (+${balanceFormat(validatorLow.nominatedBalance)})`
-              : 'unknown'
+              ? `${balanceFormat(validatorLow.stakingBalance)} ${nominatedLow}`
+              : '-'
           }
         })}</div>
         <div>{t('summary.balance.stake', {
           defaultValue: 'highest intention {{intentionHigh}}',
           replace: {
             intentionHigh: intentionHigh
-              ? `${balanceFormat(intentionHigh.stakingBalance)} (+${balanceFormat(intentionHigh.nominatedBalance)})`
-              : 'unknown'
+              ? `${balanceFormat(intentionHigh.stakingBalance)} ${nominatedHigh}`
+              : '-'
           }
         })}</div>
       </div>
