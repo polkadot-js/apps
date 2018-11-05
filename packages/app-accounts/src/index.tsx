@@ -124,8 +124,8 @@ class AccountsApp extends React.PureComponent<Props, State> {
     );
   }
 
-  private updateStatus = ({ action, success, message }: ActionStatus): void => {
-    this.setState({ actionStatus: { action, success, message } });
+  private updateStatus = ({ action, success, value, message }: ActionStatus): void => {
+    this.setState({ actionStatus: { action, success, value, message } });
 
     setTimeout(() => {
       this.setState({

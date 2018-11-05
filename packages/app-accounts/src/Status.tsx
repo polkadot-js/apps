@@ -6,7 +6,7 @@ import { BareProps } from '@polkadot/ui-app/types';
 import { ActionStatus } from './types';
 
 import React from 'react';
-import { Icon } from '@polkadot/ui-app/index';
+import { AddressMini, Icon } from '@polkadot/ui-app/index';
 import classes from '@polkadot/ui-app/util/classes';
 
 type Props = BareProps & {
@@ -21,6 +21,8 @@ export default class Status extends React.PureComponent<Props> {
       return null;
     }
 
+    debugger;
+
     return (
       <div className='app--account-Status'>
         <div
@@ -30,6 +32,7 @@ export default class Status extends React.PureComponent<Props> {
             <div className='header'>
               {status.success ? 'Success' : 'Failed'}
             </div>
+            <AddressMini value={status.value} />
             <div className='status'>
               {status.message}
             </div>
@@ -43,6 +46,6 @@ export default class Status extends React.PureComponent<Props> {
   }
 
   private iconName = (status: ActionStatus): any => {
-    return status.success ? 'trophy' : 'ban';
+    return status.success ? 'check' : 'ban';
   }
 }

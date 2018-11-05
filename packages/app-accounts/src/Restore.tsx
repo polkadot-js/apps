@@ -147,7 +147,8 @@ class Restore extends React.PureComponent<Props, State> {
       onStatusChange({
         action: 'restore',
         success: !!(pair),
-        message: `Restore: ${pair.address()}`
+        value: pair.address(),
+        message: 'Restored'
       } as ActionStatus);
 
       InputAddress.setLastValue('account', pair.address());

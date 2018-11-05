@@ -42,6 +42,7 @@
   }
 
   &.error {
-    background: #8C2300
+    background: #cd9b1d;
+    color: #fff;
   }
 }

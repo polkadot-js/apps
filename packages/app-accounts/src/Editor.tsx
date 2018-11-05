@@ -262,6 +262,7 @@ class Editor extends React.PureComponent<Props, State> {
     onStatusChange({
       action: 'edit',
       success: !!(current.getMeta().name === editedName),
+      value: current.address(),
       message: `Edited to: ${editedName}`
     } as ActionStatus);
 
@@ -324,17 +325,28 @@ class Editor extends React.PureComponent<Props, State> {
     this.setState(
       this.createState(null),
       () => {
-        keyring.forgetAccount(
-          current.address()
-        );
+
+        try {
+          keyring.forgetAccount(
+            current.address()
+          );
+
+          onStatusChange({
+            action: 'forget',
+            success: true,
+            value: current.address(),
+            message: 'Forgot'
+          } as ActionStatus);
+        } catch (e) {
+          onStatusChange({
+            action: 'forget',
+            success: false,
+            value: current.address(),
+            message: 'Forgot'
+          } as ActionStatus);
+        }
       }
     );
-
-    onStatusChange({
-      action: 'forget',
-      success: !(current.address()),
-      message: `Forget: ${current.address()}`
-    } as ActionStatus);
   }
 }
 
