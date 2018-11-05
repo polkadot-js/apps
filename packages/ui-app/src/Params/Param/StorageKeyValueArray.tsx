@@ -90,7 +90,6 @@ class StorageKeyValueArray extends React.PureComponent<Props, State> {
 
   private onChange = (raw: Uint8Array): void => {
     const { onChange, t } = this.props;
-    // FIXME
     let value: Pairs = [];
     let isValid: boolean = false;
 
