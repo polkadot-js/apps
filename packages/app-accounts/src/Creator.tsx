@@ -342,7 +342,7 @@ class Creator extends React.PureComponent<Props, State> {
   private onCommit = (): void => {
     const { onCreateAccount, onStatusChange } = this.props;
     const { name, password, seed, seedType } = this.state;
-    
+
     const pair = seedType === 'bip'
       ? keyring.createAccountMnemonic(seed, password, { name })
       : keyring.createAccount(formatSeed(seed), password, { name });
