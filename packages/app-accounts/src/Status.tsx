@@ -21,8 +21,6 @@ export default class Status extends React.PureComponent<Props> {
       return null;
     }
 
-    debugger;
-
     return (
       <div className='app--account-Status'>
         <div
