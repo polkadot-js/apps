@@ -6,12 +6,13 @@ import { TranslationFunction } from 'i18next';
 import { Props as BaseProps, RawParam } from '../types';
 
 import React from 'react';
-import { assert, isHex, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
+import { assert, isHex, u8aToHex, u8aToString } from '@polkadot/util';
 
 import translate from '../../translate';
 import Base from './Base';
 import Bytes from './Bytes';
-import BytesFile from './File';
+import File from './File';
+import StorageKeyValue from './StorageKeyValue';
 
 type Props = BaseProps & {
   t: TranslationFunction
@@ -21,8 +22,7 @@ type State = {
   placeholder?: string;
 };
 
-// FIXME
-type Pairs = Array<any>;
+type Pairs = Array<{ key: Uint8Array, value: Uint8Array }>;
 
 class StorageKeyValueArray extends React.PureComponent<Props, State> {
   private placeholderEmpty: string;
@@ -47,7 +47,7 @@ class StorageKeyValueArray extends React.PureComponent<Props, State> {
     }
 
     return (
-      <BytesFile
+      <File
         className={className}
         isDisabled={isDisabled}
         isError={isError}
@@ -91,10 +91,14 @@ class StorageKeyValueArray extends React.PureComponent<Props, State> {
   private onChange = (raw: Uint8Array): void => {
     const { onChange, t } = this.props;
     // FIXME
-    let value: any[] = [];
+    let value: Pairs = [];
+    let isValid: boolean = false;
 
     try {
-      value = this.parseFile(raw);
+      const enc = this.parseFile(raw);
+
+      isValid = enc.isValid;
+      value = enc.value;
 
       this.setState({
         placeholder: t('kvarray.values', {
@@ -113,25 +117,36 @@ class StorageKeyValueArray extends React.PureComponent<Props, State> {
     }
 
     onChange && onChange({
-      isValid: value.length !== 0,
+      isValid,
       value
     });
   }
 
-  // FIXME any...
-  private parseFile (raw: Uint8Array): Array<any> {
+  private parseFile (raw: Uint8Array): { isValid: boolean, value: Pairs } {
     const json = JSON.parse(u8aToString(raw));
-
-    return Object.keys(json).map((key) => {
+    let isValid = true;
+    const value = Object.keys(json).map((key) => {
       const value = json[key];
 
       assert(isHex(key) && isHex(value), `Non-hex key/value pair found in ${key.toString()} => ${value.toString()}`);
 
+      const encKey = StorageKeyValue.createParam(key);
+      const encValue = StorageKeyValue.createParam(value);
+
+      if (!encKey.isValid || !encValue.isValid) {
+        isValid = false;
+      }
+
       return {
-        key: u8aToU8a(key),
-        value: u8aToU8a(value)
+        key: encKey.u8a,
+        value: encValue.u8a
       };
     });
+
+    return {
+      isValid,
+      value
+    };
   }
 }
 

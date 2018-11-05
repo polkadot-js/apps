@@ -5,6 +5,8 @@
 import { Props } from '../types';
 
 import React from 'react';
+import { Compact } from '@polkadot/types/codec';
+import { u8aConcat } from '@polkadot/util';
 
 import Button from '../../Button';
 import BaseBytes from './BaseBytes';
@@ -49,7 +51,6 @@ export default class Bytes extends React.PureComponent<Props, State> {
         style={style}
         type={type}
         withLabel={withLabel}
-        withLength
       >
         {this.renderFileButton()}
       </BaseBytes>
@@ -99,7 +100,10 @@ export default class Bytes extends React.PureComponent<Props, State> {
 
     onChange && onChange({
       isValid: value.length !== 0,
-      value
+      value: u8aConcat(
+        Compact.encodeU8a(value.length, 32),
+        value
+      )
     });
   }
 }

@@ -5,7 +5,7 @@
 import { Props as BaseProps, Size } from '../types';
 
 import React from 'react';
-import { U8a } from '@polkadot/types/codec';
+import { U8a, Compact } from '@polkadot/types/codec';
 import { bnToU8a, hexToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import Input from '../../Input';
@@ -15,8 +15,7 @@ type Props = BaseProps & {
   children?: React.ReactNode,
   length?: number,
   size?: Size,
-  validate?: (u8a: Uint8Array) => boolean,
-  withLength?: boolean
+  validate?: (u8a: Uint8Array) => boolean
 };
 
 const defaultValidate = (u8a: Uint8Array): boolean =>
@@ -46,7 +45,7 @@ export default class BaseBytes extends React.PureComponent<Props> {
           isError={isError}
           label={label}
           onChange={this.onChange}
-          placeholder='0x...'
+          placeholder='Length encoded hex value'
           type='text'
           withLabel={withLabel}
         >
@@ -57,29 +56,25 @@ export default class BaseBytes extends React.PureComponent<Props> {
   }
 
   onChange = (hex: string): void => {
-    const { length = -1, onChange, validate = defaultValidate, withLength = false } = this.props;
+    const { length = -1, onChange, validate = defaultValidate } = this.props;
 
-    let u8a: Uint8Array;
+    let value: Uint8Array;
 
     try {
-      u8a = hexToU8a(hex);
+      value = hexToU8a(hex);
     } catch (error) {
-      u8a = new Uint8Array([]);
+      value = new Uint8Array([]);
     }
 
     const isValidLength = length !== -1
-      ? u8a.length === length
-      : u8a.length !== 0;
-    const isValid = isValidLength && validate(u8a);
+      ? value.length === length
+      : value.length !== 0;
+    const [offset, readLength] = Compact.decodeU8a(value, 32);
+    const isValid = isValidLength && readLength.eqn(value.length - offset) && validate(value);
 
     onChange && onChange({
       isValid,
-      value: u8aConcat(
-        withLength
-          ? bnToU8a(u8a.length, 32, true)
-          : new Uint8Array([]),
-        u8a
-      )
+      value
     });
   }
 }
