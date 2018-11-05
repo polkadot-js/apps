@@ -11,6 +11,7 @@ import React from 'react';
 import { Trans } from 'react-i18next';
 import { Balance, Method } from '@polkadot/types';
 import { Call, Modal } from '@polkadot/ui-app/index';
+import { ZERO } from '@polkadot/ui-app/constants';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
@@ -38,15 +39,32 @@ class Transaction extends React.PureComponent<Props> {
     }
 
     const methodInstance = new Method(extrinsic, extrinsic.meta);
-    const amount = methodInstance.args[1].raw;
-    const recipientId = methodInstance.args[0].raw.toString();
+    // Extrinsics do not always contain a recipient or an amount (i.e. setCode)
+    let amount = ZERO;
+    let recipientId = null;
+
+    try {
+      // @ts-ignore .get is valid
+      amount = methodInstance.get('args').get('value').toBn();
+    } catch (error) {
+      console.info('Extrinsic submitted does not have an amount');
+    }
+
+    try {
+      // @ts-ignore .get is valid
+      recipientId = methodInstance.get('args').get('dest').toString();
+    } catch (error) {
+      console.info('Extrinsic submitted does not have a recipient');
+    }
 
     const { method, section } = Method.findFunction(extrinsic.callIndex);
-
     const isTransfer = fees && fees.transferFee && section === 'balances' && method === 'transfer';
 
-    if (isTransfer) {
-      fees.transferFee = new Balance(0);
+    let feesFiltered = fees;
+
+    // Remove the transfer fee from extrinsics that are not transfers
+    if (feesFiltered && !isTransfer) {
+      feesFiltered.transferFee = new Balance(0);
     }
 
     return [
@@ -72,7 +90,7 @@ class Transaction extends React.PureComponent<Props> {
                 className='medium'
                 accountId={accountId}
                 amount={amount}
-                fees={fees}
+                fees={feesFiltered}
                 recipientId={recipientId}
                 onChange={this.onChangeFees}
               />
