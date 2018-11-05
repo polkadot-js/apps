@@ -8,11 +8,13 @@ import React from 'react';
 import { AddressSummary, Button, Dropdown, Input, Modal, Password } from '@polkadot/ui-app/index';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
-import { mnemonicGenerate, mnemonicToSeed, mnemonicValidate, naclKeypairFromSeed, randomAsU8a } from '@polkadot/util-crypto';
+import { mnemonicToSeed, mnemonicValidate, naclKeypairFromSeed, randomAsU8a } from '@polkadot/util-crypto';
 import { encodeAddress } from '@polkadot/keyring';
 import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
+
+const BipWorker = require('worker-loader?name=[name].[hash:8].js!./bipWorker');
 
 type Props = I18nProps & {
   onCreateAccount: () => void
@@ -22,6 +24,7 @@ type SeedType = 'bip' | 'raw';
 
 type State = {
   address: string,
+  isBipBusy: boolean,
   isNameValid: boolean,
   isSeedValid: boolean,
   isPassValid: boolean,
@@ -53,6 +56,7 @@ function addressFromSeed (seed: string, seedType: SeedType): string {
 }
 
 class Creator extends React.PureComponent<Props, State> {
+  bipWorker: any;
   state: State = { seedType: 'bip' } as State;
 
   constructor (props: Props) {
@@ -60,6 +64,16 @@ class Creator extends React.PureComponent<Props, State> {
 
     const { t } = this.props;
 
+    this.bipWorker = new BipWorker();
+    this.bipWorker.onmessage = (event: MessageEvent) => {
+      const { address, seed } = event.data;
+
+      this.setState({
+        address,
+        isBipBusy: false,
+        seed
+      });
+    };
     this.state = {
       ...this.emptyState(),
       seedOptions: [
@@ -117,7 +131,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   renderInput () {
     const { t } = this.props;
-    const { isNameValid, isPassValid, isSeedValid, name, password, seed, seedOptions, seedType, showWarning } = this.state;
+    const { isBipBusy, isNameValid, isPassValid, isSeedValid, name, password, seed, seedOptions, seedType, showWarning } = this.state;
 
     return (
       <div className='grow'>
@@ -125,6 +139,7 @@ class Creator extends React.PureComponent<Props, State> {
           <Input
             className='full'
             isAction
+            isDisabled={isBipBusy}
             isError={!isSeedValid}
             label={
               seedType === 'bip'
@@ -136,7 +151,14 @@ class Creator extends React.PureComponent<Props, State> {
                 })
             }
             onChange={this.onChangeSeed}
-            value={seed}
+            placeholder={
+              isBipBusy
+                ? t('creator.seed.bipBusy', {
+                  defaultValue: 'Generating Mnemeonic seed'
+                })
+                : null
+            }
+            value={isBipBusy ? '' : seed}
           >
             <Dropdown
               isButton
@@ -223,15 +245,22 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   private generateSeed (seedType: SeedType): State {
-    const seed = seedType === 'bip'
-      ? mnemonicGenerate()
-      : u8aToHex(randomAsU8a());
+    if (seedType === 'bip') {
+      this.bipWorker.postMessage('create');
+
+      return {
+        isBipBusy: true,
+        seed: ''
+      } as State;
+    }
+
+    const seed = u8aToHex(randomAsU8a());
     const address = addressFromSeed(seed, seedType);
 
     return {
       address,
-      seed,
-      seedType
+      isBipBusy: false,
+      seed
     } as State;
   }
 
@@ -254,7 +283,7 @@ class Creator extends React.PureComponent<Props, State> {
   private nextState (newState: State): void {
     this.setState(
       (prevState: State, props: Props): State => {
-        const { name = prevState.name, password = prevState.password, seed = prevState.seed, seedOptions = prevState.seedOptions, seedType = prevState.seedType, showWarning = prevState.showWarning } = newState;
+        const { isBipBusy = prevState.isBipBusy, name = prevState.name, password = prevState.password, seed = prevState.seed, seedOptions = prevState.seedOptions, seedType = prevState.seedType, showWarning = prevState.showWarning } = newState;
         let address = prevState.address;
         const isNameValid = !!name;
         const isSeedValid = seedType === 'bip'
@@ -272,6 +301,7 @@ class Creator extends React.PureComponent<Props, State> {
 
         return {
           address,
+          isBipBusy,
           isNameValid,
           isPassValid,
           isSeedValid,
