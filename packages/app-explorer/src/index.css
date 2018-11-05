@@ -35,7 +35,7 @@
   flex-wrap: wrap;
 }
 
-.explorer--BlockByHash-extrinsic {
+.explorer--BlockByHash-block {
   flex: 0 0 50%;
   min-width: 0;
   max-width: 50%;
