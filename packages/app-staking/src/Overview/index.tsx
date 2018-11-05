@@ -15,6 +15,7 @@ import Summary from './Summary';
 
 type Props = I18nProps & {
   balances: RxBalanceMap,
+  balanceArray: (_address: AccountId | string, _balances: RxBalanceMap) => Array<Balance> | undefined,
   intentions: Array<string>,
   validators: Array<string>
 };
@@ -23,7 +24,7 @@ const ZERO = new Balance(0);
 
 export default class Overview extends React.PureComponent<Props> {
   render () {
-    const { balances, intentions, validators } = this.props;
+    const { balances, balanceArray, intentions, validators } = this.props;
     const intentionsSorted = this.sortByBalance(
       intentions.filter((address) =>
         !validators.includes(address)
@@ -40,6 +41,7 @@ export default class Overview extends React.PureComponent<Props> {
         />
         <CurrentList
           balances={balances}
+          balanceArray={balanceArray}
           current={validatorsSorted}
           next={intentionsSorted}
         />

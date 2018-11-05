@@ -15,13 +15,14 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   balances: RxBalanceMap,
+  balanceArray: (_address: AccountId | string, _balances: RxBalanceMap) => Array<Balance> | undefined,
   intentions: Array<string>,
   validators: Array<string>
 };
 
 class StakeList extends React.PureComponent<Props> {
   render () {
-    const { balances, intentions, validators } = this.props;
+    const { balances, balanceArray, intentions, validators } = this.props;
 
     return (
       <QueueConsumer>
@@ -35,6 +36,7 @@ class StakeList extends React.PureComponent<Props> {
                 <Account
                   accountId={address}
                   balances={balances}
+                  balanceArray={balanceArray}
                   intentions={intentions}
                   isValidator={validators.includes(address)}
                   key={address}

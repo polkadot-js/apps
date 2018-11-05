@@ -86,6 +86,7 @@ class App extends React.PureComponent<Props, State> {
         </header>
         <Component
           balances={validatingBalances}
+          balanceArray={this.balanceArray}
           intentions={intentions}
           validators={validators}
         />
@@ -93,8 +94,20 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  onMenuChange = (action: Actions) => {
+  private onMenuChange = (action: Actions) => {
     this.setState({ action });
+  }
+
+  private balanceArray (_address: AccountId | string, _balances: RxBalanceMap): Array<Balance> | undefined {
+    if (!_address) {
+      return undefined;
+    }
+
+    const address = _address.toString();
+
+    return _balances[address]
+      ? [_balances[address].stakingBalance, _balances[address].nominatedBalance]
+      : undefined;
   }
 }
 

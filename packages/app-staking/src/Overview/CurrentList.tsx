@@ -13,7 +13,8 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   balances: RxBalanceMap,
-  current: Array<AccountId>
+  balanceArray: (_address: AccountId | string, _balances: RxBalanceMap) => Array<Balance> | undefined,
+  current: Array<AccountId>,
   next: Array<AccountId>
 };
 
@@ -61,7 +62,7 @@ class CurrentList extends React.PureComponent<Props> {
   }
 
   private renderRow (addresses: Array<AccountId>, defaultName: string) {
-    const { balances, t } = this.props;
+    const { balances, balanceArray, t } = this.props;
 
     if (addresses.length === 0) {
       return (
@@ -78,7 +79,7 @@ class CurrentList extends React.PureComponent<Props> {
 
           return (
             <AddressRow
-              balance={this.balanceArray(address)}
+              balance={balanceArray(address, balances)}
               key={address}
               name={name || defaultName}
               value={address}
@@ -99,22 +100,6 @@ class CurrentList extends React.PureComponent<Props> {
     );
   }
 
-  // FIXME Duplicated in ../StakeList/Account
-  private balanceArray (_address: AccountId | string): Array<Balance> | undefined {
-    const { balances } = this.props;
-
-    if (!_address) {
-      return undefined;
-    }
-
-    const address = _address.toString();
-
-    console.log('balance', address, balances[address], balances);
-
-    return balances[address]
-      ? [balances[address].stakingBalance, balances[address].nominatedBalance]
-      : undefined;
-  }
 }
 
 export default translate(CurrentList);
