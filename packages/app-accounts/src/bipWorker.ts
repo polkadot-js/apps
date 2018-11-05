@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const ctx: Worker = self as any;
-
 import { mnemonicGenerate, mnemonicToSeed, naclKeypairFromSeed } from '@polkadot/util-crypto';
 import { encodeAddress } from '@polkadot/keyring';
+
+const ctx: Worker = self as any;
 
 ctx.onmessage = () => {
   const seed = mnemonicGenerate();

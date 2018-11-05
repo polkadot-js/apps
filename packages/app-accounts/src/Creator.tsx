@@ -14,7 +14,7 @@ import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
 
-const BipWorker = require('worker-loader?name=dist/[name].js!./bipWorker');
+const BipWorker = require('worker-loader?name=[name].[hash:8].js!./bipWorker');
 
 type Props = I18nProps & {
   onCreateAccount: () => void
