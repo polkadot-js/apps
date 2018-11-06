@@ -98,17 +98,17 @@ export default class Queue extends React.Component<Props, State> {
     return id;
   }
 
-  queueExtrinsic = ({ extrinsic, accountNonce = new BN(0), accountId }: QueueTx$Extrinsic): QueueTx$Id => {
+  queueExtrinsic = ({ extrinsic, accountNonce, accountId }: QueueTx$Extrinsic): QueueTx$Id => {
     return this.queueAdd({
-      accountNonce,
+      accountNonce: accountNonce || new BN(0),
       extrinsic,
       accountId
     });
   }
 
-  queueRpc = ({ accountNonce = new BN(0), accountId, rpc, values }: QueueTx$Rpc): QueueTx$Id => {
+  queueRpc = ({ accountNonce, accountId, rpc, values }: QueueTx$Rpc): QueueTx$Id => {
     return this.queueAdd({
-      accountNonce,
+      accountNonce: accountNonce || new BN(0),
       accountId,
       rpc,
       values
