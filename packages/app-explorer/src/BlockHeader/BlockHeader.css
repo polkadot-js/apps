@@ -10,16 +10,13 @@
 .explorer--BlockHeader {
   animation: fadein 1.5s;
 
-  &:nth-child(even) {
-    background: #fcfcfc;
-  }
-
   > div {
     padding: 0.5em;
     overflow: hidden;
   }
 
   .header {
+    color: rgba(0, 0, 0, 0.6);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -27,16 +24,16 @@
 
     > div {
       display: inline-block;
-      font-size: 2rem;
+      font-size: 3rem;
       font-weight: 100;
       line-height: 1;
-      margin-bottom: 0.25em;
+      margin-bottom: 0.25rem;
       vertical-align: middle;
       white-space: nowrap;
     }
 
     .hash {
-      font-size: 1.2em;
+      font-size: 1.5em;
     }
   }
 

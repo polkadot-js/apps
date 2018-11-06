@@ -71,6 +71,7 @@ summary {
 }
 
 summary article {
+  color: rgba(0, 0, 0, 0.6);
   flex: 0 1 auto;
   text-align: left;
 }
