@@ -352,8 +352,6 @@ class Creator extends React.PureComponent<Props, State> {
         ? keyring.createAccountMnemonic(seed, password, { name })
         : keyring.createAccount(formatSeed(seed), password, { name });
 
-      throw new Error('eerrrrr');
-
       status.value = pair.address();
       status.success = !!(pair);
       status.message = t('status.created', {
@@ -370,6 +368,8 @@ class Creator extends React.PureComponent<Props, State> {
     }
 
     this.onHideWarning();
+
+    onCreateAccount();
 
     onStatusChange(status as ActionStatus);
   }
