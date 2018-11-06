@@ -54,12 +54,6 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-
-    .name {
-      font-size: 1.2rem;
-      line-height: 1.2rem;
-      margin-bottom: 0.5rem;
-    }
   }
 }
 
@@ -90,7 +84,7 @@
     flex: 0 0 50%;
     min-width: 0;
     max-width: 50%;
-    margin: 0 1em 1em;
+    padding: 0 1em 1em;
   }
 }
 

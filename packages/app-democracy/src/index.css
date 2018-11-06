@@ -27,11 +27,6 @@
   color: rgba(0, 0, 0, 0.6);
 }
 
-.democracy--Item-header-name {
-  font-size: 1.2rem;
-  line-height: 1.2rem;
-}
-
 .democracy--Item-body {
   display: flex;
   flex-direction: row;
