@@ -76,7 +76,9 @@ class Events extends React.PureComponent<Props, State> {
     }
 
     return (
-      recentEvents.map(this.renderEvent)
+      <div>
+        {recentEvents.map(this.renderEvent)}
+      </div>
     );
   }
 
