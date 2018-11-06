@@ -49,7 +49,7 @@ let defaultDecimals = 0;
 function _balanceFormat (input: string | BN | UInt, decimals: number = defaultDecimals): string {
   const text = (input || '').toString();
 
-  if (text.length === 0) {
+  if (text.length === 0 || text === '0') {
     return text;
   }
 
