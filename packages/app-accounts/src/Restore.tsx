@@ -134,29 +134,41 @@ class Restore extends React.PureComponent<Props, State> {
   }
 
   private onSave = (): void => {
-    const { onRestoreAccount, onStatusChange } = this.props;
+    const { onRestoreAccount, onStatusChange, t } = this.props;
     const { json, password } = this.state;
 
     if (!json) {
       return;
     }
 
+    let status = {
+      action: 'restore'
+    };
+
     try {
       const pair = keyring.restoreAccount(json, password);
 
-      onStatusChange({
-        action: 'restore',
-        success: !!(pair),
-        value: pair.address(),
-        message: 'Restored'
-      } as ActionStatus);
+      status.success = !!(pair);
+      status.value = pair.address();
+      status.message = t('status.restored', {
+        defaultValue: 'Restored'
+      });
 
       InputAddress.setLastValue('account', pair.address());
       onRestoreAccount();
     } catch (error) {
       this.setState({ isPassValid: false });
+
+      status.success = false;
+      status.value = null;
+      status.message = t('status.error', {
+        defaultValue: error.message
+      });
+
       console.error(error);
     }
+
+    onStatusChange(status as ActionStatus);
   }
 }
 

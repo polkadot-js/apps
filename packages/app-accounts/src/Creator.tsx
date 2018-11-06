@@ -340,25 +340,38 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   private onCommit = (): void => {
-    const { onCreateAccount, onStatusChange } = this.props;
+    const { onCreateAccount, onStatusChange, t } = this.props;
     const { name, password, seed, seedType } = this.state;
 
-    const pair = seedType === 'bip'
-      ? keyring.createAccountMnemonic(seed, password, { name })
-      : keyring.createAccount(formatSeed(seed), password, { name });
+    let status = {
+      action: 'create'
+    };
 
-    onStatusChange({
-      action: 'create',
-      success: !!(pair),
-      value: pair.address(),
-      message: `Created Account`
-    } as ActionStatus);
+    try {
+      const pair = seedType === 'bip'
+        ? keyring.createAccountMnemonic(seed, password, { name })
+        : keyring.createAccount(formatSeed(seed), password, { name });
+
+      throw new Error('eerrrrr');
+
+      status.value = pair.address();
+      status.success = !!(pair);
+      status.message = t('status.created', {
+        defaultValue: `Created Account`
+      });
+
+      InputAddress.setLastValue('account', pair.address());
+    } catch (e) {
+      status.value = null;
+      status.success = false;
+      status.message = t('status.error', {
+        defaultValue: e.message
+      });
+    }
 
     this.onHideWarning();
 
-    InputAddress.setLastValue('account', pair.address());
-
-    onCreateAccount();
+    onStatusChange(status as ActionStatus);
   }
 
   private onDiscard = (): void => {

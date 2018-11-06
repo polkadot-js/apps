@@ -247,24 +247,36 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onCommit = (): void => {
-    const { onStatusChange } = this.props;
+    const { onStatusChange, t } = this.props;
     const { current, editedName } = this.state;
 
     if (!current) {
       return;
     }
 
-    keyring.saveAccountMeta(current, {
-      name: editedName,
-      whenEdited: Date.now()
-    });
-
-    onStatusChange({
+    let status = {
       action: 'edit',
-      success: !!(current.getMeta().name === editedName),
-      value: current.address(),
-      message: `Edited to: ${editedName}`
-    } as ActionStatus);
+      value: current.address()
+    };
+
+    try {
+      keyring.saveAccountMeta(current, {
+        name: editedName,
+        whenEdited: Date.now()
+      });
+
+      status.success = !!(current.getMeta().name === editedName);
+      status.message = t('status.editted', {
+        defaultValue: `Edited to: ${editedName}`
+      });
+    } catch (e) {
+      status.success = false;
+      status.message = t('status.error', {
+        defaultValue: e.message
+      });
+    }
+
+    onStatusChange(status as ActionStatus);
 
     this.nextState({} as State);
   }
@@ -315,7 +327,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onForget = (): void => {
-    const { onStatusChange } = this.props;
+    const { onStatusChange, t } = this.props;
     const { current } = this.state;
 
     if (!current) {
@@ -326,25 +338,27 @@ class Editor extends React.PureComponent<Props, State> {
       this.createState(null),
       () => {
 
+        const status = {
+          action: 'forget',
+          value: current.address()
+        };
+
         try {
           keyring.forgetAccount(
             current.address()
           );
-
-          onStatusChange({
-            action: 'forget',
-            success: true,
-            value: current.address(),
-            message: 'Forgot'
-          } as ActionStatus);
-        } catch (e) {
-          onStatusChange({
-            action: 'forget',
-            success: false,
-            value: current.address(),
-            message: 'Forgot'
-          } as ActionStatus);
+          status.success = true;
+          status.message = t('status.forgotten', {
+            defaultValue: 'Forgotten'
+          });
+        } catch (err) {
+          status.success = false;
+          status.message = t('status.error', {
+            defaultValue: err.message
+          });
         }
+
+        onStatusChange(status as ActionStatus);
       }
     );
   }
