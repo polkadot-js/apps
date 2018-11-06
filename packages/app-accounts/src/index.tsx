@@ -21,14 +21,14 @@ import translate from './translate';
 
 type Props = I18nProps & {
   allAccounts?: SubjectInfo,
+  onStatusChange: (status: ActionStatus) => void,
   basePath: string
 };
 
 type State = {
   action: Actions,
   hidden: Array<string>,
-  items: Array<TabItem>,
-  actionStatus: ActionStatus | null
+  items: Array<TabItem>
 };
 
 const Components: { [index: string]: React.ComponentType<any> } = {
@@ -50,7 +50,6 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
     this.state = {
       ...baseState,
-      actionStatus: null,
       items: [
         {
           name: 'edit',
@@ -97,7 +96,8 @@ class AccountsApp extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { action, hidden, items, actionStatus } = this.state;
+    const { onStatusChange } = this.props;
+    const { action, hidden, items } = this.state;
     const Component = Components[action];
 
     return (
@@ -113,24 +113,10 @@ class AccountsApp extends React.PureComponent<Props, State> {
         <Component
           onCreateAccount={this.selectEdit}
           onRestoreAccount={this.selectEdit}
-          onStatusChange={this.updateStatus}
-        />
-        <Status
-          key='account-action-status'
-          status={actionStatus}
+          onStatusChange={onStatusChange}
         />
       </main>
     );
-  }
-
-  private updateStatus = ({ action, success, value, message }: ActionStatus): void => {
-    this.setState({ actionStatus: { action, success, value, message } });
-
-    setTimeout(() => {
-      this.setState({
-        actionStatus: null
-      });
-    }, 5000);
   }
 
   private onMenuChange = (action: Actions) => {
