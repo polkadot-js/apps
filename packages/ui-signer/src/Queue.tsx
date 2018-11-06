@@ -3,13 +3,14 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
-import { QueueProps, QueueTx, QueueTx$Extrinsic, QueueTx$Id, QueueTx$Rpc, QueueTx$Status } from './types';
+import { PartialQueueTx$Extrinsic, PartialQueueTx$Rpc, QueueProps, QueueTx, QueueTx$Extrinsic, QueueTx$Rpc, QueueTx$Id, QueueTx$Status } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
 import jsonrpc from '@polkadot/jsonrpc';
 
 import { QueueProvider } from './Context';
+import { RpcMethod } from '@polkadot/jsonrpc/types';
 
 export type Props = BareProps & {
   children: React.ReactNode
@@ -23,6 +24,7 @@ const defaultState = {
 
 let nextId: QueueTx$Id = 0;
 
+const SUBMIT_RPC = jsonrpc.author.methods.submitAndWatchExtrinsic;
 const STATUS_COMPLETE: Array<QueueTx$Status> = [
   // status from subscription
   'finalised', 'usurped', 'dropped',
@@ -79,17 +81,16 @@ export default class Queue extends React.Component<Props, State> {
     }
   }
 
-  queueAdd = (value: QueueTx$Extrinsic | QueueTx$Rpc): QueueTx$Id => {
+  private queueAdd = (value: QueueTx$Extrinsic | QueueTx$Rpc): QueueTx$Id => {
     const id: QueueTx$Id = ++nextId;
+    const rpc: RpcMethod = (value as QueueTx$Rpc).rpc || SUBMIT_RPC;
 
     this.setState(
       (prevState: State): State => ({
         queue: prevState.queue.concat([{
           ...value,
-          rpc: (value as QueueTx$Rpc).rpc
-            ? (value as QueueTx$Rpc).rpc
-            : jsonrpc.author.methods.submitAndWatchExtrinsic,
           id,
+          rpc,
           status: 'queued'
         }])
       } as State)
@@ -98,18 +99,18 @@ export default class Queue extends React.Component<Props, State> {
     return id;
   }
 
-  queueExtrinsic = ({ extrinsic, accountNonce = new BN(0), accountId }: QueueTx$Extrinsic): QueueTx$Id => {
+  queueExtrinsic = ({ accountId, accountNonce, extrinsic }: PartialQueueTx$Extrinsic): QueueTx$Id => {
     return this.queueAdd({
-      accountNonce,
-      extrinsic,
-      accountId
+      accountId,
+      accountNonce: accountNonce || new BN(0),
+      extrinsic
     });
   }
 
-  queueRpc = ({ accountNonce = new BN(0), accountId, rpc, values }: QueueTx$Rpc): QueueTx$Id => {
+  queueRpc = ({ accountId, accountNonce, rpc, values }: PartialQueueTx$Rpc): QueueTx$Id => {
     return this.queueAdd({
-      accountNonce,
       accountId,
+      accountNonce: accountNonce || new BN(0),
       rpc,
       values
     });
