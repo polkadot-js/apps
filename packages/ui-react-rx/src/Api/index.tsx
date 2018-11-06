@@ -14,6 +14,7 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import RxApi from '@polkadot/rpc-rx';
 import settings from '@polkadot/ui-app/settings';
 import keyring from '@polkadot/ui-keyring/index';
+import { isTestChain } from '@polkadot/ui-react-rx/util/index';
 import { Header, Method } from '@polkadot/types';
 
 import { balanceFormat } from '../util/index';
@@ -116,7 +117,8 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       InputNumber.setUnit(found.unit);
       setAddressPrefix(found.chainId as any);
 
-      // load accounts only after prefix has been set
+      // setup keyringonly after prefix has been set
+      keyring.setDevMode(isTestChain(chain || ''));
       keyring.loadAll();
 
       this.setState({ chain });

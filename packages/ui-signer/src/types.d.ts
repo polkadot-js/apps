@@ -20,8 +20,13 @@ export type QueueTx$Result = {
 };
 
 export type AccountInfo = {
-  accountNonce: UInt | BN,
-  accountId?: string | null
+  accountId?: string | null,
+  accountNonce: UInt | BN
+};
+
+export type ParialAccountInfo = {
+  accountId?: string | null,
+  accountNonce?: UInt | BN | null
 };
 
 export type Fees = {
@@ -38,7 +43,16 @@ export type QueueTx$Extrinsic = AccountInfo & {
   extrinsic: Extrinsic
 }
 
+export type PartialQueueTx$Extrinsic = ParialAccountInfo & {
+  extrinsic: Extrinsic
+};
+
 export type QueueTx$Rpc = AccountInfo & {
+  rpc: RpcMethod,
+  values: Array<any>
+};
+
+export type PartialQueueTx$Rpc = ParialAccountInfo & {
   rpc: RpcMethod,
   values: Array<any>
 };
@@ -53,11 +67,9 @@ export type QueueTx = AccountInfo & {
   status: QueueTx$Status
 };
 
-export type QueueTx$Add = (value: QueueTx$Rpc | QueueTx$Extrinsic) => QueueTx$Id;
+export type QueueTx$RpcAdd = (value: PartialQueueTx$Rpc) => QueueTx$Id;
 
-export type QueueTx$RpcAdd = (value: QueueTx$Rpc) => QueueTx$Id;
-
-export type QueueTx$ExtrinsicAdd = (value: QueueTx$Extrinsic) => QueueTx$Id;
+export type QueueTx$ExtrinsicAdd = (value: PartialQueueTx$Extrinsic) => QueueTx$Id;
 
 export type QueueTx$MessageSetStatus = (id: number, status: QueueTx$Status, result?: any, error?: Error) => void;
 

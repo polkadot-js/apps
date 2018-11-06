@@ -25,7 +25,8 @@ export type Props = I18nProps & {
   withBalance?: boolean,
   withIndex?: boolean,
   identIconSize?: number,
-  isShort?: boolean
+  isShort?: boolean,
+  sessionValidators?: Array<AccountId>,
   withCopy?: boolean,
   withIcon?: boolean,
   withNonce?: boolean
@@ -132,10 +133,9 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderBalance () {
-    const { accountIdAndIndex = [], balance, t, withBalance = true } = this.props;
-    const [accountId] = accountIdAndIndex;
+    const { balance, t, withBalance = true, value } = this.props;
 
-    if (!withBalance || !accountId) {
+    if (!withBalance) {
       return null;
     }
 
@@ -146,7 +146,7 @@ class AddressSummary extends React.PureComponent<Props> {
         label={t('addressSummary.balance', {
           defaultValue: 'balance '
         })}
-        value={accountId}
+        value={value}
       />
     );
   }
@@ -163,17 +163,24 @@ class AddressSummary extends React.PureComponent<Props> {
     );
   }
 
-  protected renderIcon () {
-    const { identIconSize = 96, value, withIcon = true } = this.props;
+  protected renderIcon (className: string = 'ui--AddressSummary-icon', size?: number) {
+    const { accountIdAndIndex = [], identIconSize = 96, sessionValidators = [], value, withIcon = true } = this.props;
 
     if (!withIcon) {
       return null;
     }
 
+    const [_accountId] = accountIdAndIndex;
+    const accountId = (_accountId || '').toString();
+    const isValidator = sessionValidators.find((validator) =>
+      validator.toString() === accountId
+    );
+
     return (
       <IdentityIcon
-        className='ui--AddressSummary-icon'
-        size={identIconSize}
+        className={className}
+        isHighlight={!!isValidator}
+        size={size || identIconSize}
         value={value ? value.toString() : DEFAULT_ADDR}
       />
     );
@@ -221,5 +228,6 @@ export {
 
 export default withMulti(
   translate(AddressSummary),
-  withObservable('accountIdAndIndex', { paramProp: 'value' })
+  withObservable('accountIdAndIndex', { paramProp: 'value' }),
+  withObservable('sessionValidators')
 );

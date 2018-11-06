@@ -14,6 +14,7 @@ import { u8aToHex } from '@polkadot/util';
 
 import BlockHeader from '../BlockHeader';
 import translate from '../translate';
+import Logs from './Logs';
 
 type Props = ApiProps & I18nProps & {
   getBlock: SignedBlock,
@@ -38,7 +39,11 @@ class BlockByHash extends React.PureComponent<Props> {
         />
       </header>,
       this.renderExtrinsics(),
-      this.renderJustification()
+      this.renderJustification(),
+      <Logs
+        key='logs'
+        value={header.digest.logs}
+      />
     ];
   }
 
@@ -65,7 +70,7 @@ class BlockByHash extends React.PureComponent<Props> {
 
     return (
       <div
-        className='explorer--BlockByHash-extrinsic'
+        className='explorer--BlockByHash-block'
         key={`${value}:extrinsic:${index}`}
       >
         <article className='explorer--Container'>
@@ -90,7 +95,11 @@ class BlockByHash extends React.PureComponent<Props> {
 
   private renderJustification () {
     const { getBlock, t, value } = this.props;
-    const { justification } = getBlock;
+    const { justification: { signatures } } = getBlock;
+
+    if (!signatures || !signatures.length) {
+      return null;
+    }
 
     return (
       <section key='justification'>
@@ -98,7 +107,7 @@ class BlockByHash extends React.PureComponent<Props> {
           defaultValue: 'justifications'
         })}</h1>
         <div className='explorer--BlockByHash-flexable'>
-          {justification.signatures.map(({ authorityId, signature }) => (
+          {signatures.map(({ authorityId, signature }) => (
             <div
               className='explorer--BlockByHash-justification-signature'
               key={`${value}:justification:${authorityId}`}
