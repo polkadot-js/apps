@@ -78,9 +78,9 @@ class Logs extends React.PureComponent<Props> {
       >
         <article className='explorer--Container'>
           <div className='header'>
-            <div className='name'>
+            <h3>
               {item.type.toString()}
-            </div>
+            </h3>
             <div className='description' />
           </div>
           {content}
