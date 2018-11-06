@@ -31,8 +31,10 @@ const unknown = {
   name: ''
 };
 
-class Content extends React.PureComponent<Props> {
-  constructor (props) {
+class Content extends React.Component<Props, State> {
+  state: State;
+
+  constructor (props: Props) {
     super(props);
 
     this.state = {

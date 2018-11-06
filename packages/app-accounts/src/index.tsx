@@ -11,7 +11,7 @@ import './index.css';
 
 import React from 'react';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { Status, Tabs } from '@polkadot/ui-app/index';
+import { Tabs } from '@polkadot/ui-app/index';
 import { withObservableBase } from '@polkadot/ui-react-rx/with/index';
 
 import Creator from './Creator';
