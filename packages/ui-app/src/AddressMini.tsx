@@ -8,6 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
 import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
@@ -18,17 +19,23 @@ type Props = BareProps & {
   children?: React.ReactNode,
   isPadded?: boolean,
   isShort?: boolean,
+  sessionValidators?: Array<AccountId>,
   value?: AccountId | AccountIndex | Address | string,
   withBalance?: boolean
 };
 
-export default class AddressMini extends React.PureComponent<Props> {
+class AddressMini extends React.PureComponent<Props> {
   render () {
-    const { children, className, isPadded = true, isShort = true, style, value } = this.props;
+    const { children, className, isPadded = true, isShort = true, sessionValidators = [], style, value } = this.props;
 
     if (!value) {
       return null;
     }
+
+    const address = value.toString();
+    const isValidator = sessionValidators.find((validator) =>
+      validator.toString() === address
+    );
 
     return (
       <div
@@ -37,10 +44,11 @@ export default class AddressMini extends React.PureComponent<Props> {
       >
         <div className='ui--AddressMini-info'>
           <IdentityIcon
+            isHighlight={!!isValidator}
             size={24}
-            value={value.toString()}
+            value={address}
           />
-          <div className='ui--AddressMini-address'>{isShort ? toShortAddress(value) : value}</div>
+          <div className='ui--AddressMini-address'>{isShort ? toShortAddress(address) : address}</div>
           {children}
         </div>
         {this.renderBalance()}
@@ -64,3 +72,8 @@ export default class AddressMini extends React.PureComponent<Props> {
     );
   }
 }
+
+export default withMulti(
+  AddressMini,
+  withObservable('sessionValidators')
+);
