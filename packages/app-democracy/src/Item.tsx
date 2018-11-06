@@ -29,9 +29,9 @@ class Item extends React.PureComponent<Props> {
       <article className='democracy--Item'>
         <div className='democracy--Item-header'>
           <div className='democracy--Item-header-info'>
-            <div className='democracy--Item-header-name'>
+            <h3>
               {section}.{method}
-            </div>
+            </h3>
             <div className='democracy--Item-header-description'>
             {
                 meta && meta.documentation && meta.documentation.length

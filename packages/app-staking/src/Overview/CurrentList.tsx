@@ -109,8 +109,6 @@ class CurrentList extends React.PureComponent<Props> {
 
     const address = _address.toString();
 
-    console.log('balance', address, balances[address], balances);
-
     return balances[address]
       ? [balances[address].stakingBalance, balances[address].nominatedBalance]
       : undefined;

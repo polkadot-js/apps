@@ -63,7 +63,7 @@ class BlockByHash extends React.PureComponent<Props> {
     );
   }
 
-  // FIXME This is _very_ similar to what we have in democary/Item
+  // FIXME This is _very_ similar to what we have in democracy/Item
   private renderExtrinsic = (extrinsic: Extrinsic, index?: number) => {
     const { value } = this.props;
     const { meta, method, section } = Method.findFunction(extrinsic.callIndex);
@@ -75,9 +75,9 @@ class BlockByHash extends React.PureComponent<Props> {
       >
         <article className='explorer--Container'>
           <div className='header'>
-            <div className='name'>
+            <h3>
               {section}.{method}
-            </div>
+            </h3>
             <div className='description'>
               {
                 meta && meta.documentation && meta.documentation.length
