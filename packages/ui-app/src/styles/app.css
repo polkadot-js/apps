@@ -17,10 +17,17 @@ body {
   height: 100%;
 }
 
-h1 {
+h1, h2, h3, h4, h5 {
   color: rgba(0, 0, 0, .6);
   font-weight: 100;
+}
+
+h1 {
   text-transform: lowercase;
+}
+
+h3, h4, h5 {
+  margin-bottom: 0.25rem;
 }
 
 /*
@@ -42,7 +49,7 @@ article {
   border: 1px solid #fafafa;
   border-radius: 0.25rem;
   margin: 0.5rem;
-  padding: 1.5rem;
+  padding: 1rem 1.5rem;
 }
 
 header,
