@@ -22,7 +22,20 @@ type State = {
   placeholder?: string;
 };
 
-type Pairs = Array<{ key: Uint8Array, value: Uint8Array }>;
+type Pairs = Array<{
+  key: Uint8Array,
+  value: Uint8Array
+}>;
+
+type Parsed = {
+  isValid: boolean,
+  value: Pairs
+};
+
+const BYTES_TYPE = {
+  type: 'Bytes',
+  info: 0
+};
 
 class StorageKeyValueArray extends React.PureComponent<Props, State> {
   private placeholderEmpty: string;
@@ -80,7 +93,7 @@ class StorageKeyValueArray extends React.PureComponent<Props, State> {
               key={keyHex}
               label={keyHex}
               name={keyHex}
-              type={{ type: 'Bytes', info: 0 }}
+              type={BYTES_TYPE}
             />
           );
         })}
@@ -90,20 +103,16 @@ class StorageKeyValueArray extends React.PureComponent<Props, State> {
 
   private onChange = (raw: Uint8Array): void => {
     const { onChange, t } = this.props;
-    let value: Pairs = [];
-    let isValid: boolean = false;
+    let encoded: Parsed = { isValid: false, value: [] };
 
     try {
-      const enc = this.parseFile(raw);
-
-      isValid = enc.isValid;
-      value = enc.value;
+      encoded = this.parseFile(raw);
 
       this.setState({
         placeholder: t('kvarray.values', {
           defaultValue: '{{count}} key/value pairs encoded for submission',
           replace: {
-            count: value.length
+            count: encoded.value.length
           }
         })
       });
@@ -115,16 +124,14 @@ class StorageKeyValueArray extends React.PureComponent<Props, State> {
       });
     }
 
-    onChange && onChange({
-      isValid,
-      value
-    });
+    onChange && onChange(encoded);
   }
 
-  private parseFile (raw: Uint8Array): { isValid: boolean, value: Pairs } {
+  private parseFile (raw: Uint8Array): Parsed {
     const json = JSON.parse(u8aToString(raw));
-    let isValid = true;
-    const value = Object.keys(json).map((key) => {
+    const keys = Object.keys(json);
+    let isValid = keys.length !== 0;
+    const value = keys.map((key) => {
       const value = json[key];
 
       assert(isHex(key) && isHex(value), `Non-hex key/value pair found in ${key.toString()} => ${value.toString()}`);
@@ -132,9 +139,7 @@ class StorageKeyValueArray extends React.PureComponent<Props, State> {
       const encKey = StorageKeyValue.createParam(key);
       const encValue = StorageKeyValue.createParam(value);
 
-      if (!encKey.isValid || !encValue.isValid) {
-        isValid = false;
-      }
+      isValid = isValid && encKey.isValid && encValue.isValid;
 
       return {
         key: encKey.u8a,
