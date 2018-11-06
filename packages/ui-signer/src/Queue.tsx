@@ -24,6 +24,7 @@ const defaultState = {
 
 let nextId: QueueTx$Id = 0;
 
+const SUBMIT_RPC = jsonrpc.author.methods.submitAndWatchExtrinsic;
 const STATUS_COMPLETE: Array<QueueTx$Status> = [
   // status from subscription
   'finalised', 'usurped', 'dropped',
@@ -82,7 +83,7 @@ export default class Queue extends React.Component<Props, State> {
 
   private queueAdd = (value: QueueTx$Extrinsic | QueueTx$Rpc): QueueTx$Id => {
     const id: QueueTx$Id = ++nextId;
-    const rpc: RpcMethod = (value as QueueTx$Rpc).rpc || jsonrpc.author.methods.submitAndWatchExtrinsic;
+    const rpc: RpcMethod = (value as QueueTx$Rpc).rpc || SUBMIT_RPC;
 
     this.setState(
       (prevState: State): State => ({
