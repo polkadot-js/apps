@@ -80,7 +80,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     );
 
     let txfees = fees.baseFee
-        .add(fees.transferFee ? fees.transferFee : new Balance(0))
+        .add(fees.transferFee)
         .add(fees.byteFee.mul(txLength));
 
     if (balanceTo.votingBalance.isZero()) {
