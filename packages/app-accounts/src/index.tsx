@@ -5,19 +5,18 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 import { TabItem } from '@polkadot/ui-app/Tabs';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { Actions, ActionStatus } from './types';
+import { Actions, ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import './index.css';
 
 import React from 'react';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { Tabs } from '@polkadot/ui-app/index';
+import { Status, Tabs } from '@polkadot/ui-app/index';
 import { withObservableBase } from '@polkadot/ui-react-rx/with/index';
 
 import Creator from './Creator';
 import Editor from './Editor';
 import Restore from './Restore';
-import Status from './Status';
 import translate from './translate';
 
 type Props = I18nProps & {
