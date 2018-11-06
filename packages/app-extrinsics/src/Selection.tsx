@@ -102,7 +102,7 @@ class Selection extends React.PureComponent<Props, State> {
     this.nextState({ accountNonce } as State);
   }
 
-  onChangeSender = (accountId: string): void => {
+  private onChangeSender = (accountId: string): void => {
     this.nextState({ accountId, accountNonce: new BN(0) } as State);
   }
 

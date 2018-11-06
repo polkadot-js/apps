@@ -80,16 +80,9 @@ export default class Queue extends React.Component<Props, State> {
   }
 
   queueAdd = (value: QueueTx$Extrinsic | QueueTx$Rpc): QueueTx$Id => {
-    if (this.isDuplicateNonce(value)) {
-      this.queueSetStatus(nextId, 'error');
-      // TODO: Notify user to wait for prev txn to be finalized
-      console.error('Give it a second will ya');
-      return nextId; // unincremented id from the previous since we short circuit
-    }
-
     const id: QueueTx$Id = ++nextId;
 
-    console.log(`txn ${JSON.stringify(value)} with nonce -> `, value.accountNonce);
+    const _this = this;
 
     this.setState(
       (prevState: State): State => ({
@@ -99,7 +92,7 @@ export default class Queue extends React.Component<Props, State> {
             ? (value as QueueTx$Rpc).rpc
             : jsonrpc.author.methods.submitAndWatchExtrinsic,
           id,
-          status: 'queued'
+          status: _this.isDuplicateNonce(value) ? 'error' : 'queued'
         }])
       } as State)
     );
@@ -125,7 +118,9 @@ export default class Queue extends React.Component<Props, State> {
   }
 
   private isDuplicateNonce = (value: QueueTx$Extrinsic | QueueTx$Rpc): boolean => {
-    this.state.queue.find((item) => {
+    const { queue } = this.state;
+
+    return queue.find((item) => {
       return item.accountNonce === value.accountNonce
     });
   }
