@@ -99,7 +99,6 @@ class CurrentList extends React.PureComponent<Props> {
       </article>
     );
   }
-
 }
 
 export default translate(CurrentList);

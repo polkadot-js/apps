@@ -45,7 +45,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accountId, intentions, name } = this.props;
+    const { accountId, balances, balanceArray, intentions, name } = this.props;
     const { isNominateOpen } = this.state;
 
     return (
