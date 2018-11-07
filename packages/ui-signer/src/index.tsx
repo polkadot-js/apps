@@ -30,12 +30,13 @@ class Signer extends React.PureComponent<Props> {
       <Queue>
         {children}
         <QueueConsumer>
-          {({ queue, queueSetStatus }: QueueProps) => [
+          {({ queue, queueSetStatus, queueUnclog }: QueueProps) => [
             <Modal
               className={className}
               key='signer-modal'
               queue={queue}
               queueSetStatus={queueSetStatus}
+              queueUnclog={queueUnclog}
               style={style}
             />,
             <Status

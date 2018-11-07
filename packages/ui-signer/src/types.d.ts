@@ -9,7 +9,7 @@ import { Base, UInt } from '@polkadot/types/codec';
 import { Hash, Extrinsic } from '@polkadot/types';
 import { RawParam$Value } from '@polkadot/ui-app/Params/types';
 
-export type QueueTx$Status = 'finalised' | 'usurped' | 'dropped' | 'broadcast' | 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent';
+export type QueueTx$Status = 'finalised' | 'usurped' | 'dropped' | 'broadcast' | 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent' | 'blocked';
 
 export type QueueTx$Id = number;
 
@@ -63,8 +63,11 @@ export type QueueTx$ExtrinsicAdd = (value: PartialQueueTx$Extrinsic) => QueueTx$
 
 export type QueueTx$MessageSetStatus = (id: number, status: QueueTx$Status, result?: any, error?: Error) => void;
 
+export type QueueTx$Unclog = () => void;
+
 export type QueueProps = {
   queue: Array<QueueTx>,
+  queueUnclog: QueueTx$Unclog,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
   queueRpc: QueueTx$RpcAdd,
   queueSetStatus: QueueTx$MessageSetStatus

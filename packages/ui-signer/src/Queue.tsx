@@ -42,7 +42,8 @@ export default class Queue extends React.Component<Props, State> {
       queue: [],
       queueRpc: this.queueRpc,
       queueExtrinsic: this.queueExtrinsic,
-      queueSetStatus: this.queueSetStatus
+      queueSetStatus: this.queueSetStatus,
+      queueUnclog: this.queueUnclog
     };
   }
 
@@ -52,6 +53,16 @@ export default class Queue extends React.Component<Props, State> {
         {this.props.children}
       </QueueProvider>
     );
+  }
+
+  queueUnclog = (): void => {
+    const { queue } = this.state;
+
+    queue.find((item) => {
+      item.accountNonce = item.accountNonce.raw.toNumber() + 1;
+      item.status = 'queued';
+      this.queueAdd(item)
+    });
   }
 
   queueSetStatus = (id: QueueTx$Id, status: QueueTx$Status, result?: any, error?: Error): void => {
@@ -92,7 +103,8 @@ export default class Queue extends React.Component<Props, State> {
         queue: prevState.queue.concat([{
           ...value,
           id,
-          status: _this.isDuplicateNonce(value) ? 'error' : 'queued'
+          rpc,
+          status: _this.isDuplicateNonce(value) ? 'blocked' : 'queued'
         }])
       } as State)
     );
@@ -121,7 +133,7 @@ export default class Queue extends React.Component<Props, State> {
     const { queue } = this.state;
 
     return queue.find((item) => {
-      return item.accountNonce === value.accountNonce
+      return item.accountNonce === value.accountNonce;
     });
   }
 }
