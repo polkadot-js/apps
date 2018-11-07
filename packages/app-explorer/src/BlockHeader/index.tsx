@@ -30,16 +30,17 @@ export default class BlockHeader extends React.PureComponent<Props> {
       return null;
     }
 
-    const parentHex = value.parentHash.toHex();
+    const { blockNumber, extrinsicsRoot, parentHash, stateRoot } = value;
+    const parentHex = parentHash.toHex();
 
     return (
       <article className='explorer--BlockHeader'>
         <div className='details'>
           <div className='header'>
-            <div className='number'>{numberFormat(value.blockNumber.toBn())}&nbsp;</div>
+            <div className='number'>{numberFormat(blockNumber.toBn())}&nbsp;</div>
             <div className='hash'>
               <BlockHash
-                value={value.blockNumber}
+                blockNumber={blockNumber}
                 withLink={withLink}
               />
             </div>
@@ -55,11 +56,11 @@ export default class BlockHeader extends React.PureComponent<Props> {
             </div>
             <div>
               <div className='type'>extrinsicsRoot</div>
-              <div className='hash'>{value.extrinsicsRoot.toHex()}</div>
+              <div className='hash'>{extrinsicsRoot.toHex()}</div>
             </div>
             <div>
               <div className='type'>stateRoot</div>
-              <div className='hash'>{value.stateRoot.toHex()}</div>
+              <div className='hash'>{stateRoot.toHex()}</div>
             </div>
             {withExtrinsics
               ? <Extrinsics hash={value.hash} />

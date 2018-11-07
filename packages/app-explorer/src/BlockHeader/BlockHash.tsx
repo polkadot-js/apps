@@ -11,8 +11,8 @@ import { withObservable } from '@polkadot/ui-react-rx/with/index';
 import { BlockNumber, Hash } from '@polkadot/types';
 
 type Props = I18nProps & {
+  blockNumber: BlockNumber,
   getBlockHash?: Hash,
-  value: BlockNumber,
   withLink?: boolean
 };
 
@@ -34,6 +34,8 @@ class BlockHash extends React.PureComponent<Props> {
   }
 }
 
-export default withObservable(
-  'rawCall', { params: [jsonrpc.chain.methods.getBlockHash], paramProp: 'value', propName: 'getBlockHash' }
-)(BlockHash);
+export default withObservable('rawCall', {
+  params: [jsonrpc.chain.methods.getBlockHash],
+  paramProp: 'blockNumber',
+  propName: 'getBlockHash'
+})(BlockHash);
