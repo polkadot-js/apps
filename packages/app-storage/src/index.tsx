@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { StorageQuery } from './types';
+import { QueryTypes } from './types';
 
 import './index.css';
 
@@ -18,7 +18,7 @@ type Props = I18nProps & {
 };
 
 type State = {
-  queue: Array<StorageQuery>
+  queue: Array<QueryTypes>
 };
 
 class StorageApp extends React.PureComponent<Props, State> {
@@ -40,7 +40,7 @@ class StorageApp extends React.PureComponent<Props, State> {
     );
   }
 
-  private onAdd = (query: StorageQuery): void => {
+  private onAdd = (query: QueryTypes): void => {
     this.setState(
       (prevState: State): State => ({
         queue: [query].concat(prevState.queue)

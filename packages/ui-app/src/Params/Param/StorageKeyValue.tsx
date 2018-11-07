@@ -74,12 +74,12 @@ export default class StorageKeyValue extends React.PureComponent<Props, State> {
       u8a = new Uint8Array([]);
     }
 
-    const isValidLength = length !== -1
+    const isValid = length !== -1
       ? u8a.length === length
       : u8a.length !== 0;
 
     return {
-      isValid: isValidLength,
+      isValid,
       u8a: Compact.addLengthPrefix(u8a)
     };
   }

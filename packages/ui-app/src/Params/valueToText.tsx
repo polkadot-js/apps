@@ -5,7 +5,7 @@
 import './Params.css';
 
 import React from 'react';
-import { isNull, isUndefined } from '@polkadot/util';
+import { isNull, isUndefined, u8aToHex } from '@polkadot/util';
 // import { decodeAddress } from '@polkadot/keyring';
 // import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 // import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
@@ -151,7 +151,12 @@ function valueToText (type: string, value: any, swallowError: boolean = true): R
 
   return isNull(value) || isUndefined(value)
     ? unknown
-    : div({}, value.toString());
+    : div(
+      {},
+      ['Bytes', 'Data'].includes(type)
+        ? u8aToHex(value.toU8a(true), 512)
+        : value.toString()
+    );
 }
 
 export default valueToText;
