@@ -4,6 +4,7 @@
 
 import { KeyringPair } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import { AddressSummary, Button, Input, InputAddress } from '@polkadot/ui-app/index';
@@ -13,7 +14,6 @@ import Backup from './Backup';
 import ChangePass from './ChangePass';
 import Forgetting from './Forgetting';
 import translate from './translate';
-import { ActionStatus } from './types';
 
 type Props = I18nProps & {
   allAccounts?: Array<Object>,

@@ -13,7 +13,7 @@ import { isHex, isObject, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
-import { ActionStatus } from './types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 type Props = I18nProps & {
   onStatusChange: (status: ActionStatus) => void,
@@ -160,7 +160,6 @@ class Restore extends React.PureComponent<Props, State> {
       this.setState({ isPassValid: false });
 
       status.success = false;
-      status.value = null;
       status.message = t('status.error', {
         defaultValue: error.message
       });

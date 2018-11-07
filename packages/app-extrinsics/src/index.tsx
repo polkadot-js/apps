@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 import { QueueProps } from '@polkadot/ui-signer/types';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import './index.css';
 

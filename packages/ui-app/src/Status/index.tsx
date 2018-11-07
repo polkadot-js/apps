@@ -4,7 +4,7 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx, QueueTx$Status } from '@polkadot/ui-signer/types';
-import { ActionStatus } from './types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import { AddressMini, Icon } from '@polkadot/ui-app/index';
@@ -14,7 +14,7 @@ import { Method } from '@polkadot/types';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  status?: ActionStatus | null,
+  status?: ActionStatus,
   queue?: Array<QueueTx>
 };
 
@@ -47,8 +47,12 @@ class Status extends React.PureComponent<Props> {
     );
   }
 
-  private renderStatus = (status: ActionStatus | null) => {
+  private renderStatus = (status?: ActionStatus) => {
     const { t } = this.props;
+
+    if (!status) {
+      return null;
+    }
 
     return (
       <div

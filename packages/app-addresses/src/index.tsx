@@ -4,6 +4,7 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import './index.css';
 

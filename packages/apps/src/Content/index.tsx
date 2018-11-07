@@ -22,7 +22,7 @@ type Props = I18nProps & ApiProps & {
 };
 
 type State = {
-  status: ActionStatus | null
+  status?: ActionStatus
 };
 
 const unknown = {
@@ -37,9 +37,7 @@ class Content extends React.Component<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    this.state = {
-      status: null
-    };
+    this.state = {};
   }
 
   render () {
@@ -74,7 +72,7 @@ class Content extends React.Component<Props, State> {
 
     setTimeout(() => {
       this.setState({
-        status: null
+        status: undefined
       });
     }, 5000);
   }

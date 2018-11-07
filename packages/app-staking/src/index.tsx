@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { RxBalanceMap } from '@polkadot/api-observable/types';
 
 import React from 'react';

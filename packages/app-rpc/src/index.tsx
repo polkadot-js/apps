@@ -4,6 +4,7 @@
 
 import { BareProps } from '@polkadot/ui-app/types';
 import { QueueProps } from '@polkadot/ui-signer/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import './index.css';
 
