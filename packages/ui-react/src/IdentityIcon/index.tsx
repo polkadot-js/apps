@@ -13,6 +13,7 @@ import Polkadot from './Polkadot';
 import Substrate from './Substrate';
 
 type Props = BaseProps & {
+  isHighlight?: boolean,
   size?: number,
   value?: string | Uint8Array | null
 };
@@ -24,7 +25,7 @@ const Component = settings.uiTheme === 'substrate'
 
 export default class IdentityIcon extends React.PureComponent<Props> {
   render () {
-    const { className, size = DEFAULT_SIZE, style, value } = this.props;
+    const { className, isHighlight = false, size = DEFAULT_SIZE, style, value } = this.props;
 
     if (!value) {
       return null;
@@ -32,7 +33,7 @@ export default class IdentityIcon extends React.PureComponent<Props> {
 
     return (
       <div
-        className={['ui--IdentityIcon', className].join(' ')}
+        className={['ui--IdentityIcon', isHighlight ? 'highlight' : '', className].join(' ')}
         key={value.toString()}
         style={style}
       >

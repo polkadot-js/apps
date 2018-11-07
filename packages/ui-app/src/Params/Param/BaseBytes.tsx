@@ -5,8 +5,8 @@
 import { Props as BaseProps, Size } from '../types';
 
 import React from 'react';
-import { U8a } from '@polkadot/types/codec';
-import { bnToU8a, hexToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
+import { U8a, Compact } from '@polkadot/types/codec';
+import { hexToU8a, u8aToHex } from '@polkadot/util';
 
 import Input from '../../Input';
 import Bare from './Bare';
@@ -57,29 +57,29 @@ export default class BaseBytes extends React.PureComponent<Props> {
   }
 
   onChange = (hex: string): void => {
-    const { length = -1, onChange, validate = defaultValidate, withLength = false } = this.props;
+    const { length = -1, onChange, validate = defaultValidate, withLength } = this.props;
 
-    let u8a: Uint8Array;
+    let value: Uint8Array;
 
     try {
-      u8a = hexToU8a(hex);
+      value = hexToU8a(hex);
     } catch (error) {
-      u8a = new Uint8Array([]);
+      value = new Uint8Array([]);
     }
 
-    const isValidLength = length !== -1
-      ? u8a.length === length
-      : u8a.length !== 0;
-    const isValid = isValidLength && validate(u8a);
+    let isValid = length !== -1
+      ? value.length === length
+      : value.length !== 0;
+
+    if (withLength && isValid) {
+      const [offset, readLength] = Compact.decodeU8a(value, 32);
+
+      isValid = readLength.eqn(value.length - offset) && validate(value);
+    }
 
     onChange && onChange({
       isValid,
-      value: u8aConcat(
-        withLength
-          ? bnToU8a(u8a.length, 32, true)
-          : new Uint8Array([]),
-        u8a
-      )
+      value
     });
   }
 }
