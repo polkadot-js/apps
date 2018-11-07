@@ -11,6 +11,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
+// FIXME 7 Nov 2018 Due to mismatches with block hashes between Substrate and BBQ,
+// the hashes are retrieved and not calculated (go back to calculated once resolved)
+import BlockHash from './BlockHash';
 import Extrinsics from './Extrinsics';
 
 type Props = BareProps & {
@@ -27,7 +30,6 @@ export default class BlockHeader extends React.PureComponent<Props> {
       return null;
     }
 
-    const hashHex = value.hash.toHex();
     const parentHex = value.parentHash.toHex();
 
     return (
@@ -35,11 +37,12 @@ export default class BlockHeader extends React.PureComponent<Props> {
         <div className='details'>
           <div className='header'>
             <div className='number'>{numberFormat(value.blockNumber.toBn())}&nbsp;</div>
-            <div className='hash'>{
-              withLink
-                ? <Link to={`/explorer/hash/${hashHex}`}>{hashHex}</Link>
-                : hashHex
-            }</div>
+            <div className='hash'>
+              <BlockHash
+                value={value.blockNumber}
+                withLink={withLink}
+              />
+            </div>
           </div>
           <div className='contains'>
             <div>
