@@ -21,8 +21,7 @@ import translate from './translate';
 
 type BaseProps = BareProps & {
   queue: Array<QueueTx>,
-  queueSetStatus: QueueTx$MessageSetStatus,
-  queueUnclog: QueueTx$Unclog
+  queueSetStatus: QueueTx$MessageSetStatus
 };
 
 type Props = I18nProps & ApiProps & BaseProps;
@@ -293,7 +292,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private async submitExtrinsic (extrinsic: Extrinsic, id: QueueTx$Id): Promise<void> {
-    const { apiObservable, queueSetStatus, queueUnclog } = this.props;
+    const { apiObservable, queueSetStatus } = this.props;
 
     try {
       const encoded = extrinsic.toJSON();
@@ -310,8 +309,6 @@ class Signer extends React.PureComponent<Props, State> {
         console.log('submitAndWatchExtrinsic: updated status ::', result);
 
         queueSetStatus(id, status, result);
-
-        queueUnclog();
       });
     } catch (error) {
       console.error(error);

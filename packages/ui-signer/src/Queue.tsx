@@ -55,14 +55,10 @@ export default class Queue extends React.Component<Props, State> {
     );
   }
 
-  queueUnclog = (): void => {
+  private isDuplicateNonce = (value: QueueTx$Extrinsic | QueueTx$Rpc | QueueTx): boolean => {
     const { queue } = this.state;
 
-    queue.find((item) => {
-      item.accountNonce = item.accountNonce.raw.toNumber() + 1;
-      item.status = 'queued';
-      this.queueAdd(item)
-    });
+    return queue.filter(item => item.accountNonce === value.accountNonce).length > 0;
   }
 
   queueSetStatus = (id: QueueTx$Id, status: QueueTx$Status, result?: any, error?: Error): void => {
@@ -92,7 +88,7 @@ export default class Queue extends React.Component<Props, State> {
     }
   }
 
-  private queueAdd = (value: QueueTx$Extrinsic | QueueTx$Rpc): QueueTx$Id => {
+  private queueAdd = (value: QueueTx$Extrinsic | QueueTx$Rpc | QueueTx): QueueTx$Id => {
     const id: QueueTx$Id = ++nextId;
     const rpc: RpcMethod = (value as QueueTx$Rpc).rpc || SUBMIT_RPC;
 
@@ -129,11 +125,20 @@ export default class Queue extends React.Component<Props, State> {
     });
   }
 
-  private isDuplicateNonce = (value: QueueTx$Extrinsic | QueueTx$Rpc): boolean => {
+  queueUnclog = (accountNonce: BN): void => {
     const { queue } = this.state;
+    let _this = this;
 
-    return queue.find((item) => {
-      return item.accountNonce === value.accountNonce;
+    /* TODO: it 'works', but it's gross. It cancels all queued extrinsic with the nonincremenated nonce marked with a 'blocked' status and then requeues them all with the updated nonce. Unless users spam submit extrinsics, i can't see this being an issue, but it's still ugly.
+    */
+    queue.forEach((item) => {
+      if (item.status === 'blocked') {
+        let updatedItem = item;
+        _this.queueSetStatus(item.id, 'cancelled');
+
+        updatedItem.accountNonce = accountNonce;
+        _this.queueAdd(updatedItem);
+      }
     });
   }
 }
