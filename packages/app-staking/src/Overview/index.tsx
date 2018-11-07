@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import './index.css';
 
 import React from 'react';
-import { Balance } from '@polkadot/types';
+import { AccountId, Balance } from '@polkadot/types';
 
 import CurrentList from './CurrentList';
 import Summary from './Summary';

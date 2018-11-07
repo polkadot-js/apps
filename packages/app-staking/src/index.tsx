@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { RxBalanceMap } from '@polkadot/api-observable/types';
 
 import React from 'react';
-import { AccountId } from '@polkadot/types';
+import { AccountId, Balance } from '@polkadot/types';
 import { Tabs } from '@polkadot/ui-app/index';
 import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
