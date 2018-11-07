@@ -11,8 +11,8 @@ import React from 'react';
 
 import { QueueConsumer } from './Context';
 import Modal from './Modal';
-import Status from './Status';
 import Queue, { Props as QueueComponentProps } from './Queue';
+import Status from '@polkadot/ui-app/Status';
 
 type Props = BareProps & {
   children: any // node?

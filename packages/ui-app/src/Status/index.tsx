@@ -3,31 +3,65 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
-import { QueueTx, QueueTx$Status } from './types';
+import { QueueTx, QueueTx$Status } from '@polkadot/ui-signer/types';
+import { ActionStatus } from './types';
 
 import React from 'react';
-import { Icon } from '@polkadot/ui-app/index';
+import { AddressMini, Icon } from '@polkadot/ui-app/index';
 import classes from '@polkadot/ui-app/util/classes';
 import { Method } from '@polkadot/types';
 
 type Props = BareProps & {
-  queue: Array<QueueTx>
+  status: ActionStatus | null,
+  queue: Array<QueueTx> | null
 };
 
 export default class Status extends React.PureComponent<Props> {
   render () {
-    const { queue } = this.props;
-    const available = queue.filter(({ status }) =>
-      !['completed', 'incomplete'].includes(status)
-    );
+    const { queue, status } = this.props;
 
-    if (!available.length) {
+    let available;
+
+    if (queue) {
+      available = queue.filter(({ status }) =>
+        !['completed', 'incomplete'].includes(status)
+      );
+    }
+
+    if (!status && !available) {
       return null;
     }
 
     return (
-      <div className='ui--signer-Status'>
-        {available.map(this.renderItem)}
+      <div className='app--account-Status'>
+        {
+          available
+          ?
+          available.map(this.renderItem)
+          :
+          this.renderStatus(status)
+        }
+      </div>
+    );
+  }
+
+  private renderStatus = (status: ActionStatus) => {
+    return (
+      <div
+        className={classes('app--account-Status-Item', status.success ? 'success' : 'error')}
+      >
+        <div className='desc'>
+          <div className='header'>
+            {status.success ? 'Success' : 'Failed'}
+          </div>
+          <AddressMini value={status.value} />
+          <div className='status'>
+            {status.message}
+          </div>
+        </div>
+        <div className='short'>
+          <Icon name={this.iconName(status)} />
+        </div>
       </div>
     );
   }
@@ -44,7 +78,7 @@ export default class Status extends React.PureComponent<Props> {
       }
     }
 
-    const icon = this.iconName(status);
+    const icon = this.signerIconName(status);
 
     return (
       <div
@@ -69,7 +103,11 @@ export default class Status extends React.PureComponent<Props> {
     );
   }
 
-  private iconName = (status: QueueTx$Status): any => {
+  private iconName = (status: ActionStatus): any => {
+    return status.success ? 'check' : 'ban';
+  }
+
+  private signerIconName = (status: QueueTx$Status): any => {
     switch (status) {
       case 'cancelled':
         return 'ban';
