@@ -21,6 +21,12 @@ export default class Polkadot extends React.PureComponent<Props> {
     }
 
     // @ts-ignore Published version does not match up with actual repo version
-    return <Identicon account={value} size={size} />;
+    const icon = <Identicon account={value} size={size} />;
+
+    return (
+      <div>
+        {icon}
+      </div>
+    );
   }
 }
