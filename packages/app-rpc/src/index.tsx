@@ -14,7 +14,8 @@ import Results from './Results';
 import Selection from './Selection';
 
 type Props = BareProps & {
-  basePath: string
+  basePath: string,
+  onStatusChange: (status: ActionStatus) => void
 };
 
 export default class RpcApp extends React.PureComponent<Props> {

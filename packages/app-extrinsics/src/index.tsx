@@ -16,8 +16,9 @@ import translate from './translate';
 import Selection from './Selection';
 
 type Props = I18nProps & {
+  accountAll?: Array<any>,
   basePath: string,
-  accountAll?: Array<any>
+  onStatusChange: (status: ActionStatus) => void
 };
 
 class ExtrinsicsApp extends React.PureComponent<Props> {

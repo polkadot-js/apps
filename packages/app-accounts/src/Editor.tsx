@@ -254,7 +254,7 @@ class Editor extends React.PureComponent<Props, State> {
       return;
     }
 
-    let status = {
+    let status: ActionStatus = {
       action: 'edit',
       value: current.address()
     };
@@ -276,7 +276,7 @@ class Editor extends React.PureComponent<Props, State> {
       });
     }
 
-    onStatusChange(status as ActionStatus);
+    onStatusChange(status);
 
     this.nextState({} as State);
   }
@@ -338,7 +338,7 @@ class Editor extends React.PureComponent<Props, State> {
       this.createState(null),
       () => {
 
-        const status = {
+        const status: ActionStatus = {
           action: 'forget',
           value: current.address()
         };
@@ -358,7 +358,7 @@ class Editor extends React.PureComponent<Props, State> {
           });
         }
 
-        onStatusChange(status as ActionStatus);
+        onStatusChange(status);
       }
     );
   }

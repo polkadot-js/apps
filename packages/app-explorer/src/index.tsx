@@ -13,7 +13,8 @@ import BlockByHash from './BlockByHash';
 import Main from './Main';
 
 type Props = BareProps & {
-  basePath: string
+  basePath: string,
+  onStatusChange: (status: ActionStatus) => void
 };
 
 export default class ExplorerApp extends React.Component<Props> {

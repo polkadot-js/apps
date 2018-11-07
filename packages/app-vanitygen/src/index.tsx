@@ -17,7 +17,8 @@ import generatorSort from './generator/sort';
 import translate from './translate';
 
 type Props = I18nProps & {
-  basePath: string
+  basePath: string,
+  onStatusChange: (status: ActionStatus) => void
 };
 
 type State = {

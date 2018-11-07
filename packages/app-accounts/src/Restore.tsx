@@ -141,7 +141,7 @@ class Restore extends React.PureComponent<Props, State> {
       return;
     }
 
-    let status = {
+    let status: ActionStatus = {
       action: 'restore'
     };
 
@@ -168,7 +168,7 @@ class Restore extends React.PureComponent<Props, State> {
       console.error(error);
     }
 
-    onStatusChange(status as ActionStatus);
+    onStatusChange(status);
   }
 }
 

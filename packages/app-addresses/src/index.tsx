@@ -19,7 +19,8 @@ import translate from './translate';
 
 type Props = I18nProps & {
   allAddresses?: SubjectInfo,
-  basePath: string
+  basePath: string,
+  onStatusChange: (status: ActionStatus) => void
 };
 
 type Actions = 'create' | 'edit';

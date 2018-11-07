@@ -17,7 +17,8 @@ import translate from './translate';
 type Actions = 'hash' | 'sign' | 'verify';
 
 type Props = I18nProps & {
-  basePath: string
+  basePath: string,
+  onStatusChange: (status: ActionStatus) => void
 };
 
 type State = {

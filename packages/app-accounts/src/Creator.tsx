@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import { AddressSummary, Button, Dropdown, Input, Modal, Password } from '@polkadot/ui-app/index';
@@ -13,7 +14,6 @@ import { encodeAddress } from '@polkadot/keyring';
 import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
-import { ActionStatus } from './types';
 
 const BipWorker = require('worker-loader?name=[name].[hash:8].js!./bipWorker');
 
@@ -343,7 +343,7 @@ class Creator extends React.PureComponent<Props, State> {
     const { onCreateAccount, onStatusChange, t } = this.props;
     const { name, password, seed, seedType } = this.state;
 
-    let status = {
+    let status: ActionStatus = {
       action: 'create'
     };
 
@@ -371,7 +371,7 @@ class Creator extends React.PureComponent<Props, State> {
 
     onCreateAccount();
 
-    onStatusChange(status as ActionStatus);
+    onStatusChange(status);
   }
 
   private onDiscard = (): void => {

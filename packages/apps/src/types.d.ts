@@ -6,7 +6,8 @@ import { SemanticICONS } from 'semantic-ui-react/dist/commonjs';
 import { BareProps } from '@polkadot/ui-app/types';
 
 export type RouteProps = BareProps & {
-  basePath: string
+  basePath: string,
+  onStatusChange: (status: ActionStatus) => void
 }
 
 export type Route = {

@@ -20,9 +20,10 @@ type Actions = 'actions' | 'overview';
 
 type Props = I18nProps & {
   basePath: string,
-  validatingBalances?: RxBalanceMap,
+  onStatusChange: (status: ActionStatus) => void,
   stakingIntentions?: Array<AccountId>,
-  sessionValidators?: Array<AccountId>
+  sessionValidators?: Array<AccountId>,
+  validatingBalances?: RxBalanceMap
 };
 
 type State = {

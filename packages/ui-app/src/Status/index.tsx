@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx, QueueTx$Status } from '@polkadot/ui-signer/types';
 import { ActionStatus } from './types';
 
@@ -11,12 +11,14 @@ import { AddressMini, Icon } from '@polkadot/ui-app/index';
 import classes from '@polkadot/ui-app/util/classes';
 import { Method } from '@polkadot/types';
 
-type Props = BareProps & {
-  status: ActionStatus | null,
-  queue: Array<QueueTx> | null
+import translate from '../translate';
+
+type Props = I18nProps & {
+  status?: ActionStatus | null,
+  queue?: Array<QueueTx>
 };
 
-export default class Status extends React.PureComponent<Props> {
+class Status extends React.PureComponent<Props> {
   render () {
     const { queue, status } = this.props;
 
@@ -45,18 +47,32 @@ export default class Status extends React.PureComponent<Props> {
     );
   }
 
-  private renderStatus = (status: ActionStatus) => {
+  private renderStatus = (status: ActionStatus | null) => {
+    const { t } = this.props;
+
     return (
       <div
         className={classes('app--account-Status-Item', status.success ? 'success' : 'error')}
       >
         <div className='desc'>
           <div className='header'>
-            {status.success ? 'Success' : 'Failed'}
+            {
+              status.success
+              ? t('status.header', {
+                defaultValue: 'Success'
+              })
+              : t('status.header', {
+                defaultValue: 'Failed'
+              })
+            }
           </div>
           <AddressMini value={status.value} />
           <div className='status'>
-            {status.message}
+            {
+              t('status.message', {
+                defaultValue: status.message
+              })
+            }
           </div>
         </div>
         <div className='short'>
@@ -67,6 +83,8 @@ export default class Status extends React.PureComponent<Props> {
   }
 
   private renderItem = ({ id, extrinsic, rpc, status }: QueueTx) => {
+    const { t } = this.props;
+
     let { method, section } = rpc;
 
     if (extrinsic) {
@@ -87,10 +105,18 @@ export default class Status extends React.PureComponent<Props> {
       >
         <div className='desc'>
           <div className='header'>
-            {section}.{method}
+            {
+              t('status.header', {
+                defaultValue: section + '.' + method
+              })
+            }
           </div>
           <div className='status'>
-            {status}
+            {
+              t('status.message', {
+                defaultValue: status
+              })
+            }
           </div>
         </div>
         <div className='short'>
@@ -131,3 +157,5 @@ export default class Status extends React.PureComponent<Props> {
     }
   }
 }
+
+export default translate(Status);

@@ -13,7 +13,8 @@ import Referendums from './Referendums';
 import Summary from './Summary';
 
 type Props = BareProps & {
-  basePath: string
+  basePath: string,
+  onStatusChange: (status: ActionStatus) => void
 };
 
 export default class App extends React.PureComponent<Props> {
