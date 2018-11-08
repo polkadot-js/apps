@@ -13,7 +13,9 @@ import Labelled from './Labelled';
 import translate from './translate';
 
 type Props = BareProps & {
-  acceptedFormats?: string,
+  // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
+  // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
+  accept?: string,
   isDisabled?: boolean,
   isError?: boolean,
   label: string,
@@ -40,7 +42,7 @@ class InputFile extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { acceptedFormats, className, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
+    const { accept, className, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
     const { file } = this.state;
 
     return (
@@ -49,7 +51,7 @@ class InputFile extends React.PureComponent<Props, State> {
         withLabel={withLabel}
       >
         <Dropzone
-          accept={acceptedFormats}
+          accept={accept}
           className={classes('ui--InputFile', isError ? 'error' : '', className)}
           disabled={isDisabled}
           multiple={false}
