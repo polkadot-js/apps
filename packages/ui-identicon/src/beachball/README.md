@@ -1,4 +1,4 @@
-# @polkadot/ui-identicon/becahball
+# @polkadot/ui-identicon/beachball
 
 Adapted from [Jazzicon](https://github.com/danfinlay/jazzicon) by Dan Finlay with the following changes -
 
