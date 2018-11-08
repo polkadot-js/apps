@@ -6,7 +6,7 @@ import './KeyPair.css';
 
 import React from 'react';
 import { AccountId } from '@polkadot/types';
-import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
+import IdentityIcon from '@polkadot/ui-app/IdentityIcon';
 import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 type Props = {
