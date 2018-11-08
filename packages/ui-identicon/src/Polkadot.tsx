@@ -1,7 +1,7 @@
 // Copyright 2018 Paritytech via paritytech/oo7/polkadot-identicon
 // Copyright 2018 @polkadot/ui-identicon authors & contributors
 // This software may be modified and distributed under the terms
-// of the APL2 license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 // This has been converted from the original version that can be found at
 //
