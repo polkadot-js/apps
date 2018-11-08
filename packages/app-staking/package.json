@@ -13,7 +13,7 @@
     "@babel/runtime": "^7.0.0",
     "@polkadot/app-explorer": "^0.21.0",
     "@polkadot/keyring": "^0.32.12",
-    "@polkadot/storage": "^0.31.102",
+    "@polkadot/storage": "^0.31.104",
     "@polkadot/ui-app": "^0.21.0",
     "@polkadot/ui-keyring": "^0.21.0",
     "@polkadot/ui-react-rx": "^0.21.0"

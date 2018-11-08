@@ -32,7 +32,7 @@ export default class Status extends React.PureComponent<Props> {
     );
   }
 
-  private renderItem = ({ id, extrinsic, rpc, status }: QueueTx) => {
+  private renderItem = ({ id, error, extrinsic, rpc, status }: QueueTx) => {
     let { method, section } = rpc;
 
     if (extrinsic) {
@@ -55,9 +55,11 @@ export default class Status extends React.PureComponent<Props> {
           <div className='header'>
             {section}.{method}
           </div>
-          <div className='status'>
-            {status}
-          </div>
+          <div className='status'>{
+            error
+              ? error.message
+              : status
+          }</div>
         </div>
         <div className='short'>
           <Icon
