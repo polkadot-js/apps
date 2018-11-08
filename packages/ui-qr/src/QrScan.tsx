@@ -19,15 +19,10 @@ const DEFAULT_DELAY = 100;
 const DEFAULT_ERROR = (error: Error) => {
   console.error('QrScan', error);
 };
-const DEFAULT_STYLE = {
-  display: 'inline-block',
-  width: '100%',
-  height: '100%'
-};
 
 export default class QrScan extends React.PureComponent<Props> {
   render () {
-    const { className, delay = DEFAULT_DELAY, onError = DEFAULT_ERROR, onScan, style = DEFAULT_STYLE } = this.props;
+    const { className, delay = DEFAULT_DELAY, onError = DEFAULT_ERROR, onScan, style } = this.props;
 
     return (
       <Reader

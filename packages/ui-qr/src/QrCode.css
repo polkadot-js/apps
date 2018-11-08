@@ -3,8 +3,8 @@
 /* of the APL2 license. See the LICENSE file for details. */
 
 .ui--qr-QrCode {
-  width: 100%;
   height: 100%;
+  width: 100%;
 
   img,
   svg {
