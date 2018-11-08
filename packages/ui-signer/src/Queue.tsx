@@ -24,6 +24,7 @@ const defaultState = {
 
 let nextId: QueueTx$Id = 0;
 
+const REMOVE_TIMEOUT = 5000;
 const SUBMIT_RPC = jsonrpc.author.methods.submitAndWatchExtrinsic;
 const STATUS_COMPLETE: Array<QueueTx$Status> = [
   // status from subscription
@@ -77,7 +78,7 @@ export default class Queue extends React.Component<Props, State> {
     if (STATUS_COMPLETE.includes(status)) {
       setTimeout(() => {
         this.queueSetStatus(id, 'completed');
-      }, 5000);
+      }, REMOVE_TIMEOUT);
     }
   }
 

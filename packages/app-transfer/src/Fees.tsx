@@ -121,7 +121,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
 
     return [
       <Static
-        className={className}
+        className={`transfer--Fees ${className}`}
         key='txfees'
         label={t('fees', {
           defaultValue: 'with fees totalling'

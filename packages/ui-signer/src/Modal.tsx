@@ -299,19 +299,28 @@ class Signer extends React.PureComponent<Props, State> {
 
       console.log('submitAndWatchExtrinsic: encode ::', encoded);
 
-      apiObservable.submitAndWatchExtrinsic(extrinsic).subscribe((result) => {
-        if (!result) {
-          return;
-        }
+      apiObservable
+        .submitAndWatchExtrinsic(extrinsic)
+        .subscribe(
+          (result) => {
+            if (!result) {
+              return;
+            }
 
-        const status = result.type.toLowerCase() as QueueTx$Status;
+            const status = result.type.toLowerCase() as QueueTx$Status;
 
-        console.log('submitAndWatchExtrinsic: updated status ::', result);
+            console.log('submitAndWatchExtrinsic: updated status ::', result);
 
-        queueSetStatus(id, status, result);
-      });
+            queueSetStatus(id, status, result);
+          },
+          (error) => {
+            console.error('submitAndWatchExtrinsic:', error);
+
+            queueSetStatus(id, 'error', null, error);
+          }
+        );
     } catch (error) {
-      console.error(error);
+      console.error('submitAndWatchExtrinsic:', error);
 
       queueSetStatus(id, 'error', null, error);
     }
