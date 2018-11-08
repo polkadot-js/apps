@@ -1,7 +1,7 @@
 {
-  "name": "@polkadot/ui-identicon",
+  "name": "@polkadot/ui-qr",
   "version": "0.21.0",
-  "description": "Renders an SVG picture representing an address",
+  "description": "Generates and reads QR codes",
   "main": "index.js",
   "scripts": {
     "build": "polkadot-dev-build-babel",
@@ -15,13 +15,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@polkadot/keyring": "^0.32.12",
-    "@polkadot/util-crypto": "^0.32.12",
-    "@types/color": "^3.0.0",
-    "color": "^3.0.0",
-    "react-copy-to-clipboard": "^5.0.1"
-  },
-  "devDependencies": {
-    "xmlserializer": "^0.6.1"
+    "@types/react-qr-reader": "^2.1.1",
+    "qrcode-generator": "^1.4.1",
+    "react-qr-reader": "^2.1.1"
   }
 }
