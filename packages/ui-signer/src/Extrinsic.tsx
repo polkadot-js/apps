@@ -9,8 +9,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import { Method } from '@polkadot/types';
-import { Call, Modal } from '@polkadot/ui-app/index';
-import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
+import { Call, IdentityIcon, Modal } from '@polkadot/ui-app/index';
 
 import translate from './translate';
 

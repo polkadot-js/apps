@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
-import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
+import { IdentityIcon } from '@polkadot/ui-app/index';
 import { Nonce } from '@polkadot/ui-react-rx/index';
 import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
