@@ -6,17 +6,17 @@ import { TypeDef, getTypeDef } from '@polkadot/types/codec';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParams } from '@polkadot/ui-app/Params/types';
-import { StorageQuery } from './types';
+import { PartialModuleQuery } from '../types';
 
 import React from 'react';
 import Api from '@polkadot/api-observable';
 import { Button, InputStorage, Labelled, Params } from '@polkadot/ui-app/index';
 import { isUndefined } from '@polkadot/util';
 
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & {
-  onAdd: (query: StorageQuery) => void
+  onAdd: (query: PartialModuleQuery) => void
 };
 
 type State = {
@@ -26,9 +26,7 @@ type State = {
   params: Array<{ type: TypeDef }>
 };
 
-let id = -1;
-
-class Selection extends React.PureComponent<Props, State> {
+class Modules extends React.PureComponent<Props, State> {
   private defaultValue: any;
   state: State;
 
@@ -49,7 +47,7 @@ class Selection extends React.PureComponent<Props, State> {
     const { isValid, params } = this.state;
 
     return (
-      <section className='storage--Selection storage--actionrow'>
+      <section className='storage--actionrow'>
         <div className='storage--actionrow-value'>
           <InputStorage
             defaultValue={this.defaultValue}
@@ -106,7 +104,6 @@ class Selection extends React.PureComponent<Props, State> {
     const { key, values } = this.state;
 
     onAdd({
-      id: ++id,
       key,
       params: values
     });
@@ -126,4 +123,4 @@ class Selection extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(Selection);
+export default translate(Modules);
