@@ -74,6 +74,8 @@ class Restore extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { isFileValid, isPassValid, password } = this.state;
 
+    const acceptedFormats = ['application/json', 'text/plain'].join(', ');
+
     return (
       <div className='grow'>
         <div className='ui--row'>
@@ -89,7 +91,7 @@ class Restore extends React.PureComponent<Props, State> {
         </div>
         <div className='ui--row'>
           <InputFile
-            acceptedFormats='.json'
+            accept={acceptedFormats}
             className='full'
             isError={!isFileValid}
             label={t('restore.json', {

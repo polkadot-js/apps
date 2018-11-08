@@ -24,12 +24,14 @@
   padding: 0 26%;
 }
 
-.error {
-  background-color: #fff6f6;
-  border-color: #e0b4b4;
-  color: #9f3a38;
-}
+.transfer--Fees {
+  .error {
+    background-color: #fff6f6;
+    border-color: #e0b4b4;
+    color: #9f3a38;
+  }
 
-.warning {
-  background: #ffffe0;
+  .warning {
+    background: #ffffe0;
+  }
 }
