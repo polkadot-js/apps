@@ -53,16 +53,16 @@ class Query extends React.PureComponent<Props, State> {
 
   static getDerivedStateFromProps ({ value }: Props, prevState: State): State | null {
     const Component = Query.getCachedComponent(value);
-    const inputs = isU8a(value.key)
-      ? []
-      // FIXME We need to render the actual key params
-      // const { key, params } = value;
-      // const inputs = key.params.map(({ name, type }, index) => (
-      //   <span key={`param_${name}_${index}`}>
-      //     {name}={valueToText(type, params[index].value)}
-      //   </span>
-      // ));
-      : [];
+    const { params } = value;
+    // FIXME - we need to cater for multiple params. see code prior to this commit
+    // FIXME - we haven't used params.isValid, should we?
+    // i.e. councilVoting > councilVoteOf(Hash, AccountId)
+    const inputs = params.map(({ isValid, type, value }) => (
+        <span key={`param_${type}`}>
+          {type}={valueToText(type, params[0].value)}
+        </span>
+      )
+    );
 
     return {
       Component,

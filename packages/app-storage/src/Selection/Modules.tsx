@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { TypeDef, getTypeDef } from '@polkadot/types/codec';
+import { TypeDef, TypeDefInfo, getTypeDef } from '@polkadot/types/codec';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParams } from '@polkadot/ui-app/Params/types';
@@ -14,6 +14,15 @@ import { Button, InputStorage, Labelled, Params } from '@polkadot/ui-app/index';
 import { isUndefined } from '@polkadot/util';
 
 import translate from '../translate';
+
+type MethodParams = {
+  info: TypeDefInfo,
+  isValid: boolean,
+  key: StorageFunction,
+  params: Array<RawParams>,
+  type: string
+  values: RawParams
+};
 
 type Props = I18nProps & {
   onAdd: (query: PartialModuleQuery) => void
@@ -101,11 +110,18 @@ class Modules extends React.PureComponent<Props, State> {
 
   private onAdd = (): void => {
     const { onAdd } = this.props;
-    const { key, values } = this.state;
+    const { key, values, params } = this.state;
+    let newParams: Array<MethodParams> = new Array();
+
+    // if the method has a parameter, store the value and
+    //  type of the method's parameter in the same object
+    if (values.length && params.length) {
+      newParams.push(Object.assign({}, values[0], params[0]['type']));
+    }
 
     onAdd({
       key,
-      params: values
+      params: newParams
     });
   }
 

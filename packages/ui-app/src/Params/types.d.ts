@@ -4,6 +4,7 @@
 
 import { TypeDef } from '@polkadot/types/codec';
 import { CodecTypes } from '@polkadot/types/types';
+import { StorageFunction } from '@polkadot/types/StorageKey';
 import { BareProps } from '../types';
 
 // FIXME Ideally, we want these as Base from api-codec - as a stop-gap, any this until we have
@@ -16,6 +17,7 @@ export type RawParam$Values = RawParam$Value | RawParam$ValueArray;
 
 export type RawParam = {
   isValid: boolean,
+  key: StorageFunction,
   value: RawParam$Values,
 }
 
