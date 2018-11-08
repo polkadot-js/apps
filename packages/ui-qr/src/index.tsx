@@ -6,8 +6,8 @@ import { BaseProps } from './types';
 
 import React from 'react';
 
-import QrCode from './QrCode';
-import QrScan from './QrScan';
+import Display from './Display';
+import Scan from './Scan';
 
 type Props = BaseProps & {
   isScanning: boolean
@@ -15,51 +15,45 @@ type Props = BaseProps & {
   size?: number
 };
 
-type Style = {
-  height: string,
-  width: string
-};
-
 const DEFAULT_SIZE = 300;
 
-export default class QrSigner extends React.PureComponent<Props> {
+export default class Qr extends React.PureComponent<Props> {
   render () {
     const { isScanning, size = DEFAULT_SIZE } = this.props;
-
-    const style = {
-      width: `${size}px`,
-      height: `${size}px`
-    };
-
-    return isScanning
-      ? this.renderScanner(style)
-      : this.renderReader(style);
-  }
-
-  private renderScanner (style: Style) {
-    const { className } = this.props;
+    const height = `${size}px`;
 
     return (
-      <div style={style}>
-        <QrScan
-          className={className}
-          onScan={this.handleScan}
-        />
-      </div>
+      <div style={{
+        height,
+        width: height
+      }}>{
+        isScanning
+          ? this.renderScan()
+          : this.renderDisplay()
+      }</div>
     );
   }
 
-  private renderReader (style: Style) {
+  private renderDisplay () {
     const { className } = this.props;
     const value = {};
 
     return (
-      <div style={style}>
-        <QrCode
-          className={className}
-          value={JSON.stringify(value)}
-        />
-      </div>
+      <Display
+        className={className}
+        value={JSON.stringify(value)}
+      />
+    );
+  }
+
+  private renderScan () {
+    const { className } = this.props;
+
+    return (
+      <Scan
+        className={className}
+        onScan={this.handleScan}
+      />
     );
   }
 

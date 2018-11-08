@@ -4,7 +4,7 @@
 
 import { BaseProps } from './types';
 
-import './QrScan.css';
+import './Scan.css';
 
 import React from 'react';
 import Reader from 'react-qr-reader';
@@ -15,18 +15,18 @@ type Props = BaseProps & {
   onScan: (data: string | null) => void
 };
 
-const DEFAULT_DELAY = 100;
+const DEFAULT_DELAY = 150;
 const DEFAULT_ERROR = (error: Error) => {
-  console.error('QrScan', error);
+  console.error('@polkadot/ui-qr:Scan', error);
 };
 
-export default class QrScan extends React.PureComponent<Props> {
+export default class Scan extends React.PureComponent<Props> {
   render () {
     const { className, delay = DEFAULT_DELAY, onError = DEFAULT_ERROR, onScan, style } = this.props;
 
     return (
       <Reader
-        className={`ui--qr-QrScan ${className}`}
+        className={`ui--qr-Scan ${className}`}
         delay={delay}
         onError={onError}
         onScan={onScan}

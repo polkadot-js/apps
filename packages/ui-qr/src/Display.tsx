@@ -4,7 +4,7 @@
 
 import { BaseProps } from './types';
 
-import './QrCode.css';
+import './Display.css';
 
 import React from 'react';
 import qrcode from 'qrcode-generator';
@@ -18,7 +18,7 @@ type State = {
   value: string | null
 };
 
-export default class QrCode extends React.PureComponent<Props, State> {
+export default class Display extends React.PureComponent<Props, State> {
   state = {
     image: null,
     value: null
@@ -34,8 +34,10 @@ export default class QrCode extends React.PureComponent<Props, State> {
     qr.addData(value, 'Byte');
     qr.make();
 
+    const image = qr.createDataURL(16, 0);
+
     return {
-      image: qr.createDataURL(16, 0),
+      image,
       value
     };
   }
