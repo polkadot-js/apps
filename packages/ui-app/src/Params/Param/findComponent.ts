@@ -13,8 +13,8 @@ import Bytes from './Bytes';
 import Code from './Code';
 import Hash from './Hash';
 import Proposal from './Proposal';
-import StorageKeyValue from './StorageKeyValue';
-import StorageKeyValueArray from './StorageKeyValueArray';
+import KeyValue from './KeyValue';
+import KeyValueArray from './KeyValueArray';
 import StringParam from './String';
 import Timestamp from './Timestamp';
 import Unknown from './Unknown';
@@ -34,9 +34,8 @@ const components: ComponentMap = {
   'Gas': Amount,
   'Hash': Hash,
   'Index': Amount,
-  'KeyValue': StorageKeyValue,
-  'StorageKeyValue': StorageKeyValue,
-  'Vec<StorageKeyValue>': StorageKeyValueArray,
+  'KeyValue': KeyValue,
+  'Vec<KeyValue>': KeyValueArray,
   'MisbehaviorReport': Unknown,
   'ParachainId': Amount,
   'PropIndex': Amount,

@@ -21,7 +21,7 @@ type State = {
   value: State$Param
 };
 
-export default class StorageKeyValue extends React.PureComponent<Props, State> {
+export default class KeyValue extends React.PureComponent<Props, State> {
   state: State = {
     key: {
       isValid: false,
@@ -103,10 +103,10 @@ export default class StorageKeyValue extends React.PureComponent<Props, State> {
   }
 
   onChangeKey = (key: string): void => {
-    this.nextState({ key: StorageKeyValue.createParam(key) } as State);
+    this.nextState({ key: KeyValue.createParam(key) } as State);
   }
 
   onChangeValue = (value: string): void => {
-    this.nextState({ value: StorageKeyValue.createParam(value) } as State);
+    this.nextState({ value: KeyValue.createParam(value) } as State);
   }
 }

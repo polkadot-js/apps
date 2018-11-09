@@ -55,8 +55,6 @@ class ExtrinsicDisplay extends React.PureComponent<Props> {
   onChange = (extrinsic: Extrinsic): void => {
     const { onChange } = this.props;
 
-    console.error('app-extrinsics/Params/Extrinsic', extrinsic);
-
     onChange && onChange({
       isValid: !!extrinsic,
       value: extrinsic

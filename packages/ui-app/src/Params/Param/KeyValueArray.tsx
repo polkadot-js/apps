@@ -6,13 +6,15 @@ import { TranslationFunction } from 'i18next';
 import { Props as BaseProps, RawParam } from '../types';
 
 import React from 'react';
+import { Vector } from '@polkadot/types/codec';
+import { KeyValue as Pair } from '@polkadot/types';
 import { assert, isHex, u8aToHex, u8aToString } from '@polkadot/util';
 
 import translate from '../../translate';
 import Base from './Base';
 import Bytes from './Bytes';
 import File from './File';
-import StorageKeyValue from './StorageKeyValue';
+import KeyValue from './KeyValue';
 
 type Props = BaseProps & {
   t: TranslationFunction
@@ -22,14 +24,12 @@ type State = {
   placeholder?: string;
 };
 
-type Pairs = Array<{
-  key: Uint8Array,
-  value: Uint8Array
-}>;
-
 type Parsed = {
   isValid: boolean,
-  value: Pairs
+  value: Array<{
+    key: Uint8Array,
+    value: Uint8Array
+  }>
 };
 
 const BYTES_TYPE = {
@@ -37,7 +37,7 @@ const BYTES_TYPE = {
   info: 0
 };
 
-class StorageKeyValueArray extends React.PureComponent<Props, State> {
+class KeyValueArray extends React.PureComponent<Props, State> {
   private placeholderEmpty: string;
 
   constructor (props: Props) {
@@ -75,6 +75,7 @@ class StorageKeyValueArray extends React.PureComponent<Props, State> {
 
   private renderReadOnly () {
     const { className, defaultValue: { value }, label, style } = this.props;
+    const pairs = value as Vector<Pair>;
 
     return (
       <Base
@@ -83,8 +84,8 @@ class StorageKeyValueArray extends React.PureComponent<Props, State> {
         size='full'
         style={style}
       >
-        {(value as Pairs).map(({ key, value }) => {
-          const keyHex = u8aToHex(key);
+        {pairs.map(({ key, value }) => {
+          const keyHex = u8aToHex(key.toU8a(true));
 
           return (
             <Bytes
@@ -136,8 +137,8 @@ class StorageKeyValueArray extends React.PureComponent<Props, State> {
 
       assert(isHex(key) && isHex(value), `Non-hex key/value pair found in ${key.toString()} => ${value.toString()}`);
 
-      const encKey = StorageKeyValue.createParam(key);
-      const encValue = StorageKeyValue.createParam(value);
+      const encKey = KeyValue.createParam(key);
+      const encValue = KeyValue.createParam(value);
 
       isValid = isValid && encKey.isValid && encValue.isValid;
 
@@ -154,4 +155,4 @@ class StorageKeyValueArray extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(StorageKeyValueArray);
+export default translate(KeyValueArray);
