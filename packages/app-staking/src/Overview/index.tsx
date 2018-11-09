@@ -15,7 +15,7 @@ import Summary from './Summary';
 
 type Props = I18nProps & {
   balances: RxBalanceMap,
-  balanceArray: (_address: AccountId | string, _balances: RxBalanceMap) => Array<Balance> | undefined,
+  balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   intentions: Array<string>,
   validators: Array<string>
 };

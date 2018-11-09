@@ -99,7 +99,7 @@ class App extends React.PureComponent<Props, State> {
   }
 
   private balanceArray = (_address: AccountId | string): Array<Balance> | undefined => {
-    const { validatingBalances } = this.props;
+    const { validatingBalances = {} } = this.props;
 
     if (!_address) {
       return undefined;

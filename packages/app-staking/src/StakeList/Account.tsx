@@ -21,7 +21,7 @@ type Props = I18nProps & {
   accountNonce?: BN,
   accountId: string,
   balances: RxBalanceMap,
-  balanceArray: (_address: AccountId | string, _balances: RxBalanceMap) => Array<Balance> | undefined,
+  balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   name: string,
   stakingNominating?: AccountId,
   stakingNominatorsFor?: Array<string>,
@@ -45,7 +45,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accountId, balances, balanceArray, intentions, name } = this.props;
+    const { accountId, balanceArray, intentions, name } = this.props;
     const { isNominateOpen } = this.state;
 
     return (
@@ -73,7 +73,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderNominee () {
-    const { stakingNominating, balances, balanceArray } = this.props;
+    const { stakingNominating, balanceArray } = this.props;
 
     if (!stakingNominating) {
       return null;
