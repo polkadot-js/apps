@@ -72,30 +72,31 @@ class CurrentList extends React.PureComponent<Props> {
     }
 
     return (
-      <article key='list'>
+      <div key='list'>
         {addresses.map((address) => {
           const nominators = (balances[address.toString()] || {}).nominators || [];
 
           return (
-            <AddressRow
-              balance={this.balanceArray(address)}
-              key={address}
-              name={name || defaultName}
-              value={address}
-              withCopy={false}
-              withNonce={false}
-            >
-              {nominators.map(({ address }) =>
-                <AddressMini
-                  key={address.toString()}
-                  value={address}
-                  withBalance
-                />
-              )}
-            </AddressRow>
+            <article key={address.toString()}>
+              <AddressRow
+                balance={this.balanceArray(address)}
+                name={name || defaultName}
+                value={address}
+                withCopy={false}
+                withNonce={false}
+              >
+                {nominators.map(({ address }) =>
+                  <AddressMini
+                    key={address.toString()}
+                    value={address}
+                    withBalance
+                  />
+                )}
+              </AddressRow>
+            </article>
           );
         })}
-      </article>
+      </div>
     );
   }
 
@@ -108,8 +109,6 @@ class CurrentList extends React.PureComponent<Props> {
     }
 
     const address = _address.toString();
-
-    console.log('balance', address, balances[address], balances);
 
     return balances[address]
       ? [balances[address].stakingBalance, balances[address].nominatedBalance]

@@ -76,7 +76,9 @@ class Events extends React.PureComponent<Props, State> {
     }
 
     return (
-      recentEvents.map(this.renderEvent)
+      <div>
+        {recentEvents.map(this.renderEvent)}
+      </div>
     );
   }
 
@@ -87,9 +89,9 @@ class Events extends React.PureComponent<Props, State> {
         key={index}
       >
         <div className='header'>
-          <div className='name'>
+          <h3>
             {event.section}.{event.method}
-          </div>
+          </h3>
           <div className='description'>
             {
               event.meta.documentation && event.meta.documentation.length

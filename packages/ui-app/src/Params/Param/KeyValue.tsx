@@ -5,7 +5,8 @@
 import { Props } from '../types';
 
 import React from 'react';
-import { bnToU8a, hexToU8a, u8aConcat } from '@polkadot/util';
+import { Compact } from '@polkadot/types/codec';
+import { hexToU8a, u8aConcat } from '@polkadot/util';
 
 import Input from '../../Input';
 import Bare from './Bare';
@@ -20,7 +21,7 @@ type State = {
   value: State$Param
 };
 
-export default class StorageKeyValue extends React.PureComponent<Props, State> {
+export default class KeyValue extends React.PureComponent<Props, State> {
   state: State = {
     key: {
       isValid: false,
@@ -64,7 +65,7 @@ export default class StorageKeyValue extends React.PureComponent<Props, State> {
     );
   }
 
-  createParam (hex: string, length: number = -1): State$Param {
+  static createParam (hex: string, length: number = -1): State$Param {
     let u8a;
 
     try {
@@ -73,13 +74,13 @@ export default class StorageKeyValue extends React.PureComponent<Props, State> {
       u8a = new Uint8Array([]);
     }
 
-    const isValidLength = length !== -1
+    const isValid = length !== -1
       ? u8a.length === length
       : u8a.length !== 0;
 
     return {
-      isValid: isValidLength,
-      u8a
+      isValid,
+      u8a: Compact.addLengthPrefix(u8a)
     };
   }
 
@@ -91,8 +92,8 @@ export default class StorageKeyValue extends React.PureComponent<Props, State> {
         onChange && onChange({
           isValid: key.isValid && value.isValid,
           value: u8aConcat(
-            u8aConcat(bnToU8a(key.u8a.length, 32, true), key.u8a),
-            u8aConcat(bnToU8a(value.u8a.length, 32, true), value.u8a)
+            key.u8a,
+            value.u8a
           )
         });
 
@@ -102,10 +103,10 @@ export default class StorageKeyValue extends React.PureComponent<Props, State> {
   }
 
   onChangeKey = (key: string): void => {
-    this.nextState({ key: this.createParam(key) } as State);
+    this.nextState({ key: KeyValue.createParam(key) } as State);
   }
 
   onChangeValue = (value: string): void => {
-    this.nextState({ value: this.createParam(value) } as State);
+    this.nextState({ value: KeyValue.createParam(value) } as State);
   }
 }

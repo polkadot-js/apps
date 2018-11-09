@@ -27,6 +27,7 @@ import CopyButton from './CopyButton';
 import Dropdown from './Dropdown';
 import Event from './Event';
 import Icon from './Icon';
+import IdentityIcon from './IdentityIcon';
 import Input from './Input';
 import InputAddress from './InputAddress';
 import InputError from './InputError';
@@ -65,6 +66,7 @@ export {
   Dropdown,
   Event,
   Icon,
+  IdentityIcon,
   Input,
   InputAddress,
   InputError,

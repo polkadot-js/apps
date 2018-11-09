@@ -29,16 +29,14 @@ class Item extends React.PureComponent<Props> {
       <article className='democracy--Item'>
         <div className='democracy--Item-header'>
           <div className='democracy--Item-header-info'>
-            <div className='democracy--Item-header-name'>
+            <h3>
               {section}.{method}
-            </div>
-            <div className='democracy--Item-header-description'>
-            {
-                meta && meta.documentation && meta.documentation.length
-                  ? meta.documentation.get(0).toString
-                  : ''
-              }
-            </div>
+            </h3>
+            <div className='democracy--Item-header-description'>{
+              meta && meta.documentation && meta.documentation.length
+                ? meta.documentation.map((doc) => doc.toString()).join(' ')
+                : ''
+            }</div>
           </div>
           <div className='democracy--Item-header-id'>
             #{numberFormat(idNumber)}

@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import React from 'react';
-import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import classes from './util/classes';
 import { AddressSummary } from './AddressSummary';
@@ -11,7 +11,7 @@ import translate from './translate';
 
 class AddressRow extends AddressSummary {
   render () {
-    const { className, style, identIconSize, value } = this.props;
+    const { className, style, identIconSize = 64, value } = this.props;
 
     return (
       <div
@@ -19,11 +19,7 @@ class AddressRow extends AddressSummary {
         style={style}
       >
         <div className='ui--AddressRow-base'>
-          <IdentityIcon
-            className='ui--AddressRow-icon'
-            size={identIconSize}
-            value={(value || '').toString()}
-          />
+          {this.renderIcon('ui--AddressRow-icon', identIconSize)}
           <div className='ui--AddressRow-details'>
             {this.renderAddress()}
             {this.renderBalance()}
@@ -36,4 +32,8 @@ class AddressRow extends AddressSummary {
   }
 }
 
-export default translate(AddressRow);
+export default withMulti(
+  translate(AddressRow),
+  withObservable('accountIdAndIndex', { paramProp: 'value' }),
+  withObservable('sessionValidators')
+);

@@ -7,8 +7,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 
 import React from 'react';
 import { Trans } from 'react-i18next';
-import { Button, Modal, Password } from '@polkadot/ui-app/index';
-import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
+import { Button, IdentityIcon, Modal, Password } from '@polkadot/ui-app/index';
 
 import translate from './translate';
 
