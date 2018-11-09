@@ -143,7 +143,7 @@ class Restore extends React.PureComponent<Props, State> {
       return;
     }
 
-    let status: ActionStatus = {
+    const status: ActionStatus = {
       action: 'restore'
     };
 

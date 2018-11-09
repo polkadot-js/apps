@@ -21,7 +21,6 @@ type Props = I18nProps & {
 class Status extends React.PureComponent<Props> {
   render () {
     const { queue, status } = this.props;
-
     let available;
 
     if (queue) {
@@ -38,10 +37,8 @@ class Status extends React.PureComponent<Props> {
       <div className='app--account-Status'>
         {
           available
-          ?
-          available.map(this.renderItem)
-          :
-          this.renderStatus(status)
+              ? available.map(this.renderItem)
+              : this.renderStatus(status)
         }
       </div>
     );
@@ -61,13 +58,13 @@ class Status extends React.PureComponent<Props> {
         <div className='desc'>
           <div className='header'>
             {
-              status.success
-              ? t('status.header', {
-                defaultValue: 'Success'
-              })
-              : t('status.header', {
-                defaultValue: 'Failed'
-              })
+            status.success
+                ? t('status.header', {
+                  defaultValue: 'Success'
+                })
+                : t('status.header', {
+                  defaultValue: 'Failed'
+                })
             }
           </div>
           <AddressMini value={status.value} />

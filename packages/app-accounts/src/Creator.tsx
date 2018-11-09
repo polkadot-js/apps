@@ -343,7 +343,7 @@ class Creator extends React.PureComponent<Props, State> {
     const { onCreateAccount, onStatusChange, t } = this.props;
     const { name, password, seed, seedType } = this.state;
 
-    let status: ActionStatus = {
+    const status: ActionStatus = {
       action: 'create'
     };
 

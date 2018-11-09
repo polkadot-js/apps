@@ -12,7 +12,7 @@ import './index.css';
 import React from 'react';
 
 import Queries from './Queries';
-import Selection from './Selection';
+import Selection from './Selection/index';
 import translate from './translate';
 
 type Props = I18nProps & {
