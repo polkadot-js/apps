@@ -25,13 +25,15 @@
 }
 
 .transfer--Fees {
-  .error {
+  margin: 0.5rem 0;
+
+  &.error {
     background-color: #fff6f6;
     border-color: #e0b4b4;
     color: #9f3a38;
   }
 
-  .warning {
+  &.warning {
     background: #ffffe0;
   }
 }
