@@ -57,7 +57,7 @@ class Account extends React.PureComponent<Props, State> {
           intentions={intentions}
         />
         <AddressSummary
-          balance={balanceArray(accountId, balances)}
+          balance={balanceArray(accountId)}
           name={name}
           value={accountId}
           identIconSize={96}
@@ -81,7 +81,7 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <AddressMini
-        balance={balanceArray(stakingNominating, balances)}
+        balance={balanceArray(stakingNominating)}
         value={stakingNominating}
         withBalance
       />

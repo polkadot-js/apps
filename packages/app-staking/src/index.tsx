@@ -98,15 +98,17 @@ class App extends React.PureComponent<Props, State> {
     this.setState({ action });
   }
 
-  private balanceArray (_address: AccountId | string, _balances: RxBalanceMap): Array<Balance> | undefined {
+  private balanceArray = (_address: AccountId | string): Array<Balance> | undefined => {
+    const { validatingBalances } = this.props;
+
     if (!_address) {
       return undefined;
     }
 
     const address = _address.toString();
 
-    return _balances[address]
-      ? [_balances[address].stakingBalance, _balances[address].nominatedBalance]
+    return validatingBalances[address]
+      ? [validatingBalances[address].stakingBalance, validatingBalances[address].nominatedBalance]
       : undefined;
   }
 }

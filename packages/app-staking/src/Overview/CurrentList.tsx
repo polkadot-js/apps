@@ -79,7 +79,7 @@ class CurrentList extends React.PureComponent<Props> {
 
           return (
             <AddressRow
-              balance={balanceArray(address, balances)}
+              balance={balanceArray(address)}
               key={address}
               name={name || defaultName}
               value={address}
