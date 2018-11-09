@@ -51,6 +51,7 @@ export default function getInitValue (type: Param$Types): RawParam$Value | Array
     case 'Header':
     case 'KeyValue':
     case 'StorageKeyValue':
+    case 'StorageKey':
     case 'MisbehaviorReport':
     case 'Proposal':
     case 'Signature':
