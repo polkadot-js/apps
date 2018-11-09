@@ -8,6 +8,10 @@ import { RawParam$Value } from './types';
 import BN from 'bn.js';
 
 export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawParam$Value> {
+  if (def.info === TypeDefInfo.Vector) {
+    return [];
+  }
+
   const type = def.info === TypeDefInfo.Compact
     ? (def.sub as TypeDef).type
     : def.type;
@@ -52,7 +56,6 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     case 'Hash':
     case 'Header':
     case 'KeyValue':
-    case 'StorageKeyValue':
     case 'MisbehaviorReport':
     case 'Proposal':
     case 'Signature':
