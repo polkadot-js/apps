@@ -92,6 +92,7 @@ class AddressesApp extends React.PureComponent<Props, State> {
   }
 
   render () {
+    const { onStatusChange } = this.props;
     const { action, hidden, items } = this.state;
     const Component = Components[action];
 
@@ -105,7 +106,10 @@ class AddressesApp extends React.PureComponent<Props, State> {
             onChange={this.onMenuChange}
           />
         </header>
-        <Component onCreateAddress={this.activateEdit} />
+        <Component
+          onCreateAddress={this.activateEdit}
+          onStatusChange={onStatusChange}
+        />
       </main>
     );
   }
