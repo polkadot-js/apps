@@ -30,25 +30,6 @@ type SUIEvent = {
 };
 
 export default class Dropdown<Option> extends React.PureComponent<Props<Option>> {
-  componentDidMount () {
-    this.componentDidUpdate({} as Props<Option>);
-  }
-
-  componentDidUpdate (prevProps: Props<Option>) {
-    const { defaultValue, value } = this.props;
-    const startValue = isUndefined(value)
-      ? defaultValue
-      : value;
-    const prevStart = isUndefined(prevProps.value)
-      ? prevProps.defaultValue
-      : prevProps.value;
-
-    if (startValue !== prevStart) {
-      this.onChange(null, {
-        value: startValue
-      });
-    }
-  }
 
   render () {
     const { className, defaultValue, isDisabled, isError, label, onSearch, options, placeholder, style, withLabel, value } = this.props;
