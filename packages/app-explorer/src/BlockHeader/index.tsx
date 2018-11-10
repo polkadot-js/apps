@@ -11,6 +11,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
+// FIXME 7 Nov 2018 Due to mismatches with block hashes between Substrate and BBQ,
+// the hashes are retrieved and not calculated (go back to calculated once resolved)
+import BlockHash from './BlockHash';
 import Extrinsics from './Extrinsics';
 
 type Props = BareProps & {
@@ -27,19 +30,20 @@ export default class BlockHeader extends React.PureComponent<Props> {
       return null;
     }
 
-    const hashHex = value.hash.toHex();
-    const parentHex = value.parentHash.toHex();
+    const { blockNumber, extrinsicsRoot, parentHash, stateRoot } = value;
+    const parentHex = parentHash.toHex();
 
     return (
       <article className='explorer--BlockHeader'>
         <div className='details'>
           <div className='header'>
-            <div className='number'>{numberFormat(value.blockNumber.toBn())}&nbsp;</div>
-            <div className='hash'>{
-              withLink
-                ? <Link to={`/explorer/hash/${hashHex}`}>{hashHex}</Link>
-                : hashHex
-            }</div>
+            <div className='number'>{numberFormat(blockNumber.toBn())}&nbsp;</div>
+            <div className='hash'>
+              <BlockHash
+                blockNumber={blockNumber}
+                withLink={withLink}
+              />
+            </div>
           </div>
           <div className='contains'>
             <div>
@@ -52,11 +56,11 @@ export default class BlockHeader extends React.PureComponent<Props> {
             </div>
             <div>
               <div className='type'>extrinsicsRoot</div>
-              <div className='hash'>{value.extrinsicsRoot.toHex()}</div>
+              <div className='hash'>{extrinsicsRoot.toHex()}</div>
             </div>
             <div>
               <div className='type'>stateRoot</div>
-              <div className='hash'>{value.stateRoot.toHex()}</div>
+              <div className='hash'>{stateRoot.toHex()}</div>
             </div>
             {withExtrinsics
               ? <Extrinsics hash={value.hash} />

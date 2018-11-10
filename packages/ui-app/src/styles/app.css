@@ -38,6 +38,7 @@ a:hover {
 
 main {
   padding: 1em 2em;
+  min-height: 100vh;
 }
 
 main > section {
@@ -45,8 +46,8 @@ main > section {
 }
 
 article {
-  background: #fefefe;
-  border: 1px solid #fafafa;
+  background: white;
+  border: 1px solid #f5f5f5;
   border-radius: 0.25rem;
   margin: 0.5rem;
   padding: 1rem 1.5rem;
