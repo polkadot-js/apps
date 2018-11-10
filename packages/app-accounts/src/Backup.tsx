@@ -8,11 +8,13 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import FileSaver from 'file-saver';
 import React from 'react';
 import { AddressSummary, Button, Modal, Password } from '@polkadot/ui-app/index';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
 
 type Props = I18nProps & {
+  onStatusChange: (status: ActionStatus) => void,
   onClose: () => void,
   pair: KeyringPair
 };
@@ -106,23 +108,40 @@ class Backup extends React.PureComponent<Props, State> {
   }
 
   private doBackup = (): void => {
-    const { onClose, pair } = this.props;
+    const { onClose, onStatusChange, pair, t } = this.props;
     const { password } = this.state;
 
     if (!pair) {
       return;
     }
 
+    const status: ActionStatus = {
+      action: 'backup'
+    };
+
     try {
       const json = keyring.backupAccount(pair, password);
       const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
+
+      status.value = pair.address();
+      status.success = !!(blob);
+      status.message = t('status.backup', {
+        defaultValue: 'Backed Up'
+      });
 
       FileSaver.saveAs(blob, `${pair.address()}.json`);
     } catch (error) {
       this.setState({ isPassValid: false });
       console.error(error);
+
+      status.success = false;
+      status.message = t('status.error', {
+        defaultValue: error.message
+      });
       return;
     }
+
+    onStatusChange(status);
 
     onClose();
   }

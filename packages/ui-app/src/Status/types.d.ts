@@ -4,7 +4,7 @@
 
 import { AccountId, Address } from '@polkadot/types';
 
-export type Actions = 'create' | 'edit' | 'restore' | 'forget';
+export type Actions = 'create' | 'edit' | 'restore' | 'forget' | 'backup' | 'changePassword';
 
 export type ActionStatus = {
   action?: Actions | string,

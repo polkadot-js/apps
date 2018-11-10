@@ -148,6 +148,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   renderModals () {
+    const { onStatusChange } = this.props;
     const { current, isBackupOpen, isForgetOpen, isPasswordOpen } = this.state;
 
     if (!current) {
@@ -162,6 +163,7 @@ class Editor extends React.PureComponent<Props, State> {
         <Backup
           key='modal-backup-account'
           onClose={this.toggleBackup}
+          onStatusChange={onStatusChange}
           pair={current}
         />
       );
@@ -184,6 +186,7 @@ class Editor extends React.PureComponent<Props, State> {
           account={current}
           key='modal-change-pass'
           onClose={this.togglePass}
+          onStatusChange={onStatusChange}
         />
       );
     }
