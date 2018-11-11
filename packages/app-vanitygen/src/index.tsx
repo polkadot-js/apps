@@ -106,6 +106,7 @@ class VanityApp extends React.PureComponent<Props, State> {
     return (
       <div className='ui--row'>
         <Input
+          autoFocus
           className='medium'
           isDisabled={isRunning}
           isError={!isMatchValid}

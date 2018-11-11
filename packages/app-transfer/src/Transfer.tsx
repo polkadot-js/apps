@@ -85,6 +85,7 @@ class Transfer extends React.PureComponent<Props, State> {
           {this.renderAddress(accountId)}
           <div className='transfer--Transfer-data'>
             <InputNumber
+              autoFocus
               bitLength={DEFAULT_BITLENGTH}
               isError={!hasAvailable}
               isSi
