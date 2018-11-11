@@ -111,7 +111,7 @@ class Nominating extends React.PureComponent<Props> {
 
   private renderErrors () {
     const { t } = this.props;
-    const { isNomineeValid, isAddressFormatValid, nominee } = this.state;
+    const { isNomineeValid, isAddressFormatValid } = this.state;
     const hasError = !isNomineeValid || !isAddressFormatValid;
 
     if (!hasError) {
