@@ -52,7 +52,7 @@ export default class Display extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={`ui--qr-QrCode ${className}`}
+        className={`ui--qr-Display ${className}`}
         style={style}
       >
         <img src={image} />
