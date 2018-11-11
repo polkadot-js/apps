@@ -47,10 +47,10 @@ main > section {
 
 article {
   background: white;
-  border: 0 solid #eee;
+  border: 1px solid #f2f2f2;
   border-radius: 0.25rem;
-  border-top-width: 1px;
-  margin: 0 0.5rem;
+  /* border-top-width: 1px; */
+  margin: 0.5rem;
   padding: 1rem 1.5rem;
 
   &.error {

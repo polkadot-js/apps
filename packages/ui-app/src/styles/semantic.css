@@ -111,14 +111,14 @@
 }
 
 .ui.menu.tabular {
-  background: #eee;
-  border-color: white;
+  background: #f2f2f2;
+  /* border-color: white; */
   /* break out of the wrapping main padding */
   margin: -1em -2em 0;
   padding: 1em 2em 0;
 
   .item.active {
-    background: #fdfdfd;
-    border-color: white;
+    background: #fafafa;
+    /* border-color: white; */
   }
 }
