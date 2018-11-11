@@ -111,7 +111,7 @@
 }
 
 .ui.menu.tabular {
-  background: #eee;
+  background: #f5f5f5;
   /* border-color: white; */
   /* break out of the wrapping main padding */
   margin: -1em -2em 0;
