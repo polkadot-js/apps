@@ -23,18 +23,3 @@
   display: flex;
   flex-direction: row;
 }
-
-.transfer--Fees {
-  margin: 0.5rem 0;
-
-  &.error {
-    background: #fff6f6;
-    border-color: #e0b4b4;
-    color: #9f3a38;
-  }
-
-  &.warning {
-    background: #ffffe0;
-    border-color: #eeeeae;
-  }
-}
