@@ -67,15 +67,15 @@ class Params extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  //  // NOTE This is needed in the case where the item changes, i.e. the values get initialised and we need to alert the parent that we have new values
-  // componentDidUpdate (prevProps: Props, prevState: State) {
-  //   const { onChange, isDisabled } = this.props;
-  //   const { values } = this.state;
+   // NOTE This is needed in the case where the item changes, i.e. the values get initialised and we need to alert the parent that we have new values
+  componentDidUpdate (prevProps: Props, prevState: State) {
+    const { onChange, isDisabled } = this.props;
+    const { values } = this.state;
 
-  //   if (!isDisabled && prevState.values !== values) {
-  //     onChange && onChange(values);
-  //   }
-  // }
+    if (!isDisabled && prevState.values !== values) {
+      onChange && onChange(values);
+    }
+  }
 
   render () {
     const { className, isDisabled, overrides, params, style } = this.props;
