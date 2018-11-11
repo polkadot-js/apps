@@ -118,7 +118,7 @@
   padding: 1em 2em 0;
 
   .item.active {
-    background: #f9f9f9;
+    background: #fafafa;
     /* border-color: white; */
   }
 }
