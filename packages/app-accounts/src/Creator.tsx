@@ -137,6 +137,18 @@ class Creator extends React.PureComponent<Props, State> {
       <div className='grow'>
         <div className='ui--row'>
           <Input
+            autoFocus
+            className='full'
+            isError={!isNameValid}
+            label={t('creator.name', {
+              defaultValue: 'name the account'
+            })}
+            onChange={this.onChangeName}
+            value={name}
+          />
+        </div>
+        <div className='ui--row'>
+          <Input
             className='full'
             isAction
             isDisabled={isBipBusy}
@@ -167,17 +179,6 @@ class Creator extends React.PureComponent<Props, State> {
               options={seedOptions}
             />
           </Input>
-        </div>
-        <div className='ui--row'>
-          <Input
-            className='full'
-            isError={!isNameValid}
-            label={t('creator.name', {
-              defaultValue: 'name the account'
-            })}
-            onChange={this.onChangeName}
-            value={name}
-          />
         </div>
         <div className='ui--row'>
           <Password
