@@ -14,7 +14,7 @@ export default class Substrate extends React.PureComponent<Props> {
 
     return (
       <div
-        className={className}
+        className={`container ${className}`}
         ref={this.appendIcon}
         style={style}
       />

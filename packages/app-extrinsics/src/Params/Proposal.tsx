@@ -6,7 +6,7 @@ import { Props, RawParam } from '@polkadot/ui-app/Params/types';
 
 import React from 'react';
 import Api from '@polkadot/api-observable';
-import { Extrinsic, Proposal } from '@polkadot/types';
+import { Proposal } from '@polkadot/types';
 
 import ExtrinsicDisplay from './Extrinsic';
 
@@ -31,11 +31,10 @@ export default class ProposalDisplay extends React.PureComponent<Props> {
 
   private onChange = ({ isValid, value }: RawParam) => {
     const { onChange } = this.props;
-    const extrinsic = value as Extrinsic;
     let proposal = null;
 
-    if (isValid && extrinsic) {
-      proposal = new Proposal(extrinsic.method, extrinsic.meta);
+    if (isValid && value) {
+      proposal = new Proposal(value);
     }
 
     onChange && onChange({

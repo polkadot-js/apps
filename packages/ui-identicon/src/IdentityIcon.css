@@ -7,7 +7,7 @@
   display: inline-block;
   line-height: 0;
 
-  > div {
+  .container {
     position: relative;
 
     > div,

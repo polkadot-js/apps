@@ -13,7 +13,8 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   balances: RxBalanceMap,
-  current: Array<AccountId>
+  balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
+  current: Array<AccountId>,
   next: Array<AccountId>
 };
 
@@ -61,7 +62,7 @@ class CurrentList extends React.PureComponent<Props> {
   }
 
   private renderRow (addresses: Array<AccountId>, defaultName: string) {
-    const { balances, t } = this.props;
+    const { balances, balanceArray, t } = this.props;
 
     if (addresses.length === 0) {
       return (
@@ -72,46 +73,32 @@ class CurrentList extends React.PureComponent<Props> {
     }
 
     return (
-      <article key='list'>
+      <div key='list'>
         {addresses.map((address) => {
           const nominators = (balances[address.toString()] || {}).nominators || [];
 
           return (
-            <AddressRow
-              balance={this.balanceArray(address)}
-              key={address}
-              name={name || defaultName}
-              value={address}
-              withCopy={false}
-              withNonce={false}
-            >
-              {nominators.map(({ address }) =>
-                <AddressMini
-                  key={address.toString()}
-                  value={address}
-                  withBalance
-                />
-              )}
-            </AddressRow>
+            <article key={address.toString()}>
+              <AddressRow
+                balance={balanceArray(address)}
+                name={name || defaultName}
+                value={address}
+                withCopy={false}
+                withNonce={false}
+              >
+                {nominators.map(({ address }) =>
+                  <AddressMini
+                    key={address.toString()}
+                    value={address}
+                    withBalance
+                  />
+                )}
+              </AddressRow>
+            </article>
           );
         })}
-      </article>
+      </div>
     );
-  }
-
-  // FIXME Duplicated in ../StakeList/Account
-  private balanceArray (_address: AccountId | string): Array<Balance> | undefined {
-    const { balances } = this.props;
-
-    if (!_address) {
-      return undefined;
-    }
-
-    const address = _address.toString();
-
-    return balances[address]
-      ? [balances[address].stakingBalance, balances[address].nominatedBalance]
-      : undefined;
   }
 }
 

@@ -6,10 +6,6 @@
 @import '../../../ui-app/src/styles/theme/_colors-substrate.css';
 
 .apps--SideBar {
-  /*
-  background: #fcfcfc;
-  border-right: 1px solid rgba(34, 36, 38, 0.15);
-  */
   background: #4e4e4e;
   flex-shrink: 0;
   min-width: 10em;
@@ -49,7 +45,7 @@ a.apps--SideBar-Item-NavLink {
 }
 
 a.apps--SideBar-Item-NavLink-active {
-  background: white;
+  background: #fdfdfd;
   border-radius: 0.28571429rem 0 0 0.28571429rem;
   /*
   border: 1px solid rgba(34, 36, 38, 0.15);

@@ -78,13 +78,11 @@ class BlockByHash extends React.PureComponent<Props> {
             <h3>
               {section}.{method}
             </h3>
-            <div className='description'>
-              {
-                meta && meta.documentation && meta.documentation.length
-                  ? meta.documentation.map((doc) => doc.toString()).join(' ')
-                  : ''
-              }
-            </div>
+            <div className='description'>{
+              meta && meta.documentation && meta.documentation.length
+                ? meta.documentation.map((doc) => doc.toString()).join(' ')
+                : ''
+            }</div>
             {this.renderSigner(extrinsic)}
           </div>
           <Call value={extrinsic} />

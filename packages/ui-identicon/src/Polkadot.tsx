@@ -102,12 +102,13 @@ export default class Identicon extends React.PureComponent<Props> {
     let i = 0;
 
     return (
-      <div>
+      <div
+        className={`container ${className}`}
+        style={style}
+      >
         <svg
           id={value}
           name={value}
-          className={className}
-          style={style}
           width={size}
           height={size}
           viewBox='0 0 64 64'

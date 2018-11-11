@@ -64,8 +64,7 @@ class Referendum extends React.PureComponent<Props, State> {
     }
 
     const newState: State = democracyReferendumVoters.reduce((state, { balance, vote }) => {
-      // FIXME Bool atm does not have a extract value
-      if (vote.toString() === 'true') {
+      if (vote.valueOf() === true) {
         state.voteCountYay++;
         state.votedYay = state.votedYay.add(balance.toBn());
       } else {
