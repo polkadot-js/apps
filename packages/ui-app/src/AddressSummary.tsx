@@ -12,7 +12,6 @@ import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
 import BalanceDisplay from './Balance';
-import CopyButton from './CopyButton';
 import IdentityIcon from './IdentityIcon';
 import translate from './translate';
 
@@ -152,15 +151,17 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderCopy (address: string) {
-    const { withCopy = true } = this.props;
+    return null;
 
-    if (!withCopy || !address) {
-      return null;
-    }
+    // const { withCopy = true } = this.props;
 
-    return (
-      <CopyButton value={address} />
-    );
+    // if (!withCopy || !address) {
+    //   return null;
+    // }
+
+    // return (
+    //   <CopyButton value={address} />
+    // );
   }
 
   protected renderIcon (className: string = 'ui--AddressSummary-icon', size?: number) {

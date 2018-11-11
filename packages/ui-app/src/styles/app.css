@@ -47,11 +47,22 @@ main > section {
 
 article {
   background: white;
-  border: 0 solid #f2f2f2;
+  border: 0 solid #eee;
   border-radius: 0.25rem;
-  border-top-width: 0.25rem;
+  border-top-width: 1px;
   margin: 0 0.5rem;
   padding: 1rem 1.5rem;
+
+  &.error {
+    background: #fff6f6;
+    border-color: #e0b4b4;
+    color: #9f3a38;
+  }
+
+  &.warning {
+    background: #ffffe0;
+    border-color: #eeeeae;
+  }
 }
 
 header,
