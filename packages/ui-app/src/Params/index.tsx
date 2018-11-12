@@ -120,8 +120,6 @@ class Params extends React.PureComponent<Props, State> {
       return;
     }
 
-    console.error('newValue', newValue);
-
     const { isValid = false, value } = newValue;
 
     this.setState(
