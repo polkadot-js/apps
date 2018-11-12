@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { TypeDef } from '@polkadot/types/codec';
 import { Props, RawParam } from '../types';
 
 import React from 'react';
@@ -12,6 +13,7 @@ import findComponent from './findComponent';
 type State = {
   Components: Array<React.ComponentType<Props>>,
   sub: Array<string>,
+  subTypes: Array<TypeDef>,
   type?: string,
   values: Array<RawParam>
 };
@@ -23,33 +25,31 @@ export default class Tuple extends React.PureComponent<Props, State> {
     this.state = {
       Components: [],
       sub: [],
+      subTypes: [],
       values: []
     };
   }
 
-  static getDerivedStateFromProps ({ type }: Props, prevState: State) {
-    if (type.type === prevState.type) {
+  static getDerivedStateFromProps ({ type: { sub, type } }: Props, prevState: State): Partial<State> | null {
+    if (type === prevState.type) {
       return null;
     }
 
-    const sub = type.sub && Array.isArray(type.sub)
-      ? type.sub
+    const subTypes = sub && Array.isArray(sub)
+      ? sub
       : [];
 
     return {
-      Components: sub.map((type) => findComponent(type)),
-      sub: sub.map(({ type }) => type),
+      Components: subTypes.map((type) => findComponent(type)),
+      sub: subTypes.map(({ type }) => type),
+      subTypes,
       type
     };
   }
 
   render () {
-    const { className, defaultValue: { value = [] }, isDisabled, style, type, withLabel } = this.props;
-    const { Components, sub } = this.state;
-
-    const subTypes = Array.isArray(type.sub)
-      ? type.sub
-      : [];
+    const { className, defaultValue: { value = [] }, isDisabled, style, withLabel } = this.props;
+    const { Components, sub, subTypes } = this.state;
 
     return (
       <Bare
