@@ -51,7 +51,7 @@ export default class VoteThresholdParam extends React.PureComponent<Props> {
     );
   }
 
-  onChange = (value: number): void => {
+  private onChange = (value: number): void => {
     const { onChange } = this.props;
 
     onChange && onChange({

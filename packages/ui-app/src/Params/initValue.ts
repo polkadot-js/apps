@@ -10,6 +10,10 @@ import BN from 'bn.js';
 export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawParam$Value> {
   if (def.info === TypeDefInfo.Vector) {
     return [];
+  } else if (def.info === TypeDefInfo.Tuple) {
+    return Array.isArray(def.sub)
+      ? def.sub.map((def) => getInitValue(def))
+      : [];
   }
 
   const type = def.info === TypeDefInfo.Compact

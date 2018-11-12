@@ -17,6 +17,7 @@ import KeyValue from './KeyValue';
 import KeyValueArray from './KeyValueArray';
 import StringParam from './String';
 import Timestamp from './Timestamp';
+import Tuple from './Tuple';
 import Unknown from './Unknown';
 import VoteThreshold from './VoteThreshold';
 
@@ -45,6 +46,7 @@ const components: ComponentMap = {
   'Signature': Hash,
   'String': StringParam,
   'Timestamp': Timestamp,
+  'Tuple': Tuple,
   'u32': Amount,
   'u64': Amount,
   'VoteIndex': Amount,
@@ -54,7 +56,11 @@ const components: ComponentMap = {
 export default function findComponent (def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
   const type = def.info === TypeDefInfo.Compact
     ? (def.sub as TypeDef).type
-    : def.type;
+    : (
+      def.info === TypeDefInfo.Tuple
+        ? 'Tuple'
+        : def.type
+    );
   const component = overrides[type] || components[type];
 
   // FIXME We still don't support either structure or Vector inputs
