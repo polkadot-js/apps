@@ -65,6 +65,15 @@ class Keyring implements KeyringStruct {
       });
   }
 
+  private addTimestamp (pair: KeyringPair): KeyringPair {
+    if (!pair.getMeta().whenCreated) {
+      pair.setMeta({
+        whenCreated: Date.now()
+      });
+    }
+    return pair;
+  }
+
   addAccountPair (pair: KeyringPair, password: string): KeyringPair {
     this.keyring.addPair(pair);
     this.saveAccount(pair, password);
@@ -85,6 +94,7 @@ class Keyring implements KeyringStruct {
   createAccount (seed: Uint8Array, password?: string, meta: KeyringPair$Meta = {}): KeyringPair {
     const pair = this.keyring.addFromSeed(seed, meta);
 
+    this.addTimestamp(pair);
     this.saveAccount(pair, password);
 
     return pair;
@@ -93,6 +103,7 @@ class Keyring implements KeyringStruct {
   createAccountMnemonic (seed: string, password?: string, meta: KeyringPair$Meta = {}): KeyringPair {
     const pair = this.keyring.addFromMnemonic(seed, meta);
 
+    this.addTimestamp(pair);
     this.saveAccount(pair, password);
 
     return pair;
@@ -244,10 +255,6 @@ class Keyring implements KeyringStruct {
 
   saveAccount (pair: KeyringPair, password?: string): void {
     const json = pair.toJson(password);
-
-    if (!json.meta.whenCreated) {
-      json.meta.whenCreated = Date.now();
-    }
 
     this.keyring.addFromJson(json);
     this.accounts.add(json.address, json);
