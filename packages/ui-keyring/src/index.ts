@@ -124,7 +124,7 @@ class Keyring implements KeyringStruct {
     return this.getAddress(address, 'account');
   }
 
-  getAccounts (_addresses: string): Array<KeyringAddress> {
+  getAccounts (): Array<KeyringAddress> {
     const available = this.accounts.subject.getValue();
     return Object
       .keys(available)
