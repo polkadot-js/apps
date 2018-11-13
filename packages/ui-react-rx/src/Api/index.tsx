@@ -8,7 +8,6 @@ import { ApiProps } from '../types';
 
 import React from 'react';
 import Api from '@polkadot/api-observable';
-import { setAddressPrefix } from '@polkadot/keyring';
 import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import RxApi from '@polkadot/rpc-rx';
@@ -19,7 +18,7 @@ import { Header, Method } from '@polkadot/types';
 
 import { balanceFormat } from '../util/index';
 import ApiContext from './Context';
-import { IdentityIcon, InputNumber } from '@polkadot/ui-app/InputNumber';
+import { InputNumber } from '@polkadot/ui-app/InputNumber';
 
 type Props = {
   api?: RpcRxInterface,
@@ -115,11 +114,9 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
 
       balanceFormat.setDefaultDecimals(found.decimals);
       InputNumber.setUnit(found.unit);
-      IdentityIcon.setDefaultPrefix(found.chainId as any);
-
-      setAddressPrefix(found.chainId as any);
 
       // setup keyringonly after prefix has been set
+      keyring.setAddressPrefix(found.chainId as any);
       keyring.setDevMode(isTestChain(chain || ''));
       keyring.loadAll();
 

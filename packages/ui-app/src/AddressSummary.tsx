@@ -35,9 +35,11 @@ const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 
 class AddressSummary extends React.PureComponent<Props> {
   render () {
-    const { accountIdAndIndex = [], className, style } = this.props;
+    const { accountIdAndIndex = [], className, style, value } = this.props;
     const [accountId, accountIndex] = accountIdAndIndex;
     const isValid = accountId || accountIndex;
+
+    console.error('AddressAummary', accountId, value);
 
     return (
       <div

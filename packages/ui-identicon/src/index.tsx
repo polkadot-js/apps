@@ -41,13 +41,13 @@ export default class IdentityIcon extends React.PureComponent<Props, State> {
     address: null
   };
 
-  private static prefix: Prefix = 42;
+  private static prefix?: Prefix = undefined;
 
   static setDefaultPrefix (prefix: Prefix) {
     IdentityIcon.prefix = prefix;
   }
 
-  static getDerivedStateFromProps ({ prefix = IdentityIcon.prefix, value }: Props, prevState: State): State | null {
+  static getDerivedStateFromProps ({ prefix, value }: Props, prevState: State): State | null {
     try {
       const address = isU8a(value) || isHex(value)
         ? encodeAddress(value, prefix)

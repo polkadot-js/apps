@@ -1458,6 +1458,17 @@
     "@types/bs58" "^3.0.30"
     bs58 "^4.0.1"
 
+"@polkadot/keyring@^0.32.17":
+  version "0.32.17"
+  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-0.32.17.tgz#b40c2d10b20431e069cff88c9b7699316084da3a"
+  integrity sha512-i2jXx+Yw36HVPfd46Yp2bFIwSic//QGawxMigQ38VTjK/z4Yj3MoeCLohgqDH+qsma+GUIBQ3gn4NK217viZwg==
+  dependencies:
+    "@babel/runtime" "^7.1.2"
+    "@polkadot/util" "^0.32.17"
+    "@polkadot/util-crypto" "^0.32.17"
+    "@types/bs58" "^3.0.30"
+    bs58 "^4.0.1"
+
 "@polkadot/rpc-core@^0.31.111":
   version "0.31.111"
   resolved "https://registry.yarnpkg.com/@polkadot/rpc-core/-/rpc-core-0.31.111.tgz#34b5f6777593971bca18d9dc9eb357af6d754a98"
@@ -1535,10 +1546,42 @@
     tweetnacl "^1.0.0"
     xxhashjs "^0.2.2"
 
+"@polkadot/util-crypto@^0.32.17":
+  version "0.32.17"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.32.17.tgz#cb6dc5ceaa11ae07ccf4d1e10f70a11c72812f37"
+  integrity sha512-lLhsg0+g+tRHLSIpUtRhuwpe4bDDBS8MZYgoeronGs5rmxOXd5xJ5u8OtMMN2fRIC5WiTMfNJ2JcBpO/h4g9nQ==
+  dependencies:
+    "@babel/runtime" "^7.1.2"
+    "@polkadot/util" "^0.32.17"
+    "@types/bip39" "^2.4.0"
+    bip39 "^2.5.0"
+    blakejs "^1.1.0"
+    js-sha3 "^0.8.0"
+    tweetnacl "^1.0.0"
+    xxhashjs "^0.2.2"
+
 "@polkadot/util@^0.32.15":
   version "0.32.15"
   resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.32.15.tgz#7b8d823a418d49dfd5e8e911ddf7238015bd9c47"
   integrity sha512-XRmmJQPD96ffcQA33N8Gu+w3Y1yi8LCyWmnRqmG9F0jcc+ID8cM9ZsRNTHyMDROhwckDK9sW5uZGmF2bESdTXA==
+  dependencies:
+    "@babel/runtime" "^7.1.2"
+    "@types/bn.js" "^4.11.2"
+    "@types/camelcase" "^4.1.0"
+    "@types/deasync" "^0.1.0"
+    "@types/ip-regex" "^2.0.0"
+    "@types/xxhashjs" "^0.1.1"
+    bn.js "^4.11.8"
+    camelcase "^5.0.0"
+    chalk "^2.4.1"
+    deasync "^0.1.13"
+    ip-regex "^3.0.0"
+    moment "^2.22.2"
+
+"@polkadot/util@^0.32.17":
+  version "0.32.17"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.32.17.tgz#2ff9712599ee9ac43a2fb85bf14b4c32e7fd5bda"
+  integrity sha512-urIzMdXpUss2uJhfUWQBbdWhm4YCoqyfUfSsA8mQtTJLUjm3079U5UMhsGXDNeV+IXm21n2Qz4484u1yUAXicg==
   dependencies:
     "@babel/runtime" "^7.1.2"
     "@types/bn.js" "^4.11.2"
