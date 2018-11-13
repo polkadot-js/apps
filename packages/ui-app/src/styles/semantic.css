@@ -75,8 +75,9 @@
     padding-bottom: 0;
   }
 
-  .ui.header {
-    margin: calc(2rem - .14285714em) 0;
+  .description {
+    margin: 1.5em 0;
+    font-weight: 700;
   }
 }
 

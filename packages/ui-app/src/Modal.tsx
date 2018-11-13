@@ -6,7 +6,6 @@ import { BareProps } from './types';
 
 import React from 'react';
 import SUIModal from 'semantic-ui-react/dist/commonjs/modules/Modal/Modal';
-import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
 
 import classes from './util/classes';
 import settings from './settings';
@@ -20,7 +19,7 @@ export default class Modal extends React.PureComponent<Props> {
   static Actions = SUIModal.Actions;
   static Content = SUIModal.Content;
   static Header = SUIModal.Header;
-  static Highlight = Header;
+  static Description = SUIModal.Description;
 
   render () {
     const { className } = this.props;

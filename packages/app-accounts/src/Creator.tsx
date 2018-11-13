@@ -244,11 +244,11 @@ class Creator extends React.PureComponent<Props, State> {
         {t('seedWarning.content', {
           defaultValue: 'We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always redownload this file later.'
         })}
-        <Modal.Highlight size='tiny'>
+        <Modal.Description>
           {t('seedWarning.highlight', {
             defaultValue: 'Please make sure to save this file in a secure location as it is the only way to restore your account.'
           })}
-        </Modal.Highlight>
+        </Modal.Description>
         <AddressSummary
           className='accounts--Modal-Address'
           value={address}
