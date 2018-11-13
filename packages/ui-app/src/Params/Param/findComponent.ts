@@ -17,7 +17,9 @@ import KeyValue from './KeyValue';
 import KeyValueArray from './KeyValueArray';
 import StringParam from './String';
 import Timestamp from './Timestamp';
+import Tuple from './Tuple';
 import Unknown from './Unknown';
+import Vector from './Vector';
 import VoteThreshold from './VoteThreshold';
 
 const components: ComponentMap = {
@@ -45,22 +47,32 @@ const components: ComponentMap = {
   'Signature': Hash,
   'String': StringParam,
   'Timestamp': Timestamp,
+  'Tuple': Tuple,
   'u32': Amount,
   'u64': Amount,
+  'Vector': Vector,
   'VoteIndex': Amount,
   'VoteThreshold': VoteThreshold
 };
 
 export default function findComponent (def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
-  const type = def.info === TypeDefInfo.Compact
-    ? (def.sub as TypeDef).type
-    : def.type;
-  const component = overrides[type] || components[type];
+  const type = (({ info, sub, type }: TypeDef) => {
+    switch (info) {
+      case TypeDefInfo.Compact:
+        return (sub as TypeDef).type;
 
-  // FIXME We still don't support either structure or Vector inputs
-  if (!component && def.info !== TypeDefInfo.Plain) {
-    return Unknown;
-  }
+      case TypeDefInfo.Tuple:
+        return 'Tuple';
 
-  return component || Unknown;
+      case TypeDefInfo.Vector:
+        return ['Vec<KeyValue>'].includes(type)
+          ? 'Vec<KeyValue>'
+          : 'Vector';
+
+      default:
+        return type;
+    }
+  })(def);
+
+  return overrides[type] || components[type] || Unknown;
 }

@@ -37,3 +37,7 @@
 .ui--Param-text + .ui--Param-text {
   margin-left: 0.5rem;
 }
+
+.ui--Param-Vector-buttons {
+  text-align: right;
+}
