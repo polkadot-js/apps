@@ -65,13 +65,12 @@ class Keyring implements KeyringStruct {
       });
   }
 
-  private addTimestamp (pair: KeyringPair): KeyringPair {
+  private addTimestamp (pair: KeyringPair): void {
     if (!pair.getMeta().whenCreated) {
       pair.setMeta({
         whenCreated: Date.now()
       });
     }
-    return pair;
   }
 
   addAccountPair (pair: KeyringPair, password: string): KeyringPair {
