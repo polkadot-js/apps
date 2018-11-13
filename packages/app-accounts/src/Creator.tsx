@@ -182,17 +182,6 @@ class Creator extends React.PureComponent<Props, State> {
           </Input>
         </div>
         <div className='ui--row'>
-          <Input
-            className='full'
-            isError={!isNameValid}
-            label={t('creator.name', {
-              defaultValue: 'name the account'
-            })}
-            onChange={this.onChangeName}
-            value={name}
-          />
-        </div>
-        <div className='ui--row'>
           <Password
             className='full'
             isError={!isPassValid}
