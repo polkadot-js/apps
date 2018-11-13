@@ -56,7 +56,7 @@ export default class BaseBytes extends React.PureComponent<Props> {
     );
   }
 
-  onChange = (hex: string): void => {
+  private onChange = (hex: string): void => {
     const { length = -1, onChange, validate = defaultValidate, withLength } = this.props;
 
     let value: Uint8Array;

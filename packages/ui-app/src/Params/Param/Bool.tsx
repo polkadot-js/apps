@@ -41,7 +41,7 @@ export default class BoolParam extends React.PureComponent<Props> {
     );
   }
 
-  onChange = (value: boolean): void => {
+  private onChange = (value: boolean): void => {
     const { onChange } = this.props;
 
     onChange && onChange({

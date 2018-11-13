@@ -31,7 +31,7 @@ export default class Code extends React.PureComponent<Props> {
   }
 
   // TODO: Validate that we have actual proper WASM code
-  onChange = (value: Uint8Array): void => {
+  private onChange = (value: Uint8Array): void => {
     const { onChange } = this.props;
 
     onChange && onChange({

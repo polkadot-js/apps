@@ -13,7 +13,7 @@ export default function toAddress (value?: string | Uint8Array): string | undefi
   try {
     return encodeAddress(
       isHex(value)
-        ? hexToU8a(value as string)
+        ? hexToU8a(value)
         : decodeAddress(value)
     );
   } catch (error) {
