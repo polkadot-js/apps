@@ -47,7 +47,7 @@ export default class IdentityIcon extends React.PureComponent<Props, State> {
     IdentityIcon.prefix = prefix;
   }
 
-  static getDerivedStateFromProps ({ prefix, value }: Props, prevState: State): State | null {
+  static getDerivedStateFromProps ({ prefix = IdentityIcon.prefix, value }: Props, prevState: State): State | null {
     try {
       const address = isU8a(value) || isHex(value)
         ? encodeAddress(value, prefix)
