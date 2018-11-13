@@ -63,7 +63,7 @@ class CurrentList extends React.PureComponent<Props> {
   }
 
   private getDisplayName (address: AccountId, defaultName: string) {
-    const pair =  keyring.getAccount(address).isValid()
+    const pair = keyring.getAccount(address).isValid()
       ? keyring.getAccount(address)
       : keyring.getAddress(address);
 
