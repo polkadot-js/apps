@@ -19,11 +19,11 @@ import { Header, Method } from '@polkadot/types';
 
 import { balanceFormat } from '../util/index';
 import ApiContext from './Context';
-import { InputNumber } from '@polkadot/ui-app/InputNumber';
+import { IdentityIcon, InputNumber } from '@polkadot/ui-app/InputNumber';
 
 type Props = {
   api?: RpcRxInterface,
-  children: any, // node?
+  children: React.ReactNode,
   provider?: ProviderInterface,
   url?: string
 };
@@ -115,6 +115,8 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
 
       balanceFormat.setDefaultDecimals(found.decimals);
       InputNumber.setUnit(found.unit);
+      IdentityIcon.setDefaultPrefix(found.chainId as any);
+
       setAddressPrefix(found.chainId as any);
 
       // setup keyringonly after prefix has been set
