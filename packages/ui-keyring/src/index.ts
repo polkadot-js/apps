@@ -116,11 +116,7 @@ class Keyring implements KeyringStruct {
     this.addresses.remove(address);
   }
 
-  getAccount (_address: string | Uint8Array): KeyringAddress {
-    const address = isString(_address)
-      ? _address
-      : encodeAddress(_address);
-
+  getAccount (address: string | Uint8Array): KeyringAddress {
     return this.getAddress(address, 'account');
   }
 
