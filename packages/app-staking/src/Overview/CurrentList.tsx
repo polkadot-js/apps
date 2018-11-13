@@ -62,7 +62,7 @@ class CurrentList extends React.PureComponent<Props> {
     ];
   }
 
-  private getDisplayName (address: AccountId, defaultName: string) {
+  private getDisplayName (address: string, defaultName: string) {
     const pair = keyring.getAccount(address).isValid()
       ? keyring.getAccount(address)
       : keyring.getAddress(address);
@@ -92,7 +92,7 @@ class CurrentList extends React.PureComponent<Props> {
             <article key={address.toString()}>
               <AddressRow
                 balance={balanceArray(address)}
-                name={this.getDisplayName(address, defaultName)}
+                name={this.getDisplayName(address.toString(), defaultName)}
                 value={address}
                 withCopy={false}
                 withNonce={false}
