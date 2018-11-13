@@ -243,7 +243,7 @@ class Creator extends React.PureComponent<Props, State> {
       <Modal.Content key='content'>
         <p>
         {t('seedWarning.content', {
-          defaultValue: 'We will provide you with a generated backup file after your account was created. Plesae make sure to save this file in a secure location as it is the only way to restore your account. As long as you have access to your account you can always redownload this file later.'
+          defaultValue: 'We will provide you with a generated backup file after your account was created. Please make sure to save this file in a secure location as it is the only way to restore your account. As long as you have access to your account you can always redownload this file later.'
         })}
         </p>
         <AddressSummary
