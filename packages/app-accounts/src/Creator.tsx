@@ -40,7 +40,7 @@ type State = {
 function formatSeed (seed: string): Uint8Array {
   return isHex(seed)
     ? hexToU8a(seed)
-    : stringToU8a(seed.padEnd(32, ' '));
+    : stringToU8a((seed as string).padEnd(32, ' '));
 }
 
 function addressFromSeed (seed: string, seedType: SeedType): string {
@@ -292,7 +292,7 @@ class Creator extends React.PureComponent<Props, State> {
           : (
             isHex(seed)
               ? seed.length === 66
-              : seed.length <= 32
+              : (seed as string).length <= 32
           );
         const isPassValid = keyring.isPassValid(password);
 

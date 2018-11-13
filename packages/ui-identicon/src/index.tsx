@@ -25,7 +25,7 @@ type Props = BaseProps & {
 };
 
 type State = {
-  address: string | null
+  address?: string | null
 };
 
 const DEFAULT_SIZE = 64;
@@ -42,10 +42,10 @@ export default class IdentityIcon extends React.PureComponent<Props, State> {
   static getDerivedStateFromProps ({ value }: Props, prevState: State): State | null {
     try {
       const address = isU8a(value) || isHex(value)
-        ? encodeAddress(value as string)
-        : value as string;
+        ? encodeAddress(value)
+        : value;
 
-      decodeAddress(address);
+      decodeAddress(address as string);
 
       return address === prevState.address
         ? null
