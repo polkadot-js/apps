@@ -74,6 +74,11 @@
     border-bottom: none;
     padding-bottom: 0;
   }
+
+  .description {
+    margin: 1.5em 0;
+    font-weight: 700;
+  }
 }
 
 .ui.page.modals.transition.visible {

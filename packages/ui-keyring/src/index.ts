@@ -65,6 +65,14 @@ class Keyring implements KeyringStruct {
       });
   }
 
+  private addTimestamp (pair: KeyringPair): void {
+    if (!pair.getMeta().whenCreated) {
+      pair.setMeta({
+        whenCreated: Date.now()
+      });
+    }
+  }
+
   addAccountPair (pair: KeyringPair, password: string): KeyringPair {
     this.keyring.addPair(pair);
     this.saveAccount(pair, password);
@@ -247,11 +255,9 @@ class Keyring implements KeyringStruct {
   }
 
   saveAccount (pair: KeyringPair, password?: string): void {
-    const json = pair.toJson(password);
+    this.addTimestamp(pair);
 
-    if (!json.meta.whenCreated) {
-      json.meta.whenCreated = Date.now();
-    }
+    const json = pair.toJson(password);
 
     this.keyring.addFromJson(json);
     this.accounts.add(json.address, json);

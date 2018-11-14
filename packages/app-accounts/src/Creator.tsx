@@ -13,6 +13,7 @@ import { encodeAddress } from '@polkadot/keyring';
 import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
+import FileSaver from 'file-saver';
 
 const BipWorker = require('worker-loader?name=[name].[hash:8].js!./bipWorker');
 
@@ -194,6 +195,7 @@ class Creator extends React.PureComponent<Props, State> {
         <Modal
           dimmer='inverted'
           open={showWarning}
+          size='small'
         >
           {this.renderModalContent()}
           {this.renderModalButtons()}
@@ -220,7 +222,7 @@ class Creator extends React.PureComponent<Props, State> {
             isPrimary
             onClick={this.onCommit}
             text={t('seedWarning.continue', {
-              defaultValue: 'Continue'
+              defaultValue: 'Create and backup account'
             })}
           />
         </Button.Group>
@@ -230,17 +232,27 @@ class Creator extends React.PureComponent<Props, State> {
 
   renderModalContent () {
     const { t } = this.props;
+    const { address } = this.state;
 
     return [
       <Modal.Header key='header'>
         {t('seedWarning.header', {
-          defaultValue: 'Warning'
+          defaultValue: 'Important notice!'
         })}
       </Modal.Header>,
       <Modal.Content key='content'>
         {t('seedWarning.content', {
-          defaultValue: 'Before you continue, make sure you have properly backed up your seed in a safe place as it is needed to restore your account.'
+          defaultValue: 'We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always redownload this file later.'
         })}
+        <Modal.Description>
+          {t('seedWarning.description', {
+            defaultValue: 'Please make sure to save this file in a secure location as it is the only way to restore your account.'
+          })}
+        </Modal.Description>
+        <AddressSummary
+          className='accounts--Modal-Address'
+          value={address}
+        />
       </Modal.Content>
     ];
   }
@@ -344,6 +356,16 @@ class Creator extends React.PureComponent<Props, State> {
     const pair = seedType === 'bip'
       ? keyring.createAccountMnemonic(seed, password, { name })
       : keyring.createAccount(formatSeed(seed), password, { name });
+
+    try {
+      const json = pair.toJson(password);
+      const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
+
+      FileSaver.saveAs(blob, `${pair.address()}.json`);
+    } catch (error) {
+      // TODO Implement error handling in the style of https://github.com/polkadot-js/apps/pull/391
+      console.error(error);
+    }
 
     this.onHideWarning();
 
