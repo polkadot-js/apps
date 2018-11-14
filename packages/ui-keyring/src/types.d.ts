@@ -39,6 +39,7 @@ export interface KeyringStruct {
   encryptAccount: (pair: KeyringPair, password: string) => void,
   forgetAccount: (address: string) => void,
   forgetAddress: (address: string) => void,
+  getAccount: (address: string | Uint8Array) => KeyringAddress,
   getAccounts: () => Array<KeyringAddress>,
   getAddress: (address: string | Uint8Array) => KeyringAddress,
   getAddresses: () => Array<KeyringAddress>,

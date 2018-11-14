@@ -8,6 +8,7 @@ import { RxBalanceMap } from '@polkadot/api-observable/types';
 import React from 'react';
 import { AccountId, Balance } from '@polkadot/types';
 import { AddressMini, AddressRow } from '@polkadot/ui-app/index';
+import keyring from '@polkadot/ui-keyring/index';
 
 import translate from '../translate';
 
@@ -44,7 +45,7 @@ class CurrentList extends React.PureComponent<Props> {
           }
         })}
       </h1>,
-      this.renderRow(current, t('name.validator', { defaultValue: 'validator' }))
+      this.renderColumn(current, t('name.validator', { defaultValue: 'validator' }))
     ];
   }
 
@@ -57,11 +58,21 @@ class CurrentList extends React.PureComponent<Props> {
           defaultValue: 'next up'
         })}
       </h1>,
-      this.renderRow(next, t('name.intention', { defaultValue: 'intention' }))
+      this.renderColumn(next, t('name.intention', { defaultValue: 'intention' }))
     ];
   }
 
-  private renderRow (addresses: Array<AccountId>, defaultName: string) {
+  private getDisplayName (address: string, defaultName: string) {
+    const pair = keyring.getAccount(address).isValid()
+      ? keyring.getAccount(address)
+      : keyring.getAddress(address);
+
+    return pair.isValid()
+      ? pair.getMeta().name
+      : defaultName;
+  }
+
+  private renderColumn (addresses: Array<AccountId>, defaultName: string) {
     const { balances, balanceArray, t } = this.props;
 
     if (addresses.length === 0) {
@@ -81,7 +92,7 @@ class CurrentList extends React.PureComponent<Props> {
             <article key={address.toString()}>
               <AddressRow
                 balance={balanceArray(address)}
-                name={name || defaultName}
+                name={this.getDisplayName(address.toString(), defaultName)}
                 value={address}
                 withCopy={false}
                 withNonce={false}
