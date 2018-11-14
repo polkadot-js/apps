@@ -245,7 +245,7 @@ class Creator extends React.PureComponent<Props, State> {
           defaultValue: 'We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always redownload this file later.'
         })}
         <Modal.Description>
-          {t('seedWarning.highlight', {
+          {t('seedWarning.description', {
             defaultValue: 'Please make sure to save this file in a secure location as it is the only way to restore your account.'
           })}
         </Modal.Description>
