@@ -82,6 +82,7 @@ class Restore extends React.PureComponent<Props, State> {
       <div className='grow'>
         <div className='ui--row'>
           <Password
+            autoFocus
             className='full'
             isError={!isPassValid}
             label={t('restore.password', {

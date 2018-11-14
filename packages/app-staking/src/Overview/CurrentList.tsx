@@ -8,12 +8,14 @@ import { RxBalanceMap } from '@polkadot/api-observable/types';
 import React from 'react';
 import { AccountId, Balance } from '@polkadot/types';
 import { AddressMini, AddressRow } from '@polkadot/ui-app/index';
+import keyring from '@polkadot/ui-keyring/index';
 
 import translate from '../translate';
 
 type Props = I18nProps & {
   balances: RxBalanceMap,
-  current: Array<AccountId>
+  balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
+  current: Array<AccountId>,
   next: Array<AccountId>
 };
 
@@ -43,7 +45,7 @@ class CurrentList extends React.PureComponent<Props> {
           }
         })}
       </h1>,
-      this.renderRow(current, t('name.validator', { defaultValue: 'validator' }))
+      this.renderColumn(current, t('name.validator', { defaultValue: 'validator' }))
     ];
   }
 
@@ -56,12 +58,22 @@ class CurrentList extends React.PureComponent<Props> {
           defaultValue: 'next up'
         })}
       </h1>,
-      this.renderRow(next, t('name.intention', { defaultValue: 'intention' }))
+      this.renderColumn(next, t('name.intention', { defaultValue: 'intention' }))
     ];
   }
 
-  private renderRow (addresses: Array<AccountId>, defaultName: string) {
-    const { balances, t } = this.props;
+  private getDisplayName (address: string, defaultName: string) {
+    const pair = keyring.getAccount(address).isValid()
+      ? keyring.getAccount(address)
+      : keyring.getAddress(address);
+
+    return pair.isValid()
+      ? pair.getMeta().name
+      : defaultName;
+  }
+
+  private renderColumn (addresses: Array<AccountId>, defaultName: string) {
+    const { balances, balanceArray, t } = this.props;
 
     if (addresses.length === 0) {
       return (
@@ -79,8 +91,8 @@ class CurrentList extends React.PureComponent<Props> {
           return (
             <article key={address.toString()}>
               <AddressRow
-                balance={this.balanceArray(address)}
-                name={name || defaultName}
+                balance={balanceArray(address)}
+                name={this.getDisplayName(address.toString(), defaultName)}
                 value={address}
                 withCopy={false}
                 withNonce={false}
@@ -98,21 +110,6 @@ class CurrentList extends React.PureComponent<Props> {
         })}
       </div>
     );
-  }
-
-  // FIXME Duplicated in ../StakeList/Account
-  private balanceArray (_address: AccountId | string): Array<Balance> | undefined {
-    const { balances } = this.props;
-
-    if (!_address) {
-      return undefined;
-    }
-
-    const address = _address.toString();
-
-    return balances[address]
-      ? [balances[address].stakingBalance, balances[address].nominatedBalance]
-      : undefined;
   }
 }
 

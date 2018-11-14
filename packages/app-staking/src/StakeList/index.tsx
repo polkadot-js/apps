@@ -5,6 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueProps } from '@polkadot/ui-signer/types';
 import { RxBalanceMap } from '@polkadot/api-observable/types';
+import { AccountId, Balance } from '@polkadot/types';
 
 import React from 'react';
 import keyring from '@polkadot/ui-keyring/index';
@@ -15,13 +16,14 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   balances: RxBalanceMap,
+  balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   intentions: Array<string>,
   validators: Array<string>
 };
 
 class StakeList extends React.PureComponent<Props> {
   render () {
-    const { balances, intentions, validators } = this.props;
+    const { balances, balanceArray, intentions, validators } = this.props;
 
     return (
       <QueueConsumer>
@@ -35,6 +37,7 @@ class StakeList extends React.PureComponent<Props> {
                 <Account
                   accountId={address}
                   balances={balances}
+                  balanceArray={balanceArray}
                   intentions={intentions}
                   isValidator={validators.includes(address)}
                   key={address}

@@ -10,7 +10,6 @@ import { AddressSummary, Button, Input } from '@polkadot/ui-app/index';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring/index';
-import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 
 import translate from './translate';
 
@@ -130,8 +129,8 @@ class Creator extends React.PureComponent<Props, State> {
         let newAddress = address;
 
         try {
-          newAddress = encodeAddress(
-            decodeAddress(address)
+          newAddress = keyring.encodeAddress(
+            keyring.decodeAddress(address)
           );
           isAddressValid = keyring.isAvailable(newAddress);
         } catch (error) {

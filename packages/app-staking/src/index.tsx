@@ -7,7 +7,7 @@ import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { RxBalanceMap } from '@polkadot/api-observable/types';
 
 import React from 'react';
-import { AccountId } from '@polkadot/types';
+import { AccountId, Balance } from '@polkadot/types';
 import { Tabs } from '@polkadot/ui-app/index';
 import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
@@ -88,6 +88,7 @@ class App extends React.PureComponent<Props, State> {
         </header>
         <Component
           balances={validatingBalances}
+          balanceArray={this.balanceArray}
           intentions={intentions}
           validators={validators}
         />
@@ -95,8 +96,22 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  onMenuChange = (action: Actions) => {
+  private onMenuChange = (action: Actions) => {
     this.setState({ action });
+  }
+
+  private balanceArray = (_address: AccountId | string): Array<Balance> | undefined => {
+    const { validatingBalances = {} } = this.props;
+
+    if (!_address) {
+      return undefined;
+    }
+
+    const address = _address.toString();
+
+    return validatingBalances[address]
+      ? [validatingBalances[address].stakingBalance, validatingBalances[address].nominatedBalance]
+      : undefined;
   }
 }
 

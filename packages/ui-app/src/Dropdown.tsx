@@ -17,7 +17,7 @@ type Props<Option> = BareProps & {
   isButton?: boolean,
   isDisabled?: boolean,
   isError?: boolean,
-  label?: any, // node?
+  label?: React.ReactNode,
   onChange: (value: any) => void,
   onSearch?: (filteredOptions: Array<Option>, query: string) => Array<Option>,
   options: Array<Option>,
@@ -32,10 +32,15 @@ type SUIEvent = {
 };
 
 export default class Dropdown<Option> extends React.PureComponent<Props<Option>> {
+  // Trigger the update on mount - ensuring that the onChange (as described below)
+  // is trigerred.
   componentDidMount () {
     this.componentDidUpdate({} as Props<Option>);
   }
 
+  // Here we update the component user with the initial value of the dropdown. In a number of
+  // these (e.g. Accounts) the list of available values are managed by the component itself,
+  // and there are defaults set (i.e. for accounts the last one used)
   componentDidUpdate (prevProps: Props<Option>) {
     const { defaultValue, value } = this.props;
     const startValue = isUndefined(value)
@@ -94,7 +99,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
       );
   }
 
-  onChange = (event: React.SyntheticEvent<Element> | null, { value }: SUIEvent): void => {
+  private onChange = (event: React.SyntheticEvent<Element> | null, { value }: SUIEvent): void => {
     const { onChange, transform } = this.props;
 
     onChange(

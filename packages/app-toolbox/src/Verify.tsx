@@ -85,6 +85,7 @@ class Verify extends React.PureComponent<Props, State> {
     return (
       <div className='ui--row'>
         <Input
+          autoFocus
           className='large'
           label={t('verify.data', {
             defaultValue: 'using the following data (hex or string)'

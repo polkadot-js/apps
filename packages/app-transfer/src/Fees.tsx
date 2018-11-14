@@ -137,7 +137,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         value={`${balanceFormat(txfees)}`}
       />,
       <article
-        className={`transfer--Fees ${feeClass}`}
+        className={feeClass}
         key='txinfo'
       >
         {

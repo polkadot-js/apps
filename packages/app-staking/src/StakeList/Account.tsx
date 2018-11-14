@@ -21,6 +21,7 @@ type Props = I18nProps & {
   accountNonce?: BN,
   accountId: string,
   balances: RxBalanceMap,
+  balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   name: string,
   stakingNominating?: AccountId,
   stakingNominatorsFor?: Array<string>,
@@ -44,7 +45,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accountId, intentions, name } = this.props;
+    const { accountId, balanceArray, intentions, name } = this.props;
     const { isNominateOpen } = this.state;
 
     return (
@@ -56,7 +57,7 @@ class Account extends React.PureComponent<Props, State> {
           intentions={intentions}
         />
         <AddressSummary
-          balance={this.balanceArray(accountId)}
+          balance={balanceArray(accountId)}
           name={name}
           value={accountId}
           identIconSize={96}
@@ -71,23 +72,8 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  // FIXME Duplicated in ../Overview/CurrentList
-  private balanceArray (_address: AccountId | string): Array<Balance> | undefined {
-    const { balances } = this.props;
-
-    if (!_address) {
-      return undefined;
-    }
-
-    const address = _address.toString();
-
-    return balances[address]
-      ? [balances[address].stakingBalance, balances[address].nominatedBalance]
-      : undefined;
-  }
-
   private renderNominee () {
-    const { stakingNominating } = this.props;
+    const { stakingNominating, balanceArray } = this.props;
 
     if (!stakingNominating) {
       return null;
@@ -95,7 +81,7 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <AddressMini
-        balance={this.balanceArray(stakingNominating)}
+        balance={balanceArray(stakingNominating)}
         value={stakingNominating}
         withBalance
       />

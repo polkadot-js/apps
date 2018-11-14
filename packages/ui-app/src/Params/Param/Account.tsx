@@ -38,7 +38,7 @@ export default class Account extends React.PureComponent<Props> {
     );
   }
 
-  onChange = (value?: string): void => {
+  private onChange = (value?: string): void => {
     const { onChange } = this.props;
 
     let isValid = false;

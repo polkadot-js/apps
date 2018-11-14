@@ -39,7 +39,6 @@ In addition the following libraries are also included in the repo. These are to 
 - [ui-keyring](packages/ui-keyring/) A browser-specific wrapper around the base [@polkadot/util-keyring](https://github.com/polkadot-js/util/) library.
 - [ui-signer](packages/ui-signer/) Signer implementation for apps.
 - [ui-identicon](packages/ui-identicon/) Identity icon generator with raw publicKey as input
-- [ui-react](packages/ui-react) A collection of base React components
 - [ui-react-rx](packages/ui-react-rx) Base components that use the RxJS Observable APIs
 
 ## development
