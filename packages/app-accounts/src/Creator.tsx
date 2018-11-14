@@ -9,7 +9,6 @@ import { AddressSummary, Button, Dropdown, Input, Modal, Password } from '@polka
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
 import { mnemonicToSeed, mnemonicValidate, naclKeypairFromSeed, randomAsU8a } from '@polkadot/util-crypto';
-import { encodeAddress } from '@polkadot/keyring';
 import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
@@ -51,7 +50,7 @@ function addressFromSeed (seed: string, seedType: SeedType): string {
       : formatSeed(seed)
   );
 
-  return encodeAddress(
+  return keyring.encodeAddress(
     keypair.publicKey
   );
 }
@@ -67,10 +66,10 @@ class Creator extends React.PureComponent<Props, State> {
 
     this.bipWorker = new BipWorker();
     this.bipWorker.onmessage = (event: MessageEvent) => {
-      const { address, seed } = event.data;
+      const { publicKey, seed } = event.data;
 
       this.setState({
-        address,
+        address: keyring.encodeAddress(publicKey),
         isBipBusy: false,
         seed
       });
@@ -379,6 +378,10 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   private selectSeedType = (seedType: SeedType): void => {
+    if (seedType === this.state.seedType) {
+      return;
+    }
+
     this.setState({
       ...this.generateSeed(seedType),
       seedType
