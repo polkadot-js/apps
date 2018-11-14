@@ -56,17 +56,21 @@ export default function withObservableBase<T> (observable: Observable<any>, { rx
       }
 
       triggerUpdate = (props: any, value?: T): void => {
-        if (isEqual(value, this.state.value)) {
-          return;
+        try {
+          if (isEqual(value, this.state.value)) {
+            return;
+          }
+
+          triggerChange(value, rxChange, props.rxChange || defaultProps.rxChange);
+
+          this.setState({
+            rxUpdated: true,
+            rxUpdatedAt: Date.now(),
+            value
+          });
+        } catch (error) {
+          console.error(this.props, error);
         }
-
-        triggerChange(value, rxChange, props.rxChange || defaultProps.rxChange);
-
-        this.setState({
-          rxUpdated: true,
-          rxUpdatedAt: Date.now(),
-          value
-        });
       }
 
       render () {

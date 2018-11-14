@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { decodeAddress, encodeAddress } from '@polkadot/keyring';
+import keyring from '@polkadot/ui-keyring/index';
 import { hexToU8a, isHex } from '@polkadot/util';
 
 export default function toAddress (value?: string | Uint8Array): string | undefined {
@@ -11,10 +11,10 @@ export default function toAddress (value?: string | Uint8Array): string | undefi
   }
 
   try {
-    return encodeAddress(
+    return keyring.encodeAddress(
       isHex(value)
         ? hexToU8a(value)
-        : decodeAddress(value)
+        : keyring.decodeAddress(value)
     );
   } catch (error) {
     console.error('Unable to encode address', value);

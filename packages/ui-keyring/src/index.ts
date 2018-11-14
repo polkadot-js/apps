@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { Prefix } from '@polkadot/keyring/address/types';
 import { KeyringInstance as BaseKeyringInstance, KeyringPair, KeyringPair$Meta, KeyringPair$Json } from '@polkadot/keyring/types';
 import { AccountSubject, AddressSubject, SingleAddress } from './observable/types';
 import { KeyringAddress, KeyringJson, KeyringJson$Meta, KeyringStruct } from './types';
@@ -9,7 +10,6 @@ import { KeyringAddress, KeyringJson, KeyringJson$Meta, KeyringStruct } from './
 import store from 'store';
 import createPair from '@polkadot/keyring/pair';
 import testKeyring from '@polkadot/keyring/testing';
-import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import { hexToU8a, isHex, isString } from '@polkadot/util';
 
 import accounts from './observable/accounts';
@@ -25,11 +25,13 @@ class Keyring implements KeyringStruct {
   private _accounts: AccountSubject;
   private _addresses: AddressSubject;
   private _keyring?: BaseKeyringInstance;
+  private _prefix: Prefix;
 
   constructor () {
     this._accounts = accounts;
     this._addresses = addresses;
     this._keyring = undefined;
+    this._prefix = 42;
   }
 
   get accounts () {
@@ -46,6 +48,18 @@ class Keyring implements KeyringStruct {
     }
 
     throw new Error(`Keyring should be initialised via 'loadAll' before use`);
+  }
+
+  decodeAddress (key: string | Uint8Array): Uint8Array {
+    return this.keyring.decodeAddress(key);
+  }
+
+  encodeAddress (key: string | Uint8Array): string {
+    return this.keyring.encodeAddress(key);
+  }
+
+  setAddressPrefix (prefix: number): void {
+    this._prefix = prefix as Prefix;
   }
 
   private setKeyring (keyring: BaseKeyringInstance): void {
@@ -144,8 +158,8 @@ class Keyring implements KeyringStruct {
   getAddress (_address: string | Uint8Array, type: 'account' | 'address' = 'address'): KeyringAddress {
     const address = isString(_address)
       ? _address
-      : encodeAddress(_address);
-    const publicKey = decodeAddress(address);
+      : this.encodeAddress(_address);
+    const publicKey = this.decodeAddress(address);
     const subject = type === 'account'
       ? this.accounts.subject
       : this.addresses.subject;
@@ -187,7 +201,7 @@ class Keyring implements KeyringStruct {
     const addressesValue = this.addresses.subject.getValue();
     const address = isString(_address)
       ? _address
-      : encodeAddress(_address);
+      : this.encodeAddress(_address);
 
     return !accountsValue[address] && !addressesValue[address];
   }
@@ -198,6 +212,8 @@ class Keyring implements KeyringStruct {
 
   loadAll (): void {
     const keyring = testKeyring();
+
+    keyring.setAddressPrefix(this._prefix);
 
     this.setKeyring(keyring);
     this.addAccountPairs();
@@ -217,10 +233,10 @@ class Keyring implements KeyringStruct {
           store.set(accountKey(hexAddr), json);
         }
       } else if (addressRegex.test(key)) {
-        const address = encodeAddress(
+        const address = this.encodeAddress(
           isHex(json.address)
             ? hexToU8a(json.address)
-            : decodeAddress(json.address)
+            : this.decodeAddress(json.address)
         );
         const [, hexAddr] = key.split(':');
 
@@ -239,7 +255,7 @@ class Keyring implements KeyringStruct {
   restoreAccount (json: KeyringPair$Json, password: string): KeyringPair {
     const pair = createPair(
       {
-        publicKey: decodeAddress(json.address),
+        publicKey: this.decodeAddress(json.address),
         secretKey: new Uint8Array()
       },
       json.meta,
