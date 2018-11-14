@@ -55,4 +55,5 @@ class Transaction extends React.PureComponent<Props> {
   }
 }
 
+// @ts-ignore Definitions seem to have gone wonky
 export default translate(Transaction);

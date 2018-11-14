@@ -56,7 +56,8 @@ class Referendums extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  translate(Referendums),
+  Referendums,
+  translate,
   withObservable('referendums'),
   withObservable('referendumCount'),
   withObservable('democracyNextTally')

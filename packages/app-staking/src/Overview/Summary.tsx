@@ -61,10 +61,10 @@ class Summary extends React.PureComponent<Props> {
     const { t } = this.props;
     const intentionHigh = this.calcIntentionsHigh();
     const validatorLow = this.calcValidatorLow();
-    const nominatedLow = validatorLow && validatorLow.nominatedBalance.gt(0)
+    const nominatedLow = validatorLow && validatorLow.nominatedBalance.gtn(0)
       ? `(+${balanceFormat(validatorLow.nominatedBalance)})`
       : '';
-    const nominatedHigh = intentionHigh && intentionHigh.nominatedBalance.gt(0)
+    const nominatedHigh = intentionHigh && intentionHigh.nominatedBalance.gtn(0)
       ? `(+${balanceFormat(intentionHigh.nominatedBalance)})`
       : '';
 
@@ -122,6 +122,7 @@ class Summary extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  translate(Summary),
+  Summary,
+  translate,
   withObservable('validatorCount')
 );

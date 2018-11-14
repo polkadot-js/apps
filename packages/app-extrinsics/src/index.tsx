@@ -10,7 +10,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
 import accountsObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withObservableBase } from '@polkadot/ui-react-rx/with/index';
+import { withMulti, withObservableBase } from '@polkadot/ui-react-rx/with/index';
 import translate from './translate';
 
 import Selection from './Selection';
@@ -52,4 +52,8 @@ class ExtrinsicsApp extends React.PureComponent<Props> {
 
 export { ExtrinsicsApp };
 
-export default withObservableBase(accountsObservable.subject, { propName: 'accountAll' })(translate(ExtrinsicsApp));
+export default withMulti(
+  ExtrinsicsApp,
+  translate,
+  withObservableBase(accountsObservable.subject, { propName: 'accountAll' })
+);

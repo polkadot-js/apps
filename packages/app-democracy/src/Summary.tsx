@@ -61,7 +61,8 @@ class Summary extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  translate(Summary),
+  Summary,
+  translate,
   withObservable('democracyLaunchPeriod'),
   withObservable('referendumCount'),
   withObservable('democracyNextTally'),

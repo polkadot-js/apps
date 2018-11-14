@@ -11,7 +11,7 @@ import './index.css';
 import React from 'react';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { Tabs } from '@polkadot/ui-app/index';
-import { withObservableBase } from '@polkadot/ui-react-rx/with/index';
+import { withMulti, withObservableBase } from '@polkadot/ui-react-rx/with/index';
 
 import Creator from './Creator';
 import Editor from './Editor';
@@ -126,6 +126,9 @@ class AccountsApp extends React.PureComponent<Props, State> {
   }
 }
 
-export default withObservableBase(
-  accountObservable.subject, { propName: 'allAccounts' }
-)(translate(AccountsApp));
+export default withMulti(
+  // @ts-ignore Readonly getDerivedStateFromProps
+  AccountsApp,
+  translate,
+  withObservableBase(accountObservable.subject, { propName: 'allAccounts' })
+);

@@ -81,18 +81,18 @@ class FeeDisplay extends React.PureComponent<Props, State> {
 
     let txfees = fees.baseFee
         .add(fees.transferFee)
-        .add(fees.byteFee.mul(txLength));
+        .add(fees.byteFee.muln(txLength));
 
     if (balanceTo.votingBalance.isZero()) {
-      txfees = txfees.add(fees.creationFee.toBn());
+      txfees = txfees.add(fees.creationFee);
     }
 
     const txtotal = amount.add(txfees);
     const hasAvailable = balanceFrom.freeBalance.gte(txtotal);
     const isCreation = balanceTo.votingBalance.isZero();
-    const isNoEffect = amount.add(balanceTo.votingBalance.toBn()).lte(fees.existentialDeposit.toBn());
-    const isRemovable = balanceFrom.votingBalance.sub(txtotal).lte(fees.existentialDeposit.toBn());
-    const isReserved = balanceFrom.freeBalance.isZero() && balanceFrom.reservedBalance.gt(0);
+    const isNoEffect = amount.add(balanceTo.votingBalance).lte(fees.existentialDeposit);
+    const isRemovable = balanceFrom.votingBalance.sub(txtotal).lte(fees.existentialDeposit);
+    const isReserved = balanceFrom.freeBalance.isZero() && balanceFrom.reservedBalance.gtn(0);
 
     return {
       hasAvailable,
@@ -169,7 +169,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
             defaultValue: 'Fees includes the transaction fee and the per-byte fee. '
           })
         }{
-          isCreation && fees.creationFee.gt(0)
+          isCreation && fees.creationFee.gtn(0)
             ? t('fees.create', {
               defaultValue: 'A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist.',
               replace: {
@@ -192,7 +192,9 @@ class FeeDisplay extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  translate(FeeDisplay),
+  // @ts-ignore Readonly getDerivedStateFromProps
+  FeeDisplay,
+  translate,
   withObservable('votingBalance', { paramProp: 'accountId', propName: 'balanceFrom' }),
   withObservable('votingBalance', { paramProp: 'recipientId', propName: 'balanceTo' })
 );

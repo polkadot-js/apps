@@ -28,7 +28,7 @@ type State = {
   recentEvents: Array<Event>;
 };
 
-class Events extends React.PureComponent<Props, State> {
+class EventsDisplay extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
@@ -107,6 +107,8 @@ class Events extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  translate(Events),
+  // @ts-ignore Readonly getDerivedStateFromProps
+  EventsDisplay,
+  translate,
   withObservable('systemEvents')
 );

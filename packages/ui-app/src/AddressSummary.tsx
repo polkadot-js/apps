@@ -228,7 +228,8 @@ export {
 };
 
 export default withMulti(
-  translate(AddressSummary),
+  AddressSummary,
+  translate,
   withObservable('accountIdAndIndex', { paramProp: 'value' }),
   withObservable('sessionValidators')
 );

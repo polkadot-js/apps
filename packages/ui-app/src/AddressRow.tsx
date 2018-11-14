@@ -33,7 +33,8 @@ class AddressRow extends AddressSummary {
 }
 
 export default withMulti(
-  translate(AddressRow),
+  AddressRow,
+  translate,
   withObservable('accountIdAndIndex', { paramProp: 'value' }),
   withObservable('sessionValidators')
 );

@@ -71,6 +71,7 @@ class VotingButton extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  translate(VotingButton),
+  VotingButton,
+  translate,
   withObservable('accountNonce', { paramProp: 'accountId' })
 );

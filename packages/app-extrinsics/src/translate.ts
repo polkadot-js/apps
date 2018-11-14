@@ -4,5 +4,4 @@
 
 import { withNamespaces } from 'react-i18next';
 
-// @ts-ignore definition incorrect
 export default withNamespaces(['extrinsics', 'ui']);

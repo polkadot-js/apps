@@ -26,12 +26,8 @@ export default class Progress extends React.PureComponent<Props> {
   render () {
     const { className, color = 'blue', percent, total, style, value } = this.props;
     let calculated: number | undefined;
-    const _total = total && total instanceof UInt
-      ? total.toBn()
-      : bnToBn(total);
-    const _value = value && value instanceof UInt
-      ? value.toBn()
-      : bnToBn(value);
+    const _total = bnToBn(total);
+    const _value = bnToBn(value);
 
     if (_total.gtn(0)) {
       calculated = 100.0 * _value.toNumber() / _total.toNumber();

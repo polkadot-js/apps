@@ -68,6 +68,7 @@ class Proposal extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  translate(Proposal),
+  Proposal,
+  translate,
   withObservable('proposalDeposits', { paramProp: 'idNumber' })
 );
