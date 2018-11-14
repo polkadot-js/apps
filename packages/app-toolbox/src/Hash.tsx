@@ -40,6 +40,7 @@ class Hash extends React.PureComponent<Props, State> {
     return (
       <div className='ui--row'>
         <Input
+          autoFocus
           className='large'
           label={t('hash.data', {
             defaultValue: 'from the following data (hex or string)'

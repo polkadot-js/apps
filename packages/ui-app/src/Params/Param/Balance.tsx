@@ -44,7 +44,7 @@ class Balance extends React.PureComponent<Props> {
     );
   }
 
-  onChange = (value?: BN): void => {
+  private onChange = (value?: BN): void => {
     const { isError, onChange } = this.props;
 
     if (!onChange) {

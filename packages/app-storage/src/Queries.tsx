@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
-import { StorageQuery } from './types';
+import { QueryTypes } from './types';
 
 import React from 'react';
 
@@ -11,7 +11,7 @@ import Query from './Query';
 
 type Props = BareProps & {
   onRemove: (id: number) => void,
-  value?: Array<StorageQuery>
+  value?: Array<QueryTypes>
 };
 
 export default class Queries extends React.PureComponent<Props> {

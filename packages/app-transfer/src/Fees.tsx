@@ -119,6 +119,14 @@ class FeeDisplay extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const feeClass = hasAvailable
+      ? (
+        (isRemovable || isNoEffect)
+          ? 'warning'
+          : 'normal'
+        )
+      : 'error';
+
     return [
       <Static
         className={className}
@@ -129,7 +137,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         value={`${balanceFormat(txfees)}`}
       />,
       <article
-        className={hasAvailable ? ((isRemovable || isNoEffect) ? 'warning' : '') : 'error'}
+        className={feeClass}
         key='txinfo'
       >
         {

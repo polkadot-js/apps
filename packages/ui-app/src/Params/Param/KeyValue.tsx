@@ -21,7 +21,7 @@ type State = {
   value: State$Param
 };
 
-export default class StorageKeyValue extends React.PureComponent<Props, State> {
+export default class KeyValue extends React.PureComponent<Props, State> {
   state: State = {
     key: {
       isValid: false,
@@ -74,12 +74,12 @@ export default class StorageKeyValue extends React.PureComponent<Props, State> {
       u8a = new Uint8Array([]);
     }
 
-    const isValidLength = length !== -1
+    const isValid = length !== -1
       ? u8a.length === length
       : u8a.length !== 0;
 
     return {
-      isValid: isValidLength,
+      isValid,
       u8a: Compact.addLengthPrefix(u8a)
     };
   }
@@ -103,10 +103,10 @@ export default class StorageKeyValue extends React.PureComponent<Props, State> {
   }
 
   onChangeKey = (key: string): void => {
-    this.nextState({ key: StorageKeyValue.createParam(key) } as State);
+    this.nextState({ key: KeyValue.createParam(key) } as State);
   }
 
   onChangeValue = (value: string): void => {
-    this.nextState({ value: StorageKeyValue.createParam(value) } as State);
+    this.nextState({ value: KeyValue.createParam(value) } as State);
   }
 }

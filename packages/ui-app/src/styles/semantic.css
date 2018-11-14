@@ -56,15 +56,29 @@
   z-index: 1;
 }
 
-.ui.modal > .actions {
-  background: transparent;
-  border-top: none;
-  text-align: right;
-}
+.ui.modal {
+  background: #fdfdfd;
 
-.ui.modal > .header {
-  border-bottom: none;
-  padding-bottom: 0;
+  > .actions,
+  > .content,
+  > .header {
+    background: transparent;
+  }
+
+  > .actions {
+    border-top: none;
+    text-align: right;
+  }
+
+  > .header {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .description {
+    margin: 1.5em 0;
+    font-weight: 700;
+  }
 }
 
 .ui.page.modals.transition.visible {
@@ -99,4 +113,17 @@
 /* modals aligned to top, not center */
 .ui.dimmer {
   justify-content: flex-start;
+}
+
+.ui.menu.tabular {
+  background: #f2f2f2;
+  /* border-color: white; */
+  /* break out of the wrapping main padding */
+  margin: -1em -2em 0;
+  padding: 1em 2em 0;
+
+  .item.active {
+    background: #fafafa;
+    /* border-color: white; */
+  }
 }

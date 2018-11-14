@@ -107,6 +107,7 @@ class Sign extends React.PureComponent<Props, State> {
     return (
       <div className='ui--row'>
         <Input
+          autoFocus
           className='large'
           label={t('sign.data', {
             defaultValue: 'sign the following data (hex or string)'
