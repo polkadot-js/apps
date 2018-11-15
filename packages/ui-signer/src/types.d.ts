@@ -11,7 +11,7 @@ import { RawParam$Value } from '@polkadot/ui-app/Params/types';
 
 export type AccountInfo = {
   accountId?: string | null,
-  accountNonce: UInt | BN
+  accountNonce: BN
 };
 
 export type QueueTx$Status = 'finalised' | 'usurped' | 'dropped' | 'broadcast' | 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent' | 'blocked';
@@ -45,7 +45,7 @@ export type QueueTx$Rpc = AccountInfo & {
 
 export type PartialAccountInfo = {
   accountId?: string | null,
-  accountNonce?: UInt | BN | null
+  accountNonce?: BN | null
 };
 
 export type PartialQueueTx$Extrinsic = PartialAccountInfo & {
