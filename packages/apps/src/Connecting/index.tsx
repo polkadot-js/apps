@@ -9,7 +9,7 @@ import './Connecting.css';
 
 import React from 'react';
 import settings from '@polkadot/ui-app/settings';
-import { withApi } from '@polkadot/ui-react-rx/with/index';
+import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import translate from '../translate';
 
@@ -48,6 +48,8 @@ class Connecting extends React.PureComponent<Props> {
   }
 }
 
-export default translate(
-  withApi(Connecting)
+export default withMulti(
+  Connecting,
+  translate,
+  withApi
 );

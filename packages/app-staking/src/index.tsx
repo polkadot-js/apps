@@ -114,7 +114,9 @@ class App extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  translate(App),
+  // @ts-ignore Readonly getDerivedStateFromProps
+  App,
+  translate,
   withObservable('stakingIntentions'),
   withObservable('sessionValidators'),
   withObservable('validatingBalances', { paramProp: 'stakingIntentions' })

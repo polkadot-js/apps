@@ -143,6 +143,7 @@ class BlockByHash extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  translate(BlockByHash),
+  BlockByHash,
+  translate,
   withObservable('getBlock', { paramProp: 'value' })
 );

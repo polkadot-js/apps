@@ -10,7 +10,7 @@ import { withObservableDiv } from './with/index';
 const Component: React.ComponentType<any> = withObservableDiv('bestNumber')(
   (value?: BlockNumber): string => {
     return value
-      ? numberFormat(value.toBn())
+      ? numberFormat(value)
       : 'unknown';
   },
   { className: 'rx--BestNumber' }

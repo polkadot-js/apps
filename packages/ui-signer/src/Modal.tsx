@@ -11,7 +11,7 @@ import React from 'react';
 import { decodeAddress } from '@polkadot/keyring';
 import { Button, Modal } from '@polkadot/ui-app/index';
 import keyring from '@polkadot/ui-keyring/index';
-import { withApi } from '@polkadot/ui-react-rx/with/index';
+import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { format } from '@polkadot/util/logger';
 import { Extrinsic } from '@polkadot/types';
 
@@ -327,12 +327,13 @@ class Signer extends React.PureComponent<Props, State> {
   }
 }
 
-const Component: React.ComponentType<any> = translate(
-  withApi(Signer)
-);
-
 export {
   Signer
 };
 
-export default Component;
+export default withMulti(
+  // @ts-ignore Readonly getDerivedStateFromProps
+  Signer,
+  translate,
+  withApi
+);
