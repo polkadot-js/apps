@@ -10,8 +10,8 @@
   "contributors": [],
   "license": "ISC",
   "dependencies": {
-    "@babel/runtime": "^7.0.0",
-    "@polkadot/keyring": "^0.32.18",
+    "@babel/runtime": "^7.1.5",
+    "@polkadot/keyring": "^0.32.21",
     "store": "^2.0.12"
   }
 }

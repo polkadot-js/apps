@@ -54,6 +54,7 @@ class Submit extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  translate(Submit),
+  Submit,
+  translate,
   withObservable('accountNonce', { paramProp: 'accountId' })
 );

@@ -37,7 +37,7 @@ export default class BlockHeader extends React.PureComponent<Props> {
       <article className='explorer--BlockHeader'>
         <div className='details'>
           <div className='header'>
-            <div className='number'>{numberFormat(blockNumber.toBn())}&nbsp;</div>
+            <div className='number'>{numberFormat(blockNumber)}&nbsp;</div>
             <div className='hash'>
               <BlockHash
                 blockNumber={blockNumber}
@@ -49,7 +49,7 @@ export default class BlockHeader extends React.PureComponent<Props> {
             <div>
               <div className='type'>parentHash</div>
               <div className='hash'>{
-                value.blockNumber.gt(1)
+                value.blockNumber.gtn(1)
                   ? <Link to={`/explorer/hash/${parentHex}`}>{parentHex}</Link>
                   : parentHex
               }</div>
