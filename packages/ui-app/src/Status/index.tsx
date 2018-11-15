@@ -80,8 +80,6 @@ class Status extends React.PureComponent<Props> {
   }
 
   private renderItem = ({ id, extrinsic, rpc, status }: QueueTx) => {
-    const { t } = this.props;
-
     let { method, section } = rpc;
 
     if (extrinsic) {
