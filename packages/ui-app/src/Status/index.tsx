@@ -69,11 +69,7 @@ class Status extends React.PureComponent<Props> {
           </div>
           <AddressMini value={status.value} />
           <div className='status'>
-            {
-              t('status.message', {
-                defaultValue: status.message
-              })
-            }
+            {status.message}
           </div>
         </div>
         <div className='short'>
@@ -106,18 +102,10 @@ class Status extends React.PureComponent<Props> {
       >
         <div className='desc'>
           <div className='header'>
-            {
-              t('status.header', {
-                defaultValue: section + '.' + method
-              })
-            }
+            {section}.{method}
           </div>
           <div className='status'>
-            {
-              t('status.message', {
-                defaultValue: status
-              })
-            }
+            {status}
           </div>
         </div>
         <div className='short'>

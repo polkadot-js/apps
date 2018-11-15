@@ -378,9 +378,7 @@ class Creator extends React.PureComponent<Props, State> {
       InputAddress.setLastValue('account', pair.address());
     } catch (err) {
       status.success = false;
-      status.message = t('status.error', {
-        defaultValue: err.message
-      });
+      status.message = err.message;
     }
 
     this.onHideWarning();

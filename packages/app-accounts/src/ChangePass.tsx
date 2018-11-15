@@ -153,9 +153,7 @@ class ChangePass extends React.PureComponent<Props, State> {
       this.setState({ isNewValid: false });
 
       status.success = false;
-      status.message = t('status.error', {
-        defaultValue: error.message
-      });
+      status.message = error.message;
 
       return;
     }

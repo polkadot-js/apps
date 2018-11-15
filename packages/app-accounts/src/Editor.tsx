@@ -273,11 +273,9 @@ class Editor extends React.PureComponent<Props, State> {
       status.message = t('status.editted', {
         defaultValue: `Edited to: ${editedName}`
       });
-    } catch (e) {
+    } catch (error) {
       status.success = false;
-      status.message = t('status.error', {
-        defaultValue: e.message
-      });
+      status.message = error.message;
     }
 
     onStatusChange(status);
@@ -356,9 +354,7 @@ class Editor extends React.PureComponent<Props, State> {
           });
         } catch (err) {
           status.success = false;
-          status.message = t('status.error', {
-            defaultValue: err.message
-          });
+          status.message = err.message;
         }
 
         onStatusChange(status);

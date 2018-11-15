@@ -163,10 +163,7 @@ class Restore extends React.PureComponent<Props, State> {
       this.setState({ isPassValid: false });
 
       status.success = false;
-      status.message = t('status.error', {
-        defaultValue: error.message
-      });
-
+      status.message = error.message;
       console.error(error);
     }
 
