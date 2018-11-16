@@ -5,6 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 import { TabItem } from '@polkadot/ui-app/Tabs';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
+import { Actions, ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import './index.css';
 
@@ -20,10 +21,9 @@ import translate from './translate';
 
 type Props = I18nProps & {
   allAccounts?: SubjectInfo,
+  onStatusChange: (status: ActionStatus) => void,
   basePath: string
 };
-
-type Actions = 'create' | 'edit' | 'restore';
 
 type State = {
   action: Actions,
@@ -96,6 +96,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
   }
 
   render () {
+    const { onStatusChange } = this.props;
     const { action, hidden, items } = this.state;
     const Component = Components[action];
 
@@ -112,6 +113,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
         <Component
           onCreateAccount={this.selectEdit}
           onRestoreAccount={this.selectEdit}
+          onStatusChange={onStatusChange}
         />
       </main>
     );

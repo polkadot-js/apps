@@ -13,8 +13,10 @@ import { isHex, isObject, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 type Props = I18nProps & {
+  onStatusChange: (status: ActionStatus) => void,
   onRestoreAccount: () => void
 };
 
@@ -135,22 +137,37 @@ class Restore extends React.PureComponent<Props, State> {
   }
 
   private onSave = (): void => {
-    const { onRestoreAccount } = this.props;
+    const { onRestoreAccount, onStatusChange, t } = this.props;
     const { json, password } = this.state;
 
     if (!json) {
       return;
     }
 
+    const status: ActionStatus = {
+      action: 'restore'
+    };
+
     try {
       const pair = keyring.restoreAccount(json, password);
+
+      status.success = !!(pair);
+      status.value = pair.address();
+      status.message = t('status.restored', {
+        defaultValue: 'Restored'
+      });
 
       InputAddress.setLastValue('account', pair.address());
       onRestoreAccount();
     } catch (error) {
       this.setState({ isPassValid: false });
+
+      status.success = false;
+      status.message = error.message;
       console.error(error);
     }
+
+    onStatusChange(status);
   }
 }
 

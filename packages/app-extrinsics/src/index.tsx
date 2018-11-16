@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 import { QueueProps } from '@polkadot/ui-signer/types';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import './index.css';
 
@@ -16,8 +17,9 @@ import translate from './translate';
 import Selection from './Selection';
 
 type Props = I18nProps & {
+  accountAll?: Array<any>,
   basePath: string,
-  accountAll?: Array<any>
+  onStatusChange: (status: ActionStatus) => void
 };
 
 class ExtrinsicsApp extends React.PureComponent<Props> {

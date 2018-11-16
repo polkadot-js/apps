@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import { AddressSummary, Button, Dropdown, Input, Modal, Password } from '@polkadot/ui-app/index';
@@ -17,6 +18,7 @@ import FileSaver from 'file-saver';
 const BipWorker = require('worker-loader?name=[name].[hash:8].js!./bipWorker');
 
 type Props = I18nProps & {
+  onStatusChange: (status: ActionStatus) => void,
   onCreateAccount: () => void
 };
 
@@ -350,27 +352,40 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   private onCommit = (): void => {
-    const { onCreateAccount } = this.props;
+    const { onCreateAccount, onStatusChange, t } = this.props;
     const { name, password, seed, seedType } = this.state;
-    const pair = seedType === 'bip'
-      ? keyring.createAccountMnemonic(seed, password, { name })
-      : keyring.createAccount(formatSeed(seed), password, { name });
+
+    const status: ActionStatus = {
+      action: 'create'
+    };
 
     try {
+      const pair = seedType === 'bip'
+        ? keyring.createAccountMnemonic(seed, password, { name })
+        : keyring.createAccount(formatSeed(seed), password, { name });
+
       const json = pair.toJson(password);
       const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
 
       FileSaver.saveAs(blob, `${pair.address()}.json`);
-    } catch (error) {
-      // TODO Implement error handling in the style of https://github.com/polkadot-js/apps/pull/391
-      console.error(error);
+
+      status.value = pair.address();
+      status.success = !!(pair);
+      status.message = t('status.created', {
+        defaultValue: `Created Account`
+      });
+
+      InputAddress.setLastValue('account', pair.address());
+    } catch (err) {
+      status.success = false;
+      status.message = err.message;
     }
 
     this.onHideWarning();
 
-    InputAddress.setLastValue('account', pair.address());
-
     onCreateAccount();
+
+    onStatusChange(status);
   }
 
   private onDiscard = (): void => {

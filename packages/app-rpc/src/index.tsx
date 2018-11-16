@@ -4,6 +4,7 @@
 
 import { BareProps } from '@polkadot/ui-app/types';
 import { QueueProps } from '@polkadot/ui-signer/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import './index.css';
 
@@ -14,7 +15,8 @@ import Results from './Results';
 import Selection from './Selection';
 
 type Props = BareProps & {
-  basePath: string
+  basePath: string,
+  onStatusChange: (status: ActionStatus) => void
 };
 
 export default class RpcApp extends React.PureComponent<Props> {

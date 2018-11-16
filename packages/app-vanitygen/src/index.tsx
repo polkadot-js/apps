@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { Generator$Matches, Generator$Result } from './generator/types';
 
 import './index.css';
@@ -17,7 +18,8 @@ import generatorSort from './generator/sort';
 import translate from './translate';
 
 type Props = I18nProps & {
-  basePath: string
+  basePath: string,
+  onStatusChange: (status: ActionStatus) => void
 };
 
 type State = {

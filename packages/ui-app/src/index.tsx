@@ -44,6 +44,7 @@ import Params from './Params';
 import Password from './Password';
 import Progress from './Progress';
 import Static from './Static';
+import Status from './Status';
 import Tabs from './Tabs';
 
 type Props = BareProps & {
@@ -82,6 +83,7 @@ export {
   Password,
   Progress,
   Static,
+  Status,
   Tabs
 };
 

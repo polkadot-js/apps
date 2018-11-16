@@ -4,10 +4,12 @@
 
 import { SemanticICONS } from 'semantic-ui-react/dist/commonjs';
 import { BareProps } from '@polkadot/ui-app/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 export type RouteProps = BareProps & {
-  basePath: string
-}
+  basePath: string,
+  onStatusChange: (status: ActionStatus) => void
+};
 
 export type Route = {
   Component: React.ComponentType<RouteProps>,
@@ -23,4 +25,4 @@ export type Routes = Array<Route | null>;
 export type Routing = {
   default: string,
   routes: Routes
-}
+};

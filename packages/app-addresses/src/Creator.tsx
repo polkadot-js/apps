@@ -7,13 +7,15 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 
 import { AddressSummary, Button, Input } from '@polkadot/ui-app/index';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring/index';
 
 import translate from './translate';
 
 type Props = I18nProps & {
-  onCreateAddress: () => void
+  onCreateAddress: () => void,
+  onStatusChange: (status: ActionStatus) => void
 };
 
 type State = {
@@ -157,13 +159,33 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   onCommit = (): void => {
-    const { onCreateAddress } = this.props;
+    const { onCreateAddress, onStatusChange, t } = this.props;
     const { address, name } = this.state;
 
-    keyring.saveAddress(address, { name });
-    InputAddress.setLastValue('address', address);
+    const status: ActionStatus = {
+      action: 'create'
+    };
+
+    try {
+      keyring.saveAddress(address, { name });
+
+      status.value = address;
+      status.success = !!(address);
+      status.message = t('status.created', {
+        defaultValue: `Created Address`
+      });
+
+      InputAddress.setLastValue('address', address);
+    } catch (err) {
+      status.success = false;
+      status.message = t('status.error', {
+        defaultValue: err.message
+      });
+    }
 
     onCreateAddress();
+
+    onStatusChange(status);
   }
 
   onDiscard = (): void => {

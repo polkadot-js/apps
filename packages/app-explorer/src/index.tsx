@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import './index.css';
 
@@ -13,7 +14,8 @@ import BlockByHash from './BlockByHash';
 import Main from './Main';
 
 type Props = BareProps & {
-  basePath: string
+  basePath: string,
+  onStatusChange: (status: ActionStatus) => void
 };
 
 export default class ExplorerApp extends React.Component<Props> {

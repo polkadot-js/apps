@@ -7,13 +7,16 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { AddressSummary, Button, Input, InputAddress } from '@polkadot/ui-app/index';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import keyring from '@polkadot/ui-keyring/index';
 import { decodeAddress } from '@polkadot/keyring';
 
 import Forgetting from './Forgetting';
 import translate from './translate';
 
-type Props = I18nProps;
+type Props = I18nProps & {
+  onStatusChange: (status: ActionStatus) => void
+};
 
 type State = {
   current: KeyringAddress | null,
@@ -183,15 +186,35 @@ class Editor extends React.PureComponent<Props, State> {
 
   onCommit = (): void => {
     const { current, editedName } = this.state;
+    const { onStatusChange, t } = this.props;
 
     if (!current) {
       return;
     }
 
-    keyring.saveAddress(current.address(), {
-      name: editedName,
-      whenEdited: Date.now()
-    });
+    const status: ActionStatus = {
+      action: 'edit',
+      value: current.address()
+    };
+
+    try {
+      keyring.saveAddress(current.address(), {
+        name: editedName,
+        whenEdited: Date.now()
+      });
+
+      status.success = !!(current.getMeta().name === editedName);
+      status.message = t('status.editted', {
+        defaultValue: `Edited to: ${editedName}`
+      });
+    } catch (e) {
+      status.success = false;
+      status.message = t('status.error', {
+        defaultValue: e.message
+      });
+    }
+
+    onStatusChange(status);
   }
 
   onDiscard = (): void => {
@@ -215,6 +238,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onForget = (): void => {
+    const { onStatusChange, t } = this.props;
     const { current } = this.state;
 
     if (!current) {
@@ -224,9 +248,27 @@ class Editor extends React.PureComponent<Props, State> {
     this.setState(
       this.createState(null),
       () => {
-        keyring.forgetAddress(
-          current.address()
-        );
+        const status: ActionStatus = {
+          action: 'forget',
+          value: current.address()
+        };
+
+        try {
+          keyring.forgetAddress(
+            current.address()
+          );
+          status.success = true;
+          status.message = t('status.forgotten', {
+            defaultValue: 'Forgotten'
+          });
+        } catch (err) {
+          status.success = false;
+          status.message = t('status.error', {
+            defaultValue: err.message
+          });
+        }
+
+        onStatusChange(status);
       }
     );
   }

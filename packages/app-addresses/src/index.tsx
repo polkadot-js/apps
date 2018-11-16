@@ -4,6 +4,7 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import './index.css';
 
@@ -19,7 +20,8 @@ import translate from './translate';
 
 type Props = I18nProps & {
   allAddresses?: SubjectInfo,
-  basePath: string
+  basePath: string,
+  onStatusChange: (status: ActionStatus) => void
 };
 
 type Actions = 'create' | 'edit';
@@ -90,6 +92,7 @@ class AddressesApp extends React.PureComponent<Props, State> {
   }
 
   render () {
+    const { onStatusChange } = this.props;
     const { action, hidden, items } = this.state;
     const Component = Components[action];
 
@@ -103,7 +106,10 @@ class AddressesApp extends React.PureComponent<Props, State> {
             onChange={this.onMenuChange}
           />
         </header>
-        <Component onCreateAddress={this.activateEdit} />
+        <Component
+          onCreateAddress={this.activateEdit}
+          onStatusChange={onStatusChange}
+        />
       </main>
     );
   }
