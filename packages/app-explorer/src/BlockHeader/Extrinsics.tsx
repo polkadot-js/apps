@@ -40,6 +40,7 @@ class Extrinsics extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  translate(Extrinsics),
+  Extrinsics,
+  translate,
   withObservable('getBlock', { paramProp: 'hash' })
 );

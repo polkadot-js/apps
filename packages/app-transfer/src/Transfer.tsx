@@ -175,6 +175,7 @@ class Transfer extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  translate(Transfer),
+  Transfer,
+  translate,
   withObservable('fees', { propName: 'fees' })
 );

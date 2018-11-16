@@ -9,7 +9,7 @@ import './Content.css';
 
 import React from 'react';
 import { withRouter } from 'react-router';
-import { withApi } from '@polkadot/ui-react-rx/with/index';
+import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { Status } from '@polkadot/ui-app/index';
 
@@ -79,4 +79,9 @@ class Content extends React.Component<Props, State> {
 
 }
 
-export default withRouter(withApi(translate(Content)));
+export default withMulti(
+  Content,
+  translate,
+  withApi,
+  withRouter
+);

@@ -363,4 +363,5 @@ class Editor extends React.PureComponent<Props, State> {
   }
 }
 
+// @ts-ignore Definitions seem to have gone wonky
 export default translate(Editor);

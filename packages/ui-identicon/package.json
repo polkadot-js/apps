@@ -14,9 +14,9 @@
   ],
   "license": "APL2",
   "dependencies": {
-    "@babel/runtime": "^7.0.0",
-    "@polkadot/keyring": "^0.32.18",
-    "@polkadot/util-crypto": "^0.32.18",
+    "@babel/runtime": "^7.1.5",
+    "@polkadot/keyring": "^0.32.21",
+    "@polkadot/util-crypto": "^0.32.21",
     "@types/color": "^3.0.0",
     "color": "^3.0.0",
     "react-copy-to-clipboard": "^5.0.1"

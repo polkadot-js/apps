@@ -12,7 +12,7 @@ import React from 'react';
 
 import addressObservable from '@polkadot/ui-keyring/observable/addresses';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
-import { withObservableBase } from '@polkadot/ui-react-rx/with/index';
+import { withMulti, withObservableBase } from '@polkadot/ui-react-rx/with/index';
 
 import Creator from './Creator';
 import Editor from './Editor';
@@ -125,6 +125,9 @@ class AddressesApp extends React.PureComponent<Props, State> {
   }
 }
 
-export default withObservableBase(
-  addressObservable.subject, { propName: 'allAddresses' }
-)(translate(AddressesApp));
+export default withMulti(
+  // @ts-ignore Readonly getDerivedStateFromProps
+  AddressesApp,
+  translate,
+  withObservableBase(addressObservable.subject, { propName: 'allAddresses' })
+);

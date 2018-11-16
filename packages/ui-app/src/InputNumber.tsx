@@ -271,4 +271,5 @@ export {
   maxConservativeLength
 };
 
+// @ts-ignore Definitions seem to have gone wonky
 export default translate(InputNumber);

@@ -53,6 +53,7 @@ class Proposals extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  translate(Proposals),
+  Proposals,
+  translate,
   withObservable('publicProposals')
 );

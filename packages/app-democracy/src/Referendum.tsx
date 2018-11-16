@@ -66,14 +66,14 @@ class Referendum extends React.PureComponent<Props, State> {
     const newState: State = democracyReferendumVoters.reduce((state, { balance, vote }) => {
       if (vote.valueOf() === true) {
         state.voteCountYay++;
-        state.votedYay = state.votedYay.add(balance.toBn());
+        state.votedYay = state.votedYay.add(balance);
       } else {
         state.voteCountNay++;
-        state.votedNay = state.votedNay.add(balance.toBn());
+        state.votedNay = state.votedNay.add(balance);
       }
 
       state.voteCount++;
-      state.votedTotal = state.votedTotal.add(balance.toBn());
+      state.votedTotal = state.votedTotal.add(balance);
 
       return state;
     }, {
@@ -171,7 +171,9 @@ class Referendum extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  translate(Referendum),
+  // @ts-ignore Readonly getDerivedStateFromProps
+  Referendum,
+  translate,
   withObservable('bestNumber'),
   withObservable('democracyReferendumVoters', { paramProp: 'idNumber' })
 );
