@@ -34,7 +34,7 @@ class Vector extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ defaultValue: { value = [] }, type: { sub, type } }: Props, prevState: State): Partial<State> | null {
+  static getDerivedStateFromProps ({ defaultValue: { value = [] }, isDisabled, type: { sub, type } }: Props, prevState: State): Partial<State> | null {
     if (type === prevState.type) {
       return null;
     }
@@ -42,21 +42,24 @@ class Vector extends React.PureComponent<Props, State> {
     return {
       Component: findComponent(sub as TypeDef),
       type,
-      values: prevState.values.length === 0
+      values: isDisabled || prevState.values.length === 0
         ? value
         : prevState.values
     };
   }
 
   render () {
-    const { className, isDisabled, style, t, type, withLabel } = this.props;
-    const { Component, values } = this.state;
+    const { className, defaultValue, isDisabled, style, type, withLabel } = this.props;
+    const { Component } = this.state;
 
     if (!Component) {
       return null;
     }
 
     const subType = type.sub as TypeDef;
+    const values: Array<RawParam> = isDisabled
+      ? defaultValue.value || []
+      : this.state.values;
 
     return (
       <Bare
@@ -73,26 +76,39 @@ class Vector extends React.PureComponent<Props, State> {
             withLabel={withLabel}
           />
         ))}
-        <div className='ui--Param-Vector-buttons'>
-          <Button
-            icon='plus'
-            isPrimary
-            onClick={this.rowAdd}
-            text={t('vector.add', {
-              defaultValue: 'add item'
-            })}
-          />
-          <Button
-            icon='minus'
-            isDisabled={values.length === 1}
-            isNegative
-            onClick={this.rowRemove}
-            text={t('vector.remove', {
-              defaultValue: 'remove item'
-            })}
-          />
-        </div>
+        {this.renderButtons()}
       </Bare>
+    );
+  }
+
+  private renderButtons () {
+    const { isDisabled, t } = this.props;
+    const { values } = this.state;
+
+    if (isDisabled) {
+      return null;
+    }
+
+    return (
+      <div className='ui--Param-Vector-buttons'>
+        <Button
+          icon='plus'
+          isPrimary
+          onClick={this.rowAdd}
+          text={t('vector.add', {
+            defaultValue: 'add item'
+          })}
+        />
+        <Button
+          icon='minus'
+          isDisabled={values.length === 1}
+          isNegative
+          onClick={this.rowRemove}
+          text={t('vector.remove', {
+            defaultValue: 'remove item'
+          })}
+        />
+      </div>
     );
   }
 

@@ -39,8 +39,6 @@ class Logs extends React.PureComponent<Props> {
     let content: React.ReactNode;
 
     if (item.value instanceof Struct) {
-      console.error('Logs:renderItem:Struct');
-
       const types: { [index: string]: string } = item.value.Type;
 
       const params = Object.keys(types).map((name) => ({
@@ -60,14 +58,10 @@ class Logs extends React.PureComponent<Props> {
         />
       );
     } else if (item.value instanceof Vector) {
-      console.error('Logs:renderItem:Vector');
-
       content = item.value.map((entry, index) => (
         <span key={index}>{entry.toString()}</span>
       ));
     } else {
-      console.error('Logs:renderItem:Plain');
-
       content = item.value.toString();
     }
 
