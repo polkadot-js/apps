@@ -38,7 +38,7 @@ export default function createOptions (sectionName: string): DropdownOptions {
             className='ui--DropdownLinked-Item-text'
             key={`${sectionName}_${value}:text`}
           >
-            {(method.meta.documentation.get(0) || value).toString()}
+            {(method.meta.documentation[0] || value).toString()}
           </div>
         ],
         value

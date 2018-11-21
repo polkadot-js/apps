@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import { Extrinsics } from '@polkadot/extrinsics/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
-import { Base, UInt } from '@polkadot/types/codec';
+import { UInt } from '@polkadot/types/codec';
 import { Hash, Extrinsic } from '@polkadot/types';
 import { RawParam$Value } from '@polkadot/ui-app/Params/types';
 

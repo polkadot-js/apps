@@ -38,7 +38,7 @@ export default function createOptions (sectionName: keyof typeof Api.storage): D
             className='ui--DropdownLinked-Item-text'
             key={`${sectionName}_${value}:text`}
           >
-            {(method.meta.documentation.get(0) || method.meta.name).toString()}
+            {(method.meta.documentation[0] || method.meta.name).toString()}
           </div>
         ],
         value
