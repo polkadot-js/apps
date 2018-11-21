@@ -1,11 +1,11 @@
 // Copyright 2017-2018 @polkadot/ui-signer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
 import { Extrinsics } from '@polkadot/extrinsics/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
-import { Base, UInt } from '@polkadot/types/codec';
+import { UInt } from '@polkadot/types/codec';
 import { Hash, Extrinsic } from '@polkadot/types';
 import { RawParam$Value } from '@polkadot/ui-app/Params/types';
 

@@ -8,10 +8,10 @@
     "Jaco Greeff <jacogr@gmail.com>"
   ],
   "contributors": [],
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.1.5",
-    "@polkadot/types": "^0.31.119",
+    "@polkadot/types": "^0.32.1",
     "@polkadot/ui-app": "^0.21.0",
     "@polkadot/ui-signer": "^0.21.0"
   }
