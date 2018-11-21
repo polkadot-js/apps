@@ -43,8 +43,8 @@ class ExtrinsicsApp extends React.PureComponent<Props> {
     return (
       <main className='extrinsics--App'>
         <QueueConsumer>
-          {({ queueExtrinsic }: QueueProps) => (
-            <Selection queueExtrinsic={queueExtrinsic} />
+          {({ queueExtrinsic, queueUnclog }: QueueProps) => (
+            <Selection queueExtrinsic={queueExtrinsic} queueUnclog={queueUnclog} />
           )}
         </QueueConsumer>
       </main>

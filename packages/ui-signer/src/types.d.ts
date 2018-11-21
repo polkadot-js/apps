@@ -9,43 +9,14 @@ import { UInt } from '@polkadot/types/codec';
 import { Hash, Extrinsic } from '@polkadot/types';
 import { RawParam$Value } from '@polkadot/ui-app/Params/types';
 
-export type QueueTx$Status = 'finalised' | 'usurped' | 'dropped' | 'broadcast' | 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent';
-
-export type QueueTx$Id = number;
-
-export type QueueTx$Result = {
-  error?: Error,
-  result?: any,
-  status: QueueTx$Status
-};
-
 export type AccountInfo = {
   accountId?: string | null,
-  accountNonce: UInt | BN
+  accountNonce: BN
 };
 
-export type ParialAccountInfo = {
-  accountId?: string | null,
-  accountNonce?: UInt | BN | null
-};
+export type QueueTx$Status = 'finalised' | 'usurped' | 'dropped' | 'broadcast' | 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent' | 'blocked';
 
-export type QueueTx$Extrinsic = AccountInfo & {
-  extrinsic: Extrinsic
-}
-
-export type PartialQueueTx$Extrinsic = ParialAccountInfo & {
-  extrinsic: Extrinsic
-};
-
-export type QueueTx$Rpc = AccountInfo & {
-  rpc: RpcMethod,
-  values: Array<any>
-};
-
-export type PartialQueueTx$Rpc = ParialAccountInfo & {
-  rpc: RpcMethod,
-  values: Array<any>
-};
+export type QueueTx$Id = number;
 
 export type QueueTx = AccountInfo & {
   error?: Error,
@@ -57,14 +28,46 @@ export type QueueTx = AccountInfo & {
   status: QueueTx$Status
 };
 
+export type QueueTx$Result = {
+  error?: Error,
+  result?: any,
+  status: QueueTx$Status
+};
+
+export type QueueTx$Extrinsic = AccountInfo & {
+  extrinsic: Extrinsic
+};
+
+export type QueueTx$Rpc = AccountInfo & {
+  rpc: RpcMethod,
+  values: Array<any>
+};
+
+export type PartialAccountInfo = {
+  accountId?: string | null,
+  accountNonce?: BN | null
+};
+
+export type PartialQueueTx$Extrinsic = PartialAccountInfo & {
+  extrinsic: Extrinsic
+};
+
+export type PartialQueueTx$Rpc = PartialAccountInfo & {
+  rpc: RpcMethod,
+  values: Array<any>
+};
+
 export type QueueTx$RpcAdd = (value: PartialQueueTx$Rpc) => QueueTx$Id;
 
 export type QueueTx$ExtrinsicAdd = (value: PartialQueueTx$Extrinsic) => QueueTx$Id;
 
 export type QueueTx$MessageSetStatus = (id: number, status: QueueTx$Status, result?: any, error?: Error) => void;
 
+export type QueueTx$Unclog = (accountNonce: BN) => void;
+
 export type QueueProps = {
   queue: Array<QueueTx>,
+  queueUnclog: QueueTx$Unclog,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
   queueRpc: QueueTx$RpcAdd,
   queueSetStatus: QueueTx$MessageSetStatus
