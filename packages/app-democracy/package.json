@@ -11,8 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.1.5",
-    "@polkadot/keyring": "^0.32.21",
-    "@polkadot/storage": "^0.31.123",
+    "@polkadot/keyring": "^0.32.22",
+    "@polkadot/storage": "^0.32.1",
     "@polkadot/ui-react-rx": "^0.21.0"
   }
 }
