@@ -8,7 +8,7 @@
     "Jaco Greeff <jacogr@gmail.com>"
   ],
   "contributors": [],
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.1.5",
     "@polkadot/ui-app": "^0.21.0"

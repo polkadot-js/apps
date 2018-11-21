@@ -10,7 +10,7 @@
     "Jaco Greeff <jacogr@gmail.com>"
   ],
   "contributors": [],
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.1.5",
     "@polkadot/app-accounts": "^0.21.0",
@@ -27,10 +27,5 @@
     "@polkadot/app-vanitygen": "^0.21.0",
     "@polkadot/ui-app": "^0.21.0",
     "@polkadot/ui-signer": "^0.21.0"
-  },
-  "devDependencies": {
-    "copy-webpack-plugin": "^4.6.0",
-    "empty": "^0.10.1",
-    "source-map-explorer": "^1.6.0"
   }
 }

@@ -34,7 +34,9 @@
     "@polkadot/ts": "^0.1.39",
     "autoprefixer": "^9.1.5",
     "babel-loader": "^8.0.2",
+    "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^1.0.1",
+    "empty": "^0.10.1",
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.7.0",
     "file-loader": "^2.0.0",
@@ -50,9 +52,12 @@
     "postcss-sass": "^0.3.5",
     "postcss-simple-vars": "^5.0.0",
     "precss": "^3.1.2",
+    "source-map-explorer": "^1.6.0",
     "style-loader": "^0.23.0",
     "thread-loader": "^1.2.0",
+    "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^1.1.1",
-    "worker-loader": "^2.0.0"
+    "worker-loader": "^2.0.0",
+    "xmlserializer": "^0.6.1"
   }
 }

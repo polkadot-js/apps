@@ -10,7 +10,7 @@ Adapted from [Jazzicon](https://github.com/danfinlay/jazzicon) by Dan Finlay wit
 - Split source into self-contained functions (TODO: future testing)
 - Everything has been updated to use flow
 - Test the library functions
-- Copyright headers added (original also under ISC)
+- Copyright headers added (original also under Apache-2.0)
 
 ## Usage
 
