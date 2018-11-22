@@ -70,6 +70,10 @@
     text-align: right;
   }
 
+  > .content {
+    text-align: center;
+  }
+
   > .header {
     border-bottom: none;
     padding-bottom: 0;

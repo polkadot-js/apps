@@ -46,3 +46,8 @@
     color: #fff;
   }
 }
+
+.app--accounts-Modal .ui--AddressSummary {
+  display: inline-block;
+  margin-bottom: 1em;
+}

@@ -126,7 +126,6 @@ class AddressesApp extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  // @ts-ignore Readonly getDerivedStateFromProps
   AddressesApp,
   translate,
   withObservableBase(addressObservable.subject, { propName: 'allAddresses' })

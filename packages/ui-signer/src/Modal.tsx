@@ -332,7 +332,6 @@ export {
 };
 
 export default withMulti(
-  // @ts-ignore Readonly getDerivedStateFromProps
   Signer,
   translate,
   withApi

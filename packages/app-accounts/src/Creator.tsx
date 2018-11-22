@@ -194,6 +194,7 @@ class Creator extends React.PureComponent<Props, State> {
           />
         </div>
         <Modal
+          className='app--accounts-Modal'
           dimmer='inverted'
           open={showWarning}
           size='small'
@@ -404,5 +405,4 @@ class Creator extends React.PureComponent<Props, State> {
   }
 }
 
-// @ts-ignore Definitions seem to have gone wonky
 export default translate(Creator);

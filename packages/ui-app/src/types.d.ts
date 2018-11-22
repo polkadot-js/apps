@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TranslationFunction } from 'i18next';
+import { WithNamespaces } from 'react-i18next';
 import { RpcRxInterface } from '@polkadot/rpc-rx/types';
 
 export type BareProps = {
@@ -12,9 +12,7 @@ export type BareProps = {
   }
 };
 
-export type I18nProps = BareProps & {
-  t: TranslationFunction
-};
+export type I18nProps = BareProps & WithNamespaces;
 
 export type BaseContext = {
   api: RpcRxInterface,

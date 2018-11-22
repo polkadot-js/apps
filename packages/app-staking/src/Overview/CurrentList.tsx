@@ -15,8 +15,8 @@ import translate from '../translate';
 type Props = I18nProps & {
   balances: RxBalanceMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
-  current: Array<AccountId>,
-  next: Array<AccountId>
+  current: Array<string>,
+  next: Array<string>
 };
 
 class CurrentList extends React.PureComponent<Props> {
@@ -72,7 +72,7 @@ class CurrentList extends React.PureComponent<Props> {
       : defaultName;
   }
 
-  private renderColumn (addresses: Array<AccountId>, defaultName: string) {
+  private renderColumn (addresses: Array<string>, defaultName: string) {
     const { balances, balanceArray, t } = this.props;
 
     if (addresses.length === 0) {
@@ -86,13 +86,13 @@ class CurrentList extends React.PureComponent<Props> {
     return (
       <div key='list'>
         {addresses.map((address) => {
-          const nominators = (balances[address.toString()] || {}).nominators || [];
+          const nominators = (balances[address] || {}).nominators || [];
 
           return (
-            <article key={address.toString()}>
+            <article key={address}>
               <AddressRow
                 balance={balanceArray(address)}
-                name={this.getDisplayName(address.toString(), defaultName)}
+                name={this.getDisplayName(address, defaultName)}
                 value={address}
                 withCopy={false}
                 withNonce={false}
@@ -113,5 +113,4 @@ class CurrentList extends React.PureComponent<Props> {
   }
 }
 
-// @ts-ignore Definitions seem to have gone wonky
 export default translate(CurrentList);

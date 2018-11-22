@@ -32,7 +32,6 @@ class SelectMethod extends React.PureComponent<Props> {
     }
 
     const transform = (method: string): RpcMethod =>
-      // @ts-ignore This whole map -> section.method typing...
       map[value.section].methods[method];
 
     return (
@@ -53,5 +52,4 @@ class SelectMethod extends React.PureComponent<Props> {
   }
 }
 
-// @ts-ignore Definitions seem to have gone wonky
 export default translate(SelectMethod);

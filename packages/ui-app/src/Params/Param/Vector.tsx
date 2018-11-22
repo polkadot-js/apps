@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TranslationFunction } from 'i18next';
+import { WithNamespaces } from 'react-i18next';
 import { TypeDef } from '@polkadot/types/codec';
 import { Props as BareProps, RawParam } from '../types';
 
@@ -14,9 +14,7 @@ import getInitValue from '../initValue';
 import Bare from './Bare';
 import findComponent from './findComponent';
 
-type Props = BareProps & {
-  t: TranslationFunction
-};
+type Props = BareProps & WithNamespaces;
 
 type State = {
   Component: React.ComponentType<BareProps> | null,
@@ -154,5 +152,4 @@ class Vector extends React.PureComponent<Props, State> {
   }
 }
 
-// @ts-ignore Definitions seem to have gone wonky
 export default translate(Vector);

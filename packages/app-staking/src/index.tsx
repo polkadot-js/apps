@@ -116,7 +116,6 @@ class App extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  // @ts-ignore Readonly getDerivedStateFromProps
   App,
   translate,
   withObservable('stakingIntentions'),

@@ -15,6 +15,7 @@ import Input, { KEYS, KEYS_PRE, isCopy, isCut, isPaste, isSelectAll } from './In
 import translate from './translate';
 
 type Props = BareProps & I18nProps & {
+  autoFocus?: boolean,
   bitLength?: BitLength,
   defaultValue?: string,
   isDisabled?: boolean,
@@ -271,5 +272,4 @@ export {
   maxConservativeLength
 };
 
-// @ts-ignore Definitions seem to have gone wonky
 export default translate(InputNumber);

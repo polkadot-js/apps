@@ -129,7 +129,6 @@ class AccountsApp extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  // @ts-ignore Readonly getDerivedStateFromProps
   AccountsApp,
   translate,
   withObservableBase(accountObservable.subject, { propName: 'allAccounts' })
