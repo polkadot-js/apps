@@ -12,7 +12,7 @@ import store from 'store';
 import keyring from '@polkadot/ui-keyring/index';
 import keyringOption from '@polkadot/ui-keyring/options';
 import makeOption from '@polkadot/ui-keyring/options/item';
-import { withObservableBase } from '@polkadot/ui-react-rx/with/index';
+import { withMulti, withObservableBase } from '@polkadot/ui-react-rx/with/index';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
@@ -212,5 +212,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
 export { InputAddress };
 
-// @ts-ignore There are still some issues with props and types - this is valid
-export default withObservableBase(keyringOption.optionsSubject, { propName: 'optionsAll' })(InputAddress);
+export default withMulti(
+  InputAddress,
+  withObservableBase(keyringOption.optionsSubject, { propName: 'optionsAll' })
+);

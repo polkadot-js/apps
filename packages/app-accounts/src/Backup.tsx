@@ -39,6 +39,7 @@ class Backup extends React.PureComponent<Props, State> {
   render () {
     return (
       <Modal
+        className='app--accounts-Modal'
         dimmer='inverted'
         open
         size='tiny'
@@ -87,11 +88,11 @@ class Backup extends React.PureComponent<Props, State> {
           defaultValue: 'Backup account'
         })}
       </Modal.Header>,
-      <Modal.Content key='content'>
-        <AddressSummary
-          className='accounts--Modal-Address'
-          value={pair.address()}
-        />
+      <Modal.Content
+        className='app--account-Backup-content'
+        key='content'
+      >
+        <AddressSummary value={pair.address()} />
         <div className='ui--row'>
           <Password
             isError={!isPassValid}
@@ -154,5 +155,4 @@ class Backup extends React.PureComponent<Props, State> {
   }
 }
 
-// @ts-ignore Definitions seem to have gone wonky
 export default translate(Backup);

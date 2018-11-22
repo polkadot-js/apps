@@ -9,11 +9,12 @@
 
 .ui--grid,
 .ui--row {
+  align-items: stretch;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: flex-start;
-  align-items: stretch;
+  text-align: left;
 }
 
 .ui--grid > div,

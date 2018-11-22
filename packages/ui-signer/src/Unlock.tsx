@@ -58,7 +58,7 @@ class Unlock extends React.PureComponent<Props, State> {
             className='medium'
             isError={isError}
             label={label || t('unlock.password', {
-              defaultValue: 'unlock account using'
+              defaultValue: 'unlock account using the password'
             })}
             onChange={onChange}
             onKeyDown={onKeyDown}
@@ -71,5 +71,4 @@ class Unlock extends React.PureComponent<Props, State> {
   }
 }
 
-// @ts-ignore Definitions seem to have gone wonky
 export default translate(Unlock);

@@ -107,7 +107,6 @@ class EventsDisplay extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  // @ts-ignore Readonly getDerivedStateFromProps
   EventsDisplay,
   translate,
   withObservable('systemEvents')

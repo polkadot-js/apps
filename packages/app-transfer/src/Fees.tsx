@@ -192,7 +192,6 @@ class FeeDisplay extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  // @ts-ignore Readonly getDerivedStateFromProps
   FeeDisplay,
   translate,
   withObservable('votingBalance', { paramProp: 'accountId', propName: 'balanceFrom' }),

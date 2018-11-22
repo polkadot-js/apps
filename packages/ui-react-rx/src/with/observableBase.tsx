@@ -20,7 +20,7 @@ type State<T> = RxProps<T> & {
 
 // FIXME proper types for attributes
 
-export default function withObservableBase<T> (observable: Observable<any>, { rxChange, propName = 'value', transform = echoTransform }: Options<T> = {}): HOC<T> {
+export default function withObservableBase<T, P> (observable: Observable<P>, { rxChange, propName = 'value', transform = echoTransform }: Options<T> = {}): HOC<T> {
   return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}, render?: RenderFn): React.ComponentType<any> => {
     return class WithObservable extends React.Component<any, State<T>> {
       state: State<T>;

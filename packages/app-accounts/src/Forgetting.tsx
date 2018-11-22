@@ -66,15 +66,10 @@ class Forgetting extends React.PureComponent<Props> {
         })}
       </Modal.Header>,
       <Modal.Content key='content'>
-        <AddressSummary
-          className='accounts--Modal-Address'
-          value={address}
-          withCopy={false}
-        />
+        <AddressSummary value={address} />
       </Modal.Content>
     ];
   }
 }
 
-// @ts-ignore Definitions seem to have gone wonky
 export default translate(Forgetting);

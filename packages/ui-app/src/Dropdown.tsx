@@ -6,7 +6,7 @@ import { BareProps } from './types';
 
 import React from 'react';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
-import SUIDropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
+import SUIDropdown, { DropdownProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
 import { isUndefined } from '@polkadot/util';
 
 import classes from './util/classes';
@@ -19,16 +19,12 @@ type Props<Option> = BareProps & {
   isError?: boolean,
   label?: React.ReactNode,
   onChange: (value: any) => void,
-  onSearch?: (filteredOptions: Array<Option>, query: string) => Array<Option>,
+  onSearch?: (filteredOptions: Array<any>, query: string) => Array<Option>,
   options: Array<Option>,
   placeholder?: string,
   transform?: (value: any) => any,
   value?: any,
   withLabel?: boolean
-};
-
-type SUIEvent = {
-  value: string
 };
 
 export default class Dropdown<Option> extends React.PureComponent<Props<Option>> {
@@ -51,7 +47,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
       : prevProps.value;
 
     if (startValue !== prevStart) {
-      this.onChange(null, {
+      this.onChange(null as any, {
         value: startValue
       });
     }
@@ -66,11 +62,9 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
         disabled={isDisabled}
         error={isError}
         floating={isButton}
-        // @ts-ignore some mismatch here, look into it
         onChange={this.onChange}
         options={options}
         placeholder={placeholder}
-        // @ts-ignore some mismatch here, look into it
         search={onSearch}
         selection
         value={
@@ -99,7 +93,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
       );
   }
 
-  private onChange = (event: React.SyntheticEvent<Element> | null, { value }: SUIEvent): void => {
+  private onChange = (event: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void => {
     const { onChange, transform } = this.props;
 
     onChange(

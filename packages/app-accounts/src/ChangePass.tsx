@@ -42,7 +42,7 @@ class ChangePass extends React.PureComponent<Props, State> {
   render () {
     return (
       <Modal
-        className='accounts--ChangePass-Modal'
+        className='app--accounts-Modal'
         dimmer='inverted'
         open
         size='tiny'
@@ -92,10 +92,7 @@ class ChangePass extends React.PureComponent<Props, State> {
         })}
       </Modal.Header>,
       <Modal.Content key='content'>
-        <AddressSummary
-          className='accounts--Modal-Address'
-          value={account.address()}
-        />
+        <AddressSummary value={account.address()} />
         <div className='ui--row'>
           <Password
             autoFocus
@@ -182,5 +179,4 @@ class ChangePass extends React.PureComponent<Props, State> {
   }
 }
 
-// @ts-ignore Definitions seem to have gone wonky
 export default translate(ChangePass);

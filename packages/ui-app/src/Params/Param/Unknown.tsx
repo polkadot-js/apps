@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TranslationFunction } from 'i18next';
+import { WithNamespaces } from 'react-i18next';
 import { Props as BareProps, RawParam } from '../types';
 
 import React from 'react';
@@ -11,9 +11,8 @@ import Static from '../../Static';
 import translate from '../../translate';
 import Base from './Base';
 
-type Props = BareProps & {
+type Props = BareProps & WithNamespaces & {
   defaultValue: RawParam,
-  t: TranslationFunction,
   withLabel?: boolean
 };
 
@@ -49,5 +48,4 @@ class Unknown extends React.PureComponent<Props> {
   }
 }
 
-// @ts-ignore Definitions seem to have gone wonky
 export default translate(Unknown);

@@ -10,7 +10,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { Icon, Menu } from '@polkadot/ui-app/index';
-import { withApi } from '@polkadot/ui-react-rx/with/index';
+import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 type Props = I18nProps & ApiProps & {
   route: Route
@@ -38,7 +38,8 @@ class Item extends React.PureComponent<Props> {
   }
 }
 
-// @ts-ignore the definitions complain here, however the use is valid
-export default withRouter(
-  withApi(Item)
+export default withMulti(
+  Item,
+  withRouter,
+  withApi
 );

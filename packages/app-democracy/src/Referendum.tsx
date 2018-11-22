@@ -171,7 +171,6 @@ class Referendum extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  // @ts-ignore Readonly getDerivedStateFromProps
   Referendum,
   translate,
   withObservable('bestNumber'),
