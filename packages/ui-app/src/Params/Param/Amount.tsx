@@ -6,7 +6,6 @@ import { Props } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { UInt } from '@polkadot/types/codec';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
 import Input from '../../Input';
@@ -18,7 +17,7 @@ export default class Amount extends React.PureComponent<Props> {
     const defaultValue = isDisabled
       ? numberFormat(value)
       : (
-        value instanceof UInt
+        value instanceof BN
           ? value.toNumber()
           : new BN((value as number) || 0).toNumber()
       );
