@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { Extrinsics } from '@polkadot/extrinsics/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { UInt } from '@polkadot/types/codec';
 import { Hash, Extrinsic } from '@polkadot/types';
+import { Extrinsics } from '@polkadot/types/Method';
 import { RawParam$Value } from '@polkadot/ui-app/Params/types';
 
 export type AccountInfo = {
