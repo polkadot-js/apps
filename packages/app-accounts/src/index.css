@@ -51,3 +51,12 @@
   display: inline-block;
   margin-bottom: 1em;
 }
+
+.app--account-Qr {
+  text-align: center;
+
+  > div {
+    display: inline-block;
+    text-align: center;
+  }
+}

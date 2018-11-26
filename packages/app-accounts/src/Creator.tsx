@@ -5,15 +5,16 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
+import FileSaver from 'file-saver';
 import React from 'react';
 import { AddressSummary, Button, Dropdown, Input, Modal, Password } from '@polkadot/ui-app/index';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
 import { mnemonicToSeed, mnemonicValidate, naclKeypairFromSeed, randomAsU8a } from '@polkadot/util-crypto';
 import keyring from '@polkadot/ui-keyring/index';
+import Qr from '@polkadot/ui-qr/index';
 
 import translate from './translate';
-import FileSaver from 'file-saver';
 
 const BipWorker = require('worker-loader?name=[name].[hash:8].js!./bipWorker');
 
@@ -22,7 +23,7 @@ type Props = I18nProps & {
   onCreateAccount: () => void
 };
 
-type SeedType = 'bip' | 'raw';
+type SeedType = 'bip' | 'qr' | 'raw';
 
 type State = {
   address: string,
@@ -73,6 +74,7 @@ class Creator extends React.PureComponent<Props, State> {
       this.setState({
         address: keyring.encodeAddress(publicKey),
         isBipBusy: false,
+        isSeedValid: true,
         seed
       });
     };
@@ -80,7 +82,8 @@ class Creator extends React.PureComponent<Props, State> {
       ...this.emptyState(),
       seedOptions: [
         { value: 'bip', text: t('seedType.bip', { defaultValue: 'Mnemonic' }) },
-        { value: 'raw', text: t('seedType.raw', { defaultValue: 'Raw seed' }) }
+        { value: 'raw', text: t('seedType.raw', { defaultValue: 'Raw seed' }) },
+        { value: 'qr', text: t('seedType.qr', { defaultValue: 'QR signer' }) }
       ]
     };
   }
@@ -106,7 +109,32 @@ class Creator extends React.PureComponent<Props, State> {
     );
   }
 
-  renderButtons () {
+  private getSeedHint () {
+    const { t } = this.props;
+    const { seedType } = this.state;
+
+    switch (seedType) {
+      case 'bip':
+        return t('creator.seed.bip', {
+          defaultValue: 'create from the following mnemonic seed'
+        });
+
+      case 'qr':
+        return t('creator.seed.qr', {
+          defaultValue: 'scanned QR result'
+        });
+
+      case 'raw':
+        return t('creator.seed.raw', {
+          defaultValue: 'create from the following seed (hex or string)'
+        });
+
+      default:
+        throw new Error('Unreachable');
+    }
+  }
+
+  private renderButtons () {
     const { t } = this.props;
     const { isValid } = this.state;
 
@@ -131,9 +159,10 @@ class Creator extends React.PureComponent<Props, State> {
     );
   }
 
-  renderInput () {
+  private renderInput () {
     const { t } = this.props;
-    const { isBipBusy, isNameValid, isPassValid, isSeedValid, name, password, seed, seedOptions, seedType, showWarning } = this.state;
+    const { isBipBusy, isNameValid, isSeedValid, name, seed, seedOptions, seedType } = this.state;
+    const isQr = seedType === 'qr';
 
     return (
       <div className='grow'>
@@ -153,17 +182,9 @@ class Creator extends React.PureComponent<Props, State> {
           <Input
             className='full'
             isAction
-            isDisabled={isBipBusy}
+            isDisabled={isBipBusy || isQr}
             isError={!isSeedValid}
-            label={
-              seedType === 'bip'
-                ? t('creator.seed.bip', {
-                  defaultValue: 'create from the following mnemonic seed'
-                })
-                : t('creator.seed.raw', {
-                  defaultValue: 'create from the following seed (hex or string)'
-                })
-            }
+            label={this.getSeedHint()}
             onChange={this.onChangeSeed}
             placeholder={
               isBipBusy
@@ -182,85 +203,119 @@ class Creator extends React.PureComponent<Props, State> {
             />
           </Input>
         </div>
-        <div className='ui--row'>
-          <Password
-            className='full'
-            isError={!isPassValid}
-            label={t('creator.password', {
-              defaultValue: 'encrypt it using the password'
-            })}
-            onChange={this.onChangePass}
-            value={password}
-          />
-        </div>
-        <Modal
-          className='app--accounts-Modal'
-          dimmer='inverted'
-          open={showWarning}
-          size='small'
-        >
-          {this.renderModalContent()}
-          {this.renderModalButtons()}
-        </Modal>
+        {this.renderPassword()}
+        {this.renderQrModal()}
+        {this.renderSaveModal()}
       </div>
     );
   }
 
-  renderModalButtons () {
+  private renderSaveModal () {
     const { t } = this.props;
+    const { address, seedType, showWarning } = this.state;
 
     return (
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            onClick={this.onHideWarning}
-            text={t('seedWarning.cancel', {
-              defaultValue: 'Cancel'
+      <Modal
+        className='app--accounts-Modal'
+        dimmer='inverted'
+        open={showWarning}
+        size='small'
+      >
+        <Modal.Header key='header'>
+          {t('seedWarning.header', {
+            defaultValue: 'Important notice!'
+          })}
+        </Modal.Header>
+        <Modal.Content key='content'>
+          {t('seedWarning.content', {
+            defaultValue: 'We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always redownload this file later.'
+          })}
+          <Modal.Description>
+            {t('seedWarning.description', {
+              defaultValue: 'Please make sure to save this file in a secure location as it is the only way to restore your account.'
             })}
+          </Modal.Description>
+          <AddressSummary
+            className='accounts--Modal-Address'
+            value={address}
           />
-          <Button.Or />
-          <Button
-            isPrimary
-            onClick={this.onCommit}
-            text={t('seedWarning.continue', {
-              defaultValue: 'Create and backup account'
-            })}
-          />
-        </Button.Group>
-      </Modal.Actions>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button.Group>
+            <Button
+              isNegative
+              onClick={this.onHideWarning}
+              text={t('seedWarning.cancel', {
+                defaultValue: 'Cancel'
+              })}
+            />
+            <Button.Or />
+            <Button
+              isPrimary
+              onClick={
+                seedType === 'qr'
+                  ? this.onCreateQr
+                  : this.onCreateSeed
+              }
+              text={t('seedWarning.continue', {
+                defaultValue: 'Create and backup account'
+              })}
+            />
+          </Button.Group>
+        </Modal.Actions>
+      </Modal>
     );
   }
 
-  renderModalContent () {
+  private renderPassword () {
     const { t } = this.props;
-    const { address } = this.state;
+    const { isPassValid, password, seedType } = this.state;
 
-    return [
-      <Modal.Header key='header'>
-        {t('seedWarning.header', {
-          defaultValue: 'Important notice!'
-        })}
-      </Modal.Header>,
-      <Modal.Content key='content'>
-        {t('seedWarning.content', {
-          defaultValue: 'We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always redownload this file later.'
-        })}
-        <Modal.Description>
-          {t('seedWarning.description', {
-            defaultValue: 'Please make sure to save this file in a secure location as it is the only way to restore your account.'
+    if (seedType === 'qr') {
+      return null;
+    }
+
+    return (
+      <div className='ui--row'>
+        <Password
+          className='full'
+          isError={!isPassValid}
+          label={t('creator.password', {
+            defaultValue: 'encrypt it using the password'
           })}
-        </Modal.Description>
-        <AddressSummary
-          className='accounts--Modal-Address'
-          value={address}
+          onChange={this.onChangePass}
+          value={password}
         />
-      </Modal.Content>
-    ];
+      </div>
+    );
+  }
+
+  private renderQrModal () {
+    const { isSeedValid, seedType } = this.state;
+
+    if (isSeedValid || seedType !== 'qr') {
+      return null;
+    }
+
+    return (
+      <div className='app--account-Qr'>
+        <Qr
+          isScanning
+          onScan={this.onQrScan}
+        />
+      </div>
+    );
   }
 
   private generateSeed (seedType: SeedType): State {
-    if (seedType === 'bip') {
+    if (seedType === 'qr') {
+      return {
+        address: '',
+        isBipBusy: false,
+        isSeedValid: false,
+        seed: ''
+      } as State;
+    } else if (seedType === 'bip') {
       this.bipWorker.postMessage('create');
 
       return {
@@ -275,6 +330,7 @@ class Creator extends React.PureComponent<Props, State> {
     return {
       address,
       isBipBusy: false,
+      isSeedValid: true,
       seed
     } as State;
   }
@@ -352,7 +408,15 @@ class Creator extends React.PureComponent<Props, State> {
     this.nextState({ showWarning: false } as State);
   }
 
-  private onCommit = (): void => {
+  private onQrScan = (data: any): void => {
+    console.log('scanned', data);
+  }
+
+  private onCreateQr = (): void => {
+    // do something
+  }
+
+  private onCreateSeed = (): void => {
     const { onCreateAccount, onStatusChange, t } = this.props;
     const { name, password, seed, seedType } = this.state;
 
@@ -383,9 +447,7 @@ class Creator extends React.PureComponent<Props, State> {
     }
 
     this.onHideWarning();
-
     onCreateAccount();
-
     onStatusChange(status);
   }
 
