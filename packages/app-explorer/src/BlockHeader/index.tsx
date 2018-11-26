@@ -15,6 +15,7 @@ import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 import withApi from '@polkadot/ui-react-rx/with/api';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
+import CopyButton from '@polkadot/ui-app/CopyButton';
 import Extrinsics from './Extrinsics';
 
 type Props = ApiProps & BareProps & {
@@ -44,11 +45,12 @@ class BlockHeader extends React.PureComponent<Props> {
           <div>{numberFormat(number)}</div>
         </div>
         <div className='details'>
-          <div className='hash'>{
-            isLinkable && withLink
+          <div className='hash'>
+            {isLinkable && withLink
               ? <Link to={`/explorer/hash/${hashHex}`}>{hashHex}</Link>
-              : hashHex
-          }</div>
+              : hashHex}
+            <CopyButton value={hashHex} />
+          </div>
           <table className='contains'>
             <tbody>
               <tr>
