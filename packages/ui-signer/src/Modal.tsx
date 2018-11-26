@@ -15,7 +15,7 @@ import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { format } from '@polkadot/util/logger';
 import { Extrinsic } from '@polkadot/types';
 
-import ExtrinsicDisplay from './Extrinsic';
+import Transaction from './Transaction';
 import Unlock from './Unlock';
 import translate from './translate';
 
@@ -79,6 +79,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   render () {
+    const { t } = this.props;
     const { currentItem } = this.state;
 
     if (!currentItem) {
@@ -92,16 +93,7 @@ class Signer extends React.PureComponent<Props, State> {
         open
       >
         {this.renderContent()}
-        {this.renderButtons()}
-      </Modal>
-    );
-  }
-
-  private renderButtons () {
-    const { t } = this.props;
-
-    return (
-      <Modal.Actions>
+        <Modal.Actions>
         <Button.Group>
           <Button
             isNegative
@@ -113,7 +105,6 @@ class Signer extends React.PureComponent<Props, State> {
           />
           <Button.Or />
           <Button
-            className='ui--signer-Signer-Submit'
             isPrimary
             onClick={this.onSend}
             tabIndex={2}
@@ -125,6 +116,7 @@ class Signer extends React.PureComponent<Props, State> {
           />
         </Button.Group>
       </Modal.Actions>
+      </Modal>
     );
   }
 
@@ -136,9 +128,9 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <ExtrinsicDisplay value={currentItem}>
+      <Transaction value={currentItem}>
         {this.renderUnlock()}
-      </ExtrinsicDisplay>
+      </Transaction>
     );
   }
 
@@ -147,6 +139,12 @@ class Signer extends React.PureComponent<Props, State> {
     const { currentItem, password, unlockError } = this.state;
 
     if (!currentItem) {
+      return null;
+    }
+
+    const pair = keyring.getPair(currentItem.accountId as string);
+
+    if (!pair || pair.getMeta().isExternal) {
       return null;
     }
 
@@ -175,7 +173,7 @@ class Signer extends React.PureComponent<Props, State> {
 
     const pair = keyring.getPair(publicKey);
 
-    if (!pair.isLocked()) {
+    if (pair.getMeta().isExternal || !pair.isLocked()) {
       return null;
     }
 
