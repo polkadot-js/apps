@@ -100,8 +100,8 @@ class Query extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderButtons() {
-    const { value: { key: {method, section} } } = this.props;
+  private renderButtons () {
+    const { value: { key: { method, section } } } = this.props;
 
     const specificFunctionalButtons = [];
     const defaultButton =
@@ -109,20 +109,20 @@ class Query extends React.PureComponent<Props, State> {
         icon='close'
         isNegative
         onClick={this.onRemove}
-      />
+      />;
     const spreadButton =
       /* needs an spread content action (wasm byte code)*/
       <Button
-        text="spread"
-      />
+        text='spread'
+      />;
 
     const copyButton =
       /* needs an copy content action (wasm byte code) */
       <Button
-        text="copy"
-      />
+        text='copy'
+      />;
 
-    if (section === "substrate" && method === "code") {
+    if (section === 'substrate' && method === 'code') {
       specificFunctionalButtons.push(spreadButton, copyButton);
     }
     // array spread not usable ?
