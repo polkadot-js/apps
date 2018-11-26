@@ -59,10 +59,10 @@ export default class Queue extends React.Component<Props, State> {
   private isDuplicateNonce = (value: QueueTx$Extrinsic | QueueTx$Rpc | QueueTx): boolean => {
     const { queue } = this.state;
 
-    return queue.filter(item => {
-      return item.accountNonce && value.accountNonce
-               ? item.accountNonce.eq(value.accountNonce) && item.accountId === value.accountId
-               : null;
+    return queue.filter((item) => {
+      return !STATUS_COMPLETE.includes(item.status) && item.accountNonce && value.accountNonce
+        ? item.accountNonce.eq(value.accountNonce) && item.accountId === value.accountId
+        : null;
     }).length > 0;
   }
 
