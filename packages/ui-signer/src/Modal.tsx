@@ -12,9 +12,11 @@ import { decodeAddress } from '@polkadot/keyring';
 import { Button, Modal } from '@polkadot/ui-app/index';
 import keyring from '@polkadot/ui-keyring/index';
 import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { u8aToHex } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
 import { Extrinsic } from '@polkadot/types';
 
+import Qr from './Qr';
 import Transaction from './Transaction';
 import Unlock from './Unlock';
 import translate from './translate';
@@ -33,8 +35,9 @@ type UnlockI18n = {
 
 type State = {
   currentItem?: QueueTx,
-  isQr?: boolean,
+  isExternal?: boolean,
   password: string,
+  signatureExternal?: Uint8Array,
   unlockError: UnlockI18n | null
 };
 
@@ -50,7 +53,7 @@ class Signer extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ queue }: Props, { currentItem, password, unlockError }: State): State {
+  static getDerivedStateFromProps ({ queue }: Props, { currentItem, password, signatureExternal, unlockError }: State): State {
     const nextItem = queue.find(({ status }) =>
       status === 'queued'
     );
@@ -64,18 +67,19 @@ class Signer extends React.PureComponent<Props, State> {
         )
       );
 
-    let isQr = false;
+    let isExternal = false;
 
     if (currentItem && currentItem.accountId) {
       const pair = keyring.getPair(currentItem.accountId);
 
-      isQr = pair.getMeta().isExternal;
+      isExternal = pair.getMeta().isExternal;
     }
 
     return {
       currentItem: nextItem,
-      isQr,
+      isExternal,
       password: isSame ? password : '',
+      signatureExternal: isSame ? signatureExternal : void 0,
       unlockError: isSame ? unlockError : null
     };
   }
@@ -139,16 +143,35 @@ class Signer extends React.PureComponent<Props, State> {
 
     return (
       <Transaction value={currentItem}>
+        {this.renderQr()}
         {this.renderUnlock()}
       </Transaction>
     );
   }
 
+  private renderQr () {
+    const { apiObservable } = this.props;
+    const { currentItem, isExternal } = this.state;
+
+    if (!currentItem || !isExternal || !currentItem.accountId) {
+      return null;
+    }
+
+    return (
+      <Qr
+        accountId={currentItem.accountId}
+        blockHash={apiObservable.genesisHash}
+        nonce={currentItem.accountNonce}
+        onScan={this.onChangeSignature}
+      />
+    );
+  }
+
   private renderUnlock () {
     const { t } = this.props;
-    const { currentItem, isQr, password, unlockError } = this.state;
+    const { currentItem, isExternal, password, unlockError } = this.state;
 
-    if (!currentItem || isQr) {
+    if (!currentItem || isExternal) {
       return null;
     }
 
@@ -221,15 +244,19 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetStatus(currentItem.id, 'cancelled');
   }
 
+  private onChangeSignature = (signatureExternal: Uint8Array): void => {
+    this.setState({ signatureExternal });
+  }
+
   private onSend = async (): Promise<any> => {
-    const { currentItem, password } = this.state;
+    const { currentItem, password, signatureExternal } = this.state;
 
     // This should never be executed
     if (!currentItem) {
       return;
     }
 
-    return this.sendExtrinsic(currentItem, password);
+    return this.sendExtrinsic(currentItem, password, signatureExternal);
   }
 
   private sendRpc = async ({ id, rpc, values = [] }: QueueTx): Promise<void> => {
@@ -251,13 +278,11 @@ class Signer extends React.PureComponent<Props, State> {
       return;
     }
 
-    if (!signature) {
-      const unlockError = this.unlockAccount(accountId, password);
+    const unlockError = this.unlockAccount(accountId, password);
 
-      if (unlockError) {
-        this.setState({ unlockError });
-        return;
-      }
+    if (unlockError) {
+      this.setState({ unlockError });
+      return;
     }
 
     const { apiObservable, queueSetStatus } = this.props;
@@ -266,9 +291,14 @@ class Signer extends React.PureComponent<Props, State> {
 
     const pair = keyring.getPair(accountId);
 
-    console.log(`sendExtrinsic: from=${pair.address()}, nonce=${accountNonce}, hash=${apiObservable.genesisHash.toHex()}`);
+    console.log(`sendExtrinsic: from=${pair.address()}, nonce=${accountNonce}, blockHash=${apiObservable.genesisHash.toHex()}`);
 
-    extrinsic.sign(pair, accountNonce, apiObservable.genesisHash);
+    if (signature) {
+      console.log(`sendExtrinsic: signature=${u8aToHex(signature)}`);
+      extrinsic.addSignature(pair.publicKey(), signature, accountNonce);
+    } else {
+      extrinsic.sign(pair, accountNonce, apiObservable.genesisHash);
+    }
 
     await this.submitExtrinsic(extrinsic, id);
   }
