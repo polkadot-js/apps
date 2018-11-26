@@ -6,8 +6,8 @@ import { BaseProps } from './types';
 
 import React from 'react';
 
-import Display from './Display';
-import Scan from './Scan';
+import QrDisplay from './Display';
+import QrScan from './Scan';
 
 type Props = BaseProps & {
   isScanning: boolean
@@ -30,7 +30,7 @@ export default class Qr extends React.PureComponent<Props> {
     const { className, size, value } = this.props;
 
     return (
-      <Display
+      <QrDisplay
         className={className}
         size={size}
         value={value}
@@ -42,7 +42,7 @@ export default class Qr extends React.PureComponent<Props> {
     const { className, onError, onScan, size } = this.props;
 
     return (
-      <Scan
+      <QrScan
         className={className}
         onError={onError}
         onScan={onScan}
@@ -51,3 +51,8 @@ export default class Qr extends React.PureComponent<Props> {
     );
   }
 }
+
+export {
+  QrDisplay,
+  QrScan
+};

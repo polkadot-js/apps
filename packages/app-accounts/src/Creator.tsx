@@ -12,7 +12,7 @@ import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
 import { mnemonicToSeed, mnemonicValidate, naclKeypairFromSeed, randomAsU8a } from '@polkadot/util-crypto';
 import keyring from '@polkadot/ui-keyring/index';
-import Qr from '@polkadot/ui-qr/index';
+import { QrScan } from '@polkadot/ui-qr/index';
 
 import translate from './translate';
 
@@ -205,7 +205,7 @@ class Creator extends React.PureComponent<Props, State> {
           </Input>
         </div>
         {this.renderPassword()}
-        {this.renderQrModal()}
+        {this.renderQr()}
         {this.renderSaveModal()}
       </div>
     );
@@ -291,7 +291,7 @@ class Creator extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderQrModal () {
+  private renderQr () {
     const { isSeedValid, seedType } = this.state;
 
     if (isSeedValid || seedType !== 'qr') {
@@ -300,10 +300,7 @@ class Creator extends React.PureComponent<Props, State> {
 
     return (
       <div className='app--account-Qr'>
-        <Qr
-          isScanning
-          onScan={this.onQrScan}
-        />
+        <QrScan onScan={this.onQrScan} />
       </div>
     );
   }
