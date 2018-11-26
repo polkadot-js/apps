@@ -9,41 +9,48 @@ import './Display.css';
 import React from 'react';
 import qrcode from 'qrcode-generator';
 
+import { createSize } from './constants';
+
 type Props = BaseProps & {
-  value: string
+  size?: number,
+  value?: { [index: string]: any }
 };
 
 type State = {
   image: string | null,
-  value: string | null
+  text: string | null
 };
+
+function getDataUrl (value: string): string {
+  const qr = qrcode(0, 'M');
+
+  qr.addData(value, 'Byte');
+  qr.make();
+
+  return qr.createDataURL(16, 0);
+}
 
 export default class Display extends React.PureComponent<Props, State> {
   state = {
     image: null,
-    value: null
+    text: null
   };
 
   static getDerivedStateFromProps ({ value }: Props, prevState: State) {
-    if (value === prevState.value) {
+    const text = JSON.stringify(value);
+
+    if (text === prevState.text) {
       return null;
     }
 
-    const qr = qrcode(0, 'M');
-
-    qr.addData(value, 'Byte');
-    qr.make();
-
-    const image = qr.createDataURL(16, 0);
-
     return {
-      image,
-      value
+      image: getDataUrl(text),
+      text
     };
   }
 
   render () {
-    const { className, style } = this.props;
+    const { className, size, style } = this.props;
     const { image } = this.state;
 
     if (!image) {
@@ -51,11 +58,13 @@ export default class Display extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div
-        className={`ui--qr-Display ${className}`}
-        style={style}
-      >
-        <img src={image} />
+      <div style={createSize(size)}>
+        <div
+          className={`ui--qr-Display ${className}`}
+          style={style}
+        >
+          <img src={image} />
+        </div>
       </div>
     );
   }

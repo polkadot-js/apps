@@ -22,6 +22,7 @@ type Props = BareProps & {
   isEditable?: boolean,
   isError?: boolean,
   isHidden?: boolean,
+  isReadonly?: boolean,
   label?: React.ReactNode,
   max?: any,
   maxLength?: number,
@@ -137,24 +138,29 @@ export default class Input extends React.PureComponent<Props, State> {
   }
 
   private onChange = (event: React.SyntheticEvent<Element>): void => {
-    const { onChange } = this.props;
+    const { isReadonly, onChange } = this.props;
+
+    if (isReadonly) {
+      return;
+    }
+
     const { value } = event.target as HTMLInputElement;
 
     onChange(value);
   }
 
   private onKeyDown = (event: React.KeyboardEvent<Element>): void => {
-    const { onKeyDown } = this.props;
+    const { isReadonly, onKeyDown } = this.props;
 
-    if (onKeyDown) {
+    if (!isReadonly && onKeyDown) {
       onKeyDown(event);
     }
   }
 
   private onKeyUp = (event: React.KeyboardEvent<Element>): void => {
-    const { onKeyUp } = this.props;
+    const { isReadonly, onKeyUp } = this.props;
 
-    if (onKeyUp) {
+    if (!isReadonly && onKeyUp) {
       onKeyUp(event);
     }
   }

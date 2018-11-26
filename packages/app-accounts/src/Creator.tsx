@@ -121,7 +121,7 @@ class Creator extends React.PureComponent<Props, State> {
 
       case 'qr':
         return t('creator.seed.qr', {
-          defaultValue: 'scanned QR result'
+          defaultValue: 'scanned QR publicKey'
         });
 
       case 'raw':
@@ -182,8 +182,9 @@ class Creator extends React.PureComponent<Props, State> {
           <Input
             className='full'
             isAction
-            isDisabled={isBipBusy || isQr}
+            isDisabled={isBipBusy}
             isError={!isSeedValid}
+            isReadonly={isQr}
             label={this.getSeedHint()}
             onChange={this.onChangeSeed}
             placeholder={
@@ -342,7 +343,6 @@ class Creator extends React.PureComponent<Props, State> {
       ...this.generateSeed(seedType),
       isNameValid: true,
       isPassValid: false,
-      isSeedValid: true,
       isValid: false,
       name: 'new keypair',
       password: '',

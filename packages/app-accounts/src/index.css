@@ -53,6 +53,7 @@
 }
 
 .app--account-Qr {
+  margin: 0.5rem;
   text-align: center;
 
   > div {

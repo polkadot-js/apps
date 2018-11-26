@@ -9,10 +9,13 @@ import './Scan.css';
 import React from 'react';
 import Reader from 'react-qr-reader';
 
+import { createSize } from './constants';
+
 type Props = BaseProps & {
   delay?: number,
   onError?: (error: Error) => void,
-  onScan: (data: string | null) => void
+  onScan?: (data: string) => void,
+  size?: number
 };
 
 const DEFAULT_DELAY = 150;
@@ -22,16 +25,34 @@ const DEFAULT_ERROR = (error: Error) => {
 
 export default class Scan extends React.PureComponent<Props> {
   render () {
-    const { className, delay = DEFAULT_DELAY, onError = DEFAULT_ERROR, onScan, style } = this.props;
+    const { className, delay = DEFAULT_DELAY, size, style } = this.props;
 
     return (
-      <Reader
-        className={`ui--qr-Scan ${className}`}
-        delay={delay}
-        onError={onError}
-        onScan={onScan}
-        style={style}
-      />
+      <div style={createSize(size)}>
+        <Reader
+          className={`ui--qr-Scan ${className}`}
+          delay={delay}
+          onError={this.handleError}
+          onScan={this.handleScan}
+          style={style}
+        />
+      </div>
     );
+  }
+
+  private handleError = (error: Error) => {
+    const { onError = DEFAULT_ERROR } = this.props;
+
+    onError(error);
+  }
+
+  private handleScan = (data: string | null) => {
+    const { onScan } = this.props;
+
+    if (!data || !onScan) {
+      return;
+    }
+
+    onScan(data);
   }
 }

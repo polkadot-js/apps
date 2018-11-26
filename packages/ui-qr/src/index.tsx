@@ -11,55 +11,43 @@ import Scan from './Scan';
 
 type Props = BaseProps & {
   isScanning: boolean
-  onScan: (data: any) => void,
-  size?: number
+  onError?: (error: Error) => void,
+  onScan?: (data: string) => void,
+  size?: number,
+  value?: { [index: string]: any }
 };
-
-const DEFAULT_SIZE = 300;
 
 export default class Qr extends React.PureComponent<Props> {
   render () {
-    const { isScanning, size = DEFAULT_SIZE } = this.props;
-    const height = `${size}px`;
+    const { isScanning } = this.props;
 
-    return (
-      <div style={{
-        height,
-        width: height
-      }}>{
-        isScanning
-          ? this.renderScan()
-          : this.renderDisplay()
-      }</div>
-    );
+    return isScanning
+      ? this.renderScan()
+      : this.renderDisplay();
   }
 
   private renderDisplay () {
-    const { className } = this.props;
-    const value = {};
+    const { className, size, value } = this.props;
 
     return (
       <Display
         className={className}
-        value={JSON.stringify(value)}
+        size={size}
+        value={value}
       />
     );
   }
 
   private renderScan () {
-    const { className } = this.props;
+    const { className, onError, onScan, size } = this.props;
 
     return (
       <Scan
         className={className}
-        onScan={this.handleScan}
+        onError={onError}
+        onScan={onScan}
+        size={size}
       />
     );
-  }
-
-  private handleScan = (data: string | null) => {
-    if (!data) {
-      return;
-    }
   }
 }
