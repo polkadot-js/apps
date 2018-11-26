@@ -13,7 +13,7 @@ A Portal into the Polkadot network. Provides a view and interaction layer from a
 
 This can be accessed as a hosted application via [https://polkadot.js.org/apps/](https://polkadot.js.org/apps/) or via [https://poc-2.polkadot.io](https://poc-2.polkadot.io) with the latter not requiring a locally-hosted node.
 
-If you are looking for the next generation (supporting latest Substrate), it can be found at [https://polkadot.js.org/apps/next/](https://polkadot.js.org/apps/next/)
+If you are looking for the next generation (supporting the latest Substrate master), it can be found at [https://polkadot.js.org/apps/next/](https://polkadot.js.org/apps/next/)
 
 ## overview
 
