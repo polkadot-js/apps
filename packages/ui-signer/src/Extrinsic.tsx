@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-signer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx } from './types';
@@ -39,7 +39,7 @@ class Transaction extends React.PureComponent<Props> {
           <div className='expanded'>
             <p>
               <Trans i18nKey='decoded.short'>
-                You are about to sign a message from <span className='code'>{accountId}</span> calling <span className='code'>{section}.{method}</span> with an index of <span className='code'>{accountNonce.toString()}</span>
+                You are about to sign a message from <span className='code'>{accountId}</span> calling <span className='code'>{section}.{method}</span> with an index of <span className='code'>{accountNonce}</span>
               </Trans>
             </p>
             <Call value={extrinsic} />

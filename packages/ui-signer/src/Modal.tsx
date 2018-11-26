@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-signer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
@@ -11,7 +11,7 @@ import React from 'react';
 import { decodeAddress } from '@polkadot/keyring';
 import { Button, Modal } from '@polkadot/ui-app/index';
 import keyring from '@polkadot/ui-keyring/index';
-import { withApi } from '@polkadot/ui-react-rx/with/index';
+import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { format } from '@polkadot/util/logger';
 import { Extrinsic } from '@polkadot/types';
 
@@ -327,12 +327,12 @@ class Signer extends React.PureComponent<Props, State> {
   }
 }
 
-const Component: React.ComponentType<any> = translate(
-  withApi(Signer)
-);
-
 export {
   Signer
 };
 
-export default Component;
+export default withMulti(
+  Signer,
+  translate,
+  withApi
+);

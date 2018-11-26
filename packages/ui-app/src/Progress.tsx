@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from './types';
 
@@ -26,12 +26,8 @@ export default class Progress extends React.PureComponent<Props> {
   render () {
     const { className, color = 'blue', percent, total, style, value } = this.props;
     let calculated: number | undefined;
-    const _total = total && total instanceof UInt
-      ? total.toBn()
-      : bnToBn(total);
-    const _value = value && value instanceof UInt
-      ? value.toBn()
-      : bnToBn(value);
+    const _total = bnToBn(total);
+    const _value = bnToBn(value);
 
     if (_total.gtn(0)) {
       calculated = 100.0 * _value.toNumber() / _total.toNumber();

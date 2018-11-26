@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-keyring authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringInstance as BaseKeyringInstance, KeyringPair, KeyringPair$Meta, KeyringPair$Json } from '@polkadot/keyring/types';
 import { AccountSubject, AddressSubject, SingleAddress } from './observable/types';
@@ -39,6 +39,7 @@ export interface KeyringStruct {
   encryptAccount: (pair: KeyringPair, password: string) => void,
   forgetAccount: (address: string) => void,
   forgetAddress: (address: string) => void,
+  getAccount: (address: string | Uint8Array) => KeyringAddress,
   getAccounts: () => Array<KeyringAddress>,
   getAddress: (address: string | Uint8Array) => KeyringAddress,
   getAddresses: () => Array<KeyringAddress>,

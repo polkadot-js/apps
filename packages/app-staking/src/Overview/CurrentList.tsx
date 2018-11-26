@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RxBalanceMap } from '@polkadot/api-observable/types';
@@ -8,14 +8,15 @@ import { RxBalanceMap } from '@polkadot/api-observable/types';
 import React from 'react';
 import { AccountId, Balance } from '@polkadot/types';
 import { AddressMini, AddressRow } from '@polkadot/ui-app/index';
+import keyring from '@polkadot/ui-keyring/index';
 
 import translate from '../translate';
 
 type Props = I18nProps & {
   balances: RxBalanceMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
-  current: Array<AccountId>,
-  next: Array<AccountId>
+  current: Array<string>,
+  next: Array<string>
 };
 
 class CurrentList extends React.PureComponent<Props> {
@@ -44,7 +45,7 @@ class CurrentList extends React.PureComponent<Props> {
           }
         })}
       </h1>,
-      this.renderRow(current, t('name.validator', { defaultValue: 'validator' }))
+      this.renderColumn(current, t('name.validator', { defaultValue: 'validator' }))
     ];
   }
 
@@ -57,11 +58,21 @@ class CurrentList extends React.PureComponent<Props> {
           defaultValue: 'next up'
         })}
       </h1>,
-      this.renderRow(next, t('name.intention', { defaultValue: 'intention' }))
+      this.renderColumn(next, t('name.intention', { defaultValue: 'intention' }))
     ];
   }
 
-  private renderRow (addresses: Array<AccountId>, defaultName: string) {
+  private getDisplayName (address: string, defaultName: string) {
+    const pair = keyring.getAccount(address).isValid()
+      ? keyring.getAccount(address)
+      : keyring.getAddress(address);
+
+    return pair.isValid()
+      ? pair.getMeta().name
+      : defaultName;
+  }
+
+  private renderColumn (addresses: Array<string>, defaultName: string) {
     const { balances, balanceArray, t } = this.props;
 
     if (addresses.length === 0) {
@@ -75,13 +86,13 @@ class CurrentList extends React.PureComponent<Props> {
     return (
       <div key='list'>
         {addresses.map((address) => {
-          const nominators = (balances[address.toString()] || {}).nominators || [];
+          const nominators = (balances[address] || {}).nominators || [];
 
           return (
-            <article key={address.toString()}>
+            <article key={address}>
               <AddressRow
                 balance={balanceArray(address)}
-                name={name || defaultName}
+                name={this.getDisplayName(address, defaultName)}
                 value={address}
                 withCopy={false}
                 withNonce={false}

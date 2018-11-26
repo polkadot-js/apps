@@ -1,17 +1,18 @@
 // Copyright 2017-2018 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { TabItem } from '@polkadot/ui-app/Tabs';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
+import { Actions, ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import './index.css';
 
 import React from 'react';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { Tabs } from '@polkadot/ui-app/index';
-import { withObservableBase } from '@polkadot/ui-react-rx/with/index';
+import { withMulti, withObservableBase } from '@polkadot/ui-react-rx/with/index';
 
 import Creator from './Creator';
 import Editor from './Editor';
@@ -20,10 +21,9 @@ import translate from './translate';
 
 type Props = I18nProps & {
   allAccounts?: SubjectInfo,
+  onStatusChange: (status: ActionStatus) => void,
   basePath: string
 };
-
-type Actions = 'create' | 'edit' | 'restore';
 
 type State = {
   action: Actions,
@@ -96,6 +96,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
   }
 
   render () {
+    const { onStatusChange } = this.props;
     const { action, hidden, items } = this.state;
     const Component = Components[action];
 
@@ -112,6 +113,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
         <Component
           onCreateAccount={this.selectEdit}
           onRestoreAccount={this.selectEdit}
+          onStatusChange={onStatusChange}
         />
       </main>
     );
@@ -126,6 +128,8 @@ class AccountsApp extends React.PureComponent<Props, State> {
   }
 }
 
-export default withObservableBase(
-  accountObservable.subject, { propName: 'allAccounts' }
-)(translate(AccountsApp));
+export default withMulti(
+  AccountsApp,
+  translate,
+  withObservableBase(accountObservable.subject, { propName: 'allAccounts' })
+);

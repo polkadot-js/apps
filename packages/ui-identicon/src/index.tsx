@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Prefix } from '@polkadot/keyring/address/types';
 import { BaseProps } from './types';
 
 import './IdentityIcon.css';
@@ -19,13 +20,14 @@ import Substrate from './Substrate';
 
 type Props = BaseProps & {
   isHighlight?: boolean,
+  prefix?: Prefix,
   size?: number,
   theme?: string,
   value?: string | Uint8Array | null
 };
 
 type State = {
-  address: string | null
+  address?: string | null
 };
 
 const DEFAULT_SIZE = 64;
@@ -39,13 +41,19 @@ export default class IdentityIcon extends React.PureComponent<Props, State> {
     address: null
   };
 
-  static getDerivedStateFromProps ({ value }: Props, prevState: State): State | null {
+  private static prefix?: Prefix = undefined;
+
+  static setDefaultPrefix (prefix: Prefix) {
+    IdentityIcon.prefix = prefix;
+  }
+
+  static getDerivedStateFromProps ({ prefix = IdentityIcon.prefix, value }: Props, prevState: State): State | null {
     try {
       const address = isU8a(value) || isHex(value)
-        ? encodeAddress(value as string)
-        : value as string;
+        ? encodeAddress(value, prefix)
+        : value;
 
-      decodeAddress(address);
+      decodeAddress(address as string, prefix);
 
       return address === prevState.address
         ? null

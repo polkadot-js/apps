@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps, BitLength, I18nProps } from './types';
 
@@ -15,6 +15,7 @@ import Input, { KEYS, KEYS_PRE, isCopy, isCut, isPaste, isSelectAll } from './In
 import translate from './translate';
 
 type Props = BareProps & I18nProps & {
+  autoFocus?: boolean,
   bitLength?: BitLength,
   defaultValue?: string,
   isDisabled?: boolean,

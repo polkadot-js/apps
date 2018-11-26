@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-signer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
 import { QueueProps } from './types';
@@ -11,8 +11,8 @@ import React from 'react';
 
 import { QueueConsumer } from './Context';
 import Modal from './Modal';
-import Status from './Status';
 import Queue, { Props as QueueComponentProps } from './Queue';
+import Status from '@polkadot/ui-app/Status';
 
 type Props = BareProps & {
   children: any // node?

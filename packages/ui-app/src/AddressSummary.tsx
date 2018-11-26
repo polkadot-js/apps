@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
@@ -12,7 +12,6 @@ import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
 import BalanceDisplay from './Balance';
-import CopyButton from './CopyButton';
 import IdentityIcon from './IdentityIcon';
 import translate from './translate';
 
@@ -152,15 +151,17 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderCopy (address: string) {
-    const { withCopy = true } = this.props;
+    return null;
 
-    if (!withCopy || !address) {
-      return null;
-    }
+    // const { withCopy = true } = this.props;
 
-    return (
-      <CopyButton value={address} />
-    );
+    // if (!withCopy || !address) {
+    //   return null;
+    // }
+
+    // return (
+    //   <CopyButton value={address} />
+    // );
   }
 
   protected renderIcon (className: string = 'ui--AddressSummary-icon', size?: number) {
@@ -227,7 +228,8 @@ export {
 };
 
 export default withMulti(
-  translate(AddressSummary),
+  AddressSummary,
+  translate,
   withObservable('accountIdAndIndex', { paramProp: 'value' }),
   withObservable('sessionValidators')
 );

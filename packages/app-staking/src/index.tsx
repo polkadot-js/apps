@@ -1,8 +1,9 @@
 // Copyright 2017-2018 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { RxBalanceMap } from '@polkadot/api-observable/types';
 
 import React from 'react';
@@ -20,9 +21,10 @@ type Actions = 'actions' | 'overview';
 
 type Props = I18nProps & {
   basePath: string,
-  validatingBalances?: RxBalanceMap,
+  onStatusChange: (status: ActionStatus) => void,
   stakingIntentions?: Array<AccountId>,
-  sessionValidators?: Array<AccountId>
+  sessionValidators?: Array<AccountId>,
+  validatingBalances?: RxBalanceMap
 };
 
 type State = {
@@ -114,7 +116,8 @@ class App extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  translate(App),
+  App,
+  translate,
   withObservable('stakingIntentions'),
   withObservable('sessionValidators'),
   withObservable('validatingBalances', { paramProp: 'stakingIntentions' })

@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParam } from '@polkadot/ui-app/Params/types';
@@ -66,14 +66,14 @@ class Referendum extends React.PureComponent<Props, State> {
     const newState: State = democracyReferendumVoters.reduce((state, { balance, vote }) => {
       if (vote.valueOf() === true) {
         state.voteCountYay++;
-        state.votedYay = state.votedYay.add(balance.toBn());
+        state.votedYay = state.votedYay.add(balance);
       } else {
         state.voteCountNay++;
-        state.votedNay = state.votedNay.add(balance.toBn());
+        state.votedNay = state.votedNay.add(balance);
       }
 
       state.voteCount++;
-      state.votedTotal = state.votedTotal.add(balance.toBn());
+      state.votedTotal = state.votedTotal.add(balance);
 
       return state;
     }, {
@@ -171,7 +171,8 @@ class Referendum extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  translate(Referendum),
+  Referendum,
+  translate,
   withObservable('bestNumber'),
   withObservable('democracyReferendumVoters', { paramProp: 'idNumber' })
 );

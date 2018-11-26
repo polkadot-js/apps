@@ -1,6 +1,6 @@
 /* Copyright 2017-2018 @polkadot/ui-app authors & contributors
 /* This software may be modified and distributed under the terms
-/* of the ISC license. See the LICENSE file for details. */
+/* of the Apache-2.0 license. See the LICENSE file for details. */
 
 .ui--Param-Address {
   font-family: monospace;
@@ -36,4 +36,8 @@
 
 .ui--Param-text + .ui--Param-text {
   margin-left: 0.5rem;
+}
+
+.ui--Param-Vector-buttons {
+  text-align: right;
 }

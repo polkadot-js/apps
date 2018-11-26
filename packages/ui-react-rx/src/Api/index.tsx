@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-react-rx authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface } from '@polkadot/rpc-rx/types';
@@ -8,7 +8,6 @@ import { ApiProps } from '../types';
 
 import React from 'react';
 import Api from '@polkadot/api-observable';
-import { setAddressPrefix } from '@polkadot/keyring';
 import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import RxApi from '@polkadot/rpc-rx';
@@ -23,7 +22,7 @@ import { InputNumber } from '@polkadot/ui-app/InputNumber';
 
 type Props = {
   api?: RpcRxInterface,
-  children: any, // node?
+  children: React.ReactNode,
   provider?: ProviderInterface,
   url?: string
 };
@@ -115,9 +114,9 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
 
       balanceFormat.setDefaultDecimals(found.decimals);
       InputNumber.setUnit(found.unit);
-      setAddressPrefix(found.chainId as any);
 
       // setup keyringonly after prefix has been set
+      keyring.setAddressPrefix(found.chainId as any);
       keyring.setDevMode(isTestChain(chain || ''));
       keyring.loadAll();
 
