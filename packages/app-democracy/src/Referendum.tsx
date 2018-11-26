@@ -127,7 +127,7 @@ class Referendum extends React.PureComponent<Props, State> {
             defaultValue: '{{remaining}} blocks remaining, ending at block #{{blockNumber}}',
             replace: {
               blockNumber: numberFormat(blockNumber),
-              remaining: numberFormat(blockNumber.sub(bestNumber))
+              remaining: numberFormat(blockNumber.sub(bestNumber).subn(1))
             }
           })}
         </Static>
