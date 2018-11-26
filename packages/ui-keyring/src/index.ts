@@ -89,12 +89,11 @@ class Keyring implements KeyringStruct {
 
   addAccountPair (pair: KeyringPair, password: string): KeyringPair {
     this.keyring.addPair(pair);
-    this.saveAccount(pair, password);
 
-    return pair;
+    return this.saveAccount(pair, password);
   }
 
-  backupAccount (pair: KeyringPair, password: string): KeyringPair$Json {
+  backupAccount (pair: KeyringPair, password?: string): KeyringPair$Json {
     if (!pair.isLocked()) {
       pair.lock();
     }
@@ -107,17 +106,19 @@ class Keyring implements KeyringStruct {
   createAccount (seed: Uint8Array, password?: string, meta: KeyringPair$Meta = {}): KeyringPair {
     const pair = this.keyring.addFromSeed(seed, meta);
 
-    this.saveAccount(pair, password);
+    return this.saveAccount(pair, password);
+  }
 
-    return pair;
+  createAccountExternal (publicKey: Uint8Array, meta: KeyringPair$Meta = {}): KeyringPair {
+    const pair = this.keyring.addFromAddress(publicKey, { ...meta, isExternal: true });
+
+    return this.saveAccount(pair);
   }
 
   createAccountMnemonic (seed: string, password?: string, meta: KeyringPair$Meta = {}): KeyringPair {
     const pair = this.keyring.addFromMnemonic(seed, meta);
 
-    this.saveAccount(pair, password);
-
-    return pair;
+    return this.saveAccount(pair, password);
   }
 
   encryptAccount (pair: KeyringPair, password: string): void {
@@ -270,13 +271,15 @@ class Keyring implements KeyringStruct {
     return pair;
   }
 
-  saveAccount (pair: KeyringPair, password?: string): void {
+  saveAccount (pair: KeyringPair, password?: string): KeyringPair {
     this.addTimestamp(pair);
 
     const json = pair.toJson(password);
 
     this.keyring.addFromJson(json);
     this.accounts.add(json.address, json);
+
+    return pair;
   }
 
   saveAccountMeta (pair: KeyringPair, meta: KeyringPair$Meta): void {

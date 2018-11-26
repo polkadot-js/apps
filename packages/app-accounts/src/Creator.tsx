@@ -37,7 +37,7 @@ type State = {
   seed: string,
   seedOptions: Array<{ value: SeedType, text: string }>,
   seedType: SeedType,
-  showWarning: boolean
+  showBackup: boolean
 };
 
 function formatSeed (seed: string): Uint8Array {
@@ -136,7 +136,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   private renderButtons () {
     const { t } = this.props;
-    const { isValid } = this.state;
+    const { seedType, isValid } = this.state;
 
     return (
       <Button.Group>
@@ -150,7 +150,11 @@ class Creator extends React.PureComponent<Props, State> {
         <Button
           isDisabled={!isValid}
           isPrimary
-          onClick={this.onShowWarning}
+          onClick={
+            seedType === 'qr'
+              ? this.onCreateQr
+              : this.onShowBackup
+          }
           text={t('creator.save', {
             defaultValue: 'Save'
           })}
@@ -206,33 +210,33 @@ class Creator extends React.PureComponent<Props, State> {
         </div>
         {this.renderPassword()}
         {this.renderQr()}
-        {this.renderSaveModal()}
+        {this.renderBackupModal()}
       </div>
     );
   }
 
-  private renderSaveModal () {
+  private renderBackupModal () {
     const { t } = this.props;
-    const { address, seedType, showWarning } = this.state;
+    const { address, showBackup } = this.state;
 
     return (
       <Modal
         className='app--accounts-Modal'
         dimmer='inverted'
-        open={showWarning}
+        open={showBackup}
         size='small'
       >
         <Modal.Header key='header'>
-          {t('seedWarning.header', {
+          {t('accBackup.header', {
             defaultValue: 'Important notice!'
           })}
         </Modal.Header>
         <Modal.Content key='content'>
-          {t('seedWarning.content', {
+          {t('accBackup.content', {
             defaultValue: 'We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always redownload this file later.'
           })}
           <Modal.Description>
-            {t('seedWarning.description', {
+            {t('accBackup.description', {
               defaultValue: 'Please make sure to save this file in a secure location as it is the only way to restore your account.'
             })}
           </Modal.Description>
@@ -245,20 +249,16 @@ class Creator extends React.PureComponent<Props, State> {
           <Button.Group>
             <Button
               isNegative
-              onClick={this.onHideWarning}
-              text={t('seedWarning.cancel', {
+              onClick={this.onHideBackup}
+              text={t('accBackup.cancel', {
                 defaultValue: 'Cancel'
               })}
             />
             <Button.Or />
             <Button
               isPrimary
-              onClick={
-                seedType === 'qr'
-                  ? this.onCreateQr
-                  : this.onCreateSeed
-              }
-              text={t('seedWarning.continue', {
+              onClick={this.onCreateSeed}
+              text={t('accBackup.continue', {
                 defaultValue: 'Create and backup account'
               })}
             />
@@ -344,14 +344,14 @@ class Creator extends React.PureComponent<Props, State> {
       name: 'new keypair',
       password: '',
       seedType,
-      showWarning: false
+      showBackup: false
     };
   }
 
   private nextState (newState: State): void {
     this.setState(
       (prevState: State, props: Props): State => {
-        const { isBipBusy = prevState.isBipBusy, name = prevState.name, password = prevState.password, seed = prevState.seed, seedOptions = prevState.seedOptions, seedType = prevState.seedType, showWarning = prevState.showWarning } = newState;
+        const { isBipBusy = prevState.isBipBusy, name = prevState.name, password = prevState.password, seed = prevState.seed, seedOptions = prevState.seedOptions, seedType = prevState.seedType, showBackup = prevState.showBackup } = newState;
         let address = prevState.address;
         const isNameValid = !!name;
         const isSeedValid = seedType === 'bip'
@@ -379,7 +379,7 @@ class Creator extends React.PureComponent<Props, State> {
           seed,
           seedOptions,
           seedType,
-          showWarning
+          showBackup
         };
       }
     );
@@ -397,12 +397,12 @@ class Creator extends React.PureComponent<Props, State> {
     this.nextState({ password } as State);
   }
 
-  private onShowWarning = (): void => {
-    this.nextState({ showWarning: true } as State);
+  private onShowBackup = (): void => {
+    this.nextState({ showBackup: true } as State);
   }
 
-  private onHideWarning = (): void => {
-    this.nextState({ showWarning: false } as State);
+  private onHideBackup = (): void => {
+    this.nextState({ showBackup: false } as State);
   }
 
   private onQrScan = (data: any): void => {
@@ -410,7 +410,21 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   private onCreateQr = (): void => {
-    // do something
+    const { onCreateAccount, onStatusChange, t } = this.props;
+    const { name, seed } = this.state;
+    const publicKey = hexToU8a(seed);
+
+    const pair = keyring.createAccountExternal(publicKey, { name });
+
+    onCreateAccount();
+    onStatusChange({
+      action: 'create',
+      message: t('status.qrcreated', {
+        defaultValue: `Added Account`
+      }),
+      success: true,
+      value: pair.address()
+    });
   }
 
   private onCreateSeed = (): void => {
@@ -432,7 +446,7 @@ class Creator extends React.PureComponent<Props, State> {
       FileSaver.saveAs(blob, `${pair.address()}.json`);
 
       status.value = pair.address();
-      status.success = !!(pair);
+      status.success = true;
       status.message = t('status.created', {
         defaultValue: `Created Account`
       });
@@ -443,7 +457,7 @@ class Creator extends React.PureComponent<Props, State> {
       status.message = err.message;
     }
 
-    this.onHideWarning();
+    this.onHideBackup();
     onCreateAccount();
     onStatusChange(status);
   }
