@@ -93,15 +93,40 @@ class Query extends React.PureComponent<Props, State> {
         >
           <Component />
         </Labelled>
-        <Labelled className='storage--actionrow-button'>
-          <Button
-            icon='close'
-            isNegative
-            onClick={this.onRemove}
-          />
+        <Labelled className='.storage--queryrow-button'>
+          {this.renderButtons()}
         </Labelled>
       </div>
     );
+  }
+
+  private renderButtons() {
+    const { value: { key: {method, section} } } = this.props;
+
+    const specificFunctionalButtons = [];
+    const defaultButton =
+      <Button
+        icon='close'
+        isNegative
+        onClick={this.onRemove}
+      />
+    const spreadButton =
+      /* needs an spread content action (wasm byte code)*/
+      <Button
+        text="spread"
+      />
+
+    const copyButton =
+      /* needs an copy content action (wasm byte code) */
+      <Button
+        text="copy"
+      />
+
+    if (section === "substrate" && method === "code") {
+      specificFunctionalButtons.push(spreadButton, copyButton);
+    }
+    // array spread not usable ?
+    return [].concat(specificFunctionalButtons, defaultButton);
   }
 
   private renderInputs () {
