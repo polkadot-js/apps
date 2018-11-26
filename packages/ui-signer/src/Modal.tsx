@@ -33,6 +33,7 @@ type UnlockI18n = {
 
 type State = {
   currentItem?: QueueTx,
+  isQr?: boolean,
   password: string,
   unlockError: UnlockI18n | null
 };
@@ -63,8 +64,17 @@ class Signer extends React.PureComponent<Props, State> {
         )
       );
 
+    let isQr = false;
+
+    if (currentItem && currentItem.accountId) {
+      const pair = keyring.getPair(currentItem.accountId);
+
+      isQr = pair.getMeta().isExternal;
+    }
+
     return {
       currentItem: nextItem,
+      isQr,
       password: isSame ? password : '',
       unlockError: isSame ? unlockError : null
     };
@@ -136,15 +146,9 @@ class Signer extends React.PureComponent<Props, State> {
 
   private renderUnlock () {
     const { t } = this.props;
-    const { currentItem, password, unlockError } = this.state;
+    const { currentItem, isQr, password, unlockError } = this.state;
 
-    if (!currentItem) {
-      return null;
-    }
-
-    const pair = keyring.getPair(currentItem.accountId as string);
-
-    if (!pair || pair.getMeta().isExternal) {
+    if (!currentItem || isQr) {
       return null;
     }
 
@@ -242,16 +246,18 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetStatus(id, status, result, error);
   }
 
-  private sendExtrinsic = async ({ extrinsic, id, accountNonce, accountId }: QueueTx, password?: string): Promise<void> => {
+  private sendExtrinsic = async ({ extrinsic, id, accountNonce, accountId }: QueueTx, password?: string, signature?: Uint8Array): Promise<void> => {
     if (!extrinsic || !accountId) {
       return;
     }
 
-    const unlockError = this.unlockAccount(accountId, password);
+    if (!signature) {
+      const unlockError = this.unlockAccount(accountId, password);
 
-    if (unlockError) {
-      this.setState({ unlockError });
-      return;
+      if (unlockError) {
+        this.setState({ unlockError });
+        return;
+      }
     }
 
     const { apiObservable, queueSetStatus } = this.props;
