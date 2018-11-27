@@ -83,7 +83,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { autoFocus = false, children, className, defaultValue, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, maxLength, min, name, placeholder, style, tabIndex, type = 'text', value, withLabel } = this.props;
+    const { autoFocus = false, children, className, defaultValue, icon, isAction = false, isDisabled = false, isEditable = false, isError = false, isHidden = false, isReadonly = false, label, max, maxLength, min, name, placeholder, style, tabIndex, type = 'text', value, withLabel } = this.props;
 
     return (
       <Labelled
@@ -127,6 +127,11 @@ export default class Input extends React.PureComponent<Props, State> {
               type === 'password'
                 ? 'new-password'
                 : 'off'
+            }
+            className={
+              isReadonly
+                ? 'readonly'
+                : ''
             }
           />
           {isEditable ? <i className='edit icon' /> : null}

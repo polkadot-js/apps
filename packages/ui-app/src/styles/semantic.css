@@ -38,11 +38,21 @@
 .ui.input {
   /* from .ui.fluid.input */
   display: flex;
-}
 
-.ui.input > input {
-  /* from .ui.fluid.input > input */
-  width: 0;
+  > input {
+    /* from .ui.fluid.input > input */
+    width: 0;
+
+    &.readonly {
+      color: transparent;
+      text-shadow: 0 0 0 rgba(0,0,0,0.8);
+    }
+  }
+
+  &.error > input.readonly {
+    color: transparent;
+    text-shadow: 0 0 0 #9f3a38;
+  }
 }
 
 .ui.inverted.dimmer {
