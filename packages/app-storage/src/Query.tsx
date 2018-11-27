@@ -14,6 +14,7 @@ import { withObservableDiv } from '@polkadot/ui-react-rx/with/index';
 import { isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import translate from './translate';
+import { Bytes } from '@polkadot/types';
 
 type Props = I18nProps & {
   onRemove: (id: number) => void,
@@ -101,7 +102,6 @@ class Query extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { value: { key: { method, section } } } = this.props;
 
     const specificFunctionalButtons = [];
     const defaultButton =
@@ -122,7 +122,7 @@ class Query extends React.PureComponent<Props, State> {
         text='copy'
       />;
 
-    if (section === 'substrate' && method === 'code') {
+    if (this.props.value.key.meta.type.raw == 'Bytes') {
       specificFunctionalButtons.push(spreadButton, copyButton);
     }
     // array spread not usable ?
