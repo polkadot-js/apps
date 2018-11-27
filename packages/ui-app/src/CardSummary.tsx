@@ -15,6 +15,7 @@ import classes from './util/classes';
 
 type ProgressProps = {
   color?: ProgressColors,
+  hideValue?: boolean,
   isPercent?: boolean,
   total?: BN | UInt,
   value?: BN | UInt
@@ -55,7 +56,7 @@ export default class CardSummary extends React.PureComponent<Props> {
         <Labelled label={label}>
           <div className='ui--CardSummary-large'>
             {children}{
-              progress && (
+              progress && !progress.hideValue && (
                 !left || isUndefined(progress.total)
                   ? '-'
                   : `${left}${progress.isPercent ? '' : '/'}${
