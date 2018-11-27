@@ -14,7 +14,7 @@ import { withObservableDiv } from '@polkadot/ui-react-rx/with/index';
 import { isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import translate from './translate';
-import { Bytes } from '@polkadot/types';
+import { ReactNodeArray } from 'prop-types';
 
 type Props = I18nProps & {
   onRemove: (id: number) => void,
@@ -102,9 +102,9 @@ class Query extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-
-    const specificFunctionalButtons = [];
-    const defaultButton =
+    const { key } = this.props.value as StorageModuleQuery;
+    const buttons = [] as ReactNodeArray;
+    const closeButton =
       <Button
         icon='close'
         isNegative
@@ -122,11 +122,11 @@ class Query extends React.PureComponent<Props, State> {
         text='copy'
       />;
 
-    if (this.props.value.key.meta.type.raw == 'Bytes') {
-      specificFunctionalButtons.push(spreadButton, copyButton);
+    if (key.meta.type.toString() === 'Bytes') {
+      buttons.push(spreadButton, copyButton);
     }
-    // array spread not usable ?
-    return [].concat(specificFunctionalButtons, defaultButton);
+
+    return buttons.concat([ closeButton ]);
   }
 
   private renderInputs () {
@@ -137,7 +137,7 @@ class Query extends React.PureComponent<Props, State> {
         <div className='ui--Param-text name'>:</div>
       );
     }
-
+    console.log(inputs);
     return [
       <div key='open' className='ui--Param-text name'>(</div>,
       inputs,
