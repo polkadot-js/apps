@@ -31,9 +31,9 @@
   "homepage": "https://github.com/polkadot-js/ui/tree/master/packages/ui-react-rx#readme",
   "dependencies": {
     "@babel/runtime": "^7.1.5",
-    "@polkadot/api-observable": "^0.32.6",
-    "@polkadot/rpc-rx": "^0.32.6",
-    "@polkadot/types": "^0.32.6",
+    "@polkadot/api-observable": "^0.32.7",
+    "@polkadot/rpc-rx": "^0.32.7",
+    "@polkadot/types": "^0.32.7",
     "rxjs-compat": "^6.3.2"
   }
 }

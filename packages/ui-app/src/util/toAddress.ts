@@ -18,5 +18,6 @@ export default function toAddress (value?: string | Uint8Array): string | undefi
     );
   } catch (error) {
     console.error('Unable to encode address', value);
+    return;
   }
 }
