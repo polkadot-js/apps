@@ -1433,15 +1433,15 @@
     "@types/rx" "^4.1.1"
     rxjs "^6.3.3"
 
-"@polkadot/dev-react@^0.22.3":
-  version "0.22.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev-react/-/dev-react-0.22.3.tgz#c77adb300d1a32bb5ba23146d747720a2e8d6c06"
-  integrity sha512-nF2fB0FqnQzl7wLHUVgW9MWAOg3k8dStDnsapnDGgHdza4/A3GTR7rwgcooUyj9Uw8n1i7GVqfU8QTiCuVA7JA==
+"@polkadot/dev-react@^0.22.4":
+  version "0.22.4"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev-react/-/dev-react-0.22.4.tgz#c653d568f8d7417edca4c57b99ea22db64b04223"
+  integrity sha512-KbV236VshSYhlMhLCy7UNB0kL4mlDzSx0nVbTuYKgK+0FBcYCFg8QJ3Np80teVjLmbQas503+GdxxEA0hEiI1Q==
   dependencies:
     "@babel/core" "^7.1.6"
     "@babel/plugin-syntax-dynamic-import" "^7.0.0"
     "@babel/preset-react" "^7.0.0"
-    "@polkadot/dev" "^0.22.3"
+    "@polkadot/dev" "^0.22.4"
     "@types/react-dom" "^16.0.9"
     browserslist "^4.3.4"
     eslint "^5.9.0"
@@ -1458,10 +1458,10 @@
     webpack-cli "^3.1.2"
     webpack-serve "^2.0.3"
 
-"@polkadot/dev@^0.22.3":
-  version "0.22.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.22.3.tgz#72d7583432ea914d9751db4b4bd60bcdd05af10d"
-  integrity sha512-EJyKKGrzYAZzhrvaYfCwh+hR2dSUtalhJLnf95hBcBK3i3shyoGvSnv3kMOoglCCWVSYTt/P7/xJzzxz0lPs9g==
+"@polkadot/dev@^0.22.4":
+  version "0.22.4"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.22.4.tgz#b9db8529fc1b57d47fe95f1fa2fb09f4642c3051"
+  integrity sha512-PEhUfrCNT+hI1kfydH+hW5Mchb/eknEHPkSFPccZFD33WGq9gK+eHoGclVg0SW2u/aSAICZAePRIWZz39sFOyw==
   dependencies:
     "@babel/cli" "^7.1.5"
     "@babel/core" "^7.1.6"
