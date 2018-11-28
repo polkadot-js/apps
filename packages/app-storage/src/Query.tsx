@@ -26,8 +26,7 @@ type ComponentProps = {};
 
 type State = {
   inputs: Array<any>, // node?
-  Component: React.ComponentType<ComponentProps>,
-  showFullResultContent?: boolean
+  Component: React.ComponentType<ComponentProps>
 };
 
 type CacheInstance = {
