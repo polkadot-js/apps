@@ -44,9 +44,11 @@ class Proposal extends React.PureComponent<Props> {
 
     return (
       <div className='democracy--Proposal-info'>
-        <Labelled label={t('proposal.depositsAddresses', {
-          defaultValue: 'depositors'
-        })}>
+        <Labelled
+          label={t('proposal.depositsAddresses', {
+            defaultValue: 'depositors'
+          })}
+        >
           <div>
             {addresses.map((address) => (
               <AddressMini
@@ -57,9 +59,11 @@ class Proposal extends React.PureComponent<Props> {
             ))}
           </div>
         </Labelled>
-        <Static label={t('proposal.depositsBalanceLabel', {
-          defaultValue: 'balance'
-        })}>
+        <Static
+          label={t('proposal.depositsBalanceLabel', {
+            defaultValue: 'balance'
+          })}
+        >
           {balanceFormat(balance)}
         </Static>
       </div>

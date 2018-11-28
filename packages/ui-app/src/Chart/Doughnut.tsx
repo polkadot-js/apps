@@ -62,7 +62,8 @@ export default class ChartDoughnut extends React.PureComponent<Props> {
             }]
           }}
           height={size}
-          width={size} />
+          width={size}
+        />
       </div>
     );
   }
