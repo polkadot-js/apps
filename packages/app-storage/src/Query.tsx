@@ -15,6 +15,7 @@ import { isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import translate from './translate';
 import { ReactNodeArray } from 'prop-types';
+import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/ui-react-rx/with/types';
 
 type Props = I18nProps & {
   onRemove: (id: number) => void,
@@ -25,15 +26,22 @@ type ComponentProps = {};
 
 type State = {
   inputs: Array<any>, // node?
-  Component: React.ComponentType<ComponentProps>;
+  Component: React.ComponentType<ComponentProps>,
+  showFullResultContent?: boolean
 };
 
-const cache: Array<React.ComponentType<ComponentProps>> = [];
+type CacheInstance = {
+  component: React.ComponentType<any>,
+  render: RenderFn,
+  refresh: (swallowErrors: boolean, contentShorten: boolean) => React.ComponentType<any>
+};
+
+const cache: Array<CacheInstance> = [];
 
 class Query extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
-  static getCachedComponent (query: QueryTypes): React.ComponentType<ComponentProps> {
+  static getCachedComponent (query: QueryTypes): CacheInstance {
     const { id, key, params = [] } = query as StorageModuleQuery;
 
     if (!cache[id]) {
@@ -41,19 +49,45 @@ class Query extends React.PureComponent<Props, State> {
       const type = key.meta
         ? key.meta.type.toString()
         : 'Data';
+      const defaultProps = { className: 'ui--output' };
 
-      cache[query.id] = withObservableDiv('rawStorage', { params: [key, ...values] })(
-        (value: any) =>
-          valueToText(type, value),
-        { className: 'ui--output' }
+      /* render function to create an element for the query results which is plugged to the api */
+      const fetchAndRenderHelper = withObservableDiv('rawStorage', { params: [key, ...values] });
+      const pluggedComponent = fetchAndRenderHelper(
+        (value: any) => {
+          /* By default we render a simple div node component with the query results in it */
+          return valueToText(type, value, true, true);
+        },
+        defaultProps
       );
+      cache[query.id] = Query.createComponentCacheInstance(type, pluggedComponent, defaultProps, fetchAndRenderHelper);
     }
 
     return cache[id];
   }
 
+  static createComponentCacheInstance (type: string, pluggedComponent: React.ComponentType<any>, defaultProps: DefaultProps<any>, fetchAndRenderHelper: ComponentRenderer<any>) {
+    return {
+      component: pluggedComponent,
+      /* In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component */
+      render: (createComponent: RenderFn) => {
+        return fetchAndRenderHelper(
+          createComponent,
+          defaultProps
+        );
+      },
+      /* In order to modify the parameters which are used to render the default component, we can use this method */
+      refresh: (swallowErrors: boolean, contentShorten: boolean) => {
+        return fetchAndRenderHelper(
+          (value: any) => valueToText(type, value, swallowErrors, contentShorten),
+          defaultProps
+        );
+      }
+    };
+  }
+
   static getDerivedStateFromProps ({ value }: Props, prevState: State): State | null {
-    const Component = Query.getCachedComponent(value);
+    const Component = Query.getCachedComponent(value).component;
     const inputs = isU8a(value.key)
       ? []
       // FIXME We need to render the actual key params
@@ -102,7 +136,8 @@ class Query extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { key } = this.props.value as StorageModuleQuery;
+    const { id, key } = this.props.value as StorageModuleQuery;
+
     const buttons = [] as ReactNodeArray;
     const closeButton =
       <Button
@@ -114,6 +149,7 @@ class Query extends React.PureComponent<Props, State> {
       /* needs an spread content action (wasm byte code)*/
       <Button
         text='spread'
+        onClick={() => this.refreshCachedComponent(id, true, false)}
       />;
 
     const copyButton =
@@ -137,7 +173,7 @@ class Query extends React.PureComponent<Props, State> {
         <div className='ui--Param-text name'>:</div>
       );
     }
-    console.log(inputs);
+
     return [
       <div key='open' className='ui--Param-text name'>(</div>,
       inputs,
@@ -156,6 +192,14 @@ class Query extends React.PureComponent<Props, State> {
     }
 
     return `${key.section}.${key.method}`;
+  }
+
+  private refreshCachedComponent (id: number, swallowErrors: boolean, contentShorten: boolean) {
+    cache[id].component = cache[id].refresh(swallowErrors, contentShorten);
+    this.setState({
+      ...this.state,
+      Component: cache[id].component
+    });
   }
 
   private onRemove = (): void => {
