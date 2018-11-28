@@ -24,7 +24,7 @@
     "demo:identicon": "webpack-serve --config packages/ui-identicon/webpack.config.js --content packages/ui-identicon --port 3000",
     "demo:rx": "webpack-serve --config packages/ui-react-rx/webpack.config.js --content packages/ui-react-rx --port 3000",
     "demo:ui": "webpack-serve --config packages/ui-react/webpack.config.js --content packages/ui-react --port 3000",
-    "deploy:ghpages": "gh-pages -d packages/apps/build",
+    "deploy:ghpages": "gh-pages --dist packages/apps/build --remove locales,static,*.css,*.js,*.json,*.map,*.md",
     "vanitygen": "node packages/app-vanitygen/scripts/vanitygen.js",
     "start": "cd packages/apps && webpack-serve --config webpack.config.js --port 3000"
   },
