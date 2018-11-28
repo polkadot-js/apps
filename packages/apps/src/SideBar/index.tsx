@@ -20,7 +20,10 @@ type Props = I18nProps & {
   children?: React.ReactNode;
 };
 
-const LOGOS: Map<string | undefined, any> = new Map([['polkadot', polkadotLogo], ['substrate', substrateLogo]]);
+const LOGOS: Map<string | undefined, any> = new Map([
+  ['polkadot', polkadotLogo],
+  ['substrate', substrateLogo]
+]);
 
 const LOGO = LOGOS.get(process.env.UI_THEME) || polkadotLogo;
 
@@ -30,13 +33,37 @@ class SideBar extends React.PureComponent<Props> {
 
     return (
       <div className='apps--SideBar'>
-        <Menu secondary vertical>
-          <img alt='polkadot' className='apps--SideBar-logo' src={LOGO} />
-          {routing.routes
-            .filter(route => !route || !route.isHidden)
-            .map((route, index) =>
-              route ? <Item key={route.name} t={t} route={route} /> : <Menu.Divider hidden key={index} />
-            )}
+        <Menu
+          secondary
+          vertical
+        >
+          <img
+            alt='polkadot'
+            className='apps--SideBar-logo'
+            src={LOGO}
+          />
+          {
+            routing.routes
+              .filter((route) =>
+                !route || !route.isHidden
+              )
+              .map((route, index) => (
+                route
+                  ? (
+                    <Item
+                      key={route.name}
+                      t={t}
+                      route={route}
+                    />
+                  )
+                  : (
+                    <Menu.Divider
+                      hidden
+                      key={index}
+                    />
+                  )
+              ))
+          }
           <Menu.Divider hidden />
           <Menu.Item className='apps--SideBar-Item'>
             <a className='apps--SideBar-Item-NavLink' href='https://github.com/polkadot-js/apps'>
