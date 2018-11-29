@@ -13,6 +13,8 @@ A Portal into the Polkadot network. Provides a view and interaction layer from a
 
 This can be accessed as a hosted application via [https://polkadot.js.org/apps/](https://polkadot.js.org/apps/) or via [https://poc-2.polkadot.io](https://poc-2.polkadot.io) with the latter not requiring a locally-hosted node.
 
+*Important* If you are running [Substrate master](https://github.com/paritytech/substrate), support is in the next version here. You can access it via [https://polkadot.js.org/apps/next/](https://polkadot.js.org/apps/next/). Once Substrate hits 1.0-beta, master will have the required support (next branch becomes master)
+
 ## overview
 
 The repo is split into a number of packages, each representing an application. These are -
