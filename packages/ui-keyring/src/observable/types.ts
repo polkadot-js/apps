@@ -9,12 +9,12 @@ import { KeyringJson } from '../types';
 export type SingleAccount = {
   json: KeyringJson,
   option: KeyringSectionOption
-}
+};
 
 export type SingleAddress = {
   json: KeyringJson,
   option: KeyringSectionOption
-}
+};
 
 export type SubjectInfo = {
   [index: string]: SingleAddress

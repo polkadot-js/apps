@@ -30,10 +30,10 @@ export type GroupProps = BareProps & {
 
 export type GroupType = React.ComponentType<GroupProps> & {
   Divider: React.ComponentType<DividerProps>
-}
+};
 
 export type ButtonType = React.ComponentType<ButtonProps> & {
   Divider: React.ComponentType<DividerProps>,
   Group: GroupType,
   Or: React.ComponentType<BareProps>
-}
+};

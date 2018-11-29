@@ -4,10 +4,7 @@
 
 import BN from 'bn.js';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
-import { UInt } from '@polkadot/types/codec';
-import { Hash, Extrinsic } from '@polkadot/types';
-import { Extrinsics } from '@polkadot/types/Method';
-import { RawParam$Value } from '@polkadot/ui-app/Params/types';
+import { Extrinsic } from '@polkadot/types';
 
 export type AccountInfo = {
   accountId?: string | null,
