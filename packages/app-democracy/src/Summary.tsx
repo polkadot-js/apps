@@ -28,19 +28,25 @@ class Summary extends React.PureComponent<Props> {
     return (
       <summary>
         <section>
-          <CardSummary label={t('summary.proposalCount', {
-            defaultValue: 'proposals'
-          })}>
+          <CardSummary
+            label={t('summary.proposalCount', {
+              defaultValue: 'proposals'
+            })}
+          >
             {numberFormat(publicProposalCount)}
           </CardSummary>
-          <CardSummary label={t('summary.referendumCount', {
-            defaultValue: 'referendums'
-          })}>
+          <CardSummary
+            label={t('summary.referendumCount', {
+              defaultValue: 'referendums'
+            })}
+          >
             {numberFormat(referendumCount)}
           </CardSummary>
-          <CardSummary label={t('summary.active', {
-            defaultValue: 'active num'
-          })}>
+          <CardSummary
+            label={t('summary.active', {
+              defaultValue: 'active num'
+            })}
+          >
             {numberFormat(referendumCount.sub(democracyNextTally))}
           </CardSummary>
         </section>

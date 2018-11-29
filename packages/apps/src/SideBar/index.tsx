@@ -68,7 +68,8 @@ class SideBar extends React.PureComponent<Props> {
           <Menu.Item className='apps--SideBar-Item'>
             <a
               className='apps--SideBar-Item-NavLink'
-              href='https://github.com/polkadot-js/apps'>
+              href='https://github.com/polkadot-js/apps'
+            >
               <Icon name='github' /> GitHub
             </a>
           </Menu.Item>

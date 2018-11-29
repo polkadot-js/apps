@@ -186,7 +186,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
           defaultValue: 'total transaction amount (fees + value)'
         })}
         value={`${balanceFormat(txtotal)}`}
-    />
+      />
     ];
   }
 }

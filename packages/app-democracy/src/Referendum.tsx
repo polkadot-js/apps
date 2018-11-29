@@ -120,9 +120,11 @@ class Referendum extends React.PureComponent<Props, State> {
 
     return (
       <div className='democracy--Referendum-info'>
-        <Static label={t('referendum.endLabel', {
-          defaultValue: 'remaining time'
-        })}>
+        <Static
+          label={t('referendum.endLabel', {
+            defaultValue: 'remaining time'
+          })}
+        >
           {t('referendum.endInfo', {
             defaultValue: '{{remaining}} blocks remaining, ending at block #{{blockNumber}}',
             replace: {
@@ -153,18 +155,20 @@ class Referendum extends React.PureComponent<Props, State> {
 
     return (
       <div className='democracy--Referendum-results chart'>
-        <Chart.Doughnut values={[
-          {
-            colors: COLORS_YAY,
-            label: `${balanceFormat(votedYay)} (${numberFormat(voteCountYay)})`,
-            value: votedYay.muln(10000).div(votedTotal).toNumber() / 100
-          },
-          {
-            colors: COLORS_NAY,
-            label: `${balanceFormat(votedNay)} (${numberFormat(voteCountNay)})`,
-            value: votedNay.muln(10000).div(votedTotal).toNumber() / 100
-          }
-        ]} />
+        <Chart.Doughnut
+          values={[
+            {
+              colors: COLORS_YAY,
+              label: `${balanceFormat(votedYay)} (${numberFormat(voteCountYay)})`,
+              value: votedYay.muln(10000).div(votedTotal).toNumber() / 100
+            },
+            {
+              colors: COLORS_NAY,
+              label: `${balanceFormat(votedNay)} (${numberFormat(voteCountNay)})`,
+              value: votedNay.muln(10000).div(votedTotal).toNumber() / 100
+            }
+          ]}
+        />
       </div>
     );
   }

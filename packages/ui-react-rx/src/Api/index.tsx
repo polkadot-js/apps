@@ -166,17 +166,19 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     const { isApiConnected, isApiReady, api, apiMethods, apiObservable, apiSupport, chain, setApi, setApiProvider, setApiWsUrl } = this.state;
 
     return (
-      <ApiContext.Provider value={{
-        isApiConnected,
-        isApiReady: isApiReady && !!chain,
-        api,
-        apiMethods,
-        apiObservable,
-        apiSupport,
-        setApi,
-        setApiProvider,
-        setApiWsUrl
-      }}>
+      <ApiContext.Provider
+        value={{
+          isApiConnected,
+          isApiReady: isApiReady && !!chain,
+          api,
+          apiMethods,
+          apiObservable,
+          apiSupport,
+          setApi,
+          setApiProvider,
+          setApiWsUrl
+        }}
+      >
         {this.props.children}
       </ApiContext.Provider>
     );

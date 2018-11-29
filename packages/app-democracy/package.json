@@ -11,8 +11,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.1.5",
-    "@polkadot/keyring": "^0.33.2",
-    "@polkadot/storage": "^0.32.8",
+    "@polkadot/keyring": "^0.33.3",
+    "@polkadot/storage": "^0.32.9",
     "@polkadot/ui-react-rx": "^0.21.0"
   }
 }
