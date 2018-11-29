@@ -16,17 +16,17 @@ export type KeyringSectionOption = {
 
 export type KeyringSectionOptions = Array<KeyringSectionOption>;
 
-export type KeyringOptions  = {
+export type KeyringOptions = {
   account: KeyringSectionOptions,
   address: KeyringSectionOptions,
   all: KeyringSectionOptions,
   recent: KeyringSectionOptions,
   testing: KeyringSectionOptions
-}
+};
 
 export type KeyringOption$Type = keyof KeyringOptions;
 
 export interface KeyringOptionInstance {
-  createOptionHeader: (name: string) => KeyringSectionOption,
-  init: (keyring: KeyringStruct) => void
+  createOptionHeader: (name: string) => KeyringSectionOption;
+  init: (keyring: KeyringStruct) => void;
 }

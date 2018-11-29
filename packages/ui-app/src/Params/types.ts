@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef } from '@polkadot/types/codec';
-import { CodecTypes } from '@polkadot/types/types';
 import { BareProps } from '../types';
 
 // FIXME Ideally, we want these as Base from api-codec - as a stop-gap, any this until we have
@@ -16,8 +15,8 @@ export type RawParam$Values = RawParam$Value | RawParam$ValueArray;
 
 export type RawParam = {
   isValid: boolean,
-  value: RawParam$Values,
-}
+  value: RawParam$Values
+};
 
 export type RawParam$OnChange$Value = { isValid: boolean, value: RawParam$Values };
 export type RawParam$OnChange = (value: RawParam$OnChange$Value) => void;

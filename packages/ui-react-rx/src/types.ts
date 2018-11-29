@@ -2,11 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
-import { Observable } from 'rxjs';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface } from '@polkadot/rpc-rx/types';
-import { Header } from '@polkadot/types';
 
 import ApiObservable from '@polkadot/api-observable';
 
@@ -29,8 +26,8 @@ export type ApiProps = {
   setApiWsUrl: (url?: string) => void
 };
 
-type OnChangeCb$Obs<T> = { next: (value?: T) => any };
-type OnChangeCb$Fn<T> = (value?: T) => void;
+export type OnChangeCb$Obs<T> = { next: (value?: T) => any };
+export type OnChangeCb$Fn<T> = (value?: T) => void;
 
 export type OnChangeCb<T> = OnChangeCb$Obs<T> | OnChangeCb$Fn<T> | undefined;
 
@@ -46,7 +43,7 @@ export type RxProps<T> = {
   rxUpdated?: boolean;
   rxUpdatedAt?: number;
   value?: T;
-}
+};
 
 export type BaseProps<T> = BareProps & ApiProps & ChangeProps<T> & ParamProps & RxProps<T> & {
   children?: React.ReactNode,

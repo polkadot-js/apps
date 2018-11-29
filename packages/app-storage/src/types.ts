@@ -7,18 +7,18 @@ import { RawParams } from '@polkadot/ui-app/Params/types';
 
 type IdQuery = {
   id: number
-}
+};
 
 export type PartialModuleQuery = {
   key: StorageFunction,
   params: RawParams
-}
+};
 
 export type StorageModuleQuery = PartialModuleQuery & IdQuery;
 
 export type PartialRawQuery = {
   key: Uint8Array
-}
+};
 
 export type StorageRawQuery = PartialRawQuery & IdQuery;
 
