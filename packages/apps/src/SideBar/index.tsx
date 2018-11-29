@@ -17,7 +17,7 @@ import translate from '../translate';
 import Item from './Item';
 
 type Props = I18nProps & {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 };
 
 const LOGOS: Map<string | undefined, any> = new Map([
@@ -37,11 +37,7 @@ class SideBar extends React.PureComponent<Props> {
           secondary
           vertical
         >
-          <img
-            alt='polkadot'
-            className='apps--SideBar-logo'
-            src={LOGO}
-          />
+          <img alt='polkadot' className='apps--SideBar-logo' src={LOGO} />
           {
             routing.routes
               .filter((route) =>
