@@ -22,7 +22,7 @@ export default class EventDisplay extends React.PureComponent<Props> {
     const params = value.typeDef.map(({ type }) => ({
       type: getTypeDef(type)
     }));
-    const values = value.data.toArray().map((value) => ({
+    const values = value.data.map((value) => ({
       isValid: true,
       value
     }));

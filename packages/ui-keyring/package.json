@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.1.5",
-    "@polkadot/keyring": "^0.33.6",
+    "@polkadot/keyring": "^0.33.7",
     "store": "^2.0.12"
   }
 }
