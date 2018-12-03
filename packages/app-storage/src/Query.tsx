@@ -50,11 +50,11 @@ class Query extends React.PureComponent<Props, State> {
         : 'Data';
       const defaultProps = { className: 'ui--output' };
 
-      /* render function to create an element for the query results which is plugged to the api */
+      // render function to create an element for the query results which is plugged to the api
       const fetchAndRenderHelper = withObservableDiv('rawStorage', { params: [key, ...values] });
       const pluggedComponent = fetchAndRenderHelper(
         (value: any) => {
-          /* By default we render a simple div node component with the query results in it */
+          // By default we render a simple div node component with the query results in it
           return valueToText(type, value, true, true);
         },
         defaultProps
@@ -68,14 +68,14 @@ class Query extends React.PureComponent<Props, State> {
   static createComponentCacheInstance (type: string, pluggedComponent: React.ComponentType<any>, defaultProps: DefaultProps<any>, fetchAndRenderHelper: ComponentRenderer<any>) {
     return {
       component: pluggedComponent,
-      /* In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component */
+      // In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component
       render: (createComponent: RenderFn) => {
         return fetchAndRenderHelper(
           createComponent,
           defaultProps
         );
       },
-      /* In order to modify the parameters which are used to render the default component, we can use this method */
+      // In order to modify the parameters which are used to render the default component, we can use this method
       refresh: (swallowErrors: boolean, contentShorten: boolean) => {
         return fetchAndRenderHelper(
           (value: any) => valueToText(type, value, swallowErrors, contentShorten),
@@ -127,7 +127,7 @@ class Query extends React.PureComponent<Props, State> {
         >
           <Component />
         </Labelled>
-        <Labelled className='.storage--queryrow-button'>
+        <Labelled>
           {this.renderButtons()}
         </Labelled>
       </div>
