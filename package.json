@@ -12,12 +12,12 @@
   "resolutions": {
     "babel-core": "^7.0.0-bridge.0",
     "rxjs": "^6.3.2",
-    "typescript": "^3.1.6"
+    "typescript": "^3.2.1"
   },
   "scripts": {
     "analyze": "yarn run build && cd packages/apps && yarn run source-map-explorer build/main.*.js",
     "build": "polkadot-dev-build-ts",
-    "check": "tslint --project . && tsc --noEmit",
+    "check": "tslint --project . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "jest --coverage",
@@ -30,9 +30,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
-    "@polkadot/dev-react": "^0.22.5",
-    "@polkadot/ts": "^0.1.39",
-    "autoprefixer": "^9.1.5",
+    "@polkadot/dev-react": "^0.22.6",
+    "@polkadot/ts": "^0.1.40",
+    "autoprefixer": "^9.4.0",
     "empty": "^0.10.1",
     "gh-pages": "^2.0.1",
     "postcss": "^7.0.6",

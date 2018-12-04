@@ -33,3 +33,6 @@ export type ApiMethod = {
 };
 
 export type ComponentRenderer<T> = (render: RenderFn, defaultProps?: DefaultProps<T>) => React.ComponentType<any>;
+
+export type OmitProps<T, K> = Pick<T, Exclude<keyof T, K>>;
+export type SubtractProps<T, K> = OmitProps<T, keyof K>;

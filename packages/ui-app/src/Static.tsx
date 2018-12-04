@@ -11,9 +11,11 @@ import Labelled from './Labelled';
 type Props = BareProps & {
   children?: React.ReactNode,
   defaultValue?: any,
+  isDisabled?: boolean,
+  isError?: boolean,
   isHidden?: boolean,
-  label?: any, // node?
-  value?: any, // node?
+  label?: React.ReactNode,
+  value?: React.ReactNode,
   withLabel?: boolean
 };
 

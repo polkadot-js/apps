@@ -10,6 +10,7 @@ import InputFile from '../../InputFile';
 import Bare from './Bare';
 
 type Props = BareProps & {
+  defaultValue?: any,
   isDisabled?: boolean,
   isError?: boolean,
   label: string,
