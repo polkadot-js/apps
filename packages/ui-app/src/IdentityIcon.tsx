@@ -2,6 +2,26 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import IdentityIcon from '@polkadot/ui-identicon/index';
+import { IdentityProps } from '@polkadot/ui-identicon/types';
 
-export default IdentityIcon;
+import React from 'react';
+import BaseIdentityIcon from '@polkadot/ui-identicon/index';
+
+export default class IdentityIcon extends React.PureComponent<IdentityProps> {
+  render () {
+    return (
+      <BaseIdentityIcon
+        {...this.props}
+        onCopy={this.onCopy}
+      />
+    );
+  }
+
+  private onCopy = (address: string): void => {
+    const { onCopy } = this.props;
+
+    if (onCopy) {
+      onCopy(address);
+    }
+  }
+}

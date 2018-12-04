@@ -43,7 +43,6 @@ class Content extends React.Component<Props, State> {
   render () {
     const { isApiConnected, isApiReady, location, t } = this.props;
     const { status } = this.state;
-
     const app = location.pathname.slice(1) || '';
     const { Component, isApiGated, name } = routing.routes.find((route) =>
       !!(route && app.indexOf(route.name) === 0)
@@ -53,7 +52,7 @@ class Content extends React.Component<Props, State> {
       return (
         <div className='apps--Content-body'>
           <main>{t('content.gated', {
-            defaultValue: 'Waiting for API to be ready'
+            defaultValue: 'Waiting for API to be connected and ready.'
           })}</main>
         </div>
       );
@@ -61,7 +60,10 @@ class Content extends React.Component<Props, State> {
 
     return (
       <div className='apps--Content'>
-        <Component basePath={`/${name}`} onStatusChange={this.updateStatus} />
+        <Component
+          basePath={`/${name}`}
+          onStatusChange={this.updateStatus}
+        />
         <Status status={status} />
       </div>
     );
@@ -81,7 +83,8 @@ class Content extends React.Component<Props, State> {
 
 export default withMulti(
   Content,
+  // React-router needs to be first, otherwise we have blocked updates
+  withRouter,
   translate,
-  withApi,
-  withRouter
+  withApi
 );

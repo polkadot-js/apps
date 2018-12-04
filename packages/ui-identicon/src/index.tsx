@@ -3,7 +3,7 @@
 // of the APL2 license. See the LICENSE file for details.
 
 import { Prefix } from '@polkadot/keyring/address/types';
-import { BaseProps } from './types';
+import { IdentityProps as Props } from './types';
 
 import './IdentityIcon.css';
 
@@ -17,14 +17,6 @@ import { isHex, isU8a } from '@polkadot/util';
 import Empty from './Empty';
 import Polkadot from './Polkadot';
 import Substrate from './Substrate';
-
-type Props = BaseProps & {
-  isHighlight?: boolean,
-  prefix?: Prefix,
-  size?: number,
-  theme?: string,
-  value?: string | Uint8Array | null
-};
 
 type State = {
   address?: string | null
@@ -74,20 +66,39 @@ export default class IdentityIcon extends React.PureComponent<Props, State> {
     const Component = !address
       ? Empty
       : Components[theme] || Substrate;
+    const wrapped = (
+      <div
+        className={['ui--IdentityIcon', isHighlight ? 'highlight' : '', className].join(' ')}
+        key={address || ''}
+        style={style}
+      >
+        <Component
+          size={size}
+          value={address || ''}
+        />
+      </div>
+    );
+
+    if (!address) {
+      return wrapped;
+    }
 
     return (
-      <CopyToClipboard text={address || ''}>
-        <div
-          className={['ui--IdentityIcon', isHighlight ? 'highlight' : '', className].join(' ')}
-          key={address || ''}
-          style={style}
-        >
-          <Component
-            size={size}
-            value={address || ''}
-          />
-        </div>
+      <CopyToClipboard
+        onCopy={this.onCopy}
+        text={address}
+      >
+        {wrapped}
       </CopyToClipboard>
     );
+  }
+
+  private onCopy = (): void => {
+    const { onCopy } = this.props;
+    const { address } = this.state;
+
+    if (address && onCopy) {
+      onCopy(address);
+    }
   }
 }
