@@ -40,7 +40,7 @@ class Signer extends React.PureComponent<Props> {
             />,
             <Status
               key='signer-status'
-              queue={queue}
+              txqueue={queue}
             />
           ]}
         </QueueConsumer>

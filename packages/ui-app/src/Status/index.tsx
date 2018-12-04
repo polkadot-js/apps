@@ -15,16 +15,16 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   status?: ActionStatus,
-  queue?: Array<QueueTx>
+  txqueue?: Array<QueueTx>
 };
 
 class Status extends React.PureComponent<Props> {
   render () {
-    const { queue, status } = this.props;
+    const { txqueue, status } = this.props;
     let available;
 
-    if (queue) {
-      available = queue.filter(({ status }) =>
+    if (txqueue) {
+      available = txqueue.filter(({ status }) =>
         !['completed', 'incomplete'].includes(status)
       );
     }
@@ -37,8 +37,8 @@ class Status extends React.PureComponent<Props> {
       <div className='app--account-Status'>
         {
           available
-              ? available.map(this.renderItem)
-              : this.renderStatus(status)
+            ? available.map(this.renderItem)
+            : this.renderStatus(status)
         }
       </div>
     );
@@ -58,7 +58,7 @@ class Status extends React.PureComponent<Props> {
         <div className='desc'>
           <div className='header'>
             {
-            status.success
+              status.success
                 ? t('status.header', {
                   defaultValue: 'Success'
                 })

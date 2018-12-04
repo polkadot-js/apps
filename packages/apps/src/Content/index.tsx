@@ -61,7 +61,10 @@ class Content extends React.Component<Props, State> {
 
     return (
       <div className='apps--Content'>
-        <Component basePath={`/${name}`} onStatusChange={this.updateStatus} />
+        <Component
+          basePath={`/${name}`}
+          onStatusChange={this.updateStatus}
+        />
         <Status status={status} />
       </div>
     );

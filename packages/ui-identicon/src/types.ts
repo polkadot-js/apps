@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the APL2 license. See the LICENSE file for details.
 
+import { Prefix } from '@polkadot/keyring/address/types';
+
 export type BaseProps = {
   className?: string,
   style?: {
@@ -12,4 +14,13 @@ export type BaseProps = {
 export type Props = BaseProps & {
   size: number,
   value: string
+};
+
+export type IdentityProps = BaseProps & {
+  isHighlight?: boolean,
+  onCopy?: (value: string) => void,
+  prefix?: Prefix,
+  size?: number,
+  theme?: string,
+  value?: string | Uint8Array | null
 };
