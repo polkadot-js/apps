@@ -37,7 +37,7 @@ export default class Results extends React.PureComponent<Props> {
             value={
               error
                 ? error.message
-                : JSON.stringify(result)
+                : <pre>{JSON.stringify(result, null, 2)}</pre>
             }
           />
         ))}
