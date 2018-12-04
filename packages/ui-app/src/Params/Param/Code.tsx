@@ -12,19 +12,35 @@ import BytesFile from './File';
 export default class Code extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue, isDisabled, isError, label, style, withLabel } = this.props;
-    const Component = isDisabled
-      ? Bytes
-      : BytesFile;
+
+    if (isDisabled) {
+      return this.renderDisabled();
+    }
 
     return (
-      <Component
+      <BytesFile
         className={className}
         defaultValue={defaultValue}
-        isDisabled={isDisabled}
         isError={isError}
         label={label}
         onChange={this.onChange}
         style={style}
+        withLabel={withLabel}
+      />
+    );
+  }
+
+  private renderDisabled () {
+    const { className, defaultValue, isError, label, style, type, withLabel } = this.props;
+
+    return (
+      <Bytes
+        className={className}
+        defaultValue={defaultValue}
+        isError={isError}
+        label={label}
+        style={style}
+        type={type}
         withLabel={withLabel}
       />
     );

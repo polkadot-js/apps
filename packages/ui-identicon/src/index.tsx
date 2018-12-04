@@ -84,7 +84,7 @@ export default class IdentityIcon extends React.PureComponent<Props, State> {
         >
           <Component
             size={size}
-            value={address}
+            value={address || ''}
           />
         </div>
       </CopyToClipboard>

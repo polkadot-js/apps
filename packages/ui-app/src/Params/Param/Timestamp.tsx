@@ -11,23 +11,40 @@ import Static from '../../Static';
 
 export default class Code extends React.PureComponent<Props> {
   render () {
-    const { className, defaultValue, isDisabled, isError, label, style, withLabel } = this.props;
-    const Component = isDisabled
-      ? Static
-      : Amount;
+    const { className, defaultValue, isDisabled, isError, label, style, type, withLabel } = this.props;
+
+    if (isDisabled) {
+      return this.renderDisabled();
+    }
 
     return (
-      <Component
+      <Amount
         className={className}
-        defaultValue={
-          isDisabled
-            ? ((defaultValue && defaultValue.value) ? defaultValue.value.toString() : '')
-            : defaultValue
-        }
+        defaultValue={defaultValue}
         isDisabled={isDisabled}
         isError={isError}
         label={label}
         onChange={this.onChange}
+        style={style}
+        type={type}
+        withLabel={withLabel}
+      />
+    );
+  }
+
+  private renderDisabled () {
+    const { className, defaultValue, isError, label, style, withLabel } = this.props;
+
+    return (
+      <Static
+        className={className}
+        defaultValue={
+          (defaultValue && defaultValue.value)
+            ? defaultValue.value.toString()
+            : ''
+        }
+        isError={isError}
+        label={label}
         style={style}
         withLabel={withLabel}
       />
