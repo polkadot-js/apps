@@ -9,9 +9,8 @@ import './IdentityIcon.css';
 
 import React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
-// FIXME Pulling in from ui-app is not preferrable, we would rather init when set
-import settings from '@polkadot/ui-app/settings';
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
+import settings from '@polkadot/ui-settings/index';
 import { isHex, isU8a } from '@polkadot/util';
 
 import Empty from './Empty';

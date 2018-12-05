@@ -28,6 +28,7 @@ const packages = [
   'ui-identicon',
   'ui-keyring',
   'ui-react-rx',
+  'ui-settings',
   'ui-signer'
 ];
 

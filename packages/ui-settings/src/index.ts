@@ -1,17 +1,11 @@
-// Copyright 2017-2018 @polkadot/ui-app authors & contributors
+// Copyright 2017-2018 @polkadot/ui-settings authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import store from 'store';
 
-import { ChainsInfo, Options, CHAINS, ENDPOINTS, LANGUAGES, UIMODES, UITHEMES } from './settingsDefaults';
-
-export interface SettingsStruct {
-  apiUrl: string;
-  i18nLang: string;
-  uiMode: string;
-  uiTheme: string;
-}
+import { CHAINS, ENDPOINTS, LANGUAGES, UIMODES, UITHEMES } from './defaults';
+import { ChainsInfo, Options, SettingsStruct } from './types';
 
 class Settings implements SettingsStruct {
   private _apiUrl: string;

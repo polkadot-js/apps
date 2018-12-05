@@ -20,7 +20,7 @@ import keyringOption from './options';
 
 // No accounts (or test accounts) should be loaded until after the chain determination.
 // Chain determination occurs outside of Keyring. Loading `keyring.loadAll()` is triggered
-// from the API after the chain is received in ui-react-rx/src/Api/index.tsx.
+// from the API after the chain is received
 class Keyring implements KeyringStruct {
   private _accounts: AccountSubject;
   private _addresses: AddressSubject;

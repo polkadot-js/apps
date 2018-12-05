@@ -11,9 +11,9 @@ import Api from '@polkadot/api-observable';
 import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import RxApi from '@polkadot/rpc-rx';
-import settings from '@polkadot/ui-app/settings';
 import keyring from '@polkadot/ui-keyring/index';
 import { isTestChain } from '@polkadot/ui-react-rx/util/index';
+import settings from '@polkadot/ui-settings/index';
 import { Header, Method } from '@polkadot/types';
 
 import { balanceFormat } from '../util/index';

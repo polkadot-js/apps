@@ -20,6 +20,7 @@
       "@polkadot/ui-identicon/*": [ "packages/ui-identicon/src/*" ],
       "@polkadot/ui-keyring/*": [ "packages/ui-keyring/src/*" ],
       "@polkadot/ui-react-rx/*": [ "packages/ui-react-rx/src/*" ],
+      "@polkadot/ui-settings/*": [ "packages/ui-settings/src/*" ],
       "@polkadot/ui-signer/*": [ "packages/ui-signer/src/*" ]
     },
     "typeRoots": [
