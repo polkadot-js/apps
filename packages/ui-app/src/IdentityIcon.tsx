@@ -5,7 +5,7 @@
 import { IdentityProps } from '@polkadot/ui-identicon/types';
 
 import React from 'react';
-import BaseIdentityIcon from '@polkadot/ui-identicon/index';
+import BaseIdentityIcon from '@polkadot/ui-identicon';
 
 export default class IdentityIcon extends React.PureComponent<IdentityProps> {
   render () {

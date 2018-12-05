@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.1.5",
-    "@polkadot/types": "^0.32.21",
+    "@polkadot/types": "^0.32.24",
     "@polkadot/ui-app": "^0.21.0",
     "@polkadot/ui-signer": "^0.21.0"
   }

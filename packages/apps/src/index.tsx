@@ -8,9 +8,9 @@ import './index.css';
 
 import React from 'react';
 import createApp from '@polkadot/ui-app/index';
-import settings from '@polkadot/ui-app/settings';
 import Signer from '@polkadot/ui-signer/index';
 import classes from '@polkadot/ui-app/util/classes';
+import settings from '@polkadot/ui-settings';
 
 import Connecting from './Connecting';
 import Content from './Content';
