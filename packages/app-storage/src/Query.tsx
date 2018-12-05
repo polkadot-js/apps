@@ -14,7 +14,6 @@ import { withObservableDiv } from '@polkadot/ui-react-rx/with/index';
 import { isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import translate from './translate';
-import { ReactNodeArray } from 'prop-types';
 import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/ui-react-rx/with/types';
 
 type Props = I18nProps & {
@@ -30,7 +29,7 @@ type State = {
 };
 
 type CacheInstance = {
-  component: React.ComponentType<any>,
+  Component: React.ComponentType<any>,
   render: RenderFn,
   refresh: (swallowErrors: boolean, contentShorten: boolean) => React.ComponentType<any>
 };
@@ -67,7 +66,7 @@ class Query extends React.PureComponent<Props, State> {
 
   static createComponentCacheInstance (type: string, pluggedComponent: React.ComponentType<any>, defaultProps: DefaultProps<any>, fetchAndRenderHelper: ComponentRenderer<any>) {
     return {
-      component: pluggedComponent,
+      Component: pluggedComponent,
       // In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component
       render: (createComponent: RenderFn) => {
         return fetchAndRenderHelper(
@@ -86,7 +85,7 @@ class Query extends React.PureComponent<Props, State> {
   }
 
   static getDerivedStateFromProps ({ value }: Props, prevState: State): State | null {
-    const Component = Query.getCachedComponent(value).component;
+    const Component = Query.getCachedComponent(value).Component;
     const inputs = isU8a(value.key)
       ? []
       // FIXME We need to render the actual key params
@@ -137,7 +136,7 @@ class Query extends React.PureComponent<Props, State> {
   private renderButtons () {
     const { id, key } = this.props.value as StorageModuleQuery;
 
-    const buttons = [] as ReactNodeArray;
+    const buttons = [] as Array<React.ReactNode>;
     const closeButton =
       <Button
         icon='close'
@@ -194,10 +193,10 @@ class Query extends React.PureComponent<Props, State> {
   }
 
   private refreshCachedComponent (id: number, swallowErrors: boolean, contentShorten: boolean) {
-    cache[id].component = cache[id].refresh(swallowErrors, contentShorten);
+    cache[id].Component = cache[id].refresh(swallowErrors, contentShorten);
     this.setState({
       ...this.state,
-      Component: cache[id].component
+      Component: cache[id].Component
     });
   }
 
