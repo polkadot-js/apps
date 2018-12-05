@@ -154,9 +154,9 @@ function valueToText (type: string, value: any, swallowError: boolean = true, co
     : div(
       {},
       ['Bytes', 'Data'].includes(type)
-        ? u8aToHex(value.toU8a(true), contentShorten ? 512 : value.length)
+        ? u8aToHex(value.toU8a(true), contentShorten ? 512 : -1)
         : value.toString()
-    );
+    )
 }
 
 export default valueToText;
