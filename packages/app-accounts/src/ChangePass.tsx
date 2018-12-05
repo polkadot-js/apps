@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { AddressSummary, Button, Modal, Password } from '@polkadot/ui-app/index';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
-import keyring from '@polkadot/ui-keyring/index';
+import keyring from '@polkadot/ui-keyring';
 
 import translate from './translate';
 

@@ -10,7 +10,7 @@ import React from 'react';
 import createApp from '@polkadot/ui-app/index';
 import Signer from '@polkadot/ui-signer/index';
 import classes from '@polkadot/ui-app/util/classes';
-import settings from '@polkadot/ui-settings/index';
+import settings from '@polkadot/ui-settings';
 
 import Connecting from './Connecting';
 import Content from './Content';

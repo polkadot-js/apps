@@ -10,7 +10,7 @@ import { QueueTx, QueueTx$Id, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$
 import React from 'react';
 import { decodeAddress } from '@polkadot/keyring';
 import { Button, Modal } from '@polkadot/ui-app/index';
-import keyring from '@polkadot/ui-keyring/index';
+import keyring from '@polkadot/ui-keyring';
 import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { format } from '@polkadot/util/logger';
 import { Extrinsic } from '@polkadot/types';

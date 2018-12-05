@@ -8,7 +8,7 @@ import './SideBar.css';
 
 import React from 'react';
 import { Icon, Menu } from '@polkadot/ui-app/index';
-import settings from '@polkadot/ui-settings/index';
+import settings from '@polkadot/ui-settings';
 
 import polkadotLogo from '../static/polkadot-white.svg';
 import substrateLogo from '../static/parity-substrate-white.svg';

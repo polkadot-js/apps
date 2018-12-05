@@ -13,7 +13,7 @@ import { Chart, Static } from '@polkadot/ui-app/index';
 import VoteThreshold from '@polkadot/ui-app/Params/Param/VoteThreshold';
 import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 import { balanceFormat, numberFormat } from '@polkadot/ui-react-rx/util/index';
-import settings from '@polkadot/ui-settings/index';
+import settings from '@polkadot/ui-settings';
 
 import Item from './Item';
 import Voting from './Voting';

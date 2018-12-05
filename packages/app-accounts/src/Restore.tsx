@@ -10,7 +10,7 @@ import { AddressSummary, Button, InputFile, Password } from '@polkadot/ui-app/in
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import { decodeAddress } from '@polkadot/keyring';
 import { isHex, isObject, u8aToString } from '@polkadot/util';
-import keyring from '@polkadot/ui-keyring/index';
+import keyring from '@polkadot/ui-keyring';
 
 import translate from './translate';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';

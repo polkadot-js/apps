@@ -9,7 +9,7 @@ import './Connecting.css';
 
 import React from 'react';
 import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
-import settings from '@polkadot/ui-settings/index';
+import settings from '@polkadot/ui-settings';
 
 import translate from '../translate';
 

@@ -8,7 +8,7 @@ import { RxBalanceMap } from '@polkadot/api-observable/types';
 import { AccountId, Balance } from '@polkadot/types';
 
 import React from 'react';
-import keyring from '@polkadot/ui-keyring/index';
+import keyring from '@polkadot/ui-keyring';
 import { QueueConsumer } from '@polkadot/ui-signer/Context';
 
 import Account from './Account';

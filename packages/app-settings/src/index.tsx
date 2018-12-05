@@ -8,7 +8,7 @@ import { SettingsStruct } from '@polkadot/ui-settings/types';
 import React from 'react';
 import { Button, Dropdown } from '@polkadot/ui-app/index';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
-import settings from '@polkadot/ui-settings/index';
+import settings from '@polkadot/ui-settings';
 
 import './index.css';
 

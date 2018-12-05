@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '@polkadot/ui-settings/index';
+import '@polkadot/ui-settings';
 import './i18n';
 import './styles';
 

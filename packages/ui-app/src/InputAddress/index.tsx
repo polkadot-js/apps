@@ -9,7 +9,7 @@ import './InputAddress.css';
 
 import React from 'react';
 import store from 'store';
-import keyring from '@polkadot/ui-keyring/index';
+import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
 import makeOption from '@polkadot/ui-keyring/options/item';
 import { withMulti, withObservableBase } from '@polkadot/ui-react-rx/with/index';
