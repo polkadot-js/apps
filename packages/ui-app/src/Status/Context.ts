@@ -1,13 +1,14 @@
-// Copyright 2017-2018 @polkadot/ui-react-rx authors & contributors
+// Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { QueueProps, QueueTx } from './types';
+import { QueueProps, QueueStatus, QueueTx } from './types';
 
 import React from 'react';
 
 const defaultState = {
-  queue: [] as Array<QueueTx>
+  stqueue: [] as Array<QueueStatus>,
+  txqueue: [] as Array<QueueTx>
 } as QueueProps;
 
 const Context: React.Context<QueueProps> = React.createContext<QueueProps>(defaultState);

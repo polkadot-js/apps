@@ -4,7 +4,7 @@
 
 import { BitLength, I18nProps } from '@polkadot/ui-app/types';
 import { RxFees } from '@polkadot/api-observable/types';
-import { QueueProps } from '@polkadot/ui-signer/types';
+import { QueueProps } from '@polkadot/ui-app/Status/types';
 import { Fees } from './types';
 
 import BN from 'bn.js';
@@ -15,7 +15,7 @@ import { Extrinsic } from '@polkadot/types';
 import { BitLengthOption } from '@polkadot/ui-app/constants';
 import { AddressSummary, InputAddress, InputNumber } from '@polkadot/ui-app/index';
 import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
-import { QueueConsumer } from '@polkadot/ui-signer/Context';
+import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
 import FeeDisplay from './Fees';
 import Submit from './Submit';

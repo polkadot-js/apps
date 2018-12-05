@@ -3,19 +3,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
-import { QueueProps } from './types';
+import { QueueProps } from '@polkadot/ui-app/Status/types';
 
 import './index.css';
 
 import React from 'react';
+import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
+import Queue, { Props as QueueComponentProps } from '@polkadot/ui-app/Status/Queue';
 
-import { QueueConsumer } from './Context';
 import Modal from './Modal';
-import Queue, { Props as QueueComponentProps } from './Queue';
-import Status from '@polkadot/ui-app/Status';
 
 type Props = BareProps & {
-  children: any // node?
+  children: React.ReactNode
 };
 
 export type SignerType = React.ComponentType<Props> & {
@@ -23,32 +22,34 @@ export type SignerType = React.ComponentType<Props> & {
 };
 
 class Signer extends React.PureComponent<Props> {
+  static Queue = Queue;
+
   render () {
-    const { children, className, style } = this.props;
+    const { children } = this.props;
 
     return (
       <Queue>
         {children}
         <QueueConsumer>
-          {({ queue, queueSetStatus }: QueueProps) => [
-            <Modal
-              className={className}
-              key='signer-modal'
-              queue={queue}
-              queueSetStatus={queueSetStatus}
-              style={style}
-            />,
-            <Status
-              key='signer-status'
-              txqueue={queue}
-            />
-          ]}
+          {this.handleQueueProps}
         </QueueConsumer>
       </Queue>
     );
   }
-}
 
-(Signer as SignerType).Queue = Queue;
+  private handleQueueProps = ({ txqueue, queueSetTxStatus }: QueueProps) => {
+    const { className, style } = this.props;
+
+    return (
+      <Modal
+        className={className}
+        key='signer-modal'
+        queue={txqueue}
+        queueSetTxStatus={queueSetTxStatus}
+        style={style}
+      />
+    );
+  }
+}
 
 export default (Signer as SignerType);

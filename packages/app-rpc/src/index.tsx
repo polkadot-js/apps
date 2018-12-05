@@ -3,13 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
-import { QueueProps } from '@polkadot/ui-signer/types';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import { ActionStatus, QueueProps } from '@polkadot/ui-app/Status/types';
 
 import './index.css';
 
 import React from 'react';
-import { QueueConsumer } from '@polkadot/ui-signer/Context';
+import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
 import Results from './Results';
 import Selection from './Selection';
@@ -24,14 +23,14 @@ export default class RpcApp extends React.PureComponent<Props> {
     return (
       <main className='rpc--App'>
         <QueueConsumer>
-          {({ queue, queueRpc }: QueueProps) => [
+          {({ txqueue, queueRpc }: QueueProps) => [
             <Selection
               key='add'
               queueRpc={queueRpc}
             />,
             <Results
               key='results'
-              queue={queue}
+              queue={txqueue}
             />
           ]}
         </QueueConsumer>

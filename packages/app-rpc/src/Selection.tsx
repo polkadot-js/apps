@@ -5,7 +5,7 @@
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { RawParam } from '@polkadot/ui-app/Params/types';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTx$RpcAdd } from '@polkadot/ui-signer/types';
+import { QueueTx$RpcAdd } from '@polkadot/ui-app/Status/types';
 
 import './index.css';
 

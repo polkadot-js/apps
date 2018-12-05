@@ -125,7 +125,7 @@ class Backup extends React.PureComponent<Props, State> {
       const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
 
       status.value = pair.address();
-      status.success = !!(blob);
+      status.isSuccess = !!(blob);
       status.message = t('status.backup', {
         defaultValue: 'Backed Up'
       });
@@ -135,7 +135,7 @@ class Backup extends React.PureComponent<Props, State> {
       this.setState({ isPassValid: false });
       console.error(error);
 
-      status.success = false;
+      status.isSuccess = false;
       status.message = t('status.error', {
         defaultValue: error.message
       });

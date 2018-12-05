@@ -142,14 +142,14 @@ class ChangePass extends React.PureComponent<Props, State> {
       keyring.encryptAccount(account, newPass);
 
       status.value = account.address();
-      status.success = true;
+      status.isSuccess = true;
       status.message = t('status.change-password', {
         defaultValue: 'Password Changed'
       });
     } catch (error) {
       this.setState({ isNewValid: false });
 
-      status.success = false;
+      status.isSuccess = false;
       status.message = error.message;
 
       return;
