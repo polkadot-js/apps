@@ -8,7 +8,7 @@ import { RxBalanceMap } from '@polkadot/api-observable/types';
 import React from 'react';
 import { AccountId, Balance } from '@polkadot/types';
 import { AddressMini, AddressRow } from '@polkadot/ui-app/index';
-import keyring from '@polkadot/ui-keyring/index';
+import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
 

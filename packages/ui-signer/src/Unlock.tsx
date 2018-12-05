@@ -7,7 +7,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 
 import React from 'react';
 import { Password } from '@polkadot/ui-app/index';
-import keyring from '@polkadot/ui-keyring/index';
+import keyring from '@polkadot/ui-keyring';
 
 import translate from './translate';
 

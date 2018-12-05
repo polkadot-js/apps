@@ -2,7 +2,7 @@
 ![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)
 [![style](https://img.shields.io/badge/code%20style-semistandard-lightgrey.svg?style=flat-square)](https://github.com/Flet/semistandard)
 [![npm](https://img.shields.io/npm/v/@polkadot/apps.svg?style=flat-square)](https://www.npmjs.com/package/@polkadot/apps)
-[![travis](https://img.shields.io/travis/polkadot-js/apps.svg?style=flat-square)](https://travis-ci.org/polkadot-js/apps)
+[![travis](https://img.shields.io/travis/polkadot-js/apps.svg?style=flat-square)](https://travis-ci.com/polkadot-js/apps)
 [![greenkeeper](https://img.shields.io/badge/greenkeeper-enabled-brightgreen.svg?style=flat-square)](https://greenkeeper.io/)
 [![dependency](https://img.shields.io/david/polkadot-js/apps.svg?style=flat-square)](https://david-dm.org/polkadot-js/apps)
 [![devDependency](https://img.shields.io/david/dev/polkadot-js/apps.svg?style=flat-square)](https://david-dm.org/polkadot-js/apps#info=devDependencies)
@@ -36,9 +36,7 @@ The repo is split into a number of packages, each representing an application. T
 In addition the following libraries are also included in the repo. These are to be moved to the [@polkadot/ui](https://github.com/polkadot-js/ui/) repository once it reaches a base level of stability and usability. (At this point with the framework being tested on the apps above, it makes development easier having it close)
 
 - [ui-app](packages/ui-app/) A reactive (using RxJS) application framework with a number of useful shared components.
-- [ui-keyring](packages/ui-keyring/) A browser-specific wrapper around the base [@polkadot/util-keyring](https://github.com/polkadot-js/util/) library.
 - [ui-signer](packages/ui-signer/) Signer implementation for apps.
-- [ui-identicon](packages/ui-identicon/) Identity icon generator with raw publicKey as input
 - [ui-react-rx](packages/ui-react-rx) Base components that use the RxJS Observable APIs
 
 ## development
@@ -63,20 +61,12 @@ There are additional environment UI flags that change both the theme and mode -
 - Running with `UI_MODE=light|full` switches from a full (the default) to a light mode interface that only has specific applications highlighted.
 - Running with `UI_THEME=substrate|polkadot` switches from a Polkadot theme (the default) to a Substrate-branded UI
 
-## demos
-
-Demos for the different libraries can be viewed with `yarn run demo:<name>` and then browsing to [http://localhost:3000](http://localhost:3000). Available demo -
-
-- `yarn run demo:identicon`
-- `yarn run demo:ui`
-- `yarn run demo:rx`
-
 ## Docker
 
-### Run
+You can run a docker container via -
 
   docker run --rm -it --name polkadot-ui -p 80:80 chevdor/polkadot-ui:latest
 
-### Build
+To build a docker container containing local changes -
 
   docker build -t chevdor/polkadot-ui:latest .

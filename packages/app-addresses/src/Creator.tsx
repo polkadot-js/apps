@@ -9,7 +9,7 @@ import React from 'react';
 import { AddressSummary, Button, Input } from '@polkadot/ui-app/index';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
-import keyring from '@polkadot/ui-keyring/index';
+import keyring from '@polkadot/ui-keyring';
 
 import translate from './translate';
 

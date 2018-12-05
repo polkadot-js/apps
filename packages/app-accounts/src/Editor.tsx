@@ -9,7 +9,7 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React from 'react';
 import { AddressSummary, Button, Input, InputAddress } from '@polkadot/ui-app/index';
-import keyring from '@polkadot/ui-keyring/index';
+import keyring from '@polkadot/ui-keyring';
 
 import Backup from './Backup';
 import ChangePass from './ChangePass';

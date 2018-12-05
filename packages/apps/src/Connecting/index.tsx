@@ -8,8 +8,8 @@ import { ApiProps } from '@polkadot/ui-react-rx/types';
 import './Connecting.css';
 
 import React from 'react';
-import settings from '@polkadot/ui-app/settings';
 import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
+import settings from '@polkadot/ui-settings';
 
 import translate from '../translate';
 

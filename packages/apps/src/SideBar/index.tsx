@@ -7,8 +7,8 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import './SideBar.css';
 
 import React from 'react';
-import settings from '@polkadot/ui-app/settings';
 import { Icon, Menu } from '@polkadot/ui-app/index';
+import settings from '@polkadot/ui-settings';
 
 import polkadotLogo from '../static/polkadot-white.svg';
 import substrateLogo from '../static/parity-substrate-white.svg';
