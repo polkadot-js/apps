@@ -32,18 +32,28 @@
 .storage--actionrow-value {
   flex: 1;
   min-width: 0;
+
+  .ui--output {
+    word-break: break-all;
+  }
 }
 
-.storage--actionrow-value .ui--output {
-  word-break: break-all;
-}
-
-.storage--actionrow-button {
+.storage--actionrow-buttons {
   flex: 0;
   padding: 0 0.25rem;
 }
 
-.storage--Queries .storage--actionrow-button .ui.label {
-  font-size: 1rem;
-  line-height: 1.714rem;
+.storage--Queries .storage--actionrow-buttons {
+  flex: 0;
+  padding: 0 0.25rem;
+
+  .container {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .ui.label {
+    font-size: 1rem;
+    line-height: 1.714rem;
+  }
 }

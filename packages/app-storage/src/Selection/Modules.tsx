@@ -62,7 +62,7 @@ class Modules extends React.PureComponent<Props, State> {
             params={params}
           />
         </div>
-        <Labelled className='storage--actionrow-button'>
+        <Labelled className='storage--actionrow-buttons'>
           <Button
             icon='plus'
             isDisabled={!isValid}
