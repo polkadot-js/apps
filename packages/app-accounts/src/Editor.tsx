@@ -258,10 +258,10 @@ class Editor extends React.PureComponent<Props, State> {
       return;
     }
 
-    const status: ActionStatus = {
+    const status = {
       action: 'edit',
       value: current.address()
-    };
+    } as ActionStatus;
 
     try {
       keyring.saveAccountMeta(current, {
@@ -269,12 +269,12 @@ class Editor extends React.PureComponent<Props, State> {
         whenEdited: Date.now()
       });
 
-      status.isSuccess = !!(current.getMeta().name === editedName);
+      status.status = current.getMeta().name === editedName ? 'success' : 'error';
       status.message = t('status.editted', {
-        defaultValue: `Edited to: ${editedName}`
+        defaultValue: 'Name Edited'
       });
     } catch (error) {
-      status.isSuccess = false;
+      status.status = 'error';
       status.message = error.message;
     }
 
@@ -339,21 +339,21 @@ class Editor extends React.PureComponent<Props, State> {
     this.setState(
       this.createState(null),
       () => {
-        const status: ActionStatus = {
+        const status = {
           action: 'forget',
           value: current.address()
-        };
+        } as ActionStatus;
 
         try {
           keyring.forgetAccount(
             current.address()
           );
-          status.isSuccess = true;
+          status.status = 'success';
           status.message = t('status.forgotten', {
             defaultValue: 'Forgotten'
           });
         } catch (err) {
-          status.isSuccess = false;
+          status.status = 'error';
           status.message = err.message;
         }
 

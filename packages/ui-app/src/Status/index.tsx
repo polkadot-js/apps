@@ -38,27 +38,17 @@ class Status extends React.PureComponent<Props> {
   }
 
   private renderStatus = (status?: QueueStatus) => {
-    const { t } = this.props;
-
     if (!status) {
       return null;
     }
 
     return (
-      <div className={classes('item', status.isSuccess ? 'success' : 'error')}>
+      <div className={classes('item', status.status)}>
         <div className='wrapper'>
           <div className='container'>
             <div className='desc'>
               <div className='header'>
-                {
-                  status.isSuccess
-                    ? t('status.header', {
-                      defaultValue: 'Success'
-                    })
-                    : t('status.header', {
-                      defaultValue: 'Failed'
-                    })
-                }
+                {status.action}
               </div>
               <AddressMini value={status.value} />
               <div className='status'>
@@ -116,9 +106,9 @@ class Status extends React.PureComponent<Props> {
   }
 
   private iconName = (status: QueueStatus) => {
-    return status.isSuccess
-      ? 'check'
-      : 'ban';
+    return status.status === 'error'
+      ? 'ban'
+      : 'check';
   }
 
   private signerIconName = (status: QueueTx$Status) => {

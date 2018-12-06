@@ -356,9 +356,9 @@ class Creator extends React.PureComponent<Props, State> {
     const { onCreateAccount, onStatusChange, t } = this.props;
     const { name, password, seed, seedType } = this.state;
 
-    const status: ActionStatus = {
+    const status = {
       action: 'create'
-    };
+    } as ActionStatus;
 
     try {
       const pair = seedType === 'bip'
@@ -371,14 +371,14 @@ class Creator extends React.PureComponent<Props, State> {
       FileSaver.saveAs(blob, `${pair.address()}.json`);
 
       status.value = pair.address();
-      status.isSuccess = !!(pair);
+      status.status = pair ? 'success' : 'error';
       status.message = t('status.created', {
         defaultValue: `Created Account`
       });
 
       InputAddress.setLastValue('account', pair.address());
     } catch (err) {
-      status.isSuccess = false;
+      status.status = 'error';
       status.message = err.message;
     }
 

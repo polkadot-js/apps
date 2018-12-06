@@ -68,6 +68,7 @@ class Vector extends React.PureComponent<Props, State> {
           <Component
             defaultValue={value}
             isDisabled={isDisabled}
+            key={index}
             label={`${index}: ${subType.type}`}
             onChange={this.onChange(index)}
             type={subType}
@@ -90,7 +91,6 @@ class Vector extends React.PureComponent<Props, State> {
     return (
       <div className='ui--Param-Vector-buttons'>
         <Button
-          icon='plus'
           isPrimary
           onClick={this.rowAdd}
           text={t('vector.add', {
@@ -98,7 +98,6 @@ class Vector extends React.PureComponent<Props, State> {
           })}
         />
         <Button
-          icon='minus'
           isDisabled={values.length === 1}
           isNegative
           onClick={this.rowRemove}
