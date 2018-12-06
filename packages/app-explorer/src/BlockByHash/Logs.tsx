@@ -77,7 +77,9 @@ class Logs extends React.PureComponent<Props> {
             </h3>
             <div className='description' />
           </div>
-          {content}
+          <div className='ui dropdown selection disabled value'>
+            {content}
+          </div>
         </article>
       </div>
     );
