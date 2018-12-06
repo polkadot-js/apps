@@ -37,22 +37,19 @@ class Status extends React.PureComponent<Props> {
     prevEventHash = eventHash;
 
     const addresses = optionsAll.account.map((account) => account.value);
-    systemEvents
-      .filter(({ event }) =>
-        event.section === 'balances' &&
-        event.method === 'Transfer' &&
-        addresses.includes(event.data[1].toString())
-      )
-      .forEach(({ event }) => {
+
+    systemEvents.forEach(({ event: { data, method, section } }) => {
+      if (section === 'balances' && method === 'Transfer' && addresses.includes(data.toString())) {
         queueAction({
-          action: event.method,
+          action: method,
           status: 'queued',
-          value: event.data[1].toString(),
+          value: data[1].toString(),
           message: t('transfer.received', {
             defaultValue: 'transfer received'
           })
         });
-      });
+      }
+    });
   }
 
   render () {
@@ -66,6 +63,7 @@ class Status extends React.PureComponent<Props> {
     );
   }
 }
+
 export default withMulti(
   Status,
   translate,
