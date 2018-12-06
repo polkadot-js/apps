@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTx$ExtrinsicAdd, QueueTx$Unclog } from '@polkadot/ui-signer/types';
+import { QueueTx$ExtrinsicAdd, QueueTx$Unclog } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import Api from '@polkadot/api-observable';

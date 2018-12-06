@@ -203,12 +203,12 @@ class Editor extends React.PureComponent<Props, State> {
         whenEdited: Date.now()
       });
 
-      status.success = !!(current.getMeta().name === editedName);
+      status.isSuccess = !!(current.getMeta().name === editedName);
       status.message = t('status.editted', {
         defaultValue: `Edited to: ${editedName}`
       });
     } catch (e) {
-      status.success = false;
+      status.isSuccess = false;
       status.message = t('status.error', {
         defaultValue: e.message
       });
@@ -257,12 +257,12 @@ class Editor extends React.PureComponent<Props, State> {
           keyring.forgetAddress(
             current.address()
           );
-          status.success = true;
+          status.isSuccess = true;
           status.message = t('status.forgotten', {
             defaultValue: 'Forgotten'
           });
         } catch (err) {
-          status.success = false;
+          status.isSuccess = false;
           status.message = t('status.error', {
             defaultValue: err.message
           });

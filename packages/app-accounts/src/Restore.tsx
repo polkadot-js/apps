@@ -151,7 +151,7 @@ class Restore extends React.PureComponent<Props, State> {
     try {
       const pair = keyring.restoreAccount(json, password);
 
-      status.success = !!(pair);
+      status.isSuccess = !!(pair);
       status.value = pair.address();
       status.message = t('status.restored', {
         defaultValue: 'Restored'
@@ -162,7 +162,7 @@ class Restore extends React.PureComponent<Props, State> {
     } catch (error) {
       this.setState({ isPassValid: false });
 
-      status.success = false;
+      status.isSuccess = false;
       status.message = error.message;
       console.error(error);
     }

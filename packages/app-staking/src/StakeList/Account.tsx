@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/types';
+import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 import { RxBalanceMap } from '@polkadot/api-observable/types';
 
 import BN from 'bn.js';

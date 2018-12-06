@@ -24,8 +24,9 @@ type Props = I18nProps & {
 type ComponentProps = {};
 
 type State = {
-  inputs: Array<any>, // node?
-  Component: React.ComponentType<ComponentProps>
+  inputs: Array<React.ReactNode>,
+  Component: React.ComponentType<ComponentProps>,
+  spread: { [index: number]: boolean }
 };
 
 type CacheInstance = {
@@ -37,7 +38,7 @@ type CacheInstance = {
 const cache: Array<CacheInstance> = [];
 
 class Query extends React.PureComponent<Props, State> {
-  state: State = {} as State;
+  state: State = { spread: {} } as State;
 
   static getCachedComponent (query: QueryTypes): CacheInstance {
     const { id, key, params = [] } = query as StorageModuleQuery;
@@ -52,10 +53,8 @@ class Query extends React.PureComponent<Props, State> {
       // render function to create an element for the query results which is plugged to the api
       const fetchAndRenderHelper = withObservableDiv('rawStorage', { params: [key, ...values] });
       const pluggedComponent = fetchAndRenderHelper(
-        (value: any) => {
-          // By default we render a simple div node component with the query results in it
-          return valueToText(type, value, true, true);
-        },
+        // By default we render a simple div node component with the query results in it
+        (value: any) => valueToText(type, value, true, true),
         defaultProps
       );
       cache[query.id] = Query.createComponentCacheInstance(type, pluggedComponent, defaultProps, fetchAndRenderHelper);
@@ -86,7 +85,7 @@ class Query extends React.PureComponent<Props, State> {
 
   static getDerivedStateFromProps ({ value }: Props, prevState: State): State | null {
     const Component = Query.getCachedComponent(value).Component;
-    const inputs = isU8a(value.key)
+    const inputs: Array<React.ReactNode> = isU8a(value.key)
       ? []
       // FIXME We need to render the actual key params
       // const { key, params } = value;
@@ -100,7 +99,7 @@ class Query extends React.PureComponent<Props, State> {
     return {
       Component,
       inputs
-    };
+    } as State;
   }
 
   render () {
@@ -126,8 +125,10 @@ class Query extends React.PureComponent<Props, State> {
         >
           <Component />
         </Labelled>
-        <Labelled>
-          {this.renderButtons()}
+        <Labelled className='storage--actionrow-buttons'>
+          <div className='container'>
+            {this.renderButtons()}
+          </div>
         </Labelled>
       </div>
     );
@@ -136,31 +137,31 @@ class Query extends React.PureComponent<Props, State> {
   private renderButtons () {
     const { id, key } = this.props.value as StorageModuleQuery;
 
-    const buttons = [] as Array<React.ReactNode>;
-    const closeButton =
+    const buttons = [
       <Button
         icon='close'
         isNegative
         onClick={this.onRemove}
-      />;
-    const spreadButton =
-      /* needs an spread content action (wasm byte code)*/
-      <Button
-        text='spread'
-        onClick={() => this.refreshCachedComponent(id, true, false)}
-      />;
-
-    const copyButton =
-      /* needs an copy content action (wasm byte code) */
-      <Button
-        text='copy'
-      />;
+      />
+    ];
 
     if (key.meta.type.toString() === 'Bytes') {
-      buttons.push(spreadButton, copyButton);
+      // TODO We are currently not performing a copy
+      // buttons.unshift(
+      //   <Button
+      //     icon='copy'
+      //     onClick={this.copyHandler(id)}
+      //   />
+      // );
+      buttons.unshift(
+        <Button
+          icon='ellipsis horizontal'
+          onClick={this.spreadHandler(id)}
+        />
+      );
     }
 
-    return buttons.concat([ closeButton ]);
+    return buttons;
   }
 
   private renderInputs () {
@@ -192,12 +193,19 @@ class Query extends React.PureComponent<Props, State> {
     return `${key.section}.${key.method}`;
   }
 
-  private refreshCachedComponent (id: number, swallowErrors: boolean, contentShorten: boolean) {
-    cache[id].Component = cache[id].refresh(swallowErrors, contentShorten);
-    this.setState({
-      ...this.state,
-      Component: cache[id].Component
-    });
+  private spreadHandler (id: number) {
+    return () => {
+      const { spread } = this.state;
+
+      cache[id].Component = cache[id].refresh(true, !!spread[id]);
+      spread[id] = !spread[id];
+
+      this.setState({
+        ...this.state,
+        ...spread,
+        Component: cache[id].Component
+      });
+    };
   }
 
   private onRemove = (): void => {

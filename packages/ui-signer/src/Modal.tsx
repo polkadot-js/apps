@@ -5,7 +5,7 @@
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
-import { QueueTx, QueueTx$Id, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from './types';
+import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import { decodeAddress } from '@polkadot/keyring';
@@ -21,7 +21,7 @@ import translate from './translate';
 
 type BaseProps = BareProps & {
   queue: Array<QueueTx>,
-  queueSetStatus: QueueTx$MessageSetStatus
+  queueSetTxStatus: QueueTx$MessageSetStatus
 };
 
 type Props = I18nProps & ApiProps & BaseProps;
@@ -208,7 +208,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private onCancel = (): void => {
-    const { queueSetStatus } = this.props;
+    const { queueSetTxStatus } = this.props;
     const { currentItem } = this.state;
 
     // This should never be executed
@@ -216,7 +216,7 @@ class Signer extends React.PureComponent<Props, State> {
       return;
     }
 
-    queueSetStatus(currentItem.id, 'cancelled');
+    queueSetTxStatus(currentItem.id, 'cancelled');
   }
 
   private onSend = async (): Promise<any> => {
@@ -235,13 +235,13 @@ class Signer extends React.PureComponent<Props, State> {
       return;
     }
 
-    const { queueSetStatus } = this.props;
+    const { queueSetTxStatus } = this.props;
 
-    queueSetStatus(id, 'sending');
+    queueSetTxStatus(id, 'sending');
 
     const { error, result, status } = await this.submitRpc(rpc, values);
 
-    queueSetStatus(id, status, result, error);
+    queueSetTxStatus(id, status, result, error);
   }
 
   private sendExtrinsic = async ({ extrinsic, id, accountNonce, accountId }: QueueTx, password?: string): Promise<void> => {
@@ -256,9 +256,9 @@ class Signer extends React.PureComponent<Props, State> {
       return;
     }
 
-    const { apiObservable, queueSetStatus } = this.props;
+    const { apiObservable, queueSetTxStatus } = this.props;
 
-    queueSetStatus(id, 'sending');
+    queueSetTxStatus(id, 'sending');
 
     const pair = keyring.getPair(accountId);
 
@@ -291,8 +291,8 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private async submitExtrinsic (extrinsic: Extrinsic, id: QueueTx$Id): Promise<void> {
-    const { apiObservable, queueSetStatus } = this.props;
+  private async submitExtrinsic (extrinsic: Extrinsic, id: number): Promise<void> {
+    const { apiObservable, queueSetTxStatus } = this.props;
 
     try {
       const encoded = extrinsic.toJSON();
@@ -311,18 +311,18 @@ class Signer extends React.PureComponent<Props, State> {
 
             console.log('submitAndWatchExtrinsic: updated status ::', result);
 
-            queueSetStatus(id, status, result);
+            queueSetTxStatus(id, status, result);
           },
           (error) => {
             console.error('submitAndWatchExtrinsic:', error);
 
-            queueSetStatus(id, 'error', null, error);
+            queueSetTxStatus(id, 'error', null, error);
           }
         );
     } catch (error) {
       console.error('submitAndWatchExtrinsic:', error);
 
-      queueSetStatus(id, 'error', null, error);
+      queueSetTxStatus(id, 'error', null, error);
     }
   }
 }

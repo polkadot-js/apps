@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueProps } from '@polkadot/ui-signer/types';
+import { QueueProps } from '@polkadot/ui-app/Status/types';
 import { RxBalanceMap } from '@polkadot/api-observable/types';
 import { AccountId, Balance } from '@polkadot/types';
 
 import React from 'react';
 import keyring from '@polkadot/ui-keyring';
-import { QueueConsumer } from '@polkadot/ui-signer/Context';
+import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
 import Account from './Account';
 import translate from '../translate';

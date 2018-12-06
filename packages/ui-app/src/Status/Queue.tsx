@@ -1,16 +1,16 @@
-// Copyright 2017-2018 @polkadot/ui-signer authors & contributors
+// Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/ui-app/types';
-import { PartialQueueTx$Extrinsic, PartialQueueTx$Rpc, QueueProps, QueueTx, QueueTx$Extrinsic, QueueTx$Rpc, QueueTx$Id, QueueTx$Status } from './types';
+import { RpcMethod } from '@polkadot/jsonrpc/types';
+import { BareProps } from '../types';
+import { ActionStatus, PartialQueueTx$Extrinsic, PartialQueueTx$Rpc, QueueProps, QueueStatus, QueueTx, QueueTx$Extrinsic, QueueTx$Rpc, QueueTx$Status } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
 import jsonrpc from '@polkadot/jsonrpc';
 
 import { QueueProvider } from './Context';
-import { RpcMethod } from '@polkadot/jsonrpc/types';
 
 export type Props = BareProps & {
   children: React.ReactNode
@@ -19,10 +19,11 @@ export type Props = BareProps & {
 type State = QueueProps;
 
 const defaultState = {
-  queue: [] as Array<QueueTx>
+  stqueue: [] as Array<QueueStatus>,
+  txqueue: [] as Array<QueueTx>
 } as QueueProps;
 
-let nextId: QueueTx$Id = 0;
+let nextId = 0;
 
 const REMOVE_TIMEOUT = 5000;
 const SUBMIT_RPC = jsonrpc.author.methods.submitAndWatchExtrinsic;
@@ -40,10 +41,12 @@ export default class Queue extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      queue: [],
+      stqueue: [],
+      txqueue: [],
+      queueAction: this.queueAction,
       queueRpc: this.queueRpc,
       queueExtrinsic: this.queueExtrinsic,
-      queueSetStatus: this.queueSetStatus,
+      queueSetTxStatus: this.queueSetTxStatus,
       queueUnclog: this.queueUnclog
     };
   }
@@ -57,9 +60,9 @@ export default class Queue extends React.Component<Props, State> {
   }
 
   private isDuplicateNonce = (value: QueueTx$Extrinsic | QueueTx$Rpc | QueueTx): boolean => {
-    const { queue } = this.state;
+    const { txqueue } = this.state;
 
-    return queue.filter((item) =>
+    return txqueue.filter((item) =>
       !STATUS_COMPLETE.includes(item.status) &&
       item.status !== 'completed' &&
       item.accountNonce.eq(value.accountNonce) &&
@@ -67,10 +70,37 @@ export default class Queue extends React.Component<Props, State> {
     ).length > 0;
   }
 
-  queueSetStatus = (id: QueueTx$Id, status: QueueTx$Status, result?: any, error?: Error): void => {
+  queueAction = (status: ActionStatus): number => {
+    const id = ++nextId;
+
     this.setState(
       (prevState: State): State => ({
-        queue: prevState.queue.map((item) =>
+        stqueue: prevState.stqueue.concat({
+          ...status,
+          id,
+          isCompleted: false
+        })
+      } as State)
+    );
+
+    setTimeout(() => {
+      this.setState(
+        (prevState: State): State => ({
+          stqueue: prevState.stqueue.map((item) => ({
+            ...item,
+            isCompleted: item.isCompleted || item.id === id
+          }))
+        } as State)
+      );
+    }, REMOVE_TIMEOUT);
+
+    return id;
+  }
+
+  queueSetTxStatus = (id: number, status: QueueTx$Status, result?: any, error?: Error): void => {
+    this.setState(
+      (prevState: State): State => ({
+        txqueue: prevState.txqueue.map((item) =>
           item.id === id
             ? {
               ...item,
@@ -89,18 +119,18 @@ export default class Queue extends React.Component<Props, State> {
 
     if (STATUS_COMPLETE.includes(status)) {
       setTimeout(() => {
-        this.queueSetStatus(id, 'completed');
+        this.queueSetTxStatus(id, 'completed');
       }, REMOVE_TIMEOUT);
     }
   }
 
-  private queueAdd = (value: QueueTx$Extrinsic | QueueTx$Rpc | QueueTx): QueueTx$Id => {
-    const id: QueueTx$Id = ++nextId;
+  private queueAdd = (value: QueueTx$Extrinsic | QueueTx$Rpc | QueueTx): number => {
+    const id = ++nextId;
     const rpc: RpcMethod = (value as QueueTx$Rpc).rpc || SUBMIT_RPC;
 
     this.setState(
       (prevState: State): State => ({
-        queue: prevState.queue.concat([{
+        txqueue: prevState.txqueue.concat([{
           ...value,
           id,
           rpc,
@@ -112,7 +142,7 @@ export default class Queue extends React.Component<Props, State> {
     return id;
   }
 
-  queueExtrinsic = ({ accountId, accountNonce, extrinsic }: PartialQueueTx$Extrinsic): QueueTx$Id => {
+  queueExtrinsic = ({ accountId, accountNonce, extrinsic }: PartialQueueTx$Extrinsic): number => {
     return this.queueAdd({
       accountId,
       accountNonce: accountNonce || new BN(0),
@@ -120,7 +150,7 @@ export default class Queue extends React.Component<Props, State> {
     });
   }
 
-  queueRpc = ({ accountId, accountNonce, rpc, values }: PartialQueueTx$Rpc): QueueTx$Id => {
+  queueRpc = ({ accountId, accountNonce, rpc, values }: PartialQueueTx$Rpc): number => {
     return this.queueAdd({
       accountId,
       accountNonce: accountNonce || new BN(0),
@@ -130,18 +160,15 @@ export default class Queue extends React.Component<Props, State> {
   }
 
   queueUnclog = (accountNonce: BN): void => {
-    const { queue } = this.state;
+    const { txqueue } = this.state;
 
-    /* TODO:
-    it 'works', but it's gross. It cancels all queued extrinsic with the
-    nonincremenated nonce marked with a 'blocked' status and then requeues them all
-    with the updated nonce. Unless users spam submit extrinsics, i can't see this being an issue,
-    but it's still ugly.
-    */
-    queue.forEach((item) => {
+    // FIXME It works, but it's gross. It cancels all queued extrinsic with the nonincremenated
+    // nonce marked with a 'blocked' status and then requeues them all with the updated nonce.
+    // Unless users spam submit extrinsics, i can't see this being an issue, but it is still ugly.
+    txqueue.forEach((item) => {
       if (item.status === 'blocked') {
         let updatedItem = item;
-        this.queueSetStatus(item.id, 'cancelled');
+        this.queueSetTxStatus(item.id, 'cancelled');
 
         updatedItem.accountNonce = accountNonce;
         this.queueAdd(updatedItem);

@@ -4,14 +4,15 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
+import { QueueProps } from '@polkadot/ui-app/Status/types';
 
 import './Content.css';
 
 import React from 'react';
 import { withRouter } from 'react-router';
 import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { Status } from '@polkadot/ui-app/index';
+import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
 import routing from '../routing';
 import translate from '../translate';
@@ -21,28 +22,15 @@ type Props = I18nProps & ApiProps & {
   location: Location
 };
 
-type State = {
-  status?: ActionStatus
-};
-
 const unknown = {
   isApiGated: false,
   Component: NotFound,
   name: ''
 };
 
-class Content extends React.Component<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {};
-  }
-
+class Content extends React.Component<Props> {
   render () {
     const { isApiConnected, isApiReady, location, t } = this.props;
-    const { status } = this.state;
     const app = location.pathname.slice(1) || '';
     const { Component, isApiGated, name } = routing.routes.find((route) =>
       !!(route && app.indexOf(route.name) === 0)
@@ -60,25 +48,23 @@ class Content extends React.Component<Props, State> {
 
     return (
       <div className='apps--Content'>
-        <Component
-          basePath={`/${name}`}
-          onStatusChange={this.updateStatus}
-        />
-        <Status status={status} />
+        <QueueConsumer>
+          {({ queueAction, stqueue, txqueue }: QueueProps) => [
+            <Component
+              key='content-content'
+              basePath={`/${name}`}
+              onStatusChange={queueAction}
+            />,
+            <Status
+              key='content-status'
+              stqueue={stqueue}
+              txqueue={txqueue}
+            />
+          ]}
+        </QueueConsumer>
       </div>
     );
   }
-
-  private updateStatus = ({ action, success, value, message }: ActionStatus): void => {
-    this.setState({ status: { action, success, value, message } });
-
-    setTimeout(() => {
-      this.setState({
-        status: undefined
-      });
-    }, 5000);
-  }
-
 }
 
 export default withMulti(

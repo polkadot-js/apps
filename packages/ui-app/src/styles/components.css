@@ -209,3 +209,66 @@ header .ui--Button-Group {
     color: rgba(0, 0, 0, .6);
   }
 }
+
+.ui--Status {
+  display: inline-block;
+  position: fixed;
+  right: 0.25rem;
+  top: 0.25rem;
+  z-index: 1001;
+
+  .item {
+    display: block;
+    text-align: right;
+
+    .wrapper {
+      display: inline-block;
+
+      .container {
+        align-items: center;
+        background: #00688b;
+        border-radius: $small-corner;
+        color: white;
+        display: flex;
+        margin-bottom: 0.25rem;
+        padding: 0 0.5rem;
+        text-align: center;
+        opacity: 0.9;
+        vertical-align: middle;
+
+        .desc {
+          padding: 0.5rem 1rem;
+
+          .status {
+            font-weight: 700;
+          }
+        }
+
+        .short {
+          font-size: 2.5rem;
+          padding: 0.5rem;
+
+          i.icon {
+            line-height: 1;
+          }
+        }
+      }
+    }
+
+    &.cancelled .wrapper .container {
+      background: #cd9b1d
+    }
+
+    &.completed .wrapper .container,
+    &.finalised .wrapper .container,
+    &.success .wrapper .container {
+      background: green;
+    }
+
+    &.dropped .wrapper .container ,
+    &.error .wrapper .container ,
+    &.usurped .wrapper .container {
+      background: red;
+    }
+  }
+}
