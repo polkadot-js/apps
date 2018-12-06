@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from './types';
 
@@ -15,6 +15,7 @@ import classes from './util/classes';
 
 type ProgressProps = {
   color?: ProgressColors,
+  hideValue?: boolean,
   isPercent?: boolean,
   total?: BN | UInt,
   value?: BN | UInt
@@ -29,12 +30,8 @@ type Props = BareProps & {
 export default class CardSummary extends React.PureComponent<Props> {
   render () {
     const { children, className, progress, label, style } = this.props;
-    const value = progress && progress.value instanceof UInt
-      ? progress.value.toBn()
-      : progress && progress.value as BN;
-    const total = progress && progress.total instanceof UInt
-      ? progress.total.toBn()
-      : progress && progress.total as BN;
+    const value = progress && progress.value;
+    const total = progress && progress.total;
     const left = progress && !isUndefined(value) && !isUndefined(total) && value.gten(0) && total.gtn(0)
       ? (
         value.gt(total)
@@ -59,7 +56,7 @@ export default class CardSummary extends React.PureComponent<Props> {
         <Labelled label={label}>
           <div className='ui--CardSummary-large'>
             {children}{
-              progress && (
+              progress && !progress.hideValue && (
                 !left || isUndefined(progress.total)
                   ? '-'
                   : `${left}${progress.isPercent ? '' : '/'}${

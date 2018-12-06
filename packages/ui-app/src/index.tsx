@@ -1,14 +1,14 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
+
+import '@polkadot/ui-settings';
+import './i18n';
+import './styles';
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface } from '@polkadot/rpc-rx/types';
 import { BareProps } from './types';
-
-import './settings';
-import './i18n';
-import './styles';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -27,6 +27,7 @@ import CopyButton from './CopyButton';
 import Dropdown from './Dropdown';
 import Event from './Event';
 import Icon from './Icon';
+import IdentityIcon from './IdentityIcon';
 import Input from './Input';
 import InputAddress from './InputAddress';
 import InputError from './InputError';
@@ -43,6 +44,7 @@ import Params from './Params';
 import Password from './Password';
 import Progress from './Progress';
 import Static from './Static';
+import Status from './Status';
 import Tabs from './Tabs';
 
 type Props = BareProps & {
@@ -64,6 +66,7 @@ export {
   Dropdown,
   Event,
   Icon,
+  IdentityIcon,
   Input,
   InputAddress,
   InputError,
@@ -80,6 +83,7 @@ export {
   Password,
   Progress,
   Static,
+  Status,
   Tabs
 };
 

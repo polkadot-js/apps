@@ -1,22 +1,24 @@
 // Copyright 2017-2018 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import { AddressSummary, Button, Dropdown, Input, Modal, Password } from '@polkadot/ui-app/index';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
 import { mnemonicToSeed, mnemonicValidate, naclKeypairFromSeed, randomAsU8a } from '@polkadot/util-crypto';
-import { encodeAddress } from '@polkadot/keyring';
-import keyring from '@polkadot/ui-keyring/index';
+import keyring from '@polkadot/ui-keyring';
 
 import translate from './translate';
+import FileSaver from 'file-saver';
 
 const BipWorker = require('worker-loader?name=[name].[hash:8].js!./bipWorker');
 
 type Props = I18nProps & {
+  onStatusChange: (status: ActionStatus) => void,
   onCreateAccount: () => void
 };
 
@@ -40,7 +42,7 @@ type State = {
 function formatSeed (seed: string): Uint8Array {
   return isHex(seed)
     ? hexToU8a(seed)
-    : stringToU8a(seed.padEnd(32, ' '));
+    : stringToU8a((seed as string).padEnd(32, ' '));
 }
 
 function addressFromSeed (seed: string, seedType: SeedType): string {
@@ -50,7 +52,7 @@ function addressFromSeed (seed: string, seedType: SeedType): string {
       : formatSeed(seed)
   );
 
-  return encodeAddress(
+  return keyring.encodeAddress(
     keypair.publicKey
   );
 }
@@ -66,10 +68,10 @@ class Creator extends React.PureComponent<Props, State> {
 
     this.bipWorker = new BipWorker();
     this.bipWorker.onmessage = (event: MessageEvent) => {
-      const { address, seed } = event.data;
+      const { publicKey, seed } = event.data;
 
       this.setState({
-        address,
+        address: keyring.encodeAddress(publicKey),
         isBipBusy: false,
         seed
       });
@@ -137,6 +139,18 @@ class Creator extends React.PureComponent<Props, State> {
       <div className='grow'>
         <div className='ui--row'>
           <Input
+            autoFocus
+            className='full'
+            isError={!isNameValid}
+            label={t('creator.name', {
+              defaultValue: 'name the account'
+            })}
+            onChange={this.onChangeName}
+            value={name}
+          />
+        </div>
+        <div className='ui--row'>
+          <Input
             className='full'
             isAction
             isDisabled={isBipBusy}
@@ -169,17 +183,6 @@ class Creator extends React.PureComponent<Props, State> {
           </Input>
         </div>
         <div className='ui--row'>
-          <Input
-            className='full'
-            isError={!isNameValid}
-            label={t('creator.name', {
-              defaultValue: 'name the account'
-            })}
-            onChange={this.onChangeName}
-            value={name}
-          />
-        </div>
-        <div className='ui--row'>
           <Password
             className='full'
             isError={!isPassValid}
@@ -191,8 +194,10 @@ class Creator extends React.PureComponent<Props, State> {
           />
         </div>
         <Modal
+          className='app--accounts-Modal'
           dimmer='inverted'
           open={showWarning}
+          size='small'
         >
           {this.renderModalContent()}
           {this.renderModalButtons()}
@@ -219,7 +224,7 @@ class Creator extends React.PureComponent<Props, State> {
             isPrimary
             onClick={this.onCommit}
             text={t('seedWarning.continue', {
-              defaultValue: 'Continue'
+              defaultValue: 'Create and backup account'
             })}
           />
         </Button.Group>
@@ -229,17 +234,27 @@ class Creator extends React.PureComponent<Props, State> {
 
   renderModalContent () {
     const { t } = this.props;
+    const { address } = this.state;
 
     return [
       <Modal.Header key='header'>
         {t('seedWarning.header', {
-          defaultValue: 'Warning'
+          defaultValue: 'Important notice!'
         })}
       </Modal.Header>,
       <Modal.Content key='content'>
         {t('seedWarning.content', {
-          defaultValue: 'Before you continue, make sure you have properly backed up your seed in a safe place as it is needed to restore your account.'
+          defaultValue: 'We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always redownload this file later.'
         })}
+        <Modal.Description>
+          {t('seedWarning.description', {
+            defaultValue: 'Please make sure to save this file in a secure location as it is the only way to restore your account.'
+          })}
+        </Modal.Description>
+        <AddressSummary
+          className='accounts--Modal-Address'
+          value={address}
+        />
       </Modal.Content>
     ];
   }
@@ -291,7 +306,7 @@ class Creator extends React.PureComponent<Props, State> {
           : (
             isHex(seed)
               ? seed.length === 66
-              : seed.length <= 32
+              : (seed as string).length <= 32
           );
         const isPassValid = keyring.isPassValid(password);
 
@@ -338,17 +353,40 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   private onCommit = (): void => {
-    const { onCreateAccount } = this.props;
+    const { onCreateAccount, onStatusChange, t } = this.props;
     const { name, password, seed, seedType } = this.state;
-    const pair = seedType === 'bip'
-      ? keyring.createAccountMnemonic(seed, password, { name })
-      : keyring.createAccount(formatSeed(seed), password, { name });
+
+    const status: ActionStatus = {
+      action: 'create'
+    };
+
+    try {
+      const pair = seedType === 'bip'
+        ? keyring.createAccountMnemonic(seed, password, { name })
+        : keyring.createAccount(formatSeed(seed), password, { name });
+
+      const json = pair.toJson(password);
+      const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
+
+      FileSaver.saveAs(blob, `${pair.address()}.json`);
+
+      status.value = pair.address();
+      status.isSuccess = !!(pair);
+      status.message = t('status.created', {
+        defaultValue: `Created Account`
+      });
+
+      InputAddress.setLastValue('account', pair.address());
+    } catch (err) {
+      status.isSuccess = false;
+      status.message = err.message;
+    }
 
     this.onHideWarning();
 
-    InputAddress.setLastValue('account', pair.address());
-
     onCreateAccount();
+
+    onStatusChange(status);
   }
 
   private onDiscard = (): void => {
@@ -356,6 +394,10 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   private selectSeedType = (seedType: SeedType): void => {
+    if (seedType === this.state.seedType) {
+      return;
+    }
+
     this.setState({
       ...this.generateSeed(seedType),
       seedType

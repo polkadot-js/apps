@@ -1,15 +1,18 @@
 // Copyright 2017-2018 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
+import { QueueProps } from '@polkadot/ui-app/Status/types';
 
 import './Content.css';
 
 import React from 'react';
 import { withRouter } from 'react-router';
-import { withApi } from '@polkadot/ui-react-rx/with/index';
+import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { Status } from '@polkadot/ui-app/index';
+import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
 import routing from '../routing';
 import translate from '../translate';
@@ -25,10 +28,9 @@ const unknown = {
   name: ''
 };
 
-class Content extends React.PureComponent<Props> {
+class Content extends React.Component<Props> {
   render () {
     const { isApiConnected, isApiReady, location, t } = this.props;
-
     const app = location.pathname.slice(1) || '';
     const { Component, isApiGated, name } = routing.routes.find((route) =>
       !!(route && app.indexOf(route.name) === 0)
@@ -38,7 +40,7 @@ class Content extends React.PureComponent<Props> {
       return (
         <div className='apps--Content-body'>
           <main>{t('content.gated', {
-            defaultValue: 'Waiting for API to be ready'
+            defaultValue: 'Waiting for API to be connected and ready.'
           })}</main>
         </div>
       );
@@ -46,10 +48,29 @@ class Content extends React.PureComponent<Props> {
 
     return (
       <div className='apps--Content'>
-        <Component basePath={`/${name}`} />
+        <QueueConsumer>
+          {({ queueAction, stqueue, txqueue }: QueueProps) => [
+            <Component
+              key='content-content'
+              basePath={`/${name}`}
+              onStatusChange={queueAction}
+            />,
+            <Status
+              key='content-status'
+              stqueue={stqueue}
+              txqueue={txqueue}
+            />
+          ]}
+        </QueueConsumer>
       </div>
     );
   }
 }
 
-export default withRouter(withApi(translate(Content)));
+export default withMulti(
+  Content,
+  // React-router needs to be first, otherwise we have blocked updates
+  withRouter,
+  translate,
+  withApi
+);

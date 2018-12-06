@@ -1,20 +1,21 @@
 // Copyright 2017-2018 @polkadot/app-addresses authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
 import { AddressSummary, Button, Input } from '@polkadot/ui-app/index';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
-import keyring from '@polkadot/ui-keyring/index';
-import { decodeAddress, encodeAddress } from '@polkadot/keyring';
+import keyring from '@polkadot/ui-keyring';
 
 import translate from './translate';
 
 type Props = I18nProps & {
-  onCreateAddress: () => void
+  onCreateAddress: () => void,
+  onStatusChange: (status: ActionStatus) => void
 };
 
 type State = {
@@ -128,8 +129,8 @@ class Creator extends React.PureComponent<Props, State> {
         let newAddress = address;
 
         try {
-          newAddress = encodeAddress(
-            decodeAddress(address)
+          newAddress = keyring.encodeAddress(
+            keyring.decodeAddress(address)
           );
           isAddressValid = keyring.isAvailable(newAddress);
         } catch (error) {
@@ -158,13 +159,33 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   onCommit = (): void => {
-    const { onCreateAddress } = this.props;
+    const { onCreateAddress, onStatusChange, t } = this.props;
     const { address, name } = this.state;
 
-    keyring.saveAddress(address, { name });
-    InputAddress.setLastValue('address', address);
+    const status: ActionStatus = {
+      action: 'create'
+    };
+
+    try {
+      keyring.saveAddress(address, { name });
+
+      status.value = address;
+      status.isSuccess = !!(address);
+      status.message = t('status.created', {
+        defaultValue: `Created Address`
+      });
+
+      InputAddress.setLastValue('address', address);
+    } catch (err) {
+      status.isSuccess = false;
+      status.message = t('status.error', {
+        defaultValue: err.message
+      });
+    }
 
     onCreateAddress();
+
+    onStatusChange(status);
   }
 
   onDiscard = (): void => {

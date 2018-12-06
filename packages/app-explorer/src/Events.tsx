@@ -1,10 +1,10 @@
 // Copyright 2017-2018 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 // Copyright 2017-2018 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
@@ -28,7 +28,7 @@ type State = {
   recentEvents: Array<Event>;
 };
 
-class Events extends React.PureComponent<Props, State> {
+class EventsDisplay extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
@@ -107,6 +107,7 @@ class Events extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  translate(Events),
+  EventsDisplay,
+  translate,
   withObservable('systemEvents')
 );

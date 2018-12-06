@@ -1,6 +1,6 @@
 /* Copyright 2017-2018 @polkadot/ui-app authors & contributors
 /* This software may be modified and distributed under the terms
-/* of the ISC license. See the LICENSE file for details. */
+/* of the Apache-2.0 license. See the LICENSE file for details. */
 
 html {
   height: 100%;
@@ -38,6 +38,7 @@ a:hover {
 
 main {
   padding: 1em 2em;
+  min-height: 100vh;
 }
 
 main > section {
@@ -45,11 +46,24 @@ main > section {
 }
 
 article {
-  background: #fefefe;
-  border: 1px solid #fafafa;
+  background: white;
+  border: 1px solid #f2f2f2;
+  border-left-width: 0.25rem;
   border-radius: 0.25rem;
+  /* border-top-width: 1px; */
   margin: 0.5rem;
   padding: 1rem 1.5rem;
+
+  &.error {
+    background: #fff6f6;
+    border-color: #e0b4b4;
+    color: #9f3a38;
+  }
+
+  &.warning {
+    background: #ffffe0;
+    border-color: #eeeeae;
+  }
 }
 
 header,

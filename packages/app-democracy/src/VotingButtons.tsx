@@ -1,9 +1,9 @@
 // Copyright 2017-2018 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/types';
+import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -71,6 +71,7 @@ class VotingButton extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  translate(VotingButton),
+  VotingButton,
+  translate,
   withObservable('accountNonce', { paramProp: 'accountId' })
 );

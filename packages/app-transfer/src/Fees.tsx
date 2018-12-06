@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/app-transfer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RxBalance, RxFees } from '@polkadot/api-observable/types';
@@ -81,18 +81,18 @@ class FeeDisplay extends React.PureComponent<Props, State> {
 
     let txfees = fees.baseFee
         .add(fees.transferFee)
-        .add(fees.byteFee.mul(txLength));
+        .add(fees.byteFee.muln(txLength));
 
     if (balanceTo.votingBalance.isZero()) {
-      txfees = txfees.add(fees.creationFee.toBn());
+      txfees = txfees.add(fees.creationFee);
     }
 
     const txtotal = amount.add(txfees);
     const hasAvailable = balanceFrom.freeBalance.gte(txtotal);
     const isCreation = balanceTo.votingBalance.isZero();
-    const isNoEffect = amount.add(balanceTo.votingBalance.toBn()).lte(fees.existentialDeposit.toBn());
-    const isRemovable = balanceFrom.votingBalance.sub(txtotal).lte(fees.existentialDeposit.toBn());
-    const isReserved = balanceFrom.freeBalance.isZero() && balanceFrom.reservedBalance.gt(0);
+    const isNoEffect = amount.add(balanceTo.votingBalance).lte(fees.existentialDeposit);
+    const isRemovable = balanceFrom.votingBalance.sub(txtotal).lte(fees.existentialDeposit);
+    const isReserved = balanceFrom.freeBalance.isZero() && balanceFrom.reservedBalance.gtn(0);
 
     return {
       hasAvailable,
@@ -119,6 +119,14 @@ class FeeDisplay extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const feeClass = hasAvailable
+      ? (
+        (isRemovable || isNoEffect)
+          ? 'warning'
+          : 'normal'
+        )
+      : 'error';
+
     return [
       <Static
         className={className}
@@ -129,7 +137,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         value={`${balanceFormat(txfees)}`}
       />,
       <article
-        className={hasAvailable ? ((isRemovable || isNoEffect) ? 'warning' : '') : 'error'}
+        className={feeClass}
         key='txinfo'
       >
         {
@@ -161,7 +169,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
             defaultValue: 'Fees includes the transaction fee and the per-byte fee. '
           })
         }{
-          isCreation && fees.creationFee.gt(0)
+          isCreation && fees.creationFee.gtn(0)
             ? t('fees.create', {
               defaultValue: 'A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist.',
               replace: {
@@ -178,13 +186,14 @@ class FeeDisplay extends React.PureComponent<Props, State> {
           defaultValue: 'total transaction amount (fees + value)'
         })}
         value={`${balanceFormat(txtotal)}`}
-    />
+      />
     ];
   }
 }
 
 export default withMulti(
-  translate(FeeDisplay),
+  FeeDisplay,
+  translate,
   withObservable('votingBalance', { paramProp: 'accountId', propName: 'balanceFrom' }),
   withObservable('votingBalance', { paramProp: 'recipientId', propName: 'balanceTo' })
 );

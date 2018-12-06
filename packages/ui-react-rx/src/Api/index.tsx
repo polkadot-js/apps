@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-react-rx authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface } from '@polkadot/rpc-rx/types';
@@ -8,13 +8,12 @@ import { ApiProps } from '../types';
 
 import React from 'react';
 import Api from '@polkadot/api-observable';
-import { setAddressPrefix } from '@polkadot/keyring';
 import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import RxApi from '@polkadot/rpc-rx';
-import settings from '@polkadot/ui-app/settings';
-import keyring from '@polkadot/ui-keyring/index';
+import keyring from '@polkadot/ui-keyring';
 import { isTestChain } from '@polkadot/ui-react-rx/util/index';
+import settings from '@polkadot/ui-settings';
 import { Header, Method } from '@polkadot/types';
 
 import { balanceFormat } from '../util/index';
@@ -23,7 +22,7 @@ import { InputNumber } from '@polkadot/ui-app/InputNumber';
 
 type Props = {
   api?: RpcRxInterface,
-  children: any, // node?
+  children: React.ReactNode,
   provider?: ProviderInterface,
   url?: string
 };
@@ -115,9 +114,9 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
 
       balanceFormat.setDefaultDecimals(found.decimals);
       InputNumber.setUnit(found.unit);
-      setAddressPrefix(found.chainId as any);
 
       // setup keyringonly after prefix has been set
+      keyring.setAddressPrefix(found.chainId as any);
       keyring.setDevMode(isTestChain(chain || ''));
       keyring.loadAll();
 
@@ -167,17 +166,19 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     const { isApiConnected, isApiReady, api, apiMethods, apiObservable, apiSupport, chain, setApi, setApiProvider, setApiWsUrl } = this.state;
 
     return (
-      <ApiContext.Provider value={{
-        isApiConnected,
-        isApiReady: isApiReady && !!chain,
-        api,
-        apiMethods,
-        apiObservable,
-        apiSupport,
-        setApi,
-        setApiProvider,
-        setApiWsUrl
-      }}>
+      <ApiContext.Provider
+        value={{
+          isApiConnected,
+          isApiReady: isApiReady && !!chain,
+          api,
+          apiMethods,
+          apiObservable,
+          apiSupport,
+          setApi,
+          setApiProvider,
+          setApiWsUrl
+        }}
+      >
         {this.props.children}
       </ApiContext.Provider>
     );

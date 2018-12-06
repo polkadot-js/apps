@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/app-storage authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { PartialRawQuery } from '../types';
@@ -48,7 +48,7 @@ class Raw extends React.PureComponent<Props, State> {
             onChange={this.onChangeKey}
           />
         </div>
-        <Labelled className='storage--actionrow-button'>
+        <Labelled className='storage--actionrow-buttons'>
           <Button
             icon='plus'
             isDisabled={!isValid}

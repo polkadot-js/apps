@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Header } from '@polkadot/types';
 import { BareProps } from '@polkadot/ui-app/types';
@@ -37,7 +37,7 @@ export default class BlockHeader extends React.PureComponent<Props> {
       <article className='explorer--BlockHeader'>
         <div className='details'>
           <div className='header'>
-            <div className='number'>{numberFormat(blockNumber.toBn())}&nbsp;</div>
+            <div className='number'>{numberFormat(blockNumber)}&nbsp;</div>
             <div className='hash'>
               <BlockHash
                 blockNumber={blockNumber}
@@ -49,7 +49,7 @@ export default class BlockHeader extends React.PureComponent<Props> {
             <div>
               <div className='type'>parentHash</div>
               <div className='hash'>{
-                value.blockNumber.gt(1)
+                value.blockNumber.gtn(1)
                   ? <Link to={`/explorer/hash/${parentHex}`}>{parentHex}</Link>
                   : parentHex
               }</div>

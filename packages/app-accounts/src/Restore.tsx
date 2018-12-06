@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair$Json } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
@@ -10,11 +10,13 @@ import { AddressSummary, Button, InputFile, Password } from '@polkadot/ui-app/in
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import { decodeAddress } from '@polkadot/keyring';
 import { isHex, isObject, u8aToString } from '@polkadot/util';
-import keyring from '@polkadot/ui-keyring/index';
+import keyring from '@polkadot/ui-keyring';
 
 import translate from './translate';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 type Props = I18nProps & {
+  onStatusChange: (status: ActionStatus) => void,
   onRestoreAccount: () => void
 };
 
@@ -74,10 +76,13 @@ class Restore extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { isFileValid, isPassValid, password } = this.state;
 
+    const acceptedFormats = ['application/json', 'text/plain'].join(', ');
+
     return (
       <div className='grow'>
         <div className='ui--row'>
           <Password
+            autoFocus
             className='full'
             isError={!isPassValid}
             label={t('restore.password', {
@@ -89,7 +94,7 @@ class Restore extends React.PureComponent<Props, State> {
         </div>
         <div className='ui--row'>
           <InputFile
-            acceptedFormats='.json'
+            accept={acceptedFormats}
             className='full'
             isError={!isFileValid}
             label={t('restore.json', {
@@ -132,22 +137,37 @@ class Restore extends React.PureComponent<Props, State> {
   }
 
   private onSave = (): void => {
-    const { onRestoreAccount } = this.props;
+    const { onRestoreAccount, onStatusChange, t } = this.props;
     const { json, password } = this.state;
 
     if (!json) {
       return;
     }
 
+    const status: ActionStatus = {
+      action: 'restore'
+    };
+
     try {
       const pair = keyring.restoreAccount(json, password);
+
+      status.isSuccess = !!(pair);
+      status.value = pair.address();
+      status.message = t('status.restored', {
+        defaultValue: 'Restored'
+      });
 
       InputAddress.setLastValue('account', pair.address());
       onRestoreAccount();
     } catch (error) {
       this.setState({ isPassValid: false });
+
+      status.isSuccess = false;
+      status.message = error.message;
       console.error(error);
     }
+
+    onStatusChange(status);
   }
 }
 

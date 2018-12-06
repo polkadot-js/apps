@@ -1,8 +1,8 @@
 // Copyright 2017-2018 @polkadot/app-extrinsics authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ExtrinsicFunction } from '@polkadot/extrinsics/types';
+import { ExtrinsicFunction } from '@polkadot/types/Method';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParam$OnChange } from '@polkadot/ui-app/Params/types';
 
@@ -54,8 +54,6 @@ class ExtrinsicDisplay extends React.PureComponent<Props> {
 
   onChange = (extrinsic: Extrinsic): void => {
     const { onChange } = this.props;
-
-    console.error('app-extrinsics/Params/Extrinsic', extrinsic);
 
     onChange && onChange({
       isValid: !!extrinsic,

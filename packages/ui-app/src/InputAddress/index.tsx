@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringOptions, KeyringSectionOption, KeyringSectionOptions, KeyringOption$Type } from '@polkadot/ui-keyring/options/types';
 import { BareProps } from '../types';
@@ -9,10 +9,10 @@ import './InputAddress.css';
 
 import React from 'react';
 import store from 'store';
-import keyring from '@polkadot/ui-keyring/index';
+import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
 import makeOption from '@polkadot/ui-keyring/options/item';
-import { withObservableBase } from '@polkadot/ui-react-rx/with/index';
+import { withMulti, withObservableBase } from '@polkadot/ui-react-rx/with/index';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
@@ -212,5 +212,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
 export { InputAddress };
 
-// @ts-ignore There are still some issues with props and types - this is valid
-export default withObservableBase(keyringOption.optionsSubject, { propName: 'optionsAll' })(InputAddress);
+export default withMulti(
+  InputAddress,
+  withObservableBase(keyringOption.optionsSubject, { propName: 'optionsAll' })
+);

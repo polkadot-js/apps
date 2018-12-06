@@ -1,13 +1,15 @@
 // Copyright 2017-2018 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React from 'react';
 import { AddressSummary, Button, Input, InputAddress } from '@polkadot/ui-app/index';
-import keyring from '@polkadot/ui-keyring/index';
+import keyring from '@polkadot/ui-keyring';
 
 import Backup from './Backup';
 import ChangePass from './ChangePass';
@@ -15,7 +17,8 @@ import Forgetting from './Forgetting';
 import translate from './translate';
 
 type Props = I18nProps & {
-  allAccounts?: Array<Object>
+  allAccounts?: SubjectInfo,
+  onStatusChange: (status: ActionStatus) => void
 };
 
 type State = {
@@ -145,6 +148,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   renderModals () {
+    const { onStatusChange } = this.props;
     const { current, isBackupOpen, isForgetOpen, isPasswordOpen } = this.state;
 
     if (!current) {
@@ -159,6 +163,7 @@ class Editor extends React.PureComponent<Props, State> {
         <Backup
           key='modal-backup-account'
           onClose={this.toggleBackup}
+          onStatusChange={onStatusChange}
           pair={current}
         />
       );
@@ -181,6 +186,7 @@ class Editor extends React.PureComponent<Props, State> {
           account={current}
           key='modal-change-pass'
           onClose={this.togglePass}
+          onStatusChange={onStatusChange}
         />
       );
     }
@@ -245,16 +251,34 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onCommit = (): void => {
+    const { onStatusChange, t } = this.props;
     const { current, editedName } = this.state;
 
     if (!current) {
       return;
     }
 
-    keyring.saveAccountMeta(current, {
-      name: editedName,
-      whenEdited: Date.now()
-    });
+    const status: ActionStatus = {
+      action: 'edit',
+      value: current.address()
+    };
+
+    try {
+      keyring.saveAccountMeta(current, {
+        name: editedName,
+        whenEdited: Date.now()
+      });
+
+      status.isSuccess = !!(current.getMeta().name === editedName);
+      status.message = t('status.editted', {
+        defaultValue: `Edited to: ${editedName}`
+      });
+    } catch (error) {
+      status.isSuccess = false;
+      status.message = error.message;
+    }
+
+    onStatusChange(status);
 
     this.nextState({} as State);
   }
@@ -305,6 +329,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onForget = (): void => {
+    const { onStatusChange, t } = this.props;
     const { current } = this.state;
 
     if (!current) {
@@ -314,9 +339,25 @@ class Editor extends React.PureComponent<Props, State> {
     this.setState(
       this.createState(null),
       () => {
-        keyring.forgetAccount(
-          current.address()
-        );
+        const status: ActionStatus = {
+          action: 'forget',
+          value: current.address()
+        };
+
+        try {
+          keyring.forgetAccount(
+            current.address()
+          );
+          status.isSuccess = true;
+          status.message = t('status.forgotten', {
+            defaultValue: 'Forgotten'
+          });
+        } catch (err) {
+          status.isSuccess = false;
+          status.message = err.message;
+        }
+
+        onStatusChange(status);
       }
     );
   }

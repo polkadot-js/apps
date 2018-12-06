@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import './Params.css';
 
@@ -106,7 +106,7 @@ function div ({ key, className }: DivProps, ...values: Array<React.ReactNode>): 
 //   );
 // }
 
-function valueToText (type: string, value: any, swallowError: boolean = true): React.ReactNode {
+function valueToText (type: string, value: any, swallowError: boolean = true, contentShorten: boolean = true): React.ReactNode {
   // try {
   //   if (type === 'bool') {
   //     return div({}, value ? 'Yes' : 'No');
@@ -154,7 +154,7 @@ function valueToText (type: string, value: any, swallowError: boolean = true): R
     : div(
       {},
       ['Bytes', 'Data'].includes(type)
-        ? u8aToHex(value.toU8a(true), 512)
+        ? u8aToHex(value.toU8a(true), contentShorten ? 512 : -1)
         : value.toString()
     );
 }

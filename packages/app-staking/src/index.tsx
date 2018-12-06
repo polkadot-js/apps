@@ -1,12 +1,13 @@
 // Copyright 2017-2018 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { RxBalanceMap } from '@polkadot/api-observable/types';
 
 import React from 'react';
-import { AccountId } from '@polkadot/types';
+import { AccountId, Balance } from '@polkadot/types';
 import { Tabs } from '@polkadot/ui-app/index';
 import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
@@ -20,9 +21,10 @@ type Actions = 'actions' | 'overview';
 
 type Props = I18nProps & {
   basePath: string,
-  validatingBalances?: RxBalanceMap,
+  onStatusChange: (status: ActionStatus) => void,
   stakingIntentions?: Array<AccountId>,
-  sessionValidators?: Array<AccountId>
+  sessionValidators?: Array<AccountId>,
+  validatingBalances?: RxBalanceMap
 };
 
 type State = {
@@ -86,6 +88,7 @@ class App extends React.PureComponent<Props, State> {
         </header>
         <Component
           balances={validatingBalances}
+          balanceArray={this.balanceArray}
           intentions={intentions}
           validators={validators}
         />
@@ -93,13 +96,28 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  onMenuChange = (action: Actions) => {
+  private onMenuChange = (action: Actions) => {
     this.setState({ action });
+  }
+
+  private balanceArray = (_address: AccountId | string): Array<Balance> | undefined => {
+    const { validatingBalances = {} } = this.props;
+
+    if (!_address) {
+      return undefined;
+    }
+
+    const address = _address.toString();
+
+    return validatingBalances[address]
+      ? [validatingBalances[address].stakingBalance, validatingBalances[address].nominatedBalance]
+      : undefined;
   }
 }
 
 export default withMulti(
-  translate(App),
+  App,
+  translate,
   withObservable('stakingIntentions'),
   withObservable('sessionValidators'),
   withObservable('validatingBalances', { paramProp: 'stakingIntentions' })

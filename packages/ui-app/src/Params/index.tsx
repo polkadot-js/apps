@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef } from '@polkadot/types/codec';
 import { I18nProps } from '../types';
@@ -67,15 +67,21 @@ class Params extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  //  // NOTE This is needed in the case where the item changes, i.e. the values get initialised and we need to alert the parent that we have new values
-  // componentDidUpdate (prevProps: Props, prevState: State) {
-  //   const { onChange, isDisabled } = this.props;
-  //   const { values } = this.state;
+  // Fire the intial onChange (we did update) when the component is loaded
+  componentDidMount () {
+    this.componentDidUpdate({} as Props, {} as State);
+  }
 
-  //   if (!isDisabled && prevState.values !== values) {
-  //     onChange && onChange(values);
-  //   }
-  // }
+   // This is needed in the case where the item changes, i.e. the values get
+   // initialised and we need to alert the parent that we have new values
+  componentDidUpdate (prevProps: Props, prevState: State) {
+    const { onChange, isDisabled } = this.props;
+    const { values } = this.state;
+
+    if (!isDisabled && prevState.values !== values) {
+      onChange && onChange(values);
+    }
+  }
 
   render () {
     const { className, isDisabled, overrides, params, style } = this.props;
@@ -107,12 +113,14 @@ class Params extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeParam = (at: number, { isValid = false, value }: RawParam$OnChange$Value): void => {
+  private onChangeParam = (at: number, newValue: RawParam$OnChange$Value): void => {
     const { isDisabled } = this.props;
 
     if (isDisabled) {
       return;
     }
+
+    const { isValid = false, value } = newValue;
 
     this.setState(
       (prevState: State): State => ({
@@ -129,7 +137,7 @@ class Params extends React.PureComponent<Props, State> {
     );
   }
 
-  triggerUpdate = (): void => {
+  private triggerUpdate = (): void => {
     const { values } = this.state;
     const { onChange, isDisabled } = this.props;
 
@@ -141,5 +149,4 @@ class Params extends React.PureComponent<Props, State> {
   }
 }
 
-// @ts-ignore something is wrong with generics and these imports
 export default translate(Params);

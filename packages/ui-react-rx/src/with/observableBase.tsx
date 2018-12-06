@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-react-rx authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 // TODO: Lots of duplicated code between this and withObservable, surely there ois a better way of doing this?
 
@@ -20,7 +20,7 @@ type State<T> = RxProps<T> & {
 
 // FIXME proper types for attributes
 
-export default function withObservableBase<T> (observable: Observable<any>, { rxChange, propName = 'value', transform = echoTransform }: Options<T> = {}): HOC<T> {
+export default function withObservableBase<T, P> (observable: Observable<P>, { rxChange, propName = 'value', transform = echoTransform }: Options<T> = {}): HOC<T> {
   return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}, render?: RenderFn): React.ComponentType<any> => {
     return class WithObservable extends React.Component<any, State<T>> {
       state: State<T>;
@@ -56,17 +56,21 @@ export default function withObservableBase<T> (observable: Observable<any>, { rx
       }
 
       triggerUpdate = (props: any, value?: T): void => {
-        if (isEqual(value, this.state.value)) {
-          return;
+        try {
+          if (isEqual(value, this.state.value)) {
+            return;
+          }
+
+          triggerChange(value, rxChange, props.rxChange || defaultProps.rxChange);
+
+          this.setState({
+            rxUpdated: true,
+            rxUpdatedAt: Date.now(),
+            value
+          });
+        } catch (error) {
+          console.error(this.props, error);
         }
-
-        triggerChange(value, rxChange, props.rxChange || defaultProps.rxChange);
-
-        this.setState({
-          rxUpdated: true,
-          rxUpdatedAt: Date.now(),
-          value
-        });
       }
 
       render () {

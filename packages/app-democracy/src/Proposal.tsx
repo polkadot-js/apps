@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RxProposal, RxProposalDeposits } from '@polkadot/api-observable/classes';
@@ -44,9 +44,11 @@ class Proposal extends React.PureComponent<Props> {
 
     return (
       <div className='democracy--Proposal-info'>
-        <Labelled label={t('proposal.depositsAddresses', {
-          defaultValue: 'depositors'
-        })}>
+        <Labelled
+          label={t('proposal.depositsAddresses', {
+            defaultValue: 'depositors'
+          })}
+        >
           <div>
             {addresses.map((address) => (
               <AddressMini
@@ -57,9 +59,11 @@ class Proposal extends React.PureComponent<Props> {
             ))}
           </div>
         </Labelled>
-        <Static label={t('proposal.depositsBalanceLabel', {
-          defaultValue: 'balance'
-        })}>
+        <Static
+          label={t('proposal.depositsBalanceLabel', {
+            defaultValue: 'balance'
+          })}
+        >
           {balanceFormat(balance)}
         </Static>
       </div>
@@ -68,6 +72,7 @@ class Proposal extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  translate(Proposal),
+  Proposal,
+  translate,
   withObservable('proposalDeposits', { paramProp: 'idNumber' })
 );

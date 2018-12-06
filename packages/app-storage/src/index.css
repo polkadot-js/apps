@@ -1,6 +1,6 @@
 /* Copyright 2017-2018 @polkadot/app-storage authors & contributors
 /* This software may be modified and distributed under the terms
-/* of the ISC license. See the LICENSE file for details. */
+/* of the Apache-2.0 license. See the LICENSE file for details. */
 
 .storage--Query {
   margin-bottom: 0.25em;
@@ -32,14 +32,28 @@
 .storage--actionrow-value {
   flex: 1;
   min-width: 0;
+
+  .ui--output {
+    word-break: break-all;
+  }
 }
 
-.storage--actionrow-button {
+.storage--actionrow-buttons {
   flex: 0;
   padding: 0 0.25rem;
 }
 
-.storage--Queries .storage--actionrow-button .ui.label {
-  font-size: 1rem;
-  line-height: 1.714rem;
+.storage--Queries .storage--actionrow-buttons {
+  flex: 0;
+  padding: 0 0.25rem;
+
+  .container {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .ui.label {
+    font-size: 1rem;
+    line-height: 1.714rem;
+  }
 }

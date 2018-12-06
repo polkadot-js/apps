@@ -1,14 +1,14 @@
 // Copyright 2017-2018 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import './SideBar.css';
 
 import React from 'react';
-import settings from '@polkadot/ui-app/settings';
 import { Icon, Menu } from '@polkadot/ui-app/index';
+import settings from '@polkadot/ui-settings';
 
 import polkadotLogo from '../static/polkadot-white.svg';
 import substrateLogo from '../static/parity-substrate-white.svg';
@@ -68,7 +68,8 @@ class SideBar extends React.PureComponent<Props> {
           <Menu.Item className='apps--SideBar-Item'>
             <a
               className='apps--SideBar-Item-NavLink'
-              href='https://github.com/polkadot-js/apps'>
+              href='https://github.com/polkadot-js/apps'
+            >
               <Icon name='github' /> GitHub
             </a>
           </Menu.Item>
