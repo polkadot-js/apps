@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '@polkadot/ui-settings';
+import './i18n';
+import './styles';
+
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface } from '@polkadot/rpc-rx/types';
 import { BareProps } from './types';
-
-import './settings';
-import './i18n';
-import './styles';
 
 import React from 'react';
 import ReactDOM from 'react-dom';

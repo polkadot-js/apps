@@ -15,6 +15,7 @@
     "@polkadot/ui-identicon": "^0.22.5",
     "@polkadot/ui-keyring": "^0.22.5",
     "@polkadot/ui-react-rx": "^0.21.0",
+    "@polkadot/ui-settings": "^0.22.5",
     "@types/chart.js": "^2.7.32",
     "@types/i18next": "^12.1.0",
     "@types/i18next-browser-languagedetector": "^2.0.1",

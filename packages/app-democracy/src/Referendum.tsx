@@ -9,11 +9,11 @@ import { RxReferendumVote } from '@polkadot/api-observable/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import settings from '@polkadot/ui-app/settings';
 import { Chart, Static } from '@polkadot/ui-app/index';
 import VoteThreshold from '@polkadot/ui-app/Params/Param/VoteThreshold';
 import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 import { balanceFormat, numberFormat } from '@polkadot/ui-react-rx/util/index';
+import settings from '@polkadot/ui-settings';
 
 import Item from './Item';
 import Voting from './Voting';

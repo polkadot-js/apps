@@ -4,7 +4,7 @@
 
 import { Routing, Routes } from '../types';
 
-import appSettings from '@polkadot/ui-app/settings';
+import appSettings from '@polkadot/ui-settings';
 
 import accounts from './accounts';
 import addresses from './addresses';
