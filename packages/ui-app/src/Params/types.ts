@@ -15,6 +15,9 @@ export type RawParam$Values = RawParam$Value | RawParam$ValueArray;
 
 export type RawParam = {
   isValid: boolean,
+  info?: number,
+  type?: string,
+  sub?: Array<TypeDef>,
   value: RawParam$Values
 };
 

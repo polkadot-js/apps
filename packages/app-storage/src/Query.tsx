@@ -4,6 +4,7 @@
 
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { RawParam } from '@polkadot/ui-app/Params/types';
 import { QueryTypes, StorageModuleQuery } from './types';
 
 import React from 'react';
@@ -85,16 +86,81 @@ class Query extends React.PureComponent<Props, State> {
 
   static getDerivedStateFromProps ({ value }: Props, prevState: State): State | null {
     const Component = Query.getCachedComponent(value).Component;
-    const inputs: Array<React.ReactNode> = isU8a(value.key)
-      ? []
-      // FIXME We need to render the actual key params
-      // const { key, params } = value;
-      // const inputs = key.params.map(({ name, type }, index) => (
-      //   <span key={`param_${name}_${index}`}>
-      //     {name}={valueToText(type, params[index].value)}
-      //   </span>
-      // ));
-      : [];
+    const { params } = value as StorageModuleQuery;
+    const inputs: Array<React.ReactNode> = [];
+
+    params && params.forEach(function (param, index) {
+      const paramsLength = params.length;
+
+      // skip the function parameter if it is invalid, the `info` (amount of elements in the tuple)
+      // are unknown, or if the type `type` is unknown type
+      if (!param.isValid || !param.info || !param.type) {
+        inputs.push(<span key={`param_unknown`}>unknown</span>);
+        return;
+      }
+
+      // Case 1: single parameter, i.e.
+      //   isValid: true,
+      //   info: 1, // i.e. not a tuple
+      //   type: "AccountId",
+      //   value: "C123"
+      if (param.info === 1) {
+        inputs.push(
+          <span key={`param_${param.type}`}>
+            {param.type}={valueToText(param.type, param.value)}{index !== paramsLength - 1 ? ', ' : ''}
+          </span>
+        );
+      }
+
+      // Case 2: tuple with two elements, i.e.
+      //   isValid: true,
+      //   info: 2, // i.e. tuple with two elements
+      //   type: "(Hash, AccountId)"
+      //   value: ["0x___", "C123"]
+      //   sub: Array(2)
+      //     0: {info: 1, type: "Hash"}
+      //     1: {info: 1, type: "AccountId"}
+      if (param.info === 2 && param.sub) {
+        inputs.push(
+          <span key={`param_${param.type}`}>
+            {param.type}=({valueToText(param.sub[0].type, param.value[0])}, {valueToText(param.sub[1].type, param.value[1])})
+          </span>
+        );
+      }
+
+      // Case 3: tuple with multiple elements, i.e.
+      //   isValid: true,
+      //   info: 3, // i.e. tuple with three elements
+      //   type: "(Hash, AccountId, BlockNumber)"
+      //   value: ["0x___", "C123", "3"]
+      //   sub: Array(2)
+      //     0: {info: 1, type: "Hash"}
+      //     1: {info: 1, type: "AccountId"}
+      //     2: {info: 1, type: "BlockNumber"}
+      if (param.info > 2 && param.sub && param.sub.length === param.info) {
+        const subs: Function = (param: RawParam): Array<React.ReactNode> | [] => {
+          if (!param.sub) {
+            return [];
+          }
+
+          return param.sub.map((el, i) =>
+            el && valueToText(el.type, param.value[i])
+          );
+        };
+
+        const start: Function = (index: number) =>
+          param.sub && index === 0 ? '(' : '';
+
+        const end: Function = (index: number) =>
+          param.sub && index !== param.sub.length - 1 ? ', ' : ')';
+
+        const contents = subs(param).map((el: React.ReactNode, i: number) =>
+          <span>{start(i)}{el}{end(i)}</span>
+        );
+
+        inputs.push(<span key={`param_${param.type}`}>{param.type}={contents}</span>);
+      }
+    });
 
     return {
       Component,

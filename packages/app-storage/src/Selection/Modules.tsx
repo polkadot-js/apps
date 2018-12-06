@@ -5,7 +5,7 @@
 import { TypeDef, getTypeDef } from '@polkadot/types/codec';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RawParams } from '@polkadot/ui-app/Params/types';
+import { RawParam, RawParams } from '@polkadot/ui-app/Params/types';
 import { PartialModuleQuery } from '../types';
 
 import React from 'react';
@@ -102,11 +102,18 @@ class Modules extends React.PureComponent<Props, State> {
 
   private onAdd = (): void => {
     const { onAdd } = this.props;
-    const { key, values } = this.state;
+    const { key, values, params } = this.state;
+    let newParams: Array<RawParam> = new Array();
+
+    // if the method has a parameter, store the value and
+    // type of the method's parameter in the same object
+    if (values.length && params.length) {
+      newParams.push(Object.assign({}, values[0], params[0]['type']));
+    }
 
     onAdd({
       key,
-      params: values
+      params: newParams
     });
   }
 
