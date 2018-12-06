@@ -106,7 +106,7 @@ function div ({ key, className }: DivProps, ...values: Array<React.ReactNode>): 
 //   );
 // }
 
-function valueToText (type: string, value: any, swallowError: boolean = true): React.ReactNode {
+function valueToText (type: string, value: any, swallowError: boolean = true, contentShorten: boolean = true): React.ReactNode {
   // try {
   //   if (type === 'bool') {
   //     return div({}, value ? 'Yes' : 'No');
@@ -154,7 +154,7 @@ function valueToText (type: string, value: any, swallowError: boolean = true): R
     : div(
       {},
       ['Bytes', 'Data'].includes(type)
-        ? u8aToHex(value.toU8a(true), 512)
+        ? u8aToHex(value.toU8a(true), contentShorten ? 512 : -1)
         : value.toString()
     );
 }
