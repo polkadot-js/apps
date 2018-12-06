@@ -162,22 +162,22 @@ class Creator extends React.PureComponent<Props, State> {
     const { onCreateAddress, onStatusChange, t } = this.props;
     const { address, name } = this.state;
 
-    const status: ActionStatus = {
+    const status = {
       action: 'create'
-    };
+    } as ActionStatus;
 
     try {
       keyring.saveAddress(address, { name });
 
       status.value = address;
-      status.isSuccess = !!(address);
+      status.status = address ? 'success' : 'error';
       status.message = t('status.created', {
-        defaultValue: `Created Address`
+        defaultValue: 'Created Address'
       });
 
       InputAddress.setLastValue('address', address);
     } catch (err) {
-      status.isSuccess = false;
+      status.status = 'error';
       status.message = t('status.error', {
         defaultValue: err.message
       });

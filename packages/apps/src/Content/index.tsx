@@ -11,12 +11,12 @@ import './Content.css';
 import React from 'react';
 import { withRouter } from 'react-router';
 import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
-import { Status } from '@polkadot/ui-app/index';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
 import routing from '../routing';
 import translate from '../translate';
 import NotFound from './NotFound';
+import Status from './Status';
 
 type Props = I18nProps & ApiProps & {
   location: Location
@@ -57,6 +57,7 @@ class Content extends React.Component<Props> {
             />,
             <Status
               key='content-status'
+              queueAction={queueAction}
               stqueue={stqueue}
               txqueue={txqueue}
             />

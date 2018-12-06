@@ -116,16 +116,16 @@ class Backup extends React.PureComponent<Props, State> {
       return;
     }
 
-    const status: ActionStatus = {
+    const status = {
       action: 'backup'
-    };
+    } as ActionStatus;
 
     try {
       const json = keyring.backupAccount(pair, password);
       const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
 
       status.value = pair.address();
-      status.isSuccess = !!(blob);
+      status.status = blob ? 'success' : 'error';
       status.message = t('status.backup', {
         defaultValue: 'Backed Up'
       });
@@ -135,7 +135,7 @@ class Backup extends React.PureComponent<Props, State> {
       this.setState({ isPassValid: false });
       console.error(error);
 
-      status.isSuccess = false;
+      status.status = 'error';
       status.message = t('status.error', {
         defaultValue: error.message
       });

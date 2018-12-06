@@ -118,9 +118,9 @@ class ChangePass extends React.PureComponent<Props, State> {
     const { account, onClose, onStatusChange, t } = this.props;
     const { newPass, oldPass } = this.state;
 
-    const status: ActionStatus = {
+    const status = {
       action: 'changePassword'
-    };
+    } as ActionStatus;
 
     try {
       if (!account.isLocked()) {
@@ -142,14 +142,14 @@ class ChangePass extends React.PureComponent<Props, State> {
       keyring.encryptAccount(account, newPass);
 
       status.value = account.address();
-      status.isSuccess = true;
+      status.status = 'success';
       status.message = t('status.change-password', {
         defaultValue: 'Password Changed'
       });
     } catch (error) {
       this.setState({ isNewValid: false });
 
-      status.isSuccess = false;
+      status.status = 'error';
       status.message = error.message;
 
       return;

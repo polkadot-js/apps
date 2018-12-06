@@ -6,13 +6,13 @@ import BN from 'bn.js';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { AccountId, Address, Extrinsic } from '@polkadot/types';
 
-export type Actions = 'create' | 'edit' | 'restore' | 'forget' | 'backup' | 'changePassword';
+export type Actions = 'create' | 'edit' | 'restore' | 'forget' | 'backup' | 'changePassword' | 'transfer';
 
 export type ActionStatus = {
-  action?: Actions | string,
-  isSuccess?: boolean,
-  value?: AccountId | Address | string,
-  message?: string
+  action: Actions | string,
+  message: string,
+  status: 'error' | 'queued' | 'success',
+  value?: AccountId | Address | string
 };
 
 export type AccountInfo = {

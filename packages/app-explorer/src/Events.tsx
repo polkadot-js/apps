@@ -11,10 +11,9 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { Event, EventRecord } from '@polkadot/types';
 import { Event as EventDisplay } from '@polkadot/ui-app/index';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with';
 import { stringToU8a } from '@polkadot/util';
-import { blake2AsHex } from '@polkadot/util-crypto';
+import { xxhashAsHex } from '@polkadot/util-crypto';
 
 import { MAX_ITEMS } from './BlockHeaders';
 import translate from './translate';
@@ -39,7 +38,7 @@ class EventsDisplay extends React.PureComponent<Props, State> {
   }
 
   static getDerivedStateFromProps ({ systemEvents = [] }: Props, prevState: State): State | null {
-    const prevEventHash = blake2AsHex(stringToU8a(JSON.stringify(systemEvents)));
+    const prevEventHash = xxhashAsHex(stringToU8a(JSON.stringify(systemEvents)));
 
     if (prevEventHash === prevState.prevEventHash) {
       return null;
