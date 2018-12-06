@@ -218,46 +218,56 @@ header .ui--Button-Group {
   z-index: 1001;
 
   .item {
-    align-items: center;
-    background: #00688b;
-    border-radius: $small-corner;
-    color: white;
-    display: flex;
-    margin-top: 0.25rem;
-    padding: 0 0.5rem;
-    text-align: center;
-    opacity: 0.9;
-    vertical-align: middle;
+    display: block;
+    text-align: right;
 
-    .desc {
-      padding: 0.5rem 1rem;
+    .wrapper {
+      display: inline-block;
 
-      .status {
-        font-weight: 700;
+      .container {
+        align-items: center;
+        background: #00688b;
+        border-radius: $small-corner;
+        color: white;
+        display: flex;
+        margin-bottom: 0.25rem;
+        padding: 0 0.5rem;
+        text-align: center;
+        opacity: 0.9;
+        vertical-align: middle;
+
+        .desc {
+          padding: 0.5rem 1rem;
+
+          .status {
+            font-weight: 700;
+          }
+        }
+
+        .short {
+          font-size: 2.5rem;
+          padding: 0.5rem;
+
+          i.icon {
+            line-height: 1;
+          }
+        }
       }
     }
 
-    .short {
-      font-size: 2.5rem;
-      padding: 0.5rem;
-
-      i.icon {
-        line-height: 1;
-      }
-    }
-
-    &.cancelled {
+    &.cancelled .wrapper .container {
       background: #cd9b1d
     }
 
-    &.completed,
-    &.finalised {
+    &.completed .wrapper .container,
+    &.finalised .wrapper .container,
+    &.success .wrapper .container {
       background: green;
     }
 
-    &.dropped,
-    &.error,
-    &.usurped {
+    &.dropped .wrapper .container ,
+    &.error .wrapper .container ,
+    &.usurped .wrapper .container {
       background: red;
     }
   }

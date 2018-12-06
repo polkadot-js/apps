@@ -46,25 +46,29 @@ class Status extends React.PureComponent<Props> {
 
     return (
       <div className={classes('item', status.isSuccess ? 'success' : 'error')}>
-        <div className='desc'>
-          <div className='header'>
-            {
-              status.isSuccess
-                ? t('status.header', {
-                  defaultValue: 'Success'
-                })
-                : t('status.header', {
-                  defaultValue: 'Failed'
-                })
-            }
+        <div className='wrapper'>
+          <div className='container'>
+            <div className='desc'>
+              <div className='header'>
+                {
+                  status.isSuccess
+                    ? t('status.header', {
+                      defaultValue: 'Success'
+                    })
+                    : t('status.header', {
+                      defaultValue: 'Failed'
+                    })
+                }
+              </div>
+              <AddressMini value={status.value} />
+              <div className='status'>
+                {status.message}
+              </div>
+            </div>
+            <div className='short'>
+              <Icon name={this.iconName(status)} />
+            </div>
           </div>
-          <AddressMini value={status.value} />
-          <div className='status'>
-            {status.message}
-          </div>
-        </div>
-        <div className='short'>
-          <Icon name={this.iconName(status)} />
         </div>
       </div>
     );
@@ -86,22 +90,26 @@ class Status extends React.PureComponent<Props> {
 
     return (
       <div
-        className={classes('ui--signer-Status-Item', status)}
+        className={classes('item', status)}
         key={id}
       >
-        <div className='desc'>
-          <div className='header'>
-            {section}.{method}
+        <div className='wrapper'>
+          <div className='container'>
+            <div className='desc'>
+              <div className='header'>
+                {section}.{method}
+              </div>
+              <div className='status'>
+                {status}
+              </div>
+            </div>
+            <div className='short'>
+              <Icon
+                loading={icon === 'spinner'}
+                name={icon}
+              />
+            </div>
           </div>
-          <div className='status'>
-            {status}
-          </div>
-        </div>
-        <div className='short'>
-          <Icon
-            loading={icon === 'spinner'}
-            name={icon}
-          />
         </div>
       </div>
     );
