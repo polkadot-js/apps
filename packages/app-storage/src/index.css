@@ -34,6 +34,10 @@
   min-width: 0;
 }
 
+.storage--actionrow-value .ui--output {
+  word-break: break-all;
+}
+
 .storage--actionrow-button {
   flex: 0;
   padding: 0 0.25rem;
