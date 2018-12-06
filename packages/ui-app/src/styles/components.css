@@ -214,7 +214,7 @@ header .ui--Button-Group {
   display: inline-block;
   position: fixed;
   right: 0.25rem;
-  top: 0.125rem;
+  top: 0.25rem;
   z-index: 1001;
 
   .item {
@@ -223,7 +223,7 @@ header .ui--Button-Group {
     border-radius: $small-corner;
     color: white;
     display: flex;
-    margin: 0.125rem;
+    margin-top: 0.25rem;
     padding: 0 0.5rem;
     text-align: center;
     opacity: 0.9;
