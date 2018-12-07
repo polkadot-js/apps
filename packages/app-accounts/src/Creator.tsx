@@ -373,7 +373,7 @@ class Creator extends React.PureComponent<Props, State> {
       status.value = pair.address();
       status.status = pair ? 'success' : 'error';
       status.message = t('status.created', {
-        defaultValue: `Created Account`
+        defaultValue: `created account`
       });
 
       InputAddress.setLastValue('account', pair.address());

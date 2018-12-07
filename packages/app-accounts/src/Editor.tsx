@@ -271,7 +271,7 @@ class Editor extends React.PureComponent<Props, State> {
 
       status.status = current.getMeta().name === editedName ? 'success' : 'error';
       status.message = t('status.editted', {
-        defaultValue: 'Name Edited'
+        defaultValue: 'name edited'
       });
     } catch (error) {
       status.status = 'error';
@@ -350,7 +350,7 @@ class Editor extends React.PureComponent<Props, State> {
           );
           status.status = 'success';
           status.message = t('status.forgotten', {
-            defaultValue: 'Forgotten'
+            defaultValue: 'account forgotten'
           });
         } catch (err) {
           status.status = 'error';
