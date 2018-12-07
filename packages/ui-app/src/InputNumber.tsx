@@ -71,7 +71,7 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { bitLength = DEFAULT_BITLENGTH, className, defaultValue, isSi, isDisabled, maxLength, style, t } = this.props;
+    const { bitLength = DEFAULT_BITLENGTH, className, defaultValue = '0', isSi, isDisabled, maxLength, style, t } = this.props;
     const { isValid, previousValue } = this.state;
     const maxValueLength = this.maxValue(bitLength).toString().length;
     const revertedValue = !isValid && !isDisabled
@@ -85,7 +85,7 @@ class InputNumber extends React.PureComponent<Props, State> {
       >
         <Input
           {...this.props}
-          defaultValue={defaultValue || '0'}
+          defaultValue={defaultValue}
           isAction={isSi}
           isDisabled={isDisabled}
           maxLength={maxLength || maxConservativeLength(maxValueLength)}

@@ -101,7 +101,7 @@ export default class Input extends React.PureComponent<Props, State> {
           }
           defaultValue={
             isUndefined(value)
-              ? defaultValue
+              ? (defaultValue || '')
               : undefined
           }
           disabled={isDisabled}
@@ -131,11 +131,6 @@ export default class Input extends React.PureComponent<Props, State> {
                 ? 'new-password'
                 : 'off'
             }
-            value={
-              isUndefined(value)
-                ? (defaultValue || '')
-                : value
-              }
           />
           {
             isEditable
