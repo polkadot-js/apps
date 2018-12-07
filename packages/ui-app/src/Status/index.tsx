@@ -37,22 +37,21 @@ class Status extends React.PureComponent<Props> {
     );
   }
 
-  private renderStatus = (status?: QueueStatus) => {
-    if (!status) {
-      return null;
-    }
-
+  private renderStatus = ({ action, id, message, status, value }: QueueStatus) => {
     return (
-      <div className={classes('item', status.status)}>
+      <div
+        className={classes('item', status)}
+        key={id}
+      >
         <div className='wrapper'>
           <div className='container'>
             <div className='desc'>
               <div className='header'>
-                {status.action}
+                {action}
               </div>
-              <AddressMini value={status.value} />
+              <AddressMini value={value} />
               <div className='status'>
-                {status.message}
+                {message}
               </div>
             </div>
             <div className='short'>
@@ -105,10 +104,17 @@ class Status extends React.PureComponent<Props> {
     );
   }
 
-  private iconName = (status: QueueStatus) => {
-    return status.status === 'error'
-      ? 'ban'
-      : 'check';
+  private iconName = (status: string) => {
+    switch (status) {
+      case 'error':
+        return 'ban';
+
+      case 'received':
+        return 'telegram plane';
+
+      default:
+        return 'check';
+    }
   }
 
   private signerIconName = (status: QueueTx$Status) => {

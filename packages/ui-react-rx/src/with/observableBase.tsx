@@ -8,8 +8,8 @@ import { RxProps } from '../types';
 import { HOC, Options, DefaultProps, RenderFn } from './types';
 
 import React from 'react';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { intervalSubscribe, isEqual, triggerChange } from '../util/index';
 import echoTransform from './transform/echo';
@@ -40,7 +40,12 @@ export default function withObservableBase<T, P> (observable: Observable<P>, { r
         this.setState({
           subscriptions: [
             observable
-              .pipe(map(transform))
+              .pipe(
+                map(transform),
+                catchError(() =>
+                  of(undefined)
+                )
+              )
               .subscribe((value: any) =>
                 this.triggerUpdate(this.props, value)
               ),

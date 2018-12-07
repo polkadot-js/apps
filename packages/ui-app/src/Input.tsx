@@ -99,7 +99,11 @@ export default class Input extends React.PureComponent<Props, State> {
               ? 'edit icon'
               : ''
           }
-          defaultValue={defaultValue}
+          defaultValue={
+            isUndefined(value)
+              ? (defaultValue || '')
+              : undefined
+          }
           disabled={isDisabled}
           error={isError}
           hidden={isHidden}
@@ -128,7 +132,11 @@ export default class Input extends React.PureComponent<Props, State> {
                 : 'off'
             }
           />
-          {isEditable ? <i className='edit icon' /> : null}
+          {
+            isEditable
+              ? <i className='edit icon' />
+              : undefined
+          }
           {icon}
           {children}
         </SUIInput>
