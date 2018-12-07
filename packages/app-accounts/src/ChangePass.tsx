@@ -144,7 +144,7 @@ class ChangePass extends React.PureComponent<Props, State> {
       status.value = account.address();
       status.status = 'success';
       status.message = t('status.change-password', {
-        defaultValue: 'Password Changed'
+        defaultValue: 'password changed'
       });
     } catch (error) {
       this.setState({ isNewValid: false });

@@ -127,7 +127,7 @@ class Backup extends React.PureComponent<Props, State> {
       status.value = pair.address();
       status.status = blob ? 'success' : 'error';
       status.message = t('status.backup', {
-        defaultValue: 'Backed Up'
+        defaultValue: 'account backed up'
       });
 
       FileSaver.saveAs(blob, `${pair.address()}.json`);

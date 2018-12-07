@@ -154,7 +154,7 @@ class Restore extends React.PureComponent<Props, State> {
       status.status = pair ? 'success' : 'error';
       status.value = pair.address();
       status.message = t('status.restored', {
-        defaultValue: 'Restored'
+        defaultValue: 'account restored'
       });
 
       InputAddress.setLastValue('account', pair.address());
