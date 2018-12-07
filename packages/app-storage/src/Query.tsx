@@ -43,6 +43,57 @@ enum StorageQueryParameter {
   Tuple // tuple with two or more elements
 }
 
+const generateDisplayParams = function (params: RawParam[]): Array<React.ReactNode> {
+  const inputs: Array<React.ReactNode> = [];
+
+  params && params.forEach(function (param, index) {
+    const paramsLength = params.length;
+
+    // skip the function parameter if it is invalid, the `info` (amount of elements in the tuple)
+    // are unknown, or if the type `type` is unknown type
+    if (!param.isValid || !param.info || !param.type) {
+      inputs.push(<span key={`param_unknown`}>unknown</span>);
+      return;
+    }
+
+    // Case 1: single parameter
+    if (param.info === StorageQueryParameter.Single) {
+      inputs.push(
+        <span key={`param_${param.type}`}>
+          {param.type}={valueToText(param.type, param.value)}{index !== paramsLength - 1 ? ', ' : ''}
+        </span>
+      );
+    }
+
+    // Case 2: tuple with two or more elements
+    if (param.info && param.info >= StorageQueryParameter.Tuple && param.sub && param.sub.length === param.info) {
+      const subs: Function = (param: RawParam): Array<React.ReactNode> | [] => {
+        if (!param.sub) {
+          return [];
+        }
+
+        return param.sub.map((el, i) =>
+          el && valueToText(el.type, param.value[i])
+        );
+      };
+
+      const start: Function = (index: number) =>
+        param.sub && index === 0 ? '(' : '';
+
+      const end: Function = (index: number) =>
+        param.sub && index !== param.sub.length - 1 ? ', ' : ')';
+
+      const contents = subs(param).map((el: React.ReactNode, i: number) =>
+        <span>{start(i)}{el}{end(i)}</span>
+      );
+
+      inputs.push(<span key={`param_${param.type}`}>{param.type}={contents}</span>);
+    }
+  });
+
+  return inputs;
+};
+
 class Query extends React.PureComponent<Props, State> {
   state: State = { spread: {} } as State;
 
@@ -92,67 +143,7 @@ class Query extends React.PureComponent<Props, State> {
   static getDerivedStateFromProps ({ value }: Props, prevState: State): State | null {
     const Component = Query.getCachedComponent(value).Component;
     const { params } = value as StorageModuleQuery;
-    const inputs: Array<React.ReactNode> = [];
-
-    params && params.forEach(function (param, index) {
-      const paramsLength = params.length;
-
-      // skip the function parameter if it is invalid, the `info` (amount of elements in the tuple)
-      // are unknown, or if the type `type` is unknown type
-      if (!param.isValid || !param.info || !param.type) {
-        inputs.push(<span key={`param_unknown`}>unknown</span>);
-        return;
-      }
-
-      // Case 1: single parameter, i.e.
-      //
-      // param = {
-      //   isValid: true,
-      //   info: 1, // not a tuple
-      //   type: 'AccountId',
-      //   value: 'C123'
-      // };
-      if (param.info === StorageQueryParameter.Single) {
-        inputs.push(
-          <span key={`param_${param.type}`}>
-            {param.type}={valueToText(param.type, param.value)}{index !== paramsLength - 1 ? ', ' : ''}
-          </span>
-        );
-      }
-
-      // Case 2: tuple with two or more elements, i.e.
-      //
-      // param = {
-      //   isValid: true,
-      //   value: ['0xABC', 'C123', '3'],
-      //   info: 3, // tuple with three elements
-      //   type: '(Hash, AccountId, BlockNumber)',
-      //   sub: [ { info: 1, type: 'Hash' }, { info: 1, type: 'AccountId' }, { info: 1, type: 'BlockNumber' }]
-      // };
-      if (param.info && param.info >= StorageQueryParameter.Tuple && param.sub && param.sub.length === param.info) {
-        const subs: Function = (param: RawParam): Array<React.ReactNode> | [] => {
-          if (!param.sub) {
-            return [];
-          }
-
-          return param.sub.map((el, i) =>
-            el && valueToText(el.type, param.value[i])
-          );
-        };
-
-        const start: Function = (index: number) =>
-          param.sub && index === 0 ? '(' : '';
-
-        const end: Function = (index: number) =>
-          param.sub && index !== param.sub.length - 1 ? ', ' : ')';
-
-        const contents = subs(param).map((el: React.ReactNode, i: number) =>
-          <span>{start(i)}{el}{end(i)}</span>
-        );
-
-        inputs.push(<span key={`param_${param.type}`}>{param.type}={contents}</span>);
-      }
-    });
+    const inputs: Array<React.ReactNode> = generateDisplayParams(params);
 
     return {
       Component,
@@ -274,5 +265,9 @@ class Query extends React.PureComponent<Props, State> {
     onRemove(id);
   }
 }
+
+export {
+  generateDisplayParams
+};
 
 export default translate(Query);
