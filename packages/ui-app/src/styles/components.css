@@ -221,10 +221,10 @@ header .ui--Button-Group {
     display: block;
     text-align: right;
 
-    .wrapper {
+    > .wrapper {
       display: inline-block;
 
-      .container {
+      > .container {
         align-items: center;
         background: #00688b;
         border-radius: $small-corner;
@@ -255,19 +255,19 @@ header .ui--Button-Group {
       }
     }
 
-    &.cancelled .wrapper .container {
+    &.cancelled > .wrapper > .container {
       background: #cd9b1d
     }
 
-    &.completed .wrapper .container,
-    &.finalised .wrapper .container,
-    &.success .wrapper .container {
+    &.completed > .wrapper > .container,
+    &.finalised > .wrapper > .container,
+    &.success > .wrapper > .container {
       background: green;
     }
 
-    &.dropped .wrapper .container ,
-    &.error .wrapper .container ,
-    &.usurped .wrapper .container {
+    &.dropped > .wrapper > .container ,
+    &.error > .wrapper > .container ,
+    &.usurped > .wrapper > .container {
       background: red;
     }
   }
