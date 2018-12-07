@@ -110,7 +110,7 @@ class Status extends React.PureComponent<Props> {
         return 'ban';
 
       case 'received':
-        return 'arrow down';
+        return 'telegram plane';
 
       default:
         return 'check';
