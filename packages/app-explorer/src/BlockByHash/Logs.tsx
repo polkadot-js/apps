@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { Struct, Vector, getTypeDef } from '@polkadot/types/codec';
-import { DigestItem, AuthoritiesChange } from '@polkadot/types/Digest';
+import { DigestItem } from '@polkadot/types/Digest';
 import { Params } from '@polkadot/ui-app/index';
 
 import translate from '../translate';
