@@ -38,6 +38,11 @@ type CacheInstance = {
 
 const cache: Array<CacheInstance> = [];
 
+enum StorageQueryParameter {
+  Single = 1,
+  Tuple // tuple with two or more elements
+}
+
 class Query extends React.PureComponent<Props, State> {
   state: State = { spread: {} } as State;
 
@@ -100,11 +105,14 @@ class Query extends React.PureComponent<Props, State> {
       }
 
       // Case 1: single parameter, i.e.
+      //
+      // param = {
       //   isValid: true,
-      //   info: 1, // i.e. not a tuple
-      //   type: "AccountId",
-      //   value: "C123"
-      if (param.info === 1) {
+      //   info: 1, // not a tuple
+      //   type: 'AccountId',
+      //   value: 'C123'
+      // };
+      if (param.info === StorageQueryParameter.Single) {
         inputs.push(
           <span key={`param_${param.type}`}>
             {param.type}={valueToText(param.type, param.value)}{index !== paramsLength - 1 ? ', ' : ''}
@@ -112,32 +120,17 @@ class Query extends React.PureComponent<Props, State> {
         );
       }
 
-      // Case 2: tuple with two elements, i.e.
+      // Case 2: tuple with two or more elements, i.e.
+      //
+      // param = {
       //   isValid: true,
-      //   info: 2, // i.e. tuple with two elements
-      //   type: "(Hash, AccountId)"
-      //   value: ["0x___", "C123"]
-      //   sub: Array(2)
-      //     0: {info: 1, type: "Hash"}
-      //     1: {info: 1, type: "AccountId"}
-      if (param.info === 2 && param.sub) {
-        inputs.push(
-          <span key={`param_${param.type}`}>
-            {param.type}=({valueToText(param.sub[0].type, param.value[0])}, {valueToText(param.sub[1].type, param.value[1])})
-          </span>
-        );
-      }
-
-      // Case 3: tuple with multiple elements, i.e.
-      //   isValid: true,
-      //   info: 3, // i.e. tuple with three elements
-      //   type: "(Hash, AccountId, BlockNumber)"
-      //   value: ["0x___", "C123", "3"]
-      //   sub: Array(2)
-      //     0: {info: 1, type: "Hash"}
-      //     1: {info: 1, type: "AccountId"}
-      //     2: {info: 1, type: "BlockNumber"}
-      if (param.info > 2 && param.sub && param.sub.length === param.info) {
+      //   value: ['0xABC', 'C123', '3'],
+      //   info: 3, // tuple with three elements
+      //   type: '(Hash, AccountId, BlockNumber)',
+      //   sub: [ { info: 1, type: 'Hash' }, { info: 1, type: 'AccountId' }, { info: 1, type: 'BlockNumber' }]
+      // };
+      if (param.info && param.info >= StorageQueryParameter.Tuple && param.sub && param.sub.length === param.info) {
+        console.log('mult');
         const subs: Function = (param: RawParam): Array<React.ReactNode> | [] => {
           if (!param.sub) {
             return [];
