@@ -46,13 +46,17 @@ const transformToAccountId = (value: string): string | null => {
     return null;
   }
 
-  const accountId = addressToAddress(value);
+  let accountId;
 
-  if (accountId === undefined) {
-    return null;
+  try {
+    accountId = addressToAddress(value);
+  } catch (error) {
+    console.error('Unable to transform address', value);
   }
 
-  return accountId;
+  return !accountId
+    ? null
+    : accountId;
 };
 
 class InputAddress extends React.PureComponent<Props, State> {
