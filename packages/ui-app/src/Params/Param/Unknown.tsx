@@ -18,13 +18,17 @@ type Props = BareProps & WithNamespaces & {
 
 class Unknown extends React.PureComponent<Props> {
   render () {
-    const { defaultValue: { value }, isDisabled, label, t, withLabel, type } = this.props;
+    const { defaultValue, isDisabled, label, t, withLabel, type } = this.props;
 
     if (isDisabled) {
+      const value = defaultValue && defaultValue.value && defaultValue.value.toString();
+
       return (
         <Static
           label={label}
-          value={(value && value.toString()) || t('unknown.empty', { defaultValue: 'empty' })}
+          value={value || t('unknown.empty', {
+            defaultValue: 'empty'
+          })}
         />
       );
     }
