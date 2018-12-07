@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { Struct, Vector, getTypeDef } from '@polkadot/types/codec';
-import { DigestItem } from '@polkadot/types/Digest';
+import { DigestItem, AuthoritiesChange } from '@polkadot/types/Digest';
 import { Params } from '@polkadot/ui-app/index';
 
 import translate from '../translate';
@@ -62,7 +62,7 @@ class Logs extends React.PureComponent<Props> {
         <span key={index}>{entry.toString()}</span>
       ));
     } else {
-      content = item.value.toString();
+      content = item.value.toString().split(',').join(', ');
     }
 
     return (
@@ -77,7 +77,7 @@ class Logs extends React.PureComponent<Props> {
             </h3>
             <div className='description' />
           </div>
-          <div className='ui dropdown selection disabled value'>
+          <div className='value'>
             {content}
           </div>
         </article>
