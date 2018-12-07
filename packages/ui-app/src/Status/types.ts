@@ -11,7 +11,7 @@ export type Actions = 'create' | 'edit' | 'restore' | 'forget' | 'backup' | 'cha
 export type ActionStatus = {
   action: Actions | string,
   message: string,
-  status: 'error' | 'queued' | 'success',
+  status: 'error' | 'queued' | 'received' | 'success',
   value?: AccountId | Address | string
 };
 
