@@ -130,7 +130,6 @@ class Query extends React.PureComponent<Props, State> {
       //   sub: [ { info: 1, type: 'Hash' }, { info: 1, type: 'AccountId' }, { info: 1, type: 'BlockNumber' }]
       // };
       if (param.info && param.info >= StorageQueryParameter.Tuple && param.sub && param.sub.length === param.info) {
-        console.log('mult');
         const subs: Function = (param: RawParam): Array<React.ReactNode> | [] => {
           if (!param.sub) {
             return [];
