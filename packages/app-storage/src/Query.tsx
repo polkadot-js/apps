@@ -47,7 +47,7 @@ const generatePlain = function (param: RawParam, index: number, paramsLength: nu
   );
 };
 
-const generateTuple = function (param: RawParam, index: Number): React.ReactNode {
+const generateTuple = function (param: RawParam, index: number): React.ReactNode {
   const subs = (param: RawParam): Array<React.ReactNode> => {
     return (param.sub as TypeDef[]).map((el, i) =>
       el && valueToText(el.type, param.value[i])
