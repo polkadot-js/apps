@@ -12,7 +12,22 @@ import { generateDisplayParams } from './Query';
 describe('Storage queries', () => {
   let actualOutput, expectedOutput, params;
 
-  it('with a single Compact parameter it generates a React node with parameter name and value', () => {
+  it('with a single Plain parameter it generates a React node with parameter name and value', () => {
+    params = [
+      {
+        isValid: true,
+        info: TypeDefInfo.Plain,
+        type: 'AccountId',
+        value: 'C123'
+      }
+    ];
+    actualOutput = ReactDOMServer.renderToStaticMarkup(generateDisplayParams(params));
+    expectedOutput = "<span>AccountId=<div class=\"ui--Param-text\">C123</div></span>";
+
+    expect(actualOutput).toBe(expectedOutput);
+  });
+
+  it.skip('with a single Compact parameter it generates a React node with parameter name and value', () => {
     params = [
       {
         isValid: true,
@@ -31,32 +46,17 @@ describe('Storage queries', () => {
     expect(actualOutput).toBe(expectedOutput);
   });
 
-  it('with a single Vector parameter it generates a React node with parameter name and value', () => {
+  it.skip('with a single Vector parameter it generates a React node with parameter name and value', () => {
     params = [
       {
         isValid: true,
         info: TypeDefInfo.Vector,
-        type: 'Vec<u64>',         
+        type: 'Vec<u64>',
         sub: {
           info: TypeDefInfo.Plain,
           type: 'u64',
           value: '0xABC'
         }
-      }
-    ];
-    actualOutput = ReactDOMServer.renderToStaticMarkup(generateDisplayParams(params));
-    expectedOutput = "<span>AccountId=<div class=\"ui--Param-text\">C123</div></span>";
-
-    expect(actualOutput).toBe(expectedOutput);
-  });
-
-  it('with a single Plain parameter it generates a React node with parameter name and value', () => {
-    params = [
-      {
-        isValid: true,
-        info: TypeDefInfo.Plain,
-        type: 'AccountId',
-        value: 'C123'
       }
     ];
     actualOutput = ReactDOMServer.renderToStaticMarkup(generateDisplayParams(params));
@@ -86,7 +86,7 @@ describe('Storage queries', () => {
     expect(actualOutput).toEqual(expectedOutput);
   });
 
-  it('with two parameters (Plain and Compact) it generates a React node with grouped parameter names and values', () => {
+  it.skip('with two parameters (Plain and Compact) it generates a React node with grouped parameter names and values', () => {
     params = [
       {
         isValid: true,
@@ -116,8 +116,8 @@ describe('Storage queries', () => {
       {
         isValid: true,
         info: TypeDefInfo.Tuple,
-        type: '(Hash, AccountId, Text)',
-        value: ['0xABC', 'C123', 'test'],
+        type: '(Hash, AccountId, BlockNumber)',
+        value: ['0xABC', 'C123', '3'],
         sub: [
           { 
             info: TypeDefInfo.Plain,
@@ -140,7 +140,7 @@ describe('Storage queries', () => {
     expect(actualOutput).toEqual(expectedOutput);
   });
 
-  it('with a Tuple (with mixed elements) it generates a React node with grouped tuple names and tuples values', () => {
+  it.skip('with a Tuple (with mixed elements) it generates a React node with grouped tuple names and tuples values', () => {
     params = [
       {
         isValid: true,
@@ -193,7 +193,7 @@ describe('Storage queries', () => {
     expect(actualOutput).toEqual(expectedOutput);
   });
 
-  it('with a vector of two or more elements it generates a React node with grouped vector names and vector values', () => {
+  it.skip('with a Vector (with two or more elements) it generates a React node with grouped vector names and vector values', () => {
     params = [
       {
         isValid: true,

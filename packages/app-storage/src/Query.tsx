@@ -39,6 +39,14 @@ type CacheInstance = {
 
 const cache: Array<CacheInstance> = [];
 
+const generatePlain = function (param: RawParam, index: number, paramsLength: number): React.ReactNode {
+  return (
+    <span key={`param_${param.type}`}>
+      {param.type}={valueToText(param.type, param.value)}{index !== paramsLength - 1 ? ', ' : ''}
+    </span>
+  );
+};
+
 const generateTuple = function (param: RawParam): React.ReactNode {
   const subs: Function = (param: RawParam): Array<React.ReactNode> => {
     return (param.sub as TypeDef[]).map((el, i) =>
@@ -72,37 +80,14 @@ const generateDisplayParams = function (params: RawParam[]): Array<React.ReactNo
       return;
     }
 
-    // Case 1: single parameter Plain
+    // Plain single parameter
     if (param.info && param.info === TypeDefInfo.Plain) {
-      inputs.push(
-        <span key={`param_${param.type}`}>
-          {param.type}={valueToText(param.type, param.value)}{index !== paramsLength - 1 ? ', ' : ''}
-        </span>
-      );
+      inputs.push(generatePlain(param, index, paramsLength));
     }
 
-    // Case 2: single parameter Compact or Vector (with a single `sub` element)
-    if (param.info && param.info === (TypeDefInfo.Compact || TypeDefInfo.Vector) && !(param.sub as TypeDef).hasOwnProperty('length')) {
-      inputs.push(
-        <span key={`param_${param.type}`}>
-          {param.type}={valueToText(param.type, param.value)}{index !== paramsLength - 1 ? ', ' : ''}
-        </span>
-      );
-    }
-
-    // Case 3: tuple (where `sub` is an array)
+    // Tuple (where `sub` is an array)
     if (param.info && param.info === TypeDefInfo.Tuple && param.sub && (param.sub as TypeDef[]).length) {
       inputs.push(generateTuple(param));
-    }
-
-    // Case 4: vector (where `sub` is not an array, but if its a vector of a tuple, then
-    // the tuple's `sub` is an array
-    if (param.info && param.info === TypeDefInfo.Vector && !(param.sub as TypeDef).hasOwnProperty('length')) {
-      inputs.push(
-        <span key={`param_${param.type}`}>
-          {param.type}={generateTuple(param)}{index !== paramsLength - 1 ? ', ' : ''}
-        </span>
-      );
     }
   });
 
