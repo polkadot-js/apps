@@ -41,13 +41,13 @@ const cache: Array<CacheInstance> = [];
 
 const generatePlain = function (param: RawParam, index: number, paramsLength: number): React.ReactNode {
   return (
-    <span key={`param_${param.type}`}>
+    <span key={`param_${index}`}>
       {param.type}={valueToText(param.type, param.value)}{index !== paramsLength - 1 ? ', ' : ''}
     </span>
   );
 };
 
-const generateTuple = function (param: RawParam): React.ReactNode {
+const generateTuple = function (param: RawParam, index: Number): React.ReactNode {
   const subs = (param: RawParam): Array<React.ReactNode> => {
     return (param.sub as TypeDef[]).map((el, i) =>
       el && valueToText(el.type, param.value[i])
@@ -64,7 +64,7 @@ const generateTuple = function (param: RawParam): React.ReactNode {
     <span>{start(i)}{el}{end(i)}</span>
   );
 
-  return <span key={`param_${param.type}`}>{param.type}={contents}</span>;
+  return <span key={`param_${index}`}>{param.type}={contents}</span>;
 };
 
 const generateDisplayParams = function (params: RawParam[]): Array<React.ReactNode> {
@@ -76,7 +76,7 @@ const generateDisplayParams = function (params: RawParam[]): Array<React.ReactNo
     // skip the function parameter if it is invalid, the `info` (amount of elements in the tuple)
     // are unknown, or if the type `type` is unknown type
     if (!param.isValid || !param.info || !param.type) {
-      inputs.push(<span key={`param_unknown`}>unknown</span>);
+      inputs.push(<span key={`param_${index}_unknown`}>unknown</span>);
       return;
     }
 
@@ -87,7 +87,7 @@ const generateDisplayParams = function (params: RawParam[]): Array<React.ReactNo
 
     // Tuple (where `sub` is an array)
     if (param.info && param.info === TypeDefInfo.Tuple && param.sub && (param.sub as TypeDef[]).length) {
-      inputs.push(generateTuple(param));
+      inputs.push(generateTuple(param, index));
     }
   });
 
