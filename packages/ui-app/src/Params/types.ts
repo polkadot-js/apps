@@ -13,11 +13,8 @@ export type RawParam$ValueArray = Array<RawParam$Value | Array<RawParam$Value>>;
 
 export type RawParam$Values = RawParam$Value | RawParam$ValueArray;
 
-export type RawParam = {
+export type RawParam = TypeDef & {
   isValid: boolean,
-  info?: number,
-  type?: string,
-  sub?: Array<TypeDef>,
   value: RawParam$Values
 };
 

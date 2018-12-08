@@ -3,9 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StorageFunction } from '@polkadot/types/StorageKey';
+import { TypeDef, TypeDefInfo } from '@polkadot/types/codec/createType';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParam } from '@polkadot/ui-app/Params/types';
-import { QueryTypes, StorageModuleQuery } from './types';
+import { StorageModuleQuery, QueryTypes } from './types';
 
 import React from 'react';
 import { Compact } from '@polkadot/types/codec';
@@ -38,10 +39,25 @@ type CacheInstance = {
 
 const cache: Array<CacheInstance> = [];
 
-enum StorageQueryParameter {
-  Single = 1,
-  Tuple // tuple with two or more elements
-}
+const generateTuple = function (param: RawParam): React.ReactNode {
+  const subs: Function = (param: RawParam): Array<React.ReactNode> => {
+    return (param.sub as TypeDef[]).map((el, i) =>
+      el && valueToText(el.type, param.value[i])
+    );
+  };
+
+  const start: Function = (index: number) =>
+    index === 0 ? '(' : '';
+
+  const end: Function = (index: number) =>
+    index !== (param.sub as TypeDef[]).length - 1 ? ', ' : ')';
+
+  const contents = subs(param).map((el: React.ReactNode, i: number) =>
+    <span>{start(i)}{el}{end(i)}</span>
+  );
+
+  return <span key={`param_${param.type}`}>{param.type}={contents}</span>;
+};
 
 const generateDisplayParams = function (params: RawParam[]): Array<React.ReactNode> {
   const inputs: Array<React.ReactNode> = [];
@@ -56,8 +72,8 @@ const generateDisplayParams = function (params: RawParam[]): Array<React.ReactNo
       return;
     }
 
-    // Case 1: single parameter
-    if (param.info === StorageQueryParameter.Single) {
+    // Case 1: single parameter Plain
+    if (param.info && param.info === TypeDefInfo.Plain) {
       inputs.push(
         <span key={`param_${param.type}`}>
           {param.type}={valueToText(param.type, param.value)}{index !== paramsLength - 1 ? ', ' : ''}
@@ -65,29 +81,28 @@ const generateDisplayParams = function (params: RawParam[]): Array<React.ReactNo
       );
     }
 
-    // Case 2: tuple with two or more elements
-    if (param.info && param.info >= StorageQueryParameter.Tuple && param.sub && param.sub.length === param.info) {
-      const subs: Function = (param: RawParam): Array<React.ReactNode> | [] => {
-        if (!param.sub) {
-          return [];
-        }
-
-        return param.sub.map((el, i) =>
-          el && valueToText(el.type, param.value[i])
-        );
-      };
-
-      const start: Function = (index: number) =>
-        param.sub && index === 0 ? '(' : '';
-
-      const end: Function = (index: number) =>
-        param.sub && index !== param.sub.length - 1 ? ', ' : ')';
-
-      const contents = subs(param).map((el: React.ReactNode, i: number) =>
-        <span>{start(i)}{el}{end(i)}</span>
+    // Case 2: single parameter Compact or Vector (with a single `sub` element)
+    if (param.info && param.info === (TypeDefInfo.Compact || TypeDefInfo.Vector) && !(param.sub as TypeDef).hasOwnProperty('length')) {
+      inputs.push(
+        <span key={`param_${param.type}`}>
+          {param.type}={valueToText(param.type, param.value)}{index !== paramsLength - 1 ? ', ' : ''}
+        </span>
       );
+    }
 
-      inputs.push(<span key={`param_${param.type}`}>{param.type}={contents}</span>);
+    // Case 3: tuple (where `sub` is an array)
+    if (param.info && param.info === TypeDefInfo.Tuple && param.sub && (param.sub as TypeDef[]).length) {
+      inputs.push(generateTuple(param));
+    }
+
+    // Case 4: vector (where `sub` is not an array, but if its a vector of a tuple, then
+    // the tuple's `sub` is an array
+    if (param.info && param.info === TypeDefInfo.Vector && !(param.sub as TypeDef).hasOwnProperty('length')) {
+      inputs.push(
+        <span key={`param_${param.type}`}>
+          {param.type}={generateTuple(param)}{index !== paramsLength - 1 ? ', ' : ''}
+        </span>
+      );
     }
   });
 
