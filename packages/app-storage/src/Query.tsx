@@ -48,16 +48,16 @@ const generatePlain = function (param: RawParam, index: number, paramsLength: nu
 };
 
 const generateTuple = function (param: RawParam): React.ReactNode {
-  const subs: Function = (param: RawParam): Array<React.ReactNode> => {
+  const subs = (param: RawParam): Array<React.ReactNode> => {
     return (param.sub as TypeDef[]).map((el, i) =>
       el && valueToText(el.type, param.value[i])
     );
   };
 
-  const start: Function = (index: number) =>
+  const start = (index: number) =>
     index === 0 ? '(' : '';
 
-  const end: Function = (index: number) =>
+  const end = (index: number) =>
     index !== (param.sub as TypeDef[]).length - 1 ? ', ' : ')';
 
   const contents = subs(param).map((el: React.ReactNode, i: number) =>
