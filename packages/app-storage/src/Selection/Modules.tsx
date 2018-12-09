@@ -108,7 +108,7 @@ class Modules extends React.PureComponent<Props, State> {
     // if the method has a parameter, store the value and
     // type of the method's parameter in the same object
     if (values.length && params.length) {
-      newParams.push(Object.assign({}, values[0], params[0]['type']));
+      newParams.push(Object.assign({}, values[0], params[0].type));
     }
 
     onAdd({
