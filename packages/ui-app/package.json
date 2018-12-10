@@ -10,12 +10,12 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.1.5",
-    "@polkadot/types": "^0.33.8",
-    "@polkadot/ui-identicon": "^0.22.13",
-    "@polkadot/ui-keyring": "^0.22.13",
+    "@babel/runtime": "^7.2.0",
+    "@polkadot/types": "^0.33.10",
+    "@polkadot/ui-identicon": "^0.22.14",
+    "@polkadot/ui-keyring": "^0.22.14",
     "@polkadot/ui-react-rx": "^0.21.0",
-    "@polkadot/ui-settings": "^0.22.13",
+    "@polkadot/ui-settings": "^0.22.14",
     "@types/chart.js": "^2.7.32",
     "@types/i18next": "^12.1.0",
     "@types/i18next-browser-languagedetector": "^2.0.1",
@@ -31,12 +31,12 @@
     "react-chartjs-2": "^2.7.4",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.6.3",
-    "react-dropzone": "^7.0.1",
+    "react-dropzone": "^8.0.0",
     "react-i18next": "^8.3.8",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "semantic-ui-css": "^2.3.1",
-    "semantic-ui-react": "^0.83.0",
+    "semantic-ui-react": "^0.84.0",
     "store": "^2.0.12"
   }
 }
