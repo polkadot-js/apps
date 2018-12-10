@@ -10,9 +10,9 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.1.5",
-    "@polkadot/keyring": "^0.33.9",
-    "@polkadot/storage": "^0.33.5",
+    "@babel/runtime": "^7.2.0",
+    "@polkadot/keyring": "^0.33.13",
+    "@polkadot/storage": "^0.33.11",
     "@polkadot/ui-react-rx": "^0.21.0"
   }
 }
