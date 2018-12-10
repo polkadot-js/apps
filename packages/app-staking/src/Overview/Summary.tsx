@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RxBalance, RxBalanceMap } from '@polkadot/api-observable/types';
@@ -32,14 +32,18 @@ class Summary extends React.PureComponent<Props> {
         style={style}
       >
         <section>
-          <CardSummary label={t('summary.validators', {
-            defaultValue: 'validators'
-          })}>
+          <CardSummary
+            label={t('summary.validators', {
+              defaultValue: 'validators'
+            })}
+          >
             {validators.length}/{validatorCount ? validatorCount.toString() : '-'}
           </CardSummary>
-          <CardSummary label={t('summary.intentions', {
-            defaultValue: 'intentions'
-          })}>
+          <CardSummary
+            label={t('summary.intentions', {
+              defaultValue: 'intentions'
+            })}
+          >
             {intentions.length}
           </CardSummary>
         </section>
@@ -47,9 +51,11 @@ class Summary extends React.PureComponent<Props> {
           <SummarySession withBroken={false} />
         </section>
         <section>
-          <CardSummary label={t('summary.balances', {
-            defaultValue: 'balances'
-          })}>
+          <CardSummary
+            label={t('summary.balances', {
+              defaultValue: 'balances'
+            })}
+          >
             {this.renderBalances()}
           </CardSummary>
         </section>
@@ -61,10 +67,10 @@ class Summary extends React.PureComponent<Props> {
     const { t } = this.props;
     const intentionHigh = this.calcIntentionsHigh();
     const validatorLow = this.calcValidatorLow();
-    const nominatedLow = validatorLow && validatorLow.nominatedBalance.gt(0)
+    const nominatedLow = validatorLow && validatorLow.nominatedBalance.gtn(0)
       ? `(+${balanceFormat(validatorLow.nominatedBalance)})`
       : '';
-    const nominatedHigh = intentionHigh && intentionHigh.nominatedBalance.gt(0)
+    const nominatedHigh = intentionHigh && intentionHigh.nominatedBalance.gtn(0)
       ? `(+${balanceFormat(intentionHigh.nominatedBalance)})`
       : '';
 
@@ -122,6 +128,7 @@ class Summary extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  translate(Summary),
+  Summary,
+  translate,
   withObservable('validatorCount')
 );

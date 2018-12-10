@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from './types';
 
@@ -99,7 +99,11 @@ export default class Input extends React.PureComponent<Props, State> {
               ? 'edit icon'
               : ''
           }
-          defaultValue={defaultValue}
+          defaultValue={
+            isUndefined(value)
+              ? (defaultValue || '')
+              : undefined
+          }
           disabled={isDisabled}
           error={isError}
           hidden={isHidden}
@@ -128,7 +132,11 @@ export default class Input extends React.PureComponent<Props, State> {
                 : 'off'
             }
           />
-          {isEditable ? <i className='edit icon' /> : null}
+          {
+            isEditable
+              ? <i className='edit icon' />
+              : undefined
+          }
           {icon}
           {children}
         </SUIInput>

@@ -1,12 +1,11 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Props } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { UInt } from '@polkadot/types/codec';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
 
 import Input from '../../Input';
@@ -18,7 +17,7 @@ export default class Amount extends React.PureComponent<Props> {
     const defaultValue = isDisabled
       ? numberFormat(value)
       : (
-        value instanceof UInt
+        value instanceof BN
           ? value.toNumber()
           : new BN((value as number) || 0).toNumber()
       );
@@ -47,7 +46,7 @@ export default class Amount extends React.PureComponent<Props> {
     );
   }
 
-  onChange = (value: string): void => {
+  private onChange = (value: string): void => {
     const { onChange } = this.props;
 
     onChange && onChange({

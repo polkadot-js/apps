@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
@@ -39,8 +39,6 @@ class Logs extends React.PureComponent<Props> {
     let content: React.ReactNode;
 
     if (item.value instanceof Struct) {
-      console.error('Logs:renderItem:Struct');
-
       const types: { [index: string]: string } = item.value.Type;
 
       const params = Object.keys(types).map((name) => ({
@@ -60,15 +58,11 @@ class Logs extends React.PureComponent<Props> {
         />
       );
     } else if (item.value instanceof Vector) {
-      console.error('Logs:renderItem:Vector');
-
       content = item.value.map((entry, index) => (
         <span key={index}>{entry.toString()}</span>
       ));
     } else {
-      console.error('Logs:renderItem:Plain');
-
-      content = item.value.toString();
+      content = item.value.toString().split(',').join(', ');
     }
 
     return (
@@ -78,12 +72,14 @@ class Logs extends React.PureComponent<Props> {
       >
         <article className='explorer--Container'>
           <div className='header'>
-            <div className='name'>
+            <h3>
               {item.type.toString()}
-            </div>
+            </h3>
             <div className='description' />
           </div>
-          {content}
+          <div className='value'>
+            {content}
+          </div>
         </article>
       </div>
     );

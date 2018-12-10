@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Props, RawParam$OnChange$Value } from '../types';
 
@@ -11,23 +11,40 @@ import Static from '../../Static';
 
 export default class Code extends React.PureComponent<Props> {
   render () {
-    const { className, defaultValue, isDisabled, isError, label, style, withLabel } = this.props;
-    const Component = isDisabled
-      ? Static
-      : Amount;
+    const { className, defaultValue, isDisabled, isError, label, style, type, withLabel } = this.props;
+
+    if (isDisabled) {
+      return this.renderDisabled();
+    }
 
     return (
-      <Component
+      <Amount
         className={className}
-        defaultValue={
-          isDisabled
-            ? ((defaultValue && defaultValue.value) ? defaultValue.value.toString() : '')
-            : defaultValue
-        }
+        defaultValue={defaultValue}
         isDisabled={isDisabled}
         isError={isError}
         label={label}
         onChange={this.onChange}
+        style={style}
+        type={type}
+        withLabel={withLabel}
+      />
+    );
+  }
+
+  private renderDisabled () {
+    const { className, defaultValue, isError, label, style, withLabel } = this.props;
+
+    return (
+      <Static
+        className={className}
+        defaultValue={
+          (defaultValue && defaultValue.value)
+            ? defaultValue.value.toString()
+            : ''
+        }
+        isError={isError}
+        label={label}
         style={style}
         withLabel={withLabel}
       />
@@ -35,7 +52,7 @@ export default class Code extends React.PureComponent<Props> {
   }
 
   // TODO: Validate that we have actual proper WASM code
-  onChange = (value: RawParam$OnChange$Value): void => {
+  private onChange = (value: RawParam$OnChange$Value): void => {
     const { onChange } = this.props;
 
     onChange && onChange(value);

@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from './types';
 
@@ -11,9 +11,11 @@ import Labelled from './Labelled';
 type Props = BareProps & {
   children?: React.ReactNode,
   defaultValue?: any,
+  isDisabled?: boolean,
+  isError?: boolean,
   isHidden?: boolean,
-  label?: any, // node?
-  value?: any, // node?
+  label?: React.ReactNode,
+  value?: React.ReactNode,
   withLabel?: boolean
 };
 

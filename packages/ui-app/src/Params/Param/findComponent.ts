@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef, TypeDefInfo } from '@polkadot/types/codec';
 import { Props, ComponentMap } from '../types';
@@ -13,11 +13,13 @@ import Bytes from './Bytes';
 import Code from './Code';
 import Hash from './Hash';
 import Proposal from './Proposal';
-import StorageKeyValue from './StorageKeyValue';
-import StorageKeyValueArray from './StorageKeyValueArray';
+import KeyValue from './KeyValue';
+import KeyValueArray from './KeyValueArray';
 import StringParam from './String';
 import Timestamp from './Timestamp';
+import Tuple from './Tuple';
 import Unknown from './Unknown';
+import Vector from './Vector';
 import VoteThreshold from './VoteThreshold';
 
 const components: ComponentMap = {
@@ -34,9 +36,8 @@ const components: ComponentMap = {
   'Gas': Amount,
   'Hash': Hash,
   'Index': Amount,
-  'KeyValue': StorageKeyValue,
-  'StorageKeyValue': StorageKeyValue,
-  'Vec<StorageKeyValue>': StorageKeyValueArray,
+  'KeyValue': KeyValue,
+  'Vec<KeyValue>': KeyValueArray,
   'MisbehaviorReport': Unknown,
   'ParachainId': Amount,
   'PropIndex': Amount,
@@ -46,22 +47,32 @@ const components: ComponentMap = {
   'Signature': Hash,
   'String': StringParam,
   'Timestamp': Timestamp,
+  'Tuple': Tuple,
   'u32': Amount,
   'u64': Amount,
+  'Vector': Vector,
   'VoteIndex': Amount,
   'VoteThreshold': VoteThreshold
 };
 
 export default function findComponent (def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
-  const type = def.info === TypeDefInfo.Compact
-    ? (def.sub as TypeDef).type
-    : def.type;
-  const component = overrides[type] || components[type];
+  const type = (({ info, sub, type }: TypeDef) => {
+    switch (info) {
+      case TypeDefInfo.Compact:
+        return (sub as TypeDef).type;
 
-  // FIXME We still don't support either structure or Vector inputs
-  if (!component && def.info !== TypeDefInfo.Plain) {
-    return Unknown;
-  }
+      case TypeDefInfo.Tuple:
+        return 'Tuple';
 
-  return component || Unknown;
+      case TypeDefInfo.Vector:
+        return ['Vec<KeyValue>'].includes(type)
+          ? 'Vec<KeyValue>'
+          : 'Vector';
+
+      default:
+        return type;
+    }
+  })(def);
+
+  return overrides[type] || components[type] || Unknown;
 }

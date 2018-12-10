@@ -1,10 +1,10 @@
 // Copyright 2017-2018 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Routing, Routes } from '../types';
 
-import appSettings from '@polkadot/ui-app/settings';
+import appSettings from '@polkadot/ui-settings';
 
 import accounts from './accounts';
 import addresses from './addresses';

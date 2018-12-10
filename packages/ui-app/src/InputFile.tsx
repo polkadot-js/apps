@@ -1,8 +1,8 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TranslationFunction } from 'i18next';
+import { WithNamespaces } from 'react-i18next';
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
@@ -12,14 +12,15 @@ import classes from './util/classes';
 import Labelled from './Labelled';
 import translate from './translate';
 
-type Props = BareProps & {
-  acceptedFormats?: string,
+type Props = BareProps & WithNamespaces & {
+  // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
+  // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
+  accept?: string,
   isDisabled?: boolean,
   isError?: boolean,
   label: string,
   onChange?: (contents: Uint8Array) => void,
   placeholder?: string,
-  t: TranslationFunction,
   withLabel?: boolean
 };
 
@@ -40,7 +41,7 @@ class InputFile extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { acceptedFormats, className, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
+    const { accept, className, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
     const { file } = this.state;
 
     return (
@@ -49,7 +50,7 @@ class InputFile extends React.PureComponent<Props, State> {
         withLabel={withLabel}
       >
         <Dropzone
-          accept={acceptedFormats}
+          accept={accept}
           className={classes('ui--InputFile', isError ? 'error' : '', className)}
           disabled={isDisabled}
           multiple={false}

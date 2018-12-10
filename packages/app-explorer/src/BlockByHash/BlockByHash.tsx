@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
@@ -10,7 +10,6 @@ import { AddressMini, Call } from '@polkadot/ui-app/index';
 import { Extrinsic, Method, SignedBlock } from '@polkadot/types';
 import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 import { numberFormat } from '@polkadot/ui-react-rx/util/index';
-import { u8aToHex } from '@polkadot/util';
 
 import BlockHeader from '../BlockHeader';
 import translate from '../translate';
@@ -39,7 +38,7 @@ class BlockByHash extends React.PureComponent<Props> {
         />
       </header>,
       this.renderExtrinsics(),
-      this.renderJustification(),
+      // this.renderJustification(),
       <Logs
         key='logs'
         value={header.digest.logs}
@@ -63,7 +62,7 @@ class BlockByHash extends React.PureComponent<Props> {
     );
   }
 
-  // FIXME This is _very_ similar to what we have in democary/Item
+  // FIXME This is _very_ similar to what we have in democracy/Item
   private renderExtrinsic = (extrinsic: Extrinsic, index?: number) => {
     const { value } = this.props;
     const { meta, method, section } = Method.findFunction(extrinsic.callIndex);
@@ -75,16 +74,14 @@ class BlockByHash extends React.PureComponent<Props> {
       >
         <article className='explorer--Container'>
           <div className='header'>
-            <div className='name'>
+            <h3>
               {section}.{method}
-            </div>
-            <div className='description'>
-              {
-                meta && meta.documentation && meta.documentation.length
-                  ? meta.documentation.map((doc) => doc.toString()).join(' ')
-                  : ''
-              }
-            </div>
+            </h3>
+            <div className='description'>{
+              meta && meta.documentation && meta.documentation.length
+                ? meta.documentation.map((doc) => doc.toString()).join(' ')
+                : ''
+            }</div>
             {this.renderSigner(extrinsic)}
           </div>
           <Call value={extrinsic} />
@@ -93,36 +90,37 @@ class BlockByHash extends React.PureComponent<Props> {
     );
   }
 
-  private renderJustification () {
-    const { getBlock, t, value } = this.props;
-    const { justification: { signatures } } = getBlock;
+  // Bft/Rhohenderon only
+  // private renderJustification () {
+  //   const { getBlock, t, value } = this.props;
+  //   const { justification: { signatures } } = getBlock;
 
-    if (!signatures || !signatures.length) {
-      return null;
-    }
+  //   if (!signatures || !signatures.length) {
+  //     return null;
+  //   }
 
-    return (
-      <section key='justification'>
-        <h1>{t('block.justifications', {
-          defaultValue: 'justifications'
-        })}</h1>
-        <div className='explorer--BlockByHash-flexable'>
-          {signatures.map(({ authorityId, signature }) => (
-            <div
-              className='explorer--BlockByHash-justification-signature'
-              key={`${value}:justification:${authorityId}`}
-            >
-              <AddressMini value={authorityId}>
-                <span>
-                  {u8aToHex(signature.toU8a(), 64)}
-                </span>
-              </AddressMini>
-            </div>
-          ))}
-        </div>
-      </section>
-    );
-  }
+  //   return (
+  //     <section key='justification'>
+  //       <h1>{t('block.justifications', {
+  //         defaultValue: 'justifications'
+  //       })}</h1>
+  //       <div className='explorer--BlockByHash-flexable'>
+  //         {signatures.map(({ authorityId, signature }) => (
+  //           <div
+  //             className='explorer--BlockByHash-justification-signature'
+  //             key={`${value}:justification:${authorityId}`}
+  //           >
+  //             <AddressMini value={authorityId}>
+  //               <span>
+  //                 {u8aToHex(signature.toU8a(), 64)}
+  //               </span>
+  //             </AddressMini>
+  //           </div>
+  //         ))}
+  //       </div>
+  //     </section>
+  //   );
+  // }
 
   private renderSigner (extrinsic: Extrinsic) {
     const { t } = this.props;
@@ -145,6 +143,7 @@ class BlockByHash extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  translate(BlockByHash),
+  BlockByHash,
+  translate,
   withObservable('getBlock', { paramProp: 'value' })
 );

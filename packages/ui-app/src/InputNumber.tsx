@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps, BitLength, I18nProps } from './types';
 
@@ -15,6 +15,7 @@ import Input, { KEYS, KEYS_PRE, isCopy, isCut, isPaste, isSelectAll } from './In
 import translate from './translate';
 
 type Props = BareProps & I18nProps & {
+  autoFocus?: boolean,
   bitLength?: BitLength,
   defaultValue?: string,
   isDisabled?: boolean,
@@ -30,7 +31,6 @@ type Props = BareProps & I18nProps & {
 type State = {
   isPreKeyDown: boolean,
   isValid: boolean,
-  previousValue: string,
   siOptions: Array<{ value: string, text: string }>,
   siUnit: string,
   valueBN: BN
@@ -52,7 +52,6 @@ class InputNumber extends React.PureComponent<Props, State> {
     this.state = {
       isPreKeyDown: false,
       isValid: false,
-      previousValue: '0',
       siOptions: balanceFormat.getOptions().map(({ power, text, value }) => ({
         value,
         text: power === 0
@@ -70,12 +69,9 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { bitLength = DEFAULT_BITLENGTH, className, defaultValue, isSi, isDisabled, maxLength, style, t } = this.props;
-    const { isValid, previousValue } = this.state;
+    const { bitLength = DEFAULT_BITLENGTH, className, defaultValue = '0', isSi, isDisabled, maxLength, style, t } = this.props;
+    const { isValid } = this.state;
     const maxValueLength = this.maxValue(bitLength).toString().length;
-    const revertedValue = !isValid && !isDisabled
-      ? previousValue
-      : undefined;
 
     return (
       <div
@@ -84,9 +80,10 @@ class InputNumber extends React.PureComponent<Props, State> {
       >
         <Input
           {...this.props}
-          defaultValue={defaultValue || '0'}
+          defaultValue={defaultValue}
           isAction={isSi}
           isDisabled={isDisabled}
+          isError={!isValid}
           maxLength={maxLength || maxConservativeLength(maxValueLength)}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
@@ -95,7 +92,6 @@ class InputNumber extends React.PureComponent<Props, State> {
             defaultValue: 'Positive number'
           })}
           type='text'
-          value={revertedValue}
         >
           {this.renderSiDropdown()}
         </Input>
@@ -190,10 +186,6 @@ class InputNumber extends React.PureComponent<Props, State> {
 
   private onKeyDown = (event: React.KeyboardEvent<Element>): void => {
     const { isPreKeyDown } = this.state;
-    const { value: previousValue } = event.target as HTMLInputElement;
-
-    // store previous input field in state incase user pastes invalid value and we need to revert the input value
-    this.setState({ previousValue });
 
     if (KEYS_PRE.includes(event.key)) {
       this.setState({ isPreKeyDown: true });

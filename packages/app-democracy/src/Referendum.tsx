@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParam } from '@polkadot/ui-app/Params/types';
@@ -9,11 +9,11 @@ import { RxReferendumVote } from '@polkadot/api-observable/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import settings from '@polkadot/ui-app/settings';
 import { Chart, Static } from '@polkadot/ui-app/index';
 import VoteThreshold from '@polkadot/ui-app/Params/Param/VoteThreshold';
 import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 import { balanceFormat, numberFormat } from '@polkadot/ui-react-rx/util/index';
+import settings from '@polkadot/ui-settings';
 
 import Item from './Item';
 import Voting from './Voting';
@@ -64,17 +64,16 @@ class Referendum extends React.PureComponent<Props, State> {
     }
 
     const newState: State = democracyReferendumVoters.reduce((state, { balance, vote }) => {
-      // FIXME Bool atm does not have a extract value
-      if (vote.toString() === 'true') {
+      if (vote.valueOf() === true) {
         state.voteCountYay++;
-        state.votedYay = state.votedYay.add(balance.toBn());
+        state.votedYay = state.votedYay.add(balance);
       } else {
         state.voteCountNay++;
-        state.votedNay = state.votedNay.add(balance.toBn());
+        state.votedNay = state.votedNay.add(balance);
       }
 
       state.voteCount++;
-      state.votedTotal = state.votedTotal.add(balance.toBn());
+      state.votedTotal = state.votedTotal.add(balance);
 
       return state;
     }, {
@@ -121,14 +120,16 @@ class Referendum extends React.PureComponent<Props, State> {
 
     return (
       <div className='democracy--Referendum-info'>
-        <Static label={t('referendum.endLabel', {
-          defaultValue: 'remaining time'
-        })}>
+        <Static
+          label={t('referendum.endLabel', {
+            defaultValue: 'remaining time'
+          })}
+        >
           {t('referendum.endInfo', {
             defaultValue: '{{remaining}} blocks remaining, ending at block #{{blockNumber}}',
             replace: {
               blockNumber: numberFormat(blockNumber),
-              remaining: numberFormat(blockNumber.sub(bestNumber))
+              remaining: numberFormat(blockNumber.sub(bestNumber).subn(1))
             }
           })}
         </Static>
@@ -154,25 +155,28 @@ class Referendum extends React.PureComponent<Props, State> {
 
     return (
       <div className='democracy--Referendum-results chart'>
-        <Chart.Doughnut values={[
-          {
-            colors: COLORS_YAY,
-            label: `${balanceFormat(votedYay)} (${numberFormat(voteCountYay)})`,
-            value: votedYay.muln(10000).div(votedTotal).toNumber() / 100
-          },
-          {
-            colors: COLORS_NAY,
-            label: `${balanceFormat(votedNay)} (${numberFormat(voteCountNay)})`,
-            value: votedNay.muln(10000).div(votedTotal).toNumber() / 100
-          }
-        ]} />
+        <Chart.Doughnut
+          values={[
+            {
+              colors: COLORS_YAY,
+              label: `${balanceFormat(votedYay)} (${numberFormat(voteCountYay)})`,
+              value: votedYay.muln(10000).div(votedTotal).toNumber() / 100
+            },
+            {
+              colors: COLORS_NAY,
+              label: `${balanceFormat(votedNay)} (${numberFormat(voteCountNay)})`,
+              value: votedNay.muln(10000).div(votedTotal).toNumber() / 100
+            }
+          ]}
+        />
       </div>
     );
   }
 }
 
 export default withMulti(
-  translate(Referendum),
+  Referendum,
+  translate,
   withObservable('bestNumber'),
   withObservable('democracyReferendumVoters', { paramProp: 'idNumber' })
 );

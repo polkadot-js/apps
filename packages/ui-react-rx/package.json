@@ -13,7 +13,7 @@
     "Jaco Greeff <jacogr@gmail.com>"
   ],
   "contributors": [],
-  "license": "ISC",
+  "license": "Apache-2.0",
   "engines": {
     "node": ">=8.0"
   },
@@ -30,14 +30,10 @@
   },
   "homepage": "https://github.com/polkadot-js/ui/tree/master/packages/ui-react-rx#readme",
   "dependencies": {
-    "@babel/runtime": "^7.0.0",
-    "@polkadot/api-observable": "^0.31.97",
-    "@polkadot/rpc-rx": "^0.31.97",
-    "@polkadot/types": "^0.31.97",
+    "@babel/runtime": "^7.1.5",
+    "@polkadot/api-observable": "^0.33.5",
+    "@polkadot/rpc-rx": "^0.33.5",
+    "@polkadot/types": "^0.33.5",
     "rxjs-compat": "^6.3.2"
-  },
-  "devDependencies": {
-    "react": "^16.5.0",
-    "react-dom": "^16.5.0"
   }
 }

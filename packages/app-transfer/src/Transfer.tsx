@@ -1,10 +1,11 @@
 // Copyright 2017-2018 @polkadot/app-transfer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BitLength, I18nProps } from '@polkadot/ui-app/types';
 import { RxFees } from '@polkadot/api-observable/types';
-import { Fees, QueueProps } from '@polkadot/ui-signer/types';
+import { QueueProps } from '@polkadot/ui-app/Status/types';
+import { Fees } from '@polkadot/ui-app/Fees/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -14,8 +15,9 @@ import { Extrinsic } from '@polkadot/types';
 import { BitLengthOption, ZERO } from '@polkadot/ui-app/constants';
 import { AddressSummary, InputAddress, InputNumber } from '@polkadot/ui-app/index';
 import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
-import { QueueConsumer } from '@polkadot/ui-signer/Context';
+import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 import FeeDisplay from '@polkadot/ui-signer/Fees';
+
 import Submit from './Submit';
 import translate from './translate';
 
@@ -81,6 +83,7 @@ class Transfer extends React.PureComponent<Props, State> {
           {this.renderAddress(accountId)}
           <div className='transfer--Transfer-data'>
             <InputNumber
+              autoFocus
               bitLength={DEFAULT_BITLENGTH}
               isError={!hasAvailable}
               isSi
@@ -170,6 +173,7 @@ class Transfer extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  translate(Transfer),
+  Transfer,
+  translate,
   withObservable('fees', { propName: 'fees' })
 );

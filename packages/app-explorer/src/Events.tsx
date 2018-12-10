@@ -1,20 +1,19 @@
 // Copyright 2017-2018 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 // Copyright 2017-2018 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { Event, EventRecord } from '@polkadot/types';
 import { Event as EventDisplay } from '@polkadot/ui-app/index';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with';
 import { stringToU8a } from '@polkadot/util';
-import { blake2AsHex } from '@polkadot/util-crypto';
+import { xxhashAsHex } from '@polkadot/util-crypto';
 
 import { MAX_ITEMS } from './BlockHeaders';
 import translate from './translate';
@@ -28,7 +27,7 @@ type State = {
   recentEvents: Array<Event>;
 };
 
-class Events extends React.PureComponent<Props, State> {
+class EventsDisplay extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
@@ -39,7 +38,7 @@ class Events extends React.PureComponent<Props, State> {
   }
 
   static getDerivedStateFromProps ({ systemEvents = [] }: Props, prevState: State): State | null {
-    const prevEventHash = blake2AsHex(stringToU8a(JSON.stringify(systemEvents)));
+    const prevEventHash = xxhashAsHex(stringToU8a(JSON.stringify(systemEvents)));
 
     if (prevEventHash === prevState.prevEventHash) {
       return null;
@@ -76,7 +75,9 @@ class Events extends React.PureComponent<Props, State> {
     }
 
     return (
-      recentEvents.map(this.renderEvent)
+      <div>
+        {recentEvents.map(this.renderEvent)}
+      </div>
     );
   }
 
@@ -87,9 +88,9 @@ class Events extends React.PureComponent<Props, State> {
         key={index}
       >
         <div className='header'>
-          <div className='name'>
+          <h3>
             {event.section}.{event.method}
-          </div>
+          </h3>
           <div className='description'>
             {
               event.meta.documentation && event.meta.documentation.length
@@ -105,6 +106,7 @@ class Events extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  translate(Events),
+  EventsDisplay,
+  translate,
   withObservable('systemEvents')
 );

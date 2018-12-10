@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
@@ -8,8 +8,8 @@ import { ApiProps } from '@polkadot/ui-react-rx/types';
 import './Connecting.css';
 
 import React from 'react';
-import settings from '@polkadot/ui-app/settings';
-import { withApi } from '@polkadot/ui-react-rx/with/index';
+import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
+import settings from '@polkadot/ui-settings';
 
 import translate from '../translate';
 
@@ -48,6 +48,8 @@ class Connecting extends React.PureComponent<Props> {
   }
 }
 
-export default translate(
-  withApi(Connecting)
+export default withMulti(
+  Connecting,
+  translate,
+  withApi
 );

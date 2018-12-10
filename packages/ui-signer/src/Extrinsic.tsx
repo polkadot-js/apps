@@ -1,18 +1,18 @@
 // Copyright 2017-2018 @polkadot/ui-signer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { QueueTx } from '@polkadot/ui-app/Status/types';
+import { Fees } from '@polkadot/ui-app/Fees/types';
 import { RxFees } from '@polkadot/api-observable/types';
-import { Fees, QueueTx } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import { Balance, Method } from '@polkadot/types';
-import { Call, Modal } from '@polkadot/ui-app/index';
+import { Call, IdentityIcon, Modal } from '@polkadot/ui-app/index';
 import { ZERO } from '@polkadot/ui-app/constants';
-import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 import withMulti from '@polkadot/ui-react-rx/with/multi';
 import withObservable from '@polkadot/ui-react-rx/with/observable';
 
