@@ -14,7 +14,7 @@ import { withMulti, withObservable, withObservableBase } from '@polkadot/ui-reac
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
-import translate from '../translate';
+import translate from './translate';
 
 type Props = I18nProps & {
   optionsAll?: KeyringOptions,

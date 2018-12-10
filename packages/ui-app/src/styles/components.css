@@ -84,7 +84,7 @@ header .ui--Button-Group {
 
 .ui--AddressSummary {
   padding: 0 1em;
-  text-align: left;
+  /* text-align: left; */
   white-space: nowrap
 }
 
@@ -216,6 +216,10 @@ header .ui--Button-Group {
   right: 0.25rem;
   top: 0.25rem;
   z-index: 1001;
+
+  .ui--IdentityIcon {
+    margin-left: 0 !important;
+  }
 
   .item {
     display: block;

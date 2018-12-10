@@ -1,3 +1,3 @@
 exclude_patterns:
 - "**/*.spec.js"
-- "**/flow-typed/*"
+- "**/*.spec.ts"
