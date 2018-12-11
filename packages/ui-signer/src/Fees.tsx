@@ -24,8 +24,8 @@ type Props = I18nProps & {
   balanceTo?: RxBalance,
   extrinsic: Extrinsic | null,
   fees?: RxFees,
-  recipientId?: string | null,
-  onChange: (fees: Fees) => void
+  onChange: (fees: Fees) => void,
+  recipientId?: string | null
 };
 
 const ZERO_BALANCE = {
@@ -80,7 +80,11 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     ));
 
     let txfees = fees.baseFee
-        .add(fees.transferFee ? fees.transferFee : new Balance(0))
+        .add(
+          fees.transferFee
+            ? fees.transferFee
+            : new Balance(0)
+        )
         .add(fees.byteFee.mul(txLength));
 
     if (balanceTo.votingBalance.isZero()) {
@@ -142,9 +146,9 @@ class FeeDisplay extends React.PureComponent<Props, State> {
       >
         {
           isRemovable && hasAvailable
-              ? t('fees.remove', {
-                defaultValue: 'Submitting this transaction will drop the account balance to below the existential amount, removing the account from the chain state and burning associated funds. '
-              })
+            ? t('fees.remove', {
+              defaultValue: 'Submitting this transaction will drop the account balance to below the existential amount, removing the account from the chain state and burning associated funds. '
+            })
             : undefined
         }{
           isNoEffect && hasAvailable
@@ -160,10 +164,10 @@ class FeeDisplay extends React.PureComponent<Props, State> {
             })
         }{
           isReserved
-          ? t('fees.reserved', {
-            defaultValue: '(This account does have a reserved/locked balance, staking locks up the available funds) '
-          })
-          : undefined
+            ? t('fees.reserved', {
+              defaultValue: '(This account does have a reserved/locked balance, staking locks up the available funds) '
+            })
+            : undefined
         }{
           t('fees.explain', {
             defaultValue: 'Fees includes the transaction fee and the per-byte fee. '
@@ -176,7 +180,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
                 creationFee: `${balanceFormat(fees.creationFee)}`
               }
             })
-          : undefined
+            : undefined
         }
       </article>,
       <Static

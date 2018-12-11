@@ -21,9 +21,9 @@ import translate from './translate';
 
 type Props = I18nProps & {
   children?: React.ReactNode,
+  fees: RxFees,
   onChangeFees: (hasAvailable: boolean) => void,
-  value: QueueTx,
-  fees: RxFees
+  value: QueueTx
 };
 
 class Transaction extends React.PureComponent<Props> {
@@ -47,19 +47,18 @@ class Transaction extends React.PureComponent<Props> {
       // @ts-ignore .get is valid
       amount = methodInstance.args.get('value').toBn();
     } catch (error) {
-      console.info('Extrinsic submitted does not have an amount');
+      console.error('Extrinsic submitted does not have an amount');
     }
 
     try {
       // @ts-ignore .get is valid
       recipientId = methodInstance.args.get('dest').toString();
     } catch (error) {
-      console.info('Extrinsic submitted does not have a recipient');
+      console.error('Extrinsic submitted does not have a recipient');
     }
 
     const { method, section } = Method.findFunction(extrinsic.callIndex);
     const isTransfer = fees && fees.transferFee && section === 'balances' && method === 'transfer';
-
     let feesFiltered = fees;
 
     // Remove the transfer fee from extrinsics that are not transfers
@@ -87,12 +86,12 @@ class Transaction extends React.PureComponent<Props> {
               style={style}
             >
               <FeeDisplay
-                className='medium'
                 accountId={accountId}
                 amount={amount}
+                className='medium'
                 fees={feesFiltered}
-                recipientId={recipientId}
                 onChange={this.onChangeFees}
+                recipientId={recipientId}
               />
             </div>
           </div>

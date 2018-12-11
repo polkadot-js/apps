@@ -35,8 +35,8 @@ type UnlockI18n = {
 
 type State = {
   currentItem?: QueueTx,
-  password: string,
   hasAvailable: boolean,
+  password: string,
   txfees: BN,
   unlockError: UnlockI18n | null
 };
@@ -48,8 +48,8 @@ class Signer extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      password: '',
       hasAvailable: false,
+      password: '',
       txfees: ZERO,
       unlockError: null
     };
@@ -174,8 +174,8 @@ class Signer extends React.PureComponent<Props, State> {
         onChange={this.onChangePassword}
         onKeyDown={this.onKeyDown}
         password={password}
-        value={currentItem.accountId}
         tabIndex={1}
+        value={currentItem.accountId}
       />
     );
   }
