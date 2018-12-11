@@ -45,14 +45,14 @@ class Transaction extends React.PureComponent<Props> {
 
     try {
       // @ts-ignore .get is valid
-      amount = methodInstance.get('args').get('value').toBn();
+      amount = methodInstance.args.get('value').toBn();
     } catch (error) {
       console.info('Extrinsic submitted does not have an amount');
     }
 
     try {
       // @ts-ignore .get is valid
-      recipientId = methodInstance.get('args').get('dest').toString();
+      recipientId = methodInstance.args.get('dest').toString();
     } catch (error) {
       console.info('Extrinsic submitted does not have a recipient');
     }

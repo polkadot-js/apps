@@ -23,7 +23,8 @@ export default class Call extends React.PureComponent<Props> {
       name: name.toString(),
       type: getTypeDef(type)
     }));
-    const values = value.args.map((value) => ({
+    // @ts-ignore .toArray() is valid
+    const values = value.args.toArray().map((value) => ({
       isValid: true,
       value
     }));
