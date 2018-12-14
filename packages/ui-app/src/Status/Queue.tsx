@@ -25,7 +25,7 @@ const defaultState = {
 
 let nextId = 0;
 
-const REMOVE_TIMEOUT = 5000;
+const REMOVE_TIMEOUT = 7500;
 const SUBMIT_RPC = jsonrpc.author.methods.submitAndWatchExtrinsic;
 const STATUS_COMPLETE: Array<QueueTx$Status> = [
   // status from subscription
