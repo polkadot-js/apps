@@ -149,14 +149,21 @@ function valueToText (type: string, value: any, swallowError: boolean = true, co
   //   }
   // }
 
-  return isNull(value) || isUndefined(value)
-    ? unknown
-    : div(
-      {},
-      ['Bytes', 'Data'].includes(type)
-        ? u8aToHex(value.toU8a(true), contentShorten ? 512 : -1)
-        : value.toString()
-    );
+  if (isNull(value) || isUndefined(value)) {
+    return unknown;
+  }
+
+  let displayValue = '<invalid encoding>';
+
+  try {
+    displayValue = ['Bytes', 'Data'].includes(type)
+      ? u8aToHex(value.toU8a(true), contentShorten ? 512 : -1)
+      : value.toString();
+  } catch (error) {
+    console.error('Unable to encode', value, error);
+  }
+
+  return div({}, displayValue);
 }
 
 export default valueToText;

@@ -14,9 +14,15 @@ import Bare from './Bare';
 export default class Account extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = isU8a(value) || !value
-      ? value
-      : value.toString();
+    let defaultValue;
+
+    try {
+      defaultValue = isU8a(value) || !value
+        ? value
+        : value.toString();
+    } catch (error) {
+      console.error('Unable to create from', value, error);
+    }
 
     return (
       <Bare

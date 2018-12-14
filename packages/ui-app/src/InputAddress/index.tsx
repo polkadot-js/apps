@@ -126,7 +126,7 @@ class InputAddress extends React.PureComponent<Props, State> {
         onSearch={this.onSearch}
         options={
           isDisabled && actualValue
-            ? [makeOption(actualValue)]
+            ? this.createOptions(actualValue)
             : optionsAll[type]
         }
         style={style}
@@ -134,6 +134,21 @@ class InputAddress extends React.PureComponent<Props, State> {
         withLabel={withLabel}
       />
     );
+  }
+
+  private createOptions (value: string) {
+    try {
+      return [makeOption(value)];
+    } catch (error) {
+      console.error('Unable to encode', value, error);
+
+      return [{
+        key: 'unknown',
+        name: 'unknown',
+        text: '<invalid value>',
+        value: 'invalid'
+      }];
+    }
   }
 
   private getLastOptionValue (): KeyringSectionOption | undefined {
