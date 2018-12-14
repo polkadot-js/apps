@@ -15,7 +15,7 @@
     "@polkadot/keyring": "^0.33.13",
     "@polkadot/storage": "^0.33.16",
     "@polkadot/ui-app": "^0.21.0",
-    "@polkadot/ui-keyring": "^0.22.18",
+    "@polkadot/ui-keyring": "^0.23.1",
     "@polkadot/ui-react-rx": "^0.21.0"
   }
 }
