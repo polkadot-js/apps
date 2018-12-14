@@ -110,7 +110,9 @@ export default class Queue extends React.Component<Props, State> {
               result: result === undefined
                 ? item.result
                 : result,
-              status
+              status: item.status === 'completed'
+                ? item.status
+                : status
             }
             : item
         )
