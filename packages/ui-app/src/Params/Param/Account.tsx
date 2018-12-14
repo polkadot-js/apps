@@ -6,7 +6,6 @@ import { Props } from '../types';
 
 import React from 'react';
 import { decodeAddress } from '@polkadot/keyring';
-import { isU8a } from '@polkadot/util';
 
 import InputAddress from '../../InputAddress';
 import Bare from './Bare';
@@ -14,9 +13,7 @@ import Bare from './Bare';
 export default class Account extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = isU8a(value) || !value
-      ? value
-      : value.toString();
+    const defaultValue = value && value.toString();
 
     return (
       <Bare
