@@ -7,8 +7,8 @@ import { RpcRxInterface } from '@polkadot/rpc-rx/types';
 import { ApiProps } from '../types';
 
 import React from 'react';
-import { combineLatest, of, EMPTY } from 'rxjs';
-import { catchError, defaultIfEmpty } from 'rxjs/operators';
+import { combineLatest, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import Api from '@polkadot/api-observable';
 import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
