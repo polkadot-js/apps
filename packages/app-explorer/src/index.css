@@ -55,6 +55,10 @@
       white-space: nowrap;
     }
   }
+
+  .value {
+    word-break: break-all;
+  }
 }
 
 .explorer--BlockByHash-accountIndex {

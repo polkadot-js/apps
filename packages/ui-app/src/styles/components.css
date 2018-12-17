@@ -84,7 +84,7 @@ header .ui--Button-Group {
 
 .ui--AddressSummary {
   padding: 0 1em;
-  text-align: left;
+  /* text-align: left; */
   white-space: nowrap
 }
 
@@ -217,14 +217,18 @@ header .ui--Button-Group {
   top: 0.25rem;
   z-index: 1001;
 
+  .ui--IdentityIcon {
+    margin-left: 0 !important;
+  }
+
   .item {
     display: block;
     text-align: right;
 
-    .wrapper {
+    > .wrapper {
       display: inline-block;
 
-      .container {
+      > .container {
         align-items: center;
         background: #00688b;
         border-radius: $small-corner;
@@ -255,19 +259,19 @@ header .ui--Button-Group {
       }
     }
 
-    &.cancelled .wrapper .container {
+    &.cancelled > .wrapper > .container {
       background: #cd9b1d
     }
 
-    &.completed .wrapper .container,
-    &.finalised .wrapper .container,
-    &.success .wrapper .container {
+    &.completed > .wrapper > .container,
+    &.finalised > .wrapper > .container,
+    &.success > .wrapper > .container {
       background: green;
     }
 
-    &.dropped .wrapper .container ,
-    &.error .wrapper .container ,
-    &.usurped .wrapper .container {
+    &.dropped > .wrapper > .container ,
+    &.error > .wrapper > .container ,
+    &.usurped > .wrapper > .container {
       background: red;
     }
   }

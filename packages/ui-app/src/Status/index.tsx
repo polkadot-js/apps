@@ -2,14 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '../types';
 import { QueueStatus, QueueTx, QueueTx$Status } from './types';
 
 import React from 'react';
-import { AddressMini, Icon } from '@polkadot/ui-app/index';
-import classes from '@polkadot/ui-app/util/classes';
 import { Method } from '@polkadot/types';
 
+import AddressMini from '../AddressMini';
+import Icon from '../Icon';
+import classes from '../util/classes';
 import translate from '../translate';
 
 type Props = I18nProps & {
@@ -37,22 +38,21 @@ class Status extends React.PureComponent<Props> {
     );
   }
 
-  private renderStatus = (status?: QueueStatus) => {
-    if (!status) {
-      return null;
-    }
-
+  private renderStatus = ({ action, id, message, status, value }: QueueStatus) => {
     return (
-      <div className={classes('item', status.status)}>
+      <div
+        className={classes('item', status)}
+        key={id}
+      >
         <div className='wrapper'>
           <div className='container'>
             <div className='desc'>
               <div className='header'>
-                {status.action}
+                {action}
               </div>
-              <AddressMini value={status.value} />
+              <AddressMini value={value} />
               <div className='status'>
-                {status.message}
+                {message}
               </div>
             </div>
             <div className='short'>
@@ -105,10 +105,17 @@ class Status extends React.PureComponent<Props> {
     );
   }
 
-  private iconName = (status: QueueStatus) => {
-    return status.status === 'error'
-      ? 'ban'
-      : 'check';
+  private iconName = (status: string) => {
+    switch (status) {
+      case 'error':
+        return 'ban';
+
+      case 'received':
+        return 'telegram plane';
+
+      default:
+        return 'check';
+    }
   }
 
   private signerIconName = (status: QueueTx$Status) => {

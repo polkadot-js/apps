@@ -62,7 +62,7 @@ class Logs extends React.PureComponent<Props> {
         <span key={index}>{entry.toString()}</span>
       ));
     } else {
-      content = item.value.toString();
+      content = item.value.toString().split(',').join(', ');
     }
 
     return (
@@ -77,7 +77,9 @@ class Logs extends React.PureComponent<Props> {
             </h3>
             <div className='description' />
           </div>
-          {content}
+          <div className='value'>
+            {content}
+          </div>
         </article>
       </div>
     );

@@ -194,7 +194,7 @@ class Query extends React.PureComponent<Props, State> {
       />
     ];
 
-    if (key.meta && key.meta.type.toString() === 'Bytes') {
+    if (key.meta && ['Bytes', 'Data'].includes(key.meta.type.toString())) {
       // TODO We are currently not performing a copy
       // buttons.unshift(
       //   <Button

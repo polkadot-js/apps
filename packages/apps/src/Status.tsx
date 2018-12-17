@@ -14,7 +14,7 @@ import { withMulti, withObservable, withObservableBase } from '@polkadot/ui-reac
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
-import translate from '../translate';
+import translate from './translate';
 
 type Props = I18nProps & {
   optionsAll?: KeyringOptions,
@@ -39,15 +39,19 @@ class Status extends React.PureComponent<Props> {
     const addresses = optionsAll.account.map((account) => account.value);
 
     systemEvents.forEach(({ event: { data, method, section } }) => {
-      if (section === 'balances' && method === 'Transfer' && addresses.includes(data.toString())) {
-        queueAction({
-          action: method,
-          status: 'queued',
-          value: data[1].toString(),
-          message: t('transfer.received', {
-            defaultValue: 'transfer received'
-          })
-        });
+      if (section === 'balances' && method === 'Transfer') {
+        const recipient = data[1].toString();
+
+        if (addresses.includes(recipient)) {
+          queueAction({
+            action: method,
+            status: 'received',
+            value: recipient,
+            message: t('transfer.received', {
+              defaultValue: 'transfer received'
+            })
+          });
+        }
       }
     });
   }

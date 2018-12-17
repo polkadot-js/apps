@@ -22,8 +22,6 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
 
   switch (type) {
     case 'Balance':
-      return new BN(1);
-
     case 'BlockNumber':
     case 'Compact':
     case 'Gas':

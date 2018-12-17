@@ -7,6 +7,8 @@ import { RpcRxInterface } from '@polkadot/rpc-rx/types';
 import { ApiProps } from '../types';
 
 import React from 'react';
+import { combineLatest, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import Api from '@polkadot/api-observable';
 import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
@@ -14,7 +16,7 @@ import RxApi from '@polkadot/rpc-rx';
 import keyring from '@polkadot/ui-keyring';
 import { isTestChain } from '@polkadot/ui-react-rx/util/index';
 import settings from '@polkadot/ui-settings';
-import { Header, Method } from '@polkadot/types';
+import { Header, Method, ChainProperties } from '@polkadot/types';
 
 import { balanceFormat } from '../util/index';
 import ApiContext from './Context';
@@ -104,16 +106,19 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   }
 
   private subscribeChain = (rpc: RpcRxInterface, api: Api): void => {
-    api.chain().subscribe((value: any) => {
+    combineLatest(
+      rpc.system.properties().pipe(catchError(() => of())),
+      api.chain()
+    ).subscribe(([properties = new ChainProperties(), value]: [ChainProperties, any]) => {
       const chain = value
         ? value.toString()
         : null;
       const found = settings.availableChains.find(({ name }) => name === chain) || { chainId: 0, decimals: 0, unit: undefined };
 
-      console.log('found chain', chain);
+      console.log('found chain', chain, [...properties.entries()]);
 
-      balanceFormat.setDefaultDecimals(found.decimals);
-      InputNumber.setUnit(found.unit);
+      balanceFormat.setDefaultDecimals(properties.get('decimals') || found.decimals);
+      InputNumber.setUnit(properties.get('tokenSymbol') || found.unit);
 
       // setup keyringonly after prefix has been set
       keyring.setAddressPrefix(found.chainId as any);
