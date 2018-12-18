@@ -14,6 +14,9 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     return Array.isArray(def.sub)
       ? def.sub.map((def) => getInitValue(def))
       : [];
+  } else if (def.info === TypeDefInfo.Struct) {
+    console.error(`Unable to determine default type from Struct ${JSON.stringify(def)}`);
+    return void 0;
   }
 
   const type = def.info === TypeDefInfo.Compact
@@ -26,7 +29,7 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     case 'Compact':
     case 'Gas':
     case 'Index':
-    case 'ParachainId':
+    case 'ParaId':
     case 'PropIndex':
     case 'ReferendumIndex':
     case 'SessionKey':
