@@ -29,7 +29,7 @@ type Props = BareProps & ApiProps & {
 };
 
 type State = {
-  method: MethodFunction,
+  methodfn: MethodFunction,
   params: Array<{ name: string, type: TypeDef }>,
   values: Array<RawParam>
 };
@@ -41,7 +41,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      method: props.defaultValue,
+      methodfn: props.defaultValue,
       params: this.getParams(props.defaultValue),
       values: []
     };
@@ -60,7 +60,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
           isPrivate={isPrivate}
           labelMethod={labelMethod}
           labelSection={labelSection}
-          onChange={this.onChangeExtrinsic}
+          onChange={this.onChangeMethod}
           withLabel={withLabel}
         />
         <Params
@@ -75,7 +75,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
   private nextState (newState: State): void {
     this.setState(newState, () => {
       const { onChange } = this.props;
-      const { method, params, values } = this.state;
+      const { methodfn, params, values } = this.state;
 
       const isValid = values.reduce((isValid, value) =>
           isValid &&
@@ -83,11 +83,11 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
           !isUndefined(value.value) &&
           value.isValid, params.length === values.length);
 
-      let extrinsic;
+      let method;
 
       if (isValid) {
         try {
-          extrinsic = method(
+          method = methodfn(
             ...values.map(({ value }) =>
               value
             )
@@ -97,14 +97,14 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
         }
       }
 
-      onChange(extrinsic);
+      onChange(method);
     });
   }
 
-  private onChangeExtrinsic = (method: MethodFunction): void => {
+  private onChangeMethod = (methodfn: MethodFunction): void => {
     this.nextState({
-      method,
-      params: this.getParams(method),
+      methodfn,
+      params: this.getParams(methodfn),
       values: []
     });
   }
@@ -113,8 +113,8 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
     this.nextState({ values } as State);
   }
 
-  private getParams (method: MethodFunction): Array<{ name: string, type: TypeDef }> {
-    return Method.filterOrigin(method.meta).map((arg) => ({
+  private getParams (methodfn: MethodFunction): Array<{ name: string, type: TypeDef }> {
+    return Method.filterOrigin(methodfn.meta).map((arg) => ({
       name: arg.name.toString(),
       type: getTypeDef(arg.type)
     }));
