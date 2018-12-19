@@ -128,6 +128,7 @@ class Status extends React.PureComponent<Props> {
         return 'check';
 
       case 'dropped':
+      case 'invalid':
       case 'usurped':
         return 'arrow down';
 
