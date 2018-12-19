@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ExtrinsicFunction } from '@polkadot/types/Method';
+import { MethodFunction } from '@polkadot/types/Method';
 import { I18nProps } from '../types';
 import { DropdownOptions } from '../util/types';
 
@@ -19,20 +19,20 @@ import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
 type Props = I18nProps & {
-  defaultValue: ExtrinsicFunction,
+  defaultValue: MethodFunction,
   isDisabled?: boolean,
   isError?: boolean,
   isPrivate?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (value: ExtrinsicFunction) => void,
+  onChange: (value: MethodFunction) => void,
   withLabel?: boolean
 };
 
 type State = {
   optionsMethod: DropdownOptions,
   optionsSection: DropdownOptions,
-  value: ExtrinsicFunction
+  value: MethodFunction
 };
 
 class InputExtrinsic extends React.PureComponent<Props, State> {
@@ -82,7 +82,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     );
   }
 
-  onKeyChange = (newValue: ExtrinsicFunction): void => {
+  onKeyChange = (newValue: MethodFunction): void => {
     const { onChange } = this.props;
     const { value } = this.state;
 

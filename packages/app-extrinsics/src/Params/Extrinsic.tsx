@@ -2,18 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ExtrinsicFunction } from '@polkadot/types/Method';
+import { MethodFunction } from '@polkadot/types/Method';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParam$OnChange } from '@polkadot/ui-app/Params/types';
 
 import React from 'react';
-import { Extrinsic } from '@polkadot/types';
+import { Method } from '@polkadot/types';
 
 import BaseExtrinsic from '../Extrinsic';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  defaultValue: ExtrinsicFunction,
+  defaultValue: MethodFunction,
   isDisabled?: boolean,
   isError?: boolean,
   isPrivate: boolean,
@@ -52,12 +52,12 @@ class ExtrinsicDisplay extends React.PureComponent<Props> {
     );
   }
 
-  onChange = (extrinsic: Extrinsic): void => {
+  onChange = (method: Method): void => {
     const { onChange } = this.props;
 
     onChange && onChange({
-      isValid: !!extrinsic,
-      value: extrinsic
+      isValid: !!method,
+      value: method
     });
   }
 }

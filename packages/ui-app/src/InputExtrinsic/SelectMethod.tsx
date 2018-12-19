@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ExtrinsicFunction } from '@polkadot/types/Method';
+import { MethodFunction } from '@polkadot/types/Method';
 import { I18nProps } from '../types';
 import { DropdownOptions } from '../util/types';
 
@@ -16,9 +16,9 @@ import translate from '../translate';
 type Props = I18nProps & {
   isError?: boolean,
   label?: string,
-  onChange: (value: ExtrinsicFunction) => void,
+  onChange: (value: MethodFunction) => void,
   options: DropdownOptions,
-  value: ExtrinsicFunction,
+  value: MethodFunction,
   withLabel?: boolean
 };
 
@@ -30,7 +30,7 @@ class SelectMethod extends React.PureComponent<Props> {
       return null;
     }
 
-    const transform = (method: string): ExtrinsicFunction =>
+    const transform = (method: string): MethodFunction =>
       Api.extrinsics[value.section][method];
 
     return (

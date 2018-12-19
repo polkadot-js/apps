@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ExtrinsicFunction } from '@polkadot/types/Method';
+import { MethodFunction } from '@polkadot/types/Method';
 import { BareProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { RawParam } from '@polkadot/ui-app/Params/types';
 
 import React from 'react';
 import { TypeDef, getTypeDef } from '@polkadot/types/codec';
-import { Extrinsic, Method } from '@polkadot/types';
+import { Method } from '@polkadot/types';
 
 import { InputExtrinsic, Params } from '@polkadot/ui-app/index';
 import { isUndefined } from '@polkadot/util';
@@ -18,18 +18,18 @@ import { withApi } from '@polkadot/ui-react-rx/with/index';
 import paramComponents from './Params';
 
 type Props = BareProps & ApiProps & {
-  defaultValue: ExtrinsicFunction,
+  defaultValue: MethodFunction,
   isDisabled?: boolean,
   isError?: boolean,
   isPrivate?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (extrinsic?: Extrinsic) => void,
+  onChange: (method?: Method) => void,
   withLabel?: boolean
 };
 
 type State = {
-  method: ExtrinsicFunction,
+  method: MethodFunction,
   params: Array<{ name: string, type: TypeDef }>,
   values: Array<RawParam>
 };
@@ -101,7 +101,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
     });
   }
 
-  private onChangeExtrinsic = (method: ExtrinsicFunction): void => {
+  private onChangeExtrinsic = (method: MethodFunction): void => {
     this.nextState({
       method,
       params: this.getParams(method),
@@ -113,7 +113,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
     this.nextState({ values } as State);
   }
 
-  private getParams (method: ExtrinsicFunction): Array<{ name: string, type: TypeDef }> {
+  private getParams (method: MethodFunction): Array<{ name: string, type: TypeDef }> {
     return Method.filterOrigin(method.meta).map((arg) => ({
       name: arg.name.toString(),
       type: getTypeDef(arg.type)

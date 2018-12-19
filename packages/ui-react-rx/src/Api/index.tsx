@@ -35,7 +35,7 @@ type State = ApiProps & {
 };
 
 // HACK Initialise with static data
-Method.injectExtrinsics(Api.extrinsics);
+Method.injectMethods(Api.extrinsics);
 
 export default class ApiWrapper extends React.PureComponent<Props, State> {
   state: State = {} as State;

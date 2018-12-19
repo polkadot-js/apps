@@ -9,7 +9,7 @@ import { RxBalanceMap } from '@polkadot/api-observable/types';
 import BN from 'bn.js';
 import React from 'react';
 import Api from '@polkadot/api-observable';
-import { AccountId, Balance, Extrinsic } from '@polkadot/types';
+import { AccountId, Balance, Extrinsic, Method } from '@polkadot/types';
 import { AddressMini, AddressSummary, Button } from '@polkadot/ui-app/index';
 import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
@@ -162,11 +162,11 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private send (extrinsic: Extrinsic) {
+  private send (method: Method) {
     const { accountNonce, accountId, queueExtrinsic } = this.props;
 
     queueExtrinsic({
-      extrinsic,
+      extrinsic: new Extrinsic({ method }),
       accountNonce: accountNonce || new BN(0),
       accountId
     });
