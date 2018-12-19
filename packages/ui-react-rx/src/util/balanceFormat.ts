@@ -85,7 +85,7 @@ balanceFormat.getOptions = (decimals: number = defaultDecimals): Array<SiDef> =>
 };
 
 // Sets the default decimals to use for formatting (chain-wide)
-balanceFormat.setDefaultDecimals = (decimals: number): void => {
+balanceFormat.setDefaultDecimals = (decimals: number = 0): void => {
   defaultDecimals = decimals;
 };
 

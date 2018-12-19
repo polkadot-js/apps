@@ -8,7 +8,7 @@ import { QueueTx$ExtrinsicAdd, QueueTx$Unclog } from '@polkadot/ui-app/Status/ty
 
 import React from 'react';
 import Api from '@polkadot/api-observable';
-import { Extrinsic } from '@polkadot/types';
+import { Extrinsic, Method } from '@polkadot/types';
 import { Button } from '@polkadot/ui-app/index';
 
 import Account from './Account';
@@ -23,7 +23,7 @@ type Props = I18nProps & {
 
 type State = {
   isValid: boolean,
-  extrinsic: Extrinsic | null,
+  method: Method | null,
   accountNonce: BN,
   accountId: string
 };
@@ -78,15 +78,15 @@ class Selection extends React.PureComponent<Props, State> {
   private nextState (newState: State): void {
     this.setState(
       (prevState: State): State => {
-        const { extrinsic = prevState.extrinsic, accountNonce = prevState.accountNonce, accountId = prevState.accountId } = newState;
+        const { method = prevState.method, accountNonce = prevState.accountNonce, accountId = prevState.accountId } = newState;
         const isValid = !!(
           accountId &&
           accountId.length &&
-          extrinsic
+          method
         );
 
         return {
-          extrinsic,
+          method,
           isValid,
           accountNonce,
           accountId
@@ -95,8 +95,8 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeExtrinsic = (extrinsic: Extrinsic | null = null): void => {
-    this.nextState({ extrinsic } as State);
+  private onChangeExtrinsic = (method: Method | null = null): void => {
+    this.nextState({ method } as State);
   }
 
   private onChangeNonce = (accountNonce: BN = new BN(0)): void => {
@@ -113,15 +113,15 @@ class Selection extends React.PureComponent<Props, State> {
 
   private onQueue = (): void => {
     const { queueExtrinsic } = this.props;
-    const { accountNonce, extrinsic, isValid, accountId } = this.state;
+    const { accountNonce, method, isValid, accountId } = this.state;
 
-    if (!isValid || !extrinsic) {
+    if (!isValid || !method) {
       return;
     }
 
     queueExtrinsic({
       accountNonce,
-      extrinsic,
+      extrinsic: new Extrinsic({ method }),
       accountId
     });
   }

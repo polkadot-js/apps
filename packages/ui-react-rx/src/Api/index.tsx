@@ -35,7 +35,7 @@ type State = ApiProps & {
 };
 
 // HACK Initialise with static data
-Method.injectExtrinsics(Api.extrinsics);
+Method.injectMethods(Api.extrinsics);
 
 export default class ApiWrapper extends React.PureComponent<Props, State> {
   state: State = {} as State;
@@ -113,15 +113,19 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       const chain = value
         ? value.toString()
         : null;
-      const found = settings.availableChains.find(({ name }) => name === chain) || { chainId: 0, decimals: 0, unit: undefined };
+      const found = settings.availableChains.find(({ name }) => name === chain) || {
+        networkId: 0,
+        tokenDecimals: 0,
+        tokenSymbol: undefined
+      };
 
       console.log('found chain', chain, [...properties.entries()]);
 
-      balanceFormat.setDefaultDecimals(properties.get('decimals') || found.decimals);
-      InputNumber.setUnit(properties.get('tokenSymbol') || found.unit);
+      balanceFormat.setDefaultDecimals(properties.get('tokenDecimals') || found.tokenDecimals);
+      InputNumber.setUnit(properties.get('tokenSymbol') || found.tokenSymbol);
 
       // setup keyringonly after prefix has been set
-      keyring.setAddressPrefix(found.chainId as any);
+      keyring.setAddressPrefix(properties.get('networkId') || found.networkId as any);
       keyring.setDevMode(isTestChain(chain || ''));
       keyring.loadAll();
 

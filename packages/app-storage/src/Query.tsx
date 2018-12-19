@@ -141,6 +141,7 @@ class Query extends React.PureComponent<Props, State> {
       <Button
         icon='close'
         isNegative
+        key='close'
         onClick={this.onRemove}
       />
     ];
@@ -156,6 +157,7 @@ class Query extends React.PureComponent<Props, State> {
       buttons.unshift(
         <Button
           icon='ellipsis horizontal'
+          key='spread'
           onClick={this.spreadHandler(id)}
         />
       );

@@ -144,7 +144,7 @@ class Transfer extends React.PureComponent<Props, State> {
     this.setState((prevState: State): State => {
       const { accountId = prevState.accountId, amount = prevState.amount, recipientId = prevState.recipientId, txfees = prevState.txfees } = newState;
       const extrinsic = accountId && recipientId
-        ? Api.extrinsics.balances.transfer(recipientId, amount)
+        ? new Extrinsic({ method: Api.extrinsics.balances.transfer(recipientId, amount) })
         : null;
 
       return {
