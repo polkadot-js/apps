@@ -9,7 +9,6 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const packages = [
   'app-accounts',
@@ -143,22 +142,6 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       tls: 'empty'
     },
     optimization: {
-      minimizer: [
-        new UglifyJsPlugin({
-          uglifyOptions: {
-            warnings: false,
-            parse: {},
-            compress: {},
-            mangle: true, // Note `mangle.properties` is `false` by default.
-            output: null,
-            toplevel: false,
-            nameCache: null,
-            ie8: false,
-            keep_classnames: true,
-            keep_fnames: false
-          }
-        })
-      ],
       runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
