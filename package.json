@@ -26,7 +26,7 @@
     "start": "cd packages/apps && webpack-serve --config webpack.config.js --port 3000"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.0",
+    "@babel/core": "^7.2.2",
     "@polkadot/dev-react": "^0.23.3",
     "@polkadot/ts": "^0.1.44",
     "autoprefixer": "^9.4.0",
