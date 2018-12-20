@@ -74,7 +74,7 @@ class App extends React.PureComponent<Props, State> {
               defaultValue={i18nLang}
               isDisabled
               label={t('select.i18n.lang', {
-                defaultValue: 'default interface launguage'
+                defaultValue: 'default interface language'
               })}
               onChange={this.onChangeLang}
               options={settings.availableLanguages}
