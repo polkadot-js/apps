@@ -9,7 +9,7 @@ import { withObservableDiv } from './with/index';
 
 const Component: React.ComponentType<any> = withObservableDiv('blockPeriod')(
   (value?: Moment): string =>
-    `${numberFormat(value ? value.toNumber() : 0)}.0s`,
+    `${numberFormat(value ? (2 * value.toNumber()) : 0)}.0s`,
   { className: 'rx--TimePeriod' }
 );
 
