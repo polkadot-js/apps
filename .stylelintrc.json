@@ -1,3 +1,0 @@
-{
-  "extends": "@polkadot/dev-react/config/stylelint"
-}
