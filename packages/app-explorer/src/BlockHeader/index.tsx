@@ -1,84 +1,74 @@
 // Copyright 2017-2018 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Header } from '@polkadot/primitives/header';
+import { Header } from '@polkadot/types';
 import { BareProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import './BlockHeader.css';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import headerHash from '@polkadot/primitives/codec/header/hash';
 import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
-import withApi from '@polkadot/ui-react-rx/with/api';
-import u8aToHex from '@polkadot/util/u8a/toHex';
 
-import CopyButton from '@polkadot/ui-app/CopyButton';
+// FIXME 7 Nov 2018 Due to mismatches with block hashes between Substrate and BBQ,
+// the hashes are retrieved and not calculated (go back to calculated once resolved)
+import BlockHash from './BlockHash';
 import Extrinsics from './Extrinsics';
 
-type Props = ApiProps & BareProps & {
+type Props = BareProps & {
   value?: Header,
   withExtrinsics?: boolean,
   withLink?: boolean
 };
 
-class BlockHeader extends React.PureComponent<Props> {
+export default class BlockHeader extends React.PureComponent<Props> {
   render () {
-    const { apiMethods, value, withExtrinsics = false, withLink = false } = this.props;
+    const { value, withExtrinsics = false, withLink = false } = this.props;
 
     if (!value) {
       return null;
     }
 
-    const isLinkable = !!apiMethods.chain_getBlock;
-    const hash = headerHash(value);
-    // tslint:disable-next-line:variable-name
-    const { extrinsicsRoot, number, parentHash, stateRoot } = value;
-    const hashHex = u8aToHex(hash);
-    const parentHex = u8aToHex(parentHash);
+    const { blockNumber, extrinsicsRoot, parentHash, stateRoot } = value;
+    const parentHex = parentHash.toHex();
 
     return (
-      <div className='explorer--BlockHeader'>
-        <div className='number'>
-          <div>{numberFormat(number)}</div>
-        </div>
+      <article className='explorer--BlockHeader'>
         <div className='details'>
-          <div className='hash'>
-            {isLinkable && withLink
-              ? <Link to={`/explorer/hash/${hashHex}`}>{hashHex}</Link>
-              : hashHex}
-            <CopyButton value={hashHex} />
+          <div className='header'>
+            <div className='number'>{numberFormat(blockNumber)}&nbsp;</div>
+            <div className='hash'>
+              <BlockHash
+                blockNumber={blockNumber}
+                withLink={withLink}
+              />
+            </div>
           </div>
-          <table className='contains'>
-            <tbody>
-              <tr>
-                <td className='type'>parentHash</td>
-                <td className='hash'>{
-                  isLinkable && number.gtn(1)
-                    ? <Link to={`/explorer/hash/${parentHex}`}>{parentHex}</Link>
-                    : parentHex
-                }</td>
-              </tr>
-              <tr>
-                <td className='type'>extrinsicsRoot</td>
-                <td className='hash'>{u8aToHex(extrinsicsRoot)}</td>
-              </tr>
-              <tr>
-                <td className='type'>stateRoot</td>
-                <td className='hash'>{u8aToHex(stateRoot)}</td>
-              </tr>
-              {withExtrinsics
-                ? <Extrinsics hash={hash} />
-                : undefined
-              }
-            </tbody>
-          </table>
+          <div className='contains'>
+            <div>
+              <div className='type'>parentHash</div>
+              <div className='hash'>{
+                value.blockNumber.gtn(1)
+                  ? <Link to={`/explorer/hash/${parentHex}`}>{parentHex}</Link>
+                  : parentHex
+              }</div>
+            </div>
+            <div>
+              <div className='type'>extrinsicsRoot</div>
+              <div className='hash'>{extrinsicsRoot.toHex()}</div>
+            </div>
+            <div>
+              <div className='type'>stateRoot</div>
+              <div className='hash'>{stateRoot.toHex()}</div>
+            </div>
+            {withExtrinsics
+              ? <Extrinsics hash={value.hash} />
+              : undefined
+            }
+          </div>
         </div>
-      </div>
+      </article>
     );
   }
 }
-
-export default withApi(BlockHeader);

@@ -1,14 +1,14 @@
 // Copyright 2017-2018 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueProps } from '@polkadot/ui-signer/types';
+import { QueueProps } from '@polkadot/ui-app/Status/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import InputAddress from '@polkadot/ui-app/InputAddress';
-import { QueueConsumer } from '@polkadot/ui-signer/Context';
+import { InputAddress } from '@polkadot/ui-app/index';
+import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
 import VotingButtons from './VotingButtons';
 import translate from './translate';
@@ -18,7 +18,7 @@ type Props = I18nProps & {
 };
 
 type State = {
-  publicKey?: Uint8Array
+  accountId?: string
 };
 
 class Voting extends React.PureComponent<Props, State> {
@@ -45,9 +45,9 @@ class Voting extends React.PureComponent<Props, State> {
 
   private renderButtons () {
     const { referendumId } = this.props;
-    const { publicKey } = this.state;
+    const { accountId } = this.state;
 
-    if (!publicKey) {
+    if (!accountId) {
       return null;
     }
 
@@ -55,7 +55,7 @@ class Voting extends React.PureComponent<Props, State> {
       <QueueConsumer>
         {({ queueExtrinsic }: QueueProps) => (
           <VotingButtons
-            publicKey={publicKey}
+            accountId={accountId}
             queueExtrinsic={queueExtrinsic}
             referendumId={referendumId}
           />
@@ -64,8 +64,8 @@ class Voting extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeAccount = (publicKey?: Uint8Array) => {
-    this.setState({ publicKey });
+  private onChangeAccount = (accountId?: string) => {
+    this.setState({ accountId });
   }
 }
 

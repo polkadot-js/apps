@@ -1,17 +1,17 @@
 // Copyright 2017-2018 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import './SideBar.css';
 
 import React from 'react';
-import Icon from '@polkadot/ui-app/Icon';
-import Menu from '@polkadot/ui-app/Menu';
+import { Icon, Menu } from '@polkadot/ui-app/index';
+import polkadotLogo from '@polkadot/ui-assets/polkadot-white.svg';
+import substrateLogo from '@polkadot/ui-assets/parity-substrate-white.svg';
+import settings from '@polkadot/ui-settings';
 
-import polkadotLogo from '../static/polkadot-white.svg';
-import substrateLogo from '../static/parity-substrate-white.svg';
 import routing from '../routing';
 import translate from '../translate';
 import Item from './Item';
@@ -25,7 +25,7 @@ const LOGOS: Map<string | undefined, any> = new Map([
   ['substrate', substrateLogo]
 ]);
 
-const LOGO = LOGOS.get(process.env.UI_THEME) || polkadotLogo;
+const LOGO = LOGOS.get(settings.uiTheme) || polkadotLogo;
 
 class SideBar extends React.PureComponent<Props> {
   render () {
@@ -68,7 +68,8 @@ class SideBar extends React.PureComponent<Props> {
           <Menu.Item className='apps--SideBar-Item'>
             <a
               className='apps--SideBar-Item-NavLink'
-              href='https://github.com/polkadot-js/apps'>
+              href='https://github.com/polkadot-js/apps'
+            >
               <Icon name='github' /> GitHub
             </a>
           </Menu.Item>

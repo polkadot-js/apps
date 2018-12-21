@@ -1,18 +1,16 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 // TODO: We have a lot shared between this and InputExtrinsic & InputStorage
 
-import { SectionItem } from '@polkadot/params/types';
-import { Interfaces, Interface$Sections } from '@polkadot/jsonrpc/types';
+import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 
 import '../InputExtrinsic/InputExtrinsic.css';
 
 import React from 'react';
-
 import map from '@polkadot/jsonrpc';
 
 import classes from '../util/classes';
@@ -23,18 +21,18 @@ import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
 type Props = I18nProps & {
-  defaultValue: SectionItem<Interfaces>,
+  defaultValue: RpcMethod,
   isError?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (value: SectionItem<Interfaces>) => void,
+  onChange: (value: RpcMethod) => void,
   withLabel?: boolean
 };
 
 type State = {
   optionsMethod: DropdownOptions,
   optionsSection: DropdownOptions,
-  value: SectionItem<Interfaces>
+  value: RpcMethod
 };
 
 class InputRpc extends React.PureComponent<Props, State> {
@@ -81,31 +79,31 @@ class InputRpc extends React.PureComponent<Props, State> {
     );
   }
 
-  onMethodChange = (value: SectionItem<Interfaces>): void => {
+  private onMethodChange = (newValue: RpcMethod): void => {
     const { onChange } = this.props;
-    const { value: { name, section } } = this.state;
+    const { value } = this.state;
 
-    if (value.section === section && value.name === name) {
+    if (value.section === newValue.section && value.method === newValue.method) {
       return;
     }
 
-    this.setState({ value }, () =>
-      onChange(value)
+    this.setState({ value: newValue }, () =>
+      onChange(newValue)
     );
   }
 
-  onSectionChange = (newSection: Interface$Sections): void => {
-    const { value: { section } } = this.state;
+  private onSectionChange = (newSection: string): void => {
+    const { value } = this.state;
 
-    if (newSection === section) {
+    if (newSection === value.section) {
       return;
     }
 
     const optionsMethod = methodOptions(newSection);
-    const value = map[newSection].public[optionsMethod[0].value];
+    const newValue = map[newSection].methods[optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
-      this.onMethodChange(value)
+      this.onMethodChange(newValue)
     );
   }
 }

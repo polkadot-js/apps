@@ -1,33 +1,34 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TranslationFunction } from 'i18next';
+import { WithNamespaces } from 'react-i18next';
 import { Props as BareProps, RawParam } from '../types';
 
 import React from 'react';
-
-import typeToString from '@polkadot/params/typeToString';
 
 import Static from '../../Static';
 import translate from '../../translate';
 import Base from './Base';
 
-type Props = BareProps & {
+type Props = BareProps & WithNamespaces & {
   defaultValue: RawParam,
-  t: TranslationFunction,
   withLabel?: boolean
 };
 
 class Unknown extends React.PureComponent<Props> {
   render () {
-    const { defaultValue: { value, type }, isDisabled, label, t, withLabel } = this.props;
+    const { defaultValue, isDisabled, label, t, withLabel, type } = this.props;
 
     if (isDisabled) {
+      const value = defaultValue && defaultValue.value && defaultValue.value.toString();
+
       return (
         <Static
           label={label}
-          value={(value && value.toString()) || t('unknown.empty', { defaultValue: 'empty' })}
+          value={value || t('unknown.empty', {
+            defaultValue: 'empty'
+          })}
         />
       );
     }
@@ -42,7 +43,7 @@ class Unknown extends React.PureComponent<Props> {
           {t('param.unknown', {
             defaultValue: `ERROR: Unimplemented type '{{type}}' requested. No renderer exists`,
             replace: {
-              type: typeToString(type)
+              type: type.type
             }
           })}
         </div>

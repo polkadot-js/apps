@@ -1,23 +1,25 @@
 // Copyright 2017-2018 @polkadot/app-extrinsics authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
-import { QueueProps } from '@polkadot/ui-signer/types';
+// of the Apache-2.0 license. See the LICENSE file for details.
+
+import { ActionStatus, QueueProps } from '@polkadot/ui-app/Status/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import './index.css';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { QueueConsumer } from '@polkadot/ui-signer/Context';
+import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 import accountsObservable from '@polkadot/ui-keyring/observable/accounts';
-import withObservableBase from '@polkadot/ui-react-rx/with/observableBase';
+import { withMulti, withObservableBase } from '@polkadot/ui-react-rx/with/index';
 import translate from './translate';
 
 import Selection from './Selection';
 
 type Props = I18nProps & {
+  accountAll?: Array<any>,
   basePath: string,
-  accountAll?: Array<any>
+  onStatusChange: (status: ActionStatus) => void
 };
 
 class ExtrinsicsApp extends React.PureComponent<Props> {
@@ -41,8 +43,8 @@ class ExtrinsicsApp extends React.PureComponent<Props> {
     return (
       <main className='extrinsics--App'>
         <QueueConsumer>
-          {({ queueAdd }: QueueProps) => (
-            <Selection queueAdd={queueAdd} />
+          {({ queueExtrinsic, queueUnclog }: QueueProps) => (
+            <Selection queueExtrinsic={queueExtrinsic} queueUnclog={queueUnclog} />
           )}
         </QueueConsumer>
       </main>
@@ -52,4 +54,8 @@ class ExtrinsicsApp extends React.PureComponent<Props> {
 
 export { ExtrinsicsApp };
 
-export default withObservableBase(accountsObservable.subject, { propName: 'accountAll' })(translate(ExtrinsicsApp));
+export default withMulti(
+  ExtrinsicsApp,
+  translate,
+  withObservableBase(accountsObservable.subject, { propName: 'accountAll' })
+);

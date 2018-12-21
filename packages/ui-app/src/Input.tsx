@@ -1,12 +1,12 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from './types';
 
 import React from 'react';
 import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
-import isUndefined from '@polkadot/util/is/undefined';
+import { isUndefined } from '@polkadot/util';
 
 import Labelled from './Labelled';
 
@@ -16,13 +16,13 @@ type Props = BareProps & {
   autoFocus?: boolean,
   children?: React.ReactNode,
   defaultValue?: any,
-  icon?: any, // node?
+  icon?: React.ReactNode,
   isAction?: boolean,
   isDisabled?: boolean,
   isEditable?: boolean,
   isError?: boolean,
   isHidden?: boolean,
-  label?: any, // node?
+  label?: React.ReactNode,
   max?: any,
   maxLength?: number,
   min?: any,
@@ -92,19 +92,27 @@ export default class Input extends React.PureComponent<Props, State> {
         withLabel={withLabel}
       >
         <SUIInput
-          autoFocus={autoFocus}
           action={isAction}
-          className={isEditable ? 'edit icon' : ''}
-          defaultValue={defaultValue}
+          autoFocus={autoFocus}
+          className={
+            isEditable
+              ? 'edit icon'
+              : ''
+          }
+          defaultValue={
+            isUndefined(value)
+              ? (defaultValue || '')
+              : undefined
+          }
           disabled={isDisabled}
+          error={isError}
+          hidden={isHidden}
           id={name}
           iconPosition={
             isUndefined(icon)
-              ? void 0
+              ? undefined
               : 'left'
           }
-          error={isError}
-          hidden={isHidden}
           max={max}
           maxLength={maxLength}
           min={min}
@@ -124,7 +132,11 @@ export default class Input extends React.PureComponent<Props, State> {
                 : 'off'
             }
           />
-          {isEditable ? <i className='edit icon' /> : null}
+          {
+            isEditable
+              ? <i className='edit icon' />
+              : undefined
+          }
           {icon}
           {children}
         </SUIInput>
@@ -132,14 +144,14 @@ export default class Input extends React.PureComponent<Props, State> {
     );
   }
 
-  onChange = (event: React.SyntheticEvent<Element>): void => {
+  private onChange = (event: React.SyntheticEvent<Element>): void => {
     const { onChange } = this.props;
     const { value } = event.target as HTMLInputElement;
 
     onChange(value);
   }
 
-  onKeyDown = (event: React.KeyboardEvent<Element>): void => {
+  private onKeyDown = (event: React.KeyboardEvent<Element>): void => {
     const { onKeyDown } = this.props;
 
     if (onKeyDown) {
@@ -147,7 +159,7 @@ export default class Input extends React.PureComponent<Props, State> {
     }
   }
 
-  onKeyUp = (event: React.KeyboardEvent<Element>): void => {
+  private onKeyUp = (event: React.KeyboardEvent<Element>): void => {
     const { onKeyUp } = this.props;
 
     if (onKeyUp) {

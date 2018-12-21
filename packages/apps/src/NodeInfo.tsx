@@ -1,32 +1,27 @@
 // Copyright 2017-2018 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
-import isTestChain from '@polkadot/ui-react-rx/util/isTestChain';
-import keyring from '@polkadot/ui-keyring/index';
-import BestNumber from '@polkadot/ui-react-rx/BestNumber';
-import Chain from '@polkadot/ui-react-rx/Chain';
-import NodeName from '@polkadot/ui-react-rx/NodeName';
-import NodeVersion from '@polkadot/ui-react-rx/NodeVersion';
+import { AccountId } from '@polkadot/types';
+import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/ui-react-rx/index';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
-type Props = BareProps & {};
+type Props = BareProps & {
+  sessionValidators?: Array<AccountId>
+};
 
 const pkgJson = require('../package.json');
 
-function updateTestInfo (chain?: string) {
-  keyring.setDevMode(isTestChain(chain));
-}
-
-export default class NodeInfo extends React.PureComponent<Props> {
+class NodeInfo extends React.PureComponent<Props> {
   render () {
     return (
       <div className='apps--NodeInfo'>
         <div className='apps--NodeInfo-inline'>
-          <Chain rxChange={updateTestInfo} />&nbsp;
+          <Chain />&nbsp;
           <BestNumber label='#' />
         </div>
         <div className='apps--NodeInfo-inline'>
@@ -38,3 +33,11 @@ export default class NodeInfo extends React.PureComponent<Props> {
     );
   }
 }
+
+// NOTE While these are not used internally to this specific component, we are loading them
+// to have them warmed-up globally. This means when accessing in other components, the values
+// are already there
+export default withMulti(
+  NodeInfo,
+  withObservable('sessionValidators')
+);

@@ -1,16 +1,14 @@
 // Copyright 2017-2018 @polkadot/ui-react-rx authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import rpcs from '@polkadot/jsonrpc';
+import { Text } from '@polkadot/types';
 
-import withApiDiv from './with/apiDiv';
+import { withObservableDiv } from './with/index';
 
-const method = rpcs.system.public.chain;
-
-const Component: React.ComponentType<any> = withApiDiv(method)(
-  (value: string = 'unknown'): string =>
-    value,
+const Component: React.ComponentType<any> = withObservableDiv('chain')(
+  (value: Text | string = 'unknown'): string =>
+    value.toString(),
   { className: 'rx--Chain' }
 );
 

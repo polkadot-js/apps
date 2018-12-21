@@ -1,17 +1,16 @@
 // Copyright 2017-2018 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RxBalance, RxBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
+import { RxBalance, RxBalanceMap } from '@polkadot/api-observable/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import CardSummary from '@polkadot/ui-app/CardSummary';
-import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
+import { CardSummary } from '@polkadot/ui-app/index';
 import SummarySession from '@polkadot/app-explorer/SummarySession';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
 
 import translate from '../translate';
 
@@ -33,14 +32,18 @@ class Summary extends React.PureComponent<Props> {
         style={style}
       >
         <section>
-          <CardSummary label={t('summary.validators', {
-            defaultValue: 'validators'
-          })}>
+          <CardSummary
+            label={t('summary.validators', {
+              defaultValue: 'validators'
+            })}
+          >
             {validators.length}/{validatorCount ? validatorCount.toString() : '-'}
           </CardSummary>
-          <CardSummary label={t('summary.intentions', {
-            defaultValue: 'intentions'
-          })}>
+          <CardSummary
+            label={t('summary.intentions', {
+              defaultValue: 'intentions'
+            })}
+          >
             {intentions.length}
           </CardSummary>
         </section>
@@ -48,9 +51,11 @@ class Summary extends React.PureComponent<Props> {
           <SummarySession withBroken={false} />
         </section>
         <section>
-          <CardSummary label={t('summary.balances', {
-            defaultValue: 'balances'
-          })}>
+          <CardSummary
+            label={t('summary.balances', {
+              defaultValue: 'balances'
+            })}
+          >
             {this.renderBalances()}
           </CardSummary>
         </section>
@@ -62,6 +67,12 @@ class Summary extends React.PureComponent<Props> {
     const { t } = this.props;
     const intentionHigh = this.calcIntentionsHigh();
     const validatorLow = this.calcValidatorLow();
+    const nominatedLow = validatorLow && validatorLow.nominatedBalance.gtn(0)
+      ? `(+${balanceFormat(validatorLow.nominatedBalance)})`
+      : '';
+    const nominatedHigh = intentionHigh && intentionHigh.nominatedBalance.gtn(0)
+      ? `(+${balanceFormat(intentionHigh.nominatedBalance)})`
+      : '';
 
     return (
       <div className='staking--Summary-text'>
@@ -69,16 +80,16 @@ class Summary extends React.PureComponent<Props> {
           defaultValue: 'lowest validator {{validatorLow}}',
           replace: {
             validatorLow: validatorLow && validatorLow.stakingBalance
-              ? `${numberFormat(validatorLow.stakingBalance)} (+${numberFormat(validatorLow.nominatedBalance)})`
-              : 'unknown'
+              ? `${balanceFormat(validatorLow.stakingBalance)} ${nominatedLow}`
+              : '-'
           }
         })}</div>
         <div>{t('summary.balance.stake', {
           defaultValue: 'highest intention {{intentionHigh}}',
           replace: {
             intentionHigh: intentionHigh
-              ? `${numberFormat(intentionHigh.stakingBalance)} (+${numberFormat(intentionHigh.nominatedBalance)})`
-              : 'unknown'
+              ? `${balanceFormat(intentionHigh.stakingBalance)} ${nominatedHigh}`
+              : '-'
           }
         })}</div>
       </div>
@@ -117,6 +128,7 @@ class Summary extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  translate(Summary),
+  Summary,
+  translate,
   withObservable('validatorCount')
 );

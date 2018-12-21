@@ -1,34 +1,32 @@
 // Copyright 2017-2018 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
-
-import Button from '@polkadot/ui-app/Button';
-import Input from '@polkadot/ui-app/Input';
+import { AddressSummary, Button, Dropdown, Input, Modal, Password } from '@polkadot/ui-app/index';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
-import Password from '@polkadot/ui-app/Password';
-import keyring from '@polkadot/ui-keyring/index';
-import isHex from '@polkadot/util/is/hex';
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import u8aFromString from '@polkadot/util/u8a/fromString';
-import u8aToHex from '@polkadot/util/u8a/toHex';
-import keypairFromSeed from '@polkadot/util-crypto/nacl/keypair/fromSeed';
-import randomBytes from '@polkadot/util-crypto/random/asU8a';
-import addressEncode from '@polkadot/util-keyring/address/encode';
-import Modal from '@polkadot/ui-app/Modal';
+import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
+import { mnemonicToSeed, mnemonicValidate, naclKeypairFromSeed, randomAsU8a } from '@polkadot/util-crypto';
+import keyring from '@polkadot/ui-keyring';
 
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
 import translate from './translate';
+import FileSaver from 'file-saver';
+
+const BipWorker = require('worker-loader?name=[name].[hash:8].js!./bipWorker');
 
 type Props = I18nProps & {
-  onBack: () => void
+  onStatusChange: (status: ActionStatus) => void,
+  onCreateAccount: () => void
 };
+
+type SeedType = 'bip' | 'raw';
 
 type State = {
   address: string,
+  isBipBusy: boolean,
   isNameValid: boolean,
   isSeedValid: boolean,
   isPassValid: boolean,
@@ -36,30 +34,55 @@ type State = {
   name: string,
   password: string,
   seed: string,
+  seedOptions: Array<{ value: SeedType, text: string }>,
+  seedType: SeedType,
   showWarning: boolean
 };
 
 function formatSeed (seed: string): Uint8Array {
   return isHex(seed)
     ? hexToU8a(seed)
-    : u8aFromString(seed.padEnd(32, ' '));
+    : stringToU8a((seed as string).padEnd(32, ' '));
 }
 
-function addressFromSeed (seed: string): string {
-  return addressEncode(
-    keypairFromSeed(
-      formatSeed(seed)
-    ).publicKey
+function addressFromSeed (seed: string, seedType: SeedType): string {
+  const keypair = naclKeypairFromSeed(
+    seedType === 'bip'
+      ? mnemonicToSeed(seed)
+      : formatSeed(seed)
+  );
+
+  return keyring.encodeAddress(
+    keypair.publicKey
   );
 }
 
 class Creator extends React.PureComponent<Props, State> {
-  state: State;
+  bipWorker: any;
+  state: State = { seedType: 'bip' } as State;
 
   constructor (props: Props) {
     super(props);
 
-    this.state = this.emptyState();
+    const { t } = this.props;
+
+    this.bipWorker = new BipWorker();
+    this.bipWorker.onmessage = (event: MessageEvent) => {
+      const { publicKey, seed } = event.data;
+
+      this.setState({
+        address: keyring.encodeAddress(publicKey),
+        isBipBusy: false,
+        seed
+      });
+    };
+    this.state = {
+      ...this.emptyState(),
+      seedOptions: [
+        { value: 'bip', text: t('seedType.bip', { defaultValue: 'Mnemonic' }) },
+        { value: 'raw', text: t('seedType.raw', { defaultValue: 'Raw seed' }) }
+      ]
+    };
   }
 
   render () {
@@ -110,23 +133,13 @@ class Creator extends React.PureComponent<Props, State> {
 
   renderInput () {
     const { t } = this.props;
-    const { isNameValid, isPassValid, isSeedValid, name, password, seed, showWarning } = this.state;
+    const { isBipBusy, isNameValid, isPassValid, isSeedValid, name, password, seed, seedOptions, seedType, showWarning } = this.state;
 
     return (
       <div className='grow'>
         <div className='ui--row'>
           <Input
-            className='full'
-            isError={!isSeedValid}
-            label={t('creator.seed', {
-              defaultValue: 'create from the following seed (hex or string)'
-            })}
-            onChange={this.onChangeSeed}
-            value={seed}
-          />
-        </div>
-        <div className='ui--row'>
-          <Input
+            autoFocus
             className='full'
             isError={!isNameValid}
             label={t('creator.name', {
@@ -135,6 +148,39 @@ class Creator extends React.PureComponent<Props, State> {
             onChange={this.onChangeName}
             value={name}
           />
+        </div>
+        <div className='ui--row'>
+          <Input
+            className='full'
+            isAction
+            isDisabled={isBipBusy}
+            isError={!isSeedValid}
+            label={
+              seedType === 'bip'
+                ? t('creator.seed.bip', {
+                  defaultValue: 'create from the following mnemonic seed'
+                })
+                : t('creator.seed.raw', {
+                  defaultValue: 'create from the following seed (hex or string)'
+                })
+            }
+            onChange={this.onChangeSeed}
+            placeholder={
+              isBipBusy
+                ? t('creator.seed.bipBusy', {
+                  defaultValue: 'Generating Mnemeonic seed'
+                })
+                : null
+            }
+            value={isBipBusy ? '' : seed}
+          >
+            <Dropdown
+              isButton
+              defaultValue={seedType}
+              onChange={this.selectSeedType}
+              options={seedOptions}
+            />
+          </Input>
         </div>
         <div className='ui--row'>
           <Password
@@ -148,8 +194,10 @@ class Creator extends React.PureComponent<Props, State> {
           />
         </div>
         <Modal
+          className='app--accounts-Modal'
           dimmer='inverted'
           open={showWarning}
+          size='small'
         >
           {this.renderModalContent()}
           {this.renderModalButtons()}
@@ -176,7 +224,7 @@ class Creator extends React.PureComponent<Props, State> {
             isPrimary
             onClick={this.onCommit}
             text={t('seedWarning.continue', {
-              defaultValue: 'Continue'
+              defaultValue: 'Create and backup account'
             })}
           />
         </Button.Group>
@@ -186,55 +234,89 @@ class Creator extends React.PureComponent<Props, State> {
 
   renderModalContent () {
     const { t } = this.props;
+    const { address } = this.state;
 
     return [
       <Modal.Header key='header'>
         {t('seedWarning.header', {
-          defaultValue: 'Warning'
+          defaultValue: 'Important notice!'
         })}
       </Modal.Header>,
       <Modal.Content key='content'>
         {t('seedWarning.content', {
-          defaultValue: 'Before you continue, make sure you have properly backed up your seed in a safe place as it is needed to restore your account.'
+          defaultValue: 'We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always redownload this file later.'
         })}
+        <Modal.Description>
+          {t('seedWarning.description', {
+            defaultValue: 'Please make sure to save this file in a secure location as it is the only way to restore your account.'
+          })}
+        </Modal.Description>
+        <AddressSummary
+          className='accounts--Modal-Address'
+          value={address}
+        />
       </Modal.Content>
     ];
   }
 
-  emptyState (): State {
-    const seed = u8aToHex(randomBytes());
-    const address = addressFromSeed(seed);
+  private generateSeed (seedType: SeedType): State {
+    if (seedType === 'bip') {
+      this.bipWorker.postMessage('create');
+
+      return {
+        isBipBusy: true,
+        seed: ''
+      } as State;
+    }
+
+    const seed = u8aToHex(randomAsU8a());
+    const address = addressFromSeed(seed, seedType);
 
     return {
       address,
+      isBipBusy: false,
+      seed
+    } as State;
+  }
+
+  private emptyState (): State {
+    const { seedType } = this.state;
+
+    return {
+      ...this.generateSeed(seedType),
       isNameValid: true,
       isPassValid: false,
       isSeedValid: true,
       isValid: false,
       name: 'new keypair',
       password: '',
-      seed,
+      seedType,
       showWarning: false
     };
   }
 
-  nextState (newState: State): void {
+  private nextState (newState: State): void {
     this.setState(
       (prevState: State, props: Props): State => {
-        const { name = prevState.name, password = prevState.password, seed = prevState.seed, showWarning = prevState.showWarning } = newState;
+        const { isBipBusy = prevState.isBipBusy, name = prevState.name, password = prevState.password, seed = prevState.seed, seedOptions = prevState.seedOptions, seedType = prevState.seedType, showWarning = prevState.showWarning } = newState;
         let address = prevState.address;
         const isNameValid = !!name;
-        const isSeedValid = isHex(seed)
-          ? seed.length === 66
-          : seed.length <= 32;
-        const isPassValid = password.length > 0 && password.length <= 32;
+        const isSeedValid = seedType === 'bip'
+          ? mnemonicValidate(seed)
+          : (
+            isHex(seed)
+              ? seed.length === 66
+              : (seed as string).length <= 32
+          );
+        const isPassValid = keyring.isPassValid(password);
 
         if (isSeedValid && seed !== prevState.seed) {
-          address = addressFromSeed(seed);
+          address = addressFromSeed(seed, seedType);
         }
 
         return {
           address,
+          isBipBusy,
           isNameValid,
           isPassValid,
           isSeedValid,
@@ -242,47 +324,84 @@ class Creator extends React.PureComponent<Props, State> {
           name,
           password,
           seed,
+          seedOptions,
+          seedType,
           showWarning
         };
       }
     );
   }
 
-  onChangeSeed = (seed: string): void => {
+  private onChangeSeed = (seed: string): void => {
     this.nextState({ seed } as State);
   }
 
-  onChangeName = (name: string): void => {
+  private onChangeName = (name: string): void => {
     this.nextState({ name } as State);
   }
 
-  onChangePass = (password: string): void => {
+  private onChangePass = (password: string): void => {
     this.nextState({ password } as State);
   }
 
-  onShowWarning = (): void => {
+  private onShowWarning = (): void => {
     this.nextState({ showWarning: true } as State);
   }
 
-  onHideWarning = (): void => {
+  private onHideWarning = (): void => {
     this.nextState({ showWarning: false } as State);
   }
 
-  onCommit = (): void => {
-    const { onBack } = this.props;
-    const { name, password, seed } = this.state;
-    const pair = keyring.createAccount(
-      formatSeed(seed), password, { name }
-    );
+  private onCommit = (): void => {
+    const { onCreateAccount, onStatusChange, t } = this.props;
+    const { name, password, seed, seedType } = this.state;
+
+    const status = {
+      action: 'create'
+    } as ActionStatus;
+
+    try {
+      const pair = seedType === 'bip'
+        ? keyring.createAccountMnemonic(seed, password, { name })
+        : keyring.createAccount(formatSeed(seed), password, { name });
+
+      const json = pair.toJson(password);
+      const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
+
+      FileSaver.saveAs(blob, `${pair.address()}.json`);
+
+      status.value = pair.address();
+      status.status = pair ? 'success' : 'error';
+      status.message = t('status.created', {
+        defaultValue: `created account`
+      });
+
+      InputAddress.setLastValue('account', pair.address());
+    } catch (err) {
+      status.status = 'error';
+      status.message = err.message;
+    }
 
     this.onHideWarning();
-    InputAddress.setLastValue('account', pair.address());
 
-    onBack();
+    onCreateAccount();
+
+    onStatusChange(status);
   }
 
-  onDiscard = (): void => {
+  private onDiscard = (): void => {
     this.setState(this.emptyState());
+  }
+
+  private selectSeedType = (seedType: SeedType): void => {
+    if (seedType === this.state.seedType) {
+      return;
+    }
+
+    this.setState({
+      ...this.generateSeed(seedType),
+      seedType
+    });
   }
 }
 

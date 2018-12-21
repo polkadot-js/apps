@@ -1,24 +1,21 @@
 // Copyright 2017-2018 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RxProposal, RxProposalDeposits } from '@polkadot/ui-react-rx/ApiObservable/types';
+import { RxProposal, RxProposalDeposits } from '@polkadot/api-observable/classes';
 
 import BN from 'bn.js';
 import React from 'react';
-import AddressMini from '@polkadot/ui-app/AddressMini';
-import Labelled from '@polkadot/ui-app/Labelled';
-import Static from '@polkadot/ui-app/Static';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
-import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
+import { AddressMini, Labelled, Static } from '@polkadot/ui-app/index';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
 
 import Item from './Item';
 import translate from './translate';
 
 type Props = I18nProps & {
-  democracyProposalDeposits?: RxProposalDeposits,
+  proposalDeposits?: RxProposalDeposits,
   idNumber: BN,
   value: RxProposal
 };
@@ -32,52 +29,50 @@ class Proposal extends React.PureComponent<Props> {
         idNumber={idNumber}
         proposal={value.proposal}
         proposalExtra={this.renderExtra()}
-      >
-        {this.renderVoting()}
-      </Item>
+      />
     );
   }
 
   private renderExtra () {
-    const { democracyProposalDeposits, t } = this.props;
+    const { proposalDeposits, t } = this.props;
 
-    if (!democracyProposalDeposits) {
+    if (!proposalDeposits) {
       return null;
     }
 
-    const { balance, addresses } = democracyProposalDeposits;
+    const { balance, addresses } = proposalDeposits;
 
     return (
       <div className='democracy--Proposal-info'>
-        <Labelled label={t('proposal.depositsAddresses', {
-          defaultValue: 'depositors'
-        })}>
+        <Labelled
+          label={t('proposal.depositsAddresses', {
+            defaultValue: 'depositors'
+          })}
+        >
           <div>
             {addresses.map((address) => (
               <AddressMini
                 isPadded={false}
-                key={address}
+                key={address.toString()}
                 value={address}
               />
             ))}
           </div>
         </Labelled>
-        <Static label={t('proposal.depositsBalanceLabel', {
-          defaultValue: 'balance'
-        })}>
-          {numberFormat(balance)}
+        <Static
+          label={t('proposal.depositsBalanceLabel', {
+            defaultValue: 'balance'
+          })}
+        >
+          {balanceFormat(balance)}
         </Static>
       </div>
     );
-  }
-
-  private renderVoting () {
-    return null;
   }
 }
 
 export default withMulti(
   Proposal,
   translate,
-  withObservable('democracyProposalDeposits', { paramProp: 'idNumber' })
+  withObservable('proposalDeposits', { paramProp: 'idNumber' })
 );

@@ -1,15 +1,12 @@
 // Copyright 2017-2018 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
-import Button from '@polkadot/ui-app/Button';
-import Modal from '@polkadot/ui-app/Modal';
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
+import { AddressSummary, Button, Modal } from '@polkadot/ui-app/index';
 
 import translate from './translate';
 

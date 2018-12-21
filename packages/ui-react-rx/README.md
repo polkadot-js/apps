@@ -1,13 +1,3 @@
-[![polkadotjs](https://img.shields.io/badge/polkadot-js-orange.svg?style=flat-square)](https://polkadot.js.org)
-![isc](https://img.shields.io/badge/license-ISC-lightgrey.svg?style=flat-square)
-[![style](https://img.shields.io/badge/code%20style-semistandard-lightgrey.svg?style=flat-square)](https://github.com/Flet/semistandard)
-[![npm](https://img.shields.io/npm/v/@polkadot/ui-react-rx.svg?style=flat-square)](https://www.npmjs.com/package/@polkadot/ui-react-rx)
-[![travis](https://img.shields.io/travis/polkadot-js/apps.svg?style=flat-square)](https://travis-ci.org/polkadot-js/ui)
-[![maintainability](https://img.shields.io/codeclimate/maintainability/polkadot-js/apps.svg?style=flat-square)](https://codeclimate.com/github/polkadot-js/apps/maintainability)
-[![coverage](https://img.shields.io/coveralls/polkadot-js/apps.svg?style=flat-square)](https://coveralls.io/github/polkadot-js/apps?branch=master)
-[![dependency](https://david-dm.org/polkadot-js/apps.svg?style=flat-square&path=packages/ui-react-rx)](https://david-dm.org/polkadot-js/apps?path=packages/ui-react-rx)
-[![devDependency](https://david-dm.org/polkadot-js/apps/dev-status.svg?style=flat-square&path=packages/ui-react-rx)](https://david-dm.org/polkadot-js/apps?path=packages/ui-react-rx#info=devDependencies)
-
 # @polkadot/ui-react-rx
 
 A collection of RxJS enabled React components that operate with the [@polkadot/api-rx](https://github.com/polkadot-js/api) library. It automatically manages subscriptions on behalf of the developer, providing a number of unstyled components that can be used to construct UIs.

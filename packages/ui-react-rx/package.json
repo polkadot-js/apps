@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-react-rx",
-  "version": "0.20.30",
+  "version": "0.21.0",
   "description": "A collection of RxJs React components the Polkadot JS API",
   "main": "index.js",
   "keywords": [
@@ -13,7 +13,7 @@
     "Jaco Greeff <jacogr@gmail.com>"
   ],
   "contributors": [],
-  "license": "ISC",
+  "license": "Apache-2.0",
   "engines": {
     "node": ">=8.0"
   },
@@ -30,14 +30,10 @@
   },
   "homepage": "https://github.com/polkadot-js/ui/tree/master/packages/ui-react-rx#readme",
   "dependencies": {
-    "@babel/runtime": "^7.0.0",
-    "@polkadot/api-rx": "^0.29.7",
-    "@polkadot/extrinsics": "^0.29.7",
-    "@polkadot/storage": "^0.29.7",
+    "@babel/runtime": "^7.2.0",
+    "@polkadot/api-observable": "^0.35.9",
+    "@polkadot/rpc-rx": "^0.35.9",
+    "@polkadot/types": "^0.35.9",
     "rxjs-compat": "^6.3.2"
-  },
-  "devDependencies": {
-    "react": "^16.5.0",
-    "react-dom": "^16.5.0"
   }
 }

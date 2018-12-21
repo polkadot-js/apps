@@ -1,51 +1,47 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Storage$Sections } from '@polkadot/storage/types';
 import { DropdownOptions } from '../../util/types';
 
 import React from 'react';
+import Api from '@polkadot/api-observable';
 
-import map from '@polkadot/storage';
-
-export default function createOptions (sectionName: Storage$Sections): DropdownOptions {
-  const section = map[sectionName];
+export default function createOptions (sectionName: keyof typeof Api.storage): DropdownOptions {
+  const section = Api.storage[sectionName];
 
   if (!section) {
     return [];
   }
 
   return Object
-    .keys(section.public)
+    .keys(section)
     .sort()
-    .filter((name) => {
-      const { isDeprecated, isHidden } = section.public[name];
-
-      return !isDeprecated && !isHidden;
-    })
-    .map((name) => {
-      const { description, params } = section.public[name];
-      const inputs = params.map(({ name }) => name).join(', ');
+    .map((value) => {
+      const method = section[value];
+      const type = method.meta.type;
+      let input = type.isMap
+        ? type.asMap.key.toString()
+        : '';
 
       return {
         className: 'ui--DropdownLinked-Item',
-        key: `${sectionName}_${name}`,
+        key: `${sectionName}_${value}`,
         text: [
           <div
             className='ui--DropdownLinked-Item-call'
-            key={`${sectionName}_${name}:call`}
+            key={`${sectionName}_${value}:call`}
           >
-            {name}({inputs})
+            {value}({input}): {type.toString()}
           </div>,
           <div
             className='ui--DropdownLinked-Item-text'
-            key={`${sectionName}_${name}:text`}
+            key={`${sectionName}_${value}:text`}
           >
-            {description || name}
+            {(method.meta.documentation[0] || method.meta.name).toString()}
           </div>
         ],
-        value: name
+        value
       };
     });
 }

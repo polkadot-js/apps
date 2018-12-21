@@ -1,24 +1,90 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ProviderInterface } from '@polkadot/api-provider/types';
-import { RxApiInterface } from '@polkadot/api-rx/types';
-import { BareProps } from './types';
-
+import '@polkadot/ui-settings';
 import './i18n';
 import './styles';
+
+import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { RpcRxInterface } from '@polkadot/rpc-rx/types';
+import { BareProps } from './types';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
+import { Api } from '@polkadot/ui-react-rx/index';
 
-import Api from '@polkadot/ui-react-rx/Api';
+import AddressMini from './AddressMini';
+import AddressRow from './AddressRow';
+import AddressSummary from './AddressSummary';
+import Balance from './Balance';
+import Button from './Button';
+import Call from './Call';
+import CardSummary from './CardSummary';
+import Chart from './Chart';
+import CopyButton from './CopyButton';
+import Dropdown from './Dropdown';
+import Event from './Event';
+import Icon from './Icon';
+import IdentityIcon from './IdentityIcon';
+import Input from './Input';
+import InputAddress from './InputAddress';
+import InputError from './InputError';
+import InputExtrinsic from './InputExtrinsic';
+import InputFile from './InputFile';
+import InputNumber from './InputNumber';
+import InputRpc from './InputRpc';
+import InputStorage from './InputStorage';
+import Labelled from './Labelled';
+import Menu from './Menu';
+import Modal from './Modal';
+import Output from './Output';
+import Params from './Params';
+import Password from './Password';
+import Progress from './Progress';
+import Static from './Static';
+import Status from './Status';
+import Tabs from './Tabs';
 
 type Props = BareProps & {
-  api?: RxApiInterface,
+  api?: RpcRxInterface,
   provider?: ProviderInterface,
   url?: string
+};
+
+export {
+  AddressMini,
+  AddressRow,
+  AddressSummary,
+  Balance,
+  Button,
+  Call,
+  CardSummary,
+  Chart,
+  CopyButton,
+  Dropdown,
+  Event,
+  Icon,
+  IdentityIcon,
+  Input,
+  InputAddress,
+  InputError,
+  InputExtrinsic,
+  InputFile,
+  InputNumber,
+  InputRpc,
+  InputStorage,
+  Labelled,
+  Menu,
+  Modal,
+  Output,
+  Params,
+  Password,
+  Progress,
+  Static,
+  Status,
+  Tabs
 };
 
 export default function createApp (App: React.ComponentType<BareProps>, { api, className, provider, style, url }: Props = {}, rootId: string = 'root'): void {

@@ -1,34 +1,34 @@
 // Copyright 2017-2018 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-signer/types';
+import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import extrinsics from '@polkadot/extrinsics';
-import Button from '@polkadot/ui-app/Button';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
+import Api from '@polkadot/api-observable';
+import { Extrinsic } from '@polkadot/types';
+import { Button } from '@polkadot/ui-app/index';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import translate from './translate';
 
 type Props = I18nProps & {
-  publicKey?: Uint8Array,
+  accountId?: string,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
   referendumId: BN,
-  systemAccountIndexOf?: BN
+  accountNonce?: BN
 };
 
 class VotingButton extends React.PureComponent<Props> {
   render () {
-    const { publicKey, t } = this.props;
+    const { accountId, t } = this.props;
 
     return (
       <Button.Group>
         <Button
-          isDisabled={!publicKey}
+          isDisabled={!accountId}
           isNegative
           text={t('votebtn.nay', {
             defaultValue: 'Nay'
@@ -37,7 +37,7 @@ class VotingButton extends React.PureComponent<Props> {
         />
         <Button.Or />
         <Button
-          isDisabled={!publicKey}
+          isDisabled={!accountId}
           isPositive
           text={t('votebtn.aye', {
             defaultValue: 'Aye'
@@ -49,17 +49,18 @@ class VotingButton extends React.PureComponent<Props> {
   }
 
   private doVote (vote: boolean) {
-    const { publicKey, queueExtrinsic, referendumId, systemAccountIndexOf = new BN(0) } = this.props;
+    const { accountId, queueExtrinsic, referendumId, accountNonce = new BN(0) } = this.props;
 
-    if (!publicKey) {
+    if (!accountId) {
       return;
     }
 
     queueExtrinsic({
-      extrinsic: extrinsics.democracy.public.vote,
-      nonce: systemAccountIndexOf,
-      publicKey,
-      values: [referendumId, vote]
+      extrinsic: new Extrinsic({
+        method: Api.extrinsics.democracy.vote(referendumId, vote)
+      }),
+      accountNonce,
+      accountId
     });
   }
 
@@ -73,6 +74,7 @@ class VotingButton extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  translate(VotingButton),
-  withObservable('systemAccountIndexOf', { paramProp: 'publicKey' })
+  VotingButton,
+  translate,
+  withObservable('accountNonce', { paramProp: 'accountId' })
 );

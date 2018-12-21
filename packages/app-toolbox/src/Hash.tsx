@@ -1,18 +1,13 @@
 // Copyright 2017-2018 @polkadot/app-toolbox authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps as Props } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
-import Input from '@polkadot/ui-app/Input';
-import Output from '@polkadot/ui-app/Output';
-import Static from '@polkadot/ui-app/Static';
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import isHex from '@polkadot/util/is/hex';
-import u8aFromString from '@polkadot/util/u8a/fromString';
-import blake2AsHex from '@polkadot/util-crypto/blake2/asHex';
+import { Input, Output, Static } from '@polkadot/ui-app/index';
+import { hexToU8a, isHex, stringToU8a } from '@polkadot/util';
+import { blake2AsHex } from '@polkadot/util-crypto';
 
 import translate from './translate';
 
@@ -25,7 +20,7 @@ type State = {
 class Hash extends React.PureComponent<Props, State> {
   state: State = {
     data: '',
-    hash: blake2AsHex(u8aFromString(''), 256),
+    hash: blake2AsHex(stringToU8a(''), 256),
     isHexData: false
   };
 
@@ -45,6 +40,7 @@ class Hash extends React.PureComponent<Props, State> {
     return (
       <div className='ui--row'>
         <Input
+          autoFocus
           className='large'
           label={t('hash.data', {
             defaultValue: 'from the following data (hex or string)'
@@ -95,7 +91,7 @@ class Hash extends React.PureComponent<Props, State> {
     const hash = blake2AsHex(
       isHexData
         ? hexToU8a(data)
-        : u8aFromString(data),
+        : stringToU8a(data),
       256
     );
 

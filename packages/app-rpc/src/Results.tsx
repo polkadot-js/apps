@@ -1,15 +1,13 @@
 // Copyright 2017-2018 @polkadot/app-rpc authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
-import { QueueTx } from '@polkadot/ui-signer/types';
+import { QueueTx } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
-
-import Output from '@polkadot/ui-app/Output';
-import prettyJson from '@polkadot/ui-app/util/prettyJson';
-import isUndefined from '@polkadot/util/is/undefined';
+import { Output } from '@polkadot/ui-app/index';
+import { isUndefined } from '@polkadot/util';
 
 type Props = BareProps & {
   queue: Array<QueueTx>
@@ -31,15 +29,15 @@ export default class Results extends React.PureComponent<Props> {
 
     return (
       <section className='rpc--Results'>
-        {filtered.map(({ error, id, result, rpc: { section, name } }) => (
+        {filtered.map(({ error, id, result, rpc: { section, method } }) => (
           <Output
             isError={!!error}
             key={id}
-            label={`${id}: ${section}.${name}`}
+            label={`${id}: ${section}.${method}`}
             value={
               error
                 ? error.message
-                : prettyJson(result)
+                : <pre>{JSON.stringify(result, null, 2)}</pre>
             }
           />
         ))}

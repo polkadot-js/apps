@@ -1,17 +1,13 @@
 // Copyright 2017-2018 @polkadot/app-toolbox authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { KeyringPair } from '@polkadot/util-keyring/types';
+import { KeyringPair } from '@polkadot/keyring/types';
 
 import React from 'react';
 import { Trans } from 'react-i18next';
-
-import Button from '@polkadot/ui-app/Button';
-import Modal from '@polkadot/ui-app/Modal';
-import Password from '@polkadot/ui-app/Password';
-import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
+import { Button, IdentityIcon, Modal, Password } from '@polkadot/ui-app/index';
 
 import translate from './translate';
 

@@ -1,20 +1,15 @@
 // Copyright 2017-2018 @polkadot/app-toolbox authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps as Props } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
-import Icon from '@polkadot/ui-app/Icon';
-import Input from '@polkadot/ui-app/Input';
-import InputAddress from '@polkadot/ui-app/InputAddress';
-import Static from '@polkadot/ui-app/Static';
-import keyring from '@polkadot/ui-keyring/index';
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import isHex from '@polkadot/util/is/hex';
-import u8aFromString from '@polkadot/util/u8a/fromString';
-import naclVerify from '@polkadot/util-crypto/nacl/verify';
+import { decodeAddress } from '@polkadot/keyring';
+import { Icon, Input, InputAddress, Static } from '@polkadot/ui-app/index';
+import keyring from '@polkadot/ui-keyring';
+import { hexToU8a, isHex, stringToU8a } from '@polkadot/util';
+import { naclVerify } from '@polkadot/util-crypto';
 
 import translate from './translate';
 
@@ -90,6 +85,7 @@ class Verify extends React.PureComponent<Props, State> {
     return (
       <div className='ui--row'>
         <Input
+          autoFocus
           className='large'
           label={t('verify.data', {
             defaultValue: 'using the following data (hex or string)'
@@ -153,7 +149,7 @@ class Verify extends React.PureComponent<Props, State> {
           isValid = naclVerify(
             isHexData
               ? hexToU8a(data)
-              : u8aFromString(data),
+              : stringToU8a(data),
             hexToU8a(signature),
             currentPublicKey
           );
@@ -184,7 +180,15 @@ class Verify extends React.PureComponent<Props, State> {
     this.nextState({ signature, isValidSignature } as State);
   }
 
-  onChangeAddress = (currentPublicKey: Uint8Array): void => {
+  onChangeAddress = (accountId: string): void => {
+    let currentPublicKey;
+
+    try {
+      currentPublicKey = decodeAddress(accountId);
+    } catch (err) {
+      console.error(err);
+    }
+
     const isValidAddress = currentPublicKey && currentPublicKey.length === 32;
 
     this.nextState({ currentPublicKey, isValidAddress } as State);

@@ -1,22 +1,14 @@
 // Copyright 2017-2018 @polkadot/app-toolbox authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps as Props } from '@polkadot/ui-app/types';
-import { KeyringPair } from '@polkadot/util-keyring/types';
+import { KeyringPair } from '@polkadot/keyring/types';
 
 import React from 'react';
-
-import Button from '@polkadot/ui-app/Button';
-import Input from '@polkadot/ui-app/Input';
-import InputAddress from '@polkadot/ui-app/InputAddress';
-import Output from '@polkadot/ui-app/Output';
-import Static from '@polkadot/ui-app/Static';
-import keyring from '@polkadot/ui-keyring/index';
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import isHex from '@polkadot/util/is/hex';
-import u8aFromString from '@polkadot/util/u8a/fromString';
-import u8aToHex from '@polkadot/util/u8a/toHex';
+import { Button , Input, InputAddress, Output, Static } from '@polkadot/ui-app/index';
+import keyring from '@polkadot/ui-keyring';
+import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
 
 import Unlock from './Unlock';
 import translate from './translate';
@@ -115,6 +107,7 @@ class Sign extends React.PureComponent<Props, State> {
     return (
       <div className='ui--row'>
         <Input
+          autoFocus
           className='large'
           label={t('sign.data', {
             defaultValue: 'sign the following data (hex or string)'
@@ -187,7 +180,7 @@ class Sign extends React.PureComponent<Props, State> {
             currentPair.sign(
               isHexData
                 ? hexToU8a(data)
-                : u8aFromString(data)
+                : stringToU8a(data)
             )
           );
         }
@@ -212,8 +205,8 @@ class Sign extends React.PureComponent<Props, State> {
     } as State);
   }
 
-  onChangeAccount = (publicKey: Uint8Array): void => {
-    const currentPair = keyring.getPair(publicKey);
+  onChangeAccount = (accountId: string): void => {
+    const currentPair = keyring.getPair(accountId);
 
     this.nextState({ currentPair } as State);
   }

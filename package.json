@@ -1,9 +1,9 @@
 {
-  "version": "0.20.30",
+  "version": "0.21.0",
   "private": true,
   "engines": {
-    "node": "^10.1.0",
-    "yarn": "^1.3.2"
+    "node": "^10.13.0",
+    "yarn": "^1.10.1"
   },
   "homepage": ".",
   "workspaces": [
@@ -12,45 +12,35 @@
   "resolutions": {
     "babel-core": "^7.0.0-bridge.0",
     "rxjs": "^6.3.2",
-    "typescript": "^3.0.1"
+    "typescript": "^3.2.2"
   },
   "scripts": {
     "analyze": "yarn run build && cd packages/apps && yarn run source-map-explorer build/main.*.js",
     "build": "polkadot-dev-build-ts",
-    "check": "tslint --project . && tsc --noEmit",
+    "check": "tslint --project . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "jest --coverage",
-    "demo:identicon": "webpack-serve --config packages/ui-identicon/webpack.config.js --content packages/ui-identicon --port 3000",
-    "demo:rx": "webpack-serve --config packages/ui-react-rx/webpack.config.js --content packages/ui-react-rx --port 3000",
-    "demo:ui": "webpack-serve --config packages/ui-react/webpack.config.js --content packages/ui-react --port 3000",
-    "deploy:ghpages": "gh-pages -d packages/apps/build",
+    "deploy:ghpages": "gh-pages --dist packages/apps/build --remove locales,static,*.css,*.js,*.json,*.map,*.md",
     "vanitygen": "node packages/app-vanitygen/scripts/vanitygen.js",
     "start": "cd packages/apps && webpack-serve --config webpack.config.js --port 3000"
   },
   "devDependencies": {
-    "@polkadot/dev-react": "^0.20.21",
-    "@polkadot/ts": "^0.1.30",
-    "autoprefixer": "^9.1.5",
-    "babel-loader": "^8.0.2",
-    "css-loader": "^1.0.0",
-    "enzyme": "^3.6.0",
-    "enzyme-adapter-react-16": "^1.5.0",
-    "file-loader": "^2.0.0",
-    "gh-pages": "^1.1.0",
-    "html-webpack-plugin": "^3.2.0",
-    "mini-css-extract-plugin": "^0.4.2",
-    "postcss": "^7.0.2",
+    "@babel/core": "^7.2.2",
+    "@polkadot/dev-react": "^0.23.3",
+    "@polkadot/ts": "^0.1.44",
+    "autoprefixer": "^9.4.3",
+    "empty": "^0.10.1",
+    "gh-pages": "^2.0.1",
+    "postcss": "^7.0.7",
     "postcss-clean": "^1.1.0",
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-import": "^12.0.0",
     "postcss-loader": "^3.0.0",
-    "postcss-nested": "^3.0.0",
-    "postcss-sass": "^0.3.3",
-    "postcss-simple-vars": "^4.1.0",
-    "precss": "^3.1.2",
-    "style-loader": "^0.23.0",
-    "thread-loader": "^1.2.0",
-    "url-loader": "^1.1.1"
+    "postcss-nested": "^4.1.1",
+    "postcss-sass": "^0.3.5",
+    "postcss-simple-vars": "^5.0.0",
+    "precss": "^4.0.0",
+    "source-map-explorer": "^1.6.0"
   }
 }

@@ -1,26 +1,24 @@
 // Copyright 2017-2018 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
-import withMulti from '@polkadot/ui-react-rx/with/multi';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import translate from '../translate';
 
 type Props = I18nProps & {
   hash: Uint8Array,
-  chainGetBlock: any
+  getBlock: any
 };
 
 class Extrinsics extends React.PureComponent<Props> {
   render () {
-    const { chainGetBlock, t } = this.props;
+    const { getBlock, t } = this.props;
 
-    if (!chainGetBlock || !chainGetBlock.extrinsics) {
+    if (!getBlock || !getBlock.extrinsics) {
       return null;
     }
 
@@ -31,7 +29,7 @@ class Extrinsics extends React.PureComponent<Props> {
           {t('extrinsics.count', {
             defaultValue: '{{count}} in block',
             replace: {
-              count: chainGetBlock.extrinsics.length
+              count: getBlock.extrinsics.length
             }
           })}
         </td>
@@ -44,5 +42,5 @@ class Extrinsics extends React.PureComponent<Props> {
 export default withMulti(
   Extrinsics,
   translate,
-  withObservable('chainGetBlock', { paramProp: 'hash' })
+  withObservable('getBlock', { paramProp: 'hash' })
 );

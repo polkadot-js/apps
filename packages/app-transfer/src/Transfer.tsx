@@ -1,21 +1,21 @@
 // Copyright 2017-2018 @polkadot/app-transfer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BitLength, I18nProps } from '@polkadot/ui-app/types';
-import { RxFees } from '@polkadot/ui-react-rx/ApiObservable/types';
-import { QueueProps } from '@polkadot/ui-signer/types';
+import { RxFees } from '@polkadot/api-observable/types';
+import { QueueProps } from '@polkadot/ui-app/Status/types';
 import { Fees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
+import Api from '@polkadot/api-observable';
+import { decodeAddress } from '@polkadot/keyring';
+import { Extrinsic } from '@polkadot/types';
 import { BitLengthOption } from '@polkadot/ui-app/constants';
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
-import InputAddress from '@polkadot/ui-app/InputAddress';
-import InputNumber from '@polkadot/ui-app/InputNumber';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
-import { QueueConsumer } from '@polkadot/ui-signer/Context';
+import { AddressSummary, InputAddress, InputNumber } from '@polkadot/ui-app/index';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
 import FeeDisplay from './Fees';
 import Submit from './Submit';
@@ -26,9 +26,10 @@ type Props = I18nProps & {
 };
 
 type State = {
+  accountId: string | null,
   amount: BN,
-  from: Uint8Array | null,
-  to: Uint8Array | null,
+  extrinsic: Extrinsic | null,
+  recipientId: string | null,
   txfees: Fees
 };
 
@@ -43,9 +44,10 @@ class Transfer extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
+      accountId: null,
       amount: ZERO,
-      from: null,
-      to: null,
+      extrinsic: null,
+      recipientId: null,
       txfees: {
         hasAvailable: false,
         txtotal: ZERO
@@ -55,7 +57,7 @@ class Transfer extends React.PureComponent<Props, State> {
 
   render () {
     const { fees, t } = this.props;
-    const { amount, from, to, txfees: { hasAvailable } } = this.state;
+    const { accountId, amount, extrinsic, recipientId, txfees: { hasAvailable } } = this.state;
 
     return (
       <div className='transfer--Transfer'>
@@ -80,67 +82,91 @@ class Transfer extends React.PureComponent<Props, State> {
           </div>
         </div>
         <div className='transfer--Transfer-info'>
-          {this.renderAddress(from)}
+          {this.renderAddress(accountId)}
           <div className='transfer--Transfer-data'>
             <InputNumber
+              autoFocus
               bitLength={DEFAULT_BITLENGTH}
               isError={!hasAvailable}
-              label={t('transfer.amount', {
+              isSi
+              label={t('amount', {
                 defaultValue: 'send a value of'
               })}
               onChange={this.onChangeAmount}
             />
             <FeeDisplay
               className='medium'
+              accountId={accountId}
               amount={amount}
               fees={fees}
-              from={from}
-              to={to}
+              recipientId={recipientId}
               onChange={this.onChangeFees}
             />
             <QueueConsumer>
               {({ queueExtrinsic }: QueueProps) => (
                 <Submit
+                  accountId={accountId}
                   isDisabled={!hasAvailable}
-                  amount={amount}
-                  from={from}
-                  to={to}
+                  extrinsic={extrinsic}
                   queueExtrinsic={queueExtrinsic}
                 />
               )}
             </QueueConsumer>
           </div>
-          {this.renderAddress(to)}
+          {this.renderAddress(recipientId)}
         </div>
       </div>
     );
   }
 
-  private renderAddress (publicKey: Uint8Array | null) {
-    if (!publicKey) {
+  private renderAddress (accountId: string | null) {
+    if (!accountId) {
+      return null;
+    }
+
+    try {
+      decodeAddress(accountId);
+    } catch (err) {
       return null;
     }
 
     return (
       <div className='transfer--Transfer-address'>
         <AddressSummary
-          value={publicKey}
+          value={accountId}
           withCopy={false}
         />
       </div>
     );
   }
 
-  private onChangeAmount = (amount: BN) => {
-    this.setState({ amount });
+  private nextState (newState: Partial<State>): void {
+    this.setState((prevState: State): State => {
+      const { accountId = prevState.accountId, amount = prevState.amount, recipientId = prevState.recipientId, txfees = prevState.txfees } = newState;
+      const extrinsic = accountId && recipientId
+        ? new Extrinsic({ method: Api.extrinsics.balances.transfer(recipientId, amount) })
+        : null;
+
+      return {
+        accountId,
+        amount,
+        extrinsic,
+        recipientId,
+        txfees
+      };
+    });
   }
 
-  private onChangeFrom = (from: Uint8Array) => {
-    this.setState({ from });
+  private onChangeFrom = (accountId: string) => {
+    this.nextState({ accountId });
   }
 
-  private onChangeTo = (to: Uint8Array) => {
-    this.setState({ to });
+  private onChangeAmount = (amount: BN = new BN(0)) => {
+    this.nextState({ amount });
+  }
+
+  private onChangeTo = (recipientId: string) => {
+    this.nextState({ recipientId });
   }
 
   private onChangeFees = (txfees: Fees) => {
@@ -149,6 +175,7 @@ class Transfer extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  translate(Transfer),
+  Transfer,
+  translate,
   withObservable('fees', { propName: 'fees' })
 );

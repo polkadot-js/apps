@@ -1,19 +1,14 @@
-// Copyright 2017-2018 @polkadot/ui-signer authors & contributors
+// Copyright 2017-2018 @polkadot/ui-staking authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
-import Button from '@polkadot/ui-app/Button';
-import Input from '@polkadot/ui-app/Input';
-import Modal from '@polkadot/ui-app/Modal';
-import InputError from '@polkadot/ui-app/InputError';
+import { decodeAddress } from '@polkadot/keyring';
+import { Button, Input, Modal } from '@polkadot/ui-app/index';
 
 import translate from '../translate';
-
-import addressDecode from '@polkadot/util-keyring/address/decode';
 
 type Props = I18nProps & {
   isOpen: boolean,
@@ -91,7 +86,7 @@ class Nominating extends React.PureComponent<Props> {
 
   renderContent () {
     const { t } = this.props;
-    const { isNomineeValid, isAddressFormatValid, nominee } = this.state;
+    const { isNomineeValid, nominee } = this.state;
 
     return [
       <Modal.Header key='header'>
@@ -109,44 +104,56 @@ class Nominating extends React.PureComponent<Props> {
           onChange={this.onChangeNominee}
           value={nominee}
         />
-        {
-          !isNomineeValid
-            ? <InputError
-                label={t('nominator.error', {
-                  defaultValue: 'The address you input is not intending to stake, and is therefore invalid. \
-                                Please try again with a different address.'
-                })} />
-            : null
-        }
-        {
-          !isAddressFormatValid
-            ? <InputError
-                label={t('nominator.error', {
-                  defaultValue: 'The address you input does not conform to a recognized address format. \
-                            Please make sure youve entered the address correctly and try again.'
-                })} />
-            : null
-        }
+        {this.renderErrors()}
       </Modal.Content>
     ];
   }
 
+  private renderErrors () {
+    const { t } = this.props;
+    const { isNomineeValid, isAddressFormatValid } = this.state;
+    const hasError = !isNomineeValid || !isAddressFormatValid;
+
+    if (!hasError) {
+      return null;
+    }
+
+    return (
+      <article className='error'>
+        {
+          !isNomineeValid && isAddressFormatValid
+            ? t('nominator.error', {
+              defaultValue: 'The address you input is not intending to stake, and is therefore invalid. Please try again with a validator address.'
+            })
+            : null
+        }
+        {
+          !isAddressFormatValid
+            ? t('nominator.error', {
+              defaultValue: 'The address does not conform to a recognized address format. Please make sure you enter a valid address.'
+            })
+            : null
+        }
+      </article>
+    );
+  }
+
   private onChangeNominee = (nominee: string) => {
     const { intentions } = this.props;
-    let publicKey;
+
+    let isAddressFormatValid = false;
 
     try {
-      publicKey = addressDecode(nominee);
+      decodeAddress(nominee);
+
+      isAddressFormatValid = true;
     } catch (err) {
       console.error(err);
-      this.setState({
-        isAddressFormatValid: false
-      });
     }
 
     this.setState({
       isNomineeValid: intentions.includes(nominee),
-      isAddressFormatValid: publicKey && publicKey.length === 32,
+      isAddressFormatValid,
       nominee
     });
   }

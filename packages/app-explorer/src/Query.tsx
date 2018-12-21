@@ -1,20 +1,16 @@
 // Copyright 2017-2018 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import React from 'react';
-import Button from '@polkadot/ui-app/Button';
-import Input from '@polkadot/ui-app/Input';
-import Labelled from '@polkadot/ui-app/Labelled';
-import withApi from '@polkadot/ui-react-rx/with/api';
-import isHex from '@polkadot/util/is/hex';
+import { Button, Input, Labelled } from '@polkadot/ui-app/index';
+import { isHex } from '@polkadot/util';
 
 import translate from './translate';
 
-type Props = ApiProps & I18nProps & {};
+type Props = I18nProps & {};
 
 type State = {
   hash: string
@@ -28,12 +24,8 @@ class Query extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { apiMethods, t } = this.props;
+    const { t } = this.props;
     const { hash, isValid } = this.state;
-
-    if (!apiMethods.chain_getBlock) {
-      return null;
-    }
 
     return (
       <header>
@@ -76,4 +68,4 @@ class Query extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(withApi(Query));
+export default translate(Query);

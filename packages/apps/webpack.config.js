@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 const fs = require('fs');
 const path = require('path');
@@ -14,22 +14,23 @@ const packages = [
   'app-accounts',
   'app-addresses',
   'app-democracy',
-  'app-example',
   'app-explorer',
   'app-extrinsics',
   'app-rpc',
+  'app-settings',
   'app-staking',
   'app-storage',
   'app-toolbox',
   'app-transfer',
   'app-vanitygen',
   'ui-app',
-  'ui-identicon',
-  'ui-keyring',
   'ui-react-rx',
-  'ui-react',
   'ui-signer'
 ];
+
+const DEFAULT_THEME = process.env.TRAVIS_BRANCH === 'next'
+  ? 'substrate'
+  : 'polkadot';
 
 function createWebpack ({ alias = {}, context, name = 'index' }) {
   const pkgJson = require(path.join(context, 'package.json'));
@@ -46,9 +47,10 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
     entry: `./src/${name}.tsx`,
     mode: ENV,
     output: {
-      path: path.join(context, 'build'),
+      chunkFilename: `[name].[chunkhash:8].js`,
       filename: `[name].[hash:8].js`,
-      chunkFilename: `[name].[chunkhash:8].js`
+      globalObject: `(typeof self !== 'undefined' ? self : this)`,
+      path: path.join(context, 'build')
     },
     resolve: {
       alias,
@@ -174,7 +176,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
           NODE_ENV: JSON.stringify(ENV),
           VERSION: JSON.stringify(pkgJson.version),
           UI_MODE: JSON.stringify(process.env.UI_MODE || 'full'),
-          UI_THEME: JSON.stringify(process.env.UI_THEME || 'polkadot'),
+          UI_THEME: JSON.stringify(process.env.UI_THEME || DEFAULT_THEME),
           WS_URL: JSON.stringify(process.env.WS_URL)
         }
       }),

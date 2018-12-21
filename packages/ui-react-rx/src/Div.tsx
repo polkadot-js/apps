@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-react-rx authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BaseProps, BareProps } from './types';
 
@@ -8,9 +8,10 @@ import React from 'react';
 
 type Props<T> = BaseProps<T>;
 
-// FIXME Not 100% on how to push through the generic type when used
-const echoFormatter = (value?: any): any =>
-  value;
+const echoFormatter = (value?: any): string | undefined =>
+  value
+    ? value.toString()
+    : undefined;
 
 export default function Div<T> ({ children, className = 'rx--Div', render = echoFormatter, rxUpdated = false, label = '', style, value }: Props<T>) {
   const props: BareProps = {

@@ -1,22 +1,21 @@
 // Copyright 2017-2018 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyringPair } from '@polkadot/util-keyring/types';
+import { KeyringPair } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import Button from '@polkadot/ui-app/Button';
-import Modal from '@polkadot/ui-app/Modal';
-import Password from '@polkadot/ui-app/Password';
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
-import keyring from '@polkadot/ui-keyring/index';
+import { AddressSummary, Button, Modal, Password } from '@polkadot/ui-app/index';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import keyring from '@polkadot/ui-keyring';
 
 import translate from './translate';
 
 type Props = I18nProps & {
   account: KeyringPair,
-  onClose: () => void
+  onClose: () => void,
+  onStatusChange: (status: ActionStatus) => void
 };
 
 type State = {
@@ -43,7 +42,7 @@ class ChangePass extends React.PureComponent<Props, State> {
   render () {
     return (
       <Modal
-        className='accounts--ChangePass-Modal'
+        className='app--accounts-Modal'
         dimmer='inverted'
         open
         size='tiny'
@@ -93,10 +92,7 @@ class ChangePass extends React.PureComponent<Props, State> {
         })}
       </Modal.Header>,
       <Modal.Content key='content'>
-        <AddressSummary
-          className='accounts--Modal-Address'
-          value={account.address()}
-        />
+        <AddressSummary value={account.address()} />
         <div className='ui--row'>
           <Password
             autoFocus
@@ -119,8 +115,12 @@ class ChangePass extends React.PureComponent<Props, State> {
   }
 
   private doChange = (): void => {
-    const { account, onClose } = this.props;
+    const { account, onClose, onStatusChange, t } = this.props;
     const { newPass, oldPass } = this.state;
+
+    const status = {
+      action: 'changePassword'
+    } as ActionStatus;
 
     try {
       if (!account.isLocked()) {
@@ -130,15 +130,32 @@ class ChangePass extends React.PureComponent<Props, State> {
       account.decodePkcs8(oldPass);
     } catch (error) {
       this.setState({ isOldValid: false });
+
+      status.message = t('status.error', {
+        defaultValue: error.message
+      });
+
       return;
     }
 
     try {
       keyring.encryptAccount(account, newPass);
+
+      status.value = account.address();
+      status.status = 'success';
+      status.message = t('status.change-password', {
+        defaultValue: 'password changed'
+      });
     } catch (error) {
       this.setState({ isNewValid: false });
+
+      status.status = 'error';
+      status.message = error.message;
+
       return;
     }
+
+    onStatusChange(status);
 
     onClose();
   }
@@ -158,7 +175,7 @@ class ChangePass extends React.PureComponent<Props, State> {
   }
 
   private validatePass (password: string): boolean {
-    return password.length > 0 && password.length <= 32;
+    return keyring.isPassValid(password);
   }
 }
 

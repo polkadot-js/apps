@@ -1,20 +1,19 @@
 // Copyright 2017-2018 @polkadot/app-extrinsics authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SectionItem } from '@polkadot/params/types';
-import { Extrinsics } from '@polkadot/extrinsics/types';
+import { MethodFunction } from '@polkadot/types/Method';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParam$OnChange } from '@polkadot/ui-app/Params/types';
-import { EncodedMessage } from '@polkadot/ui-signer/types';
 
 import React from 'react';
+import { Method } from '@polkadot/types';
 
 import BaseExtrinsic from '../Extrinsic';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  defaultValue: SectionItem<Extrinsics>,
+  defaultValue: MethodFunction,
   isDisabled?: boolean,
   isError?: boolean,
   isPrivate: boolean,
@@ -23,7 +22,7 @@ type Props = I18nProps & {
   withLabel?: boolean
 };
 
-class Extrinsic extends React.PureComponent<Props> {
+class ExtrinsicDisplay extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue, isDisabled, isError, isPrivate, label, style, t, withLabel } = this.props;
 
@@ -53,14 +52,14 @@ class Extrinsic extends React.PureComponent<Props> {
     );
   }
 
-  onChange = ({ isValid, values }: EncodedMessage): void => {
+  onChange = (method: Method): void => {
     const { onChange } = this.props;
 
     onChange && onChange({
-      isValid,
-      value: (values[0] as Uint8Array)
+      isValid: !!method,
+      value: method
     });
   }
 }
 
-export default translate(Extrinsic);
+export default translate(ExtrinsicDisplay);

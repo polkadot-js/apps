@@ -1,18 +1,15 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-// TODO: We have a lot shared between this and InputStorage
-
-import { SectionItem } from '@polkadot/params/types';
-import { Extrinsics, Extrinsic$Sections } from '@polkadot/extrinsics/types';
+import { MethodFunction } from '@polkadot/types/Method';
 import { I18nProps } from '../types';
-import { DropdownOptions, SectionVisibilityAll } from '../util/types';
+import { DropdownOptions } from '../util/types';
 
 import './InputExtrinsic.css';
 
 import React from 'react';
-import map from '@polkadot/extrinsics';
+import Api from '@polkadot/api-observable';
 
 import classes from '../util/classes';
 import translate from '../translate';
@@ -22,21 +19,20 @@ import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
 type Props = I18nProps & {
-  defaultValue: SectionItem<Extrinsics>,
+  defaultValue: MethodFunction,
   isDisabled?: boolean,
   isError?: boolean,
   isPrivate?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (value: SectionItem<Extrinsics>) => void,
+  onChange: (value: MethodFunction) => void,
   withLabel?: boolean
 };
 
 type State = {
   optionsMethod: DropdownOptions,
   optionsSection: DropdownOptions,
-  type: SectionVisibilityAll,
-  value: SectionItem<Extrinsics>
+  value: MethodFunction
 };
 
 class InputExtrinsic extends React.PureComponent<Props, State> {
@@ -50,23 +46,16 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  static getDerivedStateFromProps ({ isPrivate = false }: Props, { type, value: { section } }: State): State | null {
-    const newType = isPrivate ? 'private' : 'public';
-
-    if (newType === type) {
-      return null;
-    }
-
+  static getDerivedStateFromProps (props: Props, { value }: State): State | null {
     return {
-      optionsMethod: methodOptions(section, newType),
-      optionsSection: sectionOptions(newType),
-      type: newType
+      optionsMethod: methodOptions(value.section),
+      optionsSection: sectionOptions()
     } as State;
   }
 
   render () {
     const { className, labelMethod, labelSection, style, withLabel } = this.props;
-    const { optionsMethod, optionsSection, type, value } = this.state;
+    const { optionsMethod, optionsSection, value } = this.state;
 
     return (
       <div
@@ -87,38 +76,37 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
           onChange={this.onKeyChange}
           options={optionsMethod}
           value={value}
-          type={type}
           withLabel={withLabel}
         />
       </div>
     );
   }
 
-  onKeyChange = (value: SectionItem<Extrinsics>): void => {
+  onKeyChange = (newValue: MethodFunction): void => {
     const { onChange } = this.props;
-    const { value: { name, section } } = this.state;
+    const { value } = this.state;
 
-    if (value.section === section && value.name === name) {
+    if (value.section === newValue.section && value.method === newValue.method) {
       return;
     }
 
-    this.setState({ value }, () =>
-      onChange(value)
+    this.setState({ value: newValue }, () =>
+      onChange(newValue)
     );
   }
 
-  onSectionChange = (newSection: Extrinsic$Sections): void => {
-    const { type, value: { section } } = this.state;
+  onSectionChange = (newSection: string): void => {
+    const { value } = this.state;
 
-    if (newSection === section) {
+    if (newSection === value.section) {
       return;
     }
 
-    const optionsMethod = methodOptions(newSection, type);
-    const value = map[newSection][type][optionsMethod[0].value];
+    const optionsMethod = methodOptions(newSection);
+    const fn = Api.extrinsics[newSection][optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
-      this.onKeyChange(value)
+      this.onKeyChange(fn)
     );
   }
 }

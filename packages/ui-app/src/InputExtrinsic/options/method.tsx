@@ -1,53 +1,47 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Extrinsic$Sections } from '@polkadot/extrinsics/types';
-import { DropdownOptions, SectionVisibilityAll } from '../../util/types';
+import { DropdownOptions } from '../../util/types';
 
 import React from 'react';
+import Api from '@polkadot/api-observable';
 
-import map from '@polkadot/extrinsics';
-
-export default function createOptions (sectionName: Extrinsic$Sections, type: SectionVisibilityAll): DropdownOptions {
-  const section = map[sectionName];
+export default function createOptions (sectionName: string): DropdownOptions {
+  const section = Api.extrinsics[sectionName];
 
   if (!section) {
     return [];
   }
 
-  const methods = section[type];
-
   return Object
-    .keys(methods)
+    .keys(section)
     .sort()
-    .filter((name) => {
-      const { isDeprecated, isHidden } = methods[name];
-
-      return !isDeprecated && !isHidden;
-    })
-    .map((name) => {
-      const { description, params } = methods[name];
-      const inputs = params.map(({ name }) => name).join(', ');
+    .map((value) => {
+      const method = section[value];
+      const inputs = method.meta.arguments
+        .filter((arg) => arg.type.toString() !== 'Origin')
+        .map((arg) => arg.name.toString())
+        .join(', ');
 
       return {
         className: 'ui--DropdownLinked-Item',
-        key: `${sectionName}_${name}`,
+        key: `${sectionName}_${value}`,
         text: [
           <div
             className='ui--DropdownLinked-Item-call'
-            key={`${sectionName}_${name}:call`}
+            key={`${sectionName}_${value}:call`}
           >
-            {name}({inputs})
+            {value}({inputs})
           </div>,
           <div
             className='ui--DropdownLinked-Item-text'
-            key={`${sectionName}_${name}:text`}
+            key={`${sectionName}_${value}:text`}
           >
-            {description || name}
+            {(method.meta.documentation[0] || value).toString()}
           </div>
         ],
-        value: name
+        value
       };
     });
 }

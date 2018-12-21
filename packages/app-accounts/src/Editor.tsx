@@ -1,16 +1,15 @@
 // Copyright 2017-2018 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyringPair } from '@polkadot/util-keyring/types';
+import { KeyringPair } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React from 'react';
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
-import Button from '@polkadot/ui-app/Button';
-import Input from '@polkadot/ui-app/Input';
-import InputAddress from '@polkadot/ui-app/InputAddress';
-import keyring from '@polkadot/ui-keyring/index';
+import { AddressSummary, Button, Input, InputAddress } from '@polkadot/ui-app/index';
+import keyring from '@polkadot/ui-keyring';
 
 import Backup from './Backup';
 import ChangePass from './ChangePass';
@@ -18,8 +17,8 @@ import Forgetting from './Forgetting';
 import translate from './translate';
 
 type Props = I18nProps & {
-  allAccounts?: Array<any>,
-  onBack: () => void
+  allAccounts?: SubjectInfo,
+  onStatusChange: (status: ActionStatus) => void
 };
 
 type State = {
@@ -149,6 +148,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   renderModals () {
+    const { onStatusChange } = this.props;
     const { current, isBackupOpen, isForgetOpen, isPasswordOpen } = this.state;
 
     if (!current) {
@@ -162,8 +162,9 @@ class Editor extends React.PureComponent<Props, State> {
       modals.push(
         <Backup
           key='modal-backup-account'
-          pair={current}
           onClose={this.toggleBackup}
+          onStatusChange={onStatusChange}
+          pair={current}
         />
       );
     }
@@ -171,10 +172,10 @@ class Editor extends React.PureComponent<Props, State> {
     if (isForgetOpen) {
       modals.push(
         <Forgetting
-          key='modal-forget-account'
           address={address}
-          onClose={this.toggleForget}
           doForget={this.onForget}
+          key='modal-forget-account'
+          onClose={this.toggleForget}
         />
       );
     }
@@ -185,6 +186,7 @@ class Editor extends React.PureComponent<Props, State> {
           account={current}
           key='modal-change-pass'
           onClose={this.togglePass}
+          onStatusChange={onStatusChange}
         />
       );
     }
@@ -234,10 +236,10 @@ class Editor extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeAccount = (publicKey: Uint8Array): void => {
-    const current = publicKey && publicKey.length === 32
-      ? keyring.getPair(publicKey)
-      : null;
+  onChangeAccount = (accountId?: string): void => {
+    const current = accountId
+        ? keyring.getPair(accountId)
+        : null;
 
     this.nextState({
       current
@@ -249,16 +251,34 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onCommit = (): void => {
+    const { onStatusChange, t } = this.props;
     const { current, editedName } = this.state;
 
     if (!current) {
       return;
     }
 
-    keyring.saveAccountMeta(current, {
-      name: editedName,
-      whenEdited: Date.now()
-    });
+    const status = {
+      action: 'edit',
+      value: current.address()
+    } as ActionStatus;
+
+    try {
+      keyring.saveAccountMeta(current, {
+        name: editedName,
+        whenEdited: Date.now()
+      });
+
+      status.status = current.getMeta().name === editedName ? 'success' : 'error';
+      status.message = t('status.editted', {
+        defaultValue: 'name edited'
+      });
+    } catch (error) {
+      status.status = 'error';
+      status.message = error.message;
+    }
+
+    onStatusChange(status);
 
     this.nextState({} as State);
   }
@@ -309,6 +329,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onForget = (): void => {
+    const { onStatusChange, t } = this.props;
     const { current } = this.state;
 
     if (!current) {
@@ -318,9 +339,25 @@ class Editor extends React.PureComponent<Props, State> {
     this.setState(
       this.createState(null),
       () => {
-        keyring.forgetAccount(
-          current.address()
-        );
+        const status = {
+          action: 'forget',
+          value: current.address()
+        } as ActionStatus;
+
+        try {
+          keyring.forgetAccount(
+            current.address()
+          );
+          status.status = 'success';
+          status.message = t('status.forgotten', {
+            defaultValue: 'account forgotten'
+          });
+        } catch (err) {
+          status.status = 'error';
+          status.message = err.message;
+        }
+
+        onStatusChange(status);
       }
     );
   }

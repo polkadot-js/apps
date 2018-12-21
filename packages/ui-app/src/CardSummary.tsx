@@ -1,12 +1,13 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import isUndefined from '@polkadot/util/is/undefined';
+import { UInt } from '@polkadot/types/codec';
+import { isUndefined } from '@polkadot/util';
 
 import Progress, { Colors as ProgressColors } from './Progress';
 import Labelled from './Labelled';
@@ -14,9 +15,10 @@ import classes from './util/classes';
 
 type ProgressProps = {
   color?: ProgressColors,
+  hideValue?: boolean,
   isPercent?: boolean,
-  total?: BN,
-  value?: BN
+  total?: BN | UInt,
+  value?: BN | UInt
 };
 
 type Props = BareProps & {
@@ -28,18 +30,20 @@ type Props = BareProps & {
 export default class CardSummary extends React.PureComponent<Props> {
   render () {
     const { children, className, progress, label, style } = this.props;
-    const left = progress && !isUndefined(progress.value) && !isUndefined(progress.total) && progress.value.gten(0) && progress.total.gtn(0)
+    const value = progress && progress.value;
+    const total = progress && progress.total;
+    const left = progress && !isUndefined(value) && !isUndefined(total) && value.gten(0) && total.gtn(0)
       ? (
-        progress.value.gt(progress.total)
+        value.gt(total)
           ? `>${
             progress.isPercent
               ? '100'
-              : progress.total.toString()
+              : total.toString()
             }`
           : (
             progress.isPercent
-              ? progress.value.muln(100).div(progress.total).toString()
-              : progress.value.toString()
+              ? value.muln(100).div(total).toString()
+              : value.toString()
           )
       )
       : undefined;
@@ -52,7 +56,7 @@ export default class CardSummary extends React.PureComponent<Props> {
         <Labelled label={label}>
           <div className='ui--CardSummary-large'>
             {children}{
-              progress && (
+              progress && !progress.hideValue && (
                 !left || isUndefined(progress.total)
                   ? '-'
                   : `${left}${progress.isPercent ? '' : '/'}${

@@ -1,14 +1,15 @@
 // Copyright 2017-2018 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RxBalanceMap } from '@polkadot/ui-react-rx/ApiObservable/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import { RxBalanceMap } from '@polkadot/api-observable/types';
 
 import React from 'react';
-import Tabs from '@polkadot/ui-app/Tabs';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
+import { AccountId, Balance } from '@polkadot/types';
+import { Tabs } from '@polkadot/ui-app/index';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import './index.css';
 
@@ -20,16 +21,18 @@ type Actions = 'actions' | 'overview';
 
 type Props = I18nProps & {
   basePath: string,
-  validatingBalances?: RxBalanceMap,
-  stakingIntentions?: Array<string>,
-  sessionValidators?: Array<string>
+  onStatusChange: (status: ActionStatus) => void,
+  stakingIntentions?: Array<AccountId>,
+  sessionValidators?: Array<AccountId>,
+  validatingBalances?: RxBalanceMap
 };
 
 type State = {
-  action: Actions
+  action: Actions,
+  intentions: Array<string>,
+  validators: Array<string>
 };
 
-// FIXME React-router would probably be the best route, not home-grown
 const Components: { [index: string]: React.ComponentType<any> } = {
   'overview': Overview,
   'actions': StakeList
@@ -42,13 +45,26 @@ class App extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      action: 'overview'
+      action: 'overview',
+      intentions: [],
+      validators: []
     };
   }
 
+  static getDerivedStateFromProps ({ sessionValidators = [], stakingIntentions = [] }: Props): State {
+    return {
+      intentions: stakingIntentions.map((accountId) =>
+        accountId.toString()
+      ),
+      validators: sessionValidators.map((authorityId) =>
+        authorityId.toString()
+      )
+    } as State;
+  }
+
   render () {
-    const { action } = this.state;
-    const { sessionValidators = [], stakingIntentions = [], t, validatingBalances = {} } = this.props;
+    const { action, intentions, validators } = this.state;
+    const { t, validatingBalances = {} } = this.props;
     const Component = Components[action];
     const items = [
       {
@@ -72,15 +88,30 @@ class App extends React.PureComponent<Props, State> {
         </header>
         <Component
           balances={validatingBalances}
-          intentions={stakingIntentions}
-          validators={sessionValidators}
+          balanceArray={this.balanceArray}
+          intentions={intentions}
+          validators={validators}
         />
       </main>
     );
   }
 
-  onMenuChange = (action: Actions) => {
+  private onMenuChange = (action: Actions) => {
     this.setState({ action });
+  }
+
+  private balanceArray = (_address: AccountId | string): Array<Balance> | undefined => {
+    const { validatingBalances = {} } = this.props;
+
+    if (!_address) {
+      return undefined;
+    }
+
+    const address = _address.toString();
+
+    return validatingBalances[address]
+      ? [validatingBalances[address].stakingBalance, validatingBalances[address].nominatedBalance]
+      : undefined;
   }
 }
 

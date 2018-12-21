@@ -1,13 +1,12 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '../../types';
 import { BaseProps, Props as ComponentProps, ComponentMap } from '../types';
 
 import React from 'react';
-
-import typeToString from '@polkadot/params/typeToString';
+import { isUndefined } from '@polkadot/util';
 
 import classes from '../../util/classes';
 import translate from '../../translate';
@@ -27,11 +26,11 @@ class ParamComponent extends React.PureComponent<Props, State> {
     Component: null
   };
 
-  static getDerivedStateFromProps ({ defaultValue: { type }, isDisabled, overrides }: Props): State {
+  static getDerivedStateFromProps ({ overrides, type }: Props): State {
     return {
       Component: !type
         ? null
-        : findComponent(type, overrides, isDisabled)
+        : findComponent(type, overrides)
     } as State;
   }
 
@@ -42,8 +41,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { className, defaultValue, isDisabled, name, onChange, style } = this.props;
-    const type = typeToString(defaultValue.type);
+    const { className, defaultValue, isDisabled, name, onChange, style, type } = this.props;
 
     return (
       <Component
@@ -51,10 +49,15 @@ class ParamComponent extends React.PureComponent<Props, State> {
         defaultValue={defaultValue}
         key={`${name}:${type}`}
         isDisabled={isDisabled}
-        label={`${name}: ${type}`}
+        label={
+          isUndefined(name)
+            ? type.type
+            : `${name}: ${type.type}`
+        }
         name={name}
         onChange={onChange}
         style={style}
+        type={type}
       />
     );
   }

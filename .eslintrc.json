@@ -1,5 +1,0 @@
-{
-  "extends": [
-    "./node_modules/@polkadot/dev-react/config/eslint.js"
-  ]
-}

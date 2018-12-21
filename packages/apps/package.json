@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/apps",
-  "version": "0.20.30",
+  "version": "0.21.0",
   "description": "An Apps portal into the Polkadot network",
   "main": "index.js",
   "homepage": ".",
@@ -10,27 +10,23 @@
     "Jaco Greeff <jacogr@gmail.com>"
   ],
   "contributors": [],
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.0.0",
-    "@polkadot/app-accounts": "^0.20.30",
-    "@polkadot/app-addresses": "^0.20.30",
-    "@polkadot/app-democracy": "^0.20.30",
-    "@polkadot/app-example": "^0.20.30",
-    "@polkadot/app-explorer": "^0.20.30",
-    "@polkadot/app-extrinsics": "^0.20.30",
-    "@polkadot/app-rpc": "^0.20.30",
-    "@polkadot/app-staking": "^0.20.30",
-    "@polkadot/app-storage": "^0.20.30",
-    "@polkadot/app-toolbox": "^0.20.30",
-    "@polkadot/app-transfer": "^0.20.30",
-    "@polkadot/app-vanitygen": "^0.20.30",
-    "@polkadot/ui-app": "^0.20.30",
-    "@polkadot/ui-signer": "^0.20.30"
-  },
-  "devDependencies": {
-    "copy-webpack-plugin": "^4.5.1",
-    "empty": "^0.10.1",
-    "source-map-explorer": "^1.6.0"
+    "@babel/runtime": "^7.2.0",
+    "@polkadot/app-accounts": "^0.21.0",
+    "@polkadot/app-addresses": "^0.21.0",
+    "@polkadot/app-democracy": "^0.21.0",
+    "@polkadot/app-explorer": "^0.21.0",
+    "@polkadot/app-extrinsics": "^0.21.0",
+    "@polkadot/app-rpc": "^0.21.0",
+    "@polkadot/app-settings": "^0.21.0",
+    "@polkadot/app-staking": "^0.21.0",
+    "@polkadot/app-storage": "^0.21.0",
+    "@polkadot/app-toolbox": "^0.21.0",
+    "@polkadot/app-transfer": "^0.21.0",
+    "@polkadot/app-vanitygen": "^0.21.0",
+    "@polkadot/ui-app": "^0.21.0",
+    "@polkadot/ui-assets": "^0.24.9",
+    "@polkadot/ui-signer": "^0.21.0"
   }
 }

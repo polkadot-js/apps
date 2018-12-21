@@ -1,20 +1,20 @@
 // Copyright 2017-2018 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyringPair } from '@polkadot/util-keyring/types';
+import { KeyringPair } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import FileSaver from 'file-saver';
 import React from 'react';
-import Button from '@polkadot/ui-app/Button';
-import Modal from '@polkadot/ui-app/Modal';
-import Password from '@polkadot/ui-app/Password';
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
+import { AddressSummary, Button, Modal, Password } from '@polkadot/ui-app/index';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import keyring from '@polkadot/ui-keyring';
 
 import translate from './translate';
 
 type Props = I18nProps & {
+  onStatusChange: (status: ActionStatus) => void,
   onClose: () => void,
   pair: KeyringPair
 };
@@ -39,9 +39,10 @@ class Backup extends React.PureComponent<Props, State> {
   render () {
     return (
       <Modal
-        size='tiny'
+        className='app--accounts-Modal'
         dimmer='inverted'
         open
+        size='tiny'
       >
         {this.renderContent()}
         {this.renderButtons()}
@@ -87,11 +88,11 @@ class Backup extends React.PureComponent<Props, State> {
           defaultValue: 'Backup account'
         })}
       </Modal.Header>,
-      <Modal.Content key='content'>
-        <AddressSummary
-          className='accounts--Modal-Address'
-          value={pair.address()}
-        />
+      <Modal.Content
+        className='app--account-Backup-content'
+        key='content'
+      >
+        <AddressSummary value={pair.address()} />
         <div className='ui--row'>
           <Password
             isError={!isPassValid}
@@ -108,40 +109,47 @@ class Backup extends React.PureComponent<Props, State> {
   }
 
   private doBackup = (): void => {
-    const { onClose, pair } = this.props;
+    const { onClose, onStatusChange, pair, t } = this.props;
     const { password } = this.state;
 
     if (!pair) {
       return;
     }
 
-    try {
-      if (!pair.isLocked()) {
-        pair.lock();
-      }
-
-      pair.decodePkcs8(password);
-    } catch (error) {
-      this.setState({ isPassValid: false });
-      return;
-    }
+    const status = {
+      action: 'backup'
+    } as ActionStatus;
 
     try {
-      const json = JSON.stringify(pair.toJson(password));
-      const blob = new Blob([json], { type: 'application/json; charset=utf-8' });
+      const json = keyring.backupAccount(pair, password);
+      const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
+
+      status.value = pair.address();
+      status.status = blob ? 'success' : 'error';
+      status.message = t('status.backup', {
+        defaultValue: 'account backed up'
+      });
 
       FileSaver.saveAs(blob, `${pair.address()}.json`);
     } catch (error) {
       this.setState({ isPassValid: false });
+      console.error(error);
+
+      status.status = 'error';
+      status.message = t('status.error', {
+        defaultValue: error.message
+      });
       return;
     }
+
+    onStatusChange(status);
 
     onClose();
   }
 
   private onChangePass = (password: string) => {
     this.setState({
-      isPassValid: password.length > 0 && password.length <= 32,
+      isPassValid: keyring.isPassValid(password),
       password
     });
   }

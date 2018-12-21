@@ -1,8 +1,8 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Param$Types } from '@polkadot/params/types';
+import { TypeDef, TypeDefInfo } from '@polkadot/types/codec';
 import { Props, ComponentMap } from '../types';
 
 import Account from './Account';
@@ -13,16 +13,19 @@ import Bytes from './Bytes';
 import Code from './Code';
 import Hash from './Hash';
 import Proposal from './Proposal';
-import StorageKeyValue from './StorageKeyValue';
-import StorageKeyValueArray from './StorageKeyValueArray';
+import KeyValue from './KeyValue';
+import KeyValueArray from './KeyValueArray';
 import StringParam from './String';
 import Timestamp from './Timestamp';
+import Tuple from './Tuple';
 import Unknown from './Unknown';
+import Vector from './Vector';
 import VoteThreshold from './VoteThreshold';
 
 const components: ComponentMap = {
   'AccountId': Account,
-  'AccountIndex': Amount,
+  'AccountIndex': Account,
+  'Address': Account,
   'Balance': Balance,
   'BlockNumber': Amount,
   'bool': Bool,
@@ -30,13 +33,13 @@ const components: ComponentMap = {
   'Code': Code,
   'Call': Unknown,
   'Digest': Unknown,
+  'Gas': Amount,
   'Hash': Hash,
   'Index': Amount,
-  'KeyValue': StorageKeyValue,
-  'StorageKeyValue': StorageKeyValue,
-  'StorageKeyValue[]': StorageKeyValueArray,
+  'KeyValue': KeyValue,
+  'Vec<KeyValue>': KeyValueArray,
   'MisbehaviorReport': Unknown,
-  'ParachainId': Amount,
+  'ParaId': Amount,
   'PropIndex': Amount,
   'Proposal': Proposal,
   'ReferendumIndex': Amount,
@@ -44,31 +47,32 @@ const components: ComponentMap = {
   'Signature': Hash,
   'String': StringParam,
   'Timestamp': Timestamp,
+  'Tuple': Tuple,
   'u32': Amount,
   'u64': Amount,
+  'Vector': Vector,
   'VoteIndex': Amount,
   'VoteThreshold': VoteThreshold
 };
 
-function getFromMap (type: Param$Types, overrides: ComponentMap): React.ComponentType<Props> | [React.ComponentType<Props>, React.ComponentType<Props>] {
-  if (Array.isArray(type)) {
-    // Special case for components where we have a specific override formatter
-    if (type.length === 1) {
-      const arrayType = `${type}[]`;
+export default function findComponent (def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
+  const type = (({ info, sub, type }: TypeDef) => {
+    switch (info) {
+      case TypeDefInfo.Compact:
+        return (sub as TypeDef).type;
 
-      return overrides[arrayType] || components[arrayType] || Unknown;
+      case TypeDefInfo.Tuple:
+        return 'Tuple';
+
+      case TypeDefInfo.Vector:
+        return ['Vec<KeyValue>'].includes(type)
+          ? 'Vec<KeyValue>'
+          : 'Vector';
+
+      default:
+        return type;
     }
-
-    return Unknown;
-  }
+  })(def);
 
   return overrides[type] || components[type] || Unknown;
-}
-
-export default function findComponent (type: Param$Types, overrides: ComponentMap = {}, isDisabled: boolean = false): React.ComponentType<Props> {
-  const component = getFromMap(type, overrides);
-
-  return Array.isArray(component)
-    ? component[0]
-    : component;
 }

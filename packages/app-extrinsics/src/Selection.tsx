@@ -1,35 +1,32 @@
 // Copyright 2017-2018 @polkadot/app-extrinsics authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { EncodedMessage, QueueTx$MessageAdd } from '@polkadot/ui-signer/types';
+import { QueueTx$ExtrinsicAdd, QueueTx$Unclog } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
-
-import extrinsics from '@polkadot/extrinsics';
-import rpc from '@polkadot/jsonrpc';
-import Button from '@polkadot/ui-app/Button';
+import Api from '@polkadot/api-observable';
+import { Extrinsic, Method } from '@polkadot/types';
+import { Button } from '@polkadot/ui-app/index';
 
 import Account from './Account';
-import Extrinsic from './Extrinsic';
+import ExtrinsicDisplay from './Extrinsic';
 import Nonce from './Nonce';
 import translate from './translate';
 
 type Props = I18nProps & {
-  queueAdd: QueueTx$MessageAdd
+  queueExtrinsic: QueueTx$ExtrinsicAdd,
+  queueUnclog: QueueTx$Unclog
 };
 
 type State = {
   isValid: boolean,
-  encoded: EncodedMessage,
-  nonce: BN,
-  publicKey: Uint8Array
+  method: Method | null,
+  accountNonce: BN,
+  accountId: string
 };
-
-const defaultExtrinsic = extrinsics.staking.public.transfer;
-const defaultRpc = rpc.author.public.submitExtrinsic;
 
 class Selection extends React.PureComponent<Props, State> {
   state: State = {
@@ -38,7 +35,7 @@ class Selection extends React.PureComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { publicKey, isValid } = this.state;
+    const { isValid, accountId } = this.state;
 
     return (
       <div className='extrinsics--Selection'>
@@ -50,19 +47,19 @@ class Selection extends React.PureComponent<Props, State> {
           onChange={this.onChangeSender}
           type='account'
         />
-        <Extrinsic
-          defaultValue={defaultExtrinsic}
+        <ExtrinsicDisplay
+          defaultValue={Api.extrinsics.balances.transfer}
           labelMethod={t('display.method', {
             defaultValue: 'submit the following extrinsic'
           })}
-          onChange={this.onChangeMessage}
+          onChange={this.onChangeExtrinsic}
         />
         <Nonce
           label={t('display.nonce', {
             defaultValue: 'with an index'
           })}
           rxChange={this.onChangeNonce}
-          value={publicKey}
+          value={accountId}
         />
         <Button.Group>
           <Button
@@ -78,49 +75,54 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  nextState (newState: State): void {
+  private nextState (newState: State): void {
     this.setState(
       (prevState: State): State => {
-        const { encoded = prevState.encoded, nonce = prevState.nonce, publicKey = prevState.publicKey } = newState;
+        const { method = prevState.method, accountNonce = prevState.accountNonce, accountId = prevState.accountId } = newState;
         const isValid = !!(
-          publicKey &&
-          publicKey.length &&
-          encoded &&
-          encoded.isValid
+          accountId &&
+          accountId.length &&
+          method
         );
 
         return {
-          encoded,
+          method,
           isValid,
-          nonce,
-          publicKey
+          accountNonce,
+          accountId
         };
       }
     );
   }
 
-  onChangeMessage = (encoded: EncodedMessage): void => {
-    this.nextState({ encoded } as State);
+  private onChangeExtrinsic = (method: Method | null = null): void => {
+    this.nextState({ method } as State);
   }
 
-  onChangeNonce = (nonce: BN = new BN(0)): void => {
-    this.nextState({ nonce } as State);
+  private onChangeNonce = (accountNonce: BN = new BN(0)): void => {
+    const { queueUnclog } = this.props;
+
+    this.nextState({ accountNonce } as State);
+
+    queueUnclog(accountNonce);
   }
 
-  onChangeSender = (publicKey: Uint8Array): void => {
-    this.nextState({ publicKey, nonce: new BN(0) } as State);
+  private onChangeSender = (accountId: string): void => {
+    this.nextState({ accountId, accountNonce: new BN(0) } as State);
   }
 
-  onQueue = (): void => {
-    const { queueAdd } = this.props;
-    const { encoded: { isValid, values }, nonce, publicKey } = this.state;
+  private onQueue = (): void => {
+    const { queueExtrinsic } = this.props;
+    const { accountNonce, method, isValid, accountId } = this.state;
 
-    queueAdd({
-      isValid,
-      nonce,
-      publicKey,
-      rpc: defaultRpc,
-      values
+    if (!isValid || !method) {
+      return;
+    }
+
+    queueExtrinsic({
+      accountNonce,
+      extrinsic: new Extrinsic({ method }),
+      accountId
     });
   }
 }

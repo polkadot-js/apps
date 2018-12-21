@@ -1,14 +1,15 @@
 // Copyright 2017-2018 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Header } from '@polkadot/primitives/header';
+import { Header } from '@polkadot/types';
 
 import React from 'react';
-
-import withObservableDiv from '@polkadot/ui-react-rx/with/observableDiv';
+import { withObservableDiv } from '@polkadot/ui-react-rx/with/index';
 
 import BlockHeader from './BlockHeader';
+
+export const MAX_ITEMS = 15;
 
 let blockHeaders: Array<Header> = [];
 
@@ -20,7 +21,7 @@ const apiOptions = {
 
     blockHeaders = blockHeaders
       .filter((old, index) =>
-        index < 9 && old.number.lt(header.number)
+        index < MAX_ITEMS && old.blockNumber.lt(header.blockNumber)
       )
       .reduce((next, header) => {
         next.push(header);
@@ -28,20 +29,20 @@ const apiOptions = {
         return next;
       }, [header])
       .sort((a, b) =>
-        b.number.cmp(a.number)
+        b.blockNumber.cmp(a.blockNumber)
       );
 
     return blockHeaders;
   }
 };
 
-export default withObservableDiv('chainNewHead', apiOptions)(
+export default withObservableDiv('subscribeNewHead', apiOptions)(
   (value: Array<Header> = []) =>
     value.map((value) => (
       <BlockHeader
-        key={value.number.toString()}
+        key={value.blockNumber.toString()}
         value={value}
-        withLink
+        withLink={!value.blockNumber.isZero()}
       />
     )),
   { className: 'explorer--BlockHeaders' }

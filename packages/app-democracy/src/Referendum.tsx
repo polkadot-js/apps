@@ -1,28 +1,28 @@
 // Copyright 2017-2018 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParam } from '@polkadot/ui-app/Params/types';
-import { RxReferendum, RxReferendumVote } from '@polkadot/ui-react-rx/ApiObservable/types';
+import { RxReferendumVote } from '@polkadot/api-observable/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import Static from '@polkadot/ui-app/Static';
-import Doughnut from '@polkadot/ui-app/Chart/Doughnut';
+import { ReferendumInfo } from '@polkadot/types';
+import { Chart, Static } from '@polkadot/ui-app/index';
 import VoteThreshold from '@polkadot/ui-app/Params/Param/VoteThreshold';
-import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { balanceFormat, numberFormat } from '@polkadot/ui-react-rx/util/index';
+import settings from '@polkadot/ui-settings';
 
 import Item from './Item';
 import Voting from './Voting';
 import translate from './translate';
 
-const COLORS_YAY = process.env.UI_THEME === 'substrate'
+const COLORS_YAY = settings.uiTheme === 'substrate'
   ? ['#4d4', '#4e4']
   : ['#64bebe', '#5badad'];
-const COLORS_NAY = process.env.UI_THEME === 'substrate'
+const COLORS_NAY = settings.uiTheme === 'substrate'
   ? ['#d44', '#e44']
   : ['#d75ea1', '#e189ba'];
 
@@ -30,7 +30,7 @@ type Props = I18nProps & {
   bestNumber?: BN,
   democracyReferendumVoters?: Array<RxReferendumVote>,
   idNumber: BN,
-  value: RxReferendum
+  value: ReferendumInfo
 };
 
 type State = {
@@ -64,7 +64,7 @@ class Referendum extends React.PureComponent<Props, State> {
     }
 
     const newState: State = democracyReferendumVoters.reduce((state, { balance, vote }) => {
-      if (vote) {
+      if (vote.valueOf() === true) {
         state.voteCountYay++;
         state.votedYay = state.votedYay.add(balance);
       } else {
@@ -93,7 +93,11 @@ class Referendum extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { idNumber, value } = this.props;
+    const { bestNumber, idNumber, value } = this.props;
+
+    if (!bestNumber || value.end.sub(bestNumber).lten(0)) {
+      return null;
+    }
 
     return (
       <Item
@@ -108,34 +112,35 @@ class Referendum extends React.PureComponent<Props, State> {
   }
 
   private renderExtra () {
-    const { bestNumber, t, value: { blockNumber, voteThreshold } } = this.props;
+    const { bestNumber, t, value: { end, threshold } } = this.props;
 
     if (!bestNumber) {
       return null;
     }
 
-    console.error('Referendum:: best:', numberFormat(bestNumber), 'target:', numberFormat(blockNumber), 'remaining:', numberFormat(blockNumber.sub(bestNumber)));
-
     return (
       <div className='democracy--Referendum-info'>
-        <Static label={t('referendum.endLabel', {
-          defaultValue: 'remaining time'
-        })}>
+        <Static
+          label={t('referendum.endLabel', {
+            defaultValue: 'remaining time'
+          })}
+        >
           {t('referendum.endInfo', {
             defaultValue: '{{remaining}} blocks remaining, ending at block #{{blockNumber}}',
             replace: {
-              blockNumber: numberFormat(blockNumber),
-              remaining: numberFormat(blockNumber.sub(bestNumber))
+              blockNumber: numberFormat(end),
+              remaining: numberFormat(end.sub(bestNumber).subn(1))
             }
           })}
         </Static>
         <VoteThreshold
           isDisabled
-          defaultValue={{ value: voteThreshold } as RawParam}
+          defaultValue={{ value: threshold } as RawParam}
           label={t('referendum.thresholdLabel', {
             defaultValue: 'vote threshold'
           })}
           name='voteThreshold'
+          type={{ info: 0, type: 'VoteThreshold' }}
         />
       </div>
     );
@@ -150,25 +155,28 @@ class Referendum extends React.PureComponent<Props, State> {
 
     return (
       <div className='democracy--Referendum-results chart'>
-        <Doughnut values={[
-          {
-            colors: COLORS_YAY,
-            label: `${numberFormat(votedYay)} (${numberFormat(voteCountYay)})`,
-            value: votedYay.muln(10000).div(votedTotal).toNumber() / 100
-          },
-          {
-            colors: COLORS_NAY,
-            label: `${numberFormat(votedNay)} (${numberFormat(voteCountNay)})`,
-            value: votedNay.muln(10000).div(votedTotal).toNumber() / 100
-          }
-        ]} />
+        <Chart.Doughnut
+          values={[
+            {
+              colors: COLORS_YAY,
+              label: `${balanceFormat(votedYay)} (${numberFormat(voteCountYay)})`,
+              value: votedYay.muln(10000).div(votedTotal).toNumber() / 100
+            },
+            {
+              colors: COLORS_NAY,
+              label: `${balanceFormat(votedNay)} (${numberFormat(voteCountNay)})`,
+              value: votedNay.muln(10000).div(votedTotal).toNumber() / 100
+            }
+          ]}
+        />
       </div>
     );
   }
 }
 
 export default withMulti(
-  translate(Referendum),
+  Referendum,
+  translate,
   withObservable('bestNumber'),
   withObservable('democracyReferendumVoters', { paramProp: 'idNumber' })
 );

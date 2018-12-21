@@ -1,19 +1,18 @@
 // Copyright 2017-2018 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RxProposal } from '@polkadot/ui-react-rx/ApiObservable/types';
+import { RxProposal } from '@polkadot/api-observable/classes';
 
 import React from 'react';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import Proposal from './Proposal';
 import translate from './translate';
 
 type Props = I18nProps & {
-  democracyProposals?: Array<RxProposal>
+  publicProposals?: Array<RxProposal>
 };
 
 class Proposals extends React.PureComponent<Props> {
@@ -31,9 +30,9 @@ class Proposals extends React.PureComponent<Props> {
   }
 
   private renderProposals () {
-    const { democracyProposals, t } = this.props;
+    const { publicProposals, t } = this.props;
 
-    if (!democracyProposals || !democracyProposals.length) {
+    if (!publicProposals || !publicProposals.length) {
       return (
         <div className='ui disabled'>
           {t('proposals.none', {
@@ -43,7 +42,7 @@ class Proposals extends React.PureComponent<Props> {
       );
     }
 
-    return democracyProposals.map((proposal) => (
+    return publicProposals.map((proposal) => (
       <Proposal
         idNumber={proposal.id}
         key={proposal.id.toString()}
@@ -56,5 +55,5 @@ class Proposals extends React.PureComponent<Props> {
 export default withMulti(
   Proposals,
   translate,
-  withObservable('democracyProposals')
+  withObservable('publicProposals')
 );

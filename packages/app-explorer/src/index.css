@@ -1,6 +1,6 @@
 /* Copyright 2017-2018 @polkadot/app-explorer authors & contributors
 /* This software may be modified and distributed under the terms
-/* of the ISC license. See the LICENSE file for details. */
+/* of the Apache-2.0 license. See the LICENSE file for details. */
 
 .explorer--App .rx--updated {
   background: transparent !important;
@@ -35,23 +35,30 @@
   flex-wrap: wrap;
 }
 
-.explorer--BlockByHash-extrinsic {
+.explorer--BlockByHash-block {
   flex: 0 0 50%;
   min-width: 0;
+  max-width: 50%;
 }
 
-.explorer--BlockByHash-extrinsic-header {
-  position: relative;
-  margin-bottom: 1rem;
-}
+.explorer--Container {
+  color: inherit;
 
-.explorer--BlockByHash-extrinsic-header-description {
-  color: rgba(0, 0, 0, 0.6);
-}
+  .header {
+    position: relative;
 
-.explorer--BlockByHash-extrinsic-header-name {
-  font-size: 1.2rem;
-  line-height: 1.2rem;
+    .description {
+      color: rgba(0, 0, 0, 0.6);
+      margin-bottom: 0.5rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .value {
+    word-break: break-all;
+  }
 }
 
 .explorer--BlockByHash-accountIndex {
@@ -72,6 +79,17 @@
   position: absolute;
   top: -0.5rem;
   right: 0rem;
+}
+
+.explorer--Overview {
+  display: flex;
+
+  .column {
+    flex: 0 0 50%;
+    min-width: 0;
+    max-width: 50%;
+    padding: 0 1em 1em;
+  }
 }
 
 .storage--Query-actionrow {

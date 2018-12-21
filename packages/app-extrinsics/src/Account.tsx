@@ -1,31 +1,29 @@
 // Copyright 2017-2018 @polkadot/app-extrinsics authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringOption$Type } from '@polkadot/ui-keyring/options/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
-import InputAddress from '@polkadot/ui-app/InputAddress';
-import Labelled from '@polkadot/ui-app/Labelled';
-import Balance from '@polkadot/ui-react-rx/Balance';
+import { InputAddress, Labelled } from '@polkadot/ui-app/index';
+import { Balance } from '@polkadot/ui-react-rx/index';
 
 import translate from './translate';
 
 type Props = I18nProps & {
-  defaultValue?: Uint8Array,
+  defaultValue?: string,
   isDisabled?: boolean,
   isError?: boolean,
   isInput?: boolean,
   label: string,
-  onChange?: (publicKey: Uint8Array) => void,
+  onChange?: (accountId: string) => void,
   type?: KeyringOption$Type,
   withLabel?: boolean
 };
 
 type State = {
-  publicKey?: Uint8Array
+  accountId?: string
 };
 
 class Account extends React.PureComponent<Props, State> {
@@ -35,7 +33,7 @@ class Account extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      publicKey: props.defaultValue
+      accountId: props.defaultValue
     };
   }
 
@@ -64,9 +62,9 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderBalance (): React.ReactNode {
     const { t, withLabel } = this.props;
-    const { publicKey } = this.state;
+    const { accountId } = this.state;
 
-    if (!publicKey) {
+    if (!accountId) {
       return null;
     }
 
@@ -80,18 +78,20 @@ class Account extends React.PureComponent<Props, State> {
       >
         <Balance
           className='ui disabled dropdown selection'
-          params={publicKey}
+          params={accountId}
         />
       </Labelled>
     );
   }
 
-  private onChange = (publicKey: Uint8Array): void => {
+  private onChange = (accountId: string): void => {
     const { onChange } = this.props;
 
-    this.setState({ publicKey }, () =>
-      onChange && onChange(publicKey)
-    );
+    if (accountId) {
+      this.setState({ accountId }, () => {
+        onChange && onChange(accountId);
+      });
+    }
   }
 }
 

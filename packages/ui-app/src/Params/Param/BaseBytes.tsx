@@ -1,19 +1,18 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Props as BaseProps, Size } from '../types';
 
 import React from 'react';
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import bnToU8a from '@polkadot/util/bn/toU8a';
-import u8aConcat from '@polkadot/util/u8a/concat';
-import u8aToHex from '@polkadot/util/u8a/toHex';
+import { Compact } from '@polkadot/types/codec';
+import { hexToU8a, u8aToHex } from '@polkadot/util';
 
 import Input from '../../Input';
 import Bare from './Bare';
 
 type Props = BaseProps & {
+  children?: React.ReactNode,
   length?: number,
   size?: Size,
   validate?: (u8a: Uint8Array) => boolean,
@@ -25,7 +24,7 @@ const defaultValidate = (u8a: Uint8Array): boolean =>
 
 export default class BaseBytes extends React.PureComponent<Props> {
   render () {
-    const { className, defaultValue: { value }, isDisabled, isError, label, size = 'full', style, withLabel } = this.props;
+    const { children, className, defaultValue: { value }, isDisabled, isError, label, size = 'full', style, withLabel } = this.props;
     const defaultValue = value
       ? u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
       : undefined;
@@ -38,6 +37,7 @@ export default class BaseBytes extends React.PureComponent<Props> {
         <Input
           className={size}
           defaultValue={defaultValue}
+          isAction
           isDisabled={isDisabled}
           isError={isError}
           label={label}
@@ -45,35 +45,35 @@ export default class BaseBytes extends React.PureComponent<Props> {
           placeholder='0x...'
           type='text'
           withLabel={withLabel}
-        />
+        >
+          {children}
+        </Input>
       </Bare>
     );
   }
 
-  onChange = (hex: string): void => {
-    const { length = -1, onChange, validate = defaultValidate, withLength = false } = this.props;
+  private onChange = (hex: string): void => {
+    const { length = -1, onChange, validate = defaultValidate, withLength } = this.props;
 
-    let u8a: Uint8Array;
+    let value: Uint8Array;
 
     try {
-      u8a = hexToU8a(hex);
+      value = hexToU8a(hex);
     } catch (error) {
-      u8a = new Uint8Array([]);
+      value = new Uint8Array([]);
     }
 
-    const isValidLength = length !== -1
-      ? u8a.length === length
-      : u8a.length !== 0;
-    const isValid = isValidLength && validate(u8a);
+    let isValid = validate(value) && length !== -1
+      ? value.length === length
+      : value.length !== 0;
+
+    if (withLength && isValid) {
+      value = Compact.addLengthPrefix(value);
+    }
 
     onChange && onChange({
       isValid,
-      value: u8aConcat(
-        withLength
-          ? bnToU8a(u8a.length, 32, true)
-          : new Uint8Array([]),
-        u8a
-      )
+      value
     });
   }
 }

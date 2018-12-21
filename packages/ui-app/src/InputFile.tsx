@@ -1,24 +1,26 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TranslationFunction } from 'i18next';
-import { BareProps } from '@polkadot/ui-app/types';
+import { WithNamespaces } from 'react-i18next';
+import { BareProps } from './types';
 
 import React from 'react';
 import Dropzone from 'react-dropzone';
 
-import Labelled from './Labelled';
 import classes from './util/classes';
+import Labelled from './Labelled';
 import translate from './translate';
 
-type Props = BareProps & {
+type Props = BareProps & WithNamespaces & {
+  // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
+  // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
+  accept?: string,
   isDisabled?: boolean,
   isError?: boolean,
   label: string,
   onChange?: (contents: Uint8Array) => void,
   placeholder?: string,
-  t: TranslationFunction,
   withLabel?: boolean
 };
 
@@ -39,7 +41,7 @@ class InputFile extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { className, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
+    const { accept, className, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
     const { file } = this.state;
 
     return (
@@ -48,6 +50,7 @@ class InputFile extends React.PureComponent<Props, State> {
         withLabel={withLabel}
       >
         <Dropzone
+          accept={accept}
           className={classes('ui--InputFile', isError ? 'error' : '', className)}
           disabled={isDisabled}
           multiple={false}
@@ -70,7 +73,7 @@ class InputFile extends React.PureComponent<Props, State> {
     );
   }
 
-  onDrop = (files: Array<File>) => {
+  private onDrop = (files: Array<File>) => {
     const { onChange } = this.props;
 
     files.forEach((file) => {
@@ -79,9 +82,11 @@ class InputFile extends React.PureComponent<Props, State> {
       reader.onabort = () => {
         // ignore
       };
+
       reader.onerror = () => {
         // ignore
       };
+
       // @ts-ignore ummm... events are not properly specified here?
       reader.onload = ({ target: { result } }: LoadEvent) => {
         const data = new Uint8Array(result);

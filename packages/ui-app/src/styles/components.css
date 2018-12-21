@@ -1,6 +1,6 @@
 /* Copyright 2017-2018 @polkadot/ui-app authors & contributors
 /* This software may be modified and distributed under the terms
-/* of the ISC license. See the LICENSE file for details. */
+/* of the Apache-2.0 license. See the LICENSE file for details. */
 
 @import './partials/_variables.css';
 
@@ -33,6 +33,10 @@
 
 header .ui--Button-Group {
   text-align: center;
+}
+
+.ui.input .ui--Button-Group {
+  margin: 0;
 }
 
 .ui--AddressMini {
@@ -80,7 +84,7 @@ header .ui--Button-Group {
 
 .ui--AddressSummary {
   padding: 0 1em;
-  text-align: left;
+  /* text-align: left; */
   white-space: nowrap
 }
 
@@ -118,13 +122,17 @@ header .ui--Button-Group {
   opacity: 0.45;
 }
 
+.ui--AddressSummary-balance {
+  padding-top: 0.5em;
+}
+
 .ui--AddressSummary-balance.rx--updated,
 .ui--AddressSummary-nonce.rx--updated {
   opacity: 1;
 }
 
 .ui--AddressSummary-data {
-  padding: 0.5em 0;
+  padding: 0;
   white-space: nowrap;
 }
 
@@ -133,11 +141,17 @@ header .ui--Button-Group {
   vertical-align: middle;
 }
 
-.ui--AddressSummary-address {
+.ui--AddressSummary-accountId,
+.ui--AddressSummary-accountIndex {
   display: inline-block;
   font-family: monospace;
   font-size: 1.5em;
   padding: 0;
+}
+
+.ui--AddressSummary-accountIndex {
+  font-size: 1.25em;
+  font-style: italic;
 }
 
 .ui--CardSummary .ui.label {
@@ -167,6 +181,7 @@ header .ui--Button-Group {
 
 .ui--CopyButton {
   cursor: copy !important;
+  margin-left: 0.25rem !important;
 }
 
 .ui--InputFile {
@@ -174,9 +189,9 @@ header .ui--Button-Group {
   border: 1px dashed rgba(34, 36, 38, 0.15);
   border-radius: $small-corner;
   display: flex;
-  justify-content: center;
   font-size: 1.2em;
   height: 5em;
+  justify-content: center;
   margin-bottom: 0.5rem;
   width: 100% !important;
 
@@ -192,5 +207,72 @@ header .ui--Button-Group {
 
   .label {
     color: rgba(0, 0, 0, .6);
+  }
+}
+
+.ui--Status {
+  display: inline-block;
+  position: fixed;
+  right: 0.25rem;
+  top: 0.25rem;
+  z-index: 1001;
+
+  .ui--IdentityIcon {
+    margin-left: 0 !important;
+  }
+
+  .item {
+    display: block;
+    text-align: right;
+
+    > .wrapper {
+      display: inline-block;
+
+      > .container {
+        align-items: center;
+        background: #00688b;
+        border-radius: $small-corner;
+        color: white;
+        display: flex;
+        margin-bottom: 0.25rem;
+        padding: 0 0.5rem;
+        text-align: center;
+        opacity: 0.9;
+        vertical-align: middle;
+
+        .desc {
+          padding: 0.5rem 1rem;
+
+          .status {
+            font-weight: 700;
+          }
+        }
+
+        .short {
+          font-size: 2.5rem;
+          padding: 0.5rem;
+
+          i.icon {
+            line-height: 1;
+          }
+        }
+      }
+    }
+
+    &.cancelled > .wrapper > .container {
+      background: #cd9b1d
+    }
+
+    &.completed > .wrapper > .container,
+    &.finalised > .wrapper > .container,
+    &.success > .wrapper > .container {
+      background: green;
+    }
+
+    &.dropped > .wrapper > .container ,
+    &.error > .wrapper > .container ,
+    &.usurped > .wrapper > .container {
+      background: red;
+    }
   }
 }

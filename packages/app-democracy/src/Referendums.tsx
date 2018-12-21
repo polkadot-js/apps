@@ -1,19 +1,21 @@
 // Copyright 2017-2018 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RxReferendum } from '@polkadot/ui-react-rx/ApiObservable/types';
 
+import BN from 'bn.js';
 import React from 'react';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
+import { ReferendumInfo } from '@polkadot/types';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import Referendum from './Referendum';
 import translate from './translate';
 
 type Props = I18nProps & {
-  democracyReferendums?: Array<RxReferendum>
+  democracyNextTally?: BN,
+  referendums?: Array<ReferendumInfo>,
+  referendumCount?: BN
 };
 
 class Referendums extends React.PureComponent<Props> {
@@ -31,9 +33,11 @@ class Referendums extends React.PureComponent<Props> {
   }
 
   private renderReferendums () {
-    const { democracyReferendums, t } = this.props;
+    const { democracyNextTally = new BN(0), referendums, referendumCount = new BN(0), t } = this.props;
 
-    if (!democracyReferendums || !democracyReferendums.length) {
+    console.error('democracyNextTally', democracyNextTally.toString(), referendums, referendumCount.toString());
+
+    if (!referendums || !referendums.length || referendumCount.toNumber() === democracyNextTally.toNumber()) {
       return (
         <div className='ui disabled'>
           {t('proposals.none', {
@@ -43,10 +47,10 @@ class Referendums extends React.PureComponent<Props> {
       );
     }
 
-    return democracyReferendums.map((referendum) => (
+    return referendums.map((referendum, index) => (
       <Referendum
-        idNumber={referendum.id}
-        key={referendum.id.toString()}
+        idNumber={index}
+        key={index}
         value={referendum}
       />
     ));
@@ -56,5 +60,7 @@ class Referendums extends React.PureComponent<Props> {
 export default withMulti(
   Referendums,
   translate,
-  withObservable('democracyReferendums')
+  withObservable('referendums'),
+  withObservable('referendumCount'),
+  withObservable('democracyNextTally')
 );

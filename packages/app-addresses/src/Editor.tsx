@@ -1,22 +1,22 @@
 // Copyright 2017-2018 @polkadot/app-addresses authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
-import Button from '@polkadot/ui-app/Button';
-import Input from '@polkadot/ui-app/Input';
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
-import InputAddress from '@polkadot/ui-app/InputAddress';
-import keyring from '@polkadot/ui-keyring/index';
+import { AddressSummary, Button, Input, InputAddress } from '@polkadot/ui-app/index';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import keyring from '@polkadot/ui-keyring';
+import { decodeAddress } from '@polkadot/keyring';
 
 import Forgetting from './Forgetting';
 import translate from './translate';
 
-type Props = I18nProps;
+type Props = I18nProps & {
+  onStatusChange: (status: ActionStatus) => void
+};
 
 type State = {
   current: KeyringAddress | null,
@@ -172,9 +172,9 @@ class Editor extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeAddress = (publicKey: Uint8Array): void => {
-    const current = publicKey && publicKey.length === 32
-      ? (keyring.getAddress(publicKey) || null)
+  onChangeAddress = (accountId: string): void => {
+    const current = accountId && decodeAddress(accountId)
+      ? (keyring.getAddress(accountId) || null)
       : null;
 
     this.nextState({ current } as State);
@@ -186,15 +186,35 @@ class Editor extends React.PureComponent<Props, State> {
 
   onCommit = (): void => {
     const { current, editedName } = this.state;
+    const { onStatusChange, t } = this.props;
 
     if (!current) {
       return;
     }
 
-    keyring.saveAddress(current.address(), {
-      name: editedName,
-      whenEdited: Date.now()
-    });
+    const status = {
+      action: 'edit',
+      value: current.address()
+    } as ActionStatus;
+
+    try {
+      keyring.saveAddress(current.address(), {
+        name: editedName,
+        whenEdited: Date.now()
+      });
+
+      status.status = current.getMeta().name === editedName ? 'success' : 'error';
+      status.message = t('status.editted', {
+        defaultValue: 'name edited'
+      });
+    } catch (e) {
+      status.status = 'error';
+      status.message = t('status.error', {
+        defaultValue: e.message
+      });
+    }
+
+    onStatusChange(status);
   }
 
   onDiscard = (): void => {
@@ -218,6 +238,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onForget = (): void => {
+    const { onStatusChange, t } = this.props;
     const { current } = this.state;
 
     if (!current) {
@@ -227,9 +248,27 @@ class Editor extends React.PureComponent<Props, State> {
     this.setState(
       this.createState(null),
       () => {
-        keyring.forgetAddress(
-          current.address()
-        );
+        const status = {
+          action: 'forget',
+          value: current.address()
+        } as ActionStatus;
+
+        try {
+          keyring.forgetAddress(
+            current.address()
+          );
+          status.status = 'success';
+          status.message = t('status.forgotten', {
+            defaultValue: 'address forgotten'
+          });
+        } catch (err) {
+          status.status = 'error';
+          status.message = t('status.error', {
+            defaultValue: err.message
+          });
+        }
+
+        onStatusChange(status);
       }
     );
   }

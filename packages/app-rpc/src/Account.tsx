@@ -1,27 +1,25 @@
 // Copyright 2017-2018 @polkadot/app-rpc authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-
-import InputAddress from '@polkadot/ui-app/InputAddress';
-import Labelled from '@polkadot/ui-app/Labelled';
-import Nonce from '@polkadot/ui-react-rx/Nonce';
+import { InputAddress, Labelled } from '@polkadot/ui-app/index';
+import { Nonce } from '@polkadot/ui-react-rx/index';
 
 import translate from './translate';
 
 type Props = I18nProps & {
-  defaultValue?: Uint8Array | null,
+  defaultValue?: string | null,
   isError?: boolean,
-  onChange: (publicKey: Uint8Array | undefined | null, nonce: BN) => void
+  onChange: (accountId: string | undefined | null, accountNonce: BN) => void
 };
 
 type State = {
-  nonce: BN,
-  publicKey?: Uint8Array | null
+  accountNonce: BN,
+  accountId?: string | null
 };
 
 class Account extends React.PureComponent<Props, State> {
@@ -31,8 +29,8 @@ class Account extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      publicKey: props.defaultValue,
-      nonce: new BN(0)
+      accountId: props.defaultValue,
+      accountNonce: new BN(0)
     };
   }
 
@@ -60,9 +58,9 @@ class Account extends React.PureComponent<Props, State> {
 
   renderNonce () {
     const { t } = this.props;
-    const { publicKey } = this.state;
+    const { accountId } = this.state;
 
-    if (!publicKey) {
+    if (!accountId) {
       return null;
     }
 
@@ -76,26 +74,26 @@ class Account extends React.PureComponent<Props, State> {
         <Nonce
           className='ui disabled dropdown selection'
           rxChange={this.onChangeNonce}
-          params={publicKey}
+          params={accountId}
         />
       </Labelled>
     );
   }
 
-  onChangeAccount = (publicKey: Uint8Array): void => {
+  onChangeAccount = (accountId: string): void => {
     const { onChange } = this.props;
 
-    this.setState({ publicKey }, () =>
-      onChange(publicKey, this.state.nonce)
+    this.setState({ accountId }, () =>
+      onChange(accountId, this.state.accountNonce)
     );
   }
 
-  onChangeNonce = (_nonce: BN): void => {
+  onChangeNonce = (_accountNonce: BN): void => {
     const { onChange } = this.props;
-    const nonce = _nonce || new BN(0);
+    const accountNonce = _accountNonce || new BN(0);
 
-    this.setState({ nonce }, () =>
-      onChange(this.state.publicKey, nonce)
+    this.setState({ accountNonce }, () =>
+      onChange(this.state.accountId, accountNonce)
     );
   }
 }

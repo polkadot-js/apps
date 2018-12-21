@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-react-rx authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import Api from './Api';
 import Balance from './Balance';
@@ -11,6 +11,8 @@ import Div from './Div';
 import NodeName from './NodeName';
 import NodeVersion from './NodeVersion';
 import Nonce from './Nonce';
+import TimeNow from './TimeNow';
+import TimePeriod from './TimePeriod';
 
 export {
   Api,
@@ -21,5 +23,7 @@ export {
   Div,
   NodeName,
   NodeVersion,
-  Nonce
+  Nonce,
+  TimeNow,
+  TimePeriod
 };

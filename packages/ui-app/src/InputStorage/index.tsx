@@ -1,19 +1,17 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 // TODO: We have a lot shared between this and InputExtrinsic
 
-import { SectionItem } from '@polkadot/params/types';
-import { Storages, Storage$Sections } from '@polkadot/storage/types';
+import { StorageFunction } from '@polkadot/types/StorageKey';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 
 import '../InputExtrinsic/InputExtrinsic.css';
 
 import React from 'react';
-
-import map from '@polkadot/storage';
+import Api from '@polkadot/api-observable';
 
 import classes from '../util/classes';
 import translate from '../translate';
@@ -23,18 +21,18 @@ import keyOptions from './options/key';
 import sectionOptions from './options/section';
 
 type Props = I18nProps & {
-  defaultValue: SectionItem<Storages>,
+  defaultValue: StorageFunction,
   isError?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (value: SectionItem<Storages>) => void,
+  onChange: (value: StorageFunction) => void,
   withLabel?: boolean
 };
 
 type State = {
   optionsMethod: DropdownOptions,
   optionsSection: DropdownOptions,
-  value: SectionItem<Storages>
+  value: StorageFunction
 };
 
 class InputStorage extends React.PureComponent<Props, State> {
@@ -43,10 +41,10 @@ class InputStorage extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const { section } = this.props.defaultValue;
+    const method = this.props.defaultValue;
 
     this.state = {
-      optionsMethod: keyOptions(section),
+      optionsMethod: keyOptions(method.section),
       optionsSection: sectionOptions(),
       value: this.props.defaultValue
     };
@@ -81,31 +79,31 @@ class InputStorage extends React.PureComponent<Props, State> {
     );
   }
 
-  onKeyChange = (value: SectionItem<Storages>): void => {
+  private onKeyChange = (newValue: StorageFunction): void => {
     const { onChange } = this.props;
-    const { value: { name, section } } = this.state;
+    const { value } = this.state;
 
-    if (value.section === section && value.name === name) {
+    if (value.section === newValue.section && value.method === newValue.method) {
       return;
     }
 
-    this.setState({ value }, () =>
-      onChange(value)
+    this.setState({ value: newValue }, () =>
+      onChange(newValue)
     );
   }
 
-  onSectionChange = (newSection: Storage$Sections): void => {
-    const { value: { section } } = this.state;
+  private onSectionChange = (newSection: string): void => {
+    const { value } = this.state;
 
-    if (newSection === section) {
+    if (newSection === value.section) {
       return;
     }
 
     const optionsMethod = keyOptions(newSection);
-    const value = map[newSection].public[optionsMethod[0].value];
+    const newValue = Api.storage[newSection][optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
-      this.onKeyChange(value)
+      this.onKeyChange(newValue)
     );
   }
 }

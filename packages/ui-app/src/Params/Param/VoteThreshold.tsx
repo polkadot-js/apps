@@ -1,11 +1,12 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Props } from '../types';
 
 import React from 'react';
-import bnToBn from '@polkadot/util/bn/toBn';
+import { VoteThreshold } from '@polkadot/types';
+import { bnToBn } from '@polkadot/util';
 
 import Dropdown from '../../Dropdown';
 import Bare from './Bare';
@@ -24,10 +25,12 @@ export const textMap = options.reduce((textMap, { text, value }) => {
   return textMap;
 }, {} as TextMap);
 
-export default class VoteThreshold extends React.PureComponent<Props> {
+export default class VoteThresholdParam extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = bnToBn(value as number).toNumber();
+    const defaultValue = value instanceof VoteThreshold
+      ? value.toNumber()
+      : bnToBn(value as number).toNumber();
 
     return (
       <Bare
@@ -48,7 +51,7 @@ export default class VoteThreshold extends React.PureComponent<Props> {
     );
   }
 
-  onChange = (value: number): void => {
+  private onChange = (value: number): void => {
     const { onChange } = this.props;
 
     onChange && onChange({

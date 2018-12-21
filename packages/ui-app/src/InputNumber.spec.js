@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
 import React from 'react';
@@ -53,28 +53,6 @@ describe('InputNumber', () => {
     });
   });
 
-  describe('isNonInteger', () => {
-    describe('invalid inputs', () => {
-      it('detects decimal value', () => {
-        expect(wrapper.instance().isNonInteger('12.1')).toBe(true);
-      });
-
-      it('detects non-integer value', () => {
-        expect(wrapper.instance().isNonInteger('12.1copypastedvalue')).toBe(true);
-      });
-    });
-
-    describe('valid inputs', () => {
-      it('detects integers', () => {
-        expect(wrapper.instance().isNonInteger('12')).toBe(false);
-      });
-
-      it('detects integer value with single digit', () => {
-        expect(wrapper.instance().isNonInteger('0')).toBe(false);
-      });
-    });
-  });
-
   describe('isValidBitLength', () => {
     it('returns whether value in BN is valid for given bitlength or uses 128 bit bitlength fallback', () => {
       expect(wrapper.instance().isValidBitLength(aboveMax128BN, DEFAULT_BITLENGTH)).toBe(false);
@@ -87,22 +65,16 @@ describe('InputNumber', () => {
       it('throws an error if input value for comparison is not a string', () => {
         const invalidInputValueType = 340282366920938463463374607431768211456;
 
-        expect(() => { wrapper.instance().isValidNumber(invalidInputValueType, DEFAULT_BITLENGTH); }).toThrow();
+        expect(() => { wrapper.instance().isValidNumber(new BN(invalidInputValueType), DEFAULT_BITLENGTH); }).toThrow();
       });
     });
 
-    it('should not be valid when input contains spaces', () => {
-      const invalidInputValueType = '3 4';
-
-      expect(wrapper.instance().isValidNumber(invalidInputValueType, DEFAULT_BITLENGTH)).toBe(false);
-    });
-
     it('should not be valid when user enters positive value greater than or equal to the 128 bit max for latest chain', () => {
-      expect(wrapper.instance().isValidNumber(max128BN.toString(10), DEFAULT_BITLENGTH)).toBe(false);
+      expect(wrapper.instance().isValidNumber(max128BN, DEFAULT_BITLENGTH)).toBe(false);
     });
 
     it('should be valid when user enters positive value less than the 128 bit max for latest chain', () => {
-      expect(wrapper.instance().isValidNumber(belowMax128BN.toString(10), DEFAULT_BITLENGTH)).toBe(true);
+      expect(wrapper.instance().isValidNumber(belowMax128BN, DEFAULT_BITLENGTH)).toBe(true);
     });
   });
 });

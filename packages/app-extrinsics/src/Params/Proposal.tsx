@@ -1,29 +1,45 @@
 // Copyright 2017-2018 @polkadot/app-extrinsics authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props } from '@polkadot/ui-app/Params/types';
+import { Props, RawParam } from '@polkadot/ui-app/Params/types';
 
 import React from 'react';
+import Api from '@polkadot/api-observable';
+import { Proposal } from '@polkadot/types';
 
-import extrinsics from '@polkadot/extrinsics';
+import ExtrinsicDisplay from './Extrinsic';
 
-import Extrinsic from './Extrinsic';
+export default class ProposalDisplay extends React.PureComponent<Props> {
+  render () {
+    const { className, isDisabled, isError, label, style, withLabel } = this.props;
 
-const defaultValue = extrinsics.consensus.private.setCode;
+    return (
+      <ExtrinsicDisplay
+        className={className}
+        defaultValue={Api.extrinsics.consensus.setCode}
+        isDisabled={isDisabled}
+        isError={isError}
+        isPrivate
+        label={label}
+        onChange={this.onChange}
+        style={style}
+        withLabel={withLabel}
+      />
+    );
+  }
 
-export default function Proposal ({ className, isDisabled, isError, label, onChange, style, withLabel }: Props) {
-  return (
-    <Extrinsic
-      className={className}
-      defaultValue={defaultValue}
-      isDisabled={isDisabled}
-      isError={isError}
-      isPrivate
-      label={label}
-      onChange={onChange}
-      style={style}
-      withLabel={withLabel}
-    />
-  );
+  private onChange = ({ isValid, value }: RawParam) => {
+    const { onChange } = this.props;
+    let proposal = null;
+
+    if (isValid && value) {
+      proposal = new Proposal(value);
+    }
+
+    onChange && onChange({
+      isValid,
+      value: proposal
+    });
+  }
 }

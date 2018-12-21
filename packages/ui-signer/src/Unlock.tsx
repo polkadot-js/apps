@@ -1,14 +1,13 @@
 // Copyright 2017-2018 @polkadot/ui-signer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { KeyringPair } from '@polkadot/util-keyring/types';
+import { KeyringPair } from '@polkadot/keyring/types';
 
 import React from 'react';
-
-import Password from '@polkadot/ui-app/Password';
-import keyring from '@polkadot/ui-keyring/index';
+import { Password } from '@polkadot/ui-app/index';
+import keyring from '@polkadot/ui-keyring';
 
 import translate from './translate';
 
@@ -20,7 +19,7 @@ type Props = I18nProps & {
   onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
   password: string,
   tabIndex?: number,
-  value?: Uint8Array | null
+  value?: string | null
 };
 
 type State = {
@@ -33,7 +32,7 @@ class Unlock extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
   static getDerivedStateFromProps ({ error, value }: Props): State {
-    const pair = keyring.getPair(value as Uint8Array);
+    const pair = keyring.getPair(value as string);
     const isLocked = pair.isLocked();
 
     return {
@@ -59,7 +58,7 @@ class Unlock extends React.PureComponent<Props, State> {
             className='medium'
             isError={isError}
             label={label || t('unlock.password', {
-              defaultValue: 'unlock account using'
+              defaultValue: 'unlock account using the password'
             })}
             onChange={onChange}
             onKeyDown={onKeyDown}

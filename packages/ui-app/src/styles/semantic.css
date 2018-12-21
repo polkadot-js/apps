@@ -1,6 +1,6 @@
 /* Copyright 2017-2018 @polkadot/ui-app authors & contributors
 /* This software may be modified and distributed under the terms
-/* of the ISC license. See the LICENSE file for details. */
+/* of the Apache-2.0 license. See the LICENSE file for details. */
 
 @import 'partials/_variables.css';
 
@@ -56,15 +56,33 @@
   z-index: 1;
 }
 
-.ui.modal > .actions {
-  background: transparent;
-  border-top: none;
-  text-align: right;
-}
+.ui.modal {
+  background: #fdfdfd;
 
-.ui.modal > .header {
-  border-bottom: none;
-  padding-bottom: 0;
+  > .actions,
+  > .content,
+  > .header {
+    background: transparent;
+  }
+
+  > .actions {
+    border-top: none;
+    text-align: right;
+  }
+
+  > .content {
+    text-align: center;
+  }
+
+  > .header {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .description {
+    margin: 1.5em 0;
+    font-weight: 700;
+  }
 }
 
 .ui.page.modals.transition.visible {
@@ -94,4 +112,22 @@
 .ui.disabled.button,
 .ui.disabled.button:hover {
   opacity: 0.1 !important;
+}
+
+/* modals aligned to top, not center */
+.ui.dimmer {
+  justify-content: flex-start;
+}
+
+.ui.menu.tabular {
+  background: #f2f2f2;
+  /* border-color: white; */
+  /* break out of the wrapping main padding */
+  margin: -1em -2em 0;
+  padding: 1em 2em 0;
+
+  .item.active {
+    background: #fafafa;
+    /* border-color: white; */
+  }
 }

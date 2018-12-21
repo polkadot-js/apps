@@ -1,15 +1,13 @@
 // Copyright 2017-2018 @polkadot/app-vanitygen authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
-import CopyButton from '@polkadot/ui-app/CopyButton';
-import Button from '@polkadot/ui-app/Button';
-import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
-import u8aToHex from '@polkadot/util/u8a/toHex';
+import { Button, CopyButton, IdentityIcon } from '@polkadot/ui-app/index';
+import { u8aToHex } from '@polkadot/util';
 
 type Props = BareProps & {
   address: string;

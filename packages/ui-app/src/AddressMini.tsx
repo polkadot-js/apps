@@ -1,33 +1,41 @@
 // Copyright 2017-2018 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/ui-app/types';
+import { BareProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
+import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
-import Balance from './Balance';
+import BalanceDisplay from './Balance';
+import IdentityIcon from './IdentityIcon';
 
 type Props = BareProps & {
-  balance?: BN | Array<BN>,
+  balance?: Balance | Array<Balance> | BN,
   children?: React.ReactNode,
   isPadded?: boolean,
   isShort?: boolean,
-  value?: string,
+  sessionValidators?: Array<AccountId>,
+  value?: AccountId | AccountIndex | Address | string,
   withBalance?: boolean
 };
 
-export default class AddressMini extends React.PureComponent<Props> {
+class AddressMini extends React.PureComponent<Props> {
   render () {
-    const { children, className, isPadded = true, isShort = true, style, value } = this.props;
+    const { children, className, isPadded = true, isShort = true, sessionValidators = [], style, value } = this.props;
 
     if (!value) {
       return null;
     }
+
+    const address = value.toString();
+    const isValidator = sessionValidators.find((validator) =>
+      validator.toString() === address
+    );
 
     return (
       <div
@@ -36,10 +44,11 @@ export default class AddressMini extends React.PureComponent<Props> {
       >
         <div className='ui--AddressMini-info'>
           <IdentityIcon
+            isHighlight={!!isValidator}
             size={24}
-            value={value}
+            value={address}
           />
-          <div className='ui--AddressMini-address'>{isShort ? toShortAddress(value) : value}</div>
+          <div className='ui--AddressMini-address'>{isShort ? toShortAddress(address) : address}</div>
           {children}
         </div>
         {this.renderBalance()}
@@ -55,7 +64,7 @@ export default class AddressMini extends React.PureComponent<Props> {
     }
 
     return (
-      <Balance
+      <BalanceDisplay
         balance={balance}
         className='ui--AddressSummary-balance'
         value={value}
@@ -63,3 +72,8 @@ export default class AddressMini extends React.PureComponent<Props> {
     );
   }
 }
+
+export default withMulti(
+  AddressMini,
+  withObservable('sessionValidators')
+);

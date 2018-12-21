@@ -1,39 +1,57 @@
 // Copyright 2017-2018 @polkadot/app-transfer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RxBalance, RxFees } from '@polkadot/ui-react-rx/ApiObservable/types';
+import { RxBalance, RxFees } from '@polkadot/api-observable/types';
 import { Fees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import Static from '@polkadot/ui-app/Static';
-import withMulti from '@polkadot/ui-react-rx/with/multi';
-import withObservable from '@polkadot/ui-react-rx/with/observable';
+import { Balance, Extrinsic } from '@polkadot/types';
+import { Static } from '@polkadot/ui-app/index';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
 
 import translate from './translate';
 
 type State = Fees;
 
 type Props = I18nProps & {
+  accountId?: string | null,
   amount: BN,
   balanceFrom?: RxBalance,
   balanceTo?: RxBalance,
-  fees: RxFees,
-  from?: Uint8Array | null,
-  to?: Uint8Array | null,
+  extrinsic: Extrinsic | null,
+  fees?: RxFees,
+  recipientId?: string | null,
   onChange: (fees: Fees) => void
 };
 
-const ZERO = new BN(0);
 const ZERO_BALANCE = {
-  freeBalance: ZERO,
-  votingBalance: ZERO
+  freeBalance: new Balance(0),
+  reservedBalance: new Balance(0),
+  votingBalance: new Balance(0)
 } as RxBalance;
 
-// FIXME Ok, this is really not cool. Based on the actual transaction we should calculate the size. However currently bacause of the "fully distant" nature of the signer component, we cannot really properly calculate the final size. So count it... and then fix it. (This needs to be sorted)
-const TRANSFER_SIZE = 156;
+const ZERO_FEES = {
+  baseFee: new Balance(0),
+  byteFee: new Balance(0),
+  creationFee: new Balance(0),
+  existentialDeposit: new Balance(0),
+  transferFee: new Balance(0)
+} as RxFees;
+
+const LENGTH_PUBLICKEY = 32 + 1; // publicKey + prefix
+const LENGTH_SIGNATURE = 64;
+const LENGTH_NONCE = 8;
+const LENGTH_ERA = 1;
+
+// FIXME Hardcoded signature size. This _should_ be ok for the poc-3 version, however in reality is needs to
+// come from somewhere else (signer?). The issue is that we don't have the tx signed at this point, so we are
+// manually adding the signature size. As it stands, this will be problematic with Compact encoding on accountNonce.
+// Additionally, era assumes immortal transcations...
+const SIGNATURE_SIZE = LENGTH_PUBLICKEY + LENGTH_SIGNATURE + LENGTH_NONCE + LENGTH_ERA;
 
 class FeeDisplay extends React.PureComponent<Props, State> {
   constructor (props: Props) {
@@ -45,19 +63,25 @@ class FeeDisplay extends React.PureComponent<Props, State> {
       isNoEffect: false,
       isRemovable: false,
       isReserved: false,
-      txfees: ZERO,
-      txtotal: ZERO
+      txfees: new BN(0),
+      txtotal: new BN(0)
     };
   }
 
-  static getDerivedStateFromProps ({ amount, to, from, fees, balanceTo = ZERO_BALANCE, balanceFrom = ZERO_BALANCE }: Props): State | null {
-    if (!from || !to) {
+  static getDerivedStateFromProps ({ accountId, amount, balanceTo = ZERO_BALANCE, balanceFrom = ZERO_BALANCE, extrinsic, fees = ZERO_FEES, recipientId }: Props): State | null {
+    if (!accountId || !recipientId) {
       return null;
     }
 
+    const txLength = SIGNATURE_SIZE + (
+      extrinsic
+        ? extrinsic.encodedLength
+        : 0
+    );
+
     let txfees = fees.baseFee
-      .add(fees.transferFee)
-      .add(fees.byteFee.muln(TRANSFER_SIZE));
+        .add(fees.transferFee)
+        .add(fees.byteFee.muln(txLength));
 
     if (balanceTo.votingBalance.isZero()) {
       txfees = txfees.add(fees.creationFee);
@@ -88,12 +112,20 @@ class FeeDisplay extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, fees, from, to, t } = this.props;
+    const { accountId, className, fees = ZERO_FEES, recipientId, t } = this.props;
     const { hasAvailable, isCreation, isNoEffect, isRemovable, isReserved, txfees, txtotal } = this.state;
 
-    if (!from || !to) {
+    if (!accountId || !recipientId) {
       return null;
     }
+
+    const feeClass = hasAvailable
+      ? (
+        (isRemovable || isNoEffect)
+          ? 'warning'
+          : 'normal'
+        )
+      : 'error';
 
     return [
       <Static
@@ -102,10 +134,10 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         label={t('fees', {
           defaultValue: 'with fees totalling'
         })}
-        value={txfees.toString()}
+        value={`${balanceFormat(txfees)}`}
       />,
       <article
-        className={hasAvailable ? ((isRemovable || isNoEffect) ? 'warning' : '') : 'error'}
+        className={feeClass}
         key='txinfo'
       >
         {
@@ -141,7 +173,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
             ? t('fees.create', {
               defaultValue: 'A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist.',
               replace: {
-                creationFee: fees.creationFee.toString()
+                creationFee: `${balanceFormat(fees.creationFee)}`
               }
             })
           : undefined
@@ -153,14 +185,15 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         label={t('total', {
           defaultValue: 'total transaction amount (fees + value)'
         })}
-        value={txtotal.toString()}
-    />
+        value={`${balanceFormat(txtotal)}`}
+      />
     ];
   }
 }
 
 export default withMulti(
-  translate(FeeDisplay),
-  withObservable('votingBalance', { paramProp: 'from', propName: 'balanceFrom' }),
-  withObservable('votingBalance', { paramProp: 'to', propName: 'balanceTo' })
+  FeeDisplay,
+  translate,
+  withObservable('votingBalance', { paramProp: 'accountId', propName: 'balanceFrom' }),
+  withObservable('votingBalance', { paramProp: 'recipientId', propName: 'balanceTo' })
 );

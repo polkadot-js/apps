@@ -1,28 +1,23 @@
 // Copyright 2017-2018 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyringPair$Json } from '@polkadot/util-keyring/types';
+import { KeyringPair$Json } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import AddressSummary from '@polkadot/ui-app/AddressSummary';
-import Button from '@polkadot/ui-app/Button';
-import InputFile from '@polkadot/ui-app/InputFile';
+import { AddressSummary, Button, InputFile, Password } from '@polkadot/ui-app/index';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
-import Password from '@polkadot/ui-app/Password';
-import createPair from '@polkadot/util-keyring/pair';
-import decodeAddress from '@polkadot/util-keyring/address/decode';
-import isHex from '@polkadot/util/is/hex';
-import isObject from '@polkadot/util/is/object';
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
-import keyring from '@polkadot/ui-keyring/index';
+import { decodeAddress } from '@polkadot/keyring';
+import { isHex, isObject, u8aToString } from '@polkadot/util';
+import keyring from '@polkadot/ui-keyring';
 
 import translate from './translate';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 type Props = I18nProps & {
-  onBack: () => void
+  onStatusChange: (status: ActionStatus) => void,
+  onRestoreAccount: () => void
 };
 
 type State = {
@@ -39,9 +34,9 @@ class Restore extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      json: null,
       isFileValid: false,
       isPassValid: false,
+      json: null,
       password: ''
     };
   }
@@ -77,14 +72,17 @@ class Restore extends React.PureComponent<Props, State> {
     );
   }
 
-  renderInput () {
+  private renderInput () {
     const { t } = this.props;
     const { isFileValid, isPassValid, password } = this.state;
+
+    const acceptedFormats = ['application/json', 'text/plain'].join(', ');
 
     return (
       <div className='grow'>
         <div className='ui--row'>
           <Password
+            autoFocus
             className='full'
             isError={!isPassValid}
             label={t('restore.password', {
@@ -96,21 +94,23 @@ class Restore extends React.PureComponent<Props, State> {
         </div>
         <div className='ui--row'>
           <InputFile
+            accept={acceptedFormats}
             className='full'
             isError={!isFileValid}
             label={t('restore.json', {
               defaultValue: 'previously backed-up json keyfile'
             })}
             onChange={this.onChangeFile}
+            withLabel
           />
         </div>
       </div>
     );
   }
 
-  onChangeFile = (file: Uint8Array): void => {
+  private onChangeFile = (file: Uint8Array): void => {
     try {
-      const json = JSON.parse(u8aToUtf8(file));
+      const json = JSON.parse(u8aToString(file));
       const isFileValid = decodeAddress(json.address).length === 32 &&
         isHex(json.encoded) &&
         isObject(json.meta) &&
@@ -125,44 +125,49 @@ class Restore extends React.PureComponent<Props, State> {
         isFileValid: false,
         json: null
       });
+      console.error(error);
     }
   }
 
-  onChangePass = (password: string): void => {
+  private onChangePass = (password: string): void => {
     this.setState({
-      isPassValid: password.length > 0 && password.length <= 32,
+      isPassValid: keyring.isPassValid(password),
       password
     });
   }
 
-  onSave = (): void => {
-    const { onBack } = this.props;
+  private onSave = (): void => {
+    const { onRestoreAccount, onStatusChange, t } = this.props;
     const { json, password } = this.state;
 
     if (!json) {
       return;
     }
 
-    try {
-      const pair = createPair(
-        {
-          publicKey: decodeAddress(json.address),
-          secretKey: new Uint8Array()
-        },
-        json.meta,
-        hexToU8a(json.encoded)
-      );
+    const status = {
+      action: 'restore'
+    } as ActionStatus;
 
-      // unlock, save account and then lock (locking cleans secretKey, so needs to be last)
-      pair.decodePkcs8(password);
-      keyring.addAccountPair(pair, password);
-      pair.lock();
+    try {
+      const pair = keyring.restoreAccount(json, password);
+
+      status.status = pair ? 'success' : 'error';
+      status.value = pair.address();
+      status.message = t('status.restored', {
+        defaultValue: 'account restored'
+      });
 
       InputAddress.setLastValue('account', pair.address());
-      onBack();
+      onRestoreAccount();
     } catch (error) {
       this.setState({ isPassValid: false });
+
+      status.status = 'error';
+      status.message = error.message;
+      console.error(error);
     }
+
+    onStatusChange(status);
   }
 }
 

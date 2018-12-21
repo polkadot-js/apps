@@ -1,26 +1,27 @@
 // Copyright 2017-2018 @polkadot/ui-signer authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
-import { QueueTx, QueueTx$MessageSetStatus } from './types';
+import { RpcMethod } from '@polkadot/jsonrpc/types';
+import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
-import Button from '@polkadot/ui-app/Button';
-import Modal from '@polkadot/ui-app/Modal';
-import keyring from '@polkadot/ui-keyring/index';
-import withApi from '@polkadot/ui-react-rx/with/api';
+import { decodeAddress } from '@polkadot/keyring';
+import { Button, Modal } from '@polkadot/ui-app/index';
+import keyring from '@polkadot/ui-keyring';
+import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { format } from '@polkadot/util/logger';
+import { Extrinsic } from '@polkadot/types';
 
-import Extrinsic from './Extrinsic';
+import ExtrinsicDisplay from './Extrinsic';
 import Unlock from './Unlock';
-import signMessage from './sign';
-import submitMessage from './submit';
 import translate from './translate';
 
 type BaseProps = BareProps & {
   queue: Array<QueueTx>,
-  queueSetStatus: QueueTx$MessageSetStatus
+  queueSetTxStatus: QueueTx$MessageSetStatus
 };
 
 type Props = I18nProps & ApiProps & BaseProps;
@@ -56,9 +57,9 @@ class Signer extends React.PureComponent<Props, State> {
       !!nextItem &&
       !!currentItem &&
       (
-        (!nextItem.publicKey && !currentItem.publicKey) ||
+        (!nextItem.accountId && !currentItem.accountId) ||
         (
-          (nextItem.publicKey && nextItem.publicKey.toString()) === (currentItem.publicKey && currentItem.publicKey.toString())
+          (nextItem.accountId && nextItem.accountId.toString()) === (currentItem.accountId && currentItem.accountId.toString())
         )
       );
 
@@ -72,15 +73,15 @@ class Signer extends React.PureComponent<Props, State> {
   async componentDidUpdate (prevProps: Props, prevState: State) {
     const { currentItem } = this.state;
 
-    if (currentItem && currentItem.status === 'queued' && currentItem.rpc.isSigned !== true) {
-      return this.sendItem(currentItem);
+    if (currentItem && currentItem.status === 'queued' && !currentItem.extrinsic) {
+      return this.sendRpc(currentItem);
     }
   }
 
   render () {
     const { currentItem } = this.state;
 
-    if (!currentItem || currentItem.rpc.isSigned !== true) {
+    if (!currentItem) {
       return null;
     }
 
@@ -96,9 +97,8 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  renderButtons () {
+  private renderButtons () {
     const { t } = this.props;
-    const { currentItem: { rpc: { isSigned = false } = {} } = {} } = this.state;
 
     return (
       <Modal.Actions>
@@ -112,29 +112,23 @@ class Signer extends React.PureComponent<Props, State> {
             })}
           />
           <Button.Or />
-          <div>
-            <Button
-              className='ui--signer-Signer-Submit'
-              isPrimary
-              onClick={this.onSend}
-              tabIndex={2}
-              text={
-                isSigned
-                  ? t('extrinsic.signedSend', {
-                    defaultValue: 'Sign and Submit'
-                  })
-                  : t('extrinsic.send', {
-                    defaultValue: 'Submit'
-                  })
-              }
-            />
-          </div>
+          <Button
+            className='ui--signer-Signer-Submit'
+            isPrimary
+            onClick={this.onSend}
+            tabIndex={2}
+            text={
+              t('extrinsic.signedSend', {
+                defaultValue: 'Sign and Submit'
+              })
+            }
+          />
         </Button.Group>
       </Modal.Actions>
     );
   }
 
-  renderContent () {
+  private renderContent () {
     const { currentItem } = this.state;
 
     if (!currentItem) {
@@ -142,13 +136,13 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Extrinsic value={currentItem}>
+      <ExtrinsicDisplay value={currentItem}>
         {this.renderUnlock()}
-      </Extrinsic>
+      </ExtrinsicDisplay>
     );
   }
 
-  renderUnlock () {
+  private renderUnlock () {
     const { t } = this.props;
     const { currentItem, password, unlockError } = this.state;
 
@@ -163,13 +157,22 @@ class Signer extends React.PureComponent<Props, State> {
         onChange={this.onChangePassword}
         onKeyDown={this.onKeyDown}
         password={password}
-        value={currentItem.publicKey}
+        value={currentItem.accountId}
         tabIndex={1}
       />
     );
   }
 
-  unlockAccount (publicKey: Uint8Array, password?: string): UnlockI18n | null {
+  private unlockAccount (accountId: string, password?: string): UnlockI18n | null {
+    let publicKey;
+
+    try {
+      publicKey = decodeAddress(accountId);
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+
     const pair = keyring.getPair(publicKey);
 
     if (!pair.isLocked()) {
@@ -179,6 +182,7 @@ class Signer extends React.PureComponent<Props, State> {
     try {
       pair.decodePkcs8(password);
     } catch (error) {
+      console.error(error);
       return {
         key: 'signer.unlock.generic',
         value: {
@@ -190,21 +194,21 @@ class Signer extends React.PureComponent<Props, State> {
     return null;
   }
 
-  onChangePassword = (password: string): void => {
+  private onChangePassword = (password: string): void => {
     this.setState({
       password,
       unlockError: null
     });
   }
 
-  onKeyDown = async (event: React.KeyboardEvent<Element>): Promise<any> => {
+  private onKeyDown = async (event: React.KeyboardEvent<Element>): Promise<any> => {
     if (event.key === 'Enter') {
       await this.onSend();
     }
   }
 
-  onCancel = (): void => {
-    const { queueSetStatus } = this.props;
+  private onCancel = (): void => {
+    const { queueSetTxStatus } = this.props;
     const { currentItem } = this.state;
 
     // This should never be executed
@@ -212,10 +216,10 @@ class Signer extends React.PureComponent<Props, State> {
       return;
     }
 
-    queueSetStatus(currentItem.id, 'cancelled');
+    queueSetTxStatus(currentItem.id, 'cancelled');
   }
 
-  onSend = async (): Promise<any> => {
+  private onSend = async (): Promise<any> => {
     const { currentItem, password } = this.state;
 
     // This should never be executed
@@ -223,45 +227,112 @@ class Signer extends React.PureComponent<Props, State> {
       return;
     }
 
-    return this.sendItem(currentItem, password);
+    return this.sendExtrinsic(currentItem, password);
   }
 
-  sendItem = async ({ id, nonce, publicKey, rpc, values }: QueueTx, password?: string): Promise<void> => {
-    if (rpc.isSigned === true && publicKey) {
-      const unlockError = this.unlockAccount(publicKey, password);
-
-      if (unlockError) {
-        this.setState({ unlockError });
-        return;
-      }
+  private sendRpc = async ({ id, rpc, values = [] }: QueueTx): Promise<void> => {
+    if (!rpc) {
+      return;
     }
 
-    const { api, apiSupport, queueSetStatus } = this.props;
+    const { queueSetTxStatus } = this.props;
 
-    queueSetStatus(id, 'sending');
+    queueSetTxStatus(id, 'sending');
 
-    let data = values;
+    const { error, result, status } = await this.submitRpc(rpc, values);
 
-    if (rpc.isSigned === true && publicKey) {
-      data = [
-        signMessage(
-          publicKey, nonce, (data[0] as Uint8Array), apiSupport
-        ).data
-      ];
+    queueSetTxStatus(id, status, result, error);
+  }
+
+  private sendExtrinsic = async ({ extrinsic, id, accountNonce, accountId }: QueueTx, password?: string): Promise<void> => {
+    if (!extrinsic || !accountId) {
+      return;
     }
 
-    const { error, result, status } = await submitMessage(api, data, rpc);
+    const unlockError = this.unlockAccount(accountId, password);
 
-    queueSetStatus(id, status, result, error);
+    if (unlockError) {
+      this.setState({ unlockError });
+      return;
+    }
+
+    const { apiObservable, queueSetTxStatus } = this.props;
+
+    queueSetTxStatus(id, 'sending');
+
+    const pair = keyring.getPair(accountId);
+
+    console.log(`sendExtrinsic: from=${pair.address()}, nonce=${accountNonce}, hash=${apiObservable.genesisHash.toHex()}`);
+
+    extrinsic.sign(pair, accountNonce, apiObservable.genesisHash);
+
+    await this.submitExtrinsic(extrinsic, id);
+  }
+
+  private async submitRpc (rpc: RpcMethod, values: Array<any>): Promise<QueueTx$Result> {
+    const { apiObservable } = this.props;
+
+    try {
+      const result = await apiObservable.rawCall(rpc, ...values).toPromise();
+
+      console.log('submitRpc: result ::', format(result));
+
+      return {
+        result,
+        status: 'sent'
+      };
+    } catch (error) {
+      console.error(error);
+
+      return {
+        error,
+        status: 'error'
+      };
+    }
+  }
+
+  private async submitExtrinsic (extrinsic: Extrinsic, id: number): Promise<void> {
+    const { apiObservable, queueSetTxStatus } = this.props;
+
+    try {
+      const encoded = extrinsic.toJSON();
+
+      console.log('submitAndWatchExtrinsic: encode ::', encoded);
+
+      apiObservable
+        .submitAndWatchExtrinsic(extrinsic)
+        .subscribe(
+          (result) => {
+            if (!result) {
+              return;
+            }
+
+            const status = result.type.toLowerCase() as QueueTx$Status;
+
+            console.log('submitAndWatchExtrinsic: updated status ::', result);
+
+            queueSetTxStatus(id, status, result);
+          },
+          (error) => {
+            console.error('submitAndWatchExtrinsic:', error);
+
+            queueSetTxStatus(id, 'error', null, error);
+          }
+        );
+    } catch (error) {
+      console.error('submitAndWatchExtrinsic:', error);
+
+      queueSetTxStatus(id, 'error', null, error);
+    }
   }
 }
-
-const Component: React.ComponentType<any> = translate(
-  withApi(Signer)
-);
 
 export {
   Signer
 };
 
-export default Component;
+export default withMulti(
+  Signer,
+  translate,
+  withApi
+);
