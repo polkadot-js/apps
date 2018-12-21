@@ -4,11 +4,11 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParam } from '@polkadot/ui-app/Params/types';
-import { RxReferendum } from '@polkadot/api-observable/classes';
 import { RxReferendumVote } from '@polkadot/api-observable/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { ReferendumInfo } from '@polkadot/types';
 import { Chart, Static } from '@polkadot/ui-app/index';
 import VoteThreshold from '@polkadot/ui-app/Params/Param/VoteThreshold';
 import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
@@ -30,7 +30,7 @@ type Props = I18nProps & {
   bestNumber?: BN,
   democracyReferendumVoters?: Array<RxReferendumVote>,
   idNumber: BN,
-  value: RxReferendum
+  value: ReferendumInfo
 };
 
 type State = {
@@ -95,7 +95,7 @@ class Referendum extends React.PureComponent<Props, State> {
   render () {
     const { bestNumber, idNumber, value } = this.props;
 
-    if (!bestNumber || value.blockNumber.sub(bestNumber).lten(0)) {
+    if (!bestNumber || value.end.sub(bestNumber).lten(0)) {
       return null;
     }
 
@@ -112,7 +112,7 @@ class Referendum extends React.PureComponent<Props, State> {
   }
 
   private renderExtra () {
-    const { bestNumber, t, value: { blockNumber, voteThreshold } } = this.props;
+    const { bestNumber, t, value: { end, threshold } } = this.props;
 
     if (!bestNumber) {
       return null;
@@ -128,14 +128,14 @@ class Referendum extends React.PureComponent<Props, State> {
           {t('referendum.endInfo', {
             defaultValue: '{{remaining}} blocks remaining, ending at block #{{blockNumber}}',
             replace: {
-              blockNumber: numberFormat(blockNumber),
-              remaining: numberFormat(blockNumber.sub(bestNumber).subn(1))
+              blockNumber: numberFormat(end),
+              remaining: numberFormat(end.sub(bestNumber).subn(1))
             }
           })}
         </Static>
         <VoteThreshold
           isDisabled
-          defaultValue={{ value: voteThreshold } as RawParam}
+          defaultValue={{ value: threshold } as RawParam}
           label={t('referendum.thresholdLabel', {
             defaultValue: 'vote threshold'
           })}
