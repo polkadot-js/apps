@@ -11,7 +11,7 @@
 
 A Portal into the Polkadot and Substrate networks. Provides a view and interaction layer from a browser.
 
-This can be accessed as a hosted application via [https://polkadot.js.org/apps/](https://polkadot.js.org/apps/)
+This can be accessed as a hosted application via [https://polkadot.js.org/apps/](https://polkadot.js.org/apps/) to explorer any of the supported chains
 
 ## overview
 
