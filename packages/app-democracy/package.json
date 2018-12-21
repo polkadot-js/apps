@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-democracy",
-  "version": "0.21.0",
+  "version": "0.21.1",
   "description": "A referendum & proposal app",
   "main": "index.js",
   "scripts": {},
@@ -13,6 +13,6 @@
     "@babel/runtime": "^7.2.0",
     "@polkadot/keyring": "^0.33.26",
     "@polkadot/storage": "^0.35.9",
-    "@polkadot/ui-react-rx": "^0.21.0"
+    "@polkadot/ui-react-rx": "^0.21.1"
   }
 }
