@@ -12,10 +12,10 @@
   "dependencies": {
     "@babel/runtime": "^7.2.0",
     "@polkadot/app-explorer": "^0.21.1",
-    "@polkadot/keyring": "^0.33.26",
-    "@polkadot/storage": "^0.35.9",
+    "@polkadot/keyring": "^0.33.27",
+    "@polkadot/storage": "^0.35.10",
     "@polkadot/ui-app": "^0.21.1",
-    "@polkadot/ui-keyring": "^0.24.9",
+    "@polkadot/ui-keyring": "^0.24.11",
     "@polkadot/ui-react-rx": "^0.21.1"
   }
 }
