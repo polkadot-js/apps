@@ -11,7 +11,7 @@
 
 A Portal into the Polkadot and Substrate networks. Provides a view and interaction layer from a browser.
 
-This can be accessed as a hosted application via [https://polkadot.js.org/apps/](https://polkadot.js.org/apps/) to explorer any of the supported chains
+This can be accessed as a hosted application via [https://polkadot.js.org/apps/](https://polkadot.js.org/apps/) to explorer any of the supported Polkadot and Substrate chains
 
 ## overview
 
@@ -51,8 +51,6 @@ To get started -
 4. Install the dependencies by running `yarn`
 5. Ready! Now you can launch the UI (assuming you have a local Polkadot Node running), via `yarn run start`
 6. Access the UI via [http://localhost:3000](http://localhost:3000)
-
-Should you not run a local Node, you can connect to a remote node on the POC-2 network with the `WS_URL` environment variable. For example - the apps entry point can be launched with a WebSocket connection to Polkadot POC-2 with `WS_URL=wss://poc-2.polkadot.io:9944 yarn run start` and accessing the application of [http://localhost:3000](http://localhost:3000)
 
 There are additional environment UI flags that change both the theme and mode -
 
