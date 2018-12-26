@@ -15,6 +15,7 @@ type Props = BareProps & {
 };
 
 const pkgJson = require('../package.json');
+const [major, minor, patch] = pkgJson.version.split('.');
 
 class NodeInfo extends React.PureComponent<Props> {
   render () {
@@ -28,7 +29,7 @@ class NodeInfo extends React.PureComponent<Props> {
           <NodeName />&nbsp;
           <NodeVersion label='v' />
         </div>
-        <div>polkadot-js-ui&nbsp;v{pkgJson.version}</div>
+        <div>polkadot-js-ui&nbsp;v{major}.{minor}.{parseInt(patch, 10) + 1}</div>
       </div>
     );
   }
