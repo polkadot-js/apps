@@ -4,6 +4,7 @@
 
 import Api from './Api';
 import Balance from './Balance';
+import BestFinalised from './BestFinalised';
 import BestNumber from './BestNumber';
 import Chain from './Chain';
 import Connected from './Connected';
@@ -17,6 +18,7 @@ import TimePeriod from './TimePeriod';
 export {
   Api,
   Balance,
+  BestFinalised,
   BestNumber,
   Chain,
   Connected,
