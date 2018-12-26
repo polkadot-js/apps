@@ -20,15 +20,25 @@ $light-slate-gray: #718d94;
 $moonstone-blue: #64bebe;
 $verdigris: #5badad;
 
-$button-primary-color: $dark-sky-blue;
-$button-primary-color-hover: $pewter-blue;
-$button-color: $silver-chalice;
-$button-color-hover: $cadet-grey;
+$primary-color: #4B77BE;
+$primary-color-hl: #6e92cb;
+$secondary-color: #2e86ab;
+$secondary-color-hl: #579ebb;
+
+$button-primary-color: $primary-color;
+$button-primary-color-hover: $primary-color-hl;
+
+$button-color: $secondary-color;
+$button-color-hover: $secondary-color-hl;
+
 $button-positive-color: $moonstone-blue;
 $button-positive-color-hover: $verdigris;
+
 $button-negative-color: $wild-orchid;
 $button-negative-color-hover: $middle-purple;
-$anchor-color: $light-slate-gray;
-$anchor-color-hover: $cadet-grey;
-$progress-bar-color: $dark-sky-blue;
+
+$anchor-color: $primary-color;
+$anchor-color-hover: $primary-color-hl;
+
+$progress-bar-color: $secondary-color;
 $nav-link: $wild-orchid;
