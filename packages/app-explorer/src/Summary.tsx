@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { CardSummary } from '@polkadot/ui-app/index';
-import { BestNumber, TimeNow, TimePeriod } from '@polkadot/ui-react-rx/index';
+import { BestFinalised, BestNumber, TimeNow, TimePeriod } from '@polkadot/ui-react-rx/index';
 
 import SummarySession from './SummarySession';
 import translate from './translate';
@@ -42,6 +42,13 @@ class Summary extends React.PureComponent<Props> {
           <SummarySession />
         </section>
         <section>
+          <CardSummary
+            label={t('summary.finalised', {
+              defaultValue: 'finalised'
+            })}
+          >
+            <BestFinalised />
+          </CardSummary>
           <CardSummary
             label={t('summary.best', {
               defaultValue: 'best'
