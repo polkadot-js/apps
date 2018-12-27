@@ -2,9 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { RpcRxInterface } from '@polkadot/rpc-rx/types';
-
+import ApiPromise from '@polkadot/api/promise';
 import ApiObservable from '@polkadot/api-observable';
 
 export type BareProps = {
@@ -15,15 +13,9 @@ export type BareProps = {
 export type ApiProps = {
   isApiConnected: boolean,
   isApiReady: boolean,
-  api: RpcRxInterface,
-  apiMethods: {
-    [index: string]: boolean
-  },
   apiObservable: ApiObservable,
-  apiSupport: 'latest',
-  setApi: (api: RpcRxInterface) => void,
-  setApiProvider: (provider?: ProviderInterface) => void,
-  setApiWsUrl: (url?: string) => void
+  apiPromise: ApiPromise,
+  setApiUrl: (url?: string) => void
 };
 
 export type OnChangeCb$Obs<T> = { next: (value?: T) => any };

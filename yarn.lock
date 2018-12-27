@@ -1432,6 +1432,20 @@
     "@types/rx" "^4.1.1"
     rxjs "^6.3.3"
 
+"@polkadot/api@^0.35.11":
+  version "0.35.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.35.11.tgz#c710bfb637434ad3ca6b1d4d6bd666d47a0b105a"
+  integrity sha512-pNp0lNB0cMzmMQHXXNeuNSRjAex7dAuXuBP85IymLLM7TO/8J0JO3FndE80hMm682mZs3Q1sMjs7/X4FZsT8MQ==
+  dependencies:
+    "@babel/runtime" "^7.2.0"
+    "@polkadot/extrinsics" "^0.35.11"
+    "@polkadot/rpc-provider" "^0.35.11"
+    "@polkadot/rpc-rx" "^0.35.11"
+    "@polkadot/storage" "^0.35.11"
+    "@polkadot/types" "^0.35.11"
+    "@types/rx" "^4.1.1"
+    rxjs "^6.3.3"
+
 "@polkadot/dev-react@^0.23.3":
   version "0.23.3"
   resolved "https://registry.yarnpkg.com/@polkadot/dev-react/-/dev-react-0.23.3.tgz#b7d81df555043c68ef513f4c5aec0c63763a089b"

@@ -6,8 +6,6 @@ import '@polkadot/ui-settings';
 import './i18n';
 import './styles';
 
-import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { RpcRxInterface } from '@polkadot/rpc-rx/types';
 import { BareProps } from './types';
 
 import React from 'react';
@@ -48,8 +46,6 @@ import Status from './Status';
 import Tabs from './Tabs';
 
 type Props = BareProps & {
-  api?: RpcRxInterface,
-  provider?: ProviderInterface,
   url?: string
 };
 
@@ -87,7 +83,7 @@ export {
   Tabs
 };
 
-export default function createApp (App: React.ComponentType<BareProps>, { api, className, provider, style, url }: Props = {}, rootId: string = 'root'): void {
+export default function createApp (App: React.ComponentType<BareProps>, { className, style, url }: Props, rootId: string = 'root'): void {
   const rootElement = document.getElementById(rootId);
 
   if (!rootElement) {
@@ -95,11 +91,7 @@ export default function createApp (App: React.ComponentType<BareProps>, { api, c
   }
 
   ReactDOM.render(
-    <Api
-      api={api}
-      provider={provider}
-      url={url}
-    >
+    <Api url={url}>
       <HashRouter>
         <App
           className={className}
