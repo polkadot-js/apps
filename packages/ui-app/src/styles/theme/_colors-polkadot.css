@@ -13,6 +13,8 @@ $silver-chalice: #a1b1b5;
 $cadet-grey: #98aaae;
 
 $wild-orchid: #d75ea1;
+$wild-orchid-hl: #df7eb3;
+
 $middle-purple: #e189ba;
 
 $light-slate-gray: #718d94;
@@ -20,8 +22,10 @@ $light-slate-gray: #718d94;
 $moonstone-blue: #64bebe;
 $verdigris: #5badad;
 
-$primary-color: #4B77BE;
-$primary-color-hl: #6e92cb;
+/* $primary-color: #4B77BE;
+$primary-color-hl: #6e92cb; */
+$primary-color: #2e86ab;
+$primary-color-hl: #579ebb;
 $secondary-color: #2e86ab;
 $secondary-color-hl: #579ebb;
 
@@ -37,8 +41,8 @@ $button-positive-color-hover: $verdigris;
 $button-negative-color: $wild-orchid;
 $button-negative-color-hover: $middle-purple;
 
-$anchor-color: $primary-color;
-$anchor-color-hover: $primary-color-hl;
+$anchor-color: $secondary-color;
+$anchor-color-hover: $secondary-color-hl;
 
-$progress-bar-color: $secondary-color;
+$progress-bar-color: $wild-orchid;
 $nav-link: $wild-orchid;
