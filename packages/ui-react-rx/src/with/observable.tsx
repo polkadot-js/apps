@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// TODO: Lots of duplicated code between this and withObservable, surely there ois a better way of doing this?
+// TODO: Lots of duplicated code between this and withObservableBase, surely there is a better way of doing this?
 
 import { ApiFunctions } from '@polkadot/api-observable/types';
 import { RxProps } from '../types';

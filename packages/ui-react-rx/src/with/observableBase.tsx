@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// TODO: Lots of duplicated code between this and withObservable, surely there ois a better way of doing this?
+// TODO: Lots of duplicated code between this and withObservable, surely there is a better way of doing this?
 
 import { RxProps } from '../types';
 import { HOC, Options, DefaultProps, RenderFn } from './types';
@@ -11,7 +11,7 @@ import React from 'react';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { intervalSubscribe, isEqual, triggerChange } from '../util/index';
+import { intervalObservable, isEqual, triggerChange } from '../util/index';
 import echoTransform from './transform/echo';
 
 type State<T> = RxProps<T> & {
@@ -49,7 +49,7 @@ export default function withObservableBase<T, P> (observable: Observable<P>, { r
               .subscribe((value: any) =>
                 this.triggerUpdate(this.props, value)
               ),
-            intervalSubscribe(this)
+            intervalObservable(this)
           ]
         });
       }

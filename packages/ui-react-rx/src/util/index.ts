@@ -4,7 +4,8 @@
 
 import balanceFormat from './balanceFormat';
 import decimalFormat from './decimalFormat';
-import intervalSubscribe from './intervalSubscribe';
+import intervalObservable from './intervalObservable';
+import intervalTimer from './intervalTimer';
 import isEqual from './isEqual';
 import isTestChain from './isTestChain';
 import numberFormat from './numberFormat';
@@ -13,7 +14,8 @@ import triggerChange from './triggerChange';
 export {
   balanceFormat,
   decimalFormat,
-  intervalSubscribe,
+  intervalObservable,
+  intervalTimer,
   isEqual,
   isTestChain,
   numberFormat,
