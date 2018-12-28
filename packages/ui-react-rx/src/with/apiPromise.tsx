@@ -48,7 +48,14 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, para
         const newParams = this.getParams(this.props);
 
         if (!isEqual(newParams, this.getParams(prevProps))) {
-          this.subscribe(newParams);
+          this
+            .subscribe(newParams)
+            .then(() => {
+              // ignore
+            })
+            .catch(() => {
+              // ignore
+            });
         }
       }
 
@@ -57,7 +64,14 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, para
           timerId: intervalTimer(this)
         });
 
-        this.subscribe(this.getParams(this.props));
+        this
+          .subscribe(this.getParams(this.props))
+          .then(() => {
+            // ignore
+          })
+          .catch(() => {
+            // ignore
+          });
       }
 
       componentWillUnmount () {

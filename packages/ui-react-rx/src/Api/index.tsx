@@ -82,9 +82,14 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   private updateSubscriptions () {
     const { apiObservable, apiPromise, rpc } = this.state;
 
-    apiPromise.isReady.then(() => {
-      this.setState({ isApiPromiseReady: true });
-    });
+    apiPromise
+      .isReady
+      .then(() => {
+        this.setState({ isApiPromiseReady: true });
+      })
+      .catch(() => {
+        // ignore
+      });
 
     this.unsubscribe();
     this.setState({
