@@ -13,6 +13,7 @@ import { assert, isUndefined } from '@polkadot/util';
 import { intervalTimer, isEqual, triggerChange } from '../util/index';
 import echoTransform from './transform/echo';
 import withApi from './api';
+import { METHODS } from 'http';
 
 type State<T> = RxProps<T> & {
   apiMethod: {
@@ -20,6 +21,7 @@ type State<T> = RxProps<T> & {
     unsubscribe: (subId: number) => Promise<any>
   },
   isSubscription: boolean,
+  propName: string,
   subId: number,
   timerId: number
 };
@@ -28,7 +30,7 @@ type Props = ApiProps & {};
 
 // FIXME proper types for attributes
 
-export default function withApiPromise<T, P> (endpoint: string, { rxChange, params = [], paramProp = 'params', propName = 'value', transform = echoTransform }: Options<T> = {}): HOC<T> {
+export default function withApiPromise<T, P> (endpoint: string, { rxChange, params = [], paramProp = 'params', propName, transform = echoTransform }: Options<T> = {}): HOC<T> {
   return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}, render?: RenderFn): React.ComponentType<any> => {
     class WithPromise extends React.Component<Props, State<T>> {
       state: State<T>;
@@ -38,18 +40,21 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, para
 
         const { apiPromise } = this.props;
         const [area, section, method, ...others] = endpoint.split('.');
+        const propName = `${area}_${section}_${method}`;
 
         assert(area.length && section.length && method.length && others.length === 0, `Invalid API format, expected <area>.<section>.<method>, found ${endpoint}`);
         assert(['rpc', 'query'].includes(area), `Unknown apiPromise.${area}, expected rpc or query`);
         assert((apiPromise as any)[area][section], `Unable to find apiPromise.${area}.${section}`);
 
         const apiMethod = (apiPromise as any)[area][section][method];
+        const isSubscription = area === 'query' || method.startsWith('subscribe');
 
         assert(apiMethod, `Unable to find apiPromise.${area}.${section}.${method}`);
 
         this.state = {
           apiMethod,
-          isSubscription: area === 'query',
+          isSubscription,
+          propName,
           rxUpdated: false,
           rxUpdatedAt: 0,
           subId: -1,
@@ -150,7 +155,7 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, para
           ...this.props,
           rxUpdated,
           rxUpdatedAt,
-          [propName]: value
+          [propName || this.state.propName]: value
         };
 
         return (

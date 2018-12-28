@@ -11,22 +11,22 @@ import { withApiPromise } from './with/index';
 
 type Props = BareProps & {
   label?: string,
-  rpc_system_chain?: Text
+  rpc_system_name?: Text
 };
 
-class Chain extends React.PureComponent<Props> {
+class NodeName extends React.PureComponent<Props> {
   render () {
-    const { className, label = '', style, rpc_system_chain = 'unknown' } = this.props;
+    const { className, label = '', style, rpc_system_name = 'unknown' } = this.props;
 
     return (
       <div
         className={className}
         style={style}
       >
-        {label}{rpc_system_chain.toString()}
+        {label}{rpc_system_name.toString()}
       </div>
     );
   }
 }
 
-export default withApiPromise('rpc.system.chain', {})(Chain);
+export default withApiPromise('rpc.system.name', {})(NodeName);
