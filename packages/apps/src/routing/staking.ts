@@ -15,6 +15,9 @@ export default ([
     icon: 'certificate',
     isApiGated: true,
     isHidden: false,
-    name: 'staking'
+    name: 'staking',
+    needsApi: [
+      'tx.staking.stake'
+    ]
   }
 ] as Routes);

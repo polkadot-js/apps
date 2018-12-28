@@ -82,21 +82,29 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, para
           );
       }
 
-      private async subscribe (newParams: Array<any>) {
+      private getApiMethod () {
         const { apiPromise } = this.props;
         const [area, section, method, ...others] = endpoint.split('.');
+
+        assert(area.length && section.length && method.length && others.length === 0, `Invalid API format, expected <area>.<section>.<method>, found ${endpoint}`);
+        assert(['rpc', 'query'].includes(area), `Unknown apiPromise.${area}, expected rpc or query`);
+        assert((apiPromise as any)[area][section], `Unable to find apiPromise.${area}.${section}`);
+
+        const apiMethod = (apiPromise as any)[area][section][method];
+        const isSubscription = area === 'query' || method.startsWith('subscribe');
+
+        assert(apiMethod, `Unable to find apiPromise.${area}.${section}.${method}`);
+
+        return [apiMethod, isSubscription];
+      }
+
+      private async subscribe (newParams: Array<any>) {
+        const { apiPromise } = this.props;
 
         await apiPromise.isReady;
 
         try {
-          assert(area.length && section.length && method.length && others.length === 0, `Invalid API format, expected <area>.<section>.<method>, found ${endpoint}`);
-          assert(['rpc', 'query'].includes(area), `Unknown apiPromise.${area}, expected rpc or query`);
-          assert((apiPromise as any)[area][section], `Unable to find apiPromise.${area}.${section}`);
-
-          const apiMethod = (apiPromise as any)[area][section][method];
-          const isSubscription = area === 'query' || method.startsWith('subscribe');
-
-          assert(apiMethod, `Unable to find apiPromise.${area}.${section}.${method}`);
+          const [apiMethod, isSubscription] = this.getApiMethod();
 
           this.unsubscribe();
 
@@ -112,7 +120,7 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, para
             this.triggerUpdate(this.props, value);
           }
         } catch (error) {
-          console.error(error);
+          console.error(error.message);
         }
       }
 
@@ -144,7 +152,7 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, para
             value
           });
         } catch (error) {
-          // ignore
+          console.error(error.message);
         }
       }
 

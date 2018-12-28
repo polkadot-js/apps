@@ -30,6 +30,7 @@ type Props = {
 
 type State = ApiProps & {
   chain?: string,
+  isApiPromiseReady: boolean,
   rpc: RpcRxInterface,
   subscriptions: Array<any>
 };
@@ -61,6 +62,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     this.state = {
       isApiConnected: false,
       isApiReady: false,
+      isApiPromiseReady: false,
       apiObservable: new ApiObservable(rpc),
       apiPromise: new ApiPromise(provider),
       rpc,
@@ -78,7 +80,11 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   }
 
   private updateSubscriptions () {
-    const { apiObservable, rpc } = this.state;
+    const { apiObservable, apiPromise, rpc } = this.state;
+
+    apiPromise.isReady.then(() => {
+      this.setState({ isApiPromiseReady: true });
+    });
 
     this.unsubscribe();
     this.setState({
@@ -153,13 +159,13 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isApiConnected, isApiReady, apiObservable, apiPromise, chain, setApiUrl } = this.state;
+    const { isApiConnected, isApiReady, isApiPromiseReady, apiObservable, apiPromise, chain, setApiUrl } = this.state;
 
     return (
       <ApiContext.Provider
         value={{
           isApiConnected,
-          isApiReady: isApiReady && !!chain,
+          isApiReady: isApiReady && isApiPromiseReady && !!chain,
           apiObservable,
           apiPromise,
           setApiUrl

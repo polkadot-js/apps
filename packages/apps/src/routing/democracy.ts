@@ -15,6 +15,9 @@ export default ([
     icon: 'calendar check',
     isApiGated: true,
     isHidden: false,
-    name: 'democracy'
+    name: 'democracy',
+    needsApi: [
+      'query.democracy.nextTally'
+    ]
   }
 ] as Routes);

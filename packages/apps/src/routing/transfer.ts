@@ -15,6 +15,9 @@ export default ([
     icon: 'angle double right',
     isApiGated: true,
     isHidden: false,
-    name: 'transfer'
+    name: 'transfer',
+    needsApi: [
+      'tx.balances.transfer'
+    ]
   }
 ] as Routes);

@@ -17,7 +17,8 @@ export type Route = {
   icon: SemanticICONS,
   isApiGated: boolean,
   isHidden: boolean,
-  name: string
+  name: string,
+  needsApi?: Array<string>
 };
 
 export type Routes = Array<Route | null>;
