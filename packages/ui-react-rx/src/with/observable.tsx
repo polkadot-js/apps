@@ -78,7 +78,7 @@ export default function withObservable<T> (subscription: ApiFunctions, { rxChang
         } catch (error) {
           console.error('withObservable:subscribe', subscription, error);
 
-          throw error;
+          // throw error;
         }
       }
 
