@@ -4,6 +4,7 @@
 
 import withApi from './api';
 import withApiDiv from './apiDiv';
+import withApiPromise from './apiPromise';
 import withMulti from './multi';
 import withObservable from './observable';
 import withObservableBase from './observableBase';
@@ -12,6 +13,7 @@ import withObservableDiv from './observableDiv';
 export {
   withApi,
   withApiDiv,
+  withApiPromise,
   withMulti,
   withObservable,
   withObservableBase,

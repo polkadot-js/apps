@@ -8,7 +8,7 @@ import { ApiProps, RxProps } from '../types';
 import { HOC, Options, DefaultProps, RenderFn } from './types';
 
 import React from 'react';
-import { assert } from '@polkadot/util';
+import { assert, isUndefined } from '@polkadot/util';
 
 import { intervalTimer, isEqual, triggerChange } from '../util/index';
 import echoTransform from './transform/echo';
@@ -16,7 +16,10 @@ import withApi from './api';
 
 type State<T> = RxProps<T> & {
   apiMethod: {
-    () => Promise<number>,
+    (...params: Array<any>): Promise<any>,
+    unsubscribe: (subId: number) => Promise<any>
+  },
+  isSubscription: boolean,
   subId: number,
   timerId: number
 };
@@ -25,7 +28,7 @@ type Props = ApiProps & {};
 
 // FIXME proper types for attributes
 
-export default function withApiPromise<T, P> (endpoint: string, { rxChange, propName = 'value', transform = echoTransform }: Options<T> = {}): HOC<T> {
+export default function withApiPromise<T, P> (endpoint: string, { rxChange, params = [], paramProp = 'params', propName = 'value', transform = echoTransform }: Options<T> = {}): HOC<T> {
   return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}, render?: RenderFn): React.ComponentType<any> => {
     class WithPromise extends React.Component<Props, State<T>> {
       state: State<T>;
@@ -46,6 +49,7 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, prop
 
         this.state = {
           apiMethod,
+          isSubscription: area === 'query',
           rxUpdated: false,
           rxUpdatedAt: 0,
           subId: -1,
@@ -54,40 +58,74 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, prop
         };
       }
 
-      static getDerivedStateFromProps (props: Props, prevState: State<T>): Partial<State<T>> | null {
-        return null;
+      componentDidUpdate (prevProps: any) {
+        const newParams = this.getParams(this.props);
+
+        if (!isEqual(newParams, this.getParams(prevProps))) {
+          this.subscribe(newParams);
+        }
       }
 
       componentDidMount () {
-        const { apiMethod } = this.state;
-
         this.setState({
           timerId: intervalTimer(this)
         });
 
-        (async () => {
-          try {
-            const value = await apiMethod();
-          } catch (error) {
-            // invalid promise
-          }
-        })();
+        this.subscribe(this.getParams(this.props));
       }
 
       componentWillUnmount () {
-        const { subId, timerId } = this.state;
+        const { timerId } = this.state;
 
         if (timerId !== -1) {
           clearInterval(timerId);
         }
 
-        if (subId !== -1) {
-          // TODO unsub
+        this.unsubscribe();
+      }
+
+      private getParams (props: any): Array<any> {
+        const paramValue = props[paramProp];
+
+        return isUndefined(paramValue)
+          ? params
+          : params.concat(
+            Array.isArray(paramValue)
+              ? paramValue
+              : [paramValue]
+          );
+      }
+
+      private async subscribe (newParams: Array<any>) {
+        const { apiMethod, isSubscription } = this.state;
+
+        this.unsubscribe();
+
+        if (isSubscription) {
+          const subId = await apiMethod(...newParams, (value?: T) => {
+            this.triggerUpdate(this.props, value);
+          });
+
+          this.setState({ subId });
+        } else {
+          const value: T = await apiMethod(...newParams);
+
+          this.triggerUpdate(this.props, value);
         }
       }
 
-      private triggerUpdate = (props: any, value?: T): void => {
+      private unsubscribe () {
+        const { apiMethod, subId } = this.state;
+
+        if (subId !== -1) {
+          apiMethod.unsubscribe(subId);
+        }
+      }
+
+      private triggerUpdate (props: any, _value?: T): void {
         try {
+          const value = (props.transform || transform)(_value);
+
           if (isEqual(value, this.state.value)) {
             return;
           }
@@ -100,7 +138,7 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, prop
             value
           });
         } catch (error) {
-          console.error(this.props, error);
+          // ignore
         }
       }
 
