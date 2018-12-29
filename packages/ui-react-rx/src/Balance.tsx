@@ -34,4 +34,4 @@ class BalanceDisplay extends React.PureComponent<Props> {
   }
 }
 
-export default withApiPromise('query.balances.freeBalance', {})(BalanceDisplay);
+export default withApiPromise('query.balances.freeBalance')(BalanceDisplay);

@@ -34,4 +34,4 @@ class TimePeriod extends React.PureComponent<Props> {
   }
 }
 
-export default withApiPromise('query.timestamp.blockPeriod', {})(TimePeriod);
+export default withApiPromise('query.timestamp.blockPeriod')(TimePeriod);

@@ -34,4 +34,4 @@ class BestNumber extends React.PureComponent<Props> {
   }
 }
 
-export default withApiPromise('rpc.chain.subscribeNewHead', {})(BestNumber);
+export default withApiPromise('rpc.chain.subscribeNewHead')(BestNumber);

@@ -29,4 +29,4 @@ class Chain extends React.PureComponent<Props> {
   }
 }
 
-export default withApiPromise('rpc.system.chain', {})(Chain);
+export default withApiPromise('rpc.system.chain')(Chain);

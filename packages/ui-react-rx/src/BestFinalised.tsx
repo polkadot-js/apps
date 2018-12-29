@@ -34,4 +34,4 @@ class BestFinalised extends React.PureComponent<Props> {
   }
 }
 
-export default withApiPromise('rpc.chain.subscribeFinalisedHeads', {})(BestFinalised);
+export default withApiPromise('rpc.chain.subscribeFinalisedHeads')(BestFinalised);

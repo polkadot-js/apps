@@ -29,4 +29,4 @@ class NodeVersion extends React.PureComponent<Props> {
   }
 }
 
-export default withApiPromise('rpc.system.version', {})(NodeVersion);
+export default withApiPromise('rpc.system.version')(NodeVersion);

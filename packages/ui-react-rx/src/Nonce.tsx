@@ -34,4 +34,4 @@ class Nonce extends React.PureComponent<Props> {
   }
 }
 
-export default withApiPromise('query.system.accountNonce', {})(Nonce);
+export default withApiPromise('query.system.accountNonce')(Nonce);
