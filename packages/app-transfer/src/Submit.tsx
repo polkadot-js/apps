@@ -8,14 +8,14 @@ import { QueueTx$Extrinsic, QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status
 import React from 'react';
 import { Extrinsic, Index } from '@polkadot/types';
 import Button from '@polkadot/ui-app/Button';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import translate from './translate';
 
 type Props = I18nProps & {
   isDisabled: boolean,
   accountId?: string,
-  accountNonce?: Index,
+  query_system_accountNonce?: Index,
   extrinsic: Extrinsic | null,
   queueExtrinsic: QueueTx$ExtrinsicAdd
 };
@@ -39,7 +39,7 @@ class Submit extends React.PureComponent<Props> {
   }
 
   private onMakeTransfer = () => {
-    const { accountId, accountNonce, extrinsic, queueExtrinsic } = this.props;
+    const { accountId, query_system_accountNonce, extrinsic, queueExtrinsic } = this.props;
 
     if (!extrinsic) {
       return;
@@ -48,7 +48,7 @@ class Submit extends React.PureComponent<Props> {
     queueExtrinsic({
       extrinsic,
       accountId,
-      accountNonce: accountNonce || new Index(0)
+      accountNonce: query_system_accountNonce
     } as QueueTx$Extrinsic);
   }
 }
@@ -56,5 +56,5 @@ class Submit extends React.PureComponent<Props> {
 export default withMulti(
   Submit,
   translate,
-  withObservable('accountNonce', { paramProp: 'accountId' })
+  withApiPromise('query.system.accountNonce', { paramProp: 'accountId' })
 );

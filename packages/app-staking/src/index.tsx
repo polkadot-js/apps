@@ -9,7 +9,7 @@ import { RxBalanceMap } from '@polkadot/api-observable/types';
 import React from 'react';
 import { AccountId, Balance } from '@polkadot/types';
 import { Tabs } from '@polkadot/ui-app/index';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withApiPromise, withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import './index.css';
 
@@ -22,8 +22,8 @@ type Actions = 'actions' | 'overview';
 type Props = I18nProps & {
   basePath: string,
   onStatusChange: (status: ActionStatus) => void,
-  stakingIntentions?: Array<AccountId>,
-  sessionValidators?: Array<AccountId>,
+  query_staking_intentions?: Array<AccountId>,
+  query_session_validators?: Array<AccountId>,
   validatingBalances?: RxBalanceMap
 };
 
@@ -51,12 +51,12 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ sessionValidators = [], stakingIntentions = [] }: Props): State {
+  static getDerivedStateFromProps ({ query_session_validators, query_staking_intentions }: Props): State {
     return {
-      intentions: stakingIntentions.map((accountId) =>
+      intentions: (query_staking_intentions || []).map((accountId) =>
         accountId.toString()
       ),
-      validators: sessionValidators.map((authorityId) =>
+      validators: (query_session_validators || []).map((authorityId) =>
         authorityId.toString()
       )
     } as State;
@@ -118,7 +118,7 @@ class App extends React.PureComponent<Props, State> {
 export default withMulti(
   App,
   translate,
-  withObservable('stakingIntentions'),
-  withObservable('sessionValidators'),
+  withApiPromise('query.staking.intentions'),
+  withApiPromise('query.session.validators'),
   withObservable('validatingBalances', { paramProp: 'stakingIntentions' })
 );

@@ -10,7 +10,7 @@ import React from 'react';
 import Api from '@polkadot/api-observable';
 import { Extrinsic } from '@polkadot/types';
 import { Button } from '@polkadot/ui-app/index';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import translate from './translate';
 
@@ -18,7 +18,7 @@ type Props = I18nProps & {
   accountId?: string,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
   referendumId: BN,
-  accountNonce?: BN
+  query_system_accountNonce?: BN
 };
 
 class VotingButton extends React.PureComponent<Props> {
@@ -49,7 +49,7 @@ class VotingButton extends React.PureComponent<Props> {
   }
 
   private doVote (vote: boolean) {
-    const { accountId, queueExtrinsic, referendumId, accountNonce = new BN(0) } = this.props;
+    const { accountId, queueExtrinsic, referendumId, query_system_accountNonce } = this.props;
 
     if (!accountId) {
       return;
@@ -59,7 +59,7 @@ class VotingButton extends React.PureComponent<Props> {
       extrinsic: new Extrinsic({
         method: Api.extrinsics.democracy.vote(referendumId, vote)
       }),
-      accountNonce,
+      accountNonce: query_system_accountNonce,
       accountId
     });
   }
@@ -76,5 +76,5 @@ class VotingButton extends React.PureComponent<Props> {
 export default withMulti(
   VotingButton,
   translate,
-  withObservable('accountNonce', { paramProp: 'accountId' })
+  withApiPromise('query.system.accountNonce', { paramProp: 'accountId' })
 );

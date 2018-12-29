@@ -7,15 +7,15 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import { ReferendumInfo } from '@polkadot/types';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withApiPromise, withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import Referendum from './Referendum';
 import translate from './translate';
 
 type Props = I18nProps & {
-  democracyNextTally?: BN,
-  referendums?: Array<ReferendumInfo>,
-  referendumCount?: BN
+  query_democracy_nextTally?: BN,
+  query_democracy_referendumCount?: BN,
+  referendums?: Array<ReferendumInfo>
 };
 
 class Referendums extends React.PureComponent<Props> {
@@ -33,11 +33,9 @@ class Referendums extends React.PureComponent<Props> {
   }
 
   private renderReferendums () {
-    const { democracyNextTally = new BN(0), referendums, referendumCount = new BN(0), t } = this.props;
+    const { query_democracy_nextTally, referendums, query_democracy_referendumCount, t } = this.props;
 
-    console.error('democracyNextTally', democracyNextTally.toString(), referendums, referendumCount.toString());
-
-    if (!referendums || !referendums.length || referendumCount.toNumber() === democracyNextTally.toNumber()) {
+    if (!referendums || !referendums.length || (query_democracy_referendumCount || new BN(0)).toNumber() === (query_democracy_nextTally || new BN(0)).toNumber()) {
       return (
         <div className='ui disabled'>
           {t('proposals.none', {
@@ -60,7 +58,7 @@ class Referendums extends React.PureComponent<Props> {
 export default withMulti(
   Referendums,
   translate,
-  withObservable('referendums'),
-  withObservable('referendumCount'),
-  withObservable('democracyNextTally')
+  withApiPromise('query.democracy.nextTally'),
+  withApiPromise('query.democracy.referendumCount'),
+  withObservable('referendums')
 );

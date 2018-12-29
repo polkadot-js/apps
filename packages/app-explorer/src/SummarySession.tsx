@@ -4,10 +4,11 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
+import BN from 'bn.js';
 import React from 'react';
 import { BlockNumber } from '@polkadot/types';
 import { CardSummary } from '@polkadot/ui-app/index';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withApiPromise, withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import translate from './translate';
 
@@ -18,7 +19,7 @@ type Props = I18nProps & {
   // FIXME Replaced in poc-3
   // sessionBrokenValue?: BN,
   // sessionBrokenPercentLate?: BN,
-  sessionLength?: BlockNumber,
+  query_session_sessionLength?: BlockNumber,
   withBroken?: boolean,
   withEra?: boolean,
   withSession?: boolean
@@ -79,7 +80,7 @@ class SummarySession extends React.PureComponent<Props> {
   }
 
   private renderSession () {
-    const { sessionBlockProgress, sessionLength, t, withSession = true } = this.props;
+    const { sessionBlockProgress, query_session_sessionLength, t, withSession = true } = this.props;
 
     if (!withSession) {
       return null;
@@ -92,7 +93,7 @@ class SummarySession extends React.PureComponent<Props> {
           defaultValue: 'session'
         })}
         progress={{
-          total: sessionLength,
+          total: query_session_sessionLength || new BN(0),
           value: sessionBlockProgress
         }}
       />
@@ -106,5 +107,5 @@ export default withMulti(
   withObservable('eraBlockLength'),
   withObservable('eraBlockProgress'),
   withObservable('sessionBlockProgress'),
-  withObservable('sessionLength')
+  withApiPromise('query.session.sessionLength')
 );

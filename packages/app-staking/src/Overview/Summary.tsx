@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { CardSummary } from '@polkadot/ui-app/index';
 import SummarySession from '@polkadot/app-explorer/SummarySession';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
 
 import translate from '../translate';
@@ -18,13 +18,13 @@ type Props = I18nProps & {
   balances: RxBalanceMap,
   intentions: Array<string>,
   lastLengthChange?: BN,
-  validatorCount?: BN,
+  query_staking_validatorCount?: BN,
   validators: Array<string>
 };
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { className, intentions, style, t, validatorCount, validators } = this.props;
+    const { className, intentions, style, t, query_staking_validatorCount, validators } = this.props;
 
     return (
       <summary
@@ -37,7 +37,7 @@ class Summary extends React.PureComponent<Props> {
               defaultValue: 'validators'
             })}
           >
-            {validators.length}/{validatorCount ? validatorCount.toString() : '-'}
+            {validators.length}/{query_staking_validatorCount ? query_staking_validatorCount.toString() : '-'}
           </CardSummary>
           <CardSummary
             label={t('summary.intentions', {
@@ -130,5 +130,5 @@ class Summary extends React.PureComponent<Props> {
 export default withMulti(
   Summary,
   translate,
-  withObservable('validatorCount')
+  withApiPromise('query.staking.validatorCount')
 );

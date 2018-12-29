@@ -7,7 +7,7 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
@@ -19,21 +19,21 @@ type Props = BareProps & {
   children?: React.ReactNode,
   isPadded?: boolean,
   isShort?: boolean,
-  sessionValidators?: Array<AccountId>,
+  query_session_validators?: Array<AccountId>,
   value?: AccountId | AccountIndex | Address | string,
   withBalance?: boolean
 };
 
 class AddressMini extends React.PureComponent<Props> {
   render () {
-    const { children, className, isPadded = true, isShort = true, sessionValidators = [], style, value } = this.props;
+    const { children, className, isPadded = true, isShort = true, query_session_validators, style, value } = this.props;
 
     if (!value) {
       return null;
     }
 
     const address = value.toString();
-    const isValidator = sessionValidators.find((validator) =>
+    const isValidator = (query_session_validators || []).find((validator) =>
       validator.toString() === address
     );
 
@@ -75,5 +75,5 @@ class AddressMini extends React.PureComponent<Props> {
 
 export default withMulti(
   AddressMini,
-  withObservable('sessionValidators')
+  withApiPromise('query.session.validators')
 );

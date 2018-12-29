@@ -6,25 +6,24 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import jsonrpc from '@polkadot/jsonrpc';
-import { withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withApiPromise } from '@polkadot/ui-react-rx/with/index';
 import { BlockNumber, Hash } from '@polkadot/types';
 
 type Props = I18nProps & {
   blockNumber: BlockNumber,
-  getBlockHash?: Hash,
+  rpc_chain_getBlockHash?: Hash,
   withLink?: boolean
 };
 
 class BlockHash extends React.PureComponent<Props> {
   render () {
-    const { getBlockHash, withLink } = this.props;
+    const { rpc_chain_getBlockHash, withLink } = this.props;
 
-    if (!getBlockHash) {
+    if (!rpc_chain_getBlockHash) {
       return null;
     }
 
-    const hashHex = getBlockHash.toHex();
+    const hashHex = rpc_chain_getBlockHash.toHex();
 
     return (
       withLink
@@ -34,8 +33,6 @@ class BlockHash extends React.PureComponent<Props> {
   }
 }
 
-export default withObservable('rawCall', {
-  params: [jsonrpc.chain.methods.getBlockHash],
-  paramProp: 'blockNumber',
-  propName: 'getBlockHash'
+export default withApiPromise('rpc.chain.getBlockHash', {
+  paramProp: 'blockNumber'
 })(BlockHash);

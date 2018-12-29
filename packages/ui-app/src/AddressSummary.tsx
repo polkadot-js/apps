@@ -7,7 +7,7 @@ import { I18nProps } from './types';
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
 import { Nonce } from '@polkadot/ui-react-rx/index';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withApiPromise, withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
@@ -25,7 +25,7 @@ export type Props = I18nProps & {
   withIndex?: boolean,
   identIconSize?: number,
   isShort?: boolean,
-  sessionValidators?: Array<AccountId>,
+  query_session_validators?: Array<AccountId>,
   withCopy?: boolean,
   withIcon?: boolean,
   withNonce?: boolean
@@ -165,7 +165,7 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderIcon (className: string = 'ui--AddressSummary-icon', size?: number) {
-    const { accountIdAndIndex = [], identIconSize = 96, sessionValidators = [], value, withIcon = true } = this.props;
+    const { accountIdAndIndex = [], identIconSize = 96, query_session_validators, value, withIcon = true } = this.props;
 
     if (!withIcon) {
       return null;
@@ -173,7 +173,7 @@ class AddressSummary extends React.PureComponent<Props> {
 
     const [_accountId] = accountIdAndIndex;
     const accountId = (_accountId || '').toString();
-    const isValidator = sessionValidators.find((validator) =>
+    const isValidator = (query_session_validators || []).find((validator) =>
       validator.toString() === accountId
     );
 
@@ -231,5 +231,5 @@ export default withMulti(
   AddressSummary,
   translate,
   withObservable('accountIdAndIndex', { paramProp: 'value' }),
-  withObservable('sessionValidators')
+  withApiPromise('query.session.validators')
 );
