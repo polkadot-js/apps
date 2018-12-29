@@ -11,13 +11,14 @@ import { numberFormat } from './util/index';
 import { withApiPromise } from './with/index';
 
 type Props = BareProps & {
+  children?: React.ReactNode,
   label?: string,
   rpc_chain_subscribeFinalisedHeads?: Header
 };
 
 class BestFinalised extends React.PureComponent<Props> {
   render () {
-    const { className, label = '', style, rpc_chain_subscribeFinalisedHeads } = this.props;
+    const { children, className, label = '', style, rpc_chain_subscribeFinalisedHeads } = this.props;
 
     return (
       <div
@@ -27,8 +28,8 @@ class BestFinalised extends React.PureComponent<Props> {
         {label}{
           rpc_chain_subscribeFinalisedHeads && rpc_chain_subscribeFinalisedHeads.blockNumber
             ? numberFormat(rpc_chain_subscribeFinalisedHeads.blockNumber)
-            : 'unknown'
-          }
+            : '-'
+          }{children}
       </div>
     );
   }

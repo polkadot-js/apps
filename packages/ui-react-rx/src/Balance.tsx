@@ -11,13 +11,14 @@ import { balanceFormat } from './util/index';
 import { withApiPromise } from './with/index';
 
 type Props = BareProps & {
+  children?: React.ReactNode,
   label?: string,
   query_balances_freeBalance: Balance
 };
 
 class BalanceDisplay extends React.PureComponent<Props> {
   render () {
-    const { className, label = '', style, query_balances_freeBalance } = this.props;
+    const { children, className, label = '', style, query_balances_freeBalance } = this.props;
 
     return (
       <div
@@ -28,7 +29,7 @@ class BalanceDisplay extends React.PureComponent<Props> {
           query_balances_freeBalance
             ? balanceFormat(query_balances_freeBalance)
             : '0'
-          }
+          }{children}
       </div>
     );
   }

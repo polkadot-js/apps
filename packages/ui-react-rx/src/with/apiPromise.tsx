@@ -25,7 +25,7 @@ type Props = ApiProps & {};
 // FIXME proper types for attributes
 
 export default function withApiPromise<T, P> (endpoint: string, { rxChange, params = [], paramProp = 'params', propName, transform = echoTransform }: Options<T> = {}): HOC<T> {
-  return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}, render?: RenderFn): React.ComponentType<any> => {
+  return (Inner: React.ComponentType<any>): React.ComponentType<any> => {
     class WithPromise extends React.Component<Props, State<T>> {
       state: State<T>;
 
@@ -99,15 +99,14 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, para
       private getApiMethod () {
         const { apiPromise } = this.props;
         const [area, section, method, ...others] = endpoint.split('.');
+        const api = apiPromise as any;
 
         assert(area.length && section.length && method.length && others.length === 0, `Invalid API format, expected <area>.<section>.<method>, found ${endpoint}`);
-        assert(['rpc', 'query'].includes(area), `Unknown apiPromise.${area}, expected rpc or query`);
-        assert((apiPromise as any)[area][section], `Unable to find apiPromise.${area}.${section}`);
+        assert(['rpc', 'query'].includes(area), `Unknown api.${area}, expected rpc or query`);
+        assert(api[area][section] && api[area][section][method], `Unable to find api.${area}.${section}.${method}`);
 
-        const apiMethod = (apiPromise as any)[area][section][method];
+        const apiMethod = api[area][section][method];
         const isSubscription = area === 'query' || method.startsWith('subscribe');
-
-        assert(apiMethod, `Unable to find apiPromise.${area}.${section}.${method}`);
 
         return [apiMethod, isSubscription];
       }
@@ -151,6 +150,7 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, para
       }
 
       private triggerUpdate (props: any, _value?: T): void {
+        console.error(this.state.propName, _value);
         try {
           const value = (props.transform || transform)(_value);
 
@@ -158,7 +158,7 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, para
             return;
           }
 
-          triggerChange(value, rxChange, props.rxChange || defaultProps.rxChange);
+          triggerChange(value, rxChange, props.rxChange);
 
           this.setState({
             rxUpdated: true,
@@ -171,10 +171,8 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, para
       }
 
       render () {
-        const { children } = this.props;
         const { rxUpdated, rxUpdatedAt, value } = this.state;
         const _props = {
-          ...defaultProps,
           ...this.props,
           rxUpdated,
           rxUpdatedAt,
@@ -182,9 +180,7 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, para
         };
 
         return (
-          <Inner {..._props}>
-            {render && render(value)}{children}
-          </Inner>
+          <Inner {..._props} />
         );
       }
     }

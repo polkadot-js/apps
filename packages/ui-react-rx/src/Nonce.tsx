@@ -11,13 +11,14 @@ import { numberFormat } from './util/index';
 import { withApiPromise } from './with/index';
 
 type Props = BareProps & {
+  children?: React.ReactNode,
   label?: string,
   query_system_accountNonce: Index
 };
 
 class Nonce extends React.PureComponent<Props> {
   render () {
-    const { className, label = '', style, query_system_accountNonce } = this.props;
+    const { children, className, label = '', style, query_system_accountNonce } = this.props;
 
     return (
       <div
@@ -28,7 +29,7 @@ class Nonce extends React.PureComponent<Props> {
           query_system_accountNonce
             ? numberFormat(query_system_accountNonce)
             : '0'
-          }
+          }{children}
       </div>
     );
   }

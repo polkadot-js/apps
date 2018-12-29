@@ -10,20 +10,21 @@ import { Text } from '@polkadot/types';
 import { withApiPromise } from './with/index';
 
 type Props = BareProps & {
+  children?: React.ReactNode,
   label?: string,
   rpc_system_chain?: Text
 };
 
 class Chain extends React.PureComponent<Props> {
   render () {
-    const { className, label = '', style, rpc_system_chain = 'unknown' } = this.props;
+    const { children, className, label = '', style, rpc_system_chain = 'unknown' } = this.props;
 
     return (
       <div
         className={className}
         style={style}
       >
-        {label}{rpc_system_chain.toString()}
+        {label}{rpc_system_chain.toString()}{children}
       </div>
     );
   }

@@ -10,20 +10,21 @@ import { Text } from '@polkadot/types';
 import { withApiPromise } from './with/index';
 
 type Props = BareProps & {
+  children?: React.ReactNode,
   label?: string,
   rpc_system_version?: Text
 };
 
 class NodeVersion extends React.PureComponent<Props> {
   render () {
-    const { className, label = '', style, rpc_system_version = 'unknown' } = this.props;
+    const { children, className, label = '', style, rpc_system_version = 'unknown' } = this.props;
 
     return (
       <div
         className={className}
         style={style}
       >
-        {label}{rpc_system_version.toString()}
+        {label}{rpc_system_version.toString()}{children}
       </div>
     );
   }
