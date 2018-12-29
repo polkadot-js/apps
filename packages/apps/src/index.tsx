@@ -7,6 +7,8 @@ import { BareProps } from '@polkadot/ui-app/types';
 import './index.css';
 
 import React from 'react';
+import store from 'store';
+import typeRegistry from '@polkadot/types/codec/typeRegistry';
 import createApp from '@polkadot/ui-app/index';
 import Signer from '@polkadot/ui-signer/index';
 import classes from '@polkadot/ui-app/util/classes';
@@ -38,6 +40,18 @@ const url = !settings.apiUrl
   : settings.apiUrl;
 
 console.log('Web socket url=', url);
+
+try {
+  const types = store.get('types') || {};
+  const names = Object.keys(types);
+
+  if (names.length) {
+    typeRegistry.register(types);
+    console.log('Type registration:', names.join(', '));
+  }
+} catch (error) {
+  console.error('Type registration failed', error);
+}
 
 createApp(App, {
   url
