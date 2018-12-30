@@ -26,7 +26,7 @@
     "@polkadot/app-transfer": "^0.21.10",
     "@polkadot/app-vanitygen": "^0.21.10",
     "@polkadot/ui-app": "^0.21.10",
-    "@polkadot/ui-assets": "^0.24.14",
+    "@polkadot/ui-assets": "^0.24.15",
     "@polkadot/ui-signer": "^0.21.10"
   }
 }
