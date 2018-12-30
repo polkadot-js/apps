@@ -1,0 +1,15 @@
+{
+  "TransactionInput": {
+    "parent_output": "Hash",
+    "signature": "Signature"
+  },
+  "TransactionOutput": {
+    "value": "u128",
+    "pubkey": "Hash",
+    "sale": "u32"
+  },
+  "Transaction": {
+    "inputs": "Vec<TransactionInput>",
+    "outputs": "Vec<TransactionOutput>"
+  }
+}
