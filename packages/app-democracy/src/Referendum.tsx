@@ -11,7 +11,7 @@ import React from 'react';
 import { ReferendumInfo } from '@polkadot/types';
 import { Chart, Static } from '@polkadot/ui-app/index';
 import VoteThreshold from '@polkadot/ui-app/Params/Param/VoteThreshold';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withApiPromise, withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 import { balanceFormat, numberFormat } from '@polkadot/ui-react-rx/util/index';
 import settings from '@polkadot/ui-settings';
 
@@ -27,7 +27,7 @@ const COLORS_NAY = settings.uiTheme === 'substrate'
   : ['#d75ea1', '#e189ba'];
 
 type Props = I18nProps & {
-  bestNumber?: BN,
+  derive_chain_bestNumber?: BN,
   democracyReferendumVoters?: Array<RxReferendumVote>,
   idNumber: BN,
   value: ReferendumInfo
@@ -93,9 +93,9 @@ class Referendum extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { bestNumber, idNumber, value } = this.props;
+    const { derive_chain_bestNumber, idNumber, value } = this.props;
 
-    if (!bestNumber || value.end.sub(bestNumber).lten(0)) {
+    if (!derive_chain_bestNumber || value.end.sub(derive_chain_bestNumber).lten(0)) {
       return null;
     }
 
@@ -112,9 +112,9 @@ class Referendum extends React.PureComponent<Props, State> {
   }
 
   private renderExtra () {
-    const { bestNumber, t, value: { end, threshold } } = this.props;
+    const { derive_chain_bestNumber, t, value: { end, threshold } } = this.props;
 
-    if (!bestNumber) {
+    if (!derive_chain_bestNumber) {
       return null;
     }
 
@@ -129,7 +129,7 @@ class Referendum extends React.PureComponent<Props, State> {
             defaultValue: '{{remaining}} blocks remaining, ending at block #{{blockNumber}}',
             replace: {
               blockNumber: numberFormat(end),
-              remaining: numberFormat(end.sub(bestNumber).subn(1))
+              remaining: numberFormat(end.sub(derive_chain_bestNumber).subn(1))
             }
           })}
         </Static>
@@ -177,6 +177,6 @@ class Referendum extends React.PureComponent<Props, State> {
 export default withMulti(
   Referendum,
   translate,
-  withObservable('bestNumber'),
+  withApiPromise('derive.chain.bestNumber'),
   withObservable('democracyReferendumVoters', { paramProp: 'idNumber' })
 );

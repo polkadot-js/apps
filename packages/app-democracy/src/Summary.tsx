@@ -7,23 +7,23 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import { CardSummary } from '@polkadot/ui-app/index';
-import { withApiPromise, withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { numberFormat } from '@polkadot/ui-react-rx/util/index';
 
 import translate from './translate';
 
 type Props = I18nProps & {
-  bestNumber?: BN,
+  derive_chain_bestNumber?: BN,
+  derive_democracy_publicPropsCount?: BN,
   query_democracy_launchPeriod?: BN,
   query_democracy_nextTally?: BN,
-  publicProposalCount?: BN,
   query_democracy_referendumCount?: BN,
   query_democracy_votingPeriod?: BN
 };
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { bestNumber = new BN(0), query_democracy_launchPeriod, query_democracy_nextTally, publicProposalCount, query_democracy_referendumCount, query_democracy_votingPeriod, t } = this.props;
+    const { derive_chain_bestNumber = new BN(0), query_democracy_launchPeriod, query_democracy_nextTally, derive_democracy_publicPropsCount, query_democracy_referendumCount, query_democracy_votingPeriod, t } = this.props;
 
     return (
       <summary>
@@ -33,7 +33,7 @@ class Summary extends React.PureComponent<Props> {
               defaultValue: 'proposals'
             })}
           >
-            {numberFormat(publicProposalCount)}
+            {numberFormat(derive_democracy_publicPropsCount)}
           </CardSummary>
           <CardSummary
             label={t('summary.referendumCount', {
@@ -56,7 +56,7 @@ class Summary extends React.PureComponent<Props> {
               defaultValue: 'voting period'
             })}
             progress={{
-              value: bestNumber.mod(query_democracy_votingPeriod || new BN(1)).addn(1),
+              value: derive_chain_bestNumber.mod(query_democracy_votingPeriod || new BN(1)).addn(1),
               total: query_democracy_votingPeriod || new BN(1)
             }}
           />
@@ -65,7 +65,7 @@ class Summary extends React.PureComponent<Props> {
               defaultValue: 'launch period'
             })}
             progress={{
-              value: bestNumber.mod(query_democracy_launchPeriod || new BN(1)).addn(1),
+              value: derive_chain_bestNumber.mod(query_democracy_launchPeriod || new BN(1)).addn(1),
               total: query_democracy_launchPeriod || new BN(1)
             }}
           />
@@ -82,6 +82,6 @@ export default withMulti(
   withApiPromise('query.democracy.nextTally'),
   withApiPromise('query.democracy.referendumCount'),
   withApiPromise('query.democracy.votingPeriod'),
-  withObservable('bestNumber'),
-  withObservable('publicProposalCount')
+  withApiPromise('derive.chain.bestNumber'),
+  withApiPromise('derive.democracy.publicPropsCount')
 );

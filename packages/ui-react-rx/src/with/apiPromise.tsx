@@ -5,11 +5,12 @@
 // TODO: Lots of duplicated code between this and withObservable, surely there is a better way of doing this?
 
 import { ApiProps, RxProps } from '../types';
-import { HOC, Options, DefaultProps, RenderFn } from './types';
+import { HOC, Options } from './types';
 
 import React from 'react';
 import { assert, isUndefined } from '@polkadot/util';
 
+import derive from '../derive/index';
 import { intervalTimer, isEqual, triggerChange } from '../util/index';
 import echoTransform from './transform/echo';
 import withApi from './api';
@@ -102,13 +103,23 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, para
         const api = apiPromise as any;
 
         assert(area.length && section.length && method.length && others.length === 0, `Invalid API format, expected <area>.<section>.<method>, found ${endpoint}`);
-        assert(['rpc', 'query'].includes(area), `Unknown api.${area}, expected rpc or query`);
+        assert(['rpc', 'query', 'derive'].includes(area), `Unknown api.${area}, expected rpc, query or derive`);
+
+        if (area === 'derive') {
+          assert((derive as any)[section] && (derive as any)[section][method], `Unable to find api.derive.${section}.${method}`);
+
+          return [
+            (derive as any)[section][method](apiPromise).subscribe,
+            true
+          ];
+        }
+
         assert(api[area][section] && api[area][section][method], `Unable to find api.${area}.${section}.${method}`);
 
-        const apiMethod = api[area][section][method];
-        const isSubscription = area === 'query' || method.startsWith('subscribe');
-
-        return [apiMethod, isSubscription];
+        return [
+          api[area][section][method],
+          area === 'query' || method.startsWith('subscribe')
+        ];
       }
 
       private async subscribe (newParams: Array<any>) {
@@ -143,14 +154,15 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, para
 
         if (subId !== -1) {
           const [area, section, method] = endpoint.split('.');
-          const apiMethod = (apiPromise as any)[area][section][method];
+          const apiMethod = area === 'derive'
+            ? (derive as any)[section][method](apiPromise)
+            : (apiPromise as any)[area][section][method];
 
           apiMethod.unsubscribe(subId);
         }
       }
 
       private triggerUpdate (props: any, _value?: T): void {
-        console.error(this.state.propName, _value);
         try {
           const value = (props.transform || transform)(_value);
 

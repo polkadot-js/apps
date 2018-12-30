@@ -5,7 +5,7 @@
 import { BareProps } from './types';
 
 import React from 'react';
-import { Header } from '@polkadot/types';
+import { BlockNumber } from '@polkadot/types';
 
 import { numberFormat } from './util/index';
 import { withApiPromise } from './with/index';
@@ -13,12 +13,12 @@ import { withApiPromise } from './with/index';
 type Props = BareProps & {
   children?: React.ReactNode,
   label?: string,
-  rpc_chain_subscribeNewHead?: Header
+  derive_chain_bestNumber?: BlockNumber
 };
 
 class BestNumber extends React.PureComponent<Props> {
   render () {
-    const { children, className, label = '', style, rpc_chain_subscribeNewHead } = this.props;
+    const { children, className, label = '', style, derive_chain_bestNumber } = this.props;
 
     return (
       <div
@@ -26,13 +26,13 @@ class BestNumber extends React.PureComponent<Props> {
         style={style}
       >
         {label}{
-          rpc_chain_subscribeNewHead && rpc_chain_subscribeNewHead.blockNumber
-            ? numberFormat(rpc_chain_subscribeNewHead.blockNumber)
-            : 'unknown'
+          derive_chain_bestNumber
+            ? numberFormat(derive_chain_bestNumber)
+            : '-'
           }{children}
       </div>
     );
   }
 }
 
-export default withApiPromise('rpc.chain.subscribeNewHead')(BestNumber);
+export default withApiPromise('derive.chain.bestNumber')(BestNumber);

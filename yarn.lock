@@ -1432,17 +1432,17 @@
     "@types/rx" "^4.1.1"
     rxjs "^6.3.3"
 
-"@polkadot/api@^0.35.12":
-  version "0.35.12"
-  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.35.12.tgz#ef2ceacccfcff107415b3cf679023fdf8c0050f9"
-  integrity sha512-ynyPh47mV8TZEPd++Hg64BD0hU64UNqvNgiYLz3WDqsHQg4lNDTGkoIhJQCE0C3r7e05X3hIPzIGL+SCMXr0hw==
+"@polkadot/api@^0.35.13":
+  version "0.35.13"
+  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.35.13.tgz#444fcfb8e655878f2fe2447ee91891862ad19809"
+  integrity sha512-UH4ArpZoKa5ouisJGgoBmt9GjN+CXq+huOyoCv0RuGBGAg//Q58j77ewkoQFrA6ZPb0z4ZJWOAAJPJsLONnQIw==
   dependencies:
     "@babel/runtime" "^7.2.0"
-    "@polkadot/extrinsics" "^0.35.12"
-    "@polkadot/rpc-provider" "^0.35.12"
-    "@polkadot/rpc-rx" "^0.35.12"
-    "@polkadot/storage" "^0.35.12"
-    "@polkadot/types" "^0.35.12"
+    "@polkadot/extrinsics" "^0.35.13"
+    "@polkadot/rpc-provider" "^0.35.13"
+    "@polkadot/rpc-rx" "^0.35.13"
+    "@polkadot/storage" "^0.35.13"
+    "@polkadot/types" "^0.35.13"
     "@types/rx" "^4.1.1"
     rxjs "^6.3.3"
 
