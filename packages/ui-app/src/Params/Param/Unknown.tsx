@@ -9,7 +9,7 @@ import React from 'react';
 
 import Static from '../../Static';
 import translate from '../../translate';
-import Base from './Base';
+import BaseBytes from './BaseBytes';
 
 type Props = BareProps & WithNamespaces & {
   defaultValue: RawParam,
@@ -18,7 +18,7 @@ type Props = BareProps & WithNamespaces & {
 
 class Unknown extends React.PureComponent<Props> {
   render () {
-    const { defaultValue, isDisabled, label, t, withLabel, type } = this.props;
+    const { className, defaultValue, isDisabled, isError, label, name, onChange, style, t, type } = this.props;
 
     if (isDisabled) {
       const value = defaultValue && defaultValue.value && defaultValue.value.toString();
@@ -34,20 +34,20 @@ class Unknown extends React.PureComponent<Props> {
     }
 
     return (
-      <Base
-        size='full'
+      <BaseBytes
+        className={className}
+        defaultValue={defaultValue}
+        isDisabled={isDisabled}
+        isError={isError}
         label={label}
-        withLabel={withLabel}
-      >
-        <div className='ui--Param-Unknown ui dropdown error selection'>
-          {t('param.unknown', {
-            defaultValue: `ERROR: Unimplemented type '{{type}}' requested. No renderer exists`,
-            replace: {
-              type: type.type
-            }
-          })}
-        </div>
-      </Base>
+        length={-1}
+        name={name}
+        onChange={onChange}
+        size='full'
+        style={style}
+        type={type}
+        withLength={false}
+      />
     );
   }
 }
