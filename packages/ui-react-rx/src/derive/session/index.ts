@@ -2,12 +2,4 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import * as chain from './chain';
-import * as democracy from './democracy';
-import * as session from './session';
-
-export default {
-  chain,
-  democracy,
-  session
-};
+export { default as eraLength } from './eraLength';
