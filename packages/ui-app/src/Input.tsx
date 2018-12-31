@@ -96,8 +96,8 @@ export default class Input extends React.PureComponent<Props, State> {
           autoFocus={autoFocus}
           className={
             isEditable
-              ? 'edit icon'
-              : ''
+              ? 'ui--Input edit icon'
+              : 'ui--Input'
           }
           defaultValue={
             isUndefined(value)
