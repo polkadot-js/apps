@@ -8,14 +8,14 @@ import BN from 'bn.js';
 import React from 'react';
 import { BlockNumber } from '@polkadot/types';
 import { CardSummary } from '@polkadot/ui-app/index';
-import { withApiPromise, withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import translate from './translate';
 
 type Props = I18nProps & {
-  eraBlockLength?: BlockNumber,
-  eraBlockProgress?: BlockNumber,
-  sessionBlockProgress?: BlockNumber,
+  derive_session_eraLength?: BN,
+  derive_session_eraProgress?: BN,
+  derive_session_sessionProgress?: BN,
   // FIXME Replaced in poc-3
   // sessionBrokenValue?: BN,
   // sessionBrokenPercentLate?: BN,
@@ -59,7 +59,7 @@ class SummarySession extends React.PureComponent<Props> {
   // }
 
   private renderEra () {
-    const { eraBlockLength, eraBlockProgress, t, withEra = true } = this.props;
+    const { derive_session_eraLength, derive_session_eraProgress, t, withEra = true } = this.props;
 
     if (!withEra) {
       return null;
@@ -72,15 +72,15 @@ class SummarySession extends React.PureComponent<Props> {
           defaultValue: 'era'
         })}
         progress={{
-          total: eraBlockLength,
-          value: eraBlockProgress
+          total: derive_session_eraLength,
+          value: derive_session_eraProgress
         }}
       />
     );
   }
 
   private renderSession () {
-    const { sessionBlockProgress, query_session_sessionLength, t, withSession = true } = this.props;
+    const { derive_session_sessionProgress, query_session_sessionLength, t, withSession = true } = this.props;
 
     if (!withSession) {
       return null;
@@ -94,7 +94,7 @@ class SummarySession extends React.PureComponent<Props> {
         })}
         progress={{
           total: query_session_sessionLength || new BN(0),
-          value: sessionBlockProgress
+          value: derive_session_sessionProgress
         }}
       />
     );
@@ -104,8 +104,8 @@ class SummarySession extends React.PureComponent<Props> {
 export default withMulti(
   SummarySession,
   translate,
-  withObservable('eraBlockLength'),
-  withObservable('eraBlockProgress'),
-  withObservable('sessionBlockProgress'),
+  withApiPromise('derive.session.eraLength'),
+  withApiPromise('derive.session.eraProgress'),
+  withApiPromise('derive.session.sessionProgress'),
   withApiPromise('query.session.sessionLength')
 );

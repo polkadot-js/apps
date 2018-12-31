@@ -80,8 +80,8 @@ export default withMulti(
   translate,
   withApiPromise('query.democracy.launchPeriod'),
   withApiPromise('query.democracy.nextTally'),
+  withApiPromise('query.democracy.publicPropsCount'),
   withApiPromise('query.democracy.referendumCount'),
   withApiPromise('query.democracy.votingPeriod'),
-  withApiPromise('derive.chain.bestNumber'),
-  withApiPromise('derive.democracy.publicPropsCount')
+  withApiPromise('derive.chain.bestNumber')
 );

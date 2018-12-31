@@ -3,10 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RxProposal, RxProposalDeposits } from '@polkadot/api-observable/classes';
+import { RxProposalDeposits } from '@polkadot/api-observable/classes';
 
 import BN from 'bn.js';
 import React from 'react';
+import { Proposal } from '@polkadot/types';
+import { Tuple } from '@polkadot/types/codec';
 import { AddressMini, Labelled, Static } from '@polkadot/ui-app/index';
 import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
@@ -17,17 +19,17 @@ import translate from './translate';
 type Props = I18nProps & {
   proposalDeposits?: RxProposalDeposits,
   idNumber: BN,
-  value: RxProposal
+  value: Tuple
 };
 
-class Proposal extends React.PureComponent<Props> {
+class ProposalDisplay extends React.PureComponent<Props> {
   render () {
     const { idNumber, value } = this.props;
 
     return (
       <Item
         idNumber={idNumber}
-        proposal={value.proposal}
+        proposal={value[1] as Proposal}
         proposalExtra={this.renderExtra()}
       />
     );
@@ -72,7 +74,7 @@ class Proposal extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  Proposal,
+  ProposalDisplay,
   translate,
   withObservable('proposalDeposits', { paramProp: 'idNumber' })
 );

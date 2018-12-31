@@ -8,14 +8,25 @@ import BN from 'bn.js';
 import ApiPromise from '@polkadot/api/promise';
 import Combinator from '@polkadot/api/promise/Combinator';
 
-export default function eraLength (api: ApiPromise): DeriveSubscription {
+import sessionProgress from './sessionProgress';
+
+export default function eraProgress (api: ApiPromise): DeriveSubscription {
   return {
     subscribe: async (cb: (count: BN) => any): Promise<number> => {
       const combinator = api.combineLatest([
+        sessionProgress(api).subscribe,
+        api.query.session.currentIndex,
         api.query.session.sessionLength,
+        api.query.staking.lastEraLengthChange,
         api.query.staking.sessionsPerEra
-      ], ([sessionLength, sessionsPerEra]) =>
-        cb((sessionLength || new BN(1)).mul(sessionsPerEra || new BN(1)))
+      ], ([sessionProgress, currentIndex, sessionLength, lastEraLengthChange, sessionsPerEra]) =>
+        cb(
+          (currentIndex || new BN(0))
+            .sub(lastEraLengthChange || new BN(0))
+            .mod(sessionsPerEra || new BN(1))
+            .mul(sessionLength || new BN(1))
+            .add(sessionProgress || new BN(0))
+        )
       );
 
       return combinator.id;
