@@ -212,6 +212,11 @@ header .ui--Button-Group {
   }
 }
 
+.ui--Static {
+  overflow: hidden;
+  word-break: break-all;
+}
+
 .ui--Status {
   display: inline-block;
   position: fixed;

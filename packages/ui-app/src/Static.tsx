@@ -31,7 +31,7 @@ export default class Static extends React.PureComponent<Props> {
         style={style}
         withLabel={withLabel}
       >
-        <div className='ui dropdown selection disabled'>
+        <div className='ui--Static ui dropdown selection disabled'>
           {value || defaultValue}
           {children}
         </div>
