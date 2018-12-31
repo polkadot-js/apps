@@ -74,5 +74,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
     }
   })(def);
 
+  console.error('type', type);
+
   return overrides[type] || components[type] || Unknown;
 }
