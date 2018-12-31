@@ -6,6 +6,7 @@ import { TypeDef } from '@polkadot/types/codec';
 import { Props, RawParam } from '../types';
 
 import React from 'react';
+import { isUndefined } from '@polkadot/util';
 
 import Bare from './Bare';
 import findComponent from './findComponent';
@@ -30,7 +31,7 @@ export default class Tuple extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ type: { sub, type } }: Props, prevState: State): Partial<State> | null {
+  static getDerivedStateFromProps ({ defaultValue, type: { sub, type } }: Props, prevState: State): Partial<State> | null {
     if (type === prevState.type) {
       return null;
     }
@@ -43,7 +44,11 @@ export default class Tuple extends React.PureComponent<Props, State> {
       Components: subTypes.map((type) => findComponent(type)),
       sub: subTypes.map(({ type }) => type),
       subTypes,
-      type
+      type,
+      values: (defaultValue.value as Array<any>).map((value) => ({
+        isValid: !isUndefined(value),
+        value
+      }))
     };
   }
 
