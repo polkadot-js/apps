@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-explorer",
-  "version": "0.21.12",
+  "version": "0.21.13",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -12,7 +12,7 @@
   "dependencies": {
     "@babel/runtime": "^7.2.0",
     "@polkadot/types": "^0.35.13",
-    "@polkadot/ui-app": "^0.21.12",
+    "@polkadot/ui-app": "^0.21.13",
     "@polkadot/util-crypto": "^0.33.27"
   }
 }
