@@ -3,7 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RxBalance, RxFees } from '@polkadot/api-observable/types';
+import { DerivedBalancesFees } from '@polkadot/ui-react-rx/derive/types';
+import { RxBalance } from '@polkadot/api-observable/types';
 import { Fees } from './types';
 
 import BN from 'bn.js';
@@ -23,7 +24,7 @@ type Props = I18nProps & {
   balanceFrom?: RxBalance,
   balanceTo?: RxBalance,
   extrinsic: Extrinsic | null,
-  fees?: RxFees,
+  fees?: DerivedBalancesFees,
   recipientId?: string | null,
   onChange: (fees: Fees) => void
 };
@@ -35,12 +36,12 @@ const ZERO_BALANCE = {
 } as RxBalance;
 
 const ZERO_FEES = {
-  baseFee: new Balance(0),
-  byteFee: new Balance(0),
-  creationFee: new Balance(0),
-  existentialDeposit: new Balance(0),
-  transferFee: new Balance(0)
-} as RxFees;
+  transactionBaseFee: new BN(0),
+  transactionByteFee: new BN(0),
+  creationFee: new BN(0),
+  existentialDeposit: new BN(0),
+  transferFee: new BN(0)
+} as DerivedBalancesFees;
 
 const LENGTH_PUBLICKEY = 32 + 1; // publicKey + prefix
 const LENGTH_SIGNATURE = 64;
@@ -79,9 +80,9 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         : 0
     );
 
-    let txfees = fees.baseFee
+    let txfees = fees.transactionBaseFee
         .add(fees.transferFee)
-        .add(fees.byteFee.muln(txLength));
+        .add(fees.transactionByteFee.muln(txLength));
 
     if (balanceTo.votingBalance.isZero()) {
       txfees = txfees.add(fees.creationFee);
