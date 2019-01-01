@@ -4,9 +4,12 @@
 
 import BN from 'bn.js';
 
+type DeriveSubscription$NoParam = (cb: (result: any) => any) => Promise<number>;
+type DeriveSubscription$Param = (param: any, cb: (result: any) => any) => Promise<number>;
+
 export type DeriveSubscription = {
-  subscribe (cb: (result: any) => any): Promise<number>,
-  unsubscribe (subsciptionId: number): Promise<any>
+  subscribe: DeriveSubscription$NoParam | DeriveSubscription$Param,
+  unsubscribe: (subsciptionId: number) => Promise<any>
 };
 
 export type DerivedBalancesFees = {
