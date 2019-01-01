@@ -22,7 +22,7 @@ export default class Hash extends React.PureComponent<Props> {
         length={32}
         name={name}
         onChange={onChange}
-        size={isDisabled ? 'full' : 'medium'}
+        size={isDisabled ? 'full' : 'large'}
         style={style}
         type={type}
         withLabel={withLabel}

@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Struct, Vector, getTypeDef } from '@polkadot/types/codec';
+import { Struct, Tuple, Vector, getTypeDef } from '@polkadot/types/codec';
 import { DigestItem } from '@polkadot/types/Digest';
 import { Params } from '@polkadot/ui-app/index';
 
@@ -39,28 +39,11 @@ class Logs extends React.PureComponent<Props> {
     let content: React.ReactNode;
 
     if (item.value instanceof Struct) {
-      const types: { [index: string]: string } = item.value.Type;
-
-      const params = Object.keys(types).map((name) => ({
-        name,
-        type: getTypeDef(types[name])
-      }));
-      const values = item.value.toArray().map((value) => ({
-        isValid: true,
-        value
-      }));
-
-      content = (
-        <Params
-          isDisabled
-          params={params}
-          values={values}
-        />
-      );
+      content = this.formatStruct(item.value);
+    } else if (item.value instanceof Tuple) {
+      content = this.formatTuple(item.value);
     } else if (item.value instanceof Vector) {
-      content = item.value.map((entry, index) => (
-        <span key={index}>{entry.toString()}</span>
-      ));
+      content = this.formatVector(item.value);
     } else {
       content = item.value.toString().split(',').join(', ');
     }
@@ -82,6 +65,65 @@ class Logs extends React.PureComponent<Props> {
           </div>
         </article>
       </div>
+    );
+  }
+
+  private formatStruct (struct: Struct) {
+    const types: { [index: string]: string } = struct.Type;
+    const params = Object.keys(types).map((name) => ({
+      name,
+      type: getTypeDef(types[name])
+    }));
+    const values = struct.toArray().map((value) => ({
+      isValid: true,
+      value
+    }));
+
+    return (
+      <Params
+        isDisabled
+        params={params}
+        values={values}
+      />
+    );
+  }
+
+  private formatTuple (tuple: Tuple) {
+    const types = tuple.Types;
+    const params = types.map((type) => ({
+      type: getTypeDef(type)
+    }));
+    const values = tuple.toArray().map((value) => ({
+      isValid: true,
+      value
+    }));
+
+    return (
+      <Params
+        isDisabled
+        params={params}
+        values={values}
+      />
+    );
+  }
+
+  private formatVector (vector: Vector<any>) {
+    const type = getTypeDef(vector.Type);
+    const values = vector.toArray().map((value) => ({
+      isValid: true,
+      value
+    }));
+    const params = values.map((_, index) => ({
+      name: `${index}`,
+      type
+    }));
+
+    return (
+      <Params
+        isDisabled
+        params={params}
+        values={values}
+      />
     );
   }
 }

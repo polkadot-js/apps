@@ -9,6 +9,7 @@ import React from 'react';
 
 import Static from '../../Static';
 import translate from '../../translate';
+import Bare from './Bare';
 import BaseBytes from './BaseBytes';
 
 type Props = BareProps & WithNamespaces & {
@@ -24,12 +25,18 @@ class Unknown extends React.PureComponent<Props> {
       const value = defaultValue && defaultValue.value && defaultValue.value.toString();
 
       return (
-        <Static
-          label={label}
-          value={value || t('unknown.empty', {
-            defaultValue: 'empty'
-          })}
-        />
+        <Bare
+          className={className}
+          style={style}
+        >
+          <Static
+            className='full'
+            label={label}
+            value={value || t('unknown.empty', {
+              defaultValue: 'empty'
+            })}
+          />
+        </Bare>
       );
     }
 

@@ -37,7 +37,7 @@ export default class BaseBytes extends React.PureComponent<Props> {
         <Input
           className={size}
           defaultValue={defaultValue}
-          isAction
+          isAction={!!children}
           isDisabled={isDisabled}
           isError={isError}
           label={label}
