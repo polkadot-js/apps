@@ -18,9 +18,7 @@ export default function votingBalancesNominatorsFor (api: ApiPromise): DeriveSub
         combineDestroy();
       }
 
-      combineDestroy = votingBalances(api)(...(nominators || []), (balances: Array<DerivedBalances>) =>
-        cb(balances)
-      );
+      combineDestroy = votingBalances(api)(...(nominators || []), cb);
     });
 
     return (): void => {
