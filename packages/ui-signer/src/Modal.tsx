@@ -99,6 +99,13 @@ class Signer extends React.PureComponent<Props, State> {
 
   private renderButtons () {
     const { t } = this.props;
+    const { currentItem } = this.state;
+
+    if (!currentItem) {
+      return null;
+    }
+
+    console.error('currentItem', currentItem);
 
     return (
       <Modal.Actions>
@@ -118,9 +125,13 @@ class Signer extends React.PureComponent<Props, State> {
             onClick={this.onSend}
             tabIndex={2}
             text={
-              t('extrinsic.signedSend', {
-                defaultValue: 'Sign and Submit'
-              })
+              currentItem.isUnsigned
+                ? t('extrinsic.unsignedSend', {
+                  defaultValue: 'Submit (no signature)'
+                })
+                : t('extrinsic.signedSend', {
+                  defaultValue: 'Sign and Submit'
+                })
             }
           />
         </Button.Group>
@@ -146,7 +157,7 @@ class Signer extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { currentItem, password, unlockError } = this.state;
 
-    if (!currentItem) {
+    if (!currentItem || currentItem.isUnsigned) {
       return null;
     }
 
@@ -244,16 +255,18 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetTxStatus(id, status, result, error);
   }
 
-  private sendExtrinsic = async ({ extrinsic, id, accountNonce, accountId }: QueueTx, password?: string): Promise<void> => {
+  private sendExtrinsic = async ({ accountNonce, accountId, extrinsic, id, isUnsigned }: QueueTx, password?: string): Promise<void> => {
     if (!extrinsic || !accountId) {
       return;
     }
 
-    const unlockError = this.unlockAccount(accountId, password);
+    if (!isUnsigned) {
+      const unlockError = this.unlockAccount(accountId, password);
 
-    if (unlockError) {
-      this.setState({ unlockError });
-      return;
+      if (unlockError) {
+        this.setState({ unlockError });
+        return;
+      }
     }
 
     const { apiObservable, queueSetTxStatus } = this.props;
@@ -262,9 +275,13 @@ class Signer extends React.PureComponent<Props, State> {
 
     const pair = keyring.getPair(accountId);
 
-    console.log(`sendExtrinsic: from=${pair.address()}, nonce=${accountNonce}, hash=${apiObservable.genesisHash.toHex()}`);
+    if (!isUnsigned) {
+      console.log(`sendExtrinsic: from=${pair.address()}, nonce=${accountNonce}, blockHash=${apiObservable.genesisHash.toHex()}`);
 
-    extrinsic.sign(pair, accountNonce, apiObservable.genesisHash);
+      extrinsic.sign(pair, accountNonce, apiObservable.genesisHash);
+    } else {
+      console.log(`sendInherent: from=${pair.address()}, nonce=${accountNonce}`);
+    }
 
     await this.submitExtrinsic(extrinsic, id);
   }
