@@ -5,7 +5,6 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx } from '@polkadot/ui-app/Status/types';
 
-import BN from 'bn.js';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import { Method } from '@polkadot/types';
