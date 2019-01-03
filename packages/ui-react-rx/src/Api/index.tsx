@@ -55,6 +55,8 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       this.setState({ apiObservable, apiPromise }, () => {
         this.updateSubscriptions();
       });
+
+      apiPromise.query.timestamp.now((ts) => console.error('ts', ts));
     };
     const setApiUrl = (url: string = defaults.WS_URL): void =>
       setApi(new WsProvider(url));
