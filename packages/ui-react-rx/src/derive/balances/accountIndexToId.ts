@@ -10,7 +10,7 @@ import { ENUMSET_SIZE } from '@polkadot/types/AccountIndex';
 
 export default function accountIndexToId (api: ApiPromise): DeriveSubscription {
   return {
-    subscribe: async (_accountIndex: AccountIndex | string, cb: (fees?: AccountId) => any): Promise<number> => {
+    subscribe: async (_accountIndex: AccountIndex | string, cb: (accountId?: AccountId) => any): Promise<number> => {
       const accountIndex = _accountIndex instanceof AccountIndex
         ? _accountIndex
         : new AccountIndex(_accountIndex);

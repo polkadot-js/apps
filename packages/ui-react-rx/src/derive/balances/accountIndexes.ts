@@ -9,7 +9,7 @@ import ApiPromise from '@polkadot/api/promise';
 import { AccountId, AccountIndex } from '@polkadot/types';
 import { ENUMSET_SIZE } from '@polkadot/types/AccountIndex';
 
-type AccountIndexes = { [index: string]: AccountIndex };
+export type AccountIndexes = { [index: string]: AccountIndex };
 
 export default function accountIndexes (api: ApiPromise): DeriveSubscription {
   return {
