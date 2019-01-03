@@ -16,12 +16,16 @@ import echoTransform from './transform/echo';
 import withApi from './api';
 
 type State<T> = RxProps<T> & {
+  destroy?: () => void,
   propName: string,
-  subId: number,
   timerId: number
 };
 
 type Props = ApiProps & {};
+
+const NOOP = () => {
+  // ignore
+};
 
 // FIXME proper types for attributes
 
@@ -39,7 +43,6 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, para
           propName: `${area}_${section}_${method}`,
           rxUpdated: false,
           rxUpdatedAt: 0,
-          subId: -1,
           timerId: -1,
           value: void 0
         };
@@ -51,12 +54,8 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, para
         if (!isEqual(newParams, this.getParams(prevProps))) {
           this
             .subscribe(newParams)
-            .then(() => {
-              // ignore
-            })
-            .catch(() => {
-              // ignore
-            });
+            .then(NOOP)
+            .catch(NOOP);
         }
       }
 
@@ -67,12 +66,8 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, para
 
         this
           .subscribe(this.getParams(this.props))
-          .then(() => {
-            // ignore
-          })
-          .catch(() => {
-            // ignore
-          });
+          .then(NOOP)
+          .catch(NOOP);
       }
 
       componentWillUnmount () {
@@ -109,7 +104,7 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, para
           assert((derive as any)[section] && (derive as any)[section][method], `Unable to find api.derive.${section}.${method}`);
 
           return [
-            (derive as any)[section][method](apiPromise).subscribe,
+            (derive as any)[section][method](apiPromise),
             true
           ];
         }
@@ -133,32 +128,26 @@ export default function withApiPromise<T, P> (endpoint: string, { rxChange, para
           this.unsubscribe();
 
           if (isSubscription) {
-            const subId = await apiMethod(...newParams, (value?: T) => {
-              this.triggerUpdate(this.props, value);
+            this.setState({
+              destroy: apiMethod(...newParams, (value?: T) => {
+                this.triggerUpdate(this.props, value);
+              })
             });
-
-            this.setState({ subId });
           } else {
             const value: T = await apiMethod(...newParams);
 
             this.triggerUpdate(this.props, value);
           }
         } catch (error) {
-          console.error(error.message);
+          console.error(error);
         }
       }
 
       private unsubscribe () {
-        const { apiPromise } = this.props;
-        const { subId } = this.state;
+        const { destroy } = this.state;
 
-        if (subId !== -1) {
-          const [area, section, method] = endpoint.split('.');
-          const apiMethod = area === 'derive'
-            ? (derive as any)[section][method](apiPromise)
-            : (apiPromise as any)[area][section][method];
-
-          apiMethod.unsubscribe(subId);
+        if (destroy) {
+          destroy();
         }
       }
 

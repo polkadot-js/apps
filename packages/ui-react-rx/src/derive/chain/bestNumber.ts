@@ -2,20 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { UnsubFunction } from '@polkadot/api/promise/types';
 import { DeriveSubscription } from '../types';
-import { BlockNumber, Header } from '@polkadot/types';
 
 import ApiPromise from '@polkadot/api/promise';
+import { BlockNumber, Header } from '@polkadot/types';
 
 export default function bestNumber (api: ApiPromise): DeriveSubscription {
-  return {
-    subscribe: (cb: (blockNumber: BlockNumber) => any): Promise<number> =>
-      api.rpc.chain.subscribeNewHead((header?: Header) => {
-        if (header && header.blockNumber) {
-          cb(header.blockNumber);
-        }
-      }),
-    unsubscribe: (subscriptionId: number): Promise<any> =>
-      api.rpc.chain.subscribeNewHead.unsubscribe(subscriptionId)
-  };
+  return (cb: (blockNumber: BlockNumber) => any): UnsubFunction =>
+    api.rpc.chain.subscribeNewHead((header?: Header) => {
+      if (header && header.blockNumber) {
+        cb(header.blockNumber);
+      }
+    }) as UnsubFunction;
 }
