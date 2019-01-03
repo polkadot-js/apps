@@ -105,8 +105,6 @@ class Signer extends React.PureComponent<Props, State> {
       return null;
     }
 
-    console.error('currentItem', currentItem);
-
     return (
       <Modal.Actions>
         <Button.Group>
