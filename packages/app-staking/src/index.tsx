@@ -9,7 +9,7 @@ import { RxBalanceMap } from '@polkadot/api-observable/types';
 import React from 'react';
 import { AccountId, Balance } from '@polkadot/types';
 import { Tabs } from '@polkadot/ui-app/index';
-import { withApiPromise, withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import './index.css';
 
@@ -24,7 +24,7 @@ type Props = I18nProps & {
   onStatusChange: (status: ActionStatus) => void,
   query_staking_intentions?: Array<AccountId>,
   query_session_validators?: Array<AccountId>,
-  validatingBalances?: RxBalanceMap
+  derive_balances_validatingBalances?: RxBalanceMap
 };
 
 type State = {
@@ -64,7 +64,7 @@ class App extends React.PureComponent<Props, State> {
 
   render () {
     const { action, intentions, validators } = this.state;
-    const { t, validatingBalances = {} } = this.props;
+    const { t, derive_balances_validatingBalances = {} } = this.props;
     const Component = Components[action];
     const items = [
       {
@@ -87,7 +87,7 @@ class App extends React.PureComponent<Props, State> {
           />
         </header>
         <Component
-          balances={validatingBalances}
+          balances={derive_balances_validatingBalances}
           balanceArray={this.balanceArray}
           intentions={intentions}
           validators={validators}
@@ -101,7 +101,7 @@ class App extends React.PureComponent<Props, State> {
   }
 
   private balanceArray = (_address: AccountId | string): Array<Balance> | undefined => {
-    const { validatingBalances = {} } = this.props;
+    const { derive_balances_validatingBalances = {} } = this.props;
 
     if (!_address) {
       return undefined;
@@ -109,8 +109,11 @@ class App extends React.PureComponent<Props, State> {
 
     const address = _address.toString();
 
-    return validatingBalances[address]
-      ? [validatingBalances[address].stakingBalance, validatingBalances[address].nominatedBalance]
+    return derive_balances_validatingBalances[address]
+      ? [
+        derive_balances_validatingBalances[address].stakingBalance,
+        derive_balances_validatingBalances[address].nominatedBalance
+      ]
       : undefined;
   }
 }
@@ -120,5 +123,5 @@ export default withMulti(
   translate,
   withApiPromise('query.staking.intentions'),
   withApiPromise('query.session.validators'),
-  withObservable('validatingBalances', { paramProp: 'stakingIntentions' })
+  withApiPromise('derive.balances.validatingBalances', { paramProp: 'stakingIntentions' })
 );

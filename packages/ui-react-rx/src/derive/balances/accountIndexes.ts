@@ -15,7 +15,7 @@ export type AccountIndexes = { [index: string]: AccountIndex };
 export default function accountIndexes (api: ApiPromise): DeriveSubscription {
   return (cb: (indexes: AccountIndexes) => any): UnsubFunction => {
     let combineDestroy: UnsubFunction | undefined;
-    const nextEnumSetDestory = api.query.balances.nextEnumSet.subscribe((next: AccountIndex) => {
+    const nextEnumSetDestory = api.query.balances.nextEnumSet((next: AccountIndex) => {
       const setSize = ENUMSET_SIZE.toNumber();
       const enumRange = [...Array((next || new BN(0)).div(ENUMSET_SIZE).toNumber() + 1).keys()].map((index) =>
         [[index], api.query.balances.enumSet] as [Array<any>, QueryableStorageFunction]
@@ -38,7 +38,7 @@ export default function accountIndexes (api: ApiPromise): DeriveSubscription {
           }, {} as AccountIndexes)
         );
       });
-    });
+    }) as any as UnsubFunction; // FIXME? wtf?
 
     return (): void => {
       nextEnumSetDestory();
