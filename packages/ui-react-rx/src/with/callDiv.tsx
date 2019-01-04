@@ -7,13 +7,13 @@ import { BaseProps } from '../types';
 
 import React from 'react';
 
-import withApiCall from './apiCall';
+import withCall from './call';
 
 type Props<T> = BaseProps<T> & {
   value?: T
 };
 
-export default function withApiDiv<T> (endpoint: string, options: Options<T> = {}) {
+export default function withCallDiv<T> (endpoint: string, options: Options<T> = {}) {
   return (render: (value?: T) => React.ReactNode, defaultProps: DefaultProps<T> = {}): React.ComponentType<any> => {
     class Inner extends React.PureComponent<Props<T>> {
       render () {
@@ -31,6 +31,6 @@ export default function withApiDiv<T> (endpoint: string, options: Options<T> = {
       }
     }
 
-    return withApiCall(endpoint, { ...options, propName: 'value' })(Inner);
+    return withCall(endpoint, { ...options, propName: 'value' })(Inner);
   };
 }

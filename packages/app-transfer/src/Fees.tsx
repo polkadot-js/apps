@@ -10,7 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { Balance, Extrinsic } from '@polkadot/types';
 import { Static } from '@polkadot/ui-app/index';
-import { withApiCall, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
 
 import translate from './translate';
@@ -194,6 +194,6 @@ class FeeDisplay extends React.PureComponent<Props, State> {
 export default withMulti(
   FeeDisplay,
   translate,
-  withApiCall('derive.balances.votingBalanceOf', { paramProp: 'accountId', propName: 'balanceFrom' }),
-  withApiCall('derive.balances.votingBalanceOf', { paramProp: 'recipientId', propName: 'balanceTo' })
+  withCall('derive.balances.votingBalanceOf', { paramProp: 'accountId', propName: 'balanceFrom' }),
+  withCall('derive.balances.votingBalanceOf', { paramProp: 'recipientId', propName: 'balanceTo' })
 );

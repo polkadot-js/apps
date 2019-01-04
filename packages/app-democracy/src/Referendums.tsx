@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import { ReferendumInfo } from '@polkadot/types';
-import { withApiCall, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import Referendum from './Referendum';
 import translate from './translate';
@@ -61,7 +61,7 @@ class Referendums extends React.PureComponent<Props> {
 export default withMulti(
   Referendums,
   translate,
-  withApiCall('query.democracy.nextTally'),
-  withApiCall('query.democracy.referendumCount'),
-  withApiCall('derive.democracy.referendums')
+  withCall('query.democracy.nextTally'),
+  withCall('query.democracy.referendumCount'),
+  withCall('derive.democracy.referendums')
 );

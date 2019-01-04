@@ -18,7 +18,10 @@ export default function votes (api: ApiPromise): DeriveSubscription {
     return api.combineLatest(
       accountIds.map((accountId) =>
         [[referendumId, accountId], api.query.democracy.voteOf] as [Array<any>, QueryableStorageFunction]
-      ), cb
-    );
+      ), (votes) => {
+      console.error('votes', JSON.stringify(votes));
+
+      cb(votes);
+    });
   };
 }

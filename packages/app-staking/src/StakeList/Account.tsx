@@ -11,7 +11,7 @@ import React from 'react';
 import Api from '@polkadot/api-observable';
 import { AccountId, Balance, Extrinsic, Method } from '@polkadot/types';
 import { AddressMini, AddressSummary, Button } from '@polkadot/ui-app/index';
-import { withApiCall, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import Nominating from './Nominating';
 import UnnominateButton from './UnnominateButton';
@@ -204,7 +204,7 @@ class Account extends React.PureComponent<Props, State> {
 export default withMulti(
   Account,
   translate,
-  withApiCall('query.staking.nominatorsFor', { paramProp: 'accountId' }),
-  withApiCall('query.staking.nominating', { paramProp: 'accountId' }),
-  withApiCall('query.system.accountNonce', { paramProp: 'accountId' })
+  withCall('query.staking.nominatorsFor', { paramProp: 'accountId' }),
+  withCall('query.staking.nominating', { paramProp: 'accountId' }),
+  withCall('query.system.accountNonce', { paramProp: 'accountId' })
 );

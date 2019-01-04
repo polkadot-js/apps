@@ -7,7 +7,7 @@ import { I18nProps } from './types';
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
 import { Nonce } from '@polkadot/ui-react-rx/index';
-import { withApiCall, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
@@ -230,6 +230,6 @@ export {
 export default withMulti(
   AddressSummary,
   translate,
-  withApiCall('derive.balances.accountIdAndIndex', { paramProp: 'value' }),
-  withApiCall('query.session.validators')
+  withCall('derive.balances.accountIdAndIndex', { paramProp: 'value' }),
+  withCall('query.session.validators')
 );

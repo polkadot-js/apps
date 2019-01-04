@@ -10,8 +10,6 @@ import BN from 'bn.js';
 import ApiPromise from '@polkadot/api/promise';
 import { ReferendumInfo } from '@polkadot/types';
 
-import referendumInfoOf from './referendumInfoOf';
-
 export default function referendumInfos (api: ApiPromise): DeriveSubscription {
   return (...params: Array<any>): UnsubFunction => {
     const ids: Array<BN | number> = params.slice(0, params.length - 1);
@@ -19,7 +17,7 @@ export default function referendumInfos (api: ApiPromise): DeriveSubscription {
 
     return api.combineLatest(
       ids.map((id) =>
-        [[id], referendumInfoOf(api)] as [Array<any>, CombinatorFunction]
+        [[id], api.query.democracy.referendumInfoOf] as [Array<any>, CombinatorFunction]
       ), (infos: Array<ReferendumInfo | undefined>) =>
         cb(
           (infos || []).filter((info) => info) as Array<ReferendumInfo>

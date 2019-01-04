@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { CardSummary } from '@polkadot/ui-app/index';
 import SummarySession from '@polkadot/app-explorer/SummarySession';
-import { withApiCall, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
 
 import translate from '../translate';
@@ -130,5 +130,5 @@ class Summary extends React.PureComponent<Props> {
 export default withMulti(
   Summary,
   translate,
-  withApiCall('query.staking.validatorCount')
+  withCall('query.staking.validatorCount')
 );

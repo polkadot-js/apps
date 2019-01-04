@@ -5,7 +5,7 @@
 import { Header } from '@polkadot/types';
 
 import React from 'react';
-import { withApiCall } from '@polkadot/ui-react-rx/with/index';
+import { withCall } from '@polkadot/ui-react-rx/with/index';
 
 import BlockHeader from './BlockHeader';
 
@@ -56,4 +56,4 @@ class BlockHeaders extends React.PureComponent<Props> {
   }
 }
 
-export default withApiCall('rpc.chain.subscribeNewHead', { propName: 'headers', transform })(BlockHeaders);
+export default withCall('rpc.chain.subscribeNewHead', { propName: 'headers', transform })(BlockHeaders);

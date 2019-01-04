@@ -8,7 +8,7 @@ import { DeriveSubscription, DerivedReferendumVote } from '../types';
 
 import BN from 'bn.js';
 import ApiPromise from '@polkadot/api/promise';
-import { AccountId, Balance, bool as Bool } from '@polkadot/types';
+import { AccountId, Balance, Vote } from '@polkadot/types';
 
 import votingBalances from '../balances/votingBalances';
 import votes from './votes';
@@ -34,7 +34,7 @@ export default function referendumVotesFor (api: ApiPromise): DeriveSubscription
           votersFor.map((accountId, index): DerivedReferendumVote => ({
             accountId,
             balance: balances[index].votingBalance || new Balance(0),
-            vote: votes[index] || new Bool(false)
+            vote: votes[index] || new Vote(0)
           }))
         )
       );

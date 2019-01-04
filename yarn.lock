@@ -1441,17 +1441,17 @@
     "@types/rx" "^4.1.1"
     rxjs "^6.3.3"
 
-"@polkadot/api@^0.36.3":
-  version "0.36.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.36.3.tgz#6d262e031b7313adb0ec50217fc4155aef061ce3"
-  integrity sha512-7KWXNAmeUOIwFJJ31FCblxhik8FmhmtzZsp60gNYOvAJlFby9wcbH1NhfqppkA3+RQsf/Wtq3LM+d9WsKayRBQ==
+"@polkadot/api@^0.37.1":
+  version "0.37.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.37.1.tgz#342e0cebe9b8fcdd047c929a374469f23adfedd9"
+  integrity sha512-pgg9hgTIW6Jxqzp6Sd0yF4+NKEzC4scwJk0u7/Gh1ghoyDjqsL5I112118C++9A1vZdj191RbrKY2dAZQsh68Q==
   dependencies:
     "@babel/runtime" "^7.2.0"
-    "@polkadot/extrinsics" "^0.36.3"
-    "@polkadot/rpc-provider" "^0.36.3"
-    "@polkadot/rpc-rx" "^0.36.3"
-    "@polkadot/storage" "^0.36.3"
-    "@polkadot/types" "^0.36.3"
+    "@polkadot/extrinsics" "^0.37.1"
+    "@polkadot/rpc-provider" "^0.37.1"
+    "@polkadot/rpc-rx" "^0.37.1"
+    "@polkadot/storage" "^0.37.1"
+    "@polkadot/types" "^0.37.1"
     "@types/rx" "^4.1.1"
     rxjs "^6.3.3"
 
@@ -1540,10 +1540,26 @@
     "@polkadot/types" "^0.36.3"
     "@polkadot/util" "^0.33.28"
 
+"@polkadot/extrinsics@^0.37.1":
+  version "0.37.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/extrinsics/-/extrinsics-0.37.1.tgz#04fa50f4296c162f98da7d7b9de5dcc57c8a5ca9"
+  integrity sha512-i7ZzE9xdr9MJ7IrWpFKGzpiTkBCDDho81UbbSBncFU5nDc38nuQp23k9TweukLChfnye2n+eLukAtmuf11Ff7w==
+  dependencies:
+    "@babel/runtime" "^7.2.0"
+    "@polkadot/types" "^0.37.1"
+    "@polkadot/util" "^0.33.29"
+
 "@polkadot/jsonrpc@^0.36.3":
   version "0.36.3"
   resolved "https://registry.yarnpkg.com/@polkadot/jsonrpc/-/jsonrpc-0.36.3.tgz#80937139d1282f7227b4ae3a4202b08c91938d73"
   integrity sha512-foRSp0HDBwmk0MTLw5fn+A5lEe9MfyoS3HPizlobSU9vNQ4WOe0VSG+20P9S3150BMRWe4dL3QeA7yOYrtxDbg==
+  dependencies:
+    "@babel/runtime" "^7.2.0"
+
+"@polkadot/jsonrpc@^0.37.1":
+  version "0.37.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/jsonrpc/-/jsonrpc-0.37.1.tgz#88be4b13208a3f362ed18959feecfba60df0d547"
+  integrity sha512-92zpRNNeTp/yXsqM43jbU7Ghnxv12pdtqJU2EjaQbLgj1WCOxXYJwSrm+y68AO+kBv0bpMl8GbukERunUccpfw==
   dependencies:
     "@babel/runtime" "^7.2.0"
 
@@ -1580,6 +1596,17 @@
     "@polkadot/types" "^0.36.3"
     "@polkadot/util" "^0.33.28"
 
+"@polkadot/rpc-core@^0.37.1":
+  version "0.37.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/rpc-core/-/rpc-core-0.37.1.tgz#9982395559a0119a57e2517f1140c8967d05a784"
+  integrity sha512-mCVCFQj9hjM/ZjKpXZLv/X2aKmwwTsv6cY857KY80jufnzMtYyLQIn1UJ6LIeUkMNLLXOJpNTeudldVrvnus6Q==
+  dependencies:
+    "@babel/runtime" "^7.2.0"
+    "@polkadot/jsonrpc" "^0.37.1"
+    "@polkadot/rpc-provider" "^0.37.1"
+    "@polkadot/types" "^0.37.1"
+    "@polkadot/util" "^0.33.29"
+
 "@polkadot/rpc-provider@^0.36.3":
   version "0.36.3"
   resolved "https://registry.yarnpkg.com/@polkadot/rpc-provider/-/rpc-provider-0.36.3.tgz#2b0ea42e2949a79d257da329c3b54af5258c8883"
@@ -1595,14 +1622,29 @@
     isomorphic-fetch "^2.2.1"
     websocket "^1.0.28"
 
-"@polkadot/rpc-rx@^0.36.3":
-  version "0.36.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/rpc-rx/-/rpc-rx-0.36.3.tgz#85ea0bc60d855f8b61161ce26b72b778ddd9664e"
-  integrity sha512-Cr34br7rXWMAc3+NTsnzJM0ZixieHUHasvTm/mJXqPFAGCVa+5h2+ZyM/k67I6auXi/+w4/BV/3rEQMU3d+6rA==
+"@polkadot/rpc-provider@^0.37.1":
+  version "0.37.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/rpc-provider/-/rpc-provider-0.37.1.tgz#1a7145f4d9a6d565c4a00dbae29b5d6b6fb35f06"
+  integrity sha512-c1EyKTZYyDXegwX515dGCZrt7r1gMdYsDBs80A9iczKpRciLZdZRosizoGOSyLbe1MPUXl8/NeupAnZywEsK3A==
   dependencies:
     "@babel/runtime" "^7.2.0"
-    "@polkadot/rpc-core" "^0.36.3"
-    "@polkadot/rpc-provider" "^0.36.3"
+    "@polkadot/keyring" "^0.33.29"
+    "@polkadot/storage" "^0.37.1"
+    "@polkadot/util" "^0.33.29"
+    "@polkadot/util-crypto" "^0.33.29"
+    "@types/nock" "^9.3.0"
+    eventemitter3 "^3.1.0"
+    isomorphic-fetch "^2.2.1"
+    websocket "^1.0.28"
+
+"@polkadot/rpc-rx@^0.37.1":
+  version "0.37.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/rpc-rx/-/rpc-rx-0.37.1.tgz#389927536667eea702dc68dfb6ebad699e9cd157"
+  integrity sha512-U8PTdEQ6bDcjogRjiSSddCA7aXs7k2i256CKV+meEp4GhZQus7buy3afxLpqbcQoWg51AQ2quXCilqKLarbBSQ==
+  dependencies:
+    "@babel/runtime" "^7.2.0"
+    "@polkadot/rpc-core" "^0.37.1"
+    "@polkadot/rpc-provider" "^0.37.1"
     "@types/rx" "^4.1.1"
     rxjs "^6.3.3"
 
@@ -1617,6 +1659,17 @@
     "@polkadot/util" "^0.33.28"
     "@polkadot/util-crypto" "^0.33.28"
 
+"@polkadot/storage@^0.37.1":
+  version "0.37.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/storage/-/storage-0.37.1.tgz#558e25057068764318b9edb3c38f35b08c917ba2"
+  integrity sha512-XXhONXH9AKdY/4LSPJgkjTyN/J16QOpDpQbAKJY2pLqh4/iKd8G1INKxkVroNAP/RucmXIvsk1Q8PlaKSoJBBw==
+  dependencies:
+    "@babel/runtime" "^7.2.0"
+    "@polkadot/keyring" "^0.33.29"
+    "@polkadot/types" "^0.37.1"
+    "@polkadot/util" "^0.33.29"
+    "@polkadot/util-crypto" "^0.33.29"
+
 "@polkadot/ts@^0.1.46":
   version "0.1.46"
   resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.46.tgz#3c2015dbb0e0481f14f4b3b4f73bacb642f28da8"
@@ -1630,6 +1683,16 @@
     "@babel/runtime" "^7.2.0"
     "@polkadot/keyring" "^0.33.28"
     "@polkadot/util" "^0.33.28"
+    core-js "^2.6.1"
+
+"@polkadot/types@^0.37.1":
+  version "0.37.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/types/-/types-0.37.1.tgz#19a5e4f49d568e42da46a097ab10e085c2ec94a8"
+  integrity sha512-qGkiEsUy1m644PpmV+VRvWcq3frs8Vn674ueth8Cohgmor8ZV4uXbM0kxkrtfQO+al3ftPyJ8dal+8NaryFr3g==
+  dependencies:
+    "@babel/runtime" "^7.2.0"
+    "@polkadot/keyring" "^0.33.29"
+    "@polkadot/util" "^0.33.29"
     core-js "^2.6.1"
 
 "@polkadot/ui-assets@^0.24.21":

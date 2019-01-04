@@ -3,15 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import withApi from './api';
-import withApiCall from './apiCall';
-import withApiDiv from './apiDiv';
+import withCall from './call';
+import withCallDiv from './callDiv';
 import withMulti from './multi';
 import withObservable from './observable';
 
 export {
   withApi,
-  withApiDiv,
-  withApiCall,
+  withCall,
+  withCallDiv,
   withMulti,
   withObservable
 };

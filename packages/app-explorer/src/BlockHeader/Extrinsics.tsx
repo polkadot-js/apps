@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { withApiCall, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import translate from '../translate';
 
@@ -42,5 +42,5 @@ class Extrinsics extends React.PureComponent<Props> {
 export default withMulti(
   Extrinsics,
   translate,
-  withApiCall('rpc.chain.getBlock', { paramProp: 'hash' })
+  withCall('rpc.chain.getBlock', { paramProp: 'hash' })
 );

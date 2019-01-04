@@ -8,7 +8,7 @@ import React from 'react';
 import { Balance } from '@polkadot/types';
 
 import { balanceFormat } from './util/index';
-import { withApiCall } from './with/index';
+import { withCall } from './with/index';
 
 type Props = BareProps & {
   children?: React.ReactNode,
@@ -35,4 +35,4 @@ class BalanceDisplay extends React.PureComponent<Props> {
   }
 }
 
-export default withApiCall('query.balances.freeBalance')(BalanceDisplay);
+export default withCall('query.balances.freeBalance')(BalanceDisplay);

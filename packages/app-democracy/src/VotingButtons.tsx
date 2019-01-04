@@ -10,7 +10,7 @@ import React from 'react';
 import Api from '@polkadot/api-observable';
 import { Extrinsic } from '@polkadot/types';
 import { Button } from '@polkadot/ui-app/index';
-import { withApiCall, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import translate from './translate';
 
@@ -57,7 +57,7 @@ class VotingButton extends React.PureComponent<Props> {
 
     queueExtrinsic({
       extrinsic: new Extrinsic({
-        method: Api.extrinsics.democracy.vote(referendumId, vote)
+        method: Api.extrinsics.democracy.vote(referendumId, vote ? -1 : 0)
       }),
       accountNonce: query_system_accountNonce,
       accountId
@@ -76,5 +76,5 @@ class VotingButton extends React.PureComponent<Props> {
 export default withMulti(
   VotingButton,
   translate,
-  withApiCall('query.system.accountNonce', { paramProp: 'accountId' })
+  withCall('query.system.accountNonce', { paramProp: 'accountId' })
 );
