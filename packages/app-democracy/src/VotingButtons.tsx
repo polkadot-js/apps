@@ -4,17 +4,16 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
+import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import Api from '@polkadot/api-observable';
-import { Extrinsic } from '@polkadot/types';
 import { Button } from '@polkadot/ui-app/index';
 import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import translate from './translate';
 
-type Props = I18nProps & {
+type Props = ApiProps & I18nProps & {
   accountId?: string,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
   referendumId: BN,
@@ -49,16 +48,14 @@ class VotingButton extends React.PureComponent<Props> {
   }
 
   private doVote (vote: boolean) {
-    const { accountId, queueExtrinsic, referendumId, query_system_accountNonce } = this.props;
+    const { accountId, apiPromise, queueExtrinsic, referendumId, query_system_accountNonce } = this.props;
 
     if (!accountId) {
       return;
     }
 
     queueExtrinsic({
-      extrinsic: new Extrinsic({
-        method: Api.extrinsics.democracy.vote(referendumId, vote ? -1 : 0)
-      }),
+      extrinsic: apiPromise.tx.democracy.vote(referendumId, vote ? -1 : 0),
       accountNonce: query_system_accountNonce,
       accountId
     });

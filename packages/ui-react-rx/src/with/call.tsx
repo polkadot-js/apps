@@ -30,7 +30,7 @@ const NOOP = () => {
 // FIXME proper types for attributes
 
 export default function withCall<T, P> (endpoint: string, { rxChange, params = [], paramProp = 'params', propName, transform = echoTransform }: Options<T> = {}): HOC<T> {
-  return (Inner: React.ComponentType<any>): React.ComponentType<any> => {
+  return (Inner: React.ComponentType<ApiProps>): React.ComponentType<any> => {
     class WithPromise extends React.Component<Props, State<T>> {
       state: State<T>;
 

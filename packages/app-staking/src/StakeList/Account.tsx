@@ -5,11 +5,12 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 import { DerivedBalancesMap } from '@polkadot/ui-react-rx/derive/types';
+import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import Api from '@polkadot/api-observable';
-import { AccountId, Balance, Extrinsic, Method } from '@polkadot/types';
+import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
+import { AccountId, Balance } from '@polkadot/types';
 import { AddressMini, AddressSummary, Button } from '@polkadot/ui-app/index';
 import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 
@@ -17,7 +18,7 @@ import Nominating from './Nominating';
 import UnnominateButton from './UnnominateButton';
 import translate from '../translate';
 
-type Props = I18nProps & {
+type Props = ApiProps & I18nProps & {
   query_system_accountNonce?: BN,
   accountId: string,
   balances: DerivedBalancesMap,
@@ -162,11 +163,11 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private send (method: Method) {
+  private send (extrinsic: SubmittableExtrinsic) {
     const { query_system_accountNonce, accountId, queueExtrinsic } = this.props;
 
     queueExtrinsic({
-      extrinsic: new Extrinsic({ method }),
+      extrinsic,
       accountNonce: query_system_accountNonce,
       accountId
     });
@@ -181,23 +182,31 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private nominate = (nominee: string) => {
-    this.send(Api.extrinsics.staking.nominate(nominee));
+    const { apiPromise } = this.props;
+
+    this.send(apiPromise.tx.staking.nominate(nominee));
 
     this.toggleNominate();
   }
 
   private unnominate = (index: number) => {
-    this.send(Api.extrinsics.staking.unnominate(index));
+    const { apiPromise } = this.props;
+
+    this.send(apiPromise.tx.staking.unnominate(index));
   }
 
   private stake = () => {
-    this.send(Api.extrinsics.staking.stake());
+    const { apiPromise } = this.props;
+
+    this.send(apiPromise.tx.staking.stake());
   }
 
   private unstake = () => {
+    const { apiPromise } = this.props;
+
     const { accountId, intentions } = this.props;
 
-    this.send(Api.extrinsics.staking.unstake(intentions.indexOf(accountId)));
+    this.send(apiPromise.tx.staking.unstake(intentions.indexOf(accountId)));
   }
 }
 

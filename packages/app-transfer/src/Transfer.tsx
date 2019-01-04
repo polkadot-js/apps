@@ -5,11 +5,11 @@
 import { BitLength, I18nProps } from '@polkadot/ui-app/types';
 import { QueueProps } from '@polkadot/ui-app/Status/types';
 import { DerivedBalancesFees } from '@polkadot/ui-react-rx/derive/types';
+import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { Fees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import Api from '@polkadot/api-observable';
 import { decodeAddress } from '@polkadot/keyring';
 import { Extrinsic } from '@polkadot/types';
 import { BitLengthOption } from '@polkadot/ui-app/constants';
@@ -21,7 +21,7 @@ import FeeDisplay from './Fees';
 import Submit from './Submit';
 import translate from './translate';
 
-type Props = I18nProps & {
+type Props = I18nProps & ApiProps & {
   derive_balances_fees?: DerivedBalancesFees
 };
 
@@ -142,9 +142,10 @@ class Transfer extends React.PureComponent<Props, State> {
 
   private nextState (newState: Partial<State>): void {
     this.setState((prevState: State): State => {
+      const { apiPromise } = this.props;
       const { accountId = prevState.accountId, amount = prevState.amount, recipientId = prevState.recipientId, txfees = prevState.txfees } = newState;
       const extrinsic = accountId && recipientId
-        ? new Extrinsic({ method: Api.extrinsics.balances.transfer(recipientId, amount) })
+        ? apiPromise.tx.balances.transfer(recipientId, amount)
         : null;
 
       return {
