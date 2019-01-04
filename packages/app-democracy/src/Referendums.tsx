@@ -34,8 +34,9 @@ class Referendums extends React.PureComponent<Props> {
 
   private renderReferendums () {
     const { query_democracy_nextTally, derive_democracy_referendums, query_democracy_referendumCount, t } = this.props;
+    const referendumCount = (query_democracy_referendumCount || new BN(0)).toNumber();
 
-    if (!derive_democracy_referendums || !derive_democracy_referendums.length || (query_democracy_referendumCount || new BN(0)).toNumber() === (query_democracy_nextTally || new BN(0)).toNumber()) {
+    if (!derive_democracy_referendums || !derive_democracy_referendums.length || (referendumCount === (query_democracy_nextTally || new BN(0)).toNumber())) {
       return (
         <div className='ui disabled'>
           {t('proposals.none', {
@@ -45,9 +46,11 @@ class Referendums extends React.PureComponent<Props> {
       );
     }
 
+    const startIndex = referendumCount - derive_democracy_referendums.length;
+
     return derive_democracy_referendums.map((referendum, index) => (
       <Referendum
-        idNumber={index}
+        idNumber={index + startIndex}
         key={index}
         value={referendum}
       />
