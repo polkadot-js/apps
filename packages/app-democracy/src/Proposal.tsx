@@ -3,21 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RxProposalDeposits } from '@polkadot/api-observable/classes';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Proposal } from '@polkadot/types';
-import { Tuple } from '@polkadot/types/codec';
+import { AccountId, Balance, Proposal } from '@polkadot/types';
+import { Tuple, Vector } from '@polkadot/types/codec';
 import { AddressMini, Labelled, Static } from '@polkadot/ui-app/index';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
 
 import Item from './Item';
 import translate from './translate';
 
 type Props = I18nProps & {
-  proposalDeposits?: RxProposalDeposits,
+  query_democracy_depositOf?: Tuple,
   idNumber: BN,
   value: Tuple
 };
@@ -36,13 +35,14 @@ class ProposalDisplay extends React.PureComponent<Props> {
   }
 
   private renderExtra () {
-    const { proposalDeposits, t } = this.props;
+    const { query_democracy_depositOf, t } = this.props;
 
-    if (!proposalDeposits) {
+    if (!query_democracy_depositOf) {
       return null;
     }
 
-    const { balance, addresses } = proposalDeposits;
+    const balance = query_democracy_depositOf[0] as Balance;
+    const addresses = query_democracy_depositOf[1] as Vector<AccountId>;
 
     return (
       <div className='democracy--Proposal-info'>
@@ -76,5 +76,5 @@ class ProposalDisplay extends React.PureComponent<Props> {
 export default withMulti(
   ProposalDisplay,
   translate,
-  withObservable('proposalDeposits', { paramProp: 'idNumber' })
+  withApiPromise('query.democracy.depositOf', { paramProp: 'idNumber' })
 );

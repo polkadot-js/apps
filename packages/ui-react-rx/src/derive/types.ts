@@ -5,12 +5,10 @@
 import { UnsubFunction } from '@polkadot/api/promise/types';
 
 import BN from 'bn.js';
-import { AccountId, Balance } from '@polkadot/types';
+import { AccountId, Balance, bool as Bool } from '@polkadot/types';
 
 export interface DeriveSubscription {
   (...params: Array<any>): UnsubFunction;
-  // (param: any, cb: (result?: any) => any): UnsubFunction;
-  // (cb: (result?: any) => any): UnsubFunction;
 }
 
 export type DerivedBalancesFees = {
@@ -33,4 +31,10 @@ export type DerivedBalances = {
 
 export type DerivedBalancesMap = {
   [index: string]: DerivedBalances
+};
+
+export type DerivedReferendumVote = {
+  accountId: AccountId,
+  balance: Balance,
+  vote: Bool
 };

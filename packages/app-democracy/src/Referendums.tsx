@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import { ReferendumInfo } from '@polkadot/types';
-import { withApiPromise, withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import Referendum from './Referendum';
 import translate from './translate';
@@ -15,7 +15,7 @@ import translate from './translate';
 type Props = I18nProps & {
   query_democracy_nextTally?: BN,
   query_democracy_referendumCount?: BN,
-  referendums?: Array<ReferendumInfo>
+  derive_democracy_referendums?: Array<ReferendumInfo>
 };
 
 class Referendums extends React.PureComponent<Props> {
@@ -33,9 +33,9 @@ class Referendums extends React.PureComponent<Props> {
   }
 
   private renderReferendums () {
-    const { query_democracy_nextTally, referendums, query_democracy_referendumCount, t } = this.props;
+    const { query_democracy_nextTally, derive_democracy_referendums, query_democracy_referendumCount, t } = this.props;
 
-    if (!referendums || !referendums.length || (query_democracy_referendumCount || new BN(0)).toNumber() === (query_democracy_nextTally || new BN(0)).toNumber()) {
+    if (!derive_democracy_referendums || !derive_democracy_referendums.length || (query_democracy_referendumCount || new BN(0)).toNumber() === (query_democracy_nextTally || new BN(0)).toNumber()) {
       return (
         <div className='ui disabled'>
           {t('proposals.none', {
@@ -45,7 +45,7 @@ class Referendums extends React.PureComponent<Props> {
       );
     }
 
-    return referendums.map((referendum, index) => (
+    return derive_democracy_referendums.map((referendum, index) => (
       <Referendum
         idNumber={index}
         key={index}
@@ -60,5 +60,5 @@ export default withMulti(
   translate,
   withApiPromise('query.democracy.nextTally'),
   withApiPromise('query.democracy.referendumCount'),
-  withObservable('referendums')
+  withApiPromise('derive.democracy.referendums')
 );

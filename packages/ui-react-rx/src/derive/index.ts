@@ -4,10 +4,12 @@
 
 import * as balances from './balances';
 import * as chain from './chain';
+import * as democracy from './democracy';
 import * as session from './session';
 
 export default {
   balances,
   chain,
+  democracy,
   session
 };

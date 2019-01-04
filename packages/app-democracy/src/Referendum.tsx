@@ -4,14 +4,14 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParam } from '@polkadot/ui-app/Params/types';
-import { RxReferendumVote } from '@polkadot/api-observable/types';
+import { DerivedReferendumVote } from '@polkadot/ui-react-rx/derive/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { ReferendumInfo } from '@polkadot/types';
 import { Chart, Static } from '@polkadot/ui-app/index';
 import VoteThreshold from '@polkadot/ui-app/Params/Param/VoteThreshold';
-import { withApiPromise, withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { balanceFormat, numberFormat } from '@polkadot/ui-react-rx/util/index';
 import settings from '@polkadot/ui-settings';
 
@@ -28,7 +28,7 @@ const COLORS_NAY = settings.uiTheme === 'substrate'
 
 type Props = I18nProps & {
   derive_chain_bestNumber?: BN,
-  democracyReferendumVoters?: Array<RxReferendumVote>,
+  derive_democracy_referendumVotesFor?: Array<DerivedReferendumVote>,
   idNumber: BN,
   value: ReferendumInfo
 };
@@ -58,12 +58,12 @@ class Referendum extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ democracyReferendumVoters }: Props, prevState: State): State | null {
-    if (!democracyReferendumVoters) {
+  static getDerivedStateFromProps ({ derive_democracy_referendumVotesFor }: Props, prevState: State): State | null {
+    if (!derive_democracy_referendumVotesFor) {
       return null;
     }
 
-    const newState: State = democracyReferendumVoters.reduce((state, { balance, vote }) => {
+    const newState: State = derive_democracy_referendumVotesFor.reduce((state, { balance, vote }) => {
       if (vote.valueOf() === true) {
         state.voteCountYay++;
         state.votedYay = state.votedYay.add(balance);
@@ -178,5 +178,5 @@ export default withMulti(
   Referendum,
   translate,
   withApiPromise('derive.chain.bestNumber'),
-  withObservable('democracyReferendumVoters', { paramProp: 'idNumber' })
+  withApiPromise('derive.democracy.referendumVotesFor', { paramProp: 'idNumber' })
 );
