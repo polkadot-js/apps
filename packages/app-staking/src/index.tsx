@@ -4,7 +4,7 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
-import { RxBalanceMap } from '@polkadot/api-observable/types';
+import { DerivedBalancesMap } from '@polkadot/ui-react-rx/derive/types';
 
 import React from 'react';
 import { AccountId, Balance } from '@polkadot/types';
@@ -24,7 +24,7 @@ type Props = I18nProps & {
   onStatusChange: (status: ActionStatus) => void,
   query_staking_intentions?: Array<AccountId>,
   query_session_validators?: Array<AccountId>,
-  derive_balances_validatingBalances?: RxBalanceMap
+  derive_balances_validatingBalances?: DerivedBalancesMap
 };
 
 type State = {

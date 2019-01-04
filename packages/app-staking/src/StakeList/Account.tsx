@@ -4,7 +4,7 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
-import { RxBalanceMap } from '@polkadot/api-observable/types';
+import { DerivedBalancesMap } from '@polkadot/ui-react-rx/derive/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -20,7 +20,7 @@ import translate from '../translate';
 type Props = I18nProps & {
   query_system_accountNonce?: BN,
   accountId: string,
-  balances: RxBalanceMap,
+  balances: DerivedBalancesMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   name: string,
   query_staking_nominating?: AccountId,

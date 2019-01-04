@@ -1383,15 +1383,15 @@
     "@types/rx" "^4.1.1"
     rxjs "^6.3.3"
 
-"@polkadot/dev-react@^0.23.6":
-  version "0.23.6"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev-react/-/dev-react-0.23.6.tgz#84c58689455e6624342febbe8588659fcff51753"
-  integrity sha512-Whc5vaRVA7tpCIuifnIsUUBZIdxZXx6Reunny0ZZ0BwylOX8QeHgqKPF4RW1cndMjjMlKv/dP8XGst7d8avWfg==
+"@polkadot/dev-react@^0.23.7":
+  version "0.23.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev-react/-/dev-react-0.23.7.tgz#59c0b23e208c2fc10a007994ff3ca4b805f9673f"
+  integrity sha512-8fUdnv7vwPaTZSMKYZ9pYDAZl5g6mnl+GcT81EpMtBfVhPi2ZimzhMqQwQQ+lS4gMs6Jcmnk0Ajfg87EIFzdBA==
   dependencies:
     "@babel/core" "^7.2.2"
     "@babel/plugin-syntax-dynamic-import" "^7.2.0"
     "@babel/preset-react" "^7.0.0"
-    "@polkadot/dev" "^0.23.6"
+    "@polkadot/dev" "^0.23.7"
     "@types/react" "^16.7.18"
     "@types/react-dom" "^16.0.11"
     "@types/styled-components" "^4.1.4"
@@ -1419,10 +1419,10 @@
     webpack-serve "^2.0.3"
     worker-loader "^2.0.0"
 
-"@polkadot/dev@^0.23.6":
-  version "0.23.6"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.23.6.tgz#20067425bfa66d0e35e32286be1aa127b522a440"
-  integrity sha512-yeb+yhz9/CbKMdimPR3Q7Gtlft+3FZnhtfl4y1FC02APgzArgX/RQ+o/Aju/wVgl1Eh2lZWS8TQkdtJux+H4mA==
+"@polkadot/dev@^0.23.7":
+  version "0.23.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.23.7.tgz#4a32050214fe13e7fdaa5aa1cc9fd0ccd310211b"
+  integrity sha512-6US2N28NBSfUt67zEZn+5CJ6DCFcklGqwHEykN6Xr+S9HsX+en9oK4NTzfgewjNP9FlKLjDjl7EwIJgIOERmwA==
   dependencies:
     "@babel/cli" "^7.2.3"
     "@babel/core" "^7.2.2"
@@ -1455,8 +1455,8 @@
     tslint "^5.12.0"
     tslint-config-standard "^8.0.1"
     typedoc "^0.13.0"
-    typedoc-plugin-markdown "^1.1.19"
-    typedoc-plugin-no-inherit "^1.0.2"
+    typedoc-plugin-markdown "^1.1.20"
+    typedoc-plugin-no-inherit "^1.1.1"
     typescript "^3.2.2"
 
 "@polkadot/extrinsics@^0.37.1":
@@ -1483,6 +1483,17 @@
     "@babel/runtime" "^7.2.0"
     "@polkadot/util" "^0.33.29"
     "@polkadot/util-crypto" "^0.33.29"
+    "@types/bs58" "^4.0.0"
+    bs58 "^4.0.1"
+
+"@polkadot/keyring@^0.33.30":
+  version "0.33.30"
+  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-0.33.30.tgz#54cb6baec7db16366989381601cd58f2b5f9b851"
+  integrity sha512-qE6X9Nhp0reXBSPz5PGPlT78KchJXdfUuAE/yJIOyM2s5WGOWCHCMzQEJmL7S9F70w76EFxazczJCmNe+ZhPGA==
+  dependencies:
+    "@babel/runtime" "^7.2.0"
+    "@polkadot/util" "^0.33.30"
+    "@polkadot/util-crypto" "^0.33.30"
     "@types/bs58" "^4.0.0"
     bs58 "^4.0.1"
 
@@ -1534,10 +1545,10 @@
     "@polkadot/util" "^0.33.29"
     "@polkadot/util-crypto" "^0.33.29"
 
-"@polkadot/ts@^0.1.46":
-  version "0.1.46"
-  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.46.tgz#3c2015dbb0e0481f14f4b3b4f73bacb642f28da8"
-  integrity sha512-lA0ACnAzL6QlGZjDNz5GYKAhpES8Sky8RMVRwbH/TKAEBYIj95cmEx2gNW5CcHQOvzow39q1OvkuiiGgnRnRRA==
+"@polkadot/ts@^0.1.47":
+  version "0.1.47"
+  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.47.tgz#89a7e44ce3274feb446e8102f16499ec6a5b5720"
+  integrity sha512-UE8Wru0BOk+h0RiDAxo1P5dpk9mZyK1VIJiKKM2vfzQqMCPfKnSuQXXXkNzJ/4dqjRJ6ilYwFkzXQwemJWF0+w==
 
 "@polkadot/types@^0.37.1":
   version "0.37.1"
@@ -1604,10 +1615,43 @@
     tweetnacl "^1.0.0"
     xxhashjs "^0.2.2"
 
+"@polkadot/util-crypto@^0.33.30":
+  version "0.33.30"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.33.30.tgz#e164d6cc274e9031b6e51bbe674fc32a3845a6bd"
+  integrity sha512-epaEyZlVjAvOS2GwiIzgKcD+/09GaNeWcb7+N+Cpr3y8SV2cTFe0r4FHip93Aioj/pB+QzMiYuJbM2gYxKxMvQ==
+  dependencies:
+    "@babel/runtime" "^7.2.0"
+    "@polkadot/util" "^0.33.30"
+    "@types/bip39" "^2.4.1"
+    bip39 "^2.5.0"
+    blakejs "^1.1.0"
+    js-sha3 "^0.8.0"
+    tweetnacl "^1.0.0"
+    xxhashjs "^0.2.2"
+
 "@polkadot/util@^0.33.29":
   version "0.33.29"
   resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.33.29.tgz#a6121df01cacd1f1603667576fb4acd499889e00"
   integrity sha512-f+cm3gCQd2quRXgPV1pbpi9HdAzi6580owkmocoRqLXk2uwE/DkSv5vWQr0PQMxqsfnvRcms67DE2hj+k7FbBg==
+  dependencies:
+    "@babel/runtime" "^7.2.0"
+    "@types/bn.js" "^4.11.3"
+    "@types/camelcase" "^4.1.0"
+    "@types/deasync" "^0.1.0"
+    "@types/ip-regex" "^3.0.0"
+    "@types/xxhashjs" "^0.1.1"
+    bn.js "^4.11.8"
+    camelcase "^5.0.0"
+    chalk "^2.4.1"
+    core-js "^2.6.1"
+    deasync "^0.1.14"
+    ip-regex "^3.0.0"
+    moment "^2.23.0"
+
+"@polkadot/util@^0.33.30":
+  version "0.33.30"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.33.30.tgz#a25ca56ac5b5979ec199d51c35593153162b7ea0"
+  integrity sha512-193F3ZlFdCWn6hrnICy2NJmsVhi7VsxC1C2RXOfddfxgJa9/5+xtgPiobFD/6sL7IOhLF6vINlDYcoFNKdsw9w==
   dependencies:
     "@babel/runtime" "^7.2.0"
     "@types/bn.js" "^4.11.3"
@@ -2335,11 +2379,6 @@ ansi-escapes@^3.0.0:
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-3.1.0.tgz#f73207bb81207d75fd6c83f125af26eea378ca30"
   integrity sha512-UgAb8H9D41AQnu/PbWlCofQVcnV4Gs2bBJi9eZPxfU/hgglFh3SMDMENRIqdr7H6XFnXdoknctFByVsCOotTVw==
 
-ansi-regex@*, ansi-regex@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-4.0.0.tgz#70de791edf021404c3fd615aa89118ae0432e5a9"
-  integrity sha512-iB5Dda8t/UqpPI/IjsejXu5jOGDrzn41wJyljwPH65VCIbk6+1BzFIMJGFwTNrYXT1CrD+B4l19U7awiQ8rk7w==
-
 ansi-regex@^2.0.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-2.1.1.tgz#c3b33ab5ee360d86e0e628f0468ae7ef27d654df"
@@ -2349,6 +2388,11 @@ ansi-regex@^3.0.0, ansi-regex@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-3.0.0.tgz#ed0317c322064f79466c02966bddb605ab37d998"
   integrity sha1-7QMXwyIGT3lGbAKWa922Bas32Zg=
+
+ansi-regex@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-4.0.0.tgz#70de791edf021404c3fd615aa89118ae0432e5a9"
+  integrity sha512-iB5Dda8t/UqpPI/IjsejXu5jOGDrzn41wJyljwPH65VCIbk6+1BzFIMJGFwTNrYXT1CrD+B4l19U7awiQ8rk7w==
 
 ansi-styles@^2.2.1:
   version "2.2.1"
@@ -4351,7 +4395,7 @@ debug@^4.1.0:
   dependencies:
     ms "^2.1.1"
 
-debuglog@*, debuglog@^1.0.1:
+debuglog@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/debuglog/-/debuglog-1.0.1.tgz#aa24ffb9ac3df9a2351837cfb2d279360cd78492"
   integrity sha1-qiT/uaw9+aI1GDfPstJ5NgzXhJI=
@@ -6474,7 +6518,7 @@ import-local@^2.0.0:
     pkg-dir "^3.0.0"
     resolve-cwd "^2.0.0"
 
-imurmurhash@*, imurmurhash@^0.1.4:
+imurmurhash@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"
   integrity sha1-khi5srkoojixPcT7a21XbyMUU+o=
@@ -7985,11 +8029,6 @@ lockfile@~1.0.1, lockfile@~1.0.3:
   dependencies:
     signal-exit "^3.0.2"
 
-lodash._baseindexof@*:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/lodash._baseindexof/-/lodash._baseindexof-3.1.0.tgz#fe52b53a1c6761e42618d654e4a25789ed61822c"
-  integrity sha1-/lK1OhxnYeQmGNZU5KJXie1hgiw=
-
 lodash._baseuniq@~4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/lodash._baseuniq/-/lodash._baseuniq-4.6.0.tgz#0ebb44e456814af7905c6212fa2c9b2d51b841e8"
@@ -7998,32 +8037,10 @@ lodash._baseuniq@~4.6.0:
     lodash._createset "~4.0.0"
     lodash._root "~3.0.0"
 
-lodash._bindcallback@*:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/lodash._bindcallback/-/lodash._bindcallback-3.0.1.tgz#e531c27644cf8b57a99e17ed95b35c748789392e"
-  integrity sha1-5THCdkTPi1epnhftlbNcdIeJOS4=
-
-lodash._cacheindexof@*:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/lodash._cacheindexof/-/lodash._cacheindexof-3.0.2.tgz#3dc69ac82498d2ee5e3ce56091bafd2adc7bde92"
-  integrity sha1-PcaayCSY0u5ePOVgkbr9Ktx73pI=
-
-lodash._createcache@*:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/lodash._createcache/-/lodash._createcache-3.1.2.tgz#56d6a064017625e79ebca6b8018e17440bdcf093"
-  integrity sha1-VtagZAF2JeeevKa4AY4XRAvc8JM=
-  dependencies:
-    lodash._getnative "^3.0.0"
-
 lodash._createset@~4.0.0:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/lodash._createset/-/lodash._createset-4.0.3.tgz#0f4659fbb09d75194fa9e2b88a6644d363c9fe26"
   integrity sha1-D0ZZ+7CddRlPqeK4imZE02PJ/iY=
-
-lodash._getnative@*, lodash._getnative@^3.0.0:
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/lodash._getnative/-/lodash._getnative-3.9.1.tgz#570bc7dede46d61cdcde687d65d3eecbaa3aaff5"
-  integrity sha1-VwvH3t5G1hzc3mh9ZdPuy6o6r/U=
 
 lodash._reinterpolate@~3.0.0:
   version "3.0.0"
@@ -8079,11 +8096,6 @@ lodash.padstart@^4.1.0:
   version "4.6.1"
   resolved "https://registry.yarnpkg.com/lodash.padstart/-/lodash.padstart-4.6.1.tgz#d2e3eebff0d9d39ad50f5cbd1b52a7bce6bb611b"
   integrity sha1-0uPuv/DZ05rVD1y9G1KnvOa7YRs=
-
-lodash.restparam@*:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/lodash.restparam/-/lodash.restparam-3.6.1.tgz#936a4e309ef330a7645ed4145986c85ae5b20805"
-  integrity sha1-k2pOMJ7zMKdkXtQUWYbIWuWyCAU=
 
 lodash.sortby@^4.7.0:
   version "4.7.0"
@@ -11119,7 +11131,7 @@ readable-stream@~2.1.5:
     string_decoder "~0.10.x"
     util-deprecate "~1.0.1"
 
-readdir-scoped-modules@*, readdir-scoped-modules@^1.0.0:
+readdir-scoped-modules@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/readdir-scoped-modules/-/readdir-scoped-modules-1.0.2.tgz#9fafa37d286be5d92cbaebdee030dc9b5f406747"
   integrity sha1-n6+jfShr5dksuuve4DDcm19AZ0c=
@@ -12865,14 +12877,14 @@ typedoc-default-themes@^0.5.0:
   resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.5.0.tgz#6dc2433e78ed8bea8e887a3acde2f31785bd6227"
   integrity sha1-bcJDPnjti+qOiHo6zeLzF4W9Yic=
 
-typedoc-plugin-markdown@^1.1.19:
+typedoc-plugin-markdown@^1.1.20:
   version "1.1.20"
   resolved "https://registry.yarnpkg.com/typedoc-plugin-markdown/-/typedoc-plugin-markdown-1.1.20.tgz#a3eb91994f3f8b67d5df4d938653982bf2b85209"
   integrity sha512-2rDLrzb0Wb0w0+iQ7LEGWccvRvluHTfPzj+wiggUaOYq3WaUfjA2KVFlAOECIuPiLoMiVgwSAp2YOLCYNp1C5A==
   dependencies:
     turndown "^5.0.1"
 
-typedoc-plugin-no-inherit@^1.0.2:
+typedoc-plugin-no-inherit@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/typedoc-plugin-no-inherit/-/typedoc-plugin-no-inherit-1.1.1.tgz#ee2c5e53de50c4c34f26342a880d7a01cf76f61a"
   integrity sha512-+yZWgh8Nh7wL6gxDMrdx2pPGigG8U9iklSiHQyxOdNb8r+EyR/q9KssdFCiPCyFZEcCviU+4a7wuD8ZOGyXrWA==
@@ -13170,7 +13182,7 @@ v8-compile-cache@^2.0.0, v8-compile-cache@^2.0.2:
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.0.2.tgz#a428b28bb26790734c4fc8bc9fa106fccebf6a6c"
   integrity sha512-1wFuMUIM16MDJRCrpbpuEPTUGmM5QMUg0cr3KFwra2XgOgFcPGDQHDh3CszSCD2Zewc/dh/pamNEW8CbfDebUw==
 
-validate-npm-package-license@*, validate-npm-package-license@^3.0.1, validate-npm-package-license@^3.0.3, validate-npm-package-license@~3.0.1:
+validate-npm-package-license@^3.0.1, validate-npm-package-license@^3.0.3, validate-npm-package-license@~3.0.1:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/validate-npm-package-license/-/validate-npm-package-license-3.0.4.tgz#fc91f6b9c7ba15c857f4cb2c5defeec39d4f410a"
   integrity sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==

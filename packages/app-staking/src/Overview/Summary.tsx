@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RxBalance, RxBalanceMap } from '@polkadot/api-observable/types';
+import { DerivedBalance, DerivedBalancesMap } from '@polkadot/ui-react-rx/derive/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -15,7 +15,7 @@ import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  balances: RxBalanceMap,
+  balances: DerivedBalancesMap,
   intentions: Array<string>,
   lastLengthChange?: BN,
   query_staking_validatorCount?: BN,
@@ -96,10 +96,10 @@ class Summary extends React.PureComponent<Props> {
     );
   }
 
-  private calcIntentionsHigh (): RxBalance | null {
+  private calcIntentionsHigh (): DerivedBalance | null {
     const { balances, intentions, validators } = this.props;
 
-    return intentions.reduce((high: RxBalance | null, addr) => {
+    return intentions.reduce((high: DerivedBalance | null, addr) => {
       const balance = validators.includes(addr) || !balances[addr]
         ? null
         : balances[addr];
@@ -112,10 +112,10 @@ class Summary extends React.PureComponent<Props> {
     }, null);
   }
 
-  private calcValidatorLow (): RxBalance | null {
+  private calcValidatorLow (): DerivedBalance | null {
     const { balances, validators } = this.props;
 
-    return validators.reduce((low: RxBalance | null, addr) => {
+    return validators.reduce((low: DerivedBalance | null, addr) => {
       const balance = balances[addr] || null;
 
       if (low === null || (balance && low.stakingBalance.gt(balance.stakingBalance))) {

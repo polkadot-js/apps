@@ -3,8 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
+import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
-import { AccountId, Address, Extrinsic } from '@polkadot/types';
+import { AccountId, Address } from '@polkadot/types';
 
 export type Actions = 'create' | 'edit' | 'restore' | 'forget' | 'backup' | 'changePassword' | 'transfer';
 
@@ -24,7 +25,7 @@ export type QueueTx$Status = 'future' | 'ready' | 'finalised' | 'usurped' | 'dro
 
 export type QueueTx = AccountInfo & {
   error?: Error,
-  extrinsic?: Extrinsic,
+  extrinsic?: SubmittableExtrinsic,
   id: number,
   isUnsigned?: boolean,
   result?: any,
@@ -45,7 +46,7 @@ export type QueueTx$Result = {
 };
 
 export type QueueTx$Extrinsic = AccountInfo & {
-  extrinsic: Extrinsic
+  extrinsic: SubmittableExtrinsic
 };
 
 export type QueueTx$Rpc = AccountInfo & {
@@ -59,7 +60,7 @@ export type PartialAccountInfo = {
 };
 
 export type PartialQueueTx$Extrinsic = PartialAccountInfo & {
-  extrinsic: Extrinsic,
+  extrinsic: SubmittableExtrinsic,
   isUnsigned?: boolean
 };
 
