@@ -267,16 +267,16 @@ class Signer extends React.PureComponent<Props, State> {
       }
     }
 
-    const { apiObservable, queueSetTxStatus } = this.props;
+    const { apiPromise, queueSetTxStatus } = this.props;
 
     queueSetTxStatus(id, 'sending');
 
     const pair = keyring.getPair(accountId);
 
     if (!isUnsigned) {
-      console.log(`sendExtrinsic: from=${pair.address()}, nonce=${accountNonce}, blockHash=${apiObservable.genesisHash.toHex()}`);
+      console.log(`sendExtrinsic: from=${pair.address()}, nonce=${accountNonce}, blockHash=${apiPromise.genesisHash.toHex()}`);
 
-      extrinsic.sign(pair, accountNonce, apiObservable.genesisHash);
+      extrinsic.sign(pair, accountNonce, apiPromise.genesisHash);
     } else {
       console.log(`sendInherent: from=${pair.address()}, nonce=${accountNonce}`);
     }
@@ -284,11 +284,11 @@ class Signer extends React.PureComponent<Props, State> {
     await this.submitExtrinsic(extrinsic, id);
   }
 
-  private async submitRpc (rpc: RpcMethod, values: Array<any>): Promise<QueueTx$Result> {
-    const { apiObservable } = this.props;
+  private async submitRpc ({ method, section }: RpcMethod, values: Array<any>): Promise<QueueTx$Result> {
+    const { apiPromise } = this.props;
 
     try {
-      const result = await apiObservable.rawCall(rpc, ...values).toPromise();
+      const result = await (apiPromise.rpc as any)[section][method](...values);
 
       console.log('submitRpc: result ::', format(result));
 
@@ -307,33 +307,24 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private async submitExtrinsic (extrinsic: Extrinsic, id: number): Promise<void> {
-    const { apiObservable, queueSetTxStatus } = this.props;
+    const { apiPromise, queueSetTxStatus } = this.props;
 
     try {
       const encoded = extrinsic.toJSON();
 
       console.log('submitAndWatchExtrinsic: encode ::', encoded);
 
-      apiObservable
-        .submitAndWatchExtrinsic(extrinsic)
-        .subscribe(
-          (result) => {
-            if (!result) {
-              return;
-            }
+      apiPromise.rpc.author.submitAndWatchExtrinsic(extrinsic, (result: any) => {
+        if (!result) {
+          return;
+        }
 
-            const status = result.type.toLowerCase() as QueueTx$Status;
+        const status = result.type.toLowerCase() as QueueTx$Status;
 
-            console.log('submitAndWatchExtrinsic: updated status ::', result);
+        console.log('submitAndWatchExtrinsic: updated status ::', result);
 
-            queueSetTxStatus(id, status, result);
-          },
-          (error) => {
-            console.error('submitAndWatchExtrinsic:', error);
-
-            queueSetTxStatus(id, 'error', null, error);
-          }
-        );
+        queueSetTxStatus(id, status, result);
+      });
     } catch (error) {
       console.error('submitAndWatchExtrinsic:', error);
 

@@ -3,17 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { RpcRxInterface } from '@polkadot/rpc-rx/types';
 import { ApiProps } from '../types';
 
 import React from 'react';
-import { combineLatest, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import ApiObservable from '@polkadot/api-observable';
 import ApiPromise from '@polkadot/api/promise';
+import extrinsicsStatic from '@polkadot/extrinsics/static';
 import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import RxRpc from '@polkadot/rpc-rx';
 import keyring from '@polkadot/ui-keyring';
 import { isTestChain } from '@polkadot/ui-react-rx/util/index';
 import settings from '@polkadot/ui-settings';
@@ -29,14 +25,11 @@ type Props = {
 };
 
 type State = ApiProps & {
-  chain?: string,
-  isApiPromiseReady: boolean,
-  rpc: RpcRxInterface,
-  subscriptions: Array<any>
+  chain?: string
 };
 
 // HACK Initialise with static data
-Method.injectMethods(ApiObservable.extrinsics);
+Method.injectMethods(extrinsicsStatic);
 
 export default class ApiWrapper extends React.PureComponent<Props, State> {
   state: State = {} as State;
@@ -46,17 +39,12 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
 
     const { url } = props;
     const provider = new WsProvider(url);
-    const rpc = new RxRpc(provider);
     const setApi = (provider: ProviderInterface): void => {
-      const rpc = new RxRpc(provider);
-      const apiObservable = new ApiObservable(rpc);
       const apiPromise = new ApiPromise(provider);
 
-      this.setState({ apiObservable, apiPromise }, () => {
+      this.setState({ apiPromise }, () => {
         this.updateSubscriptions();
       });
-
-      apiPromise.query.timestamp.now((ts) => console.error('ts', ts));
     };
     const setApiUrl = (url: string = defaults.WS_URL): void =>
       setApi(new WsProvider(url));
@@ -64,12 +52,8 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     this.state = {
       isApiConnected: false,
       isApiReady: false,
-      isApiPromiseReady: false,
-      apiObservable: new ApiObservable(rpc),
       apiPromise: new ApiPromise(provider),
-      rpc,
-      setApiUrl,
-      subscriptions: []
+      setApiUrl
     };
   }
 
@@ -77,50 +61,33 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     this.updateSubscriptions();
   }
 
-  componentWillUnmount () {
-    this.unsubscribe();
-  }
-
   private updateSubscriptions () {
-    const { apiObservable, apiPromise, rpc } = this.state;
+    const { apiPromise } = this.state;
 
-    apiPromise
-      .isReady
-      .then(() => {
-        this.setState({ isApiPromiseReady: true });
-      })
-      .catch(() => {
-        // ignore
-      });
-
-    this.unsubscribe();
-    this.setState({
-      subscriptions:
-        [
-          this.subscribeIsConnected,
-          this.subscribeIsReady,
-          this.subscribeChain
-        ].map((fn: Function) => {
-          try {
-            return fn(rpc, apiObservable);
-          } catch (error) {
-            console.error(error);
-            return null;
-          }
-        })
+    [
+      this.subscribeIsConnected,
+      this.subscribeIsReady,
+      this.subscribeChain
+    ].map((fn: Function) => {
+      try {
+        return fn(apiPromise);
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
     });
   }
 
-  private subscribeChain = (rpc: RpcRxInterface, api: ApiObservable): void => {
-    combineLatest(
-      rpc.system.properties().pipe(catchError(() => of())),
-      api.chain()
-    ).subscribe(([properties = new ChainProperties(), value]: [ChainProperties, any]) => {
+  private subscribeChain = (api: ApiPromise): void => {
+    api.combineLatest([
+      api.rpc.system.properties,
+      api.rpc.system.chain
+    ], ([properties = new ChainProperties(), value]) => {
       const chain = value
         ? value.toString()
         : null;
       const found = settings.availableChains.find(({ name }) => name === chain) || {
-        networkId: 0,
+        networkId: 42,
         tokenDecimals: 0,
         tokenSymbol: undefined
       };
@@ -139,42 +106,31 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     });
   }
 
-  private subscribeIsConnected = (rpc: RpcRxInterface, api: ApiObservable): void => {
-    rpc.isConnected().subscribe((isConnected?: boolean) => {
-      this.setState({ isApiConnected: !!isConnected });
+  private subscribeIsConnected = (api: ApiPromise) => {
+    api.on('connected', () => {
+      this.setState({ isApiConnected: true });
+    });
+
+    api.on('disconnected', () => {
+      this.setState({ isApiConnected: false });
     });
   }
 
-  private subscribeIsReady = (rpc: RpcRxInterface, api: ApiObservable): void => {
-    api.whenReady.subscribe((isReady?: boolean) => {
-      this.setState({ isApiReady: !!isReady });
-    });
-  }
-
-  private unsubscribe (): void {
-    const { subscriptions } = this.state;
-
-    subscriptions.forEach((subscription) => {
-      if (subscription) {
-        try {
-          subscription.unsubscribe();
-        } catch (error) {
-          console.error(error);
-        }
-      }
+  private subscribeIsReady = (api: ApiPromise) => {
+    api.on('ready', () => {
+      this.setState({ isApiReady: true });
     });
   }
 
   render () {
-    const { isApiConnected, isApiReady, isApiPromiseReady, apiObservable, apiPromise, chain, setApiUrl } = this.state;
+    const { apiPromise, chain, isApiConnected, isApiReady, setApiUrl } = this.state;
 
     return (
       <ApiContext.Provider
         value={{
-          isApiConnected,
-          isApiReady: isApiReady && isApiPromiseReady && !!chain,
-          apiObservable,
           apiPromise,
+          isApiConnected,
+          isApiReady: isApiReady && !!chain,
           setApiUrl
         }}
       >

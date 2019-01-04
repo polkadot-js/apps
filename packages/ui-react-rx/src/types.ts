@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import ApiPromise from '@polkadot/api/promise';
-import ApiObservable from '@polkadot/api-observable';
 
 export type BareProps = {
   className?: string,
@@ -13,7 +12,6 @@ export type BareProps = {
 export type ApiProps = {
   isApiConnected: boolean,
   isApiReady: boolean,
-  apiObservable: ApiObservable,
   apiPromise: ApiPromise,
   setApiUrl: (url?: string) => void
 };
