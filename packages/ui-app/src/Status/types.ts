@@ -26,6 +26,7 @@ export type QueueTx = AccountInfo & {
   error?: Error,
   extrinsic?: Extrinsic,
   id: number,
+  isUnsigned?: boolean,
   result?: any,
   rpc: RpcMethod,
   values?: Array<any>,
@@ -58,7 +59,8 @@ export type PartialAccountInfo = {
 };
 
 export type PartialQueueTx$Extrinsic = PartialAccountInfo & {
-  extrinsic: Extrinsic
+  extrinsic: Extrinsic,
+  isUnsigned?: boolean
 };
 
 export type PartialQueueTx$Rpc = PartialAccountInfo & {

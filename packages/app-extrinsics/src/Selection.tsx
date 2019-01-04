@@ -64,8 +64,16 @@ class Selection extends React.PureComponent<Props, State> {
         <Button.Group>
           <Button
             isDisabled={!isValid}
+            onClick={this.onQueueInherent}
+            text={t('submit.label', {
+              defaultValue: 'Submit Inherent'
+            })}
+          />
+          <Button.Or />
+          <Button
+            isDisabled={!isValid}
             isPrimary
-            onClick={this.onQueue}
+            onClick={this.onQueueExtrinsic}
             text={t('submit.label', {
               defaultValue: 'Submit Transaction'
             })}
@@ -111,7 +119,7 @@ class Selection extends React.PureComponent<Props, State> {
     this.nextState({ accountId, accountNonce: new BN(0) } as State);
   }
 
-  private onQueue = (): void => {
+  private onQueue (isUnsigned: boolean): void {
     const { queueExtrinsic } = this.props;
     const { accountNonce, method, isValid, accountId } = this.state;
 
@@ -120,10 +128,19 @@ class Selection extends React.PureComponent<Props, State> {
     }
 
     queueExtrinsic({
+      accountId,
       accountNonce,
       extrinsic: new Extrinsic({ method }),
-      accountId
+      isUnsigned
     });
+  }
+
+  private onQueueExtrinsic = (): void => {
+    this.onQueue(false);
+  }
+
+  private onQueueInherent = (): void => {
+    this.onQueue(true);
   }
 }
 

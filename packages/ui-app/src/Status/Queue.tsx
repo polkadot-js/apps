@@ -144,11 +144,12 @@ export default class Queue extends React.Component<Props, State> {
     return id;
   }
 
-  queueExtrinsic = ({ accountId, accountNonce, extrinsic }: PartialQueueTx$Extrinsic): number => {
+  queueExtrinsic = ({ accountId, accountNonce, extrinsic, isUnsigned }: PartialQueueTx$Extrinsic): number => {
     return this.queueAdd({
       accountId,
       accountNonce: accountNonce || new BN(0),
-      extrinsic
+      extrinsic,
+      isUnsigned
     });
   }
 

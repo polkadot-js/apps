@@ -5,7 +5,6 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx } from '@polkadot/ui-app/Status/types';
 
-import BN from 'bn.js';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import { Method } from '@polkadot/types';
@@ -20,13 +19,28 @@ type Props = I18nProps & {
 
 class Transaction extends React.PureComponent<Props> {
   render () {
-    const { children, t, value: { accountId, accountNonce = new BN(0), extrinsic } } = this.props;
+    const { children, t, value: { accountId, accountNonce, extrinsic, isUnsigned } } = this.props;
 
     if (!extrinsic) {
       return null;
     }
 
     const { method, section } = Method.findFunction(extrinsic.callIndex);
+    const header = isUnsigned
+      ? (
+        <Trans i18nKey='decoded.short-unsigned'>You are about to submit an (unsigned) inherent transaction calling <span className='code'>{section}.{method}</span></Trans>
+      )
+      : (
+        <Trans i18nKey='decoded.short-signed'>You are about to sign a message from <span className='code'>{accountId}</span> calling <span className='code'>{section}.{method}</span> with an index of <span className='code'>{accountNonce.toString()}</span></Trans>
+      );
+    const icon = isUnsigned
+      ? undefined
+      : (
+        <IdentityIcon
+          className='icon'
+          value={accountId}
+        />
+      );
 
     return [
       <Modal.Header key='header'>
@@ -37,17 +51,10 @@ class Transaction extends React.PureComponent<Props> {
       <Modal.Content className='ui--signer-Signer-Content' key='content'>
         <div className='ui--signer-Signer-Decoded'>
           <div className='expanded'>
-            <p>
-              <Trans i18nKey='decoded.short'>
-                You are about to sign a message from <span className='code'>{accountId}</span> calling <span className='code'>{section}.{method}</span> with an index of <span className='code'>{accountNonce.toString()}</span>
-              </Trans>
-            </p>
+            <p>{header}</p>
             <Call value={extrinsic} />
           </div>
-          <IdentityIcon
-            className='icon'
-            value={accountId}
-          />
+          {icon}
         </div>
         {children}
       </Modal.Content>
