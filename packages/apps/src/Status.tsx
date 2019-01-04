@@ -10,7 +10,7 @@ import React from 'react';
 import keyringOption from '@polkadot/ui-keyring/options';
 import { EventRecord } from '@polkadot/types';
 import { Status as StatusDisplay } from '@polkadot/ui-app/index';
-import { withApiPromise, withMulti, withObservableBase } from '@polkadot/ui-react-rx/with';
+import { withApiCall, withMulti, withObservableBase } from '@polkadot/ui-react-rx/with';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
@@ -71,6 +71,6 @@ class Status extends React.PureComponent<Props> {
 export default withMulti(
   Status,
   translate,
-  withApiPromise('query.system.events'),
+  withApiCall('query.system.events'),
   withObservableBase(keyringOption.optionsSubject, { propName: 'optionsAll' })
 );

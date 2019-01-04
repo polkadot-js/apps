@@ -7,7 +7,7 @@ import { BareProps } from './types';
 import React from 'react';
 import { Text } from '@polkadot/types';
 
-import { withApiPromise } from './with/index';
+import { withApiCall } from './with/index';
 
 type Props = BareProps & {
   children?: React.ReactNode,
@@ -30,4 +30,4 @@ class NodeName extends React.PureComponent<Props> {
   }
 }
 
-export default withApiPromise('rpc.system.name')(NodeName);
+export default withApiCall('rpc.system.name')(NodeName);

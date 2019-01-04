@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { BlockNumber } from '@polkadot/types';
 import { CardSummary } from '@polkadot/ui-app/index';
-import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withApiCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import translate from './translate';
 
@@ -104,8 +104,8 @@ class SummarySession extends React.PureComponent<Props> {
 export default withMulti(
   SummarySession,
   translate,
-  withApiPromise('derive.session.eraLength'),
-  withApiPromise('derive.session.eraProgress'),
-  withApiPromise('derive.session.sessionProgress'),
-  withApiPromise('query.session.sessionLength')
+  withApiCall('derive.session.eraLength'),
+  withApiCall('derive.session.eraProgress'),
+  withApiCall('derive.session.sessionProgress'),
+  withApiCall('query.session.sessionLength')
 );

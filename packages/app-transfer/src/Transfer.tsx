@@ -14,7 +14,7 @@ import { decodeAddress } from '@polkadot/keyring';
 import { Extrinsic } from '@polkadot/types';
 import { BitLengthOption } from '@polkadot/ui-app/constants';
 import { AddressSummary, InputAddress, InputNumber } from '@polkadot/ui-app/index';
-import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withApiCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
 import FeeDisplay from './Fees';
@@ -177,5 +177,5 @@ class Transfer extends React.PureComponent<Props, State> {
 export default withMulti(
   Transfer,
   translate,
-  withApiPromise('derive.balances.fees')
+  withApiCall('derive.balances.fees')
 );

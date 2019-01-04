@@ -8,7 +8,7 @@ import { QueueTx$Extrinsic, QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status
 import React from 'react';
 import { Extrinsic, Index } from '@polkadot/types';
 import Button from '@polkadot/ui-app/Button';
-import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withApiCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import translate from './translate';
 
@@ -56,5 +56,5 @@ class Submit extends React.PureComponent<Props> {
 export default withMulti(
   Submit,
   translate,
-  withApiPromise('query.system.accountNonce', { paramProp: 'accountId' })
+  withApiCall('query.system.accountNonce', { paramProp: 'accountId' })
 );

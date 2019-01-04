@@ -8,7 +8,7 @@ import { ApiProps } from '@polkadot/ui-react-rx/types';
 import React from 'react';
 import { AddressMini, Call } from '@polkadot/ui-app/index';
 import { Extrinsic, Method, SignedBlock } from '@polkadot/types';
-import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withApiCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { numberFormat } from '@polkadot/ui-react-rx/util/index';
 
 import BlockHeader from '../BlockHeader';
@@ -150,5 +150,5 @@ class BlockByHash extends React.PureComponent<Props> {
 export default withMulti(
   BlockByHash,
   translate,
-  withApiPromise('rpc.chain.getBlock', { paramProp: 'value' })
+  withApiCall('rpc.chain.getBlock', { paramProp: 'value' })
 );

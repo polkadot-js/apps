@@ -11,7 +11,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { Event, EventRecord } from '@polkadot/types';
 import { Event as EventDisplay } from '@polkadot/ui-app/index';
-import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with';
+import { withApiCall, withMulti } from '@polkadot/ui-react-rx/with';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
@@ -108,5 +108,5 @@ class EventsDisplay extends React.PureComponent<Props, State> {
 export default withMulti(
   EventsDisplay,
   translate,
-  withApiPromise('query.system.events')
+  withApiCall('query.system.events')
 );

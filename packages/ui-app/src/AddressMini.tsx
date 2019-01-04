@@ -7,7 +7,7 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
-import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withApiCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
@@ -75,5 +75,5 @@ class AddressMini extends React.PureComponent<Props> {
 
 export default withMulti(
   AddressMini,
-  withApiPromise('query.session.validators')
+  withApiCall('query.session.validators')
 );

@@ -8,7 +8,7 @@ import React from 'react';
 import { BlockNumber } from '@polkadot/types';
 
 import { numberFormat } from './util/index';
-import { withApiPromise } from './with/index';
+import { withApiCall } from './with/index';
 
 type Props = BareProps & {
   children?: React.ReactNode,
@@ -35,4 +35,4 @@ class BestFinalised extends React.PureComponent<Props> {
   }
 }
 
-export default withApiPromise('derive.chain.bestNumberFinalised')(BestFinalised);
+export default withApiCall('derive.chain.bestNumberFinalised')(BestFinalised);

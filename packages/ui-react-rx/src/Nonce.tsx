@@ -8,7 +8,7 @@ import React from 'react';
 import { Index } from '@polkadot/types';
 
 import { numberFormat } from './util/index';
-import { withApiPromise } from './with/index';
+import { withApiCall } from './with/index';
 
 type Props = BareProps & {
   children?: React.ReactNode,
@@ -35,4 +35,4 @@ class Nonce extends React.PureComponent<Props> {
   }
 }
 
-export default withApiPromise('query.system.accountNonce')(Nonce);
+export default withApiCall('query.system.accountNonce')(Nonce);

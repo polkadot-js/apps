@@ -9,7 +9,7 @@ import React from 'react';
 import { AccountId, Balance, Proposal } from '@polkadot/types';
 import { Tuple, Vector } from '@polkadot/types/codec';
 import { AddressMini, Labelled, Static } from '@polkadot/ui-app/index';
-import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withApiCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
 
 import Item from './Item';
@@ -76,5 +76,5 @@ class ProposalDisplay extends React.PureComponent<Props> {
 export default withMulti(
   ProposalDisplay,
   translate,
-  withApiPromise('query.democracy.depositOf', { paramProp: 'idNumber' })
+  withApiCall('query.democracy.depositOf', { paramProp: 'idNumber' })
 );

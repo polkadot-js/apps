@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { withApiPromise } from '@polkadot/ui-react-rx/with/index';
+import { withApiCall } from '@polkadot/ui-react-rx/with/index';
 import { BlockNumber, Hash } from '@polkadot/types';
 
 type Props = I18nProps & {
@@ -33,6 +33,6 @@ class BlockHash extends React.PureComponent<Props> {
   }
 }
 
-export default withApiPromise('rpc.chain.getBlockHash', {
+export default withApiCall('rpc.chain.getBlockHash', {
   paramProp: 'blockNumber'
 })(BlockHash);

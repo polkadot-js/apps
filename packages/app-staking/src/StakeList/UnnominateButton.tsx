@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { Button } from '@polkadot/ui-app/index';
-import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withApiCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import translate from '../translate';
 
@@ -53,5 +53,5 @@ class UnnominateButton extends React.Component<Props> {
 export default withMulti(
   UnnominateButton,
   translate,
-  withApiPromise('query.staking.nominatorsFor', { paramProp: 'nominating' })
+  withApiCall('query.staking.nominatorsFor', { paramProp: 'nominating' })
 );

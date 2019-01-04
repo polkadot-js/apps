@@ -9,7 +9,7 @@ import { RxBalanceMap } from '@polkadot/api-observable/types';
 import React from 'react';
 import { AccountId, Balance } from '@polkadot/types';
 import { Tabs } from '@polkadot/ui-app/index';
-import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withApiCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import './index.css';
 
@@ -121,7 +121,7 @@ class App extends React.PureComponent<Props, State> {
 export default withMulti(
   App,
   translate,
-  withApiPromise('query.staking.intentions'),
-  withApiPromise('query.session.validators'),
-  withApiPromise('derive.balances.validatingBalances', { paramProp: 'stakingIntentions' })
+  withApiCall('query.staking.intentions'),
+  withApiCall('query.session.validators'),
+  withApiCall('derive.balances.validatingBalances', { paramProp: 'stakingIntentions' })
 );

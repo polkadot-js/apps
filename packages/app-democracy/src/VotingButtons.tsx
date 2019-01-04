@@ -10,7 +10,7 @@ import React from 'react';
 import Api from '@polkadot/api-observable';
 import { Extrinsic } from '@polkadot/types';
 import { Button } from '@polkadot/ui-app/index';
-import { withApiPromise, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withApiCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import translate from './translate';
 
@@ -76,5 +76,5 @@ class VotingButton extends React.PureComponent<Props> {
 export default withMulti(
   VotingButton,
   translate,
-  withApiPromise('query.system.accountNonce', { paramProp: 'accountId' })
+  withApiCall('query.system.accountNonce', { paramProp: 'accountId' })
 );

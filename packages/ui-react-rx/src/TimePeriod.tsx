@@ -8,7 +8,7 @@ import React from 'react';
 import { Moment } from '@polkadot/types';
 
 import { numberFormat } from './util/index';
-import { withApiPromise } from './with/index';
+import { withApiCall } from './with/index';
 
 type Props = BareProps & {
   children?: React.ReactNode,
@@ -35,4 +35,4 @@ class TimePeriod extends React.PureComponent<Props> {
   }
 }
 
-export default withApiPromise('query.timestamp.blockPeriod')(TimePeriod);
+export default withApiCall('query.timestamp.blockPeriod')(TimePeriod);
