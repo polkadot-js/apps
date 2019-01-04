@@ -10,7 +10,7 @@ import { AccountId, AccountIndex, Balance } from '@polkadot/types';
 
 import accountIdAndIndex from './accountIdAndIndex';
 
-export default function votingBalanceOf (api: ApiPromise): DeriveSubscription {
+export default function votingBalance (api: ApiPromise): DeriveSubscription {
   return (address: AccountIndex | AccountId | string, cb: (balance: DerivedBalances) => any): UnsubFunction => {
     let combineDestroy: UnsubFunction | undefined;
     const idDestory = accountIdAndIndex(api)(address, ([accountId]: [AccountId | undefined]) => {
@@ -36,8 +36,8 @@ export default function votingBalanceOf (api: ApiPromise): DeriveSubscription {
       }
 
       combineDestroy = api.combineLatest([
-        [[accountId], api.query.balances.freeBalanceOf],
-        [[accountId], api.query.balances.reservedBalanceOf]
+        [[accountId], api.query.balances.freeBalance],
+        [[accountId], api.query.balances.reservedBalance]
       ], ([freeBalance, reservedBalance]) =>
         handler(freeBalance, reservedBalance)
       );

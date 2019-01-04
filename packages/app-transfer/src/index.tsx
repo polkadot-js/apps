@@ -8,7 +8,7 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservableBase } from '@polkadot/ui-react-rx/with/index';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import './index.css';
 
@@ -53,5 +53,5 @@ class App extends React.PureComponent<Props, State> {
 export default withMulti(
   App,
   translate,
-  withObservableBase(accountObservable.subject, { propName: 'allAccounts' })
+  withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );

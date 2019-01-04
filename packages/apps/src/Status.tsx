@@ -10,7 +10,7 @@ import React from 'react';
 import keyringOption from '@polkadot/ui-keyring/options';
 import { EventRecord } from '@polkadot/types';
 import { Status as StatusDisplay } from '@polkadot/ui-app/index';
-import { withApiCall, withMulti, withObservableBase } from '@polkadot/ui-react-rx/with';
+import { withApiCall, withMulti, withObservable } from '@polkadot/ui-react-rx/with';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
@@ -72,5 +72,5 @@ export default withMulti(
   Status,
   translate,
   withApiCall('query.system.events'),
-  withObservableBase(keyringOption.optionsSubject, { propName: 'optionsAll' })
+  withObservable(keyringOption.optionsSubject, { propName: 'optionsAll' })
 );

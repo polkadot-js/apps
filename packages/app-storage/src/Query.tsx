@@ -10,7 +10,7 @@ import React from 'react';
 import { Compact } from '@polkadot/types/codec';
 import { Button, Labelled } from '@polkadot/ui-app/index';
 import valueToText from '@polkadot/ui-app/Params/valueToText';
-import { withObservableDiv } from '@polkadot/ui-react-rx/with/index';
+import { withApiDiv } from '@polkadot/ui-react-rx/with/index';
 import { isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import translate from './translate';
@@ -51,7 +51,7 @@ class Query extends React.PureComponent<Props, State> {
       const defaultProps = { className: 'ui--output' };
 
       // render function to create an element for the query results which is plugged to the api
-      const fetchAndRenderHelper = withObservableDiv('rawStorage', { params: [key, ...values] });
+      const fetchAndRenderHelper = withApiDiv('rpc.state.subscribeStorage', { params: [key, ...values] });
       const pluggedComponent = fetchAndRenderHelper(
         // By default we render a simple div node component with the query results in it
         (value: any) => valueToText(type, value, true, true),

@@ -40,7 +40,7 @@ export type RxProps<T> = {
 export type BaseProps<T> = BareProps & ApiProps & ChangeProps<T> & ParamProps & RxProps<T> & {
   children?: React.ReactNode,
   label?: string,
-  render?: (value?: T) => any // node?
+  render?: (value?: T) => React.ReactNode
 };
 
 export type Formatter = (value?: any) => string;

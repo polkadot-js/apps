@@ -10,13 +10,13 @@ import BN from 'bn.js';
 import ApiPromise from '@polkadot/api/promise';
 import { AccountId, Balance } from '@polkadot/types';
 
-import votingBalanceOf from './votingBalanceOf';
+import votingBalance from './votingBalance';
 import votingBalancesNominatorsFor from './votingBalancesNominatorsFor';
 
-export default function validatingBalanceOf (api: ApiPromise): DeriveSubscription {
+export default function validatingBalance (api: ApiPromise): DeriveSubscription {
   return (accountId: AccountId | string, cb: (balance: DerivedBalances) => any): UnsubFunction =>
     api.combineLatest([
-      [[accountId], votingBalanceOf(api)] as [Array<any>, CombinatorFunction],
+      [[accountId], votingBalance(api)] as [Array<any>, CombinatorFunction],
       [[accountId], votingBalancesNominatorsFor(api)] as [Array<any>, CombinatorFunction]
     ], ([balance, nominators]) => {
       const nominatedBalance = nominators.reduce((total: BN, nominatorBalance: DerivedBalances) => {
