@@ -14,7 +14,7 @@ import translate from './translate';
 
 type Props = I18nProps & {
   derive_chain_bestNumber?: BN,
-  derive_democracy_publicPropsCount?: BN,
+  derive_democracy_publicPropCount?: BN,
   query_democracy_launchPeriod?: BN,
   query_democracy_nextTally?: BN,
   query_democracy_referendumCount?: BN,
@@ -23,7 +23,7 @@ type Props = I18nProps & {
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { derive_chain_bestNumber = new BN(0), query_democracy_launchPeriod, query_democracy_nextTally, derive_democracy_publicPropsCount, query_democracy_referendumCount, query_democracy_votingPeriod, t } = this.props;
+    const { derive_chain_bestNumber = new BN(0), query_democracy_launchPeriod, query_democracy_nextTally, derive_democracy_publicPropCount, query_democracy_referendumCount, query_democracy_votingPeriod, t } = this.props;
 
     return (
       <summary>
@@ -33,7 +33,7 @@ class Summary extends React.PureComponent<Props> {
               defaultValue: 'proposals'
             })}
           >
-            {numberFormat(derive_democracy_publicPropsCount)}
+            {numberFormat(derive_democracy_publicPropCount)}
           </CardSummary>
           <CardSummary
             label={t('summary.referendumCount', {
@@ -80,7 +80,7 @@ export default withMulti(
   translate,
   withApiCall('query.democracy.launchPeriod'),
   withApiCall('query.democracy.nextTally'),
-  withApiCall('query.democracy.publicPropsCount'),
+  withApiCall('query.democracy.publicPropCount'),
   withApiCall('query.democracy.referendumCount'),
   withApiCall('query.democracy.votingPeriod'),
   withApiCall('derive.chain.bestNumber')

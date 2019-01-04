@@ -9,7 +9,7 @@ import { DeriveSubscription, DerivedBalances } from '../types';
 import ApiPromise from '@polkadot/api/promise';
 import { AccountId, AccountIndex } from '@polkadot/types';
 
-import votingBalanceOf from './votingBalanceOf';
+import votingBalance from './votingBalance';
 
 export default function votingBalances (api: ApiPromise): DeriveSubscription {
   return (...params: Array<any>): UnsubFunction => {
@@ -18,7 +18,7 @@ export default function votingBalances (api: ApiPromise): DeriveSubscription {
 
     return api.combineLatest(
       addresses.map((address) =>
-        [[address], votingBalanceOf(api)] as [Array<any>, CombinatorFunction]
+        [[address], votingBalance(api)] as [Array<any>, CombinatorFunction]
       ), cb
     );
   };
