@@ -10,13 +10,15 @@ import { AccountId, AccountIndex, Balance } from '@polkadot/types';
 
 import accountIdAndIndex from './accountIdAndIndex';
 
+const EMPTY_ACCOUNT = new AccountId(new Uint8Array(32));
+
 export default function votingBalance (api: ApiPromise): DeriveSubscription {
   return (address: AccountIndex | AccountId | string, cb: (balance: DerivedBalances) => any): UnsubFunction => {
     let combineDestroy: UnsubFunction | undefined;
     const idDestory = accountIdAndIndex(api)(address, ([accountId]: [AccountId | undefined]) => {
-      const handler = (freeBalance?: Balance, reservedBalance?: Balance) =>
+      const handler = (freeBalance?: Balance, reservedBalance?: Balance) => {
         cb({
-          accountId: accountId || new AccountId(),
+          accountId: accountId || EMPTY_ACCOUNT,
           freeBalance: freeBalance || new Balance(0),
           nominatedBalance: new Balance(0),
           reservedBalance: reservedBalance || new Balance(0),
@@ -25,6 +27,7 @@ export default function votingBalance (api: ApiPromise): DeriveSubscription {
             (freeBalance || new Balance(0)).add(reservedBalance || new Balance(0))
           )
         });
+      };
 
       if (combineDestroy) {
         combineDestroy();

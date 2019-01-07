@@ -154,7 +154,7 @@ export default function withCall<T, P> (endpoint: string, { rxChange, params = [
             this.triggerUpdate(this.props, value);
           }
         } catch (error) {
-          console.error(error);
+          console.error(endpoint, '::', error);
         }
       }
 
@@ -182,7 +182,7 @@ export default function withCall<T, P> (endpoint: string, { rxChange, params = [
             value
           });
         } catch (error) {
-          console.error(error.message);
+          console.error(endpoint, '::', error.message);
         }
       }
 
