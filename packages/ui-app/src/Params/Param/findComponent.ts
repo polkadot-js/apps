@@ -20,6 +20,7 @@ import Timestamp from './Timestamp';
 import Tuple from './Tuple';
 import Unknown from './Unknown';
 import Vector from './Vector';
+import Vote from './Vote';
 import VoteThreshold from './VoteThreshold';
 
 const components: ComponentMap = {
@@ -51,6 +52,7 @@ const components: ComponentMap = {
   'u32': Amount,
   'u64': Amount,
   'Vector': Vector,
+  'Vote': Vote,
   'VoteIndex': Amount,
   'VoteThreshold': VoteThreshold
 };

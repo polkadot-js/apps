@@ -64,8 +64,6 @@ class Referendum extends React.PureComponent<Props, State> {
     }
 
     const newState: State = derive_democracy_referendumVotesFor.reduce((state, { balance, vote }) => {
-      console.log('vote', vote.toNumber());
-
       if (vote.ltn(0)) {
         state.voteCountYay++;
         state.votedYay = state.votedYay.add(balance);

@@ -48,6 +48,9 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     case 'Timestamp':
       return new Date(0);
 
+    case 'Vote':
+      return -1;
+
     case 'VoteThreshold':
       return 0;
 
