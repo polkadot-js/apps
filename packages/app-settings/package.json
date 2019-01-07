@@ -13,6 +13,6 @@
     "@babel/runtime": "^7.2.0",
     "@polkadot/ui-app": "^0.21.17",
     "@polkadot/ui-react-rx": "^0.21.17",
-    "@polkadot/ui-settings": "^0.24.18"
+    "@polkadot/ui-settings": "^0.24.25"
   }
 }

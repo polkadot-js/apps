@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/app-extrinsics authors & contributors
+// Copyright 2017-2019 @polkadot/app-extrinsics authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -11,7 +11,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 import accountsObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservableBase } from '@polkadot/ui-react-rx/with/index';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 import translate from './translate';
 
 import Selection from './Selection';
@@ -57,5 +57,5 @@ export { ExtrinsicsApp };
 export default withMulti(
   ExtrinsicsApp,
   translate,
-  withObservableBase(accountsObservable.subject, { propName: 'accountAll' })
+  withObservable(accountsObservable.subject, { propName: 'accountAll' })
 );

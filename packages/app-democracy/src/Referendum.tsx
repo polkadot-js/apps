@@ -1,17 +1,17 @@
-// Copyright 2017-2018 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParam } from '@polkadot/ui-app/Params/types';
-import { RxReferendumVote } from '@polkadot/api-observable/types';
+import { DerivedReferendumVote } from '@polkadot/ui-react-rx/derive/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { ReferendumInfo } from '@polkadot/types';
 import { Chart, Static } from '@polkadot/ui-app/index';
 import VoteThreshold from '@polkadot/ui-app/Params/Param/VoteThreshold';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { balanceFormat, numberFormat } from '@polkadot/ui-react-rx/util/index';
 import settings from '@polkadot/ui-settings';
 
@@ -27,8 +27,8 @@ const COLORS_NAY = settings.uiTheme === 'substrate'
   : ['#d75ea1', '#e189ba'];
 
 type Props = I18nProps & {
-  bestNumber?: BN,
-  democracyReferendumVoters?: Array<RxReferendumVote>,
+  derive_chain_bestNumber?: BN,
+  derive_democracy_referendumVotesFor?: Array<DerivedReferendumVote>,
   idNumber: BN,
   value: ReferendumInfo
 };
@@ -58,13 +58,13 @@ class Referendum extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ democracyReferendumVoters }: Props, prevState: State): State | null {
-    if (!democracyReferendumVoters) {
+  static getDerivedStateFromProps ({ derive_democracy_referendumVotesFor }: Props, prevState: State): State | null {
+    if (!derive_democracy_referendumVotesFor) {
       return null;
     }
 
-    const newState: State = democracyReferendumVoters.reduce((state, { balance, vote }) => {
-      if (vote.valueOf() === true) {
+    const newState: State = derive_democracy_referendumVotesFor.reduce((state, { balance, vote }) => {
+      if (vote.ltn(0)) {
         state.voteCountYay++;
         state.votedYay = state.votedYay.add(balance);
       } else {
@@ -93,9 +93,9 @@ class Referendum extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { bestNumber, idNumber, value } = this.props;
+    const { derive_chain_bestNumber, idNumber, value } = this.props;
 
-    if (!bestNumber || value.end.sub(bestNumber).lten(0)) {
+    if (!derive_chain_bestNumber || value.end.sub(derive_chain_bestNumber).lten(0)) {
       return null;
     }
 
@@ -112,9 +112,9 @@ class Referendum extends React.PureComponent<Props, State> {
   }
 
   private renderExtra () {
-    const { bestNumber, t, value: { end, threshold } } = this.props;
+    const { derive_chain_bestNumber, t, value: { end, threshold } } = this.props;
 
-    if (!bestNumber) {
+    if (!derive_chain_bestNumber) {
       return null;
     }
 
@@ -129,7 +129,7 @@ class Referendum extends React.PureComponent<Props, State> {
             defaultValue: '{{remaining}} blocks remaining, ending at block #{{blockNumber}}',
             replace: {
               blockNumber: numberFormat(end),
-              remaining: numberFormat(end.sub(bestNumber).subn(1))
+              remaining: numberFormat(end.sub(derive_chain_bestNumber).subn(1))
             }
           })}
         </Static>
@@ -177,6 +177,6 @@ class Referendum extends React.PureComponent<Props, State> {
 export default withMulti(
   Referendum,
   translate,
-  withObservable('bestNumber'),
-  withObservable('democracyReferendumVoters', { paramProp: 'idNumber' })
+  withCall('derive.chain.bestNumber'),
+  withCall('derive.democracy.referendumVotesFor', { paramProp: 'idNumber' })
 );

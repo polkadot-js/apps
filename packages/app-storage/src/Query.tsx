@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/app-storage authors & contributors
+// Copyright 2017-2019 @polkadot/app-storage authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -10,7 +10,7 @@ import React from 'react';
 import { Compact } from '@polkadot/types/codec';
 import { Button, Labelled } from '@polkadot/ui-app/index';
 import valueToText from '@polkadot/ui-app/Params/valueToText';
-import { withObservableDiv } from '@polkadot/ui-react-rx/with/index';
+import { withCallDiv } from '@polkadot/ui-react-rx/with/index';
 import { isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import translate from './translate';
@@ -51,31 +51,28 @@ class Query extends React.PureComponent<Props, State> {
       const defaultProps = { className: 'ui--output' };
 
       // render function to create an element for the query results which is plugged to the api
-      const fetchAndRenderHelper = withObservableDiv('rawStorage', { params: [key, ...values] });
-      const pluggedComponent = fetchAndRenderHelper(
+      const renderHelper = withCallDiv('subscribe', { params: [key, ...values] });
+      const Component = renderHelper(
         // By default we render a simple div node component with the query results in it
         (value: any) => valueToText(type, value, true, true),
         defaultProps
       );
-      cache[query.id] = Query.createComponentCacheInstance(type, pluggedComponent, defaultProps, fetchAndRenderHelper);
+      cache[query.id] = Query.createComponent(type, Component, defaultProps, renderHelper);
     }
 
     return cache[id];
   }
 
-  static createComponentCacheInstance (type: string, pluggedComponent: React.ComponentType<any>, defaultProps: DefaultProps<any>, fetchAndRenderHelper: ComponentRenderer<any>) {
+  static createComponent (type: string, Component: React.ComponentType<any>, defaultProps: DefaultProps<any>, renderHelper: ComponentRenderer<any>) {
     return {
-      Component: pluggedComponent,
+      Component,
       // In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component
       render: (createComponent: RenderFn) => {
-        return fetchAndRenderHelper(
-          createComponent,
-          defaultProps
-        );
+        return renderHelper(createComponent, defaultProps);
       },
       // In order to modify the parameters which are used to render the default component, we can use this method
       refresh: (swallowErrors: boolean, contentShorten: boolean) => {
-        return fetchAndRenderHelper(
+        return renderHelper(
           (value: any) => valueToText(type, value, swallowErrors, contentShorten),
           defaultProps
         );

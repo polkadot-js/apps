@@ -1,24 +1,25 @@
-// Copyright 2017-2018 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2019 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
+import BN from 'bn.js';
 import React from 'react';
 import { BlockNumber } from '@polkadot/types';
 import { CardSummary } from '@polkadot/ui-app/index';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import translate from './translate';
 
 type Props = I18nProps & {
-  eraBlockLength?: BlockNumber,
-  eraBlockProgress?: BlockNumber,
-  sessionBlockProgress?: BlockNumber,
+  derive_session_eraLength?: BN,
+  derive_session_eraProgress?: BN,
+  derive_session_sessionProgress?: BN,
   // FIXME Replaced in poc-3
   // sessionBrokenValue?: BN,
   // sessionBrokenPercentLate?: BN,
-  sessionLength?: BlockNumber,
+  query_session_sessionLength?: BlockNumber,
   withBroken?: boolean,
   withEra?: boolean,
   withSession?: boolean
@@ -58,7 +59,7 @@ class SummarySession extends React.PureComponent<Props> {
   // }
 
   private renderEra () {
-    const { eraBlockLength, eraBlockProgress, t, withEra = true } = this.props;
+    const { derive_session_eraLength, derive_session_eraProgress, t, withEra = true } = this.props;
 
     if (!withEra) {
       return null;
@@ -71,15 +72,15 @@ class SummarySession extends React.PureComponent<Props> {
           defaultValue: 'era'
         })}
         progress={{
-          total: eraBlockLength,
-          value: eraBlockProgress
+          total: derive_session_eraLength,
+          value: derive_session_eraProgress
         }}
       />
     );
   }
 
   private renderSession () {
-    const { sessionBlockProgress, sessionLength, t, withSession = true } = this.props;
+    const { derive_session_sessionProgress, query_session_sessionLength, t, withSession = true } = this.props;
 
     if (!withSession) {
       return null;
@@ -92,8 +93,8 @@ class SummarySession extends React.PureComponent<Props> {
           defaultValue: 'session'
         })}
         progress={{
-          total: sessionLength,
-          value: sessionBlockProgress
+          total: query_session_sessionLength || new BN(0),
+          value: derive_session_sessionProgress
         }}
       />
     );
@@ -103,8 +104,8 @@ class SummarySession extends React.PureComponent<Props> {
 export default withMulti(
   SummarySession,
   translate,
-  withObservable('eraBlockLength'),
-  withObservable('eraBlockProgress'),
-  withObservable('sessionBlockProgress'),
-  withObservable('sessionLength')
+  withCall('derive.session.eraLength'),
+  withCall('derive.session.eraProgress'),
+  withCall('derive.session.sessionProgress'),
+  withCall('query.session.sessionLength')
 );

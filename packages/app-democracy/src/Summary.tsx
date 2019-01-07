@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -7,23 +7,23 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import { CardSummary } from '@polkadot/ui-app/index';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { numberFormat } from '@polkadot/ui-react-rx/util/index';
 
 import translate from './translate';
 
 type Props = I18nProps & {
-  bestNumber?: BN,
-  democracyLaunchPeriod?: BN,
-  democracyNextTally?: BN,
-  publicProposalCount?: BN,
-  referendumCount?: BN,
-  democracyVotingPeriod?: BN
+  derive_chain_bestNumber?: BN,
+  derive_democracy_publicPropCount?: BN,
+  query_democracy_launchPeriod?: BN,
+  query_democracy_nextTally?: BN,
+  query_democracy_referendumCount?: BN,
+  query_democracy_votingPeriod?: BN
 };
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { bestNumber = new BN(0), democracyLaunchPeriod = new BN(1), democracyNextTally = new BN(0), publicProposalCount, referendumCount = new BN(0), democracyVotingPeriod = new BN(1), t } = this.props;
+    const { derive_chain_bestNumber = new BN(0), query_democracy_launchPeriod, query_democracy_nextTally, derive_democracy_publicPropCount, query_democracy_referendumCount, query_democracy_votingPeriod, t } = this.props;
 
     return (
       <summary>
@@ -33,21 +33,21 @@ class Summary extends React.PureComponent<Props> {
               defaultValue: 'proposals'
             })}
           >
-            {numberFormat(publicProposalCount)}
+            {numberFormat(derive_democracy_publicPropCount)}
           </CardSummary>
           <CardSummary
             label={t('summary.referendumCount', {
               defaultValue: 'referendums'
             })}
           >
-            {numberFormat(referendumCount)}
+            {numberFormat(query_democracy_referendumCount)}
           </CardSummary>
           <CardSummary
             label={t('summary.active', {
               defaultValue: 'active num'
             })}
           >
-            {numberFormat(referendumCount.sub(democracyNextTally))}
+            {numberFormat((query_democracy_referendumCount || new BN(0)).sub(query_democracy_nextTally || new BN(0)))}
           </CardSummary>
         </section>
         <section>
@@ -56,8 +56,8 @@ class Summary extends React.PureComponent<Props> {
               defaultValue: 'voting period'
             })}
             progress={{
-              value: bestNumber.mod(democracyVotingPeriod).addn(1),
-              total: democracyVotingPeriod
+              value: derive_chain_bestNumber.mod(query_democracy_votingPeriod || new BN(1)).addn(1),
+              total: query_democracy_votingPeriod || new BN(1)
             }}
           />
           <CardSummary
@@ -65,8 +65,8 @@ class Summary extends React.PureComponent<Props> {
               defaultValue: 'launch period'
             })}
             progress={{
-              value: bestNumber.mod(democracyLaunchPeriod).addn(1),
-              total: democracyLaunchPeriod
+              value: derive_chain_bestNumber.mod(query_democracy_launchPeriod || new BN(1)).addn(1),
+              total: query_democracy_launchPeriod || new BN(1)
             }}
           />
         </section>
@@ -78,10 +78,10 @@ class Summary extends React.PureComponent<Props> {
 export default withMulti(
   Summary,
   translate,
-  withObservable('democracyLaunchPeriod'),
-  withObservable('bestNumber'),
-  withObservable('referendumCount'),
-  withObservable('democracyNextTally'),
-  withObservable('publicProposalCount'),
-  withObservable('democracyVotingPeriod')
+  withCall('query.democracy.launchPeriod'),
+  withCall('query.democracy.nextTally'),
+  withCall('query.democracy.publicPropCount'),
+  withCall('query.democracy.referendumCount'),
+  withCall('query.democracy.votingPeriod'),
+  withCall('derive.chain.bestNumber')
 );

@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/ui-app authors & contributors
+// Copyright 2017-2019 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -20,6 +20,7 @@ import Timestamp from './Timestamp';
 import Tuple from './Tuple';
 import Unknown from './Unknown';
 import Vector from './Vector';
+import Vote from './Vote';
 import VoteThreshold from './VoteThreshold';
 
 const components: ComponentMap = {
@@ -51,6 +52,7 @@ const components: ComponentMap = {
   'u32': Amount,
   'u64': Amount,
   'Vector': Vector,
+  'Vote': Vote,
   'VoteIndex': Amount,
   'VoteThreshold': VoteThreshold
 };

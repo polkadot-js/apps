@@ -1,23 +1,26 @@
-// Copyright 2017-2018 @polkadot/app-extrinsics authors & contributors
+// Copyright 2017-2019 @polkadot/app-extrinsics authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props, RawParam } from '@polkadot/ui-app/Params/types';
+import { Props as BaseProps, RawParam } from '@polkadot/ui-app/Params/types';
+import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import React from 'react';
-import Api from '@polkadot/api-observable';
 import { Proposal } from '@polkadot/types';
+import { withApi } from '@polkadot/ui-react-rx/with';
 
 import ExtrinsicDisplay from './Extrinsic';
 
-export default class ProposalDisplay extends React.PureComponent<Props> {
+type Props = ApiProps & BaseProps;
+
+class ProposalDisplay extends React.PureComponent<Props> {
   render () {
-    const { className, isDisabled, isError, label, style, withLabel } = this.props;
+    const { apiPromise, className, isDisabled, isError, label, style, withLabel } = this.props;
 
     return (
       <ExtrinsicDisplay
         className={className}
-        defaultValue={Api.extrinsics.consensus.setCode}
+        defaultValue={apiPromise.tx.consensus.setCode}
         isDisabled={isDisabled}
         isError={isError}
         isPrivate
@@ -43,3 +46,5 @@ export default class ProposalDisplay extends React.PureComponent<Props> {
     });
   }
 }
+
+export default withApi(ProposalDisplay);

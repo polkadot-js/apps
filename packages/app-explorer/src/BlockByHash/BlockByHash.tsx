@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2019 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -8,7 +8,7 @@ import { ApiProps } from '@polkadot/ui-react-rx/types';
 import React from 'react';
 import { AddressMini, Call } from '@polkadot/ui-app/index';
 import { Extrinsic, Method, SignedBlock } from '@polkadot/types';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { numberFormat } from '@polkadot/ui-react-rx/util/index';
 
 import BlockHeader from '../BlockHeader';
@@ -16,19 +16,19 @@ import translate from '../translate';
 import Logs from './Logs';
 
 type Props = ApiProps & I18nProps & {
-  getBlock: SignedBlock,
+  rpc_chain_getBlock?: SignedBlock,
   value: string
 };
 
 class BlockByHash extends React.PureComponent<Props> {
   render () {
-    const { getBlock } = this.props;
+    const { rpc_chain_getBlock } = this.props;
 
-    if (!getBlock || !getBlock.block) {
+    if (!rpc_chain_getBlock || !rpc_chain_getBlock.block) {
       return null;
     }
 
-    const { block: { header } } = getBlock;
+    const { block: { header } } = rpc_chain_getBlock;
 
     return [
       <header key='header'>
@@ -47,8 +47,13 @@ class BlockByHash extends React.PureComponent<Props> {
   }
 
   private renderExtrinsics () {
-    const { getBlock, t } = this.props;
-    const { block: { extrinsics } } = getBlock;
+    const { rpc_chain_getBlock, t } = this.props;
+
+    if (!rpc_chain_getBlock) {
+      return null;
+    }
+
+    const { block: { extrinsics } } = rpc_chain_getBlock;
 
     return (
       <section key='extrinsics'>
@@ -145,5 +150,5 @@ class BlockByHash extends React.PureComponent<Props> {
 export default withMulti(
   BlockByHash,
   translate,
-  withObservable('getBlock', { paramProp: 'value' })
+  withCall('rpc.chain.getBlock', { paramProp: 'value' })
 );

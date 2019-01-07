@@ -1,10 +1,10 @@
-// Copyright 2017-2018 @polkadot/app-staking authors & contributors
+// Copyright 2017-2019 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueProps } from '@polkadot/ui-app/Status/types';
-import { RxBalanceMap } from '@polkadot/api-observable/types';
+import { DerivedBalancesMap } from '@polkadot/ui-react-rx/derive/types';
 import { AccountId, Balance } from '@polkadot/types';
 
 import React from 'react';
@@ -15,7 +15,7 @@ import Account from './Account';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  balances: RxBalanceMap,
+  balances: DerivedBalancesMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   intentions: Array<string>,
   validators: Array<string>

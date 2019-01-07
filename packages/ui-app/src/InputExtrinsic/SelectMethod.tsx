@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/ui-app authors & contributors
+// Copyright 2017-2019 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -7,13 +7,14 @@ import { I18nProps } from '../types';
 import { DropdownOptions } from '../util/types';
 
 import React from 'react';
-import Api from '@polkadot/api-observable';
+import ApiPromise from '@polkadot/api/promise';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
 import translate from '../translate';
 
 type Props = I18nProps & {
+  apiPromise: ApiPromise,
   isError?: boolean,
   label?: string,
   onChange: (value: MethodFunction) => void,
@@ -24,14 +25,14 @@ type Props = I18nProps & {
 
 class SelectMethod extends React.PureComponent<Props> {
   render () {
-    const { className, isError, label = '', onChange, options, style, t, value, withLabel } = this.props;
+    const { apiPromise, className, isError, label = '', onChange, options, style, t, value, withLabel } = this.props;
 
     if (!options.length) {
       return null;
     }
 
     const transform = (method: string): MethodFunction =>
-      Api.extrinsics[value.section][method];
+      apiPromise.tx[value.section][method];
 
     return (
         <Dropdown

@@ -1,16 +1,16 @@
-// Copyright 2017-2018 @polkadot/app-transfer authors & contributors
+// Copyright 2017-2019 @polkadot/app-transfer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RxBalance, RxFees } from '@polkadot/api-observable/types';
+import { DerivedBalancesFees, DerivedBalances } from '@polkadot/ui-react-rx/derive/types';
 import { Fees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { Balance, Extrinsic } from '@polkadot/types';
 import { Static } from '@polkadot/ui-app/index';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
 
 import translate from './translate';
@@ -20,10 +20,10 @@ type State = Fees;
 type Props = I18nProps & {
   accountId?: string | null,
   amount: BN,
-  balanceFrom?: RxBalance,
-  balanceTo?: RxBalance,
+  balanceFrom?: DerivedBalances,
+  balanceTo?: DerivedBalances,
   extrinsic: Extrinsic | null,
-  fees?: RxFees,
+  fees?: DerivedBalancesFees,
   recipientId?: string | null,
   onChange: (fees: Fees) => void
 };
@@ -32,15 +32,15 @@ const ZERO_BALANCE = {
   freeBalance: new Balance(0),
   reservedBalance: new Balance(0),
   votingBalance: new Balance(0)
-} as RxBalance;
+} as DerivedBalances;
 
 const ZERO_FEES = {
-  baseFee: new Balance(0),
-  byteFee: new Balance(0),
-  creationFee: new Balance(0),
-  existentialDeposit: new Balance(0),
-  transferFee: new Balance(0)
-} as RxFees;
+  transactionBaseFee: new BN(0),
+  transactionByteFee: new BN(0),
+  creationFee: new BN(0),
+  existentialDeposit: new BN(0),
+  transferFee: new BN(0)
+} as DerivedBalancesFees;
 
 const LENGTH_PUBLICKEY = 32 + 1; // publicKey + prefix
 const LENGTH_SIGNATURE = 64;
@@ -79,9 +79,9 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         : 0
     );
 
-    let txfees = fees.baseFee
+    let txfees = fees.transactionBaseFee
         .add(fees.transferFee)
-        .add(fees.byteFee.muln(txLength));
+        .add(fees.transactionByteFee.muln(txLength));
 
     if (balanceTo.votingBalance.isZero()) {
       txfees = txfees.add(fees.creationFee);
@@ -194,6 +194,6 @@ class FeeDisplay extends React.PureComponent<Props, State> {
 export default withMulti(
   FeeDisplay,
   translate,
-  withObservable('votingBalance', { paramProp: 'accountId', propName: 'balanceFrom' }),
-  withObservable('votingBalance', { paramProp: 'recipientId', propName: 'balanceTo' })
+  withCall('derive.balances.votingBalance', { paramProp: 'accountId', propName: 'balanceFrom' }),
+  withCall('derive.balances.votingBalance', { paramProp: 'recipientId', propName: 'balanceTo' })
 );

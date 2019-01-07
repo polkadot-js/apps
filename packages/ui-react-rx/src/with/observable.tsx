@@ -1,100 +1,100 @@
-// Copyright 2017-2018 @polkadot/ui-react-rx authors & contributors
+// Copyright 2017-2019 @polkadot/ui-react-rx authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// TODO: Lots of duplicated code between this and withObservable, surely there ois a better way of doing this?
+// TODO: Lots of duplicated code between this and withObservable, surely there is a better way of doing this?
 
-import { ApiFunctions } from '@polkadot/api-observable/types';
 import { RxProps } from '../types';
 import { HOC, Options, DefaultProps, RenderFn } from './types';
 
 import React from 'react';
-import { isUndefined } from '@polkadot/util';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
-import { isEqual } from '../util/index';
+import { intervalObservable, isEqual, triggerChange } from '../util/index';
 import echoTransform from './transform/echo';
-import withApi from './api';
-import withObservableBase from './observableBase';
 
 type State<T> = RxProps<T> & {
-  Component?: React.ComponentType<any>
+  subscriptions: Array<any>; // FIXME subscriptions
 };
 
 // FIXME proper types for attributes
 
-export default function withObservable<T> (subscription: ApiFunctions, { rxChange, params = [], paramProp = 'params', propName = subscription, transform = echoTransform }: Options<T> = {}): HOC<T> {
+export default function withObservable<T, P> (observable: Observable<P>, { rxChange, propName = 'value', transform = echoTransform }: Options<T> = {}): HOC<T> {
   return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}, render?: RenderFn): React.ComponentType<any> => {
-    class WithObservable extends React.Component<any, State<T>> {
+    return class WithObservable extends React.Component<any, State<T>> {
       state: State<T>;
 
       constructor (props: any) {
         super(props);
 
-        this.state = {};
-      }
-
-      private getParams (props: any): Array<any> {
-        const paramValue = props[paramProp];
-
-        return isUndefined(paramValue)
-          ? params
-          : params.concat(
-            Array.isArray(paramValue)
-              ? paramValue
-              : [paramValue]
-          );
-      }
-
-      componentDidUpdate (prevProps: any) {
-        const newParams = this.getParams(this.props);
-
-        if (!isEqual(newParams, this.getParams(prevProps))) {
-          this.subscribe(newParams);
-        }
+        this.state = {
+          rxUpdated: false,
+          rxUpdatedAt: 0,
+          subscriptions: [],
+          value: void 0
+        };
       }
 
       componentDidMount () {
-        this.subscribe(this.getParams(this.props));
-      }
-
-      componentWillUnmount () {
         this.setState({
-          Component: undefined
+          subscriptions: [
+            observable
+              .pipe(
+                map(transform),
+                catchError(() =>
+                  of(undefined)
+                )
+              )
+              .subscribe((value: any) =>
+                this.triggerUpdate(this.props, value)
+              ),
+            intervalObservable(this)
+          ]
         });
       }
 
-      private subscribe (newParams: Array<any>) {
+      componentWillUnmount () {
+        this.state.subscriptions.forEach((subscription) =>
+          subscription.unsubscribe()
+        );
+      }
+
+      triggerUpdate = (props: any, value?: T): void => {
         try {
-          const { apiObservable } = this.props;
-          const observable = apiObservable[subscription](...newParams);
+          if (isEqual(value, this.state.value)) {
+            return;
+          }
+
+          triggerChange(value, rxChange, props.rxChange || defaultProps.rxChange);
 
           this.setState({
-            Component: withObservableBase(observable, {
-              rxChange,
-              propName,
-              transform
-            })(Inner, defaultProps, render)
+            rxUpdated: true,
+            rxUpdatedAt: Date.now(),
+            value
           });
         } catch (error) {
-          console.error('withObservable:subscribe', subscription, error);
-
-          // throw error;
+          console.error(this.props, error);
         }
       }
 
       render () {
-        const { Component } = this.state;
-
-        if (!Component) {
-          return null;
-        }
+        const { children } = this.props;
+        const { rxUpdated, rxUpdatedAt, value } = this.state;
+        const _props = {
+          ...defaultProps,
+          ...this.props,
+          rxUpdated,
+          rxUpdatedAt,
+          [propName]: value
+        };
 
         return (
-          <Component {...this.props} />
+          <Inner {..._props}>
+            {render && render(value)}{children}
+          </Inner>
         );
       }
-    }
-
-    return withApi(WithObservable);
+    };
   };
 }

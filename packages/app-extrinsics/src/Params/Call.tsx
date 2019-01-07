@@ -1,26 +1,35 @@
-// Copyright 2017-2018 @polkadot/app-extrinsics authors & contributors
+// Copyright 2017-2019 @polkadot/app-extrinsics authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props } from '@polkadot/ui-app/Params/types';
+import { Props as BaseProps } from '@polkadot/ui-app/Params/types';
+import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import React from 'react';
-import Api from '@polkadot/api-observable';
+import { withApi } from '@polkadot/ui-react-rx/with';
 
 import Extrinsic from './Extrinsic';
 
-export default function Call ({ className, isDisabled, isError, label, onChange, style, withLabel }: Props) {
-  return (
-    <Extrinsic
-      className={className}
-      defaultValue={Api.extrinsics.balances.transfer}
-      isDisabled={isDisabled}
-      isError={isError}
-      isPrivate={false}
-      label={label}
-      onChange={onChange}
-      style={style}
-      withLabel={withLabel}
-    />
-  );
+type Props = ApiProps & BaseProps;
+
+class Call extends React.PureComponent<Props> {
+  render () {
+    const { apiPromise, className, isDisabled, isError, label, onChange, style, withLabel } = this.props;
+
+    return (
+      <Extrinsic
+        className={className}
+        defaultValue={apiPromise.tx.balances.transfer}
+        isDisabled={isDisabled}
+        isError={isError}
+        isPrivate={false}
+        label={label}
+        onChange={onChange}
+        style={style}
+        withLabel={withLabel}
+      />
+    );
+  }
 }
+
+export default withApi(Call);

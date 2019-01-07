@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/app-transfer authors & contributors
+// Copyright 2017-2019 @polkadot/app-transfer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -8,7 +8,7 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservableBase } from '@polkadot/ui-react-rx/with/index';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import './index.css';
 
@@ -53,5 +53,5 @@ class App extends React.PureComponent<Props, State> {
 export default withMulti(
   App,
   translate,
-  withObservableBase(accountObservable.subject, { propName: 'allAccounts' })
+  withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );

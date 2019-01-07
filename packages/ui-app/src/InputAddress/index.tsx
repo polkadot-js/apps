@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/ui-app authors & contributors
+// Copyright 2017-2019 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -12,7 +12,7 @@ import store from 'store';
 import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
 import makeOption from '@polkadot/ui-keyring/options/item';
-import { withMulti, withObservableBase } from '@polkadot/ui-react-rx/with/index';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
@@ -218,5 +218,5 @@ export { InputAddress };
 
 export default withMulti(
   InputAddress,
-  withObservableBase(keyringOption.optionsSubject, { propName: 'optionsAll' })
+  withObservable(keyringOption.optionsSubject, { propName: 'optionsAll' })
 );

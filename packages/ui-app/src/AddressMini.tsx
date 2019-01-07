@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/app-staking authors & contributors
+// Copyright 2017-2019 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -7,7 +7,7 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
@@ -19,21 +19,21 @@ type Props = BareProps & {
   children?: React.ReactNode,
   isPadded?: boolean,
   isShort?: boolean,
-  sessionValidators?: Array<AccountId>,
+  query_session_validators?: Array<AccountId>,
   value?: AccountId | AccountIndex | Address | string,
   withBalance?: boolean
 };
 
 class AddressMini extends React.PureComponent<Props> {
   render () {
-    const { children, className, isPadded = true, isShort = true, sessionValidators = [], style, value } = this.props;
+    const { children, className, isPadded = true, isShort = true, query_session_validators, style, value } = this.props;
 
     if (!value) {
       return null;
     }
 
     const address = value.toString();
-    const isValidator = sessionValidators.find((validator) =>
+    const isValidator = (query_session_validators || []).find((validator) =>
       validator.toString() === address
     );
 
@@ -75,5 +75,5 @@ class AddressMini extends React.PureComponent<Props> {
 
 export default withMulti(
   AddressMini,
-  withObservable('sessionValidators')
+  withCall('query.session.validators')
 );

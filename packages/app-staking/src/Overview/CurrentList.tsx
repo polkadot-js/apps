@@ -1,9 +1,9 @@
-// Copyright 2017-2018 @polkadot/app-staking authors & contributors
+// Copyright 2017-2019 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RxBalanceMap } from '@polkadot/api-observable/types';
+import { DerivedBalancesMap } from '@polkadot/ui-react-rx/derive/types';
 
 import React from 'react';
 import { AccountId, Balance } from '@polkadot/types';
@@ -13,7 +13,7 @@ import keyring from '@polkadot/ui-keyring';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  balances: RxBalanceMap,
+  balances: DerivedBalancesMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   current: Array<string>,
   next: Array<string>
@@ -97,10 +97,10 @@ class CurrentList extends React.PureComponent<Props> {
                 withCopy={false}
                 withNonce={false}
               >
-                {nominators.map(({ address }) =>
+                {nominators.map(({ accountId }) =>
                   <AddressMini
-                    key={address.toString()}
-                    value={address}
+                    key={accountId.toString()}
+                    value={accountId}
                     withBalance
                   />
                 )}

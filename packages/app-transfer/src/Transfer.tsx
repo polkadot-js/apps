@@ -1,28 +1,28 @@
-// Copyright 2017-2018 @polkadot/app-transfer authors & contributors
+// Copyright 2017-2019 @polkadot/app-transfer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BitLength, I18nProps } from '@polkadot/ui-app/types';
-import { RxFees } from '@polkadot/api-observable/types';
 import { QueueProps } from '@polkadot/ui-app/Status/types';
+import { DerivedBalancesFees } from '@polkadot/ui-react-rx/derive/types';
+import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { Fees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import Api from '@polkadot/api-observable';
 import { decodeAddress } from '@polkadot/keyring';
 import { Extrinsic } from '@polkadot/types';
 import { BitLengthOption } from '@polkadot/ui-app/constants';
 import { AddressSummary, InputAddress, InputNumber } from '@polkadot/ui-app/index';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
 import FeeDisplay from './Fees';
 import Submit from './Submit';
 import translate from './translate';
 
-type Props = I18nProps & {
-  fees: RxFees
+type Props = I18nProps & ApiProps & {
+  derive_balances_fees?: DerivedBalancesFees
 };
 
 type State = {
@@ -56,7 +56,7 @@ class Transfer extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { fees, t } = this.props;
+    const { derive_balances_fees, t } = this.props;
     const { accountId, amount, extrinsic, recipientId, txfees: { hasAvailable } } = this.state;
 
     return (
@@ -98,7 +98,7 @@ class Transfer extends React.PureComponent<Props, State> {
               className='medium'
               accountId={accountId}
               amount={amount}
-              fees={fees}
+              fees={derive_balances_fees}
               recipientId={recipientId}
               onChange={this.onChangeFees}
             />
@@ -142,9 +142,10 @@ class Transfer extends React.PureComponent<Props, State> {
 
   private nextState (newState: Partial<State>): void {
     this.setState((prevState: State): State => {
+      const { apiPromise } = this.props;
       const { accountId = prevState.accountId, amount = prevState.amount, recipientId = prevState.recipientId, txfees = prevState.txfees } = newState;
       const extrinsic = accountId && recipientId
-        ? new Extrinsic({ method: Api.extrinsics.balances.transfer(recipientId, amount) })
+        ? apiPromise.tx.balances.transfer(recipientId, amount)
         : null;
 
       return {
@@ -177,5 +178,5 @@ class Transfer extends React.PureComponent<Props, State> {
 export default withMulti(
   Transfer,
   translate,
-  withObservable('fees', { propName: 'fees' })
+  withCall('derive.balances.fees')
 );

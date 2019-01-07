@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/ui-app authors & contributors
+// Copyright 2017-2019 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -7,7 +7,7 @@ import { I18nProps } from './types';
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
 import { Nonce } from '@polkadot/ui-react-rx/index';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
@@ -16,7 +16,7 @@ import IdentityIcon from './IdentityIcon';
 import translate from './translate';
 
 export type Props = I18nProps & {
-  accountIdAndIndex?: [AccountId | undefined, AccountIndex | undefined],
+  derive_balances_accountIdAndIndex?: [AccountId | undefined, AccountIndex | undefined],
   balance?: Balance | Array<Balance>,
   children?: React.ReactNode,
   name?: string,
@@ -25,7 +25,7 @@ export type Props = I18nProps & {
   withIndex?: boolean,
   identIconSize?: number,
   isShort?: boolean,
-  sessionValidators?: Array<AccountId>,
+  query_session_validators?: Array<AccountId>,
   withCopy?: boolean,
   withIcon?: boolean,
   withNonce?: boolean
@@ -35,8 +35,8 @@ const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 
 class AddressSummary extends React.PureComponent<Props> {
   render () {
-    const { accountIdAndIndex = [], className, style } = this.props;
-    const [accountId, accountIndex] = accountIdAndIndex;
+    const { derive_balances_accountIdAndIndex = [], className, style } = this.props;
+    const [accountId, accountIndex] = derive_balances_accountIdAndIndex;
     const isValid = accountId || accountIndex;
 
     return (
@@ -83,8 +83,8 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderAccountId () {
-    const { accountIdAndIndex = [], name, isShort = true } = this.props;
-    const [accountId, accountIndex] = accountIdAndIndex;
+    const { derive_balances_accountIdAndIndex = [], name, isShort = true } = this.props;
+    const [accountId, accountIndex] = derive_balances_accountIdAndIndex;
 
     if (!accountId && accountIndex) {
       return null;
@@ -112,8 +112,8 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderAccountIndex () {
-    const { accountIdAndIndex = [] } = this.props;
-    const [, accountIndex] = accountIdAndIndex;
+    const { derive_balances_accountIdAndIndex = [] } = this.props;
+    const [, accountIndex] = derive_balances_accountIdAndIndex;
 
     if (!accountIndex) {
       return null;
@@ -165,15 +165,15 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderIcon (className: string = 'ui--AddressSummary-icon', size?: number) {
-    const { accountIdAndIndex = [], identIconSize = 96, sessionValidators = [], value, withIcon = true } = this.props;
+    const { derive_balances_accountIdAndIndex = [], identIconSize = 96, query_session_validators, value, withIcon = true } = this.props;
 
     if (!withIcon) {
       return null;
     }
 
-    const [_accountId] = accountIdAndIndex;
+    const [_accountId] = derive_balances_accountIdAndIndex;
     const accountId = (_accountId || '').toString();
-    const isValidator = sessionValidators.find((validator) =>
+    const isValidator = (query_session_validators || []).find((validator) =>
       validator.toString() === accountId
     );
 
@@ -188,8 +188,8 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderNonce () {
-    const { accountIdAndIndex = [], t, withNonce = true } = this.props;
-    const [accountId] = accountIdAndIndex;
+    const { derive_balances_accountIdAndIndex = [], t, withNonce = true } = this.props;
+    const [accountId] = derive_balances_accountIdAndIndex;
 
     if (!withNonce || !accountId) {
       return null;
@@ -230,6 +230,6 @@ export {
 export default withMulti(
   AddressSummary,
   translate,
-  withObservable('accountIdAndIndex', { paramProp: 'value' }),
-  withObservable('sessionValidators')
+  withCall('derive.balances.accountIdAndIndex', { paramProp: 'value' }),
+  withCall('query.session.validators')
 );

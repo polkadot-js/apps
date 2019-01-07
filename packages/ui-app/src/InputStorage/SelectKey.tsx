@@ -1,19 +1,20 @@
-// Copyright 2017-2018 @polkadot/ui-app authors & contributors
+// Copyright 2017-2019 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 
 import React from 'react';
-import Api from '@polkadot/api-observable';
 import { StorageFunction } from '@polkadot/types/StorageKey';
+import { withApi, withMulti } from '@polkadot/ui-react-rx/with';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
 import translate from '../translate';
 
-type Props = I18nProps & {
+type Props = ApiProps & I18nProps & {
   isError?: boolean,
   label?: string,
   onChange: (value: StorageFunction) => void,
@@ -24,14 +25,14 @@ type Props = I18nProps & {
 
 class SelectKey extends React.PureComponent<Props> {
   render () {
-    const { className, isError, label = '', onChange, options, style, t, value, withLabel } = this.props;
+    const { apiPromise, className, isError, label = '', onChange, options, style, t, value, withLabel } = this.props;
 
     if (!options.length) {
       return null;
     }
 
     const transform = (method: string): StorageFunction =>
-      Api.storage[value.section][method];
+      apiPromise.query[value.section][method];
 
     return (
       <Dropdown
@@ -51,4 +52,8 @@ class SelectKey extends React.PureComponent<Props> {
   }
 }
 
-export default translate(SelectKey);
+export default withMulti(
+  SelectKey,
+  translate,
+  withApi
+);

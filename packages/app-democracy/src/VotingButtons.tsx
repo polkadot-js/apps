@@ -1,24 +1,23 @@
-// Copyright 2017-2018 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
+import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import Api from '@polkadot/api-observable';
-import { Extrinsic } from '@polkadot/types';
 import { Button } from '@polkadot/ui-app/index';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import translate from './translate';
 
-type Props = I18nProps & {
+type Props = ApiProps & I18nProps & {
   accountId?: string,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
   referendumId: BN,
-  accountNonce?: BN
+  query_system_accountNonce?: BN
 };
 
 class VotingButton extends React.PureComponent<Props> {
@@ -49,17 +48,15 @@ class VotingButton extends React.PureComponent<Props> {
   }
 
   private doVote (vote: boolean) {
-    const { accountId, queueExtrinsic, referendumId, accountNonce = new BN(0) } = this.props;
+    const { accountId, apiPromise, queueExtrinsic, referendumId, query_system_accountNonce } = this.props;
 
     if (!accountId) {
       return;
     }
 
     queueExtrinsic({
-      extrinsic: new Extrinsic({
-        method: Api.extrinsics.democracy.vote(referendumId, vote)
-      }),
-      accountNonce,
+      extrinsic: apiPromise.tx.democracy.vote(referendumId, vote ? -1 : 0),
+      accountNonce: query_system_accountNonce,
       accountId
     });
   }
@@ -76,5 +73,5 @@ class VotingButton extends React.PureComponent<Props> {
 export default withMulti(
   VotingButton,
   translate,
-  withObservable('accountNonce', { paramProp: 'accountId' })
+  withCall('query.system.accountNonce', { paramProp: 'accountId' })
 );

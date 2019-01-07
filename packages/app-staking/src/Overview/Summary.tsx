@@ -1,30 +1,30 @@
-// Copyright 2017-2018 @polkadot/app-staking authors & contributors
+// Copyright 2017-2019 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RxBalance, RxBalanceMap } from '@polkadot/api-observable/types';
+import { DerivedBalances, DerivedBalancesMap } from '@polkadot/ui-react-rx/derive/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { CardSummary } from '@polkadot/ui-app/index';
 import SummarySession from '@polkadot/app-explorer/SummarySession';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
 
 import translate from '../translate';
 
 type Props = I18nProps & {
-  balances: RxBalanceMap,
+  balances: DerivedBalancesMap,
   intentions: Array<string>,
   lastLengthChange?: BN,
-  validatorCount?: BN,
+  query_staking_validatorCount?: BN,
   validators: Array<string>
 };
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { className, intentions, style, t, validatorCount, validators } = this.props;
+    const { className, intentions, style, t, query_staking_validatorCount, validators } = this.props;
 
     return (
       <summary
@@ -37,7 +37,7 @@ class Summary extends React.PureComponent<Props> {
               defaultValue: 'validators'
             })}
           >
-            {validators.length}/{validatorCount ? validatorCount.toString() : '-'}
+            {validators.length}/{query_staking_validatorCount ? query_staking_validatorCount.toString() : '-'}
           </CardSummary>
           <CardSummary
             label={t('summary.intentions', {
@@ -96,10 +96,10 @@ class Summary extends React.PureComponent<Props> {
     );
   }
 
-  private calcIntentionsHigh (): RxBalance | null {
+  private calcIntentionsHigh (): DerivedBalances | null {
     const { balances, intentions, validators } = this.props;
 
-    return intentions.reduce((high: RxBalance | null, addr) => {
+    return intentions.reduce((high: DerivedBalances | null, addr) => {
       const balance = validators.includes(addr) || !balances[addr]
         ? null
         : balances[addr];
@@ -112,10 +112,10 @@ class Summary extends React.PureComponent<Props> {
     }, null);
   }
 
-  private calcValidatorLow (): RxBalance | null {
+  private calcValidatorLow (): DerivedBalances | null {
     const { balances, validators } = this.props;
 
-    return validators.reduce((low: RxBalance | null, addr) => {
+    return validators.reduce((low: DerivedBalances | null, addr) => {
       const balance = balances[addr] || null;
 
       if (low === null || (balance && low.stakingBalance.gt(balance.stakingBalance))) {
@@ -130,5 +130,5 @@ class Summary extends React.PureComponent<Props> {
 export default withMulti(
   Summary,
   translate,
-  withObservable('validatorCount')
+  withCall('query.staking.validatorCount')
 );

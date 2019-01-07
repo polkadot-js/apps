@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2019 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -12,7 +12,7 @@ import './index.css';
 import React from 'react';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { Tabs } from '@polkadot/ui-app/index';
-import { withMulti, withObservableBase } from '@polkadot/ui-react-rx/with/index';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import Creator from './Creator';
 import Editor from './Editor';
@@ -131,5 +131,5 @@ class AccountsApp extends React.PureComponent<Props, State> {
 export default withMulti(
   AccountsApp,
   translate,
-  withObservableBase(accountObservable.subject, { propName: 'allAccounts' })
+  withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );

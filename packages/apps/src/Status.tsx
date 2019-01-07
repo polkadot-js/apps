@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/apps authors & contributors
+// Copyright 2017-2019 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -10,7 +10,7 @@ import React from 'react';
 import keyringOption from '@polkadot/ui-keyring/options';
 import { EventRecord } from '@polkadot/types';
 import { Status as StatusDisplay } from '@polkadot/ui-app/index';
-import { withMulti, withObservable, withObservableBase } from '@polkadot/ui-react-rx/with';
+import { withCall, withMulti, withObservable } from '@polkadot/ui-react-rx/with';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
@@ -20,15 +20,15 @@ type Props = I18nProps & {
   optionsAll?: KeyringOptions,
   queueAction: QueueAction$Add,
   stqueue: Array<QueueStatus>,
-  systemEvents?: Array<EventRecord>,
+  query_system_events?: Array<EventRecord>,
   txqueue: Array<QueueTx>
 };
 
 let prevEventHash: string;
 
 class Status extends React.PureComponent<Props> {
-  componentDidUpdate ({ optionsAll = { account: [] as any } as KeyringOptions, queueAction, systemEvents = [], t }: Props) {
-    const eventHash = xxhashAsHex(stringToU8a(JSON.stringify(systemEvents)));
+  componentDidUpdate ({ optionsAll = { account: [] as any } as KeyringOptions, queueAction, query_system_events, t }: Props) {
+    const eventHash = xxhashAsHex(stringToU8a(JSON.stringify(query_system_events || [])));
 
     if (eventHash === prevEventHash) {
       return;
@@ -38,7 +38,7 @@ class Status extends React.PureComponent<Props> {
 
     const addresses = optionsAll.account.map((account) => account.value);
 
-    systemEvents.forEach(({ event: { data, method, section } }) => {
+    (query_system_events || []).forEach(({ event: { data, method, section } }) => {
       if (section === 'balances' && method === 'Transfer') {
         const recipient = data[1].toString();
 
@@ -71,6 +71,6 @@ class Status extends React.PureComponent<Props> {
 export default withMulti(
   Status,
   translate,
-  withObservable('systemEvents'),
-  withObservableBase(keyringOption.optionsSubject, { propName: 'optionsAll' })
+  withCall('query.system.events'),
+  withObservable(keyringOption.optionsSubject, { propName: 'optionsAll' })
 );

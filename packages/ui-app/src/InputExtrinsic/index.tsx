@@ -1,15 +1,16 @@
-// Copyright 2017-2018 @polkadot/ui-app authors & contributors
+// Copyright 2017-2019 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { MethodFunction } from '@polkadot/types/Method';
+import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { I18nProps } from '../types';
 import { DropdownOptions } from '../util/types';
 
 import './InputExtrinsic.css';
 
 import React from 'react';
-import Api from '@polkadot/api-observable';
+import { withApi, withMulti } from '@polkadot/ui-react-rx/with';
 
 import classes from '../util/classes';
 import translate from '../translate';
@@ -18,7 +19,7 @@ import SelectSection from './SelectSection';
 import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
-type Props = I18nProps & {
+type Props = ApiProps & I18nProps & {
   defaultValue: MethodFunction,
   isDisabled?: boolean,
   isError?: boolean,
@@ -46,15 +47,15 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  static getDerivedStateFromProps (props: Props, { value }: State): State | null {
+  static getDerivedStateFromProps ({ apiPromise }: Props, { value }: State): State | null {
     return {
-      optionsMethod: methodOptions(value.section),
-      optionsSection: sectionOptions()
+      optionsMethod: methodOptions(apiPromise, value.section),
+      optionsSection: sectionOptions(apiPromise)
     } as State;
   }
 
   render () {
-    const { className, labelMethod, labelSection, style, withLabel } = this.props;
+    const { apiPromise, className, labelMethod, labelSection, style, withLabel } = this.props;
     const { optionsMethod, optionsSection, value } = this.state;
 
     return (
@@ -71,6 +72,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
           withLabel={withLabel}
         />
         <SelectMethod
+          apiPromise={apiPromise}
           className='large'
           label={labelMethod}
           onChange={this.onKeyChange}
@@ -96,14 +98,15 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
   }
 
   onSectionChange = (newSection: string): void => {
+    const { apiPromise } = this.props;
     const { value } = this.state;
 
     if (newSection === value.section) {
       return;
     }
 
-    const optionsMethod = methodOptions(newSection);
-    const fn = Api.extrinsics[newSection][optionsMethod[0].value];
+    const optionsMethod = methodOptions(apiPromise, newSection);
+    const fn = apiPromise.tx[newSection][optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
       this.onKeyChange(fn)
@@ -111,4 +114,8 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(InputExtrinsic);
+export default withMulti(
+  InputExtrinsic,
+  translate,
+  withApi
+);

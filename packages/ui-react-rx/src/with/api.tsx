@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/ui-react-rx authors & contributors
+// Copyright 2017-2019 @polkadot/ui-react-rx authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -22,7 +22,7 @@ export default function withApi <T, P extends ApiProps> (Inner: React.ComponentT
       return (
         <ApiConsumer>
           {(apiProps: ApiProps) => {
-            assert(apiProps && apiProps.api, `Application root must be wrapped inside 'rx-react/Api' to provide API context`);
+            assert(apiProps && apiProps.apiPromise, `Application root must be wrapped inside 'rx-react/Api' to provide API context`);
 
             return (
               // @ts-ignore Something here with the props are going wonky

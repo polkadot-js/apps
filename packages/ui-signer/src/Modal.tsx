@@ -1,19 +1,20 @@
-// Copyright 2017-2018 @polkadot/ui-signer authors & contributors
+// Copyright 2017-2019 @polkadot/ui-signer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableSendResult } from '@polkadot/api/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
+import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
 import { decodeAddress } from '@polkadot/keyring';
 import { Button, Modal } from '@polkadot/ui-app/index';
 import keyring from '@polkadot/ui-keyring';
 import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { format } from '@polkadot/util/logger';
-import { Extrinsic } from '@polkadot/types';
 
 import ExtrinsicDisplay from './Extrinsic';
 import Unlock from './Unlock';
@@ -267,16 +268,16 @@ class Signer extends React.PureComponent<Props, State> {
       }
     }
 
-    const { apiObservable, queueSetTxStatus } = this.props;
+    const { apiPromise, queueSetTxStatus } = this.props;
 
     queueSetTxStatus(id, 'sending');
 
     const pair = keyring.getPair(accountId);
 
     if (!isUnsigned) {
-      console.log(`sendExtrinsic: from=${pair.address()}, nonce=${accountNonce}, blockHash=${apiObservable.genesisHash.toHex()}`);
+      console.log(`sendExtrinsic: from=${pair.address()}, nonce=${accountNonce}, blockHash=${apiPromise.genesisHash.toHex()}`);
 
-      extrinsic.sign(pair, accountNonce, apiObservable.genesisHash);
+      extrinsic.sign(pair, accountNonce, apiPromise.genesisHash);
     } else {
       console.log(`sendInherent: from=${pair.address()}, nonce=${accountNonce}`);
     }
@@ -284,11 +285,11 @@ class Signer extends React.PureComponent<Props, State> {
     await this.submitExtrinsic(extrinsic, id);
   }
 
-  private async submitRpc (rpc: RpcMethod, values: Array<any>): Promise<QueueTx$Result> {
-    const { apiObservable } = this.props;
+  private async submitRpc ({ method, section }: RpcMethod, values: Array<any>): Promise<QueueTx$Result> {
+    const { apiPromise } = this.props;
 
     try {
-      const result = await apiObservable.rawCall(rpc, ...values).toPromise();
+      const result = await (apiPromise.rpc as any)[section][method](...values);
 
       console.log('submitRpc: result ::', format(result));
 
@@ -306,34 +307,25 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private async submitExtrinsic (extrinsic: Extrinsic, id: number): Promise<void> {
-    const { apiObservable, queueSetTxStatus } = this.props;
+  private async submitExtrinsic (extrinsic: SubmittableExtrinsic, id: number): Promise<void> {
+    const { queueSetTxStatus } = this.props;
 
     try {
       const encoded = extrinsic.toJSON();
 
       console.log('submitAndWatchExtrinsic: encode ::', encoded);
 
-      apiObservable
-        .submitAndWatchExtrinsic(extrinsic)
-        .subscribe(
-          (result) => {
-            if (!result) {
-              return;
-            }
+      extrinsic.send((result: SubmittableSendResult) => {
+        if (!result) {
+          return;
+        }
 
-            const status = result.type.toLowerCase() as QueueTx$Status;
+        const status = result.type.toLowerCase() as QueueTx$Status;
 
-            console.log('submitAndWatchExtrinsic: updated status ::', result);
+        console.log('submitAndWatchExtrinsic: updated status ::', result);
 
-            queueSetTxStatus(id, status, result);
-          },
-          (error) => {
-            console.error('submitAndWatchExtrinsic:', error);
-
-            queueSetTxStatus(id, 'error', null, error);
-          }
-        );
+        queueSetTxStatus(id, status, result);
+      });
     } catch (error) {
       console.error('submitAndWatchExtrinsic:', error);
 

@@ -1,8 +1,8 @@
-// Copyright 2017-2018 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2019 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// Copyright 2017-2018 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2019 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -11,7 +11,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { Event, EventRecord } from '@polkadot/types';
 import { Event as EventDisplay } from '@polkadot/ui-app/index';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with';
+import { withCall, withMulti } from '@polkadot/ui-react-rx/with';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
@@ -19,7 +19,7 @@ import { MAX_ITEMS } from './BlockHeaders';
 import translate from './translate';
 
 type Props = I18nProps & {
-  systemEvents?: Array<EventRecord>
+  query_system_events?: Array<EventRecord>
 };
 
 type State = {
@@ -37,14 +37,14 @@ class EventsDisplay extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ systemEvents = [] }: Props, prevState: State): State | null {
-    const prevEventHash = xxhashAsHex(stringToU8a(JSON.stringify(systemEvents)));
+  static getDerivedStateFromProps ({ query_system_events = [] }: Props, prevState: State): State | null {
+    const prevEventHash = xxhashAsHex(stringToU8a(JSON.stringify(query_system_events)));
 
     if (prevEventHash === prevState.prevEventHash) {
       return null;
     }
 
-    const recentEvents = systemEvents
+    const recentEvents = query_system_events
       .filter(({ event }) =>
         event.section !== 'system'
       )
@@ -108,5 +108,5 @@ class EventsDisplay extends React.PureComponent<Props, State> {
 export default withMulti(
   EventsDisplay,
   translate,
-  withObservable('systemEvents')
+  withCall('query.system.events')
 );

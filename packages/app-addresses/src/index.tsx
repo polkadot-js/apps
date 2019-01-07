@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/app-addresses authors & contributors
+// Copyright 2017-2019 @polkadot/app-addresses authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -12,7 +12,7 @@ import React from 'react';
 
 import addressObservable from '@polkadot/ui-keyring/observable/addresses';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
-import { withMulti, withObservableBase } from '@polkadot/ui-react-rx/with/index';
+import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
 
 import Creator from './Creator';
 import Editor from './Editor';
@@ -128,5 +128,5 @@ class AddressesApp extends React.PureComponent<Props, State> {
 export default withMulti(
   AddressesApp,
   translate,
-  withObservableBase(addressObservable.subject, { propName: 'allAddresses' })
+  withObservable(addressObservable.subject, { propName: 'allAddresses' })
 );

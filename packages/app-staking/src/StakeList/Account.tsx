@@ -1,30 +1,31 @@
-// Copyright 2017-2018 @polkadot/app-staking authors & contributors
+// Copyright 2017-2019 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
-import { RxBalanceMap } from '@polkadot/api-observable/types';
+import { DerivedBalancesMap } from '@polkadot/ui-react-rx/derive/types';
+import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import Api from '@polkadot/api-observable';
-import { AccountId, Balance, Extrinsic, Method } from '@polkadot/types';
+import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
+import { AccountId, Balance } from '@polkadot/types';
 import { AddressMini, AddressSummary, Button } from '@polkadot/ui-app/index';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import Nominating from './Nominating';
 import UnnominateButton from './UnnominateButton';
 import translate from '../translate';
 
-type Props = I18nProps & {
-  accountNonce?: BN,
+type Props = ApiProps & I18nProps & {
+  query_system_accountNonce?: BN,
   accountId: string,
-  balances: RxBalanceMap,
+  balances: DerivedBalancesMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   name: string,
-  stakingNominating?: AccountId,
-  stakingNominatorsFor?: Array<string>,
+  query_staking_nominating?: AccountId,
+  query_staking_nominatorsFor?: Array<string>,
   intentions: Array<string>,
   isValidator: boolean,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
@@ -73,31 +74,31 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderNominee () {
-    const { stakingNominating, balanceArray } = this.props;
+    const { query_staking_nominating, balanceArray } = this.props;
 
-    if (!stakingNominating) {
+    if (!query_staking_nominating) {
       return null;
     }
 
     return (
       <AddressMini
-        balance={balanceArray(stakingNominating)}
-        value={stakingNominating}
+        balance={balanceArray(query_staking_nominating)}
+        value={query_staking_nominating}
         withBalance
       />
     );
   }
 
   private renderNominators () {
-    const { stakingNominatorsFor } = this.props;
+    const { query_staking_nominatorsFor } = this.props;
 
-    if (!stakingNominatorsFor) {
+    if (!query_staking_nominatorsFor) {
       return null;
     }
 
     return (
       <div className='ui--Nominators'>
-        {stakingNominatorsFor.map((nominator) => (
+        {query_staking_nominatorsFor.map((nominator) => (
           <AddressMini
             isPadded={false}
             key={nominator}
@@ -110,9 +111,9 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { accountId, intentions, stakingNominating, t } = this.props;
+    const { accountId, intentions, query_staking_nominating, t } = this.props;
     const isIntending = intentions.includes(accountId);
-    const isNominating = !!stakingNominating;
+    const isNominating = !!query_staking_nominating;
     const canStake = !isIntending && !isNominating;
 
     if (canStake) {
@@ -142,7 +143,7 @@ class Account extends React.PureComponent<Props, State> {
         <Button.Group>
           <UnnominateButton
             accountId={accountId || ''}
-            nominating={stakingNominating || ''}
+            nominating={query_staking_nominating || ''}
             onClick={this.unnominate}
           />
         </Button.Group>
@@ -162,12 +163,12 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private send (method: Method) {
-    const { accountNonce, accountId, queueExtrinsic } = this.props;
+  private send (extrinsic: SubmittableExtrinsic) {
+    const { query_system_accountNonce, accountId, queueExtrinsic } = this.props;
 
     queueExtrinsic({
-      extrinsic: new Extrinsic({ method }),
-      accountNonce: accountNonce || new BN(0),
+      extrinsic,
+      accountNonce: query_system_accountNonce,
       accountId
     });
   }
@@ -181,30 +182,38 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private nominate = (nominee: string) => {
-    this.send(Api.extrinsics.staking.nominate(nominee));
+    const { apiPromise } = this.props;
+
+    this.send(apiPromise.tx.staking.nominate(nominee));
 
     this.toggleNominate();
   }
 
   private unnominate = (index: number) => {
-    this.send(Api.extrinsics.staking.unnominate(index));
+    const { apiPromise } = this.props;
+
+    this.send(apiPromise.tx.staking.unnominate(index));
   }
 
   private stake = () => {
-    this.send(Api.extrinsics.staking.stake());
+    const { apiPromise } = this.props;
+
+    this.send(apiPromise.tx.staking.stake());
   }
 
   private unstake = () => {
+    const { apiPromise } = this.props;
+
     const { accountId, intentions } = this.props;
 
-    this.send(Api.extrinsics.staking.unstake(intentions.indexOf(accountId)));
+    this.send(apiPromise.tx.staking.unstake(intentions.indexOf(accountId)));
   }
 }
 
 export default withMulti(
   Account,
   translate,
-  withObservable('stakingNominatorsFor', { paramProp: 'accountId' }),
-  withObservable('stakingNominating', { paramProp: 'accountId' }),
-  withObservable('accountNonce', { paramProp: 'accountId' })
+  withCall('query.staking.nominatorsFor', { paramProp: 'accountId' }),
+  withCall('query.staking.nominating', { paramProp: 'accountId' }),
+  withCall('query.system.accountNonce', { paramProp: 'accountId' })
 );

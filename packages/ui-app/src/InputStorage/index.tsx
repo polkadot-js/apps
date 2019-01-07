@@ -1,17 +1,18 @@
-// Copyright 2017-2018 @polkadot/ui-app authors & contributors
+// Copyright 2017-2019 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 // TODO: We have a lot shared between this and InputExtrinsic
 
 import { StorageFunction } from '@polkadot/types/StorageKey';
+import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 
 import '../InputExtrinsic/InputExtrinsic.css';
 
 import React from 'react';
-import Api from '@polkadot/api-observable';
+import { withApi, withMulti } from '@polkadot/ui-react-rx/with';
 
 import classes from '../util/classes';
 import translate from '../translate';
@@ -20,7 +21,7 @@ import SelectSection from './SelectSection';
 import keyOptions from './options/key';
 import sectionOptions from './options/section';
 
-type Props = I18nProps & {
+type Props = ApiProps & I18nProps & {
   defaultValue: StorageFunction,
   isError?: boolean,
   labelMethod?: string,
@@ -41,11 +42,11 @@ class InputStorage extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const method = this.props.defaultValue;
+    const { apiPromise, defaultValue: { section } } = this.props;
 
     this.state = {
-      optionsMethod: keyOptions(method.section),
-      optionsSection: sectionOptions(),
+      optionsMethod: keyOptions(apiPromise, section),
+      optionsSection: sectionOptions(apiPromise),
       value: this.props.defaultValue
     };
   }
@@ -93,14 +94,15 @@ class InputStorage extends React.PureComponent<Props, State> {
   }
 
   private onSectionChange = (newSection: string): void => {
+    const { apiPromise } = this.props;
     const { value } = this.state;
 
     if (newSection === value.section) {
       return;
     }
 
-    const optionsMethod = keyOptions(newSection);
-    const newValue = Api.storage[newSection][optionsMethod[0].value];
+    const optionsMethod = keyOptions(apiPromise, newSection);
+    const newValue = apiPromise.query[newSection][optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
       this.onKeyChange(newValue)
@@ -108,4 +110,8 @@ class InputStorage extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(InputStorage);
+export default withMulti(
+  InputStorage,
+  translate,
+  withApi
+);
