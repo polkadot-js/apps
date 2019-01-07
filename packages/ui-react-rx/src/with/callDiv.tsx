@@ -17,13 +17,13 @@ export default function withCallDiv<T> (endpoint: string, options: Options<T> = 
   return (render: (value?: T) => React.ReactNode, defaultProps: DefaultProps<T> = {}): React.ComponentType<any> => {
     class Inner extends React.PureComponent<Props<T>> {
       render () {
-        const { children, className, label = '', style, value } = this.props;
+        const { children, className = defaultProps.className, label = '', rxUpdated, style, value } = this.props;
 
         return (
           <div
-            className={className}
-            style={style}
             {...defaultProps}
+            className={[className, rxUpdated ? 'rx--updated' : undefined].join(' ')}
+            style={style}
           >
             {label}{render(value)}{children}
           </div>

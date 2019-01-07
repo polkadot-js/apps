@@ -119,24 +119,32 @@ export default function withCall<T, P> (endpoint: string, { rxChange, params = [
 
       private async subscribe (newParams: Array<any>) {
         const { apiPromise } = this.props;
+        const updater = (value?: T) =>
+          this.triggerUpdate(this.props, value);
 
         await apiPromise.isReady;
 
         try {
-          const [apiMethod, isSubscription] = this.getApiMethod();
+          if (endpoint === 'subscribe') {
+            const [fn, ...args] = newParams.concat([updater]);
 
-          this.unsubscribe();
-
-          if (isSubscription) {
             this.setState({
-              destroy: apiMethod(...newParams, (value?: T) => {
-                this.triggerUpdate(this.props, value);
-              })
+              destroy: fn(...args)
             });
           } else {
-            const value: T = await apiMethod(...newParams);
+            const [apiMethod, isSubscription] = this.getApiMethod();
 
-            this.triggerUpdate(this.props, value);
+            this.unsubscribe();
+
+            if (isSubscription) {
+              this.setState({
+                destroy: apiMethod(...newParams, updater)
+              });
+            } else {
+              const value: T = await apiMethod(...newParams);
+
+              this.triggerUpdate(this.props, value);
+            }
           }
         } catch (error) {
           console.error(error);

@@ -194,6 +194,6 @@ class FeeDisplay extends React.PureComponent<Props, State> {
 export default withMulti(
   FeeDisplay,
   translate,
-  withCall('derive.balances.votingBalanceOf', { paramProp: 'accountId', propName: 'balanceFrom' }),
-  withCall('derive.balances.votingBalanceOf', { paramProp: 'recipientId', propName: 'balanceTo' })
+  withCall('derive.balances.votingBalance', { paramProp: 'accountId', propName: 'balanceFrom' }),
+  withCall('derive.balances.votingBalance', { paramProp: 'recipientId', propName: 'balanceTo' })
 );

@@ -7,7 +7,6 @@ import Balance from './Balance';
 import BestFinalised from './BestFinalised';
 import BestNumber from './BestNumber';
 import Chain from './Chain';
-import Div from './Div';
 import NodeName from './NodeName';
 import NodeVersion from './NodeVersion';
 import Nonce from './Nonce';
@@ -20,7 +19,6 @@ export {
   BestFinalised,
   BestNumber,
   Chain,
-  Div,
   NodeName,
   NodeVersion,
   Nonce,

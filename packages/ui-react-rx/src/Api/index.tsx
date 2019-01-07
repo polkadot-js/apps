@@ -74,32 +74,32 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     });
   }
 
-  private subscribeChain = (api: ApiPromise): void => {
-    api.combineLatest([
-      api.rpc.system.properties,
-      api.rpc.system.chain
-    ], ([properties = new ChainProperties(), value]) => {
-      const chain = value
-        ? value.toString()
-        : null;
-      const found = settings.availableChains.find(({ name }) => name === chain) || {
-        networkId: 42,
-        tokenDecimals: 0,
-        tokenSymbol: undefined
-      };
+  private subscribeChain = async (api: ApiPromise) => {
+    const [properties = new ChainProperties(), value] = await Promise.all([
+      api.rpc.system.properties(),
+      api.rpc.system.chain()
+    ]);
 
-      console.log('found chain', chain, [...properties.entries()]);
+    const chain = value
+      ? value.toString()
+      : null;
+    const found = settings.availableChains.find(({ name }) => name === chain) || {
+      networkId: 42,
+      tokenDecimals: 0,
+      tokenSymbol: undefined
+    };
 
-      balanceFormat.setDefaultDecimals(properties.get('tokenDecimals') || found.tokenDecimals);
-      InputNumber.setUnit(properties.get('tokenSymbol') || found.tokenSymbol);
+    console.log('found chain', chain, [...properties.entries()]);
 
-      // setup keyringonly after prefix has been set
-      keyring.setAddressPrefix(properties.get('networkId') || found.networkId as any);
-      keyring.setDevMode(isTestChain(chain || ''));
-      keyring.loadAll();
+    balanceFormat.setDefaultDecimals(properties.get('tokenDecimals') || found.tokenDecimals);
+    InputNumber.setUnit(properties.get('tokenSymbol') || found.tokenSymbol);
 
-      this.setState({ chain });
-    });
+    // setup keyringonly after prefix has been set
+    keyring.setAddressPrefix(properties.get('networkId') || found.networkId as any);
+    keyring.setDevMode(isTestChain(chain || ''));
+    keyring.loadAll();
+
+    this.setState({ chain });
   }
 
   private subscribeIsConnected = (api: ApiPromise) => {
