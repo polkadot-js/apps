@@ -17,7 +17,7 @@ export default function referendumInfos (api: ApiPromise): DeriveSubscription {
 
     return api.combineLatest(
       ids.map((id) =>
-        [[id], api.query.democracy.referendumInfoOf] as [Array<any>, CombinatorFunction]
+        [api.query.democracy.referendumInfoOf, id] as [CombinatorFunction, ...Array<any>]
       ), (infos: Array<ReferendumInfo | undefined>) =>
         cb(
           (infos || []).filter((info) => info) as Array<ReferendumInfo>

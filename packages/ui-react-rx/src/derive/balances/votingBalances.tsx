@@ -18,7 +18,7 @@ export default function votingBalances (api: ApiPromise): DeriveSubscription {
 
     return api.combineLatest(
       addresses.map((address) =>
-        [[address], votingBalance(api)] as [Array<any>, CombinatorFunction]
+        [votingBalance(api), address] as [CombinatorFunction, ...Array<any>]
       ), cb
     );
   };

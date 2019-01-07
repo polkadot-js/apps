@@ -6,16 +6,17 @@ import { TypeDef, getTypeDef } from '@polkadot/types/codec';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParams } from '@polkadot/ui-app/Params/types';
+import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { PartialModuleQuery } from '../types';
 
 import React from 'react';
-import Api from '@polkadot/api-observable';
 import { Button, InputStorage, Labelled, Params } from '@polkadot/ui-app/index';
+import { withApi, withMulti } from '@polkadot/ui-react-rx/with';
 import { isUndefined } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
+type Props = ApiProps & I18nProps & {
   onAdd: (query: PartialModuleQuery) => void
 };
 
@@ -33,7 +34,9 @@ class Modules extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    this.defaultValue = Api.storage.timestamp.now;
+    const { apiPromise } = this.props;
+
+    this.defaultValue = apiPromise.query.timestamp.now;
     this.state = {
       isValid: true,
       key: this.defaultValue,
@@ -124,4 +127,8 @@ class Modules extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(Modules);
+export default withMulti(
+  Modules,
+  translate,
+  withApi
+);

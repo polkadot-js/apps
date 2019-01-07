@@ -27,8 +27,8 @@ export default function referendumVotesFor (api: ApiPromise): DeriveSubscription
       }
 
       innerDestroy = api.combineLatest([
-        [[referendumId, votersFor], votes(api)] as [Array<any>, CombinatorFunction],
-        [votersFor, votingBalances(api)] as [Array<any>, CombinatorFunction]
+        [votes(api), referendumId, ...votersFor] as [CombinatorFunction, ...Array<any>],
+        [votingBalances(api), ...votersFor] as [CombinatorFunction, ...Array<any>]
       ], ([votes, balances]) =>
         cb(
           votersFor.map((accountId, index): DerivedReferendumVote => ({

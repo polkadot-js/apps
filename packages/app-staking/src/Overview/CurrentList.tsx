@@ -97,10 +97,10 @@ class CurrentList extends React.PureComponent<Props> {
                 withCopy={false}
                 withNonce={false}
               >
-                {nominators.map(({ address }) =>
+                {nominators.map(({ accountId }) =>
                   <AddressMini
-                    key={address.toString()}
-                    value={address}
+                    key={accountId.toString()}
+                    value={accountId}
                     withBalance
                   />
                 )}

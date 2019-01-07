@@ -2,18 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableSendResult } from '@polkadot/api/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
+import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
 import { decodeAddress } from '@polkadot/keyring';
 import { Button, Modal } from '@polkadot/ui-app/index';
 import keyring from '@polkadot/ui-keyring';
 import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
 import { format } from '@polkadot/util/logger';
-import { Extrinsic } from '@polkadot/types';
 
 import ExtrinsicDisplay from './Extrinsic';
 import Unlock from './Unlock';
@@ -306,15 +307,15 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private async submitExtrinsic (extrinsic: Extrinsic, id: number): Promise<void> {
-    const { apiPromise, queueSetTxStatus } = this.props;
+  private async submitExtrinsic (extrinsic: SubmittableExtrinsic, id: number): Promise<void> {
+    const { queueSetTxStatus } = this.props;
 
     try {
       const encoded = extrinsic.toJSON();
 
       console.log('submitAndWatchExtrinsic: encode ::', encoded);
 
-      apiPromise.rpc.author.submitAndWatchExtrinsic(extrinsic, (result: any) => {
+      extrinsic.send((result: SubmittableSendResult) => {
         if (!result) {
           return;
         }

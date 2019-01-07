@@ -7,17 +7,16 @@ import { ApiProps } from '../types';
 
 import React from 'react';
 import ApiPromise from '@polkadot/api/promise';
-import extrinsicsStatic from '@polkadot/extrinsics/static';
 import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import keyring from '@polkadot/ui-keyring';
-import { isTestChain } from '@polkadot/ui-react-rx/util/index';
-import settings from '@polkadot/ui-settings';
-import { Method, ChainProperties } from '@polkadot/types';
-
-import { balanceFormat } from '../util/index';
-import ApiContext from './Context';
 import { InputNumber } from '@polkadot/ui-app/InputNumber';
+import keyring from '@polkadot/ui-keyring';
+import { isTestChain } from '@polkadot/ui-react-rx/util';
+import settings from '@polkadot/ui-settings';
+import { ChainProperties } from '@polkadot/types';
+
+import { balanceFormat } from '../util';
+import ApiContext from './Context';
 
 type Props = {
   children: React.ReactNode,
@@ -27,9 +26,6 @@ type Props = {
 type State = ApiProps & {
   chain?: string
 };
-
-// HACK Initialise with static data
-Method.injectMethods(extrinsicsStatic);
 
 export default class ApiWrapper extends React.PureComponent<Props, State> {
   state: State = {} as State;

@@ -6,7 +6,8 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$Extrinsic, QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
-import { Extrinsic, Index } from '@polkadot/types';
+import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
+import { Index } from '@polkadot/types';
 import Button from '@polkadot/ui-app/Button';
 import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
 
@@ -16,7 +17,7 @@ type Props = I18nProps & {
   isDisabled: boolean,
   accountId?: string,
   query_system_accountNonce?: Index,
-  extrinsic: Extrinsic | null,
+  extrinsic: SubmittableExtrinsic | null,
   queueExtrinsic: QueueTx$ExtrinsicAdd
 };
 

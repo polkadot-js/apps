@@ -20,7 +20,7 @@ export type DerivedBalancesFees = {
 };
 
 export type DerivedBalances = {
-  accountId?: AccountId,
+  accountId: AccountId,
   freeBalance: Balance,
   nominatedBalance: Balance,
   reservedBalance: Balance,

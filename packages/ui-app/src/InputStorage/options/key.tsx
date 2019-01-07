@@ -5,10 +5,10 @@
 import { DropdownOptions } from '../../util/types';
 
 import React from 'react';
-import Api from '@polkadot/api-observable';
+import ApiPromise from '@polkadot/api/promise';
 
-export default function createOptions (sectionName: keyof typeof Api.storage): DropdownOptions {
-  const section = Api.storage[sectionName];
+export default function createOptions (apiPromise: ApiPromise, sectionName: string): DropdownOptions {
+  const section = apiPromise.query[sectionName];
 
   if (!section) {
     return [];

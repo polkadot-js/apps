@@ -16,7 +16,7 @@ export default function votingBalance (api: ApiPromise): DeriveSubscription {
     const idDestory = accountIdAndIndex(api)(address, ([accountId]: [AccountId | undefined]) => {
       const handler = (freeBalance?: Balance, reservedBalance?: Balance) =>
         cb({
-          accountId,
+          accountId: accountId || new AccountId(),
           freeBalance: freeBalance || new Balance(0),
           nominatedBalance: new Balance(0),
           reservedBalance: reservedBalance || new Balance(0),
@@ -36,8 +36,8 @@ export default function votingBalance (api: ApiPromise): DeriveSubscription {
       }
 
       combineDestroy = api.combineLatest([
-        [[accountId], api.query.balances.freeBalance],
-        [[accountId], api.query.balances.reservedBalance]
+        [api.query.balances.freeBalance, accountId],
+        [api.query.balances.reservedBalance, accountId]
       ], ([freeBalance, reservedBalance]) =>
         handler(freeBalance, reservedBalance)
       );

@@ -18,7 +18,7 @@ export default function accountIndexes (api: ApiPromise): DeriveSubscription {
     const nextEnumSetDestory = api.query.balances.nextEnumSet((next: AccountIndex) => {
       const setSize = ENUMSET_SIZE.toNumber();
       const enumRange = [...Array((next || new BN(0)).div(ENUMSET_SIZE).toNumber() + 1).keys()].map((index) =>
-        [[index], api.query.balances.enumSet] as [Array<any>, QueryableStorageFunction]
+        [api.query.balances.enumSet, index] as [QueryableStorageFunction, ...Array<any>]
       );
 
       if (combineDestroy) {

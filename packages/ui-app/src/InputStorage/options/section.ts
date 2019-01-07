@@ -4,11 +4,11 @@
 
 import { DropdownOptions } from '../../util/types';
 
-import Api from '@polkadot/api-observable';
+import ApiPromise from '@polkadot/api/promise';
 
-export default function createOptions (): DropdownOptions {
+export default function createOptions (apiPromise: ApiPromise): DropdownOptions {
   return Object
-    .keys(Api.storage)
+    .keys(apiPromise.query)
     .sort()
     .map((name) => ({
       text: name,

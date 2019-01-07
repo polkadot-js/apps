@@ -16,8 +16,8 @@ import votingBalancesNominatorsFor from './votingBalancesNominatorsFor';
 export default function validatingBalance (api: ApiPromise): DeriveSubscription {
   return (accountId: AccountId | string, cb: (balance: DerivedBalances) => any): UnsubFunction =>
     api.combineLatest([
-      [[accountId], votingBalance(api)] as [Array<any>, CombinatorFunction],
-      [[accountId], votingBalancesNominatorsFor(api)] as [Array<any>, CombinatorFunction]
+      [votingBalance(api), accountId] as [CombinatorFunction, ...Array<any>],
+      [votingBalancesNominatorsFor(api), accountId] as [CombinatorFunction, ...Array<any>]
     ], ([balance, nominators]) => {
       const nominatedBalance = nominators.reduce((total: BN, nominatorBalance: DerivedBalances) => {
         return total.add(nominatorBalance.votingBalance);

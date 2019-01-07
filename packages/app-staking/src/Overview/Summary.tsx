@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { DerivedBalance, DerivedBalancesMap } from '@polkadot/ui-react-rx/derive/types';
+import { DerivedBalances, DerivedBalancesMap } from '@polkadot/ui-react-rx/derive/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -96,10 +96,10 @@ class Summary extends React.PureComponent<Props> {
     );
   }
 
-  private calcIntentionsHigh (): DerivedBalance | null {
+  private calcIntentionsHigh (): DerivedBalances | null {
     const { balances, intentions, validators } = this.props;
 
-    return intentions.reduce((high: DerivedBalance | null, addr) => {
+    return intentions.reduce((high: DerivedBalances | null, addr) => {
       const balance = validators.includes(addr) || !balances[addr]
         ? null
         : balances[addr];
@@ -112,10 +112,10 @@ class Summary extends React.PureComponent<Props> {
     }, null);
   }
 
-  private calcValidatorLow (): DerivedBalance | null {
+  private calcValidatorLow (): DerivedBalances | null {
     const { balances, validators } = this.props;
 
-    return validators.reduce((low: DerivedBalance | null, addr) => {
+    return validators.reduce((low: DerivedBalances | null, addr) => {
       const balance = balances[addr] || null;
 
       if (low === null || (balance && low.stakingBalance.gt(balance.stakingBalance))) {

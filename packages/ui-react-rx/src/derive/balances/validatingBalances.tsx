@@ -18,7 +18,7 @@ export default function votingBalances (api: ApiPromise): DeriveSubscription {
 
     return api.combineLatest(
       accountIds.map((accountId) =>
-        [[accountId], validatingBalance(api)] as [Array<any>, CombinatorFunction]
+        [validatingBalance(api), accountId] as [CombinatorFunction, ...Array<any>]
       ), (result) =>
         cb(
           result.reduce((balances, balance) => {
