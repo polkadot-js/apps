@@ -92,59 +92,66 @@ export default function withCall<T, P> (endpoint: string, { rxChange, params = [
           );
       }
 
-      private getApiMethod () {
+      private getApiMethod (newParams: Array<any>) {
         const { apiPromise } = this.props;
+
+        if (endpoint === 'subscribe') {
+          const [fn, ...params] = newParams;
+
+          return [
+            fn,
+            params,
+            true
+          ];
+        }
+
         const [area, section, method, ...others] = endpoint.split('.');
-        const api = apiPromise as any;
 
         assert(area.length && section.length && method.length && others.length === 0, `Invalid API format, expected <area>.<section>.<method>, found ${endpoint}`);
         assert(['rpc', 'query', 'derive'].includes(area), `Unknown api.${area}, expected rpc, query or derive`);
 
         if (area === 'derive') {
-          assert((derive as any)[section] && (derive as any)[section][method], `Unable to find api.derive.${section}.${method}`);
+          const apiSection = (derive as any)[section];
+
+          assert(apiSection && apiSection[method], `Unable to find api.derive.${section}.${method}`);
 
           return [
-            (derive as any)[section][method](apiPromise),
+            apiSection[method](apiPromise),
+            newParams,
             true
           ];
         }
 
-        assert(api[area][section] && api[area][section][method], `Unable to find api.${area}.${section}.${method}`);
+        const apiSection = (apiPromise as any)[area][section];
+
+        assert(apiSection && apiSection[method], `Unable to find api.${area}.${section}.${method}`);
 
         return [
-          api[area][section][method],
+          apiSection[method],
+          newParams,
           area === 'query' || method.startsWith('subscribe')
         ];
       }
 
       private async subscribe (newParams: Array<any>) {
         const { apiPromise } = this.props;
-        const updater = (value?: T) =>
-          this.triggerUpdate(this.props, value);
 
         await apiPromise.isReady;
 
         try {
-          if (endpoint === 'subscribe') {
-            const [fn, ...args] = newParams.concat([updater]);
+          const [apiMethod, params, isSubscription] = this.getApiMethod(newParams);
 
+          this.unsubscribe();
+
+          if (isSubscription) {
             this.setState({
-              destroy: fn(...args)
+              destroy: apiMethod(...params, (value?: T) =>
+              this.triggerUpdate(this.props, value))
             });
           } else {
-            const [apiMethod, isSubscription] = this.getApiMethod();
+            const value: T = await apiMethod(...params);
 
-            this.unsubscribe();
-
-            if (isSubscription) {
-              this.setState({
-                destroy: apiMethod(...newParams, updater)
-              });
-            } else {
-              const value: T = await apiMethod(...newParams);
-
-              this.triggerUpdate(this.props, value);
-            }
+            this.triggerUpdate(this.props, value);
           }
         } catch (error) {
           console.error(error);
