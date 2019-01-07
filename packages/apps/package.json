@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/apps",
-  "version": "0.21.17",
+  "version": "0.21.18",
   "description": "An Apps portal into the Polkadot network",
   "main": "index.js",
   "homepage": ".",
@@ -13,20 +13,20 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.2.0",
-    "@polkadot/app-accounts": "^0.21.17",
-    "@polkadot/app-addresses": "^0.21.17",
-    "@polkadot/app-democracy": "^0.21.17",
-    "@polkadot/app-explorer": "^0.21.17",
-    "@polkadot/app-extrinsics": "^0.21.17",
-    "@polkadot/app-rpc": "^0.21.17",
-    "@polkadot/app-settings": "^0.21.17",
-    "@polkadot/app-staking": "^0.21.17",
-    "@polkadot/app-storage": "^0.21.17",
-    "@polkadot/app-toolbox": "^0.21.17",
-    "@polkadot/app-transfer": "^0.21.17",
-    "@polkadot/app-vanitygen": "^0.21.17",
-    "@polkadot/ui-app": "^0.21.17",
+    "@polkadot/app-accounts": "^0.21.18",
+    "@polkadot/app-addresses": "^0.21.18",
+    "@polkadot/app-democracy": "^0.21.18",
+    "@polkadot/app-explorer": "^0.21.18",
+    "@polkadot/app-extrinsics": "^0.21.18",
+    "@polkadot/app-rpc": "^0.21.18",
+    "@polkadot/app-settings": "^0.21.18",
+    "@polkadot/app-staking": "^0.21.18",
+    "@polkadot/app-storage": "^0.21.18",
+    "@polkadot/app-toolbox": "^0.21.18",
+    "@polkadot/app-transfer": "^0.21.18",
+    "@polkadot/app-vanitygen": "^0.21.18",
+    "@polkadot/ui-app": "^0.21.18",
     "@polkadot/ui-assets": "^0.24.25",
-    "@polkadot/ui-signer": "^0.21.17"
+    "@polkadot/ui-signer": "^0.21.18"
   }
 }
