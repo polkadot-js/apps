@@ -1549,31 +1549,31 @@
     "@polkadot/util" "^0.33.30"
     core-js "^2.6.1"
 
-"@polkadot/ui-assets@^0.24.27":
-  version "0.24.27"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-assets/-/ui-assets-0.24.27.tgz#d896353169c7ee55facf32997414fcb47fbb30b1"
-  integrity sha512-LT6jK45f+u/djpH6TH4WuI1BZg/uFfjdbiOvYFQwEv71BOnKQnfSog5KBxDC9TRU29dorup7cwlzvwyf5c5/xA==
+"@polkadot/ui-assets@^0.24.29":
+  version "0.24.29"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-assets/-/ui-assets-0.24.29.tgz#83eafa8876cc86a8d9831eabd12fb6fbd2e9f588"
+  integrity sha512-y05Ndwz+sQWn85X/+Fqcf+w1y+BfNtzHYB+GHl0LwDm3O1EnxrzUWGNLPxjYzdvGWdaJEe1mrkyZYRdVPfkiyw==
   dependencies:
     "@babel/runtime" "^7.2.0"
 
-"@polkadot/ui-identicon@^0.24.27":
-  version "0.24.27"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-identicon/-/ui-identicon-0.24.27.tgz#6c9eaf78937bd7adac5e622333471550e0bc7a9b"
-  integrity sha512-bj9UA9G4x9Qlb5QC6ScpO3EsiCUoTFAze0jIrnOHdZYaDfZ3ZKAV5mNojDmRFNO8uRCCB0JH77TBW0Hk+xljdg==
+"@polkadot/ui-identicon@^0.24.29":
+  version "0.24.29"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-identicon/-/ui-identicon-0.24.29.tgz#89e64b98923bed64631bf58567c9da6f6eff9ce4"
+  integrity sha512-4s6ONya1tg3cRXGXgamugq8aTukQCEK5ZwcXm4ZTKYo+RZAw1CfxOHyS7Qf408VeCRMMuLv2DSXwbDcj7GybjQ==
   dependencies:
     "@babel/runtime" "^7.2.0"
     "@polkadot/keyring" "^0.33.30"
-    "@polkadot/ui-settings" "^0.24.27"
+    "@polkadot/ui-settings" "^0.24.29"
     "@polkadot/util-crypto" "^0.33.30"
     "@types/color" "^3.0.0"
     "@types/react-copy-to-clipboard" "^4.2.6"
     color "^3.0.0"
     react-copy-to-clipboard "^5.0.1"
 
-"@polkadot/ui-keyring@^0.24.27":
-  version "0.24.27"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-keyring/-/ui-keyring-0.24.27.tgz#ceff451ee0c42bb35b75f73c08038844767eaf24"
-  integrity sha512-1h/qtJAm88ZngosXCxLrGLEGmMGULiy1dB10wTGZyCfkLklsloamMhNRb34LaQHV7ohnGDv9HAxV0qLGzdeOHw==
+"@polkadot/ui-keyring@^0.24.29":
+  version "0.24.29"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-keyring/-/ui-keyring-0.24.29.tgz#933671a53f39f1b2b0810ead87fdbf23b184730e"
+  integrity sha512-ivMJP0Bj0KgDe4thtATmVYR4sDum6JKpaYxpv7xu9Ka8RMyrhN2GE9byXgpSL+NeeipuDloRCTFrFLOYBpH51A==
   dependencies:
     "@babel/runtime" "^7.2.0"
     "@polkadot/keyring" "^0.33.30"
@@ -1581,10 +1581,10 @@
     "@types/store" "^2.0.1"
     store "^2.0.12"
 
-"@polkadot/ui-settings@^0.24.27":
-  version "0.24.27"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-settings/-/ui-settings-0.24.27.tgz#2f04a0b3bb328a8cc37d03ae4dc843d5760088eb"
-  integrity sha512-J1IZPsiN8jfvqhM7vSoUFdNrUsbGVcKD1xYabywH5HsEBq3UsvG3C081ncwiKoLZO5lYNEb+nWEbfm5TzhWdOw==
+"@polkadot/ui-settings@^0.24.29":
+  version "0.24.29"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-settings/-/ui-settings-0.24.29.tgz#02cd5008cb95719cb7a7c16b5651146079cbe445"
+  integrity sha512-CsuaPV1c4HoWYiCfFIuzZQ5sfhZjQ6SG7fknRlh1EofI7S7t1MoWO61hY43HvhmWiBy3HeAtZOS6SqnZ8ffYWg==
   dependencies:
     "@babel/runtime" "^7.2.0"
     "@types/store" "^2.0.1"
