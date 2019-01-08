@@ -35,9 +35,7 @@ function App (props: Props) {
   );
 }
 
-const url = !settings.apiUrl
-  ? undefined
-  : settings.apiUrl;
+const url = process.env.WS_URL || settings.apiUrl || undefined;
 
 console.log('Web socket url=', url);
 
