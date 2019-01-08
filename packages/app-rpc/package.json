@@ -12,7 +12,7 @@
   "dependencies": {
     "@babel/runtime": "^7.2.0",
     "@polkadot/ui-app": "^0.21.19",
-    "@polkadot/ui-keyring": "^0.24.25",
+    "@polkadot/ui-keyring": "^0.24.27",
     "@polkadot/ui-signer": "^0.21.19"
   }
 }
