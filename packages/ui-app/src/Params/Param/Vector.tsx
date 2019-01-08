@@ -41,23 +41,26 @@ class Vector extends React.PureComponent<Props, State> {
       Component: findComponent(sub as TypeDef),
       type,
       values: isDisabled || prevState.values.length === 0
-        ? value
+        ? value.map((value: any) =>
+            !isDisabled || value.isValid
+              ? value
+              : {
+                isValid: true,
+                value
+              }
+          )
         : prevState.values
     };
   }
 
   render () {
-    const { className, defaultValue, isDisabled, style, type, withLabel } = this.props;
-    const { Component } = this.state;
+    const { className, isDisabled, style, type, withLabel } = this.props;
+    const { Component, values } = this.state;
+    const subType = type.sub as TypeDef;
 
     if (!Component) {
       return null;
     }
-
-    const subType = type.sub as TypeDef;
-    const values: Array<RawParam> = isDisabled
-      ? defaultValue.value || []
-      : this.state.values;
 
     return (
       <Bare
