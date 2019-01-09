@@ -84,7 +84,8 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       ? value.toString()
       : null;
     const found = settings.availableChains.find(({ name }) => name === chain) || {
-      networkId: 42,
+      // default should be 42 here, see setAdressPrefix below and change with below
+      networkId: undefined, // 42
       tokenDecimals: 0,
       tokenSymbol: undefined
     };
@@ -94,8 +95,9 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     balanceFormat.setDefaultDecimals(properties.get('tokenDecimals') || found.tokenDecimals);
     InputNumber.setUnit(properties.get('tokenSymbol') || found.tokenSymbol);
 
-    // setup keyringonly after prefix has been set
-    keyring.setAddressPrefix(properties.get('networkId') || found.networkId as any);
+    // setup keyring only after prefix has been set. The networkId is handled slightly differently here
+    // to allow overrides by settings first - revert to normal above when we get rid of invalid specs
+    keyring.setAddressPrefix(found.networkId as any || properties.get('networkId') || 42);
     keyring.setDevMode(isTestChain(chain || ''));
     keyring.loadAll();
 
