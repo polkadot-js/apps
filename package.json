@@ -10,14 +10,6 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "0.37.9",
-    "@polkadot/extrinsics": "0.37.9",
-    "@polkadot/jsonrpc": "0.37.9",
-    "@polkadot/rpc-core": "0.37.9",
-    "@polkadot/rpc-provider": "0.37.9",
-    "@polkadot/rpc-rx": "0.37.9",
-    "@polkadot/storage": "0.37.9",
-    "@polkadot/types": "0.37.9",
     "babel-core": "^7.0.0-bridge.0",
     "rxjs": "^6.3.2",
     "typescript": "^3.2.2"
