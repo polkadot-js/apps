@@ -13,9 +13,9 @@
     "@babel/runtime": "^7.2.0",
     "@polkadot/app-explorer": "^0.21.21",
     "@polkadot/keyring": "^0.33.30",
-    "@polkadot/storage": "^0.38.1",
+    "@polkadot/storage": "^0.37.10",
     "@polkadot/ui-app": "^0.21.21",
-    "@polkadot/ui-keyring": "^0.24.29",
+    "@polkadot/ui-keyring": "^0.24.30",
     "@polkadot/ui-react-rx": "^0.21.21"
   }
 }
