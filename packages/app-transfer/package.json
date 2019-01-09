@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-transfer",
-  "version": "0.21.22",
+  "version": "0.22.0",
   "description": "A basic transfer app",
   "main": "index.js",
   "scripts": {},
@@ -11,8 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.2.0",
-    "@polkadot/ui-app": "^0.21.22",
-    "@polkadot/ui-keyring": "^0.24.30",
-    "@polkadot/ui-react-rx": "^0.21.22"
+    "@polkadot/ui-app": "^0.22.0",
+    "@polkadot/ui-react-rx": "^0.22.0"
   }
 }
