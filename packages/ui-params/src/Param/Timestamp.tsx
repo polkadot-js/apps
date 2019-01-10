@@ -5,9 +5,9 @@
 import { Props, RawParam$OnChange$Value } from '../types';
 
 import React from 'react';
+import { Static } from '@polkadot/ui-app/index';
 
 import Amount from './Amount';
-import Static from '../../Static';
 
 export default class Code extends React.PureComponent<Props> {
   render () {

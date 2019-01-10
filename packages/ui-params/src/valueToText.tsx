@@ -5,7 +5,9 @@
 import './Params.css';
 
 import React from 'react';
+import classes from '@polkadot/ui-app/util/classes';
 import { isNull, isUndefined, u8aToHex } from '@polkadot/util';
+
 // import { decodeAddress } from '@polkadot/keyring';
 // import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 // import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
@@ -13,7 +15,6 @@ import { isNull, isUndefined, u8aToHex } from '@polkadot/util';
 // import isBn from '@polkadot/util/is/bn';
 // import isU8a from '@polkadot/util/is/u8a';
 
-import classes from '../util/classes';
 // import { textMap as thresholdTextMap } from './Param/VoteThreshold';
 
 // const empty = div({}, '<empty>');

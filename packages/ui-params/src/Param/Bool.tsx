@@ -4,23 +4,22 @@
 
 import { Props } from '../types';
 
-import BN from 'bn.js';
 import React from 'react';
+import { Dropdown } from '@polkadot/ui-app/index';
 
-import Dropdown from '../../Dropdown';
 import Bare from './Bare';
 
 const options = [
-  { text: 'Nay', value: 0 },
-  { text: 'Aye', value: -1 }
+  { text: 'No', value: false },
+  { text: 'Yes', value: true }
 ];
 
-export default class Vote extends React.PureComponent<Props> {
+export default class BoolParam extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = value instanceof BN
-      ? value.toNumber()
-      : value as number;
+    const defaultValue = value instanceof Boolean
+      ? value.valueOf()
+      : value as boolean;
 
     return (
       <Bare
@@ -41,7 +40,7 @@ export default class Vote extends React.PureComponent<Props> {
     );
   }
 
-  private onChange = (value: number): void => {
+  private onChange = (value: boolean): void => {
     const { onChange } = this.props;
 
     onChange && onChange({

@@ -7,9 +7,9 @@ import { TypeDef } from '@polkadot/types/codec';
 import { Props as BareProps, RawParam } from '../types';
 
 import React from 'react';
+import { Button } from '@polkadot/ui-app/index';
+import translate from '@polkadot/ui-app/translate';
 
-import Button from '../../Button';
-import translate from '../../translate';
 import getInitValue from '../initValue';
 import Bare from './Bare';
 import findComponent from './findComponent';

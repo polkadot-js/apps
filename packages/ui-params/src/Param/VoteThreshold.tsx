@@ -4,54 +4,59 @@
 
 import { Props } from '../types';
 
-import BN from 'bn.js';
 import React from 'react';
-import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
+import { VoteThreshold } from '@polkadot/types';
+import { Dropdown } from '@polkadot/ui-app/index';
+import { bnToBn } from '@polkadot/util';
 
-import Input from '../../Input';
 import Bare from './Bare';
 
-export default class Amount extends React.PureComponent<Props> {
+type TextMap = { [index: number]: string };
+
+const options = [
+  { text: 'Super majority approval', value: 0 },
+  { text: 'Super majority rejection', value: 1 },
+  { text: 'Simple majority', value: 2 }
+];
+
+export const textMap = options.reduce((textMap, { text, value }) => {
+  textMap[value] = text;
+
+  return textMap;
+}, {} as TextMap);
+
+export default class VoteThresholdParam extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = isDisabled
-      ? numberFormat(value)
-      : (
-        value instanceof BN
-          ? value.toNumber()
-          : new BN((value as number) || 0).toNumber()
-      );
+    const defaultValue = value instanceof VoteThreshold
+      ? value.toNumber()
+      : bnToBn(value as number).toNumber();
 
     return (
       <Bare
         className={className}
         style={style}
       >
-        <Input
+        <Dropdown
           className={isDisabled ? 'full' : 'small'}
           defaultValue={defaultValue}
           isDisabled={isDisabled}
           isError={isError}
           label={label}
-          min={0}
+          options={options}
           onChange={this.onChange}
-          type={
-            isDisabled
-              ? 'text'
-              : 'number'
-          }
           withLabel={withLabel}
         />
       </Bare>
     );
   }
 
-  private onChange = (value: string): void => {
+  private onChange = (value: number): void => {
     const { onChange } = this.props;
 
     onChange && onChange({
       isValid: true,
-      value: new BN(value || 0)
+      value
     });
   }
 }

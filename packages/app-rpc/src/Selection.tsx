@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RpcMethod } from '@polkadot/jsonrpc/types';
-import { RawParam } from '@polkadot/ui-app/Params/types';
+import { RawParam } from '@polkadot/ui-params/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$RpcAdd } from '@polkadot/ui-app/Status/types';
 
@@ -13,7 +13,8 @@ import BN from 'bn.js';
 import React from 'react';
 import rpc from '@polkadot/jsonrpc';
 import { getTypeDef } from '@polkadot/types/codec';
-import { Button, InputRpc, Params } from '@polkadot/ui-app/index';
+import { Button, InputRpc } from '@polkadot/ui-app/index';
+import Params from '@polkadot/ui-params/index';
 
 // import Account from './Account';
 import translate from './translate';

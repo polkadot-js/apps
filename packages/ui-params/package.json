@@ -1,5 +1,5 @@
 {
-  "name": "@polkadot/app-extrinsics",
+  "name": "@polkadot/ui-params",
   "version": "0.22.3",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
@@ -11,8 +11,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.2.0",
-    "@polkadot/ui-app": "^0.22.3",
-    "@polkadot/ui-params": "^0.22.3",
-    "@polkadot/ui-signer": "^0.22.3"
+    "@polkadot/ui-app": "^0.22.3"
   }
 }

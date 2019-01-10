@@ -24,6 +24,7 @@ const packages = [
   'app-transfer',
   'app-vanitygen',
   'ui-app',
+  'ui-params',
   'ui-react-rx',
   'ui-signer'
 ];

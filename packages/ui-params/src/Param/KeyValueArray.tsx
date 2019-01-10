@@ -8,9 +8,9 @@ import { Props as BaseProps, RawParam } from '../types';
 import React from 'react';
 import { Vector } from '@polkadot/types/codec';
 import { KeyValue as Pair } from '@polkadot/types';
+import translate from '@polkadot/ui-app/translate';
 import { assert, isHex, u8aToHex, u8aToString } from '@polkadot/util';
 
-import translate from '../../translate';
 import Base from './Base';
 import Bytes from './Bytes';
 import File from './File';

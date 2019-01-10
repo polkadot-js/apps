@@ -3,15 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef } from '@polkadot/types/codec';
-import { I18nProps } from '../types';
+import { I18nProps } from '@polkadot/ui-app/types';
 import { ComponentMap, RawParams, RawParam$OnChange, RawParam$OnChange$Value } from './types';
 
 import './Params.css';
 
 import React from 'react';
+import classes from '@polkadot/ui-app/util/classes';
+import translate from '@polkadot/ui-app/translate';
 
-import classes from '../util/classes';
-import translate from '../translate';
 import Param from './Param';
 import createValues from './values';
 

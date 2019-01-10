@@ -4,33 +4,23 @@
 
 import { Props } from '../types';
 
+import BN from 'bn.js';
 import React from 'react';
-import { VoteThreshold } from '@polkadot/types';
-import { bnToBn } from '@polkadot/util';
+import { Dropdown } from '@polkadot/ui-app/index';
 
-import Dropdown from '../../Dropdown';
 import Bare from './Bare';
 
-type TextMap = { [index: number]: string };
-
 const options = [
-  { text: 'Super majority approval', value: 0 },
-  { text: 'Super majority rejection', value: 1 },
-  { text: 'Simple majority', value: 2 }
+  { text: 'Nay', value: 0 },
+  { text: 'Aye', value: -1 }
 ];
 
-export const textMap = options.reduce((textMap, { text, value }) => {
-  textMap[value] = text;
-
-  return textMap;
-}, {} as TextMap);
-
-export default class VoteThresholdParam extends React.PureComponent<Props> {
+export default class Vote extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = value instanceof VoteThreshold
+    const defaultValue = value instanceof BN
       ? value.toNumber()
-      : bnToBn(value as number).toNumber();
+      : value as number;
 
     return (
       <Bare

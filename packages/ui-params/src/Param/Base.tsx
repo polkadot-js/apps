@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '../../types';
+import { BareProps } from '@polkadot/ui-app/types';
 import { Size } from '../types';
 
 import React from 'react';
+import { Labelled } from '@polkadot/ui-app/index';
 
-import Labelled from '../../Labelled';
 import Bare from './Bare';
 
 type Props = BareProps & {

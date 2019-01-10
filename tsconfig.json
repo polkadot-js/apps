@@ -17,6 +17,7 @@
       "@polkadot/app-vanitygen/*": [ "packages/app-vanitygen/src/*" ],
       "@polkadot/apps/*": [ "packages/apps/src/*" ],
       "@polkadot/ui-app/*": [ "packages/ui-app/src/*" ],
+      "@polkadot/ui-params/*": [ "packages/ui-params/src/*" ],
       "@polkadot/ui-react-rx/*": [ "packages/ui-react-rx/src/*" ],
       "@polkadot/ui-signer/*": [ "packages/ui-signer/src/*" ]
     },
