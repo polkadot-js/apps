@@ -6,9 +6,9 @@ import { WithNamespaces } from 'react-i18next';
 import { Props as BareProps, RawParam } from '../types';
 
 import React from 'react';
+import { Static } from '@polkadot/ui-app/index';
+import translate from '@polkadot/ui-app/translate';
 
-import Static from '../../Static';
-import translate from '../../translate';
 import Bare from './Bare';
 import BaseBytes from './BaseBytes';
 

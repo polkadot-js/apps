@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { RawParams } from '@polkadot/ui-app/Params/types';
+import { RawParams } from '@polkadot/ui-params/types';
 
 type IdQuery = {
   id: number

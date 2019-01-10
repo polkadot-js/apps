@@ -38,7 +38,6 @@ import Labelled from './Labelled';
 import Menu from './Menu';
 import Modal from './Modal';
 import Output from './Output';
-import Params from './Params';
 import Password from './Password';
 import Progress from './Progress';
 import Static from './Static';
@@ -75,7 +74,6 @@ export {
   Menu,
   Modal,
   Output,
-  Params,
   Password,
   Progress,
   Static,

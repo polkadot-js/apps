@@ -6,9 +6,9 @@ import { Props } from '../types';
 
 import React from 'react';
 import { Compact } from '@polkadot/types/codec';
+import { Input } from '@polkadot/ui-app/index';
 import { hexToU8a, u8aConcat } from '@polkadot/util';
 
-import Input from '../../Input';
 import Bare from './Bare';
 
 type State$Param = {

@@ -7,9 +7,10 @@ import { TypeDef } from '@polkadot/types/codec';
 import { Props as BareProps, RawParam } from '../types';
 
 import React from 'react';
+import { Button } from '@polkadot/ui-app/index';
+import translate from '@polkadot/ui-app/translate';
+import { isUndefined } from '@polkadot/util';
 
-import Button from '../../Button';
-import translate from '../../translate';
 import getInitValue from '../initValue';
 import Bare from './Bare';
 import findComponent from './findComponent';
@@ -42,12 +43,12 @@ class Vector extends React.PureComponent<Props, State> {
       type,
       values: isDisabled || prevState.values.length === 0
         ? value.map((value: any) =>
-            !isDisabled || value.isValid
-              ? value
-              : {
-                isValid: true,
+            isUndefined(value) || isUndefined(value.isValid)
+              ? {
+                isValid: isUndefined(value),
                 value
               }
+              : value
           )
         : prevState.values
     };
@@ -140,8 +141,13 @@ class Vector extends React.PureComponent<Props, State> {
     const { type } = this.props;
     const { values } = this.state;
 
+    const value = getInitValue(type);
+
     this.setState({
-      values: values.concat(getInitValue(type))
+      values: values.concat({
+        isValid: !isUndefined(value),
+        value
+      })
     });
   }
 

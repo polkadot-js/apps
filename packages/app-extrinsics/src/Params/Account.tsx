@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props } from '@polkadot/ui-app/Params/types';
+import { Props } from '@polkadot/ui-params/types';
 
 import React from 'react';
 import { decodeAddress } from '@polkadot/keyring';

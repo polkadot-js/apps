@@ -7,9 +7,9 @@ import { BareProps } from './types';
 
 import React from 'react';
 import { Extrinsic, Method, Proposal } from '@polkadot/types';
+import Params from '@polkadot/ui-params/index';
 
 import classes from './util/classes';
-import Params from './Params';
 
 export type Props = BareProps & {
   children?: React.ReactNode,

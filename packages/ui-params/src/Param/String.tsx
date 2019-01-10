@@ -5,46 +5,41 @@
 import { Props } from '../types';
 
 import React from 'react';
+import { Input } from '@polkadot/ui-app/index';
 
-import Dropdown from '../../Dropdown';
 import Bare from './Bare';
 
-const options = [
-  { text: 'No', value: false },
-  { text: 'Yes', value: true }
-];
-
-export default class BoolParam extends React.PureComponent<Props> {
+export default class StringParam extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = value instanceof Boolean
-      ? value.valueOf()
-      : value as boolean;
+    const defaultValue = (value || '').toString();
 
     return (
       <Bare
         className={className}
         style={style}
       >
-        <Dropdown
-          className={isDisabled ? 'full' : 'small'}
+        <Input
+          className='full'
           defaultValue={defaultValue}
           isDisabled={isDisabled}
           isError={isError}
           label={label}
-          options={options}
           onChange={this.onChange}
+          placeholder='<any string>'
+          type='text'
           withLabel={withLabel}
         />
       </Bare>
     );
   }
 
-  private onChange = (value: boolean): void => {
+  private onChange = (value: string): void => {
     const { onChange } = this.props;
+    const isValid = value.length !== 0;
 
     onChange && onChange({
-      isValid: true,
+      isValid,
       value
     });
   }

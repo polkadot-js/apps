@@ -5,15 +5,16 @@
 import { MethodFunction } from '@polkadot/types/Method';
 import { BareProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
-import { RawParam } from '@polkadot/ui-app/Params/types';
+import { RawParam } from '@polkadot/ui-params/types';
 
 import React from 'react';
 import { TypeDef, getTypeDef } from '@polkadot/types/codec';
 import { Method } from '@polkadot/types';
 
-import { InputExtrinsic, Params } from '@polkadot/ui-app/index';
-import { isUndefined } from '@polkadot/util';
+import { InputExtrinsic } from '@polkadot/ui-app/index';
+import Params from '@polkadot/ui-params/index';
 import { withApi } from '@polkadot/ui-react-rx/with/index';
+import { isUndefined } from '@polkadot/util';
 
 import paramComponents from './Params';
 

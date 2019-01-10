@@ -5,38 +5,50 @@
 import { Props } from '../types';
 
 import React from 'react';
+import { decodeAddress } from '@polkadot/keyring';
+import { InputAddress } from '@polkadot/ui-app/index';
 
-import Input from '../../Input';
 import Bare from './Bare';
 
-export default class StringParam extends React.PureComponent<Props> {
+export default class Account extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = (value || '').toString();
+    const defaultValue = value && value.toString();
 
     return (
       <Bare
         className={className}
         style={style}
       >
-        <Input
-          className='full'
+        <InputAddress
+          className={isDisabled ? 'full' : 'large'}
           defaultValue={defaultValue}
           isDisabled={isDisabled}
           isError={isError}
+          isInput
           label={label}
           onChange={this.onChange}
-          placeholder='<any string>'
-          type='text'
+          placeholder='5...'
           withLabel={withLabel}
         />
       </Bare>
     );
   }
 
-  private onChange = (value: string): void => {
+  private onChange = (value?: string): void => {
     const { onChange } = this.props;
-    const isValid = value.length !== 0;
+
+    let isValid = false;
+
+    if (value) {
+      try {
+        decodeAddress(value);
+
+        isValid = true;
+      } catch (err) {
+        console.error(err);
+      }
+    }
 
     onChange && onChange({
       isValid,

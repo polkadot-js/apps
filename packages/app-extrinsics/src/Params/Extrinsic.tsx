@@ -4,7 +4,7 @@
 
 import { MethodFunction } from '@polkadot/types/Method';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RawParam$OnChange } from '@polkadot/ui-app/Params/types';
+import { RawParam$OnChange } from '@polkadot/ui-params/types';
 
 import React from 'react';
 import { Method } from '@polkadot/types';

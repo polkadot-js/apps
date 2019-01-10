@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BitLength } from '../../types';
+import { BitLength } from '@polkadot/ui-app/types';
 import { Props as BareProps } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { BitLengthOption } from '@polkadot/ui-app/constants';
+import { InputNumber } from '@polkadot/ui-app/index';
 import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
 
-import { BitLengthOption } from '../../constants';
-import InputNumber from '../../InputNumber';
 import Bare from './Bare';
 
 type Props = BareProps;

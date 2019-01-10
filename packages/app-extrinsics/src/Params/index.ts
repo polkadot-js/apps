@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ComponentMap } from '@polkadot/ui-app/Params/types';
+import { ComponentMap } from '@polkadot/ui-params/types';
 
 import Account from './Account';
 import Call from './Call';
