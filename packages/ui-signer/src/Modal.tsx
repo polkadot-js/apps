@@ -19,6 +19,7 @@ import { format } from '@polkadot/util/logger';
 import ExtrinsicDisplay from './Extrinsic';
 import Unlock from './Unlock';
 import translate from './translate';
+import { UnsubFunction } from '@polkadot/api/promise/types';
 
 type BaseProps = BareProps & {
   queue: Array<QueueTx>,
@@ -254,7 +255,7 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetTxStatus(id, status, result, error);
   }
 
-  private sendExtrinsic = async ({ accountNonce, accountId, extrinsic, id, isUnsigned }: QueueTx, password?: string): Promise<void> => {
+  private sendExtrinsic = ({ accountNonce, accountId, extrinsic, id, isUnsigned }: QueueTx, password?: string) => {
     if (!extrinsic || !accountId) {
       return;
     }
@@ -282,7 +283,7 @@ class Signer extends React.PureComponent<Props, State> {
       console.log(`sendInherent: from=${pair.address()}, nonce=${accountNonce}`);
     }
 
-    await this.submitExtrinsic(extrinsic, id);
+    this.submitExtrinsic(extrinsic, id);
   }
 
   private async submitRpc ({ method, section }: RpcMethod, values: Array<any>): Promise<QueueTx$Result> {
@@ -307,7 +308,7 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private async submitExtrinsic (extrinsic: SubmittableExtrinsic, id: number): Promise<void> {
+  private submitExtrinsic (extrinsic: SubmittableExtrinsic, id: number) {
     const { queueSetTxStatus } = this.props;
 
     try {
@@ -315,17 +316,17 @@ class Signer extends React.PureComponent<Props, State> {
 
       console.log('submitAndWatchExtrinsic: encode ::', encoded);
 
-      extrinsic.send((result: SubmittableSendResult) => {
-        if (!result) {
-          return;
-        }
-
+      const unsubscribe = extrinsic.send((result: SubmittableSendResult) => {
         const status = result.type.toLowerCase() as QueueTx$Status;
 
         console.log('submitAndWatchExtrinsic: updated status ::', result);
 
         queueSetTxStatus(id, status, result);
-      });
+
+        if (status === 'finalised') {
+          unsubscribe();
+        }
+      }) as UnsubFunction;
     } catch (error) {
       console.error('submitAndWatchExtrinsic:', error);
 

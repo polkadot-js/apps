@@ -152,7 +152,7 @@ class Restore extends React.PureComponent<Props, State> {
       const pair = keyring.restoreAccount(json, password);
 
       status.status = pair ? 'success' : 'error';
-      status.value = pair.address();
+      status.account = pair.address();
       status.message = t('status.restored', {
         defaultValue: 'account restored'
       });

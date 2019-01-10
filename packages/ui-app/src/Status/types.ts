@@ -10,10 +10,10 @@ import { AccountId, Address } from '@polkadot/types';
 export type Actions = 'create' | 'edit' | 'restore' | 'forget' | 'backup' | 'changePassword' | 'transfer';
 
 export type ActionStatus = {
+  account?: AccountId | Address | string,
   action: Actions | string,
   message?: string,
-  status: 'error' | 'queued' | 'received' | 'success',
-  value?: AccountId | Address | string
+  status: 'error' | 'event' | 'queued' | 'received' | 'success'
 };
 
 export type AccountInfo = {

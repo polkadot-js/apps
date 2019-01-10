@@ -124,7 +124,7 @@ class Backup extends React.PureComponent<Props, State> {
       const json = keyring.backupAccount(pair, password);
       const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
 
-      status.value = pair.address();
+      status.account = pair.address();
       status.status = blob ? 'success' : 'error';
       status.message = t('status.backup', {
         defaultValue: 'account backed up'

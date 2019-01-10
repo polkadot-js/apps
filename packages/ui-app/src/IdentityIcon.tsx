@@ -26,20 +26,20 @@ class CopyIcon extends React.PureComponent<CopyProps> {
     );
   }
 
-  private onCopy = (value: string): void => {
+  private onCopy = (account: string): void => {
     const { onCopy, queueAction, t } = this.props;
 
     if (onCopy) {
-      onCopy(value);
+      onCopy(account);
     }
 
     if (queueAction) {
       queueAction({
+        account,
         action: t('identicon.copy', {
           defaultValue: 'clipboard'
         }),
         status: 'queued',
-        value: value,
         message: t('identicon.copied', {
           defaultValue: 'address copied'
         })

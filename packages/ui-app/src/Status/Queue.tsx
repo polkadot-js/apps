@@ -11,6 +11,7 @@ import React from 'react';
 import jsonrpc from '@polkadot/jsonrpc';
 
 import { QueueProvider } from './Context';
+import { SubmittableSendResult } from '@polkadot/api/types';
 
 export type Props = BareProps & {
   children: React.ReactNode
@@ -86,10 +87,7 @@ export default class Queue extends React.Component<Props, State> {
     setTimeout(() => {
       this.setState(
         (prevState: State): State => ({
-          stqueue: prevState.stqueue.map((item) => ({
-            ...item,
-            isCompleted: item.isCompleted || item.id === id
-          }))
+          stqueue: prevState.stqueue.filter((item) => item.id !== id)
         } as State)
       );
     }, REMOVE_TIMEOUT);
@@ -97,7 +95,7 @@ export default class Queue extends React.Component<Props, State> {
     return id;
   }
 
-  queueSetTxStatus = (id: number, status: QueueTx$Status, result?: any, error?: Error): void => {
+  queueSetTxStatus = (id: number, status: QueueTx$Status, result?: SubmittableSendResult, error?: Error): void => {
     this.setState(
       (prevState: State): State => ({
         txqueue: prevState.txqueue.map((item) =>
@@ -119,11 +117,32 @@ export default class Queue extends React.Component<Props, State> {
       } as State)
     );
 
+    this.addResultEvents(result);
+
     if (STATUS_COMPLETE.includes(status)) {
       setTimeout(() => {
-        this.queueSetTxStatus(id, 'completed');
+        this.setState(
+          (prevState: State): State => ({
+            txqueue: prevState.txqueue.filter((item) => item.id !== id)
+          } as State)
+        );
       }, REMOVE_TIMEOUT);
     }
+  }
+
+  private addResultEvents ({ events = [] }: Partial<SubmittableSendResult> = {}) {
+    events.forEach(({ event: { method, section } }) => {
+      // filter events handled globally, or those we are not interested in
+      if ((section === 'democracy') || (section === 'system') || (section === 'balances' && method === 'Transfer')) {
+        return;
+      }
+
+      this.queueAction({
+        action: `${section}.${method}`,
+        status: 'event',
+        message: 'extrinsic event'
+      });
+    });
   }
 
   private queueAdd = (value: QueueTx$Extrinsic | QueueTx$Rpc | QueueTx): number => {
