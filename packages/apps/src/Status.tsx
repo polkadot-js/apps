@@ -47,11 +47,24 @@ class Status extends React.PureComponent<Props> {
             account,
             action: `${section}.${method}`,
             status: 'event',
-            message: t('transfer.received', {
+            message: t('status.transfer', {
               defaultValue: 'transfer received'
             })
           });
         }
+      } else if (section === 'democracy') {
+        const index = data[0].toString();
+
+        queueAction({
+          action: `${section}.${method}`,
+          status: 'event',
+          message: t('status.democracy', {
+            defaultValue: 'update on #{{index}}',
+            replace: {
+              index
+            }
+          })
+        });
       }
     });
   }

@@ -133,7 +133,7 @@ export default class Queue extends React.Component<Props, State> {
   private addResultEvents ({ events = [] }: Partial<SubmittableSendResult> = {}) {
     events.forEach(({ event: { method, section } }) => {
       // filter events handled globally, or those we are not interested in
-      if ((section === 'system') || (section === 'balances' && method === 'Transfer')) {
+      if ((section === 'democracy') || (section === 'system') || (section === 'balances' && method === 'Transfer')) {
         return;
       }
 
