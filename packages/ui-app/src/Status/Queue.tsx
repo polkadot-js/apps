@@ -47,8 +47,7 @@ export default class Queue extends React.Component<Props, State> {
       queueAction: this.queueAction,
       queueRpc: this.queueRpc,
       queueExtrinsic: this.queueExtrinsic,
-      queueSetTxStatus: this.queueSetTxStatus,
-      queueUnclog: this.queueUnclog
+      queueSetTxStatus: this.queueSetTxStatus
     };
   }
 
@@ -58,17 +57,6 @@ export default class Queue extends React.Component<Props, State> {
         {this.props.children}
       </QueueProvider>
     );
-  }
-
-  private isDuplicateNonce = (value: QueueTx$Extrinsic | QueueTx$Rpc | QueueTx): boolean => {
-    const { txqueue } = this.state;
-
-    return txqueue.filter((item) =>
-      !STATUS_COMPLETE.includes(item.status) &&
-      item.status !== 'completed' &&
-      item.accountNonce.eq(value.accountNonce) &&
-      item.accountId === value.accountId
-    ).length > 0;
   }
 
   queueAction = (status: ActionStatus): number => {
@@ -155,7 +143,7 @@ export default class Queue extends React.Component<Props, State> {
           ...value,
           id,
           rpc,
-          status: this.isDuplicateNonce(value) ? 'blocked' : 'queued'
+          status: 'queued'
         }])
       } as State)
     );
@@ -163,38 +151,19 @@ export default class Queue extends React.Component<Props, State> {
     return id;
   }
 
-  queueExtrinsic = ({ accountId, accountNonce, extrinsic, isUnsigned }: PartialQueueTx$Extrinsic): number => {
+  queueExtrinsic = ({ accountId, extrinsic, isUnsigned }: PartialQueueTx$Extrinsic): number => {
     return this.queueAdd({
       accountId,
-      accountNonce: accountNonce || new BN(0),
       extrinsic,
       isUnsigned
     });
   }
 
-  queueRpc = ({ accountId, accountNonce, rpc, values }: PartialQueueTx$Rpc): number => {
+  queueRpc = ({ accountId, rpc, values }: PartialQueueTx$Rpc): number => {
     return this.queueAdd({
       accountId,
-      accountNonce: accountNonce || new BN(0),
       rpc,
       values
-    });
-  }
-
-  queueUnclog = (accountNonce: BN): void => {
-    const { txqueue } = this.state;
-
-    // FIXME It works, but it's gross. It cancels all queued extrinsic with the nonincremenated
-    // nonce marked with a 'blocked' status and then requeues them all with the updated nonce.
-    // Unless users spam submit extrinsics, i can't see this being an issue, but it is still ugly.
-    txqueue.forEach((item) => {
-      if (item.status === 'blocked') {
-        let updatedItem = item;
-        this.queueSetTxStatus(item.id, 'cancelled');
-
-        updatedItem.accountNonce = accountNonce;
-        this.queueAdd(updatedItem);
-      }
     });
   }
 }

@@ -17,8 +17,7 @@ export type ActionStatus = {
 };
 
 export type AccountInfo = {
-  accountId?: string | null,
-  accountNonce: BN
+  accountId?: string | null
 };
 
 export type QueueTx$Status = 'future' | 'ready' | 'finalised' | 'usurped' | 'dropped' | 'invalid' | 'broadcast' | 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent' | 'blocked';
@@ -55,8 +54,7 @@ export type QueueTx$Rpc = AccountInfo & {
 };
 
 export type PartialAccountInfo = {
-  accountId?: string | null,
-  accountNonce?: BN | null
+  accountId?: string | null
 };
 
 export type PartialQueueTx$Extrinsic = PartialAccountInfo & {
@@ -83,7 +81,6 @@ export type QueueProps = {
   stqueue: Array<QueueStatus>,
   txqueue: Array<QueueTx>,
   queueAction: QueueAction$Add,
-  queueUnclog: QueueTx$Unclog,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
   queueRpc: QueueTx$RpcAdd,
   queueSetTxStatus: QueueTx$MessageSetStatus
