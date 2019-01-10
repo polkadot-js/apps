@@ -9,7 +9,6 @@ import BN from 'bn.js';
 import React from 'react';
 import { BitLengthOption } from '@polkadot/ui-app/constants';
 import { InputNumber } from '@polkadot/ui-app/index';
-import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
 
 import Bare from './Bare';
 
@@ -20,9 +19,7 @@ const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 class Balance extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = isDisabled
-      ? balanceFormat(value)
-      : new BN(value as BN || '0').toString(10);
+    const defaultValue = new BN((value as BN || '0').toString()).toString(10);
 
     return (
       <Bare

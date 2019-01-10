@@ -6,7 +6,7 @@ import { BareProps, BitLength, I18nProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
+import { balanceFormat, calcSi } from '@polkadot/ui-react-rx/util/index';
 
 import classes from './util/classes';
 import { BitLengthOption } from './constants';
@@ -29,6 +29,7 @@ type Props = BareProps & I18nProps & {
 };
 
 type State = {
+  defaultValue?: string,
   isPreKeyDown: boolean,
   isValid: boolean,
   siOptions: Array<{ value: string, text: string }>,
@@ -68,6 +69,17 @@ class InputNumber extends React.PureComponent<Props, State> {
     InputNumber.units = units;
   }
 
+  static getDerivedStateFromProps ({ isDisabled, isSi, defaultValue = '0' }: Props): Partial<State> | null {
+    if (!isDisabled || !isSi) {
+      return null;
+    }
+
+    return {
+      defaultValue: balanceFormat(defaultValue, false),
+      siUnit: calcSi(defaultValue).value
+    };
+  }
+
   render () {
     const { bitLength = DEFAULT_BITLENGTH, className, defaultValue = '0', isSi, isDisabled, maxLength, style, t } = this.props;
     const { isValid } = this.state;
@@ -80,7 +92,7 @@ class InputNumber extends React.PureComponent<Props, State> {
       >
         <Input
           {...this.props}
-          defaultValue={defaultValue}
+          defaultValue={this.state.defaultValue || defaultValue}
           isAction={isSi}
           isDisabled={isDisabled}
           isError={!isValid}

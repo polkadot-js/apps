@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { UInt } from '@polkadot/types/codec';
 
 import decimalFormat from './decimalFormat';
 
@@ -14,7 +13,7 @@ type SiDef = {
 };
 
 interface BalanceFormatter {
-  (input: string | BN | UInt, decimals?: number): string;
+  (input: string | BN, withSi?: boolean, decimals?: number): string;
   findSi (type: string): SiDef;
   getDefaultDecimals (): number;
   getOptions (decimals?: number): Array<SiDef>;
@@ -45,8 +44,12 @@ const SI_MID = 8;
 
 let defaultDecimals = 0;
 
+export function calcSi (text: string, decimals: number = defaultDecimals): SiDef {
+  return SI[(SI_MID - 1) + Math.ceil((text.length - decimals) / 3)];
+}
+
 // Formats a string/number with <prefix>.<postfix><type> notation
-function _balanceFormat (input: string | BN | UInt, decimals: number = defaultDecimals): string {
+function _balanceFormat (input: string | BN, withSi: boolean = true, decimals: number = defaultDecimals): string {
   const text = (input || '').toString();
 
   if (text.length === 0 || text === '0') {
@@ -56,12 +59,12 @@ function _balanceFormat (input: string | BN | UInt, decimals: number = defaultDe
   // NOTE We start at midpoint (8) minus 1 - this means that values display as
   // 123.456 instead of 0.123k (so always 6 relevant). Additionally we us ceil
   // so there are at most 3 decimal before the decimal seperator
-  const si = SI[(SI_MID - 1) + Math.ceil((text.length - decimals) / 3)];
+  const si = calcSi(text, decimals);
   const mid = text.length - (decimals + si.power);
   const prefix = text.substr(0, mid);
   const postfix = `${text.substr(mid)}000`.substr(0, 3);
 
-  return `${decimalFormat(prefix || '0')}.${postfix}${si.value === '-' ? '' : si.value}`;
+  return `${decimalFormat(prefix || '0')}.${postfix}${withSi ? (si.value === '-' ? '' : si.value) : ''}`;
 }
 
 const balanceFormat = _balanceFormat as BalanceFormatter;
