@@ -14,12 +14,19 @@ type Props = ApiProps & BaseProps;
 
 class Call extends React.PureComponent<Props> {
   render () {
-    const { apiPromise, className, isDisabled, isError, label, onChange, style, withLabel } = this.props;
+    const { apiDefaultTx, apiPromise, className, isDisabled, isError, label, onChange, style, withLabel } = this.props;
+    const defaultValue = (() => {
+      try {
+        return apiPromise.tx.balances.transfer;
+      } catch (error) {
+        return apiDefaultTx;
+      }
+    })();
 
     return (
       <Extrinsic
         className={className}
-        defaultValue={apiPromise.tx.balances.transfer}
+        defaultValue={defaultValue}
         isDisabled={isDisabled}
         isError={isError}
         isPrivate={false}

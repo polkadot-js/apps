@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
 import ApiPromise from '@polkadot/api/promise';
 
 export type BareProps = {
@@ -12,6 +13,7 @@ export type BareProps = {
 export type ApiProps = {
   isApiConnected: boolean,
   isApiReady: boolean,
+  apiDefaultTx: SubmittableExtrinsicFunction,
   apiPromise: ApiPromise,
   setApiUrl: (url?: string) => void
 };
