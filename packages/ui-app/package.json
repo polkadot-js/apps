@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-app",
-  "version": "0.22.3",
+  "version": "0.22.4",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -17,7 +17,7 @@
     "@polkadot/types": "^0.38.9",
     "@polkadot/ui-identicon": "^0.25.1",
     "@polkadot/ui-keyring": "^0.25.1",
-    "@polkadot/ui-react-rx": "^0.22.3",
+    "@polkadot/ui-react-rx": "^0.22.4",
     "@polkadot/ui-settings": "^0.25.1",
     "@polkadot/util": "^0.33.30",
     "@polkadot/util-crypto": "^0.33.30",
