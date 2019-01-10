@@ -38,7 +38,11 @@ class Status extends React.PureComponent<Props> {
     );
   }
 
-  private renderStatus = ({ action, id, message, status, value }: QueueStatus) => {
+  private renderStatus = ({ account, action, id, message, status }: QueueStatus) => {
+    const addressRendered = account
+      ? <AddressMini value={account} />
+      : undefined;
+
     return (
       <div
         className={classes('item', status)}
@@ -50,7 +54,7 @@ class Status extends React.PureComponent<Props> {
               <div className='header'>
                 {action}
               </div>
-              <AddressMini value={value} />
+              {addressRendered}
               <div className='status'>
                 {message}
               </div>
@@ -109,6 +113,9 @@ class Status extends React.PureComponent<Props> {
     switch (status) {
       case 'error':
         return 'ban';
+
+      case 'event':
+        return 'assistive listening devices';
 
       case 'received':
         return 'telegram plane';

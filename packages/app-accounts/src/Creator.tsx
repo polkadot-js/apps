@@ -370,7 +370,7 @@ class Creator extends React.PureComponent<Props, State> {
 
       FileSaver.saveAs(blob, `${pair.address()}.json`);
 
-      status.value = pair.address();
+      status.account = pair.address();
       status.status = pair ? 'success' : 'error';
       status.message = t('status.created', {
         defaultValue: `created account`

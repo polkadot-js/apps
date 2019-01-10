@@ -169,7 +169,7 @@ class Creator extends React.PureComponent<Props, State> {
     try {
       keyring.saveAddress(address, { name });
 
-      status.value = address;
+      status.account = address;
       status.status = address ? 'success' : 'error';
       status.message = t('status.created', {
         defaultValue: 'address created'

@@ -40,13 +40,13 @@ class Status extends React.PureComponent<Props> {
 
     (query_system_events || []).forEach(({ event: { data, method, section } }) => {
       if (section === 'balances' && method === 'Transfer') {
-        const recipient = data[1].toString();
+        const account = data[1].toString();
 
-        if (addresses.includes(recipient)) {
+        if (addresses.includes(account)) {
           queueAction({
-            action: method,
-            status: 'received',
-            value: recipient,
+            account,
+            action: `${section}.${method}`,
+            status: 'event',
             message: t('transfer.received', {
               defaultValue: 'transfer received'
             })

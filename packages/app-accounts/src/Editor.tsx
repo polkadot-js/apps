@@ -259,8 +259,8 @@ class Editor extends React.PureComponent<Props, State> {
     }
 
     const status = {
-      action: 'edit',
-      value: current.address()
+      account: current.address(),
+      action: 'edit'
     } as ActionStatus;
 
     try {
@@ -340,8 +340,8 @@ class Editor extends React.PureComponent<Props, State> {
       this.createState(null),
       () => {
         const status = {
-          action: 'forget',
-          value: current.address()
+          account: current.address(),
+          action: 'forget'
         } as ActionStatus;
 
         try {

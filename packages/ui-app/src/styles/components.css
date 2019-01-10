@@ -256,7 +256,7 @@ header .ui--Button-Group {
         margin-bottom: 0.25rem;
         padding: 0 0.5rem;
         text-align: center;
-        opacity: 0.9;
+        opacity: 0.95;
         vertical-align: middle;
 
         .desc {
@@ -280,6 +280,10 @@ header .ui--Button-Group {
 
     &.cancelled > .wrapper > .container {
       background: #cd9b1d
+    }
+
+    &.event > .wrapper > .container {
+      background: teal;
     }
 
     &.completed > .wrapper > .container,
