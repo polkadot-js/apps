@@ -36,8 +36,15 @@ class Selection extends React.PureComponent<Props, State> {
   } as State;
 
   render () {
-    const { apiPromise, t } = this.props;
+    const { apiDefaultTx, apiPromise, t } = this.props;
     const { isValid, accountId } = this.state;
+    const defaultExtrinsic = (() => {
+      try {
+        return apiPromise.tx.balances.transfer;
+      } catch (error) {
+        return apiDefaultTx;
+      }
+    })();
 
     return (
       <div className='extrinsics--Selection'>
@@ -50,7 +57,7 @@ class Selection extends React.PureComponent<Props, State> {
           type='account'
         />
         <ExtrinsicDisplay
-          defaultValue={apiPromise.tx.balances.transfer}
+          defaultValue={defaultExtrinsic}
           labelMethod={t('display.method', {
             defaultValue: 'submit the following extrinsic'
           })}

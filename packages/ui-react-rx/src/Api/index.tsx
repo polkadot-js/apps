@@ -50,7 +50,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       isApiReady: false,
       apiPromise: new ApiPromise(provider),
       setApiUrl
-    };
+    } as State;
   }
 
   componentDidMount () {
@@ -116,16 +116,23 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
 
   private subscribeIsReady = (api: ApiPromise) => {
     api.on('ready', () => {
-      this.setState({ isApiReady: true });
+      const section = Object.keys(api.tx)[0];
+      const method = Object.keys(api.tx[section])[0];
+
+      this.setState({
+        isApiReady: true,
+        apiDefaultTx: api.tx[section][method]
+      });
     });
   }
 
   render () {
-    const { apiPromise, chain, isApiConnected, isApiReady, setApiUrl } = this.state;
+    const { apiDefaultTx, apiPromise, chain, isApiConnected, isApiReady, setApiUrl } = this.state;
 
     return (
       <ApiContext.Provider
         value={{
+          apiDefaultTx,
           apiPromise,
           isApiConnected,
           isApiReady: isApiReady && !!chain,

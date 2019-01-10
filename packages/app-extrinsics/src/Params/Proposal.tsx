@@ -15,12 +15,19 @@ type Props = ApiProps & BaseProps;
 
 class ProposalDisplay extends React.PureComponent<Props> {
   render () {
-    const { apiPromise, className, isDisabled, isError, label, style, withLabel } = this.props;
+    const { apiDefaultTx, apiPromise, className, isDisabled, isError, label, style, withLabel } = this.props;
+    const defaultValue = (() => {
+      try {
+        return apiPromise.tx.consensus.setCode;
+      } catch (error) {
+        return apiDefaultTx;
+      }
+    })();
 
     return (
       <ExtrinsicDisplay
         className={className}
-        defaultValue={apiPromise.tx.consensus.setCode}
+        defaultValue={defaultValue}
         isDisabled={isDisabled}
         isError={isError}
         isPrivate

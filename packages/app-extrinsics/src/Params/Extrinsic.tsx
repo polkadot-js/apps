@@ -39,7 +39,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props> {
             label
           }
         })}
-        labelSection={t('proposal.method', {
+        labelSection={t('proposal.section', {
           defaultValue: '{{label}} (section)',
           replace: {
             label
