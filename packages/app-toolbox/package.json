@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-toolbox",
-  "version": "0.22.5",
+  "version": "0.22.6",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,6 +11,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.2.0",
-    "@polkadot/ui-app": "^0.22.5"
+    "@polkadot/ui-app": "^0.22.6"
   }
 }
