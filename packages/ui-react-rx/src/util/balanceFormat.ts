@@ -45,10 +45,6 @@ const SI_MID = 8;
 let defaultDecimals = 0;
 
 export function calcSi (text: string, decimals: number = defaultDecimals): SiDef {
-  if (text.length === 0 || text === '0') {
-    return SI[SI_MID];
-  }
-
   return SI[(SI_MID - 1) + Math.ceil((text.length - decimals) / 3)];
 }
 
@@ -63,7 +59,7 @@ function _balanceFormat (input: string | BN, withSi: boolean = true, decimals: n
   // NOTE We start at midpoint (8) minus 1 - this means that values display as
   // 123.456 instead of 0.123k (so always 6 relevant). Additionally we us ceil
   // so there are at most 3 decimal before the decimal seperator
-  const si = calcSi(text);
+  const si = calcSi(text, decimals);
   const mid = text.length - (decimals + si.power);
   const prefix = text.substr(0, mid);
   const postfix = `${text.substr(mid)}000`.substr(0, 3);

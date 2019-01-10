@@ -11,43 +11,49 @@ describe('balanceFormat', () => {
 
   it('formats 123,456,789,000 (decimals=15)', () => {
     expect(
-      balanceFormat(TESTVAL, 15)
+      balanceFormat(TESTVAL, true, 15)
     ).toEqual('123.456µ');
   });
 
   it('formats 123,456,789,000  (decimals=12)', () => {
     expect(
-      balanceFormat(TESTVAL, 12)
+      balanceFormat(TESTVAL, true, 12)
     ).toEqual('123.456m');
+  });
+
+  it('formats 123,456,789,000  (decimals=12, no SI)', () => {
+    expect(
+      balanceFormat(TESTVAL, false, 12)
+    ).toEqual('123.456');
   });
 
   it('formats 123,456,789,000 (decimals=9)', () => {
     expect(
-      balanceFormat(TESTVAL, 9)
+      balanceFormat(TESTVAL, true, 9)
     ).toEqual('123.456');
   });
 
   it('formats 123,456,789,000 (decimals=6)', () => {
     expect(
-      balanceFormat(TESTVAL, 6)
+      balanceFormat(TESTVAL, true, 6)
     ).toEqual('123.456k');
   });
 
   it('formats 123,456,789,000 * 10 (decimals=12)', () => {
     expect(
-      balanceFormat(TESTVAL.muln(10), 12)
+      balanceFormat(TESTVAL.muln(10), true, 12)
     ).toEqual('1.234');
   });
 
   it('formats 123,456,789,000 * 100 (decimals=12)', () => {
     expect(
-      balanceFormat(TESTVAL.muln(100), 12)
+      balanceFormat(TESTVAL.muln(100), true, 12)
     ).toEqual('12.345');
   });
 
   it('formats 123,456,789,000 * 1000 (decimals=12)', () => {
     expect(
-      balanceFormat(TESTVAL.muln(1000), 12)
+      balanceFormat(TESTVAL.muln(1000), true, 12)
     ).toEqual('123.456');
   });
 
