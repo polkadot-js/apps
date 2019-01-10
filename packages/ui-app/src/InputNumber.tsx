@@ -13,7 +13,6 @@ import { BitLengthOption } from './constants';
 import Dropdown from './Dropdown';
 import Input, { KEYS, KEYS_PRE, isCopy, isCut, isPaste, isSelectAll } from './Input';
 import translate from './translate';
-import { isString } from '@polkadot/util';
 
 type Props = BareProps & I18nProps & {
   autoFocus?: boolean,
