@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { UnsubFunction } from '@polkadot/api/promise/types';
+import { PromiseSubscription } from '@polkadot/api/promise/types';
 import { DeriveSubscription, DerivedBalancesFees } from '../types';
 
 import BN from 'bn.js';
 import ApiPromise from '@polkadot/api/promise';
 
 export default function fees (api: ApiPromise): DeriveSubscription {
-  return (cb: (fees: DerivedBalancesFees) => any): UnsubFunction =>
+  return async (cb: (fees: DerivedBalancesFees) => any): PromiseSubscription =>
     api.combineLatest([
       api.query.balances.creationFee,
       api.query.balances.existentialDeposit,

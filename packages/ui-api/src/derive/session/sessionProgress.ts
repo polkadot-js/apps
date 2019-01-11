@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { UnsubFunction } from '@polkadot/api/promise/types';
+import { PromiseSubscription } from '@polkadot/api/promise/types';
 import { DeriveSubscription } from '../types';
 
 import BN from 'bn.js';
@@ -11,7 +11,7 @@ import ApiPromise from '@polkadot/api/promise';
 import bestNumber from '../chain/bestNumber';
 
 export default function sessionProgress (api: ApiPromise): DeriveSubscription {
-  return (cb: (count: BN) => any): UnsubFunction =>
+  return (cb: (count: BN) => any): PromiseSubscription =>
     api.combineLatest([
       bestNumber(api),
       api.query.session.sessionLength,

@@ -11,14 +11,14 @@ import { AccountId } from '@polkadot/types';
 import votingBalances from './votingBalances';
 
 export default function votingBalancesNominatorsFor (api: ApiPromise): DeriveSubscription {
-  return (accountId: AccountId | string, cb: (balance: Array<DerivedBalances>) => any): UnsubFunction => {
+  return async (accountId: AccountId | string, cb: (balance: Array<DerivedBalances>) => any): PromiseSubscription => {
     let combineDestroy: UnsubFunction | undefined;
-    const nominatorDestory = api.query.staking.nominatorsFor(accountId, (nominators?: Array<AccountId>) => {
+    const nominatorDestory = await api.query.staking.nominatorsFor(accountId, async (nominators?: Array<AccountId>) => {
       if (combineDestroy) {
         combineDestroy();
       }
 
-      combineDestroy = votingBalances(api)(...(nominators || []), cb);
+      combineDestroy = await votingBalances(api)(...(nominators || []), cb);
     });
 
     return (): void => {

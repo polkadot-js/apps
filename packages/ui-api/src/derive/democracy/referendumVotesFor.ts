@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CombinatorFunction } from '@polkadot/api/promise/Combinator';
-import { UnsubFunction } from '@polkadot/api/promise/types';
+import { PromiseSubscription } from '@polkadot/api/promise/types';
 import { DeriveSubscription, DerivedReferendumVote } from '../types';
 
 import BN from 'bn.js';
@@ -14,11 +14,11 @@ import votingBalances from '../balances/votingBalances';
 import votes from './votes';
 
 export default function referendumVotesFor (api: ApiPromise): DeriveSubscription {
-  return (referendumId: BN | number, cb: (votes: Array<DerivedReferendumVote>) => any): UnsubFunction => {
-    let innerDestroy: UnsubFunction | undefined;
-    const outerDestroy = api.query.democracy.votersFor(referendumId, (votersFor: Array<AccountId>) => {
+  return async (referendumId: BN | number, cb: (votes: Array<DerivedReferendumVote>) => any): PromiseSubscription => {
+    let innerDestroy: PromiseSubscription | undefined;
+    const outerDestroy = api.query.democracy.votersFor(referendumId, async (votersFor: Array<AccountId>) => {
       if (innerDestroy) {
-        innerDestroy();
+        await innerDestroy();
         innerDestroy = undefined;
       }
 

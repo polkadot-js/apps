@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { UnsubFunction } from '@polkadot/api/promise/types';
+import { PromiseSubscription } from '@polkadot/api/promise/types';
 import { DeriveSubscription } from '../types';
 
 import ApiPromise from '@polkadot/api/promise';
@@ -11,7 +11,7 @@ import { ReferendumInfo } from '@polkadot/types';
 import referendumInfos from './referendumInfos';
 
 export default function referendums (api: ApiPromise): DeriveSubscription {
-  return (cb: (referendums: Array<ReferendumInfo>) => any): UnsubFunction => {
+  return async (cb: (referendums: Array<ReferendumInfo>) => any): PromiseSubscription => {
     let innerDispose: UnsubFunction | undefined;
     const outerDispose = api.combineLatest([
       api.query.democracy.nextTally,

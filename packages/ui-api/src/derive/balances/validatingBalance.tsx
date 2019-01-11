@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CombinatorFunction } from '@polkadot/api/promise/Combinator';
-import { UnsubFunction } from '@polkadot/api/promise/types';
+import { PromiseSubscription } from '@polkadot/api/promise/types';
 import { DeriveSubscription, DerivedBalances } from '../types';
 
 import BN from 'bn.js';
@@ -14,7 +14,7 @@ import votingBalance from './votingBalance';
 import votingBalancesNominatorsFor from './votingBalancesNominatorsFor';
 
 export default function validatingBalance (api: ApiPromise): DeriveSubscription {
-  return (accountId: AccountId | string, cb: (balance: DerivedBalances) => any): UnsubFunction =>
+  return async (accountId: AccountId | string, cb: (balance: DerivedBalances) => any): PromiseSubscription =>
     api.combineLatest([
       [votingBalance(api), accountId] as [CombinatorFunction, ...Array<any>],
       [votingBalancesNominatorsFor(api), accountId] as [CombinatorFunction, ...Array<any>]

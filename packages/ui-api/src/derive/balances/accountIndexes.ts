@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { QueryableStorageFunction, UnsubFunction } from '@polkadot/api/promise/types';
+import { QueryableStorageFunction, PromiseSubscription } from '@polkadot/api/promise/types';
 import { DeriveSubscription } from '../types';
 
 import BN from 'bn.js';
@@ -13,16 +13,18 @@ import { ENUMSET_SIZE } from '@polkadot/types/AccountIndex';
 export type AccountIndexes = { [index: string]: AccountIndex };
 
 export default function accountIndexes (api: ApiPromise): DeriveSubscription {
-  return (cb: (indexes: AccountIndexes) => any): UnsubFunction => {
-    let combineDestroy: UnsubFunction | undefined;
-    const nextEnumSetDestory = api.query.balances.nextEnumSet((next: AccountIndex) => {
+  return async (cb: (indexes: AccountIndexes) => any): PromiseSubscription => {
+    let combineDestroy: PromiseSubscription | undefined;
+    const nextEnumSetDestory = api.query.balances.nextEnumSet(async (next: AccountIndex) => {
       const setSize = ENUMSET_SIZE.toNumber();
       const enumRange = [...Array((next || new BN(0)).div(ENUMSET_SIZE).toNumber() + 1).keys()].map((index) =>
         [api.query.balances.enumSet, index] as [QueryableStorageFunction, ...Array<any>]
       );
 
       if (combineDestroy) {
-        combineDestroy();
+        const unsubscribe = await combineDestroy;
+
+        unsubscribe();
       }
 
       combineDestroy = api.combineLatest(enumRange, (all: Array<Array<AccountId> | undefined>) => {
@@ -38,13 +40,17 @@ export default function accountIndexes (api: ApiPromise): DeriveSubscription {
           }, {} as AccountIndexes)
         );
       });
-    }) as any as UnsubFunction; // FIXME? wtf?
+    });
 
-    return (): void => {
-      nextEnumSetDestory();
+    return async (): Promise<void> => {
+      let unsubscribe = await nextEnumSetDestory;
+
+      unsubscribe();
 
       if (combineDestroy) {
-        combineDestroy();
+        unsubscribe = await combineDestroy;
+
+        unsubscribe();
       }
     };
   };

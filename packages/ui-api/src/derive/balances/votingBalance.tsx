@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { UnsubFunction } from '@polkadot/api/promise/types';
+import { PromiseSubscription } from '@polkadot/api/promise/types';
 import { DeriveSubscription, DerivedBalances } from '../types';
 
 import ApiPromise from '@polkadot/api/promise';
@@ -13,9 +13,9 @@ import accountIdAndIndex from './accountIdAndIndex';
 const EMPTY_ACCOUNT = new AccountId(new Uint8Array(32));
 
 export default function votingBalance (api: ApiPromise): DeriveSubscription {
-  return (address: AccountIndex | AccountId | string, cb: (balance: DerivedBalances) => any): UnsubFunction => {
-    let combineDestroy: UnsubFunction | undefined;
-    const idDestory = accountIdAndIndex(api)(address, ([accountId]: [AccountId | undefined]) => {
+  return async (address: AccountIndex | AccountId | string, cb: (balance: DerivedBalances) => any): PromiseSubscription => {
+    let combineDestroy: PromiseSubscription | undefined;
+    const idDestory = accountIdAndIndex(api)(address, async ([accountId]: [AccountId | undefined]) => {
       const handler = (freeBalance?: Balance, reservedBalance?: Balance) => {
         cb({
           accountId: accountId || EMPTY_ACCOUNT,
@@ -30,7 +30,9 @@ export default function votingBalance (api: ApiPromise): DeriveSubscription {
       };
 
       if (combineDestroy) {
-        combineDestroy();
+        const unsubscribe = await combineDestroy;
+
+        unsubscribe();
         combineDestroy = undefined;
       }
 
@@ -46,11 +48,15 @@ export default function votingBalance (api: ApiPromise): DeriveSubscription {
       );
     });
 
-    return (): void => {
-      idDestory();
+    return async () => {
+      let unsubscribe = await idDestory;
+
+      unsubscribe();
 
       if (combineDestroy) {
-        combineDestroy();
+        let unsubscribe = await combineDestroy;
+
+        unsubscribe();
       }
     };
   };

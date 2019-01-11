@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { UnsubFunction } from '@polkadot/api/promise/types';
+import { PromiseSubscription } from '@polkadot/api/promise/types';
 import { DeriveSubscription } from '../types';
 
 import { decodeAddress } from '@polkadot/keyring';
@@ -15,7 +15,7 @@ import accountIndexToId from './accountIndexToId';
 export type IdAndIndex = [AccountId | undefined, AccountIndex | undefined];
 
 export default function accountIdAndIndex (api: ApiPromise): DeriveSubscription {
-  return (address: AccountId | AccountIndex | string | null | undefined, cb: (idAndIndex: IdAndIndex) => any): UnsubFunction => {
+  return async (address: AccountId | AccountIndex | string | null | undefined, cb: (idAndIndex: IdAndIndex) => any): PromiseSubscription => {
     try {
       // yes, this can fail, don't care too much, catch will catch it
       const length = decodeAddress((address as any).toString()).length;
