@@ -8,7 +8,7 @@ import { I18nProps } from '../types';
 
 import React from 'react';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { withApi, withMulti } from '@polkadot/ui-api/with';
+import { withApi, withMulti } from '@polkadot/ui-api/index';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';

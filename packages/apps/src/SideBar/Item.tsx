@@ -10,7 +10,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { Icon, Menu } from '@polkadot/ui-app/index';
-import { withApi, withMulti } from '@polkadot/ui-api/with/index';
+import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { isFunction } from '@polkadot/util';
 
 type Props = I18nProps & ApiProps & {

@@ -14,7 +14,7 @@ import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
 import { decodeAddress } from '@polkadot/keyring';
 import { Button, Modal } from '@polkadot/ui-app/index';
 import keyring from '@polkadot/ui-keyring';
-import { withApi, withMulti } from '@polkadot/ui-api/with/index';
+import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { assert } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
 

@@ -11,7 +11,7 @@ import React from 'react';
 import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
 import { Method } from '@polkadot/types';
 import { Button } from '@polkadot/ui-app/index';
-import { withApi, withMulti } from '@polkadot/ui-api/with';
+import { withApi, withMulti } from '@polkadot/ui-api/index';
 
 import Account from './Account';
 import ExtrinsicDisplay from './Extrinsic';

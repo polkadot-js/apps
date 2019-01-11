@@ -6,7 +6,7 @@ import { BareProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Index } from '@polkadot/types';
-import { withCall } from '@polkadot/ui-api/with';
+import { withCall } from '@polkadot/ui-api/index';
 
 import { numberFormat } from './util/index';
 

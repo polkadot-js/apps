@@ -10,7 +10,7 @@ import './Content.css';
 
 import React from 'react';
 import { withRouter } from 'react-router';
-import { withApi, withMulti } from '@polkadot/ui-api/with/index';
+import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
 import Status from '../Status';

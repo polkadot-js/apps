@@ -11,7 +11,7 @@ import React from 'react';
 import { ReferendumInfo } from '@polkadot/types';
 import { Chart, Static } from '@polkadot/ui-app/index';
 import VoteThreshold from '@polkadot/ui-params/Param/VoteThreshold';
-import { withCall, withMulti } from '@polkadot/ui-api/with/index';
+import { withCall, withMulti } from '@polkadot/ui-api/index';
 import { balanceFormat, numberFormat } from '@polkadot/ui-reactive/util/index';
 import settings from '@polkadot/ui-settings';
 

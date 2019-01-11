@@ -7,7 +7,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Proposal } from '@polkadot/types';
-import { withApi } from '@polkadot/ui-api/with';
+import { withApi } from '@polkadot/ui-api/index';
 
 import ExtrinsicDisplay from './Extrinsic';
 

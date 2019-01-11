@@ -6,7 +6,7 @@ import { BareProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Header } from '@polkadot/types';
-import { withCall } from '@polkadot/ui-api/with/index';
+import { withCall } from '@polkadot/ui-api/index';
 
 type Props = BareProps & {
   label?: string,

@@ -8,7 +8,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import React from 'react';
 import { AddressMini, Call } from '@polkadot/ui-app/index';
 import { Extrinsic, Method, SignedBlock } from '@polkadot/types';
-import { withCall, withMulti } from '@polkadot/ui-api/with/index';
+import { withCall, withMulti } from '@polkadot/ui-api/index';
 import { numberFormat } from '@polkadot/ui-reactive/util/index';
 
 import BlockHeader from '../BlockHeader';

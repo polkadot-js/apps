@@ -12,7 +12,7 @@ import { PartialModuleQuery } from '../types';
 import React from 'react';
 import { Button, InputStorage, Labelled } from '@polkadot/ui-app/index';
 import Params from '@polkadot/ui-params/index';
-import { withApi, withMulti } from '@polkadot/ui-api/with';
+import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { isUndefined } from '@polkadot/util';
 
 import translate from '../translate';

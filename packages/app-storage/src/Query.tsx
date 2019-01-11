@@ -10,7 +10,7 @@ import React from 'react';
 import { Compact } from '@polkadot/types/codec';
 import { Button, Labelled } from '@polkadot/ui-app/index';
 import valueToText from '@polkadot/ui-params/valueToText';
-import { withCallDiv } from '@polkadot/ui-api/with/index';
+import { withCallDiv } from '@polkadot/ui-api/index';
 import { isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import translate from './translate';

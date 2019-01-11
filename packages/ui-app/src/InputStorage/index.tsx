@@ -12,7 +12,7 @@ import { I18nProps } from '../types';
 import '../InputExtrinsic/InputExtrinsic.css';
 
 import React from 'react';
-import { withApi, withMulti } from '@polkadot/ui-api/with';
+import { withApi, withMulti } from '@polkadot/ui-api/index';
 
 import classes from '../util/classes';
 import translate from '../translate';

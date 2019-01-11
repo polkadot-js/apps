@@ -11,7 +11,7 @@ import React from 'react';
 import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
 import { AccountId, Balance } from '@polkadot/types';
 import { AddressMini, AddressSummary, Button } from '@polkadot/ui-app/index';
-import { withCall, withMulti } from '@polkadot/ui-api/with/index';
+import { withCall, withMulti } from '@polkadot/ui-api/index';
 
 import Nominating from './Nominating';
 import UnnominateButton from './UnnominateButton';

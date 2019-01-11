@@ -9,7 +9,7 @@ import { DerivedBalancesMap } from '@polkadot/ui-api/derive/types';
 import React from 'react';
 import { AccountId, Balance } from '@polkadot/types';
 import { Tabs } from '@polkadot/ui-app/index';
-import { withCall, withMulti } from '@polkadot/ui-api/with/index';
+import { withCall, withMulti } from '@polkadot/ui-api/index';
 
 import './index.css';
 

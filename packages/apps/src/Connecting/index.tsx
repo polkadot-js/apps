@@ -8,7 +8,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import './Connecting.css';
 
 import React from 'react';
-import { withApi, withMulti } from '@polkadot/ui-api/with/index';
+import { withApi, withMulti } from '@polkadot/ui-api/index';
 import settings from '@polkadot/ui-settings';
 
 import translate from '../translate';
