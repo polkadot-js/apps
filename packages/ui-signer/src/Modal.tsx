@@ -3,22 +3,24 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableSendResult } from '@polkadot/api/types';
+import { UnsubFunction } from '@polkadot/api/promise/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
+import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
 import { decodeAddress } from '@polkadot/keyring';
 import { Button, Modal } from '@polkadot/ui-app/index';
 import keyring from '@polkadot/ui-keyring';
 import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { assert } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
 
 import ExtrinsicDisplay from './Extrinsic';
 import Unlock from './Unlock';
 import translate from './translate';
-import { UnsubFunction } from '@polkadot/api/promise/types';
 
 type BaseProps = BareProps & {
   queue: Array<QueueTx>,
@@ -229,7 +231,7 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetTxStatus(currentItem.id, 'cancelled');
   }
 
-  private onSend = async (): Promise<any> => {
+  private onSend = (): void => {
     const { currentItem, password } = this.state;
 
     // This should never be executed
@@ -255,12 +257,12 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private sendExtrinsic = ({ accountId, extrinsic, id, isUnsigned }: QueueTx, password?: string) => {
-    if (!extrinsic || !accountId) {
-      return;
-    }
+    assert(extrinsic, 'Expected an extrinsic to be supplied to sendExtrinsic');
 
     if (!isUnsigned) {
-      const unlockError = this.unlockAccount(accountId, password);
+      assert(accountId, 'Expected an accountId with signed transactions');
+
+      const unlockError = this.unlockAccount(accountId as string, password);
 
       if (unlockError) {
         this.setState({ unlockError });
@@ -268,14 +270,15 @@ class Signer extends React.PureComponent<Props, State> {
       }
     }
 
+    const submittable = extrinsic as SubmittableExtrinsic;
     const { queueSetTxStatus } = this.props;
 
     queueSetTxStatus(id, 'sending');
 
     if (!isUnsigned) {
-      this.makeExtrinsicCall(id, extrinsic.signAndSend, keyring.getPair(accountId));
+      this.makeExtrinsicCall(submittable, id, submittable.signAndSend, keyring.getPair(accountId as string));
     } else {
-      this.makeExtrinsicCall(id, extrinsic.send);
+      this.makeExtrinsicCall(submittable, id, submittable.send);
     }
   }
 
@@ -301,9 +304,9 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private makeExtrinsicCall (id: number, extrinsicCall: (...params: Array<any>) => any, ..._params: Array<any>) {
+  private makeExtrinsicCall (extrinsic: SubmittableExtrinsic, id: number, extrinsicCall: (...params: Array<any>) => any, ..._params: Array<any>) {
     const { queueSetTxStatus } = this.props;
-    const unsubscribe = extrinsicCall(..._params, (result: SubmittableSendResult) => {
+    const unsubscribe = extrinsicCall.apply(extrinsic, [..._params, (result: SubmittableSendResult) => {
       const status = result.type.toLowerCase() as QueueTx$Status;
 
       console.log('submitAndWatchExtrinsic: updated status ::', result);
@@ -313,7 +316,7 @@ class Signer extends React.PureComponent<Props, State> {
       if (status === 'finalised') {
         unsubscribe();
       }
-    }) as UnsubFunction;
+    }]) as UnsubFunction;
   }
 }
 

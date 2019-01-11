@@ -9,6 +9,7 @@ import { ApiProps } from '@polkadot/ui-react-rx/types';
 import BN from 'bn.js';
 import React from 'react';
 import { Button } from '@polkadot/ui-app/index';
+import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import translate from './translate';
 
@@ -67,4 +68,8 @@ class VotingButton extends React.PureComponent<Props> {
   }
 }
 
-export default translate(VotingButton);
+export default withMulti(
+  VotingButton,
+  translate,
+  withApi
+);
