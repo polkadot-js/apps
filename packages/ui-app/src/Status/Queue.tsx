@@ -120,7 +120,9 @@ export default class Queue extends React.Component<Props, State> {
   private addResultEvents ({ events = [] }: Partial<SubmittableSendResult> = {}) {
     events.forEach(({ event: { method, section } }) => {
       // filter events handled globally, or those we are not interested in
-      if ((section === 'democracy') || (section === 'system') || (section === 'balances' && method === 'Transfer')) {
+      // NOTE We are not splitting balances, since we want to see the transfer - even if
+      // it doubles-up for own accounts (one with id, one without)
+      if ((section === 'democracy') || (section === 'system')) {
         return;
       }
 
