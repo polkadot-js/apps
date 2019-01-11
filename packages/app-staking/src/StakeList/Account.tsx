@@ -7,7 +7,6 @@ import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 import { DerivedBalancesMap } from '@polkadot/ui-react-rx/derive/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 
-import BN from 'bn.js';
 import React from 'react';
 import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
 import { AccountId, Balance } from '@polkadot/types';
@@ -19,7 +18,6 @@ import UnnominateButton from './UnnominateButton';
 import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
-  query_system_accountNonce?: BN,
   accountId: string,
   balances: DerivedBalancesMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
@@ -164,11 +162,10 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private send (extrinsic: SubmittableExtrinsic) {
-    const { query_system_accountNonce, accountId, queueExtrinsic } = this.props;
+    const { accountId, queueExtrinsic } = this.props;
 
     queueExtrinsic({
       extrinsic,
-      accountNonce: query_system_accountNonce,
       accountId
     });
   }
@@ -214,6 +211,5 @@ export default withMulti(
   Account,
   translate,
   withCall('query.staking.nominatorsFor', { paramProp: 'accountId' }),
-  withCall('query.staking.nominating', { paramProp: 'accountId' }),
-  withCall('query.system.accountNonce', { paramProp: 'accountId' })
+  withCall('query.staking.nominating', { paramProp: 'accountId' })
 );

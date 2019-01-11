@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
 import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { AccountId, Address } from '@polkadot/types';
@@ -17,8 +16,7 @@ export type ActionStatus = {
 };
 
 export type AccountInfo = {
-  accountId?: string | null,
-  accountNonce: BN
+  accountId?: string | null
 };
 
 export type QueueTx$Status = 'future' | 'ready' | 'finalised' | 'usurped' | 'dropped' | 'invalid' | 'broadcast' | 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent' | 'blocked';
@@ -55,8 +53,7 @@ export type QueueTx$Rpc = AccountInfo & {
 };
 
 export type PartialAccountInfo = {
-  accountId?: string | null,
-  accountNonce?: BN | null
+  accountId?: string | null
 };
 
 export type PartialQueueTx$Extrinsic = PartialAccountInfo & {
@@ -75,15 +72,12 @@ export type QueueTx$ExtrinsicAdd = (value: PartialQueueTx$Extrinsic) => number;
 
 export type QueueTx$MessageSetStatus = (id: number, status: QueueTx$Status, result?: any, error?: Error) => void;
 
-export type QueueTx$Unclog = (accountNonce: BN) => void;
-
 export type QueueAction$Add = (status: ActionStatus) => number;
 
 export type QueueProps = {
   stqueue: Array<QueueStatus>,
   txqueue: Array<QueueTx>,
   queueAction: QueueAction$Add,
-  queueUnclog: QueueTx$Unclog,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
   queueRpc: QueueTx$RpcAdd,
   queueSetTxStatus: QueueTx$MessageSetStatus

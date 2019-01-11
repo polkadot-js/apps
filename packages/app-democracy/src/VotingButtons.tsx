@@ -9,15 +9,14 @@ import { ApiProps } from '@polkadot/ui-react-rx/types';
 import BN from 'bn.js';
 import React from 'react';
 import { Button } from '@polkadot/ui-app/index';
-import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
 
 import translate from './translate';
 
 type Props = ApiProps & I18nProps & {
   accountId?: string,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
-  referendumId: BN,
-  query_system_accountNonce?: BN
+  referendumId: BN
 };
 
 class VotingButton extends React.PureComponent<Props> {
@@ -48,7 +47,7 @@ class VotingButton extends React.PureComponent<Props> {
   }
 
   private doVote (vote: boolean) {
-    const { accountId, apiPromise, queueExtrinsic, referendumId, query_system_accountNonce } = this.props;
+    const { accountId, apiPromise, queueExtrinsic, referendumId } = this.props;
 
     if (!accountId) {
       return;
@@ -56,7 +55,6 @@ class VotingButton extends React.PureComponent<Props> {
 
     queueExtrinsic({
       extrinsic: apiPromise.tx.democracy.vote(referendumId, vote ? -1 : 0),
-      accountNonce: query_system_accountNonce,
       accountId
     });
   }
@@ -73,5 +71,5 @@ class VotingButton extends React.PureComponent<Props> {
 export default withMulti(
   VotingButton,
   translate,
-  withCall('query.system.accountNonce', { paramProp: 'accountId' })
+  withApi
 );
