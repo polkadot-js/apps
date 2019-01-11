@@ -213,9 +213,9 @@ class Signer extends React.PureComponent<Props, State> {
     });
   }
 
-  private onKeyDown = async (event: React.KeyboardEvent<Element>): Promise<any> => {
+  private onKeyDown = (event: React.KeyboardEvent<Element>): void => {
     if (event.key === 'Enter') {
-      await this.onSend();
+      this.onSend();
     }
   }
 
