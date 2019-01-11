@@ -27,8 +27,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
-    "@polkadot/dev-react": "^0.23.7",
-    "@polkadot/ts": "^0.1.47",
+    "@polkadot/dev-react": "^0.23.9",
+    "@polkadot/ts": "^0.1.49",
     "autoprefixer": "^9.4.4",
     "empty": "^0.10.1",
     "gh-pages": "^2.0.1",

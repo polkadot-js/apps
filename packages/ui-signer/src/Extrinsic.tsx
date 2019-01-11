@@ -19,7 +19,7 @@ type Props = I18nProps & {
 
 class Transaction extends React.PureComponent<Props> {
   render () {
-    const { children, t, value: { accountId, accountNonce, extrinsic, isUnsigned } } = this.props;
+    const { children, t, value: { accountId, extrinsic, isUnsigned } } = this.props;
 
     if (!extrinsic) {
       return null;
@@ -31,7 +31,7 @@ class Transaction extends React.PureComponent<Props> {
         <Trans i18nKey='decoded.short-unsigned'>You are about to submit an (unsigned) inherent transaction calling <span className='code'>{section}.{method}</span></Trans>
       )
       : (
-        <Trans i18nKey='decoded.short-signed'>You are about to sign a message from <span className='code'>{accountId}</span> calling <span className='code'>{section}.{method}</span> with an index of <span className='code'>{accountNonce.toString()}</span></Trans>
+        <Trans i18nKey='decoded.short-signed'>You are about to sign a transaction from <span className='code'>{accountId}</span> calling <span className='code'>{section}.{method}</span> </Trans>
       );
     const icon = isUnsigned
       ? undefined

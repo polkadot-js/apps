@@ -9,7 +9,6 @@ import { QueueTx$RpcAdd } from '@polkadot/ui-app/Status/types';
 
 import './index.css';
 
-import BN from 'bn.js';
 import React from 'react';
 import rpc from '@polkadot/jsonrpc';
 import { getTypeDef } from '@polkadot/types/codec';
@@ -25,7 +24,6 @@ type Props = I18nProps & {
 
 type State = {
   isValid: boolean,
-  accountNonce: BN,
   accountId?: string | null,
   rpc: RpcMethod,
   values: Array<RawParam>
@@ -36,7 +34,6 @@ const defaultMethod = rpc.author.methods.submitExtrinsic;
 class Selection extends React.PureComponent<Props, State> {
   state: State = {
     isValid: false,
-    accountNonce: new BN(0),
     accountId: null,
     rpc: defaultMethod,
     values: []
@@ -96,7 +93,7 @@ class Selection extends React.PureComponent<Props, State> {
   private nextState (newState: State): void {
     this.setState(
       (prevState: State): State => {
-        const { rpc = prevState.rpc, accountNonce = prevState.accountNonce, accountId = prevState.accountId, values = prevState.values } = newState;
+        const { rpc = prevState.rpc, accountId = prevState.accountId, values = prevState.values } = newState;
         const hasNeededKey = true; // rpc.isSigned !== true || (!!publicKey && publicKey.length === 32);
         const isValid = values.reduce((isValid, value) => {
           return isValid && value.isValid === true;
@@ -105,7 +102,6 @@ class Selection extends React.PureComponent<Props, State> {
         return {
           isValid,
           rpc,
-          accountNonce: accountNonce || new BN(0),
           accountId,
           values
         };
@@ -133,10 +129,9 @@ class Selection extends React.PureComponent<Props, State> {
 
   private onSubmit = (): void => {
     const { queueRpc } = this.props;
-    const { accountNonce, accountId, rpc, values } = this.state;
+    const { accountId, rpc, values } = this.state;
 
     queueRpc({
-      accountNonce,
       accountId,
       rpc,
       values: values.map(({ value }) =>

@@ -6,7 +6,6 @@ import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { BareProps } from '../types';
 import { ActionStatus, PartialQueueTx$Extrinsic, PartialQueueTx$Rpc, QueueProps, QueueStatus, QueueTx, QueueTx$Extrinsic, QueueTx$Rpc, QueueTx$Status } from './types';
 
-import BN from 'bn.js';
 import React from 'react';
 import jsonrpc from '@polkadot/jsonrpc';
 

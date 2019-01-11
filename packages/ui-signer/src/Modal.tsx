@@ -3,14 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableSendResult } from '@polkadot/api/types';
-import { KeyringPair } from '@polkadot/keyring/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
-import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
 import { decodeAddress } from '@polkadot/keyring';
 import { Button, Modal } from '@polkadot/ui-app/index';
 import keyring from '@polkadot/ui-keyring';
@@ -73,7 +71,7 @@ class Signer extends React.PureComponent<Props, State> {
     };
   }
 
-  async componentDidUpdate (prevProps: Props, prevState: State) {
+  async componentDidUpdate () {
     const { currentItem } = this.state;
 
     if (currentItem && currentItem.status === 'queued' && !currentItem.extrinsic) {
@@ -275,11 +273,10 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetTxStatus(id, 'sending');
 
     if (!isUnsigned) {
-      this.submitExtrinsic(extrinsic, id, keyring.getPair(accountId));
+      this.makeExtrinsicCall(id, extrinsic.signAndSend, keyring.getPair(accountId));
     } else {
-      this.submitInherent(extrinsic, id);
+      this.makeExtrinsicCall(id, extrinsic.send);
     }
-
   }
 
   private async submitRpc ({ method, section }: RpcMethod, values: Array<any>): Promise<QueueTx$Result> {
@@ -304,57 +301,19 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private submitInherent (extrinsic: SubmittableExtrinsic, id: number) {
+  private makeExtrinsicCall (id: number, extrinsicCall: (...params: Array<any>) => any, ..._params: Array<any>) {
     const { queueSetTxStatus } = this.props;
+    const unsubscribe = extrinsicCall(..._params, (result: SubmittableSendResult) => {
+      const status = result.type.toLowerCase() as QueueTx$Status;
 
-    try {
-      const encoded = extrinsic.toJSON();
+      console.log('submitAndWatchExtrinsic: updated status ::', result);
 
-      console.log('submitAndWatchExtrinsic (inherent): encode ::', encoded);
+      queueSetTxStatus(id, status, result);
 
-      const unsubscribe = extrinsic.send((result: SubmittableSendResult) => {
-        this.updateStatus(id, result);
-
-        if (status === 'finalised') {
-          unsubscribe();
-        }
-      }) as UnsubFunction;
-    } catch (error) {
-      console.error('submitAndWatchExtrinsic (inherent):', error);
-
-      queueSetTxStatus(id, 'error', null, error);
-    }
-  }
-
-  private submitExtrinsic (extrinsic: SubmittableExtrinsic, id: number, account: KeyringPair) {
-    const { queueSetTxStatus } = this.props;
-
-    try {
-      const encoded = extrinsic.toJSON();
-
-      console.log('submitAndWatchExtrinsic (extrinsic): encode ::', encoded);
-
-      const unsubscribe = extrinsic.signAndSend(account, (result: SubmittableSendResult) => {
-        this.updateStatus(id, result);
-
-        if (status === 'finalised') {
-          unsubscribe();
-        }
-      }) as UnsubFunction;
-    } catch (error) {
-      console.error('submitAndWatchExtrinsic (extrinsic):', error);
-
-      queueSetTxStatus(id, 'error', null, error);
-    }
-  }
-
-  private updateStatus (id: number, result: SubmittableSendResult) {
-    const { queueSetTxStatus } = this.props;
-    const status = result.type.toLowerCase() as QueueTx$Status;
-
-    console.log('submitAndWatchExtrinsic: updated status ::', result);
-
-    queueSetTxStatus(id, status, result);
+      if (status === 'finalised') {
+        unsubscribe();
+      }
+    }) as UnsubFunction;
   }
 }
 

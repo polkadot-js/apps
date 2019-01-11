@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTx$ExtrinsicAdd, QueueTx$Unclog } from '@polkadot/ui-app/Status/types';
+import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from '@polkadot/ui-react-rx/types';
 
 import React from 'react';
@@ -19,8 +19,7 @@ import Nonce from './Nonce';
 import translate from './translate';
 
 type Props = ApiProps & I18nProps & {
-  queueExtrinsic: QueueTx$ExtrinsicAdd,
-  queueUnclog: QueueTx$Unclog
+  queueExtrinsic: QueueTx$ExtrinsicAdd
 };
 
 type State = {
@@ -117,11 +116,7 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   private onChangeNonce = (accountNonce: BN = new BN(0)): void => {
-    const { queueUnclog } = this.props;
-
     this.nextState({ accountNonce } as State);
-
-    queueUnclog(accountNonce);
   }
 
   private onChangeSender = (accountId: string): void => {
@@ -130,15 +125,16 @@ class Selection extends React.PureComponent<Props, State> {
 
   private onQueue (isUnsigned: boolean): void {
     const { apiPromise, queueExtrinsic } = this.props;
-    const { accountNonce, method, isValid, accountId } = this.state;
+    const { method, isValid, accountId } = this.state;
 
     if (!isValid || !method) {
       return;
     }
 
     queueExtrinsic({
-      accountId,
-      accountNonce,
+      accountId: isUnsigned
+        ? undefined
+        : accountId,
       extrinsic: new SubmittableExtrinsic(apiPromise, method),
       isUnsigned
     });
