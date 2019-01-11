@@ -15,18 +15,20 @@ import votes from './votes';
 
 export default function referendumVotesFor (api: ApiPromise): DeriveSubscription {
   return async (referendumId: BN | number, cb: (votes: Array<DerivedReferendumVote>) => any): PromiseSubscription => {
-    let innerDestroy: PromiseSubscription | undefined;
-    const outerDestroy = api.query.democracy.votersFor(referendumId, async (votersFor: Array<AccountId>) => {
-      if (innerDestroy) {
-        await innerDestroy();
-        innerDestroy = undefined;
+    let innerDispose: PromiseSubscription | undefined;
+    const outerDispose = api.query.democracy.votersFor(referendumId, async (votersFor: Array<AccountId>) => {
+      if (innerDispose) {
+        const unsubscribe = await innerDispose;
+
+        unsubscribe();
+        innerDispose = undefined;
       }
 
       if (!votersFor || !votersFor.length) {
         return cb([]);
       }
 
-      innerDestroy = api.combineLatest([
+      innerDispose = api.combineLatest([
         [votes(api), referendumId, ...votersFor] as [CombinatorFunction, ...Array<any>],
         [votingBalances(api), ...votersFor] as [CombinatorFunction, ...Array<any>]
       ], ([votes, balances]) =>
@@ -40,12 +42,16 @@ export default function referendumVotesFor (api: ApiPromise): DeriveSubscription
       );
     });
 
-    return (): void => {
-      if (innerDestroy) {
-        innerDestroy();
-      }
+    return async () => {
+      let unsubscribe = await outerDispose;
 
-      outerDestroy();
+      unsubscribe();
+
+      if (innerDispose) {
+        unsubscribe = await innerDispose;
+
+        unsubscribe();
+      }
     };
   };
 }

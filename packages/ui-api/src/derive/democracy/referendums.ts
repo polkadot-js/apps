@@ -12,13 +12,15 @@ import referendumInfos from './referendumInfos';
 
 export default function referendums (api: ApiPromise): DeriveSubscription {
   return async (cb: (referendums: Array<ReferendumInfo>) => any): PromiseSubscription => {
-    let innerDispose: UnsubFunction | undefined;
+    let innerDispose: PromiseSubscription | undefined;
     const outerDispose = api.combineLatest([
       api.query.democracy.nextTally,
       api.query.democracy.referendumCount
-    ], ([nextTally, referendumCount]) => {
+    ], async ([nextTally, referendumCount]) => {
       if (innerDispose) {
-        innerDispose();
+        const unsubscribe = await innerDispose;
+
+        unsubscribe();
         innerDispose = undefined;
       }
 
@@ -33,11 +35,15 @@ export default function referendums (api: ApiPromise): DeriveSubscription {
       }
     });
 
-    return (): void => {
-      outerDispose();
+    return async () => {
+      let unsubscribe = await outerDispose;
+
+      unsubscribe();
 
       if (innerDispose) {
-        innerDispose();
+        unsubscribe = await innerDispose;
+
+        unsubscribe();
       }
     };
   };

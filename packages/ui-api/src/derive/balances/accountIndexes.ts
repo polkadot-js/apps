@@ -40,7 +40,7 @@ export default function accountIndexes (api: ApiPromise): DeriveSubscription {
           }, {} as AccountIndexes)
         );
       });
-    });
+    }) as any as PromiseSubscription; // wtf???
 
     return async (): Promise<void> => {
       let unsubscribe = await nextEnumSetDestory;
