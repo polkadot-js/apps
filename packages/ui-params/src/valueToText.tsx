@@ -10,7 +10,7 @@ import { isNull, isUndefined, u8aToHex } from '@polkadot/util';
 
 // import { decodeAddress } from '@polkadot/keyring';
 // import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
-// import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
+// import numberFormat from '@polkadot/ui-reactive/util/numberFormat';
 // import u8aToHex from '@polkadot/util/u8a/toHex';
 // import isBn from '@polkadot/util/is/bn';
 // import isU8a from '@polkadot/util/is/u8a';

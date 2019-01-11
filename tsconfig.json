@@ -16,9 +16,10 @@
       "@polkadot/app-transfer/*": [ "packages/app-transfer/src/*" ],
       "@polkadot/app-vanitygen/*": [ "packages/app-vanitygen/src/*" ],
       "@polkadot/apps/*": [ "packages/apps/src/*" ],
+      "@polkadot/ui-api/*": [ "packages/ui-api/src/*" ],
       "@polkadot/ui-app/*": [ "packages/ui-app/src/*" ],
       "@polkadot/ui-params/*": [ "packages/ui-params/src/*" ],
-      "@polkadot/ui-react-rx/*": [ "packages/ui-react-rx/src/*" ],
+      "@polkadot/ui-reactive/*": [ "packages/ui-reactive/src/*" ],
       "@polkadot/ui-signer/*": [ "packages/ui-signer/src/*" ]
     },
     "typeRoots": [

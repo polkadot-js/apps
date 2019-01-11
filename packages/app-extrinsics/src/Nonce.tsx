@@ -7,7 +7,7 @@ import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { Labelled } from '@polkadot/ui-app/index';
-import RxNonce from '@polkadot/ui-react-rx/Nonce';
+import RxNonce from '@polkadot/ui-reactive/Nonce';
 
 type Props = BareProps & {
   label: string,

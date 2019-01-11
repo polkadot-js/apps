@@ -5,7 +5,7 @@
 import { Header } from '@polkadot/types';
 
 import React from 'react';
-import { withCall } from '@polkadot/ui-react-rx/with/index';
+import { withCall } from '@polkadot/ui-api/with/index';
 
 import BlockHeader from './BlockHeader';
 

@@ -4,7 +4,7 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueProps } from '@polkadot/ui-app/Status/types';
-import { DerivedBalancesMap } from '@polkadot/ui-react-rx/derive/types';
+import { DerivedBalancesMap } from '@polkadot/ui-api/derive/types';
 import { AccountId, Balance } from '@polkadot/types';
 
 import React from 'react';

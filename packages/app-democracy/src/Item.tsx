@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { Method, Proposal } from '@polkadot/types';
 import { Call } from '@polkadot/ui-app/index';
-import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
+import numberFormat from '@polkadot/ui-reactive/util/numberFormat';
 
 import translate from './translate';
 

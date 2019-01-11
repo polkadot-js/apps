@@ -6,7 +6,7 @@ import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
-import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/ui-react-rx/index';
+import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/ui-reactive/index';
 
 type Props = BareProps & {};
 

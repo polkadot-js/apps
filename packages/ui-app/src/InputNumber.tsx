@@ -6,7 +6,7 @@ import { BareProps, BitLength, I18nProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { balanceFormat, calcSi } from '@polkadot/ui-react-rx/util/index';
+import { balanceFormat, calcSi } from '@polkadot/ui-reactive/util/index';
 
 import classes from './util/classes';
 import { BitLengthOption } from './constants';

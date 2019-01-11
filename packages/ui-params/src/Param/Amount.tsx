@@ -7,7 +7,7 @@ import { Props } from '../types';
 import BN from 'bn.js';
 import React from 'react';
 import { Input } from '@polkadot/ui-app/index';
-import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
+import numberFormat from '@polkadot/ui-reactive/util/numberFormat';
 
 import Bare from './Bare';
 
