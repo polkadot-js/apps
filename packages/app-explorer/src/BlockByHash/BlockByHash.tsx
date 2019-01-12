@@ -38,7 +38,6 @@ class BlockByHash extends React.PureComponent<Props> {
         />
       </header>,
       this.renderExtrinsics(),
-      // this.renderJustification(),
       <Logs
         key='logs'
         value={header.digest.logs}
@@ -94,38 +93,6 @@ class BlockByHash extends React.PureComponent<Props> {
       </div>
     );
   }
-
-  // Bft/Rhohenderon only
-  // private renderJustification () {
-  //   const { getBlock, t, value } = this.props;
-  //   const { justification: { signatures } } = getBlock;
-
-  //   if (!signatures || !signatures.length) {
-  //     return null;
-  //   }
-
-  //   return (
-  //     <section key='justification'>
-  //       <h1>{t('block.justifications', {
-  //         defaultValue: 'justifications'
-  //       })}</h1>
-  //       <div className='explorer--BlockByHash-flexable'>
-  //         {signatures.map(({ authorityId, signature }) => (
-  //           <div
-  //             className='explorer--BlockByHash-justification-signature'
-  //             key={`${value}:justification:${authorityId}`}
-  //           >
-  //             <AddressMini value={authorityId}>
-  //               <span>
-  //                 {u8aToHex(signature.toU8a(), 64)}
-  //               </span>
-  //             </AddressMini>
-  //           </div>
-  //         ))}
-  //       </div>
-  //     </section>
-  //   );
-  // }
 
   private renderSigner (extrinsic: Extrinsic) {
     const { t } = this.props;

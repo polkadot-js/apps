@@ -45,16 +45,10 @@ class EventsDisplay extends React.PureComponent<Props, State> {
     }
 
     const recentEvents = query_system_events
-      .filter(({ event }) =>
-        event.section !== 'system'
-      )
-      .map(({ event }) =>
-        event
-      )
+      .filter(({ event }) => event.section !== 'system')
+      .map(({ event }) => event)
       .concat(prevState.recentEvents)
-      .filter((_, index) =>
-        index < MAX_ITEMS
-      );
+      .filter((_, index) => index < MAX_ITEMS);
 
     return {
       prevEventHash,
@@ -69,7 +63,7 @@ class EventsDisplay extends React.PureComponent<Props, State> {
     if (recentEvents.length === 0) {
       return (
         <div>{t('events.none', {
-          defaultValue: 'no non-internal events available'
+          defaultValue: 'no non-system events available'
         })}</div>
       );
     }

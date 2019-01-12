@@ -14,16 +14,17 @@ import translate from './translate';
 
 type Props = I18nProps & {
   derive_chain_bestNumber?: BN,
-  derive_democracy_publicPropCount?: BN,
   query_democracy_launchPeriod?: BN,
   query_democracy_nextTally?: BN,
+  query_democracy_publicDelay?: BN,
+  query_democracy_publicPropCount?: BN,
   query_democracy_referendumCount?: BN,
   query_democracy_votingPeriod?: BN
 };
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { derive_chain_bestNumber = new BN(0), query_democracy_launchPeriod, query_democracy_nextTally, derive_democracy_publicPropCount, query_democracy_referendumCount, query_democracy_votingPeriod, t } = this.props;
+    const { derive_chain_bestNumber = new BN(0), query_democracy_launchPeriod, query_democracy_nextTally, query_democracy_publicPropCount, query_democracy_referendumCount, query_democracy_votingPeriod, t } = this.props;
 
     return (
       <summary>
@@ -33,7 +34,7 @@ class Summary extends React.PureComponent<Props> {
               defaultValue: 'proposals'
             })}
           >
-            {numberFormat(derive_democracy_publicPropCount)}
+            {numberFormat(query_democracy_publicPropCount)}
           </CardSummary>
           <CardSummary
             label={t('summary.referendumCount', {

@@ -15,8 +15,15 @@
     overflow: hidden;
   }
 
+  .author {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    text-align: right;
+  }
+
   .header {
     color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 0.25rem;
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;
@@ -25,16 +32,20 @@
 
     > div {
       display: inline-block;
-      font-size: 2.75rem;
       font-weight: 100;
-      line-height: 1;
       margin-bottom: 0.25rem;
       vertical-align: middle;
       white-space: nowrap;
     }
 
+    > .number {
+      font-size: 2.75rem;
+      line-height: 1;
+    }
+
     .hash {
       font-size: 1.5em;
+      line-height: 1;
     }
   }
 
@@ -56,17 +67,17 @@
     text-align: center;
     overflow: hidden;
 
-    .contains {
+    > .contains {
       border: 0;
       opacity: 0.75;
 
-      div {
+      > .info {
         margin-bottom: 0.125em;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
 
-        div {
+        > div {
           display: inline-block;
           padding: 0 0.25em;
           vertical-align: middle;
