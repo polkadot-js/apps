@@ -15,9 +15,15 @@
     overflow: hidden;
   }
 
+  .author {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    text-align: right;
+  }
+
   .header {
     color: rgba(0, 0, 0, 0.6);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;
@@ -40,11 +46,6 @@
     .hash {
       font-size: 1.5em;
       line-height: 1;
-      margin-bottom: 2.25rem;
-    }
-
-    .validator {
-      font-size: 1rem;
     }
   }
 
