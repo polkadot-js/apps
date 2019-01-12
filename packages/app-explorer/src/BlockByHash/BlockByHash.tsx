@@ -7,22 +7,24 @@ import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { AddressMini, Call } from '@polkadot/ui-app/index';
-import { Extrinsic, Method, SignedBlock } from '@polkadot/types';
+import { EventRecord, Extrinsic, Method, SignedBlock } from '@polkadot/types';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
 import { numberFormat } from '@polkadot/ui-reactive/util/index';
 
 import BlockHeader from '../BlockHeader';
 import translate from '../translate';
+import Events from './Events';
 import Logs from './Logs';
 
 type Props = ApiProps & I18nProps & {
+  query_system_events?: Array<EventRecord>,
   rpc_chain_getBlock?: SignedBlock,
   value: string
 };
 
 class BlockByHash extends React.PureComponent<Props> {
   render () {
-    const { rpc_chain_getBlock } = this.props;
+    const { query_system_events, rpc_chain_getBlock } = this.props;
 
     if (!rpc_chain_getBlock || !rpc_chain_getBlock.block) {
       return null;
@@ -38,6 +40,10 @@ class BlockByHash extends React.PureComponent<Props> {
         />
       </header>,
       this.renderExtrinsics(),
+      <Events
+        key='events'
+        value={query_system_events}
+      />,
       <Logs
         key='logs'
         value={header.digest.logs}
@@ -67,7 +73,7 @@ class BlockByHash extends React.PureComponent<Props> {
   }
 
   // FIXME This is _very_ similar to what we have in democracy/Item
-  private renderExtrinsic = (extrinsic: Extrinsic, index?: number) => {
+  private renderExtrinsic = (extrinsic: Extrinsic, index: number) => {
     const { value } = this.props;
     const { meta, method, section } = Method.findFunction(extrinsic.callIndex);
 
@@ -79,7 +85,7 @@ class BlockByHash extends React.PureComponent<Props> {
         <article className='explorer--Container'>
           <div className='header'>
             <h3>
-              {section}.{method}
+              #{numberFormat(index)}:&nbsp;{section}.{method}
             </h3>
             <div className='description'>{
               meta && meta.documentation && meta.documentation.length
@@ -117,5 +123,6 @@ class BlockByHash extends React.PureComponent<Props> {
 export default withMulti(
   BlockByHash,
   translate,
-  withCall('rpc.chain.getBlock', { paramProp: 'value' })
+  withCall('rpc.chain.getBlock', { paramProp: 'value' }),
+  withCall('query.system.events', { atProp: 'value' })
 );
