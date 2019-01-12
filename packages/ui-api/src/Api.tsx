@@ -11,11 +11,12 @@ import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { InputNumber } from '@polkadot/ui-app/InputNumber';
 import keyring from '@polkadot/ui-keyring';
+import { balanceFormat } from '@polkadot/ui-reactive/util/index';
 import settings from '@polkadot/ui-settings';
 import { ChainProperties } from '@polkadot/types';
 
 import ApiContext from './ApiContext';
-import { balanceFormat, isTestChain } from './util';
+import { isTestChain } from './util';
 
 type Props = {
   children: React.ReactNode,
