@@ -15,6 +15,11 @@ import { intervalTimer, isEqual, triggerChange } from '../util/index';
 import echoTransform from '../transform/echo';
 import withApi from './api';
 
+interface Method {
+  (...params: Array<any>): Promise<any>;
+  at: (hash: Uint8Array | string, ...params: Array<any>) => Promise<any>;
+}
+
 type State<T> = RxProps<T> & {
   destroy?: () => void,
   propName: string,
@@ -29,7 +34,7 @@ const NOOP = () => {
 
 // FIXME proper types for attributes
 
-export default function withCall<T, P> (endpoint: string, { rxChange, params = [], paramProp = 'params', propName, transform = echoTransform }: Options<T> = {}): HOC<T> {
+export default function withCall<T, P> (endpoint: string, { at, atProp, rxChange, params = [], paramProp = 'params', propName, transform = echoTransform }: Options<T> = {}): HOC<T> {
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<any> => {
     class WithPromise extends React.Component<Props, State<T>> {
       state: State<T>;
@@ -83,6 +88,10 @@ export default function withCall<T, P> (endpoint: string, { rxChange, params = [
       private getParams (props: any): Array<any> {
         const paramValue = props[paramProp];
 
+        if (atProp) {
+          at = props[atProp];
+        }
+
         return isUndefined(paramValue)
           ? params
           : params.concat(
@@ -92,7 +101,7 @@ export default function withCall<T, P> (endpoint: string, { rxChange, params = [
           );
       }
 
-      private getApiMethod (newParams: Array<any>): [(...params: Array<any>) => Promise<any>, Array<any>, boolean] {
+      private getApiMethod (newParams: Array<any>): [Method, Array<any>, boolean] {
         const { apiPromise } = this.props;
 
         if (endpoint === 'subscribe') {
@@ -109,6 +118,7 @@ export default function withCall<T, P> (endpoint: string, { rxChange, params = [
 
         assert(area.length && section.length && method.length && others.length === 0, `Invalid API format, expected <area>.<section>.<method>, found ${endpoint}`);
         assert(['rpc', 'query', 'derive'].includes(area), `Unknown api.${area}, expected rpc, query or derive`);
+        assert(!at || area === 'query', 'Only able todo an at query on the api.query interface');
 
         if (area === 'derive') {
           const apiSection = (derive as any)[section];
@@ -129,7 +139,7 @@ export default function withCall<T, P> (endpoint: string, { rxChange, params = [
         return [
           apiSection[method],
           newParams,
-          area === 'query' || method.startsWith('subscribe')
+          (area === 'query' && (!at && !atProp)) || method.startsWith('subscribe')
         ];
       }
 
@@ -141,6 +151,8 @@ export default function withCall<T, P> (endpoint: string, { rxChange, params = [
         try {
           const [apiMethod, params, isSubscription] = this.getApiMethod(newParams);
 
+          assert(at || !atProp, 'Unable to perform query on non-existent at hash');
+
           this.unsubscribe();
 
           if (isSubscription) {
@@ -150,7 +162,9 @@ export default function withCall<T, P> (endpoint: string, { rxChange, params = [
 
             this.setState({ destroy });
           } else {
-            const value: T = await apiMethod(...params);
+            const value: T = at
+              ? await apiMethod.at(at, ...params)
+              : await apiMethod(...params);
 
             this.triggerUpdate(this.props, value);
           }

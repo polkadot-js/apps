@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 
 import BlockHeaders from './BlockHeaders';
-import Events from './Events';
+import EventsRecent from './EventsRecent';
 import Query from './Query';
 import Summary from './Summary';
 import translate from './translate';
@@ -35,7 +35,7 @@ class Main extends React.PureComponent<Props> {
           <h1>{t('main.recentEvents', {
             defaultValue: 'recent events'
           })}</h1>
-          <Events />
+          <EventsRecent />
         </div>
       </div>
     ];

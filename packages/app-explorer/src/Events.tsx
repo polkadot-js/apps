@@ -2,80 +2,56 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// Copyright 2017-2019 @polkadot/app-explorer authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
-
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Event, EventRecord } from '@polkadot/types';
+import { EventRecord } from '@polkadot/types';
 import { Event as EventDisplay } from '@polkadot/ui-app/index';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
-import { stringToU8a } from '@polkadot/util';
-import { xxhashAsHex } from '@polkadot/util-crypto';
+import { numberFormat } from '@polkadot/ui-reactive/util/index';
 
-import { MAX_ITEMS } from './BlockHeaders';
 import translate from './translate';
 
 type Props = I18nProps & {
-  query_system_events?: Array<EventRecord>
+  value?: Array<EventRecord>,
+  emptyLabel?: React.ReactNode,
+  eventClassName?: string,
+  withoutIndex?: boolean
 };
 
-type State = {
-  prevEventHash: string;
-  recentEvents: Array<Event>;
-};
-
-class EventsDisplay extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      prevEventHash: '',
-      recentEvents: []
-    };
-  }
-
-  static getDerivedStateFromProps ({ query_system_events = [] }: Props, prevState: State): State | null {
-    const prevEventHash = xxhashAsHex(stringToU8a(JSON.stringify(query_system_events)));
-
-    if (prevEventHash === prevState.prevEventHash) {
-      return null;
-    }
-
-    const recentEvents = query_system_events
-      .filter(({ event }) => event.section !== 'system')
-      .map(({ event }) => event)
-      .concat(prevState.recentEvents)
-      .filter((_, index) => index < MAX_ITEMS);
-
-    return {
-      prevEventHash,
-      recentEvents
-    };
-  }
-
+class Events extends React.PureComponent<Props> {
   render () {
-    const { t } = this.props;
-    const { recentEvents } = this.state;
+    const { emptyLabel, eventClassName, value, t } = this.props;
 
-    if (recentEvents.length === 0) {
-      return (
-        <div>{t('events.none', {
-          defaultValue: 'no non-system events available'
-        })}</div>
-      );
+    if (!value || value.length === 0) {
+      return emptyLabel || t('events.none', {
+        defaultValue: 'no events available'
+      });
     }
 
-    return (
-      <div>
-        {recentEvents.map(this.renderEvent)}
-      </div>
-    );
+    return value
+      .filter(({ event }) => event) // event.section !== 'system')
+      .map((event, index) => {
+        const rendered = this.renderEvent(event, index);
+
+        return eventClassName
+          ? (
+            <div
+              className={eventClassName}
+              key={index}
+            >
+              {rendered}
+            </div>
+          )
+          : rendered;
+      });
   }
 
-  private renderEvent = (event: Event, index: number) => {
+  private renderEvent = ({ event, phase }: EventRecord, index: number) => {
+    const { withoutIndex } = this.props;
+    const extIndex = !withoutIndex && phase.type === 'ApplyExtrinsic'
+      ? phase.asApplyExtrinsic
+      : -1;
+
     return (
       <article
         className='explorer--Container'
@@ -83,7 +59,7 @@ class EventsDisplay extends React.PureComponent<Props, State> {
       >
         <div className='header'>
           <h3>
-            {event.section}.{event.method}
+            {extIndex === -1 ? '' : `#${numberFormat(extIndex)}: `}{event.section}.{event.method}
           </h3>
           <div className='description'>
             {
@@ -99,8 +75,4 @@ class EventsDisplay extends React.PureComponent<Props, State> {
   }
 }
 
-export default withMulti(
-  EventsDisplay,
-  translate,
-  withCall('query.system.events')
-);
+export default translate(Events);

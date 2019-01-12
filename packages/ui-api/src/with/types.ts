@@ -14,6 +14,8 @@ export type DefaultProps<T> = {
 };
 
 export type Options<T> = {
+  at?: Uint8Array | string,
+  atProp?: string,
   rxChange?: OnChangeCb<T>,
   params?: Array<any>,
   paramProp?: string,
