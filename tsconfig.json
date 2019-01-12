@@ -19,6 +19,7 @@
       "@polkadot/ui-api/*": [ "packages/ui-api/src/*" ],
       "@polkadot/ui-app/*": [ "packages/ui-app/src/*" ],
       "@polkadot/ui-params/*": [ "packages/ui-params/src/*" ],
+      "@polkadot/ui-qr/*": [ "packages/ui-qr/src/*" ],
       "@polkadot/ui-reactive/*": [ "packages/ui-reactive/src/*" ],
       "@polkadot/ui-signer/*": [ "packages/ui-signer/src/*" ]
     },

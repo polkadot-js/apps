@@ -26,6 +26,7 @@ const packages = [
   'ui-api',
   'ui-app',
   'ui-params',
+  'ui-qr',
   'ui-reactive',
   'ui-signer'
 ];
