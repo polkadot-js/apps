@@ -9,7 +9,7 @@ import React from 'react';
 import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
 import { Index } from '@polkadot/types';
 import Button from '@polkadot/ui-app/Button';
-import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-api/index';
 
 import translate from './translate';
 

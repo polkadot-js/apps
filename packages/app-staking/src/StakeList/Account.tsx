@@ -4,14 +4,14 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
-import { DerivedBalancesMap } from '@polkadot/ui-react-rx/derive/types';
-import { ApiProps } from '@polkadot/ui-react-rx/types';
+import { DerivedBalancesMap } from '@polkadot/ui-api/derive/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
 import { AccountId, Balance } from '@polkadot/types';
 import { AddressMini, AddressSummary, Button } from '@polkadot/ui-app/index';
-import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-api/index';
 
 import Nominating from './Nominating';
 import UnnominateButton from './UnnominateButton';

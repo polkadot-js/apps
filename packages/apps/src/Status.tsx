@@ -10,7 +10,7 @@ import React from 'react';
 import keyringOption from '@polkadot/ui-keyring/options';
 import { EventRecord } from '@polkadot/types';
 import { Status as StatusDisplay } from '@polkadot/ui-app/index';
-import { withCall, withMulti, withObservable } from '@polkadot/ui-react-rx/with';
+import { withCall, withMulti, withObservable } from '@polkadot/ui-api/index';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 

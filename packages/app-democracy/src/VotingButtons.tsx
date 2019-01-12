@@ -4,12 +4,12 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
-import { ApiProps } from '@polkadot/ui-react-rx/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { Button } from '@polkadot/ui-app/index';
-import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withApi, withMulti } from '@polkadot/ui-api/index';
 
 import translate from './translate';
 

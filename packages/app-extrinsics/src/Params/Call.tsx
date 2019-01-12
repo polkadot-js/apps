@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Props as BaseProps } from '@polkadot/ui-params/types';
-import { ApiProps } from '@polkadot/ui-react-rx/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import { withApi } from '@polkadot/ui-react-rx/with';
+import { withApi } from '@polkadot/ui-api/index';
 
 import Extrinsic from './Extrinsic';
 

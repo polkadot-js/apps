@@ -8,7 +8,7 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withMulti, withObservable } from '@polkadot/ui-api/index';
 
 import './index.css';
 

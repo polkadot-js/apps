@@ -3,14 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-react-rx/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { QueueProps } from '@polkadot/ui-app/Status/types';
 
 import './Content.css';
 
 import React from 'react';
 import { withRouter } from 'react-router';
-import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
 import Status from '../Status';

@@ -5,14 +5,14 @@
 // TODO: We have a lot shared between this and InputExtrinsic
 
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { ApiProps } from '@polkadot/ui-react-rx/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 
 import '../InputExtrinsic/InputExtrinsic.css';
 
 import React from 'react';
-import { withApi, withMulti } from '@polkadot/ui-react-rx/with';
+import { withApi, withMulti } from '@polkadot/ui-api/index';
 
 import classes from '../util/classes';
 import translate from '../translate';

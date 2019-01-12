@@ -3,12 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-react-rx/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 
 import './Connecting.css';
 
 import React from 'react';
-import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withApi, withMulti } from '@polkadot/ui-api/index';
 import settings from '@polkadot/ui-settings';
 
 import translate from '../translate';

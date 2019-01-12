@@ -6,8 +6,8 @@ import { I18nProps } from './types';
 
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
-import { Nonce } from '@polkadot/ui-react-rx/index';
-import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { Nonce } from '@polkadot/ui-reactive/index';
+import { withCall, withMulti } from '@polkadot/ui-api/index';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';

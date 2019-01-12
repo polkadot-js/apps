@@ -23,9 +23,10 @@ const packages = [
   'app-toolbox',
   'app-transfer',
   'app-vanitygen',
+  'ui-api',
   'ui-app',
   'ui-params',
-  'ui-react-rx',
+  'ui-reactive',
   'ui-signer'
 ];
 

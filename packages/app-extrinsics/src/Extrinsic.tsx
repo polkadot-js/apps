@@ -4,7 +4,7 @@
 
 import { MethodFunction } from '@polkadot/types/Method';
 import { BareProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-react-rx/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { RawParam } from '@polkadot/ui-params/types';
 
 import React from 'react';
@@ -13,7 +13,7 @@ import { Method } from '@polkadot/types';
 
 import { InputExtrinsic } from '@polkadot/ui-app/index';
 import Params from '@polkadot/ui-params/index';
-import { withApi } from '@polkadot/ui-react-rx/with/index';
+import { withApi } from '@polkadot/ui-api/index';
 import { isUndefined } from '@polkadot/util';
 
 import paramComponents from './Params';

@@ -5,13 +5,13 @@
 import BN from 'bn.js';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
-import { ApiProps } from '@polkadot/ui-react-rx/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
 import { Method } from '@polkadot/types';
 import { Button } from '@polkadot/ui-app/index';
-import { withApi, withMulti } from '@polkadot/ui-react-rx/with';
+import { withApi, withMulti } from '@polkadot/ui-api/index';
 
 import Account from './Account';
 import ExtrinsicDisplay from './Extrinsic';

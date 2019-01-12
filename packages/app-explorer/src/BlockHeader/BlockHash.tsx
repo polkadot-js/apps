@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { withCall } from '@polkadot/ui-react-rx/with/index';
+import { withCall } from '@polkadot/ui-api/index';
 import { BlockNumber, Hash } from '@polkadot/types';
 
 type Props = I18nProps & {

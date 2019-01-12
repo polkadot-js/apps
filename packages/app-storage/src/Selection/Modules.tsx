@@ -6,13 +6,13 @@ import { TypeDef, getTypeDef } from '@polkadot/types/codec';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParams } from '@polkadot/ui-params/types';
-import { ApiProps } from '@polkadot/ui-react-rx/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { PartialModuleQuery } from '../types';
 
 import React from 'react';
 import { Button, InputStorage, Labelled } from '@polkadot/ui-app/index';
 import Params from '@polkadot/ui-params/index';
-import { withApi, withMulti } from '@polkadot/ui-react-rx/with';
+import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { isUndefined } from '@polkadot/util';
 
 import translate from '../translate';

@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { BlockNumber } from '@polkadot/types';
 import { CardSummary } from '@polkadot/ui-app/index';
-import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-api/index';
 
 import translate from './translate';
 

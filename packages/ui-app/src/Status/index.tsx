@@ -68,7 +68,7 @@ class Status extends React.PureComponent<Props> {
     );
   }
 
-  private renderItem = ({ id, extrinsic, rpc, status }: QueueTx) => {
+  private renderItem = ({ id, extrinsic, error, rpc, status }: QueueTx) => {
     let { method, section } = rpc;
 
     if (extrinsic) {
@@ -94,7 +94,7 @@ class Status extends React.PureComponent<Props> {
                 {section}.{method}
               </div>
               <div className='status'>
-                {status}
+                {error ? error.message : status}
               </div>
             </div>
             <div className='short'>

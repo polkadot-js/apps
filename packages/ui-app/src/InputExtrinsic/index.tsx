@@ -3,14 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { MethodFunction } from '@polkadot/types/Method';
-import { ApiProps } from '@polkadot/ui-react-rx/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '../types';
 import { DropdownOptions } from '../util/types';
 
 import './InputExtrinsic.css';
 
 import React from 'react';
-import { withApi, withMulti } from '@polkadot/ui-react-rx/with';
+import { withApi, withMulti } from '@polkadot/ui-api/index';
 
 import classes from '../util/classes';
 import translate from '../translate';

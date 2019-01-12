@@ -9,8 +9,8 @@ import React from 'react';
 import { AccountId, Balance, Proposal } from '@polkadot/types';
 import { Tuple, Vector } from '@polkadot/types/codec';
 import { AddressMini, Labelled, Static } from '@polkadot/ui-app/index';
-import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
-import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
+import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { balanceFormat } from '@polkadot/ui-reactive/util/index';
 
 import Item from './Item';
 import translate from './translate';

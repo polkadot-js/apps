@@ -12,7 +12,7 @@ import './index.css';
 import React from 'react';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { Tabs } from '@polkadot/ui-app/index';
-import { withMulti, withObservable } from '@polkadot/ui-react-rx/with/index';
+import { withMulti, withObservable } from '@polkadot/ui-api/index';
 
 import Creator from './Creator';
 import Editor from './Editor';

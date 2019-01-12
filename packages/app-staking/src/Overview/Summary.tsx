@@ -3,14 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { DerivedBalances, DerivedBalancesMap } from '@polkadot/ui-react-rx/derive/types';
+import { DerivedBalances, DerivedBalancesMap } from '@polkadot/ui-api/derive/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { CardSummary } from '@polkadot/ui-app/index';
 import SummarySession from '@polkadot/app-explorer/SummarySession';
-import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
-import { balanceFormat } from '@polkadot/ui-react-rx/util/index';
+import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { balanceFormat } from '@polkadot/ui-reactive/util/index';
 
 import translate from '../translate';
 

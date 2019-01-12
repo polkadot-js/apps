@@ -4,15 +4,15 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParam } from '@polkadot/ui-params/types';
-import { DerivedReferendumVote } from '@polkadot/ui-react-rx/derive/types';
+import { DerivedReferendumVote } from '@polkadot/ui-api/derive/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { ReferendumInfo } from '@polkadot/types';
 import { Chart, Static } from '@polkadot/ui-app/index';
 import VoteThreshold from '@polkadot/ui-params/Param/VoteThreshold';
-import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
-import { balanceFormat, numberFormat } from '@polkadot/ui-react-rx/util/index';
+import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { balanceFormat, numberFormat } from '@polkadot/ui-reactive/util/index';
 import settings from '@polkadot/ui-settings';
 
 import Item from './Item';

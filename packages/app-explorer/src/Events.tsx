@@ -11,7 +11,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { Event, EventRecord } from '@polkadot/types';
 import { Event as EventDisplay } from '@polkadot/ui-app/index';
-import { withCall, withMulti } from '@polkadot/ui-react-rx/with';
+import { withCall, withMulti } from '@polkadot/ui-api/index';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 

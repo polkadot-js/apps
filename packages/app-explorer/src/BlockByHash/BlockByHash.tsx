@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-react-rx/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { AddressMini, Call } from '@polkadot/ui-app/index';
 import { Extrinsic, Method, SignedBlock } from '@polkadot/types';
-import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
-import { numberFormat } from '@polkadot/ui-react-rx/util/index';
+import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { numberFormat } from '@polkadot/ui-reactive/util/index';
 
 import BlockHeader from '../BlockHeader';
 import translate from '../translate';

@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableSendResult } from '@polkadot/api/types';
-import { UnsubFunction } from '@polkadot/api/promise/types';
-import { ApiProps } from '@polkadot/ui-react-rx/types';
+import { PromiseSubscription } from '@polkadot/api/promise/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from '@polkadot/ui-app/Status/types';
@@ -14,7 +14,7 @@ import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
 import { decodeAddress } from '@polkadot/keyring';
 import { Button, Modal } from '@polkadot/ui-app/index';
 import keyring from '@polkadot/ui-keyring';
-import { withApi, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { assert } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
 
@@ -213,9 +213,9 @@ class Signer extends React.PureComponent<Props, State> {
     });
   }
 
-  private onKeyDown = (event: React.KeyboardEvent<Element>): void => {
+  private onKeyDown = async (event: React.KeyboardEvent<Element>) => {
     if (event.key === 'Enter') {
-      this.onSend();
+      await this.onSend();
     }
   }
 
@@ -231,7 +231,7 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetTxStatus(currentItem.id, 'cancelled');
   }
 
-  private onSend = (): void => {
+  private onSend = async (): Promise<void> => {
     const { currentItem, password } = this.state;
 
     // This should never be executed
@@ -256,7 +256,7 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetTxStatus(id, status, result, error);
   }
 
-  private sendExtrinsic = ({ accountId, extrinsic, id, isUnsigned }: QueueTx, password?: string) => {
+  private async sendExtrinsic ({ accountId, extrinsic, id, isUnsigned }: QueueTx, password?: string): Promise<void> {
     assert(extrinsic, 'Expected an extrinsic to be supplied to sendExtrinsic');
 
     if (!isUnsigned) {
@@ -276,9 +276,9 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetTxStatus(id, 'sending');
 
     if (!isUnsigned) {
-      this.makeExtrinsicCall(submittable, id, submittable.signAndSend, keyring.getPair(accountId as string));
+      return this.makeExtrinsicCall(submittable, id, submittable.signAndSend, keyring.getPair(accountId as string));
     } else {
-      this.makeExtrinsicCall(submittable, id, submittable.send);
+      return this.makeExtrinsicCall(submittable, id, submittable.send);
     }
   }
 
@@ -304,19 +304,27 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private makeExtrinsicCall (extrinsic: SubmittableExtrinsic, id: number, extrinsicCall: (...params: Array<any>) => any, ..._params: Array<any>) {
+  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, id: number, extrinsicCall: (...params: Array<any>) => any, ..._params: Array<any>): Promise<void> {
     const { queueSetTxStatus } = this.props;
-    const unsubscribe = extrinsicCall.apply(extrinsic, [..._params, (result: SubmittableSendResult) => {
-      const status = result.type.toLowerCase() as QueueTx$Status;
 
-      console.log('submitAndWatchExtrinsic: updated status ::', result);
+    try {
+      const subscription = await extrinsicCall.apply(extrinsic, [..._params, async (result: SubmittableSendResult) => {
+        const status = result.type.toLowerCase() as QueueTx$Status;
 
-      queueSetTxStatus(id, status, result);
+        console.log('submitAndWatchExtrinsic: updated status ::', result);
 
-      if (status === 'finalised') {
-        unsubscribe();
-      }
-    }]) as UnsubFunction;
+        queueSetTxStatus(id, status, result);
+
+        if (status === 'finalised') {
+          const unsubscribe = await subscription;
+
+          unsubscribe();
+        }
+      }]) as PromiseSubscription;
+    } catch (error) {
+      console.error('error.message', error.message);
+      queueSetTxStatus(id, 'error', {}, error);
+    }
   }
 }
 

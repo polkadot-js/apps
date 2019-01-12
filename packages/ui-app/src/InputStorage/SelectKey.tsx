@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/ui-react-rx/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 
 import React from 'react';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { withApi, withMulti } from '@polkadot/ui-react-rx/with';
+import { withApi, withMulti } from '@polkadot/ui-api/index';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';

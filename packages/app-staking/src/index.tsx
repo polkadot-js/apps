@@ -4,12 +4,12 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
-import { DerivedBalancesMap } from '@polkadot/ui-react-rx/derive/types';
+import { DerivedBalancesMap } from '@polkadot/ui-api/derive/types';
 
 import React from 'react';
 import { AccountId, Balance } from '@polkadot/types';
 import { Tabs } from '@polkadot/ui-app/index';
-import { withCall, withMulti } from '@polkadot/ui-react-rx/with/index';
+import { withCall, withMulti } from '@polkadot/ui-api/index';
 
 import './index.css';
 

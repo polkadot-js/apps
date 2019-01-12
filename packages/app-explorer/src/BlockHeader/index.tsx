@@ -9,7 +9,7 @@ import './BlockHeader.css';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import numberFormat from '@polkadot/ui-react-rx/util/numberFormat';
+import numberFormat from '@polkadot/ui-reactive/util/numberFormat';
 
 // FIXME 7 Nov 2018 Due to mismatches with block hashes between Substrate and BBQ,
 // the hashes are retrieved and not calculated (go back to calculated once resolved)
