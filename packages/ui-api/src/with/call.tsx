@@ -155,7 +155,7 @@ export default function withCall<T, P> (endpoint: string, { rxChange, params = [
             this.triggerUpdate(this.props, value);
           }
         } catch (error) {
-          console.error(endpoint, '::', error);
+          // console.error(endpoint, '::', error);
         }
       }
 
