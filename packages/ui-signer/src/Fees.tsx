@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-transfer authors & contributors
+// Copyright 2017-2019 @polkadot/ui-signer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -79,9 +79,10 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         : 0
     );
 
-    let txfees = fees.transactionBaseFee
-        .add(fees.transferFee)
-        .add(fees.transactionByteFee.muln(txLength));
+    let txfees = fees
+      .transactionBaseFee
+      .add(fees.transferFee)
+      .add(fees.transactionByteFee.muln(txLength));
 
     if (balanceTo.votingBalance.isZero()) {
       txfees = txfees.add(fees.creationFee);
@@ -142,9 +143,9 @@ class FeeDisplay extends React.PureComponent<Props, State> {
       >
         {
           isRemovable && hasAvailable
-              ? t('fees.remove', {
-                defaultValue: 'Submitting this transaction will drop the account balance to below the existential amount, removing the account from the chain state and burning associated funds. '
-              })
+            ? t('fees.remove', {
+              defaultValue: 'Submitting this transaction will drop the account balance to below the existential amount, removing the account from the chain state and burning associated funds. '
+            })
             : undefined
         }{
           isNoEffect && hasAvailable
@@ -160,10 +161,10 @@ class FeeDisplay extends React.PureComponent<Props, State> {
             })
         }{
           isReserved
-          ? t('fees.reserved', {
-            defaultValue: '(This account does have a reserved/locked balance, staking locks up the available funds) '
-          })
-          : undefined
+            ? t('fees.reserved', {
+              defaultValue: '(This account does have a reserved/locked balance, staking locks up the available funds) '
+            })
+            : undefined
         }{
           t('fees.explain', {
             defaultValue: 'Fees includes the transaction fee and the per-byte fee. '

@@ -6,7 +6,7 @@ import { BitLength, I18nProps } from '@polkadot/ui-app/types';
 import { QueueProps } from '@polkadot/ui-app/Status/types';
 import { DerivedBalancesFees } from '@polkadot/ui-api/derive/types';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { Fees } from './types';
+import { Fees } from '@polkadot/ui-signer/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -16,8 +16,8 @@ import { BitLengthOption } from '@polkadot/ui-app/constants';
 import { AddressSummary, InputAddress, InputNumber } from '@polkadot/ui-app/index';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
+import FeeDisplay from '@polkadot/ui-signer/Fees';
 
-import FeeDisplay from './Fees';
 import Submit from './Submit';
 import translate from './translate';
 
