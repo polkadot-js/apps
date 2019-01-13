@@ -19,6 +19,7 @@ type State = Fees;
 
 type Props = I18nProps & {
   accountId?: string | null,
+  accountNonce?: BN,
   amount: BN,
   balanceFrom?: DerivedBalances,
   balanceTo?: DerivedBalances,
@@ -46,11 +47,6 @@ const LENGTH_PUBLICKEY = 32 + 1; // publicKey + prefix
 const LENGTH_SIGNATURE = 64;
 const LENGTH_NONCE = 8;
 const LENGTH_ERA = 1;
-
-// FIXME Hardcoded signature size. This _should_ be ok for the poc-3 version, however in reality is needs to
-// come from somewhere else (signer?). The issue is that we don't have the tx signed at this point, so we are
-// manually adding the signature size. As it stands, this will be problematic with Compact encoding on accountNonce.
-// Additionally, era assumes immortal transcations...
 const SIGNATURE_SIZE = LENGTH_PUBLICKEY + LENGTH_SIGNATURE + LENGTH_NONCE + LENGTH_ERA;
 
 class FeeDisplay extends React.PureComponent<Props, State> {
@@ -128,67 +124,64 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         )
       : 'error';
 
-    return [
-      <Static
-        className={className}
-        key='txfees'
-        label={t('fees', {
-          defaultValue: 'with fees totalling'
-        })}
-        value={`${balanceFormat(txfees)}`}
-      />,
+    return (
       <article
-        className={feeClass}
+        className={[className, feeClass, 'padded'].join(' ')}
         key='txinfo'
       >
-        {
-          isRemovable && hasAvailable
-            ? t('fees.remove', {
-              defaultValue: 'Submitting this transaction will drop the account balance to below the existential amount, removing the account from the chain state and burning associated funds. '
-            })
-            : undefined
-        }{
-          isNoEffect && hasAvailable
-            ? t('fees.noeffect', {
-              defaultValue: 'The final recipient amount is less than the existential amount, hence the total will be deducted from the sender, however the recipient account will not reflect the amount sent. '
-            })
-            : undefined
-        }{
-          hasAvailable
-            ? undefined
-            : t('fees.available', {
-              defaultValue: 'The account does not have the required funds available for this transaction with the current values. '
-            })
-        }{
-          isReserved
-            ? t('fees.reserved', {
-              defaultValue: '(This account does have a reserved/locked balance, staking locks up the available funds) '
-            })
-            : undefined
-        }{
-          t('fees.explain', {
+        <ul>
+          <li>{t('fees', {
+            defaultValue: '{{fees}} fees will be applied',
+            replace: {
+              fees: balanceFormat(txfees)
+            }
+          })}</li>
+          <li>{t('fees.explain', {
             defaultValue: 'Fees includes the transaction fee and the per-byte fee. '
-          })
-        }{
-          isCreation && fees.creationFee.gtn(0)
-            ? t('fees.create', {
-              defaultValue: 'A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist.',
-              replace: {
-                creationFee: `${balanceFormat(fees.creationFee)}`
-              }
-            })
-          : undefined
-        }
-      </article>,
-      <Static
-        className='medium'
-        key='txtotal'
-        label={t('total', {
-          defaultValue: 'total transaction amount (fees + value)'
-        })}
-        value={`${balanceFormat(txtotal)}`}
-      />
-    ];
+          })}</li>
+          {
+            isRemovable && hasAvailable
+              ? <li>{t('fees.remove', {
+                defaultValue: 'Submitting this transaction will drop the account balance to below the existential amount, removing the account from the chain state and burning associated funds.'
+              })}</li>
+              : undefined
+          }{
+            isNoEffect && hasAvailable
+              ? <li>{t('fees.noeffect', {
+                defaultValue: 'The final recipient amount is less than the existential amount, hence the total will be deducted from the sender, however the recipient account will not reflect the amount sent.'
+              })}</li>
+              : undefined
+          }{
+            hasAvailable
+              ? undefined
+              : <li>{t('fees.available', {
+                defaultValue: 'The account does not have the required funds available for this transaction with the current values.'
+              })}</li>
+          }{
+            isReserved
+              ? <li>{t('fees.reserved', {
+                defaultValue: '(This account does have a reserved/locked balance, staking locks up the available funds '
+              })}</li>
+              : undefined
+          }{
+            isCreation && fees.creationFee.gtn(0)
+              ? <li>{t('fees.create', {
+                defaultValue: 'A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist.',
+                replace: {
+                  creationFee: `${balanceFormat(fees.creationFee)}`
+                }
+              })}</li>
+            : undefined
+          }
+          <li>{t('total', {
+            defaultValue: '{{total}} total transaction amount (fees + value)',
+            replace: {
+              total: balanceFormat(txtotal)
+            }
+          })}</li>
+        </ul>
+      </article>
+    );
   }
 }
 
@@ -196,5 +189,6 @@ export default withMulti(
   FeeDisplay,
   translate,
   withCall('derive.balances.votingBalance', { paramProp: 'accountId', propName: 'balanceFrom' }),
-  withCall('derive.balances.votingBalance', { paramProp: 'recipientId', propName: 'balanceTo' })
+  withCall('derive.balances.votingBalance', { paramProp: 'recipientId', propName: 'balanceTo' }),
+  withCall('query.system.accountNonce', { paramProp: 'accountId', propName: 'accountNonce' })
 );
