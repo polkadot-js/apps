@@ -9,7 +9,6 @@ import { Fees } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { Balance, Extrinsic } from '@polkadot/types';
-import { Static } from '@polkadot/ui-app/index';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
 import { balanceFormat } from '@polkadot/ui-reactive/util/index';
 
@@ -26,7 +25,7 @@ type Props = I18nProps & {
   extrinsic: Extrinsic | null,
   fees?: DerivedBalancesFees,
   recipientId?: string | null,
-  onChange: (fees: Fees) => void
+  onChange?: (fees: Fees) => void
 };
 
 const ZERO_BALANCE = {
@@ -105,7 +104,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
   componentDidUpdate () {
     const { onChange } = this.props;
 
-    onChange(this.state);
+    onChange && onChange(this.state);
   }
 
   render () {

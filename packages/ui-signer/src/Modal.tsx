@@ -18,7 +18,7 @@ import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { assert } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
 
-import ExtrinsicDisplay from './Extrinsic';
+import Transaction from './Transaction';
 import Unlock from './Unlock';
 import translate from './translate';
 
@@ -148,9 +148,9 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <ExtrinsicDisplay value={currentItem}>
+      <Transaction value={currentItem}>
         {this.renderUnlock()}
-      </ExtrinsicDisplay>
+      </Transaction>
     );
   }
 
