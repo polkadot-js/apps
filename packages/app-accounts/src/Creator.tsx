@@ -19,7 +19,8 @@ const BipWorker = require('worker-loader?name=[name].[hash:8].js!./bipWorker');
 
 type Props = I18nProps & {
   onStatusChange: (status: ActionStatus) => void,
-  onCreateAccount: () => void
+  onCreateAccount: () => void,
+  passthrough: string | null
 };
 
 type SeedType = 'bip' | 'raw';
@@ -77,7 +78,7 @@ class Creator extends React.PureComponent<Props, State> {
       });
     };
     this.state = {
-      ...this.emptyState(),
+      ...this.emptyState(this.props.passthrough),
       seedOptions: [
         { value: 'bip', text: t('seedType.bip', { defaultValue: 'Mnemonic' }) },
         { value: 'raw', text: t('seedType.raw', { defaultValue: 'Raw seed' }) }
@@ -87,6 +88,8 @@ class Creator extends React.PureComponent<Props, State> {
 
   render () {
     const { address, isSeedValid } = this.state;
+
+    console.error('passthrough', this.props.passthrough);
 
     return (
       <div className='accounts--Creator'>
@@ -259,7 +262,7 @@ class Creator extends React.PureComponent<Props, State> {
     ];
   }
 
-  private generateSeed (seedType: SeedType): State {
+  private generateSeed (seedType: SeedType, passthrough?: string | null): State {
     if (seedType === 'bip') {
       this.bipWorker.postMessage('create');
 
@@ -269,7 +272,7 @@ class Creator extends React.PureComponent<Props, State> {
       } as State;
     }
 
-    const seed = u8aToHex(randomAsU8a());
+    const seed = passthrough || u8aToHex(randomAsU8a());
     const address = addressFromSeed(seed, seedType);
 
     return {
@@ -279,11 +282,13 @@ class Creator extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  private emptyState (): State {
-    const { seedType } = this.state;
+  private emptyState (passthrough?: string | null): State {
+    const seedType = passthrough
+      ? 'raw'
+      : this.state.seedType;
 
     return {
-      ...this.generateSeed(seedType),
+      ...this.generateSeed(seedType, passthrough),
       isNameValid: true,
       isPassValid: false,
       isSeedValid: true,

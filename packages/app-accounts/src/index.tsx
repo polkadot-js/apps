@@ -29,6 +29,7 @@ type Props = I18nProps & {
 type State = {
   action: Actions,
   hidden: Array<string>,
+  passthrough: string | null,
   items: Array<TabItem>
 };
 
@@ -52,6 +53,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
     this.state = {
       ...baseState,
+      passthrough: null,
       items: [
         {
           name: 'edit',
@@ -103,7 +105,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
   render () {
     const { onStatusChange } = this.props;
-    const { action, hidden, items } = this.state;
+    const { action, hidden, items, passthrough } = this.state;
     const Component = Components[action];
 
     return (
@@ -119,7 +121,9 @@ class AccountsApp extends React.PureComponent<Props, State> {
         <Component
           onCreateAccount={this.selectEdit}
           onRestoreAccount={this.selectEdit}
+          onCreateToggle={this.selectCreate}
           onStatusChange={onStatusChange}
+          passthrough={passthrough}
         />
       </main>
     );
@@ -129,8 +133,18 @@ class AccountsApp extends React.PureComponent<Props, State> {
     this.setState({ action });
   }
 
+  private selectCreate = (passthrough: string | null = null) => {
+    this.setState({
+      action: 'create',
+      passthrough
+    });
+  }
+
   private selectEdit = (): void => {
-    this.setState({ action: 'edit' });
+    this.setState({
+      action: 'edit',
+      passthrough: null
+    });
   }
 }
 

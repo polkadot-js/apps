@@ -5,13 +5,14 @@
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Button, CopyButton, IdentityIcon } from '@polkadot/ui-app/index';
+import { Button, IdentityIcon } from '@polkadot/ui-app/index';
 import { u8aToHex } from '@polkadot/util';
 
 type Props = BareProps & {
   address: string;
   count: number;
   offset: number;
+  onCreateToggle: (passthrough: string) => void,
   onRemove: (address: string) => void,
   seed: Uint8Array;
 };
@@ -50,10 +51,14 @@ export default class Match extends React.PureComponent<Props, State> {
             </div>
           </div>
           <div className='vanity--Match-buttons'>
-            <CopyButton value={hexSeed} />
+            <Button
+              icon='plus'
+              isPrimary
+              onClick={this.onCreate}
+              size='tiny'
+            />
             <Button
               icon='close'
-              isCircular
               isNegative
               onClick={this.onRemove}
               size='tiny'
@@ -62,6 +67,13 @@ export default class Match extends React.PureComponent<Props, State> {
         </div>
       </div>
     );
+  }
+
+  onCreate = (): void => {
+    const { onCreateToggle } = this.props;
+    const { hexSeed } = this.state;
+
+    onCreateToggle(hexSeed);
   }
 
   onRemove = (): void => {
