@@ -138,32 +138,32 @@ class FeeDisplay extends React.PureComponent<Props, State> {
       >
         <ul>
           <li>{t('fees', {
-            defaultValue: '{{fees}} fees will be applied to the submission.',
+            defaultValue: 'Fees totalling {{fees}} will be applied to the submission',
             replace: {
               fees: balanceFormat(allFees)
             }
           })}</li>
           <li>{t('fees.explain', {
-            defaultValue: 'Fees includes the transaction fee and the per-byte fee.'
+            defaultValue: 'Fees includes the transaction fee and the per-byte fee'
           })}</li>
           {this.renderTransfer()}
           {this.renderProposal()}
           {
             isRemovable && hasAvailable
               ? <li>{t('fees.remove', {
-                defaultValue: 'Submitting this transaction will drop the account balance to below the existential amount, removing the account from the chain state and burning associated funds.'
+                defaultValue: 'Submitting this transaction will drop the account balance to below the existential amount, removing the account from the chain state and burning associated funds'
               })}</li>
               : undefined
           }{
             hasAvailable
               ? undefined
               : <li>{t('fees.available', {
-                defaultValue: 'The account does not have the required funds available for this transaction with the current values.'
+                defaultValue: 'The account does not have the required funds available for this transaction with the current values'
               })}</li>
           }{
             isReserved
               ? <li>{t('fees.reserved', {
-                defaultValue: 'This account does have a reserved/locked balance, not taken into account.'
+                defaultValue: 'This account does have a reserved/locked balance, not taken into account'
               })}</li>
               : undefined
           }
@@ -186,13 +186,13 @@ class FeeDisplay extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const [recipientId, amount] = extrinsic.args;
+    const [, deposit] = extrinsic.args;
 
     return (
       <Proposal
-        amount={amount}
+        deposit={deposit}
         fees={derive_balances_fees}
-        recipient={recipientId}
+        onChange={this.onExtraUpdate}
       />
     );
   }

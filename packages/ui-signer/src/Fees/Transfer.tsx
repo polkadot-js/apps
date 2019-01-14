@@ -44,8 +44,6 @@ class Transfer extends React.PureComponent<Props, State> {
   static getDerivedStateFromProps ({ amount, recipientId, derive_balances_votingBalance = ZERO_BALANCE, fees, onChange }: Props): State {
     let extraFees = fees.transferFee;
 
-    console.error('getDerivedStateFromProps', recipientId.toString()); // , recipientBalance);
-
     if (derive_balances_votingBalance.votingBalance.isZero()) {
       extraFees = extraFees.add(fees.creationFee);
     }
@@ -75,13 +73,13 @@ class Transfer extends React.PureComponent<Props, State> {
 
     return [
       isNoEffect
-        ? <li key='noeffect'>{t('fees.noeffect', {
-          defaultValue: 'The final recipient amount is less than the existential amount, hence the total will be deducted from the sender, however the recipient account will not reflect the amount sent.'
+        ? <li key='noeffect'>{t('transfer.noeffect', {
+          defaultValue: 'The final recipient amount is less than the existential amount, hence the total will be deducted from the sender, however the recipient account will not reflect the amount sent'
         })}</li>
         : undefined,
       isCreation
-        ? <li key='create'>{t('fees.create', {
-          defaultValue: 'A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist.',
+        ? <li key='create'>{t('transfer.create', {
+          defaultValue: 'A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist',
           replace: {
             creationFee: `${balanceFormat(fees.creationFee)}`
           }
