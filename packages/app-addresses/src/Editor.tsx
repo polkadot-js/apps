@@ -9,7 +9,6 @@ import React from 'react';
 import { AddressSummary, Button, Input, InputAddress } from '@polkadot/ui-app/index';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import keyring from '@polkadot/ui-keyring';
-import { decodeAddress } from '@polkadot/keyring';
 
 import Forgetting from './Forgetting';
 import translate from './translate';
@@ -173,7 +172,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   onChangeAddress = (accountId: string): void => {
-    const current = accountId && decodeAddress(accountId)
+    const current = accountId && keyring.decodeAddress(accountId)
       ? (keyring.getAddress(accountId) || null)
       : null;
 

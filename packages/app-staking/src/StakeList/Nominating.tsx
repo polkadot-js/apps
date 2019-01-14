@@ -5,8 +5,8 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { decodeAddress } from '@polkadot/keyring';
 import { Button, Input, Modal } from '@polkadot/ui-app/index';
+import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
 
@@ -144,7 +144,7 @@ class Nominating extends React.PureComponent<Props> {
     let isAddressFormatValid = false;
 
     try {
-      decodeAddress(nominee);
+      keyring.decodeAddress(nominee);
 
       isAddressFormatValid = true;
     } catch (err) {

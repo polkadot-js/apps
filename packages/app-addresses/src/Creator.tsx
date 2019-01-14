@@ -20,6 +20,7 @@ type Props = I18nProps & {
 
 type State = {
   address: string,
+  isAddressExisting: boolean,
   isAddressValid: boolean,
   isNameValid: boolean,
   isValid: boolean,
@@ -113,6 +114,7 @@ class Creator extends React.PureComponent<Props, State> {
   emptyState (): State {
     return {
       address: '',
+      isAddressExisting: false,
       isAddressValid: false,
       isNameValid: true,
       isValid: false,
@@ -120,12 +122,13 @@ class Creator extends React.PureComponent<Props, State> {
     };
   }
 
-  nextState (newState: State): void {
+  nextState (newState: State, allowEdit: boolean = false): void {
     this.setState(
       (prevState: State, props: Props): State => {
-        const { address = prevState.address, name = prevState.name } = newState;
+        let { address = prevState.address, name = prevState.name } = newState;
 
         let isAddressValid = true;
+        let isAddressExisting = false;
         let newAddress = address;
 
         try {
@@ -133,6 +136,19 @@ class Creator extends React.PureComponent<Props, State> {
             keyring.decodeAddress(address)
           );
           isAddressValid = keyring.isAvailable(newAddress);
+
+          if (!isAddressValid) {
+            const old = keyring.getAddress(newAddress);
+
+            if (old.isValid) {
+              if (!allowEdit) {
+                name = old.getMeta().name || name;
+              }
+
+              isAddressExisting = true;
+              isAddressValid = true;
+            }
+          }
         } catch (error) {
           isAddressValid = false;
         }
@@ -141,6 +157,7 @@ class Creator extends React.PureComponent<Props, State> {
 
         return {
           address: newAddress,
+          isAddressExisting,
           isAddressValid,
           isNameValid,
           isValid: isAddressValid && isNameValid,
@@ -155,12 +172,12 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   onChangeName = (name: string): void => {
-    this.nextState({ name } as State);
+    this.nextState({ name } as State, true);
   }
 
   onCommit = (): void => {
     const { onCreateAddress, onStatusChange, t } = this.props;
-    const { address, name } = this.state;
+    const { address, isAddressExisting, name } = this.state;
 
     const status = {
       action: 'create'
@@ -171,9 +188,13 @@ class Creator extends React.PureComponent<Props, State> {
 
       status.account = address;
       status.status = address ? 'success' : 'error';
-      status.message = t('status.created', {
-        defaultValue: 'address created'
-      });
+      status.message = isAddressExisting
+        ? t('status.edited', {
+          defaultValue: 'address edited'
+        })
+        : t('status.created', {
+          defaultValue: 'address created'
+        });
 
       InputAddress.setLastValue('address', address);
     } catch (err) {
