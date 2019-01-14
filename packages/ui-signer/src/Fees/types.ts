@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 
 export type ExtraFees = {
+  extraAmount: BN,
   extraFees: BN,
-  extraTotal: BN,
   extraWarn: boolean
 };
