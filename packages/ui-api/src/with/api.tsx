@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '../types';
+import { ApiProps, Subtract } from '../types';
 import { DefaultProps } from './types';
 
 import React from 'react';
@@ -11,7 +11,7 @@ import { assert } from '@polkadot/util';
 import { ApiConsumer } from '../ApiContext';
 
 export default function withApi <T, P extends ApiProps> (Inner: React.ComponentType<P>, defaultProps: DefaultProps<T> = {}): React.ComponentType<any> {
-  return class WithApi extends React.PureComponent<any> {
+  return class WithApi extends React.PureComponent<Subtract<P, ApiProps>> {
     constructor (props: any) {
       super(props);
 

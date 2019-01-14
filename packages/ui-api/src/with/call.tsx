@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// TODO: Lots of duplicated code between this and withObservable, surely there is a better way of doing this?
-
 import { ApiProps, RxProps } from '../types';
 import { HOC, Options } from './types';
 
@@ -26,20 +24,16 @@ type State<T> = RxProps<T> & {
   timerId: number
 };
 
-type Props = ApiProps & {};
-
 const NOOP = () => {
   // ignore
 };
 
-// FIXME proper types for attributes
-
-export default function withCall<T, P> (endpoint: string, { at, atProp, rxChange, params = [], paramProp = 'params', propName, transform = echoTransform }: Options<T> = {}): HOC<T> {
+export default function withCall<T, P extends ApiProps> (endpoint: string, { at, atProp, rxChange, params = [], paramProp = 'params', propName, transform = echoTransform }: Options<T> = {}): HOC<T> {
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<any> => {
-    class WithPromise extends React.Component<Props, State<T>> {
+    class WithPromise extends React.Component<P, State<T>> {
       state: State<T>;
 
-      constructor (props: Props) {
+      constructor (props: P) {
         super(props);
 
         const [area, section, method] = endpoint.split('.');

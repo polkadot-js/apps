@@ -5,6 +5,10 @@
 import { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
 import ApiPromise from '@polkadot/api/promise';
 
+// helpers for HOC props
+export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
+export type Subtract<T, K> = Omit<T, keyof K>;
+
 export type BareProps = {
   className?: string,
   style?: { [index: string]: any }
