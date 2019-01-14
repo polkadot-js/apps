@@ -4,9 +4,7 @@
 
 import { BitLength, I18nProps } from '@polkadot/ui-app/types';
 import { QueueProps } from '@polkadot/ui-app/Status/types';
-import { DerivedBalancesFees } from '@polkadot/ui-api/derive/types';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { Fees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -14,23 +12,21 @@ import { decodeAddress } from '@polkadot/keyring';
 import { Extrinsic } from '@polkadot/types';
 import { BitLengthOption } from '@polkadot/ui-app/constants';
 import { AddressSummary, InputAddress, InputNumber } from '@polkadot/ui-app/index';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
+import FeeDisplay from '@polkadot/ui-signer/Fees';
 
-import FeeDisplay from './Fees';
 import Submit from './Submit';
 import translate from './translate';
 
-type Props = I18nProps & ApiProps & {
-  derive_balances_fees?: DerivedBalancesFees
-};
+type Props = I18nProps & ApiProps & {};
 
 type State = {
   accountId: string | null,
   amount: BN,
   extrinsic: Extrinsic | null,
-  recipientId: string | null,
-  txfees: Fees
+  hasAvailable: boolean,
+  recipientId: string | null
 };
 
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
@@ -47,17 +43,14 @@ class Transfer extends React.PureComponent<Props, State> {
       accountId: null,
       amount: ZERO,
       extrinsic: null,
-      recipientId: null,
-      txfees: {
-        hasAvailable: false,
-        txtotal: ZERO
-      } as Fees
+      hasAvailable: true,
+      recipientId: null
     };
   }
 
   render () {
-    const { derive_balances_fees, t } = this.props;
-    const { accountId, amount, extrinsic, recipientId, txfees: { hasAvailable } } = this.state;
+    const { t } = this.props;
+    const { accountId, extrinsic, recipientId, hasAvailable } = this.state;
 
     return (
       <div className='transfer--Transfer'>
@@ -97,9 +90,7 @@ class Transfer extends React.PureComponent<Props, State> {
             <FeeDisplay
               className='medium'
               accountId={accountId}
-              amount={amount}
-              fees={derive_balances_fees}
-              recipientId={recipientId}
+              extrinsic={extrinsic}
               onChange={this.onChangeFees}
             />
             <QueueConsumer>
@@ -143,7 +134,7 @@ class Transfer extends React.PureComponent<Props, State> {
   private nextState (newState: Partial<State>): void {
     this.setState((prevState: State): State => {
       const { apiPromise } = this.props;
-      const { accountId = prevState.accountId, amount = prevState.amount, recipientId = prevState.recipientId, txfees = prevState.txfees } = newState;
+      const { accountId = prevState.accountId, amount = prevState.amount, recipientId = prevState.recipientId, hasAvailable = prevState.hasAvailable } = newState;
       const extrinsic = accountId && recipientId
         ? apiPromise.tx.balances.transfer(recipientId, amount)
         : null;
@@ -152,8 +143,8 @@ class Transfer extends React.PureComponent<Props, State> {
         accountId,
         amount,
         extrinsic,
-        recipientId,
-        txfees
+        hasAvailable,
+        recipientId
       };
     });
   }
@@ -170,13 +161,13 @@ class Transfer extends React.PureComponent<Props, State> {
     this.nextState({ recipientId });
   }
 
-  private onChangeFees = (txfees: Fees) => {
-    this.setState({ txfees });
+  private onChangeFees = (hasAvailable: boolean) => {
+    this.setState({ hasAvailable });
   }
 }
 
 export default withMulti(
   Transfer,
   translate,
-  withCall('derive.balances.fees')
+  withApi
 );

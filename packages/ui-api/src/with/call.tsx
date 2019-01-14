@@ -55,8 +55,9 @@ export default function withCall<T, P> (endpoint: string, { at, atProp, rxChange
 
       componentDidUpdate (prevProps: any) {
         const newParams = this.getParams(this.props);
+        const oldParams = this.getParams(prevProps);
 
-        if (!isEqual(newParams, this.getParams(prevProps))) {
+        if (!isEqual(newParams, oldParams)) {
           this
             .subscribe(newParams)
             .then(NOOP)

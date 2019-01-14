@@ -10,6 +10,7 @@ import { Trans } from 'react-i18next';
 import { Method } from '@polkadot/types';
 import { Call, IdentityIcon, Modal } from '@polkadot/ui-app/index';
 
+import Fees from './Fees';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -53,12 +54,30 @@ class Transaction extends React.PureComponent<Props> {
           <div className='expanded'>
             <p>{header}</p>
             <Call value={extrinsic} />
+            {this.renderFees()}
           </div>
           {icon}
         </div>
         {children}
       </Modal.Content>
     ];
+  }
+
+  private renderFees () {
+    const { value: { accountId, extrinsic, isUnsigned } } = this.props;
+
+    if (isUnsigned) {
+      return null;
+    }
+
+    return (
+      <div className='ui--Params-Content'>
+        <Fees
+          accountId={accountId}
+          extrinsic={extrinsic}
+        />
+      </div>
+    );
   }
 }
 

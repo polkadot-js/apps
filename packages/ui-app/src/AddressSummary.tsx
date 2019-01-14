@@ -77,7 +77,6 @@ class AddressSummary extends React.PureComponent<Props> {
               : value
           }
         </div>
-        {this.renderCopy(address)}
       </div>
     );
   }
@@ -106,7 +105,6 @@ class AddressSummary extends React.PureComponent<Props> {
               : address
           }
         </div>
-        {this.renderCopy(address)}
       </div>
     );
   }
@@ -148,20 +146,6 @@ class AddressSummary extends React.PureComponent<Props> {
         value={value}
       />
     );
-  }
-
-  protected renderCopy (address: string) {
-    return null;
-
-    // const { withCopy = true } = this.props;
-
-    // if (!withCopy || !address) {
-    //   return null;
-    // }
-
-    // return (
-    //   <CopyButton value={address} />
-    // );
   }
 
   protected renderIcon (className: string = 'ui--AddressSummary-icon', size?: number) {
