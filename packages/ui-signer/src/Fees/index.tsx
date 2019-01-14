@@ -10,6 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { Extrinsic, Method } from '@polkadot/types';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { Icon } from '@polkadot/ui-app/index';
 import { balanceFormat } from '@polkadot/ui-reactive/util/index';
 import { compactToU8a } from '@polkadot/util';
 
@@ -136,44 +137,42 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         className={[className, feeClass, 'padded'].join(' ')}
         key='txinfo'
       >
-        <ul>
-          <li>{t('fees', {
-            defaultValue: 'Fees totalling {{fees}} will be applied to the submission',
-            replace: {
-              fees: balanceFormat(allFees)
-            }
-          })}</li>
-          <li>{t('fees.explain', {
-            defaultValue: 'Fees includes the transaction fee and the per-byte fee'
-          })}</li>
-          {this.renderTransfer()}
-          {this.renderProposal()}
-          {
-            isRemovable && hasAvailable
-              ? <li>{t('fees.remove', {
-                defaultValue: 'Submitting this transaction will drop the account balance to below the existential amount, removing the account from the chain state and burning associated funds'
-              })}</li>
-              : undefined
-          }{
-            hasAvailable
-              ? undefined
-              : <li>{t('fees.available', {
-                defaultValue: 'The account does not have the required funds available for this transaction with the current values'
-              })}</li>
-          }{
-            isReserved
-              ? <li>{t('fees.reserved', {
-                defaultValue: 'This account does have a reserved/locked balance, not taken into account'
-              })}</li>
-              : undefined
+        {this.renderTransfer()}
+        {this.renderProposal()}
+        {
+          isRemovable && hasAvailable
+            ? <div><Icon name='warning sign' />{t('fees.remove', {
+              defaultValue: 'Submitting this transaction will drop the account balance to below the existential amount, removing the account from the chain state and burning associated funds'
+            })}</div>
+            : undefined
+        }{
+          hasAvailable
+            ? undefined
+            : <div><Icon name='ban' />{t('fees.available', {
+              defaultValue: 'The account does not have the required funds available for this transaction with the current provided values'
+            })}</div>
+        }{
+          isReserved
+            ? <div><Icon name='arrow right' />{t('fees.reserved', {
+              defaultValue: 'This account does have a reserved/locked balance, not taken into account'
+            })}</div>
+            : undefined
+        }
+        <div><Icon name='arrow right' />{t('fees.explain', {
+          defaultValue: 'Fees includes the transaction fee and the per-byte fee'
+        })}</div>
+        <div><Icon name='arrow right' />{t('fees', {
+          defaultValue: 'Fees totalling {{fees}} will be applied to the submission',
+          replace: {
+            fees: balanceFormat(allFees)
           }
-          <li>{t('total', {
-            defaultValue: '{{total}} total transaction amount (fees + value)',
-            replace: {
-              total: balanceFormat(allTotal)
-            }
-          })}</li>
-        </ul>
+        })}</div>
+        <div><Icon name='arrow right' />{t('total', {
+          defaultValue: '{{total}} total transaction amount (fees + value)',
+          replace: {
+            total: balanceFormat(allTotal)
+          }
+        })}</div>
       </article>
     );
   }

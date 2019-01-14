@@ -10,6 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { Compact } from '@polkadot/types/codec';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { Icon } from '@polkadot/ui-app/index';
 import { balanceFormat } from '@polkadot/ui-reactive/util/index';
 
 import translate from '../translate';
@@ -62,21 +63,21 @@ class Proposal extends React.PureComponent<Props, State> {
 
     return [
       isBelowMinimum
-        ? <li key='belowmin'>{t('proposal.belowmin', {
+        ? <div key='belowmin'><Icon name='warning sign' />{t('proposal.belowmin', {
           defaultValue: 'The deposit is below the {{minimum}} minimum required for the proposal to be evaluated',
           replace: {
             minimum: balanceFormat(query_democracy_minimumDeposit)
           }
-        })}</li>
+        })}</div>
         : undefined,
       extraAmount.isZero()
         ? undefined
-        : <li key='infodeposit'>{t('proposal.deposit', {
+        : <div key='infodeposit'><Icon name='arrow right' />{t('proposal.deposit', {
           defaultValue: 'The deposit of {{deposit}} will be reserved until the proposal is completed',
           replace: {
             deposit: balanceFormat(extraAmount)
           }
-        })}</li>
+        })}</div>
     ];
   }
 }
