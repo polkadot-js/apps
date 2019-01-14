@@ -11,6 +11,7 @@ import React from 'react';
 import { Extrinsic, Method } from '@polkadot/types';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
 import { balanceFormat } from '@polkadot/ui-reactive/util/index';
+import { compactToU8a } from '@polkadot/util';
 
 import translate from '../translate';
 import Proposal from './Proposal';
@@ -39,9 +40,8 @@ type Props = I18nProps & {
 
 const LENGTH_PUBLICKEY = 32 + 1; // publicKey + prefix
 const LENGTH_SIGNATURE = 64;
-const LENGTH_NONCE = 8;
 const LENGTH_ERA = 1;
-const SIGNATURE_SIZE = LENGTH_PUBLICKEY + LENGTH_SIGNATURE + LENGTH_NONCE + LENGTH_ERA;
+const SIGNATURE_SIZE = LENGTH_PUBLICKEY + LENGTH_SIGNATURE + LENGTH_ERA;
 
 class FeeDisplay extends React.PureComponent<Props, State> {
   constructor (props: Props) {
@@ -60,7 +60,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ accountId, derive_balances_votingBalance = ZERO_BALANCE, extrinsic, derive_balances_fees = ZERO_FEES }: Props, prevState: State): State | null {
+  static getDerivedStateFromProps ({ accountId, derive_balances_votingBalance = ZERO_BALANCE, extrinsic, derive_balances_fees = ZERO_FEES, query_system_accountNonce = new BN(0) }: Props, prevState: State): State | null {
     if (!accountId || !extrinsic) {
       return null;
     }
@@ -68,7 +68,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     const fn = Method.findFunction(extrinsic.callIndex);
     const extMethod = fn.method;
     const extSection = fn.section;
-    const txLength = SIGNATURE_SIZE + (
+    const txLength = SIGNATURE_SIZE + compactToU8a(query_system_accountNonce).length + (
       extrinsic
         ? extrinsic.encodedLength
         : 0
