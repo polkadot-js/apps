@@ -10,6 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { Compact } from '@polkadot/types/codec';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { Icon } from '@polkadot/ui-app/index';
 import { balanceFormat } from '@polkadot/ui-reactive/util/index';
 
 import translate from '../translate';
@@ -73,17 +74,17 @@ class Transfer extends React.PureComponent<Props, State> {
 
     return [
       isNoEffect
-        ? <li key='noeffect'>{t('transfer.noeffect', {
+        ? <div key='noeffect'><Icon name='warning sign' />{t('transfer.noeffect', {
           defaultValue: 'The final recipient amount is less than the existential amount, hence the total will be deducted from the sender, however the recipient account will not reflect the amount sent'
-        })}</li>
+        })}</div>
         : undefined,
       isCreation
-        ? <li key='create'>{t('transfer.create', {
+        ? <div key='create'><Icon name='warning sign' />{t('transfer.create', {
           defaultValue: 'A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist',
           replace: {
             creationFee: `${balanceFormat(fees.creationFee)}`
           }
-        })}</li>
+        })}</div>
         : undefined
     ];
   }
