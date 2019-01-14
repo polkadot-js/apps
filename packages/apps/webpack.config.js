@@ -22,7 +22,6 @@ const packages = [
   'app-storage',
   'app-toolbox',
   'app-transfer',
-  'app-vanitygen',
   'ui-api',
   'ui-app',
   'ui-params',
