@@ -37,7 +37,9 @@ class Proposal extends React.PureComponent<Props, State> {
   }
 
   static getDerivedStateFromProps ({ deposit, query_democracy_minimumDeposit = new BN(0), onChange }: Props): State {
-    const extraAmount = new BN(deposit.toNumber());
+    const extraAmount = deposit instanceof Compact
+      ? deposit.toBn()
+      : deposit;
     const isBelowMinimum = extraAmount.lt(query_democracy_minimumDeposit);
 
     const update = {
