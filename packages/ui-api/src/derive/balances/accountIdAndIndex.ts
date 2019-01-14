@@ -18,10 +18,10 @@ export default function accountIdAndIndex (api: ApiPromise): DeriveSubscription 
   return async (address: AccountId | AccountIndex | string | null | undefined, cb: (idAndIndex: IdAndIndex) => any): PromiseSubscription => {
     try {
       // yes, this can fail, don't care too much, catch will catch it
-      const length = decodeAddress((address as any).toString()).length;
+      const decoded = decodeAddress((address as any).toString());
 
-      if (length === 32) {
-        const accountId = new AccountId(address as string);
+      if (decoded.length === 32) {
+        const accountId = new AccountId(decoded);
 
         return accountIdToIndex(api)(accountId, (accountIndex?: AccountIndex) =>
           cb([accountId, accountIndex])

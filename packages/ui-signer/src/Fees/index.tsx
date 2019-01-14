@@ -18,6 +18,9 @@ import Transfer from './Transfer';
 import { ZERO_BALANCE, ZERO_FEES } from './constants';
 
 type State = ExtraFees & {
+  allFees: BN,
+  allTotal: BN,
+  allWarn: boolean,
   extMethod?: string,
   extSection?: string,
   hasAvailable: boolean,
@@ -26,12 +29,12 @@ type State = ExtraFees & {
 };
 
 type Props = I18nProps & {
-  accountBalance?: DerivedBalances,
+  derive_balances_fees?: DerivedBalancesFees,
+  derive_balances_votingBalance?: DerivedBalances,
   accountId?: string | null,
-  accountNonce?: BN,
   extrinsic: Extrinsic | null,
-  fees?: DerivedBalancesFees,
-  onChange?: (hasAvailble: boolean) => void
+  onChange?: (hasAvailble: boolean) => void,
+  query_system_accountNonce?: BN
 };
 
 const LENGTH_PUBLICKEY = 32 + 1; // publicKey + prefix
@@ -45,19 +48,19 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
+      allFees: new BN(0),
+      allTotal: new BN(0),
+      allWarn: false,
       extraAmount: new BN(0),
       extraFees: new BN(0),
       extraWarn: false,
       hasAvailable: false,
       isRemovable: false,
-      isReserved: false,
-      txfees: new BN(0),
-      txtotal: new BN(0),
-      txwarn: false
+      isReserved: false
     };
   }
 
-  static getDerivedStateFromProps ({ accountId, accountBalance = ZERO_BALANCE, extrinsic, fees = ZERO_FEES }: Props, prevState: State): State | null {
+  static getDerivedStateFromProps ({ accountId, derive_balances_votingBalance = ZERO_BALANCE, extrinsic, derive_balances_fees = ZERO_FEES }: Props, prevState: State): State | null {
     if (!accountId || !extrinsic) {
       return null;
     }
@@ -80,18 +83,20 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     const extraWarn = isSameExtrinsic
       ? prevState.extraWarn
       : false;
+    const allFees = extraFees
+      .add(derive_balances_fees.transactionBaseFee)
+      .add(derive_balances_fees.transactionByteFee.muln(txLength));
 
-    let txfees = extraFees
-      .add(fees.transactionBaseFee)
-      .add(fees.transactionByteFee.muln(txLength));
-
-    const txtotal = amount.add(txfees);
-    const hasAvailable = accountBalance.freeBalance.gte(txtotal);
-    const isRemovable = accountBalance.votingBalance.sub(txtotal).lte(fees.existentialDeposit);
-    const isReserved = accountBalance.freeBalance.isZero() && accountBalance.reservedBalance.gtn(0);
-    const txwarn = extraWarn;
+    const allTotal = extraAmount.add(allFees);
+    const hasAvailable = derive_balances_votingBalance.freeBalance.gte(allTotal);
+    const isRemovable = derive_balances_votingBalance.votingBalance.sub(allTotal).lte(derive_balances_fees.existentialDeposit);
+    const isReserved = derive_balances_votingBalance.freeBalance.isZero() && derive_balances_votingBalance.reservedBalance.gtn(0);
+    const allWarn = extraWarn;
 
     return {
+      allFees,
+      allTotal,
+      allWarn,
       extMethod,
       extSection,
       extraAmount,
@@ -99,10 +104,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
       extraWarn,
       hasAvailable,
       isRemovable,
-      isReserved,
-      txfees,
-      txtotal,
-      txwarn
+      isReserved
     };
   }
 
@@ -114,8 +116,8 @@ class FeeDisplay extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accountId, className, fees = ZERO_FEES, t } = this.props;
-    const { hasAvailable, isRemovable, isReserved, txfees, txtotal, txwarn } = this.state;
+    const { accountId, className, t } = this.props;
+    const { allFees, allTotal, allWarn, hasAvailable, isRemovable, isReserved } = this.state;
 
     if (!accountId) {
       return null;
@@ -123,7 +125,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
 
     const feeClass = hasAvailable
       ? (
-        txwarn
+        allWarn
           ? 'warning'
           : 'normal'
         )
@@ -138,7 +140,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
           <li>{t('fees', {
             defaultValue: '{{fees}} fees will be applied to the submission.',
             replace: {
-              fees: balanceFormat(txfees)
+              fees: balanceFormat(allFees)
             }
           })}</li>
           <li>{t('fees.explain', {
@@ -168,7 +170,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
           <li>{t('total', {
             defaultValue: '{{total}} total transaction amount (fees + value)',
             replace: {
-              total: balanceFormat(txtotal)
+              total: balanceFormat(allTotal)
             }
           })}</li>
         </ul>
@@ -177,10 +179,10 @@ class FeeDisplay extends React.PureComponent<Props, State> {
   }
 
   private renderProposal () {
-    const { extrinsic, fees } = this.props;
+    const { extrinsic, derive_balances_fees } = this.props;
     const { extMethod, extSection } = this.state;
 
-    if (!fees || !extrinsic || extSection !== 'democracy' || extMethod !== 'propose') {
+    if (!derive_balances_fees || !extrinsic || extSection !== 'democracy' || extMethod !== 'propose') {
       return null;
     }
 
@@ -189,17 +191,17 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     return (
       <Proposal
         amount={amount}
-        fees={fees}
+        fees={derive_balances_fees}
         recipient={recipientId}
       />
     );
   }
 
   private renderTransfer () {
-    const { extrinsic, fees } = this.props;
+    const { extrinsic, derive_balances_fees } = this.props;
     const { extMethod, extSection } = this.state;
 
-    if (!fees || !extrinsic || extSection !== 'balances' || extMethod !== 'transfer') {
+    if (!derive_balances_fees || !extrinsic || extSection !== 'balances' || extMethod !== 'transfer') {
       return null;
     }
 
@@ -208,7 +210,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     return (
       <Transfer
         amount={amount}
-        fees={fees}
+        fees={derive_balances_fees}
         recipientId={recipientId}
         onChange={this.onExtraUpdate}
       />
@@ -223,7 +225,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
 export default withMulti(
   FeeDisplay,
   translate,
-  withCall('derive.balances.fees', { propName: 'fees' }),
-  withCall('derive.balances.votingBalance', { paramProp: 'accountId', propName: 'accountBalance' }),
-  withCall('query.system.accountNonce', { paramProp: 'accountId', propName: 'accountNonce' })
+  withCall('derive.balances.fees'),
+  withCall('derive.balances.votingBalance', { paramProp: 'accountId' }),
+  withCall('query.system.accountNonce', { paramProp: 'accountId' })
 );

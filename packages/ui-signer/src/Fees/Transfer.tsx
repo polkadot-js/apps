@@ -8,6 +8,7 @@ import { ExtraFees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { Compact } from '@polkadot/types/codec';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
 import { balanceFormat } from '@polkadot/ui-reactive/util/index';
 
@@ -15,9 +16,9 @@ import translate from '../translate';
 import { ZERO_BALANCE } from './constants';
 
 type Props = I18nProps & {
-  amount: BN,
+  amount: BN | Compact,
   fees: DerivedBalancesFees,
-  recipientBalance?: DerivedBalances,
+  derive_balances_votingBalance?: DerivedBalances,
   recipientId: string,
   onChange: (fees: ExtraFees) => void
 };
@@ -40,16 +41,18 @@ class Transfer extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ amount, recipientBalance = ZERO_BALANCE, fees, onChange }: Props): State {
+  static getDerivedStateFromProps ({ amount, recipientId, derive_balances_votingBalance = ZERO_BALANCE, fees, onChange }: Props): State {
     let extraFees = fees.transferFee;
 
-    if (recipientBalance.votingBalance.isZero()) {
+    console.error('getDerivedStateFromProps', recipientId.toString()); // , recipientBalance);
+
+    if (derive_balances_votingBalance.votingBalance.isZero()) {
       extraFees = extraFees.add(fees.creationFee);
     }
 
-    const extraAmount = amount;
-    const isCreation = recipientBalance.votingBalance.isZero();
-    const isNoEffect = amount.add(recipientBalance.votingBalance).lte(fees.existentialDeposit);
+    const extraAmount = new BN(amount.toNumber());
+    const isCreation = derive_balances_votingBalance.votingBalance.isZero() && fees.creationFee.gtn(0);
+    const isNoEffect = extraAmount.add(derive_balances_votingBalance.votingBalance).lte(fees.existentialDeposit);
     const extraWarn = isCreation || isNoEffect;
     const update = {
       extraAmount,
@@ -76,7 +79,7 @@ class Transfer extends React.PureComponent<Props, State> {
           defaultValue: 'The final recipient amount is less than the existential amount, hence the total will be deducted from the sender, however the recipient account will not reflect the amount sent.'
         })}</li>
         : undefined,
-      isCreation && fees.creationFee.gtn(0)
+      isCreation
         ? <li key='create'>{t('fees.create', {
           defaultValue: 'A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist.',
           replace: {
@@ -91,5 +94,5 @@ class Transfer extends React.PureComponent<Props, State> {
 export default withMulti(
   Transfer,
   translate,
-  withCall('derive.balances.votingBalance', { paramProp: 'recipientId', propName: 'recipientBalance' })
+  withCall('derive.balances.votingBalance', { paramProp: 'recipientId' })
 );
