@@ -56,12 +56,12 @@ class VanityApp extends React.PureComponent<Props, State> {
 
   render () {
     return (
-      <main className='vanity--App'>
+      <div className='accounts--Vanity'>
         {this.renderOptions()}
         {this.renderButtons()}
         {this.renderStats()}
         {this.renderMatches()}
-      </main>
+      </div>
     );
   }
 

@@ -42,13 +42,14 @@
 
 .vanity--Match-addr {
   font-size: 1.5rem;
-}
 
-.vanity--Match-addr .no {
-}
+  .no {
+    color: inherit;
+  }
 
-.vanity--Match-addr .yes {
-  color: red;
+  .yes {
+    color: red;
+  }
 }
 
 .vanity--Match-seed {

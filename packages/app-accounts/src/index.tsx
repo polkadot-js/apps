@@ -17,6 +17,7 @@ import { withMulti, withObservable } from '@polkadot/ui-api/index';
 import Creator from './Creator';
 import Editor from './Editor';
 import Restore from './Restore';
+import Vanity from './Vanity';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -34,7 +35,8 @@ type State = {
 const Components: { [index: string]: React.ComponentType<any> } = {
   'create': Creator,
   'edit': Editor,
-  'restore': Restore
+  'restore': Restore,
+  'vanity': Vanity
 };
 
 class AccountsApp extends React.PureComponent<Props, State> {
@@ -62,6 +64,10 @@ class AccountsApp extends React.PureComponent<Props, State> {
         {
           name: 'restore',
           text: t('app.restore', { defaultValue: 'Restore account' })
+        },
+        {
+          name: 'vanity',
+          text: t('app.vanity', { defaultValue: 'Vanity address' })
         }
       ]
     };
