@@ -31,7 +31,8 @@ type Props = ApiProps & I18nProps & {
 };
 
 type State = {
-  isNominateOpen: boolean
+  isNominateOpen: boolean,
+  isNominating: boolean
 };
 
 class Account extends React.PureComponent<Props, State> {
@@ -39,7 +40,16 @@ class Account extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      isNominateOpen: false
+      isNominateOpen: false,
+      isNominating: false
+    };
+  }
+
+  static getDerivedStateFromProps ({ query_staking_nominating }: Props) {
+    const isNominating = !!query_staking_nominating && query_staking_nominating.length === 32;
+
+    return {
+      isNominating
     };
   }
 
@@ -73,8 +83,9 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderNominee () {
     const { query_staking_nominating, balanceArray } = this.props;
+    const { isNominating } = this.state;
 
-    if (!query_staking_nominating) {
+    if (!isNominating || !query_staking_nominating) {
       return null;
     }
 
@@ -110,8 +121,8 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderButtons () {
     const { accountId, intentions, query_staking_nominating, t } = this.props;
+    const { isNominating } = this.state;
     const isIntending = intentions.includes(accountId);
-    const isNominating = !!query_staking_nominating;
     const canStake = !isIntending && !isNominating;
 
     if (canStake) {
