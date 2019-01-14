@@ -71,10 +71,12 @@ class Transaction extends React.PureComponent<Props> {
     }
 
     return (
-      <Fees
-        accountId={accountId}
-        extrinsic={extrinsic}
-      />
+      <div className='ui--Params-Content'>
+        <Fees
+          accountId={accountId}
+          extrinsic={extrinsic}
+        />
+      </div>
     );
   }
 }

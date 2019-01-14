@@ -53,6 +53,7 @@ article {
   /* border-top-width: 1px; */
   margin: 0.5rem;
   padding: 1rem 1.5rem;
+  text-align: left;
 
   &.padded {
     padding: 1rem 2.5rem;

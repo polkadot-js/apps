@@ -85,27 +85,20 @@ export default function withCall<T, P> (endpoint: string, { at, atProp, rxChange
         this.unsubscribe();
       }
 
-      private getParams (props: any): [boolean, Array<any>] {
+      private getParams (props: any): Array<any> {
         const paramValue = props[paramProp];
-
-        if (paramProp && isUndefined(paramValue)) {
-          return [false, []];
-        }
 
         if (atProp) {
           at = props[atProp];
         }
 
-        return [
-          true,
-          isUndefined(paramValue)
-            ? params
-            : params.concat(
-              Array.isArray(paramValue)
-                ? paramValue
-                : [paramValue]
-            )
-        ];
+        return isUndefined(paramValue)
+          ? params
+          : params.concat(
+            Array.isArray(paramValue)
+              ? paramValue
+              : [paramValue]
+          );
       }
 
       private getApiMethod (newParams: Array<any>): [Method, Array<any>, boolean] {
@@ -150,11 +143,7 @@ export default function withCall<T, P> (endpoint: string, { at, atProp, rxChange
         ];
       }
 
-      private async subscribe ([isValid, newParams]: [boolean, Array<any>]) {
-        if (!isValid) {
-          return;
-        }
-
+      private async subscribe (newParams: Array<any>) {
         const { apiPromise } = this.props;
 
         await apiPromise.isReady;
