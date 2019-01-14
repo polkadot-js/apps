@@ -11,7 +11,6 @@ import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } fro
 
 import React from 'react';
 import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
-import { decodeAddress } from '@polkadot/keyring';
 import { Button, Modal } from '@polkadot/ui-app/index';
 import keyring from '@polkadot/ui-keyring';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
@@ -179,7 +178,7 @@ class Signer extends React.PureComponent<Props, State> {
     let publicKey;
 
     try {
-      publicKey = decodeAddress(accountId);
+      publicKey = keyring.decodeAddress(accountId);
     } catch (err) {
       console.error(err);
       return null;

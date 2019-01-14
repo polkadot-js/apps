@@ -5,7 +5,6 @@
 import { I18nProps as Props } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { decodeAddress } from '@polkadot/keyring';
 import { Icon, Input, InputAddress, Static } from '@polkadot/ui-app/index';
 import keyring from '@polkadot/ui-keyring';
 import { hexToU8a, isHex, stringToU8a } from '@polkadot/util';
@@ -184,7 +183,7 @@ class Verify extends React.PureComponent<Props, State> {
     let currentPublicKey;
 
     try {
-      currentPublicKey = decodeAddress(accountId);
+      currentPublicKey = keyring.decodeAddress(accountId);
     } catch (err) {
       console.error(err);
     }

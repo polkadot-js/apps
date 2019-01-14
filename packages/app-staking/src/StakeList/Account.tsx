@@ -46,7 +46,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   static getDerivedStateFromProps ({ query_staking_nominating }: Props) {
-    const isNominating = !!query_staking_nominating && query_staking_nominating.length === 32;
+    const isNominating = !!query_staking_nominating && !query_staking_nominating.isEmpty;
 
     return {
       isNominating

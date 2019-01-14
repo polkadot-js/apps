@@ -8,12 +8,12 @@ import { ApiProps } from '@polkadot/ui-api/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { decodeAddress } from '@polkadot/keyring';
 import { Extrinsic } from '@polkadot/types';
 import { BitLengthOption } from '@polkadot/ui-app/constants';
 import { AddressSummary, InputAddress, InputNumber } from '@polkadot/ui-app/index';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
+import keyring from '@polkadot/ui-keyring';
 import FeeDisplay from '@polkadot/ui-signer/Fees';
 
 import Submit from './Submit';
@@ -116,7 +116,7 @@ class Transfer extends React.PureComponent<Props, State> {
     }
 
     try {
-      decodeAddress(accountId);
+      keyring.decodeAddress(accountId);
     } catch (err) {
       return null;
     }
