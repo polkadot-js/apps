@@ -20,6 +20,13 @@ function flatten (key: string | null, value: any): any {
   return value;
 }
 
-export default function isEqual <T> (a?: T, b?: T): boolean {
-  return JSON.stringify({ test: a }, flatten) === JSON.stringify({ test: b }, flatten);
+export default function isEqual <T> (a?: T, b?: T, debug: boolean = false): boolean {
+  const jsonA = JSON.stringify({ test: a }, flatten);
+  const jsonB = JSON.stringify({ test: b }, flatten);
+
+  if (debug) {
+    console.log('jsonA', jsonA, 'jsonB', jsonB);
+  }
+
+  return jsonA === jsonB;
 }

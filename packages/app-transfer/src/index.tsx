@@ -19,10 +19,7 @@ type Props = I18nProps & {
   allAccounts?: SubjectInfo
 };
 
-type State = {
-};
-
-class App extends React.PureComponent<Props, State> {
+class App extends React.PureComponent<Props> {
   render () {
     return (
       <main className='transfer--App'>

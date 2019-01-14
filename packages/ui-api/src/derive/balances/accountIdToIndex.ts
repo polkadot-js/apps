@@ -11,8 +11,8 @@ import { AccountId, AccountIndex } from '@polkadot/types';
 import accountIndexes, { AccountIndexes } from './accountIndexes';
 
 export default function accountIdToIndex (api: ApiPromise): DeriveSubscription {
-  return async (accountId: AccountId | string, cb: (index?: AccountIndex) => any): PromiseSubscription =>
+  return async (accountId: AccountId | string | null, cb: (index?: AccountIndex) => any): PromiseSubscription =>
     accountIndexes(api)((indexes?: AccountIndexes) =>
-      cb((indexes || {})[accountId.toString()])
+      cb((indexes || {})[(accountId || '').toString()])
     );
 }

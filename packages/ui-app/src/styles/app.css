@@ -53,6 +53,11 @@ article {
   /* border-top-width: 1px; */
   margin: 0.5rem;
   padding: 1rem 1.5rem;
+  text-align: left;
+
+  &.padded {
+    padding: 1rem 2.5rem;
+  }
 
   &.error {
     background: #fff6f6;
@@ -63,6 +68,11 @@ article {
   &.warning {
     background: #ffffe0;
     border-color: #eeeeae;
+  }
+
+  > ul {
+    margin: 0;
+    padding: 0;
   }
 }
 
