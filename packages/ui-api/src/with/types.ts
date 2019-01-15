@@ -8,15 +8,15 @@ import React from 'react';
 
 export type Transform = (value: any, index: number) => any;
 
-export type DefaultProps<T> = {
-  rxChange?: OnChangeCb<T>,
+export type DefaultProps = {
+  callOnChange?: OnChangeCb,
   [index: string]: any
 };
 
-export type Options<T> = {
+export type Options = {
   at?: Uint8Array | string,
   atProp?: string,
-  rxChange?: OnChangeCb<T>,
+  callOnChange?: OnChangeCb,
   params?: Array<any>,
   paramProp?: string,
   propName?: string,
@@ -35,4 +35,4 @@ export type ApiMethod = {
   section?: string
 };
 
-export type ComponentRenderer<T> = (render: RenderFn, defaultProps?: DefaultProps<T>) => React.ComponentType<any>;
+export type ComponentRenderer<T> = (render: RenderFn, defaultProps?: DefaultProps) => React.ComponentType<any>;

@@ -11,13 +11,13 @@ import RxNonce from '@polkadot/ui-reactive/Nonce';
 
 type Props = BareProps & {
   label: string,
-  rxChange: (value: BN) => void,
+  callOnChange: (value: BN) => void,
   value?: string
 };
 
 export default class Nonce extends React.PureComponent<Props> {
   render () {
-    const { label, rxChange, value } = this.props;
+    const { label, callOnChange, value } = this.props;
 
     if (!value) {
       return null;
@@ -31,7 +31,7 @@ export default class Nonce extends React.PureComponent<Props> {
         >
           <RxNonce
             className='ui disabled dropdown selection'
-            rxChange={rxChange}
+            callOnChange={callOnChange}
             params={value}
           />
         </Labelled>

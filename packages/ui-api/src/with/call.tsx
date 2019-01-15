@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps, RxProps } from '../types';
+import { ApiProps, CallState } from '../types';
 import { Options, Subtract } from './types';
 
 import React from 'react';
@@ -18,30 +18,34 @@ interface Method {
   at: (hash: Uint8Array | string, ...params: Array<any>) => Promise<any>;
 }
 
-type State<T> = RxProps<T> & {
+type State = CallState & {
   destroy?: () => void,
   propName: string,
   timerId: number
 };
 
+type I = CallState & ApiProps & {};
+
 const NOOP = () => {
   // ignore
 };
 
-export default function withCall<T, P extends object, C extends React.ComponentClass<P>> (endpoint: string, { at, atProp, rxChange, params = [], paramProp = 'params', propName, transform = echoTransform }: Options<T> = {}): (Inner: C) => React.ComponentClass<Subtract<P, ApiProps>> {
-  return (Inner: C): React.ComponentClass<Subtract<P, ApiProps>> => {
-    class WithPromise extends React.Component<ApiProps, State<T>> {
-      state: State<T>;
+export default function withCall <P extends I> (endpoint: string, options: Options = {}) {
+  let { at, atProp, callOnChange, params = [], paramProp = 'params', propName, transform = echoTransform } = options;
 
-      constructor (props: ApiProps) {
+  return (Inner: React.ComponentType<P>) => {
+    class WithPromise extends React.Component<Subtract<P, CallState>, State> {
+      state: State;
+
+      constructor (props: Subtract<P, CallState>) {
         super(props);
 
         const [area, section, method] = endpoint.split('.');
 
         this.state = {
           propName: `${area}_${section}_${method}`,
-          rxUpdated: false,
-          rxUpdatedAt: 0,
+          callUpdated: false,
+          callUpdatedAt: 0,
           timerId: -1,
           value: void 0
         };
@@ -157,7 +161,7 @@ export default function withCall<T, P extends object, C extends React.ComponentC
 
             this.setState({ destroy });
           } else {
-            const value: T = at
+            const value = at
               ? await apiMethod.at(at, ...params)
               : await apiMethod(...params);
 
@@ -176,7 +180,7 @@ export default function withCall<T, P extends object, C extends React.ComponentC
         }
       }
 
-      private triggerUpdate (props: any, _value?: T): void {
+      private triggerUpdate (props: any, _value?: any): void {
         try {
           const value = (props.transform || transform)(_value);
 
@@ -184,11 +188,11 @@ export default function withCall<T, P extends object, C extends React.ComponentC
             return;
           }
 
-          triggerChange(value, rxChange, props.rxChange);
+          triggerChange(value, callOnChange, props.callOnChange);
 
           this.setState({
-            rxUpdated: true,
-            rxUpdatedAt: Date.now(),
+            callUpdated: true,
+            callUpdatedAt: Date.now(),
             value
           });
         } catch (error) {
@@ -197,16 +201,15 @@ export default function withCall<T, P extends object, C extends React.ComponentC
       }
 
       render (): React.ReactNode {
-        const { rxUpdated, rxUpdatedAt, value } = this.state;
+        const { callUpdated, callUpdatedAt, value } = this.state;
         const _props = {
           ...this.props,
-          rxUpdated,
-          rxUpdatedAt,
+          callUpdated,
+          callUpdatedAt,
           [propName || this.state.propName]: value
-        };
+        } as any;
 
         return (
-          // @ts-ignore ???
           <Inner {..._props} />
         );
       }

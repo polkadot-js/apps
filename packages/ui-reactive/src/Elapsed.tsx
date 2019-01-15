@@ -7,8 +7,8 @@ import { BareProps } from '@polkadot/ui-api/types';
 import React from 'react';
 import { Moment } from '@polkadot/types';
 
-type Props = BareProps & {
-  value?: Moment | Date
+type Props <T = Moment | Date> = BareProps & {
+  value?: T
 };
 
 type State = {

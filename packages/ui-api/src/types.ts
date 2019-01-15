@@ -18,26 +18,28 @@ export type ApiProps = {
   setApiUrl: (url?: string) => void
 };
 
-export type OnChangeCb$Obs<T> = { next: (value?: T) => any };
-export type OnChangeCb$Fn<T> = (value?: T) => void;
+export type OnChangeCb$Obs = { next: (value?: any) => any };
+export type OnChangeCb$Fn = (value?: any) => void;
 
-export type OnChangeCb<T> = OnChangeCb$Obs<T> | OnChangeCb$Fn<T> | undefined;
+export type OnChangeCb = OnChangeCb$Obs | OnChangeCb$Fn | undefined;
 
-export type ChangeProps<T> = {
-  rxChange?: OnChangeCb<T>
+export type ChangeProps = {
+  callOnChange?: OnChangeCb
 };
 
 export type ParamProps = {
   params?: Array<any>
 };
 
-export type RxProps<T> = {
-  rxUpdated?: boolean;
-  rxUpdatedAt?: number;
-  value?: T;
+export type CallState = {
+  callUpdated?: boolean;
+  callUpdatedAt?: number;
+  value?: any;
 };
 
-export type BaseProps<T> = BareProps & ApiProps & ChangeProps<T> & ParamProps & RxProps<T> & {
+export type CallProps = ApiProps & CallState;
+
+export type BaseProps<T> = BareProps & ApiProps & ChangeProps & ParamProps & CallProps & {
   children?: React.ReactNode,
   label?: string,
   render?: (value?: T) => React.ReactNode
