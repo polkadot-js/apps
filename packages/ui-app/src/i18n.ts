@@ -7,24 +7,28 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-xhr-backend';
 import { reactI18nextModule } from 'react-i18next';
 
+const OPTIONS = {
+  backend: {
+    loadPath: 'locales/{{lng}}/{{ns}}.json'
+  },
+  debug: false,
+  defaultNS: 'ui',
+  fallbackLng: 'en',
+  interpolation: {
+    escapeValue: false
+  },
+  ns: ['ui'],
+  react: {
+    wait: true
+  }
+};
+
 i18n
   .use(Backend)
   .use(LanguageDetector)
   .use(reactI18nextModule)
-  .init({
-    backend: {
-      loadPath: 'locales/{{lng}}/{{ns}}.json'
-    },
-    debug: false,
-    defaultNS: 'ui',
-    fallbackLng: 'en',
-    interpolation: {
-      escapeValue: false
-    },
-    ns: ['ui'],
-    react: {
-      wait: true
-    }
-  });
+  .init(OPTIONS)
+  .then(() => console.log('i18next initialised'))
+  .catch(() => console.log('i18next initialisation failed'));
 
 export default i18n;
