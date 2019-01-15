@@ -22,7 +22,7 @@
     "postinstall": "polkadot-dev-yarn-only",
     "test": "jest --coverage",
     "deploy:ghpages": "gh-pages --dist packages/apps/build --remove locales,static,*.css,*.js,*.json,*.map,*.md",
-    "vanitygen": "node packages/app-vanitygen/scripts/vanitygen.js",
+    "vanitygen": "node packages/app-accounts/scripts/vanitygen.js",
     "start": "cd packages/apps && webpack-serve --config webpack.config.js --port 3000"
   },
   "devDependencies": {

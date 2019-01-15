@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-// Copyright 2017-2019 @polkadot/client authors & contributors
+// Copyright 2017-2019 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 const fs = require('fs');
 const path = require('path');
 
-const [compiled] = ['../generator/cli.js']
+const [compiled] = ['../vanitygen/cli.js']
   .map((file) => path.join(__dirname, file))
   .filter((file) => fs.existsSync(file));
 
@@ -24,5 +24,5 @@ if (compiled) {
       }]
     ]
   });
-  require('../src/generator/cli.ts');
+  require('../src/vanitygen/cli.ts');
 }

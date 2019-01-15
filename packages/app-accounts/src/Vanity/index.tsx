@@ -1,25 +1,23 @@
-// Copyright 2017-2019 @polkadot/app-vanitygen authors & contributors
+// Copyright 2017-2019 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
-import { Generator$Matches, Generator$Result } from './generator/types';
+import { Generator$Matches, Generator$Result } from '../vanitygen/types';
 
 import './index.css';
 
 import React from 'react';
 import { Button, Dropdown, Input, Static } from '@polkadot/ui-app/index';
 
+import generator from '../vanitygen';
+import matchRegex from '../vanitygen/regex';
+import generatorSort from '../vanitygen/sort';
 import Match from './Match';
-import generator from './generator';
-import matchRegex from './generator/regex';
-import generatorSort from './generator/sort';
 import translate from './translate';
 
 type Props = I18nProps & {
-  basePath: string,
-  onStatusChange: (status: ActionStatus) => void
+  onCreateToggle: (passthrough: string) => void
 };
 
 type State = {
@@ -54,14 +52,20 @@ class VanityApp extends React.PureComponent<Props, State> {
     withCase: true
   };
 
+  private _isActive: boolean = false;
+
+  componentWillUnmount () {
+    this._isActive = false;
+  }
+
   render () {
     return (
-      <main className='vanity--App'>
+      <div className='accounts--Vanity'>
         {this.renderOptions()}
         {this.renderButtons()}
         {this.renderStats()}
         {this.renderMatches()}
-      </main>
+      </div>
     );
   }
 
@@ -86,6 +90,7 @@ class VanityApp extends React.PureComponent<Props, State> {
   }
 
   renderMatches () {
+    const { onCreateToggle } = this.props;
     const { matches } = this.state;
 
     return (
@@ -94,6 +99,7 @@ class VanityApp extends React.PureComponent<Props, State> {
           <Match
             {...match}
             key={match.address}
+            onCreateToggle={onCreateToggle}
             onRemove={this.onRemove}
           />
         ))}
@@ -170,7 +176,7 @@ class VanityApp extends React.PureComponent<Props, State> {
 
     this.results = [];
 
-    if (results.length === 0) {
+    if (results.length === 0 || !this._isActive) {
       return;
     }
 
@@ -208,19 +214,21 @@ class VanityApp extends React.PureComponent<Props, State> {
     }
 
     setTimeout(() => {
-      if (this.results.length === 25) {
-        this.checkMatches();
+      if (this._isActive) {
+        if (this.results.length === 25) {
+          this.checkMatches();
+        }
+
+        this.results.push(
+          generator({
+            match: this.state.match,
+            runs: 10,
+            withCase: this.state.withCase
+          })
+        );
+
+        this.executeGeneration();
       }
-
-      this.results.push(
-        generator({
-          match: this.state.match,
-          runs: 10,
-          withCase: this.state.withCase
-        })
-      );
-
-      this.executeGeneration();
     }, 0);
   }
 
@@ -253,11 +261,13 @@ class VanityApp extends React.PureComponent<Props, State> {
       (prevState: State) => {
         const { isRunning, keyCount, keyTime, startAt } = prevState;
 
+        this._isActive = !isRunning;
+
         return {
-          isRunning: !isRunning,
-          keyCount: !isRunning ? 0 : keyCount,
-          keyTime: !isRunning ? 0 : keyTime,
-          startAt: !isRunning ? Date.now() : startAt
+          isRunning: this._isActive,
+          keyCount: this._isActive ? keyCount : 0,
+          keyTime: this._isActive ? keyTime : 0,
+          startAt: this._isActive ? startAt : Date.now()
         };
       },
       this.executeGeneration

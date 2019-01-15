@@ -17,7 +17,6 @@ import staking from './staking';
 import storage from './storage';
 import toolbox from './toolbox';
 import transfer from './transfer';
-import vanitygen from './vanitygen';
 
 const routes: Routes = appSettings.uiMode === 'light'
   ? ([] as Routes).concat(
@@ -43,7 +42,6 @@ const routes: Routes = appSettings.uiMode === 'light'
     extrinsics,
     null,
     settings,
-    vanitygen,
     rpc,
     toolbox
   );

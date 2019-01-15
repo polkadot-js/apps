@@ -17,6 +17,7 @@ import { withMulti, withObservable } from '@polkadot/ui-api/index';
 import Creator from './Creator';
 import Editor from './Editor';
 import Restore from './Restore';
+import Vanity from './Vanity';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -28,13 +29,15 @@ type Props = I18nProps & {
 type State = {
   action: Actions,
   hidden: Array<string>,
+  passthrough: string | null,
   items: Array<TabItem>
 };
 
 const Components: { [index: string]: React.ComponentType<any> } = {
   'create': Creator,
   'edit': Editor,
-  'restore': Restore
+  'restore': Restore,
+  'vanity': Vanity
 };
 
 class AccountsApp extends React.PureComponent<Props, State> {
@@ -50,6 +53,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
     this.state = {
       ...baseState,
+      passthrough: null,
       items: [
         {
           name: 'edit',
@@ -62,6 +66,10 @@ class AccountsApp extends React.PureComponent<Props, State> {
         {
           name: 'restore',
           text: t('app.restore', { defaultValue: 'Restore account' })
+        },
+        {
+          name: 'vanity',
+          text: t('app.vanity', { defaultValue: 'Vanity address' })
         }
       ]
     };
@@ -97,7 +105,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
   render () {
     const { onStatusChange } = this.props;
-    const { action, hidden, items } = this.state;
+    const { action, hidden, items, passthrough } = this.state;
     const Component = Components[action];
 
     return (
@@ -113,7 +121,9 @@ class AccountsApp extends React.PureComponent<Props, State> {
         <Component
           onCreateAccount={this.selectEdit}
           onRestoreAccount={this.selectEdit}
+          onCreateToggle={this.selectCreate}
           onStatusChange={onStatusChange}
+          passthrough={passthrough}
         />
       </main>
     );
@@ -123,8 +133,18 @@ class AccountsApp extends React.PureComponent<Props, State> {
     this.setState({ action });
   }
 
+  private selectCreate = (passthrough: string | null = null) => {
+    this.setState({
+      action: 'create',
+      passthrough
+    });
+  }
+
   private selectEdit = (): void => {
-    this.setState({ action: 'edit' });
+    this.setState({
+      action: 'edit',
+      passthrough: null
+    });
   }
 }
 
