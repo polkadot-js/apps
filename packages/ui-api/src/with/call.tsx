@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Subtract } from 'utility-types';
-import { ApiProps, CallProps, CallState } from '../types';
+import { CallProps, CallState } from '../types';
 import { Options } from './types';
 
 import React from 'react';
@@ -26,18 +25,16 @@ type State = CallState & {
   value?: any
 };
 
-type Injected = CallState & ApiProps;
-
 const NOOP = () => {
   // ignore
 };
 
-export default function withCall <P extends CallProps, W = Subtract<P, Injected>> (endpoint: string, { at, atProp, callOnChange, params = [], paramProp = 'params', propName, transform = echoTransform }: Options = {}) {
-  return (Inner: React.ComponentType<P>): React.ComponentClass<W> => {
-    class WithPromise extends React.Component<ApiProps, State> {
+export default function withCall <P extends CallProps> (endpoint: string, { at, atProp, callOnChange, params = [], paramProp = 'params', propName, transform = echoTransform }: Options = {}) {
+  return (Inner: React.ComponentType<P>) => {
+    class WithPromise extends React.Component<P, State> {
       state: State;
 
-      constructor (props: ApiProps) {
+      constructor (props: P) {
         super(props);
 
         const [area, section, method] = endpoint.split('.');
@@ -51,7 +48,7 @@ export default function withCall <P extends CallProps, W = Subtract<P, Injected>
         };
       }
 
-      componentDidUpdate (prevProps: ApiProps) {
+      componentDidUpdate (prevProps: any) {
         const newParams = this.getParams(this.props);
         const oldParams = this.getParams(prevProps);
 

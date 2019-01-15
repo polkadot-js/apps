@@ -10,14 +10,8 @@ import { assert } from '@polkadot/util';
 
 import { ApiConsumer } from '../ApiContext';
 
-export default function withApi <P extends object, W = Diff<P, ApiProps>> (Inner: React.ComponentType<P>): React.ComponentClass<W> {
-  return class WithApi extends React.PureComponent<W> {
-    constructor (props: W) {
-      super(props);
-
-      assert(Inner, `Expected 'withApi' to wrap a React Component`);
-    }
-
+export default function withApi <P extends ApiProps> (Inner: React.ComponentType<P>) {
+  return class WithApi extends React.PureComponent<Diff<P, ApiProps>> {
     render (): React.ReactNode {
       return (
         <ApiConsumer>
@@ -38,14 +32,3 @@ export default function withApi <P extends object, W = Diff<P, ApiProps>> (Inner
     }
   };
 }
-
-// type TestProps = ApiProps & {
-//   something: any
-// };
-
-// @withApi
-// class Test<P = TestProps> extends React.PureComponent<P> {
-//   render (): React.ReactNode {
-//     return 'test';
-//   }
-// }

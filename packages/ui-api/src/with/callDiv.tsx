@@ -16,7 +16,7 @@ type Props = BareProps & CallProps & {
 };
 
 export default function withCallDiv<T> (endpoint: string, options: Options = {}) {
-  return (render: (value?: T) => React.ReactNode, defaultProps: DefaultProps = {}): React.ComponentType<Props> => {
+  return (render: (value?: T) => React.ReactNode, defaultProps: DefaultProps = {}) => {
     class Inner extends React.PureComponent<Props> {
       render () {
         const { children, className = defaultProps.className, label = '', callUpdated, style, value } = this.props;
