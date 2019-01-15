@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps, CallState } from '../types';
-import { Options, Subtract } from './types';
+import { Subtract } from 'utility-types';
+import { ApiProps, CallProps, CallState } from '../types';
+import { Options } from './types';
 
 import React from 'react';
 import { assert, isUndefined } from '@polkadot/util';
@@ -21,18 +22,17 @@ interface Method {
 type State = CallState & {
   destroy?: () => void,
   propName: string,
-  timerId: number
+  timerId: number,
+  value?: any
 };
 
-type I = CallState & ApiProps & {
-  params?: any | Array<any>;
-};
+type Injected = CallState & ApiProps;
 
 const NOOP = () => {
   // ignore
 };
 
-export default function withCall <P extends object, W = Subtract<P, I>> (endpoint: string, { at, atProp, callOnChange, params = [], paramProp = 'params', propName, transform = echoTransform }: Options = {}): (Inner: React.ComponentType<P>) => React.ComponentClass<W> {
+export default function withCall <P extends CallProps, W = Subtract<P, Injected>> (endpoint: string, { at, atProp, callOnChange, params = [], paramProp = 'params', propName, transform = echoTransform }: Options = {}) {
   return (Inner: React.ComponentType<P>): React.ComponentClass<W> => {
     class WithPromise extends React.Component<ApiProps, State> {
       state: State;

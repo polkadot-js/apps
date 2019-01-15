@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/ui-api/types';
+import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Moment } from '@polkadot/types';
@@ -10,14 +10,14 @@ import { withCall } from '@polkadot/ui-api/index';
 
 import { numberFormat } from './util/index';
 
-type Props = BareProps & {
+type Props = BareProps & CallProps & {
   children?: React.ReactNode,
   label?: string,
   query_timestamp_blockPeriod?: Moment
 };
 
-@withCall('query.timestamp.blockPeriod')
-export default class TimePeriod extends React.PureComponent<Props> {
+export default withCall('query.timestamp.blockPeriod')(
+class TimePeriod extends React.PureComponent<Props> {
   render (): React.ReactNode {
     const { children, className, label = '', style, query_timestamp_blockPeriod } = this.props;
 
@@ -35,3 +35,4 @@ export default class TimePeriod extends React.PureComponent<Props> {
     );
   }
 }
+);

@@ -23,9 +23,6 @@ export type Options = {
   transform?: Transform
 };
 
-export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
-export type Subtract<T, K> = Omit<T, keyof K>;
-
 export type RenderFn = (value?: any) => React.ReactNode;
 
 export type StorageTransform = (input: any, index: number) => any | null;

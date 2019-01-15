@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { withCall } from '@polkadot/ui-api/index';
 import { BlockNumber, Hash } from '@polkadot/types';
 
-type Props = I18nProps & {
+type Props = CallProps & {
   blockNumber: BlockNumber,
   rpc_chain_getBlockHash?: Hash,
   withLink?: boolean

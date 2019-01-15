@@ -13,8 +13,8 @@ import ExtrinsicDisplay from './Extrinsic';
 
 type Props = ApiProps & BaseProps;
 
-@withApi
-export default class ProposalDisplay extends React.PureComponent<Props> {
+export default withApi(
+class ProposalDisplay extends React.PureComponent<Props> {
   render (): React.ReactNode {
     const { apiDefaultTx, apiPromise, className, isDisabled, isError, label, style, withLabel } = this.props;
     const defaultValue = (() => {
@@ -54,3 +54,4 @@ export default class ProposalDisplay extends React.PureComponent<Props> {
     });
   }
 }
+);

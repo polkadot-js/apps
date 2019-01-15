@@ -35,8 +35,8 @@ type State = {
   values: Array<RawParam>
 };
 
-@withApi
-export default class ExtrinsicDisplay extends React.PureComponent<Props, State> {
+export default withApi(
+class ExtrinsicDisplay extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -122,3 +122,4 @@ export default class ExtrinsicDisplay extends React.PureComponent<Props, State> 
     }));
   }
 }
+);

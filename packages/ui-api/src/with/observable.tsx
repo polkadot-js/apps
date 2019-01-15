@@ -17,7 +17,8 @@ import { intervalObservable, isEqual, triggerChange } from '../util/index';
 type HOC = (Component: React.ComponentType<any>, defaultProps?: DefaultProps, render?: RenderFn) => React.ComponentType<any>;
 
 type State = CallState & {
-  subscriptions: Array<any>; // FIXME subscriptions
+  subscriptions: Array<any>; // FIXME subscriptions,
+  value?: any
 };
 
 // FIXME proper types for attributes

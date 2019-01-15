@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Header } from '@polkadot/types';
-import { BareProps } from '@polkadot/ui-app/types';
+import { CallProps } from '@polkadot/ui-api/types';
 
 import './BlockHeader.css';
 
@@ -15,7 +15,7 @@ import numberFormat from '@polkadot/ui-reactive/util/numberFormat';
 
 import Extrinsics from './Extrinsics';
 
-type Props = BareProps & {
+type Props = CallProps & {
   query_session_validators?: Array<AccountId>,
   value?: Header,
   withExtrinsics?: boolean,

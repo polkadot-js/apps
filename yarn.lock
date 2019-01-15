@@ -13204,6 +13204,11 @@ utila@^0.4.0, utila@~0.4:
   resolved "https://registry.yarnpkg.com/utila/-/utila-0.4.0.tgz#8a16a05d445657a3aea5eecc5b12a4fa5379772c"
   integrity sha1-ihagXURWV6Oupe7MWxKk+lN5dyw=
 
+utility-types@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/utility-types/-/utility-types-3.2.1.tgz#2b0e3086cf347f9d8f8a6dee11a14ee61f70a193"
+  integrity sha512-8XgLAZMb35evcBSF0tsfX3bRqBww+4IORKVi8Z/DK214guYbu7jPyE8zaNLNhfygcoKTtH9cp9IlMStCoOZeLA==
+
 uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0, uuid@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"

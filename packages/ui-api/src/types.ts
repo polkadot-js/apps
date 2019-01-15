@@ -28,18 +28,17 @@ export type ChangeProps = {
 };
 
 export type ParamProps = {
-  params?: Array<any>
+  params?: any | Array<any>
 };
 
 export type CallState = {
   callUpdated?: boolean;
   callUpdatedAt?: number;
-  value?: any;
 };
 
-export type CallProps = ApiProps & BareProps & CallState;
+export type CallProps = ApiProps & CallState & ChangeProps & ParamProps;
 
-export type BaseProps<T> = BareProps & ApiProps & ChangeProps & ParamProps & CallProps & {
+export type BaseProps<T> = BareProps & CallProps & {
   children?: React.ReactNode,
   label?: string,
   render?: (value?: T) => React.ReactNode

@@ -12,8 +12,8 @@ import Extrinsic from './Extrinsic';
 
 type Props = ApiProps & BaseProps & {};
 
-@withApi
-export default class Call extends React.PureComponent<Props> {
+export default withApi(
+class Call extends React.PureComponent<Props> {
   render (): React.ReactNode {
     const { apiDefaultTx, apiPromise, className, isDisabled, isError, label, onChange, style, withLabel } = this.props;
     const defaultValue = (() => {
@@ -39,3 +39,4 @@ export default class Call extends React.PureComponent<Props> {
     );
   }
 }
+);
