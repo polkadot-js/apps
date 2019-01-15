@@ -32,8 +32,8 @@ const NOOP = () => {
   // ignore
 };
 
-export default function withCall <P extends object, C extends React.ComponentType<P>> (endpoint: string, { at, atProp, callOnChange, params = [], paramProp = 'params', propName, transform = echoTransform }: Options = {}): (Inner: C) => React.ComponentClass<Subtract<P, I>> {
-  return (Inner: C): React.ComponentClass<Subtract<P, I>> => {
+export default function withCall <P extends object, W = Subtract<P, I>> (endpoint: string, { at, atProp, callOnChange, params = [], paramProp = 'params', propName, transform = echoTransform }: Options = {}): (Inner: React.ComponentType<P>) => React.ComponentClass<W> {
+  return (Inner: React.ComponentType<P>): React.ComponentClass<W> => {
     class WithPromise extends React.Component<ApiProps, State> {
       state: State;
 

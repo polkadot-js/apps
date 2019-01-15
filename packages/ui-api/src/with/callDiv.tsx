@@ -2,21 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DefaultProps, Options, Subtract } from './types';
-import { ApiProps, BareProps, CallProps } from '../types';
+import { DefaultProps, Options } from './types';
+import { BareProps, CallState } from '../types';
 
 import React from 'react';
 
 import withCall from './call';
 
-type Props<T> = ApiProps & BareProps & CallProps & {
+type Props = BareProps & CallState & {
   children?: React.ReactNode,
   label?: string
 };
 
 export default function withCallDiv<T> (endpoint: string, options: Options = {}) {
-  return (render: (value?: T) => React.ReactNode, defaultProps: DefaultProps = {}): React.ComponentClass<Subtract<Props<T>, ApiProps>> => {
-    class Inner extends React.PureComponent<Props<T>> {
+  return (render: (value?: T) => React.ReactNode, defaultProps: DefaultProps = {}): React.ComponentClass<Props> => {
+    class Inner extends React.PureComponent<Props> {
       render () {
         const { children, className = defaultProps.className, label = '', callUpdated, style, value } = this.props;
 

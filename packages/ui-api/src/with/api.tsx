@@ -12,9 +12,9 @@ import { ApiConsumer } from '../ApiContext';
 
 type I = ApiProps & {};
 
-export default function withApi <P extends object, C extends React.ComponentType<P>> (Inner: C): React.ComponentClass<Subtract<P, I>> {
-  return class WithApi extends React.PureComponent<Subtract<P, I>> {
-    constructor (props: Subtract<P, I>) {
+export default function withApi <P extends object, W = Subtract<P, I>> (Inner: React.ComponentType<P>): React.ComponentClass<W> {
+  return class WithApi extends React.PureComponent<W> {
+    constructor (props: W) {
       super(props);
 
       assert(Inner, `Expected 'withApi' to wrap a React Component`);
