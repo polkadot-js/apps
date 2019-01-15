@@ -1427,15 +1427,15 @@
   optionalDependencies:
     sodium "^3.0.2"
 
-"@polkadot/dev-react@^0.23.10":
-  version "0.23.10"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev-react/-/dev-react-0.23.10.tgz#111c780659d2555286b15f7c82f848244d109d81"
-  integrity sha512-wNm2tXVOFG2t9xLjivzrbQU8h8gDGKVAvRVXEFGPqsXHNfTO9C7tuP+FDbXgarhvvqZgu0jPaNlpc/IsQXvZjg==
+"@polkadot/dev-react@^0.23.11":
+  version "0.23.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev-react/-/dev-react-0.23.11.tgz#6e67049c8987babbdb4221ee3388ebf809082802"
+  integrity sha512-i9F96rzbYpKp7eq7ZXU0RDiIbbDw0xdVnsdkYF+Bw8V/FWY9dAfSTIoAWg2w1sT8GSdcrpxe1CIEkCcseD8ZyQ==
   dependencies:
     "@babel/core" "^7.2.2"
     "@babel/plugin-syntax-dynamic-import" "^7.2.0"
     "@babel/preset-react" "^7.0.0"
-    "@polkadot/dev" "^0.23.10"
+    "@polkadot/dev" "^0.23.11"
     "@types/react" "^16.7.18"
     "@types/react-dom" "^16.0.11"
     "@types/styled-components" "^4.1.5"
@@ -1463,10 +1463,10 @@
     webpack-serve "^2.0.3"
     worker-loader "^2.0.0"
 
-"@polkadot/dev@^0.23.10":
-  version "0.23.10"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.23.10.tgz#ab76f12475fd3149cdab819174d5395da33f16d4"
-  integrity sha512-W9l9IygZnWnvm6hjdjY9IWbnrxiZSpFlRKD7bnA4PRKA326TbmtUFye4XOBoNVAA5+W2gGZd8UyGjs0ezfDCaA==
+"@polkadot/dev@^0.23.11":
+  version "0.23.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.23.11.tgz#0b8d31553037b17113e29ead710117192880aac0"
+  integrity sha512-C8GIU06+yXW5Gc3K4jntLYI97JgCO/Hr7JRGFUYwjuPGmluBVkFS+b8/QaIHEwUCTGBk53FawKQqX9ABEXK14A==
   dependencies:
     "@babel/cli" "^7.2.3"
     "@babel/core" "^7.2.2"
@@ -7972,22 +7972,10 @@ libsodium-wrappers@^0.7.3:
   dependencies:
     libsodium "0.7.3"
 
-libsodium-wrappers@^0.7.4:
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/libsodium-wrappers/-/libsodium-wrappers-0.7.4.tgz#cdb3ce6553e4864c0a68070c4313583489bd765d"
-  integrity sha512-axKkW01L0q+urLeE7UMSZKWwk4LrRbi6s5pjKBAvbgDBYnsSaolK1oN/Syilm1dqJFkJQNi6qodwOp8dzSoc9Q==
-  dependencies:
-    libsodium "0.7.4"
-
 libsodium@0.7.3:
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/libsodium/-/libsodium-0.7.3.tgz#35faf57293ba5485049d5072d0e96feda12f1f35"
   integrity sha512-ld+deUNqSsZYbAobUs63UyduPq8ICp/Ul/5lbvBIYpuSNWpPRU0PIxbW+xXipVZtuopR6fIz9e0tTnNuPMNeqw==
-
-libsodium@0.7.4:
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/libsodium/-/libsodium-0.7.4.tgz#a5bccd65e3a13b34147ea109be3c65d89f90b074"
-  integrity sha512-fTU3vUdrxQzhPAAjmTSqKk4LzYbR0OtcYjp1P92AlH50JIxXZFEIXWh1yryCmU6RLGfwS2IzBdZjbmpYf/TlyQ==
 
 lightercollective@^0.1.0:
   version "0.1.0"

@@ -14,8 +14,9 @@ type Props = BareProps & {
   rpc_system_chain?: Text
 };
 
-class Chain extends React.PureComponent<Props> {
-  render () {
+@withCall('rpc.system.chain')
+export default class Chain extends React.PureComponent<Props> {
+  render (): React.ReactNode {
     const { children, className, label = '', style, rpc_system_chain = 'unknown' } = this.props;
 
     return (
@@ -28,5 +29,3 @@ class Chain extends React.PureComponent<Props> {
     );
   }
 }
-
-export default withCall('rpc.system.chain')(Chain);

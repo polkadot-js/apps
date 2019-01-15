@@ -5,7 +5,7 @@
 // TODO: Lots of duplicated code between this and withObservable, surely there is a better way of doing this?
 
 import { RxProps } from '../types';
-import { HOC, Options, DefaultProps, RenderFn } from './types';
+import { Options, DefaultProps, RenderFn } from './types';
 
 import React from 'react';
 import { Observable, of } from 'rxjs';
@@ -13,6 +13,8 @@ import { catchError, map } from 'rxjs/operators';
 
 import echoTransform from '../transform/echo';
 import { intervalObservable, isEqual, triggerChange } from '../util/index';
+
+type HOC<T> = (Component: React.ComponentType<any>, defaultProps?: DefaultProps<T>, render?: RenderFn) => React.ComponentType<any>;
 
 type State<T> = RxProps<T> & {
   subscriptions: Array<any>; // FIXME subscriptions

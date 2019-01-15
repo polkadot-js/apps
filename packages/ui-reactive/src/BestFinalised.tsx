@@ -16,8 +16,9 @@ type Props = BareProps & {
   derive_chain_bestNumberFinalised?: BlockNumber
 };
 
-class BestFinalised extends React.PureComponent<Props> {
-  render () {
+@withCall('derive.chain.bestNumberFinalised')
+export default class BestFinalised extends React.PureComponent<Props> {
+  render (): React.ReactNode {
     const { children, className, label = '', style, derive_chain_bestNumberFinalised } = this.props;
 
     return (
@@ -34,5 +35,3 @@ class BestFinalised extends React.PureComponent<Props> {
     );
   }
 }
-
-export default withCall('derive.chain.bestNumberFinalised')(BestFinalised);

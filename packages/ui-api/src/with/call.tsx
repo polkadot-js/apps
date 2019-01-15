@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps, RxProps } from '../types';
-import { HOC, Options } from './types';
+import { Options, Subtract } from './types';
 
 import React from 'react';
 import { assert, isUndefined } from '@polkadot/util';
@@ -28,12 +28,12 @@ const NOOP = () => {
   // ignore
 };
 
-export default function withCall<T, P extends ApiProps> (endpoint: string, { at, atProp, rxChange, params = [], paramProp = 'params', propName, transform = echoTransform }: Options<T> = {}): HOC<T> {
-  return (Inner: React.ComponentType<ApiProps>): React.ComponentType<any> => {
-    class WithPromise extends React.Component<P, State<T>> {
+export default function withCall<T, P extends object, C extends React.ComponentClass<P>> (endpoint: string, { at, atProp, rxChange, params = [], paramProp = 'params', propName, transform = echoTransform }: Options<T> = {}): (Inner: C) => React.ComponentClass<Subtract<P, ApiProps>> {
+  return (Inner: C): React.ComponentClass<Subtract<P, ApiProps>> => {
+    class WithPromise extends React.Component<ApiProps, State<T>> {
       state: State<T>;
 
-      constructor (props: P) {
+      constructor (props: ApiProps) {
         super(props);
 
         const [area, section, method] = endpoint.split('.');
@@ -196,7 +196,7 @@ export default function withCall<T, P extends ApiProps> (endpoint: string, { at,
         }
       }
 
-      render () {
+      render (): React.ReactNode {
         const { rxUpdated, rxUpdatedAt, value } = this.state;
         const _props = {
           ...this.props,
@@ -206,6 +206,7 @@ export default function withCall<T, P extends ApiProps> (endpoint: string, { at,
         };
 
         return (
+          // @ts-ignore ???
           <Inner {..._props} />
         );
       }

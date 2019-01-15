@@ -6,8 +6,4 @@ import { withCall } from '@polkadot/ui-api/index';
 
 import Elapsed from './Elapsed';
 
-const Component: React.ComponentType<any> = withCall('query.timestamp.now', { propName: 'value' })(
-  Elapsed
-);
-
-export default Component;
+export default withCall('query.timestamp.now', { propName: 'value' })(Elapsed);

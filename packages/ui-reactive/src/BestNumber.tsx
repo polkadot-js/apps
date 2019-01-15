@@ -16,8 +16,9 @@ type Props = BareProps & {
   derive_chain_bestNumber?: BlockNumber
 };
 
-class BestNumber extends React.PureComponent<Props> {
-  render () {
+@withCall('derive.chain.bestNumber')
+export default class BestNumber extends React.PureComponent<Props> {
+  render (): React.ReactNode {
     const { children, className, label = '', style, derive_chain_bestNumber } = this.props;
 
     return (
@@ -34,5 +35,3 @@ class BestNumber extends React.PureComponent<Props> {
     );
   }
 }
-
-export default withCall('derive.chain.bestNumber')(BestNumber);

@@ -52,7 +52,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props> {
     );
   }
 
-  onChange = (method: Method): void => {
+  onChange = (method?: Method): void => {
     const { onChange } = this.props;
 
     onChange && onChange({

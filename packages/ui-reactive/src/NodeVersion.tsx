@@ -14,8 +14,9 @@ type Props = BareProps & {
   rpc_system_version?: Text
 };
 
-class NodeVersion extends React.PureComponent<Props> {
-  render () {
+@withCall('rpc.system.version')
+export default class NodeVersion extends React.PureComponent<Props> {
+  render (): React.ReactNode {
     const { children, className, label = '', style, rpc_system_version = 'unknown' } = this.props;
 
     return (
@@ -28,5 +29,3 @@ class NodeVersion extends React.PureComponent<Props> {
     );
   }
 }
-
-export default withCall('rpc.system.version')(NodeVersion);

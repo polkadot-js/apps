@@ -23,11 +23,12 @@ export type Options<T> = {
   transform?: Transform
 };
 
+export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
+export type Subtract<T, K> = Omit<T, keyof K>;
+
 export type RenderFn = (value?: any) => React.ReactNode;
 
 export type StorageTransform = (input: any, index: number) => any | null;
-
-export type HOC<T> = (Component: React.ComponentType<any>, defaultProps?: DefaultProps<T>, render?: RenderFn) => React.ComponentType<any>;
 
 export type ApiMethod = {
   name: string,
@@ -35,6 +36,3 @@ export type ApiMethod = {
 };
 
 export type ComponentRenderer<T> = (render: RenderFn, defaultProps?: DefaultProps<T>) => React.ComponentType<any>;
-
-export type OmitProps<T, K> = Pick<T, Exclude<keyof T, K>>;
-export type SubtractProps<T, K> = OmitProps<T, keyof K>;

@@ -13,11 +13,12 @@ import { numberFormat } from './util/index';
 type Props = BareProps & {
   children?: React.ReactNode,
   label?: string,
-  query_system_accountNonce: Index
+  query_system_accountNonce?: Index
 };
 
-class Nonce extends React.PureComponent<Props> {
-  render () {
+@withCall('query.system.accountNonce')
+export default class Nonce extends React.PureComponent<Props> {
+  render (): React.ReactNode {
     const { children, className, label = '', style, query_system_accountNonce } = this.props;
 
     return (
@@ -34,5 +35,3 @@ class Nonce extends React.PureComponent<Props> {
     );
   }
 }
-
-export default withCall('query.system.accountNonce')(Nonce);

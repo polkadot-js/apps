@@ -14,8 +14,9 @@ type Props = BareProps & {
   rpc_system_name?: Text
 };
 
-class NodeName extends React.PureComponent<Props> {
-  render () {
+@withCall('rpc.system.name')
+export default class NodeName extends React.PureComponent<Props> {
+  render (): React.ReactNode {
     const { children, className, label = '', style, rpc_system_name = 'unknown' } = this.props;
 
     return (
@@ -28,5 +29,3 @@ class NodeName extends React.PureComponent<Props> {
     );
   }
 }
-
-export default withCall('rpc.system.name')(NodeName);

@@ -10,10 +10,11 @@ import { withApi } from '@polkadot/ui-api/index';
 
 import Extrinsic from './Extrinsic';
 
-type Props = ApiProps & BaseProps;
+type Props = ApiProps & BaseProps & {};
 
-class Call extends React.PureComponent<Props> {
-  render () {
+@withApi
+export default class Call extends React.PureComponent<Props> {
+  render (): React.ReactNode {
     const { apiDefaultTx, apiPromise, className, isDisabled, isError, label, onChange, style, withLabel } = this.props;
     const defaultValue = (() => {
       try {
@@ -38,5 +39,3 @@ class Call extends React.PureComponent<Props> {
     );
   }
 }
-
-export default withApi(Call);
