@@ -24,20 +24,20 @@ type State = CallState & {
   timerId: number
 };
 
-type I = CallState & ApiProps & {};
+type I = CallState & ApiProps & {
+  params?: any | Array<any>;
+};
 
 const NOOP = () => {
   // ignore
 };
 
-export default function withCall <P extends I> (endpoint: string, options: Options = {}) {
-  let { at, atProp, callOnChange, params = [], paramProp = 'params', propName, transform = echoTransform } = options;
-
-  return (Inner: React.ComponentType<P>) => {
-    class WithPromise extends React.Component<Subtract<P, CallState>, State> {
+export default function withCall <P extends object, C extends React.ComponentType<P>> (endpoint: string, { at, atProp, callOnChange, params = [], paramProp = 'params', propName, transform = echoTransform }: Options = {}): (Inner: C) => React.ComponentClass<Subtract<P, I>> {
+  return (Inner: C): React.ComponentClass<Subtract<P, I>> => {
+    class WithPromise extends React.Component<ApiProps, State> {
       state: State;
 
-      constructor (props: Subtract<P, CallState>) {
+      constructor (props: ApiProps) {
         super(props);
 
         const [area, section, method] = endpoint.split('.');
@@ -51,7 +51,7 @@ export default function withCall <P extends I> (endpoint: string, options: Optio
         };
       }
 
-      componentDidUpdate (prevProps: any) {
+      componentDidUpdate (prevProps: ApiProps) {
         const newParams = this.getParams(this.props);
         const oldParams = this.getParams(prevProps);
 
@@ -155,7 +155,7 @@ export default function withCall <P extends I> (endpoint: string, options: Optio
           this.unsubscribe();
 
           if (isSubscription) {
-            const destroy = await apiMethod(...params, (value?: T) =>
+            const destroy = await apiMethod(...params, (value?: any) =>
               this.triggerUpdate(this.props, value)
             );
 

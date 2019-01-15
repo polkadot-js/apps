@@ -10,9 +10,9 @@ import { assert } from '@polkadot/util';
 
 import { ApiConsumer } from '../ApiContext';
 
-type I = ApiProps;
+type I = ApiProps & {};
 
-export default function withApi <P extends I> (Inner: React.ComponentType<P>) {
+export default function withApi <P extends object, C extends React.ComponentType<P>> (Inner: C): React.ComponentClass<Subtract<P, I>> {
   return class WithApi extends React.PureComponent<Subtract<P, I>> {
     constructor (props: Subtract<P, I>) {
       super(props);

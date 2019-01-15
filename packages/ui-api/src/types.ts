@@ -11,11 +11,11 @@ export type BareProps = {
 };
 
 export type ApiProps = {
-  isApiConnected: boolean,
-  isApiReady: boolean,
-  apiDefaultTx: SubmittableExtrinsicFunction,
-  apiPromise: ApiPromise,
-  setApiUrl: (url?: string) => void
+  isApiConnected: boolean;
+  isApiReady: boolean;
+  apiDefaultTx: SubmittableExtrinsicFunction;
+  apiPromise: ApiPromise;
+  setApiUrl: (url?: string) => void;
 };
 
 export type OnChangeCb$Obs = { next: (value?: any) => any };
@@ -37,7 +37,7 @@ export type CallState = {
   value?: any;
 };
 
-export type CallProps = ApiProps & CallState;
+export type CallProps = ApiProps & BareProps & CallState;
 
 export type BaseProps<T> = BareProps & ApiProps & ChangeProps & ParamProps & CallProps & {
   children?: React.ReactNode,
