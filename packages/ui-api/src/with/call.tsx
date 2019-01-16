@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps, RxProps } from '../types';
+import { ApiProps, CallProps } from '../types';
 import { HOC, Options } from './types';
 
 import React from 'react';
@@ -18,7 +18,7 @@ interface Method {
   at: (hash: Uint8Array | string, ...params: Array<any>) => Promise<any>;
 }
 
-type State<T> = RxProps<T> & {
+type State = CallProps & {
   destroy?: () => void,
   propName: string,
   timerId: number
@@ -28,10 +28,10 @@ const NOOP = () => {
   // ignore
 };
 
-export default function withCall<T, P extends ApiProps> (endpoint: string, { at, atProp, rxChange, params = [], paramProp = 'params', propName, transform = echoTransform }: Options<T> = {}): HOC<T> {
+export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, params = [], paramProp = 'params', propName, transform = echoTransform }: Options = {}): HOC {
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<any> => {
-    class WithPromise extends React.Component<P, State<T>> {
-      state: State<T>;
+    class WithPromise extends React.Component<P, State> {
+      state: State;
 
       constructor (props: P) {
         super(props);
@@ -40,10 +40,10 @@ export default function withCall<T, P extends ApiProps> (endpoint: string, { at,
 
         this.state = {
           propName: `${area}_${section}_${method}`,
-          rxUpdated: false,
-          rxUpdatedAt: 0,
-          timerId: -1,
-          value: void 0
+          callResult: void 0,
+          callUpdated: false,
+          callUpdatedAt: 0,
+          timerId: -1
         };
       }
 
@@ -151,13 +151,13 @@ export default function withCall<T, P extends ApiProps> (endpoint: string, { at,
           this.unsubscribe();
 
           if (isSubscription) {
-            const destroy = await apiMethod(...params, (value?: T) =>
+            const destroy = await apiMethod(...params, (value?: any) =>
               this.triggerUpdate(this.props, value)
             );
 
             this.setState({ destroy });
           } else {
-            const value: T = at
+            const value: any = at
               ? await apiMethod.at(at, ...params)
               : await apiMethod(...params);
 
@@ -176,20 +176,20 @@ export default function withCall<T, P extends ApiProps> (endpoint: string, { at,
         }
       }
 
-      private triggerUpdate (props: any, _value?: T): void {
+      private triggerUpdate (props: any, value?: any): void {
         try {
-          const value = (props.transform || transform)(_value);
+          const callResult = (props.transform || transform)(value);
 
-          if (isEqual(value, this.state.value)) {
+          if (isEqual(callResult, this.state.callResult)) {
             return;
           }
 
-          triggerChange(value, rxChange, props.rxChange);
+          triggerChange(callResult, callOnResult, props.callOnResult);
 
           this.setState({
-            rxUpdated: true,
-            rxUpdatedAt: Date.now(),
-            value
+            callResult,
+            callUpdated: true,
+            callUpdatedAt: Date.now()
           });
         } catch (error) {
           console.error(endpoint, '::', error.message);
@@ -197,12 +197,12 @@ export default function withCall<T, P extends ApiProps> (endpoint: string, { at,
       }
 
       render () {
-        const { rxUpdated, rxUpdatedAt, value } = this.state;
+        const { callUpdated, callUpdatedAt, callResult } = this.state;
         const _props = {
           ...this.props,
-          rxUpdated,
-          rxUpdatedAt,
-          [propName || this.state.propName]: value
+          callUpdated,
+          callUpdatedAt,
+          [propName || this.state.propName]: callResult
         };
 
         return (

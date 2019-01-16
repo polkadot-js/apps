@@ -2,20 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { OnChangeCb, OnChangeCb$Obs } from '../types';
+import { OnChangeCb } from '../types';
 
 import { isFunction, isObservable } from '@polkadot/util';
 
-export default function triggerChange<T> (value?: T, ...rxChange: Array<OnChangeCb<T>>): void {
-  if (!rxChange || !rxChange.length) {
+export default function triggerChange (value?: any, ...callOnResult: Array<OnChangeCb | undefined>): void {
+  if (!callOnResult || !callOnResult.length) {
     return;
   }
 
-  rxChange.forEach((rxChange) => {
-    if (isObservable(rxChange)) {
-      (rxChange as OnChangeCb$Obs<T>).next(value);
-    } else if (isFunction(rxChange)) {
-      rxChange(value);
+  callOnResult.forEach((callOnResult) => {
+    if (isObservable(callOnResult)) {
+      callOnResult.next(value);
+    } else if (isFunction(callOnResult)) {
+      callOnResult(value);
     }
   });
 }

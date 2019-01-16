@@ -63,7 +63,7 @@ class Query extends React.PureComponent<Props, State> {
     return cache[id];
   }
 
-  static createComponent (type: string, Component: React.ComponentType<any>, defaultProps: DefaultProps<any>, renderHelper: ComponentRenderer<any>) {
+  static createComponent (type: string, Component: React.ComponentType<any>, defaultProps: DefaultProps, renderHelper: ComponentRenderer) {
     return {
       Component,
       // In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component

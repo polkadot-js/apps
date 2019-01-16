@@ -73,7 +73,7 @@ class Account extends React.PureComponent<Props, State> {
       >
         <Nonce
           className='ui disabled dropdown selection'
-          rxChange={this.onChangeNonce}
+          callOnResult={this.onChangeNonce}
           params={accountId}
         />
       </Labelled>

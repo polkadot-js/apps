@@ -132,6 +132,7 @@ class Status extends React.PureComponent<Props> {
 
       case 'completed':
       case 'finalised':
+      case 'sent':
         return 'check';
 
       case 'dropped':
