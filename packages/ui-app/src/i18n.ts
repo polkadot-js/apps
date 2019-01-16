@@ -25,6 +25,8 @@ i18n
     react: {
       wait: true
     }
-  });
+  })
+  .then(() => console.log('i18n: success'))
+  .catch((error) => console.log('i18n: failure', error));
 
 export default i18n;

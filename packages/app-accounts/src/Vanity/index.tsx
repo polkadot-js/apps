@@ -265,9 +265,9 @@ class VanityApp extends React.PureComponent<Props, State> {
 
         return {
           isRunning: this._isActive,
-          keyCount: this._isActive ? keyCount : 0,
-          keyTime: this._isActive ? keyTime : 0,
-          startAt: this._isActive ? startAt : Date.now()
+          keyCount: this._isActive ? 0 : keyCount,
+          keyTime: this._isActive ? 0 : keyTime,
+          startAt: this._isActive ? Date.now() : startAt
         };
       },
       this.executeGeneration
