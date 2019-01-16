@@ -10,27 +10,27 @@ import React from 'react';
 import withCall from './call';
 
 type Props<T> = BaseProps<T> & {
-  value?: T
+  callResult?: T
 };
 
-export default function withCallDiv<T> (endpoint: string, options: Options<T> = {}) {
-  return (render: (value?: T) => React.ReactNode, defaultProps: DefaultProps<T> = {}): React.ComponentType<any> => {
+export default function withCallDiv<T> (endpoint: string, options: Options = {}) {
+  return (render: (value?: T) => React.ReactNode, defaultProps: DefaultProps = {}): React.ComponentType<any> => {
     class Inner extends React.PureComponent<Props<T>> {
       render () {
-        const { children, className = defaultProps.className, label = '', rxUpdated, style, value } = this.props;
+        const { callResult, callUpdated, children, className = defaultProps.className, label = '', style } = this.props;
 
         return (
           <div
             {...defaultProps}
-            className={[className, rxUpdated ? 'rx--updated' : undefined].join(' ')}
+            className={[className, callUpdated ? 'rx--updated' : undefined].join(' ')}
             style={style}
           >
-            {label}{render(value)}{children}
+            {label}{render(callResult)}{children}
           </div>
         );
       }
     }
 
-    return withCall(endpoint, { ...options, propName: 'value' })(Inner);
+    return withCall(endpoint, { ...options, propName: 'callResult' })(Inner);
   };
 }

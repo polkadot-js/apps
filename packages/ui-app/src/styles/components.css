@@ -288,6 +288,7 @@ header .ui--Button-Group {
 
     &.completed > .wrapper > .container,
     &.finalised > .wrapper > .container,
+    &.sent > .wrapper > .container,
     &.success > .wrapper > .container {
       background: green;
     }

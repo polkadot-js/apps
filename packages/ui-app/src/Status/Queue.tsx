@@ -110,7 +110,11 @@ export default class Queue extends React.Component<Props, State> {
       setTimeout(() => {
         this.setState(
           (prevState: State): State => ({
-            txqueue: prevState.txqueue.filter((item) => item.id !== id)
+            txqueue: prevState.txqueue.map((item) =>
+              item.id === id
+                ? { ...item, status: 'completed' }
+                : item
+            )
           } as State)
         );
       }, REMOVE_TIMEOUT);

@@ -4,7 +4,7 @@
 
 // TODO: Lots of duplicated code between this and withObservable, surely there is a better way of doing this?
 
-import { RxProps } from '../types';
+import { CallProps } from '../types';
 import { HOC, Options, DefaultProps, RenderFn } from './types';
 
 import React from 'react';
@@ -14,25 +14,25 @@ import { catchError, map } from 'rxjs/operators';
 import echoTransform from '../transform/echo';
 import { intervalObservable, isEqual, triggerChange } from '../util/index';
 
-type State<T> = RxProps<T> & {
+type State = CallProps & {
   subscriptions: Array<any>; // FIXME subscriptions
 };
 
 // FIXME proper types for attributes
 
-export default function withObservable<T, P> (observable: Observable<P>, { rxChange, propName = 'value', transform = echoTransform }: Options<T> = {}): HOC<T> {
-  return (Inner: React.ComponentType<any>, defaultProps: DefaultProps<T> = {}, render?: RenderFn): React.ComponentType<any> => {
-    return class WithObservable extends React.Component<any, State<T>> {
-      state: State<T>;
+export default function withObservable<T, P> (observable: Observable<P>, { callOnResult, propName = 'value', transform = echoTransform }: Options = {}): HOC {
+  return (Inner: React.ComponentType<any>, defaultProps: DefaultProps = {}, render?: RenderFn): React.ComponentType<any> => {
+    return class WithObservable extends React.Component<any, State> {
+      state: State;
 
       constructor (props: any) {
         super(props);
 
         this.state = {
-          rxUpdated: false,
-          rxUpdatedAt: 0,
-          subscriptions: [],
-          value: void 0
+          callResult: void 0,
+          callUpdated: false,
+          callUpdatedAt: 0,
+          subscriptions: []
         };
       }
 
@@ -60,18 +60,18 @@ export default function withObservable<T, P> (observable: Observable<P>, { rxCha
         );
       }
 
-      triggerUpdate = (props: any, value?: T): void => {
+      triggerUpdate = (props: any, callResult?: T): void => {
         try {
-          if (isEqual(value, this.state.value)) {
+          if (isEqual(callResult, this.state.callResult)) {
             return;
           }
 
-          triggerChange(value, rxChange, props.rxChange || defaultProps.rxChange);
+          triggerChange(callResult, callOnResult, props.callOnResult || defaultProps.callOnResult);
 
           this.setState({
-            rxUpdated: true,
-            rxUpdatedAt: Date.now(),
-            value
+            callResult,
+            callUpdated: true,
+            callUpdatedAt: Date.now()
           });
         } catch (error) {
           console.error(this.props, error);
@@ -80,18 +80,18 @@ export default function withObservable<T, P> (observable: Observable<P>, { rxCha
 
       render () {
         const { children } = this.props;
-        const { rxUpdated, rxUpdatedAt, value } = this.state;
+        const { callUpdated, callUpdatedAt, callResult } = this.state;
         const _props = {
           ...defaultProps,
           ...this.props,
-          rxUpdated,
-          rxUpdatedAt,
-          [propName]: value
+          callUpdated,
+          callUpdatedAt,
+          [propName]: callResult
         };
 
         return (
           <Inner {..._props}>
-            {render && render(value)}{children}
+            {render && render(callResult)}{children}
           </Inner>
         );
       }

@@ -8,15 +8,15 @@ import React from 'react';
 
 export type Transform = (value: any, index: number) => any;
 
-export type DefaultProps<T> = {
-  rxChange?: OnChangeCb<T>,
+export type DefaultProps = {
+  callOnResult?: OnChangeCb,
   [index: string]: any
 };
 
-export type Options<T> = {
+export type Options = {
   at?: Uint8Array | string,
   atProp?: string,
-  rxChange?: OnChangeCb<T>,
+  callOnResult?: OnChangeCb,
   params?: Array<any>,
   paramProp?: string,
   propName?: string,
@@ -27,14 +27,14 @@ export type RenderFn = (value?: any) => React.ReactNode;
 
 export type StorageTransform = (input: any, index: number) => any | null;
 
-export type HOC<T> = (Component: React.ComponentType<any>, defaultProps?: DefaultProps<T>, render?: RenderFn) => React.ComponentType<any>;
+export type HOC = (Component: React.ComponentType<any>, defaultProps?: DefaultProps, render?: RenderFn) => React.ComponentType<any>;
 
 export type ApiMethod = {
   name: string,
   section?: string
 };
 
-export type ComponentRenderer<T> = (render: RenderFn, defaultProps?: DefaultProps<T>) => React.ComponentType<any>;
+export type ComponentRenderer = (render: RenderFn, defaultProps?: DefaultProps) => React.ComponentType<any>;
 
 export type OmitProps<T, K> = Pick<T, Exclude<keyof T, K>>;
 export type SubtractProps<T, K> = OmitProps<T, keyof K>;
