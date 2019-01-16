@@ -8,7 +8,6 @@ import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
 import { Method } from '@polkadot/types';
 import { Button } from '@polkadot/ui-app/index';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
@@ -131,11 +130,13 @@ class Selection extends React.PureComponent<Props, State> {
       return;
     }
 
+    const fn = Method.findFunction(method.callIndex);
+
     queueExtrinsic({
       accountId: isUnsigned
         ? undefined
         : accountId,
-      extrinsic: new SubmittableExtrinsic(apiPromise, method),
+      extrinsic: apiPromise.tx[fn.section][fn.method](...method.args),
       isUnsigned
     });
   }

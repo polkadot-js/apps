@@ -139,6 +139,8 @@ class Transfer extends React.PureComponent<Props, State> {
         ? apiPromise.tx.balances.transfer(recipientId, amount)
         : null;
 
+      console.log('extrinsic', extrinsic);
+
       return {
         accountId,
         amount,

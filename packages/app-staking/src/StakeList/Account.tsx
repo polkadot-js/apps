@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { OnCall } from '@polkadot/api/promise/types';
+import SubmittableExtrinsic from '@polkadot/api/SubmittableExtrinsic';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 import { DerivedBalancesMap } from '@polkadot/ui-api/derive/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
 import { AccountId, Balance } from '@polkadot/types';
 import { AddressMini, AddressSummary, Button } from '@polkadot/ui-app/index';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
@@ -172,7 +173,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private send (extrinsic: SubmittableExtrinsic) {
+  private send (extrinsic: SubmittableExtrinsic<OnCall>) {
     const { accountId, queueExtrinsic } = this.props;
 
     queueExtrinsic({
