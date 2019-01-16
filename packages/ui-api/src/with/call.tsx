@@ -8,7 +8,6 @@ import { HOC, Options } from './types';
 import React from 'react';
 import { assert, isUndefined } from '@polkadot/util';
 
-import derive from '../derive/index';
 import { intervalTimer, isEqual, triggerChange } from '../util/index';
 import echoTransform from '../transform/echo';
 import withApi from './api';
@@ -115,18 +114,6 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         assert(['rpc', 'query', 'derive'].includes(area), `Unknown api.${area}, expected rpc, query or derive`);
         assert(!at || area === 'query', 'Only able todo an at query on the api.query interface');
 
-        if (area === 'derive') {
-          const apiSection = (derive as any)[section];
-
-          assert(apiSection && apiSection[method], `Unable to find api.derive.${section}.${method}`);
-
-          return [
-            apiSection[method](apiPromise),
-            newParams,
-            true
-          ];
-        }
-
         const apiSection = (apiPromise as any)[area][section];
 
         assert(apiSection && apiSection[method], `Unable to find api.${area}.${section}.${method}`);
@@ -134,7 +121,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         return [
           apiSection[method],
           newParams,
-          (area === 'query' && (!at && !atProp)) || method.startsWith('subscribe')
+          area === 'derive' || (area === 'query' && (!at && !atProp)) || method.startsWith('subscribe')
         ];
       }
 
