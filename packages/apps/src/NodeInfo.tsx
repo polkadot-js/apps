@@ -24,7 +24,7 @@ export default class NodeInfo extends React.PureComponent<Props> {
           <NodeName />&nbsp;
           <NodeVersion label='v' />
         </div>
-        <div>polkadot-js-ui&nbsp;v{pkgJson.version1}</div>
+        <div>polkadot-js-ui&nbsp;v{pkgJson.version}</div>
       </div>
     );
   }
