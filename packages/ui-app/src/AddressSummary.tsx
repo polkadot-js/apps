@@ -16,7 +16,7 @@ import IdentityIcon from './IdentityIcon';
 import translate from './translate';
 
 export type Props = I18nProps & {
-  derive_balances_accountIdAndIndex?: [AccountId | undefined, AccountIndex | undefined],
+  derive_accounts_idAndIndex?: [AccountId?, AccountIndex?],
   balance?: Balance | Array<Balance>,
   children?: React.ReactNode,
   name?: string,
@@ -35,8 +35,8 @@ const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 
 class AddressSummary extends React.PureComponent<Props> {
   render () {
-    const { derive_balances_accountIdAndIndex = [], className, style } = this.props;
-    const [accountId, accountIndex] = derive_balances_accountIdAndIndex;
+    const { derive_accounts_idAndIndex = [], className, style } = this.props;
+    const [accountId, accountIndex] = derive_accounts_idAndIndex;
     const isValid = accountId || accountIndex;
 
     return (
@@ -82,8 +82,8 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderAccountId () {
-    const { derive_balances_accountIdAndIndex = [], name, isShort = true } = this.props;
-    const [accountId, accountIndex] = derive_balances_accountIdAndIndex;
+    const { derive_accounts_idAndIndex = [], name, isShort = true } = this.props;
+    const [accountId, accountIndex] = derive_accounts_idAndIndex;
 
     if (!accountId && accountIndex) {
       return null;
@@ -110,8 +110,8 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderAccountIndex () {
-    const { derive_balances_accountIdAndIndex = [] } = this.props;
-    const [, accountIndex] = derive_balances_accountIdAndIndex;
+    const { derive_accounts_idAndIndex = [] } = this.props;
+    const [, accountIndex] = derive_accounts_idAndIndex;
 
     if (!accountIndex) {
       return null;
@@ -149,13 +149,13 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderIcon (className: string = 'ui--AddressSummary-icon', size?: number) {
-    const { derive_balances_accountIdAndIndex = [], identIconSize = 96, query_session_validators, value, withIcon = true } = this.props;
+    const { derive_accounts_idAndIndex = [], identIconSize = 96, query_session_validators, value, withIcon = true } = this.props;
 
     if (!withIcon) {
       return null;
     }
 
-    const [_accountId] = derive_balances_accountIdAndIndex;
+    const [_accountId] = derive_accounts_idAndIndex;
     const accountId = (_accountId || '').toString();
     const isValidator = (query_session_validators || []).find((validator) =>
       validator.toString() === accountId
@@ -172,8 +172,8 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderNonce () {
-    const { derive_balances_accountIdAndIndex = [], t, withNonce = true } = this.props;
-    const [accountId] = derive_balances_accountIdAndIndex;
+    const { derive_accounts_idAndIndex = [], t, withNonce = true } = this.props;
+    const [accountId] = derive_accounts_idAndIndex;
 
     if (!withNonce || !accountId) {
       return null;
@@ -214,6 +214,6 @@ export {
 export default withMulti(
   AddressSummary,
   translate,
-  withCall('derive.balances.accountIdAndIndex', { paramProp: 'value' }),
+  withCall('derive.accounts.idAndIndex', { paramProp: 'value' }),
   withCall('query.session.validators')
 );

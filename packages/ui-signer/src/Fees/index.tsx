@@ -132,11 +132,19 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         )
       : 'error';
 
+    // display all the errors, warning and information messages (in that order)
     return (
       <article
         className={[className, feeClass, 'padded'].join(' ')}
         key='txinfo'
       >
+        {
+          hasAvailable
+            ? undefined
+            : <div><Icon name='ban' />{t('fees.available', {
+              defaultValue: 'The account does not have the required funds available for this transaction with the current provided values'
+            })}</div>
+        }
         {this.renderTransfer()}
         {this.renderProposal()}
         {
@@ -145,12 +153,6 @@ class FeeDisplay extends React.PureComponent<Props, State> {
               defaultValue: 'Submitting this transaction will drop the account balance to below the existential amount, removing the account from the chain state and burning associated funds'
             })}</div>
             : undefined
-        }{
-          hasAvailable
-            ? undefined
-            : <div><Icon name='ban' />{t('fees.available', {
-              defaultValue: 'The account does not have the required funds available for this transaction with the current provided values'
-            })}</div>
         }{
           isReserved
             ? <div><Icon name='arrow right' />{t('fees.reserved', {
