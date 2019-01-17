@@ -2,10 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { OnCall } from '@polkadot/api/promise/types';
-import SubmittableExtrinsic from '@polkadot/api/SubmittableExtrinsic';
 import { SubmittableSendResult } from '@polkadot/api/types';
-import { PromiseSubscription } from '@polkadot/api/promise/types';
+import { PromiseSubscription, SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
@@ -270,7 +268,7 @@ class Signer extends React.PureComponent<Props, State> {
       }
     }
 
-    const submittable = extrinsic as SubmittableExtrinsic<OnCall>;
+    const submittable = extrinsic as SubmittableExtrinsic;
     const { queueSetTxStatus } = this.props;
 
     queueSetTxStatus(id, 'sending');
@@ -304,7 +302,7 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic<OnCall>, id: number, extrinsicCall: (...params: Array<any>) => any, ..._params: Array<any>): Promise<void> {
+  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, id: number, extrinsicCall: (...params: Array<any>) => any, ..._params: Array<any>): Promise<void> {
     const { queueSetTxStatus } = this.props;
 
     try {

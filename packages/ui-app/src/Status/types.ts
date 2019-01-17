@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { OnCall } from '@polkadot/api/promise/types';
-import SubmittableExtrinsic from '@polkadot/api/SubmittableExtrinsic';
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { AccountId, Address } from '@polkadot/types';
 
@@ -24,7 +23,7 @@ export type QueueTx$Status = 'future' | 'ready' | 'finalised' | 'usurped' | 'dro
 
 export type QueueTx = AccountInfo & {
   error?: Error,
-  extrinsic?: SubmittableExtrinsic<OnCall>,
+  extrinsic?: SubmittableExtrinsic,
   id: number,
   isUnsigned?: boolean,
   result?: any,
@@ -45,7 +44,7 @@ export type QueueTx$Result = {
 };
 
 export type QueueTx$Extrinsic = AccountInfo & {
-  extrinsic: SubmittableExtrinsic<OnCall>
+  extrinsic: SubmittableExtrinsic
 };
 
 export type QueueTx$Rpc = AccountInfo & {
@@ -58,7 +57,7 @@ export type PartialAccountInfo = {
 };
 
 export type PartialQueueTx$Extrinsic = PartialAccountInfo & {
-  extrinsic: SubmittableExtrinsic<OnCall>,
+  extrinsic: SubmittableExtrinsic,
   isUnsigned?: boolean
 };
 

@@ -8,7 +8,7 @@ import { HOC, Options } from './types';
 import React from 'react';
 import { assert, isUndefined } from '@polkadot/util';
 
-import { intervalTimer, isEqual, triggerChange } from '../util/index';
+import { isEqual, triggerChange } from '../util/index';
 import echoTransform from '../transform/echo';
 import withApi from './api';
 
@@ -31,6 +31,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<any> => {
     class WithPromise extends React.Component<P, State> {
       state: State;
+      isActive: boolean = true;
 
       constructor (props: P) {
         super(props);
@@ -50,7 +51,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         const newParams = this.getParams(this.props);
         const oldParams = this.getParams(prevProps);
 
-        if (!isEqual(newParams, oldParams)) {
+        if (this.isActive && !isEqual(newParams, oldParams)) {
           this
             .subscribe(newParams)
             .then(NOOP)
@@ -59,8 +60,17 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       }
 
       componentDidMount () {
-        this.setState({
-          timerId: intervalTimer(this)
+        const timerId = window.setInterval(() => {
+          const elapsed = Date.now() - (this.state.callUpdatedAt || 0);
+          const callUpdated = elapsed <= 1500;
+
+          if (callUpdated !== this.state.callUpdated) {
+            this.nextState({ callUpdated });
+          }
+        }, 500);
+
+        this.nextState({
+          timerId
         });
 
         this
@@ -72,11 +82,19 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       componentWillUnmount () {
         const { timerId } = this.state;
 
+        this.isActive = false;
+
         if (timerId !== -1) {
           clearInterval(timerId);
         }
 
         this.unsubscribe();
+      }
+
+      private nextState (state: Partial<State>) {
+        if (this.isActive) {
+          this.setState(state as State);
+        }
       }
 
       private getParams (props: any): Array<any> {
@@ -142,7 +160,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
               this.triggerUpdate(this.props, value)
             );
 
-            this.setState({ destroy });
+            this.nextState({ destroy });
           } else {
             const value: any = at
               ? await apiMethod.at(at, ...params)
@@ -167,13 +185,13 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         try {
           const callResult = (props.transform || transform)(value);
 
-          if (isEqual(callResult, this.state.callResult)) {
+          if (!this.isActive || isEqual(callResult, this.state.callResult)) {
             return;
           }
 
           triggerChange(callResult, callOnResult, props.callOnResult);
 
-          this.setState({
+          this.nextState({
             callResult,
             callUpdated: true,
             callUpdatedAt: Date.now()

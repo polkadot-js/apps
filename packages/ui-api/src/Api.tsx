@@ -76,8 +76,8 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
 
   private subscribeChain = async (api: ApiPromise) => {
     const [properties = new ChainProperties(), value] = await Promise.all([
-      api.rpc.system.properties(),
-      api.rpc.system.chain()
+      api.rpc.system.properties() as Promise<ChainProperties | undefined>,
+      api.rpc.system.chain() as Promise<any>
     ]);
 
     const chain = value
@@ -90,7 +90,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       tokenSymbol: undefined
     };
 
-    console.log('found chain', chain, [...properties.entries()]);
+    console.log('api: found chain', chain, [...properties.entries()]);
 
     balanceFormat.setDefaultDecimals(properties.get('tokenDecimals') || found.tokenDecimals);
     InputNumber.setUnit(properties.get('tokenSymbol') || found.tokenSymbol);

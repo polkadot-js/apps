@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { OnCall } from '@polkadot/api/promise/types';
-import SubmittableExtrinsic from '@polkadot/api/SubmittableExtrinsic';
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$Extrinsic, QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 
@@ -18,7 +17,7 @@ type Props = I18nProps & {
   isDisabled: boolean,
   accountId?: string,
   query_system_accountNonce?: Index,
-  extrinsic: SubmittableExtrinsic<OnCall> | null,
+  extrinsic: SubmittableExtrinsic | null,
   queueExtrinsic: QueueTx$ExtrinsicAdd
 };
 

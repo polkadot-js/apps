@@ -89,8 +89,6 @@ class Creator extends React.PureComponent<Props, State> {
   render () {
     const { address, isSeedValid } = this.state;
 
-    console.error('passthrough', this.props.passthrough);
-
     return (
       <div className='accounts--Creator'>
         <div className='ui--grid'>
@@ -390,7 +388,6 @@ class Creator extends React.PureComponent<Props, State> {
     this.onHideWarning();
 
     onCreateAccount();
-
     onStatusChange(status);
   }
 
