@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalancesFees } from '@polkadot/ui-api/derive/types';
+import { DerivedFees } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ExtraFees } from './types';
 
@@ -17,7 +17,7 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   deposit: BN | Compact,
-  fees: DerivedBalancesFees,
+  fees: DerivedFees,
   query_democracy_minimumDeposit?: BN
   onChange: (fees: ExtraFees) => void
 };

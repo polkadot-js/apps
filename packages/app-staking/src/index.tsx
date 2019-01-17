@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
-import { DerivedBalancesMap } from '@polkadot/ui-api/derive/types';
 
 import React from 'react';
 import { AccountId, Balance } from '@polkadot/types';
@@ -21,10 +21,10 @@ type Actions = 'actions' | 'overview';
 
 type Props = I18nProps & {
   basePath: string,
+  balances?: DerivedBalancesMap,
+  intentions?: Array<AccountId>,
   onStatusChange: (status: ActionStatus) => void,
-  query_staking_intentions?: Array<AccountId>,
-  query_session_validators?: Array<AccountId>,
-  derive_balances_validatingBalances?: DerivedBalancesMap
+  query_session_validators?: Array<AccountId>
 };
 
 type State = {
@@ -51,9 +51,9 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ query_session_validators, query_staking_intentions }: Props): State {
+  static getDerivedStateFromProps ({ query_session_validators, intentions }: Props): State {
     return {
-      intentions: (query_staking_intentions || []).map((accountId) =>
+      intentions: (intentions || []).map((accountId) =>
         accountId.toString()
       ),
       validators: (query_session_validators || []).map((authorityId) =>
@@ -64,7 +64,7 @@ class App extends React.PureComponent<Props, State> {
 
   render () {
     const { action, intentions, validators } = this.state;
-    const { t, derive_balances_validatingBalances = {} } = this.props;
+    const { t, balances = {} } = this.props;
     const Component = Components[action];
     const items = [
       {
@@ -87,7 +87,7 @@ class App extends React.PureComponent<Props, State> {
           />
         </header>
         <Component
-          balances={derive_balances_validatingBalances}
+          balances={balances}
           balanceArray={this.balanceArray}
           intentions={intentions}
           validators={validators}
@@ -101,7 +101,7 @@ class App extends React.PureComponent<Props, State> {
   }
 
   private balanceArray = (_address: AccountId | string): Array<Balance> | undefined => {
-    const { derive_balances_validatingBalances = {} } = this.props;
+    const { balances = {} } = this.props;
 
     if (!_address) {
       return undefined;
@@ -109,10 +109,10 @@ class App extends React.PureComponent<Props, State> {
 
     const address = _address.toString();
 
-    return derive_balances_validatingBalances[address]
+    return balances[address]
       ? [
-        derive_balances_validatingBalances[address].stakingBalance,
-        derive_balances_validatingBalances[address].nominatedBalance
+        balances[address].stakingBalance,
+        balances[address].nominatedBalance
       ]
       : undefined;
   }
@@ -121,7 +121,7 @@ class App extends React.PureComponent<Props, State> {
 export default withMulti(
   App,
   translate,
-  withCall('query.staking.intentions'),
   withCall('query.session.validators'),
-  withCall('derive.balances.validatingBalances', { paramProp: 'stakingIntentions' })
+  withCall('query.staking.intentions', { propName: 'intentions' }),
+  withCall('derive.staking.intentionsBalances', { propName: 'balances' })
 );

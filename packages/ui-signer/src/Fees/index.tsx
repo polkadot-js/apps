@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { DerivedBalancesFees, DerivedBalances } from '@polkadot/ui-api/derive/types';
+import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
 import { ExtraFees } from './types';
 
 import BN from 'bn.js';
@@ -31,7 +31,7 @@ type State = ExtraFees & {
 };
 
 type Props = I18nProps & {
-  derive_balances_fees?: DerivedBalancesFees,
+  derive_balances_fees?: DerivedFees,
   derive_balances_votingBalance?: DerivedBalances,
   accountId?: string | null,
   extrinsic: Extrinsic | null,

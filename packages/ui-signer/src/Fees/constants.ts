@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalancesFees, DerivedBalances } from '@polkadot/ui-api/derive/types';
+import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 
@@ -18,4 +18,4 @@ export const ZERO_FEES = {
   creationFee: new BN(0),
   existentialDeposit: new BN(0),
   transferFee: new BN(0)
-} as DerivedBalancesFees;
+} as DerivedFees;
