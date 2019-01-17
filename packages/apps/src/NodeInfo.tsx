@@ -11,7 +11,6 @@ import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/ui-reactive/
 type Props = BareProps & {};
 
 const pkgJson = require('../package.json');
-const [major, minor, patch] = pkgJson.version.split('.');
 
 export default class NodeInfo extends React.PureComponent<Props> {
   render () {
@@ -25,7 +24,7 @@ export default class NodeInfo extends React.PureComponent<Props> {
           <NodeName />&nbsp;
           <NodeVersion label='v' />
         </div>
-        <div>polkadot-js-ui&nbsp;v{major}.{minor}.{parseInt(patch, 10) + 1}</div>
+        <div>polkadot-js-ui&nbsp;v{pkgJson.version}</div>
       </div>
     );
   }
