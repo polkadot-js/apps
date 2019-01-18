@@ -114,7 +114,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       }
 
       private getApiMethod (newParams: Array<any>): [Method, Array<any>, boolean] {
-        const { apiPromise } = this.props;
+        const { api } = this.props;
 
         if (endpoint === 'subscribe') {
           const [fn, ...params] = newParams;
@@ -132,7 +132,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         assert(['rpc', 'query', 'derive'].includes(area), `Unknown api.${area}, expected rpc, query or derive`);
         assert(!at || area === 'query', 'Only able todo an at query on the api.query interface');
 
-        const apiSection = (apiPromise as any)[area][section];
+        const apiSection = (api as any)[area][section];
 
         assert(apiSection && apiSection[method], `Unable to find api.${area}.${section}.${method}`);
 
@@ -144,9 +144,9 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       }
 
       private async subscribe (newParams: Array<any>) {
-        const { apiPromise } = this.props;
+        const { api } = this.props;
 
-        await apiPromise.isReady;
+        await api.isReady;
 
         try {
           const [apiMethod, params, isSubscription] = this.getApiMethod(newParams);

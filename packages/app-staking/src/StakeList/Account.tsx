@@ -190,31 +190,31 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private nominate = (nominee: string) => {
-    const { apiPromise } = this.props;
+    const { api } = this.props;
 
-    this.send(apiPromise.tx.staking.nominate(nominee));
+    this.send(api.tx.staking.nominate(nominee));
 
     this.toggleNominate();
   }
 
   private unnominate = (index: number) => {
-    const { apiPromise } = this.props;
+    const { api } = this.props;
 
-    this.send(apiPromise.tx.staking.unnominate(index));
+    this.send(api.tx.staking.unnominate(index));
   }
 
   private stake = () => {
-    const { apiPromise } = this.props;
+    const { api } = this.props;
 
-    this.send(apiPromise.tx.staking.stake());
+    this.send(api.tx.staking.stake());
   }
 
   private unstake = () => {
-    const { apiPromise } = this.props;
+    const { api } = this.props;
 
     const { accountId, intentions } = this.props;
 
-    this.send(apiPromise.tx.staking.unstake(intentions.indexOf(accountId)));
+    this.send(api.tx.staking.unstake(intentions.indexOf(accountId)));
   }
 }
 

@@ -15,10 +15,10 @@ export type BareProps = {
 };
 
 export type ApiProps = {
+  api: ApiPromise,
+  apiDefaultTx: SubmittableExtrinsicFunction,
   isApiConnected: boolean,
   isApiReady: boolean,
-  apiDefaultTx: SubmittableExtrinsicFunction,
-  apiPromise: ApiPromise,
   setApiUrl: (url?: string) => void
 };
 
