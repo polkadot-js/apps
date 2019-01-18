@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps, CallState } from '../types';
-import { HOC, Options } from './types';
+import { ApiProps, CallState, Subtract } from '../types';
+import { Options } from './types';
 
 import React from 'react';
 import { assert, isUndefined } from '@polkadot/util';
@@ -27,8 +27,8 @@ const NOOP = () => {
   // ignore
 };
 
-export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, params = [], paramName = 'params', propName, transform = echoTransform }: Options = {}): HOC {
-  return (Inner: React.ComponentType<ApiProps>): React.ComponentType<any> => {
+export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, params = [], paramName = 'params', propName, transform = echoTransform }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
+  return (Inner: React.ComponentType<ApiProps>): React.ComponentType<Subtract<P, ApiProps>> => {
     class WithPromise extends React.Component<P, State> {
       state: State;
       isActive: boolean = true;

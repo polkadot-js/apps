@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { CallProps } from '@polkadot/ui-api/types';
+
 import React from 'react';
 import { HeaderExtended } from '@polkadot/types/Header';
 import { withCall } from '@polkadot/ui-api/index';
@@ -33,7 +35,7 @@ const transform = (header: HeaderExtended): Array<HeaderExtended> => {
   return blockHeaders;
 };
 
-type Props = {
+type Props = CallProps & {
   headers?: Array<HeaderExtended>
 };
 
