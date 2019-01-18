@@ -25,6 +25,7 @@ const defaultState = {
 
 let nextId = 0;
 
+const MAX_TRANSACTION_SIZE = 10*24*24;
 const REMOVE_TIMEOUT = 7500;
 const SUBMIT_RPC = jsonrpc.author.methods.submitAndWatchExtrinsic;
 const STATUS_COMPLETE: Array<QueueTx$Status> = [
@@ -138,9 +139,45 @@ export default class Queue extends React.Component<Props, State> {
     });
   }
 
+  private estimateTransactionSize(params:Array<any>) {
+    var bytesTotal = 0; 
+    for(var i = 0; i < params.length; i++) {
+      if(typeof params[i] == "boolean") {
+        bytesTotal+=4;
+      }
+      else if(typeof params[i] == "number") {
+        bytesTotal+=8;
+      }
+      else if(typeof params[i] == "string") {
+        //2B per string character
+        bytesTotal+=params[i].length * 2;
+      }
+      //get accurate count of size of typed arrays
+      else if(params[i].byteLength != undefined) {
+        bytesTotal+=params[i].byteLength;
+      }
+      else {
+        //if none of the above, estimate by converting to JSON
+        bytesTotal+=JSON.stringify(params[i]).length*2;
+      }
+    }
+    return bytesTotal;
+  }
+
   private queueAdd = (value: QueueTx$Extrinsic | QueueTx$Rpc | QueueTx): number => {
     const id = ++nextId;
     const rpc: RpcMethod = (value as QueueTx$Rpc).rpc || SUBMIT_RPC;
+    
+    //check to see if the data we are passing to the RPC is more than 10MB in length
+    //2B per string character
+    if(this.estimateTransactionSize((value as QueueTx$Rpc).values)>= MAX_TRANSACTION_SIZE) {
+      this.queueAction({
+        action: `${rpc.section}.${rpc.method}`,
+        status: 'error',
+        message: 'Warning: This transaction will likely be rejected by the network as it is greater \
+                  than the maximum size of '+MAX_TRANSACTION_SIZE/(24*24)+'MB'
+      });
+    }
 
     this.setState(
       (prevState: State): State => ({
