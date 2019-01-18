@@ -3,11 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Api from './Api';
+import ApiCall from './ApiCall';
 import ApiContext from './ApiContext';
 
 export * from './with';
 
 export {
   Api,
+  ApiCall,
   ApiContext
 };
