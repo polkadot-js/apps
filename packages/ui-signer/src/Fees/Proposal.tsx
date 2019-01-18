@@ -18,7 +18,7 @@ import translate from '../translate';
 type Props = I18nProps & {
   deposit: BN | Compact,
   fees: DerivedFees,
-  query_democracy_minimumDeposit?: BN
+  democracy_minimumDeposit?: BN
   onChange: (fees: ExtraFees) => void
 };
 type State = ExtraFees & {
@@ -37,11 +37,11 @@ class Proposal extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ deposit, query_democracy_minimumDeposit = new BN(0), onChange }: Props): State {
+  static getDerivedStateFromProps ({ deposit, democracy_minimumDeposit = new BN(0), onChange }: Props): State {
     const extraAmount = deposit instanceof Compact
       ? deposit.toBn()
       : deposit;
-    const isBelowMinimum = extraAmount.lt(query_democracy_minimumDeposit);
+    const isBelowMinimum = extraAmount.lt(democracy_minimumDeposit);
 
     const update = {
       extraAmount,
@@ -58,7 +58,7 @@ class Proposal extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { query_democracy_minimumDeposit = new BN(0), t } = this.props;
+    const { democracy_minimumDeposit = new BN(0), t } = this.props;
     const { extraAmount, isBelowMinimum } = this.state;
 
     return [
@@ -66,7 +66,7 @@ class Proposal extends React.PureComponent<Props, State> {
         ? <div key='belowmin'><Icon name='warning sign' />{t('proposal.belowmin', {
           defaultValue: 'The deposit is below the {{minimum}} minimum required for the proposal to be evaluated',
           replace: {
-            minimum: balanceFormat(query_democracy_minimumDeposit)
+            minimum: balanceFormat(democracy_minimumDeposit)
           }
         })}</div>
         : undefined,

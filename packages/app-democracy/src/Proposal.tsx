@@ -16,7 +16,7 @@ import Item from './Item';
 import translate from './translate';
 
 type Props = I18nProps & {
-  query_democracy_depositOf?: Tuple,
+  democracy_depositOf?: Tuple,
   idNumber: BN,
   value: Tuple
 };
@@ -35,14 +35,14 @@ class ProposalDisplay extends React.PureComponent<Props> {
   }
 
   private renderExtra () {
-    const { query_democracy_depositOf, t } = this.props;
+    const { democracy_depositOf, t } = this.props;
 
-    if (!query_democracy_depositOf) {
+    if (!democracy_depositOf) {
       return null;
     }
 
-    const balance = query_democracy_depositOf[0] as Balance;
-    const addresses = query_democracy_depositOf[1] as Vector<AccountId>;
+    const balance = democracy_depositOf[0] as Balance;
+    const addresses = democracy_depositOf[1] as Vector<AccountId>;
 
     return (
       <div className='democracy--Proposal-info'>
@@ -76,5 +76,5 @@ class ProposalDisplay extends React.PureComponent<Props> {
 export default withMulti(
   ProposalDisplay,
   translate,
-  withCall('query.democracy.depositOf', { paramProp: 'idNumber' })
+  withCall('query.democracy.depositOf', { paramName: 'idNumber' })
 );

@@ -20,15 +20,15 @@ type Props = I18nProps & {
   optionsAll?: KeyringOptions,
   queueAction: QueueAction$Add,
   stqueue: Array<QueueStatus>,
-  query_system_events?: Array<EventRecord>,
+  system_events?: Array<EventRecord>,
   txqueue: Array<QueueTx>
 };
 
 let prevEventHash: string;
 
 class Status extends React.PureComponent<Props> {
-  componentDidUpdate ({ optionsAll = { account: [] as any } as KeyringOptions, queueAction, query_system_events, t }: Props) {
-    const eventHash = xxhashAsHex(stringToU8a(JSON.stringify(query_system_events || [])));
+  componentDidUpdate ({ optionsAll = { account: [] as any } as KeyringOptions, queueAction, system_events, t }: Props) {
+    const eventHash = xxhashAsHex(stringToU8a(JSON.stringify(system_events || [])));
 
     if (eventHash === prevEventHash) {
       return;
@@ -38,7 +38,7 @@ class Status extends React.PureComponent<Props> {
 
     const addresses = optionsAll.account.map((account) => account.value);
 
-    (query_system_events || []).forEach(({ event: { data, method, section } }) => {
+    (system_events || []).forEach(({ event: { data, method, section } }) => {
       if (section === 'balances' && method === 'Transfer') {
         const account = data[1].toString();
 

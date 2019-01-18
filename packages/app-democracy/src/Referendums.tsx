@@ -13,9 +13,9 @@ import Referendum from './Referendum';
 import translate from './translate';
 
 type Props = I18nProps & {
-  query_democracy_nextTally?: BN,
-  query_democracy_referendumCount?: BN,
-  derive_democracy_referendums?: Array<ReferendumInfo>
+  democracy_nextTally?: BN,
+  democracy_referendumCount?: BN,
+  democracy_referendums?: Array<ReferendumInfo>
 };
 
 class Referendums extends React.PureComponent<Props> {
@@ -33,10 +33,10 @@ class Referendums extends React.PureComponent<Props> {
   }
 
   private renderReferendums () {
-    const { query_democracy_nextTally, derive_democracy_referendums, query_democracy_referendumCount, t } = this.props;
-    const referendumCount = (query_democracy_referendumCount || new BN(0)).toNumber();
+    const { democracy_nextTally, democracy_referendums, democracy_referendumCount, t } = this.props;
+    const referendumCount = (democracy_referendumCount || new BN(0)).toNumber();
 
-    if (!derive_democracy_referendums || !derive_democracy_referendums.length || (referendumCount === (query_democracy_nextTally || new BN(0)).toNumber())) {
+    if (!democracy_referendums || !democracy_referendums.length || (referendumCount === (democracy_nextTally || new BN(0)).toNumber())) {
       return (
         <div className='ui disabled'>
           {t('proposals.none', {
@@ -46,9 +46,9 @@ class Referendums extends React.PureComponent<Props> {
       );
     }
 
-    const startIndex = referendumCount - derive_democracy_referendums.length;
+    const startIndex = referendumCount - democracy_referendums.length;
 
-    return derive_democracy_referendums.map((referendum, index) => (
+    return democracy_referendums.map((referendum, index) => (
       <Referendum
         idNumber={index + startIndex}
         key={index}

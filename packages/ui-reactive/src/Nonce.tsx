@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/ui-api/types';
+import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Index } from '@polkadot/types';
@@ -10,15 +10,15 @@ import { withCall } from '@polkadot/ui-api/index';
 
 import { numberFormat } from './util/index';
 
-type Props = BareProps & {
+type Props = BareProps & CallProps & {
   children?: React.ReactNode,
   label?: string,
-  query_system_accountNonce: Index
+  system_accountNonce?: Index
 };
 
 class Nonce extends React.PureComponent<Props> {
   render () {
-    const { children, className, label = '', style, query_system_accountNonce } = this.props;
+    const { children, className, label = '', style, system_accountNonce } = this.props;
 
     return (
       <div
@@ -26,8 +26,8 @@ class Nonce extends React.PureComponent<Props> {
         style={style}
       >
         {label}{
-          query_system_accountNonce
-            ? numberFormat(query_system_accountNonce)
+          system_accountNonce
+            ? numberFormat(system_accountNonce)
             : '0'
           }{children}
       </div>

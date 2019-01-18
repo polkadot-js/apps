@@ -11,14 +11,14 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   hash: Uint8Array,
-  rpc_chain_getBlock: any
+  chain_getBlock: any
 };
 
 class Extrinsics extends React.PureComponent<Props> {
   render () {
-    const { rpc_chain_getBlock, t } = this.props;
+    const { chain_getBlock, t } = this.props;
 
-    if (!rpc_chain_getBlock || !rpc_chain_getBlock.extrinsics) {
+    if (!chain_getBlock || !chain_getBlock.extrinsics) {
       return null;
     }
 
@@ -29,7 +29,7 @@ class Extrinsics extends React.PureComponent<Props> {
           {t('extrinsics.count', {
             defaultValue: '{{count}} in block',
             replace: {
-              count: rpc_chain_getBlock.extrinsics.length
+              count: chain_getBlock.extrinsics.length
             }
           })}
         </td>
@@ -42,5 +42,5 @@ class Extrinsics extends React.PureComponent<Props> {
 export default withMulti(
   Extrinsics,
   translate,
-  withCall('rpc.chain.getBlock', { paramProp: 'hash' })
+  withCall('rpc.chain.getBlock', { paramName: 'hash' })
 );

@@ -47,15 +47,15 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  static getDerivedStateFromProps ({ apiPromise }: Props, { value }: State): State | null {
+  static getDerivedStateFromProps ({ api }: Props, { value }: State): State | null {
     return {
-      optionsMethod: methodOptions(apiPromise, value.section),
-      optionsSection: sectionOptions(apiPromise)
+      optionsMethod: methodOptions(api, value.section),
+      optionsSection: sectionOptions(api)
     } as State;
   }
 
   render () {
-    const { apiPromise, className, labelMethod, labelSection, style, withLabel } = this.props;
+    const { api, className, labelMethod, labelSection, style, withLabel } = this.props;
     const { optionsMethod, optionsSection, value } = this.state;
 
     return (
@@ -72,7 +72,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
           withLabel={withLabel}
         />
         <SelectMethod
-          apiPromise={apiPromise}
+          api={api}
           className='large'
           label={labelMethod}
           onChange={this.onKeyChange}
@@ -98,15 +98,15 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
   }
 
   onSectionChange = (newSection: string): void => {
-    const { apiPromise } = this.props;
+    const { api } = this.props;
     const { value } = this.state;
 
     if (newSection === value.section) {
       return;
     }
 
-    const optionsMethod = methodOptions(apiPromise, newSection);
-    const fn = apiPromise.tx[newSection][optionsMethod[0].value];
+    const optionsMethod = methodOptions(api, newSection);
+    const fn = api.tx[newSection][optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
       this.onKeyChange(fn)

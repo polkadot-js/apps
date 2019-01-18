@@ -27,9 +27,9 @@ const COLORS_NAY = settings.uiTheme === 'substrate'
   : ['#d75ea1', '#e189ba'];
 
 type Props = I18nProps & {
-  derive_chain_bestNumber?: BN,
-  derive_democracy_referendumVotesFor?: Array<DerivedReferendumVote>,
-  query_democracy_publicDelay?: BN,
+  chain_bestNumber?: BN,
+  democracy_referendumVotesFor?: Array<DerivedReferendumVote>,
+  democracy_publicDelay?: BN,
   idNumber: BN,
   value: ReferendumInfo
 };
@@ -59,12 +59,12 @@ class Referendum extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ derive_democracy_referendumVotesFor }: Props, prevState: State): State | null {
-    if (!derive_democracy_referendumVotesFor) {
+  static getDerivedStateFromProps ({ democracy_referendumVotesFor }: Props, prevState: State): State | null {
+    if (!democracy_referendumVotesFor) {
       return null;
     }
 
-    const newState: State = derive_democracy_referendumVotesFor.reduce((state, { balance, vote }) => {
+    const newState: State = democracy_referendumVotesFor.reduce((state, { balance, vote }) => {
       if (vote.ltn(0)) {
         state.voteCountYay++;
         state.votedYay = state.votedYay.add(balance);
@@ -94,9 +94,9 @@ class Referendum extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { derive_chain_bestNumber, idNumber, value } = this.props;
+    const { chain_bestNumber, idNumber, value } = this.props;
 
-    if (!derive_chain_bestNumber || value.end.sub(derive_chain_bestNumber).lten(0)) {
+    if (!chain_bestNumber || value.end.sub(chain_bestNumber).lten(0)) {
       return null;
     }
 
@@ -113,13 +113,13 @@ class Referendum extends React.PureComponent<Props, State> {
   }
 
   private renderExtra () {
-    const { derive_chain_bestNumber, query_democracy_publicDelay, t, value: { end, threshold } } = this.props;
+    const { chain_bestNumber, democracy_publicDelay, t, value: { end, threshold } } = this.props;
 
-    if (!derive_chain_bestNumber) {
+    if (!chain_bestNumber) {
       return null;
     }
 
-    const enactBlock = (query_democracy_publicDelay || new BN(0)).add(end);
+    const enactBlock = (democracy_publicDelay || new BN(0)).add(end);
 
     return (
       <div className='democracy--Referendum-info'>
@@ -132,7 +132,7 @@ class Referendum extends React.PureComponent<Props, State> {
             defaultValue: 'block #{{blockNumber}}, {{remaining}} blocks remaining',
             replace: {
               blockNumber: numberFormat(end),
-              remaining: numberFormat(end.sub(derive_chain_bestNumber).subn(1))
+              remaining: numberFormat(end.sub(chain_bestNumber).subn(1))
             }
           })}
         </Static>
@@ -193,6 +193,6 @@ export default withMulti(
   Referendum,
   translate,
   withCall('derive.chain.bestNumber'),
-  withCall('derive.democracy.referendumVotesFor', { paramProp: 'idNumber' }),
+  withCall('derive.democracy.referendumVotesFor', { paramName: 'idNumber' }),
   withCall('query.democracy.publicDelay')
 );

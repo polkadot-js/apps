@@ -36,9 +36,9 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     const { url } = props;
     const provider = new WsProvider(url);
     const setApi = (provider: ProviderInterface): void => {
-      const apiPromise = new ApiPromise(provider);
+      const api = new ApiPromise(provider);
 
-      this.setState({ apiPromise }, () => {
+      this.setState({ api }, () => {
         this.updateSubscriptions();
       });
     };
@@ -48,7 +48,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     this.state = {
       isApiConnected: false,
       isApiReady: false,
-      apiPromise: new ApiPromise(provider),
+      api: new ApiPromise(provider),
       setApiUrl
     } as State;
   }
@@ -58,7 +58,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   }
 
   private updateSubscriptions () {
-    const { apiPromise } = this.state;
+    const { api } = this.state;
 
     [
       this.subscribeIsConnected,
@@ -66,7 +66,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       this.subscribeChain
     ].map((fn: Function) => {
       try {
-        return fn(apiPromise);
+        return fn(api);
       } catch (error) {
         console.error(error);
         return null;
@@ -126,13 +126,13 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { apiDefaultTx, apiPromise, chain, isApiConnected, isApiReady, setApiUrl } = this.state;
+    const { api, apiDefaultTx, chain, isApiConnected, isApiReady, setApiUrl } = this.state;
 
     return (
       <ApiContext.Provider
         value={{
+          api,
           apiDefaultTx,
-          apiPromise,
           isApiConnected,
           isApiReady: isApiReady && !!chain,
           setApiUrl

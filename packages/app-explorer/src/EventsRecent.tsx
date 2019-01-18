@@ -15,7 +15,7 @@ import Events from './Events';
 import translate from './translate';
 
 type Props = I18nProps & {
-  query_system_events?: Array<EventRecord>
+  system_events?: Array<EventRecord>
 };
 
 type State = {
@@ -33,14 +33,14 @@ class EventsRecent extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ query_system_events = [] }: Props, prevState: State): State | null {
-    const prevEventHash = xxhashAsHex(stringToU8a(JSON.stringify(query_system_events)));
+  static getDerivedStateFromProps ({ system_events = [] }: Props, prevState: State): State | null {
+    const prevEventHash = xxhashAsHex(stringToU8a(JSON.stringify(system_events)));
 
     if (prevEventHash === prevState.prevEventHash) {
       return null;
     }
 
-    const recentEvents = query_system_events
+    const recentEvents = system_events
       .filter(({ event }) => event.section !== 'system')
       .concat(prevState.recentEvents)
       .filter((_, index) => index < MAX_ITEMS);

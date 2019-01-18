@@ -24,7 +24,7 @@ type Props = I18nProps & {
   balances?: DerivedBalancesMap,
   intentions?: Array<AccountId>,
   onStatusChange: (status: ActionStatus) => void,
-  query_session_validators?: Array<AccountId>
+  session_validators?: Array<AccountId>
 };
 
 type State = {
@@ -51,12 +51,12 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ query_session_validators, intentions }: Props): State {
+  static getDerivedStateFromProps ({ session_validators, intentions }: Props): State {
     return {
       intentions: (intentions || []).map((accountId) =>
         accountId.toString()
       ),
-      validators: (query_session_validators || []).map((authorityId) =>
+      validators: (session_validators || []).map((authorityId) =>
         authorityId.toString()
       )
     } as State;

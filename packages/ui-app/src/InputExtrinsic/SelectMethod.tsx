@@ -14,7 +14,7 @@ import classes from '../util/classes';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  apiPromise: ApiPromise,
+  api: ApiPromise,
   isError?: boolean,
   label?: string,
   onChange: (value: MethodFunction) => void,
@@ -25,14 +25,14 @@ type Props = I18nProps & {
 
 class SelectMethod extends React.PureComponent<Props> {
   render () {
-    const { apiPromise, className, isError, label = '', onChange, options, style, t, value, withLabel } = this.props;
+    const { api, className, isError, label = '', onChange, options, style, t, value, withLabel } = this.props;
 
     if (!options.length) {
       return null;
     }
 
     const transform = (method: string): MethodFunction =>
-      apiPromise.tx[value.section][method];
+      api.tx[value.section][method];
 
     return (
         <Dropdown

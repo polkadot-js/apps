@@ -34,11 +34,11 @@ class Selection extends React.PureComponent<Props, State> {
   } as State;
 
   render () {
-    const { apiDefaultTx, apiPromise, t } = this.props;
+    const { apiDefaultTx, api, t } = this.props;
     const { isValid, accountId } = this.state;
     const defaultExtrinsic = (() => {
       try {
-        return apiPromise.tx.balances.transfer;
+        return api.tx.balances.transfer;
       } catch (error) {
         return apiDefaultTx;
       }
@@ -123,7 +123,7 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   private onQueue (isUnsigned: boolean): void {
-    const { apiPromise, queueExtrinsic } = this.props;
+    const { api, queueExtrinsic } = this.props;
     const { method, isValid, accountId } = this.state;
 
     if (!isValid || !method) {
@@ -136,7 +136,7 @@ class Selection extends React.PureComponent<Props, State> {
       accountId: isUnsigned
         ? undefined
         : accountId,
-      extrinsic: apiPromise.tx[fn.section][fn.method](...method.args),
+      extrinsic: api.tx[fn.section][fn.method](...method.args),
       isUnsigned
     });
   }

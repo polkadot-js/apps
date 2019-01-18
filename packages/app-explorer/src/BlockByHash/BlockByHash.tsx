@@ -8,6 +8,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import React from 'react';
 import { AddressMini, Call } from '@polkadot/ui-app/index';
 import { EventRecord, Extrinsic, Method, SignedBlock } from '@polkadot/types';
+import { HeaderExtended } from '@polkadot/types/Header';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
 import { numberFormat } from '@polkadot/ui-reactive/util/index';
 
@@ -17,48 +18,47 @@ import Events from './Events';
 import Logs from './Logs';
 
 type Props = ApiProps & I18nProps & {
-  query_system_events?: Array<EventRecord>,
-  rpc_chain_getBlock?: SignedBlock,
+  system_events?: Array<EventRecord>,
+  chain_getBlock?: SignedBlock,
+  chain_getHeader?: HeaderExtended,
   value: string
 };
 
 class BlockByHash extends React.PureComponent<Props> {
   render () {
-    const { query_system_events, rpc_chain_getBlock } = this.props;
+    const { system_events, chain_getBlock, chain_getHeader } = this.props;
 
-    if (!rpc_chain_getBlock || !rpc_chain_getBlock.block) {
+    if (!chain_getBlock || !chain_getHeader) {
       return null;
     }
-
-    const { block: { header } } = rpc_chain_getBlock;
 
     return [
       <header key='header'>
         <BlockHeader
-          value={header}
+          value={chain_getHeader}
           withExtrinsics
         />
       </header>,
       this.renderExtrinsics(),
       <Events
         key='events'
-        value={query_system_events}
+        value={system_events}
       />,
       <Logs
         key='logs'
-        value={header.digest.logs}
+        value={chain_getHeader.digest.logs}
       />
     ];
   }
 
   private renderExtrinsics () {
-    const { rpc_chain_getBlock, t } = this.props;
+    const { chain_getBlock, t } = this.props;
 
-    if (!rpc_chain_getBlock) {
+    if (!chain_getBlock) {
       return null;
     }
 
-    const { block: { extrinsics } } = rpc_chain_getBlock;
+    const { block: { extrinsics } } = chain_getBlock;
 
     return (
       <section key='extrinsics'>
@@ -123,6 +123,7 @@ class BlockByHash extends React.PureComponent<Props> {
 export default withMulti(
   BlockByHash,
   translate,
-  withCall('rpc.chain.getBlock', { paramProp: 'value' }),
+  withCall('rpc.chain.getBlock', { paramName: 'value' }),
+  withCall('derive.chain.getHeader', { paramName: 'value' }),
   withCall('query.system.events', { atProp: 'value' })
 );

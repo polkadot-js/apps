@@ -35,6 +35,6 @@ class AddressRow extends AddressSummary {
 export default withMulti(
   AddressRow,
   translate,
-  withCall('derive.accounts.idAndIndex', { paramProp: 'value' }),
+  withCall('derive.accounts.idAndIndex', { paramName: 'value' }),
   withCall('query.session.validators')
 );

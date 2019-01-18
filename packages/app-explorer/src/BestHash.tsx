@@ -2,20 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/ui-api/types';
+import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Header } from '@polkadot/types';
 import { withCall } from '@polkadot/ui-api/index';
 
-type Props = BareProps & {
+type Props = BareProps & CallProps & {
   label?: string,
-  rpc_chain_subscribeNewHead?: Header
+  chain_subscribeNewHead?: Header
 };
 
 class BestHash extends React.PureComponent<Props> {
   render () {
-    const { className, label = '', style, rpc_chain_subscribeNewHead } = this.props;
+    const { className, label = '', style, chain_subscribeNewHead } = this.props;
 
     return (
       <div
@@ -23,8 +23,8 @@ class BestHash extends React.PureComponent<Props> {
         style={style}
       >
         {label}{
-          rpc_chain_subscribeNewHead
-            ? rpc_chain_subscribeNewHead.hash.toHex()
+          chain_subscribeNewHead
+            ? chain_subscribeNewHead.hash.toHex()
             : undefined
           }
       </div>
@@ -32,4 +32,4 @@ class BestHash extends React.PureComponent<Props> {
   }
 }
 
-export default withCall('rpc.chain.subscribeNewHead', {})(BestHash);
+export default withCall('rpc.chain.subscribeNewHead')(BestHash);

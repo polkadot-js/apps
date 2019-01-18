@@ -281,10 +281,10 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private async submitRpc ({ method, section }: RpcMethod, values: Array<any>): Promise<QueueTx$Result> {
-    const { apiPromise } = this.props;
+    const { api } = this.props;
 
     try {
-      const result = await (apiPromise.rpc as any)[section][method](...values);
+      const result = await (api.rpc as any)[section][method](...values);
 
       console.log('submitRpc: result ::', format(result));
 

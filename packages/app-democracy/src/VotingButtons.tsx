@@ -47,14 +47,14 @@ class VotingButton extends React.PureComponent<Props> {
   }
 
   private doVote (vote: boolean) {
-    const { accountId, apiPromise, queueExtrinsic, referendumId } = this.props;
+    const { accountId, api, queueExtrinsic, referendumId } = this.props;
 
     if (!accountId) {
       return;
     }
 
     queueExtrinsic({
-      extrinsic: apiPromise.tx.democracy.vote(referendumId, vote ? -1 : 0),
+      extrinsic: api.tx.democracy.vote(referendumId, vote ? -1 : 0),
       accountId
     });
   }

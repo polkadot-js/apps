@@ -42,11 +42,11 @@ class InputStorage extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const { apiPromise, defaultValue: { section } } = this.props;
+    const { api, defaultValue: { section } } = this.props;
 
     this.state = {
-      optionsMethod: keyOptions(apiPromise, section),
-      optionsSection: sectionOptions(apiPromise),
+      optionsMethod: keyOptions(api, section),
+      optionsSection: sectionOptions(api),
       value: this.props.defaultValue
     };
   }
@@ -94,15 +94,15 @@ class InputStorage extends React.PureComponent<Props, State> {
   }
 
   private onSectionChange = (newSection: string): void => {
-    const { apiPromise } = this.props;
+    const { api } = this.props;
     const { value } = this.state;
 
     if (newSection === value.section) {
       return;
     }
 
-    const optionsMethod = keyOptions(apiPromise, newSection);
-    const newValue = apiPromise.query[newSection][optionsMethod[0].value];
+    const optionsMethod = keyOptions(api, newSection);
+    const newValue = api.query[newSection][optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
       this.onKeyChange(newValue)

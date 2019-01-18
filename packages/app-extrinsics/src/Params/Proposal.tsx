@@ -15,10 +15,10 @@ type Props = ApiProps & BaseProps;
 
 class ProposalDisplay extends React.PureComponent<Props> {
   render () {
-    const { apiDefaultTx, apiPromise, className, isDisabled, isError, label, style, withLabel } = this.props;
+    const { apiDefaultTx, api, className, isDisabled, isError, label, style, withLabel } = this.props;
     const defaultValue = (() => {
       try {
-        return apiPromise.tx.consensus.setCode;
+        return api.tx.consensus.setCode;
       } catch (error) {
         return apiDefaultTx;
       }
