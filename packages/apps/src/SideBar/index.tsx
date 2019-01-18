@@ -37,11 +37,7 @@ class SideBar extends React.PureComponent<Props> {
           secondary
           vertical
         >
-          <img
-            alt='polkadot'
-            className='apps--SideBar-logo'
-            src={LOGO}
-          />
+          {this.renderLogo()}
           {this.renderRoutes()}
           <Menu.Divider hidden />
           {this.renderGithub()}
@@ -50,6 +46,16 @@ class SideBar extends React.PureComponent<Props> {
           {children}
         </Menu>
       </div>
+    );
+  }
+
+  private renderLogo () {
+    return (
+      <img
+        alt='polkadot'
+        className='apps--SideBar-logo'
+        src={LOGO}
+      />
     );
   }
 
