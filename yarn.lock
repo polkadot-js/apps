@@ -1398,7 +1398,7 @@
     memoizee "^0.4.14"
     rxjs "^6.3.3"
 
-"@polkadot/api@^0.40.9":
+"@polkadot/api@^0.40.8", "@polkadot/api@^0.40.9":
   version "0.40.9"
   resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.40.9.tgz#276d7a02d933d8712719f08c7ee1528b05fb2ade"
   integrity sha512-6FTYUUL2cYQO5eRYyuemQl245t8GKagX924wz8RvbURM/xHa3YrWdiDGzJN5p5ZN743SYmguQpxEGmPcg5bYKA==
@@ -1503,7 +1503,7 @@
     typedoc-plugin-no-inherit "^1.1.2"
     typescript "^3.2.2"
 
-"@polkadot/extrinsics@^0.40.9":
+"@polkadot/extrinsics@^0.40.8", "@polkadot/extrinsics@^0.40.9":
   version "0.40.9"
   resolved "https://registry.yarnpkg.com/@polkadot/extrinsics/-/extrinsics-0.40.9.tgz#a3cdb9a9374425460e01656176dadbc1054cbbf7"
   integrity sha512-VhtFhhLHLK5I4zfCBktF//U4vpD1SXDAbcAAxdJFqpGCZ+mYvCHW2iH9Q8clbqyX+sR+43riQhU+D+fPbNaxJQ==
@@ -1567,7 +1567,7 @@
     "@types/rx" "^4.1.1"
     rxjs "^6.3.3"
 
-"@polkadot/storage@^0.40.9":
+"@polkadot/storage@^0.40.8", "@polkadot/storage@^0.40.9":
   version "0.40.9"
   resolved "https://registry.yarnpkg.com/@polkadot/storage/-/storage-0.40.9.tgz#b8d631b2eaa8d639a5c16250900726d46e40cf0a"
   integrity sha512-rOEEfVIEP2kg3nVyZTfMv+b89FLkyJCHdHW0d0SXhPr6cMX6qoKtfCGiQWzpaiGPY1wQiZbcQHetW3fZ/AEFaw==
@@ -1583,7 +1583,7 @@
   resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.51.tgz#4ce26923b3d34c026e14081975718b716c988483"
   integrity sha512-p+uQIZqxtlQGTQoNcd8mED66qfyPA4qy8HmCMpUYDaFHKNpZ7qun0dqSoT0NvUB32KTSQitKhf/N0att8sEdow==
 
-"@polkadot/types@^0.40.9":
+"@polkadot/types@^0.40.8", "@polkadot/types@^0.40.9":
   version "0.40.9"
   resolved "https://registry.yarnpkg.com/@polkadot/types/-/types-0.40.9.tgz#32f7df6895769a9da07e8dd2adacadbef729ccef"
   integrity sha512-L6TuP8tdM/0AKpLnTsnBA1YBr69Oehiw+0f0Fdfgqr36DrdpdlGvp5CsArV8wbWFJkChecEtQwPQPqX9+fCczA==
