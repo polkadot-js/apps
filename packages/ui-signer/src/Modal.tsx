@@ -306,7 +306,11 @@ class Signer extends React.PureComponent<Props, State> {
     const { queueSetTxStatus } = this.props;
 
     try {
-      const subscription = await extrinsicCall.apply(extrinsic, [..._params, async (result: SubmittableSendResult) => {
+      const unsubscribe = await extrinsicCall.apply(extrinsic, [..._params, async (result: SubmittableSendResult) => {
+        if (!result || !result.type || !result.status) {
+          return;
+        }
+
         const status = result.type.toLowerCase() as QueueTx$Status;
 
         console.log('submitAndWatchExtrinsic: updated status ::', result);
@@ -314,11 +318,9 @@ class Signer extends React.PureComponent<Props, State> {
         queueSetTxStatus(id, status, result);
 
         if (status === 'finalised') {
-          const unsubscribe = await subscription;
-
           unsubscribe();
         }
-      }]) as PromiseSubscription;
+      }]);
     } catch (error) {
       console.error('error.message', error.message);
       queueSetTxStatus(id, 'error', {}, error);

@@ -40,17 +40,25 @@ type State = {
   showWarning: boolean
 };
 
-function formatSeed (seed: string): Uint8Array {
-  return isHex(seed)
+function isHexSeed (seed: string): boolean {
+  return isHex(seed) && seed.length === 66;
+}
+
+function rawValidate (seed: string): boolean {
+  return seed.length <= 32 || isHexSeed(seed);
+}
+
+function rawToSeed (seed: string): Uint8Array {
+  return isHexSeed(seed)
     ? hexToU8a(seed)
-    : stringToU8a((seed as string).padEnd(32, ' '));
+    : stringToU8a(seed.padEnd(32, ' '));
 }
 
 function addressFromSeed (seed: string, seedType: SeedType): string {
   const keypair = naclKeypairFromSeed(
     seedType === 'bip'
       ? mnemonicToSeed(seed)
-      : formatSeed(seed)
+      : rawToSeed(seed)
   );
 
   return keyring.encodeAddress(
@@ -306,11 +314,7 @@ class Creator extends React.PureComponent<Props, State> {
         const isNameValid = !!name;
         const isSeedValid = seedType === 'bip'
           ? mnemonicValidate(seed)
-          : (
-            isHex(seed)
-              ? seed.length === 66
-              : (seed as string).length <= 32
-          );
+          : rawValidate(seed);
         const isPassValid = keyring.isPassValid(password);
 
         if (isSeedValid && seed !== prevState.seed) {
@@ -366,7 +370,7 @@ class Creator extends React.PureComponent<Props, State> {
     try {
       const pair = seedType === 'bip'
         ? keyring.createAccountMnemonic(seed, password, { name })
-        : keyring.createAccount(formatSeed(seed), password, { name });
+        : keyring.createAccount(rawToSeed(seed), password, { name });
 
       const json = pair.toJson(password);
       const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
