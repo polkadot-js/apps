@@ -1,0 +1,146 @@
+image: roffe/kubectl:latest
+variables:
+  CI_REGISTRY: parity.azurecr.io
+  CI_REGISTRY_USER: parity
+  AUTO_DEVOPS_DOMAIN: poc-3.polkadot.io
+
+.kubernetes: &kubernetes
+  tags:
+    - kubernetes
+
+stages:
+  - dockerize
+  - test
+  - review
+  - staging
+  - production
+  - cleanup
+
+dockerize:
+  stage: dockerize
+  <<: *kubernetes
+  image: docker:git
+  services:
+    - docker:dind
+  variables:
+    DOCKER_DRIVER: overlay2
+    DOCKER_HOST: tcp://localhost:2375
+  script:
+    - build
+  only:
+    - branches
+
+review:
+  stage: review
+  <<: *kubernetes
+  script:
+    - setup_kubernetes
+    - deploy
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: https://$CI_ENVIRONMENT_SLUG.$AUTO_DEVOPS_DOMAIN
+    on_stop: stop_review
+  only:
+    refs:
+      - branches
+    kubernetes: active
+  except:
+    - master
+
+stop_review:
+  stage: cleanup
+  <<: *kubernetes
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - setup_kubernetes
+    - delete
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    action: stop
+  when: manual
+  allow_failure: true
+  only:
+    refs:
+      - branches
+    kubernetes: active
+  except:
+    - master
+
+staging:
+  stage: staging
+  <<: *kubernetes
+  script:
+    - setup_kubernetes
+    - deploy
+  environment:
+    name: staging
+    url: https://staging.$AUTO_DEVOPS_DOMAIN
+  only:
+    refs:
+      - master
+    kubernetes: active
+
+production:
+  stage: production
+  <<: *kubernetes
+  script:
+    - setup_kubernetes
+    - deploy
+  environment:
+    name: production
+    url: https://$AUTO_DEVOPS_DOMAIN
+  when: manual
+  only:
+    refs:
+      - master
+    kubernetes: active
+
+# ---------------------------------------------------------------------------
+.auto_devops: &auto_devops |
+  # Auto DevOps variables and functions
+  [[ "$TRACE" ]] && set -x
+  export DOCKER_IMAGE=$CI_REGISTRY/$CI_PROJECT_PATH_SLUG
+  export DOCKER_TAG=$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHA
+  export DOCKER_IMAGE_FULL_NAME=$DOCKER_IMAGE:$DOCKER_TAG
+
+  export AUTODEVOPS_HOST=$(echo $CI_ENVIRONMENT_URL | awk -F/ '{print $3}')
+
+  function build() {
+    if [[ -n "$CI_REGISTRY_USER" ]]; then
+      echo "Logging to GitLab Container Registry with CI credentials..."
+      docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+      echo ""
+    fi
+
+    echo "Building Dockerfile-based application..."
+    docker build -t "$DOCKER_IMAGE_FULL_NAME" .
+
+    echo "Pushing to GitLab Container Registry..."
+    docker push "$DOCKER_IMAGE_FULL_NAME"
+    echo ""
+  }
+
+  function setup_kubernetes() {
+    kubectl describe namespace "$KUBE_NAMESPACE" || kubectl create namespace "$KUBE_NAMESPACE"
+    kubectl create secret -n "$KUBE_NAMESPACE" \
+      docker-registry gitlab-registry \
+      --docker-server="$CI_REGISTRY" \
+      --docker-username="$CI_REGISTRY_USER" \
+      --docker-password="$CI_REGISTRY_PASSWORD" \
+      --docker-email="$GITLAB_USER_EMAIL" \
+      -o yaml --dry-run | kubectl replace -n "$KUBE_NAMESPACE" --force -f -
+  }
+
+  function deploy() {
+    cat ./deployment.template.yml | envsubst | kubectl apply -n "$KUBE_NAMESPACE" -f -
+  }
+
+  function delete() {
+    kubectl -n "$KUBE_NAMESPACE" delete "deploy/$CI_ENVIRONMENT_SLUG-backend"
+    kubectl -n "$KUBE_NAMESPACE" delete "svc/$CI_ENVIRONMENT_SLUG-service"
+    kubectl -n "$KUBE_NAMESPACE" delete "ing/$CI_ENVIRONMENT_SLUG-ingress"
+  }
+
+before_script:
+  - *auto_devops
