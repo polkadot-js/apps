@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-rpc",
-  "version": "0.22.24",
+  "version": "0.22.25",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.2.0",
-    "@polkadot/ui-app": "^0.22.24",
-    "@polkadot/ui-signer": "^0.22.24"
+    "@polkadot/ui-app": "^0.22.25",
+    "@polkadot/ui-signer": "^0.22.25"
   }
 }
