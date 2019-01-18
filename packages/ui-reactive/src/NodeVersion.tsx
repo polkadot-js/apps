@@ -11,19 +11,19 @@ import { withCall } from '@polkadot/ui-api/index';
 type Props = BareProps & {
   children?: React.ReactNode,
   label?: string,
-  rpc_system_version?: Text
+  system_version?: Text
 };
 
 class NodeVersion extends React.PureComponent<Props> {
   render () {
-    const { children, className, label = '', style, rpc_system_version = 'unknown' } = this.props;
+    const { children, className, label = '', style, system_version = 'unknown' } = this.props;
 
     return (
       <div
         className={className}
         style={style}
       >
-        {label}{rpc_system_version.toString()}{children}
+        {label}{system_version.toString()}{children}
       </div>
     );
   }

@@ -18,13 +18,13 @@ type Props = I18nProps & {
   balances: DerivedBalancesMap,
   intentions: Array<string>,
   lastLengthChange?: BN,
-  query_staking_validatorCount?: BN,
+  staking_validatorCount?: BN,
   validators: Array<string>
 };
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { className, intentions, style, t, query_staking_validatorCount, validators } = this.props;
+    const { className, intentions, style, t, staking_validatorCount, validators } = this.props;
 
     return (
       <summary
@@ -37,7 +37,7 @@ class Summary extends React.PureComponent<Props> {
               defaultValue: 'validators'
             })}
           >
-            {validators.length}/{query_staking_validatorCount ? query_staking_validatorCount.toString() : '-'}
+            {validators.length}/{staking_validatorCount ? staking_validatorCount.toString() : '-'}
           </CardSummary>
           <CardSummary
             label={t('summary.intentions', {

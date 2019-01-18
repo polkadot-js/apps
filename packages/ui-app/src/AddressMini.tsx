@@ -19,21 +19,21 @@ type Props = BareProps & {
   children?: React.ReactNode,
   isPadded?: boolean,
   isShort?: boolean,
-  query_session_validators?: Array<AccountId>,
+  session_validators?: Array<AccountId>,
   value?: AccountId | AccountIndex | Address | string,
   withBalance?: boolean
 };
 
 class AddressMini extends React.PureComponent<Props> {
   render () {
-    const { children, className, isPadded = true, isShort = true, query_session_validators, style, value } = this.props;
+    const { children, className, isPadded = true, isShort = true, session_validators, style, value } = this.props;
 
     if (!value) {
       return null;
     }
 
     const address = value.toString();
-    const isValidator = (query_session_validators || []).find((validator) =>
+    const isValidator = (session_validators || []).find((validator) =>
       validator.toString() === address
     );
 

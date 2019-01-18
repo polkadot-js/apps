@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps, CallProps } from '../types';
+import { ApiProps, CallState } from '../types';
 import { HOC, Options } from './types';
 
 import React from 'react';
@@ -17,7 +17,7 @@ interface Method {
   at: (hash: Uint8Array | string, ...params: Array<any>) => Promise<any>;
 }
 
-type State = CallProps & {
+type State = CallState & {
   destroy?: () => void,
   propName: string,
   timerId: number
@@ -27,7 +27,7 @@ const NOOP = () => {
   // ignore
 };
 
-export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, params = [], paramProp = 'params', propName, transform = echoTransform }: Options = {}): HOC {
+export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, params = [], paramName = 'params', propName, transform = echoTransform }: Options = {}): HOC {
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<any> => {
     class WithPromise extends React.Component<P, State> {
       state: State;
@@ -36,10 +36,10 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       constructor (props: P) {
         super(props);
 
-        const [area, section, method] = endpoint.split('.');
+        const [, section, method] = endpoint.split('.');
 
         this.state = {
-          propName: `${area}_${section}_${method}`,
+          propName: `${section}_${method}`,
           callResult: void 0,
           callUpdated: false,
           callUpdatedAt: 0,
@@ -98,7 +98,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       }
 
       private getParams (props: any): Array<any> {
-        const paramValue = props[paramProp];
+        const paramValue = props[paramName];
 
         if (atProp) {
           at = props[atProp];

@@ -13,15 +13,15 @@ import translate from '../translate';
 type Props = I18nProps & {
   accountId: string,
   nominating: string,
-  query_staking_nominatorsFor: Array<string>,
+  staking_nominatorsFor: Array<string>,
   onClick: (index: number) => void
 };
 
 class UnnominateButton extends React.Component<Props> {
   render () {
-    const { nominating, query_staking_nominatorsFor, style, t } = this.props;
+    const { nominating, staking_nominatorsFor, style, t } = this.props;
 
-    if (!nominating || !query_staking_nominatorsFor) {
+    if (!nominating || !staking_nominatorsFor) {
       return null;
     }
 
@@ -39,10 +39,10 @@ class UnnominateButton extends React.Component<Props> {
   }
 
   onClick = () => {
-    const { accountId, query_staking_nominatorsFor, onClick } = this.props;
+    const { accountId, staking_nominatorsFor, onClick } = this.props;
 
     onClick(
-      query_staking_nominatorsFor
+      staking_nominatorsFor
         .map((accountId) =>
           accountId.toString()
         )
@@ -53,5 +53,5 @@ class UnnominateButton extends React.Component<Props> {
 export default withMulti(
   UnnominateButton,
   translate,
-  withCall('query.staking.nominatorsFor', { paramProp: 'nominating' })
+  withCall('query.staking.nominatorsFor', { paramName: 'nominating' })
 );

@@ -11,19 +11,19 @@ import { withCall } from '@polkadot/ui-api/index';
 type Props = BareProps & {
   children?: React.ReactNode,
   label?: string,
-  rpc_system_chain?: Text
+  system_chain?: Text
 };
 
 class Chain extends React.PureComponent<Props> {
   render () {
-    const { children, className, label = '', style, rpc_system_chain = 'unknown' } = this.props;
+    const { children, className, label = '', style, system_chain = 'unknown' } = this.props;
 
     return (
       <div
         className={className}
         style={style}
       >
-        {label}{rpc_system_chain.toString()}{children}
+        {label}{system_chain.toString()}{children}
       </div>
     );
   }

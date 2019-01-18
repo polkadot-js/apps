@@ -2,18 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Header } from '@polkadot/types';
-
 import React from 'react';
+import { HeaderExtended } from '@polkadot/types/Header';
 import { withCall } from '@polkadot/ui-api/index';
 
 import BlockHeader from './BlockHeader';
 
 export const MAX_ITEMS = 15;
 
-let blockHeaders: Array<Header> = [];
+let blockHeaders: Array<HeaderExtended> = [];
 
-const transform = (header: Header): Array<Header> => {
+const transform = (header: HeaderExtended): Array<HeaderExtended> => {
   if (!header) {
     return blockHeaders;
   }
@@ -35,7 +34,7 @@ const transform = (header: Header): Array<Header> => {
 };
 
 type Props = {
-  headers?: Array<Header>
+  headers?: Array<HeaderExtended>
 };
 
 class BlockHeaders extends React.PureComponent<Props> {

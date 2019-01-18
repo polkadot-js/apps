@@ -19,7 +19,7 @@ import { ZERO_BALANCE } from './constants';
 type Props = I18nProps & {
   amount: BN | Compact,
   fees: DerivedFees,
-  derive_balances_votingBalance?: DerivedBalances,
+  balances_votingBalance?: DerivedBalances,
   recipientId: string,
   onChange: (fees: ExtraFees) => void
 };
@@ -42,16 +42,16 @@ class Transfer extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ amount, recipientId, derive_balances_votingBalance = ZERO_BALANCE, fees, onChange }: Props): State {
+  static getDerivedStateFromProps ({ amount, recipientId, balances_votingBalance = ZERO_BALANCE, fees, onChange }: Props): State {
     let extraFees = fees.transferFee;
 
-    if (derive_balances_votingBalance.votingBalance.isZero()) {
+    if (balances_votingBalance.votingBalance.isZero()) {
       extraFees = extraFees.add(fees.creationFee);
     }
 
     const extraAmount = amount instanceof Compact ? amount.toBn() : new BN(amount);
-    const isCreation = derive_balances_votingBalance.votingBalance.isZero() && fees.creationFee.gtn(0);
-    const isNoEffect = extraAmount.add(derive_balances_votingBalance.votingBalance).lte(fees.existentialDeposit);
+    const isCreation = balances_votingBalance.votingBalance.isZero() && fees.creationFee.gtn(0);
+    const isNoEffect = extraAmount.add(balances_votingBalance.votingBalance).lte(fees.existentialDeposit);
     const extraWarn = isCreation || isNoEffect;
     const update = {
       extraAmount,
@@ -93,5 +93,5 @@ class Transfer extends React.PureComponent<Props, State> {
 export default withMulti(
   Transfer,
   translate,
-  withCall('derive.balances.votingBalance', { paramProp: 'recipientId' })
+  withCall('derive.balances.votingBalance', { paramName: 'recipientId' })
 );

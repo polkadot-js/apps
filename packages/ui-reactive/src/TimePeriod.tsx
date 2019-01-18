@@ -13,12 +13,12 @@ import { numberFormat } from './util/index';
 type Props = BareProps & {
   children?: React.ReactNode,
   label?: string,
-  query_timestamp_blockPeriod: Moment
+  timestamp_blockPeriod: Moment
 };
 
 class TimePeriod extends React.PureComponent<Props> {
   render () {
-    const { children, className, label = '', style, query_timestamp_blockPeriod } = this.props;
+    const { children, className, label = '', style, timestamp_blockPeriod } = this.props;
 
     return (
       <div
@@ -26,8 +26,8 @@ class TimePeriod extends React.PureComponent<Props> {
         style={style}
       >
         {label}{
-          query_timestamp_blockPeriod
-            ? `${numberFormat(query_timestamp_blockPeriod.toNumber() * 2)}s`
+          timestamp_blockPeriod
+            ? `${numberFormat(timestamp_blockPeriod.toNumber() * 2)}s`
             : '-'
           }{children}
       </div>

@@ -12,7 +12,7 @@ import Proposal from './Proposal';
 import translate from './translate';
 
 type Props = I18nProps & {
-  query_democracy_publicProps?: Array<Tuple>
+  democracy_publicProps?: Array<Tuple>
 };
 
 class Proposals extends React.PureComponent<Props> {
@@ -30,9 +30,9 @@ class Proposals extends React.PureComponent<Props> {
   }
 
   private renderProposals () {
-    const { query_democracy_publicProps, t } = this.props;
+    const { democracy_publicProps, t } = this.props;
 
-    if (!query_democracy_publicProps || !query_democracy_publicProps.length) {
+    if (!democracy_publicProps || !democracy_publicProps.length) {
       return (
         <div className='ui disabled'>
           {t('proposals.none', {
@@ -42,7 +42,7 @@ class Proposals extends React.PureComponent<Props> {
       );
     }
 
-    return query_democracy_publicProps.map((proposal) => (
+    return democracy_publicProps.map((proposal) => (
       <Proposal
         idNumber={proposal[0]}
         key={proposal[0].toString()}

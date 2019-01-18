@@ -16,7 +16,7 @@ import translate from './translate';
 type Props = I18nProps & {
   isDisabled: boolean,
   accountId?: string,
-  query_system_accountNonce?: Index,
+  system_accountNonce?: Index,
   extrinsic: SubmittableExtrinsic | null,
   queueExtrinsic: QueueTx$ExtrinsicAdd
 };
@@ -40,7 +40,7 @@ class Submit extends React.PureComponent<Props> {
   }
 
   private onMakeTransfer = () => {
-    const { accountId, query_system_accountNonce, extrinsic, queueExtrinsic } = this.props;
+    const { accountId, system_accountNonce, extrinsic, queueExtrinsic } = this.props;
 
     if (!extrinsic) {
       return;
@@ -49,7 +49,7 @@ class Submit extends React.PureComponent<Props> {
     queueExtrinsic({
       extrinsic,
       accountId,
-      accountNonce: query_system_accountNonce
+      accountNonce: system_accountNonce
     } as QueueTx$Extrinsic);
   }
 }
@@ -57,5 +57,5 @@ class Submit extends React.PureComponent<Props> {
 export default withMulti(
   Submit,
   translate,
-  withCall('query.system.accountNonce', { paramProp: 'accountId' })
+  withCall('query.system.accountNonce', { paramName: 'accountId' })
 );

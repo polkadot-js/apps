@@ -13,12 +13,12 @@ import { numberFormat } from './util/index';
 type Props = BareProps & {
   children?: React.ReactNode,
   label?: string,
-  derive_chain_bestNumber?: BlockNumber
+  chain_bestNumber?: BlockNumber
 };
 
 class BestNumber extends React.PureComponent<Props> {
   render () {
-    const { children, className, label = '', style, derive_chain_bestNumber } = this.props;
+    const { children, className, label = '', style, chain_bestNumber } = this.props;
 
     return (
       <div
@@ -26,8 +26,8 @@ class BestNumber extends React.PureComponent<Props> {
         style={style}
       >
         {label}{
-          derive_chain_bestNumber
-            ? numberFormat(derive_chain_bestNumber)
+          chain_bestNumber
+            ? numberFormat(chain_bestNumber)
             : '-'
           }{children}
       </div>
