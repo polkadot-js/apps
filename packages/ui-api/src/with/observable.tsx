@@ -4,7 +4,7 @@
 
 // TODO: Lots of duplicated code between this and withObservable, surely there is a better way of doing this?
 
-import { CallProps } from '../types';
+import { CallState } from '../types';
 import { HOC, Options, DefaultProps, RenderFn } from './types';
 
 import React from 'react';
@@ -14,7 +14,7 @@ import { catchError, map } from 'rxjs/operators';
 import echoTransform from '../transform/echo';
 import { intervalObservable, isEqual, triggerChange } from '../util/index';
 
-type State = CallProps & {
+type State = CallState & {
   subscriptions: Array<any>; // FIXME subscriptions
 };
 
