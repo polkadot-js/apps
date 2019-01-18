@@ -14,7 +14,9 @@ import extrinsics from './extrinsics';
 import rpc from './rpc';
 import settings from './settings';
 import staking from './staking';
+import status from './status';
 import storage from './storage';
+import template from './template';
 import toolbox from './toolbox';
 import transfer from './transfer';
 
@@ -27,7 +29,8 @@ const routes: Routes = appSettings.uiMode === 'light'
     accounts,
     addresses,
     null,
-    settings
+    settings,
+    status
   )
   : ([] as Routes).concat(
     explorer,
@@ -42,8 +45,10 @@ const routes: Routes = appSettings.uiMode === 'light'
     extrinsics,
     null,
     settings,
+    status,
     rpc,
-    toolbox
+    toolbox,
+    template
   );
 
 export default ({
