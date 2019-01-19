@@ -13,6 +13,10 @@
 
       &.hash {
         font-family: monospace;
+        max-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
       }
 
       &.number {
@@ -30,8 +34,12 @@
   }
 
   tbody {
-    tr:nth-child(odd) {
-      background-color: #f2f2f2;
+    tr {
+      width: 100%;
+
+      &:nth-child(odd) {
+        background-color: #f2f2f2;
+      }
     }
   }
 }

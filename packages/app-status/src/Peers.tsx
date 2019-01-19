@@ -34,20 +34,22 @@ class Peers extends React.PureComponent<Props> {
     }
 
     return (
-      <table>
-        <thead>
-          <tr>
-            <th className='number'>{t('index')}</th>
-            <th className='roles'>{t('role')}</th>
-            <th className='peerid'>{t('peer id')}</th>
-            <th className='number'>{t('best #')}</th>
-            <th className='hash'>{t('best hash')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {peers.map(this.renderPeer)}
-        </tbody>
-      </table>
+      <article>
+        <table>
+          <thead>
+            <tr>
+              <th className='number'>{t('index')}</th>
+              <th className='roles'>{t('role')}</th>
+              <th className='peerid'>{t('peer id')}</th>
+              <th className='number'>{t('best #')}</th>
+              <th className='hash'>{t('best hash')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {peers.map(this.renderPeer)}
+          </tbody>
+        </table>
+      </article>
     );
   }
 

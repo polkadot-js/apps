@@ -29,6 +29,17 @@ class Summary extends React.PureComponent<Props> {
                 : '-'
             }
           </CardSummary>
+          <CardSummary label={t('syncing')}>
+            {
+              info.health
+                ? (
+                  info.health.isSyncing.valueOf()
+                    ? t('yes')
+                    : t('no')
+                )
+                : '-'
+            }
+          </CardSummary>
         </section>
         <section>
           <CardSummary label={t('queued tx')}>
@@ -42,17 +53,6 @@ class Summary extends React.PureComponent<Props> {
         <section>
           <CardSummary label={t('best')}>
             <BestNumber />
-          </CardSummary>
-          <CardSummary label={t('syncing')}>
-            {
-              info.health
-                ? (
-                  info.health.isSyncing.valueOf()
-                    ? t('yes')
-                    : t('no')
-                )
-                : '-'
-            }
           </CardSummary>
         </section>
       </summary>
