@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2019 @polkadot/app-status authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -12,7 +12,7 @@ import { BestNumber } from '@polkadot/ui-reactive/index';
 import translate from './translate';
 
 type Props = I18nProps & {
-  info?: Info;
+  info: Info;
 };
 
 class Summary extends React.PureComponent<Props> {
@@ -22,11 +22,7 @@ class Summary extends React.PureComponent<Props> {
     return (
       <summary>
         <section>
-          <CardSummary
-            label={t('summary.peers', {
-              defaultValue: 'total peers'
-            })}
-          >
+          <CardSummary label={t('total peers')}>
             {
               info.health
                 ? `${info.health.peers.toNumber()}`
@@ -35,11 +31,7 @@ class Summary extends React.PureComponent<Props> {
           </CardSummary>
         </section>
         <section>
-          <CardSummary
-            label={t('summary.queued', {
-              defaultValue: 'queued tx'
-            })}
-          >
+          <CardSummary label={t('queued tx')}>
             {
               info.extrinsics
                 ? `${info.extrinsics.length}`
@@ -48,28 +40,16 @@ class Summary extends React.PureComponent<Props> {
           </CardSummary>
         </section>
         <section>
-          <CardSummary
-            label={t('summary.best', {
-              defaultValue: 'best'
-            })}
-          >
+          <CardSummary label={t('best')}>
             <BestNumber />
           </CardSummary>
-          <CardSummary
-            label={t('summary.sync', {
-              defaultValue: 'syncing'
-            })}
-          >
+          <CardSummary label={t('syncing')}>
             {
               info.health
                 ? (
                   info.health.isSyncing.valueOf()
-                    ? t('summary.syncyes', {
-                      defaultValue: 'yes'
-                    })
-                    : t('summary.syncno', {
-                      defaultValue: 'no'
-                    })
+                    ? t('yes')
+                    : t('no')
                 )
                 : '-'
             }

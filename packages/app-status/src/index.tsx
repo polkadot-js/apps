@@ -16,6 +16,8 @@ import Peers from './Peers';
 import Pending from './Pending';
 import Summary from './Summary';
 
+const POLL_TIMEOUT = 10000;
+
 type Props = ApiProps & AppProps;
 
 type State = {
@@ -44,13 +46,13 @@ class App extends React.PureComponent<Props, State> {
   }
 
   private setInfo (info?: Info) {
-    if (! this.isActive) {
+    if (!this.isActive) {
       return;
     }
 
     this.setState({
       info,
-      timerId: window.setTimeout(this.getStatus, 5000)
+      timerId: window.setTimeout(this.getStatus, POLL_TIMEOUT)
     });
   }
 
@@ -71,13 +73,13 @@ class App extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { info } = this.state;
+    const { info = {} } = this.state;
 
     return (
       <main className='status--App'>
         <Summary info={info} />
-        <Peers />
-        <Pending />
+        <Peers peers={info.peers} />
+        <Pending extrinsics={info.extrinsics} />
       </main>
     );
   }
