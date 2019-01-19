@@ -1,5 +1,5 @@
 {
-  "name": "@polkadot/app-status",
+  "name": "@polkadot/app-nodeinfo",
   "version": "0.22.26",
   "description": "Node status and information",
   "main": "index.js",

@@ -4,17 +4,17 @@
 
 import { Routes } from '../types';
 
-import Status from '@polkadot/app-status/index';
+import Nodeinfo from '@polkadot/app-nodeinfo/index';
 
 export default ([
   {
-    Component: Status,
+    Component: Nodeinfo,
     i18n: {
-      defaultValue: 'Status'
+      defaultValue: 'Node info'
     },
     icon: 'tty',
     isApiGated: true,
     isHidden: false,
-    name: 'status'
+    name: 'nodeinfo'
   }
 ] as Routes);

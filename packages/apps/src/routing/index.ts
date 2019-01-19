@@ -12,10 +12,10 @@ import addresses from './addresses';
 import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
+import nodeinfo from './nodeinfo';
 import rpc from './rpc';
 import settings from './settings';
 import staking from './staking';
-import status from './status';
 import storage from './storage';
 import toolbox from './toolbox';
 import transfer from './transfer';
@@ -30,7 +30,8 @@ const routes: Routes = appSettings.uiMode === 'light'
     addresses,
     null,
     settings,
-    status
+    nodeinfo,
+    template
   )
   : ([] as Routes).concat(
     explorer,
@@ -45,7 +46,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     extrinsics,
     null,
     settings,
-    status,
+    nodeinfo,
     rpc,
     toolbox,
     template

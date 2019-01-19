@@ -19,7 +19,7 @@ const packages = [
   'app-rpc',
   'app-settings',
   'app-staking',
-  'app-status',
+  'app-nodeinfo',
   'app-storage',
   'app-123code',
   'app-toolbox',
