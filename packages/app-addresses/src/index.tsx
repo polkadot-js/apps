@@ -2,9 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import './index.css';
 
@@ -18,10 +17,8 @@ import Creator from './Creator';
 import Editor from './Editor';
 import translate from './translate';
 
-type Props = I18nProps & {
-  allAddresses?: SubjectInfo,
-  basePath: string,
-  onStatusChange: (status: ActionStatus) => void
+type Props = AppProps & I18nProps & {
+  allAddresses?: SubjectInfo
 };
 
 type Actions = 'create' | 'edit';

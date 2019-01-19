@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { TabItem } from '@polkadot/ui-app/Tabs';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { Actions, ActionStatus } from '@polkadot/ui-app/Status/types';
+import { Actions } from '@polkadot/ui-app/Status/types';
 
 import './index.css';
 
@@ -20,10 +20,8 @@ import Restore from './Restore';
 import Vanity from './Vanity';
 import translate from './translate';
 
-type Props = I18nProps & {
-  allAccounts?: SubjectInfo,
-  onStatusChange: (status: ActionStatus) => void,
-  basePath: string
+type Props = AppProps & I18nProps & {
+  allAccounts?: SubjectInfo
 };
 
 type State = {

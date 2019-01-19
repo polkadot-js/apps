@@ -3,13 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SemanticICONS } from 'semantic-ui-react/dist/commonjs';
-import { BareProps } from '@polkadot/ui-app/types';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import { AppProps, BareProps } from '@polkadot/ui-app/types';
 
-export type RouteProps = BareProps & {
-  basePath: string,
-  onStatusChange: (status: ActionStatus) => void
-};
+export type RouteProps = AppProps & BareProps;
 
 export type Route = {
   Component: React.ComponentType<RouteProps>,

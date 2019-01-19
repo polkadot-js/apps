@@ -3,8 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { AccountId, Balance } from '@polkadot/types';
@@ -19,11 +18,9 @@ import translate from './translate';
 
 type Actions = 'actions' | 'overview';
 
-type Props = I18nProps & {
-  basePath: string,
+type Props = AppProps & I18nProps & {
   balances?: DerivedBalancesMap,
   intentions?: Array<AccountId>,
-  onStatusChange: (status: ActionStatus) => void,
   session_validators?: Array<AccountId>
 };
 

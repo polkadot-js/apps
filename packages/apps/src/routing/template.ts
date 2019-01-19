@@ -4,11 +4,11 @@
 
 import { Routes } from '../types';
 
-import Status from '@polkadot/app-template/index';
+import Template from '@polkadot/app-template/index';
 
 export default ([
   {
-    Component: Status,
+    Component: Template,
     i18n: {
       defaultValue: 'Template'
     },
