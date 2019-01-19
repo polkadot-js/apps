@@ -26,6 +26,7 @@ The repo is split into a number of packages, each representing an application. T
 - [app-rpc](packages/app-rpc/) Sumission of raw data to RPC endpoints.
 - [app-settings](packages/app-settings/) A basic settings management app, allowing choice of language, node to connect to, and theme
 - [app-staking](packages/app-staking/) A basic staking management app, allowing staking and nominations.
+- [app-nodeinfo](packages/app-nodeinfo/) Node information and status
 - [app-storage](packages/app-storage/) A simple node storage query application. Multiple queries can be queued and updates as new values become available.
 - [app-toolbox](packages/app-toolbox/) Utilities to manage data.
 - [app-transfer](packages/app-transfer/) A basic account management app, allowing transfer of DOTs between accounts.
@@ -56,6 +57,14 @@ There are additional environment UI flags that change both the theme and mode -
 
 - Running with `UI_MODE=light|full` switches from a full (the default) to a light mode interface that only has specific applications highlighted.
 - Running with `UI_THEME=substrate|polkadot` switches from a Polkadot theme (the default) to a Substrate-branded UI
+
+## I want to code around
+
+There is a base template availble [app-123code](packages/app-123code/) that acts as a simple starting point for adding additional apps to the UI. Alternatively if you just want some place where you can write some code, it does the trick.
+
+While it is hidden from the sidebar, it is accessible via [http://127.0.0.1:3000/#/123code](http://127.0.0.1:3000/#/123code)
+
+Be sure to follow the [app-123code/README.md](packages/app-template/README.md) instructions.
 
 ## Docker
 

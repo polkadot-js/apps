@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@polkadot/app-123code/*": [ "packages/app-123code/src/*" ],
       "@polkadot/app-accounts/*": [ "packages/app-accounts/src/*" ],
       "@polkadot/app-addresses/*": [ "packages/app-addresses/src/*" ],
       "@polkadot/app-democracy/*": [ "packages/app-democracy/src/*" ],
@@ -11,6 +12,7 @@
       "@polkadot/app-rpc/*": [ "packages/app-rpc/src/*" ],
       "@polkadot/app-settings/*": [ "packages/app-settings/src/*" ],
       "@polkadot/app-staking/*": [ "packages/app-staking/src/*" ],
+      "@polkadot/app-nodeinfo/*": [ "packages/app-nodeinfo/src/*" ],
       "@polkadot/app-storage/*": [ "packages/app-storage/src/*" ],
       "@polkadot/app-toolbox/*": [ "packages/app-toolbox/src/*" ],
       "@polkadot/app-transfer/*": [ "packages/app-transfer/src/*" ],

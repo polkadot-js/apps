@@ -62,9 +62,7 @@ class BlockByHash extends React.PureComponent<Props> {
 
     return (
       <section key='extrinsics'>
-        <h1>{t('block.extrinsics', {
-          defaultValue: 'extrinsics'
-        })}</h1>
+        <h1>{t('extrinsics')}</h1>
         <div className='explorer--BlockByHash-flexable'>
           {extrinsics.map(this.renderExtrinsic)}
         </div>
@@ -112,9 +110,9 @@ class BlockByHash extends React.PureComponent<Props> {
         <div>
           <AddressMini value={extrinsic.signature.signer} />
         </div>
-        <div className='explorer--BlockByHash-accountIndex'>{t('block.nonce', {
-          defaultValue: 'index'
-        })} {numberFormat(extrinsic.signature.nonce)}</div>
+        <div className='explorer--BlockByHash-accountIndex'>
+          {t('index')} {numberFormat(extrinsic.signature.nonce)}
+        </div>
       </div>
     );
   }

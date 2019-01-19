@@ -1,0 +1,16 @@
+{
+  "name": "@polkadot/app-123code",
+  "version": "0.22.26",
+  "description": "A baasic app that shows the ropes on customisation",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [
+    "Jaco Greeff <jacogr@gmail.com>"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@babel/runtime": "^7.2.0",
+    "@polkadot/ui-app": "^0.22.26"
+  }
+}
