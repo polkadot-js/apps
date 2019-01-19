@@ -63,18 +63,14 @@ class ChangePass extends React.PureComponent<Props, State> {
           <Button
             isNegative
             onClick={onClose}
-            text={t('change.close', {
-              defaultValue: 'Cancel'
-            })}
+            text={t('Cancel')}
           />
           <Button.Or />
           <Button
             isDisabled={!isNewValid || !isOldValid}
             isPrimary
             onClick={this.doChange}
-            text={t('change.change', {
-              defaultValue: 'Change'
-            })}
+            text={t('Change')}
           />
         </Button.Group>
       </Modal.Actions>
@@ -87,9 +83,7 @@ class ChangePass extends React.PureComponent<Props, State> {
 
     return [
       <Modal.Header key='header'>
-        {t('change.header', {
-          defaultValue: 'Change account password'
-        })}
+        {t('Change account password')}
       </Modal.Header>,
       <Modal.Content key='content'>
         <AddressSummary value={account.address()} />
@@ -97,14 +91,14 @@ class ChangePass extends React.PureComponent<Props, State> {
           <Password
             autoFocus
             isError={!isOldValid}
-            label={t('change.old', { defaultValue: 'old password' })}
+            label={t('old password')}
             onChange={this.onChangeOld}
             tabIndex={1}
             value={oldPass}
           />
           <Password
             isError={!isNewValid}
-            label={t('change.new', { defaultValue: 'new password' })}
+            label={t('new password')}
             onChange={this.onChangeNew}
             tabIndex={2}
             value={newPass}
@@ -131,9 +125,7 @@ class ChangePass extends React.PureComponent<Props, State> {
     } catch (error) {
       this.setState({ isOldValid: false });
 
-      status.message = t('status.error', {
-        defaultValue: error.message
-      });
+      status.message = error.message;
 
       return;
     }
@@ -143,9 +135,7 @@ class ChangePass extends React.PureComponent<Props, State> {
 
       status.account = account.address();
       status.status = 'success';
-      status.message = t('status.change-password', {
-        defaultValue: 'password changed'
-      });
+      status.message = t('password changed');
     } catch (error) {
       this.setState({ isNewValid: false });
 

@@ -60,18 +60,14 @@ class Backup extends React.PureComponent<Props, State> {
           <Button
             isNegative
             onClick={onClose}
-            text={t('backup.close', {
-              defaultValue: 'Cancel'
-            })}
+            text={t('Cancel')}
           />
           <Button.Or />
           <Button
             isDisabled={!isPassValid}
             isPrimary
             onClick={this.doBackup}
-            text={t('backup.download', {
-              defaultValue: 'Download'
-            })}
+            text={t('Download')}
           />
         </Button.Group>
       </Modal.Actions>
@@ -84,9 +80,7 @@ class Backup extends React.PureComponent<Props, State> {
 
     return [
       <Modal.Header key='header'>
-        {t('backup.header', {
-          defaultValue: 'Backup account'
-        })}
+        {t('Backup account')}
       </Modal.Header>,
       <Modal.Content
         className='app--account-Backup-content'
@@ -96,9 +90,7 @@ class Backup extends React.PureComponent<Props, State> {
         <div className='ui--row'>
           <Password
             isError={!isPassValid}
-            label={t('backup.password', {
-              defaultValue: 'unlock account using the password'
-            })}
+            label={t('unlock account using the password')}
             onChange={this.onChangePass}
             tabIndex={0}
             value={password}
@@ -126,9 +118,7 @@ class Backup extends React.PureComponent<Props, State> {
 
       status.account = pair.address();
       status.status = blob ? 'success' : 'error';
-      status.message = t('status.backup', {
-        defaultValue: 'account backed up'
-      });
+      status.message = t('account backed up');
 
       FileSaver.saveAs(blob, `${pair.address()}.json`);
     } catch (error) {
@@ -136,9 +126,7 @@ class Backup extends React.PureComponent<Props, State> {
       console.error(error);
 
       status.status = 'error';
-      status.message = t('status.error', {
-        defaultValue: error.message
-      });
+      status.message = error.message;
       return;
     }
 
