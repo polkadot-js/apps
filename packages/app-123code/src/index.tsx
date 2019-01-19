@@ -16,7 +16,9 @@ type State = {};
 
 class App extends React.PureComponent<Props, State> {
   render () {
-    return 'empty';
+    return (
+      <main className='template--App'>empty</main>
+    );
   }
 }
 
