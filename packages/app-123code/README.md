@@ -1,4 +1,4 @@
-# @polkadot/app-template
+# @polkadot/app-123code
 
 A simple template to get started with adding an "app" to this UI. It contains the bare minimum for a nicely hackable app (if you just want to code _somewhere_) and the steps needed to create, add and register an new app that appears in the UI.
 
@@ -6,7 +6,7 @@ A simple template to get started with adding an "app" to this UI. It contains th
 
 If you want to add a new app to the UI, this is the place to start.
 
-1. Duplicate this `app-template` folder and give it an appropriate name, in this case we will select `app-example` to keep things clear.
+1. Duplicate this `app-123code` folder and give it an appropriate name, in this case we will select `app-example` to keep things clear.
 2. Edit the `apps-example/package.json` app description, i.e. the name, author and relevant overview.
 
 And we have the basic app source setup, time to get the tooling correct.

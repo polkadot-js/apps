@@ -21,7 +21,7 @@ const packages = [
   'app-staking',
   'app-status',
   'app-storage',
-  'app-template',
+  'app-123code',
   'app-toolbox',
   'app-transfer',
   'ui-api',

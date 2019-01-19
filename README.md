@@ -60,11 +60,11 @@ There are additional environment UI flags that change both the theme and mode -
 
 ## I want to code around
 
-There is a base template availble [app-template](packages/app-template/) that acts as a simple starting point for adding additional apps to the UI. Alternatively if you just want some place where you can write some code, it does the trick.
+There is a base template availble [app-123code](packages/app-123code/) that acts as a simple starting point for adding additional apps to the UI. Alternatively if you just want some place where you can write some code, it does the trick.
 
-While it is hidden from the sidebar, it is accessible via [http://127.0.0.1:3000/#/template](http://127.0.0.1:3000/#/template)
+While it is hidden from the sidebar, it is accessible via [http://127.0.0.1:3000/#/123code](http://127.0.0.1:3000/#/123code)
 
-Be sure to follow the [app-template/README.md](packages/app-template/README.md) instructions.
+Be sure to follow the [app-123code/README.md](packages/app-template/README.md) instructions.
 
 ## Docker
 

@@ -6,6 +6,7 @@ import { Routing, Routes } from '../types';
 
 import appSettings from '@polkadot/ui-settings';
 
+import template from './123code';
 import accounts from './accounts';
 import addresses from './addresses';
 import democracy from './democracy';
@@ -16,7 +17,6 @@ import settings from './settings';
 import staking from './staking';
 import status from './status';
 import storage from './storage';
-import template from './template';
 import toolbox from './toolbox';
 import transfer from './transfer';
 
