@@ -139,18 +139,18 @@ export default class Queue extends React.Component<Props, State> {
     });
   }
 
-  private estimateTransactionSize(params: Array<any>) {
+  private estimateTransactionSize (params: Array<any>) {
     let bytesTotal = 0;
-    for(var i = 0; i < params.length; i++) {
-      if(typeof params[i] === 'boolean') {
+    for (let i = 0; i < params.length; i++) {
+      if (typeof params[i] === 'boolean') {
         bytesTotal += 4;
-      } else if(typeof params[i] === 'number') {
+      } else if (typeof params[i] === 'number') {
         bytesTotal += 8;
-      } else if(typeof params[i] === 'string') {
+      } else if (typeof params[i] === 'string') {
         // 2B per string character
         bytesTotal += params[i].length * 2;
         // get accurate count of size of typed arrays
-      } else if(params[i].byteLength != undefined) {
+      } else if (params[i].byteLength !== undefined) {
         bytesTotal += params[i].byteLength;
       } else {
         // if none of the above, estimate by converting to JSON
@@ -163,10 +163,10 @@ export default class Queue extends React.Component<Props, State> {
   private queueAdd = (value: QueueTx$Extrinsic | QueueTx$Rpc | QueueTx): number => {
     const id = ++nextId;
     const rpc: RpcMethod = (value as QueueTx$Rpc).rpc || SUBMIT_RPC;
-    
+
     // check to see if the data we are passing to the RPC is more than 10MB in length
     // 2B per string character
-    if(this.estimateTransactionSize((value as QueueTx$Rpc).values) >= MAX_TRANSACTION_SIZE) {
+    if (this.estimateTransactionSize((value as QueueTx$Rpc).values) >= MAX_TRANSACTION_SIZE) {
       this.queueAction({
         action: `${rpc.section}.${rpc.method}`,
         status: 'error',
