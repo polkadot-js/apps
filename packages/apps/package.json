@@ -24,7 +24,6 @@
     "@polkadot/app-storage": "^0.22.29",
     "@polkadot/app-toolbox": "^0.22.29",
     "@polkadot/app-transfer": "^0.22.29",
-    "@polkadot/app-vanitygen": "^0.22.18",
     "@polkadot/ui-app": "^0.22.29",
     "@polkadot/ui-assets": "^0.25.7",
     "@polkadot/ui-signer": "^0.22.29"
