@@ -1413,20 +1413,6 @@
     "@types/rx" "^4.1.1"
     rxjs "^6.3.3"
 
-"@polkadot/app-vanitygen@^0.22.18":
-  version "0.22.18"
-  resolved "https://registry.yarnpkg.com/@polkadot/app-vanitygen/-/app-vanitygen-0.22.18.tgz#2bbef8809c2f7bc7ccf479f1331b92ce0b9c4286"
-  integrity sha512-2V6r7Xgi0YXtdVErCTGXlPf0Y8OUXxLgaCmd+rMmFr4eOLv6F/u+rq/2Nax/QMue8o/Qu1mWo3vLpEK9bp8H4g==
-  dependencies:
-    "@babel/runtime" "^7.2.0"
-    "@polkadot/ui-app" "^0.22.18"
-    "@types/yargs" "^12.0.5"
-    babel-plugin-module-resolver "^3.1.1"
-    libsodium-wrappers "^0.7.3"
-    yargs "^12.0.5"
-  optionalDependencies:
-    sodium "^3.0.2"
-
 "@polkadot/dev-react@^0.23.13":
   version "0.23.13"
   resolved "https://registry.yarnpkg.com/@polkadot/dev-react/-/dev-react-0.23.13.tgz#ba62bdc9bd7402acf21cdf9559444db89dea0b6e"
