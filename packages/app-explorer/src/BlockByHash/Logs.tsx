@@ -25,9 +25,7 @@ class Logs extends React.PureComponent<Props> {
 
     return (
       <section>
-        <h1>{t('block.logs', {
-          defaultValue: 'logs'
-        })}</h1>
+        <h1>{t('logs')}</h1>
         <div className='explorer--BlockByHash-flexable'>
           {value.map(this.renderItem)}
         </div>

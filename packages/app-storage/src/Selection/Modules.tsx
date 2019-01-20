@@ -55,9 +55,7 @@ class Modules extends React.PureComponent<Props, State> {
         <div className='storage--actionrow-value'>
           <InputStorage
             defaultValue={this.defaultValue}
-            labelSection={t('selection.section', {
-              defaultValue: 'query state section'
-            })}
+            labelSection={t('query state section')}
             onChange={this.onChangeKey}
           />
           <Params

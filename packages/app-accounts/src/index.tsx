@@ -55,19 +55,19 @@ class AccountsApp extends React.PureComponent<Props, State> {
       items: [
         {
           name: 'edit',
-          text: t('app.edit', { defaultValue: 'Edit account' })
+          text: t('Edit account')
         },
         {
           name: 'create',
-          text: t('app.create', { defaultValue: 'Create account' })
+          text: t('Create account')
         },
         {
           name: 'restore',
-          text: t('app.restore', { defaultValue: 'Restore account' })
+          text: t('Restore account')
         },
         {
           name: 'vanity',
-          text: t('app.vanity', { defaultValue: 'Vanity address' })
+          text: t('Vanity address')
         }
       ]
     };

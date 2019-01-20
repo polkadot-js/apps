@@ -24,9 +24,7 @@ class Events extends React.PureComponent<Props> {
 
     return (
       <section>
-        <h1>{t('block.events', {
-          defaultValue: 'events'
-        })}</h1>
+        <h1>{t('events')}</h1>
         <div className='explorer--BlockByHash-flexable'>
           <EventsDisplay
             eventClassName='explorer--BlockByHash-block'

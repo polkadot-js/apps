@@ -47,16 +47,12 @@ class App extends React.PureComponent<Props, State> {
     return (
       <main className='settings--App'>
         <section>
-          <h1>{t('settings.general', {
-            defaultValue: 'general'
-          })}</h1>
+          <h1>{t('general')}</h1>
           <div className='ui--row'>
             <div className='full'>
               <Dropdown
                 defaultValue={apiUrl}
-                label={t('select.api.url', {
-                  defaultValue: 'remote node/endpoint to connect to'
-                })}
+                label={t('remote node/endpoint to connect to')}
                 onChange={this.onChangeApiUrl}
                 options={settings.availableNodes}
               />
@@ -66,9 +62,7 @@ class App extends React.PureComponent<Props, State> {
             <div className='medium'>
               <Dropdown
                 defaultValue={uiTheme}
-                label={t('select.ui.theme', {
-                  defaultValue: 'default interface theme'
-                })}
+                label={t('default interface theme')}
                 onChange={this.onChangeUiTheme}
                 options={settings.availableUIThemes}
               />
@@ -76,9 +70,7 @@ class App extends React.PureComponent<Props, State> {
             <div className='medium'>
               <Dropdown
                 defaultValue={uiMode}
-                label={t('select.ui.mode', {
-                  defaultValue: 'interface operation mode'
-                })}
+                label={t('interface operation mode')}
                 onChange={this.onChangeUiMode}
                 options={settings.availableUIModes}
               />
@@ -89,9 +81,7 @@ class App extends React.PureComponent<Props, State> {
               <Dropdown
                 defaultValue={i18nLang}
                 isDisabled
-                label={t('select.i18n.lang', {
-                  defaultValue: 'default interface language'
-                })}
+                label={t('default interface language')}
                 onChange={this.onChangeLang}
                 options={settings.availableLanguages}
               />
@@ -99,14 +89,12 @@ class App extends React.PureComponent<Props, State> {
           </div>
         </section>
         <section>
-          <h1>{t('settings.developer', {
-            defaultValue: 'developer'
-          })}</h1>
+          <h1>{t('developer')}</h1>
           <div className='ui--row'>
             <div className='full'>
               <InputFile
                 isError={typesError}
-                label='additional type definitions (JSON)'
+                label={t('additional type definitions (JSON)')}
                 onChange={this.onChangeTypes}
                 placeholder={typesPlaceholder}
               />
@@ -117,9 +105,7 @@ class App extends React.PureComponent<Props, State> {
           <Button
             isPrimary
             onClick={this.save}
-            text={t('btn.do', {
-              defaultValue: 'Save & Reload'
-            })}
+            text={t('Save & Reload')}
           />
         </Button.Group>
       </main>

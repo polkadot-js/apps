@@ -24,9 +24,7 @@ class Referendums extends React.PureComponent<Props> {
 
     return (
       <section className='democracy--Referendums'>
-        <h1>{t('referendums.header', {
-          defaultValue: 'referendums'
-        })}</h1>
+        <h1>{t('referendums')}</h1>
         {this.renderReferendums()}
       </section>
     );
@@ -39,9 +37,7 @@ class Referendums extends React.PureComponent<Props> {
     if (!democracy_referendums || !democracy_referendums.length || (referendumCount === (democracy_nextTally || new BN(0)).toNumber())) {
       return (
         <div className='ui disabled'>
-          {t('proposals.none', {
-            defaultValue: 'no available referendums'
-          })}
+          {t('no available referendums')}
         </div>
       );
     }

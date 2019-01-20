@@ -68,9 +68,7 @@ class Verify extends React.PureComponent<Props, State> {
           defaultValue={defaultPublicKey}
           isError={!isValidAddress}
           isInput
-          label={t('verify.account', {
-            defaultValue: 'verify using address'
-          })}
+          label={t('verify using address')}
           onChange={this.onChangeAddress}
         />
       </div>
@@ -86,25 +84,17 @@ class Verify extends React.PureComponent<Props, State> {
         <Input
           autoFocus
           className='large'
-          label={t('verify.data', {
-            defaultValue: 'using the following data (hex or string)'
-          })}
+          label={t('using the following data (hex or string)')}
           onChange={this.onChangeData}
           value={data}
         />
         <Static
           className='small'
-          label={t('verify.isHex', {
-            defaultValue: 'hex input data'
-          })}
+          label={t('hex input data')}
           value={
             isHexData
-              ? t('verify.isHex.yes', {
-                defaultValue: 'Yes'
-              })
-              : t('verify.isHex.no', {
-                defaultValue: 'No'
-              })
+              ? t('Yes')
+              : t('No')
           }
         />
       </div>
@@ -127,9 +117,7 @@ class Verify extends React.PureComponent<Props, State> {
             />
           }
           isError={!isValidSignature}
-          label={t('verify.signature', {
-            defaultValue: 'checking the supplied signature'
-          })}
+          label={t('checking the supplied signature')}
           onChange={this.onChangeSignature}
           value={signature}
         />

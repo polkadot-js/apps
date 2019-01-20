@@ -33,7 +33,11 @@ class Pending extends React.PureComponent<Props> {
     const { extrinsics, t } = this.props;
 
     if (!extrinsics || !extrinsics.length) {
-      return t('no pending extrinsics are in the queue');
+      return (
+        <div className='ui disabled'>
+          {t('no pending extrinsics are in the queue')}
+        </div>
+      );
     }
 
     return (

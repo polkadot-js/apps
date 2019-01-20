@@ -140,9 +140,7 @@ class AddressSummary extends React.PureComponent<Props> {
       <BalanceDisplay
         balance={balance}
         className='ui--AddressSummary-balance'
-        label={t('addressSummary.balance', {
-          defaultValue: 'balance '
-        })}
+        label={t('balance ')}
         value={value}
       />
     );
@@ -184,9 +182,7 @@ class AddressSummary extends React.PureComponent<Props> {
         className='ui--AddressSummary-nonce'
         params={accountId.toString()}
       >
-        {t('addressSummary.transactions', {
-          defaultValue: ' transactions'
-        })}
+        {t(' transactions')}
       </Nonce>
     );
   }

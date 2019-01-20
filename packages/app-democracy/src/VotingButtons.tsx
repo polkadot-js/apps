@@ -28,18 +28,14 @@ class VotingButton extends React.PureComponent<Props> {
         <Button
           isDisabled={!accountId}
           isNegative
-          text={t('votebtn.nay', {
-            defaultValue: 'Nay'
-          })}
+          text={t('Nay')}
           onClick={this.onClickNo}
         />
         <Button.Or />
         <Button
           isDisabled={!accountId}
           isPositive
-          text={t('votebtn.aye', {
-            defaultValue: 'Aye'
-          })}
+          text={t('Aye')}
           onClick={this.onClickYes}
         />
       </Button.Group>

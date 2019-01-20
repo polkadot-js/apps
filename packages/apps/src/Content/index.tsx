@@ -39,9 +39,7 @@ class Content extends React.Component<Props> {
     if (isApiGated && (!isApiReady || !isApiConnected)) {
       return (
         <div className='apps--Content-body'>
-          <main>{t('content.gated', {
-            defaultValue: 'Waiting for API to be connected and ready.'
-          })}</main>
+          <main>{t('Waiting for API to be connected and ready.')}</main>
         </div>
       );
     }

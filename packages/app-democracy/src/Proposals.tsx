@@ -21,9 +21,7 @@ class Proposals extends React.PureComponent<Props> {
 
     return (
       <section className='democracy--Proposals'>
-        <h1>{t('proposals.header', {
-          defaultValue: 'proposals'
-        })}</h1>
+        <h1>{t('proposals')}</h1>
         {this.renderProposals()}
       </section>
     );
@@ -35,9 +33,7 @@ class Proposals extends React.PureComponent<Props> {
     if (!democracy_publicProps || !democracy_publicProps.length) {
       return (
         <div className='ui disabled'>
-          {t('proposals.none', {
-            defaultValue: 'no available proposals'
-          })}
+          {t('no available proposals')}
         </div>
       );
     }

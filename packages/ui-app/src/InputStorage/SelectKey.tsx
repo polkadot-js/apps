@@ -38,9 +38,7 @@ class SelectKey extends React.PureComponent<Props> {
       <Dropdown
         className={classes('ui--DropdownLinked-Items', className)}
         isError={isError}
-        label={label || t('input.storage.key', {
-          defaultValue: 'with state key'
-        })}
+        label={label || t('with state key')}
         onChange={onChange}
         options={options}
         style={style}

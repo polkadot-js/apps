@@ -30,7 +30,11 @@ class Peers extends React.PureComponent<Props> {
     const { peers, t } = this.props;
 
     if (!peers || !peers.length) {
-      return t('no peers connected');
+      return (
+        <div className='ui disabled'>
+          {t('no peers connected')}
+        </div>
+      );
     }
 
     return (

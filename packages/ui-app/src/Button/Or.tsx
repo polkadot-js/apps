@@ -24,9 +24,7 @@ class ButtonOr extends React.PureComponent<Props> {
         style={style}
         text={
           isUndefined(text)
-            ? t('button.or', {
-              defaultValue: 'or'
-            })
+            ? t('or')
             : text
         }
       />

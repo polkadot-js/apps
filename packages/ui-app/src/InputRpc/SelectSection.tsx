@@ -31,9 +31,7 @@ class SelectSection extends React.PureComponent<Props> {
         className={classes('ui--DropdownLinked-Sections', className)}
         defaultValue={defaultValue}
         isError={isError}
-        label={label || t('input.rpc.section', {
-          defaultValue: 'rpc area'
-        })}
+        label={label || t('rpc area')}
         onChange={onChange}
         options={options}
         style={style}

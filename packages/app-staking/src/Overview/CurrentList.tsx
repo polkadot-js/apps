@@ -38,14 +38,13 @@ class CurrentList extends React.PureComponent<Props> {
 
     return [
       <h1 key='header'>
-        {t('list.current', {
-          defaultValue: 'validators',
+        {t('validators', {
           replace: {
             count: current.length
           }
         })}
       </h1>,
-      this.renderColumn(current, t('name.validator', { defaultValue: 'validator' }))
+      this.renderColumn(current, t('validator'))
     ];
   }
 
@@ -53,12 +52,8 @@ class CurrentList extends React.PureComponent<Props> {
     const { next, t } = this.props;
 
     return [
-      <h1 key='header'>
-        {t('list.next', {
-          defaultValue: 'next up'
-        })}
-      </h1>,
-      this.renderColumn(next, t('name.intention', { defaultValue: 'intention' }))
+      <h1 key='header'>{t('next up')}</h1>,
+      this.renderColumn(next, t('intention'))
     ];
   }
 
@@ -77,9 +72,7 @@ class CurrentList extends React.PureComponent<Props> {
 
     if (addresses.length === 0) {
       return (
-        <div key='none'>{t('list.empty', {
-          defaultValue: 'no addresses found'
-        })}</div>
+        <div key='none'>{t('no addresses found')}</div>
       );
     }
 

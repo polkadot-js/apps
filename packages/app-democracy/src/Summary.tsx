@@ -24,49 +24,33 @@ type Props = I18nProps & {
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { chain_bestNumber = new BN(0), democracy_launchPeriod, democracy_nextTally, democracy_publicPropCount, democracy_referendumCount, democracy_votingPeriod, t } = this.props;
+    const { chain_bestNumber = new BN(0), democracy_launchPeriod = new BN(1), democracy_nextTally = new BN(0), democracy_publicPropCount, democracy_referendumCount = new BN(0), democracy_votingPeriod = new BN(1), t } = this.props;
 
     return (
       <summary>
         <section>
-          <CardSummary
-            label={t('summary.proposalCount', {
-              defaultValue: 'proposals'
-            })}
-          >
+          <CardSummary label={t('proposals')}>
             {numberFormat(democracy_publicPropCount)}
           </CardSummary>
-          <CardSummary
-            label={t('summary.referendumCount', {
-              defaultValue: 'referendums'
-            })}
-          >
+          <CardSummary label={t('referendums')}>
             {numberFormat(democracy_referendumCount)}
           </CardSummary>
-          <CardSummary
-            label={t('summary.active', {
-              defaultValue: 'active num'
-            })}
-          >
-            {numberFormat((democracy_referendumCount || new BN(0)).sub(democracy_nextTally || new BN(0)))}
+          <CardSummary label={t('active')}>
+            {numberFormat(democracy_referendumCount.sub(democracy_nextTally))}
           </CardSummary>
         </section>
         <section>
           <CardSummary
-            label={t('summary.votingPeriod', {
-              defaultValue: 'voting period'
-            })}
+            label={t('voting period')}
             progress={{
-              value: chain_bestNumber.mod(democracy_votingPeriod || new BN(1)).addn(1),
-              total: democracy_votingPeriod || new BN(1)
+              value: chain_bestNumber.mod(democracy_votingPeriod).addn(1),
+              total: democracy_votingPeriod
             }}
           />
           <CardSummary
-            label={t('summary.launchPeriod', {
-              defaultValue: 'launch period'
-            })}
+            label={t('launch period')}
             progress={{
-              value: chain_bestNumber.mod(democracy_launchPeriod || new BN(1)).addn(1),
+              value: chain_bestNumber.mod(democracy_launchPeriod).addn(1),
               total: democracy_launchPeriod || new BN(1)
             }}
           />

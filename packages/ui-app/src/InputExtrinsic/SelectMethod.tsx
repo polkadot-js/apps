@@ -38,9 +38,7 @@ class SelectMethod extends React.PureComponent<Props> {
         <Dropdown
           className={classes('ui--DropdownLinked-Items', className)}
           isError={isError}
-          label={label || t('input.extrinsic.method', {
-            defaultValue: 'with the extrinsic'
-          })}
+          label={label || t('with the extrinsic')}
           onChange={onChange}
           options={options}
           style={style}

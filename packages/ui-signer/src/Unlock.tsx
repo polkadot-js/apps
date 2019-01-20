@@ -57,9 +57,7 @@ class Unlock extends React.PureComponent<Props, State> {
             autoFocus={autoFocus}
             className='medium'
             isError={isError}
-            label={label || t('unlock.password', {
-              defaultValue: 'unlock account using the password'
-            })}
+            label={label || t('unlock account using the password')}
             onChange={onChange}
             onKeyDown={onKeyDown}
             tabIndex={tabIndex}

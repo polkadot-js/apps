@@ -62,42 +62,32 @@ class Editor extends React.PureComponent<Props, State> {
         <Button
           isNegative
           onClick={this.toggleForget}
-          text={t('editor.forget', {
-            defaultValue: 'Forget'
-          })}
+          text={t('Forget')}
         />
         <Button.Group.Divider />
         <Button
           isDisabled={isEdited}
           onClick={this.toggleBackup}
-          text={t('editor.backup', {
-            defaultValue: 'Backup'
-          })}
+          text={t('Backup')}
         />
         <Button.Or />
         <Button
           isDisabled={isEdited}
           onClick={this.togglePass}
-          text={t('editor.changePass', {
-            defaultValue: 'Change Password'
-          })}
+          text={t('Change Password')}
         />
         <Button.Group.Divider />
         <Button
           isDisabled={!isEdited}
           onClick={this.onDiscard}
-          text={t('editor.reset', {
-            defaultValue: 'Reset'
-          })}
+          text={t('Reset')}
         />
         <Button.Or />
         <Button
           isDisabled={!isEdited}
           isPrimary
           onClick={this.onCommit}
-          text={t('editor.save', {
-            defaultValue: 'Save'
-          })}
+          text={t('Save')}
         />
       </Button.Group>
     );
@@ -123,9 +113,7 @@ class Editor extends React.PureComponent<Props, State> {
               className='full'
               hideAddress
               isInput={false}
-              label={t('editor.select', {
-                defaultValue: 'using my account'
-              })}
+              label={t('using my account')}
               onChange={this.onChangeAccount}
               type='account'
               value={address}
@@ -135,9 +123,7 @@ class Editor extends React.PureComponent<Props, State> {
             <Input
               className='full'
               isEditable
-              label={t('editor.name', {
-                defaultValue: 'identified by the name'
-              })}
+              label={t('identified by the name')}
               onChange={this.onChangeName}
               value={editedName}
             />
@@ -270,9 +256,7 @@ class Editor extends React.PureComponent<Props, State> {
       });
 
       status.status = current.getMeta().name === editedName ? 'success' : 'error';
-      status.message = t('status.editted', {
-        defaultValue: 'name edited'
-      });
+      status.message = t('name edited');
     } catch (error) {
       status.status = 'error';
       status.message = error.message;
@@ -349,12 +333,10 @@ class Editor extends React.PureComponent<Props, State> {
             current.address()
           );
           status.status = 'success';
-          status.message = t('status.forgotten', {
-            defaultValue: 'account forgotten'
-          });
-        } catch (err) {
+          status.message = t('account forgotten');
+        } catch (error) {
           status.status = 'error';
-          status.message = err.message;
+          status.message = error.message;
         }
 
         onStatusChange(status);

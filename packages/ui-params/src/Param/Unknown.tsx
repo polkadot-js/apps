@@ -32,9 +32,7 @@ class Unknown extends React.PureComponent<Props> {
           <Static
             className='full'
             label={label}
-            value={value || t('unknown.empty', {
-              defaultValue: 'empty'
-            })}
+            value={value || t('empty')}
           />
         </Bare>
       );

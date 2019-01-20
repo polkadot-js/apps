@@ -48,23 +48,17 @@ class Selection extends React.PureComponent<Props, State> {
       <div className='extrinsics--Selection'>
         <Account
           isInput={false}
-          label={t('display.sender', {
-            defaultValue: 'using the selected account'
-          })}
+          label={t('using the selected account')}
           onChange={this.onChangeSender}
           type='account'
         />
         <ExtrinsicDisplay
           defaultValue={defaultExtrinsic}
-          labelMethod={t('display.method', {
-            defaultValue: 'submit the following extrinsic'
-          })}
+          labelMethod={t('submit the following extrinsic')}
           onChange={this.onChangeExtrinsic}
         />
         <Nonce
-          label={t('display.nonce', {
-            defaultValue: 'with an index'
-          })}
+          label={t('with an index')}
           callOnResult={this.onChangeNonce}
           value={accountId}
         />
@@ -72,18 +66,14 @@ class Selection extends React.PureComponent<Props, State> {
           <Button
             isDisabled={!isValid}
             onClick={this.onQueueInherent}
-            text={t('submit.label', {
-              defaultValue: 'Submit Inherent'
-            })}
+            text={t('Submit Inherent')}
           />
           <Button.Or />
           <Button
             isDisabled={!isValid}
             isPrimary
             onClick={this.onQueueExtrinsic}
-            text={t('submit.label', {
-              defaultValue: 'Submit Transaction'
-            })}
+            text={t('Submit Transaction')}
           />
         </Button.Group>
       </div>

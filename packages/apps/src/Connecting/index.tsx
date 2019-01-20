@@ -29,13 +29,10 @@ class Connecting extends React.PureComponent<Props> {
     return (
       <div className='apps--Connecting'>
         <div className='apps--Connecting-text'>
-          {t('connecting.disconnected', {
-            defaultValue: 'You are not connected to a node. Ensure that your node is running and that the Websocket endpoint is reachable.'
-          })}&nbsp;
+          {t('You are not connected to a node. Ensure that your node is running and that the Websocket endpoint is reachable.')}&nbsp;
           {
             isFirefox && settings.apiUrl.indexOf('ws://') === 0
-              ? t('connecting.ff', {
-                defaultValue: 'With the Firefox browser connecting to insecure WebSockets (in this case {{url}}) will fail due to the browser not allowing localhost access from a secure site.',
+              ? t('With the Firefox browser connecting to insecure WebSockets (in this case {{url}}) will fail due to the browser not allowing localhost access from a secure site.', {
                 replace: {
                   url: settings.apiUrl
                 }

@@ -131,17 +131,13 @@ class Account extends React.PureComponent<Props, State> {
           <Button
             isPrimary
             onClick={this.stake}
-            text={t('account.stake', {
-              defaultValue: 'stake'
-            })}
+            text={t('Stake')}
           />
           <Button.Or />
           <Button
             isPrimary
             onClick={this.toggleNominate}
-            text={t('account.nominate', {
-              defaultValue: 'nominate'
-            })}
+            text={t('Nominate')}
           />
         </Button.Group>
       );
@@ -164,9 +160,7 @@ class Account extends React.PureComponent<Props, State> {
         <Button
           isNegative
           onClick={this.unstake}
-          text={t('account.unstake', {
-            defaultValue: 'unstake'
-          })}
+          text={t('Unstake')}
         />
       </Button.Group>
     );

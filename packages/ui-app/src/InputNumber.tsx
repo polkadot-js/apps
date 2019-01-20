@@ -100,9 +100,7 @@ class InputNumber extends React.PureComponent<Props, State> {
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
-          placeholder={t('inputnumber.placeholder', {
-            defaultValue: 'Positive number'
-          })}
+          placeholder={t('Positive number')}
           type='text'
         >
           {this.renderSiDropdown()}

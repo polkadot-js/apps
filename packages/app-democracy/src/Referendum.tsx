@@ -123,26 +123,16 @@ class Referendum extends React.PureComponent<Props, State> {
 
     return (
       <div className='democracy--Referendum-info'>
-        <Static
-          label={t('referendum.endLabel', {
-            defaultValue: 'ending at'
-          })}
-        >
-          {t('referendum.endInfo', {
-            defaultValue: 'block #{{blockNumber}}, {{remaining}} blocks remaining',
+        <Static label={t('ending at')}>
+          {t('block #{{blockNumber}}, {{remaining}} blocks remaining', {
             replace: {
               blockNumber: numberFormat(end),
               remaining: numberFormat(end.sub(chain_bestNumber).subn(1))
             }
           })}
         </Static>
-        <Static
-          label={t('referendum.enactLabel', {
-            defaultValue: 'activate at (if passed)'
-          })}
-        >
-          {t('referendum.enactInfo', {
-            defaultValue: 'block #{{blockNumber}}',
+        <Static label={t('activate at (if passed)')}>
+          {t('block #{{blockNumber}}', {
             replace: {
               blockNumber: numberFormat(enactBlock)
             }
@@ -151,11 +141,12 @@ class Referendum extends React.PureComponent<Props, State> {
         <VoteThreshold
           isDisabled
           defaultValue={{ value: threshold } as RawParam}
-          label={t('referendum.thresholdLabel', {
-            defaultValue: 'vote threshold'
-          })}
+          label={t('vote threshold')}
           name='voteThreshold'
-          type={{ info: 0, type: 'VoteThreshold' }}
+          type={{
+            info: 0,
+            type: 'VoteThreshold'
+          }}
         />
       </div>
     );

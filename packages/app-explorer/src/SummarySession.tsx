@@ -45,9 +45,7 @@ class SummarySession extends React.PureComponent<Props> {
   //   return (
   //     <CardSummary
   //       key='brokenCount'
-  //       label={t('summary.brokenCount', {
-  //         defaultValue: 'lateness'
-  //       })}
+  //       label={t('lateness')}
   //       progress={{
   //         color: 'autoReverse',
   //         isPercent: true,
@@ -68,9 +66,7 @@ class SummarySession extends React.PureComponent<Props> {
     return (
       <CardSummary
         key='eraProgress'
-        label={t('summary.eraProgress', {
-          defaultValue: 'era'
-        })}
+        label={t('era')}
         progress={{
           total: session_eraLength,
           value: session_eraProgress
@@ -80,7 +76,7 @@ class SummarySession extends React.PureComponent<Props> {
   }
 
   private renderSession () {
-    const { session_sessionProgress, session_sessionLength, t, withSession = true } = this.props;
+    const { session_sessionProgress, session_sessionLength = new BN(0), t, withSession = true } = this.props;
 
     if (!withSession) {
       return null;
@@ -89,11 +85,9 @@ class SummarySession extends React.PureComponent<Props> {
     return (
       <CardSummary
         key='sessionProgress'
-        label={t('summary.sessionProgress', {
-          defaultValue: 'session'
-        })}
+        label={t('session')}
         progress={{
-          total: session_sessionLength || new BN(0),
+          total: session_sessionLength,
           value: session_sessionProgress
         }}
       />

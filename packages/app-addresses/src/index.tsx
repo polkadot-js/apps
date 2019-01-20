@@ -50,11 +50,11 @@ class AddressesApp extends React.PureComponent<Props, State> {
       items: [
         {
           name: 'edit',
-          text: t('app.edit', { defaultValue: 'Edit address' })
+          text: t('Edit address')
         },
         {
           name: 'create',
-          text: t('app.create', { defaultValue: 'Add address' })
+          text: t('Add address')
         }
       ]
     };

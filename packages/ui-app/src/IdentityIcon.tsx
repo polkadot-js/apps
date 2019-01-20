@@ -36,13 +36,9 @@ class CopyIcon extends React.PureComponent<CopyProps> {
     if (queueAction) {
       queueAction({
         account,
-        action: t('identicon.copy', {
-          defaultValue: 'clipboard'
-        }),
+        action: t('clipboard'),
         status: 'queued',
-        message: t('identicon.copied', {
-          defaultValue: 'address copied'
-        })
+        message: t('address copied')
       });
     }
   }
