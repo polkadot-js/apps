@@ -23,7 +23,7 @@ type State = {
   nominee: string
 };
 
-class Nominating extends React.PureComponent<Props> {
+class Nominating extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -48,6 +48,7 @@ class Nominating extends React.PureComponent<Props> {
         className='staking--Nominating'
         dimmer='inverted'
         open
+        size='small'
         style={style}
       >
         {this.renderContent()}

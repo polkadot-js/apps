@@ -9,11 +9,12 @@ import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import { AccountId, Balance } from '@polkadot/types';
+import { AccountId, Balance, ValidatorPrefs } from '@polkadot/types';
 import { AddressMini, AddressSummary, Button } from '@polkadot/ui-app/index';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
 
 import Nominating from './Nominating';
+import Preferences from './Preferences';
 import UnnominateButton from './UnnominateButton';
 import translate from '../translate';
 
@@ -32,7 +33,8 @@ type Props = ApiProps & I18nProps & {
 
 type State = {
   isNominateOpen: boolean,
-  isNominating: boolean
+  isNominating: boolean,
+  isPrefsOpen: boolean
 };
 
 class Account extends React.PureComponent<Props, State> {
@@ -41,7 +43,8 @@ class Account extends React.PureComponent<Props, State> {
 
     this.state = {
       isNominateOpen: false,
-      isNominating: false
+      isNominating: false,
+      isPrefsOpen: false
     };
   }
 
@@ -55,7 +58,7 @@ class Account extends React.PureComponent<Props, State> {
 
   render () {
     const { accountId, balanceArray, intentions, name } = this.props;
-    const { isNominateOpen } = this.state;
+    const { isNominateOpen, isPrefsOpen } = this.state;
 
     return (
       <article className='staking--Account'>
@@ -64,6 +67,12 @@ class Account extends React.PureComponent<Props, State> {
           onClose={this.toggleNominate}
           onNominate={this.nominate}
           intentions={intentions}
+        />
+        <Preferences
+          accountId={accountId}
+          isOpen={isPrefsOpen}
+          onClose={this.togglePrefs}
+          onSetPrefs={this.setPrefs}
         />
         <AddressSummary
           balance={balanceArray(accountId)}
@@ -162,6 +171,12 @@ class Account extends React.PureComponent<Props, State> {
           onClick={this.unstake}
           text={t('Unstake')}
         />
+        <Button.Or />
+        <Button
+          isPrimary
+          onClick={this.togglePrefs}
+          text={t('Set Prefs')}
+        />
       </Button.Group>
     );
   }
@@ -183,6 +198,14 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
+  private togglePrefs = () => {
+    this.setState(
+      ({ isPrefsOpen }: State) => ({
+        isPrefsOpen: !isPrefsOpen
+      })
+    );
+  }
+
   private nominate = (nominee: string) => {
     const { api } = this.props;
 
@@ -197,6 +220,14 @@ class Account extends React.PureComponent<Props, State> {
     this.send(api.tx.staking.unnominate(index));
   }
 
+  private setPrefs = (prefs: ValidatorPrefs) => {
+    const { api } = this.props;
+
+    this.send(api.tx.staking.registerPreferences(this.getIntentionIndex(), prefs));
+
+    this.togglePrefs();
+  }
+
   private stake = () => {
     const { api } = this.props;
 
@@ -206,9 +237,13 @@ class Account extends React.PureComponent<Props, State> {
   private unstake = () => {
     const { api } = this.props;
 
+    this.send(api.tx.staking.unstake(this.getIntentionIndex()));
+  }
+
+  private getIntentionIndex (): number {
     const { accountId, intentions } = this.props;
 
-    this.send(api.tx.staking.unstake(intentions.indexOf(accountId)));
+    return intentions.indexOf(accountId);
   }
 }
 

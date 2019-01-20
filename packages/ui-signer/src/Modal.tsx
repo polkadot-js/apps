@@ -299,6 +299,8 @@ class Signer extends React.PureComponent<Props, State> {
   private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, id: number, extrinsicCall: (...params: Array<any>) => any, ..._params: Array<any>): Promise<void> {
     const { queueSetTxStatus } = this.props;
 
+    console.log('makeExtrinsicCall: extrinsic ::', extrinsic.toHex());
+
     try {
       const unsubscribe = await extrinsicCall.apply(extrinsic, [..._params, async (result: SubmittableSendResult) => {
         if (!result || !result.type || !result.status) {
@@ -307,7 +309,7 @@ class Signer extends React.PureComponent<Props, State> {
 
         const status = result.type.toLowerCase() as QueueTx$Status;
 
-        console.log('submitAndWatchExtrinsic: updated status ::', result);
+        console.log('makeExtrinsicCall: updated status ::', result);
 
         queueSetTxStatus(id, status, result);
 
