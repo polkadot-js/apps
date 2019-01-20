@@ -141,36 +141,26 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         {
           hasAvailable
             ? undefined
-            : <div><Icon name='ban' />{t('fees.available', {
-              defaultValue: 'The account does not have the required funds available for this transaction with the current provided values'
-            })}</div>
+            : <div><Icon name='ban' />{t('The account does not have the required funds available for this transaction with the current provided values')}</div>
         }
         {this.renderTransfer()}
         {this.renderProposal()}
         {
           isRemovable && hasAvailable
-            ? <div><Icon name='warning sign' />{t('fees.remove', {
-              defaultValue: 'Submitting this transaction will drop the account balance to below the existential amount, removing the account from the chain state and burning associated funds'
-            })}</div>
+            ? <div><Icon name='warning sign' />{t('Submitting this transaction will drop the account balance to below the existential amount, removing the account from the chain state and burning associated funds')}</div>
             : undefined
         }{
           isReserved
-            ? <div><Icon name='arrow right' />{t('fees.reserved', {
-              defaultValue: 'This account does have a reserved/locked balance, not taken into account'
-            })}</div>
+            ? <div><Icon name='arrow right' />{t('This account does have a reserved/locked balance, not taken into account')}</div>
             : undefined
         }
-        <div><Icon name='arrow right' />{t('fees.explain', {
-          defaultValue: 'Fees includes the transaction fee and the per-byte fee'
-        })}</div>
-        <div><Icon name='arrow right' />{t('fees', {
-          defaultValue: 'Fees totalling {{fees}} will be applied to the submission',
+        <div><Icon name='arrow right' />{t('Fees includes the transaction fee and the per-byte fee')}</div>
+        <div><Icon name='arrow right' />{t('Fees totalling {{fees}} will be applied to the submission', {
           replace: {
             fees: balanceFormat(allFees)
           }
         })}</div>
-        <div><Icon name='arrow right' />{t('total', {
-          defaultValue: '{{total}} total transaction amount (fees + value)',
+        <div><Icon name='arrow right' />{t('{{total}} total transaction amount (fees + value)', {
           replace: {
             total: balanceFormat(allTotal)
           }

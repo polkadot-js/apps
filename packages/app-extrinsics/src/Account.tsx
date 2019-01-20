@@ -71,9 +71,7 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <Labelled
         className='small'
-        label={t('account.balance', {
-          defaultValue: 'with an available balance of'
-        })}
+        label={t('with an available balance of')}
         withLabel={withLabel}
       >
         <Balance

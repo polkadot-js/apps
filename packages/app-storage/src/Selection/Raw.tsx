@@ -42,9 +42,7 @@ class Raw extends React.PureComponent<Props, State> {
         <div className='storage--actionrow-value'>
           <Input
             autoFocus
-            label={t('raw.label', {
-              defaultValue: 'hex-encoded storage key'
-            })}
+            label={t('hex-encoded storage key')}
             onChange={this.onChangeKey}
           />
         </div>

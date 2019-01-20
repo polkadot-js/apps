@@ -66,11 +66,11 @@ class App extends React.PureComponent<Props, State> {
     const items = [
       {
         name: 'overview',
-        text: t('app.overview', { defaultValue: 'Staking Overview' })
+        text: t('Staking Overview')
       },
       {
         name: 'actions',
-        text: t('app.actions', { defaultValue: 'Account Actions' })
+        text: t('Account Actions')
       }
     ];
 

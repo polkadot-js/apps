@@ -31,9 +31,7 @@ class SelectSection extends React.PureComponent<Props> {
         className={classes('ui--DropdownLinked-Sections', className)}
         defaultValue={defaultValue}
         isError={isError}
-        label={label || t('input.storage.section', {
-          defaultValue: 'state section'
-        })}
+        label={label || t('state section')}
         onChange={onChange}
         options={options}
         style={style}

@@ -45,9 +45,7 @@ class Transaction extends React.PureComponent<Props> {
 
     return [
       <Modal.Header key='header'>
-        {t('extrinsic.header', {
-          defaultValue: 'Submit Transaction'
-        })}
+        {t('Submit Transaction')}
       </Modal.Header>,
       <Modal.Content className='ui--signer-Signer-Content' key='content'>
         <div className='ui--signer-Signer-Decoded'>

@@ -35,9 +35,7 @@ class Query extends React.PureComponent<Props, State> {
             <Input
               className='storage--Query-actionrow-hash'
               isError={!isValid && hash.length !== 0}
-              placeholder={t('query', {
-                defaultValue: 'block hash to query'
-              })}
+              placeholder={t('block hash to query')}
               onChange={this.setHash}
             />
             <Labelled className='storage--Query-actionrow-button'>

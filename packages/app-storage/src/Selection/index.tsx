@@ -42,11 +42,11 @@ class Selection extends React.PureComponent<Props, State> {
       items: [
         {
           name: 'modules',
-          text: t('select.modules', { defaultValue: 'Modules' })
+          text: t('Modules')
         },
         {
           name: 'raw',
-          text: t('select.raw', { defaultValue: 'Raw key' })
+          text: t('Raw key')
         }
       ]
     };

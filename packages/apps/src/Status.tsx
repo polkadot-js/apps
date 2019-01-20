@@ -47,9 +47,7 @@ class Status extends React.PureComponent<Props> {
             account,
             action: `${section}.${method}`,
             status: 'event',
-            message: t('status.transfer', {
-              defaultValue: 'transfer received'
-            })
+            message: t('transfer received')
           });
         }
       } else if (section === 'democracy') {
@@ -58,8 +56,7 @@ class Status extends React.PureComponent<Props> {
         queueAction({
           action: `${section}.${method}`,
           status: 'event',
-          message: t('status.democracy', {
-            defaultValue: 'update on #{{index}}',
+          message: t('update on #{{index}}', {
             replace: {
               index
             }

@@ -74,13 +74,10 @@ class Transfer extends React.PureComponent<Props, State> {
 
     return [
       isNoEffect
-        ? <div key='noeffect'><Icon name='warning sign' />{t('transfer.noeffect', {
-          defaultValue: 'The final recipient amount is less than the existential amount, hence the total will be deducted from the sender, however the recipient account will not reflect the amount sent'
-        })}</div>
+        ? <div key='noeffect'><Icon name='warning sign' />{t('The final recipient amount is less than the existential amount, hence the total will be deducted from the sender, however the recipient account will not reflect the amount sent')}</div>
         : undefined,
       isCreation
-        ? <div key='create'><Icon name='warning sign' />{t('transfer.create', {
-          defaultValue: 'A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist',
+        ? <div key='create'><Icon name='warning sign' />{t('A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist', {
           replace: {
             creationFee: `${balanceFormat(fees.creationFee)}`
           }

@@ -31,9 +31,7 @@ class UnnominateButton extends React.Component<Props> {
         style={style}
         isNegative
         onClick={this.onClick}
-        text={t('account.unnominate', {
-          defaultValue: 'unnominate'
-        })}
+        text={t('Unnominate')}
       />
     );
   }

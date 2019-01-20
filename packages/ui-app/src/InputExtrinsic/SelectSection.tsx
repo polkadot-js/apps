@@ -31,9 +31,7 @@ class SelectSection extends React.PureComponent<Props> {
         className={classes('ui--DropdownLinked-Sections', className)}
         defaultValue={defaultValue}
         isError={isError}
-        label={label || t('input.extrinsic.section', {
-          defaultValue: 'from extrinsic section'
-        })}
+        label={label || t('from extrinsic section')}
         onChange={onChange}
         options={options}
         style={style}

@@ -61,18 +61,14 @@ class Creator extends React.PureComponent<Props, State> {
       <Button.Group>
         <Button
           onClick={this.onDiscard}
-          text={t('creator.discard', {
-            defaultValue: 'Reset'
-          })}
+          text={t('Reset')}
         />
         <Button.Or />
         <Button
           isDisabled={!isValid}
           isPrimary
           onClick={this.onCommit}
-          text={t('creator.save', {
-            defaultValue: 'Save'
-          })}
+          text={t('Save')}
         />
       </Button.Group>
     );
@@ -89,9 +85,7 @@ class Creator extends React.PureComponent<Props, State> {
             autoFocus
             className='full'
             isError={!isAddressValid}
-            label={t('creator.address', {
-              defaultValue: 'add the following address'
-            })}
+            label={t('add the following address')}
             onChange={this.onChangeAddress}
             value={address}
           />
@@ -100,9 +94,7 @@ class Creator extends React.PureComponent<Props, State> {
           <Input
             className='full'
             isError={!isNameValid}
-            label={t('creator.name', {
-              defaultValue: 'name the entry'
-            })}
+            label={t('name the entry')}
             onChange={this.onChangeName}
             value={name}
           />
@@ -189,19 +181,13 @@ class Creator extends React.PureComponent<Props, State> {
       status.account = address;
       status.status = address ? 'success' : 'error';
       status.message = isAddressExisting
-        ? t('status.edited', {
-          defaultValue: 'address edited'
-        })
-        : t('status.created', {
-          defaultValue: 'address created'
-        });
+        ? t('address edited')
+        : t('address created');
 
       InputAddress.setLastValue('address', address);
-    } catch (err) {
+    } catch (error) {
       status.status = 'error';
-      status.message = t('status.error', {
-        defaultValue: err.message
-      });
+      status.message = error.message;
     }
 
     onCreateAddress();

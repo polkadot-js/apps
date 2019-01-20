@@ -28,11 +28,9 @@ class ExtrinsicsApp extends React.PureComponent<Props> {
     if (!accountAll || !Object.keys(accountAll).length) {
       return (
         <main className='extrinsics--App'>
-          {t('accounts.none', {
-            defaultValue: 'There are no saved accounts. '
-          })}
+          {t('There are no saved accounts. ')}
           <Link to='/accounts'>
-          Add Accounts.
+            {t('Add Accounts.')}
           </Link>
         </main>
       );

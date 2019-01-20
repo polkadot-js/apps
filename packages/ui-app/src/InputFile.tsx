@@ -59,11 +59,8 @@ class InputFile extends React.PureComponent<Props, State> {
           <div className='label'>
             {
               !file
-                ? placeholder || t('file.dnd', {
-                  defaultValue: 'drag and drop the file here'
-                })
-                : placeholder || t('file.description', {
-                  defaultValue: '{{name}} ({{size}} bytes)',
+                ? placeholder || t('drag and drop the file here')
+                : placeholder || t('{{name}} ({{size}} bytes)', {
                   replace: file
                 })
             }

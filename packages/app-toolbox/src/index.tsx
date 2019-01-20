@@ -40,15 +40,15 @@ class ToolboxApp extends React.PureComponent<Props, State> {
     const items = [
       {
         name: 'hash',
-        text: t('app.hash', { defaultValue: 'Hash data' })
+        text: t('Hash data')
       },
       {
         name: 'sign',
-        text: t('app.sign', { defaultValue: 'Sign message' })
+        text: t('Sign message')
       },
       {
         name: 'verify',
-        text: t('app.verify', { defaultValue: 'Verify signature' })
+        text: t('Verify signature')
       }
     ];
 

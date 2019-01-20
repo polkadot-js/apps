@@ -62,9 +62,7 @@ class Restore extends React.PureComponent<Props, State> {
           isDisabled={!isFileValid || !isPassValid}
           isPrimary
           onClick={this.onSave}
-          text={t('restore.save', {
-            defaultValue: 'Restore'
-          })}
+          text={t('Restore')}
         />
       </Button.Group>
       </div>
@@ -74,33 +72,28 @@ class Restore extends React.PureComponent<Props, State> {
   private renderInput () {
     const { t } = this.props;
     const { isFileValid, isPassValid, password } = this.state;
-
     const acceptedFormats = ['application/json', 'text/plain'].join(', ');
 
     return (
       <div className='grow'>
         <div className='ui--row'>
-          <Password
-            autoFocus
-            className='full'
-            isError={!isPassValid}
-            label={t('restore.password', {
-              defaultValue: 'decrypt keyfile using the password'
-            })}
-            onChange={this.onChangePass}
-            value={password}
-          />
-        </div>
-        <div className='ui--row'>
           <InputFile
             accept={acceptedFormats}
             className='full'
             isError={!isFileValid}
-            label={t('restore.json', {
-              defaultValue: 'previously backed-up json keyfile'
-            })}
+            label={t('previously backed-up json keyfile')}
             onChange={this.onChangeFile}
             withLabel
+          />
+        </div>
+        <div className='ui--row'>
+          <Password
+            autoFocus
+            className='full'
+            isError={!isPassValid}
+            label={t('decrypt keyfile using the password')}
+            onChange={this.onChangePass}
+            value={password}
           />
         </div>
       </div>
@@ -152,9 +145,7 @@ class Restore extends React.PureComponent<Props, State> {
 
       status.status = pair ? 'success' : 'error';
       status.account = pair.address();
-      status.message = t('status.restored', {
-        defaultValue: 'account restored'
-      });
+      status.message = t('account restored');
 
       InputAddress.setLastValue('account', pair.address());
       onRestoreAccount();

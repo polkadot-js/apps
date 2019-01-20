@@ -58,9 +58,7 @@ class EventsRecent extends React.PureComponent<Props, State> {
     return (
       <div>
         <Events
-          emptyLabel={t('events.system-none', {
-            defaultValue: 'no recent non-system events available'
-          })}
+          emptyLabel={t('no recent non-system events available')}
           value={recentEvents}
           withoutIndex
         />

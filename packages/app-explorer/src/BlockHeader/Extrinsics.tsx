@@ -26,8 +26,7 @@ class Extrinsics extends React.PureComponent<Props> {
       <tr>
         <td className='type'>extrinsics</td>
         <td className='hash'>
-          {t('extrinsics.count', {
-            defaultValue: '{{count}} in block',
+          {t('{{count}} in block', {
             replace: {
               count: chain_getBlock.extrinsics.length
             }

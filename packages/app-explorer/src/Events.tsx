@@ -23,9 +23,7 @@ class Events extends React.PureComponent<Props> {
     const { emptyLabel, eventClassName, value, t } = this.props;
 
     if (!value || value.length === 0) {
-      return emptyLabel || t('events.none', {
-        defaultValue: 'no events available'
-      });
+      return emptyLabel || t('no events available');
     }
 
     return value
@@ -59,7 +57,11 @@ class Events extends React.PureComponent<Props> {
       >
         <div className='header'>
           <h3>
-            {extIndex === -1 ? '' : `#${numberFormat(extIndex)}: `}{event.section}.{event.method}
+            {
+              extIndex !== -1
+                ? `#${numberFormat(extIndex)}: `
+                : ''
+            }{event.section}.{event.method}
           </h3>
           <div className='description'>
             {

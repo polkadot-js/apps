@@ -113,9 +113,7 @@ class Signer extends React.PureComponent<Props, State> {
             isNegative
             onClick={this.onCancel}
             tabIndex={3}
-            text={t('extrinsic.cancel', {
-              defaultValue: 'Cancel'
-            })}
+            text={t('Cancel')}
           />
           <Button.Or />
           <Button
@@ -125,12 +123,8 @@ class Signer extends React.PureComponent<Props, State> {
             tabIndex={2}
             text={
               currentItem.isUnsigned
-                ? t('extrinsic.unsignedSend', {
-                  defaultValue: 'Submit (no signature)'
-                })
-                : t('extrinsic.signedSend', {
-                  defaultValue: 'Sign and Submit'
-                })
+                ? t('Submit (no signature)')
+                : t('Sign and Submit')
             }
           />
         </Button.Group>
