@@ -144,7 +144,7 @@ export default class Queue extends React.Component<Props, State> {
     for (let i = 0; i < params.length; i++) {
       if (typeof params[i] === 'boolean') {
         bytesTotal += 4;
-      } else if (typeof params[i] === 'number') {
+      } else if (typeof params[i] === 'number') {
         bytesTotal += 8;
       } else if (typeof params[i] === 'string') {
         // 2B per string character
