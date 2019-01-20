@@ -3,22 +3,23 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/ui-api/types';
-import { AppProps } from '@polkadot/ui-app/types';
+import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { Info } from './types';
 
 import React from 'react';
-import { withApi } from '@polkadot/ui-api/index';
+import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { Health, PeerInfo, PendingExtrinsics } from '@polkadot/types';
 
 import './index.css';
 
+import Extrinsics from '@polkadot/app-explorer/BlockByHash/Extrinsics';
 import Peers from './Peers';
-import Pending from './Pending';
 import Summary from './Summary';
+import translate from './translate';
 
 const POLL_TIMEOUT = 10000;
 
-type Props = ApiProps & AppProps;
+type Props = ApiProps & AppProps & I18nProps;
 
 type State = {
   info?: Info,
@@ -43,6 +44,22 @@ class App extends React.PureComponent<Props, State> {
     if (timerId) {
       window.clearTimeout(timerId);
     }
+  }
+
+  render () {
+    const { t } = this.props;
+    const { info = {} } = this.state;
+
+    return (
+      <main className='status--App'>
+        <Summary info={info} />
+        <Peers peers={info.peers} />
+        <Extrinsics
+          label={t('pending extrinsics')}
+          value={info.extrinsics}
+        />
+      </main>
+    );
   }
 
   private setInfo (info?: Info) {
@@ -71,18 +88,10 @@ class App extends React.PureComponent<Props, State> {
       this.setInfo();
     }
   }
-
-  render () {
-    const { info = {} } = this.state;
-
-    return (
-      <main className='status--App'>
-        <Summary info={info} />
-        <Peers peers={info.peers} />
-        <Pending extrinsics={info.extrinsics} />
-      </main>
-    );
-  }
 }
 
-export default withApi(App);
+export default withMulti(
+  App,
+  translate,
+  withApi
+);
