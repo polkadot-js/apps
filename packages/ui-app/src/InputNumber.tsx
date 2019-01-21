@@ -62,9 +62,7 @@ class InputNumber extends React.PureComponent<Props, State> {
           : text
       })),
       siUnit: '-',
-      valueBN: this.props.value
-        ? new BN(this.props.value)
-        : new BN(0)
+      valueBN: new BN(this.props.value || 0)
     };
   }
 
