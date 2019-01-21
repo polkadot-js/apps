@@ -71,5 +71,9 @@ export default withMulti(
   // React-router needs to be first, otherwise we have blocked updates
   withRouter,
   translate,
-  withCall('query.session.validators')
+  // these queries are used in a number of places, warm them up as to avoid
+  // constant un/resubscriptions on these
+  withCall('query.session.validators'),
+  withCall('derive.accounts.indexes'),
+  withCall('derive.balances.fees')
 );
