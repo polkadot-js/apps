@@ -50,7 +50,7 @@ class Peers extends React.PureComponent<Props> {
             </tr>
           </thead>
           <tbody>
-            {peers.map(this.renderPeer)}
+            {peers.sort((a, b) => a.index.cmp(b.index)).map(this.renderPeer)}
           </tbody>
         </table>
       </article>
