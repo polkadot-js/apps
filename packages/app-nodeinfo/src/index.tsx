@@ -7,12 +7,12 @@ import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { Info } from './types';
 
 import React from 'react';
+import Extrinsics from '@polkadot/app-explorer/BlockByHash/Extrinsics';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { Health, PeerInfo, PendingExtrinsics } from '@polkadot/types';
 
 import './index.css';
 
-import Extrinsics from '@polkadot/app-explorer/BlockByHash/Extrinsics';
 import Peers from './Peers';
 import Summary from './Summary';
 import translate from './translate';
@@ -23,12 +23,15 @@ type Props = ApiProps & AppProps & I18nProps;
 
 type State = {
   info?: Info,
+  nextRefresh: number,
   timerId?: number;
 };
 
 class App extends React.PureComponent<Props, State> {
   private isActive: boolean = true;
-  state: State = {};
+  state: State = {
+    nextRefresh: Date.now()
+  };
 
   componentDidMount () {
     this.getStatus().catch(() => {
@@ -48,11 +51,14 @@ class App extends React.PureComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { info = {} } = this.state;
+    const { info = {}, nextRefresh } = this.state;
 
     return (
       <main className='status--App'>
-        <Summary info={info} />
+        <Summary
+          info={info}
+          nextRefresh={nextRefresh}
+        />
         <Peers peers={info.peers} />
         <Extrinsics
           label={t('pending extrinsics')}
@@ -69,6 +75,7 @@ class App extends React.PureComponent<Props, State> {
 
     this.setState({
       info,
+      nextRefresh: (Date.now() + POLL_TIMEOUT),
       timerId: window.setTimeout(this.getStatus, POLL_TIMEOUT)
     });
   }

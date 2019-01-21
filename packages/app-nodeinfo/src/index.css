@@ -24,6 +24,7 @@
       }
 
       &.peerid {
+        font-style: italic;
         text-align: left;
       }
 
