@@ -224,6 +224,10 @@ header .ui--Button-Group {
   }
 }
 
+.ui--Labelled {
+  text-align: left;
+}
+
 .ui--Static {
   overflow: hidden;
   word-break: break-all;

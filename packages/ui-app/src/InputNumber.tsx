@@ -7,6 +7,7 @@ import { BareProps, BitLength, I18nProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { balanceFormat, calcSi } from '@polkadot/ui-reactive/util/index';
+import { isUndefined } from '@polkadot/util';
 
 import classes from './util/classes';
 import { BitLengthOption } from './constants';
@@ -25,6 +26,7 @@ type Props = BareProps & I18nProps & {
   maxLength?: number,
   onChange: (value?: BN) => void,
   placeholder?: string,
+  value?: BN | string,
   withLabel?: boolean
 };
 
@@ -52,7 +54,7 @@ class InputNumber extends React.PureComponent<Props, State> {
 
     this.state = {
       isPreKeyDown: false,
-      isValid: false,
+      isValid: !isUndefined(this.props.value),
       siOptions: balanceFormat.getOptions().map(({ power, text, value }) => ({
         value,
         text: power === 0
@@ -60,7 +62,9 @@ class InputNumber extends React.PureComponent<Props, State> {
           : text
       })),
       siUnit: '-',
-      valueBN: new BN(0)
+      valueBN: this.props.value
+        ? new BN(this.props.value)
+        : new BN(0)
     };
   }
 
