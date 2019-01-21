@@ -128,7 +128,7 @@ class Preferences extends React.PureComponent<Props, State> {
     }
   }
 
-  private onChangeThreshold = (unstakeThreshold: BN = new BN(0)) => {
+  private onChangeThreshold = (unstakeThreshold?: BN) => {
     if (unstakeThreshold) {
       this.setState({ unstakeThreshold });
     }
