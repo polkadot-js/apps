@@ -157,8 +157,6 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
           this.unsubscribe();
 
           if (isSubscription) {
-            console.error('subscribe', endpoint);
-
             this.destroy = await apiMethod(...params, (value?: any) =>
               this.triggerUpdate(this.props, value)
             );
@@ -176,7 +174,6 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
 
       private unsubscribe () {
         if (this.destroy) {
-          console.error('unsubscribe', endpoint);
           this.destroy();
           this.destroy = undefined;
         }
