@@ -17,7 +17,7 @@ import Peers from './Peers';
 import Summary from './Summary';
 import translate from './translate';
 
-const POLL_TIMEOUT = 10000;
+const POLL_TIMEOUT = 9900;
 
 type Props = ApiProps & AppProps & I18nProps;
 
