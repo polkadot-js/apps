@@ -13,72 +13,39 @@ import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
 import { Api } from '@polkadot/ui-api/index';
 
-import AddressMini from './AddressMini';
-import AddressRow from './AddressRow';
-import AddressSummary from './AddressSummary';
-import Balance from './Balance';
-import Button from './Button';
-import Call from './Call';
-import CardSummary from './CardSummary';
-import Chart from './Chart';
-import CopyButton from './CopyButton';
-import Dropdown from './Dropdown';
-import Event from './Event';
-import Icon from './Icon';
-import IdentityIcon from './IdentityIcon';
-import Input from './Input';
-import InputAddress from './InputAddress';
-import InputError from './InputError';
-import InputExtrinsic from './InputExtrinsic';
-import InputFile from './InputFile';
-import InputNumber from './InputNumber';
-import InputRpc from './InputRpc';
-import InputStorage from './InputStorage';
-import Labelled from './Labelled';
-import Menu from './Menu';
-import Modal from './Modal';
-import Output from './Output';
-import Password from './Password';
-import Progress from './Progress';
-import Static from './Static';
-import Status from './Status';
-import Tabs from './Tabs';
+export { default as AddressMini } from './AddressMini';
+export { default as AddressRow } from './AddressRow';
+export { default as AddressSummary } from './AddressSummary';
+export { default as Balance } from './Balance';
+export { default as Button } from './Button';
+export { default as Call } from './Call';
+export { default as CardSummary } from './CardSummary';
+export { default as Chart } from './Chart';
+export { default as CopyButton } from './CopyButton';
+export { default as Dropdown } from './Dropdown';
+export { default as Event } from './Event';
+export { default as Icon } from './Icon';
+export { default as IdentityIcon } from './IdentityIcon';
+export { default as Input } from './Input';
+export { default as InputAddress } from './InputAddress';
+export { default as InputError } from './InputError';
+export { default as InputExtrinsic } from './InputExtrinsic';
+export { default as InputFile } from './InputFile';
+export { default as InputNumber } from './InputNumber';
+export { default as InputRpc } from './InputRpc';
+export { default as InputStorage } from './InputStorage';
+export { default as Labelled } from './Labelled';
+export { default as Menu } from './Menu';
+export { default as Modal } from './Modal';
+export { default as Output } from './Output';
+export { default as Password } from './Password';
+export { default as Progress } from './Progress';
+export { default as Static } from './Static';
+export { default as Status } from './Status';
+export { default as Tabs } from './Tabs';
 
 type Props = BareProps & {
   url?: string
-};
-
-export {
-  AddressMini,
-  AddressRow,
-  AddressSummary,
-  Balance,
-  Button,
-  Call,
-  CardSummary,
-  Chart,
-  CopyButton,
-  Dropdown,
-  Event,
-  Icon,
-  IdentityIcon,
-  Input,
-  InputAddress,
-  InputError,
-  InputExtrinsic,
-  InputFile,
-  InputNumber,
-  InputRpc,
-  InputStorage,
-  Labelled,
-  Menu,
-  Modal,
-  Output,
-  Password,
-  Progress,
-  Static,
-  Status,
-  Tabs
 };
 
 export default function createApp (App: React.ComponentType<BareProps>, { className, style, url }: Props, rootId: string = 'root'): void {

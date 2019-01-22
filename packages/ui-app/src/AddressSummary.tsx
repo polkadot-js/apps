@@ -191,12 +191,12 @@ class AddressSummary extends React.PureComponent<Props> {
   protected renderChildren () {
     const { children } = this.props;
 
-    if (!children) {
+    if (!children || (Array.isArray(children) && children.length === 0)) {
       return null;
     }
 
     return (
-      <div className='ui--AddressSummary-children'>
+      <div className='ui--AddressSummary-children ui--hover'>
         {children}
       </div>
     );

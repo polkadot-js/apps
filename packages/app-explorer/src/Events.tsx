@@ -52,7 +52,7 @@ class Events extends React.PureComponent<Props> {
 
     return (
       <article
-        className='explorer--Container'
+        className={['explorer--Container', index ? 'ui--hoverable' : ''].join(' ')}
         key={index}
       >
         <div className='header'>
@@ -63,7 +63,7 @@ class Events extends React.PureComponent<Props> {
                 : ''
             }{event.section}.{event.method}
           </h3>
-          <div className='description hover'>
+          <div className='ui--hover description'>
             {
               event.meta.documentation && event.meta.documentation.length
                 ? event.meta.documentation.map((doc) => doc.toString()).join(' ')
@@ -72,7 +72,7 @@ class Events extends React.PureComponent<Props> {
           </div>
         </div>
         <EventDisplay
-          className='details hover'
+          className='ui--hover details'
           value={event}
         />
       </article>

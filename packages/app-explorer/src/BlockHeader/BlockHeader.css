@@ -15,25 +15,22 @@
     overflow: hidden;
   }
 
+  &.ui--hoverable {
+    .details > .contains {
+      margin-top: 0;
+    }
+
+    &:hover {
+      .details > .contains {
+        margin-top: 0.5rem;
+      }
+    }
+  }
+
   &.summary {
     .header .hash {
       /* 0.5 * 0.5 */
       opacity: 0.5625;
-    }
-
-    .hover {
-      height: 0;
-      transition: none;
-      transform: scale(0);
-    }
-
-    &:hover {
-      .hover {
-        height: auto;
-        margin-top: 0.5rem;
-        transform: scale(1);
-        transition: all 200ms ease-in;
-      }
     }
   }
 
@@ -93,6 +90,7 @@
 
     > .contains {
       border: 0;
+      margin-top: 0.5rem;
       opacity: 0.75;
 
       > .info {

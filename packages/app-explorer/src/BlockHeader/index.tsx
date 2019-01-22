@@ -35,7 +35,7 @@ export default class BlockHeader extends React.PureComponent<Props> {
     const textNumber = numberFormat(blockNumber);
 
     return (
-      <article className={['explorer--BlockHeader', isSummary ? 'summary' : ''].join(' ')}>
+      <article className={['explorer--BlockHeader', isSummary ? 'ui--hoverable summary' : ''].join(' ')}>
         <div className='details'>
           <div className='header'>
             <div className='number'>{
@@ -50,7 +50,7 @@ export default class BlockHeader extends React.PureComponent<Props> {
                 : undefined
             }</div>
           </div>
-          <div className='contains hover'>
+          <div className='ui--hover contains'>
             <div className='info'>
               <div className='type'>parentHash</div>
               <div className='hash'>{

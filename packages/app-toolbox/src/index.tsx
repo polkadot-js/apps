@@ -10,11 +10,12 @@ import React from 'react';
 import Tabs from '@polkadot/ui-app/Tabs';
 
 import Hash from './Hash';
+import Rpc from './Rpc';
 import Sign from './Sign';
 import Verify from './Verify';
 import translate from './translate';
 
-type Actions = 'hash' | 'sign' | 'verify';
+type Actions = 'hash' | 'rpc' | 'sign' | 'verify';
 
 type Props = AppProps & I18nProps;
 
@@ -24,13 +25,14 @@ type State = {
 
 const Components: { [index: string]: React.ComponentType<any> } = {
   'hash': Hash,
+  'rpc': Rpc,
   'sign': Sign,
   'verify': Verify
 };
 
 class ToolboxApp extends React.PureComponent<Props, State> {
   state: State = {
-    action: 'hash'
+    action: 'rpc'
   };
 
   render () {
@@ -38,6 +40,10 @@ class ToolboxApp extends React.PureComponent<Props, State> {
     const { action } = this.state;
     const Component = Components[action];
     const items = [
+      {
+        name: 'rpc',
+        text: 'RPC calls'
+      },
       {
         name: 'hash',
         text: t('Hash data')

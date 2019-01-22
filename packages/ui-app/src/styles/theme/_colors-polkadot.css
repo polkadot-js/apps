@@ -22,12 +22,19 @@ $light-slate-gray: #718d94;
 $moonstone-blue: #64bebe;
 $verdigris: #5badad;
 
-/* $primary-color: #4B77BE;
-$primary-color-hl: #6e92cb; */
 $primary-color: #2e86ab;
 $primary-color-hl: #579ebb;
+/*$primary-color: #d75ea1;
+$primary-color-hl: #d24a95;*/
 $secondary-color: #2e86ab;
 $secondary-color-hl: #579ebb;
+
+/*
+$anchor-color: #d75ea1;
+$anchor-color-hover: #d24a95;
+*/
+$anchor-color: $secondary-color;
+$anchor-color-hover: $secondary-color-hl;
 
 $button-primary-color: $primary-color;
 $button-primary-color-hover: $primary-color-hl;
@@ -40,9 +47,6 @@ $button-positive-color-hover: $verdigris;
 
 $button-negative-color: $wild-orchid;
 $button-negative-color-hover: $middle-purple;
-
-$anchor-color: $secondary-color;
-$anchor-color-hover: $secondary-color-hl;
 
 $progress-bar-color: $wild-orchid;
 $nav-link: $wild-orchid;

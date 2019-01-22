@@ -103,6 +103,22 @@ header .ui--Button-Group {
   padding-top: 0.5rem;
 }
 
+.ui--AddressRow .ui--AddressSummary-children {
+  display: block;
+}
+
+.ui--hoverable {
+  .ui--AddressSummary-children.ui--hover {
+    padding-top: 0;
+  }
+
+  &:hover {
+    .ui--AddressSummary-children.ui--hover {
+      padding-top: 0.5rem;
+    }
+  }
+}
+
 .ui--AddressSummary .rx--updated {
   background: transparent !important;
 }
