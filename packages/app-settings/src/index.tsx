@@ -18,10 +18,12 @@ import translate from './translate';
 
 type Props = AppProps & I18nProps;
 
-type State = SettingsStruct & {
-  types?: { [index: string]: any } | null,
-  typesError?: boolean,
-  typesPlaceholder?: string
+type State = {
+  settings: SettingsStruct & {
+    types?: { [index: string]: any } | null,
+    typesError?: boolean,
+    typesPlaceholder?: string
+  }
 };
 
 class App extends React.PureComponent<Props, State> {
@@ -30,19 +32,21 @@ class App extends React.PureComponent<Props, State> {
 
     const types = store.get('types') || {};
     const names = Object.keys(types);
-    const state = settings.get();
+    const presets = settings.get();
 
     this.state = {
-      ...state,
-      typesPlaceholder: names.length
-        ? names.join(', ')
-        : undefined
+      settings: {
+        ...presets,
+        typesPlaceholder: names.length
+          ? names.join(', ')
+          : undefined
+      }
     };
   }
 
   render () {
     const { t } = this.props;
-    const { apiUrl, i18nLang, typesPlaceholder, typesError, uiMode, uiTheme } = this.state;
+    const { settings: { apiUrl, i18nLang, typesPlaceholder, typesError, uiMode, uiTheme } } = this.state;
 
     return (
       <main className='settings--App'>
@@ -113,7 +117,12 @@ class App extends React.PureComponent<Props, State> {
   }
 
   private onChangeApiUrl = (apiUrl: string): void => {
-    this.setState({ apiUrl });
+    this.setState(({ settings }: State) => ({
+      settings: {
+        ...settings,
+        apiUrl
+      }
+    }));
   }
 
   private onChangeLang = (i18nLang: string): void => {
@@ -129,34 +138,50 @@ class App extends React.PureComponent<Props, State> {
 
       typeRegistry.register(types);
 
-      this.setState({
-        types,
-        typesError: false,
-        typesPlaceholder
-      });
+      this.setState(({ settings }: State) => ({
+        settings: {
+          ...settings,
+          types,
+          typesError: false,
+          typesPlaceholder
+        }
+      }));
     } catch (error) {
       console.error('Registering types:', error);
 
-      this.setState({
-        types: null,
-        typesError: true,
-        typesPlaceholder: error.message
-      });
+      this.setState(({ settings }: State) => ({
+        settings: {
+          ...settings,
+          types: null,
+          typesError: true,
+          typesPlaceholder: error.message
+        }
+      }));
     }
   }
 
   private onChangeUiMode = (uiMode: string): void => {
-    this.setState({ uiMode });
+    this.setState(({ settings }: State) => ({
+      settings: {
+        ...settings,
+        uiMode
+      }
+    }));
   }
 
   private onChangeUiTheme = (uiTheme: string): void => {
-    this.setState({ uiTheme });
+    this.setState(({ settings }: State) => ({
+      settings: {
+        ...settings,
+        uiTheme
+      }
+    }));
   }
 
   private save = (): void => {
-    const { types, typesError } = this.state;
+    const { settings: { types, typesError } } = this.state;
 
-    settings.set(this.state);
+    settings.set(this.state.settings);
 
     if (types && !typesError) {
       store.set('types', types);
