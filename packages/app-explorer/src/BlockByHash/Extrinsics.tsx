@@ -60,7 +60,7 @@ class Extrinsics extends React.PureComponent<Props> {
             <h3>
               #{numberFormat(index)}:&nbsp;{section}.{method}
             </h3>
-            <div className='description'>{
+            <div className='description hover'>{
               meta && meta.documentation && meta.documentation.length
                 ? meta.documentation.map((doc) => doc.toString()).join(' ')
                 : ''
@@ -68,7 +68,7 @@ class Extrinsics extends React.PureComponent<Props> {
             {this.renderSigner(extrinsic)}
           </div>
           <Call
-            className='details'
+            className='details hover'
             value={extrinsic}
           />
         </article>

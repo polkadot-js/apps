@@ -21,16 +21,14 @@
       opacity: 0.5625;
     }
 
-    &.summary {
-      .details > .contains {
-        height: 0;
-        transition: none;
-        transform: scale(0);
-      }
+    .hover {
+      height: 0;
+      transition: none;
+      transform: scale(0);
     }
 
     &:hover {
-      .details > .contains {
+      .hover {
         height: auto;
         margin-top: 0.5rem;
         transform: scale(1);

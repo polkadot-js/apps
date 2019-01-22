@@ -63,7 +63,7 @@ class Events extends React.PureComponent<Props> {
                 : ''
             }{event.section}.{event.method}
           </h3>
-          <div className='description'>
+          <div className='description hover'>
             {
               event.meta.documentation && event.meta.documentation.length
                 ? event.meta.documentation.map((doc) => doc.toString()).join(' ')
@@ -72,7 +72,7 @@ class Events extends React.PureComponent<Props> {
           </div>
         </div>
         <EventDisplay
-          className='details'
+          className='details hover'
           value={event}
         />
       </article>
