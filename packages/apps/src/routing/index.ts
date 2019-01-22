@@ -13,7 +13,6 @@ import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
 import nodeinfo from './nodeinfo';
-import rpc from './rpc';
 import settings from './settings';
 import staking from './staking';
 import storage from './storage';
@@ -47,7 +46,6 @@ const routes: Routes = appSettings.uiMode === 'light'
     null,
     settings,
     nodeinfo,
-    rpc,
     toolbox,
     template
   );
