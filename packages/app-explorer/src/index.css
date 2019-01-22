@@ -33,6 +33,7 @@
 .explorer--BlockByHash-flexable {
   display: flex;
   flex-wrap: wrap;
+  margin-top: -0.5rem;
 }
 
 .explorer--BlockByHash-block {
@@ -44,30 +45,42 @@
 .explorer--Container {
   color: inherit;
 
-  &:hover > .details {
+  .hover {
+    height: 0;
+    opacity: 0;
+    transition: none;
+    transform: scale(0);
+  }
+
+  &:hover .hover {
     height: auto;
     opacity: 1;
     transform: scale(1);
     transition: all 200ms ease-in;
+
+    &.description {
+      margin: 0.25rem 0 0.5rem 0;
+    }
   }
 
   .header {
     position: relative;
+    vertical-align: middle;
+
+    h3 {
+      margin: 0;
+    }
 
     .description {
       color: rgba(0, 0, 0, 0.6);
-      margin-bottom: 0.5rem;
       overflow: hidden;
       text-overflow: ellipsis;
+      vertical-align: middle;
       white-space: nowrap;
     }
   }
 
   > .details {
-    height: 0;
-    opacity: 0;
-    transition: none;
-    transform: scale(0);
     word-break: break-all;
   }
 }

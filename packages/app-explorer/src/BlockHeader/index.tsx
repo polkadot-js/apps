@@ -50,7 +50,7 @@ export default class BlockHeader extends React.PureComponent<Props> {
                 : undefined
             }</div>
           </div>
-          <div className='contains'>
+          <div className='contains hover'>
             <div className='info'>
               <div className='type'>parentHash</div>
               <div className='hash'>{

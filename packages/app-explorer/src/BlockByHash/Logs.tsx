@@ -58,7 +58,7 @@ class Logs extends React.PureComponent<Props> {
             </h3>
             <div className='description' />
           </div>
-          <div className='details'>
+          <div className='details hover'>
             {content}
           </div>
         </article>
