@@ -45,7 +45,8 @@
 .explorer--Container {
   color: inherit;
 
-  &:hover .header .description {
+  &:not(.ui--hoverable) .header .description,
+  &.ui--hoverable:hover .header .description {
     margin: 0.25rem 0 0.5rem 0;
   }
 

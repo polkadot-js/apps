@@ -52,7 +52,7 @@ class Events extends React.PureComponent<Props> {
 
     return (
       <article
-        className='ui--hoverable explorer--Container'
+        className={['explorer--Container', index ? 'ui--hoverable' : ''].join(' ')}
         key={index}
       >
         <div className='header'>
