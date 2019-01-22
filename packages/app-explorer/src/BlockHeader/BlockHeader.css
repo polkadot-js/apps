@@ -15,15 +15,44 @@
     overflow: hidden;
   }
 
+  &.summary {
+    .header .hash {
+      /* 0.5 * 0.5 */
+      opacity: 0.5625;
+    }
+
+    &.summary {
+      .details > .contains {
+        height: 0;
+        transition: none;
+        transform: scale(0);
+      }
+    }
+
+    &:hover {
+      .details > .contains {
+        height: auto;
+        margin-top: 0.5rem;
+        transform: scale(1);
+        transition: all 200ms ease-in;
+      }
+    }
+  }
+
   .author {
     font-size: 1rem;
-    margin-top: 0.5rem;
     text-align: right;
+    vertical-align: middle;
+
+    > .ui--AddressMini.padded {
+      padding: 0;
+    }
   }
 
   .header {
     color: rgba(0, 0, 0, 0.6);
-    margin-bottom: 0.25rem;
+    display: flex;
+    line-height: 2.25rem;
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;
@@ -33,19 +62,16 @@
     > div {
       display: inline-block;
       font-weight: 100;
-      margin-bottom: 0.25rem;
       vertical-align: middle;
       white-space: nowrap;
     }
 
     > .number {
-      font-size: 2.75rem;
-      line-height: 1;
+      font-size: 2.25rem;
     }
 
     .hash {
-      font-size: 1.5em;
-      line-height: 1;
+      font-size: 1.5rem;
     }
   }
 

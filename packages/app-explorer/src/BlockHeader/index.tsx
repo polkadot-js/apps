@@ -15,6 +15,7 @@ import numberFormat from '@polkadot/ui-reactive/util/numberFormat';
 import Extrinsics from './Extrinsics';
 
 type Props = BareProps & {
+  isSummary?: boolean,
   value?: HeaderExtended,
   withExtrinsics?: boolean,
   withLink?: boolean
@@ -22,7 +23,7 @@ type Props = BareProps & {
 
 export default class BlockHeader extends React.PureComponent<Props> {
   render () {
-    const { value, withExtrinsics = false, withLink = false } = this.props;
+    const { isSummary, value, withExtrinsics = false, withLink = false } = this.props;
 
     if (!value) {
       return null;
@@ -31,16 +32,22 @@ export default class BlockHeader extends React.PureComponent<Props> {
     const { author, blockNumber, extrinsicsRoot, parentHash, stateRoot } = value;
     const parentHex = parentHash.toHex();
     const hashHex = value.hash.toHex();
+    const textNumber = numberFormat(blockNumber);
 
     return (
-      <article className='explorer--BlockHeader'>
+      <article className={['explorer--BlockHeader', isSummary ? 'summary' : ''].join(' ')}>
         <div className='details'>
           <div className='header'>
-            <div className='number'>{numberFormat(blockNumber)}&nbsp;</div>
-            <div className='hash'>{
+            <div className='number'>{
               withLink
-                ? <Link to={`/explorer/hash/${hashHex}`}>{hashHex}</Link>
-                : hashHex
+              ? <Link to={`/explorer/hash/${hashHex}`}>{textNumber}</Link>
+              : textNumber
+            }&nbsp;</div>
+            <div className='hash'>{hashHex}</div>
+            <div className='author'>{
+              author
+                ? <AddressMini value={author} />
+                : undefined
             }</div>
           </div>
           <div className='contains'>
@@ -65,11 +72,6 @@ export default class BlockHeader extends React.PureComponent<Props> {
               : undefined
             }
           </div>
-          <div className='author'>{
-            author
-              ? <AddressMini value={author} />
-              : undefined
-          }</div>
         </div>
       </article>
     );

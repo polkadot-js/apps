@@ -71,7 +71,10 @@ class Events extends React.PureComponent<Props> {
             }
           </div>
         </div>
-        <EventDisplay value={event} />
+        <EventDisplay
+          className='details'
+          value={event}
+        />
       </article>
     );
   }
