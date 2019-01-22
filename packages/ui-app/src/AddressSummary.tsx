@@ -191,7 +191,7 @@ class AddressSummary extends React.PureComponent<Props> {
   protected renderChildren () {
     const { children } = this.props;
 
-    if (!children) {
+    if (!children || (Array.isArray(children) && children.length === 0)) {
       return null;
     }
 

@@ -80,17 +80,6 @@ class CurrentList extends React.PureComponent<Props> {
       <div key='list'>
         {addresses.map((address) => {
           const nominators = (balances[address] || {}).nominators || [];
-          const nomRendered = nominators.length
-            ? (
-              nominators.map(({ accountId }) =>
-                <AddressMini
-                  key={accountId.toString()}
-                  value={accountId}
-                  withBalance
-                />
-              )
-            )
-            : undefined;
 
           return (
             <article
@@ -99,7 +88,13 @@ class CurrentList extends React.PureComponent<Props> {
             >
               <AddressRow
                 balance={balanceArray(address)}
-                children={nomRendered}
+                children={nominators.map(({ accountId }) =>
+                  <AddressMini
+                    key={accountId.toString()}
+                    value={accountId}
+                    withBalance
+                  />
+                )}
                 name={this.getDisplayName(address, defaultName)}
                 value={address}
                 withCopy={false}

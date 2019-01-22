@@ -14,7 +14,7 @@
     height: auto;
     opacity: 1;
     transform: scale(1);
-    transition: all 200ms ease-in;
+    transition: all 0.25s ease-in;
   }
 }
 
