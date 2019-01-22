@@ -58,7 +58,7 @@ class Extrinsics extends React.PureComponent<Props> {
         <article className='ui--hoverable explorer--Container'>
           <div className='header'>
             <h3>
-              #{numberFormat(index)}:&nbsp;{section}.{method}
+              {section}.{method}&nbsp;(#{numberFormat(index)})
             </h3>
             <div className='ui--hover description'>{
               meta && meta.documentation && meta.documentation.length
