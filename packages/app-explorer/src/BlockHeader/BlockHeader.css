@@ -27,13 +27,6 @@
     }
   }
 
-  &.summary {
-    .header .hash {
-      /* 0.5 * 0.5 */
-      opacity: 0.5625;
-    }
-  }
-
   .author {
     font-size: 1rem;
     text-align: right;
@@ -47,8 +40,8 @@
   .header {
     color: rgba(0, 0, 0, 0.6);
     display: flex;
-    line-height: 2.25rem;
-    overflow: hidden;
+    align-items: center;
+    justify-content: space-between;
     text-align: left;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -67,6 +60,8 @@
 
     .hash {
       font-size: 1.5rem;
+      font-family: sans-serif;
+      /*opacity: 0.75;*/
     }
   }
 

@@ -12,6 +12,7 @@ import { numberFormat } from '@polkadot/ui-reactive/util/index';
 import translate from './translate';
 
 type Props = I18nProps & {
+  isSummary?: boolean,
   value?: Array<EventRecord>,
   emptyLabel?: React.ReactNode,
   eventClassName?: string,
@@ -45,23 +46,23 @@ class Events extends React.PureComponent<Props> {
   }
 
   private renderEvent = ({ event, phase }: EventRecord, index: number) => {
-    const { withoutIndex } = this.props;
+    const { isSummary, withoutIndex } = this.props;
     const extIndex = !withoutIndex && phase.type === 'ApplyExtrinsic'
       ? phase.asApplyExtrinsic
       : -1;
 
     return (
       <article
-        className={['explorer--Container', index ? 'ui--hoverable' : ''].join(' ')}
+        className={['explorer--Container', (isSummary || index) ? 'ui--hoverable' : ''].join(' ')}
         key={index}
       >
         <div className='header'>
           <h3>
-            {
+            {event.section}.{event.method}&nbsp;{
               extIndex !== -1
-                ? `#${numberFormat(extIndex)}: `
+                ? `(#${numberFormat(extIndex)})`
                 : ''
-            }{event.section}.{event.method}
+            }
           </h3>
           <div className='ui--hover description'>
             {
