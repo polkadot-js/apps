@@ -24,8 +24,8 @@
 }
 
 .explorer--BestNumber {
-  font-size: 2.75rem;
-  line-height: 2.75rem;
+  font-size: 2.25rem;
+  line-height: 2.25rem;
   position: relative;
   text-align: right;
 }
@@ -44,6 +44,13 @@
 .explorer--Container {
   color: inherit;
 
+  &:hover > .details {
+    height: auto;
+    opacity: 1;
+    transform: scale(1);
+    transition: all 200ms ease-in;
+  }
+
   .header {
     position: relative;
 
@@ -56,7 +63,11 @@
     }
   }
 
-  .value {
+  > .details {
+    height: 0;
+    opacity: 0;
+    transition: none;
+    transform: scale(0);
     word-break: break-all;
   }
 }

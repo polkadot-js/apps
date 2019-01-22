@@ -67,7 +67,10 @@ class Extrinsics extends React.PureComponent<Props> {
             }</div>
             {this.renderSigner(extrinsic)}
           </div>
-          <Call value={extrinsic} />
+          <Call
+            className='details'
+            value={extrinsic}
+          />
         </article>
       </div>
     );
