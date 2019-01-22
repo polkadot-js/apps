@@ -69,6 +69,15 @@
     background-color: $progress-bar-color;
   }
 
+  /*
+  .ui.input > input:focus {
+    border-color: $anchor-color;
+  }*/
+
+  .ui--IdentityIcon .container.highlight:before {
+    box-shadow: 0 0 5px 2px $wild-orchid;
+  }
+
   a {
     color: $anchor-color;
   }
