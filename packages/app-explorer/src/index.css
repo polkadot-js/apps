@@ -45,22 +45,8 @@
 .explorer--Container {
   color: inherit;
 
-  .hover {
-    height: 0;
-    opacity: 0;
-    transition: none;
-    transform: scale(0);
-  }
-
-  &:hover .hover {
-    height: auto;
-    opacity: 1;
-    transform: scale(1);
-    transition: all 200ms ease-in;
-
-    &.description {
-      margin: 0.25rem 0 0.5rem 0;
-    }
+  &:hover .header .description {
+    margin: 0.25rem 0 0.5rem 0;
   }
 
   .header {

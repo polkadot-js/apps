@@ -80,24 +80,31 @@ class CurrentList extends React.PureComponent<Props> {
       <div key='list'>
         {addresses.map((address) => {
           const nominators = (balances[address] || {}).nominators || [];
+          const nomRendered = nominators.length
+            ? (
+              nominators.map(({ accountId }) =>
+                <AddressMini
+                  key={accountId.toString()}
+                  value={accountId}
+                  withBalance
+                />
+              )
+            )
+            : undefined;
 
           return (
-            <article key={address}>
+            <article
+              className='ui--hoverable'
+              key={address}
+            >
               <AddressRow
                 balance={balanceArray(address)}
+                children={nomRendered}
                 name={this.getDisplayName(address, defaultName)}
                 value={address}
                 withCopy={false}
                 withNonce={false}
-              >
-                {nominators.map(({ accountId }) =>
-                  <AddressMini
-                    key={accountId.toString()}
-                    value={accountId}
-                    withBalance
-                  />
-                )}
-              </AddressRow>
+              />
             </article>
           );
         })}

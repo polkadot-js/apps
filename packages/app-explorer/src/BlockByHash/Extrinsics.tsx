@@ -55,12 +55,12 @@ class Extrinsics extends React.PureComponent<Props> {
         className='explorer--BlockByHash-block'
         key={`extrinsic:${index}`}
       >
-        <article className='explorer--Container'>
+        <article className='ui--hoverable explorer--Container'>
           <div className='header'>
             <h3>
               #{numberFormat(index)}:&nbsp;{section}.{method}
             </h3>
-            <div className='description hover'>{
+            <div className='ui--hover description'>{
               meta && meta.documentation && meta.documentation.length
                 ? meta.documentation.map((doc) => doc.toString()).join(' ')
                 : ''
@@ -68,7 +68,7 @@ class Extrinsics extends React.PureComponent<Props> {
             {this.renderSigner(extrinsic)}
           </div>
           <Call
-            className='details hover'
+            className='ui--hover details'
             value={extrinsic}
           />
         </article>
