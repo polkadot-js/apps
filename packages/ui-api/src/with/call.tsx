@@ -27,7 +27,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<Subtract<P, ApiProps>> => {
     class WithPromise extends React.Component<P, State> {
       state: State;
-      private destroy?: () => void;
+      private destroyPromise?: Promise<() => void>;
       private isActive: boolean = false;
       private propName: string;
       private timerId: number = -1;
@@ -77,7 +77,9 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       componentWillUnmount () {
         this.isActive = false;
 
-        this.unsubscribe();
+        this.unsubscribe()
+          .then(NOOP)
+          .catch(NOOP);
 
         if (this.timerId !== -1) {
           clearInterval(this.timerId);
@@ -154,10 +156,10 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
 
           assert(at || !atProp, 'Unable to perform query on non-existent at hash');
 
-          this.unsubscribe();
+          await this.unsubscribe();
 
           if (isSubscription) {
-            this.destroy = await apiMethod(...params, (value?: any) =>
+            this.destroyPromise = apiMethod(...params, (value?: any) =>
               this.triggerUpdate(this.props, value)
             );
           } else {
@@ -168,14 +170,17 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
             this.triggerUpdate(this.props, value);
           }
         } catch (error) {
-          // console.error(endpoint, '::', error);
+          console.error(endpoint, '::', error);
         }
       }
 
-      private unsubscribe () {
-        if (this.destroy) {
-          this.destroy();
-          this.destroy = undefined;
+      private async unsubscribe () {
+        if (this.destroyPromise) {
+          const destroy = await this.destroyPromise;
+
+          destroy();
+
+          this.destroyPromise = undefined;
         }
       }
 

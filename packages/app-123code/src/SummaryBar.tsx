@@ -6,7 +6,7 @@
 // translatable strings. Generally the latter is quite "light",
 // `t` is inject into props (see the HOC export) and `t('any text')
 // does the translation
-import { AppProps, I18nProps } from '@polkadot/ui-app/types';
+import { BareProps, I18nProps } from '@polkadot/ui-app/types';
 
 // external imports (including those found in the packages/*
 // of this repo)
@@ -16,23 +16,22 @@ import React from 'react';
 import './index.css';
 
 // local imports and components
-import SummaryBar from './SummaryBar';
 import translate from './translate';
 
 // define out internal types
-type Props = AppProps & I18nProps;
+type Props = BareProps & I18nProps;
 type State = {};
 
-class App extends React.PureComponent<Props, State> {
+class SummaryBar extends React.PureComponent<Props, State> {
   render () {
     return (
       // in all apps, the main wrapper is setup to allow the padding
       // and margins inside the application. (Just from a consistent pov)
-      <main>
-        <SummaryBar />
-      </main>
+      <summary>
+        hello
+      </summary>
     );
   }
 }
 
-export default translate(App);
+export default translate(SummaryBar);

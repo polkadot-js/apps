@@ -11,7 +11,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import React from 'react';
 import { AccountId, Balance, ValidatorPrefs } from '@polkadot/types';
 import { AddressMini, AddressSummary, Button } from '@polkadot/ui-app/index';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { withCalls, withMulti } from '@polkadot/ui-api/index';
 
 import Nominating from './Nominating';
 import Preferences from './Preferences';
@@ -250,6 +250,8 @@ class Account extends React.PureComponent<Props, State> {
 export default withMulti(
   Account,
   translate,
-  withCall('query.staking.nominatorsFor', { paramName: 'accountId' }),
-  withCall('query.staking.nominating', { paramName: 'accountId' })
+  withCalls(
+    ['query.staking.nominatorsFor', { paramName: 'accountId' }],
+    ['query.staking.nominating', { paramName: 'accountId' }]
+  )
 );

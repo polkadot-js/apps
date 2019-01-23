@@ -11,7 +11,7 @@ import React from 'react';
 import { ReferendumInfo } from '@polkadot/types';
 import { Chart, Static } from '@polkadot/ui-app/index';
 import VoteThreshold from '@polkadot/ui-params/Param/VoteThreshold';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { withCalls, withMulti } from '@polkadot/ui-api/index';
 import { balanceFormat, numberFormat } from '@polkadot/ui-reactive/util/index';
 import settings from '@polkadot/ui-settings';
 
@@ -183,7 +183,9 @@ class Referendum extends React.PureComponent<Props, State> {
 export default withMulti(
   Referendum,
   translate,
-  withCall('derive.chain.bestNumber'),
-  withCall('derive.democracy.referendumVotesFor', { paramName: 'idNumber' }),
-  withCall('query.democracy.publicDelay')
+  withCalls(
+    'derive.chain.bestNumber',
+    ['derive.democracy.referendumVotesFor', { paramName: 'idNumber' }],
+    'query.democracy.publicDelay'
+  )
 );

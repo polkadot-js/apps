@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import { CardSummary } from '@polkadot/ui-app/index';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { withCalls, withMulti } from '@polkadot/ui-api/index';
 import { numberFormat } from '@polkadot/ui-reactive/util/index';
 
 import translate from './translate';
@@ -63,10 +63,12 @@ class Summary extends React.PureComponent<Props> {
 export default withMulti(
   Summary,
   translate,
-  withCall('query.democracy.launchPeriod'),
-  withCall('query.democracy.nextTally'),
-  withCall('query.democracy.publicPropCount'),
-  withCall('query.democracy.referendumCount'),
-  withCall('query.democracy.votingPeriod'),
-  withCall('derive.chain.bestNumber')
+  withCalls(
+    'query.democracy.launchPeriod',
+    'query.democracy.nextTally',
+    'query.democracy.publicPropCount',
+    'query.democracy.referendumCount',
+    'query.democracy.votingPeriod',
+    'derive.chain.bestNumber'
+  )
 );

@@ -9,7 +9,7 @@ import { ExtraFees } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { Extrinsic, Method } from '@polkadot/types';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { withCalls, withMulti } from '@polkadot/ui-api/index';
 import { Icon } from '@polkadot/ui-app/index';
 import { balanceFormat } from '@polkadot/ui-reactive/util/index';
 import { compactToU8a } from '@polkadot/util';
@@ -216,7 +216,9 @@ class FeeDisplay extends React.PureComponent<Props, State> {
 export default withMulti(
   FeeDisplay,
   translate,
-  withCall('derive.balances.fees'),
-  withCall('derive.balances.votingBalance', { paramName: 'accountId' }),
-  withCall('query.system.accountNonce', { paramName: 'accountId' })
+  withCalls(
+    'derive.balances.fees',
+    ['derive.balances.votingBalance', { paramName: 'accountId' }],
+    ['query.system.accountNonce', { paramName: 'accountId' }]
+  )
 );

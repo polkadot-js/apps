@@ -8,7 +8,7 @@ import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { AccountId, Balance } from '@polkadot/types';
 import { Tabs } from '@polkadot/ui-app/index';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { withCalls, withMulti } from '@polkadot/ui-api/index';
 
 import './index.css';
 
@@ -118,7 +118,9 @@ class App extends React.PureComponent<Props, State> {
 export default withMulti(
   App,
   translate,
-  withCall('query.session.validators'),
-  withCall('query.staking.intentions', { propName: 'intentions' }),
-  withCall('derive.staking.intentionsBalances', { propName: 'balances' })
+  withCalls(
+    'query.session.validators',
+    ['query.staking.intentions', { propName: 'intentions' }],
+    ['derive.staking.intentionsBalances', { propName: 'balances' }]
+  )
 );
