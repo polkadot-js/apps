@@ -4,6 +4,7 @@
 
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { AccountId, Balance } from '@polkadot/types';
@@ -18,7 +19,7 @@ import translate from './translate';
 
 type Actions = 'actions' | 'overview';
 
-type Props = AppProps & I18nProps & {
+type Props = AppProps & ApiProps & I18nProps & {
   balances?: DerivedBalancesMap,
   intentions?: Array<AccountId>,
   session_validators?: Array<AccountId>
