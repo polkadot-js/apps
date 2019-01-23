@@ -4,14 +4,13 @@
 
 import BN from 'bn.js';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
+import { QueueTx$ExtrinsicAdd, ActionStatus } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Method } from '@polkadot/types';
 import { Button } from '@polkadot/ui-app/index';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import Account from './Account';
 import ExtrinsicDisplay from './Extrinsic';
@@ -125,11 +124,11 @@ class Selection extends React.PureComponent<Props, State> {
     }
 
     const fn = Method.findFunction(method.callIndex);
-    var extrinsic = api.tx[fn.section][fn.method](...method.args);
+    const extrinsic = api.tx[fn.section][fn.method](...method.args);
 
-    if(extrinsic.toU8a().length > MAX_TRANSACTION_SIZE) {
+    if (extrinsic.toU8a().length > MAX_TRANSACTION_SIZE) {
       onStatusChange({
-        action: fn.section + "." + fn.method,
+        action: fn.section + '.' + fn.method,
         status: 'error',
         message: 'Warning: This transaction will likely be rejected by the network as it is greater \
                   than the maximum size of ' + MAX_TRANSACTION_SIZE / (24 * 24) + 'MB'
