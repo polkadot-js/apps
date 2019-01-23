@@ -25,7 +25,7 @@ type Props = I18nProps & {
 class ExtrinsicsApp extends React.PureComponent<Props> {
   render () {
 
-    const { accountAll, t } = this.props;
+    const { accountAll, onStatusChange, t } = this.props;
 
     if (!accountAll || !Object.keys(accountAll).length) {
       return (
@@ -44,7 +44,7 @@ class ExtrinsicsApp extends React.PureComponent<Props> {
       <main className='extrinsics--App'>
         <QueueConsumer>
           {({ queueExtrinsic }: QueueProps) => (
-            <Selection queueExtrinsic={queueExtrinsic} />
+            <Selection onStatusChange={onStatusChange} queueExtrinsic={queueExtrinsic} />
           )}
         </QueueConsumer>
       </main>
