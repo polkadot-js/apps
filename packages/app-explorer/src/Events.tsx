@@ -12,6 +12,7 @@ import { numberFormat } from '@polkadot/ui-reactive/util/index';
 import translate from './translate';
 
 type Props = I18nProps & {
+  isSummary?: boolean,
   value?: Array<EventRecord>,
   emptyLabel?: React.ReactNode,
   eventClassName?: string,
@@ -23,9 +24,7 @@ class Events extends React.PureComponent<Props> {
     const { emptyLabel, eventClassName, value, t } = this.props;
 
     if (!value || value.length === 0) {
-      return emptyLabel || t('events.none', {
-        defaultValue: 'no events available'
-      });
+      return emptyLabel || t('no events available');
     }
 
     return value
@@ -47,21 +46,25 @@ class Events extends React.PureComponent<Props> {
   }
 
   private renderEvent = ({ event, phase }: EventRecord, index: number) => {
-    const { withoutIndex } = this.props;
+    const { isSummary, withoutIndex } = this.props;
     const extIndex = !withoutIndex && phase.type === 'ApplyExtrinsic'
       ? phase.asApplyExtrinsic
       : -1;
 
     return (
       <article
-        className='explorer--Container'
+        className={['explorer--Container', (isSummary || index) ? 'ui--hoverable' : ''].join(' ')}
         key={index}
       >
         <div className='header'>
           <h3>
-            {extIndex === -1 ? '' : `#${numberFormat(extIndex)}: `}{event.section}.{event.method}
+            {event.section}.{event.method}&nbsp;{
+              extIndex !== -1
+                ? `(#${numberFormat(extIndex)})`
+                : ''
+            }
           </h3>
-          <div className='description'>
+          <div className='ui--hover description'>
             {
               event.meta.documentation && event.meta.documentation.length
                 ? event.meta.documentation.map((doc) => doc.toString()).join(' ')
@@ -69,7 +72,10 @@ class Events extends React.PureComponent<Props> {
             }
           </div>
         </div>
-        <EventDisplay value={event} />
+        <EventDisplay
+          className='ui--hover details'
+          value={event}
+        />
       </article>
     );
   }

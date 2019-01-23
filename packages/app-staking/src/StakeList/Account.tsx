@@ -9,11 +9,12 @@ import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import { AccountId, Balance } from '@polkadot/types';
+import { AccountId, Balance, ValidatorPrefs } from '@polkadot/types';
 import { AddressMini, AddressSummary, Button } from '@polkadot/ui-app/index';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
 
 import Nominating from './Nominating';
+import Preferences from './Preferences';
 import UnnominateButton from './UnnominateButton';
 import translate from '../translate';
 
@@ -22,8 +23,8 @@ type Props = ApiProps & I18nProps & {
   balances: DerivedBalancesMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   name: string,
-  query_staking_nominating?: AccountId,
-  query_staking_nominatorsFor?: Array<string>,
+  staking_nominating?: AccountId,
+  staking_nominatorsFor?: Array<string>,
   intentions: Array<string>,
   isValidator: boolean,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
@@ -32,7 +33,8 @@ type Props = ApiProps & I18nProps & {
 
 type State = {
   isNominateOpen: boolean,
-  isNominating: boolean
+  isNominating: boolean,
+  isPrefsOpen: boolean
 };
 
 class Account extends React.PureComponent<Props, State> {
@@ -41,12 +43,13 @@ class Account extends React.PureComponent<Props, State> {
 
     this.state = {
       isNominateOpen: false,
-      isNominating: false
+      isNominating: false,
+      isPrefsOpen: false
     };
   }
 
-  static getDerivedStateFromProps ({ query_staking_nominating }: Props) {
-    const isNominating = !!query_staking_nominating && !query_staking_nominating.isEmpty;
+  static getDerivedStateFromProps ({ staking_nominating }: Props) {
+    const isNominating = !!staking_nominating && !staking_nominating.isEmpty;
 
     return {
       isNominating
@@ -55,7 +58,7 @@ class Account extends React.PureComponent<Props, State> {
 
   render () {
     const { accountId, balanceArray, intentions, name } = this.props;
-    const { isNominateOpen } = this.state;
+    const { isNominateOpen, isPrefsOpen } = this.state;
 
     return (
       <article className='staking--Account'>
@@ -64,6 +67,12 @@ class Account extends React.PureComponent<Props, State> {
           onClose={this.toggleNominate}
           onNominate={this.nominate}
           intentions={intentions}
+        />
+        <Preferences
+          accountId={accountId}
+          isOpen={isPrefsOpen}
+          onClose={this.togglePrefs}
+          onSetPrefs={this.setPrefs}
         />
         <AddressSummary
           balance={balanceArray(accountId)}
@@ -82,32 +91,32 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderNominee () {
-    const { query_staking_nominating, balanceArray } = this.props;
+    const { staking_nominating, balanceArray } = this.props;
     const { isNominating } = this.state;
 
-    if (!isNominating || !query_staking_nominating) {
+    if (!isNominating || !staking_nominating) {
       return null;
     }
 
     return (
       <AddressMini
-        balance={balanceArray(query_staking_nominating)}
-        value={query_staking_nominating}
+        balance={balanceArray(staking_nominating)}
+        value={staking_nominating}
         withBalance
       />
     );
   }
 
   private renderNominators () {
-    const { query_staking_nominatorsFor } = this.props;
+    const { staking_nominatorsFor } = this.props;
 
-    if (!query_staking_nominatorsFor) {
+    if (!staking_nominatorsFor) {
       return null;
     }
 
     return (
       <div className='ui--Nominators'>
-        {query_staking_nominatorsFor.map((nominator) => (
+        {staking_nominatorsFor.map((nominator) => (
           <AddressMini
             isPadded={false}
             key={nominator}
@@ -120,7 +129,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { accountId, intentions, query_staking_nominating, t } = this.props;
+    const { accountId, intentions, staking_nominating, t } = this.props;
     const { isNominating } = this.state;
     const isIntending = intentions.includes(accountId);
     const canStake = !isIntending && !isNominating;
@@ -131,17 +140,13 @@ class Account extends React.PureComponent<Props, State> {
           <Button
             isPrimary
             onClick={this.stake}
-            text={t('account.stake', {
-              defaultValue: 'stake'
-            })}
+            text={t('Stake')}
           />
           <Button.Or />
           <Button
             isPrimary
             onClick={this.toggleNominate}
-            text={t('account.nominate', {
-              defaultValue: 'nominate'
-            })}
+            text={t('Nominate')}
           />
         </Button.Group>
       );
@@ -152,7 +157,7 @@ class Account extends React.PureComponent<Props, State> {
         <Button.Group>
           <UnnominateButton
             accountId={accountId || ''}
-            nominating={query_staking_nominating || ''}
+            nominating={staking_nominating || ''}
             onClick={this.unnominate}
           />
         </Button.Group>
@@ -164,9 +169,13 @@ class Account extends React.PureComponent<Props, State> {
         <Button
           isNegative
           onClick={this.unstake}
-          text={t('account.unstake', {
-            defaultValue: 'unstake'
-          })}
+          text={t('Unstake')}
+        />
+        <Button.Or />
+        <Button
+          isPrimary
+          onClick={this.togglePrefs}
+          text={t('Set Prefs')}
         />
       </Button.Group>
     );
@@ -189,38 +198,58 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private nominate = (nominee: string) => {
-    const { apiPromise } = this.props;
+  private togglePrefs = () => {
+    this.setState(
+      ({ isPrefsOpen }: State) => ({
+        isPrefsOpen: !isPrefsOpen
+      })
+    );
+  }
 
-    this.send(apiPromise.tx.staking.nominate(nominee));
+  private nominate = (nominee: string) => {
+    const { api } = this.props;
+
+    this.send(api.tx.staking.nominate(nominee));
 
     this.toggleNominate();
   }
 
   private unnominate = (index: number) => {
-    const { apiPromise } = this.props;
+    const { api } = this.props;
 
-    this.send(apiPromise.tx.staking.unnominate(index));
+    this.send(api.tx.staking.unnominate(index));
+  }
+
+  private setPrefs = (prefs: ValidatorPrefs) => {
+    const { api } = this.props;
+
+    this.send(api.tx.staking.registerPreferences(this.getIntentionIndex(), prefs));
+
+    this.togglePrefs();
   }
 
   private stake = () => {
-    const { apiPromise } = this.props;
+    const { api } = this.props;
 
-    this.send(apiPromise.tx.staking.stake());
+    this.send(api.tx.staking.stake());
   }
 
   private unstake = () => {
-    const { apiPromise } = this.props;
+    const { api } = this.props;
 
+    this.send(api.tx.staking.unstake(this.getIntentionIndex()));
+  }
+
+  private getIntentionIndex (): number {
     const { accountId, intentions } = this.props;
 
-    this.send(apiPromise.tx.staking.unstake(intentions.indexOf(accountId)));
+    return intentions.indexOf(accountId);
   }
 }
 
 export default withMulti(
   Account,
   translate,
-  withCall('query.staking.nominatorsFor', { paramProp: 'accountId' }),
-  withCall('query.staking.nominating', { paramProp: 'accountId' })
+  withCall('query.staking.nominatorsFor', { paramName: 'accountId' }),
+  withCall('query.staking.nominating', { paramName: 'accountId' })
 );

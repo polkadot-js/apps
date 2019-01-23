@@ -13,61 +13,45 @@ import { numberFormat } from '@polkadot/ui-reactive/util/index';
 import translate from './translate';
 
 type Props = I18nProps & {
-  derive_chain_bestNumber?: BN,
-  query_democracy_launchPeriod?: BN,
-  query_democracy_nextTally?: BN,
-  query_democracy_publicDelay?: BN,
-  query_democracy_publicPropCount?: BN,
-  query_democracy_referendumCount?: BN,
-  query_democracy_votingPeriod?: BN
+  chain_bestNumber?: BN,
+  democracy_launchPeriod?: BN,
+  democracy_nextTally?: BN,
+  democracy_publicDelay?: BN,
+  democracy_publicPropCount?: BN,
+  democracy_referendumCount?: BN,
+  democracy_votingPeriod?: BN
 };
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { derive_chain_bestNumber = new BN(0), query_democracy_launchPeriod, query_democracy_nextTally, query_democracy_publicPropCount, query_democracy_referendumCount, query_democracy_votingPeriod, t } = this.props;
+    const { chain_bestNumber = new BN(0), democracy_launchPeriod = new BN(1), democracy_nextTally = new BN(0), democracy_publicPropCount, democracy_referendumCount = new BN(0), democracy_votingPeriod = new BN(1), t } = this.props;
 
     return (
       <summary>
         <section>
-          <CardSummary
-            label={t('summary.proposalCount', {
-              defaultValue: 'proposals'
-            })}
-          >
-            {numberFormat(query_democracy_publicPropCount)}
+          <CardSummary label={t('proposals')}>
+            {numberFormat(democracy_publicPropCount)}
           </CardSummary>
-          <CardSummary
-            label={t('summary.referendumCount', {
-              defaultValue: 'referendums'
-            })}
-          >
-            {numberFormat(query_democracy_referendumCount)}
+          <CardSummary label={t('referendums')}>
+            {numberFormat(democracy_referendumCount)}
           </CardSummary>
-          <CardSummary
-            label={t('summary.active', {
-              defaultValue: 'active num'
-            })}
-          >
-            {numberFormat((query_democracy_referendumCount || new BN(0)).sub(query_democracy_nextTally || new BN(0)))}
+          <CardSummary label={t('active')}>
+            {numberFormat(democracy_referendumCount.sub(democracy_nextTally))}
           </CardSummary>
         </section>
         <section>
           <CardSummary
-            label={t('summary.votingPeriod', {
-              defaultValue: 'voting period'
-            })}
+            label={t('voting period')}
             progress={{
-              value: derive_chain_bestNumber.mod(query_democracy_votingPeriod || new BN(1)).addn(1),
-              total: query_democracy_votingPeriod || new BN(1)
+              value: chain_bestNumber.mod(democracy_votingPeriod).addn(1),
+              total: democracy_votingPeriod
             }}
           />
           <CardSummary
-            label={t('summary.launchPeriod', {
-              defaultValue: 'launch period'
-            })}
+            label={t('launch period')}
             progress={{
-              value: derive_chain_bestNumber.mod(query_democracy_launchPeriod || new BN(1)).addn(1),
-              total: query_democracy_launchPeriod || new BN(1)
+              value: chain_bestNumber.mod(democracy_launchPeriod).addn(1),
+              total: democracy_launchPeriod || new BN(1)
             }}
           />
         </section>

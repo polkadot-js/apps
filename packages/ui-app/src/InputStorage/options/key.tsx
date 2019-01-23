@@ -7,8 +7,8 @@ import { DropdownOptions } from '../../util/types';
 import React from 'react';
 import ApiPromise from '@polkadot/api/promise';
 
-export default function createOptions (apiPromise: ApiPromise, sectionName: string): DropdownOptions {
-  const section = apiPromise.query[sectionName];
+export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {
+  const section = api.query[sectionName];
 
   if (!section) {
     return [];

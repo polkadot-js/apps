@@ -10,7 +10,7 @@ import './Content.css';
 
 import React from 'react';
 import { withRouter } from 'react-router';
-import { withApi, withMulti } from '@polkadot/ui-api/index';
+import { withCall, withMulti } from '@polkadot/ui-api/index';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
 import Status from '../Status';
@@ -39,9 +39,7 @@ class Content extends React.Component<Props> {
     if (isApiGated && (!isApiReady || !isApiConnected)) {
       return (
         <div className='apps--Content-body'>
-          <main>{t('content.gated', {
-            defaultValue: 'Waiting for API to be connected and ready.'
-          })}</main>
+          <main>{t('Waiting for API to be connected and ready.')}</main>
         </div>
       );
     }
@@ -73,5 +71,9 @@ export default withMulti(
   // React-router needs to be first, otherwise we have blocked updates
   withRouter,
   translate,
-  withApi
+  // these queries are used in a number of places, warm them up as to avoid
+  // constant un/resubscriptions on these
+  withCall('query.session.validators'),
+  withCall('derive.accounts.indexes'),
+  withCall('derive.balances.fees')
 );

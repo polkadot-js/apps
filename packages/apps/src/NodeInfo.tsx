@@ -2,17 +2,32 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiProps } from '@polkadot/ui-api/types';
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
+import { withApi } from '@polkadot/ui-api/with';
 import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/ui-reactive/index';
 
-type Props = BareProps & {};
+type Props = ApiProps & BareProps & {};
 
+const HEALTH_POLL = 22500;
 const pkgJson = require('../package.json');
 
-export default class NodeInfo extends React.PureComponent<Props> {
+class NodeInfo extends React.PureComponent<Props> {
+  componentDidMount () {
+    const { api } = this.props;
+
+    window.setInterval(() => {
+      api.rpc.system
+        .health()
+        .catch(() => {
+          // ignore
+        });
+    }, HEALTH_POLL);
+  }
+
   render () {
     return (
       <div className='apps--NodeInfo'>
@@ -29,3 +44,5 @@ export default class NodeInfo extends React.PureComponent<Props> {
     );
   }
 }
+
+export default withApi(NodeInfo);

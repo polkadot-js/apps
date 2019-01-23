@@ -23,18 +23,10 @@ class Summary extends React.PureComponent<Props> {
         style={style}
       >
         <section>
-          <CardSummary
-            label={t('summary.period', {
-              defaultValue: 'target time'
-            })}
-          >
+          <CardSummary label={t('target time')}>
             <TimePeriod />
           </CardSummary>
-          <CardSummary
-            label={t('summary.now', {
-              defaultValue: 'last block'
-            })}
-          >
+          <CardSummary label={t('last block')}>
             <TimeNow />
           </CardSummary>
         </section>
@@ -42,18 +34,10 @@ class Summary extends React.PureComponent<Props> {
           <SummarySession />
         </section>
         <section>
-          <CardSummary
-            label={t('summary.finalised', {
-              defaultValue: 'finalised'
-            })}
-          >
+          <CardSummary label={t('finalised')}>
             <BestFinalised />
           </CardSummary>
-          <CardSummary
-            label={t('summary.best', {
-              defaultValue: 'best'
-            })}
-          >
+          <CardSummary label={t('best')}>
             <BestNumber />
           </CardSummary>
         </section>

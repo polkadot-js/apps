@@ -23,7 +23,7 @@ type State = {
   nominee: string
 };
 
-class Nominating extends React.PureComponent<Props> {
+class Nominating extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -48,6 +48,7 @@ class Nominating extends React.PureComponent<Props> {
         className='staking--Nominating'
         dimmer='inverted'
         open
+        size='small'
         style={style}
       >
         {this.renderContent()}
@@ -66,18 +67,14 @@ class Nominating extends React.PureComponent<Props> {
           <Button
             isNegative
             onClick={onClose}
-            text={t('nominators.cancel', {
-              defaultValue: 'Cancel'
-            })}
+            text={t('Cancel')}
           />
           <Button.Or />
           <Button
             isDisabled={!isNomineeValid}
             isPrimary
             onClick={this.nominate}
-            text={t('nominator.nominate', {
-              defaultValue: 'nominate'
-            })}
+            text={t('Nominate')}
           />
         </Button.Group>
       </Modal.Actions>
@@ -90,17 +87,13 @@ class Nominating extends React.PureComponent<Props> {
 
     return [
       <Modal.Header key='header'>
-        {t('nominator.header', {
-          defaultValue: 'Nominate Validator'
-        })}
+        {t('Nominate Validator')}
       </Modal.Header>,
       <Modal.Content className='ui--signer-Signer-Content' key='content'>
         <Input
           className='medium'
           isError={!isNomineeValid}
-          label={t('nominator.address', {
-            defaultValue: 'nominate the following address (validator or intention)'
-          })}
+          label={t('nominate the following address (validator or intention)')}
           onChange={this.onChangeNominee}
           value={nominee}
         />
@@ -122,16 +115,12 @@ class Nominating extends React.PureComponent<Props> {
       <article className='error'>
         {
           !isNomineeValid && isAddressFormatValid
-            ? t('nominator.error', {
-              defaultValue: 'The address you input is not intending to stake, and is therefore invalid. Please try again with a validator address.'
-            })
+            ? t('The address you input is not intending to stake, and is therefore invalid. Please try again with a validator address.')
             : null
         }
         {
           !isAddressFormatValid
-            ? t('nominator.error', {
-              defaultValue: 'The address does not conform to a recognized address format. Please make sure you enter a valid address.'
-            })
+            ? t('The address does not conform to a recognized address format. Please make sure you enter a valid address.')
             : null
         }
       </article>

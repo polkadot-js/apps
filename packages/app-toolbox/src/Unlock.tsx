@@ -16,15 +16,10 @@ type Props = I18nProps & {
   pair: KeyringPair | null
 };
 
-type UnlockI18n = {
-  key: string,
-  value: any // I18Next$Translate$Config
-};
-
 type State = {
   address: string,
   password: string,
-  unlockError: UnlockI18n | null
+  unlockError: string | null
 };
 
 class Unlock extends React.PureComponent<Props, State> {
@@ -52,9 +47,7 @@ class Unlock extends React.PureComponent<Props, State> {
         open
       >
         <Modal.Header>
-          {t('unlock.header', {
-            defaultValue: 'Unlock account'
-          })}
+          {t('Unlock account')}
         </Modal.Header>
         <Modal.Content>
           {this.renderContent()}
@@ -74,17 +67,13 @@ class Unlock extends React.PureComponent<Props, State> {
         <Button
           isNegative
           onClick={this.onCancel}
-          text={t('unlock.cancel', {
-            defaultValue: 'Cancel'
-          })}
+          text={t('Cancel')}
         />
         <Button.Or />
         <Button
           isPrimary
           onClick={this.onUnlock}
-          text={t('unlock.doit', {
-            defaultValue: 'Unlock'
-          })}
+          text={t('Unlock')}
         />
       </Button.Group>
     );
@@ -98,7 +87,7 @@ class Unlock extends React.PureComponent<Props, State> {
       <div className='toolbox--Unlock-Content' key='content'>
         <div className='expanded'>
           <p>
-            <Trans i18nKey='unlock.info'>
+            <Trans>
               You are about to unlock your account <span className='code'>{address}</span> to allow for the signing of messages.
             </Trans>
           </p>
@@ -113,9 +102,7 @@ class Unlock extends React.PureComponent<Props, State> {
           <Password
             className='medium'
             isError={!!unlockError}
-            label={t('unlock.password', {
-              defaultValue: 'unlock account using'
-            })}
+            label={t('unlock account using')}
             onChange={this.onChangePassword}
             value={password}
           />
@@ -124,7 +111,7 @@ class Unlock extends React.PureComponent<Props, State> {
     ];
   }
 
-  unlockAccount (password?: string): UnlockI18n | null {
+  unlockAccount (password?: string): string | null {
     const { pair } = this.props;
 
     if (!pair || !pair.isLocked()) {
@@ -134,12 +121,7 @@ class Unlock extends React.PureComponent<Props, State> {
     try {
       pair.decodePkcs8(password);
     } catch (error) {
-      return {
-        key: 'unlock.generic',
-        value: {
-          defaultValue: error.message
-        }
-      };
+      return error.message;
     }
 
     return null;

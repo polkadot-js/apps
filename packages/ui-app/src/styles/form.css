@@ -2,6 +2,22 @@
 /* This software may be modified and distributed under the terms
 /* of the Apache-2.0 license. See the LICENSE file for details. */
 
+.ui--hoverable {
+  .ui--hover {
+    height: 0;
+    opacity: 0;
+    transition: none;
+    transform: scale(0);
+  }
+
+  &:hover .ui--hover {
+    height: auto;
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.25s ease-in;
+  }
+}
+
 .ui--grid,
 .ui--row {
   width: 100%;

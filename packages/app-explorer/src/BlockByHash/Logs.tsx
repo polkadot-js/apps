@@ -25,9 +25,7 @@ class Logs extends React.PureComponent<Props> {
 
     return (
       <section>
-        <h1>{t('block.logs', {
-          defaultValue: 'logs'
-        })}</h1>
+        <h1>{t('logs')}</h1>
         <div className='explorer--BlockByHash-flexable'>
           {value.map(this.renderItem)}
         </div>
@@ -50,7 +48,7 @@ class Logs extends React.PureComponent<Props> {
 
     return (
       <div
-        className='explorer--BlockByHash-block'
+        className='ui--hoverable explorer--BlockByHash-block'
         key={index}
       >
         <article className='explorer--Container'>
@@ -58,9 +56,9 @@ class Logs extends React.PureComponent<Props> {
             <h3>
               {item.type.toString()}
             </h3>
-            <div className='description' />
+            <div className='ui--hover description' />
           </div>
-          <div className='value'>
+          <div className='ui--hover details'>
             {content}
           </div>
         </article>

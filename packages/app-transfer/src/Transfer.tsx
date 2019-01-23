@@ -57,18 +57,14 @@ class Transfer extends React.PureComponent<Props, State> {
         <div className='ui--row'>
           <div className='medium'>
             <InputAddress
-              label={t('from', {
-                defaultValue: 'transfer from my account'
-              })}
+              label={t('transfer from my account')}
               onChange={this.onChangeFrom}
               type='account'
             />
           </div>
           <div className='medium'>
             <InputAddress
-              label={t('to', {
-                defaultValue: 'to the recipient address'
-              })}
+              label={t('to the recipient address')}
               onChange={this.onChangeTo}
               type='all'
             />
@@ -82,9 +78,7 @@ class Transfer extends React.PureComponent<Props, State> {
               bitLength={DEFAULT_BITLENGTH}
               isError={!hasAvailable}
               isSi
-              label={t('amount', {
-                defaultValue: 'send a value of'
-              })}
+              label={t('send a value of')}
               onChange={this.onChangeAmount}
             />
             <FeeDisplay
@@ -133,13 +127,11 @@ class Transfer extends React.PureComponent<Props, State> {
 
   private nextState (newState: Partial<State>): void {
     this.setState((prevState: State): State => {
-      const { apiPromise } = this.props;
+      const { api } = this.props;
       const { accountId = prevState.accountId, amount = prevState.amount, recipientId = prevState.recipientId, hasAvailable = prevState.hasAvailable } = newState;
       const extrinsic = accountId && recipientId
-        ? apiPromise.tx.balances.transfer(recipientId, amount)
+        ? api.tx.balances.transfer(recipientId, amount)
         : null;
-
-      console.log('extrinsic', extrinsic);
 
       return {
         accountId,

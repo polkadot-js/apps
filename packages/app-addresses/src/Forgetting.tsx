@@ -51,17 +51,13 @@ class Forgetting extends React.PureComponent<Props> {
           <Button
             isNegative
             onClick={onClose}
-            text={t('forget.close', {
-              defaultValue: 'Cancel'
-            })}
+            text={t('Cancel')}
           />
           <Button.Or />
           <Button
             isPrimary
             onClick={doForget}
-            text={t('forget.forget', {
-              defaultValue: 'Forget'
-            })}
+            text={t('Forget')}
           />
         </Button.Group>
       </Modal.Actions>
@@ -77,9 +73,7 @@ class Forgetting extends React.PureComponent<Props> {
 
     return [
       <Modal.Header key='header'>
-        {t('forget.header', {
-          defaultValue: 'Confirm address removal'
-        })}
+        {t('Confirm address removal')}
       </Modal.Header>,
       <Modal.Content className='forgetting-Address' key='content'>
         <AddressSummary

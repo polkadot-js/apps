@@ -24,8 +24,8 @@
 }
 
 .explorer--BestNumber {
-  font-size: 2.75rem;
-  line-height: 2.75rem;
+  font-size: 2.25rem;
+  line-height: 2.25rem;
   position: relative;
   text-align: right;
 }
@@ -33,6 +33,7 @@
 .explorer--BlockByHash-flexable {
   display: flex;
   flex-wrap: wrap;
+  margin-top: -0.5rem;
 }
 
 .explorer--BlockByHash-block {
@@ -44,19 +45,29 @@
 .explorer--Container {
   color: inherit;
 
+  &:not(.ui--hoverable) .header .description,
+  &.ui--hoverable:hover .header .description {
+    margin: 0.25rem 0 0.5rem 0;
+  }
+
   .header {
     position: relative;
+    vertical-align: middle;
+
+    h3 {
+      margin: 0;
+    }
 
     .description {
       color: rgba(0, 0, 0, 0.6);
-      margin-bottom: 0.5rem;
       overflow: hidden;
       text-overflow: ellipsis;
+      vertical-align: middle;
       white-space: nowrap;
     }
   }
 
-  .value {
+  > .details {
     word-break: break-all;
   }
 }

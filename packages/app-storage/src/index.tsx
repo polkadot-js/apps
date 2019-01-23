@@ -2,9 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
-
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { QueryTypes } from './types';
 
 import './index.css';
@@ -15,10 +13,7 @@ import Queries from './Queries';
 import Selection from './Selection/index';
 import translate from './translate';
 
-type Props = I18nProps & {
-  basePath: string,
-  onStatusChange: (status: ActionStatus) => void
-};
+type Props = AppProps & I18nProps;
 
 type State = {
   queue: Array<QueryTypes>

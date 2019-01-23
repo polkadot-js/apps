@@ -39,7 +39,7 @@ class Item extends React.PureComponent<Props> {
   }
 
   private isApiAvailable () {
-    const { apiPromise, isApiConnected, isApiReady, route: { isApiGated, name, needsApi } } = this.props;
+    const { api, isApiConnected, isApiReady, route: { isApiGated, name, needsApi } } = this.props;
 
     if (isApiGated && (!isApiReady || !isApiConnected)) {
       return false;
@@ -51,7 +51,7 @@ class Item extends React.PureComponent<Props> {
       const [area, section, method] = endpoint.split('.');
 
       try {
-        return !isFunction((apiPromise as any)[area][section][method]);
+        return !isFunction((api as any)[area][section][method]);
       } catch (error) {
         return true;
       }

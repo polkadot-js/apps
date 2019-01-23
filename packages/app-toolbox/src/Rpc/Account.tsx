@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-rpc authors & contributors
+// Copyright 2017-2019 @polkadot/app-toolbox authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -43,9 +43,7 @@ class Account extends React.PureComponent<Props, State> {
           <InputAddress
             defaultValue={defaultValue}
             isError={isError}
-            label={t('account.address', {
-              defaultValue: 'sign data from account'
-            })}
+            label={t('sign data from account')}
             onChange={this.onChangeAccount}
             placeholder='0x...'
             type='account'
@@ -67,9 +65,7 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <Labelled
         className='small'
-        label={t('account.nonce', {
-          defaultValue: 'with an index of'
-        })}
+        label={t('with an index of')}
       >
         <Nonce
           className='ui disabled dropdown selection'

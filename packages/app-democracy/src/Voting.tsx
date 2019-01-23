@@ -30,9 +30,7 @@ class Voting extends React.PureComponent<Props, State> {
     return (
       <div className='democracy--Referendum-vote'>
         <InputAddress
-          label={t('voting.account', {
-            defaultValue: 'vote using my account'
-          })}
+          label={t('vote using my account')}
           onChange={this.onChangeAccount}
           placeholder='0x...'
           type='account'

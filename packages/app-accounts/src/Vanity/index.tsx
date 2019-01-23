@@ -81,8 +81,8 @@ class VanityApp extends React.PureComponent<Props, State> {
           onClick={this.toggleStart}
           text={
             isRunning
-              ? t('vanity.stop', { defaultValue: 'Stop generation' })
-              : t('vanity.start', { defaultValue: 'Start generation' })
+              ? t('Stop generation')
+              : t('Start generation')
           }
         />
       </Button.Group>
@@ -118,30 +118,22 @@ class VanityApp extends React.PureComponent<Props, State> {
           className='medium'
           isDisabled={isRunning}
           isError={!isMatchValid}
-          label={t('vanity.matching', {
-            defaultValue: 'generate address containing (? wildcard)'
-          })}
+          label={t('generate address containing (? wildcard)')}
           onChange={this.onChangeMatch}
           value={match}
         />
         <Dropdown
           className='small'
           isDisabled={isRunning}
-          label={t('vanity.case', {
-            defaultValue: 'case sensitive match'
-          })}
+          label={t('case sensitive match')}
           options={BOOL_OPTIONS}
           onChange={this.onChangeCase}
           value={withCase}
         />
         <Static
           className='small'
-          label={t('vanity.offset', {
-            defaultValue: 'exact offset'
-          })}
-          value={t('vanity.offset.off', {
-            defaultValue: 'No'
-          })}
+          label={t('exact offset')}
+          value={t('No')}
         />
       </div>
     );
@@ -159,8 +151,7 @@ class VanityApp extends React.PureComponent<Props, State> {
 
     return (
       <div className='vanity--App-stats'>
-        {t('vanity.stats', {
-          defaultValue: 'Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)',
+        {t('Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)', {
           replace: {
             avg: (keyCount / secs).toFixed(3),
             count: keyCount,

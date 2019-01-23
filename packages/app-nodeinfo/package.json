@@ -1,17 +1,16 @@
 {
-  "name": "@polkadot/app-rpc",
-  "version": "0.22.24",
+  "name": "@polkadot/app-nodeinfo",
+  "version": "0.22.43",
+  "description": "Node status and information",
   "main": "index.js",
-  "repository": "https://github.com/polkadot-js/apps.git",
+  "scripts": {},
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [
     "Jaco Greeff <jacogr@gmail.com>"
   ],
-  "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.2.0",
-    "@polkadot/ui-app": "^0.22.24",
-    "@polkadot/ui-signer": "^0.22.24"
+    "@polkadot/ui-app": "^0.22.43"
   }
 }

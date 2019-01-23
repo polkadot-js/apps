@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableSendResult } from '@polkadot/api/types';
-import { PromiseSubscription, SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
@@ -113,9 +113,7 @@ class Signer extends React.PureComponent<Props, State> {
             isNegative
             onClick={this.onCancel}
             tabIndex={3}
-            text={t('extrinsic.cancel', {
-              defaultValue: 'Cancel'
-            })}
+            text={t('Cancel')}
           />
           <Button.Or />
           <Button
@@ -125,12 +123,8 @@ class Signer extends React.PureComponent<Props, State> {
             tabIndex={2}
             text={
               currentItem.isUnsigned
-                ? t('extrinsic.unsignedSend', {
-                  defaultValue: 'Submit (no signature)'
-                })
-                : t('extrinsic.signedSend', {
-                  defaultValue: 'Sign and Submit'
-                })
+                ? t('Submit (no signature)')
+                : t('Sign and Submit')
             }
           />
         </Button.Group>
@@ -281,10 +275,10 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private async submitRpc ({ method, section }: RpcMethod, values: Array<any>): Promise<QueueTx$Result> {
-    const { apiPromise } = this.props;
+    const { api } = this.props;
 
     try {
-      const result = await (apiPromise.rpc as any)[section][method](...values);
+      const result = await (api.rpc as any)[section][method](...values);
 
       console.log('submitRpc: result ::', format(result));
 
@@ -305,20 +299,24 @@ class Signer extends React.PureComponent<Props, State> {
   private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, id: number, extrinsicCall: (...params: Array<any>) => any, ..._params: Array<any>): Promise<void> {
     const { queueSetTxStatus } = this.props;
 
+    console.log('makeExtrinsicCall: extrinsic ::', extrinsic.toHex());
+
     try {
-      const subscription = await extrinsicCall.apply(extrinsic, [..._params, async (result: SubmittableSendResult) => {
+      const unsubscribe = await extrinsicCall.apply(extrinsic, [..._params, async (result: SubmittableSendResult) => {
+        if (!result || !result.type || !result.status) {
+          return;
+        }
+
         const status = result.type.toLowerCase() as QueueTx$Status;
 
-        console.log('submitAndWatchExtrinsic: updated status ::', result);
+        console.log('makeExtrinsicCall: updated status ::', result);
 
         queueSetTxStatus(id, status, result);
 
         if (status === 'finalised') {
-          const unsubscribe = await subscription;
-
           unsubscribe();
         }
-      }]) as PromiseSubscription;
+      }]);
     } catch (error) {
       console.error('error.message', error.message);
       queueSetTxStatus(id, 'error', {}, error);

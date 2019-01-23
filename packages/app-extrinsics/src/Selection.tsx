@@ -38,11 +38,11 @@ class Selection extends React.PureComponent<Props, State> {
   } as State;
 
   render () {
-    const { apiDefaultTx, apiPromise, t } = this.props;
+    const { apiDefaultTx, api, t } = this.props;
     const { isValid, accountId } = this.state;
     const defaultExtrinsic = (() => {
       try {
-        return apiPromise.tx.balances.transfer;
+        return api.tx.balances.transfer;
       } catch (error) {
         return apiDefaultTx;
       }
@@ -52,23 +52,17 @@ class Selection extends React.PureComponent<Props, State> {
       <div className='extrinsics--Selection'>
         <Account
           isInput={false}
-          label={t('display.sender', {
-            defaultValue: 'using the selected account'
-          })}
+          label={t('using the selected account')}
           onChange={this.onChangeSender}
           type='account'
         />
         <ExtrinsicDisplay
           defaultValue={defaultExtrinsic}
-          labelMethod={t('display.method', {
-            defaultValue: 'submit the following extrinsic'
-          })}
+          labelMethod={t('submit the following extrinsic')}
           onChange={this.onChangeExtrinsic}
         />
         <Nonce
-          label={t('display.nonce', {
-            defaultValue: 'with an index'
-          })}
+          label={t('with an index')}
           callOnResult={this.onChangeNonce}
           value={accountId}
         />
@@ -76,18 +70,14 @@ class Selection extends React.PureComponent<Props, State> {
           <Button
             isDisabled={!isValid}
             onClick={this.onQueueInherent}
-            text={t('submit.label', {
-              defaultValue: 'Submit Inherent'
-            })}
+            text={t('Submit Inherent')}
           />
           <Button.Or />
           <Button
             isDisabled={!isValid}
             isPrimary
             onClick={this.onQueueExtrinsic}
-            text={t('submit.label', {
-              defaultValue: 'Submit Transaction'
-            })}
+            text={t('Submit Transaction')}
           />
         </Button.Group>
       </div>
@@ -127,7 +117,7 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   private onQueue (isUnsigned: boolean): void {
-    const { apiPromise, queueExtrinsic, onStatusChange } = this.props;
+    const { api, queueExtrinsic, onStatusChange } = this.props;
     const { method, isValid, accountId } = this.state;
 
     if (!isValid || !method) {
@@ -135,7 +125,7 @@ class Selection extends React.PureComponent<Props, State> {
     }
 
     const fn = Method.findFunction(method.callIndex);
-    var extrinsic = apiPromise.tx[fn.section][fn.method](...method.args);
+    var extrinsic = api.tx[fn.section][fn.method](...method.args);
 
     if(extrinsic.toU8a().length > MAX_TRANSACTION_SIZE) {
       onStatusChange({

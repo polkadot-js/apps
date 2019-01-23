@@ -69,9 +69,7 @@ class Sign extends React.PureComponent<Props, State> {
           className='full'
           defaultValue={defaultValue}
           isInput={false}
-          label={t('sign.account', {
-            defaultValue: 'using my account'
-          })}
+          label={t('using my account')}
           onChange={this.onChangeAccount}
           type='account'
         />
@@ -92,9 +90,7 @@ class Sign extends React.PureComponent<Props, State> {
         <Button
           isPrimary
           onClick={this.toggleUnlock}
-          text={t('sign.unlock', {
-            defaultValue: 'Unlock account'
-          })}
+          text={t('Unlock account')}
         />
       </Button.Group>
     );
@@ -109,25 +105,17 @@ class Sign extends React.PureComponent<Props, State> {
         <Input
           autoFocus
           className='large'
-          label={t('sign.data', {
-            defaultValue: 'sign the following data (hex or string)'
-          })}
+          label={t('sign the following data (hex or string)')}
           onChange={this.onChangeData}
           value={data}
         />
         <Static
           className='small'
-          label={t('sign.isHex', {
-            defaultValue: 'hex input data'
-          })}
+          label={t('hex input data')}
           value={
             isHexData
-              ? t('sign.isHex.yes', {
-                defaultValue: 'Yes'
-              })
-              : t('sign.isHex.no', {
-                defaultValue: 'No'
-              })
+              ? t('Yes')
+              : t('No')
           }
         />
       </div>
@@ -143,9 +131,7 @@ class Sign extends React.PureComponent<Props, State> {
         <Output
           className='full toolbox--hex'
           isHidden={signature.length === 0}
-          label={t('sign.signed', {
-            defaultValue: 'signature of supplied data'
-          })}
+          label={t('signature of supplied data')}
           value={signature}
           withCopy
         />

@@ -41,9 +41,7 @@ class KeyValueArray extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    this.placeholderEmpty = props.t('kvarray.empty', {
-      defaultValue: 'drag and drop JSON key/value (hex-encoded) file'
-    });
+    this.placeholderEmpty = props.t('drag and drop JSON key/value (hex-encoded) file');
     this.state = {
       placeholder: this.placeholderEmpty
     };
@@ -108,8 +106,7 @@ class KeyValueArray extends React.PureComponent<Props, State> {
       encoded = this.parseFile(raw);
 
       this.setState({
-        placeholder: t('kvarray.values', {
-          defaultValue: '{{count}} key/value pairs encoded for submission',
+        placeholder: t('{{count}} key/value pairs encoded for submission', {
           replace: {
             count: encoded.value.length
           }

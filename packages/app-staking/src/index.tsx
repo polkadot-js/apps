@@ -3,8 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { AccountId, Balance } from '@polkadot/types';
@@ -19,12 +18,10 @@ import translate from './translate';
 
 type Actions = 'actions' | 'overview';
 
-type Props = I18nProps & {
-  basePath: string,
+type Props = AppProps & I18nProps & {
   balances?: DerivedBalancesMap,
   intentions?: Array<AccountId>,
-  onStatusChange: (status: ActionStatus) => void,
-  query_session_validators?: Array<AccountId>
+  session_validators?: Array<AccountId>
 };
 
 type State = {
@@ -51,12 +48,12 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ query_session_validators, intentions }: Props): State {
+  static getDerivedStateFromProps ({ session_validators, intentions }: Props): State {
     return {
       intentions: (intentions || []).map((accountId) =>
         accountId.toString()
       ),
-      validators: (query_session_validators || []).map((authorityId) =>
+      validators: (session_validators || []).map((authorityId) =>
         authorityId.toString()
       )
     } as State;
@@ -69,11 +66,11 @@ class App extends React.PureComponent<Props, State> {
     const items = [
       {
         name: 'overview',
-        text: t('app.overview', { defaultValue: 'Staking Overview' })
+        text: t('Staking Overview')
       },
       {
         name: 'actions',
-        text: t('app.actions', { defaultValue: 'Account Actions' })
+        text: t('Account Actions')
       }
     ];
 

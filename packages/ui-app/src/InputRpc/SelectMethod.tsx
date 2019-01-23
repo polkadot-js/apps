@@ -38,9 +38,7 @@ class SelectMethod extends React.PureComponent<Props> {
       <Dropdown
         className={classes('ui--DropdownLinked-Items', className)}
         isError={isError}
-        label={label || t('input.rpc.method', {
-          defaultValue: 'with method name'
-        })}
+        label={label || t('with method name')}
         onChange={onChange}
         options={options}
         style={style}

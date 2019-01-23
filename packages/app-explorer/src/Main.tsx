@@ -26,15 +26,11 @@ class Main extends React.PureComponent<Props> {
         key='overview'
       >
         <div className='column'>
-          <h1>{t('main.recentBlocks', {
-            defaultValue: 'recent blocks'
-          })}</h1>
+          <h1>{t('recent blocks')}</h1>
           <BlockHeaders />
         </div>
         <div className='column'>
-          <h1>{t('main.recentEvents', {
-            defaultValue: 'recent events'
-          })}</h1>
+          <h1>{t('recent events')}</h1>
           <EventsRecent />
         </div>
       </div>

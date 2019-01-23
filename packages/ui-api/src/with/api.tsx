@@ -16,7 +16,7 @@ export default function withApi <P extends ApiProps> (Inner: React.ComponentType
       return (
         <ApiConsumer>
           {(apiProps?: ApiProps) => {
-            assert(apiProps && apiProps.apiPromise, `Application root must be wrapped inside 'rx-react/Api' to provide API context`);
+            assert(apiProps && apiProps.api, `Application root must be wrapped inside 'rx-react/Api' to provide API context`);
 
             return (
               // @ts-ignore Something here with the props are going wonky

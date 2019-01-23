@@ -4,17 +4,17 @@
 
 import { Routes } from '../types';
 
-import Rpc from '@polkadot/app-rpc/index';
+import Nodeinfo from '@polkadot/app-nodeinfo/index';
 
 export default ([
   {
-    Component: Rpc,
+    Component: Nodeinfo,
     i18n: {
-      defaultValue: 'Raw RPC'
+      defaultValue: 'Node info'
     },
-    icon: 'code',
+    icon: 'tty',
     isApiGated: true,
     isHidden: false,
-    name: 'rpc'
+    name: 'nodeinfo'
   }
 ] as Routes);

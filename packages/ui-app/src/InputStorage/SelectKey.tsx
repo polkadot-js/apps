@@ -25,22 +25,20 @@ type Props = ApiProps & I18nProps & {
 
 class SelectKey extends React.PureComponent<Props> {
   render () {
-    const { apiPromise, className, isError, label = '', onChange, options, style, t, value, withLabel } = this.props;
+    const { api, className, isError, label = '', onChange, options, style, t, value, withLabel } = this.props;
 
     if (!options.length) {
       return null;
     }
 
     const transform = (method: string): StorageFunction =>
-      apiPromise.query[value.section][method];
+      api.query[value.section][method];
 
     return (
       <Dropdown
         className={classes('ui--DropdownLinked-Items', className)}
         isError={isError}
-        label={label || t('input.storage.key', {
-          defaultValue: 'with state key'
-        })}
+        label={label || t('with state key')}
         onChange={onChange}
         options={options}
         style={style}

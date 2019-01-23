@@ -35,9 +35,9 @@ class Modules extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const { apiPromise } = this.props;
+    const { api } = this.props;
 
-    this.defaultValue = apiPromise.query.timestamp.now;
+    this.defaultValue = api.query.timestamp.now;
     this.state = {
       isValid: true,
       key: this.defaultValue,
@@ -55,9 +55,7 @@ class Modules extends React.PureComponent<Props, State> {
         <div className='storage--actionrow-value'>
           <InputStorage
             defaultValue={this.defaultValue}
-            labelSection={t('selection.section', {
-              defaultValue: 'query state section'
-            })}
+            labelSection={t('query state section')}
             onChange={this.onChangeKey}
           />
           <Params

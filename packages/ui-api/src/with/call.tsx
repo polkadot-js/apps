@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps, CallProps } from '../types';
-import { HOC, Options } from './types';
+import { ApiProps, CallState, Subtract } from '../types';
+import { Options } from './types';
 
 import React from 'react';
-import { assert, isUndefined } from '@polkadot/util';
+import { assert, isNull, isUndefined } from '@polkadot/util';
 
 import { isEqual, triggerChange } from '../util/index';
 import echoTransform from '../transform/echo';
@@ -17,33 +17,31 @@ interface Method {
   at: (hash: Uint8Array | string, ...params: Array<any>) => Promise<any>;
 }
 
-type State = CallProps & {
-  destroy?: () => void,
-  propName: string,
-  timerId: number
-};
+type State = CallState;
 
 const NOOP = () => {
   // ignore
 };
 
-export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, params = [], paramProp = 'params', propName, transform = echoTransform }: Options = {}): HOC {
-  return (Inner: React.ComponentType<ApiProps>): React.ComponentType<any> => {
+export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, params = [], paramName = 'params', propName, transform = echoTransform }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
+  return (Inner: React.ComponentType<ApiProps>): React.ComponentType<Subtract<P, ApiProps>> => {
     class WithPromise extends React.Component<P, State> {
       state: State;
-      isActive: boolean = true;
+      private destroy?: () => void;
+      private isActive: boolean = false;
+      private propName: string;
+      private timerId: number = -1;
 
       constructor (props: P) {
         super(props);
 
-        const [area, section, method] = endpoint.split('.');
+        const [, section, method] = endpoint.split('.');
 
+        this.propName = `${section}_${method}`;
         this.state = {
-          propName: `${area}_${section}_${method}`,
           callResult: void 0,
           callUpdated: false,
-          callUpdatedAt: 0,
-          timerId: -1
+          callUpdatedAt: 0
         };
       }
 
@@ -60,7 +58,8 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       }
 
       componentDidMount () {
-        const timerId = window.setInterval(() => {
+        this.isActive = true;
+        this.timerId = window.setInterval(() => {
           const elapsed = Date.now() - (this.state.callUpdatedAt || 0);
           const callUpdated = elapsed <= 1500;
 
@@ -69,10 +68,6 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
           }
         }, 500);
 
-        this.nextState({
-          timerId
-        });
-
         this
           .subscribe(this.getParams(this.props))
           .then(NOOP)
@@ -80,15 +75,13 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       }
 
       componentWillUnmount () {
-        const { timerId } = this.state;
-
         this.isActive = false;
 
-        if (timerId !== -1) {
-          clearInterval(timerId);
-        }
-
         this.unsubscribe();
+
+        if (this.timerId !== -1) {
+          clearInterval(this.timerId);
+        }
       }
 
       private nextState (state: Partial<State>) {
@@ -98,7 +91,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       }
 
       private getParams (props: any): Array<any> {
-        const paramValue = props[paramProp];
+        const paramValue = props[paramName];
 
         if (atProp) {
           at = props[atProp];
@@ -114,7 +107,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       }
 
       private getApiMethod (newParams: Array<any>): [Method, Array<any>, boolean] {
-        const { apiPromise } = this.props;
+        const { api } = this.props;
 
         if (endpoint === 'subscribe') {
           const [fn, ...params] = newParams;
@@ -132,9 +125,17 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         assert(['rpc', 'query', 'derive'].includes(area), `Unknown api.${area}, expected rpc, query or derive`);
         assert(!at || area === 'query', 'Only able todo an at query on the api.query interface');
 
-        const apiSection = (apiPromise as any)[area][section];
+        const apiSection = (api as any)[area][section];
 
         assert(apiSection && apiSection[method], `Unable to find api.${area}.${section}.${method}`);
+
+        const meta = apiSection[method].meta;
+
+        if (area === 'query' && meta && meta.type.isMap) {
+          const arg = newParams[0];
+
+          assert(!isUndefined(arg) && !isNull(arg), `${meta.name} expects one argument`);
+        }
 
         return [
           apiSection[method],
@@ -144,9 +145,9 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       }
 
       private async subscribe (newParams: Array<any>) {
-        const { apiPromise } = this.props;
+        const { api } = this.props;
 
-        await apiPromise.isReady;
+        await api.isReady;
 
         try {
           const [apiMethod, params, isSubscription] = this.getApiMethod(newParams);
@@ -156,11 +157,9 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
           this.unsubscribe();
 
           if (isSubscription) {
-            const destroy = await apiMethod(...params, (value?: any) =>
+            this.destroy = await apiMethod(...params, (value?: any) =>
               this.triggerUpdate(this.props, value)
             );
-
-            this.nextState({ destroy });
           } else {
             const value: any = at
               ? await apiMethod.at(at, ...params)
@@ -174,10 +173,9 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       }
 
       private unsubscribe () {
-        const { destroy } = this.state;
-
-        if (destroy) {
-          destroy();
+        if (this.destroy) {
+          this.destroy();
+          this.destroy = undefined;
         }
       }
 
@@ -207,7 +205,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
           ...this.props,
           callUpdated,
           callUpdatedAt,
-          [propName || this.state.propName]: callResult
+          [propName || this.propName]: callResult
         };
 
         return (

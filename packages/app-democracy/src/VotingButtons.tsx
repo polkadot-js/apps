@@ -28,18 +28,14 @@ class VotingButton extends React.PureComponent<Props> {
         <Button
           isDisabled={!accountId}
           isNegative
-          text={t('votebtn.nay', {
-            defaultValue: 'Nay'
-          })}
+          text={t('Nay')}
           onClick={this.onClickNo}
         />
         <Button.Or />
         <Button
           isDisabled={!accountId}
           isPositive
-          text={t('votebtn.aye', {
-            defaultValue: 'Aye'
-          })}
+          text={t('Aye')}
           onClick={this.onClickYes}
         />
       </Button.Group>
@@ -47,14 +43,14 @@ class VotingButton extends React.PureComponent<Props> {
   }
 
   private doVote (vote: boolean) {
-    const { accountId, apiPromise, queueExtrinsic, referendumId } = this.props;
+    const { accountId, api, queueExtrinsic, referendumId } = this.props;
 
     if (!accountId) {
       return;
     }
 
     queueExtrinsic({
-      extrinsic: apiPromise.tx.democracy.vote(referendumId, vote ? -1 : 0),
+      extrinsic: api.tx.democracy.vote(referendumId, vote ? -1 : 0),
       accountId
     });
   }

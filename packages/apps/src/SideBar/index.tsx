@@ -29,7 +29,7 @@ const LOGO = LOGOS.get(settings.uiTheme) || polkadotLogo;
 
 class SideBar extends React.PureComponent<Props> {
   render () {
-    const { children, t } = this.props;
+    const { children } = this.props;
 
     return (
       <div className='apps--SideBar'>
@@ -37,55 +37,80 @@ class SideBar extends React.PureComponent<Props> {
           secondary
           vertical
         >
-          <img
-            alt='polkadot'
-            className='apps--SideBar-logo'
-            src={LOGO}
-          />
-          {
-            routing.routes
-              .filter((route) =>
-                !route || !route.isHidden
-              )
-              .map((route, index) => (
-                route
-                  ? (
-                    <Item
-                      key={route.name}
-                      t={t}
-                      route={route}
-                    />
-                  )
-                  : (
-                    <Menu.Divider
-                      hidden
-                      key={index}
-                    />
-                  )
-              ))
-          }
+          {this.renderLogo()}
+          {this.renderRoutes()}
           <Menu.Divider hidden />
-          <Menu.Item className='apps--SideBar-Item'>
-            <a
-              className='apps--SideBar-Item-NavLink'
-              href='https://github.com/polkadot-js/apps'
-            >
-              <Icon name='github' /> GitHub
-            </a>
-          </Menu.Item>
-          <Menu.Item className='apps--SideBar-Item'>
-            <a
-              className='apps--SideBar-Item-NavLink'
-              href='https://github.com/w3f/Web3-wiki/wiki/Polkadot'
-            >
-              <Icon name='book' /> Wiki
-            </a>
-          </Menu.Item>
+          {this.renderGithub()}
+          {this.renderWiki()}
           <Menu.Divider hidden />
           {children}
         </Menu>
       </div>
     );
+  }
+
+  private renderLogo () {
+    return (
+      <img
+        alt='polkadot'
+        className='apps--SideBar-logo'
+        src={LOGO}
+      />
+    );
+  }
+
+  private renderRoutes () {
+    const { t } = this.props;
+
+    return routing.routes
+      .filter((route) =>
+        !route || !route.isHidden
+      )
+      .map((route, index) => (
+        route
+          ? (
+            <Item
+              key={route.name}
+              t={t}
+              route={route}
+            />
+          )
+          : (
+            <Menu.Divider
+              hidden
+              key={index}
+            />
+          )
+      ));
+  }
+
+  private renderGithub () {
+    return (
+      <Menu.Item className='apps--SideBar-Item'>
+        <a
+          className='apps--SideBar-Item-NavLink'
+          href='https://github.com/polkadot-js/apps'
+        >
+          <Icon name='github' /> GitHub
+        </a>
+      </Menu.Item>
+    );
+  }
+
+  private renderWiki () {
+    return null;
+
+    // disabled for now, we need the space
+    // return (
+    //   <Menu.Item className='apps--SideBar-Item'>
+    //     <a
+    //       className='apps--SideBar-Item-NavLink'
+    //       href='https://github.com/w3f/Web3-wiki/wiki/Polkadot'
+    //     >
+    //       <Icon name='book' /> Wiki
+    //     </a>
+    //   </Menu.Item>
+    // );
   }
 }
 
