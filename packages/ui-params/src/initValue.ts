@@ -49,7 +49,7 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
       return '';
 
     case 'Moment':
-      return new Date(0);
+      return new BN(0);
 
     case 'Vote':
       return -1;
