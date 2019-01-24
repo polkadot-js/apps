@@ -7,7 +7,7 @@ import { I18nProps } from './types';
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
 import { Nonce } from '@polkadot/ui-reactive/index';
-import { withCalls, withMulti } from '@polkadot/ui-api/index';
+import { withCalls } from '@polkadot/ui-api/index';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
@@ -208,11 +208,9 @@ export {
   AddressSummary
 };
 
-export default withMulti(
-  AddressSummary,
-  translate,
-  withCalls(
+export default translate(
+  withCalls<Props>(
     ['derive.accounts.idAndIndex', { paramName: 'value' }],
     'query.session.validators'
-  )
+  )(AddressSummary)
 );

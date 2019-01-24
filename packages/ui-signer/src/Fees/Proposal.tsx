@@ -11,7 +11,7 @@ import React from 'react';
 import { Compact } from '@polkadot/types/codec';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
 import { Icon } from '@polkadot/ui-app/index';
-import { balanceFormat } from '@polkadot/ui-reactive/util/index';
+import { formatBalance } from '@polkadot/ui-app/util';
 
 import translate from '../translate';
 
@@ -65,7 +65,7 @@ class Proposal extends React.PureComponent<Props, State> {
       isBelowMinimum
         ? <div key='belowmin'><Icon name='warning sign' />{t('The deposit is below the {{minimum}} minimum required for the proposal to be evaluated', {
           replace: {
-            minimum: balanceFormat(democracy_minimumDeposit)
+            minimum: formatBalance(democracy_minimumDeposit)
           }
         })}</div>
         : undefined,
@@ -73,7 +73,7 @@ class Proposal extends React.PureComponent<Props, State> {
         ? undefined
         : <div key='infodeposit'><Icon name='arrow right' />{t('The deposit of {{deposit}} will be reserved until the proposal is completed', {
           replace: {
-            deposit: balanceFormat(extraAmount)
+            deposit: formatBalance(extraAmount)
           }
         })}</div>
     ];

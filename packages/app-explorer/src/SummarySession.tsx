@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { BlockNumber } from '@polkadot/types';
 import { CardSummary } from '@polkadot/ui-app/index';
-import { withCalls, withMulti } from '@polkadot/ui-api/index';
+import { withCalls } from '@polkadot/ui-api/index';
 
 import translate from './translate';
 
@@ -95,13 +95,11 @@ class SummarySession extends React.PureComponent<Props> {
   }
 }
 
-export default withMulti(
-  SummarySession,
-  translate,
-  withCalls(
+export default translate(
+  withCalls<Props>(
     'derive.session.eraLength',
     'derive.session.eraProgress',
     'derive.session.sessionProgress',
     'query.session.sessionLength'
-  )
+  )(SummarySession)
 );

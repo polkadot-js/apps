@@ -17,6 +17,7 @@ export { default as AddressMini } from './AddressMini';
 export { default as AddressRow } from './AddressRow';
 export { default as AddressSummary } from './AddressSummary';
 export { default as Balance } from './Balance';
+export { default as Bubble } from './Bubble';
 export { default as Button } from './Button';
 export { default as Call } from './Call';
 export { default as CardSummary } from './CardSummary';

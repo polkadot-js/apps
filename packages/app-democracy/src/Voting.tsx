@@ -14,7 +14,7 @@ import VotingButtons from './VotingButtons';
 import translate from './translate';
 
 type Props = I18nProps & {
-  referendumId: BN
+  referendumId: BN | number
 };
 
 type State = {

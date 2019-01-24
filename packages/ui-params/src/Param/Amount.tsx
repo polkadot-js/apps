@@ -7,7 +7,7 @@ import { Props } from '../types';
 import BN from 'bn.js';
 import React from 'react';
 import { Input } from '@polkadot/ui-app/index';
-import numberFormat from '@polkadot/ui-reactive/util/numberFormat';
+import { formatNumber } from '@polkadot/ui-app/util';
 
 import Bare from './Bare';
 
@@ -15,7 +15,7 @@ export default class Amount extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
     const defaultValue = isDisabled
-      ? numberFormat(value)
+      ? formatNumber(value)
       : (
         value instanceof BN
           ? value.toNumber()

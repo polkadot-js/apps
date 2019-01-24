@@ -10,8 +10,8 @@ import ApiPromise from '@polkadot/api/promise';
 import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { InputNumber } from '@polkadot/ui-app/InputNumber';
+import { formatBalance } from '@polkadot/ui-app/util';
 import keyring from '@polkadot/ui-keyring';
-import { balanceFormat } from '@polkadot/ui-reactive/util/index';
 import settings from '@polkadot/ui-settings';
 import { ChainProperties } from '@polkadot/types';
 
@@ -92,7 +92,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     console.log('api: found chain', chain, [...properties.entries()]);
 
     // first setup the UI helpers
-    balanceFormat.setDefaultDecimals(properties.get('tokenDecimals') || found.tokenDecimals || 0);
+    formatBalance.setDefaultDecimals(properties.get('tokenDecimals') || found.tokenDecimals || 0);
     InputNumber.setUnit(properties.get('tokenSymbol') || found.tokenSymbol);
 
     // setup keyring (loadAll) only after prefix has been set

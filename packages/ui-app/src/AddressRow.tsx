@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
-import { withCalls, withMulti } from '@polkadot/ui-api/index';
+import { withCalls } from '@polkadot/ui-api/index';
 
 import classes from './util/classes';
-import { AddressSummary } from './AddressSummary';
+import { AddressSummary, Props } from './AddressSummary';
 import translate from './translate';
 
 class AddressRow extends AddressSummary {
@@ -32,11 +32,9 @@ class AddressRow extends AddressSummary {
   }
 }
 
-export default withMulti(
-  AddressRow,
-  translate,
-  withCalls(
+export default translate(
+  withCalls<Props>(
     ['derive.accounts.idAndIndex', { paramName: 'value' }],
     'query.session.validators'
-  )
+  )(AddressRow)
 );

@@ -9,7 +9,7 @@ import { ComponentMap, RawParams, RawParam$OnChange, RawParam$OnChange$Value } f
 import './Params.css';
 
 import React from 'react';
-import classes from '@polkadot/ui-app/util/classes';
+import { classes } from '@polkadot/ui-app/util';
 import translate from '@polkadot/ui-app/translate';
 
 import Param from './Param';

@@ -7,8 +7,7 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 import React from 'react';
 import { Moment } from '@polkadot/types';
 import { withCall } from '@polkadot/ui-api/index';
-
-import { numberFormat } from './util/index';
+import { formatNumber } from '@polkadot/ui-app/util/index';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
@@ -27,7 +26,7 @@ class TimePeriod extends React.PureComponent<Props> {
       >
         {label}{
           timestamp_blockPeriod
-            ? `${numberFormat(timestamp_blockPeriod.toNumber() * 2)}s`
+            ? `${formatNumber(timestamp_blockPeriod.toNumber() * 2)}s`
             : '-'
           }{children}
       </div>

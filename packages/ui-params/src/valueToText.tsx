@@ -5,11 +5,11 @@
 import './Params.css';
 
 import React from 'react';
-import classes from '@polkadot/ui-app/util/classes';
+import { classes } from '@polkadot/ui-app/util';
 import { isNull, isUndefined, u8aToHex } from '@polkadot/util';
 
 // import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
-// import numberFormat from '@polkadot/ui-reactive/util/numberFormat';
+// import formatNumber from '@polkadot/ui-app/util/formatNumber';
 // import keyring from '@polkadot/ui-keyring';
 // import u8aToHex from '@polkadot/util/u8a/toHex';
 // import isBn from '@polkadot/util/is/bn';
@@ -140,7 +140,7 @@ function valueToText (type: string, value: any, swallowError: boolean = true, co
   //   }
 
   //   if (isBn(value)) {
-  //     return div({}, numberFormat(value));
+  //     return div({}, formatNumber(value));
   //   }
   // } catch (error) {
   //   if (!swallowError) {
