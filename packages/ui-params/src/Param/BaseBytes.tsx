@@ -7,7 +7,7 @@ import { Props as BaseProps, Size } from '../types';
 import React from 'react';
 import { Compact } from '@polkadot/types/codec';
 import { Input } from '@polkadot/ui-app/index';
-import { hexToU8a, u8aToHex } from '@polkadot/util';
+import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
 
 import Bare from './Bare';
 
@@ -26,7 +26,11 @@ export default class BaseBytes extends React.PureComponent<Props> {
   render () {
     const { children, className, defaultValue: { value }, isDisabled, isError, label, size = 'full', style, withLabel } = this.props;
     const defaultValue = value
-      ? u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
+      ? (
+        isHex(value)
+          ? value
+          : u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
+      )
       : undefined;
 
     return (
@@ -56,16 +60,20 @@ export default class BaseBytes extends React.PureComponent<Props> {
     const { length = -1, onChange, validate = defaultValidate, withLength } = this.props;
 
     let value: Uint8Array;
+    let isValid: boolean = true;
 
     try {
       value = hexToU8a(hex);
     } catch (error) {
       value = new Uint8Array([]);
+      isValid = false;
     }
 
-    let isValid = validate(value) && length !== -1
-      ? value.length === length
-      : value.length !== 0;
+    isValid = isValid && validate(value) && (
+      length !== -1
+        ? value.length === length
+        : value.length !== 0
+    );
 
     if (withLength && isValid) {
       value = Compact.addLengthPrefix(value);
