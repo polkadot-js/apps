@@ -122,15 +122,15 @@ class Creator extends React.PureComponent<Props, State> {
     return (
       <Button.Group>
         <Button
+          label={t('Reset')}
           onClick={this.onDiscard}
-          text={t('Reset')}
         />
         <Button.Or />
         <Button
           isDisabled={!isValid}
           isPrimary
+          label={t('Save')}
           onClick={this.onShowWarning}
-          text={t('Save')}
         />
       </Button.Group>
     );
@@ -209,14 +209,14 @@ class Creator extends React.PureComponent<Props, State> {
         <Button.Group>
           <Button
             isNegative
+            label={t('Cancel')}
             onClick={this.onHideWarning}
-            text={t('Cancel')}
           />
           <Button.Or />
           <Button
             isPrimary
+            label={t('Create and backup account')}
             onClick={this.onCommit}
-            text={t('Create and backup account')}
           />
         </Button.Group>
       </Modal.Actions>

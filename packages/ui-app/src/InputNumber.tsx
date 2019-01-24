@@ -24,7 +24,7 @@ type Props = BareProps & I18nProps & {
   isSi?: boolean,
   label?: any,
   maxLength?: number,
-  onChange: (value?: BN) => void,
+  onChange?: (value?: BN) => void,
   placeholder?: string,
   value?: BN | string,
   withLabel?: boolean
@@ -186,7 +186,7 @@ class InputNumber extends React.PureComponent<Props, State> {
 
       this.setState({ isValid, valueBN });
 
-      onChange(
+      onChange && onChange(
         isValid
           ? valueBN
           : undefined
@@ -255,7 +255,7 @@ class InputNumber extends React.PureComponent<Props, State> {
       const valueBN = this.applyNewSi(prevState.siUnit, siUnit, prevState.valueBN);
       const isValid = this.isValidNumber(valueBN, bitLength);
 
-      onChange(
+      onChange && onChange(
         isValid
           ? valueBN
           : undefined

@@ -62,15 +62,15 @@ class ChangePass extends React.PureComponent<Props, State> {
         <Button.Group>
           <Button
             isNegative
+            label={t('Cancel')}
             onClick={onClose}
-            text={t('Cancel')}
           />
           <Button.Or />
           <Button
             isDisabled={!isNewValid || !isOldValid}
             isPrimary
+            label={t('Change')}
             onClick={this.doChange}
-            text={t('Change')}
           />
         </Button.Group>
       </Modal.Actions>

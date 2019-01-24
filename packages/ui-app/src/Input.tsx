@@ -27,7 +27,7 @@ type Props = BareProps & {
   maxLength?: number,
   min?: any,
   name?: string,
-  onChange: (value: string) => void,
+  onChange?: (value: string) => void,
   onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
   onKeyUp?: (event: React.KeyboardEvent<Element>) => void,
   placeholder?: string,
@@ -148,7 +148,7 @@ export default class Input extends React.PureComponent<Props, State> {
     const { onChange } = this.props;
     const { value } = event.target as HTMLInputElement;
 
-    onChange(value);
+    onChange && onChange(value);
   }
 
   private onKeyDown = (event: React.KeyboardEvent<Element>): void => {

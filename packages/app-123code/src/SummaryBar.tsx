@@ -25,40 +25,59 @@ type Props = ApiProps & BareProps & I18nProps & {
   system_name?: string,
   system_version?: string
 };
-type State = {};
+type State = {
+  nextUp: Array<AccountId>
+};
 
 class SummaryBar extends React.PureComponent<Props, State> {
+  state: State = {
+    nextUp: []
+  };
+
+  static getDerivedStateFromProps ({ staking_intentions, session_validators }: Props): State | null {
+    if (!staking_intentions || !session_validators) {
+      return null;
+    }
+
+    return {
+      nextUp: staking_intentions.filter((accountId) =>
+        !session_validators.find((validatorId) => validatorId.eq(accountId))
+      )
+    };
+  }
+
   render () {
-    const { balances_totalIssuance, chain_bestNumber, chain_bestNumberLag, chain_getRuntimeVersion, staking_intentions = [], session_validators = [], system_chain, system_name, system_version } = this.props;
+    const { balances_totalIssuance, chain_bestNumber, chain_bestNumberLag, chain_getRuntimeVersion, session_validators = [], system_chain, system_name, system_version } = this.props;
+    const { nextUp } = this.state;
 
     return (
       <summary>
         <div>
-          <Bubble icon='tty' text='node'>
+          <Bubble icon='tty' label='node'>
             {system_name} v{system_version}
           </Bubble>
-          <Bubble icon='chain' text='chain'>
+          <Bubble icon='chain' label='chain'>
             {system_chain}
           </Bubble>
-          <Bubble icon='code' text='runtime'>{
+          <Bubble icon='code' label='runtime'>{
             chain_getRuntimeVersion
               ? `${chain_getRuntimeVersion.implName} v${chain_getRuntimeVersion.implVersion}`
               : undefined
           }</Bubble>
-          <Bubble icon='bullseye' text='best #'>
+          <Bubble icon='bullseye' label='best #'>
             {formatNumber(chain_bestNumber)} ({formatNumber(chain_bestNumberLag)} lag)
           </Bubble>
-          <Bubble icon='chess queen' text='validators'>{
+          <Bubble icon='chess queen' label='validators'>{
             session_validators.map((accountId, index) => (
               <IdentityIcon key={index} value={accountId} size={20} />
             ))
           }</Bubble>
-          <Bubble icon='chess bishop' text='intentions'>{
-            staking_intentions.map((accountId, index) => (
+          <Bubble icon='chess bishop' label='next up'>{
+            nextUp.map((accountId, index) => (
               <IdentityIcon key={index} value={accountId} size={20} />
             ))
           }</Bubble>
-          <Bubble icon='adjust' text='total tokens'>
+          <Bubble icon='circle' label='total tokens'>
             {formatBalance(balances_totalIssuance)}
           </Bubble>
         </div>

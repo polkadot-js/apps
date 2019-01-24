@@ -25,7 +25,7 @@ type Props = BareProps & {
   isError?: boolean,
   isInput?: boolean,
   label?: string,
-  onChange: (value: string | null) => void,
+  onChange?: (value: string | null) => void,
   optionsAll?: KeyringOptions,
   placeholder?: string,
   type?: KeyringOption$Type,
@@ -169,7 +169,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     InputAddress.setLastValue(type, address);
 
-    onChange(transformToAccountId(address));
+    onChange && onChange(transformToAccountId(address));
   }
 
   private onSearch = (filteredOptions: KeyringSectionOptions, _query: string): KeyringSectionOptions => {

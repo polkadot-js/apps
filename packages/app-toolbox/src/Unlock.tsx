@@ -67,13 +67,13 @@ class Unlock extends React.PureComponent<Props, State> {
         <Button
           isNegative
           onClick={this.onCancel}
-          text={t('Cancel')}
+          label={t('Cancel')}
         />
         <Button.Or />
         <Button
           isPrimary
           onClick={this.onUnlock}
-          text={t('Unlock')}
+          label={t('Unlock')}
         />
       </Button.Group>
     );

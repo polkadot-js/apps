@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from './types';
-import { SemanticICONS } from 'semantic-ui-react/dist/commonjs/generic';
+import { SemanticCOLORS, SemanticICONS } from 'semantic-ui-react/dist/commonjs/generic';
 
 import React from 'react';
 import SUILabel from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
@@ -14,17 +14,20 @@ import Icon from './Icon';
 
 type Props = BareProps & {
   children: React.ReactNode,
+  color?: SemanticCOLORS,
   icon?: SemanticICONS,
-  text?: React.ReactNode,
-  [index: string]: any
+  label?: React.ReactNode
 };
 
 export default class Bubble extends React.PureComponent<Props> {
   render () {
-    const { children, className, icon, text } = this.props;
+    const { color, children, className, icon, label } = this.props;
 
     return (
-      <SUILabel className={classes(`theme--${settings.uiTheme}`, 'ui--Bubble', className)}>
+      <SUILabel
+        className={classes(`theme--${settings.uiTheme}`, 'ui--Bubble', className)}
+        color={color}
+      >
         <div className='ui--Bubble-header'>
           {
             icon
@@ -32,8 +35,8 @@ export default class Bubble extends React.PureComponent<Props> {
               : undefined
           }
           {
-            text
-              ? <div className='text'>{text}</div>
+            label
+              ? <div className='text'>{label}</div>
               : undefined
           }
         </div>

@@ -73,13 +73,13 @@ class Preferences extends React.PureComponent<Props, State> {
           <Button
             isNegative
             onClick={onClose}
-            text={t('Cancel')}
+            label={t('Cancel')}
           />
           <Button.Or />
           <Button
             isPrimary
             onClick={this.setPrefs}
-            text={t('Set Prefs')}
+            label={t('Set Prefs')}
           />
         </Button.Group>
       </Modal.Actions>

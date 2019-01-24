@@ -63,7 +63,7 @@ class Selection extends React.PureComponent<Props, State> {
             isDisabled={!isValid}
             isPrimary
             onClick={this.onSubmit}
-            text={t('Submit RPC call')}
+            label={t('Submit RPC call')}
           />
         </Button.Group>
       </section>

@@ -59,15 +59,15 @@ class Backup extends React.PureComponent<Props, State> {
         <Button.Group>
           <Button
             isNegative
+            label={t('Cancel')}
             onClick={onClose}
-            text={t('Cancel')}
           />
           <Button.Or />
           <Button
             isDisabled={!isPassValid}
             isPrimary
+            label={t('Download')}
             onClick={this.doBackup}
-            text={t('Download')}
           />
         </Button.Group>
       </Modal.Actions>

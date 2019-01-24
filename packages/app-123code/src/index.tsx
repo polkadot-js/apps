@@ -16,22 +16,36 @@ import React from 'react';
 import './index.css';
 
 // local imports and components
+import AccountSelector from './AccountSelector';
 import SummaryBar from './SummaryBar';
+import Transfer from './Transfer';
 import translate from './translate';
 
 // define out internal types
 type Props = AppProps & I18nProps;
-type State = {};
+type State = {
+  accountId?: string
+};
 
 class App extends React.PureComponent<Props, State> {
+  state: State = {};
+
   render () {
+    const { accountId } = this.state;
+
     return (
       // in all apps, the main wrapper is setup to allow the padding
       // and margins inside the application. (Just from a consistent pov)
       <main>
         <SummaryBar />
+        <AccountSelector onChange={this.onAccountChange} />
+        <Transfer accountId={accountId} />
       </main>
     );
+  }
+
+  private onAccountChange = (accountId?: string): void => {
+    this.setState({ accountId });
   }
 }
 

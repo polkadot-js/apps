@@ -22,7 +22,7 @@ class ButtonOr extends React.PureComponent<Props> {
       <SUIButton.Or
         className={className}
         style={style}
-        text={
+        label={
           isUndefined(text)
             ? t('or')
             : text

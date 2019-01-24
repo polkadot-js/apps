@@ -79,7 +79,7 @@ class VanityApp extends React.PureComponent<Props, State> {
           isDisabled={!isMatchValid}
           isPrimary={!isRunning}
           onClick={this.toggleStart}
-          text={
+          label={
             isRunning
               ? t('Stop generation')
               : t('Start generation')

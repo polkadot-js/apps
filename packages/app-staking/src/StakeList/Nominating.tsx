@@ -67,14 +67,14 @@ class Nominating extends React.PureComponent<Props, State> {
           <Button
             isNegative
             onClick={onClose}
-            text={t('Cancel')}
+            label={t('Cancel')}
           />
           <Button.Or />
           <Button
             isDisabled={!isNomineeValid}
             isPrimary
             onClick={this.nominate}
-            text={t('Nominate')}
+            label={t('Nominate')}
           />
         </Button.Group>
       </Modal.Actions>

@@ -62,7 +62,7 @@ class Restore extends React.PureComponent<Props, State> {
           isDisabled={!isFileValid || !isPassValid}
           isPrimary
           onClick={this.onSave}
-          text={t('Restore')}
+          label={t('Restore')}
         />
       </Button.Group>
       </div>
