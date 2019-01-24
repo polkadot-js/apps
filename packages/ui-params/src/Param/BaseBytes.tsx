@@ -25,7 +25,6 @@ const defaultValidate = (u8a: Uint8Array): boolean =>
 export default class BaseBytes extends React.PureComponent<Props> {
   render () {
     const { children, className, defaultValue: { value }, isDisabled, isError, label, size = 'full', style, withLabel } = this.props;
-    console.error('BaseBytes', value);
     const defaultValue = value
       ? (
         isHex(value)
