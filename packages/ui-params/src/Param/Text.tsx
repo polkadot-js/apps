@@ -9,7 +9,7 @@ import { Input } from '@polkadot/ui-app/index';
 
 import Bare from './Bare';
 
-export default class StringParam extends React.PureComponent<Props> {
+export default class Text extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
     const defaultValue = (value || '').toString();

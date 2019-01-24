@@ -8,6 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { Input } from '@polkadot/ui-app/index';
 import numberFormat from '@polkadot/ui-reactive/util/numberFormat';
+import { bnToBn } from '@polkadot/util';
 
 import Bare from './Bare';
 
@@ -16,11 +17,9 @@ export default class Amount extends React.PureComponent<Props> {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
     const defaultValue = isDisabled
       ? numberFormat(value)
-      : (
-        value instanceof BN
-          ? value.toNumber()
-          : new BN((value as number) || 0).toNumber()
-      );
+      : bnToBn((value as number) || 0).toString();
+
+    console.error('vlue', value, defaultValue);
 
     return (
       <Bare
