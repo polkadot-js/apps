@@ -38,19 +38,21 @@ class Vector extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const values = isDisabled || prevState.values.length === 0
+      ? value.map((value: any) =>
+          isUndefined(value) || isUndefined(value.isValid)
+            ? {
+              isValid: !isUndefined(value),
+              value
+            }
+            : value
+        )
+      : prevState.values;
+
     return {
       Component: findComponent(sub as TypeDef),
       type,
-      values: isDisabled || prevState.values.length === 0
-        ? value.map((value: any) =>
-            isUndefined(value) || isUndefined(value.isValid)
-              ? {
-                isValid: isUndefined(value),
-                value
-              }
-              : value
-          )
-        : prevState.values
+      values
     };
   }
 

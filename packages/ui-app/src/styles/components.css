@@ -95,7 +95,9 @@ header .ui--Button-Group {
 }
 
 .ui--AddressSummary-children {
-  margin-top: 0.5rem !important;
+  .ui--hover-content {
+    margin-top: 0.5rem !important;
+  }
 }
 
 .ui--AddressRow .ui--AddressSummary-children {

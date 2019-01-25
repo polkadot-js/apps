@@ -31,7 +31,7 @@ export default class Tuple extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ defaultValue, type: { sub, type } }: Props, prevState: State): Partial<State> | null {
+  static getDerivedStateFromProps ({ defaultValue: { value }, type: { sub, type } }: Props, prevState: State): Partial<State> | null {
     if (type === prevState.type) {
       return null;
     }
@@ -39,22 +39,27 @@ export default class Tuple extends React.PureComponent<Props, State> {
     const subTypes = sub && Array.isArray(sub)
       ? sub
       : [];
+    const values = (value as Array<any>).map((value) =>
+      isUndefined(value) || isUndefined(value.isValid)
+        ? {
+          isValid: !isUndefined(value),
+          value
+        }
+        : value
+    );
 
     return {
       Components: subTypes.map((type) => findComponent(type)),
       sub: subTypes.map(({ type }) => type),
       subTypes,
       type,
-      values: (defaultValue.value as Array<any>).map((value) => ({
-        isValid: !isUndefined(value),
-        value
-      }))
+      values
     };
   }
 
   render () {
-    const { className, defaultValue: { value = [] }, isDisabled, style, withLabel } = this.props;
-    const { Components, sub, subTypes } = this.state;
+    const { className, isDisabled, style, withLabel } = this.props;
+    const { Components, sub, subTypes, values } = this.state;
 
     return (
       <Bare
@@ -63,7 +68,7 @@ export default class Tuple extends React.PureComponent<Props, State> {
       >
         {Components.map((Component, index) => (
           <Component
-            defaultValue={value[index] || {}}
+            defaultValue={values[index] || {}}
             isDisabled={isDisabled}
             key={index}
             label={sub[index]}

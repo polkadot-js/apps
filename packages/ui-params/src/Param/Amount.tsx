@@ -6,6 +6,7 @@ import { Props } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { AccountIndex } from '@polkadot/types';
 import { Input } from '@polkadot/ui-app/index';
 import { formatNumber } from '@polkadot/ui-app/util';
 import { bnToBn } from '@polkadot/util';
@@ -16,7 +17,11 @@ export default class Amount extends React.PureComponent<Props> {
   render () {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
     const defaultValue = isDisabled
-      ? formatNumber(value)
+      ? (
+        value instanceof AccountIndex
+          ? value.toString()
+          : formatNumber(value)
+      )
       : bnToBn((value as number) || 0).toString();
 
     return (
