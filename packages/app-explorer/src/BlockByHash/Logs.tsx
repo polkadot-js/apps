@@ -48,18 +48,17 @@ class Logs extends React.PureComponent<Props> {
 
     return (
       <div
-        className='ui--hoverable explorer--BlockByHash-block'
+        className='explorer--BlockByHash-block'
         key={index}
       >
-        <article className='explorer--Container'>
+        <article className='explorer--Container ui--hoverable'>
           <div className='header'>
-            <h3>
-              {item.type.toString()}
-            </h3>
-            <div className='ui--hover description' />
+            <h3>{item.type.toString()}</h3>
           </div>
-          <div className='ui--hover details'>
-            {content}
+          <div className='ui--hover'>
+            <div className='ui--hover-content'>
+              {content}
+            </div>
           </div>
         </article>
       </div>

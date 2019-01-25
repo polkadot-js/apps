@@ -14,7 +14,6 @@
     background-color: $button-primary-color;
   }
 
-
   .ui.primary.button:hover,
   .ui.buttons .primary.button:hover {
     background-color: $button-primary-color-hover;
@@ -96,5 +95,16 @@
 
   .ui.red.progress .bar {
     background-color: $red;
+  }
+
+  article.ui--hoverable {
+    .ui--hover-content {
+      border-color: $wild-orchid;
+    }
+
+    &:hover,
+    &.active {
+      border-color: $wild-orchid;
+    }
   }
 }

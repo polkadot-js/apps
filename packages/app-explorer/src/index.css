@@ -45,11 +45,6 @@
 .explorer--Container {
   color: inherit;
 
-  &:not(.ui--hoverable) .header .description,
-  &.ui--hoverable:hover .header .description {
-    margin: 0.25rem 0 0.5rem 0;
-  }
-
   .header {
     position: relative;
     vertical-align: middle;
@@ -57,14 +52,15 @@
     h3 {
       margin: 0;
     }
+  }
 
-    .description {
-      color: rgba(0, 0, 0, 0.6);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      vertical-align: middle;
-      white-space: nowrap;
-    }
+  .description {
+    color: rgba(0, 0, 0, 0.6);
+    margin: 0rem 0 0.5rem 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
   }
 
   > .details {

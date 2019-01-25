@@ -6,9 +6,8 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
-import { Trans } from 'react-i18next';
 import { Method } from '@polkadot/types';
-import { Call, IdentityIcon, Modal } from '@polkadot/ui-app/index';
+import { Call, InputAddress, Modal } from '@polkadot/ui-app/index';
 
 import Fees from './Fees';
 import translate from './translate';
@@ -20,45 +19,50 @@ type Props = I18nProps & {
 
 class Transaction extends React.PureComponent<Props> {
   render () {
-    const { children, t, value: { accountId, extrinsic, isUnsigned } } = this.props;
+    const { children, value: { extrinsic } } = this.props;
 
     if (!extrinsic) {
       return null;
     }
 
     const { method, section } = Method.findFunction(extrinsic.callIndex);
-    const header = isUnsigned
-      ? (
-        <Trans i18nKey='decoded.short-unsigned'>You are about to submit an (unsigned) inherent transaction calling <span className='code'>{section}.{method}</span></Trans>
-      )
-      : (
-        <Trans i18nKey='decoded.short-signed'>You are about to sign a transaction from <span className='code'>{accountId}</span> calling <span className='code'>{section}.{method}</span> </Trans>
-      );
-    const icon = isUnsigned
-      ? undefined
-      : (
-        <IdentityIcon
-          className='icon'
-          value={accountId}
-        />
-      );
 
     return [
       <Modal.Header key='header'>
-        {t('Submit Transaction')}
+        {section}.{method}
       </Modal.Header>,
       <Modal.Content className='ui--signer-Signer-Content' key='content'>
         <div className='ui--signer-Signer-Decoded'>
           <div className='expanded'>
-            <p>{header}</p>
+            <div className='ui--signer-Signer-children'>
+              {this.renderAccount()}
+              {children}
+            </div>
             <Call value={extrinsic} />
             {this.renderFees()}
           </div>
-          {icon}
         </div>
-        {children}
       </Modal.Content>
     ];
+  }
+
+  private renderAccount () {
+    const { t, value: { accountId, isUnsigned } } = this.props;
+
+    if (isUnsigned || !accountId) {
+      return null;
+    }
+
+    return (
+      <InputAddress
+        className='full'
+        defaultValue={accountId}
+        isDisabled
+        isInput
+        label={t('from my account')}
+        withLabel
+      />
+    );
   }
 
   private renderFees () {
@@ -69,12 +73,10 @@ class Transaction extends React.PureComponent<Props> {
     }
 
     return (
-      <div className='ui--Params-Content'>
-        <Fees
-          accountId={accountId}
-          extrinsic={extrinsic}
-        />
-      </div>
+      <Fees
+        accountId={accountId}
+        extrinsic={extrinsic}
+      />
     );
   }
 }
