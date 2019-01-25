@@ -27,7 +27,6 @@ class Events extends React.PureComponent<Props> {
         <h1>{t('events')}</h1>
         <div className='explorer--BlockByHash-flexable'>
           <EventsDisplay
-            isSummary
             eventClassName='explorer--BlockByHash-block'
             value={value}
           />

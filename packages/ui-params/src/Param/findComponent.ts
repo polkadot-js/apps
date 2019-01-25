@@ -12,11 +12,11 @@ import Bool from './Bool';
 import Bytes from './Bytes';
 import Code from './Code';
 import Hash from './Hash';
+import Moment from './Moment';
 import Proposal from './Proposal';
 import KeyValue from './KeyValue';
 import KeyValueArray from './KeyValueArray';
-import StringParam from './String';
-import Timestamp from './Timestamp';
+import Text from './Text';
 import Tuple from './Tuple';
 import Unknown from './Unknown';
 import Vector from './Vector';
@@ -32,22 +32,22 @@ const components: ComponentMap = {
   'bool': Bool,
   'Bytes': Bytes,
   'Code': Code,
-  'Call': Unknown,
-  'Digest': Unknown,
+  'CodeHash': Hash,
   'Gas': Amount,
   'Hash': Hash,
   'Index': Amount,
   'KeyValue': KeyValue,
   'Vec<KeyValue>': KeyValueArray,
-  'MisbehaviorReport': Unknown,
   'ParaId': Amount,
+  'Moment': Moment,
+  'ProposalIndex': Amount,
   'PropIndex': Amount,
   'Proposal': Proposal,
   'ReferendumIndex': Amount,
   'SessionKey': Amount,
   'Signature': Hash,
-  'String': StringParam,
-  'Timestamp': Timestamp,
+  'String': Text,
+  'Text': Text,
   'Tuple': Tuple,
   'u32': Amount,
   'u64': Amount,
