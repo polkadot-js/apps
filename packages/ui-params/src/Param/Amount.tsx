@@ -19,8 +19,6 @@ export default class Amount extends React.PureComponent<Props> {
       ? formatNumber(value)
       : bnToBn((value as number) || 0).toString();
 
-    console.error('vlue', value, defaultValue);
-
     return (
       <Bare
         className={className}
