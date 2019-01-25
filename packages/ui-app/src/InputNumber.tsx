@@ -169,8 +169,6 @@ class InputNumber extends React.PureComponent<Props, State> {
   private isValidNumber = (input: BN, bitLength: number = DEFAULT_BITLENGTH): boolean => {
     const maxBN = this.maxValue(bitLength);
 
-    console.error('isValidNumber', input.toString(), maxBN.toString(), bitLength);
-
     if (!input.lt(maxBN) || !this.isValidBitLength(input, bitLength)) {
       return false;
     }
