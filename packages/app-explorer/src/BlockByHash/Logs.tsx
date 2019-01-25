@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Struct, Tuple, Vector, getTypeDef } from '@polkadot/types/codec';
+import { Struct, Tuple, U8a, Vector, getTypeDef } from '@polkadot/types/codec';
 import { DigestItem } from '@polkadot/types/Digest';
 import Params from '@polkadot/ui-params/index';
 
@@ -42,6 +42,8 @@ class Logs extends React.PureComponent<Props> {
       content = this.formatTuple(item.value);
     } else if (item.value instanceof Vector) {
       content = this.formatVector(item.value);
+    } else if (item.value instanceof U8a) {
+      content = this.formatU8a(item.value);
     } else {
       content = item.value.toString().split(',').join(', ');
     }
@@ -62,6 +64,16 @@ class Logs extends React.PureComponent<Props> {
           </div>
         </article>
       </div>
+    );
+  }
+
+  private formatU8a (value: U8a) {
+    return (
+      <Params
+        isDisabled
+        params={[{ type: getTypeDef('Bytes') }]}
+        values={[{ isValid: true, value }]}
+      />
     );
   }
 
