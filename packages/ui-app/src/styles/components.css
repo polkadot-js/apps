@@ -69,11 +69,6 @@ header .ui--Button-Group {
   text-align: right;
 }
 
-.ui--AddressRow {
-  display: flex;
-  width: 100%;
-}
-
 .ui--AddressRow-base {
   display: flex;
 }
@@ -100,23 +95,11 @@ header .ui--Button-Group {
 }
 
 .ui--AddressSummary-children {
-  padding-top: 0.5rem;
+  margin-top: 0.5rem !important;
 }
 
 .ui--AddressRow .ui--AddressSummary-children {
   display: block;
-}
-
-.ui--hoverable {
-  .ui--AddressSummary-children.ui--hover {
-    padding-top: 0;
-  }
-
-  &:hover {
-    .ui--AddressSummary-children.ui--hover {
-      padding-top: 0.5rem;
-    }
-  }
 }
 
 .ui--AddressSummary .rx--updated {

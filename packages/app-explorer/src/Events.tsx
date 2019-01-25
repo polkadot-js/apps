@@ -12,7 +12,6 @@ import { numberFormat } from '@polkadot/ui-reactive/util/index';
 import translate from './translate';
 
 type Props = I18nProps & {
-  isSummary?: boolean,
   value?: Array<EventRecord>,
   emptyLabel?: React.ReactNode,
   eventClassName?: string,
@@ -46,14 +45,14 @@ class Events extends React.PureComponent<Props> {
   }
 
   private renderEvent = ({ event, phase }: EventRecord, index: number) => {
-    const { isSummary, withoutIndex } = this.props;
+    const { withoutIndex } = this.props;
     const extIndex = !withoutIndex && phase.type === 'ApplyExtrinsic'
       ? phase.asApplyExtrinsic
       : -1;
 
     return (
       <article
-        className={['explorer--Container', (isSummary || index) ? 'ui--hoverable' : ''].join(' ')}
+        className={['explorer--Container', 'ui--hoverable'].join(' ')}
         key={index}
       >
         <div className='header'>
@@ -64,18 +63,23 @@ class Events extends React.PureComponent<Props> {
                 : ''
             }
           </h3>
-          <div className='ui--hover description'>
-            {
-              event.meta.documentation && event.meta.documentation.length
-                ? event.meta.documentation.map((doc) => doc.toString()).join(' ')
-                : ''
-            }
+
+        </div>
+        <div className='ui--hover'>
+          <div className='ui--hover-content'>
+            <div className='description'>
+              {
+                event.meta.documentation && event.meta.documentation.length
+                  ? event.meta.documentation.map((doc) => doc.toString()).join(' ')
+                  : ''
+              }
+            </div>
+            <EventDisplay
+              className='details'
+              value={event}
+            />
           </div>
         </div>
-        <EventDisplay
-          className='ui--hover details'
-          value={event}
-        />
       </article>
     );
   }
