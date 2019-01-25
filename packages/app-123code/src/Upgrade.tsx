@@ -29,12 +29,4 @@ export default class Upgrade extends React.PureComponent<Props> {
       </section>
     );
   }
-
-  private onChangeAmount = (amount?: BN): void => {
-    this.setState({ amount });
-  }
-
-  private onChangeRecipient = (recipientId?: string): void => {
-    this.setState({ recipientId });
-  }
 }
