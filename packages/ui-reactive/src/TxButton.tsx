@@ -2,26 +2,28 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import { Button } from '@polkadot/ui-app/index';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
+import { withApi } from '@polkadot/ui-api/index';
+import { assert } from '@polkadot/util';
 
 type InjectedProps = {
   queueExtrinsic: QueueTx$ExtrinsicAdd;
 };
 
-type Props = {
+type Props = ApiProps & {
   accountId?: string,
-  isDisabled: boolean,
+  isDisabled?: boolean,
   label: React.ReactNode,
   params: Array<any>,
-  tx: SubmittableExtrinsicFunction
+  tx: string
 };
 
-class TxButton extends React.PureComponent<Props & InjectedProps> {
+class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
   render () {
     const { accountId, isDisabled, label } = this.props;
 
@@ -36,21 +38,24 @@ class TxButton extends React.PureComponent<Props & InjectedProps> {
   }
 
   private send = (): void => {
-    const { accountId, params, queueExtrinsic, tx } = this.props;
+    const { accountId, api, params, queueExtrinsic, tx } = this.props;
+    const [section, method] = tx.split('.');
+
+    assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
 
     queueExtrinsic({
       accountId,
-      extrinsic: tx(...params)
+      extrinsic: api.tx[section][method](...params)
     });
   }
 }
 
-export default class TxButtonWrap extends React.PureComponent<Props> {
+class TxButton extends React.PureComponent<Props> {
   render () {
     return (
       <QueueConsumer>
         {({ queueExtrinsic }) => (
-          <TxButton
+          <TxButtonInner
             {...this.props}
             queueExtrinsic={queueExtrinsic}
           />
@@ -59,3 +64,5 @@ export default class TxButtonWrap extends React.PureComponent<Props> {
     );
   }
 }
+
+export default withApi(TxButton);

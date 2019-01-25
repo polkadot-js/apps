@@ -32,6 +32,7 @@ export { default as InputAddress } from './InputAddress';
 export { default as InputError } from './InputError';
 export { default as InputExtrinsic } from './InputExtrinsic';
 export { default as InputFile } from './InputFile';
+export { default as InputBalance } from './InputBalance';
 export { default as InputNumber } from './InputNumber';
 export { default as InputRpc } from './InputRpc';
 export { default as InputStorage } from './InputStorage';
