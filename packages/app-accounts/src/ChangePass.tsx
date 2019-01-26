@@ -85,7 +85,7 @@ class ChangePass extends React.PureComponent<Props, State> {
       <>
         <Modal.Header>
           {t('Change account password')}
-        </Modal.Header>,
+        </Modal.Header>
         <Modal.Content>
           <AddressSummary value={account.address()} />
           <div className='ui--row'>
