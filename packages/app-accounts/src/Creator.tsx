@@ -230,7 +230,7 @@ class Creator extends React.PureComponent<Props, State> {
     return (
       <>
         <Modal.Header>
-          {t('sImportant notice!')}
+          {t('Important notice!')}
         </Modal.Header>
         <Modal.Content>
           {t('We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always redownload this file later.')}
