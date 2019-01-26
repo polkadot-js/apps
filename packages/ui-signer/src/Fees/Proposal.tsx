@@ -61,22 +61,28 @@ class Proposal extends React.PureComponent<Props, State> {
     const { democracy_minimumDeposit = new BN(0), t } = this.props;
     const { extraAmount, isBelowMinimum } = this.state;
 
-    return [
-      isBelowMinimum
-        ? <div key='belowmin'><Icon name='warning sign' />{t('The deposit is below the {{minimum}} minimum required for the proposal to be evaluated', {
-          replace: {
-            minimum: balanceFormat(democracy_minimumDeposit)
-          }
-        })}</div>
-        : undefined,
-      extraAmount.isZero()
-        ? undefined
-        : <div key='infodeposit'><Icon name='arrow right' />{t('The deposit of {{deposit}} will be reserved until the proposal is completed', {
-          replace: {
-            deposit: balanceFormat(extraAmount)
-          }
-        })}</div>
-    ];
+    return (
+      <>
+        {
+          isBelowMinimum
+            ? <div><Icon name='warning sign' />{t('The deposit is below the {{minimum}} minimum required for the proposal to be evaluated', {
+              replace: {
+                minimum: balanceFormat(democracy_minimumDeposit)
+              }
+            })}</div>
+            : undefined
+        }
+        {
+          extraAmount.isZero()
+            ? undefined
+            : <div><Icon name='arrow right' />{t('The deposit of {{deposit}} will be reserved until the proposal is completed', {
+              replace: {
+                deposit: balanceFormat(extraAmount)
+              }
+            })}</div>
+        }
+      </>
+    );
   }
 }
 

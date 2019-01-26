@@ -90,36 +90,38 @@ class Preferences extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { unstakeThreshold, validatorPayment } = this.state;
 
-    return [
-      <Modal.Header key='header'>
-        {t('Validator Preferences')}
-      </Modal.Header>,
-      <Modal.Content className='ui--signer-Signer-Content' key='content'>
-        <InputNumber
-          bitLength={32}
-          className='medium'
-          label={t('unstake threshold')}
-          onChange={this.onChangeThreshold}
-          value={
-            unstakeThreshold
-              ? unstakeThreshold.toString()
-              : '0'
-          }
-        />
-        <InputNumber
-          bitLength={128}
-          className='medium'
-          isSi
-          label={t('payment preferences')}
-          onChange={this.onChangePayment}
-          value={
-            validatorPayment
-              ? validatorPayment.toString()
-              : '0'
-          }
-        />
-      </Modal.Content>
-    ];
+    return (
+      <>
+        <Modal.Header>
+          {t('Validator Preferences')}
+        </Modal.Header>
+        <Modal.Content className='ui--signer-Signer-Content'>
+          <InputNumber
+            bitLength={32}
+            className='medium'
+            label={t('unstake threshold')}
+            onChange={this.onChangeThreshold}
+            value={
+              unstakeThreshold
+                ? unstakeThreshold.toString()
+                : '0'
+            }
+          />
+          <InputNumber
+            bitLength={128}
+            className='medium'
+            isSi
+            label={t('payment preferences')}
+            onChange={this.onChangePayment}
+            value={
+              validatorPayment
+                ? validatorPayment.toString()
+                : '0'
+            }
+          />
+        </Modal.Content>
+      </>
+    );
   }
 
   private onChangePayment = (validatorPayment?: BN) => {
