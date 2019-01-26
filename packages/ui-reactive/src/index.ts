@@ -13,4 +13,3 @@ export { default as NodeVersion } from './NodeVersion';
 export { default as Nonce } from './Nonce';
 export { default as TimeNow } from './TimeNow';
 export { default as TimePeriod } from './TimePeriod';
-export { default as TxButton } from './TxButton';
