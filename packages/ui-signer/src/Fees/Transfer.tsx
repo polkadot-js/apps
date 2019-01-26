@@ -83,7 +83,7 @@ class Transfer extends React.PureComponent<Props, State> {
           isCreation
             ? <div><Icon name='warning sign' />{t('A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist', {
               replace: {
-                creationFee: `${balanceFormat(fees.creationFee)}`
+                creationFee: balanceFormat(fees.creationFee)
               }
             })}</div>
             : undefined

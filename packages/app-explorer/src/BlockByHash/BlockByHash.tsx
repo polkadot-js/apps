@@ -34,10 +34,7 @@ class BlockByHash extends React.PureComponent<Props> {
     return (
       <>
         <header>
-          <BlockHeader
-            value={chain_getHeader}
-            withExtrinsics
-          />
+          <BlockHeader value={chain_getHeader} />
         </header>
         <Extrinsics value={chain_getBlock.block.extrinsics} />
         <Events value={system_events} />
