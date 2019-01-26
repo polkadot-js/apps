@@ -12,18 +12,15 @@ import { HeaderExtended } from '@polkadot/types/Header';
 import { AddressMini } from '@polkadot/ui-app/index';
 import numberFormat from '@polkadot/ui-reactive/util/numberFormat';
 
-import Extrinsics from './Extrinsics';
-
 type Props = BareProps & {
   isSummary?: boolean,
   value?: HeaderExtended,
-  withExtrinsics?: boolean,
   withLink?: boolean
 };
 
 export default class BlockHeader extends React.PureComponent<Props> {
   render () {
-    const { isSummary, value, withExtrinsics = false, withLink = false } = this.props;
+    const { isSummary, value, withLink = false } = this.props;
 
     if (!value) {
       return null;
@@ -69,10 +66,6 @@ export default class BlockHeader extends React.PureComponent<Props> {
               <div className='type'>stateRoot</div>
               <div className='hash'>{stateRoot.toHex()}</div>
             </div>
-            {withExtrinsics
-              ? <Extrinsics hash={value.hash} />
-              : undefined
-            }
           </div>
         </div>
       </article>

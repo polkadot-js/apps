@@ -40,25 +40,29 @@ class CurrentList extends React.PureComponent<Props> {
   private renderCurrent () {
     const { current, t } = this.props;
 
-    return [
-      <h1 key='header'>
-        {t('validators', {
-          replace: {
-            count: current.length
-          }
-        })}
-      </h1>,
-      this.renderColumn(current, t('validator'))
-    ];
+    return (
+      <>
+        <h1>
+          {t('validators', {
+            replace: {
+              count: current.length
+            }
+          })}
+        </h1>
+        {this.renderColumn(current, t('validator'))}
+      </>
+    );
   }
 
   private renderNext () {
     const { next, t } = this.props;
 
-    return [
-      <h1 key='header'>{t('next up')}</h1>,
-      this.renderColumn(next, t('intention'))
-    ];
+    return (
+      <>
+        <h1>{t('next up')}</h1>
+        {this.renderColumn(next, t('intention'))}
+      </>
+    );
   }
 
   private getDisplayName (address: string, defaultName: string) {
@@ -76,7 +80,7 @@ class CurrentList extends React.PureComponent<Props> {
 
     if (addresses.length === 0) {
       return (
-        <div key='none'>{t('no addresses found')}</div>
+        <div>{t('no addresses found')}</div>
       );
     }
 
@@ -89,7 +93,7 @@ class CurrentList extends React.PureComponent<Props> {
     }
 
     return (
-      <div key='list'>
+      <div>
         {addresses.map((address) => {
           const nominators = (balances[address] || {}).nominators || [];
 

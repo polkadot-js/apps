@@ -172,11 +172,13 @@ class Query extends React.PureComponent<Props, State> {
       );
     }
 
-    return [
-      <div key='open' className='ui--Param-text name'>(</div>,
-      inputs,
-      <div key='close' className='ui--Param-text name'>):</div>
-    ];
+    return (
+      <>
+        <div className='ui--Param-text name'>(</div>
+        {inputs}
+        <div className='ui--Param-text name'>):</div>
+      </>
+    );
   }
 
   private keyToName (key: Uint8Array | StorageFunction): string {

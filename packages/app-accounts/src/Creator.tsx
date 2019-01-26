@@ -227,21 +227,23 @@ class Creator extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { address } = this.state;
 
-    return [
-      <Modal.Header key='header'>
-        {t('sImportant notice!')}
-      </Modal.Header>,
-      <Modal.Content key='content'>
-        {t('We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always redownload this file later.')}
-        <Modal.Description>
-          {t('Please make sure to save this file in a secure location as it is the only way to restore your account.')}
-        </Modal.Description>
-        <AddressSummary
-          className='accounts--Modal-Address'
-          value={address}
-        />
-      </Modal.Content>
-    ];
+    return (
+      <>
+        <Modal.Header>
+          {t('Important notice!')}
+        </Modal.Header>
+        <Modal.Content>
+          {t('We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always redownload this file later.')}
+          <Modal.Description>
+            {t('Please make sure to save this file in a secure location as it is the only way to restore your account.')}
+          </Modal.Description>
+          <AddressSummary
+            className='accounts--Modal-Address'
+            value={address}
+          />
+        </Modal.Content>
+      </>
+    );
   }
 
   private generateSeed (seedType: SeedType, passthrough?: string | null): State {

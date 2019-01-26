@@ -56,19 +56,18 @@ class Selection extends React.PureComponent<Props, State> {
     const { action, items } = this.state;
     const Component = Components[action];
 
-    return [
-      <header key='header'>
-        <Tabs
-          activeItem={action}
-          items={items}
-          onChange={this.onTabChange}
-        />
-      </header>,
-      <Component
-        key='component'
-        onAdd={this.onAdd}
-      />
-    ];
+    return (
+      <>
+        <header>
+          <Tabs
+            activeItem={action}
+            items={items}
+            onChange={this.onTabChange}
+          />
+        </header>
+        <Component onAdd={this.onAdd} />
+      </>
+    );
   }
 
   private onAdd = (query: ParitalQueryTypes) => {

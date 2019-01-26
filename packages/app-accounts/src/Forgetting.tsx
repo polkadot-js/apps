@@ -55,14 +55,16 @@ class Forgetting extends React.PureComponent<Props> {
   renderContent () {
     const { address, t } = this.props;
 
-    return [
-      <Modal.Header key='header'>
-        {t('Confirm account removal')}
-      </Modal.Header>,
-      <Modal.Content key='content'>
-        <AddressSummary value={address} />
-      </Modal.Content>
-    ];
+    return (
+      <>
+        <Modal.Header>
+          {t('Confirm account removal')}
+        </Modal.Header>
+        <Modal.Content>
+          <AddressSummary value={address} />
+        </Modal.Content>
+      </>
+    );
   }
 }
 
