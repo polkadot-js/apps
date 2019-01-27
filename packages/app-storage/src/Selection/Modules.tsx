@@ -48,7 +48,7 @@ class Modules extends React.PureComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { isValid, key, params } = this.state;
+    const { isValid, key: { method, section }, params } = this.state;
 
     return (
       <section className='storage--actionrow'>
@@ -59,7 +59,7 @@ class Modules extends React.PureComponent<Props, State> {
             onChange={this.onChangeKey}
           />
           <Params
-            key={`${key.section}.${key.method}`}
+            key={`${section}.${method}` /* force re-render on change */}
             onChange={this.onChangeParams}
             params={params}
           />

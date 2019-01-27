@@ -56,6 +56,7 @@ class Selection extends React.PureComponent<Props, State> {
         />
         {this.renderAccount()}
         <Params
+          key={`${rpc.section}.${rpc.method}` /* force re-render on change */}
           onChange={this.onChangeValues}
           params={params}
         />

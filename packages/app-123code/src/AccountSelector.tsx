@@ -24,7 +24,7 @@ export default class AccountSelector extends React.PureComponent<Props, State> {
       <section className='template--AccountSelector template--2-columns'>
         <InputAddress
           className='template--column'
-          label='my default account to transact from'
+          label='my default account'
           onChange={this.onChange}
           type='account'
         />
@@ -33,10 +33,10 @@ export default class AccountSelector extends React.PureComponent<Props, State> {
             <AccountIndex value={accountId} />
           </Bubble>
           <Bubble color='yellow' icon='adjust' label='balance'>
-            <Balance value={accountId} />
+            <Balance params={[accountId]} />
           </Bubble>
           <Bubble color='yellow' icon='target' label='transactions'>
-            <Nonce value={accountId} />
+            <Nonce params={[accountId]} />
           </Bubble>
         </div>
       </section>
