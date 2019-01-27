@@ -10,7 +10,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { PartialModuleQuery } from '../types';
 
 import React from 'react';
-import { Button, InputStorage, Labelled } from '@polkadot/ui-app/index';
+import { Button, InputStorage } from '@polkadot/ui-app/index';
 import Params from '@polkadot/ui-params/index';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { isUndefined } from '@polkadot/util';
@@ -55,7 +55,7 @@ class Modules extends React.PureComponent<Props, State> {
         <div className='storage--actionrow-value'>
           <InputStorage
             defaultValue={this.defaultValue}
-            labelSection={t('query state section')}
+            label={t('selected state query')}
             onChange={this.onChangeKey}
           />
           <Params
@@ -64,14 +64,14 @@ class Modules extends React.PureComponent<Props, State> {
             params={params}
           />
         </div>
-        <Labelled className='storage--actionrow-buttons'>
+        <div className='storage--actionrow-buttons'>
           <Button
             icon='plus'
             isDisabled={!isValid}
             isPrimary
             onClick={this.onAdd}
           />
-        </Labelled>
+        </div>
       </section>
     );
   }

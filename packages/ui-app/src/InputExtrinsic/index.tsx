@@ -12,7 +12,7 @@ import './InputExtrinsic.css';
 import React from 'react';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
 
-import classes from '../util/classes';
+import Labelled from '../Labelled';
 import translate from '../translate';
 import SelectMethod from './SelectMethod';
 import SelectSection from './SelectSection';
@@ -24,8 +24,7 @@ type Props = ApiProps & I18nProps & {
   isDisabled?: boolean,
   isError?: boolean,
   isPrivate?: boolean,
-  labelMethod?: string,
-  labelSection?: string,
+  label: React.ReactNode,
   onChange: (value: MethodFunction) => void,
   withLabel?: boolean
 };
@@ -55,31 +54,34 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { api, className, labelMethod, labelSection, style, withLabel } = this.props;
+    const { api, className, label, style, withLabel } = this.props;
     const { optionsMethod, optionsSection, value } = this.state;
 
     return (
       <div
-        className={classes('ui--DropdownLinked', 'ui--row', className)}
+        className={className}
         style={style}
       >
-        <SelectSection
-          className='small'
-          label={labelSection}
-          onChange={this.onSectionChange}
-          options={optionsSection}
-          value={value}
+        <Labelled
+          label={label}
           withLabel={withLabel}
-        />
-        <SelectMethod
-          api={api}
-          className='large'
-          label={labelMethod}
-          onChange={this.onKeyChange}
-          options={optionsMethod}
-          value={value}
-          withLabel={withLabel}
-        />
+        >
+          <div className=' ui--DropdownLinked ui--row'>
+            <SelectSection
+              className='small'
+              onChange={this.onSectionChange}
+              options={optionsSection}
+              value={value}
+            />
+            <SelectMethod
+              api={api}
+              className='large'
+              onChange={this.onKeyChange}
+              options={optionsMethod}
+              value={value}
+            />
+          </div>
+        </Labelled>
       </div>
     );
   }

@@ -21,7 +21,7 @@ export default class Account extends React.PureComponent<Props> {
         style={style}
       >
         <InputAddress
-          className={isDisabled ? 'full' : 'large'}
+          className='full'
           defaultValue={defaultValue}
           isDisabled={isDisabled}
           isError={isError}

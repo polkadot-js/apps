@@ -110,7 +110,7 @@ header .ui--Button-Group {
 
 .ui--AddressSummary.invalid {
   filter: grayscale(100);
-  opacity: 0.45;
+  opacity: 0.5;
 }
 
 .ui--AddressSummary-icon {
@@ -120,7 +120,7 @@ header .ui--Button-Group {
 .ui--Balance,
 .ui--AddressSummary-balance,
 .ui--AddressSummary-nonce {
-  opacity: 0.45;
+  opacity: 0.5;
 }
 
 .ui--AddressSummary-balance {
@@ -267,7 +267,35 @@ header .ui--Button-Group {
 }
 
 .ui--Labelled {
+  align-items: center;
+  display: flex;
+  flex: 1 1;
   text-align: left;
+
+  &.ui--Labelled-small {
+    display: block;
+
+    .ui--Labelled-label {
+      min-width: 0;
+      padding-right: 0;
+    }
+  }
+
+  .ui--Labelled-content {
+    box-sizing: border-box;
+    flex: 1 1;
+    min-width: 0;
+  }
+
+  .ui--Labelled-label {
+    box-sizing: border-box;
+    flex: 0 0 12rem;
+    margin-bottom: 0.5rem;
+    min-width: 12rem;
+    opacity: 0.5;
+    padding-right: 0.5rem;
+    text-align: right;
+  }
 }
 
 .ui--Static {

@@ -57,7 +57,10 @@ export default class CardSummary extends React.PureComponent<Props> {
         className={classes('ui--CardSummary', className)}
         style={style}
       >
-        <Labelled label={label}>
+        <Labelled
+          isSmall
+          label={label}
+        >
           <div className='ui--CardSummary-large'>
             {children}{
               progress && !progress.hideValue && (

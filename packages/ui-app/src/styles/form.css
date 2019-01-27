@@ -46,6 +46,7 @@ article.ui--hoverable {
   flex-direction: row;
   justify-content: flex-start;
   text-align: left;
+  min-width: 0;
 }
 
 .ui--grid > div,
@@ -98,13 +99,4 @@ article.ui--hoverable {
 .ui--grid > div.thirty3,
 .ui--row > div.thirty3 {
   flex: 0 33.33%;
-}
-
-.ui--row > div.full,
-.ui--row > div.large,
-.ui--row > div.medium,
-.ui--row > div.small,
-.ui--row > div.sixty6,
-.ui--row > div.thirty3 {
-  padding: 0 0.25rem;
 }

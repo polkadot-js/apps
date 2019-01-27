@@ -122,11 +122,11 @@ class Query extends React.PureComponent<Props, State> {
         >
           <Component />
         </Labelled>
-        <Labelled className='storage--actionrow-buttons'>
+        <div className='storage--actionrow-buttons'>
           <div className='container'>
             {this.renderButtons()}
           </div>
-        </Labelled>
+        </div>
       </div>
     );
   }

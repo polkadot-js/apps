@@ -27,6 +27,10 @@
 
 .storage--actionrow {
   display: flex;
+
+  .button {
+    margin-bottom: 0.5rem;
+  }
 }
 
 .storage--actionrow-value {

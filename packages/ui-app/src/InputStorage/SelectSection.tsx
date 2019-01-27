@@ -15,28 +15,25 @@ import translate from '../translate';
 type Props = I18nProps & {
   defaultValue?: StorageFunction,
   isError?: boolean,
-  label?: string,
   onChange: (value: string) => void,
   options: DropdownOptions,
-  value: StorageFunction,
-  withLabel?: boolean
+  value: StorageFunction
 };
 
 class SelectSection extends React.PureComponent<Props> {
   render () {
-    const { className, defaultValue, isError, label, onChange, options, style, t, value: { section }, withLabel } = this.props;
+    const { className, defaultValue, isError, onChange, options, style, t, value: { section } } = this.props;
 
     return (
       <Dropdown
         className={classes('ui--DropdownLinked-Sections', className)}
         defaultValue={defaultValue}
         isError={isError}
-        label={label || t('state section')}
         onChange={onChange}
         options={options}
         style={style}
         value={section}
-        withLabel={withLabel}
+        withLabel={false}
       />
     );
   }

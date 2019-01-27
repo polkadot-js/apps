@@ -31,21 +31,20 @@ class Query extends React.PureComponent<Props, State> {
       <header>
         <div className='ui--row'>
           <div className='small' />
-          <div className='storage--Query-actionrow medium'>
+          <div className='storage--actionrow medium'>
             <Input
-              className='storage--Query-actionrow-hash'
+              className='storage--actionrow-value'
               isError={!isValid && hash.length !== 0}
               placeholder={t('block hash to query')}
               onChange={this.setHash}
+              withLabel={false}
             />
-            <Labelled className='storage--Query-actionrow-button'>
-              <Button
-                icon='play'
-                isDisabled={!isValid}
-                isPrimary
-                onClick={this.onQuery}
-              />
-            </Labelled>
+            <Button
+              icon='play'
+              isDisabled={!isValid}
+              isPrimary
+              onClick={this.onQuery}
+            />
           </div>
         </div>
       </header>

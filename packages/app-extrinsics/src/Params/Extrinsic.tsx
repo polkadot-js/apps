@@ -33,12 +33,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props> {
         isDisabled={isDisabled}
         isError={isError}
         isPrivate={isPrivate}
-        labelMethod={t('{{label}} (extrinsic)', {
-          replace: {
-            label
-          }
-        })}
-        labelSection={t('{{label}} (section)', {
+        label={t('{{label}} (extrinsic)', {
           replace: {
             label
           }

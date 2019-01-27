@@ -27,7 +27,7 @@ export default class BoolParam extends React.PureComponent<Props> {
         style={style}
       >
         <Dropdown
-          className={isDisabled ? 'full' : 'small'}
+          className={isDisabled ? 'full' : 'medium'}
           defaultValue={defaultValue}
           isDisabled={isDisabled}
           isError={isError}

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { MethodFunction } from '@polkadot/types/Method';
-import { I18nProps } from '../types';
+import { BareProps } from '../types';
 import { DropdownOptions } from '../util/types';
 
 import React from 'react';
@@ -11,21 +11,18 @@ import ApiPromise from '@polkadot/api/promise';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
-import translate from '../translate';
 
-type Props = I18nProps & {
+type Props = BareProps & {
   api: ApiPromise,
   isError?: boolean,
-  label?: string,
   onChange: (value: MethodFunction) => void,
   options: DropdownOptions,
-  value: MethodFunction,
-  withLabel?: boolean
+  value: MethodFunction
 };
 
-class SelectMethod extends React.PureComponent<Props> {
+export default class SelectMethod extends React.PureComponent<Props> {
   render () {
-    const { api, className, isError, label = '', onChange, options, style, t, value, withLabel } = this.props;
+    const { api, className, isError, onChange, options, style, value } = this.props;
 
     if (!options.length) {
       return null;
@@ -35,19 +32,16 @@ class SelectMethod extends React.PureComponent<Props> {
       api.tx[value.section][method];
 
     return (
-        <Dropdown
-          className={classes('ui--DropdownLinked-Items', className)}
-          isError={isError}
-          label={label || t('with the extrinsic')}
-          onChange={onChange}
-          options={options}
-          style={style}
-          transform={transform}
-          value={value.method}
-          withLabel={withLabel}
-        />
+      <Dropdown
+        className={classes('ui--DropdownLinked-Items', className)}
+        isError={isError}
+        onChange={onChange}
+        options={options}
+        style={style}
+        transform={transform}
+        value={value.method}
+        withLabel={false}
+      />
     );
   }
 }
-
-export default translate(SelectMethod);

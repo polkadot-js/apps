@@ -16,16 +16,14 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   isError?: boolean,
-  label?: string,
   onChange: (value: RpcMethod) => void,
   options: DropdownOptions,
-  value: RpcMethod,
-  withLabel?: boolean
+  value: RpcMethod
 };
 
 class SelectMethod extends React.PureComponent<Props> {
   render () {
-    const { className, isError, label = '', onChange, options, style, t, value, withLabel } = this.props;
+    const { className, isError, onChange, options, style, t, value } = this.props;
 
     if (!options.length) {
       return null;
@@ -38,13 +36,12 @@ class SelectMethod extends React.PureComponent<Props> {
       <Dropdown
         className={classes('ui--DropdownLinked-Items', className)}
         isError={isError}
-        label={label || t('with method name')}
         onChange={onChange}
         options={options}
         style={style}
         transform={transform}
         value={value.method}
-        withLabel={withLabel}
+        withLabel={false}
       />
     );
   }

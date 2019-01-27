@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { MethodFunction } from '@polkadot/types/Method';
-import { BareProps } from '@polkadot/ui-app/types';
+import { BareProps, I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { RawParam } from '@polkadot/ui-params/types';
 
@@ -17,14 +17,14 @@ import { withApi } from '@polkadot/ui-api/index';
 import { isUndefined } from '@polkadot/util';
 
 import paramComponents from './Params';
+import translate from './translate';
 
-type Props = BareProps & ApiProps & {
+type Props = BareProps & ApiProps & I18nProps & {
   defaultValue: MethodFunction,
   isDisabled?: boolean,
   isError?: boolean,
   isPrivate?: boolean,
-  labelMethod?: string,
-  labelSection?: string,
+  label?: React.ReactNode,
   onChange: (method?: Method) => void,
   withLabel?: boolean
 };
@@ -49,7 +49,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { defaultValue, isDisabled, isError, isPrivate, labelMethod, labelSection, withLabel } = this.props;
+    const { defaultValue, isDisabled, isError, isPrivate, label, withLabel } = this.props;
     const { params } = this.state;
 
     return (
@@ -59,8 +59,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
           isDisabled={isDisabled}
           isError={isError}
           isPrivate={isPrivate}
-          labelMethod={labelMethod}
-          labelSection={labelSection}
+          label={label}
           onChange={this.onChangeMethod}
           withLabel={withLabel}
         />
@@ -122,4 +121,4 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
   }
 }
 
-export default withApi(ExtrinsicDisplay);
+export default translate(withApi(ExtrinsicDisplay));

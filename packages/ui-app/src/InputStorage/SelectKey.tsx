@@ -16,16 +16,14 @@ import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
   isError?: boolean,
-  label?: string,
   onChange: (value: StorageFunction) => void,
   options: DropdownOptions,
-  value: StorageFunction,
-  withLabel?: boolean
+  value: StorageFunction
 };
 
 class SelectKey extends React.PureComponent<Props> {
   render () {
-    const { api, className, isError, label = '', onChange, options, style, t, value, withLabel } = this.props;
+    const { api, className, isError, onChange, options, style, t, value } = this.props;
 
     if (!options.length) {
       return null;
@@ -38,13 +36,12 @@ class SelectKey extends React.PureComponent<Props> {
       <Dropdown
         className={classes('ui--DropdownLinked-Items', className)}
         isError={isError}
-        label={label || t('with state key')}
         onChange={onChange}
         options={options}
         style={style}
         transform={transform}
         value={value.method}
-        withLabel={withLabel}
+        withLabel={false}
       />
     );
   }
