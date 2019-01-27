@@ -10,7 +10,7 @@ import { AccountId, Balance, Proposal } from '@polkadot/types';
 import { Tuple, Vector } from '@polkadot/types/codec';
 import { AddressMini, Labelled, Static } from '@polkadot/ui-app/index';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
-import { balanceFormat } from '@polkadot/ui-reactive/util/index';
+import { formatBalance } from '@polkadot/ui-app/util/index';
 
 import Item from './Item';
 import translate from './translate';
@@ -58,7 +58,7 @@ class ProposalDisplay extends React.PureComponent<Props> {
           </div>
         </Labelled>
         <Static label={t('balance')}>
-          {balanceFormat(balance)}
+          {formatBalance(balance)}
         </Static>
       </div>
     );

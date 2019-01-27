@@ -9,9 +9,9 @@ import { ExtraFees } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { Extrinsic, Method } from '@polkadot/types';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { withCalls } from '@polkadot/ui-api/index';
 import { Icon } from '@polkadot/ui-app/index';
-import { balanceFormat } from '@polkadot/ui-reactive/util/index';
+import { formatBalance } from '@polkadot/ui-app/util';
 import { compactToU8a } from '@polkadot/util';
 
 import translate from '../translate';
@@ -34,7 +34,7 @@ type Props = I18nProps & {
   balances_fees?: DerivedFees,
   balances_votingBalance?: DerivedBalances,
   accountId?: string | null,
-  extrinsic: Extrinsic | null,
+  extrinsic?: Extrinsic | null,
   onChange?: (hasAvailble: boolean) => void,
   system_accountNonce?: BN
 };
@@ -157,12 +157,12 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         <div><Icon name='arrow right' />{t('Fees includes the transaction fee and the per-byte fee')}</div>
         <div><Icon name='arrow right' />{t('Fees totalling {{fees}} will be applied to the submission', {
           replace: {
-            fees: balanceFormat(allFees)
+            fees: formatBalance(allFees)
           }
         })}</div>
         <div><Icon name='arrow right' />{t('{{total}} total transaction amount (fees + value)', {
           replace: {
-            total: balanceFormat(allTotal)
+            total: formatBalance(allTotal)
           }
         })}</div>
       </article>
@@ -213,10 +213,10 @@ class FeeDisplay extends React.PureComponent<Props, State> {
   }
 }
 
-export default withMulti(
-  FeeDisplay,
-  translate,
-  withCall('derive.balances.fees'),
-  withCall('derive.balances.votingBalance', { paramName: 'accountId' }),
-  withCall('query.system.accountNonce', { paramName: 'accountId' })
+export default translate(
+  withCalls<Props>(
+    'derive.balances.fees',
+    ['derive.balances.votingBalance', { paramName: 'accountId' }],
+    ['query.system.accountNonce', { paramName: 'accountId' }]
+  )(FeeDisplay)
 );

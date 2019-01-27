@@ -31,7 +31,7 @@ class Submit extends React.PureComponent<Props> {
           isDisabled={isDisabled || !extrinsic}
           isPrimary
           onClick={this.onMakeTransfer}
-          text={t('Make Transfer')}
+          label={t('Make Transfer')}
         />
       </Button.Group>
     );

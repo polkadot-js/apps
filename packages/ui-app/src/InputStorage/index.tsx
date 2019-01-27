@@ -26,7 +26,7 @@ type Props = ApiProps & I18nProps & {
   isError?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (value: StorageFunction) => void,
+  onChange?: (value: StorageFunction) => void,
   withLabel?: boolean
 };
 
@@ -89,7 +89,7 @@ class InputStorage extends React.PureComponent<Props, State> {
     }
 
     this.setState({ value: newValue }, () =>
-      onChange(newValue)
+      onChange && onChange(newValue)
     );
   }
 

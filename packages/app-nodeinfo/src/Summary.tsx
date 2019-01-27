@@ -8,8 +8,8 @@ import { Info } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { CardSummary } from '@polkadot/ui-app/index';
+import { formatNumber } from '@polkadot/ui-app/util';
 import { BestNumber, Elapsed } from '@polkadot/ui-reactive/index';
-import { numberFormat } from '@polkadot/ui-reactive/util';
 
 import translate from './translate';
 
@@ -79,7 +79,7 @@ class Summary extends React.PureComponent<Props, State> {
         </section>
         <section>
           <CardSummary label={t('peer best')}>
-            {numberFormat(peerBest)}
+            {formatNumber(peerBest)}
           </CardSummary>
           <CardSummary label={t('our best')}>
             <BestNumber />

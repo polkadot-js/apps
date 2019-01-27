@@ -51,13 +51,13 @@ class Forgetting extends React.PureComponent<Props> {
           <Button
             isNegative
             onClick={onClose}
-            text={t('Cancel')}
+            label={t('Cancel')}
           />
           <Button.Or />
           <Button
             isPrimary
             onClick={doForget}
-            text={t('Forget')}
+            label={t('Forget')}
           />
         </Button.Group>
       </Modal.Actions>

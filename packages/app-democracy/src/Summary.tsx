@@ -7,8 +7,8 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import { CardSummary } from '@polkadot/ui-app/index';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
-import { numberFormat } from '@polkadot/ui-reactive/util/index';
+import { formatNumber } from '@polkadot/ui-app/util/index';
+import { withCalls } from '@polkadot/ui-api/index';
 
 import translate from './translate';
 
@@ -30,13 +30,13 @@ class Summary extends React.PureComponent<Props> {
       <summary>
         <section>
           <CardSummary label={t('proposals')}>
-            {numberFormat(democracy_publicPropCount)}
+            {formatNumber(democracy_publicPropCount)}
           </CardSummary>
           <CardSummary label={t('referendums')}>
-            {numberFormat(democracy_referendumCount)}
+            {formatNumber(democracy_referendumCount)}
           </CardSummary>
           <CardSummary label={t('active')}>
-            {numberFormat(democracy_referendumCount.sub(democracy_nextTally))}
+            {formatNumber(democracy_referendumCount.sub(democracy_nextTally))}
           </CardSummary>
         </section>
         <section>
@@ -60,13 +60,13 @@ class Summary extends React.PureComponent<Props> {
   }
 }
 
-export default withMulti(
-  Summary,
-  translate,
-  withCall('query.democracy.launchPeriod'),
-  withCall('query.democracy.nextTally'),
-  withCall('query.democracy.publicPropCount'),
-  withCall('query.democracy.referendumCount'),
-  withCall('query.democracy.votingPeriod'),
-  withCall('derive.chain.bestNumber')
+export default translate(
+  withCalls<Props>(
+    'query.democracy.launchPeriod',
+    'query.democracy.nextTally',
+    'query.democracy.publicPropCount',
+    'query.democracy.referendumCount',
+    'query.democracy.votingPeriod',
+    'derive.chain.bestNumber'
+  )(Summary)
 );

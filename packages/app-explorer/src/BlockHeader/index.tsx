@@ -10,7 +10,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { HeaderExtended } from '@polkadot/types/Header';
 import { AddressMini } from '@polkadot/ui-app/index';
-import numberFormat from '@polkadot/ui-reactive/util/numberFormat';
+import { formatNumber } from '@polkadot/ui-app/util';
 
 type Props = BareProps & {
   isSummary?: boolean,
@@ -29,7 +29,7 @@ export default class BlockHeader extends React.PureComponent<Props> {
     const { author, blockNumber, extrinsicsRoot, parentHash, stateRoot } = value;
     const parentHex = parentHash.toHex();
     const hashHex = value.hash.toHex();
-    const textNumber = numberFormat(blockNumber);
+    const textNumber = formatNumber(blockNumber);
 
     return (
       <article className={['explorer--BlockHeader', isSummary ? 'ui--hoverable summary' : ''].join(' ')}>

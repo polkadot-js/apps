@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+export { default as AccountIndex } from './AccountIndex';
 export { default as Balance } from './Balance';
 export { default as BestFinalised } from './BestFinalised';
 export { default as BestNumber } from './BestNumber';

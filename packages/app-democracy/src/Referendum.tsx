@@ -11,8 +11,8 @@ import React from 'react';
 import { ReferendumInfo } from '@polkadot/types';
 import { Chart, Static } from '@polkadot/ui-app/index';
 import VoteThreshold from '@polkadot/ui-params/Param/VoteThreshold';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
-import { balanceFormat, numberFormat } from '@polkadot/ui-reactive/util/index';
+import { withCalls } from '@polkadot/ui-api/index';
+import { formatBalance, formatNumber } from '@polkadot/ui-app/util/index';
 import settings from '@polkadot/ui-settings';
 
 import Item from './Item';
@@ -30,7 +30,7 @@ type Props = I18nProps & {
   chain_bestNumber?: BN,
   democracy_referendumVotesFor?: Array<DerivedReferendumVote>,
   democracy_publicDelay?: BN,
-  idNumber: BN,
+  idNumber: BN | number,
   value: ReferendumInfo
 };
 
@@ -126,15 +126,15 @@ class Referendum extends React.PureComponent<Props, State> {
         <Static label={t('ending at')}>
           {t('block #{{blockNumber}}, {{remaining}} blocks remaining', {
             replace: {
-              blockNumber: numberFormat(end),
-              remaining: numberFormat(end.sub(chain_bestNumber).subn(1))
+              blockNumber: formatNumber(end),
+              remaining: formatNumber(end.sub(chain_bestNumber).subn(1))
             }
           })}
         </Static>
         <Static label={t('activate at (if passed)')}>
           {t('block #{{blockNumber}}', {
             replace: {
-              blockNumber: numberFormat(enactBlock)
+              blockNumber: formatNumber(enactBlock)
             }
           })}
         </Static>
@@ -165,12 +165,12 @@ class Referendum extends React.PureComponent<Props, State> {
           values={[
             {
               colors: COLORS_YAY,
-              label: `${balanceFormat(votedYay)} (${numberFormat(voteCountYay)})`,
+              label: `${formatBalance(votedYay)} (${formatNumber(voteCountYay)})`,
               value: votedYay.muln(10000).div(votedTotal).toNumber() / 100
             },
             {
               colors: COLORS_NAY,
-              label: `${balanceFormat(votedNay)} (${numberFormat(voteCountNay)})`,
+              label: `${formatBalance(votedNay)} (${formatNumber(voteCountNay)})`,
               value: votedNay.muln(10000).div(votedTotal).toNumber() / 100
             }
           ]}
@@ -180,10 +180,10 @@ class Referendum extends React.PureComponent<Props, State> {
   }
 }
 
-export default withMulti(
-  Referendum,
-  translate,
-  withCall('derive.chain.bestNumber'),
-  withCall('derive.democracy.referendumVotesFor', { paramName: 'idNumber' }),
-  withCall('query.democracy.publicDelay')
+export default translate(
+  withCalls<Props>(
+    'derive.chain.bestNumber',
+    ['derive.democracy.referendumVotesFor', { paramName: 'idNumber' }],
+    'query.democracy.publicDelay'
+  )(Referendum)
 );

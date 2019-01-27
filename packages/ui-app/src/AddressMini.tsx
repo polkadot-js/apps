@@ -21,12 +21,13 @@ type Props = BareProps & {
   isShort?: boolean,
   session_validators?: Array<AccountId>,
   value?: AccountId | AccountIndex | Address | string,
+  withAddress?: boolean,
   withBalance?: boolean
 };
 
 class AddressMini extends React.PureComponent<Props> {
   render () {
-    const { children, className, isPadded = true, isShort = true, session_validators, style, value } = this.props;
+    const { children, className, isPadded = true, session_validators, style, value } = this.props;
 
     if (!value) {
       return null;
@@ -48,11 +49,23 @@ class AddressMini extends React.PureComponent<Props> {
             size={24}
             value={address}
           />
-          <div className='ui--AddressMini-address'>{isShort ? toShortAddress(address) : address}</div>
+          {this.renderAddress(address)}
           {children}
         </div>
         {this.renderBalance()}
       </div>
+    );
+  }
+
+  private renderAddress (address: string) {
+    const { isShort = true, withAddress = true } = this.props;
+
+    if (!withAddress) {
+      return null;
+    }
+
+    return (
+      <div className='ui--AddressMini-address'>{isShort ? toShortAddress(address) : address}</div>
     );
   }
 

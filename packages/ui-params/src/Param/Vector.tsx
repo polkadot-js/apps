@@ -99,13 +99,13 @@ class Vector extends React.PureComponent<Props, State> {
         <Button
           isPrimary
           onClick={this.rowAdd}
-          text={t('Add item')}
+          label={t('Add item')}
         />
         <Button
           isDisabled={values.length === 1}
           isNegative
           onClick={this.rowRemove}
-          text={t('Remove item')}
+          label={t('Remove item')}
         />
       </div>
     );

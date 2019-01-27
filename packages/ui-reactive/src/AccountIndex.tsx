@@ -5,19 +5,19 @@
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import { Moment } from '@polkadot/types';
+import { AccountId, AccountIndex } from '@polkadot/types';
 import { withCall } from '@polkadot/ui-api/index';
-import { formatNumber } from '@polkadot/ui-app/util/index';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
   label?: string,
-  timestamp_blockPeriod?: Moment
+  accounts_idAndIndex?: [AccountId?, AccountIndex?]
 };
 
-class TimePeriod extends React.PureComponent<Props> {
+class AccountIndexDisplay extends React.PureComponent<Props> {
   render () {
-    const { children, className, label = '', style, timestamp_blockPeriod } = this.props;
+    const { children, className, label = '', style, accounts_idAndIndex = [] } = this.props;
+    const [, accountIndex] = accounts_idAndIndex;
 
     return (
       <div
@@ -25,8 +25,8 @@ class TimePeriod extends React.PureComponent<Props> {
         style={style}
       >
         {label}{
-          timestamp_blockPeriod
-            ? `${formatNumber(timestamp_blockPeriod.toNumber() * 2)}s`
+          accountIndex
+            ? accountIndex.toString()
             : '-'
           }{children}
       </div>
@@ -34,4 +34,4 @@ class TimePeriod extends React.PureComponent<Props> {
   }
 }
 
-export default withCall('query.timestamp.blockPeriod')(TimePeriod);
+export default withCall('derive.accounts.idAndIndex', { paramName: 'value' })(AccountIndexDisplay);

@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { PeerInfo } from '@polkadot/types';
-import { numberFormat } from '@polkadot/ui-reactive/util/index';
+import { formatNumber } from '@polkadot/ui-app/util';
 
 import translate from './translate';
 
@@ -63,7 +63,7 @@ class Peers extends React.PureComponent<Props> {
         <td className='number'>{peer.index.toNumber()}</td>
         <td className='roles'>{peer.roles.toString().toLowerCase()}</td>
         <td className='peerid'>{peer.peerId.toString()}</td>
-        <td className='number'>{numberFormat(peer.bestNumber)}</td>
+        <td className='number'>{formatNumber(peer.bestNumber)}</td>
         <td className='hash'>{peer.bestHash.toHex()}</td>
       </tr>
     );

@@ -10,8 +10,8 @@ import React from 'react';
 import store from 'store';
 import typeRegistry from '@polkadot/types/codec/typeRegistry';
 import createApp from '@polkadot/ui-app/index';
+import { classes } from '@polkadot/ui-app/util';
 import Signer from '@polkadot/ui-signer/index';
-import classes from '@polkadot/ui-app/util/classes';
 import settings from '@polkadot/ui-settings';
 
 import Connecting from './Connecting';

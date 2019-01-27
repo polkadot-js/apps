@@ -8,7 +8,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import React from 'react';
 import { EventRecord, SignedBlock } from '@polkadot/types';
 import { HeaderExtended } from '@polkadot/types/Header';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { withCalls } from '@polkadot/ui-api/index';
 
 import BlockHeader from '../BlockHeader';
 import translate from '../translate';
@@ -44,10 +44,10 @@ class BlockByHash extends React.PureComponent<Props> {
   }
 }
 
-export default withMulti(
-  BlockByHash,
-  translate,
-  withCall('rpc.chain.getBlock', { paramName: 'value' }),
-  withCall('derive.chain.getHeader', { paramName: 'value' }),
-  withCall('query.system.events', { atProp: 'value' })
+export default translate(
+  withCalls<Props>(
+    ['rpc.chain.getBlock', { paramName: 'value' }],
+    ['derive.chain.getHeader', { paramName: 'value' }],
+    ['query.system.events', { atProp: 'value' }]
+  )(BlockByHash)
 );

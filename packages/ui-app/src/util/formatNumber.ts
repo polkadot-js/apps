@@ -6,9 +6,9 @@ import BN from 'bn.js';
 import { Compact } from '@polkadot/types/codec';
 import { bnToBn } from '@polkadot/util';
 
-import decimalFormat from './decimalFormat';
+import formatDecimal from './formatDecimal';
 
-export default function numberFormat (_value?: Compact | BN | number | null): string {
+export default function formatNumber (_value?: Compact | BN | number | null): string {
   if (!_value) {
     return '0';
   }
@@ -17,5 +17,5 @@ export default function numberFormat (_value?: Compact | BN | number | null): st
     ? _value.toBn()
     : bnToBn(_value);
 
-  return decimalFormat(value.toString());
+  return formatDecimal(value.toString());
 }

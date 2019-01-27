@@ -113,7 +113,7 @@ class Signer extends React.PureComponent<Props, State> {
             isNegative
             onClick={this.onCancel}
             tabIndex={3}
-            text={t('Cancel')}
+            label={t('Cancel')}
           />
           <Button.Or />
           <Button
@@ -121,7 +121,7 @@ class Signer extends React.PureComponent<Props, State> {
             isPrimary
             onClick={this.onSend}
             tabIndex={2}
-            text={
+            label={
               currentItem.isUnsigned
                 ? t('Submit (no signature)')
                 : t('Sign and Submit')

@@ -109,7 +109,7 @@ class App extends React.PureComponent<Props, State> {
           <Button
             isPrimary
             onClick={this.save}
-            text={t('Save & Reload')}
+            label={t('Save & Reload')}
           />
         </Button.Group>
       </main>
