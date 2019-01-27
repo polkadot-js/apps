@@ -110,13 +110,11 @@ class Query extends React.PureComponent<Props, State> {
           className='storage--actionrow-value'
           label={
             <div className='ui--Param-text'>
-              <div className='ui--Param-text name'>{this.keyToName(key)}</div>
-              {this.renderInputs()}
-              <div className='ui--Param-text'>{
+              {this.keyToName(key)}: {
                 isU8a(key)
                   ? 'Data'
                   : key.meta.type.toString()
-              }</div>
+              }
             </div>
           }
         >
@@ -161,24 +159,6 @@ class Query extends React.PureComponent<Props, State> {
     }
 
     return buttons;
-  }
-
-  private renderInputs () {
-    const { inputs } = this.state;
-
-    if (inputs.length === 0) {
-      return (
-        <div className='ui--Param-text name'>:</div>
-      );
-    }
-
-    return (
-      <>
-        <div className='ui--Param-text name'>(</div>
-        {inputs}
-        <div className='ui--Param-text name'>):</div>
-      </>
-    );
   }
 
   private keyToName (key: Uint8Array | StorageFunction): string {

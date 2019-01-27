@@ -53,7 +53,7 @@ class Selection extends React.PureComponent<Props, State> {
         <div className='ui--row'>
           <Labelled
             className='medium'
-            label={t('from an account balance')}
+            label={t('with an account balance')}
           >
             <Balance
               className='ui disabled dropdown selection'

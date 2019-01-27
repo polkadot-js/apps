@@ -285,6 +285,7 @@ header .ui--Button-Group {
     display: block;
 
     > .ui--label {
+      margin-bottom: 0;
       min-width: 0;
       padding-right: 0;
     }
