@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { MethodFunction } from '@polkadot/types/Method';
-import { BareProps, I18nProps } from '@polkadot/ui-app/types';
+import { BareProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { RawParam } from '@polkadot/ui-params/types';
 
@@ -17,9 +17,8 @@ import { withApi } from '@polkadot/ui-api/index';
 import { isUndefined } from '@polkadot/util';
 
 import paramComponents from './Params';
-import translate from './translate';
 
-type Props = BareProps & ApiProps & I18nProps & {
+type Props = BareProps & ApiProps & {
   defaultValue: MethodFunction,
   isDisabled?: boolean,
   isError?: boolean,
@@ -121,4 +120,4 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(withApi(ExtrinsicDisplay));
+export default withApi(ExtrinsicDisplay);
