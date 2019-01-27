@@ -35,11 +35,10 @@ class App extends React.PureComponent<Props, State> {
     const names = Object.keys(types);
     const presets = settings.get();
 
-    //check to see if user has saved a custom node by seeing if their URL is equal to any preset
+    // check to see if user has saved a custom node by seeing if their URL is equal to any preset
     let customNode = true;
-    for(var i = 0; i < settings.availableNodes.length; i++)
-    {
-      if(settings.availableNodes[i].value == presets.apiUrl) {
+    for (let i = 0; i < settings.availableNodes.length; i++) {
+      if (settings.availableNodes[i].value === presets.apiUrl) {
         customNode = false;
       }
     }
@@ -57,18 +56,18 @@ class App extends React.PureComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { settings: { apiUrl, i18nLang, typesPlaceholder, typesError, uiMode, uiTheme, customNode}} = this.state;
+    const { settings: { apiUrl, i18nLang, typesPlaceholder, typesError, uiMode, uiTheme, customNode } } = this.state;
 
     return (
       <main className='settings--App'>
         <section>
           <h1>{t('general')}</h1>
           <div className='ui--row'>
-            {  
+            {
               customNode
               ?
-              <div className="full">
-                  <div className="sub-label">
+              <div className='full'>
+                  <div className='sub-label'>
                   <a onClick={this.toggleCustomNode }>pre-set</a>
                   &nbsp; | <b>custom</b>
                 </div>
@@ -79,8 +78,8 @@ class App extends React.PureComponent<Props, State> {
                 />
               </div>
               :
-              <div className="full">
-                <div className="sub-label">
+              <div className='full'>
+                <div className='sub-label'>
                  <b>pre-set</b>
                   &nbsp;| <a onClick={this.toggleCustomNode }>custom</a>
                 </div>
@@ -89,7 +88,7 @@ class App extends React.PureComponent<Props, State> {
                   label={t('remote node/endpoint to connect to')}
                   onChange={this.onChangeApiUrl}
                   options={settings.availableNodes}
-                  />
+                />
               </div>
             }
 
@@ -217,25 +216,24 @@ class App extends React.PureComponent<Props, State> {
         ...settings,
         /*flip the value of customNode*/
         customNode: settings.customNode ?
-        false 
+        false
         :
         true
       }
-    }))
+    }));
   }
 
   private save = (): void => {
-    console.log("props",this.props);
     const { onStatusChange } = this.props;
     const { settings: { types, typesError } } = this.state;
 
-    //validate custom node url
-    var apiUrl = this.state.settings.apiUrl;
+    // validate custom node url
+    const apiUrl = this.state.settings.apiUrl;
 
     if (this.state.settings.customNode) {
-      if(!(apiUrl.startsWith("ws://localhost") ||
-      apiUrl.startsWith("ws://127.0.0.1") ||
-      apiUrl.startsWith("wss://"))) {
+      if (!(apiUrl.startsWith('ws://localhost') ||
+      apiUrl.startsWith('ws://127.0.0.1') ||
+      apiUrl.startsWith('wss://'))) {
         onStatusChange({
           action: '',
           status: 'error',
@@ -245,7 +243,7 @@ class App extends React.PureComponent<Props, State> {
         return;
       }
     }
-    
+
     settings.set(this.state.settings);
 
     if (types && !typesError) {
