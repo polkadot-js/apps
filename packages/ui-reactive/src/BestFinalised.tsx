@@ -7,8 +7,7 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 import React from 'react';
 import { BlockNumber } from '@polkadot/types';
 import { withCall } from '@polkadot/ui-api/index';
-
-import { numberFormat } from './util/index';
+import { formatNumber } from '@polkadot/ui-app/util/index';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
@@ -27,7 +26,7 @@ class BestFinalised extends React.PureComponent<Props> {
       >
         {label}{
           chain_bestNumberFinalised
-            ? numberFormat(chain_bestNumberFinalised)
+            ? formatNumber(chain_bestNumberFinalised)
             : '-'
           }{children}
       </div>

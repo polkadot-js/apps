@@ -2,15 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BitLength, I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueProps } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { Extrinsic } from '@polkadot/types';
-import { BitLengthOption } from '@polkadot/ui-app/constants';
-import { AddressSummary, InputAddress, InputNumber } from '@polkadot/ui-app/index';
+import { AddressSummary, InputAddress, InputBalance } from '@polkadot/ui-app/index';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 import keyring from '@polkadot/ui-keyring';
@@ -28,8 +27,6 @@ type State = {
   hasAvailable: boolean,
   recipientId: string | null
 };
-
-const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
 const ZERO = new BN(0);
 
@@ -73,11 +70,9 @@ class Transfer extends React.PureComponent<Props, State> {
         <div className='transfer--Transfer-info'>
           {this.renderAddress(accountId)}
           <div className='transfer--Transfer-data'>
-            <InputNumber
+            <InputBalance
               autoFocus
-              bitLength={DEFAULT_BITLENGTH}
               isError={!hasAvailable}
-              isSi
               label={t('send a value of')}
               onChange={this.onChangeAmount}
             />

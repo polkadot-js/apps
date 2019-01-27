@@ -11,7 +11,7 @@ import React from 'react';
 import store from 'store';
 import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
-import makeOption from '@polkadot/ui-keyring/options/item';
+import createItem from '@polkadot/ui-keyring/options/item';
 import { withMulti, withObservable } from '@polkadot/ui-api/index';
 
 import Dropdown from '../Dropdown';
@@ -25,7 +25,7 @@ type Props = BareProps & {
   isError?: boolean,
   isInput?: boolean,
   label?: string,
-  onChange: (value: string | null) => void,
+  onChange?: (value: string | null) => void,
   optionsAll?: KeyringOptions,
   placeholder?: string,
   type?: KeyringOption$Type,
@@ -57,6 +57,22 @@ const transformToAccountId = (value: string): string | null => {
   return !accountId
     ? null
     : accountId;
+};
+
+const createOption = (address: string) => {
+  let name: string | undefined;
+
+  try {
+    name = keyring.getAccount(address).getMeta().name;
+  } catch (error) {
+    try {
+      name = keyring.getAddress(address).getMeta().name;
+    } catch (error) {
+      // ok, we don't have account or address
+    }
+  }
+
+  return createItem(address, name);
 };
 
 class InputAddress extends React.PureComponent<Props, State> {
@@ -126,7 +142,7 @@ class InputAddress extends React.PureComponent<Props, State> {
         onSearch={this.onSearch}
         options={
           isDisabled && actualValue
-            ? [makeOption(actualValue)]
+            ? [createOption(actualValue)]
             : optionsAll[type]
         }
         style={style}
@@ -169,7 +185,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     InputAddress.setLastValue(type, address);
 
-    onChange(transformToAccountId(address));
+    onChange && onChange(transformToAccountId(address));
   }
 
   private onSearch = (filteredOptions: KeyringSectionOptions, _query: string): KeyringSectionOptions => {

@@ -7,7 +7,7 @@ import { Props } from '../types';
 import React from 'react';
 import { Extrinsic, Method } from '@polkadot/types';
 import { Call, Static } from '@polkadot/ui-app/index';
-import classes from '@polkadot/ui-app/util/classes';
+import { classes } from '@polkadot/ui-app/util';
 
 import Bare from './Bare';
 import Unknown from './Unknown';

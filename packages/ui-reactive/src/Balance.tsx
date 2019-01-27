@@ -7,8 +7,7 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 import React from 'react';
 import { Balance } from '@polkadot/types';
 import { withCall } from '@polkadot/ui-api/index';
-
-import { balanceFormat } from './util/index';
+import { formatBalance } from '@polkadot/ui-app/util/index';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
@@ -27,7 +26,7 @@ class BalanceDisplay extends React.PureComponent<Props> {
       >
         {label}{
           balances_freeBalance
-            ? balanceFormat(balances_freeBalance)
+            ? formatBalance(balances_freeBalance)
             : '0'
           }{children}
       </div>
@@ -35,4 +34,4 @@ class BalanceDisplay extends React.PureComponent<Props> {
   }
 }
 
-export default withCall('query.balances.freeBalance')(BalanceDisplay);
+export default withCall('query.balances.freeBalance', { paramName: 'value' })(BalanceDisplay);

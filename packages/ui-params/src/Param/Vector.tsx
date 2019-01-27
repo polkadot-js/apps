@@ -38,19 +38,21 @@ class Vector extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const values = isDisabled || prevState.values.length === 0
+      ? value.map((value: any) =>
+          isUndefined(value) || isUndefined(value.isValid)
+            ? {
+              isValid: !isUndefined(value),
+              value
+            }
+            : value
+        )
+      : prevState.values;
+
     return {
       Component: findComponent(sub as TypeDef),
       type,
-      values: isDisabled || prevState.values.length === 0
-        ? value.map((value: any) =>
-            isUndefined(value) || isUndefined(value.isValid)
-              ? {
-                isValid: isUndefined(value),
-                value
-              }
-              : value
-          )
-        : prevState.values
+      values
     };
   }
 
@@ -97,13 +99,13 @@ class Vector extends React.PureComponent<Props, State> {
         <Button
           isPrimary
           onClick={this.rowAdd}
-          text={t('Add item')}
+          label={t('Add item')}
         />
         <Button
           isDisabled={values.length === 1}
           isNegative
           onClick={this.rowRemove}
-          text={t('Remove item')}
+          label={t('Remove item')}
         />
       </div>
     );

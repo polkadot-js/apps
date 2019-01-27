@@ -69,11 +69,6 @@ header .ui--Button-Group {
   text-align: right;
 }
 
-.ui--AddressRow {
-  display: flex;
-  width: 100%;
-}
-
 .ui--AddressRow-base {
   display: flex;
 }
@@ -100,23 +95,13 @@ header .ui--Button-Group {
 }
 
 .ui--AddressSummary-children {
-  padding-top: 0.5rem;
+  .ui--hover-content {
+    margin-top: 0.5rem !important;
+  }
 }
 
 .ui--AddressRow .ui--AddressSummary-children {
   display: block;
-}
-
-.ui--hoverable {
-  .ui--AddressSummary-children.ui--hover {
-    padding-top: 0;
-  }
-
-  &:hover {
-    .ui--AddressSummary-children.ui--hover {
-      padding-top: 0.5rem;
-    }
-  }
 }
 
 .ui--AddressSummary .rx--updated {
@@ -168,6 +153,47 @@ header .ui--Button-Group {
 .ui--AddressSummary-accountIndex {
   font-size: 1.25em;
   font-style: italic;
+}
+
+.ui--Bubble.ui.label {
+  font-weight: normal;
+  margin: 0.25rem;
+  padding: 0;
+
+  * {
+    vertical-align: middle;
+  }
+
+  .ui--Bubble-children,
+  .ui--Bubble-header {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .ui--Bubble-children {
+    padding: 0 0.75rem 0 0;
+  }
+
+  .ui--Bubble-header {
+    background: rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+    border-radius: .28571429rem 0 0 .28571429rem;
+    height: 2.75rem;
+    margin-right: 0.75rem;
+    padding: 0 0.75rem;
+    text-align: center;
+    vertical-align: middle;
+
+    > div {
+      display: inline-block;
+      line-height: 2.75rem !important;
+      vertical-align: middle;
+    }
+
+    > .text {
+      padding: 0 0 0 0.25rem;
+    }
+  }
 }
 
 .ui--CardSummary .ui.label {

@@ -6,8 +6,8 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { AddressMini, Call } from '@polkadot/ui-app/index';
+import { formatNumber } from '@polkadot/ui-app/util';
 import { Extrinsic, Method } from '@polkadot/types';
-import { numberFormat } from '@polkadot/ui-reactive/util/index';
 
 import translate from '../translate';
 
@@ -58,19 +58,23 @@ class Extrinsics extends React.PureComponent<Props> {
         <article className='ui--hoverable explorer--Container'>
           <div className='header'>
             <h3>
-              {section}.{method}&nbsp;(#{numberFormat(index)})
+              {section}.{method}&nbsp;(#{formatNumber(index)})
             </h3>
-            <div className='ui--hover description'>{
-              meta && meta.documentation && meta.documentation.length
-                ? meta.documentation.map((doc) => doc.toString()).join(' ')
-                : ''
-            }</div>
             {this.renderSigner(extrinsic)}
           </div>
-          <Call
-            className='ui--hover details'
-            value={extrinsic}
-          />
+          <div className='ui--hover'>
+            <div className='ui--hover-content'>
+              <div className='description'>{
+                meta && meta.documentation && meta.documentation.length
+                  ? meta.documentation.map((doc) => doc.toString()).join(' ')
+                  : ''
+              }</div>
+              <Call
+                className='details'
+                value={extrinsic}
+              />
+            </div>
+          </div>
         </article>
       </div>
     );
@@ -89,7 +93,7 @@ class Extrinsics extends React.PureComponent<Props> {
           <AddressMini value={extrinsic.signature.signer} />
         </div>
         <div className='explorer--BlockByHash-accountIndex'>
-          {t('index')} {numberFormat(extrinsic.signature.nonce)}
+          {t('index')} {formatNumber(extrinsic.signature.nonce)}
         </div>
       </div>
     );

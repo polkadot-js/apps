@@ -17,7 +17,7 @@ type Props = BareProps & {
   activeItem: string,
   hidden?: Array<string>,
   items: Array<TabItem>,
-  onChange: (name: any) => void
+  onChange?: (name: any) => void
 };
 
 type State = {
@@ -76,7 +76,7 @@ export default class Tabs extends React.PureComponent<Props, State> {
       const { onChange } = this.props;
 
       this.setState({ active: name }, () => {
-        onChange(name);
+        onChange && onChange(name);
       });
     };
   }

@@ -51,13 +51,13 @@ class Forgetting extends React.PureComponent<Props> {
           <Button
             isNegative
             onClick={onClose}
-            text={t('Cancel')}
+            label={t('Cancel')}
           />
           <Button.Or />
           <Button
             isPrimary
             onClick={doForget}
-            text={t('Forget')}
+            label={t('Forget')}
           />
         </Button.Group>
       </Modal.Actions>
@@ -71,17 +71,19 @@ class Forgetting extends React.PureComponent<Props> {
       ? currentAddress.address()
       : undefined;
 
-    return [
-      <Modal.Header key='header'>
-        {t('Confirm address removal')}
-      </Modal.Header>,
-      <Modal.Content className='forgetting-Address' key='content'>
-        <AddressSummary
-          className='ui--AddressSummary-base'
-          value={address || ''}
-        />
-      </Modal.Content>
-    ];
+    return (
+      <>
+        <Modal.Header>
+          {t('Confirm address removal')}
+        </Modal.Header>
+        <Modal.Content className='forgetting-Address'>
+          <AddressSummary
+            className='ui--AddressSummary-base'
+            value={address || ''}
+          />
+        </Modal.Content>
+      </>
+    );
   }
 }
 

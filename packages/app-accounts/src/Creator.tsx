@@ -122,15 +122,15 @@ class Creator extends React.PureComponent<Props, State> {
     return (
       <Button.Group>
         <Button
+          label={t('Reset')}
           onClick={this.onDiscard}
-          text={t('Reset')}
         />
         <Button.Or />
         <Button
           isDisabled={!isValid}
           isPrimary
+          label={t('Save')}
           onClick={this.onShowWarning}
-          text={t('Save')}
         />
       </Button.Group>
     );
@@ -209,14 +209,14 @@ class Creator extends React.PureComponent<Props, State> {
         <Button.Group>
           <Button
             isNegative
+            label={t('Cancel')}
             onClick={this.onHideWarning}
-            text={t('Cancel')}
           />
           <Button.Or />
           <Button
             isPrimary
+            label={t('Create and backup account')}
             onClick={this.onCommit}
-            text={t('Create and backup account')}
           />
         </Button.Group>
       </Modal.Actions>
@@ -227,21 +227,23 @@ class Creator extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { address } = this.state;
 
-    return [
-      <Modal.Header key='header'>
-        {t('sImportant notice!')}
-      </Modal.Header>,
-      <Modal.Content key='content'>
-        {t('We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always redownload this file later.')}
-        <Modal.Description>
-          {t('Please make sure to save this file in a secure location as it is the only way to restore your account.')}
-        </Modal.Description>
-        <AddressSummary
-          className='accounts--Modal-Address'
-          value={address}
-        />
-      </Modal.Content>
-    ];
+    return (
+      <>
+        <Modal.Header>
+          {t('Important notice!')}
+        </Modal.Header>
+        <Modal.Content>
+          {t('We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always redownload this file later.')}
+          <Modal.Description>
+            {t('Please make sure to save this file in a secure location as it is the only way to restore your account.')}
+          </Modal.Description>
+          <AddressSummary
+            className='accounts--Modal-Address'
+            value={address}
+          />
+        </Modal.Content>
+      </>
+    );
   }
 
   private generateSeed (seedType: SeedType, passthrough?: string | null): State {

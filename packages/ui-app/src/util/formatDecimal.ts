@@ -4,6 +4,6 @@
 
 const NUMBER_REGEX = new RegExp('(\\d+?)(?=(\\d{3})+(?!\\d)|$)', 'g');
 
-export default function decimalFormat (value: string): string {
+export default function formatDecimal (value: string): string {
   return (value.match(NUMBER_REGEX) || []).join(',');
 }

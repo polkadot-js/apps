@@ -10,23 +10,6 @@
 .explorer--BlockHeader {
   animation: fadein 1.5s;
 
-  > div {
-    padding: 0.5em;
-    overflow: hidden;
-  }
-
-  &.ui--hoverable {
-    .details > .contains {
-      margin-top: 0;
-    }
-
-    &:hover {
-      .details > .contains {
-        margin-top: 0.5rem;
-      }
-    }
-  }
-
   .author {
     font-size: 1rem;
     text-align: right;
@@ -35,6 +18,11 @@
     > .ui--AddressMini.padded {
       padding: 0;
     }
+  }
+
+  .header-outer {
+    padding: 0.5rem;
+    overflow: hidden;
   }
 
   .header {
@@ -61,7 +49,6 @@
     .hash {
       font-size: 1.5rem;
       font-family: sans-serif;
-      /*opacity: 0.75;*/
     }
   }
 
@@ -76,34 +63,26 @@
     box-sizing: border-box;
   }
 
-  .details {
-    box-sizing: border-box;
-    flex: 1;
-    min-width: 0;
+  .contains {
+    border: 0;
+    padding: 0.5rem;
     text-align: center;
-    overflow: hidden;
 
-    > .contains {
-      border: 0;
-      margin-top: 0.5rem;
-      opacity: 0.75;
+    > .info {
+      margin-bottom: 0.125em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
 
-      > .info {
-        margin-bottom: 0.125em;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+      > div {
+        display: inline-block;
+        padding: 0 0.25em;
+        vertical-align: middle;
 
-        > div {
-          display: inline-block;
-          padding: 0 0.25em;
-          vertical-align: middle;
-
-          &.type {
-            opacity: 0.75;
-            text-align: right;
-            width: 10em;
-          }
+        &.type {
+          opacity: 0.75;
+          text-align: right;
+          width: 10em;
         }
       }
     }

@@ -7,8 +7,7 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 import React from 'react';
 import { Index } from '@polkadot/types';
 import { withCall } from '@polkadot/ui-api/index';
-
-import { numberFormat } from './util/index';
+import { formatNumber } from '@polkadot/ui-app/util/index';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
@@ -27,7 +26,7 @@ class Nonce extends React.PureComponent<Props> {
       >
         {label}{
           system_accountNonce
-            ? numberFormat(system_accountNonce)
+            ? formatNumber(system_accountNonce)
             : '0'
           }{children}
       </div>
@@ -35,4 +34,4 @@ class Nonce extends React.PureComponent<Props> {
   }
 }
 
-export default withCall('query.system.accountNonce')(Nonce);
+export default withCall('query.system.accountNonce', { paramName: 'value' })(Nonce);

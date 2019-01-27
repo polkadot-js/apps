@@ -11,7 +11,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import React from 'react';
 import { AccountId, Balance, ValidatorPrefs } from '@polkadot/types';
 import { AddressMini, AddressSummary, Button } from '@polkadot/ui-app/index';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { withCalls } from '@polkadot/ui-api/index';
 
 import Nominating from './Nominating';
 import Preferences from './Preferences';
@@ -27,8 +27,7 @@ type Props = ApiProps & I18nProps & {
   staking_nominatorsFor?: Array<string>,
   intentions: Array<string>,
   isValidator: boolean,
-  queueExtrinsic: QueueTx$ExtrinsicAdd,
-  validators: Array<string>
+  queueExtrinsic: QueueTx$ExtrinsicAdd
 };
 
 type State = {
@@ -140,13 +139,13 @@ class Account extends React.PureComponent<Props, State> {
           <Button
             isPrimary
             onClick={this.stake}
-            text={t('Stake')}
+            label={t('Stake')}
           />
           <Button.Or />
           <Button
             isPrimary
             onClick={this.toggleNominate}
-            text={t('Nominate')}
+            label={t('Nominate')}
           />
         </Button.Group>
       );
@@ -169,13 +168,13 @@ class Account extends React.PureComponent<Props, State> {
         <Button
           isNegative
           onClick={this.unstake}
-          text={t('Unstake')}
+          label={t('Unstake')}
         />
         <Button.Or />
         <Button
           isPrimary
           onClick={this.togglePrefs}
-          text={t('Set Prefs')}
+          label={t('Set Prefs')}
         />
       </Button.Group>
     );
@@ -247,9 +246,9 @@ class Account extends React.PureComponent<Props, State> {
   }
 }
 
-export default withMulti(
-  Account,
-  translate,
-  withCall('query.staking.nominatorsFor', { paramName: 'accountId' }),
-  withCall('query.staking.nominating', { paramName: 'accountId' })
+export default translate(
+  withCalls<Props>(
+    ['query.staking.nominatorsFor', { paramName: 'accountId' }],
+    ['query.staking.nominating', { paramName: 'accountId' }]
+  )(Account)
 );

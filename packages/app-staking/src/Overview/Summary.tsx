@@ -7,10 +7,10 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { CardSummary } from '@polkadot/ui-app/index';
 import SummarySession from '@polkadot/app-explorer/SummarySession';
+import { CardSummary } from '@polkadot/ui-app/index';
+import { formatBalance } from '@polkadot/ui-app/util';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
-import { balanceFormat } from '@polkadot/ui-reactive/util/index';
 
 import translate from '../translate';
 
@@ -56,10 +56,10 @@ class Summary extends React.PureComponent<Props> {
     const intentionHigh = this.calcIntentionsHigh();
     const validatorLow = this.calcValidatorLow();
     const nominatedLow = validatorLow && validatorLow.nominatedBalance.gtn(0)
-      ? `(+${balanceFormat(validatorLow.nominatedBalance)})`
+      ? `(+${formatBalance(validatorLow.nominatedBalance)})`
       : '';
     const nominatedHigh = intentionHigh && intentionHigh.nominatedBalance.gtn(0)
-      ? `(+${balanceFormat(intentionHigh.nominatedBalance)})`
+      ? `(+${formatBalance(intentionHigh.nominatedBalance)})`
       : '';
 
     return (
@@ -67,14 +67,14 @@ class Summary extends React.PureComponent<Props> {
         <div>{t('lowest validator {{validatorLow}}', {
           replace: {
             validatorLow: validatorLow && validatorLow.stakingBalance
-              ? `${balanceFormat(validatorLow.stakingBalance)} ${nominatedLow}`
+              ? `${formatBalance(validatorLow.stakingBalance)} ${nominatedLow}`
               : '-'
           }
         })}</div>
         <div>{t('highest intention {{intentionHigh}}', {
           replace: {
             intentionHigh: intentionHigh
-              ? `${balanceFormat(intentionHigh.stakingBalance)} ${nominatedHigh}`
+              ? `${formatBalance(intentionHigh.stakingBalance)} ${nominatedHigh}`
               : '-'
           }
         })}</div>

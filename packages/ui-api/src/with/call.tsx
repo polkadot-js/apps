@@ -77,7 +77,9 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       componentWillUnmount () {
         this.isActive = false;
 
-        this.unsubscribe();
+        this.unsubscribe()
+          .then(NOOP)
+          .catch(NOOP);
 
         if (this.timerId !== -1) {
           clearInterval(this.timerId);
@@ -154,7 +156,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
 
           assert(at || !atProp, 'Unable to perform query on non-existent at hash');
 
-          this.unsubscribe();
+          await this.unsubscribe();
 
           if (isSubscription) {
             this.destroy = await apiMethod(...params, (value?: any) =>
@@ -172,7 +174,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         }
       }
 
-      private unsubscribe () {
+      private async unsubscribe () {
         if (this.destroy) {
           this.destroy();
           this.destroy = undefined;

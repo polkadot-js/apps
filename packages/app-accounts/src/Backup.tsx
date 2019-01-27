@@ -59,15 +59,15 @@ class Backup extends React.PureComponent<Props, State> {
         <Button.Group>
           <Button
             isNegative
+            label={t('Cancel')}
             onClick={onClose}
-            text={t('Cancel')}
           />
           <Button.Or />
           <Button
             isDisabled={!isPassValid}
             isPrimary
+            label={t('Download')}
             onClick={this.doBackup}
-            text={t('Download')}
           />
         </Button.Group>
       </Modal.Actions>
@@ -78,26 +78,25 @@ class Backup extends React.PureComponent<Props, State> {
     const { pair, t } = this.props;
     const { isPassValid, password } = this.state;
 
-    return [
-      <Modal.Header key='header'>
-        {t('Backup account')}
-      </Modal.Header>,
-      <Modal.Content
-        className='app--account-Backup-content'
-        key='content'
-      >
-        <AddressSummary value={pair.address()} />
-        <div className='ui--row'>
-          <Password
-            isError={!isPassValid}
-            label={t('unlock account using the password')}
-            onChange={this.onChangePass}
-            tabIndex={0}
-            value={password}
-          />
-        </div>
-      </Modal.Content>
-    ];
+    return (
+      <>
+        <Modal.Header>
+          {t('Backup account')}
+        </Modal.Header>
+        <Modal.Content className='app--account-Backup-content'>
+          <AddressSummary value={pair.address()} />
+          <div className='ui--row'>
+            <Password
+              isError={!isPassValid}
+              label={t('unlock account using the password')}
+              onChange={this.onChangePass}
+              tabIndex={0}
+              value={password}
+            />
+          </div>
+        </Modal.Content>
+      </>
+    );
   }
 
   private doBackup = (): void => {

@@ -18,7 +18,7 @@ type Props<Option> = BareProps & {
   isDisabled?: boolean,
   isError?: boolean,
   label?: React.ReactNode,
-  onChange: (value: any) => void,
+  onChange?: (value: any) => void,
   onSearch?: (filteredOptions: Array<any>, query: string) => Array<Option>,
   options: Array<Option>,
   placeholder?: string,
@@ -96,7 +96,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
   private onChange = (event: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void => {
     const { onChange, transform } = this.props;
 
-    onChange(
+    onChange && onChange(
       transform
         ? transform(value)
         : value

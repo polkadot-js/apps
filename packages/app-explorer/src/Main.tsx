@@ -18,23 +18,22 @@ class Main extends React.PureComponent<Props> {
   render () {
     const { t } = this.props;
 
-    return [
-      <Summary key='summary' />,
-      <Query key='query' />,
-      <div
-        className='explorer--Overview'
-        key='overview'
-      >
-        <div className='column'>
-          <h1>{t('recent blocks')}</h1>
-          <BlockHeaders />
+    return (
+      <>
+        <Summary />
+        <Query />
+        <div className='explorer--Overview'>
+          <div className='column'>
+            <h1>{t('recent blocks')}</h1>
+            <BlockHeaders />
+          </div>
+          <div className='column'>
+            <h1>{t('recent events')}</h1>
+            <EventsRecent />
+          </div>
         </div>
-        <div className='column'>
-          <h1>{t('recent events')}</h1>
-          <EventsRecent />
-        </div>
-      </div>
-    ];
+      </>
+    );
   }
 }
 

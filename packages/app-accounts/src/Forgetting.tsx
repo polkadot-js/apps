@@ -39,13 +39,13 @@ class Forgetting extends React.PureComponent<Props> {
           <Button
             isNegative
             onClick={onClose}
-            text={t('Cancel')}
+            label={t('Cancel')}
           />
           <Button.Or />
           <Button
             isPrimary
             onClick={doForget}
-            text={t('Forget')}
+            label={t('Forget')}
           />
         </Button.Group>
       </Modal.Actions>
@@ -55,14 +55,16 @@ class Forgetting extends React.PureComponent<Props> {
   renderContent () {
     const { address, t } = this.props;
 
-    return [
-      <Modal.Header key='header'>
-        {t('Confirm account removal')}
-      </Modal.Header>,
-      <Modal.Content key='content'>
-        <AddressSummary value={address} />
-      </Modal.Content>
-    ];
+    return (
+      <>
+        <Modal.Header>
+          {t('Confirm account removal')}
+        </Modal.Header>
+        <Modal.Content>
+          <AddressSummary value={address} />
+        </Modal.Content>
+      </>
+    );
   }
 }
 

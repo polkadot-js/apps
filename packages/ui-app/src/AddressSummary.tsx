@@ -7,7 +7,7 @@ import { I18nProps } from './types';
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
 import { Nonce } from '@polkadot/ui-reactive/index';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { withCalls } from '@polkadot/ui-api/index';
 
 import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
@@ -197,7 +197,9 @@ class AddressSummary extends React.PureComponent<Props> {
 
     return (
       <div className='ui--AddressSummary-children ui--hover'>
-        {children}
+        <div className='ui--hover-content'>
+          {children}
+        </div>
       </div>
     );
   }
@@ -208,9 +210,9 @@ export {
   AddressSummary
 };
 
-export default withMulti(
-  AddressSummary,
-  translate,
-  withCall('derive.accounts.idAndIndex', { paramName: 'value' }),
-  withCall('query.session.validators')
+export default translate(
+  withCalls<Props>(
+    ['derive.accounts.idAndIndex', { paramName: 'value' }],
+    'query.session.validators'
+  )(AddressSummary)
 );

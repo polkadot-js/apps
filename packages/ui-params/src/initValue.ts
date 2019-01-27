@@ -6,6 +6,7 @@ import { TypeDef, TypeDefInfo } from '@polkadot/types/codec';
 import { RawParam$Value } from './types';
 
 import BN from 'bn.js';
+import { Bytes, Hash } from '@polkadot/types';
 
 export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawParam$Value> {
   if (def.info === TypeDefInfo.Vector) {
@@ -32,6 +33,7 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     case 'Index':
     case 'ParaId':
     case 'PropIndex':
+    case 'ProposalIndex':
     case 'ReferendumIndex':
     case 'SessionKey':
     case 'u32':
@@ -46,8 +48,8 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     case 'String':
       return '';
 
-    case 'Timestamp':
-      return new Date(0);
+    case 'Moment':
+      return new BN(0);
 
     case 'Vote':
       return -1;
@@ -55,13 +57,19 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     case 'VoteThreshold':
       return 0;
 
+    case 'Bytes':
+      return new Bytes();
+
+    case 'CodeHash':
+    case 'Hash':
+      return new Hash();
+
     case 'AccountId':
     case 'Address':
     case 'Bytes':
     case 'Call':
     case 'CandidateReceipt':
     case 'Digest':
-    case 'Hash':
     case 'Header':
     case 'KeyValue':
     case 'MisbehaviorReport':

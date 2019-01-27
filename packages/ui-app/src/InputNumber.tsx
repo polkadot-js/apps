@@ -6,7 +6,7 @@ import { BareProps, BitLength, I18nProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { balanceFormat, calcSi } from '@polkadot/ui-reactive/util/index';
+import { formatBalance, calcSi } from '@polkadot/ui-app/util';
 import { isUndefined } from '@polkadot/util';
 
 import classes from './util/classes';
@@ -24,7 +24,7 @@ type Props = BareProps & I18nProps & {
   isSi?: boolean,
   label?: any,
   maxLength?: number,
-  onChange: (value?: BN) => void,
+  onChange?: (value?: BN) => void,
   placeholder?: string,
   value?: BN | string,
   withLabel?: boolean
@@ -55,7 +55,7 @@ class InputNumber extends React.PureComponent<Props, State> {
     this.state = {
       isPreKeyDown: false,
       isValid: !isUndefined(this.props.value),
-      siOptions: balanceFormat.getOptions().map(({ power, text, value }) => ({
+      siOptions: formatBalance.getOptions().map(({ power, text, value }) => ({
         value,
         text: power === 0
           ? InputNumber.units
@@ -77,7 +77,7 @@ class InputNumber extends React.PureComponent<Props, State> {
     }
 
     return {
-      defaultValue: balanceFormat(defaultValue, false),
+      defaultValue: formatBalance(defaultValue, false),
       siUnit: calcSi(defaultValue).value
     };
   }
@@ -186,7 +186,7 @@ class InputNumber extends React.PureComponent<Props, State> {
 
       this.setState({ isValid, valueBN });
 
-      onChange(
+      onChange && onChange(
         isValid
           ? valueBN
           : undefined
@@ -236,15 +236,15 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 
   private applySi (siUnit: string, value: BN): BN {
-    const si = balanceFormat.findSi(siUnit);
-    const power = new BN(balanceFormat.getDefaultDecimals() + si.power);
+    const si = formatBalance.findSi(siUnit);
+    const power = new BN(formatBalance.getDefaultDecimals() + si.power);
 
     return value.mul(new BN(10).pow(power));
   }
 
   private applyNewSi (oldSi: string, newSi: string, value: BN): BN {
-    const si = balanceFormat.findSi(oldSi);
-    const power = new BN(balanceFormat.getDefaultDecimals() + si.power);
+    const si = formatBalance.findSi(oldSi);
+    const power = new BN(formatBalance.getDefaultDecimals() + si.power);
 
     return this.applySi(newSi, value.div(new BN(10).pow(power)));
   }
@@ -255,7 +255,7 @@ class InputNumber extends React.PureComponent<Props, State> {
       const valueBN = this.applyNewSi(prevState.siUnit, siUnit, prevState.valueBN);
       const isValid = this.isValidNumber(valueBN, bitLength);
 
-      onChange(
+      onChange && onChange(
         isValid
           ? valueBN
           : undefined

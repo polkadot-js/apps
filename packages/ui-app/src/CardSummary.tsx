@@ -48,6 +48,10 @@ export default class CardSummary extends React.PureComponent<Props> {
       )
       : undefined;
 
+    if (progress && isUndefined(left)) {
+      return null;
+    }
+
     return (
       <article
         className={classes('ui--CardSummary', className)}

@@ -7,8 +7,8 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
+import { formatBalance } from '@polkadot/ui-app/util';
 import RxBalance from '@polkadot/ui-reactive/Balance';
-import { balanceFormat } from '@polkadot/ui-reactive/util/index';
 
 import classes from './util/classes';
 
@@ -46,12 +46,12 @@ export default class BalanceDisplay extends React.PureComponent<Props> {
       return null;
     }
 
-    let value = `${balanceFormat(Array.isArray(balance) ? balance[0] : balance)}`;
+    let value = `${formatBalance(Array.isArray(balance) ? balance[0] : balance)}`;
 
     if (Array.isArray(balance)) {
       const totals = balance.filter((value, index) => index !== 0);
       const total = totals.reduce((total, value) => total.add(value), new BN(0)).gtn(0)
-        ? `(+${totals.map((balance) => balanceFormat(balance)).join(', ')})`
+        ? `(+${totals.map((balance) => formatBalance(balance)).join(', ')})`
         : '';
 
       value = `${value}  ${total}`;

@@ -8,7 +8,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import React from 'react';
 import { EventRecord, SignedBlock } from '@polkadot/types';
 import { HeaderExtended } from '@polkadot/types/Header';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { withCalls } from '@polkadot/ui-api/index';
 
 import BlockHeader from '../BlockHeader';
 import translate from '../translate';
@@ -31,33 +31,23 @@ class BlockByHash extends React.PureComponent<Props> {
       return null;
     }
 
-    return [
-      <header key='header'>
-        <BlockHeader
-          value={chain_getHeader}
-          withExtrinsics
-        />
-      </header>,
-      <Extrinsics
-        key='extrinsics'
-        value={chain_getBlock.block.extrinsics}
-      />,
-      <Events
-        key='events'
-        value={system_events}
-      />,
-      <Logs
-        key='logs'
-        value={chain_getHeader.digest.logs}
-      />
-    ];
+    return (
+      <>
+        <header>
+          <BlockHeader value={chain_getHeader} />
+        </header>
+        <Extrinsics value={chain_getBlock.block.extrinsics} />
+        <Events value={system_events} />
+        <Logs value={chain_getHeader.digest.logs} />
+      </>
+    );
   }
 }
 
-export default withMulti(
-  BlockByHash,
-  translate,
-  withCall('rpc.chain.getBlock', { paramName: 'value' }),
-  withCall('derive.chain.getHeader', { paramName: 'value' }),
-  withCall('query.system.events', { atProp: 'value' })
+export default translate(
+  withCalls<Props>(
+    ['rpc.chain.getBlock', { paramName: 'value' }],
+    ['derive.chain.getHeader', { paramName: 'value' }],
+    ['query.system.events', { atProp: 'value' }]
+  )(BlockByHash)
 );

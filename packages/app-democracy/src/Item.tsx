@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { Method, Proposal } from '@polkadot/types';
 import { Call } from '@polkadot/ui-app/index';
-import numberFormat from '@polkadot/ui-reactive/util/numberFormat';
+import { formatNumber } from '@polkadot/ui-app/util';
 
 import translate from './translate';
 
@@ -16,7 +16,7 @@ type Props = I18nProps & {
   children?: React.ReactNode,
   proposal: Proposal,
   proposalExtra?: React.ReactNode,
-  idNumber: BN
+  idNumber: BN | number
 };
 
 class Item extends React.PureComponent<Props> {
@@ -39,7 +39,7 @@ class Item extends React.PureComponent<Props> {
             }</div>
           </div>
           <div className='democracy--Item-header-id'>
-            #{numberFormat(idNumber)}
+            #{formatNumber(idNumber)}
           </div>
         </div>
         <div className='democracy--Item-body'>

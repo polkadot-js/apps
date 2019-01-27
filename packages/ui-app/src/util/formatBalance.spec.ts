@@ -4,79 +4,79 @@
 
 import BN from 'bn.js';
 
-import { balanceFormat } from './';
+import { formatBalance } from './';
 
-describe('balanceFormat', () => {
+describe('formatBalance', () => {
   const TESTVAL = new BN('123456789000');
 
   it('formats 123,456,789,000 (decimals=15)', () => {
     expect(
-      balanceFormat(TESTVAL, true, 15)
+      formatBalance(TESTVAL, true, 15)
     ).toEqual('123.456µ');
   });
 
   it('formats 123,456,789,000  (decimals=12)', () => {
     expect(
-      balanceFormat(TESTVAL, true, 12)
+      formatBalance(TESTVAL, true, 12)
     ).toEqual('123.456m');
   });
 
   it('formats 123,456,789,000  (decimals=12, no SI)', () => {
     expect(
-      balanceFormat(TESTVAL, false, 12)
+      formatBalance(TESTVAL, false, 12)
     ).toEqual('123.456');
   });
 
   it('formats 123,456,789,000 (decimals=9)', () => {
     expect(
-      balanceFormat(TESTVAL, true, 9)
+      formatBalance(TESTVAL, true, 9)
     ).toEqual('123.456');
   });
 
   it('formats 123,456,789,000 (decimals=6)', () => {
     expect(
-      balanceFormat(TESTVAL, true, 6)
+      formatBalance(TESTVAL, true, 6)
     ).toEqual('123.456k');
   });
 
   it('formats 123,456,789,000 * 10 (decimals=12)', () => {
     expect(
-      balanceFormat(TESTVAL.muln(10), true, 12)
+      formatBalance(TESTVAL.muln(10), true, 12)
     ).toEqual('1.234');
   });
 
   it('formats 123,456,789,000 * 100 (decimals=12)', () => {
     expect(
-      balanceFormat(TESTVAL.muln(100), true, 12)
+      formatBalance(TESTVAL.muln(100), true, 12)
     ).toEqual('12.345');
   });
 
   it('formats 123,456,789,000 * 1000 (decimals=12)', () => {
     expect(
-      balanceFormat(TESTVAL.muln(1000), true, 12)
+      formatBalance(TESTVAL.muln(1000), true, 12)
     ).toEqual('123.456');
   });
 
   describe('findSi', () => {
     it('finds the SI value', () => {
       expect(
-        balanceFormat.findSi('k')
+        formatBalance.findSi('k')
       ).toEqual({ power: 3, value: 'k', text: 'Kilo' });
     });
 
     it('returns default on not found', () => {
       expect(
-        balanceFormat.findSi('blah')
+        formatBalance.findSi('blah')
       ).toEqual({ power: 0, value: '-', text: '----' });
     });
   });
 
   describe('setDefaultDecimals', () => {
     it('formats 123,456,789,000 (defaultDecimals=15)', () => {
-      balanceFormat.setDefaultDecimals(15);
+      formatBalance.setDefaultDecimals(15);
 
       expect(
-        balanceFormat(TESTVAL)
+        formatBalance(TESTVAL)
       ).toEqual('123.456µ');
     });
   });
