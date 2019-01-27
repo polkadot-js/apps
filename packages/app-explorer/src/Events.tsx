@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { EventRecord } from '@polkadot/types';
 import { Event as EventDisplay } from '@polkadot/ui-app/index';
-import { numberFormat } from '@polkadot/ui-reactive/util/index';
+import { formatNumber } from '@polkadot/ui-app/util';
 
 import translate from './translate';
 
@@ -59,7 +59,7 @@ class Events extends React.PureComponent<Props> {
           <h3>
             {event.section}.{event.method}&nbsp;{
               extIndex !== -1
-                ? `(#${numberFormat(extIndex)})`
+                ? `(#${formatNumber(extIndex)})`
                 : ''
             }
           </h3>

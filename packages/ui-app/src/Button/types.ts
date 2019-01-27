@@ -16,10 +16,10 @@ export type ButtonProps = BareProps & {
   isNegative?: boolean,
   isPositive?: boolean,
   isPrimary?: boolean,
+  label?: React.ReactNode,
   onClick?: () => void | Promise<void>,
   size?: Button$Sizes,
-  tabIndex?: number,
-  text?: any
+  tabIndex?: number
 };
 
 export type DividerProps = BareProps;

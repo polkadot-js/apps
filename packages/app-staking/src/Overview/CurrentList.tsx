@@ -10,10 +10,10 @@ import { AccountId, Balance } from '@polkadot/types';
 import { HeaderExtended } from '@polkadot/types/Header';
 import { withCall, withMulti } from '@polkadot/ui-api/with';
 import { AddressMini, AddressRow } from '@polkadot/ui-app/index';
+import { formatNumber } from '@polkadot/ui-app/util';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
-import { numberFormat } from '@polkadot/ui-reactive/util';
 
 type Props = I18nProps & {
   balances: DerivedBalancesMap,
@@ -88,7 +88,7 @@ class CurrentList extends React.PureComponent<Props> {
     let lastAuthor: string;
 
     if (chain_subscribeNewHead) {
-      lastBlock = `#${numberFormat(chain_subscribeNewHead.blockNumber)}`;
+      lastBlock = `#${formatNumber(chain_subscribeNewHead.blockNumber)}`;
       lastAuthor = (chain_subscribeNewHead.author || '').toString();
     }
 

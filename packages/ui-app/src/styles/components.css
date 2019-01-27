@@ -155,6 +155,47 @@ header .ui--Button-Group {
   font-style: italic;
 }
 
+.ui--Bubble.ui.label {
+  font-weight: normal;
+  margin: 0.25rem;
+  padding: 0;
+
+  * {
+    vertical-align: middle;
+  }
+
+  .ui--Bubble-children,
+  .ui--Bubble-header {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .ui--Bubble-children {
+    padding: 0 0.75rem 0 0;
+  }
+
+  .ui--Bubble-header {
+    background: rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+    border-radius: .28571429rem 0 0 .28571429rem;
+    height: 2.75rem;
+    margin-right: 0.75rem;
+    padding: 0 0.75rem;
+    text-align: center;
+    vertical-align: middle;
+
+    > div {
+      display: inline-block;
+      line-height: 2.75rem !important;
+      vertical-align: middle;
+    }
+
+    > .text {
+      padding: 0 0 0 0.25rem;
+    }
+  }
+}
+
 .ui--CardSummary .ui.label {
   padding-left: 0;
   padding-right: 0;

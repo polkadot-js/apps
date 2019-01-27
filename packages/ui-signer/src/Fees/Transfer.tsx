@@ -11,7 +11,7 @@ import React from 'react';
 import { Compact } from '@polkadot/types/codec';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
 import { Icon } from '@polkadot/ui-app/index';
-import { balanceFormat } from '@polkadot/ui-reactive/util/index';
+import { formatBalance } from '@polkadot/ui-app/util';
 
 import translate from '../translate';
 import { ZERO_BALANCE } from './constants';
@@ -83,7 +83,7 @@ class Transfer extends React.PureComponent<Props, State> {
           isCreation
             ? <div><Icon name='warning sign' />{t('A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist', {
               replace: {
-                creationFee: balanceFormat(fees.creationFee)
+                creationFee: formatBalance(fees.creationFee)
               }
             })}</div>
             : undefined

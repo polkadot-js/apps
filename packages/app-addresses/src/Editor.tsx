@@ -62,20 +62,20 @@ class Editor extends React.PureComponent<Props, State> {
         <Button
           isNegative
           onClick={this.toggleForget}
-          text={t('Forget')}
+          label={t('Forget')}
         />
         <Button.Group.Divider />
         <Button
           isDisabled={!isEdited}
           onClick={this.onDiscard}
-          text={t('Reset')}
+          label={t('Reset')}
         />
         <Button.Or />
         <Button
           isDisabled={!isEdited}
           isPrimary
           onClick={this.onCommit}
-          text={t('Save')}
+          label={t('Save')}
         />
       </Button.Group>
     );

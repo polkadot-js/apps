@@ -10,7 +10,7 @@ import './Content.css';
 
 import React from 'react';
 import { withRouter } from 'react-router';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { withCalls, withMulti } from '@polkadot/ui-api/index';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
 import Status from '../Status';
@@ -66,14 +66,16 @@ class Content extends React.Component<Props> {
   }
 }
 
+// React-router needs to be first, otherwise we have blocked updates
+// These API queries are used in a number of places, warm them up as
+// to avoid constant un/resubscriptions on these
 export default withMulti(
   Content,
-  // React-router needs to be first, otherwise we have blocked updates
   withRouter,
   translate,
-  // these queries are used in a number of places, warm them up as to avoid
-  // constant un/resubscriptions on these
-  withCall('query.session.validators'),
-  withCall('derive.accounts.indexes'),
-  withCall('derive.balances.fees')
+  withCalls<Props>(
+    'query.session.validators',
+    'derive.accounts.indexes',
+    'derive.balances.fees'
+  )
 );

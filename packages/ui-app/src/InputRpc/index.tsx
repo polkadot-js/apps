@@ -25,7 +25,7 @@ type Props = I18nProps & {
   isError?: boolean,
   labelMethod?: string,
   labelSection?: string,
-  onChange: (value: RpcMethod) => void,
+  onChange?: (value: RpcMethod) => void,
   withLabel?: boolean
 };
 
@@ -88,7 +88,7 @@ class InputRpc extends React.PureComponent<Props, State> {
     }
 
     this.setState({ value: newValue }, () =>
-      onChange(newValue)
+      onChange && onChange(newValue)
     );
   }
 

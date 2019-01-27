@@ -4,11 +4,12 @@
 
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { AccountId, Balance } from '@polkadot/types';
 import { Tabs } from '@polkadot/ui-app/index';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { withCalls } from '@polkadot/ui-api/index';
 
 import './index.css';
 
@@ -18,7 +19,7 @@ import translate from './translate';
 
 type Actions = 'actions' | 'overview';
 
-type Props = AppProps & I18nProps & {
+type Props = AppProps & ApiProps & I18nProps & {
   balances?: DerivedBalancesMap,
   intentions?: Array<AccountId>,
   session_validators?: Array<AccountId>
@@ -115,10 +116,10 @@ class App extends React.PureComponent<Props, State> {
   }
 }
 
-export default withMulti(
-  App,
-  translate,
-  withCall('query.session.validators'),
-  withCall('query.staking.intentions', { propName: 'intentions' }),
-  withCall('derive.staking.intentionsBalances', { propName: 'balances' })
+export default translate(
+  withCalls<Props>(
+    'query.session.validators',
+    ['query.staking.intentions', { propName: 'intentions' }],
+    ['derive.staking.intentionsBalances', { propName: 'balances' }]
+  )(App)
 );

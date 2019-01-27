@@ -69,14 +69,14 @@ class Selection extends React.PureComponent<Props, State> {
           <Button
             isDisabled={!isValid}
             onClick={this.onQueueInherent}
-            text={t('Submit Inherent')}
+            label={t('Submit Inherent')}
           />
           <Button.Or />
           <Button
             isDisabled={!isValid}
             isPrimary
             onClick={this.onQueueExtrinsic}
-            text={t('Submit Transaction')}
+            label={t('Submit Transaction')}
           />
         </Button.Group>
       </div>

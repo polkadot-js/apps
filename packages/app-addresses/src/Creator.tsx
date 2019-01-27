@@ -61,14 +61,14 @@ class Creator extends React.PureComponent<Props, State> {
       <Button.Group>
         <Button
           onClick={this.onDiscard}
-          text={t('Reset')}
+          label={t('Reset')}
         />
         <Button.Or />
         <Button
           isDisabled={!isValid}
           isPrimary
           onClick={this.onCommit}
-          text={t('Save')}
+          label={t('Save')}
         />
       </Button.Group>
     );

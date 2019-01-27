@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { AccountIndex } from '@polkadot/types';
 import { Input } from '@polkadot/ui-app/index';
-import numberFormat from '@polkadot/ui-reactive/util/numberFormat';
+import { formatNumber } from '@polkadot/ui-app/util';
 import { bnToBn } from '@polkadot/util';
 
 import Bare from './Bare';
@@ -20,7 +20,7 @@ export default class Amount extends React.PureComponent<Props> {
       ? (
         value instanceof AccountIndex
           ? value.toString()
-          : numberFormat(value)
+          : formatNumber(value)
       )
       : bnToBn((value as number) || 0).toString();
 

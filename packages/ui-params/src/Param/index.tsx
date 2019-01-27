@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { BaseProps, Props as ComponentProps, ComponentMap } from '../types';
 
 import React from 'react';
-import classes from '@polkadot/ui-app/util/classes';
+import { classes } from '@polkadot/ui-app/util';
 import translate from '@polkadot/ui-app/translate';
 import { isUndefined } from '@polkadot/util';
 
