@@ -5,13 +5,13 @@
 @import './partials/_variables.css';
 
 .ui--output {
-  background: white;
+  background: #fefefe;
   border-radius: 4px;
-  border: 1px dashed rgba(34,36,38,.15);
+  border: 1px dashed #eee;
   box-sizing: border-box;
-  line-height: 1em;
+  line-height: 1rem;
   margin-bottom: 0.5em;
-  padding: 0.75em 1em;
+  padding: .75rem 1rem;
   position: relative;
   word-wrap: break-word;
 }
@@ -266,34 +266,39 @@ header .ui--Button-Group {
   }
 }
 
+.ui--label {
+  box-sizing: border-box;
+  font-size: 1rem;
+  font-weight: normal;
+  margin-bottom: 0.5rem;
+  opacity: 0.75;
+  padding-right: 0.5rem;
+}
+
 .ui--Labelled {
   align-items: center;
   display: flex;
   flex: 1 1;
   text-align: left;
 
-  &.ui--Labelled-small {
+  &.label-small {
     display: block;
 
-    .ui--Labelled-label {
+    > .ui--label {
       min-width: 0;
       padding-right: 0;
     }
   }
 
-  .ui--Labelled-content {
+  > .ui--Labelled-content {
     box-sizing: border-box;
     flex: 1 1;
     min-width: 0;
   }
 
-  .ui--Labelled-label {
-    box-sizing: border-box;
-    flex: 0 0 12rem;
-    margin-bottom: 0.5rem;
-    min-width: 12rem;
-    opacity: 0.5;
-    padding-right: 0.5rem;
+  > .ui--label {
+    flex: 0 0 15rem;
+    min-width: 15rem;
     text-align: right;
   }
 }

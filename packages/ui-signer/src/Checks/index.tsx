@@ -91,7 +91,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     const isRemovable = balances_votingBalance.votingBalance.sub(allTotal).lte(balances_fees.existentialDeposit);
     const isReserved = balances_votingBalance.freeBalance.isZero() && balances_votingBalance.reservedBalance.gtn(0);
     const allWarn = extraWarn;
-    const overLimit = extrinsic.encodedLength >= MAX_SIZE_BYTES;
+    const overLimit = txLength >= MAX_SIZE_BYTES;
 
     return {
       allFees,

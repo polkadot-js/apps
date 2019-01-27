@@ -25,19 +25,20 @@ class Transaction extends React.PureComponent<Props> {
       return null;
     }
 
-    const { method, section } = Method.findFunction(extrinsic.callIndex);
+    const { meta, method, section } = Method.findFunction(extrinsic.callIndex);
 
     return (
       <>
         <Modal.Header>
           {section}.{method}
+          <div className='ui--label'>{meta.documentation.join(' ')}</div>
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
+          <Call value={extrinsic} />
           <div className='ui--signer-Signer-children'>
             {this.renderAccount()}
             {children}
           </div>
-          <Call value={extrinsic} />
           {this.renderChecks()}
         </Modal.Content>
       </>

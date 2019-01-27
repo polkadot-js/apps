@@ -30,12 +30,12 @@ export default class Labelled extends React.PureComponent<Props> {
 
     return (
       <div
-        className={classes('ui--Labelled', isSmall ? 'ui--Labelled-small' : '', className)}
+        className={classes('ui--Labelled', isSmall ? 'label-small' : '', className)}
         style={style}
       >
         {
           withLabel
-            ? <div className='ui--Labelled-label'>{label}</div>
+            ? <div className='ui--label'>{label}</div>
             : null
         }
         <div className='ui--Labelled-content'>
