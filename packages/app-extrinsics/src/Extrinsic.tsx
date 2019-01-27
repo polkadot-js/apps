@@ -63,7 +63,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
           withLabel={withLabel}
         />
         <Params
-          key={`${section}.${method}` /* force re-render on change */}
+          key={`${section}.${method}:params` /* force re-render on change */}
           onChange={this.onChangeValues}
           overrides={paramComponents}
           params={params}

@@ -59,7 +59,7 @@ class Modules extends React.PureComponent<Props, State> {
             onChange={this.onChangeKey}
           />
           <Params
-            key={`${section}.${method}` /* force re-render on change */}
+            key={`${section}.${method}:params` /* force re-render on change */}
             onChange={this.onChangeParams}
             params={params}
           />
