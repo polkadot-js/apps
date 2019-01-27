@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTx$ExtrinsicAdd, ActionStatus } from '@polkadot/ui-app/Status/types';
+import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';

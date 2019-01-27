@@ -4,7 +4,7 @@
 
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { DropdownOptions } from '../util/types';
-import { I18nProps } from '../types';
+import { BareProps } from '../types';
 
 import React from 'react';
 
@@ -12,18 +12,17 @@ import map from '@polkadot/jsonrpc';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
-import translate from '../translate';
 
-type Props = I18nProps & {
+type Props = BareProps & {
   isError?: boolean,
   onChange: (value: RpcMethod) => void,
   options: DropdownOptions,
   value: RpcMethod
 };
 
-class SelectMethod extends React.PureComponent<Props> {
+export default class SelectMethod extends React.PureComponent<Props> {
   render () {
-    const { className, isError, onChange, options, style, t, value } = this.props;
+    const { className, isError, onChange, options, style, value } = this.props;
 
     if (!options.length) {
       return null;
@@ -46,5 +45,3 @@ class SelectMethod extends React.PureComponent<Props> {
     );
   }
 }
-
-export default translate(SelectMethod);

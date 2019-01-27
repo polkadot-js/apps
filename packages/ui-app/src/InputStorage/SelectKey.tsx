@@ -4,17 +4,16 @@
 
 import { ApiProps } from '@polkadot/ui-api/types';
 import { DropdownOptions } from '../util/types';
-import { I18nProps } from '../types';
+import { BareProps } from '../types';
 
 import React from 'react';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { withApi, withMulti } from '@polkadot/ui-api/index';
+import { withApi } from '@polkadot/ui-api/index';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
-import translate from '../translate';
 
-type Props = ApiProps & I18nProps & {
+type Props = ApiProps & BareProps & {
   isError?: boolean,
   onChange: (value: StorageFunction) => void,
   options: DropdownOptions,
@@ -23,7 +22,7 @@ type Props = ApiProps & I18nProps & {
 
 class SelectKey extends React.PureComponent<Props> {
   render () {
-    const { api, className, isError, onChange, options, style, t, value } = this.props;
+    const { api, className, isError, onChange, options, style, value } = this.props;
 
     if (!options.length) {
       return null;
@@ -47,8 +46,4 @@ class SelectKey extends React.PureComponent<Props> {
   }
 }
 
-export default withMulti(
-  SelectKey,
-  translate,
-  withApi
-);
+export default withApi(SelectKey);
