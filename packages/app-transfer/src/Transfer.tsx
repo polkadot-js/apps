@@ -55,19 +55,19 @@ class Transfer extends React.PureComponent<Props, State> {
           {this.renderAddress(accountId)}
           <div className='transfer--Transfer-data'>
             <InputAddress
-              label={t('transfer from my account')}
+              label={t('from my source account')}
               onChange={this.onChangeFrom}
               type='account'
             />
             <InputAddress
-              label={t('to the selected recipient')}
+              label={t('with a recipient of')}
               onChange={this.onChangeTo}
               type='all'
             />
             <InputBalance
               autoFocus
               isError={!hasAvailable}
-              label={t('transferring a value of')}
+              label={t('transfer a value of')}
               onChange={this.onChangeAmount}
             />
             <Checks
