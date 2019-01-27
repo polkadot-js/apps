@@ -46,14 +46,14 @@ class Raw extends React.PureComponent<Props, State> {
             onChange={this.onChangeKey}
           />
         </div>
-        <Labelled className='storage--actionrow-buttons'>
+        <div className='storage--actionrow-buttons'>
           <Button
             icon='plus'
             isDisabled={!isValid}
             isPrimary
             onClick={this.onAdd}
           />
-        </Labelled>
+        </div>
       </section>
     );
   }
