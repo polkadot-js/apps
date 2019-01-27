@@ -16,7 +16,7 @@ type Props = I18nProps & {
   session_eraLength?: BN,
   session_eraProgress?: BN,
   session_sessionProgress?: BN,
-  // FIXME Replaced in poc-3
+  // FIXME Replaced in poc-3, we should calculate the session reward
   // sessionBrokenValue?: BN,
   // sessionBrokenPercentLate?: BN,
   session_sessionLength?: BlockNumber,
@@ -27,12 +27,12 @@ type Props = I18nProps & {
 
 class SummarySession extends React.PureComponent<Props> {
   render () {
-    return [
-      this.renderSession(),
-      this.renderEra()
-      // FIXME Replace with "reward"
-      // this.renderBroken()
-    ];
+    return (
+      <>
+        {this.renderSession()}
+        {this.renderEra()}
+      </>
+    );
   }
 
   // private renderBroken () {
@@ -44,7 +44,6 @@ class SummarySession extends React.PureComponent<Props> {
 
   //   return (
   //     <CardSummary
-  //       key='brokenCount'
   //       label={t('lateness')}
   //       progress={{
   //         color: 'autoReverse',
@@ -65,7 +64,6 @@ class SummarySession extends React.PureComponent<Props> {
 
     return (
       <CardSummary
-        key='eraProgress'
         label={t('era')}
         progress={{
           total: session_eraLength,
@@ -84,7 +82,6 @@ class SummarySession extends React.PureComponent<Props> {
 
     return (
       <CardSummary
-        key='sessionProgress'
         label={t('session')}
         progress={{
           total: session_sessionLength,

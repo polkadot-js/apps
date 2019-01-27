@@ -83,32 +83,34 @@ class Unlock extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { address, password, unlockError } = this.state;
 
-    return [
-      <div className='toolbox--Unlock-Content' key='content'>
-        <div className='expanded'>
-          <p>
-            <Trans>
-              You are about to unlock your account <span className='code'>{address}</span> to allow for the signing of messages.
-            </Trans>
-          </p>
-        </div>
-        <IdentityIcon
-          className='icon'
-          value={address}
-        />
-      </div>,
-      <div className='toolbox--Unlock-Entry' key='entry'>
-        <div className='ui--row'>
-          <Password
-            className='medium'
-            isError={!!unlockError}
-            label={t('unlock account using')}
-            onChange={this.onChangePassword}
-            value={password}
+    return (
+      <>
+        <div className='toolbox--Unlock-Content'>
+          <div className='expanded'>
+            <p>
+              <Trans>
+                You are about to unlock your account <span className='code'>{address}</span> to allow for the signing of messages.
+              </Trans>
+            </p>
+          </div>
+          <IdentityIcon
+            className='icon'
+            value={address}
           />
         </div>
-      </div>
-    ];
+        <div className='toolbox--Unlock-Entry'>
+          <div className='ui--row'>
+            <Password
+              className='medium'
+              isError={!!unlockError}
+              label={t('unlock account using')}
+              onChange={this.onChangePassword}
+              value={password}
+            />
+          </div>
+        </div>
+      </>
+    );
   }
 
   unlockAccount (password?: string): string | null {

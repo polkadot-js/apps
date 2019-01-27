@@ -81,31 +81,33 @@ class ChangePass extends React.PureComponent<Props, State> {
     const { account, t } = this.props;
     const { isNewValid, isOldValid, newPass, oldPass } = this.state;
 
-    return [
-      <Modal.Header key='header'>
-        {t('Change account password')}
-      </Modal.Header>,
-      <Modal.Content key='content'>
-        <AddressSummary value={account.address()} />
-        <div className='ui--row'>
-          <Password
-            autoFocus
-            isError={!isOldValid}
-            label={t('old password')}
-            onChange={this.onChangeOld}
-            tabIndex={1}
-            value={oldPass}
-          />
-          <Password
-            isError={!isNewValid}
-            label={t('new password')}
-            onChange={this.onChangeNew}
-            tabIndex={2}
-            value={newPass}
-          />
-        </div>
-      </Modal.Content>
-    ];
+    return (
+      <>
+        <Modal.Header>
+          {t('Change account password')}
+        </Modal.Header>
+        <Modal.Content>
+          <AddressSummary value={account.address()} />
+          <div className='ui--row'>
+            <Password
+              autoFocus
+              isError={!isOldValid}
+              label={t('old password')}
+              onChange={this.onChangeOld}
+              tabIndex={1}
+              value={oldPass}
+            />
+            <Password
+              isError={!isNewValid}
+              label={t('new password')}
+              onChange={this.onChangeNew}
+              tabIndex={2}
+              value={newPass}
+            />
+          </div>
+        </Modal.Content>
+      </>
+    );
   }
 
   private doChange = (): void => {

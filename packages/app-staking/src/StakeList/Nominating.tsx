@@ -85,21 +85,23 @@ class Nominating extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { isNomineeValid, nominee } = this.state;
 
-    return [
-      <Modal.Header key='header'>
-        {t('Nominate Validator')}
-      </Modal.Header>,
-      <Modal.Content className='ui--signer-Signer-Content' key='content'>
-        <Input
-          className='medium'
-          isError={!isNomineeValid}
-          label={t('nominate the following address (validator or intention)')}
-          onChange={this.onChangeNominee}
-          value={nominee}
-        />
-        {this.renderErrors()}
-      </Modal.Content>
-    ];
+    return (
+      <>
+        <Modal.Header>
+          {t('Nominate Validator')}
+        </Modal.Header>
+        <Modal.Content className='ui--signer-Signer-Content'>
+          <Input
+            className='medium'
+            isError={!isNomineeValid}
+            label={t('nominate the following address (validator or intention)')}
+            onChange={this.onChangeNominee}
+            value={nominee}
+          />
+          {this.renderErrors()}
+        </Modal.Content>
+      </>
+    );
   }
 
   private renderErrors () {
