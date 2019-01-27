@@ -10,7 +10,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { PartialModuleQuery } from '../types';
 
 import React from 'react';
-import { Button, InputStorage, Labelled } from '@polkadot/ui-app/index';
+import { Button, InputStorage } from '@polkadot/ui-app/index';
 import Params from '@polkadot/ui-params/index';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { isUndefined } from '@polkadot/util';
@@ -48,30 +48,30 @@ class Modules extends React.PureComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { isValid, key, params } = this.state;
+    const { isValid, key: { method, section }, params } = this.state;
 
     return (
       <section className='storage--actionrow'>
         <div className='storage--actionrow-value'>
           <InputStorage
             defaultValue={this.defaultValue}
-            labelSection={t('query state section')}
+            label={t('selected state query')}
             onChange={this.onChangeKey}
           />
           <Params
-            key={`${key.section}.${key.method}`}
+            key={`${section}.${method}:params` /* force re-render on change */}
             onChange={this.onChangeParams}
             params={params}
           />
         </div>
-        <Labelled className='storage--actionrow-buttons'>
+        <div className='storage--actionrow-buttons'>
           <Button
             icon='plus'
             isDisabled={!isValid}
             isPrimary
             onClick={this.onAdd}
           />
-        </Labelled>
+        </div>
       </section>
     );
   }

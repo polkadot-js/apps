@@ -23,7 +23,7 @@ class Summary extends React.PureComponent<Props> {
         style={style}
       >
         <section>
-          <CardSummary label={t('target time')}>
+          <CardSummary label={t('target')}>
             <TimePeriod />
           </CardSummary>
           <CardSummary label={t('last block')}>

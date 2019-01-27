@@ -51,10 +51,12 @@ class Selection extends React.PureComponent<Props, State> {
       <section className='rpc--Selection'>
         <InputRpc
           defaultValue={defaultMethod}
+          label={t('call the selected endpoint')}
           onChange={this.onChangeMethod}
         />
         {this.renderAccount()}
         <Params
+          key={`${rpc.section}.${rpc.method}:params` /* force re-render on change */}
           onChange={this.onChangeValues}
           params={params}
         />

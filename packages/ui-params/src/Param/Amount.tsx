@@ -30,7 +30,7 @@ export default class Amount extends React.PureComponent<Props> {
         style={style}
       >
         <Input
-          className={isDisabled ? 'full' : 'small'}
+          className={isDisabled ? 'full' : 'medium'}
           defaultValue={defaultValue}
           isDisabled={isDisabled}
           isError={isError}

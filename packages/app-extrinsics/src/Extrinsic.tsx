@@ -23,8 +23,7 @@ type Props = BareProps & ApiProps & {
   isDisabled?: boolean,
   isError?: boolean,
   isPrivate?: boolean,
-  labelMethod?: string,
-  labelSection?: string,
+  label?: React.ReactNode,
   onChange: (method?: Method) => void,
   withLabel?: boolean
 };
@@ -49,8 +48,8 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { defaultValue, isDisabled, isError, isPrivate, labelMethod, labelSection, withLabel } = this.props;
-    const { params } = this.state;
+    const { defaultValue, isDisabled, isError, isPrivate, label, withLabel } = this.props;
+    const { methodfn: { method, section }, params } = this.state;
 
     return (
       <div className='extrinsics--Extrinsic'>
@@ -59,12 +58,12 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
           isDisabled={isDisabled}
           isError={isError}
           isPrivate={isPrivate}
-          labelMethod={labelMethod}
-          labelSection={labelSection}
+          label={label}
           onChange={this.onChangeMethod}
           withLabel={withLabel}
         />
         <Params
+          key={`${section}.${method}:params` /* force re-render on change */}
           onChange={this.onChangeValues}
           overrides={paramComponents}
           params={params}
@@ -79,10 +78,11 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
       const { methodfn, params, values } = this.state;
 
       const isValid = values.reduce((isValid, value) =>
-          isValid &&
-          !isUndefined(value) &&
-          !isUndefined(value.value) &&
-          value.isValid, params.length === values.length);
+        isValid &&
+        !isUndefined(value) &&
+        !isUndefined(value.value) &&
+        value.isValid, params.length === values.length
+      );
 
       let method;
 

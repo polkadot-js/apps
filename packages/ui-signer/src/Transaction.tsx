@@ -9,7 +9,7 @@ import React from 'react';
 import { Method } from '@polkadot/types';
 import { Call, InputAddress, Modal } from '@polkadot/ui-app/index';
 
-import Fees from './Fees';
+import Checks from './Checks';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -25,24 +25,21 @@ class Transaction extends React.PureComponent<Props> {
       return null;
     }
 
-    const { method, section } = Method.findFunction(extrinsic.callIndex);
+    const { meta, method, section } = Method.findFunction(extrinsic.callIndex);
 
     return (
       <>
         <Modal.Header>
           {section}.{method}
+          <div className='ui--label'>{meta.documentation.join(' ')}</div>
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
-          <div className='ui--signer-Signer-Decoded'>
-            <div className='expanded'>
-              <div className='ui--signer-Signer-children'>
-                {this.renderAccount()}
-                {children}
-              </div>
-              <Call value={extrinsic} />
-              {this.renderFees()}
-            </div>
+          <Call value={extrinsic} />
+          <div className='ui--signer-Signer-children'>
+            {this.renderAccount()}
+            {children}
           </div>
+          {this.renderChecks()}
         </Modal.Content>
       </>
     );
@@ -67,7 +64,7 @@ class Transaction extends React.PureComponent<Props> {
     );
   }
 
-  private renderFees () {
+  private renderChecks () {
     const { value: { accountId, extrinsic, isUnsigned } } = this.props;
 
     if (isUnsigned) {
@@ -75,7 +72,7 @@ class Transaction extends React.PureComponent<Props> {
     }
 
     return (
-      <Fees
+      <Checks
         accountId={accountId}
         extrinsic={extrinsic}
       />

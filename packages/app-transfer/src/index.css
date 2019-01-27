@@ -4,7 +4,6 @@
 
 .transfer--Transfer-address {
   flex: 0 1;
-  padding: 2em 0;
 
   .ui--AddressSummary {
     text-align: center;
@@ -17,6 +16,7 @@
 
 .transfer--Transfer-data {
   flex: 1 1;
+  min-width: 0;
 }
 
 .transfer--Transfer-info {

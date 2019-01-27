@@ -19,3 +19,6 @@ export const ZERO_FEES = {
   existentialDeposit: new BN(0),
   transferFee: new BN(0)
 } as DerivedFees;
+
+export const MAX_SIZE_MB = 10;
+export const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;

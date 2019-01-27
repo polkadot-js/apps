@@ -23,7 +23,7 @@
 
 .ui.dropdown {
   &.disabled {
-    background: #fdfdfd;
+    background: #fefefe;
     /* border-color: transparent; */
     border-color: #eee;
     border-style: dashed;
@@ -57,7 +57,7 @@
     opacity: 1;
 
     input {
-      background: #fdfdfd;
+      background: #fefefe;
       border-color: #eee;
       /* border-color: transparent; */
       border-style: dashed;
@@ -93,7 +93,7 @@
 }
 
 .ui.modal {
-  background: #fdfdfd;
+  background: #fafafa;
 
   > .actions,
   > .content,

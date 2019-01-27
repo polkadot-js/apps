@@ -3,43 +3,37 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { MethodFunction } from '@polkadot/types/Method';
-import { I18nProps } from '../types';
+import { BareProps } from '../types';
 import { DropdownOptions } from '../util/types';
 
 import React from 'react';
 
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
-import translate from '../translate';
 
-type Props = I18nProps & {
+type Props = BareProps & {
   defaultValue?: string,
   isError?: boolean,
-  label?: string,
   onChange: (value: string) => void,
   options: DropdownOptions,
-  value: MethodFunction,
-  withLabel?: boolean
+  value: MethodFunction
 };
 
-class SelectSection extends React.PureComponent<Props> {
+export default class SelectSection extends React.PureComponent<Props> {
   render () {
-    const { className, defaultValue, isError, label = '', onChange, options, style, t, value, withLabel } = this.props;
+    const { className, defaultValue, isError, onChange, options, style, value } = this.props;
 
     return (
       <Dropdown
         className={classes('ui--DropdownLinked-Sections', className)}
         defaultValue={defaultValue}
         isError={isError}
-        label={label || t('from extrinsic section')}
         onChange={onChange}
         options={options}
         style={style}
         value={value.section}
-        withLabel={withLabel}
+        withLabel={false}
       />
     );
   }
 }
-
-export default translate(SelectSection);

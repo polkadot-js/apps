@@ -5,13 +5,13 @@
 @import './partials/_variables.css';
 
 .ui--output {
-  background: #f9f9f9;
+  background: #fefefe;
   border-radius: 4px;
-  border: 1px solid #f5f5f5;
+  border: 1px dashed #eee;
   box-sizing: border-box;
-  line-height: 1em;
+  line-height: 1rem;
   margin-bottom: 0.5em;
-  padding: 0.75em 1em;
+  padding: .75rem 1rem;
   position: relative;
   word-wrap: break-word;
 }
@@ -110,7 +110,7 @@ header .ui--Button-Group {
 
 .ui--AddressSummary.invalid {
   filter: grayscale(100);
-  opacity: 0.45;
+  opacity: 0.5;
 }
 
 .ui--AddressSummary-icon {
@@ -120,7 +120,7 @@ header .ui--Button-Group {
 .ui--Balance,
 .ui--AddressSummary-balance,
 .ui--AddressSummary-nonce {
-  opacity: 0.45;
+  opacity: 0.5;
 }
 
 .ui--AddressSummary-balance {
@@ -266,8 +266,42 @@ header .ui--Button-Group {
   }
 }
 
+.ui--label {
+  box-sizing: border-box;
+  font-size: 1rem;
+  font-weight: normal;
+  margin-bottom: 0.5rem;
+  opacity: 0.75;
+  padding-right: 0.5rem;
+}
+
 .ui--Labelled {
+  align-items: center;
+  display: flex;
+  flex: 1 1;
   text-align: left;
+
+  &.label-small {
+    display: block;
+
+    > .ui--label {
+      margin-bottom: 0;
+      min-width: 0;
+      padding-right: 0;
+    }
+  }
+
+  > .ui--Labelled-content {
+    box-sizing: border-box;
+    flex: 1 1;
+    min-width: 0;
+  }
+
+  > .ui--label {
+    flex: 0 0 15rem;
+    min-width: 15rem;
+    text-align: right;
+  }
 }
 
 .ui--Static {

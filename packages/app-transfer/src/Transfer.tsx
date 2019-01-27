@@ -13,7 +13,7 @@ import { AddressSummary, InputAddress, InputBalance } from '@polkadot/ui-app/ind
 import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 import keyring from '@polkadot/ui-keyring';
-import FeeDisplay from '@polkadot/ui-signer/Fees';
+import Checks from '@polkadot/ui-signer/Checks';
 
 import Submit from './Submit';
 import translate from './translate';
@@ -51,33 +51,26 @@ class Transfer extends React.PureComponent<Props, State> {
 
     return (
       <div className='transfer--Transfer'>
-        <div className='ui--row'>
-          <div className='medium'>
-            <InputAddress
-              label={t('transfer from my account')}
-              onChange={this.onChangeFrom}
-              type='account'
-            />
-          </div>
-          <div className='medium'>
-            <InputAddress
-              label={t('to the recipient address')}
-              onChange={this.onChangeTo}
-              type='all'
-            />
-          </div>
-        </div>
         <div className='transfer--Transfer-info'>
           {this.renderAddress(accountId)}
           <div className='transfer--Transfer-data'>
+            <InputAddress
+              label={t('from my source account')}
+              onChange={this.onChangeFrom}
+              type='account'
+            />
+            <InputAddress
+              label={t('with a recipient of')}
+              onChange={this.onChangeTo}
+              type='all'
+            />
             <InputBalance
               autoFocus
               isError={!hasAvailable}
-              label={t('send a value of')}
+              label={t('transfer a value of')}
               onChange={this.onChangeAmount}
             />
-            <FeeDisplay
-              className='medium'
+            <Checks
               accountId={accountId}
               extrinsic={extrinsic}
               onChange={this.onChangeFees}

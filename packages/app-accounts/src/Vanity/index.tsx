@@ -8,7 +8,7 @@ import { Generator$Matches, Generator$Result } from '../vanitygen/types';
 import './index.css';
 
 import React from 'react';
-import { Button, Dropdown, Input, Static } from '@polkadot/ui-app/index';
+import { Button, Dropdown, Input } from '@polkadot/ui-app/index';
 
 import generator from '../vanitygen';
 import matchRegex from '../vanitygen/regex';
@@ -118,22 +118,17 @@ class VanityApp extends React.PureComponent<Props, State> {
           className='medium'
           isDisabled={isRunning}
           isError={!isMatchValid}
-          label={t('generate address containing (? wildcard)')}
+          label={t('generate address with ? as a wildcard')}
           onChange={this.onChangeMatch}
           value={match}
         />
         <Dropdown
-          className='small'
+          className='medium'
           isDisabled={isRunning}
-          label={t('case sensitive match')}
+          label={t('perform a case sensitive search/match')}
           options={BOOL_OPTIONS}
           onChange={this.onChangeCase}
           value={withCase}
-        />
-        <Static
-          className='small'
-          label={t('exact offset')}
-          value={t('No')}
         />
       </div>
     );

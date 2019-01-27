@@ -17,7 +17,7 @@ import { compactToU8a } from '@polkadot/util';
 import translate from '../translate';
 import Proposal from './Proposal';
 import Transfer from './Transfer';
-import { ZERO_BALANCE, ZERO_FEES } from './constants';
+import { MAX_SIZE_BYTES, MAX_SIZE_MB, ZERO_BALANCE, ZERO_FEES } from './constants';
 
 type State = ExtraFees & {
   allFees: BN,
@@ -27,7 +27,8 @@ type State = ExtraFees & {
   extSection?: string,
   hasAvailable: boolean,
   isRemovable: boolean,
-  isReserved: boolean
+  isReserved: boolean,
+  overLimit: boolean
 };
 
 type Props = I18nProps & {
@@ -45,21 +46,18 @@ const LENGTH_ERA = 1;
 const SIGNATURE_SIZE = LENGTH_PUBLICKEY + LENGTH_SIGNATURE + LENGTH_ERA;
 
 class FeeDisplay extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      allFees: new BN(0),
-      allTotal: new BN(0),
-      allWarn: false,
-      extraAmount: new BN(0),
-      extraFees: new BN(0),
-      extraWarn: false,
-      hasAvailable: false,
-      isRemovable: false,
-      isReserved: false
-    };
-  }
+  state: State = {
+    allFees: new BN(0),
+    allTotal: new BN(0),
+    allWarn: false,
+    extraAmount: new BN(0),
+    extraFees: new BN(0),
+    extraWarn: false,
+    hasAvailable: false,
+    isRemovable: false,
+    isReserved: false,
+    overLimit: false
+  };
 
   static getDerivedStateFromProps ({ accountId, balances_votingBalance = ZERO_BALANCE, extrinsic, balances_fees = ZERO_FEES, system_accountNonce = new BN(0) }: Props, prevState: State): State | null {
     if (!accountId || !extrinsic) {
@@ -93,6 +91,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     const isRemovable = balances_votingBalance.votingBalance.sub(allTotal).lte(balances_fees.existentialDeposit);
     const isReserved = balances_votingBalance.freeBalance.isZero() && balances_votingBalance.reservedBalance.gtn(0);
     const allWarn = extraWarn;
+    const overLimit = txLength >= MAX_SIZE_BYTES;
 
     return {
       allFees,
@@ -105,7 +104,8 @@ class FeeDisplay extends React.PureComponent<Props, State> {
       extraWarn,
       hasAvailable,
       isRemovable,
-      isReserved
+      isReserved,
+      overLimit
     };
   }
 
@@ -118,19 +118,19 @@ class FeeDisplay extends React.PureComponent<Props, State> {
 
   render () {
     const { accountId, className, t } = this.props;
-    const { allFees, allTotal, allWarn, hasAvailable, isRemovable, isReserved } = this.state;
+    const { allFees, allTotal, allWarn, hasAvailable, isRemovable, isReserved, overLimit } = this.state;
 
     if (!accountId) {
       return null;
     }
 
-    const feeClass = hasAvailable
-      ? (
+    const feeClass = !hasAvailable || overLimit
+      ? 'error'
+      : (
         allWarn
           ? 'warning'
           : 'normal'
-        )
-      : 'error';
+        );
 
     // display all the errors, warning and information messages (in that order)
     return (
@@ -142,6 +142,11 @@ class FeeDisplay extends React.PureComponent<Props, State> {
           hasAvailable
             ? undefined
             : <div><Icon name='ban' />{t('The account does not have the required funds available for this transaction with the current provided values')}</div>
+        }
+        {
+          overLimit
+            ? <div><Icon name='ban' />{t(`This transaction will be rejected by the node as it is greater than the maximum size of ${MAX_SIZE_MB}MB`)}></div>
+            : undefined
         }
         {this.renderTransfer()}
         {this.renderProposal()}

@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { PartialRawQuery } from '../types';
 
 import React from 'react';
-import { Button, Input, Labelled } from '@polkadot/ui-app/index';
+import { Button, Input } from '@polkadot/ui-app/index';
 
 import translate from '../translate';
 import { u8aToU8a } from '@polkadot/util';
@@ -46,14 +46,14 @@ class Raw extends React.PureComponent<Props, State> {
             onChange={this.onChangeKey}
           />
         </div>
-        <Labelled className='storage--actionrow-buttons'>
+        <div className='storage--actionrow-buttons'>
           <Button
             icon='plus'
             isDisabled={!isValid}
             isPrimary
             onClick={this.onAdd}
           />
-        </Labelled>
+        </div>
       </section>
     );
   }
