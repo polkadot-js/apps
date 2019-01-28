@@ -2,16 +2,6 @@
 /* This software may be modified and distributed under the terms
 /* of the Apache-2.0 license. See the LICENSE file for details. */
 
-.template--2-columns {
-  display: flex;
-
-  .template--column {
-    box-sizing: border-box;
-    flex: 1;
-    min-width: 0;
-  }
-}
-
 .template--summary {
   opacity: 0.5;
   padding: 1rem 1.5rem;
@@ -20,7 +10,7 @@
 .template--AccountSelector {
   align-items: flex-end;
 
-  .ui.dropdown {
-    margin-bottom: 0.25rem;
+  .summary {
+    text-align: center;
   }
 }

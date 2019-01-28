@@ -46,6 +46,10 @@ a:hover {
 }
 */
 
+br {
+  line-height: 1.5rem;
+}
+
 main {
   padding: 1em 2em;
   min-height: 100vh;

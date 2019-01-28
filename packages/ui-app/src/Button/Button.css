@@ -9,3 +9,7 @@
 .ui--Button-Group:not(:first-child) {
   margin-top: 0.75rem;
 }
+
+br+.ui--Button-Group {
+  margin-top: 0;
+}

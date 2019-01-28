@@ -9,6 +9,7 @@ import React from 'react';
 import { Trans } from 'react-i18next';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { withMulti, withObservable } from '@polkadot/ui-api/index';
+import { Tabs } from '@polkadot/ui-app/index';
 
 import './index.css';
 
@@ -29,7 +30,7 @@ class App extends React.PureComponent<Props> {
   }
 
   private renderBody () {
-    const { allAccounts } = this.props;
+    const { allAccounts, t } = this.props;
 
     if (!allAccounts || !Object.keys(allAccounts).length) {
       return (
@@ -42,7 +43,18 @@ class App extends React.PureComponent<Props> {
     }
 
     return (
-      <Transfer />
+      <>
+        <header>
+          <Tabs
+            activeItem='create'
+            items={[{
+              name: 'create',
+              text: t('Balance transfer')
+            }]}
+          />
+        </header>
+        <Transfer />
+      </>
     );
   }
 }

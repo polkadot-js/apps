@@ -8,8 +8,6 @@
 }
 
 .explorer--BlockHeader {
-  animation: fadein 1.5s;
-
   .author {
     font-size: 1rem;
     text-align: right;

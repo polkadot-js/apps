@@ -68,11 +68,13 @@ class Selection extends React.PureComponent<Props, State> {
             />
           </Labelled>
         </div>
+        <br></br>
         <Extrinsic
           defaultValue={defaultExtrinsic}
           label={t('submit the following extrinsic')}
           onChange={this.onChangeExtrinsic}
         />
+        <br></br>
         <Button.Group>
           <Button
             isDisabled={!isValid}

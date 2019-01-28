@@ -98,17 +98,3 @@
     padding: 0 1em 1em;
   }
 }
-
-.storage--Query-actionrow {
-  display: flex;
-}
-
-.storage--Query-actionrow-hash {
-  flex: 1;
-  min-width: 0;
-}
-
-.storage--Query-actionrow-button {
-  flex: 0;
-  padding: 0 0.25rem;
-}
