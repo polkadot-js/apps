@@ -13,9 +13,9 @@ import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 import { Tabs } from '@polkadot/ui-app/index';
 import accountsObservable from '@polkadot/ui-keyring/observable/accounts';
 import { withMulti, withObservable } from '@polkadot/ui-api/index';
-import translate from './translate';
 
 import Selection from './Selection';
+import translate from './translate';
 
 type Props = AppProps & I18nProps & {
   accountAll?: Array<any>
