@@ -203,8 +203,6 @@ class FeeDisplay extends React.PureComponent<Props, State> {
 
     const [recipientId, amount] = extrinsic.args;
 
-    console.error('extrinsic.args', extrinsic.args);
-
     return (
       <Transfer
         amount={amount}
