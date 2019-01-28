@@ -28,7 +28,7 @@ class Query extends React.PureComponent<Props, State> {
     const { hash, isValid } = this.state;
 
     return (
-      <header>
+      <summary>
         <div className='ui--row'>
           <div className='small' />
           <div className='storage--actionrow medium'>
@@ -47,7 +47,7 @@ class Query extends React.PureComponent<Props, State> {
             />
           </div>
         </div>
-      </header>
+      </summary>
     );
   }
 

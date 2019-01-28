@@ -101,12 +101,6 @@ summary {
   text-align: center;
 }
 
-header+header,
-header+summary,
-summary+header {
-  margin-top: -1em;
-}
-
 summary {
   align-items: stretch;
   display: flex;
