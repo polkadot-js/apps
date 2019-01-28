@@ -10,11 +10,12 @@ import './index.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
+import { Tabs } from '@polkadot/ui-app/index';
 import accountsObservable from '@polkadot/ui-keyring/observable/accounts';
 import { withMulti, withObservable } from '@polkadot/ui-api/index';
-import translate from './translate';
 
 import Selection from './Selection';
+import translate from './translate';
 
 type Props = AppProps & I18nProps & {
   accountAll?: Array<any>
@@ -37,6 +38,15 @@ class ExtrinsicsApp extends React.PureComponent<Props> {
 
     return (
       <main className='extrinsics--App'>
+        <header>
+          <Tabs
+            activeItem='create'
+            items={[{
+              name: 'create',
+              text: t('Extrinsic submission')
+            }]}
+          />
+        </header>
         <QueueConsumer>
           {({ queueExtrinsic }: QueueProps) => (
             <Selection queueExtrinsic={queueExtrinsic} />

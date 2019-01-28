@@ -120,7 +120,8 @@ header .ui--Button-Group {
 .ui--Balance,
 .ui--AddressSummary-balance,
 .ui--AddressSummary-nonce {
-  opacity: 0.5;
+  font-weight: 100;
+  opacity: 0.75;
 }
 
 .ui--AddressSummary-balance {

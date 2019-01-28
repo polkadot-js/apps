@@ -51,7 +51,7 @@ export default class BlockHeader extends React.PureComponent<Props> {
         <div className='ui--hover'>
           <div className='ui--hover-content contains'>
             <div className='info'>
-              <div className='type'>parentHash</div>
+              <label>parentHash</label>
               <div className='hash'>{
                 value.blockNumber.gtn(1)
                   ? <Link to={`/explorer/hash/${parentHex}`}>{parentHex}</Link>
@@ -59,11 +59,11 @@ export default class BlockHeader extends React.PureComponent<Props> {
               }</div>
             </div>
             <div className='info'>
-              <div className='type'>extrinsicsRoot</div>
+              <label>extrinsicsRoot</label>
               <div className='hash'>{extrinsicsRoot.toHex()}</div>
             </div>
             <div className='info'>
-              <div className='type'>stateRoot</div>
+              <label>stateRoot</label>
               <div className='hash'>{stateRoot.toHex()}</div>
             </div>
           </div>

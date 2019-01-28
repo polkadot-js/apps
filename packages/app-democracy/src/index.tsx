@@ -2,22 +2,35 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, BareProps } from '@polkadot/ui-app/types';
+import { AppProps, BareProps, I18nProps } from '@polkadot/ui-app/types';
 
 import './index.css';
 
 import React from 'react';
+import { Tabs } from '@polkadot/ui-app/index';
 
 import Proposals from './Proposals';
 import Referendums from './Referendums';
 import Summary from './Summary';
+import translate from './translate';
 
-type Props = AppProps & BareProps;
+type Props = AppProps & BareProps & I18nProps;
 
-export default class App extends React.PureComponent<Props> {
+class App extends React.PureComponent<Props> {
   render () {
+    const { t } = this.props;
+
     return (
       <main className='democracy--App'>
+        <header>
+          <Tabs
+            activeItem='overview'
+            items={[{
+              name: 'overview',
+              text: t('Democracy overview')
+            }]}
+          />
+        </header>
         <Summary />
         <Referendums />
         <Proposals />
@@ -25,3 +38,5 @@ export default class App extends React.PureComponent<Props> {
     );
   }
 }
+
+export default translate(App);

@@ -8,8 +8,6 @@
 }
 
 .explorer--BlockHeader {
-  animation: fadein 1.5s;
-
   .author {
     font-size: 1rem;
     text-align: right;
@@ -74,16 +72,19 @@
       text-overflow: ellipsis;
       white-space: nowrap;
 
-      > div {
-        display: inline-block;
-        padding: 0 0.25em;
-        vertical-align: middle;
+      .ui--Labelled {
+        text-align: center;
+      }
 
-        &.type {
-          opacity: 0.75;
-          text-align: right;
-          width: 10em;
-        }
+      > div,
+      > label {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      label {
+        min-width: 10rem;
+        text-align: right;
       }
     }
   }

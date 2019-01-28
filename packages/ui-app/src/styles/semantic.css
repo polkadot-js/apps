@@ -19,6 +19,11 @@
   margin: 0.25rem 0;
 }
 
+.ui.selection.dropdown,
+.ui.input > input {
+  color: inherit;
+}
+
 .ui.dropdown {
   &.disabled {
     background: #fefefe;
@@ -91,6 +96,8 @@
 
 .ui.modal {
   background: #fafafa;
+  color: #4e4e4e;
+  font-family: sans-serif;
 
   > .actions,
   > .content,

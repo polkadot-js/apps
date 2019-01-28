@@ -23,7 +23,7 @@ class Balance extends React.PureComponent<Props> {
         style={style}
       >
         <InputBalance
-          className='large'
+          className={isDisabled ? 'full' : 'large'}
           defaultValue={defaultValue}
           isDisabled={isDisabled}
           isError={isError}

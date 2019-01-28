@@ -21,14 +21,14 @@ export default class AccountSelector extends React.PureComponent<Props, State> {
     const { accountId } = this.state;
 
     return (
-      <section className='template--AccountSelector template--2-columns'>
+      <section className='template--AccountSelector ui--row'>
         <InputAddress
-          className='template--column'
+          className='medium'
           label='my default account'
           onChange={this.onChange}
           type='account'
         />
-        <div className='template--column'>
+        <div className='medium'>
           <Bubble color='teal' icon='address card' label='index'>
             <AccountIndex value={accountId} />
           </Bubble>

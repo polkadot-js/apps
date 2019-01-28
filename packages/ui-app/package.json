@@ -11,10 +11,10 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.2.0",
-    "@polkadot/extrinsics": "^0.41.3",
+    "@polkadot/extrinsics": "^0.41.7",
     "@polkadot/keyring": "^0.33.36",
-    "@polkadot/storage": "^0.41.3",
-    "@polkadot/types": "^0.41.3",
+    "@polkadot/storage": "^0.41.7",
+    "@polkadot/types": "^0.41.7",
     "@polkadot/ui-api": "^0.22.53",
     "@polkadot/ui-identicon": "^0.25.8",
     "@polkadot/ui-keyring": "^0.25.8",

@@ -38,10 +38,10 @@ class Transaction extends React.PureComponent<Props> {
           }</label>
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
-          <Call value={extrinsic} />
           {this.renderAccount()}
-          {children}
+          <Call value={extrinsic} />
           {this.renderChecks()}
+          {children}
         </Modal.Content>
       </>
     );
@@ -60,7 +60,7 @@ class Transaction extends React.PureComponent<Props> {
         defaultValue={accountId}
         isDisabled
         isInput
-        label={t('from my account')}
+        label={t('sending from my account')}
         withLabel
       />
     );
