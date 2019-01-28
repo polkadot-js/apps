@@ -10,7 +10,7 @@
   border: 1px dashed #eee;
   box-sizing: border-box;
   line-height: 1rem;
-  margin-bottom: 0.5em;
+  margin: 0.25rem;
   padding: .75rem 1rem;
   position: relative;
   word-wrap: break-word;
@@ -138,7 +138,6 @@ header .ui--Button-Group {
 }
 
 .ui--AddressSummary-data * {
-  /* margin: 0 0.25rem !important; */
   vertical-align: middle;
 }
 
@@ -226,6 +225,10 @@ header .ui--Button-Group {
   margin-left: 0.25rem !important;
 }
 
+.ui--DropdownLinked-Items {
+  padding-left: 0.5rem;
+}
+
 .ui--Input {
   &.disabled {
     overflow: hidden;
@@ -266,15 +269,6 @@ header .ui--Button-Group {
   }
 }
 
-.ui--label {
-  box-sizing: border-box;
-  font-size: 1rem;
-  font-weight: normal;
-  margin-bottom: 0.5rem;
-  opacity: 0.75;
-  padding-right: 0.5rem;
-}
-
 .ui--Labelled {
   align-items: center;
   display: flex;
@@ -284,8 +278,8 @@ header .ui--Button-Group {
   &.label-small {
     display: block;
 
-    > .ui--label {
-      margin-bottom: 0;
+    > label {
+      margin: 0;
       min-width: 0;
       padding-right: 0;
     }
@@ -297,9 +291,10 @@ header .ui--Button-Group {
     min-width: 0;
   }
 
-  > .ui--label {
+  > label {
     flex: 0 0 15rem;
     min-width: 15rem;
+    padding-right: 0.5rem;
     text-align: right;
   }
 }

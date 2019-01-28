@@ -11,7 +11,7 @@ import { InputNumber } from '@polkadot/ui-app/index';
 
 type Props = BareProps & {
   autoFocus?: boolean,
-  defaultValue?: string,
+  defaultValue?: BN | string,
   isDisabled?: boolean,
   isError?: boolean,
   label?: any,

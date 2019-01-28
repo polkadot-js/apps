@@ -33,8 +33,8 @@ class Item extends React.PureComponent<Props> {
               {section}.{method}
             </h3>
             <div className='democracy--Item-header-description'>{
-              meta && meta.documentation && meta.documentation.length
-                ? meta.documentation.map((doc) => doc.toString()).join(' ')
+              meta && meta.documentation
+                ? meta.documentation.join(' ')
                 : ''
             }</div>
           </div>

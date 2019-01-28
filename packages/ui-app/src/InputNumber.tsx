@@ -18,7 +18,7 @@ import translate from './translate';
 type Props = BareProps & I18nProps & {
   autoFocus?: boolean,
   bitLength?: BitLength,
-  defaultValue?: string,
+  defaultValue?: BN | string,
   isDisabled?: boolean,
   isError?: boolean,
   isSi?: boolean,
@@ -78,7 +78,7 @@ class InputNumber extends React.PureComponent<Props, State> {
 
     return {
       defaultValue: formatBalance(defaultValue, false),
-      siUnit: calcSi(defaultValue).value
+      siUnit: calcSi(defaultValue.toString()).value
     };
   }
 
@@ -86,28 +86,35 @@ class InputNumber extends React.PureComponent<Props, State> {
     const { bitLength = DEFAULT_BITLENGTH, className, defaultValue = '0', isSi, isDisabled, maxLength, style, t } = this.props;
     const { isValid } = this.state;
     const maxValueLength = this.maxValue(bitLength).toString().length;
+    const value = this.state.defaultValue || defaultValue;
 
     return (
-      <div
+      <Input
+        {...this.props}
         className={classes('ui--InputNumber', className)}
+        defaultValue={
+          isDisabled
+            ? undefined
+            : value
+        }
+        isAction={isSi}
+        isDisabled={isDisabled}
+        isError={!isValid}
+        maxLength={maxLength || maxConservativeLength(maxValueLength)}
+        onChange={this.onChange}
+        onKeyDown={this.onKeyDown}
+        onKeyUp={this.onKeyUp}
+        placeholder={t('Positive number')}
         style={style}
+        value={
+          isDisabled
+            ? value
+            : undefined
+        }
+        type='text'
       >
-        <Input
-          {...this.props}
-          defaultValue={this.state.defaultValue || defaultValue}
-          isAction={isSi}
-          isDisabled={isDisabled}
-          isError={!isValid}
-          maxLength={maxLength || maxConservativeLength(maxValueLength)}
-          onChange={this.onChange}
-          onKeyDown={this.onKeyDown}
-          onKeyUp={this.onKeyUp}
-          placeholder={t('Positive number')}
-          type='text'
-        >
-          {this.renderSiDropdown()}
-        </Input>
-      </div>
+        {this.renderSiDropdown()}
+      </Input>
     );
   }
 

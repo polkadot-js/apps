@@ -9,7 +9,6 @@
 }
 
 .ui.dropdown {
-  /* from .ui.fluid.dropdown */
   display: block;
   min-width: 0;
   width: 100%;
@@ -17,14 +16,12 @@
 
 .ui.dropdown,
 .ui.input {
-  /* bottom margin for all inputs */
-  margin-bottom: 0.5rem;
+  margin: 0.25rem 0;
 }
 
 .ui.dropdown {
   &.disabled {
     background: #fefefe;
-    /* border-color: transparent; */
     border-color: #eee;
     border-style: dashed;
     opacity: 1;
@@ -157,13 +154,11 @@
 
 .ui.menu.tabular {
   background: #f2f2f2;
-  /* border-color: white; */
   /* break out of the wrapping main padding */
   margin: -1em -2em 0;
   padding: 1em 2em 0;
 
   .item.active {
     background: #fafafa;
-    /* border-color: white; */
   }
 }

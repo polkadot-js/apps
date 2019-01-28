@@ -65,8 +65,8 @@ class Extrinsics extends React.PureComponent<Props> {
           <div className='ui--hover'>
             <div className='ui--hover-content'>
               <div className='description'>{
-                meta && meta.documentation && meta.documentation.length
-                  ? meta.documentation.map((doc) => doc.toString()).join(' ')
+                meta && meta.documentation
+                  ? meta.documentation.join(' ')
                   : ''
               }</div>
               <Call
