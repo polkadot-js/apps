@@ -19,9 +19,6 @@ export type Props = BareProps & {
 export default class EventDisplay extends React.PureComponent<Props> {
   render () {
     const { children, className, style, value } = this.props;
-
-    console.error('EventDisplay', value, value.typeDef);
-
     const params = value.typeDef.map(({ type }) => ({
       type: getTypeDef(type)
     }));
