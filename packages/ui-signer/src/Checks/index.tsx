@@ -141,7 +141,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         {
           hasAvailable
             ? undefined
-            : <div><Icon name='ban' />{t('The account does not have the required balance available for this transaction')}</div>
+            : <div><Icon name='ban' />{t('The selected account does not have the required balance available for this transaction')}</div>
         }
         {
           overLimit
