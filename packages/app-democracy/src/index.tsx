@@ -12,7 +12,7 @@ import { Tabs } from '@polkadot/ui-app/index';
 import Proposals from './Proposals';
 import Referendums from './Referendums';
 import Summary from './Summary';
-import translate from '@polkadot/app-123code/translate';
+import translate from './translate';
 
 type Props = AppProps & BareProps & I18nProps;
 
