@@ -69,8 +69,8 @@ class Events extends React.PureComponent<Props> {
           <div className='ui--hover-content'>
             <div className='description'>
               {
-                event.meta.documentation && event.meta.documentation.length
-                  ? event.meta.documentation.map((doc) => doc.toString()).join(' ')
+                event.meta && event.meta.documentation
+                  ? event.meta.documentation.join(' ')
                   : ''
               }
             </div>

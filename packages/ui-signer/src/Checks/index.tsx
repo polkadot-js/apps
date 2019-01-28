@@ -93,8 +93,6 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     const allWarn = extraWarn;
     const overLimit = txLength >= MAX_SIZE_BYTES;
 
-    // console.error('(root) balances_votingBalance', JSON.stringify(balances_votingBalance));
-
     return {
       allFees,
       allTotal,
