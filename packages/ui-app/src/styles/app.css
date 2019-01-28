@@ -31,6 +31,15 @@ h3, h4, h5 {
   margin-bottom: 0.25rem;
 }
 
+label {
+  box-sizing: border-box;
+  display: block;
+  font-size: 1rem;
+  font-weight: normal;
+  margin: 0.25rem;
+  opacity: 0.75;
+}
+
 /*
 a:hover {
   color: #D75EA1;
@@ -52,7 +61,7 @@ article {
   border-left-width: 0.25rem;
   border-radius: 0.25rem;
   /* border-top-width: 1px; */
-  margin: 0.5rem;
+  margin: 0.25rem;
   padding: 1rem 1.5rem;
   text-align: left;
 

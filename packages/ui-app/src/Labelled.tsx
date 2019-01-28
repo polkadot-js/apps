@@ -26,6 +26,10 @@ export default class Labelled extends React.PureComponent<Props> {
 
     if (isHidden) {
       return null;
+    } else if (!withLabel) {
+      return (
+        <div className={className}>{children}</div>
+      );
     }
 
     return (
@@ -33,11 +37,7 @@ export default class Labelled extends React.PureComponent<Props> {
         className={classes('ui--Labelled', isSmall ? 'label-small' : '', className)}
         style={style}
       >
-        {
-          withLabel
-            ? <div className='ui--label'>{label}</div>
-            : null
-        }
+        <label>{label}</label>
         <div className='ui--Labelled-content'>
           {children}
         </div>

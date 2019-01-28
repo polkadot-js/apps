@@ -106,20 +106,21 @@ class Query extends React.PureComponent<Props, State> {
 
     return (
       <div className='storage--Query storage--actionrow'>
-        <Labelled
-          className='storage--actionrow-value'
-          label={
-            <div className='ui--Param-text'>
-              {this.keyToName(key)}: {
-                isU8a(key)
-                  ? 'Data'
-                  : key.meta.type.toString()
-              }
-            </div>
-          }
-        >
-          <Component />
-        </Labelled>
+        <div className='storage--actionrow-value'>
+          <Labelled
+            label={
+              <div className='ui--Param-text'>
+                {this.keyToName(key)}: {
+                  isU8a(key)
+                    ? 'Data'
+                    : key.meta.type.toString()
+                }
+              </div>
+            }
+          >
+            <Component />
+          </Labelled>
+        </div>
         <div className='storage--actionrow-buttons'>
           <div className='container'>
             {this.renderButtons()}

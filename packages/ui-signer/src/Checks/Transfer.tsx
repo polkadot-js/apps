@@ -42,7 +42,7 @@ class Transfer extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ amount, recipientId, balances_votingBalance = ZERO_BALANCE, fees, onChange }: Props): State {
+  static getDerivedStateFromProps ({ amount, balances_votingBalance = ZERO_BALANCE, fees, onChange }: Props): State {
     let extraFees = fees.transferFee;
 
     if (balances_votingBalance.votingBalance.isZero()) {
@@ -76,7 +76,7 @@ class Transfer extends React.PureComponent<Props, State> {
       <>
         {
           isNoEffect
-            ? <div><Icon name='warning sign' />{t('The final recipient amount is less than the existential amount, hence the total will be deducted from the sender, however the recipient account will not reflect the amount sent')}</div>
+            ? <div><Icon name='warning sign' />{t('The final recipient balance is less than the existential amount and will not be reflected')}</div>
             : undefined
         }
         {

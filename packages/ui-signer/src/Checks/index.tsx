@@ -93,6 +93,8 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     const allWarn = extraWarn;
     const overLimit = txLength >= MAX_SIZE_BYTES;
 
+    // console.error('(root) balances_votingBalance', JSON.stringify(balances_votingBalance));
+
     return {
       allFees,
       allTotal,
@@ -141,7 +143,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         {
           hasAvailable
             ? undefined
-            : <div><Icon name='ban' />{t('The account does not have the required funds available for this transaction with the current provided values')}</div>
+            : <div><Icon name='ban' />{t('The account does not have the required balance available for this transaction')}</div>
         }
         {
           overLimit
@@ -202,6 +204,8 @@ class FeeDisplay extends React.PureComponent<Props, State> {
     }
 
     const [recipientId, amount] = extrinsic.args;
+
+    console.error('extrinsic.args', extrinsic.args);
 
     return (
       <Transfer

@@ -4,20 +4,11 @@
 
 .storage--Query {
   margin-bottom: 0.25em;
-  padding: 0.25em 0;
 }
 
 .storage--Query .ui.disabled.dropdown.selection {
   color: #aaa;
   opacity: 1;
-}
-
-/* .storage--Query span+span {
-  margin-left: 0.5em;
-} */
-
-.storage--Query .storage--actionrow-value {
-  padding: 0 0.25rem;
 }
 
 .storage--Query .ui--IdentityIcon {
@@ -26,10 +17,11 @@
 }
 
 .storage--actionrow {
+  align-items: center;
   display: flex;
 
   .button {
-    margin-bottom: 0.5rem;
+    margin: 0.25rem;
   }
 }
 
@@ -45,19 +37,4 @@
 .storage--actionrow-buttons {
   flex: 0;
   padding: 0 0.25rem;
-}
-
-.storage--Queries .storage--actionrow-buttons {
-  flex: 0;
-  padding: 0 0.25rem;
-
-  .container {
-    display: block;
-    white-space: nowrap;
-  }
-
-  .ui.label {
-    font-size: 1rem;
-    line-height: 1.714rem;
-  }
 }

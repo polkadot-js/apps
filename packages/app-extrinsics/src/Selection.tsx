@@ -11,8 +11,9 @@ import React from 'react';
 import { Method } from '@polkadot/types';
 import { Button, InputAddress, Labelled } from '@polkadot/ui-app/index';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
-import { Balance, Nonce } from '@polkadot/ui-reactive/index';
+import { Nonce } from '@polkadot/ui-reactive/index';
 
+import Balance from './Balance';
 import Extrinsic from './Extrinsic';
 import translate from './translate';
 
@@ -51,15 +52,11 @@ class Selection extends React.PureComponent<Props, State> {
           type='account'
         />
         <div className='ui--row'>
-          <Labelled
+          <Balance
             className='medium'
             label={t('with an account balance')}
-          >
-            <Balance
-              className='ui disabled dropdown selection'
-              params={accountId}
-            />
-          </Labelled>
+            params={accountId}
+          />
           <Labelled
             className='medium'
             label={t('with a transaction nonce')}

@@ -31,14 +31,12 @@ class Transaction extends React.PureComponent<Props> {
       <>
         <Modal.Header>
           {section}.{method}
-          <div className='ui--label'>{meta.documentation.join(' ')}</div>
+          <label>{meta.documentation.join(' ')}</label>
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           <Call value={extrinsic} />
-          <div className='ui--signer-Signer-children'>
-            {this.renderAccount()}
-            {children}
-          </div>
+          {this.renderAccount()}
+          {children}
           {this.renderChecks()}
         </Modal.Content>
       </>
