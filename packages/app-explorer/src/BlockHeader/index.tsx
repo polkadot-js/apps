@@ -9,7 +9,7 @@ import './BlockHeader.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { HeaderExtended } from '@polkadot/types/Header';
-import { AddressMini, Labelled } from '@polkadot/ui-app/index';
+import { AddressMini } from '@polkadot/ui-app/index';
 import { formatNumber } from '@polkadot/ui-app/util';
 
 type Props = BareProps & {
