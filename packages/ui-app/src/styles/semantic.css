@@ -91,6 +91,7 @@
 
 .ui.modal {
   background: #fafafa;
+  font-family: sans-serif;
 
   > .actions,
   > .content,
