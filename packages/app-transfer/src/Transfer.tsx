@@ -60,7 +60,7 @@ class Transfer extends React.PureComponent<Props, State> {
               type='account'
             />
             <InputAddress
-              label={t('with a recipient of')}
+              label={t('to the recipient address')}
               onChange={this.onChangeTo}
               type='all'
             />
