@@ -35,7 +35,7 @@ label {
   box-sizing: border-box;
   display: block;
   font-size: 1rem;
-  font-weight: normal;
+  font-weight: 100;
   margin: 0.25rem;
   opacity: 0.75;
 }
