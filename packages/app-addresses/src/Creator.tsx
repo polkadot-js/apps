@@ -14,9 +14,7 @@ import keyring from '@polkadot/ui-keyring';
 
 import translate from './translate';
 
-type Props = ComponentProps & I18nProps & {
-  onStatusChange: (status: ActionStatus) => void
-};
+type Props = ComponentProps & I18nProps;
 
 type State = {
   address: string,
