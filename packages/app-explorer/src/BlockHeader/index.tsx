@@ -26,13 +26,12 @@ export default class BlockHeader extends React.PureComponent<Props> {
       return null;
     }
 
-    const { author, blockNumber, extrinsicsRoot, parentHash, stateRoot } = value;
-    const parentHex = parentHash.toHex();
-    const hashHex = value.hash.toHex();
+    const { author, blockNumber, hash } = value;
+    const hashHex = hash.toHex();
     const textNumber = formatNumber(blockNumber);
 
     return (
-      <article className={['explorer--BlockHeader', isSummary ? 'ui--hoverable summary' : ''].join(' ')}>
+      <article className='explorer--BlockHeader'>
         <div className='header-outer'>
           <div className='header'>
             <div className='number'>{
@@ -48,27 +47,37 @@ export default class BlockHeader extends React.PureComponent<Props> {
             }</div>
           </div>
         </div>
-        <div className='ui--hover'>
-          <div className='ui--hover-content contains'>
-            <div className='info'>
-              <label>parentHash</label>
-              <div className='hash'>{
-                value.blockNumber.gtn(1)
-                  ? <Link to={`/explorer/hash/${parentHex}`}>{parentHex}</Link>
-                  : parentHex
-              }</div>
-            </div>
-            <div className='info'>
-              <label>extrinsicsRoot</label>
-              <div className='hash'>{extrinsicsRoot.toHex()}</div>
-            </div>
-            <div className='info'>
-              <label>stateRoot</label>
-              <div className='hash'>{stateRoot.toHex()}</div>
-            </div>
-          </div>
-        </div>
+        {
+          isSummary
+            ? undefined
+            : this.renderDetails(value)
+        }
       </article>
+    );
+  }
+
+  private renderDetails ({ blockNumber, extrinsicsRoot, parentHash, stateRoot }: HeaderExtended) {
+    const parentHex = parentHash.toHex();
+
+    return (
+      <div className='contains'>
+        <div className='info'>
+          <label>parentHash</label>
+          <div className='hash'>{
+            blockNumber.gtn(1)
+              ? <Link to={`/explorer/hash/${parentHex}`}>{parentHex}</Link>
+              : parentHex
+          }</div>
+        </div>
+        <div className='info'>
+          <label>extrinsicsRoot</label>
+          <div className='hash'>{extrinsicsRoot.toHex()}</div>
+        </div>
+        <div className='info'>
+          <label>stateRoot</label>
+          <div className='hash'>{stateRoot.toHex()}</div>
+        </div>
+      </div>
     );
   }
 }

@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { ValidatorPrefs } from '@polkadot/types';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
-import { Button, InputNumber, Modal } from '@polkadot/ui-app/index';
+import { Button, InputBalance, InputNumber, Modal } from '@polkadot/ui-app/index';
 
 import translate from '../translate';
 
@@ -97,6 +97,7 @@ class Preferences extends React.PureComponent<Props, State> {
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputNumber
+            autoFocus
             bitLength={32}
             className='medium'
             label={t('unstake threshold')}
@@ -107,10 +108,8 @@ class Preferences extends React.PureComponent<Props, State> {
                 : '0'
             }
           />
-          <InputNumber
-            bitLength={128}
+          <InputBalance
             className='medium'
-            isSi
             label={t('payment preferences')}
             onChange={this.onChangePayment}
             value={

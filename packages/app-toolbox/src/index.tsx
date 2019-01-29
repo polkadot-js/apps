@@ -7,7 +7,8 @@ import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import './index.css';
 
 import React from 'react';
-import Tabs from '@polkadot/ui-app/Tabs';
+import { Route, Switch } from 'react-router';
+import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 
 import Hash from './Hash';
 import Rpc from './Rpc';
@@ -15,65 +16,59 @@ import Sign from './Sign';
 import Verify from './Verify';
 import translate from './translate';
 
-type Actions = 'hash' | 'rpc' | 'sign' | 'verify';
-
 type Props = AppProps & I18nProps;
 
 type State = {
-  action: Actions
-};
-
-const Components: { [index: string]: React.ComponentType<any> } = {
-  'hash': Hash,
-  'rpc': Rpc,
-  'sign': Sign,
-  'verify': Verify
+  tabs: Array<TabItem>
 };
 
 class ToolboxApp extends React.PureComponent<Props, State> {
-  state: State = {
-    action: 'rpc'
-  };
+  constructor (props: Props) {
+    super(props);
 
-  render () {
     const { t } = this.props;
-    const { action } = this.state;
-    const Component = Components[action];
-    const items = [
-      {
-        name: 'rpc',
-        text: 'RPC calls'
-      },
-      {
-        name: 'hash',
-        text: t('Hash data')
-      },
-      {
-        name: 'sign',
-        text: t('Sign message')
-      },
-      {
-        name: 'verify',
-        text: t('Verify signature')
-      }
-    ];
+
+    this.state = {
+      tabs: [
+        {
+          name: 'rpc',
+          text: 'RPC calls'
+        },
+        {
+          name: 'hash',
+          text: t('Hash data')
+        },
+        {
+          name: 'sign',
+          text: t('Sign message')
+        },
+        {
+          name: 'verify',
+          text: t('Verify signature')
+        }
+      ]
+    };
+  }
+  render () {
+    const { basePath } = this.props;
+    const { tabs } = this.state;
 
     return (
       <main className='toolbox--App'>
         <header>
           <Tabs
-            activeItem={action}
-            items={items}
-            onChange={this.onMenuChange}
+            basePath={basePath}
+            items={tabs}
           />
         </header>
-        <Component />
+        <Switch>
+          <Route path={`${basePath}/hash`} component={Hash} />
+          <Route path={`${basePath}/sign`} component={Sign} />
+          <Route path={`${basePath}/verify`} component={Verify} />
+          <Route component={Rpc} />
+        </Switch>
       </main>
     );
-  }
-
-  onMenuChange = (action: Actions) => {
-    this.setState({ action });
   }
 }
 

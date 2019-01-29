@@ -4,11 +4,12 @@
 
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
+import { ComponentProps } from './types';
 
 import './index.css';
 
 import React from 'react';
-
+import { Route, Switch } from 'react-router';
 import addressObservable from '@polkadot/ui-keyring/observable/addresses';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import { withMulti, withObservable } from '@polkadot/ui-api/index';
@@ -21,17 +22,9 @@ type Props = AppProps & I18nProps & {
   allAddresses?: SubjectInfo
 };
 
-type Actions = 'create' | 'edit';
-
 type State = {
-  action: Actions,
   hidden: Array<string>,
   items: Array<TabItem>
-};
-
-const Components: { [index: string]: React.ComponentType<any> } = {
-  'create': Creator,
-  'edit': Editor
 };
 
 class AddressesApp extends React.PureComponent<Props, State> {
@@ -62,14 +55,12 @@ class AddressesApp extends React.PureComponent<Props, State> {
 
   static showEditState () {
     return {
-      action: 'edit' as Actions,
       hidden: []
     };
   }
 
   static hideEditState () {
     return {
-      action: 'create' as Actions,
       hidden: ['edit']
     };
   }
@@ -89,36 +80,44 @@ class AddressesApp extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { onStatusChange } = this.props;
-    const { action, hidden, items } = this.state;
-    const Component = Components[action];
+    const { basePath } = this.props;
+    const { hidden, items } = this.state;
+    const renderCreator = this.renderComponent(Creator);
 
     return (
       <main className='addresses--App'>
         <header>
           <Tabs
-            activeItem={action}
+            basePath={basePath}
             hidden={hidden}
             items={items}
-            onChange={this.onMenuChange}
           />
         </header>
-        <Component
-          onCreateAddress={this.activateEdit}
-          onStatusChange={onStatusChange}
-        />
+        <Switch>
+          <Route path={`${basePath}/create`} render={renderCreator} />
+          <Route
+            render={
+              hidden.includes('edit')
+                ? renderCreator
+                : this.renderComponent(Editor)
+            }
+          />
+        </Switch>
       </main>
     );
   }
 
-  private onMenuChange = (action: Actions) => {
-    this.setState({ action });
-  }
+  private renderComponent = (Component: React.ComponentType<ComponentProps>) => {
+    return () => {
+      const { basePath, onStatusChange } = this.props;
 
-  private activateEdit = (): void => {
-    this.setState(
-      AddressesApp.showEditState()
-    );
+      return (
+        <Component
+          basePath={basePath}
+          onStatusChange={onStatusChange}
+        />
+      );
+    };
   }
 }
 

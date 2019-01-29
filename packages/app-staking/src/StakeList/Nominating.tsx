@@ -92,6 +92,7 @@ class Nominating extends React.PureComponent<Props, State> {
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           <Input
+            autoFocus
             className='medium'
             isError={!isNomineeValid}
             label={t('nominate the following address (validator or intention)')}

@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ComponentProps } from './types';
 
 import React from 'react';
 
@@ -13,8 +14,7 @@ import keyring from '@polkadot/ui-keyring';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  onCreateAddress: () => void,
+type Props = ComponentProps & I18nProps & {
   onStatusChange: (status: ActionStatus) => void
 };
 
@@ -168,7 +168,7 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   onCommit = (): void => {
-    const { onCreateAddress, onStatusChange, t } = this.props;
+    const { basePath, onStatusChange, t } = this.props;
     const { address, isAddressExisting, name } = this.state;
 
     const status = {
@@ -190,9 +190,11 @@ class Creator extends React.PureComponent<Props, State> {
       status.message = error.message;
     }
 
-    onCreateAddress();
-
     onStatusChange(status);
+
+    if (status.status !== 'error') {
+      window.location.hash = basePath;
+    }
   }
 
   onDiscard = (): void => {

@@ -94,12 +94,6 @@ header .ui--Button-Group {
   vertical-align: top;
 }
 
-.ui--AddressSummary-children {
-  .ui--hover-content {
-    margin-top: 0.5rem !important;
-  }
-}
-
 .ui--AddressRow .ui--AddressSummary-children {
   display: block;
 }

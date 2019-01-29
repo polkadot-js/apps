@@ -7,7 +7,7 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParams } from '@polkadot/ui-params/types';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { PartialModuleQuery } from '../types';
+import { ComponentProps } from '../types';
 
 import React from 'react';
 import { Button, InputStorage } from '@polkadot/ui-app/index';
@@ -17,9 +17,7 @@ import { isUndefined } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = ApiProps & I18nProps & {
-  onAdd: (query: PartialModuleQuery) => void
-};
+type Props = ComponentProps & ApiProps & I18nProps;
 
 type State = {
   isValid: boolean,
