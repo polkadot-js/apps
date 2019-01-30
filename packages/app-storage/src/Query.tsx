@@ -161,7 +161,7 @@ class Query extends React.PureComponent<Props, State> {
                 //if so run this function on each element of the tuple
                 let output = [];
                 for(let i = 0; i < types.length; i++) {
-                  output[i] = <div style={{width:"100%",wordWrap:"break-word",textAlign:"left"}}>
+                  output[i] = <div className="query-input">
                     {valueToText(types[i], (obj.value as Array<any>)[i])}
                   </div>
                 }

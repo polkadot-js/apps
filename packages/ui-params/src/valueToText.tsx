@@ -7,6 +7,9 @@ import './Params.css';
 import React from 'react';
 import { classes } from '@polkadot/ui-app/util';
 import { isNull, isUndefined, u8aToHex } from '@polkadot/util';
+import { Hash } from '@polkadot/types';
+import { isBuffer } from 'util';
+import { string } from 'prop-types';
 
 // import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 // import formatNumber from '@polkadot/ui-app/util/formatNumber';
@@ -107,7 +110,12 @@ function div ({ key, className }: DivProps, ...values: Array<React.ReactNode>): 
 //   );
 // }
 
+
+//function tupleTo
 function valueToText (type: string, value: any, swallowError: boolean = true, contentShorten: boolean = true): React.ReactNode {
+
+
+
   // try {
   //   if (type === 'bool') {
   //     return div({}, value ? 'Yes' : 'No');
@@ -150,14 +158,21 @@ function valueToText (type: string, value: any, swallowError: boolean = true, co
   //   }
   // }
 
+  //When displaying parameters of type Hash, these will sometimes come in the 
+  //form of a Uint8Array and not print properly unless converted to a Hash
+  if(type == "Hash") {
+    return <div>{(new Hash(value)).toString()}</div>
+  }
+
   return isNull(value) || isUndefined(value)
     ? unknown
-    : div(
-      {},
-      ['Bytes', 'Data'].includes(type)
+    : <div>
+      {['Bytes', 'Data'].includes(type)
         ? u8aToHex(value.toU8a(true), contentShorten ? 512 : -1)
-        : value.toString()
-    );
+        : value.toString()}
+        </div>
+  
+    
 }
 
 export default valueToText;
