@@ -7,6 +7,8 @@ import './Params.css';
 import React from 'react';
 import { classes } from '@polkadot/ui-app/util';
 import { isNull, isUndefined, u8aToHex } from '@polkadot/util';
+import { Hash } from '@polkadot/types';
+import { disconnect } from 'cluster';
 
 // import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 // import formatNumber from '@polkadot/ui-app/util/formatNumber';
@@ -28,7 +30,7 @@ type DivProps = {
 function div ({ key, className }: DivProps, ...values: Array<React.ReactNode>): React.ReactNode {
   return (
     <div
-      className={classes('ui--Param-text', className)}
+      className={classes('ui--Param-text.breakword', className)}
       key={key}
     >
       {values}
@@ -149,6 +151,12 @@ function valueToText (type: string, value: any, swallowError: boolean = true, co
   //     console.log('valueToText', type, value, error);
   //   }
   // }
+
+  // When displaying parameters of type Hash, these will sometimes come in the
+  // form of a Uint8Array and not print properly unless converted to a Hash
+  if (type === 'Hash') {
+    return div({},(new Hash(value)).toString());
+  }
 
   return isNull(value) || isUndefined(value)
     ? unknown

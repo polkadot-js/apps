@@ -29,6 +29,10 @@
   vertical-align: middle;
 }
 
+.ui--Param-text.breakword {
+  word-wrap: break-word;
+}
+
 .ui--Param-text.nowrap {
   white-space: nowrap;
 }
