@@ -8,7 +8,6 @@ import React from 'react';
 import { classes } from '@polkadot/ui-app/util';
 import { isNull, isUndefined, u8aToHex } from '@polkadot/util';
 import { Hash } from '@polkadot/types';
-import { disconnect } from 'cluster';
 
 // import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 // import formatNumber from '@polkadot/ui-app/util/formatNumber';
