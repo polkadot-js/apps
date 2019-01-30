@@ -37,15 +37,11 @@ type State = {
 };
 
 class Account extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      isNominateOpen: false,
-      isNominating: false,
-      isPrefsOpen: false
-    };
-  }
+  state: State = {
+    isNominateOpen: false,
+    isNominating: false,
+    isPrefsOpen: false
+  };
 
   static getDerivedStateFromProps ({ staking_nominating }: Props) {
     const isNominating = !!staking_nominating && !staking_nominating.isEmpty;

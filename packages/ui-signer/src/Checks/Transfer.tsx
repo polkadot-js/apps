@@ -30,17 +30,13 @@ type State = ExtraFees & {
 };
 
 class Transfer extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      extraFees: new BN(0),
-      extraAmount: new BN(0),
-      extraWarn: false,
-      isCreation: false,
-      isNoEffect: false
-    };
-  }
+  state: State = {
+    extraFees: new BN(0),
+    extraAmount: new BN(0),
+    extraWarn: false,
+    isCreation: false,
+    isNoEffect: false
+  };
 
   static getDerivedStateFromProps ({ amount, balances_votingBalance = ZERO_BALANCE, fees, onChange }: Props): State {
     let extraFees = fees.transferFee;

@@ -20,16 +20,10 @@ type State = {
 };
 
 class Raw extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      isValid: false,
-      key: new Uint8Array([])
-    };
-  }
+  state: State = {
+    isValid: false,
+    key: new Uint8Array([])
+  };
 
   render () {
     const { t } = this.props;

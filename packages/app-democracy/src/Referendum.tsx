@@ -44,20 +44,14 @@ type State = {
 };
 
 class Referendum extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      voteCount: 0,
-      voteCountYay: 0,
-      voteCountNay: 0,
-      votedTotal: new BN(0),
-      votedYay: new BN(0),
-      votedNay: new BN(0)
-    };
-  }
+  state: State = {
+    voteCount: 0,
+    voteCountYay: 0,
+    voteCountNay: 0,
+    votedTotal: new BN(0),
+    votedYay: new BN(0),
+    votedNay: new BN(0)
+  };
 
   static getDerivedStateFromProps ({ democracy_referendumVotesFor }: Props, prevState: State): State | null {
     if (!democracy_referendumVotesFor) {

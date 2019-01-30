@@ -25,16 +25,10 @@ type State = {
 };
 
 class Backup extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      isPassValid: false,
-      password: ''
-    };
-  }
+  state: State = {
+    isPassValid: false,
+    password: ''
+  };
 
   render () {
     return (

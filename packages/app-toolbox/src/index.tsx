@@ -32,7 +32,7 @@ class ToolboxApp extends React.PureComponent<Props, State> {
       tabs: [
         {
           name: 'rpc',
-          text: 'RPC calls'
+          text: t('RPC calls')
         },
         {
           name: 'hash',

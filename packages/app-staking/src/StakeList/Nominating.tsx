@@ -24,17 +24,11 @@ type State = {
 };
 
 class Nominating extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      isNomineeValid: false,
-      isAddressFormatValid: false,
-      nominee: ''
-    };
-  }
+  state: State = {
+    isNomineeValid: false,
+    isAddressFormatValid: false,
+    nominee: ''
+  };
 
   render () {
     const { isOpen, style } = this.props;

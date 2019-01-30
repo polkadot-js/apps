@@ -76,11 +76,7 @@ const createOption = (address: string) => {
 };
 
 class InputAddress extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {};
-  }
+  state: State = {};
 
   static getDerivedStateFromProps ({ value }: Props): State | null {
     try {

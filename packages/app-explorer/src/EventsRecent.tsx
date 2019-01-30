@@ -24,14 +24,10 @@ type State = {
 };
 
 class EventsRecent extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      prevEventHash: '',
-      recentEvents: []
-    };
-  }
+  state: State = {
+    prevEventHash: '',
+    recentEvents: []
+  };
 
   static getDerivedStateFromProps ({ system_events = [] }: Props, prevState: State): State | null {
     const prevEventHash = xxhashAsHex(stringToU8a(JSON.stringify(system_events)));

@@ -31,19 +31,13 @@ type State = {
 const ZERO = new BN(0);
 
 class Transfer extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      accountId: null,
-      amount: ZERO,
-      extrinsic: null,
-      hasAvailable: true,
-      recipientId: null
-    };
-  }
+  state: State = {
+    accountId: null,
+    amount: ZERO,
+    extrinsic: null,
+    hasAvailable: true,
+    recipientId: null
+  };
 
   render () {
     const { t } = this.props;
