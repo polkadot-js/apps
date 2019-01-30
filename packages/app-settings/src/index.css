@@ -3,9 +3,7 @@
 /* of the Apache-2.0 license. See the LICENSE file for details. */
 
 .sub-label {
-    padding: 0em .5833em;
-    font-size: .85714286rem;
-    position: absolute;
-    right: .5833em;
-
+  padding: 0rem .5833rem;
+  font-size: .85rem;
+  text-align: right;
 }
