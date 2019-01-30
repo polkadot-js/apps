@@ -17,6 +17,8 @@ import translate from './translate';
 import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/ui-api/with/types';
 import { thistle } from 'color-name';
 
+import "./Query.css";
+
 type Props = I18nProps & {
   onRemove: (id: number) => void,
   value: QueryTypes
@@ -145,9 +147,8 @@ class Query extends React.PureComponent<Props, State> {
   private renderInputs() {
     const value = this.props.value;
     const { key } = value;
-    //if function has inputs, render them
-    //TODO: design, make this render properly
 
+    //if function has inputs, render them
     if( (value as StorageModuleQuery).params.length > 0 ){ 
       const type = isU8a(key) ? 'Data' : key.meta.type.asMap.key.toString()
       const params = (value as StorageModuleQuery).params;
@@ -175,7 +176,6 @@ class Query extends React.PureComponent<Props, State> {
           })
         }
         </div>
-
       )
     }
     else {
