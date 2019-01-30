@@ -8,7 +8,7 @@ import { SettingsStruct } from '@polkadot/ui-settings/types';
 import React from 'react';
 import store from 'store';
 import typeRegistry from '@polkadot/types/codec/typeRegistry';
-import { Button, Dropdown, InputFile } from '@polkadot/ui-app/index';
+import { Button, Dropdown, Input, InputFile } from '@polkadot/ui-app/index';
 import settings from '@polkadot/ui-settings';
 import { u8aToString } from '@polkadot/util';
 
@@ -22,7 +22,8 @@ type State = {
   settings: SettingsStruct & {
     types?: { [index: string]: any } | null,
     typesError?: boolean,
-    typesPlaceholder?: string
+    typesPlaceholder?: string,
+    customNode: boolean
   }
 };
 
@@ -34,33 +35,63 @@ class App extends React.PureComponent<Props, State> {
     const names = Object.keys(types);
     const presets = settings.get();
 
+    // check to see if user has saved a custom node by seeing if their URL is equal to any preset
+    let customNode = true;
+    for (let i = 0; i < settings.availableNodes.length; i++) {
+      if (settings.availableNodes[i].value === presets.apiUrl) {
+        customNode = false;
+      }
+    }
+
     this.state = {
       settings: {
         ...presets,
         typesPlaceholder: names.length
           ? names.join(', ')
-          : undefined
+          : undefined,
+        customNode: customNode
       }
     };
   }
 
   render () {
     const { t } = this.props;
-    const { settings: { apiUrl, i18nLang, typesPlaceholder, typesError, uiMode, uiTheme } } = this.state;
+    const { settings: { apiUrl, i18nLang, typesPlaceholder, typesError, uiMode, uiTheme, customNode } } = this.state;
 
     return (
       <main className='settings--App'>
         <section>
           <h1>{t('general')}</h1>
           <div className='ui--row'>
-            <div className='full'>
-              <Dropdown
-                defaultValue={apiUrl}
-                label={t('remote node/endpoint to connect to')}
-                onChange={this.onChangeApiUrl}
-                options={settings.availableNodes}
-              />
-            </div>
+            {
+              customNode
+              ?
+              <div className='full'>
+                  <div className='sub-label'>
+                  <a onClick={this.toggleCustomNode }>pre-set</a>
+                  &nbsp; | <b>custom</b>
+                </div>
+                <Input
+                  defaultValue={apiUrl}
+                  label={t('remote node/endpoint to connect to')}
+                  onChange={this.onChangeApiUrl}
+                />
+              </div>
+              :
+              <div className='full'>
+                <div className='sub-label'>
+                 <b>pre-set</b>
+                  &nbsp;| <a onClick={this.toggleCustomNode }>custom</a>
+                </div>
+                <Dropdown
+                  defaultValue={apiUrl}
+                  label={t('remote node/endpoint to connect to')}
+                  onChange={this.onChangeApiUrl}
+                  options={settings.availableNodes}
+                />
+              </div>
+            }
+
           </div>
           <div className='ui--row'>
             <div className='medium'>
@@ -91,6 +122,7 @@ class App extends React.PureComponent<Props, State> {
               />
             </div>
           </div>
+
         </section>
         <section>
           <h1>{t('developer')}</h1>
@@ -178,8 +210,39 @@ class App extends React.PureComponent<Props, State> {
     }));
   }
 
+  private toggleCustomNode = (): void => {
+    this.setState(({ settings }: State) => ({
+      settings: {
+        ...settings,
+        /*flip the value of customNode*/
+        customNode: settings.customNode ?
+        false
+        :
+        true
+      }
+    }));
+  }
+
   private save = (): void => {
+    const { onStatusChange } = this.props;
     const { settings: { types, typesError } } = this.state;
+
+    // validate custom node url
+    const apiUrl = this.state.settings.apiUrl;
+
+    if (this.state.settings.customNode) {
+      if (!(apiUrl.startsWith('ws://localhost') ||
+      apiUrl.startsWith('ws://127.0.0.1') ||
+      apiUrl.startsWith('wss://'))) {
+        onStatusChange({
+          action: '',
+          status: 'error',
+          message: 'Custom node URL is not valid (must start with wss://, '
+          + 'or ws:// if node is hosted on localhost)'
+        });
+        return;
+      }
+    }
 
     settings.set(this.state.settings);
 
