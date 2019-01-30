@@ -18,13 +18,13 @@ type Props = AppProps & BareProps & I18nProps;
 
 class App extends React.PureComponent<Props> {
   render () {
-    const { t } = this.props;
+    const { basePath, t } = this.props;
 
     return (
       <main className='democracy--App'>
         <header>
           <Tabs
-            activeItem='overview'
+            basePath={basePath}
             items={[{
               name: 'overview',
               text: t('Democracy overview')

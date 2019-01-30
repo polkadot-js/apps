@@ -52,7 +52,7 @@ class Events extends React.PureComponent<Props> {
 
     return (
       <article
-        className={['explorer--Container', 'ui--hoverable'].join(' ')}
+        className='explorer--Container'
         key={index}
       >
         <div className='header'>
@@ -65,21 +65,19 @@ class Events extends React.PureComponent<Props> {
           </h3>
 
         </div>
-        <div className='ui--hover'>
-          <div className='ui--hover-content'>
-            <div className='description'>
-              {
-                event.meta && event.meta.documentation
-                  ? event.meta.documentation.join(' ')
-                  : ''
-              }
-            </div>
-            <EventDisplay
-              className='details'
-              value={event}
-            />
-          </div>
-        </div>
+        <details>
+          <summary>
+            {
+              event.meta && event.meta.documentation
+                ? event.meta.documentation.join(' ')
+                : 'Details'
+            }
+          </summary>
+          <EventDisplay
+            className='details'
+            value={event}
+          />
+        </details>
       </article>
     );
   }

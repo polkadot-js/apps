@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React from 'react';
@@ -16,7 +16,7 @@ import './index.css';
 import Transfer from './Transfer';
 import translate from './translate';
 
-type Props = I18nProps & {
+type Props = AppProps & I18nProps & {
   allAccounts?: SubjectInfo
 };
 
@@ -30,7 +30,7 @@ class App extends React.PureComponent<Props> {
   }
 
   private renderBody () {
-    const { allAccounts, t } = this.props;
+    const { allAccounts, basePath, t } = this.props;
 
     if (!allAccounts || !Object.keys(allAccounts).length) {
       return (
@@ -46,7 +46,7 @@ class App extends React.PureComponent<Props> {
       <>
         <header>
           <Tabs
-            activeItem='create'
+            basePath={basePath}
             items={[{
               name: 'create',
               text: t('Balance transfer')

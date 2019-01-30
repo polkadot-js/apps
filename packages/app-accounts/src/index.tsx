@@ -5,11 +5,12 @@
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { TabItem } from '@polkadot/ui-app/Tabs';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { Actions } from '@polkadot/ui-app/Status/types';
+import { ComponentProps, LocationProps } from './types';
 
 import './index.css';
 
 import React from 'react';
+import { Route, Switch } from 'react-router';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { Tabs } from '@polkadot/ui-app/index';
 import { withMulti, withObservable } from '@polkadot/ui-api/index';
@@ -25,17 +26,8 @@ type Props = AppProps & I18nProps & {
 };
 
 type State = {
-  action: Actions,
   hidden: Array<string>,
-  passthrough: string | null,
   items: Array<TabItem>
-};
-
-const Components: { [index: string]: React.ComponentType<any> } = {
-  'create': Creator,
-  'edit': Editor,
-  'restore': Restore,
-  'vanity': Vanity
 };
 
 class AccountsApp extends React.PureComponent<Props, State> {
@@ -51,13 +43,13 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
     this.state = {
       ...baseState,
-      passthrough: null,
       items: [
         {
           name: 'edit',
           text: t('Edit account')
         },
         {
+          hasParams: true,
           name: 'create',
           text: t('Create account')
         },
@@ -75,14 +67,12 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
   static showEditState () {
     return {
-      action: 'edit' as Actions,
       hidden: []
     };
   }
 
   static hideEditState () {
     return {
-      action: 'create' as Actions,
       hidden: ['edit']
     };
   }
@@ -102,47 +92,48 @@ class AccountsApp extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { onStatusChange } = this.props;
-    const { action, hidden, items, passthrough } = this.state;
-    const Component = Components[action];
+    const { basePath } = this.props;
+    const { hidden, items } = this.state;
+    const renderCreator = this.renderComponent(Creator);
 
     return (
       <main className='accounts--App'>
         <header>
           <Tabs
-            activeItem={action}
+            basePath={basePath}
             hidden={hidden}
             items={items}
-            onChange={this.onMenuChange}
           />
         </header>
-        <Component
-          onCreateAccount={this.selectEdit}
-          onRestoreAccount={this.selectEdit}
-          onCreateToggle={this.selectCreate}
-          onStatusChange={onStatusChange}
-          passthrough={passthrough}
-        />
+        <Switch>
+          <Route path={`${basePath}/create/:seed`} render={renderCreator} />
+          <Route path={`${basePath}/create`} render={renderCreator} />
+          <Route path={`${basePath}/restore`} render={this.renderComponent(Restore)} />
+          <Route path={`${basePath}/vanity`} render={this.renderComponent(Vanity)} />
+          <Route
+            render={
+              hidden.includes('edit')
+                ? renderCreator
+                : this.renderComponent(Editor)
+            }
+          />
+        </Switch>
       </main>
     );
   }
 
-  private onMenuChange = (action: Actions) => {
-    this.setState({ action });
-  }
+  private renderComponent = (Component: React.ComponentType<ComponentProps>) => {
+    return ({ match }: LocationProps) => {
+      const { basePath, onStatusChange } = this.props;
 
-  private selectCreate = (passthrough: string | null = null) => {
-    this.setState({
-      action: 'create',
-      passthrough
-    });
-  }
-
-  private selectEdit = (): void => {
-    this.setState({
-      action: 'edit',
-      passthrough: null
-    });
+      return (
+        <Component
+          basePath={basePath}
+          match={match}
+          onStatusChange={onStatusChange}
+        />
+      );
+    };
   }
 }
 

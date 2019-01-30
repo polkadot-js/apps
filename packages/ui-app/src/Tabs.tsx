@@ -5,79 +5,60 @@
 import { BareProps } from './types';
 
 import React from 'react';
+import { withRouter } from 'react-router';
+import { NavLink } from 'react-router-dom';
 
 import classes from './util/classes';
 
 export type TabItem = {
+  hasParams?: boolean,
   name: string,
   text: React.ReactNode
 };
 
 type Props = BareProps & {
-  activeItem: string,
+  basePath: string,
   hidden?: Array<string>,
-  items: Array<TabItem>,
-  onChange?: (name: any) => void
+  items: Array<TabItem>
 };
 
-type State = {
-  active: string
-};
-
-export default class Tabs extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      active: props.activeItem
-    };
-  }
-
-  static getDerivedStateFromProps ({ activeItem }: Props, { active }: State) {
-    return activeItem === active
-      ? null
-      : {
-        active: activeItem
-      };
-  }
-
+class Tabs extends React.PureComponent<Props> {
   render () {
-    const { className, activeItem, hidden = [], items, style } = this.props;
-    const { active } = this.state;
-    const currentItem = active || activeItem;
+    const { className, hidden = [], items, style } = this.props;
 
     return (
       <div
-        className={classes('ui--Menu', 'ui menu tabular', className)}
+        className={classes('ui--Menu ui menu tabular', className)}
         style={style}
       >
-        {items
-          .filter(({ name }) =>
-            !hidden.includes(name)
-          )
-          .map(({ name, text }) => (
-            <a
-              className={classes('item', currentItem === name ? 'active' : '')}
-              key={name}
-              onClick={this.onSelect(name)}
-            >
-              {text}
-            </a>
-          ))
+        {
+          items
+            .filter(({ name }) => !hidden.includes(name))
+            .map(this.renderItem)
         }
       </div>
     );
   }
 
-  private onSelect = (name: string) => {
-    return (): void => {
-      const { onChange } = this.props;
+  private renderItem = ({ hasParams, name, text }: TabItem, index: number) => {
+    const { basePath } = this.props;
+    const to = index === 0
+      ? basePath
+      : `${basePath}/${name}`;
 
-      this.setState({ active: name }, () => {
-        onChange && onChange(name);
-      });
-    };
+    return (
+      <NavLink
+        activeClassName='active'
+        className='item'
+        exact={!hasParams}
+        key={to}
+        strict={!hasParams}
+        to={to}
+      >
+        {text}
+      </NavLink>
+    );
   }
 }
+
+export default withRouter(Tabs as React.ComponentType<any>) as any as React.ComponentType<Props>;

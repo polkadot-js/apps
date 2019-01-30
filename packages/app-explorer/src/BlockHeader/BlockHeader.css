@@ -8,6 +8,8 @@
 }
 
 .explorer--BlockHeader {
+  animation: fadein 1s;
+
   .author {
     font-size: 1rem;
     text-align: right;
@@ -21,6 +23,10 @@
   .header-outer {
     padding: 0.5rem;
     overflow: hidden;
+  }
+
+  .header-outer + details {
+    margin-top: -0.5rem;
   }
 
   .header {
@@ -63,7 +69,6 @@
 
   .contains {
     border: 0;
-    padding: 0.5rem;
     text-align: center;
 
     > .info {

@@ -4,6 +4,7 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import { ComponentProps } from './types';
 
 import React from 'react';
 import { AddressSummary, Button, Dropdown, Input, Modal, Password } from '@polkadot/ui-app/index';
@@ -17,10 +18,12 @@ import FileSaver from 'file-saver';
 
 const BipWorker = require('worker-loader?name=[name].[hash:8].js!./bipWorker');
 
-type Props = I18nProps & {
-  onStatusChange: (status: ActionStatus) => void,
-  onCreateAccount: () => void,
-  passthrough: string | null
+type Props = ComponentProps & I18nProps & {
+  match: {
+    params: {
+      seed?: string
+    }
+  }
 };
 
 type SeedType = 'bip' | 'raw';
@@ -73,7 +76,7 @@ class Creator extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const { t } = this.props;
+    const { match: { params: { seed } }, t } = this.props;
 
     this.bipWorker = new BipWorker();
     this.bipWorker.onmessage = (event: MessageEvent) => {
@@ -86,7 +89,7 @@ class Creator extends React.PureComponent<Props, State> {
       });
     };
     this.state = {
-      ...this.emptyState(this.props.passthrough),
+      ...this.emptyState(seed),
       seedOptions: [
         { value: 'bip', text: t('Mnemonic') },
         { value: 'raw', text: t('Raw seed') }
@@ -246,7 +249,7 @@ class Creator extends React.PureComponent<Props, State> {
     );
   }
 
-  private generateSeed (seedType: SeedType, passthrough?: string | null): State {
+  private generateSeed (seedType: SeedType, _seed?: string | null): State {
     if (seedType === 'bip') {
       this.bipWorker.postMessage('create');
 
@@ -256,7 +259,7 @@ class Creator extends React.PureComponent<Props, State> {
       } as State;
     }
 
-    const seed = passthrough || u8aToHex(randomAsU8a());
+    const seed = _seed || u8aToHex(randomAsU8a());
     const address = addressFromSeed(seed, seedType);
 
     return {
@@ -266,13 +269,13 @@ class Creator extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  private emptyState (passthrough?: string | null): State {
-    const seedType = passthrough
+  private emptyState (seed?: string | null): State {
+    const seedType = seed
       ? 'raw'
       : this.state.seedType;
 
     return {
-      ...this.generateSeed(seedType, passthrough),
+      ...this.generateSeed(seedType, seed),
       isNameValid: true,
       isPassValid: false,
       isSeedValid: true,
@@ -338,7 +341,7 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   private onCommit = (): void => {
-    const { onCreateAccount, onStatusChange, t } = this.props;
+    const { basePath, onStatusChange, t } = this.props;
     const { name, password, seed, seedType } = this.state;
 
     const status = {
@@ -367,8 +370,9 @@ class Creator extends React.PureComponent<Props, State> {
 
     this.onHideWarning();
 
-    onCreateAccount();
     onStatusChange(status);
+
+    window.location.hash = basePath;
   }
 
   private onDiscard = (): void => {

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { PartialRawQuery } from '../types';
+import { ComponentProps } from '../types';
 
 import React from 'react';
 import { Button, Input } from '@polkadot/ui-app/index';
@@ -12,9 +12,7 @@ import translate from '../translate';
 import { u8aToU8a } from '@polkadot/util';
 import { Compact } from '@polkadot/types/codec';
 
-type Props = I18nProps & {
-  onAdd: (query: PartialRawQuery) => void
-};
+type Props = ComponentProps & I18nProps;
 
 type State = {
   isValid: boolean,

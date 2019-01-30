@@ -25,11 +25,15 @@ class StorageApp extends React.PureComponent<Props, State> {
   };
 
   render () {
+    const { basePath } = this.props;
     const { queue } = this.state;
 
     return (
       <main className='storage--App'>
-        <Selection onAdd={this.onAdd} />
+        <Selection
+          basePath={basePath}
+          onAdd={this.onAdd}
+        />
         <Queries
           onRemove={this.onRemove}
           value={queue}

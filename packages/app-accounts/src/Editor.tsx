@@ -6,6 +6,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
+import { ComponentProps } from './types';
 
 import React from 'react';
 import { AddressSummary, Button, Input, InputAddress } from '@polkadot/ui-app/index';
@@ -16,9 +17,8 @@ import ChangePass from './ChangePass';
 import Forgetting from './Forgetting';
 import translate from './translate';
 
-type Props = I18nProps & {
-  allAccounts?: SubjectInfo,
-  onStatusChange: (status: ActionStatus) => void
+type Props = ComponentProps & I18nProps & {
+  allAccounts?: SubjectInfo
 };
 
 type State = {

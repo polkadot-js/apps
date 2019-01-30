@@ -45,7 +45,7 @@ class Logs extends React.PureComponent<Props> {
     } else if (item.value instanceof U8a) {
       content = this.formatU8a(item.value);
     } else {
-      content = item.value.toString().split(',').join(', ');
+      content = <div>{item.value.toString().split(',').join(', ')}</div>;
     }
 
     return (
@@ -53,15 +53,14 @@ class Logs extends React.PureComponent<Props> {
         className='explorer--BlockByHash-block'
         key={index}
       >
-        <article className='explorer--Container ui--hoverable'>
+        <article className='explorer--Container'>
           <div className='header'>
             <h3>{item.type.toString()}</h3>
           </div>
-          <div className='ui--hover'>
-            <div className='ui--hover-content'>
-              {content}
-            </div>
-          </div>
+          <details>
+            <summary>Details</summary>
+            {content}
+          </details>
         </article>
       </div>
     );

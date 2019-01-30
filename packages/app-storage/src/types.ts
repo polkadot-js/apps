@@ -25,3 +25,7 @@ export type StorageRawQuery = PartialRawQuery & IdQuery;
 export type QueryTypes = StorageModuleQuery | StorageRawQuery;
 
 export type ParitalQueryTypes = PartialModuleQuery | PartialRawQuery;
+
+export type ComponentProps = {
+  onAdd: (query: ParitalQueryTypes) => void
+};

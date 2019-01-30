@@ -95,6 +95,24 @@ article {
   }
 }
 
+details {
+  summary {
+    display: block;
+    margin: 0.5rem 0.25rem;
+    opacity: 0.75;
+    outline: none;
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  summary + div {
+    margin-top: 0.75rem;
+  }
+}
+
 header,
 summary {
   margin-bottom: 2em;

@@ -4,29 +4,23 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { TabItem } from '@polkadot/ui-app/Tabs';
-import { QueryTypes, ParitalQueryTypes } from '../types';
+import { ComponentProps, QueryTypes, ParitalQueryTypes } from '../types';
 
 import React from 'react';
+import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/ui-app/index';
 
 import Modules from './Modules';
 import Raw from './Raw';
 import translate from '../translate';
 
-type Actions = 'modules' | 'raw';
-
 type Props = I18nProps & {
+  basePath: string,
   onAdd: (query: QueryTypes) => void
 };
 
 type State = {
-  action: Actions,
   items: Array<TabItem>
-};
-
-const Components: { [index: string]: React.ComponentType<any> } = {
-  'modules': Modules,
-  'raw': Raw
 };
 
 let id = -1;
@@ -38,7 +32,6 @@ class Selection extends React.PureComponent<Props, State> {
     const { t } = this.props;
 
     this.state = {
-      action: 'modules',
       items: [
         {
           name: 'modules',
@@ -53,21 +46,31 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { action, items } = this.state;
-    const Component = Components[action];
+    const { basePath } = this.props;
+    const { items } = this.state;
 
     return (
       <>
         <header>
           <Tabs
-            activeItem={action}
+            basePath={basePath}
             items={items}
-            onChange={this.onTabChange}
           />
         </header>
-        <Component onAdd={this.onAdd} />
+        <Switch>
+          <Route path={`${basePath}/raw`} render={this.renderComponent(Raw)} />
+          <Route render={this.renderComponent(Modules)} />
+        </Switch>
       </>
     );
+  }
+
+  private renderComponent = (Component: React.ComponentType<ComponentProps>) => {
+    return (): React.ReactNode => {
+      return (
+        <Component onAdd={this.onAdd} />
+      );
+    };
   }
 
   private onAdd = (query: ParitalQueryTypes) => {
@@ -77,10 +80,6 @@ class Selection extends React.PureComponent<Props, State> {
       ...query,
       id: ++id
     });
-  }
-
-  private onTabChange = (action: Actions) => {
-    this.setState({ action });
   }
 }
 

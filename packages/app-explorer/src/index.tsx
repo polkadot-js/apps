@@ -16,10 +16,12 @@ type Props = AppProps & BareProps;
 
 export default class ExplorerApp extends React.Component<Props> {
   render () {
+    const { basePath } = this.props;
+
     return (
       <main className='explorer--App'>
         <Switch>
-          <Route path='/explorer/hash/:hash' component={BlockByHash} />
+          <Route path={`${basePath}/hash/:hash`} component={BlockByHash} />
           <Route component={Main} />
         </Switch>
       </main>
