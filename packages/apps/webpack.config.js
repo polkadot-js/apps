@@ -16,6 +16,7 @@ const packages = [
   'app-democracy',
   'app-explorer',
   'app-extrinsics',
+  'app-js',
   'app-settings',
   'app-staking',
   'app-nodeinfo',
