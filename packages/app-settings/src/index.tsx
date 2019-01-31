@@ -3,12 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
+import { TabItem } from '@polkadot/ui-app/Tabs';
 import { SettingsStruct } from '@polkadot/ui-settings/types';
 
 import React from 'react';
+import { Route, Switch } from 'react-router';
 import store from 'store';
 import typeRegistry from '@polkadot/types/codec/typeRegistry';
-import { Button, Dropdown, Input, InputFile } from '@polkadot/ui-app/index';
+import { Button, Dropdown, Input, InputFile, Tabs } from '@polkadot/ui-app/index';
 import uiSettings from '@polkadot/ui-settings';
 import { u8aToString } from '@polkadot/util';
 
@@ -23,6 +25,7 @@ type State = {
   isTypesValid: boolean,
   isUrlValid: boolean,
   settings: SettingsStruct,
+  tabs: Array<TabItem>,
   types?: { [index: string]: any } | null,
   typesPlaceholder?: string
 };
@@ -31,6 +34,7 @@ class App extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
+    const { t } = props;
     const types = store.get('types') || {};
     const names = Object.keys(types);
     const settings = uiSettings.get();
@@ -47,103 +51,145 @@ class App extends React.PureComponent<Props, State> {
       isCustomNode,
       isTypesValid: true,
       isUrlValid: this.isValidUrl(settings.apiUrl),
+      tabs: [
+        {
+          name: 'general',
+          text: t('General')
+        },
+        {
+          name: 'developer',
+          text: t('Developer')
+        }
+      ],
       typesPlaceholder: names.length
-          ? names.join(', ')
-          : undefined,
+        ? names.join(', ')
+        : undefined,
       settings
     };
   }
 
   render () {
-    const { t } = this.props;
-    const { isCustomNode, isTypesValid, isUrlValid, settings: { apiUrl, i18nLang, uiMode, uiTheme }, types, typesPlaceholder } = this.state;
+    const { basePath } = this.props;
+    const { tabs } = this.state;
 
     return (
       <main className='settings--App'>
-        <section>
-          <h1>{t('general')}</h1>
-          <div className='ui--row'>
-            <div className='full'>
-              <div className='sub-label'>
-                {
-                  isCustomNode
-                    ? <><a onClick={this.toggleCustomNode}>{t('pre-set')}</a> | <b>{t('custom')}</b></>
-                    : <><b>{t('pre-set')}</b> | <a onClick={this.toggleCustomNode}>{t('custom')}</a></>
-                }
-              </div>
-              {
-                isCustomNode
-                  ? <Input
-                    defaultValue={apiUrl}
-                    isError={!isUrlValid}
-                    label={t('remote node/endpoint to connect to')}
-                    onChange={this.onChangeApiUrl}
-                  />
-                  : <Dropdown
-                    defaultValue={apiUrl}
-                    label={t('remote node/endpoint to connect to')}
-                    onChange={this.onChangeApiUrl}
-                    options={uiSettings.availableNodes}
-                  />
-              }
-            </div>
+        <header>
+          <Tabs
+            basePath={basePath}
+            items={tabs}
+          />
+        </header>
+        <Switch>
+          <Route path={`${basePath}/developer`} render={this.renderDeveloper} />
+          <Route render={this.renderGeneral} />
+        </Switch>
+      </main>
+    );
+  }
+
+  private renderDeveloper = () => {
+    const { t } = this.props;
+    const { isTypesValid, types, typesPlaceholder } = this.state;
+
+    return (
+      <>
+        <div className='ui--row'>
+          <div className='sub-label'>
+            <a onClick={this.clearTypes}>{t('clear')}</a>
           </div>
-          <div className='ui--row'>
-            <div className='medium'>
-              <Dropdown
-                defaultValue={uiTheme}
-                label={t('default interface theme')}
-                onChange={this.onChangeUiTheme}
-                options={uiSettings.availableUIThemes}
-              />
-            </div>
-            <div className='medium'>
-              <Dropdown
-                defaultValue={uiMode}
-                label={t('interface operation mode')}
-                onChange={this.onChangeUiMode}
-                options={uiSettings.availableUIModes}
-              />
-            </div>
+          <div className='full'>
+            <InputFile
+              clearContent={!types && isTypesValid}
+              isError={!isTypesValid}
+              label={t('additional type definitions (JSON)')}
+              onChange={this.onChangeTypes}
+              placeholder={typesPlaceholder}
+            />
           </div>
-          <div className='ui--row'>
-            <div className='full'>
-              <Dropdown
-                defaultValue={i18nLang}
-                isDisabled
-                label={t('default interface language')}
-                onChange={this.onChangeLang}
-                options={uiSettings.availableLanguages}
-              />
-            </div>
-          </div>
-        </section>
-        <section>
-          <h1>{t('developer')}</h1>
-          <div className='ui--row'>
-            <div className='sub-label'>
-             <a onClick={this.clearTypes}>{t('clear')}</a>
-            </div>
-            <div className='full'>
-              <InputFile
-                clearContent={!types && isTypesValid}
-                isError={!isTypesValid}
-                label={t('additional type definitions (JSON)')}
-                onChange={this.onChangeTypes}
-                placeholder={typesPlaceholder}
-              />
-            </div>
-          </div>
-        </section>
+        </div>
         <Button.Group>
           <Button
-            isDisabled={!isUrlValid || !isTypesValid}
+            isDisabled={!isTypesValid}
             isPrimary
-            onClick={this.save}
+            onClick={this.saveDeveloper}
+            label={t('Save')}
+          />
+        </Button.Group>
+      </>
+    );
+  }
+
+  private renderGeneral = () => {
+    const { t } = this.props;
+    const { isCustomNode, isUrlValid, settings: { apiUrl, i18nLang, uiMode, uiTheme } } = this.state;
+
+    return (
+      <>
+        <div className='ui--row'>
+          <div className='full'>
+            <div className='sub-label'>
+              {
+                isCustomNode
+                  ? <><a onClick={this.toggleCustomNode}>{t('pre-set')}</a> | <b>{t('custom')}</b></>
+                  : <><b>{t('pre-set')}</b> | <a onClick={this.toggleCustomNode}>{t('custom')}</a></>
+              }
+            </div>
+            {
+              isCustomNode
+                ? <Input
+                  defaultValue={apiUrl}
+                  isError={!isUrlValid}
+                  label={t('remote node/endpoint to connect to')}
+                  onChange={this.onChangeApiUrl}
+                />
+                : <Dropdown
+                  defaultValue={apiUrl}
+                  label={t('remote node/endpoint to connect to')}
+                  onChange={this.onChangeApiUrl}
+                  options={uiSettings.availableNodes}
+                />
+            }
+          </div>
+        </div>
+        <div className='ui--row'>
+          <div className='medium'>
+            <Dropdown
+              defaultValue={uiTheme}
+              label={t('default interface theme')}
+              onChange={this.onChangeUiTheme}
+              options={uiSettings.availableUIThemes}
+            />
+          </div>
+          <div className='medium'>
+            <Dropdown
+              defaultValue={uiMode}
+              label={t('interface operation mode')}
+              onChange={this.onChangeUiMode}
+              options={uiSettings.availableUIModes}
+            />
+          </div>
+        </div>
+        <div className='ui--row'>
+          <div className='full'>
+            <Dropdown
+              defaultValue={i18nLang}
+              isDisabled
+              label={t('default interface language')}
+              onChange={this.onChangeLang}
+              options={uiSettings.availableLanguages}
+            />
+          </div>
+        </div>
+        <Button.Group>
+          <Button
+            isDisabled={!isUrlValid}
+            isPrimary
+            onClick={this.saveAndReload}
             label={t('Save & Reload')}
           />
         </Button.Group>
-      </main>
+      </>
     );
   }
 
@@ -239,14 +285,18 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  private save = (): void => {
-    const { isTypesValid, settings, types } = this.state;
-
-    uiSettings.set(settings);
+  private saveDeveloper = (): void => {
+    const { isTypesValid, types } = this.state;
 
     if (isTypesValid) {
       store.set('types', types);
     }
+  }
+
+  private saveAndReload = (): void => {
+    const { settings } = this.state;
+
+    uiSettings.set(settings);
 
     // HACK This is terribe, but since the API needs to re-connect, but since
     // the API does not yet handle re-connections properly, it is what it is

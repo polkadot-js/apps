@@ -27,7 +27,7 @@ type Props = AppProps & I18nProps & {
 
 type State = {
   hidden: Array<string>,
-  items: Array<TabItem>
+  tabs: Array<TabItem>
 };
 
 class AccountsApp extends React.PureComponent<Props, State> {
@@ -43,7 +43,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
     this.state = {
       ...baseState,
-      items: [
+      tabs: [
         {
           name: 'edit',
           text: t('Edit account')
@@ -95,7 +95,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
   render () {
     const { basePath } = this.props;
-    const { hidden, items } = this.state;
+    const { hidden, tabs } = this.state;
     const renderCreator = this.renderComponent(Creator);
 
     return (
@@ -104,7 +104,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
           <Tabs
             basePath={basePath}
             hidden={hidden}
-            items={items}
+            items={tabs}
           />
         </header>
         <Switch>
@@ -124,13 +124,14 @@ class AccountsApp extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderComponent = (Component: React.ComponentType<ComponentProps>) => {
+  private renderComponent (Component: React.ComponentType<ComponentProps>) {
     return ({ match }: LocationProps) => {
-      const { basePath, onStatusChange } = this.props;
+      const { basePath, location, onStatusChange } = this.props;
 
       return (
         <Component
           basePath={basePath}
+          location={location}
           match={match}
           onStatusChange={onStatusChange}
         />

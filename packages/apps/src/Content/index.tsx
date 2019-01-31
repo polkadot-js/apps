@@ -53,6 +53,7 @@ class Content extends React.Component<Props> {
             <Component
               key='content-content'
               basePath={`/${name}`}
+              location={location}
               onStatusChange={queueAction}
             />,
             <Status

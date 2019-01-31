@@ -107,13 +107,14 @@ class AddressesApp extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderComponent = (Component: React.ComponentType<ComponentProps>) => {
+  private renderComponent (Component: React.ComponentType<ComponentProps>) {
     return () => {
-      const { basePath, onStatusChange } = this.props;
+      const { basePath, location, onStatusChange } = this.props;
 
       return (
         <Component
           basePath={basePath}
+          location={location}
           onStatusChange={onStatusChange}
         />
       );
