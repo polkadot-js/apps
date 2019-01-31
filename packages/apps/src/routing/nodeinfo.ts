@@ -9,12 +9,13 @@ import Nodeinfo from '@polkadot/app-nodeinfo/index';
 export default ([
   {
     Component: Nodeinfo,
+    display: {
+      needsApi: []
+    },
     i18n: {
       defaultValue: 'Node info'
     },
     icon: 'tty',
-    isApiGated: true,
-    isHidden: false,
     name: 'nodeinfo'
   }
 ] as Routes);

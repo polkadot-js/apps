@@ -62,26 +62,22 @@ class SideBar extends React.PureComponent<Props> {
   private renderRoutes () {
     const { t } = this.props;
 
-    return routing.routes
-      .filter((route) =>
-        !route || !route.isHidden
-      )
-      .map((route, index) => (
-        route
-          ? (
-            <Item
-              key={route.name}
-              t={t}
-              route={route}
-            />
-          )
-          : (
-            <Menu.Divider
-              hidden
-              key={index}
-            />
-          )
-      ));
+    return routing.routes.map((route, index) => (
+      route
+        ? (
+          <Item
+            key={route.name}
+            t={t}
+            route={route}
+          />
+        )
+        : (
+          <Menu.Divider
+            hidden
+            key={index}
+          />
+        )
+    ));
   }
 
   private renderGithub () {

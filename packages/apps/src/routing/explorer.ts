@@ -9,12 +9,13 @@ import Explorer from '@polkadot/app-explorer/index';
 export default ([
   {
     Component: Explorer,
+    display: {
+      needsApi: []
+    },
     i18n: {
       defaultValue: 'Explorer'
     },
     icon: 'braille',
-    isApiGated: true,
-    isHidden: false,
     name: 'explorer'
   }
 ] as Routes);

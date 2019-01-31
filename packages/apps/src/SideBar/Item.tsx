@@ -4,16 +4,19 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { Route } from '../types';
 
 import React from 'react';
 import { withRouter } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { Icon, Menu } from '@polkadot/ui-app/index';
-import { withApi, withMulti } from '@polkadot/ui-api/index';
+import accountObservable from '@polkadot/ui-keyring/observable/accounts';
+import { withApi, withMulti, withObservable } from '@polkadot/ui-api/index';
 import { isFunction } from '@polkadot/util';
 
 type Props = I18nProps & ApiProps & {
+  allAccounts?: SubjectInfo,
   route: Route
 };
 
@@ -21,7 +24,7 @@ class Item extends React.PureComponent<Props> {
   render () {
     const { route: { i18n, icon, name }, t } = this.props;
 
-    if (!this.isApiAvailable()) {
+    if (!this.isVisible()) {
       return null;
     }
 
@@ -38,13 +41,18 @@ class Item extends React.PureComponent<Props> {
     );
   }
 
-  private isApiAvailable () {
-    const { api, isApiConnected, isApiReady, route: { isApiGated, name, needsApi } } = this.props;
+  private isVisible () {
+    const { allAccounts = {}, api, isApiConnected, isApiReady, route: { display: { isHidden, needsAccounts, needsApi }, name } } = this.props;
+    const hasAccounts = Object.keys(allAccounts).length !== 0;
 
-    if (isApiGated && (!isApiReady || !isApiConnected)) {
+    if (isHidden) {
       return false;
-    } else if (!needsApi || !needsApi.length) {
+    } else if (needsAccounts && !hasAccounts) {
+      return false;
+    } else if (!needsApi) {
       return true;
+    } else if (!isApiReady || !isApiConnected) {
+      return false;
     }
 
     const notFound = needsApi.filter((endpoint) => {
@@ -68,5 +76,6 @@ class Item extends React.PureComponent<Props> {
 export default withMulti(
   Item,
   withRouter,
-  withApi
+  withApi,
+  withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );
