@@ -29,7 +29,7 @@ type DivProps = {
 function div ({ key, className }: DivProps, ...values: Array<React.ReactNode>): React.ReactNode {
   return (
     <div
-      className={classes('ui--Param-text.breakword', className)}
+      className={classes('ui--Param-text breakword', className)}
       key={key}
     >
       {values}
@@ -108,6 +108,14 @@ function div ({ key, className }: DivProps, ...values: Array<React.ReactNode>): 
 //   );
 // }
 
+function typeIsTuple (type: string): boolean {
+  return type.charAt(0) === '(' && type.charAt(type.length - 1) === ')';
+}
+
+function breakDownTuple (type: string): Array<any> {
+  return type.substring(1, type.length - 1).split(',');
+}
+
 function valueToText (type: string, value: any, swallowError: boolean = true, contentShorten: boolean = true): React.ReactNode {
   // try {
   //   if (type === 'bool') {
@@ -150,6 +158,18 @@ function valueToText (type: string, value: any, swallowError: boolean = true, co
   //     console.log('valueToText', type, value, error);
   //   }
   // }
+
+  if (typeIsTuple(type)) {
+    let types = breakDownTuple(type);
+    // if so run valueToText on each element of the tuple
+    let output = [];
+    for (let i = 0; i < types.length; i++) {
+      output[i] = (
+        valueToText(types[i], (value as Array<any>)[i])
+      );
+    }
+    return output;
+  }
 
   // When displaying parameters of type Hash, these will sometimes come in the
   // form of a Uint8Array and not print properly unless converted to a Hash

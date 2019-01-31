@@ -135,14 +135,6 @@ class Query extends React.PureComponent<Props, State> {
     );
   }
 
-  private typeIsTuple (type: string): boolean {
-    return type.charAt(0) === '(' && type.charAt(type.length - 1) === ')';
-  }
-
-  private breakDownTuple (type: string): Array<any> {
-    return type.substring(1, type.length - 1).split(',');
-  }
-
   private renderInputs () {
     const value = this.props.value;
     const { key } = value;
@@ -157,20 +149,6 @@ class Query extends React.PureComponent<Props, State> {
           {
             params.map((obj) => {
               // check if the type name references a tuple, e.g. "(Hash, AccountId)"
-              if (this.typeIsTuple(type)) {
-                let types = this.breakDownTuple(type);
-                // if so run valueToText on each element of the tuple
-                let output = [];
-                for (let i = 0; i < types.length; i++) {
-                  output[i] = (
-                    <div className='query-input'>
-                      {valueToText(types[i], (obj.value as Array<any>)[i])}
-                    </div>
-                  );
-                }
-                return output;
-              }
-
               return (
                 <div className='query-input'>
                 {
