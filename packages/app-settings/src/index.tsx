@@ -19,12 +19,12 @@ import translate from './translate';
 type Props = AppProps & I18nProps;
 
 type State = {
-  settings: SettingsStruct & {
-    types?: { [index: string]: any } | null,
-    typesError?: boolean,
-    typesPlaceholder?: string,
-    customNode: boolean
-  }
+  isCustomNode: boolean,
+  isTypesValid: boolean,
+  isUrlValid: boolean,
+  settings: SettingsStruct,
+  types?: { [index: string]: any } | null,
+  typesPlaceholder?: string
 };
 
 class App extends React.PureComponent<Props, State> {
@@ -33,30 +33,30 @@ class App extends React.PureComponent<Props, State> {
 
     const types = store.get('types') || {};
     const names = Object.keys(types);
-    const presets = uiSettings.get();
+    const settings = uiSettings.get();
+    let isCustomNode = true;
 
     // check to see if user has saved a custom node by seeing if their URL is equal to any preset
-    let customNode = true;
     for (let i = 0; i < uiSettings.availableNodes.length; i++) {
-      if (uiSettings.availableNodes[i].value === presets.apiUrl) {
-        customNode = false;
+      if (uiSettings.availableNodes[i].value === settings.apiUrl) {
+        isCustomNode = false;
       }
     }
 
     this.state = {
-      settings: {
-        ...presets,
-        typesPlaceholder: names.length
+      isCustomNode,
+      isTypesValid: true,
+      isUrlValid: this.isValidUrl(settings.apiUrl),
+      typesPlaceholder: names.length
           ? names.join(', ')
           : undefined,
-        customNode: customNode
-      }
+      settings
     };
   }
 
   render () {
     const { t } = this.props;
-    const { settings: { apiUrl, i18nLang, typesPlaceholder, typesError, uiMode, uiTheme, customNode } } = this.state;
+    const { isCustomNode, isTypesValid, isUrlValid, settings: { apiUrl, i18nLang, uiMode, uiTheme }, types, typesPlaceholder } = this.state;
 
     return (
       <main className='settings--App'>
@@ -66,15 +66,16 @@ class App extends React.PureComponent<Props, State> {
             <div className='full'>
               <div className='sub-label'>
                 {
-                  customNode
+                  isCustomNode
                     ? <><a onClick={this.toggleCustomNode}>{t('pre-set')}</a> | <b>{t('custom')}</b></>
                     : <><b>{t('pre-set')}</b> | <a onClick={this.toggleCustomNode}>{t('custom')}</a></>
                 }
               </div>
               {
-                customNode
+                isCustomNode
                   ? <Input
                     defaultValue={apiUrl}
+                    isError={!isUrlValid}
                     label={t('remote node/endpoint to connect to')}
                     onChange={this.onChangeApiUrl}
                   />
@@ -120,9 +121,13 @@ class App extends React.PureComponent<Props, State> {
         <section>
           <h1>{t('developer')}</h1>
           <div className='ui--row'>
+            <div className='sub-label'>
+             <a onClick={this.clearTypes}>{t('clear')}</a>
+            </div>
             <div className='full'>
               <InputFile
-                isError={typesError}
+                clearContent={!types && isTypesValid}
+                isError={!isTypesValid}
                 label={t('additional type definitions (JSON)')}
                 onChange={this.onChangeTypes}
                 placeholder={typesPlaceholder}
@@ -132,6 +137,7 @@ class App extends React.PureComponent<Props, State> {
         </section>
         <Button.Group>
           <Button
+            isDisabled={!isUrlValid || !isTypesValid}
             isPrimary
             onClick={this.save}
             label={t('Save & Reload')}
@@ -141,8 +147,17 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
+  private clearTypes = (): void => {
+    this.setState({
+      isTypesValid: true,
+      types: null,
+      typesPlaceholder: ''
+    });
+  }
+
   private onChangeApiUrl = (apiUrl: string): void => {
     this.setState(({ settings }: State) => ({
+      isUrlValid: this.isValidUrl(apiUrl),
       settings: {
         ...settings,
         apiUrl
@@ -163,25 +178,19 @@ class App extends React.PureComponent<Props, State> {
 
       typeRegistry.register(types);
 
-      this.setState(({ settings }: State) => ({
-        settings: {
-          ...settings,
-          types,
-          typesError: false,
-          typesPlaceholder
-        }
-      }));
+      this.setState({
+        isTypesValid: true,
+        types,
+        typesPlaceholder
+      });
     } catch (error) {
       console.error('Registering types:', error);
 
-      this.setState(({ settings }: State) => ({
-        settings: {
-          ...settings,
-          types: null,
-          typesError: true,
-          typesPlaceholder: error.message
-        }
-      }));
+      this.setState({
+        isTypesValid: false,
+        types: null,
+        typesPlaceholder: error.message
+      });
     }
   }
 
@@ -204,47 +213,38 @@ class App extends React.PureComponent<Props, State> {
   }
 
   private toggleCustomNode = (): void => {
-    this.setState(({ settings }: State) => {
-      const customNode = !settings.customNode;
+    this.setState(({ isCustomNode, settings }: State) => {
       // reset URL to a preset when toggled to preset
-      const apiUrl = customNode
-        ? settings.apiUrl
-        : uiSettings.availableNodes[0].value;
+      const apiUrl = isCustomNode
+        ? uiSettings.availableNodes[0].value
+        : settings.apiUrl;
 
       return {
+        isCustomNode: !isCustomNode,
+        isUrlValid: true,
         settings: {
           ...settings,
-          apiUrl,
-          customNode
+          apiUrl
         }
       };
     });
   }
 
+  private isValidUrl (apiUrl: string): boolean {
+    return (
+      // some random length... we probably want to parse via some lib
+      (apiUrl.length >= 7) &&
+      // check that it starts with a valid ws identifier
+      (apiUrl.startsWith('ws://') || apiUrl.startsWith('wss://'))
+    );
+  }
+
   private save = (): void => {
-    const { onStatusChange, t } = this.props;
-    const { settings: { types, typesError } } = this.state;
+    const { isTypesValid, settings, types } = this.state;
 
-    // validate custom node url
-    const apiUrl = this.state.settings.apiUrl;
+    uiSettings.set(settings);
 
-    if (this.state.settings.customNode) {
-      if (!(apiUrl.startsWith('ws://localhost') ||
-      apiUrl.startsWith('ws://127.0.0.1') ||
-      apiUrl.startsWith('wss://'))) {
-        onStatusChange({
-          action: '',
-          status: 'error',
-          message: t('Custom node URL is not valid')
-        });
-
-        return;
-      }
-    }
-
-    uiSettings.set(this.state.settings);
-
-    if (types && !typesError) {
+    if (isTypesValid) {
       store.set('types', types);
     }
 

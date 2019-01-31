@@ -16,6 +16,7 @@ type Props = BareProps & WithNamespaces & {
   // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
   // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
   accept?: string,
+  clearContent?: boolean,
   isDisabled?: boolean,
   isError?: boolean,
   label: string,
@@ -41,7 +42,7 @@ class InputFile extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { accept, className, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
+    const { accept, className, clearContent, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
     const { file } = this.state;
 
     return (
@@ -58,7 +59,7 @@ class InputFile extends React.PureComponent<Props, State> {
         >
           <div className='label'>
             {
-              !file
+              !file || clearContent
                 ? placeholder || t('drag and drop the file here')
                 : placeholder || t('{{name}} ({{size}} bytes)', {
                   replace: file

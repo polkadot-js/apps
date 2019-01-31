@@ -73,8 +73,8 @@ export default withMulti(
   Content,
   withRouter,
   translate,
-  // These API queries are used in a number of places, warm them up as
-// to avoid constant un/resubscriptions on these
+  // These API queries are used in a number of places, warm them up
+  // to avoid constant un-/re-subscribe on these
   withCalls<Props>(
     'query.session.validators',
     'derive.accounts.indexes',
