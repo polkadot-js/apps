@@ -10,7 +10,7 @@ import React from 'react';
 import jsonrpc from '@polkadot/jsonrpc';
 
 import { QueueProvider } from './Context';
-import { SubmittableSendResult } from '@polkadot/api/types';
+import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 
 export type Props = BareProps & {
   children: React.ReactNode
@@ -82,7 +82,7 @@ export default class Queue extends React.Component<Props, State> {
     return id;
   }
 
-  queueSetTxStatus = (id: number, status: QueueTx$Status, result?: SubmittableSendResult, error?: Error): void => {
+  queueSetTxStatus = (id: number, status: QueueTx$Status, result?: SubmittableResult, error?: Error): void => {
     this.setState(
       (prevState: State): State => ({
         txqueue: prevState.txqueue.map((item) =>
@@ -121,7 +121,7 @@ export default class Queue extends React.Component<Props, State> {
     }
   }
 
-  private addResultEvents ({ events = [] }: Partial<SubmittableSendResult> = {}) {
+  private addResultEvents ({ events = [] }: Partial<SubmittableResult> = {}) {
     events.filter((record) => record.event).forEach(({ event: { method, section } }) => {
       // filter events handled globally, or those we are not interested in
       // NOTE We are not splitting balances, since we want to see the transfer - even if

@@ -4,16 +4,20 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueProps } from '@polkadot/ui-app/Status/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { InputAddress } from '@polkadot/ui-app/index';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
+import accountObservable from '@polkadot/ui-keyring/observable/accounts';
+import { withMulti, withObservable } from '@polkadot/ui-api/index';
 
 import VotingButtons from './VotingButtons';
 import translate from './translate';
 
 type Props = I18nProps & {
+  allAccounts?: SubjectInfo,
   referendumId: BN | number
 };
 
@@ -25,7 +29,12 @@ class Voting extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { t } = this.props;
+    const { allAccounts, t } = this.props;
+    const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
+
+    if (!hasAccounts) {
+      return null;
+    }
 
     return (
       <div className='democracy--Referendum-vote'>
@@ -67,4 +76,8 @@ class Voting extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(Voting);
+export default withMulti(
+  Voting,
+  translate,
+  withObservable(accountObservable.subject, { propName: 'allAccounts' })
+);
