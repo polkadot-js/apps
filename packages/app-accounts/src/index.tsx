@@ -72,8 +72,10 @@ class AccountsApp extends React.PureComponent<Props, State> {
   }
 
   static hideEditState () {
+    // Hide vanity as well - since the route order and matching changes, the
+    // /create/:seed route become problematic, so don't allow that option
     return {
-      hidden: ['edit']
+      hidden: ['edit', 'vanity']
     };
   }
 
