@@ -95,9 +95,6 @@ class App extends React.PureComponent<Props, State> {
     return (
       <>
         <div className='ui--row'>
-          <div className='sub-label'>
-            <a onClick={this.clearTypes}>{t('clear')}</a>
-          </div>
           <div className='full'>
             <InputFile
               clearContent={!types && isTypesValid}
@@ -109,6 +106,13 @@ class App extends React.PureComponent<Props, State> {
           </div>
         </div>
         <Button.Group>
+          <Button
+            isDisabled={!types}
+            isNegative
+            onClick={this.clearTypes}
+            label={t('Reset')}
+          />
+          <Button.Or />
           <Button
             isDisabled={!isTypesValid}
             isPrimary
