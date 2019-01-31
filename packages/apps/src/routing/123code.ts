@@ -9,12 +9,17 @@ import Template from '@polkadot/app-123code/index';
 export default ([
   {
     Component: Template,
+    display: {
+      isHidden: true,
+      needsAccounts: true,
+      needsApi: [
+        'tx.balances.transfer'
+      ]
+    },
     i18n: {
       defaultValue: 'Template'
     },
     icon: 'th',
-    isApiGated: true,
-    isHidden: true,
     name: '123code'
   }
 ] as Routes);

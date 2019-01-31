@@ -25,18 +25,12 @@ type State = {
 };
 
 class Restore extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      isFileValid: false,
-      isPassValid: false,
-      json: null,
-      password: ''
-    };
-  }
+  state: State = {
+    isFileValid: false,
+    isPassValid: false,
+    json: null,
+    password: ''
+  };
 
   render () {
     const { t } = this.props;

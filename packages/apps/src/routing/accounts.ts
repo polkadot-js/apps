@@ -9,12 +9,13 @@ import Accounts from '@polkadot/app-accounts/index';
 export default ([
   {
     Component: Accounts,
+    display: {
+      needsApi: []
+    },
     i18n: {
       defaultValue: 'Accounts'
     },
     icon: 'users',
-    isApiGated: true,
-    isHidden: false,
     name: 'accounts'
   }
 ] as Routes);

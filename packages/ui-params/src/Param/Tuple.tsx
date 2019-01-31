@@ -20,16 +20,12 @@ type State = {
 };
 
 export default class Tuple extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      Components: [],
-      sub: [],
-      subTypes: [],
-      values: []
-    };
-  }
+  state: State = {
+    Components: [],
+    sub: [],
+    subTypes: [],
+    values: []
+  };
 
   static getDerivedStateFromProps ({ defaultValue: { value }, type: { sub, type } }: Props, prevState: State): Partial<State> | null {
     if (type === prevState.type) {

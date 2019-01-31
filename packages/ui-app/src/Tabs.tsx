@@ -45,14 +45,17 @@ class Tabs extends React.PureComponent<Props> {
     const to = index === 0
       ? basePath
       : `${basePath}/${name}`;
+    // only do exact matching when not the fallback (first position tab),
+    // params are problematic for dynamic hidden such as app-accounts
+    const isExact = !hasParams || index === 0;
 
     return (
       <NavLink
         activeClassName='active'
         className='item'
-        exact={!hasParams}
+        exact={isExact}
         key={to}
-        strict={!hasParams}
+        strict={isExact}
         to={to}
       >
         {text}

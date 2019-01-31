@@ -9,12 +9,13 @@ import Storage from '@polkadot/app-storage/index';
 export default ([
   {
     Component: Storage,
+    display: {
+      needsApi: []
+    },
     i18n: {
       defaultValue: 'Chain state'
     },
     icon: 'database',
-    isApiGated: true,
-    isHidden: false,
     name: 'chainstate'
   }
 ] as Routes);

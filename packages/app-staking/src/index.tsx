@@ -86,7 +86,7 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderComponent = (Component: React.ComponentType<ComponentProps>) => {
+  private renderComponent (Component: React.ComponentType<ComponentProps>) {
     return (): React.ReactNode => {
       const { intentions, validators } = this.state;
       const { balances = {} } = this.props;

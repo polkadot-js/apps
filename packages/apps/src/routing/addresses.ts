@@ -9,12 +9,13 @@ import Addresses from '@polkadot/app-addresses/index';
 export default ([
   {
     Component: Addresses,
+    display: {
+      needsApi: []
+    },
     i18n: {
       defaultValue: 'Addresses'
     },
     icon: 'address book',
-    isApiGated: true,
-    isHidden: false,
     name: 'addresses'
   }
 ] as Routes);

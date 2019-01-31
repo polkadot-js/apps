@@ -9,15 +9,16 @@ import Transfer from '@polkadot/app-transfer/index';
 export default ([
   {
     Component: Transfer,
+    display: {
+      needsAccounts: true,
+      needsApi: [
+        'tx.balances.transfer'
+      ]
+    },
     i18n: {
       defaultValue: 'Transfer'
     },
     icon: 'angle double right',
-    isApiGated: true,
-    isHidden: false,
-    name: 'transfer',
-    needsApi: [
-      'tx.balances.transfer'
-    ]
+    name: 'transfer'
   }
 ] as Routes);

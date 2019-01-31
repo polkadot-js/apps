@@ -9,12 +9,14 @@ export type RouteProps = AppProps & BareProps;
 
 export type Route = {
   Component: React.ComponentType<RouteProps>,
-  i18n: any, // I18Next$Translate$Config,
+  display: {
+    isHidden?: boolean,
+    needsAccounts?: boolean,
+    needsApi?: Array<string>
+  },
+  i18n: { defaultValue: string },
   icon: SemanticICONS,
-  isApiGated: boolean,
-  isHidden: boolean,
-  name: string,
-  needsApi?: Array<string>
+  name: string
 };
 
 export type Routes = Array<Route | null>;

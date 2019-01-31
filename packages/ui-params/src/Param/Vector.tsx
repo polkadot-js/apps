@@ -24,14 +24,10 @@ type State = {
 };
 
 class Vector extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      Component: null,
-      values: []
-    };
-  }
+  state: State = {
+    Component: null,
+    values: []
+  };
 
   static getDerivedStateFromProps ({ defaultValue: { value = [] }, isDisabled, type: { sub, type } }: Props, prevState: State): Partial<State> | null {
     if (type === prevState.type) {

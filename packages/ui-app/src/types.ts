@@ -15,6 +15,7 @@ export type BareProps = {
 
 export type AppProps = {
   basePath: string,
+  location: Location,
   onStatusChange: (status: ActionStatus) => void
 };
 

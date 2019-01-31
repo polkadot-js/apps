@@ -26,18 +26,12 @@ type State = {
 };
 
 class ChangePass extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      isNewValid: false,
-      isOldValid: false,
-      newPass: '',
-      oldPass: ''
-    };
-  }
+  state: State = {
+    isNewValid: false,
+    isOldValid: false,
+    newPass: '',
+    oldPass: ''
+  };
 
   render () {
     return (

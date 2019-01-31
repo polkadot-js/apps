@@ -26,16 +26,12 @@ type State = ExtraFees & {
 };
 
 class Proposal extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      extraFees: new BN(0),
-      extraAmount: new BN(0),
-      extraWarn: false,
-      isBelowMinimum: false
-    };
-  }
+  state: State = {
+    extraFees: new BN(0),
+    extraAmount: new BN(0),
+    extraWarn: false,
+    isBelowMinimum: false
+  };
 
   static getDerivedStateFromProps ({ deposit, democracy_minimumDeposit = new BN(0), onChange }: Props): State {
     const extraAmount = deposit instanceof Compact

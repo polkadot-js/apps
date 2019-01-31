@@ -27,7 +27,7 @@ export default class Transfer extends React.PureComponent<Props> {
       <section>
         <h1>transfer</h1>
         <div className='ui--row'>
-          <article className='medium'>
+          <div className='large'>
             <InputAddress
               label='recipient address for this transfer'
               onChange={this.onChangeRecipient}
@@ -45,7 +45,7 @@ export default class Transfer extends React.PureComponent<Props> {
                 tx='balances.transfer'
               />
             </Button.Group>
-          </article>
+          </div>
           <div className='template--summary small'>Make a transfer from any account you control to another account. Transfer fees and per-transaction fees apply and will be calculated upon submission.</div>
         </div>
       </section>

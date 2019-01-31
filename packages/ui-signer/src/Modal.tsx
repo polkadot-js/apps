@@ -39,16 +39,10 @@ type State = {
 };
 
 class Signer extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      password: '',
-      unlockError: null
-    };
-  }
+  state: State = {
+    password: '',
+    unlockError: null
+  };
 
   static getDerivedStateFromProps ({ queue }: Props, { currentItem, password, unlockError }: State): State {
     const nextItem = queue.find(({ status }) =>

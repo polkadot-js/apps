@@ -3,12 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import './index.css';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
+import accountObservable from '@polkadot/ui-keyring/observable/accounts';
+import { withMulti, withObservable } from '@polkadot/ui-api/index';
 
 import Hash from './Hash';
 import Rpc from './Rpc';
@@ -16,7 +19,9 @@ import Sign from './Sign';
 import Verify from './Verify';
 import translate from './translate';
 
-type Props = AppProps & I18nProps;
+type Props = AppProps & I18nProps & {
+  allAccounts?: SubjectInfo
+};
 
 type State = {
   tabs: Array<TabItem>
@@ -32,7 +37,7 @@ class ToolboxApp extends React.PureComponent<Props, State> {
       tabs: [
         {
           name: 'rpc',
-          text: 'RPC calls'
+          text: t('RPC calls')
         },
         {
           name: 'hash',
@@ -50,15 +55,21 @@ class ToolboxApp extends React.PureComponent<Props, State> {
     };
   }
   render () {
-    const { basePath } = this.props;
+    const { allAccounts = {}, basePath } = this.props;
     const { tabs } = this.state;
+    const hasAccounts = Object.keys(allAccounts).length !== 0;
+    const filteredTabs = hasAccounts
+      ? tabs
+      : tabs.filter(({ name }) =>
+        !['sign', 'verify'].includes(name)
+      );
 
     return (
       <main className='toolbox--App'>
         <header>
           <Tabs
             basePath={basePath}
-            items={tabs}
+            items={filteredTabs}
           />
         </header>
         <Switch>
@@ -72,4 +83,8 @@ class ToolboxApp extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(ToolboxApp);
+export default withMulti(
+  ToolboxApp,
+  translate,
+  withObservable(accountObservable.subject, { propName: 'allAccounts' })
+);
