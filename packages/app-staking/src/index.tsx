@@ -5,13 +5,15 @@
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import { AccountId, Balance } from '@polkadot/types';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
-import { withCalls } from '@polkadot/ui-api/index';
+import accountObservable from '@polkadot/ui-keyring/observable/accounts';
+import { withCalls, withMulti, withObservable } from '@polkadot/ui-api/index';
 
 import './index.css';
 
@@ -20,6 +22,7 @@ import Overview from './Overview';
 import translate from './translate';
 
 type Props = AppProps & ApiProps & I18nProps & {
+  allAccounts?: SubjectInfo,
   balances?: DerivedBalancesMap,
   intentions?: Array<AccountId>,
   session_validators?: Array<AccountId>
@@ -67,15 +70,22 @@ class App extends React.PureComponent<Props, State> {
   }
 
   render () {
+    const { allAccounts } = this.props;
     const { tabs } = this.state;
     const { basePath } = this.props;
+    const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
+    const filteredTabs = hasAccounts
+      ? tabs
+      : tabs.filter(({ name }) =>
+        !['actions'].includes(name)
+      );
 
     return (
       <main className='staking--App'>
         <header>
           <Tabs
             basePath={basePath}
-            items={tabs}
+            items={filteredTabs}
           />
         </header>
         <Switch>
@@ -120,10 +130,13 @@ class App extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(
+export default withMulti(
+  App,
+  translate,
+  withObservable(accountObservable.subject, { propName: 'allAccounts' }),
   withCalls<Props>(
     'query.session.validators',
     ['query.staking.intentions', { propName: 'intentions' }],
     ['derive.staking.intentionsBalances', { propName: 'balances' }]
-  )(App)
+  )
 );

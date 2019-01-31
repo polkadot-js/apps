@@ -55,9 +55,9 @@ class ToolboxApp extends React.PureComponent<Props, State> {
     };
   }
   render () {
-    const { allAccounts = {}, basePath } = this.props;
+    const { allAccounts, basePath } = this.props;
     const { tabs } = this.state;
-    const hasAccounts = Object.keys(allAccounts).length !== 0;
+    const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
     const filteredTabs = hasAccounts
       ? tabs
       : tabs.filter(({ name }) =>

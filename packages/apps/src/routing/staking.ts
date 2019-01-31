@@ -10,7 +10,6 @@ export default ([
   {
     Component: Staking,
     display: {
-      needsAccounts: true,
       needsApi: [
         'tx.staking.stake'
       ]
