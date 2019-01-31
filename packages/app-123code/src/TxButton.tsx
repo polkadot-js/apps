@@ -10,7 +10,6 @@ import { Button } from '@polkadot/ui-app/index';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 import { withApi } from '@polkadot/ui-api/index';
 import { assert } from '@polkadot/util';
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 type InjectedProps = {
   queueExtrinsic: QueueTx$ExtrinsicAdd;
