@@ -108,8 +108,9 @@ class InputAddress extends React.PureComponent<Props, State> {
   render () {
     const { className, defaultValue, hideAddress = false, isDisabled = false, isError, label, optionsAll, type = DEFAULT_TYPE, style, withLabel } = this.props;
     const { value } = this.state;
+    const hasOptions = optionsAll && Object.keys(optionsAll[type]).length !== 0;
 
-    if (!optionsAll || !Object.keys(optionsAll[type]).length) {
+    if (!hasOptions && !isDisabled) {
       return null;
     }
 
@@ -139,7 +140,7 @@ class InputAddress extends React.PureComponent<Props, State> {
         options={
           isDisabled && actualValue
             ? [createOption(actualValue)]
-            : optionsAll[type]
+            : (optionsAll ? optionsAll[type] : [])
         }
         style={style}
         value={value}
