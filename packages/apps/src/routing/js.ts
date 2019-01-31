@@ -10,6 +10,7 @@ export default ([
   {
     Component: Js,
     display: {
+      isHidden: true,
       needsApi: []
     },
     i18n: {

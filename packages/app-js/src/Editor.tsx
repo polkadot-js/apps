@@ -11,44 +11,78 @@ import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 
-type Props = BareProps & {};
+type Props = BareProps & {
+  children?: React.ReactNode,
+  onEdit: (code: string) => void
+};
 type State = {
-  code: string
+  code: string,
+  outerClosing: string,
+  outerOpening: string
 };
 
 const DEFAULT_TEMPLATE = `// subscribe to new headers, printing the full result
 api.rpc.chain.subscribeNewHead((header) => {
-  console.log(\`#\${header.blockNumer}:\`, JSON.stringify(header));
-});
-`;
+  console.log(\`#\${header.blockNumber}:\`, header);
+});`;
+const OPENING = '(async (api, keyring) => {';
+const CLOSING = '})(api, keyring);';
 
 export default class Editor extends React.PureComponent<Props, State> {
-  state: State = {
-    code: DEFAULT_TEMPLATE
-  };
+  constructor (props: Props) {
+    super(props);
+
+    this.state = {
+      code: DEFAULT_TEMPLATE,
+      outerClosing: this.doHighlight(CLOSING),
+      outerOpening: this.doHighlight(OPENING)
+    };
+  }
+
+  componentDidMount () {
+    const { onEdit } = this.props;
+    const { code } = this.state;
+
+    onEdit(code);
+  }
 
   render () {
+    const { children } = this.props;
+    const { code, outerClosing, outerOpening } = this.state;
+
     return (
       <div className='js--Editor medium'>
+        <pre
+          className='nonedit'
+          dangerouslySetInnerHTML={{ __html: outerOpening }}
+        />
         <SimpleEditor
-          value={this.state.code}
+          className='simpleeditor'
+          highlight={this.doHighlight}
           onValueChange={this.onEdit}
-          highlight={this.onHighlight}
           padding={10}
           style={{
             fontFamily: '"Fira code", "Fira Mono", monospace',
             fontSize: 12
           }}
+          value={code}
         />
+        <pre
+          className='nonedit'
+          dangerouslySetInnerHTML={{ __html: outerClosing }}
+        />
+        {children}
       </div>
     );
   }
 
-  private onEdit = (code: string) => {
-    this.setState({ code });
+  private onEdit = (code: string): void => {
+    const { onEdit } = this.props;
+
+    this.setState({ code }, () => onEdit(code));
   }
 
-  private onHighlight = (code: string) => {
+  private doHighlight = (code: string): string => {
     return highlight(code, languages.js);
   }
 }

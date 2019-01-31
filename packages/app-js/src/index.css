@@ -2,15 +2,54 @@
 /* This software may be modified and distributed under the terms
 /* of the Apache-2.0 license. See the LICENSE file for details. */
 
+.js--Editor,
 .js--Output {
-  font-family: "Fira code", "Fira Mono", monospace;
+  position: relative;
+
+  .action-button {
+    position: absolute;
+    right: 0.25rem;
+    top: 0.5rem;
+  }
+}
+
+.js--Output {
+  border: 1px dashed #f2f2f2;
+  /* font-family: "Fira code", "Fira Mono", monospace; */
   font-size: 12px;
   padding: 10px;
+
+  .js--Log {
+    animation: fadein 0.2s;
+    margin-bottom: 5px;
+    word-break: break-all;
+
+    &.error {
+      color: red;
+    }
+  }
 }
 
 .js--Editor {
   background: white;
+  border: 1px solid #f2f2f2;
+  border-radius: 0.25rem;
+  font-size: 12px;
   font-variant-ligatures: common-ligatures;
+  padding: 10px 20px;
+  position: relative;
+
+  pre.nonedit {
+    /* background: #f2f2f2; */
+    font-style: italic;
+    margin: 0 -10px;
+    padding: 0 10px;
+  }
+
+  .simpleeditor {
+    margin: -10px 0;
+    padding: 0 10px; /* extra padding as per component */
+  }
 
   textarea {
     outline: 0;
