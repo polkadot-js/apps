@@ -8,6 +8,7 @@ import React from 'react';
 import CodeFlask from 'codeflask';
 
 import DEFAULT_CODE from './snippets/newHead';
+import WRAPPING from './snippets/wrapping';
 
 type Props = BareProps & {
   children?: React.ReactNode,
@@ -25,7 +26,7 @@ export default class Editor extends React.PureComponent<Props, State> {
 
     this.id = `flask-${Date.now()}`;
     this.state = {
-      code: DEFAULT_CODE
+      code: `${WRAPPING}${DEFAULT_CODE}`
     };
   }
 
