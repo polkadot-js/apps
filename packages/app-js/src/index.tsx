@@ -8,8 +8,10 @@ import { Log, LogType } from './types';
 
 import React from 'react';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
-import { Button, Tabs } from '@polkadot/ui-app/index';
+import { Button } from '@polkadot/ui-app/index';
 import uiKeyring from '@polkadot/ui-keyring';
+import * as util from '@polkadot/util';
+import * as hashing from '@polkadot/util-crypto';
 
 import './index.css';
 
@@ -30,40 +32,28 @@ class App extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { basePath, t } = this.props;
     const { logs } = this.state;
 
     return (
       <main className='js--App'>
-        <header>
-          <Tabs
-            basePath={basePath}
-            items={[{
-              name: 'overview',
-              text: t('Playground')
-            }]}
+        <Editor onEdit={this.onEdit}>
+          <Button
+            className='action-button'
+            isCircular
+            isPrimary
+            icon='play'
+            onClick={this.runJs}
           />
-        </header>
-        <div className='ui--row'>
-          <Editor onEdit={this.onEdit}>
-            <Button
-              className='action-button'
-              isCircular
-              isPrimary
-              icon='play'
-              onClick={this.runJs}
-            />
-          </Editor>
-          <Output logs={logs}>
-            <Button
-              className='action-button'
-              isCircular
-              isNegative
-              icon='erase'
-              onClick={this.clearConsole}
-            />
-          </Output>
-        </div>
+        </Editor>
+        <Output logs={logs}>
+          <Button
+            className='action-button'
+            isCircular
+            isNegative
+            icon='erase'
+            onClick={this.clearConsole}
+          />
+        </Output>
       </main>
     );
   }
@@ -72,22 +62,22 @@ class App extends React.PureComponent<Props, State> {
     const { api } = this.props;
     const { code } = this.state;
     const { keyring } = uiKeyring;
-
-    const console = {
-      error: this.hookConsole('error'),
-      log: this.hookConsole('log')
+    const injected = {
+      api,
+      console: {
+        error: this.hookConsole('error'),
+        log: this.hookConsole('log')
+      },
+      global: null,
+      hashing,
+      keyring,
+      util,
+      window: null
     };
 
-    const args = ['api', 'console', 'global', 'keyring', 'window'].join(',');
-    const exec = `(async ({${args}}) => { try { ${code} } catch (error) { console.error(error); } })(args);`;
+    const exec = `(async ({${Object.keys(injected).join(',')}}) => { try { ${code} } catch (error) { console.error(error); } })(injected);`;
 
-    new Function('args', exec)({
-      api,
-      console,
-      global: null,
-      keyring,
-      window: null
-    });
+    new Function('injected', exec)(injected);
   }
 
   private onEdit = (code: string): void => {

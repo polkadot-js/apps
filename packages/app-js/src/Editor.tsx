@@ -8,6 +8,7 @@ import React from 'react';
 import SimpleEditor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 
+import './theme.css';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 
@@ -25,8 +26,8 @@ const DEFAULT_TEMPLATE = `// subscribe to new headers, printing the full result
 api.rpc.chain.subscribeNewHead((header) => {
   console.log(\`#\${header.blockNumber}:\`, header);
 });`;
-const OPENING = '(async (api, keyring) => {';
-const CLOSING = '})(api, keyring);';
+const OPENING = '(async ({ api, hashing, keyring, util }) => {';
+const CLOSING = '})(injected);';
 
 export default class Editor extends React.PureComponent<Props, State> {
   constructor (props: Props) {
@@ -51,7 +52,7 @@ export default class Editor extends React.PureComponent<Props, State> {
     const { code, outerClosing, outerOpening } = this.state;
 
     return (
-      <div className='js--Editor medium'>
+      <div className='js--Editor js--theme-basic'>
         <pre
           className='nonedit'
           dangerouslySetInnerHTML={{ __html: outerOpening }}
@@ -62,8 +63,8 @@ export default class Editor extends React.PureComponent<Props, State> {
           onValueChange={this.onEdit}
           padding={10}
           style={{
-            fontFamily: '"Fira code", "Fira Mono", monospace',
-            fontSize: 12
+            fontFamily: 'monospace',
+            fontSize: 14
           }}
           value={code}
         />

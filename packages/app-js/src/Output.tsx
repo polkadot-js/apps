@@ -18,7 +18,7 @@ export default class Output extends React.PureComponent<Props> {
     const { children, logs } = this.props;
 
     return (
-      <div className='js--Output medium'>
+      <div className='js--Output'>
         {logs.map(this.renderEntry)}
         {children}
       </div>

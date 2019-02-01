@@ -9,9 +9,7 @@ import Settings from '@polkadot/app-settings/index';
 export default ([
   {
     Component: Settings,
-    display: {
-      needsApi: []
-    },
+    display: {},
     i18n: {
       defaultValue: 'Settings'
     },
