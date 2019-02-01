@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-settings",
-  "version": "0.23.1",
+  "version": "0.23.2",
   "description": "Settings management",
   "main": "index.js",
   "scripts": {},
@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.2.0",
-    "@polkadot/ui-app": "^0.23.1",
-    "@polkadot/ui-reactive": "^0.23.1"
+    "@polkadot/ui-app": "^0.23.2",
+    "@polkadot/ui-reactive": "^0.23.2"
   }
 }
