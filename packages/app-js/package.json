@@ -1,16 +1,17 @@
 {
-  "name": "@polkadot/app-addresses",
+  "name": "@polkadot/app-js",
   "version": "0.23.0",
+  "description": "A simple JavaScript console for playing with the API",
   "main": "index.js",
-  "repository": "https://github.com/polkadot-js/apps.git",
+  "scripts": {},
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [
     "Jaco Greeff <jacogr@gmail.com>"
   ],
-  "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.2.0",
-    "@polkadot/ui-app": "^0.23.0"
+    "@polkadot/ui-app": "^0.23.0",
+    "codeflask": "1.4.0"
   }
 }

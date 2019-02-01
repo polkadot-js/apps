@@ -9,6 +9,7 @@
       "@polkadot/app-democracy/*": [ "packages/app-democracy/src/*" ],
       "@polkadot/app-explorer/*": [ "packages/app-explorer/src/*" ],
       "@polkadot/app-extrinsics/*": [ "packages/app-extrinsics/src/*" ],
+      "@polkadot/app-js/*": [ "packages/app-js/src/*" ],
       "@polkadot/app-settings/*": [ "packages/app-settings/src/*" ],
       "@polkadot/app-staking/*": [ "packages/app-staking/src/*" ],
       "@polkadot/app-nodeinfo/*": [ "packages/app-nodeinfo/src/*" ],

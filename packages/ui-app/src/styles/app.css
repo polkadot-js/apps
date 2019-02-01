@@ -63,9 +63,11 @@ main > section {
 
 article {
   background: white;
-  border: 1px solid #f2f2f2;
-  border-left-width: 0.25rem;
+  /*border: 1px solid #f2f2f2;
+  border-left-width: 0.25rem;*/
+  border: 0 solid #fafafa;
   border-radius: 0.25rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   margin: 0.25rem;
   padding: 1rem 1.5rem;
   text-align: left;

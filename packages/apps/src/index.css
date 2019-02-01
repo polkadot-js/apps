@@ -16,7 +16,7 @@
   }
 
   .apps--Content {
-    background: #fafafa;
+    background: #fafafa /* #fff */;
     flex-grow: 1;
     overflow-x: hidden;
     overflow-y: auto;

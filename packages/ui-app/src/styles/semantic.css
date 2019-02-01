@@ -95,7 +95,7 @@
 }
 
 .ui.modal {
-  background: #fafafa;
+  background: #fafafa /* #fff */;
   color: #4e4e4e;
   font-family: sans-serif;
 
@@ -166,6 +166,6 @@
   padding: 1em 2em 0;
 
   .item.active {
-    background: #fafafa;
+    background: #fafafa /* #fff */;
   }
 }

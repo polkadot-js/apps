@@ -12,6 +12,7 @@ import addresses from './addresses';
 import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
+import js from './js';
 import nodeinfo from './nodeinfo';
 import settings from './settings';
 import staking from './staking';
@@ -47,6 +48,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     settings,
     nodeinfo,
     toolbox,
+    js,
     template
   );
 
