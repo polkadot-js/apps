@@ -5,38 +5,27 @@
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import SimpleEditor from 'react-simple-code-editor';
-import { highlight, languages } from 'prismjs/components/prism-core';
+import CodeFlask from 'codeflask';
 
-import './theme.css';
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-javascript';
+import DEFAULT_CODE from './snippets/newHead';
 
 type Props = BareProps & {
   children?: React.ReactNode,
   onEdit: (code: string) => void
 };
 type State = {
-  code: string,
-  outerClosing: string,
-  outerOpening: string
+  code: string
 };
 
-const DEFAULT_TEMPLATE = `// subscribe to new headers, printing the full result
-api.rpc.chain.subscribeNewHead((header) => {
-  console.log(\`#\${header.blockNumber}:\`, header);
-});`;
-const OPENING = '(async ({ api, hashing, keyring, util }) => {';
-const CLOSING = '})(injected);';
-
 export default class Editor extends React.PureComponent<Props, State> {
+  private id: string;
+
   constructor (props: Props) {
     super(props);
 
+    this.id = `flask-${Date.now()}`;
     this.state = {
-      code: DEFAULT_TEMPLATE,
-      outerClosing: this.doHighlight(CLOSING),
-      outerOpening: this.doHighlight(OPENING)
+      code: DEFAULT_CODE
     };
   }
 
@@ -44,36 +33,41 @@ export default class Editor extends React.PureComponent<Props, State> {
     const { onEdit } = this.props;
     const { code } = this.state;
 
+    const editor = new CodeFlask(`#${this.id}`, {
+      language: 'js',
+      lineNumbers: true
+    });
+
+    editor.updateCode(code);
+
+    editor.onUpdate((code: string) => {
+      this.onEdit(code);
+    });
+
+    editor.editorRoot.addEventListener('focusin', () => {
+      editor.onUpdate(this.onEdit);
+    });
+
+    editor.editorRoot.addEventListener('focusout', () => {
+      editor.onUpdate(() => {
+        // empty
+      });
+    });
+
     onEdit(code);
   }
 
   render () {
     const { children } = this.props;
-    const { code, outerClosing, outerOpening } = this.state;
 
     return (
-      <div className='js--Editor js--theme-basic'>
-        <pre
-          className='nonedit'
-          dangerouslySetInnerHTML={{ __html: outerOpening }}
-        />
-        <SimpleEditor
-          className='simpleeditor'
-          highlight={this.doHighlight}
-          onValueChange={this.onEdit}
-          padding={10}
-          style={{
-            fontFamily: 'monospace',
-            fontSize: 14
-          }}
-          value={code}
-        />
-        <pre
-          className='nonedit'
-          dangerouslySetInnerHTML={{ __html: outerClosing }}
+      <article className='js--Editor'>
+        <div
+          className='container'
+          id={this.id}
         />
         {children}
-      </div>
+      </article>
     );
   }
 
@@ -81,9 +75,5 @@ export default class Editor extends React.PureComponent<Props, State> {
     const { onEdit } = this.props;
 
     this.setState({ code }, () => onEdit(code));
-  }
-
-  private doHighlight = (code: string): string => {
-    return highlight(code, languages.js);
   }
 }

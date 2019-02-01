@@ -1843,11 +1843,6 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
   integrity sha512-fh+pAqt4xRzPfqA6eh3Z2y6fyZavRIumvjhaCL753+TVkGKGhpPeyrJG2JftD0T9q4GF00KjefsQ+PQNDdWQaQ==
 
-"@types/prismjs@^1.9.0":
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/@types/prismjs/-/prismjs-1.9.0.tgz#38af9491e2f105079a443703ee675fb27371ec94"
-  integrity sha512-zeh+xd2pcCvWm1XtWLR4v5pzZMybKeq6X8Q4cIZMMx8GmyKDUfJaOtw+JaONHUQt5ncKFXezl8QGIDQsSF5YfA==
-
 "@types/prop-types@*":
   version "15.5.8"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.8.tgz#8ae4e0ea205fe95c3901a5a1df7f66495e3a56ce"
@@ -3684,6 +3679,13 @@ codeclimate-test-reporter@^0.5.1:
     commander "2.9.0"
     lcov-parse "0.0.10"
     request "~2.88.0"
+
+codeflask@1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/codeflask/-/codeflask-1.4.0.tgz#71a349368cb6ba3d12f5da286ed4f39627a62c62"
+  integrity sha512-b2v30UmlapvddFATHzf+xIQ5q6+ONKvQJUtyziO1OuKQgnFyv0pn6eGxJntp0pGldzMA+nXX0Ff6Y1a8odrRtA==
+  dependencies:
+    prismjs "^1.14.0"
 
 collection-visit@^1.0.0:
   version "1.0.0"
@@ -10607,7 +10609,7 @@ pretty-format@^23.6.0:
     ansi-regex "^3.0.0"
     ansi-styles "^3.2.0"
 
-prismjs@^1.15.0:
+prismjs@^1.14.0:
   version "1.15.0"
   resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.15.0.tgz#8801d332e472091ba8def94976c8877ad60398d9"
   integrity sha512-Lf2JrFYx8FanHrjoV5oL8YHCclLQgbJcVZR+gikGGMqz6ub5QVWDTM6YIwm3BuPxM/LOV+rKns3LssXNLIf+DA==
@@ -10980,11 +10982,6 @@ react-router@^4.3.1:
     path-to-regexp "^1.7.0"
     prop-types "^15.6.1"
     warning "^4.0.1"
-
-react-simple-code-editor@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/react-simple-code-editor/-/react-simple-code-editor-0.8.0.tgz#c0c36df276c49d3d4410b8457f7a0a15396acbbf"
-  integrity sha512-H3HknuOqH2h8Kbg+vCUXf7YwDMC8UI0pEx2j5sODFVdX/RBeGX+w0vB+7LLrCh1qaQ1nTycyXXKWZifL3Dt0gg==
 
 react-test-renderer@^16.0.0-0:
   version "16.7.0"

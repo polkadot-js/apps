@@ -12,9 +12,6 @@
   "dependencies": {
     "@babel/runtime": "^7.2.0",
     "@polkadot/ui-app": "^0.22.58",
-    "@types/prismjs": "^1.9.0",
-    "codeflask": "1.4.0",
-    "prismjs": "^1.15.0",
-    "react-simple-code-editor": "^0.8.0"
+    "codeflask": "1.4.0"
   }
 }
