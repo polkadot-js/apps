@@ -77,7 +77,13 @@ class App extends React.PureComponent<Props, State> {
       window: null
     };
 
-    const exec = `(async ({${Object.keys(injected).join(',')}}) => { try { ${code} } catch (error) { console.error(error); } })(injected);`;
+    const exec = `(async ({${Object.keys(injected).join(',')}}) => {
+      try {
+        ${code}
+      } catch (error) {
+        console.error(error);
+      }
+    })(injected);`;
 
     new Function('injected', exec)(injected);
   }

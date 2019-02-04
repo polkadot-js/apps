@@ -8,5 +8,7 @@ export default `// all code is wrapped within an async closure, allowing access 
 // (async ({ api, hashing, keyring, util }) => {
 //   ... any user code is executed here ...
 // })(injected);
+// The api itself is exposed to the window object and you can access
+// all it's methods by typing 'api' in you browser's console.
 
 `;
