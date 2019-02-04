@@ -8,3 +8,9 @@ export type Log = {
   args: Array<any>,
   type: LogType
 };
+
+export type Api = any;
+
+interface CustomWindow extends Window {
+  api?: any;
+}

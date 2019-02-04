@@ -4,7 +4,7 @@
 
 import { ApiProps } from '@polkadot/ui-api/types';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
-import { Log, LogType } from './types';
+import { CustomWindow,Log, LogType } from './types';
 
 import React from 'react';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
@@ -25,6 +25,8 @@ type State = {
   logs: Array<Log>
 };
 
+const customWindow: CustomWindow = window;
+
 class App extends React.PureComponent<Props, State> {
   state: State = {
     code: '',
@@ -33,7 +35,7 @@ class App extends React.PureComponent<Props, State> {
 
   render () {
     const { logs } = this.state;
-
+    customWindow.api = this.props.api;
     return (
       <main className='js--App'>
         <Editor onEdit={this.onEdit}>
