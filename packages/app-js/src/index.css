@@ -12,7 +12,7 @@
 
 .js--Editor,
 .js--Output {
-  width: 50%;
+  min-width: 200px;
   .action-button {
     position: absolute;
     right: 0.25rem;
@@ -22,13 +22,26 @@
 }
 
 .js--Output {
+  width: 50%;
+  resize: horizontal;
+  overflow: auto;
   background-color: #4e4e4e;
   color: #ffffff;
   padding: 10px;
   font-family: monospace;
-  font-size: 12px;
+  font-size: 13px;
   font-variant-ligatures: common-ligatures;
   position: relative;
+
+  &::after {
+    content: 'resize';
+    cursor: col-resize;
+    z-index: 1;
+    height: 20px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
 
   .js--Log {
     animation: fadein 0.2s;
@@ -44,8 +57,10 @@
 .js--Editor {
   padding: 0;
   position: relative;
+  flex-grow: 2;
 
   textarea {
     outline: 0;
   }
 }
+
