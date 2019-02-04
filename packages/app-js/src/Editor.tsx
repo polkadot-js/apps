@@ -62,9 +62,9 @@ export default class Editor extends React.PureComponent<Props, State> {
     const { children } = this.props;
 
     return (
-      <article className='js--Editor'>
+      <article className='container js--Editor'>
         <div
-          className='container'
+          className=''
           id={this.id}
         />
         {children}

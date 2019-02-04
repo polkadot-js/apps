@@ -3,15 +3,16 @@
 /* of the Apache-2.0 license. See the LICENSE file for details. */
 
 .js--App {
+  height: 100vh;
   padding: 1rem 1.5rem;
-
-  /* .container {
-    padding: 0.25rem;
-  } */
+  display: flex;
+  align-items: stretch;
+  Justify-content: space-between;
 }
 
 .js--Editor,
 .js--Output {
+  width: 50%;
   .action-button {
     position: absolute;
     right: 0.25rem;
@@ -21,10 +22,11 @@
 }
 
 .js--Output {
-  margin-top: 1rem;
+  background-color: #4e4e4e;
+  color: #ffffff;
   padding: 10px;
   font-family: monospace;
-  font-size: 14px;
+  font-size: 12px;
   font-variant-ligatures: common-ligatures;
   position: relative;
 
@@ -42,16 +44,6 @@
 .js--Editor {
   padding: 0;
   position: relative;
-
-  > div.container {
-    width: 100%;
-    height: 60vh;
-    position: relative;
-  }
-
-  .codeflask {
-    /* background: #f4f7fb; */
-  }
 
   textarea {
     outline: 0;

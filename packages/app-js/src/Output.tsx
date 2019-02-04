@@ -18,10 +18,10 @@ export default class Output extends React.PureComponent<Props> {
     const { children, logs } = this.props;
 
     return (
-      <div className='js--Output'>
+      <article className='container js--Output'>
         {logs.map(this.renderEntry)}
         {children}
-      </div>
+      </article>
     );
   }
 
