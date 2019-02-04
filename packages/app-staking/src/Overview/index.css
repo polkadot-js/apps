@@ -49,10 +49,7 @@
   text-align: right;
 }
 
-.validator--IntensionsList,
 .validator--ValidatorsList {
-  display: flex;
-
   article {
     position: relative;
 

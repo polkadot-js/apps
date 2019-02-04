@@ -2,41 +2,53 @@
 /* This software may be modified and distributed under the terms
 /* of the Apache-2.0 license. See the LICENSE file for details. */
 
+/* block by default, flex as per media queries below */
+.ui--flex-large,
+.ui--flex-medium,
+.ui--flex-small {
+  display: block;
+}
+
+/* hide all by default, add as per media queries below */
 .ui--media-large,
 .ui--media-medium,
 .ui--media-small {
+  height: 0;
   visibility: hidden;
   width: 0;
 }
 
-/*
-  ##Device = Desktops
-  ##Screen = 1281px to higher resolution desktops
-*/
 @media (min-width: 1281px) {
+  .ui--flex-large {
+    display: flex;
+  }
+
   .ui--media-large {
+    height: auto;
     visibility: visible;
     width: auto;
   }
 }
 
-/*
-  ##Device = Laptops, Desktops
-  ##Screen = B/w 1025px to 1280px
-*/
 @media (min-width: 1025px) {
+  .ui--flex-medium {
+    display: flex;
+  }
+
   .ui--media-medium {
+    height: auto;
     visibility: visible;
     width: auto;
   }
 }
 
-/*
-  ##Device = Tablets, Ipads (portrait)
-  ##Screen = B/w 768px to 1024px
-*/
 @media (min-width: 768px) {
+  .ui--flex-small {
+    display: flex;
+  }
+
   .ui--media-small {
+    height: auto;
     visibility: visible;
     width: auto;
   }
