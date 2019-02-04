@@ -9,8 +9,6 @@ export type Log = {
   type: LogType
 };
 
-export type Api = any;
-
-interface CustomWindow extends Window {
+export interface CustomWindow extends Window {
   api?: any;
 }
