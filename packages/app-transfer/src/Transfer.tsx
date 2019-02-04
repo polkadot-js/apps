@@ -46,7 +46,7 @@ class Transfer extends React.PureComponent<Props, State> {
     return (
       <div className='transfer--Transfer'>
         <div className='transfer--Transfer-info'>
-          {this.renderAddress(accountId)}
+          {this.renderAddress(accountId, 'medium')}
           <div className='transfer--Transfer-data'>
             <InputAddress
               label={t('from my source account')}
@@ -80,13 +80,13 @@ class Transfer extends React.PureComponent<Props, State> {
               )}
             </QueueConsumer>
           </div>
-          {this.renderAddress(recipientId)}
+          {this.renderAddress(recipientId, 'large')}
         </div>
       </div>
     );
   }
 
-  private renderAddress (accountId: string | null) {
+  private renderAddress (accountId: string | null, media: 'large' | 'medium') {
     if (!accountId) {
       return null;
     }
@@ -98,7 +98,7 @@ class Transfer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div className='transfer--Transfer-address'>
+      <div className={`transfer--Transfer-address ui--media-${media}`}>
         <AddressSummary
           value={accountId}
           withCopy={false}

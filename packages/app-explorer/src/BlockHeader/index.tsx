@@ -40,7 +40,7 @@ export default class BlockHeader extends React.PureComponent<Props> {
               : textNumber
             }&nbsp;</div>
             <div className='hash'>{hashHex}</div>
-            <div className='author'>{
+            <div className='author ui--media-medium'>{
               author
                 ? <AddressMini value={author} />
                 : undefined
