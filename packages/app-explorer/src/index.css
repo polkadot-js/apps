@@ -89,12 +89,9 @@
 }
 
 .explorer--Overview {
-  display: flex;
-
   .column {
     flex: 0 0 50%;
     min-width: 0;
-    max-width: 50%;
     padding: 0 1em 1em;
   }
 }

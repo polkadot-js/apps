@@ -22,7 +22,7 @@ class Main extends React.PureComponent<Props> {
       <>
         <Summary />
         <Query />
-        <div className='explorer--Overview'>
+        <div className='explorer--Overview ui--flex-medium'>
           <div className='column'>
             <h1>{t('recent blocks')}</h1>
             <BlockHeaders />
