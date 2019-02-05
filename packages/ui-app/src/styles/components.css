@@ -220,8 +220,14 @@ header .ui--Button-Group {
   margin-left: 0.25rem !important;
 }
 
-.ui--DropdownLinked-Items {
-  padding-left: 0.5rem;
+.ui--DropdownLinked.ui--row {
+  .small .ui.selection.dropdown {
+    min-width: 5rem;
+  }
+
+  .ui--DropdownLinked-Items {
+    padding-left: 0.5rem;
+  }
 }
 
 .ui--Input {

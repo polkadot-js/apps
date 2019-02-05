@@ -11,7 +11,7 @@
 .ui--row {
   align-items: stretch;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   flex-direction: row;
   justify-content: flex-start;
   text-align: left;

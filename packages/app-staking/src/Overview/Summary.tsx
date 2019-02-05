@@ -39,10 +39,10 @@ class Summary extends React.PureComponent<Props> {
             {intentions.length}
           </CardSummary>
         </section>
-        <section>
+        <section className='ui--media-medium'>
           <SummarySession withBroken={false} />
         </section>
-        <section>
+        <section className='ui--media-large'>
           <CardSummary label={t('balances')}>
             {this.renderBalances()}
           </CardSummary>
