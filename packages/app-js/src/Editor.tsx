@@ -7,15 +7,16 @@ import { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import CodeFlask from 'codeflask';
 
-import DEFAULT_CODE from './snippets/newHead';
 import WRAPPING from './snippets/wrapping';
 
 type Props = BareProps & {
   children?: React.ReactNode,
-  onEdit: (code: string) => void
+  onEdit: (code: string) => void,
+  snippet: string
 };
 type State = {
-  code: string
+  code: string,
+  subscription: any
 };
 
 export default class Editor extends React.PureComponent<Props, State> {
@@ -24,14 +25,16 @@ export default class Editor extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
+    const { snippet } = this.props;
+    console.log('snippet', this.props)
     this.id = `flask-${Date.now()}`;
     this.state = {
-      code: `${WRAPPING}${DEFAULT_CODE}`
-    };
+      code: `${WRAPPING}${snippet}`,
+      subscription: ''
+    }
   }
 
   componentDidMount () {
-    const { onEdit } = this.props;
     const { code } = this.state;
 
     const editor = new CodeFlask(`#${this.id}`, {
@@ -55,7 +58,18 @@ export default class Editor extends React.PureComponent<Props, State> {
       });
     });
 
-    onEdit(code);
+    this.onEdit(code);
+  }
+
+  componentWillReceiveProps (nextProps: any) {
+    if(nextProps.snippet !== this.props.snippet){
+      console.log('SNIPPET', this.props.snippet)
+    }
+  }
+
+  componentWillUnmount () {
+    // const {subscriptions} = this.state;
+    // subscriptions.unsubscribe();
   }
 
   render () {

@@ -1,13 +1,25 @@
 /* Copyright 2017-2019 @polkadot/app-js authors & contributors
 /* This software may be modified and distributed under the terms
 /* of the Apache-2.0 license. See the LICENSE file for details. */
-
 .js--App {
+  display: flex;
+  flex-direction: column;
   height: 100vh;
   padding: 1rem 1.5rem;
-  display: flex;
+}
+
+.js--Content {
   align-items: stretch;
-  Justify-content: space-between;
+  display: flex;
+  flex-grow: 2;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.js--Dropdown {
+  margin-right: 100px;
+  position: relative;
+  z-index: 200;
 }
 
 .js--Editor,
@@ -22,16 +34,16 @@
 }
 
 .js--Output {
-  width: 50%;
-  resize: horizontal;
-  overflow: auto;
   background-color: #4e4e4e;
   color: #ffffff;
-  padding: 10px;
   font-family: monospace;
   font-size: 13px;
   font-variant-ligatures: common-ligatures;
+  overflow: auto;
+  padding: 10px;
   position: relative;
+  resize: horizontal;
+  width: 50%;
 
   &::after {
     content: 'resize';
@@ -55,9 +67,9 @@
 }
 
 .js--Editor {
+  flex-grow: 2;
   padding: 0;
   position: relative;
-  flex-grow: 2;
 
   textarea {
     outline: 0;
