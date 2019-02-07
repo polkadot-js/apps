@@ -14,7 +14,6 @@ type Props = BareProps & {
 };
 
 export default (props: Props) => {
-
   const renderEntry = ({ args, type }: Log, index: number) => (
     <div className={`js--Log ${type}`} key={index}>
       {args.map((arg) => format(arg)).join(' ')}
@@ -23,8 +22,10 @@ export default (props: Props) => {
 
   return (
     <article className='container js--Output'>
-      {props.logs.map(renderEntry)}
+      <div className='results'>
+        {props.logs.map(renderEntry)}
+      </div>
       {props.children}
     </article>
   );
-}
+};
