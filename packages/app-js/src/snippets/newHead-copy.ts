@@ -6,11 +6,12 @@ export default {
   value: 'listenToSthdifferent',
   text: 'Listen to something else',
   code: `// subscribe to new headers, printing the full info for 5
+  const BOB = 'F7L6';
   const [accountNonce, blockPeriod] = await Promise.all([
-    api.query.system.accountNonce(ALICE),
+    api.query.system.accountNonce(BOB),
     api.query.timestamp.blockPeriod(),
   ]);
 
-  console.log('Account Alice: AccountNonce: '+ accountNonce);
+  console.log('Account Bob: AccountNonce: '+ accountNonce);
   console.log('blockPeriod ' + blockPeriod.toNumber());`
 };

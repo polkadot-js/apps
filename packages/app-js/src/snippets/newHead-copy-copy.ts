@@ -6,6 +6,7 @@ export default {
   value: 'listenToSth',
   text: 'Listen to something entirely different',
   code: `// Tis is different code
+  const ALICE = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
   const [accountNonce, blockPeriod] = await Promise.all([
     api.query.system.accountNonce(ALICE),
     api.query.timestamp.blockPeriod(),
