@@ -26,21 +26,25 @@ import translate from './translate';
 type Props = ApiProps & AppProps & I18nProps;
 type State = {
   code: string,
-  logs: Array<Log>
+  logs: Array<Log>,
+  snippet: any
 };
 
 const customWindow: CustomWindow = window;
 
+const local = snippets.find(obj => obj.value === localStorage.getItem('app-js-snippet'));
+
 class App extends React.PureComponent<Props, State> {
   state: State = {
-    code: snippets[0].code,
-    logs: []
+    code: local ? local.code : snippets[0].code,
+    logs: [],
+    snippet: local ? local.value : snippets[0].value
   };
 
   render () {
     customWindow.api = this.props.api;
 
-    const { logs, code } = this.state;
+    const { code, logs, snippet } = this.state;
     const { t } = this.props;
 
     return (
@@ -53,12 +57,12 @@ class App extends React.PureComponent<Props, State> {
             onChange={(value) => this.selectExample(value)}
             options={snippets}
             label={'Select example'}
-            placeholder='Select example'
+            defaultValue={snippet}
             withLabel
           />
       </header>
         <section className='js--Content'>
-          <Editor className='js--Editor' snippet={code} onEdit={this.onEdit}>
+          <Editor className='js--Editor' code={code} snippet={snippet} onEdit={this.onEdit}>
             <Button
               className='action-button'
               isCircular
@@ -81,11 +85,6 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  private selectExample = (value: string) => {
-    this.onEdit(value);
-    console.log('VALUE', value);
-  }
-
   private runJs = (): void => {
     const { api } = this.props;
     const { code } = this.state;
@@ -101,7 +100,7 @@ class App extends React.PureComponent<Props, State> {
       hashing,
       keyring,
       util,
-      window: null
+      window
     };
 
     const exec = `(async ({${Object.keys(injected).join(',')}}) => {
@@ -113,6 +112,12 @@ class App extends React.PureComponent<Props, State> {
     })(injected);`;
 
     new Function('injected', exec)(injected);
+  }
+
+  private selectExample = (value: string) => {
+    const snippet = snippets.find(obj => obj.value === value);
+    localStorage.setItem('app-js-snippet', value);
+    this.setState({ code: snippet.code, snippet: value });
   }
 
   private onEdit = (code: string): void => {
