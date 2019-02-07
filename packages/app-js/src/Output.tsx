@@ -13,26 +13,18 @@ type Props = BareProps & {
   logs: Array<Log>
 };
 
-export default class Output extends React.PureComponent<Props> {
-  render () {
-    const { children, logs } = this.props;
+export default (props: Props) => {
 
-    return (
-      <article className='container js--Output'>
-        {logs.map(this.renderEntry)}
-        {children}
-      </article>
-    );
-  }
+  const renderEntry = ({ args, type }: Log, index: number) => (
+    <div className={`js--Log ${type}`} key={index}>
+      {args.map((arg) => format(arg)).join(' ')}
+    </div>
+  );
 
-  private renderEntry = ({ args, type }: Log, index: number) => {
-    return (
-      <div
-        className={`js--Log ${type}`}
-        key={index}
-      >
-        {args.map((arg) => format(arg)).join(' ')}
-      </div>
-    );
-  }
+  return (
+    <article className='container js--Output'>
+      {props.logs.map(renderEntry)}
+      {props.children}
+    </article>
+  );
 }
