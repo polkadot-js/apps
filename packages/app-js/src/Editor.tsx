@@ -27,11 +27,13 @@ export default class Editor extends React.PureComponent<Props> {
 
   componentDidMount () {
     // const { code } = this.props;
-    this.editor =  new CodeFlask(`#${this.id}`, {
+    this.editor = new CodeFlask(`#${this.id}`, {
       language: 'js',
       lineNumbers: true
     });
+
     const { editor, props: { code, onEdit } } = this;
+
     editor.updateCode(`${WRAPPING}${code}`);
 
     editor.onUpdate((code: string) => {
@@ -46,7 +48,7 @@ export default class Editor extends React.PureComponent<Props> {
   }
 
   componentWillReceiveProps (nextProps: any) {
-    const {code, onEdit, snippet} = nextProps;
+    const { code, onEdit, snippet } = nextProps;
     if (snippet !== this.props.snippet) {
       onEdit(code);
       this.editor.updateCode(`${WRAPPING}${code}`);

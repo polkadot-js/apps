@@ -15,9 +15,6 @@ import * as hashing from '@polkadot/util-crypto';
 
 import './index.css';
 import snippets from './snippets';
-const test = snippets.map( snippet => snippet );
-
-console.log('SNIPPETS', snippets, test);
 
 import Editor from './Editor';
 import Output from './Output';
@@ -100,7 +97,7 @@ class App extends React.PureComponent<Props, State> {
       hashing,
       keyring,
       util,
-      window
+      window: null
     };
 
     const exec = `(async ({${Object.keys(injected).join(',')}}) => {
@@ -116,6 +113,7 @@ class App extends React.PureComponent<Props, State> {
 
   private selectExample = (value: string) => {
     const snippet = snippets.find(obj => obj.value === value);
+
     localStorage.setItem('app-js-snippet', value);
     this.setState({ code: snippet.code, snippet: value });
   }
