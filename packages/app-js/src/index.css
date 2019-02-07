@@ -25,6 +25,7 @@
 .js--Editor,
 .js--Output {
   min-width: 200px;
+  
   .action-button {
     position: absolute;
     right: 0.25rem;
@@ -73,6 +74,14 @@
 
   textarea {
     outline: 0;
+  }
+  .codeflask--has-line-numbers .codeflask__flatten {
+    min-width: calc(100% - 40px);
+    width: auto;
+  }
+  .codeflask__lines {
+    background: #eee;
+    z-index: 100;
   }
 }
 
