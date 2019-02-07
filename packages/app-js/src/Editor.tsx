@@ -11,84 +11,57 @@ import WRAPPING from './snippets/wrapping';
 
 type Props = BareProps & {
   children?: React.ReactNode,
+  code: string,
   onEdit: (code: string) => void,
   snippet: string
 };
-type State = {
-  code: string,
-  subscription: any
-};
 
-export default class Editor extends React.PureComponent<Props, State> {
+export default class Editor extends React.PureComponent<Props> {
   private id: string;
+  private editor: any;
 
   constructor (props: Props) {
     super(props);
-
-    const { snippet } = this.props;
-    console.log('snippet', this.props)
     this.id = `flask-${Date.now()}`;
-    this.state = {
-      code: `${WRAPPING}${snippet}`,
-      subscription: ''
-    }
   }
 
   componentDidMount () {
-    const { code } = this.state;
-
-    const editor = new CodeFlask(`#${this.id}`, {
+    // const { code } = this.props;
+    this.editor =  new CodeFlask(`#${this.id}`, {
       language: 'js',
       lineNumbers: true
     });
-
-    editor.updateCode(code);
+    const { editor, props: { code, onEdit } } = this;
+    editor.updateCode(`${WRAPPING}${code}`);
 
     editor.onUpdate((code: string) => {
-      this.onEdit(code);
+      this.props.onEdit(code);
     });
 
     editor.editorRoot.addEventListener('focusin', () => {
-      editor.onUpdate(this.onEdit);
+      this.editor.onUpdate(this.props.onEdit);
     });
 
-    editor.editorRoot.addEventListener('focusout', () => {
-      editor.onUpdate(() => {
-        // empty
-      });
-    });
-
-    this.onEdit(code);
+    onEdit(code);
   }
 
   componentWillReceiveProps (nextProps: any) {
-    if(nextProps.snippet !== this.props.snippet){
-      console.log('SNIPPET', this.props.snippet)
+    const {code, onEdit, snippet} = nextProps;
+    if (snippet !== this.props.snippet) {
+      onEdit(code);
+      this.editor.updateCode(`${WRAPPING}${code}`);
     }
   }
 
-  componentWillUnmount () {
-    // const {subscriptions} = this.state;
-    // subscriptions.unsubscribe();
-  }
-
   render () {
-    const { children } = this.props;
-
     return (
       <article className='container js--Editor'>
         <div
           className=''
           id={this.id}
         />
-        {children}
+        {this.props.children}
       </article>
     );
-  }
-
-  private onEdit = (code: string): void => {
-    const { onEdit } = this.props;
-
-    this.setState({ code }, () => onEdit(code));
   }
 }
