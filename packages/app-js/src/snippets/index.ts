@@ -1,13 +1,9 @@
 import { Snippet } from './../types';
 
-import rpcSysthemInfo from './rpc-system-info';
-import rpcNewHead from './rpc-newHead';
-import newHead3 from './rpc-newHead-copy';
+import { rpcNetworkAuthoring, rpcNewHead, rpcQueryState, rpcSysthemInfo } from './rpc-examples';
 
 const snippets: Array<Snippet> = [
-  rpcSysthemInfo,
-  rpcNewHead,
-  newHead3
+  rpcNetworkAuthoring, rpcNewHead, rpcQueryState, rpcSysthemInfo
 ];
 
 export default snippets;
