@@ -14,25 +14,19 @@ type Props = BareProps & {
   children?: React.ReactNode,
   onEdit: (code: string) => void
 };
-type State = {
-  code: string
-};
 
-export default class Editor extends React.PureComponent<Props, State> {
+export default class Editor extends React.PureComponent<Props> {
   private id: string;
 
   constructor (props: Props) {
     super(props);
 
     this.id = `flask-${Date.now()}`;
-    this.state = {
-      code: `${WRAPPING}${DEFAULT_CODE}`
-    };
   }
 
   componentDidMount () {
     const { onEdit } = this.props;
-    const { code } = this.state;
+    const code = `${WRAPPING}${DEFAULT_CODE}`;
 
     const editor = new CodeFlask(`#${this.id}`, {
       language: 'js',
@@ -42,11 +36,11 @@ export default class Editor extends React.PureComponent<Props, State> {
     editor.updateCode(code);
 
     editor.onUpdate((code: string) => {
-      this.onEdit(code);
+      onEdit(code);
     });
 
     editor.editorRoot.addEventListener('focusin', () => {
-      editor.onUpdate(this.onEdit);
+      editor.onUpdate(onEdit);
     });
 
     editor.editorRoot.addEventListener('focusout', () => {
@@ -70,11 +64,5 @@ export default class Editor extends React.PureComponent<Props, State> {
         {children}
       </article>
     );
-  }
-
-  private onEdit = (code: string): void => {
-    const { onEdit } = this.props;
-
-    this.setState({ code }, () => onEdit(code));
   }
 }
