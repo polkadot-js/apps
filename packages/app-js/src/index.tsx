@@ -21,10 +21,6 @@ import Editor from './Editor';
 import Output from './Output';
 import translate from './translate';
 
-const NOOP = (...args: Array<any>) => {
-  // noop
-};
-
 type Injected = {
   api: ApiPromise,
   console: {
@@ -125,8 +121,6 @@ class App extends React.PureComponent<Props, State> {
     }
 
     this.injected.api.disconnect();
-    this.injected.console.error = NOOP;
-    this.injected.console.log = NOOP;
     this.injected = null;
 
     this.setState({ isRunning: false });
