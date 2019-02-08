@@ -26,7 +26,7 @@ type Props = I18nProps & {
 class CurrentList extends React.PureComponent<Props> {
   render () {
     return (
-      <div className='validator--ValidatorsList'>
+      <div className='validator--ValidatorsList ui--flex-medium'>
         <div className='validator--current'>
           {this.renderCurrent()}
         </div>

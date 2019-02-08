@@ -106,7 +106,7 @@ class App extends React.PureComponent<Props, State> {
       window: null
     };
 
-    // squash into a single line so exceptions (with linenumbers) are from the same origin
+    // squash into a single line so exceptions (with linenumbers) maps to the same line/origin
     // as we have in the editor view
     const exec = `(async ({${Object.keys(this.injected).join(',')}}) => { try { ${code} } catch (error) { console.error(error); } })(injected);`;
 
