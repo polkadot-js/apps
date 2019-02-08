@@ -40,6 +40,9 @@ class App extends React.PureComponent<Props, State> {
 
   render () {
     customWindow.api = this.props.api;
+    customWindow.keyring = uiKeyring;
+    customWindow.utilCrypto = hashing;
+    customWindow.util = util;
 
     const { code, logs, snippet } = this.state;
     const { t } = this.props;

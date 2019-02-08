@@ -9,12 +9,15 @@ export type Log = {
   type: LogType
 };
 
-export interface CustomWindow extends Window {
-  api?: any;
-}
-
-export interface Snippet {
+export type Snippet = {
   text: string;
   value: string;
   code: string;
+};
+
+export interface CustomWindow extends Window {
+  api?: any;
+  keyring?: any;
+  util?: any;
+  utilCrypto?: any;
 }
