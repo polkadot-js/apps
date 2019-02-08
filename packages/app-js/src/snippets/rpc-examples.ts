@@ -37,7 +37,7 @@ export const rpcQueryState: Snippet = {
   code: `// subscribe to new headers, printing the full info for 5 Blocks
 const unsub = await api.rpc.state.getMetadata(({ magicNumber, metadata }) => {
   console.log( 'Magic number: ' + magicNumber );
-  console.log( 'Metadata: ' + metadata.raw.modules );
+  console.log( 'Metadata: ' + metadata.raw );
 });`
 };
 
