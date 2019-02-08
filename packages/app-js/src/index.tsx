@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/ui-api/types';
-import { AppProps, I18nProps } from '@polkadot/ui-app/types';
+import { AppProps } from '@polkadot/ui-app/types';
 import { CustomWindow,Log, LogType } from './types';
 
 import React from 'react';
@@ -21,7 +21,7 @@ import Intro from './Intro';
 import Editor from './Editor';
 import Output from './Output';
 
-type Props = ApiProps & AppProps & I18nProps;
+type Props = ApiProps & AppProps;
 type State = {
   code: string,
   logs: Array<Log>,
@@ -46,7 +46,6 @@ class App extends React.PureComponent<Props, State> {
     customWindow.util = util;
 
     const { code, logs, snippet } = this.state;
-    const { t } = this.props;
 
     return (
       <main className='js--App'>
