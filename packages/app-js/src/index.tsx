@@ -15,16 +15,17 @@ import * as hashing from '@polkadot/util-crypto';
 
 import './index.css';
 import snippets from './snippets';
+import translate from './translate';
 
+import Intro from './Intro';
 import Editor from './Editor';
 import Output from './Output';
-import translate from './translate';
 
 type Props = ApiProps & AppProps & I18nProps;
 type State = {
   code: string,
   logs: Array<Log>,
-  snippet: any
+  snippet: string
 };
 
 const customWindow: CustomWindow = window;
@@ -50,8 +51,7 @@ class App extends React.PureComponent<Props, State> {
     return (
       <main className='js--App'>
         <header className='container'>
-          <p>{t('All code is wrapped within an async closure, allowing access to @polkadot/api, @polkadot/util-crypto, @polkadot/keyring and @polkadot/util.')}</p>
-          <p>{t(`The api itself is exposed to the window object and you can access all it's methods by typing 'api' in you browser's console.`)}</p>
+          <Intro />
           <Dropdown
             className='js--Dropdown'
             onChange={(value) => this.selectExample(value)}
