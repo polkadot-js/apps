@@ -16,13 +16,7 @@ type Props = BareProps & {
 };
 
 export default class Editor extends React.PureComponent<Props> {
-  private id: string;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.id = `flask-${Date.now()}`;
-  }
+  private id: string = `flask-${Date.now()}`;
 
   componentDidMount () {
     const { onEdit } = this.props;
