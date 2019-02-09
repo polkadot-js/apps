@@ -20,6 +20,11 @@
   margin-right: 100px;
   position: relative;
   z-index: 200;
+  .dropdown .menu > .item {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
 }
 
 .js--Editor,
