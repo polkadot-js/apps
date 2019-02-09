@@ -10,9 +10,11 @@ import ApiPromise from '@polkadot/api/promise';
 import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { InputNumber } from '@polkadot/ui-app/InputNumber';
+import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 import { formatBalance } from '@polkadot/ui-app/util';
 import keyring from '@polkadot/ui-keyring';
 import settings from '@polkadot/ui-settings';
+import ApiSigner from '@polkadot/ui-signer/ApiSigner';
 import { ChainProperties } from '@polkadot/types';
 
 import ApiContext from './ApiContext';
@@ -20,6 +22,7 @@ import { isTestChain } from './util';
 
 type Props = {
   children: React.ReactNode,
+  queueExtrinsic: QueueTx$ExtrinsicAdd,
   url?: string
 };
 
@@ -33,10 +36,12 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const { url } = props;
+    const { queueExtrinsic, url } = props;
     const provider = new WsProvider(url);
+    const signer = new ApiSigner(queueExtrinsic);
+
     const setApi = (provider: ProviderInterface): void => {
-      const api = new ApiPromise(provider);
+      const api = new ApiPromise({ provider, signer });
 
       this.setState({ api }, () => {
         this.updateSubscriptions();
@@ -48,7 +53,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     this.state = {
       isApiConnected: false,
       isApiReady: false,
-      api: new ApiPromise(provider),
+      api: new ApiPromise({ provider, signer }),
       setApiUrl
     } as State;
   }
