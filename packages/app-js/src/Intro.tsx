@@ -19,7 +19,7 @@ const Intro = (props: Props) => {
         <p>All code is wrapped within an async closure, allowing access to
           <a href='https://www.npmjs.com/package/@polkadot/api' title={t('Go to module page on npmjs.com')} target='_blank'>@polkadot/api</a>,
           <a href='https://www.npmjs.com/package/@polkadot/util-crypto' title={t('Go to module page on npmjs.com')} target='_blank'>@polkadot/util-crypto</a>,
-          <a href='https://www.npmjs.com/package/@polkadot/keyring' title={t('Go to module page on npmjs.com')} target='_blank'>@polkadot/keyring</a> and
+          <a href='https://www.npmjs.com/package/@polkadot/ui-keyring' title={t('Go to module page on npmjs.com')} target='_blank'>@polkadot/ui-keyring</a> and
           <a href='https://www.npmjs.com/package/@polkadot/util' title={t('Go to module page on npmjs.com')} target='_blank'>@polkadot/util</a>.
         </p>
       </Trans>
