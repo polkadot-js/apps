@@ -5,7 +5,6 @@ import { Snippet } from '@polkadot/app-js/types';
 
 export const rpcNetworkAuthoring: Snippet = {
   value: 'rpcNetworkAuthoring',
-  label: { color: 'red', circular: true },
   text: 'Get authoring information',
   label: { color: 'pink', children: 'RPC', size: 'tiny' },
   code: `// Returns all pending extrinsics, potentially grouped by sender

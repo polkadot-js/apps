@@ -117,7 +117,7 @@ class App extends React.PureComponent<Props, State> {
     const snippet = snippets.find(obj => obj.value === value);
 
     localStorage.setItem('app-js-snippet', value);
-    this.setState({ code: snippet.code, snippet: value });
+    this.setState({ code: (snippet ? snippet.code : ''), snippet: value });
   }
 
   private onEdit = (code: string): void => {

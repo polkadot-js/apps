@@ -95,4 +95,3 @@ api.query.balances.freeBalance(ALICE, (balance) => {
   }
 });`
 };
-

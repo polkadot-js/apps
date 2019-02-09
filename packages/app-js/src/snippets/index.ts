@@ -1,13 +1,13 @@
 import { Snippet } from './../types';
 
-import { 
+import {
   rpcNetworkAuthoring,
   rpcNewHead,
   rpcQueryState,
   rpcSysthemInfo
 } from './rpc-examples';
 
-import { 
+import {
   storageGetInfo,
   storageGetBalanceInformation,
   storageSystemEvents,
