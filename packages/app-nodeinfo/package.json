@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-nodeinfo",
-  "version": "0.23.4",
+  "version": "0.23.5",
   "description": "Node status and information",
   "main": "index.js",
   "scripts": {},
@@ -11,6 +11,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.2.0",
-    "@polkadot/ui-app": "^0.23.4"
+    "@polkadot/ui-app": "^0.23.5"
   }
 }
