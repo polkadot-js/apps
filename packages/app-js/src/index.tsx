@@ -136,7 +136,7 @@ class App extends React.PureComponent<Props, State> {
     };
 
     // squash into a single line so exceptions (with linenumbers) maps to the same line/origin
-    // as we have in the editor view
+    // as we have in the editor view (TODO: Make the console.error here actually return the full stack)
     const exec = `(async ({${Object.keys(this.injected).join(',')}}) => { try { ${code} } catch (error) { console.error(error); } })(injected);`;
 
     new Function('injected', exec)(this.injected);
@@ -159,7 +159,7 @@ class App extends React.PureComponent<Props, State> {
     const snippet = snippets.find(obj => obj.value === value);
 
     localStorage.setItem('app-js-snippet', value);
-    this.setState({ code: snippet ? snippet.code : '', snippet: value });
+    this.setState({ code: (snippet ? snippet.code : ''), snippet: value });
   }
 
   private onEdit = (code: string): void => {
