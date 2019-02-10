@@ -20,6 +20,11 @@
   margin-right: 100px;
   position: relative;
   z-index: 200;
+  .dropdown .menu > .item {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
 }
 
 .js--Editor,
@@ -37,6 +42,8 @@
 .js--Output {
   background-color: #4e4e4e;
   color: #ffffff;
+  display: flex;
+  flex-direction: column;
   font-family: monospace;
   font-size: 13px;
   font-variant-ligatures: common-ligatures;
@@ -47,13 +54,31 @@
   width: 50%;
 
   &::after {
-    content: 'resize';
+    font-size: 24px;
+    line-height: 24px;
+    content: '↔';
     cursor: col-resize;
     z-index: 1;
-    height: 20px;
+    width: 22px;
+    height: 30px;
     position: absolute;
-    right: 0;
     bottom: 0;
+    right: 0;
+  }
+
+  .logs-wrapper {
+    display: flex;
+    flex: 1;
+    min-height: 0px;
+  }
+
+  .logs-container {
+    flex: 1;
+    overflow: auto;;
+  }
+
+  .logs-content {
+    height: auto;
   }
 
   .js--Log {

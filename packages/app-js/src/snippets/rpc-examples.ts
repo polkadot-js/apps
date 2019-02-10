@@ -6,7 +6,8 @@ import { Snippet } from '@polkadot/app-js/types';
 
 export const rpcNetworkAuthoring: Snippet = {
   value: 'rpcNetworkAuthoring',
-  text: 'RPC - Get authoring information',
+  text: 'Get authoring information',
+  label: { color: 'pink', children: 'RPC', size: 'tiny' },
   code: `// Returns all pending extrinsics, potentially grouped by sender
 const unsub = await api.rpc.author.pendingExtrinsics((extrinsics) => {
   if(extrinsics.length === 0){
@@ -19,7 +20,8 @@ const unsub = await api.rpc.author.pendingExtrinsics((extrinsics) => {
 
 export const rpcNewHead: Snippet = {
   value: 'rpcListenToHead',
-  text: 'RPC - Listen to new Head',
+  text: 'Listen to new Head',
+  label: { color: 'pink', children: 'RPC', size: 'tiny' },
   code: `// subscribe to new headers, printing the full info for 5 Blocks
 let count = 0;
 const unsub = await api.rpc.chain.subscribeNewHead((header) => {
@@ -34,7 +36,8 @@ const unsub = await api.rpc.chain.subscribeNewHead((header) => {
 
 export const rpcQueryState: Snippet = {
   value: 'rpcQueryState',
-  text: 'RPC - Get authoring iformation',
+  text: 'Get authoring iformation',
+  label: { color: 'pink', children: 'RPC', size: 'tiny' },
   code: `// subscribe to new headers, printing the full info for 5 Blocks
 const unsub = await api.rpc.state.getMetadata(({ magicNumber, metadata }) => {
   console.log( 'Magic number: ' + magicNumber );
@@ -44,7 +47,8 @@ const unsub = await api.rpc.state.getMetadata(({ magicNumber, metadata }) => {
 
 export const rpcSysthemInfo: Snippet = {
   value: 'rpcSysthemInfo',
-  text: 'RPC - Get system information',
+  text: 'Get system information',
+  label: { color: 'pink', children: 'RPC', size: 'tiny' },
   code: `// Retrieve the chain & node information information via rpc calls
 const [chain, nodeName, nodeVersion, properties] = await Promise.all([
   api.rpc.system.chain(),

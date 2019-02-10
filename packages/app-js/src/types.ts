@@ -13,6 +13,7 @@ export type Snippet = {
   text: string;
   value: string;
   code: string;
+  label?: object;
 };
 
 export interface CustomWindow extends Window {

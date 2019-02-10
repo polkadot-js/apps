@@ -22,9 +22,14 @@ export default (props: Props) => {
 
   return (
     <article className='container js--Output'>
-      <div className='results'>
-        {props.logs.map(renderEntry)}
+      <div className='logs-wrapper'>
+        <div className='logs-container'>
+          <div className='logs-content'>
+            {props.logs.map(renderEntry)}
+          </div>
+        </div>
       </div>
+
       {props.children}
     </article>
   );
