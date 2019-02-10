@@ -5,7 +5,7 @@
 import { ApiPromise } from '@polkadot/api';
 import { KeyringInstance } from '@polkadot/keyring/types';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { AppProps } from '@polkadot/ui-app/types';
+import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { CustomWindow,Log, LogType } from './types';
 
 import React from 'react';
@@ -35,7 +35,7 @@ type Injected = {
   util: typeof util,
   window: null
 };
-type Props = ApiProps & AppProps;
+type Props = ApiProps & AppProps & I18nProps;
 type State = {
   code: string,
   isRunning: boolean,
@@ -63,6 +63,7 @@ class App extends React.PureComponent<Props, State> {
     customWindow.util = util;
 
     const { code, isRunning, logs, snippet } = this.state;
+    const { t } = this.props;
 
     return (
       <main className='js--App'>
@@ -72,14 +73,13 @@ class App extends React.PureComponent<Props, State> {
             className='js--Dropdown'
             onChange={(value) => this.selectExample(value)}
             options={snippets.map(({ code, ...options }) => ({ ...options }))}
-            label={'Select example'}
+            label={t('Select example')}
             defaultValue={snippet}
             withLabel
           />
       </header>
         <section className='js--Content'>
           <Editor
-            className='js--Editor'
             code={code}
             snippet={snippet}
             onEdit={this.onEdit}
@@ -100,7 +100,7 @@ class App extends React.PureComponent<Props, State> {
               />
             </div>
           </Editor>
-          <Output className='js--Output' logs={logs}>
+          <Output logs={logs}>
             <Button
               className='action-button'
               isCircular
