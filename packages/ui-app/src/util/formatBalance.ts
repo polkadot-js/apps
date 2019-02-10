@@ -18,6 +18,7 @@ interface BalanceFormatter {
   getDefaultDecimals (): number;
   getOptions (decimals?: number): Array<SiDef>;
   setDefaultDecimals (decimals: number): void;
+  setDefaultUnits (unit: string): void;
 }
 
 const SI: Array<SiDef> = [
@@ -29,7 +30,7 @@ const SI: Array<SiDef> = [
   { power: -9, value: 'n', text: 'nano' },
   { power: -6, value: 'µ', text: 'micro' },
   { power: -3, value: 'm', text: 'milli' },
-  { power: 0, value: '-', text: '----' }, // position 8
+  { power: 0, value: '-', text: 'Unit' }, // position 8
   { power: 3, value: 'k', text: 'Kilo' },
   { power: 6, value: 'M', text: 'Mega' },
   { power: 9, value: 'G', text: 'Giga' },
@@ -63,8 +64,15 @@ function _formatBalance (input?: number | string | BN, withSi: boolean = true, d
   const mid = text.length - (decimals + si.power);
   const prefix = text.substr(0, mid);
   const postfix = `${text.substr(mid)}000`.substr(0, 3);
+  const units = withSi
+    ? (
+      si.value === '-'
+        ? si.text
+        : `${si.value}${SI[SI_MID].text}`
+    )
+    : '';
 
-  return `${formatDecimal(prefix || '0')}.${postfix}${withSi ? (si.value === '-' ? '' : si.value) : ''}`;
+  return `${formatDecimal(prefix || '0')}.${postfix} ${units}`;
 }
 
 const formatBalance = _formatBalance as BalanceFormatter;
@@ -90,6 +98,11 @@ formatBalance.getOptions = (decimals: number = defaultDecimals): Array<SiDef> =>
 // Sets the default decimals to use for formatting (chain-wide)
 formatBalance.setDefaultDecimals = (decimals: number = 0): void => {
   defaultDecimals = decimals;
+};
+
+// Sets the default decimals to use for formatting (chain-wide)
+formatBalance.setDefaultUnits = (unit: string = 'Unit'): void => {
+  SI[SI_MID].text = unit;
 };
 
 export default formatBalance;
