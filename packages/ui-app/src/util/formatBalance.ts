@@ -46,7 +46,7 @@ const SI_MID = 8;
 let defaultDecimals = 0;
 
 export function calcSi (text: string, decimals: number = defaultDecimals): SiDef {
-  return SI[(SI_MID - 1) + Math.ceil((text.length - decimals) / 3)];
+  return SI[(SI_MID - 1) + Math.ceil((text.length - decimals) / 3)] || SI[SI.length - 1];
 }
 
 // Formats a string/number with <prefix>.<postfix><type> notation
