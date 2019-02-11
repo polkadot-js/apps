@@ -40,7 +40,7 @@ class Extrinsics extends React.PureComponent<Props> {
     }
 
     return (
-      <div className='explorer--BlockByHash-flexable'>
+      <div className='explorer--BlockByHash-flexable ui--flex-medium'>
         {value.map(this.renderExtrinsic)}
       </div>
     );

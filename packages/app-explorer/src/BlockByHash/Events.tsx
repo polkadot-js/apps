@@ -25,7 +25,7 @@ class Events extends React.PureComponent<Props> {
     return (
       <section>
         <h1>{t('events')}</h1>
-        <div className='explorer--BlockByHash-flexable'>
+        <div className='explorer--BlockByHash-flexable ui--flex-medium'>
           <EventsDisplay
             eventClassName='explorer--BlockByHash-block'
             value={value}
