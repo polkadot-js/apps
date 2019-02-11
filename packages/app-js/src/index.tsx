@@ -2,58 +2,108 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiPromise } from '@polkadot/api';
+import { KeyringInstance } from '@polkadot/keyring/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { Log, LogType } from './types';
 
 import React from 'react';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
-import { Button } from '@polkadot/ui-app/index';
+import { Button, Dropdown } from '@polkadot/ui-app/index';
 import uiKeyring from '@polkadot/ui-keyring';
 import * as util from '@polkadot/util';
 import * as hashing from '@polkadot/util-crypto';
 
 import './index.css';
-
-import Editor from './Editor';
-import Output from './Output';
+import snippets from './snippets';
 import translate from './translate';
 
+import Intro from './Intro';
+import Editor from './Editor';
+import Output from './Output';
+
+type Injected = {
+  api: ApiPromise,
+  console: {
+    error: (...args: Array<any>) => void,
+    log: (...args: Array<any>) => void
+  },
+  global: null,
+  hashing: typeof hashing,
+  keyring: KeyringInstance,
+  util: typeof util,
+  window: null
+};
 type Props = ApiProps & AppProps & I18nProps;
 type State = {
   code: string,
-  logs: Array<Log>
+  isRunning: boolean,
+  logs: Array<Log>,
+  snippet: string
 };
 
+const local = snippets.find(obj => obj.value === localStorage.getItem('app-js-snippet'));
+
 class App extends React.PureComponent<Props, State> {
+  injected: Injected | null = null;
   state: State = {
-    code: '',
-    logs: []
+    code: local ? local.code : snippets[0].code,
+    isRunning: false,
+    logs: [],
+    snippet: local ? local.value : snippets[0].value
   };
 
   render () {
-    const { logs } = this.state;
+    const { code, isRunning, logs, snippet } = this.state;
+    const { t } = this.props;
+    const options = snippets.map(({ code, ...options }) => ({ ...options }));
 
     return (
       <main className='js--App'>
-        <Editor onEdit={this.onEdit}>
-          <Button
-            className='action-button'
-            isCircular
-            isPrimary
-            icon='play'
-            onClick={this.runJs}
+        <header className='container'>
+          <Intro />
+          <Dropdown
+            className='js--Dropdown'
+            onChange={this.selectExample}
+            options={options}
+            label={t('Select example')}
+            defaultValue={snippet}
+            withLabel
           />
-        </Editor>
-        <Output logs={logs}>
-          <Button
-            className='action-button'
-            isCircular
-            isNegative
-            icon='erase'
-            onClick={this.clearConsole}
-          />
-        </Output>
+      </header>
+        <section className='js--Content'>
+          <Editor
+            code={code}
+            snippet={snippet}
+            onEdit={this.onEdit}
+          >
+            <div className='action-button'>
+              <Button
+                isCircular
+                isPrimary
+                icon='play'
+                onClick={this.runJs}
+              />
+              <Button
+                isCircular
+                isDisabled={!isRunning}
+                isNegative
+                icon='close'
+                onClick={this.stopJs}
+              />
+            </div>
+          </Editor>
+          <Output logs={logs}>
+            <Button
+              className='action-button'
+              isCircular
+              isNegative
+              icon='erase'
+              onClick={this.clearConsole}
+            />
+          </Output>
+        </section>
       </main>
     );
   }
@@ -62,8 +112,12 @@ class App extends React.PureComponent<Props, State> {
     const { api } = this.props;
     const { code } = this.state;
     const { keyring } = uiKeyring;
-    const injected = {
-      api,
+
+    this.stopJs();
+    this.clearConsole();
+
+    this.injected = {
+      api: api.clone(),
       console: {
         error: this.hookConsole('error'),
         log: this.hookConsole('log')
@@ -75,9 +129,31 @@ class App extends React.PureComponent<Props, State> {
       window: null
     };
 
-    const exec = `(async ({${Object.keys(injected).join(',')}}) => { try { ${code} } catch (error) { console.error(error); } })(injected);`;
+    // squash into a single line so exceptions (with linenumbers) maps to the same line/origin
+    // as we have in the editor view (TODO: Make the console.error here actually return the full stack)
+    const exec = `(async ({${Object.keys(this.injected).join(',')}}) => { try { ${code} } catch (error) { console.error(error); } })(injected);`;
 
-    new Function('injected', exec)(injected);
+    new Function('injected', exec)(this.injected);
+
+    this.setState({ isRunning: true });
+  }
+
+  private stopJs = (): void => {
+    if (!this.injected) {
+      return;
+    }
+
+    this.injected.api.disconnect();
+    this.injected = null;
+
+    this.setState({ isRunning: false });
+  }
+
+  private selectExample = (value: string) => {
+    const snippet = snippets.find(obj => obj.value === value);
+
+    localStorage.setItem('app-js-snippet', value);
+    this.setState({ code: (snippet ? snippet.code : ''), snippet: value });
   }
 
   private onEdit = (code: string): void => {
