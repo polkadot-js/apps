@@ -34,7 +34,7 @@ class Vector extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const values = isDisabled || prevState.values.length === 0
+    const values: Array<RawParam> = isDisabled || prevState.values.length === 0
       ? value.map((value: any) =>
           isUndefined(value) || isUndefined(value.isValid)
             ? {
@@ -108,49 +108,44 @@ class Vector extends React.PureComponent<Props, State> {
   }
 
   private onChange = (index: number) => {
-    const { onChange } = this.props;
-
     return (value: RawParam): void => {
-      let isValid = value.isValid;
-      const values = this.state.values.map((svalue, sindex) => {
-        if (sindex === index) {
-          return value;
+      this.setState(
+        ({ values }: State) => ({
+          values: values.map((svalue, sindex) =>
+            (sindex === index)
+              ? value
+              : svalue
+        )}),
+        () => {
+          const { values } = this.state;
+          const { onChange } = this.props;
+
+          onChange && onChange({
+            isValid: values.reduce((result, { isValid }) => result && isValid, true),
+            value: values.map(({ value }) => value)
+          });
         }
-
-        isValid = isValid && svalue.isValid;
-
-        return svalue;
-      });
-
-      this.setState({ values }, () => {
-        onChange && onChange({
-          isValid,
-          value: values.map(({ value }) => value)
-        });
-      });
+      );
     };
   }
 
   private rowAdd = (): void => {
-    const { type } = this.props;
-    const { values } = this.state;
+    this.setState(({ values }: State, { type }: Props) => {
+      const value = getInitValue(type);
 
-    const value = getInitValue(type);
-
-    this.setState({
-      values: values.concat({
-        isValid: !isUndefined(value),
-        value
-      })
+      return {
+        values: values.concat({
+          isValid: !isUndefined(value),
+          value
+        })
+      };
     });
   }
 
   private rowRemove = (): void => {
-    const { values } = this.state;
-
-    this.setState({
+    this.setState(({ values }: State) => ({
       values: values.slice(0, values.length - 1)
-    });
+    }));
   }
 }
 

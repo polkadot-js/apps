@@ -3,15 +3,35 @@
 /* of the Apache-2.0 license. See the LICENSE file for details. */
 
 .js--App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   padding: 1rem 1.5rem;
+}
 
-  /* .container {
-    padding: 0.25rem;
-  } */
+.js--Content {
+  align-items: stretch;
+  display: flex;
+  flex-grow: 2;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.js--Dropdown {
+  margin-right: 100px;
+  position: relative;
+  z-index: 200;
+  .dropdown .menu > .item {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
 }
 
 .js--Editor,
 .js--Output {
+  min-width: 200px;
+
   .action-button {
     position: absolute;
     right: 0.25rem;
@@ -21,12 +41,46 @@
 }
 
 .js--Output {
-  margin-top: 1rem;
-  padding: 10px;
+  background-color: #4e4e4e;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
   font-family: monospace;
-  font-size: 14px;
+  font-size: 13px;
   font-variant-ligatures: common-ligatures;
+  overflow: auto;
+  padding: 10px;
   position: relative;
+  resize: horizontal;
+  width: 50%;
+
+  &::after {
+    font-size: 24px;
+    line-height: 24px;
+    content: '↔';
+    cursor: col-resize;
+    z-index: 1;
+    width: 22px;
+    height: 30px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+  .logs-wrapper {
+    display: flex;
+    flex: 1;
+    min-height: 0px;
+  }
+
+  .logs-container {
+    flex: 1;
+    overflow: auto;;
+  }
+
+  .logs-content {
+    height: auto;
+  }
 
   .js--Log {
     animation: fadein 0.2s;
@@ -34,26 +88,25 @@
     word-break: break-all;
 
     &.error {
-      color: red;
+      color: #f88;
     }
   }
 }
 
 .js--Editor {
+  flex-grow: 2;
   padding: 0;
   position: relative;
 
-  > div.container {
-    width: 100%;
-    height: 60vh;
-    position: relative;
-  }
-
-  .codeflask {
-    /* background: #f4f7fb; */
-  }
-
   textarea {
     outline: 0;
+  }
+  .codeflask--has-line-numbers .codeflask__flatten {
+    min-width: calc(100% - 40px);
+    width: auto;
+  }
+  .codeflask__lines {
+    background: #eee;
+    z-index: 100;
   }
 }
