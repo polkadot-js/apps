@@ -18,10 +18,3 @@ export type Snippet = {
   code: string;
   label?: SemanticShorthandItem<LabelProps>
 };
-
-export interface CustomWindow extends Window {
-  api?: any;
-  keyring?: any;
-  util?: any;
-  utilCrypto?: any;
-}

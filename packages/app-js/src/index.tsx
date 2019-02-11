@@ -6,7 +6,7 @@ import { ApiPromise } from '@polkadot/api';
 import { KeyringInstance } from '@polkadot/keyring/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
-import { CustomWindow,Log, LogType } from './types';
+import { Log, LogType } from './types';
 
 import React from 'react';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
@@ -43,8 +43,6 @@ type State = {
   snippet: string
 };
 
-const customWindow: CustomWindow = window;
-
 const local = snippets.find(obj => obj.value === localStorage.getItem('app-js-snippet'));
 
 class App extends React.PureComponent<Props, State> {
@@ -57,15 +55,10 @@ class App extends React.PureComponent<Props, State> {
   };
 
   render () {
-    customWindow.api = this.props.api;
-    customWindow.keyring = uiKeyring;
-    customWindow.utilCrypto = hashing;
-    customWindow.util = util;
-
     const { code, isRunning, logs, snippet } = this.state;
     const { t } = this.props;
     const options = snippets.map(({ code, ...options }) => ({ ...options }));
-    
+
     return (
       <main className='js--App'>
         <header className='container'>
