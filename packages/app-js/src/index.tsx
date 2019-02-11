@@ -64,7 +64,8 @@ class App extends React.PureComponent<Props, State> {
 
     const { code, isRunning, logs, snippet } = this.state;
     const { t } = this.props;
-
+    const options = snippets.map(({ code, ...options }) => ({ ...options }));
+    
     return (
       <main className='js--App'>
         <header className='container'>
@@ -72,7 +73,7 @@ class App extends React.PureComponent<Props, State> {
           <Dropdown
             className='js--Dropdown'
             onChange={this.selectExample}
-            options={snippets.map(({ code, ...options }) => ({ ...options }))}
+            options={options}
             label={t('Select example')}
             defaultValue={snippet}
             withLabel
