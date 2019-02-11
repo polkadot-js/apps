@@ -78,29 +78,24 @@ export default class Tuple extends React.PureComponent<Props, State> {
   }
 
   private onChange = (index: number) => {
-    const { onChange } = this.props;
-
     return (value: RawParam): void => {
-      this.setState(({ values }) => {
-        let isValid = value.isValid;
+      this.setState(
+        ({ values }: State) => ({
+          values: values.map((svalue, sindex) =>
+            (sindex === index)
+              ? value
+              : svalue
+        )}),
+        () => {
+          const { values } = this.state;
+          const { onChange } = this.props;
 
-        values = values.map((svalue, sindex) => {
-          if (sindex === index) {
-            return value;
-          }
-
-          isValid = isValid && svalue.isValid;
-
-          return svalue;
-        });
-
-        onChange && onChange({
-          isValid,
-          value: values.map(({ value }) => value)
-        });
-
-        return { values };
-      });
+          onChange && onChange({
+            isValid: values.reduce((result, { isValid }) => result && isValid, true),
+            value: values.map(({ value }) => value)
+          });
+        }
+      );
     };
   }
 }
