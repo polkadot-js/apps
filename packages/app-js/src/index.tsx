@@ -53,7 +53,7 @@ class App extends React.PureComponent<Props, State> {
           <Intro />
           <Dropdown
             className='js--Dropdown'
-            onChange={(value) => this.selectExample(value)}
+            onChange={this.selectExample}
             options={snippets.map(({ code, ...options }) => ({ ...options }))}
             label={'Select example'}
             defaultValue={snippet}

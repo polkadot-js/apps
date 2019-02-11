@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import { Trans } from 'react-i18next';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import translate from './translate';
 
@@ -14,7 +14,7 @@ type Props = I18nProps;
 const Intro = (props: Props) => {
   const { t } = props;
   return (
-    <Fragment>
+    <>
       <Trans i18nKey='appJsIntro'>
         <p>All code is wrapped within an async closure, allowing access to
           <a href='https://www.npmjs.com/package/@polkadot/api' title={t('Go to module page on npmjs.com')} target='_blank'>@polkadot/api</a>,
@@ -24,7 +24,7 @@ const Intro = (props: Props) => {
         </p>
       </Trans>
       <p>{t(`These modules are also exposed to the window object and can be accessed by typing 'api', 'utilCrypto', 'keyring' and 'util' and in your browser's console.`)}</p>
-     </Fragment>
+     </>
   );
 };
 export default translate(Intro);
