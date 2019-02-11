@@ -31,7 +31,6 @@
 }
 
 .explorer--BlockByHash-flexable {
-  display: flex;
   flex-wrap: wrap;
   margin-top: -0.5rem;
 }
@@ -39,7 +38,6 @@
 .explorer--BlockByHash-block {
   flex: 0 0 50%;
   min-width: 0;
-  max-width: 50%;
 }
 
 .explorer--Container {

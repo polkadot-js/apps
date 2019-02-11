@@ -88,12 +88,14 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       tokenDecimals: 0,
       tokenSymbol: undefined
     };
+    const tokenSymbol = properties.get('tokenSymbol') || found.tokenSymbol;
 
     console.log('api: found chain', chain, [...properties.entries()]);
 
     // first setup the UI helpers
-    formatBalance.setDefaultDecimals(properties.get('tokenDecimals') || found.tokenDecimals || 0);
-    InputNumber.setUnit(properties.get('tokenSymbol') || found.tokenSymbol);
+    formatBalance.setDefaultDecimals(properties.get('tokenDecimals') || found.tokenDecimals);
+    formatBalance.setDefaultUnits(tokenSymbol);
+    InputNumber.setUnit(tokenSymbol);
 
     // setup keyring (loadAll) only after prefix has been set
     keyring.setAddressPrefix(properties.get('networkId') || found.networkId as any || 42);

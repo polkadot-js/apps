@@ -50,6 +50,10 @@ class Events extends React.PureComponent<Props> {
       ? phase.asApplyExtrinsic
       : -1;
 
+    if (!event.method || !event.section) {
+      return null;
+    }
+
     return (
       <article
         className='explorer--Container'

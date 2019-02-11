@@ -12,49 +12,49 @@ describe('formatBalance', () => {
   it('formats 123,456,789,000 (decimals=15)', () => {
     expect(
       formatBalance(TESTVAL, true, 15)
-    ).toEqual('123.456µ');
+    ).toEqual('123.456 µUnit');
   });
 
   it('formats 123,456,789,000  (decimals=12)', () => {
     expect(
       formatBalance(TESTVAL, true, 12)
-    ).toEqual('123.456m');
+    ).toEqual('123.456 mUnit');
   });
 
   it('formats 123,456,789,000  (decimals=12, no SI)', () => {
     expect(
       formatBalance(TESTVAL, false, 12)
-    ).toEqual('123.456');
+    ).toEqual('123.456 ');
   });
 
   it('formats 123,456,789,000 (decimals=9)', () => {
     expect(
       formatBalance(TESTVAL, true, 9)
-    ).toEqual('123.456');
+    ).toEqual('123.456 Unit');
   });
 
   it('formats 123,456,789,000 (decimals=6)', () => {
     expect(
       formatBalance(TESTVAL, true, 6)
-    ).toEqual('123.456k');
+    ).toEqual('123.456 kUnit');
   });
 
   it('formats 123,456,789,000 * 10 (decimals=12)', () => {
     expect(
       formatBalance(TESTVAL.muln(10), true, 12)
-    ).toEqual('1.234');
+    ).toEqual('1.234 Unit');
   });
 
   it('formats 123,456,789,000 * 100 (decimals=12)', () => {
     expect(
       formatBalance(TESTVAL.muln(100), true, 12)
-    ).toEqual('12.345');
+    ).toEqual('12.345 Unit');
   });
 
   it('formats 123,456,789,000 * 1000 (decimals=12)', () => {
     expect(
       formatBalance(TESTVAL.muln(1000), true, 12)
-    ).toEqual('123.456');
+    ).toEqual('123.456 Unit');
   });
 
   describe('findSi', () => {
@@ -67,7 +67,7 @@ describe('formatBalance', () => {
     it('returns default on not found', () => {
       expect(
         formatBalance.findSi('blah')
-      ).toEqual({ power: 0, value: '-', text: '----' });
+      ).toEqual({ power: 0, value: '-', text: 'Unit' });
     });
   });
 
@@ -77,7 +77,7 @@ describe('formatBalance', () => {
 
       expect(
         formatBalance(TESTVAL)
-      ).toEqual('123.456µ');
+      ).toEqual('123.456 µUnit');
     });
   });
 });
