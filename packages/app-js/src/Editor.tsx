@@ -7,7 +7,7 @@ import { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import CodeFlask from 'codeflask';
 
-import DEFAULT_CODE from './snippets/newHead';
+import DEFAULT_CODE from './snippets/transfer';
 import WRAPPING from './snippets/wrapping';
 
 type Props = BareProps & {

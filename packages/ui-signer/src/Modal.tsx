@@ -9,7 +9,7 @@ import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { SignatureOptions } from '@polkadot/types/ExtrinsicSignature';
-import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from '@polkadot/ui-app/Status/types';
+import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status, SignerCallback } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import { Button, Modal } from '@polkadot/ui-app/index';
@@ -216,7 +216,10 @@ class Signer extends React.PureComponent<Props, State> {
       return;
     }
 
-    queueSetTxStatus(currentItem.id, 'cancelled');
+    const { id, signerCallback } = currentItem;
+
+    queueSetTxStatus(id, 'cancelled');
+    signerCallback && signerCallback(id, false);
   }
 
   private onSend = async (): Promise<void> => {
@@ -244,7 +247,7 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetTxStatus(id, status, result, error);
   }
 
-  private async sendExtrinsic ({ accountId, extrinsic, id, signerOptions, isUnsigned }: QueueTx, password?: string): Promise<void> {
+  private async sendExtrinsic ({ accountId, extrinsic, id, signerCallback, signerOptions, isUnsigned }: QueueTx, password?: string): Promise<void> {
     assert(extrinsic, 'Expected an extrinsic to be supplied to sendExtrinsic');
 
     if (!isUnsigned) {
@@ -266,7 +269,7 @@ class Signer extends React.PureComponent<Props, State> {
     if (isUnsigned) {
       return this.makeExtrinsicCall(submittable, id, submittable.send);
     } else if (signerOptions) {
-      return this.makeExtrinsicSignature(submittable, id, keyring.getPair(accountId as string), signerOptions);
+      return this.makeExtrinsicSignature(submittable, id, keyring.getPair(accountId as string), signerOptions, signerCallback);
     }
 
     return this.makeExtrinsicCall(submittable, id, submittable.signAndSend, keyring.getPair(accountId as string));
@@ -321,10 +324,12 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private async makeExtrinsicSignature (extrinsic: SubmittableExtrinsic, id: number, pair: KeyringPair, options: SignatureOptions): Promise<void> {
+  private async makeExtrinsicSignature (extrinsic: SubmittableExtrinsic, id: number, pair: KeyringPair, options: SignatureOptions, signerCallback?: SignerCallback): Promise<void> {
     console.log('makeExtrinsicSignature: extrinsic ::', extrinsic.toHex());
 
     extrinsic.sign(pair, options);
+
+    signerCallback && signerCallback(id, true);
   }
 }
 

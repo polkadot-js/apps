@@ -19,10 +19,19 @@ export default class ApiSigner implements Signer {
   }
 
   async sign (extrinsic: SubmittableExtrinsic, accountId: string, signerOptions: SignatureOptions): Promise<number> {
-    return this._queueExtrinsic({
-      accountId,
-      extrinsic,
-      signerOptions
+    return new Promise((resolve, reject) => {
+      this._queueExtrinsic({
+        accountId,
+        extrinsic,
+        signerOptions,
+        signerCallback: (id: number, isSigned: boolean): void => {
+          if (isSigned) {
+            resolve(id);
+          } else {
+            reject();
+          }
+        }
+      });
     });
   }
 

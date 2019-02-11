@@ -6,7 +6,7 @@ export default `// transfer
 const sender = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 const recipient = '5GTZEKgRKX2a5hepNjwTBzR5nR6UqtEsMZ4TnL1Yuah1N2Tu';
 
-api.tx.balances
+const result = await api.tx.balances
   .transfer(recipient,12345)
   .signAndSend(sender, ({ events = [], status, type }) => {
     console.log('Transaction status:', type);
@@ -19,4 +19,7 @@ api.tx.balances
         console.log('\t', phase.toString(), \`: \${section}.\${method}\`, data.toString());
       });
     }
-  });`;
+  });
+
+console.log(result);
+`;

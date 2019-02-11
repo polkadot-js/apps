@@ -22,6 +22,8 @@ export type AccountInfo = {
 
 export type QueueTx$Status = 'future' | 'ready' | 'finalised' | 'usurped' | 'dropped' | 'invalid' | 'broadcast' | 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent' | 'blocked';
 
+export type SignerCallback = (id: number, isSigned: boolean) => void;
+
 export type QueueTx = AccountInfo & {
   error?: Error,
   extrinsic?: SubmittableExtrinsic,
@@ -29,6 +31,7 @@ export type QueueTx = AccountInfo & {
   isUnsigned?: boolean,
   result?: any,
   rpc: RpcMethod,
+  signerCallback?: SignerCallback,
   signerOptions?: SignatureOptions,
   values?: Array<any>,
   status: QueueTx$Status
@@ -60,6 +63,7 @@ export type PartialAccountInfo = {
 
 export type PartialQueueTx$Extrinsic = PartialAccountInfo & {
   extrinsic: SubmittableExtrinsic,
+  signerCallback?: SignerCallback,
   signerOptions?: SignatureOptions,
   isUnsigned?: boolean
 };
