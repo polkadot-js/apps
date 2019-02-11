@@ -13,6 +13,8 @@ import Queue, { Props as QueueComponentProps } from '@polkadot/ui-app/Status/Que
 
 import Modal from './Modal';
 
+export { default as ApiSigner } from './ApiSigner';
+
 type Props = BareProps & {
   children: React.ReactNode
 };

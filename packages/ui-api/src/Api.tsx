@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { QueueTx$ExtrinsicAdd, QueueTx$MessageSetStatus } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from './types';
 
 import React from 'react';
@@ -10,7 +11,6 @@ import ApiPromise from '@polkadot/api/promise';
 import defaults from '@polkadot/rpc-provider/defaults';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { InputNumber } from '@polkadot/ui-app/InputNumber';
-import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 import { formatBalance } from '@polkadot/ui-app/util';
 import keyring from '@polkadot/ui-keyring';
 import settings from '@polkadot/ui-settings';
@@ -23,6 +23,7 @@ import { isTestChain } from './util';
 type Props = {
   children: React.ReactNode,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
+  queueSetTxStatus: QueueTx$MessageSetStatus,
   url?: string
 };
 
@@ -36,9 +37,9 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const { queueExtrinsic, url } = props;
+    const { queueExtrinsic, queueSetTxStatus, url } = props;
     const provider = new WsProvider(url);
-    const signer = new ApiSigner(queueExtrinsic);
+    const signer = new ApiSigner(queueExtrinsic, queueSetTxStatus);
 
     const setApi = (provider: ProviderInterface): void => {
       const api = new ApiPromise({ provider, signer });

@@ -5,6 +5,7 @@
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { AccountId, Address } from '@polkadot/types';
+import { SignatureOptions } from '@polkadot/types/ExtrinsicSignature';
 
 export type Actions = 'create' | 'edit' | 'restore' | 'forget' | 'backup' | 'changePassword' | 'transfer';
 
@@ -28,6 +29,7 @@ export type QueueTx = AccountInfo & {
   isUnsigned?: boolean,
   result?: any,
   rpc: RpcMethod,
+  signerOptions?: SignatureOptions,
   values?: Array<any>,
   status: QueueTx$Status
 };
@@ -58,6 +60,7 @@ export type PartialAccountInfo = {
 
 export type PartialQueueTx$Extrinsic = PartialAccountInfo & {
   extrinsic: SubmittableExtrinsic,
+  signerOptions?: SignatureOptions,
   isUnsigned?: boolean
 };
 

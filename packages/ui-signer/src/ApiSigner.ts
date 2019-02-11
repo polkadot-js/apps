@@ -3,21 +3,34 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Signer } from '@polkadot/api/types';
+import { SubmittableResult } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
+import { QueueTx$ExtrinsicAdd, QueueTx$MessageSetStatus } from '@polkadot/ui-app/Status/types';
+import { Hash } from '@polkadot/types';
 import { SignatureOptions } from '@polkadot/types/ExtrinsicSignature';
 
 export default class ApiSigner implements Signer {
   private _queueExtrinsic: QueueTx$ExtrinsicAdd;
+  private _queueSetTxStatus: QueueTx$MessageSetStatus;
 
-  constructor (queueExtrinsic: QueueTx$ExtrinsicAdd) {
+  constructor (queueExtrinsic: QueueTx$ExtrinsicAdd, queueSetTxStatus: QueueTx$MessageSetStatus) {
     this._queueExtrinsic = queueExtrinsic;
+    this._queueSetTxStatus = queueSetTxStatus;
   }
 
-  async sign (extrinsic: SubmittableExtrinsic, accountId: string, options: SignatureOptions): Promise<void> {
-    this._queueExtrinsic({
+  async sign (extrinsic: SubmittableExtrinsic, accountId: string, signerOptions: SignatureOptions): Promise<number> {
+    return this._queueExtrinsic({
       accountId,
-      extrinsic
+      extrinsic,
+      signerOptions
     });
+  }
+
+  update (id: number, status: Hash | SubmittableResult): void {
+    if (status instanceof Hash) {
+      this._queueSetTxStatus(id, 'sent', status.toHex());
+    } else {
+      this._queueSetTxStatus(id, status.type.toLowerCase() as any, status);
+    }
   }
 }

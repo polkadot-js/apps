@@ -61,9 +61,10 @@ export default function createApp (App: React.ComponentType<BareProps>, { classN
 
   ReactDOM.render(
     <QueueConsumer>
-      {({ queueExtrinsic }) => (
+      {({ queueExtrinsic, queueSetTxStatus }) => (
         <Api
           queueExtrinsic={queueExtrinsic}
+          queueSetTxStatus={queueSetTxStatus}
           url={url}
         >
           <HashRouter>
