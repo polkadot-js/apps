@@ -16,13 +16,30 @@ type Props = BareProps & {
   snippet: string
 };
 
+type State = {
+  snippet: string
+};
+
 export default class Editor extends React.PureComponent<Props> {
   private id: string = `flask-${Date.now()}`;
   private editor: any;
 
+  state: State = {
+    snippet: ''
+  };
+
   constructor (props: Props) {
     super(props);
     this.id = `flask-${Date.now()}`;
+  }
+
+  static getDerivedStateFromProps (nextProps: Props, prevState: State) {
+    if (nextProps.snippet !== prevState.snippet) {
+      return {
+        snippet: nextProps.snippet
+      };
+    }
+    return null;
   }
 
   componentDidMount () {
@@ -45,10 +62,10 @@ export default class Editor extends React.PureComponent<Props> {
     onEdit(code);
   }
 
-  componentWillReceiveProps (nextProps: any) {
-    const { code, onEdit, snippet } = nextProps;
+  componentDidUpdate () {
+    const { code, onEdit, snippet } = this.props;
 
-    if (snippet !== this.props.snippet) {
+    if (snippet !== this.state.snippet) {
       onEdit(code);
       this.editor.updateCode(`${WRAPPING}${code}`);
     }
