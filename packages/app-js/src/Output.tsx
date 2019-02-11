@@ -6,20 +6,36 @@ import { BareProps } from '@polkadot/ui-app/types';
 import { Log } from './types';
 
 import React from 'react';
-import { format } from '@polkadot/util/logger';
+import { isError, isNull, isUndefined } from '@polkadot/util';
 
 type Props = BareProps & {
   children?: React.ReactNode,
   logs: Array<Log>
 };
 
-export default (props: Props) => {
-  const renderEntry = ({ args, type }: Log, index: number) => (
-    <div className={`js--Log ${type}`} key={index}>
-      {args.map((arg) => format(arg)).join(' ')}
-    </div>
-  );
+const format = (value: any): string => {
+  if (isError(value)) {
+    return value.stack ? value.stack : value.toString();
+  } else if (isUndefined(value)) {
+    return 'undefined';
+  } else if (isNull(value)) {
+    return 'null';
+  } else if (Array.isArray(value)) {
+    return `[${value.map((value) => format(value)).join(', ')}]`;
+  } else if (value instanceof Map) {
+    return `{${[...value.entries()].map(([key, value]) => key + ': ' + format(value)).join(', ')}}`;
+  }
 
+  return value.toString();
+};
+
+const renderEntry = ({ args, type }: Log, index: number): React.ReactNode => (
+  <div className={`js--Log ${type}`} key={index}>
+    {args.map((arg) => format(arg)).join(' ')}
+  </div>
+);
+
+export default (props: Props) => {
   return (
     <article className='container js--Output'>
       <div className='logs-wrapper'>

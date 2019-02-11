@@ -14,7 +14,7 @@ const unsub = await api.rpc.author.pendingExtrinsics((extrinsics) => {
     console.log('No pending extrinsics');
     return;
   }
-  console.log(extrinsics.map(extrinsic => ('Pending extrinsic' + extrinsic)));
+  console.log(extrinsics);
 });`
 };
 
