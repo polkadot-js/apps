@@ -9,7 +9,7 @@ import { ApiProps } from './types';
 import React from 'react';
 import ApiPromise from '@polkadot/api/promise';
 import defaults from '@polkadot/rpc-provider/defaults';
-import WsProvider from '@polkadot/rpc-provider/ws';
+import { WsProvider } from '@polkadot/rpc-provider';
 import { InputNumber } from '@polkadot/ui-app/InputNumber';
 import { formatBalance } from '@polkadot/ui-app/util';
 import keyring from '@polkadot/ui-keyring';

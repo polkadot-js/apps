@@ -64,10 +64,7 @@ class App extends React.PureComponent<Props, State> {
     const { keyring } = uiKeyring;
     const injected = {
       api,
-      console: {
-        error: this.hookConsole('error'),
-        log: this.hookConsole('log')
-      },
+      console: console,
       global: null,
       hashing,
       keyring,
