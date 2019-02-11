@@ -17,7 +17,7 @@ type Props = BareProps & {
 };
 
 export default class Editor extends React.PureComponent<Props> {
-  private id: string;
+  private id: string = `flask-${Date.now()}`;
   private editor: any;
 
   constructor (props: Props) {
@@ -26,22 +26,20 @@ export default class Editor extends React.PureComponent<Props> {
   }
 
   componentDidMount () {
-    // const { code } = this.props;
     this.editor = new CodeFlask(`#${this.id}`, {
       language: 'js',
       lineNumbers: true
     });
-
     const { editor, props: { code, onEdit } } = this;
 
     editor.updateCode(`${WRAPPING}${code}`);
 
     editor.onUpdate((code: string) => {
-      this.props.onEdit(code);
+      onEdit(code);
     });
 
     editor.editorRoot.addEventListener('focusin', () => {
-      this.editor.onUpdate(this.props.onEdit);
+      this.editor.onUpdate(onEdit);
     });
 
     onEdit(code);
@@ -49,6 +47,7 @@ export default class Editor extends React.PureComponent<Props> {
 
   componentWillReceiveProps (nextProps: any) {
     const { code, onEdit, snippet } = nextProps;
+
     if (snippet !== this.props.snippet) {
       onEdit(code);
       this.editor.updateCode(`${WRAPPING}${code}`);

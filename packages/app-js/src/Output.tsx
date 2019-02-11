@@ -29,7 +29,6 @@ export default (props: Props) => {
           </div>
         </div>
       </div>
-
       {props.children}
     </article>
   );
