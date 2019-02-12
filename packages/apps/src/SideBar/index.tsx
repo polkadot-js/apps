@@ -7,6 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import './SideBar.css';
 
 import React from 'react';
+import store from 'store';
 import { Button, Icon, Menu } from '@polkadot/ui-app/index';
 import polkadotLogo from '@polkadot/ui-assets/polkadot-white.svg';
 import substrateLogo from '@polkadot/ui-assets/parity-substrate-white.svg';
@@ -32,9 +33,17 @@ const LOGOS: Map<string | undefined, any> = new Map([
 const LOGO = LOGOS.get(settings.uiTheme) || polkadotLogo;
 
 class SideBar extends React.PureComponent<Props, State> {
-  state: State = {
-    isCollapsed: false
-  };
+  state: State;
+
+  constructor (props: Props) {
+    super(props);
+
+    const state = store.get('sidebar') || {};
+    this.state = {
+      isCollapsed: false,
+      ...state
+    };
+  }
 
   render () {
     const { children } = this.props;
@@ -66,7 +75,9 @@ class SideBar extends React.PureComponent<Props, State> {
   private collapse = (): void => {
     this.setState(({ isCollapsed }: State) => ({
       isCollapsed: !isCollapsed
-    }));
+    }), () => {
+      store.set('sidebar', this.state);
+    });
   }
 
   private renderCollapse () {
@@ -77,6 +88,7 @@ class SideBar extends React.PureComponent<Props, State> {
         <Button
           icon={`angle double ${isCollapsed ? 'right' : 'left'}`}
           isBasic
+          isCircular
           onClick={this.collapse}
         />
       </div>
