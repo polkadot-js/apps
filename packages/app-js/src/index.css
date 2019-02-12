@@ -42,6 +42,49 @@
   }
 }
 
+.js--Editor {
+  width: 60%;
+  overflow: auto;
+  padding: 0;
+  position: relative;
+  resize: horizontal;
+
+  textarea {
+    outline: 0;
+  }
+
+  .codeflask--has-line-numbers {
+    z-index: 0;
+  }
+
+  .codeflask--has-line-numbers .codeflask__flatten {
+    font-size: 12px;
+    height: 99.99%;
+    line-height: 18px;
+    min-width: calc(100% - 40px);
+    width: auto;
+  }
+
+  .codeflask__lines {
+    background: #fafafa;
+    line-height: 18px;
+    z-index: 100;
+  }
+
+  &::after {
+    font-size: 20px;
+    line-height: 18px;
+    content: '↔';
+    cursor: col-resize;
+    z-index: 1;
+    width: 22px;
+    height: 20px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+}
+
 .js--Output {
   background-color: #4e4e4e;
   color: #ffffff;
@@ -54,21 +97,7 @@
   overflow: auto;
   padding: 10px;
   position: relative;
-  resize: horizontal;
-  width: 40%;
-
-  &::after {
-    font-size: 24px;
-    line-height: 24px;
-    content: '↔';
-    cursor: col-resize;
-    z-index: 1;
-    width: 22px;
-    height: 30px;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-  }
+  width: auto;
 
   .logs-wrapper {
     display: flex;
@@ -93,28 +122,5 @@
     &.error {
       color: #f88;
     }
-  }
-}
-
-.js--Editor {
-  flex-grow: 2;
-  padding: 0;
-  position: relative;
-
-  textarea {
-    outline: 0;
-  }
-
-  .codeflask--has-line-numbers .codeflask__flatten {
-    font-size: 12px;
-    line-height: 18px;
-    min-width: calc(100% - 40px);
-    width: auto;
-  }
-
-  .codeflask__lines {
-    background: #fafafa;
-    line-height: 18px;
-    z-index: 100;
   }
 }
