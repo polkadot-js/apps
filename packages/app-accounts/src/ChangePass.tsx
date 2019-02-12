@@ -82,23 +82,21 @@ class ChangePass extends React.PureComponent<Props, State> {
         </Modal.Header>
         <Modal.Content>
           <AddressSummary value={account.address()} />
-          <div className='ui--row'>
-            <Password
-              autoFocus
-              isError={!isOldValid}
-              label={t('old password')}
-              onChange={this.onChangeOld}
-              tabIndex={1}
-              value={oldPass}
-            />
-            <Password
-              isError={!isNewValid}
-              label={t('new password')}
-              onChange={this.onChangeNew}
-              tabIndex={2}
-              value={newPass}
-            />
-          </div>
+          <Password
+            autoFocus
+            isError={!isOldValid}
+            label={t('old password')}
+            onChange={this.onChangeOld}
+            tabIndex={1}
+            value={oldPass}
+          />
+          <Password
+            isError={!isNewValid}
+            label={t('new password')}
+            onChange={this.onChangeNew}
+            tabIndex={2}
+            value={newPass}
+          />
         </Modal.Content>
       </>
     );

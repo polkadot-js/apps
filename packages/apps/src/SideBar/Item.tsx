@@ -35,7 +35,7 @@ class Item extends React.PureComponent<Props> {
           className='apps--SideBar-Item-NavLink'
           to={`/${name}`}
         >
-          <Icon name={icon} /> {t(`sidebar.${name}`, i18n)}
+          <Icon name={icon} /><span className='text'>{t(`sidebar.${name}`, i18n)}</span>
         </NavLink>
       </Menu.Item>
     );
