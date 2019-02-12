@@ -41,6 +41,18 @@
     width: 10rem;
   }
 
+  .apps--SideBar-collapse {
+    bottom: 0.75em;
+    position: fixed;
+    left: 0.75rem;
+
+    .ui.basic.secondary.button {
+      box-shadow: 0 0 0 1px #eee inset !important;
+      color: #eee !important;
+      margin: 0;
+    }
+  }
+
   &.collapsed {
     .apps--SideBar-Item .text {
       display: none;
@@ -51,15 +63,6 @@
       width: 3rem;
     }
   }
-}
-
-.apps--SideBar-collapse.ui.basic.secondary.button {
-  bottom: 0.75em;
-  box-shadow: 0 0 0 1px #eee inset !important;
-  color: #eee !important;
-  margin: 0;
-  position: absolute;
-  right: 1em;
 }
 
 a.apps--SideBar-Item-NavLink {

@@ -73,12 +73,13 @@ class SideBar extends React.PureComponent<Props, State> {
     const { isCollapsed } = this.state;
 
     return (
-      <Button
-        className='apps--SideBar-collapse'
-        icon={`angle double ${isCollapsed ? 'right' : 'left'}`}
-        isBasic
-        onClick={this.collapse}
-      />
+      <div className='apps--SideBar-collapse'>
+        <Button
+          icon={`angle double ${isCollapsed ? 'right' : 'left'}`}
+          isBasic
+          onClick={this.collapse}
+        />
+      </div>
     );
   }
 
