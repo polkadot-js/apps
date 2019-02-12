@@ -36,7 +36,7 @@ const unsub = await api.rpc.chain.subscribeNewHead((header) => {
 
 export const rpcQueryState: Snippet = {
   value: 'rpcQueryState',
-  text: 'Get authoring iformation',
+  text: 'Get state metadata',
   label: { color: 'pink', children: 'RPC', size: 'tiny' },
   code: `// subscribe to new headers, printing the full info for 5 Blocks
 const unsub = await api.rpc.state.getMetadata(({ magicNumber, metadata }) => {
