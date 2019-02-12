@@ -18,7 +18,7 @@ export default ([
     i18n: {
       defaultValue: 'Transfer'
     },
-    icon: 'angle double right',
+    icon: 'send',
     name: 'transfer'
   }
 ] as Routes);

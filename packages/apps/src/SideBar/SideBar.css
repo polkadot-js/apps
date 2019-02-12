@@ -8,33 +8,58 @@
 .apps--SideBar {
   background: #4e4e4e;
   flex-shrink: 0;
-  min-width: 10em;
   padding: 0.75em 0 0 0.75em;
   position: relative;
   text-align: left;
+
+  &.collapsed {
+    min-width: 3rem;
+  }
+
+  &.expanded {
+    min-width: 10em;
+  }
 
   .ui.vertical.menu {
     margin: 0;
     width: auto;
   }
+
+  .apps--SideBar-Item {
+    overflow-x: visible;
+    padding: 0 !important;
+    text-align: left;
+
+    .text {
+      padding-left: 0.5rem;
+    }
+  }
+
+  .apps--SideBar-logo {
+    width: 100%;
+    margin: 0.5rem 1.5rem 1.5rem 0.75rem;
+    width: 10rem;
+  }
+
+  &.collapsed {
+    .apps--SideBar-Item .text {
+      display: none;
+    }
+
+    .apps--SideBar-logo {
+      margin: 0.5rem 0.25rem 1.5rem 0.5rem;
+      width: 3rem;
+    }
+  }
 }
 
-.apps--SideBar-github {
+.apps--SideBar-collapse.ui.basic.secondary.button {
+  bottom: 0.75em;
+  box-shadow: 0 0 0 1px #eee inset !important;
+  color: #eee !important;
+  margin: 0;
   position: absolute;
-  bottom: 1.5em;
-  left: 1.5em;
-}
-
-.apps--SideBar-logo {
-  width: 100%;
-  margin: .5rem 1.5rem 1.5rem .75rem;
-  width: 10rem;
-}
-
-.apps--SideBar-Item {
-  overflow-x: visible;
-  padding: 0 !important;
-  text-align: left;
+  right: 1em;
 }
 
 a.apps--SideBar-Item-NavLink {

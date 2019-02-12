@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import './SideBar.css';
 
 import React from 'react';
-import { Icon, Menu } from '@polkadot/ui-app/index';
+import { Button, Icon, Menu } from '@polkadot/ui-app/index';
 import polkadotLogo from '@polkadot/ui-assets/polkadot-white.svg';
 import substrateLogo from '@polkadot/ui-assets/parity-substrate-white.svg';
 import settings from '@polkadot/ui-settings';
@@ -20,6 +20,10 @@ type Props = I18nProps & {
   children?: React.ReactNode
 };
 
+type State = {
+  isCollapsed: boolean
+};
+
 const LOGOS: Map<string | undefined, any> = new Map([
   ['polkadot', polkadotLogo],
   ['substrate', substrateLogo]
@@ -27,12 +31,17 @@ const LOGOS: Map<string | undefined, any> = new Map([
 
 const LOGO = LOGOS.get(settings.uiTheme) || polkadotLogo;
 
-class SideBar extends React.PureComponent<Props> {
+class SideBar extends React.PureComponent<Props, State> {
+  state: State = {
+    isCollapsed: false
+  };
+
   render () {
     const { children } = this.props;
+    const { isCollapsed } = this.state;
 
     return (
-      <div className='apps--SideBar'>
+      <div className={`apps--SideBar ${isCollapsed ? 'collapsed' : 'expanded'}`}>
         <Menu
           secondary
           vertical
@@ -43,9 +52,33 @@ class SideBar extends React.PureComponent<Props> {
           {this.renderGithub()}
           {this.renderWiki()}
           <Menu.Divider hidden />
-          {children}
+          {
+            isCollapsed
+              ? null
+              : children
+          }
+          {this.renderCollapse()}
         </Menu>
       </div>
+    );
+  }
+
+  private collapse = (): void => {
+    this.setState(({ isCollapsed }: State) => ({
+      isCollapsed: !isCollapsed
+    }));
+  }
+
+  private renderCollapse () {
+    const { isCollapsed } = this.state;
+
+    return (
+      <Button
+        className='apps--SideBar-collapse'
+        icon={`angle double ${isCollapsed ? 'right' : 'left'}`}
+        isBasic
+        onClick={this.collapse}
+      />
     );
   }
 
@@ -87,7 +120,7 @@ class SideBar extends React.PureComponent<Props> {
           className='apps--SideBar-Item-NavLink'
           href='https://github.com/polkadot-js/apps'
         >
-          <Icon name='github' /> GitHub
+          <Icon name='github' /><span className='text'>GitHub</span>
         </a>
       </Menu.Item>
     );
