@@ -33,15 +33,6 @@ export default class Editor extends React.PureComponent<Props> {
     this.id = `flask-${Date.now()}`;
   }
 
-  static getDerivedStateFromProps (nextProps: Props, prevState: State) {
-    if (nextProps.snippet !== prevState.snippet) {
-      return {
-        snippet: nextProps.snippet
-      };
-    }
-    return null;
-  }
-
   componentDidMount () {
     this.editor = new CodeFlask(`#${this.id}`, {
       language: 'js',
@@ -64,10 +55,10 @@ export default class Editor extends React.PureComponent<Props> {
 
   componentDidUpdate () {
     const { code, onEdit, snippet } = this.props;
-
     if (snippet !== this.state.snippet) {
       onEdit(code);
       this.editor.updateCode(`${WRAPPING}${code}`);
+      this.setState( {snippet});
     }
   }
 
