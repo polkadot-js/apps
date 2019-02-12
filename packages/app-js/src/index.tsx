@@ -108,7 +108,7 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  private runJs = (): void => {
+  private runJs = async (): Promise<void> => {
     const { api } = this.props;
     const { code } = this.state;
     const { keyring } = uiKeyring;
@@ -128,6 +128,8 @@ class App extends React.PureComponent<Props, State> {
       util,
       window: null
     };
+
+    await this.injected.api.isReady;
 
     // squash into a single line so exceptions (with linenumbers) maps to the same line/origin
     // as we have in the editor view (TODO: Make the console.error here actually return the full stack)
