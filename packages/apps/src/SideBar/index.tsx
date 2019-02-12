@@ -9,13 +9,11 @@ import './SideBar.css';
 import React from 'react';
 import store from 'store';
 import { Button, Icon, Menu } from '@polkadot/ui-app/index';
-import polkadotLogo from '@polkadot/ui-assets/polkadot-white.svg';
-import substrateLogo from '@polkadot/ui-assets/parity-substrate-white.svg';
-import settings from '@polkadot/ui-settings';
 
 import routing from '../routing';
 import translate from '../translate';
 import Item from './Item';
+import getLogo from './logos';
 
 type Props = I18nProps & {
   children?: React.ReactNode
@@ -24,13 +22,6 @@ type Props = I18nProps & {
 type State = {
   isCollapsed: boolean
 };
-
-const LOGOS: Map<string | undefined, any> = new Map([
-  ['polkadot', polkadotLogo],
-  ['substrate', substrateLogo]
-]);
-
-const LOGO = LOGOS.get(settings.uiTheme) || polkadotLogo;
 
 class SideBar extends React.PureComponent<Props, State> {
   state: State;
@@ -96,11 +87,14 @@ class SideBar extends React.PureComponent<Props, State> {
   }
 
   private renderLogo () {
+    const { isCollapsed } = this.state;
+    const logo = getLogo(isCollapsed);
+
     return (
       <img
         alt='polkadot'
         className='apps--SideBar-logo'
-        src={LOGO}
+        src={logo}
       />
     );
   }
