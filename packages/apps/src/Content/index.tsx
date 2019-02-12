@@ -49,20 +49,20 @@ class Content extends React.Component<Props> {
     return (
       <div className='apps--Content'>
         <QueueConsumer>
-          {({ queueAction, stqueue, txqueue }: QueueProps) => [
-            <Component
-              key='content-content'
-              basePath={`/${name}`}
-              location={location}
-              onStatusChange={queueAction}
-            />,
-            <Status
-              key='content-status'
-              queueAction={queueAction}
-              stqueue={stqueue}
-              txqueue={txqueue}
-            />
-          ]}
+          {({ queueAction, stqueue, txqueue }: QueueProps) => (
+            <>
+              <Component
+                basePath={`/${name}`}
+                location={location}
+                onStatusChange={queueAction}
+              />
+              <Status
+                queueAction={queueAction}
+                stqueue={stqueue}
+                txqueue={txqueue}
+              />
+            </>
+          )}
         </QueueConsumer>
       </div>
     );

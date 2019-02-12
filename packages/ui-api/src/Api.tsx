@@ -3,16 +3,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { QueueTx$ExtrinsicAdd, QueueTx$MessageSetStatus } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from './types';
 
 import React from 'react';
 import ApiPromise from '@polkadot/api/promise';
 import defaults from '@polkadot/rpc-provider/defaults';
-import WsProvider from '@polkadot/rpc-provider/ws';
+import { WsProvider } from '@polkadot/rpc-provider';
 import { InputNumber } from '@polkadot/ui-app/InputNumber';
 import { formatBalance } from '@polkadot/ui-app/util';
 import keyring from '@polkadot/ui-keyring';
 import settings from '@polkadot/ui-settings';
+import ApiSigner from '@polkadot/ui-signer/ApiSigner';
 import { ChainProperties } from '@polkadot/types';
 
 import ApiContext from './ApiContext';
@@ -20,6 +22,8 @@ import { isTestChain } from './util';
 
 type Props = {
   children: React.ReactNode,
+  queueExtrinsic: QueueTx$ExtrinsicAdd,
+  queueSetTxStatus: QueueTx$MessageSetStatus,
   url?: string
 };
 
@@ -33,10 +37,12 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const { url } = props;
+    const { queueExtrinsic, queueSetTxStatus, url } = props;
     const provider = new WsProvider(url);
+    const signer = new ApiSigner(queueExtrinsic, queueSetTxStatus);
+
     const setApi = (provider: ProviderInterface): void => {
-      const api = new ApiPromise(provider);
+      const api = new ApiPromise({ provider, signer });
 
       this.setState({ api }, () => {
         this.updateSubscriptions();
@@ -48,7 +54,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     this.state = {
       isApiConnected: false,
       isApiReady: false,
-      api: new ApiPromise(provider),
+      api: new ApiPromise({ provider, signer }),
       setApiUrl
     } as State;
   }
