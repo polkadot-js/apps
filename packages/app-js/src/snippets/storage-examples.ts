@@ -9,18 +9,20 @@ export const storageGetInfo: Snippet = {
   text: 'Get chain state information',
   label: { color: 'blue', children: 'Storage', size: 'tiny' },
   code: `// Get chain state information
-const ALICE = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 // Make our basic chain state/storage queries, all in one go
-const [accountNonce, blockPeriod, validators] = await Promise.all([
-  api.query.system.accountNonce(ALICE),
+const [blockPeriod, validators, transferFee] = await Promise.all([
   api.query.timestamp.blockPeriod(),
-  api.query.session.validators()
+  api.query.session.validators(),
+  api.query.balances.transferFee()
 ]);
-console.log('Account: ' + ALICE + ' -- AccountNonce: ' + accountNonce);
+
 console.log('blockPeriod in seconds: ' + blockPeriod.toNumber());
+console.log('transferFee: ', transferFee);
+
 if (validators && validators.length > 0) {
   // Retrieve the balances for all validators
   console.log('Validators');
+
   const validatorBalances = await Promise.all(
     validators.map(authorityId => api.query.balances.freeBalance(authorityId))
   );
@@ -31,22 +33,6 @@ if (validators && validators.length > 0) {
   });
 }
 `
-};
-
-export const storageGetBalanceInformation: Snippet = {
-  value: 'storageGetBalanceInformation',
-  text: 'Get current transfer fee',
-  label: { color: 'blue', children: 'Storage', size: 'tiny' },
-  code: `// Listen to the total transfer fee for 5 Blocks
-let count = 0;
-const unsub = await api.query.balances.transferFee((sum) => {
-  console.log('Transfer fee: '+ sum);
-
-  if (++count === 5) {
-    console.log('listened to 5 blocks, unsubscribing');
-    unsub();
-  }
-});`
 };
 
 export const storageSystemEvents: Snippet = {
@@ -95,4 +81,35 @@ api.query.balances.freeBalance(ALICE, (balance) => {
     console.log('New transaction of: '+ change);
   }
 });`
+};
+
+export const storageRetrieveInfoOnQueryKeys: Snippet = {
+  value: 'storageRetrieveInfoOnQueryKeys',
+  text: 'Retrieve Info on query keys',
+  label: { color: 'blue', children: 'Storage', size: 'tiny' },
+  code: `// This example set shows how to make queries and retrieve info on query keys
+const ALICE = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
+
+// retrieve the balance, once-off at the latest block
+const currBalance = await api.query.balances.freeBalance(ALICE);
+
+console.log('Alice has a current balance of', currBalance);
+
+// retrieve balance updates with an optional value callback
+const balanceUnsub = await api.query.balances.freeBalance(ALICE, (balance) => {
+  console.log('Alice has an updated balance of', balance);
+});
+
+// retrieve the balance at a block hash in the past
+const header = await api.rpc.chain.getHeader();
+const prevHash = await api.rpc.chain.getBlockHash(header.blockNumber.subn(42));
+const prevBalance = await api.query.balances.freeBalance.at(prevHash, ALICE);
+
+console.log('Alice had a balance of', prevBalance, '(42 blocks ago)');
+
+// useful in some situations - the value hash and storage entry size
+const currHash = await api.query.balances.freeBalance.hash(ALICE);
+const currSize = await api.query.balances.freeBalance.size(ALICE);
+
+console.log('Alice balance entry has a value hash of', currHash, 'with a size of', currSize);`
 };

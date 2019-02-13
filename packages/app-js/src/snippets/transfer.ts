@@ -6,6 +6,10 @@ export default `// transfer
 const sender = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 const recipient = '5GTZEKgRKX2a5hepNjwTBzR5nR6UqtEsMZ4TnL1Yuah1N2Tu';
 
+const nonce = await api.query.system.accountNonce(ALICE),
+
+console.log('Current nonce', nonce);
+
 const unsub = await api.tx.balances
   .transfer(recipient,12345)
   .signAndSend(sender, ({ events = [], status, type }) => {
