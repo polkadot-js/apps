@@ -122,8 +122,8 @@ const prevBalance = await api.query.balances.freeBalance.at(prevHash, ALICE);
 console.log('Alice had a balance of', prevBalance, '(42 blocks ago)');
 
 // useful in some situations - the value hash and storage entry size
-const currHash = await api.query.balanace.freeBalance.hash(ALICE);
-const currSize = await api.query.balanace.freeBalance.size(ALICE);
+const currHash = await api.query.balances.freeBalance.hash(ALICE);
+const currSize = await api.query.balances.freeBalance.size(ALICE);
 
 console.log('Alice balance entry has a value hash of', currHash, 'with a size of', currSize);`
 }
