@@ -9,15 +9,6 @@
   padding: 1rem 0 0;
 }
 
-.js--Content {
-  align-items: stretch;
-  display: flex;
-  flex-grow: 2;
-  height: 100%;
-  justify-content: space-between;
-  margin-bottom: 0;
-}
-
 .js--Dropdown {
   margin-right: 100px;
   position: relative;
@@ -28,6 +19,15 @@
     flex-direction: row-reverse;
     justify-content: space-between;
   }
+}
+
+.js--Content {
+  align-content: stretch;
+  align-items: stretch;
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  margin-bottom: 0;
 }
 
 .js--Editor,
@@ -43,11 +43,12 @@
 }
 
 .js--Editor {
-  width: 60%;
+  flex-grow: 1;
   overflow: auto;
   padding: 0;
   position: relative;
   resize: horizontal;
+  width: 60%;
 
   textarea {
     outline: 0;
@@ -72,16 +73,16 @@
   }
 
   &::after {
-    font-size: 20px;
-    line-height: 18px;
+    bottom: 0;
     content: '↔';
     cursor: col-resize;
-    z-index: 1;
-    width: 22px;
+    font-size: 20px;
     height: 20px;
+    line-height: 18px;
     position: absolute;
-    bottom: 0;
     right: 0;
+    width: 22px;
+    z-index: 1;
   }
 }
 
@@ -90,14 +91,14 @@
   color: #ffffff;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   font-family: monospace;
   font-size: 12px;
   font-variant-ligatures: common-ligatures;
   line-height: 18px;
-  overflow: auto;
   padding: 10px;
   position: relative;
-  width: auto;
+  width: 40%;
 
   .logs-wrapper {
     display: flex;
