@@ -8,8 +8,8 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { KeyringPair } from '@polkadot/keyring/types';
+import { SignatureOptions } from '@polkadot/types/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { SignatureOptions } from '@polkadot/types/ExtrinsicSignature';
 import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status, SignerCallback } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';

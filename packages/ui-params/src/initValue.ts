@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo } from '@polkadot/types/codec';
 import { RawParam$Value } from './types';
 
 import BN from 'bn.js';
-import { Bytes, Hash } from '@polkadot/types';
+import { Bytes, Hash, TypeDef, TypeDefInfo } from '@polkadot/types';
 
 export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawParam$Value> {
   if (def.info === TypeDefInfo.Vector) {

@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Tuple } from '@polkadot/types/codec';
+import { Tuple } from '@polkadot/types';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
 
 import Proposal from './Proposal';

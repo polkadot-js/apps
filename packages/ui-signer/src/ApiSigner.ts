@@ -6,8 +6,9 @@ import { Signer } from '@polkadot/api/types';
 import { SubmittableResult } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { QueueTx$ExtrinsicAdd, QueueTx$MessageSetStatus } from '@polkadot/ui-app/Status/types';
+import { SignatureOptions } from '@polkadot/types/types';
+
 import { Hash } from '@polkadot/types';
-import { SignatureOptions } from '@polkadot/types/ExtrinsicSignature';
 
 export default class ApiSigner implements Signer {
   private _queueExtrinsic: QueueTx$ExtrinsicAdd;
