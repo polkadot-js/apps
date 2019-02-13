@@ -133,7 +133,7 @@ class App extends React.PureComponent<Props, State> {
 
     // squash into a single line so exceptions (with linenumbers) maps to the same line/origin
     // as we have in the editor view (TODO: Make the console.error here actually return the full stack)
-    const exec = `(async ({${Object.keys(this.injected).join(',')}}) => { try { ${code} } catch (error) { console.error(error); } })(injected);`;
+    const exec = `(async ({${Object.keys(this.injected).join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); } })(injected);`;
 
     new Function('injected', exec)(this.injected);
 
