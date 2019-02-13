@@ -68,7 +68,6 @@ class App extends React.PureComponent<Props, State> {
     return (
       <main className='js--App'>
         <header className='container'>
-          <Intro />
           <Dropdown
             className='js--Dropdown'
             onChange={this.selectExample}
