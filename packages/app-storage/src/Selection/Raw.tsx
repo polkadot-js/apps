@@ -10,7 +10,7 @@ import { Button, Input } from '@polkadot/ui-app/index';
 
 import translate from '../translate';
 import { u8aToU8a } from '@polkadot/util';
-import { Compact } from '@polkadot/types/codec';
+import { Compact } from '@polkadot/types';
 
 type Props = ComponentProps & I18nProps;
 
