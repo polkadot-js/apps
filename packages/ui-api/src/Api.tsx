@@ -103,10 +103,11 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     formatBalance.setDefaultUnits(tokenSymbol);
     InputNumber.setUnit(tokenSymbol);
 
-    // setup keyring (loadAll) only after prefix has been set
-    keyring.setAddressPrefix(properties.get('networkId') || found.networkId as any || 42);
-    keyring.setDevMode(isTestChain(chain || ''));
-    keyring.loadAll();
+    keyring.loadAll({
+      addressPrefix: properties.get('networkId') || found.networkId as any,
+      isDevelopment: isTestChain(chain || ''),
+      type: 'ed25519'
+    });
 
     this.setState({ chain });
   }
