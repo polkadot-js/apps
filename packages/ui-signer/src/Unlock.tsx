@@ -4,7 +4,6 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React from 'react';
 import { Password } from '@polkadot/ui-app/index';
@@ -13,10 +12,8 @@ import keyring from '@polkadot/ui-keyring';
 import translate from './translate';
 
 type Props = I18nProps & {
-  allAccounts: SubjectInfo,
   autoFocus?: boolean,
   error?: string,
-  label?: string,
   onChange: (password: string) => void,
   onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
   password: string,
@@ -35,7 +32,7 @@ class Unlock extends React.PureComponent<Props, State> {
     isLocked: false
   } as State;
 
-  static getDerivedStateFromProps ({ allAccounts, error, value }: Props): State | null {
+  static getDerivedStateFromProps ({ error, value }: Props): State | null {
     const pair = keyring.getPair(value as string);
 
     if (!pair) {
@@ -52,7 +49,7 @@ class Unlock extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { autoFocus, label, onChange, onKeyDown, password, t, tabIndex } = this.props;
+    const { autoFocus, onChange, onKeyDown, password, t, tabIndex } = this.props;
     const { isError, isLocked } = this.state;
 
     if (!isLocked) {
@@ -64,7 +61,7 @@ class Unlock extends React.PureComponent<Props, State> {
         <Password
           autoFocus={autoFocus}
           isError={isError}
-          label={label || t('unlock account with password')}
+          label={t('unlock account with password')}
           onChange={onChange}
           onKeyDown={onKeyDown}
           tabIndex={tabIndex}

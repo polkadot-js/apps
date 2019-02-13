@@ -166,16 +166,15 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private renderUnlock () {
-    const { allAccounts, t } = this.props;
-    const { currentItem, password, unlockError } = this.state;
+    const { t } = this.props;
+    const { currentItem, isSendable, password, unlockError } = this.state;
 
-    if (!allAccounts || !currentItem || currentItem.isUnsigned) {
+    if (!isSendable || !currentItem || currentItem.isUnsigned) {
       return null;
     }
 
     return (
       <Unlock
-        allAccounts={allAccounts}
         autoFocus
         error={unlockError && t(unlockError.key, unlockError.value)}
         onChange={this.onChangePassword}
@@ -204,8 +203,6 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     const pair = keyring.getPair(publicKey);
-
-    console.error('pair', pair);
 
     if (!pair.isLocked()) {
       return null;
