@@ -126,4 +126,4 @@ const currHash = await api.query.balances.freeBalance.hash(ALICE);
 const currSize = await api.query.balances.freeBalance.size(ALICE);
 
 console.log('Alice balance entry has a value hash of', currHash, 'with a size of', currSize);`
-}
+};
