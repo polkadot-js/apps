@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { QueryTypes, StorageModuleQuery } from './types';
 
 import React from 'react';
-import { Compact } from '@polkadot/types/codec';
+import { Compact } from '@polkadot/types';
 import { Button, Labelled } from '@polkadot/ui-app/index';
 import valueToText from '@polkadot/ui-params/valueToText';
 import { withCallDiv } from '@polkadot/ui-api/index';

@@ -5,7 +5,7 @@
 import { Props } from '../types';
 
 import React from 'react';
-import { Compact } from '@polkadot/types/codec';
+import { Compact } from '@polkadot/types';
 import { Input } from '@polkadot/ui-app/index';
 import { hexToU8a, u8aConcat } from '@polkadot/util';
 

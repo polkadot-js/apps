@@ -8,7 +8,7 @@ import { ExtraFees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Compact } from '@polkadot/types/codec';
+import { Compact } from '@polkadot/types';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
 import { Icon } from '@polkadot/ui-app/index';
 import { formatBalance } from '@polkadot/ui-app/util';

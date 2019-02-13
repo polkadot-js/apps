@@ -6,8 +6,7 @@ import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AccountId, Balance } from '@polkadot/types';
-import { HeaderExtended } from '@polkadot/types/Header';
+import { AccountId, Balance, HeaderExtended } from '@polkadot/types';
 import { withCall, withMulti } from '@polkadot/ui-api/with';
 import { AddressMini, AddressRow } from '@polkadot/ui-app/index';
 import { formatNumber } from '@polkadot/ui-app/util';

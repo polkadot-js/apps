@@ -8,8 +8,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { RawParam } from '@polkadot/ui-params/types';
 
 import React from 'react';
-import { TypeDef, getTypeDef } from '@polkadot/types/codec';
-import { Method } from '@polkadot/types';
+import { Method, TypeDef, getTypeDef } from '@polkadot/types';
 
 import { InputExtrinsic } from '@polkadot/ui-app/index';
 import Params from '@polkadot/ui-params/index';

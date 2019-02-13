@@ -11,7 +11,7 @@ import './index.css';
 
 import React from 'react';
 import rpc from '@polkadot/jsonrpc';
-import { getTypeDef } from '@polkadot/types/codec';
+import { getTypeDef } from '@polkadot/types';
 import { Button, InputRpc } from '@polkadot/ui-app/index';
 import Params from '@polkadot/ui-params/index';
 
