@@ -14,7 +14,6 @@ import translate from './translate';
 type Props = I18nProps & {
   autoFocus?: boolean,
   error?: string,
-  label?: string,
   onChange: (password: string) => void,
   onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
   password: string,
@@ -29,10 +28,17 @@ type State = {
 };
 
 class Unlock extends React.PureComponent<Props, State> {
-  state: State = {} as State;
+  state: State = {
+    isLocked: false
+  } as State;
 
-  static getDerivedStateFromProps ({ error, value }: Props): State {
+  static getDerivedStateFromProps ({ error, value }: Props): State | null {
     const pair = keyring.getPair(value as string);
+
+    if (!pair) {
+      return null;
+    }
+
     const isLocked = pair.isLocked();
 
     return {
@@ -43,7 +49,7 @@ class Unlock extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { autoFocus, label, onChange, onKeyDown, password, t, tabIndex } = this.props;
+    const { autoFocus, onChange, onKeyDown, password, t, tabIndex } = this.props;
     const { isError, isLocked } = this.state;
 
     if (!isLocked) {
@@ -55,7 +61,7 @@ class Unlock extends React.PureComponent<Props, State> {
         <Password
           autoFocus={autoFocus}
           isError={isError}
-          label={label || t('unlock account with password')}
+          label={t('unlock account with password')}
           onChange={onChange}
           onKeyDown={onKeyDown}
           tabIndex={tabIndex}
