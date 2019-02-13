@@ -43,16 +43,22 @@ type State = {
   snippet: string
 };
 
-const local = snippets.find(obj => obj.value === localStorage.getItem('app-js-snippet'));
-
 class App extends React.PureComponent<Props, State> {
   injected: Injected | null = null;
   state: State = {
-    code: local ? local.code : snippets[0].code,
+    code: '',
     isRunning: false,
     logs: [],
-    snippet: local ? local.value : snippets[0].value
+    snippet: ''
   };
+
+  componentDidMount () {
+    const local = snippets.find(obj => obj.value === localStorage.getItem('app-js-snippet'));
+    this.setState({
+      code: local ? local.code : snippets[0].code,
+      snippet: local ? local.value : snippets[0].value
+    });
+  }
 
   render () {
     const { code, isRunning, logs, snippet } = this.state;

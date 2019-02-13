@@ -41,8 +41,6 @@ export default class Editor extends React.PureComponent<Props> {
 
     const { editor, props: { code, onEdit } } = this;
 
-    editor.updateCode(`${WRAPPING}${code}`);
-
     editor.onUpdate((code: string) => {
       onEdit(code);
     });
