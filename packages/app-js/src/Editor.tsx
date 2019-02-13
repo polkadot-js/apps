@@ -60,7 +60,7 @@ export default class Editor extends React.PureComponent<Props> {
     if (snippet !== this.state.snippet) {
       onEdit(code);
       this.editor.updateCode(`${WRAPPING}${code}`);
-      this.setState( {snippet} );
+      this.setState({ snippet });
     }
   }
 
