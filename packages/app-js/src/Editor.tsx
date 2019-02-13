@@ -38,6 +38,7 @@ export default class Editor extends React.PureComponent<Props> {
       language: 'js',
       lineNumbers: true
     });
+
     const { editor, props: { code, onEdit } } = this;
 
     editor.updateCode(`${WRAPPING}${code}`);
@@ -55,6 +56,7 @@ export default class Editor extends React.PureComponent<Props> {
 
   componentDidUpdate () {
     const { code, onEdit, snippet } = this.props;
+
     if (snippet !== this.state.snippet) {
       onEdit(code);
       this.editor.updateCode(`${WRAPPING}${code}`);
