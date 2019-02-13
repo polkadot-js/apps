@@ -13,7 +13,6 @@ import {
 
 import {
   storageGetInfo,
-  storageGetBalanceInformation,
   storageSystemEvents,
   storageListenToBalanceChange,
  storageRetrieveInfoOnQueryKeys
@@ -27,7 +26,6 @@ const snippets: Array<Snippet> = [
   rpcQueryState,
   rpcSysthemInfo,
   storageGetInfo,
-  storageGetBalanceInformation,
   storageSystemEvents,
   storageListenToBalanceChange,
   storageRetrieveInfoOnQueryKeys,
