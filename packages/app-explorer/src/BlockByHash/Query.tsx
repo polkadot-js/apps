@@ -8,9 +8,11 @@ import React from 'react';
 import { Button, Input } from '@polkadot/ui-app/index';
 import { isHex } from '@polkadot/util';
 
-import translate from './translate';
+import translate from '../translate';
 
-type Props = I18nProps & {};
+type Props = I18nProps & {
+  hash?: string
+};
 
 type State = {
   hash: string
@@ -18,10 +20,16 @@ type State = {
 };
 
 class Query extends React.PureComponent<Props, State> {
-  state: State = {
-    hash: '',
-    isValid: false
-  };
+  constructor (props: Props) {
+    super(props);
+
+    const { hash } = this.props;
+
+    this.state = {
+      hash: hash || '',
+      isValid: isHex(hash, 256)
+    };
+  }
 
   render () {
     const { t } = this.props;
@@ -34,6 +42,7 @@ class Query extends React.PureComponent<Props, State> {
           <div className='storage--actionrow medium'>
             <Input
               className='storage--actionrow-value'
+              defaultValue={this.props.hash}
               isError={!isValid && hash.length !== 0}
               placeholder={t('block hash to query')}
               onChange={this.setHash}
