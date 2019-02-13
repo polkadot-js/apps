@@ -37,8 +37,8 @@
 
   .apps--SideBar-logo {
     width: 100%;
-    margin: 0.5rem 1.5rem 1.5rem 0.75rem;
-    width: 10rem;
+    margin: 0.5rem 1.5rem 1rem 0.75rem;
+    width: 9rem;
   }
 
   .apps--SideBar-collapse {
@@ -59,7 +59,7 @@
     }
 
     .apps--SideBar-logo {
-      margin: 0.5rem 0.75rem 1.5rem 0rem;
+      margin: 0.25rem 0.75rem 0.5rem 0rem;
       width: 3rem;
     }
   }

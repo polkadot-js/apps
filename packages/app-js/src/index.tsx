@@ -19,7 +19,6 @@ import './index.css';
 import snippets from './snippets';
 import translate from './translate';
 
-import Intro from './Intro';
 import Editor from './Editor';
 import Output from './Output';
 
@@ -43,16 +42,22 @@ type State = {
   snippet: string
 };
 
-const local = snippets.find(obj => obj.value === localStorage.getItem('app-js-snippet'));
-
 class App extends React.PureComponent<Props, State> {
   injected: Injected | null = null;
   state: State = {
-    code: local ? local.code : snippets[0].code,
+    code: '',
     isRunning: false,
     logs: [],
-    snippet: local ? local.value : snippets[0].value
+    snippet: ''
   };
+
+  componentDidMount () {
+    const local = snippets.find(obj => obj.value === localStorage.getItem('app-js-snippet'));
+    this.setState({
+      code: local ? local.code : snippets[0].code,
+      snippet: local ? local.value : snippets[0].value
+    });
+  }
 
   render () {
     const { code, isRunning, logs, snippet } = this.state;
@@ -62,7 +67,6 @@ class App extends React.PureComponent<Props, State> {
     return (
       <main className='js--App'>
         <header className='container'>
-          <Intro />
           <Dropdown
             className='js--Dropdown'
             onChange={this.selectExample}
@@ -133,7 +137,7 @@ class App extends React.PureComponent<Props, State> {
 
     // squash into a single line so exceptions (with linenumbers) maps to the same line/origin
     // as we have in the editor view (TODO: Make the console.error here actually return the full stack)
-    const exec = `(async ({${Object.keys(this.injected).join(',')}}) => { try { ${code} } catch (error) { console.error(error); } })(injected);`;
+    const exec = `(async ({${Object.keys(this.injected).join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); } })(injected);`;
 
     new Function('injected', exec)(this.injected);
 
