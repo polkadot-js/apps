@@ -4,6 +4,7 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringPair } from '@polkadot/keyring/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React from 'react';
 import { Password } from '@polkadot/ui-app/index';
@@ -12,6 +13,7 @@ import keyring from '@polkadot/ui-keyring';
 import translate from './translate';
 
 type Props = I18nProps & {
+  allAccounts: SubjectInfo,
   autoFocus?: boolean,
   error?: string,
   label?: string,
@@ -29,10 +31,17 @@ type State = {
 };
 
 class Unlock extends React.PureComponent<Props, State> {
-  state: State = {} as State;
+  state: State = {
+    isLocked: false
+  } as State;
 
-  static getDerivedStateFromProps ({ error, value }: Props): State {
+  static getDerivedStateFromProps ({ allAccounts, error, value }: Props): State | null {
     const pair = keyring.getPair(value as string);
+
+    if (!pair) {
+      return null;
+    }
+
     const isLocked = pair.isLocked();
 
     return {
