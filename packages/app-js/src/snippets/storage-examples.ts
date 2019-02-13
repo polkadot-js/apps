@@ -16,7 +16,7 @@ const [blockPeriod, validators, transferFee] = await Promise.all([
   api.query.balances.transferFee()
 ]);
 
-console.log('blockPeriod in seconds: ' + blockPeriod);
+console.log('blockPeriod in seconds: ' + blockPeriod.toNumber());
 console.log('transferFee: ', transferFee);
 
 if (validators && validators.length > 0) {
