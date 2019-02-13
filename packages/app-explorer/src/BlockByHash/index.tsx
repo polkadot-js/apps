@@ -22,10 +22,10 @@ export default class Entry extends React.PureComponent<Props> {
     const { match: { params: { hash } } } = this.props;
 
     return (
-      <div>
+      <>
         <Query hash={hash} />
         {this.renderBlock()}
-      </div>
+      </>
     );
   }
 
