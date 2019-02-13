@@ -19,7 +19,6 @@ import './index.css';
 import snippets from './snippets';
 import translate from './translate';
 
-import Intro from './Intro';
 import Editor from './Editor';
 import Output from './Output';
 
