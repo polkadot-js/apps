@@ -19,7 +19,6 @@ const packages = [
   'app-js',
   'app-settings',
   'app-staking',
-  'app-nodeinfo',
   'app-storage',
   'app-123code',
   'app-toolbox',
