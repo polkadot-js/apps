@@ -26,6 +26,7 @@ type Props = BareProps & {
   isInput?: boolean,
   label?: string,
   onChange?: (value: string | null) => void,
+  addresses?: KeyringSectionOptions,
   optionsAll?: KeyringOptions,
   placeholder?: string,
   type?: KeyringOption$Type,
@@ -106,8 +107,13 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, defaultValue, hideAddress = false, isDisabled = false, isError, label, optionsAll, type = DEFAULT_TYPE, style, withLabel } = this.props;
+    const { className, defaultValue, hideAddress = false, isDisabled = false, isError, label, addresses, optionsAll, type = DEFAULT_TYPE, style, withLabel } = this.props;
     const { value } = this.state;
+
+    if (addresses && optionsAll) {
+      optionsAll.address = addresses;
+    }
+
     const hasOptions = optionsAll && Object.keys(optionsAll[type]).length !== 0;
 
     if (!hasOptions && !isDisabled) {
