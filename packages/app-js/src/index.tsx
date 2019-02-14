@@ -215,11 +215,13 @@ class App extends React.PureComponent<Props, State> {
   }
 
   private selectExample = (value: string) => {
-    const { options } = this.state;
-    const option = options.find(obj => obj.value === value);
+    if (value.length) {
+      const { options } = this.state;
+      const option = options.find(obj => obj.value === value);
 
-    localStorage.setItem('polkadot-app-js-selected', value);
-    this.setState({ code: (option ? option.code : ''), snippet: value });
+      localStorage.setItem('polkadot-app-js-selected', value);
+      this.setState({ code: (option ? option.code : ''), snippet: value });
+    }
   }
 
   private saveSnippet = (): void => {
