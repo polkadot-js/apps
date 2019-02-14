@@ -30,7 +30,7 @@ type Injected = {
   },
   global: null,
   hashing: typeof hashing,
-  keyring: KeyringInstance,
+  keyring: KeyringInstance | null,
   util: typeof util,
   window: null
 };
@@ -60,8 +60,8 @@ class App extends React.PureComponent<Props, State> {
   }
 
   render () {
+    const { isDevelopment, t } = this.props;
     const { code, isRunning, logs, snippet } = this.state;
-    const { t } = this.props;
     const options = snippets.map(({ code, ...options }) => ({ ...options }));
 
     return (
@@ -79,6 +79,7 @@ class App extends React.PureComponent<Props, State> {
         <section className='js--Content'>
           <Editor
             code={code}
+            isDevelopment={isDevelopment}
             snippet={snippet}
             onEdit={this.onEdit}
           >
@@ -113,9 +114,8 @@ class App extends React.PureComponent<Props, State> {
   }
 
   private runJs = async (): Promise<void> => {
-    const { api } = this.props;
+    const { api, isDevelopment } = this.props;
     const { code } = this.state;
-    const { keyring } = uiKeyring;
 
     this.stopJs();
     this.clearConsole();
@@ -128,7 +128,9 @@ class App extends React.PureComponent<Props, State> {
       },
       global: null,
       hashing,
-      keyring,
+      keyring: isDevelopment
+        ? uiKeyring.keyring
+        : null,
       util,
       window: null
     };
