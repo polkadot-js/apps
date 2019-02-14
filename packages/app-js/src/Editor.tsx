@@ -7,10 +7,11 @@ import { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import CodeFlask from 'codeflask';
 
-import WRAPPING from './snippets/wrapping';
+import makeWrapper from './snippets/wrapping';
 
 type Props = BareProps & {
   children?: React.ReactNode,
+  isDevelopment: boolean,
   code: string,
   onEdit: (code: string) => void,
   snippet: string
@@ -30,6 +31,7 @@ export default class Editor extends React.PureComponent<Props> {
 
   constructor (props: Props) {
     super(props);
+
     this.id = `flask-${Date.now()}`;
   }
 
@@ -53,11 +55,12 @@ export default class Editor extends React.PureComponent<Props> {
   }
 
   componentDidUpdate () {
-    const { code, onEdit, snippet } = this.props;
+    const { code, isDevelopment, onEdit, snippet } = this.props;
 
     if (snippet !== this.state.snippet) {
       onEdit(code);
-      this.editor.updateCode(`${WRAPPING}${code}`);
+
+      this.editor.updateCode(`${makeWrapper(isDevelopment)}${code}`);
       this.setState({ snippet });
     }
   }

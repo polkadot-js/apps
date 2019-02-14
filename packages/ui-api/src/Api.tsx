@@ -95,6 +95,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       tokenSymbol: undefined
     };
     const tokenSymbol = properties.get('tokenSymbol') || found.tokenSymbol;
+    const isDevelopment = isTestChain(chain || '');
 
     console.log('api: found chain', chain, [...properties.entries()]);
 
@@ -105,10 +106,10 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
 
     // setup keyring (loadAll) only after prefix has been set
     keyring.setAddressPrefix(properties.get('networkId') || found.networkId as any || 42);
-    keyring.setDevMode(isTestChain(chain || ''));
+    keyring.setDevMode(isDevelopment);
     keyring.loadAll();
 
-    this.setState({ chain });
+    this.setState({ chain, isDevelopment });
   }
 
   private subscribeIsConnected = (api: ApiPromise) => {
@@ -134,7 +135,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { api, apiDefaultTx, chain, isApiConnected, isApiReady, setApiUrl } = this.state;
+    const { api, apiDefaultTx, chain, isApiConnected, isApiReady, isDevelopment, setApiUrl } = this.state;
 
     return (
       <ApiContext.Provider
@@ -143,6 +144,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
           apiDefaultTx,
           isApiConnected,
           isApiReady: isApiReady && !!chain,
+          isDevelopment,
           setApiUrl
         }}
       >
