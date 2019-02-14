@@ -116,7 +116,6 @@ class App extends React.PureComponent<Props, State> {
   private runJs = async (): Promise<void> => {
     const { api, isDevelopment } = this.props;
     const { code } = this.state;
-    const { keyring } = uiKeyring;
 
     this.stopJs();
     this.clearConsole();
@@ -130,7 +129,7 @@ class App extends React.PureComponent<Props, State> {
       global: null,
       hashing,
       keyring: isDevelopment
-        ? keyring
+        ? uiKeyring.keyring
         : null,
       util,
       window: null
