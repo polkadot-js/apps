@@ -14,6 +14,7 @@ import translate from './translate';
 
 type Props = I18nProps & {
   children?: React.ReactNode,
+  isSendable: boolean,
   value: QueueTx
 };
 
@@ -67,7 +68,7 @@ class Transaction extends React.PureComponent<Props> {
   }
 
   private renderChecks () {
-    const { value: { accountId, extrinsic, isUnsigned } } = this.props;
+    const { isSendable, value: { accountId, extrinsic, isUnsigned } } = this.props;
 
     if (isUnsigned) {
       return null;
@@ -77,6 +78,7 @@ class Transaction extends React.PureComponent<Props> {
       <Checks
         accountId={accountId}
         extrinsic={extrinsic}
+        isSendable={isSendable}
       />
     );
   }

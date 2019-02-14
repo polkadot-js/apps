@@ -9,7 +9,7 @@ import { SettingsStruct } from '@polkadot/ui-settings/types';
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import store from 'store';
-import typeRegistry from '@polkadot/types/codec/typeRegistry';
+import { typeRegistry } from '@polkadot/types';
 import { Button, Dropdown, Input, InputFile, Tabs } from '@polkadot/ui-app/index';
 import uiSettings from '@polkadot/ui-settings';
 import { u8aToString } from '@polkadot/util';

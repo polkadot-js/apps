@@ -7,6 +7,7 @@ import { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 
 import BlockByHash from './BlockByHash';
+import Query from './Query';
 
 type Props = BareProps & {
   match: {
@@ -18,6 +19,17 @@ type Props = BareProps & {
 
 export default class Entry extends React.PureComponent<Props> {
   render () {
+    const { match: { params: { hash } } } = this.props;
+
+    return (
+      <>
+        <Query hash={hash} />
+        {this.renderBlock()}
+      </>
+    );
+  }
+
+  private renderBlock () {
     const { match: { params: { hash } } } = this.props;
 
     if (!hash) {

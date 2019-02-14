@@ -19,6 +19,7 @@ export type ApiProps = {
   apiDefaultTx: SubmittableExtrinsicFunction,
   isApiConnected: boolean,
   isApiReady: boolean,
+  isDevelopment: boolean,
   setApiUrl: (url?: string) => void
 };
 

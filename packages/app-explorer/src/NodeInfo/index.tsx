@@ -54,7 +54,7 @@ class App extends React.PureComponent<Props, State> {
     const { info = {}, nextRefresh } = this.state;
 
     return (
-      <main className='status--App'>
+      <>
         <Summary
           info={info}
           nextRefresh={nextRefresh}
@@ -64,7 +64,7 @@ class App extends React.PureComponent<Props, State> {
           label={t('pending extrinsics')}
           value={info.extrinsics}
         />
-      </main>
+      </>
     );
   }
 
