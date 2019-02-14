@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SemanticSIZES } from 'semantic-ui-react/dist/commonjs/generic';
-
 import { BareProps } from '../types';
+
+export type Button$Sizes = 'mini' | 'tiny' | 'small' | 'medium' | 'large' | 'big' | 'huge' | 'massive';
 
 export type ButtonProps = BareProps & {
   children?: React.ReactNode,
@@ -18,7 +18,7 @@ export type ButtonProps = BareProps & {
   isPrimary?: boolean,
   label?: React.ReactNode,
   onClick?: () => void | Promise<void>,
-  size?: SemanticSIZES,
+  size?: Button$Sizes,
   tabIndex?: number
 };
 
