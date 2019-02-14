@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Item, Popup } from 'semantic-ui-react';
+import { Popup } from 'semantic-ui-react';
 
 import { ApiPromise } from '@polkadot/api';
 import { KeyringInstance } from '@polkadot/keyring/types';
@@ -49,7 +49,6 @@ type State = {
 
 const customExample: Snippet = {
   code: ``,
-  isCustom: true,
   label: { color: 'orange', children: 'Custom', size: 'tiny' },
   text: '',
   value: ''
@@ -68,14 +67,17 @@ class App extends React.PureComponent<Props, State> {
   };
 
   componentDidMount () {
-    const localData = { examples: localStorage.getItem('polkadot-app-js-examples'), selected: localStorage.getItem('polkadot-app-js-selected') };
+    const localData = {
+      examples: localStorage.getItem('polkadot-app-js-examples'),
+      selected: localStorage.getItem('polkadot-app-js-selected')
+    };
     const customExamples = localData.examples ? JSON.parse(localData.examples) : [];
-    const { options } = this.state;
+    const options: Array<Snippet> = [...customExamples, ...snippets];
     const selected = options.find(obj => obj.value === localData.selected);
 
     this.setState({
       customExamples,
-      options: [...customExamples, ...snippets],
+      options,
       code: selected ? selected.code : snippets[0].code,
       snippet: selected ? selected.value : snippets[0].value
     });
@@ -236,13 +238,14 @@ class App extends React.PureComponent<Props, State> {
       ...prevState,
       customExamples: [snapshot, ...prevState.customExamples],
       options: [snapshot, ...prevState.options],
+      snippet: snapshot.value,
       snippetName: ''
     }));
   }
 
-  private removeSnippet = () => {
-    console.log('removeSnippet');
-  }
+  // private removeSnippet = () => {
+  //   console.log('removeSnippet');
+  // }
 
   private onEdit = (code: string): void => {
     this.setState({ code });
