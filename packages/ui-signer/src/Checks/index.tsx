@@ -36,6 +36,7 @@ type Props = I18nProps & {
   balances_votingBalance?: DerivedBalances,
   accountId?: string | null,
   extrinsic?: Extrinsic | null,
+  isSendable: boolean,
   onChange?: (hasAvailble: boolean) => void,
   system_accountNonce?: BN
 };
@@ -117,7 +118,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accountId, className, t } = this.props;
+    const { accountId, className, isSendable, t } = this.props;
     const { allFees, allTotal, allWarn, hasAvailable, isRemovable, isReserved, overLimit } = this.state;
 
     if (!accountId) {
@@ -138,6 +139,11 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         className={[className, feeClass, 'padded'].join(' ')}
         key='txinfo'
       >
+        {
+          isSendable
+            ? undefined
+            : <div><Icon name='ban' />{t('The selected account does not exist on your keyring')}</div>
+        }
         {
           hasAvailable
             ? undefined
