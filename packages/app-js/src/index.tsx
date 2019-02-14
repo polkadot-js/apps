@@ -113,7 +113,7 @@ class App extends React.PureComponent<Props, State> {
                 trigger={
                   <Button
                     isCircular
-                    isPrimary
+                    isPositive
                     icon='save'
                   />
                 }
