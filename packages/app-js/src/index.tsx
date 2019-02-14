@@ -48,10 +48,11 @@ type State = {
 };
 
 const customExample: Snippet = {
-  value: '',
-  text: '',
+  code: ``,
+  isCustom: true,
   label: { color: 'orange', children: 'Custom', size: 'tiny' },
-  code: ``
+  text: '',
+  value: ''
 };
 
 class App extends React.PureComponent<Props, State> {

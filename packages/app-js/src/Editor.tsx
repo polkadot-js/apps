@@ -56,8 +56,9 @@ export default class Editor extends React.PureComponent<Props> {
     const { code, onEdit, snippet } = this.props;
 
     if (snippet !== this.state.snippet) {
+      const nextContent = snippet.split('-')[0] === 'custom' ? `${code}` : `${WRAPPING}${code}`;
       onEdit(code);
-      this.editor.updateCode(`${WRAPPING}${code}`);
+      this.editor.updateCode(nextContent);
       this.setState({ snippet });
     }
   }
