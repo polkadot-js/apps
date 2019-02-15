@@ -101,8 +101,8 @@ class App extends React.PureComponent<Props, State> {
               <LocalStorage
                 removeSnippet={this.removeSnippet}
                 saveSnippet={this.saveSnippet}
-                />
-                <Button
+              />
+              <Button
                 isCircular
                 isPrimary
                 icon='play'
@@ -180,35 +180,44 @@ class App extends React.PureComponent<Props, State> {
       const { options } = this.state;
       const option = options.find(obj => obj.value === value);
 
-      localStorage.setItem('polkadot-app-js-selected', value);
+      localStorage.setItem(STORE_SELECTED, value);
       this.setState({ code: (option ? option.code : ''), snippet: value });
     }
   }
 
-  private saveSnippet = (): void => {
-    const { code, customExamples, snippetName } = this.state;
+  private saveSnippet = (snippetName: string): void => {
+    const { code, customExamples } = this.state;
 
     const snapshot: Snippet = {
-      ...customExample,
       code,
+      label: CUSTOM_LABEL,
       text: snippetName,
       value: `custom-${Date.now()}`
     };
 
-    localStorage.setItem('polkadot-app-js-examples', JSON.stringify([snapshot, ...customExamples]));
+    localStorage.setItem(STORE_EXAMPLES, JSON.stringify([snapshot, ...customExamples]));
 
     this.setState((prevState: State): State => ({
       ...prevState,
       customExamples: [snapshot, ...prevState.customExamples],
       options: [snapshot, ...prevState.options],
-      snippet: snapshot.value,
-      snippetName: ''
+      snippet: snapshot.value
     }));
   }
 
-  // private removeSnippet = () => {
-  //   console.log('removeSnippet');
-  // }
+  private removeSnippet = (): void => {
+    const { customExamples, snippet } = this.state;
+    const filtered = customExamples.filter((value) => value.value !== snippet);
+    const nextOptions = [...filtered, ...snippets];
+
+    this.setState((prevState: State): State => ({
+      ...prevState,
+      customExamples: filtered,
+      options: nextOptions
+    }));
+
+    this.selectExample(nextOptions[0].value);
+  }
 
   private onEdit = (code: string): void => {
     this.setState({ code });
