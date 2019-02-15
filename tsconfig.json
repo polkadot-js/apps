@@ -3,6 +3,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@polkadot/joy-election/*": [ "packages/joy-election/src/*" ],
+      "@polkadot/joy-proposals/*": [ "packages/joy-proposals/src/*" ],
+      "@polkadot/joy-utils/*": [ "packages/joy-utils/src/*" ],
+      
       "@polkadot/app-123code/*": [ "packages/app-123code/src/*" ],
       "@polkadot/app-accounts/*": [ "packages/app-accounts/src/*" ],
       "@polkadot/app-addresses/*": [ "packages/app-addresses/src/*" ],
