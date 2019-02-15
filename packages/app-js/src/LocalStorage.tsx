@@ -1,0 +1,92 @@
+// Copyright 2017-2019 @polkadot/app-js authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
+import { BareProps, I18nProps } from '@polkadot/ui-app/types';
+
+import React from 'react';
+import { Button as SUIB, Popup } from 'semantic-ui-react';
+import { Button, Input } from '@polkadot/ui-app/index';
+
+import translate from './translate';
+
+type Props = BareProps & I18nProps & {
+  saveSnippet: (snippetName: string) => void,
+  removeSnippet: () => void
+};
+
+type State = {
+  snippetName: string
+};
+
+class LocalStorage extends React.PureComponent<Props, State> {
+  state: State = {
+    snippetName: ''
+  };
+
+  render () {
+    const { props: { removeSnippet, t }, state: { snippetName } } = this;
+    return (
+      <>
+        <Popup
+          content='Delete this custom example'
+          on='hover'
+          trigger={
+            <SUIB
+              circular
+              negative
+              icon='trash alternate outline'
+              onClick={removeSnippet}
+            />
+          }
+        />
+        <Popup
+          className='popup-local'
+          onClose={this.onPopupClose}
+          trigger={
+            <SUIB
+              circular
+              positive
+              icon='save'
+            />
+          }
+          on='click'
+        >
+          <Input
+            autoFocus={true}
+            onChange={this.onChangeName}
+            withLabel={false}
+            maxLength={50}
+            min={1}
+            placeholder={t('Name your example')}
+          />
+          <Button
+            onClick={this.saveSnippet}
+            label={t('Save snippet to local storage')}
+            isDisabled={!snippetName.length}
+            isPositive
+          />
+        </Popup>
+      </>
+    );
+  }
+
+  // move to separate component
+  private onChangeName = (snippetName: string): void => {
+    this.setState({ snippetName } as State);
+  }
+
+  // move to separate component
+  private saveSnippet = (): void => {
+    const { state: { snippetName }, props: { saveSnippet } } = this;
+
+    saveSnippet(snippetName);
+    this.setState({ snippetName: '' } as State);
+  }
+
+  private onPopupClose = (): void => {
+    this.setState({ snippetName: '' } as State);
+  }
+}
+
+export default translate(LocalStorage);

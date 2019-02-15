@@ -68,6 +68,7 @@ const ALICE = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 
 // Retrieve the initial balance.
 let previous = await api.query.balances.freeBalance(ALICE);
+
 console.log('ALICE has a balance of ' + previous);
 
 // Subscribe and listen to balance changes

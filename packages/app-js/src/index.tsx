@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Popup } from 'semantic-ui-react';
-
 import { ApiPromise } from '@polkadot/api';
 import { KeyringInstance } from '@polkadot/keyring/types';
 import { ApiProps } from '@polkadot/ui-api/types';
@@ -12,7 +10,7 @@ import { Log, LogType, Snippet } from './types';
 
 import React from 'react';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
-import { Button, Dropdown, Input } from '@polkadot/ui-app/index';
+import { Button, Dropdown } from '@polkadot/ui-app/index';
 import uiKeyring from '@polkadot/ui-keyring';
 import * as util from '@polkadot/util';
 import * as hashing from '@polkadot/util-crypto';
@@ -45,15 +43,7 @@ type State = {
   isRunning: boolean,
   logs: Array<Log>,
   options: Array<Snippet>,
-  snippet: string,
-  snippetName: string
-};
-
-const customExample: Snippet = {
-  code: ``,
-  label: { color: 'orange', children: 'Custom', size: 'tiny' },
-  text: '',
-  value: ''
+  snippet: string
 };
 
 class App extends React.PureComponent<Props, State> {
@@ -64,14 +54,13 @@ class App extends React.PureComponent<Props, State> {
     isRunning: false,
     logs: [],
     options: [],
-    snippet: '',
-    snippetName: ''
+    snippet: ''
   };
 
   componentDidMount () {
     const localData = {
-      examples: localStorage.getItem('polkadot-app-js-examples'),
-      selected: localStorage.getItem('polkadot-app-js-selected')
+      examples: localStorage.getItem(STORE_EXAMPLES),
+      selected: localStorage.getItem(STORE_SELECTED)
     };
     const customExamples = localData.examples ? JSON.parse(localData.examples) : [];
     const options: Array<Snippet> = [...customExamples, ...snippets];
@@ -87,7 +76,7 @@ class App extends React.PureComponent<Props, State> {
 
   render () {
     const { isDevelopment, t } = this.props;
-    const { code, isRunning, logs, options, snippet, snippetName } = this.state;
+    const { code, isRunning, logs, options, snippet } = this.state;
 
     return (
       <main className='js--App'>
@@ -109,34 +98,11 @@ class App extends React.PureComponent<Props, State> {
             onEdit={this.onEdit}
           >
             <div className='action-button'>
-              <Popup
-                className='popup-local'
-                onClose={this.onPopupClose}
-                trigger={
-                  <Button
-                    isCircular
-                    isPositive
-                    icon='save'
-                  />
-                }
-                on='click'
-              >
-                <Input
-                  autoFocus={true}
-                  onChange={this.onChangeName}
-                  withLabel={false}
-                  maxLength={50}
-                  min={1}
-                  placeholder={t('Name your example')}
+              <LocalStorage
+                removeSnippet={this.removeSnippet}
+                saveSnippet={this.saveSnippet}
                 />
                 <Button
-                  onClick={this.saveSnippet}
-                  label={t('Save Snippet to local storage')}
-                  isDisabled={!snippetName.length}
-                  isPositive
-                />
-              </Popup>
-              <Button
                 isCircular
                 isPrimary
                 icon='play'
@@ -163,15 +129,6 @@ class App extends React.PureComponent<Props, State> {
         </section>
       </main>
     );
-  }
-
-  // move to separate component
-  private onChangeName = (snippetName: string): void => {
-    this.setState({ snippetName } as State);
-  }
-
-  private onPopupClose = (): void => {
-    this.setState({ snippetName: '' } as State);
   }
 
   private runJs = async (): Promise<void> => {
