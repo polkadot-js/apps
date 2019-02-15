@@ -6,6 +6,9 @@ import { Routing, Routes } from '../types';
 
 import appSettings from '@polkadot/ui-settings';
 
+import election from './joy-election';
+import proposals from './joy-proposals';
+
 import template from './123code';
 import accounts from './accounts';
 import addresses from './addresses';
@@ -29,6 +32,9 @@ const routes: Routes = appSettings.uiMode === 'light'
     accounts,
     addresses,
     null,
+    election,
+    proposals,
+    null,
     settings,
     nodeinfo,
     template
@@ -41,6 +47,9 @@ const routes: Routes = appSettings.uiMode === 'light'
     null,
     accounts,
     addresses,
+    null,
+    election,
+    proposals,
     null,
     storage,
     extrinsics,
