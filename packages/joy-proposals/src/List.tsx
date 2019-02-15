@@ -35,19 +35,17 @@ class Component extends React.PureComponent<Props, State> {
               <div className='ui basic label'>ID:<div className='detail'>{proposal.id.toString()}</div></div>
               <div className='ui basic label'>Votes:<div className='detail'>TODO</div></div>
             </h3>
-            <div className='description'>
-              <div style={{ marginTop: '.5rem', fontSize: '1.1rem' }}>{proposal.description.toString()}</div>
-              <div style={{ marginTop: '.5rem' }}>
-                Proposed by <b><span style={{ margin: '0 .25rem' }}><AddressMini value={proposal.proposer} size={24} isShort={false} /></span></b>
-              </div>
-              <div style={{ marginTop: '.5rem' }}>
-                Proposed at block # <b>{proposal.proposed_at.toString()}</b>
-              </div>
+            <div style={{ marginTop: '.5rem' }}>
+              Proposed by <b><span style={{ margin: '0 .25rem' }}><AddressMini value={proposal.proposer} size={24} isShort={false} /></span></b> at block # <b>{proposal.proposed_at.toString()}</b>
+            </div>
+            <div style={{ marginTop: '1rem', fontSize: '1.1rem' }}>
+              <h4>Description</h4>
+              <div>{proposal.description.toString()}</div>
               <div style={{ marginTop: '.5rem' }}>
                 <h4 className='header'>Your vote:</h4>
-
                 <div><em>TODO don't show voting buttons if you are not a councilor</em></div>
-
+              </div>
+              <div style={{ marginTop: '.5rem' }}>
                 <button
                   className='ui green button'
                   onClick={e => this.submitVote('Approve')}
@@ -76,12 +74,12 @@ class Component extends React.PureComponent<Props, State> {
                   <i className='ui exclamation icon'></i>Abstain
                 </button>
               </div>
-              <div>
+              <div style={{ marginTop: '1rem' }}>
                 <h4 className='header'>Progress:</h4>
                 <div>TODO show how many approval votes out of quorum recived so far.</div>
                 <div>TODO Expires in N blocks</div>
               </div>
-              <div style={{ marginTop: '.5rem' }}>
+              <div style={{ marginTop: '1rem' }}>
                 <h4 className='header'>Casted council votes:</h4>
                 {this.renderVotes(proposal.id)}
               </div>
@@ -141,9 +139,9 @@ class Component extends React.PureComponent<Props, State> {
       text = 'Abstained';
     }
     return (
-      <i className={`ui basic ${color} label`} style={{ margin: '0 .5rem', textAlign: 'center', border: '0' }}>
+      <span className={`ui basic ${color} label`} style={{ margin: '0 .5rem', textAlign: 'center', border: '0' }}>
         <i className={`${icon} icon`}></i>{text}
-      </i>
+      </span>
     );
   }
 
@@ -171,9 +169,9 @@ class Component extends React.PureComponent<Props, State> {
       color = 'grey';
     }
     return (
-      <i className={`ui basic ${color} label`}>
+      <span className={`ui basic ${color} label`}>
         <i className={`${icon} icon`}></i>{kind}
-      </i>
+      </span>
     );
   }
 }
