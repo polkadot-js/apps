@@ -40,7 +40,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "semantic-ui-css": "^2.3.1",
-    "semantic-ui-react": "^0.85.0",
+    "semantic-ui-react": "^0.84.0",
     "store": "^2.0.12"
   }
 }
