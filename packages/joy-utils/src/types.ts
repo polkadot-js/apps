@@ -15,6 +15,11 @@ export type Proposal = {
   status: ProposalStatus
 };
 
+export type ProposalVote = {
+  voter: AccountId,
+  kind: VoteKind
+};
+
 export class Announcing extends BlockNumber { }
 export class Voting extends BlockNumber { }
 export class Revealing extends BlockNumber { }
