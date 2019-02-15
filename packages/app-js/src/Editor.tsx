@@ -29,12 +29,6 @@ export default class Editor extends React.PureComponent<Props> {
     snippet: ''
   };
 
-  constructor (props: Props) {
-    super(props);
-
-    this.id = `flask-${Date.now()}`;
-  }
-
   componentDidMount () {
     this.editor = new CodeFlask(`#${this.id}`, {
       language: 'js',
