@@ -20,9 +20,11 @@ import * as hashing from '@polkadot/util-crypto';
 import './index.css';
 import snippets from './snippets';
 import translate from './translate';
+import { STORE_EXAMPLES, STORE_SELECTED, CUSTOM_LABEL } from './constants';
 
 import Editor from './Editor';
 import Output from './Output';
+import LocalStorage from './LocalStorage';
 
 type Injected = {
   api: ApiPromise,
