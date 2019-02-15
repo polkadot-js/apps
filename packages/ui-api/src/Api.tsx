@@ -95,7 +95,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       tokenSymbol: undefined
     };
     const tokenSymbol = properties.get('tokenSymbol') || found.tokenSymbol;
-    const isDevelopment = isTestChain(chain || '');
+    const isDevelopment = isTestChain(chain);
 
     console.log('api: found chain', chain, [...properties.entries()]);
 
@@ -106,7 +106,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
 
     keyring.loadAll({
       addressPrefix: properties.get('networkId') || found.networkId as any,
-      isDevelopment: isTestChain(chain || ''),
+      isDevelopment,
       type: 'ed25519'
     });
 
