@@ -1,6 +1,6 @@
 import typeRegistry from '@polkadot/types/codec/typeRegistry';
 import { Enum, EnumType } from '@polkadot/types/codec';
-import { BlockNumber, AccountId, Balance, Hash, u32, Text } from '@polkadot/types';
+import { BlockNumber, AccountId, Balance, u32, Text } from '@polkadot/types';
 
 export type ProposalId = u32;
 

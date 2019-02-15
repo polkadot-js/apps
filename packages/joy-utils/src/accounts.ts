@@ -1,4 +1,4 @@
-import { hexToU8a, stringToU8a } from '@polkadot/util';
+import { stringToU8a } from '@polkadot/util';
 import { AccountId } from '@polkadot/types';
 
 export const Names = {
@@ -9,7 +9,7 @@ export const Names = {
   Eve:     'Eve'
 };
 
-export const Addresses = {
+export const Addresses:any = {
   Alice:   '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ',
   Bob:     '5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE',
   Charlie: '5FmE1Adpwp1bT1oY95w59RiSPVu9QwzBGjKsE2hxemD2AFs8',
