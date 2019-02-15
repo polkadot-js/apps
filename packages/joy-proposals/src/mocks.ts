@@ -1,8 +1,23 @@
 import { BlockNumber, Balance, u32, Text } from '@polkadot/types';
-import { Proposal, ProposalStatus } from '@polkadot/joy-utils/types';
+import { Proposal, ProposalStatus, ProposalVote, VoteKind } from '@polkadot/joy-utils/types';
 import { AccountIds } from '@polkadot/joy-utils/accounts';
 
-export const HashedVotesMock: Proposal[] = [
+export const ProposalVotesMock: ProposalVote[] = [
+  {
+    voter: AccountIds.Bob,
+    kind: new VoteKind('Approve')
+  },
+  {
+    voter: AccountIds.Charlie,
+    kind: new VoteKind('Reject')
+  },
+  {
+    voter: AccountIds.Dave,
+    kind: new VoteKind('Slash')
+  }
+];
+
+export const ProposalsMock: Proposal[] = [
   {
     id: new u32(1),
     proposer: AccountIds.Bob,
