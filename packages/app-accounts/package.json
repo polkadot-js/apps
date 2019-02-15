@@ -13,11 +13,11 @@
     "@babel/runtime": "^7.2.0",
     "@polkadot/ui-app": "^0.23.28",
     "@types/file-saver": "^2.0.0",
-    "@types/yargs": "^12.0.5",
+    "@types/yargs": "^12.0.9",
     "babel-plugin-module-resolver": "^3.1.1",
     "file-saver": "^2.0.0",
     "libsodium-wrappers": "^0.7.3",
-    "yargs": "^12.0.5"
+    "yargs": "^13.2.0"
   },
   "optionalDependencies": {
     "sodium": "^3.0.2"
