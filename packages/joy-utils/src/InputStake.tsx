@@ -21,7 +21,11 @@ export default class Component extends React.PureComponent<Props> {
           onChange={onChange}
         />
         {min && <div className='medium' style={{ marginLeft: '.5rem' }}>
-          <Bubble className={`left pointing ${isValid ? 'ok' : 'warn'}`} icon='warning sign' label='Minimum stake'>
+          <Bubble
+            className={`left pointing ${isValid ? 'ok' : 'warn'}`}
+            icon={isValid ? 'check' : 'warning sign'}
+            label='Minimum stake'
+          >
             {formatBalance(min)}
           </Bubble>
         </div>}
