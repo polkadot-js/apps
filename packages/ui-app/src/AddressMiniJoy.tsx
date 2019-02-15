@@ -23,6 +23,7 @@ type Props = BareProps & {
   session_validators?: Array<AccountId>,
   value?: AccountId | AccountIndex | Address | string,
   name?: string,
+  size?: number,
   withAddress?: boolean,
   withBalance?: boolean,
   withName?: boolean
@@ -30,7 +31,7 @@ type Props = BareProps & {
 
 class AddressMini extends React.PureComponent<Props> {
   render () {
-    const { children, className, isPadded = true, session_validators, style, value } = this.props;
+    const { children, className, isPadded = true, session_validators, style, size, value } = this.props;
 
     if (!value) {
       return null;
@@ -49,7 +50,7 @@ class AddressMini extends React.PureComponent<Props> {
         <div className='ui--AddressMini-info'>
           <IdentityIcon
             isHighlight={!!isValidator}
-            size={36}
+            size={size || 36}
             value={address}
           />
           <div>
