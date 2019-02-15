@@ -38,11 +38,12 @@ export const rpcQueryState: Snippet = {
   value: 'rpcQueryState',
   text: 'Get state metadata',
   label: { color: 'pink', children: 'RPC', size: 'tiny' },
-  code: `// subscribe to new headers, printing the full info for 5 Blocks
-const unsub = await api.rpc.state.getMetadata(({ magicNumber, metadata }) => {
-  console.log( 'Magic number: ' + magicNumber );
-  console.log( 'Metadata: ' + metadata.raw );
-});`
+  code: `// retrieve and log the complete metadata of your node
+const { magicNumber,metadata } = await api.rpc.state.getMetadata();
+
+console.log( 'Magic number: ' + magicNumber );
+console.log( 'Metadata: ' + metadata.raw );
+`
 };
 
 export const rpcSysthemInfo: Snippet = {
