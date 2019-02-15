@@ -40,8 +40,8 @@ class SideBar extends React.PureComponent<Props> {
           {this.renderLogo()}
           {this.renderRoutes()}
           <Menu.Divider hidden />
-          {this.renderGithub()}
-          {this.renderWiki()}
+          {/* {this.renderGithub()} */}
+          {/* {this.renderWiki()} */}
           <Menu.Divider hidden />
           {children}
         </Menu>
