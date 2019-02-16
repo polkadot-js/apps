@@ -25,6 +25,7 @@ type Props = ApiProps & I18nProps & {
   name: string,
   staking_nominating?: AccountId,
   staking_nominatorsFor?: Array<string>,
+  staking_validatorPreferences?: ValidatorPrefs,
   intentions: Array<string>,
   isValidator: boolean,
   queueExtrinsic: QueueTx$ExtrinsicAdd
@@ -52,23 +53,12 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accountId, balanceArray, intentions, name } = this.props;
-    const { isNominateOpen, isPrefsOpen } = this.state;
+    const { accountId, balanceArray, name } = this.props;
 
     return (
       <article className='staking--Account'>
-        <Nominating
-          isOpen={isNominateOpen}
-          onClose={this.toggleNominate}
-          onNominate={this.nominate}
-          intentions={intentions}
-        />
-        <Preferences
-          accountId={accountId}
-          isOpen={isPrefsOpen}
-          onClose={this.togglePrefs}
-          onSetPrefs={this.setPrefs}
-        />
+        {this.renderNominating()}
+        {this.renderPrefs()}
         <AddressSummary
           balance={balanceArray(accountId)}
           name={name}
@@ -120,6 +110,43 @@ class Account extends React.PureComponent<Props, State> {
           />
         ))}
       </div>
+    );
+  }
+
+  private renderNominating () {
+    const { intentions } = this.props;
+    const { isNominateOpen } = this.state;
+
+    if (!isNominateOpen) {
+      return null;
+    }
+
+    return (
+      <Nominating
+        isOpen={isNominateOpen}
+        onClose={this.toggleNominate}
+        onNominate={this.nominate}
+        intentions={intentions}
+      />
+    );
+  }
+
+  private renderPrefs () {
+    const { accountId, staking_validatorPreferences } = this.props;
+    const { isPrefsOpen } = this.state;
+
+    if (!isPrefsOpen) {
+      return null;
+    }
+
+    return (
+      <Preferences
+        accountId={accountId}
+        isOpen={isPrefsOpen}
+        onClose={this.togglePrefs}
+        onSetPrefs={this.setPrefs}
+        validatorPreferences={staking_validatorPreferences}
+      />
     );
   }
 
@@ -245,6 +272,7 @@ class Account extends React.PureComponent<Props, State> {
 export default translate(
   withCalls<Props>(
     ['query.staking.nominatorsFor', { paramName: 'accountId' }],
-    ['query.staking.nominating', { paramName: 'accountId' }]
+    ['query.staking.nominating', { paramName: 'accountId' }],
+    ['query.staking.validatorPreferences', { paramName: 'accountId' }]
   )(Account)
 );

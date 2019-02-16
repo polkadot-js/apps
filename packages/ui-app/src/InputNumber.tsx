@@ -52,7 +52,12 @@ class InputNumber extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
+    const valueBN = new BN(this.props.value || 0);
+
     this.state = {
+      defaultValue: this.props.defaultValue || !this.props.value
+        ? undefined
+        : valueBN.toString(),
       isPreKeyDown: false,
       isValid: !isUndefined(this.props.value),
       siOptions: formatBalance.getOptions().map(({ power, text, value }) => ({
@@ -62,7 +67,7 @@ class InputNumber extends React.PureComponent<Props, State> {
           : text
       })),
       siUnit: '-',
-      valueBN: new BN(this.props.value || 0)
+      valueBN
     };
   }
 
@@ -243,6 +248,12 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 
   private applySi (siUnit: string, value: BN): BN {
+    const { isSi } = this.props;
+
+    if (!isSi) {
+      return value;
+    }
+
     const si = formatBalance.findSi(siUnit);
     const power = new BN(formatBalance.getDefaultDecimals() + si.power);
 
