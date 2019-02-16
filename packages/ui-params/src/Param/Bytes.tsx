@@ -5,7 +5,7 @@
 import { Props } from '../types';
 
 import React from 'react';
-import { Compact } from '@polkadot/types/codec';
+import { Compact } from '@polkadot/types';
 import { Button } from '@polkadot/ui-app/index';
 
 import BaseBytes from './BaseBytes';

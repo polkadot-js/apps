@@ -16,7 +16,7 @@ export default ([
     i18n: {
       defaultValue: 'Extrinsics'
     },
-    icon: 'send',
+    icon: 'sync',
     name: 'extrinsics'
   }
 ] as Routes);

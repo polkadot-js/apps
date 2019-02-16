@@ -7,10 +7,11 @@ import { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import CodeFlask from 'codeflask';
 
-import WRAPPING from './snippets/wrapping';
+import makeWrapper from './snippets/wrapping';
 
 type Props = BareProps & {
   children?: React.ReactNode,
+  isDevelopment: boolean,
   code: string,
   onEdit: (code: string) => void,
   snippet: string
@@ -30,16 +31,8 @@ export default class Editor extends React.PureComponent<Props> {
 
   constructor (props: Props) {
     super(props);
-    this.id = `flask-${Date.now()}`;
-  }
 
-  static getDerivedStateFromProps (nextProps: Props, prevState: State) {
-    if (nextProps.snippet !== prevState.snippet) {
-      return {
-        snippet: nextProps.snippet
-      };
-    }
-    return null;
+    this.id = `flask-${Date.now()}`;
   }
 
   componentDidMount () {
@@ -47,9 +40,8 @@ export default class Editor extends React.PureComponent<Props> {
       language: 'js',
       lineNumbers: true
     });
-    const { editor, props: { code, onEdit } } = this;
 
-    editor.updateCode(`${WRAPPING}${code}`);
+    const { editor, props: { code, onEdit } } = this;
 
     editor.onUpdate((code: string) => {
       onEdit(code);
@@ -63,11 +55,13 @@ export default class Editor extends React.PureComponent<Props> {
   }
 
   componentDidUpdate () {
-    const { code, onEdit, snippet } = this.props;
+    const { code, isDevelopment, onEdit, snippet } = this.props;
 
     if (snippet !== this.state.snippet) {
       onEdit(code);
-      this.editor.updateCode(`${WRAPPING}${code}`);
+
+      this.editor.updateCode(`${makeWrapper(isDevelopment)}${code}`);
+      this.setState({ snippet });
     }
   }
 

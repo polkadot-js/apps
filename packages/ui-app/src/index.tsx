@@ -13,6 +13,9 @@ import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
 import { Api } from '@polkadot/ui-api/index';
 
+import { QueueConsumer } from './Status/Context';
+import Queue from './Status/Queue';
+
 export { default as AddressMini } from './AddressMini';
 export { default as AddressRow } from './AddressRow';
 export { default as AddressSummary } from './AddressSummary';
@@ -58,14 +61,24 @@ export default function createApp (App: React.ComponentType<BareProps>, { classN
   }
 
   ReactDOM.render(
-    <Api url={url}>
-      <HashRouter>
-        <App
-          className={className}
-          style={style}
-        />
-      </HashRouter>
-    </Api>,
+    <Queue>
+      <QueueConsumer>
+        {({ queueExtrinsic, queueSetTxStatus }) => (
+          <Api
+            queueExtrinsic={queueExtrinsic}
+            queueSetTxStatus={queueSetTxStatus}
+            url={url}
+          >
+            <HashRouter>
+              <App
+                className={className}
+                style={style}
+              />
+            </HashRouter>
+          </Api>
+        )}
+      </QueueConsumer>
+    </Queue>,
     rootElement
   );
 }

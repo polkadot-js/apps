@@ -19,7 +19,6 @@ import './index.css';
 import snippets from './snippets';
 import translate from './translate';
 
-import Intro from './Intro';
 import Editor from './Editor';
 import Output from './Output';
 
@@ -31,7 +30,7 @@ type Injected = {
   },
   global: null,
   hashing: typeof hashing,
-  keyring: KeyringInstance,
+  keyring: KeyringInstance | null,
   util: typeof util,
   window: null
 };
@@ -43,26 +42,31 @@ type State = {
   snippet: string
 };
 
-const local = snippets.find(obj => obj.value === localStorage.getItem('app-js-snippet'));
-
 class App extends React.PureComponent<Props, State> {
   injected: Injected | null = null;
   state: State = {
-    code: local ? local.code : snippets[0].code,
+    code: '',
     isRunning: false,
     logs: [],
-    snippet: local ? local.value : snippets[0].value
+    snippet: ''
   };
 
+  componentDidMount () {
+    const local = snippets.find(obj => obj.value === localStorage.getItem('app-js-snippet'));
+    this.setState({
+      code: local ? local.code : snippets[0].code,
+      snippet: local ? local.value : snippets[0].value
+    });
+  }
+
   render () {
+    const { isDevelopment, t } = this.props;
     const { code, isRunning, logs, snippet } = this.state;
-    const { t } = this.props;
     const options = snippets.map(({ code, ...options }) => ({ ...options }));
 
     return (
       <main className='js--App'>
         <header className='container'>
-          <Intro />
           <Dropdown
             className='js--Dropdown'
             onChange={this.selectExample}
@@ -75,6 +79,7 @@ class App extends React.PureComponent<Props, State> {
         <section className='js--Content'>
           <Editor
             code={code}
+            isDevelopment={isDevelopment}
             snippet={snippet}
             onEdit={this.onEdit}
           >
@@ -108,10 +113,9 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  private runJs = (): void => {
-    const { api } = this.props;
+  private runJs = async (): Promise<void> => {
+    const { api, isDevelopment } = this.props;
     const { code } = this.state;
-    const { keyring } = uiKeyring;
 
     this.stopJs();
     this.clearConsole();
@@ -124,14 +128,18 @@ class App extends React.PureComponent<Props, State> {
       },
       global: null,
       hashing,
-      keyring,
+      keyring: isDevelopment
+        ? uiKeyring.keyring
+        : null,
       util,
       window: null
     };
 
+    await this.injected.api.isReady;
+
     // squash into a single line so exceptions (with linenumbers) maps to the same line/origin
     // as we have in the editor view (TODO: Make the console.error here actually return the full stack)
-    const exec = `(async ({${Object.keys(this.injected).join(',')}}) => { try { ${code} } catch (error) { console.error(error); } })(injected);`;
+    const exec = `(async ({${Object.keys(this.injected).join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); } })(injected);`;
 
     new Function('injected', exec)(this.injected);
 

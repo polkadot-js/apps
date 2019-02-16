@@ -5,8 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Struct, Tuple, U8a, Vector, getTypeDef } from '@polkadot/types/codec';
-import { DigestItem } from '@polkadot/types/Digest';
+import { DigestItem, Struct, Tuple, U8a, Vector, getTypeDef } from '@polkadot/types';
 import Params from '@polkadot/ui-params/index';
 
 import translate from '../translate';

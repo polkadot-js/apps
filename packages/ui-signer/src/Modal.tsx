@@ -7,12 +7,16 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
-import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from '@polkadot/ui-app/Status/types';
+import { KeyringPair } from '@polkadot/keyring/types';
+import { SignatureOptions } from '@polkadot/types/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
+import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status, SignerCallback } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import { Button, Modal } from '@polkadot/ui-app/index';
 import keyring from '@polkadot/ui-keyring';
-import { withApi, withMulti } from '@polkadot/ui-api/index';
+import { withApi, withMulti, withObservable } from '@polkadot/ui-api/index';
+import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { assert } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
 
@@ -25,7 +29,9 @@ type BaseProps = BareProps & {
   queueSetTxStatus: QueueTx$MessageSetStatus
 };
 
-type Props = I18nProps & ApiProps & BaseProps;
+type Props = I18nProps & ApiProps & BaseProps & {
+  allAccounts?: SubjectInfo
+};
 
 type UnlockI18n = {
   key: string,
@@ -34,17 +40,19 @@ type UnlockI18n = {
 
 type State = {
   currentItem?: QueueTx,
+  isSendable: boolean,
   password: string,
   unlockError: UnlockI18n | null
 };
 
 class Signer extends React.PureComponent<Props, State> {
   state: State = {
+    isSendable: false,
     password: '',
     unlockError: null
   };
 
-  static getDerivedStateFromProps ({ queue }: Props, { currentItem, password, unlockError }: State): State {
+  static getDerivedStateFromProps ({ allAccounts, queue }: Props, { currentItem, password, unlockError }: State): State {
     const nextItem = queue.find(({ status }) =>
       status === 'queued'
     );
@@ -58,8 +66,21 @@ class Signer extends React.PureComponent<Props, State> {
         )
       );
 
+    let isSendable = !!nextItem && !!nextItem.isUnsigned;
+
+    if (!isSendable && nextItem && nextItem.accountId && allAccounts) {
+      try {
+        const pair = keyring.getPair(nextItem.accountId);
+
+        isSendable = !!pair && !!allAccounts[nextItem.accountId];
+      } catch (error) {
+        // swallow
+      }
+    }
+
     return {
       currentItem: nextItem,
+      isSendable,
       password: isSame ? password : '',
       unlockError: isSame ? unlockError : null
     };
@@ -94,7 +115,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   private renderButtons () {
     const { t } = this.props;
-    const { currentItem } = this.state;
+    const { currentItem, isSendable } = this.state;
 
     if (!currentItem) {
       return null;
@@ -112,6 +133,7 @@ class Signer extends React.PureComponent<Props, State> {
           <Button.Or />
           <Button
             className='ui--signer-Signer-Submit'
+            isDisabled={!isSendable}
             isPrimary
             onClick={this.onSend}
             tabIndex={2}
@@ -127,14 +149,17 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private renderContent () {
-    const { currentItem } = this.state;
+    const { currentItem, isSendable } = this.state;
 
     if (!currentItem) {
       return null;
     }
 
     return (
-      <Transaction value={currentItem}>
+      <Transaction
+        isSendable={isSendable}
+        value={currentItem}
+      >
         {this.renderUnlock()}
       </Transaction>
     );
@@ -142,9 +167,9 @@ class Signer extends React.PureComponent<Props, State> {
 
   private renderUnlock () {
     const { t } = this.props;
-    const { currentItem, password, unlockError } = this.state;
+    const { currentItem, isSendable, password, unlockError } = this.state;
 
-    if (!currentItem || currentItem.isUnsigned) {
+    if (!isSendable || !currentItem || currentItem.isUnsigned) {
       return null;
     }
 
@@ -166,9 +191,15 @@ class Signer extends React.PureComponent<Props, State> {
 
     try {
       publicKey = keyring.decodeAddress(accountId);
-    } catch (err) {
-      console.error(err);
-      return null;
+    } catch (error) {
+      console.error(error);
+
+      return {
+        key: 'signer.unlock.address',
+        value: {
+          defaultValue: 'unable to decode address'
+        }
+      };
     }
 
     const pair = keyring.getPair(publicKey);
@@ -181,6 +212,7 @@ class Signer extends React.PureComponent<Props, State> {
       pair.decodePkcs8(password);
     } catch (error) {
       console.error(error);
+
       return {
         key: 'signer.unlock.generic',
         value: {
@@ -214,7 +246,10 @@ class Signer extends React.PureComponent<Props, State> {
       return;
     }
 
-    queueSetTxStatus(currentItem.id, 'cancelled');
+    const { id, signerCallback } = currentItem;
+
+    queueSetTxStatus(id, 'cancelled');
+    signerCallback && signerCallback(id, false);
   }
 
   private onSend = async (): Promise<void> => {
@@ -242,7 +277,7 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetTxStatus(id, status, result, error);
   }
 
-  private async sendExtrinsic ({ accountId, extrinsic, id, isUnsigned }: QueueTx, password?: string): Promise<void> {
+  private async sendExtrinsic ({ accountId, extrinsic, id, signerCallback, signerOptions, isUnsigned }: QueueTx, password?: string): Promise<void> {
     assert(extrinsic, 'Expected an extrinsic to be supplied to sendExtrinsic');
 
     if (!isUnsigned) {
@@ -261,11 +296,13 @@ class Signer extends React.PureComponent<Props, State> {
 
     queueSetTxStatus(id, 'sending');
 
-    if (!isUnsigned) {
-      return this.makeExtrinsicCall(submittable, id, submittable.signAndSend, keyring.getPair(accountId as string));
-    } else {
+    if (isUnsigned) {
       return this.makeExtrinsicCall(submittable, id, submittable.send);
+    } else if (signerOptions) {
+      return this.makeExtrinsicSignature(submittable, id, keyring.getPair(accountId as string), signerOptions, signerCallback);
     }
+
+    return this.makeExtrinsicCall(submittable, id, submittable.signAndSend, keyring.getPair(accountId as string));
   }
 
   private async submitRpc ({ method, section }: RpcMethod, values: Array<any>): Promise<QueueTx$Result> {
@@ -316,6 +353,14 @@ class Signer extends React.PureComponent<Props, State> {
       queueSetTxStatus(id, 'error', {}, error);
     }
   }
+
+  private async makeExtrinsicSignature (extrinsic: SubmittableExtrinsic, id: number, pair: KeyringPair, options: SignatureOptions, signerCallback?: SignerCallback): Promise<void> {
+    console.log('makeExtrinsicSignature: extrinsic ::', extrinsic.toHex());
+
+    extrinsic.sign(pair, options);
+
+    signerCallback && signerCallback(id, true);
+  }
 }
 
 export {
@@ -325,5 +370,6 @@ export {
 export default withMulti(
   Signer,
   translate,
-  withApi
+  withApi,
+  withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );

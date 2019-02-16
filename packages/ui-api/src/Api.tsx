@@ -3,16 +3,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { QueueTx$ExtrinsicAdd, QueueTx$MessageSetStatus } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from './types';
 
 import React from 'react';
 import ApiPromise from '@polkadot/api/promise';
 import defaults from '@polkadot/rpc-provider/defaults';
-import WsProvider from '@polkadot/rpc-provider/ws';
+import { WsProvider } from '@polkadot/rpc-provider';
 import { InputNumber } from '@polkadot/ui-app/InputNumber';
 import { formatBalance } from '@polkadot/ui-app/util';
 import keyring from '@polkadot/ui-keyring';
 import settings from '@polkadot/ui-settings';
+import ApiSigner from '@polkadot/ui-signer/ApiSigner';
 import { ChainProperties } from '@polkadot/types';
 
 import ApiContext from './ApiContext';
@@ -20,6 +22,8 @@ import { isTestChain } from './util';
 
 type Props = {
   children: React.ReactNode,
+  queueExtrinsic: QueueTx$ExtrinsicAdd,
+  queueSetTxStatus: QueueTx$MessageSetStatus,
   url?: string
 };
 
@@ -33,10 +37,12 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const { url } = props;
+    const { queueExtrinsic, queueSetTxStatus, url } = props;
     const provider = new WsProvider(url);
+    const signer = new ApiSigner(queueExtrinsic, queueSetTxStatus);
+
     const setApi = (provider: ProviderInterface): void => {
-      const api = new ApiPromise(provider);
+      const api = new ApiPromise({ provider, signer });
 
       this.setState({ api }, () => {
         this.updateSubscriptions();
@@ -48,7 +54,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     this.state = {
       isApiConnected: false,
       isApiReady: false,
-      api: new ApiPromise(provider),
+      api: new ApiPromise({ provider, signer }),
       setApiUrl
     } as State;
   }
@@ -89,6 +95,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       tokenSymbol: undefined
     };
     const tokenSymbol = properties.get('tokenSymbol') || found.tokenSymbol;
+    const isDevelopment = isTestChain(chain);
 
     console.log('api: found chain', chain, [...properties.entries()]);
 
@@ -97,12 +104,13 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     formatBalance.setDefaultUnits(tokenSymbol);
     InputNumber.setUnit(tokenSymbol);
 
-    // setup keyring (loadAll) only after prefix has been set
-    keyring.setAddressPrefix(properties.get('networkId') || found.networkId as any || 42);
-    keyring.setDevMode(isTestChain(chain || ''));
-    keyring.loadAll();
+    keyring.loadAll({
+      addressPrefix: properties.get('networkId') || found.networkId as any,
+      isDevelopment,
+      type: 'ed25519'
+    });
 
-    this.setState({ chain });
+    this.setState({ chain, isDevelopment });
   }
 
   private subscribeIsConnected = (api: ApiPromise) => {
@@ -128,7 +136,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { api, apiDefaultTx, chain, isApiConnected, isApiReady, setApiUrl } = this.state;
+    const { api, apiDefaultTx, chain, isApiConnected, isApiReady, isDevelopment, setApiUrl } = this.state;
 
     return (
       <ApiContext.Provider
@@ -137,6 +145,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
           apiDefaultTx,
           isApiConnected,
           isApiReady: isApiReady && !!chain,
+          isDevelopment,
           setApiUrl
         }}
       >

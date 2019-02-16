@@ -6,8 +6,7 @@ import { WithNamespaces } from 'react-i18next';
 import { Props as BaseProps, RawParam } from '../types';
 
 import React from 'react';
-import { Vector } from '@polkadot/types/codec';
-import { KeyValue as Pair } from '@polkadot/types';
+import { KeyValue as Pair, Vector } from '@polkadot/types';
 import translate from '@polkadot/ui-app/translate';
 import { assert, isHex, u8aToHex, u8aToString } from '@polkadot/util';
 

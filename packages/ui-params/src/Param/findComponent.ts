@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo } from '@polkadot/types/codec';
+import { TypeDef, TypeDefInfo } from '@polkadot/types';
 import { Props, ComponentMap } from '../types';
 
 import Account from './Account';
@@ -25,9 +25,11 @@ import VoteThreshold from './VoteThreshold';
 
 const components: ComponentMap = {
   'AccountId': Account,
+  'AccountIdOf': Account,
   'AccountIndex': Amount,
   'Address': Account,
   'Balance': Balance,
+  'BalanceOf': Balance,
   'BlockNumber': Amount,
   'bool': Bool,
   'Bytes': Bytes,
@@ -40,10 +42,12 @@ const components: ComponentMap = {
   'Vec<KeyValue>': KeyValueArray,
   'ParaId': Amount,
   'Moment': Moment,
+  'MomentOf': Moment,
   'ProposalIndex': Amount,
   'PropIndex': Amount,
   'Proposal': Proposal,
   'ReferendumIndex': Amount,
+  'SeedOf': Hash,
   'SessionKey': Account,
   'Signature': Hash,
   'String': Text,

@@ -8,7 +8,6 @@ import React from 'react';
 
 import BlockHeaders from './BlockHeaders';
 import EventsRecent from './EventsRecent';
-import Query from './Query';
 import Summary from './Summary';
 import translate from './translate';
 
@@ -21,7 +20,6 @@ class Main extends React.PureComponent<Props> {
     return (
       <>
         <Summary />
-        <Query />
         <div className='explorer--Overview ui--flex-medium'>
           <div className='column'>
             <h1>{t('recent blocks')}</h1>

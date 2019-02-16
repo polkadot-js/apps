@@ -8,7 +8,7 @@ import './index.css';
 
 import React from 'react';
 import store from 'store';
-import typeRegistry from '@polkadot/types/codec/typeRegistry';
+import { typeRegistry } from '@polkadot/types';
 import createApp from '@polkadot/ui-app/index';
 import { classes } from '@polkadot/ui-app/util';
 import Signer from '@polkadot/ui-signer/index';
