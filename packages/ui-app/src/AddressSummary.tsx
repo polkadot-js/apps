@@ -82,8 +82,9 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderAccountId () {
-    const { accounts_idAndIndex = [], name, isShort = true } = this.props;
-    const [accountId, accountIndex] = accounts_idAndIndex;
+    const { accounts_idAndIndex = [], name, isShort = true, value } = this.props;
+    const [_accountId, accountIndex] = accounts_idAndIndex;
+    const accountId = _accountId || value;
 
     if (!accountId && accountIndex) {
       return null;
@@ -130,8 +131,9 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderBalance () {
-    const { accounts_idAndIndex = [], balance, t, withBalance = true } = this.props;
-    const [accountId] = accounts_idAndIndex;
+    const { accounts_idAndIndex = [], balance, t, value, withBalance = true } = this.props;
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId || value;
 
     if (!withBalance || !accountId) {
       return null;
@@ -155,7 +157,7 @@ class AddressSummary extends React.PureComponent<Props> {
     }
 
     const [_accountId] = accounts_idAndIndex;
-    const accountId = (_accountId || '').toString();
+    const accountId = (_accountId || value || '').toString();
     const isValidator = (session_validators || []).find((validator) =>
       validator.toString() === accountId
     );
@@ -171,8 +173,9 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderNonce () {
-    const { accounts_idAndIndex = [], t, withNonce = true } = this.props;
-    const [accountId] = accounts_idAndIndex;
+    const { accounts_idAndIndex = [], t, value, withNonce = true } = this.props;
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId || value;
 
     if (!withNonce || !accountId) {
       return null;
