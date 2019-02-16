@@ -7,7 +7,6 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import { ValidatorPrefs } from '@polkadot/types';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
 import { Button, InputBalance, InputNumber, Modal } from '@polkadot/ui-app/index';
 
 import translate from '../translate';
@@ -17,7 +16,7 @@ type Props = I18nProps & {
   isOpen: boolean,
   onClose: () => void,
   onSetPrefs: (prefs: ValidatorPrefs) => void,
-  staking_validatorPreferences?: ValidatorPrefs
+  validatorPreferences?: ValidatorPrefs
 };
 
 type State = {
@@ -31,11 +30,11 @@ class Preferences extends React.PureComponent<Props, State> {
   // inject the preferences are returned via RPC once into the state (from this
   // point forward it will be entirely managed by the actual inputs)
   static getDerivedStateFromProps (props: Props, state: State): State | null {
-    if (state.unstakeThreshold || !props.staking_validatorPreferences) {
+    if (state.unstakeThreshold || !props.validatorPreferences) {
       return null;
     }
 
-    const { unstakeThreshold, validatorPayment } = props.staking_validatorPreferences;
+    const { unstakeThreshold, validatorPayment } = props.validatorPreferences;
 
     return {
       unstakeThreshold: unstakeThreshold.toBn(),
@@ -146,8 +145,4 @@ class Preferences extends React.PureComponent<Props, State> {
   }
 }
 
-export default withMulti(
-  Preferences,
-  translate,
-  withCall('query.staking.validatorPreferences', { paramName: 'accountId' })
-);
+export default translate(Preferences);
