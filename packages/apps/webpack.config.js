@@ -11,6 +11,15 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const packages = [
+
+  // Joystream apps:
+
+  'joy-election',
+  'joy-proposals',
+  'joy-utils',
+
+  // Polkadot apps:
+
   'app-accounts',
   'app-addresses',
   'app-democracy',

@@ -14,6 +14,7 @@ import Labelled from './Labelled';
 
 type Props<Option> = BareProps & {
   defaultValue?: any,
+  isPrimary?: boolean,
   isButton?: boolean,
   isDisabled?: boolean,
   isError?: boolean,
@@ -54,7 +55,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
   }
 
   render () {
-    const { className, defaultValue, isButton, isDisabled, isError, label, onSearch, options, placeholder, style, withLabel, value } = this.props;
+    const { className, defaultValue, isPrimary = true, isButton, isDisabled, isError, label, onSearch, options, placeholder, style, withLabel, value } = this.props;
     const dropdown = (
       <SUIDropdown
         button={isButton}
@@ -77,7 +78,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
 
     return isButton
       ? (
-        <SUIButton.Group primary>
+        <SUIButton.Group primary={isPrimary}>
           {dropdown}
         </SUIButton.Group>
       )

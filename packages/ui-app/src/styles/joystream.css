@@ -1,0 +1,59 @@
+.ui.button:disabled,
+.ui.buttons .disabled.button,
+.ui.disabled.active.button,
+.ui.disabled.button,
+.ui.disabled.button:hover {
+  opacity: 0.45 !important;
+}
+
+.ui--row {
+  .ui.message {
+    margin: 0;
+    padding: .7rem 1rem;
+  }
+  textarea,
+  .ui--InputFile {
+    margin: .25rem 0 !important;
+    height: 5rem;
+  }
+}
+
+.ui--AddressMini {
+  .ui--IdentityIcon {
+    margin-left: 0;
+  }
+  .ui--AddressMini-info {
+    display: flex;
+  }
+  .ui--AddressMini-details {
+    display: block;
+  }
+  .ui--AddressSummary-name,
+  .ui--AddressSummary-balance {
+    display: inline-block;
+    margin-top: 0;
+    padding-top: 0;
+    font-size: .80rem !important;
+    margin-right: 1rem;
+    font-weight: 100;
+    opacity: .80;
+  }
+}
+
+.ui--Bubble.ui.label {
+  background-color: #f2f2f2;
+  margin: .25rem 0;
+  margin-right: .5rem;
+
+  &.pointing:before {
+    background-color: #e6e6e6;
+  }
+  &.warn {
+    color: #f2711c !important;
+    border: 1px solid;
+  }
+  &.ok {
+    color: #21ba45 !important;
+    border: 1px solid;
+  }
+}

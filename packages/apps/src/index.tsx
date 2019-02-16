@@ -40,6 +40,8 @@ const url = process.env.WS_URL || settings.apiUrl || undefined;
 console.log('Web socket url=', url);
 
 try {
+  require('@polkadot/joy-utils/types').registerJoystreamTypes();
+
   const types = store.get('types') || {};
   const names = Object.keys(types);
 
