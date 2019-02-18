@@ -53,7 +53,10 @@ class InputNumber extends React.PureComponent<Props, State> {
     super(props);
 
     const { defaultValue, value } = this.props;
-    const valueBN = new BN(value || 0);
+    let valueBN = new BN(value || 0);
+    const si = formatBalance.calcSi(valueBN.toString(), formatBalance.getDefaults().decimals);
+
+    valueBN = valueBN.div(new BN(10).pow(new BN(si.power)));
 
     this.state = {
       defaultValue: defaultValue
@@ -67,7 +70,7 @@ class InputNumber extends React.PureComponent<Props, State> {
           ? InputNumber.units
           : text
       })),
-      siUnit: '-',
+      siUnit: si.value,
       valueBN
     };
   }
