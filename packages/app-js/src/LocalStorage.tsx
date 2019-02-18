@@ -11,23 +11,30 @@ import { Button, Input } from '@polkadot/ui-app/index';
 import translate from './translate';
 
 type Props = BareProps & I18nProps & {
+  isCustomExample: boolean,
   saveSnippet: (snippetName: string) => void,
   removeSnippet: () => void
 };
 
 type State = {
-  snippetName: string
+  snippetName: string,
+  isOpen: boolean
 };
 
 class LocalStorage extends React.PureComponent<Props, State> {
   state: State = {
-    snippetName: ''
+    snippetName: '',
+    isOpen: false
   };
 
   render () {
-    const { props: { removeSnippet, t }, state: { snippetName } } = this;
-    return (
-      <>
+    const {
+      props: { isCustomExample, removeSnippet, t },
+      state: { isOpen, snippetName }
+     } = this;
+
+    if (isCustomExample) {
+      return (
         <Popup
           content='Delete this custom example'
           on='hover'
@@ -40,34 +47,39 @@ class LocalStorage extends React.PureComponent<Props, State> {
             />
           }
         />
-        <Popup
-          className='popup-local'
-          onClose={this.onPopupClose}
-          trigger={
-            <SUIB
-              circular
-              positive
-              icon='save'
-            />
-          }
-          on='click'
-        >
-          <Input
-            autoFocus={true}
-            onChange={this.onChangeName}
-            withLabel={false}
-            maxLength={50}
-            min={1}
-            placeholder={t('Name your example')}
+      );
+    }
+    return (
+      <Popup
+        className='popup-local'
+        open={isOpen}
+        onClose={this.onPopupClose}
+        trigger={
+          <SUIB
+            circular
+            onClick={this.onPopupOpen}
+            positive
+            icon='save'
           />
-          <Button
-            onClick={this.saveSnippet}
-            label={t('Save snippet to local storage')}
-            isDisabled={!snippetName.length}
-            isPositive
-          />
-        </Popup>
-      </>
+        }
+        on='click'
+      >
+        <Input
+          autoFocus={true}
+          onChange={this.onChangeName}
+          onBlur={this.onPopupClose}
+          withLabel={false}
+          maxLength={50}
+          min={1}
+          placeholder={t('Name your example')}
+        />
+        <Button
+          onClick={this.saveSnippet}
+          label={t('Save snippet to local storage')}
+          isDisabled={!snippetName.length}
+          isPositive
+        />
+      </Popup>
     );
   }
 
@@ -81,11 +93,15 @@ class LocalStorage extends React.PureComponent<Props, State> {
     const { state: { snippetName }, props: { saveSnippet } } = this;
 
     saveSnippet(snippetName);
-    this.setState({ snippetName: '' } as State);
+    this.setState({ snippetName: '', isOpen: false } as State);
+  }
+
+  private onPopupOpen = (): void => {
+    this.setState((prevState: State): State => ({ isOpen: !prevState.isOpen }) as State);
   }
 
   private onPopupClose = (): void => {
-    this.setState({ snippetName: '' } as State);
+    this.setState({ snippetName: '', isOpen: false } as State);
   }
 }
 

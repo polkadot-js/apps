@@ -39,7 +39,8 @@ type Injected = {
 type Props = ApiProps & AppProps & I18nProps;
 type State = {
   code: string,
-  customExamples: Array<Snippet>
+  customExamples: Array<Snippet>,
+  isCustomExample: boolean,
   isRunning: boolean,
   logs: Array<Log>,
   options: Array<Snippet>,
@@ -51,6 +52,7 @@ class App extends React.PureComponent<Props, State> {
   state: State = {
     code: '',
     customExamples: [],
+    isCustomExample: false,
     isRunning: false,
     logs: [],
     options: [],
@@ -68,15 +70,16 @@ class App extends React.PureComponent<Props, State> {
 
     this.setState({
       customExamples,
+      isCustomExample: (selected && selected.custom === 'true') || false,
       options,
       code: selected ? selected.code : snippets[0].code,
       snippet: selected ? selected.value : snippets[0].value
-    });
+    } as State);
   }
 
   render () {
     const { isDevelopment, t } = this.props;
-    const { code, isRunning, logs, options, snippet } = this.state;
+    const { code, isCustomExample, isRunning, logs, options, snippet } = this.state;
 
     return (
       <main className='js--App'>
@@ -91,14 +94,15 @@ class App extends React.PureComponent<Props, State> {
           />
         </header>
         <section className='js--Content'>
-          <Editor
-            code={code}
-            isDevelopment={isDevelopment}
-            snippet={snippet}
-            onEdit={this.onEdit}
-          >
+          <article className='container js--Editor'>
+            <Editor
+              code={code}
+              isDevelopment={isDevelopment}
+              onEdit={this.onEdit}
+            />
             <div className='action-button'>
               <LocalStorage
+                isCustomExample={isCustomExample}
                 removeSnippet={this.removeSnippet}
                 saveSnippet={this.saveSnippet}
               />
@@ -116,7 +120,7 @@ class App extends React.PureComponent<Props, State> {
                 onClick={this.stopJs}
               />
             </div>
-          </Editor>
+          </article>
           <Output logs={logs}>
             <Button
               className='action-button'
@@ -161,7 +165,7 @@ class App extends React.PureComponent<Props, State> {
 
     new Function('injected', exec)(this.injected);
 
-    this.setState({ isRunning: true });
+    this.setState({ isRunning: true } as State);
   }
 
   private stopJs = (): void => {
@@ -172,7 +176,7 @@ class App extends React.PureComponent<Props, State> {
     this.injected.api.disconnect();
     this.injected = null;
 
-    this.setState({ isRunning: false });
+    this.setState({ isRunning: false } as State);
   }
 
   private selectExample = (value: string) => {
@@ -180,16 +184,26 @@ class App extends React.PureComponent<Props, State> {
       const { options } = this.state;
       const option = options.find(obj => obj.value === value);
 
-      localStorage.setItem(STORE_SELECTED, value);
-      this.setState({ code: (option ? option.code : ''), snippet: value });
+      if (option) {
+        localStorage.setItem(STORE_SELECTED, value);
+        this.setState({
+          code: option.code,
+          logs: [],
+          isCustomExample: option.custom === 'true',
+          snippet: value
+        });
+      }
     }
   }
 
   private saveSnippet = (snippetName: string): void => {
     const { code, customExamples } = this.state;
 
+    // The <Dropdown> component doesn't take boolean custom props and no
+    // camelCase keys, that's why 'custom' is passed as a string here
     const snapshot: Snippet = {
       code,
+      custom: 'true',
       label: CUSTOM_LABEL,
       text: snippetName,
       value: `custom-${Date.now()}`
@@ -200,9 +214,10 @@ class App extends React.PureComponent<Props, State> {
     this.setState((prevState: State): State => ({
       ...prevState,
       customExamples: [snapshot, ...prevState.customExamples],
+      isCustomExample: true,
       options: [snapshot, ...prevState.options],
       snippet: snapshot.value
-    }));
+    }) as State);
   }
 
   private removeSnippet = (): void => {
@@ -213,17 +228,24 @@ class App extends React.PureComponent<Props, State> {
     this.setState((prevState: State): State => ({
       ...prevState,
       customExamples: filtered,
+      isCustomExample: nextOptions[0].custom === 'true' || false,
       options: nextOptions
-    }));
+    }) as State);
 
     this.selectExample(nextOptions[0].value);
+    localStorage.setItem(STORE_EXAMPLES, JSON.stringify(filtered));
   }
 
   private onEdit = (code: string): void => {
-    this.setState({ code });
+    if (code !== this.state.code) {
+      this.setState({
+        code,
+        isCustomExample: false
+      } as State);
+    }
   }
 
-  private clearConsole = () => {
+  private clearConsole = (): void => {
     this.setState({ logs: [] });
   }
 

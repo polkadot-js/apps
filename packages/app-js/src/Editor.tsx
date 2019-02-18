@@ -7,27 +7,16 @@ import { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import CodeFlask from 'codeflask';
 
-import makeWrapper from './snippets/wrapping';
-
 type Props = BareProps & {
   children?: React.ReactNode,
   isDevelopment: boolean,
   code: string,
-  onEdit: (code: string) => void,
-  snippet: string
+  onEdit: (code: string) => void
 };
 
-type State = {
-  snippet: string
-};
-
-export default class Editor extends React.PureComponent<Props> {
+export default class Editor extends React.Component<Props> {
   private id: string = `flask-${Date.now()}`;
   private editor: any;
-
-  state: State = {
-    snippet: ''
-  };
 
   componentDidMount () {
     this.editor = new CodeFlask(`#${this.id}`, {
@@ -35,40 +24,44 @@ export default class Editor extends React.PureComponent<Props> {
       lineNumbers: true
     });
 
-    const { editor, props: { code, onEdit } } = this;
+    const { editor, props: { onEdit } } = this;
 
-    editor.onUpdate((code: string) => {
-      onEdit(code);
+    editor.editorRoot.addEventListener('keydown', () => {
+      editor.onUpdate(onEdit);
     });
+  }
 
-    editor.editorRoot.addEventListener('focusin', () => {
-      this.editor.onUpdate(onEdit);
-    });
-
-    onEdit(code);
+  shouldComponentUpdate (nextProps: Props) {
+    // console.log('next props isCustom', nextProps.isCustomExample)
+    return (
+      nextProps.code !== this.props.code
+    );
   }
 
   componentDidUpdate () {
-    const { code, isDevelopment, onEdit, snippet } = this.props;
-
-    if (snippet !== this.state.snippet) {
-      const nextContent = snippet.split('-')[0] === 'custom' ? `${code}` : `${makeWrapper(isDevelopment)}${code}`;
-
-      onEdit(code);
-      this.editor.updateCode(nextContent);
-      this.setState({ snippet });
-    }
+    const { code } = this.props;
+    this.editor.updateCode(code);
   }
 
   render () {
     return (
-      <article className='container js--Editor'>
-        <div
-          className=''
-          id={this.id}
-        />
-        {this.props.children}
-      </article>
+      <div
+        className=''
+        id={this.id}
+      />
     );
+  }
+
+  private makeWrapper = (): string => {
+    const args = `api, hashing, ${this.props.isDevelopment ? 'keyring, ' : ''}util`;
+
+    return (`// All code is wrapped within an async closure,
+// allowing access to ${args}.
+//
+// (async ({ ${args} }) => {
+//   ... any user code is executed here ...
+// })();
+
+`);
   }
 }

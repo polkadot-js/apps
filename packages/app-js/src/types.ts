@@ -16,5 +16,6 @@ export type Snippet = {
   text: string;
   value: string;
   code: string;
-  label?: SemanticShorthandItem<LabelProps>
+  label?: SemanticShorthandItem<LabelProps>,
+  custom?: string
 };
