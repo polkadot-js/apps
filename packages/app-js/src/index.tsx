@@ -16,6 +16,7 @@ import * as util from '@polkadot/util';
 import * as hashing from '@polkadot/util-crypto';
 
 import './index.css';
+import makeWrapper from './snippets/wrapping';
 import snippets from './snippets';
 import translate from './translate';
 import { STORE_EXAMPLES, STORE_SELECTED, CUSTOM_LABEL } from './constants';
@@ -58,6 +59,11 @@ class App extends React.PureComponent<Props, State> {
     options: [],
     snippet: ''
   };
+
+  constructor (props: Props) {
+    super(props);
+    snippets.forEach(snippet => snippet.code = `${makeWrapper(this.props.isDevelopment)}${snippet.code}`);
+  }
 
   componentDidMount () {
     const localData = {
