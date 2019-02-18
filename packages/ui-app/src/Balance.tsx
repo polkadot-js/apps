@@ -7,10 +7,10 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
-import { formatBalance } from '@polkadot/ui-app/util';
+import { formatBalance } from '@polkadot/ui-util';
 import RxBalance from '@polkadot/ui-reactive/Balance';
 
-import classes from './util/classes';
+import { classes } from './util';
 
 export type Props = BareProps & {
   balance?: Balance | Array<Balance> | BN,

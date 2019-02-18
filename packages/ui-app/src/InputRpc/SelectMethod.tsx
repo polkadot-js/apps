@@ -11,7 +11,7 @@ import React from 'react';
 import map from '@polkadot/jsonrpc';
 
 import Dropdown from '../Dropdown';
-import classes from '../util/classes';
+import { classes } from '../util';
 
 type Props = BareProps & {
   isError?: boolean,

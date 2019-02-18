@@ -8,7 +8,7 @@ import React from 'react';
 import SUIModal from 'semantic-ui-react/dist/commonjs/modules/Modal/Modal';
 import settings from '@polkadot/ui-settings';
 
-import classes from './util/classes';
+import { classes } from './util';
 
 type Props = BareProps & {
   children: React.ReactNode,

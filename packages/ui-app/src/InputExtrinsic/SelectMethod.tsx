@@ -10,7 +10,7 @@ import React from 'react';
 import ApiPromise from '@polkadot/api/promise';
 
 import Dropdown from '../Dropdown';
-import classes from '../util/classes';
+import { classes } from '../util';
 
 type Props = BareProps & {
   api: ApiPromise,

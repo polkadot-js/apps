@@ -8,7 +8,7 @@ import { BareProps } from './types';
 import React from 'react';
 import Dropzone from 'react-dropzone';
 
-import classes from './util/classes';
+import { classes } from './util';
 import Labelled from './Labelled';
 import translate from './translate';
 

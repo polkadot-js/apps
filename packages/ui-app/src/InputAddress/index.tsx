@@ -15,7 +15,7 @@ import createItem from '@polkadot/ui-keyring/options/item';
 import { withMulti, withObservable } from '@polkadot/ui-api/index';
 
 import Dropdown from '../Dropdown';
-import classes from '../util/classes';
+import { classes } from '../util';
 import addressToAddress from '../util/toAddress';
 
 type Props = BareProps & {

@@ -9,7 +9,7 @@ import { DropdownOptions } from '../util/types';
 import React from 'react';
 
 import Dropdown from '../Dropdown';
-import classes from '../util/classes';
+import { classes } from '../util';
 
 type Props = BareProps & {
   defaultValue?: string,

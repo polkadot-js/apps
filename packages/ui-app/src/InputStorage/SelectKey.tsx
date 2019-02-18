@@ -11,7 +11,7 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
 import { withApi } from '@polkadot/ui-api/index';
 
 import Dropdown from '../Dropdown';
-import classes from '../util/classes';
+import { classes } from '../util';
 
 type Props = ApiProps & BareProps & {
   isError?: boolean,

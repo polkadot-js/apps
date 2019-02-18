@@ -10,7 +10,7 @@ import { Method } from '@polkadot/types';
 
 import AddressMini from '../AddressMini';
 import Icon from '../Icon';
-import classes from '../util/classes';
+import { classes } from '../util';
 import translate from '../translate';
 
 type Props = I18nProps & {

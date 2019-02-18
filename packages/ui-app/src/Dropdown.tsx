@@ -9,7 +9,7 @@ import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import SUIDropdown, { DropdownProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
 import { isUndefined } from '@polkadot/util';
 
-import classes from './util/classes';
+import { classes } from './util';
 import Labelled from './Labelled';
 
 type Props<Option> = BareProps & {
