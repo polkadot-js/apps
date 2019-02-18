@@ -5,7 +5,6 @@ import { withCalls } from '@polkadot/ui-api/with';
 import { u32 } from '@polkadot/types';
 
 import translate from './translate';
-import { nonEmptyStr } from '@polkadot/joy-utils';
 import { ProposalsMock, ProposalVotesMock } from './mocks';
 import AddressMini from '@polkadot/ui-app/AddressMiniJoy';
 
@@ -69,7 +68,7 @@ class Component extends React.PureComponent<Props, State> {
 
                 <button
                   className='ui grey button'
-                  onClick={e => this.submitVote('Abstention')}
+                  onClick={e => this.submitVote('Abstain')}
                 >
                   <i className='ui exclamation icon'></i>Abstain
                 </button>
@@ -133,7 +132,7 @@ class Component extends React.PureComponent<Props, State> {
       icon = 'times';
       color = 'red';
       text = 'Slashed';
-    } else if (kind === 'Abstention') {
+    } else if (kind === 'Abstain') {
       icon = 'exclamation';
       color = '';
       text = 'Abstained';

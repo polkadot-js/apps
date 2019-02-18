@@ -6,14 +6,13 @@ import queryString from 'query-string';
 import { Message } from 'semantic-ui-react';
 
 import { AccountId, Balance } from '@polkadot/types';
-import { hexToU8a, stringToU8a } from '@polkadot/util';
-import { AppProps, I18nProps } from '@polkadot/ui-app/types';
+import { AppProps } from '@polkadot/ui-app/types';
 import { withCalls } from '@polkadot/ui-api/with';
-import { Button, Input, InputBalance, Labelled, Bubble, InputAddress } from '@polkadot/ui-app/index';
+import { Button, Input, Labelled, InputAddress } from '@polkadot/ui-app/index';
 
 import translate from './translate';
 import { accountIdsToOptions, hashVote } from './utils';
-import { ZERO } from '@polkadot/joy-utils';
+import { ZERO } from '@polkadot/joy-utils/index';
 import SubmittedVotes from './SubmittedVotes';
 import AccountSelector from '@polkadot/joy-utils/AccountSelector';
 import TxButton from '@polkadot/joy-utils/TxButton';

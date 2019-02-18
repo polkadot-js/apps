@@ -2,12 +2,12 @@ import React from 'react';
 import queryString from 'query-string';
 
 import { AccountId, Balance } from '@polkadot/types';
-import { AppProps, I18nProps } from '@polkadot/ui-app/types';
+import { AppProps } from '@polkadot/ui-app/types';
 import { withCalls } from '@polkadot/ui-api/with';
 import { Input, Labelled, InputAddress } from '@polkadot/ui-app/index';
 
 import translate from './translate';
-import { nonEmptyStr } from '@polkadot/joy-utils';
+import { nonEmptyStr } from '@polkadot/joy-utils/index';
 import { accountIdsToOptions, hashVote } from './utils';
 import AccountSelector from '@polkadot/joy-utils/AccountSelector';
 import TxButton from '@polkadot/joy-utils/TxButton';

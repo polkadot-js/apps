@@ -10,7 +10,7 @@ import { formatBalance } from '@polkadot/ui-app/util';
 import AddressMini from '@polkadot/ui-app/AddressMiniJoy';
 
 import translate from './translate';
-import { ZERO } from '@polkadot/joy-utils';
+import { ZERO } from '@polkadot/joy-utils/index';
 
 type Stake = {
   new: Balance,
@@ -27,6 +27,7 @@ type State = {
 };
 
 class Applicant extends React.PureComponent<Props, State> {
+
   state: State = {};
 
   render () {
@@ -56,6 +57,7 @@ class Applicant extends React.PureComponent<Props, State> {
 // inject the actual API calls automatically into props
 export default translate(
   withCalls<Props>(
-    ['query.councilElection.applicantStakes', { paramName: 'accountId', propName: 'stake' }]
+    ['query.councilElection.applicantStakes',
+      { paramName: 'accountId', propName: 'stake' }]
   )(Applicant)
 );

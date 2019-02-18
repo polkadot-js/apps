@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
 
 import { Hash } from '@polkadot/types';
-import { AppProps, I18nProps } from '@polkadot/ui-app/types';
+import { AppProps } from '@polkadot/ui-app/types';
 import { withCalls } from '@polkadot/ui-api/with';
 
 import translate from './translate';

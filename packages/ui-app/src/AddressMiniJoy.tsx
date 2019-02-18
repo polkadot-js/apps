@@ -13,7 +13,7 @@ import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
 import BalanceDisplay from './Balance';
 import IdentityIcon from './IdentityIcon';
-import { findNameByAddress } from '@polkadot/joy-utils/';
+import { findNameByAddress } from '@polkadot/joy-utils/index';
 
 type Props = BareProps & {
   balance?: Balance | Array<Balance> | BN,

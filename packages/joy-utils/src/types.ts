@@ -50,7 +50,7 @@ export class ProposalStatus extends Enum {
 export class VoteKind extends Enum {
   constructor (value?: any) {
     super([
-      'Abstention', // TODO rename to 'Abstain'
+      'Abstain',
       'Approve',
       'Reject',
       'Slash'

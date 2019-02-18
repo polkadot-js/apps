@@ -6,7 +6,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { BareProps, I18nProps } from '@polkadot/ui-app/types';
 import { withCalls } from '@polkadot/ui-api/with';
 import { Bubble } from '@polkadot/ui-app/index';
-import { formatBalance, formatNumber } from '@polkadot/ui-app/util';
+import { formatNumber } from '@polkadot/ui-app/util';
 
 import { ElectionStage } from '@polkadot/joy-utils/types';
 import translate from './translate';

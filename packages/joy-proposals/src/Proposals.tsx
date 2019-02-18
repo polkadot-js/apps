@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 
-import NewProposal from './NewProposal';
+import NewProposal from './NewForm';
 import translate from './translate';
 import List from './List';
 

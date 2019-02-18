@@ -1,6 +1,4 @@
-import BN from 'bn.js';
-import React from 'react';
-import { AccountId, Balance, Hash } from '@polkadot/types';
+import { AccountId } from '@polkadot/types';
 
 export type HashedVote = {
   applicantId: string,
@@ -12,7 +10,7 @@ export type HashedVote = {
 // -----------------------------------
 
 import createItem from '@polkadot/ui-keyring/options/item';
-import { findNameByAddress } from '@polkadot/joy-utils';
+import { findNameByAddress } from '@polkadot/joy-utils/index';
 
 const createAddressOption = (address: string) => {
   let name = findNameByAddress(address);
@@ -32,7 +30,7 @@ export const accountIdsToOptions = (applicants: Array<AccountId>): any => {
 // Hash
 // -----------------------------------
 
-import { hexToU8a, stringToU8a } from '@polkadot/util';
+import { stringToU8a } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
 /** hash(accountId + salt) */
