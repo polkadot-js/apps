@@ -6,10 +6,10 @@ import { BareProps, BitLength, I18nProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { formatBalance, calcSi } from '@polkadot/ui-app/util';
+import { formatBalance } from '@polkadot/ui-util';
 import { isUndefined } from '@polkadot/util';
 
-import classes from './util/classes';
+import { classes } from './util';
 import { BitLengthOption } from './constants';
 import Dropdown from './Dropdown';
 import Input, { KEYS, KEYS_PRE, isCopy, isCut, isPaste, isSelectAll } from './Input';
@@ -83,7 +83,7 @@ class InputNumber extends React.PureComponent<Props, State> {
 
     return {
       defaultValue: formatBalance(defaultValue, false),
-      siUnit: calcSi(defaultValue.toString()).value
+      siUnit: formatBalance.calcSi(defaultValue.toString(), formatBalance.getDefaults().decimals).value
     };
   }
 
@@ -255,14 +255,14 @@ class InputNumber extends React.PureComponent<Props, State> {
     }
 
     const si = formatBalance.findSi(siUnit);
-    const power = new BN(formatBalance.getDefaultDecimals() + si.power);
+    const power = new BN(formatBalance.getDefaults().decimals + si.power);
 
     return value.mul(new BN(10).pow(power));
   }
 
   private applyNewSi (oldSi: string, newSi: string, value: BN): BN {
     const si = formatBalance.findSi(oldSi);
-    const power = new BN(formatBalance.getDefaultDecimals() + si.power);
+    const power = new BN(formatBalance.getDefaults().decimals + si.power);
 
     return this.applySi(newSi, value.div(new BN(10).pow(power)));
   }

@@ -11,7 +11,7 @@ import React from 'react';
 import { Compact } from '@polkadot/types';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
 import { Icon } from '@polkadot/ui-app/index';
-import { formatBalance } from '@polkadot/ui-app/util';
+import { formatBalance } from '@polkadot/ui-util';
 
 import translate from '../translate';
 import { ZERO_BALANCE } from './constants';

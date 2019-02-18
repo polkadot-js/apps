@@ -9,8 +9,7 @@ import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
 
-import classes from './util/classes';
-import toShortAddress from './util/toShortAddress';
+import { classes, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
 import IdentityIcon from './IdentityIcon';
 

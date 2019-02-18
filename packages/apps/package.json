@@ -14,7 +14,7 @@
   "dependencies": {
     "@babel/runtime": "^7.2.0",
     "@polkadot/ui-app": "^0.23.30",
-    "@polkadot/ui-assets": "^0.26.3",
+    "@polkadot/ui-assets": "^0.26.7",
     "@polkadot/ui-signer": "^0.23.30"
   }
 }

@@ -9,7 +9,7 @@ import React from 'react';
 import { AccountId, Balance, HeaderExtended } from '@polkadot/types';
 import { withCall, withMulti } from '@polkadot/ui-api/with';
 import { AddressMini, AddressRow } from '@polkadot/ui-app/index';
-import { formatNumber } from '@polkadot/ui-app/util';
+import { formatNumber } from '@polkadot/ui-util';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';

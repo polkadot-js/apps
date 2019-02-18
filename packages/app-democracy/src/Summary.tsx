@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import { CardSummary } from '@polkadot/ui-app/index';
-import { formatNumber } from '@polkadot/ui-app/util/index';
+import { formatNumber } from '@polkadot/ui-util';
 import { withCalls } from '@polkadot/ui-api/index';
 
 import translate from './translate';

@@ -6,7 +6,7 @@ import { BareProps } from './types';
 
 import React from 'react';
 
-import classes from './util/classes';
+import { classes } from './util';
 
 type Props = BareProps & {
   isHidden?: boolean,

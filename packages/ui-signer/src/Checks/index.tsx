@@ -11,7 +11,7 @@ import React from 'react';
 import { Extrinsic, Method } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api/index';
 import { Icon } from '@polkadot/ui-app/index';
-import { formatBalance } from '@polkadot/ui-app/util';
+import { formatBalance } from '@polkadot/ui-util';
 import { compactToU8a } from '@polkadot/util';
 
 import translate from '../translate';

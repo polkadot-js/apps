@@ -12,7 +12,7 @@ import { ReferendumInfo } from '@polkadot/types';
 import { Chart, Static } from '@polkadot/ui-app/index';
 import VoteThreshold from '@polkadot/ui-params/Param/VoteThreshold';
 import { withCalls } from '@polkadot/ui-api/index';
-import { formatBalance, formatNumber } from '@polkadot/ui-app/util/index';
+import { formatBalance, formatNumber } from '@polkadot/ui-util';
 import settings from '@polkadot/ui-settings';
 
 import Item from './Item';

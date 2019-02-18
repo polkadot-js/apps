@@ -5,7 +5,7 @@
 import React from 'react';
 import { withCalls } from '@polkadot/ui-api/index';
 
-import classes from './util/classes';
+import { classes } from './util';
 import { AddressSummary, Props } from './AddressSummary';
 import translate from './translate';
 
