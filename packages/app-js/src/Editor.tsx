@@ -19,15 +19,15 @@ export default class Editor extends React.Component<Props> {
   private editor: any;
 
   componentDidMount () {
+    const { onEdit } = this.props;
+
     this.editor = new CodeFlask(`#${this.id}`, {
       language: 'js',
       lineNumbers: true
     });
 
-    const { editor, props: { onEdit } } = this;
-
-    editor.editorRoot.addEventListener('keydown', () => {
-      editor.onUpdate(onEdit);
+    this.editor.editorRoot.addEventListener('keydown', () => {
+      this.editor.onUpdate(onEdit);
     });
   }
 
@@ -38,8 +38,7 @@ export default class Editor extends React.Component<Props> {
   }
 
   componentDidUpdate () {
-    const { code } = this.props;
-    this.editor.updateCode(code);
+    this.editor.updateCode(this.props.code);
   }
 
   render () {
