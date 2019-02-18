@@ -8,7 +8,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
-import classes from './util/classes';
+import { classes } from './util';
 
 export type TabItem = {
   hasParams?: boolean,

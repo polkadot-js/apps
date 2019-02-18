@@ -8,7 +8,7 @@ import React from 'react';
 
 import CopyButton from './CopyButton';
 import Labelled from './Labelled';
-import classes from './util/classes';
+import { classes } from './util';
 
 type Props = BareProps & {
   children?: React.ReactNode,

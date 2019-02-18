@@ -6,10 +6,10 @@ import { BareProps, BitLength, I18nProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { formatBalance, calcSi } from '@polkadot/ui-app/util';
+import { formatBalance } from '@polkadot/ui-util';
 import { isUndefined } from '@polkadot/util';
 
-import classes from './util/classes';
+import { classes } from './util';
 import { BitLengthOption } from './constants';
 import Dropdown from './Dropdown';
 import Input, { KEYS, KEYS_PRE, isCopy, isCut, isPaste, isSelectAll } from './Input';
@@ -52,17 +52,26 @@ class InputNumber extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
+    const { defaultValue, value } = this.props;
+    let valueBN = new BN(value || 0);
+    const si = formatBalance.calcSi(valueBN.toString(), formatBalance.getDefaults().decimals);
+
+    valueBN = valueBN.div(new BN(10).pow(new BN(si.power)));
+
     this.state = {
+      defaultValue: defaultValue
+        ? defaultValue.toString()
+        : valueBN.toString(),
       isPreKeyDown: false,
-      isValid: !isUndefined(this.props.value),
+      isValid: !isUndefined(value),
       siOptions: formatBalance.getOptions().map(({ power, text, value }) => ({
         value,
         text: power === 0
           ? InputNumber.units
           : text
       })),
-      siUnit: '-',
-      valueBN: new BN(this.props.value || 0)
+      siUnit: si.value,
+      valueBN
     };
   }
 
@@ -71,14 +80,14 @@ class InputNumber extends React.PureComponent<Props, State> {
     InputNumber.units = units;
   }
 
-  static getDerivedStateFromProps ({ isDisabled, isSi, defaultValue = '0' }: Props): Partial<State> | null {
+  static getDerivedStateFromProps ({ isDisabled, isSi, defaultValue = '0' }: Props, state: State): Partial<State> | null {
     if (!isDisabled || !isSi) {
       return null;
     }
 
     return {
       defaultValue: formatBalance(defaultValue, false),
-      siUnit: calcSi(defaultValue.toString()).value
+      siUnit: formatBalance.calcSi(defaultValue.toString(), formatBalance.getDefaults().decimals).value
     };
   }
 
@@ -243,15 +252,21 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 
   private applySi (siUnit: string, value: BN): BN {
+    const { isSi } = this.props;
+
+    if (!isSi) {
+      return value;
+    }
+
     const si = formatBalance.findSi(siUnit);
-    const power = new BN(formatBalance.getDefaultDecimals() + si.power);
+    const power = new BN(formatBalance.getDefaults().decimals + si.power);
 
     return value.mul(new BN(10).pow(power));
   }
 
   private applyNewSi (oldSi: string, newSi: string, value: BN): BN {
     const si = formatBalance.findSi(oldSi);
-    const power = new BN(formatBalance.getDefaultDecimals() + si.power);
+    const power = new BN(formatBalance.getDefaults().decimals + si.power);
 
     return this.applySi(newSi, value.div(new BN(10).pow(power)));
   }

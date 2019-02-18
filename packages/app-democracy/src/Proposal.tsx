@@ -9,7 +9,7 @@ import React from 'react';
 import { AccountId, Balance, Proposal, Tuple, Vector } from '@polkadot/types';
 import { AddressMini, Labelled, Static } from '@polkadot/ui-app/index';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
-import { formatBalance } from '@polkadot/ui-app/util/index';
+import { formatBalance } from '@polkadot/ui-util';
 
 import Item from './Item';
 import translate from './translate';

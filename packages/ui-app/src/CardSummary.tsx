@@ -9,9 +9,9 @@ import React from 'react';
 import { UInt } from '@polkadot/types';
 import { isUndefined } from '@polkadot/util';
 
+import { classes } from './util';
 import Progress, { Colors as ProgressColors } from './Progress';
 import Labelled from './Labelled';
-import classes from './util/classes';
 
 type ProgressProps = {
   color?: ProgressColors,
