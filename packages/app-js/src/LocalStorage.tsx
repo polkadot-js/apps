@@ -83,12 +83,10 @@ class LocalStorage extends React.PureComponent<Props, State> {
     );
   }
 
-  // move to separate component
   private onChangeName = (snippetName: string): void => {
     this.setState({ snippetName } as State);
   }
 
-  // move to separate component
   private saveSnippet = (): void => {
     const { state: { snippetName }, props: { saveSnippet } } = this;
 
