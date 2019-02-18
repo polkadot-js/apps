@@ -32,7 +32,7 @@ export default class InputBalance extends React.PureComponent<Props> {
         autoFocus={autoFocus}
         className={className}
         bitLength={DEFAULT_BITLENGTH}
-        defaultValue={defaultValue || '0'}
+        defaultValue={defaultValue}
         isDisabled={isDisabled}
         isError={isError}
         isSi

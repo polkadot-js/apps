@@ -52,21 +52,25 @@ class InputNumber extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const valueBN = new BN(this.props.value || 0);
+    const { defaultValue, value } = this.props;
+    let valueBN = new BN(value || 0);
+    const si = formatBalance.calcSi(valueBN.toString(), formatBalance.getDefaults().decimals);
+
+    valueBN = valueBN.div(new BN(10).pow(new BN(si.power)));
 
     this.state = {
-      defaultValue: this.props.defaultValue || !this.props.value
-        ? undefined
+      defaultValue: defaultValue
+        ? defaultValue.toString()
         : valueBN.toString(),
       isPreKeyDown: false,
-      isValid: !isUndefined(this.props.value),
+      isValid: !isUndefined(value),
       siOptions: formatBalance.getOptions().map(({ power, text, value }) => ({
         value,
         text: power === 0
           ? InputNumber.units
           : text
       })),
-      siUnit: '-',
+      siUnit: si.value,
       valueBN
     };
   }
@@ -76,7 +80,7 @@ class InputNumber extends React.PureComponent<Props, State> {
     InputNumber.units = units;
   }
 
-  static getDerivedStateFromProps ({ isDisabled, isSi, defaultValue = '0' }: Props): Partial<State> | null {
+  static getDerivedStateFromProps ({ isDisabled, isSi, defaultValue = '0' }: Props, state: State): Partial<State> | null {
     if (!isDisabled || !isSi) {
       return null;
     }
