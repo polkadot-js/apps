@@ -5,7 +5,7 @@
 import { RawParam$Value } from './types';
 
 import BN from 'bn.js';
-import { Bytes, Hash, TypeDef, TypeDefInfo } from '@polkadot/types';
+import { Bytes, Hash, Struct, TypeDef, TypeDefInfo, createType, getTypeDef } from '@polkadot/types';
 
 export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawParam$Value> {
   if (def.info === TypeDefInfo.Vector) {
@@ -15,8 +15,13 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
       ? def.sub.map((def) => getInitValue(def))
       : [];
   } else if (def.info === TypeDefInfo.Struct) {
-    console.error(`Unable to determine default type from Struct ${JSON.stringify(def)}`);
-    return void 0;
+    return Array.isArray(def.sub)
+      ? def.sub.reduce((result, def, index) => {
+        result[`${def.name || index}`] = getInitValue(def);
+
+        return result;
+      }, {} as any)
+      : {};
   }
 
   const type = def.info === TypeDefInfo.Compact
@@ -76,8 +81,20 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     case 'Signature':
       return void 0;
 
-    default:
-      console.error(`Unable to determine default type for ${JSON.stringify(def)}`);
-      return void 0;
+    default: {
+      const instance = createType(type);
+
+      if (!(instance instanceof Struct)) {
+        return undefined;
+      }
+
+      const types = instance.Type;
+
+      return [...instance.keys()].reduce((result, key) => {
+        result[key] = getInitValue(getTypeDef(types[key]));
+
+        return result;
+      }, {} as any);
+    }
   }
 }

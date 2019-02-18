@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo } from '@polkadot/types';
+import { Struct, TypeDef, TypeDefInfo, createType } from '@polkadot/types';
 import { Props, ComponentMap } from '../types';
 
 import Account from './Account';
@@ -17,6 +17,7 @@ import Proposal from './Proposal';
 import KeyValue from './KeyValue';
 import KeyValueArray from './KeyValueArray';
 import Text from './Text';
+import StructParam from './Struct';
 import Tuple from './Tuple';
 import Unknown from './Unknown';
 import Vector from './Vector';
@@ -51,6 +52,7 @@ const components: ComponentMap = {
   'SessionKey': Account,
   'Signature': Hash,
   'String': Text,
+  'Struct': StructParam,
   'Text': Text,
   'Tuple': Tuple,
   'u32': Amount,
@@ -71,6 +73,9 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
       case TypeDefInfo.Tuple:
         return 'Tuple';
 
+      case TypeDefInfo.Struct:
+        return 'Struct';
+
       case TypeDefInfo.Vector:
         return ['Vec<KeyValue>'].includes(type)
           ? 'Vec<KeyValue>'
@@ -81,5 +86,15 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
     }
   })(def);
 
-  return overrides[type] || components[type] || Unknown;
+  let Component = overrides[type] || components[type];
+
+  if (Component) {
+    return Component;
+  }
+
+  const instance = createType(def.type);
+
+  return instance instanceof Struct
+    ? StructParam
+    : Unknown;
 }
