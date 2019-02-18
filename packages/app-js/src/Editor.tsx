@@ -8,7 +8,6 @@ import React from 'react';
 import CodeFlask from 'codeflask';
 
 type Props = BareProps & {
-  children?: React.ReactNode,
   isDevelopment: boolean,
   code: string,
   onEdit: (code: string) => void
@@ -31,7 +30,7 @@ export default class Editor extends React.Component<Props> {
     });
   }
 
-  shouldComponentUpdate (nextProps: Props) {
+  shouldComponentUpdate (nextProps: Props): boolean {
     return (
       nextProps.code !== this.props.code
     );
@@ -48,18 +47,5 @@ export default class Editor extends React.Component<Props> {
         id={this.id}
       />
     );
-  }
-
-  private makeWrapper = (): string => {
-    const args = `api, hashing, ${this.props.isDevelopment ? 'keyring, ' : ''}util`;
-
-    return (`// All code is wrapped within an async closure,
-// allowing access to ${args}.
-//
-// (async ({ ${args} }) => {
-//   ... any user code is executed here ...
-// })();
-
-`);
   }
 }
