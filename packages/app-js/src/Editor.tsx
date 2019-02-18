@@ -32,7 +32,6 @@ export default class Editor extends React.Component<Props> {
   }
 
   shouldComponentUpdate (nextProps: Props) {
-    // console.log('next props isCustom', nextProps.isCustomExample)
     return (
       nextProps.code !== this.props.code
     );
