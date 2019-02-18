@@ -44,7 +44,7 @@ class Peers extends React.PureComponent<Props> {
             <tr>
               <th className='number'>{t('index')}</th>
               <th className='roles'>{t('role')}</th>
-              <th className='peerid'>{t('peer id')}</th>
+              <th className='peerid ui--media-medium'>{t('peer id')}</th>
               <th className='number'>{t('best #')}</th>
               <th className='hash'>{t('best hash')}</th>
             </tr>
@@ -62,7 +62,7 @@ class Peers extends React.PureComponent<Props> {
       <tr key={`peer:${peer.index.toNumber()}`}>
         <td className='number'>{peer.index.toNumber()}</td>
         <td className='roles'>{peer.roles.toString().toLowerCase()}</td>
-        <td className='peerid'>{peer.peerId.toString()}</td>
+        <td className='peerid ui--media-medium'>{peer.peerId.toString()}</td>
         <td className='number'>{formatNumber(peer.bestNumber)}</td>
         <td className='hash'>{peer.bestHash.toHex()}</td>
       </tr>
