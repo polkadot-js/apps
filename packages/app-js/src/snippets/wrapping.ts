@@ -5,7 +5,8 @@
 export default function makeWrapper (isDevelopment: boolean): string {
   const args = `api, hashing, ${isDevelopment ? 'keyring, ' : ''}util`;
 
-  return `// All code is wrapped within an async closure, allowing access to ${args}.
+  return `// All code is wrapped within an async closure,
+// allowing access to ${args}.
 // (async ({ ${args} }) => {
 //   ... any user code is executed here ...
 // })();

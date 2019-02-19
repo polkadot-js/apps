@@ -10,7 +10,6 @@ import { Log, LogType, Snippet } from './types';
 
 import React from 'react';
 import { withRouter } from 'react-router';
-import { Link } from 'react-router-dom';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { Button, Dropdown } from '@polkadot/ui-app/index';
 import uiKeyring from '@polkadot/ui-keyring';
@@ -25,7 +24,7 @@ import { STORE_EXAMPLES, STORE_SELECTED, CUSTOM_LABEL } from './constants';
 
 import Editor from './Editor';
 import Output from './Output';
-import LocalStorage from './LocalStorage';
+import ActionButtons from './ActionButtons';
 
 type Injected = {
   api: ApiPromise,
@@ -39,7 +38,7 @@ type Injected = {
   util: typeof util,
   window: null
 };
-type Props = ApiProps & AppProps & RouteComponentProps & I18nProps;
+type Props = ApiProps & AppProps & I18nProps;
 type State = {
   code: string,
   customExamples: Array<Snippet>,
@@ -104,22 +103,6 @@ class App extends React.PureComponent<Props, State> {
             defaultValue={snippet}
             withLabel
           />
-          <Button
-            className='action-button'
-            isCircular
-            isPrimary
-            icon='share'
-            onClick={this.generateLink}
-          />
-          <Link
-            title={t('Share Link')}
-            to={{
-              pathname: "/courses",
-              search: "?sort=name",
-              hash: "#the-hash",
-              state: { fromDashboard: true }
-            }}
-          >Share</Link>
         </header>
         <section className='js--Content'>
           <article className='container js--Editor'>
@@ -128,26 +111,15 @@ class App extends React.PureComponent<Props, State> {
               isDevelopment={isDevelopment}
               onEdit={this.onEdit}
             />
-            <div className='action-button'>
-              <LocalStorage
-                isCustomExample={isCustomExample}
-                removeSnippet={this.removeSnippet}
-                saveSnippet={this.saveSnippet}
-              />
-              <Button
-                isCircular
-                isPrimary
-                icon='play'
-                onClick={this.runJs}
-              />
-              <Button
-                isCircular
-                isDisabled={!isRunning}
-                isNegative
-                icon='close'
-                onClick={this.stopJs}
-              />
-            </div>
+            <ActionButtons
+              isCustomExample={isCustomExample}
+              isRunning={isRunning}
+              generateLink={this.generateLink}
+              removeSnippet={this.removeSnippet}
+              runJs={this.runJs}
+              saveSnippet={this.saveSnippet}
+              stopJs={this.stopJs}
+            />
           </article>
           <Output logs={logs}>
             <Button
@@ -289,14 +261,16 @@ class App extends React.PureComponent<Props, State> {
 
   private generateLink = (): void => {
     const { state: { code }, props: { location } } = this;
-    console.log('THIS', this)
     const base64code = btoa(code);
-    const nextLocation = {
-      ...location,
-      hash: base64code
+
+    if (base64code !== location.hash) {
+      this.props.history.push({
+        ...location,
+        hash: base64code
+      });
     }
-    this.props.history.push(nextLocation)
-    console.log('base64code', base64code);
+
+    console.log('base64code', window.location.href);
   }
 }
 
