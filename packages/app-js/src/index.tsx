@@ -84,6 +84,7 @@ class App extends React.PureComponent<Props, State> {
   render () {
     const { isDevelopment, t } = this.props;
     const { isCustomExample, isRunning, logs, options, snippet } = this.state;
+    const snippetName = snippet.custom === 'true' ? snippet.text : undefined;
 
     return (
       <main className='js--App'>
@@ -109,7 +110,7 @@ class App extends React.PureComponent<Props, State> {
                 isCustomExample={isCustomExample}
                 removeSnippet={this.removeSnippet}
                 saveSnippet={this.saveSnippet}
-                snippetName={snippet.text}
+                snippetName={snippetName}
               />
               <Button
                 isCircular
