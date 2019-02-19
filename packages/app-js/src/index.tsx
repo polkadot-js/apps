@@ -10,6 +10,7 @@ import { Log, LogType, Snippet } from './types';
 
 import React from 'react';
 import { withRouter } from 'react-router';
+import { parse } from 'query-string';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { Button, Dropdown } from '@polkadot/ui-app/index';
 import uiKeyring from '@polkadot/ui-keyring';
@@ -74,15 +75,26 @@ class App extends React.PureComponent<Props, State> {
       examples: localStorage.getItem(STORE_EXAMPLES),
       selected: localStorage.getItem(STORE_SELECTED)
     };
-    const customExamples = localData.examples ? JSON.parse(localData.examples) : [];
-    const options: Array<Snippet> = [...customExamples, ...snippets];
-    const selected = options.find(obj => obj.value === localData.selected);
 
+    const params = parse(this.props.location.search);
+    console.log('params',params);
+    const sharedExample: Snippet = (params && params.code && params.name) ?
+      ({
+        code: atob(params.code),
+        label: { basic: true, children: 'Shared', size: 'tiny' },
+        text: atob(params.name),
+        value: `custom-${Date.now()}`
+      }) : undefined ;
+
+    const customExamples = localData.examples ? JSON.parse(localData.examples) : [];
+    const options: Array<Snippet> = [sharedExample, ...customExamples, ...snippets];
+    const selected = !sharedExample ? sharedExample : options.find(obj => obj.value === localData.selected);
+      console.log('selected', selected, sharedExample)
     this.setState((prevState: State): State => ({
       customExamples,
       isCustomExample: (selected && selected.custom === 'true') || false,
       options,
-      snippet: selected || prevState.snippet
+      snippet: selected || options[0]
     }) as State);
   }
 
@@ -261,18 +273,21 @@ class App extends React.PureComponent<Props, State> {
   private generateLink = (): void => {
     const {
       props: { history, location },
-      state: { snippet: { code } }
+      state: { snippet: { code, text } }
     } = this;
+    console.log(location)
     const base64code = btoa(code);
-
-    if (base64code !== location.hash) {
+    console.log(base64code);
+    console.log('location seacrc',location.search)
+    if (base64code !== location.hash.substr(1)) {
       history.push({
         ...location,
-        hash: base64code
+        search: {
+          code: base64code,
+          name: text
+        }
       });
     }
-
-    console.log('base64code', window.location.href);
   }
 }
 
