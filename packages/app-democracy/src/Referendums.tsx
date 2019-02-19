@@ -12,6 +12,7 @@ import { withCalls } from '@polkadot/ui-api/index';
 
 import Referendum from './Referendum';
 import translate from './translate';
+import { map } from 'rxjs/operators';
 
 type Props = I18nProps & {
   democracy_nextTally?: BN,
@@ -43,12 +44,17 @@ class Referendums extends React.PureComponent<Props> {
       );
     }
 
-    return democracy_referendums.map((referendum, index) => (
-      <Referendum
-        key={index}
-        value={referendum}
-      />
-    ));
+    console.log(JSON.stringify(democracy_referendums));
+
+    return democracy_referendums
+      .filter((opt) => opt.isSome)
+      .map((opt) => opt.unwrap())
+      .map((referendum) => (
+        <Referendum
+          key={referendum.index.toString()}
+          value={referendum}
+        />
+      ));
   }
 }
 

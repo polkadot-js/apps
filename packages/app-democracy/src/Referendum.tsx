@@ -9,7 +9,6 @@ import { RawParam } from '@polkadot/ui-params/types';
 import BN from 'bn.js';
 import React from 'react';
 import { ReferendumInfoExtended } from '@polkadot/api-derive/democracy/referendumInfo';
-import { Option } from '@polkadot/types';
 import { Chart, Static } from '@polkadot/ui-app/index';
 import VoteThreshold from '@polkadot/ui-params/Param/VoteThreshold';
 import { withCalls } from '@polkadot/ui-api/index';
@@ -31,7 +30,7 @@ type Props = I18nProps & {
   chain_bestNumber?: BN,
   democracy_referendumVotesFor?: Array<DerivedReferendumVote>,
   democracy_publicDelay?: BN,
-  value: Option<ReferendumInfoExtended>
+  value: ReferendumInfoExtended
 };
 
 type State = {
@@ -89,33 +88,30 @@ class Referendum extends React.PureComponent<Props, State> {
 
   render () {
     const { chain_bestNumber, value } = this.props;
-    const rererendum = value.unwrapOr(null);
 
-    if (!chain_bestNumber || !rererendum || rererendum.end.sub(chain_bestNumber).lten(0)) {
+    if (!chain_bestNumber || value.end.sub(chain_bestNumber).lten(0)) {
       return null;
     }
 
     return (
       <Item
-        idNumber={rererendum.index}
-        proposal={rererendum.proposal}
+        idNumber={value.index}
+        proposal={value.proposal}
         proposalExtra={this.renderExtra()}
       >
-        <Voting referendumId={rererendum.index} />
+        <Voting referendumId={value.index} />
         {this.renderResults()}
       </Item>
     );
   }
 
   private renderExtra () {
-    const { chain_bestNumber, democracy_publicDelay, t, value } = this.props;
-    const referendum = value.unwrapOr(null);
+    const { chain_bestNumber, democracy_publicDelay, t, value: { end, threshold } } = this.props;
 
-    if (!chain_bestNumber || !referendum) {
+    if (!chain_bestNumber) {
       return null;
     }
 
-    const { end, threshold } = referendum;
     const enactBlock = (democracy_publicDelay || new BN(0)).add(end);
 
     return (
