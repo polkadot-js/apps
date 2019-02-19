@@ -42,10 +42,7 @@ export default class Editor extends React.Component<Props> {
 
   render () {
     return (
-      <div
-        className=''
-        id={this.id}
-      />
+      <div id={this.id} />
     );
   }
 }

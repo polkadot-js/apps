@@ -35,10 +35,11 @@ class LocalStorage extends React.PureComponent<Props, State> {
 
     if (isCustomExample) {
       return (
-        // FIXME: The <Popup /> event trigger on='hover' does not work together with the ui-app
-        // <Button /> component. That's why the original Semantic UI component is being used here,
+          // FIXME: The <Popup /> event trigger on='hover' does not work together with the ui-app'
+          // <Button /> component. That's why the original Semantic UI component is being used here.
+
         <Popup
-          content='Delete this custom example'
+          content={t('Delete this custom example')}
           on='hover'
           trigger={
             <SUIB
