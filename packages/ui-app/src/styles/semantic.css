@@ -151,7 +151,7 @@
 .ui.disabled.active.button,
 .ui.disabled.button,
 .ui.disabled.button:hover {
-  opacity: 0.1 !important;
+  opacity: 0.2 !important;
 }
 
 /* modals aligned to top, not center */

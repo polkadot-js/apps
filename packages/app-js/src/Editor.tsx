@@ -7,73 +7,42 @@ import { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import CodeFlask from 'codeflask';
 
-import makeWrapper from './snippets/wrapping';
-
 type Props = BareProps & {
-  children?: React.ReactNode,
   isDevelopment: boolean,
   code: string,
-  onEdit: (code: string) => void,
-  snippet: string
+  onEdit: (code: string) => void
 };
 
-type State = {
-  snippet: string
-};
-
-export default class Editor extends React.PureComponent<Props> {
+export default class Editor extends React.Component<Props> {
   private id: string = `flask-${Date.now()}`;
   private editor: any;
 
-  state: State = {
-    snippet: ''
-  };
-
-  constructor (props: Props) {
-    super(props);
-
-    this.id = `flask-${Date.now()}`;
-  }
-
   componentDidMount () {
+    const { onEdit } = this.props;
+
     this.editor = new CodeFlask(`#${this.id}`, {
       language: 'js',
       lineNumbers: true
     });
 
-    const { editor, props: { code, onEdit } } = this;
-
-    editor.onUpdate((code: string) => {
-      onEdit(code);
-    });
-
-    editor.editorRoot.addEventListener('focusin', () => {
+    this.editor.editorRoot.addEventListener('keydown', () => {
       this.editor.onUpdate(onEdit);
     });
+  }
 
-    onEdit(code);
+  shouldComponentUpdate (nextProps: Props): boolean {
+    return (
+      nextProps.code !== this.props.code
+    );
   }
 
   componentDidUpdate () {
-    const { code, isDevelopment, onEdit, snippet } = this.props;
-
-    if (snippet !== this.state.snippet) {
-      onEdit(code);
-
-      this.editor.updateCode(`${makeWrapper(isDevelopment)}${code}`);
-      this.setState({ snippet });
-    }
+    this.editor.updateCode(this.props.code);
   }
 
   render () {
     return (
-      <article className='container js--Editor'>
-        <div
-          className=''
-          id={this.id}
-        />
-        {this.props.children}
-      </article>
+      <div id={this.id} />
     );
   }
 }
