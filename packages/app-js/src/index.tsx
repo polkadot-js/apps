@@ -9,6 +9,8 @@ import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { Log, LogType, Snippet } from './types';
 
 import React from 'react';
+import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { Button, Dropdown } from '@polkadot/ui-app/index';
 import uiKeyring from '@polkadot/ui-keyring';
@@ -37,7 +39,7 @@ type Injected = {
   util: typeof util,
   window: null
 };
-type Props = ApiProps & AppProps & I18nProps;
+type Props = ApiProps & AppProps & RouteComponentProps & I18nProps;
 type State = {
   code: string,
   customExamples: Array<Snippet>,
@@ -47,6 +49,9 @@ type State = {
   options: Array<Snippet>,
   snippet: string
 };
+
+const base64code = btoa(`console.log("It's a Test");`);
+console.log('base64code', base64code);
 
 class App extends React.PureComponent<Props, State> {
   injected: Injected | null = null;
@@ -66,6 +71,7 @@ class App extends React.PureComponent<Props, State> {
   }
 
   componentDidMount () {
+    console.log('LOCATION', this.props)
     const localData = {
       examples: localStorage.getItem(STORE_EXAMPLES),
       selected: localStorage.getItem(STORE_SELECTED)
@@ -98,6 +104,22 @@ class App extends React.PureComponent<Props, State> {
             defaultValue={snippet}
             withLabel
           />
+          <Button
+            className='action-button'
+            isCircular
+            isPrimary
+            icon='share'
+            onClick={this.generateLink}
+          />
+          <Link
+            title={t('Share Link')}
+            to={{
+              pathname: "/courses",
+              search: "?sort=name",
+              hash: "#the-hash",
+              state: { fromDashboard: true }
+            }}
+          >Share</Link>
         </header>
         <section className='js--Content'>
           <article className='container js--Editor'>
@@ -264,10 +286,23 @@ class App extends React.PureComponent<Props, State> {
       });
     };
   }
+
+  private generateLink = (): void => {
+    const { state: { code }, props: { location } } = this;
+    console.log('THIS', this)
+    const base64code = btoa(code);
+    const nextLocation = {
+      ...location,
+      hash: base64code
+    }
+    this.props.history.push(nextLocation)
+    console.log('base64code', base64code);
+  }
 }
 
 export default withMulti(
   App,
   translate,
-  withApi
+  withApi,
+  withRouter
 );
