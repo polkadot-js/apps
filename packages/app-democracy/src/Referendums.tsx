@@ -12,7 +12,6 @@ import { withCalls } from '@polkadot/ui-api/index';
 
 import Referendum from './Referendum';
 import translate from './translate';
-import { map } from 'rxjs/operators';
 
 type Props = I18nProps & {
   democracy_nextTally?: BN,
@@ -43,8 +42,6 @@ class Referendums extends React.PureComponent<Props> {
         </div>
       );
     }
-
-    console.log(JSON.stringify(democracy_referendums));
 
     return democracy_referendums
       .filter((opt) => opt.isSome)
