@@ -36,7 +36,7 @@ export default class StructPaqram extends React.PureComponent<Props, State> {
 
     const instance = createType(type) as Struct;
     const types = instance.Type;
-    const subTypes = Object.values(types).map(() => getTypeDef(type));
+    const subTypes = Object.values(types).map((type) => getTypeDef(type));
     const keys = Object.keys(value);
     const values = keys.map((key) => value[key]).map((value: any) =>
       isUndefined(value) || isUndefined(value.isValid)

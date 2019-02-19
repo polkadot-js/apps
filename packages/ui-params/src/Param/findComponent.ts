@@ -86,6 +86,8 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
     }
   })(def);
 
+  console.error('findComponent', def, type);
+
   let Component = overrides[type] || components[type];
 
   if (Component) {
