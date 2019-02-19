@@ -13,7 +13,8 @@ import translate from './translate';
 type Props = BareProps & I18nProps & {
   isCustomExample: boolean,
   saveSnippet: (snippetName: string) => void,
-  removeSnippet: () => void
+  removeSnippet: () => void,
+  snippetName?: string
 };
 
 type State = {
@@ -75,6 +76,7 @@ class LocalStorage extends React.PureComponent<Props, State> {
           maxLength={50}
           min={1}
           placeholder={t('Name your example')}
+          value={snippetName}
         />
         <Button
           onClick={this.saveSnippet}
@@ -98,7 +100,7 @@ class LocalStorage extends React.PureComponent<Props, State> {
   }
 
   private onPopupOpen = (): void => {
-    this.setState((prevState: State): State => ({ isOpen: !prevState.isOpen }) as State);
+    this.setState({ isOpen: true, snippetName: this.props.snippetName || '' } as State);
   }
 
   private onPopupClose = (): void => {

@@ -39,30 +39,29 @@ type Injected = {
 };
 type Props = ApiProps & AppProps & I18nProps;
 type State = {
-  code: string,
   customExamples: Array<Snippet>,
   isCustomExample: boolean,
   isRunning: boolean,
   logs: Array<Log>,
   options: Array<Snippet>,
-  snippet: string
+  snippet: Snippet
 };
 
 class App extends React.PureComponent<Props, State> {
   injected: Injected | null = null;
-  state: State = {
-    code: '',
-    customExamples: [],
-    isCustomExample: false,
-    isRunning: false,
-    logs: [],
-    options: [],
-    snippet: ''
-  };
 
   constructor (props: Props) {
     super(props);
     snippets.forEach(snippet => snippet.code = `${makeWrapper(this.props.isDevelopment)}${snippet.code}`);
+
+    this.state = {
+      customExamples: [],
+      isCustomExample: false,
+      isRunning: false,
+      logs: [],
+      options: [],
+      snippet: snippets[0]
+    };
   }
 
   componentDidMount () {
@@ -74,18 +73,18 @@ class App extends React.PureComponent<Props, State> {
     const options: Array<Snippet> = [...customExamples, ...snippets];
     const selected = options.find(obj => obj.value === localData.selected);
 
-    this.setState({
+    this.setState((prevState: State): State => ({
       customExamples,
       isCustomExample: (selected && selected.custom === 'true') || false,
       options,
-      code: selected ? selected.code : snippets[0].code,
-      snippet: selected ? selected.value : snippets[0].value
-    } as State);
+      snippet: selected || prevState.snippet
+    }) as State);
   }
 
   render () {
     const { isDevelopment, t } = this.props;
-    const { code, isCustomExample, isRunning, logs, options, snippet } = this.state;
+    const { isCustomExample, isRunning, logs, options, snippet } = this.state;
+    const snippetName = snippet.custom === 'true' ? snippet.text : undefined;
 
     return (
       <main className='js--App'>
@@ -95,14 +94,14 @@ class App extends React.PureComponent<Props, State> {
             onChange={this.selectExample}
             options={options}
             label={t('Select example')}
-            defaultValue={snippet}
+            defaultValue={snippet.value}
             withLabel
           />
         </header>
         <section className='js--Content'>
           <article className='container js--Editor'>
             <Editor
-              code={code}
+              code={snippet.code}
               isDevelopment={isDevelopment}
               onEdit={this.onEdit}
             />
@@ -111,6 +110,7 @@ class App extends React.PureComponent<Props, State> {
                 isCustomExample={isCustomExample}
                 removeSnippet={this.removeSnippet}
                 saveSnippet={this.saveSnippet}
+                snippetName={snippetName}
               />
               <Button
                 isCircular
@@ -143,7 +143,7 @@ class App extends React.PureComponent<Props, State> {
 
   private runJs = async (): Promise<void> => {
     const { api, isDevelopment } = this.props;
-    const { code } = this.state;
+    const { code } = this.state.snippet;
 
     this.stopJs();
     this.clearConsole();
@@ -193,17 +193,16 @@ class App extends React.PureComponent<Props, State> {
       if (option) {
         localStorage.setItem(STORE_SELECTED, value);
         this.setState({
-          code: option.code,
           logs: [],
           isCustomExample: option.custom === 'true',
-          snippet: value
+          snippet: option
         });
       }
     }
   }
 
   private saveSnippet = (snippetName: string): void => {
-    const { code, customExamples } = this.state;
+    const { customExamples, snippet: { code } } = this.state;
 
     // The <Dropdown> component doesn't take boolean custom props and no
     // camelCase keys, that's why 'custom' is passed as a string here
@@ -222,13 +221,13 @@ class App extends React.PureComponent<Props, State> {
       customExamples: [snapshot, ...prevState.customExamples],
       isCustomExample: true,
       options: [snapshot, ...prevState.options],
-      snippet: snapshot.value
+      snippet: snapshot
     }) as State);
   }
 
   private removeSnippet = (): void => {
     const { customExamples, snippet } = this.state;
-    const filtered = customExamples.filter((value) => value.value !== snippet);
+    const filtered = customExamples.filter((value) => value.value !== snippet.value);
     const nextOptions = [...filtered, ...snippets];
 
     this.setState((prevState: State): State => ({
@@ -243,11 +242,11 @@ class App extends React.PureComponent<Props, State> {
   }
 
   private onEdit = (code: string): void => {
-    if (code !== this.state.code) {
-      this.setState({
-        code,
+    if (code !== this.state.snippet.code) {
+      this.setState((prevState: State): State => ({
+        snippet: { ...prevState.snippet, code },
         isCustomExample: false
-      } as State);
+      } as State));
     }
   }
 
