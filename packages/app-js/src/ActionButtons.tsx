@@ -17,6 +17,7 @@ type Props = BareProps & I18nProps & {
   generateLink: () => void,
   removeSnippet: () => void,
   runJs: () => void,
+  snippetName?: string,
   stopJs: () => void
 };
 
@@ -93,6 +94,7 @@ class ActionButtons extends React.PureComponent<Props, State> {
               maxLength={50}
               min={1}
               placeholder={t('Name your example')}
+              value={snippetName}
             />
             <Button
               onClick={this.saveSnippet}
@@ -132,7 +134,7 @@ class ActionButtons extends React.PureComponent<Props, State> {
   }
 
   private onPopupOpen = (): void => {
-    this.setState((prevState: State): State => ({ isOpen: !prevState.isOpen }) as State);
+    this.setState({ isOpen: true, snippetName: this.props.snippetName || '' } as State);
   }
 
   private onPopupClose = (): void => {
