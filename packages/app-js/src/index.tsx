@@ -78,7 +78,7 @@ class App extends React.PureComponent<Props, State> {
 
     const params = parse(this.props.location.search);
     console.log('params',params);
-    const sharedExample: Snippet = (params && params.code && params.name) ?
+    const sharedExample = (params && params.code && params.name) ?
       ({
         code: atob(params.code),
         label: { basic: true, children: 'Shared', size: 'tiny' },
@@ -89,7 +89,9 @@ class App extends React.PureComponent<Props, State> {
     const customExamples = localData.examples ? JSON.parse(localData.examples) : [];
     const options: Array<Snippet> = [sharedExample, ...customExamples, ...snippets];
     const selected = !sharedExample ? sharedExample : options.find(obj => obj.value === localData.selected);
-      console.log('selected', selected, sharedExample)
+
+    console.log('selected', selected, sharedExample);
+
     this.setState((prevState: State): State => ({
       customExamples,
       isCustomExample: (selected && selected.custom === 'true') || false,
