@@ -50,7 +50,7 @@ type State = {
   selected: Snippet
 };
 
-class App extends React.PureComponent<Props, State> {
+class App extends React.Component<Props, State> {
   injected: Injected | null = null;
   snippets: Array<Snippet> = JSON.parse(JSON.stringify(snippets));
 
@@ -100,6 +100,14 @@ class App extends React.PureComponent<Props, State> {
       selected: sharedExample || selected || this.snippets[0],
       sharedExample
     }) as State);
+  }
+
+  componentDidUpdate () {
+    if (this.props.location.hash !== this.state.shareLink) {
+      this.setState({
+        shareLink: this.props.location.hash
+      });
+    }
   }
 
   render () {
@@ -287,15 +295,14 @@ class App extends React.PureComponent<Props, State> {
       state: { selected: { code } }
     } = this;
     const base64code = btoa(code);
-    console.log(location);
 
     if (base64code !== location.hash.substr(1)) {
       history.push({
         ...location,
         hash: base64code
       });
-      this.setState({ shareLink: window.location.href } as State);
     }
+    console.log('NEW HASH', base64code, this.props.location.hash)
   }
 }
 
