@@ -56,12 +56,10 @@ class InputNumber extends React.PureComponent<Props, State> {
     let valueBN = new BN(value || 0);
     const si = formatBalance.calcSi(valueBN.toString());
 
-    valueBN = valueBN.div(new BN(10).pow(new BN(si.power)));
-
     this.state = {
       defaultValue: defaultValue
         ? defaultValue.toString()
-        : valueBN.toString(),
+        : valueBN.div(new BN(10).pow(new BN(si.power))).toString(),
       isPreKeyDown: false,
       isValid: !isUndefined(value),
       siOptions: formatBalance.getOptions().map(({ power, text, value }) => ({
