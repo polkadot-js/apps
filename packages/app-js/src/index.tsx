@@ -10,7 +10,6 @@ import { Log, LogType, Snippet } from './types';
 
 import React from 'react';
 import { withRouter } from 'react-router';
-import { parse } from 'query-string';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { Button, Dropdown } from '@polkadot/ui-app/index';
 import uiKeyring from '@polkadot/ui-keyring';
@@ -46,49 +45,46 @@ type State = {
   isRunning: boolean,
   logs: Array<Log>,
   options: Array<Snippet>,
-  snippet: Snippet
+  sharedExamples: Array<Snippet>,
+  shareLink: string,
+  selected: Snippet
 };
-
-const base64code = btoa(`console.log("It's a Test");`);
-console.log('base64code', base64code);
 
 class App extends React.PureComponent<Props, State> {
   injected: Injected | null = null;
 
   constructor (props: Props) {
     super(props);
-    snippets.forEach(snippet => snippet.code = `${makeWrapper(this.props.isDevelopment)}${snippet.code}`);
-
+    // snippets.forEach(snippet => snippet.code = `${makeWrapper(this.props.isDevelopment)}${snippet.code}`);
     this.state = {
       customExamples: [],
       isCustomExample: false,
       isRunning: false,
       logs: [],
       options: [],
-      snippet: snippets[0]
+      selected: snippets[0],
+      sharedExamples: [],
+      shareLink: ''
     };
   }
 
   componentDidMount () {
-    console.log('this.props', this.props);
     const localData = {
       examples: localStorage.getItem(STORE_EXAMPLES),
       selected: localStorage.getItem(STORE_SELECTED)
     };
 
-    const params = parse(this.props.location.search);
-    console.log('params',params);
-    const sharedExample = (params && params.code && params.name) ?
+    const sharedExample = this.props.location.hash.length ?
       ({
-        code: atob(params.code),
+        code: atob(this.props.location.hash),
         label: { basic: true, children: 'Shared', size: 'tiny' },
-        text: atob(params.name),
+        text: 'Unsaved shared code example',
         value: `custom-${Date.now()}`
       }) : undefined ;
 
     const customExamples = localData.examples ? JSON.parse(localData.examples) : [];
-    const options: Array<Snippet> = [sharedExample, ...customExamples, ...snippets];
-    const selected = !sharedExample ? sharedExample : options.find(obj => obj.value === localData.selected);
+    const options: Array<Snippet> = [...customExamples, ...snippets];
+    const selected = options.find(obj => obj.value === localData.selected);
 
     console.log('selected', selected, sharedExample);
 
@@ -96,14 +92,14 @@ class App extends React.PureComponent<Props, State> {
       customExamples,
       isCustomExample: (selected && selected.custom === 'true') || false,
       options,
-      snippet: selected || options[0]
+      selected: selected || options[0]
     }) as State);
   }
 
   render () {
     const { isDevelopment, t } = this.props;
-    const { isCustomExample, isRunning, logs, options, snippet } = this.state;
-    const snippetName = snippet.custom === 'true' ? snippet.text : undefined;
+    const { isCustomExample, isRunning, logs, options, selected } = this.state;
+    const snippetName = selected.custom === 'true' ? selected.text : undefined;
 
     return (
       <main className='js--App'>
@@ -113,14 +109,14 @@ class App extends React.PureComponent<Props, State> {
             onChange={this.selectExample}
             options={options}
             label={t('Select example')}
-            defaultValue={snippet.value}
+            defaultValue={selected.value}
             withLabel
           />
         </header>
         <section className='js--Content'>
           <article className='container js--Editor'>
             <Editor
-              code={snippet.code}
+              code={selected.code}
               isDevelopment={isDevelopment}
               onEdit={this.onEdit}
             />
@@ -151,7 +147,7 @@ class App extends React.PureComponent<Props, State> {
 
   private runJs = async (): Promise<void> => {
     const { api, isDevelopment } = this.props;
-    const { code } = this.state.snippet;
+    const { code } = this.state.selected;
 
     this.stopJs();
     this.clearConsole();
@@ -203,14 +199,14 @@ class App extends React.PureComponent<Props, State> {
         this.setState({
           logs: [],
           isCustomExample: option.custom === 'true',
-          snippet: option
+          selected: option
         });
       }
     }
   }
 
   private saveSnippet = (snippetName: string): void => {
-    const { customExamples, snippet: { code } } = this.state;
+    const { customExamples, selected: { code } } = this.state;
 
     // The <Dropdown> component doesn't take boolean custom props and no
     // camelCase keys, that's why 'custom' is passed as a string here
@@ -229,13 +225,13 @@ class App extends React.PureComponent<Props, State> {
       customExamples: [snapshot, ...prevState.customExamples],
       isCustomExample: true,
       options: [snapshot, ...prevState.options],
-      snippet: snapshot
+      selected: snapshot
     }) as State);
   }
 
   private removeSnippet = (): void => {
-    const { customExamples, snippet } = this.state;
-    const filtered = customExamples.filter((value) => value.value !== snippet.value);
+    const { customExamples, selected } = this.state;
+    const filtered = customExamples.filter((value) => value.value !== selected.value);
     const nextOptions = [...filtered, ...snippets];
 
     this.setState((prevState: State): State => ({
@@ -250,9 +246,9 @@ class App extends React.PureComponent<Props, State> {
   }
 
   private onEdit = (code: string): void => {
-    if (code !== this.state.snippet.code) {
+    if (code !== this.state.selected.code) {
       this.setState((prevState: State): State => ({
-        snippet: { ...prevState.snippet, code },
+        selected: { ...prevState.selected, code },
         isCustomExample: false
       } as State));
     }
@@ -275,20 +271,18 @@ class App extends React.PureComponent<Props, State> {
   private generateLink = (): void => {
     const {
       props: { history, location },
-      state: { snippet: { code, text } }
+      state: { selected: { code } }
     } = this;
     console.log(location)
     const base64code = btoa(code);
     console.log(base64code);
-    console.log('location seacrc',location.search)
+    console.log('location hash',location.hash)
     if (base64code !== location.hash.substr(1)) {
       history.push({
         ...location,
-        search: {
-          code: base64code,
-          name: text
-        }
+        hash: base64code
       });
+      this.setState({ shareLink: window.location.href } as State);
     }
   }
 }
