@@ -14,12 +14,12 @@ export type Stake = {
 
 export type Backer = {
   member: AccountId,
-  stake: Stake
+  stake: Balance
 };
 
 export type Seat = {
   member: AccountId,
-  stake: Stake,
+  stake: Balance,
   backers: Backer[]
 };
 
@@ -32,7 +32,8 @@ export type SealedVote = {
 
 export type ProposalId = u32;
 
-// Note: this could be 'RuntimeUpgradeProposal'
+// Note: this could be named 'RuntimeUpgradeProposal' (as it is in Rust),
+// but not a big deal here in JS.
 export type Proposal = {
   id: ProposalId,
   proposer: AccountId,
