@@ -61,7 +61,7 @@ class App extends React.PureComponent<Props, State> {
       isRunning: false,
       logs: [],
       options: [],
-      snippet: {}
+      snippet: this.snippets[0]
     };
   }
 
