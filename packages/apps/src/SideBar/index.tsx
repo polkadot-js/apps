@@ -46,7 +46,7 @@ class SideBar extends React.PureComponent<Props, State> {
           secondary
           vertical
         >
-          {this.renderLogo()}
+          {this.renderJoystreamLogo()}
           {this.renderRoutes()}
           <Menu.Divider hidden />
           {/* {this.renderGithub()} */}
@@ -93,6 +93,21 @@ class SideBar extends React.PureComponent<Props, State> {
     return (
       <img
         alt='polkadot'
+        className='apps--SideBar-logo'
+        src={logo}
+      />
+    );
+  }
+
+  private renderJoystreamLogo () {
+    const { isCollapsed } = this.state;
+    const logo = isCollapsed
+      ? 'images/logo-j.svg'
+      : 'images/logo-joytream.svg';
+
+    return (
+      <img
+        alt='Joystream'
         className='apps--SideBar-logo'
         src={logo}
       />
