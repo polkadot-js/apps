@@ -42,12 +42,6 @@ type State = {
 const DEFAULT_BITLENGTH = BitLengthOption.NORMAL_NUMBERS as BitLength;
 const KEYS_ALLOWED: Array<any> = [KEYS.ARROW_LEFT, KEYS.ARROW_RIGHT, KEYS.BACKSPACE, KEYS.ENTER, KEYS.ESCAPE, KEYS.TAB];
 
-function maxConservativeLength (maxValueLength: number): number {
-  const conservativenessFactor = 1;
-
-  return maxValueLength - conservativenessFactor;
-}
-
 class InputNumber extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
@@ -92,7 +86,7 @@ class InputNumber extends React.PureComponent<Props, State> {
   render () {
     const { bitLength = DEFAULT_BITLENGTH, className, defaultValue = '0', isSi, isDisabled, maxLength, style, t } = this.props;
     const { isValid } = this.state;
-    const maxValueLength = this.maxValue(bitLength).toString().length;
+    const maxValueLength = this.maxValue(bitLength).toString().length - 1;
     const value = this.state.defaultValue || defaultValue;
 
     return (
@@ -107,7 +101,7 @@ class InputNumber extends React.PureComponent<Props, State> {
         isAction={isSi}
         isDisabled={isDisabled}
         isError={!isValid}
-        maxLength={maxLength || maxConservativeLength(maxValueLength)}
+        maxLength={maxLength || maxValueLength}
         onChange={this.onChange}
         onKeyDown={this.onKeyDown}
         onKeyUp={this.onKeyUp}
@@ -143,11 +137,13 @@ class InputNumber extends React.PureComponent<Props, State> {
     );
   }
 
-  private maxValue = (bitLength?: number): BN =>
-    new BN(2).pow(new BN(bitLength || DEFAULT_BITLENGTH)).subn(1)
+  private maxValue (bitLength?: number): BN {
+    return new BN(2).pow(new BN(bitLength || DEFAULT_BITLENGTH)).subn(1);
+  }
 
-  private isValidBitLength = (value: BN, bitLength?: number): boolean =>
-    value.bitLength() <= (bitLength || DEFAULT_BITLENGTH)
+  private isValidBitLength (value: BN, bitLength?: number): boolean {
+    return value.bitLength() <= (bitLength || DEFAULT_BITLENGTH);
+  }
 
   private isValidKey = (event: React.KeyboardEvent<Element>, isPreKeyDown: boolean): boolean => {
     const { value: previousValue } = event.target as HTMLInputElement;
@@ -180,7 +176,7 @@ class InputNumber extends React.PureComponent<Props, State> {
     return true;
   }
 
-  private isValidNumber = (input: BN, bitLength: number = DEFAULT_BITLENGTH): boolean => {
+  private isValidNumber (input: BN, bitLength: number = DEFAULT_BITLENGTH): boolean {
     const maxBN = this.maxValue(bitLength);
 
     if (!input.lt(maxBN) || !this.isValidBitLength(input, bitLength)) {
@@ -291,8 +287,7 @@ class InputNumber extends React.PureComponent<Props, State> {
 }
 
 export {
-  InputNumber,
-  maxConservativeLength
+  InputNumber
 };
 
 export default translate(InputNumber);
