@@ -30,6 +30,7 @@ export const accountIdsToOptions = (applicants: Array<AccountId>): any => {
 // Hash
 // -----------------------------------
 
+import { decodeAddress } from '@polkadot/keyring';
 import { stringToU8a } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
@@ -39,8 +40,14 @@ export const hashVote = (accountId?: string, salt?: string): string | undefined 
     console.log('Cannot hash a vote: either accountId or salt is undefined', { accountId, salt });
     return undefined;
   }
-  const data = stringToU8a(accountId + salt);
-  const voteHash = blake2AsHex(data, 256);
-  console.log('Vote hash:', voteHash, 'for', { accountId, salt });
-  return voteHash;
+
+  const accountU8a = decodeAddress(accountId);
+  const saltU8a = stringToU8a(salt);
+  const voteU8a = new Uint8Array(accountU8a.length + saltU8a.length);
+  voteU8a.set(accountU8a);
+  voteU8a.set(saltU8a, accountU8a.length);
+
+  const hash = blake2AsHex(voteU8a, 256);
+  // console.log('Vote hash:', hash, 'for', { accountId, salt });
+  return hash;
 };
