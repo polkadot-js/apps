@@ -33,6 +33,10 @@
 
   > div {
     margin-bottom: -0.125em;
+
+    &.spacer {
+      margin-bottom: 0.5rem;
+    }
   }
 
   div.rx--updated {

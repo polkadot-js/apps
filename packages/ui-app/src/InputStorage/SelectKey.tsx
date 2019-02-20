@@ -7,7 +7,7 @@ import { DropdownOptions } from '../util/types';
 import { BareProps } from '../types';
 
 import React from 'react';
-import { StorageFunction } from '@polkadot/types/StorageKey';
+import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { withApi } from '@polkadot/ui-api/index';
 
 import Dropdown from '../Dropdown';

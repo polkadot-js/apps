@@ -7,7 +7,7 @@ import './Params.css';
 import React from 'react';
 import { classes } from '@polkadot/ui-app/util';
 import { isNull, isUndefined, u8aToHex } from '@polkadot/util';
-import { U8a } from '@polkadot/types';
+import { Option, U8a } from '@polkadot/types';
 
 // import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
 // import formatNumber from '@polkadot/ui-util/formatNumber';
@@ -165,7 +165,11 @@ function valueToText (type: string, value: any, swallowError: boolean = true, co
                 ? '<empty>'
                 : value.toString()
             )
-            : value.toString()
+            : (
+              (value instanceof Option) && value.isNone
+                ? '<empty>'
+                : value.toString()
+            )
         )
     );
 }
