@@ -80,7 +80,6 @@ class ActionButtons extends React.PureComponent<Props, State> {
               <SUIB
                 circular
                 onClick={this.onPopupOpen}
-                positive
                 icon='save'
               />
             }
@@ -107,7 +106,7 @@ class ActionButtons extends React.PureComponent<Props, State> {
 
         <Button
           isCircular
-          isPrimary
+          isPositive
           icon='play'
           onClick={runJs}
         />

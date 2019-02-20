@@ -65,43 +65,48 @@ class App extends React.PureComponent<Props, State> {
       logs: [],
       options: [],
       selected: this.snippets[0],
-      sharedExample: {},
+      sharedExample: undefined,
       shareLink: ''
     };
   }
 
   componentDidMount () {
+    const { location } = this.props;
+
+    const sharedExample: Snippet = location.hash.length ?
+    ({
+      code: atob(location.hash.substr(1)),
+      label: { basic: true, children: 'Shared', size: 'tiny' },
+      text: 'Shared code example (unsaved)',
+      type: 'shared',
+      value: `custom-${Date.now()}`
+    }) : undefined ;
+
     const localData = {
       examples: localStorage.getItem(STORE_EXAMPLES),
-      selected: localStorage.getItem(STORE_SELECTED)
+      selectedValue: localStorage.getItem(STORE_SELECTED)
     };
-
-    const sharedExample = this.props.location.hash.length ?
-      ({
-        code: atob(this.props.location.hash),
-        label: { basic: true, children: 'Shared', size: 'tiny' },
-        text: 'Unsaved shared code example',
-        value: `custom-${Date.now()}`
-      }) : undefined ;
-
     const customExamples = localData.examples ? JSON.parse(localData.examples) : [];
-    const options: Array<Snippet> = sharedExample ? [sharedExample, ...customExamples, ...this.snippets] : [...customExamples, ...this.snippets];
-    const selected = options.find(obj => obj.value === localData.selected);
 
-    console.log('selected', selected, sharedExample);
+    const options: Array<Snippet> = sharedExample
+      ? [sharedExample, ...customExamples, ...this.snippets]
+      : [...customExamples, ...this.snippets];
+
+    const selected = options.find(obj => obj.value === localData.selectedValue);
 
     this.setState((prevState: State): State => ({
       customExamples,
-      isCustomExample: (selected && selected.custom === 'true') || false,
+      isCustomExample: (selected && selected.type === 'custom') || false,
       options,
-      selected: sharedExample || selected || this.snippets[0]
+      selected: sharedExample || selected || this.snippets[0],
+      sharedExample
     }) as State);
   }
 
   render () {
     const { isDevelopment, t } = this.props;
     const { isCustomExample, isRunning, logs, options, selected } = this.state;
-    const snippetName = selected.custom === 'true' ? selected.text : undefined;
+    const snippetName = selected.type === 'custom' ? selected.text : undefined;
 
     return (
       <main className='js--App'>
@@ -194,13 +199,13 @@ class App extends React.PureComponent<Props, State> {
   private selectExample = (value: string) => {
     if (value.length) {
       const { options } = this.state;
-      const option = options.find(obj => obj.value === value);
+      const option = options.find(option => option.value === value);
 
       if (option) {
         localStorage.setItem(STORE_SELECTED, value);
         this.setState({
           logs: [],
-          isCustomExample: option.custom === 'true',
+          isCustomExample: option.type === 'custom',
           selected: option
         });
       }
@@ -208,17 +213,23 @@ class App extends React.PureComponent<Props, State> {
   }
 
   private saveSnippet = (snippetName: string): void => {
-    const { customExamples, selected: { code } } = this.state;
+    const { customExamples, sharedExample, selected: { code, type } } = this.state;
 
     // The <Dropdown> component doesn't take boolean custom props and no
     // camelCase keys, that's why 'custom' is passed as a string here
     const snapshot: Snippet = {
       code,
-      custom: 'true',
+      type: 'custom',
       label: CUSTOM_LABEL,
       text: snippetName,
       value: `custom-${Date.now()}`
     };
+    const nextOptions = [snapshot, ...customExamples, ...this.snippets];
+    const options = (type === 'shared')
+      ? nextOptions
+      : sharedExample
+        ? [sharedExample, ...nextOptions]
+        : nextOptions;
 
     localStorage.setItem(STORE_EXAMPLES, JSON.stringify([snapshot, ...customExamples]));
 
@@ -226,21 +237,22 @@ class App extends React.PureComponent<Props, State> {
       ...prevState,
       customExamples: [snapshot, ...prevState.customExamples],
       isCustomExample: true,
-      options: [snapshot, ...prevState.options],
+      options,
+      sharedExample: type === 'shared' ? undefined : prevState.sharedExample,
       selected: snapshot
     }) as State);
   }
 
   private removeSnippet = (): void => {
-    const { customExamples, selected } = this.state;
+    const { customExamples, sharedExample, selected } = this.state;
     const filtered = customExamples.filter((value) => value.value !== selected.value);
     const nextOptions = [...filtered, ...this.snippets];
 
     this.setState((prevState: State): State => ({
       ...prevState,
       customExamples: filtered,
-      isCustomExample: nextOptions[0].custom === 'true' || false,
-      options: nextOptions
+      isCustomExample: nextOptions[0].type === 'custom' || false,
+      options: sharedExample ? [sharedExample, ...nextOptions] : nextOptions
     }) as State);
 
     this.selectExample(nextOptions[0].value);
@@ -275,10 +287,9 @@ class App extends React.PureComponent<Props, State> {
       props: { history, location },
       state: { selected: { code } }
     } = this;
-    console.log(location)
     const base64code = btoa(code);
-    console.log(base64code);
-    console.log('location hash',location.hash)
+    console.log(location);
+
     if (base64code !== location.hash.substr(1)) {
       history.push({
         ...location,
