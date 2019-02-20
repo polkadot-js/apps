@@ -88,26 +88,20 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     const chain = value
       ? value.toString()
       : null;
-    const found = settings.availableChains.find(({ name }) => name === chain) || {
-      networkId: 42,
-      tokenDecimals: 0,
-      tokenSymbol: undefined
-    };
-    const unit = properties.tokenSymbol || found.tokenSymbol;
     const isDevelopment = isTestChain(chain);
 
-    console.log('api: found chain', chain, [...properties.entries()]);
+    console.log('api: found chain', chain, JSON.stringify(properties));
 
     // first setup the UI helpers
     formatBalance.setDefaults({
-      decimals: properties.tokenDecimals || found.tokenDecimals,
-      unit
+      decimals: properties.tokenDecimals,
+      unit: properties.tokenSymbol
     });
-    InputNumber.setUnit(unit);
+    InputNumber.setUnit(properties.tokenSymbol);
 
     // finally load the keyring
     keyring.loadAll({
-      addressPrefix: properties.get('networkId') || found.networkId as any,
+      addressPrefix: properties.get('networkId'),
       isDevelopment,
       type: 'ed25519'
     });
