@@ -97,7 +97,7 @@ class Dashboard extends React.PureComponent<Props, State> {
     const p = this.props;
     return <Section title='Configuration'>
       <Bubble label='Auto-start elections'>
-        {p.autoStartElections ? 'Yes' : 'No'}
+        {p.autoStartElections === true ? 'Yes' : 'No'}
       </Bubble>
       <Bubble label='New term duration'>
         {formatNumber(p.newTermDuration)}
