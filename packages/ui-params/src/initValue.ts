@@ -26,6 +26,7 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
   switch (type) {
     case 'AccountIndex':
     case 'Balance':
+    case 'BalanceOf':
     case 'BlockNumber':
     case 'Compact':
     case 'Gas':
@@ -64,6 +65,7 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
       return new Hash();
 
     case 'AccountId':
+    case 'AccountIdOf':
     case 'Address':
     case 'Bytes':
     case 'Call':

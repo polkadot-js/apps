@@ -9,7 +9,7 @@ import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import { AccountId, Balance, ValidatorPrefs } from '@polkadot/types';
+import { AccountId, Balance, Option, ValidatorPrefs } from '@polkadot/types';
 import { AddressMini, AddressSummary, Button } from '@polkadot/ui-app/index';
 import { withCalls } from '@polkadot/ui-api/index';
 
@@ -23,7 +23,7 @@ type Props = ApiProps & I18nProps & {
   balances: DerivedBalancesMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   name: string,
-  staking_nominating?: AccountId,
+  staking_nominating?: Option<AccountId>,
   staking_nominatorsFor?: Array<string>,
   staking_validatorPreferences?: ValidatorPrefs,
   intentions: Array<string>,
@@ -79,14 +79,16 @@ class Account extends React.PureComponent<Props, State> {
     const { staking_nominating, balanceArray } = this.props;
     const { isNominating } = this.state;
 
-    if (!isNominating || !staking_nominating) {
+    if (!isNominating || !staking_nominating || staking_nominating.isNone) {
       return null;
     }
 
+    const nominating = staking_nominating.unwrap();
+
     return (
       <AddressMini
-        balance={balanceArray(staking_nominating)}
-        value={staking_nominating}
+        balance={balanceArray(nominating)}
+        value={nominating}
         withBalance
       />
     );

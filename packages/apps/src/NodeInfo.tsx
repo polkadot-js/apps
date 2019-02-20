@@ -29,6 +29,9 @@ class NodeInfo extends React.PureComponent<Props> {
   }
 
   render () {
+    const { api } = this.props;
+    const uiInfo = `@polkadot/apps v${pkgJson.version}`;
+
     return (
       <div className='apps--NodeInfo'>
         <div className='apps--NodeInfo-inline'>
@@ -39,7 +42,9 @@ class NodeInfo extends React.PureComponent<Props> {
           <NodeName />&nbsp;
           <NodeVersion label='v' />
         </div>
-        <div>polkadot-js-ui&nbsp;v{pkgJson.version}</div>
+        <div className='spacer' />
+        <div>{api.libraryInfo}</div>
+        <div>{uiInfo}</div>
       </div>
     );
   }
