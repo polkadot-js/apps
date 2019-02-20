@@ -26,7 +26,7 @@ class Applicant extends React.PureComponent<Props, State> {
 
   render () {
     const { index, accountId, stake } = this.props;
-    const voteUrl = `/election/votes?applicantId=${accountId.toString()}`;
+    const voteUrl = `/council/votes?applicantId=${accountId.toString()}`;
 
     return (
       <Table.Row>

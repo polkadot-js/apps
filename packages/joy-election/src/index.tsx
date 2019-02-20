@@ -51,7 +51,7 @@ class App extends React.PureComponent<Props, State> {
         text: `Votes (${commitments.length})`
       },
       {
-        name: 'reveal',
+        name: 'reveals',
         text: t('Reveal a vote')
       }
     ];
@@ -69,7 +69,7 @@ class App extends React.PureComponent<Props, State> {
           <Route path={`${basePath}/members`} component={Council} />
           <Route path={`${basePath}/applicants`} component={Applicants} />
           <Route path={`${basePath}/votes`} component={Votes} />
-          <Route path={`${basePath}/reveal`} component={Reveals} />
+          <Route path={`${basePath}/reveals`} component={Reveals} />
           <Route component={Dashboard} />
         </Switch>
       </main>

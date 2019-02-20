@@ -29,10 +29,10 @@ class Comp extends React.PureComponent<Props, State> {
     }
 
     if (sealedVote.vote.isSome) {
-      const candidateId = sealedVote.vote.unwrap;
+      const candidateId = sealedVote.vote.unwrap();
       return <AddressMini value={candidateId} isShort={false} isPadded={false} withBalance={true} withName={true} size={36} />;
     } else {
-      const revealUrl = `/election/reveals?hashedVote=${hash.toHex()}`;
+      const revealUrl = `/council/reveals?hashedVote=${hash.toHex()}`;
       return <Link to={revealUrl} className='ui button primary inverted'>Reveal this vote</Link>;
     }
   }
