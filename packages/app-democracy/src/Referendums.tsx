@@ -6,7 +6,8 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { ReferendumInfo } from '@polkadot/types';
+import { ReferendumInfoExtended } from '@polkadot/api-derive/democracy/referendumInfo';
+import { Option } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api/index';
 
 import Referendum from './Referendum';
@@ -15,7 +16,7 @@ import translate from './translate';
 type Props = I18nProps & {
   democracy_nextTally?: BN,
   democracy_referendumCount?: BN,
-  democracy_referendums?: Array<ReferendumInfo>
+  democracy_referendums?: Array<Option<ReferendumInfoExtended>>
 };
 
 class Referendums extends React.PureComponent<Props> {
@@ -42,15 +43,15 @@ class Referendums extends React.PureComponent<Props> {
       );
     }
 
-    const startIndex = referendumCount - democracy_referendums.length;
-
-    return democracy_referendums.map((referendum, index) => (
-      <Referendum
-        idNumber={index + startIndex}
-        key={index}
-        value={referendum}
-      />
-    ));
+    return democracy_referendums
+      .filter((opt) => opt.isSome)
+      .map((opt) => opt.unwrap())
+      .map((referendum) => (
+        <Referendum
+          key={referendum.index.toString()}
+          value={referendum}
+        />
+      ));
   }
 }
 

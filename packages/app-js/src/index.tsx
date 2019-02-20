@@ -6,7 +6,7 @@ import { ApiPromise } from '@polkadot/api';
 import { KeyringInstance } from '@polkadot/keyring/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
-import { Log, LogType } from './types';
+import { Log, LogType, Snippet } from './types';
 
 import React from 'react';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
@@ -16,11 +16,14 @@ import * as util from '@polkadot/util';
 import * as hashing from '@polkadot/util-crypto';
 
 import './index.css';
+import makeWrapper from './snippets/wrapping';
 import snippets from './snippets';
 import translate from './translate';
+import { STORE_EXAMPLES, STORE_SELECTED, CUSTOM_LABEL } from './constants';
 
 import Editor from './Editor';
 import Output from './Output';
+import LocalStorage from './LocalStorage';
 
 type Injected = {
   api: ApiPromise,
@@ -36,33 +39,52 @@ type Injected = {
 };
 type Props = ApiProps & AppProps & I18nProps;
 type State = {
-  code: string,
+  customExamples: Array<Snippet>,
+  isCustomExample: boolean,
   isRunning: boolean,
   logs: Array<Log>,
-  snippet: string
+  options: Array<Snippet>,
+  snippet: Snippet
 };
 
 class App extends React.PureComponent<Props, State> {
   injected: Injected | null = null;
-  state: State = {
-    code: '',
-    isRunning: false,
-    logs: [],
-    snippet: ''
-  };
+
+  constructor (props: Props) {
+    super(props);
+    snippets.forEach(snippet => snippet.code = `${makeWrapper(this.props.isDevelopment)}${snippet.code}`);
+
+    this.state = {
+      customExamples: [],
+      isCustomExample: false,
+      isRunning: false,
+      logs: [],
+      options: [],
+      snippet: snippets[0]
+    };
+  }
 
   componentDidMount () {
-    const local = snippets.find(obj => obj.value === localStorage.getItem('app-js-snippet'));
+    const localData = {
+      examples: localStorage.getItem(STORE_EXAMPLES),
+      selected: localStorage.getItem(STORE_SELECTED)
+    };
+    const customExamples = localData.examples ? JSON.parse(localData.examples) : [];
+    const options: Array<Snippet> = [...customExamples, ...snippets];
+    const selected = options.find(obj => obj.value === localData.selected);
+
     this.setState({
-      code: local ? local.code : snippets[0].code,
-      snippet: local ? local.value : snippets[0].value
-    });
+      customExamples,
+      isCustomExample: (selected && selected.custom === 'true') || false,
+      options,
+      snippet: selected || snippets[0]
+    } as State);
   }
 
   render () {
     const { isDevelopment, t } = this.props;
-    const { code, isRunning, logs, snippet } = this.state;
-    const options = snippets.map(({ code, ...options }) => ({ ...options }));
+    const { isCustomExample, isRunning, logs, options, snippet } = this.state;
+    const snippetName = snippet.custom === 'true' ? snippet.text : undefined;
 
     return (
       <main className='js--App'>
@@ -72,18 +94,24 @@ class App extends React.PureComponent<Props, State> {
             onChange={this.selectExample}
             options={options}
             label={t('Select example')}
-            defaultValue={snippet}
+            defaultValue={snippet.value}
             withLabel
           />
-      </header>
+        </header>
         <section className='js--Content'>
-          <Editor
-            code={code}
-            isDevelopment={isDevelopment}
-            snippet={snippet}
-            onEdit={this.onEdit}
-          >
+          <article className='container js--Editor'>
+            <Editor
+              code={snippet.code}
+              isDevelopment={isDevelopment}
+              onEdit={this.onEdit}
+            />
             <div className='action-button'>
+              <LocalStorage
+                isCustomExample={isCustomExample}
+                removeSnippet={this.removeSnippet}
+                saveSnippet={this.saveSnippet}
+                snippetName={snippetName}
+              />
               <Button
                 isCircular
                 isPrimary
@@ -98,7 +126,7 @@ class App extends React.PureComponent<Props, State> {
                 onClick={this.stopJs}
               />
             </div>
-          </Editor>
+          </article>
           <Output logs={logs}>
             <Button
               className='action-button'
@@ -115,7 +143,7 @@ class App extends React.PureComponent<Props, State> {
 
   private runJs = async (): Promise<void> => {
     const { api, isDevelopment } = this.props;
-    const { code } = this.state;
+    const { code } = this.state.snippet;
 
     this.stopJs();
     this.clearConsole();
@@ -143,7 +171,7 @@ class App extends React.PureComponent<Props, State> {
 
     new Function('injected', exec)(this.injected);
 
-    this.setState({ isRunning: true });
+    this.setState({ isRunning: true } as State);
   }
 
   private stopJs = (): void => {
@@ -154,21 +182,75 @@ class App extends React.PureComponent<Props, State> {
     this.injected.api.disconnect();
     this.injected = null;
 
-    this.setState({ isRunning: false });
+    this.setState({ isRunning: false } as State);
   }
 
   private selectExample = (value: string) => {
-    const snippet = snippets.find(obj => obj.value === value);
+    if (value.length) {
+      const { options } = this.state;
+      const option = options.find(obj => obj.value === value);
 
-    localStorage.setItem('app-js-snippet', value);
-    this.setState({ code: (snippet ? snippet.code : ''), snippet: value });
+      if (option) {
+        localStorage.setItem(STORE_SELECTED, value);
+        this.setState({
+          logs: [],
+          isCustomExample: option.custom === 'true',
+          snippet: option
+        });
+      }
+    }
+  }
+
+  private saveSnippet = (snippetName: string): void => {
+    const { customExamples, snippet: { code } } = this.state;
+
+    // The <Dropdown> component doesn't take boolean custom props and no
+    // camelCase keys, that's why 'custom' is passed as a string here
+    const snapshot: Snippet = {
+      code,
+      custom: 'true',
+      label: CUSTOM_LABEL,
+      text: snippetName,
+      value: `custom-${Date.now()}`
+    };
+
+    localStorage.setItem(STORE_EXAMPLES, JSON.stringify([snapshot, ...customExamples]));
+
+    this.setState((prevState: State): State => ({
+      ...prevState,
+      customExamples: [snapshot, ...prevState.customExamples],
+      isCustomExample: true,
+      options: [snapshot, ...prevState.options],
+      snippet: snapshot
+    }) as State);
+  }
+
+  private removeSnippet = (): void => {
+    const { customExamples, snippet } = this.state;
+    const filtered = customExamples.filter((value) => value.value !== snippet.value);
+    const nextOptions = [...filtered, ...snippets];
+
+    this.setState((prevState: State): State => ({
+      ...prevState,
+      customExamples: filtered,
+      isCustomExample: nextOptions[0].custom === 'true' || false,
+      options: nextOptions
+    }) as State);
+
+    this.selectExample(nextOptions[0].value);
+    localStorage.setItem(STORE_EXAMPLES, JSON.stringify(filtered));
   }
 
   private onEdit = (code: string): void => {
-    this.setState({ code });
+    if (code !== this.state.snippet.code) {
+      this.setState((prevState: State): State => ({
+        snippet: { ...prevState.snippet, code },
+        isCustomExample: false
+      } as State));
+    }
   }
 
-  private clearConsole = () => {
+  private clearConsole = (): void => {
     this.setState({ logs: [] });
   }
 

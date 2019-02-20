@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { WithNamespaces } from 'react-i18next';
+import { WithTranslation } from 'react-i18next';
 import { RpcRxInterface } from '@polkadot/rpc-rx/types';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
@@ -19,7 +19,7 @@ export type AppProps = {
   onStatusChange: (status: ActionStatus) => void
 };
 
-export type I18nProps = BareProps & WithNamespaces;
+export type I18nProps = BareProps & WithTranslation;
 
 export type BaseContext = {
   api: RpcRxInterface,

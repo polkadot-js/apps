@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageFunction } from '@polkadot/types/StorageKey';
+import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueryTypes, StorageModuleQuery } from './types';
 
@@ -103,6 +103,13 @@ class Query extends React.PureComponent<Props, State> {
     const { value } = this.props;
     const { Component } = this.state;
     const { key } = value;
+    const type = isU8a(key)
+      ? 'Data'
+      : (
+        key.meta.modifier.isOptional
+          ? `Option<${key.meta.type}>`
+          : key.meta.type.toString()
+      );
 
     return (
       <div className='storage--Query storage--actionrow'>
@@ -110,11 +117,7 @@ class Query extends React.PureComponent<Props, State> {
           <Labelled
             label={
               <div className='ui--Param-text'>
-                {this.keyToName(key)}: {
-                  isU8a(key)
-                    ? 'Data'
-                    : key.meta.type.toString()
-                }
+                {this.keyToName(key)}: {type}
               </div>
             }
           >

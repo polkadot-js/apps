@@ -33,16 +33,11 @@ type Props = I18nProps & ApiProps & BaseProps & {
   allAccounts?: SubjectInfo
 };
 
-type UnlockI18n = {
-  key: string,
-  value: any // I18Next$Translate$Config
-};
-
 type State = {
   currentItem?: QueueTx,
   isSendable: boolean,
   password: string,
-  unlockError: UnlockI18n | null
+  unlockError?: string | null
 };
 
 class Signer extends React.PureComponent<Props, State> {
@@ -166,7 +161,6 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private renderUnlock () {
-    const { t } = this.props;
     const { currentItem, isSendable, password, unlockError } = this.state;
 
     if (!isSendable || !currentItem || currentItem.isUnsigned) {
@@ -176,7 +170,7 @@ class Signer extends React.PureComponent<Props, State> {
     return (
       <Unlock
         autoFocus
-        error={unlockError && t(unlockError.key, unlockError.value)}
+        error={unlockError || undefined}
         onChange={this.onChangePassword}
         onKeyDown={this.onKeyDown}
         password={password}
@@ -186,7 +180,7 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  private unlockAccount (accountId: string, password?: string): UnlockI18n | null {
+  private unlockAccount (accountId: string, password?: string): string | null {
     let publicKey;
 
     try {
@@ -194,12 +188,7 @@ class Signer extends React.PureComponent<Props, State> {
     } catch (error) {
       console.error(error);
 
-      return {
-        key: 'signer.unlock.address',
-        value: {
-          defaultValue: 'unable to decode address'
-        }
-      };
+      return 'unable to decode address';
     }
 
     const pair = keyring.getPair(publicKey);
@@ -213,12 +202,7 @@ class Signer extends React.PureComponent<Props, State> {
     } catch (error) {
       console.error(error);
 
-      return {
-        key: 'signer.unlock.generic',
-        value: {
-          defaultValue: error.message
-        }
-      };
+      return error.message;
     }
 
     return null;
