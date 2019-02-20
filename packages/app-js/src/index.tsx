@@ -64,7 +64,7 @@ class App extends React.PureComponent<Props, State> {
       isRunning: false,
       logs: [],
       options: [],
-      selected: {},
+      selected: this.snippets[0],
       sharedExample: {},
       shareLink: ''
     };

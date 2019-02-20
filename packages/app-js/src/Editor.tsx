@@ -25,6 +25,8 @@ export default class Editor extends React.Component<Props> {
       lineNumbers: true
     });
 
+    this.editor.updateCode(this.props.code);
+
     this.editor.editorRoot.addEventListener('keydown', () => {
       this.editor.onUpdate(onEdit);
     });
