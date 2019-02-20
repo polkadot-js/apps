@@ -49,10 +49,11 @@ type State = {
 
 class App extends React.PureComponent<Props, State> {
   injected: Injected | null = null;
+  snippets: Array<Snippet> = JSON.parse(JSON.stringify(snippets));
 
   constructor (props: Props) {
     super(props);
-    snippets.forEach(snippet => snippet.code = `${makeWrapper(this.props.isDevelopment)}${snippet.code}`);
+    this.snippets.forEach(snippet => snippet.code = `${makeWrapper(this.props.isDevelopment)}${snippet.code}`);
 
     this.state = {
       customExamples: [],
@@ -60,7 +61,7 @@ class App extends React.PureComponent<Props, State> {
       isRunning: false,
       logs: [],
       options: [],
-      snippet: snippets[0]
+      snippet: this.snippets[0]
     };
   }
 
@@ -70,14 +71,14 @@ class App extends React.PureComponent<Props, State> {
       selected: localStorage.getItem(STORE_SELECTED)
     };
     const customExamples = localData.examples ? JSON.parse(localData.examples) : [];
-    const options: Array<Snippet> = [...customExamples, ...snippets];
+    const options: Array<Snippet> = [...customExamples, ...this.snippets];
     const selected = options.find(obj => obj.value === localData.selected);
 
     this.setState({
       customExamples,
       isCustomExample: (selected && selected.custom === 'true') || false,
       options,
-      snippet: selected || snippets[0]
+      snippet: selected || this.snippets[0]
     } as State);
   }
 
@@ -228,7 +229,7 @@ class App extends React.PureComponent<Props, State> {
   private removeSnippet = (): void => {
     const { customExamples, snippet } = this.state;
     const filtered = customExamples.filter((value) => value.value !== snippet.value);
-    const nextOptions = [...filtered, ...snippets];
+    const nextOptions = [...filtered, ...this.snippets];
 
     this.setState((prevState: State): State => ({
       ...prevState,
