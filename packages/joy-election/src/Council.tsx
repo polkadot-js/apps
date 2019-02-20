@@ -7,7 +7,7 @@ import { withCalls } from '@polkadot/ui-api/with';
 import { formatBalance } from '@polkadot/ui-app/util';
 import AddressMini from '@polkadot/ui-app/AddressMiniJoy';
 
-import { calcTotalStake, calcBackersStake } from '@polkadot/joy-utils/index';
+import { calcBackersStake } from '@polkadot/joy-utils/index';
 import { Seat } from '@polkadot/joy-utils/types';
 import translate from './translate';
 import Section from '@polkadot/joy-utils/Section';
@@ -40,7 +40,7 @@ class Council extends React.PureComponent<Props, State> {
           <Table.Cell>
             <AddressMini value={seat.member} isShort={false} isPadded={false} withBalance={true} withName={true} size={36} />
           </Table.Cell>
-          <Table.Cell>{formatBalance(calcTotalStake(seat.stake))}</Table.Cell>
+          <Table.Cell>{formatBalance(seat.stake)}</Table.Cell>
           <Table.Cell>{formatBalance(calcBackersStake(seat.backers))}</Table.Cell>
           <Table.Cell>{seat.backers.length}</Table.Cell>
         </Table.Row>

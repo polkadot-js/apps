@@ -140,12 +140,12 @@ export function registerJoystreamTypes () {
         'transferred': 'Balance'
       },
       'Backer': {
-        member: 'Id',
-        stake: 'Stake'
+        member: 'AccountId',
+        stake: 'Balance'
       },
       'Seat': {
-        member: 'Id',
-        stake: 'Stake',
+        member: 'AccountId',
+        stake: 'Balance',
         backers: 'Vec<Backer>'
       },
       'Seats': 'Vec<Seat>',

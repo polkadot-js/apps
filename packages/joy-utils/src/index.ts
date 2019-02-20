@@ -84,7 +84,9 @@ export function calcTotalStake (stakes: Stake | Stake[] | undefined): BN {
 }
 
 export function calcBackersStake (backers: Backer[]): BN {
-  return calcTotalStake(backers.map(b => b.stake));
+  return backers.map(b => b.stake).reduce((accum, stake) => {
+    return accum.add(stake);
+  }, ZERO);
 }
 
 // Substrate/Polkadot API utils
