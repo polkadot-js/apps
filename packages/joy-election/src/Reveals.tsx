@@ -1,22 +1,22 @@
 import React from 'react';
 import queryString from 'query-string';
 
-import { AccountId, Balance } from '@polkadot/types';
+import { AccountId } from '@polkadot/types';
 import { AppProps } from '@polkadot/ui-app/types';
 import { withCalls } from '@polkadot/ui-api/with';
 import { Input, Labelled, InputAddress } from '@polkadot/ui-app/index';
 
 import translate from './translate';
-import { nonEmptyStr } from '@polkadot/joy-utils/index';
+import { nonEmptyStr, queryToProp } from '@polkadot/joy-utils/index';
 import { accountIdsToOptions, hashVote } from './utils';
 import AccountSelector from '@polkadot/joy-utils/AccountSelector';
 import TxButton from '@polkadot/joy-utils/TxButton';
 
+// AppsProps is needed to get a location from the route.
 type Props = AppProps & {
   accountId?: string,
   applicantId?: string,
-  applicants?: Array<AccountId>,
-  councilElection_minVotingStake?: Balance
+  applicants?: AccountId[]
 };
 
 type State = {
@@ -38,7 +38,7 @@ class App extends React.PureComponent<Props, State> {
     this.state = {
       accountId,
       applicantId,
-      salt: 'TODO get salt from unstated or local storage + dropdown',
+      salt: 'TODO show salts from local storage in a dropdown',
       hashedVote
     };
   }
@@ -111,6 +111,6 @@ class App extends React.PureComponent<Props, State> {
 // inject the actual API calls automatically into props
 export default translate(
   withCalls<Props>(
-    ['query.councilElection.applicants', { propName: 'applicants' }]
+    queryToProp('query.councilElection.applicants')
   )(App)
 );

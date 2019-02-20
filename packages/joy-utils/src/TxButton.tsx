@@ -16,12 +16,13 @@ type Props = BareProps & ApiProps & {
   isDisabled?: boolean,
   label: React.ReactNode,
   params: Array<any>,
-  tx: string
+  tx: string,
+  onAfterClick?: () => {}
 };
 
 class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
   render () {
-    const { accountId, isDisabled, label } = this.props;
+    const { accountId, isDisabled, label, onAfterClick } = this.props;
 
     return (
       <Button
@@ -29,7 +30,12 @@ class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
         isDisabled={isDisabled || !accountId}
         isPrimary
         label={label}
-        onClick={this.send}
+        onClick={() => {
+          this.send();
+          if (typeof onAfterClick === 'function') {
+            onAfterClick();
+          }
+        }}
       />
     );
   }

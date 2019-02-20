@@ -1,9 +1,7 @@
-import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 
-// external imports (including those found in the packages/*
-// of this repo)
 import React from 'react';
 import { Route, Switch } from 'react-router';
+import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 
 // our app-specific styles
@@ -12,6 +10,15 @@ import './index.css';
 // local imports and components
 import translate from './translate';
 import Proposals from './Proposals';
+import NewForm from './NewForm';
+
+function Active () {
+  return <Proposals title='Active proposals' showActive />;
+}
+
+function Finalized () {
+  return <Proposals title='Finalized proposals' showAccepted showRejected showSlashed />;
+}
 
 // define out internal types
 type Props = AppProps & I18nProps;
@@ -29,8 +36,16 @@ class App extends React.PureComponent<Props, State> {
     this.state = {
       tabs: [
         {
-          name: 'proposals',
-          text: t('Proposals')
+          name: 'active',
+          text: t('Active')
+        },
+        {
+          name: 'finalized',
+          text: t('Finalized')
+        },
+        {
+          name: 'new',
+          text: t('Create new')
         }
       ]
     };
@@ -42,13 +57,12 @@ class App extends React.PureComponent<Props, State> {
     return (
       <main className='proposals--App'>
         <header>
-          <Tabs
-            basePath={basePath}
-            items={tabs}
-          />
+          <Tabs basePath={basePath} items={tabs} />
         </header>
         <Switch>
-          <Route component={Proposals} />
+          <Route path={`${basePath}/finalized`} component={Finalized} />
+          <Route path={`${basePath}/new`} component={NewForm} />
+          <Route component={Active} />
         </Switch>
       </main>
     );

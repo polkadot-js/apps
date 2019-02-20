@@ -57,3 +57,13 @@
     border: 1px solid;
   }
 }
+
+.JoySection {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+
+  .JoySection-title {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 1rem;
+  }
+}

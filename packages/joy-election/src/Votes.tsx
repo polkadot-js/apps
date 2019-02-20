@@ -12,21 +12,24 @@ import { Button, Input, Labelled, InputAddress } from '@polkadot/ui-app/index';
 
 import translate from './translate';
 import { accountIdsToOptions, hashVote } from './utils';
-import { ZERO } from '@polkadot/joy-utils/index';
-import SubmittedVotes from './SubmittedVotes';
+import { queryToProp, ZERO } from '@polkadot/joy-utils/index';
+import SealedVotes from './SealedVotes';
 import AccountSelector from '@polkadot/joy-utils/AccountSelector';
 import TxButton from '@polkadot/joy-utils/TxButton';
 import InputStake from '@polkadot/joy-utils/InputStake';
+import Section from '@polkadot/joy-utils/Section';
 
+// TODO use a crypto-prooven generator instead of UUID 4.
 function randomSalt () {
   return uuid().replace(/-/g, '');
 }
 
+// AppsProps is needed to get a location from the route.
 type Props = AppProps & {
   accountId?: string,
   applicantId?: string,
-  applicants?: Array<AccountId>,
-  councilElection_minVotingStake?: Balance
+  minVotingStake?: Balance,
+  applicants?: AccountId[]
 };
 
 type State = {
@@ -38,10 +41,11 @@ type State = {
   isFormValid?: boolean
 };
 
-class App extends React.PureComponent<Props, State> {
+class Component extends React.PureComponent<Props, State> {
 
   constructor (props: Props) {
     super(props);
+
     let { accountId, applicantId, location } = this.props;
     const params = queryString.parse(location.search);
     applicantId = applicantId ? applicantId : params.applicantId;
@@ -52,10 +56,6 @@ class App extends React.PureComponent<Props, State> {
       stake: ZERO,
       salt: randomSalt()
     };
-  }
-
-  private newRandomSalt = () => {
-    this.setState({ salt: randomSalt() });
   }
 
   render () {
@@ -109,19 +109,23 @@ class App extends React.PureComponent<Props, State> {
             label='Submit my vote'
             params={[hashedVote, stake]}
             tx='election.vote'
+            onAfterClick={this.newRandomSalt}
             // TODO save to unstated or local storage the next values: hashedVote, applicantId, salt
           />
         </Labelled>
-        <section style={{ margin: '1rem 0' }}>
-          <h2>Submitted Hashed Votes</h2>
-          <SubmittedVotes />
-        </section>
+        <Section title='Submitted votes'>
+          <SealedVotes />
+        </Section>
       </div>
     );
   }
 
+  private newRandomSalt = (): void => {
+    this.setState({ salt: randomSalt() });
+  }
+
   private minStake = (): BN => {
-    return this.props.councilElection_minVotingStake || new BN(1);
+    return this.props.minVotingStake || new BN(1);
   }
 
   private onChangeStake = (stake?: BN) => {
@@ -147,7 +151,7 @@ class App extends React.PureComponent<Props, State> {
 // inject the actual API calls automatically into props
 export default translate(
   withCalls<Props>(
-    'query.councilElection.minVotingStake',
-    ['query.councilElection.applicants', { propName: 'applicants' }]
-  )(App)
+    queryToProp('query.councilElection.minVotingStake'),
+    queryToProp('query.councilElection.applicants')
+  )(Component)
 );
