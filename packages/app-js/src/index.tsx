@@ -45,25 +45,27 @@ type State = {
   isRunning: boolean,
   logs: Array<Log>,
   options: Array<Snippet>,
-  sharedExamples: Array<Snippet>,
+  sharedExample?: Snippet,
   shareLink: string,
   selected: Snippet
 };
 
 class App extends React.PureComponent<Props, State> {
   injected: Injected | null = null;
+  snippets: Array<Snippet> = JSON.parse(JSON.stringify(snippets));
 
   constructor (props: Props) {
     super(props);
-    // snippets.forEach(snippet => snippet.code = `${makeWrapper(this.props.isDevelopment)}${snippet.code}`);
+    this.snippets.forEach(snippet => snippet.code = `${makeWrapper(this.props.isDevelopment)}${snippet.code}`);
+
     this.state = {
       customExamples: [],
       isCustomExample: false,
       isRunning: false,
       logs: [],
       options: [],
-      selected: snippets[0],
-      sharedExamples: [],
+      selected: {},
+      sharedExample: {},
       shareLink: ''
     };
   }
@@ -83,7 +85,7 @@ class App extends React.PureComponent<Props, State> {
       }) : undefined ;
 
     const customExamples = localData.examples ? JSON.parse(localData.examples) : [];
-    const options: Array<Snippet> = [...customExamples, ...snippets];
+    const options: Array<Snippet> = sharedExample ? [sharedExample, ...customExamples, ...this.snippets] : [...customExamples, ...this.snippets];
     const selected = options.find(obj => obj.value === localData.selected);
 
     console.log('selected', selected, sharedExample);
@@ -92,7 +94,7 @@ class App extends React.PureComponent<Props, State> {
       customExamples,
       isCustomExample: (selected && selected.custom === 'true') || false,
       options,
-      selected: selected || options[0]
+      selected: sharedExample || selected || this.snippets[0]
     }) as State);
   }
 
@@ -232,7 +234,7 @@ class App extends React.PureComponent<Props, State> {
   private removeSnippet = (): void => {
     const { customExamples, selected } = this.state;
     const filtered = customExamples.filter((value) => value.value !== selected.value);
-    const nextOptions = [...filtered, ...snippets];
+    const nextOptions = [...filtered, ...this.snippets];
 
     this.setState((prevState: State): State => ({
       ...prevState,
