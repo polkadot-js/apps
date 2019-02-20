@@ -170,7 +170,7 @@ class Creator extends React.PureComponent<Props, State> {
             placeholder={
               isBipBusy
                 ? t('Generating Mnemeonic seed')
-                : null
+                : undefined
             }
             value={isBipBusy ? '' : seed}
           >

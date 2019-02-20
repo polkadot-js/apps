@@ -8,7 +8,7 @@ import './styles';
 
 import { BareProps } from './types';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
 import { Api } from '@polkadot/ui-api/index';
@@ -61,24 +61,26 @@ export default function createApp (App: React.ComponentType<BareProps>, { classN
   }
 
   ReactDOM.render(
-    <Queue>
-      <QueueConsumer>
-        {({ queueExtrinsic, queueSetTxStatus }) => (
-          <Api
-            queueExtrinsic={queueExtrinsic}
-            queueSetTxStatus={queueSetTxStatus}
-            url={url}
-          >
-            <HashRouter>
-              <App
-                className={className}
-                style={style}
-              />
-            </HashRouter>
-          </Api>
-        )}
-      </QueueConsumer>
-    </Queue>,
+    <Suspense fallback='...'>
+      <Queue>
+        <QueueConsumer>
+          {({ queueExtrinsic, queueSetTxStatus }) => (
+            <Api
+              queueExtrinsic={queueExtrinsic}
+              queueSetTxStatus={queueSetTxStatus}
+              url={url}
+            >
+              <HashRouter>
+                <App
+                  className={className}
+                  style={style}
+                />
+              </HashRouter>
+            </Api>
+          )}
+        </QueueConsumer>
+      </Queue>
+    </Suspense>,
     rootElement
   );
 }

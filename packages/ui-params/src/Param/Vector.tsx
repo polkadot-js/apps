@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { WithNamespaces } from 'react-i18next';
+import { WithTranslation } from 'react-i18next';
 import { TypeDef } from '@polkadot/types';
 import { Props as BareProps, RawParam } from '../types';
 
@@ -15,7 +15,7 @@ import getInitValue from '../initValue';
 import Bare from './Bare';
 import findComponent from './findComponent';
 
-type Props = BareProps & WithNamespaces;
+type Props = BareProps & WithTranslation;
 
 type State = {
   Component: React.ComponentType<BareProps> | null,
