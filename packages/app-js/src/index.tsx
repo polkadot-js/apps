@@ -87,12 +87,11 @@ class App extends React.PureComponent<Props, State> {
       selectedValue: localStorage.getItem(STORE_SELECTED)
     };
     const customExamples = localData.examples ? JSON.parse(localData.examples) : [];
-
     const options: Array<Snippet> = sharedExample
       ? [sharedExample, ...customExamples, ...this.snippets]
       : [...customExamples, ...this.snippets];
 
-    const selected = options.find(obj => obj.value === localData.selectedValue);
+    const selected = options.find(option => option.value === localData.selectedValue);
 
     this.setState((prevState: State): State => ({
       customExamples,
@@ -244,7 +243,7 @@ class App extends React.PureComponent<Props, State> {
   }
 
   private removeSnippet = (): void => {
-    const { customExamples, sharedExample, selected } = this.state;
+    const { customExamples, selected } = this.state;
     const filtered = customExamples.filter((value) => value.value !== selected.value);
     const nextOptions = [...filtered, ...this.snippets];
 
@@ -252,7 +251,7 @@ class App extends React.PureComponent<Props, State> {
       ...prevState,
       customExamples: filtered,
       isCustomExample: nextOptions[0].type === 'custom' || false,
-      options: sharedExample ? [sharedExample, ...nextOptions] : nextOptions
+      options: prevState.sharedExample ? [prevState.sharedExample, ...nextOptions] : nextOptions
     }) as State);
 
     this.selectExample(nextOptions[0].value);

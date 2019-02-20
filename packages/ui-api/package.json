@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-api",
-  "version": "0.24.2",
+  "version": "0.24.5",
   "description": "A collection of RxJs React components the Polkadot JS API",
   "main": "index.js",
   "keywords": [
@@ -32,7 +32,7 @@
   "dependencies": {
     "@babel/runtime": "^7.2.0",
     "@polkadot/api": "^0.45.8",
-    "@polkadot/ui-util": "^0.26.9",
+    "@polkadot/ui-util": "^0.27.1",
     "rxjs-compat": "^6.3.2"
   }
 }
