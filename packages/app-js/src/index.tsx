@@ -73,12 +73,12 @@ class App extends React.PureComponent<Props, State> {
     const options: Array<Snippet> = [...customExamples, ...snippets];
     const selected = options.find(obj => obj.value === localData.selected);
 
-    this.setState((prevState: State): State => ({
+    this.setState({
       customExamples,
       isCustomExample: (selected && selected.custom === 'true') || false,
       options,
-      snippet: selected || prevState.snippet
-    }) as State);
+      snippet: selected || snippets[0]
+    } as State);
   }
 
   render () {
