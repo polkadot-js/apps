@@ -35,12 +35,12 @@ class App extends React.PureComponent<Props, State> {
     const { t, activeCouncil = [], applicants = [], commitments = [] } = this.props;
     return [
       {
-        name: 'election',
+        name: 'council',
         text: t('Dashboard')
       },
       {
-        name: 'council',
-        text: `Council (${activeCouncil.length})`
+        name: 'members',
+        text: `Council members (${activeCouncil.length})`
       },
       {
         name: 'applicants',
@@ -51,7 +51,7 @@ class App extends React.PureComponent<Props, State> {
         text: `Votes (${commitments.length})`
       },
       {
-        name: 'reveals',
+        name: 'reveal',
         text: t('Reveal a vote')
       }
     ];
@@ -66,10 +66,10 @@ class App extends React.PureComponent<Props, State> {
           <Tabs basePath={basePath} items={tabs} />
         </header>
         <Switch>
-          <Route path={`${basePath}/council`} component={Council} />
+          <Route path={`${basePath}/members`} component={Council} />
           <Route path={`${basePath}/applicants`} component={Applicants} />
           <Route path={`${basePath}/votes`} component={Votes} />
-          <Route path={`${basePath}/reveals`} component={Reveals} />
+          <Route path={`${basePath}/reveal`} component={Reveals} />
           <Route component={Dashboard} />
         </Switch>
       </main>

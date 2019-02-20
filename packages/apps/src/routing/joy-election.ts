@@ -10,9 +10,9 @@ export default ([
       needsApi: []
     },
     i18n: {
-      defaultValue: 'Election'
+      defaultValue: 'Council'
     },
     icon: 'university',
-    name: 'election'
+    name: 'council'
   }
 ] as Routes);
