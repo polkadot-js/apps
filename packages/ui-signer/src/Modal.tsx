@@ -166,7 +166,6 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private renderUnlock () {
-    const { t } = this.props;
     const { currentItem, isSendable, password, unlockError } = this.state;
 
     if (!isSendable || !currentItem || currentItem.isUnsigned) {
@@ -176,7 +175,7 @@ class Signer extends React.PureComponent<Props, State> {
     return (
       <Unlock
         autoFocus
-        error={unlockError && t(unlockError.key, unlockError.value)}
+        error={unlockError && unlockError.value}
         onChange={this.onChangePassword}
         onKeyDown={this.onKeyDown}
         password={password}

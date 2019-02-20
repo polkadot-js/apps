@@ -55,7 +55,7 @@ class Item extends React.PureComponent<Props> {
       return false;
     }
 
-    const notFound = needsApi.filter((endpoint) => {
+    const notFound = needsApi.filter((endpoint: string) => {
       const [area, section, method] = endpoint.split('.');
 
       try {
