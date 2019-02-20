@@ -12,7 +12,6 @@ import defaults from '@polkadot/rpc-provider/defaults';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { InputNumber } from '@polkadot/ui-app/InputNumber';
 import keyring from '@polkadot/ui-keyring';
-import settings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/ui-signer/ApiSigner';
 import { formatBalance, isTestChain } from '@polkadot/ui-util';
 import { ChainProperties } from '@polkadot/types';
