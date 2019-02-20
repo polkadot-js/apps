@@ -302,7 +302,7 @@ class App extends React.Component<Props, State> {
         hash: base64code
       });
     }
-    console.log('NEW HASH', base64code, this.props.location.hash)
+    // console.log('NEW HASH', base64code, this.props.location.hash)
   }
 }
 
