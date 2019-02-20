@@ -10,7 +10,7 @@ import { classes } from '@polkadot/ui-app/util';
 import translate from '@polkadot/ui-app/translate';
 import { isUndefined } from '@polkadot/util';
 
-import findComponent from './findComponent';
+import findComponent from '../findComponent';
 
 type Props = I18nProps & BaseProps & {
   isDisabled?: boolean,
@@ -26,11 +26,11 @@ class ParamComponent extends React.PureComponent<Props, State> {
     Component: null
   };
 
-  static getDerivedStateFromProps ({ overrides, type }: Props): State {
+  static getDerivedStateFromProps ({ isDisabled, overrides, type }: Props): State {
     return {
       Component: !type
         ? null
-        : findComponent(type, overrides)
+        : findComponent(type, isDisabled, overrides)
     } as State;
   }
 

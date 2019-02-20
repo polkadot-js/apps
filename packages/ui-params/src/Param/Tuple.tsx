@@ -9,7 +9,7 @@ import React from 'react';
 import { isUndefined } from '@polkadot/util';
 
 import Bare from './Bare';
-import findComponent from './findComponent';
+import findComponent from '../findComponent';
 
 type State = {
   Components: Array<React.ComponentType<Props>>,

@@ -13,7 +13,7 @@ import { isUndefined } from '@polkadot/util';
 
 import getInitValue from '../initValue';
 import Bare from './Bare';
-import findComponent from './findComponent';
+import findComponent from '../findComponent';
 
 type Props = BareProps & WithTranslation;
 
