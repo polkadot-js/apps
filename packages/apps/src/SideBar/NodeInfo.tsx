@@ -19,6 +19,7 @@ const Wrapper = styled.div`
   opacity: 0.5;
   padding: 0 1.5rem 0 0;
   text-align: right;
+
   > div {
     margin-bottom: -0.125em;
     > div {

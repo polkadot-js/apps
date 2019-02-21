@@ -41,7 +41,7 @@ class Connecting extends React.PureComponent<Props> {
     const wsUrl = settings.apiUrl;
     const isWs = wsUrl.indexOf('ws://') === 0;
     const isWsRemote = wsUrl.indexOf('127.0.0.1') === -1;
-    const isHttps = window.location.protocol.indexOf('http') === 0;
+    const isHttps = window.location.protocol.indexOf('https:') === 0;
 
     return (
       <Wrapper>
