@@ -8,6 +8,8 @@ import { withCalls } from '@polkadot/ui-api/with';
 
 import translate from './translate';
 import Applicant from './Applicant';
+import ApplyForm from './ApplyForm';
+import Section from '@polkadot/joy-utils/Section';
 
 type Props = ApiProps & BareProps & I18nProps & {
   applicants?: Array<AccountId>
@@ -16,6 +18,7 @@ type Props = ApiProps & BareProps & I18nProps & {
 type State = {};
 
 class Applicants extends React.PureComponent<Props, State> {
+
   state: State = {};
 
   private renderTable = (applicants: Array<AccountId>) => (
@@ -38,12 +41,15 @@ class Applicants extends React.PureComponent<Props, State> {
     const { applicants = [] } = this.props;
     // console.log({ applicants });
 
-    return (
-      <div>{!applicants.length
+    return <>
+      <ApplyForm />
+      <Section title='Applicants'>
+      {!applicants.length
         ? <em>No applicants yet</em>
         : this.renderTable(applicants)
-      }</div>
-    );
+      }
+      </Section>
+    </>;
   }
 }
 

@@ -57,3 +57,21 @@
     border: 1px solid;
   }
 }
+
+.JoySection {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+
+  .JoySection-title {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 1rem;
+  }
+}
+
+.apps--SideBar-logo {
+  max-height: 26px !important;
+  margin: .5rem 1.5rem 1rem .75rem !important;
+}
+.collapsed .apps--SideBar-logo {
+  margin: .5rem .75rem 1rem -.25rem !important
+}

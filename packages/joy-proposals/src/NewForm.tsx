@@ -14,9 +14,6 @@ import TxButton from '@polkadot/joy-utils/TxButton';
 import InputStake from '@polkadot/joy-utils/InputStake';
 import TextArea from '@polkadot/joy-utils/TextArea';
 
-import { Subscribe } from 'unstated';
-import { counterContainer } from '@polkadot/joy-utils/State';
-
 type Props = {
   minStake?: Balance
 };
@@ -35,11 +32,6 @@ type State = {
 
 class Component extends React.PureComponent<Props, State> {
 
-  constructor (props: Props) {
-    super(props);
-    counterContainer.decrement();
-  }
-
   state: State = {};
 
   render () {
@@ -54,13 +46,6 @@ class Component extends React.PureComponent<Props, State> {
 
     return (
       <div>
-        <Subscribe to={[counterContainer]}>{counter => (
-          <div>
-            <button onClick={() => counterContainer.decrement()}>-</button>
-            <span>{counterContainer.state.count}</span>
-            <button onClick={() => counterContainer.increment()}>+</button>
-          </div>
-        )}</Subscribe>
         <AccountSelector onChange={this.onChangeAccount} />
         <InputStake
           min={this.minStake()}
