@@ -32,7 +32,7 @@
   "dependencies": {
     "@babel/runtime": "^7.2.0",
     "@polkadot/api": "^0.45.9",
-    "@polkadot/ui-util": "^0.27.1",
+    "@polkadot/ui-util": "^0.28.1",
     "rxjs-compat": "^6.3.2"
   }
 }
