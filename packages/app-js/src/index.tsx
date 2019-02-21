@@ -40,7 +40,7 @@ type Injected = {
   util: typeof util,
   window: null
 };
-type Props = ApiProps & AppProps & I18nProps;
+type Props = ApiProps & AppProps & I18nProps & HashRouterProps;
 type State = {
   animated: boolean,
   customExamples: Array<Snippet>,
@@ -312,15 +312,17 @@ class App extends React.PureComponent<Props, State> {
     el.style.position = 'absolute';
     el.style.left = '-9999px';
     document.body.appendChild(el);
-    const selected = document.getSelection() & document.getSelection().rangeCount > 0
-        ? document.getSelection().getRangeAt(0)
-        : false;
+
+    const existingSelection = document.getSelection();
+    const selected = existingSelection & existingSelection.rangeCount > 0
+        ? existingSelection.getRangeAt(0)
+        : undefined;
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
     if (selected) {
-      document.getSelection().removeAllRanges();
-      document.getSelection().addRange(selected);
+      existingSelection.removeAllRanges();
+      existingSelection.addRange(selected);
     }
 
     this.setState({ animated: !this.state.animated });
