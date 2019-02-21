@@ -7,12 +7,12 @@ import { KeyringInstance } from '@polkadot/keyring/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { Log, LogType, Snippet } from './types';
-import { Dropdown } from 'semantic-ui-react';
+// import { Dropdown } from 'semantic-ui-react';
 
 import React from 'react';
 import { withRouter } from 'react-router';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
-import { Button } from '@polkadot/ui-app/index';
+import { Button, Dropdown } from '@polkadot/ui-app/index';
 import uiKeyring from '@polkadot/ui-keyring';
 import * as util from '@polkadot/util';
 import * as hashing from '@polkadot/util-crypto';
@@ -80,8 +80,7 @@ class App extends React.Component<Props, State> {
       label: { basic: true, children: 'Shared', size: 'tiny' },
       text: 'Shared code example (unsaved)',
       type: 'shared',
-      value: `custom-${Date.now()}`,
-      selected: true
+      value: `custom-${Date.now()}`
     }) : undefined ;
 
     const localData = {
