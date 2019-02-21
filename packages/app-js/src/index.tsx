@@ -71,7 +71,11 @@ class App extends React.Component<Props, State> {
     };
   }
 
-  componentDidMount () {
+  // FIXME: Semantic UI is still using Reacts old lifecycle methods that are considered as unsafe (eg. componentWillMount).
+  // There's a ticket and an ongoing process of updating SUI to the new lifecycle methods (here: componentDidMount).
+  // Please check https://github.com/Semantic-Org/Semantic-UI-React/issues/2732 for details
+  // This needs to change to componentDidMount() as soon as the original MUI component got updated
+  componentWillMount () {
     const { location } = this.props;
 
     const sharedExample: Snippet = location.hash.length ?
