@@ -21,7 +21,7 @@ type Props = BareProps & I18nProps & {
   stopJs: () => void
 };
 
-type State = I18nProp & {
+type State = {
   isOpen: boolean,
   shareText: string,
   snippetName: string
@@ -36,7 +36,7 @@ class ActionButtons extends React.PureComponent<Props, State> {
 
   render () {
     const {
-      props: { isCustomExample, isRunning, generateLink, removeSnippet, runJs, stopJs, t },
+      props: { isCustomExample, isRunning,removeSnippet, runJs, stopJs, t },
       state: { isOpen, snippetName }
      } = this;
 

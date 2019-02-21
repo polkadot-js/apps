@@ -304,7 +304,7 @@ class App extends React.PureComponent<Props, State> {
     this.copyToClipboard(`${window.location.origin}/#${location.pathname}/#${base64code}`);
   }
 
-  private copyToClipboard = (link) => {
+  private copyToClipboard = (link: string): void => {
     // See https://hackernoon.com/copying-text-to-clipboard-with-javascript-df4d4988697f
     const el = document.createElement('textarea');
     el.value = link;
@@ -312,7 +312,7 @@ class App extends React.PureComponent<Props, State> {
     el.style.position = 'absolute';
     el.style.left = '-9999px';
     document.body.appendChild(el);
-    const selected = document.getSelection().rangeCount > 0
+    const selected = document.getSelection() & document.getSelection().rangeCount > 0
         ? document.getSelection().getRangeAt(0)
         : false;
     el.select();

@@ -6,7 +6,6 @@ import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import CodeFlask from 'codeflask';
-import { Transition } from 'semantic-ui-react';
 
 type Props = BareProps & {
   isDevelopment: boolean,
