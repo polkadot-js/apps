@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-staking",
-  "version": "0.24.7",
+  "version": "0.24.8",
   "description": "A basic staking app",
   "main": "index.js",
   "scripts": {},
@@ -11,8 +11,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.2.0",
-    "@polkadot/app-explorer": "^0.24.7",
-    "@polkadot/ui-app": "^0.24.7",
-    "@polkadot/ui-reactive": "^0.24.7"
+    "@polkadot/app-explorer": "^0.24.8",
+    "@polkadot/ui-app": "^0.24.8",
+    "@polkadot/ui-reactive": "^0.24.8"
   }
 }
