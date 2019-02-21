@@ -7,7 +7,7 @@ import { KeyringInstance } from '@polkadot/keyring/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { Log, LogType, Snippet } from './types';
-// import { Dropdown } from 'semantic-ui-react';
+import { HashRouterProps } from '@types/react-router-dom';
 
 import React from 'react';
 import { withRouter } from 'react-router';
