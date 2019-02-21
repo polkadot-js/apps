@@ -48,6 +48,7 @@ class Referendums extends React.PureComponent<Props> {
       .map((opt) => opt.unwrap())
       .map((referendum) => (
         <Referendum
+          idNumber={referendum.index}
           key={referendum.index.toString()}
           value={referendum}
         />
