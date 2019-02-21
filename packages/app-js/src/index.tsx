@@ -289,6 +289,7 @@ class App extends React.PureComponent<Props, State> {
   }
 
   private generateLink = (): void => {
+    const { basePath } = this.props;
     const {
       props: { history, location },
       state: { selected: { code } }
@@ -296,12 +297,9 @@ class App extends React.PureComponent<Props, State> {
     const base64code = btoa(code);
 
     if (base64code !== location.hash.substr(1)) {
-      history.push({
-        ...location,
-        hash: base64code
-      });
+      history.push(`${basePath}#${base64code}`);
     }
-    this.copyToClipboard(`${window.location.origin}/#${location.pathname}/#${base64code}`);
+    this.copyToClipboard(`${window.location.origin}/#${location.pathname}#${base64code}`);
   }
 
   private copyToClipboard = (link: string): void => {
