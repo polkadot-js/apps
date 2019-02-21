@@ -24,7 +24,8 @@ type Props<Option> = BareProps & {
   placeholder?: string,
   transform?: (value: any) => any,
   value?: any,
-  withLabel?: boolean
+  withLabel?: boolean,
+  isSelected: boolean
 };
 
 export default class Dropdown<Option> extends React.PureComponent<Props<Option>> {
@@ -54,7 +55,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
   }
 
   render () {
-    const { className, defaultValue, isButton, isDisabled, isError, label, onSearch, options, placeholder, style, withLabel, value } = this.props;
+    const { className, defaultValue, isButton, isDisabled, isError, isSelected, label, onSearch, options, placeholder, style, withLabel, value } = this.props;
     const dropdown = (
       <SUIDropdown
         button={isButton}
@@ -71,7 +72,8 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
           isUndefined(value)
             ? defaultValue
             : value
-          }
+        }
+        selected={isSelected}
       />
     );
 
