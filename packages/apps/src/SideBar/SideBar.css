@@ -7,7 +7,10 @@
 
 .apps--SideBar {
   background: #4e4e4e;
+  display: flex;
+  flex-direction: column;
   flex-shrink: 0;
+  min-height: 100vh;
   padding: 0.75em 0 0 0.75em;
   position: relative;
   text-align: left;

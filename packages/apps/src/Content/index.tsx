@@ -23,8 +23,11 @@ type Props = I18nProps & ApiProps & {
 
 const Wrapper = styled.div`
   background: #fafafa;
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
   height: 100%;
+  min-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
   width: 100%;
@@ -48,14 +51,14 @@ class Content extends React.Component<Props> {
 
     if (needsApi && (!isApiReady || !isApiConnected)) {
       return (
-        <Wrapper className='apps--Content'>
+        <Wrapper>
           <main>{t('Waiting for API to be connected and ready.')}</main>
         </Wrapper>
       );
     }
 
     return (
-      <Wrapper className='apps--Content'>
+      <Wrapper>
         <QueueConsumer>
           {({ queueAction, stqueue, txqueue }: QueueProps) => (
             <>

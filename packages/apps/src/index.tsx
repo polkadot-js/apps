@@ -24,18 +24,11 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   min-height: 100vh;
-
-  .apps--Content,
-  .apps--SideBar {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
 `;
 
 function App (props: Props) {
   return (
-    <Wrapper className={classes(`theme--${settings.uiTheme}`, 'apps--App')}>
+    <Wrapper className={classes(`theme--${settings.uiTheme}`)}>
       <SideBar />
       <Signer>
         <Content />
