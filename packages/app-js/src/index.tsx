@@ -314,7 +314,7 @@ class App extends React.PureComponent<Props, State> {
     document.body.appendChild(el);
 
     const existingSelection = document.getSelection()!;
-    const selected = existingSelection & existingSelection.rangeCount > 0
+    const selected = existingSelection && existingSelection.rangeCount > 0
         ? existingSelection.getRangeAt(0)
         : undefined;
     el.select();
