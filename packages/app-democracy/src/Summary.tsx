@@ -18,13 +18,12 @@ type Props = I18nProps & {
   democracy_nextTally?: BN,
   democracy_publicDelay?: BN,
   democracy_publicPropCount?: BN,
-  democracy_referendumCount?: BN,
-  democracy_votingPeriod?: BN
+  democracy_referendumCount?: BN
 };
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { chain_bestNumber = new BN(0), democracy_launchPeriod = new BN(1), democracy_nextTally = new BN(0), democracy_publicPropCount, democracy_referendumCount = new BN(0), democracy_votingPeriod = new BN(1), t } = this.props;
+    const { chain_bestNumber = new BN(0), democracy_launchPeriod = new BN(1), democracy_nextTally = new BN(0), democracy_publicPropCount, democracy_referendumCount = new BN(0), t } = this.props;
 
     return (
       <summary>
@@ -40,13 +39,6 @@ class Summary extends React.PureComponent<Props> {
           </CardSummary>
         </section>
         <section className='ui--media-medium'>
-          <CardSummary
-            label={t('voting period')}
-            progress={{
-              value: chain_bestNumber.mod(democracy_votingPeriod).addn(1),
-              total: democracy_votingPeriod
-            }}
-          />
           <CardSummary
             label={t('launch period')}
             progress={{
@@ -66,7 +58,6 @@ export default translate(
     'query.democracy.nextTally',
     'query.democracy.publicPropCount',
     'query.democracy.referendumCount',
-    'query.democracy.votingPeriod',
     'derive.chain.bestNumber'
   )(Summary)
 );
