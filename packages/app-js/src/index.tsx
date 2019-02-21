@@ -11,6 +11,7 @@ import { Log, LogType, Snippet } from './types';
 
 import React from 'react';
 import { withRouter } from 'react-router';
+import { Transition } from 'semantic-ui-react';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { Button, Dropdown } from '@polkadot/ui-app/index';
 import uiKeyring from '@polkadot/ui-keyring';
@@ -41,17 +42,17 @@ type Injected = {
 };
 type Props = ApiProps & AppProps & I18nProps;
 type State = {
+  animated: boolean,
   customExamples: Array<Snippet>,
   isCustomExample: boolean,
   isRunning: boolean,
   logs: Array<Log>,
   options: Array<Snippet>,
   sharedExample?: Snippet,
-  shareLink: string,
   selected: Snippet
 };
 
-class App extends React.Component<Props, State> {
+class App extends React.PureComponent<Props, State> {
   injected: Injected | null = null;
   snippets: Array<Snippet> = JSON.parse(JSON.stringify(snippets));
 
@@ -60,14 +61,14 @@ class App extends React.Component<Props, State> {
     this.snippets.forEach(snippet => snippet.code = `${makeWrapper(this.props.isDevelopment)}${snippet.code}`);
 
     this.state = {
+      animated: true,
       customExamples: [],
       isCustomExample: false,
       isRunning: false,
       logs: [],
       options: [],
       selected: this.snippets[0],
-      sharedExample: undefined,
-      shareLink: ''
+      sharedExample: undefined
     };
   }
 
@@ -107,17 +108,9 @@ class App extends React.Component<Props, State> {
     }) as State);
   }
 
-  componentDidUpdate () {
-    if (this.props.location.hash !== this.state.shareLink) {
-      this.setState({
-        shareLink: this.props.location.hash
-      });
-    }
-  }
-
   render () {
     const { isDevelopment, t } = this.props;
-    const { isCustomExample, isRunning, logs, options, selected } = this.state;
+    const { animated, isCustomExample, isRunning, logs, options, selected } = this.state;
     const snippetName = selected.type === 'custom' ? selected.text : undefined;
 
     return (
@@ -132,23 +125,25 @@ class App extends React.Component<Props, State> {
           />
         </header>
         <section className='js--Content'>
-          <article className='container js--Editor'>
-            <Editor
-              code={selected.code}
-              isDevelopment={isDevelopment}
-              onEdit={this.onEdit}
-            />
-            <ActionButtons
-              isCustomExample={isCustomExample}
-              isRunning={isRunning}
-              generateLink={this.generateLink}
-              removeSnippet={this.removeSnippet}
-              runJs={this.runJs}
-              saveSnippet={this.saveSnippet}
-              snippetName={snippetName}
-              stopJs={this.stopJs}
-            />
-          </article>
+          <Transition animation='glow' duration={500} visible={animated}>
+            <article className='container js--Editor'>
+              <Editor
+                code={selected.code}
+                isDevelopment={isDevelopment}
+                onEdit={this.onEdit}
+              />
+              <ActionButtons
+                isCustomExample={isCustomExample}
+                isRunning={isRunning}
+                generateLink={this.generateLink}
+                removeSnippet={this.removeSnippet}
+                runJs={this.runJs}
+                saveSnippet={this.saveSnippet}
+                snippetName={snippetName}
+                stopJs={this.stopJs}
+              />
+            </article>
+          </Transition>
           <Output logs={logs}>
             <Button
               className='action-button'
