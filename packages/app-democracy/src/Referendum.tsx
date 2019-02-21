@@ -27,6 +27,7 @@ const COLORS_NAY = settings.uiTheme === 'substrate'
   : ['#d75ea1', '#e189ba'];
 
 type Props = I18nProps & {
+  idNumber: BN,
   chain_bestNumber?: BN,
   democracy_referendumVotesFor?: Array<DerivedReferendumVote>,
   democracy_publicDelay?: BN,

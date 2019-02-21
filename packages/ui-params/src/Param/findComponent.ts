@@ -23,44 +23,35 @@ import Vector from './Vector';
 import Vote from './Vote';
 import VoteThreshold from './VoteThreshold';
 
-const components: ComponentMap = {
-  'AccountId': Account,
-  'AccountIdOf': Account,
-  'AccountIndex': Amount,
-  'Address': Account,
-  'Balance': Balance,
-  'BalanceOf': Balance,
-  'BlockNumber': Amount,
-  'bool': Bool,
-  'Bytes': Bytes,
-  'Code': Code,
-  'CodeHash': Hash,
-  'Gas': Amount,
-  'Hash': Hash,
-  'Index': Amount,
-  'KeyValue': KeyValue,
-  'Vec<KeyValue>': KeyValueArray,
-  'ParaId': Amount,
-  'Moment': Moment,
-  'MomentOf': Moment,
-  'ProposalIndex': Amount,
-  'PropIndex': Amount,
-  'Proposal': Proposal,
-  'ReferendumIndex': Amount,
-  'SeedOf': Hash,
-  'SessionKey': Account,
-  'Signature': Hash,
-  'String': Text,
-  'Text': Text,
-  'Tuple': Tuple,
-  'u32': Amount,
-  'u64': Amount,
-  'u128': Amount,
-  'Vector': Vector,
-  'Vote': Vote,
-  'VoteIndex': Amount,
-  'VoteThreshold': VoteThreshold
+type TypeToComponent = {
+  c: React.ComponentType<Props>,
+  t: Array<string>
 };
+
+const components: ComponentMap = ([
+  { c: Account, t: ['AccountId', 'AccountIdOf', 'Address', 'SessionKey'] },
+  { c: Amount, t: ['AccountIndex', 'BlockNumber', 'Gas', 'Index', 'ParaId', 'ProposalIndex', 'PropIndex', 'ReferendumIndex', 'u16', 'u32', 'u64', 'u128', 'u256', 'VoteIndex'] },
+  { c: Balance, t: ['Amount', 'AssetOf', 'Balance', 'BalanceOf'] },
+  { c: Bool, t: ['bool'] },
+  { c: Bytes, t: ['Bytes'] },
+  { c: Code, t: ['Code'] },
+  { c: Hash, t: ['CodeHash', 'Hash', 'SeedOf', 'Signature'] },
+  { c: KeyValue, t: ['KeyValue'] },
+  { c: KeyValueArray, t: ['Vec<KeyValue>'] },
+  { c: Moment, t: ['Moment', 'MomentOf'] },
+  { c: Proposal, t: ['Proposal'] },
+  { c: Text, t: ['String', 'Text'] },
+  { c: Tuple, t: ['Tuple'] },
+  { c: Vector, t: ['Vector'] },
+  { c: Vote, t: ['Vote'] },
+  { c: VoteThreshold, t: ['VoteThreshold'] }
+] as Array<TypeToComponent>).reduce((components, { c, t }) => {
+  t.forEach((type) => {
+    components[type] = c;
+  });
+
+  return components;
+}, {} as ComponentMap);
 
 export default function findComponent (def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
   const type = (({ info, sub, type }: TypeDef) => {
