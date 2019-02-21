@@ -1,19 +1,19 @@
 import React from 'react';
-import queryString from 'query-string';
 
-import { AccountId } from '@polkadot/types';
-import { AppProps } from '@polkadot/ui-app/types';
+import { AppProps, I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { withCalls } from '@polkadot/ui-api/with';
+import { AccountId } from '@polkadot/types';
 import { Input, Labelled, InputAddress } from '@polkadot/ui-app/index';
 
 import translate from './translate';
-import { nonEmptyStr, queryToProp } from '@polkadot/joy-utils/index';
+import { nonEmptyStr, queryToProp, getUrlParam } from '@polkadot/joy-utils/index';
 import { accountIdsToOptions, hashVote } from './utils';
 import AccountSelector from '@polkadot/joy-utils/AccountSelector';
 import TxButton from '@polkadot/joy-utils/TxButton';
 
 // AppsProps is needed to get a location from the route.
-type Props = AppProps & {
+type Props = AppProps & ApiProps & I18nProps & {
   accountId?: string,
   applicantId?: string,
   applicants?: AccountId[]
@@ -31,9 +31,8 @@ class App extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
     let { accountId, applicantId, location } = this.props;
-    const params = queryString.parse(location.search);
-    applicantId = applicantId ? applicantId : params.applicantId;
-    const { hashedVote } = params;
+    applicantId = applicantId ? applicantId : getUrlParam(location, 'applicantId');
+    const hashedVote = getUrlParam(location, 'hashedVote');
 
     this.state = {
       accountId,

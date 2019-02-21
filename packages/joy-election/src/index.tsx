@@ -1,9 +1,11 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
-import { withCalls } from '@polkadot/ui-api/with';
+
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-api/types';
+import { withCalls } from '@polkadot/ui-api/with';
 import { AccountId, Hash } from '@polkadot/types';
+import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 
 // our app-specific styles
 import './index.css';
@@ -19,7 +21,7 @@ import { queryToProp } from '@polkadot/joy-utils/index';
 import { Seat } from '@polkadot/joy-utils/types';
 
 // define out internal types
-type Props = AppProps & I18nProps & {
+type Props = AppProps & ApiProps & I18nProps & {
   activeCouncil?: Seat[],
   applicants?: AccountId[],
   commitments?: Hash[]

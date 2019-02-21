@@ -1,9 +1,9 @@
-import { ApiProps } from '@polkadot/ui-api/types';
-import { BareProps, I18nProps } from '@polkadot/ui-app/types';
-
 import React from 'react';
-import { Table } from 'semantic-ui-react';
+
+import { ApiProps } from '@polkadot/ui-api/types';
+import { I18nProps } from '@polkadot/ui-app/types';
 import { withCalls } from '@polkadot/ui-api/with';
+import { Table } from 'semantic-ui-react';
 import { formatBalance } from '@polkadot/ui-app/util';
 import AddressMini from '@polkadot/ui-app/AddressMiniJoy';
 
@@ -12,7 +12,7 @@ import { Seat } from '@polkadot/joy-utils/types';
 import translate from './translate';
 import Section from '@polkadot/joy-utils/Section';
 
-type Props = ApiProps & BareProps & I18nProps & {
+type Props = ApiProps & I18nProps & {
   council?: Seat[]
 };
 

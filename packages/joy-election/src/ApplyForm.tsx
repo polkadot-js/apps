@@ -1,6 +1,8 @@
 import BN from 'bn.js';
 import React from 'react';
 
+import { I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { withCalls } from '@polkadot/ui-api/with';
 import { Labelled } from '@polkadot/ui-app/index';
 import { Balance } from '@polkadot/types';
@@ -10,7 +12,7 @@ import AccountSelector from '@polkadot/joy-utils/AccountSelector';
 import TxButton from '@polkadot/joy-utils/TxButton';
 import InputStake from '@polkadot/joy-utils/InputStake';
 
-type Props = {
+type Props = ApiProps & I18nProps & {
   minStake?: Balance
 };
 

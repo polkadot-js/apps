@@ -1,6 +1,8 @@
 import React from 'react';
 import { Table, Segment } from 'semantic-ui-react';
 
+import { I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { withCalls } from '@polkadot/ui-api/with';
 import { u32 } from '@polkadot/types';
 
@@ -8,7 +10,7 @@ import translate from './translate';
 import { ProposalsMock, ProposalVotesMock } from './mocks';
 import AddressMini from '@polkadot/ui-app/AddressMiniJoy';
 
-type Props = {
+type Props = ApiProps & I18nProps & {
   proposalIds?: Uint32Array
 };
 
@@ -20,7 +22,7 @@ class Component extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    let { proposalIds } = this.props;
+    // let { proposalIds } = this.props;
 
     return (
       <div className='ui list'>{ProposalsMock.map((proposal, i) => (

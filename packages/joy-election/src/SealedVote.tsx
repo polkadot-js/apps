@@ -2,8 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
 
-import { Hash } from '@polkadot/types';
+import { I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { withCalls } from '@polkadot/ui-api/with';
+import { Hash } from '@polkadot/types';
 import { formatBalance } from '@polkadot/ui-app/util';
 
 import translate from './translate';
@@ -11,7 +13,7 @@ import { calcTotalStake } from '@polkadot/joy-utils/index';
 import { SealedVote } from '@polkadot/joy-utils/types';
 import AddressMini from '@polkadot/ui-app/AddressMiniJoy';
 
-type Props = {
+type Props = ApiProps & I18nProps & {
   hash: Hash,
   sealedVote?: SealedVote
 };
@@ -69,7 +71,7 @@ class Comp extends React.PureComponent<Props, State> {
 // inject the actual API calls automatically into props
 export default translate(
   withCalls<Props>(
-    ['query.councilElection.votes', 
+    ['query.councilElection.votes',
       { paramName: 'hash', propName: 'sealedVote' }]
   )(Comp)
 );

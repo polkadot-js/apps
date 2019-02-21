@@ -1,8 +1,10 @@
 import BN from 'bn.js';
 import React from 'react';
 
-import { u8aToHex } from '@polkadot/util';
+import { I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { withCalls } from '@polkadot/ui-api/with';
+import { u8aToHex } from '@polkadot/util';
 import { Input, InputFile, Labelled } from '@polkadot/ui-app/index';
 import { formatNumber } from '@polkadot/ui-app/util';
 import { Balance } from '@polkadot/types';
@@ -14,7 +16,7 @@ import TxButton from '@polkadot/joy-utils/TxButton';
 import InputStake from '@polkadot/joy-utils/InputStake';
 import TextArea from '@polkadot/joy-utils/TextArea';
 
-type Props = {
+type Props = ApiProps & I18nProps & {
   minStake?: Balance
 };
 
@@ -126,7 +128,12 @@ class Component extends React.PureComponent<Props, State> {
 
   private isFormValid = (): boolean => {
     const s = this.state;
-    return s.isStakeValid && s.isNameValid && s.isDescriptionValid && s.isWasmCodeValid;
+    return (
+      s.isStakeValid &&
+      s.isNameValid &&
+      s.isDescriptionValid &&
+      s.isWasmCodeValid
+    ) ? true : false;
   }
 }
 
