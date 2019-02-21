@@ -306,7 +306,29 @@ class App extends React.Component<Props, State> {
         hash: base64code
       });
     }
-    // console.log('NEW HASH', base64code, this.props.location.hash)
+    this.copyToClipboard(`${window.location.origin}/#${location.pathname}/#${base64code}`);
+  }
+
+  private copyToClipboard = (link) => {
+    // See https://hackernoon.com/copying-text-to-clipboard-with-javascript-df4d4988697f
+    const el = document.createElement('textarea');
+    el.value = link;
+    el.setAttribute('readonly', '');
+    el.style.position = 'absolute';
+    el.style.left = '-9999px';
+    document.body.appendChild(el);
+    const selected = document.getSelection().rangeCount > 0
+        ? document.getSelection().getRangeAt(0)
+        : false;
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    if (selected) {
+      document.getSelection().removeAllRanges();
+      document.getSelection().addRange(selected);
+    }
+
+    this.setState({ animated: !this.state.animated });
   }
 }
 

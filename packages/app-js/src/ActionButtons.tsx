@@ -21,15 +21,17 @@ type Props = BareProps & I18nProps & {
   stopJs: () => void
 };
 
-type State = {
-  snippetName: string,
-  isOpen: boolean
+type State = I18nProp & {
+  isOpen: boolean,
+  shareText: string,
+  snippetName: string
 };
 
 class ActionButtons extends React.PureComponent<Props, State> {
   state: State = {
-    snippetName: '',
-    isOpen: false
+    isOpen: false,
+    shareText: this.props.t('Generate link to share code example'),
+    snippetName: ''
   };
 
   render () {
@@ -40,19 +42,19 @@ class ActionButtons extends React.PureComponent<Props, State> {
 
     return (
       <div className='action-button'>
-        <Popup
-          content={t('Generate link to share code example')}
-          on='hover'
-          trigger={
-            <SUIB
-              circular
-              icon='share alternate'
-              onClick={generateLink}
-            />
-          }
-          wide={'very'}
-        />
-
+          <Popup
+            content={this.state.shareText}
+            on='hover'
+            onClose={this.onShareClose}
+            trigger={
+              <SUIB
+                circular
+                icon='share alternate'
+                onClick={this.generateLink}
+              />
+            }
+            wide={'very'}
+          />
         {
         // FIXME: The <Popup /> event trigger on='hover' does not work together with the ui-app'
         // <Button /> component. That's why the original Semantic UI component is being used here.
@@ -119,6 +121,16 @@ class ActionButtons extends React.PureComponent<Props, State> {
         />
       </div>
     );
+  }
+
+  private generateLink = (): void => {
+    const { generateLink, t } = this.props;
+    this.setState({ shareText: t('Copied to clipboard') } as State);
+    generateLink();
+  }
+
+  private onShareClose = (): void => {
+    this.setState({ shareText: this.props.t('Generate link to share code example') } as State);
   }
 
   private onChangeName = (snippetName: string): void => {
