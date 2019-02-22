@@ -303,7 +303,7 @@ class Playground extends React.PureComponent<Props, State> {
     const path = `/js/share/${base64code}`;
 
     if (base64code !== base64) {
-      (history as any).push(path);
+      history.push(path);
     }
     this.copyToClipboard(`${window.location.origin}/#${path}`);
   }
