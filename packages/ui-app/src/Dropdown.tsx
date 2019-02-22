@@ -71,7 +71,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
           isUndefined(value)
             ? defaultValue
             : value
-          }
+        }
       />
     );
 

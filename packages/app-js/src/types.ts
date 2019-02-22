@@ -17,5 +17,5 @@ export type Snippet = {
   value: string;
   code: string;
   label?: SemanticShorthandItem<LabelProps>,
-  custom?: string
+  type?: 'custom' | 'shared'
 };

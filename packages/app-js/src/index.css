@@ -54,6 +54,10 @@
     outline: 0;
   }
 
+  .codeflask {
+    background: transparent;
+  }
+
   .codeflask--has-line-numbers {
     z-index: 0;
   }
