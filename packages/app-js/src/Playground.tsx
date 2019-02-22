@@ -279,7 +279,7 @@ class Playground extends React.PureComponent<Props, State> {
     };
   }
 
-  private decodeBase64 = (base64: string): string => {
+  private decodeBase64 = (base64: string): Snippet? => {
     try {
       const decoded = atob(base64);
 
@@ -304,7 +304,7 @@ class Playground extends React.PureComponent<Props, State> {
     const path = `/js/share/${base64code}`;
 
     if (base64code !== base64) {
-      history.push(path);
+      history.push(path); // tslint:disable-line
     }
 
     this.copyToClipboard(`${window.location.origin}/#${path}`);
