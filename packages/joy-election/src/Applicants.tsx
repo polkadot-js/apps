@@ -1,17 +1,17 @@
-import { ApiProps } from '@polkadot/ui-api/types';
-import { BareProps, I18nProps } from '@polkadot/ui-app/types';
-
 import React from 'react';
 import { Table } from 'semantic-ui-react';
-import { AccountId } from '@polkadot/types';
+
+import { I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { withCalls } from '@polkadot/ui-api/with';
+import { AccountId } from '@polkadot/types';
 
 import translate from './translate';
 import Applicant from './Applicant';
 import ApplyForm from './ApplyForm';
 import Section from '@polkadot/joy-utils/Section';
 
-type Props = ApiProps & BareProps & I18nProps & {
+type Props = ApiProps & I18nProps & {
   applicants?: Array<AccountId>
 };
 

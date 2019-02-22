@@ -2,9 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
 
-import { AccountId } from '@polkadot/types';
-import { BareProps, I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { withCalls } from '@polkadot/ui-api/with';
+import { AccountId } from '@polkadot/types';
 import { formatBalance } from '@polkadot/ui-app/util';
 import AddressMini from '@polkadot/ui-app/AddressMiniJoy';
 
@@ -12,7 +13,7 @@ import translate from './translate';
 import { calcTotalStake } from '@polkadot/joy-utils/index';
 import { Stake } from '@polkadot/joy-utils/types';
 
-type Props = BareProps & I18nProps & {
+type Props = ApiProps & I18nProps & {
   index: number,
   accountId: AccountId,
   stake?: Stake

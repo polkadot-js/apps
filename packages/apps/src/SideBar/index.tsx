@@ -86,6 +86,7 @@ class SideBar extends React.PureComponent<Props, State> {
     );
   }
 
+  // @ts-ignore is declared but its value is never read
   private renderLogo () {
     const { isCollapsed } = this.state;
     const logo = getLogo(isCollapsed);
@@ -135,6 +136,7 @@ class SideBar extends React.PureComponent<Props, State> {
     ));
   }
 
+  // @ts-ignore is declared but its value is never read
   private renderGithub () {
     return (
       <Menu.Item className='apps--SideBar-Item'>
@@ -148,6 +150,7 @@ class SideBar extends React.PureComponent<Props, State> {
     );
   }
 
+  // @ts-ignore is declared but its value is never read
   private renderWiki () {
     return null;
 

@@ -1,14 +1,15 @@
 import React from 'react';
 
-import { Hash } from '@polkadot/types';
-import { AppProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { withCalls } from '@polkadot/ui-api/with';
+import { Hash } from '@polkadot/types';
 
 import translate from './translate';
 import SealedVote from './SealedVote';
 import { queryToProp } from '@polkadot/joy-utils/index';
 
-type Props = AppProps & {
+type Props = ApiProps & I18nProps & {
   commitments?: Hash[]
 };
 

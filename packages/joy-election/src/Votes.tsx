@@ -2,17 +2,17 @@ import BN from 'bn.js';
 import uuid from 'uuid/v4';
 
 import React from 'react';
-import queryString from 'query-string';
 import { Message } from 'semantic-ui-react';
 
-import { AccountId, Balance } from '@polkadot/types';
-import { AppProps } from '@polkadot/ui-app/types';
+import { AppProps, I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { withCalls } from '@polkadot/ui-api/with';
+import { AccountId, Balance } from '@polkadot/types';
 import { Button, Input, Labelled, InputAddress } from '@polkadot/ui-app/index';
 
 import translate from './translate';
 import { accountIdsToOptions, hashVote } from './utils';
-import { queryToProp, ZERO } from '@polkadot/joy-utils/index';
+import { queryToProp, ZERO, getUrlParam } from '@polkadot/joy-utils/index';
 import SealedVotes from './SealedVotes';
 import AccountSelector from '@polkadot/joy-utils/AccountSelector';
 import TxButton from '@polkadot/joy-utils/TxButton';
@@ -25,7 +25,7 @@ function randomSalt () {
 }
 
 // AppsProps is needed to get a location from the route.
-type Props = AppProps & {
+type Props = AppProps & ApiProps & I18nProps & {
   accountId?: string,
   applicantId?: string,
   minVotingStake?: Balance,
@@ -47,8 +47,7 @@ class Component extends React.PureComponent<Props, State> {
     super(props);
 
     let { accountId, applicantId, location } = this.props;
-    const params = queryString.parse(location.search);
-    applicantId = applicantId ? applicantId : params.applicantId;
+    applicantId = applicantId ? applicantId : getUrlParam(location, 'applicantId');
 
     this.state = {
       accountId,

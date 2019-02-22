@@ -1,10 +1,10 @@
 import BN from 'bn.js';
 import React from 'react';
 
-import { BlockNumber, AccountId, Balance } from '@polkadot/types';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { BareProps, I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/ui-app/types';
 import { withCalls } from '@polkadot/ui-api/with';
+import { BlockNumber, AccountId, Balance } from '@polkadot/types';
 import { Bubble } from '@polkadot/ui-app/index';
 import { formatNumber, formatBalance } from '@polkadot/ui-app/util';
 
@@ -13,7 +13,7 @@ import { queryToProp } from '@polkadot/joy-utils/index';
 import { ElectionStage, Seat, Announcing } from '@polkadot/joy-utils/types';
 import translate from './translate';
 
-type Props = BareProps & ApiProps & I18nProps & {
+type Props = ApiProps & I18nProps & {
   bestNumber?: BN,
 
   autoStartElections?: boolean,

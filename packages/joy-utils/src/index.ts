@@ -99,3 +99,13 @@ export function queryToProp (apiQuery: string): [string, QueryOptions] {
   const propName = apiQuery.split('.').slice(-1)[0];
   return [apiQuery, { propName }];
 }
+
+// Parse URLs
+// --------------------------------------
+
+import queryString from 'query-string';
+
+export function getUrlParam (location: Location, paramName: string, deflt: string | undefined = undefined): string | undefined {
+  const params = queryString.parse(location.search);
+  return params[paramName] ? params[paramName] as string : deflt;
+}
