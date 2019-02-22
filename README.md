@@ -23,6 +23,7 @@ The repo is split into a number of packages, each representing an application. T
 - [app-democracy](packages/app-democracy/) A basic voting app, allowing votes on activate proposals and referendums.
 - [app-explorer](packages/app-explorer/) A simple block explorer. It only shows the most recent blocks, updating as they become available.
 - [app-extrinsics](packages/app-extrinsics/) Submission of extrinsics to a node.
+- [app-js](packages/app-js/) An online code editor with [@polkadot-js/api](https://github.com/polkadot-js/api/tree/master/packages/api) access to the currently connected node.
 - [app-settings](packages/app-settings/) A basic settings management app, allowing choice of language, node to connect to, and theme
 - [app-staking](packages/app-staking/) A basic staking management app, allowing staking and nominations.
 - [app-nodeinfo](packages/app-nodeinfo/) Node information and status
