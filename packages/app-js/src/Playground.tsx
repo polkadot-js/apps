@@ -44,7 +44,9 @@ type Props = ApiProps & AppProps & I18nProps & {
     params: {
       base64?: string
     }
-  }
+  },
+  // FIXME wait for proper eslint integration in tslint, then hopefully remove this
+  history: any
 };
 type State = {
   animated: boolean,
@@ -285,7 +287,7 @@ class Playground extends React.PureComponent<Props, State> {
     };
   }
 
-  private decodeBase64 = (base64: string): Snippet? => {
+  private decodeBase64 = (base64: string) => {
     try {
       const decoded = atob(base64);
 
@@ -310,7 +312,7 @@ class Playground extends React.PureComponent<Props, State> {
     const path = `/js/share/${base64code}`;
 
     if (base64code !== base64) {
-      history.push(path); // tslint:disable-line
+      history.push(path);
     }
 
     this.copyToClipboard(`${window.location.origin}/#${path}`);
