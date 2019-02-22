@@ -4,10 +4,9 @@
 
 import { BareProps } from '@polkadot/ui-app/types';
 
-import './index.css';
-
 import React from 'react';
 import store from 'store';
+import styled from 'styled-components';
 import { typeRegistry } from '@polkadot/types';
 import createApp from '@polkadot/ui-app/index';
 import { classes } from '@polkadot/ui-app/util';
@@ -16,22 +15,26 @@ import settings from '@polkadot/ui-settings';
 
 import Connecting from './Connecting';
 import Content from './Content';
-import NodeInfo from './NodeInfo';
 import SideBar from './SideBar';
 
 type Props = BareProps & {};
 
+const Wrapper = styled.div`
+  align-items: stretch;
+  box-sizing: border-box;
+  display: flex;
+  min-height: 100vh;
+`;
+
 function App (props: Props) {
   return (
-    <div className={classes(`theme--${settings.uiTheme}`, 'apps--App')}>
-      <SideBar>
-        <NodeInfo />
-      </SideBar>
+    <Wrapper className={classes(`theme--${settings.uiTheme}`)}>
+      <SideBar />
       <Signer>
         <Content />
       </Signer>
       <Connecting />
-    </div>
+    </Wrapper>
   );
 }
 

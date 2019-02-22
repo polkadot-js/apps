@@ -37,7 +37,6 @@ type State = {
   value?: string
 };
 
-const RECENT_KEY = 'header-recent';
 const STORAGE_KEY = 'options:InputAddress';
 const DEFAULT_TYPE = 'all';
 
@@ -190,9 +189,10 @@ class InputAddress extends React.PureComponent<Props, State> {
     const query = _query.trim();
     const queryLower = query.toLowerCase();
     const matches = filteredOptions.filter((item) =>
-      item.value === null ||
-      item.name.toLowerCase().indexOf(queryLower) !== -1 ||
-      item.value.toLowerCase().indexOf(queryLower) !== -1
+      item.value !== null && (
+        item.name.toLowerCase().indexOf(queryLower) !== -1 ||
+        item.value.toLowerCase().indexOf(queryLower) !== -1
+      )
     );
 
     const valueMatches = matches.filter((item) =>
@@ -203,12 +203,6 @@ class InputAddress extends React.PureComponent<Props, State> {
       const accountId = transformToAccountId(query);
 
       if (accountId) {
-        if (!matches.find((item) => item.key === RECENT_KEY)) {
-          matches.push(
-            keyringOption.createOptionHeader('Recent')
-          );
-        }
-
         matches.push(
           keyring.saveRecent(
             accountId

@@ -6,14 +6,13 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { QueueProps } from '@polkadot/ui-app/Status/types';
 
-import './Content.css';
-
 import React from 'react';
 import { withRouter } from 'react-router';
+import styled from 'styled-components';
 import { withCalls, withMulti } from '@polkadot/ui-api/index';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
-import Status from '../Status';
+import Status from './Status';
 import routing from '../routing';
 import translate from '../translate';
 import NotFound from './NotFound';
@@ -21,6 +20,18 @@ import NotFound from './NotFound';
 type Props = I18nProps & ApiProps & {
   location: Location
 };
+
+const Wrapper = styled.div`
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+`;
 
 const unknown = {
   display: {
@@ -40,14 +51,14 @@ class Content extends React.Component<Props> {
 
     if (needsApi && (!isApiReady || !isApiConnected)) {
       return (
-        <div className='apps--Content-body'>
+        <Wrapper>
           <main>{t('Waiting for API to be connected and ready.')}</main>
-        </div>
+        </Wrapper>
       );
     }
 
     return (
-      <div className='apps--Content'>
+      <Wrapper>
         <QueueConsumer>
           {({ queueAction, stqueue, txqueue }: QueueProps) => (
             <>
@@ -64,7 +75,7 @@ class Content extends React.Component<Props> {
             </>
           )}
         </QueueConsumer>
-      </div>
+      </Wrapper>
     );
   }
 }
