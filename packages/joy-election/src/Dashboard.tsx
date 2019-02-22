@@ -5,6 +5,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { withCalls } from '@polkadot/ui-api/with';
 import { BlockNumber, AccountId, Balance } from '@polkadot/types';
+import Bool from '@polkadot/types/Bool';
 import { Bubble } from '@polkadot/ui-app/index';
 import { formatNumber, formatBalance } from '@polkadot/ui-app/util';
 
@@ -16,10 +17,10 @@ import translate from './translate';
 type Props = ApiProps & I18nProps & {
   bestNumber?: BN,
 
-  autoStartElections?: boolean,
   activeCouncil?: Seat[],
   termEndsAt?: BlockNumber,
 
+  autoStart?: Bool,
   newTermDuration?: BN,
   candidacyLimit?: BN,
   councilSize?: BN,
@@ -29,8 +30,8 @@ type Props = ApiProps & I18nProps & {
   votingPeriod?: BlockNumber,
   revealingPeriod?: BlockNumber,
 
-  stage?: ElectionStage,
   round?: BN,
+  stage?: ElectionStage,
   applicants?: AccountId[]
 };
 
@@ -95,9 +96,11 @@ class Dashboard extends React.PureComponent<Props, State> {
 
   renderConfig () {
     const p = this.props;
+    const isAutoStart = (p.autoStart || new Bool(false)).valueOf();
+
     return <Section title='Configuration'>
       <Bubble label='Auto-start elections'>
-        {p.autoStartElections === true ? 'Yes' : 'No'}
+        {isAutoStart ? 'Yes' : 'No'}
       </Bubble>
       <Bubble label='New term duration'>
         {formatNumber(p.newTermDuration)}
@@ -141,11 +144,11 @@ class Dashboard extends React.PureComponent<Props, State> {
 export default translate(
   withCalls<Props>(
     queryToProp('derive.chain.bestNumber'),
-    queryToProp('query.root.autoStartElections'),
 
     queryToProp('query.council.activeCouncil'),
     queryToProp('query.council.termEndsAt'),
 
+    queryToProp('query.councilElection.autoStart'),
     queryToProp('query.councilElection.newTermDuration'),
     queryToProp('query.councilElection.candidacyLimit'),
     queryToProp('query.councilElection.councilSize'),
