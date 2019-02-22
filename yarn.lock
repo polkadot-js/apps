@@ -1473,7 +1473,7 @@
     "@types/memoizee" "^0.4.2"
     memoizee "^0.4.14"
 
-"@polkadot/api@^0.45.10", "@polkadot/api@^0.45.12":
+"@polkadot/api@^0.45.12":
   version "0.45.12"
   resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.45.12.tgz#01cc8b0a69831a5a3edf29dc5c3af4de20edc8dd"
   integrity sha512-fV7QOEGwuqA4C9Y+S335Y133C3WE8pQLrV10Jf/eiIPWdwieJi9RefXqF4tldU6475cEsJJY27/0t0eVRmj9Gw==
@@ -1969,7 +1969,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-router-dom@^4.3.0q", "@types/react-router-dom@^4.3.1":
+"@types/react-router-dom@^4.3.0q":
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-4.3.1.tgz#71fe2918f8f60474a891520def40a63997dafe04"
   integrity sha512-GbztJAScOmQ/7RsQfO4cd55RuH1W4g6V1gDW3j4riLlt+8yxYLqqsiMzmyuXBLzdFmDtX/uU2Bpcm0cmudv44A==
@@ -4979,9 +4979,9 @@ es-to-primitive@^1.2.0:
     is-symbol "^1.0.2"
 
 es5-ext@^0.10.14, es5-ext@^0.10.35, es5-ext@^0.10.45, es5-ext@^0.10.9, es5-ext@~0.10.14, es5-ext@~0.10.2, es5-ext@~0.10.46:
-  version "0.10.47"
-  resolved "https://registry.yarnpkg.com/es5-ext/-/es5-ext-0.10.47.tgz#d24232e1380daad5449a817be19bde9729024a11"
-  integrity sha512-/1TItLfj+TTfWoeRcDn/0FbGV6SNo4R+On2GGVucPU/j3BWnXE2Co8h8CTo4Tu34gFJtnmwS9xiScKs4EjZhdw==
+  version "0.10.48"
+  resolved "https://registry.yarnpkg.com/es5-ext/-/es5-ext-0.10.48.tgz#9a0b31eeded39e64453bcedf6f9d50bbbfb43850"
+  integrity sha512-CdRvPlX/24Mj5L4NVxTs4804sxiS2CjVprgCmrgoDkdmjdY4D+ySHa7K3jJf8R40dFg0tIm3z/dk326LrnuSGw==
   dependencies:
     es6-iterator "~2.0.3"
     es6-symbol "~3.1.1"
