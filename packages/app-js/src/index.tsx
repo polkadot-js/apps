@@ -79,14 +79,14 @@ class App extends React.PureComponent<Props, State> {
   componentWillMount () {
     const { location } = this.props;
 
-    const sharedExample: Snippet = location.hash.length ?
+    const sharedExample = location.hash.length ?
     ({
       code: atob(location.hash.substr(1)),
-      label: { basic: true, children: 'Shared', size: 'tiny' },
+      label: { basic: true, children: 'URL', size: 'tiny' },
       text: 'Shared code example (unsaved)',
       type: 'shared',
       value: `custom-${Date.now()}`
-    }) : undefined ;
+    }) : undefined;
 
     const localData = {
       examples: localStorage.getItem(STORE_EXAMPLES),
@@ -125,7 +125,7 @@ class App extends React.PureComponent<Props, State> {
           />
         </header>
         <section className='js--Content'>
-          <Transition animation='glow' duration={500} visible={animated}>
+          <Transition animation='glow' duration={700} visible={animated}>
             <article className='container js--Editor'>
               <Editor
                 code={selected.code}
