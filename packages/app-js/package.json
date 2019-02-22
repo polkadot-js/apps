@@ -14,6 +14,5 @@
     "@polkadot/ui-app": "^0.24.9",
     "@types/react-router-dom": "^4.3.1",
     "codeflask": "1.4.0"
-  },
-  "devDependencies": {}
+  }
 }
