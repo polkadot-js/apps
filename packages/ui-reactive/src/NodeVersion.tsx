@@ -16,7 +16,7 @@ type Props = BareProps & CallProps & {
 
 class NodeVersion extends React.PureComponent<Props> {
   render () {
-    const { children, className, label = '', style, system_version = 'unknown' } = this.props;
+    const { children, className, label = '', style, system_version = '-' } = this.props;
 
     return (
       <div

@@ -6,14 +6,38 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-
+import styled from 'styled-components';
 import { withApi } from '@polkadot/ui-api/with';
 import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/ui-reactive/index';
 
 type Props = ApiProps & BareProps & {};
 
+const Wrapper = styled.div`
+  background: transparent;
+  color: white;
+  font-size: 0.75rem;
+  opacity: 0.5;
+  padding: 0 1.5rem 0 0;
+  text-align: right;
+
+  > div {
+    margin-bottom: -0.125em;
+    > div {
+      display: inline-block;
+    }
+
+    &.spacer {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .rx--updated {
+    background: inherit !important;
+  }
+`;
+
 const HEALTH_POLL = 22500;
-const pkgJson = require('../package.json');
+const pkgJson = require('../../package.json');
 
 class NodeInfo extends React.PureComponent<Props> {
   componentDidMount () {
@@ -33,19 +57,19 @@ class NodeInfo extends React.PureComponent<Props> {
     const uiInfo = `@polkadot/apps v${pkgJson.version}`;
 
     return (
-      <div className='apps--NodeInfo'>
-        <div className='apps--NodeInfo-inline'>
+      <Wrapper>
+        <div>
           <Chain />&nbsp;
           <BestNumber label='#' />
         </div>
-        <div className='apps--NodeInfo-inline'>
+        <div>
           <NodeName />&nbsp;
           <NodeVersion label='v' />
         </div>
         <div className='spacer' />
         <div>{api.libraryInfo}</div>
         <div>{uiInfo}</div>
-      </div>
+      </Wrapper>
     );
   }
 }

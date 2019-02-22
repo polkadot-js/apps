@@ -13,11 +13,10 @@ import { Button, Icon, Menu } from '@polkadot/ui-app/index';
 import routing from '../routing';
 import translate from '../translate';
 import Item from './Item';
+import NodeInfo from './NodeInfo';
 import getLogo from './logos';
 
-type Props = I18nProps & {
-  children?: React.ReactNode
-};
+type Props = I18nProps;
 
 type State = {
   isCollapsed: boolean
@@ -37,7 +36,6 @@ class SideBar extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { children } = this.props;
     const { isCollapsed } = this.state;
 
     return (
@@ -55,7 +53,7 @@ class SideBar extends React.PureComponent<Props, State> {
           {
             isCollapsed
               ? null
-              : children
+              : <NodeInfo />
           }
           {this.renderCollapse()}
         </Menu>
