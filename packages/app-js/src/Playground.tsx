@@ -282,6 +282,7 @@ class Playground extends React.PureComponent<Props, State> {
   private decodeBase64 = (base64: string): string => {
     try {
       const decoded = atob(base64);
+
       return ({
         code: decoded,
         label: { basic: true, children: 'URL', size: 'tiny' },
@@ -305,6 +306,7 @@ class Playground extends React.PureComponent<Props, State> {
     if (base64code !== base64) {
       history.push(path);
     }
+
     this.copyToClipboard(`${window.location.origin}/#${path}`);
   }
 
@@ -318,12 +320,15 @@ class Playground extends React.PureComponent<Props, State> {
     document.body.appendChild(el);
 
     const existingSelection = document.getSelection()!;
+
     const selected = existingSelection && existingSelection.rangeCount > 0
         ? existingSelection.getRangeAt(0)
         : undefined;
+
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
+
     if (selected) {
       existingSelection.removeAllRanges();
       existingSelection.addRange(selected);
