@@ -7,7 +7,6 @@ import { KeyringInstance } from '@polkadot/keyring/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { Log, LogType, Snippet } from './types';
-import { HashRouterProps } from '@types/react-router-dom';
 
 import React from 'react';
 import { withRouter } from 'react-router';
@@ -297,15 +296,16 @@ class Playground extends React.PureComponent<Props, State> {
 
   private generateLink = (): void => {
     const {
-      props: { basePath, history, location, match },
+      props: { history, match: { params: { base64 } } },
       state: { selected: { code } }
     } = this;
     const base64code = btoa(code);
+    const path = `/js/share/${base64code}`;
 
-    if (base64code !== location.hash.substr(1)) {
-      history.push(`${basePath}/share/${base64code}`);
+    if (base64code !== base64) {
+      (history as any).push(path);
     }
-    this.copyToClipboard(`${window.location.origin}/#${location.pathname}/share/${base64code}`);
+    this.copyToClipboard(`${window.location.origin}/#${path}`);
   }
 
   private copyToClipboard = (link: string): void => {
