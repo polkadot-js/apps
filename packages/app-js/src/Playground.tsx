@@ -39,7 +39,13 @@ type Injected = {
   util: typeof util,
   window: null
 };
-type Props = ApiProps & AppProps & I18nProps;
+type Props = ApiProps & AppProps & I18nProps & {
+  match: {
+    params: {
+      base64?: string
+    }
+  }
+};
 type State = {
   animated: boolean,
   customExamples: Array<Snippet>,
