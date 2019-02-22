@@ -39,7 +39,7 @@ type Injected = {
   util: typeof util,
   window: null
 };
-type Props = ApiProps & AppProps & I18nProps & HashRouterProps;
+type Props = ApiProps & AppProps & I18nProps;
 type State = {
   animated: boolean,
   customExamples: Array<Snippet>,
