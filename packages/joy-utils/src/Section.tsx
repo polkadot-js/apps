@@ -2,7 +2,8 @@ import React from 'react';
 import { BareProps } from '@polkadot/ui-app/types';
 
 type Props = BareProps & {
-  title?: string
+  title?: string,
+  level?: number
 };
 
 type State = {};
@@ -12,12 +13,24 @@ export default class Section extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { children, title } = this.props;
+    const { children } = this.props;
     return (
       <section className='JoySection'>
-        {title && <h2 className='JoySection-title'>{title}</h2>}
+        {this.renderTitle()}
         <div>{children}</div>
       </section>
+    );
+  }
+
+  private renderTitle = () => {
+    const { title, level = 2 } = this.props;
+    if (!title) return null;
+
+    const className = 'JoySection-title';
+    return React.createElement(
+      `h${level}`,
+      { className },
+      title
     );
   }
 }
