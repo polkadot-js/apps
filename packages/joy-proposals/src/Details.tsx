@@ -1,6 +1,6 @@
 import BN from 'bn.js';
 import React from 'react';
-import { Table, Segment, Message } from 'semantic-ui-react';
+import { Table, Message } from 'semantic-ui-react';
 
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
@@ -16,6 +16,7 @@ import FilterProps from './FilterProps';
 import { Seat, VoteKind, VoteKinds, Proposal, ProposalVotes, ProposalStatuses as Status } from '@polkadot/joy-utils/types';
 import TxButton from '@polkadot/joy-utils/TxButton';
 import AccountSelector from '@polkadot/joy-utils/AccountSelector';
+import { Link } from 'react-router-dom';
 
 const allVoteKinds = [
   VoteKinds.Approve,
@@ -25,7 +26,8 @@ const allVoteKinds = [
 ];
 
 type Props = ApiProps & I18nProps & FilterProps & {
-  council: Seat[],
+  preview?: boolean,
+  activeCouncil?: Seat[],
   accountId?: string,
   id: BN,
   proposal?: Proposal,
@@ -35,6 +37,7 @@ type Props = ApiProps & I18nProps & FilterProps & {
 };
 
 type State = {
+  preview: boolean,
   accountId?: string
 };
 
@@ -42,8 +45,9 @@ export class Component extends React.PureComponent<Props, State> {
 
   constructor (props: Props) {
     super(props);
-    const { accountId } = this.props;
+    const { preview = false, accountId } = this.props;
     this.state = {
+      preview,
       accountId
     };
   }
@@ -60,9 +64,9 @@ export class Component extends React.PureComponent<Props, State> {
 
   private renderProposal = (proposal: Proposal) => {
     const p = this.props;
-    const { council, votes = [], votingPeriod = ZERO, bestNumber = ZERO } = p;
+    const { activeCouncil = [], votes = [], votingPeriod = ZERO, bestNumber = ZERO } = p;
 
-    const { accountId } = this.state;
+    const { preview, accountId } = this.state;
     const accountAlreadyVoted = votes.length > 0
       && votes.find(([voter]) => voter.eq(accountId)) !== undefined;
 
@@ -70,6 +74,8 @@ export class Component extends React.PureComponent<Props, State> {
     const blocksLeftForVoting = expiresAt.gt(bestNumber)
       ? expiresAt.sub(bestNumber)
       : ZERO;
+
+    const proposalUrl = `/proposals/${proposal.id}`;
 
     // TODO Improve UX: use status to filter proposals:
 
@@ -82,45 +88,46 @@ export class Component extends React.PureComponent<Props, State> {
     // const isSlashed = status === Status.Slashed;
     // const isFinalized = !isActive;
 
-    return <Segment>
-      <div className='item'>
-      <div className='content Proposal'>
+    return <>
+      <h2 className='header'>
+        <span className='Proposal-name' style={{ marginRight: '.25rem' }}>
+          {preview
+            ? <Link to={proposalUrl}>{proposal.name}</Link>
+            : proposal.name
+          }
+        </span>
+        <span style={{ color: '#bbb' }}>
+          {' #'}{formatNumber(proposal.id)}
+        </span>
+      </h2>
 
-        <h3 className='header'>
-          <span className='Proposal-name' style={{ marginRight: '.25rem' }}>
-            {proposal.name + ' '}
-          </span>
-          <span style={{ color: '#bbb' }}>
-            #{formatNumber(proposal.id)}
-          </span>
-        </h3>
-
-        <div style={{ margin: '1rem 0' }}>
-          {this.renderStatus(proposal.status.toString())}
-          <div className='ui basic label'>Votes:
-            <div className='detail'>{votes.length} / {council.length}</div>
-          </div>
-          {isActive && <div className='ui basic label'>Voting ends in:
-            <div className='detail'>{formatNumber(blocksLeftForVoting)}</div>
-          </div>}
-          <div className='ui basic label'>Proposed at block #
-            <div className='detail'>{formatNumber(proposal.proposed_at)}</div>
-          </div>
-          <div className='ui basic label'>Stake:
-            <div className='detail'>{formatBalance(proposal.stake)}</div>
-          </div>
+      <div style={{ margin: '1rem 0' }}>
+        {this.renderStatus(proposal.status.toString())}
+        <div className='ui basic label'>Votes:
+          <div className='detail'>{votes.length} / {activeCouncil.length}</div>
         </div>
-
-        <div style={{ marginTop: '.5rem' }}>
-          <span className='Preview-label'>Hash of runtime upgrade: </span>
-          <code>{proposal.wasm_hash.toString()}</code>
+        {isActive && <div className='ui basic label'>Voting ends in:
+          <div className='detail'>{formatNumber(blocksLeftForVoting)}</div>
+        </div>}
+        <div className='ui basic label'>Proposed at block #
+          <div className='detail'>{formatNumber(proposal.proposed_at)}</div>
         </div>
-
-        <div style={{ marginTop: '.5rem' }}>
-          <span className='Preview-label' style={{ marginRight: '.25rem' }}>Proposer: </span>
-          <AddressMini value={proposal.proposer} isShort={false} isPadded={true} withBalance={true} withName={true} size={36} />
+        <div className='ui basic label'>Stake:
+          <div className='detail'>{formatBalance(proposal.stake)}</div>
         </div>
+      </div>
 
+      <div style={{ marginTop: '.5rem' }}>
+        <span className='Preview-label'>Hash of runtime upgrade: </span>
+        <code>{proposal.wasm_hash.toString()}</code>
+      </div>
+
+      <div style={{ marginTop: '.5rem' }}>
+        <span className='Preview-label' style={{ marginRight: '.25rem' }}>Proposer: </span>
+        <AddressMini value={proposal.proposer} isShort={false} isPadded={true} withBalance={true} withName={true} size={36} />
+      </div>
+
+      {!preview && <div>
         <Section level={3} title='Description' className='Proposal-description'>
           {proposal.description}
         </Section>
@@ -153,9 +160,8 @@ export class Component extends React.PureComponent<Props, State> {
         <Section level={3} title={`Casted votes (${votes.length})`}>
           {votes.length === 0 ? <em>No votes yet.</em> : this.renderVotes(votes)}
         </Section>
-      </div>
-      </div>
-    </Segment>;
+      </div>} {/* End of "if !preview" */}
+    </>;
   }
 
   private renderVotes = (votes: ProposalVotes) => {
@@ -243,6 +249,7 @@ export class Component extends React.PureComponent<Props, State> {
 export default translate(
   withCalls<Props>(
     queryToProp('derive.chain.bestNumber'),
+    queryToProp('query.council.activeCouncil'),
     queryToProp('query.proposals.votingPeriod'),
     ['query.proposals.proposals',
       { paramName: 'id', propName: 'proposal' }],

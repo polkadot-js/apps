@@ -15,6 +15,7 @@ import './index.css';
 import translate from './translate';
 import Dashboard from './Dashboard';
 import Proposals from './Proposals';
+import ProposalById from './ProposalById';
 import NewForm from './NewForm';
 import { queryToProp, ZERO } from '@polkadot/joy-utils/index';
 
@@ -74,6 +75,7 @@ class App extends React.PureComponent<Props, State> {
           <Route path={`${basePath}/active`} component={this.ActiveProposals} />
           <Route path={`${basePath}/finalized`} component={this.FinalizedProposals} />
           <Route path={`${basePath}/new`} component={NewForm} />
+          <Route path={`${basePath}/:id`} component={ProposalById} />
           <Route component={Dashboard} />
         </Switch>
       </main>

@@ -1,5 +1,6 @@
 import BN from 'bn.js';
 import React from 'react';
+import { Segment } from 'semantic-ui-react';
 
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
@@ -55,12 +56,13 @@ export class Component extends React.PureComponent<Props, State> {
         ids.length === 0
           ? <em>No proposals found.</em>
           : ids.map((id, i) =>
-            <Details
-              key={i}
-              id={id}
-              council={activeCouncil}
-              {...this.props}
-            />
+            <Segment className='ProposalPreviews'>
+              <div className='item'>
+                <div className='content Proposal'>
+                  <Details {...this.props} key={i} id={id} preview />
+                </div>
+              </div>
+            </Segment>
           )
       }</Section>
     );

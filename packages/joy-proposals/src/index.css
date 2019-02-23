@@ -1,3 +1,6 @@
+.ProposalPreviews:hover {
+  border: 1px solid #4183c4;
+}
 .Proposal .ui.label {
   background-color: #fcfcfc;
   border: 1px solid #e0e0e0;
