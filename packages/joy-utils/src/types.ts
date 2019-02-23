@@ -2,6 +2,8 @@ import typeRegistry from '@polkadot/types/codec/typeRegistry';
 import { Enum, EnumType, Option } from '@polkadot/types/codec';
 import { BlockNumber, AccountId, Balance, Hash, u32, Text } from '@polkadot/types';
 
+class Amount extends Balance {};
+
 export type TransferableStake = {
   seat: Balance,
   backing: Balance
@@ -128,7 +130,9 @@ export function registerJoystreamTypes () {
       Revealing,
       ElectionStage
     });
-
+    typeRegistry.register({
+      Amount,
+    })
     typeRegistry.register({
       ProposalStatus,
       VoteKind
