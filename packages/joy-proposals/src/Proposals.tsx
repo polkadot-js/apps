@@ -1,32 +1,77 @@
+import BN from 'bn.js';
 import React from 'react';
-import { I18nProps } from '@polkadot/ui-app/types';
 
+import { ApiProps } from '@polkadot/ui-api/types';
+import { I18nProps } from '@polkadot/ui-app/types';
+import { withCalls } from '@polkadot/ui-api/with';
+
+import { queryToProp, ZERO } from '@polkadot/joy-utils/index';
+import { Seat } from '@polkadot/joy-utils/types';
 import Section from '@polkadot/joy-utils/Section';
 import translate from './translate';
-import List from './List';
+import Details from './Details';
+import FilterProps from './FilterProps';
 
-type Props = I18nProps & {
+type Props = ApiProps & I18nProps & FilterProps & {
   title: string,
-  showActive?: boolean,
-  showAccepted?: boolean,
-  showRejected?: boolean,
-  showSlashed?: boolean
+  proposalCount?: BN,
+  activeProposalIds?: BN[],
+  activeCouncil?: Seat[]
 };
 
 type State = {};
 
-export class App extends React.PureComponent<Props, State> {
+export class Component extends React.PureComponent<Props, State> {
 
   state: State = {};
 
   render () {
-    const { title } = this.props;
+    const {
+      title = 'Proposals',
+      showActiveOnly,
+      showFinalizedOnly,
+      proposalCount = ZERO,
+      activeProposalIds = [],
+      activeCouncil = []
+    } = this.props;
+
+    const activeIdsSet = new Set(activeProposalIds.map(x => x.toString()));
+    const ids: BN[] = [];
+    let i: number = proposalCount.toNumber();
+    for (; i > 0; i--) {
+      const id = new BN(i);
+      const isActive = activeIdsSet.has(id.toString());
+      if (
+        isActive && showActiveOnly === true ||
+        !isActive && showFinalizedOnly === true ||
+        showActiveOnly !== true && showFinalizedOnly !== true
+      ) {
+        ids.push(id);
+      }
+    }
+
     return (
-      <Section title={title || 'Proposals'}>
-        <List />
-      </Section>
+      <Section title={title}>{
+        ids.length === 0
+          ? <em>No proposals found.</em>
+          : ids.map((id, i) =>
+            <Details
+              key={i}
+              id={id}
+              council={activeCouncil}
+              {...this.props}
+            />
+          )
+      }</Section>
     );
   }
 }
 
-export default translate(App);
+export default translate(
+  withCalls<Props>(
+    queryToProp('derive.chain.bestNumber'),
+    queryToProp('query.proposals.proposalCount'),
+    queryToProp('query.proposals.activeProposalIds'),
+    queryToProp('query.council.activeCouncil')
+  )(Component)
+);
