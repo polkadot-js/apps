@@ -315,7 +315,11 @@ class Playground extends React.PureComponent<Props, State> {
       history.push(path);
     }
 
-    this.copyToClipboard(`${window.location.origin}/#${path}`);
+    const basePath = window.location.pathname.replace('/', '').length > 0
+      ? `${window.location.origin}/${window.location.pathname.replace('/', '')}`
+      : `${window.location.origin}`;
+
+    this.copyToClipboard(`${basePath}/#${path}`);
   }
 
   private copyToClipboard = (link: string): void => {
