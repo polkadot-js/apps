@@ -13,6 +13,7 @@ type InjectedProps = {
 
 type Props = BareProps & ApiProps & {
   accountId?: string,
+  isPrimary?: boolean,
   isDisabled?: boolean,
   label: React.ReactNode,
   params: Array<any>,
@@ -22,13 +23,13 @@ type Props = BareProps & ApiProps & {
 
 class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
   render () {
-    const { accountId, isDisabled, label, onAfterClick } = this.props;
+    const { accountId, isPrimary = true, isDisabled, label, onAfterClick } = this.props;
 
     return (
       <Button
         {...this.props}
         isDisabled={isDisabled || !accountId}
-        isPrimary
+        isPrimary={isPrimary}
         label={label}
         onClick={() => {
           this.send();
