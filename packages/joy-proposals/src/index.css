@@ -1,0 +1,20 @@
+.ProposalPreviews:hover {
+  border: 1px solid #4183c4;
+}
+.Proposal .ui.label {
+  background-color: #fcfcfc;
+  border: 1px solid #e0e0e0;
+}
+.Proposal-name {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+.Proposal-description {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+}
+.Preview-label {
+  color: #999999;
+  font-size: .9rem;
+  font-weight: 300;
+}

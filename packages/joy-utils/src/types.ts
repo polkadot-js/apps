@@ -32,17 +32,15 @@ export type SealedVote = {
   vote: Option<AccountId>
 };
 
-export type ProposalId = u32;
-
 // Note: this could be named 'RuntimeUpgradeProposal' (as it is in Rust),
 // but not a big deal here in JS.
 export type Proposal = {
-  id: ProposalId,
+  id: u32,
   proposer: AccountId,
   stake: Balance,
   name: Text, // or AnyU8a?
   description: Text,
-  wasm_code: Text,
+  wasm_hash: Hash,
   proposed_at: BlockNumber,
   status: ProposalStatus
 };
@@ -53,7 +51,7 @@ export type ProposalVote = {
 };
 
 export type TallyResult = {
-  proposal_id: ProposalId,
+  proposal_id: u32,
   abstentions: u32,
   approvals: u32,
   rejections: u32,
@@ -97,10 +95,19 @@ export class ElectionStage extends EnumType<Announcing | Voting | Revealing> {
 
 export type AnyElectionStage = Announcing | Voting | Revealing;
 
+export const ProposalStatuses: { [key: string ]: string } = {
+  Active:    'Active',
+  Cancelled: 'Cancelled',
+  Expired:   'Expired',
+  Approved:  'Approved',
+  Rejected:  'Rejected',
+  Slashed:   'Slashed'
+};
+
 export class ProposalStatus extends Enum {
   constructor (value?: any) {
     super([
-      'Pending', // TODO rename to 'Active'
+      'Active',
       'Cancelled',
       'Expired',
       'Approved',
@@ -109,6 +116,13 @@ export class ProposalStatus extends Enum {
     ], value);
   }
 }
+
+export const VoteKinds: { [key: string ]: string } = {
+  Abstain: 'Abstain',
+  Approve: 'Approve',
+  Reject:  'Reject',
+  Slash:   'Slash'
+};
 
 export class VoteKind extends Enum {
   constructor (value?: any) {
@@ -120,6 +134,8 @@ export class VoteKind extends Enum {
     ], value);
   }
 }
+
+export type ProposalVotes = [AccountId, VoteKind][];
 
 export function registerJoystreamTypes () {
   try {
@@ -139,7 +155,6 @@ export function registerJoystreamTypes () {
     });
 
     typeRegistry.register({
-      'Id': 'AccountId',
       'Stake': {
         'new': 'Balance',
         'transferred': 'Balance'
@@ -164,19 +179,18 @@ export function registerJoystreamTypes () {
         'seat': 'Balance',
         'backing': 'Balance'
       },
-      'ProposalId': 'u32',
       'RuntimeUpgradeProposal': {
-        'id': 'ProposalId',
+        'id': 'u32',
         'proposer': 'AccountId',
         'stake': 'Balance',
-        'name': 'Vec<u8>',
-        'description': 'Vec<u8>',
-        'wasm_code': 'Vec<u8>',
+        'name': 'Text',
+        'description': 'Text',
+        'wasm_hash': 'Hash',
         'proposed_at': 'BlockNumber',
         'status': 'ProposalStatus'
       },
       'TallyResult': {
-        'proposal_id': 'ProposalId',
+        'proposal_id': 'u32',
         'abstentions': 'u32',
         'approvals': 'u32',
         'rejections': 'u32',

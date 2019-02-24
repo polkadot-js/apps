@@ -42,15 +42,15 @@ class App extends React.PureComponent<Props, State> {
       },
       {
         name: 'members',
-        text: `Council members (${activeCouncil.length})`
+        text: t(`Council members`) + ` (${activeCouncil.length})`
       },
       {
         name: 'applicants',
-        text: `Applicants (${applicants.length})`
+        text: t(`Applicants`) + ` (${applicants.length})`
       },
       {
         name: 'votes',
-        text: `Votes (${commitments.length})`
+        text: t(`Votes`) + ` (${commitments.length})`
       },
       {
         name: 'reveals',
