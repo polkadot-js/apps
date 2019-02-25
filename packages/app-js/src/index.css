@@ -64,7 +64,6 @@
 
   .codeflask--has-line-numbers .codeflask__flatten {
     font-size: 12px;
-    height: 99.99%;
     line-height: 18px;
     min-width: calc(100% - 40px);
     width: auto;

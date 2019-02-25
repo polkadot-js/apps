@@ -17,12 +17,10 @@ class AppJs extends React.PureComponent<Props> {
     const { basePath } = this.props;
 
     return (
-      <main className='js--App'>
-        <Switch>
-          <Route path={`${basePath}/share/:base64`} component={Playground} />
-          <Route component={Playground} />
-        </Switch>
-      </main>
+      <Switch>
+        <Route path={`${basePath}/share/:base64`} component={Playground} />
+        <Route component={Playground} />
+      </Switch>
     );
   }
 }
