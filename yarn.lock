@@ -11974,6 +11974,11 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
+snappyjs@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/snappyjs/-/snappyjs-0.6.0.tgz#2bd550e5767fb1bc28140bf8d53bf9590576a386"
+  integrity sha512-VTBBV4C9SHLuNEw8qrxw3EnkYmzwe8ml5VA8zS6XChr/yQ/CEDobofC6j4S25QJQR0htRGD68Oh4TZxv/mpf7w==
+
 sntp@1.x.x:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/sntp/-/sntp-1.0.9.tgz#6541184cc90aeea6c6e7b35e2659082443c66198"

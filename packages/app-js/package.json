@@ -12,6 +12,7 @@
   "dependencies": {
     "@babel/runtime": "^7.2.0",
     "@polkadot/ui-app": "^0.24.15",
-    "codeflask": "1.4.0"
+    "codeflask": "1.4.0",
+    "snappyjs": "^0.6.0"
   }
 }

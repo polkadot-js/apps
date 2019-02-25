@@ -11,6 +11,7 @@ import { Log, LogType, Snippet } from './types';
 import React from 'react';
 import { withRouter } from 'react-router';
 import { Transition } from 'semantic-ui-react';
+import snappy from 'snappyjs';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { Button, Dropdown } from '@polkadot/ui-app/index';
 import uiKeyring from '@polkadot/ui-keyring';
@@ -92,6 +93,7 @@ class Playground extends React.PureComponent<Props, State> {
       selectedValue: localStorage.getItem(STORE_SELECTED)
     };
     const customExamples = localData.examples ? JSON.parse(localData.examples) : [];
+
     const options: Array<Snippet> = sharedExample
       ? [sharedExample, ...customExamples, ...this.snippets]
       : [...customExamples, ...this.snippets];
@@ -288,19 +290,34 @@ class Playground extends React.PureComponent<Props, State> {
   }
 
   private decodeBase64 = (base64: string) => {
-    try {
-      const decoded = atob(base64);
+    const sharedExample = {
+      code: '',
+      label: { basic: true, children: 'URL', size: 'tiny' },
+      text: 'Shared code example (unsaved)',
+      type: 'shared',
+      value: `custom-${Date.now()}`
+    } as Snippet;
 
-      return ({
-        code: decoded,
-        label: { basic: true, children: 'URL', size: 'tiny' },
-        text: 'Shared code example (unsaved)',
-        type: 'shared',
-        value: `custom-${Date.now()}`
+    try {
+      const compStr = atob(base64);
+      const compU8a = new Uint8Array(compStr.length);
+
+      compU8a.forEach((_, i) => {
+        compU8a[i] = compStr.charCodeAt(i);
       });
-    } catch (e) {
-      return undefined;
+
+      const u8a = snappy.uncompress(compU8a);
+      const code = util.u8aToString(u8a);
+
+      sharedExample.code = code;
+    } catch (error) {
+      const errorMessage = this.props.t('ERROR: Unable to decode code example from URL');
+
+      console.error(`${errorMessage}: \n${error}`);
+      sharedExample.code = `// ${errorMessage}`;
     }
+
+    return sharedExample;
   }
 
   private generateLink = (): void => {
@@ -308,7 +325,14 @@ class Playground extends React.PureComponent<Props, State> {
       props: { history, match: { params: { base64 } } },
       state: { selected: { code } }
     } = this;
-    const base64code = btoa(code);
+
+    const u8a = util.stringToU8a(code);
+    const compU8a = snappy.compress(u8a);
+    const compStr = compU8a.reduce((str: string, ch: number) => {
+      return str + String.fromCharCode(ch);
+    }, '');
+
+    const base64code = btoa(compStr);
     const path = `/js/share/${base64code}`;
 
     if (base64code !== base64) {
