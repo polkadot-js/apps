@@ -328,7 +328,7 @@ class Playground extends React.PureComponent<Props, State> {
 
     const u8a = util.stringToU8a(code);
     const compU8a = snappy.compress(u8a);
-    const compStr = compU8a.reduce((str, ch) => {
+    const compStr = compU8a.reduce((str: string, ch: number) => {
       return str + String.fromCharCode(ch);
     }, '');
 
