@@ -98,7 +98,8 @@ class Restore extends React.PureComponent<Props, State> {
       const isFileValid = keyring.decodeAddress(json.address).length === 32 &&
         isHex(json.encoded) &&
         isObject(json.meta) &&
-        json.encoding.content === 'pkcs8';
+        json.encoding.content[0] === 'pkcs8' &&
+        json.encoding.content[1] === 'ed25519';
 
       this.setState({
         isFileValid,
