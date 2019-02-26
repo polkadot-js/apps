@@ -16,7 +16,7 @@
   },
   "scripts": {
     "analyze": "yarn run build && cd packages/apps && yarn run source-map-explorer build/main.*.js",
-    "build": "polkadot-dev-build-ts",
+    "build": "NODE_ENV=production polkadot-dev-build-ts",
     "check": "tslint --project . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.3.3",
-    "@polkadot/dev-react": "^0.24.6",
+    "@polkadot/dev-react": "^0.25.4",
     "@polkadot/ts": "^0.1.53",
     "autoprefixer": "^9.4.8",
     "empty": "^0.10.1",
