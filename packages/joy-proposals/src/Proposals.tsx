@@ -32,8 +32,7 @@ export class Component extends React.PureComponent<Props, State> {
       showActiveOnly,
       showFinalizedOnly,
       proposalCount = ZERO,
-      activeProposalIds = [],
-      activeCouncil = []
+      activeProposalIds = []
     } = this.props;
 
     const activeIdsSet = new Set(activeProposalIds.map(x => x.toString()));
