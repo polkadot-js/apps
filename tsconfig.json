@@ -1,5 +1,8 @@
 {
   "extends": "./node_modules/@polkadot/dev/config/tsconfig",
+  "exclude": [
+    "patches"
+  ],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
