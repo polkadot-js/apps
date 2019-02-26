@@ -7,7 +7,9 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import './SideBar.css';
 
 import React from 'react';
+import { withRouter } from 'react-router';
 import store from 'store';
+import { withMulti } from '@polkadot/ui-api/index';
 import { Button, Icon, Menu } from '@polkadot/ui-app/index';
 
 import routing from '../routing';
@@ -148,4 +150,8 @@ class SideBar extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(SideBar);
+export default withMulti(
+  SideBar,
+  translate,
+  withRouter
+);
