@@ -12,22 +12,22 @@
   "resolutions": {
     "babel-core": "^7.0.0-bridge.0",
     "rxjs": "^6.4.0",
-    "typescript": "^3.3.3"
+    "typescript": "^3.3.3333"
   },
   "scripts": {
     "analyze": "yarn run build && cd packages/apps && yarn run source-map-explorer build/main.*.js",
-    "build": "polkadot-dev-build-ts",
+    "build": "NODE_ENV=production polkadot-dev-build-ts",
     "check": "tslint --project . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "echo \"skipping tests\"",
     "deploy:ghpages": "gh-pages --dist packages/apps/build --remove locales,static,*.css,*.js,*.json,*.map,*.md",
     "vanitygen": "node packages/app-accounts/scripts/vanitygen.js",
-    "start": "cd packages/apps && webpack-serve --config webpack.config.js --port 3000"
+    "start": "cd packages/apps && webpack --config webpack.config.js"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@polkadot/dev-react": "^0.24.2",
+    "@babel/core": "^7.3.3",
+    "@polkadot/dev-react": "^0.25.4",
     "@polkadot/ts": "^0.1.53",
     "autoprefixer": "^9.4.8",
     "empty": "^0.10.1",

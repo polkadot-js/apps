@@ -9,6 +9,7 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { WebpackPluginServe } = require('webpack-plugin-serve');
 
 const packages = [
   'app-accounts',
@@ -46,7 +47,12 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
   return {
     context,
     devtool: isProd ? 'source-map' : 'cheap-eval-source-map',
-    entry: `./src/${name}.tsx`,
+    entry: [
+      `./src/${name}.tsx`,
+      isProd
+        ? null
+        : 'webpack-plugin-serve/client'
+    ].filter((entry) => entry),
     mode: ENV,
     output: {
       chunkFilename: `[name].[chunkhash:8].js`,
@@ -172,6 +178,12 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       hints: false
     },
     plugins: plugins.concat([
+      isProd
+        ? null
+        : new WebpackPluginServe({
+          port: 3000,
+          static: path.join(process.cwd(), '/build')
+        }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.DefinePlugin({
         'process.env': {
@@ -193,7 +205,8 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       new MiniCssExtractPlugin({
         filename: `[name].[contenthash:8].css`
       })
-    ])
+    ]).filter((entry) => entry),
+    watch: !isProd
   };
 }
 

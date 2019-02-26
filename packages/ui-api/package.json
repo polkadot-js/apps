@@ -31,8 +31,8 @@
   "homepage": "https://github.com/polkadot-js/ui/tree/master/packages/ui-reactive#readme",
   "dependencies": {
     "@babel/runtime": "^7.2.0",
-    "@polkadot/api": "^0.45.12",
-    "@polkadot/ui-util": "^0.28.1",
+    "@polkadot/api": "^0.45.15",
+    "@polkadot/ui-util": "^0.28.3",
     "rxjs-compat": "^6.3.2"
   }
 }
