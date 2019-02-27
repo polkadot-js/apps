@@ -1,0 +1,11 @@
+.JoyTopBar {
+  /* padding: .5rem 1rem; */
+  padding: .5rem 2rem;
+  background-color: #009688;
+  color: #fff;
+
+  &.NoMyAddress {
+    background-color: #ffe03b;
+    color: #000;
+  }
+}

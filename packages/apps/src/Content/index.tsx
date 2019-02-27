@@ -17,6 +17,7 @@ import Status from '../Status';
 import routing from '../routing';
 import translate from '../translate';
 import NotFound from './NotFound';
+import TopBar from '../TopBar';
 
 type Props = I18nProps & ApiProps & {
   location: Location
@@ -51,6 +52,7 @@ class Content extends React.Component<Props> {
         <QueueConsumer>
           {({ queueAction, stqueue, txqueue }: QueueProps) => (
             <>
+              <TopBar />
               <Component
                 basePath={`/${name}`}
                 location={location}
