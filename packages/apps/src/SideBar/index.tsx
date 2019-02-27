@@ -49,6 +49,7 @@ class SideBar extends React.PureComponent<Props, State> {
           {this.renderJoystreamLogo()}
           {this.renderRoutes()}
           <Menu.Divider hidden />
+          {this.renderFaucet()}
           {/* {this.renderGithub()} */}
           {/* {this.renderWiki()} */}
           <Menu.Divider hidden />
@@ -134,6 +135,20 @@ class SideBar extends React.PureComponent<Props, State> {
           />
         )
     ));
+  }
+
+  private renderFaucet () {
+    return (
+      <Menu.Item className='apps--SideBar-Item'>
+        <a
+          className='apps--SideBar-Item-NavLink'
+          href='https://sparta.joystream.org/faucet'
+          target='_blank'
+        >
+          <Icon name='circle outline' /><span className='text'>Free Tokens</span>
+        </a>
+      </Menu.Item>
+    );
   }
 
   // @ts-ignore is declared but its value is never read
