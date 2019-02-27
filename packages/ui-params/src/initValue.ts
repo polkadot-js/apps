@@ -35,7 +35,6 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     case 'PropIndex':
     case 'ProposalIndex':
     case 'ReferendumIndex':
-    case 'SessionKey':
     case 'u32':
     case 'u64':
     case 'u128':
@@ -76,6 +75,7 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     case 'MisbehaviorReport':
     case 'Proposal':
     case 'Signature':
+    case 'SessionKey':
       return void 0;
 
     default: {

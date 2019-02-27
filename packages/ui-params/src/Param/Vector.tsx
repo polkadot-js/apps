@@ -130,8 +130,8 @@ class Vector extends React.PureComponent<Props, State> {
   }
 
   private rowAdd = (): void => {
-    this.setState(({ values }: State, { type }: Props) => {
-      const value = getInitValue(type);
+    this.setState(({ values }: State, { type: { sub } }: Props) => {
+      const value = getInitValue(sub as TypeDef);
 
       return {
         values: values.concat({
