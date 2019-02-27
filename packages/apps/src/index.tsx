@@ -12,7 +12,7 @@ import { typeRegistry } from '@polkadot/types';
 import createApp from '@polkadot/ui-app/index';
 import { classes } from '@polkadot/ui-app/util';
 import Signer from '@polkadot/ui-signer/index';
-import settings from '@polkadot/ui-settings';
+import settings from '@polkadot/joy-settings/index';
 
 import Connecting from './Connecting';
 import Content from './Content';

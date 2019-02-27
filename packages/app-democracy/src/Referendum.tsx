@@ -13,7 +13,7 @@ import { Chart, Static } from '@polkadot/ui-app/index';
 import VoteThreshold from '@polkadot/ui-params/Param/VoteThreshold';
 import { withCalls } from '@polkadot/ui-api/index';
 import { formatBalance, formatNumber } from '@polkadot/ui-app/util/index';
-import settings from '@polkadot/ui-settings';
+import settings from '@polkadot/joy-settings/index';
 
 import Item from './Item';
 import Voting from './Voting';

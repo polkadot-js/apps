@@ -1,0 +1,16 @@
+{
+  "name": "@polkadot/joy-settings",
+  "version": "1.0.0",
+  "description": "Manages app settings",
+  "main": "index.js",
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [
+    "Jaco Greeff <jacogr@gmail.com>"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@babel/runtime": "^7.3.1",
+    "@types/store": "^2.0.1",
+    "store": "^2.0.12"
+  }
+}
