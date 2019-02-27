@@ -4,7 +4,7 @@
 
 import { Routing, Routes } from '../types';
 
-import appSettings from '@polkadot/ui-settings';
+import appSettings from '@polkadot/joy-settings/index';
 
 import election from './joy-election';
 import proposals from './joy-proposals';

@@ -6,7 +6,7 @@ import polkadotLogo from '@polkadot/ui-assets/polkadot-white.svg';
 import polkadotSmall from '@polkadot/ui-assets/notext-polkadot.svg';
 import substrateLogo from '@polkadot/ui-assets/parity-substrate-white.svg';
 import substrateSmall from '@polkadot/ui-assets/notext-parity-substrate-white.svg';
-import settings from '@polkadot/ui-settings';
+import settings from '@polkadot/joy-settings/index';
 
 type LogoMap = Map<string, any>;
 
