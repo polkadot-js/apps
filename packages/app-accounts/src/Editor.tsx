@@ -9,7 +9,7 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { AddressSummary, Button, Input, InputAddress } from '@polkadot/ui-app/index';
+import { AddressSummary, Button, Input, InputAddress, Labelled } from '@polkadot/ui-app/index';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './Backup';
@@ -106,6 +106,7 @@ class Editor extends React.PureComponent<Props, State> {
         <AddressSummary
           className='shrink'
           value={address || ''}
+          showFaucet={true}
         />
         <div className='grow'>
           <div className='ui--row'>
@@ -128,6 +129,9 @@ class Editor extends React.PureComponent<Props, State> {
               value={editedName}
             />
           </div>
+          <Labelled label='address:' style={{ marginTop: '.5rem' }}>
+            <code>{address}</code>
+          </Labelled>
         </div>
       </div>
     );
