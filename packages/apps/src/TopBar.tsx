@@ -20,7 +20,7 @@ class Component extends React.PureComponent<Props, State> {
     return <div className='JoyTopBar'>
       <span style={marginRight}>My account: </span>
       <AddressMini value={address} isShort={false} isPadded={false} withBalance={true} withName={true} size={36} style={marginRight} />
-      <Link className='ui small button green' to='/accounts'>Change account</Link>
+      <Link className='ui small button inverted' to='/accounts'>Change account</Link>
     </div>;
   }
 
