@@ -95,11 +95,11 @@ class Restore extends React.PureComponent<Props, State> {
   private onChangeFile = (file: Uint8Array): void => {
     try {
       const json = JSON.parse(u8aToString(file));
-      const isFileValid = keyring.decodeAddress(json.address).length === 32 &&
-        isHex(json.encoded) &&
-        isObject(json.meta) &&
-        json.encoding.content[0] === 'pkcs8' &&
-        json.encoding.content[1] === 'ed25519';
+      const isFileValid = keyring.decodeAddress(json.address).length === 32 && isHex(json.encoded) && isObject(json.meta) && (
+        Array.isArray(json.encoding.content)
+          ? json.encoding.content[0] === 'pkcs8'
+          : json.encoding.content === 'pkcs8'
+      );
 
       this.setState({
         isFileValid,
