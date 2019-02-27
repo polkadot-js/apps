@@ -13,7 +13,7 @@ export default ([
       needsApi: []
     },
     i18n: {
-      defaultValue: 'Addresses'
+      defaultValue: 'Address Book'
     },
     icon: 'address book',
     name: 'addresses'
