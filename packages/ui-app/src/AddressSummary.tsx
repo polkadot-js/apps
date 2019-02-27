@@ -21,6 +21,7 @@ export type Props = I18nProps & {
   children?: React.ReactNode,
   name?: string,
   value: AccountId | AccountIndex | Address | string | null,
+  showFaucet?: boolean,
   withBalance?: boolean,
   withIndex?: boolean,
   identIconSize?: number,
@@ -50,6 +51,7 @@ class AddressSummary extends React.PureComponent<Props> {
           {this.renderAccountIndex()}
           {this.renderBalance()}
           {this.renderNonce()}
+          {this.renderFaucet()}
         </div>
         {this.renderChildren()}
       </div>
@@ -168,6 +170,12 @@ class AddressSummary extends React.PureComponent<Props> {
         value={value ? value.toString() : DEFAULT_ADDR}
       />
     );
+  }
+
+  protected renderFaucet () {
+    const { showFaucet = false, value } = this.props;
+    const url = 'https://sparta.joystream.org/faucet' + (value ? `?address=${value}` : '');
+    return showFaucet ? <a href={url} target='_blank'>Get free tokens</a> : null;
   }
 
   protected renderNonce () {
