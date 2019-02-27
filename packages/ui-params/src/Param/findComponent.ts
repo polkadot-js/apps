@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo } from '@polkadot/types';
+import { TypeDef, TypeDefInfo, UInt, createType } from '@polkadot/types';
 import { Props, ComponentMap } from '../types';
 
 import Account from './Account';
@@ -72,5 +72,15 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
     }
   })(def);
 
-  return overrides[type] || components[type] || Unknown;
+  let Component = overrides[type] || components[type];
+
+  if (!Component) {
+    const instance = createType(type);
+
+    if (instance instanceof UInt) {
+      return Amount;
+    }
+  }
+
+  return Component || Unknown;
 }

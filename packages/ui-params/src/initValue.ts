@@ -5,7 +5,7 @@
 import { RawParam$Value } from './types';
 
 import BN from 'bn.js';
-import { Bytes, Hash, TypeDef, TypeDefInfo } from '@polkadot/types';
+import { Bytes, Hash, TypeDef, TypeDefInfo, UInt, createType } from '@polkadot/types';
 
 export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawParam$Value> {
   if (def.info === TypeDefInfo.Vector) {
@@ -78,8 +78,15 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     case 'Signature':
       return void 0;
 
-    default:
+    default: {
+      const instance = createType(type);
+
+      if (instance instanceof UInt) {
+        return new BN(0);
+      }
+
       console.error(`Unable to determine default type for ${JSON.stringify(def)}`);
       return void 0;
+    }
   }
 }
