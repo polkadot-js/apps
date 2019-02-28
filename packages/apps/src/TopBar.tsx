@@ -4,7 +4,6 @@ import { Subscribe } from 'unstated';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { MyAccountContainer } from '@polkadot/joy-utils/MyAccount';
 import AddressMini from '@polkadot/ui-app/AddressMiniJoy';
-import { nonEmptyStr } from '@polkadot/joy-utils/index';
 import translate from './translate';
 import './TopBar.css';
 
