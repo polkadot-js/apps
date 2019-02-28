@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-js",
-  "version": "0.24.21",
+  "version": "0.24.22",
   "description": "A simple JavaScript console for playing with the API",
   "main": "index.js",
   "scripts": {},
@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.3.4",
-    "@polkadot/ui-app": "^0.24.21",
+    "@polkadot/ui-app": "^0.24.22",
     "codeflask": "1.4.0",
     "snappyjs": "^0.6.0"
   }
