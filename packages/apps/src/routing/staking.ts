@@ -15,7 +15,7 @@ export default ([
       ]
     },
     i18n: {
-      defaultValue: 'Staking'
+      defaultValue: 'Validators'
     },
     icon: 'certificate',
     name: 'staking'

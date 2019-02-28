@@ -13,6 +13,7 @@ import createApp from '@polkadot/ui-app/index';
 import { classes } from '@polkadot/ui-app/util';
 import Signer from '@polkadot/ui-signer/index';
 import settings from '@polkadot/joy-settings/index';
+import { Provider } from 'unstated';
 
 import Connecting from './Connecting';
 import Content from './Content';
@@ -23,6 +24,7 @@ type Props = BareProps & {};
 
 function App (props: Props) {
   return (
+    <Provider>
     <div className={classes(`theme--${settings.uiTheme}`, 'apps--App')}>
       <SideBar>
         <NodeInfo />
@@ -32,6 +34,7 @@ function App (props: Props) {
       </Signer>
       <Connecting />
     </div>
+    </Provider>
   );
 }
 

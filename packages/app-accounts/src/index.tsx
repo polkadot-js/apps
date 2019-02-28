@@ -46,7 +46,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
       tabs: [
         {
           name: 'edit',
-          text: t('Edit account')
+          text: t('Default account')
         },
         {
           hasParams: true,

@@ -2,24 +2,6 @@ import BN from 'bn.js';
 
 export const ZERO = new BN(0);
 
-// Keyring stuff:
-// --------------------------------------
-
-import keyring from '@polkadot/ui-keyring';
-
-export function findNameByAddress (address: string): string | undefined {
-  try {
-    return keyring.getAccount(address).getMeta().name;
-  } catch (error) {
-    try {
-      return keyring.getAddress(address).getMeta().name;
-    } catch (error) {
-      // ok, we don't have account or address
-      return undefined;
-    }
-  }
-}
-
 // String, Numbers, Object
 // --------------------------------------
 
@@ -58,6 +40,28 @@ export const parseNumStr = (num: string): number | undefined => {
 
 export const nonEmptyArr = (x: any): boolean =>
   Array.isArray(x) && x.length > 0;
+
+// Keyring stuff:
+// --------------------------------------
+
+import keyring from '@polkadot/ui-keyring';
+
+export function findNameByAddress (address: string): string | undefined {
+  try {
+    return keyring.getAccount(address).getMeta().name;
+  } catch (error) {
+    try {
+      return keyring.getAddress(address).getMeta().name;
+    } catch (error) {
+      // ok, we don't have account or address
+      return undefined;
+    }
+  }
+}
+
+export function isKnownAddress (address: string): boolean {
+  return isDefined(findNameByAddress(address));
+}
 
 // Joystream Stake utils
 // --------------------------------------

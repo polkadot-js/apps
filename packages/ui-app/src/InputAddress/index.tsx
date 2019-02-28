@@ -17,6 +17,8 @@ import { withMulti, withObservable } from '@polkadot/ui-api/index';
 import Dropdown from '../Dropdown';
 import classes from '../util/classes';
 import addressToAddress from '../util/toAddress';
+import { MyAccountContainer } from '@polkadot/joy-utils/MyAccount';
+import { Subscribe } from 'unstated';
 
 type Props = BareProps & {
   defaultValue?: string | null,
@@ -131,6 +133,7 @@ class InputAddress extends React.PureComponent<Props, State> {
       );
 
     return (
+      <Subscribe to={[ MyAccountContainer ]}>{(me: MyAccountContainer) =>
       <Dropdown
         className={classes('ui--InputAddress', hideAddress ? 'flag--hideAddress' : '', className)}
         defaultValue={
@@ -141,7 +144,7 @@ class InputAddress extends React.PureComponent<Props, State> {
         isDisabled={isDisabled}
         isError={isError}
         label={label}
-        onChange={this.onChange}
+        onChange={this.onChange(me)}
         onSearch={this.onSearch}
         options={
           isDisabled && actualValue
@@ -152,6 +155,7 @@ class InputAddress extends React.PureComponent<Props, State> {
         value={value}
         withLabel={withLabel}
       />
+      }</Subscribe>
     );
   }
 
@@ -183,12 +187,17 @@ class InputAddress extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChange = (address: string) => {
-    const { onChange, type } = this.props;
+  private onChange = (me: MyAccountContainer) => {
+    return (address: string) => {
+      const { onChange, type } = this.props;
 
-    InputAddress.setLastValue(type, address);
+      InputAddress.setLastValue(type, address);
+      if (type === 'account') {
+        me.setAddress(address);
+      }
 
-    onChange && onChange(transformToAccountId(address));
+      onChange && onChange(transformToAccountId(address));
+    };
   }
 
   private onSearch = (filteredOptions: KeyringSectionOptions, _query: string): KeyringSectionOptions => {

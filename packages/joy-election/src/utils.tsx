@@ -37,7 +37,7 @@ import { blake2AsHex } from '@polkadot/util-crypto';
 /** hash(accountId + salt) */
 export const hashVote = (accountId?: string, salt?: string): string | undefined => {
   if (!accountId || !salt) {
-    console.log('Cannot hash a vote: either accountId or salt is undefined', { accountId, salt });
+    // console.log('Cannot hash a vote: either accountId or salt is undefined', { accountId, salt });
     return undefined;
   }
 

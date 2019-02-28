@@ -6,12 +6,13 @@ import { Button } from '@polkadot/ui-app/index';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 import { withApi } from '@polkadot/ui-api/index';
 import { assert } from '@polkadot/util';
+import { withMyAccount, MyAccountProps } from '@polkadot/joy-utils/MyAccount';
 
 type InjectedProps = {
   queueExtrinsic: QueueTx$ExtrinsicAdd;
 };
 
-type Props = BareProps & ApiProps & {
+type Props = BareProps & ApiProps & MyAccountProps & {
   accountId?: string,
   isPrimary?: boolean,
   isDisabled?: boolean,
@@ -23,12 +24,13 @@ type Props = BareProps & ApiProps & {
 
 class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
   render () {
-    const { accountId, isPrimary = true, isDisabled, label, onAfterClick } = this.props;
+    const { myAddress, accountId, isPrimary = true, isDisabled, label, onAfterClick } = this.props;
+    const origin = accountId || myAddress;
 
     return (
       <Button
         {...this.props}
-        isDisabled={isDisabled || !accountId}
+        isDisabled={isDisabled || !origin}
         isPrimary={isPrimary}
         label={label}
         onClick={() => {
@@ -42,13 +44,14 @@ class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
   }
 
   private send = (): void => {
-    const { accountId, api, params, queueExtrinsic, tx } = this.props;
+    const { myAddress, accountId, api, params, queueExtrinsic, tx } = this.props;
+    const origin = accountId || myAddress;
     const [section, method] = tx.split('.');
 
     assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
 
     queueExtrinsic({
-      accountId,
+      accountId: origin,
       extrinsic: api.tx[section][method](...params) as any // ???
     });
   }
@@ -69,4 +72,4 @@ class TxButton extends React.PureComponent<Props> {
   }
 }
 
-export default withApi(TxButton);
+export default withApi(withMyAccount(TxButton));

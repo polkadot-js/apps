@@ -15,7 +15,7 @@ import translate from './translate';
 import FilterProps from './FilterProps';
 import { Seat, VoteKind, VoteKinds, Proposal, ProposalVotes, ProposalStatuses as Status } from '@polkadot/joy-utils/types';
 import TxButton from '@polkadot/joy-utils/TxButton';
-import AccountSelector from '@polkadot/joy-utils/AccountSelector';
+import { MyAccountProps, withMyAccount } from '@polkadot/joy-utils/MyAccount';
 import { Link } from 'react-router-dom';
 
 const allVoteKinds = [
@@ -25,10 +25,9 @@ const allVoteKinds = [
   VoteKinds.Abstain
 ];
 
-type Props = ApiProps & I18nProps & FilterProps & {
+type Props = ApiProps & I18nProps & FilterProps & MyAccountProps & {
   preview?: boolean,
   activeCouncil?: Seat[],
-  accountId?: string,
   id: BN,
   proposal?: Proposal,
   votes?: ProposalVotes,
@@ -37,23 +36,17 @@ type Props = ApiProps & I18nProps & FilterProps & {
 };
 
 type State = {
-  preview: boolean,
-  accountId?: string
+  preview: boolean
 };
 
 export class Component extends React.PureComponent<Props, State> {
 
   constructor (props: Props) {
     super(props);
-    const { preview = false, accountId } = this.props;
+    const { preview = false } = this.props;
     this.state = {
-      preview,
-      accountId
+      preview
     };
-  }
-
-  private onChangeAccount = (accountId?: string) => {
-    this.setState({ accountId });
   }
 
   render () {
@@ -64,11 +57,11 @@ export class Component extends React.PureComponent<Props, State> {
 
   private renderProposal = (proposal: Proposal) => {
     const p = this.props;
-    const { activeCouncil = [], votes = [], votingPeriod = ZERO, bestNumber = ZERO } = p;
+    const { myAddress, activeCouncil = [], votes = [], votingPeriod = ZERO, bestNumber = ZERO } = p;
 
-    const { preview, accountId } = this.state;
+    const { preview } = this.state;
     const accountAlreadyVoted = votes.length > 0
-      && votes.find(([voter]) => voter.eq(accountId)) !== undefined;
+      && votes.find(([voter]) => voter.eq(myAddress)) !== undefined;
 
     const expiresAt = proposal.proposed_at.add(votingPeriod);
     const blocksLeftForVoting = expiresAt.gt(bestNumber)
@@ -138,7 +131,6 @@ export class Component extends React.PureComponent<Props, State> {
         </div> */}
 
         <Section level={3} title='Vote on this proposal'>
-          <AccountSelector onChange={this.onChangeAccount} />
           <Labelled style={{ marginTop: '.5rem' }}>
             {accountAlreadyVoted
               ? <Message compact info size='tiny' content='Selected account already voted on this proposal.' />
@@ -148,7 +140,6 @@ export class Component extends React.PureComponent<Props, State> {
                 return <TxButton
                   isPrimary={false}
                   className={color}
-                  accountId={accountId}
                   label={<><i className={`${icon} icon`}></i>{voteKind}</>}
                   params={[proposal.id, new VoteKind(voteKind)]}
                   tx='proposals.voteOnProposal'
@@ -255,5 +246,5 @@ export default translate(
       { paramName: 'id', propName: 'proposal' }],
     ['query.proposals.votesByProposal',
       { paramName: 'id', propName: 'votes' }]
-  )(Component)
+  )(withMyAccount(Component))
 );
