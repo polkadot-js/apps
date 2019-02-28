@@ -17,6 +17,7 @@ const packages = [
   'joy-election',
   'joy-proposals',
   'joy-utils',
+  'joy-settings',
 
   // Polkadot apps:
 
@@ -39,9 +40,7 @@ const packages = [
   'ui-signer'
 ];
 
-const DEFAULT_THEME = process.env.TRAVIS_BRANCH === 'next'
-  ? 'substrate'
-  : 'polkadot';
+const DEFAULT_THEME = 'substrate';
 
 function createWebpack ({ alias = {}, context, name = 'index' }) {
   const pkgJson = require(path.join(context, 'package.json'));
@@ -186,7 +185,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
         'process.env': {
           NODE_ENV: JSON.stringify(ENV),
           VERSION: JSON.stringify(pkgJson.version),
-          UI_MODE: JSON.stringify(process.env.UI_MODE || 'full'),
+          UI_MODE: JSON.stringify(process.env.UI_MODE || 'light'),
           UI_THEME: JSON.stringify(process.env.UI_THEME || DEFAULT_THEME),
           WS_URL: JSON.stringify(process.env.WS_URL)
         }

@@ -9,7 +9,8 @@
       "@polkadot/joy-election/*": [ "packages/joy-election/src/*" ],
       "@polkadot/joy-proposals/*": [ "packages/joy-proposals/src/*" ],
       "@polkadot/joy-utils/*": [ "packages/joy-utils/src/*" ],
-      
+      "@polkadot/joy-settings/*": [ "packages/joy-settings/src/*" ],
+
       "@polkadot/app-123code/*": [ "packages/app-123code/src/*" ],
       "@polkadot/app-accounts/*": [ "packages/app-accounts/src/*" ],
       "@polkadot/app-addresses/*": [ "packages/app-addresses/src/*" ],
@@ -27,7 +28,7 @@
       "@polkadot/ui-app/*": [ "packages/ui-app/src/*" ],
       "@polkadot/ui-params/*": [ "packages/ui-params/src/*" ],
       "@polkadot/ui-reactive/*": [ "packages/ui-reactive/src/*" ],
-      "@polkadot/ui-signer/*": [ "packages/ui-signer/src/*" ]
+      "@polkadot/ui-signer/*": [ "packages/ui-signer/src/*" ],
     },
     "typeRoots": [
       "./node_modules/@polkadot/ts",

@@ -4,14 +4,14 @@
 
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { TabItem } from '@polkadot/ui-app/Tabs';
-import { SettingsStruct } from '@polkadot/ui-settings/types';
+import { SettingsStruct } from '@polkadot/joy-settings/types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import store from 'store';
 import { typeRegistry } from '@polkadot/types';
 import { Button, Dropdown, Input, InputFile, Tabs } from '@polkadot/ui-app/index';
-import uiSettings from '@polkadot/ui-settings';
+import uiSettings from '@polkadot/joy-settings/index';
 import { u8aToString } from '@polkadot/util';
 
 import './index.css';

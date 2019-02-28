@@ -13,7 +13,6 @@ import { WsProvider } from '@polkadot/rpc-provider';
 import { InputNumber } from '@polkadot/ui-app/InputNumber';
 import { formatBalance } from '@polkadot/ui-app/util';
 import keyring from '@polkadot/ui-keyring';
-import settings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/ui-signer/ApiSigner';
 import { ChainProperties } from '@polkadot/types';
 
@@ -89,23 +88,19 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     const chain = value
       ? value.toString()
       : null;
-    const found = settings.availableChains.find(({ name }) => name === chain) || {
-      networkId: 42,
-      tokenDecimals: 0,
-      tokenSymbol: undefined
-    };
-    const tokenSymbol = properties.get('tokenSymbol') || found.tokenSymbol;
+
+    const tokenSymbol = properties.get('tokenSymbol');
     const isDevelopment = isTestChain(chain);
 
     console.log('api: found chain', chain, [...properties.entries()]);
 
     // first setup the UI helpers
-    formatBalance.setDefaultDecimals(properties.get('tokenDecimals') || found.tokenDecimals);
+    formatBalance.setDefaultDecimals(properties.get('tokenDecimals') || 0);
     formatBalance.setDefaultUnits(tokenSymbol);
     InputNumber.setUnit(tokenSymbol);
 
     keyring.loadAll({
-      addressPrefix: properties.get('networkId') || found.networkId as any,
+      addressPrefix: properties.get('networkId') || 42 as any,
       isDevelopment,
       type: 'ed25519'
     });
