@@ -14,6 +14,24 @@ import routing from '../routing';
 import translate from '../translate';
 import Item from './Item';
 import getLogo from './logos';
+import { SemanticICONS } from 'semantic-ui-react/dist/commonjs';
+
+type OuterLinkProps = {
+  url: string,
+  title: string,
+  icon?: SemanticICONS
+};
+
+function OuterLink ({ url, title, icon = 'external alternate' }: OuterLinkProps) {
+  return (
+    <Menu.Item className='apps--SideBar-Item'>
+      <a className='apps--SideBar-Item-NavLink' href={url} target='_blank'>
+        <Icon name={icon} />
+        <span className='text'>{title}</span>
+      </a>
+    </Menu.Item>
+  );
+}
 
 type Props = I18nProps & {
   children?: React.ReactNode
@@ -49,7 +67,10 @@ class SideBar extends React.PureComponent<Props, State> {
           {this.renderJoystreamLogo()}
           {this.renderRoutes()}
           <Menu.Divider hidden />
-          {this.renderFaucet()}
+
+          <OuterLink url='https://sparta.joystream.org/faucet' title='Free Tokens' />
+          <OuterLink url='https://blog.joystream.org/sparta/' title='Earn Monero' />
+
           {/* {this.renderGithub()} */}
           {/* {this.renderWiki()} */}
           <Menu.Divider hidden />
@@ -135,20 +156,6 @@ class SideBar extends React.PureComponent<Props, State> {
           />
         )
     ));
-  }
-
-  private renderFaucet () {
-    return (
-      <Menu.Item className='apps--SideBar-Item'>
-        <a
-          className='apps--SideBar-Item-NavLink'
-          href='https://sparta.joystream.org/faucet'
-          target='_blank'
-        >
-          <Icon name='circle outline' /><span className='text'>Free Tokens</span>
-        </a>
-      </Menu.Item>
-    );
   }
 
   // @ts-ignore is declared but its value is never read
