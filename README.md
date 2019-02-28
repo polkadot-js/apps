@@ -52,11 +52,6 @@ To get started -
 5. Ready! Now you can launch the UI (assuming you have a local Polkadot Node running), via `yarn run start`
 6. Access the UI via [http://localhost:3000](http://localhost:3000)
 
-There are additional environment UI flags that change both the theme and mode -
-
-- Running with `UI_MODE=light|full` switches from a full (the default) to a light mode interface that only has specific applications highlighted.
-- Running with `UI_THEME=substrate|polkadot` switches from a Polkadot theme (the default) to a Substrate-branded UI
-
 ## I want to code around
 
 There is a base template availble [app-123code](packages/app-123code/) that acts as a simple starting point for adding additional apps to the UI. Alternatively if you just want some place where you can write some code, it does the trick.

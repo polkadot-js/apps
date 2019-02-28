@@ -1496,15 +1496,15 @@
     "@polkadot/types" "^0.45.18"
     "@polkadot/util-crypto" "^0.34.33"
 
-"@polkadot/dev-react@^0.25.7":
-  version "0.25.7"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev-react/-/dev-react-0.25.7.tgz#df7fd678dab0cf193e105b70b40c4f171a41df4c"
-  integrity sha512-ncMMd5rHZ6h8xhaR5W4PliH7GA34vU45oRzh9SqWGLopKnA6CpNHP3w7YQTqIjvr6H3SwgMv/hOtLikV15+8Kg==
+"@polkadot/dev-react@^0.25.11":
+  version "0.25.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev-react/-/dev-react-0.25.11.tgz#d1865df46d58504f9f6b9e260323d5e6eb37c47f"
+  integrity sha512-tebx8qumiwAalOt4GKzH2yz1guDmCNZBGQw7YxEdheuYD6LVEMw/V1zyZdIhUQ1EHjxlwqepZj6raA32ZAWhAQ==
   dependencies:
     "@babel/core" "^7.3.4"
     "@babel/plugin-syntax-dynamic-import" "^7.2.0"
     "@babel/preset-react" "^7.0.0"
-    "@polkadot/dev" "^0.25.7"
+    "@polkadot/dev" "^0.25.11"
     "@types/react" "^16.8.5"
     "@types/react-dom" "^16.8.2"
     "@types/styled-components" "4.1.8"
@@ -1532,10 +1532,10 @@
     webpack-plugin-serve "^0.7.2"
     worker-loader "^2.0.0"
 
-"@polkadot/dev@^0.25.7":
-  version "0.25.7"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.25.7.tgz#2344d671896372c606294edf7adced50d13d3b83"
-  integrity sha512-6PTUO7qjpaMy0HT4+jTJyVS2DM925is5+dV9Q8I6vkAqJHiBay6Wz/P1XXnd9IHD2d1qaTqTf+bowO15QTO6VA==
+"@polkadot/dev@^0.25.11":
+  version "0.25.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.25.11.tgz#73235add1eb0c86257ed8f1ab60e213be79a93f1"
+  integrity sha512-Fs9VFlwwZVKtk+J9kjNG0lWDpTYvcVXOksMXJ1lQLnf2YhqFILsq8kETfoXWbDbusgcok69hoA4YcNtwiEAGWg==
   dependencies:
     "@babel/cli" "^7.2.3"
     "@babel/core" "^7.3.4"
@@ -1650,10 +1650,10 @@
     "@polkadot/util" "^0.34.33"
     "@polkadot/util-crypto" "^0.34.33"
 
-"@polkadot/ts@^0.1.53":
-  version "0.1.53"
-  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.53.tgz#6fae961bed882b085c5b8940ef2d482d3dd36292"
-  integrity sha512-TOsr0OD191SEchYKBi7v+rFrnRtjOAVaY6U4fq75uhh/Al9wvs0pUt2QxhzAgTBq+BrKk4gGvaSyiciR+HoDCg==
+"@polkadot/ts@^0.1.54":
+  version "0.1.54"
+  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.54.tgz#cac6a12809f886fb7698bfbf3ffb27b793f7745d"
+  integrity sha512-wYiJZ62v0IyG7jO6nQ7XsxHiYJH1i0x3BuHPiV/LiAq4QSX0LVv0q3SbN7hwrEDb4kmHtHkKpF9iXV8fKLFH2w==
 
 "@polkadot/types@^0.45.18":
   version "0.45.18"
