@@ -14,7 +14,6 @@ import translate from './translate';
 import { accountIdsToOptions, hashVote } from './utils';
 import { queryToProp, ZERO, getUrlParam } from '@polkadot/joy-utils/index';
 import SealedVotes from './SealedVotes';
-import AccountSelector from '@polkadot/joy-utils/AccountSelector';
 import TxButton from '@polkadot/joy-utils/TxButton';
 import InputStake from '@polkadot/joy-utils/InputStake';
 import Section from '@polkadot/joy-utils/Section';
@@ -26,14 +25,12 @@ function randomSalt () {
 
 // AppsProps is needed to get a location from the route.
 type Props = AppProps & ApiProps & I18nProps & {
-  accountId?: string,
   applicantId?: string,
   minVotingStake?: Balance,
   applicants?: AccountId[]
 };
 
 type State = {
-  accountId?: string,
   applicantId?: string,
   stake?: BN,
   salt?: string,
@@ -46,11 +43,10 @@ class Component extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    let { accountId, applicantId, location } = this.props;
+    let { applicantId, location } = this.props;
     applicantId = applicantId ? applicantId : getUrlParam(location, 'applicantId');
 
     this.state = {
-      accountId,
       applicantId,
       stake: ZERO,
       salt: randomSalt()
@@ -58,13 +54,12 @@ class Component extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accountId, applicantId, stake, salt, isStakeValid, isFormValid } = this.state;
+    const { applicantId, stake, salt, isStakeValid, isFormValid } = this.state;
     const applicantOpts = accountIdsToOptions(this.props.applicants || []);
     const hashedVote = hashVote(applicantId, salt);
 
     return (
       <div>
-        <AccountSelector onChange={this.onChangeAccount} />
         <div className='ui--row'>
           <InputAddress
             label='Applicant to vote for:'
@@ -104,11 +99,10 @@ class Component extends React.PureComponent<Props, State> {
           <TxButton
             size='large'
             isDisabled={!isFormValid}
-            accountId={accountId}
             label='Submit my vote'
             params={[hashedVote, stake]}
             tx='election.vote'
-            onAfterClick={this.newRandomSalt}
+            // onAfterClick={this.newRandomSalt}
             // TODO save to unstated or local storage the next values: hashedVote, applicantId, salt
           />
         </Labelled>
@@ -131,10 +125,6 @@ class Component extends React.PureComponent<Props, State> {
     const isStakeValid = stake && stake.gte(this.minStake());
     const isFormValid = isStakeValid;
     this.setState({ stake, isStakeValid, isFormValid });
-  }
-
-  private onChangeAccount = (accountId?: string) => {
-    this.setState({ accountId });
   }
 
   private onChangeApplicant = (applicantId?: string) => {

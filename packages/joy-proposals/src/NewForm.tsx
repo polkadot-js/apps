@@ -11,7 +11,6 @@ import { Balance } from '@polkadot/types';
 
 import translate from './translate';
 import { nonEmptyStr } from '@polkadot/joy-utils/index';
-import AccountSelector from '@polkadot/joy-utils/AccountSelector';
 import TxButton from '@polkadot/joy-utils/TxButton';
 import InputStake from '@polkadot/joy-utils/InputStake';
 import TextArea from '@polkadot/joy-utils/TextArea';
@@ -21,7 +20,6 @@ type Props = ApiProps & I18nProps & {
 };
 
 type State = {
-  accountId?: string,
   stake?: BN,
   name?: string,
   description?: string,
@@ -37,7 +35,7 @@ class Component extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { accountId, stake, name, description, wasmCode, isStakeValid, isWasmCodeValid } = this.state;
+    const { stake, name, description, wasmCode, isStakeValid, isWasmCodeValid } = this.state;
     const isFormValid = this.isFormValid();
 
     const wasmFilePlaceholder = wasmCode && isWasmCodeValid
@@ -48,7 +46,6 @@ class Component extends React.PureComponent<Props, State> {
 
     return (
       <div>
-        <AccountSelector onChange={this.onChangeAccount} />
         <InputStake
           min={this.minStake()}
           isValid={isStakeValid}
@@ -85,7 +82,6 @@ class Component extends React.PureComponent<Props, State> {
         <Labelled style={{ marginTop: '.5rem' }}>
           <TxButton
             isDisabled={!isFormValid}
-            accountId={accountId}
             label='Submit my proposal'
             params={[stake, name, description, wasmHex]}
             tx='proposals.createProposal'
@@ -93,10 +89,6 @@ class Component extends React.PureComponent<Props, State> {
         </Labelled>
       </div>
     );
-  }
-
-  private onChangeAccount = (accountId?: string) => {
-    this.setState({ accountId });
   }
 
   private onChangeName = (name?: string) => {

@@ -9,18 +9,15 @@ import { Input, Labelled, InputAddress } from '@polkadot/ui-app/index';
 import translate from './translate';
 import { nonEmptyStr, queryToProp, getUrlParam } from '@polkadot/joy-utils/index';
 import { accountIdsToOptions, hashVote } from './utils';
-import AccountSelector from '@polkadot/joy-utils/AccountSelector';
 import TxButton from '@polkadot/joy-utils/TxButton';
 
 // AppsProps is needed to get a location from the route.
 type Props = AppProps & ApiProps & I18nProps & {
-  accountId?: string,
   applicantId?: string,
   applicants?: AccountId[]
 };
 
 type State = {
-  accountId?: string,
   applicantId?: string,
   salt?: string,
   hashedVote?: string
@@ -30,27 +27,25 @@ class App extends React.PureComponent<Props, State> {
 
   constructor (props: Props) {
     super(props);
-    let { accountId, applicantId, location } = this.props;
+    let { applicantId, location } = this.props;
     applicantId = applicantId ? applicantId : getUrlParam(location, 'applicantId');
     const hashedVote = getUrlParam(location, 'hashedVote');
 
     this.state = {
-      accountId,
       applicantId,
-      salt: 'TODO show salts from local storage in a dropdown',
+      salt: '', // TODO show salts from local storage in a dropdown
       hashedVote
     };
   }
 
   render () {
-    const { accountId, applicantId, salt, hashedVote } = this.state;
+    const { applicantId, salt, hashedVote } = this.state;
     const applicantOpts = accountIdsToOptions(this.props.applicants || []);
     const hasHash = nonEmptyStr(hashedVote);
     const isVoteRevealed = hasHash && hashedVote === hashVote(applicantId, salt);
 
     return (
       <div>
-        <AccountSelector onChange={this.onChangeAccount} />
         <div className='ui--row'>
           <Input
             label='Hashed vote (hex):'
@@ -80,7 +75,6 @@ class App extends React.PureComponent<Props, State> {
           <TxButton
             size='large'
             isDisabled={!isVoteRevealed}
-            accountId={accountId}
             label='Reveal my vote'
             params={[hashedVote, applicantId, salt]}
             tx='election.reveal'
@@ -88,10 +82,6 @@ class App extends React.PureComponent<Props, State> {
         </Labelled>
       </div>
     );
-  }
-
-  private onChangeAccount = (accountId?: string) => {
-    this.setState({ accountId });
   }
 
   private onChangeApplicant = (applicantId?: string) => {

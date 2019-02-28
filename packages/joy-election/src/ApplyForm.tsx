@@ -8,7 +8,6 @@ import { Labelled } from '@polkadot/ui-app/index';
 import { Balance } from '@polkadot/types';
 
 import translate from './translate';
-import AccountSelector from '@polkadot/joy-utils/AccountSelector';
 import TxButton from '@polkadot/joy-utils/TxButton';
 import InputStake from '@polkadot/joy-utils/InputStake';
 
@@ -17,7 +16,6 @@ type Props = ApiProps & I18nProps & {
 };
 
 type State = {
-  accountId?: string,
   stake?: BN,
   isStakeValid?: boolean
 };
@@ -27,11 +25,10 @@ class ApplyForm extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { accountId, stake, isStakeValid } = this.state;
+    const { stake, isStakeValid } = this.state;
 
     return (
       <div>
-        <AccountSelector onChange={this.onChangeAccount} />
         <InputStake
           min={this.minStake()}
           isValid={isStakeValid}
@@ -41,7 +38,6 @@ class ApplyForm extends React.PureComponent<Props, State> {
           <TxButton
             size='large'
             isDisabled={!isStakeValid}
-            accountId={accountId}
             label='Apply to council'
             params={[stake]}
             tx='election.apply'
@@ -49,10 +45,6 @@ class ApplyForm extends React.PureComponent<Props, State> {
         </Labelled>
       </div>
     );
-  }
-
-  private onChangeAccount = (accountId?: string) => {
-    this.setState({ accountId });
   }
 
   private minStake = (): BN => {
