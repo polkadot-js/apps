@@ -26,10 +26,11 @@
     "start": "cd packages/apps && webpack --config webpack.config.js"
   },
   "devDependencies": {
-    "@babel/core": "^7.3.3",
-    "@polkadot/dev-react": "^0.25.6",
+    "@babel/core": "^7.3.4",
+    "@babel/runtime": "^7.3.4",
+    "@polkadot/dev-react": "^0.25.7",
     "@polkadot/ts": "^0.1.53",
-    "autoprefixer": "^9.4.8",
+    "autoprefixer": "^9.4.9",
     "empty": "^0.10.1",
     "gh-pages": "^2.0.1",
     "postcss": "^7.0.13",
@@ -37,7 +38,7 @@
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-import": "^12.0.0",
     "postcss-loader": "^3.0.0",
-    "postcss-nested": "^4.1.1",
+    "postcss-nested": "^4.1.2",
     "postcss-sass": "^0.3.5",
     "postcss-simple-vars": "^5.0.0",
     "precss": "^4.0.0",

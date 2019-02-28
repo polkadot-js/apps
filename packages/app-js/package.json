@@ -10,7 +10,7 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.2.0",
+    "@babel/runtime": "^7.3.4",
     "@polkadot/ui-app": "^0.24.21",
     "codeflask": "1.4.0",
     "snappyjs": "^0.6.0"

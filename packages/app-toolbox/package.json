@@ -10,7 +10,7 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.2.0",
+    "@babel/runtime": "^7.3.4",
     "@polkadot/ui-app": "^0.24.21"
   }
 }
