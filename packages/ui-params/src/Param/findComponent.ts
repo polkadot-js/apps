@@ -30,7 +30,7 @@ type TypeToComponent = {
 
 const components: ComponentMap = ([
   { c: Account, t: ['AccountId', 'AccountIdOf', 'Address', 'SessionKey'] },
-  { c: Amount, t: ['AccountIndex', 'BlockNumber', 'Gas', 'Index', 'ParaId', 'ProposalIndex', 'PropIndex', 'ReferendumIndex', 'u16', 'u32', 'u64', 'u128', 'u256', 'VoteIndex'] },
+  { c: Amount, t: ['AccountIndex', 'BlockNumber', 'Gas', 'Index', 'Nonce', 'ParaId', 'ProposalIndex', 'PropIndex', 'ReferendumIndex', 'u16', 'u32', 'u64', 'u128', 'u256', 'VoteIndex'] },
   { c: Balance, t: ['Amount', 'AssetOf', 'Balance', 'BalanceOf'] },
   { c: Bool, t: ['bool'] },
   { c: Bytes, t: ['Bytes'] },
@@ -75,10 +75,14 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
   let Component = overrides[type] || components[type];
 
   if (!Component) {
-    const instance = createType(type);
+    try {
+      const instance = createType(type);
 
-    if (instance instanceof UInt) {
-      return Amount;
+      if (instance instanceof UInt) {
+        return Amount;
+      }
+    } catch (error) {
+      // console.error(error.message);
     }
   }
 

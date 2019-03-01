@@ -21,7 +21,6 @@
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "echo \"skipping tests\"",
-    "deploy:ghpages": "gh-pages --dist packages/apps/build --remove locales,static,*.css,*.js,*.json,*.map,*.md",
     "vanitygen": "node packages/app-accounts/scripts/vanitygen.js",
     "start": "cd packages/apps && webpack --config webpack.config.js"
   },
