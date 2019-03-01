@@ -19,6 +19,7 @@ import Creator from './Creator';
 import Editor from './Editor';
 import Restore from './Restore';
 import Vanity from './Vanity';
+import MemoForm from './MemoForm';
 import translate from './translate';
 
 type Props = AppProps & I18nProps & {
@@ -60,6 +61,10 @@ class AccountsApp extends React.PureComponent<Props, State> {
         {
           name: 'vanity',
           text: t('Vanity address')
+        },
+        {
+          name: 'memo',
+          text: t('My memo')
         }
       ]
     };
@@ -112,6 +117,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
           <Route path={`${basePath}/create`} render={renderCreator} />
           <Route path={`${basePath}/restore`} render={this.renderComponent(Restore)} />
           <Route path={`${basePath}/vanity`} render={this.renderComponent(Vanity)} />
+          <Route path={`${basePath}/memo`} component={MemoForm} />
           <Route
             render={
               hidden.includes('edit')
