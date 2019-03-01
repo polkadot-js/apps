@@ -31,6 +31,7 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     case 'Compact':
     case 'Gas':
     case 'Index':
+    case 'Nonce':
     case 'ParaId':
     case 'PropIndex':
     case 'ProposalIndex':
@@ -79,10 +80,14 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
       return void 0;
 
     default: {
-      const instance = createType(type);
+      try {
+        const instance = createType(type);
 
-      if (instance instanceof UInt) {
-        return new BN(0);
+        if (instance instanceof UInt) {
+          return new BN(0);
+        }
+      } catch (error) {
+        // console.error(error.message);
       }
 
       console.error(`Unable to determine default type for ${JSON.stringify(def)}`);
