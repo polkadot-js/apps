@@ -92,7 +92,7 @@ class ChangePass extends React.PureComponent<Props, State> {
           />
           <Password
             isError={!isNewValid}
-            label={t('your new account password')}
+            label={t('your new password')}
             onChange={this.onChangeNew}
             tabIndex={2}
             value={newPass}
