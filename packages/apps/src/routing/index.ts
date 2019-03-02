@@ -12,7 +12,6 @@ import proposals from './joy-proposals';
 import template from './123code';
 import accounts from './accounts';
 import addresses from './addresses';
-import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
 import js from './js';
@@ -25,9 +24,8 @@ import transfer from './transfer';
 const routes: Routes = appSettings.uiMode === 'light'
   ? ([] as Routes).concat(
     explorer,
+    staking,
     transfer,
-    // staking,
-    // democracy,
     null,
     accounts,
     addresses,
@@ -40,9 +38,8 @@ const routes: Routes = appSettings.uiMode === 'light'
   )
   : ([] as Routes).concat(
     explorer,
-    transfer,
     staking,
-    democracy,
+    transfer,
     null,
     accounts,
     addresses,
