@@ -21,7 +21,7 @@ type State = {
 
 export default class Component extends React.PureComponent<Props, State> {
 
-  static getDerivedStateFromProps (props: Props, currentState: State) {
+  static getDerivedStateFromProps (props: any, currentState: State): State | null {
     const { match: { params: { accountId } } } = props;
     const { loaded } = currentState;
     // console.log('getDerivedStateFromProps', props);
