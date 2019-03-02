@@ -8,6 +8,7 @@ import './SideBar.css';
 
 import React from 'react';
 import { withRouter } from 'react-router';
+
 import store from 'store';
 import { withMulti } from '@polkadot/ui-api/index';
 import { Button, Icon, Menu } from '@polkadot/ui-app/index';
@@ -59,6 +60,7 @@ class SideBar extends React.PureComponent<Props, State> {
           }
           {this.renderCollapse()}
         </Menu>
+        {this.renderToggleBar()}
       </div>
     );
   }
@@ -100,6 +102,7 @@ class SideBar extends React.PureComponent<Props, State> {
   }
 
   private renderRoutes () {
+    const { isCollapsed } = this.state;
     const { t } = this.props;
 
     return routing.routes.map((route, index) => (
@@ -109,6 +112,7 @@ class SideBar extends React.PureComponent<Props, State> {
             key={route.name}
             t={t}
             route={route}
+            isCollapsed={isCollapsed}
           />
         )
         : (
@@ -130,6 +134,18 @@ class SideBar extends React.PureComponent<Props, State> {
           <Icon name='github' /><span className='text'>GitHub</span>
         </a>
       </Menu.Item>
+    );
+  }
+
+  private renderToggleBar () {
+    const { isCollapsed } = this.state;
+
+    return (
+      <div
+        className='apps--SideBar-toggle'
+        onClick={this.collapse}
+      >
+      </div>
     );
   }
 

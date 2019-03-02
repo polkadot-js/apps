@@ -15,18 +15,34 @@ import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { withApi, withMulti, withObservable } from '@polkadot/ui-api/index';
 import { isFunction } from '@polkadot/util';
 
+import ReactTooltip from 'react-tooltip';
+
 type Props = I18nProps & ApiProps & {
+  isCollapsed: boolean,
   allAccounts?: SubjectInfo,
   route: Route
 };
 
 class Item extends React.PureComponent<Props> {
+
+  componentWillUpdate () {
+    ReactTooltip.rebuild();
+  }
   render () {
-    const { route: { i18n, icon, name }, t } = this.props;
+
+    const { route: { i18n, icon, name }, t, isCollapsed } = this.props;
 
     if (!this.isVisible()) {
       return null;
     }
+
+    let tooltip = {
+      'data-tip': true,
+      'data-for': `nav-${name}`
+    };
+    isCollapsed
+      ? tooltip['data-tip-disable'] = false
+      : tooltip['data-tip-disable'] = true;
 
     return (
       <Menu.Item className='apps--SideBar-Item'>
@@ -34,8 +50,20 @@ class Item extends React.PureComponent<Props> {
           activeClassName='apps--SideBar-Item-NavLink-active'
           className='apps--SideBar-Item-NavLink'
           to={`/${name}`}
+          {...tooltip}
         >
-          <Icon name={icon} /><span className='text'>{t(`sidebar.${name}`, i18n)}</span>
+          <Icon name={icon} />
+          <span className='text'>{t(`sidebar.${name}`, i18n)}</span>
+          <ReactTooltip
+           id={`nav-${name}`}
+           place='right'
+           offset={ { right: -4 } }
+           effect='solid'
+           delayShow={750}
+          >
+            <span>{t(`sidebar.${name}`, i18n)}
+          </span>
+          </ReactTooltip>
         </NavLink>
       </Menu.Item>
     );
