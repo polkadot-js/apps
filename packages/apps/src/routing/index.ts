@@ -26,7 +26,7 @@ const routes: Routes = appSettings.uiMode === 'light'
   ? ([] as Routes).concat(
     explorer,
     transfer,
-    // staking,
+    staking,
     // democracy,
     null,
     accounts,
@@ -42,7 +42,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     explorer,
     transfer,
     staking,
-    democracy,
+    //democracy,
     null,
     accounts,
     addresses,
