@@ -23,6 +23,12 @@ type Props = I18nProps & ApiProps & {
   route: Route
 };
 
+interface Tooltip {
+  'data-tip': boolean;
+  'data-for': string;
+  'data-tip-disable'?: boolean;
+}
+
 class Item extends React.PureComponent<Props> {
 
   componentWillUpdate () {
@@ -36,7 +42,7 @@ class Item extends React.PureComponent<Props> {
       return null;
     }
 
-    let tooltip = {
+    let tooltip: Tooltip = {
       'data-tip': true,
       'data-for': `nav-${name}`
     };

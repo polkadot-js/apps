@@ -138,8 +138,6 @@ class SideBar extends React.PureComponent<Props, State> {
   }
 
   private renderToggleBar () {
-    const { isCollapsed } = this.state;
-
     return (
       <div
         className='apps--SideBar-toggle'
