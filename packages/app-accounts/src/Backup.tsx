@@ -81,7 +81,7 @@ class Backup extends React.PureComponent<Props, State> {
           <AddressSummary value={pair.address()} />
           <Password
             isError={!isPassValid}
-            label={t('unlock this account using the password')}
+            label={t('unlock account using the password')}
             onChange={this.onChangePass}
             tabIndex={0}
             value={password}
