@@ -27,6 +27,7 @@
   }
   .ui--AddressMini-details {
     display: block;
+    text-align: left;
   }
   .ui--AddressSummary-name,
   .ui--AddressSummary-balance {

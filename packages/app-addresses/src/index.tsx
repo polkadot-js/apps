@@ -16,6 +16,7 @@ import { withMulti, withObservable } from '@polkadot/ui-api/index';
 
 import Creator from './Creator';
 import Editor from './Editor';
+import MemoByAccount from './MemoByAccount';
 import translate from './translate';
 
 type Props = AppProps & I18nProps & {
@@ -48,6 +49,10 @@ class AddressesApp extends React.PureComponent<Props, State> {
         {
           name: 'create',
           text: t('Add address')
+        },
+        {
+          name: 'memo',
+          text: t('View memo')
         }
       ]
     };
@@ -95,6 +100,7 @@ class AddressesApp extends React.PureComponent<Props, State> {
         </header>
         <Switch>
           <Route path={`${basePath}/create`} render={renderCreator} />
+          <Route path={`${basePath}/memo/:accountId?`} component={MemoByAccount} />
           <Route
             render={
               hidden.includes('edit')

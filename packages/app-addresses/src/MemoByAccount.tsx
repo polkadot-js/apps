@@ -1,0 +1,65 @@
+import React from 'react';
+import { Form } from 'semantic-ui-react';
+import { History } from 'history';
+
+import Section from '@polkadot/joy-utils/Section';
+import MemoView from '@polkadot/joy-utils/memo/MemoView';
+
+type Props = {
+  history: History,
+  match: {
+    params: {
+      accountId?: string
+    }
+  }
+};
+
+type State = {
+  loaded: boolean,
+  accountInput?: string
+};
+
+export default class Component extends React.PureComponent<Props, State> {
+
+  static getDerivedStateFromProps (props: Props, currentState: State) {
+    const { match: { params: { accountId } } } = props;
+    const { loaded } = currentState;
+    // console.log('getDerivedStateFromProps', props);
+    if (!loaded && accountId) {
+      return { loaded: true, accountInput: accountId };
+    }
+    return null;
+  }
+
+  state: State = {
+    loaded: false,
+    accountInput: ''
+  };
+
+  render () {
+    const { match: { params: { accountId } } } = this.props;
+    const { accountInput } = this.state;
+    return (
+      <Section title={`Account's Memo`}>
+        <Form onSubmit={this.findMemo}>
+          <Form.Input
+            value={accountInput}
+            placeholder='Account address'
+            onChange={e => this.onChangeAccount(e.target.value)}
+            action={{ icon: 'search', content: 'Find memo', onClick: this.findMemo }}
+          />
+        </Form>
+        {accountId && <MemoView accountId={accountId} preview={false} style={{ marginTop: '1rem' }} />}
+      </Section>
+    );
+  }
+
+  private onChangeAccount = (accountInput: string): void => {
+    this.setState({ accountInput });
+  }
+
+  private findMemo = () => {
+    // console.log('findMemo', this.props);
+    this.props.history.push('/addresses/memo/' + this.state.accountInput);
+  }
+}

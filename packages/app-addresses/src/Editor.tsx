@@ -13,6 +13,7 @@ import keyring from '@polkadot/ui-keyring';
 
 import Forgetting from './Forgetting';
 import translate from './translate';
+import MemoView from '@polkadot/joy-utils/memo/MemoView';
 
 type Props = ComponentProps & I18nProps;
 
@@ -117,6 +118,9 @@ class Editor extends React.PureComponent<Props, State> {
           <Labelled label='address:' style={{ marginTop: '.5rem' }}>
             <code>{address}</code>
           </Labelled>
+          {address && <Labelled label='memo:' style={{ marginTop: '.5rem' }}>
+            <MemoView accountId={address} />
+          </Labelled>}
         </div>
       </div>
     );
