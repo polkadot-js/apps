@@ -150,7 +150,7 @@ class Creator extends React.PureComponent<Props, State> {
             autoFocus
             className='full'
             isError={!isNameValid}
-            label={t('name the account')}
+            label={t('name your account')}
             onChange={this.onChangeName}
             value={name}
           />
@@ -186,7 +186,7 @@ class Creator extends React.PureComponent<Props, State> {
           <Password
             className='full'
             isError={!isPassValid}
-            label={t('encrypt it using the password')}
+            label={t('your password for this account')}
             onChange={this.onChangePass}
             value={password}
           />
