@@ -4,8 +4,9 @@ import { History } from 'history';
 
 import Section from '@polkadot/joy-utils/Section';
 import MemoView from '@polkadot/joy-utils/memo/MemoView';
+import { RouteComponentProps } from 'react-router';
 
-type Props = {
+type Props = RouteComponentProps & {
   history: History,
   match: {
     params: {
@@ -21,7 +22,7 @@ type State = {
 
 export default class Component extends React.PureComponent<Props, State> {
 
-  static getDerivedStateFromProps (props: any, currentState: State): State | null {
+  static getDerivedStateFromProps (props: Props, currentState: State): State | null {
     const { match: { params: { accountId } } } = props;
     const { loaded } = currentState;
     // console.log('getDerivedStateFromProps', props);
