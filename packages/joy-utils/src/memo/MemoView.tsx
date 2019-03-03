@@ -44,7 +44,8 @@ class Component extends React.PureComponent<Props> {
         const previewText = truncate(plainText, { length: 80, omission: '…' });
         return (
           <span className='JoyMemo--preview'>
-            <Link to={`/addresses/memo/${accountId}`}>{previewText}</Link>
+            {previewText}
+            <Link to={`/addresses/memo/${accountId}`}>{' view full memo'}</Link>
           </span>
         );
       } else {
