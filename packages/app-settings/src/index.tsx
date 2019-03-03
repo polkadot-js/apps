@@ -2,17 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import React from 'react';
+
 import { I18nProps } from '@polkadot/ui-app/types';
 import { SettingsStruct } from '@polkadot/ui-settings/types';
-
-import React from 'react';
-import { Button, Dropdown } from '@polkadot/ui-app/index';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import settings from '@polkadot/ui-settings';
 
 import './index.css';
-
 import translate from './translate';
+
+// styled components
+import { Button, Dropdown, RowDiv, FullDiv, MediumDiv } from '@polkadot/ui-app/index';
 
 type Props = I18nProps & {
   basePath: string,
@@ -34,8 +35,8 @@ class App extends React.PureComponent<Props, State> {
 
     return (
       <main className='settings--App'>
-        <div className='ui--row'>
-          <div className='full'>
+        <RowDiv>
+          <FullDiv padding='0 0.25rem'>
             <Dropdown
               defaultValue={apiUrl}
               label={t('select.api.url', {
@@ -44,10 +45,10 @@ class App extends React.PureComponent<Props, State> {
               onChange={this.onChangeApiUrl}
               options={settings.availableNodes}
             />
-          </div>
-        </div>
-        <div className='ui--row'>
-          <div className='medium'>
+          </FullDiv>
+        </RowDiv>
+        <RowDiv>
+          <MediumDiv padding='0 0.25rem'>
             <Dropdown
               defaultValue={uiTheme}
               label={t('select.ui.theme', {
@@ -56,8 +57,8 @@ class App extends React.PureComponent<Props, State> {
               onChange={this.onChangeUiTheme}
               options={settings.availableUIThemes}
             />
-          </div>
-          <div className='medium'>
+          </MediumDiv>
+          <MediumDiv padding='0 0.25rem'>
             <Dropdown
               defaultValue={uiMode}
               label={t('select.ui.mode', {
@@ -66,10 +67,10 @@ class App extends React.PureComponent<Props, State> {
               onChange={this.onChangeUiMode}
               options={settings.availableUIModes}
             />
-          </div>
-        </div>
-        <div className='ui--row'>
-          <div className='full'>
+          </MediumDiv>
+        </RowDiv>
+        <RowDiv>
+          <FullDiv padding='0 0.25rem'>
             <Dropdown
               defaultValue={i18nLang}
               isDisabled
@@ -79,8 +80,8 @@ class App extends React.PureComponent<Props, State> {
               onChange={this.onChangeLang}
               options={settings.availableLanguages}
             />
-          </div>
-        </div>
+          </FullDiv>
+        </RowDiv>
         <Button.Group>
           <Button
             isPrimary

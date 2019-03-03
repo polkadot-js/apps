@@ -46,6 +46,7 @@ import Progress from './Progress';
 import Static from './Static';
 import Status from './Status';
 import Tabs from './Tabs';
+export * from './styled-components';
 
 type Props = BareProps & {
   api?: RpcRxInterface,
