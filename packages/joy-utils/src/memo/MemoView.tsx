@@ -41,10 +41,11 @@ class Component extends React.PureComponent<Props> {
       const md = u8aToString(memo).trim();
       if (preview) {
         const plainText = this.mdToPlainText(md);
-        const previewText = truncate(plainText, { length: 80, omission: '…view full memo' });
+        const previewText = truncate(plainText, { length: 80, omission: '…' });
         return (
           <span className='JoyMemo--preview'>
-            <Link to={`/addresses/memo/${accountId}`}>{previewText}</Link>
+            {previewText}
+            <Link to={`/addresses/memo/${accountId}`}>{' view full memo'}</Link>
           </span>
         );
       } else {
