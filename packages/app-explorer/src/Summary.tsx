@@ -11,10 +11,8 @@ import { BestFinalised, BestNumber, TimeNow, TimePeriod } from '@polkadot/ui-rea
 import SummarySession from './SummarySession';
 import translate from './translate';
 
-import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, DotGroup } from 'pure-react-carousel';
+import { CarouselProvider, Slider, Slide, DotGroup } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
-
-import componentQueries from 'react-component-queries'
 
 type Props = I18nProps & {};
 
