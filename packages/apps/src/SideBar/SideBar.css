@@ -22,13 +22,12 @@
   }
 
   &.expanded {
-    width: 12em;
+    width: 12rem;
   }
 
   .ui.vertical.menu {
     margin: 0;
     width: auto;
-    top: 0px;
   }
 
   .apps--SideBar-Item {

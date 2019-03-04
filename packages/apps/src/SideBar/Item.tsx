@@ -34,6 +34,7 @@ class Item extends React.PureComponent<Props> {
   componentWillUpdate () {
     ReactTooltip.rebuild();
   }
+
   render () {
 
     const { route: { i18n, icon, name }, t, isCollapsed } = this.props;
@@ -42,13 +43,11 @@ class Item extends React.PureComponent<Props> {
       return null;
     }
 
-    let tooltip: Tooltip = {
+    const tooltip: Tooltip = {
+      'data-for': `nav-${name}`,
       'data-tip': true,
-      'data-for': `nav-${name}`
+      'data-tip-disable': isCollapsed
     };
-    isCollapsed
-      ? tooltip['data-tip-disable'] = false
-      : tooltip['data-tip-disable'] = true;
 
     return (
       <Menu.Item className='apps--SideBar-Item'>
@@ -61,11 +60,11 @@ class Item extends React.PureComponent<Props> {
           <Icon name={icon} />
           <span className='text'>{t(`sidebar.${name}`, i18n)}</span>
           <ReactTooltip
-           id={`nav-${name}`}
-           place='right'
-           offset={ { right: -4 } }
-           effect='solid'
            delayShow={750}
+           effect='solid'
+           id={`nav-${name}`}
+           offset={ { right: -4 } }
+           place='right'
           >
             <span>{t(`sidebar.${name}`, i18n)}
           </span>

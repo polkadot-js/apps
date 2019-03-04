@@ -109,10 +109,10 @@ class SideBar extends React.PureComponent<Props, State> {
       route
         ? (
           <Item
-            key={route.name}
-            t={t}
-            route={route}
             isCollapsed={isCollapsed}
+            key={route.name}
+            route={route}
+            t={t}
           />
         )
         : (
