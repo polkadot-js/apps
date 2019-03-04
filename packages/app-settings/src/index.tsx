@@ -9,7 +9,7 @@ import { SettingsStruct } from '@polkadot/ui-settings/types';
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import store from 'store';
-import { typeRegistry } from '@polkadot/types';
+import { getTypeRegistry } from '@polkadot/types';
 import { Button, Dropdown, Input, InputFile, Tabs } from '@polkadot/ui-app/index';
 import uiSettings from '@polkadot/ui-settings';
 import { u8aToString } from '@polkadot/util';
@@ -226,7 +226,7 @@ class App extends React.PureComponent<Props, State> {
 
       console.log('Registering types:', typesPlaceholder);
 
-      typeRegistry.register(types);
+      getTypeRegistry().register(types);
 
       this.setState({
         isTypesValid: true,
