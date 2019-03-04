@@ -13,9 +13,9 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.3.4",
-    "@polkadot/ui-app": "^0.24.24",
-    "@polkadot/ui-assets": "^0.28.6",
-    "@polkadot/ui-signer": "^0.24.24",
+    "@polkadot/ui-app": "^0.24.26",
+    "@polkadot/ui-assets": "^0.28.8",
+    "@polkadot/ui-signer": "^0.24.26",
     "@types/react-tooltip": "^3.9.1",
     "react-tooltip": "^3.9.2"
   }
