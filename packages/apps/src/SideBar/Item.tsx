@@ -46,7 +46,7 @@ class Item extends React.PureComponent<Props> {
     const tooltip: Tooltip = {
       'data-for': `nav-${name}`,
       'data-tip': true,
-      'data-tip-disable': isCollapsed
+      'data-tip-disable': !isCollapsed
     };
 
     return (
