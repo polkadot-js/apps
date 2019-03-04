@@ -28,7 +28,7 @@
     "@babel/core": "^7.3.4",
     "@babel/runtime": "^7.3.4",
     "@polkadot/dev-react": "^0.25.11",
-    "@polkadot/ts": "^0.1.54",
+    "@polkadot/ts": "^0.1.55",
     "autoprefixer": "^9.4.9",
     "empty": "^0.10.1",
     "gh-pages": "^2.0.1",

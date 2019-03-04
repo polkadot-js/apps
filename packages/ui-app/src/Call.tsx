@@ -2,17 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { IExtrinsic, IMethod } from '@polkadot/types/types';
 import { BareProps } from './types';
 
 import React from 'react';
-import { Extrinsic, Method, Proposal, getTypeDef } from '@polkadot/types';
+import { Method, getTypeDef } from '@polkadot/types';
 import Params from '@polkadot/ui-params/index';
 
 import { classes } from './util';
 
 export type Props = BareProps & {
   children?: React.ReactNode,
-  value: Extrinsic | Method | Proposal
+  value: IExtrinsic | IMethod
 };
 
 export default class Call extends React.PureComponent<Props> {

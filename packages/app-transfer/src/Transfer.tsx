@@ -8,7 +8,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Extrinsic } from '@polkadot/types';
+import { IExtrinsic } from '@polkadot/types/types';
 import { AddressSummary, InputAddress, InputBalance } from '@polkadot/ui-app/index';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
@@ -23,7 +23,7 @@ type Props = I18nProps & ApiProps & {};
 type State = {
   accountId: string | null,
   amount: BN,
-  extrinsic: Extrinsic | null,
+  extrinsic: IExtrinsic | null,
   hasAvailable: boolean,
   recipientId: string | null
 };
