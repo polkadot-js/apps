@@ -1,17 +1,8 @@
-[![polkadotjs](https://img.shields.io/badge/polkadot-js-orange.svg?style=flat-square)](https://polkadot.js.org)
-![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)
-[![style](https://img.shields.io/badge/code%20style-semistandard-lightgrey.svg?style=flat-square)](https://github.com/Flet/semistandard)
-[![npm](https://img.shields.io/npm/v/@polkadot/apps.svg?style=flat-square)](https://www.npmjs.com/package/@polkadot/apps)
-[![travis](https://img.shields.io/travis/polkadot-js/apps.svg?style=flat-square)](https://travis-ci.com/polkadot-js/apps)
-[![greenkeeper](https://img.shields.io/badge/greenkeeper-enabled-brightgreen.svg?style=flat-square)](https://greenkeeper.io/)
-[![dependency](https://img.shields.io/david/polkadot-js/apps.svg?style=flat-square)](https://david-dm.org/polkadot-js/apps)
-[![devDependency](https://img.shields.io/david/dev/polkadot-js/apps.svg?style=flat-square)](https://david-dm.org/polkadot-js/apps#info=devDependencies)
+# Joystream webapp
 
-# @polkadot/apps
+A Portal into the Joystream network. Provides a view and interaction layer from a browser.
 
-A Portal into the Polkadot and Substrate networks. Provides a view and interaction layer from a browser.
-
-This can be accessed as a hosted application via [https://polkadot.js.org/apps/](https://polkadot.js.org/apps/) to explorer any of the supported Polkadot and Substrate chains
+This can be accessed as a hosted application via [https://sparta.joystream.org/apps/](https://sparta.joystream.org/apps/).
 
 ## overview
 
@@ -20,7 +11,6 @@ The repo is split into a number of packages, each representing an application. T
 - [apps](packages/apps/) This is the main entry point. It handles the selection sidebar and routing to the specific application being displayed.
 - [app-accounts](packages/app-accounts/) A basic account management app.
 - [app-addresses](packages/app-addresses/) A basic address management app.
-- [app-democracy](packages/app-democracy/) A basic voting app, allowing votes on activate proposals and referendums.
 - [app-explorer](packages/app-explorer/) A simple block explorer. It only shows the most recent blocks, updating as they become available.
 - [app-extrinsics](packages/app-extrinsics/) Submission of extrinsics to a node.
 - [app-settings](packages/app-settings/) A basic settings management app, allowing choice of language, node to connect to, and theme
@@ -44,32 +34,9 @@ To start off, this repo (along with others in the [@polkadot](https://github.com
 
 To get started -
 
-1. Clone the repo locally, via `git clone https://github.com/polkadot-js/apps <optional local path>`
+1. Clone the repo locally, via `git clone https://github.com/joystream/apps <optional local path>`
 2. Ensure that you have a recent LTS version of Node.js, for development purposes [Node >=10.13.0](https://nodejs.org/en/) is recommended.
 3. Ensure that you have a recent version of Yarn, for development purposes [Yarn >=1.10.1](https://yarnpkg.com/docs/install) is required.
 4. Install the dependencies by running `yarn`
 5. Ready! Now you can launch the UI (assuming you have a local Polkadot Node running), via `yarn run start`
 6. Access the UI via [http://localhost:3000](http://localhost:3000)
-
-There are additional environment UI flags that change both the theme and mode -
-
-- Running with `UI_MODE=light|full` switches from a full (the default) to a light mode interface that only has specific applications highlighted.
-- Running with `UI_THEME=substrate|polkadot` switches from a Polkadot theme (the default) to a Substrate-branded UI
-
-## I want to code around
-
-There is a base template availble [app-123code](packages/app-123code/) that acts as a simple starting point for adding additional apps to the UI. Alternatively if you just want some place where you can write some code, it does the trick.
-
-While it is hidden from the sidebar, it is accessible via [http://127.0.0.1:3000/#/123code](http://127.0.0.1:3000/#/123code)
-
-Be sure to follow the [app-123code/README.md](packages/app-template/README.md) instructions.
-
-## Docker
-
-You can run a docker container via -
-
-  docker run --rm -it --name polkadot-ui -p 80:80 chevdor/polkadot-ui:latest
-
-To build a docker container containing local changes -
-
-  docker build -t chevdor/polkadot-ui:latest .
