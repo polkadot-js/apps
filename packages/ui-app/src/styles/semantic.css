@@ -169,3 +169,7 @@
     background: #fafafa /* #fff */;
   }
 }
+
+.ui.tiny.progress .bar {
+  height: 0.35em;
+}

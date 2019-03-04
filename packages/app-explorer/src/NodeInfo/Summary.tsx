@@ -44,7 +44,7 @@ class Summary extends React.PureComponent<Props, State> {
     const { peerBest } = this.state;
 
     return (
-      <summary>
+      <summary className='summary--fullWidth'>
         <section className='ui--media-medium'>
           <CardSummary label={t('refresh in')}>
             <Elapsed value={nextRefresh} />

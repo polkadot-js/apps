@@ -180,7 +180,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
     plugins: plugins.concat([
       isProd
         ? null
-        : new WebpackPluginServe({
+        : new git({
           port: 3000,
           static: path.join(process.cwd(), '/build')
         }),

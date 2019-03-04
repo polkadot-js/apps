@@ -11,37 +11,67 @@ import { BestFinalised, BestNumber, TimeNow, TimePeriod } from '@polkadot/ui-rea
 import SummarySession from './SummarySession';
 import translate from './translate';
 
+import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, DotGroup } from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
+
+import componentQueries from 'react-component-queries'
+
 type Props = I18nProps & {};
 
 class Summary extends React.PureComponent<Props> {
+
   render () {
     const { className, style, t } = this.props;
 
     return (
-      <summary
-        className={className}
-        style={style}
-      >
-        <section className='ui--media-small'>
-          <CardSummary label={t('target')}>
-            <TimePeriod />
-          </CardSummary>
-          <CardSummary label={t('last block')}>
-            <TimeNow />
-          </CardSummary>
-        </section>
-        <section className='ui--media-large'>
-          <SummarySession />
-        </section>
-        <section>
-          <CardSummary label={t('finalised')}>
-            <BestFinalised />
-          </CardSummary>
-          <CardSummary label={t('best')}>
-            <BestNumber />
-          </CardSummary>
-        </section>
-      </summary>
+        <div
+          className={`summary summary--fullWidth isSummary  ${className}`}
+          style={style}
+        >
+          <CarouselProvider
+            naturalSlideWidth={100}
+            naturalSlideHeight={1}
+            totalSlides={2}
+            className='summary--Carousel'
+          >
+            <Slider>
+              <Slide className='summary--Carousel-slide' index={0}>
+                <div className='isSummary'>
+                  <section>
+                    <CardSummary label={t('target')}>
+                      <TimePeriod />
+                    </CardSummary>
+                    <CardSummary label={t('last block')}>
+                      <TimeNow />
+                    </CardSummary>
+                  </section>
+                  <section>
+                    <SummarySession />
+                  </section>
+                  <section>
+                    <CardSummary label={t('finalised')}>
+                      <BestFinalised />
+                    </CardSummary>
+                    <CardSummary label={t('best')}>
+                      <BestNumber />
+                    </CardSummary>
+                  </section>
+                </div>
+              </Slide>
+              <Slide className='summary--Carousel-slide' index={1}>
+                <div className='isSummary'>
+                  <section>
+                    <article>
+                      More Stats Here
+                    </article>
+                  </section>
+                </div>
+              </Slide>
+
+            </Slider>
+            <DotGroup />
+          </CarouselProvider>
+        </div>
     );
   }
 }
