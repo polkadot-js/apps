@@ -1,5 +1,7 @@
 .JoyMemo--full {
-
+  img {
+    max-width: 100%;
+  }
 }
 
 .JoyMemo--preview {
