@@ -38,7 +38,7 @@ class Council extends React.PureComponent<Props, State> {
         <Table.Row key={index}>
           <Table.Cell>{index + 1}</Table.Cell>
           <Table.Cell>
-            <AddressMini value={seat.member} isShort={false} isPadded={false} withBalance={true} withName={true} size={36} />
+            <AddressMini value={seat.member} isShort={false} isPadded={false} withBalance={true} withName={true} withMemo={true} size={36} />
           </Table.Cell>
           <Table.Cell>{formatBalance(seat.stake)}</Table.Cell>
           <Table.Cell>{formatBalance(calcBackersStake(seat.backers))}</Table.Cell>
