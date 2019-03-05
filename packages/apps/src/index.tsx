@@ -1,47 +1,37 @@
-// Copyright 2017-2019 @polkadot/apps authors & contributors
+// Copyright 2017-2019 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/ui-app/types';
-
-import React from 'react';
-import store from 'store';
-import styled from 'styled-components';
-import { getTypeRegistry } from '@polkadot/types';
-import createApp from '@polkadot/ui-app/index';
-import { classes } from '@polkadot/ui-app/util';
-import Signer from '@polkadot/ui-signer/index';
 import settings from '@polkadot/ui-settings';
+import './../../ui-app/src/i18n';
+import './../../ui-app/src/styles';
 
-import Connecting from './Connecting';
-import Content from './Content';
-import SideBar from './SideBar';
+import { BareProps } from './types';
 
-type Props = BareProps & {};
+import React, { Suspense } from 'react';
+import ReactDOM from 'react-dom';
+import { HashRouter } from 'react-router-dom';
+import store from 'store';
+import { getTypeRegistry } from '@polkadot/types';
+import { Api } from '@polkadot/ui-api/index';
 
-const Wrapper = styled.div`
-  align-items: stretch;
-  box-sizing: border-box;
-  display: flex;
-  min-height: 100vh;
-`;
+import { QueueConsumer } from '@polkadot/ui-app//Status/Context';
+import Queue from '@polkadot/ui-app/Status/Queue';
+import Apps from './Apps';
 
-function App (props: Props) {
-  return (
-    <Wrapper className={classes(`theme--${settings.uiTheme}`)}>
-      <SideBar />
-      <Signer>
-        <Content />
-      </Signer>
-      <Connecting />
-    </Wrapper>
-  );
+type Props = BareProps & {
+  url?: string
+};
+
+const rootElement = document.getElementById('root');
+
+if (!rootElement) {
+  throw new Error(`Unable to find element with id '${rootId}'`);
 }
 
 const url = process.env.WS_URL || settings.apiUrl || undefined;
 
 console.log('Web socket url=', url);
-
 try {
   const types = store.get('types') || {};
   const names = Object.keys(types);
@@ -54,6 +44,36 @@ try {
   console.error('Type registration failed', error);
 }
 
-createApp(App, {
-  url
-});
+const render = App => {
+  return ReactDOM.render(
+    <Suspense fallback='...'>
+      <Queue>
+        <QueueConsumer>
+          {({ queueExtrinsic, queueSetTxStatus }) => {
+            return (
+              <Api
+                queueExtrinsic={queueExtrinsic}
+                queueSetTxStatus={queueSetTxStatus}
+                url={url}
+              >
+                <HashRouter>
+                  <Apps />
+                </HashRouter>
+              </Api>
+            );
+          }}
+        </QueueConsumer>
+      </Queue>
+    </Suspense>,
+    rootElement
+  );
+};
+
+render(Apps);
+
+if (module.hot) {
+  module.hot.accept('./Apps', () => {
+    const NextApp = require('./Apps');
+    render(NextApp);
+  });
+}
