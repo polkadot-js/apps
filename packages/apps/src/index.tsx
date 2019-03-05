@@ -45,36 +45,25 @@ try {
   console.error('Type registration failed', error);
 }
 
-const render = App => {
-  return ReactDOM.render(
-    <Suspense fallback='...'>
-      <Queue>
-        <QueueConsumer>
-          {({ queueExtrinsic, queueSetTxStatus }) => {
-            return (
-              <Api
-                queueExtrinsic={queueExtrinsic}
-                queueSetTxStatus={queueSetTxStatus}
-                url={url}
-              >
-                <HashRouter>
-                  <App />
-                </HashRouter>
-              </Api>
-            );
-          }}
-        </QueueConsumer>
-      </Queue>
-    </Suspense>,
-    rootElement
-  );
-};
-
-render(Apps);
-
-if (module.hot) {
-  module.hot.accept('./Apps', () => {
-    const app = require('./Apps').default;
-    render(app);
-  });
-}
+ReactDOM.render(
+  <Suspense fallback='...'>
+    <Queue>
+      <QueueConsumer>
+        {({ queueExtrinsic, queueSetTxStatus }) => {
+          return (
+            <Api
+              queueExtrinsic={queueExtrinsic}
+              queueSetTxStatus={queueSetTxStatus}
+              url={url}
+            >
+              <HashRouter>
+                <Apps />
+              </HashRouter>
+            </Api>
+          );
+        }}
+      </QueueConsumer>
+    </Queue>
+  </Suspense>,
+  rootElement
+);

@@ -38,4 +38,4 @@ function Apps (props: Props) {
   );
 }
 
-export default Apps;
+export default withMulti(Apps, hot);
