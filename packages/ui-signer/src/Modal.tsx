@@ -10,7 +10,7 @@ import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { SignatureOptions } from '@polkadot/types/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status, SignerCallback } from '@polkadot/ui-app/Status/types';
+import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status, SignerCallback, TxCallbacks } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import { Button, Modal } from '@polkadot/ui-app/index';
@@ -246,10 +246,11 @@ class Signer extends React.PureComponent<Props, State> {
       return;
     }
 
-    const { id, signerCallback } = currentItem;
+    const { id, signerCallback, onTxCancelled } = currentItem;
 
     queueSetTxStatus(id, 'cancelled');
     signerCallback && signerCallback(id, false);
+    if (onTxCancelled) onTxCancelled();
   }
 
   private onSend = async (): Promise<void> => {
@@ -260,7 +261,10 @@ class Signer extends React.PureComponent<Props, State> {
       return;
     }
 
-    return this.sendExtrinsic(currentItem, password);
+    const res = this.sendExtrinsic(currentItem, password);
+    const { onTxSent } = currentItem;
+    if (onTxSent) onTxSent();
+    return res;
   }
 
   private sendRpc = async ({ id, rpc, values = [] }: QueueTx): Promise<void> => {
@@ -277,7 +281,7 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetTxStatus(id, status, result, error);
   }
 
-  private async sendExtrinsic ({ accountId, extrinsic, id, signerCallback, signerOptions, isUnsigned }: QueueTx, password?: string): Promise<void> {
+  private async sendExtrinsic ({ accountId, extrinsic, id, signerCallback, signerOptions, isUnsigned, onExtrinsicFailed, onExtrinsicSuccess }: QueueTx, password?: string): Promise<void> {
     assert(extrinsic, 'Expected an extrinsic to be supplied to sendExtrinsic');
 
     if (!isUnsigned) {
@@ -296,13 +300,17 @@ class Signer extends React.PureComponent<Props, State> {
 
     queueSetTxStatus(id, 'sending');
 
+    const getCallbacks = () => {
+      return { onExtrinsicFailed, onExtrinsicSuccess };
+    };
+
     if (isUnsigned) {
-      return this.makeExtrinsicCall(submittable, id, submittable.send);
+      return this.makeExtrinsicCall(submittable, id, submittable.send, [], getCallbacks());
     } else if (signerOptions) {
       return this.makeExtrinsicSignature(submittable, id, keyring.getPair(accountId as string), signerOptions, signerCallback);
     }
 
-    return this.makeExtrinsicCall(submittable, id, submittable.signAndSend, keyring.getPair(accountId as string));
+    return this.makeExtrinsicCall(submittable, id, submittable.signAndSend, [keyring.getPair(accountId as string)], getCallbacks());
   }
 
   private async submitRpc ({ method, section }: RpcMethod, values: Array<any>): Promise<QueueTx$Result> {
@@ -327,7 +335,7 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, id: number, extrinsicCall: (...params: Array<any>) => any, ..._params: Array<any>): Promise<void> {
+  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, id: number, extrinsicCall: (...params: Array<any>) => any, _params: Array<any> = [], callbacks: TxCallbacks): Promise<void> {
     const { queueSetTxStatus } = this.props;
 
     console.log('makeExtrinsicCall: extrinsic ::', extrinsic.toHex());
@@ -346,6 +354,19 @@ class Signer extends React.PureComponent<Props, State> {
 
         if (status === 'finalised') {
           unsubscribe();
+
+          const { onExtrinsicFailed, onExtrinsicSuccess } = callbacks;
+          result.events.forEach((event, i) => {
+            const { section, method } = event.event;
+            if (section === 'system') {
+              if (method === 'ExtrinsicFailed' && onExtrinsicFailed) {
+                onExtrinsicFailed(result);
+              } else if (method === 'ExtrinsicSuccess' && onExtrinsicSuccess) {
+                onExtrinsicSuccess(result);
+              }
+            }
+            // console.log(`\n> event #${i}`, { section, method });
+          });
         }
       }]);
     } catch (error) {

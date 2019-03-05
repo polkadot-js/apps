@@ -18,6 +18,7 @@ type Props = {
   accountId: string,
   memo?: Bytes,
   preview?: boolean,
+  showEmpty?: boolean,
   className?: string,
   style?: any
 };
@@ -35,9 +36,16 @@ class Component extends React.PureComponent<Props> {
     return md;
   }
 
+  private isMemoEmpty (): boolean {
+    const { memo } = this.props;
+    return !memo || memo.isEmpty;
+  }
+
   renderMemo () {
     const { memo, preview = true, accountId } = this.props;
-    if (memo && !memo.isEmpty) {
+    if (this.isMemoEmpty()) {
+      return <em className='JoyMemo--empty'>Memo is empty.</em>;
+    } else {
       const md = u8aToString(memo).trim();
       if (preview) {
         const plainText = this.mdToPlainText(md);
@@ -51,14 +59,12 @@ class Component extends React.PureComponent<Props> {
       } else {
         return <ReactMarkdown className='JoyMemo--full' source={md} linkTarget='_blank' />;
       }
-    } else {
-      return <em className='JoyMemo--empty'>Memo is empty.</em>;
     }
   }
 
   render () {
-    const { className, style } = this.props;
-    return <div className={className} style={style}>{this.renderMemo()}</div>;
+    const { showEmpty = true, className, style } = this.props;
+    return this.isMemoEmpty() && !showEmpty ? null : <div className={className} style={style}>{this.renderMemo()}</div>;
   }
 }
 

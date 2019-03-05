@@ -2,13 +2,15 @@ import BN from 'bn.js';
 import uuid from 'uuid/v4';
 
 import React from 'react';
-import { Message } from 'semantic-ui-react';
+import { Message, Table } from 'semantic-ui-react';
 
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { withCalls } from '@polkadot/ui-api/with';
 import { AccountId, Balance } from '@polkadot/types';
 import { Button, Input, Labelled, InputAddress } from '@polkadot/ui-app/index';
+import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
+import { formatBalance } from '@polkadot/ui-app/util';
 
 import translate from './translate';
 import { accountIdsToOptions, hashVote } from './utils';
@@ -17,6 +19,9 @@ import SealedVotes from './SealedVotes';
 import TxButton from '@polkadot/joy-utils/TxButton';
 import InputStake from '@polkadot/joy-utils/InputStake';
 import Section from '@polkadot/joy-utils/Section';
+import AddressMini from '@polkadot/ui-app/AddressMiniJoy';
+import { withMyAccount, MyAccountProps } from '@polkadot/joy-utils/MyAccount';
+import { saveVote, getVotesByVoter, NewVote } from './myVotesStore';
 
 // TODO use a crypto-prooven generator instead of UUID 4.
 function randomSalt () {
@@ -24,7 +29,7 @@ function randomSalt () {
 }
 
 // AppsProps is needed to get a location from the route.
-type Props = AppProps & ApiProps & I18nProps & {
+type Props = AppProps & ApiProps & I18nProps & MyAccountProps & {
   applicantId?: string,
   minVotingStake?: Balance,
   applicants?: AccountId[]
@@ -35,7 +40,8 @@ type State = {
   stake?: BN,
   salt?: string,
   isStakeValid?: boolean,
-  isFormValid?: boolean
+  isFormValid?: boolean,
+  isFormSubmitted: boolean
 };
 
 class Component extends React.PureComponent<Props, State> {
@@ -49,17 +55,62 @@ class Component extends React.PureComponent<Props, State> {
     this.state = {
       applicantId,
       stake: ZERO,
-      salt: randomSalt()
+      salt: randomSalt(),
+      isFormSubmitted: false
     };
   }
 
   render () {
-    const { applicantId, stake, salt, isStakeValid, isFormValid } = this.state;
+    const { myAddress } = this.props;
+    const { applicantId, stake, salt, isStakeValid, isFormValid, isFormSubmitted } = this.state;
     const applicantOpts = accountIdsToOptions(this.props.applicants || []);
     const hashedVote = hashVote(applicantId, salt);
+    const myVotes = myAddress ? getVotesByVoter(myAddress) : [];
+
+    const buildNewVote = (): Partial<NewVote> => ({
+      voterId: myAddress,
+      applicantId,
+      stake: (stake || ZERO).toString(),
+      salt: salt,
+      hash: hashedVote
+    });
 
     return (
-      <div>
+      <>{isFormSubmitted
+
+      // Summary of submitted vote:
+      ? <Section title='Your vote has been sent'>
+        <Table celled selectable compact definition className='SealedVoteTable'>
+        <Table.Body>
+          <Table.Row>
+            <Table.Cell>Applicant</Table.Cell>
+            <Table.Cell><AddressMini value={applicantId} isShort={false} isPadded={false} withBalance={true} withName={true} size={36} withMemo={true} /></Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell>Stake</Table.Cell>
+            <Table.Cell>{formatBalance(stake)}</Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell>Salt</Table.Cell>
+            <Table.Cell><code>{salt}</code></Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell>Hashed vote</Table.Cell>
+            <Table.Cell><code>{hashedVote}</code></Table.Cell>
+          </Table.Row>
+        </Table.Body>
+        </Table>
+        <Labelled style={{ marginTop: '.5rem' }}>
+          <Button
+            size='large'
+            label='Submit another vote'
+            onClick={this.resetForm}
+          />
+        </Labelled>
+      </Section>
+
+      // New vote form:
+      : <Section title='New vote'>
         <div className='ui--row'>
           <InputAddress
             label='Applicant to vote for:'
@@ -102,15 +153,43 @@ class Component extends React.PureComponent<Props, State> {
             label='Submit my vote'
             params={[hashedVote, stake]}
             tx='election.vote'
-            // onAfterClick={this.newRandomSalt}
-            // TODO save to unstated or local storage the next values: hashedVote, applicantId, salt
+            onTxSent={this.onFormSubmitted}
+            onExtrinsicFailed={this.onExtrinsicFailed}
+            onExtrinsicSuccess={(txResult: SubmittableResult) => this.onExtrinsicSuccess(buildNewVote() as NewVote, txResult)}
           />
         </Labelled>
-        <Section title='Submitted votes'>
-          <SealedVotes />
-        </Section>
-      </div>
+      </Section>}
+      <SealedVotes myAddress={myAddress} myVotes={myVotes} />
+      </>
     );
+  }
+
+  private resetForm = (): void => {
+    this.onChangeStake(ZERO);
+    this.newRandomSalt();
+    this.setState({ isFormSubmitted: false });
+  }
+
+  private onFormSubmitted = (): void => {
+    this.setState({ isFormSubmitted: true });
+  }
+
+  private onExtrinsicFailed = (_txResult: SubmittableResult): void => {
+    // TODO Possible UX improvement: tell a user that his vote hasn't been accepted.
+  }
+
+  private onExtrinsicSuccess = (vote: NewVote, txResult: SubmittableResult): void => {
+    let hasVotedEvent = false;
+    txResult.events.forEach((event, i) => {
+      const { section, method } = event.event;
+      if (section === 'election' && method === 'Voted') {
+        hasVotedEvent = true;
+      }
+    });
+    if (hasVotedEvent) {
+      saveVote(vote);
+      this.setState({ isFormSubmitted: true });
+    }
   }
 
   private newRandomSalt = (): void => {
@@ -142,5 +221,5 @@ export default translate(
   withCalls<Props>(
     queryToProp('query.councilElection.minVotingStake'),
     queryToProp('query.councilElection.applicants')
-  )(Component)
+  )(withMyAccount(Component))
 );

@@ -1,5 +1,5 @@
 import { BareProps, ApiProps } from '@polkadot/ui-api/types';
-import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
+import { QueueTx$ExtrinsicAdd, TxCallbacks } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import { Button } from '@polkadot/ui-app/index';
@@ -12,19 +12,18 @@ type InjectedProps = {
   queueExtrinsic: QueueTx$ExtrinsicAdd;
 };
 
-type Props = BareProps & ApiProps & MyAccountProps & {
+type Props = BareProps & ApiProps & MyAccountProps & TxCallbacks & {
   accountId?: string,
   isPrimary?: boolean,
   isDisabled?: boolean,
   label: React.ReactNode,
   params: Array<any>,
-  tx: string,
-  onAfterClick?: () => {}
+  tx: string
 };
 
 class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
   render () {
-    const { myAddress, accountId, isPrimary = true, isDisabled, label, onAfterClick } = this.props;
+    const { myAddress, accountId, isPrimary = true, isDisabled, label } = this.props;
     const origin = accountId || myAddress;
 
     return (
@@ -35,16 +34,16 @@ class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
         label={label}
         onClick={() => {
           this.send();
-          if (typeof onAfterClick === 'function') {
-            onAfterClick();
-          }
         }}
       />
     );
   }
 
   private send = (): void => {
-    const { myAddress, accountId, api, params, queueExtrinsic, tx } = this.props;
+    const {
+      myAddress, accountId, api, params, queueExtrinsic, tx,
+      onTxCancelled, onTxSent, onExtrinsicFailed, onExtrinsicSuccess
+    } = this.props;
     const origin = accountId || myAddress;
     const [section, method] = tx.split('.');
 
@@ -52,7 +51,11 @@ class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
 
     queueExtrinsic({
       accountId: origin,
-      extrinsic: api.tx[section][method](...params) as any // ???
+      extrinsic: api.tx[section][method](...params) as any, // ???
+      onTxCancelled,
+      onTxSent,
+      onExtrinsicFailed,
+      onExtrinsicSuccess
     });
   }
 }

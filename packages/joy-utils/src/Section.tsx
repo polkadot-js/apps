@@ -2,7 +2,7 @@ import React from 'react';
 import { BareProps } from '@polkadot/ui-app/types';
 
 type Props = BareProps & {
-  title?: string,
+  title?: JSX.Element | string,
   level?: number
 };
 

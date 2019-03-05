@@ -13,7 +13,8 @@ import classes from './util/classes';
 import toShortAddress from './util/toShortAddress';
 import BalanceDisplay from './Balance';
 import IdentityIcon from './IdentityIcon';
-import { findNameByAddress } from '@polkadot/joy-utils/index';
+import { findNameByAddress, nonEmptyStr } from '@polkadot/joy-utils/index';
+import MemoView from '@polkadot/joy-utils/memo/MemoView';
 
 type Props = BareProps & {
   balance?: Balance | Array<Balance> | BN,
@@ -26,7 +27,8 @@ type Props = BareProps & {
   size?: number,
   withAddress?: boolean,
   withBalance?: boolean,
-  withName?: boolean
+  withName?: boolean,
+  withMemo?: boolean
 };
 
 class AddressMini extends React.PureComponent<Props> {
@@ -58,6 +60,7 @@ class AddressMini extends React.PureComponent<Props> {
             <div className='ui--AddressMini-details'>
               {this.renderName(address)}
               {this.renderBalance()}
+              {this.renderMemo(address)}
             </div>
           </div>
           {children}
@@ -68,13 +71,14 @@ class AddressMini extends React.PureComponent<Props> {
 
   private renderAddress (address: string) {
     const { isShort = true, withAddress = true } = this.props;
-
     if (!withAddress) {
       return null;
     }
 
     return (
-      <div className='ui--AddressMini-address'>{isShort ? toShortAddress(address) : address}</div>
+      <div className='ui--AddressMini-address'>
+        {isShort ? toShortAddress(address) : address}
+      </div>
     );
   }
 
@@ -83,15 +87,17 @@ class AddressMini extends React.PureComponent<Props> {
     if (!withName) {
       return null;
     }
+
     name = name ? name : findNameByAddress(address);
-    return (
-      <div className='ui--AddressSummary-name'>Name: <b style={{ textTransform: 'uppercase' }}>{name}</b></div>
+    return (nonEmptyStr(name) ?
+      <div className='ui--AddressSummary-name'>
+        Name: <b style={{ textTransform: 'uppercase' }}>{name}</b>
+      </div> : null
     );
   }
 
   private renderBalance () {
     const { balance, value, withBalance = false } = this.props;
-
     if (!withBalance || !value) {
       return null;
     }
@@ -104,6 +110,17 @@ class AddressMini extends React.PureComponent<Props> {
         value={value}
       />
     );
+  }
+
+  private renderMemo (address: string) {
+    let { withMemo = false } = this.props;
+    if (!withMemo) {
+      return null;
+    }
+
+    return <div className='ui--AddressSummary-memo'>
+      Memo: <b><MemoView accountId={address} preview={true} showEmpty={true} /></b>
+    </div>;
   }
 }
 
