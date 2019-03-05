@@ -11,7 +11,6 @@ import Signer from '@polkadot/ui-signer/index';
 import settings from '@polkadot/ui-settings';
 
 import { hot } from 'react-hot-loader/root';
-import { withMulti } from '@polkadot/ui-api/index';
 
 import Connecting from './Connecting';
 import Content from './Content';
@@ -38,4 +37,4 @@ function Apps (props: Props) {
   );
 }
 
-export default withMulti(Apps, hot);
+export default hot(Apps);
