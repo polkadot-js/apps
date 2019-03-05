@@ -2,14 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { Suspense } from 'react';
-import ReactDOM from 'react-dom';
-import { HashRouter } from 'react-router-dom';
-import { Api } from '@polkadot/ui-api/index';
-
-import { QueueConsumer } from './Status/Context';
-import Queue from './Status/Queue';
-
 export { default as AddressMini } from './AddressMini';
 export { default as AddressRow } from './AddressRow';
 export { default as AddressSummary } from './AddressSummary';

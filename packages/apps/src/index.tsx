@@ -3,10 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import settings from '@polkadot/ui-settings';
-import './../../ui-app/src/i18n';
-import './../../ui-app/src/styles';
-
-import { BareProps } from './types';
+import { BareProps } from '@polkadot/ui-app/types';
+import '@polkadot/ui-app/i18n';
+import '@polkadot/ui-app/styles';
 
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
@@ -18,21 +17,17 @@ import { Api } from '@polkadot/ui-api/index';
 import { QueueConsumer } from '@polkadot/ui-app//Status/Context';
 import Queue from '@polkadot/ui-app/Status/Queue';
 import Apps from './Apps';
-import Connecting from './Connecting';
 
-type Props = BareProps & {
-  url?: string
-};
-
-const rootElement = document.getElementById('root');
+const rootId = 'root';
+const rootElement = document.getElementById(rootId);
+const url = process.env.WS_URL || settings.apiUrl || undefined;
 
 if (!rootElement) {
   throw new Error(`Unable to find element with id '${rootId}'`);
 }
 
-const url = process.env.WS_URL || settings.apiUrl || undefined;
-
 console.log('Web socket url=', url);
+
 try {
   const types = store.get('types') || {};
   const names = Object.keys(types);
