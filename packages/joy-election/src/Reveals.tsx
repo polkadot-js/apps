@@ -10,6 +10,7 @@ import translate from './translate';
 import { nonEmptyStr, queryToProp, getUrlParam } from '@polkadot/joy-utils/index';
 import { accountIdsToOptions, hashVote } from './utils';
 import TxButton from '@polkadot/joy-utils/TxButton';
+import { findVoteByHash } from './myVotesStore';
 
 // AppsProps is needed to get a location from the route.
 type Props = AppProps & ApiProps & I18nProps & {
@@ -39,8 +40,16 @@ class App extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { applicantId, salt, hashedVote } = this.state;
+    let { applicantId, salt, hashedVote } = this.state;
     const applicantOpts = accountIdsToOptions(this.props.applicants || []);
+
+    const myVote = hashedVote ? findVoteByHash(hashedVote) : undefined;
+    if (myVote) {
+      // Try to substitue applicantId and salt from local sotre:
+      if (!applicantId) applicantId = myVote.applicantId;
+      if (!salt) salt = myVote.salt;
+    }
+
     const hasHash = nonEmptyStr(hashedVote);
     const isVoteRevealed = hasHash && hashedVote === hashVote(applicantId, salt);
 
