@@ -18,6 +18,7 @@ import { Api } from '@polkadot/ui-api/index';
 import { QueueConsumer } from '@polkadot/ui-app//Status/Context';
 import Queue from '@polkadot/ui-app/Status/Queue';
 import Apps from './Apps';
+import Connecting from './Connecting';
 
 type Props = BareProps & {
   url?: string
@@ -57,7 +58,7 @@ const render = App => {
                 url={url}
               >
                 <HashRouter>
-                  <Apps />
+                  <App />
                 </HashRouter>
               </Api>
             );
@@ -73,7 +74,7 @@ render(Apps);
 
 if (module.hot) {
   module.hot.accept('./Apps', () => {
-    const NextApp = require('./Apps');
-    render(NextApp);
+    const app = require('./Apps').default;
+    render(app);
   });
 }
