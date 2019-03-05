@@ -4,11 +4,12 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
+import { IExtrinsic } from '@polkadot/types/types';
 import { ExtraFees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Extrinsic, Method } from '@polkadot/types';
+import { Method } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api/index';
 import { Icon } from '@polkadot/ui-app/index';
 import { formatBalance } from '@polkadot/ui-util';
@@ -35,7 +36,7 @@ type Props = I18nProps & {
   balances_fees?: DerivedFees,
   balances_votingBalance?: DerivedBalances,
   accountId?: string | null,
-  extrinsic?: Extrinsic | null,
+  extrinsic?: IExtrinsic | null,
   isSendable: boolean,
   onChange?: (hasAvailble: boolean) => void,
   system_accountNonce?: BN

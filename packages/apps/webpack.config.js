@@ -31,9 +31,9 @@ const packages = [
   'ui-signer'
 ];
 
-const DEFAULT_THEME = process.env.TRAVIS_BRANCH === 'next'
-  ? 'substrate'
-  : 'polkadot';
+// const DEFAULT_THEME = process.env.TRAVIS_BRANCH === 'next'
+//   ? 'substrate'
+//   : 'polkadot';
 
 function createWebpack ({ alias = {}, context, name = 'index' }) {
   const pkgJson = require(path.join(context, 'package.json'));
@@ -49,10 +49,8 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
     devtool: isProd ? 'source-map' : 'cheap-eval-source-map',
     entry: [
       `./src/${name}.tsx`,
-      isProd
-        ? null
-        : 'webpack-plugin-serve/client'
-    ].filter((entry) => entry),
+      'webpack-plugin-serve/client'
+    ],
     mode: ENV,
     output: {
       chunkFilename: `[name].[chunkhash:8].js`,
@@ -178,12 +176,6 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       hints: false
     },
     plugins: plugins.concat([
-      isProd
-        ? null
-        : new WebpackPluginServe({
-          port: 3000,
-          static: path.join(process.cwd(), '/build')
-        }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.DefinePlugin({
         'process.env': {
@@ -200,8 +192,13 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({
         filename: `[name].[contenthash:8].css`
+      }),
+      new WebpackPluginServe({
+        liveReload: true,
+        port: 3000,
+        static: path.join(process.cwd(), '/build')
       })
-    ]).filter((entry) => entry),
+    ]),
     watch: !isProd
   };
 }

@@ -85,14 +85,14 @@ class ChangePass extends React.PureComponent<Props, State> {
           <Password
             autoFocus
             isError={!isOldValid}
-            label={t('old password')}
+            label={t('your current password')}
             onChange={this.onChangeOld}
             tabIndex={1}
             value={oldPass}
           />
           <Password
             isError={!isNewValid}
-            label={t('new password')}
+            label={t('your new password')}
             onChange={this.onChangeNew}
             tabIndex={2}
             value={newPass}
