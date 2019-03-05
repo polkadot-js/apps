@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import settings from '@polkadot/ui-settings';
-import { BareProps } from '@polkadot/ui-app/types';
 import '@polkadot/ui-app/i18n';
 import '@polkadot/ui-app/styles';
 
