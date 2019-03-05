@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { AccountId, Address } from '@polkadot/types';
 import { SignatureOptions } from '@polkadot/types/types';
@@ -24,7 +25,14 @@ export type QueueTx$Status = 'future' | 'ready' | 'finalised' | 'usurped' | 'dro
 
 export type SignerCallback = (id: number, isSigned: boolean) => void;
 
-export type QueueTx = AccountInfo & {
+export type TxCallbacks = {
+  onTxCancelled?: () => void,
+  onTxSent?: () => void,
+  onExtrinsicFailed?: (txResult: SubmittableResult) => void, // TODO rename to onTxFailed?
+  onExtrinsicSuccess?: (txResult: SubmittableResult) => void // TODO rename to onTxSuccess?
+};
+
+export type QueueTx = AccountInfo & TxCallbacks & {
   error?: Error,
   extrinsic?: SubmittableExtrinsic,
   id: number,
@@ -61,7 +69,7 @@ export type PartialAccountInfo = {
   accountId?: string | null
 };
 
-export type PartialQueueTx$Extrinsic = PartialAccountInfo & {
+export type PartialQueueTx$Extrinsic = PartialAccountInfo & TxCallbacks & {
   extrinsic: SubmittableExtrinsic,
   signerCallback?: SignerCallback,
   signerOptions?: SignatureOptions,
