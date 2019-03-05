@@ -194,7 +194,6 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
         filename: `[name].[contenthash:8].css`
       }),
       new WebpackPluginServe({
-        liveReload: true,
         port: 3000,
         static: path.join(process.cwd(), '/build')
       })
