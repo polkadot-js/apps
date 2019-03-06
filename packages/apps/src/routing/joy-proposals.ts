@@ -12,7 +12,6 @@ export default ([
     i18n: {
       defaultValue: 'Proposals'
     },
-    // icon: 'file alternate outline',
     icon: 'tasks',
     name: 'proposals'
   }
