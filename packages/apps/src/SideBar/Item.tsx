@@ -99,7 +99,7 @@ class Item extends React.PureComponent<Props> {
     });
 
     if (notFound.length !== 0) {
-      console.error(`Disabling route ${name}, API ${notFound} not available`);
+      console.info(`Disabling route ${name}, API ${notFound} not available`);
     }
 
     return notFound.length === 0;
