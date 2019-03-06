@@ -154,8 +154,8 @@ class Component extends React.PureComponent<Props, State> {
             params={[hashedVote, stake]}
             tx='election.vote'
             onTxSent={this.onFormSubmitted}
-            onExtrinsicFailed={this.onExtrinsicFailed}
-            onExtrinsicSuccess={(txResult: SubmittableResult) => this.onExtrinsicSuccess(buildNewVote() as NewVote, txResult)}
+            onTxFailed={this.onTxFailed}
+            onTxSuccess={(txResult: SubmittableResult) => this.onTxSuccess(buildNewVote() as NewVote, txResult)}
           />
         </Labelled>
       </Section>}
@@ -174,11 +174,11 @@ class Component extends React.PureComponent<Props, State> {
     this.setState({ isFormSubmitted: true });
   }
 
-  private onExtrinsicFailed = (_txResult: SubmittableResult): void => {
+  private onTxFailed = (_txResult: SubmittableResult): void => {
     // TODO Possible UX improvement: tell a user that his vote hasn't been accepted.
   }
 
-  private onExtrinsicSuccess = (vote: NewVote, txResult: SubmittableResult): void => {
+  private onTxSuccess = (vote: NewVote, txResult: SubmittableResult): void => {
     let hasVotedEvent = false;
     txResult.events.forEach((event, i) => {
       const { section, method } = event.event;

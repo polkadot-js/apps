@@ -281,7 +281,7 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetTxStatus(id, status, result, error);
   }
 
-  private async sendExtrinsic ({ accountId, extrinsic, id, signerCallback, signerOptions, isUnsigned, onExtrinsicFailed, onExtrinsicSuccess }: QueueTx, password?: string): Promise<void> {
+  private async sendExtrinsic ({ accountId, extrinsic, id, signerCallback, signerOptions, isUnsigned, onTxFailed, onTxSuccess }: QueueTx, password?: string): Promise<void> {
     assert(extrinsic, 'Expected an extrinsic to be supplied to sendExtrinsic');
 
     if (!isUnsigned) {
@@ -301,7 +301,7 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetTxStatus(id, 'sending');
 
     const getCallbacks = () => {
-      return { onExtrinsicFailed, onExtrinsicSuccess };
+      return { onTxFailed, onTxSuccess };
     };
 
     if (isUnsigned) {
@@ -355,14 +355,14 @@ class Signer extends React.PureComponent<Props, State> {
         if (status === 'finalised') {
           unsubscribe();
 
-          const { onExtrinsicFailed, onExtrinsicSuccess } = callbacks;
+          const { onTxFailed, onTxSuccess } = callbacks;
           result.events.forEach((event, i) => {
             const { section, method } = event.event;
             if (section === 'system') {
-              if (method === 'ExtrinsicFailed' && onExtrinsicFailed) {
-                onExtrinsicFailed(result);
-              } else if (method === 'ExtrinsicSuccess' && onExtrinsicSuccess) {
-                onExtrinsicSuccess(result);
+              if (method === 'ExtrinsicFailed' && onTxFailed) {
+                onTxFailed(result);
+              } else if (method === 'ExtrinsicSuccess' && onTxSuccess) {
+                onTxSuccess(result);
               }
             }
             // console.log(`\n> event #${i}`, { section, method });
