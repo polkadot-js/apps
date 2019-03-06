@@ -53,7 +53,7 @@ class Comp extends React.PureComponent<Props, State> {
       </Table.Row>
       {myVote && <Table.Row>
         <Table.Cell>Salt</Table.Cell>
-        <Table.Cell>{myVote.salt}</Table.Cell>
+        <Table.Cell><code>{myVote.salt}</code></Table.Cell>
       </Table.Row>}
       <Table.Row>
         <Table.Cell>Stake</Table.Cell>
