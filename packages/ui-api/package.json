@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-api",
-  "version": "0.24.30",
+  "version": "0.24.31",
   "description": "A collection of RxJs React components the Polkadot JS API",
   "main": "index.js",
   "keywords": [
