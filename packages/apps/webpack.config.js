@@ -49,8 +49,10 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
     devtool: isProd ? 'source-map' : 'cheap-eval-source-map',
     entry: [
       `./src/${name}.tsx`,
-      'webpack-plugin-serve/client'
-    ],
+      isProd
+        ? null
+        : 'webpack-plugin-serve/client'
+    ].filter((entry) => entry),
     mode: ENV,
     output: {
       chunkFilename: `[name].[chunkhash:8].js`,
@@ -193,11 +195,13 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       new MiniCssExtractPlugin({
         filename: `[name].[contenthash:8].css`
       }),
-      new WebpackPluginServe({
-        port: 3000,
-        static: path.join(process.cwd(), '/build')
-      })
-    ]),
+      isProd
+        ? null
+        : new WebpackPluginServe({
+          port: 3000,
+          static: path.join(process.cwd(), '/build')
+        })
+    ]).filter((plugin) => plugin),
     watch: !isProd
   };
 }
