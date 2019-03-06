@@ -15,6 +15,7 @@ const packages = [
   // Joystream apps:
 
   'joy-election',
+  'joy-help',
   'joy-proposals',
   'joy-utils',
   'joy-settings',

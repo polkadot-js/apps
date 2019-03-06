@@ -28,8 +28,8 @@ export type SignerCallback = (id: number, isSigned: boolean) => void;
 export type TxCallbacks = {
   onTxCancelled?: () => void,
   onTxSent?: () => void,
-  onExtrinsicFailed?: (txResult: SubmittableResult) => void, // TODO rename to onTxFailed?
-  onExtrinsicSuccess?: (txResult: SubmittableResult) => void // TODO rename to onTxSuccess?
+  onTxFailed?: (txResult: SubmittableResult) => void,
+  onTxSuccess?: (txResult: SubmittableResult) => void
 };
 
 export type QueueTx = AccountInfo & TxCallbacks & {

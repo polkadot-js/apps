@@ -1,0 +1,13 @@
+.JoyHelp {
+  .column{
+    flex: auto;
+  }
+  .AccountId {
+    display: block;
+    font-size: 0.85rem;
+    border-top: 1px solid #ddd;
+    margin-top: 1.25rem;
+    padding-top: .25rem;
+
+  }
+}

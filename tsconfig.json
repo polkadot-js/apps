@@ -7,6 +7,7 @@
     "baseUrl": ".",
     "paths": {
       "@polkadot/joy-election/*": [ "packages/joy-election/src/*" ],
+      "@polkadot/joy-help/*": [ "packages/joy-help/src/*" ],
       "@polkadot/joy-proposals/*": [ "packages/joy-proposals/src/*" ],
       "@polkadot/joy-utils/*": [ "packages/joy-utils/src/*" ],
       "@polkadot/joy-settings/*": [ "packages/joy-settings/src/*" ],

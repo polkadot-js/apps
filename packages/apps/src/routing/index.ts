@@ -8,6 +8,7 @@ import appSettings from '@polkadot/joy-settings/index';
 
 import election from './joy-election';
 import proposals from './joy-proposals';
+import help from './joy-help';
 
 import template from './123code';
 import accounts from './accounts';
@@ -33,6 +34,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     election,
     proposals,
     null,
+    help,
     settings,
     template
   )
@@ -50,6 +52,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     storage,
     extrinsics,
     null,
+    help,
     settings,
     toolbox,
     js,

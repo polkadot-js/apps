@@ -42,7 +42,7 @@ class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
   private send = (): void => {
     const {
       myAddress, accountId, api, params, queueExtrinsic, tx,
-      onTxCancelled, onTxSent, onExtrinsicFailed, onExtrinsicSuccess
+      onTxCancelled, onTxSent, onTxFailed, onTxSuccess
     } = this.props;
     const origin = accountId || myAddress;
     const [section, method] = tx.split('.');
@@ -54,8 +54,8 @@ class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
       extrinsic: api.tx[section][method](...params) as any, // ???
       onTxCancelled,
       onTxSent,
-      onExtrinsicFailed,
-      onExtrinsicSuccess
+      onTxFailed,
+      onTxSuccess
     });
   }
 }
