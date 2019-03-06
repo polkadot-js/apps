@@ -24,7 +24,7 @@ const renderMemo = (accId: string) => {
     <MemoView accountId={accId} preview={false} />
     <em className='AccountId'>
       <span>Memo of account </span>
-      <code><Link to={`/addresses/memo/${accId}`}>{accId}</Link></code>
+      <Link to={`/addresses/memo/${accId}`}>{accId}</Link>
     </em>
   </>;
 };

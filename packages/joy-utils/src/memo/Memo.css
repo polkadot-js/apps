@@ -2,6 +2,11 @@
   img {
     max-width: 100%;
   }
+  code {
+    background-color: #e0e0e0;
+    padding: 0 .25rem;
+    border-radius: 2px;
+  }
 }
 
 .JoyMemo--preview {
