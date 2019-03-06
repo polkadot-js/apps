@@ -17,7 +17,7 @@
   "scripts": {
     "analyze": "yarn run build && cd packages/apps && yarn run source-map-explorer build/main.*.js",
     "build-ts": "polkadot-dev-build-ts",
-    "patch": "cp -a patches/ .",
+    "patch": "cp -R patches/* .",
     "build": "yarn patch && yarn build-ts",
     "check": "tslint --project . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",
