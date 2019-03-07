@@ -302,9 +302,19 @@ class App extends React.PureComponent<Props, State> {
   private saveDeveloper = (): void => {
     const { isTypesValid, types } = this.state;
 
+    const status = {
+      status: 'created',
+      action: 'Your custom types have been added'
+    } as ActionStatus;
+
     if (isTypesValid) {
       store.set('types', types);
+    } else {
+      status.status = 'error';
+      status.action = 'Your custom types are invalid';
     }
+
+    this.props.onStatusChange(status);
   }
 
   private saveAndReload = (): void => {
