@@ -13,7 +13,7 @@ import { Route, Switch } from 'react-router';
 import { AccountId, Balance } from '@polkadot/types';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withCalls, withMulti, withObservable } from '@polkadot/ui-api/index';
+import { withCalls, withMulti, withObservable, Api } from '@polkadot/ui-api/index';
 
 import './index.css';
 
@@ -70,22 +70,21 @@ class App extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { allAccounts } = this.props;
+    const { allAccounts, api } = this.props;
     const { tabs } = this.state;
     const { basePath } = this.props;
     const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
-    const filteredTabs = hasAccounts
-      ? tabs
-      : tabs.filter(({ name }) =>
-        !['actions'].includes(name)
-      );
+    const hidden = hasAccounts && api.tx.staking.stake
+      ? []
+      : ['actions'];
 
     return (
       <main className='staking--App'>
         <header>
           <Tabs
             basePath={basePath}
-            items={filteredTabs}
+            hidden={hidden}
+            items={tabs}
           />
         </header>
         <Switch>
