@@ -86,7 +86,7 @@ class Item extends React.PureComponent<Props> {
   }
 
   private isVisible () {
-    const { allAccounts = {}, api, isApiConnected, isApiReady, route: { display: { isHidden, needsAccounts, needsApi }, name } } = this.props;
+    const { allAccounts = {}, isApiConnected, isApiReady, route: { display: { isHidden, needsAccounts, needsApi }, name } } = this.props;
     const hasAccounts = Object.keys(allAccounts).length !== 0;
 
     if (isHidden) {
