@@ -11,7 +11,10 @@ export default ([
     Component: Staking,
     display: {
       needsApi: [
-        'tx.staking.stake'
+        [
+          'tx.staking.bond', // current bonding API
+          'tx.staking.stake' // previous staking API
+        ]
       ]
     },
     i18n: {

@@ -74,8 +74,19 @@ class Item extends React.PureComponent<Props> {
     );
   }
 
+  private hasApi (endpoint: string): boolean {
+    const { api } = this.props;
+    const [area, section, method] = endpoint.split('.');
+
+    try {
+      return isFunction((api as any)[area][section][method]);
+    } catch (error) {
+      return false;
+    }
+  }
+
   private isVisible () {
-    const { allAccounts = {}, api, isApiConnected, isApiReady, route: { display: { isHidden, needsAccounts, needsApi }, name } } = this.props;
+    const { allAccounts = {}, isApiConnected, isApiReady, route: { display: { isHidden, needsAccounts, needsApi }, name } } = this.props;
     const hasAccounts = Object.keys(allAccounts).length !== 0;
 
     if (isHidden) {
@@ -88,14 +99,12 @@ class Item extends React.PureComponent<Props> {
       return false;
     }
 
-    const notFound = needsApi.filter((endpoint: string) => {
-      const [area, section, method] = endpoint.split('.');
+    const notFound = needsApi.filter((endpoint: string | Array<string>) => {
+      const hasApi = Array.isArray(endpoint)
+        ? endpoint.reduce((hasApi, endpoint) => hasApi || this.hasApi(endpoint), false)
+        : this.hasApi(endpoint);
 
-      try {
-        return !isFunction((api as any)[area][section][method]);
-      } catch (error) {
-        return true;
-      }
+      return !hasApi;
     });
 
     if (notFound.length !== 0) {
