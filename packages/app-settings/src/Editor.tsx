@@ -2,17 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/ui-app/types';
+import { BareProps, I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import CodeFlask from 'codeflask';
 
-type Props = BareProps & {
+import translate from './translate';
+
+type Props = BareProps & I18nProps & {
   code: string,
   onEdit: (code: string) => void
 };
 
-export default class Editor extends React.Component<Props> {
+class Editor extends React.Component<Props> {
   private editor: any;
 
   componentDidMount () {
@@ -41,11 +43,13 @@ export default class Editor extends React.Component<Props> {
   }
 
   render () {
+    const { t } = this.props;
+
     return (
       <div className='ui--row'>
         <div className='full'>
           <div className='ui--Labelled'>
-            <label>Manually enter your custom type definitions as valid JSON</label>
+            <label>{t('Manually enter your custom type definitions as valid JSON')}</label>
             <div className='ui--Labelled-content'>
               <div id='codeflask' className='editor' />
             </div>
@@ -61,3 +65,5 @@ export default class Editor extends React.Component<Props> {
     } as State));
   }
 }
+
+export default translate(Editor)
