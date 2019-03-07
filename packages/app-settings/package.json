@@ -12,6 +12,7 @@
   "dependencies": {
     "@babel/runtime": "^7.3.4",
     "@polkadot/ui-app": "^0.24.32",
-    "@polkadot/ui-reactive": "^0.24.32"
+    "@polkadot/ui-reactive": "^0.24.32",
+    "codeflask": "1.4.0"
   }
 }
