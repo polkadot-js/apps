@@ -16,7 +16,8 @@ import { MyAccountProps } from '@polkadot/joy-utils/MyAccount';
 
 type Props = ApiProps & I18nProps & MyAccountProps & {
   minStake?: Balance,
-  alreadyStaked?: Stake
+  alreadyStaked?: Stake,
+  myBalance?: Balance
 };
 
 type State = {
@@ -37,7 +38,7 @@ class ApplyForm extends React.PureComponent<Props, State> {
     const { stake, isStakeValid } = this.state;
     const hasAlreadyStakedEnough = this.alreadyStaked().gte(this.minStake());
     const minStake = hasAlreadyStakedEnough ? ZERO : this.minStake();
-    const buttonLabel = hasAlreadyStakedEnough ? 'Add to your stake' : 'Apply to council';
+    const buttonLabel = hasAlreadyStakedEnough ? 'Add to my stake' : 'Apply to council';
 
     return (
       <div>
@@ -69,8 +70,10 @@ class ApplyForm extends React.PureComponent<Props, State> {
 
   private onChangeStake = (stake?: BN): void => {
     stake = stake || ZERO;
-    const isStakeBigEnough = stake.add(this.alreadyStaked()).gte(this.minStake());
-    const isStakeValid = !stake.isZero() && isStakeBigEnough;
+    const { myBalance = ZERO } = this.props;
+    const isStakeLteBalance = stake.lte(myBalance);
+    const isStakeGteMinStake = stake.add(this.alreadyStaked()).gte(this.minStake());
+    const isStakeValid = !stake.isZero() && isStakeGteMinStake && isStakeLteBalance;
     this.setState({ stake, isStakeValid });
   }
 }
@@ -81,6 +84,8 @@ export default translate(
     ['query.councilElection.minCouncilStake',
       { propName: 'minStake' }],
     ['query.councilElection.applicantStakes',
-      { paramName: 'myAddress', propName: 'alreadyStaked' }]
+      { paramName: 'myAddress', propName: 'alreadyStaked' }],
+    ['query.balances.freeBalance',
+      { paramName: 'myAddress', propName: 'myBalance' }]
   )(ApplyForm)
 );
