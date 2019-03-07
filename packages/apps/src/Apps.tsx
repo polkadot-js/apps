@@ -45,15 +45,13 @@ class Apps extends React.Component<Props, State> {
     };
   }
 
-  componentDidMount() {
+  componentDidMount () {
     window.addEventListener('scroll', throttle(this.handleScroll, 500));
   }
 
   private handleScroll = (): void => {
-
+    console.log(window.innerWidth);
   }
-
-
 
   private collapse = (): void => {
     this.setState(({ isCollapsed }: State) => ({
