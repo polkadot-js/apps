@@ -12,7 +12,7 @@ export type Route = {
   display: {
     isHidden?: boolean,
     needsAccounts?: boolean,
-    needsApi?: Array<string>
+    needsApi?: Array<string | Array<string>>
   },
   i18n: { defaultValue: string },
   icon: SemanticICONS,

@@ -42,16 +42,28 @@ class Summary extends React.PureComponent<Props> {
         <section className='ui--media-medium'>
           <SummarySession withBroken={false} />
         </section>
-        <section className='ui--media-large'>
-          <CardSummary label={t('balances')}>
-            {this.renderBalances()}
-          </CardSummary>
-        </section>
+        {this.renderBalances()}
       </summary>
     );
   }
 
   private renderBalances () {
+    const { intentions, t } = this.props;
+
+    if (!intentions || !intentions.length) {
+      return null;
+    }
+
+    return (
+      <section className='ui--media-large'>
+        <CardSummary label={t('balances')}>
+          {this.renderBalancesCalculation()}
+        </CardSummary>
+      </section>
+    );
+  }
+
+  private renderBalancesCalculation () {
     const { t } = this.props;
     const intentionHigh = this.calcIntentionsHigh();
     const validatorLow = this.calcValidatorLow();
