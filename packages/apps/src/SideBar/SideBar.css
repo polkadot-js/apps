@@ -24,29 +24,30 @@
   flex-shrink: 0;
   align-items: center;
   min-height: 100vh;
-  padding: 0.75em 0 0 0.75em;
   position: fixed;
-  text-align: left;
-  transition: width 0.3s;
+  padding-top: 0.75em;
+  transition: width 0.25s;
   z-index: 100;
 
   &.collapsed {
+    text-align: center;
     width: 4.2rem;
   }
 
   &.expanded {
+    padding-left: 0.75em;
+    text-align: left;
     width: 12rem;
   }
 
   .ui.vertical.menu {
     margin: 0;
-    width: auto;
+    width: 100%;
   }
 
   .apps--SideBar-Item {
     overflow-x: visible;
     padding: 0 !important;
-    text-align: left;
 
     .text {
       padding-left: 0.5rem;
@@ -67,7 +68,12 @@
     .ui.basic.secondary.button {
       box-shadow: 0 0 0 1px #eee inset !important;
       color: #eee !important;
+      transition: transform 0.15s;
       margin: 0;
+
+      &.rotated {
+        transform: rotate(180deg);
+      }
     }
   }
 
@@ -91,8 +97,9 @@
     }
 
     .apps--SideBar-Item {
+      margin-left: 5px;
       .icon {
-        font-size: 1.32rem;
+        font-size: 1.28rem;
       }
       .text {
         display: none;
@@ -100,7 +107,7 @@
     }
 
     .apps--SideBar-logo {
-      margin: 0.125rem 0.75rem 0.625rem 0;
+      margin: 0.125rem auto 0.625rem auto;
       width: 3rem;
     }
 
@@ -116,10 +123,16 @@ a.apps--SideBar-Item-NavLink {
   display: block;
   padding: 0.75em 0.75em;
   white-space: nowrap;
+  transition: background 0.15s;
+
+  &:hover {
+    border-radius: 0.28571429rem 0 0 0.28571429rem;
+    background: rgba(0,0,0,0.15);
+  }
 }
 
 a.apps--SideBar-Item-NavLink-active {
-  background: #fafafa;
+  background: #fafafa !important;
   border-radius: 0.28571429rem 0 0 0.28571429rem;
   color: inherit;
 
@@ -127,7 +140,6 @@ a.apps--SideBar-Item-NavLink-active {
     color: inherit;
   }
 }
-
 
 .theme--polkadot {
   a.apps--SideBar-Item-NavLink:hover {

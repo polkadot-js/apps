@@ -17,6 +17,8 @@ import Connecting from './Connecting';
 import Content from './Content';
 import SideBar from './SideBar';
 
+import { throttle } from 'lodash';
+
 type Props = BareProps & {};
 
 type State = {
@@ -30,7 +32,7 @@ const Wrapper = styled.div`
   min-height: 100vh;
 `;
 
-class Apps extends React.PureComponent<Props, State> {
+class Apps extends React.Component<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -43,6 +45,16 @@ class Apps extends React.PureComponent<Props, State> {
     };
   }
 
+  componentDidMount() {
+    window.addEventListener('scroll', throttle(this.handleScroll, 500));
+  }
+
+  private handleScroll = (): void => {
+
+  }
+
+
+
   private collapse = (): void => {
     this.setState(({ isCollapsed }: State) => ({
       isCollapsed: !isCollapsed
@@ -53,8 +65,6 @@ class Apps extends React.PureComponent<Props, State> {
 
   render () {
     const { isCollapsed } = this.state;
-
-    console.log('is collapsed: ' + isCollapsed);
 
     return (
       <>
