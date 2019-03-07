@@ -5,17 +5,30 @@
 @import '../../../ui-app/src/styles/theme/_colors-polkadot.css';
 @import '../../../ui-app/src/styles/theme/_colors-substrate.css';
 
+.apps-Wrapper {
+  transition: padding-left 0.3s;
+
+  &.collapsed {
+    padding-left: 4.2rem;
+  }
+
+  &.expanded {
+    padding-left: 12rem;
+  }
+}
+
 .apps--SideBar {
-  background: #4e4e4e;
+  background: #3f3f3f;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   align-items: center;
   min-height: 100vh;
   padding: 0.75em 0 0 0.75em;
-  position: relative;
+  position: fixed;
   text-align: left;
   transition: width 0.3s;
+  z-index: 100;
 
   &.collapsed {
     width: 4.2rem;
@@ -79,7 +92,7 @@
 
     .apps--SideBar-Item {
       .icon {
-        font-size: 1.38rem;
+        font-size: 1.32rem;
       }
       .text {
         display: none;
@@ -92,8 +105,8 @@
     }
 
     a.apps--SideBar-Item-NavLink {
-      padding-top: 0.9em;
-      padding-bottom: 0.9em;
+      padding-top: 0.92em;
+      padding-bottom: 0.92em;
     }
   }
 }
