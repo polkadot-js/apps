@@ -22,7 +22,7 @@ import './index.css';
 import translate from './translate';
 
 type Props = AppProps & I18nProps & {
-  onStatusChange: (status: ActionStatus) => void,
+  onStatusChange: (status: ActionStatus) => void
 };
 
 type State = {

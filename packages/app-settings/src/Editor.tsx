@@ -66,4 +66,4 @@ class Editor extends React.Component<Props> {
   }
 }
 
-export default translate(Editor)
+export default translate(Editor);
