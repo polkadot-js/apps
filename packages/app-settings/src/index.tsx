@@ -11,14 +11,19 @@ import { Route, Switch } from 'react-router';
 import store from 'store';
 import { getTypeRegistry } from '@polkadot/types';
 import { Button, Dropdown, Input, InputFile, Tabs } from '@polkadot/ui-app/index';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import uiSettings from '@polkadot/ui-settings';
 import { u8aToString } from '@polkadot/util';
+
+import Editor from './Editor';
 
 import './index.css';
 
 import translate from './translate';
 
-type Props = AppProps & I18nProps;
+type Props = AppProps & I18nProps & {
+  onStatusChange: (status: ActionStatus) => void,
+};
 
 type State = {
   isCustomNode: boolean,
@@ -38,6 +43,7 @@ class App extends React.PureComponent<Props, State> {
     const types = store.get('types') || {};
     const names = Object.keys(types);
     const settings = uiSettings.get();
+
     let isCustomNode = true;
 
     // check to see if user has saved a custom node by seeing if their URL is equal to any preset
@@ -61,6 +67,7 @@ class App extends React.PureComponent<Props, State> {
           text: t('Developer')
         }
       ],
+      types: names.length ? types : null,
       typesPlaceholder: names.length
         ? names.join(', ')
         : undefined,
@@ -91,6 +98,7 @@ class App extends React.PureComponent<Props, State> {
   private renderDeveloper = () => {
     const { t } = this.props;
     const { isTypesValid, types, typesPlaceholder } = this.state;
+    const code = types ? JSON.stringify(types, null, 2) : '{\n\t\n}' ;
 
     return (
       <>
@@ -99,12 +107,13 @@ class App extends React.PureComponent<Props, State> {
             <InputFile
               clearContent={!types && isTypesValid}
               isError={!isTypesValid}
-              label={t('additional type definitions (JSON)')}
+              label={t('Upload your additional type definitions as a JSON file')}
               onChange={this.onChangeTypes}
               placeholder={typesPlaceholder}
             />
           </div>
         </div>
+        <Editor code={code}/>
         <Button.Group>
           <Button
             isDisabled={!types}
@@ -198,6 +207,7 @@ class App extends React.PureComponent<Props, State> {
   }
 
   private clearTypes = (): void => {
+    store.remove('types');
     this.setState({
       isTypesValid: true,
       types: null,
