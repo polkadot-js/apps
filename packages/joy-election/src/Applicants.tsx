@@ -10,8 +10,9 @@ import translate from './translate';
 import Applicant from './Applicant';
 import ApplyForm from './ApplyForm';
 import Section from '@polkadot/joy-utils/Section';
+import { withMyAccount, MyAccountProps } from '@polkadot/joy-utils/MyAccount';
 
-type Props = ApiProps & I18nProps & {
+type Props = ApiProps & I18nProps & MyAccountProps & {
   applicants?: Array<AccountId>
 };
 
@@ -38,11 +39,11 @@ class Applicants extends React.PureComponent<Props, State> {
   )
 
   render () {
-    const { applicants = [] } = this.props;
+    const { myAddress, applicants = [] } = this.props;
     // console.log({ applicants });
 
     return <>
-      <ApplyForm />
+      <ApplyForm myAddress={myAddress} />
       <Section title='Applicants'>
       {!applicants.length
         ? <em>No applicants yet</em>
@@ -57,5 +58,5 @@ class Applicants extends React.PureComponent<Props, State> {
 export default translate(
   withCalls<Props>(
     ['query.councilElection.applicants', { propName: 'applicants' }]
-  )(Applicants)
+  )(withMyAccount(Applicants))
 );
