@@ -18,14 +18,14 @@
 }
 
 .apps--SideBar {
+  align-items: center;
   background: #3f3f3f;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  align-items: center;
+  overflow-y: hidden;
   min-height: 100vh;
   position: fixed;
-  padding-top: 0.75em;
   transition: width 0.25s;
   z-index: 100;
 
@@ -41,35 +41,45 @@
   }
 
   .ui.vertical.menu {
+    flex-grow: 1;
+    height: 110vh;
     margin: 0;
+    padding-bottom: 9rem;
+    overflow-y: scroll;
     width: 100%;
+
+    &::-webkit-scrollbar {
+      background: transparent;
+      width: 0px;
+    }
   }
 
   .apps--SideBar-Item {
-    overflow-x: visible;
     padding: 0 !important;
-
     .text {
       padding-left: 0.5rem;
     }
   }
 
   .apps--SideBar-logo {
-    width: 100%;
     margin: 0.5rem 1.5rem 1rem 0.75rem;
-    width: 9rem;
+    padding-top: 0.75em;
+    width: 100%;
   }
 
   .apps--SideBar-collapse {
-    bottom: 0.75em;
-    position: fixed;
+    background: #3f3f3f;
+    bottom: 0px;
     left: 0.75rem;
+    padding: 1rem 0;
+    position: fixed;
+    z-index: 99;
 
     .ui.basic.secondary.button {
       box-shadow: 0 0 0 1px #eee inset !important;
       color: #eee !important;
-      transition: transform 0.15s;
       margin: 0;
+      transition: transform 0.15s;
 
       &.rotated {
         transform: rotate(180deg);
@@ -78,12 +88,12 @@
   }
 
   .apps--SideBar-toggle {
-    position: absolute;
-    top: 0px;
-    right: -2px;
     height: 100%;
-    width: 7px;
+    position: absolute;
+    right: -2px;
+    top: 0px;
     transition: all 0.2s;
+    width: 7px;
 
     &:hover {
       background: rgba(255,255,255,0.15);
@@ -112,8 +122,8 @@
     }
 
     a.apps--SideBar-Item-NavLink {
-      padding-top: 0.92em;
       padding-bottom: 0.92em;
+      padding-top: 0.92em;
     }
   }
 }
@@ -122,12 +132,12 @@ a.apps--SideBar-Item-NavLink {
   color: #eee;
   display: block;
   padding: 0.75em 0.75em;
-  white-space: nowrap;
   transition: background 0.15s;
+  white-space: nowrap;
 
   &:hover {
-    border-radius: 0.28571429rem 0 0 0.28571429rem;
     background: rgba(0,0,0,0.15);
+    border-radius: 0.28571429rem 0 0 0.28571429rem;
   }
 }
 
@@ -148,7 +158,6 @@ a.apps--SideBar-Item-NavLink-active {
 
   a.apps--SideBar-Item-NavLink-active {
     color: $nav-link;
-
     &:hover {
       color: $nav-link;
     }
