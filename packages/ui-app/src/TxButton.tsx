@@ -3,13 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/ui-api/types';
-import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
+import { QueueTx$ExtrinsicAdd } from './Status/types';
 
 import React from 'react';
-import { Button } from '@polkadot/ui-app/index';
-import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 import { withApi } from '@polkadot/ui-api/index';
 import { assert } from '@polkadot/util';
+
+import { QueueConsumer } from './Status/Context';
+import Button from './Button';
 
 type InjectedProps = {
   queueExtrinsic: QueueTx$ExtrinsicAdd;

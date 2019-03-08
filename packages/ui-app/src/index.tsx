@@ -34,3 +34,4 @@ export { default as Progress } from './Progress';
 export { default as Static } from './Static';
 export { default as Status } from './Status';
 export { default as Tabs } from './Tabs';
+export { default as TxButton } from './TxButton';
