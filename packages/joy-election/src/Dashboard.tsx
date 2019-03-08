@@ -4,13 +4,13 @@ import React from 'react';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { withCalls } from '@polkadot/ui-api/with';
-import { BlockNumber, AccountId, Balance, Option } from '@polkadot/types';
+import { BlockNumber, Balance, Option } from '@polkadot/types';
 import { Bubble } from '@polkadot/ui-app/index';
 import { formatNumber, formatBalance } from '@polkadot/ui-app/util';
 
 import Section from '@polkadot/joy-utils/Section';
 import { queryToProp } from '@polkadot/joy-utils/index';
-import { ElectionStage, Seat, Announcing } from '@polkadot/joy-utils/types';
+import { ElectionStage, Seat } from '@polkadot/joy-utils/types';
 import translate from './translate';
 
 type Props = ApiProps & I18nProps & {
@@ -30,8 +30,7 @@ type Props = ApiProps & I18nProps & {
   revealingPeriod?: BlockNumber,
 
   round?: BN,
-  stage?: Option<ElectionStage>,
-  applicants?: AccountId[]
+  stage?: Option<ElectionStage>
 };
 
 type State = {};
@@ -56,7 +55,7 @@ class Dashboard extends React.PureComponent<Props, State> {
   }
 
   renderElection () {
-    const { bestNumber, round, stage, applicants = [] } = this.props;
+    const { bestNumber, round, stage } = this.props;
 
     let stageName: string | undefined = undefined;
     let stageEndsAt: BlockNumber | undefined = undefined;
@@ -71,25 +70,26 @@ class Dashboard extends React.PureComponent<Props, State> {
       leftBlocks = stageEndsAt.sub(bestNumber);
     }
 
-    const isNotRunning = stage && stage.value instanceof Announcing && stage.value.eq(0);
-    const title = `Election (is ${isNotRunning ? 'not' : ''} running)`;
+    const isRunning: boolean = stage !== undefined && stage.isSome;
+    const stateClass = `JoyElection--${isRunning ? '' : 'Not'}Running`;
+    const stateText = `is ${isRunning ? '' : 'not'} running`;
+    const title = <>Election (<span className={stateClass}>{stateText}</span>)</>;
 
     return <Section title={title}>
       <Bubble icon='target' label='Election round #'>
         {formatNumber(round)}
       </Bubble>
-      <Bubble label='Stage'>
-        {stageName}
-      </Bubble>
-      <Bubble icon='flag checkered' label='Stage ends at block #'>
-        {formatNumber(stageEndsAt)}
-      </Bubble>
-      <Bubble label='Blocks left'>
-        {formatNumber(leftBlocks)}
-      </Bubble>
-      <Bubble label='Applicants'>
-        {applicants.length}
-      </Bubble>
+      {isRunning && <>
+        <Bubble label='Stage'>
+          {stageName}
+        </Bubble>
+        <Bubble label='Blocks left'>
+          {formatNumber(leftBlocks)}
+        </Bubble>
+        <Bubble icon='flag checkered' label='Stage ends at block #'>
+          {formatNumber(stageEndsAt)}
+        </Bubble>
+      </>}
     </Section>;
   }
 
@@ -160,7 +160,6 @@ export default translate(
     queryToProp('query.councilElection.revealingPeriod'),
 
     queryToProp('query.councilElection.stage'),
-    queryToProp('query.councilElection.round'),
-    queryToProp('query.councilElection.applicants')
+    queryToProp('query.councilElection.round')
   )(Dashboard)
 );
