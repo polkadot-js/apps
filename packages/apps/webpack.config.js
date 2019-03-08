@@ -11,26 +11,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { WebpackPluginServe } = require('webpack-plugin-serve');
 
-const packages = [
-  'app-accounts',
-  'app-addresses',
-  'app-democracy',
-  'app-explorer',
-  'app-extrinsics',
-  'app-js',
-  'app-settings',
-  'app-staking',
-  'app-storage',
-  'app-123code',
-  'app-toolbox',
-  'app-transfer',
-  'ui-api',
-  'ui-app',
-  'ui-params',
-  'ui-reactive',
-  'ui-signer'
-];
-
 // const DEFAULT_THEME = process.env.TRAVIS_BRANCH === 'next'
 //   ? 'substrate'
 //   : 'polkadot';
@@ -206,10 +186,32 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
   };
 }
 
+function findPackages () {
+  const pkgRoot = path.join(__dirname, '..');
+
+  return fs
+    .readdirSync(pkgRoot)
+    .filter((entry) => {
+      const pkgPath = path.join(pkgRoot, entry);
+
+      return !['.', '..'].includes(entry) &&
+        fs.lstatSync(pkgPath).isDirectory() &&
+        fs.lstatSync(path.join(pkgPath, 'package.json'));
+    })
+    .map((dir) => {
+      const jsonPath = path.join(pkgRoot, dir, 'package.json');
+      const { name } = JSON.parse(
+        fs.readFileSync(jsonPath).toString('utf-8')
+      );
+
+      return { dir, name };
+    });
+}
+
 module.exports = createWebpack({
   context: __dirname,
-  alias: packages.reduce((alias, pkg) => {
-    alias[`@polkadot/${pkg}`] = path.resolve(__dirname, `../${pkg}/src`);
+  alias: findPackages().reduce((alias, { dir, name }) => {
+    alias[name] = path.resolve(__dirname, `../${dir}/src`);
 
     return alias;
   }, {})
