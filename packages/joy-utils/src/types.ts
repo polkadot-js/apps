@@ -1,8 +1,7 @@
-import typeRegistry from '@polkadot/types/codec/typeRegistry';
 import { Enum, EnumType, Option } from '@polkadot/types/codec';
-import { BlockNumber, AccountId, Balance, Hash, u32, Text } from '@polkadot/types';
+import { getTypeRegistry, BlockNumber, AccountId, Balance, Hash, u32, Text } from '@polkadot/types';
 
-class Amount extends Balance {};
+class Amount extends Balance {}
 
 export type TransferableStake = {
   seat: Balance,
@@ -140,6 +139,7 @@ export type ProposalVotes = [AccountId, VoteKind][];
 export function registerJoystreamTypes () {
   try {
     // Register parametrized enum ElectionStage:
+    const typeRegistry = getTypeRegistry();
     typeRegistry.register({
       Announcing,
       Voting,
@@ -147,13 +147,12 @@ export function registerJoystreamTypes () {
       ElectionStage
     });
     typeRegistry.register({
-      Amount,
-    })
+      Amount
+    });
     typeRegistry.register({
       ProposalStatus,
       VoteKind
     });
-
     typeRegistry.register({
       'Stake': {
         'new': 'Balance',

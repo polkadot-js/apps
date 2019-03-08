@@ -4,8 +4,7 @@ import React from 'react';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { withCalls } from '@polkadot/ui-api/with';
-import { BlockNumber, AccountId, Balance } from '@polkadot/types';
-import Bool from '@polkadot/types/Bool';
+import { BlockNumber, AccountId, Balance, Option } from '@polkadot/types';
 import { Bubble } from '@polkadot/ui-app/index';
 import { formatNumber, formatBalance } from '@polkadot/ui-app/util';
 
@@ -20,7 +19,7 @@ type Props = ApiProps & I18nProps & {
   activeCouncil?: Seat[],
   termEndsAt?: BlockNumber,
 
-  autoStart?: Bool,
+  autoStart?: Boolean,
   newTermDuration?: BN,
   candidacyLimit?: BN,
   councilSize?: BN,
@@ -31,7 +30,7 @@ type Props = ApiProps & I18nProps & {
   revealingPeriod?: BlockNumber,
 
   round?: BN,
-  stage?: ElectionStage,
+  stage?: Option<ElectionStage>,
   applicants?: AccountId[]
 };
 
@@ -57,13 +56,13 @@ class Dashboard extends React.PureComponent<Props, State> {
   }
 
   renderElection () {
-    const p = this.props;
-    const { bestNumber, stage, applicants = [] } = p;
+    const { bestNumber, round, stage, applicants = [] } = this.props;
+    console.log({ bestNumber, round, stage, applicants });
 
-    let stageName: string | undefined;
-    let stageEndsAt: BlockNumber | undefined;
-    if (stage) {
-      stageEndsAt = stage.value as BlockNumber;
+    let stageName: string | undefined = undefined;
+    let stageEndsAt: BlockNumber | undefined = undefined;
+    if (stage && stage.isSome) {
+      stageEndsAt = (stage.value as ElectionStage).value as BlockNumber;
       stageName = stageEndsAt.constructor.name;
     }
 
@@ -77,7 +76,7 @@ class Dashboard extends React.PureComponent<Props, State> {
 
     return <Section title={title}>
       <Bubble icon='target' label='Election round #'>
-        {formatNumber(p.round)}
+        {formatNumber(round)}
       </Bubble>
       <Bubble label='Stage'>
         {stageName}
@@ -96,7 +95,7 @@ class Dashboard extends React.PureComponent<Props, State> {
 
   renderConfig () {
     const p = this.props;
-    const isAutoStart = (p.autoStart || new Bool(false)).valueOf();
+    const isAutoStart = (p.autoStart || false).valueOf();
 
     return <Section title='Configuration'>
       <Bubble label='Auto-start elections'>
