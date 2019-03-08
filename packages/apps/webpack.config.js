@@ -11,11 +11,15 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { WebpackPluginServe } = require('webpack-plugin-serve');
 
+const findPackages = require('../../scripts/findPackages');
+
 // const DEFAULT_THEME = process.env.TRAVIS_BRANCH === 'next'
 //   ? 'substrate'
 //   : 'polkadot';
 
 function createWebpack ({ alias = {}, context, name = 'index' }) {
+  console.error('alias', alias);
+
   const pkgJson = require(path.join(context, 'package.json'));
   const ENV = process.env.NODE_ENV || 'development';
   const isProd = ENV === 'production';
@@ -184,28 +188,6 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
     ]).filter((plugin) => plugin),
     watch: !isProd
   };
-}
-
-function findPackages () {
-  const pkgRoot = path.join(__dirname, '..');
-
-  return fs
-    .readdirSync(pkgRoot)
-    .filter((entry) => {
-      const pkgPath = path.join(pkgRoot, entry);
-
-      return !['.', '..'].includes(entry) &&
-        fs.lstatSync(pkgPath).isDirectory() &&
-        fs.lstatSync(path.join(pkgPath, 'package.json'));
-    })
-    .map((dir) => {
-      const jsonPath = path.join(pkgRoot, dir, 'package.json');
-      const { name } = JSON.parse(
-        fs.readFileSync(jsonPath).toString('utf-8')
-      );
-
-      return { dir, name };
-    });
 }
 
 module.exports = createWebpack({
