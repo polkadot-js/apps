@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-js authors & contributors
+// Copyright 2017-2019 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -8,12 +8,11 @@ import React from 'react';
 import CodeFlask from 'codeflask';
 
 type Props = BareProps & {
-  isDevelopment: boolean,
   code: string,
   onEdit: (code: string) => void
 };
 
-export default class Editor extends React.Component<Props> {
+class Editor extends React.Component<Props> {
   private id: string = `flask-${Date.now()}`;
   private editor: any;
 
@@ -48,3 +47,5 @@ export default class Editor extends React.Component<Props> {
     );
   }
 }
+
+export default Editor;
