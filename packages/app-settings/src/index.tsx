@@ -10,12 +10,10 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 import store from 'store';
 import { getTypeRegistry } from '@polkadot/types';
-import { Button, Dropdown, Input, InputFile, Tabs } from '@polkadot/ui-app/index';
+import { Button, Dropdown, Editor, Input, InputFile, Tabs } from '@polkadot/ui-app/index';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import uiSettings from '@polkadot/ui-settings';
-import { u8aToString } from '@polkadot/util';
-
-import Editor from './Editor';
+import { stringToU8a, u8aToString } from '@polkadot/util';
 
 import './index.css';
 
@@ -27,6 +25,7 @@ type Props = AppProps & I18nProps & {
 
 type State = {
   isCustomNode: boolean,
+  isJsonValid: boolean,
   isTypesValid: boolean,
   isUrlValid: boolean,
   settings: SettingsStruct,
@@ -55,6 +54,7 @@ class App extends React.PureComponent<Props, State> {
 
     this.state = {
       isCustomNode,
+      isJsonValid: true,
       isTypesValid: true,
       isUrlValid: this.isValidUrl(settings.apiUrl),
       tabs: [
@@ -113,7 +113,20 @@ class App extends React.PureComponent<Props, State> {
             />
           </div>
         </div>
-        <Editor code={code}/>
+        <div className='ui--row'>
+          <div className='full'>
+            <div className='ui--Labelled'>
+              <label>{t('Manually enter your custom type definitions as valid JSON')}</label>
+              <div className='ui--Labelled-content'>
+                <Editor
+                  className='editor'
+                  code={code}
+                  onEdit={this.onEditTypes}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
         <Button.Group>
           <Button
             isDisabled={!types}
@@ -230,7 +243,11 @@ class App extends React.PureComponent<Props, State> {
   }
 
   private onChangeTypes = (data: Uint8Array) => {
+    console.log('Im changing', data);
     try {
+      console.log('first here?');
+      const u8t = u8aToString(data);
+      console.log('here?');
       const types = JSON.parse(u8aToString(data));
       const typesPlaceholder = Object.keys(types).join(', ');
 
@@ -252,6 +269,24 @@ class App extends React.PureComponent<Props, State> {
         typesPlaceholder: error.message
       });
     }
+  }
+
+  private onEditTypes = (code: string): void => {
+    try {
+      const nextTypes = JSON.parse(code);
+      if (nextTypes !== this.state.types) {
+        const data = stringToU8a(code);
+        this.onChangeTypes(data);
+      }
+    } catch (e) {
+      console.log('ERROR', e);
+    }
+
+    // this.onChangeTypes(data);
+    // if (JSON.parse(code) !== this.state.types) {
+    //   const data = stringToU8a(code);
+    //   this.onChangeTypes(data);
+    // }
   }
 
   private onChangeUiMode = (uiMode: string): void => {
