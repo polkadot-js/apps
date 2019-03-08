@@ -18,8 +18,6 @@ const findPackages = require('../../scripts/findPackages');
 //   : 'polkadot';
 
 function createWebpack ({ alias = {}, context, name = 'index' }) {
-  console.error('alias', alias);
-
   const pkgJson = require(path.join(context, 'package.json'));
   const ENV = process.env.NODE_ENV || 'development';
   const isProd = ENV === 'production';
