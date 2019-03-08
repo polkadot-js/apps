@@ -57,13 +57,13 @@ class Dashboard extends React.PureComponent<Props, State> {
 
   renderElection () {
     const { bestNumber, round, stage, applicants = [] } = this.props;
-    console.log({ bestNumber, round, stage, applicants });
 
     let stageName: string | undefined = undefined;
     let stageEndsAt: BlockNumber | undefined = undefined;
     if (stage && stage.isSome) {
-      stageEndsAt = (stage.value as ElectionStage).value as BlockNumber;
-      stageName = stageEndsAt.constructor.name;
+      const stageValue = stage.value as ElectionStage;
+      stageEndsAt = stageValue.value as BlockNumber;
+      stageName = stageValue.type;
     }
 
     let leftBlocks: BN | undefined;
