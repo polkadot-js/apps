@@ -304,7 +304,7 @@ class App extends React.PureComponent<Props, State> {
     const { isTypesValid, types } = this.state;
 
     const status = {
-      status: 'created',
+      status: 'success',
       action: t('Your custom types have been added')
     } as ActionStatus;
 
