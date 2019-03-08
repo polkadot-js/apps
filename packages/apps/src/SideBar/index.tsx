@@ -9,7 +9,6 @@ import './SideBar.css';
 import React from 'react';
 import { withRouter } from 'react-router';
 
-import store from 'store';
 import { withMulti } from '@polkadot/ui-api/index';
 import { Button, Icon, Menu } from '@polkadot/ui-app/index';
 
@@ -19,7 +18,10 @@ import Item from './Item';
 import NodeInfo from './NodeInfo';
 import getLogo from './logos';
 
-type Props = I18nProps;
+type Props = I18nProps & {
+  isCollapsed: boolean,
+  collapse: () => void
+};
 
 class SideBar extends React.PureComponent<Props> {
 
