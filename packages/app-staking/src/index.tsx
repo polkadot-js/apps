@@ -70,22 +70,21 @@ class App extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { allAccounts } = this.props;
+    const { allAccounts, api } = this.props;
     const { tabs } = this.state;
     const { basePath } = this.props;
     const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
-    const filteredTabs = hasAccounts
-      ? tabs
-      : tabs.filter(({ name }) =>
-        !['actions'].includes(name)
-      );
+    const hidden = hasAccounts && api.tx.staking.stake
+      ? []
+      : ['actions'];
 
     return (
       <main className='staking--App'>
         <header>
           <Tabs
             basePath={basePath}
-            items={filteredTabs}
+            hidden={hidden}
+            items={tabs}
           />
         </header>
         <Switch>
