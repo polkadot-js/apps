@@ -12,7 +12,7 @@ type Props = BareProps & {
   onEdit: (code: string) => void
 };
 
-class Editor extends React.Component<Props> {
+export default class Editor extends React.Component<Props> {
   private id: string = `flask-${Date.now()}`;
   private editor: any;
 
@@ -47,5 +47,3 @@ class Editor extends React.Component<Props> {
     );
   }
 }
-
-export default Editor;
