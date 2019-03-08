@@ -43,19 +43,11 @@ class Apps extends React.Component<Props, State> {
     };
   }
 
-  private collapse = (): void => {
-    this.setState(({ isCollapsed }: State) => ({
-      isCollapsed: !isCollapsed
-    }), () => {
-      store.set('sidebar', this.state);
-    });
-  }
-
   render () {
     const { isCollapsed } = this.state;
 
     return (
-      <Wrapper className={classes('apps-Wrapper', `theme--${settings.uiTheme}`)}>
+      <Wrapper className={classes('apps-Wrapper', `${isCollapsed ? 'collapsed' : 'expanded'}`, `theme--${settings.uiTheme}`)}>
         <SideBar
           collapse={this.collapse}
           isCollapsed={this.state.isCollapsed}
@@ -66,6 +58,14 @@ class Apps extends React.Component<Props, State> {
         <Connecting />
       </Wrapper>
     );
+  }
+
+  private collapse = (): void => {
+    this.setState(({ isCollapsed }: State) => ({
+      isCollapsed: !isCollapsed
+    }), () => {
+      store.set('sidebar', this.state);
+    });
   }
 }
 

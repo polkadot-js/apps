@@ -29,7 +29,7 @@ class SideBar extends React.PureComponent<Props> {
     const { isCollapsed } = this.props;
 
     return (
-      <div className={`apps--SideBar ${isCollapsed ? 'collapsed' : 'expanded'}`}>
+      <div className='apps--SideBar'>
         <Menu
           secondary
           vertical
