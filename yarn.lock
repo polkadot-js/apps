@@ -3995,7 +3995,7 @@ codeclimate-test-reporter@^0.5.1:
     lcov-parse "0.0.10"
     request "~2.88.0"
 
-codeflask@1.4.0:
+codeflask@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/codeflask/-/codeflask-1.4.0.tgz#71a349368cb6ba3d12f5da286ed4f39627a62c62"
   integrity sha512-b2v30UmlapvddFATHzf+xIQ5q6+ONKvQJUtyziO1OuKQgnFyv0pn6eGxJntp0pGldzMA+nXX0Ff6Y1a8odrRtA==
