@@ -55,18 +55,16 @@ class Apps extends React.Component<Props, State> {
     const { isCollapsed } = this.state;
 
     return (
-      <>
+      <Wrapper className={classes('apps-Wrapper', `theme--${settings.uiTheme}`)}>
         <SideBar
           collapse={this.collapse}
           isCollapsed={this.state.isCollapsed}
         />
-        <Wrapper className={classes('apps-Wrapper', `${isCollapsed ? `collapsed` : `expanded`}`, `theme--${settings.uiTheme}`)}>
-          <Signer>
-            <Content />
-          </Signer>
-          <Connecting />
-        </Wrapper>
-      </>
+        <Signer>
+          <Content />
+        </Signer>
+        <Connecting />
+      </Wrapper>
     );
   }
 }

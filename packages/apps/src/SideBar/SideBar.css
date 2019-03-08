@@ -20,16 +20,12 @@
 .apps--SideBar {
   align-items: center;
   background: #3f3f3f;
-  overflow-y: hidden;
+  display: flex;
+  flex-flow: column;
   min-height: 100vh;
-  position: fixed;
-  transition: width 0.25s;
+  position: relative;
+  transition: width 0.3s;
   z-index: 100;
-
-  &.collapsed {
-    text-align: center;
-    width: 4.2rem;
-  }
 
   &.expanded {
     padding-left: 0.75em;
@@ -38,21 +34,28 @@
   }
 
   .ui.vertical.menu {
-    flex-grow: 1;
-    height: 110vh;
+    align-items: flex-end;
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
     margin: 0;
-    padding-bottom: 9rem;
-    overflow-y: scroll;
+    position: sticky;
+    overflow-y: auto;
+    top: 0px;
     width: 100%;
 
     &::-webkit-scrollbar {
-      background: transparent;
+      display: none;
       width: 0px;
     }
   }
 
   .apps--SideBar-Item {
+    align-self: flex-end;
+    flex-grow: 0;
     overflow-x: visible;
+    width: inherit;
+
     padding: 0 !important;
     .text {
       padding-left: 0.5rem;
@@ -66,17 +69,20 @@
   }
 
   .apps--SideBar-collapse {
+    align-items: flex-end;
     background: #3f3f3f;
     bottom: 0px;
-    left: 0.75rem;
-    padding: 1rem 0;
-    position: fixed;
-    z-index: 99;
+    display: flex;
+    flex-direction: row wrap;
+    flex-grow: 1;
+    justify-content: flex-start;
+    padding: 3.5rem 0 1rem 0;
+    position: sticky;
 
     .ui.basic.secondary.button {
       box-shadow: 0 0 0 1px #eee inset !important;
       color: #eee !important;
-      margin: 0;
+      margin: 0 0.7rem;
       transition: transform 0.15s;
 
       &.rotated {
@@ -100,8 +106,15 @@
   }
 
   &.collapsed {
+    text-align: center;
+    width: 4.2rem;
+
     .divider {
       display: none;
+    }
+
+    .apps--SideBar-collapse {
+      width: 4rem;
     }
 
     .apps--SideBar-Item {
