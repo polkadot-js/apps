@@ -45,8 +45,8 @@ class SideBar extends React.PureComponent<Props> {
           }
 
         </Menu>
-        {this.renderToggleBar()}
-        </div>
+        {this.renderCollapse()}
+      </div>
     );
   }
 
@@ -80,7 +80,7 @@ class SideBar extends React.PureComponent<Props> {
   }
 
   private renderRoutes () {
-    const { isCollapsed } = this.state;
+    const { isCollapsed } = this.props;
     const { t } = this.props;
 
     return routing.routes.map((route, index) => (
@@ -119,7 +119,7 @@ class SideBar extends React.PureComponent<Props> {
     return (
       <div
         className='apps--SideBar-toggle'
-        onClick={this.collapse}
+        onClick={this.props.collapse}
       >
       </div>
     );

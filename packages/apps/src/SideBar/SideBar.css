@@ -23,18 +23,20 @@
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  align-items: center;
+  overflow-y: hidden;
   min-height: 100vh;
-  padding: 0.75em 0 0 0.75em;
-  position: relative;
-  text-align: left;
-  transition: width 0.3s;
+  position: fixed;
+  transition: width 0.25s;
+  z-index: 100;
 
   &.collapsed {
+    text-align: center;
     width: 4.2rem;
   }
 
   &.expanded {
+    padding-left: 0.75em;
+    text-align: left;
     width: 12rem;
   }
 
@@ -99,28 +101,15 @@
     }
   }
 
-  .apps--SideBar-toggle {
-    position: absolute;
-    top: 0px;
-    right: -2px;
-    height: 100%;
-    width: 7px;
-    transition: all 0.2s;
-
-    &:hover {
-      background: rgba(255,255,255,0.15);
-      cursor: pointer;
-    }
-  }
-
   &.collapsed {
     .divider {
       display: none;
     }
 
     .apps--SideBar-Item {
+      margin-left: 5px;
       .icon {
-        font-size: 1.38rem;
+        font-size: 1.28rem;
       }
       .text {
         display: none;
@@ -133,8 +122,8 @@
     }
 
     a.apps--SideBar-Item-NavLink {
-      padding-top: 0.9em;
-      padding-bottom: 0.9em;
+      padding-bottom: 0.92em;
+      padding-top: 0.92em;
     }
   }
 }
@@ -161,7 +150,6 @@ a.apps--SideBar-Item-NavLink-active {
     color: inherit;
   }
 }
-
 
 .theme--polkadot {
   a.apps--SideBar-Item-NavLink:hover {
