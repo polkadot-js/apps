@@ -351,7 +351,7 @@ class Signer extends React.PureComponent<Props, State> {
         }
       }]);
     } catch (error) {
-      console.error('error', error);
+      console.error('makeExtrinsicCall: error:', error.message);
       queueSetTxStatus(id, 'error', {}, error);
     }
   }
