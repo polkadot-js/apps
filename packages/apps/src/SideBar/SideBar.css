@@ -20,9 +20,6 @@
 .apps--SideBar {
   align-items: center;
   background: #3f3f3f;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
   overflow-y: hidden;
   min-height: 100vh;
   position: fixed;
@@ -55,6 +52,7 @@
   }
 
   .apps--SideBar-Item {
+    overflow-x: visible;
     padding: 0 !important;
     .text {
       padding-left: 0.5rem;
@@ -90,10 +88,10 @@
   .apps--SideBar-toggle {
     height: 100%;
     position: absolute;
-    right: -2px;
+    right: 0px;
     top: 0px;
     transition: all 0.2s;
-    width: 7px;
+    width: 6px;
 
     &:hover {
       background: rgba(255,255,255,0.15);

@@ -43,7 +43,6 @@ class SideBar extends React.PureComponent<Props> {
               ? null
               : <NodeInfo />
           }
-
         </Menu>
         {this.renderCollapse()}
         {this.renderToggleBar()}
