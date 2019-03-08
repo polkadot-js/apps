@@ -1,0 +1,11 @@
+.ui-app-editor {
+
+  .codeflask {
+    background: transparent;
+  }
+
+  &.invalid {
+    background-color: #fff6f6;
+    border-color: #e0b4b4;
+  }
+}
