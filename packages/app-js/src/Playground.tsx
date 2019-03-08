@@ -13,7 +13,7 @@ import { withRouter } from 'react-router';
 import { Transition } from 'semantic-ui-react';
 import snappy from 'snappyjs';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
-import { Button, Dropdown } from '@polkadot/ui-app/index';
+import { Button, Dropdown, Editor } from '@polkadot/ui-app/index';
 import uiKeyring from '@polkadot/ui-keyring';
 import * as util from '@polkadot/util';
 import * as hashing from '@polkadot/util-crypto';
@@ -24,7 +24,6 @@ import snippets from './snippets';
 import translate from './translate';
 import { STORE_EXAMPLES, STORE_SELECTED, CUSTOM_LABEL } from './constants';
 
-import Editor from './Editor';
 import Output from './Output';
 import ActionButtons from './ActionButtons';
 
@@ -110,7 +109,7 @@ class Playground extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isDevelopment, t } = this.props;
+    const { t } = this.props;
     const { animated, isCustomExample, isRunning, logs, options, selected } = this.state;
     const snippetName = selected.type === 'custom' ? selected.text : undefined;
 
@@ -130,7 +129,6 @@ class Playground extends React.PureComponent<Props, State> {
             <article className='container js--Editor'>
               <Editor
                 code={selected.code}
-                isDevelopment={isDevelopment}
                 onEdit={this.onEdit}
               />
               <ActionButtons

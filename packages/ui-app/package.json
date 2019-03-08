@@ -23,6 +23,7 @@
     "@types/react-dropzone": "^4.2.2",
     "@types/react-router-dom": "^4.3.0q",
     "chart.js": "^2.7.2",
+    "codeflask": "^1.4.0",
     "i18next": "^15.0.4",
     "i18next-browser-languagedetector": "^3.0.1",
     "i18next-xhr-backend": "^2.0.1",
