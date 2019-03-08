@@ -50,7 +50,7 @@ class Apps extends React.Component<Props, State> {
       <Wrapper className={classes('apps-Wrapper', `${isCollapsed ? 'collapsed' : 'expanded'}`, `theme--${settings.uiTheme}`)}>
         <SideBar
           collapse={this.collapse}
-          isCollapsed={this.state.isCollapsed}
+          isCollapsed={isCollapsed}
         />
         <Signer>
           <Content />
