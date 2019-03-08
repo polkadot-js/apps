@@ -17,8 +17,6 @@ import Connecting from './Connecting';
 import Content from './Content';
 import SideBar from './SideBar';
 
-import { throttle } from 'lodash';
-
 type Props = BareProps & {};
 
 type State = {
@@ -43,14 +41,6 @@ class Apps extends React.Component<Props, State> {
       isCollapsed: false,
       ...state
     };
-  }
-
-  componentDidMount () {
-    window.addEventListener('scroll', throttle(this.handleScroll, 500));
-  }
-
-  private handleScroll = (): void => {
-    console.log(window.innerWidth);
   }
 
   private collapse = (): void => {
