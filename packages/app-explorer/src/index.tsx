@@ -11,8 +11,9 @@ import { Route, Switch } from 'react-router';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import translate from './translate';
 
-import BlockByHash from './BlockByHash';
-import Main from './Main';import NodeInfo from './NodeInfo';
+import BlockByHash from './ByHash';
+import Main from './Main';
+import NodeInfo from './NodeInfo';
 
 type Props = AppProps & BareProps & I18nProps;
 
