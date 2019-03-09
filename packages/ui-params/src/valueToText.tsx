@@ -7,8 +7,6 @@ import './Params.css';
 import React from 'react';
 import { classes } from '@polkadot/ui-app/util';
 import { isNull, isUndefined, u8aToHex } from '@polkadot/util';
-import { isBuffer } from 'util';
-import { string } from 'prop-types';
 import { Option, U8a } from '@polkadot/types';
 
 // import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
@@ -111,7 +109,6 @@ function div ({ key, className }: DivProps, ...values: Array<React.ReactNode>): 
 // }
 
 function valueToText (type: string, value: any, swallowError: boolean = true, contentShorten: boolean = true): React.ReactNode {
-
   // try {
   //   if (type === 'bool') {
   //     return div({}, value ? 'Yes' : 'No');
@@ -153,19 +150,13 @@ function valueToText (type: string, value: any, swallowError: boolean = true, co
   //     console.log('valueToText', type, value, error);
   //   }
   // }
-/*
-  //When displaying parameters of type Hash, these will sometimes come in the
-  //form of a Uint8Array and not print properly unless converted to a Hash
-  if(type == "Hash") {
-    return <div>{(new Hash(value)).toString()}</div>
-  }
-*/
+
   // dont' even ask, nested ?: ... really?
   return isNull(value) || isUndefined(value)
     ? unknown
     : div(
       {},
-      (['Bytes', 'Data'].includes(type)
+      ['Bytes', 'Data'].includes(type)
         ? u8aToHex(value.toU8a(true), contentShorten ? 512 : -1)
         : (
           value instanceof U8a
@@ -180,7 +171,7 @@ function valueToText (type: string, value: any, swallowError: boolean = true, co
                 : value.toString()
             )
         )
-      ));
+      );
 }
 
 export default valueToText;

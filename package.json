@@ -27,7 +27,7 @@
     "postinstall": "polkadot-dev-yarn-only",
     "test": "echo \"skipping tests\"",
     "vanitygen": "node packages/app-accounts/scripts/vanitygen.js",
-    "start": "cd packages/apps && /Users/maxwellfoley/Documents/parity/parity-js-apps/node_modules/.bin/webpack-cli --config webpack.config.js"
+    "start": "cd packages/apps && webpack --config webpack.config.js"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
@@ -47,6 +47,5 @@
     "postcss-simple-vars": "^5.0.0",
     "precss": "^4.0.0",
     "source-map-explorer": "^1.7.0"
-  },
-  "dependencies": {}
+  }
 }
