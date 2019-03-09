@@ -17,8 +17,6 @@ import translate from './translate';
 import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/ui-api/with/types';
 import { thistle } from 'color-name';
 
-import './Query.css';
-
 type Props = I18nProps & {
   onRemove: (id: number) => void,
   value: QueryTypes
