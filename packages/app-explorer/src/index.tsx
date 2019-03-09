@@ -11,7 +11,7 @@ import { Route, Switch } from 'react-router';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import translate from './translate';
 
-import BlockByHash from './ByHash';
+import BlockQuery from './BlockQuery';
 import Main from './Main';
 import NodeInfo from './NodeInfo';
 
@@ -35,7 +35,7 @@ class ExplorerApp extends React.Component<Props, State> {
         },
         {
           hasParams: true,
-          name: 'hash',
+          name: 'query',
           text: t('Block query')
         },
         {
@@ -59,8 +59,8 @@ class ExplorerApp extends React.Component<Props, State> {
           />
         </header>
         <Switch>
-          <Route path={`${basePath}/hash/:hash`} component={BlockByHash} />
-          <Route path={`${basePath}/hash`} component={BlockByHash} />
+          <Route path={`${basePath}/query/:value`} component={BlockQuery} />
+          <Route path={`${basePath}/query`} component={BlockQuery} />
           <Route path={`${basePath}/node`} component={NodeInfo} />
           <Route component={Main} />
         </Switch>
