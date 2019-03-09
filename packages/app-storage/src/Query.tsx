@@ -8,14 +8,13 @@ import { QueryTypes, StorageModuleQuery } from './types';
 
 import React from 'react';
 import { Compact } from '@polkadot/types';
-import { Button, Labelled } from '@polkadot/ui-app/index';
+import { Button } from '@polkadot/ui-app/index';
 import valueToText from '@polkadot/ui-params/valueToText';
 import { withCallDiv } from '@polkadot/ui-api/index';
 import { isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import translate from './translate';
 import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/ui-api/with/types';
-import { thistle } from 'color-name';
 
 type Props = I18nProps & {
   onRemove: (id: number) => void,
@@ -102,7 +101,7 @@ class Query extends React.PureComponent<Props, State> {
 
   render () {
     const { value } = this.props;
-    const { Component, inputs } = this.state;
+    const { Component } = this.state;
     const { key } = value;
     const type = isU8a(key)
       ? 'Data'
