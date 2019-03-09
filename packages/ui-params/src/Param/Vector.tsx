@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { WithNamespaces } from 'react-i18next';
-import { TypeDef } from '@polkadot/types/codec';
+import { WithTranslation } from 'react-i18next';
+import { TypeDef } from '@polkadot/types';
 import { Props as BareProps, RawParam } from '../types';
 
 import React from 'react';
@@ -15,7 +15,7 @@ import getInitValue from '../initValue';
 import Bare from './Bare';
 import findComponent from './findComponent';
 
-type Props = BareProps & WithNamespaces;
+type Props = BareProps & WithTranslation;
 
 type State = {
   Component: React.ComponentType<BareProps> | null,
@@ -24,21 +24,17 @@ type State = {
 };
 
 class Vector extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      Component: null,
-      values: []
-    };
-  }
+  state: State = {
+    Component: null,
+    values: []
+  };
 
   static getDerivedStateFromProps ({ defaultValue: { value = [] }, isDisabled, type: { sub, type } }: Props, prevState: State): Partial<State> | null {
     if (type === prevState.type) {
       return null;
     }
 
-    const values = isDisabled || prevState.values.length === 0
+    const values: Array<RawParam> = isDisabled || prevState.values.length === 0
       ? value.map((value: any) =>
           isUndefined(value) || isUndefined(value.isValid)
             ? {
@@ -112,49 +108,44 @@ class Vector extends React.PureComponent<Props, State> {
   }
 
   private onChange = (index: number) => {
-    const { onChange } = this.props;
-
     return (value: RawParam): void => {
-      let isValid = value.isValid;
-      const values = this.state.values.map((svalue, sindex) => {
-        if (sindex === index) {
-          return value;
+      this.setState(
+        ({ values }: State) => ({
+          values: values.map((svalue, sindex) =>
+            (sindex === index)
+              ? value
+              : svalue
+        )}),
+        () => {
+          const { values } = this.state;
+          const { onChange } = this.props;
+
+          onChange && onChange({
+            isValid: values.reduce((result, { isValid }) => result && isValid, true),
+            value: values.map(({ value }) => value)
+          });
         }
-
-        isValid = isValid && svalue.isValid;
-
-        return svalue;
-      });
-
-      this.setState({ values }, () => {
-        onChange && onChange({
-          isValid,
-          value: values.map(({ value }) => value)
-        });
-      });
+      );
     };
   }
 
   private rowAdd = (): void => {
-    const { type } = this.props;
-    const { values } = this.state;
+    this.setState(({ values }: State, { type: { sub } }: Props) => {
+      const value = getInitValue(sub as TypeDef);
 
-    const value = getInitValue(type);
-
-    this.setState({
-      values: values.concat({
-        isValid: !isUndefined(value),
-        value
-      })
+      return {
+        values: values.concat({
+          isValid: !isUndefined(value),
+          value
+        })
+      };
     });
   }
 
   private rowRemove = (): void => {
-    const { values } = this.state;
-
-    this.setState({
+    this.setState(({ values }: State) => ({
       values: values.slice(0, values.length - 1)
-    });
+    }));
   }
 }
 

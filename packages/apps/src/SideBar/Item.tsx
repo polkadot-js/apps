@@ -4,26 +4,50 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { Route } from '../types';
 
 import React from 'react';
 import { withRouter } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { Icon, Menu } from '@polkadot/ui-app/index';
-import { withApi, withMulti } from '@polkadot/ui-api/index';
+import accountObservable from '@polkadot/ui-keyring/observable/accounts';
+import { withApi, withMulti, withObservable } from '@polkadot/ui-api/index';
 import { isFunction } from '@polkadot/util';
 
+import ReactTooltip from 'react-tooltip';
+
 type Props = I18nProps & ApiProps & {
+  isCollapsed: boolean,
+  allAccounts?: SubjectInfo,
   route: Route
 };
 
-class Item extends React.PureComponent<Props> {
-  render () {
-    const { route: { i18n, icon, name }, t } = this.props;
+interface Tooltip {
+  'data-tip': boolean;
+  'data-for': string;
+  'data-tip-disable'?: boolean;
+}
 
-    if (!this.isApiAvailable()) {
+class Item extends React.PureComponent<Props> {
+
+  componentWillUpdate () {
+    ReactTooltip.rebuild();
+  }
+
+  render () {
+
+    const { route: { i18n, icon, name }, t, isCollapsed } = this.props;
+
+    if (!this.isVisible()) {
       return null;
     }
+
+    const tooltip: Tooltip = {
+      'data-for': `nav-${name}`,
+      'data-tip': true,
+      'data-tip-disable': !isCollapsed
+    };
 
     return (
       <Menu.Item className='apps--SideBar-Item'>
@@ -31,34 +55,60 @@ class Item extends React.PureComponent<Props> {
           activeClassName='apps--SideBar-Item-NavLink-active'
           className='apps--SideBar-Item-NavLink'
           to={`/${name}`}
+          {...tooltip}
         >
-          <Icon name={icon} /> {t(`sidebar.${name}`, i18n)}
+          <Icon name={icon} />
+          <span className='text'>{t(`sidebar.${name}`, i18n)}</span>
+          <ReactTooltip
+           delayShow={750}
+           effect='solid'
+           id={`nav-${name}`}
+           offset={ { right: -4 } }
+           place='right'
+          >
+            <span>{t(`sidebar.${name}`, i18n)}
+          </span>
+          </ReactTooltip>
         </NavLink>
       </Menu.Item>
     );
   }
 
-  private isApiAvailable () {
-    const { api, isApiConnected, isApiReady, route: { isApiGated, name, needsApi } } = this.props;
+  private hasApi (endpoint: string): boolean {
+    const { api } = this.props;
+    const [area, section, method] = endpoint.split('.');
 
-    if (isApiGated && (!isApiReady || !isApiConnected)) {
+    try {
+      return isFunction((api as any)[area][section][method]);
+    } catch (error) {
       return false;
-    } else if (!needsApi || !needsApi.length) {
+    }
+  }
+
+  private isVisible () {
+    const { allAccounts = {}, isApiConnected, isApiReady, route: { display: { isHidden, needsAccounts, needsApi }, name } } = this.props;
+    const hasAccounts = Object.keys(allAccounts).length !== 0;
+
+    if (isHidden) {
+      return false;
+    } else if (needsAccounts && !hasAccounts) {
+      return false;
+    } else if (!needsApi) {
       return true;
+    } else if (!isApiReady || !isApiConnected) {
+      return false;
     }
 
-    const notFound = needsApi.filter((endpoint) => {
-      const [area, section, method] = endpoint.split('.');
+    const notFound = needsApi.filter((endpoint: string | Array<string>) => {
+      const hasApi = Array.isArray(endpoint)
+        ? endpoint.reduce((hasApi, endpoint) => hasApi || this.hasApi(endpoint), false)
+        : this.hasApi(endpoint);
 
-      try {
-        return !isFunction((api as any)[area][section][method]);
-      } catch (error) {
-        return true;
-      }
+      return !hasApi;
     });
 
     if (notFound.length !== 0) {
-      console.error(`Disabling route ${name}, API ${notFound} not available`);
+      console.info(`Disabling route ${name}, API ${notFound} not available`);
     }
 
     return notFound.length === 0;
@@ -68,5 +118,6 @@ class Item extends React.PureComponent<Props> {
 export default withMulti(
   Item,
   withRouter,
-  withApi
+  withApi,
+  withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );

@@ -8,7 +8,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Extrinsic } from '@polkadot/types';
+import { IExtrinsic } from '@polkadot/types/types';
 import { AddressSummary, InputAddress, InputBalance } from '@polkadot/ui-app/index';
 import { withApi, withMulti } from '@polkadot/ui-api/index';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
@@ -23,7 +23,7 @@ type Props = I18nProps & ApiProps & {};
 type State = {
   accountId: string | null,
   amount: BN,
-  extrinsic: Extrinsic | null,
+  extrinsic: IExtrinsic | null,
   hasAvailable: boolean,
   recipientId: string | null
 };
@@ -31,19 +31,13 @@ type State = {
 const ZERO = new BN(0);
 
 class Transfer extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      accountId: null,
-      amount: ZERO,
-      extrinsic: null,
-      hasAvailable: true,
-      recipientId: null
-    };
-  }
+  state: State = {
+    accountId: null,
+    amount: ZERO,
+    extrinsic: null,
+    hasAvailable: true,
+    recipientId: null
+  };
 
   render () {
     const { t } = this.props;
@@ -52,7 +46,7 @@ class Transfer extends React.PureComponent<Props, State> {
     return (
       <div className='transfer--Transfer'>
         <div className='transfer--Transfer-info'>
-          {this.renderAddress(accountId)}
+          {this.renderAddress(accountId, 'medium')}
           <div className='transfer--Transfer-data'>
             <InputAddress
               label={t('from my source account')}
@@ -73,6 +67,7 @@ class Transfer extends React.PureComponent<Props, State> {
             <Checks
               accountId={accountId}
               extrinsic={extrinsic}
+              isSendable
               onChange={this.onChangeFees}
             />
             <QueueConsumer>
@@ -86,13 +81,13 @@ class Transfer extends React.PureComponent<Props, State> {
               )}
             </QueueConsumer>
           </div>
-          {this.renderAddress(recipientId)}
+          {this.renderAddress(recipientId, 'large')}
         </div>
       </div>
     );
   }
 
-  private renderAddress (accountId: string | null) {
+  private renderAddress (accountId: string | null, media: 'large' | 'medium') {
     if (!accountId) {
       return null;
     }
@@ -104,7 +99,7 @@ class Transfer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div className='transfer--Transfer-address'>
+      <div className={`transfer--Transfer-address ui--media-${media}`}>
         <AddressSummary
           value={accountId}
           withCopy={false}

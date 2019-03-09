@@ -24,17 +24,11 @@ type State = {
 };
 
 class Nominating extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      isNomineeValid: false,
-      isAddressFormatValid: false,
-      nominee: ''
-    };
-  }
+  state: State = {
+    isNomineeValid: false,
+    isAddressFormatValid: false,
+    nominee: ''
+  };
 
   render () {
     const { isOpen, style } = this.props;
@@ -92,6 +86,7 @@ class Nominating extends React.PureComponent<Props, State> {
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           <Input
+            autoFocus
             className='medium'
             isError={!isNomineeValid}
             label={t('nominate the following address (validator or intention)')}

@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, getTypeDef } from '@polkadot/types/codec';
-import { StorageFunction } from '@polkadot/types/StorageKey';
+import { TypeDef, getTypeDef } from '@polkadot/types';
+import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParams } from '@polkadot/ui-params/types';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { PartialModuleQuery } from '../types';
+import { ComponentProps } from '../types';
 
 import React from 'react';
 import { Button, InputStorage } from '@polkadot/ui-app/index';
@@ -17,9 +17,7 @@ import { isUndefined } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = ApiProps & I18nProps & {
-  onAdd: (query: PartialModuleQuery) => void
-};
+type Props = ComponentProps & ApiProps & I18nProps;
 
 type State = {
   isValid: boolean,

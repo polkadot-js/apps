@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo } from '@polkadot/types/codec';
+import { TypeDef, TypeDefInfo, UInt, createType } from '@polkadot/types';
 import { Props, ComponentMap } from '../types';
 
 import Account from './Account';
@@ -23,40 +23,35 @@ import Vector from './Vector';
 import Vote from './Vote';
 import VoteThreshold from './VoteThreshold';
 
-const components: ComponentMap = {
-  'AccountId': Account,
-  'AccountIndex': Amount,
-  'Address': Account,
-  'Balance': Balance,
-  'BlockNumber': Amount,
-  'bool': Bool,
-  'Bytes': Bytes,
-  'Code': Code,
-  'CodeHash': Hash,
-  'Gas': Amount,
-  'Hash': Hash,
-  'Index': Amount,
-  'KeyValue': KeyValue,
-  'Vec<KeyValue>': KeyValueArray,
-  'ParaId': Amount,
-  'Moment': Moment,
-  'ProposalIndex': Amount,
-  'PropIndex': Amount,
-  'Proposal': Proposal,
-  'ReferendumIndex': Amount,
-  'SessionKey': Account,
-  'Signature': Hash,
-  'String': Text,
-  'Text': Text,
-  'Tuple': Tuple,
-  'u32': Amount,
-  'u64': Amount,
-  'u128': Amount,
-  'Vector': Vector,
-  'Vote': Vote,
-  'VoteIndex': Amount,
-  'VoteThreshold': VoteThreshold
+type TypeToComponent = {
+  c: React.ComponentType<Props>,
+  t: Array<string>
 };
+
+const components: ComponentMap = ([
+  { c: Account, t: ['AccountId', 'AccountIdOf', 'Address', 'SessionKey'] },
+  { c: Amount, t: ['AccountIndex', 'BlockNumber', 'Gas', 'Index', 'Nonce', 'ParaId', 'ProposalIndex', 'PropIndex', 'ReferendumIndex', 'u16', 'u32', 'u64', 'u128', 'u256', 'VoteIndex'] },
+  { c: Balance, t: ['Amount', 'AssetOf', 'Balance', 'BalanceOf'] },
+  { c: Bool, t: ['bool'] },
+  { c: Bytes, t: ['Bytes'] },
+  { c: Code, t: ['Code'] },
+  { c: Hash, t: ['CodeHash', 'Hash', 'SeedOf', 'Signature'] },
+  { c: KeyValue, t: ['KeyValue'] },
+  { c: KeyValueArray, t: ['Vec<KeyValue>'] },
+  { c: Moment, t: ['Moment', 'MomentOf'] },
+  { c: Proposal, t: ['Proposal'] },
+  { c: Text, t: ['String', 'Text'] },
+  { c: Tuple, t: ['Tuple'] },
+  { c: Vector, t: ['Vector'] },
+  { c: Vote, t: ['Vote'] },
+  { c: VoteThreshold, t: ['VoteThreshold'] }
+] as Array<TypeToComponent>).reduce((components, { c, t }) => {
+  t.forEach((type) => {
+    components[type] = c;
+  });
+
+  return components;
+}, {} as ComponentMap);
 
 export default function findComponent (def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
   const type = (({ info, sub, type }: TypeDef) => {
@@ -77,5 +72,19 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
     }
   })(def);
 
-  return overrides[type] || components[type] || Unknown;
+  let Component = overrides[type] || components[type];
+
+  if (!Component) {
+    try {
+      const instance = createType(type);
+
+      if (instance instanceof UInt) {
+        return Amount;
+      }
+    } catch (error) {
+      // console.error(error.message);
+    }
+  }
+
+  return Component || Unknown;
 }

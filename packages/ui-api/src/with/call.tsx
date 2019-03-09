@@ -26,7 +26,11 @@ const NOOP = () => {
 export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, params = [], paramName = 'params', propName, transform = echoTransform }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<Subtract<P, ApiProps>> => {
     class WithPromise extends React.Component<P, State> {
-      state: State;
+      state: State = {
+        callResult: void 0,
+        callUpdated: false,
+        callUpdatedAt: 0
+      };
       private destroy?: () => void;
       private isActive: boolean = false;
       private propName: string;
@@ -38,11 +42,6 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         const [, section, method] = endpoint.split('.');
 
         this.propName = `${section}_${method}`;
-        this.state = {
-          callResult: void 0,
-          callUpdated: false,
-          callUpdatedAt: 0
-        };
       }
 
       componentDidUpdate (prevProps: any) {

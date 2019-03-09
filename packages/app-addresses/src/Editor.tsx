@@ -4,6 +4,7 @@
 
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ComponentProps } from './types';
 
 import React from 'react';
 import { AddressSummary, Button, Input, InputAddress } from '@polkadot/ui-app/index';
@@ -13,9 +14,7 @@ import keyring from '@polkadot/ui-keyring';
 import Forgetting from './Forgetting';
 import translate from './translate';
 
-type Props = I18nProps & {
-  onStatusChange: (status: ActionStatus) => void
-};
+type Props = ComponentProps & I18nProps;
 
 type State = {
   current: KeyringAddress | null,

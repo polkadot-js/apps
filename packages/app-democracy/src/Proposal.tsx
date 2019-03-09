@@ -6,17 +6,16 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { AccountId, Balance, Proposal } from '@polkadot/types';
-import { Tuple, Vector } from '@polkadot/types/codec';
+import { AccountId, Balance, Option, Proposal, Tuple, Vector } from '@polkadot/types';
 import { AddressMini, Labelled, Static } from '@polkadot/ui-app/index';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
-import { formatBalance } from '@polkadot/ui-app/util/index';
+import { formatBalance } from '@polkadot/ui-util';
 
 import Item from './Item';
 import translate from './translate';
 
 type Props = I18nProps & {
-  democracy_depositOf?: Tuple,
+  democracy_depositOf?: Option<Tuple>,
   idNumber: BN,
   value: Tuple
 };
@@ -37,21 +36,22 @@ class ProposalDisplay extends React.PureComponent<Props> {
   private renderExtra () {
     const { democracy_depositOf, t } = this.props;
 
-    if (!democracy_depositOf) {
+    if (!democracy_depositOf || democracy_depositOf.isNone) {
       return null;
     }
 
-    const balance = democracy_depositOf[0] as Balance;
-    const addresses = democracy_depositOf[1] as Vector<AccountId>;
+    const value = democracy_depositOf.unwrap();
+    const balance = value[0] as Balance;
+    const addresses = value[1] as Vector<AccountId>;
 
     return (
       <div className='democracy--Proposal-info'>
         <Labelled label={t('depositors')}>
           <div>
-            {addresses.map((address) => (
+            {addresses.map((address, index) => (
               <AddressMini
                 isPadded={false}
-                key={address.toString()}
+                key={`${index}:${address}`}
                 value={address}
               />
             ))}

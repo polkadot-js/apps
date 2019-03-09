@@ -9,12 +9,14 @@ import Extrinsics from '@polkadot/app-extrinsics/index';
 export default ([
   {
     Component: Extrinsics,
+    display: {
+      needsAccounts: true,
+      needsApi: []
+    },
     i18n: {
       defaultValue: 'Extrinsics'
     },
-    icon: 'send',
-    isApiGated: true,
-    isHidden: false,
+    icon: 'sync',
     name: 'extrinsics'
   }
 ] as Routes);

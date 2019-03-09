@@ -5,7 +5,7 @@
 import { CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import { HeaderExtended } from '@polkadot/types/Header';
+import { HeaderExtended } from '@polkadot/types';
 import { withCall } from '@polkadot/ui-api/index';
 
 import BlockHeader from './BlockHeader';
@@ -45,9 +45,9 @@ class BlockHeaders extends React.PureComponent<Props> {
 
     return (
       <div className='explorer--BlockHeaders'>
-        {headers.map((header) => (
+        {headers.map((header, index) => (
           <BlockHeader
-            isSummary
+            isSummary={!!index}
             key={header.blockNumber.toString()}
             value={header}
             withLink={!header.blockNumber.isZero()}

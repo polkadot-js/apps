@@ -5,7 +5,7 @@
 import { Props } from '../types';
 
 import React from 'react';
-import { Compact } from '@polkadot/types/codec';
+import { Compact } from '@polkadot/types';
 import { Button } from '@polkadot/ui-app/index';
 
 import BaseBytes from './BaseBytes';
@@ -16,13 +16,9 @@ type State = {
 };
 
 export default class Bytes extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      isFileDrop: false
-    };
-  }
+  state: State = {
+    isFileDrop: false
+  };
 
   render () {
     const { isDisabled } = this.props;

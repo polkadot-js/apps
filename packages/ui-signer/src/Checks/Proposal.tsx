@@ -8,10 +8,10 @@ import { ExtraFees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Compact } from '@polkadot/types/codec';
+import { Compact } from '@polkadot/types';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
 import { Icon } from '@polkadot/ui-app/index';
-import { formatBalance } from '@polkadot/ui-app/util';
+import { formatBalance } from '@polkadot/ui-util';
 
 import translate from '../translate';
 
@@ -26,16 +26,12 @@ type State = ExtraFees & {
 };
 
 class Proposal extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      extraFees: new BN(0),
-      extraAmount: new BN(0),
-      extraWarn: false,
-      isBelowMinimum: false
-    };
-  }
+  state: State = {
+    extraFees: new BN(0),
+    extraAmount: new BN(0),
+    extraWarn: false,
+    isBelowMinimum: false
+  };
 
   static getDerivedStateFromProps ({ deposit, democracy_minimumDeposit = new BN(0), onChange }: Props): State {
     const extraAmount = deposit instanceof Compact

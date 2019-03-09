@@ -9,12 +9,13 @@ import Toolbox from '@polkadot/app-toolbox/index';
 export default ([
   {
     Component: Toolbox,
+    display: {
+      needsApi: []
+    },
     i18n: {
       defaultValue: 'Toolbox'
     },
     icon: 'configure',
-    isApiGated: true,
-    isHidden: false,
     name: 'toolbox'
   }
 ] as Routes);

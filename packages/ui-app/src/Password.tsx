@@ -7,7 +7,7 @@ import { BareProps } from './types';
 import React from 'react';
 import { MAX_PASS_LEN } from '@polkadot/ui-keyring/defaults';
 
-import classes from './util/classes';
+import { classes } from './util';
 import Button from './Button';
 import Input from './Input';
 

@@ -10,7 +10,7 @@ import React from 'react';
 import jsonrpc from '@polkadot/jsonrpc';
 
 import { QueueProvider } from './Context';
-import { SubmittableSendResult } from '@polkadot/api/types';
+import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 
 export type Props = BareProps & {
   children: React.ReactNode
@@ -82,7 +82,7 @@ export default class Queue extends React.Component<Props, State> {
     return id;
   }
 
-  queueSetTxStatus = (id: number, status: QueueTx$Status, result?: SubmittableSendResult, error?: Error): void => {
+  queueSetTxStatus = (id: number, status: QueueTx$Status, result?: SubmittableResult, error?: Error): void => {
     this.setState(
       (prevState: State): State => ({
         txqueue: prevState.txqueue.map((item) =>
@@ -121,12 +121,11 @@ export default class Queue extends React.Component<Props, State> {
     }
   }
 
-  private addResultEvents ({ events = [] }: Partial<SubmittableSendResult> = {}) {
+  private addResultEvents ({ events = [] }: Partial<SubmittableResult> = {}) {
     events.filter((record) => record.event).forEach(({ event: { method, section } }) => {
-      // filter events handled globally, or those we are not interested in
-      // NOTE We are not splitting balances, since we want to see the transfer - even if
-      // it doubles-up for own accounts (one with id, one without)
-      if ((section === 'democracy') || (section === 'system')) {
+      // filter events handled globally, or those we are not interested in, these are
+      // handled by the global overview, so don't add them here
+      if (section === 'democracy') {
         return;
       }
 
@@ -156,11 +155,13 @@ export default class Queue extends React.Component<Props, State> {
     return id;
   }
 
-  queueExtrinsic = ({ accountId, extrinsic, isUnsigned }: PartialQueueTx$Extrinsic): number => {
+  queueExtrinsic = ({ accountId, extrinsic, signerCallback, signerOptions, isUnsigned }: PartialQueueTx$Extrinsic): number => {
     return this.queueAdd({
       accountId,
       extrinsic,
-      isUnsigned
+      isUnsigned,
+      signerCallback,
+      signerOptions
     });
   }
 

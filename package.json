@@ -1,8 +1,8 @@
 {
-  "version": "0.22.54",
+  "version": "0.24.37",
   "private": true,
   "engines": {
-    "node": "^10.13.0",
+    "node": ">=10.13.0",
     "yarn": "^1.10.1"
   },
   "homepage": ".",
@@ -10,26 +10,31 @@
     "packages/*"
   ],
   "resolutions": {
+    "@polkadot/api": "^0.46.9",
+    "@polkadot/keyring": "^0.35.7",
+    "@polkadot/types": "^0.46.9",
+    "@polkadot/util": "^0.35.7",
+    "@polkadot/util-crypto": "^0.35.7",
     "babel-core": "^7.0.0-bridge.0",
-    "rxjs": "^6.3.2",
-    "typescript": "^3.2.2"
+    "rxjs": "^6.4.0",
+    "typescript": "^3.3.3333"
   },
   "scripts": {
     "analyze": "yarn run build && cd packages/apps && yarn run source-map-explorer build/main.*.js",
-    "build": "polkadot-dev-build-ts",
+    "build": "NODE_ENV=production polkadot-dev-build-ts",
     "check": "tslint --project . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
-    "test": "jest --coverage",
-    "deploy:ghpages": "gh-pages --dist packages/apps/build --remove locales,static,*.css,*.js,*.json,*.map,*.md",
+    "test": "echo \"skipping tests\"",
     "vanitygen": "node packages/app-accounts/scripts/vanitygen.js",
-    "start": "cd packages/apps && webpack-serve --config webpack.config.js --port 3000"
+    "start": "cd packages/apps && /Users/maxwellfoley/Documents/parity/parity-js-apps/node_modules/.bin/webpack-cli --config webpack.config.js"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@polkadot/dev-react": "^0.23.14",
-    "@polkadot/ts": "^0.1.52",
-    "autoprefixer": "^9.4.5",
+    "@babel/core": "^7.3.4",
+    "@babel/runtime": "^7.3.4",
+    "@polkadot/dev-react": "^0.25.13",
+    "@polkadot/ts": "^0.1.56",
+    "autoprefixer": "^9.4.9",
     "empty": "^0.10.1",
     "gh-pages": "^2.0.1",
     "postcss": "^7.0.13",
@@ -37,10 +42,11 @@
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-import": "^12.0.0",
     "postcss-loader": "^3.0.0",
-    "postcss-nested": "^4.1.1",
+    "postcss-nested": "^4.1.2",
     "postcss-sass": "^0.3.5",
     "postcss-simple-vars": "^5.0.0",
     "precss": "^4.0.0",
-    "source-map-explorer": "^1.6.0"
-  }
+    "source-map-explorer": "^1.7.0"
+  },
+  "dependencies": {}
 }

@@ -7,10 +7,10 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import SUIProgress from 'semantic-ui-react/dist/commonjs/modules/Progress/Progress';
-import { UInt } from '@polkadot/types/codec';
+import { UInt } from '@polkadot/types';
 import { bnToBn, isBn, isUndefined } from '@polkadot/util';
 
-import classes from './util/classes';
+import { classes } from './util';
 
 type BaseColors = 'blue' | 'green' | 'red' | 'orange';
 export type Colors = 'auto' | 'autoReverse' | BaseColors;

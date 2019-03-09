@@ -25,16 +25,10 @@ type State = {
 };
 
 class Backup extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      isPassValid: false,
-      password: ''
-    };
-  }
+  state: State = {
+    isPassValid: false,
+    password: ''
+  };
 
   render () {
     return (
@@ -85,15 +79,13 @@ class Backup extends React.PureComponent<Props, State> {
         </Modal.Header>
         <Modal.Content className='app--account-Backup-content'>
           <AddressSummary value={pair.address()} />
-          <div className='ui--row'>
-            <Password
-              isError={!isPassValid}
-              label={t('unlock account using the password')}
-              onChange={this.onChangePass}
-              tabIndex={0}
-              value={password}
-            />
-          </div>
+          <Password
+            isError={!isPassValid}
+            label={t('unlock account using the password')}
+            onChange={this.onChangePass}
+            tabIndex={0}
+            value={password}
+          />
         </Modal.Content>
       </>
     );

@@ -12,7 +12,7 @@ import addresses from './addresses';
 import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
-import nodeinfo from './nodeinfo';
+import js from './js';
 import settings from './settings';
 import staking from './staking';
 import storage from './storage';
@@ -29,7 +29,6 @@ const routes: Routes = appSettings.uiMode === 'light'
     addresses,
     null,
     settings,
-    nodeinfo,
     template
   )
   : ([] as Routes).concat(
@@ -45,8 +44,8 @@ const routes: Routes = appSettings.uiMode === 'light'
     extrinsics,
     null,
     settings,
-    nodeinfo,
     toolbox,
+    js,
     template
   );
 

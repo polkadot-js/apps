@@ -2,20 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { WithNamespaces } from 'react-i18next';
+import { WithTranslation } from 'react-i18next';
 import { BareProps } from './types';
 
 import React from 'react';
 import Dropzone from 'react-dropzone';
 
-import classes from './util/classes';
+import { classes } from './util';
 import Labelled from './Labelled';
 import translate from './translate';
 
-type Props = BareProps & WithNamespaces & {
+type Props = BareProps & WithTranslation & {
   // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
   // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
   accept?: string,
+  clearContent?: boolean,
   isDisabled?: boolean,
   isError?: boolean,
   label: string,
@@ -41,7 +42,7 @@ class InputFile extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { accept, className, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
+    const { accept, className, clearContent, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
     const { file } = this.state;
 
     return (
@@ -58,7 +59,7 @@ class InputFile extends React.PureComponent<Props, State> {
         >
           <div className='label'>
             {
-              !file
+              !file || clearContent
                 ? placeholder || t('drag and drop the file here')
                 : placeholder || t('{{name}} ({{size}} bytes)', {
                   replace: file

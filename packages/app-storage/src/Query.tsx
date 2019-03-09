@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageFunction } from '@polkadot/types/StorageKey';
+import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueryTypes, StorageModuleQuery } from './types';
 
 import React from 'react';
-import { Compact } from '@polkadot/types/codec';
+import { Compact } from '@polkadot/types';
 import { Button, Labelled } from '@polkadot/ui-app/index';
 import valueToText from '@polkadot/ui-params/valueToText';
 import { withCallDiv } from '@polkadot/ui-api/index';
@@ -17,7 +17,7 @@ import translate from './translate';
 import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/ui-api/with/types';
 import { thistle } from 'color-name';
 
-import "./Query.css";
+import './Query.css';
 
 type Props = I18nProps & {
   onRemove: (id: number) => void,
@@ -106,26 +106,19 @@ class Query extends React.PureComponent<Props, State> {
     const { value } = this.props;
     const { Component, inputs } = this.state;
     const { key } = value;
+    const type = isU8a(key)
+      ? 'Data'
+      : (
+        key.meta.modifier.isOptional
+          ? `Option<${key.meta.type}>`
+          : key.meta.type.toString()
+      );
 
     return (
       <div className='storage--Query storage--actionrow'>
         <div className='storage--actionrow-value'>
-          {this.keyToName(key)}
-          <hr/>
-          <Labelled
-            label={
-              <div>
-                {this.renderInputs()}  
-              </div>
-            }
-          >
-          <label>
-          Output: ({
-            isU8a(key) ? 'Data' : key.meta.type.toString()
-          })
-          </label>
-            <Component />
-          </Labelled>
+          {this.keyToName(key)}({this.renderInputs()}): {type}
+          <Component />
         </div>
         <div className='storage--actionrow-buttons'>
           <div className='container'>
@@ -136,50 +129,55 @@ class Query extends React.PureComponent<Props, State> {
     );
   }
 
-  private typeIsTuple (type: string) : boolean {
-    return type.charAt(0) === "(" && type.charAt(type.length-1) === ")"; 
+  private typeIsTuple (type: string): boolean {
+    return type.charAt(0) === '(' && type.charAt(type.length - 1) === ')';
   }
-  
-  private breakDownTuple (type: string) : Array<any> {
-    return type.substring(1,type.length-1).split(",");
+
+  private breakDownTuple (type: string): Array<any> {
+    return type.substring(1, type.length - 1).split(',');
   }
-  
-  private renderInputs() {
+
+  private renderInputs () {
     const value = this.props.value;
     const { key } = value;
 
-    //if function has inputs, render them
-    if( (value as StorageModuleQuery).params.length > 0 ){ 
-      const type = isU8a(key) ? 'Data' : key.meta.type.asMap.key.toString()
+    // if function has inputs, render them
+    if ((value as StorageModuleQuery).params.length > 0) {
+      const type = isU8a(key) ? 'Data' : key.meta.type.asMap.key.toString();
       const params = (value as StorageModuleQuery).params;
       return (
-        <div> 
-          Inputs: ({type})
-          {params.map((obj)=>{
-              //check if the type name references a tuple, e.g. "(Hash, AccountId)"
-              if(this.typeIsTuple(type)) {
+        <span>
+          {type}:&nbsp;
+          {
+            params.map((obj) => {
+              // check if the type name references a tuple, e.g. "(Hash, AccountId)"
+              if (this.typeIsTuple(type)) {
                 let types = this.breakDownTuple(type);
-                //if so run this function on each element of the tuple
+                // if so run this function on each element of the tuple
                 let output = [];
-                for(let i = 0; i < types.length; i++) {
-                  output[i] = <div className="query-input">
-                    {valueToText(types[i], (obj.value as Array<any>)[i])}
-                  </div>
+                for (let i = 0; i < types.length; i++) {
+                  output[i] =
+                  <span>
+                    {
+                      valueToText(types[i], (obj.value as Array<any>)[i])
+                    }
+                    {
+                      (i === types.length - 1 ? '' : ', ')
+                      /* comma separated list */
+                    }
+                  </span>;
                 }
+
                 return output;
               }
 
-            return <div className="query-input">
-            {valueToText(
-              type,
-              obj.value)}</div>;
-          })
-        }
-        </div>
-      )
-    }
-    else {
-      return <div></div>;
+              return valueToText(type, obj.value);
+            })
+          }
+        </span>
+      );
+    } else {
+      return <span></span>;
     }
   }
 

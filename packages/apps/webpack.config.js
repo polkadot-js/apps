@@ -9,6 +9,7 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { WebpackPluginServe } = require('webpack-plugin-serve');
 
 const packages = [
   'app-accounts',
@@ -16,9 +17,9 @@ const packages = [
   'app-democracy',
   'app-explorer',
   'app-extrinsics',
+  'app-js',
   'app-settings',
   'app-staking',
-  'app-nodeinfo',
   'app-storage',
   'app-123code',
   'app-toolbox',
@@ -30,9 +31,9 @@ const packages = [
   'ui-signer'
 ];
 
-const DEFAULT_THEME = process.env.TRAVIS_BRANCH === 'next'
-  ? 'substrate'
-  : 'polkadot';
+// const DEFAULT_THEME = process.env.TRAVIS_BRANCH === 'next'
+//   ? 'substrate'
+//   : 'polkadot';
 
 function createWebpack ({ alias = {}, context, name = 'index' }) {
   const pkgJson = require(path.join(context, 'package.json'));
@@ -46,7 +47,12 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
   return {
     context,
     devtool: isProd ? 'source-map' : 'cheap-eval-source-map',
-    entry: `./src/${name}.tsx`,
+    entry: [
+      `./src/${name}.tsx`,
+      isProd
+        ? null
+        : 'webpack-plugin-serve/client'
+    ].filter((entry) => entry),
     mode: ENV,
     output: {
       chunkFilename: `[name].[chunkhash:8].js`,
@@ -177,23 +183,26 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
         'process.env': {
           NODE_ENV: JSON.stringify(ENV),
           VERSION: JSON.stringify(pkgJson.version),
-          UI_MODE: JSON.stringify(process.env.UI_MODE || 'full'),
-          UI_THEME: JSON.stringify(process.env.UI_THEME || DEFAULT_THEME),
           WS_URL: JSON.stringify(process.env.WS_URL)
         }
       }),
       new HtmlWebpackPlugin({
         inject: true,
         template: path.join(context, `${hasPublic ? 'public/' : ''}${name}.html`),
-        PAGE_TITLE: process.env.UI_THEME === 'substrate'
-          ? 'Substrate Apps Portal'
-          : 'Polkadot Apps Portal'
+        PAGE_TITLE: 'Polkadot/Substrate Portal'
       }),
       new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({
         filename: `[name].[contenthash:8].css`
-      })
-    ])
+      }),
+      isProd
+        ? null
+        : new WebpackPluginServe({
+          port: 3000,
+          static: path.join(process.cwd(), '/build')
+        })
+    ]).filter((plugin) => plugin),
+    watch: !isProd
   };
 }
 

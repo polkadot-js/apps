@@ -8,8 +8,8 @@ import { BareProps } from './types';
 import React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
+import { classes } from './util';
 import Button from './Button';
-import classes from './util/classes';
 
 type Props = BareProps & {
   icon?: string,

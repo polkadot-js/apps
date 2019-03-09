@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef } from '@polkadot/types/codec';
+import { TypeDef } from '@polkadot/types';
 import { Props, RawParam } from '../types';
 
 import React from 'react';
@@ -20,16 +20,12 @@ type State = {
 };
 
 export default class Tuple extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      Components: [],
-      sub: [],
-      subTypes: [],
-      values: []
-    };
-  }
+  state: State = {
+    Components: [],
+    sub: [],
+    subTypes: [],
+    values: []
+  };
 
   static getDerivedStateFromProps ({ defaultValue: { value }, type: { sub, type } }: Props, prevState: State): Partial<State> | null {
     if (type === prevState.type) {
@@ -82,26 +78,24 @@ export default class Tuple extends React.PureComponent<Props, State> {
   }
 
   private onChange = (index: number) => {
-    const { onChange } = this.props;
-
     return (value: RawParam): void => {
-      let isValid = value.isValid;
-      const values = this.state.values.map((svalue, sindex) => {
-        if (sindex === index) {
-          return value;
+      this.setState(
+        ({ values }: State) => ({
+          values: values.map((svalue, sindex) =>
+            (sindex === index)
+              ? value
+              : svalue
+        )}),
+        () => {
+          const { values } = this.state;
+          const { onChange } = this.props;
+
+          onChange && onChange({
+            isValid: values.reduce((result, { isValid }) => result && isValid, true),
+            value: values.map(({ value }) => value)
+          });
         }
-
-        isValid = isValid && svalue.isValid;
-
-        return svalue;
-      });
-
-      this.setState({ values }, () => {
-        onChange && onChange({
-          isValid,
-          value: values.map(({ value }) => value)
-        });
-      });
+      );
     };
   }
 }

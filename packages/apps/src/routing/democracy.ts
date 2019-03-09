@@ -9,15 +9,15 @@ import Democracy from '@polkadot/app-democracy/index';
 export default ([
   {
     Component: Democracy,
+    display: {
+      needsApi: [
+        'query.democracy.nextTally'
+      ]
+    },
     i18n: {
       defaultValue: 'Democracy'
     },
     icon: 'calendar check',
-    isApiGated: true,
-    isHidden: false,
-    name: 'democracy',
-    needsApi: [
-      'query.democracy.nextTally'
-    ]
+    name: 'democracy'
   }
 ] as Routes);

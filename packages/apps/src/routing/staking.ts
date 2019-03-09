@@ -9,15 +9,18 @@ import Staking from '@polkadot/app-staking/index';
 export default ([
   {
     Component: Staking,
+    display: {
+      needsApi: [
+        [
+          'tx.staking.bond', // current bonding API
+          'tx.staking.stake' // previous staking API
+        ]
+      ]
+    },
     i18n: {
       defaultValue: 'Staking'
     },
     icon: 'certificate',
-    isApiGated: true,
-    isHidden: false,
-    name: 'staking',
-    needsApi: [
-      'tx.staking.stake'
-    ]
+    name: 'staking'
   }
 ] as Routes);

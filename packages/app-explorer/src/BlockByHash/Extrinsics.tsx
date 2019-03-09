@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { AddressMini, Call } from '@polkadot/ui-app/index';
-import { formatNumber } from '@polkadot/ui-app/util';
+import { formatNumber } from '@polkadot/ui-util';
 import { Extrinsic, Method } from '@polkadot/types';
 
 import translate from '../translate';
@@ -40,7 +40,7 @@ class Extrinsics extends React.PureComponent<Props> {
     }
 
     return (
-      <div className='explorer--BlockByHash-flexable'>
+      <div className='explorer--BlockByHash-flexable ui--flex-medium'>
         {value.map(this.renderExtrinsic)}
       </div>
     );
@@ -55,26 +55,24 @@ class Extrinsics extends React.PureComponent<Props> {
         className='explorer--BlockByHash-block'
         key={`extrinsic:${index}`}
       >
-        <article className='ui--hoverable explorer--Container'>
+        <article className='explorer--Container'>
           <div className='header'>
             <h3>
               {section}.{method}&nbsp;(#{formatNumber(index)})
             </h3>
             {this.renderSigner(extrinsic)}
           </div>
-          <div className='ui--hover'>
-            <div className='ui--hover-content'>
-              <div className='description'>{
-                meta && meta.documentation
-                  ? meta.documentation.join(' ')
-                  : ''
-              }</div>
-              <Call
-                className='details'
-                value={extrinsic}
-              />
-            </div>
-          </div>
+          <details>
+            <summary>{
+              meta && meta.documentation
+                ? meta.documentation.join(' ')
+                : 'Details'
+            }</summary>
+            <Call
+              className='details'
+              value={extrinsic}
+            />
+          </details>
         </article>
       </div>
     );

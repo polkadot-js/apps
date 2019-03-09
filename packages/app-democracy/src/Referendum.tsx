@@ -8,11 +8,11 @@ import { RawParam } from '@polkadot/ui-params/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { ReferendumInfo } from '@polkadot/types';
+import { ReferendumInfoExtended } from '@polkadot/api-derive/democracy/referendumInfo';
 import { Chart, Static } from '@polkadot/ui-app/index';
 import VoteThreshold from '@polkadot/ui-params/Param/VoteThreshold';
 import { withCalls } from '@polkadot/ui-api/index';
-import { formatBalance, formatNumber } from '@polkadot/ui-app/util/index';
+import { formatBalance, formatNumber } from '@polkadot/ui-util';
 import settings from '@polkadot/ui-settings';
 
 import Item from './Item';
@@ -27,11 +27,11 @@ const COLORS_NAY = settings.uiTheme === 'substrate'
   : ['#d75ea1', '#e189ba'];
 
 type Props = I18nProps & {
+  idNumber: BN,
   chain_bestNumber?: BN,
   democracy_referendumVotesFor?: Array<DerivedReferendumVote>,
   democracy_publicDelay?: BN,
-  idNumber: BN | number,
-  value: ReferendumInfo
+  value: ReferendumInfoExtended
 };
 
 type State = {
@@ -44,20 +44,14 @@ type State = {
 };
 
 class Referendum extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      voteCount: 0,
-      voteCountYay: 0,
-      voteCountNay: 0,
-      votedTotal: new BN(0),
-      votedYay: new BN(0),
-      votedNay: new BN(0)
-    };
-  }
+  state: State = {
+    voteCount: 0,
+    voteCountYay: 0,
+    voteCountNay: 0,
+    votedTotal: new BN(0),
+    votedYay: new BN(0),
+    votedNay: new BN(0)
+  };
 
   static getDerivedStateFromProps ({ democracy_referendumVotesFor }: Props, prevState: State): State | null {
     if (!democracy_referendumVotesFor) {
@@ -94,7 +88,7 @@ class Referendum extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { chain_bestNumber, idNumber, value } = this.props;
+    const { chain_bestNumber, value } = this.props;
 
     if (!chain_bestNumber || value.end.sub(chain_bestNumber).lten(0)) {
       return null;
@@ -102,11 +96,11 @@ class Referendum extends React.PureComponent<Props, State> {
 
     return (
       <Item
-        idNumber={idNumber}
+        idNumber={value.index}
         proposal={value.proposal}
         proposalExtra={this.renderExtra()}
       >
-        <Voting referendumId={idNumber} />
+        <Voting referendumId={value.index} />
         {this.renderResults()}
       </Item>
     );

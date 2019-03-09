@@ -8,10 +8,10 @@ import { ExtraFees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Compact } from '@polkadot/types/codec';
+import { Compact } from '@polkadot/types';
 import { withCall, withMulti } from '@polkadot/ui-api/index';
 import { Icon } from '@polkadot/ui-app/index';
-import { formatBalance } from '@polkadot/ui-app/util';
+import { formatBalance } from '@polkadot/ui-util';
 
 import translate from '../translate';
 import { ZERO_BALANCE } from './constants';
@@ -30,17 +30,13 @@ type State = ExtraFees & {
 };
 
 class Transfer extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      extraFees: new BN(0),
-      extraAmount: new BN(0),
-      extraWarn: false,
-      isCreation: false,
-      isNoEffect: false
-    };
-  }
+  state: State = {
+    extraFees: new BN(0),
+    extraAmount: new BN(0),
+    extraWarn: false,
+    isCreation: false,
+    isNoEffect: false
+  };
 
   static getDerivedStateFromProps ({ amount, balances_votingBalance = ZERO_BALANCE, fees, onChange }: Props): State {
     let extraFees = fees.transferFee;

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageFunction } from '@polkadot/types/StorageKey';
+import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { RawParams } from '@polkadot/ui-params/types';
 
 type IdQuery = {
@@ -25,3 +25,7 @@ export type StorageRawQuery = PartialRawQuery & IdQuery;
 export type QueryTypes = StorageModuleQuery | StorageRawQuery;
 
 export type ParitalQueryTypes = PartialModuleQuery | PartialRawQuery;
+
+export type ComponentProps = {
+  onAdd: (query: ParitalQueryTypes) => void
+};

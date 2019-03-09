@@ -6,10 +6,10 @@ import { BareProps, BitLength, I18nProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { formatBalance, calcSi } from '@polkadot/ui-app/util';
+import { formatBalance } from '@polkadot/ui-util';
 import { isUndefined } from '@polkadot/util';
 
-import classes from './util/classes';
+import { classes } from './util';
 import { BitLengthOption } from './constants';
 import Dropdown from './Dropdown';
 import Input, { KEYS, KEYS_PRE, isCopy, isCut, isPaste, isSelectAll } from './Input';
@@ -42,27 +42,28 @@ type State = {
 const DEFAULT_BITLENGTH = BitLengthOption.NORMAL_NUMBERS as BitLength;
 const KEYS_ALLOWED: Array<any> = [KEYS.ARROW_LEFT, KEYS.ARROW_RIGHT, KEYS.BACKSPACE, KEYS.ENTER, KEYS.ESCAPE, KEYS.TAB];
 
-function maxConservativeLength (maxValueLength: number): number {
-  const conservativenessFactor = 1;
-
-  return maxValueLength - conservativenessFactor;
-}
-
 class InputNumber extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
+    const { defaultValue, isSi, value } = this.props;
+    let valueBN = new BN(value || 0);
+    const si = formatBalance.calcSi(valueBN.toString());
+
     this.state = {
+      defaultValue: isSi
+        ? new BN(defaultValue || valueBN).div(new BN(10).pow(new BN(si.power))).toString()
+        : (defaultValue || valueBN).toString(),
       isPreKeyDown: false,
-      isValid: !isUndefined(this.props.value),
+      isValid: !isUndefined(value),
       siOptions: formatBalance.getOptions().map(({ power, text, value }) => ({
         value,
         text: power === 0
           ? InputNumber.units
           : text
       })),
-      siUnit: '-',
-      valueBN: new BN(this.props.value || 0)
+      siUnit: si.value,
+      valueBN
     };
   }
 
@@ -71,21 +72,21 @@ class InputNumber extends React.PureComponent<Props, State> {
     InputNumber.units = units;
   }
 
-  static getDerivedStateFromProps ({ isDisabled, isSi, defaultValue = '0' }: Props): Partial<State> | null {
+  static getDerivedStateFromProps ({ isDisabled, isSi, defaultValue = '0' }: Props, state: State): Partial<State> | null {
     if (!isDisabled || !isSi) {
       return null;
     }
 
     return {
       defaultValue: formatBalance(defaultValue, false),
-      siUnit: calcSi(defaultValue.toString()).value
+      siUnit: formatBalance.calcSi(defaultValue.toString(), formatBalance.getDefaults().decimals).value
     };
   }
 
   render () {
     const { bitLength = DEFAULT_BITLENGTH, className, defaultValue = '0', isSi, isDisabled, maxLength, style, t } = this.props;
     const { isValid } = this.state;
-    const maxValueLength = this.maxValue(bitLength).toString().length;
+    const maxValueLength = this.maxValue(bitLength).toString().length - 1;
     const value = this.state.defaultValue || defaultValue;
 
     return (
@@ -100,7 +101,7 @@ class InputNumber extends React.PureComponent<Props, State> {
         isAction={isSi}
         isDisabled={isDisabled}
         isError={!isValid}
-        maxLength={maxLength || maxConservativeLength(maxValueLength)}
+        maxLength={maxLength || maxValueLength}
         onChange={this.onChange}
         onKeyDown={this.onKeyDown}
         onKeyUp={this.onKeyUp}
@@ -136,11 +137,13 @@ class InputNumber extends React.PureComponent<Props, State> {
     );
   }
 
-  private maxValue = (bitLength?: number): BN =>
-    new BN(2).pow(new BN(bitLength || DEFAULT_BITLENGTH)).subn(1)
+  private maxValue (bitLength?: number): BN {
+    return new BN(2).pow(new BN(bitLength || DEFAULT_BITLENGTH)).subn(1);
+  }
 
-  private isValidBitLength = (value: BN, bitLength?: number): boolean =>
-    value.bitLength() <= (bitLength || DEFAULT_BITLENGTH)
+  private isValidBitLength (value: BN, bitLength?: number): boolean {
+    return value.bitLength() <= (bitLength || DEFAULT_BITLENGTH);
+  }
 
   private isValidKey = (event: React.KeyboardEvent<Element>, isPreKeyDown: boolean): boolean => {
     const { value: previousValue } = event.target as HTMLInputElement;
@@ -173,7 +176,7 @@ class InputNumber extends React.PureComponent<Props, State> {
     return true;
   }
 
-  private isValidNumber = (input: BN, bitLength: number = DEFAULT_BITLENGTH): boolean => {
+  private isValidNumber (input: BN, bitLength: number = DEFAULT_BITLENGTH): boolean {
     const maxBN = this.maxValue(bitLength);
 
     if (!input.lt(maxBN) || !this.isValidBitLength(input, bitLength)) {
@@ -243,15 +246,21 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 
   private applySi (siUnit: string, value: BN): BN {
+    const { isSi } = this.props;
+
+    if (!isSi) {
+      return value;
+    }
+
     const si = formatBalance.findSi(siUnit);
-    const power = new BN(formatBalance.getDefaultDecimals() + si.power);
+    const power = new BN(formatBalance.getDefaults().decimals + si.power);
 
     return value.mul(new BN(10).pow(power));
   }
 
   private applyNewSi (oldSi: string, newSi: string, value: BN): BN {
     const si = formatBalance.findSi(oldSi);
-    const power = new BN(formatBalance.getDefaultDecimals() + si.power);
+    const power = new BN(formatBalance.getDefaults().decimals + si.power);
 
     return this.applySi(newSi, value.div(new BN(10).pow(power)));
   }
@@ -278,8 +287,7 @@ class InputNumber extends React.PureComponent<Props, State> {
 }
 
 export {
-  InputNumber,
-  maxConservativeLength
+  InputNumber
 };
 
 export default translate(InputNumber);

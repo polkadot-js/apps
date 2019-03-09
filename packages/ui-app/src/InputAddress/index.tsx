@@ -15,7 +15,7 @@ import createItem from '@polkadot/ui-keyring/options/item';
 import { withMulti, withObservable } from '@polkadot/ui-api/index';
 
 import Dropdown from '../Dropdown';
-import classes from '../util/classes';
+import { classes } from '../util';
 import addressToAddress from '../util/toAddress';
 
 type Props = BareProps & {
@@ -37,7 +37,6 @@ type State = {
   value?: string
 };
 
-const RECENT_KEY = 'header-recent';
 const STORAGE_KEY = 'options:InputAddress';
 const DEFAULT_TYPE = 'all';
 
@@ -76,11 +75,7 @@ const createOption = (address: string) => {
 };
 
 class InputAddress extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {};
-  }
+  state: State = {};
 
   static getDerivedStateFromProps ({ value }: Props): State | null {
     try {
@@ -112,8 +107,9 @@ class InputAddress extends React.PureComponent<Props, State> {
   render () {
     const { className, defaultValue, hideAddress = false, isDisabled = false, isError, label, optionsAll, type = DEFAULT_TYPE, style, withLabel } = this.props;
     const { value } = this.state;
+    const hasOptions = optionsAll && Object.keys(optionsAll[type]).length !== 0;
 
-    if (!optionsAll || !Object.keys(optionsAll[type]).length) {
+    if (!hasOptions && !isDisabled) {
       return null;
     }
 
@@ -143,7 +139,7 @@ class InputAddress extends React.PureComponent<Props, State> {
         options={
           isDisabled && actualValue
             ? [createOption(actualValue)]
-            : optionsAll[type]
+            : (optionsAll ? optionsAll[type] : [])
         }
         style={style}
         value={value}
@@ -193,9 +189,10 @@ class InputAddress extends React.PureComponent<Props, State> {
     const query = _query.trim();
     const queryLower = query.toLowerCase();
     const matches = filteredOptions.filter((item) =>
-      item.value === null ||
-      item.name.toLowerCase().indexOf(queryLower) !== -1 ||
-      item.value.toLowerCase().indexOf(queryLower) !== -1
+      item.value !== null && (
+        item.name.toLowerCase().indexOf(queryLower) !== -1 ||
+        item.value.toLowerCase().indexOf(queryLower) !== -1
+      )
     );
 
     const valueMatches = matches.filter((item) =>
@@ -206,12 +203,6 @@ class InputAddress extends React.PureComponent<Props, State> {
       const accountId = transformToAccountId(query);
 
       if (accountId) {
-        if (!matches.find((item) => item.key === RECENT_KEY)) {
-          matches.push(
-            keyringOption.createOptionHeader('Recent')
-          );
-        }
-
         matches.push(
           keyring.saveRecent(
             accountId

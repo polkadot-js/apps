@@ -2,12 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { WithNamespaces } from 'react-i18next';
+import { WithTranslation } from 'react-i18next';
 import { Props as BaseProps, RawParam } from '../types';
 
 import React from 'react';
-import { Vector } from '@polkadot/types/codec';
-import { KeyValue as Pair } from '@polkadot/types';
+import { KeyValue as Pair, Vector } from '@polkadot/types';
 import translate from '@polkadot/ui-app/translate';
 import { assert, isHex, u8aToHex, u8aToString } from '@polkadot/util';
 
@@ -16,7 +15,7 @@ import Bytes from './Bytes';
 import File from './File';
 import KeyValue from './KeyValue';
 
-type Props = BaseProps & WithNamespaces;
+type Props = BaseProps & WithTranslation;
 
 type State = {
   placeholder?: string;

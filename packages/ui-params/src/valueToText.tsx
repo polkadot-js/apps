@@ -7,12 +7,12 @@ import './Params.css';
 import React from 'react';
 import { classes } from '@polkadot/ui-app/util';
 import { isNull, isUndefined, u8aToHex } from '@polkadot/util';
-import { Hash } from '@polkadot/types';
 import { isBuffer } from 'util';
 import { string } from 'prop-types';
+import { Option, U8a } from '@polkadot/types';
 
 // import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
-// import formatNumber from '@polkadot/ui-app/util/formatNumber';
+// import formatNumber from '@polkadot/ui-util/formatNumber';
 // import keyring from '@polkadot/ui-keyring';
 // import u8aToHex from '@polkadot/util/u8a/toHex';
 // import isBn from '@polkadot/util/is/bn';
@@ -110,11 +110,7 @@ function div ({ key, className }: DivProps, ...values: Array<React.ReactNode>): 
 //   );
 // }
 
-
-//function tupleTo
 function valueToText (type: string, value: any, swallowError: boolean = true, contentShorten: boolean = true): React.ReactNode {
-
-
 
   // try {
   //   if (type === 'bool') {
@@ -157,22 +153,34 @@ function valueToText (type: string, value: any, swallowError: boolean = true, co
   //     console.log('valueToText', type, value, error);
   //   }
   // }
-
-  //When displaying parameters of type Hash, these will sometimes come in the 
+/*
+  //When displaying parameters of type Hash, these will sometimes come in the
   //form of a Uint8Array and not print properly unless converted to a Hash
   if(type == "Hash") {
     return <div>{(new Hash(value)).toString()}</div>
   }
-
+*/
+  // dont' even ask, nested ?: ... really?
   return isNull(value) || isUndefined(value)
     ? unknown
-    : <div>
-      {['Bytes', 'Data'].includes(type)
+    : div(
+      {},
+      (['Bytes', 'Data'].includes(type)
         ? u8aToHex(value.toU8a(true), contentShorten ? 512 : -1)
-        : value.toString()}
-        </div>
-  
-    
+        : (
+          value instanceof U8a
+            ? (
+              value.isEmpty
+                ? '<empty>'
+                : value.toString()
+            )
+            : (
+              (value instanceof Option) && value.isNone
+                ? '<empty>'
+                : value.toString()
+            )
+        )
+      ));
 }
 
 export default valueToText;

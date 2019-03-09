@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo } from '@polkadot/types/codec';
 import { RawParam$Value } from './types';
 
 import BN from 'bn.js';
-import { Bytes, Hash } from '@polkadot/types';
+import { Bytes, Hash, TypeDef, TypeDefInfo, UInt, createType } from '@polkadot/types';
 
 export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawParam$Value> {
   if (def.info === TypeDefInfo.Vector) {
@@ -27,15 +26,16 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
   switch (type) {
     case 'AccountIndex':
     case 'Balance':
+    case 'BalanceOf':
     case 'BlockNumber':
     case 'Compact':
     case 'Gas':
     case 'Index':
+    case 'Nonce':
     case 'ParaId':
     case 'PropIndex':
     case 'ProposalIndex':
     case 'ReferendumIndex':
-    case 'SessionKey':
     case 'u32':
     case 'u64':
     case 'u128':
@@ -65,6 +65,7 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
       return new Hash();
 
     case 'AccountId':
+    case 'AccountIdOf':
     case 'Address':
     case 'Bytes':
     case 'Call':
@@ -75,10 +76,22 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     case 'MisbehaviorReport':
     case 'Proposal':
     case 'Signature':
+    case 'SessionKey':
       return void 0;
 
-    default:
+    default: {
+      try {
+        const instance = createType(type);
+
+        if (instance instanceof UInt) {
+          return new BN(0);
+        }
+      } catch (error) {
+        // console.error(error.message);
+      }
+
       console.error(`Unable to determine default type for ${JSON.stringify(def)}`);
       return void 0;
+    }
   }
 }

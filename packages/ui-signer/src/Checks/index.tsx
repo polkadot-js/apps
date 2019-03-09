@@ -4,14 +4,15 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
+import { IExtrinsic } from '@polkadot/types/types';
 import { ExtraFees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Extrinsic, Method } from '@polkadot/types';
+import { Method } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api/index';
 import { Icon } from '@polkadot/ui-app/index';
-import { formatBalance } from '@polkadot/ui-app/util';
+import { formatBalance } from '@polkadot/ui-util';
 import { compactToU8a } from '@polkadot/util';
 
 import translate from '../translate';
@@ -35,7 +36,8 @@ type Props = I18nProps & {
   balances_fees?: DerivedFees,
   balances_votingBalance?: DerivedBalances,
   accountId?: string | null,
-  extrinsic?: Extrinsic | null,
+  extrinsic?: IExtrinsic | null,
+  isSendable: boolean,
   onChange?: (hasAvailble: boolean) => void,
   system_accountNonce?: BN
 };
@@ -117,7 +119,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accountId, className, t } = this.props;
+    const { accountId, className, isSendable, t } = this.props;
     const { allFees, allTotal, allWarn, hasAvailable, isRemovable, isReserved, overLimit } = this.state;
 
     if (!accountId) {
@@ -138,6 +140,11 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         className={[className, feeClass, 'padded'].join(' ')}
         key='txinfo'
       >
+        {
+          isSendable
+            ? undefined
+            : <div><Icon name='ban' />{t('The selected account does not exist on your keyring')}</div>
+        }
         {
           hasAvailable
             ? undefined

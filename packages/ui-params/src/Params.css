@@ -4,6 +4,10 @@
 
 .ui--Params {
   border-left: 0.25rem solid #f2f2f2;
+
+  .ui--row {
+    flex-wrap: wrap;
+  }
 }
 
 .ui--Param-Address {
@@ -17,8 +21,12 @@
 
 .ui--Param-text {
   display: inline-block;
+  max-width: 16rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  position: relative;
   font-size: 1rem;
-  line-height: 1.714rem;
+  vertical-align: bottom;
 }
 
 .ui--Param-text .icon {

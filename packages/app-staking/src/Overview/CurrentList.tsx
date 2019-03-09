@@ -6,11 +6,10 @@ import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AccountId, Balance } from '@polkadot/types';
-import { HeaderExtended } from '@polkadot/types/Header';
+import { AccountId, Balance, HeaderExtended } from '@polkadot/types';
 import { withCall, withMulti } from '@polkadot/ui-api/with';
 import { AddressMini, AddressRow } from '@polkadot/ui-app/index';
-import { formatNumber } from '@polkadot/ui-app/util';
+import { formatNumber } from '@polkadot/ui-util';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
@@ -26,7 +25,7 @@ type Props = I18nProps & {
 class CurrentList extends React.PureComponent<Props> {
   render () {
     return (
-      <div className='validator--ValidatorsList'>
+      <div className='validator--ValidatorsList ui--flex-medium'>
         <div className='validator--current'>
           {this.renderCurrent()}
         </div>
@@ -96,26 +95,36 @@ class CurrentList extends React.PureComponent<Props> {
       <div>
         {addresses.map((address) => {
           const nominators = (balances[address] || {}).nominators || [];
+          const children = nominators.length
+            ? (
+            <details>
+              <summary>{t('Nominators ({{count}})', {
+                replace: {
+                  count: nominators.length
+                }
+              })}</summary>
+              {nominators.map(({ accountId }) =>
+                <AddressMini
+                  key={accountId.toString()}
+                  value={accountId}
+                  withBalance
+                />
+              )}
+            </details>
+          )
+          : undefined;
 
           return (
-            <article
-              className='ui--hoverable'
-              key={address}
-            >
+            <article key={address}>
               <AddressRow
                 balance={balanceArray(address)}
-                children={nominators.map(({ accountId }) =>
-                  <AddressMini
-                    key={accountId.toString()}
-                    value={accountId}
-                    withBalance
-                  />
-                )}
                 name={this.getDisplayName(address, defaultName)}
                 value={address}
                 withCopy={false}
                 withNonce={false}
-              />
+              >
+                {children}
+              </AddressRow>
               <div
                 className={['blockNumber', lastAuthor === address ? 'latest' : ''].join(' ')}
                 key='lastBlock'

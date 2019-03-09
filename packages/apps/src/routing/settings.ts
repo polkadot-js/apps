@@ -9,12 +9,11 @@ import Settings from '@polkadot/app-settings/index';
 export default ([
   {
     Component: Settings,
+    display: {},
     i18n: {
       defaultValue: 'Settings'
     },
     icon: 'settings',
-    isApiGated: false,
-    isHidden: false,
     name: 'settings'
   }
 ] as Routes);

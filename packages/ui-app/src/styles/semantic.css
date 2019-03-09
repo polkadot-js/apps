@@ -95,7 +95,7 @@
 }
 
 .ui.modal {
-  background: #fafafa;
+  background: #fafafa /* #fff */;
   color: #4e4e4e;
   font-family: sans-serif;
 
@@ -151,7 +151,7 @@
 .ui.disabled.active.button,
 .ui.disabled.button,
 .ui.disabled.button:hover {
-  opacity: 0.1 !important;
+  opacity: 0.2 !important;
 }
 
 /* modals aligned to top, not center */
@@ -166,6 +166,6 @@
   padding: 1em 2em 0;
 
   .item.active {
-    background: #fafafa;
+    background: #fafafa /* #fff */;
   }
 }

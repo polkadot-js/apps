@@ -4,6 +4,7 @@
 
 import { KeyringPair$Json } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ComponentProps } from './types';
 
 import React from 'react';
 import { AddressSummary, Button, InputFile, Password } from '@polkadot/ui-app/index';
@@ -14,10 +15,7 @@ import keyring from '@polkadot/ui-keyring';
 import translate from './translate';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
-type Props = I18nProps & {
-  onStatusChange: (status: ActionStatus) => void,
-  onRestoreAccount: () => void
-};
+type Props = ComponentProps & I18nProps;
 
 type State = {
   isFileValid: boolean,
@@ -27,18 +25,12 @@ type State = {
 };
 
 class Restore extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      isFileValid: false,
-      isPassValid: false,
-      json: null,
-      password: ''
-    };
-  }
+  state: State = {
+    isFileValid: false,
+    isPassValid: false,
+    json: null,
+    password: ''
+  };
 
   render () {
     const { t } = this.props;
@@ -103,10 +95,11 @@ class Restore extends React.PureComponent<Props, State> {
   private onChangeFile = (file: Uint8Array): void => {
     try {
       const json = JSON.parse(u8aToString(file));
-      const isFileValid = keyring.decodeAddress(json.address).length === 32 &&
-        isHex(json.encoded) &&
-        isObject(json.meta) &&
-        json.encoding.content === 'pkcs8';
+      const isFileValid = keyring.decodeAddress(json.address).length === 32 && isHex(json.encoded) && isObject(json.meta) && (
+        Array.isArray(json.encoding.content)
+          ? json.encoding.content[0] === 'pkcs8'
+          : json.encoding.content === 'pkcs8'
+      );
 
       this.setState({
         isFileValid,
@@ -129,7 +122,7 @@ class Restore extends React.PureComponent<Props, State> {
   }
 
   private onSave = (): void => {
-    const { onRestoreAccount, onStatusChange, t } = this.props;
+    const { basePath, onStatusChange, t } = this.props;
     const { json, password } = this.state;
 
     if (!json) {
@@ -148,7 +141,6 @@ class Restore extends React.PureComponent<Props, State> {
       status.message = t('account restored');
 
       InputAddress.setLastValue('account', pair.address());
-      onRestoreAccount();
     } catch (error) {
       this.setState({ isPassValid: false });
 
@@ -158,6 +150,10 @@ class Restore extends React.PureComponent<Props, State> {
     }
 
     onStatusChange(status);
+
+    if (status.status !== 'error') {
+      window.location.hash = basePath;
+    }
   }
 }
 

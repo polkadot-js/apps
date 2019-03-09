@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { EventRecord } from '@polkadot/types';
 import { Event as EventDisplay } from '@polkadot/ui-app/index';
-import { formatNumber } from '@polkadot/ui-app/util';
+import { formatNumber } from '@polkadot/ui-util';
 
 import translate from './translate';
 
@@ -50,9 +50,13 @@ class Events extends React.PureComponent<Props> {
       ? phase.asApplyExtrinsic
       : -1;
 
+    if (!event.method || !event.section) {
+      return null;
+    }
+
     return (
       <article
-        className={['explorer--Container', 'ui--hoverable'].join(' ')}
+        className='explorer--Container'
         key={index}
       >
         <div className='header'>
@@ -65,21 +69,19 @@ class Events extends React.PureComponent<Props> {
           </h3>
 
         </div>
-        <div className='ui--hover'>
-          <div className='ui--hover-content'>
-            <div className='description'>
-              {
-                event.meta && event.meta.documentation
-                  ? event.meta.documentation.join(' ')
-                  : ''
-              }
-            </div>
-            <EventDisplay
-              className='details'
-              value={event}
-            />
-          </div>
-        </div>
+        <details>
+          <summary>
+            {
+              event.meta && event.meta.documentation
+                ? event.meta.documentation.join(' ')
+                : 'Details'
+            }
+          </summary>
+          <EventDisplay
+            className='details'
+            value={event}
+          />
+        </details>
       </article>
     );
   }

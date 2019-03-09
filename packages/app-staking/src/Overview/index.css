@@ -49,12 +49,15 @@
   text-align: right;
 }
 
-.validator--IntensionsList,
 .validator--ValidatorsList {
-  display: flex;
-
-  article.ui--hoverable {
+  article {
     position: relative;
+
+    details {
+      summary + div {
+        margin-top: 0;
+      }
+    }
 
     .blockNumber {
       font-size: 1.5rem;

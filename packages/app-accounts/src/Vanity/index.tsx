@@ -4,6 +4,7 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { Generator$Matches, Generator$Result } from '../vanitygen/types';
+import { ComponentProps } from '../types';
 
 import './index.css';
 
@@ -16,9 +17,7 @@ import generatorSort from '../vanitygen/sort';
 import Match from './Match';
 import translate from './translate';
 
-type Props = I18nProps & {
-  onCreateToggle: (passthrough: string) => void
-};
+type Props = ComponentProps & I18nProps;
 
 type State = {
   elapsed: number,
@@ -90,7 +89,6 @@ class VanityApp extends React.PureComponent<Props, State> {
   }
 
   renderMatches () {
-    const { onCreateToggle } = this.props;
     const { matches } = this.state;
 
     return (
@@ -99,7 +97,7 @@ class VanityApp extends React.PureComponent<Props, State> {
           <Match
             {...match}
             key={match.address}
-            onCreateToggle={onCreateToggle}
+            onCreateToggle={this.onCreateToggle}
             onRemove={this.onRemove}
           />
         ))}
@@ -216,6 +214,12 @@ class VanityApp extends React.PureComponent<Props, State> {
         this.executeGeneration();
       }
     }, 0);
+  }
+
+  private onCreateToggle = (seed: string) => {
+    const { basePath } = this.props;
+
+    window.location.hash = `${basePath}/create/${seed}`;
   }
 
   onChangeCase = (withCase: boolean): void => {

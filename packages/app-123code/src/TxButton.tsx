@@ -45,7 +45,7 @@ class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
 
     queueExtrinsic({
       accountId,
-      extrinsic: api.tx[section][method](...params)
+      extrinsic: api.tx[section][method](...params) as any // ???
     });
   }
 }

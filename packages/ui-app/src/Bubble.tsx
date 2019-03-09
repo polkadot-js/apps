@@ -9,7 +9,7 @@ import React from 'react';
 import SUILabel from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
 import settings from '@polkadot/ui-settings';
 
-import classes from './util/classes';
+import { classes } from './util';
 import Icon from './Icon';
 
 type Props = BareProps & {

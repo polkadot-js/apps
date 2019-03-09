@@ -2,23 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalancesMap } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { BareProps } from '@polkadot/ui-app/types';
+import { ComponentProps } from '../types';
 
 import './index.css';
 
 import React from 'react';
-import { AccountId, Balance } from '@polkadot/types';
+import { Balance } from '@polkadot/types';
 
 import CurrentList from './CurrentList';
 import Summary from './Summary';
 
-type Props = I18nProps & {
-  balances: DerivedBalancesMap,
-  balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
-  intentions: Array<string>,
-  validators: Array<string>
-};
+type Props = BareProps & ComponentProps;
 
 const ZERO = new Balance(0);
 

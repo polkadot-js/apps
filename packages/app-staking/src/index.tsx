@@ -5,11 +5,15 @@
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
+import { ComponentProps } from './types';
 
 import React from 'react';
+import { Route, Switch } from 'react-router';
 import { AccountId, Balance } from '@polkadot/types';
-import { Tabs } from '@polkadot/ui-app/index';
-import { withCalls } from '@polkadot/ui-api/index';
+import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
+import accountObservable from '@polkadot/ui-keyring/observable/accounts';
+import { withCalls, withMulti, withObservable } from '@polkadot/ui-api/index';
 
 import './index.css';
 
@@ -17,23 +21,17 @@ import StakeList from './StakeList';
 import Overview from './Overview';
 import translate from './translate';
 
-type Actions = 'actions' | 'overview';
-
 type Props = AppProps & ApiProps & I18nProps & {
+  allAccounts?: SubjectInfo,
   balances?: DerivedBalancesMap,
   intentions?: Array<AccountId>,
   session_validators?: Array<AccountId>
 };
 
 type State = {
-  action: Actions,
   intentions: Array<string>,
+  tabs: Array<TabItem>,
   validators: Array<string>
-};
-
-const Components: { [index: string]: React.ComponentType<any> } = {
-  'overview': Overview,
-  'actions': StakeList
 };
 
 class App extends React.PureComponent<Props, State> {
@@ -42,9 +40,20 @@ class App extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
+    const { t } = props;
+
     this.state = {
-      action: 'overview',
       intentions: [],
+      tabs: [
+        {
+          name: 'overview',
+          text: t('Staking Overview')
+        },
+        {
+          name: 'actions',
+          text: t('Account Actions')
+        }
+      ],
       validators: []
     };
   }
@@ -61,41 +70,45 @@ class App extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { action, intentions, validators } = this.state;
-    const { t, balances = {} } = this.props;
-    const Component = Components[action];
-    const items = [
-      {
-        name: 'overview',
-        text: t('Staking Overview')
-      },
-      {
-        name: 'actions',
-        text: t('Account Actions')
-      }
-    ];
+    const { allAccounts, api } = this.props;
+    const { tabs } = this.state;
+    const { basePath } = this.props;
+    const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
+    const hidden = hasAccounts && api.tx.staking.stake
+      ? []
+      : ['actions'];
 
     return (
       <main className='staking--App'>
         <header>
           <Tabs
-            activeItem={action}
-            items={items}
-            onChange={this.onMenuChange}
+            basePath={basePath}
+            hidden={hidden}
+            items={tabs}
           />
         </header>
+        <Switch>
+          <Route path={`${basePath}/actions`} render={this.renderComponent(StakeList)} />
+          <Route render={this.renderComponent(Overview)} />
+        </Switch>
+      </main>
+    );
+  }
+
+  private renderComponent (Component: React.ComponentType<ComponentProps>) {
+    return (): React.ReactNode => {
+      const { intentions, validators } = this.state;
+      const { balances = {} } = this.props;
+
+      return (
         <Component
           balances={balances}
           balanceArray={this.balanceArray}
           intentions={intentions}
           validators={validators}
         />
-      </main>
-    );
-  }
-
-  private onMenuChange = (action: Actions) => {
-    this.setState({ action });
+      );
+    };
   }
 
   private balanceArray = (_address: AccountId | string): Array<Balance> | undefined => {
@@ -116,10 +129,13 @@ class App extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(
+export default withMulti(
+  App,
+  translate,
+  withObservable(accountObservable.subject, { propName: 'allAccounts' }),
   withCalls<Props>(
     'query.session.validators',
     ['query.staking.intentions', { propName: 'intentions' }],
     ['derive.staking.intentionsBalances', { propName: 'balances' }]
-  )(App)
+  )
 );

@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MethodFunction } from '@polkadot/types/Method';
+import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { BareProps } from '../types';
 import { DropdownOptions } from '../util/types';
 
 import React from 'react';
 
 import Dropdown from '../Dropdown';
-import classes from '../util/classes';
+import { classes } from '../util';
 
 type Props = BareProps & {
   defaultValue?: string,
