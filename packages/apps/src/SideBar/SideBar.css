@@ -156,7 +156,7 @@ a.apps--SideBar-Item-NavLink-active {
 
 .theme--polkadot {
   a.apps--SideBar-Item-NavLink:hover {
-    color: $nav-link;
+    color: #fff;
   }
 
   a.apps--SideBar-Item-NavLink-active {
