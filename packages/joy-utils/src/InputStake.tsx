@@ -20,7 +20,7 @@ export default class Component extends React.PureComponent<Props> {
           label={label || 'Amount to be staked:'}
           onChange={onChange}
         />
-        {min && <div className='medium' style={{ marginLeft: '.5rem' }}>
+        {min && !min.isZero() && <div className='medium' style={{ marginLeft: '.5rem' }}>
           <Bubble
             className={`left pointing ${isValid ? 'ok' : 'warn'}`}
             icon={isValid ? 'check' : 'warning sign'}

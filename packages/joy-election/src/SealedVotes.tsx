@@ -49,7 +49,7 @@ class Comp extends React.PureComponent<Props, State> {
       }</Section>
       <Section title={`Other votes (${otherVotes.length})`}>{
         !otherVotes.length
-        ? <em>No votes submitted others yet.</em>
+        ? <em>No votes submitted by other accounts yet.</em>
         : this.renderVotes(otherVotes)
       }</Section>
     </>;

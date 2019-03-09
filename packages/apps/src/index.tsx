@@ -8,7 +8,7 @@ import './index.css';
 
 import React from 'react';
 import store from 'store';
-import { typeRegistry } from '@polkadot/types';
+import { getTypeRegistry } from '@polkadot/types';
 import createApp from '@polkadot/ui-app/index';
 import { classes } from '@polkadot/ui-app/util';
 import Signer from '@polkadot/ui-signer/index';
@@ -49,7 +49,7 @@ try {
   const names = Object.keys(types);
 
   if (names.length) {
-    typeRegistry.register(types);
+    getTypeRegistry().register(types);
     console.log('Type registration:', names.join(', '));
   }
 } catch (error) {
