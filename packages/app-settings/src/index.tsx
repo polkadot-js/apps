@@ -97,7 +97,7 @@ class App extends React.PureComponent<Props, State> {
 
   private renderDeveloper = () => {
     const { t } = this.props;
-    const { isTypesValid, types, typesPlaceholder } = this.state;
+    const { isJsonValid, isTypesValid, types, typesPlaceholder } = this.state;
     const code = types ? JSON.stringify(types, null, 2) : '{\n\t\n}' ;
 
     return (
@@ -121,6 +121,7 @@ class App extends React.PureComponent<Props, State> {
                 <Editor
                   className='editor'
                   code={code}
+                  isValid={isJsonValid}
                   onEdit={this.onEditTypes}
                 />
               </div>

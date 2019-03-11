@@ -12,7 +12,7 @@ import './style.css';
 
 type Props = BareProps & {
   code: string,
-  error?: boolean,
+  isValid?: boolean,
   onEdit: (code: string) => void
 };
 
@@ -30,7 +30,7 @@ type Props = BareProps & {
  * <Editor
  *    className={string} // optional
  *    code={string}
- *    error={boolean}, // optional
+ *    isValid={boolean}, // optional
  *    onEdit={() => callbackFunction}
  *  />
  * ```
@@ -66,9 +66,11 @@ export default class Editor extends React.Component<Props> {
   }
 
   render () {
-    const { className, error } = this.props;
+    const { className, isValid } = this.props;
+    const editorClasses = classNames('ui-app-editor', className, { 'invalid': !isValid });
+
     return (
-      <div id={this.id} className={ classNames( 'ui-app-editor', className, { 'invalid': error }) } />
+      <div id={this.id} className={editorClasses} />
     );
   }
 }
