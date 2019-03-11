@@ -34,8 +34,6 @@ class Developer extends React.PureComponent<Props, State> {
     const types = store.get('types') || {};
     const names = Object.keys(types);
 
-    console.log('types', types);
-
     this.state = {
       code: Object.keys(types).length ? JSON.stringify(types, null, 2) : this.defaultCode,
       isJsonValid: true,
