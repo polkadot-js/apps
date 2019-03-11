@@ -125,7 +125,7 @@ class General extends React.PureComponent<Props, State> {
     ];
 
     return (
-      <Tab menu={{ secondary: true }} onTabChange={this.toggleCustomNode} menuPosition='left' panes={panes} />
+      <Tab menu={{ secondary: true }} onTabChange={this.toggleCustomNode} panes={panes} />
     );
   }
 
