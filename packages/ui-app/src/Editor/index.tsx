@@ -56,10 +56,9 @@ export default class Editor extends React.Component<Props> {
   }
 
   shouldComponentUpdate (nextProps: Props): boolean {
-    return true;
-    // return (
-    //   nextProps.code !== this.props.code
-    // );
+    return (
+      nextProps.code !== this.props.code
+    );
   }
 
   componentDidUpdate () {
