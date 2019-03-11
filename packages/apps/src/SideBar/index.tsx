@@ -58,7 +58,7 @@ class SideBar extends React.PureComponent<Props> {
     return (
       <div className='apps--SideBar-collapse'>
         <Button
-          icon={`angle double right`}
+          icon='angle double right'
           isBasic
           isCircular
           onClick={this.props.collapse}
