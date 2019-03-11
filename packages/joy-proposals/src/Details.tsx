@@ -1,6 +1,7 @@
 import BN from 'bn.js';
 import React from 'react';
 import { Table, Message } from 'semantic-ui-react';
+import ReactMarkdown from 'react-markdown';
 
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
@@ -122,7 +123,7 @@ export class Component extends React.PureComponent<Props, State> {
 
       {!preview && <div>
         <Section level={3} title='Description' className='Proposal-description'>
-          {proposal.description}
+          <ReactMarkdown className='JoyViewMD' source={proposal.description.toString()} linkTarget='_blank' />
         </Section>
 
         {/* <div style={{ marginTop: '1rem', color: 'skyblue' }}>
