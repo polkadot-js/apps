@@ -82,6 +82,9 @@ export class Component extends React.PureComponent<Props, State> {
     // const isSlashed = status === Status.Slashed;
     // const isFinalized = !isActive;
 
+    const amICouncilor = activeCouncil.find(x => myAddress === x.member.toString()) !== undefined;
+    const canVote = amICouncilor && isActive;
+
     return <>
       <h2 className='header'>
         <span className='Proposal-name' style={{ marginRight: '.25rem' }}>
@@ -131,7 +134,7 @@ export class Component extends React.PureComponent<Props, State> {
           <div><em>TODO Voting ends in N blocks (if active)</em></div>
         </div> */}
 
-        <Section level={3} title='Vote on this proposal'>
+        {canVote && <Section level={3} title='Vote on this proposal'>
           <Labelled style={{ marginTop: '.5rem' }}>
             {accountAlreadyVoted
               ? <Message compact info size='tiny' content='Selected account already voted on this proposal.' />
@@ -147,7 +150,7 @@ export class Component extends React.PureComponent<Props, State> {
                 />;
               })}
           </Labelled>
-        </Section>
+        </Section>}
 
         <Section level={3} title={`Casted votes (${votes.length})`}>
           {votes.length === 0 ? <em>No votes yet.</em> : this.renderVotes(votes)}
