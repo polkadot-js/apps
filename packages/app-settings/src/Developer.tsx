@@ -106,7 +106,7 @@ class Developer extends React.PureComponent<Props, State> {
       isJsonValid: true,
       isTypesValid: true,
       types: null,
-      typesPlaceholder: ''
+      typesPlaceholder: undefined
     });
   }
 
