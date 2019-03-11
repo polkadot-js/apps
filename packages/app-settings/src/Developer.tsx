@@ -50,7 +50,6 @@ class Developer extends React.PureComponent<Props, State> {
   render () {
     const { t } = this.props;
     const { code, isJsonValid, isTypesValid, types, typesPlaceholder } = this.state;
-   // const code = types ? JSON.stringify(types, null, 2) : '{\n\t\n}' ;
 
     return (
       <div className='settings-Developer'>
