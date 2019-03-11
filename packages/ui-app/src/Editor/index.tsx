@@ -5,7 +5,7 @@
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import classNames from 'classnames';
+import { classes } from '@polkadot/ui-app/util';
 import CodeFlask from 'codeflask';
 
 import './style.css';
@@ -56,9 +56,10 @@ export default class Editor extends React.Component<Props> {
   }
 
   shouldComponentUpdate (nextProps: Props): boolean {
-    return (
-      nextProps.code !== this.props.code
-    );
+    return true;
+    // return (
+    //   nextProps.code !== this.props.code
+    // );
   }
 
   componentDidUpdate () {
@@ -67,10 +68,12 @@ export default class Editor extends React.Component<Props> {
 
   render () {
     const { className, isValid } = this.props;
-    const editorClasses = classNames('ui-app-editor', className, { 'invalid': !isValid });
 
     return (
-      <div id={this.id} className={editorClasses} />
+      <div
+        id={this.id}
+        className={classes('ui-app-editor', className, !isValid ? 'invalid' : '')}
+      />
     );
   }
 }
