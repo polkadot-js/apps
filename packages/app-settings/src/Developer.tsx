@@ -26,14 +26,18 @@ type State = {
 };
 
 class Developer extends React.PureComponent<Props, State> {
+  private defaultCode: string = `{\n\n}`;
+
   constructor (props: Props) {
     super(props);
 
     const types = store.get('types') || {};
     const names = Object.keys(types);
 
+    console.log('types', types);
+
     this.state = {
-      code: '',
+      code: Object.keys(types).length ? JSON.stringify(types, null, 2) : this.defaultCode,
       isJsonValid: true,
       isTypesValid: true,
       types: names.length ? types : null,
@@ -45,8 +49,8 @@ class Developer extends React.PureComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { isJsonValid, isTypesValid, types, typesPlaceholder } = this.state;
-    const code = types ? JSON.stringify(types, null, 2) : '{\n\t\n}' ;
+    const { code, isJsonValid, isTypesValid, types, typesPlaceholder } = this.state;
+   // const code = types ? JSON.stringify(types, null, 2) : '{\n\t\n}' ;
 
     return (
       <div className='settings-Developer'>
@@ -85,7 +89,7 @@ class Developer extends React.PureComponent<Props, State> {
           />
           <Button.Or />
           <Button
-            isDisabled={!isTypesValid}
+            isDisabled={!isTypesValid || !isJsonValid}
             isPrimary
             onClick={this.saveDeveloper}
             label={t('Save')}
@@ -98,6 +102,8 @@ class Developer extends React.PureComponent<Props, State> {
   private clearTypes = (): void => {
     store.remove('types');
     this.setState({
+      code: this.defaultCode,
+      isJsonValid: true,
       isTypesValid: true,
       types: null,
       typesPlaceholder: ''
@@ -105,12 +111,12 @@ class Developer extends React.PureComponent<Props, State> {
   }
 
   private onChangeTypes = (data: Uint8Array) => {
-    console.log('Im changing', data);
+
+    const dataToString = u8aToString(data);
+
     try {
-      // console.log('first here?');
-      // const u8t = u8aToString(data);
-      // console.log('here?');
-      const types = JSON.parse(u8aToString(data));
+      // @TODO: Include isJsonObject function from https://github.com/polkadot-js/common/pull/359
+      const types = JSON.parse(dataToString);
       const typesPlaceholder = Object.keys(types).join(', ');
 
       console.log('Registering types:', typesPlaceholder);
@@ -118,14 +124,20 @@ class Developer extends React.PureComponent<Props, State> {
       getTypeRegistry().register(types);
 
       this.setState({
+        code: dataToString,
+        isJsonValid: true,
         isTypesValid: true,
         types,
         typesPlaceholder
       });
+
     } catch (error) {
-      console.error('Registering types:', error);
+
+      console.error('Error registering types:', error);
 
       this.setState({
+        code: dataToString,
+        isJsonValid: false,
         isTypesValid: false,
         types: null,
         typesPlaceholder: error.message
@@ -135,30 +147,22 @@ class Developer extends React.PureComponent<Props, State> {
 
   private onEditTypes = (code: string): void => {
     try {
-      const nextTypes = JSON.parse(code);
-      this.setState({ isJsonValid: true });
+      // @TODO: Include isJsonObject function from https://github.com/polkadot-js/common/pull/359
+      JSON.parse(code);
 
-      console.log(nextTypes, this.state.types);
-      if (nextTypes !== this.state.types) {
-        console.log('changed',stringToU8a(code));
-        const data = stringToU8a(code);
-        this.onChangeTypes(data);
-      }
+      this.setState({
+        code,
+        isJsonValid: true
+      } as State);
+
+      this.onChangeTypes(stringToU8a(code));
     } catch (e) {
       this.setState({
+        code,
         isJsonValid: false,
-        isTypesValid: false,
-        code: code
-      });
-
-      console.log('ERROR', e);
+        typesPlaceholder: e.message
+      } as State);
     }
-
-    // this.onChangeTypes(data);
-    // if (JSON.parse(code) !== this.state.types) {
-    //   const data = stringToU8a(code);
-    //   this.onChangeTypes(data);
-    // }
   }
 
   private saveDeveloper = (): void => {

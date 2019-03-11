@@ -3,6 +3,7 @@
 /* of the Apache-2.0 license. See the LICENSE file for details. */
 
 .settings-General {
+
   .ui.menu {
     justify-content: flex-end;
     margin-bottom: 0;
@@ -16,15 +17,17 @@
     padding: 0;
     border: none;
   }
+
+  .sub-label {
+    cursor: pointer;
+    padding: 0rem .5833rem;
+    text-align: right;
+  }
 }
 
-.sub-label {
-  cursor: pointer;
-  padding: 0rem .5833rem;
-  text-align: right;
-}
-
-.editor {
-  height: 300px;
-  position: relative;
+.settings-Developer {
+  .editor {
+    height: 300px;
+    position: relative;
+  }
 }

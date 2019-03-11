@@ -54,10 +54,19 @@ class App extends React.PureComponent<Props, State> {
           />
         </header>
         <Switch>
-          <Route path={`${basePath}/developer`} component={Developer} />
+          <Route path={`${basePath}/developer`} render={this.DeveloperWithStatus} />
           <Route component={General} />
         </Switch>
       </main>
+    );
+  }
+
+  private DeveloperWithStatus = () => {
+    return (
+      <Developer
+        onStatusChange={() => this.props.onStatusChange}
+        {...this.props}
+      />
     );
   }
 }
