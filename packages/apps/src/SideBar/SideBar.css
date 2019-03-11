@@ -126,6 +126,10 @@
     a.apps--SideBar-Item-NavLink {
       padding-bottom: 0.92em;
       padding-top: 0.92em;
+
+      > i {
+        margin: 0;
+      }
     }
 
     .apps--SideBar-collapse .ui.basic.secondary.button {
