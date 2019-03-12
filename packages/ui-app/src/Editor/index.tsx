@@ -5,12 +5,36 @@
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
+import { classes } from '@polkadot/ui-app/util';
 import CodeFlask from 'codeflask';
+
+import './style.css';
 
 type Props = BareProps & {
   code: string,
+  isValid?: boolean,
   onEdit: (code: string) => void
 };
+
+/**
+ * @name Editor
+ * @summary A code editor based on the codeflask npm module
+ * @description It allows to live-edit code examples and JSON files.
+ *
+ * @example
+ * <BR>
+ *
+ * ```javascript
+ * import {Editor} from '@polkadot/ui-app';
+ *
+ * <Editor
+ *    className={string} // optional
+ *    code={string}
+ *    isValid={boolean}, // optional
+ *    onEdit={() => callbackFunction}
+ *  />
+ * ```
+ */
 
 export default class Editor extends React.Component<Props> {
   private id: string = `flask-${Date.now()}`;
@@ -42,8 +66,13 @@ export default class Editor extends React.Component<Props> {
   }
 
   render () {
+    const { className, isValid } = this.props;
+
     return (
-      <div id={this.id} />
+      <div
+        id={this.id}
+        className={classes('ui-app-editor', className, !isValid ? 'invalid' : '')}
+      />
     );
   }
 }

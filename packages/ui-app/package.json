@@ -18,6 +18,7 @@
     "@polkadot/ui-settings": "^0.28.8",
     "@polkadot/ui-util": "^0.28.8",
     "@types/chart.js": "^2.7.45",
+    "@types/classnames": "^2.2.7",
     "@types/i18next": "^12.1.0",
     "@types/react-copy-to-clipboard": "^4.2.6",
     "@types/react-dropzone": "^4.2.2",
