@@ -9,7 +9,6 @@ import './SideBar.css';
 import React from 'react';
 import { withRouter } from 'react-router';
 
-import store from 'store';
 import { withMulti } from '@polkadot/ui-api/index';
 import { Button, Icon, Menu } from '@polkadot/ui-app/index';
 
@@ -19,30 +18,18 @@ import Item from './Item';
 import NodeInfo from './NodeInfo';
 import getLogo from './logos';
 
-type Props = I18nProps;
-
-type State = {
-  isCollapsed: boolean
+type Props = I18nProps & {
+  isCollapsed: boolean,
+  collapse: () => void
 };
 
-class SideBar extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    const state = store.get('sidebar') || {};
-    this.state = {
-      isCollapsed: false,
-      ...state
-    };
-  }
+class SideBar extends React.PureComponent<Props> {
 
   render () {
-    const { isCollapsed } = this.state;
+    const { isCollapsed } = this.props;
 
     return (
-      <div className={`apps--SideBar ${isCollapsed ? 'collapsed' : 'expanded'}`}>
+      <div className='apps--SideBar'>
         <Menu
           secondary
           vertical
@@ -65,31 +52,24 @@ class SideBar extends React.PureComponent<Props, State> {
     );
   }
 
-  private collapse = (): void => {
-    this.setState(({ isCollapsed }: State) => ({
-      isCollapsed: !isCollapsed
-    }), () => {
-      store.set('sidebar', this.state);
-    });
-  }
-
   private renderCollapse () {
-    const { isCollapsed } = this.state;
+    const { isCollapsed } = this.props;
 
     return (
       <div className='apps--SideBar-collapse'>
         <Button
-          icon={`angle double ${isCollapsed ? 'right' : 'left'}`}
+          icon='angle double right'
           isBasic
           isCircular
-          onClick={this.collapse}
+          onClick={this.props.collapse}
+          className={`${isCollapsed ? `` : `rotated`}`}
         />
       </div>
     );
   }
 
   private renderLogo () {
-    const { isCollapsed } = this.state;
+    const { isCollapsed } = this.props;
     const logo = getLogo(isCollapsed);
 
     return (
@@ -102,7 +82,7 @@ class SideBar extends React.PureComponent<Props, State> {
   }
 
   private renderRoutes () {
-    const { isCollapsed } = this.state;
+    const { isCollapsed } = this.props;
     const { t } = this.props;
 
     return routing.routes.map((route, index) => (
@@ -141,7 +121,7 @@ class SideBar extends React.PureComponent<Props, State> {
     return (
       <div
         className='apps--SideBar-toggle'
-        onClick={this.collapse}
+        onClick={this.props.collapse}
       >
       </div>
     );

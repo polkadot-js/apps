@@ -5,6 +5,7 @@
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
+import store from 'store';
 import styled from 'styled-components';
 import { classes } from '@polkadot/ui-app/util';
 import Signer from '@polkadot/ui-signer/index';
@@ -18,6 +19,10 @@ import SideBar from './SideBar';
 
 type Props = BareProps & {};
 
+type State = {
+  isCollapsed: boolean
+};
+
 const Wrapper = styled.div`
   align-items: stretch;
   box-sizing: border-box;
@@ -25,16 +30,43 @@ const Wrapper = styled.div`
   min-height: 100vh;
 `;
 
-function Apps (props: Props) {
-  return (
-    <Wrapper className={classes(`theme--${settings.uiTheme}`)}>
-      <SideBar />
-      <Signer>
-        <Content />
-      </Signer>
-      <Connecting />
-    </Wrapper>
-  );
+class Apps extends React.Component<Props, State> {
+  state: State;
+
+  constructor (props: Props) {
+    super(props);
+
+    const state = store.get('sidebar') || {};
+    this.state = {
+      isCollapsed: false,
+      ...state
+    };
+  }
+
+  render () {
+    const { isCollapsed } = this.state;
+
+    return (
+      <Wrapper className={classes('apps-Wrapper', `${isCollapsed ? 'collapsed' : 'expanded'}`, `theme--${settings.uiTheme}`)}>
+        <SideBar
+          collapse={this.collapse}
+          isCollapsed={isCollapsed}
+        />
+        <Signer>
+          <Content />
+        </Signer>
+        <Connecting />
+      </Wrapper>
+    );
+  }
+
+  private collapse = (): void => {
+    this.setState(({ isCollapsed }: State) => ({
+      isCollapsed: !isCollapsed
+    }), () => {
+      store.set('sidebar', this.state);
+    });
+  }
 }
 
 export default hot(Apps);

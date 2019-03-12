@@ -5,81 +5,113 @@
 @import '../../../ui-app/src/styles/theme/_colors-polkadot.css';
 @import '../../../ui-app/src/styles/theme/_colors-substrate.css';
 
-.apps--SideBar {
-  background: #4e4e4e;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  align-items: center;
-  min-height: 100vh;
-  padding: 0.75em 0 0 0.75em;
-  position: relative;
-  text-align: left;
-  transition: width 0.3s;
+.apps-Wrapper {
+  transition: padding-left 0.3s;
 
-  &.collapsed {
-    width: 4.2rem;
+  .apps--SideBar {
+    align-items: center;
+    background: #3f3f3f;
+    display: flex;
+    flex-flow: column;
+    min-height: 100vh;
+    position: relative;
+    transition: width 0.3s;
+    z-index: 100;
+
+    .ui.vertical.menu {
+      align-items: flex-end;
+      display: flex;
+      flex-flow: column;
+      height: 100vh;
+      margin: 0;
+      position: sticky;
+      overflow-y: auto;
+      top: 0px;
+      width: 100%;
+
+      &::-webkit-scrollbar {
+        display: none;
+        width: 0px;
+      }
+    }
+
+    .apps--SideBar-Item {
+      align-self: flex-end;
+      flex-grow: 0;
+      overflow-x: visible;
+      width: inherit;
+
+      padding: 0 !important;
+      .text {
+        padding-left: 0.5rem;
+      }
+    }
+
+    .apps--SideBar-logo {
+      margin: 0.5rem 1.5rem 1rem 0.75rem;
+      padding-top: 0.75em;
+      width: 9rem;
+    }
+
+    .apps--SideBar-collapse {
+      align-items: flex-end;
+      background: #3f3f3f;
+      bottom: 0px;
+      display: flex;
+      flex-direction: row wrap;
+      flex-grow: 1;
+      justify-content: flex-start;
+      padding: 3.5rem 0 1rem 0;
+      position: sticky;
+      width: 100%;
+
+      .ui.basic.secondary.button {
+        bottom: 0.75rem;
+        box-shadow: 0 0 0 1px #eee inset !important;
+        color: #eee !important;
+        left: -0.06rem;
+        position: absolute;
+        transition: transform 0.15s;
+
+        &.rotated {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    .apps--SideBar-toggle {
+      height: 100%;
+      position: absolute;
+      right: 0px;
+      top: 0px;
+      transition: all 0.2s;
+      width: 6px;
+
+      &:hover {
+        background: rgba(255,255,255,0.15);
+        cursor: pointer;
+      }
+    }
   }
 
-  &.expanded {
+  &.expanded .apps--SideBar {
+    padding-left: 0.74rem;
+    text-align: left;
     width: 12rem;
   }
 
-  .ui.vertical.menu {
-    margin: 0;
-    width: auto;
-  }
+  &.collapsed .apps--SideBar {
+    text-align: center;
+    width: 4.2rem;
 
-  .apps--SideBar-Item {
-    overflow-x: visible;
-    padding: 0 !important;
-    text-align: left;
-
-    .text {
-      padding-left: 0.5rem;
-    }
-  }
-
-  .apps--SideBar-logo {
-    width: 100%;
-    margin: 0.5rem 1.5rem 1rem 0.75rem;
-    width: 9rem;
-  }
-
-  .apps--SideBar-collapse {
-    bottom: 0.75em;
-    position: fixed;
-    left: 0.75rem;
-
-    .ui.basic.secondary.button {
-      box-shadow: 0 0 0 1px #eee inset !important;
-      color: #eee !important;
-      margin: 0;
-    }
-  }
-
-  .apps--SideBar-toggle {
-    position: absolute;
-    top: 0px;
-    right: -2px;
-    height: 100%;
-    width: 7px;
-    transition: all 0.2s;
-
-    &:hover {
-      background: rgba(255,255,255,0.15);
-      cursor: pointer;
-    }
-  }
-
-  &.collapsed {
     .divider {
       display: none;
     }
 
     .apps--SideBar-Item {
+      margin-left: 5px;
       .icon {
-        font-size: 1.38rem;
+        font-size: 1.28rem;
       }
       .text {
         display: none;
@@ -87,13 +119,21 @@
     }
 
     .apps--SideBar-logo {
-      margin: 0.125rem 0.75rem 0.625rem 0;
+      margin: 0.125rem auto 0.625rem auto;
       width: 3rem;
     }
 
     a.apps--SideBar-Item-NavLink {
-      padding-top: 0.9em;
-      padding-bottom: 0.9em;
+      padding-bottom: 0.92em;
+      padding-top: 0.92em;
+
+      > i {
+        margin: 0;
+      }
+    }
+
+    .apps--SideBar-collapse .ui.basic.secondary.button {
+      left: 0.66rem;
     }
   }
 }
@@ -102,11 +142,17 @@ a.apps--SideBar-Item-NavLink {
   color: #eee;
   display: block;
   padding: 0.75em 0.75em;
+  transition: background 0.15s;
   white-space: nowrap;
+
+  &:hover {
+    background: rgba(0,0,0,0.15);
+    border-radius: 0.28571429rem 0 0 0.28571429rem;
+  }
 }
 
 a.apps--SideBar-Item-NavLink-active {
-  background: #fafafa;
+  background: #fafafa !important;
   border-radius: 0.28571429rem 0 0 0.28571429rem;
   color: inherit;
 
@@ -115,15 +161,18 @@ a.apps--SideBar-Item-NavLink-active {
   }
 }
 
-
 .theme--polkadot {
   a.apps--SideBar-Item-NavLink:hover {
     color: $nav-link;
+    transition: 0.15s;
+
+    &:hover {
+      background: rgba(0,0,0,0.05);
+    }
   }
 
   a.apps--SideBar-Item-NavLink-active {
     color: $nav-link;
-
     &:hover {
       color: $nav-link;
     }
