@@ -147,18 +147,20 @@ class Developer extends React.PureComponent<Props, State> {
         throw Error(this.props.t('File does not contain a valid JSON object.'));
       }
 
-      this.setState({
+      this.setState((prevState: State) => ({
+        ...prevState,
         code,
         isJsonValid: true
-      } as State);
+      }) as State);
 
       this.onChangeTypes(stringToU8a(code));
     } catch (e) {
-      this.setState({
+      this.setState((prevState: State) => ({
+        ...prevState,
         code,
         isJsonValid: false,
         typesPlaceholder: e.message
-      } as State);
+      }) as State);
     }
   }
 
