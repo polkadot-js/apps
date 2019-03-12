@@ -154,11 +154,6 @@ class InputNumber extends React.PureComponent<Props, State> {
       return false;
     }
 
-    // prevent use of shift key
-    if (event.shiftKey) {
-      return false;
-    }
-
     // allow cut/copy/paste combinations but not non-numeric letters (i.e. a, c, x, v) individually
     if (
       (isSelectAll(event.key, isPreKeyDown)) ||
