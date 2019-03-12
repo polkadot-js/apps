@@ -11,11 +11,12 @@ import { isHex } from '@polkadot/util';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  hash?: string
+  value?: string
 };
 
 type State = {
-  hash: string
+  value: string
+  isNumber: boolean,
   isValid: boolean
 };
 
@@ -23,17 +24,14 @@ class Query extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const { hash } = this.props;
+    const { value } = this.props;
 
-    this.state = {
-      hash: hash || '',
-      isValid: isHex(hash, 256)
-    };
+    this.state = this.stateFromValue(value || '');
   }
 
   render () {
     const { t } = this.props;
-    const { hash, isValid } = this.state;
+    const { value, isValid } = this.state;
 
     return (
       <summary>
@@ -42,9 +40,9 @@ class Query extends React.PureComponent<Props, State> {
           <div className='storage--actionrow medium'>
             <Input
               className='storage--actionrow-value'
-              defaultValue={this.props.hash}
-              isError={!isValid && hash.length !== 0}
-              placeholder={t('block hash to query')}
+              defaultValue={this.props.value}
+              isError={!isValid && value.length !== 0}
+              placeholder={t('block hash or number to query')}
               onChange={this.setHash}
               withLabel={false}
             />
@@ -60,17 +58,27 @@ class Query extends React.PureComponent<Props, State> {
     );
   }
 
-  private setHash = (hash: string) => {
-    this.setState({
-      hash,
-      isValid: isHex(hash, 256)
-    });
+  private setHash = (value: string) => {
+    this.setState(
+      this.stateFromValue(value)
+    );
   }
 
   private onQuery = () => {
-    const { hash } = this.state;
+    const { value } = this.state;
 
-    window.location.hash = `/explorer/hash/${hash}`;
+    window.location.hash = `/explorer/query/${value}`;
+  }
+
+  private stateFromValue (value: string): State {
+    const isValidHex = isHex(value, 256);
+    const isNumber = !isValidHex && /^\d+$/.test(value);
+
+    return {
+      value,
+      isNumber,
+      isValid: isValidHex || isNumber
+    };
   }
 }
 
