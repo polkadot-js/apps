@@ -26,7 +26,7 @@ class BlockByHash extends React.PureComponent<Props> {
   render () {
     const { system_events, chain_getBlock, chain_getHeader } = this.props;
 
-    if (!chain_getBlock || !chain_getHeader) {
+    if (!chain_getBlock || chain_getBlock.isEmpty || !chain_getHeader || chain_getHeader.isEmpty) {
       return null;
     }
 
