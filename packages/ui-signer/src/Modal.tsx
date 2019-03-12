@@ -8,16 +8,15 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { SignatureOptions } from '@polkadot/types/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status, SignerCallback } from '@polkadot/ui-app/Status/types';
+import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import { Button, Modal } from '@polkadot/ui-app/index';
 import keyring from '@polkadot/ui-keyring';
 import { withApi, withMulti, withObservable } from '@polkadot/ui-api/index';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { assert } from '@polkadot/util';
+import { assert, isFunction } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
 
 import Transaction from './Transaction';
@@ -230,10 +229,13 @@ class Signer extends React.PureComponent<Props, State> {
       return;
     }
 
-    const { id, signerCallback } = currentItem;
+    const { id, signerCb } = currentItem;
 
     queueSetTxStatus(id, 'cancelled');
-    signerCallback && signerCallback(id, false);
+
+    if (isFunction(signerCb)) {
+      signerCb(id, false);
+    }
   }
 
   private onSend = async (): Promise<void> => {
@@ -261,7 +263,9 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetTxStatus(id, status, result, error);
   }
 
-  private async sendExtrinsic ({ accountId, extrinsic, id, signerCallback, signerOptions, isUnsigned }: QueueTx, password?: string): Promise<void> {
+  private async sendExtrinsic (queueTx: QueueTx, password?: string): Promise<void> {
+    const { accountId, extrinsic, id, signerOptions, isUnsigned } = queueTx;
+
     assert(extrinsic, 'Expected an extrinsic to be supplied to sendExtrinsic');
 
     if (!isUnsigned) {
@@ -281,12 +285,12 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetTxStatus(id, 'sending');
 
     if (isUnsigned) {
-      return this.makeExtrinsicCall(submittable, id, submittable.send);
+      return this.makeExtrinsicCall(submittable, queueTx, submittable.send);
     } else if (signerOptions) {
-      return this.makeExtrinsicSignature(submittable, id, keyring.getPair(accountId as string), signerOptions, signerCallback);
+      return this.makeExtrinsicSignature(submittable, queueTx, keyring.getPair(accountId as string));
     }
 
-    return this.makeExtrinsicCall(submittable, id, submittable.signAndSend, keyring.getPair(accountId as string));
+    return this.makeExtrinsicCall(submittable, queueTx, submittable.signAndSend, keyring.getPair(accountId as string));
   }
 
   private async submitRpc ({ method, section }: RpcMethod, values: Array<any>): Promise<QueueTx$Result> {
@@ -311,7 +315,7 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, id: number, extrinsicCall: (...params: Array<any>) => any, ..._params: Array<any>): Promise<void> {
+  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, { id, txFailedCb, txSuccessCb, txUpdateCb }: QueueTx, extrinsicCall: (...params: Array<any>) => any, ..._params: Array<any>): Promise<void> {
     const { queueSetTxStatus } = this.props;
 
     console.log('makeExtrinsicCall: extrinsic ::', extrinsic.toHex());
@@ -328,22 +332,38 @@ class Signer extends React.PureComponent<Props, State> {
 
         queueSetTxStatus(id, status, result);
 
+        if (isFunction(txUpdateCb)) {
+          txUpdateCb(result);
+        }
+
         if (status === 'finalised') {
           unsubscribe();
+
+          result.events
+            .filter(({ event: { section } }) => section === 'system')
+            .forEach(({ event: { method } }) => {
+              if (isFunction(txFailedCb) && method === 'ExtrinsicFailed') {
+                txFailedCb(result);
+              } else if (isFunction(txSuccessCb) && method === 'ExtrinsicSuccess') {
+                txSuccessCb(result);
+              }
+            });
         }
       }]);
     } catch (error) {
-      console.error('error.message', error.message);
+      console.error('makeExtrinsicCall: error:', error.message);
       queueSetTxStatus(id, 'error', {}, error);
     }
   }
 
-  private async makeExtrinsicSignature (extrinsic: SubmittableExtrinsic, id: number, pair: KeyringPair, options: SignatureOptions, signerCallback?: SignerCallback): Promise<void> {
+  private async makeExtrinsicSignature (extrinsic: SubmittableExtrinsic, { id, signerCb, signerOptions }: QueueTx, pair: KeyringPair): Promise<void> {
     console.log('makeExtrinsicSignature: extrinsic ::', extrinsic.toHex());
 
-    extrinsic.sign(pair, options);
+    extrinsic.sign(pair, signerOptions || {});
 
-    signerCallback && signerCallback(id, true);
+    if (isFunction(signerCb)) {
+      signerCb(id, true);
+    }
   }
 }
 

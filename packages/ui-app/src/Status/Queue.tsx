@@ -155,13 +155,16 @@ export default class Queue extends React.Component<Props, State> {
     return id;
   }
 
-  queueExtrinsic = ({ accountId, extrinsic, signerCallback, signerOptions, isUnsigned }: PartialQueueTx$Extrinsic): number => {
+  queueExtrinsic = ({ accountId, extrinsic, signerCb, signerOptions, txFailedCb, txSuccessCb, txUpdateCb, isUnsigned }: PartialQueueTx$Extrinsic): number => {
     return this.queueAdd({
       accountId,
       extrinsic,
       isUnsigned,
-      signerCallback,
-      signerOptions
+      signerCb,
+      signerOptions,
+      txFailedCb,
+      txSuccessCb,
+      txUpdateCb
     });
   }
 

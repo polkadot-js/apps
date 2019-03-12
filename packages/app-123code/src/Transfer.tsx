@@ -4,9 +4,7 @@
 
 import BN from 'bn.js';
 import React from 'react';
-import { Button, InputAddress, InputBalance } from '@polkadot/ui-app/index';
-
-import TxButton from './TxButton';
+import { Button, InputAddress, InputBalance, TxButton } from '@polkadot/ui-app/index';
 
 type Props = {
   accountId?: string

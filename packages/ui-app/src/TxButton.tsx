@@ -3,13 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/ui-api/types';
-import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
+import { QueueTx$ExtrinsicAdd, TxCallback } from './Status/types';
 
 import React from 'react';
-import { Button } from '@polkadot/ui-app/index';
-import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 import { withApi } from '@polkadot/ui-api/index';
 import { assert } from '@polkadot/util';
+
+import { QueueConsumer } from './Status/Context';
+import Button from './Button';
 
 type InjectedProps = {
   queueExtrinsic: QueueTx$ExtrinsicAdd;
@@ -19,6 +20,9 @@ type Props = ApiProps & {
   accountId?: string,
   isDisabled?: boolean,
   label: React.ReactNode,
+  onFailed?: TxCallback,
+  onSuccess?: TxCallback,
+  onUpdate?: TxCallback,
   params: Array<any>,
   tx: string
 };
@@ -38,14 +42,17 @@ class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
   }
 
   private send = (): void => {
-    const { accountId, api, params, queueExtrinsic, tx } = this.props;
+    const { accountId, api, onFailed, onSuccess, onUpdate, params, queueExtrinsic, tx } = this.props;
     const [section, method] = tx.split('.');
 
     assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
 
     queueExtrinsic({
       accountId,
-      extrinsic: api.tx[section][method](...params) as any // ???
+      extrinsic: api.tx[section][method](...params) as any, // ???
+      txFailedCb: onFailed,
+      txSuccessCb: onSuccess,
+      txUpdateCb: onUpdate
     });
   }
 }
