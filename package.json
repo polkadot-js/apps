@@ -1,5 +1,5 @@
 {
-  "version": "0.24.39",
+  "version": "0.24.40",
   "private": true,
   "engines": {
     "node": ">=10.13.0",
