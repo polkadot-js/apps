@@ -144,7 +144,7 @@ class Developer extends React.PureComponent<Props, State> {
   private onEditTypes = (code: string): void => {
     try {
       if (!isJsonObject(code)) {
-        throw Error(this.props.t('File does not contain a valid JSON object.'));
+        throw Error(this.props.t('This is not a valid JSON object.'));
       }
 
       this.setState((prevState: State) => ({
