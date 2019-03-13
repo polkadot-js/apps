@@ -9,7 +9,7 @@ import store from 'store';
 import { getTypeRegistry } from '@polkadot/types';
 import { Button, Editor, InputFile } from '@polkadot/ui-app/index';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
-import { stringToU8a, u8aToString } from '@polkadot/util';
+import { isJsonObject, stringToU8a, u8aToString } from '@polkadot/util';
 
 import translate from './translate';
 
@@ -112,7 +112,6 @@ class Developer extends React.PureComponent<Props, State> {
     const dataToString = u8aToString(data);
 
     try {
-      // @TODO: Include isJsonObject function from https://github.com/polkadot-js/common/pull/359
       const types = JSON.parse(dataToString);
       const typesPlaceholder = Object.keys(types).join(', ');
 
@@ -144,21 +143,24 @@ class Developer extends React.PureComponent<Props, State> {
 
   private onEditTypes = (code: string): void => {
     try {
-      // @TODO: Include isJsonObject function from https://github.com/polkadot-js/common/pull/359
-      JSON.parse(code);
+      if (!isJsonObject(code)) {
+        throw Error(this.props.t('This is not a valid JSON object.'));
+      }
 
-      this.setState({
+      this.setState((prevState: State) => ({
+        ...prevState,
         code,
         isJsonValid: true
-      } as State);
+      }) as State);
 
       this.onChangeTypes(stringToU8a(code));
     } catch (e) {
-      this.setState({
+      this.setState((prevState: State) => ({
+        ...prevState,
         code,
         isJsonValid: false,
         typesPlaceholder: e.message
-      } as State);
+      }) as State);
     }
   }
 
