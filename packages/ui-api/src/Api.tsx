@@ -66,8 +66,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
 
     [
       this.subscribeIsConnected,
-      this.subscribeIsReady,
-      this.subscribeChain
+      this.subscribeIsReady
     ].map((fn: Function) => {
       try {
         return fn(api);
@@ -78,12 +77,13 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     });
   }
 
-  private subscribeChain = async (api: ApiPromise) => {
+  private async loadOnReady (api: ApiPromise) {
     const [properties = new ChainProperties(), value] = await Promise.all([
       api.rpc.system.properties() as Promise<ChainProperties | undefined>,
       api.rpc.system.chain() as Promise<any>
     ]);
-
+    const section = Object.keys(api.tx)[0];
+    const method = Object.keys(api.tx[section])[0];
     const chain = value
       ? value.toString()
       : null;
@@ -105,7 +105,12 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       type: 'ed25519'
     });
 
-    this.setState({ chain, isDevelopment });
+    this.setState({
+      isApiReady: true,
+      apiDefaultTx: api.tx[section][method],
+      chain,
+      isDevelopment
+    });
   }
 
   private subscribeIsConnected = (api: ApiPromise) => {
@@ -119,14 +124,12 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   }
 
   private subscribeIsReady = (api: ApiPromise) => {
-    api.on('ready', () => {
-      const section = Object.keys(api.tx)[0];
-      const method = Object.keys(api.tx[section])[0];
-
-      this.setState({
-        isApiReady: true,
-        apiDefaultTx: api.tx[section][method]
-      });
+    api.on('ready', async () => {
+      try {
+        await this.loadOnReady(api);
+      } catch (error) {
+        console.error('Unable to load chain', error);
+      }
     });
   }
 
