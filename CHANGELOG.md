@@ -1,3 +1,15 @@
+# 0.25.1
+
+- Swap to publishing -beta.x on merge (non-breaking testing)
+
+ # 0.24.1
+
+ Storage now handles Option type properly
+
+ # 0.23.1
+
+ JavaScript console introduced
+
 # 0.22.1
 
 - Use new Compact<Index> transaction format - this requires the latest binaries from either Polkadot or Substrate
