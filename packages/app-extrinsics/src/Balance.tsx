@@ -6,8 +6,8 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Balance } from '@polkadot/types';
-import { withCall } from '@polkadot/ui-api/index';
-import { InputBalance } from '@polkadot/ui-app/index';
+import { withCall } from '@polkadot/ui-api';
+import { InputBalance } from '@polkadot/ui-app';
 
 type Props = BareProps & CallProps & {
   balances_freeBalance?: Balance,

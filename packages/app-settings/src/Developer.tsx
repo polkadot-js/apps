@@ -7,7 +7,7 @@ import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import store from 'store';
 import { getTypeRegistry } from '@polkadot/types';
-import { Button, Editor, InputFile } from '@polkadot/ui-app/index';
+import { Button, Editor, InputFile } from '@polkadot/ui-app';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { isJsonObject, stringToU8a, u8aToString } from '@polkadot/util';
 

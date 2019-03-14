@@ -12,7 +12,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 import addressObservable from '@polkadot/ui-keyring/observable/addresses';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
-import { withMulti, withObservable } from '@polkadot/ui-api/index';
+import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import Creator from './Creator';
 import Editor from './Editor';

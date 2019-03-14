@@ -11,7 +11,7 @@ import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
 import store from 'store';
 import { getTypeRegistry } from '@polkadot/types';
-import { Api } from '@polkadot/ui-api/index';
+import { Api } from '@polkadot/ui-api';
 
 import { QueueConsumer } from '@polkadot/ui-app//Status/Context';
 import Queue from '@polkadot/ui-app/Status/Queue';

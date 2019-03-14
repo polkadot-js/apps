@@ -4,7 +4,7 @@
 
 import { Routes } from '../types';
 
-import Explorer from '@polkadot/app-explorer/index';
+import Explorer from '@polkadot/app-explorer';
 
 export default ([
   {

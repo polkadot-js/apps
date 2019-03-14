@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Button, Input, Modal } from '@polkadot/ui-app/index';
+import { Button, Input, Modal } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';

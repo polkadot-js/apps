@@ -8,7 +8,7 @@ import React from 'react';
 import store from 'store';
 import styled from 'styled-components';
 import { classes } from '@polkadot/ui-app/util';
-import Signer from '@polkadot/ui-signer/index';
+import Signer from '@polkadot/ui-signer';
 import settings from '@polkadot/ui-settings';
 
 import { hot } from 'react-hot-loader/root';

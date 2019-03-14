@@ -9,7 +9,7 @@ import { ComponentProps } from '../types';
 import './index.css';
 
 import React from 'react';
-import { Button, Dropdown, Input } from '@polkadot/ui-app/index';
+import { Button, Dropdown, Input } from '@polkadot/ui-app';
 
 import generator from '../vanitygen';
 import matchRegex from '../vanitygen/regex';

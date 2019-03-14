@@ -7,7 +7,7 @@ import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { Info } from './types';
 
 import React from 'react';
-import { withApi, withMulti } from '@polkadot/ui-api/index';
+import { withApi, withMulti } from '@polkadot/ui-api';
 import { Health, PeerInfo, PendingExtrinsics } from '@polkadot/types';
 
 import './index.css';

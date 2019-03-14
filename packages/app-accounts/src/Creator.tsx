@@ -7,7 +7,7 @@ import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { AddressSummary, Button, Dropdown, Input, Modal, Password } from '@polkadot/ui-app/index';
+import { AddressSummary, Button, Dropdown, Input, Modal, Password } from '@polkadot/ui-app';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
 import { mnemonicToSeed, mnemonicValidate, naclKeypairFromSeed, randomAsU8a } from '@polkadot/util-crypto';

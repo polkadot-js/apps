@@ -5,8 +5,8 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { CardSummary } from '@polkadot/ui-app/index';
-import { BestFinalised, BestNumber, TimeNow, TimePeriod } from '@polkadot/ui-reactive/index';
+import { CardSummary } from '@polkadot/ui-app';
+import { BestFinalised, BestNumber, TimeNow, TimePeriod } from '@polkadot/ui-reactive';
 
 import SummarySession from './SummarySession';
 import translate from './translate';

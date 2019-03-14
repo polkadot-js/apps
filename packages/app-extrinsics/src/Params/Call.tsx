@@ -6,7 +6,7 @@ import { Props as BaseProps } from '@polkadot/ui-params/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import { withApi } from '@polkadot/ui-api/index';
+import { withApi } from '@polkadot/ui-api';
 
 import Extrinsic from './Extrinsic';
 
