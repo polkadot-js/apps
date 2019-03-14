@@ -13,7 +13,7 @@ import { Route, Switch } from 'react-router';
 import { AccountId, Balance } from '@polkadot/types';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withCalls, withMulti, withObservable } from '@polkadot/ui-api/index';
+import { withCalls, withMulti, withObservable } from '@polkadot/ui-api';
 
 import './index.css';
 

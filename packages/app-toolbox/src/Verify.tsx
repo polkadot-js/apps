@@ -5,7 +5,7 @@
 import { I18nProps as Props } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Icon, Input, InputAddress, Static } from '@polkadot/ui-app/index';
+import { Icon, Input, InputAddress, Static } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 import { hexToU8a, isHex, stringToU8a } from '@polkadot/util';
 import { naclVerify } from '@polkadot/util-crypto';

@@ -8,7 +8,7 @@ import { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import styled from 'styled-components';
 import { withApi } from '@polkadot/ui-api/with';
-import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/ui-reactive/index';
+import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/ui-reactive';
 
 type Props = ApiProps & BareProps & {};
 

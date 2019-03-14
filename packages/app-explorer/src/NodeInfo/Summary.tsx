@@ -7,9 +7,9 @@ import { Info } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { CardSummary } from '@polkadot/ui-app/index';
+import { CardSummary } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/ui-util';
-import { BestNumber, Elapsed } from '@polkadot/ui-reactive/index';
+import { BestNumber, Elapsed } from '@polkadot/ui-reactive';
 
 import translate from './translate';
 

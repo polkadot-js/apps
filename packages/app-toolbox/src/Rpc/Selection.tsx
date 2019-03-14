@@ -12,8 +12,8 @@ import './index.css';
 import React from 'react';
 import rpc from '@polkadot/jsonrpc';
 import { getTypeDef } from '@polkadot/types';
-import { Button, InputRpc } from '@polkadot/ui-app/index';
-import Params from '@polkadot/ui-params/index';
+import { Button, InputRpc } from '@polkadot/ui-app';
+import Params from '@polkadot/ui-params';
 
 // import Account from './Account';
 import translate from './translate';

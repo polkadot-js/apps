@@ -6,7 +6,7 @@ import { BareProps, I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { Button as SUIB, Popup } from 'semantic-ui-react';
-import { Button, Input } from '@polkadot/ui-app/index';
+import { Button, Input } from '@polkadot/ui-app';
 
 import translate from './translate';
 

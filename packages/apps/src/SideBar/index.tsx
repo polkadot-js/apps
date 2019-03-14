@@ -9,8 +9,8 @@ import './SideBar.css';
 import React from 'react';
 import { withRouter } from 'react-router';
 
-import { withMulti } from '@polkadot/ui-api/index';
-import { Button, Icon, Menu } from '@polkadot/ui-app/index';
+import { withMulti } from '@polkadot/ui-api';
+import { Button, Icon, Menu } from '@polkadot/ui-app';
 
 import routing from '../routing';
 import translate from '../translate';

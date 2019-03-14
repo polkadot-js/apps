@@ -4,7 +4,7 @@
 
 import { Routes } from '../types';
 
-import Transfer from '@polkadot/app-transfer/index';
+import Transfer from '@polkadot/app-transfer';
 
 export default ([
   {

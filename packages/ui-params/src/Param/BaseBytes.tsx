@@ -6,7 +6,7 @@ import { Props as BaseProps, Size } from '../types';
 
 import React from 'react';
 import { Compact } from '@polkadot/types';
-import { Input } from '@polkadot/ui-app/index';
+import { Input } from '@polkadot/ui-app';
 import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
 
 import Bare from './Bare';

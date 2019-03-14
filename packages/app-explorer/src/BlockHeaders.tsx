@@ -6,7 +6,7 @@ import { CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { HeaderExtended } from '@polkadot/types';
-import { withCall } from '@polkadot/ui-api/index';
+import { withCall } from '@polkadot/ui-api';
 
 import BlockHeader from './BlockHeader';
 

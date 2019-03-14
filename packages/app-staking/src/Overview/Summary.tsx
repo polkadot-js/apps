@@ -8,9 +8,9 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import SummarySession from '@polkadot/app-explorer/SummarySession';
-import { CardSummary } from '@polkadot/ui-app/index';
+import { CardSummary } from '@polkadot/ui-app';
 import { formatBalance } from '@polkadot/ui-util';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { withCall, withMulti } from '@polkadot/ui-api';
 
 import translate from '../translate';
 

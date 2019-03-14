@@ -5,7 +5,7 @@
 import { Props, RawParam$OnChange$Value } from '../types';
 
 import React from 'react';
-import { Static } from '@polkadot/ui-app/index';
+import { Static } from '@polkadot/ui-app';
 
 import Amount from './Amount';
 

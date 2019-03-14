@@ -9,9 +9,9 @@ import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Method } from '@polkadot/types';
-import { Button, InputAddress, Labelled } from '@polkadot/ui-app/index';
-import { withApi, withMulti } from '@polkadot/ui-api/index';
-import { Nonce } from '@polkadot/ui-reactive/index';
+import { Button, InputAddress, Labelled } from '@polkadot/ui-app';
+import { withApi, withMulti } from '@polkadot/ui-api';
+import { Nonce } from '@polkadot/ui-reactive';
 
 import Balance from './Balance';
 import Extrinsic from './Extrinsic';
