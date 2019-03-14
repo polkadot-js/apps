@@ -10,9 +10,9 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
-import { Button, InputStorage } from '@polkadot/ui-app/index';
-import Params from '@polkadot/ui-params/index';
-import { withApi, withMulti } from '@polkadot/ui-api/index';
+import { Button, InputStorage } from '@polkadot/ui-app';
+import Params from '@polkadot/ui-params';
+import { withApi, withMulti } from '@polkadot/ui-api';
 import { isUndefined } from '@polkadot/util';
 
 import translate from '../translate';

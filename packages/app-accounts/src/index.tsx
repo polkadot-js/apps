@@ -12,8 +12,8 @@ import './index.css';
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { Tabs } from '@polkadot/ui-app/index';
-import { withMulti, withObservable } from '@polkadot/ui-api/index';
+import { Tabs } from '@polkadot/ui-app';
+import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import Creator from './Creator';
 import Editor from './Editor';

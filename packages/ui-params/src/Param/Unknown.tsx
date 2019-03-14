@@ -6,7 +6,7 @@ import { WithTranslation } from 'react-i18next';
 import { Props as BareProps, RawParam } from '../types';
 
 import React from 'react';
-import { Static } from '@polkadot/ui-app/index';
+import { Static } from '@polkadot/ui-app';
 import translate from '@polkadot/ui-app/translate';
 
 import Bare from './Bare';

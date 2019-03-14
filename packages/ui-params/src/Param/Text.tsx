@@ -5,7 +5,7 @@
 import { Props } from '../types';
 
 import React from 'react';
-import { Input } from '@polkadot/ui-app/index';
+import { Input } from '@polkadot/ui-app';
 
 import Bare from './Bare';
 

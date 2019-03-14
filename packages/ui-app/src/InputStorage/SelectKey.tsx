@@ -8,7 +8,7 @@ import { BareProps } from '../types';
 
 import React from 'react';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
-import { withApi } from '@polkadot/ui-api/index';
+import { withApi } from '@polkadot/ui-api';
 
 import Dropdown from '../Dropdown';
 import { classes } from '../util';

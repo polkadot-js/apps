@@ -7,7 +7,7 @@ import { TypeDef } from '@polkadot/types';
 import { Props as BareProps, RawParam } from '../types';
 
 import React from 'react';
-import { Button } from '@polkadot/ui-app/index';
+import { Button } from '@polkadot/ui-app';
 import translate from '@polkadot/ui-app/translate';
 import { isUndefined } from '@polkadot/util';
 

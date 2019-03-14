@@ -12,9 +12,9 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
-import { Button, Modal } from '@polkadot/ui-app/index';
+import { Button, Modal } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
-import { withApi, withMulti, withObservable } from '@polkadot/ui-api/index';
+import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { assert, isFunction } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';

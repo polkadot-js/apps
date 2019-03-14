@@ -10,9 +10,9 @@ import { RawParam } from '@polkadot/ui-params/types';
 import React from 'react';
 import { Method, TypeDef, getTypeDef } from '@polkadot/types';
 
-import { InputExtrinsic } from '@polkadot/ui-app/index';
-import Params from '@polkadot/ui-params/index';
-import { withApi } from '@polkadot/ui-api/index';
+import { InputExtrinsic } from '@polkadot/ui-app';
+import Params from '@polkadot/ui-params';
+import { withApi } from '@polkadot/ui-api';
 import { isUndefined } from '@polkadot/util';
 
 import paramComponents from './Params';

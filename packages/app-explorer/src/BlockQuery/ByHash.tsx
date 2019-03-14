@@ -7,7 +7,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { EventRecord, HeaderExtended, SignedBlock } from '@polkadot/types';
-import { withCalls } from '@polkadot/ui-api/index';
+import { withCalls } from '@polkadot/ui-api';
 
 import BlockHeader from '../BlockHeader';
 import translate from '../translate';

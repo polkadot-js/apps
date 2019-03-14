@@ -4,7 +4,7 @@
 
 import { Routes } from '../types';
 
-import Extrinsics from '@polkadot/app-extrinsics/index';
+import Extrinsics from '@polkadot/app-extrinsics';
 
 export default ([
   {

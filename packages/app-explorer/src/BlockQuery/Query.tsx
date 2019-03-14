@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Button, Input } from '@polkadot/ui-app/index';
+import { Button, Input } from '@polkadot/ui-app';
 import { isHex } from '@polkadot/util';
 
 import translate from '../translate';

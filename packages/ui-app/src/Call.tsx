@@ -8,7 +8,7 @@ import { BareProps } from './types';
 import React from 'react';
 import styled from 'styled-components';
 import { Method, getTypeDef } from '@polkadot/types';
-import Params from '@polkadot/ui-params/index';
+import Params from '@polkadot/ui-params';
 
 import { classes } from './util';
 

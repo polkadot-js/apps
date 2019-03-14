@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { AccountId, RuntimeVersion } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api/with';
-import { Bubble, IdentityIcon } from '@polkadot/ui-app/index';
+import { Bubble, IdentityIcon } from '@polkadot/ui-app';
 import { formatBalance, formatNumber } from '@polkadot/ui-util';
 
 import translate from './translate';

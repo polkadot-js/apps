@@ -7,7 +7,7 @@ import { SettingsStruct } from '@polkadot/ui-settings/types';
 
 import React from 'react';
 import { Tab } from 'semantic-ui-react';
-import { Button, Dropdown, Input } from '@polkadot/ui-app/index';
+import { Button, Dropdown, Input } from '@polkadot/ui-app';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import uiSettings from '@polkadot/ui-settings';
 

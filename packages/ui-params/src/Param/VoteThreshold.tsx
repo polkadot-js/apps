@@ -6,7 +6,7 @@ import { Props } from '../types';
 
 import React from 'react';
 import { VoteThreshold } from '@polkadot/types';
-import { Dropdown } from '@polkadot/ui-app/index';
+import { Dropdown } from '@polkadot/ui-app';
 import { bnToBn } from '@polkadot/util';
 
 import Bare from './Bare';

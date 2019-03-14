@@ -7,7 +7,7 @@ import { QueueTx } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import { Method } from '@polkadot/types';
-import { Call, InputAddress, Modal } from '@polkadot/ui-app/index';
+import { Call, InputAddress, Modal } from '@polkadot/ui-app';
 
 import Checks from './Checks';
 import translate from './translate';

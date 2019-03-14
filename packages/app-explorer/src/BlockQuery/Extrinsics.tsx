@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AddressMini, Call } from '@polkadot/ui-app/index';
+import { AddressMini, Call } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/ui-util';
 import { Extrinsic, Method } from '@polkadot/types';
 

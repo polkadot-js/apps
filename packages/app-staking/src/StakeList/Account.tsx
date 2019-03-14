@@ -10,8 +10,8 @@ import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { AccountId, Balance, Option, ValidatorPrefs } from '@polkadot/types';
-import { AddressMini, AddressSummary, Button } from '@polkadot/ui-app/index';
-import { withCalls } from '@polkadot/ui-api/index';
+import { AddressMini, AddressSummary, Button } from '@polkadot/ui-app';
+import { withCalls } from '@polkadot/ui-api';
 
 import Nominating from './Nominating';
 import Preferences from './Preferences';

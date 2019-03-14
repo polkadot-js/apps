@@ -5,7 +5,7 @@
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Tabs } from '@polkadot/ui-app/index';
+import { Tabs } from '@polkadot/ui-app';
 
 import './index.css';
 

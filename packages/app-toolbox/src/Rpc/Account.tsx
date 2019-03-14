@@ -6,8 +6,8 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { InputAddress, Labelled } from '@polkadot/ui-app/index';
-import { Nonce } from '@polkadot/ui-reactive/index';
+import { InputAddress, Labelled } from '@polkadot/ui-app';
+import { Nonce } from '@polkadot/ui-reactive';
 
 import translate from './translate';
 

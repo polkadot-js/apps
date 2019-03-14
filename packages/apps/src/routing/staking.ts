@@ -4,7 +4,7 @@
 
 import { Routes } from '../types';
 
-import Staking from '@polkadot/app-staking/index';
+import Staking from '@polkadot/app-staking';
 
 export default ([
   {
