@@ -10,11 +10,11 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^0.46.10",
-    "@polkadot/keyring": "^0.35.10",
-    "@polkadot/types": "^0.46.10",
-    "@polkadot/util": "^0.35.10",
-    "@polkadot/util-crypto": "^0.35.10",
+    "@polkadot/api": "^0.46.12",
+    "@polkadot/keyring": "^0.36.3",
+    "@polkadot/types": "^0.46.12",
+    "@polkadot/util": "^0.36.3",
+    "@polkadot/util-crypto": "^0.36.3",
     "babel-core": "^7.0.0-bridge.0",
     "rxjs": "^6.4.0",
     "typescript": "^3.3.3333"
