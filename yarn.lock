@@ -1731,14 +1731,14 @@
   dependencies:
     "@babel/runtime" "^7.3.4"
 
-"@polkadot/keyring@^0.37.1", "@polkadot/keyring@^0.38.0-beta.1":
-  version "0.38.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-0.38.0-beta.1.tgz#c1382ff974249b35fd02a11c3d5c7130176b397a"
-  integrity sha512-92omKd4YqexyIDGJgJTZ0hlpUoDp2hwQgBSokFkDIlXnAuGiUqhETWtW124blDrl1+RkmiJop6qJ/CtITjkT8g==
+"@polkadot/keyring@^0.37.1", "@polkadot/keyring@^0.38.0-beta.2":
+  version "0.38.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-0.38.0-beta.2.tgz#8e70fc43e068e27e07a26c94afbfdedb20520c61"
+  integrity sha512-2rIP14taaMeu39k/Eg4ufMFZNbQn03Tb1D5jvyMXfld8JQov9JPNn/zbMrUIeJkazmZjYqPIWv7SSKpKIS3dTA==
   dependencies:
     "@babel/runtime" "^7.3.4"
-    "@polkadot/util" "^0.38.0-beta.1"
-    "@polkadot/util-crypto" "^0.38.0-beta.1"
+    "@polkadot/util" "^0.38.0-beta.2"
+    "@polkadot/util-crypto" "^0.38.0-beta.2"
     "@types/bs58" "^4.0.0"
     bs58 "^4.0.1"
 
@@ -1781,10 +1781,10 @@
     memoizee "^0.4.14"
     rxjs "^6.4.0"
 
-"@polkadot/schnorrkel-js@^0.2.0-2":
-  version "0.2.0-2"
-  resolved "https://registry.yarnpkg.com/@polkadot/schnorrkel-js/-/schnorrkel-js-0.2.0-2.tgz#d6affb6df1c896da43caa1f08535008ff30ec922"
-  integrity sha512-qmRRPF4UPfUNiNsXhjra3WdZmgWpR449ZPMj/UH0vS7J/ZK2zGiYCYmScdbmOISHnnsI9NJR6sIR1CVuFARrCw==
+"@polkadot/schnorrkel-js@^0.2.0-3":
+  version "0.2.0-3"
+  resolved "https://registry.yarnpkg.com/@polkadot/schnorrkel-js/-/schnorrkel-js-0.2.0-3.tgz#17b8f49f6c3b60dc2f64dc98d664447881d5a100"
+  integrity sha512-D+ITK9rfYLWnrDtvFJSXUujmWbxIUeyjy75QY/Vf9V2lDRO1WhF6ttW6H2NRvlPxxY6Qc5jebLYBZ7Put7AIpA==
 
 "@polkadot/storage@^0.47.1":
   version "0.47.1"
@@ -1858,14 +1858,14 @@
   dependencies:
     "@babel/runtime" "^7.3.4"
 
-"@polkadot/util-crypto@^0.37.1", "@polkadot/util-crypto@^0.38.0-beta.1":
-  version "0.38.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.38.0-beta.1.tgz#f30306ceada2bf2f8d81a77628b170763fea4ea3"
-  integrity sha512-XFMQ+2tu6I47os6UUazxiWo3ETotRN6/ePCz+RUe14wsLA1CqKUYHhetCBvUlAqkPgquvMF1KRipLQXzqJ4WAA==
+"@polkadot/util-crypto@^0.37.1", "@polkadot/util-crypto@^0.38.0-beta.2":
+  version "0.38.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.38.0-beta.2.tgz#1f2794625abaad65ba43fd843187efb00546e1c1"
+  integrity sha512-Ea/39tgl2xdl8udq8n7YQynYRLU6GBklYRvdZ5zSvvMetBPW+HvH0+lffAzuQnqWQxy2uIFoBDg94xIT6+A4WQ==
   dependencies:
     "@babel/runtime" "^7.3.4"
-    "@polkadot/schnorrkel-js" "^0.2.0-2"
-    "@polkadot/util" "^0.38.0-beta.1"
+    "@polkadot/schnorrkel-js" "^0.2.0-3"
+    "@polkadot/util" "^0.38.0-beta.2"
     "@types/bip39" "^2.4.2"
     "@types/pbkdf2" "^3.0.0"
     "@types/secp256k1" "^3.5.0"
@@ -1878,10 +1878,10 @@
     tweetnacl "^1.0.1"
     xxhashjs "^0.2.2"
 
-"@polkadot/util@^0.37.1", "@polkadot/util@^0.38.0-beta.1":
-  version "0.38.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.38.0-beta.1.tgz#197c1dbad20e3916f4660f197307141e2f56f0f1"
-  integrity sha512-0kbXrXHUikFXpe4yQScSyqmy+IKVL59AmuVYtjuAlg1gg2EAVQVP+GnIGg1OViLRKD3e3G6Dh2n9ltbtBHO79A==
+"@polkadot/util@^0.37.1", "@polkadot/util@^0.38.0-beta.2":
+  version "0.38.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.38.0-beta.2.tgz#628e5fcd3386bb2a5161b2953fe8af9367ed924e"
+  integrity sha512-CGiZYzVsuDhz37kokKAEiXjjlG6OVsVi2WYmmQoIY94Sxx0wv3OXUkYRRN2KNC32sI0J/bWNUNhqsYj3zSI1fA==
   dependencies:
     "@babel/runtime" "^7.3.4"
     "@types/bn.js" "^4.11.4"
