@@ -78,3 +78,10 @@
 .collapsed .apps--SideBar-logo {
   margin: .5rem .75rem 1rem -.25rem !important
 }
+
+.JoyForm .ui--Labelled {
+  align-items: end;
+  &>label {
+    padding-top: .75rem;
+  }
+}

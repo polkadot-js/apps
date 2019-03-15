@@ -14,16 +14,18 @@ type InjectedProps = {
 
 type Props = BareProps & ApiProps & MyAccountProps & TxCallbacks & {
   accountId?: string,
+  type?: 'submit' | 'button',
   isPrimary?: boolean,
   isDisabled?: boolean,
   label: React.ReactNode,
   params: Array<any>,
-  tx: string
+  tx: string,
+  onClick?: (sendTx: () => void) => void
 };
 
 class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
   render () {
-    const { myAddress, accountId, isPrimary = true, isDisabled, label } = this.props;
+    const { myAddress, accountId, isPrimary = true, isDisabled, label, onClick } = this.props;
     const origin = accountId || myAddress;
 
     return (
@@ -33,7 +35,8 @@ class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
         isPrimary={isPrimary}
         label={label}
         onClick={() => {
-          this.send();
+          if (onClick) onClick(this.send);
+          else this.send();
         }}
       />
     );

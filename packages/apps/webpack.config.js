@@ -16,6 +16,7 @@ const packages = [
 
   'joy-election',
   'joy-help',
+  'joy-members',
   'joy-proposals',
   'joy-utils',
   'joy-settings',

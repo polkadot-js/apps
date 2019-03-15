@@ -11,7 +11,7 @@ import { isUndefined } from '@polkadot/util';
 
 export default class Button extends React.PureComponent<ButtonProps> {
   render () {
-    const { children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isNegative = false, isPositive = false, isPrimary = false, label, onClick, size, style, tabIndex } = this.props;
+    const { children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isNegative = false, isPositive = false, isPrimary = false, label, onClick, type = 'button', size, style, tabIndex } = this.props;
 
     const props = {
       basic: isBasic || false,
@@ -24,6 +24,7 @@ export default class Button extends React.PureComponent<ButtonProps> {
       onClick,
       positive: isPositive,
       primary: isPrimary,
+      type,
       size,
       secondary: isBasic && !(isPositive || isPrimary || isNegative || false),
       style,

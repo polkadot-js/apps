@@ -8,9 +8,10 @@
     "paths": {
       "@polkadot/joy-election/*": [ "packages/joy-election/src/*" ],
       "@polkadot/joy-help/*": [ "packages/joy-help/src/*" ],
+      "@polkadot/joy-members/*": [ "packages/joy-members/src/*" ],
       "@polkadot/joy-proposals/*": [ "packages/joy-proposals/src/*" ],
-      "@polkadot/joy-utils/*": [ "packages/joy-utils/src/*" ],
       "@polkadot/joy-settings/*": [ "packages/joy-settings/src/*" ],
+      "@polkadot/joy-utils/*": [ "packages/joy-utils/src/*" ],
 
       "@polkadot/app-123code/*": [ "packages/app-123code/src/*" ],
       "@polkadot/app-accounts/*": [ "packages/app-accounts/src/*" ],
