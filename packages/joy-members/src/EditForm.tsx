@@ -1,33 +1,45 @@
 import BN from 'bn.js';
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage, withFormik, FormikProps, FormikErrors, FormikConsumer, FormikTouched } from 'formik';
+import { Form, Field, ErrorMessage, withFormik, FormikProps, FormikErrors, FormikTouched } from 'formik';
 import * as Yup from 'yup';
 
+import { Option, Text } from '@polkadot/types';
 import { BareProps } from '@polkadot/ui-app/types';
 import Section from '@polkadot/joy-utils/Section';
 import TxButton from '@polkadot/joy-utils/TxButton';
-import { nonEmptyStr } from '@polkadot/joy-utils/index';
+import { nonEmptyStr, ZERO } from '@polkadot/joy-utils/index';
 import { SubmittableResult } from '@polkadot/api';
+import { MemberId, UserInfo, Profile } from './types';
+import { MyAccountProps, withMyAccount } from '@polkadot/joy-utils/MyAccount';
+import { queryMembershipToProp } from './utils';
+import { withCalls } from '@polkadot/ui-api/index';
 
 // TODO get next settings from Substrate:
 const HANDLE_REGEX = /^[a-z0-9_]+$/;
-const HANDLE_MIN_LEN = 5;
-const HANDLE_MAX_LEN = 50;
-const AVATAR_MAX_LEN = 500;
-const ABOUT_MAX_LEN = 1000;
 
-const Schema = Yup.object().shape({
+const buildSchema = (p: ValidationProps) => Yup.object().shape({
   handle: Yup.string()
     .matches(HANDLE_REGEX, 'Handle can have only lowercase letters (a-z), numbers (0-9) and underscores (_).')
-    .min(HANDLE_MIN_LEN, `Handle is too short. Minimum length is ${HANDLE_MIN_LEN} chars.`)
-    .max(HANDLE_MAX_LEN, `Handle is too long. Maximum length is ${HANDLE_MAX_LEN} chars.`)
+    .min(p.minHandleLength, `Handle is too short. Minimum length is ${p.minHandleLength} chars.`)
+    .max(p.maxHandleLength, `Handle is too long. Maximum length is ${p.maxHandleLength} chars.`)
     .required('Handle is required'),
   avatar: Yup.string()
     .url('Avatar must be a valid URL of an image.')
-    .max(AVATAR_MAX_LEN, `Avatar URL is too long. Maximum length is ${AVATAR_MAX_LEN} chars.`),
+    .max(p.maxAvatarUriLength, `Avatar URL is too long. Maximum length is ${p.maxAvatarUriLength} chars.`),
   about: Yup.string()
-    .max(ABOUT_MAX_LEN, `Text is too long. Maximum length is ${ABOUT_MAX_LEN} chars.`)
+    .max(p.maxAboutTextLength, `Text is too long. Maximum length is ${p.maxAboutTextLength} chars.`)
 });
+
+type ValidationProps = {
+  minHandleLength: number,
+  maxHandleLength: number,
+  maxAvatarUriLength: number,
+  maxAboutTextLength: number
+};
+
+type OuterProps = ValidationProps & {
+  profile?: Profile
+};
 
 type FormValues = {
   handle: string,
@@ -37,13 +49,7 @@ type FormValues = {
 
 type FieldName = keyof FormValues;
 
-const initialValues: FormValues = {
-  handle: '',
-  avatar: '',
-  about: ''
-};
-
-type Props = FormikProps<FormValues> & {};
+type FormProps = OuterProps & FormikProps<FormValues>;
 
 type LabelledProps = BareProps & {
   name?: FieldName,
@@ -75,15 +81,22 @@ const LabelledText = (props: LabelledProps) => {
   </LabelledField>;
 };
 
-const InnerForm = (props: Props) => {
+const InnerForm = (props: FormProps) => {
   const {
+    profile,
+    values,
     isSubmitting,
     setSubmitting,
     isValid
   } = props;
 
+  const {
+    handle,
+    avatar,
+    about
+  } = values;
+
   const onSubmit = (sendTx: () => void) => {
-    // console.log('on tx btn', { isValid, isSubmitting, submitCount, touched });
     if (isValid) sendTx();
   };
 
@@ -99,10 +112,30 @@ const InnerForm = (props: Props) => {
     setSubmitting(false);
   };
 
+  const buildTxParams = () => {
+    if (!isValid) return [];
+
+    const userInfo = new UserInfo({
+      handle: new Option(Text, handle),
+      avatar_uri: new Option(Text, avatar),
+      about: new Option(Text, about)
+    });
+
+    if (profile) {
+      return [userInfo];
+    } else {
+      // TODO get from 'query.membership.activePaidMembershipTerms: BN'
+      const termsId = ZERO;
+      return [termsId, userInfo];
+    }
+  };
+
+  // TODO show warning that you don't have enough balance to buy a membership
+
   return (
-    <Section title='Edit Membership Profile'>
+    <Section title='My Membership Profile'>
     <Form className='ui form JoyForm'>
-      <LabelledText name='handle' label='URL handle' style={{ maxWidth: '30rem' }} {...props}/>
+      <LabelledText name='handle' label='URL handle' placeholder={`You can use a-z, 0-9 and underscores.`} style={{ maxWidth: '30rem' }} {...props}/>
       <LabelledText name='avatar' label='Avatar URL' placeholder='Paste here an URL of your avatar image.' {...props}/>
       <LabelledField name='about' label='About' {...props}>
         <Field component='textarea' id='about' name='about' disabled={isSubmitting} rows={3} placeholder='Write here anything you would like to share about yourself with Joystream community.' />
@@ -111,15 +144,13 @@ const InnerForm = (props: Props) => {
         <TxButton
           type='submit'
           size='large'
-          label='Save my profile'
+          label={profile ? 'Update my profile' : 'Register'}
           isDisabled={isSubmitting}
-
-          // TODO just a stub to test a form
-          params={[ new BN(0) ]}
-          tx='election.apply'
-          // params={[ handle, avatar, about ]}
-          // tx='membership.editProfile'
-
+          params={buildTxParams()}
+          tx={profile
+            ? 'membership.batchChangeMemberProfile'
+            : 'membership.buyMembership'
+          }
           onClick={onSubmit}
           onTxCancelled={onTxCancelled}
           onTxFailed={onTxFailed}
@@ -131,26 +162,75 @@ const InnerForm = (props: Props) => {
   );
 };
 
-type InputValues = FormValues;
-
-const EditForm = withFormik<InputValues, FormValues>({
+const EditForm = withFormik<OuterProps, FormValues>({
 
   // Transform outer props into form values
   mapPropsToValues: props => {
+    const { profile: p } = props;
     return {
-      handle: props.handle,
-      avatar: props.avatar,
-      about: props.about
+      handle: p ? p.handle.toString() : '',
+      avatar: p ? p.avatar_uri.toString() : '',
+      about:  p ? p.about.toString() : ''
     };
   },
 
-  // initialValues,
-
-  validationSchema: Schema,
+  validationSchema: buildSchema,
 
   handleSubmit: values => {
     // do submitting things
   }
 })(InnerForm);
 
-export default EditForm;
+type WithMyProfileProps = {
+  memberId?: MemberId,
+  memberProfile?: Option<any>, // TODO refactor to Option<Profile>
+  minHandleLength?: BN,
+  maxHandleLength?: BN,
+  maxAvatarUriLength?: BN,
+  maxAboutTextLength?: BN
+};
+
+function WithMyProfileInner (p: WithMyProfileProps) {
+  const triedToFindProfile = !p.memberId || p.memberProfile;
+  if (
+    triedToFindProfile &&
+    p.minHandleLength &&
+    p.maxHandleLength &&
+    p.maxAvatarUriLength &&
+    p.maxAboutTextLength
+  ) {
+    const profile = p.memberProfile ? p.memberProfile.unwrapOr(undefined) : undefined;
+    return <EditForm
+      minHandleLength={p.minHandleLength.toNumber()}
+      maxHandleLength={p.maxHandleLength.toNumber()}
+      maxAvatarUriLength={p.maxAvatarUriLength.toNumber()}
+      maxAboutTextLength={p.maxAboutTextLength.toNumber()}
+      profile={profile as Profile}
+    />;
+  } else return <em>Loading...</em>;
+}
+
+const WithMyProfile = withCalls<WithMyProfileProps>(
+  queryMembershipToProp('minHandleLength'),
+  queryMembershipToProp('maxHandleLength'),
+  queryMembershipToProp('maxAvatarUriLength'),
+  queryMembershipToProp('maxAboutTextLength'),
+  queryMembershipToProp('memberProfile', 'memberId')
+)(WithMyProfileInner);
+
+type WithMyMemberIdProps = MyAccountProps & {
+  memberIdByAccountId?: Option<MemberId>
+};
+
+function WithMyMemberIdInner (p: WithMyMemberIdProps) {
+  if (p.memberIdByAccountId) {
+    const memberId = p.memberIdByAccountId.unwrapOr(undefined);
+    return <WithMyProfile memberId={memberId} />;
+  } else return <em>Loading...</em>;
+}
+
+const WithMyMemberId = withMyAccount(withCalls<WithMyMemberIdProps>(
+  queryMembershipToProp('memberIdByAccountId', 'myAddress')
+)(WithMyMemberIdInner));
+
+export default WithMyMemberId;

@@ -1,9 +1,9 @@
-import { EnumType, Option } from '@polkadot/types/codec';
+import { EnumType, Option, Struct } from '@polkadot/types/codec';
 import { getTypeRegistry, Bool, BlockNumber, Moment, AccountId, BalanceOf, u64, Text } from '@polkadot/types';
 
-class MemberId extends u64 {}
-class PaidTermId extends u64 {}
-class SubscriptionId extends u64 {}
+export class MemberId extends u64 {}
+export class PaidTermId extends u64 {}
+export class SubscriptionId extends u64 {}
 
 export class Paid extends PaidTermId {}
 export class Screening extends AccountId {}
@@ -28,11 +28,17 @@ export type Profile = {
   subscription: Option<SubscriptionId>
 };
 
-export type UserInfo = {
-  handle: Option<Text>,
-  avatar_uri: Option<Text>,
-  about: Option<Text>
-};
+export class OptionText extends Option.with(Text) {}
+
+export class UserInfo extends Struct {
+  constructor (value?: any) {
+    super({
+      handle: OptionText,
+      avatar_uri: OptionText,
+      about: OptionText
+    }, value);
+  }
+}
 
 export type CheckedUserInfo = {
   handle: Text,
@@ -70,11 +76,7 @@ export function registerMembershipTypes () {
         suspended: 'Bool',
         subscription: 'Option<SubscriptionId>'
       },
-      UserInfo: {
-        handle: 'Option<Text>',
-        avatar_uri: 'Option<Text>',
-        about: 'Option<Text>'
-      },
+      UserInfo,
       CheckedUserInfo: {
         handle: 'Text',
         avatar_uri: 'Text',
