@@ -19,6 +19,7 @@ import ReactTooltip from 'react-tooltip';
 
 type Props = I18nProps & ApiProps & {
   isCollapsed: boolean,
+  onClick: () => void,
   allAccounts?: SubjectInfo,
   route: Route
 };
@@ -54,6 +55,7 @@ class Item extends React.PureComponent<Props> {
         <NavLink
           activeClassName='apps--SideBar-Item-NavLink-active'
           className='apps--SideBar-Item-NavLink'
+          onClick={this.props.onClick}
           to={`/${name}`}
           {...tooltip}
         >

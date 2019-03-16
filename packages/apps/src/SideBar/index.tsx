@@ -3,11 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { SideBarTransition } from '@polkadot/ui-app/constants';
 
 import './SideBar.css';
 
 import React from 'react';
 import { withRouter } from 'react-router';
+import { throttle } from 'lodash';
 
 import { withMulti } from '@polkadot/ui-api/index';
 import { Button, Icon, Menu } from '@polkadot/ui-app/index';
@@ -19,35 +21,44 @@ import NodeInfo from './NodeInfo';
 import getLogo from './logos';
 
 type Props = I18nProps & {
+  collapse: () => void,
+  handleResize: () => void,
   isCollapsed: boolean,
-  collapse: () => void
+  toggleMenu: () => void
 };
 
 class SideBar extends React.PureComponent<Props> {
+
+  componentDidMount () {
+    window.addEventListener('resize', throttle(this.props.handleResize, SideBarTransition.THROTTLE));
+  }
 
   render () {
     const { isCollapsed } = this.props;
 
     return (
-      <div className='apps--SideBar'>
-        <Menu
-          secondary
-          vertical
-        >
-          {this.renderLogo()}
-          {this.renderRoutes()}
-          <Menu.Divider hidden />
-          {this.renderGithub()}
-          {this.renderWiki()}
-          <Menu.Divider hidden />
-          {
-            isCollapsed
-              ? null
-              : <NodeInfo />
-          }
-          {this.renderCollapse()}
-        </Menu>
-        {this.renderToggleBar()}
+      <div className={`apps-SideBar-Wrapper ${isCollapsed && `collapsed` || `expanded`}`}>
+        {this.renderMenuToggle()}
+        <div className='apps--SideBar'>
+            <Menu
+              secondary
+              vertical
+            >
+              {this.renderLogo()}
+              {this.renderRoutes()}
+              <Menu.Divider hidden />
+              {this.renderGithub()}
+              {this.renderWiki()}
+              <Menu.Divider hidden />
+              {
+                isCollapsed
+                  ? null
+                  : <NodeInfo />
+              }
+              {this.renderCollapse()}
+            </Menu>
+          {this.renderToggleBar()}
+        </div>
       </div>
     );
   }
@@ -56,7 +67,7 @@ class SideBar extends React.PureComponent<Props> {
     const { isCollapsed } = this.props;
 
     return (
-      <div className='apps--SideBar-collapse'>
+      <div className='apps--SideBar-collapse ui--none-small'>
         <Button
           icon='angle double right'
           isBasic
@@ -92,6 +103,7 @@ class SideBar extends React.PureComponent<Props> {
             isCollapsed={isCollapsed}
             key={route.name}
             route={route}
+            onClick={this.props.handleResize}
             t={t}
           />
         )
@@ -120,10 +132,24 @@ class SideBar extends React.PureComponent<Props> {
   private renderToggleBar () {
     return (
       <div
-        className='apps--SideBar-toggle'
+        className='apps--SideBar-toggle ui--none-small'
         onClick={this.props.collapse}
       >
       </div>
+    );
+  }
+
+  private renderMenuToggle () {
+    const logo = getLogo(true);
+    const { toggleMenu } = this.props;
+
+    return (
+      <img
+        alt='polkadot'
+        className='ui--only-small'
+        onClick={toggleMenu}
+        src={logo}
+      />
     );
   }
 

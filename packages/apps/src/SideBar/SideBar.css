@@ -6,16 +6,76 @@
 @import '../../../ui-app/src/styles/theme/_colors-substrate.css';
 
 .apps-Wrapper {
-  transition: padding-left 0.3s;
+  display: flex;
+  flex-direction: row;
+  transition: width 0.3s linear;
+
+  .apps-Menu-bg {
+    background: rgba(0,0,0,0.6);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: opacity 0.2s;
+    width: 100%;
+    z-index: 99;
+
+    &.closed {
+      opacity: 0;
+      width: 0;
+    }
+    
+    &.open {
+      opacity: 1;
+    }
+  }
+
+  .apps-SideBar-Wrapper {
+    display: flex;
+    position: relative;
+    transition: width 0.3s linear;
+
+    &.collapsed {
+      width: 4.2rem;
+    }
+
+    &.expanded {
+      width: 12rem;
+    }
+
+    > img {
+      cursor: pointer;
+      left: 0.9rem;
+      position: absolute;
+      top: 1.1rem;
+      width: 2.4rem;
+      z-index: 100;
+    }
+  }
+
+  &.fixed {
+    .apps-SideBar-Wrapper {
+      position: absolute;
+      width: 0px;
+    }
+  }
+
+  &.menu-open {
+    .apps-SideBar-Wrapper {
+      width: 12rem;
+    }
+  }
 
   .apps--SideBar {
     align-items: center;
     background: #3f3f3f;
     display: flex;
     flex-flow: column;
-    min-height: 100vh;
+    height: inherit;
+    left: 0;
     position: relative;
-    transition: width 0.3s;
+    transition: left 0.3s linear;
+    width: 100%;
     z-index: 100;
 
     .ui.vertical.menu {
@@ -95,14 +155,15 @@
   }
 
   &.expanded .apps--SideBar {
-    padding-left: 0.74rem;
     text-align: left;
-    width: 12rem;
+
+    .apps--SideBar-collapse .ui.basic.secondary.button {
+      left: 0.69rem;
+    }
   }
 
   &.collapsed .apps--SideBar {
     text-align: center;
-    width: 4.2rem;
 
     .divider {
       display: none;
@@ -137,6 +198,8 @@
     }
   }
 }
+
+
 
 a.apps--SideBar-Item-NavLink {
   color: #eee;
