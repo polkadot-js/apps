@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
-import { Bubble, InputAddress } from '@polkadot/ui-app/index';
-import { AccountIndex, Balance, Nonce } from '@polkadot/ui-reactive/index';
+import { Bubble, InputAddress } from '@polkadot/ui-app';
+import { AccountIndex, Balance, Nonce } from '@polkadot/ui-reactive';
 
 type Props = {
   onChange: (accountId?: string) => void

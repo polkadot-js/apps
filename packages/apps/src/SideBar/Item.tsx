@@ -10,9 +10,9 @@ import { Route } from '../types';
 import React from 'react';
 import { withRouter } from 'react-router';
 import { NavLink } from 'react-router-dom';
-import { Icon, Menu } from '@polkadot/ui-app/index';
+import { Icon, Menu } from '@polkadot/ui-app';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withApi, withMulti, withObservable } from '@polkadot/ui-api/index';
+import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
 import { isFunction } from '@polkadot/util';
 
 import ReactTooltip from 'react-tooltip';

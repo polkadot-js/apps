@@ -6,7 +6,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { QueueTx$ExtrinsicAdd, TxCallback } from './Status/types';
 
 import React from 'react';
-import { withApi } from '@polkadot/ui-api/index';
+import { withApi } from '@polkadot/ui-api';
 import { assert } from '@polkadot/util';
 
 import { QueueConsumer } from './Status/Context';

@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
-import { Button, Input } from '@polkadot/ui-app/index';
+import { Button, Input } from '@polkadot/ui-app';
 
 import translate from '../translate';
 import { u8aToU8a } from '@polkadot/util';

@@ -8,7 +8,7 @@ import { Options } from './types';
 import React from 'react';
 import { assert, isNull, isUndefined } from '@polkadot/util';
 
-import { isEqual, triggerChange } from '../util/index';
+import { isEqual, triggerChange } from '../util';
 import echoTransform from '../transform/echo';
 import withApi from './api';
 

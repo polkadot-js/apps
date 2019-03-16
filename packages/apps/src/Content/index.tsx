@@ -5,11 +5,12 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { QueueProps } from '@polkadot/ui-app/Status/types';
+import { RouteProps } from '../types';
 
 import React from 'react';
 import { withRouter } from 'react-router';
 import styled from 'styled-components';
-import { withCalls, withMulti } from '@polkadot/ui-api/index';
+import { withCalls, withMulti } from '@polkadot/ui-api';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
 import Status from './Status';
@@ -57,12 +58,17 @@ class Content extends React.Component<Props> {
       );
     }
 
+    // inject router into component that we are rendering (in some cases react-router does
+    // not play 100% with styled-components because of the new vs old context usage, this
+    // is a workaround for that)
+    const ComponentRouted = (withRouter(Component as any) as any) as React.ComponentType<RouteProps>;
+
     return (
       <Wrapper>
         <QueueConsumer>
           {({ queueAction, stqueue, txqueue }: QueueProps) => (
             <>
-              <Component
+              <ComponentRouted
                 basePath={`/${name}`}
                 location={location}
                 onStatusChange={queueAction}

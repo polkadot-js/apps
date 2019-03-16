@@ -6,7 +6,7 @@ import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AddressSummary, Button, Modal } from '@polkadot/ui-app/index';
+import { AddressSummary, Button, Modal } from '@polkadot/ui-app';
 
 import translate from './translate';
 

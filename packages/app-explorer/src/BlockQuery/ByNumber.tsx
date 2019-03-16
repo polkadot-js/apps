@@ -6,7 +6,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Hash } from '@polkadot/types';
-import { withCalls } from '@polkadot/ui-api/index';
+import { withCalls } from '@polkadot/ui-api';
 
 import BlockByHash from './ByHash';
 

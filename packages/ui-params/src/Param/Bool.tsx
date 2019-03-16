@@ -5,7 +5,7 @@
 import { Props } from '../types';
 
 import React from 'react';
-import { Dropdown } from '@polkadot/ui-app/index';
+import { Dropdown } from '@polkadot/ui-app';
 
 import Bare from './Bare';
 

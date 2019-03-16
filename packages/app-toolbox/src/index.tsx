@@ -11,7 +11,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservable } from '@polkadot/ui-api/index';
+import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import Hash from './Hash';
 import Rpc from './Rpc';

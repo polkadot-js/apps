@@ -8,10 +8,10 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { InputAddress } from '@polkadot/ui-app/index';
+import { InputAddress } from '@polkadot/ui-app';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservable } from '@polkadot/ui-api/index';
+import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import VotingButtons from './VotingButtons';
 import translate from './translate';

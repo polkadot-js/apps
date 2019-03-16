@@ -7,7 +7,7 @@ import { TabItem } from '@polkadot/ui-app/Tabs';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { Tabs } from '@polkadot/ui-app/index';
+import { Tabs } from '@polkadot/ui-app';
 
 import './index.css';
 
