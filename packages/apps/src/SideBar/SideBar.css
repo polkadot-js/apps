@@ -44,8 +44,11 @@
     }
 
     > img {
+      background: #333;
+      border-radius: 50%;
       cursor: pointer;
       left: 0.9rem;
+      padding: 4px;
       position: absolute;
       top: 1.1rem;
       width: 2.4rem;
@@ -225,6 +228,12 @@ a.apps--SideBar-Item-NavLink-active {
 }
 
 .theme--polkadot {
+  .apps-SideBar-Wrapper {
+    > img {
+      background: none;
+    }
+  }
+
   a.apps--SideBar-Item-NavLink:hover {
     color: $nav-link;
     transition: 0.15s;
