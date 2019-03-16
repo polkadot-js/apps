@@ -43,7 +43,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       const api = new ApiPromise({ provider, signer });
 
       this.setState({ api }, () => {
-        this.updateSubscriptions();
+        this.subscribeEvents();
       });
     };
     const setApiUrl = (url: string = defaults.WS_URL): void =>
@@ -58,21 +58,25 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   }
 
   componentDidMount () {
-    this.updateSubscriptions();
+    this.subscribeEvents();
   }
 
-  private updateSubscriptions () {
+  private subscribeEvents () {
     const { api } = this.state;
 
-    [
-      this.subscribeIsConnected,
-      this.subscribeIsReady
-    ].map((fn: Function) => {
+    api.on('connected', () => {
+      this.setState({ isApiConnected: true });
+    });
+
+    api.on('disconnected', () => {
+      this.setState({ isApiConnected: false });
+    });
+
+    api.on('ready', async () => {
       try {
-        return fn(api);
+        await this.loadOnReady(api);
       } catch (error) {
-        console.error(error);
-        return null;
+        console.error('Unable to load chain', error);
       }
     });
   }
@@ -110,26 +114,6 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       apiDefaultTx: api.tx[section][method],
       chain,
       isDevelopment
-    });
-  }
-
-  private subscribeIsConnected = (api: ApiPromise) => {
-    api.on('connected', () => {
-      this.setState({ isApiConnected: true });
-    });
-
-    api.on('disconnected', () => {
-      this.setState({ isApiConnected: false });
-    });
-  }
-
-  private subscribeIsReady = (api: ApiPromise) => {
-    api.on('ready', async () => {
-      try {
-        await this.loadOnReady(api);
-      } catch (error) {
-        console.error('Unable to load chain', error);
-      }
     });
   }
 
