@@ -54,7 +54,7 @@ class Apps extends React.Component<Props, State> {
   componentDidMount () {
     this.setState({
       mobMenuOpen: false,
-      mobMenu: window.innerWidth > 768 ? false : true
+      mobMenu: window.innerWidth >= 768 ? false : true
     });
   }
 
