@@ -56,19 +56,6 @@
     }
   }
 
-  &.fixed {
-    .apps-SideBar-Wrapper {
-      position: absolute;
-      width: 0px;
-    }
-  }
-
-  &.menu-open {
-    .apps-SideBar-Wrapper {
-      width: 12rem;
-    }
-  }
-
   .apps--SideBar {
     align-items: center;
     background: #3f3f3f;
@@ -77,7 +64,7 @@
     height: inherit;
     left: 0;
     position: relative;
-    transition: left 0.3s linear;
+    transition: left 0.3s linear, padding-left 0.3s linear;
     width: 100%;
     z-index: 100;
 
@@ -132,7 +119,6 @@
         bottom: 0.75rem;
         box-shadow: 0 0 0 1px #eee inset !important;
         color: #eee !important;
-        left: -0.06rem;
         position: absolute;
         transition: transform 0.15s;
 
@@ -159,10 +145,7 @@
 
   &.expanded .apps--SideBar {
     text-align: left;
-
-    .apps--SideBar-collapse .ui.basic.secondary.button {
-      left: 0.69rem;
-    }
+    padding-left: 0.7rem;
   }
 
   &.collapsed .apps--SideBar {
@@ -198,6 +181,23 @@
 
     .apps--SideBar-collapse .ui.basic.secondary.button {
       left: 0.66rem;
+    }
+  }
+
+  &.fixed {
+    .apps-SideBar-Wrapper {
+      position: absolute;
+      width: 0px;
+
+      .apps--SideBar {
+        padding-left: 0;
+      }
+    }
+  }
+
+  &.menu-open {
+    .apps-SideBar-Wrapper {
+      width: 12rem;
     }
   }
 }
