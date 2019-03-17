@@ -63,10 +63,15 @@
     flex-flow: column;
     height: inherit;
     left: 0;
-    position: relative;
+    overflow-y: scroll;
     transition: left 0.3s linear;
     width: 100%;
     z-index: 100;
+
+    &::-webkit-scrollbar {
+      display: none;
+      width: 0px;
+    }
 
     .ui.vertical.menu {
       align-items: flex-end;
@@ -75,7 +80,7 @@
       height: 100vh;
       margin: 0;
       position: sticky;
-      overflow-y: auto;
+      overflow-x: visible;
       top: 0px;
       width: 100%;
 
@@ -88,7 +93,6 @@
     .apps--SideBar-Item {
       align-self: flex-end;
       flex-grow: 0;
-      overflow-x: visible;
       width: inherit;
 
       padding: 0 !important;
