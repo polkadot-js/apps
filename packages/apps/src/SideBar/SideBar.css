@@ -64,7 +64,7 @@
     height: inherit;
     left: 0;
     position: relative;
-    transition: left 0.3s linear, padding-left 0.3s linear;
+    transition: left 0.3s linear;
     width: 100%;
     z-index: 100;
 
