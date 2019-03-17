@@ -34,6 +34,7 @@
     display: flex;
     position: relative;
     transition: width 0.3s linear;
+    z-index: 100;
 
     &.collapsed {
       width: 4.2rem;
@@ -52,7 +53,7 @@
       position: absolute;
       top: 0.9rem;
       width: 2.6rem;
-      z-index: 100;
+      z-index: 99;
     }
   }
 
@@ -66,7 +67,6 @@
     overflow-y: scroll;
     transition: left 0.3s linear;
     width: 100%;
-    z-index: 100;
 
     &::-webkit-scrollbar {
       display: none;

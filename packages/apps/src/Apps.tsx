@@ -79,6 +79,7 @@ class Apps extends React.Component<Props, State> {
         <SideBar
           collapse={this.collapse}
           handleResize={this.handleResize}
+          mobMenuOpen={mobMenuOpen}
           isCollapsed={isCollapsed}
           toggleMenu={this.toggleMenu}
         />
