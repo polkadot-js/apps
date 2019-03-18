@@ -22,8 +22,8 @@ type Props = BareProps & {};
 
 type State = {
   isCollapsed: boolean,
-  mobMenu?: boolean,
-  mobMenuOpen: boolean,
+  isMenu: boolean,
+  menuOpen: boolean,
   transition: SideBarTransition
 };
 
@@ -45,7 +45,7 @@ class Apps extends React.Component<Props, State> {
 
     this.state = {
       isCollapsed: false,
-      mobMenuOpen: false,
+      menuOpen: false,
       transition: SideBarTransition.COLLAPSED,
       ...state
     };
@@ -53,8 +53,8 @@ class Apps extends React.Component<Props, State> {
 
   componentDidMount () {
     this.setState({
-      mobMenuOpen: false,
-      mobMenu: window.innerWidth >= 768 ? false : true
+      menuOpen: false,
+      isMenu: window.innerWidth >= SideBarTransition.MENU_THRESHOLD ? false : true
     });
   }
 
@@ -64,14 +64,14 @@ class Apps extends React.Component<Props, State> {
 
   render () {
 
-    const { isCollapsed, mobMenu, mobMenuOpen } = this.state;
+    const { isCollapsed, isMenu, menuOpen } = this.state;
     return (
       <Wrapper
         className={
           classes('apps-Wrapper',
                    `${!isCollapsed ? `expanded` : `collapsed`}`,
-                   `${mobMenu ? `fixed` : ``}`,
-                   `${mobMenuOpen ? `menu-open` : ``}`,
+                   `${isMenu ? `fixed` : ``}`,
+                   `${menuOpen ? `menu-open` : ``}`,
                    `theme--${settings.uiTheme}`)
         }
       >
@@ -79,7 +79,7 @@ class Apps extends React.Component<Props, State> {
         <SideBar
           collapse={this.collapse}
           handleResize={this.handleResize}
-          mobMenuOpen={mobMenuOpen}
+          menuOpen={menuOpen}
           isCollapsed={isCollapsed}
           toggleMenu={this.toggleMenu}
         />
@@ -100,12 +100,12 @@ class Apps extends React.Component<Props, State> {
   }
 
   private handleResize = (): void => {
-    const { mobMenu, mobMenuOpen } = this.state;
-    const dir = window.innerWidth < 768 && 'hide' || 'show';
+    const { isMenu, menuOpen } = this.state;
+    const dir = window.innerWidth < SideBarTransition.MENU_THRESHOLD && 'hide' || 'show';
 
-    if (!mobMenuOpen &&
-      ((mobMenu && dir === 'hide')
-      || (mobMenu === false && dir === 'show'))) {
+    if (!menuOpen &&
+      ((isMenu && dir === 'hide')
+      || (isMenu === false && dir === 'show'))) {
       return;
     }
 
@@ -123,7 +123,7 @@ class Apps extends React.Component<Props, State> {
       case SideBarTransition.MINIMISED_AND_EXPANDED:
         setTimeout(() => {
           this.setState({
-            mobMenu: true,
+            isMenu: true,
             isCollapsed: false,
             transition: SideBarTransition.COLLAPSED
           });
@@ -132,8 +132,8 @@ class Apps extends React.Component<Props, State> {
 
       case SideBarTransition.EXPANDED_AND_MAXIMISED:
         setTimeout(() => {
-          this.setState(({ mobMenu }: State) => ({
-            mobMenu: false,
+          this.setState(({ isMenu }: State) => ({
+            isMenu: false,
             isCollapsed: store.get('sidebar').isCollapsed,
             transition: SideBarTransition.EXPANDED
           }));
@@ -151,7 +151,7 @@ class Apps extends React.Component<Props, State> {
         className={
           classes(
             'apps-Menu-bg',
-            `${this.state.mobMenuOpen ? `open` : `closed`}`)
+            `${this.state.menuOpen ? `open` : `closed`}`)
           }
         onClick={this.handleResize}
       >
@@ -160,25 +160,25 @@ class Apps extends React.Component<Props, State> {
   }
 
   private toggleMenu = (): void => {
-    this.setState(({ mobMenu }: State) => ({
+    this.setState(({ isMenu }: State) => ({
       isCollapsed: false,
-      mobMenuOpen: true
+      menuOpen: true
     }));
   }
 
   private toggleMenuResize = (transition: SideBarTransition): void => {
     switch (transition) {
       case SideBarTransition.MINIMISED_AND_EXPANDED:
-        this.setState(({ mobMenu }: State) => ({
-          mobMenu: true,
-          mobMenuOpen: false,
+        this.setState(({ isMenu }: State) => ({
+          isMenu: true,
+          menuOpen: false,
           transition: transition
         }));
         break;
 
       case SideBarTransition.EXPANDED_AND_MAXIMISED:
-        this.setState(({ mobMenu }: State) => ({
-          mobMenuOpen: false,
+        this.setState(({ isMenu }: State) => ({
+          menuOpen: false,
           transition: transition
         }));
         break;

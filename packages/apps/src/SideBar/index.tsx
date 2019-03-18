@@ -24,7 +24,7 @@ type Props = I18nProps & {
   collapse: () => void,
   handleResize: () => void,
   isCollapsed: boolean,
-  mobMenuOpen: boolean,
+  menuOpen: boolean,
   toggleMenu: () => void
 };
 
@@ -35,11 +35,11 @@ class SideBar extends React.PureComponent<Props> {
   }
 
   render () {
-    const { isCollapsed, mobMenuOpen } = this.props;
+    const { isCollapsed, menuOpen } = this.props;
 
     return (
       <div className={`apps-SideBar-Wrapper ${isCollapsed && `collapsed` || `expanded`}`}>
-        {!mobMenuOpen && this.renderMenuToggle()}
+        {!menuOpen && this.renderMenuToggle()}
         <div className='apps--SideBar'>
             <Menu
               secondary
