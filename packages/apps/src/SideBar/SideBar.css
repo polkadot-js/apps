@@ -51,9 +51,13 @@
       left: 0.9rem;
       padding: 4px;
       position: absolute;
-      top: 0.9rem;
+      transition: all 0.15s ease-in;
+      top: -2.9rem;
       width: 2.6rem;
-      z-index: 99;
+
+      &.open {
+        top: 0.9rem;
+      }
     }
   }
 

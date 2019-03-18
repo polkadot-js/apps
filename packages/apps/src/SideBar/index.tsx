@@ -35,11 +35,11 @@ class SideBar extends React.PureComponent<Props> {
   }
 
   render () {
-    const { isCollapsed, menuOpen } = this.props;
+    const { isCollapsed } = this.props;
 
     return (
       <div className={`apps-SideBar-Wrapper ${isCollapsed && `collapsed` || `expanded`}`}>
-        {!menuOpen && this.renderMenuToggle()}
+        {this.renderMenuToggle()}
         <div className='apps--SideBar'>
             <Menu
               secondary
@@ -142,12 +142,12 @@ class SideBar extends React.PureComponent<Props> {
 
   private renderMenuToggle () {
     const logo = getLogo(true);
-    const { toggleMenu } = this.props;
+    const { toggleMenu, menuOpen } = this.props;
 
     return (
       <img
         alt='polkadot'
-        className='ui--only-small'
+        className={`ui--only-small  ${ menuOpen ? `closed` : `open`}`}
         onClick={toggleMenu}
         src={logo}
       />
