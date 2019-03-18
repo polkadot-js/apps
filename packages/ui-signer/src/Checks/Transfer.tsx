@@ -39,7 +39,7 @@ class Transfer extends React.PureComponent<Props, State> {
   };
 
   static getDerivedStateFromProps ({ amount, balances_votingBalance = ZERO_BALANCE, fees, onChange }: Props): State {
-    let extraFees = fees.transferFee;
+    let extraFees = new BN(fees.transferFee);
 
     if (balances_votingBalance.votingBalance.isZero()) {
       extraFees = extraFees.add(fees.creationFee);
