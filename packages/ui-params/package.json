@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-params",
-  "version": "0.26.0-beta.2",
+  "version": "0.26.0-beta.3",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,6 +11,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.3.4",
-    "@polkadot/ui-app": "^0.26.0-beta.2"
+    "@polkadot/ui-app": "^0.26.0-beta.3"
   }
 }
