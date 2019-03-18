@@ -160,10 +160,10 @@ class Apps extends React.Component<Props, State> {
   }
 
   private toggleMenu = (): void => {
-    this.setState(({ isMenu }: State) => ({
+    this.setState({
       isCollapsed: false,
       menuOpen: true
-    }));
+    });
   }
 
   private toggleMenuResize = (transition: SideBarTransition): void => {
