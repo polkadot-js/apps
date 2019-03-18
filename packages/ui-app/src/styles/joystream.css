@@ -78,3 +78,15 @@
 .collapsed .apps--SideBar-logo {
   margin: .5rem .75rem 1rem -.25rem !important
 }
+
+/* MD = markdown */
+.JoyViewMD {
+  img {
+    max-width: 100%;
+  }
+  code {
+    background-color: #e0e0e0;
+    padding: 0 .25rem;
+    border-radius: 2px;
+  }
+}

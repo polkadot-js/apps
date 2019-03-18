@@ -57,7 +57,7 @@ class Component extends React.PureComponent<Props> {
           </span>
         );
       } else {
-        return <ReactMarkdown className='JoyMemo--full' source={md} linkTarget='_blank' />;
+        return <ReactMarkdown className='JoyViewMD' source={md} linkTarget='_blank' />;
       }
     }
   }
