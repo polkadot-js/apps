@@ -15,7 +15,7 @@ module.exports = function findPackages () {
 
       return !['.', '..'].includes(entry) &&
         fs.lstatSync(pkgPath).isDirectory() &&
-        fs.lstatSync(path.join(pkgPath, 'package.json'));
+        fs.existsSync(path.join(pkgPath, 'package.json'));
     })
     .map((dir) => {
       const jsonPath = path.join(pkgRoot, dir, 'package.json');
