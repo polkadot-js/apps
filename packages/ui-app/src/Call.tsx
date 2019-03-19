@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { Method, getTypeDef } from '@polkadot/types';
 import Params from '@polkadot/ui-params';
 
+import Labelled from './Labelled';
 import { classes } from './util';
 
 export type Props = BareProps & {
@@ -21,7 +22,6 @@ const Wrapper = styled.div`
   .hash {
     opacity: 0.5;
     overflow: hidden;
-    padding: 0 0.5rem 0.75rem 1.75rem;
     text-overflow: ellipsis;
   }
 `;
@@ -48,9 +48,11 @@ export default class Call extends React.PureComponent<Props> {
         {
           hash
             ? (
-              <div className='hash'>
-                {hash.toHex()}
-              </div>
+              <Labelled label='extrinsic hash'>
+                <div className='hash'>
+                  {hash.toHex()}
+                </div>
+              </Labelled>
             )
             : null
         }
