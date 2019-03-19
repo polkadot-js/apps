@@ -70,8 +70,8 @@ class SideBar extends React.PureComponent<Props> {
     const { isCollapsed } = this.props;
 
     return (
-      <Responsive minWidth={SideBarTransition.MENU_THRESHOLD}>
-        <div className='apps--SideBar-collapse'>
+      <div className='apps--SideBar-collapse'>
+        <Responsive minWidth={SideBarTransition.MENU_THRESHOLD}>
           <Button
             icon='angle double right'
             isBasic
@@ -79,8 +79,8 @@ class SideBar extends React.PureComponent<Props> {
             onClick={this.props.collapse}
             className={`${isCollapsed ? `` : `rotated`}`}
           />
-        </div>
-      </Responsive>
+        </Responsive>
+      </div>
     );
   }
 
