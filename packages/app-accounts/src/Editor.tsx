@@ -9,8 +9,9 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { AddressSummary, Button, Input, InputAddress } from '@polkadot/ui-app';
+import { AddressSummary, Button, Dropdown, Input, InputAddress } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
+import uiSettings from '@polkadot/ui-settings';
 
 import Backup from './Backup';
 import ChangePass from './ChangePass';
@@ -100,6 +101,9 @@ class Editor extends React.PureComponent<Props, State> {
     const address = current
       ? current.address()
       : undefined;
+    const type = current
+      ? current.type
+      : 'ed25519';
 
     return (
       <div className='ui--grid'>
@@ -126,6 +130,14 @@ class Editor extends React.PureComponent<Props, State> {
               label={t('identified by the name')}
               onChange={this.onChangeName}
               value={editedName}
+            />
+          </div>
+          <div className='ui--row'>
+            <Dropdown
+              defaultValue={type}
+              isDisabled
+              label={t('keypair crypto type')}
+              options={uiSettings.availableCryptos}
             />
           </div>
         </div>
