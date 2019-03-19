@@ -13,6 +13,7 @@ import { MemberId, UserInfo, Profile } from './types';
 import { MyAccountProps, withMyAccount } from '@polkadot/joy-utils/MyAccount';
 import { queryMembershipToProp } from './utils';
 import { withCalls } from '@polkadot/ui-api/index';
+import { Button } from 'semantic-ui-react';
 
 // TODO get next settings from Substrate:
 const HANDLE_REGEX = /^[a-z0-9_]+$/;
@@ -55,7 +56,7 @@ type LabelledProps = BareProps & {
   name?: FieldName,
   label?: string,
   placeholder?: string,
-  children?: JSX.Element,
+  children?: JSX.Element | JSX.Element[],
   errors: FormikErrors<FormValues>,
   touched: FormikTouched<FormValues>,
   isSubmitting: boolean
@@ -85,9 +86,11 @@ const InnerForm = (props: FormProps) => {
   const {
     profile,
     values,
+    dirty,
+    isValid,
     isSubmitting,
     setSubmitting,
-    isValid
+    resetForm
   } = props;
 
   const {
@@ -135,7 +138,7 @@ const InnerForm = (props: FormProps) => {
   return (
     <Section title='My Membership Profile'>
     <Form className='ui form JoyForm'>
-      <LabelledText name='handle' label='URL handle' placeholder={`You can use a-z, 0-9 and underscores.`} style={{ maxWidth: '30rem' }} {...props}/>
+      <LabelledText name='handle' label='Handle/nickname' placeholder={`You can use a-z, 0-9 and underscores.`} style={{ maxWidth: '30rem' }} {...props}/>
       <LabelledText name='avatar' label='Avatar URL' placeholder='Paste here an URL of your avatar image.' {...props}/>
       <LabelledField name='about' label='About' {...props}>
         <Field component='textarea' id='about' name='about' disabled={isSubmitting} rows={3} placeholder='Write here anything you would like to share about yourself with Joystream community.' />
@@ -145,16 +148,23 @@ const InnerForm = (props: FormProps) => {
           type='submit'
           size='large'
           label={profile ? 'Update my profile' : 'Register'}
-          isDisabled={isSubmitting}
+          isDisabled={!dirty || isSubmitting}
           params={buildTxParams()}
           tx={profile
-            ? 'membership.batchChangeMemberProfile'
+            ? 'membership.updateProfile'
             : 'membership.buyMembership'
           }
           onClick={onSubmit}
           onTxCancelled={onTxCancelled}
           onTxFailed={onTxFailed}
           onTxSuccess={onTxSuccess}
+        />
+        <Button
+          type='button'
+          size='large'
+          disabled={!dirty || isSubmitting}
+          onClick={() => resetForm()}
+          content='Reset form'
         />
       </LabelledField>
     </Form>
