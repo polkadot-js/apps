@@ -49,13 +49,18 @@
       border-radius: 50%;
       cursor: pointer;
       left: 0.9rem;
+      opacity: 0;
       padding: 4px;
       position: absolute;
-      transition: all 0.15s ease-in;
+      transition: opacity 0.2s ease-in, top 0.2s ease-in;
       top: -2.9rem;
       width: 2.6rem;
-
+     
+      &.delayed {
+        transition-delay: 0.4s;
+      }
       &.open {
+        opacity: 1;
         top: 0.9rem;
       }
     }

@@ -147,7 +147,7 @@ class SideBar extends React.PureComponent<Props> {
     return (
       <img
         alt='polkadot'
-        className={`ui--only-small  ${ menuOpen ? `closed` : `open`}`}
+        className={`${ menuOpen ? `closed` : `open delayed`}`}
         onClick={toggleMenu}
         src={logo}
       />

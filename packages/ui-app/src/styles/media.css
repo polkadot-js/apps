@@ -96,3 +96,13 @@ th.ui--media-small {
     padding-left: 4.2rem !important;
   }
 }
+
+/* sidebar */
+@media (min-width: 768px) {
+  .apps-SideBar-Wrapper {
+    > img {
+      opacity: 0 !important;
+      top: -2.9rem !important;
+    }
+  }
+}
