@@ -33,6 +33,7 @@ export type QueueTx = AccountInfo & {
   id: number,
   isUnsigned?: boolean,
   result?: any,
+  removeItem: () => void,
   rpc: RpcMethod,
   signerCb?: SignerCallback,
   signerOptions?: SignatureOptions,
@@ -45,7 +46,8 @@ export type QueueTx = AccountInfo & {
 
 export type QueueStatus = ActionStatus & {
   id: number,
-  isCompleted: boolean
+  isCompleted: boolean,
+  removeItem: () => void
 };
 
 export type QueueTx$Result = {

@@ -326,6 +326,7 @@ header .ui--Button-Group {
       background: #00688b;
       border-radius: $small-corner;
       color: white;
+      cursor: pointer;
       display: flex;
       justify-content: space-between;
       margin-bottom: 0.25rem;
