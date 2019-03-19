@@ -1814,10 +1814,10 @@
     "@polkadot/util" "^0.36.3"
     core-js "^2.6.5"
 
-"@polkadot/ui-assets@^0.28.8":
-  version "0.28.8"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-assets/-/ui-assets-0.28.8.tgz#a9bc06ef123a9d87ba54703acab162933e5064ff"
-  integrity sha512-1ykQfxssTP6ZjU+9ysIM97R9wnqYaUy+L+Vu7/nvKZTssKOqbuwI10wtyeai5BNe6Z1psPzgvY4V7O4jDHC0jA==
+"@polkadot/ui-assets@^0.30.1":
+  version "0.30.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-assets/-/ui-assets-0.30.1.tgz#cbde0ce45c5322b57cace0390da2c62504165de7"
+  integrity sha512-Ysz+VmjIiyMCsCL16FoVYwJkjkey32mje2wLuoCib1rgNxAbfUPmRtKFJp5kKe0uqJXzq+31aeOJgICxivESkg==
   dependencies:
     "@babel/runtime" "^7.3.4"
 
@@ -13418,12 +13418,7 @@ typedoc@^0.14.2:
     typedoc-default-themes "^0.5.0"
     typescript "3.2.x"
 
-typescript@3.2.x:
-  version "3.2.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.2.4.tgz#c585cb952912263d915b462726ce244ba510ef3d"
-  integrity sha512-0RNDbSdEokBeEAkgNbxJ+BLwSManFy9TeXz8uW+48j/xhEXv1ePME60olyzw2XzUqUBNAYFeJadIqAgNqIACwg==
-
-typescript@^3.3.3333:
+typescript@3.2.x, typescript@^3.3.3333:
   version "3.3.3333"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.3.3333.tgz#171b2c5af66c59e9431199117a3bcadc66fdcfd6"
   integrity sha512-JjSKsAfuHBE/fB2oZ8NxtRTk5iGcg6hkYXMnZ3Wc+b2RSqejEqTaem11mHASMnFilHrax3sLK0GDzcJrekZYLw==
