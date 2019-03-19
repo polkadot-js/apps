@@ -9,7 +9,7 @@ import './SideBar.css';
 
 import React from 'react';
 import { withRouter } from 'react-router';
-import { throttle } from 'lodash';
+import throttle from 'lodash.throttle';
 
 import { withMulti } from '@polkadot/ui-api';
 import { Button, Icon, Menu } from '@polkadot/ui-app';
@@ -19,6 +19,8 @@ import translate from '../translate';
 import Item from './Item';
 import NodeInfo from './NodeInfo';
 import getLogo from './logos';
+
+import { Responsive } from 'semantic-ui-react';
 
 type Props = I18nProps & {
   collapse: () => void,
@@ -68,15 +70,17 @@ class SideBar extends React.PureComponent<Props> {
     const { isCollapsed } = this.props;
 
     return (
-      <div className='apps--SideBar-collapse ui--none-small'>
-        <Button
-          icon='angle double right'
-          isBasic
-          isCircular
-          onClick={this.props.collapse}
-          className={`${isCollapsed ? `` : `rotated`}`}
-        />
-      </div>
+      <Responsive minWidth={SideBarTransition.MENU_THRESHOLD}>
+        <div className='apps--SideBar-collapse'>
+          <Button
+            icon='angle double right'
+            isBasic
+            isCircular
+            onClick={this.props.collapse}
+            className={`${isCollapsed ? `` : `rotated`}`}
+          />
+        </div>
+      </Responsive>
     );
   }
 
@@ -132,11 +136,13 @@ class SideBar extends React.PureComponent<Props> {
 
   private renderToggleBar () {
     return (
-      <div
-        className='apps--SideBar-toggle ui--none-small'
-        onClick={this.props.collapse}
-      >
-      </div>
+      <Responsive minWidth={SideBarTransition.MENU_THRESHOLD}>
+        <div
+          className='apps--SideBar-toggle'
+          onClick={this.props.collapse}
+        >
+        </div>
+      </Responsive>
     );
   }
 

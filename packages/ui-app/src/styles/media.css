@@ -78,18 +78,6 @@ th.ui--media-small {
   }
 }
 
-@media (max-width: 767px) {
-  .ui--none-small {
-    display: none !important;
-  }
-}
-
-@media (min-width: 768px) {
-  .ui--only-small {
-    display: none !important;
-  }
-}
-
 /* tabs */
 @media (max-width: 767px) {
   .ui.menu.tabular {
