@@ -59,7 +59,7 @@ class Apps extends React.Component<Props, State> {
   }
 
   componentDidUpdate () {
-    this.handleMenuTransition(this.state);
+    this.handleMenuTransition();
   }
 
   render () {
@@ -69,9 +69,9 @@ class Apps extends React.Component<Props, State> {
       <Wrapper
         className={
           classes('apps-Wrapper',
-                   `${!isCollapsed ? `expanded` : `collapsed`}`,
-                   `${isMenu ? `fixed` : ``}`,
-                   `${menuOpen ? `menu-open` : ``}`,
+                   !isCollapsed ? 'expanded' : 'collapsed',
+                   isMenu ? 'fixed' : '',
+                   menuOpen ? 'menu-open' : '',
                    `theme--${settings.uiTheme}`)
         }
       >
@@ -101,22 +101,22 @@ class Apps extends React.Component<Props, State> {
 
   private handleResize = (): void => {
     const { isMenu, menuOpen } = this.state;
-    const dir = window.innerWidth < SideBarTransition.MENU_THRESHOLD && 'hide' || 'show';
+    const dir = window.innerWidth < SideBarTransition.MENU_THRESHOLD ? 'hide' : 'show';
 
-    if (!menuOpen &&
-      ((isMenu && dir === 'hide')
-      || (isMenu === false && dir === 'show'))) {
-      return;
+    if (!menuOpen) {
+      if ((isMenu && dir === 'hide') || (!isMenu && dir === 'show')) {
+        return;
+      }
     }
 
     const transition = (dir === 'hide')
-      && SideBarTransition.MINIMISED_AND_EXPANDED
-      || SideBarTransition.EXPANDED_AND_MAXIMISED;
+      ? SideBarTransition.MINIMISED_AND_EXPANDED
+      : SideBarTransition.EXPANDED_AND_MAXIMISED;
 
     this.toggleMenuResize(transition);
   }
 
-  private handleMenuTransition = (state: State): void => {
+  private handleMenuTransition = (): void => {
     const { transition } = this.state;
 
     switch (transition) {
@@ -132,11 +132,11 @@ class Apps extends React.Component<Props, State> {
 
       case SideBarTransition.EXPANDED_AND_MAXIMISED:
         setTimeout(() => {
-          this.setState(({ isMenu }: State) => ({
+          this.setState({
             isMenu: false,
             isCollapsed: store.get('sidebar').isCollapsed,
             transition: SideBarTransition.EXPANDED
-          }));
+          });
         }, SideBarTransition.TRANSITION_DURATION);
         break;
 
@@ -169,18 +169,18 @@ class Apps extends React.Component<Props, State> {
   private toggleMenuResize = (transition: SideBarTransition): void => {
     switch (transition) {
       case SideBarTransition.MINIMISED_AND_EXPANDED:
-        this.setState(({ isMenu }: State) => ({
+        this.setState({
           isMenu: true,
           menuOpen: false,
           transition: transition
-        }));
+        });
         break;
 
       case SideBarTransition.EXPANDED_AND_MAXIMISED:
-        this.setState(({ isMenu }: State) => ({
+        this.setState({
           menuOpen: false,
           transition: transition
-        }));
+        });
         break;
 
       default:

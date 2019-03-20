@@ -9,7 +9,6 @@ import './SideBar.css';
 
 import React from 'react';
 import { withRouter } from 'react-router';
-import throttle from 'lodash.throttle';
 
 import { withMulti } from '@polkadot/ui-api';
 import { Button, Icon, Menu } from '@polkadot/ui-app';
@@ -32,15 +31,14 @@ type Props = I18nProps & {
 
 class SideBar extends React.PureComponent<Props> {
 
-  componentDidMount () {
-    window.addEventListener('resize', throttle(this.props.handleResize, SideBarTransition.THROTTLE));
-  }
-
   render () {
     const { isCollapsed } = this.props;
 
     return (
-      <div className={`apps-SideBar-Wrapper ${isCollapsed && `collapsed` || `expanded`}`}>
+      <Responsive
+        onUpdate={this.props.handleResize}
+        className={`apps-SideBar-Wrapper ${isCollapsed && `collapsed` || `expanded`}`}
+      >
         {this.renderMenuToggle()}
         <div className='apps--SideBar'>
           <Menu
@@ -64,7 +62,7 @@ class SideBar extends React.PureComponent<Props> {
           </Menu>
           {this.renderToggleBar()}
         </div>
-      </div>
+      </Responsive>
     );
   }
 
@@ -155,7 +153,7 @@ class SideBar extends React.PureComponent<Props> {
 
     return (
       <img
-        alt='polkadot'
+        alt='logo'
         className={`${ menuOpen ? `closed` : `open delayed`}`}
         onClick={toggleMenu}
         src={logo}

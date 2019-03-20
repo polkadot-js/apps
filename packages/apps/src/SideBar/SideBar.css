@@ -18,7 +18,7 @@
     top: 0;
     transition: opacity 0.2s;
     width: 100%;
-    z-index: 99;
+    z-index: 299;
 
     &.closed {
       opacity: 0;
@@ -34,7 +34,7 @@
     display: flex;
     position: relative;
     transition: width 0.3s linear;
-    z-index: 100;
+    z-index: 300;
 
     &.collapsed {
       width: 4.2rem;
@@ -236,30 +236,5 @@ a.apps--SideBar-Item-NavLink-active {
 
   &:hover {
     color: inherit;
-  }
-}
-
-.theme--polkadot {
-  .apps-SideBar-Wrapper {
-    > img {
-      background: none;
-      padding: 0;
-    }
-  }
-
-  a.apps--SideBar-Item-NavLink:hover {
-    color: $nav-link;
-    transition: 0.15s;
-
-    &:hover {
-      background: rgba(0,0,0,0.05);
-    }
-  }
-
-  a.apps--SideBar-Item-NavLink-active {
-    color: $nav-link;
-    &:hover {
-      color: $nav-link;
-    }
   }
 }
