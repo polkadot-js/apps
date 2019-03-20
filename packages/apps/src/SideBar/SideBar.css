@@ -6,27 +6,90 @@
 @import '../../../ui-app/src/styles/theme/_colors-substrate.css';
 
 .apps-Wrapper {
-  transition: padding-left 0.3s;
+  display: flex;
+  flex-direction: row;
+  transition: width 0.3s linear;
+
+  .apps-Menu-bg {
+    background: rgba(0,0,0,0.6);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: opacity 0.2s;
+    width: 100%;
+    z-index: 299;
+
+    &.closed {
+      opacity: 0;
+      width: 0;
+    }
+    
+    &.open {
+      opacity: 1;
+    }
+  }
+
+  .apps-SideBar-Wrapper {
+    display: flex;
+    position: relative;
+    transition: width 0.3s linear;
+    z-index: 300;
+
+    &.collapsed {
+      width: 4.2rem;
+    }
+
+    &.expanded {
+      width: 12rem;
+    }
+
+    > img {
+      background: #333;
+      border-radius: 50%;
+      cursor: pointer;
+      left: 0.9rem;
+      opacity: 0;
+      padding: 4px;
+      position: absolute;
+      transition: opacity 0.2s ease-in, top 0.2s ease-in;
+      top: -2.9rem;
+      width: 2.6rem;
+     
+      &.delayed {
+        transition-delay: 0.4s;
+      }
+      &.open {
+        opacity: 1;
+        top: 0.9rem;
+      }
+    }
+  }
 
   .apps--SideBar {
     align-items: center;
     background: #3f3f3f;
     display: flex;
     flex-flow: column;
-    min-height: 100vh;
-    position: relative;
-    transition: width 0.3s;
-    z-index: 100;
-
+    height: auto;
+    left: 0;
+    transition: left 0.3s linear;
+    width: 100%;
+    
     .ui.vertical.menu {
-      align-items: flex-end;
       display: flex;
-      flex-flow: column;
       height: 100vh;
       margin: 0;
       position: sticky;
-      overflow-y: auto;
       top: 0px;
+      width: 100%;
+    }
+
+    .apps-SideBar-Scroll {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      overflow-y: scroll;
       width: 100%;
 
       &::-webkit-scrollbar {
@@ -38,7 +101,6 @@
     .apps--SideBar-Item {
       align-self: flex-end;
       flex-grow: 0;
-      overflow-x: visible;
       width: inherit;
 
       padding: 0 !important;
@@ -69,7 +131,6 @@
         bottom: 0.75rem;
         box-shadow: 0 0 0 1px #eee inset !important;
         color: #eee !important;
-        left: -0.06rem;
         position: absolute;
         transition: transform 0.15s;
 
@@ -95,14 +156,12 @@
   }
 
   &.expanded .apps--SideBar {
-    padding-left: 0.74rem;
     text-align: left;
-    width: 12rem;
+    padding-left: 0.7rem;
   }
 
   &.collapsed .apps--SideBar {
     text-align: center;
-    width: 4.2rem;
 
     .divider {
       display: none;
@@ -136,7 +195,26 @@
       left: 0.66rem;
     }
   }
+
+  &.fixed {
+    .apps-SideBar-Wrapper {
+      position: absolute;
+      width: 0px;
+
+      .apps--SideBar {
+        padding-left: 0;
+      }
+    }
+  }
+
+  &.menu-open {
+    .apps-SideBar-Wrapper {
+      width: 12rem;
+    }
+  }
 }
+
+
 
 a.apps--SideBar-Item-NavLink {
   color: #eee;
@@ -158,23 +236,5 @@ a.apps--SideBar-Item-NavLink-active {
 
   &:hover {
     color: inherit;
-  }
-}
-
-.theme--polkadot {
-  a.apps--SideBar-Item-NavLink:hover {
-    color: $nav-link;
-    transition: 0.15s;
-
-    &:hover {
-      background: rgba(0,0,0,0.05);
-    }
-  }
-
-  a.apps--SideBar-Item-NavLink-active {
-    color: $nav-link;
-    &:hover {
-      color: $nav-link;
-    }
   }
 }
