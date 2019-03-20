@@ -43,10 +43,11 @@ class SideBar extends React.PureComponent<Props> {
       <div className={`apps-SideBar-Wrapper ${isCollapsed && `collapsed` || `expanded`}`}>
         {this.renderMenuToggle()}
         <div className='apps--SideBar'>
-            <Menu
-              secondary
-              vertical
-            >
+          <Menu
+            secondary
+            vertical
+          >
+            <div className='apps-SideBar-Scroll'>
               {this.renderLogo()}
               {this.renderRoutes()}
               <Menu.Divider hidden />
@@ -58,8 +59,9 @@ class SideBar extends React.PureComponent<Props> {
                   ? null
                   : <NodeInfo />
               }
-              {this.renderCollapse()}
-            </Menu>
+            </div>
+            {this.renderCollapse()}
+          </Menu>
           {this.renderToggleBar()}
         </div>
       </div>
@@ -70,17 +72,18 @@ class SideBar extends React.PureComponent<Props> {
     const { isCollapsed } = this.props;
 
     return (
-      <div className='apps--SideBar-collapse'>
-        <Responsive minWidth={SideBarTransition.MENU_THRESHOLD}>
-          <Button
-            icon='angle double right'
-            isBasic
-            isCircular
-            onClick={this.props.collapse}
-            className={`${isCollapsed ? `` : `rotated`}`}
-          />
-        </Responsive>
-      </div>
+      <Responsive
+        minWidth={SideBarTransition.MENU_THRESHOLD}
+        className='apps--SideBar-collapse'
+      >
+        <Button
+          icon='angle double right'
+          isBasic
+          isCircular
+          onClick={this.props.collapse}
+          className={`${isCollapsed ? `` : `rotated`}`}
+        />
+      </Responsive>
     );
   }
 

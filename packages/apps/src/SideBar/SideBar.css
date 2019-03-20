@@ -71,26 +71,25 @@
     background: #3f3f3f;
     display: flex;
     flex-flow: column;
-    height: inherit;
+    height: auto;
     left: 0;
-    overflow-y: scroll;
     transition: left 0.3s linear;
     width: 100%;
-
-    &::-webkit-scrollbar {
-      display: none;
-      width: 0px;
-    }
-
+    
     .ui.vertical.menu {
-      align-items: flex-end;
       display: flex;
-      flex-flow: column;
       height: 100vh;
       margin: 0;
       position: sticky;
-      overflow-x: visible;
       top: 0px;
+      width: 100%;
+    }
+
+    .apps-SideBar-Scroll {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      overflow-y: scroll;
       width: 100%;
 
       &::-webkit-scrollbar {
