@@ -12,7 +12,7 @@ import store from 'store';
 import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
 import createItem from '@polkadot/ui-keyring/options/item';
-import { withMulti, withObservable } from '@polkadot/ui-api/index';
+import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import Dropdown from '../Dropdown';
 import { classes } from '../util';

@@ -25,7 +25,7 @@ export default class ApiSigner implements Signer {
         accountId,
         extrinsic,
         signerOptions,
-        signerCallback: (id: number, isSigned: boolean): void => {
+        signerCb: (id: number, isSigned: boolean): void => {
           if (isSigned) {
             resolve(id);
           } else {

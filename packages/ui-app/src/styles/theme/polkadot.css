@@ -91,4 +91,27 @@
   .ui.red.progress .bar {
     background-color: $red;
   }
+
+  .apps-SideBar-Wrapper {
+    > img {
+      background: none !important;
+      padding: 0 !important;
+    }
+  }
+
+  a.apps--SideBar-Item-NavLink:hover {
+    color: $nav-link;
+    transition: 0.15s;
+
+    &:hover {
+      background: rgba(0,0,0,0.05);
+    }
+  }
+
+  a.apps--SideBar-Item-NavLink-active {
+    color: $nav-link;
+    &:hover {
+      color: $nav-link;
+    }
+  }
 }

@@ -5,7 +5,6 @@
 import { BareProps } from './types';
 
 import React from 'react';
-import { withRouter } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
 import { classes } from './util';
@@ -22,7 +21,7 @@ type Props = BareProps & {
   items: Array<TabItem>
 };
 
-class Tabs extends React.PureComponent<Props> {
+export default class Tabs extends React.PureComponent<Props> {
   render () {
     const { className, hidden = [], items, style } = this.props;
 
@@ -63,5 +62,3 @@ class Tabs extends React.PureComponent<Props> {
     );
   }
 }
-
-export default withRouter(Tabs as React.ComponentType<any>) as any as React.ComponentType<Props>;

@@ -12,8 +12,8 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { Transition } from 'semantic-ui-react';
 import snappy from 'snappyjs';
-import { withApi, withMulti } from '@polkadot/ui-api/index';
-import { Button, Dropdown, Editor } from '@polkadot/ui-app/index';
+import { withApi, withMulti } from '@polkadot/ui-api';
+import { Button, Dropdown, Editor } from '@polkadot/ui-app';
 import uiKeyring from '@polkadot/ui-keyring';
 import * as util from '@polkadot/util';
 import * as hashing from '@polkadot/util-crypto';
@@ -39,6 +39,7 @@ type Injected = {
   util: typeof util,
   window: null
 };
+
 type Props = ApiProps & AppProps & I18nProps & {
   match: {
     params: {
@@ -48,6 +49,7 @@ type Props = ApiProps & AppProps & I18nProps & {
   // FIXME wait for proper eslint integration in tslint, then hopefully remove this
   history: any
 };
+
 type State = {
   animated: boolean,
   customExamples: Array<Snippet>,

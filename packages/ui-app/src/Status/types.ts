@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { AccountId, Address } from '@polkadot/types';
@@ -24,22 +25,29 @@ export type QueueTx$Status = 'future' | 'ready' | 'finalised' | 'usurped' | 'dro
 
 export type SignerCallback = (id: number, isSigned: boolean) => void;
 
+export type TxCallback = (status: SubmittableResult) => void;
+
 export type QueueTx = AccountInfo & {
   error?: Error,
   extrinsic?: SubmittableExtrinsic,
   id: number,
   isUnsigned?: boolean,
   result?: any,
+  removeItem: () => void,
   rpc: RpcMethod,
-  signerCallback?: SignerCallback,
+  signerCb?: SignerCallback,
   signerOptions?: SignatureOptions,
+  txFailedCb?: TxCallback,
+  txSuccessCb?: TxCallback,
+  txUpdateCb?: TxCallback,
   values?: Array<any>,
   status: QueueTx$Status
 };
 
 export type QueueStatus = ActionStatus & {
   id: number,
-  isCompleted: boolean
+  isCompleted: boolean,
+  removeItem: () => void
 };
 
 export type QueueTx$Result = {
@@ -63,8 +71,11 @@ export type PartialAccountInfo = {
 
 export type PartialQueueTx$Extrinsic = PartialAccountInfo & {
   extrinsic: SubmittableExtrinsic,
-  signerCallback?: SignerCallback,
+  signerCb?: SignerCallback,
   signerOptions?: SignatureOptions,
+  txFailedCb?: TxCallback,
+  txSuccessCb?: TxCallback,
+  txUpdateCb?: TxCallback,
   isUnsigned?: boolean
 };
 

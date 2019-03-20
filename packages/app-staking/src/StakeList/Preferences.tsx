@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import { ValidatorPrefs } from '@polkadot/types';
-import { Button, InputBalance, InputNumber, Modal } from '@polkadot/ui-app/index';
+import { Button, InputBalance, InputNumber, Modal } from '@polkadot/ui-app';
 
 import translate from '../translate';
 

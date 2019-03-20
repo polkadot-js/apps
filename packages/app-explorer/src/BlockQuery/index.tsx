@@ -5,42 +5,51 @@
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
+import { isHex } from '@polkadot/util';
 
-import BlockByHash from './BlockByHash';
+import BlockByHash from './ByHash';
+import BlockByNumber from './ByNumber';
 import Query from './Query';
 
 type Props = BareProps & {
   match: {
     params: {
-      hash: string
+      value: string
     }
   }
 };
 
 export default class Entry extends React.PureComponent<Props> {
   render () {
-    const { match: { params: { hash } } } = this.props;
+    const { match: { params: { value } } } = this.props;
 
     return (
       <>
-        <Query hash={hash} />
+        <Query value={value} />
         {this.renderBlock()}
       </>
     );
   }
 
   private renderBlock () {
-    const { match: { params: { hash } } } = this.props;
+    const { match: { params: { value } } } = this.props;
 
-    if (!hash) {
+    if (!value) {
       return null;
     }
 
-    return (
-      <BlockByHash
-        key={hash}
-        value={hash}
-      />
-    );
+    return isHex(value)
+      ? (
+        <BlockByHash
+          key={value}
+          value={value}
+        />
+      )
+      : (
+        <BlockByNumber
+          key={value}
+          value={value}
+        />
+      );
   }
 }

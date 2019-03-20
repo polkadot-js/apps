@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { ReferendumInfoExtended } from '@polkadot/api-derive/democracy/referendumInfo';
 import { Option } from '@polkadot/types';
-import { withCalls } from '@polkadot/ui-api/index';
+import { withCalls } from '@polkadot/ui-api';
 
 import Referendum from './Referendum';
 import translate from './translate';

@@ -3,15 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 
 import './SideBar.css';
 
 import React from 'react';
-import { withRouter } from 'react-router';
-
-import store from 'store';
-import { withMulti } from '@polkadot/ui-api/index';
-import { Button, Icon, Menu } from '@polkadot/ui-app/index';
+import { Button, Icon, Menu } from '@polkadot/ui-app';
+import { classes } from '@polkadot/ui-app/util';
 
 import routing from '../routing';
 import translate from '../translate';
@@ -19,77 +17,76 @@ import Item from './Item';
 import NodeInfo from './NodeInfo';
 import getLogo from './logos';
 
-type Props = I18nProps;
+import { Responsive } from 'semantic-ui-react';
 
-type State = {
-  isCollapsed: boolean
+type Props = I18nProps & {
+  collapse: () => void,
+  handleResize: () => void,
+  isCollapsed: boolean,
+  menuOpen: boolean,
+  toggleMenu: () => void
 };
 
-class SideBar extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    const state = store.get('sidebar') || {};
-    this.state = {
-      isCollapsed: false,
-      ...state
-    };
-  }
-
+class SideBar extends React.PureComponent<Props> {
   render () {
-    const { isCollapsed } = this.state;
+    const { isCollapsed } = this.props;
 
     return (
-      <div className={`apps--SideBar ${isCollapsed ? 'collapsed' : 'expanded'}`}>
-        <Menu
-          secondary
-          vertical
-        >
-          {this.renderLogo()}
-          {this.renderRoutes()}
-          <Menu.Divider hidden />
-          {this.renderGithub()}
-          {this.renderWiki()}
-          <Menu.Divider hidden />
-          {
-            isCollapsed
-              ? null
-              : <NodeInfo />
-          }
-          {this.renderCollapse()}
-        </Menu>
-        {this.renderToggleBar()}
-      </div>
+      <Responsive
+        onUpdate={this.props.handleResize}
+        className={
+          classes('apps-SideBar-Wrapper',
+                  isCollapsed ? 'collapsed' : 'expanded')
+        }
+      >
+        {this.renderMenuToggle()}
+        <div className='apps--SideBar'>
+          <Menu
+            secondary
+            vertical
+          >
+            <div className='apps-SideBar-Scroll'>
+              {this.renderLogo()}
+              {this.renderRoutes()}
+              <Menu.Divider hidden />
+              {this.renderGithub()}
+              {this.renderWiki()}
+              <Menu.Divider hidden />
+              {
+                isCollapsed
+                  ? null
+                  : <NodeInfo />
+              }
+            </div>
+            {this.renderCollapse()}
+          </Menu>
+          {this.renderToggleBar()}
+        </div>
+      </Responsive>
     );
   }
 
-  private collapse = (): void => {
-    this.setState(({ isCollapsed }: State) => ({
-      isCollapsed: !isCollapsed
-    }), () => {
-      store.set('sidebar', this.state);
-    });
-  }
-
   private renderCollapse () {
-    const { isCollapsed } = this.state;
+    const { isCollapsed } = this.props;
 
     return (
-      <div className='apps--SideBar-collapse'>
+      <Responsive
+        minWidth={SIDEBAR_MENU_THRESHOLD}
+        className='apps--SideBar-collapse'
+      >
         <Button
-          icon={`angle double ${isCollapsed ? 'right' : 'left'}`}
+          icon='angle double right'
           isBasic
           isCircular
-          onClick={this.collapse}
+          onClick={this.props.collapse}
+          className={isCollapsed ? '' : 'rotated'}
         />
-      </div>
+      </Responsive>
     );
   }
 
   private renderLogo () {
-    const { isCollapsed } = this.state;
+    const { isCollapsed } = this.props;
     const logo = getLogo(isCollapsed);
 
     return (
@@ -102,7 +99,7 @@ class SideBar extends React.PureComponent<Props, State> {
   }
 
   private renderRoutes () {
-    const { isCollapsed } = this.state;
+    const { isCollapsed } = this.props;
     const { t } = this.props;
 
     return routing.routes.map((route, index) => (
@@ -112,6 +109,7 @@ class SideBar extends React.PureComponent<Props, State> {
             isCollapsed={isCollapsed}
             key={route.name}
             route={route}
+            onClick={this.props.handleResize}
             t={t}
           />
         )
@@ -139,11 +137,27 @@ class SideBar extends React.PureComponent<Props, State> {
 
   private renderToggleBar () {
     return (
-      <div
-        className='apps--SideBar-toggle'
-        onClick={this.collapse}
-      >
-      </div>
+      <Responsive minWidth={SIDEBAR_MENU_THRESHOLD}>
+        <div
+          className='apps--SideBar-toggle'
+          onClick={this.props.collapse}
+        >
+        </div>
+      </Responsive>
+    );
+  }
+
+  private renderMenuToggle () {
+    const logo = getLogo(true);
+    const { toggleMenu, menuOpen } = this.props;
+
+    return (
+      <img
+        alt='logo'
+        className={menuOpen ? 'closed' : 'open delayed'}
+        onClick={toggleMenu}
+        src={logo}
+      />
     );
   }
 
@@ -164,8 +178,4 @@ class SideBar extends React.PureComponent<Props, State> {
   }
 }
 
-export default withMulti(
-  SideBar,
-  translate,
-  withRouter
-);
+export default translate(SideBar);

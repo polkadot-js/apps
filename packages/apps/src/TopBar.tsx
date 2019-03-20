@@ -7,7 +7,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/ui-reactive/index';
+import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/ui-reactive';
 
 type Props = {};
 

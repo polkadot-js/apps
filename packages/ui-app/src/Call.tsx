@@ -6,15 +6,25 @@ import { IExtrinsic, IMethod } from '@polkadot/types/types';
 import { BareProps } from './types';
 
 import React from 'react';
+import styled from 'styled-components';
 import { Method, getTypeDef } from '@polkadot/types';
-import Params from '@polkadot/ui-params/index';
+import Params from '@polkadot/ui-params';
 
+import Labelled from './Labelled';
 import { classes } from './util';
 
 export type Props = BareProps & {
   children?: React.ReactNode,
   value: IExtrinsic | IMethod
 };
+
+const Wrapper = styled.div`
+  .hash {
+    opacity: 0.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`;
 
 export default class Call extends React.PureComponent<Props> {
   render () {
@@ -27,19 +37,31 @@ export default class Call extends React.PureComponent<Props> {
       isValid: true,
       value
     }));
+    const hash = (value as IExtrinsic).hash;
 
     return (
-      <div
+      <Wrapper
         className={classes('ui--Extrinsic', className)}
         style={style}
       >
         {children}
+        {
+          hash
+            ? (
+              <Labelled label='extrinsic hash'>
+                <div className='hash'>
+                  {hash.toHex()}
+                </div>
+              </Labelled>
+            )
+            : null
+        }
         <Params
           isDisabled
           params={params}
           values={values}
         />
-      </div>
+      </Wrapper>
     );
   }
 }

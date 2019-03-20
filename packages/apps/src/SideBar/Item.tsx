@@ -8,17 +8,18 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { Route } from '../types';
 
 import React from 'react';
-import { withRouter } from 'react-router';
+// import { withRouter } from 'react-router';
 import { NavLink } from 'react-router-dom';
-import { Icon, Menu } from '@polkadot/ui-app/index';
+import { Icon, Menu } from '@polkadot/ui-app';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withApi, withMulti, withObservable } from '@polkadot/ui-api/index';
+import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
 import { isFunction } from '@polkadot/util';
 
 import ReactTooltip from 'react-tooltip';
 
 type Props = I18nProps & ApiProps & {
   isCollapsed: boolean,
+  onClick: () => void,
   allAccounts?: SubjectInfo,
   route: Route
 };
@@ -30,7 +31,6 @@ interface Tooltip {
 }
 
 class Item extends React.PureComponent<Props> {
-
   componentWillUpdate () {
     ReactTooltip.rebuild();
   }
@@ -54,6 +54,7 @@ class Item extends React.PureComponent<Props> {
         <NavLink
           activeClassName='apps--SideBar-Item-NavLink-active'
           className='apps--SideBar-Item-NavLink'
+          onClick={this.props.onClick}
           to={`/${name}`}
           {...tooltip}
         >
@@ -117,7 +118,6 @@ class Item extends React.PureComponent<Props> {
 
 export default withMulti(
   Item,
-  withRouter,
   withApi,
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );

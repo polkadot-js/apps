@@ -12,7 +12,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import echoTransform from '../transform/echo';
-import { intervalObservable, isEqual, triggerChange } from '../util/index';
+import { intervalObservable, isEqual, triggerChange } from '../util';
 
 type State = CallState & {
   subscriptions: Array<any>; // FIXME subscriptions

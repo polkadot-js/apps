@@ -8,7 +8,7 @@ import { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import styled from 'styled-components';
 import { withApi } from '@polkadot/ui-api/with';
-import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/ui-reactive/index';
+import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/ui-reactive';
 
 type Props = ApiProps & BareProps & {};
 
@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   color: white;
   font-size: 0.75rem;
   opacity: 0.5;
-  padding: 0 1.5rem 0 0;
+  padding: 0 1.5rem 0 1.5rem;
   text-align: right;
 
   > div {

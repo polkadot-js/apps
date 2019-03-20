@@ -5,10 +5,11 @@
 import { ApiProps, CallState, Subtract } from '../types';
 import { Options } from './types';
 
+import memoize from 'memoizee';
 import React from 'react';
 import { assert, isNull, isUndefined } from '@polkadot/util';
 
-import { isEqual, triggerChange } from '../util/index';
+import { isEqual, triggerChange } from '../util';
 import echoTransform from '../transform/echo';
 import withApi from './api';
 
@@ -158,7 +159,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
           await this.unsubscribe();
 
           if (isSubscription) {
-            this.destroy = await apiMethod(...params, (value?: any) =>
+            this.destroy = await memoize(apiMethod)(...params, (value?: any) =>
               this.triggerUpdate(this.props, value)
             );
           } else {

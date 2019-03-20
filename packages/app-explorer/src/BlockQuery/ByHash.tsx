@@ -7,7 +7,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { EventRecord, HeaderExtended, SignedBlock } from '@polkadot/types';
-import { withCalls } from '@polkadot/ui-api/index';
+import { withCalls } from '@polkadot/ui-api';
 
 import BlockHeader from '../BlockHeader';
 import translate from '../translate';
@@ -26,7 +26,7 @@ class BlockByHash extends React.PureComponent<Props> {
   render () {
     const { system_events, chain_getBlock, chain_getHeader } = this.props;
 
-    if (!chain_getBlock || !chain_getHeader) {
+    if (!chain_getBlock || chain_getBlock.isEmpty || !chain_getHeader || chain_getHeader.isEmpty) {
       return null;
     }
 

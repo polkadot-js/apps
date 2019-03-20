@@ -6,8 +6,8 @@ import { I18nProps } from './types';
 
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
-import { Nonce } from '@polkadot/ui-reactive/index';
-import { withCalls } from '@polkadot/ui-api/index';
+import { Nonce } from '@polkadot/ui-reactive';
+import { withCalls } from '@polkadot/ui-api';
 
 import { classes, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
