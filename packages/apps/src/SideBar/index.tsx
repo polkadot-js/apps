@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { SideBarTransition } from '@polkadot/ui-app/constants';
+import { SIDEBAR_MENU_THRESHOLD } from '@polkadot/ui-app/constants';
 
 import './SideBar.css';
 
@@ -71,7 +71,7 @@ class SideBar extends React.PureComponent<Props> {
 
     return (
       <Responsive
-        minWidth={SideBarTransition.MENU_THRESHOLD}
+        minWidth={SIDEBAR_MENU_THRESHOLD}
         className='apps--SideBar-collapse'
       >
         <Button
@@ -137,7 +137,7 @@ class SideBar extends React.PureComponent<Props> {
 
   private renderToggleBar () {
     return (
-      <Responsive minWidth={SideBarTransition.MENU_THRESHOLD}>
+      <Responsive minWidth={SIDEBAR_MENU_THRESHOLD}>
         <div
           className='apps--SideBar-toggle'
           onClick={this.props.collapse}

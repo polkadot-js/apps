@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
-import { SideBarTransition } from '@polkadot/ui-app/constants';
+import { SideBarTransition, SIDEBAR_TRANSITION_DURATION, SIDEBAR_MENU_THRESHOLD } from '@polkadot/ui-app/constants';
 
 import React from 'react';
 import store from 'store';
@@ -54,7 +54,7 @@ class Apps extends React.Component<Props, State> {
   componentDidMount () {
     this.setState({
       menuOpen: false,
-      isMenu: window.innerWidth >= SideBarTransition.MENU_THRESHOLD ? false : true
+      isMenu: window.innerWidth >= SIDEBAR_MENU_THRESHOLD ? false : true
     });
   }
 
@@ -101,7 +101,7 @@ class Apps extends React.Component<Props, State> {
 
   private handleResize = (): void => {
     const { isMenu, menuOpen } = this.state;
-    const dir = window.innerWidth < SideBarTransition.MENU_THRESHOLD ? 'hide' : 'show';
+    const dir = window.innerWidth < SIDEBAR_MENU_THRESHOLD ? 'hide' : 'show';
 
     if (!menuOpen) {
       if ((isMenu && dir === 'hide') || (!isMenu && dir === 'show')) {
@@ -127,7 +127,7 @@ class Apps extends React.Component<Props, State> {
             isCollapsed: false,
             transition: SideBarTransition.COLLAPSED
           });
-        }, SideBarTransition.TRANSITION_DURATION);
+        }, SIDEBAR_TRANSITION_DURATION);
         break;
 
       case SideBarTransition.EXPANDED_AND_MAXIMISED:
@@ -137,7 +137,7 @@ class Apps extends React.Component<Props, State> {
             isCollapsed: store.get('sidebar').isCollapsed,
             transition: SideBarTransition.EXPANDED
           });
-        }, SideBarTransition.TRANSITION_DURATION);
+        }, SIDEBAR_TRANSITION_DURATION);
         break;
 
       default:
