@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { SIDEBAR_MENU_THRESHOLD } from '@polkadot/ui-app/constants';
+import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 
 import './SideBar.css';
 
