@@ -8,9 +8,6 @@ import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 import './SideBar.css';
 
 import React from 'react';
-import { withRouter } from 'react-router';
-
-import { withMulti } from '@polkadot/ui-api';
 import { Button, Icon, Menu } from '@polkadot/ui-app';
 import { classes } from '@polkadot/ui-app/util';
 
@@ -31,7 +28,6 @@ type Props = I18nProps & {
 };
 
 class SideBar extends React.PureComponent<Props> {
-
   render () {
     const { isCollapsed } = this.props;
 
@@ -182,8 +178,4 @@ class SideBar extends React.PureComponent<Props> {
   }
 }
 
-export default withMulti(
-  SideBar,
-  translate,
-  withRouter
-);
+export default translate(SideBar);

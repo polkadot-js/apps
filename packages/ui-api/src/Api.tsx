@@ -43,7 +43,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       const api = new ApiPromise({ provider, signer });
 
       this.setState({ api }, () => {
-        this.updateSubscriptions();
+        this.subscribeEvents();
       });
     };
     const setApiUrl = (url: string = defaults.WS_URL): void =>
@@ -58,32 +58,36 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   }
 
   componentDidMount () {
-    this.updateSubscriptions();
+    this.subscribeEvents();
   }
 
-  private updateSubscriptions () {
+  private subscribeEvents () {
     const { api } = this.state;
 
-    [
-      this.subscribeIsConnected,
-      this.subscribeIsReady,
-      this.subscribeChain
-    ].map((fn: Function) => {
+    api.on('connected', () => {
+      this.setState({ isApiConnected: true });
+    });
+
+    api.on('disconnected', () => {
+      this.setState({ isApiConnected: false });
+    });
+
+    api.on('ready', async () => {
       try {
-        return fn(api);
+        await this.loadOnReady(api);
       } catch (error) {
-        console.error(error);
-        return null;
+        console.error('Unable to load chain', error);
       }
     });
   }
 
-  private subscribeChain = async (api: ApiPromise) => {
+  private async loadOnReady (api: ApiPromise) {
     const [properties = new ChainProperties(), value] = await Promise.all([
       api.rpc.system.properties() as Promise<ChainProperties | undefined>,
       api.rpc.system.chain() as Promise<any>
     ]);
-
+    const section = Object.keys(api.tx)[0];
+    const method = Object.keys(api.tx[section])[0];
     const chain = value
       ? value.toString()
       : null;
@@ -105,28 +109,11 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       type: 'ed25519'
     });
 
-    this.setState({ chain, isDevelopment });
-  }
-
-  private subscribeIsConnected = (api: ApiPromise) => {
-    api.on('connected', () => {
-      this.setState({ isApiConnected: true });
-    });
-
-    api.on('disconnected', () => {
-      this.setState({ isApiConnected: false });
-    });
-  }
-
-  private subscribeIsReady = (api: ApiPromise) => {
-    api.on('ready', () => {
-      const section = Object.keys(api.tx)[0];
-      const method = Object.keys(api.tx[section])[0];
-
-      this.setState({
-        isApiReady: true,
-        apiDefaultTx: api.tx[section][method]
-      });
+    this.setState({
+      isApiReady: true,
+      apiDefaultTx: api.tx[section][method],
+      chain,
+      isDevelopment
     });
   }
 

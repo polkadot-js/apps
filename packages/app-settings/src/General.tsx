@@ -80,7 +80,6 @@ class General extends React.PureComponent<Props, State> {
               defaultValue={i18nLang}
               isDisabled
               label={t('default interface language')}
-              onChange={this.onChangeLang}
               options={uiSettings.availableLanguages}
             />
           </div>
@@ -138,10 +137,6 @@ class General extends React.PureComponent<Props, State> {
         apiUrl
       }
     }));
-  }
-
-  private onChangeLang = (i18nLang: string): void => {
-    // ignore (for now), here to future-proof
   }
 
   private onChangeUiMode = (uiMode: string): void => {

@@ -4,19 +4,19 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import { KeypairType } from '@polkadot/util-crypto/types';
 import { ComponentProps } from './types';
 
+import FileSaver from 'file-saver';
 import React from 'react';
 import { AddressSummary, Button, Dropdown, Input, Modal, Password } from '@polkadot/ui-app';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
-import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
-import { mnemonicToSeed, mnemonicValidate, naclKeypairFromSeed, randomAsU8a } from '@polkadot/util-crypto';
 import keyring from '@polkadot/ui-keyring';
+import uiSettings from '@polkadot/ui-settings';
+import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
+import { mnemonicGenerate, mnemonicToMiniSecret, mnemonicValidate, naclKeypairFromSeed, randomAsU8a, schnorrkelKeypairFromSeed } from '@polkadot/util-crypto';
 
 import translate from './translate';
-import FileSaver from 'file-saver';
-
-const BipWorker = require('worker-loader?name=[name].[hash:8].js!./bipWorker');
 
 type Props = ComponentProps & I18nProps & {
   match: {
@@ -36,6 +36,7 @@ type State = {
   isPassValid: boolean,
   isValid: boolean,
   name: string,
+  pairType: KeypairType,
   password: string,
   seed: string,
   seedOptions: Array<{ value: SeedType, text: string }>,
@@ -51,18 +52,17 @@ function rawValidate (seed: string): boolean {
   return seed.length <= 32 || isHexSeed(seed);
 }
 
-function rawToSeed (seed: string): Uint8Array {
-  return isHexSeed(seed)
-    ? hexToU8a(seed)
-    : stringToU8a(seed.padEnd(32, ' '));
-}
-
-function addressFromSeed (seed: string, seedType: SeedType): string {
-  const keypair = naclKeypairFromSeed(
-    seedType === 'bip'
-      ? mnemonicToSeed(seed)
-      : rawToSeed(seed)
-  );
+function addressFromSeed (phrase: string, pairType: KeypairType, seedType: SeedType): string {
+  const seed = seedType === 'bip'
+    ? mnemonicToMiniSecret(phrase)
+    : (
+      isHexSeed(phrase)
+        ? hexToU8a(phrase)
+        : stringToU8a(phrase.padEnd(32))
+    );
+  const keypair = pairType === 'sr25519'
+    ? schnorrkelKeypairFromSeed(seed)
+    : naclKeypairFromSeed(seed);
 
   return keyring.encodeAddress(
     keypair.publicKey
@@ -70,7 +70,6 @@ function addressFromSeed (seed: string, seedType: SeedType): string {
 }
 
 class Creator extends React.PureComponent<Props, State> {
-  bipWorker: any;
   state: State = { seedType: 'bip' } as State;
 
   constructor (props: Props) {
@@ -78,18 +77,8 @@ class Creator extends React.PureComponent<Props, State> {
 
     const { match: { params: { seed } }, t } = this.props;
 
-    this.bipWorker = new BipWorker();
-    this.bipWorker.onmessage = (event: MessageEvent) => {
-      const { publicKey, seed } = event.data;
-
-      this.setState({
-        address: keyring.encodeAddress(publicKey),
-        isBipBusy: false,
-        seed
-      });
-    };
     this.state = {
-      ...this.emptyState(seed),
+      ...this.emptyState('ed25519', seed),
       seedOptions: [
         { value: 'bip', text: t('Mnemonic') },
         { value: 'raw', text: t('Raw seed') }
@@ -141,7 +130,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   renderInput () {
     const { t } = this.props;
-    const { isBipBusy, isNameValid, isPassValid, isSeedValid, name, password, seed, seedOptions, seedType, showWarning } = this.state;
+    const { isBipBusy, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType, showWarning } = this.state;
 
     return (
       <div className='grow'>
@@ -181,6 +170,14 @@ class Creator extends React.PureComponent<Props, State> {
               options={seedOptions}
             />
           </Input>
+        </div>
+        <div className='ui--row'>
+          <Dropdown
+            defaultValue={pairType}
+            label={t('keypair crypto type')}
+            onChange={this.onChangePairType}
+            options={uiSettings.availableCryptos}
+          />
         </div>
         <div className='ui--row'>
           <Password
@@ -249,18 +246,11 @@ class Creator extends React.PureComponent<Props, State> {
     );
   }
 
-  private generateSeed (seedType: SeedType, _seed?: string | null): State {
-    if (seedType === 'bip') {
-      this.bipWorker.postMessage('create');
-
-      return {
-        isBipBusy: true,
-        seed: ''
-      } as State;
-    }
-
-    const seed = _seed || u8aToHex(randomAsU8a());
-    const address = addressFromSeed(seed, seedType);
+  private generateSeed (seedType: SeedType, pairType: KeypairType, _seed?: string | null): State {
+    const seed = seedType === 'bip'
+      ? mnemonicGenerate()
+      : _seed || u8aToHex(randomAsU8a());
+    const address = addressFromSeed(seed, pairType, seedType);
 
     return {
       address,
@@ -269,19 +259,20 @@ class Creator extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  private emptyState (seed?: string | null): State {
+  private emptyState (pairType: KeypairType, seed?: string | null): State {
     const seedType = seed
       ? 'raw'
       : this.state.seedType;
 
     return {
-      ...this.generateSeed(seedType, seed),
+      ...this.generateSeed(seedType, pairType, seed),
       isNameValid: true,
       isPassValid: false,
       isSeedValid: true,
       isValid: false,
       name: 'new keypair',
       password: '',
+      pairType,
       seedType,
       showWarning: false
     };
@@ -290,7 +281,7 @@ class Creator extends React.PureComponent<Props, State> {
   private nextState (newState: State): void {
     this.setState(
       (prevState: State, props: Props): State => {
-        const { isBipBusy = prevState.isBipBusy, name = prevState.name, password = prevState.password, seed = prevState.seed, seedOptions = prevState.seedOptions, seedType = prevState.seedType, showWarning = prevState.showWarning } = newState;
+        const { isBipBusy = prevState.isBipBusy, name = prevState.name, pairType = prevState.pairType, password = prevState.password, seed = prevState.seed, seedOptions = prevState.seedOptions, seedType = prevState.seedType, showWarning = prevState.showWarning } = newState;
         let address = prevState.address;
         const isNameValid = !!name;
         const isSeedValid = seedType === 'bip'
@@ -299,7 +290,7 @@ class Creator extends React.PureComponent<Props, State> {
         const isPassValid = keyring.isPassValid(password);
 
         if (isSeedValid && seed !== prevState.seed) {
-          address = addressFromSeed(seed, seedType);
+          address = addressFromSeed(seed, pairType, seedType);
         }
 
         return {
@@ -310,6 +301,7 @@ class Creator extends React.PureComponent<Props, State> {
           isSeedValid,
           isValid: isNameValid && isPassValid && isSeedValid,
           name,
+          pairType,
           password,
           seed,
           seedOptions,
@@ -320,16 +312,23 @@ class Creator extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeSeed = (seed: string): void => {
-    this.nextState({ seed } as State);
-  }
-
   private onChangeName = (name: string): void => {
     this.nextState({ name } as State);
   }
 
   private onChangePass = (password: string): void => {
     this.nextState({ password } as State);
+  }
+
+  private onChangeSeed = (seed: string): void => {
+    this.nextState({ seed } as State);
+  }
+
+  private onChangePairType = (pairType: KeypairType): void => {
+    this.setState(({ seedType }: State) => ({
+      ...this.generateSeed(seedType, pairType),
+      pairType
+    }));
   }
 
   private onShowWarning = (): void => {
@@ -342,18 +341,14 @@ class Creator extends React.PureComponent<Props, State> {
 
   private onCommit = (): void => {
     const { basePath, onStatusChange, t } = this.props;
-    const { name, password, seed, seedType } = this.state;
+    const { name, pairType, password, seed } = this.state;
 
     const status = {
       action: 'create'
     } as ActionStatus;
 
     try {
-      const pair = seedType === 'bip'
-        ? keyring.createAccountMnemonic(seed, password, { name })
-        : keyring.createAccount(rawToSeed(seed), password, { name });
-
-      const json = pair.toJson(password);
+      const { json, pair } = keyring.createUri(seed, password, { name }, pairType);
       const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
 
       FileSaver.saveAs(blob, `${pair.address()}.json`);
@@ -376,7 +371,9 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   private onDiscard = (): void => {
-    this.setState(this.emptyState());
+    this.setState(({ pairType }) =>
+      this.emptyState(pairType)
+    );
   }
 
   private selectSeedType = (seedType: SeedType): void => {
@@ -384,10 +381,10 @@ class Creator extends React.PureComponent<Props, State> {
       return;
     }
 
-    this.setState({
-      ...this.generateSeed(seedType),
+    this.setState(({ pairType }: State) => ({
+      ...this.generateSeed(seedType, pairType),
       seedType
-    });
+    }));
   }
 }
 

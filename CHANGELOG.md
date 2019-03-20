@@ -1,3 +1,7 @@
+# 0.26.1
+
+- Swap keyring to HDKD derivation, mnemonic keys are now not backwards compatible with those created earlier. (Defaults are still for ed25519)
+
 # 0.25.1
 
 - Swap to publishing -beta.x on merge (non-breaking testing)

@@ -8,7 +8,7 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { Route } from '../types';
 
 import React from 'react';
-import { withRouter } from 'react-router';
+// import { withRouter } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { Icon, Menu } from '@polkadot/ui-app';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
@@ -31,7 +31,6 @@ interface Tooltip {
 }
 
 class Item extends React.PureComponent<Props> {
-
   componentWillUpdate () {
     ReactTooltip.rebuild();
   }
@@ -119,7 +118,6 @@ class Item extends React.PureComponent<Props> {
 
 export default withMulti(
   Item,
-  withRouter,
   withApi,
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );

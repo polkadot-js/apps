@@ -58,28 +58,48 @@ export default class Queue extends React.Component<Props, State> {
     );
   }
 
+  private clearAction (id: number): () => void {
+    return (): void => {
+      this.setState(
+        (prevState: State): State => ({
+          stqueue: prevState.stqueue.filter((item) => item.id !== id)
+        } as State)
+      );
+    };
+  }
+
   queueAction = (status: ActionStatus): number => {
     const id = ++nextId;
+    const removeItem = this.clearAction(id);
 
     this.setState(
       (prevState: State): State => ({
         stqueue: prevState.stqueue.concat({
           ...status,
           id,
-          isCompleted: false
+          isCompleted: false,
+          removeItem
         })
       } as State)
     );
 
-    setTimeout(() => {
-      this.setState(
-        (prevState: State): State => ({
-          stqueue: prevState.stqueue.filter((item) => item.id !== id)
-        } as State)
-      );
-    }, REMOVE_TIMEOUT);
+    setTimeout(removeItem, REMOVE_TIMEOUT);
 
     return id;
+  }
+
+  private clearStatus (id: number): () => void {
+    return () => {
+      this.setState(
+        (prevState: State): State => ({
+          txqueue: prevState.txqueue.map((item) =>
+            item.id === id
+              ? { ...item, status: 'completed' }
+              : item
+          )
+        } as State)
+      );
+    };
   }
 
   queueSetTxStatus = (id: number, status: QueueTx$Status, result?: SubmittableResult, error?: Error): void => {
@@ -107,17 +127,7 @@ export default class Queue extends React.Component<Props, State> {
     this.addResultEvents(result);
 
     if (STATUS_COMPLETE.includes(status)) {
-      setTimeout(() => {
-        this.setState(
-          (prevState: State): State => ({
-            txqueue: prevState.txqueue.map((item) =>
-              item.id === id
-                ? { ...item, status: 'completed' }
-                : item
-            )
-          } as State)
-        );
-      }, REMOVE_TIMEOUT);
+      setTimeout(this.clearStatus(id), REMOVE_TIMEOUT);
     }
   }
 
@@ -140,12 +150,14 @@ export default class Queue extends React.Component<Props, State> {
   private queueAdd = (value: QueueTx$Extrinsic | QueueTx$Rpc | QueueTx): number => {
     const id = ++nextId;
     const rpc: RpcMethod = (value as QueueTx$Rpc).rpc || SUBMIT_RPC;
+    const removeItem = this.clearStatus(id);
 
     this.setState(
       (prevState: State): State => ({
         txqueue: prevState.txqueue.concat([{
           ...value,
           id,
+          removeItem,
           rpc,
           status: 'queued'
         }])

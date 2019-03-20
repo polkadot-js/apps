@@ -328,8 +328,7 @@ class Signer extends React.PureComponent<Props, State> {
 
         const status = result.type.toLowerCase() as QueueTx$Status;
 
-        console.log('makeExtrinsicCall: updated status ::', result);
-
+        console.log('makeExtrinsicCall: updated status ::', JSON.stringify(result));
         queueSetTxStatus(id, status, result);
 
         if (isFunction(txUpdateCb)) {
