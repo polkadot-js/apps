@@ -39,6 +39,7 @@ type Injected = {
   util: typeof util,
   window: null
 };
+
 type Props = ApiProps & AppProps & I18nProps & {
   match: {
     params: {
@@ -48,6 +49,7 @@ type Props = ApiProps & AppProps & I18nProps & {
   // FIXME wait for proper eslint integration in tslint, then hopefully remove this
   history: any
 };
+
 type State = {
   animated: boolean,
   customExamples: Array<Snippet>,
