@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   color: white;
   font-size: 0.75rem;
   opacity: 0.5;
-  padding: 0 1.5rem 0 0;
+  padding: 0 1.5rem 0 1.5rem;
   text-align: right;
 
   > div {

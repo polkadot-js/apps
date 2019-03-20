@@ -164,6 +164,7 @@
   /* break out of the wrapping main padding */
   margin: -1em -2em 0;
   padding: 1em 2em 0;
+  transition: padding-left 0.2s linear 0.4s;
 
   .item.active {
     background: #fafafa /* #fff */;

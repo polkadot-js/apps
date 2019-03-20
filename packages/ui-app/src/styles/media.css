@@ -77,3 +77,20 @@ th.ui--media-small {
     display: table-cell;
   }
 }
+
+/* tabs */
+@media (max-width: 767px) {
+  .ui.menu.tabular {
+    padding-left: 4.2rem !important;
+  }
+}
+
+/* sidebar */
+@media (min-width: 768px) {
+  .apps-SideBar-Wrapper {
+    > img {
+      opacity: 0 !important;
+      top: -2.9rem !important;
+    }
+  }
+}
