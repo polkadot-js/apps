@@ -12,6 +12,7 @@ import { withRouter } from 'react-router';
 
 import { withMulti } from '@polkadot/ui-api';
 import { Button, Icon, Menu } from '@polkadot/ui-app';
+import { classes } from '@polkadot/ui-app/util';
 
 import routing from '../routing';
 import translate from '../translate';
@@ -37,7 +38,10 @@ class SideBar extends React.PureComponent<Props> {
     return (
       <Responsive
         onUpdate={this.props.handleResize}
-        className={`apps-SideBar-Wrapper ${isCollapsed && `collapsed` || `expanded`}`}
+        className={
+          classes('apps-SideBar-Wrapper',
+                  isCollapsed ? 'collapsed' : 'expanded')
+        }
       >
         {this.renderMenuToggle()}
         <div className='apps--SideBar'>
@@ -79,7 +83,7 @@ class SideBar extends React.PureComponent<Props> {
           isBasic
           isCircular
           onClick={this.props.collapse}
-          className={`${isCollapsed ? `` : `rotated`}`}
+          className={isCollapsed ? '' : 'rotated'}
         />
       </Responsive>
     );
@@ -154,7 +158,7 @@ class SideBar extends React.PureComponent<Props> {
     return (
       <img
         alt='logo'
-        className={`${ menuOpen ? `closed` : `open delayed`}`}
+        className={menuOpen ? 'closed' : 'open delayed'}
         onClick={toggleMenu}
         src={logo}
       />

@@ -151,7 +151,7 @@ class Apps extends React.Component<Props, State> {
         className={
           classes(
             'apps-Menu-bg',
-            `${this.state.menuOpen ? `open` : `closed`}`)
+            this.state.menuOpen ? 'open' : 'closed')
           }
         onClick={this.handleResize}
       >
