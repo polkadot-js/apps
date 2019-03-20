@@ -99,7 +99,8 @@ class General extends React.PureComponent<Props, State> {
 
   private renderEndpoint = () => {
     const { t } = this.props;
-    const { isUrlValid, settings: { apiUrl } } = this.state;
+    const { isCustomNode, isUrlValid, settings: { apiUrl } } = this.state;
+    const activeIndex = isCustomNode ? 1 : 0;
 
     const preset = (
       <Dropdown
@@ -125,7 +126,7 @@ class General extends React.PureComponent<Props, State> {
     ];
 
     return (
-      <Tab menu={{ secondary: true }} onTabChange={this.toggleCustomNode} panes={panes} />
+      <Tab menu={{ secondary: true }} activeIndex={activeIndex} onTabChange={this.toggleCustomNode} panes={panes} />
     );
   }
 
