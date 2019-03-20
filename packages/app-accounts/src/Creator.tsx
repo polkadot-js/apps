@@ -14,11 +14,9 @@ import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
-import { mnemonicToMiniSecret, mnemonicValidate, naclKeypairFromSeed, randomAsU8a, schnorrkelKeypairFromSeed } from '@polkadot/util-crypto';
+import { mnemonicGenerate, mnemonicToMiniSecret, mnemonicValidate, naclKeypairFromSeed, randomAsU8a, schnorrkelKeypairFromSeed } from '@polkadot/util-crypto';
 
 import translate from './translate';
-
-const BipWorker = require('worker-loader?name=[name].[hash:8].js!./bipWorker');
 
 type Props = ComponentProps & I18nProps & {
   match: {
@@ -72,7 +70,6 @@ function addressFromSeed (phrase: string, pairType: KeypairType, seedType: SeedT
 }
 
 class Creator extends React.PureComponent<Props, State> {
-  bipWorker: any;
   state: State = { seedType: 'bip' } as State;
 
   constructor (props: Props) {
@@ -80,16 +77,6 @@ class Creator extends React.PureComponent<Props, State> {
 
     const { match: { params: { seed } }, t } = this.props;
 
-    this.bipWorker = new BipWorker();
-    this.bipWorker.onmessage = (event: MessageEvent) => {
-      const { publicKey, seed } = event.data;
-
-      this.nextState({
-        address: keyring.encodeAddress(publicKey),
-        isBipBusy: false,
-        seed
-      } as State);
-    };
     this.state = {
       ...this.emptyState('ed25519', seed),
       seedOptions: [
@@ -260,17 +247,9 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   private generateSeed (seedType: SeedType, pairType: KeypairType, _seed?: string | null): State {
-    if (seedType === 'bip') {
-      this.bipWorker.postMessage({ pairType });
-
-      return {
-        isBipBusy: true,
-        isSeedValid: false,
-        seed: ''
-      } as State;
-    }
-
-    const seed = _seed || u8aToHex(randomAsU8a());
+    const seed = seedType === 'bip'
+      ? mnemonicGenerate()
+      : _seed || u8aToHex(randomAsU8a());
     const address = addressFromSeed(seed, pairType, seedType);
 
     return {
