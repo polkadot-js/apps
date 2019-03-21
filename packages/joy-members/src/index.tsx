@@ -13,6 +13,8 @@ import './index.css';
 import { queryMembershipToProp } from './utils';
 import translate from './translate';
 import Dashboard from './Dashboard';
+import List from './List';
+import DetailsByHandle from './DetailsByHandle';
 import EditForm from './EditForm';
 
 // define out internal types
@@ -21,11 +23,7 @@ type Props = AppProps & ApiProps & I18nProps & {
   nextMemberId?: BN
 };
 
-type State = {};
-
-class App extends React.PureComponent<Props, State> {
-
-  state: State = {};
+class App extends React.PureComponent<Props> {
 
   private buildTabs (): TabItem[] {
     const { t, nextMemberId, firstMemberId } = this.props;
@@ -36,32 +34,41 @@ class App extends React.PureComponent<Props, State> {
     return [
       {
         name: 'members',
-        text: t('Dashboard')
-      },
-      {
-        name: 'list',
         text: t('All members') + ` (${memberCount})`
       },
       {
-        name: 'myProfile',
-        text: t('My profile')
+        name: 'edit',
+        text: t('Edit my profile')
+      },
+      {
+        name: 'dashboard',
+        text: t('Dashboard')
       }
     ];
+  }
+
+  private renderList () {
+    const { firstMemberId, nextMemberId, ...otherProps } = this.props;
+    return firstMemberId && nextMemberId
+      ? <List firstMemberId={firstMemberId} nextMemberId={nextMemberId} {...otherProps} />
+      : <em>Loading...</em>;
   }
 
   render () {
     const { basePath } = this.props;
     const tabs = this.buildTabs();
+    const list = () => this.renderList();
+
     return (
       <main className='members--App'>
         <header>
           <Tabs basePath={basePath} items={tabs} />
         </header>
         <Switch>
-          <Route path={`${basePath}/list`} component={Dashboard} />
-          <Route path={`${basePath}/myProfile`} component={EditForm} />
-          <Route path={`${basePath}/:accountId`} component={EditForm} />
-          <Route component={Dashboard} />
+          <Route path={`${basePath}/edit`} component={EditForm} />
+          <Route path={`${basePath}/dashboard`} component={Dashboard} />
+          <Route path={`${basePath}/:handle`} component={DetailsByHandle} />
+          <Route render={list} />
         </Switch>
       </main>
     );

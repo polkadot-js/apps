@@ -1,3 +1,8 @@
+.text.muted,
+.text.grey {
+  color: #999999;
+}
+
 .ui.button:disabled,
 .ui.buttons .disabled.button,
 .ui.disabled.active.button,
@@ -23,7 +28,7 @@
     margin-left: 0;
   }
   .ui--AddressMini-info {
-    display: flex;
+    display: block;
   }
   .ui--AddressMini-details {
     display: block;
