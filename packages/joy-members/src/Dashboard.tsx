@@ -6,27 +6,47 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { withCalls } from '@polkadot/ui-api/with';
 import { Bubble } from '@polkadot/ui-app/index';
 import { formatNumber } from '@polkadot/ui-app/util';
+import { Bool } from '@polkadot/types';
 
 import Section from '@polkadot/joy-utils/Section';
 import translate from './translate';
 import { queryMembershipToProp } from './utils';
 
 type Props = ApiProps & I18nProps & {
+  newMembershipsAllowed?: Bool,
+  firstMemberId?: BN,
+  nextMemberId?: BN,
   minHandleLength?: BN,
   maxHandleLength?: BN,
   maxAvatarUriLength?: BN,
   maxAboutTextLength?: BN
 };
 
-type State = {};
+class Dashboard extends React.PureComponent<Props> {
 
-class Dashboard extends React.PureComponent<Props, State> {
-
-  state: State = {};
-
-  renderConfig () {
+  renderGeneral () {
     const p = this.props;
-    return <Section title='Configuration'>
+    const { newMembershipsAllowed: isAllowed } = p;
+    let isAllowedColor = '';
+    if (isAllowed) {
+      isAllowedColor = isAllowed.eq(true) ? 'green' : 'red';
+    }
+    return <Section title='General'>
+      <Bubble label='New memberships allowed?' className={isAllowedColor}>
+        {isAllowed && (isAllowed.eq(true) ? 'Yes' : 'No')}
+      </Bubble>
+      <Bubble label='Next member ID'>
+        {formatNumber(p.nextMemberId)}
+      </Bubble>
+      <Bubble label='First member ID'>
+        {formatNumber(p.firstMemberId)}
+      </Bubble>
+    </Section>;
+  }
+
+  renderValidation () {
+    const p = this.props;
+    return <Section title='Validation'>
       <Bubble label='Min. length of handle'>
         {formatNumber(p.minHandleLength)} chars
       </Bubble>
@@ -45,7 +65,8 @@ class Dashboard extends React.PureComponent<Props, State> {
   render () {
     return (
       <div className='JoySections'>
-        {this.renderConfig()}
+        {this.renderGeneral()}
+        {this.renderValidation()}
       </div>
     );
   }
@@ -53,6 +74,9 @@ class Dashboard extends React.PureComponent<Props, State> {
 
 export default translate(
   withCalls<Props>(
+    queryMembershipToProp('newMembershipsAllowed'),
+    queryMembershipToProp('firstMemberId'),
+    queryMembershipToProp('nextMemberId'),
     queryMembershipToProp('minHandleLength'),
     queryMembershipToProp('maxHandleLength'),
     queryMembershipToProp('maxAvatarUriLength'),
