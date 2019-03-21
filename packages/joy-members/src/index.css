@@ -10,8 +10,11 @@
   }
 }
 .ProfilePreviews {
+  &.ui.list>.item:first-child {
+    padding-top: .75rem;
+  }
   &.ui.list>.item:last-child {
-    padding-bottom: .5rem;
+    padding-bottom: .75rem;
   }
   .MyProfile {
     background-color: #FFF8E1;

@@ -15,14 +15,16 @@ import { formatNumber } from '@polkadot/ui-app/util';
 import translate from './translate';
 import { MemberId, Profile, EntryMethod, Paid, Screening,SubscriptionId } from './types';
 import { queryMembershipToProp } from './utils';
-import { nonEmptyStr } from '@polkadot/joy-utils/index';
+import { Seat } from '@polkadot/joy-utils/types';
+import { nonEmptyStr, queryToProp } from '@polkadot/joy-utils/index';
 import { MyAccountProps, withMyAccount } from '@polkadot/joy-utils/MyAccount';
 
 type Props = ApiProps & I18nProps & MyAccountProps & {
   preview?: boolean,
   memberId: MemberId,
   memberProfile?: Option<any>, // TODO refactor to Option<Profile>
-  accountIdByMemberId?: AccountId
+  accountIdByMemberId?: AccountId,
+  activeCouncil?: Seat[]
 };
 
 class Component extends React.PureComponent<Props> {
@@ -35,13 +37,21 @@ class Component extends React.PureComponent<Props> {
   }
 
   private renderProfile (memberProfile: Profile) {
-    const { preview = false, myAddress, accountIdByMemberId: accountId } = this.props;
+    const {
+      preview = false,
+      myAddress,
+      activeCouncil = [],
+      accountIdByMemberId: accountId
+    } = this.props;
+
     const {
       handle,
       avatar_uri
     } = memberProfile;
+
     const hasAvatar = avatar_uri && nonEmptyStr(avatar_uri.toString());
     const isMyProfile = myAddress && accountId && myAddress === accountId.toString();
+    const isCouncilor: boolean = accountId !== undefined && activeCouncil.find(x => accountId.eq(x.member)) !== undefined;
 
     return (
       <>
@@ -56,17 +66,25 @@ class Component extends React.PureComponent<Props> {
             {isMyProfile && <Link to={`/members/edit`} className='ui tiny button'>Edit my profile</Link>}
           </div>
           <div className='description'>
+            {isCouncilor &&
+              <b className='muted text' style={{ color: '#607d8b' }}>
+                <i className='university icon'></i>
+                Council member
+              </b>}
             <BalanceDisplay label='Balance: ' value={accountId} />
           </div>
         </div>
       </div>
-      {!preview && this.renderDetails(memberProfile)}
+      {!preview && this.renderDetails(memberProfile, isCouncilor)}
       </>
     );
   }
 
-  private renderDetails (memberProfile: Profile) {
-    const { accountIdByMemberId: accountId } = this.props;
+  private renderDetails (memberProfile: Profile, isCouncilor: boolean) {
+    const {
+      accountIdByMemberId: accountId
+    } = this.props;
+
     const {
       id,
       about,
@@ -95,6 +113,10 @@ class Component extends React.PureComponent<Props> {
       <Table.Row>
         <Table.Cell>Suspended?</Table.Cell>
         <Table.Cell>{suspended.eq(true) ? 'Yes' : 'No'}</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>Council member?</Table.Cell>
+        <Table.Cell>{isCouncilor ? 'Yes' : 'No'}</Table.Cell>
       </Table.Row>
       <Table.Row>
         <Table.Cell>Entry method</Table.Cell>
@@ -135,6 +157,7 @@ class Component extends React.PureComponent<Props> {
 
 export default translate(withMyAccount(
   withCalls<Props>(
+    queryToProp('query.council.activeCouncil'),
     queryMembershipToProp('memberProfile', 'memberId'),
     queryMembershipToProp('accountIdByMemberId', 'memberId')
   )(Component)
