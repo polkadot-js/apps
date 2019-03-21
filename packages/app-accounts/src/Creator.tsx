@@ -9,12 +9,12 @@ import { ComponentProps } from './types';
 
 import FileSaver from 'file-saver';
 import React from 'react';
-import { AddressSummary, Button, Dropdown, Input, Modal, Password } from '@polkadot/ui-app';
+import { AddressSummary, Button, Dropdown, Input, Labelled, Modal, Password } from '@polkadot/ui-app';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
-import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
-import { keyExtractPath, mnemonicGenerate, mnemonicToMiniSecret, mnemonicValidate, naclKeypairFromSeed, randomAsU8a, schnorrkelKeypairFromSeed } from '@polkadot/util-crypto';
+import { isHex, u8aToHex } from '@polkadot/util';
+import { keyExtractPath, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 
 import translate from './translate';
 
@@ -30,7 +30,7 @@ type SeedType = 'bip' | 'raw';
 
 type State = {
   address: string,
-  deriveErrors: Array<string>,
+  deriveError: string | null,
   derivePath: string,
   isNameValid: boolean,
   isSeedValid: boolean,
@@ -47,16 +47,23 @@ type State = {
 
 const DEFAULT_TYPE = 'ed25519';
 
-function deriveValidate (derivePath: string): Array<string> {
+function deriveValidate (derivePath: string, pairType: KeypairType): string | null {
   try {
-    const extracted = keyExtractPath(derivePath);
+    const { path } = keyExtractPath(derivePath);
 
-    console.error('extracted', extracted);
+    // we don't allow soft for ed25519
+    if (pairType === 'ed25519') {
+      const firstSoft = path.find(({ isSoft }) => isSoft);
 
-    return [];
+      if (firstSoft) {
+        return 'Soft derivation paths are not allowed on ed25519';
+      }
+    }
   } catch (error) {
-    return [error.message];
+    return error.message;
   }
+
+  return null;
 }
 
 function isHexSeed (seed: string): boolean {
@@ -67,21 +74,10 @@ function rawValidate (seed: string): boolean {
   return seed.length <= 32 || isHexSeed(seed);
 }
 
-function addressFromSeed (phrase: string, derivePath: string, pairType: KeypairType, seedType: SeedType): string {
-  const seed = seedType === 'bip'
-    ? mnemonicToMiniSecret(phrase)
-    : (
-      isHexSeed(phrase)
-        ? hexToU8a(phrase)
-        : stringToU8a(phrase.padEnd(32))
-    );
-  const keypair = pairType === 'sr25519'
-    ? schnorrkelKeypairFromSeed(seed)
-    : naclKeypairFromSeed(seed);
-
-  return keyring.encodeAddress(
-    keypair.publicKey
-  );
+function addressFromSeed (phrase: string, derivePath: string, pairType: KeypairType): string {
+  return keyring
+    .createFromUri(`${phrase}${derivePath}`, {}, pairType)
+    .address();
 }
 
 class Creator extends React.PureComponent<Props, State> {
@@ -145,7 +141,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   private renderInput () {
     const { t } = this.props;
-    const { deriveErrors, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType, showWarning } = this.state;
+    const { deriveError, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType, showWarning } = this.state;
 
     return (
       <div className='grow'>
@@ -204,13 +200,18 @@ class Creator extends React.PureComponent<Props, State> {
               <Input
                 autoFocus
                 className='full'
-                isError={!!deriveErrors.length}
+                isError={!!deriveError}
                 label={t('secret derivation path')}
                 onChange={this.onChangeDerive}
                 value={derivePath}
               />
+            </div>
+            {
+              deriveError
+                ? <Labelled label=''><article className='error'>{deriveError}</article></Labelled>
+                : null
+            }
           </div>
-        </div>
         </details>
         <Modal
           className='app--accounts-Modal'
@@ -274,11 +275,11 @@ class Creator extends React.PureComponent<Props, State> {
     const seed = seedType === 'bip'
       ? mnemonicGenerate()
       : _seed || u8aToHex(randomAsU8a());
-    const address = addressFromSeed(seed, derivePath, pairType, seedType);
+    const address = addressFromSeed(seed, derivePath, pairType);
 
     return {
       address,
-      deriveErrors: [] as Array<string>,
+      deriveError: null,
       derivePath,
       seed
     } as State;
@@ -308,20 +309,20 @@ class Creator extends React.PureComponent<Props, State> {
       (prevState: State, props: Props): State => {
         const { derivePath = prevState.derivePath, name = prevState.name, pairType = prevState.pairType, password = prevState.password, seed = prevState.seed, seedOptions = prevState.seedOptions, seedType = prevState.seedType, showWarning = prevState.showWarning } = newState;
         let address = prevState.address;
-        const deriveErrors = deriveValidate(derivePath);
+        const deriveError = deriveValidate(derivePath, pairType);
         const isNameValid = !!name;
         const isSeedValid = seedType === 'bip'
           ? mnemonicValidate(seed)
           : rawValidate(seed);
         const isPassValid = keyring.isPassValid(password);
 
-        if (!deriveErrors.length && isSeedValid && seed !== prevState.seed) {
-          address = addressFromSeed(seed, derivePath, pairType, seedType);
+        if (!deriveError && isSeedValid && (seed !== prevState.seed || derivePath !== prevState.derivePath)) {
+          address = addressFromSeed(seed, derivePath, pairType);
         }
 
         return {
           address,
-          deriveErrors,
+          deriveError,
           derivePath,
           isNameValid,
           isPassValid,
@@ -356,10 +357,7 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   private onChangePairType = (pairType: KeypairType): void => {
-    this.setState(({ derivePath, seedType }: State) => ({
-      ...this.generateSeed(null, derivePath, seedType, pairType),
-      pairType
-    }));
+    this.nextState({ pairType } as State);
   }
 
   private onShowWarning = (): void => {
@@ -372,14 +370,14 @@ class Creator extends React.PureComponent<Props, State> {
 
   private onCommit = (): void => {
     const { basePath, onStatusChange, t } = this.props;
-    const { name, pairType, password, seed } = this.state;
+    const { derivePath, name, pairType, password, seed } = this.state;
 
     const status = {
       action: 'create'
     } as ActionStatus;
 
     try {
-      const { json, pair } = keyring.addUri(seed, password, { name }, pairType);
+      const { json, pair } = keyring.addUri(`${seed}${derivePath}`, password, { name }, pairType);
       const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
 
       FileSaver.saveAs(blob, `${pair.address()}.json`);
