@@ -33,22 +33,22 @@ type Props = ApiProps & I18nProps & {
 
 type State = {
   isNominateOpen: boolean,
-  isNominating: boolean,
-  isPrefsOpen: boolean
+  isPrefsOpen: boolean,
+  nominee: AccountId | null
 };
 
 class Account extends React.PureComponent<Props, State> {
   state: State = {
     isNominateOpen: false,
-    isNominating: false,
-    isPrefsOpen: false
+    isPrefsOpen: false,
+    nominee: null
   };
 
-  static getDerivedStateFromProps ({ staking_nominating }: Props) {
-    const isNominating = !!staking_nominating && !staking_nominating.isEmpty;
-
+  static getDerivedStateFromProps ({ staking_nominating }: Props): Partial<State> {
     return {
-      isNominating
+      nominee: staking_nominating
+        ? staking_nominating.unwrapOr(null)
+        : null
     };
   }
 
@@ -76,19 +76,17 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderNominee () {
-    const { staking_nominating, balanceArray } = this.props;
-    const { isNominating } = this.state;
+    const { balanceArray } = this.props;
+    const { nominee } = this.state;
 
-    if (!isNominating || !staking_nominating || staking_nominating.isNone) {
+    if (!nominee) {
       return null;
     }
 
-    const nominating = staking_nominating.unwrap();
-
     return (
       <AddressMini
-        balance={balanceArray(nominating)}
-        value={nominating}
+        balance={balanceArray(nominee)}
+        value={nominee}
         withBalance
       />
     );
@@ -153,10 +151,10 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { accountId, intentions, staking_nominating, t } = this.props;
-    const { isNominating } = this.state;
+    const { accountId, intentions, t } = this.props;
+    const { nominee } = this.state;
     const isIntending = intentions.includes(accountId);
-    const canStake = !isIntending && !isNominating;
+    const canStake = !isIntending && !nominee;
 
     if (canStake) {
       return (
@@ -176,12 +174,12 @@ class Account extends React.PureComponent<Props, State> {
       );
     }
 
-    if (isNominating) {
+    if (nominee) {
       return (
         <Button.Group>
           <UnnominateButton
             accountId={accountId || ''}
-            nominating={staking_nominating || ''}
+            nominating={nominee}
             onClick={this.unnominate}
           />
         </Button.Group>

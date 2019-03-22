@@ -7,13 +7,14 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { Button } from '@polkadot/ui-app';
 import { withCall, withMulti } from '@polkadot/ui-api';
+import { AccountId, Vector } from '@polkadot/types';
 
 import translate from '../translate';
 
 type Props = I18nProps & {
   accountId: string,
-  nominating: string,
-  staking_nominatorsFor: Array<string>,
+  nominating: AccountId,
+  staking_nominatorsFor: Vector<AccountId>,
   onClick: (index: number) => void
 };
 
@@ -41,9 +42,7 @@ class UnnominateButton extends React.Component<Props> {
 
     onClick(
       staking_nominatorsFor
-        .map((accountId) =>
-          accountId.toString()
-        )
+        .map((accountId) => accountId.toString())
         .indexOf(accountId));
   }
 }
