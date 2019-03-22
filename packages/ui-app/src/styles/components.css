@@ -369,6 +369,7 @@ header .ui--Button-Group {
       background: green;
     }
 
+    &.failed > .wrapper > .container ,
     &.dropped > .wrapper > .container ,
     &.error > .wrapper > .container ,
     &.usurped > .wrapper > .container {
