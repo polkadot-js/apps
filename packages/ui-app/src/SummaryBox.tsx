@@ -5,7 +5,6 @@
 import { BareProps } from './types';
 
 import React from 'react';
-import styled from 'styled-components';
 
 type Props = BareProps & {
   children?: React.ReactNode
