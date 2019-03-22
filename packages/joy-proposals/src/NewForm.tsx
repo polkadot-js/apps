@@ -132,6 +132,6 @@ class Component extends React.PureComponent<Props, State> {
 // inject the actual API calls automatically into props
 export default translate(
   withCalls<Props>(
-    ['query.proposals.minimumStake', { propName: 'minStake' }]
+    ['query.proposals.minStake', { propName: 'minStake' }]
   )(Component)
 );
