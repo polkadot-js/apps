@@ -13,7 +13,7 @@ import store from 'store';
 import { getTypeRegistry } from '@polkadot/types';
 import { Api } from '@polkadot/ui-api';
 
-import { QueueConsumer } from '@polkadot/ui-app//Status/Context';
+import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 import Queue from '@polkadot/ui-app/Status/Queue';
 import Apps from './Apps';
 
