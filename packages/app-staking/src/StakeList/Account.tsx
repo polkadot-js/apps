@@ -17,7 +17,6 @@ import Nominating from './Nominating';
 import Preferences from './Preferences';
 import UnnominateButton from './UnnominateButton';
 import translate from '../translate';
-import staking from '@polkadot/apps/routing/staking';
 
 type Props = ApiProps & I18nProps & {
   accountId: string,
