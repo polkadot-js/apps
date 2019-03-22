@@ -1,6 +1,7 @@
 # 0.26.1
 
 - Swap keyring to HDKD derivation, mnemonic keys are now not backwards compatible with those created earlier. (Defaults are still for ed25519)
+- Swap crypto to new WASM-backed version (and remove libsodium dependency)
 
 # 0.25.1
 
