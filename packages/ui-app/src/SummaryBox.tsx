@@ -26,9 +26,9 @@ const StyledSummary = styled.div`
 	}
 
 	> section {
-	display: flex;
-	flex: 0 1 auto;
-	text-align: left;
+		display: flex;
+		flex: 0 1 auto;
+		text-align: left;
 	}
 
 	details & {
