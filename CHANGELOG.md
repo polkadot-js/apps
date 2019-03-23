@@ -2,6 +2,9 @@
 
 - Swap keyring to HDKD derivation, mnemonic keys are now not backwards compatible with those created earlier. (Defaults are still for ed25519)
 - Swap crypto to new WASM-backed version (and remove libsodium dependency)
+- UI to allow for derived keys for ed25519 and sr25519
+- New mobile-friendly sidebar
+- Fix issues with nominating (old non-bonds interface)
 
 # 0.25.1
 

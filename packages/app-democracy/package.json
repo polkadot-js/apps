@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-democracy",
-  "version": "0.26.0-beta.10",
+  "version": "0.26.0",
   "description": "A referendum & proposal app",
   "main": "index.js",
   "scripts": {},
@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.4.0",
-    "@polkadot/ui-app": "^0.26.0-beta.10",
-    "@polkadot/ui-reactive": "^0.26.0-beta.10"
+    "@polkadot/ui-app": "^0.26.0",
+    "@polkadot/ui-reactive": "^0.26.0"
   }
 }
