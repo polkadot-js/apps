@@ -15,6 +15,7 @@ import snappy from 'snappyjs';
 import { withApi, withMulti } from '@polkadot/ui-api';
 import { Button, Dropdown, Editor } from '@polkadot/ui-app';
 import uiKeyring from '@polkadot/ui-keyring';
+import * as types from '@polkadot/types';
 import * as util from '@polkadot/util';
 import * as hashing from '@polkadot/util-crypto';
 
@@ -36,6 +37,7 @@ type Injected = {
   global: null,
   hashing: typeof hashing,
   keyring: KeyringInstance | null,
+  types: typeof types,
   util: typeof util,
   window: null
 };
@@ -177,6 +179,7 @@ class Playground extends React.PureComponent<Props, State> {
       keyring: isDevelopment
         ? uiKeyring.keyring
         : null,
+      types,
       util,
       window: null
     };
