@@ -4,7 +4,6 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
-import BN from 'bn.js';
 import React from 'react';
 import { ReferendumInfoExtended } from '@polkadot/api-derive/democracy/referendumInfo';
 import { Option } from '@polkadot/types';
@@ -14,8 +13,6 @@ import Referendum from './Referendum';
 import translate from './translate';
 
 type Props = I18nProps & {
-  democracy_nextTally?: BN,
-  democracy_referendumCount?: BN,
   democracy_referendums?: Array<Option<ReferendumInfoExtended>>
 };
 
@@ -32,10 +29,12 @@ class Referendums extends React.PureComponent<Props> {
   }
 
   private renderReferendums () {
-    const { democracy_nextTally, democracy_referendums, democracy_referendumCount, t } = this.props;
-    const referendumCount = (democracy_referendumCount || new BN(0)).toNumber();
+    const { democracy_referendums = [], t } = this.props;
+    const referendums = democracy_referendums
+      .filter((opt) => opt.isSome)
+      .map((opt) => opt.unwrap());
 
-    if (!democracy_referendums || !democracy_referendums.length || (referendumCount === (democracy_nextTally || new BN(0)).toNumber())) {
+    if (!referendums.length) {
       return (
         <div className='ui disabled'>
           {t('no available referendums')}
@@ -43,23 +42,18 @@ class Referendums extends React.PureComponent<Props> {
       );
     }
 
-    return democracy_referendums
-      .filter((opt) => opt.isSome)
-      .map((opt) => opt.unwrap())
-      .map((referendum) => (
-        <Referendum
-          idNumber={referendum.index}
-          key={referendum.index.toString()}
-          value={referendum}
-        />
-      ));
+    return referendums.map((referendum) => (
+      <Referendum
+        idNumber={referendum.index}
+        key={referendum.index.toString()}
+        value={referendum}
+      />
+    ));
   }
 }
 
 export default translate(
   withCalls<Props>(
-    'query.democracy.nextTally',
-    'query.democracy.referendumCount',
     'derive.democracy.referendums'
   )(Referendums)
 );
