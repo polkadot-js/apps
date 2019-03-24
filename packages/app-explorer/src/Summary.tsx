@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { CardSummary } from '@polkadot/ui-app';
+import { SummaryBox, CardSummary } from '@polkadot/ui-app';
 import { BestFinalised, BestNumber, TimeNow, TimePeriod } from '@polkadot/ui-reactive';
 
 import SummarySession from './SummarySession';
@@ -18,7 +18,7 @@ class Summary extends React.PureComponent<Props> {
     const { className, style, t } = this.props;
 
     return (
-      <summary
+      <SummaryBox
         className={className}
         style={style}
       >
@@ -41,7 +41,7 @@ class Summary extends React.PureComponent<Props> {
             <BestNumber />
           </CardSummary>
         </section>
-      </summary>
+      </SummaryBox>
     );
   }
 }

@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import SummarySession from '@polkadot/app-explorer/SummarySession';
-import { CardSummary } from '@polkadot/ui-app';
+import { SummaryBox, CardSummary } from '@polkadot/ui-app';
 import { formatBalance } from '@polkadot/ui-util';
 import { withCall, withMulti } from '@polkadot/ui-api';
 
@@ -27,7 +27,7 @@ class Summary extends React.PureComponent<Props> {
     const { className, intentions, style, t, staking_validatorCount, validators } = this.props;
 
     return (
-      <summary
+      <SummaryBox
         className={className}
         style={style}
       >
@@ -43,7 +43,7 @@ class Summary extends React.PureComponent<Props> {
           <SummarySession withBroken={false} />
         </section>
         {this.renderBalances()}
-      </summary>
+      </SummaryBox>
     );
   }
 

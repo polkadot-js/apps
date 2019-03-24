@@ -7,7 +7,7 @@ import { Info } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { CardSummary } from '@polkadot/ui-app';
+import { SummaryBox, CardSummary } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/ui-util';
 import { BestNumber, Elapsed } from '@polkadot/ui-reactive';
 
@@ -44,7 +44,7 @@ class Summary extends React.PureComponent<Props, State> {
     const { peerBest } = this.state;
 
     return (
-      <summary>
+      <SummaryBox>
         <section className='ui--media-medium'>
           <CardSummary label={t('refresh in')}>
             <Elapsed value={nextRefresh} />
@@ -85,7 +85,7 @@ class Summary extends React.PureComponent<Props, State> {
             <BestNumber />
           </CardSummary>
         </section>
-      </summary>
+      </SummaryBox>
     );
   }
 }
