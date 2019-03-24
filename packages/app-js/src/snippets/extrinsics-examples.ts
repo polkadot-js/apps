@@ -10,8 +10,8 @@ export const extrinsicMakeTransfer: Snippet = {
   label: { color: 'grey', children: 'Extrinsics', size: 'tiny' },
   code: `// Make a transfer from Alice to Bob and listen to system events.
 // You need to be connected to a development chain for this example to work.
-const ALICE = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
-const BOB = '5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE';
+const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKv3gB';
+const BOB = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM696e4';
 
 // Get a random number between 1 and 100000
 const randomAmount = Math.floor((Math.random() * 100000) + 1);
