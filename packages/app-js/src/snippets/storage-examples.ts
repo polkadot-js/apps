@@ -64,7 +64,7 @@ export const storageListenToBalanceChange: Snippet = {
   label: { color: 'blue', children: 'Storage', size: 'tiny' },
   code: `// You may leave this example running and make a transfer
 // of any value from or to Alice address in the 'Transfer' App
-const ALICE = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
+const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKv3gB';
 
 // Retrieve the initial balance.
 let previous = await api.query.balances.freeBalance(ALICE);
@@ -89,7 +89,7 @@ export const storageRetrieveInfoOnQueryKeys: Snippet = {
   text: 'Retrieve Info on query keys',
   label: { color: 'blue', children: 'Storage', size: 'tiny' },
   code: `// This example set shows how to make queries and retrieve info on query keys
-const ALICE = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
+const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKv3gB';
 
 // retrieve the balance, once-off at the latest block
 const currBalance = await api.query.balances.freeBalance(ALICE);
