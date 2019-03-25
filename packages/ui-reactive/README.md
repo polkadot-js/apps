@@ -1,5 +1,7 @@
 # @polkadot/ui-reactive
 
+WARNING: This is an internal package to [polkadot-js/apps](https://github.com/polkadot-js/apps) so is not inteded (yet) for broad use. Since these are generic components, they will move to the [polkadot-js/ui](https://github.com/polkadot-js/ui) repo once deemed stable and usable.
+
 A collection of RxJS enabled React components that operate with the [@polkadot/api-rx](https://github.com/polkadot-js/api) library. It automatically manages subscriptions on behalf of the developer, providing a number of unstyled components that can be used to construct UIs.
 
 ## usage
