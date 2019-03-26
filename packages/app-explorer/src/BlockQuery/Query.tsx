@@ -36,8 +36,7 @@ class Query extends React.PureComponent<Props, State> {
     return (
       <summary>
         <div className='ui--row'>
-          <div className='small' />
-          <div className='storage--actionrow medium'>
+          <div className='storage--actionrow head'>
             <Input
               className='storage--actionrow-value'
               defaultValue={this.props.value}
