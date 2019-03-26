@@ -13,9 +13,10 @@ import { AccountId, Balance, Option, ValidatorPrefs } from '@polkadot/types';
 import { AddressMini, AddressSummary, Button } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
+import Bonding from './Bonding';
 import Nominating from './Nominating';
 import Preferences from './Preferences';
-import UnnominateButton from './UnnominateButton';
+// import UnnominateButton from './UnnominateButton';
 import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
@@ -32,6 +33,7 @@ type Props = ApiProps & I18nProps & {
 };
 
 type State = {
+  isBondingOpen: boolean,
   isNominateOpen: boolean,
   isPrefsOpen: boolean,
   nominee: AccountId | null
@@ -39,6 +41,7 @@ type State = {
 
 class Account extends React.PureComponent<Props, State> {
   state: State = {
+    isBondingOpen: false,
     isNominateOpen: false,
     isPrefsOpen: false,
     nominee: null
@@ -57,6 +60,7 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <article className='staking--Account'>
+        {this.renderBonding()}
         {this.renderNominating()}
         {this.renderPrefs()}
         <AddressSummary
@@ -72,6 +76,19 @@ class Account extends React.PureComponent<Props, State> {
           </div>
         </AddressSummary>
       </article>
+    );
+  }
+
+  private renderBonding () {
+    const { accountId } = this.props;
+    const { isBondingOpen } = this.state;
+
+    return (
+      <Bonding
+        accountId={accountId}
+        isOpen={isBondingOpen}
+        onClose={this.toggleBonding}
+      />
     );
   }
 
@@ -117,10 +134,6 @@ class Account extends React.PureComponent<Props, State> {
     const { intentions } = this.props;
     const { isNominateOpen } = this.state;
 
-    if (!isNominateOpen) {
-      return null;
-    }
-
     return (
       <Nominating
         isOpen={isNominateOpen}
@@ -135,10 +148,6 @@ class Account extends React.PureComponent<Props, State> {
     const { accountId, staking_validatorPreferences } = this.props;
     const { isPrefsOpen } = this.state;
 
-    if (!isPrefsOpen) {
-      return null;
-    }
-
     return (
       <Preferences
         accountId={accountId}
@@ -151,56 +160,68 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { accountId, intentions, t } = this.props;
-    const { nominee } = this.state;
-    const isIntending = intentions.includes(accountId);
-    const canStake = !isIntending && !nominee;
-
-    if (canStake) {
-      return (
-        <Button.Group>
-          <Button
-            isPrimary
-            onClick={this.stake}
-            label={t('Stake')}
-          />
-          <Button.Or />
-          <Button
-            isPrimary
-            onClick={this.toggleNominate}
-            label={t('Nominate')}
-          />
-        </Button.Group>
-      );
-    }
-
-    if (nominee) {
-      return (
-        <Button.Group>
-          <UnnominateButton
-            accountId={accountId || ''}
-            nominating={nominee}
-            onClick={this.unnominate}
-          />
-        </Button.Group>
-      );
-    }
+    const { t } = this.props;
 
     return (
       <Button.Group>
         <Button
-          isNegative
-          onClick={this.unstake}
-          label={t('Unstake')}
-        />
-        <Button.Or />
-        <Button
           isPrimary
-          onClick={this.togglePrefs}
-          label={t('Set Prefs')}
+          onClick={this.toggleBonding}
+          label={t('Bond')}
         />
       </Button.Group>
     );
+
+    // const { accountId, intentions, t } = this.props;
+    // const { nominee } = this.state;
+    // const isIntending = intentions.includes(accountId);
+    // const canStake = !isIntending && !nominee;
+
+    // if (canStake) {
+    //   return (
+    //     <Button.Group>
+    //       <Button
+    //         isPrimary
+    //         onClick={this.stake}
+    //         label={t('Stake')}
+    //       />
+    //       <Button.Or />
+    //       <Button
+    //         isPrimary
+    //         onClick={this.toggleNominate}
+    //         label={t('Nominate')}
+    //       />
+    //     </Button.Group>
+    //   );
+    // }
+
+    // if (nominee) {
+    //   return (
+    //     <Button.Group>
+    //       <UnnominateButton
+    //         accountId={accountId || ''}
+    //         nominating={nominee}
+    //         onClick={this.unnominate}
+    //       />
+    //     </Button.Group>
+    //   );
+    // }
+
+    // return (
+    //   <Button.Group>
+    //     <Button
+    //       isNegative
+    //       onClick={this.unstake}
+    //       label={t('Unstake')}
+    //     />
+    //     <Button.Or />
+    //     <Button
+    //       isPrimary
+    //       onClick={this.togglePrefs}
+    //       label={t('Set Prefs')}
+    //     />
+    //   </Button.Group>
+    // );
   }
 
   private send (extrinsic: SubmittableExtrinsic) {
@@ -212,22 +233,6 @@ class Account extends React.PureComponent<Props, State> {
     });
   }
 
-  private toggleNominate = () => {
-    this.setState(
-      ({ isNominateOpen }: State) => ({
-        isNominateOpen: !isNominateOpen
-      })
-    );
-  }
-
-  private togglePrefs = () => {
-    this.setState(
-      ({ isPrefsOpen }: State) => ({
-        isPrefsOpen: !isPrefsOpen
-      })
-    );
-  }
-
   private nominate = (nominee: string) => {
     const { api } = this.props;
 
@@ -236,11 +241,11 @@ class Account extends React.PureComponent<Props, State> {
     this.toggleNominate();
   }
 
-  private unnominate = (index: number) => {
-    const { api } = this.props;
+  // private unnominate = (index: number) => {
+  //   const { api } = this.props;
 
-    this.send(api.tx.staking.unnominate(index));
-  }
+  //   this.send(api.tx.staking.unnominate(index));
+  // }
 
   private setPrefs = (prefs: ValidatorPrefs) => {
     const { api } = this.props;
@@ -250,22 +255,40 @@ class Account extends React.PureComponent<Props, State> {
     this.togglePrefs();
   }
 
-  private stake = () => {
-    const { api } = this.props;
+  // private stake = () => {
+  //   const { api } = this.props;
 
-    this.send(api.tx.staking.stake());
-  }
+  //   this.send(api.tx.staking.stake());
+  // }
 
-  private unstake = () => {
-    const { api } = this.props;
+  // private unstake = () => {
+  //   const { api } = this.props;
 
-    this.send(api.tx.staking.unstake(this.getIntentionIndex()));
-  }
+  //   this.send(api.tx.staking.unstake(this.getIntentionIndex()));
+  // }
 
   private getIntentionIndex (): number {
     const { accountId, intentions } = this.props;
 
     return intentions.indexOf(accountId);
+  }
+
+  private toggleBonding = () => {
+    this.setState(({ isBondingOpen }) => ({
+      isBondingOpen: !isBondingOpen
+    }));
+  }
+
+  private toggleNominate = () => {
+    this.setState(({ isNominateOpen }: State) => ({
+      isNominateOpen: !isNominateOpen
+    }));
+  }
+
+  private togglePrefs = () => {
+    this.setState(({ isPrefsOpen }: State) => ({
+      isPrefsOpen: !isPrefsOpen
+    }));
   }
 }
 
