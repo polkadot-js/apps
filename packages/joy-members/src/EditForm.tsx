@@ -151,8 +151,8 @@ const InnerForm = (props: FormProps) => {
           isDisabled={!dirty || isSubmitting}
           params={buildTxParams()}
           tx={profile
-            ? 'membership.updateProfile'
-            : 'membership.buyMembership'
+            ? 'members.updateProfile'
+            : 'members.buyMembership'
           }
           onClick={onSubmit}
           onTxCancelled={onTxCancelled}
