@@ -3,12 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueProps } from '@polkadot/ui-app/Status/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
 import keyring from '@polkadot/ui-keyring';
-import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
 import Account from './Account';
 import translate from './translate';
@@ -20,29 +18,25 @@ class StakeList extends React.PureComponent<Props> {
     const { balances, balanceArray, intentions, validators } = this.props;
 
     return (
-      <QueueConsumer>
-        {({ queueExtrinsic }: QueueProps) => (
-          <div className='staking--StakeList'>
-            {keyring.getAccounts().map((account) => {
-              const address = account.address();
-              const name = account.getMeta().name || '';
+      <div className='staking--StakeList'>
+        {keyring.getAccounts().map((account, index) => {
+          const address = account.address();
+          const name = account.getMeta().name || '';
 
-              return (
-                <Account
-                  accountId={address}
-                  balances={balances}
-                  balanceArray={balanceArray}
-                  intentions={intentions}
-                  isValidator={validators.includes(address)}
-                  key={address}
-                  name={name}
-                  queueExtrinsic={queueExtrinsic}
-                />
-              );
-            })}
-          </div>
-        )}
-      </QueueConsumer>
+          return (
+            <Account
+              accountId={address}
+              balances={balances}
+              balanceArray={balanceArray}
+              intentions={intentions}
+              isValidator={validators.includes(address)}
+              key={address}
+              name={name}
+              validators={validators}
+            />
+          );
+        })}
+      </div>
     );
   }
 }
