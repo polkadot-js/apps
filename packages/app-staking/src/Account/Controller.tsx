@@ -4,39 +4,29 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
-import BN from 'bn.js';
 import React from 'react';
-import { Button, InputAddress, InputBalance, Modal, TxButton, Dropdown } from '@polkadot/ui-app';
+import { AccountId } from '@polkadot/types';
+import { Button, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
 
 import translate from '../translate';
 
 type Props = I18nProps & {
   accountId: string,
+  controllerId: AccountId | null,
   isOpen: boolean,
   onClose: () => void
 };
 
 type State = {
-  bondValue?: BN,
-  controller?: string,
-  destination: number
+  nextController?: string
 };
 
-const stashOptions = [
-  { text: 'Stash account (increase the amount at stake)', value: 0 },
-  { text: 'Stash account (do not increase the amount at stake)', value: 1 },
-  { text: 'Controller account', value: 2 }
-];
-
-class Bonding extends React.PureComponent<Props, State> {
-  state: State = {
-    destination: 0
-  };
+class Controller extends React.PureComponent<Props, State> {
+  state: State = {};
 
   render () {
     const { accountId, isOpen, onClose, t } = this.props;
-    const { bondValue, controller, destination } = this.state;
-    const canSubmit = !!bondValue && bondValue.gtn(0) && !!controller;
+    const { nextController } = this.state;
 
     if (!isOpen) {
       return null;
@@ -44,7 +34,7 @@ class Bonding extends React.PureComponent<Props, State> {
 
     return (
       <Modal
-        className='staking--Bonding'
+        className='staking--Controller'
         dimmer='inverted'
         open
         size='small'
@@ -60,12 +50,12 @@ class Bonding extends React.PureComponent<Props, State> {
           <Button.Or />
           <TxButton
             accountId={accountId}
-            isDisabled={!canSubmit}
+            isDisabled={!nextController}
             isPrimary
-            label={t('Bond')}
+            label={t('Set Controller')}
             onClick={onClose}
-            params={[controller, bondValue, destination]}
-            tx='staking.bond'
+            params={[nextController]}
+            tx='session.setKey'
           />
         </Button.Group>
       </Modal.Actions>
@@ -74,12 +64,16 @@ class Bonding extends React.PureComponent<Props, State> {
   }
 
   private renderContent () {
-    const { accountId, t } = this.props;
+    const { accountId, controllerId, t } = this.props;
+    const { nextController } = this.state;
+    const defaultValue = controllerId
+      ? controllerId
+      : undefined;
 
     return (
       <>
         <Modal.Header>
-          {t('Bonding Preferences')}
+          {t('Controller Preferences')}
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
@@ -91,37 +85,18 @@ class Bonding extends React.PureComponent<Props, State> {
           <InputAddress
             autoFocus
             className='medium'
+            value={nextController || defaultValue}
             label={t('controller account')}
             onChange={this.onChangeController}
-          />
-          <InputBalance
-            className='medium'
-            label={t('value bonded')}
-            onChange={this.onChangeValue}
-          />
-          <Dropdown
-            className='medium'
-            defaultValue={0}
-            label={t('payment destination')}
-            onChange={this.onChangeDestination}
-            options={stashOptions}
           />
         </Modal.Content>
       </>
     );
   }
 
-  private onChangeController = (controller: string) => {
-    this.setState({ controller });
-  }
-
-  private onChangeDestination = (destination: number) => {
-    this.setState({ destination });
-  }
-
-  private onChangeValue = (bondValue?: BN) => {
-    this.setState({ bondValue });
+  private onChangeController = (nextController: string) => {
+    this.setState({ nextController });
   }
 }
 
-export default translate(Bonding);
+export default translate(Controller);

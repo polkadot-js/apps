@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
@@ -14,8 +13,9 @@ import { AddressMini, AddressSummary, Button } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 import Bonding from './Bonding';
-import Nominating from './Nominating';
-import Preferences from './Preferences';
+import Controller from './Controller';
+// import Nominating from './Nominating';
+// import Preferences from './Preferences';
 // import UnnominateButton from './UnnominateButton';
 import translate from '../translate';
 
@@ -24,6 +24,7 @@ type Props = ApiProps & I18nProps & {
   balances: DerivedBalancesMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   name: string,
+  session_nextKeyFor?: Option<AccountId>,
   staking_nominating?: Option<AccountId>,
   staking_nominatorsFor?: Array<string>,
   staking_validatorPreferences?: ValidatorPrefs,
@@ -34,16 +35,14 @@ type Props = ApiProps & I18nProps & {
 
 type State = {
   isBondingOpen: boolean,
-  isNominateOpen: boolean,
-  isPrefsOpen: boolean,
+  isControllerOpen: boolean,
   nominee: AccountId | null
 };
 
 class Account extends React.PureComponent<Props, State> {
   state: State = {
     isBondingOpen: false,
-    isNominateOpen: false,
-    isPrefsOpen: false,
+    isControllerOpen: false,
     nominee: null
   };
 
@@ -61,8 +60,7 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <article className='staking--Account'>
         {this.renderBonding()}
-        {this.renderNominating()}
-        {this.renderPrefs()}
+        {this.renderController()}
         <AddressSummary
           balance={balanceArray(accountId)}
           name={name}
@@ -80,14 +78,36 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderBonding () {
-    const { accountId } = this.props;
+    const { accountId, session_nextKeyFor } = this.props;
     const { isBondingOpen } = this.state;
+
+    if (!session_nextKeyFor || session_nextKeyFor.isNone) {
+      return null;
+    }
 
     return (
       <Bonding
         accountId={accountId}
+        controllerId={session_nextKeyFor.unwrap()}
         isOpen={isBondingOpen}
         onClose={this.toggleBonding}
+      />
+    );
+  }
+
+  private renderController () {
+    const { accountId, session_nextKeyFor } = this.props;
+    const { isControllerOpen } = this.state;
+    const controllerId = session_nextKeyFor
+      ? session_nextKeyFor.unwrapOr(null)
+      : null;
+
+    return (
+      <Controller
+        accountId={accountId}
+        controllerId={controllerId}
+        isOpen={isControllerOpen}
+        onClose={this.toggleController}
       />
     );
   }
@@ -130,116 +150,73 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderNominating () {
-    const { intentions } = this.props;
-    const { isNominateOpen } = this.state;
+  // private renderNominating () {
+  //   const { intentions } = this.props;
+  //   const { isNominateOpen } = this.state;
 
-    return (
-      <Nominating
-        isOpen={isNominateOpen}
-        onClose={this.toggleNominate}
-        onNominate={this.nominate}
-        intentions={intentions}
-      />
-    );
-  }
+  //   return (
+  //     <Nominating
+  //       isOpen={isNominateOpen}
+  //       onClose={this.toggleNominate}
+  //       onNominate={this.nominate}
+  //       intentions={intentions}
+  //     />
+  //   );
+  // }
 
-  private renderPrefs () {
-    const { accountId, staking_validatorPreferences } = this.props;
-    const { isPrefsOpen } = this.state;
+  // private renderPrefs () {
+  //   const { accountId, staking_validatorPreferences } = this.props;
+  //   const { isPrefsOpen } = this.state;
 
-    return (
-      <Preferences
-        accountId={accountId}
-        isOpen={isPrefsOpen}
-        onClose={this.togglePrefs}
-        onSetPrefs={this.setPrefs}
-        validatorPreferences={staking_validatorPreferences}
-      />
-    );
-  }
+  //   return (
+  //     <Preferences
+  //       accountId={accountId}
+  //       isOpen={isPrefsOpen}
+  //       onClose={this.togglePrefs}
+  //       onSetPrefs={this.setPrefs}
+  //       validatorPreferences={staking_validatorPreferences}
+  //     />
+  //   );
+  // }
 
   private renderButtons () {
-    const { t } = this.props;
+    const { session_nextKeyFor, t } = this.props;
+    const buttons = [
+      <Button
+        isPrimary
+        key='controller'
+        onClick={this.toggleController}
+        label={t('Controller')}
+      />
+    ];
 
-    return (
-      <Button.Group>
+    if (session_nextKeyFor && session_nextKeyFor.isSome) {
+      buttons.push(<Button.Or key='bond.or' />);
+      buttons.push(
         <Button
           isPrimary
+          key='bond'
           onClick={this.toggleBonding}
           label={t('Bond')}
         />
+      );
+    }
+
+    return (
+      <Button.Group>
+        {buttons}
       </Button.Group>
     );
 
-    // const { accountId, intentions, t } = this.props;
-    // const { nominee } = this.state;
-    // const isIntending = intentions.includes(accountId);
-    // const canStake = !isIntending && !nominee;
-
-    // if (canStake) {
-    //   return (
-    //     <Button.Group>
-    //       <Button
-    //         isPrimary
-    //         onClick={this.stake}
-    //         label={t('Stake')}
-    //       />
-    //       <Button.Or />
-    //       <Button
-    //         isPrimary
-    //         onClick={this.toggleNominate}
-    //         label={t('Nominate')}
-    //       />
-    //     </Button.Group>
-    //   );
-    // }
-
-    // if (nominee) {
-    //   return (
-    //     <Button.Group>
-    //       <UnnominateButton
-    //         accountId={accountId || ''}
-    //         nominating={nominee}
-    //         onClick={this.unnominate}
-    //       />
-    //     </Button.Group>
-    //   );
-    // }
-
-    // return (
-    //   <Button.Group>
-    //     <Button
-    //       isNegative
-    //       onClick={this.unstake}
-    //       label={t('Unstake')}
-    //     />
-    //     <Button.Or />
-    //     <Button
-    //       isPrimary
-    //       onClick={this.togglePrefs}
-    //       label={t('Set Prefs')}
-    //     />
-    //   </Button.Group>
-    // );
   }
 
-  private send (extrinsic: SubmittableExtrinsic) {
-    const { accountId, queueExtrinsic } = this.props;
+  // private nominate = (nominee: string) => {
+  //   const { api } = this.props;
 
-    queueExtrinsic({
-      extrinsic,
-      accountId
-    });
-  }
+  //   this.send(api.tx.staking.nominate(nominee));
 
-  private nominate = (nominee: string) => {
-    const { api } = this.props;
-
-    this.send(api.tx.staking.nominate(nominee));
-
-    this.toggleNominate();
-  }
+  //   this.toggleNominate();
+  // }
 
   // private unnominate = (index: number) => {
   //   const { api } = this.props;
@@ -247,13 +224,13 @@ class Account extends React.PureComponent<Props, State> {
   //   this.send(api.tx.staking.unnominate(index));
   // }
 
-  private setPrefs = (prefs: ValidatorPrefs) => {
-    const { api } = this.props;
+  // private setPrefs = (prefs: ValidatorPrefs) => {
+  //   const { api } = this.props;
 
-    this.send(api.tx.staking.registerPreferences(this.getIntentionIndex(), prefs));
+  //   this.send(api.tx.staking.registerPreferences(this.getIntentionIndex(), prefs));
 
-    this.togglePrefs();
-  }
+  //   this.togglePrefs();
+  // }
 
   // private stake = () => {
   //   const { api } = this.props;
@@ -267,11 +244,11 @@ class Account extends React.PureComponent<Props, State> {
   //   this.send(api.tx.staking.unstake(this.getIntentionIndex()));
   // }
 
-  private getIntentionIndex (): number {
-    const { accountId, intentions } = this.props;
+  // private getIntentionIndex (): number {
+  //   const { accountId, intentions } = this.props;
 
-    return intentions.indexOf(accountId);
-  }
+  //   return intentions.indexOf(accountId);
+  // }
 
   private toggleBonding = () => {
     this.setState(({ isBondingOpen }) => ({
@@ -279,21 +256,28 @@ class Account extends React.PureComponent<Props, State> {
     }));
   }
 
-  private toggleNominate = () => {
-    this.setState(({ isNominateOpen }: State) => ({
-      isNominateOpen: !isNominateOpen
+  private toggleController = () => {
+    this.setState(({ isControllerOpen }) => ({
+      isControllerOpen: !isControllerOpen
     }));
   }
 
-  private togglePrefs = () => {
-    this.setState(({ isPrefsOpen }: State) => ({
-      isPrefsOpen: !isPrefsOpen
-    }));
-  }
+  // private toggleNominate = () => {
+  //   this.setState(({ isNominateOpen }: State) => ({
+  //     isNominateOpen: !isNominateOpen
+  //   }));
+  // }
+
+  // private togglePrefs = () => {
+  //   this.setState(({ isPrefsOpen }: State) => ({
+  //     isPrefsOpen: !isPrefsOpen
+  //   }));
+  // }
 }
 
 export default translate(
   withCalls<Props>(
+    ['query.session.nextKeyFor', { paramName: 'accountId' }],
     ['query.staking.nominatorsFor', { paramName: 'accountId' }],
     ['query.staking.nominating', { paramName: 'accountId' }],
     ['query.staking.validatorPreferences', { paramName: 'accountId' }]
