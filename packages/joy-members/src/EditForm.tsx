@@ -3,13 +3,13 @@ import React from 'react';
 import { Form, Field, ErrorMessage, withFormik, FormikProps, FormikErrors, FormikTouched } from 'formik';
 import * as Yup from 'yup';
 
-import { Option, Text } from '@polkadot/types';
+import { Option } from '@polkadot/types';
 import { BareProps } from '@polkadot/ui-app/types';
 import Section from '@polkadot/joy-utils/Section';
 import TxButton from '@polkadot/joy-utils/TxButton';
 import { nonEmptyStr, ZERO } from '@polkadot/joy-utils/index';
 import { SubmittableResult } from '@polkadot/api';
-import { MemberId, UserInfo, Profile } from './types';
+import { MemberId, UserInfo, Profile, OptionText } from './types';
 import { MyAccountProps, withMyAccount } from '@polkadot/joy-utils/MyAccount';
 import { queryMembershipToProp } from './utils';
 import { withCalls } from '@polkadot/ui-api/index';
@@ -85,19 +85,15 @@ const LabelledText = (props: LabelledProps) => {
 const InnerForm = (props: FormProps) => {
   const {
     profile,
+    initialValues,
     values,
+    touched,
     dirty,
     isValid,
     isSubmitting,
     setSubmitting,
     resetForm
   } = props;
-
-  const {
-    handle,
-    avatar,
-    about
-  } = values;
 
   const onSubmit = (sendTx: () => void) => {
     if (isValid) sendTx();
@@ -115,13 +111,23 @@ const InnerForm = (props: FormProps) => {
     setSubmitting(false);
   };
 
+  const isFieldChanged = (field: FieldName): boolean => {
+    return dirty && touched[field] === true && values[field] !== initialValues[field];
+  };
+
+  const fieldToTextOption = (field: FieldName): OptionText => {
+    return isFieldChanged(field)
+      ? OptionText.some(values[field])
+      : OptionText.none();
+  };
+
   const buildTxParams = () => {
     if (!isValid) return [];
 
     const userInfo = new UserInfo({
-      handle: new Option(Text, handle),
-      avatar_uri: new Option(Text, avatar),
-      about: new Option(Text, about)
+      handle:     fieldToTextOption('handle'),
+      avatar_uri: fieldToTextOption('avatar'),
+      about:      fieldToTextOption('about')
     });
 
     if (profile) {
