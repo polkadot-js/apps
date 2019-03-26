@@ -88,6 +88,7 @@ class Controller extends React.PureComponent<Props, State> {
             value={nextController || defaultValue}
             label={t('controller account')}
             onChange={this.onChangeController}
+            type='account'
           />
         </Modal.Content>
       </>
