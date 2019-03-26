@@ -7,7 +7,7 @@ import { QueueTx$ExtrinsicAdd, TxCallback } from './Status/types';
 
 import React from 'react';
 import { withApi } from '@polkadot/ui-api';
-import { assert } from '@polkadot/util';
+import { assert, isUndefined } from '@polkadot/util';
 
 import { QueueConsumer } from './Status/Context';
 import Button from './Button';
@@ -18,24 +18,27 @@ type InjectedProps = {
 
 type Props = ApiProps & {
   accountId?: string,
+  isPrimary?: boolean,
   isDisabled?: boolean,
+  isNegative?: boolean,
   label: React.ReactNode,
   onClick?: () => any,
   onFailed?: TxCallback,
   onSuccess?: TxCallback,
   onUpdate?: TxCallback,
-  params: Array<any>,
+  params?: Array<any>,
   tx: string
 };
 
 class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
   render () {
-    const { accountId, isDisabled, label } = this.props;
+    const { accountId, isDisabled, isNegative, isPrimary, label } = this.props;
 
     return (
       <Button
         isDisabled={isDisabled || !accountId}
-        isPrimary
+        isNegative={isNegative}
+        isPrimary={isUndefined(isPrimary) ? !isNegative : isPrimary}
         label={label}
         onClick={this.send}
       />
@@ -43,7 +46,7 @@ class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
   }
 
   private send = (): void => {
-    const { accountId, api, onClick, onFailed, onSuccess, onUpdate, params, queueExtrinsic, tx } = this.props;
+    const { accountId, api, onClick, onFailed, onSuccess, onUpdate, params = [], queueExtrinsic, tx } = this.props;
 
     assert(tx, 'Expected tx param passed to TxButton');
 

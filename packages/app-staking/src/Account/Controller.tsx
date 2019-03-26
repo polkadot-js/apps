@@ -5,14 +5,13 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AccountId } from '@polkadot/types';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
 
 import translate from '../translate';
 
 type Props = I18nProps & {
   accountId: string,
-  controllerId: AccountId | null,
+  controllerId: string | null,
   isOpen: boolean,
   onClose: () => void
 };
