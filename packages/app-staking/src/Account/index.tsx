@@ -14,8 +14,8 @@ import { withCalls } from '@polkadot/ui-api';
 
 import Bonding from './Bonding';
 import Controller from './Controller';
+import Staking from './Staking';
 // import Nominating from './Nominating';
-// import Preferences from './Preferences';
 // import UnnominateButton from './UnnominateButton';
 import translate from '../translate';
 
@@ -25,9 +25,10 @@ type Props = ApiProps & I18nProps & {
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   name: string,
   session_nextKeyFor?: Option<AccountId>,
+  staking_bonded?: Option<AccountId>,
   staking_nominating?: Option<AccountId>,
   staking_nominatorsFor?: Array<string>,
-  staking_validatorPreferences?: ValidatorPrefs,
+  staking_validators?: ValidatorPrefs,
   intentions: Array<string>,
   isValidator: boolean,
   queueExtrinsic: QueueTx$ExtrinsicAdd
@@ -36,19 +37,31 @@ type Props = ApiProps & I18nProps & {
 type State = {
   isBondingOpen: boolean,
   isControllerOpen: boolean,
-  nominee: AccountId | null
+  isStakingOpen: boolean,
+  bondedId: AccountId | null,
+  controllerId: AccountId | null,
+  nomineeId: AccountId | null
 };
 
 class Account extends React.PureComponent<Props, State> {
   state: State = {
     isBondingOpen: false,
     isControllerOpen: false,
-    nominee: null
+    isStakingOpen: false,
+    bondedId: null,
+    controllerId: null,
+    nomineeId: null
   };
 
-  static getDerivedStateFromProps ({ staking_nominating }: Props): Partial<State> {
+  static getDerivedStateFromProps ({ session_nextKeyFor, staking_bonded, staking_nominating }: Props): Partial<State> {
     return {
-      nominee: staking_nominating
+      bondedId: staking_bonded
+        ? staking_bonded.unwrapOr(null)
+        : null,
+      controllerId: session_nextKeyFor
+        ? session_nextKeyFor.unwrapOr(null)
+        : null,
+      nomineeId: staking_nominating
         ? staking_nominating.unwrapOr(null)
         : null
     };
@@ -61,6 +74,7 @@ class Account extends React.PureComponent<Props, State> {
       <article className='staking--Account'>
         {this.renderBonding()}
         {this.renderController()}
+        {this.renderStaking()}
         <AddressSummary
           balance={balanceArray(accountId)}
           name={name}
@@ -78,17 +92,17 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderBonding () {
-    const { accountId, session_nextKeyFor } = this.props;
-    const { isBondingOpen } = this.state;
+    const { accountId } = this.props;
+    const { controllerId, isBondingOpen } = this.state;
 
-    if (!session_nextKeyFor || session_nextKeyFor.isNone) {
+    if (!controllerId) {
       return null;
     }
 
     return (
       <Bonding
         accountId={accountId}
-        controllerId={session_nextKeyFor.unwrap()}
+        controllerId={controllerId}
         isOpen={isBondingOpen}
         onClose={this.toggleBonding}
       />
@@ -96,11 +110,8 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderController () {
-    const { accountId, session_nextKeyFor } = this.props;
-    const { isControllerOpen } = this.state;
-    const controllerId = session_nextKeyFor
-      ? session_nextKeyFor.unwrapOr(null)
-      : null;
+    const { accountId } = this.props;
+    const { controllerId, isControllerOpen } = this.state;
 
     return (
       <Controller
@@ -112,18 +123,36 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
+  private renderStaking () {
+    const { accountId, staking_validators } = this.props;
+    const { isStakingOpen } = this.state;
+
+    if (!staking_validators || !isStakingOpen) {
+      return null;
+    }
+
+    return (
+      <Staking
+        accountId={accountId}
+        isOpen
+        onClose={this.toggleStaking}
+        preferences={staking_validators}
+      />
+    );
+  }
+
   private renderNominee () {
     const { balanceArray } = this.props;
-    const { nominee } = this.state;
+    const { nomineeId } = this.state;
 
-    if (!nominee) {
+    if (!nomineeId) {
       return null;
     }
 
     return (
       <AddressMini
-        balance={balanceArray(nominee)}
-        value={nominee}
+        balance={balanceArray(nomineeId)}
+        value={nomineeId}
         withBalance
       />
     );
@@ -180,7 +209,8 @@ class Account extends React.PureComponent<Props, State> {
   // }
 
   private renderButtons () {
-    const { session_nextKeyFor, t } = this.props;
+    const { t } = this.props;
+    const { bondedId, controllerId } = this.state;
     const buttons = [
       <Button
         isPrimary
@@ -190,7 +220,8 @@ class Account extends React.PureComponent<Props, State> {
       />
     ];
 
-    if (session_nextKeyFor && session_nextKeyFor.isSome) {
+    // only display bonmding if we already have a controller
+    if (controllerId) {
       buttons.push(<Button.Or key='bond.or' />);
       buttons.push(
         <Button
@@ -198,6 +229,19 @@ class Account extends React.PureComponent<Props, State> {
           key='bond'
           onClick={this.toggleBonding}
           label={t('Bond')}
+        />
+      );
+    }
+
+    // only stake/nominate if we already have bonded
+    if (bondedId) {
+      buttons.push(<Button.Or key='stake.or' />);
+      buttons.push(
+        <Button
+          isPrimary
+          key='stake'
+          onClick={this.toggleStaking}
+          label={t('Stake')}
         />
       );
     }
@@ -262,6 +306,12 @@ class Account extends React.PureComponent<Props, State> {
     }));
   }
 
+  private toggleStaking = () => {
+    this.setState(({ isStakingOpen }) => ({
+      isStakingOpen: !isStakingOpen
+    }));
+  }
+
   // private toggleNominate = () => {
   //   this.setState(({ isNominateOpen }: State) => ({
   //     isNominateOpen: !isNominateOpen
@@ -278,8 +328,9 @@ class Account extends React.PureComponent<Props, State> {
 export default translate(
   withCalls<Props>(
     ['query.session.nextKeyFor', { paramName: 'accountId' }],
+    ['query.staking.bonded', { paramName: 'accountId' }],
     ['query.staking.nominatorsFor', { paramName: 'accountId' }],
     ['query.staking.nominating', { paramName: 'accountId' }],
-    ['query.staking.validatorPreferences', { paramName: 'accountId' }]
+    ['query.staking.validators', { paramName: 'accountId' }]
   )(Account)
 );

@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import { ValidatorPrefs } from '@polkadot/types';
-import { Button, InputBalance, InputNumber, Modal } from '@polkadot/ui-app';
+import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/ui-app';
 
 import translate from '../translate';
 
@@ -15,8 +15,7 @@ type Props = I18nProps & {
   accountId: string,
   isOpen: boolean,
   onClose: () => void,
-  onSetPrefs: (prefs: ValidatorPrefs) => void,
-  validatorPreferences?: ValidatorPrefs
+  preferences: ValidatorPrefs
 };
 
 type State = {
@@ -24,17 +23,17 @@ type State = {
   validatorPayment?: BN
 };
 
-class Preferences extends React.PureComponent<Props, State> {
+class Staking extends React.PureComponent<Props, State> {
   state: State = {};
 
   // inject the preferences are returned via RPC once into the state (from this
   // point forward it will be entirely managed by the actual inputs)
   static getDerivedStateFromProps (props: Props, state: State): State | null {
-    if (state.unstakeThreshold || !props.validatorPreferences) {
+    if (state.unstakeThreshold) {
       return null;
     }
 
-    const { unstakeThreshold, validatorPayment } = props.validatorPreferences;
+    const { unstakeThreshold, validatorPayment } = props.preferences;
 
     return {
       unstakeThreshold: unstakeThreshold.toBn(),
@@ -51,7 +50,7 @@ class Preferences extends React.PureComponent<Props, State> {
 
     return (
       <Modal
-        className='staking--Preferences'
+        className='staking--Staking'
         dimmer='inverted'
         open
         size='small'
@@ -63,21 +62,28 @@ class Preferences extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { onClose, t } = this.props;
+    const { accountId, onClose, t } = this.props;
+    const { unstakeThreshold, validatorPayment } = this.state;
 
     return (
       <Modal.Actions>
         <Button.Group>
           <Button
             isNegative
-            onClick={onClose}
             label={t('Cancel')}
+            onClick={onClose}
           />
           <Button.Or />
-          <Button
+          <TxButton
+            accountId={accountId}
             isPrimary
-            onClick={this.setPrefs}
-            label={t('Set Prefs')}
+            label={t('Stake')}
+            onClick={onClose}
+            params={[{
+              unstakeThreshold,
+              validatorPayment
+            }]}
+            tx='staking.validate'
           />
         </Button.Group>
       </Modal.Actions>
@@ -85,15 +91,21 @@ class Preferences extends React.PureComponent<Props, State> {
   }
 
   private renderContent () {
-    const { t } = this.props;
+    const { accountId, t } = this.props;
     const { unstakeThreshold, validatorPayment } = this.state;
 
     return (
       <>
         <Modal.Header>
-          {t('Validator Preferences')}
+          {t('Staking')}
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
+          <InputAddress
+            className='medium'
+            isDisabled
+            label={t('account')}
+            value={accountId}
+          />
           <InputNumber
             autoFocus
             bitLength={32}
@@ -132,16 +144,6 @@ class Preferences extends React.PureComponent<Props, State> {
       this.setState({ unstakeThreshold });
     }
   }
-
-  private setPrefs = () => {
-    const { onSetPrefs } = this.props;
-    const { unstakeThreshold, validatorPayment } = this.state;
-
-    onSetPrefs(new ValidatorPrefs({
-      unstakeThreshold,
-      validatorPayment
-    }));
-  }
 }
 
-export default translate(Preferences);
+export default translate(Staking);
