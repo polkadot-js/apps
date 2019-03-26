@@ -31,7 +31,7 @@ class Nominating extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { isOpen, style } = this.props;
+    const { isOpen } = this.props;
 
     if (!isOpen) {
       return null;
@@ -43,7 +43,6 @@ class Nominating extends React.PureComponent<Props, State> {
         dimmer='inverted'
         open
         size='small'
-        style={style}
       >
         {this.renderContent()}
         {this.renderButtons()}

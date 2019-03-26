@@ -43,7 +43,7 @@ class Preferences extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isOpen, style } = this.props;
+    const { isOpen } = this.props;
 
     if (!isOpen) {
       return null;
@@ -51,11 +51,10 @@ class Preferences extends React.PureComponent<Props, State> {
 
     return (
       <Modal
-        className='staking--Nominating'
+        className='staking--Preferences'
         dimmer='inverted'
         open
         size='small'
-        style={style}
       >
         {this.renderContent()}
         {this.renderButtons()}

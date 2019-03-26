@@ -20,6 +20,7 @@ type Props = ApiProps & {
   accountId?: string,
   isDisabled?: boolean,
   label: React.ReactNode,
+  onClick?: () => any,
   onFailed?: TxCallback,
   onSuccess?: TxCallback,
   onUpdate?: TxCallback,
@@ -42,7 +43,7 @@ class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
   }
 
   private send = (): void => {
-    const { accountId, api, onFailed, onSuccess, onUpdate, params, queueExtrinsic, tx } = this.props;
+    const { accountId, api, onClick, onFailed, onSuccess, onUpdate, params, queueExtrinsic, tx } = this.props;
     const [section, method] = tx.split('.');
 
     assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
@@ -54,6 +55,8 @@ class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
       txSuccessCb: onSuccess,
       txUpdateCb: onUpdate
     });
+
+    onClick && onClick();
   }
 }
 

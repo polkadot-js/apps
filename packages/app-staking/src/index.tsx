@@ -5,15 +5,13 @@
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import { AccountId, Balance } from '@polkadot/types';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withCalls, withMulti, withObservable } from '@polkadot/ui-api';
+import { withCalls, withMulti } from '@polkadot/ui-api';
 
 import './index.css';
 
@@ -22,7 +20,6 @@ import Overview from './Overview';
 import translate from './translate';
 
 type Props = AppProps & ApiProps & I18nProps & {
-  allAccounts?: SubjectInfo,
   balances?: DerivedBalancesMap,
   intentions?: Array<AccountId>,
   session_validators?: Array<AccountId>
@@ -70,20 +67,14 @@ class App extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { allAccounts, api } = this.props;
     const { tabs } = this.state;
     const { basePath } = this.props;
-    const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
-    const hidden = hasAccounts && api.tx.staking.stake
-      ? []
-      : ['actions'];
 
     return (
       <main className='staking--App'>
         <header>
           <Tabs
             basePath={basePath}
-            hidden={hidden}
             items={tabs}
           />
         </header>
@@ -132,7 +123,6 @@ class App extends React.PureComponent<Props, State> {
 export default withMulti(
   App,
   translate,
-  withObservable(accountObservable.subject, { propName: 'allAccounts' }),
   withCalls<Props>(
     'query.session.validators',
     ['query.staking.intentions', { propName: 'intentions' }],
