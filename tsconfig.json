@@ -8,6 +8,7 @@
     "paths": {
       "@polkadot/joy-election/*": [ "packages/joy-election/src/*" ],
       "@polkadot/joy-help/*": [ "packages/joy-help/src/*" ],
+      "@polkadot/joy-media/*": [ "packages/joy-media/src/*" ],
       "@polkadot/joy-members/*": [ "packages/joy-members/src/*" ],
       "@polkadot/joy-proposals/*": [ "packages/joy-proposals/src/*" ],
       "@polkadot/joy-settings/*": [ "packages/joy-settings/src/*" ],
