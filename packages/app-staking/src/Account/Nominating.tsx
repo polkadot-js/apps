@@ -5,7 +5,8 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Button, Input, Modal, TxButton } from '@polkadot/ui-app';
+import { AccountId } from '@polkadot/types';
+import { Button, Input, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
@@ -15,6 +16,7 @@ type Props = I18nProps & {
   isOpen: boolean,
   onClose: () => void,
   intentions: Array<string>,
+  stashId: AccountId,
   validators: Array<string>
 };
 
@@ -79,7 +81,7 @@ class Nominating extends React.PureComponent<Props, State> {
   }
 
   renderContent () {
-    const { t } = this.props;
+    const { accountId, stashId, t } = this.props;
     const { isNomineeValid, nominees } = this.state;
 
     return (
@@ -88,6 +90,18 @@ class Nominating extends React.PureComponent<Props, State> {
           {t('Nominate Validator')}
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
+          <InputAddress
+            className='medium'
+            isDisabled
+            label={t('account')}
+            value={accountId}
+          />
+          <InputAddress
+            className='medium'
+            isDisabled
+            label={t('stash account')}
+            value={stashId}
+          />
           <Input
             autoFocus
             className='medium'
