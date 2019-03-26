@@ -139,7 +139,7 @@ class Component extends React.PureComponent<Props> {
     const etype = entry.type;
     if (etype === Paid.name) {
       const paid = entry.value as Paid;
-      return <div>Paid, term ID: {paid.toNumber()}</div>;
+      return <div>Paid, terms ID: {paid.toNumber()}</div>;
     } else if (etype === Screening.name) {
       const accountId = entry.value as Screening;
       return <div>Screened by <AddressMini value={accountId} isShort={false} isPadded={false} size={36} withName withBalance /></div>;
