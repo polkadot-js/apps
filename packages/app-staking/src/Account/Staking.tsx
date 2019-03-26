@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { ValidatorPrefs } from '@polkadot/types';
+import { AccountId, ValidatorPrefs } from '@polkadot/types';
 import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/ui-app';
 
 import translate from '../translate';
@@ -15,7 +15,8 @@ type Props = I18nProps & {
   accountId: string,
   isOpen: boolean,
   onClose: () => void,
-  preferences: ValidatorPrefs
+  preferences: ValidatorPrefs,
+  stashId: AccountId
 };
 
 type State = {
@@ -91,7 +92,7 @@ class Staking extends React.PureComponent<Props, State> {
   }
 
   private renderContent () {
-    const { accountId, t } = this.props;
+    const { accountId, stashId, t } = this.props;
     const { unstakeThreshold, validatorPayment } = this.state;
 
     return (
@@ -105,6 +106,12 @@ class Staking extends React.PureComponent<Props, State> {
             isDisabled
             label={t('account')}
             value={accountId}
+          />
+          <InputAddress
+            className='medium'
+            isDisabled
+            label={t('stash account')}
+            value={stashId}
           />
           <InputNumber
             autoFocus

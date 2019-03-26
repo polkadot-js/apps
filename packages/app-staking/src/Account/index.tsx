@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import { AccountId, Balance, Option, ValidatorPrefs } from '@polkadot/types';
+import { AccountId, Balance, Option, StakingLedger, ValidatorPrefs } from '@polkadot/types';
 import { AddressMini, AddressSummary, Button } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
@@ -24,6 +24,7 @@ type Props = ApiProps & I18nProps & {
   name: string,
   session_nextKeyFor?: Option<AccountId>,
   staking_bonded?: Option<AccountId>,
+  staking_ledger?: Option<StakingLedger>,
   staking_nominating?: Option<AccountId>,
   staking_nominatorsFor?: Array<string>,
   staking_validators?: ValidatorPrefs,
@@ -39,7 +40,8 @@ type State = {
   isStakingOpen: boolean,
   bondedId: AccountId | null,
   controllerId: AccountId | null,
-  nomineeId: AccountId | null
+  nomineeId: AccountId | null,
+  stashId: AccountId | null
 };
 
 class Account extends React.PureComponent<Props, State> {
@@ -50,10 +52,11 @@ class Account extends React.PureComponent<Props, State> {
     isStakingOpen: false,
     bondedId: null,
     controllerId: null,
-    nomineeId: null
+    nomineeId: null,
+    stashId: null
   };
 
-  static getDerivedStateFromProps ({ session_nextKeyFor, staking_bonded, staking_nominating }: Props): Partial<State> {
+  static getDerivedStateFromProps ({ session_nextKeyFor, staking_bonded, staking_ledger, staking_nominating }: Props): Partial<State> {
     return {
       bondedId: staking_bonded
         ? staking_bonded.unwrapOr(null)
@@ -63,6 +66,9 @@ class Account extends React.PureComponent<Props, State> {
         : null,
       nomineeId: staking_nominating
         ? staking_nominating.unwrapOr(null)
+        : null,
+      stashId: staking_ledger && staking_ledger.isSome
+        ? staking_ledger.unwrap().stash
         : null
     };
   }
@@ -126,9 +132,9 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderStaking () {
     const { accountId, staking_validators } = this.props;
-    const { isStakingOpen } = this.state;
+    const { isStakingOpen, stashId } = this.state;
 
-    if (!staking_validators || !isStakingOpen) {
+    if (!staking_validators || !isStakingOpen || !stashId) {
       return null;
     }
 
@@ -138,6 +144,7 @@ class Account extends React.PureComponent<Props, State> {
         isOpen
         onClose={this.toggleStaking}
         preferences={staking_validators}
+        stashId={stashId}
       />
     );
   }
@@ -182,7 +189,11 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderNominating () {
     const { accountId, intentions, validators } = this.props;
-    const { isNominateOpen } = this.state;
+    const { isNominateOpen, stashId } = this.state;
+
+    if (!stashId) {
+      return null;
+    }
 
     return (
       <Nominating
@@ -190,6 +201,7 @@ class Account extends React.PureComponent<Props, State> {
         isOpen={isNominateOpen}
         onClose={this.toggleNominate}
         intentions={intentions}
+        stashId={stashId}
         validators={validators}
       />
     );
@@ -197,32 +209,32 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderButtons () {
     const { t } = this.props;
-    const { bondedId, controllerId } = this.state;
-    const buttons = [
-      <Button
-        isPrimary
-        key='controller'
-        onClick={this.toggleController}
-        label={t('Controller')}
-      />
-    ];
+    const { controllerId, stashId } = this.state;
+    const buttons = [];
 
-    // only display bonmding if we already have a controller
-    if (controllerId) {
-      buttons.push(<Button.Or key='bond.or' />);
+    if (!stashId) {
       buttons.push(
         <Button
           isPrimary
-          key='bond'
-          onClick={this.toggleBonding}
-          label={t('Bond')}
+          key='controller'
+          onClick={this.toggleController}
+          label={t('Controller')}
         />
       );
-    }
 
-    // only stake/nominate if we already have bonded
-    if (bondedId) {
-      buttons.push(<Button.Or key='stake.or' />);
+      // only display bonding if we already have a controller
+      if (controllerId) {
+        buttons.push(<Button.Or key='bond.or' />);
+        buttons.push(
+          <Button
+            isPrimary
+            key='bond'
+            onClick={this.toggleBonding}
+            label={t('Bond')}
+          />
+        );
+      }
+    } else {
       buttons.push(
         <Button
           isPrimary
@@ -278,6 +290,7 @@ export default translate(
   withCalls<Props>(
     ['query.session.nextKeyFor', { paramName: 'accountId' }],
     ['query.staking.bonded', { paramName: 'accountId' }],
+    ['query.staking.ledger', { paramName: 'accountId' }],
     ['query.staking.nominatorsFor', { paramName: 'accountId' }],
     ['query.staking.nominating', { paramName: 'accountId' }],
     ['query.staking.validators', { paramName: 'accountId' }]
