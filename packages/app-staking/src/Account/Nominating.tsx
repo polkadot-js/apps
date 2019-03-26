@@ -5,29 +5,30 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Button, Input, Modal } from '@polkadot/ui-app';
+import { Button, Input, Modal, TxButton } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
 
 type Props = I18nProps & {
+  accountId: string,
   isOpen: boolean,
   onClose: () => void,
-  onNominate: (nominee: string) => void,
-  intentions: Array<string>
+  intentions: Array<string>,
+  validators: Array<string>
 };
 
 type State = {
   isNomineeValid: boolean,
   isAddressFormatValid: boolean,
-  nominee: string
+  nominees: Array<string>
 };
 
 class Nominating extends React.PureComponent<Props, State> {
   state: State = {
     isNomineeValid: false,
     isAddressFormatValid: false,
-    nominee: ''
+    nominees: []
   };
 
   render () {
@@ -51,8 +52,8 @@ class Nominating extends React.PureComponent<Props, State> {
   }
 
   renderButtons () {
-    const { onClose, t } = this.props;
-    const { isNomineeValid } = this.state;
+    const { accountId, onClose, t } = this.props;
+    const { isNomineeValid, nominees } = this.state;
 
     return (
       <Modal.Actions>
@@ -63,11 +64,14 @@ class Nominating extends React.PureComponent<Props, State> {
             label={t('Cancel')}
           />
           <Button.Or />
-          <Button
-            isDisabled={!isNomineeValid}
+          <TxButton
+            accountId={accountId}
+            isDisabled={!isNomineeValid || !nominees.length}
             isPrimary
-            onClick={this.nominate}
+            onClick={onClose}
+            params={[nominees]}
             label={t('Nominate')}
+            tx='staking.nominate'
           />
         </Button.Group>
       </Modal.Actions>
@@ -76,7 +80,7 @@ class Nominating extends React.PureComponent<Props, State> {
 
   renderContent () {
     const { t } = this.props;
-    const { isNomineeValid, nominee } = this.state;
+    const { isNomineeValid, nominees } = this.state;
 
     return (
       <>
@@ -90,7 +94,7 @@ class Nominating extends React.PureComponent<Props, State> {
             isError={!isNomineeValid}
             label={t('nominate the following address (validator or intention)')}
             onChange={this.onChangeNominee}
-            value={nominee}
+            value={nominees[0]}
           />
           {this.renderErrors()}
         </Modal.Content>
@@ -124,7 +128,7 @@ class Nominating extends React.PureComponent<Props, State> {
   }
 
   private onChangeNominee = (nominee: string) => {
-    const { intentions } = this.props;
+    const { intentions, validators } = this.props;
 
     let isAddressFormatValid = false;
 
@@ -137,21 +141,10 @@ class Nominating extends React.PureComponent<Props, State> {
     }
 
     this.setState({
-      isNomineeValid: intentions.includes(nominee),
+      isNomineeValid: validators.includes(nominee) || intentions.includes(nominee),
       isAddressFormatValid,
-      nominee
+      nominees: [nominee]
     });
-  }
-
-  private nominate = () => {
-    const { onClose, onNominate } = this.props;
-    const { nominee } = this.state;
-
-    if (!nominee) {
-      onClose();
-    } else {
-      onNominate(nominee);
-    }
   }
 }
 
