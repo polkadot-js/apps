@@ -6,19 +6,20 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { AccountId } from '@polkadot/types';
 import { Button, InputAddress, InputBalance, Modal, TxButton, Dropdown } from '@polkadot/ui-app';
 
 import translate from '../translate';
 
 type Props = I18nProps & {
   accountId: string,
+  controllerId: AccountId,
   isOpen: boolean,
   onClose: () => void
 };
 
 type State = {
   bondValue?: BN,
-  controller?: string,
   destination: number
 };
 
@@ -34,9 +35,9 @@ class Bonding extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { accountId, isOpen, onClose, t } = this.props;
-    const { bondValue, controller, destination } = this.state;
-    const canSubmit = !!bondValue && bondValue.gtn(0) && !!controller;
+    const { accountId, controllerId, isOpen, onClose, t } = this.props;
+    const { bondValue, destination } = this.state;
+    const canSubmit = !!bondValue && bondValue.gtn(0);
 
     if (!isOpen) {
       return null;
@@ -64,7 +65,7 @@ class Bonding extends React.PureComponent<Props, State> {
             isPrimary
             label={t('Bond')}
             onClick={onClose}
-            params={[controller, bondValue, destination]}
+            params={[controllerId, bondValue, destination]}
             tx='staking.bond'
           />
         </Button.Group>
@@ -74,7 +75,7 @@ class Bonding extends React.PureComponent<Props, State> {
   }
 
   private renderContent () {
-    const { accountId, t } = this.props;
+    const { accountId, controllerId, t } = this.props;
 
     return (
       <>
@@ -89,12 +90,13 @@ class Bonding extends React.PureComponent<Props, State> {
             value={accountId}
           />
           <InputAddress
-            autoFocus
             className='medium'
+            isDisabled
             label={t('controller account')}
-            onChange={this.onChangeController}
+            value={controllerId}
           />
           <InputBalance
+            autoFocus
             className='medium'
             label={t('value bonded')}
             onChange={this.onChangeValue}
@@ -109,10 +111,6 @@ class Bonding extends React.PureComponent<Props, State> {
         </Modal.Content>
       </>
     );
-  }
-
-  private onChangeController = (controller: string) => {
-    this.setState({ controller });
   }
 
   private onChangeDestination = (destination: number) => {
