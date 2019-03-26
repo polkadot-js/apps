@@ -190,10 +190,31 @@ header .ui--Button-Group {
   }
 }
 
-.ui--CardSummary .ui.label {
-  padding-left: 0;
-  padding-right: 0;
-  padding-top: 0;
+.ui--summary {
+  article {
+    padding-top: 0.6em;
+
+    .label-small {
+      font-size: 2.1rem;
+      font-weight: 100;
+      line-height: 2.25rem;
+      text-align: right;
+
+      > label {
+        min-width: 7rem;
+      }
+    }
+  }
+
+  > section:first-child > article:first-child .label-small > label {
+    min-width: 4.5rem;
+  }
+
+  .ui.label {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+  }
 }
 
 .ui--Chart {
@@ -202,13 +223,6 @@ header .ui--Button-Group {
   padding: 1em 1em 0;
   height: 15vw;
   width: 15vw;
-}
-
-.ui--CardSummary-large {
-  font-size: 2.25rem;
-  font-weight: 100;
-  line-height: 2.25rem;
-  text-align: right;
 }
 
 .ui--CardSummary-progress {
@@ -376,4 +390,8 @@ header .ui--Button-Group {
       background: red;
     }
   }
+}
+
+.ui.tiny.progress {
+  font-size: .65rem;
 }

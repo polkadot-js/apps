@@ -22,7 +22,7 @@ class Summary extends React.PureComponent<Props> {
         className={className}
         style={style}
       >
-        <section className='ui--media-small'>
+        <section>
           <CardSummary label={t('target')}>
             <TimePeriod />
           </CardSummary>
@@ -30,7 +30,7 @@ class Summary extends React.PureComponent<Props> {
             <TimeNow />
           </CardSummary>
         </section>
-        <section className='ui--media-large'>
+        <section>
           <SummarySession />
         </section>
         <section>

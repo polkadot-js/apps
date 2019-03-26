@@ -13,20 +13,29 @@ type Props = BareProps & {
 
 const StyledSummary = styled.div`
   align-items: stretch;
-  margin-bottom: 2em;
-  text-align: center;
+  background: #fff;
+  box-shadow: 0px 5px 15px rgba(0,0,0,0.08);
   display: flex;
+  flex-wrap: no-wrap;
   justify-content: space-between;
-  flex-wrap: wrap;
+  margin-bottom: 2.5em;
+  overflow-x: scroll;
+  padding-right: 1rem;
 
-	article {
-		color: rgba(0, 0, 0, 0.6);
+  &::-webkit-scrollbar {
+     display: none;
+     width: 0px;
+   }
+
+   > section {
+		display: flex;
 		flex: 0 1 auto;
 		text-align: left;
 	}
 
-	> section {
-		display: flex;
+	article {
+		box-shadow: none;
+		color: rgba(0, 0, 0, 0.6);
 		flex: 0 1 auto;
 		text-align: left;
 	}
@@ -51,7 +60,7 @@ const StyledSummary = styled.div`
 export default class SummaryBox extends React.PureComponent<Props> {
   render () {
     return (
-      <StyledSummary>
+      <StyledSummary className='ui--summary'>
         {this.props.children}
       </StyledSummary>
     );
