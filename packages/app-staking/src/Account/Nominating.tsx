@@ -5,7 +5,6 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AccountId } from '@polkadot/types';
 import { Button, Input, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
@@ -16,7 +15,7 @@ type Props = I18nProps & {
   isOpen: boolean,
   onClose: () => void,
   intentions: Array<string>,
-  stashId: AccountId,
+  stashId: string,
   validators: Array<string>
 };
 
@@ -92,15 +91,15 @@ class Nominating extends React.PureComponent<Props, State> {
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
             className='medium'
+            defaultValue={accountId}
             isDisabled
             label={t('account')}
-            value={accountId}
           />
           <InputAddress
             className='medium'
+            defaultValue={stashId}
             isDisabled
             label={t('stash account')}
-            value={stashId}
           />
           <Input
             autoFocus

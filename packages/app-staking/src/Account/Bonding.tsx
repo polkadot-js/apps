@@ -6,14 +6,13 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { AccountId } from '@polkadot/types';
 import { Button, InputAddress, InputBalance, Modal, TxButton, Dropdown } from '@polkadot/ui-app';
 
 import translate from '../translate';
 
 type Props = I18nProps & {
   accountId: string,
-  controllerId: AccountId,
+  controllerId: string,
   isOpen: boolean,
   onClose: () => void
 };
@@ -85,15 +84,15 @@ class Bonding extends React.PureComponent<Props, State> {
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
             className='medium'
+            defaultValue={accountId}
             isDisabled
             label={t('stash account')}
-            value={accountId}
           />
           <InputAddress
             className='medium'
+            defaultValue={controllerId}
             isDisabled
             label={t('controller account')}
-            value={controllerId}
           />
           <InputBalance
             autoFocus

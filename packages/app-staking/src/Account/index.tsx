@@ -8,7 +8,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { AccountId, Balance, Option, StakingLedger, ValidatorPrefs } from '@polkadot/types';
-import { AddressMini, AddressSummary, Button } from '@polkadot/ui-app';
+import { AddressMini, AddressSummary, Button, TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 import Bonding from './Bonding';
@@ -38,10 +38,11 @@ type State = {
   isControllerOpen: boolean,
   isNominateOpen: boolean,
   isStakingOpen: boolean,
-  bondedId: AccountId | null,
-  controllerId: AccountId | null,
-  nomineeId: AccountId | null,
-  stashId: AccountId | null
+  isUnbondOpen: boolean,
+  bondedId: string | null,
+  controllerId: string | null,
+  nomineeId: string | null,
+  stashId: string | null
 };
 
 class Account extends React.PureComponent<Props, State> {
@@ -50,6 +51,7 @@ class Account extends React.PureComponent<Props, State> {
     isControllerOpen: false,
     isNominateOpen: false,
     isStakingOpen: false,
+    isUnbondOpen: false,
     bondedId: null,
     controllerId: null,
     nomineeId: null,
@@ -58,17 +60,17 @@ class Account extends React.PureComponent<Props, State> {
 
   static getDerivedStateFromProps ({ session_nextKeyFor, staking_bonded, staking_ledger, staking_nominating }: Props): Partial<State> {
     return {
-      bondedId: staking_bonded
-        ? staking_bonded.unwrapOr(null)
+      bondedId: staking_bonded && staking_bonded.isSome
+        ? staking_bonded.unwrap().toString()
         : null,
-      controllerId: session_nextKeyFor
-        ? session_nextKeyFor.unwrapOr(null)
+      controllerId: session_nextKeyFor && session_nextKeyFor.isSome
+        ? session_nextKeyFor.unwrap().toString()
         : null,
-      nomineeId: staking_nominating
-        ? staking_nominating.unwrapOr(null)
+      nomineeId: staking_nominating && staking_nominating.isSome
+        ? staking_nominating.unwrap().toString()
         : null,
       stashId: staking_ledger && staking_ledger.isSome
-        ? staking_ledger.unwrap().stash
+        ? staking_ledger.unwrap().stash.toString()
         : null
     };
   }
@@ -149,6 +151,24 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
+  // private renderUnbond () {
+  //   const { accountId } = this.props;
+  //   const { controllerId, isBondingOpen } = this.state;
+
+  //   if (!controllerId) {
+  //     return null;
+  //   }
+
+  //   return (
+  //     <UnBond
+  //       accountId={accountId}
+  //       controllerId={controllerId}
+  //       isOpen={isBondingOpen}
+  //       onClose={this.toggleBonding}
+  //     />
+  //   );
+  // }
+
   private renderNominee () {
     const { balanceArray } = this.props;
     const { nomineeId } = this.state;
@@ -208,7 +228,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { t } = this.props;
+    const { accountId, t } = this.props;
     const { controllerId, stashId } = this.state;
     const buttons = [];
 
@@ -235,6 +255,15 @@ class Account extends React.PureComponent<Props, State> {
         );
       }
     } else {
+      // buttons.push(
+      //   <Button
+      //     isNegative
+      //     label={t('Unbond')}
+      //     key='unbond'
+      //     onClick={this.toggleUnbond}
+      //   />
+      // );
+      // buttons.push(<Button.Or key='stake.or' />);
       buttons.push(
         <Button
           isPrimary
@@ -250,6 +279,16 @@ class Account extends React.PureComponent<Props, State> {
           key='nominate'
           onClick={this.toggleNominate}
           label={t('Nominate')}
+        />
+      );
+      buttons.push(<Button.Or key='stop.or' />);
+      buttons.push(
+        <TxButton
+          accountId={accountId}
+          isNegative
+          label={t('Stop')}
+          key='stop'
+          tx='staking.chill'
         />
       );
     }
@@ -284,6 +323,12 @@ class Account extends React.PureComponent<Props, State> {
       isStakingOpen: !isStakingOpen
     }));
   }
+
+  // private toggleUnbond = () => {
+  //   this.setState(({ isUnbondOpen }) => ({
+  //     isUnbondOpen: !isUnbondOpen
+  //   }));
+  // }
 }
 
 export default translate(
