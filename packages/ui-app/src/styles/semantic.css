@@ -170,3 +170,8 @@
     background: #fafafa /* #fff */;
   }
 }
+
+/* remove the default white background, settigns app has it as part of Tab */
+.ui.segment {
+  background: transparent;
+}
