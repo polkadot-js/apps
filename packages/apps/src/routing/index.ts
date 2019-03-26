@@ -7,8 +7,9 @@ import { Routing, Routes } from '../types';
 import appSettings from '@polkadot/joy-settings/index';
 
 import election from './joy-election';
-import proposals from './joy-proposals';
 import help from './joy-help';
+import members from './joy-members';
+import proposals from './joy-proposals';
 
 import template from './123code';
 import accounts from './accounts';
@@ -28,6 +29,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     staking,
     transfer,
     null,
+    members,
     accounts,
     addresses,
     null,
@@ -43,6 +45,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     staking,
     transfer,
     null,
+    members,
     accounts,
     addresses,
     null,

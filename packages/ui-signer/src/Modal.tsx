@@ -356,8 +356,8 @@ class Signer extends React.PureComponent<Props, State> {
           unsubscribe();
 
           const { onTxFailed, onTxSuccess } = callbacks;
-          result.events.forEach((event, i) => {
-            const { section, method } = event.event;
+          result.events.forEach(({ event }) => {
+            const { section, method } = event;
             if (section === 'system') {
               if (method === 'ExtrinsicFailed' && onTxFailed) {
                 onTxFailed(result);
@@ -365,7 +365,6 @@ class Signer extends React.PureComponent<Props, State> {
                 onTxSuccess(result);
               }
             }
-            // console.log(`\n> event #${i}`, { section, method });
           });
         }
       }]);

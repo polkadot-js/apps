@@ -1,5 +1,6 @@
 import { Enum, EnumType, Option } from '@polkadot/types/codec';
 import { getTypeRegistry, BlockNumber, AccountId, Balance, Hash, u32, Text } from '@polkadot/types';
+import { registerMembershipTypes } from '@polkadot/joy-members/types';
 
 class Amount extends Balance {}
 
@@ -138,8 +139,9 @@ export type ProposalVotes = [AccountId, VoteKind][];
 
 export function registerJoystreamTypes () {
   try {
-    // Register parametrized enum ElectionStage:
+    registerMembershipTypes();
     const typeRegistry = getTypeRegistry();
+    // Register parametrized enum ElectionStage:
     typeRegistry.register({
       Announcing,
       Voting,

@@ -12,6 +12,7 @@ import AddressMini from '../AddressMini';
 import Icon from '../Icon';
 import classes from '../util/classes';
 import translate from '../translate';
+import { SubmittableResult } from '@polkadot/api';
 
 type Props = I18nProps & {
   stqueue?: Array<QueueStatus>,
@@ -68,7 +69,7 @@ class Status extends React.PureComponent<Props> {
     );
   }
 
-  private renderItem = ({ id, extrinsic, error, rpc, status }: QueueTx) => {
+  private renderItem = ({ id, extrinsic, error, rpc, status, result }: QueueTx) => {
     let { method, section } = rpc;
 
     if (extrinsic) {
@@ -80,11 +81,21 @@ class Status extends React.PureComponent<Props> {
       }
     }
 
-    const icon = this.signerIconName(status);
+    const isExtrinsicFailed =
+      status === 'finalised' &&
+      result !== undefined &&
+      undefined !== (result as SubmittableResult).events.find(({ event }) => {
+        const { section, method } = event;
+        return section === 'system' && method === 'ExtrinsicFailed';
+      });
+
+    const icon = isExtrinsicFailed
+      ? 'times'
+      : this.signerIconName(status);
 
     return (
       <div
-        className={classes('item', status)}
+        className={classes('item', status, isExtrinsicFailed ? 'failed' : '')}
         key={id}
       >
         <div className='wrapper'>
@@ -94,7 +105,10 @@ class Status extends React.PureComponent<Props> {
                 {section}.{method}
               </div>
               <div className='status'>
-                {error ? error.message : status}
+                {isExtrinsicFailed
+                  ? 'failed'
+                  : (error ? error.message : status)
+                }
               </div>
             </div>
             <div className='short'>

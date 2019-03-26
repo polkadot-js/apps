@@ -99,9 +99,9 @@ export function calcBackersStake (backers: Backer[]): BN {
 import { Options as QueryOptions } from '@polkadot/ui-api/with/types';
 
 /** Example of apiQuery: 'query.councilElection.round' */
-export function queryToProp (apiQuery: string): [string, QueryOptions] {
+export function queryToProp (apiQuery: string, paramName?: string): [string, QueryOptions] {
   const propName = apiQuery.split('.').slice(-1)[0];
-  return [apiQuery, { propName }];
+  return [apiQuery, { propName, paramName }];
 }
 
 // Parse URLs

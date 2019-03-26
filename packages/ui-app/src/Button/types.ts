@@ -18,6 +18,7 @@ export type ButtonProps = BareProps & {
   isPrimary?: boolean,
   label?: React.ReactNode,
   onClick?: () => void | Promise<void>,
+  type?: 'submit' | 'button',
   size?: Button$Sizes,
   tabIndex?: number
 };
