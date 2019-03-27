@@ -102,3 +102,7 @@
   font-weight: normal;
   line-height: 1.2rem;
 }
+
+.staking--label {
+  margin-bottom: -0.25rem;
+}

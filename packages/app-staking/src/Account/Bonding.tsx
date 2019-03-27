@@ -12,7 +12,7 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   accountId: string,
-  sessionId: string,
+  bondedId: string,
   isOpen: boolean,
   onClose: () => void
 };
@@ -76,7 +76,7 @@ class Bonding extends React.PureComponent<Props, State> {
   }
 
   private renderContent () {
-    const { accountId, sessionId, t } = this.props;
+    const { accountId, bondedId, t } = this.props;
     const { controllerId } = this.state;
 
     return (
@@ -93,7 +93,7 @@ class Bonding extends React.PureComponent<Props, State> {
           />
           <InputAddress
             className='medium'
-            defaultValue={sessionId}
+            defaultValue={bondedId}
             label={t('controller account')}
             onChange={this.onChangeController}
             value={controllerId}
