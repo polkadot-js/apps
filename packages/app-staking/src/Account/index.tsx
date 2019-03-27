@@ -179,7 +179,7 @@ class Account extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div>
+      <div className='staking--Account-detail'>
         <label className='staking--label'>nominating</label>
         <AddressMini
           balance={balanceArray(nomineeId)}
@@ -198,7 +198,7 @@ class Account extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div>
+      <div className='staking--Account-detail'>
         <label className='staking--label'>nominators</label>
         <div className='ui--Nominators'>
           {staking_nominatorsFor.map((nominator) => (
@@ -222,7 +222,7 @@ class Account extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div>
+      <div className='staking--Account-detail'>
         <label className='staking--label'>controller account</label>
         <AddressMini
           value={bondedId}
@@ -240,7 +240,7 @@ class Account extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div>
+      <div className='staking--Account-detail'>
         <label className='staking--label'>stash account</label>
         <AddressMini
           value={stashId}
