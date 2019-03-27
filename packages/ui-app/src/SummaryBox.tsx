@@ -14,7 +14,9 @@ type Props = BareProps & {
 const StyledSummary = styled.div`
   align-items: stretch;
   background: #fff;
-  box-shadow: 0px 5px 15px rgba(0,0,0,0.08);
+  border: 1px solid rgba(0,0,0,0.05);
+  border-radius: 3px;
+  box-shadow: 0px 5px 8px rgba(0,0,0,0.02);
   display: flex;
   flex-wrap: no-wrap;
   justify-content: space-between;
