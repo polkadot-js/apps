@@ -105,7 +105,7 @@ class Staking extends React.PureComponent<Props, State> {
             className='medium'
             defaultValue={accountId}
             isDisabled
-            label={t('account')}
+            label={t('controller account')}
           />
           <InputAddress
             className='medium'

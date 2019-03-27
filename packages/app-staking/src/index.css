@@ -3,8 +3,6 @@
 /* of the Apache-2.0 license. See the LICENSE file for details. */
 
 .staking--App {
-  padding: 1em 2rem;
-
   .rx--updated {
     background: transparent !important;
   }
@@ -18,14 +16,10 @@
 .staking--Account {
   display: inline-block;
   position: relative;
-}
 
-.staking--Account .ui--Button-Group {
-  margin-bottom: 1em;
-}
-
-.staking--Account .ui--AddressMini {
-  display: block;
+  .ui--AddressMini {
+    display: block;
+  }
 }
 
 .ui--Nominators {
@@ -101,4 +95,12 @@
   font-size: 1rem;
   font-weight: normal;
   line-height: 1.2rem;
+}
+
+.staking--Account-detail {
+  margin-top: 0.75rem;
+
+  .staking--label {
+    margin-bottom: -0.25rem;
+  }
 }

@@ -12,9 +12,9 @@ import { AddressMini, AddressSummary, Button, TxButton } from '@polkadot/ui-app'
 import { withCalls } from '@polkadot/ui-api';
 
 import Bonding from './Bonding';
-import SessionKey from './SessionKey';
-import Staking from './Staking';
 import Nominating from './Nominating';
+import SessionKey from './SessionKey';
+import Validating from './Validating';
 import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
@@ -35,9 +35,9 @@ type Props = ApiProps & I18nProps & {
 
 type State = {
   isBondingOpen: boolean,
-  isKeyOpen: boolean,
   isNominateOpen: boolean,
-  isStakingOpen: boolean,
+  isSessionKeyOpen: boolean,
+  isValidatingOpen: boolean,
   isUnbondOpen: boolean,
   bondedId: string | null,
   sessionId: string | null,
@@ -48,9 +48,9 @@ type State = {
 class Account extends React.PureComponent<Props, State> {
   state: State = {
     isBondingOpen: false,
-    isKeyOpen: false,
+    isSessionKeyOpen: false,
     isNominateOpen: false,
-    isStakingOpen: false,
+    isValidatingOpen: false,
     isUnbondOpen: false,
     bondedId: null,
     sessionId: null,
@@ -82,8 +82,8 @@ class Account extends React.PureComponent<Props, State> {
       <article className='staking--Account'>
         {this.renderBonding()}
         {this.renderNominating()}
-        {this.renderKey()}
-        {this.renderStaking()}
+        {this.renderSessionKey()}
+        {this.renderValidating()}
         <AddressSummary
           balance={balanceArray(accountId)}
           name={name}
@@ -92,6 +92,8 @@ class Account extends React.PureComponent<Props, State> {
         >
           <div className='staking--Account-expand'>
             {this.renderButtons()}
+            {this.renderBondedId()}
+            {this.renderStashId()}
             {this.renderNominee()}
             {this.renderNominators()}
           </div>
@@ -102,50 +104,50 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderBonding () {
     const { accountId } = this.props;
-    const { sessionId, isBondingOpen } = this.state;
+    const { bondedId, isBondingOpen } = this.state;
 
-    if (!sessionId) {
+    if (!bondedId) {
       return null;
     }
 
     return (
       <Bonding
         accountId={accountId}
-        sessionId={sessionId}
+        bondedId={bondedId}
         isOpen={isBondingOpen}
         onClose={this.toggleBonding}
       />
     );
   }
 
-  private renderStaking () {
+  private renderValidating () {
     const { accountId, staking_validators } = this.props;
-    const { isStakingOpen, stashId } = this.state;
+    const { isValidatingOpen, stashId } = this.state;
 
-    if (!staking_validators || !isStakingOpen || !stashId) {
+    if (!staking_validators || !isValidatingOpen || !stashId) {
       return null;
     }
 
     return (
-      <Staking
+      <Validating
         accountId={accountId}
         isOpen
-        onClose={this.toggleStaking}
+        onClose={this.toggleValidating}
         preferences={staking_validators}
         stashId={stashId}
       />
     );
   }
 
-  private renderKey () {
+  private renderSessionKey () {
     const { accountId } = this.props;
-    const { isKeyOpen } = this.state;
+    const { isSessionKeyOpen } = this.state;
 
     return (
       <SessionKey
         accountId={accountId}
-        isOpen={isKeyOpen}
-        onClose={this.toggleKey}
+        isOpen={isSessionKeyOpen}
+        onClose={this.toggleSessionKey}
       />
     );
   }
@@ -177,11 +179,14 @@ class Account extends React.PureComponent<Props, State> {
     }
 
     return (
-      <AddressMini
-        balance={balanceArray(nomineeId)}
-        value={nomineeId}
-        withBalance
-      />
+      <div className='staking--Account-detail'>
+        <label className='staking--label'>nominating</label>
+        <AddressMini
+          balance={balanceArray(nomineeId)}
+          value={nomineeId}
+          withBalance
+        />
+      </div>
     );
   }
 
@@ -193,15 +198,54 @@ class Account extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div className='ui--Nominators'>
-        {staking_nominatorsFor.map((nominator) => (
-          <AddressMini
-            isPadded={false}
-            key={nominator}
-            value={nominator}
-            withBalance
-          />
-        ))}
+      <div className='staking--Account-detail'>
+        <label className='staking--label'>nominators</label>
+        <div className='ui--Nominators'>
+          {staking_nominatorsFor.map((nominator) => (
+            <AddressMini
+              isPadded={false}
+              key={nominator}
+              value={nominator}
+              withBalance
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  private renderBondedId () {
+    const { bondedId } = this.state;
+
+    if (!bondedId) {
+      return null;
+    }
+
+    return (
+      <div className='staking--Account-detail'>
+        <label className='staking--label'>controller account</label>
+        <AddressMini
+          value={bondedId}
+          withBalance
+        />
+      </div>
+    );
+  }
+
+  private renderStashId () {
+    const { stashId } = this.state;
+
+    if (!stashId) {
+      return null;
+    }
+
+    return (
+      <div className='staking--Account-detail'>
+        <label className='staking--label'>stash account</label>
+        <AddressMini
+          value={stashId}
+          withBalance
+        />
       </div>
     );
   }
@@ -232,23 +276,22 @@ class Account extends React.PureComponent<Props, State> {
     const buttons = [];
 
     if (!stashId) {
-      buttons.push(
-        <Button
-          isPrimary
-          key='session'
-          onClick={this.toggleKey}
-          label={t('Set Session Key')}
-        />
-      );
-
       if (sessionId) {
-        buttons.push(<Button.Or key='bond.or' />);
         buttons.push(
           <Button
             isPrimary
             key='bond'
             onClick={this.toggleBonding}
             label={t('Bond')}
+          />
+        );
+      } else {
+        buttons.push(
+          <Button
+            isPrimary
+            key='session'
+            onClick={this.toggleSessionKey}
+            label={t('Set Session Key')}
           />
         );
       }
@@ -261,13 +304,13 @@ class Account extends React.PureComponent<Props, State> {
       //     onClick={this.toggleUnbond}
       //   />
       // );
-      // buttons.push(<Button.Or key='stake.or' />);
+      // buttons.push(<Button.Or key='validate.or' />);
       buttons.push(
         <Button
           isPrimary
-          key='stake'
-          onClick={this.toggleStaking}
-          label={t('Stake')}
+          key='validate'
+          onClick={this.toggleValidating}
+          label={t('Validate')}
         />
       );
       buttons.push(<Button.Or key='nominate.or' />);
@@ -304,21 +347,21 @@ class Account extends React.PureComponent<Props, State> {
     }));
   }
 
-  private toggleKey = () => {
-    this.setState(({ isKeyOpen }) => ({
-      isKeyOpen: !isKeyOpen
-    }));
-  }
-
   private toggleNominate = () => {
     this.setState(({ isNominateOpen }) => ({
       isNominateOpen: !isNominateOpen
     }));
   }
 
-  private toggleStaking = () => {
-    this.setState(({ isStakingOpen }) => ({
-      isStakingOpen: !isStakingOpen
+  private toggleSessionKey = () => {
+    this.setState(({ isSessionKeyOpen }) => ({
+      isSessionKeyOpen: !isSessionKeyOpen
+    }));
+  }
+
+  private toggleValidating = () => {
+    this.setState(({ isValidatingOpen }) => ({
+      isValidatingOpen: !isValidatingOpen
     }));
   }
 

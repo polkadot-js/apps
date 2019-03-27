@@ -1,3 +1,8 @@
+# 0.27.1
+
+- Bring in new staking & nominating functions
+- New faster crypto algorithms
+
 # 0.26.1
 
 - Swap keyring to HDKD derivation, mnemonic keys are now not backwards compatible with those created earlier. (Defaults are still for ed25519)
