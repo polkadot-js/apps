@@ -12,13 +12,14 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   accountId: string,
-  controllerId: string,
+  sessionId: string,
   isOpen: boolean,
   onClose: () => void
 };
 
 type State = {
   bondValue?: BN,
+  controllerId: string | null,
   destination: number
 };
 
@@ -30,13 +31,14 @@ const stashOptions = [
 
 class Bonding extends React.PureComponent<Props, State> {
   state: State = {
+    controllerId: null,
     destination: 0
   };
 
   render () {
-    const { accountId, controllerId, isOpen, onClose, t } = this.props;
-    const { bondValue, destination } = this.state;
-    const canSubmit = !!bondValue && bondValue.gtn(0);
+    const { accountId, isOpen, onClose, t } = this.props;
+    const { bondValue, controllerId, destination } = this.state;
+    const canSubmit = !!bondValue && bondValue.gtn(0) && controllerId;
 
     if (!isOpen) {
       return null;
@@ -74,7 +76,8 @@ class Bonding extends React.PureComponent<Props, State> {
   }
 
   private renderContent () {
-    const { accountId, controllerId, t } = this.props;
+    const { accountId, sessionId, t } = this.props;
+    const { controllerId } = this.state;
 
     return (
       <>
@@ -90,9 +93,10 @@ class Bonding extends React.PureComponent<Props, State> {
           />
           <InputAddress
             className='medium'
-            defaultValue={controllerId}
-            isDisabled
+            defaultValue={sessionId}
             label={t('controller account')}
+            onChange={this.onChangeController}
+            value={controllerId}
           />
           <InputBalance
             autoFocus
@@ -110,6 +114,10 @@ class Bonding extends React.PureComponent<Props, State> {
         </Modal.Content>
       </>
     );
+  }
+
+  private onChangeController = (controllerId: string) => {
+    this.setState({ controllerId });
   }
 
   private onChangeDestination = (destination: number) => {
