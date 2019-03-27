@@ -201,7 +201,6 @@ class Creator extends React.PureComponent<Props, State> {
             </div>
             <div className='ui--row'>
               <Input
-                autoFocus
                 className='full'
                 isError={!!deriveError}
                 label={t('secret derivation path')}
