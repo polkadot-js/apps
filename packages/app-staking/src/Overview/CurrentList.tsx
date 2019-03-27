@@ -54,12 +54,12 @@ class CurrentList extends React.PureComponent<Props> {
   }
 
   private renderNext () {
-    const { next, t } = this.props;
+    const { t } = this.props;
 
     return (
       <>
         <h1>{t('next up')}</h1>
-        {this.renderColumn(next, t('intention'))}
+        {/*this.renderColumn(next, t('intention'))*/}
       </>
     );
   }

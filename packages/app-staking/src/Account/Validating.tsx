@@ -25,7 +25,10 @@ type State = {
 };
 
 class Staking extends React.PureComponent<Props, State> {
-  state: State = {};
+  state: State = {
+    unstakeThreshold: new BN(3),
+    validatorPayment: new BN(0)
+  };
 
   // inject the preferences are returned via RPC once into the state (from this
   // point forward it will be entirely managed by the actual inputs)
@@ -33,6 +36,8 @@ class Staking extends React.PureComponent<Props, State> {
     if (state.unstakeThreshold) {
       return null;
     }
+
+    console.error('preferences', props.preferences);
 
     const { unstakeThreshold, validatorPayment } = props.preferences;
 

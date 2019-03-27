@@ -15,7 +15,7 @@ type Props = I18nProps & ComponentProps;
 
 class StakeList extends React.PureComponent<Props> {
   render () {
-    const { balances, balanceArray, intentions, validators } = this.props;
+    const { balances, balanceArray, intentions, nominators, validators } = this.props;
 
     return (
       <div className='staking--StakeList'>
@@ -32,6 +32,7 @@ class StakeList extends React.PureComponent<Props> {
               isValidator={validators.includes(address)}
               key={address}
               name={name}
+              nominators={nominators}
               validators={validators}
             />
           );

@@ -15,8 +15,7 @@ type Props = I18nProps & {
   isOpen: boolean,
   onClose: () => void,
   intentions: Array<string>,
-  stashId: string,
-  validators: Array<string>
+  stashId: string
 };
 
 type State = {
@@ -141,7 +140,7 @@ class Nominating extends React.PureComponent<Props, State> {
   }
 
   private onChangeNominee = (nominee: string) => {
-    const { intentions, validators } = this.props;
+    // const { intentions } = this.props;
 
     let isAddressFormatValid = false;
 
@@ -154,7 +153,7 @@ class Nominating extends React.PureComponent<Props, State> {
     }
 
     this.setState({
-      isNomineeValid: validators.includes(nominee) || intentions.includes(nominee),
+      isNomineeValid: isAddressFormatValid, // intentions.includes(nominee),
       isAddressFormatValid,
       nominees: [nominee]
     });
