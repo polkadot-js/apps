@@ -61,7 +61,7 @@ class App extends React.PureComponent<Props, State> {
   static getDerivedStateFromProps ({ session_validators = [], staking_nominators = [[], []], staking_validators = [[], []] }: Props): State {
 
     // console.error('staking_nominators', JSON.stringify(staking_nominators));
-    console.error('staking_validators', JSON.stringify(staking_validators));
+    // console.error('staking_validators', JSON.stringify(staking_validators));
     // console.error('session_validators', JSON.stringify(session_validators));
 
     return {
