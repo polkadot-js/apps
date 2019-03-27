@@ -12,7 +12,7 @@ import { AddressMini, AddressSummary, Button, TxButton } from '@polkadot/ui-app'
 import { withCalls } from '@polkadot/ui-api';
 
 import Bonding from './Bonding';
-import Controller from './Controller';
+import SessionKey from './SessionKey';
 import Staking from './Staking';
 import Nominating from './Nominating';
 import translate from '../translate';
@@ -35,12 +35,12 @@ type Props = ApiProps & I18nProps & {
 
 type State = {
   isBondingOpen: boolean,
-  isControllerOpen: boolean,
+  isKeyOpen: boolean,
   isNominateOpen: boolean,
   isStakingOpen: boolean,
   isUnbondOpen: boolean,
   bondedId: string | null,
-  controllerId: string | null,
+  sessionId: string | null,
   nomineeId: string | null,
   stashId: string | null
 };
@@ -48,12 +48,12 @@ type State = {
 class Account extends React.PureComponent<Props, State> {
   state: State = {
     isBondingOpen: false,
-    isControllerOpen: false,
+    isKeyOpen: false,
     isNominateOpen: false,
     isStakingOpen: false,
     isUnbondOpen: false,
     bondedId: null,
-    controllerId: null,
+    sessionId: null,
     nomineeId: null,
     stashId: null
   };
@@ -63,7 +63,7 @@ class Account extends React.PureComponent<Props, State> {
       bondedId: staking_bonded && staking_bonded.isSome
         ? staking_bonded.unwrap().toString()
         : null,
-      controllerId: session_nextKeyFor && session_nextKeyFor.isSome
+      sessionId: session_nextKeyFor && session_nextKeyFor.isSome
         ? session_nextKeyFor.unwrap().toString()
         : null,
       nomineeId: staking_nominating && staking_nominating.isSome
@@ -81,8 +81,8 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <article className='staking--Account'>
         {this.renderBonding()}
-        {this.renderController()}
         {this.renderNominating()}
+        {this.renderKey()}
         {this.renderStaking()}
         <AddressSummary
           balance={balanceArray(accountId)}
@@ -102,32 +102,18 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderBonding () {
     const { accountId } = this.props;
-    const { controllerId, isBondingOpen } = this.state;
+    const { sessionId, isBondingOpen } = this.state;
 
-    if (!controllerId) {
+    if (!sessionId) {
       return null;
     }
 
     return (
       <Bonding
         accountId={accountId}
-        controllerId={controllerId}
+        sessionId={sessionId}
         isOpen={isBondingOpen}
         onClose={this.toggleBonding}
-      />
-    );
-  }
-
-  private renderController () {
-    const { accountId } = this.props;
-    const { controllerId, isControllerOpen } = this.state;
-
-    return (
-      <Controller
-        accountId={accountId}
-        controllerId={controllerId}
-        isOpen={isControllerOpen}
-        onClose={this.toggleController}
       />
     );
   }
@@ -147,6 +133,19 @@ class Account extends React.PureComponent<Props, State> {
         onClose={this.toggleStaking}
         preferences={staking_validators}
         stashId={stashId}
+      />
+    );
+  }
+
+  private renderKey () {
+    const { accountId } = this.props;
+    const { isKeyOpen } = this.state;
+
+    return (
+      <SessionKey
+        accountId={accountId}
+        isOpen={isKeyOpen}
+        onClose={this.toggleKey}
       />
     );
   }
@@ -229,27 +228,27 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderButtons () {
     const { accountId, t } = this.props;
-    const { controllerId, stashId } = this.state;
+    const { sessionId, stashId } = this.state;
     const buttons = [];
 
     if (!stashId) {
-      // only display bonding if we already have a controller
-      if (controllerId) {
+      buttons.push(
+        <Button
+          isPrimary
+          key='session'
+          onClick={this.toggleKey}
+          label={t('Set Session Key')}
+        />
+      );
+
+      if (sessionId) {
+        buttons.push(<Button.Or key='bond.or' />);
         buttons.push(
           <Button
             isPrimary
             key='bond'
             onClick={this.toggleBonding}
             label={t('Bond')}
-          />
-        );
-      } else {
-        buttons.push(
-          <Button
-            isPrimary
-            key='controller'
-            onClick={this.toggleController}
-            label={t('Set Controller')}
           />
         );
       }
@@ -305,9 +304,9 @@ class Account extends React.PureComponent<Props, State> {
     }));
   }
 
-  private toggleController = () => {
-    this.setState(({ isControllerOpen }) => ({
-      isControllerOpen: !isControllerOpen
+  private toggleKey = () => {
+    this.setState(({ isKeyOpen }) => ({
+      isKeyOpen: !isKeyOpen
     }));
   }
 
