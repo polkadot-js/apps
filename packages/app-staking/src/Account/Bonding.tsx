@@ -12,7 +12,7 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   accountId: string,
-  bondedId: string,
+  bondedId: string | null,
   isOpen: boolean,
   onClose: () => void
 };

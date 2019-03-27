@@ -106,10 +106,6 @@ class Account extends React.PureComponent<Props, State> {
     const { accountId } = this.props;
     const { bondedId, isBondingOpen } = this.state;
 
-    if (!bondedId) {
-      return null;
-    }
-
     return (
       <Bonding
         accountId={accountId}
