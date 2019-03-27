@@ -1,7 +1,9 @@
 # 0.27.1
 
 - Bring in new staking & nominating functions
+- Swap default keyring accounts (on creation) to sr25519
 - New faster crypto algorithms
+- Misc. bug fixes all around
 
 # 0.26.1
 
