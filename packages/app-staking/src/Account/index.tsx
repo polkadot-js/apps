@@ -35,7 +35,6 @@ type Props = ApiProps & I18nProps & {
 };
 
 type State = {
-  isAccountValidating: boolean,
   isBondingOpen: boolean,
   isNominateOpen: boolean,
   isSessionKeyOpen: boolean,
@@ -48,7 +47,6 @@ type State = {
 
 class Account extends React.PureComponent<Props, State> {
   state: State = {
-    isAccountValidating: false,
     isBondingOpen: false,
     isSessionKeyOpen: false,
     isNominateOpen: false,
@@ -59,12 +57,11 @@ class Account extends React.PureComponent<Props, State> {
     stashId: null
   };
 
-  static getDerivedStateFromProps ({ accountId, session_nextKeyFor, staking_bonded, staking_ledger, validators }: Props): Partial<State> {
+  static getDerivedStateFromProps ({ session_nextKeyFor, staking_bonded, staking_ledger }: Props): Partial<State> {
 
     // console.error('staking_stakers', JSON.stringify(staking_stakers));
 
     return {
-      isAccountValidating: validators.indexOf(accountId) !== -1,
       bondedId: staking_bonded && staking_bonded.isSome
         ? staking_bonded.unwrap().toString()
         : null,
@@ -279,7 +276,7 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderButtons () {
     const { accountId, intentions, t } = this.props;
-    const { isAccountValidating, sessionId, stashId } = this.state;
+    const { sessionId, stashId } = this.state;
     const buttons = [];
 
     if (!stashId) {
@@ -303,55 +300,36 @@ class Account extends React.PureComponent<Props, State> {
         );
       }
     } else {
-      if (isAccountValidating) {
+      const nominees = this.getNominees();
+      const isNominating = nominees && nominees.length;
+      const isValidating = stashId && intentions.indexOf(stashId) !== -1;
+
+      if (isValidating || isNominating) {
         buttons.push(
           <TxButton
             accountId={accountId}
             isNegative
-            label={t('Stop Validation')}
+            label={isValidating ? t('Stop Validating') : t('Stop Nominating')}
             key='stop'
             tx='staking.chill'
           />
         );
       } else {
-        const nominees = this.getNominees();
-        const hasNominees = nominees && nominees.length;
-        const isValidating = stashId && intentions.indexOf(stashId) !== -1;
-
-        if (!hasNominees) {
-          buttons.push(
-            <Button
-              isPrimary
-              key='validate'
-              onClick={this.toggleValidating}
-              label={t('Validate')}
-            />
-          );
-        }
-
-        if (!isValidating) {
-          if (!hasNominees) {
-            buttons.push(<Button.Or key='nominate.or' />);
-          }
-
-          buttons.push(
-            <Button
-              isPrimary
-              key='nominate'
-              onClick={this.toggleNominate}
-              label={t('Nominate')}
-            />
-          );
-        }
-
-        buttons.push(<Button.Or key='stop.or' />);
         buttons.push(
-          <TxButton
-            accountId={accountId}
-            isNegative
-            label={t('Stop')}
-            key='stop'
-            tx='staking.chill'
+          <Button
+            isPrimary
+            key='validate'
+            onClick={this.toggleValidating}
+            label={t('Validate')}
+          />
+        );
+        buttons.push(<Button.Or key='nominate.or' />);
+        buttons.push(
+          <Button
+            isPrimary
+            key='nominate'
+            onClick={this.toggleNominate}
+            label={t('Nominate')}
           />
         );
       }
