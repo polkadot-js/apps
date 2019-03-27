@@ -69,7 +69,9 @@ class App extends React.PureComponent<Props, State> {
         accountId.toString()
       ),
       nominators: staking_nominators[0].reduce((result, accountId, index) => {
-        result[accountId.toString()] = staking_nominators[1][index].map((accountId) => accountId.toString());
+        result[accountId.toString()] = staking_nominators[1][index].map((accountId) =>
+          accountId.toString()
+        );
 
         return result;
       }, {} as Nominators),
