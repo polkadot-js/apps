@@ -9,7 +9,7 @@ import { ComponentProps, Nominators } from './types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { AccountId, Balance, Exposure } from '@polkadot/types';
+import { AccountId, Balance } from '@polkadot/types';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 
@@ -23,8 +23,7 @@ type Props = AppProps & ApiProps & I18nProps & {
   balances?: DerivedBalancesMap,
   session_validators?: Array<AccountId>,
   staking_validators?: [Array<AccountId>, Array<AccountId>],
-  staking_nominators?: [Array<AccountId>, Array<Array<AccountId>>],
-  staking_stakers?: Array<Exposure>
+  staking_nominators?: [Array<AccountId>, Array<Array<AccountId>>]
 };
 
 type State = {
@@ -59,11 +58,11 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ session_validators = [], staking_nominators = [[], []], staking_validators = [[], []], staking_stakers = [] }: Props): State {
+  static getDerivedStateFromProps ({ session_validators = [], staking_nominators = [[], []], staking_validators = [[], []] }: Props): State {
 
-    console.error('staking_nominators', JSON.stringify(staking_nominators));
-    console.error('staking_validators', JSON.stringify(staking_validators));
-    console.error('session_validators', JSON.stringify(session_validators));
+    // console.error('staking_nominators', JSON.stringify(staking_nominators));
+    // console.error('staking_validators', JSON.stringify(staking_validators));
+    // console.error('session_validators', JSON.stringify(session_validators));
 
     return {
       intentions: staking_validators[0].map((accountId) =>
