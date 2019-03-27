@@ -233,24 +233,23 @@ class Account extends React.PureComponent<Props, State> {
     const buttons = [];
 
     if (!stashId) {
-      buttons.push(
-        <Button
-          isPrimary
-          key='controller'
-          onClick={this.toggleController}
-          label={t('Controller')}
-        />
-      );
-
       // only display bonding if we already have a controller
       if (controllerId) {
-        buttons.push(<Button.Or key='bond.or' />);
         buttons.push(
           <Button
             isPrimary
             key='bond'
             onClick={this.toggleBonding}
             label={t('Bond')}
+          />
+        );
+      } else {
+        buttons.push(
+          <Button
+            isPrimary
+            key='controller'
+            onClick={this.toggleController}
+            label={t('Set Controller')}
           />
         );
       }
