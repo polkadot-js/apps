@@ -5,6 +5,7 @@
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
+import { Nominators } from '../types';
 
 import React from 'react';
 import { AccountId, Balance, Option, StakingLedger, ValidatorPrefs } from '@polkadot/types';
@@ -25,10 +26,9 @@ type Props = ApiProps & I18nProps & {
   session_nextKeyFor?: Option<AccountId>,
   staking_bonded?: Option<AccountId>,
   staking_ledger?: Option<StakingLedger>,
-  staking_nominating?: Option<AccountId>,
-  staking_nominatorsFor?: Array<string>,
-  staking_validators?: ValidatorPrefs,
+  staking_validators?: [ValidatorPrefs],
   intentions: Array<string>,
+  nominators: Nominators,
   isValidator: boolean,
   validators: Array<string>
 };
@@ -42,7 +42,6 @@ type State = {
   isUnbondOpen: boolean,
   bondedId: string | null,
   sessionId: string | null,
-  nomineeId: string | null,
   stashId: string | null
 };
 
@@ -56,11 +55,10 @@ class Account extends React.PureComponent<Props, State> {
     isUnbondOpen: false,
     bondedId: null,
     sessionId: null,
-    nomineeId: null,
     stashId: null
   };
 
-  static getDerivedStateFromProps ({ accountId, session_nextKeyFor, staking_bonded, staking_ledger, staking_nominating, validators }: Props): Partial<State> {
+  static getDerivedStateFromProps ({ accountId, session_nextKeyFor, staking_bonded, staking_ledger, validators }: Props): Partial<State> {
     return {
       isAccountValidating: validators.indexOf(accountId) !== -1,
       bondedId: staking_bonded && staking_bonded.isSome
@@ -68,9 +66,6 @@ class Account extends React.PureComponent<Props, State> {
         : null,
       sessionId: session_nextKeyFor && session_nextKeyFor.isSome
         ? session_nextKeyFor.unwrap().toString()
-        : null,
-      nomineeId: staking_nominating && staking_nominating.isSome
-        ? staking_nominating.unwrap().toString()
         : null,
       stashId: staking_ledger && staking_ledger.isSome
         ? staking_ledger.unwrap().stash.toString()
@@ -132,7 +127,7 @@ class Account extends React.PureComponent<Props, State> {
         accountId={accountId}
         isOpen
         onClose={this.toggleValidating}
-        preferences={staking_validators}
+        preferences={staking_validators[0]}
         stashId={stashId}
       />
     );
@@ -169,48 +164,59 @@ class Account extends React.PureComponent<Props, State> {
   //   );
   // }
 
-  private renderNominee () {
-    const { balanceArray } = this.props;
-    const { nomineeId } = this.state;
+  private getNominees () {
+    const { accountId, nominators } = this.props;
+    const { stashId } = this.state;
 
-    if (!nomineeId) {
+    return nominators[accountId] || (stashId ? nominators[stashId] : null);
+  }
+
+  private renderNominee () {
+    const { accountId } = this.props;
+    const nominees = this.getNominees();
+
+    if (!nominees || !nominees.length) {
       return null;
     }
 
     return (
       <div className='staking--Account-detail'>
         <label className='staking--label'>nominating</label>
-        <AddressMini
-          balance={balanceArray(nomineeId)}
-          value={nomineeId}
-          withBalance
-        />
+        {
+          nominees.map((nomineeId, index) => (
+            <AddressMini
+              key={index}
+              value={nomineeId}
+              withBalance
+            />
+          ))
+        }
       </div>
     );
   }
 
   private renderNominators () {
-    const { staking_nominatorsFor } = this.props;
+    // const { staking_nominatorsFor } = this.props;
 
-    if (!staking_nominatorsFor) {
-      return null;
-    }
+    // if (!staking_nominatorsFor) {
+    //   return null;
+    // }
 
-    return (
-      <div className='staking--Account-detail'>
-        <label className='staking--label'>nominators</label>
-        <div className='ui--Nominators'>
-          {staking_nominatorsFor.map((nominator) => (
-            <AddressMini
-              isPadded={false}
-              key={nominator}
-              value={nominator}
-              withBalance
-            />
-          ))}
-        </div>
-      </div>
-    );
+    // return (
+    //   <div className='staking--Account-detail'>
+    //     <label className='staking--label'>nominators</label>
+    //     <div className='ui--Nominators'>
+    //       {staking_nominatorsFor.map((nominator) => (
+    //         <AddressMini
+    //           isPadded={false}
+    //           key={nominator}
+    //           value={nominator}
+    //           withBalance
+    //         />
+    //       ))}
+    //     </div>
+    //   </div>
+    // );
   }
 
   private renderBondedId () {
@@ -305,15 +311,20 @@ class Account extends React.PureComponent<Props, State> {
           />
         );
       } else {
-        buttons.push(
-          <Button
-            isPrimary
-            key='validate'
-            onClick={this.toggleValidating}
-            label={t('Validate')}
-          />
-        );
-        buttons.push(<Button.Or key='nominate.or' />);
+        const nominees = this.getNominees();
+
+        if (!nominees || !nominees.length) {
+          buttons.push(
+            <Button
+              isPrimary
+              key='validate'
+              onClick={this.toggleValidating}
+              label={t('Validate')}
+            />
+          );
+          buttons.push(<Button.Or key='nominate.or' />);
+        }
+
         buttons.push(
           <Button
             isPrimary
@@ -378,8 +389,6 @@ export default translate(
     ['query.session.nextKeyFor', { paramName: 'accountId' }],
     ['query.staking.bonded', { paramName: 'accountId' }],
     ['query.staking.ledger', { paramName: 'accountId' }],
-    ['query.staking.nominatorsFor', { paramName: 'accountId' }],
-    ['query.staking.nominating', { paramName: 'accountId' }],
     ['query.staking.validators', { paramName: 'accountId' }]
   )(Account)
 );

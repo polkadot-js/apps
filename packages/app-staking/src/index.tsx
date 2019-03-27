@@ -22,8 +22,9 @@ import translate from './translate';
 type Props = AppProps & ApiProps & I18nProps & {
   balances?: DerivedBalancesMap,
   session_validators?: Array<AccountId>,
-  staking_validators?: [Array<AccountId>],
-  staking_stakers?: [Array<AccountId>, Array<Exposure>]
+  staking_validators?: [Array<AccountId>, Array<AccountId>],
+  staking_nominators?: [Array<AccountId>, Array<Array<AccountId>>],
+  staking_stakers?: Array<Exposure>
 };
 
 type State = {
@@ -58,13 +59,21 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ session_validators = [], staking_stakers = [[], []], staking_validators = [[]] }: Props): State {
-    console.error('staking_stakers', JSON.stringify(staking_stakers));
+  static getDerivedStateFromProps ({ session_validators = [], staking_nominators = [[], []], staking_validators = [[], []], staking_stakers = [] }: Props): State {
+
+    console.error('staking_nominators', JSON.stringify(staking_nominators));
+    console.error('staking_validators', JSON.stringify(staking_validators));
+    console.error('session_validators', JSON.stringify(session_validators));
 
     return {
       intentions: staking_validators[0].map((accountId) =>
         accountId.toString()
       ),
+      nominators: staking_nominators[0].reduce((result, accountId, index) => {
+        result[accountId.toString()] = staking_nominators[1][index].map((accountId) => accountId.toString());
+
+        return result;
+      }, {} as Nominators),
       validators: session_validators.map((authorityId) =>
         authorityId.toString()
       )
@@ -93,7 +102,7 @@ class App extends React.PureComponent<Props, State> {
 
   private renderComponent (Component: React.ComponentType<ComponentProps>) {
     return (): React.ReactNode => {
-      const { intentions, validators } = this.state;
+      const { intentions, nominators, validators } = this.state;
       const { balances = {} } = this.props;
 
       return (
@@ -101,6 +110,7 @@ class App extends React.PureComponent<Props, State> {
           balances={balances}
           balanceArray={this.balanceArray}
           intentions={intentions}
+          nominators={nominators}
           validators={validators}
         />
       );
@@ -130,7 +140,7 @@ export default withMulti(
   translate,
   withCalls<Props>(
     'query.session.validators',
-    'query.staking.stakers',
+    'query.staking.nominators',
     'query.staking.validators',
     ['derive.staking.intentionsBalances', { propName: 'balances' }]
   )

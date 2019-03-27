@@ -34,6 +34,8 @@ class Staking extends React.PureComponent<Props, State> {
       return null;
     }
 
+    console.error('preferences', props.preferences);
+
     const { unstakeThreshold, validatorPayment } = props.preferences;
 
     return {

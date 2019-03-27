@@ -59,7 +59,7 @@ class CurrentList extends React.PureComponent<Props> {
     return (
       <>
         <h1>{t('next up')}</h1>
-        {this.renderColumn(next, t('intention'))}
+        {/*this.renderColumn(next, t('intention'))*/}
       </>
     );
   }

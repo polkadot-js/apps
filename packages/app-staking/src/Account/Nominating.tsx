@@ -140,7 +140,7 @@ class Nominating extends React.PureComponent<Props, State> {
   }
 
   private onChangeNominee = (nominee: string) => {
-    const { intentions } = this.props;
+    // const { intentions } = this.props;
 
     let isAddressFormatValid = false;
 
@@ -153,7 +153,7 @@ class Nominating extends React.PureComponent<Props, State> {
     }
 
     this.setState({
-      isNomineeValid: intentions.includes(nominee),
+      isNomineeValid: isAddressFormatValid, // intentions.includes(nominee),
       isAddressFormatValid,
       nominees: [nominee]
     });
