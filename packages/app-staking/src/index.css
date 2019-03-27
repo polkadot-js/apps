@@ -2,10 +2,8 @@
 /* This software may be modified and distributed under the terms
 /* of the Apache-2.0 license. See the LICENSE file for details. */
 
-.staking--App {
-  .rx--updated {
-    background: transparent !important;
-  }
+.staking--App .rx--updated {
+  background: transparent !important;
 }
 
 .staking--App-navigation.ui--Button-Group {
@@ -20,16 +18,16 @@
   .ui--AddressMini {
     display: block;
   }
+
+  .ui--AddressSummary {
+    padding: 0;
+  }
 }
 
 .ui--Nominators {
   overflow-y: overlay;
   max-height: 196px;
   padding-right: 18px;
-}
-
-.staking--Account .ui--AddressSummary {
-  padding: 0;
 }
 
 .staking--Account-expand {

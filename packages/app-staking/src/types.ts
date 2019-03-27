@@ -11,3 +11,7 @@ export type ComponentProps = {
   intentions: Array<string>,
   validators: Array<string>
 };
+
+export type Nominators = {
+  [index: string]: Array<string>
+};

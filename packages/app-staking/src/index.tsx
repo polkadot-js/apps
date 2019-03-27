@@ -5,11 +5,11 @@
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { ComponentProps } from './types';
+import { ComponentProps, Nominators } from './types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { AccountId, Balance } from '@polkadot/types';
+import { AccountId, Balance, Exposure } from '@polkadot/types';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 
@@ -21,12 +21,14 @@ import translate from './translate';
 
 type Props = AppProps & ApiProps & I18nProps & {
   balances?: DerivedBalancesMap,
-  intentions?: Array<AccountId>,
-  session_validators?: Array<AccountId>
+  session_validators?: Array<AccountId>,
+  staking_validators?: [Array<AccountId>],
+  staking_stakers?: [Array<AccountId>, Array<Exposure>]
 };
 
 type State = {
   intentions: Array<string>,
+  nominators: Nominators,
   tabs: Array<TabItem>,
   validators: Array<string>
 };
@@ -41,6 +43,7 @@ class App extends React.PureComponent<Props, State> {
 
     this.state = {
       intentions: [],
+      nominators: {},
       tabs: [
         {
           name: 'overview',
@@ -55,12 +58,14 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ session_validators, intentions }: Props): State {
+  static getDerivedStateFromProps ({ session_validators = [], staking_stakers = [[], []], staking_validators = [[]] }: Props): State {
+    console.error('staking_stakers', JSON.stringify(staking_stakers));
+
     return {
-      intentions: (intentions || []).map((accountId) =>
+      intentions: staking_validators[0].map((accountId) =>
         accountId.toString()
       ),
-      validators: (session_validators || []).map((authorityId) =>
+      validators: session_validators.map((authorityId) =>
         authorityId.toString()
       )
     } as State;
@@ -125,7 +130,8 @@ export default withMulti(
   translate,
   withCalls<Props>(
     'query.session.validators',
-    ['query.staking.intentions', { propName: 'intentions' }],
+    'query.staking.stakers',
+    'query.staking.validators',
     ['derive.staking.intentionsBalances', { propName: 'balances' }]
   )
 );

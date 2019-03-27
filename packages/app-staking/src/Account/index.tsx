@@ -34,6 +34,7 @@ type Props = ApiProps & I18nProps & {
 };
 
 type State = {
+  isAccountValidating: boolean,
   isBondingOpen: boolean,
   isNominateOpen: boolean,
   isSessionKeyOpen: boolean,
@@ -47,6 +48,7 @@ type State = {
 
 class Account extends React.PureComponent<Props, State> {
   state: State = {
+    isAccountValidating: false,
     isBondingOpen: false,
     isSessionKeyOpen: false,
     isNominateOpen: false,
@@ -58,8 +60,9 @@ class Account extends React.PureComponent<Props, State> {
     stashId: null
   };
 
-  static getDerivedStateFromProps ({ session_nextKeyFor, staking_bonded, staking_ledger, staking_nominating }: Props): Partial<State> {
+  static getDerivedStateFromProps ({ accountId, session_nextKeyFor, staking_bonded, staking_ledger, staking_nominating, validators }: Props): Partial<State> {
     return {
+      isAccountValidating: validators.indexOf(accountId) !== -1,
       bondedId: staking_bonded && staking_bonded.isSome
         ? staking_bonded.unwrap().toString()
         : null,
@@ -105,10 +108,6 @@ class Account extends React.PureComponent<Props, State> {
   private renderBonding () {
     const { accountId } = this.props;
     const { bondedId, isBondingOpen } = this.state;
-
-    if (!bondedId) {
-      return null;
-    }
 
     return (
       <Bonding
@@ -251,7 +250,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderNominating () {
-    const { accountId, intentions, validators } = this.props;
+    const { accountId, intentions } = this.props;
     const { isNominateOpen, stashId } = this.state;
 
     if (!stashId) {
@@ -265,14 +264,13 @@ class Account extends React.PureComponent<Props, State> {
         onClose={this.toggleNominate}
         intentions={intentions}
         stashId={stashId}
-        validators={validators}
       />
     );
   }
 
   private renderButtons () {
     const { accountId, t } = this.props;
-    const { sessionId, stashId } = this.state;
+    const { isAccountValidating, sessionId, stashId } = this.state;
     const buttons = [];
 
     if (!stashId) {
@@ -296,42 +294,45 @@ class Account extends React.PureComponent<Props, State> {
         );
       }
     } else {
-      // buttons.push(
-      //   <Button
-      //     isNegative
-      //     label={t('Unbond')}
-      //     key='unbond'
-      //     onClick={this.toggleUnbond}
-      //   />
-      // );
-      // buttons.push(<Button.Or key='validate.or' />);
-      buttons.push(
-        <Button
-          isPrimary
-          key='validate'
-          onClick={this.toggleValidating}
-          label={t('Validate')}
-        />
-      );
-      buttons.push(<Button.Or key='nominate.or' />);
-      buttons.push(
-        <Button
-          isPrimary
-          key='nominate'
-          onClick={this.toggleNominate}
-          label={t('Nominate')}
-        />
-      );
-      buttons.push(<Button.Or key='stop.or' />);
-      buttons.push(
-        <TxButton
-          accountId={accountId}
-          isNegative
-          label={t('Stop')}
-          key='stop'
-          tx='staking.chill'
-        />
-      );
+      if (isAccountValidating) {
+        buttons.push(
+          <TxButton
+            accountId={accountId}
+            isNegative
+            label={t('Stop Validation')}
+            key='stop'
+            tx='staking.chill'
+          />
+        );
+      } else {
+        buttons.push(
+          <Button
+            isPrimary
+            key='validate'
+            onClick={this.toggleValidating}
+            label={t('Validate')}
+          />
+        );
+        buttons.push(<Button.Or key='nominate.or' />);
+        buttons.push(
+          <Button
+            isPrimary
+            key='nominate'
+            onClick={this.toggleNominate}
+            label={t('Nominate')}
+          />
+        );
+        buttons.push(<Button.Or key='stop.or' />);
+        buttons.push(
+          <TxButton
+            accountId={accountId}
+            isNegative
+            label={t('Stop')}
+            key='stop'
+            tx='staking.chill'
+          />
+        );
+      }
     }
 
     return (
