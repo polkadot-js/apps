@@ -40,11 +40,11 @@ const Card = styled.article`
     > label {
       line-height: 1rem;
       min-width: 7rem !important;
-    }  
+    }
 
     .progress {
       margin: 0.25rem 0 -0.5rem !important;
-    }  
+    }
   }
 `;
 
@@ -64,7 +64,6 @@ type Props = BareProps & {
 
 export default class CardSummary extends React.PureComponent<Props> {
   render () {
-
     const { children, progress, label } = this.props;
     const value = progress && progress.value;
     const total = progress && progress.total;

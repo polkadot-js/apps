@@ -64,6 +64,7 @@ const StyledSummary = styled.div`
 
 export default class SummaryBox extends React.PureComponent<Props> {
   render () {
+
     return (
       <StyledSummary>
         {this.props.children}
