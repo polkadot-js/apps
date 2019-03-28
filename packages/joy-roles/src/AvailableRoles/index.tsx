@@ -15,7 +15,9 @@ type Props = BareProps & ComponentProps;
 export default class AvailableRoles extends React.PureComponent<Props> {
     render() {
         return (
-            <div> {this.props.roles.map((role) => <div key={role.toString()}><RoleDisplay role={role}></RoleDisplay></div>) } </div>
+            <div>{this.props.roles.map((role) =>
+                <div key={role.toString()}><RoleDisplay role={role} /></div>)
+             }</div>
         )
     }
 }
@@ -30,13 +32,12 @@ type RoleProps = BareProps & {
 class RoleDisplayInner extends React.PureComponent<RoleProps> {
     render() {
         const {role, roleParams, actors} = this.props;
-        if (!roleParams || !actors) return <em>Loading...</em>;
+        if (!roleParams || roleParams.isNone || !actors) return <em>Loading...</em>;
 
-        const params = roleParams.unwrapOr(undefined);
-        if (!params) return null; // no role parameters defined for this role
+        const params = roleParams.unwrap();
 
         return (
-            <Section title={`${role.toString()}`}>
+            <Section title={role.toString()}>
                 <Parameters role={role} params={params} active={actors.length}></Parameters>
             </Section>
         )

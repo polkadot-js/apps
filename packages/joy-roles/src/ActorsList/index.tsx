@@ -18,7 +18,7 @@ export default class ActorsList extends React.PureComponent<Props> {
                     <Table.Row>
                         <Table.HeaderCell>Role</Table.HeaderCell>
                         <Table.HeaderCell>Actor Account</Table.HeaderCell>
-                        <Table.HeaderCell>MemberId</Table.HeaderCell>
+                        <Table.HeaderCell>Member Id</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -37,10 +37,11 @@ type ActorProps = BareProps & {
 
 class ActorInner extends React.PureComponent<ActorProps> {
     render() {
-        if (!this.props.actor) return null;
+        const { actor: actorOpt } = this.props;
 
-        const actor = this.props.actor.unwrapOr(undefined);
-        if (!actor) return null;
+        if (!actorOpt || actorOpt.isNone) return null;
+
+        const actor = actorOpt.unwrap();
 
         return (
             <Table.Row>
