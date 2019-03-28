@@ -6,18 +6,20 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Moment } from '@polkadot/types';
-import { withCall } from '@polkadot/ui-api';
+import { withCalls } from '@polkadot/ui-api';
 import { formatNumber } from '@polkadot/ui-util';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
   label?: string,
-  timestamp_blockPeriod?: Moment
+  timestamp_blockPeriod?: Moment, // support for previous
+  timestamp_minimumPeriod?: Moment // support for new version
 };
 
 class TimePeriod extends React.PureComponent<Props> {
   render () {
-    const { children, className, label = '', style, timestamp_blockPeriod } = this.props;
+    const { children, className, label = '', style, timestamp_blockPeriod, timestamp_minimumPeriod } = this.props;
+    const period = timestamp_minimumPeriod || timestamp_blockPeriod;
 
     return (
       <div
@@ -25,8 +27,8 @@ class TimePeriod extends React.PureComponent<Props> {
         style={style}
       >
         {label}{
-          timestamp_blockPeriod
-            ? `${formatNumber(timestamp_blockPeriod.toNumber() * 2)}s`
+          period
+            ? `${formatNumber(period.toNumber() * 2)}s`
             : '-'
           }{children}
       </div>
@@ -34,4 +36,7 @@ class TimePeriod extends React.PureComponent<Props> {
   }
 }
 
-export default withCall('query.timestamp.blockPeriod')(TimePeriod);
+export default withCalls<Props>(
+  'query.timestamp.blockPeriod',
+  'query.timestamp.minimumPeriod'
+)(TimePeriod);
