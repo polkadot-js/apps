@@ -16,7 +16,7 @@ const StyledSummary = styled.div`
   background: rgba(255,255,255,0.5);
   border: 1px solid rgba(0,0,0,0.035);
   border-radius: 4px;
-  box-shadow: inset 0px -5px 8px rgba(0,0,0,0.03);
+  box-shadow: inset 0px -5px 12px rgba(0,0,0,0.035);
   display: flex;
   flex-wrap: no-wrap;
   justify-content: space-between;
