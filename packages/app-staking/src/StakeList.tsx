@@ -19,7 +19,7 @@ class StakeList extends React.PureComponent<Props> {
 
     return (
       <div className='staking--StakeList'>
-        {keyring.getAccounts().map((account, index) => {
+        {keyring.getAccounts().map((account) => {
           const address = account.address();
           const name = account.getMeta().name || '';
 
