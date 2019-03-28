@@ -1,5 +1,5 @@
 {
-  "name": "@polkadot/joy-actors",
+  "name": "@polkadot/joy-roles",
   "version": "0.0.1",
   "description": "Staked roles module for Joystream node",
   "main": "index.js",

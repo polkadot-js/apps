@@ -1,6 +1,6 @@
 import { Routes } from '../types';
 
-import Actors from '@polkadot/joy-actors/index';
+import Actors from '@polkadot/joy-roles/index';
 
 export default ([
   {
@@ -10,9 +10,9 @@ export default ([
       needsApi: []
     },
     i18n: {
-      defaultValue: 'Actors'
+      defaultValue: 'Roles'
     },
-    icon: 'server', //'server',
-    name: 'actors'
+    icon: 'server',
+    name: 'roles'
   }
 ] as Routes);

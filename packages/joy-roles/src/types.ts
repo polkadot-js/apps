@@ -38,7 +38,7 @@ export class RoleParameters extends Struct {
   }
 }
 
-export function registerActorsTypes() {
+export function registerRolesTypes() {
   try {
     const typeRegistry = getTypeRegistry();
     typeRegistry.register({

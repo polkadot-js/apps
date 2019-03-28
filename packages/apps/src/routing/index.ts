@@ -10,7 +10,7 @@ import election from './joy-election';
 import help from './joy-help';
 import members from './joy-members';
 import proposals from './joy-proposals';
-import actors from './joy-actors';
+import roles from './joy-roles';
 
 import template from './123code';
 import accounts from './accounts';
@@ -28,7 +28,7 @@ const routes: Routes = appSettings.uiMode === 'light'
   ? ([] as Routes).concat(
     explorer,
     staking,
-    actors,
+    roles,
     null,
     transfer,
     null,
@@ -46,7 +46,7 @@ const routes: Routes = appSettings.uiMode === 'light'
   : ([] as Routes).concat(
     explorer,
     staking,
-    actors,
+    roles,
     transfer,
     null,
     members,
