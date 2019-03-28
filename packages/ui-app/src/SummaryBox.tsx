@@ -44,7 +44,7 @@ const StyledSummary = styled.div`
 		flex: 0 1 auto;
     flex-flow: row wrap;
     justify-content: flex-end;
-    min-height: 5.8rem;
+    min-height: 5.7rem;
     padding: 0.5rem 1.5rem;
 		text-align: left;
 	}
