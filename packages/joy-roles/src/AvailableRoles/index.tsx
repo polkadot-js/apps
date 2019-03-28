@@ -6,6 +6,7 @@ import { Option, u32, Balance, BlockNumber, AccountId } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api/index';
 import { Table } from 'semantic-ui-react';
 import Section from '@polkadot/joy-utils/Section';
+import { formatBalance } from '@polkadot/ui-app/util';
 
 import BN from 'bn.js';
 
@@ -74,7 +75,7 @@ const Parameters = function Parameters(props: ParamProps) {
             <Table.Body>
                 <Table.Row>
                     <Table.Cell>Minimum Stake</Table.Cell>
-                    <Table.Cell>{minStake.toString()} JOY</Table.Cell>
+                    <Table.Cell>{formatBalance(minStake)}</Table.Cell>
                 </Table.Row>
                 <Table.Row>
                     <Table.Cell>Actors</Table.Cell>
@@ -82,7 +83,7 @@ const Parameters = function Parameters(props: ParamProps) {
                 </Table.Row>
                 <Table.Row>
                     <Table.Cell>Reward</Table.Cell>
-                    <Table.Cell>{reward.toString()} JOY, every {rewardPeriod.toString()} blocks</Table.Cell>
+                    <Table.Cell>{formatBalance(reward)}, every {rewardPeriod.toString()} blocks</Table.Cell>
                 </Table.Row>
                 <Table.Row>
                     <Table.Cell>Unbonding Period</Table.Cell>
