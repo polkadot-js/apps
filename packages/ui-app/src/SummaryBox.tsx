@@ -13,10 +13,10 @@ type Props = BareProps & {
 
 const StyledSummary = styled.div`
   align-items: stretch;
-  background: #fff;
-  border: 1px solid rgba(0,0,0,0.05);
-  border-radius: 3px;
-  box-shadow: 0px 5px 8px rgba(0,0,0,0.02);
+  background: rgba(255,255,255,0.5);
+  border: 1px solid rgba(0,0,0,0.035);
+  border-radius: 4px;
+  box-shadow: inset 0px -5px 8px rgba(0,0,0,0.03);
   display: flex;
   flex-wrap: no-wrap;
   justify-content: space-between;
@@ -36,9 +36,16 @@ const StyledSummary = styled.div`
 	}
 
 	article {
+    align-items: center;
 		box-shadow: none;
+    background: none;
 		color: rgba(0, 0, 0, 0.6);
+    display: flex;
 		flex: 0 1 auto;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+    min-height: 5.8rem;
+    padding: 0.5rem 1.5rem;
 		text-align: left;
 	}
 

@@ -192,17 +192,20 @@ header .ui--Button-Group {
 
 .ui--summary {
   article {
-    padding-top: 0.6em;
-
     .label-small {
-      font-size: 2.1rem;
+      font-size: 2.2rem;
       font-weight: 100;
       line-height: 2.25rem;
       text-align: right;
 
       > label {
+        line-height: 1rem;
         min-width: 7rem;
       }
+    }
+
+    .ui--Labelled > * {
+      margin: 0.4rem 0;
     }
   }
 
@@ -393,5 +396,5 @@ header .ui--Button-Group {
 }
 
 .ui.tiny.progress {
-  font-size: .65rem;
+  font-size: .5rem;
 }
