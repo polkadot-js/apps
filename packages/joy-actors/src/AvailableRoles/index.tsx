@@ -2,7 +2,7 @@ import React from 'react'
 import { BareProps } from '@polkadot/ui-app/types';
 import { ComponentProps } from '../props';
 import { Role, RoleParameters } from  '../types';
-import { Option, u32, Balance, BlockNumber } from '@polkadot/types';
+import { Option, u32, Balance, BlockNumber, AccountId } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api/index';
 import { Table } from 'semantic-ui-react';
 import Section from '@polkadot/joy-utils/Section';
@@ -22,37 +22,40 @@ export default class AvailableRoles extends React.PureComponent<Props> {
 
 type RoleProps = BareProps & {
     role: Role,
-    roleParams?: Option<RoleParameters>
+    roleParams?: Option<RoleParameters>,
+    actors?: Array<AccountId>
 }
 
 class RoleDisplayInner extends React.PureComponent<RoleProps> {
     render() {
-        const {role, roleParams} = this.props;
-        if (!roleParams) return null;
+        const {role, roleParams, actors} = this.props;
+        if (!roleParams || !actors) return <em>Loading...</em>;
 
         const params = roleParams.unwrapOr(undefined);
         if (!params) return null; // no role parameters defined for this role
 
         return (
             <Section title={`${role.toString()}`}>
-                <Parameters role={role} params={params}></Parameters>
+                <Parameters role={role} params={params} active={actors.length}></Parameters>
             </Section>
         )
     }
 }
 
 const RoleDisplay = withCalls<RoleProps>(
-    ['query.actors.parameters', {propName: 'roleParams', paramName: 'role'}]
+    ['query.actors.parameters', {propName: 'roleParams', paramName: 'role'}],
+    ['query.actors.accountsByRole', {propName: 'actors', paramName: 'role'}],
 )(RoleDisplayInner)
 
 
 type ParamProps = BareProps & {
     role: Role,
-    params: RoleParameters
+    params: RoleParameters,
+    active: number,
 }
 
 const Parameters = function Parameters(props: ParamProps) {
-    const {params, role} = props;
+    const {params, role, active} = props;
 
     const minStake = new BN(params.get('min_stake') as Balance);
     const maxActors = new BN(params.get('max_actors') as u32);
@@ -74,8 +77,8 @@ const Parameters = function Parameters(props: ParamProps) {
                     <Table.Cell>{minStake.toString()} JOY</Table.Cell>
                 </Table.Row>
                 <Table.Row>
-                    <Table.Cell>Maximum Actors</Table.Cell>
-                    <Table.Cell>{maxActors.toString()}</Table.Cell>
+                    <Table.Cell>Actors</Table.Cell>
+                    <Table.Cell>{active}/{maxActors.toString()}</Table.Cell>
                 </Table.Row>
                 <Table.Row>
                     <Table.Cell>Reward</Table.Cell>

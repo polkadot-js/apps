@@ -33,6 +33,7 @@ export class RoleParameters extends Struct {
       bonding_time: BlockNumber,
       min_service_period: BlockNumber,
       startup_grace_period: BlockNumber,
+      entry_request_fee: Balance,
     }, value)
   }
 }
@@ -52,6 +53,7 @@ export function registerActorsTypes() {
         bonding_time: 'BlockNumber',
         min_service_period: 'BlockNumber',
         startup_grace_period: 'BlockNumber',
+        entry_request_fee: 'Balance',
       },
       Request: '(AccountId, MemberId, Role, BlockNumber)',
       Requests: 'Vec<Request>',
