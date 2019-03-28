@@ -1,6 +1,7 @@
 import { Enum, EnumType, Option } from '@polkadot/types/codec';
 import { getTypeRegistry, BlockNumber, AccountId, Balance, Hash, u32, Text } from '@polkadot/types';
 import { registerMembershipTypes } from '@polkadot/joy-members/types';
+import { registerActorsTypes } from '@polkadot/joy-actors/types';
 
 class Amount extends Balance {}
 
@@ -59,6 +60,8 @@ export type TallyResult = {
   status: ProposalStatus,
   finalized_at: BlockNumber
 };
+
+
 
 export class Announcing extends BlockNumber { }
 export class Voting extends BlockNumber { }
@@ -140,7 +143,9 @@ export type ProposalVotes = [AccountId, VoteKind][];
 export function registerJoystreamTypes () {
   try {
     registerMembershipTypes();
+    registerActorsTypes();
     const typeRegistry = getTypeRegistry();
+
     // Register parametrized enum ElectionStage:
     typeRegistry.register({
       Announcing,
@@ -198,6 +203,11 @@ export function registerJoystreamTypes () {
         'slashes': 'u32',
         'status': 'ProposalStatus',
         'finalized_at': 'BlockNumber'
+      },
+      DataObjectTypeId: 'u32',
+      DataObjectType: {
+        id: 'DataObjectTypeId',
+        description: 'Text',
       }
     });
   } catch (err) {
