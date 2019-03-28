@@ -60,10 +60,6 @@ type ActionProps = BareProps & CallProps & {
 };
 
 class Action extends React.PureComponent<ActionProps> {
-    private onSubmit = (sendTx: () => void) => {
-        sendTx();
-    };
-
     render() {
         const {account, role, balance, roleParams} = this.props;
 
@@ -76,21 +72,20 @@ class Action extends React.PureComponent<ActionProps> {
         const canStake = balance.gte(minStake);
 
         return (
-        <Table.Row>
-            <Table.Cell><AddressMini value={account} isShort={false} isPadded={false} withBalance={true} withName={true} withMemo={false} size={36}/></Table.Cell>
-            <Table.Cell>{role.toString()}</Table.Cell>
-            <Table.Cell>{canStake ? null : `(minimum required balance: ${minStake.toString()})`}</Table.Cell>
-            <Table.Cell>
-                <TxButton
-                    type='submit'
-                    size='large'
-                    label={'Stake'}
-                    isDisabled={!canStake}
-                    params={[role, account]}
-                    tx={'actors.stake'}
-                    onClick={this.onSubmit}
-                /></Table.Cell>
-        </Table.Row>
+            <Table.Row>
+                <Table.Cell><AddressMini value={account} isShort={false} isPadded={false} withBalance={true} withName={true} withMemo={false} size={36}/></Table.Cell>
+                <Table.Cell>{role.toString()}</Table.Cell>
+                <Table.Cell>{canStake ? null : `(minimum required balance: ${minStake.toString()})`}</Table.Cell>
+                <Table.Cell>
+                    <TxButton
+                        type='submit'
+                        size='large'
+                        label={'Stake'}
+                        isDisabled={!canStake}
+                        params={[role, account]}
+                        tx={'actors.stake'} />
+                </Table.Cell>
+            </Table.Row>
         )
     }
 };

@@ -80,7 +80,7 @@ class App extends React.PureComponent<Props, State> {
     const { allAccounts } = this.props;
     const { tabs } = this.state;
     const { basePath } = this.props;
-    const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
+    const hasAccounts = allAccounts && Object.keys(allAccounts).length;
     const filteredTabs = hasAccounts
       ? tabs
       : tabs.filter(({ name }) =>
