@@ -198,6 +198,11 @@ export function registerJoystreamTypes () {
         'slashes': 'u32',
         'status': 'ProposalStatus',
         'finalized_at': 'BlockNumber'
+      },
+      DataObjectTypeId: 'u64',
+      DataObjectType: {
+        id: 'Option<DataObjectTypeId>',
+        description: 'Text',
       }
     });
   } catch (err) {
