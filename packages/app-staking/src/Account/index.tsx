@@ -302,7 +302,7 @@ class Account extends React.PureComponent<Props, State> {
     } else {
       const nominees = this.getNominees();
       const isNominating = nominees && nominees.length;
-      const isValidating = stashId && intentions.indexOf(stashId) !== -1;
+      const isValidating = intentions.indexOf(accountId) !== -1;
 
       if (isValidating || isNominating) {
         buttons.push(
@@ -365,12 +365,6 @@ class Account extends React.PureComponent<Props, State> {
       isValidatingOpen: !isValidatingOpen
     }));
   }
-
-  // private toggleUnbond = () => {
-  //   this.setState(({ isUnbondOpen }) => ({
-  //     isUnbondOpen: !isUnbondOpen
-  //   }));
-  // }
 }
 
 export default translate(

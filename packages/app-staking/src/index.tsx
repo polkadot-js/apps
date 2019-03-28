@@ -9,7 +9,7 @@ import { ComponentProps, Nominators } from './types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { AccountId, Balance } from '@polkadot/types';
+import { AccountId, Balance, Option } from '@polkadot/types';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 
@@ -22,7 +22,7 @@ import translate from './translate';
 type Props = AppProps & ApiProps & I18nProps & {
   balances?: DerivedBalancesMap,
   session_validators?: Array<AccountId>,
-  staking_validators?: [Array<AccountId>, Array<AccountId>],
+  staking_controllers?: [Array<AccountId>, Array<Option<AccountId>>],
   staking_nominators?: [Array<AccountId>, Array<Array<AccountId>>]
 };
 
@@ -58,15 +58,17 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ session_validators = [], staking_nominators = [[], []], staking_validators = [[], []] }: Props): State {
+  static getDerivedStateFromProps ({ staking_controllers = [[], []], session_validators = [], staking_nominators = [[], []] }: Props): State {
+
+    console.error(JSON.stringify(staking_controllers[1]));
 
     // console.error('staking_nominators', JSON.stringify(staking_nominators));
     // console.error('staking_validators', JSON.stringify(staking_validators));
     // console.error('session_validators', JSON.stringify(session_validators));
 
     return {
-      intentions: staking_validators[0].map((accountId) =>
-        accountId.toString()
+      intentions: staking_controllers[1].filter((optId) => optId.isSome).map((accountId) =>
+        accountId.unwrap().toString()
       ),
       nominators: staking_nominators[0].reduce((result, accountId, index) => {
         result[accountId.toString()] = staking_nominators[1][index].map((accountId) =>
@@ -140,9 +142,9 @@ export default withMulti(
   App,
   translate,
   withCalls<Props>(
+    'derive.staking.controllers',
     'query.session.validators',
     'query.staking.nominators',
-    'query.staking.validators',
     ['derive.staking.intentionsBalances', { propName: 'balances' }]
   )
 );
