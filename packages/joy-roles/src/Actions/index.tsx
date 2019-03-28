@@ -64,7 +64,7 @@ class Action extends React.PureComponent<ActionProps> {
 
         const params = roleParams.unwrap();
 
-        const minStake = new BN(params.get('min_stake') as Balance);
+        const minStake = new BN(params.min_stake);
         const canStake = balance.gte(minStake);
 
         return (

@@ -5,6 +5,7 @@ import { withCalls } from '@polkadot/ui-api/index';
 import { Table } from 'semantic-ui-react';
 import { Option} from '@polkadot/types';
 import AddressMini from '@polkadot/ui-app/AddressMiniJoy';
+import { Actor } from '../types';
 
 type Props = BareProps & ComponentProps;
 
@@ -21,8 +22,9 @@ export default class ActorsList extends React.PureComponent<Props> {
                         <Table.HeaderCell>Member Id</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
-                <Table.Body>
-                {actors.map((account: string) => <ActorDisplay key={account} account={account}/>)}
+                <Table.Body>{ actors.map((account: string) =>
+                    <ActorDisplay key={account} account={account} />
+                )}
                 </Table.Body>
             </Table>
         )
@@ -32,7 +34,7 @@ export default class ActorsList extends React.PureComponent<Props> {
 
 type ActorProps = BareProps & {
     account: string,
-    actor?: Option<any>, // Option<Actor>
+    actor?: Option<Actor>
 }
 
 class ActorInner extends React.PureComponent<ActorProps> {

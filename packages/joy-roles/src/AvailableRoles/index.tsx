@@ -2,7 +2,7 @@ import React from 'react'
 import { BareProps } from '@polkadot/ui-app/types';
 import { ComponentProps } from '../props';
 import { Role, RoleParameters } from  '../types';
-import { Option, u32, Balance, BlockNumber, AccountId } from '@polkadot/types';
+import { Option, AccountId } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api/index';
 import { Table } from 'semantic-ui-react';
 import Section from '@polkadot/joy-utils/Section';
@@ -59,36 +59,36 @@ type ParamProps = BareProps & {
 const Parameters = function Parameters(props: ParamProps) {
     const {params, role, active} = props;
 
-    const minStake = new BN(params.get('min_stake') as Balance);
-    const maxActors = new BN(params.get('max_actors') as u32);
-    const reward = new BN(params.get('reward') as Balance);
-    const rewardPeriod = new BN(params.get('reward_period') as BlockNumber);
-    const unbondingPeriod = new BN(params.get('unbonding_period') as BlockNumber);
+    const minStake = formatBalance(new BN(params.min_stake));
+    const maxActors = (new BN(params.max_actors)).toString();
+    const reward = formatBalance(new BN(params.reward));
+    const rewardPeriod = (new BN(params.reward_period)).toString();
+    const unbondingPeriod = (new BN(params.unbonding_period)).toString();
 
     return(
         <Table>
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell>RoleId</Table.HeaderCell>
+                    <Table.HeaderCell>Role Id</Table.HeaderCell>
                     <Table.HeaderCell>{role.toNumber()}</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body>
                 <Table.Row>
                     <Table.Cell>Minimum Stake</Table.Cell>
-                    <Table.Cell>{formatBalance(minStake)}</Table.Cell>
+                    <Table.Cell>{minStake}</Table.Cell>
                 </Table.Row>
                 <Table.Row>
                     <Table.Cell>Actors</Table.Cell>
-                    <Table.Cell>{active}/{maxActors.toString()}</Table.Cell>
+                    <Table.Cell>{active}/{maxActors}</Table.Cell>
                 </Table.Row>
                 <Table.Row>
                     <Table.Cell>Reward</Table.Cell>
-                    <Table.Cell>{formatBalance(reward)}, every {rewardPeriod.toString()} blocks</Table.Cell>
+                    <Table.Cell>{reward}, every {rewardPeriod} blocks</Table.Cell>
                 </Table.Row>
                 <Table.Row>
                     <Table.Cell>Unbonding Period</Table.Cell>
-                    <Table.Cell>{unbondingPeriod.toString()} blocks</Table.Cell>
+                    <Table.Cell>{unbondingPeriod} blocks</Table.Cell>
                 </Table.Row>
             </Table.Body>
         </Table>
