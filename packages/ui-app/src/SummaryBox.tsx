@@ -25,8 +25,8 @@ const StyledSummary = styled.div`
   padding-right: 1rem;
 
   &::-webkit-scrollbar {
-     display: none;
-     width: 0px;
+    display: none;
+    width: 0px;
    }
 
    > section {
@@ -35,19 +35,9 @@ const StyledSummary = styled.div`
 		text-align: left;
 	}
 
-	article {
-    align-items: center;
-		box-shadow: none;
-    background: none;
-		color: rgba(0, 0, 0, 0.6);
-    display: flex;
-		flex: 0 1 auto;
-    flex-flow: row wrap;
-    justify-content: flex-end;
-    min-height: 5.7rem;
-    padding: 0.5rem 1.5rem;
-		text-align: left;
-	}
+  > section:first-child > article:first-child .label-small > label {
+    min-width: 4rem !important;
+  }
 
 	details & {
 		display: block;
@@ -64,12 +54,18 @@ const StyledSummary = styled.div`
 			margin-top: 0.75rem;
 		}
 	}
-  `;
+
+  .ui.label {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+  }
+`;
 
 export default class SummaryBox extends React.PureComponent<Props> {
   render () {
     return (
-      <StyledSummary className='ui--summary'>
+      <StyledSummary>
         {this.props.children}
       </StyledSummary>
     );

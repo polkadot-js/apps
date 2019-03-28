@@ -190,46 +190,12 @@ header .ui--Button-Group {
   }
 }
 
-.ui--summary {
-  article {
-    .label-small {
-      font-size: 2.2rem;
-      font-weight: 100;
-      line-height: 2.25rem;
-      text-align: right;
-
-      > label {
-        line-height: 1rem;
-        min-width: 7rem;
-      }
-    }
-
-    .ui--Labelled > * {
-      margin: 0.4rem 0;
-    }
-  }
-
-  > section:first-child > article:first-child .label-small > label {
-    min-width: 4.5rem;
-  }
-
-  .ui.label {
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 0;
-  }
-}
-
 .ui--Chart {
   position: relative;
   display: inline-block;
   padding: 1em 1em 0;
   height: 15vw;
   width: 15vw;
-}
-
-.ui--CardSummary-progress {
-  margin: 0.25rem 0 -0.5rem !important;
 }
 
 .ui--CopyButton {
