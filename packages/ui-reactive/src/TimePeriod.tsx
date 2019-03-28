@@ -12,12 +12,12 @@ import { formatNumber } from '@polkadot/ui-util';
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
   label?: string,
-  timestamp_blockPeriod?: Moment
+  timestamp_minimumPeriod?: Moment
 };
 
 class TimePeriod extends React.PureComponent<Props> {
   render () {
-    const { children, className, label = '', style, timestamp_blockPeriod } = this.props;
+    const { children, className, label = '', style, timestamp_minimumPeriod } = this.props;
 
     return (
       <div
@@ -25,8 +25,8 @@ class TimePeriod extends React.PureComponent<Props> {
         style={style}
       >
         {label}{
-          timestamp_blockPeriod
-            ? `${formatNumber(timestamp_blockPeriod.toNumber() * 2)}s`
+          timestamp_minimumPeriod
+            ? `${formatNumber(timestamp_minimumPeriod.toNumber() * 2)}s`
             : '-'
           }{children}
       </div>
