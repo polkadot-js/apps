@@ -20,7 +20,8 @@ type Props = I18nProps & {
 type State = {
   bondValue?: BN,
   controllerId: string | null,
-  destination: number
+  destination: number,
+  isValidController: boolean
 };
 
 const stashOptions = [
@@ -32,13 +33,14 @@ const stashOptions = [
 class Bonding extends React.PureComponent<Props, State> {
   state: State = {
     controllerId: null,
-    destination: 0
+    destination: 0,
+    isValidController: false
   };
 
   render () {
     const { accountId, isOpen, onClose, t } = this.props;
-    const { bondValue, controllerId, destination } = this.state;
-    const canSubmit = !!bondValue && bondValue.gtn(0) && controllerId;
+    const { bondValue, controllerId, destination, isValidController } = this.state;
+    const canSubmit = isValidController && !!bondValue && bondValue.gtn(0) && controllerId;
 
     if (!isOpen) {
       return null;
@@ -77,7 +79,7 @@ class Bonding extends React.PureComponent<Props, State> {
 
   private renderContent () {
     const { accountId, bondedId, t } = this.props;
-    const { controllerId } = this.state;
+    const { controllerId, isValidController } = this.state;
 
     return (
       <>
@@ -98,6 +100,13 @@ class Bonding extends React.PureComponent<Props, State> {
             onChange={this.onChangeController}
             value={controllerId}
           />
+          {
+            isValidController
+              ? null
+              : (
+                <article className='error'>{t('Select a controller account which is not the same as you stash account. Controllers are responsible for making any actions to contol the bonded funds.')}</article>
+              )
+          }
           <InputBalance
             autoFocus
             className='medium'
@@ -117,7 +126,12 @@ class Bonding extends React.PureComponent<Props, State> {
   }
 
   private onChangeController = (controllerId: string) => {
-    this.setState({ controllerId });
+    const { accountId } = this.props;
+
+    this.setState({
+      controllerId,
+      isValidController: controllerId !== accountId
+    });
   }
 
   private onChangeDestination = (destination: number) => {
