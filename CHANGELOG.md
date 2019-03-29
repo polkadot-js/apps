@@ -1,3 +1,10 @@
+# 0.27.1
+
+- Bring in new staking & nominating functions
+- Swap default keyring accounts (on creation) to sr25519
+- New faster crypto algorithms
+- Misc. bug fixes all around
+
 # 0.26.1
 
 - Swap keyring to HDKD derivation, mnemonic keys are now not backwards compatible with those created earlier. (Defaults are still for ed25519)

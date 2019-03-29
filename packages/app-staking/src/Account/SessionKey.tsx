@@ -11,21 +11,17 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   accountId: string,
-  controllerId: string | null,
   isOpen: boolean,
   onClose: () => void
 };
 
-type State = {
-  nextController?: string
-};
+type State = {};
 
-class Controller extends React.PureComponent<Props, State> {
+class Key extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
     const { accountId, isOpen, onClose, t } = this.props;
-    const { nextController } = this.state;
 
     if (!isOpen) {
       return null;
@@ -33,7 +29,7 @@ class Controller extends React.PureComponent<Props, State> {
 
     return (
       <Modal
-        className='staking--Controller'
+        className='staking--Stash'
         dimmer='inverted'
         open
         size='small'
@@ -49,11 +45,10 @@ class Controller extends React.PureComponent<Props, State> {
           <Button.Or />
           <TxButton
             accountId={accountId}
-            isDisabled={!nextController}
             isPrimary
-            label={t('Set Controller')}
+            label={t('Set Session Key')}
             onClick={onClose}
-            params={[nextController]}
+            params={[accountId]}
             tx='session.setKey'
           />
         </Button.Group>
@@ -63,40 +58,24 @@ class Controller extends React.PureComponent<Props, State> {
   }
 
   private renderContent () {
-    const { accountId, controllerId, t } = this.props;
-    const { nextController } = this.state;
-    const defaultValue = controllerId
-      ? controllerId
-      : undefined;
+    const { accountId, t } = this.props;
 
     return (
       <>
         <Modal.Header>
-          {t('Controller Preferences')}
+          {t('Key Preferences')}
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
             className='medium'
             isDisabled
-            label={t('stash account')}
+            label={t('session account')}
             value={accountId}
-          />
-          <InputAddress
-            autoFocus
-            className='medium'
-            value={nextController || defaultValue}
-            label={t('controller account')}
-            onChange={this.onChangeController}
-            type='account'
           />
         </Modal.Content>
       </>
     );
   }
-
-  private onChangeController = (nextController: string) => {
-    this.setState({ nextController });
-  }
 }
 
-export default translate(Controller);
+export default translate(Key);

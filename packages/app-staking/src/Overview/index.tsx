@@ -19,7 +19,7 @@ const ZERO = new Balance(0);
 
 export default class Overview extends React.PureComponent<Props> {
   render () {
-    const { balances, balanceArray, intentions, validators } = this.props;
+    const { balances, balanceArray, intentions, nominators, validators } = this.props;
     const intentionsSorted = this.sortByBalance(
       intentions.filter((address) =>
         !validators.includes(address)
@@ -39,6 +39,7 @@ export default class Overview extends React.PureComponent<Props> {
           balanceArray={balanceArray}
           current={validatorsSorted}
           next={intentionsSorted}
+          nominators={nominators}
         />
       </div>
     );

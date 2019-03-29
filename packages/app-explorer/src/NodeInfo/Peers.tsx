@@ -42,7 +42,6 @@ class Peers extends React.PureComponent<Props> {
         <table>
           <thead>
             <tr>
-              <th className='number'>{t('index')}</th>
               <th className='roles'>{t('role')}</th>
               <th className='peerid ui--media-medium'>{t('peer id')}</th>
               <th className='number'>{t('best #')}</th>
@@ -50,7 +49,12 @@ class Peers extends React.PureComponent<Props> {
             </tr>
           </thead>
           <tbody>
-            {peers.sort((a, b) => a.index.cmp(b.index)).map(this.renderPeer)}
+            {peers
+              .sort((a, b) =>
+                b.bestNumber.cmp(a.bestNumber)
+              )
+              .map(this.renderPeer)
+            }
           </tbody>
         </table>
       </article>
@@ -58,11 +62,12 @@ class Peers extends React.PureComponent<Props> {
   }
 
   private renderPeer = (peer: PeerInfo) => {
+    const peerId = peer.peerId.toString();
+
     return (
-      <tr key={`peer:${peer.index.toNumber()}`}>
-        <td className='number'>{peer.index.toNumber()}</td>
+      <tr key={peerId}>
         <td className='roles'>{peer.roles.toString().toLowerCase()}</td>
-        <td className='peerid ui--media-medium'>{peer.peerId.toString()}</td>
+        <td className='peerid ui--media-medium'>{peerId}</td>
         <td className='number'>{formatNumber(peer.bestNumber)}</td>
         <td className='hash'>{peer.bestHash.toHex()}</td>
       </tr>

@@ -45,7 +45,7 @@ type State = {
   showWarning: boolean
 };
 
-const DEFAULT_TYPE = 'ed25519';
+const DEFAULT_TYPE = 'sr25519';
 
 function deriveValidate (derivePath: string, pairType: KeypairType): string | null {
   try {
@@ -185,7 +185,10 @@ class Creator extends React.PureComponent<Props, State> {
             value={password}
           />
         </div>
-        <details className='accounts--Creator-advanced'>
+        <details
+          className='accounts--Creator-advanced'
+          open
+        >
           <summary>{t('Advanced creation options')}</summary>
           <div className='ui--Params'>
             <div className='ui--row'>
@@ -198,7 +201,6 @@ class Creator extends React.PureComponent<Props, State> {
             </div>
             <div className='ui--row'>
               <Input
-                autoFocus
                 className='full'
                 isError={!!deriveError}
                 label={t('secret derivation path')}
@@ -316,7 +318,7 @@ class Creator extends React.PureComponent<Props, State> {
           : rawValidate(seed);
         const isPassValid = keyring.isPassValid(password);
 
-        if (!deriveError && isSeedValid && (seed !== prevState.seed || derivePath !== prevState.derivePath)) {
+        if (!deriveError && isSeedValid && (seed !== prevState.seed || derivePath !== prevState.derivePath || pairType !== prevState.pairType)) {
           address = addressFromSeed(seed, derivePath, pairType);
         }
 

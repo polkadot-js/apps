@@ -5,9 +5,15 @@
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { AccountId, Balance } from '@polkadot/types';
 
+export type Nominators = {
+  // stash account and who is being nominated
+  [index: string]: Array<string>
+};
+
 export type ComponentProps = {
   balances: DerivedBalancesMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   intentions: Array<string>,
+  nominators: Nominators,
   validators: Array<string>
 };
