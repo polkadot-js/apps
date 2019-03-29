@@ -64,7 +64,7 @@ export const storageListenToBalanceChange: Snippet = {
   label: { color: 'blue', children: 'Storage', size: 'tiny' },
   code: `// You may leave this example running and make a transfer
 // of any value from or to Alice address in the 'Transfer' App
-const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKv3gB';
+const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 
 // Retrieve the initial balance.
 let previous = await api.query.balances.freeBalance(ALICE);
