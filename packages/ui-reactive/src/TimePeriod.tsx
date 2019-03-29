@@ -5,21 +5,29 @@
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import { Moment } from '@polkadot/types';
+import { Moment, Option } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
 import { formatNumber } from '@polkadot/ui-util';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
   label?: string,
-  timestamp_blockPeriod?: Moment, // support for previous
+  timestamp_blockPeriod?: Moment | Option<Moment>, // support for previous
   timestamp_minimumPeriod?: Moment // support for new version
 };
 
 class TimePeriod extends React.PureComponent<Props> {
   render () {
     const { children, className, label = '', style, timestamp_blockPeriod, timestamp_minimumPeriod } = this.props;
-    const period = timestamp_minimumPeriod || timestamp_blockPeriod;
+    const period = timestamp_minimumPeriod || (
+      timestamp_blockPeriod
+        ? (
+          (timestamp_blockPeriod as Moment).toNumber
+            ? (timestamp_blockPeriod as Moment)
+            : (timestamp_blockPeriod as Option<Moment>).unwrapOr(null)
+        )
+        : null
+    );
 
     return (
       <div
