@@ -1,3 +1,7 @@
+# 0.28.1
+
+- Support for substrate 1.0-rc
+
 # 0.27.1
 
 - Bring in new staking & nominating functions
