@@ -133,7 +133,7 @@ class Status extends React.PureComponent<Props> {
         return 'ban';
 
       case 'completed':
-      case 'finalised':
+      case 'finalized':
       case 'sent':
         return 'check';
 

@@ -74,7 +74,7 @@
   }
 
   &.completed,
-  &.finalised {
+  &.finalized {
     background: green;
   }
 

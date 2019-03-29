@@ -20,12 +20,13 @@ const randomAmount = Math.floor((Math.random() * 100000) + 1);
 const transfer = api.tx.balances.transfer(BOB, randomAmount);
 
 // Sign and Send the transaction
-transfer.signAndSend(ALICE, ({ events = [], status, type }) => {
-  if (type === 'Finalised') {
-    console.log('Successful transfer of ' + randomAmount + ' with hash ' + status.asFinalised.toHex());
+transfer.signAndSend(ALICE, ({ events = [], status }) => {
+  if (status.isFinalized) {
+    console.log('Successful transfer of ' + randomAmount + ' with hash ' + status.asFinalized.toHex());
   } else {
-    console.log('Status of transfer: ' + type);
+    console.log('Status of transfer: ' + status.type);
   }
+
   events.forEach(({ phase, event: { data, method, section } }) => {
     console.log(phase.toString() + ' : ' + section + '.' + method + ' ' + data.toString());
   });

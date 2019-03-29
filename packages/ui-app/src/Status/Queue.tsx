@@ -29,7 +29,7 @@ const REMOVE_TIMEOUT = 7500;
 const SUBMIT_RPC = jsonrpc.author.methods.submitAndWatchExtrinsic;
 const STATUS_COMPLETE: Array<QueueTx$Status> = [
   // status from subscription
-  'finalised', 'usurped', 'dropped', 'invalid',
+  'finalized', 'usurped', 'dropped', 'invalid',
   // normal completion
   'cancelled', 'error', 'sent'
 ];
