@@ -26,19 +26,19 @@ export default class AvailableRoles extends React.PureComponent<Props> {
 type RoleProps = BareProps & {
     role: Role,
     roleParams?: Option<RoleParameters>,
-    actors?: Array<AccountId>
+    actorAccountIds?: Array<AccountId>
 }
 
 class RoleDisplayInner extends React.PureComponent<RoleProps> {
     render() {
-        const {role, roleParams, actors} = this.props;
-        if (!roleParams || roleParams.isNone || !actors) return <em>Loading...</em>;
+        const {role, roleParams, actorAccountIds} = this.props;
+        if (!roleParams || roleParams.isNone || !actorAccountIds) return <em>Loading...</em>;
 
         const params = roleParams.unwrap();
 
         return (
             <Section title={role.toString()}>
-                <Parameters role={role} params={params} active={actors.length}></Parameters>
+                <Parameters role={role} params={params} active={actorAccountIds.length}></Parameters>
             </Section>
         )
     }
@@ -46,7 +46,7 @@ class RoleDisplayInner extends React.PureComponent<RoleProps> {
 
 const RoleDisplay = withCalls<RoleProps>(
     ['query.actors.parameters', {propName: 'roleParams', paramName: 'role'}],
-    ['query.actors.accountsByRole', {propName: 'actors', paramName: 'role'}],
+    ['query.actors.accountIdsByRole', {propName: 'actorAccountIds', paramName: 'role'}],
 )(RoleDisplayInner)
 
 

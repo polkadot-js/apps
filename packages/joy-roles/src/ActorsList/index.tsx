@@ -11,7 +11,7 @@ type Props = BareProps & ComponentProps;
 
 export default class ActorsList extends React.PureComponent<Props> {
     render() {
-        const actors: Array<string> = this.props.actors;
+        const actorAccountIds: Array<string> = this.props.actorAccountIds;
 
         return (
             <Table>
@@ -22,7 +22,7 @@ export default class ActorsList extends React.PureComponent<Props> {
                         <Table.HeaderCell>Member Id</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
-                <Table.Body>{ actors.map((account: string) =>
+                <Table.Body>{ actorAccountIds.map((account: string) =>
                     <ActorDisplay key={account} account={account} />
                 )}
                 </Table.Body>
@@ -56,5 +56,5 @@ class ActorInner extends React.PureComponent<ActorProps> {
 }
 
 const ActorDisplay = withCalls<ActorProps>(
-    ['query.actors.actorsByAccountId', {propName: 'actor', paramName: 'account'}]
+    ['query.actors.actorByAccountId', {propName: 'actor', paramName: 'account'}]
 )(ActorInner)

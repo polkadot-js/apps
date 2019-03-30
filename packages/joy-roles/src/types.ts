@@ -43,12 +43,12 @@ export class RoleParameters extends Struct {
   constructor(value?: any) {
     super({
       min_stake: Balance,
-      max_actors: u32,
       min_actors: u32,
+      max_actors: u32,
       reward: Balance,
       reward_period: BlockNumber,
-      unbonding_period: BlockNumber,
       bonding_period: BlockNumber,
+      unbonding_period: BlockNumber,
       min_service_period: BlockNumber,
       startup_grace_period: BlockNumber,
       entry_request_fee: Balance,

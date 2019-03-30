@@ -21,14 +21,14 @@ import translate from './translate';
 
 type Props = AppProps & ApiProps & I18nProps & {
   requests?: Array<Request>,
-  actors?: Array<AccountId>,
+  actorAccountIds?: Array<AccountId>,
   roles?: Array<Role>,
   allAccounts?: SubjectInfo,
 };
 
 type State = {
   tabs: Array<TabItem>,
-  actors: Array<string>,
+  actorAccountIds: Array<string>,
   requests: Array<Request>,
   roles: Array<Role>,
 };
@@ -42,7 +42,7 @@ class App extends React.PureComponent<Props, State> {
     const { t } = props;
 
     this.state = {
-      actors: [],
+      actorAccountIds: [],
       requests: [],
       roles: [],
       tabs: [
@@ -62,9 +62,9 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ actors, requests, roles }: Props): State {
+  static getDerivedStateFromProps ({ actorAccountIds, requests, roles }: Props): State {
     return {
-      actors: (actors || []).map((accountId) =>
+      actorAccountIds: (actorAccountIds || []).map((accountId) =>
         accountId.toString()
       ),
       requests: (requests || []).map((request) =>
@@ -106,11 +106,11 @@ class App extends React.PureComponent<Props, State> {
 
   private renderComponent (Component: React.ComponentType<ComponentProps>) {
     return (): React.ReactNode => {
-      const { actors, requests, roles } = this.state;
+      const { actorAccountIds, requests, roles } = this.state;
 
       return (
         <Component
-          actors={actors}
+          actorAccountIds={actorAccountIds}
           requests={requests}
           roles={roles}
         />
@@ -125,7 +125,7 @@ export default withMulti(
   translate,
   withObservable(accountObservable.subject, { propName: 'allAccounts' }),
   withCalls<Props>(
-    ['query.actors.actors', { propName: 'actors' }],
+    ['query.actors.actorAccountIds', { propName: 'actorAccountIds' }],
     ['query.actors.roleEntryRequests', { propName: 'requests' }],
     ['query.actors.availableRoles', { propName: 'roles' }],
   )
