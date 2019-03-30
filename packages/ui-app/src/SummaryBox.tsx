@@ -36,7 +36,7 @@ const StyledSummary = styled.div`
     background: none;
   }
 
-  section {
+  > section {
 		display: flex;
 		flex: 0 1 auto;
 		text-align: left;
