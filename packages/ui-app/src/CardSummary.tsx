@@ -40,10 +40,12 @@ const Card = styled.article`
     > label {
       line-height: 1rem;
       min-width: 7rem !important;
+      font-size: 0.9rem;
     }
 
     .progress {
       margin: 0.25rem 0 -0.5rem !important;
+      background: rgba(0,0,0,0.05);
     }
   }
 `;

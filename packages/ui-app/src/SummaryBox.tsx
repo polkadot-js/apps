@@ -25,11 +25,18 @@ const StyledSummary = styled.div`
   padding-right: 1rem;
 
   &::-webkit-scrollbar {
-    display: none;
-    width: 0px;
-   }
+    height: 2px;
+  }
 
-   > section {
+  &::-webkit-scrollbar-thumb {
+    background: #e1e1e1;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: none;
+  }
+
+  section {
 		display: flex;
 		flex: 0 1 auto;
 		text-align: left;
