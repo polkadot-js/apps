@@ -10,8 +10,8 @@ export const extrinsicMakeTransfer: Snippet = {
   label: { color: 'grey', children: 'Extrinsics', size: 'tiny' },
   code: `// Make a transfer from Alice to Bob and listen to system events.
 // You need to be connected to a development chain for this example to work.
-const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKv3gB';
-const BOB = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM696e4';
+const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+const BOB = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
 
 // Get a random number between 1 and 100000
 const randomAmount = Math.floor((Math.random() * 100000) + 1);
@@ -20,12 +20,13 @@ const randomAmount = Math.floor((Math.random() * 100000) + 1);
 const transfer = api.tx.balances.transfer(BOB, randomAmount);
 
 // Sign and Send the transaction
-transfer.signAndSend(ALICE, ({ events = [], status, type }) => {
-  if (type === 'Finalised') {
-    console.log('Successful transfer of ' + randomAmount + ' with hash ' + status.asFinalised.toHex());
+transfer.signAndSend(ALICE, ({ events = [], status }) => {
+  if (status.isFinalized) {
+    console.log('Successful transfer of ' + randomAmount + ' with hash ' + status.asFinalized.toHex());
   } else {
-    console.log('Status of transfer: ' + type);
+    console.log('Status of transfer: ' + status.type);
   }
+
   events.forEach(({ phase, event: { data, method, section } }) => {
     console.log(phase.toString() + ' : ' + section + '.' + method + ' ' + data.toString());
   });

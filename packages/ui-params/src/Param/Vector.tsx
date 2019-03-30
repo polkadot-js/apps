@@ -121,7 +121,7 @@ class Vector extends React.PureComponent<Props, State> {
           const { onChange } = this.props;
 
           onChange && onChange({
-            isValid: values.reduce((result, { isValid }) => result && isValid, true),
+            isValid: values.reduce((result: boolean, { isValid }) => result && isValid, true),
             value: values.map(({ value }) => value)
           });
         }

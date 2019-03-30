@@ -90,6 +90,7 @@ export default withMulti(
   withCalls<Props>(
     'query.session.validators',
     'derive.accounts.indexes',
-    'derive.balances.fees'
+    'derive.balances.fees',
+    'derive.staking.controllers'
   )
 );
