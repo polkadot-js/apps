@@ -54,7 +54,7 @@ class NodeInfo extends React.PureComponent<Props> {
 
   render () {
     const { api } = this.props;
-    const uiInfo = `@polkadot/apps v${pkgJson.version}`;
+    const uiInfo = `apps v${pkgJson.version}`;
 
     return (
       <Wrapper>
@@ -67,7 +67,7 @@ class NodeInfo extends React.PureComponent<Props> {
           <NodeVersion label='v' />
         </div>
         <div className='spacer' />
-        <div>{api.libraryInfo}</div>
+        <div>{api.libraryInfo.replace('@polkadot/', '')}</div>
         <div>{uiInfo}</div>
       </Wrapper>
     );
