@@ -204,10 +204,11 @@ export function registerJoystreamTypes () {
         'status': 'ProposalStatus',
         'finalized_at': 'BlockNumber'
       },
-      DataObjectTypeId: 'u32',
+      DataObjectTypeId: 'u64',
       DataObjectType: {
-        id: 'DataObjectTypeId',
+        id: 'Option<DataObjectTypeId>',
         description: 'Text',
+        active: 'Bool',
       }
     });
   } catch (err) {
