@@ -12,7 +12,7 @@ import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { withCalls, withMulti, withObservable } from '@polkadot/ui-api/index';
 
 import ActorsList from './ActorsList';
-import Actions from './Actions';
+import MyRequests from './MyRequests';
 import AvailableRoles from './AvailableRoles';
 
 import './index.css';
@@ -47,16 +47,16 @@ class App extends React.PureComponent<Props, State> {
       roles: [],
       tabs: [
         {
-          name: 'live',
-          text: t('Live')
+          name: 'actors',
+          text: t('Actors')
         },
         {
           name: 'roles',
           text: t('Available Roles')
         },
         {
-          name: 'actions',
-          text: t('My requests')
+          name: 'requests',
+          text: t('My Requests')
         },
       ],
     };
@@ -84,7 +84,7 @@ class App extends React.PureComponent<Props, State> {
     const filteredTabs = hasAccounts
       ? tabs
       : tabs.filter(({ name }) =>
-        !['actions'].includes(name)
+        !['requests'].includes(name)
       );
 
     return (
@@ -96,7 +96,7 @@ class App extends React.PureComponent<Props, State> {
           />
         </header>
         <Switch>
-          <Route path={`${basePath}/actions`} render={this.renderComponent(Actions)} />
+          <Route path={`${basePath}/requests`} render={this.renderComponent(MyRequests)} />
           <Route path={`${basePath}/roles`} render={this.renderComponent(AvailableRoles)} />
           <Route render={this.renderComponent(ActorsList)} />
         </Switch>
