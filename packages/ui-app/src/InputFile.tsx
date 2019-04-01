@@ -19,10 +19,10 @@ type Props = BareProps & WithNamespaces & {
   clearContent?: boolean,
   isDisabled?: boolean,
   isError?: boolean,
-  label: string,
-  onChange?: (contents: Uint8Array) => void,
-  placeholder?: string,
-  withLabel?: boolean
+  label?: React.ReactNode,
+  withLabel?: boolean,
+  placeholder?: React.ReactNode,
+  onChange?: (contents: Uint8Array, file: File) => void
 };
 
 type State = {
@@ -45,30 +45,27 @@ class InputFile extends React.PureComponent<Props, State> {
     const { accept, className, clearContent, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
     const { file } = this.state;
 
-    return (
-      <Labelled
-        label={label}
-        withLabel={withLabel}
+    const dropzone =
+      <Dropzone
+        accept={accept}
+        className={classes('ui--InputFile', isError ? 'error' : '', className)}
+        disabled={isDisabled}
+        multiple={false}
+        onDrop={this.onDrop}
       >
-        <Dropzone
-          accept={accept}
-          className={classes('ui--InputFile', isError ? 'error' : '', className)}
-          disabled={isDisabled}
-          multiple={false}
-          onDrop={this.onDrop}
-        >
-          <div className='label'>
-            {
-              !file || clearContent
-                ? placeholder || t('drag and drop the file here')
-                : placeholder || t('{{name}} ({{size}} bytes)', {
-                  replace: file
-                })
-            }
-          </div>
-        </Dropzone>
-      </Labelled>
-    );
+        <div className='label'>
+        {!file || clearContent
+          ? placeholder || t('Drag and drop the file here')
+          : placeholder || t('{{name}} ({{size}} bytes)', {
+            replace: file
+          })
+        }
+        </div>
+      </Dropzone>;
+
+    return withLabel
+      ? <Labelled label={label}>{dropzone}</Labelled>
+      : dropzone;
   }
 
   private onDrop = (files: Array<File>) => {
@@ -89,7 +86,7 @@ class InputFile extends React.PureComponent<Props, State> {
       reader.onload = ({ target: { result } }: LoadEvent) => {
         const data = new Uint8Array(result);
 
-        onChange && onChange(data);
+        onChange && onChange(data, file);
 
         this.setState({
           file: {
