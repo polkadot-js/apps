@@ -8,7 +8,13 @@
   "maintainers": [],
   "dependencies": {
     "@babel/runtime": "^7.2.0",
+    "@types/mime-types": "^2.1.0",
     "@polkadot/ui-app": "^0.23.11",
-    "@polkadot/joy-utils": "^0.1.1"
+    "@polkadot/joy-utils": "^0.1.1",
+    "aplayer": "^1.10.1",
+    "dplayer": "^1.25.0",
+    "mime-types": "^2.1.22",
+    "react-aplayer": "^1.0.0",
+    "react-dplayer": "^0.2.3"
   }
 }
