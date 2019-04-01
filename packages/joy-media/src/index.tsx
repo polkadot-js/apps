@@ -1,29 +1,17 @@
 
-import BN from 'bn.js';
 import React from 'react';
 import { Route, Switch } from 'react-router';
 
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { withCalls } from '@polkadot/ui-api/with';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 
 import './index.css';
 
-import { queryMediaToProp } from './utils';
 import translate from './translate';
-
-function Explore (props: {}) {
-  return <em>TODO Explore media content</em>;
-}
-
-function Play (props: {}) {
-  return <em>TODO Play a media file by ID</em>;
-}
-
-function Upload (props: {}) {
-  return <em>TODO Upload a media file</em>;
-}
+import Explore from './Explore';
+import Play from './Play';
+import Upload from './Upload';
 
 function Dashboard (props: {}) {
   return <em>TODO Dashboard with configuration</em>;
@@ -61,10 +49,10 @@ class App extends React.PureComponent<Props> {
           <Tabs basePath={basePath} items={tabs} />
         </header>
         <Switch>
-          <Route path={`${basePath}/play/:fileId`} component={Play} />
+          <Route path={`${basePath}/play/:assetName`} component={Play} />
           <Route path={`${basePath}/upload`} component={Upload} />
           <Route path={`${basePath}/dashboard`} component={Dashboard} />
-          <Route render={Explore} />
+          <Route component={Explore} />
         </Switch>
       </main>
     );
@@ -72,6 +60,7 @@ class App extends React.PureComponent<Props> {
 }
 
 export default translate(
+  // TODO get count of uploaded content
   // withCalls<Props>(
   //   queryMediaToProp('nextFileId')
   // )(App)

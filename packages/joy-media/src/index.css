@@ -1,39 +1,68 @@
-.ProfilePreviews,
-.FullProfile {
-  .item {
-    .image {
-      padding: 0 !important;
-    }
-    .description {
-      font-size: 1rem;
-    }
+.UploadBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  
+  .ui--InputFile,
+  .UploadStatus {
+    max-height: 400px;
   }
-}
-.ProfilePreviews {
-  &.ui.list>.item:first-child {
-    padding-top: .75rem;
-  }
-  &.ui.list>.item:last-child {
-    padding-bottom: .75rem;
-  }
-  .MyProfile {
-    background-color: #FFF8E1;
-  }
-}
-.ProfileDetails {
-  display: flex !important;
-  padding-left: 1rem !important;
-  .handle {
-    margin-right: 1rem;
-    .button {
-      padding: .5rem .75rem;
+
+  .ui--InputFile {
+    &:hover {
+      border-color: #2185d0 !important;
+      .label {
+        color: #2185d0 !important;
+      }
     }
   }
+
+  .UploadSidebar {
+    width: 200px;
+    overflow: hidden;
+    /* float: left; */
+  }
+
+  .UploadMainContent {
+    width: calc(100% - 200px);
+    overflow: hidden;
+    /* float: right;
+    position: relative; */
+  }
 }
-.ProfileDetailsTable {
-  font-size: 1rem !important;
-  tr td:first-child {
-    width: 1%;
-    white-space: nowrap;
+
+.PlayBox {
+  max-width: 700px;
+}
+
+.MediaGrid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 880px;
+
+  .MediaCell {
+    width: 25%;
+    &:hover {
+      background-color: #ccdcec;
+    }
+    
+    .CellContent {
+      padding: 5px;
+      margin-bottom: 15px;
+    }
+
+    .ThumbBox {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin-bottom: 5px;
+
+      .ThumbImg {
+        width: 210px;
+        max-height: 118px;
+        display: block;
+      }
+    }
   }
 }
