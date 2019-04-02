@@ -38,7 +38,7 @@ class Summary extends React.PureComponent<Props> {
             {formatNumber(democracy_referendumCount.sub(democracy_nextTally))}
           </CardSummary>
         </section>
-        <section className='ui--media-medium'>
+        <section>
           <CardSummary
             label={t('launch period')}
             progress={{

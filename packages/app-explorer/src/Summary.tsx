@@ -15,14 +15,11 @@ type Props = I18nProps & {};
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { className, style, t } = this.props;
+    const { t } = this.props;
 
     return (
-      <SummaryBox
-        className={className}
-        style={style}
-      >
-        <section className='ui--media-small'>
+      <SummaryBox>
+        <section>
           <CardSummary label={t('target')}>
             <TimePeriod />
           </CardSummary>
@@ -30,7 +27,7 @@ class Summary extends React.PureComponent<Props> {
             <TimeNow />
           </CardSummary>
         </section>
-        <section className='ui--media-large'>
+        <section>
           <SummarySession />
         </section>
         <section>

@@ -190,29 +190,12 @@ header .ui--Button-Group {
   }
 }
 
-.ui--CardSummary .ui.label {
-  padding-left: 0;
-  padding-right: 0;
-  padding-top: 0;
-}
-
 .ui--Chart {
   position: relative;
   display: inline-block;
   padding: 1em 1em 0;
   height: 15vw;
   width: 15vw;
-}
-
-.ui--CardSummary-large {
-  font-size: 2.25rem;
-  font-weight: 100;
-  line-height: 2.25rem;
-  text-align: right;
-}
-
-.ui--CardSummary-progress {
-  margin: 0.25rem 0 -0.5rem !important;
 }
 
 .ui--CopyButton {
@@ -376,4 +359,8 @@ header .ui--Button-Group {
       background: red;
     }
   }
+}
+
+.ui.tiny.progress {
+  font-size: .5rem;
 }
