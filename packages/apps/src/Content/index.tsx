@@ -31,6 +31,7 @@ const Wrapper = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
   width: 100%;
+  padding: 0 2em;
 `;
 
 const unknown = {

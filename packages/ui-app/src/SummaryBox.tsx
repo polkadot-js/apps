@@ -20,20 +20,7 @@ const StyledSummary = styled.div`
   flex-wrap: no-wrap;
   justify-content: space-between;
   margin-bottom: 2.5em;
-  overflow-x: scroll;
   padding-right: 1rem;
-
-  &::-webkit-scrollbar {
-    height: 2px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #e1e1e1;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: none;
-  }
 
   > section {
 		display: flex;
