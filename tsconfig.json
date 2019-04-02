@@ -11,6 +11,7 @@
       "@polkadot/joy-media/*": [ "packages/joy-media/src/*" ],
       "@polkadot/joy-members/*": [ "packages/joy-members/src/*" ],
       "@polkadot/joy-proposals/*": [ "packages/joy-proposals/src/*" ],
+      "@polkadot/joy-roles/*": [ "packages/joy-roles/src/*" ],
       "@polkadot/joy-settings/*": [ "packages/joy-settings/src/*" ],
       "@polkadot/joy-utils/*": [ "packages/joy-utils/src/*" ],
 

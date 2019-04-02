@@ -1,0 +1,15 @@
+{
+  "name": "@polkadot/joy-roles",
+  "version": "0.0.1",
+  "description": "Staked roles module for Joystream node",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Joystream contributors",
+  "maintainers": [],
+  "dependencies": {
+    "@babel/runtime": "^7.2.0",
+    "@polkadot/joy-utils": "^0.1.1",
+    "@polkadot/ui-app": "^0.23.29",
+    "@polkadot/ui-reactive": "^0.23.29"
+  }
+}
