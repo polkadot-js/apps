@@ -45,7 +45,7 @@ class Summary extends React.PureComponent<Props, State> {
 
     return (
       <SummaryBox>
-        <section>
+        <section className='ui--media-medium'>
           <CardSummary label={t('refresh in')}>
             <Elapsed value={nextRefresh} />
           </CardSummary>
@@ -68,7 +68,7 @@ class Summary extends React.PureComponent<Props, State> {
             }
           </CardSummary>
         </section>
-        <section>
+        <section className='ui--media-large'>
           <CardSummary label={t('queued tx')}>
             {
               info.extrinsics
