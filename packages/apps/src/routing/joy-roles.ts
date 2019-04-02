@@ -1,10 +1,10 @@
 import { Routes } from '../types';
 
-import Actors from '@polkadot/joy-roles/index';
+import Roles from '@polkadot/joy-roles/index';
 
 export default ([
   {
-    Component: Actors,
+    Component: Roles,
     display: {
       needsAccounts: true,
       needsApi: []

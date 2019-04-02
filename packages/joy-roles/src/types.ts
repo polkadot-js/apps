@@ -98,6 +98,6 @@ export function registerRolesTypes() {
       Actor,
     });
   } catch (err) {
-    console.error('Failed to register custom types of actors module', err);
+    console.error('Failed to register custom types of roles module', err);
   }
 }

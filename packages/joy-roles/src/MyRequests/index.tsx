@@ -37,9 +37,7 @@ class ActionList extends React.PureComponent<Props> {
             <Table>
                 <Table.Body>
                     {
-                        requests.map((request: Request) => {
-                            const account = request[0];
-                            const role = request[2];
+                        requests.map(([account, _, role]: Request) => {
                             return <ActionDisplay account={account} role={role} key={account.toString()}></ActionDisplay>
                         })
                     }
