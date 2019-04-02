@@ -8,8 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { AccountIndex } from '@polkadot/types';
 import { Input } from '@polkadot/ui-app';
-import { formatNumber } from '@polkadot/ui-util';
-import { bnToBn } from '@polkadot/util';
+import { bnToBn, formatNumber } from '@polkadot/util';
 
 import Bare from './Bare';
 

@@ -6,8 +6,7 @@ import { BareProps, BitLength, I18nProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { formatBalance } from '@polkadot/ui-util';
-import { isUndefined } from '@polkadot/util';
+import { formatBalance, isUndefined } from '@polkadot/util';
 
 import { classes } from './util';
 import { BitLengthOption } from './constants';

@@ -9,7 +9,7 @@ import { Nominators } from '../types';
 import React from 'react';
 import { AccountId, Balance, HeaderExtended } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api/with';
-import { formatNumber } from '@polkadot/ui-util';
+import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 import Address from './Address';

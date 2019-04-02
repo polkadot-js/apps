@@ -9,15 +9,6 @@ import { classes } from '@polkadot/ui-app/util';
 import { isNull, isUndefined, u8aToHex } from '@polkadot/util';
 import { Option, U8a } from '@polkadot/types';
 
-// import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
-// import formatNumber from '@polkadot/ui-util/formatNumber';
-// import keyring from '@polkadot/ui-keyring';
-// import u8aToHex from '@polkadot/util/u8a/toHex';
-// import isBn from '@polkadot/util/is/bn';
-// import isU8a from '@polkadot/util/is/u8a';
-
-// import { textMap as thresholdTextMap } from './Param/VoteThreshold';
-
 // const empty = div({}, '<empty>');
 const unknown = div({}, '<unknown>');
 

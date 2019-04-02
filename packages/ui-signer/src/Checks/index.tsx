@@ -12,8 +12,7 @@ import React from 'react';
 import { Method } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
 import { Icon } from '@polkadot/ui-app';
-import { formatBalance } from '@polkadot/ui-util';
-import { compactToU8a } from '@polkadot/util';
+import { compactToU8a, formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
 import Proposal from './Proposal';
