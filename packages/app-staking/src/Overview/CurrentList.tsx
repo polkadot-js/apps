@@ -4,7 +4,7 @@
 
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { Nominators } from '../types';
+import { Nominators, RecentlyOffline, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
 import { AccountId, Balance, HeaderExtended } from '@polkadot/types';
@@ -20,7 +20,8 @@ type Props = I18nProps & {
   chain_subscribeNewHead?: HeaderExtended,
   current: Array<string>,
   next: Array<string>,
-  nominators: Nominators
+  nominators: Nominators,
+  staking_recentlyOffline?: RecentlyOffline
 };
 
 class CurrentList extends React.PureComponent<Props> {
@@ -66,7 +67,7 @@ class CurrentList extends React.PureComponent<Props> {
   }
 
   private renderColumn (addresses: Array<string>, defaultName: string) {
-    const { balances, balanceArray, chain_subscribeNewHead, nominators, t } = this.props;
+    const { balances, balanceArray, chain_subscribeNewHead, nominators, staking_recentlyOffline, t } = this.props;
 
     if (addresses.length === 0) {
       return (
@@ -82,6 +83,17 @@ class CurrentList extends React.PureComponent<Props> {
       lastAuthor = (chain_subscribeNewHead.author || '').toString();
     }
 
+    const recentlyOffline: RecentlyOfflineMap = (staking_recentlyOffline || []).reduce(
+      (result, [accountId, blockNumber, instances]) => ({
+        ...result,
+        [accountId.toString()]: {
+          blockNumber,
+          instances
+        }
+      }),
+      {}
+    );
+
     return (
       <div>
         {addresses.map((address) => (
@@ -94,6 +106,7 @@ class CurrentList extends React.PureComponent<Props> {
             key={address}
             lastBlock={lastBlock}
             nominators={nominators}
+            recentlyOffline={recentlyOffline}
           />
         ))}
       </div>
@@ -105,6 +118,7 @@ export default withMulti(
   CurrentList,
   translate,
   withCalls<Props>(
-    'derive.chain.subscribeNewHead'
+    'derive.chain.subscribeNewHead',
+    'query.staking.recentlyOffline'
   )
 );
