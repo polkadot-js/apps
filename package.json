@@ -11,10 +11,10 @@
   ],
   "resolutions": {
     "@polkadot/api": "^0.76.0-beta.1",
-    "@polkadot/keyring": "^0.76.0-beta.3",
+    "@polkadot/keyring": "^0.76.0-beta.4",
     "@polkadot/types": "^0.76.0-beta.1",
-    "@polkadot/util": "^0.76.0-beta.3",
-    "@polkadot/util-crypto": "^0.76.0-beta.3",
+    "@polkadot/util": "^0.76.0-beta.4",
+    "@polkadot/util-crypto": "^0.76.0-beta.4",
     "babel-core": "^7.0.0-bridge.0",
     "rxjs": "^6.4.0",
     "typescript": "^3.4.1"
@@ -33,7 +33,7 @@
   "devDependencies": {
     "@babel/core": "^7.4.0",
     "@babel/runtime": "^7.4.0",
-    "@polkadot/dev-react": "^0.29.0-beta.1",
+    "@polkadot/dev-react": "^0.29.1",
     "@polkadot/ts": "^0.1.56",
     "autoprefixer": "^9.4.9",
     "empty": "^0.10.1",
