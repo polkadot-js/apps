@@ -7,7 +7,7 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
-import { formatBalance } from '@polkadot/ui-util';
+import { formatBalance } from '@polkadot/util';
 import RxBalance from '@polkadot/ui-reactive/Balance';
 
 import { classes } from './util';

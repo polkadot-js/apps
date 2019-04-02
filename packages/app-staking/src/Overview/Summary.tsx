@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React from 'react';
 import SummarySession from '@polkadot/app-explorer/SummarySession';
 import { SummaryBox, CardSummary } from '@polkadot/ui-app';
-import { formatBalance } from '@polkadot/ui-util';
+import { formatBalance } from '@polkadot/util';
 import { withCall, withMulti } from '@polkadot/ui-api';
 
 import translate from '../translate';

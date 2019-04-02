@@ -7,7 +7,7 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 import React from 'react';
 import { Moment, Option } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
-import { formatNumber } from '@polkadot/ui-util';
+import { formatNumber } from '@polkadot/util';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,

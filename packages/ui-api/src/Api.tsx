@@ -13,8 +13,8 @@ import { WsProvider } from '@polkadot/rpc-provider';
 import { InputNumber } from '@polkadot/ui-app/InputNumber';
 import keyring from '@polkadot/ui-keyring';
 import ApiSigner from '@polkadot/ui-signer/ApiSigner';
-import { formatBalance, isTestChain } from '@polkadot/ui-util';
 import { ChainProperties } from '@polkadot/types';
+import { formatBalance, isTestChain } from '@polkadot/util';
 
 import ApiContext from './ApiContext';
 

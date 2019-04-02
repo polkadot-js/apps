@@ -7,7 +7,7 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 import React from 'react';
 import { Balance } from '@polkadot/types';
 import { withCall } from '@polkadot/ui-api';
-import { formatBalance } from '@polkadot/ui-util';
+import { formatBalance } from '@polkadot/util';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
