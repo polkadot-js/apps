@@ -20,15 +20,14 @@ const Card = styled.article`
   background: none;
   color: rgba(0, 0, 0, 0.6);
   display: flex;
-  flex: 0 1 auto;
+  flex: 0 1 auto%;
   flex-flow: row wrap;
   justify-content: flex-end;
   min-height: 5.7rem;
   padding: 0.5rem 1.5rem;
-  text-align: left;
 
   > div {
-    font-size: 2.2rem;
+    font-size: 2.1rem;
     font-weight: 100;
     line-height: 2.25rem;
     text-align: right;
@@ -39,13 +38,20 @@ const Card = styled.article`
 
     > label {
       line-height: 1rem;
-      min-width: 7rem !important;
       font-size: 0.95rem;
     }
 
     .progress {
       margin: 0.25rem 0 -0.5rem !important;
       background: rgba(0,0,0,0.05);
+    }
+  }
+
+  @media(max-width: 768px) {
+    padding: 0.5 0.75em;
+
+    > div {
+      font-size: 1.8rem;
     }
   }
 `;

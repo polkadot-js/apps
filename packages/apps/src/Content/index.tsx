@@ -32,6 +32,10 @@ const Wrapper = styled.div`
   overflow-y: auto;
   width: 100%;
   padding: 0 2em;
+
+  @media(max-width: 768px) {
+    padding: 0 1.5em;
+  }
 `;
 
 const unknown = {

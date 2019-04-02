@@ -13,7 +13,6 @@ type Props = BareProps & {
 
 const StyledSummary = styled.div`
   align-items: stretch;
-  background: rgba(255,255,255,0.65);
   border-radius: 4px;
   box-shadow: 0 10px 40px rgba(0,0,0,.1);
   display: flex;
@@ -27,10 +26,6 @@ const StyledSummary = styled.div`
 		flex: 0 1 auto;
 		text-align: left;
 	}
-
-  > section:first-child > article:first-child .label-small > label {
-    min-width: 4rem !important;
-  }
 
 	details & {
 		display: block;
