@@ -54,7 +54,7 @@ const Card = styled.article`
     }
   }
 
-  @media(max-width: 768px) {
+  @media(max-width: 767px) {
     min-height: 4.8rem;
     padding: 0.25 0.4em;
 

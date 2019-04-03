@@ -41,7 +41,7 @@ const StyledSummary = styled.div`
 		}
 	}
 
-  @media(max-width: 768px) {
+  @media(max-width: 767px) {
     padding: 0;
 
     .ui--media-small {
