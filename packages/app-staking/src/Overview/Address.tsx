@@ -49,6 +49,7 @@ class Address extends React.PureComponent<Props, State> {
 
   private onClickBadge = (): void => {
     const { badgeExpanded } = this.state;
+
     this.setState({ badgeExpanded: !badgeExpanded });
   }
 
