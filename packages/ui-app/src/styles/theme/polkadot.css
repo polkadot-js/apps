@@ -114,4 +114,8 @@
       color: $nav-link;
     }
   }
+
+  .ui.menu.tabular .item.active {
+    border-bottom: 2px solid rgba(215, 94, 161, 1);
+  }
 }

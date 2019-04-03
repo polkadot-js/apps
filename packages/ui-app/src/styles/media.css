@@ -13,6 +13,7 @@
 .ui--media-large,
 .ui--media-medium,
 .ui--media-small {
+  display: none;
   height: 0;
   visibility: hidden;
   width: 0;
@@ -70,6 +71,7 @@ th.ui--media-small {
     height: auto;
     visibility: visible;
     width: auto;
+    
   }
 
   td.ui--media-small,
@@ -81,7 +83,7 @@ th.ui--media-small {
 /* tabs */
 @media (max-width: 767px) {
   .ui.menu.tabular {
-    padding-left: 4.2rem !important;
+    padding-left: 5.2rem !important;
   }
 }
 

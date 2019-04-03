@@ -53,7 +53,6 @@ br {
 }
 
 main {
-  padding: 1em 2em;
   min-height: 100vh;
 }
 
@@ -98,6 +97,10 @@ article {
 }
 
 header {
-  margin-bottom: 2em;
+  margin-bottom: 1.1rem;
   text-align: center;
+
+  @media(max-width: 767px) {
+    margin-bottom: 0.8rem;
+  }
 }

@@ -31,6 +31,15 @@ const Wrapper = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
   width: 100%;
+  padding: 0 2rem;
+
+  @media(max-width: 768px) {
+    padding: 0 0.5rem;
+  }
+`;
+
+const Connecting = styled.div`
+  padding: 1rem 0;
 `;
 
 const unknown = {
@@ -52,7 +61,7 @@ class Content extends React.Component<Props> {
     if (needsApi && (!isApiReady || !isApiConnected)) {
       return (
         <Wrapper>
-          <main>{t('Waiting for API to be connected and ready.')}</main>
+          <Connecting>{t('Waiting for API to be connected and ready.')}</Connecting>
         </Wrapper>
       );
     }

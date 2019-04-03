@@ -17,7 +17,6 @@ import styled from 'styled-components';
 const Card = styled.article`
   align-items: center;
   box-shadow: none;
-  background: none;
   color: rgba(0, 0, 0, 0.6);
   display: flex;
   flex: 0 1 auto;
@@ -25,27 +24,43 @@ const Card = styled.article`
   justify-content: flex-end;
   min-height: 5.7rem;
   padding: 0.5rem 1.5rem;
-  text-align: left;
 
   > div {
-    font-size: 2.2rem;
+    font-size: 2.1rem;
     font-weight: 100;
-    line-height: 2.25rem;
+    line-height: 2.1rem;
     text-align: right;
 
     > * {
-      margin: 0.4rem 0;
+      margin: 0.6rem 0;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
 
     > label {
       line-height: 1rem;
-      min-width: 7rem !important;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
     }
 
     .progress {
-      margin: 0.25rem 0 -0.5rem !important;
+      margin: 0.2rem 0 -0.5rem !important;
       background: rgba(0,0,0,0.05);
+    }
+  }
+
+  @media(max-width: 767px) {
+    min-height: 4.8rem;
+    padding: 0.25 0.4em;
+
+    > div {
+      font-size: 1.4rem;
+      line-height: 1.4rem;
     }
   }
 `;
@@ -66,7 +81,7 @@ type Props = BareProps & {
 
 export default class CardSummary extends React.PureComponent<Props> {
   render () {
-    const { children, progress, label } = this.props;
+    const { children, className, label, progress, style } = this.props;
     const value = progress && progress.value;
     const total = progress && progress.total;
     const left = progress && !isUndefined(value) && !isUndefined(total) && value.gten(0) && total.gtn(0)
@@ -90,7 +105,10 @@ export default class CardSummary extends React.PureComponent<Props> {
     }
 
     return (
-      <Card>
+      <Card
+        className={className}
+        style={style}
+      >
         <Labelled
           isSmall
           label={label}
