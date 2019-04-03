@@ -10,7 +10,7 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.4.2",
+    "@babel/runtime": "^7.4.3",
     "@polkadot/app-explorer": "^0.30.0-beta.4",
     "@polkadot/ui-app": "^0.30.0-beta.4",
     "@polkadot/ui-reactive": "^0.30.0-beta.4"
