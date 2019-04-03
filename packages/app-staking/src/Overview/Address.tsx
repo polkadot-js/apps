@@ -4,11 +4,11 @@
 
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { Nominators } from '../types';
+import { Nominators, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
-import { AccountId, Balance } from '@polkadot/types';
-import { withMulti } from '@polkadot/ui-api/with';
+import { AccountId, Balance, Option } from '@polkadot/types';
+import { withCall, withMulti } from '@polkadot/ui-api/with';
 import { AddressMini, AddressRow } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
@@ -21,11 +21,21 @@ type Props = I18nProps & {
   defaultName: string,
   isAuthor: boolean,
   lastBlock: string,
-  nominators: Nominators
+  nominators: Nominators,
+  recentlyOffline: RecentlyOfflineMap,
+  staking_bonded?: Option<AccountId>
 };
 
-class Address extends React.PureComponent<Props> {
-  private getDisplayName () {
+type State = {
+  badgeExpanded: boolean;
+};
+
+class Address extends React.PureComponent<Props, State> {
+  state: State = {
+    badgeExpanded: false
+  };
+
+  private getDisplayName = (): string | undefined => {
     const { address, defaultName } = this.props;
 
     const pair = keyring.getAccount(address).isValid()
@@ -37,29 +47,71 @@ class Address extends React.PureComponent<Props> {
       : defaultName;
   }
 
+  private onClickBadge = (): void => {
+    const { badgeExpanded } = this.state;
+
+    this.setState({ badgeExpanded: !badgeExpanded });
+  }
+
   render () {
-    const { address, balanceArray, isAuthor, lastBlock, nominators, t } = this.props;
+    const { address, balanceArray, isAuthor, lastBlock, nominators, recentlyOffline, staking_bonded, t } = this.props;
+    const { badgeExpanded } = this.state;
     const myNominators = Object.keys(nominators).filter((nominator) =>
       nominators[nominator].indexOf(address) !== -1
     );
-    const children = myNominators.length
-      ? (
-      <details className='staking--Account-detail'>
-        <summary>{t('Nominators ({{count}})', {
-          replace: {
-            count: myNominators.length
-          }
-        })}</summary>
-        {myNominators.map((accountId) =>
-          <AddressMini
-            key={accountId.toString()}
-            value={accountId}
-            withBalance
-          />
+    const bondedId: string | null = staking_bonded && staking_bonded.isSome
+      ? staking_bonded.unwrap().toString()
+      : null;
+
+    const hasNominators = !!myNominators.length;
+    const isRecentlyOffline = bondedId && recentlyOffline[bondedId];
+
+    const children = (hasNominators || isRecentlyOffline) ? (
+      <>
+        <details className='staking--Account-detail'>
+          {myNominators.length && (
+          <>
+            <summary>
+              {t('Nominators ({{count}})', {
+                replace: {
+                  count: myNominators.length
+                }
+              })}
+            </summary>
+            {myNominators.map((accountId) =>
+              <AddressMini
+                key={accountId.toString()}
+                value={accountId}
+                withBalance
+              />
+            )}
+          </>
         )}
-      </details>
-    )
-    : undefined;
+        </details>
+        {(bondedId && recentlyOffline[bondedId]) && (() => {
+          const { blockNumber, instances } = recentlyOffline[bondedId];
+
+          return (
+            <div
+              onClick={this.onClickBadge}
+              className={['recentlyOffline', badgeExpanded ? 'expand' : ''].join(' ')}
+            >
+              <div className='badge'>
+                {instances.toString()}
+              </div>
+              <div className='detail'>
+                {t('Reported offline {{instances}} times since block #{{blockNumber}}', {
+                  replace: {
+                    instances: instances.toString(),
+                    blockNumber
+                  }
+                })}
+              </div>
+            </div>
+          );
+        })()}
+      </>
+    ) : undefined;
 
     return (
       <article key={address}>
@@ -85,5 +137,6 @@ class Address extends React.PureComponent<Props> {
 
 export default withMulti(
   Address,
-  translate
+  translate,
+  withCall('query.staking.bonded', { paramName: 'address' })
 );
