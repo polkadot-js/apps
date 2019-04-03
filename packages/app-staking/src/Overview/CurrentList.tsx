@@ -9,7 +9,7 @@ import { Nominators, RecentlyOffline, RecentlyOfflineMap } from '../types';
 import React from 'react';
 import { AccountId, Balance, HeaderExtended } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api/with';
-import { formatNumber } from '@polkadot/ui';
+import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 import Address from './Address';
