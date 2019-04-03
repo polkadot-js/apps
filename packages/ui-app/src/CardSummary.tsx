@@ -28,10 +28,11 @@ const Card = styled.article`
   > div {
     font-size: 2.1rem;
     font-weight: 100;
+    line-height: 2.1rem;
     text-align: right;
 
     > * {
-      margin: 0.8rem 0;
+      margin: 0.6rem 0;
 
       &:first-child {
         margin-top: 0;
@@ -48,7 +49,7 @@ const Card = styled.article`
     }
 
     .progress {
-      margin: 0.5rem 0 -0.5rem !important;
+      margin: 0.2rem 0 -0.5rem !important;
       background: rgba(0,0,0,0.05);
     }
   }
@@ -59,6 +60,7 @@ const Card = styled.article`
 
     > div {
       font-size: 1.4rem;
+      line-height: 1.4rem;
     }
   }
 `;
