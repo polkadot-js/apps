@@ -19,8 +19,8 @@ class Summary extends React.PureComponent<Props> {
 
     return (
       <SummaryBox>
-        <section className='ui--media-small'>
-          <CardSummary label={t('target')}>
+        <section>
+          <CardSummary label={t('target')} className='ui--media-small'>
             <TimePeriod />
           </CardSummary>
           <CardSummary label={t('last block')}>

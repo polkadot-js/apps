@@ -14,12 +14,10 @@ type Props = BareProps & {
 const StyledSummary = styled.div`
   align-items: stretch;
   border-radius: 4px;
-  box-shadow: 0 10px 40px rgba(0,0,0,.1);
   display: flex;
   flex-wrap: no-wrap;
   justify-content: space-between;
   margin-bottom: 2.5em;
-  padding-right: 1rem;
 
   > section {
 		display: flex;
@@ -42,6 +40,12 @@ const StyledSummary = styled.div`
 			margin-top: 0.75rem;
 		}
 	}
+
+  @media(max-width: 768px) {
+    .ui--media-small {
+      display: none !important;
+    }
+  }
 
   .ui.label {
     padding-left: 0;

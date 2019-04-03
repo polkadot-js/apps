@@ -45,18 +45,18 @@ class Summary extends React.PureComponent<Props, State> {
 
     return (
       <SummaryBox>
-        <section className='ui--media-medium'>
+        <section>
           <CardSummary label={t('refresh in')}>
             <Elapsed value={nextRefresh} />
           </CardSummary>
-          <CardSummary label={t('total peers')}>
+          <CardSummary label={t('total peers')} className='ui--media-medium'>
             {
               info.health
                 ? `${info.health.peers.toNumber()}`
                 : '-'
             }
           </CardSummary>
-          <CardSummary label={t('syncing')}>
+          <CardSummary label={t('syncing')} className='ui--media-medium'>
             {
               info.health
                 ? (

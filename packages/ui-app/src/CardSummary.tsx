@@ -17,10 +17,9 @@ import styled from 'styled-components';
 const Card = styled.article`
   align-items: center;
   box-shadow: none;
-  background: none;
   color: rgba(0, 0, 0, 0.6);
   display: flex;
-  flex: 0 1 auto%;
+  flex: 0 1 auto;
   flex-flow: row wrap;
   justify-content: flex-end;
   min-height: 5.7rem;
@@ -48,10 +47,11 @@ const Card = styled.article`
   }
 
   @media(max-width: 768px) {
-    padding: 0.5 0.75em;
+    min-height: 4.8rem;
+    padding: 0.25 0.75em;
 
     > div {
-      font-size: 1.8rem;
+      font-size: 1.7rem;
     }
   }
 `;
@@ -72,7 +72,7 @@ type Props = BareProps & {
 
 export default class CardSummary extends React.PureComponent<Props> {
   render () {
-    const { children, progress, label } = this.props;
+    const { children, progress, label, className } = this.props;
     const value = progress && progress.value;
     const total = progress && progress.total;
     const left = progress && !isUndefined(value) && !isUndefined(total) && value.gten(0) && total.gtn(0)
@@ -96,7 +96,7 @@ export default class CardSummary extends React.PureComponent<Props> {
     }
 
     return (
-      <Card>
+      <Card className={className}>
         <Labelled
           isSmall
           label={label}
