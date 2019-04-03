@@ -42,6 +42,8 @@ const StyledSummary = styled.div`
 	}
 
   @media(max-width: 768px) {
+    padding: 0;
+    
     .ui--media-small {
       display: none !important;
     }

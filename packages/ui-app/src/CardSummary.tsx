@@ -55,10 +55,10 @@ const Card = styled.article`
 
   @media(max-width: 768px) {
     min-height: 4.8rem;
-    padding: 0.25 0.75em;
+    padding: 0.25 0.4em;
 
     > div {
-      font-size: 1.7rem;
+      font-size: 1.4rem;
     }
   }
 `;
