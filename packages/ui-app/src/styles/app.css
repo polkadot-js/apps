@@ -97,7 +97,7 @@ article {
 }
 
 header {
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.1rem;
   text-align: center;
 
   @media(max-width: 767px) {
