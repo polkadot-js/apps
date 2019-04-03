@@ -81,7 +81,7 @@ type Props = BareProps & {
 
 export default class CardSummary extends React.PureComponent<Props> {
   render () {
-    const { children, progress, label, className } = this.props;
+    const { children, className, label, progress, style } = this.props;
     const value = progress && progress.value;
     const total = progress && progress.total;
     const left = progress && !isUndefined(value) && !isUndefined(total) && value.gten(0) && total.gtn(0)
@@ -105,7 +105,10 @@ export default class CardSummary extends React.PureComponent<Props> {
     }
 
     return (
-      <Card className={className}>
+      <Card 
+        className={className}
+        style={style}
+      >
         <Labelled
           isSmall
           label={label}

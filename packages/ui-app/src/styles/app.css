@@ -100,7 +100,7 @@ header {
   margin-bottom: 1.2rem;
   text-align: center;
 
-  @media(max-width: 768px) {
+  @media(max-width: 767px) {
     margin-bottom: 0.8rem;
   }
 }

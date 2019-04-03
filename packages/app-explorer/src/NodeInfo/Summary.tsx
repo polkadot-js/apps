@@ -49,14 +49,20 @@ class Summary extends React.PureComponent<Props, State> {
           <CardSummary label={t('refresh in')}>
             <Elapsed value={nextRefresh} />
           </CardSummary>
-          <CardSummary label={t('total peers')} className='ui--media-small'>
+          <CardSummary
+            className='ui--media-small'
+            label={t('total peers')}
+          >
             {
               info.health
                 ? `${info.health.peers.toNumber()}`
                 : '-'
             }
           </CardSummary>
-          <CardSummary label={t('syncing')} className='ui--media-small'>
+          <CardSummary 
+            className='ui--media-small'
+            label={t('syncing')}
+          >
             {
               info.health
                 ? (
