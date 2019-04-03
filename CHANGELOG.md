@@ -1,3 +1,10 @@
+# 0.30.1
+
+- Staking page indicator for offline nodes (count & block)
+- Rework page tabs and content layouts
+- Cleanup of all UI summary headers
+- Emberic Elem support (replaces Dried Danta)
+
 # 0.29.1
 
 - @polkadot/util & @polkadot/api 0.75.1
