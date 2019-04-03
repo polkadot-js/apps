@@ -105,7 +105,7 @@ export default class CardSummary extends React.PureComponent<Props> {
     }
 
     return (
-      <Card 
+      <Card
         className={className}
         style={style}
       >

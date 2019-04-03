@@ -59,7 +59,7 @@ class Summary extends React.PureComponent<Props, State> {
                 : '-'
             }
           </CardSummary>
-          <CardSummary 
+          <CardSummary
             className='ui--media-small'
             label={t('syncing')}
           >
