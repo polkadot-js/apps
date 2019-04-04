@@ -11,7 +11,7 @@ import { ComponentProps } from './types';
 import React from 'react';
 import { AddressSummary, Button, Input, InputAddress, Labelled, Dropdown } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
-import uiSettings from '@polkadot/ui-settings';
+import uiSettings from '@polkadot/joy-settings/';
 
 import Backup from './Backup';
 import ChangePass from './ChangePass';
