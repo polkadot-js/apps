@@ -1,3 +1,3 @@
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
-export default withNamespaces(['proposals', 'ui']);
+export default withTranslation(['proposals', 'ui']);
