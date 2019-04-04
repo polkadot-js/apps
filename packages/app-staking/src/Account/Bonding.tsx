@@ -37,7 +37,7 @@ class Bonding extends React.PureComponent<Props, State> {
     isValidController: false
   };
 
-  render() {
+  render () {
     const { accountId, isOpen, onClose, t } = this.props;
     const { bondValue, controllerId, destination, isValidController } = this.state;
     const canSubmit = isValidController && !!bondValue && bondValue.gtn(0) && controllerId;
@@ -77,7 +77,7 @@ class Bonding extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderContent() {
+  private renderContent () {
     const { accountId, bondedId, t } = this.props;
     const { controllerId, destination, isValidController } = this.state;
 
