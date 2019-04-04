@@ -153,9 +153,9 @@ class Component extends React.PureComponent<Props, State> {
             label='Submit my vote'
             params={[hashedVote, stake]}
             tx='election.vote'
-            onTxSent={this.onFormSubmitted}
-            onTxFailed={this.onTxFailed}
-            onTxSuccess={(txResult: SubmittableResult) => this.onTxSuccess(buildNewVote() as NewVote, txResult)}
+            txSentCb={this.onFormSubmitted}
+            txFailedCb={this.onTxFailed}
+            txSuccessCb={(txResult: SubmittableResult) => this.onTxSuccess(buildNewVote() as NewVote, txResult)}
           />
         </Labelled>
       </Section>}

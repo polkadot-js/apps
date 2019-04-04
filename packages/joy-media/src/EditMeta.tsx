@@ -100,9 +100,9 @@ const InnerForm = (props: FormProps) => {
           params={buildTxParams()}
           tx={'TODO.saveMetadata'} // TODO add or update metadata here
           onClick={onSubmit}
-          onTxCancelled={onTxCancelled}
-          onTxFailed={onTxFailed}
-          onTxSuccess={onTxSuccess}
+          txCancelledCb={onTxCancelled}
+          txFailedCb={onTxFailed}
+          txSuccessCb={onTxSuccess}
         />
         <Button
           type='button'

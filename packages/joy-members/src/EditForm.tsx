@@ -135,9 +135,9 @@ const InnerForm = (props: FormProps) => {
             : 'members.buyMembership'
           }
           onClick={onSubmit}
-          onTxCancelled={onTxCancelled}
-          onTxFailed={onTxFailed}
-          onTxSuccess={onTxSuccess}
+          txCancelledCb={onTxCancelled}
+          txFailedCb={onTxFailed}
+          txSuccessCb={onTxSuccess}
         />
         <Button
           type='button'

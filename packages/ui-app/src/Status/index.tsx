@@ -70,7 +70,7 @@ class Status extends React.PureComponent<Props> {
     );
   }
 
-  private renderItem = ({ id, extrinsic, error, removeItem, rpc, status }: QueueTx) => {
+  private renderItem = ({ id, extrinsic, error, removeItem, rpc, status, result }: QueueTx) => {
     let { method, section } = rpc;
 
     if (extrinsic) {
@@ -83,7 +83,7 @@ class Status extends React.PureComponent<Props> {
     }
 
     const isExtrinsicFailed =
-      status === 'finalised' &&
+      status === 'finalized' &&
       result !== undefined &&
       undefined !== (result as SubmittableResult).events.find(({ event }) => {
         const { section, method } = event;

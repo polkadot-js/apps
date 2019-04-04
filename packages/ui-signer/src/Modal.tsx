@@ -229,12 +229,16 @@ class Signer extends React.PureComponent<Props, State> {
       return;
     }
 
-    const { id, signerCb } = currentItem;
+    const { id, signerCb, txCancelledCb } = currentItem;
 
     queueSetTxStatus(id, 'cancelled');
 
     if (isFunction(signerCb)) {
       signerCb(id, false);
+    }
+
+    if (isFunction(txCancelledCb)) {
+      txCancelledCb();
     }
   }
 
@@ -247,8 +251,10 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     const res = this.sendExtrinsic(currentItem, password);
-    const { onTxSent } = currentItem;
-    if (onTxSent) onTxSent();
+    const { txSentCb } = currentItem;
+    if (isFunction(txSentCb)) {
+      txSentCb();
+    }
     return res;
   }
 
@@ -286,10 +292,6 @@ class Signer extends React.PureComponent<Props, State> {
     const { queueSetTxStatus } = this.props;
 
     queueSetTxStatus(id, 'sending');
-
-    const getCallbacks = () => {
-      return { onTxFailed, onTxSuccess };
-    };
 
     if (isUnsigned) {
       return this.makeExtrinsicCall(submittable, queueTx, submittable.send);
