@@ -13,7 +13,6 @@
 .ui--media-large,
 .ui--media-medium,
 .ui--media-small {
-  display: none;
   height: 0;
   visibility: hidden;
   width: 0;
