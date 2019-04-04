@@ -12,6 +12,7 @@
     "@types/query-string": "^6.2.0",
     "@types/uuid": "^3.4.4",
     "@types/yup": "^0.26.10",
+    "axios": "^0.18.0",
     "formik": "^1.5.0",
     "query-string": "^6.2.0",
     "react-markdown": "^4.0.6",

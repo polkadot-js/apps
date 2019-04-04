@@ -1,0 +1,20 @@
+{
+  "name": "@polkadot/joy-media",
+  "version": "0.1.1",
+  "description": "Media content module for Joystream node",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Joystream contributors",
+  "maintainers": [],
+  "dependencies": {
+    "@babel/runtime": "^7.4.3",
+    "@polkadot/ui-app": "^0.30.1",
+    "@types/mime-types": "^2.1.0",
+    "@polkadot/joy-utils": "^0.1.1",
+    "aplayer": "^1.10.1",
+    "dplayer": "^1.25.0",
+    "mime-types": "^2.1.22",
+    "react-aplayer": "^1.0.0",
+    "react-dplayer": "^0.2.3"
+  }
+}

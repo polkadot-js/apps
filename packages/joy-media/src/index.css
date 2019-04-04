@@ -1,0 +1,68 @@
+.UploadBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  
+  .ui--InputFile,
+  .UploadStatus {
+    max-height: 400px;
+  }
+
+  .ui--InputFile {
+    &:hover {
+      border-color: #2185d0 !important;
+      .label {
+        color: #2185d0 !important;
+      }
+    }
+  }
+
+  .UploadSidebar {
+    width: 200px;
+    overflow: hidden;
+    /* float: left; */
+  }
+
+  .UploadMainContent {
+    width: calc(100% - 200px);
+    overflow: hidden;
+    /* float: right;
+    position: relative; */
+  }
+}
+
+.PlayBox {
+  max-width: 700px;
+}
+
+.MediaGrid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 880px;
+
+  .MediaCell {
+    width: 25%;
+    &:hover {
+      background-color: #ccdcec;
+    }
+    
+    .CellContent {
+      padding: 5px;
+      margin-bottom: 15px;
+    }
+
+    .ThumbBox {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin-bottom: 5px;
+
+      .ThumbImg {
+        width: 210px;
+        max-height: 118px;
+        display: block;
+      }
+    }
+  }
+}

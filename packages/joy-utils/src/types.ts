@@ -1,5 +1,6 @@
 import { Enum, EnumType, Option } from '@polkadot/types/codec';
 import { getTypeRegistry, BlockNumber, AccountId, Balance, Hash, u32, Text } from '@polkadot/types';
+import { registerMediaTypes } from '@polkadot/joy-media/types';
 import { registerMembershipTypes } from '@polkadot/joy-members/types';
 import { registerRolesTypes } from '@polkadot/joy-roles/types';
 
@@ -140,10 +141,9 @@ export class VoteKind extends Enum {
 
 export type ProposalVotes = [AccountId, VoteKind][];
 
-export function registerJoystreamTypes () {
+// TODO Refactor: split this function and move to corresponding modules: election and proposals.
+function registerElectionAndProposalTypes () {
   try {
-    registerMembershipTypes();
-    registerRolesTypes();
     const typeRegistry = getTypeRegistry();
 
     // Register parametrized enum ElectionStage:
@@ -203,15 +203,16 @@ export function registerJoystreamTypes () {
         'slashes': 'u32',
         'status': 'ProposalStatus',
         'finalized_at': 'BlockNumber'
-      },
-      DataObjectTypeId: 'u64',
-      DataObjectType: {
-        id: 'Option<DataObjectTypeId>',
-        description: 'Text',
-        active: 'Bool',
       }
     });
   } catch (err) {
     console.error('Failed to register custom types of Joystream node', err);
   }
+}
+
+export function registerJoystreamTypes () {
+  registerMembershipTypes();
+  registerRolesTypes();
+  registerMediaTypes();
+  registerElectionAndProposalTypes();
 }
