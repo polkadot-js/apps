@@ -55,31 +55,31 @@ class Bonding extends React.PureComponent<Props, State> {
       >
         {this.renderContent()}
         <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            onClick={onClose}
-            label={t('Cancel')}
-          />
-          <Button.Or />
-          <TxButton
-            accountId={accountId}
-            isDisabled={!canSubmit}
-            isPrimary
-            label={t('Bond')}
-            onClick={onClose}
-            params={[controllerId, bondValue, destination]}
-            tx='staking.bond'
-          />
-        </Button.Group>
-      </Modal.Actions>
+          <Button.Group>
+            <Button
+              isNegative
+              onClick={onClose}
+              label={t('Cancel')}
+            />
+            <Button.Or />
+            <TxButton
+              accountId={accountId}
+              isDisabled={!canSubmit}
+              isPrimary
+              label={t('Bond')}
+              onClick={onClose}
+              params={[controllerId, bondValue, destination]}
+              tx='staking.bond'
+            />
+          </Button.Group>
+        </Modal.Actions>
       </Modal>
     );
   }
 
   private renderContent () {
     const { accountId, bondedId, t } = this.props;
-    const { controllerId, isValidController } = this.state;
+    const { controllerId, destination, isValidController } = this.state;
 
     return (
       <>
@@ -119,6 +119,7 @@ class Bonding extends React.PureComponent<Props, State> {
             label={t('payment destination')}
             onChange={this.onChangeDestination}
             options={stashOptions}
+            value={destination}
           />
         </Modal.Content>
       </>
