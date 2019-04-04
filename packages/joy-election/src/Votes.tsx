@@ -10,7 +10,7 @@ import { withCalls } from '@polkadot/ui-api/with';
 import { AccountId, Balance } from '@polkadot/types';
 import { Button, Input, Labelled, InputAddress } from '@polkadot/ui-app/index';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
-import { formatBalance } from '@polkadot/ui-app/util';
+import { formatBalance } from '@polkadot/util';
 
 import translate from './translate';
 import { accountIdsToOptions, hashVote } from './utils';

@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { withCalls } from '@polkadot/ui-api/with';
 import { Hash } from '@polkadot/types';
-import { formatBalance } from '@polkadot/ui-app/util';
+import { formatBalance } from '@polkadot/util';
 
 import translate from './translate';
 import { calcTotalStake } from '@polkadot/joy-utils/index';

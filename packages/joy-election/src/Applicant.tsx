@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { withCalls } from '@polkadot/ui-api/with';
 import { AccountId } from '@polkadot/types';
-import { formatBalance } from '@polkadot/ui-app/util';
+import { formatBalance } from '@polkadot/util';
 import AddressMini from '@polkadot/ui-app/AddressMiniJoy';
 
 import translate from './translate';

@@ -1,7 +1,7 @@
 import BN from 'bn.js';
 import React from 'react';
 import { InputBalance, Bubble } from '@polkadot/ui-app/index';
-import { formatBalance } from '@polkadot/ui-app/util';
+import { formatBalance } from '@polkadot/util';
 
 type Props = {
   label?: string,
