@@ -10,7 +10,7 @@ import { Method } from '@polkadot/types';
 
 import AddressMini from '../AddressMini';
 import Icon from '../Icon';
-import classes from '../util/classes';
+import { classes } from '../util';
 import translate from '../translate';
 import { SubmittableResult } from '@polkadot/api';
 
@@ -39,7 +39,7 @@ class Status extends React.PureComponent<Props> {
     );
   }
 
-  private renderStatus = ({ account, action, id, message, status }: QueueStatus) => {
+  private renderStatus = ({ account, action, id, message, removeItem, status }: QueueStatus) => {
     const addressRendered = account
       ? <AddressMini value={account} />
       : undefined;
@@ -47,6 +47,7 @@ class Status extends React.PureComponent<Props> {
     return (
       <div
         className={classes('item', status)}
+        onClick={removeItem}
         key={id}
       >
         <div className='wrapper'>
@@ -69,7 +70,7 @@ class Status extends React.PureComponent<Props> {
     );
   }
 
-  private renderItem = ({ id, extrinsic, error, rpc, status, result }: QueueTx) => {
+  private renderItem = ({ id, extrinsic, error, removeItem, rpc, status }: QueueTx) => {
     let { method, section } = rpc;
 
     if (extrinsic) {
@@ -95,7 +96,8 @@ class Status extends React.PureComponent<Props> {
 
     return (
       <div
-        className={classes('item', status, isExtrinsicFailed ? 'failed' : '')}
+        className={classes('item', status)}
+        onClick={removeItem}
         key={id}
       >
         <div className='wrapper'>
@@ -145,7 +147,7 @@ class Status extends React.PureComponent<Props> {
         return 'ban';
 
       case 'completed':
-      case 'finalised':
+      case 'finalized':
       case 'sent':
         return 'check';
 

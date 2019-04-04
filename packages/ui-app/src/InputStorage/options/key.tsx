@@ -32,7 +32,11 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
             className='ui--DropdownLinked-Item-call'
             key={`${sectionName}_${value}:call`}
           >
-            {value}({input}): {type.toString()}
+            {value}({input}): {
+              method.meta.modifier.isOptional
+                ? `Option<${type}>`
+                : type.toString()
+            }
           </div>,
           <div
             className='ui--DropdownLinked-Item-text'

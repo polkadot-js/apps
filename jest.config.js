@@ -1,10 +1,15 @@
 const config = require('@polkadot/dev-react/config/jest');
+const findPackages = require('./scripts/findPackages');
+
+const internalModules = findPackages().reduce((modules, { dir, name }) => {
+  modules[`${name}(.*)$`] = `<rootDir>/packages/${dir}/src/$1`;
+
+  return modules;
+}, {});
 
 module.exports = Object.assign({}, config, {
   moduleNameMapper: {
-    '@polkadot/joy-(election|help|members|proposals|roles|settings|utils)(.*)$': '<rootDir>/packages/joy-$1/src/$2',
-    '@polkadot/app-(123code|accounts|addresses|democracy|explorer|extrinsics|js|rpc|settings|staking|status|storage|toolbox|transfer)(.*)$': '<rootDir>/packages/app-$1/src/$2',
-    '@polkadot/ui-(api|app|params|reactive|signer)(.*)$': '<rootDir>/packages/ui-$1/src/$2',
+    ...internalModules,
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'empty/object',
     '\\.(css|less)$': 'empty/object'
   }

@@ -7,9 +7,9 @@ import { Info } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { CardSummary } from '@polkadot/ui-app/index';
-import { formatNumber } from '@polkadot/ui-app/util';
-import { BestNumber, Elapsed } from '@polkadot/ui-reactive/index';
+import { SummaryBox, CardSummary } from '@polkadot/ui-app';
+import { formatNumber } from '@polkadot/util';
+import { BestNumber, Elapsed } from '@polkadot/ui-reactive';
 
 import translate from './translate';
 
@@ -44,19 +44,25 @@ class Summary extends React.PureComponent<Props, State> {
     const { peerBest } = this.state;
 
     return (
-      <summary>
-        <section className='ui--media-medium'>
+      <SummaryBox>
+        <section>
           <CardSummary label={t('refresh in')}>
             <Elapsed value={nextRefresh} />
           </CardSummary>
-          <CardSummary label={t('total peers')}>
+          <CardSummary
+            className='ui--media-small'
+            label={t('total peers')}
+          >
             {
               info.health
                 ? `${info.health.peers.toNumber()}`
                 : '-'
             }
           </CardSummary>
-          <CardSummary label={t('syncing')}>
+          <CardSummary
+            className='ui--media-small'
+            label={t('syncing')}
+          >
             {
               info.health
                 ? (
@@ -85,7 +91,7 @@ class Summary extends React.PureComponent<Props, State> {
             <BestNumber />
           </CardSummary>
         </section>
-      </summary>
+      </SummaryBox>
     );
   }
 }

@@ -9,39 +9,9 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { WebpackPluginServe } = require('webpack-plugin-serve');
 
-const packages = [
-
-  // Joystream apps:
-
-  'joy-election',
-  'joy-help',
-  'joy-members',
-  'joy-proposals',
-  'joy-roles',
-  'joy-utils',
-  'joy-settings',
-
-  // Polkadot apps:
-
-  'app-accounts',
-  'app-addresses',
-  'app-democracy',
-  'app-explorer',
-  'app-extrinsics',
-  'app-js',
-  'app-settings',
-  'app-staking',
-  'app-storage',
-  'app-123code',
-  'app-toolbox',
-  'app-transfer',
-  'ui-api',
-  'ui-app',
-  'ui-params',
-  'ui-reactive',
-  'ui-signer'
-];
+const findPackages = require('../../scripts/findPackages'); // Do we need to add joy- apps in that script?
 
 const DEFAULT_THEME = 'substrate';
 
@@ -57,7 +27,12 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
   return {
     context,
     devtool: isProd ? 'source-map' : 'cheap-eval-source-map',
-    entry: `./src/${name}.tsx`,
+    entry: [
+      `./src/${name}.tsx`,
+      isProd
+        ? null
+        : 'webpack-plugin-serve/client'
+    ].filter((entry) => entry),
     mode: ENV,
     output: {
       chunkFilename: `[name].[chunkhash:8].js`,
@@ -170,11 +145,11 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
             name: 'react',
             test: /node_modules\/(chart|i18next|react|semantic-ui)/
           },
-          vendorSodium: {
+          polkadotJs: {
             chunks: 'initial',
             enforce: true,
-            name: 'sodium',
-            test: /node_modules\/(libsodium)/
+            name: 'polkadotjs',
+            test: /node_modules\/(@polkadot\/wasm-(crypto|dalek-ed25519|schnorrkel))/
           }
         }
       }
@@ -203,15 +178,22 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({
         filename: `[name].[contenthash:8].css`
-      })
-    ])
+      }),
+      isProd
+        ? null
+        : new WebpackPluginServe({
+          port: 3000,
+          static: path.join(process.cwd(), '/build')
+        })
+    ]).filter((plugin) => plugin),
+    watch: !isProd
   };
 }
 
 module.exports = createWebpack({
   context: __dirname,
-  alias: packages.reduce((alias, pkg) => {
-    alias[`@polkadot/${pkg}`] = path.resolve(__dirname, `../${pkg}/src`);
+  alias: findPackages().reduce((alias, { dir, name }) => {
+    alias[name] = path.resolve(__dirname, `../${dir}/src`);
 
     return alias;
   }, {})

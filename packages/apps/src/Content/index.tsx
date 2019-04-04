@@ -6,14 +6,13 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { QueueProps } from '@polkadot/ui-app/Status/types';
 
-import './Content.css';
-
 import React from 'react';
 import { withRouter } from 'react-router';
-import { withCalls, withMulti } from '@polkadot/ui-api/index';
+import styled from 'styled-components';
+import { withCalls, withMulti } from '@polkadot/ui-api';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
-import Status from '../Status';
+import Status from './Status';
 import routing from '../routing';
 import translate from '../translate';
 import NotFound from './NotFound';
@@ -22,6 +21,27 @@ import TopBar from '../TopBar';
 type Props = I18nProps & ApiProps & {
   location: Location
 };
+
+const Wrapper = styled.div`
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+  padding: 0 2rem;
+
+  @media(max-width: 768px) {
+    padding: 0 0.5rem;
+  }
+`;
+
+const Connecting = styled.div`
+  padding: 1rem 0;
+`;
 
 const unknown = {
   display: {
@@ -41,14 +61,14 @@ class Content extends React.Component<Props> {
 
     if (needsApi && (!isApiReady || !isApiConnected)) {
       return (
-        <div className='apps--Content-body'>
-          <main>{t('Waiting for API to be connected and ready.')}</main>
-        </div>
+        <Wrapper>
+          <Connecting>{t('Waiting for API to be connected and ready.')}</Connecting>
+        </Wrapper>
       );
     }
 
     return (
-      <div className='apps--Content'>
+      <Wrapper>
         <QueueConsumer>
           {({ queueAction, stqueue, txqueue }: QueueProps) => (
             <>
@@ -66,7 +86,7 @@ class Content extends React.Component<Props> {
             </>
           )}
         </QueueConsumer>
-      </div>
+      </Wrapper>
     );
   }
 }
@@ -81,6 +101,7 @@ export default withMulti(
   withCalls<Props>(
     'query.session.validators',
     'derive.accounts.indexes',
-    'derive.balances.fees'
+    'derive.balances.fees',
+    'derive.staking.controllers'
   )
 );

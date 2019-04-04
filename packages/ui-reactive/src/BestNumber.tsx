@@ -6,8 +6,8 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { BlockNumber } from '@polkadot/types';
-import { withCall } from '@polkadot/ui-api/index';
-import { formatNumber } from '@polkadot/ui-app/util/index';
+import { withCall } from '@polkadot/ui-api';
+import { formatNumber } from '@polkadot/util';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,

@@ -5,93 +5,236 @@
 @import '../../../ui-app/src/styles/theme/_colors-polkadot.css';
 @import '../../../ui-app/src/styles/theme/_colors-substrate.css';
 
-.apps--SideBar {
-  background: #4e4e4e;
-  flex-shrink: 0;
-  padding: 0.75em 0 0 0.75em;
-  position: relative;
-  text-align: left;
+.apps-Wrapper {
+  display: flex;
+  flex-direction: row;
+  transition: width 0.3s linear;
 
-  &.collapsed {
-    min-width: 3rem;
-  }
-
-  &.expanded {
-    min-width: 10em;
-  }
-
-  .ui.vertical.menu {
-    margin: 0;
-    width: auto;
-  }
-
-  .apps--SideBar-Item {
-    overflow-x: visible;
-    padding: 0 !important;
-    text-align: left;
-
-    .text {
-      padding-left: 0.5rem;
-    }
-  }
-
-  .apps--SideBar-logo {
+  .apps-Menu-bg {
+    background: rgba(0,0,0,0.6);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: opacity 0.2s;
     width: 100%;
-    margin: 0.5rem 1.5rem 1rem 0.75rem;
-    width: 9rem;
-  }
+    z-index: 299;
 
-  .apps--SideBar-collapse {
-    bottom: 0.75em;
-    position: fixed;
-    left: 0.75rem;
-
-    .ui.basic.secondary.button {
-      box-shadow: 0 0 0 1px #eee inset !important;
-      color: #eee !important;
-      margin: 0;
+    &.closed {
+      opacity: 0;
+      width: 0;
+    }
+    
+    &.open {
+      opacity: 1;
     }
   }
 
-  &.collapsed {
-    .apps--SideBar-Item .text {
-      display: none;
+  .apps-SideBar-Wrapper {
+    display: flex;
+    position: relative;
+    transition: width 0.3s linear;
+    z-index: 300;
+
+    &.collapsed {
+      width: 4.2rem;
+    }
+
+    &.expanded {
+      width: 12rem;
+    }
+
+    > img {
+      background: #333;
+      border-radius: 50%;
+      cursor: pointer;
+      left: 0.9rem;
+      opacity: 0;
+      padding: 4px;
+      position: absolute;
+      transition: opacity 0.2s ease-in, top 0.2s ease-in;
+      top: -2.9rem;
+      width: 2.6rem;
+     
+      &.delayed {
+        transition-delay: 0.4s;
+      }
+      &.open {
+        opacity: 1;
+        top: 0.9rem;
+      }
+    }
+  }
+
+  .apps--SideBar {
+    align-items: center;
+    background: #3f3f3f;
+    display: flex;
+    flex-flow: column;
+    height: auto;
+    left: 0;
+    transition: left 0.3s linear;
+    width: 100%;
+    
+    .ui.vertical.menu {
+      display: flex;
+      height: 100vh;
+      margin: 0;
+      position: sticky;
+      top: 0px;
+      width: 100%;
+    }
+
+    .apps-SideBar-Scroll {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      overflow-y: scroll;
+      width: 100%;
+
+      &::-webkit-scrollbar {
+        display: none;
+        width: 0px;
+      }
+    }
+
+    .apps--SideBar-Item {
+      align-self: flex-end;
+      flex-grow: 0;
+      width: inherit;
+
+      padding: 0 !important;
+      .text {
+        padding-left: 0.5rem;
+      }
     }
 
     .apps--SideBar-logo {
-      margin: 0.125rem 0.75rem 0.625rem 0;
+      margin: 0.5rem 1.5rem 1rem 0.75rem;
+      padding-top: 0.75em;
+      width: 9rem;
+    }
+
+    .apps--SideBar-collapse {
+      align-items: flex-end;
+      background: #3f3f3f;
+      bottom: 0px;
+      display: flex;
+      flex-direction: row wrap;
+      flex-grow: 1;
+      justify-content: flex-start;
+      padding: 3.5rem 0 1rem 0;
+      position: sticky;
+      width: 100%;
+
+      .ui.basic.secondary.button {
+        bottom: 0.75rem;
+        box-shadow: 0 0 0 1px #eee inset !important;
+        color: #eee !important;
+        position: absolute;
+        transition: transform 0.15s;
+
+        &.rotated {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    .apps--SideBar-toggle {
+      height: 100%;
+      position: absolute;
+      right: 0px;
+      top: 0px;
+      transition: all 0.2s;
+      width: 6px;
+
+      &:hover {
+        background: rgba(255,255,255,0.15);
+        cursor: pointer;
+      }
+    }
+  }
+
+  &.expanded .apps--SideBar {
+    text-align: left;
+    padding-left: 0.7rem;
+  }
+
+  &.collapsed .apps--SideBar {
+    text-align: center;
+
+    .divider {
+      display: none;
+    }
+
+    .apps--SideBar-Item {
+      margin-left: 5px;
+      .icon {
+        font-size: 1.28rem;
+      }
+      .text {
+        display: none;
+      }
+    }
+
+    .apps--SideBar-logo {
+      margin: 0.125rem auto 0.625rem auto;
       width: 3rem;
+    }
+
+    a.apps--SideBar-Item-NavLink {
+      padding-bottom: 0.92em;
+      padding-top: 0.92em;
+
+      > i {
+        margin: 0;
+      }
+    }
+
+    .apps--SideBar-collapse .ui.basic.secondary.button {
+      left: 0.66rem;
+    }
+  }
+
+  &.fixed {
+    .apps-SideBar-Wrapper {
+      position: absolute;
+      width: 0px;
+
+      .apps--SideBar {
+        padding-left: 0;
+      }
+    }
+  }
+
+  &.menu-open {
+    .apps-SideBar-Wrapper {
+      width: 12rem;
     }
   }
 }
+
+
 
 a.apps--SideBar-Item-NavLink {
   color: #eee;
   display: block;
   padding: 0.75em 0.75em;
+  transition: background 0.15s;
   white-space: nowrap;
+
+  &:hover {
+    background: rgba(0,0,0,0.15);
+    border-radius: 0.28571429rem 0 0 0.28571429rem;
+  }
 }
 
 a.apps--SideBar-Item-NavLink-active {
-  background: #fafafa;
+  background: #fafafa !important;
   border-radius: 0.28571429rem 0 0 0.28571429rem;
   color: inherit;
 
   &:hover {
     color: inherit;
-  }
-}
-
-.theme--polkadot {
-  a.apps--SideBar-Item-NavLink:hover {
-    color: $nav-link;
-  }
-
-  a.apps--SideBar-Item-NavLink-active {
-    color: $nav-link;
-
-    &:hover {
-      color: $nav-link;
-    }
   }
 }

@@ -23,6 +23,12 @@
   .button {
     margin: 0.25rem;
   }
+
+  &.head {
+    flex: 1 1 100%;
+    margin: 0 auto;
+    max-width: 620px;
+  }
 }
 
 .storage--actionrow-value {

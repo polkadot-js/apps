@@ -11,13 +11,12 @@ import ApiPromise from '@polkadot/api/promise';
 import defaults from '@polkadot/rpc-provider/defaults';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { InputNumber } from '@polkadot/ui-app/InputNumber';
-import { formatBalance } from '@polkadot/ui-app/util';
 import keyring from '@polkadot/ui-keyring';
 import ApiSigner from '@polkadot/ui-signer/ApiSigner';
 import { ChainProperties } from '@polkadot/types';
+import { formatBalance, isTestChain } from '@polkadot/util';
 
 import ApiContext from './ApiContext';
-import { isTestChain } from './util';
 
 type Props = {
   children: React.ReactNode,
@@ -44,7 +43,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       const api = new ApiPromise({ provider, signer });
 
       this.setState({ api }, () => {
-        this.updateSubscriptions();
+        this.subscribeEvents();
       });
     };
     const setApiUrl = (url: string = defaults.WS_URL): void =>
@@ -59,56 +58,12 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
   }
 
   componentDidMount () {
-    this.updateSubscriptions();
+    this.subscribeEvents();
   }
 
-  private updateSubscriptions () {
+  private subscribeEvents () {
     const { api } = this.state;
 
-    [
-      this.subscribeIsConnected,
-      this.subscribeIsReady,
-      this.subscribeChain
-    ].map((fn: Function) => {
-      try {
-        return fn(api);
-      } catch (error) {
-        console.error(error);
-        return null;
-      }
-    });
-  }
-
-  private subscribeChain = async (api: ApiPromise) => {
-    const [properties = new ChainProperties(), value] = await Promise.all([
-      api.rpc.system.properties() as Promise<ChainProperties | undefined>,
-      api.rpc.system.chain() as Promise<any>
-    ]);
-
-    const chain = value
-      ? value.toString()
-      : null;
-
-    const tokenSymbol = properties.get('tokenSymbol');
-    const isDevelopment = isTestChain(chain);
-
-    console.log('api: found chain', chain, [...properties.entries()]);
-
-    // first setup the UI helpers
-    formatBalance.setDefaultDecimals(properties.get('tokenDecimals') || 0);
-    formatBalance.setDefaultUnits(tokenSymbol);
-    InputNumber.setUnit(tokenSymbol);
-
-    keyring.loadAll({
-      addressPrefix: properties.get('networkId') || 42 as any,
-      isDevelopment,
-      type: 'ed25519'
-    });
-
-    this.setState({ chain, isDevelopment });
-  }
-
-  private subscribeIsConnected = (api: ApiPromise) => {
     api.on('connected', () => {
       this.setState({ isApiConnected: true });
     });
@@ -116,17 +71,49 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     api.on('disconnected', () => {
       this.setState({ isApiConnected: false });
     });
+
+    api.on('ready', async () => {
+      try {
+        await this.loadOnReady(api);
+      } catch (error) {
+        console.error('Unable to load chain', error);
+      }
+    });
   }
 
-  private subscribeIsReady = (api: ApiPromise) => {
-    api.on('ready', () => {
-      const section = Object.keys(api.tx)[0];
-      const method = Object.keys(api.tx[section])[0];
+  private async loadOnReady (api: ApiPromise) {
+    const [properties = new ChainProperties(), value] = await Promise.all([
+      api.rpc.system.properties() as Promise<ChainProperties | undefined>,
+      api.rpc.system.chain() as Promise<any>
+    ]);
+    const section = Object.keys(api.tx)[0];
+    const method = Object.keys(api.tx[section])[0];
+    const chain = value
+      ? value.toString()
+      : null;
+    const isDevelopment = isTestChain(chain);
 
-      this.setState({
-        isApiReady: true,
-        apiDefaultTx: api.tx[section][method]
-      });
+    console.log('api: found chain', chain, JSON.stringify(properties));
+
+    // first setup the UI helpers
+    formatBalance.setDefaults({
+      decimals: properties.tokenDecimals,
+      unit: properties.tokenSymbol
+    });
+    InputNumber.setUnit(properties.tokenSymbol);
+
+    // finally load the keyring
+    keyring.loadAll({
+      addressPrefix: properties.get('networkId') || 42 as any,
+      isDevelopment,
+      type: 'ed25519'
+    });
+
+    this.setState({
+      isApiReady: true,
+      apiDefaultTx: api.tx[section][method],
+      chain,
+      isDevelopment
     });
   }
 

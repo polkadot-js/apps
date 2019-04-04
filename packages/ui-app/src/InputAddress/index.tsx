@@ -12,10 +12,10 @@ import store from 'store';
 import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
 import createItem from '@polkadot/ui-keyring/options/item';
-import { withMulti, withObservable } from '@polkadot/ui-api/index';
+import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import Dropdown from '../Dropdown';
-import classes from '../util/classes';
+import { classes } from '../util';
 import addressToAddress from '../util/toAddress';
 import { MyAccountContainer } from '@polkadot/joy-utils/MyAccount';
 import { Subscribe } from 'unstated';
@@ -40,7 +40,6 @@ type State = {
   value?: string
 };
 
-const RECENT_KEY = 'header-recent';
 const STORAGE_KEY = 'options:InputAddress';
 const DEFAULT_TYPE = 'all';
 
@@ -205,9 +204,10 @@ class InputAddress extends React.PureComponent<Props, State> {
     const query = _query.trim();
     const queryLower = query.toLowerCase();
     const matches = filteredOptions.filter((item) =>
-      item.value === null ||
-      item.name.toLowerCase().indexOf(queryLower) !== -1 ||
-      item.value.toLowerCase().indexOf(queryLower) !== -1
+      item.value !== null && (
+        item.name.toLowerCase().indexOf(queryLower) !== -1 ||
+        item.value.toLowerCase().indexOf(queryLower) !== -1
+      )
     );
 
     const valueMatches = matches.filter((item) =>
@@ -218,12 +218,6 @@ class InputAddress extends React.PureComponent<Props, State> {
       const accountId = transformToAccountId(query);
 
       if (accountId) {
-        if (!matches.find((item) => item.key === RECENT_KEY)) {
-          matches.push(
-            keyringOption.createOptionHeader('Recent')
-          );
-        }
-
         matches.push(
           keyring.saveRecent(
             accountId

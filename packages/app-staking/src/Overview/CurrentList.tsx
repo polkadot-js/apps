@@ -4,22 +4,24 @@
 
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { Nominators, RecentlyOffline, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
 import { AccountId, Balance, HeaderExtended } from '@polkadot/types';
-import { withCall, withMulti } from '@polkadot/ui-api/with';
-import { AddressMini, AddressRow } from '@polkadot/ui-app/index';
-import { formatNumber } from '@polkadot/ui-app/util';
-import keyring from '@polkadot/ui-keyring';
+import { withCalls, withMulti } from '@polkadot/ui-api/with';
+import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
+import Address from './Address';
 
 type Props = I18nProps & {
   balances: DerivedBalancesMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   chain_subscribeNewHead?: HeaderExtended,
   current: Array<string>,
-  next: Array<string>
+  next: Array<string>,
+  nominators: Nominators,
+  staking_recentlyOffline?: RecentlyOffline
 };
 
 class CurrentList extends React.PureComponent<Props> {
@@ -64,18 +66,8 @@ class CurrentList extends React.PureComponent<Props> {
     );
   }
 
-  private getDisplayName (address: string, defaultName: string) {
-    const pair = keyring.getAccount(address).isValid()
-      ? keyring.getAccount(address)
-      : keyring.getAddress(address);
-
-    return pair.isValid()
-      ? pair.getMeta().name
-      : defaultName;
-  }
-
   private renderColumn (addresses: Array<string>, defaultName: string) {
-    const { balances, balanceArray, chain_subscribeNewHead, t } = this.props;
+    const { balances, balanceArray, chain_subscribeNewHead, nominators, staking_recentlyOffline, t } = this.props;
 
     if (addresses.length === 0) {
       return (
@@ -91,49 +83,32 @@ class CurrentList extends React.PureComponent<Props> {
       lastAuthor = (chain_subscribeNewHead.author || '').toString();
     }
 
+    const recentlyOffline: RecentlyOfflineMap = (staking_recentlyOffline || []).reduce(
+      (result, [accountId, blockNumber, instances]) => ({
+        ...result,
+        [accountId.toString()]: {
+          blockNumber,
+          instances
+        }
+      }),
+      {}
+    );
+
     return (
       <div>
-        {addresses.map((address) => {
-          const nominators = (balances[address] || {}).nominators || [];
-          const children = nominators.length
-            ? (
-            <details>
-              <summary>{t('Nominators ({{count}})', {
-                replace: {
-                  count: nominators.length
-                }
-              })}</summary>
-              {nominators.map(({ accountId }) =>
-                <AddressMini
-                  key={accountId.toString()}
-                  value={accountId}
-                  withBalance
-                />
-              )}
-            </details>
-          )
-          : undefined;
-
-          return (
-            <article key={address}>
-              <AddressRow
-                balance={balanceArray(address)}
-                name={this.getDisplayName(address, defaultName)}
-                value={address}
-                withCopy={false}
-                withNonce={false}
-              >
-                {children}
-              </AddressRow>
-              <div
-                className={['blockNumber', lastAuthor === address ? 'latest' : ''].join(' ')}
-                key='lastBlock'
-              >
-                {lastAuthor === address ? lastBlock : ''}
-              </div>
-            </article>
-          );
-        })}
+        {addresses.map((address) => (
+          <Address
+            address={address}
+            balances={balances}
+            balanceArray={balanceArray}
+            defaultName={defaultName}
+            isAuthor={address === lastAuthor}
+            key={address}
+            lastBlock={lastBlock}
+            nominators={nominators}
+            recentlyOffline={recentlyOffline}
+          />
+        ))}
       </div>
     );
   }
@@ -142,5 +117,8 @@ class CurrentList extends React.PureComponent<Props> {
 export default withMulti(
   CurrentList,
   translate,
-  withCall('derive.chain.subscribeNewHead')
+  withCalls<Props>(
+    'derive.chain.subscribeNewHead',
+    'query.staking.recentlyOffline'
+  )
 );

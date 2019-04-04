@@ -25,5 +25,3 @@ export type Generator$Result = {
   elapsed: number,
   found: Generator$Matches
 }
-
-export type Generator$PkFromSeed = (seed: Uint8Array) => Uint8Array;

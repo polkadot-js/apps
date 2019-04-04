@@ -4,7 +4,7 @@
 
 import { Routes } from '../types';
 
-import Js from '@polkadot/app-js/index';
+import Js from '@polkadot/app-js';
 
 export default ([
   {

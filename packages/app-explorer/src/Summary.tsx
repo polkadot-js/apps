@@ -5,8 +5,8 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { CardSummary } from '@polkadot/ui-app/index';
-import { BestFinalised, BestNumber, TimeNow, TimePeriod } from '@polkadot/ui-reactive/index';
+import { SummaryBox, CardSummary } from '@polkadot/ui-app';
+import { BestFinalized, BestNumber, TimeNow, TimePeriod } from '@polkadot/ui-reactive';
 
 import SummarySession from './SummarySession';
 import translate from './translate';
@@ -15,15 +15,15 @@ type Props = I18nProps & {};
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { className, style, t } = this.props;
+    const { t } = this.props;
 
     return (
-      <summary
-        className={className}
-        style={style}
-      >
-        <section className='ui--media-small'>
-          <CardSummary label={t('target')}>
+      <SummaryBox>
+        <section>
+          <CardSummary
+            className='ui--media-small'
+            label={t('target')}
+          >
             <TimePeriod />
           </CardSummary>
           <CardSummary label={t('last block')}>
@@ -34,14 +34,14 @@ class Summary extends React.PureComponent<Props> {
           <SummarySession />
         </section>
         <section>
-          <CardSummary label={t('finalised')}>
-            <BestFinalised />
+          <CardSummary label={t('finalized')}>
+            <BestFinalized />
           </CardSummary>
           <CardSummary label={t('best')}>
             <BestNumber />
           </CardSummary>
         </section>
-      </summary>
+      </SummaryBox>
     );
   }
 }

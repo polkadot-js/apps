@@ -9,7 +9,7 @@ import { QueueTx$Extrinsic, QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status
 import React from 'react';
 import { Index } from '@polkadot/types';
 import Button from '@polkadot/ui-app/Button';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { withCall, withMulti } from '@polkadot/ui-api';
 
 import translate from './translate';
 

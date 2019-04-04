@@ -6,9 +6,9 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { CardSummary } from '@polkadot/ui-app/index';
-import { formatNumber } from '@polkadot/ui-app/util/index';
-import { withCalls } from '@polkadot/ui-api/index';
+import { SummaryBox, CardSummary } from '@polkadot/ui-app';
+import { withCalls } from '@polkadot/ui-api';
+import { formatNumber } from '@polkadot/util';
 
 import translate from './translate';
 
@@ -18,16 +18,15 @@ type Props = I18nProps & {
   democracy_nextTally?: BN,
   democracy_publicDelay?: BN,
   democracy_publicPropCount?: BN,
-  democracy_referendumCount?: BN,
-  democracy_votingPeriod?: BN
+  democracy_referendumCount?: BN
 };
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { chain_bestNumber = new BN(0), democracy_launchPeriod = new BN(1), democracy_nextTally = new BN(0), democracy_publicPropCount, democracy_referendumCount = new BN(0), democracy_votingPeriod = new BN(1), t } = this.props;
+    const { chain_bestNumber = new BN(0), democracy_launchPeriod = new BN(1), democracy_nextTally = new BN(0), democracy_publicPropCount, democracy_referendumCount = new BN(0), t } = this.props;
 
     return (
-      <summary>
+      <SummaryBox>
         <section>
           <CardSummary label={t('proposals')}>
             {formatNumber(democracy_publicPropCount)}
@@ -41,13 +40,6 @@ class Summary extends React.PureComponent<Props> {
         </section>
         <section className='ui--media-medium'>
           <CardSummary
-            label={t('voting period')}
-            progress={{
-              value: chain_bestNumber.mod(democracy_votingPeriod).addn(1),
-              total: democracy_votingPeriod
-            }}
-          />
-          <CardSummary
             label={t('launch period')}
             progress={{
               value: chain_bestNumber.mod(democracy_launchPeriod).addn(1),
@@ -55,7 +47,7 @@ class Summary extends React.PureComponent<Props> {
             }}
           />
         </section>
-      </summary>
+      </SummaryBox>
     );
   }
 }
@@ -66,7 +58,6 @@ export default translate(
     'query.democracy.nextTally',
     'query.democracy.publicPropCount',
     'query.democracy.referendumCount',
-    'query.democracy.votingPeriod',
     'derive.chain.bestNumber'
   )(Summary)
 );

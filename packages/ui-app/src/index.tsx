@@ -2,20 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '@polkadot/joy-settings/index';
-import './i18n';
-import './styles';
-
-import { BareProps } from './types';
-
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { HashRouter } from 'react-router-dom';
-import { Api } from '@polkadot/ui-api/index';
-
-import { QueueConsumer } from './Status/Context';
-import Queue from './Status/Queue';
-
 export { default as AddressMini } from './AddressMini';
 export { default as AddressRow } from './AddressRow';
 export { default as AddressSummary } from './AddressSummary';
@@ -27,6 +13,7 @@ export { default as CardSummary } from './CardSummary';
 export { default as Chart } from './Chart';
 export { default as CopyButton } from './CopyButton';
 export { default as Dropdown } from './Dropdown';
+export { default as Editor } from './Editor';
 export { default as Event } from './Event';
 export { default as Icon } from './Icon';
 export { default as IdentityIcon } from './IdentityIcon';
@@ -47,38 +34,6 @@ export { default as Password } from './Password';
 export { default as Progress } from './Progress';
 export { default as Static } from './Static';
 export { default as Status } from './Status';
+export { default as SummaryBox } from './SummaryBox';
 export { default as Tabs } from './Tabs';
-
-type Props = BareProps & {
-  url?: string
-};
-
-export default function createApp (App: React.ComponentType<BareProps>, { className, style, url }: Props, rootId: string = 'root'): void {
-  const rootElement = document.getElementById(rootId);
-
-  if (!rootElement) {
-    throw new Error(`Unable to find element with id '${rootId}'`);
-  }
-
-  ReactDOM.render(
-    <Queue>
-      <QueueConsumer>
-        {({ queueExtrinsic, queueSetTxStatus }) => (
-          <Api
-            queueExtrinsic={queueExtrinsic}
-            queueSetTxStatus={queueSetTxStatus}
-            url={url}
-          >
-            <HashRouter>
-              <App
-                className={className}
-                style={style}
-              />
-            </HashRouter>
-          </Api>
-        )}
-      </QueueConsumer>
-    </Queue>,
-    rootElement
-  );
-}
+export { default as TxButton } from './TxButton';

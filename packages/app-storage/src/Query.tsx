@@ -8,9 +8,9 @@ import { QueryTypes, StorageModuleQuery } from './types';
 
 import React from 'react';
 import { Compact } from '@polkadot/types';
-import { Button, Labelled } from '@polkadot/ui-app/index';
+import { Button, Labelled } from '@polkadot/ui-app';
 import valueToText from '@polkadot/ui-params/valueToText';
-import { withCallDiv } from '@polkadot/ui-api/index';
+import { withCallDiv } from '@polkadot/ui-api';
 import { isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import translate from './translate';
@@ -103,6 +103,13 @@ class Query extends React.PureComponent<Props, State> {
     const { value } = this.props;
     const { Component } = this.state;
     const { key } = value;
+    const type = isU8a(key)
+      ? 'Data'
+      : (
+        key.meta.modifier.isOptional
+          ? `Option<${key.meta.type}>`
+          : key.meta.type.toString()
+      );
 
     return (
       <div className='storage--Query storage--actionrow'>
@@ -110,11 +117,7 @@ class Query extends React.PureComponent<Props, State> {
           <Labelled
             label={
               <div className='ui--Param-text'>
-                {this.keyToName(key)}: {
-                  isU8a(key)
-                    ? 'Data'
-                    : key.meta.type.toString()
-                }
+                {this.keyToName(key)}: {type}
               </div>
             }
           >

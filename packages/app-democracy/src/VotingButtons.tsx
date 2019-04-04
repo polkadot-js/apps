@@ -8,8 +8,8 @@ import { ApiProps } from '@polkadot/ui-api/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Button } from '@polkadot/ui-app/index';
-import { withApi, withMulti } from '@polkadot/ui-api/index';
+import { Button } from '@polkadot/ui-app';
+import { withApi, withMulti } from '@polkadot/ui-api';
 
 import translate from './translate';
 

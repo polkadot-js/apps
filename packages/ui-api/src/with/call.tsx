@@ -8,7 +8,7 @@ import { Options } from './types';
 import React from 'react';
 import { assert, isNull, isUndefined } from '@polkadot/util';
 
-import { isEqual, triggerChange } from '../util/index';
+import { isEqual, triggerChange } from '../util';
 import echoTransform from '../transform/echo';
 import withApi from './api';
 
@@ -135,7 +135,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         if (area === 'query' && meta && meta.type.isMap) {
           const arg = newParams[0];
 
-          assert(!isUndefined(arg) && !isNull(arg), `${meta.name} expects one argument`);
+          assert((!isUndefined(arg) && !isNull(arg)) || meta.type.asMap.isLinked, `${meta.name} expects one argument`);
         }
 
         return [
@@ -196,7 +196,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
             callUpdatedAt: Date.now()
           });
         } catch (error) {
-          console.error(endpoint, '::', error.message);
+          // console.error(endpoint, '::', error.message);
         }
       }
 

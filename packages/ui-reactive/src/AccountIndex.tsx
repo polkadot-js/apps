@@ -6,7 +6,7 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { AccountId, AccountIndex } from '@polkadot/types';
-import { withCall } from '@polkadot/ui-api/index';
+import { withCall } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,

@@ -6,7 +6,7 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Text } from '@polkadot/types';
-import { withCall } from '@polkadot/ui-api/index';
+import { withCall } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
@@ -16,7 +16,7 @@ type Props = BareProps & CallProps & {
 
 class NodeVersion extends React.PureComponent<Props> {
   render () {
-    const { children, className, label = '', style, system_version = 'unknown' } = this.props;
+    const { children, className, label = '', style, system_version = '-' } = this.props;
 
     return (
       <div

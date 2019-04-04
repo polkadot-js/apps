@@ -29,7 +29,7 @@ const REMOVE_TIMEOUT = 7500;
 const SUBMIT_RPC = jsonrpc.author.methods.submitAndWatchExtrinsic;
 const STATUS_COMPLETE: Array<QueueTx$Status> = [
   // status from subscription
-  'finalised', 'usurped', 'dropped', 'invalid',
+  'finalized', 'usurped', 'dropped', 'invalid',
   // normal completion
   'cancelled', 'error', 'sent'
 ];
@@ -58,28 +58,48 @@ export default class Queue extends React.Component<Props, State> {
     );
   }
 
+  private clearAction (id: number): () => void {
+    return (): void => {
+      this.setState(
+        (prevState: State): State => ({
+          stqueue: prevState.stqueue.filter((item) => item.id !== id)
+        } as State)
+      );
+    };
+  }
+
   queueAction = (status: ActionStatus): number => {
     const id = ++nextId;
+    const removeItem = this.clearAction(id);
 
     this.setState(
       (prevState: State): State => ({
         stqueue: prevState.stqueue.concat({
           ...status,
           id,
-          isCompleted: false
+          isCompleted: false,
+          removeItem
         })
       } as State)
     );
 
-    setTimeout(() => {
-      this.setState(
-        (prevState: State): State => ({
-          stqueue: prevState.stqueue.filter((item) => item.id !== id)
-        } as State)
-      );
-    }, REMOVE_TIMEOUT);
+    setTimeout(removeItem, REMOVE_TIMEOUT);
 
     return id;
+  }
+
+  private clearStatus (id: number): () => void {
+    return () => {
+      this.setState(
+        (prevState: State): State => ({
+          txqueue: prevState.txqueue.map((item) =>
+            item.id === id
+              ? { ...item, status: 'completed' }
+              : item
+          )
+        } as State)
+      );
+    };
   }
 
   queueSetTxStatus = (id: number, status: QueueTx$Status, result?: SubmittableResult, error?: Error): void => {
@@ -107,26 +127,15 @@ export default class Queue extends React.Component<Props, State> {
     this.addResultEvents(result);
 
     if (STATUS_COMPLETE.includes(status)) {
-      setTimeout(() => {
-        this.setState(
-          (prevState: State): State => ({
-            txqueue: prevState.txqueue.map((item) =>
-              item.id === id
-                ? { ...item, status: 'completed' }
-                : item
-            )
-          } as State)
-        );
-      }, REMOVE_TIMEOUT);
+      setTimeout(this.clearStatus(id), REMOVE_TIMEOUT);
     }
   }
 
   private addResultEvents ({ events = [] }: Partial<SubmittableResult> = {}) {
     events.filter((record) => record.event).forEach(({ event: { method, section } }) => {
-      // filter events handled globally, or those we are not interested in
-      // NOTE We are not splitting balances, since we want to see the transfer - even if
-      // it doubles-up for own accounts (one with id, one without)
-      if ((section === 'democracy') || (section === 'system')) {
+      // filter events handled globally, or those we are not interested in, these are
+      // handled by the global overview, so don't add them here
+      if (section === 'democracy') {
         return;
       }
 
@@ -141,12 +150,14 @@ export default class Queue extends React.Component<Props, State> {
   private queueAdd = (value: QueueTx$Extrinsic | QueueTx$Rpc | QueueTx): number => {
     const id = ++nextId;
     const rpc: RpcMethod = (value as QueueTx$Rpc).rpc || SUBMIT_RPC;
+    const removeItem = this.clearStatus(id);
 
     this.setState(
       (prevState: State): State => ({
         txqueue: prevState.txqueue.concat([{
           ...value,
           id,
+          removeItem,
           rpc,
           status: 'queued'
         }])
@@ -156,8 +167,17 @@ export default class Queue extends React.Component<Props, State> {
     return id;
   }
 
-  queueExtrinsic = (value: PartialQueueTx$Extrinsic): number => {
-    return this.queueAdd(value);
+  queueExtrinsic = ({ accountId, extrinsic, signerCb, signerOptions, txFailedCb, txSuccessCb, txUpdateCb, isUnsigned }: PartialQueueTx$Extrinsic): number => {
+    return this.queueAdd({
+      accountId,
+      extrinsic,
+      isUnsigned,
+      signerCb,
+      signerOptions,
+      txFailedCb,
+      txSuccessCb,
+      txUpdateCb
+    });
   }
 
   queueRpc = ({ accountId, rpc, values }: PartialQueueTx$Rpc): number => {

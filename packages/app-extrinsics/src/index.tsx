@@ -9,7 +9,7 @@ import './index.css';
 
 import React from 'react';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
-import { Tabs } from '@polkadot/ui-app/index';
+import { Tabs } from '@polkadot/ui-app';
 
 import Selection from './Selection';
 import translate from './translate';

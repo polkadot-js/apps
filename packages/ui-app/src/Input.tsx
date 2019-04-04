@@ -28,6 +28,7 @@ type Props = BareProps & {
   min?: any,
   name?: string,
   onChange?: (value: string) => void,
+  onBlur?: (event: React.KeyboardEvent<Element>) => void,
   onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
   onKeyUp?: (event: React.KeyboardEvent<Element>) => void,
   placeholder?: string,

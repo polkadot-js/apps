@@ -10,10 +10,9 @@ import { ExtraFees } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { Method } from '@polkadot/types';
-import { withCalls } from '@polkadot/ui-api/index';
-import { Icon } from '@polkadot/ui-app/index';
-import { formatBalance } from '@polkadot/ui-app/util';
-import { compactToU8a } from '@polkadot/util';
+import { withCalls } from '@polkadot/ui-api';
+import { Icon } from '@polkadot/ui-app';
+import { compactToU8a, formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
 import Proposal from './Proposal';
