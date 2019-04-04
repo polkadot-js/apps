@@ -10,7 +10,7 @@ import { Option, AccountId } from '@polkadot/types';
 import IdentityIcon from '@polkadot/ui-app/IdentityIcon';
 import BalanceDisplay from '@polkadot/ui-app/Balance';
 import AddressMini from '@polkadot/ui-app/AddressMiniJoy';
-import { formatNumber } from '@polkadot/ui-app/util';
+import { formatNumber } from '@polkadot/util';
 
 import translate from './translate';
 import { MemberId, Profile, EntryMethod, Paid, Screening,SubscriptionId } from './types';

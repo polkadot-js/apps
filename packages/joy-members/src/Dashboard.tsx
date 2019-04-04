@@ -5,7 +5,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { withCalls } from '@polkadot/ui-api/with';
 import { Bubble } from '@polkadot/ui-app/index';
-import { formatNumber } from '@polkadot/ui-app/util';
+import { formatNumber } from '@polkadot/util';
 import { Bool } from '@polkadot/types';
 
 import Section from '@polkadot/joy-utils/Section';
