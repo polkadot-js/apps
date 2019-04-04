@@ -18,7 +18,7 @@ import Dropdown from '../Dropdown';
 import { classes } from '../util';
 import addressToAddress from '../util/toAddress';
 import { MyAccountContainer } from '@polkadot/joy-utils/MyAccount';
-import { Subscribe } from 'unstated';
+import { Subscribe, Provider } from 'unstated';
 
 type Props = BareProps & {
   defaultValue?: string | null,
@@ -132,7 +132,7 @@ class InputAddress extends React.PureComponent<Props, State> {
       );
 
     return (
-      <Subscribe to={[ MyAccountContainer ]}>{(me: MyAccountContainer) =>
+      <Provider><Subscribe to={[ MyAccountContainer ]}>{(me: MyAccountContainer) =>
       <Dropdown
         className={classes('ui--InputAddress', hideAddress ? 'flag--hideAddress' : '', className)}
         defaultValue={
@@ -154,7 +154,7 @@ class InputAddress extends React.PureComponent<Props, State> {
         value={value}
         withLabel={withLabel}
       />
-      }</Subscribe>
+      }</Subscribe></Provider>
     );
   }
 

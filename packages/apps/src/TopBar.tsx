@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Subscribe } from 'unstated';
+import { Subscribe, Provider } from 'unstated';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { MyAccountContainer } from '@polkadot/joy-utils/MyAccount';
 import AddressMini from '@polkadot/ui-app/AddressMiniJoy';
@@ -32,11 +32,11 @@ class Component extends React.PureComponent<Props, State> {
   }
 
   render () {
-    return <Subscribe to={[MyAccountContainer]}>{(me: MyAccountContainer) =>
+    return <Provider><Subscribe to={[MyAccountContainer]}>{(me: MyAccountContainer) =>
       me.hasAddress()
         ? this.renderAddress(me.state.address)
         : this.renderNoAddress()
-    }</Subscribe>;
+    }</Subscribe></Provider>;
   }
 }
 

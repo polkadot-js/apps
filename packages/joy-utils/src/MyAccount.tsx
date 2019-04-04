@@ -1,6 +1,6 @@
 import React from 'react';
 import store from 'store';
-import { Container, Subscribe } from 'unstated';
+import { Container, Subscribe, Provider } from 'unstated';
 import { isKnownAddress } from './index';
 
 export const MY_ADDRESS = 'joy.myAddress';
@@ -38,9 +38,9 @@ export function withMyAccount<P extends MyAccountProps> (Component: React.Compon
   return class extends React.Component<P> {
     render () {
       return (
-        <Subscribe to={[ MyAccountContainer ]}>{(me: MyAccountContainer) =>
+        <Provider><Subscribe to={[ MyAccountContainer ]}>{(me: MyAccountContainer) =>
           <Component myAddress={me.state.address} {...this.props} />
-        }</Subscribe>
+        }</Subscribe></Provider>
       );
     }
   };
