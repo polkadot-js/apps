@@ -18,6 +18,7 @@ type Props = BareProps & I18nProps & {
   autoFocus?: boolean,
   bitLength?: BitLength,
   defaultValue?: BN | string,
+  help?: React.ReactNode,
   isDisabled?: boolean,
   isError?: boolean,
   isSi?: boolean,
@@ -83,7 +84,7 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { bitLength = DEFAULT_BITLENGTH, className, defaultValue = '0', isSi, isDisabled, maxLength, style, t } = this.props;
+    const { bitLength = DEFAULT_BITLENGTH, className, defaultValue = '0', help, isSi, isDisabled, maxLength, style, t } = this.props;
     const { isValid } = this.state;
     const maxValueLength = this.maxValue(bitLength).toString().length - 1;
     const value = this.state.defaultValue || defaultValue;
@@ -97,6 +98,7 @@ class InputNumber extends React.PureComponent<Props, State> {
             ? undefined
             : value
         }
+        help={help}
         isAction={isSi}
         isDisabled={isDisabled}
         isError={!isValid}

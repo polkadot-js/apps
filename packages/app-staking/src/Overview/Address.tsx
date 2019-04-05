@@ -11,6 +11,7 @@ import { AccountId, Balance, Option } from '@polkadot/types';
 import { withCall, withMulti } from '@polkadot/ui-api/with';
 import { AddressMini, AddressRow } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
+import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
@@ -100,10 +101,10 @@ class Address extends React.PureComponent<Props, State> {
                 {instances.toString()}
               </div>
               <div className='detail'>
-                {t('Reported offline {{instances}} times since block #{{blockNumber}}', {
+                {t('Reported offline {{instances}} times, last at block #{{blockNumber}}', {
                   replace: {
                     instances: instances.toString(),
-                    blockNumber
+                    blockNumber: formatNumber(blockNumber)
                   }
                 })}
               </div>

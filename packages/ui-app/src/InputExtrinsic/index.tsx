@@ -21,6 +21,7 @@ import sectionOptions from './options/section';
 
 type Props = ApiProps & I18nProps & {
   defaultValue: MethodFunction,
+  help?: React.ReactNode,
   isDisabled?: boolean,
   isError?: boolean,
   isPrivate?: boolean,
@@ -54,7 +55,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { api, className, label, style, withLabel } = this.props;
+    const { api, className, help, label, style, withLabel } = this.props;
     const { optionsMethod, optionsSection, value } = this.state;
 
     return (
@@ -63,6 +64,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
         style={style}
       >
         <Labelled
+          help={help}
           label={label}
           withLabel={withLabel}
         >

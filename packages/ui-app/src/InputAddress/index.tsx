@@ -20,6 +20,7 @@ import addressToAddress from '../util/toAddress';
 
 type Props = BareProps & {
   defaultValue?: string | null,
+  help?: React.ReactNode,
   hideAddress?: boolean;
   isDisabled?: boolean,
   isError?: boolean,
@@ -105,7 +106,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, defaultValue, hideAddress = false, isDisabled = false, isError, label, optionsAll, type = DEFAULT_TYPE, style, withLabel } = this.props;
+    const { className, defaultValue, help, hideAddress = false, isDisabled = false, isError, label, optionsAll, type = DEFAULT_TYPE, style, withLabel } = this.props;
     const { value } = this.state;
     const hasOptions = optionsAll && Object.keys(optionsAll[type]).length !== 0;
 
@@ -131,6 +132,7 @@ class InputAddress extends React.PureComponent<Props, State> {
             ? undefined
             : actualValue
         }
+        help={help}
         isDisabled={isDisabled}
         isError={isError}
         label={label}
