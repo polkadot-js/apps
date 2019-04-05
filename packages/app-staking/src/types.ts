@@ -22,10 +22,10 @@ export type ComponentProps = {
 export type RecentlyOffline = Array<[AccountId, BlockNumber, BN]>;
 
 export type RecentlyOfflineMap = {
-  [s: string]: OfflineStatus
+  [s: string]: Array<OfflineStatus>
 };
 
 export interface OfflineStatus {
   blockNumber: BlockNumber;
-  instances: BN;
+  count: BN;
 }

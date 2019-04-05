@@ -6,6 +6,7 @@ import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { Nominators, RecentlyOfflineMap } from '../types';
 
+import BN from 'bn.js';
 import React from 'react';
 import { AccountId, Balance, Option } from '@polkadot/types';
 import { withCall, withMulti } from '@polkadot/ui-api/with';
@@ -36,6 +37,31 @@ class Address extends React.PureComponent<Props, State> {
     badgeExpanded: false
   };
 
+  render () {
+    const { address, balanceArray, isAuthor, lastBlock } = this.props;
+
+    return (
+      <article key={address}>
+        <AddressRow
+          balance={balanceArray(address)}
+          name={this.getDisplayName()}
+          value={address}
+          withCopy={false}
+          withNonce={false}
+        >
+          {this.renderNominators()}
+          {this.renderOffline()}
+        </AddressRow>
+        <div
+          className={['blockNumber', isAuthor ? 'latest' : ''].join(' ')}
+          key='lastBlock'
+        >
+          {isAuthor ? lastBlock : ''}
+        </div>
+      </article>
+    );
+  }
+
   private getDisplayName = (): string | undefined => {
     const { address, defaultName } = this.props;
 
@@ -54,84 +80,68 @@ class Address extends React.PureComponent<Props, State> {
     this.setState({ badgeExpanded: !badgeExpanded });
   }
 
-  render () {
-    const { address, balanceArray, isAuthor, lastBlock, nominators, recentlyOffline, staking_bonded, t } = this.props;
-    const { badgeExpanded } = this.state;
+  private renderNominators () {
+    const { address, nominators, t } = this.props;
     const myNominators = Object.keys(nominators).filter((nominator) =>
       nominators[nominator].indexOf(address) !== -1
     );
+
+    if (!myNominators.length) {
+      return null;
+    }
+
+    return (
+      <details className='staking--Account-detail'>
+        <summary>
+          {t('Nominators ({{count}})', {
+            replace: {
+              count: myNominators.length
+            }
+          })}
+        </summary>
+        {myNominators.map((accountId) =>
+          <AddressMini
+            key={accountId.toString()}
+            value={accountId}
+            withBalance
+          />
+        )}
+      </details>
+    );
+  }
+
+  private renderOffline () {
+    const { recentlyOffline, staking_bonded, t } = this.props;
+    const { badgeExpanded } = this.state;
     const bondedId: string | null = staking_bonded && staking_bonded.isSome
       ? staking_bonded.unwrap().toString()
       : null;
 
-    const hasNominators = !!myNominators.length;
-    const isRecentlyOffline = bondedId && recentlyOffline[bondedId];
+    if (!bondedId || !recentlyOffline[bondedId]) {
+      return null;
+    }
 
-    const children = (hasNominators || isRecentlyOffline) ? (
-      <>
-        <details className='staking--Account-detail'>
-          {myNominators.length && (
-          <>
-            <summary>
-              {t('Nominators ({{count}})', {
-                replace: {
-                  count: myNominators.length
-                }
-              })}
-            </summary>
-            {myNominators.map((accountId) =>
-              <AddressMini
-                key={accountId.toString()}
-                value={accountId}
-                withBalance
-              />
-            )}
-          </>
-        )}
-        </details>
-        {(bondedId && recentlyOffline[bondedId]) && (() => {
-          const { blockNumber, instances } = recentlyOffline[bondedId];
-
-          return (
-            <div
-              onClick={this.onClickBadge}
-              className={['recentlyOffline', badgeExpanded ? 'expand' : ''].join(' ')}
-            >
-              <div className='badge'>
-                {instances.toString()}
-              </div>
-              <div className='detail'>
-                {t('Reported offline {{instances}} times, last at block #{{blockNumber}}', {
-                  replace: {
-                    instances: instances.toString(),
-                    blockNumber: formatNumber(blockNumber)
-                  }
-                })}
-              </div>
-            </div>
-          );
-        })()}
-      </>
-    ) : undefined;
+    const offline = recentlyOffline[bondedId];
+    const count = offline.reduce((total, { count }) => total.add(count), new BN(0));
+    const blockNumbers = offline.map(({ blockNumber }) => `#${formatNumber(blockNumber)}`);
 
     return (
-      <article key={address}>
-        <AddressRow
-          balance={balanceArray(address)}
-          name={this.getDisplayName()}
-          value={address}
-          withCopy={false}
-          withNonce={false}
-        >
-          {children}
-        </AddressRow>
-        <div
-          className={['blockNumber', isAuthor ? 'latest' : ''].join(' ')}
-          key='lastBlock'
-        >
-          {isAuthor ? lastBlock : ''}
+      <div
+        className={['recentlyOffline', badgeExpanded ? 'expand' : ''].join(' ')}
+        onClick={this.onClickBadge}
+      >
+        <div className='badge'>
+          {count.toString()}
         </div>
-      </article>
+        <div className='detail'>
+          {t('Reported offline {{count}} times, at blocks {{blockNumbers}}', {
+            replace: {
+              count: count.toString(),
+              blockNumbers: blockNumbers.join(', ')
+            }
+          })}
+        </div>
+      </div>
     );
   }
 }
