@@ -68,7 +68,7 @@ class Key extends React.PureComponent<Props, State> {
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
             className='medium'
-            help={t('Changing the key only takes effect at the start of the next session.')}
+            help={t('Changing the key only takes effect at the start of the next session. If validating, you should (currently) use an ed25519 key.')}
             isDisabled
             label={t('session key')}
             value={accountId}
