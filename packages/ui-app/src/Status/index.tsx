@@ -96,7 +96,7 @@ class Status extends React.PureComponent<Props> {
 
     return (
       <div
-        className={classes('item', status)}
+        className={classes('item', status, isExtrinsicFailed ? 'failed' : '')}
         onClick={removeItem}
         key={id}
       >
@@ -106,12 +106,13 @@ class Status extends React.PureComponent<Props> {
               <div className='header'>
                 {section}.{method}
               </div>
-              <div className='status'>
+              {
+              <div className={status}>
                 {isExtrinsicFailed
                   ? 'failed'
                   : (error ? error.message : status)
                 }
-              </div>
+              </div>}
             </div>
             <div className='short'>
               <Icon
