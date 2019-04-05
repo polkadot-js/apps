@@ -37,8 +37,6 @@ class Staking extends React.PureComponent<Props, State> {
       return null;
     }
 
-    console.error('preferences', props.preferences);
-
     const { unstakeThreshold, validatorPayment } = props.preferences;
 
     return {
@@ -103,7 +101,7 @@ class Staking extends React.PureComponent<Props, State> {
     return (
       <>
         <Modal.Header>
-          {t('Staking')}
+          {t('Validating')}
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
@@ -122,16 +120,18 @@ class Staking extends React.PureComponent<Props, State> {
             autoFocus
             bitLength={32}
             className='medium'
+            help={t('The number of allowed slashes for this validator before being automatically unstaked (maximum of 10 allowed)')}
             label={t('unstake threshold')}
             onChange={this.onChangeThreshold}
             value={
               unstakeThreshold
                 ? unstakeThreshold.toString()
-                : '0'
+                : '3'
             }
           />
           <InputBalance
             className='medium'
+            help={t('Reward that validator takes up-front, the remainder is split between themselves and nominators')}
             label={t('payment preferences')}
             onChange={this.onChangePayment}
             value={

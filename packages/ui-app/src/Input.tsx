@@ -16,6 +16,7 @@ type Props = BareProps & {
   autoFocus?: boolean,
   children?: React.ReactNode,
   defaultValue?: any,
+  help?: React.ReactNode,
   icon?: React.ReactNode,
   isAction?: boolean,
   isDisabled?: boolean,
@@ -83,11 +84,12 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { autoFocus = false, children, className, defaultValue, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, maxLength, min, name, placeholder, style, tabIndex, type = 'text', value, withLabel } = this.props;
+    const { autoFocus = false, children, className, defaultValue, help, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, maxLength, min, name, placeholder, style, tabIndex, type = 'text', value, withLabel } = this.props;
 
     return (
       <Labelled
         className={className}
+        help={help}
         label={label}
         style={style}
         withLabel={withLabel}
