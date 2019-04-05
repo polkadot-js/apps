@@ -107,7 +107,7 @@ class Status extends React.PureComponent<Props> {
                 {section}.{method}
               </div>
               {
-              <div className={status}>
+              <div className='status'>
                 {isExtrinsicFailed
                   ? 'failed'
                   : (error ? error.message : status)
