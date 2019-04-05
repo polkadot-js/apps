@@ -84,7 +84,6 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 
   render () {
-    console.log('render');
     const { bitLength = DEFAULT_BITLENGTH, className, isSi, isDisabled, maxLength, style, t } = this.props;
     const { isValid, value } = this.state;
     const maxValueLength = this.maxValue(bitLength).toString().length - 1;
@@ -262,7 +261,6 @@ class InputNumber extends React.PureComponent<Props, State> {
         base.toString().length - div.toString().length,
         bn.toString().length - div.toString().length,
       );
-      console.log(padding);
       return mod.gt(zero) ? `.${mod.toString(10, padding).replace(/0*$/, '')}` : ''
     })()}`
   }
