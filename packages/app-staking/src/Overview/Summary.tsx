@@ -25,6 +25,9 @@ type Props = I18nProps & {
 class Summary extends React.PureComponent<Props> {
   render () {
     const { className, intentions, style, t, staking_validatorCount, validators } = this.props;
+    const waiting = intentions.length > validators.length
+      ? (intentions.length - validators.length)
+      : 0;
 
     return (
       <SummaryBox
@@ -35,8 +38,8 @@ class Summary extends React.PureComponent<Props> {
           <CardSummary label={t('validators')}>
             {validators.length}/{staking_validatorCount ? staking_validatorCount.toString() : '-'}
           </CardSummary>
-          <CardSummary label={t('intentions')}>
-            {intentions.length}
+          <CardSummary label={t('waiting')}>
+            {waiting}
           </CardSummary>
         </section>
         <section className='ui--media-medium'>
