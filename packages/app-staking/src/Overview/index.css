@@ -86,12 +86,12 @@
 
     .recentlyOffline {
       position: absolute;
+      bottom: 0.75rem;
       font-size: 12px;
       cursor: help;
       display: flex;
       justify-content: center;
-      right: 12px;
-      top: 88px;
+      right: 0.75rem;
       width: 22px;
       height: 22px;
       padding: 0;

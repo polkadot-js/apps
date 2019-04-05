@@ -8,7 +8,7 @@ import { Nominators, RecentlyOfflineMap } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { AccountId, Balance, Option } from '@polkadot/types';
+import { AccountId, Balance, Option, StakingLedger } from '@polkadot/types';
 import { withCall, withMulti } from '@polkadot/ui-api/with';
 import { AddressMini, AddressRow } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
@@ -25,7 +25,7 @@ type Props = I18nProps & {
   lastBlock: string,
   nominators: Nominators,
   recentlyOffline: RecentlyOfflineMap,
-  staking_bonded?: Option<AccountId>
+  staking_ledger?: Option<StakingLedger>
 };
 
 type State = {
@@ -111,17 +111,17 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private renderOffline () {
-    const { recentlyOffline, staking_bonded, t } = this.props;
+    const { recentlyOffline, staking_ledger, t } = this.props;
     const { badgeExpanded } = this.state;
-    const bondedId: string | null = staking_bonded && staking_bonded.isSome
-      ? staking_bonded.unwrap().toString()
+    const stashId: string | null = staking_ledger && staking_ledger.isSome
+      ? staking_ledger.unwrap().stash.toString()
       : null;
 
-    if (!bondedId || !recentlyOffline[bondedId]) {
+    if (!stashId || !recentlyOffline[stashId]) {
       return null;
     }
 
-    const offline = recentlyOffline[bondedId];
+    const offline = recentlyOffline[stashId];
     const count = offline.reduce((total, { count }) => total.add(count), new BN(0));
     const blockNumbers = offline.map(({ blockNumber }) => `#${formatNumber(blockNumber)}`);
 
@@ -134,7 +134,7 @@ class Address extends React.PureComponent<Props, State> {
           {count.toString()}
         </div>
         <div className='detail'>
-          {t('Reported offline {{count}} times, at blocks {{blockNumbers}}', {
+          {t('Reported offline {{count}} times, at {{blockNumbers}}', {
             replace: {
               count: count.toString(),
               blockNumbers: blockNumbers.join(', ')
@@ -149,5 +149,5 @@ class Address extends React.PureComponent<Props, State> {
 export default withMulti(
   Address,
   translate,
-  withCall('query.staking.bonded', { paramName: 'address' })
+  withCall('query.staking.ledger', { paramName: 'address' })
 );

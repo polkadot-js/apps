@@ -62,6 +62,8 @@ class App extends React.PureComponent<Props, State> {
   }
 
   static getDerivedStateFromProps ({ staking_controllers = [[], []], session_validators = [], staking_nominators = [[], []] }: Props): State {
+    console.error(staking_controllers[0].map((id) => id.toString()));
+
     return {
       intentions: staking_controllers[1].filter((optId) => optId.isSome).map((accountId) =>
         accountId.unwrap().toString()
