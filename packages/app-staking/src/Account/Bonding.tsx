@@ -55,31 +55,31 @@ class Bonding extends React.PureComponent<Props, State> {
       >
         {this.renderContent()}
         <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            onClick={onClose}
-            label={t('Cancel')}
-          />
-          <Button.Or />
-          <TxButton
-            accountId={accountId}
-            isDisabled={!canSubmit}
-            isPrimary
-            label={t('Bond')}
-            onClick={onClose}
-            params={[controllerId, bondValue, destination]}
-            tx='staking.bond'
-          />
-        </Button.Group>
-      </Modal.Actions>
+          <Button.Group>
+            <Button
+              isNegative
+              onClick={onClose}
+              label={t('Cancel')}
+            />
+            <Button.Or />
+            <TxButton
+              accountId={accountId}
+              isDisabled={!canSubmit}
+              isPrimary
+              label={t('Bond')}
+              onClick={onClose}
+              params={[controllerId, bondValue, destination]}
+              tx='staking.bond'
+            />
+          </Button.Group>
+        </Modal.Actions>
       </Modal>
     );
   }
 
   private renderContent () {
     const { accountId, bondedId, t } = this.props;
-    const { controllerId, isValidController } = this.state;
+    const { controllerId, destination, isValidController } = this.state;
 
     return (
       <>
@@ -96,6 +96,7 @@ class Bonding extends React.PureComponent<Props, State> {
           <InputAddress
             className='medium'
             defaultValue={bondedId}
+            help={t('The controller is the account that will be used to control any nominating or validating actions')}
             label={t('controller account')}
             onChange={this.onChangeController}
             value={controllerId}
@@ -110,15 +111,18 @@ class Bonding extends React.PureComponent<Props, State> {
           <InputBalance
             autoFocus
             className='medium'
+            help={t('The total amount of the stash balance that will be at stake in any forthcoming rounds (should be less than the total amount available)')}
             label={t('value bonded')}
             onChange={this.onChangeValue}
           />
           <Dropdown
             className='medium'
             defaultValue={0}
+            help={t('The destination account for any payments as either a nominator or validator')}
             label={t('payment destination')}
             onChange={this.onChangeDestination}
             options={stashOptions}
+            value={destination}
           />
         </Modal.Content>
       </>

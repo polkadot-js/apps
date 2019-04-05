@@ -22,6 +22,7 @@ import sectionOptions from './options/section';
 
 type Props = I18nProps & {
   defaultValue: RpcMethod,
+  help?: React.ReactNode,
   isError?: boolean,
   label: React.ReactNode,
   onChange?: (value: RpcMethod) => void,
@@ -50,7 +51,7 @@ class InputRpc extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, label, style, withLabel } = this.props;
+    const { className, help, label, style, withLabel } = this.props;
     const { optionsMethod, optionsSection, value } = this.state;
 
     return (
@@ -59,6 +60,7 @@ class InputRpc extends React.PureComponent<Props, State> {
         style={style}
       >
         <Labelled
+          help={help}
           label={label}
           withLabel={withLabel}
         >

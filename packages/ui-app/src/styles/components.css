@@ -253,36 +253,6 @@ header .ui--Button-Group {
   }
 }
 
-.ui--Labelled {
-  align-items: center;
-  display: flex;
-  flex: 1 1;
-  text-align: left;
-
-  &.label-small {
-    display: block;
-
-    > label {
-      margin: 0;
-      min-width: 0;
-      padding-right: 0;
-    }
-  }
-
-  > .ui--Labelled-content {
-    box-sizing: border-box;
-    flex: 1 1;
-    min-width: 0;
-  }
-
-  > label {
-    flex: 0 0 15rem;
-    min-width: 15rem;
-    padding-right: 0.5rem;
-    text-align: right;
-  }
-}
-
 .ui--Static {
   overflow: hidden;
   word-break: break-all;

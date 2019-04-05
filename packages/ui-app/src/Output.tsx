@@ -12,6 +12,7 @@ import { classes } from './util';
 
 type Props = BareProps & {
   children?: React.ReactNode,
+  help?: React.ReactNode,
   isError?: boolean,
   isHidden?: boolean,
   label?: any, // node?
@@ -22,11 +23,12 @@ type Props = BareProps & {
 
 export default class Output extends React.PureComponent<Props> {
   render () {
-    const { className, children, isError = false, isHidden, label, style, value, withCopy = false, withLabel } = this.props;
+    const { className, children, help, isError = false, isHidden, label, style, value, withCopy = false, withLabel } = this.props;
 
     return (
       <Labelled
         className={className}
+        help={help}
         isHidden={isHidden}
         label={label}
         style={style}
