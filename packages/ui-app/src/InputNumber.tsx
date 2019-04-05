@@ -248,7 +248,7 @@ class InputNumber extends React.PureComponent<Props, State> {
   private bnToInputValue = (bn: BN, siUnit: string): string => {
     const decimals = formatBalance.getDefaults().decimals;
     const siPower = formatBalance.findSi(siUnit).power;
-    const base = new BN(10).pow(new BN(decimals + siPower))
+    const base = new BN(10).pow(new BN(decimals + siPower));
 
     const zero = new BN(0);
     const div = bn.div(base);
@@ -256,14 +256,18 @@ class InputNumber extends React.PureComponent<Props, State> {
 
     return `${
       div.gt(zero) ? div.toString() : '0'
-    }${(() => {
-      const padding = Math.max(
-        mod.toString().length,
-        base.toString().length - div.toString().length,
-        bn.toString().length - div.toString().length,
-      );
-      return mod.gt(zero) ? `.${mod.toString(10, padding).replace(/0*$/, '')}` : ''
-    })()}`
+    }${
+      mod.gt(zero) ?
+        (() => {
+          const padding = Math.max(
+            mod.toString().length,
+            base.toString().length - div.toString().length,
+            bn.toString().length - div.toString().length
+          );
+          return `.${mod.toString(10, padding).replace(/0*$/, '')}`;
+        })() :
+        ''
+    }`;
   }
 }
 
