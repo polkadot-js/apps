@@ -142,7 +142,6 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 
   private onChange = (value: string): void => {
-    console.log('onChange');
     const { bitLength, onChange } = this.props;
     const { siUnit } = this.state;
 
