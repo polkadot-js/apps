@@ -112,7 +112,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, options, optionsAll, type = DEFAULT_TYPE, style, withLabel } = this.props;
+    const { className, defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, options, optionsAll, placeholder, type = DEFAULT_TYPE, style, withLabel } = this.props;
     const { value } = this.state;
     const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
 
@@ -158,6 +158,7 @@ class InputAddress extends React.PureComponent<Props, State> {
                   : (optionsAll ? optionsAll[type] : [])
             )
         }
+        placeholder={placeholder}
         renderLabel={
           isMultiple
             ? this.renderLabel
@@ -175,9 +176,18 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   private renderLabel = ({ value }: KeyringSectionOption): string | null => {
-    return value
-      ? `${value.slice(0, 6)}…${value.slice(-6)}`
-      : null;
+    if (!value) {
+      return null;
+    }
+
+    const pair = keyring.getAccount(value).isValid()
+        ? keyring.getAccount(value)
+        : keyring.getAddress(value);
+    const name = pair.isValid()
+        ? pair.getMeta().name
+        : undefined;
+
+    return name || `${value.slice(0, 6)}…${value.slice(-6)}`;
   }
 
   private getLastOptionValue (): KeyringSectionOption | undefined {

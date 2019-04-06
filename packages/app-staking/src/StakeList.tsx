@@ -7,9 +7,11 @@ import { ComponentProps } from './types';
 
 import React from 'react';
 import keyring from '@polkadot/ui-keyring';
+import createOption from '@polkadot/ui-keyring/options/item';
 
 import Account from './Account';
 import translate from './translate';
+import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 type Props = I18nProps & ComponentProps;
 
@@ -33,12 +35,28 @@ class StakeList extends React.PureComponent<Props> {
               key={address}
               name={name}
               nominators={nominators}
+              targets={this.getTargetOptions()}
               validators={validators}
             />
           );
         })}
       </div>
     );
+  }
+
+  private getTargetOptions (): Array<KeyringSectionOption> {
+    const { targets } = this.props;
+
+    return targets.map((stashId) => {
+      const pair = keyring.getAccount(stashId).isValid()
+        ? keyring.getAccount(stashId)
+        : keyring.getAddress(stashId);
+      const name = pair.isValid()
+        ? pair.getMeta().name
+        : undefined;
+
+      return createOption(stashId, name);
+    });
   }
 }
 

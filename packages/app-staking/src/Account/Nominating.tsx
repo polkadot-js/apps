@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import React from 'react';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
@@ -14,7 +15,8 @@ type Props = I18nProps & {
   isOpen: boolean,
   onClose: () => void,
   intentions: Array<string>,
-  stashId: string
+  stashId: string,
+  targets: Array<KeyringSectionOption>
 };
 
 type State = {
@@ -74,7 +76,7 @@ class Nominating extends React.PureComponent<Props, State> {
   }
 
   renderContent () {
-    const { accountId, stashId, t } = this.props;
+    const { accountId, stashId, t, targets } = this.props;
 
     return (
       <>
@@ -97,8 +99,11 @@ class Nominating extends React.PureComponent<Props, State> {
           <InputAddress
             className='medium'
             isMultiple
+            help={t('Stash accounts that are to be nominated. Block rewards are split between validators and nominators')}
             label={t('nominate the following addresses')}
             onChangeMulti={this.onChangeNominees}
+            options={targets}
+            placeholder={t('select accounts(s) nominate')}
             type='account'
           />
         </Modal.Content>

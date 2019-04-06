@@ -76,7 +76,7 @@ class CurrentList extends React.PureComponent<Props, State> {
             }
           })}
         </h1>
-        {this.renderColumn(current, t('validator'))}
+        {this.renderColumn(current, t('validator (stash)'))}
       </>
     );
   }
@@ -87,7 +87,7 @@ class CurrentList extends React.PureComponent<Props, State> {
     return (
       <>
         <h1>{t('next up')}</h1>
-        {this.renderColumn(next, t('intention'))}
+        {this.renderColumn(next, t('intention (stash)'))}
       </>
     );
   }

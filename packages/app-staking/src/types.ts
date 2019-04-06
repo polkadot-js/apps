@@ -16,6 +16,7 @@ export type ComponentProps = {
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   intentions: Array<string>,
   nominators: Nominators,
+  targets: Array<string>,
   validators: Array<string>
 };
 
