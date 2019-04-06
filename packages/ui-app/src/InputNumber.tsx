@@ -22,6 +22,7 @@ type Props = BareProps & I18nProps & {
   isDisabled?: boolean,
   isError?: boolean,
   isSi?: boolean,
+  isDecimal?: boolean,
   label?: any,
   maxLength?: number,
   onChange?: (value?: BN) => void,
@@ -40,8 +41,6 @@ type State = {
 };
 
 const DEFAULT_BITLENGTH = BitLengthOption.NORMAL_NUMBERS as BitLength;
-
-const regex = new RegExp(`^(0|[1-9]\\d*)(\\${KEYS.DECIMAL}\\d*)?$`);
 
 class InputNumber extends React.PureComponent<Props, State> {
   constructor (props: Props) {
@@ -135,12 +134,20 @@ class InputNumber extends React.PureComponent<Props, State> {
 
   private isValidNumber (input: BN, bitLength: number = DEFAULT_BITLENGTH): boolean {
     const maxBN = this.maxValue(bitLength);
-
     if (input.lt(new BN(0)) || !input.lt(maxBN) || !this.isValidBitLength(input, bitLength)) {
       return false;
     }
 
     return true;
+  }
+
+  private regex = (): RegExp => {
+    const { isDecimal, isSi } = this.props;
+    return new RegExp(
+      (isSi || isDecimal) ?
+        `^(0|[1-9]\\d*)(\\${KEYS.DECIMAL}\\d*)?$` :
+        `^(0|[1-9]\\d*)$`
+    );
   }
 
   private onChange = (value: string): void => {
@@ -181,7 +188,7 @@ class InputNumber extends React.PureComponent<Props, State> {
         value.substring(j!)
       }`;
 
-      if (!regex.test(newValue)) {
+      if (!this.regex().test(newValue)) {
         event.preventDefault();
       }
     }
@@ -196,7 +203,7 @@ class InputNumber extends React.PureComponent<Props, State> {
   private onPaste = (event: React.ClipboardEvent<Element>): void => {
     const { value: newValue } = event.target as HTMLInputElement;
 
-    if (!regex.test(newValue)) {
+    if (!this.regex().test(newValue)) {
       event.preventDefault();
       return;
     }
@@ -223,13 +230,14 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 
   private inputValueToBn = (value: string, siUnit: string): BN => {
-    const decimals = formatBalance.getDefaults().decimals;
-    const siPower = formatBalance.findSi(siUnit).power;
+    const { isSi } = this.props;
+    const basePower = isSi ? formatBalance.getDefaults().decimals : 0;
+    const siPower = isSi ? formatBalance.findSi(siUnit).power : 0;
 
-    const isDecimal = value.match(/^(\d+)\.(\d+)$/);
+    const isDecimalValue = value.match(/^(\d+)\.(\d+)$/);
 
-    if (isDecimal) {
-      if (siPower - isDecimal[2].length < -decimals) {
+    if (isDecimalValue) {
+      if (siPower - isDecimalValue[2].length < -basePower) {
         return new BN(-1);
       }
 
@@ -237,20 +245,23 @@ class InputNumber extends React.PureComponent<Props, State> {
       const mod = new BN(value.replace(/^\d+\./, ''));
 
       return div
-        .mul(new BN(10).pow(new BN(decimals + siPower)))
-        .add(mod.mul(new BN(10).pow((new BN(decimals + siPower - mod.toString().length)))));
+        .mul(new BN(10).pow(new BN(basePower + siPower)))
+        .add(mod.mul(new BN(10).pow((new BN(basePower + siPower - mod.toString().length)))));
     } else {
       return new BN(value.replace(/[^\d]/g, ''))
-        .mul(new BN(10).pow(new BN(decimals + siPower)));
+        .mul(new BN(10).pow(new BN(basePower + siPower)));
     }
   }
 
   private bnToInputValue = (bn: BN, siUnit: string): string => {
-    const decimals = formatBalance.getDefaults().decimals;
-    const siPower = formatBalance.findSi(siUnit).power;
-    const base = new BN(10).pow(new BN(decimals + siPower));
+    const { isSi } = this.props;
 
+    const basePower = isSi ? formatBalance.getDefaults().decimals : 0;
+    const siPower = isSi ? formatBalance.findSi(siUnit).power : 0;
+
+    const base = new BN(10).pow(new BN(basePower + siPower));
     const zero = new BN(0);
+    
     const div = bn.div(base);
     const mod = bn.mod(base);
 
