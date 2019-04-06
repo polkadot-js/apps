@@ -29,23 +29,40 @@ type Props = I18nProps & {
 };
 
 type State = {
+  stashId: string | null,
   badgeExpanded: boolean;
 };
 
 class Address extends React.PureComponent<Props, State> {
   state: State = {
+    stashId: null,
     badgeExpanded: false
   };
 
+  static getDerivedStateFromProps ({ staking_ledger }: Props): State | null {
+    if (!staking_ledger || staking_ledger.isNone) {
+      return null;
+    }
+
+    return {
+      stashId: staking_ledger.unwrap().stash.toString()
+    } as State;
+  }
+
   render () {
-    const { address, balanceArray, isAuthor, lastBlock } = this.props;
+    const { balanceArray, isAuthor, lastBlock } = this.props;
+    const { stashId } = this.state;
+
+    if (!stashId) {
+      return null;
+    }
 
     return (
-      <article key={address}>
+      <article key={stashId}>
         <AddressRow
-          balance={balanceArray(address)}
+          balance={balanceArray(stashId)}
           name={this.getDisplayName()}
-          value={address}
+          value={stashId}
           withCopy={false}
           withNonce={false}
         >
@@ -63,18 +80,23 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private getDisplayName = (): string | undefined => {
-    const { address, defaultName } = this.props;
+    const { defaultName } = this.props;
+    const { stashId } = this.state;
 
-    const pair = keyring.getAccount(address).isValid()
-      ? keyring.getAccount(address)
-      : keyring.getAddress(address);
+    if (!stashId) {
+      return defaultName;
+    }
+
+    const pair = keyring.getAccount(stashId).isValid()
+      ? keyring.getAccount(stashId)
+      : keyring.getAddress(stashId);
 
     return pair.isValid()
       ? pair.getMeta().name
       : defaultName;
   }
 
-  private onClickBadge = (): void => {
+  private toggleBadge = (): void => {
     const { badgeExpanded } = this.state;
 
     this.setState({ badgeExpanded: !badgeExpanded });
@@ -111,11 +133,8 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private renderOffline () {
-    const { recentlyOffline, staking_ledger, t } = this.props;
-    const { badgeExpanded } = this.state;
-    const stashId: string | null = staking_ledger && staking_ledger.isSome
-      ? staking_ledger.unwrap().stash.toString()
-      : null;
+    const { recentlyOffline, t } = this.props;
+    const { badgeExpanded, stashId } = this.state;
 
     if (!stashId || !recentlyOffline[stashId]) {
       return null;
@@ -128,7 +147,7 @@ class Address extends React.PureComponent<Props, State> {
     return (
       <div
         className={['recentlyOffline', badgeExpanded ? 'expand' : ''].join(' ')}
-        onClick={this.onClickBadge}
+        onClick={this.toggleBadge}
       >
         <div className='badge'>
           {count.toString()}

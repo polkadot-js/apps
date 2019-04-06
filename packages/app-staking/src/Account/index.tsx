@@ -5,6 +5,7 @@
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
+import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 import { Nominators } from '../types';
 
 import React from 'react';
@@ -22,15 +23,16 @@ type Props = ApiProps & I18nProps & {
   accountId: string,
   balances: DerivedBalancesMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
+  intentions: Array<string>,
+  isValidator: boolean,
   name: string,
+  nominators: Nominators,
   session_nextKeyFor?: Option<AccountId>,
   staking_bonded?: Option<AccountId>,
   staking_ledger?: Option<StakingLedger>,
   staking_stakers?: Exposure,
   staking_validators?: [ValidatorPrefs],
-  intentions: Array<string>,
-  nominators: Nominators,
-  isValidator: boolean,
+  targets: Array<KeyringSectionOption>,
   validators: Array<string>
 };
 
@@ -57,10 +59,7 @@ class Account extends React.PureComponent<Props, State> {
     stashId: null
   };
 
-  static getDerivedStateFromProps ({ session_nextKeyFor, staking_bonded, staking_ledger }: Props): Partial<State> {
-
-    // console.error('staking_stakers', JSON.stringify(staking_stakers));
-
+  static getDerivedStateFromProps ({ session_nextKeyFor, staking_bonded, staking_ledger }: Props, state: State): Partial<State> {
     return {
       bondedId: staking_bonded && staking_bonded.isSome
         ? staking_bonded.unwrap().toString()
@@ -256,7 +255,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderNominating () {
-    const { accountId, intentions } = this.props;
+    const { accountId, intentions, targets } = this.props;
     const { isNominateOpen, stashId } = this.state;
 
     if (!stashId) {
@@ -270,6 +269,7 @@ class Account extends React.PureComponent<Props, State> {
         onClose={this.toggleNominate}
         intentions={intentions}
         stashId={stashId}
+        targets={targets}
       />
     );
   }

@@ -33,6 +33,7 @@ type State = {
   intentions: Array<string>,
   nominators: Nominators,
   tabs: Array<TabItem>,
+  targets: Array<string>,
   validators: Array<string>
 };
 
@@ -57,13 +58,12 @@ class App extends React.PureComponent<Props, State> {
           text: t('Account Actions')
         }
       ],
+      targets: [],
       validators: []
     };
   }
 
   static getDerivedStateFromProps ({ staking_controllers = [[], []], session_validators = [], staking_nominators = [[], []] }: Props): State {
-    console.error(staking_controllers[0].map((id) => id.toString()));
-
     return {
       intentions: staking_controllers[1].filter((optId) => optId.isSome).map((accountId) =>
         accountId.unwrap().toString()
@@ -75,6 +75,7 @@ class App extends React.PureComponent<Props, State> {
 
         return result;
       }, {} as Nominators),
+      targets: staking_controllers[0].map((accountId) => accountId.toString()),
       validators: session_validators.map((authorityId) =>
         authorityId.toString()
       )
@@ -107,7 +108,7 @@ class App extends React.PureComponent<Props, State> {
 
   private renderComponent (Component: React.ComponentType<ComponentProps>) {
     return (): React.ReactNode => {
-      const { intentions, nominators, validators } = this.state;
+      const { intentions, nominators, targets, validators } = this.state;
       const { balances = {} } = this.props;
 
       return (
@@ -116,6 +117,7 @@ class App extends React.PureComponent<Props, State> {
           balanceArray={this.balanceArray}
           intentions={intentions}
           nominators={nominators}
+          targets={targets}
           validators={validators}
         />
       );
