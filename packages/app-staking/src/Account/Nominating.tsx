@@ -81,7 +81,7 @@ class Nominating extends React.PureComponent<Props, State> {
     return (
       <>
         <Modal.Header>
-          {t('Nominate Validator')}
+          {t('Nominate Validators')}
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
