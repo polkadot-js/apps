@@ -24,7 +24,33 @@ type Props = I18nProps & {
   staking_recentlyOffline?: RecentlyOffline
 };
 
-class CurrentList extends React.PureComponent<Props> {
+type State = {
+  recentlyOffline: RecentlyOfflineMap
+};
+
+class CurrentList extends React.PureComponent<Props, State> {
+  state: State = { recentlyOffline: {} };
+
+  static getDerivedStateFromProps ({ staking_recentlyOffline = [] }: Props): State {
+    return {
+      recentlyOffline: staking_recentlyOffline.reduce(
+        (result, [accountId, blockNumber, count]) => {
+          const account = accountId.toString();
+
+          if (!result[account]) {
+            result[account] = [];
+          }
+
+          result[account].push({
+            blockNumber,
+            count
+          });
+
+          return result;
+        }, {} as RecentlyOfflineMap)
+    };
+  }
+
   render () {
     return (
       <div className='validator--ValidatorsList ui--flex-medium'>
@@ -67,7 +93,8 @@ class CurrentList extends React.PureComponent<Props> {
   }
 
   private renderColumn (addresses: Array<string>, defaultName: string) {
-    const { balances, balanceArray, chain_subscribeNewHead, nominators, staking_recentlyOffline, t } = this.props;
+    const { balances, balanceArray, chain_subscribeNewHead, nominators, t } = this.props;
+    const { recentlyOffline } = this.state;
 
     if (addresses.length === 0) {
       return (
@@ -82,17 +109,6 @@ class CurrentList extends React.PureComponent<Props> {
       lastBlock = `#${formatNumber(chain_subscribeNewHead.blockNumber)}`;
       lastAuthor = (chain_subscribeNewHead.author || '').toString();
     }
-
-    const recentlyOffline: RecentlyOfflineMap = (staking_recentlyOffline || []).reduce(
-      (result, [accountId, blockNumber, instances]) => ({
-        ...result,
-        [accountId.toString()]: {
-          blockNumber,
-          instances
-        }
-      }),
-      {}
-    );
 
     return (
       <div>
