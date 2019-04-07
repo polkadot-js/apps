@@ -48,6 +48,7 @@ const Toggle = styled.img`
   left: 0.9rem;
   opacity: 0;
   position: absolute;
+  top: 0px;
   transition: opacity 0.2s ease-in, top 0.2s ease-in;
   width: 2.6rem;
 
