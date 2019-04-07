@@ -261,7 +261,6 @@ class InputNumber extends React.PureComponent<Props, State> {
 
     const base = new BN(10).pow(new BN(basePower + siPower));
     const zero = new BN(0);
-    
     const div = bn.div(base);
     const mod = bn.mod(base);
 
