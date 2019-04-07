@@ -175,8 +175,12 @@ export default class Input extends React.PureComponent<Props, State> {
   }
 
   private onBlur = (event: React.KeyboardEvent<Element>): void => {
-    this.props.label !== undefined
-      && this.setState({ minLabel: event.target ? true : false });
+    if (this.props.label === undefined) {
+      return;
+    }
+
+    const { value } = event.target as HTMLInputElement;
+    this.setState({ minLabel: value ? true : false });
   }
 
   private onChange = (event: React.SyntheticEvent<Element>): void => {
