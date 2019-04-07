@@ -215,6 +215,6 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       }
     }
 
-    return withApi(WithPromise);
+    return withApi(WithPromise, this.props.apiConsumer);
   };
 }

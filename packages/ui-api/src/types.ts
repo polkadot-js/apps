@@ -16,6 +16,7 @@ export type BareProps = {
 
 export type ApiProps = {
   api: ApiPromise,
+  apiConsumer: typeof React.Consumer,
   apiDefaultTx: SubmittableExtrinsicFunction,
   isApiConnected: boolean,
   isApiReady: boolean,
