@@ -7,7 +7,7 @@ import { SideBarTransition, SIDEBAR_TRANSITION_DURATION, SIDEBAR_MENU_THRESHOLD 
 
 import React from 'react';
 import store from 'store';
-import styled, {ThemeProvider} from 'styled-components';
+import styled, { css, ThemeProvider } from 'styled-components';
 import { classes } from '@polkadot/ui-app/util';
 import Signer from '@polkadot/ui-signer';
 import settings from '@polkadot/ui-settings';
@@ -19,7 +19,7 @@ import Content from './Content';
 import SideBar from './SideBar';
 
 import theme from 'styled-theming';
-import ScreenSizes from '@polkadot/ui-app/constants';
+import { ScreenSizes } from '@polkadot/ui-app/constants';
 
 type Props = BareProps & {};
 
@@ -30,12 +30,30 @@ type State = {
   transition: SideBarTransition
 };
 
+const media = Object
+   .keys(ScreenSizes)
+   .reduce((acc, label) => {
+      acc[label] = (...args) => css`
+       @media (max-width: ${ScreenSizes[label] / 16}em) {
+        ${css(...args)}
+       }
+      `
+return acc
+}, {});
+
 const Wrapper = styled.div`
   align-items: stretch;
   box-sizing: border-box;
   display: flex;
-  height: 100%;
   min-height: 100vh;
+
+  header {
+    margin-bottom: 1.1rem;
+    text-align: center;
+    ${media.TABLET`
+      margin-bottom: 0.8rem;
+   `}
+  }
 `;
 
 class Apps extends React.Component<Props, State> {
@@ -69,7 +87,10 @@ class Apps extends React.Component<Props, State> {
 
     const { isCollapsed, isMenu, menuOpen } = this.state;
     return (
-      <ThemeProvider theme={{ theme: settings.uiTheme }}>
+      <ThemeProvider theme={{
+        theme: settings.uiTheme,
+        media: media,
+      }}>
         <Wrapper
           className={
             classes('apps-Wrapper',
