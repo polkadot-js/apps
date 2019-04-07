@@ -92,6 +92,7 @@ class Account extends React.PureComponent<Props, State> {
             {this.renderButtons()}
             {this.renderBondedId()}
             {this.renderStashId()}
+            {this.renderSessionId()}
             {this.renderNominee()}
             {this.renderNominators()}
           </div>
@@ -230,6 +231,24 @@ class Account extends React.PureComponent<Props, State> {
         <label className='staking--label'>controller account</label>
         <AddressMini
           value={bondedId}
+          withBalance
+        />
+      </div>
+    );
+  }
+
+  private renderSessionId () {
+    const { sessionId } = this.state;
+
+    if (!sessionId) {
+      return null;
+    }
+
+    return (
+      <div className='staking--Account-detail'>
+        <label className='staking--label'>session account</label>
+        <AddressMini
+          value={sessionId}
           withBalance
         />
       </div>

@@ -15,13 +15,16 @@ type Props = I18nProps & {
   onClose: () => void
 };
 
-type State = {};
+type State = {
+  sessionId?: string
+};
 
 class Key extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
     const { accountId, isOpen, onClose, t } = this.props;
+    const { sessionId } = this.state;
 
     if (!isOpen) {
       return null;
@@ -45,10 +48,11 @@ class Key extends React.PureComponent<Props, State> {
           <Button.Or />
           <TxButton
             accountId={accountId}
+            isDisabled={!sessionId}
             isPrimary
             label={t('Set Session Key')}
             onClick={onClose}
-            params={[accountId]}
+            params={[sessionId]}
             tx='session.setKey'
           />
         </Button.Group>
@@ -58,7 +62,8 @@ class Key extends React.PureComponent<Props, State> {
   }
 
   private renderContent () {
-    const { accountId, t } = this.props;
+    const { t } = this.props;
+    const { sessionId } = this.state;
 
     return (
       <>
@@ -69,13 +74,18 @@ class Key extends React.PureComponent<Props, State> {
           <InputAddress
             className='medium'
             help={t('Changing the key only takes effect at the start of the next session. If validating, you should (currently) use an ed25519 key.')}
-            isDisabled
             label={t('session key')}
-            value={accountId}
+            onChange={this.onChangeSession}
+            value={sessionId}
+            type='account'
           />
         </Modal.Content>
       </>
     );
+  }
+
+  private onChangeSession = (sessionId: string) => {
+    this.setState({ sessionId });
   }
 }
 
