@@ -25,54 +25,63 @@ type Props = I18nProps & {
   lastBlock: string,
   nominators: Nominators,
   recentlyOffline: RecentlyOfflineMap,
+  session_nextKeyFor?: Option<AccountId>,
   staking_bonded?: Option<AccountId>,
   staking_ledger?: Option<StakingLedger>
 };
 
 type State = {
-  bondedId: string | null,
+  bondedId: string,
   stashId: string | null,
+  sessionId: string | null,
   badgeExpanded: boolean;
 };
 
 class Address extends React.PureComponent<Props, State> {
-  state: State = {
-    bondedId: null,
-    stashId: null,
-    badgeExpanded: false
-  };
+  state: State;
 
-  static getDerivedStateFromProps ({ address, staking_bonded, staking_ledger }: Props): State | null {
-    if (!staking_ledger || staking_ledger.isNone || !staking_bonded) {
-      return null;
-    }
+  constructor (props: Props) {
+    super(props);
 
+    this.state = {
+      bondedId: props.address,
+      sessionId: null,
+      stashId: null,
+      badgeExpanded: false
+    };
+  }
+
+  static getDerivedStateFromProps ({ address, session_nextKeyFor, staking_bonded, staking_ledger }: Props, prevState: State): State | null {
     return {
-      bondedId: staking_bonded.isNone
-        ? address
+      bondedId: !staking_bonded || staking_bonded.isNone
+        ? prevState.bondedId
         : staking_bonded.unwrap().toString(),
-      stashId: staking_ledger.unwrap().stash.toString()
+      sessionId: !session_nextKeyFor || session_nextKeyFor.isNone
+        ? prevState.sessionId
+        : session_nextKeyFor.unwrap().toString(),
+      stashId: !staking_ledger || staking_ledger.isNone
+        ? prevState.stashId
+        : staking_ledger.unwrap().stash.toString()
     } as State;
   }
 
   render () {
     const { balanceArray, isAuthor, lastBlock } = this.props;
-    const { stashId } = this.state;
-
-    if (!stashId) {
-      return null;
-    }
+    const { bondedId, stashId } = this.state;
 
     return (
-      <article key={stashId}>
+      <article key={stashId || bondedId}>
         <AddressRow
-          balance={balanceArray(stashId)}
+          balance={balanceArray(stashId || '')}
           name={this.getDisplayName()}
           value={stashId}
           withCopy={false}
           withNonce={false}
         >
-          {this.renderController()}
+          <div className='staking--accounts-info'>
+            {this.renderControllerId()}
+            {this.renderSessionId()}
+          </div>
           {this.renderNominators()}
           {this.renderOffline()}
         </AddressRow>
@@ -109,7 +118,8 @@ class Address extends React.PureComponent<Props, State> {
     this.setState({ badgeExpanded: !badgeExpanded });
   }
 
-  private renderController () {
+  private renderControllerId () {
+    const { t } = this.props;
     const { bondedId } = this.state;
 
     if (!bondedId) {
@@ -117,12 +127,25 @@ class Address extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div className='staking--controller-info'>
-        <label className='staking--label'>controller account</label>
-        <AddressMini
-          value={bondedId}
-          withBalance
-        />
+      <div>
+        <label className='staking--label'>{t('controller')}</label>
+        <AddressMini value={bondedId} />
+      </div>
+    );
+  }
+
+  private renderSessionId () {
+    const { t } = this.props;
+    const { sessionId } = this.state;
+
+    if (!sessionId) {
+      return null;
+    }
+
+    return (
+      <div>
+        <label className='staking--label'>{t('session')}</label>
+        <AddressMini value={sessionId} />
       </div>
     );
   }
@@ -132,10 +155,6 @@ class Address extends React.PureComponent<Props, State> {
     const myNominators = Object.keys(nominators).filter((nominator) =>
       nominators[nominator].indexOf(address) !== -1
     );
-
-    if (!myNominators.length) {
-      return null;
-    }
 
     return (
       <details className='staking--Account-detail'>
@@ -167,6 +186,7 @@ class Address extends React.PureComponent<Props, State> {
 
     const offline = recentlyOffline[stashId];
     const count = offline.reduce((total, { count }) => total.add(count), new BN(0));
+
     const blockNumbers = offline.map(({ blockNumber }) => `#${formatNumber(blockNumber)}`);
 
     return (
@@ -178,10 +198,10 @@ class Address extends React.PureComponent<Props, State> {
           {count.toString()}
         </div>
         <div className='detail'>
-          {t('Reported offline {{count}} times, at {{blockNumbers}}', {
+          {t('Reported offline {{count}} times, last at {{blockNumber}}', {
             replace: {
               count: count.toString(),
-              blockNumbers: blockNumbers.join(', ')
+              blockNumber: blockNumbers[blockNumbers.length - 1]
             }
           })}
         </div>
@@ -194,6 +214,7 @@ export default withMulti(
   Address,
   translate,
   withCalls<Props>(
+    ['query.session.nextKeyFor', { paramName: 'address' }],
     ['query.staking.ledger', { paramName: 'address' }],
     ['query.staking.bonded', { paramName: 'address' }]
   )

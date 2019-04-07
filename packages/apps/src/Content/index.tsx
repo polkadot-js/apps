@@ -97,9 +97,10 @@ export default withMulti(
   // These API queries are used in a number of places, warm them up
   // to avoid constant un-/re-subscribe on these
   withCalls<Props>(
-    'query.session.validators',
     'derive.accounts.indexes',
     'derive.balances.fees',
-    'derive.staking.controllers'
+    'derive.staking.controllers',
+    'query.staking.nominators',
+    'query.session.validators'
   )
 );

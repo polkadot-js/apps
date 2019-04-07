@@ -99,11 +99,11 @@
   margin-top: 0.75rem;
 
   .staking--label {
-    margin-bottom: -0.25rem;
+    margin-bottom: -0.5rem;
   }
 }
 
-.staking--controller-info {
+.staking--accounts-info {
   position: absolute;
   top: 0.25rem;
   right: 1rem;
@@ -111,6 +111,6 @@
   text-align: right;
 
   .staking--label {
-    margin-bottom: -0.25rem;
+    margin-bottom: -0.5rem;
   }
 }
