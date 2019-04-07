@@ -279,21 +279,32 @@ class Account extends React.PureComponent<Props, State> {
     const { sessionId, bondedId, stashId } = this.state;
     const buttons = [];
 
-    if (!stashId && !bondedId) {
-      buttons.push(
-        <Button
-          isPrimary
-          key='bond'
-          onClick={this.toggleBonding}
-          label={t('Bond')}
-        />
-      );
+    if (!stashId) {
+      if (!bondedId) {
+        buttons.push(
+          <Button
+            isPrimary
+            key='bond'
+            onClick={this.toggleBonding}
+            label={t('Bond')}
+          />
+        );
+      }
     } else {
       const nominees = this.getNominees();
       const isNominating = nominees && nominees.length;
       const isValidating = intentions.indexOf(accountId) !== -1;
 
-      if (isValidating || isNominating) {
+      if (!sessionId) {
+        buttons.push(
+          <Button
+            isPrimary
+            key='session'
+            onClick={this.toggleSessionKey}
+            label={t('Set Session Key')}
+          />
+        );
+      } else if (isValidating || isNominating) {
         buttons.push(
           <TxButton
             accountId={accountId}
@@ -303,16 +314,7 @@ class Account extends React.PureComponent<Props, State> {
             tx='staking.chill'
           />
         );
-      } else if (!sessionId) {
-        buttons.push(
-          <Button
-            isPrimary
-            key='session'
-            onClick={this.toggleSessionKey}
-            label={t('Set Session Key')}
-          />
-        );
-        } else {
+      } else {
         buttons.push(
           <Button
             isPrimary
