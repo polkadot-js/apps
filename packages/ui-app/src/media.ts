@@ -8,10 +8,10 @@ import { ScreenSizes } from './constants';
 export const media = Object
  .keys(ScreenSizes)
  .reduce((acc, label) => {
-    acc[label] = (...args) => css`
+   acc[label] = (...args) => css`
      @media (min-width: ${ScreenSizes[label] / 16}em) {
       ${css(...args)}
      }
-      `
-return acc
-}, {});
+      `;
+   return acc;
+ }, {});
