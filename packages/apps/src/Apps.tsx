@@ -7,7 +7,7 @@ import { SideBarTransition, SIDEBAR_TRANSITION_DURATION, SIDEBAR_MENU_THRESHOLD 
 
 import React from 'react';
 import store from 'store';
-import styled from 'styled-components';
+import styled, {ThemeProvider} from 'styled-components';
 import { classes } from '@polkadot/ui-app/util';
 import Signer from '@polkadot/ui-signer';
 import settings from '@polkadot/ui-settings';
@@ -17,6 +17,9 @@ import { hot } from 'react-hot-loader/root';
 import Connecting from './Connecting';
 import Content from './Content';
 import SideBar from './SideBar';
+
+import theme from 'styled-theming';
+import ScreenSizes from '@polkadot/ui-app/constants';
 
 type Props = BareProps & {};
 
@@ -66,28 +69,30 @@ class Apps extends React.Component<Props, State> {
 
     const { isCollapsed, isMenu, menuOpen } = this.state;
     return (
-      <Wrapper
-        className={
-          classes('apps-Wrapper',
-                   !isCollapsed ? 'expanded' : 'collapsed',
-                   isMenu ? 'fixed' : '',
-                   menuOpen ? 'menu-open' : '',
-                   `theme--${settings.uiTheme}`)
-        }
-      >
-        {this.renderMenuBg()}
-        <SideBar
-          collapse={this.collapse}
-          handleResize={this.handleResize}
-          menuOpen={menuOpen}
-          isCollapsed={isCollapsed}
-          toggleMenu={this.toggleMenu}
-        />
-        <Signer>
-          <Content />
-        </Signer>
-        <Connecting />
-      </Wrapper>
+      <ThemeProvider theme={{ theme: settings.uiTheme }}>
+        <Wrapper
+          className={
+            classes('apps-Wrapper',
+                     !isCollapsed ? 'expanded' : 'collapsed',
+                     isMenu ? 'fixed' : '',
+                     menuOpen ? 'menu-open' : '',
+                     `theme--${settings.uiTheme}`)
+          }
+        >
+          {this.renderMenuBg()}
+          <SideBar
+            collapse={this.collapse}
+            handleResize={this.handleResize}
+            menuOpen={menuOpen}
+            isCollapsed={isCollapsed}
+            toggleMenu={this.toggleMenu}
+          />
+          <Signer>
+            <Content />
+          </Signer>
+          <Connecting />
+        </Wrapper>
+      </ThemeProvider>
     );
   }
 
