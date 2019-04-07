@@ -102,3 +102,15 @@
     margin-bottom: -0.25rem;
   }
 }
+
+.staking--controller-info {
+  position: absolute;
+  top: 0.25rem;
+  right: 1rem;
+  margin-top: 0.75rem;
+  text-align: right;
+
+  .staking--label {
+    margin-bottom: -0.25rem;
+  }
+}

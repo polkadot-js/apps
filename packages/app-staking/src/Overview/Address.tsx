@@ -9,7 +9,7 @@ import { Nominators, RecentlyOfflineMap } from '../types';
 import BN from 'bn.js';
 import React from 'react';
 import { AccountId, Balance, Option, StakingLedger } from '@polkadot/types';
-import { withCall, withMulti } from '@polkadot/ui-api/with';
+import { withCalls, withMulti } from '@polkadot/ui-api/with';
 import { AddressMini, AddressRow } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 import { formatNumber } from '@polkadot/util';
@@ -25,26 +25,32 @@ type Props = I18nProps & {
   lastBlock: string,
   nominators: Nominators,
   recentlyOffline: RecentlyOfflineMap,
+  staking_bonded?: Option<AccountId>,
   staking_ledger?: Option<StakingLedger>
 };
 
 type State = {
+  bondedId: string | null,
   stashId: string | null,
   badgeExpanded: boolean;
 };
 
 class Address extends React.PureComponent<Props, State> {
   state: State = {
+    bondedId: null,
     stashId: null,
     badgeExpanded: false
   };
 
-  static getDerivedStateFromProps ({ staking_ledger }: Props): State | null {
-    if (!staking_ledger || staking_ledger.isNone) {
+  static getDerivedStateFromProps ({ address, staking_bonded, staking_ledger }: Props): State | null {
+    if (!staking_ledger || staking_ledger.isNone || !staking_bonded) {
       return null;
     }
 
     return {
+      bondedId: staking_bonded.isNone
+        ? address
+        : staking_bonded.unwrap().toString(),
       stashId: staking_ledger.unwrap().stash.toString()
     } as State;
   }
@@ -66,6 +72,7 @@ class Address extends React.PureComponent<Props, State> {
           withCopy={false}
           withNonce={false}
         >
+          {this.renderController()}
           {this.renderNominators()}
           {this.renderOffline()}
         </AddressRow>
@@ -100,6 +107,24 @@ class Address extends React.PureComponent<Props, State> {
     const { badgeExpanded } = this.state;
 
     this.setState({ badgeExpanded: !badgeExpanded });
+  }
+
+  private renderController () {
+    const { bondedId } = this.state;
+
+    if (!bondedId) {
+      return null;
+    }
+
+    return (
+      <div className='staking--controller-info'>
+        <label className='staking--label'>controller account</label>
+        <AddressMini
+          value={bondedId}
+          withBalance
+        />
+      </div>
+    );
   }
 
   private renderNominators () {
@@ -168,5 +193,8 @@ class Address extends React.PureComponent<Props, State> {
 export default withMulti(
   Address,
   translate,
-  withCall('query.staking.ledger', { paramName: 'address' })
+  withCalls<Props>(
+    ['query.staking.ledger', { paramName: 'address' }],
+    ['query.staking.bonded', { paramName: 'address' }]
+  )
 );
