@@ -91,8 +91,8 @@ class Account extends React.PureComponent<Props, State> {
           <div className='staking--Account-expand'>
             {this.renderButtons()}
             {this.renderBondedId()}
-            {this.renderStashId()}
             {this.renderSessionId()}
+            {this.renderStashId()}
             {this.renderNominee()}
             {this.renderNominators()}
           </div>
@@ -308,6 +308,8 @@ class Account extends React.PureComponent<Props, State> {
             label={t('Bond')}
           />
         );
+      } else {
+        return null;
       }
     } else {
       const nominees = this.getNominees();
