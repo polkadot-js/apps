@@ -24,7 +24,7 @@
 
 .ui--output.error {
   background: #fff6f6;
-  border-color: #e0b4b4;
+  border-color: #bb5f5f;
 }
 
 .ui--Button-Group .button {
@@ -239,7 +239,7 @@ header .ui--Button-Group {
 
   &.error {
     background: #fff6f6;
-    border-color: #e0b4b4;
+    border-color: #bb5f5f;
   }
 
   &:hover {
@@ -254,11 +254,6 @@ header .ui--Button-Group {
 }
 
 .ui--Labelled {
-  align-items: center;
-  display: flex;
-  flex: 1 1;
-  text-align: left;
-
   &.label-small {
     display: block;
 
@@ -273,13 +268,6 @@ header .ui--Button-Group {
     box-sizing: border-box;
     flex: 1 1;
     min-width: 0;
-  }
-
-  > label {
-    flex: 0 0 15rem;
-    min-width: 15rem;
-    padding-right: 0.5rem;
-    text-align: right;
   }
 }
 

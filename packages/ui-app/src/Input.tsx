@@ -40,6 +40,7 @@ type Props = BareProps & {
 
 type State = {
   name: string;
+  hasValue: boolean;
 };
 
 // note: KeyboardEvent.keyCode and KeyboardEvent.which are deprecated
@@ -82,12 +83,23 @@ export default class Input extends React.PureComponent<Props, State> {
     name: `in_${counter++}_at_${Date.now()}`
   };
 
+  constructor (props) {
+    super(props);
+
+    (this.props.defaultValue || this.props.value)
+      ? this.state.hasValue = true
+      : this.state.hasValue = false;
+  }
+
   render () {
+
     const { autoFocus = false, children, className, defaultValue, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, maxLength, min, name, placeholder, style, tabIndex, type = 'text', value, withLabel } = this.props;
 
     return (
       <Labelled
         className={className}
+        hasInput={true}
+        hasValue={this.state.hasValue}
         label={label}
         style={style}
         withLabel={withLabel}
@@ -149,6 +161,7 @@ export default class Input extends React.PureComponent<Props, State> {
     const { onChange } = this.props;
     const { value } = event.target as HTMLInputElement;
 
+    this.setState({ hasValue: value.length ? true : false });
     onChange && onChange(value);
   }
 
