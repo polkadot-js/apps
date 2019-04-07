@@ -34,7 +34,7 @@ const media = Object
    .keys(ScreenSizes)
    .reduce((acc, label) => {
       acc[label] = (...args) => css`
-       @media (max-width: ${ScreenSizes[label] / 16}em) {
+       @media (min-width: ${ScreenSizes[label] / 16}em) {
         ${css(...args)}
        }
       `
@@ -48,10 +48,10 @@ const Wrapper = styled.div`
   min-height: 100vh;
 
   header {
-    margin-bottom: 1.1rem;
+    margin-bottom: 0.8rem;
     text-align: center;
     ${media.TABLET`
-      margin-bottom: 0.8rem;
+      margin-bottom: 1.1rem;
    `}
   }
 `;

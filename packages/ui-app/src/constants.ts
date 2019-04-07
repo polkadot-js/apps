@@ -8,7 +8,7 @@ export enum BitLengthOption {
 };
 
 export enum ScreenSizes {
-  DESKTOP = 991,
-  TABLET = 767,
-  PHONE = 575
+  DESKTOP = 992,
+  TABLET = 768,
+  PHONE = 576
 };
