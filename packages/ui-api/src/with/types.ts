@@ -27,7 +27,7 @@ export type RenderFn = (value?: any) => React.ReactNode;
 
 export type StorageTransform = (input: any, index: number) => any | null;
 
-export type HOC = (Component: React.ComponentType<any>, defaultProps?: DefaultProps, render?: RenderFn) => React.ComponentType<any>;
+export type HOC = (Component: React.ComponentType<any>, defaultProps?: DefaultProps, render?: RenderFn, apiConsumer?: React.Consumer<any>) => React.ComponentType<any>;
 
 export type ApiMethod = {
   name: string,
