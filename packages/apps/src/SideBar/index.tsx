@@ -30,19 +30,15 @@ type Props = I18nProps & {
   toggleMenu: () => void
 };
 
-const toggleTheme = theme('theme', {
-  substrate: '#333',
-  polkadot: 'none'
-});
-
-const togglePadding = theme('theme', {
-  substrate: '4px',
-  polkadot: 'none'
-});
-
 const Toggle = styled.img`
-  background: ${toggleTheme};
-  padding: ${togglePadding};
+  background: ${theme('theme', {
+    substrate: '#333',
+    polkadot: 'none'
+  })};
+  padding: ${theme('theme', {
+    substrate: '4px',
+    polkadot: 'none'
+  })};
   border-radius: 50%;
   cursor: pointer;
   left: 0.9rem;
