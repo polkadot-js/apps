@@ -22,17 +22,20 @@ import { Subscribe, Provider } from 'unstated';
 
 type Props = BareProps & {
   defaultValue?: string | null,
+  help?: React.ReactNode,
   hideAddress?: boolean;
   isDisabled?: boolean,
   isError?: boolean,
   isInput?: boolean,
+  isMultiple?: boolean,
   label?: string,
   onChange?: (value: string | null) => void,
-  addresses?: KeyringSectionOptions,
+  onChangeMulti?: (value: Array<string>) => void,
+  options?: Array<KeyringSectionOption>,
   optionsAll?: KeyringOptions,
   placeholder?: string,
   type?: KeyringOption$Type,
-  value?: string | Uint8Array,
+  value?: string | Uint8Array | Array<string>,
   withLabel?: boolean
 };
 
@@ -83,7 +86,10 @@ class InputAddress extends React.PureComponent<Props, State> {
   static getDerivedStateFromProps ({ value }: Props): State | null {
     try {
       return {
-        value: addressToAddress(value) || undefined
+        value: Array.isArray(value)
+          ? value.map(addressToAddress)
+          : (addressToAddress(value) || undefined)
+
       } as State;
     } catch (error) {
       return null;
@@ -108,14 +114,9 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, defaultValue, hideAddress = false, isDisabled = false, isError, label, addresses, optionsAll, type = DEFAULT_TYPE, style, withLabel } = this.props;
+    const { className, defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, options, optionsAll, placeholder, type = DEFAULT_TYPE, style, withLabel } = this.props;
     const { value } = this.state;
-
-    if (addresses && optionsAll) {
-      optionsAll.address = addresses;
-    }
-
-    const hasOptions = optionsAll && Object.keys(optionsAll[type]).length !== 0;
+    const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
 
     if (!hasOptions && !isDisabled) {
       return null;
@@ -136,26 +137,61 @@ class InputAddress extends React.PureComponent<Props, State> {
       <Dropdown
         className={classes('ui--InputAddress', hideAddress ? 'flag--hideAddress' : '', className)}
         defaultValue={
-          value !== undefined
+          isMultiple || (value !== undefined)
             ? undefined
             : actualValue
         }
+        help={help}
         isDisabled={isDisabled}
         isError={isError}
+        isMultiple={isMultiple}
         label={label}
-        onChange={this.onChange(me)}
+        onChange={
+          isMultiple
+            ? this.onChangeMulti
+            : this.onChange
+        }
         onSearch={this.onSearch}
         options={
-          isDisabled && actualValue
-            ? [createOption(actualValue)]
-            : (optionsAll ? optionsAll[type] : [])
+          options
+            ? options
+            : (
+                isDisabled && actualValue
+                  ? [createOption(actualValue)]
+                  : (optionsAll ? optionsAll[type] : [])
+            )
+        }
+        placeholder={placeholder}
+        renderLabel={
+          isMultiple
+            ? this.renderLabel
+            : undefined
         }
         style={style}
-        value={value}
+        value={
+          isMultiple
+            ? undefined
+            : value
+        }
         withLabel={withLabel}
       />
       }</Subscribe></Provider>
     );
+  }
+
+  private renderLabel = ({ value }: KeyringSectionOption): string | null => {
+    if (!value) {
+      return null;
+    }
+
+    const pair = keyring.getAccount(value).isValid()
+        ? keyring.getAccount(value)
+        : keyring.getAddress(value);
+    const name = pair.isValid()
+        ? pair.getMeta().name
+        : undefined;
+
+    return name || `${value.slice(0, 6)}…${value.slice(-6)}`;
   }
 
   private getLastOptionValue (): KeyringSectionOption | undefined {
@@ -197,6 +233,18 @@ class InputAddress extends React.PureComponent<Props, State> {
 
       onChange && onChange(transformToAccountId(address));
     };
+  }
+
+  private onChangeMulti = (addresses: Array<string>) => {
+    const { onChangeMulti } = this.props;
+
+    if (onChangeMulti) {
+      onChangeMulti(
+        addresses
+          .map(transformToAccountId)
+          .filter((address) => address) as Array<string>
+      );
+    }
   }
 
   private onSearch = (filteredOptions: KeyringSectionOptions, _query: string): KeyringSectionOptions => {

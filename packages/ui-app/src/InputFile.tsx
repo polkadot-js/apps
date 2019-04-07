@@ -17,6 +17,7 @@ type Props = BareProps & WithTranslation & {
   // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
   accept?: string,
   clearContent?: boolean,
+  help?: React.ReactNode,
   isDisabled?: boolean,
   isError?: boolean,
   label?: React.ReactNode,
@@ -42,30 +43,34 @@ class InputFile extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { accept, className, clearContent, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
+    const { accept, className, clearContent, help, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
     const { file } = this.state;
 
-    const dropzone =
-      <Dropzone
-        accept={accept}
-        className={classes('ui--InputFile', isError ? 'error' : '', className)}
-        disabled={isDisabled}
-        multiple={false}
-        onDrop={this.onDrop}
+    return (
+      <Labelled
+        help={help}
+        label={label}
+        withLabel={withLabel}
       >
-        <div className='label'>
-        {!file || clearContent
-          ? placeholder || t('Drag and drop the file here')
-          : placeholder || t('{{name}} ({{size}} bytes)', {
-            replace: file
-          })
-        }
-        </div>
-      </Dropzone>;
-
-    return withLabel
-      ? <Labelled label={label}>{dropzone}</Labelled>
-      : dropzone;
+        <Dropzone
+          accept={accept}
+          className={classes('ui--InputFile', isError ? 'error' : '', className)}
+          disabled={isDisabled}
+          multiple={false}
+          onDrop={this.onDrop}
+        >
+          <div className='label'>
+            {
+              !file || clearContent
+                ? placeholder || t('drag and drop the file here')
+                : placeholder || t('{{name}} ({{size}} bytes)', {
+                  replace: file
+                })
+            }
+          </div>
+        </Dropzone>
+      </Labelled>
+    );
   }
 
   private onDrop = (files: Array<File>) => {

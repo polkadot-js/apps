@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import React from 'react';
-import { Button, Input, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
-import keyring from '@polkadot/ui-keyring';
+import { Button, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
 
 import translate from '../translate';
 
@@ -15,19 +15,16 @@ type Props = I18nProps & {
   isOpen: boolean,
   onClose: () => void,
   intentions: Array<string>,
-  stashId: string
+  stashId: string,
+  targets: Array<KeyringSectionOption>
 };
 
 type State = {
-  isNomineeValid: boolean,
-  isAddressFormatValid: boolean,
   nominees: Array<string>
 };
 
 class Nominating extends React.PureComponent<Props, State> {
   state: State = {
-    isNomineeValid: false,
-    isAddressFormatValid: false,
     nominees: []
   };
 
@@ -53,7 +50,7 @@ class Nominating extends React.PureComponent<Props, State> {
 
   renderButtons () {
     const { accountId, onClose, t } = this.props;
-    const { isNomineeValid, nominees } = this.state;
+    const { nominees } = this.state;
 
     return (
       <Modal.Actions>
@@ -66,7 +63,7 @@ class Nominating extends React.PureComponent<Props, State> {
           <Button.Or />
           <TxButton
             accountId={accountId}
-            isDisabled={!isNomineeValid || !nominees.length}
+            isDisabled={nominees.length === 0}
             isPrimary
             onClick={onClose}
             params={[nominees]}
@@ -79,13 +76,12 @@ class Nominating extends React.PureComponent<Props, State> {
   }
 
   renderContent () {
-    const { accountId, stashId, t } = this.props;
-    const { isNomineeValid, nominees } = this.state;
+    const { accountId, stashId, t, targets } = this.props;
 
     return (
       <>
         <Modal.Header>
-          {t('Nominate Validator')}
+          {t('Nominate Validators')}
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
@@ -100,63 +96,23 @@ class Nominating extends React.PureComponent<Props, State> {
             isDisabled
             label={t('stash account')}
           />
-          <Input
-            autoFocus
+          <InputAddress
             className='medium'
-            isError={!isNomineeValid}
-            label={t('nominate the following address (validator or intention)')}
-            onChange={this.onChangeNominee}
-            value={nominees[0]}
+            isMultiple
+            help={t('Stash accounts that are to be nominated. Block rewards are split between validators and nominators')}
+            label={t('nominate the following addresses')}
+            onChangeMulti={this.onChangeNominees}
+            options={targets}
+            placeholder={t('select accounts(s) nominate')}
+            type='account'
           />
-          {this.renderErrors()}
         </Modal.Content>
       </>
     );
   }
 
-  private renderErrors () {
-    const { t } = this.props;
-    const { isNomineeValid, isAddressFormatValid } = this.state;
-    const hasError = !isNomineeValid || !isAddressFormatValid;
-
-    if (!hasError) {
-      return null;
-    }
-
-    return (
-      <article className='error'>
-        {
-          !isNomineeValid && isAddressFormatValid
-            ? t('The address you input is not intending to stake, and is therefore invalid. Please try again with a validator address.')
-            : null
-        }
-        {
-          !isAddressFormatValid
-            ? t('The address does not conform to a recognized address format. Please make sure you enter a valid address.')
-            : null
-        }
-      </article>
-    );
-  }
-
-  private onChangeNominee = (nominee: string) => {
-    // const { intentions } = this.props;
-
-    let isAddressFormatValid = false;
-
-    try {
-      keyring.decodeAddress(nominee);
-
-      isAddressFormatValid = true;
-    } catch (err) {
-      console.error(err);
-    }
-
-    this.setState({
-      isNomineeValid: isAddressFormatValid, // intentions.includes(nominee),
-      isAddressFormatValid,
-      nominees: [nominee]
-    });
+  private onChangeNominees = (nominees: Array<string>) => {
+    this.setState({ nominees });
   }
 }
 

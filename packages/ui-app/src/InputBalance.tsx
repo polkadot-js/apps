@@ -12,6 +12,7 @@ import { InputNumber } from '@polkadot/ui-app';
 type Props = BareProps & {
   autoFocus?: boolean,
   defaultValue?: BN | string,
+  help?: React.ReactNode,
   isDisabled?: boolean,
   isError?: boolean,
   label?: any,
@@ -25,7 +26,7 @@ const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
 export default class InputBalance extends React.PureComponent<Props> {
   render () {
-    const { autoFocus, className, defaultValue, isDisabled, isError, label, onChange, placeholder, style, value, withLabel } = this.props;
+    const { autoFocus, className, defaultValue, help, isDisabled, isError, label, onChange, placeholder, style, value, withLabel } = this.props;
 
     return (
       <InputNumber
@@ -33,6 +34,7 @@ export default class InputBalance extends React.PureComponent<Props> {
         className={className}
         bitLength={DEFAULT_BITLENGTH}
         defaultValue={defaultValue}
+        help={help}
         isDisabled={isDisabled}
         isError={isError}
         isSi

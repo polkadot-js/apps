@@ -7,7 +7,6 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
-import { withCall, withMulti } from '@polkadot/ui-api';
 
 import { classes, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
@@ -18,24 +17,20 @@ type Props = BareProps & {
   children?: React.ReactNode,
   isPadded?: boolean,
   isShort?: boolean,
-  session_validators?: Array<AccountId>,
   value?: AccountId | AccountIndex | Address | string,
   withAddress?: boolean,
   withBalance?: boolean
 };
 
-class AddressMini extends React.PureComponent<Props> {
+export default class AddressMini extends React.PureComponent<Props> {
   render () {
-    const { children, className, isPadded = true, session_validators, style, value } = this.props;
+    const { children, className, isPadded = true, style, value } = this.props;
 
     if (!value) {
       return null;
     }
 
     const address = value.toString();
-    const isValidator = (session_validators || []).find((validator) =>
-      validator.toString() === address
-    );
 
     return (
       <div
@@ -44,7 +39,6 @@ class AddressMini extends React.PureComponent<Props> {
       >
         <div className='ui--AddressMini-info'>
           <IdentityIcon
-            isHighlight={!!isValidator}
             size={24}
             value={address}
           />
@@ -84,8 +78,3 @@ class AddressMini extends React.PureComponent<Props> {
     );
   }
 }
-
-export default withMulti(
-  AddressMini,
-  withCall('query.session.validators')
-);

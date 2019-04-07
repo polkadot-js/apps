@@ -23,6 +23,7 @@ import sectionOptions from './options/section';
 
 type Props = ApiProps & I18nProps & {
   defaultValue: StorageFunction,
+  help?: React.ReactNode,
   isError?: boolean,
   label: React.ReactNode,
   onChange?: (value: StorageFunction) => void,
@@ -51,7 +52,7 @@ class InputStorage extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, label, style, withLabel } = this.props;
+    const { className, help, label, style, withLabel } = this.props;
     const { optionsMethod, optionsSection, value } = this.state;
 
     return (
@@ -60,6 +61,7 @@ class InputStorage extends React.PureComponent<Props, State> {
         style={style}
       >
         <Labelled
+          help={help}
           label={label}
           withLabel={withLabel}
         >

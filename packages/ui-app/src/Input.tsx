@@ -16,6 +16,7 @@ type Props = BareProps & {
   autoFocus?: boolean,
   children?: React.ReactNode,
   defaultValue?: any,
+  help?: React.ReactNode,
   icon?: React.ReactNode,
   isAction?: boolean,
   isDisabled?: boolean,
@@ -31,6 +32,8 @@ type Props = BareProps & {
   onBlur?: (event: React.KeyboardEvent<Element>) => void,
   onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
   onKeyUp?: (event: React.KeyboardEvent<Element>) => void,
+  onKeyPress?: (event: React.KeyboardEvent<Element>) => void,
+  onPaste?: (event: React.ClipboardEvent<Element>) => void,
   placeholder?: string,
   tabIndex?: number,
   type?: Input$Type,
@@ -41,6 +44,12 @@ type Props = BareProps & {
 type State = {
   name: string;
 };
+
+// Find decimal separator used in current locale
+const getDecimalSeparator = (): string => Intl.NumberFormat()
+    .formatToParts(1.1)
+    .find(part => part.type === 'decimal')!
+    .value;
 
 // note: KeyboardEvent.keyCode and KeyboardEvent.which are deprecated
 const KEYS = {
@@ -57,7 +66,8 @@ const KEYS = {
   TAB: 'Tab',
   V: 'v',
   X: 'x',
-  ZERO: '0'
+  ZERO: '0',
+  DECIMAL: getDecimalSeparator()
 };
 
 const KEYS_PRE: Array<any> = [KEYS.ALT, KEYS.CMD, KEYS.CTRL];
@@ -83,11 +93,12 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { autoFocus = false, children, className, defaultValue, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, maxLength, min, name, placeholder, style, tabIndex, type = 'text', value, withLabel } = this.props;
+    const { autoFocus = false, children, className, defaultValue, help, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, maxLength, min, name, placeholder, style, tabIndex, type = 'text', value, withLabel } = this.props;
 
     return (
       <Labelled
         className={className}
+        help={help}
         label={label}
         style={style}
         withLabel={withLabel}
@@ -132,6 +143,7 @@ export default class Input extends React.PureComponent<Props, State> {
                 ? 'new-password'
                 : 'off'
             }
+            onPaste={this.onPaste}
           />
           {
             isEditable
@@ -165,6 +177,14 @@ export default class Input extends React.PureComponent<Props, State> {
 
     if (onKeyUp) {
       onKeyUp(event);
+    }
+  }
+
+  private onPaste = (event: React.ClipboardEvent<Element>): void => {
+    const { onPaste } = this.props;
+
+    if (onPaste) {
+      onPaste(event);
     }
   }
 }

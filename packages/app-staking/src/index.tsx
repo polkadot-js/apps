@@ -33,6 +33,7 @@ type State = {
   intentions: Array<string>,
   nominators: Nominators,
   tabs: Array<TabItem>,
+  targets: Array<string>,
   validators: Array<string>
 };
 
@@ -57,6 +58,7 @@ class App extends React.PureComponent<Props, State> {
           text: t('Validator Staking')
         }
       ],
+      targets: [],
       validators: []
     };
   }
@@ -73,6 +75,7 @@ class App extends React.PureComponent<Props, State> {
 
         return result;
       }, {} as Nominators),
+      targets: staking_controllers[0].map((accountId) => accountId.toString()),
       validators: session_validators.map((authorityId) =>
         authorityId.toString()
       )
@@ -105,7 +108,7 @@ class App extends React.PureComponent<Props, State> {
 
   private renderComponent (Component: React.ComponentType<ComponentProps>) {
     return (): React.ReactNode => {
-      const { intentions, nominators, validators } = this.state;
+      const { intentions, nominators, targets, validators } = this.state;
       const { balances = {} } = this.props;
 
       return (
@@ -114,6 +117,7 @@ class App extends React.PureComponent<Props, State> {
           balanceArray={this.balanceArray}
           intentions={intentions}
           nominators={nominators}
+          targets={targets}
           validators={validators}
         />
       );

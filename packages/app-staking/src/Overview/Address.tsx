@@ -6,11 +6,13 @@ import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { Nominators, RecentlyOfflineMap } from '../types';
 
+import BN from 'bn.js';
 import React from 'react';
-import { AccountId, Balance, Option } from '@polkadot/types';
-import { withCall, withMulti } from '@polkadot/ui-api/with';
+import { AccountId, Balance, Option, StakingLedger } from '@polkadot/types';
+import { withCalls, withMulti } from '@polkadot/ui-api/with';
 import { AddressMini, AddressRow } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
+import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
@@ -23,106 +25,65 @@ type Props = I18nProps & {
   lastBlock: string,
   nominators: Nominators,
   recentlyOffline: RecentlyOfflineMap,
-  staking_bonded?: Option<AccountId>
+  session_nextKeyFor?: Option<AccountId>,
+  staking_bonded?: Option<AccountId>,
+  staking_ledger?: Option<StakingLedger>
 };
 
 type State = {
+  bondedId: string,
+  stashId: string | null,
+  sessionId: string | null,
   badgeExpanded: boolean;
 };
 
 class Address extends React.PureComponent<Props, State> {
-  state: State = {
-    badgeExpanded: false
-  };
+  state: State;
 
-  private getDisplayName = (): string | undefined => {
-    const { address, defaultName } = this.props;
+  constructor (props: Props) {
+    super(props);
 
-    const pair = keyring.getAccount(address).isValid()
-      ? keyring.getAccount(address)
-      : keyring.getAddress(address);
-
-    return pair.isValid()
-      ? pair.getMeta().name
-      : defaultName;
+    this.state = {
+      bondedId: props.address,
+      sessionId: null,
+      stashId: null,
+      badgeExpanded: false
+    };
   }
 
-  private onClickBadge = (): void => {
-    const { badgeExpanded } = this.state;
-
-    this.setState({ badgeExpanded: !badgeExpanded });
+  static getDerivedStateFromProps ({ address, session_nextKeyFor, staking_bonded, staking_ledger }: Props, prevState: State): State | null {
+    return {
+      bondedId: !staking_bonded || staking_bonded.isNone
+        ? prevState.bondedId
+        : staking_bonded.unwrap().toString(),
+      sessionId: !session_nextKeyFor || session_nextKeyFor.isNone
+        ? prevState.sessionId
+        : session_nextKeyFor.unwrap().toString(),
+      stashId: !staking_ledger || staking_ledger.isNone
+        ? prevState.stashId
+        : staking_ledger.unwrap().stash.toString()
+    } as State;
   }
 
   render () {
-    const { address, balanceArray, isAuthor, lastBlock, nominators, recentlyOffline, staking_bonded, t } = this.props;
-    const { badgeExpanded } = this.state;
-    const myNominators = Object.keys(nominators).filter((nominator) =>
-      nominators[nominator].indexOf(address) !== -1
-    );
-    const bondedId: string | null = staking_bonded && staking_bonded.isSome
-      ? staking_bonded.unwrap().toString()
-      : null;
-
-    const hasNominators = !!myNominators.length;
-    const isRecentlyOffline = bondedId && recentlyOffline[bondedId];
-
-    const children = (hasNominators || isRecentlyOffline) ? (
-      <>
-        <details className='staking--Account-detail'>
-          {myNominators.length && (
-          <>
-            <summary>
-              {t('Nominators ({{count}})', {
-                replace: {
-                  count: myNominators.length
-                }
-              })}
-            </summary>
-            {myNominators.map((accountId) =>
-              <AddressMini
-                key={accountId.toString()}
-                value={accountId}
-                withBalance
-              />
-            )}
-          </>
-        )}
-        </details>
-        {(bondedId && recentlyOffline[bondedId]) && (() => {
-          const { blockNumber, instances } = recentlyOffline[bondedId];
-
-          return (
-            <div
-              onClick={this.onClickBadge}
-              className={['recentlyOffline', badgeExpanded ? 'expand' : ''].join(' ')}
-            >
-              <div className='badge'>
-                {instances.toString()}
-              </div>
-              <div className='detail'>
-                {t('Reported offline {{instances}} times since block #{{blockNumber}}', {
-                  replace: {
-                    instances: instances.toString(),
-                    blockNumber
-                  }
-                })}
-              </div>
-            </div>
-          );
-        })()}
-      </>
-    ) : undefined;
+    const { balanceArray, isAuthor, lastBlock } = this.props;
+    const { bondedId, stashId } = this.state;
 
     return (
-      <article key={address}>
+      <article key={stashId || bondedId}>
         <AddressRow
-          balance={balanceArray(address)}
+          balance={balanceArray(stashId || '')}
           name={this.getDisplayName()}
-          value={address}
+          value={stashId}
           withCopy={false}
           withNonce={false}
         >
-          {children}
+          <div className='staking--accounts-info'>
+            {this.renderControllerId()}
+            {this.renderSessionId()}
+          </div>
+          {this.renderNominators()}
+          {this.renderOffline()}
         </AddressRow>
         <div
           className={['blockNumber', isAuthor ? 'latest' : ''].join(' ')}
@@ -133,10 +94,128 @@ class Address extends React.PureComponent<Props, State> {
       </article>
     );
   }
+
+  private getDisplayName = (): string | undefined => {
+    const { defaultName } = this.props;
+    const { stashId } = this.state;
+
+    if (!stashId) {
+      return defaultName;
+    }
+
+    const pair = keyring.getAccount(stashId).isValid()
+      ? keyring.getAccount(stashId)
+      : keyring.getAddress(stashId);
+
+    return pair.isValid()
+      ? (pair.getMeta().name || defaultName)
+      : defaultName;
+  }
+
+  private toggleBadge = (): void => {
+    const { badgeExpanded } = this.state;
+
+    this.setState({ badgeExpanded: !badgeExpanded });
+  }
+
+  private renderControllerId () {
+    const { t } = this.props;
+    const { bondedId } = this.state;
+
+    if (!bondedId) {
+      return null;
+    }
+
+    return (
+      <div>
+        <label className='staking--label'>{t('controller')}</label>
+        <AddressMini value={bondedId} />
+      </div>
+    );
+  }
+
+  private renderSessionId () {
+    const { t } = this.props;
+    const { sessionId } = this.state;
+
+    if (!sessionId) {
+      return null;
+    }
+
+    return (
+      <div>
+        <label className='staking--label'>{t('session')}</label>
+        <AddressMini value={sessionId} />
+      </div>
+    );
+  }
+
+  private renderNominators () {
+    const { address, nominators, t } = this.props;
+    const myNominators = Object.keys(nominators).filter((nominator) =>
+      nominators[nominator].indexOf(address) !== -1
+    );
+
+    return (
+      <details className='staking--Account-detail'>
+        <summary>
+          {t('Nominators ({{count}})', {
+            replace: {
+              count: myNominators.length
+            }
+          })}
+        </summary>
+        {myNominators.map((accountId) =>
+          <AddressMini
+            key={accountId.toString()}
+            value={accountId}
+            withBalance
+          />
+        )}
+      </details>
+    );
+  }
+
+  private renderOffline () {
+    const { recentlyOffline, t } = this.props;
+    const { badgeExpanded, stashId } = this.state;
+
+    if (!stashId || !recentlyOffline[stashId]) {
+      return null;
+    }
+
+    const offline = recentlyOffline[stashId];
+    const count = offline.reduce((total, { count }) => total.add(count), new BN(0));
+
+    const blockNumbers = offline.map(({ blockNumber }) => `#${formatNumber(blockNumber)}`);
+
+    return (
+      <div
+        className={['recentlyOffline', badgeExpanded ? 'expand' : ''].join(' ')}
+        onClick={this.toggleBadge}
+      >
+        <div className='badge'>
+          {count.toString()}
+        </div>
+        <div className='detail'>
+          {t('Reported offline {{count}} times, last at {{blockNumber}}', {
+            replace: {
+              count: count.toString(),
+              blockNumber: blockNumbers[blockNumbers.length - 1]
+            }
+          })}
+        </div>
+      </div>
+    );
+  }
 }
 
 export default withMulti(
   Address,
   translate,
-  withCall('query.staking.bonded', { paramName: 'address' })
+  withCalls<Props>(
+    ['query.session.nextKeyFor', { paramName: 'address' }],
+    ['query.staking.ledger', { paramName: 'address' }],
+    ['query.staking.bonded', { paramName: 'address' }]
+  )
 );
