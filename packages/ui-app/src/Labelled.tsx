@@ -29,7 +29,7 @@ const StyledLabelled = styled.div`
   text-align: left;
 
   &.has-input {
-    padding: 1.6rem 0 0.8rem;
+    padding: 1.6rem 0 0.5rem;
 
     > div {
       z-index: 2;
