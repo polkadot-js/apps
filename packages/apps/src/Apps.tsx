@@ -18,7 +18,6 @@ import Content from './Content';
 import SideBar from './SideBar';
 
 import styled, { ThemeProvider } from 'styled-components';
-import theme from 'styled-theming';
 import { media } from '@polkadot/ui-app/media';
 
 type Props = BareProps & {};
