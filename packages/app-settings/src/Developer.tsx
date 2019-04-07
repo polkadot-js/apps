@@ -7,7 +7,7 @@ import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import store from 'store';
 import { getTypeRegistry } from '@polkadot/types';
-import { Button, Editor, InputFile } from '@polkadot/ui-app';
+import { Button, Editor, InputFile, Labelled } from '@polkadot/ui-app';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { isJsonObject, stringToU8a, u8aToString } from '@polkadot/util';
 
@@ -64,17 +64,14 @@ class Developer extends React.PureComponent<Props, State> {
         </div>
         <div className='ui--row'>
           <div className='full'>
-            <div className='ui--Labelled'>
-              <label>{t('Manually enter your custom type definitions as valid JSON')}</label>
-              <div className='ui--Labelled-content'>
-                <Editor
-                  className='editor'
-                  code={code}
-                  isValid={isJsonValid}
-                  onEdit={this.onEditTypes}
-                />
-              </div>
-            </div>
+            <Labelled label={t('Manually enter your custom type definitions as valid JSON')}>
+              <Editor
+                className='editor'
+                code={code}
+                isValid={isJsonValid}
+                onEdit={this.onEditTypes}
+              />
+            </Labelled>>
           </div>
         </div>
         <Button.Group>

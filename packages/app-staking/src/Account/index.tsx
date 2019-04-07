@@ -5,6 +5,7 @@
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
+import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 import { Nominators } from '../types';
 
 import React from 'react';
@@ -22,15 +23,16 @@ type Props = ApiProps & I18nProps & {
   accountId: string,
   balances: DerivedBalancesMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
+  intentions: Array<string>,
+  isValidator: boolean,
   name: string,
+  nominators: Nominators,
   session_nextKeyFor?: Option<AccountId>,
   staking_bonded?: Option<AccountId>,
   staking_ledger?: Option<StakingLedger>,
   staking_stakers?: Exposure,
   staking_validators?: [ValidatorPrefs],
-  intentions: Array<string>,
-  nominators: Nominators,
-  isValidator: boolean,
+  targets: Array<KeyringSectionOption>,
   validators: Array<string>
 };
 
@@ -57,10 +59,7 @@ class Account extends React.PureComponent<Props, State> {
     stashId: null
   };
 
-  static getDerivedStateFromProps ({ session_nextKeyFor, staking_bonded, staking_ledger }: Props): Partial<State> {
-
-    // console.error('staking_stakers', JSON.stringify(staking_stakers));
-
+  static getDerivedStateFromProps ({ session_nextKeyFor, staking_bonded, staking_ledger }: Props, state: State): Partial<State> {
     return {
       bondedId: staking_bonded && staking_bonded.isSome
         ? staking_bonded.unwrap().toString()
@@ -93,6 +92,7 @@ class Account extends React.PureComponent<Props, State> {
             {this.renderButtons()}
             {this.renderBondedId()}
             {this.renderStashId()}
+            {this.renderSessionId()}
             {this.renderNominee()}
             {this.renderNominators()}
           </div>
@@ -173,6 +173,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderNominee () {
+    const { t } = this.props;
     const nominees = this.getNominees();
 
     if (!nominees || !nominees.length) {
@@ -181,7 +182,7 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <div className='staking--Account-detail'>
-        <label className='staking--label'>nominating</label>
+        <label className='staking--label'>{t('nominating')}</label>
         {
           nominees.map((nomineeId, index) => (
             <AddressMini
@@ -220,6 +221,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderBondedId () {
+    const { t } = this.props;
     const { bondedId } = this.state;
 
     if (!bondedId) {
@@ -228,16 +230,30 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <div className='staking--Account-detail'>
-        <label className='staking--label'>controller account</label>
-        <AddressMini
-          value={bondedId}
-          withBalance
-        />
+        <label className='staking--label'>{t('controller')}</label>
+        <AddressMini value={bondedId} />
+      </div>
+    );
+  }
+
+  private renderSessionId () {
+    const { t } = this.props;
+    const { sessionId } = this.state;
+
+    if (!sessionId) {
+      return null;
+    }
+
+    return (
+      <div className='staking--Account-detail'>
+        <label className='staking--label'>{t('session')}</label>
+        <AddressMini value={sessionId} />
       </div>
     );
   }
 
   private renderStashId () {
+    const { t } = this.props;
     const { stashId } = this.state;
 
     if (!stashId) {
@@ -246,17 +262,14 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <div className='staking--Account-detail'>
-        <label className='staking--label'>stash account</label>
-        <AddressMini
-          value={stashId}
-          withBalance
-        />
+        <label className='staking--label'>{t('stash')}</label>
+        <AddressMini value={stashId} />
       </div>
     );
   }
 
   private renderNominating () {
-    const { accountId, intentions } = this.props;
+    const { accountId, intentions, targets } = this.props;
     const { isNominateOpen, stashId } = this.state;
 
     if (!stashId) {
@@ -270,34 +283,28 @@ class Account extends React.PureComponent<Props, State> {
         onClose={this.toggleNominate}
         intentions={intentions}
         stashId={stashId}
+        targets={targets}
       />
     );
   }
 
   private renderButtons () {
     const { accountId, intentions, t } = this.props;
-    const { sessionId, stashId } = this.state;
+    const { sessionId, bondedId, stashId } = this.state;
     const buttons = [];
 
     if (!stashId) {
-      if (sessionId) {
+      if (!bondedId) {
         buttons.push(
           <Button
             isPrimary
             key='bond'
             onClick={this.toggleBonding}
-            label={t('Bond')}
+            label={t('Bond Funds')}
           />
         );
       } else {
-        buttons.push(
-          <Button
-            isPrimary
-            key='session'
-            onClick={this.toggleSessionKey}
-            label={t('Set Session Key')}
-          />
-        );
+        return null;
       }
     } else {
       const nominees = this.getNominees();
@@ -315,14 +322,25 @@ class Account extends React.PureComponent<Props, State> {
           />
         );
       } else {
-        buttons.push(
-          <Button
-            isPrimary
-            key='validate'
-            onClick={this.toggleValidating}
-            label={t('Validate')}
-          />
-        );
+        if (!sessionId) {
+          buttons.push(
+            <Button
+              isPrimary
+              key='session'
+              onClick={this.toggleSessionKey}
+              label={t('Set Session Key')}
+            />
+          );
+        } else {
+          buttons.push(
+            <Button
+              isPrimary
+              key='validate'
+              onClick={this.toggleValidating}
+              label={t('Validate')}
+            />
+          );
+        }
         buttons.push(<Button.Or key='nominate.or' />);
         buttons.push(
           <Button

@@ -17,6 +17,7 @@ type Props = BareProps & WithTranslation & {
   // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
   accept?: string,
   clearContent?: boolean,
+  help?: React.ReactNode,
   isDisabled?: boolean,
   isError?: boolean,
   label: string,
@@ -42,11 +43,12 @@ class InputFile extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { accept, className, clearContent, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
+    const { accept, className, clearContent, help, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
     const { file } = this.state;
 
     return (
       <Labelled
+        help={help}
         label={label}
         withLabel={withLabel}
       >

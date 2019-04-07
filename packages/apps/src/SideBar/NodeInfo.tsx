@@ -36,28 +36,31 @@ const Wrapper = styled.div`
   }
 `;
 
-const HEALTH_POLL = 22500;
 const pkgJson = require('../../package.json');
 
 class NodeInfo extends React.PureComponent<Props> {
-  componentDidMount () {
-    const { api } = this.props;
-
-    window.setInterval(() => {
-      api.rpc.system
-        .health()
-        .catch(() => {
-          // ignore
-        });
-    }, HEALTH_POLL);
-  }
-
   render () {
     const { api } = this.props;
     const uiInfo = `apps v${pkgJson.version}`;
 
     return (
       <Wrapper>
+        {this.renderNode()}
+        <div>{api.libraryInfo.replace('@polkadot/', '')}</div>
+        <div>{uiInfo}</div>
+      </Wrapper>
+    );
+  }
+
+  private renderNode () {
+    const { isApiReady } = this.props;
+
+    if (!isApiReady) {
+      return null;
+    }
+
+    return (
+      <>
         <div>
           <Chain />&nbsp;
           <BestNumber label='#' />
@@ -67,9 +70,7 @@ class NodeInfo extends React.PureComponent<Props> {
           <NodeVersion label='v' />
         </div>
         <div className='spacer' />
-        <div>{api.libraryInfo.replace('@polkadot/', '')}</div>
-        <div>{uiInfo}</div>
-      </Wrapper>
+      </>
     );
   }
 }

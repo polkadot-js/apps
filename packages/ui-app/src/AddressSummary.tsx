@@ -149,7 +149,7 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderIcon (className: string = 'ui--AddressSummary-icon', size?: number) {
-    const { accounts_idAndIndex = [], identIconSize = 96, session_validators, value, withIcon = true } = this.props;
+    const { accounts_idAndIndex = [], identIconSize = 96, value, withIcon = true } = this.props;
 
     if (!withIcon) {
       return null;
@@ -157,16 +157,12 @@ class AddressSummary extends React.PureComponent<Props> {
 
     const [_accountId] = accounts_idAndIndex;
     const accountId = (_accountId || value || '').toString();
-    const isValidator = (session_validators || []).find((validator) =>
-      validator.toString() === accountId
-    );
 
     return (
       <IdentityIcon
         className={className}
-        isHighlight={!!isValidator}
         size={size || identIconSize}
-        value={value ? value.toString() : DEFAULT_ADDR}
+        value={accountId || DEFAULT_ADDR}
       />
     );
   }
@@ -212,7 +208,6 @@ export {
 
 export default translate(
   withCalls<Props>(
-    ['derive.accounts.idAndIndex', { paramName: 'value' }],
-    'query.session.validators'
+    ['derive.accounts.idAndIndex', { paramName: 'value' }]
   )(AddressSummary)
 );

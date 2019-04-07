@@ -16,16 +16,17 @@ export type ComponentProps = {
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   intentions: Array<string>,
   nominators: Nominators,
+  targets: Array<string>,
   validators: Array<string>
 };
 
 export type RecentlyOffline = Array<[AccountId, BlockNumber, BN]>;
 
 export type RecentlyOfflineMap = {
-  [s: string]: OfflineStatus
+  [s: string]: Array<OfflineStatus>
 };
 
 export interface OfflineStatus {
   blockNumber: BlockNumber;
-  instances: BN;
+  count: BN;
 }
