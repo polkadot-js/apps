@@ -53,9 +53,9 @@ const Label = styled.label`
     opacity: 0.75;
   }
 
-  &.has-value {
+  &.min-label {
     left: 0;
-    top: 0;
+    top: 0em;
     font-size: 0.9em;
     opacity: 1;
   }
@@ -67,7 +67,7 @@ const defaultLabel: any = (// node?
 
 export default class Labelled extends React.PureComponent<Props> {
   render () {
-    const { className, children, hasValue, hasInput = false, isSmall, isHidden, label = defaultLabel, style, withLabel = true } = this.props;
+    const { className, children, minLabel, hasInput = false, isSmall, isHidden, label = defaultLabel, style, withLabel = true } = this.props;
 
     if (isHidden) {
       return null;
@@ -92,7 +92,7 @@ export default class Labelled extends React.PureComponent<Props> {
           className={
             classes(
               hasInput ? 'has-input' : '',
-              (hasValue && hasInput) ? 'has-value' : ''
+              (minLabel && hasInput) ? 'min-label' : ''
             )
           }
         >

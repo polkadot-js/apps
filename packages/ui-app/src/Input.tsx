@@ -40,7 +40,7 @@ type Props = BareProps & {
 
 type State = {
   name: string;
-  hasValue: boolean;
+  minLabel: boolean;
 };
 
 // note: KeyboardEvent.keyCode and KeyboardEvent.which are deprecated
@@ -85,24 +85,29 @@ export default class Input extends React.PureComponent<Props, State> {
 
   constructor (props) {
     super(props);
+    props.label === undefined
+      ? this.state.minLabel = true
 
-    (this.props.defaultValue || this.props.value)
-      ? this.state.hasValue = true
-      : this.state.hasValue = false;
+      : (this.props.defaultValue || this.props.value)
+        ? this.state.minLabel = true
+        : this.state.minLabel = false;
   }
 
   render () {
 
     const { autoFocus = false, children, className, defaultValue, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, maxLength, min, name, placeholder, style, tabIndex, type = 'text', value, withLabel } = this.props;
 
+    const { minLabel } = this.state;
+
     return (
       <Labelled
         className={className}
         hasInput={true}
-        hasValue={this.state.hasValue}
+        minLabel={minLabel}
         label={label}
         style={style}
         withLabel={withLabel}
+        onFocus={this.onFocus}
       >
         <SUIInput
           action={isAction}
@@ -133,7 +138,9 @@ export default class Input extends React.PureComponent<Props, State> {
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
-          placeholder={placeholder}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+          placeholder={ minLabel ? placeholder : '' }
           tabIndex={tabIndex}
           type={type}
           value={value}
@@ -157,12 +164,22 @@ export default class Input extends React.PureComponent<Props, State> {
     );
   }
 
+  private onBlur = (event: React.KeyboardEvent<Element>): void => {
+    this.props.label !== undefined
+      && this.setState({ minLabel: event.target.value ? true : false });
+  }
+
   private onChange = (event: React.SyntheticEvent<Element>): void => {
     const { onChange } = this.props;
     const { value } = event.target as HTMLInputElement;
 
-    this.setState({ hasValue: value.length ? true : false });
+    this.setState({ minLabel: (this.props.label === undefined || value.length) ? true : false });
     onChange && onChange(value);
+  }
+
+  private onFocus = (event: React.KeyboardEvent<Element>): void => {
+    this.props.label !== undefined
+      && this.setState({ minLabel: true });
   }
 
   private onKeyDown = (event: React.KeyboardEvent<Element>): void => {
