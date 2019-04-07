@@ -14,6 +14,8 @@ import { AddressMini, AddressRow } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
+import RecentlyOffline from '../RecentlyOffline';
+
 import translate from '../translate';
 
 type Props = I18nProps & {
@@ -31,6 +33,7 @@ type Props = I18nProps & {
 };
 
 type State = {
+<<<<<<< HEAD
   bondedId: string,
   stashActive: string | null,
   stashTotal: string | null,
@@ -54,6 +57,20 @@ class Address extends React.PureComponent<Props, State> {
       badgeExpanded: false
     };
   }
+=======
+  stashId: string | null
+};
+
+class Address extends React.PureComponent<Props, State> {
+  state: State = {
+    stashId: null
+  };
+
+  static getDerivedStateFromProps ({ staking_ledger }: Props): State | null {
+    if (!staking_ledger || staking_ledger.isNone) {
+      return null;
+    }
+>>>>>>> recently offline on own accounts
 
   static getDerivedStateFromProps ({ session_nextKeyFor, staking_bonded, staking_ledger }: Props, prevState: State): State | null {
     const ledger = staking_ledger
@@ -122,6 +139,7 @@ class Address extends React.PureComponent<Props, State> {
       : defaultName;
   }
 
+<<<<<<< HEAD
   private toggleBadge = (): void => {
     const { badgeExpanded } = this.state;
 
@@ -161,6 +179,8 @@ class Address extends React.PureComponent<Props, State> {
     );
   }
 
+=======
+>>>>>>> recently offline on own accounts
   private renderNominators () {
     const { address, nominators, t } = this.props;
     const myNominators = Object.keys(nominators).filter((nominator) =>
@@ -188,13 +208,14 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private renderOffline () {
-    const { recentlyOffline, t } = this.props;
-    const { badgeExpanded, stashId } = this.state;
+    const { recentlyOffline } = this.props;
+    const { stashId } = this.state;
 
     if (!stashId || !recentlyOffline[stashId]) {
       return null;
     }
 
+<<<<<<< HEAD
     const offline = recentlyOffline[stashId];
     const count = offline.reduce((total, { count }) => total.add(count), new BN(0));
 
@@ -217,6 +238,12 @@ class Address extends React.PureComponent<Props, State> {
           })}
         </div>
       </div>
+=======
+    return (
+      <RecentlyOffline
+        offline={recentlyOffline[stashId]}
+      />
+>>>>>>> recently offline on own accounts
     );
   }
 }
