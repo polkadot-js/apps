@@ -92,7 +92,7 @@ class Address extends React.PureComponent<Props, State> {
       : keyring.getAddress(stashId);
 
     return pair.isValid()
-      ? pair.getMeta().name
+      ? (pair.getMeta().name || defaultName)
       : defaultName;
   }
 
