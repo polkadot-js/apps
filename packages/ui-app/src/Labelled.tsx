@@ -61,6 +61,15 @@ const Label = styled.label`
   }
 `;
 
+const InputBackground = styled.span`
+  background: #fff;
+  height: 2.6em;
+  position: absolute;
+  top: 1.8em;
+  width: 100%;
+  z-index: 0;
+`;
+
 const defaultLabel: any = (// node?
   <div>&nbsp;</div>
 );
@@ -98,6 +107,7 @@ export default class Labelled extends React.PureComponent<Props> {
         >
           {label}
         </Label>
+        {hasInput && <InputBackground />}
         <div className='ui--Labelled-content'>
           {children}
         </div>
