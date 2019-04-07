@@ -17,7 +17,7 @@ import Item from './Item';
 import NodeInfo from './NodeInfo';
 import getLogo from './logos';
 
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { media } from '@polkadot/ui-app/media';
 import { Responsive } from 'semantic-ui-react';
 import theme from 'styled-theming';
@@ -72,7 +72,7 @@ class SideBar extends React.PureComponent<Props> {
         className={
           classes(
             'apps-SideBar-Wrapper',
-              isCollapsed ? 'collapsed' : 'expanded',
+              isCollapsed ? 'collapsed' : 'expanded'
             )
         }
       >

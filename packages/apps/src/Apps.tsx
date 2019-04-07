@@ -76,10 +76,12 @@ class Apps extends React.Component<Props, State> {
 
     const { isCollapsed, isMenu, menuOpen } = this.state;
     return (
-      <ThemeProvider theme={{
-        theme: settings.uiTheme,
-        media: media,
-      }}>
+      <ThemeProvider
+        theme={{
+          theme: settings.uiTheme,
+          media: media
+        }}
+      >
         <Wrapper
           className={
             classes('apps-Wrapper',
