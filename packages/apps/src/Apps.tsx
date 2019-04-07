@@ -7,7 +7,6 @@ import { SideBarTransition, SIDEBAR_TRANSITION_DURATION, SIDEBAR_MENU_THRESHOLD 
 
 import React from 'react';
 import store from 'store';
-import styled, { css, ThemeProvider } from 'styled-components';
 import { classes } from '@polkadot/ui-app/util';
 import Signer from '@polkadot/ui-signer';
 import settings from '@polkadot/ui-settings';
@@ -18,8 +17,9 @@ import Connecting from './Connecting';
 import Content from './Content';
 import SideBar from './SideBar';
 
+import styled, { ThemeProvider } from 'styled-components';
 import theme from 'styled-theming';
-import { ScreenSizes } from '@polkadot/ui-app/constants';
+import { media } from '@polkadot/ui-app/media';
 
 type Props = BareProps & {};
 
@@ -29,17 +29,6 @@ type State = {
   menuOpen: boolean,
   transition: SideBarTransition
 };
-
-const media = Object
-   .keys(ScreenSizes)
-   .reduce((acc, label) => {
-      acc[label] = (...args) => css`
-       @media (min-width: ${ScreenSizes[label] / 16}em) {
-        ${css(...args)}
-       }
-      `
-return acc
-}, {});
 
 const Wrapper = styled.div`
   align-items: stretch;
