@@ -12,7 +12,7 @@ import { AccountId, Balance, Option, StakingLedger } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api/with';
 import { AddressMini, AddressRow } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
-import { formatNumber } from '@polkadot/util';
+import { formatBalance, formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
@@ -32,6 +32,8 @@ type Props = I18nProps & {
 
 type State = {
   bondedId: string,
+  stashActive: string | null,
+  stashTotal: string | null,
   stashId: string | null,
   sessionId: string | null,
   badgeExpanded: boolean;
@@ -46,12 +48,17 @@ class Address extends React.PureComponent<Props, State> {
     this.state = {
       bondedId: props.address,
       sessionId: null,
+      stashActive: null,
+      stashTotal: null,
       stashId: null,
       badgeExpanded: false
     };
   }
 
-  static getDerivedStateFromProps ({ address, session_nextKeyFor, staking_bonded, staking_ledger }: Props, prevState: State): State | null {
+  static getDerivedStateFromProps ({ session_nextKeyFor, staking_bonded, staking_ledger }: Props, prevState: State): State | null {
+    const ledger = staking_ledger
+      ? staking_ledger.unwrapOr(null)
+      : null;
     return {
       bondedId: !staking_bonded || staking_bonded.isNone
         ? prevState.bondedId
@@ -59,20 +66,26 @@ class Address extends React.PureComponent<Props, State> {
       sessionId: !session_nextKeyFor || session_nextKeyFor.isNone
         ? prevState.sessionId
         : session_nextKeyFor.unwrap().toString(),
-      stashId: !staking_ledger || staking_ledger.isNone
+      stashActive: !ledger
+        ? prevState.stashActive
+        : formatBalance(ledger.active),
+      stashTotal: !ledger
+        ? prevState.stashTotal
+        : formatBalance(ledger.total),
+      stashId: !ledger
         ? prevState.stashId
-        : staking_ledger.unwrap().stash.toString()
+        : ledger.stash.toString()
     } as State;
   }
 
   render () {
-    const { balanceArray, isAuthor, lastBlock } = this.props;
-    const { bondedId, stashId } = this.state;
+    const { isAuthor, lastBlock } = this.props;
+    const { bondedId, stashActive, stashId } = this.state;
 
     return (
       <article key={stashId || bondedId}>
         <AddressRow
-          balance={balanceArray(stashId || '')}
+          extraInfo={stashActive ? `bonded ${stashActive}` : undefined}
           name={this.getDisplayName()}
           value={stashId}
           withCopy={false}
