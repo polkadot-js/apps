@@ -80,10 +80,11 @@ let counter = 0;
 
 export default class Input extends React.PureComponent<Props, State> {
   state: State = {
-    name: `in_${counter++}_at_${Date.now()}`
+    name: `in_${counter++}_at_${Date.now()}`,
+    minLabel: false
   };
 
-  constructor (props) {
+  constructor (props: Props) {
     super(props);
     props.label === undefined
       ? this.state.minLabel = true
@@ -107,7 +108,6 @@ export default class Input extends React.PureComponent<Props, State> {
         label={label}
         style={style}
         withLabel={withLabel}
-        onFocus={this.onFocus}
       >
         <SUIInput
           action={isAction}
@@ -166,7 +166,7 @@ export default class Input extends React.PureComponent<Props, State> {
 
   private onBlur = (event: React.KeyboardEvent<Element>): void => {
     this.props.label !== undefined
-      && this.setState({ minLabel: event.target.value ? true : false });
+      && this.setState({ minLabel: event.target ? true : false });
   }
 
   private onChange = (event: React.SyntheticEvent<Element>): void => {

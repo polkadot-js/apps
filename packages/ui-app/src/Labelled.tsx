@@ -10,10 +10,12 @@ import { classes } from './util';
 import styled from 'styled-components';
 
 type Props = BareProps & {
+  children: React.ReactNode,
   isHidden?: boolean,
   isSmall?: boolean,
   label?: React.ReactNode,
-  children: React.ReactNode,
+  hasInput?: boolean,
+  minLabel?: boolean,
   withLabel?: boolean
 };
 
