@@ -16,11 +16,19 @@ type Props = I18nProps & {
 };
 
 type State = {
-  sessionId?: string
+  sessionId: string
 };
 
 class Key extends React.PureComponent<Props, State> {
-  state: State = {};
+  state: State;
+
+  constructor (props: Props) {
+    super(props);
+
+    this.state = {
+      sessionId: props.accountId
+    };
+  }
 
   render () {
     const { accountId, isOpen, onClose, t } = this.props;
@@ -62,15 +70,21 @@ class Key extends React.PureComponent<Props, State> {
   }
 
   private renderContent () {
-    const { t } = this.props;
+    const { accountId, t } = this.props;
     const { sessionId } = this.state;
 
     return (
       <>
         <Modal.Header>
-          {t('Key Preferences')}
+          {t('Session Key')}
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
+          <InputAddress
+            className='medium'
+            defaultValue={accountId}
+            isDisabled
+            label={t('controller account')}
+          />
           <InputAddress
             className='medium'
             help={t('Changing the key only takes effect at the start of the next session. If validating, you should (currently) use an ed25519 key.')}

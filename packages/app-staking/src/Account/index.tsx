@@ -91,8 +91,8 @@ class Account extends React.PureComponent<Props, State> {
           <div className='staking--Account-expand'>
             {this.renderButtons()}
             {this.renderBondedId()}
-            {this.renderSessionId()}
             {this.renderStashId()}
+            {this.renderSessionId()}
             {this.renderNominee()}
             {this.renderNominators()}
           </div>
@@ -173,6 +173,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderNominee () {
+    const { t } = this.props;
     const nominees = this.getNominees();
 
     if (!nominees || !nominees.length) {
@@ -181,7 +182,7 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <div className='staking--Account-detail'>
-        <label className='staking--label'>nominating</label>
+        <label className='staking--label'>{t('nominating')}</label>
         {
           nominees.map((nomineeId, index) => (
             <AddressMini
@@ -220,6 +221,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderBondedId () {
+    const { t } = this.props;
     const { bondedId } = this.state;
 
     if (!bondedId) {
@@ -228,16 +230,14 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <div className='staking--Account-detail'>
-        <label className='staking--label'>controller account</label>
-        <AddressMini
-          value={bondedId}
-          withBalance
-        />
+        <label className='staking--label'>{t('controller')}</label>
+        <AddressMini value={bondedId} />
       </div>
     );
   }
 
   private renderSessionId () {
+    const { t } = this.props;
     const { sessionId } = this.state;
 
     if (!sessionId) {
@@ -246,16 +246,14 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <div className='staking--Account-detail'>
-        <label className='staking--label'>session account</label>
-        <AddressMini
-          value={sessionId}
-          withBalance
-        />
+        <label className='staking--label'>{t('session')}</label>
+        <AddressMini value={sessionId} />
       </div>
     );
   }
 
   private renderStashId () {
+    const { t } = this.props;
     const { stashId } = this.state;
 
     if (!stashId) {
@@ -264,11 +262,8 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <div className='staking--Account-detail'>
-        <label className='staking--label'>stash account</label>
-        <AddressMini
-          value={stashId}
-          withBalance
-        />
+        <label className='staking--label'>{t('stash')}</label>
+        <AddressMini value={stashId} />
       </div>
     );
   }
@@ -305,7 +300,7 @@ class Account extends React.PureComponent<Props, State> {
             isPrimary
             key='bond'
             onClick={this.toggleBonding}
-            label={t('Bond')}
+            label={t('Bond Funds')}
           />
         );
       } else {
@@ -316,16 +311,7 @@ class Account extends React.PureComponent<Props, State> {
       const isNominating = nominees && nominees.length;
       const isValidating = intentions.indexOf(accountId) !== -1;
 
-      if (!sessionId) {
-        buttons.push(
-          <Button
-            isPrimary
-            key='session'
-            onClick={this.toggleSessionKey}
-            label={t('Set Session Key')}
-          />
-        );
-      } else if (isValidating || isNominating) {
+      if (isValidating || isNominating) {
         buttons.push(
           <TxButton
             accountId={accountId}
@@ -336,14 +322,25 @@ class Account extends React.PureComponent<Props, State> {
           />
         );
       } else {
-        buttons.push(
-          <Button
-            isPrimary
-            key='validate'
-            onClick={this.toggleValidating}
-            label={t('Validate')}
-          />
-        );
+        if (!sessionId) {
+          buttons.push(
+            <Button
+              isPrimary
+              key='session'
+              onClick={this.toggleSessionKey}
+              label={t('Set Session Key')}
+            />
+          );
+        } else {
+          buttons.push(
+            <Button
+              isPrimary
+              key='validate'
+              onClick={this.toggleValidating}
+              label={t('Validate')}
+            />
+          );
+        }
         buttons.push(<Button.Or key='nominate.or' />);
         buttons.push(
           <Button
