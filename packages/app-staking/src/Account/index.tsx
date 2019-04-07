@@ -91,6 +91,7 @@ class Account extends React.PureComponent<Props, State> {
           <div className='staking--Account-expand'>
             {this.renderButtons()}
             {this.renderBondedId()}
+            {this.renderSessionId()}
             {this.renderStashId()}
             {this.renderNominee()}
             {this.renderNominators()}
@@ -236,6 +237,24 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
+  private renderSessionId () {
+    const { sessionId } = this.state;
+
+    if (!sessionId) {
+      return null;
+    }
+
+    return (
+      <div className='staking--Account-detail'>
+        <label className='staking--label'>session account</label>
+        <AddressMini
+          value={sessionId}
+          withBalance
+        />
+      </div>
+    );
+  }
+
   private renderStashId () {
     const { stashId } = this.state;
 
@@ -276,11 +295,11 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderButtons () {
     const { accountId, intentions, t } = this.props;
-    const { sessionId, stashId } = this.state;
+    const { sessionId, bondedId, stashId } = this.state;
     const buttons = [];
 
     if (!stashId) {
-      if (sessionId) {
+      if (!bondedId) {
         buttons.push(
           <Button
             isPrimary
@@ -290,6 +309,14 @@ class Account extends React.PureComponent<Props, State> {
           />
         );
       } else {
+        return null;
+      }
+    } else {
+      const nominees = this.getNominees();
+      const isNominating = nominees && nominees.length;
+      const isValidating = intentions.indexOf(accountId) !== -1;
+
+      if (!sessionId) {
         buttons.push(
           <Button
             isPrimary
@@ -298,13 +325,7 @@ class Account extends React.PureComponent<Props, State> {
             label={t('Set Session Key')}
           />
         );
-      }
-    } else {
-      const nominees = this.getNominees();
-      const isNominating = nominees && nominees.length;
-      const isValidating = intentions.indexOf(accountId) !== -1;
-
-      if (isValidating || isNominating) {
+      } else if (isValidating || isNominating) {
         buttons.push(
           <TxButton
             accountId={accountId}
