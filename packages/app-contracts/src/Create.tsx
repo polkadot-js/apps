@@ -6,45 +6,63 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { Dropdown, InputFile } from '@polkadot/ui-app';
+import { Button, Dropdown } from '@polkadot/ui-app';
+import { ContractAbi } from '@polkadot/types';
 
+import ABI from './ABI';
 import translate from './translate';
 
 type Props = ComponentProps & I18nProps;
 
 type State = {
-  abi?: Uint8Array,
-  isAbiValid: boolean
+  abi?: string | null,
+  contractAbi?: ContractAbi | null,
+  isAbiValid: boolean,
+  isHashValid: boolean
 };
 
 class Create extends React.PureComponent<Props, State> {
   state: State = {
-    isAbiValid: false
+    isAbiValid: false,
+    isHashValid: false
   };
 
   render () {
     const { t } = this.props;
-    const { isAbiValid } = this.state;
+    const { isAbiValid, isHashValid } = this.state;
+    const isValid = isAbiValid && isHashValid;
 
     return (
       <div className='contracts--Create'>
         <Dropdown
           help={t('The contract WASM previous deployed. Internally this is identified by the hash of the code, as either created or attached.')}
+          isError={!isHashValid}
           label={t('Code for deployment')}
           options={[]}
         />
-        <InputFile
+        <ABI
           help={t('The ABI for the WASM code. Since we will be making a call into the code, the ABI is required and strored for future operations such as calls.')}
-          isError={!isAbiValid}
           label={t('Contract ABI')}
           onChange={this.onAddAbi}
         />
+        <Button.Group>
+          <Button
+            isDisabled={!isValid}
+            isPrimary
+            onClick={this.onCreate}
+            label={t('Create')}
+          />
+        </Button.Group>
       </div>
     );
   }
 
-  private onAddAbi = (abi: Uint8Array): void => {
-    this.setState({ abi });
+  private onAddAbi = (abi: string | null, contractAbi: ContractAbi | null): void => {
+    this.setState({ abi, contractAbi, isAbiValid: !!abi });
+  }
+
+  private onCreate = (): void => {
+    // do stuff
   }
 }
 

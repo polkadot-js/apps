@@ -6,53 +6,79 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { InputFile } from '@polkadot/ui-app';
+import { Button, Input, InputFile } from '@polkadot/ui-app';
 
+import ABI from './ABI';
 import translate from './translate';
 
 type Props = ComponentProps & I18nProps;
 
 type State = {
-  abi?: Uint8Array,
+  abi?: string | null,
   isAbiValid: boolean,
+  isNameValid: boolean,
   isWasmValid: boolean,
-  wasm?: Uint8Array
+  name?: string,
+  wasm?: Uint8Array | null
 };
 
 class Deploy extends React.PureComponent<Props, State> {
   state: State = {
     isAbiValid: true,
+    isNameValid: false,
     isWasmValid: false
   };
 
   render () {
     const { t } = this.props;
-    const { isAbiValid, isWasmValid } = this.state;
+    const { isAbiValid, isNameValid, isWasmValid } = this.state;
+    const isValid = isAbiValid && isNameValid && isWasmValid;
 
     return (
       <div className='contracts--Deploy'>
+        <Input
+          help={t('A name for this wasm code that helps to user distinguish. Only used for display purposes.')}
+          isError={!isNameValid}
+          label={t('Code bundle name')}
+          onChange={this.onChangeName}
+        />
         <InputFile
           help={t('The compiled WASM for the contract that you wish to deploy. Ecah unique code blob will be attached with a code hash that can be used to create new instances.')}
           isError={!isWasmValid}
           label={t('Compiled contract WASM')}
           onChange={this.onAddWasm}
         />
-        <InputFile
+        <ABI
           help={t('The ABI for the WASM code. In this step it is optional, but required once you wish to create contracts or call into deployed contracts.')}
-          isError={!isAbiValid}
           label={t('Contract ABI (optional)')}
           onChange={this.onAddAbi}
         />
+        <Button.Group>
+          <Button
+            isDisabled={!isValid}
+            isPrimary
+            onClick={this.onDeploy}
+            label={t('Deploy')}
+          />
+        </Button.Group>
       </div>
     );
   }
 
-  private onAddAbi = (abi: Uint8Array): void => {
-    this.setState({ abi });
+  private onAddAbi = (abi: string | null): void => {
+    this.setState({ abi, isAbiValid: !!abi });
   }
 
   private onAddWasm = (wasm: Uint8Array): void => {
     this.setState({ wasm, isWasmValid: true });
+  }
+
+  private onChangeName = (name: string): void => {
+    this.setState({ name, isNameValid: name.length !== 0 });
+  }
+
+  private onDeploy = (): void => {
+    // deploy
   }
 }
 

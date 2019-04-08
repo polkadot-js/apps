@@ -105,11 +105,10 @@ class Developer extends React.PureComponent<Props, State> {
   }
 
   private onChangeTypes = (data: Uint8Array) => {
-
-    const dataToString = u8aToString(data);
+    const code = u8aToString(data);
 
     try {
-      const types = JSON.parse(dataToString);
+      const types = JSON.parse(code);
       const typesPlaceholder = Object.keys(types).join(', ');
 
       console.log('Registering types:', typesPlaceholder);
@@ -117,7 +116,7 @@ class Developer extends React.PureComponent<Props, State> {
       getTypeRegistry().register(types);
 
       this.setState({
-        code: dataToString,
+        code,
         isJsonValid: true,
         isTypesValid: true,
         types,
@@ -125,11 +124,10 @@ class Developer extends React.PureComponent<Props, State> {
       });
 
     } catch (error) {
-
       console.error('Error registering types:', error);
 
       this.setState({
-        code: dataToString,
+        code,
         isJsonValid: false,
         isTypesValid: false,
         types: null,

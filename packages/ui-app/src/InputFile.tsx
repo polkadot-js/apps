@@ -20,9 +20,9 @@ type Props = BareProps & WithTranslation & {
   help?: React.ReactNode,
   isDisabled?: boolean,
   isError?: boolean,
-  label: string,
+  label: React.ReactNode,
   onChange?: (contents: Uint8Array) => void,
-  placeholder?: string,
+  placeholder?: React.ReactNode | null,
   withLabel?: boolean
 };
 
