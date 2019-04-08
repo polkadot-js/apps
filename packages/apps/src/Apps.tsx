@@ -7,7 +7,6 @@ import { SideBarTransition, SIDEBAR_TRANSITION_DURATION, SIDEBAR_MENU_THRESHOLD 
 
 import React from 'react';
 import store from 'store';
-import styled from 'styled-components';
 import { classes } from '@polkadot/ui-app/util';
 import Signer from '@polkadot/ui-signer';
 import settings from '@polkadot/ui-settings';
@@ -17,6 +16,9 @@ import { hot } from 'react-hot-loader/root';
 import Connecting from './Connecting';
 import Content from './Content';
 import SideBar from './SideBar';
+
+import styled, { ThemeProvider } from 'styled-components';
+import { media } from '@polkadot/ui-app/media';
 
 type Props = BareProps & {};
 
@@ -31,8 +33,15 @@ const Wrapper = styled.div`
   align-items: stretch;
   box-sizing: border-box;
   display: flex;
-  height: 100%;
   min-height: 100vh;
+
+  header {
+    margin-bottom: 0.8rem;
+    text-align: center;
+    ${media.TABLET`
+      margin-bottom: 1.1rem;
+   `}
+  }
 `;
 
 class Apps extends React.Component<Props, State> {
@@ -66,28 +75,32 @@ class Apps extends React.Component<Props, State> {
 
     const { isCollapsed, isMenu, menuOpen } = this.state;
     return (
-      <Wrapper
-        className={
-          classes('apps-Wrapper',
-                   !isCollapsed ? 'expanded' : 'collapsed',
-                   isMenu ? 'fixed' : '',
-                   menuOpen ? 'menu-open' : '',
-                   `theme--${settings.uiTheme}`)
-        }
+      <ThemeProvider
+        theme={{ theme: settings.uiTheme }}
       >
-        {this.renderMenuBg()}
-        <SideBar
-          collapse={this.collapse}
-          handleResize={this.handleResize}
-          menuOpen={menuOpen}
-          isCollapsed={isCollapsed}
-          toggleMenu={this.toggleMenu}
-        />
-        <Signer>
-          <Content />
-        </Signer>
-        <Connecting />
-      </Wrapper>
+        <Wrapper
+          className={
+            classes('apps-Wrapper',
+                     !isCollapsed ? 'expanded' : 'collapsed',
+                     isMenu ? 'fixed' : '',
+                     menuOpen ? 'menu-open' : '',
+                     `theme--${settings.uiTheme}`)
+          }
+        >
+          {this.renderMenuBg()}
+          <SideBar
+            collapse={this.collapse}
+            handleResize={this.handleResize}
+            menuOpen={menuOpen}
+            isCollapsed={isCollapsed}
+            toggleMenu={this.toggleMenu}
+          />
+          <Signer>
+            <Content />
+          </Signer>
+          <Connecting />
+        </Wrapper>
+      </ThemeProvider>
     );
   }
 

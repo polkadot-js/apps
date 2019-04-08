@@ -22,6 +22,7 @@
     "@types/react-copy-to-clipboard": "^4.2.6",
     "@types/react-dropzone": "^4.2.2",
     "@types/react-router-dom": "^4.3.0q",
+    "@types/styled-theming": "^2.2.0",
     "chart.js": "^2.7.2",
     "codeflask": "^1.4.0",
     "i18next": "^15.0.9",
@@ -37,6 +38,7 @@
     "react-router-dom": "^5.0.0",
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.86.0",
-    "store": "^2.0.12"
+    "store": "^2.0.12",
+    "styled-theming": "^2.2.0"
   }
 }

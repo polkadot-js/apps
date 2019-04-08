@@ -2496,6 +2496,11 @@
     "@types/react" "*"
     csstype "^2.2.0"
 
+"@types/styled-theming@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@types/styled-theming/-/styled-theming-2.2.0.tgz#0c4971dae7d36e1553779864caf27cc02bb3e8e2"
+  integrity sha512-IwS8K1jvn1yw3A6oSuA9zXjWW5zOQhM/psUSfehR1k0r60WWlLa1/S7El40loOMSy8blusgn7r5y/dhyEd0kKw==
+
 "@types/tapable@*":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-1.0.4.tgz#b4ffc7dc97b498c969b360a41eee247f82616370"
@@ -12918,6 +12923,11 @@ styled-components@^4.2.0:
     stylis "^3.5.0"
     stylis-rule-sheet "^0.0.10"
     supports-color "^5.5.0"
+
+styled-theming@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/styled-theming/-/styled-theming-2.2.0.tgz#3084e43d40eaab4bc11ebafd3de04e3622fee37e"
+  integrity sha1-MITkPUDqq0vBHrr9PeBONiL+434=
 
 stylis-rule-sheet@^0.0.10:
   version "0.0.10"

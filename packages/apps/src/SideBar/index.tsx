@@ -17,7 +17,11 @@ import Item from './Item';
 import NodeInfo from './NodeInfo';
 import getLogo from './logos';
 
+import styled from 'styled-components';
+import { media } from '@polkadot/ui-app/media';
 import { Responsive } from 'semantic-ui-react';
+import theme from 'styled-theming';
+import { primaryColor } from '@polkadot/ui-app/styles/theme';
 
 type Props = I18nProps & {
   collapse: () => void,
@@ -27,6 +31,38 @@ type Props = I18nProps & {
   toggleMenu: () => void
 };
 
+const Toggle = styled.img`
+  background: ${theme('theme', {
+    substrate: primaryColor,
+    polkadot: 'none'
+  })};
+  padding: ${theme('theme', {
+    substrate: '4px',
+    polkadot: 'none'
+  })};
+  border-radius: 50%;
+  cursor: pointer;
+  left: 0.9rem;
+  opacity: 0;
+  position: absolute;
+  top: 0px;
+  transition: opacity 0.2s ease-in, top 0.2s ease-in;
+  width: 2.6rem;
+
+  &.delayed {
+    transition-delay: 0.4s;
+  }
+  &.open {
+    opacity: 1;
+    top: 0.9rem;
+  }
+
+  ${media.TABLET`
+    opacity: 0 !important;
+    top: -2.9rem !important;
+  `}
+`;
+
 class SideBar extends React.PureComponent<Props> {
   render () {
     const { isCollapsed } = this.props;
@@ -35,8 +71,10 @@ class SideBar extends React.PureComponent<Props> {
       <Responsive
         onUpdate={this.props.handleResize}
         className={
-          classes('apps-SideBar-Wrapper',
-                  isCollapsed ? 'collapsed' : 'expanded')
+          classes(
+            'apps-SideBar-Wrapper',
+              isCollapsed ? 'collapsed' : 'expanded'
+            )
         }
       >
         {this.renderMenuToggle()}
@@ -152,7 +190,7 @@ class SideBar extends React.PureComponent<Props> {
     const { toggleMenu, menuOpen } = this.props;
 
     return (
-      <img
+      <Toggle
         alt='logo'
         className={menuOpen ? 'closed' : 'open delayed'}
         onClick={toggleMenu}
