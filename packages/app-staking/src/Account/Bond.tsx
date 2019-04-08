@@ -30,7 +30,7 @@ const stashOptions = [
   { text: 'Controller account', value: 2 }
 ];
 
-class Bonding extends React.PureComponent<Props, State> {
+class Bond extends React.PureComponent<Props, State> {
   state: State = {
     controllerId: null,
     destination: 0,
@@ -147,4 +147,4 @@ class Bonding extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(Bonding);
+export default translate(Bond);
