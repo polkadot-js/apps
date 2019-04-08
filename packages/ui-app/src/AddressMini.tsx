@@ -10,6 +10,7 @@ import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
 
 import { classes, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
+import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
 
 type Props = BareProps & {
@@ -19,7 +20,8 @@ type Props = BareProps & {
   isShort?: boolean,
   value?: AccountId | AccountIndex | Address | string,
   withAddress?: boolean,
-  withBalance?: boolean
+  withBalance?: boolean,
+  withBonded?: boolean
 };
 
 export default class AddressMini extends React.PureComponent<Props> {
@@ -46,6 +48,7 @@ export default class AddressMini extends React.PureComponent<Props> {
           {children}
         </div>
         {this.renderBalance()}
+        {this.renderBonded()}
       </div>
     );
   }
@@ -73,6 +76,22 @@ export default class AddressMini extends React.PureComponent<Props> {
       <BalanceDisplay
         balance={balance}
         className='ui--AddressSummary-balance'
+        value={value}
+      />
+    );
+  }
+
+  private renderBonded () {
+    const { value, withBonded = false } = this.props;
+
+    if (!withBonded || !value) {
+      return null;
+    }
+
+    return (
+      <BondedDisplay
+        className='ui--AddressSummary-balance'
+        label=''
         value={value}
       />
     );
