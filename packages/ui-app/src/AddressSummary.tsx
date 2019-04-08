@@ -8,6 +8,7 @@ import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
 import { Nonce } from '@polkadot/ui-reactive';
 import { withCalls } from '@polkadot/ui-api';
+import BaseIdentityIcon from '@polkadot/ui-identicon';
 
 import { classes, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
@@ -174,11 +175,17 @@ class AddressSummary extends React.PureComponent<Props> {
     const [_accountId] = accounts_idAndIndex;
     const accountId = (_accountId || value || '').toString();
 
+    // Since we do queries to storage in the wrapped example, we don't want
+    // to follow that route if we don't have a valid address.
+    const Component = accountId
+      ? IdentityIcon
+      : BaseIdentityIcon;
+
     return (
-      <IdentityIcon
+      <Component
         className={className}
         size={size || identIconSize}
-        value={accountId || DEFAULT_ADDR}
+        value={accountId}
       />
     );
   }
