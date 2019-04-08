@@ -23,7 +23,7 @@ class AddressRow extends AddressSummary {
           <div className='ui--AddressRow-details'>
             {this.renderAddress()}
             {this.renderBalance()}
-            {this.renderExtra()}
+            {this.renderBonded()}
             {this.renderNonce()}
           </div>
         </div>

@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ScreenSizes } from '@polkadot/ui-app/constants';
+
 export enum SideBarTransition {
 	COLLAPSED = 'COLLAPSED',
 	EXPANDED = 'EXPANDED',
@@ -9,5 +11,5 @@ export enum SideBarTransition {
 	MINIMISED_AND_EXPANDED = 'MINIMISED_AND_EXPANDED'
 }
 
-export const SIDEBAR_MENU_THRESHOLD = 768;
+export const SIDEBAR_MENU_THRESHOLD = ScreenSizes.DESKTOP;
 export const SIDEBAR_TRANSITION_DURATION = 300;

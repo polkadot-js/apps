@@ -80,7 +80,7 @@ th.ui--media-small {
 }
 
 /* tabs */
-@media (max-width: 767px) {
+@media (max-width: 991px) {
   .ui.menu.tabular {
     padding-left: 5.2rem !important;
   }

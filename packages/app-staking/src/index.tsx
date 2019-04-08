@@ -151,8 +151,7 @@ export default withMulti(
   withCalls<Props>(
     'derive.staking.controllers',
     'query.session.validators',
-    'query.staking.nominators',
-    ['derive.staking.intentionsBalances', { propName: 'balances' }]
+    'query.staking.nominators'
   ),
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );

@@ -46,10 +46,9 @@ type State = {
 };
 
 // Find decimal separator used in current locale
-const getDecimalSeparator = (): string => Intl.NumberFormat()
-    .formatToParts(1.1)
-    .find(part => part.type === 'decimal')!
-    .value;
+const getDecimalSeparator = (): string => 1.1
+  .toLocaleString()
+  .replace(/\d/g, '');
 
 // note: KeyboardEvent.keyCode and KeyboardEvent.which are deprecated
 const KEYS = {
