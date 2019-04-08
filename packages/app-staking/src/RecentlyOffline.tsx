@@ -39,10 +39,10 @@ class RecentlyOffline extends React.PureComponent<Props> {
           {count.toString()}
         </div>
         <div className='detail'>
-          {t('Reported offline {{count}} times, at {{blockNumbers}}', {
+          {t('Reported offline {{count}} times, last at {{blockNumber}}', {
             replace: {
-              count: count.toString(),
-              blockNumbers: blockNumbers.join(', ')
+              count,
+              blockNumber: blockNumbers[blockNumbers.length - 1]
             }
           })}
         </div>
