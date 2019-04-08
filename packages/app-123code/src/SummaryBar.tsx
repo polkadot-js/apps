@@ -93,7 +93,6 @@ export default translate(
     'derive.chain.bestNumberLag',
     'query.balances.totalIssuance',
     'query.session.validators',
-    'query.staking.intentions',
     'rpc.chain.getRuntimeVersion',
     'rpc.system.chain',
     'rpc.system.name',
