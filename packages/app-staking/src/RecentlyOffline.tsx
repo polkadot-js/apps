@@ -15,24 +15,24 @@ type Props = I18nProps & {
 };
 
 type State = {
-  open: Boolean
+  isOpen: boolean
 };
 
-class RecentlyOffline extends React.PureComponent<Props> {
+class RecentlyOffline extends React.PureComponent<Props, State> {
   state: State = {
-    open: false
+    isOpen: false
   };
 
   render () {
     const { offline, t } = this.props;
-    const { open } = this.state;
+    const { isOpen } = this.state;
 
     const count = offline.reduce((total, { count }) => total.add(count), new BN(0));
     const blockNumbers = offline.map(({ blockNumber }) => `#${formatNumber(blockNumber)}`);
 
     return (
       <div
-        className={['staking--Account-recentlyOffline', open ? 'expand' : ''].join(' ')}
+        className={['staking--Account-recentlyOffline', isOpen ? 'expand' : ''].join(' ')}
         onClick={this.toggleOpen}
       >
         <div className='badge'>
@@ -51,8 +51,9 @@ class RecentlyOffline extends React.PureComponent<Props> {
   }
 
   private toggleOpen = (): void => {
-    const { open } = this.state;
-    this.setState({ open: !open });
+    this.setState(({ isOpen }) => ({
+      isOpen: !isOpen
+    }));
   }
 }
 
