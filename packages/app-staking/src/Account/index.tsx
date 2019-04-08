@@ -13,7 +13,8 @@ import { AccountId, Balance, Exposure, Option, StakingLedger, ValidatorPrefs } f
 import { AddressMini, AddressSummary, Button, TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
-import Bonding from './Bonding';
+import Bond from './Bond';
+import BondExtra from './BondExtra';
 import Nominating from './Nominating';
 import SessionKey from './SessionKey';
 import Validating from './Validating';
@@ -37,7 +38,8 @@ type Props = ApiProps & I18nProps & {
 };
 
 type State = {
-  isBondingOpen: boolean,
+  isBondOpen: boolean,
+  isBondExtraOpen: boolean,
   isNominateOpen: boolean,
   isSessionKeyOpen: boolean,
   isValidatingOpen: boolean,
@@ -49,7 +51,8 @@ type State = {
 
 class Account extends React.PureComponent<Props, State> {
   state: State = {
-    isBondingOpen: false,
+    isBondOpen: false,
+    isBondExtraOpen: false,
     isSessionKeyOpen: false,
     isNominateOpen: false,
     isValidatingOpen: false,
@@ -78,7 +81,8 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <article className='staking--Account'>
-        {this.renderBonding()}
+        {this.renderBond()}
+        {this.renderBondExtra()}
         {this.renderNominating()}
         {this.renderSessionKey()}
         {this.renderValidating()}
@@ -101,16 +105,29 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderBonding () {
+  private renderBond () {
     const { accountId } = this.props;
-    const { bondedId, isBondingOpen } = this.state;
+    const { bondedId, isBondOpen } = this.state;
 
     return (
-      <Bonding
+      <Bond
         accountId={accountId}
         bondedId={bondedId}
-        isOpen={isBondingOpen}
-        onClose={this.toggleBonding}
+        isOpen={isBondOpen}
+        onClose={this.toggleBond}
+      />
+    );
+  }
+
+  private renderBondExtra () {
+    const { accountId } = this.props;
+    const { isBondExtraOpen } = this.state;
+
+    return (
+      <BondExtra
+        accountId={accountId}
+        isOpen={isBondExtraOpen}
+        onClose={this.toggleBondExtra}
       />
     );
   }
@@ -299,12 +316,19 @@ class Account extends React.PureComponent<Props, State> {
           <Button
             isPrimary
             key='bond'
-            onClick={this.toggleBonding}
+            onClick={this.toggleBond}
             label={t('Bond Funds')}
           />
         );
       } else {
-        return null;
+        buttons.push(
+          <Button
+            isPrimary
+            key='bond'
+            onClick={this.toggleBondExtra}
+            label={t('Bond Additional')}
+          />
+        );
       }
     } else {
       const nominees = this.getNominees();
@@ -360,9 +384,15 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private toggleBonding = () => {
-    this.setState(({ isBondingOpen }) => ({
-      isBondingOpen: !isBondingOpen
+  private toggleBond = () => {
+    this.setState(({ isBondOpen }) => ({
+      isBondOpen: !isBondOpen
+    }));
+  }
+
+  private toggleBondExtra = () => {
+    this.setState(({ isBondExtraOpen }) => ({
+      isBondExtraOpen: !isBondExtraOpen
     }));
   }
 

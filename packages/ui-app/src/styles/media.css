@@ -70,7 +70,7 @@ th.ui--media-small {
     height: auto;
     visibility: visible;
     width: auto;
-    
+
   }
 
   td.ui--media-small,
@@ -83,15 +83,5 @@ th.ui--media-small {
 @media (max-width: 767px) {
   .ui.menu.tabular {
     padding-left: 5.2rem !important;
-  }
-}
-
-/* sidebar */
-@media (min-width: 768px) {
-  .apps-SideBar-Wrapper {
-    > img {
-      opacity: 0 !important;
-      top: -2.9rem !important;
-    }
   }
 }

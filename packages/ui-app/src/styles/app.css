@@ -95,12 +95,3 @@ article {
     padding: 0;
   }
 }
-
-header {
-  margin-bottom: 1.1rem;
-  text-align: center;
-
-  @media(max-width: 767px) {
-    margin-bottom: 0.8rem;
-  }
-}

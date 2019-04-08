@@ -24,7 +24,7 @@
       opacity: 0;
       width: 0;
     }
-    
+
     &.open {
       opacity: 1;
     }
@@ -43,27 +43,6 @@
     &.expanded {
       width: 12rem;
     }
-
-    > img {
-      background: #333;
-      border-radius: 50%;
-      cursor: pointer;
-      left: 0.9rem;
-      opacity: 0;
-      padding: 4px;
-      position: absolute;
-      transition: opacity 0.2s ease-in, top 0.2s ease-in;
-      top: -2.9rem;
-      width: 2.6rem;
-     
-      &.delayed {
-        transition-delay: 0.4s;
-      }
-      &.open {
-        opacity: 1;
-        top: 0.9rem;
-      }
-    }
   }
 
   .apps--SideBar {
@@ -75,7 +54,7 @@
     left: 0;
     transition: left 0.3s linear;
     width: 100%;
-    
+
     .ui.vertical.menu {
       display: flex;
       height: 100vh;

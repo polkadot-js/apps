@@ -18,6 +18,7 @@ export type Props = I18nProps & {
   accounts_idAndIndex?: [AccountId?, AccountIndex?],
   balance?: Balance | Array<Balance>,
   children?: React.ReactNode,
+  extraInfo?: React.ReactNode,
   name?: string,
   value: AccountId | AccountIndex | Address | string | null,
   showFaucet?: boolean,
@@ -49,6 +50,7 @@ class AddressSummary extends React.PureComponent<Props> {
           {this.renderAccountId()}
           {this.renderAccountIndex()}
           {this.renderBalance()}
+          {this.renderExtra()}
           {this.renderNonce()}
           {this.renderFaucet()}
         </div>
@@ -147,6 +149,20 @@ class AddressSummary extends React.PureComponent<Props> {
         label={t('balance ')}
         value={accountId}
       />
+    );
+  }
+
+  protected renderExtra () {
+    const { extraInfo } = this.props;
+
+    if (!extraInfo) {
+      return null;
+    }
+
+    return (
+      <div className='ui--AddressSummary-extra'>
+        {extraInfo}
+      </div>
     );
   }
 
