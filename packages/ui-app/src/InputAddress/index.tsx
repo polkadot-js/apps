@@ -149,7 +149,7 @@ class InputAddress extends React.PureComponent<Props, State> {
         onChange={
           isMultiple
             ? this.onChangeMulti
-            : this.onChange
+            : this.onChange(me)
         }
         onSearch={this.onSearch}
         options={
