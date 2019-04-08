@@ -21,6 +21,7 @@ import styled from 'styled-components';
 import { media } from '@polkadot/ui-app/media';
 import { Responsive } from 'semantic-ui-react';
 import theme from 'styled-theming';
+import { primaryColor } from '@polkadot/ui-app/styles/theme';
 
 type Props = I18nProps & {
   collapse: () => void,
@@ -32,7 +33,7 @@ type Props = I18nProps & {
 
 const Toggle = styled.img`
   background: ${theme('theme', {
-    substrate: '#333',
+    substrate: primaryColor,
     polkadot: 'none'
   })};
   padding: ${theme('theme', {
