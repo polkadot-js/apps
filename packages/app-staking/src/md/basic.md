@@ -29,4 +29,4 @@ In addition to the stash and controller account described above, a validator has
 
 - **Session** The seed for this key is passed to the node. It can be the same as the controller, but it is never recommended that it matches the stash. Since this account does not need to send transactions, it does not need to have funds available. (If the mode is ever compromised, the controller can set an new session key)
 
-As with the nomination operations, you can stop validation at any time using the controller. (Be if for maintence, upgrades, or any other reason)
+As with the nomination operations, you can stop validation at any time using the controller. (Be it for maintenance, upgrades, or any other reason)
