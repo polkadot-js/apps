@@ -45,7 +45,7 @@ class BondedDisplay extends React.PureComponent<Props> {
 export default withCalls<Props>(
   ['query.staking.bonded', {
     paramName: 'value',
-    transform: (value) => value.unwrapOr(null),
+    transform: (value) => value.unwrapOr(null)
   }],
   ['query.staking.ledger', { paramName: 'staking_bonded' }]
-)(BondedDisplay)
+)(BondedDisplay);
