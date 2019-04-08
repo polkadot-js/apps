@@ -19,7 +19,8 @@ import Deploy from './Deploy';
 
 type Props = AppProps & I18nProps;
 type State = {
-  tabs: Array<TabItem>;
+  tabs: Array<TabItem>,
+  updated: number
 };
 
 class App extends React.PureComponent<Props, State> {
@@ -30,6 +31,9 @@ class App extends React.PureComponent<Props, State> {
 
     const { t } = props;
 
+    store.on('new-code', this.triggerUpdate);
+    store.on('new-contract', this.triggerUpdate);
+
     this.state = {
       tabs: [
         {
@@ -37,18 +41,19 @@ class App extends React.PureComponent<Props, State> {
           text: t('Call')
         },
         {
-          name: 'code',
-          text: t('Deploy code')
-        },
-        {
           name: 'instantiate',
           text: t('Instantiate')
+        },
+        {
+          name: 'code',
+          text: t('Deploy code')
         },
         {
           name: 'attach',
           text: t('Add existing')
         }
-      ]
+      ],
+      updated: 0
     };
   }
 
@@ -60,7 +65,7 @@ class App extends React.PureComponent<Props, State> {
       : ['call'];
 
     if (!store.hasCode) {
-      hidden.push('create');
+      hidden.push('instantiate');
     }
 
     return (
@@ -80,7 +85,11 @@ class App extends React.PureComponent<Props, State> {
           <Route
             render={
               hidden.includes('call')
-                ? this.renderComponent(Deploy)
+                ? (
+                  hidden.includes('instantiate')
+                    ? this.renderComponent(Deploy)
+                    : this.renderComponent(Create)
+                )
                 : this.renderComponent(Call)
             }
           />
@@ -102,6 +111,12 @@ class App extends React.PureComponent<Props, State> {
         />
       );
     };
+  }
+
+  private triggerUpdate = (): void => {
+    console.error('trigger');
+
+    this.setState({ updated: Date.now() });
   }
 }
 

@@ -12,6 +12,7 @@ import { Button, Dropdown, Input, InputAddress, InputBalance, InputNumber, TxBut
 import { AccountId, ContractAbi } from '@polkadot/types';
 
 import ABI from './ABI';
+import Params from './Params';
 import store from './store';
 import translate from './translate';
 
@@ -20,6 +21,7 @@ type Props = ComponentProps & I18nProps;
 type State = {
   abi?: string | null,
   accountId: string | null,
+  codeHash?: string,
   contractAbi?: ContractAbi | null,
   endowment: BN,
   gasLimit: BN,
@@ -27,7 +29,8 @@ type State = {
   isBusy: boolean,
   isHashValid: boolean,
   isNameValid: boolean,
-  name?: string
+  name?: string,
+  params: Array<any>
 };
 
 class Create extends React.PureComponent<Props, State> {
@@ -38,13 +41,18 @@ class Create extends React.PureComponent<Props, State> {
     isAbiValid: false,
     isBusy: false,
     isHashValid: false,
-    isNameValid: false
+    isNameValid: false,
+    params: []
   };
 
   render () {
     const { t } = this.props;
-    const { accountId, isAbiValid, isHashValid, isNameValid } = this.state;
+    const { accountId, codeHash, contractAbi, isAbiValid, isHashValid, isNameValid } = this.state;
     const isValid = isAbiValid && isHashValid && !!accountId;
+    const codeOptions = store.getAllCode().map(({ codeHash, name }) => ({
+      text: name,
+      value: codeHash
+    }));
 
     return (
       <div className='contracts--Create'>
@@ -55,10 +63,13 @@ class Create extends React.PureComponent<Props, State> {
           onChange={this.onChangeName}
         />
         <Dropdown
-          help={t('The contract WASM previous deployed. Internally this is identified by the hash of the code, as either created or attached.')}
+          defaultValue={codeOptions[0].value}
+          help={t('The contract WASM previously deployed. Internally this is identified by the hash of the code, as either created or attached.')}
           isError={!isHashValid}
           label={t('Code for deployment')}
-          options={[]}
+          onChange={this.onChangeCode}
+          options={codeOptions}
+          value={codeHash}
         />
         <ABI
           help={t('The ABI for the WASM code. Since we will be making a call into the code, the ABI is required and stored for future operations such as sending messages.')}
@@ -82,6 +93,14 @@ class Create extends React.PureComponent<Props, State> {
           label={t('maximum gas allowed')}
           onChange={this.onChangeGas}
         />
+        <Params
+          onChange={this.onChangeParams}
+          params={
+            contractAbi
+              ? contractAbi.deploy.args
+              : undefined
+          }
+        />
         <Button.Group>
           <TxButton
             accountId={accountId}
@@ -100,13 +119,13 @@ class Create extends React.PureComponent<Props, State> {
   }
 
   private constructCall = (): Array<any> => {
-    const { contractAbi, endowment, gasLimit } = this.state;
+    const { contractAbi, endowment, gasLimit, params } = this.state;
 
     if (!contractAbi) {
       return [];
     }
 
-    return [endowment, gasLimit, contractAbi.deploy()];
+    return [endowment, gasLimit, contractAbi.deploy(...params)];
   }
 
   private onAddAbi = (abi: string | null, contractAbi: ContractAbi | null): void => {
@@ -115,6 +134,10 @@ class Create extends React.PureComponent<Props, State> {
 
   private onChangeAccount = (accountId: string | null): void => {
     this.setState({ accountId });
+  }
+
+  private onChangeCode = (codeHash: string): void => {
+    this.setState({ codeHash });
   }
 
   private onChangeEndowment = (endowment?: BN | null): void => {
@@ -127,6 +150,10 @@ class Create extends React.PureComponent<Props, State> {
 
   private onChangeName = (name: string): void => {
     this.setState({ name, isNameValid: name.length !== 0 });
+  }
+
+  private onChangeParams = (params: Array<any>): void => {
+    this.setState({ params });
   }
 
   private toggleBusy = (): void => {

@@ -4,6 +4,7 @@
 
 import { CodeJson, ContractJson } from './types';
 
+import EventEmitter from 'eventemitter3';
 import store from 'store';
 import { AccountId, Hash } from '@polkadot/types';
 
@@ -13,16 +14,18 @@ const KEY_CONTRACT = 'contract:contract:';
 const codeRegex = new RegExp(`^${KEY_CODE}`, '');
 const contractRegex = new RegExp(`^${KEY_CONTRACT}`, '');
 
-class Store {
+class Store extends EventEmitter {
   private allCode: { [index: string]: CodeJson } = {};
   private allContracts: { [index: string]: ContractJson } = {};
 
   constructor () {
+    super();
+
     store.each((json: CodeJson | ContractJson, key: string) => {
       if (codeRegex.test(key)) {
-        this.loadCode(json as CodeJson);
+        this.addCode(json as CodeJson);
       } else if (contractRegex.test(key)) {
-        this.loadContract(json as ContractJson);
+        this.addContract(json as ContractJson);
       }
     });
   }
@@ -51,20 +54,30 @@ class Store {
     return this.allContracts[address];
   }
 
-  private loadCode (json: CodeJson) {
+  saveCode (codeHash: Hash, partial: Partial<CodeJson>) {
+    const json = { ...partial, codeHash: codeHash.toHex() } as CodeJson;
+
+    store.set(`${KEY_CODE}${json.codeHash}`, json);
+
+    this.addCode(json);
+    this.emit('new-code');
+  }
+
+  saveContract (address: AccountId, partial: Partial<ContractJson>) {
+    const json = { ...partial, address: address.toString() } as ContractJson;
+
+    store.set(`${KEY_CONTRACT}${address}`, json);
+
+    this.addContract(json);
+    this.emit('new-contract');
+  }
+
+  private addCode (json: CodeJson) {
     this.allCode[json.codeHash] = json;
   }
 
-  private loadContract (json: ContractJson) {
+  private addContract (json: ContractJson) {
     this.allContracts[json.address] = json;
-  }
-
-  saveCode (codeHash: Hash, json: Partial<CodeJson>) {
-    store.set(`${KEY_CODE}${codeHash}`, { ...json, codeHash });
-  }
-
-  saveContract (address: AccountId, json: Partial<CodeJson>) {
-    store.set(`${KEY_CONTRACT}${address}`, { ...json, address });
   }
 }
 
