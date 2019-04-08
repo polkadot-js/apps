@@ -14,7 +14,7 @@ type Props = ComponentProps & I18nProps;
 class Attach extends React.PureComponent<Props> {
   render () {
     return 'attach';
-  };
+  }
 }
 
 export default translate(Attach);

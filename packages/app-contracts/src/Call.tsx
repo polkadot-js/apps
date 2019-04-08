@@ -14,7 +14,7 @@ type Props = ComponentProps & I18nProps;
 class Call extends React.PureComponent<Props> {
   render () {
     return 'call';
-  };
+  }
 }
 
 export default translate(Call);

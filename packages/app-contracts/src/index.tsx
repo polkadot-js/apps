@@ -14,6 +14,7 @@ import translate from './translate';
 import Attach from './Attach';
 import Call from './Call';
 import Create from './Create';
+import Deploy from './Deploy';
 
 type Props = AppProps & I18nProps;
 type State = {
@@ -38,11 +39,15 @@ class App extends React.PureComponent<Props, State> {
         },
         {
           name: 'attach',
-          text: t('Attach')
+          text: t('Add existing')
         },
         {
           name: 'create',
-          text: t('Create')
+          text: t('Create new')
+        },
+        {
+          name: 'deploy',
+          text: t('Deploy code')
         }
       ]
     };
@@ -62,13 +67,14 @@ class App extends React.PureComponent<Props, State> {
           />
         </header>
         <Switch>
-          <Route path={`${basePath}/call`} render={this.renderComponent(Call)} />
           <Route path={`${basePath}/attach`} render={this.renderComponent(Attach)} />
           <Route path={`${basePath}/create`} render={this.renderComponent(Create)} />
+          <Route path={`${basePath}/create/:codeHash`} render={this.renderComponent(Create)} />
+          <Route path={`${basePath}/deploy`} render={this.renderComponent(Deploy)} />
           <Route
             render={
               hidden.includes('call')
-                ? this.renderComponent(Create)
+                ? this.renderComponent(Deploy)
                 : this.renderComponent(Call)
             }
           />
