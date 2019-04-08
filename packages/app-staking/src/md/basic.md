@@ -25,7 +25,7 @@ At any point you could stop nominating (using the controller) or top up the fund
 
 Validators run nodes that author blocks. The primary requirement here is the ability to run a node that is available 24/7 and is well-connected to the network.
 
-In addition to the stash and contrroller acount described above, a validator has to inicate an additional key -
+In addition to the stash and controller account described above, a validator has to indicate an additional account called `Session key` -
 
 - **Session** The seed for this key is passed to the node. It can be the same as the controller, but it is never recommended that it matches the stash. Since this account does not need to send transactions, it does not need to have funds available. (If the mode is ever compromised, the controller can set an new session key)
 
