@@ -100,6 +100,13 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
           ]
         },
         {
+          test: /\.md$/,
+          use: [
+            require.resolve('html-loader'),
+            require.resolve('markdown-loader')
+          ]
+        },
+        {
           test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
           use: [
             {
