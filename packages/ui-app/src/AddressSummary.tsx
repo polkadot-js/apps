@@ -11,17 +11,20 @@ import { withCalls } from '@polkadot/ui-api';
 
 import { classes, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
+import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
 import translate from './translate';
 
 export type Props = I18nProps & {
   accounts_idAndIndex?: [AccountId?, AccountIndex?],
   balance?: Balance | Array<Balance>,
+  bonded?: Balance | Array<Balance>,
   children?: React.ReactNode,
   extraInfo?: React.ReactNode,
   name?: string,
   value: AccountId | AccountIndex | Address | string | null,
   withBalance?: boolean,
+  withBonded?: boolean,
   withIndex?: boolean,
   identIconSize?: number,
   isShort?: boolean,
@@ -50,6 +53,7 @@ class AddressSummary extends React.PureComponent<Props> {
           {this.renderAccountIndex()}
           {this.renderBalance()}
           {this.renderExtra()}
+          {this.renderBonded()}
           {this.renderNonce()}
         </div>
         {this.renderChildren()}
@@ -164,6 +168,26 @@ class AddressSummary extends React.PureComponent<Props> {
     );
   }
 
+  protected renderBonded () {
+    const { accounts_idAndIndex = [], t, value, withBonded = true } = this.props;
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId || value;
+
+    if (!withBonded || !accountId) {
+      return null;
+    }
+
+    console.log('renderBonded');
+
+    return (
+      <BondedDisplay
+        className='ui--AddressSummary-balance'
+        label={t('bonded ')}
+        address={accountId}
+      />
+    );
+  }
+
   protected renderIcon (className: string = 'ui--AddressSummary-icon', size?: number) {
     const { accounts_idAndIndex = [], identIconSize = 96, value, withIcon = true } = this.props;
 
@@ -224,6 +248,12 @@ export {
 
 export default translate(
   withCalls<Props>(
+<<<<<<< HEAD
     ['derive.accounts.idAndIndex', { paramName: 'value' }]
+=======
+    ['derive.accounts.idAndIndex', { paramName: 'value' }],
+    ['query.staking.ledger', { paramName: 'value' }],
+    'query.session.validators'
+>>>>>>> wip bonded display
   )(AddressSummary)
 );

@@ -24,6 +24,7 @@ class AddressRow extends AddressSummary {
             {this.renderAddress()}
             {this.renderBalance()}
             {this.renderExtra()}
+            {this.renderBonded()}
             {this.renderNonce()}
           </div>
         </div>
