@@ -57,7 +57,7 @@ const Toggle = styled.img`
     top: 0.9rem;
   }
 
-  ${media.TABLET`
+  ${media.DESKTOP`
     opacity: 0 !important;
     top: -2.9rem !important;
   `}
