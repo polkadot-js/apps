@@ -238,7 +238,6 @@ export {
 
 export default translate(
   withCalls<Props>(
-    ['derive.accounts.idAndIndex', { paramName: 'value' }],
-    'query.session.validators'
+    ['derive.accounts.idAndIndex', { paramName: 'value' }]
   )(AddressSummary)
 );
