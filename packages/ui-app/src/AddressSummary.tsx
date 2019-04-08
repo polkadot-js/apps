@@ -116,10 +116,10 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderAccountIndex () {
-    const { accounts_idAndIndex = [] } = this.props;
+    const { accounts_idAndIndex = [], withIndex = true } = this.props;
     const [, accountIndex] = accounts_idAndIndex;
 
-    if (!accountIndex) {
+    if (!accountIndex || !withIndex) {
       return null;
     }
 

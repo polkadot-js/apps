@@ -89,6 +89,7 @@ class Address extends React.PureComponent<Props, State> {
           extraInfo={stashActive ? `bonded ${stashActive}` : undefined}
           name={this.getDisplayName()}
           value={stashId}
+          withBalance={false}
           withBonded
           withCopy={false}
           withNonce={false}
@@ -176,7 +177,7 @@ class Address extends React.PureComponent<Props, State> {
           <AddressMini
             key={accountId.toString()}
             value={accountId}
-            withBalance
+            withBonded
           />
         )}
       </details>

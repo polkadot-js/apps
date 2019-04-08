@@ -92,6 +92,8 @@ class Account extends React.PureComponent<Props, State> {
           value={accountId}
           identIconSize={96}
           withBonded
+          withIndex={false}
+          withNonce={false}
         >
           <div className='staking--Account-expand'>
             {this.renderButtons()}

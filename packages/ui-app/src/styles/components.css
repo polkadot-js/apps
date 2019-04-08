@@ -125,7 +125,9 @@ header .ui--Button-Group {
   color: green;
 }
 
-.ui--AddressSummary-balance {
+.ui--AddressSummary-data+.ui--AddressSummary-balance,
+.ui--AddressSummary-data+.ui--AddressSummary-bonded,
+.ui--AddressSummary-data+.ui--AddressSummary-nonce {
   padding-top: 0.5em;
 }
 
