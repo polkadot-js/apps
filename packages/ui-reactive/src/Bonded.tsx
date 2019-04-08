@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Address } from '@polkadot/types';
-import { BareProps, CallProps, Option, StakingLedger } from '@polkadot/ui-api/types';
+import { AccountId, AccountIndex, Address, Option, StakingLedger } from '@polkadot/types';
+import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 
@@ -45,7 +45,7 @@ class BondedDisplay extends React.PureComponent<Props> {
 export default withCalls<Props>(
   ['query.staking.bonded', {
     paramName: 'value',
-    transform: (value) => value.unwrapOr(null)
+    transform: (value) => value.unwrapOr(null),
   }],
   ['query.staking.ledger', { paramName: 'staking_bonded' }]
-)(BondedDisplay);
+)(BondedDisplay)
