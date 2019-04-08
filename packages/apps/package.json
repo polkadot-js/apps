@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/apps",
-  "version": "0.31.0-beta.14",
+  "version": "0.31.0-beta.15",
   "description": "An Apps portal into the Polkadot network",
   "main": "index.js",
   "homepage": ".",
@@ -13,9 +13,9 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.4.3",
-    "@polkadot/ui-app": "^0.31.0-beta.14",
+    "@polkadot/ui-app": "^0.31.0-beta.15",
     "@polkadot/ui-assets": "^0.37.1",
-    "@polkadot/ui-signer": "^0.31.0-beta.14",
+    "@polkadot/ui-signer": "^0.31.0-beta.15",
     "@types/react-tooltip": "^3.9.1",
     "react-tooltip": "^3.9.2"
   }
