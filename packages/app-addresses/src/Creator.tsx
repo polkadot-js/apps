@@ -43,6 +43,7 @@ class Creator extends React.PureComponent<Props, State> {
           <AddressSummary
             className='shrink'
             value={address}
+            withBonded
           />
           {this.renderInput()}
         </div>

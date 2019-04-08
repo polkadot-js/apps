@@ -6,13 +6,14 @@ import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { Nominators, RecentlyOfflineMap } from '../types';
 
-import BN from 'bn.js';
 import React from 'react';
 import { AccountId, Balance, Option, StakingLedger } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api/with';
 import { AddressMini, AddressRow } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
-import { formatBalance, formatNumber } from '@polkadot/util';
+import { formatBalance } from '@polkadot/util';
+
+import RecentlyOffline from '../RecentlyOffline';
 
 import translate from '../translate';
 
@@ -88,6 +89,8 @@ class Address extends React.PureComponent<Props, State> {
           extraInfo={stashActive ? `bonded ${stashActive}` : undefined}
           name={this.getDisplayName()}
           value={stashId}
+          withBalance={false}
+          withBonded
           withCopy={false}
           withNonce={false}
         >
@@ -120,12 +123,6 @@ class Address extends React.PureComponent<Props, State> {
     return pair.isValid()
       ? (pair.getMeta().name || defaultName)
       : defaultName;
-  }
-
-  private toggleBadge = (): void => {
-    const { badgeExpanded } = this.state;
-
-    this.setState({ badgeExpanded: !badgeExpanded });
   }
 
   private renderKeys () {
@@ -180,7 +177,7 @@ class Address extends React.PureComponent<Props, State> {
           <AddressMini
             key={accountId.toString()}
             value={accountId}
-            withBalance
+            withBonded
           />
         )}
       </details>
@@ -188,35 +185,17 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private renderOffline () {
-    const { recentlyOffline, t } = this.props;
-    const { badgeExpanded, stashId } = this.state;
+    const { recentlyOffline } = this.props;
+    const { stashId } = this.state;
 
     if (!stashId || !recentlyOffline[stashId]) {
       return null;
     }
 
     const offline = recentlyOffline[stashId];
-    const count = offline.reduce((total, { count }) => total.add(count), new BN(0));
-
-    const blockNumbers = offline.map(({ blockNumber }) => `#${formatNumber(blockNumber)}`);
 
     return (
-      <div
-        className={['recentlyOffline', badgeExpanded ? 'expand' : ''].join(' ')}
-        onClick={this.toggleBadge}
-      >
-        <div className='badge'>
-          {count.toString()}
-        </div>
-        <div className='detail'>
-          {t('Reported offline {{count}} times, last at {{blockNumber}}', {
-            replace: {
-              count: count.toString(),
-              blockNumber: blockNumbers[blockNumbers.length - 1]
-            }
-          })}
-        </div>
-      </div>
+      <RecentlyOffline offline={offline} />
     );
   }
 }

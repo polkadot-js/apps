@@ -110,6 +110,7 @@ class Creator extends React.PureComponent<Props, State> {
                 ? address
                 : ''
             }
+            withBonded
           />
           {this.renderInput()}
         </div>

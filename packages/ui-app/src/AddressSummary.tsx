@@ -8,21 +8,25 @@ import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
 import { Nonce } from '@polkadot/ui-reactive';
 import { withCalls } from '@polkadot/ui-api';
+import BaseIdentityIcon from '@polkadot/ui-identicon';
 
 import { classes, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
+import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
 import translate from './translate';
 
 export type Props = I18nProps & {
   accounts_idAndIndex?: [AccountId?, AccountIndex?],
   balance?: Balance | Array<Balance>,
+  bonded?: Balance | Array<Balance>,
   children?: React.ReactNode,
   extraInfo?: React.ReactNode,
   name?: string,
   value: AccountId | AccountIndex | Address | string | null,
   showFaucet?: boolean,
   withBalance?: boolean,
+  withBonded?: boolean,
   withIndex?: boolean,
   identIconSize?: number,
   isShort?: boolean,
@@ -50,7 +54,7 @@ class AddressSummary extends React.PureComponent<Props> {
           {this.renderAccountId()}
           {this.renderAccountIndex()}
           {this.renderBalance()}
-          {this.renderExtra()}
+          {this.renderBonded()}
           {this.renderNonce()}
           {this.renderFaucet()}
         </div>
@@ -114,10 +118,10 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderAccountIndex () {
-    const { accounts_idAndIndex = [] } = this.props;
+    const { accounts_idAndIndex = [], withIndex = true } = this.props;
     const [, accountIndex] = accounts_idAndIndex;
 
-    if (!accountIndex) {
+    if (!accountIndex || !withIndex) {
       return null;
     }
 
@@ -152,17 +156,21 @@ class AddressSummary extends React.PureComponent<Props> {
     );
   }
 
-  protected renderExtra () {
-    const { extraInfo } = this.props;
+  protected renderBonded () {
+    const { accounts_idAndIndex = [], t, value, withBonded } = this.props;
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId || value;
 
-    if (!extraInfo) {
+    if (!withBonded || !accountId) {
       return null;
     }
 
     return (
-      <div className='ui--AddressSummary-extra'>
-        {extraInfo}
-      </div>
+      <BondedDisplay
+        className='ui--AddressSummary-bonded'
+        label={t('bonded ')}
+        value={accountId}
+      />
     );
   }
 
@@ -176,11 +184,17 @@ class AddressSummary extends React.PureComponent<Props> {
     const [_accountId] = accounts_idAndIndex;
     const accountId = (_accountId || value || '').toString();
 
+    // Since we do queries to storage in the wrapped example, we don't want
+    // to follow that route if we don't have a valid address.
+    const Component = accountId
+      ? IdentityIcon
+      : BaseIdentityIcon;
+
     return (
-      <IdentityIcon
+      <Component
         className={className}
         size={size || identIconSize}
-        value={accountId || DEFAULT_ADDR}
+        value={accountId}
       />
     );
   }

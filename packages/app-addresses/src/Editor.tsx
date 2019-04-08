@@ -94,6 +94,7 @@ class Editor extends React.PureComponent<Props, State> {
         <AddressSummary
           className='shrink'
           value={address || ''}
+          withBonded
         />
         <div className='grow'>
           <div className='ui--row'>
