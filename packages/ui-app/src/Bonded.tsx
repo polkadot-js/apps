@@ -4,7 +4,6 @@
 
 import { BareProps } from './types';
 
-import BN from 'bn.js';
 import React from 'react';
 import { AccountId, AccountIndex, Address } from '@polkadot/types';
 import RxBonded from '@polkadot/ui-reactive/Bonded';
@@ -12,17 +11,15 @@ import RxBonded from '@polkadot/ui-reactive/Bonded';
 import { classes } from './util';
 
 export type Props = BareProps & {
-  bonded?: BN | Array<BN>,
   label?: string,
-  address?: AccountId | AccountIndex | Address | string | Uint8Array | null,
+  value?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   withLabel?: boolean
 };
 
 export default class BondedDisplay extends React.PureComponent<Props> {
   render () {
-    const { address, className, label, style } = this.props;
-
-    if (!address) {
+    const { value, className, label, style } = this.props;
+    if (!value) {
       return null;
     }
 
@@ -30,7 +27,7 @@ export default class BondedDisplay extends React.PureComponent<Props> {
       <RxBonded
         className={classes('ui--Bonded', className)}
         label={label}
-        address={address}
+        value={value}
         style={style}
       />
     );

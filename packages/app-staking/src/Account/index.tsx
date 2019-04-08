@@ -87,6 +87,7 @@ class Account extends React.PureComponent<Props, State> {
           name={name}
           value={accountId}
           identIconSize={96}
+          withBonded
         >
           <div className='staking--Account-expand'>
             {this.renderButtons()}
@@ -188,7 +189,8 @@ class Account extends React.PureComponent<Props, State> {
             <AddressMini
               key={index}
               value={nomineeId}
-              withBalance
+              withBalance={false}
+              withBonded
             />
           ))
         }
@@ -263,7 +265,7 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <div className='staking--Account-detail'>
         <label className='staking--label'>{t('stash')}</label>
-        <AddressMini value={stashId} />
+        <AddressMini withBalance={false} withBonded value={stashId} />
       </div>
     );
   }

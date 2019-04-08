@@ -52,7 +52,6 @@ class AddressSummary extends React.PureComponent<Props> {
           {this.renderAccountId()}
           {this.renderAccountIndex()}
           {this.renderBalance()}
-          {this.renderExtra()}
           {this.renderBonded()}
           {this.renderNonce()}
         </div>
@@ -154,22 +153,8 @@ class AddressSummary extends React.PureComponent<Props> {
     );
   }
 
-  protected renderExtra () {
-    const { extraInfo } = this.props;
-
-    if (!extraInfo) {
-      return null;
-    }
-
-    return (
-      <div className='ui--AddressSummary-extra'>
-        {extraInfo}
-      </div>
-    );
-  }
-
   protected renderBonded () {
-    const { accounts_idAndIndex = [], t, value, withBonded = true } = this.props;
+    const { accounts_idAndIndex = [], t, value, withBonded } = this.props;
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
 
@@ -177,13 +162,11 @@ class AddressSummary extends React.PureComponent<Props> {
       return null;
     }
 
-    console.log('renderBonded');
-
     return (
       <BondedDisplay
-        className='ui--AddressSummary-balance'
+        className='ui--AddressSummary-bonded'
         label={t('bonded ')}
-        address={accountId}
+        value={accountId}
       />
     );
   }
@@ -248,12 +231,7 @@ export {
 
 export default translate(
   withCalls<Props>(
-<<<<<<< HEAD
-    ['derive.accounts.idAndIndex', { paramName: 'value' }]
-=======
     ['derive.accounts.idAndIndex', { paramName: 'value' }],
-    ['query.staking.ledger', { paramName: 'value' }],
     'query.session.validators'
->>>>>>> wip bonded display
   )(AddressSummary)
 );
