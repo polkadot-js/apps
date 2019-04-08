@@ -27,6 +27,6 @@ Validators run nodes that author blocks. The primary requirement here is the abi
 
 In addition to the stash and controller account described above, a validator has to indicate an additional account called `Session key` -
 
-- **Session** The seed for this key is passed to the node. It can be the same as the controller, but it is never recommended that it matches the stash. Since this account does not need to send transactions, it does not need to have funds available. (If the mode is ever compromised, the controller can set an new session key)
+- **Session** The seed of this account should be passed to the node using the `--key` parameter. The session account does not need to have funds as it does not need to send any transaction. The best practice is to create a dedicated account to be used as session account. Although a single account can theoretically be used as both session and controller, it is not recommended to do so. Having a dedicated session account would prevent the theft of funds should the validator node be compromised and the `--key` leaked.
 
 As with the nomination operations, you can stop validation at any time using the controller. (Be it for maintenance, upgrades, or any other reason)
