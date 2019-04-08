@@ -13,6 +13,7 @@ import translate from './translate';
 
 type Props = I18nProps & {
   help: React.ReactNode,
+  isError?: boolean,
   label: React.ReactNode,
   onChange: (json: string | null, contractAbi: ContractAbi | null) => void
 };
@@ -29,13 +30,13 @@ class ABI extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { help, label } = this.props;
+    const { help, isError, label } = this.props;
     const { isAbiValid, placeholder } = this.state;
 
     return (
       <InputFile
         help={help}
-        isError={!isAbiValid}
+        isError={!isAbiValid || isError}
         label={label}
         onChange={this.onChange}
         placeholder={placeholder}
@@ -53,7 +54,11 @@ class ABI extends React.PureComponent<Props, State> {
 
       this.setState({
         isAbiValid: true,
-        placeholder: t(`Found the following messages: ${Object.keys(abi.messages).join(', ')}`)
+        placeholder: t('ABI messages: {{messages}}', {
+          replace: {
+            messages: Object.keys(abi.messages).join(', ')
+          }
+        })
       }, () => onChange(json, abi));
     } catch (error) {
       this.setState({

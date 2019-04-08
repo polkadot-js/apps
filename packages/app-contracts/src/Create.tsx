@@ -41,7 +41,8 @@ class Create extends React.PureComponent<Props, State> {
           options={[]}
         />
         <ABI
-          help={t('The ABI for the WASM code. Since we will be making a call into the code, the ABI is required and strored for future operations such as calls.')}
+          help={t('The ABI for the WASM code. Since we will be making a call into the code, the ABI is required and strored for future operations such as sending messages.')}
+          isError={!isAbiValid}
           label={t('Contract ABI')}
           onChange={this.onAddAbi}
         />
