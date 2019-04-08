@@ -11,3 +11,15 @@ export type LocationProps = {
 };
 
 export type ComponentProps = AppProps & LocationProps;
+
+export type CodeJson = {
+  abi: string,
+  codeHash: string,
+  name: string
+};
+
+export type ContractJson = {
+  abi: string,
+  address: string,
+  name: string
+};

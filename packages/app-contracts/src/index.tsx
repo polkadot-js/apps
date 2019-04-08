@@ -10,6 +10,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/ui-app';
 
+import store from './store';
 import translate from './translate';
 import Attach from './Attach';
 import Call from './Call';
@@ -18,7 +19,6 @@ import Deploy from './Deploy';
 
 type Props = AppProps & I18nProps;
 type State = {
-  hidden: Array<string>,
   tabs: Array<TabItem>;
 };
 
@@ -31,23 +31,22 @@ class App extends React.PureComponent<Props, State> {
     const { t } = props;
 
     this.state = {
-      hidden: [],
       tabs: [
         {
           name: 'call',
           text: t('Call')
         },
         {
+          name: 'code',
+          text: t('Deploy code')
+        },
+        {
+          name: 'instantiate',
+          text: t('Instantiate')
+        },
+        {
           name: 'attach',
           text: t('Add existing')
-        },
-        {
-          name: 'create',
-          text: t('Create new')
-        },
-        {
-          name: 'deploy',
-          text: t('Deploy code')
         }
       ]
     };
@@ -55,7 +54,14 @@ class App extends React.PureComponent<Props, State> {
 
   render () {
     const { basePath } = this.props;
-    const { hidden, tabs } = this.state;
+    const { tabs } = this.state;
+    const hidden = store.hasContracts
+      ? []
+      : ['call'];
+
+    if (!store.hasCode) {
+      hidden.push('create');
+    }
 
     return (
       <main className='contracts--App'>
@@ -68,9 +74,9 @@ class App extends React.PureComponent<Props, State> {
         </header>
         <Switch>
           <Route path={`${basePath}/attach`} render={this.renderComponent(Attach)} />
-          <Route path={`${basePath}/create`} render={this.renderComponent(Create)} />
-          <Route path={`${basePath}/create/:codeHash`} render={this.renderComponent(Create)} />
-          <Route path={`${basePath}/deploy`} render={this.renderComponent(Deploy)} />
+          <Route path={`${basePath}/instantiate`} render={this.renderComponent(Create)} />
+          <Route path={`${basePath}/instantiate/:codeHash`} render={this.renderComponent(Create)} />
+          <Route path={`${basePath}/code`} render={this.renderComponent(Deploy)} />
           <Route
             render={
               hidden.includes('call')

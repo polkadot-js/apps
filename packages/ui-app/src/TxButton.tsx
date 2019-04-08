@@ -7,10 +7,12 @@ import { QueueTx$ExtrinsicAdd, TxCallback } from './Status/types';
 
 import React from 'react';
 import { withApi } from '@polkadot/ui-api';
-import { assert, isUndefined } from '@polkadot/util';
+import { assert, isFunction, isUndefined } from '@polkadot/util';
 
 import { QueueConsumer } from './Status/Context';
 import Button from './Button';
+
+type ConstructFn = () => Array<any>;
 
 type InjectedProps = {
   queueExtrinsic: QueueTx$ExtrinsicAdd;
@@ -26,7 +28,7 @@ type Props = ApiProps & {
   onFailed?: TxCallback,
   onSuccess?: TxCallback,
   onUpdate?: TxCallback,
-  params?: Array<any>,
+  params?: Array<any> | ConstructFn,
   tx: string
 };
 
@@ -54,9 +56,13 @@ class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
 
     assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
 
+    const extrinsic: any = api.tx[section][method](
+      ...(isFunction(params) ? params() : params)
+    );
+
     queueExtrinsic({
       accountId,
-      extrinsic: api.tx[section][method](...params) as any, // ???
+      extrinsic,
       txFailedCb: onFailed,
       txSuccessCb: onSuccess,
       txUpdateCb: onUpdate
