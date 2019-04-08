@@ -11,12 +11,12 @@ import { formatNumber } from '@polkadot/util';
 import translate from './translate';
 
 type Props = I18nProps & {
-  offline: Array<OfflineStatus>,
-}
+  offline: Array<OfflineStatus>
+};
 
 type State = {
   open: Boolean
-}
+};
 
 class RecentlyOffline extends React.PureComponent<Props> {
   state: State = {
