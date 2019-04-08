@@ -2,7 +2,7 @@
 
 Welcome to the staking module. Here you can see an overview of all the validators on the network and participate in the network as either as validtor (running a node that helps secure the network), or a nominator (adding funds to help secure the network).
 
-Stakers are nominators earn rewards: at the end of an era the rewards are split between the validators and nominators for that validator, in proportion to the amount bonded by each individual. Simmilarly, at the end of a session set of new validators are selected.
+Validators and nominators earn rewards at the end of an era: the rewards are split between the validators and nominators for that validator, in proportion to the amount bonded by each individual.
 
 # Bonding
 
