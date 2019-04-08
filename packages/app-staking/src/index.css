@@ -12,15 +12,21 @@
 }
 
 .staking--Account {
-  display: inline-block;
   position: relative;
+  flex: 1 1;
 
   .ui--AddressMini {
     display: block;
   }
 
   .ui--AddressSummary {
+    display: flex;
+    justify-content: space-between;
     padding: 0;
+
+    .ui--AddressSummary-base, .ui--AddressSummary-children {
+      min-width: 0;
+    }
   }
 }
 
@@ -100,6 +106,17 @@
 
   .staking--label {
     margin-bottom: -0.5rem;
+  }
+}
+
+.staking--StakeList {
+  display: flex;
+  flex-wrap: wrap;
+
+  .spacer {
+    flex: 1 1;
+    margin: .25rem;
+    padding: 1rem 1.5rem;
   }
 }
 

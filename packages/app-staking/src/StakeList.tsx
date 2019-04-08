@@ -18,10 +18,11 @@ type Props = I18nProps & ComponentProps;
 class StakeList extends React.PureComponent<Props> {
   render () {
     const { balances, balanceArray, intentions, nominators, validators } = this.props;
+    const accounts = keyring.getAccounts();
 
     return (
       <div className='staking--StakeList'>
-        {keyring.getAccounts().map((account) => {
+        {accounts.map((account) => {
           const address = account.address();
           const name = account.getMeta().name || '';
 
@@ -40,7 +41,20 @@ class StakeList extends React.PureComponent<Props> {
             />
           );
         })}
+        {this.renderSpacer(accounts.length)}
       </div>
+    );
+  }
+
+  // HACK This is a hack of a dummy element to get the spacing right, i.e. the last
+  // element in an oddly spaced list should still only take up a single column
+  private renderSpacer (accountsLen: number) {
+    if (accountsLen % 2 === 0) {
+      return null;
+    }
+
+    return (
+      <div className='spacer' />
     );
   }
 
