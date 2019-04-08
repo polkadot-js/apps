@@ -91,10 +91,7 @@ class Address extends React.PureComponent<Props, State> {
           withCopy={false}
           withNonce={false}
         >
-          <div className='staking--accounts-info'>
-            {this.renderControllerId()}
-            {this.renderSessionId()}
-          </div>
+          {this.renderKeys()}
           {this.renderNominators()}
           {this.renderOffline()}
         </AddressRow>
@@ -131,34 +128,35 @@ class Address extends React.PureComponent<Props, State> {
     this.setState({ badgeExpanded: !badgeExpanded });
   }
 
-  private renderControllerId () {
+  private renderKeys () {
     const { t } = this.props;
-    const { bondedId } = this.state;
-
-    if (!bondedId) {
-      return null;
-    }
+    const { bondedId, sessionId } = this.state;
+    const isSame = bondedId === sessionId;
 
     return (
-      <div>
-        <label className='staking--label'>{t('controller')}</label>
-        <AddressMini value={bondedId} />
-      </div>
-    );
-  }
-
-  private renderSessionId () {
-    const { t } = this.props;
-    const { sessionId } = this.state;
-
-    if (!sessionId) {
-      return null;
-    }
-
-    return (
-      <div>
-        <label className='staking--label'>{t('session')}</label>
-        <AddressMini value={sessionId} />
+      <div className='staking--accounts-info'>
+        {bondedId
+          ? (
+            <div>
+              <label className='staking--label'>{
+                isSame
+                  ? t('controller/session')
+                  : t('controller')
+              }</label>
+              <AddressMini value={bondedId} />
+            </div>
+          )
+          : null
+        }
+        {!isSame && sessionId
+          ? (
+            <div>
+              <label className='staking--label'>{t('session')}</label>
+              <AddressMini value={sessionId} />
+            </div>
+          )
+          : null
+        }
       </div>
     );
   }
