@@ -49,9 +49,10 @@ class Create extends React.PureComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { accountId, codeHash, contractAbi, endowment, isAbiSupplied, isAbiValid, isHashValid, isNameValid } = this.state;
+    const { accountId, codeHash, contractAbi, endowment, gasLimit, isAbiSupplied, isAbiValid, isHashValid, isNameValid, name } = this.state;
     const isEndowValid = !endowment.isZero();
-    const isValid = isAbiValid && isHashValid && isEndowValid && !!accountId;
+    const isGasValid = !gasLimit.isZero();
+    const isValid = isAbiValid && isHashValid && isEndowValid && isGasValid && !!accountId;
     const codeOptions = store.getAllCode().map(({ json: { codeHash, name } }) => ({
       text: `${name} (${codeHash})`,
       value: codeHash
@@ -59,40 +60,42 @@ class Create extends React.PureComponent<Props, State> {
     const defaultCode = codeOptions.length
       ? codeOptions[codeOptions.length - 1].value
       : undefined;
+    const constructOptions = contractAbi
+      ? (() => {
+        const args = contractAbi.deploy.args.map(({ name, type }) => name + ': ' + type);
+        const text = `deploy(${args.join(', ')})`;
+
+        return [{
+          key: 'deploy',
+          text,
+          value: 'deploy'
+        }];
+      })()
+      : [];
 
     return (
-      <div className='contracts--Create'>
-        <Input
-          help={t('A name for this wasm code that helps to user distinguish. Only used for display purposes.')}
-          isError={!isNameValid}
-          label={t('Code bundle name')}
-          onChange={this.onChangeName}
-        />
+      <div className='contracts--Instantiate'>
         <InputAddress
           help={t('Specify the user account to use for this contract creation. And fees will be deducted from this account.')}
           label={t('deployment account')}
           onChange={this.onChangeAccount}
           type='account'
         />
-        <InputBalance
-          help={t('The allotted endownment for this contract, i.e. the amount transferred to the contract upon instantiation.')}
-          isError={!isEndowValid}
-          label={t('endowment')}
-          onChange={this.onChangeEndowment}
-        />
-        <InputNumber
-          help={t('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
-          label={t('maximum gas allowed')}
-          onChange={this.onChangeGas}
-        />
         <Dropdown
           defaultValue={defaultCode}
           help={t('The contract WASM previously deployed. Internally this is identified by the hash of the code, as either created or attached.')}
           isError={!isHashValid}
-          label={t('Code for deployment')}
+          label={t('code for this contract')}
           onChange={this.onChangeCode}
           options={codeOptions}
           value={codeHash}
+        />
+        <Input
+          help={t('A name for the final deployed contract helps to user distinguish. Only used for display purposes.')}
+          isError={!isNameValid}
+          label={t('contract name')}
+          onChange={this.onChangeName}
+          value={name}
         />
         {
           isAbiSupplied
@@ -106,6 +109,20 @@ class Create extends React.PureComponent<Props, State> {
               />
             )
         }
+        {
+          contractAbi
+            ? (
+              <Dropdown
+                defaultValue='deploy'
+                help={t('The deployment constructor information for this contract, as provided by the ABI.')}
+                isDisabled
+                label={t('constructor')}
+                options={constructOptions}
+                value='deploy'
+              />
+            )
+            : null
+        }
         <Params
           onChange={this.onChangeParams}
           params={
@@ -113,6 +130,18 @@ class Create extends React.PureComponent<Props, State> {
               ? contractAbi.deploy.args
               : undefined
           }
+        />
+        <InputBalance
+          help={t('The allotted endownment for this contract, i.e. the amount transferred to the contract upon instantiation.')}
+          isError={!isEndowValid}
+          label={t('endowment')}
+          onChange={this.onChangeEndowment}
+        />
+        <InputNumber
+          help={t('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
+          isError={!isGasValid}
+          label={t('maximum gas allowed')}
+          onChange={this.onChangeGas}
         />
         <Button.Group>
           <TxButton
@@ -154,10 +183,14 @@ class Create extends React.PureComponent<Props, State> {
 
     this.setState({ codeHash, isHashValid: !!code });
 
-    if (code && code.contractAbi) {
-      this.onAddAbi(code.json.abi, code.contractAbi, true);
-    } else {
-      this.onAddAbi(null, null, false);
+    if (code) {
+      if (code.contractAbi) {
+        this.onAddAbi(code.json.abi, code.contractAbi, true);
+      } else {
+        this.onAddAbi(null, null, false);
+      }
+
+      this.onChangeName(`${code.json.name} (instance)`);
     }
   }
 

@@ -42,33 +42,34 @@ class Deploy extends React.PureComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { accountId, gasLimit, isAbiValid, isBusy, isNameValid, isWasmValid, wasm } = this.state;
+    const { accountId, gasLimit, isAbiValid, isBusy, isNameValid, isWasmValid, name, wasm } = this.state;
     const isValid = !isBusy && isAbiValid && isNameValid && isWasmValid && !gasLimit.isZero() && !!accountId;
 
     return (
       <div className='contracts--Deploy'>
-        <Input
-          help={t('A name for this wasm code that helps to user distinguish. Only used for display purposes.')}
-          isError={!isNameValid}
-          label={t('Code bundle name')}
-          onChange={this.onChangeName}
-        />
-        <InputFile
-          help={t('The compiled WASM for the contract that you wish to deploy. Ecah unique code blob will be attached with a code hash that can be used to create new instances.')}
-          isError={!isWasmValid}
-          label={t('Compiled contract WASM')}
-          onChange={this.onAddWasm}
-        />
-        <ABI
-          help={t('The ABI for the WASM code. In this step it is optional, but required once you wish to create contracts or call into deployed contracts.')}
-          label={t('Contract ABI (optional)')}
-          onChange={this.onAddAbi}
-        />
         <InputAddress
           help={t('Specify the user account to use for this deployment. And fees will be deducted from this account.')}
           label={t('deployment account')}
           onChange={this.onChangeAccount}
           type='account'
+        />
+        <InputFile
+          help={t('The compiled WASM for the contract that you wish to deploy. Ecah unique code blob will be attached with a code hash that can be used to create new instances.')}
+          isError={!isWasmValid}
+          label={t('compiled contract WASM')}
+          onChange={this.onAddWasm}
+        />
+        <ABI
+          help={t('The ABI for the WASM code. In this step it is optional, but required once you wish to create contracts or call into deployed contracts.')}
+          label={t('contract ABI (optional)')}
+          onChange={this.onAddAbi}
+        />
+        <Input
+          help={t('A name for this wasm code that helps to user distinguish. Only used for display purposes.')}
+          isError={!isNameValid}
+          label={t('code bundle name')}
+          onChange={this.onChangeName}
+          value={name}
         />
         <InputNumber
           help={t('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
@@ -96,8 +97,9 @@ class Deploy extends React.PureComponent<Props, State> {
     this.setState({ abi, isAbiValid: !!abi });
   }
 
-  private onAddWasm = (wasm: Uint8Array): void => {
+  private onAddWasm = (wasm: Uint8Array, name: string): void => {
     this.setState({ wasm: compactAddLength(wasm), isWasmValid: true });
+    this.onChangeName(name);
   }
 
   private onChangeAccount = (accountId: string | null): void => {

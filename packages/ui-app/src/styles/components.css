@@ -243,7 +243,7 @@ header .ui--Button-Group {
   font-size: 1.2em;
   height: 5em;
   justify-content: center;
-  margin-bottom: 0.5rem;
+  margin: 0.25rem 0;
   width: 100% !important;
 
   &.error {

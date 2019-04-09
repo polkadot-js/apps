@@ -14,7 +14,7 @@ import store from './store';
 import translate from './translate';
 import Attach from './Attach';
 import Call from './Call';
-import Create from './Create';
+import Instantiate from './Instantiate';
 import Deploy from './Deploy';
 
 type Props = AppProps & I18nProps;
@@ -79,8 +79,8 @@ class App extends React.PureComponent<Props, State> {
         </header>
         <Switch>
           <Route path={`${basePath}/attach`} render={this.renderComponent(Attach)} />
-          <Route path={`${basePath}/instantiate`} render={this.renderComponent(Create)} />
-          <Route path={`${basePath}/instantiate/:codeHash`} render={this.renderComponent(Create)} />
+          <Route path={`${basePath}/instantiate`} render={this.renderComponent(Instantiate)} />
+          <Route path={`${basePath}/instantiate/:codeHash`} render={this.renderComponent(Instantiate)} />
           <Route path={`${basePath}/code`} render={this.renderComponent(Deploy)} />
           <Route
             render={
@@ -88,7 +88,7 @@ class App extends React.PureComponent<Props, State> {
                 ? (
                   hidden.includes('instantiate')
                     ? this.renderComponent(Deploy)
-                    : this.renderComponent(Create)
+                    : this.renderComponent(Instantiate)
                 )
                 : this.renderComponent(Call)
             }
