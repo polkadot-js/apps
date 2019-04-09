@@ -159,10 +159,13 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private renderNominators () {
-    const { address, nominators, t } = this.props;
-    const myNominators = Object.keys(nominators).filter((nominator) =>
-      nominators[nominator].indexOf(address) !== -1
-    );
+    const { nominators, t } = this.props;
+    const { stashId } = this.state;
+    const myNominators = stashId
+      ? Object.keys(nominators).filter((nominator) =>
+        nominators[nominator].indexOf(stashId) !== -1
+      )
+      : [];
 
     return (
       <details className='staking--Account-detail'>
