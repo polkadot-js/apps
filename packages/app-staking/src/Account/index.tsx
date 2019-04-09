@@ -6,7 +6,7 @@ import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
-import { Nominators } from '../types';
+import { Nominators, RecentlyOffline, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
 import { AccountId, Balance, Exposure, Option, StakingLedger, ValidatorPrefs } from '@polkadot/types';
@@ -31,6 +31,7 @@ type Props = ApiProps & I18nProps & {
   session_nextKeyFor?: Option<AccountId>,
   staking_bonded?: Option<AccountId>,
   staking_ledger?: Option<StakingLedger>,
+  staking_recentlyOffline?: RecentlyOffline
   staking_stakers?: Exposure,
   staking_validators?: [ValidatorPrefs],
   targets: Array<KeyringSectionOption>,
@@ -45,6 +46,7 @@ type State = {
   isValidatingOpen: boolean,
   isUnbondOpen: boolean,
   bondedId: string | null,
+  recentlyOffline: RecentlyOfflineMap,
   sessionId: string | null,
   stashId: string | null
 };
@@ -58,12 +60,28 @@ class Account extends React.PureComponent<Props, State> {
     isValidatingOpen: false,
     isUnbondOpen: false,
     bondedId: null,
+    recentlyOffline: {},
     sessionId: null,
     stashId: null
   };
 
-  static getDerivedStateFromProps ({ session_nextKeyFor, staking_bonded, staking_ledger }: Props, state: State): Partial<State> {
+  static getDerivedStateFromProps ({ session_nextKeyFor, staking_bonded, staking_ledger, staking_recentlyOffline = [] }: Props, state: State): Partial<State> {
     return {
+      recentlyOffline: staking_recentlyOffline.reduce(
+        (result, [accountId, blockNumber, count]) => {
+          const account = accountId.toString();
+
+          if (!result[account]) {
+            result[account] = [];
+          }
+
+          result[account].push({
+            blockNumber,
+            count
+          });
+
+          return result;
+        }, {} as RecentlyOfflineMap),
       bondedId: staking_bonded && staking_bonded.isSome
         ? staking_bonded.unwrap().toString()
         : null,
@@ -194,6 +212,8 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderNominee () {
     const { t } = this.props;
+    const { recentlyOffline } = this.state;
+
     const nominees = this.getNominees();
 
     if (!nominees || !nominees.length) {
@@ -208,6 +228,7 @@ class Account extends React.PureComponent<Props, State> {
             <AddressMini
               key={index}
               value={nomineeId}
+              offlineStatus={recentlyOffline[nomineeId]}
               withBalance={false}
               withBonded
             />
@@ -243,16 +264,19 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderBondedId () {
     const { t } = this.props;
-    const { bondedId } = this.state;
+    const { bondedId, recentlyOffline } = this.state;
 
     if (!bondedId) {
       return null;
     }
-
+    
     return (
       <div className='staking--Account-detail'>
         <label className='staking--label'>{t('controller')}</label>
-        <AddressMini value={bondedId} />
+        <AddressMini
+          value={bondedId}
+          offlineStatus={recentlyOffline[bondedId]}
+        />
       </div>
     );
   }
@@ -275,7 +299,7 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderStashId () {
     const { t } = this.props;
-    const { stashId } = this.state;
+    const { stashId, recentlyOffline } = this.state;
 
     if (!stashId) {
       return null;
@@ -284,7 +308,12 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <div className='staking--Account-detail'>
         <label className='staking--label'>{t('stash')}</label>
-        <AddressMini withBalance={false} withBonded value={stashId} />
+        <AddressMini
+          value={stashId}
+          offlineStatus={recentlyOffline[stashId]}
+          withBalance={false}
+          withBonded
+          />
       </div>
     );
   }
@@ -421,6 +450,7 @@ class Account extends React.PureComponent<Props, State> {
 
 export default translate(
   withCalls<Props>(
+    'query.staking.recentlyOffline',
     ['query.session.nextKeyFor', { paramName: 'accountId' }],
     ['query.staking.bonded', { paramName: 'accountId' }],
     ['query.staking.ledger', { paramName: 'accountId' }],
