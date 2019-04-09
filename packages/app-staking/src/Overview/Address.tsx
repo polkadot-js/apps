@@ -22,7 +22,7 @@ type Props = I18nProps & {
   balances: DerivedBalancesMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   defaultName: string,
-  isAuthor: boolean,
+  lastAuthor: string,
   lastBlock: string,
   nominators: Nominators,
   recentlyOffline: RecentlyOfflineMap,
@@ -80,8 +80,9 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isAuthor, lastBlock } = this.props;
+    const { address, lastAuthor, lastBlock } = this.props;
     const { bondedId, stashActive, stashId } = this.state;
+    const isAuthor = [address, bondedId, stashId].includes(lastAuthor);
 
     return (
       <article key={stashId || bondedId}>
@@ -98,12 +99,11 @@ class Address extends React.PureComponent<Props, State> {
           {this.renderNominators()}
           {this.renderOffline()}
         </AddressRow>
-        <div
-          className={['blockNumber', isAuthor ? 'latest' : ''].join(' ')}
-          key='lastBlock'
-        >
-          {isAuthor ? lastBlock : ''}
-        </div>
+        {
+          isAuthor
+            ? <div className='blockNumber'>{lastBlock}</div>
+            : null
+        }
       </article>
     );
   }
