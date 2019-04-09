@@ -21,7 +21,7 @@ type State = {
   isAddressValid: boolean,
   method?: string,
   params: Array<any>
-}
+};
 
 class Call extends React.PureComponent<Props> {
   state: State = {
