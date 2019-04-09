@@ -8,8 +8,9 @@ import { ComponentProps, LocationProps } from './types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { Tabs } from '@polkadot/ui-app';
+import { HelpOverlay, Tabs } from '@polkadot/ui-app';
 
+import introMd from './md/intro.md';
 import store from './store';
 import translate from './translate';
 import Call from './Call';
@@ -65,6 +66,7 @@ class App extends React.PureComponent<Props, State> {
 
     return (
       <main className='contracts--App'>
+        <HelpOverlay md={introMd} />
         <header>
           <Tabs
             basePath={basePath}
