@@ -74,7 +74,6 @@ class App extends React.PureComponent<Props, State> {
         </header>
         <Switch>
           <Route path={`${basePath}/instantiate`} render={this.renderComponent(Instantiate)} />
-          <Route path={`${basePath}/instantiate/:codeHash`} render={this.renderComponent(Instantiate)} />
           <Route path={`${basePath}/code`} render={this.renderComponent(Code)} />
           <Route
             render={

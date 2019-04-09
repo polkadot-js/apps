@@ -152,7 +152,7 @@ class Deploy extends React.PureComponent<Props, State> {
 
     return (
       <ABI
-        help={t('The ABI for the WASM code. In this step it is optional, but required once you wish to create contracts or call into deployed contracts.')}
+        help={t('The ABI for the WASM code. In this step it is optional, but setting it here simplifies the setup of contract instances.')}
         isError={!isAbiValid}
         label={t('contract ABI (optional)')}
         onChange={this.onAddAbi}
@@ -166,7 +166,7 @@ class Deploy extends React.PureComponent<Props, State> {
 
     return (
       <Input
-        help={t('A name for this wasm code that helps to user distinguish. Only used for display purposes.')}
+        help={t('A name for this WASM code that helps to user distinguish. Only used for display purposes.')}
         isError={!isNameValid}
         label={t('code bundle name')}
         onChange={this.onChangeName}

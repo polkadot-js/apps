@@ -47,7 +47,6 @@ class ABI extends React.PureComponent<Props, State> {
 
   private onChange = (u8a: Uint8Array, name: string): void => {
     const { onChange } = this.props;
-
     const json = u8aToString(u8a);
 
     try {
