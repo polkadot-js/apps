@@ -1,6 +1,6 @@
 import React from 'react';
 import store from 'store';
-import { Container, Subscribe, Provider } from 'unstated';
+import { Container, Subscribe } from 'unstated';
 import { isKnownAddress } from './index';
 
 export const MY_ADDRESS = 'joy.myAddress';
