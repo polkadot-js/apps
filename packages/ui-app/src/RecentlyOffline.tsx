@@ -47,7 +47,7 @@ class RecentlyOffline extends React.PureComponent<Props, State> {
         count,
         blockNumber: blockNumbers[blockNumbers.length - 1]
       }
-    })
+    });
 
     return (
       <div
@@ -56,7 +56,10 @@ class RecentlyOffline extends React.PureComponent<Props, State> {
           isOpen ? 'expand' : '',
           tooltip ? 'tooltip' : ''
         ].join(' ')}
-        onClick={tooltip ? () => {} : this.toggleOpen}
+        {...(tooltip ?
+          { onClick: this.toggleOpen } :
+          {}
+        )}
         {...tooltipData}
       >
         <div className='badge'>
@@ -66,11 +69,11 @@ class RecentlyOffline extends React.PureComponent<Props, State> {
           {text}
         </div>
         <ReactTooltip
-           delayShow={250}
-           effect='solid'
-           id={`offline-${accountId}`}
-           place='bottom'
-          >
+          delayShow={250}
+          effect='solid'
+          id={`offline-${accountId}`}
+          place='bottom'
+        >
             {text}
         </ReactTooltip>
       </div>

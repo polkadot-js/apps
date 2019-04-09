@@ -269,7 +269,7 @@ class Account extends React.PureComponent<Props, State> {
     if (!bondedId) {
       return null;
     }
-    
+
     return (
       <div className='staking--Account-detail'>
         <label className='staking--label'>{t('controller')}</label>
@@ -313,7 +313,7 @@ class Account extends React.PureComponent<Props, State> {
           offlineStatus={recentlyOffline[stashId]}
           withBalance={false}
           withBonded
-          />
+        />
       </div>
     );
   }

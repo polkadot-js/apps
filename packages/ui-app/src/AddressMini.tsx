@@ -24,7 +24,7 @@ type Props = BareProps & {
   offlineStatus?: Array<OfflineStatus>,
   withAddress?: boolean,
   withBalance?: boolean,
-  withBonded?: boolean,
+  withBonded?: boolean
 };
 
 export default class AddressMini extends React.PureComponent<Props> {
