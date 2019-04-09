@@ -7,7 +7,9 @@ export default ([
     Component: Roles,
     display: {
       needsAccounts: true,
-      needsApi: []
+      needsApi: [
+        'query.actors.actorAccountIds'
+      ]
     },
     i18n: {
       defaultValue: 'Roles'

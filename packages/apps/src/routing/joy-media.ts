@@ -5,7 +5,10 @@ import Media from '@polkadot/joy-media/index';
 export default ([
   {
     Component: Media,
-    display: {},
+    display: {
+      needsAccounts: false,
+      needsApi: []
+    },
     i18n: {
       defaultValue: 'Media'
     },

@@ -7,7 +7,9 @@ export default ([
     Component: Election,
     display: {
       needsAccounts: true,
-      needsApi: []
+      needsApi: [
+        'query.council.activeCouncil',
+      ]
     },
     i18n: {
       defaultValue: 'Council'
