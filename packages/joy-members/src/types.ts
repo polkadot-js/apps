@@ -1,5 +1,6 @@
 import { EnumType, Option, Struct } from '@polkadot/types/codec';
 import { getTypeRegistry, Bool, BlockNumber, Moment, AccountId, BalanceOf, u64, Text } from '@polkadot/types';
+import { OptionText } from '@polkadot/joy-utils/types';
 
 export class MemberId extends u64 {}
 export class PaidTermId extends u64 {}
@@ -27,17 +28,6 @@ export type Profile = {
   suspended: Bool,
   subscription: Option<SubscriptionId>
 };
-
-export class OptionText extends Option.with(Text) {
-
-  static none () {
-    return new Option(Text, null);
-  }
-
-  static some (text: string) {
-    return new Option(Text, text);
-  }
-}
 
 export class UserInfo extends Struct {
   constructor (value?: any) {
