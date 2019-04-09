@@ -11,12 +11,14 @@ import { ComponentProps, Nominators } from './types';
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import { AccountId, Balance, Option } from '@polkadot/types';
+import { HelpOverlay } from '@polkadot/ui-app';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import { withCalls, withMulti, withObservable } from '@polkadot/ui-api';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 
 import './index.css';
 
+import basicMd from './md/basic.md';
 import StakeList from './StakeList';
 import Overview from './Overview';
 import translate from './translate';
@@ -91,6 +93,7 @@ class App extends React.PureComponent<Props, State> {
 
     return (
       <main className='staking--App'>
+        <HelpOverlay md={basicMd} />
         <header>
           <Tabs
             basePath={basePath}

@@ -8,7 +8,7 @@
   "maintainers": [],
   "dependencies": {
     "@babel/runtime": "^7.4.3",
-    "@polkadot/ui-app": "^0.31.0-beta.17",
+    "@polkadot/ui-app": "^0.31.0-beta.18",
     "@polkadot/joy-utils": "^0.1.1"
   }
 }
