@@ -1,22 +1,35 @@
 import React from 'react';
-import { Progress, Message } from 'semantic-ui-react';
+import BN from 'bn.js';
 import axios from 'axios';
+import uuidv4 from 'uuid/v4';
+import { Progress, Message } from 'semantic-ui-react';
 
 import { InputFile } from '@polkadot/ui-app/index';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { SubmittableResult } from '@polkadot/api';
+import { formatNumber } from '@polkadot/ui-app/util';
+import { stringToU8a, u8aToString } from '@polkadot/util';
 
 import translate from './translate';
 import { buildApiUrl, fileNameWoExt } from './utils';
+import { ContentId } from './types';
 import EditMeta from './EditMeta';
+import TxButton from '@polkadot/joy-utils/TxButton';
 
 const MAX_FILE_SIZE_200_MB = 200 * 1024 * 1024;
+
+function generateContentId () {
+  const uuid = uuidv4().replace('-', '');
+  return new ContentId(stringToU8a(uuid));
+}
 
 type Props = ApiProps & I18nProps & {};
 
 type State = {
   error?: any,
   file?: File,
+  newContentId: ContentId,
   uploading: boolean,
   progress: number
 };
@@ -24,6 +37,7 @@ type State = {
 const defaultState = (): State => ({
   error: undefined,
   file: undefined,
+  newContentId: generateContentId(),
   uploading: false,
   progress: 0
 });
@@ -31,6 +45,8 @@ const defaultState = (): State => ({
 class Component extends React.PureComponent<Props, State> {
 
   state = defaultState();
+
+  // TODO show warning if user is not a member
 
   render () {
     return (
@@ -42,6 +58,7 @@ class Component extends React.PureComponent<Props, State> {
 
   private renderContent () {
     const { error, uploading } = this.state;
+
     if (error) return this.renderError();
     else if (uploading) return this.renderUploading();
     else return this.renderFileInput();
@@ -58,15 +75,16 @@ class Component extends React.PureComponent<Props, State> {
   }
 
   private renderUploading () {
-    const { file } = this.state;
-    let fileName = file ? fileNameWoExt(file.name) : '';
+    const { file, newContentId } = this.state;
+    if (!file) return <em>Loading...</em>;
+
     return <>
       <div className='UploadSidebar'>
-        TODO show thumbnail here
+        TODO show thumbnail here !!!
       </div>
       <div className='UploadMainContent'>
         {this.renderProgress()}
-        <EditMeta fileName={fileName} />
+        <EditMeta contentId={newContentId} fileName={fileNameWoExt(file.name)} />
       </div>
     </>;
   }
@@ -91,39 +109,75 @@ class Component extends React.PureComponent<Props, State> {
   }
 
   private renderFileInput () {
-    return <InputFile
-      // isError={!isValidContent}
-      placeholder={
-        <div>
-          <i className='cloud upload icon'></i>{' '}
-          Drag and drop either video or audio file here
-        </div>
-      }
-      onChange={this.onFileSelected}
-    />;
+    const { file } = this.state;
+
+    return <div className='UploadSelectForm'>
+      <InputFile
+        // isError={!isValidContent}
+        className={`UploadInputFile ${file ? 'FileSelected' : ''}`}
+        placeholder={
+          <div>
+            <i className='cloud upload icon'></i>{' '}
+            {file
+              ? `${file.name} (${formatNumber(file.size)} bytes)`
+              : 'Drag and drop either video or audio file here'
+            }
+          </div>
+        }
+        onChange={this.onFileSelected}
+      />
+      {file && <div className='UploadButtonBox'>
+        <TxButton
+          size='large'
+          label={'Upload'}
+          isDisabled={!file}
+          tx={'dataDirectory.addContent'}
+          params={this.buildTxParams()}
+          onTxSuccess={this.onDataObjectCreated}
+        />
+      </div>}
+    </div>;
   }
 
   private onFileSelected = (data: Uint8Array, file: File) => {
-    if (data && data.length > 0 && data.length <= MAX_FILE_SIZE_200_MB) {
-      this.setState({ uploading: true, file });
-      const uniqueName = `${Date.now()}-${file.name}`;
-      const config = {
-        headers: {
-          // TODO uncomment this once the issue fixed:
-          // https://github.com/Joystream/storage-node-joystream/issues/16
-          // 'Content-Type': file.type
-          'Content-Type': '' // <-- this is a temporary hack
-        }
-      };
-      axios
-        .put<{ message: string }>(buildApiUrl(uniqueName), file, config)
-        .then(_res => {
-          this.setState({ progress: 100 });
-        })
-        .catch(error => {
-          this.setState({ progress: 100, error });
-        });
+    const isValidContent = data && data.length > 0 && data.length <= MAX_FILE_SIZE_200_MB;
+    if (isValidContent) {
+      this.setState({ file });
     }
+  }
+
+  private buildTxParams = () => {
+    const { file, newContentId } = this.state;
+    if (!file) return [];
+
+    // TODO get corresponding data type id based on file content
+    const dataObjectTypeId = new BN(1);
+
+    return [ newContentId, dataObjectTypeId, new BN(file.size) ];
+  }
+
+  private onDataObjectCreated = (_txResult: SubmittableResult) => {
+    this.uploadFile();
+  }
+
+  private uploadFile = () => {
+    const { file, newContentId } = this.state;
+    if (!file) return;
+
+    const uniqueName = u8aToString(newContentId);
+    const config = {
+      headers: {
+        // TODO uncomment this once the issue fixed:
+        // https://github.com/Joystream/storage-node-joystream/issues/16
+        // 'Content-Type': file.type
+        'Content-Type': '' // <-- this is a temporary hack
+      }
+    };
+    this.setState({ uploading: true });
+    axios
+      .put<{ message: string }>(buildApiUrl(uniqueName), file, config)
+      .then(_res => this.setState({ progress: 100 }))
+      .catch(error => this.setState({ progress: 100, error }));
   }
 }
 
