@@ -101,7 +101,7 @@ import { Options as QueryOptions } from '@polkadot/ui-api/with/types';
 /** Example of apiQuery: 'query.councilElection.round' */
 export function queryToProp (apiQuery: string, paramName?: string): [string, QueryOptions] {
   const propName = apiQuery.split('.').slice(-1)[0];
-  return [apiQuery, { propName, paramName }];
+  return [apiQuery, { paramName, propName }];
 }
 
 // Parse URLs
