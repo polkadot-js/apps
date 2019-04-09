@@ -3,6 +3,10 @@
   color: #999999;
 }
 
+.text.smaller {
+  font-size: 0.9rem;
+}
+
 .ui.button:disabled,
 .ui.buttons .disabled.button,
 .ui.disabled.active.button,
