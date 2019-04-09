@@ -38,9 +38,9 @@ export function withMyAccount<P extends MyAccountProps> (Component: React.Compon
   return class extends React.Component<P> {
     render () {
       return (
-        <Provider><Subscribe to={[ MyAccountContainer ]}>{(me: MyAccountContainer) =>
+        <Subscribe to={[ MyAccountContainer ]}>{(me: MyAccountContainer) =>
           <Component myAddress={me.state.address} {...this.props} />
-        }</Subscribe></Provider>
+        }</Subscribe>
       );
     }
   };

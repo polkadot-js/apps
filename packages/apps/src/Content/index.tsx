@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
+import { Provider } from 'unstated';
 import Status from './Status';
 import routing from '../routing';
 import translate from '../translate';
@@ -68,7 +69,7 @@ class Content extends React.Component<Props> {
     }
 
     return (
-      <Wrapper>
+      <Wrapper><Provider>
         <QueueConsumer>
           {({ queueAction, stqueue, txqueue }: QueueProps) => (
             <>
@@ -86,7 +87,7 @@ class Content extends React.Component<Props> {
             </>
           )}
         </QueueConsumer>
-      </Wrapper>
+        </Provider></Wrapper>
     );
   }
 }
