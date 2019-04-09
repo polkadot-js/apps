@@ -12,10 +12,9 @@ import { Tabs } from '@polkadot/ui-app';
 
 import store from './store';
 import translate from './translate';
-import Attach from './Attach';
 import Call from './Call';
+import Code from './Code';
 import Instantiate from './Instantiate';
-import Deploy from './Deploy';
 
 type Props = AppProps & I18nProps;
 type State = {
@@ -74,16 +73,15 @@ class App extends React.PureComponent<Props, State> {
           />
         </header>
         <Switch>
-          <Route path={`${basePath}/attach`} render={this.renderComponent(Attach)} />
           <Route path={`${basePath}/instantiate`} render={this.renderComponent(Instantiate)} />
           <Route path={`${basePath}/instantiate/:codeHash`} render={this.renderComponent(Instantiate)} />
-          <Route path={`${basePath}/code`} render={this.renderComponent(Deploy)} />
+          <Route path={`${basePath}/code`} render={this.renderComponent(Code)} />
           <Route
             render={
               hidden.includes('call')
                 ? (
                   hidden.includes('instantiate')
-                    ? this.renderComponent(Deploy)
+                    ? this.renderComponent(Code)
                     : this.renderComponent(Instantiate)
                 )
                 : this.renderComponent(Call)

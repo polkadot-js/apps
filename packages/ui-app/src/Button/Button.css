@@ -4,6 +4,11 @@
 
 .ui--Button-Group {
   text-align: right;
+
+  &.centered {
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
 }
 
 .ui--Button-Group:not(:first-child) {

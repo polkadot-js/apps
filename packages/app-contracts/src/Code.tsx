@@ -9,7 +9,7 @@ import { ComponentProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { Button, Input, InputAddress, InputFile, InputNumber, TxButton } from '@polkadot/ui-app';
-import { compactAddLength } from '@polkadot/util';
+import { compactAddLength, isHex } from '@polkadot/util';
 import { Hash } from '@polkadot/types';
 
 import ABI from './ABI';
@@ -21,12 +21,15 @@ type Props = ComponentProps & I18nProps;
 type State = {
   abi?: string | null,
   accountId?: string | null,
+  codeHash?: string | null,
   gasLimit: BN,
   isAbiValid: boolean,
   isBusy: boolean,
+  isHashValid: boolean,
   isNameValid: boolean,
+  isNew: boolean,
   isWasmValid: boolean,
-  name?: string,
+  name?: string | null,
   wasm?: Uint8Array | null
 };
 
@@ -36,17 +39,48 @@ class Deploy extends React.PureComponent<Props, State> {
     gasLimit: new BN(0),
     isAbiValid: true,
     isBusy: false,
+    isHashValid: false,
+    isNew: true,
     isNameValid: false,
     isWasmValid: false
   };
 
   render () {
     const { t } = this.props;
-    const { accountId, gasLimit, isAbiValid, isBusy, isNameValid, isWasmValid, name, wasm } = this.state;
+    const { isNew } = this.state;
+
+    return (
+      <div className='contracts--Code'>
+        <Button.Group isBasic isCentered>
+          <Button
+            isBasic
+            isNegative={isNew}
+            label={t('deploy new')}
+            onClick={this.toggleNew}
+          />
+          <Button
+            isBasic
+            isNegative={!isNew}
+            label={t('attach existing')}
+            onClick={this.toggleNew}
+          />
+        </Button.Group>
+        {
+          isNew
+            ? this.renderDeploy()
+            : this.renderExisting()
+        }
+      </div>
+    );
+  }
+
+  private renderDeploy () {
+    const { t } = this.props;
+    const { accountId, gasLimit, isAbiValid, isBusy, isNameValid, isWasmValid, wasm } = this.state;
     const isValid = !isBusy && isAbiValid && isNameValid && isWasmValid && !gasLimit.isZero() && !!accountId;
 
     return (
-      <div className='contracts--Deploy'>
+      <>
         <InputAddress
           help={t('Specify the user account to use for this deployment. And fees will be deducted from this account.')}
           label={t('deployment account')}
@@ -59,18 +93,8 @@ class Deploy extends React.PureComponent<Props, State> {
           label={t('compiled contract WASM')}
           onChange={this.onAddWasm}
         />
-        <ABI
-          help={t('The ABI for the WASM code. In this step it is optional, but required once you wish to create contracts or call into deployed contracts.')}
-          label={t('contract ABI (optional)')}
-          onChange={this.onAddAbi}
-        />
-        <Input
-          help={t('A name for this wasm code that helps to user distinguish. Only used for display purposes.')}
-          isError={!isNameValid}
-          label={t('code bundle name')}
-          onChange={this.onChangeName}
-          value={name}
-        />
+        {this.renderInputName()}
+        {this.renderInputAbi()}
         <InputNumber
           help={t('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
           label={t('maximum gas allowed')}
@@ -89,7 +113,65 @@ class Deploy extends React.PureComponent<Props, State> {
             tx='contract.putCode'
           />
         </Button.Group>
-      </div>
+      </>
+    );
+  }
+
+  private renderExisting () {
+    const { t } = this.props;
+    const { codeHash, isAbiValid, isHashValid, isNameValid } = this.state;
+    const isValid = isAbiValid && isHashValid && isNameValid;
+
+    return (
+      <>
+        <Input
+          autoFocus
+          help={t('The code hash for the on-chain deployed code.')}
+          isError={!isHashValid}
+          label={t('code hash')}
+          onChange={this.onChangeHash}
+          value={codeHash}
+        />
+        {this.renderInputName()}
+        {this.renderInputAbi()}
+        <Button.Group>
+          <Button
+            isDisabled={!isValid}
+            isPrimary
+            label={t('Save')}
+            onClick={this.onSave}
+          />
+        </Button.Group>
+      </>
+    );
+  }
+
+  private renderInputAbi () {
+    const { t } = this.props;
+    const { isAbiValid } = this.state;
+
+    return (
+      <ABI
+        help={t('The ABI for the WASM code. In this step it is optional, but required once you wish to create contracts or call into deployed contracts.')}
+        isError={!isAbiValid}
+        label={t('contract ABI (optional)')}
+        onChange={this.onAddAbi}
+      />
+    );
+  }
+
+  private renderInputName () {
+    const { t } = this.props;
+    const { isNameValid, name } = this.state;
+
+    return (
+      <Input
+        help={t('A name for this wasm code that helps to user distinguish. Only used for display purposes.')}
+        isError={!isNameValid}
+        label={t('code bundle name')}
+        onChange={this.onChangeName}
+        value={name}
+      />
     );
   }
 
@@ -110,6 +192,10 @@ class Deploy extends React.PureComponent<Props, State> {
     this.setState({ gasLimit: gasLimit || new BN(0) });
   }
 
+  private onChangeHash = (codeHash: string): void => {
+    this.setState({ codeHash, isHashValid: isHex(codeHash) && codeHash.length === 66 });
+  }
+
   private onChangeName = (name: string): void => {
     this.setState({ name, isNameValid: name.length !== 0 });
   }
@@ -120,6 +206,29 @@ class Deploy extends React.PureComponent<Props, State> {
     }));
   }
 
+  private toggleNew = (): void => {
+    this.setState(({ isNew }) => ({
+      abi: null,
+      codeHash: null,
+      isAbiValid: true,
+      isHashValid: false,
+      isNameValid: false,
+      name: null,
+      isNew: !isNew
+    }));
+  }
+
+  private onSave = (): void => {
+    const { abi, codeHash, name } = this.state;
+
+    if (!codeHash || !name) {
+      return;
+    }
+
+    store.saveCode(new Hash(codeHash), { abi, name });
+    this.redirect();
+  }
+
   private onSuccess = (result: SubmittableResult): void => {
     const record = result.findRecord('contract', 'CodeStored');
 
@@ -127,11 +236,20 @@ class Deploy extends React.PureComponent<Props, State> {
       const codeHash = record.event.data[0];
 
       this.setState(({ abi, name }) => {
-        store.saveCode(codeHash as Hash, { abi: abi as string, name });
+        if (!codeHash || !name) {
+          return;
+        }
+
+        store.saveCode(codeHash as Hash, { abi, name });
+        this.redirect();
       });
     }
 
     this.toggleBusy();
+  }
+
+  private redirect () {
+    window.location.hash = this.props.basePath;
   }
 }
 

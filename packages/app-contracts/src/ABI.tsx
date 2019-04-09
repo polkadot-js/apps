@@ -34,8 +34,6 @@ class ABI extends React.PureComponent<Props, State> {
     const { help, isError, label } = this.props;
     const { isAbiValid, placeholder } = this.state;
 
-    console.error('placeholder', placeholder);
-
     return (
       <InputFile
         help={help}

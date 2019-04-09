@@ -15,22 +15,26 @@ import ABI from './ABI';
 import Params from './Params';
 import store from './store';
 import translate from './translate';
+import keyring from '@polkadot/ui-keyring';
 
 type Props = ComponentProps & I18nProps;
 
 type State = {
   abi?: string | null,
   accountId: string | null,
+  address?: string | null,
   codeHash?: string,
   contractAbi?: ContractAbi | null,
   endowment: BN,
   gasLimit: BN,
   isAbiValid: boolean,
   isAbiSupplied: boolean,
+  isAddressValid: boolean,
   isBusy: boolean,
   isHashValid: boolean,
   isNameValid: boolean,
-  name?: string,
+  isNew?: boolean,
+  name?: string | null,
   params: Array<any>
 };
 
@@ -41,18 +45,49 @@ class Create extends React.PureComponent<Props, State> {
     gasLimit: new BN(0),
     isAbiValid: false,
     isAbiSupplied: false,
+    isAddressValid: false,
     isBusy: false,
     isHashValid: false,
     isNameValid: false,
+    isNew: true,
     params: []
   };
 
   render () {
     const { t } = this.props;
-    const { accountId, codeHash, contractAbi, endowment, gasLimit, isAbiSupplied, isAbiValid, isHashValid, isNameValid, name } = this.state;
+    const { isNew } = this.state;
+
+    return (
+      <div className='contracts--Instantiate'>
+        <Button.Group isBasic isCentered>
+          <Button
+            isBasic
+            isNegative={isNew}
+            label={t('deploy new')}
+            onClick={this.toggleNew}
+          />
+          <Button
+            isBasic
+            isNegative={!isNew}
+            label={t('attach existing')}
+            onClick={this.toggleNew}
+          />
+        </Button.Group>
+        {
+          isNew
+            ? this.renderDeploy()
+            : this.renderExisting()
+        }
+      </div>
+    );
+  }
+
+  private renderDeploy () {
+    const { t } = this.props;
+    const { accountId, codeHash, contractAbi, endowment, gasLimit, isAbiSupplied, isAbiValid, isHashValid, isNameValid } = this.state;
     const isEndowValid = !endowment.isZero();
     const isGasValid = !gasLimit.isZero();
-    const isValid = isAbiValid && isHashValid && isEndowValid && isGasValid && !!accountId;
+    const isValid = isAbiValid && isHashValid && isEndowValid && isGasValid && !!accountId && isNameValid;
     const codeOptions = store.getAllCode().map(({ json: { codeHash, name } }) => ({
       text: `${name} (${codeHash})`,
       value: codeHash
@@ -74,7 +109,7 @@ class Create extends React.PureComponent<Props, State> {
       : [];
 
     return (
-      <div className='contracts--Instantiate'>
+      <>
         <InputAddress
           help={t('Specify the user account to use for this contract creation. And fees will be deducted from this account.')}
           label={t('deployment account')}
@@ -90,24 +125,11 @@ class Create extends React.PureComponent<Props, State> {
           options={codeOptions}
           value={codeHash}
         />
-        <Input
-          help={t('A name for the final deployed contract helps to user distinguish. Only used for display purposes.')}
-          isError={!isNameValid}
-          label={t('contract name')}
-          onChange={this.onChangeName}
-          value={name}
-        />
+        {this.renderInputName()}
         {
           isAbiSupplied
             ? null
-            : (
-              <ABI
-                help={t('The ABI for the WASM code. Since we will be making a call into the code, the ABI is required and stored for future operations such as sending messages.')}
-                isError={!isAbiValid}
-                label={t('Contract ABI')}
-                onChange={this.onAddAbi}
-              />
-            )
+            : this.renderInputAbi()
         }
         {
           contractAbi
@@ -156,7 +178,65 @@ class Create extends React.PureComponent<Props, State> {
             tx='contract.create'
           />
         </Button.Group>
-      </div>
+      </>
+    );
+  }
+
+  private renderExisting () {
+    const { t } = this.props;
+    const { address, isAddressValid, isAbiValid, isNameValid } = this.state;
+    const isValid = isNameValid && isAddressValid && isAbiValid;
+
+    return (
+      <>
+        <Input
+          autoFocus
+          help={t('The address for the deployed contract instance.')}
+          isError={!isAddressValid}
+          label={t('contract address')}
+          onChange={this.onChangeAddress}
+          value={address}
+        />
+        {this.renderInputName()}
+        {this.renderInputAbi()}
+        <Button.Group>
+          <Button
+            isDisabled={!isValid}
+            isPrimary
+            label={t('Save')}
+            onClick={this.onSave}
+          />
+        </Button.Group>
+      </>
+    );
+  }
+
+  private renderInputAbi () {
+    const { t } = this.props;
+    const { isAbiValid } = this.state;
+
+    return (
+      <ABI
+        help={t('The ABI for the WASM code. Since we will be making a call into the code, the ABI is required and stored for future operations such as sending messages.')}
+        isError={!isAbiValid}
+        label={t('Contract ABI')}
+        onChange={this.onAddAbi}
+      />
+    );
+  }
+
+  private renderInputName () {
+    const { t } = this.props;
+    const { isNameValid, name } = this.state;
+
+    return (
+      <Input
+        help={t('A name for the deployed contract to help you distinguish. Only used for display purposes.')}
+        isError={!isNameValid}
+        label={t('contract name')}
+        onChange={this.onChangeName}
+        value={name}
+      />
     );
   }
 
@@ -170,12 +250,26 @@ class Create extends React.PureComponent<Props, State> {
     return [endowment, gasLimit, codeHash, contractAbi.deploy(...params)];
   }
 
-  private onAddAbi = (abi: string | null, contractAbi: ContractAbi | null, isAbiSupplied: boolean = false): void => {
+  private onAddAbi = (abi: string | null | undefined, contractAbi: ContractAbi | null, isAbiSupplied: boolean = false): void => {
     this.setState({ abi, contractAbi, isAbiSupplied, isAbiValid: !!abi });
   }
 
   private onChangeAccount = (accountId: string | null): void => {
     this.setState({ accountId });
+  }
+
+  private onChangeAddress = (address: string): void => {
+    let isAddressValid = false;
+
+    try {
+      keyring.decodeAddress(address);
+
+      isAddressValid = true;
+    } catch (error) {
+      // ignore
+    }
+
+    this.setState({ address, isAddressValid });
   }
 
   private onChangeCode = (codeHash: string): void => {
@@ -216,6 +310,29 @@ class Create extends React.PureComponent<Props, State> {
     }));
   }
 
+  private toggleNew = (): void => {
+    this.setState(({ isNew }) => ({
+      address: null,
+      abi: null,
+      isAddressValid: false,
+      isAbiValid: false,
+      isNameValid: false,
+      isNew: !isNew,
+      name: null
+    }));
+  }
+
+  private onSave = (): void => {
+    const { address, abi, name } = this.state;
+
+    if (!address || !abi || !name) {
+      return;
+    }
+
+    store.saveContract(new AccountId(address), { abi, name });
+    this.redirect();
+  }
+
   private onSuccess = (result: SubmittableResult): void => {
     const record = result.findRecord('contract', 'Instantiated');
 
@@ -223,11 +340,20 @@ class Create extends React.PureComponent<Props, State> {
       const address = record.event.data[1];
 
       this.setState(({ abi, name }) => {
-        store.saveContract(address as AccountId, { abi: abi as string, name });
+        if (!abi || !name) {
+          return;
+        }
+
+        store.saveContract(address as AccountId, { abi, name });
+        this.redirect();
       });
     }
 
     this.toggleBusy();
+  }
+
+  private redirect () {
+    window.location.hash = this.props.basePath;
   }
 }
 

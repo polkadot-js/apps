@@ -13,7 +13,7 @@ export type LocationProps = {
 export type ComponentProps = AppProps & LocationProps;
 
 export type CodeJson = {
-  abi: string,
+  abi?: string | null,
   codeHash: string,
   name: string
 };
