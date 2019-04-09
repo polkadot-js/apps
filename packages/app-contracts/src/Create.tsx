@@ -26,6 +26,7 @@ type State = {
   endowment: BN,
   gasLimit: BN,
   isAbiValid: boolean,
+  isAbiSupplied: boolean,
   isBusy: boolean,
   isHashValid: boolean,
   isNameValid: boolean,
@@ -39,6 +40,7 @@ class Create extends React.PureComponent<Props, State> {
     endowment: new BN(0),
     gasLimit: new BN(0),
     isAbiValid: false,
+    isAbiSupplied: false,
     isBusy: false,
     isHashValid: false,
     isNameValid: false,
@@ -47,12 +49,16 @@ class Create extends React.PureComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { accountId, codeHash, contractAbi, isAbiValid, isHashValid, isNameValid } = this.state;
-    const isValid = isAbiValid && isHashValid && !!accountId;
-    const codeOptions = store.getAllCode().map(({ codeHash, name }) => ({
-      text: name,
+    const { accountId, codeHash, contractAbi, endowment, isAbiSupplied, isAbiValid, isHashValid, isNameValid } = this.state;
+    const isEndowValid = !endowment.isZero();
+    const isValid = isAbiValid && isHashValid && isEndowValid && !!accountId;
+    const codeOptions = store.getAllCode().map(({ json: { codeHash, name } }) => ({
+      text: `${name} (${codeHash})`,
       value: codeHash
     }));
+    const defaultCode = codeOptions.length
+      ? codeOptions[codeOptions.length - 1].value
+      : undefined;
 
     return (
       <div className='contracts--Create'>
@@ -62,21 +68,6 @@ class Create extends React.PureComponent<Props, State> {
           label={t('Code bundle name')}
           onChange={this.onChangeName}
         />
-        <Dropdown
-          defaultValue={codeOptions[0].value}
-          help={t('The contract WASM previously deployed. Internally this is identified by the hash of the code, as either created or attached.')}
-          isError={!isHashValid}
-          label={t('Code for deployment')}
-          onChange={this.onChangeCode}
-          options={codeOptions}
-          value={codeHash}
-        />
-        <ABI
-          help={t('The ABI for the WASM code. Since we will be making a call into the code, the ABI is required and stored for future operations such as sending messages.')}
-          isError={!isAbiValid}
-          label={t('Contract ABI')}
-          onChange={this.onAddAbi}
-        />
         <InputAddress
           help={t('Specify the user account to use for this contract creation. And fees will be deducted from this account.')}
           label={t('deployment account')}
@@ -85,6 +76,7 @@ class Create extends React.PureComponent<Props, State> {
         />
         <InputBalance
           help={t('The allotted endownment for this contract, i.e. the amount transferred to the contract upon instantiation.')}
+          isError={!isEndowValid}
           label={t('endowment')}
           onChange={this.onChangeEndowment}
         />
@@ -93,6 +85,27 @@ class Create extends React.PureComponent<Props, State> {
           label={t('maximum gas allowed')}
           onChange={this.onChangeGas}
         />
+        <Dropdown
+          defaultValue={defaultCode}
+          help={t('The contract WASM previously deployed. Internally this is identified by the hash of the code, as either created or attached.')}
+          isError={!isHashValid}
+          label={t('Code for deployment')}
+          onChange={this.onChangeCode}
+          options={codeOptions}
+          value={codeHash}
+        />
+        {
+          isAbiSupplied
+            ? null
+            : (
+              <ABI
+                help={t('The ABI for the WASM code. Since we will be making a call into the code, the ABI is required and stored for future operations such as sending messages.')}
+                isError={!isAbiValid}
+                label={t('Contract ABI')}
+                onChange={this.onAddAbi}
+              />
+            )
+        }
         <Params
           onChange={this.onChangeParams}
           params={
@@ -119,17 +132,17 @@ class Create extends React.PureComponent<Props, State> {
   }
 
   private constructCall = (): Array<any> => {
-    const { contractAbi, endowment, gasLimit, params } = this.state;
+    const { codeHash, contractAbi, endowment, gasLimit, params } = this.state;
 
     if (!contractAbi) {
       return [];
     }
 
-    return [endowment, gasLimit, contractAbi.deploy(...params)];
+    return [endowment, gasLimit, codeHash, contractAbi.deploy(...params)];
   }
 
-  private onAddAbi = (abi: string | null, contractAbi: ContractAbi | null): void => {
-    this.setState({ abi, contractAbi, isAbiValid: !!abi });
+  private onAddAbi = (abi: string | null, contractAbi: ContractAbi | null, isAbiSupplied: boolean = false): void => {
+    this.setState({ abi, contractAbi, isAbiSupplied, isAbiValid: !!abi });
   }
 
   private onChangeAccount = (accountId: string | null): void => {
@@ -137,7 +150,15 @@ class Create extends React.PureComponent<Props, State> {
   }
 
   private onChangeCode = (codeHash: string): void => {
-    this.setState({ codeHash });
+    const code = store.getCode(codeHash);
+
+    this.setState({ codeHash, isHashValid: !!code });
+
+    if (code && code.contractAbi) {
+      this.onAddAbi(code.json.abi, code.contractAbi, true);
+    } else {
+      this.onAddAbi(null, null, false);
+    }
   }
 
   private onChangeEndowment = (endowment?: BN | null): void => {

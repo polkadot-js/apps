@@ -13,7 +13,11 @@ type Props = ComponentProps & I18nProps;
 
 class Attach extends React.PureComponent<Props> {
   render () {
-    return 'attach';
+    return (
+      <div className='contracts--Attach'>
+        attach existing contract (via address & ABI)
+      </div>
+    );
   }
 }
 

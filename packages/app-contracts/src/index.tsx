@@ -114,8 +114,6 @@ class App extends React.PureComponent<Props, State> {
   }
 
   private triggerUpdate = (): void => {
-    console.error('trigger');
-
     this.setState({ updated: Date.now() });
   }
 }
