@@ -42,15 +42,11 @@ class App extends React.PureComponent<Props, State> {
         },
         {
           name: 'instantiate',
-          text: t('Instantiate')
+          text: t('Instance')
         },
         {
           name: 'code',
-          text: t('Deploy code')
-        },
-        {
-          name: 'attach',
-          text: t('Add existing')
+          text: t('Code')
         }
       ],
       updated: 0

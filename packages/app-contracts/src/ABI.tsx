@@ -21,6 +21,7 @@ type Props = I18nProps & {
 type State = {
   abi?: Uint8Array | null,
   isAbiValid: boolean,
+  name?: string,
   placeholder?: React.ReactNode | null
 };
 
@@ -33,6 +34,8 @@ class ABI extends React.PureComponent<Props, State> {
     const { help, isError, label } = this.props;
     const { isAbiValid, placeholder } = this.state;
 
+    console.error('placeholder', placeholder);
+
     return (
       <InputFile
         help={help}
@@ -44,8 +47,8 @@ class ABI extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChange = (u8a: Uint8Array): void => {
-    const { onChange, t } = this.props;
+  private onChange = (u8a: Uint8Array, name: string): void => {
+    const { onChange } = this.props;
 
     const json = u8aToString(u8a);
 
@@ -54,11 +57,8 @@ class ABI extends React.PureComponent<Props, State> {
 
       this.setState({
         isAbiValid: true,
-        placeholder: t('ABI messages: {{messages}}', {
-          replace: {
-            messages: Object.keys(abi.messages).join(', ')
-          }
-        })
+        name,
+        placeholder: `${name} (${Object.keys(abi.messages).join(', ')})`
       }, () => onChange(json, abi));
     } catch (error) {
       this.setState({
