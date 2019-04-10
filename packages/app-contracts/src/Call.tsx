@@ -64,7 +64,7 @@ class Call extends React.PureComponent<Props, State> {
       : undefined;
     const isEndowValid = !endowment.isZero();
     const isGasValid = !gasLimit.isZero();
-    const isValid = !!accountId && isEndowValid && isGasValid;
+    const isValid = !!accountId && isEndowValid && isGasValid && isAddressValid;
 
     return (
       <div className='contracts--Call'>
@@ -130,13 +130,13 @@ class Call extends React.PureComponent<Props, State> {
   }
 
   private constructCall = (): Array<any> => {
-    const { contractAbi, endowment, gasLimit, method, params } = this.state;
+    const { address, contractAbi, endowment, gasLimit, method, params } = this.state;
 
     if (!contractAbi || !method) {
       return [];
     }
 
-    return [endowment, gasLimit, contractAbi.messages[method](...params)];
+    return [address, endowment, gasLimit, contractAbi.messages[method](...params)];
   }
 
   private onChangeAccount = (accountId: string | null): void => {
