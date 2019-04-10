@@ -16,7 +16,8 @@ import translate from './translate';
 type Props = I18nProps & {
   accountId: AccountId | string,
   offline: Array<OfflineStatus>,
-  tooltip?: boolean
+  tooltip?: boolean,
+  inline?: boolean
 };
 
 type State = {
@@ -29,7 +30,7 @@ class RecentlyOffline extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { offline, tooltip = false, t } = this.props;
+    const { offline, inline, tooltip = false, t } = this.props;
     const { isOpen } = this.state;
     const accountId = this.props.accountId.toString();
 
@@ -54,7 +55,8 @@ class RecentlyOffline extends React.PureComponent<Props, State> {
         className={[
           'ui--RecentlyOffline',
           isOpen ? 'expand' : '',
-          tooltip ? 'tooltip' : ''
+          tooltip ? 'tooltip' : '',
+          inline ? 'inline' : ''
         ].join(' ')}
         {...(!tooltip ?
           { onClick: this.toggleOpen } :

@@ -99,7 +99,7 @@ class Address extends React.PureComponent<Props, State> {
         </AddressRow>
         {
           isAuthor
-            ? <div className='blockNumber'>{lastBlock}</div>
+            ? <div className='blockNumber'>#{lastBlock}</div>
             : null
         }
       </article>
@@ -199,6 +199,7 @@ class Address extends React.PureComponent<Props, State> {
       <RecentlyOffline
         accountId={stashId}
         offline={offline}
+        tooltip
       />
     );
   }

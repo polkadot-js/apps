@@ -7,9 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { Nominators, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
-import { AccountId, Balance, HeaderExtended } from '@polkadot/types';
-import { withCalls, withMulti } from '@polkadot/ui-api/with';
-import { formatNumber } from '@polkadot/util';
+import { AccountId, Balance } from '@polkadot/types';
 
 import translate from '../translate';
 import Address from './Address';
@@ -17,8 +15,9 @@ import Address from './Address';
 type Props = I18nProps & {
   balances: DerivedBalancesMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
-  chain_subscribeNewHead?: HeaderExtended,
   current: Array<string>,
+  lastAuthor?: string,
+  lastBlock: string,
   next: Array<string>,
   nominators: Nominators,
   recentlyOffline: RecentlyOfflineMap
@@ -67,20 +66,12 @@ class CurrentList extends React.PureComponent<Props> {
   }
 
   private renderColumn (addresses: Array<string>, defaultName: string) {
-    const { balances, balanceArray, chain_subscribeNewHead, nominators, recentlyOffline, t } = this.props;
+    const { balances, balanceArray, lastAuthor, lastBlock, nominators, recentlyOffline, t } = this.props;
 
     if (addresses.length === 0) {
       return (
         <div>{t('no addresses found')}</div>
       );
-    }
-
-    let lastBlock: string = '';
-    let lastAuthor: string;
-
-    if (chain_subscribeNewHead) {
-      lastBlock = `#${formatNumber(chain_subscribeNewHead.blockNumber)}`;
-      lastAuthor = (chain_subscribeNewHead.author || '').toString();
     }
 
     return (
@@ -103,10 +94,4 @@ class CurrentList extends React.PureComponent<Props> {
   }
 }
 
-export default withMulti(
-  CurrentList,
-  translate,
-  withCalls<Props>(
-    'derive.chain.subscribeNewHead'
-  )
-);
+export default translate(CurrentList);

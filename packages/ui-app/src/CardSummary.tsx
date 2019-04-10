@@ -28,6 +28,7 @@ const Card = styled.article`
   > div {
     font-size: 2.1rem;
     font-weight: 100;
+    position: relative;
     line-height: 2.1rem;
     text-align: right;
 

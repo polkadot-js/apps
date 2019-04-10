@@ -2,24 +2,28 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Balance, HeaderExtended } from '@polkadot/types';
 import { BareProps } from '@polkadot/ui-app/types';
 import { ComponentProps } from '../types';
 
 import './index.css';
 
 import React from 'react';
-import { Balance } from '@polkadot/types';
+import { withCalls, withMulti } from '@polkadot/ui-api/with';
+import { formatNumber } from '@polkadot/util';
 
 import CurrentList from './CurrentList';
 import Summary from './Summary';
 
-type Props = BareProps & ComponentProps;
+type Props = BareProps & ComponentProps & {
+  chain_subscribeNewHead?: HeaderExtended
+};
 
 const ZERO = new Balance(0);
 
-export default class Overview extends React.PureComponent<Props> {
+class Overview extends React.PureComponent<Props> {
   render () {
-    const { balances, balanceArray, intentions, nominators, recentlyOffline, validators } = this.props;
+    const { balances, balanceArray, chain_subscribeNewHead, intentions, nominators, recentlyOffline, validators } = this.props;
     const intentionsSorted = this.sortByBalance(
       intentions.filter((address) =>
         !validators.includes(address)
@@ -27,17 +31,29 @@ export default class Overview extends React.PureComponent<Props> {
     );
     const validatorsSorted = this.sortByBalance(validators);
 
+    let lastBlock: string = '—';
+    let lastAuthor: string | undefined;
+
+    if (chain_subscribeNewHead) {
+      lastBlock = formatNumber(chain_subscribeNewHead.blockNumber);
+      lastAuthor = (chain_subscribeNewHead.author || '').toString();
+    }
+
     return (
       <div className='staking--Overview'>
         <Summary
           balances={balances}
           intentions={intentions}
+          lastBlock={lastBlock}
+          lastAuthor={lastAuthor}
           validators={validators}
         />
         <CurrentList
           balances={balances}
           balanceArray={balanceArray}
           current={validatorsSorted}
+          lastBlock={lastBlock}
+          lastAuthor={lastAuthor}
           next={intentionsSorted}
           nominators={nominators}
           recentlyOffline={recentlyOffline}
@@ -57,3 +73,10 @@ export default class Overview extends React.PureComponent<Props> {
     });
   }
 }
+
+export default withMulti(
+  Overview,
+  withCalls<Props>(
+    'derive.chain.subscribeNewHead'
+  )
+);
