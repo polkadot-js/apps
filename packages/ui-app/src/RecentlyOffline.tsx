@@ -56,7 +56,7 @@ class RecentlyOffline extends React.PureComponent<Props, State> {
           isOpen ? 'expand' : '',
           tooltip ? 'tooltip' : ''
         ].join(' ')}
-        {...(tooltip ?
+        {...(!tooltip ?
           { onClick: this.toggleOpen } :
           {}
         )}

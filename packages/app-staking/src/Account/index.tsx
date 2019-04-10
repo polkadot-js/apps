@@ -28,10 +28,10 @@ type Props = ApiProps & I18nProps & {
   isValidator: boolean,
   name: string,
   nominators: Nominators,
+  recentlyOffline: RecentlyOfflineMap,
   session_nextKeyFor?: Option<AccountId>,
   staking_bonded?: Option<AccountId>,
   staking_ledger?: Option<StakingLedger>,
-  staking_recentlyOffline?: RecentlyOffline
   staking_stakers?: Exposure,
   staking_validators?: [ValidatorPrefs],
   targets: Array<KeyringSectionOption>,
@@ -46,7 +46,6 @@ type State = {
   isValidatingOpen: boolean,
   isUnbondOpen: boolean,
   bondedId: string | null,
-  recentlyOffline: RecentlyOfflineMap,
   sessionId: string | null,
   stashId: string | null
 };
@@ -60,28 +59,12 @@ class Account extends React.PureComponent<Props, State> {
     isValidatingOpen: false,
     isUnbondOpen: false,
     bondedId: null,
-    recentlyOffline: {},
     sessionId: null,
     stashId: null
   };
 
-  static getDerivedStateFromProps ({ session_nextKeyFor, staking_bonded, staking_ledger, staking_recentlyOffline = [] }: Props, state: State): Partial<State> {
+  static getDerivedStateFromProps ({ session_nextKeyFor, staking_bonded, staking_ledger }: Props, state: State): Partial<State> {
     return {
-      recentlyOffline: staking_recentlyOffline.reduce(
-        (result, [accountId, blockNumber, count]) => {
-          const account = accountId.toString();
-
-          if (!result[account]) {
-            result[account] = [];
-          }
-
-          result[account].push({
-            blockNumber,
-            count
-          });
-
-          return result;
-        }, {} as RecentlyOfflineMap),
       bondedId: staking_bonded && staking_bonded.isSome
         ? staking_bonded.unwrap().toString()
         : null,
@@ -211,8 +194,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderNominee () {
-    const { t } = this.props;
-    const { recentlyOffline } = this.state;
+    const { recentlyOffline, t } = this.props;
 
     const nominees = this.getNominees();
 
@@ -263,8 +245,8 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderBondedId () {
-    const { t } = this.props;
-    const { bondedId, recentlyOffline } = this.state;
+    const { recentlyOffline, t } = this.props;
+    const { bondedId } = this.state;
 
     if (!bondedId) {
       return null;
@@ -298,8 +280,8 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderStashId () {
-    const { t } = this.props;
-    const { stashId, recentlyOffline } = this.state;
+    const { recentlyOffline, t } = this.props;
+    const { stashId } = this.state;
 
     if (!stashId) {
       return null;
