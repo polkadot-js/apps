@@ -10,14 +10,14 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^0.77.0-beta.1",
+    "@polkadot/api": "^0.77.0-beta.3",
     "@polkadot/keyring": "^0.76.1",
-    "@polkadot/types": "^0.77.0-beta.1",
+    "@polkadot/types": "^0.77.0-beta.3",
     "@polkadot/util": "^0.76.1",
     "@polkadot/util-crypto": "^0.76.1",
     "babel-core": "^7.0.0-bridge.0",
     "rxjs": "^6.4.0",
-    "typescript": "^3.4.1"
+    "typescript": "^3.4.3"
   },
   "scripts": {
     "analyze": "yarn run build && cd packages/apps && yarn run source-map-explorer build/main.*.js",
@@ -33,7 +33,7 @@
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/runtime": "^7.4.3",
-    "@polkadot/dev-react": "^0.30.0-beta.0",
+    "@polkadot/dev-react": "^0.30.0-beta.1",
     "@polkadot/ts": "^0.1.56",
     "autoprefixer": "^9.4.9",
     "empty": "^0.10.1",
