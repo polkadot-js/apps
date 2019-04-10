@@ -9,15 +9,10 @@ import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import './index.css';
 
 import translate from './translate';
-import Explore from './Explore';
-import Play from './Play';
 import Upload from './Upload';
+import Explore from './Explore';
+import { Play } from './View';
 
-function Dashboard (props: {}) {
-  return <em>TODO Dashboard with configuration</em>;
-}
-
-// define out internal types
 type Props = AppProps & ApiProps & I18nProps & {};
 
 class App extends React.PureComponent<Props> {
@@ -27,15 +22,11 @@ class App extends React.PureComponent<Props> {
     return [
       {
         name: 'media',
-        text: t('Explore content')
+        text: t('Explore')
       },
       {
         name: 'upload',
         text: t('Upload')
-      },
-      {
-        name: 'dashboard',
-        text: t('Dashboard')
       }
     ];
   }
@@ -51,7 +42,6 @@ class App extends React.PureComponent<Props> {
         <Switch>
           <Route path={`${basePath}/play/:assetName`} component={Play} />
           <Route path={`${basePath}/upload`} component={Upload} />
-          <Route path={`${basePath}/dashboard`} component={Dashboard} />
           <Route component={Explore} />
         </Switch>
       </main>
@@ -59,10 +49,4 @@ class App extends React.PureComponent<Props> {
   }
 }
 
-export default translate(
-  // TODO get count of uploaded content
-  // withCalls<Props>(
-  //   queryMediaToProp('nextFileId')
-  // )(App)
-  App
-);
+export default translate(App);

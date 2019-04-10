@@ -3,36 +3,56 @@
   flex-direction: row;
   justify-content: center;
   
-  .ui--InputFile,
+  .UploadInputFile,
   .UploadStatus {
-    max-height: 400px;
+    max-width: 500px;
   }
 
-  .ui--InputFile {
-    &:hover {
-      border-color: #2185d0 !important;
+  .UploadInputFile {
+    padding: 2rem 3rem;
+    margin-bottom: 1rem;
+
+    &:hover,
+    &.FileSelected {
+      border: 1px solid #2185d0 !important;
       .label {
         color: #2185d0 !important;
       }
     }
   }
 
+  .UploadButtonBox {
+    text-align: center;
+  }
+
   .UploadSidebar {
     width: 200px;
     overflow: hidden;
-    /* float: left; */
   }
 
   .UploadMainContent {
     width: calc(100% - 200px);
     overflow: hidden;
-    /* float: right;
-    position: relative; */
   }
 }
 
 .PlayBox {
   max-width: 700px;
+  h1, h2 {
+    text-transform: none;
+    margin: 0;
+  }
+  .ContentHeader {
+    margin-top: 1.5rem;
+    margin-bottom: .5rem;
+  }
+  .DownloadBtn {
+    float: right;
+    margin-left: 1rem;
+  }
+  .ContentDesc {
+    margin-top: 1rem;
+  }
 }
 
 .MediaGrid {
@@ -50,6 +70,12 @@
     .CellContent {
       padding: 5px;
       margin-bottom: 15px;
+
+      h3 {
+        font-size: 1rem;
+        font-weight: bold;
+        margin: 1rem 0 .5rem 0;
+      }
     }
 
     .ThumbBox {

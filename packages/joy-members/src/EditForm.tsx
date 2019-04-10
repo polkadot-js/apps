@@ -9,7 +9,8 @@ import TxButton from '@polkadot/joy-utils/TxButton';
 import { ZERO } from '@polkadot/joy-utils/index';
 import * as JoyForms from '@polkadot/joy-utils/forms';
 import { SubmittableResult } from '@polkadot/api';
-import { MemberId, UserInfo, Profile, OptionText } from './types';
+import { MemberId, UserInfo, Profile } from './types';
+import { OptionText } from '@polkadot/joy-utils/types';
 import { MyAccountProps, withMyAccount } from '@polkadot/joy-utils/MyAccount';
 import { queryMembershipToProp } from './utils';
 import { withCalls } from '@polkadot/ui-api/index';
@@ -85,10 +86,12 @@ const InnerForm = (props: FormProps) => {
     setSubmitting(false);
   };
 
+  // TODO extract to forms.tsx
   const isFieldChanged = (field: FieldName): boolean => {
     return dirty && touched[field] === true && values[field] !== initialValues[field];
   };
 
+  // TODO extract to forms.tsx
   const fieldToTextOption = (field: FieldName): OptionText => {
     return isFieldChanged(field)
       ? OptionText.some(values[field])

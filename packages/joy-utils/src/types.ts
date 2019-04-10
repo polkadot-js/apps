@@ -6,6 +6,17 @@ import { registerRolesTypes } from '@polkadot/joy-roles/types';
 
 class Amount extends Balance {}
 
+export class OptionText extends Option.with(Text) {
+
+  static none () {
+    return new Option(Text, null);
+  }
+
+  static some (text: string) {
+    return new Option(Text, text);
+  }
+}
+
 export type TransferableStake = {
   seat: Balance,
   backing: Balance

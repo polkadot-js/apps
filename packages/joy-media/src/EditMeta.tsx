@@ -2,11 +2,15 @@ import React from 'react';
 import { Button } from 'semantic-ui-react';
 import { Form, Field, withFormik, FormikProps } from 'formik';
 import * as Yup from 'yup';
+import BN from 'bn.js';
 
 import TxButton from '@polkadot/joy-utils/TxButton';
 import { SubmittableResult } from '@polkadot/api';
 
 import * as JoyForms from '@polkadot/joy-utils/forms';
+import { Option } from '@polkadot/types/codec';
+import { ContentId, ContentMetadataUpdate, SchemaId, ContentVisibility, VecContentId } from './types';
+import { OptionText } from '@polkadot/joy-utils/types';
 
 const buildSchema = (p: ValidationProps) => Yup.object().shape({
   name: Yup.string()
@@ -35,6 +39,7 @@ type ValidationProps = {
 };
 
 type OuterProps = ValidationProps & {
+  contentId: ContentId,
   fileName: string
 };
 
@@ -45,7 +50,9 @@ type FormValues = {
   keywords: string
 };
 
-type FormProps = FormikProps<FormValues>;
+type FieldName = keyof FormValues;
+
+type FormProps = OuterProps & FormikProps<FormValues>;
 
 const LabelledField = JoyForms.LabelledField<FormValues>();
 
@@ -53,6 +60,10 @@ const LabelledText = JoyForms.LabelledText<FormValues>();
 
 const InnerForm = (props: FormProps) => {
   const {
+    contentId,
+    initialValues,
+    values,
+    touched,
     dirty,
     isValid,
     isSubmitting,
@@ -76,10 +87,44 @@ const InnerForm = (props: FormProps) => {
     setSubmitting(false);
   };
 
+  // TODO extract to forms.tsx
+  const isFieldChanged = (field: FieldName): boolean => {
+    return dirty && touched[field] === true && values[field] !== initialValues[field];
+  };
+
+  // TODO extract to forms.tsx
+  const fieldToTextOption = (field: FieldName): OptionText => {
+    return isFieldChanged(field)
+      ? OptionText.some(values[field])
+      : OptionText.none();
+  };
+
   const buildTxParams = () => {
     if (!isValid) return [];
 
-    return [ ]; // TODO finish
+    const {
+      name,
+      description,
+      thumbnail,
+      keywords
+    } = values;
+
+    const json = JSON.stringify({
+      name,
+      description,
+      thumbnail,
+      keywords
+    });
+
+    // TODO set Option.some only on changed fields && if json has changed fields
+    const meta = new ContentMetadataUpdate({
+      children_ids: new Option(VecContentId, null),
+      visibility: new Option(ContentVisibility, 'Draft'),
+      schema: new Option(SchemaId, new BN(1)),
+      json: OptionText.some(json)
+    });
+
+    return [ contentId, meta ];
   };
 
   return (
@@ -90,6 +135,8 @@ const InnerForm = (props: FormProps) => {
       </LabelledField>
       <LabelledText name='thumbnail' placeholder={`Thumbnail image URL`} {...props} />
       <LabelledText name='keywords' placeholder={`Comma-separated keywords`} {...props} />
+      
+      {/* TODO add metadata status dropdown: Draft, Published */}
 
       <LabelledField {...props}>
         <TxButton
@@ -98,7 +145,7 @@ const InnerForm = (props: FormProps) => {
           label={'Publish'}
           isDisabled={!dirty || isSubmitting}
           params={buildTxParams()}
-          tx={'TODO.saveMetadata'} // TODO add or update metadata here
+          tx={'dataDirectory.addMetadata'} // TODO or dataDirectory.updateMetadata
           onClick={onSubmit}
           txCancelledCb={onTxCancelled}
           txFailedCb={onTxFailed}

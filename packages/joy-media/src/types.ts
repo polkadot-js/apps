@@ -1,121 +1,158 @@
-import { Enum, Struct, Option } from '@polkadot/types/codec';
-import { getTypeRegistry, u64, Bool, Text, BlockNumber, Moment, AccountId, AuthorityId } from '@polkadot/types';
+import { Enum, Struct, Option, Vector } from '@polkadot/types/codec';
+import { getTypeRegistry, u64, Bool, Text, BlockNumber, Moment, AccountId, Hash } from '@polkadot/types';
+import { OptionText } from '@polkadot/joy-utils/types';
 
-export class Ed25519AuthorityId extends AuthorityId {}
 export class DataObjectTypeId extends u64 {}
 export class DataObjectStorageRelationshipId extends u64 {}
-export class ContentId extends u64 {}
-export class MetadataId extends u64 {}
+export class ContentId extends Hash {}
 export class SchemaId extends u64 {}
 export class DownloadSessionId extends u64 {}
 
-export type MetadataStateKey = 'Draft' | 'Published';
+export type BlockAndTimeType = {
+  block: BlockNumber,
+  time: Moment
+};
 
-export class MetadataState extends Enum {
-  constructor (value?: MetadataStateKey) {
+export class BlockAndTime extends Struct {
+  constructor (value?: BlockAndTimeType) {
+    super({
+      block: BlockNumber,
+      time: Moment
+    }, value);
+  }
+
+  get block (): BlockNumber {
+    return this.get('block') as BlockNumber;
+  }
+
+  get time (): Moment {
+    return this.get('time') as Moment;
+  }
+}
+
+// TODO rename to Draft to Unlisted
+export type ContentVisibilityKey = 'Draft' | 'Public';
+
+export class ContentVisibility extends Enum {
+  constructor (value?: ContentVisibilityKey) {
     super([
       'Draft',
-      'Published'
+      'Public'
     ], value);
   }
 }
 
-export type MetadataType = {
-  schema: SchemaId,
-  metadata: Text,
-  origin: AccountId,
-  state: MetadataState
+export class VecContentId extends Vector.with(ContentId) {}
+
+export type ContentMetadataJsonV1 = {
+  name: string,
+  description?: string,
+  thumbnail?: string,
+  keywords?: string
 };
 
 export class ContentMetadata extends Struct {
-  constructor (value?: MetadataType) {
+  constructor (value?: any) {
     super({
+      owner: AccountId,
+      added_at: BlockAndTime,
+      children_ids: VecContentId,
+      visibility: ContentVisibility,
       schema: SchemaId,
-      metadata: Text,
-      origin: AccountId,
-      state: MetadataState
+      json: Text
     }, value);
+  }
+
+  get owner (): AccountId {
+    return this.get('owner') as AccountId;
+  }
+
+  get added_at (): BlockAndTime {
+    return this.get('added_at') as BlockAndTime;
+  }
+
+  get children_ids (): VecContentId {
+    return this.get('children_ids') as VecContentId;
+  }
+
+  get visibility (): ContentVisibility {
+    return this.get('visibility') as ContentVisibility;
   }
 
   get schema (): SchemaId {
     return this.get('schema') as SchemaId;
   }
 
-  get metadata (): Text {
-    return this.get('metadata') as Text;
+  get json (): Text {
+    return this.get('json') as Text;
   }
 
-  get origin (): AccountId {
-    return this.get('origin') as AccountId;
-  }
-
-  get state (): MetadataState {
-    return this.get('state') as MetadataState;
+  parseJson (): ContentMetadataJsonV1 {
+    return JSON.parse(this.json.toString());
   }
 }
 
-export type LiaisonJudgementKey = 'Pending' | 'Rejected' | 'Accepted';
+export class OptionVecContentId extends Option.with(VecContentId) {}
+export class OptionSchemaId extends Option.with(SchemaId) {}
+export class OptionContentVisibility extends Option.with(ContentVisibility) {}
+
+export type ContentMetadataUpdateType = {
+  children_ids: OptionVecContentId,
+  visibility: OptionContentVisibility,
+  schema: OptionSchemaId,
+  json: OptionText
+};
+
+export class ContentMetadataUpdate extends Struct {
+  constructor (value?: ContentMetadataUpdateType) {
+    super({
+      children_ids: OptionVecContentId,
+      visibility: OptionContentVisibility,
+      schema: OptionSchemaId,
+      json: OptionText
+    }, value);
+  }
+}
+
+export type LiaisonJudgementKey = 'Pending' | 'Accepted' | 'Rejected';
 
 export class LiaisonJudgement extends Enum {
   constructor (value?: LiaisonJudgementKey) {
     super([
       'Pending',
-      'Rejected',
-      'Accepted'
+      'Accepted',
+      'Rejected'
     ], value);
   }
 }
 
-export class OptionAuthorityId extends Option.with(Ed25519AuthorityId) {}
-
-export type DataObjectTsType = {
-  data_object_type: DataObjectTypeId,
-  signing_key: OptionAuthorityId,
-  size: u64,
-  added_at_block: BlockNumber,
-  added_at_time: Moment,
-  owner: AccountId,
-  liaison: AccountId,
-  liaison_judgement: LiaisonJudgement
-};
-
 export class DataObject extends Struct {
-  constructor (value?: DataObjectTsType) {
+  constructor (value?: any) {
     super({
-      data_object_type: DataObjectTypeId,
-      signing_key: OptionAuthorityId,
-      size: u64,
-      added_at_block: BlockNumber,
-      added_at_time: Moment,
       owner: AccountId,
+      added_at: BlockAndTime,
+      type_id: DataObjectTypeId,
+      size: u64,
       liaison: AccountId,
       liaison_judgement: LiaisonJudgement
     }, value);
   }
 
-  get data_object_type (): DataObjectTypeId {
-    return this.get('data_object_type') as DataObjectTypeId;
+  get owner (): AccountId {
+    return this.get('owner') as AccountId;
   }
 
-  get signing_key (): OptionAuthorityId {
-    return this.get('signing_key') as OptionAuthorityId;
+  get added_at (): BlockAndTime {
+    return this.get('added_at') as BlockAndTime;
+  }
+
+  get type_id (): DataObjectTypeId {
+    return this.get('type_id') as DataObjectTypeId;
   }
 
   /** Actually it's 'size', but 'size' is already reserved by a parent class. */
   get size_in_bytes (): u64 {
     return this.get('size') as u64;
-  }
-
-  get added_at_block (): BlockNumber {
-    return this.get('added_at_block') as BlockNumber;
-  }
-
-  get added_at_time (): Moment {
-    return this.get('added_at_time') as Moment;
-  }
-
-  get owner (): AccountId {
-    return this.get('owner') as AccountId;
   }
 
   get liaison (): AccountId {
@@ -127,14 +164,8 @@ export class DataObject extends Struct {
   }
 }
 
-export type DataObjectStorageRelationshipType = {
-  content_id: ContentId,
-  storage_provider: AccountId,
-  ready: Bool
-};
-
 export class DataObjectStorageRelationship extends Struct {
-  constructor (value?: DataObjectStorageRelationshipType) {
+  constructor (value?: any) {
     super({
       content_id: ContentId,
       storage_provider: AccountId,
@@ -155,13 +186,8 @@ export class DataObjectStorageRelationship extends Struct {
   }
 }
 
-export type DataObjectTypeType = {
-  description: Text,
-  active: Bool
-};
-
 export class DataObjectType extends Struct {
-  constructor (value?: DataObjectTypeType) {
+  constructor (value?: any) {
     super({
       description: Text,
       active: Bool
@@ -187,18 +213,9 @@ export class DownloadState extends Enum {
     ], value);
   }
 }
-export type DownloadSessionType = {
-  content_id: ContentId,
-  consumer: AccountId,
-  distributor: AccountId,
-  initiated_at_block: BlockNumber,
-  initiated_at_time: Moment,
-  state: DownloadState,
-  transmitted_bytes: u64
-};
 
 export class DownloadSession extends Struct {
-  constructor (value?: DownloadSessionType) {
+  constructor (value?: any) {
     super({
       content_id: ContentId,
       consumer: AccountId,
@@ -244,12 +261,11 @@ export function registerMediaTypes () {
     getTypeRegistry().register({
       '::ContentId': ContentId,
       '::DataObjectTypeId': DataObjectTypeId,
-      Ed25519AuthorityId,
-      ContentId,
       SchemaId,
-      MetadataState,
-      MetadataId,
+      ContentId,
+      ContentVisibility,
       ContentMetadata,
+      ContentMetadataUpdate,
       LiaisonJudgement,
       DataObject,
       DataObjectStorageRelationshipId,
