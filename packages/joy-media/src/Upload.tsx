@@ -8,8 +8,7 @@ import { InputFile } from '@polkadot/ui-app/index';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { SubmittableResult } from '@polkadot/api';
-import { formatNumber } from '@polkadot/util';
-import { stringToU8a, u8aToString } from '@polkadot/util';
+import { stringToU8a, u8aToString, formatNumber } from '@polkadot/util';
 
 import translate from './translate';
 import { buildApiUrl, fileNameWoExt } from './utils';
@@ -114,6 +113,7 @@ class Component extends React.PureComponent<Props, State> {
     return <div className='UploadSelectForm'>
       <InputFile
         // isError={!isValidContent}
+        withLabel={false}
         className={`UploadInputFile ${file ? 'FileSelected' : ''}`}
         placeholder={
           <div>

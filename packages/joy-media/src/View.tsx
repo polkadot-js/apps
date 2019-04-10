@@ -8,9 +8,8 @@ import APlayer from 'react-aplayer';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { withCalls } from '@polkadot/ui-api/with';
-import { formatNumber } from '@polkadot/ui-app/util';
 import { Option } from '@polkadot/types/codec';
-import { u8aToString, stringToU8a } from '@polkadot/util';
+import { u8aToString, stringToU8a, formatNumber } from '@polkadot/util';
 
 import translate from './translate';
 import { buildApiUrl } from './utils';
