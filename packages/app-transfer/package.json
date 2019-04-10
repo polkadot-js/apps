@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-transfer",
-  "version": "0.31.0-beta.20",
+  "version": "0.31.0-beta.21",
   "description": "A basic transfer app",
   "main": "index.js",
   "scripts": {},
@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.4.3",
-    "@polkadot/ui-app": "^0.31.0-beta.20",
-    "@polkadot/ui-reactive": "^0.31.0-beta.20"
+    "@polkadot/ui-app": "^0.31.0-beta.21",
+    "@polkadot/ui-reactive": "^0.31.0-beta.21"
   }
 }
