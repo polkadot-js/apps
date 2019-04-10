@@ -17,7 +17,7 @@ type Props = BareProps & CallProps & {
   staking_ledger?: Option<StakingLedger>
 };
 
-class BondedDisplay extends React.PureComponent<Props> {
+export class BondedDisplay extends React.PureComponent<Props> {
   render () {
     const { children, className, label = '', style, staking_ledger } = this.props;
 
@@ -36,7 +36,7 @@ class BondedDisplay extends React.PureComponent<Props> {
           bonded
             ? formatBalance(bonded)
             : '0'
-          }{children}
+        }{children}
       </div>
     );
   }

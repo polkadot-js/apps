@@ -14,7 +14,7 @@ type Props = BareProps & CallProps & {
   system_version?: Text
 };
 
-class NodeVersion extends React.PureComponent<Props> {
+export class NodeVersion extends React.PureComponent<Props> {
   render () {
     const { children, className, label = '', style, system_version = '-' } = this.props;
 

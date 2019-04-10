@@ -14,7 +14,7 @@ type Props = BareProps & CallProps & {
   system_name?: Text
 };
 
-class NodeName extends React.PureComponent<Props> {
+export class NodeName extends React.PureComponent<Props> {
   render () {
     const { children, className, label = '', style, system_name = 'unknown' } = this.props;
 

@@ -14,7 +14,7 @@ type Props = BareProps & CallProps & {
   system_chain?: Text
 };
 
-class Chain extends React.PureComponent<Props> {
+export class Chain extends React.PureComponent<Props> {
   render () {
     const { children, className, label = '', style, system_chain = 'unknown' } = this.props;
 

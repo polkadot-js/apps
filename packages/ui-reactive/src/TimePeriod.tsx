@@ -16,7 +16,7 @@ type Props = BareProps & CallProps & {
   timestamp_minimumPeriod?: Moment // support for new version
 };
 
-class TimePeriod extends React.PureComponent<Props> {
+export class TimePeriod extends React.PureComponent<Props> {
   render () {
     const { children, className, label = '', style, timestamp_blockPeriod, timestamp_minimumPeriod } = this.props;
     const period = timestamp_minimumPeriod || (
@@ -38,7 +38,7 @@ class TimePeriod extends React.PureComponent<Props> {
           period
             ? `${formatNumber(period.toNumber() * 2)}s`
             : '-'
-          }{children}
+        }{children}
       </div>
     );
   }

@@ -15,7 +15,7 @@ type Props = BareProps & CallProps & {
   chain_bestNumber?: BlockNumber
 };
 
-class BestNumber extends React.PureComponent<Props> {
+export class BestNumber extends React.PureComponent<Props> {
   render () {
     const { children, className, label = '', style, chain_bestNumber } = this.props;
 
@@ -28,7 +28,7 @@ class BestNumber extends React.PureComponent<Props> {
           chain_bestNumber
             ? formatNumber(chain_bestNumber)
             : '-'
-          }{children}
+        }{children}
       </div>
     );
   }
