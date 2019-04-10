@@ -179,7 +179,7 @@
     &.active {
       background: none; /* #fafafa */;
       border: none;
-      border-bottom: 2px solid #3f3f3f;
+      border-bottom: 2px solid #db2828;
     }
   }
 }
