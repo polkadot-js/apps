@@ -8,7 +8,7 @@ import { InputFile } from '@polkadot/ui-app/index';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { SubmittableResult } from '@polkadot/api';
-import { formatNumber } from '@polkadot/ui-app/util';
+import { formatNumber } from '@polkadot/util';
 import { stringToU8a, u8aToString } from '@polkadot/util';
 
 import translate from './translate';
@@ -133,7 +133,7 @@ class Component extends React.PureComponent<Props, State> {
           isDisabled={!file}
           tx={'dataDirectory.addContent'}
           params={this.buildTxParams()}
-          onTxSuccess={this.onDataObjectCreated}
+          txSuccessCb={this.onDataObjectCreated}
         />
       </div>}
     </div>;
