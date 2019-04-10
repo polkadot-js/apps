@@ -91,8 +91,8 @@ class CurrentList extends React.PureComponent<Props> {
             balances={balances}
             balanceArray={balanceArray}
             defaultName={defaultName}
-            isAuthor={address === lastAuthor}
             key={address}
+            lastAuthor={lastAuthor}
             lastBlock={lastBlock}
             nominators={nominators}
             recentlyOffline={recentlyOffline}
