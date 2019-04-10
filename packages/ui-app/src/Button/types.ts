@@ -25,7 +25,9 @@ export type ButtonProps = BareProps & {
 export type DividerProps = BareProps;
 
 export type GroupProps = BareProps & {
-  children?: React.ReactNode
+  children?: React.ReactNode,
+  isBasic?: boolean,
+  isCentered?: boolean
 };
 
 export type GroupType = React.ComponentType<GroupProps> & {

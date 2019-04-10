@@ -9,6 +9,8 @@
       "@polkadot/app-accounts/*": [ "packages/app-accounts/src/*" ],
       "@polkadot/app-addresses": [ "packages/app-addresses/src" ],
       "@polkadot/app-addresses/*": [ "packages/app-addresses/src/*" ],
+      "@polkadot/app-contracts": [ "packages/app-contracts/src" ],
+      "@polkadot/app-contracts/*": [ "packages/app-contracts/src/*" ],
       "@polkadot/app-democracy": [ "packages/app-democracy/src" ],
       "@polkadot/app-democracy/*": [ "packages/app-democracy/src/*" ],
       "@polkadot/app-extrinsics": [ "packages/app-extrinsics/src" ],

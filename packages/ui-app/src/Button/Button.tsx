@@ -14,7 +14,7 @@ export default class Button extends React.PureComponent<ButtonProps> {
     const { children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isNegative = false, isPositive = false, isPrimary = false, label, onClick, size, style, tabIndex } = this.props;
 
     const props = {
-      basic: isBasic || false,
+      basic: isBasic,
       circular: isCircular,
       className,
       disabled: isDisabled,
@@ -25,7 +25,7 @@ export default class Button extends React.PureComponent<ButtonProps> {
       positive: isPositive,
       primary: isPrimary,
       size,
-      secondary: isBasic && !(isPositive || isPrimary || isNegative || false),
+      secondary: !isBasic && !(isPositive || isPrimary || isNegative),
       style,
       tabIndex
     };

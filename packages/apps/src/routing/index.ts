@@ -9,6 +9,7 @@ import appSettings from '@polkadot/ui-settings';
 import template from './123code';
 import accounts from './accounts';
 import addresses from './addresses';
+import contracts from './contracts';
 import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
@@ -40,6 +41,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     accounts,
     addresses,
     null,
+    contracts,
     storage,
     extrinsics,
     null,

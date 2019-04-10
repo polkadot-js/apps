@@ -20,9 +20,9 @@ type Props = BareProps & WithTranslation & {
   help?: React.ReactNode,
   isDisabled?: boolean,
   isError?: boolean,
-  label: string,
-  onChange?: (contents: Uint8Array) => void,
-  placeholder?: string,
+  label: React.ReactNode,
+  onChange?: (contents: Uint8Array, name: string) => void,
+  placeholder?: React.ReactNode | null,
   withLabel?: boolean
 };
 
@@ -90,12 +90,13 @@ class InputFile extends React.PureComponent<Props, State> {
       // @ts-ignore ummm... events are not properly specified here?
       reader.onload = ({ target: { result } }: LoadEvent) => {
         const data = new Uint8Array(result);
+        const name = file.name;
 
-        onChange && onChange(data);
+        onChange && onChange(data, name);
 
         this.setState({
           file: {
-            name: file.name,
+            name,
             size: data.length
           }
         });
