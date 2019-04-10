@@ -3,7 +3,11 @@
   flex-direction: row;
   justify-content: center;
   
-  .UploadInputFile,
+  .UploadSelectForm {
+    max-width: 500px;
+    width: 100%;
+  }
+  
   .UploadStatus {
     max-width: 500px;
   }
