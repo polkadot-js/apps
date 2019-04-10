@@ -166,7 +166,7 @@ class Call extends React.PureComponent<Props, State> {
   }
 
   private onChangeMethod = (method: string | null): void => {
-    this.setState({ method });
+    this.setState({ method, params: [] });
   }
 
   private onChangeParams = (params: Array<any>): void => {
