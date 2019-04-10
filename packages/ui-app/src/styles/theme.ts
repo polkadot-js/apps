@@ -13,3 +13,8 @@ export const logoBackground = theme('theme', {
   substrate: '#333',
   polkadot: 'none'
 });
+
+export const logoPadding = theme('theme', {
+  substrate: '4px',
+  polkadot: '0px'
+});

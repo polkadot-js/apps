@@ -20,8 +20,7 @@ import getLogo from './logos';
 import styled from 'styled-components';
 import { media } from '@polkadot/ui-app/media';
 import { Responsive } from 'semantic-ui-react';
-import theme from 'styled-theming';
-import { primaryColor, logoBackground } from '@polkadot/ui-app/styles/theme';
+import { logoBackground, logoPadding } from '@polkadot/ui-app/styles/theme';
 
 type Props = I18nProps & {
   collapse: () => void,
@@ -33,7 +32,7 @@ type Props = I18nProps & {
 
 const Toggle = styled.img`
   background: ${logoBackground};
-  padding: 2px;
+  padding: ${logoPadding};
   border-radius: 50%;
   cursor: pointer;
   left: 0.9rem;
