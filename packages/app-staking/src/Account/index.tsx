@@ -6,7 +6,7 @@ import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
-import { Nominators, RecentlyOffline, RecentlyOfflineMap } from '../types';
+import { Nominators, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
 import { AccountId, Balance, Exposure, Option, StakingLedger, ValidatorPrefs } from '@polkadot/types';

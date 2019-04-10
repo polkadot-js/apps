@@ -4,7 +4,7 @@
 
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { Nominators, RecentlyOffline, RecentlyOfflineMap } from '../types';
+import { Nominators, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
 import { AccountId, Balance, HeaderExtended } from '@polkadot/types';
