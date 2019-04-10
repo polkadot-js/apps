@@ -110,14 +110,13 @@ class SideBar extends React.PureComponent<Props> {
     return (
       <Responsive
         minWidth={SIDEBAR_MENU_THRESHOLD}
-        className='apps--SideBar-collapse'
+        className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'}`}
       >
         <Button
-          icon='angle double right'
+          icon={`angle double ${isCollapsed ? 'right' : 'left'}`}
           isBasic
           isCircular
           onClick={this.props.collapse}
-          className={isCollapsed ? '' : 'rotated'}
         />
       </Responsive>
     );
