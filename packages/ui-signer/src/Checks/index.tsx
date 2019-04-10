@@ -46,7 +46,7 @@ const LENGTH_SIGNATURE = 64;
 const LENGTH_ERA = 1;
 const SIGNATURE_SIZE = LENGTH_PUBLICKEY + LENGTH_SIGNATURE + LENGTH_ERA;
 
-class FeeDisplay extends React.PureComponent<Props, State> {
+export class FeeDisplay extends React.PureComponent<Props, State> {
   state: State = {
     allFees: new BN(0),
     allTotal: new BN(0),
@@ -131,7 +131,7 @@ class FeeDisplay extends React.PureComponent<Props, State> {
         allWarn
           ? 'warning'
           : 'normal'
-        );
+      );
 
     // display all the errors, warning and information messages (in that order)
     return (

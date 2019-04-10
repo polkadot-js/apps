@@ -25,7 +25,7 @@ type State = ExtraFees & {
   isBelowMinimum: boolean
 };
 
-class Proposal extends React.PureComponent<Props, State> {
+export class Proposal extends React.PureComponent<Props, State> {
   state: State = {
     extraFees: new BN(0),
     extraAmount: new BN(0),

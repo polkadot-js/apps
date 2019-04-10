@@ -29,7 +29,7 @@ type State = ExtraFees & {
   isNoEffect: boolean
 };
 
-class Transfer extends React.PureComponent<Props, State> {
+export class Transfer extends React.PureComponent<Props, State> {
   state: State = {
     extraFees: new BN(0),
     extraAmount: new BN(0),

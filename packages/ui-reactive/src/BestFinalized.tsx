@@ -15,7 +15,7 @@ type Props = BareProps & CallProps & {
   chain_bestNumberFinalized?: BlockNumber
 };
 
-class BestFinalized extends React.PureComponent<Props> {
+export class BestFinalized extends React.PureComponent<Props> {
   render () {
     const { children, className, label = '', style, chain_bestNumberFinalized } = this.props;
 
