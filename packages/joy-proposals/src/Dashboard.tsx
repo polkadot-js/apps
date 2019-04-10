@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { withCalls } from '@polkadot/ui-api/with';
 import { BlockNumber, Balance } from '@polkadot/types';
 import { Bubble } from '@polkadot/ui-app/index';
-import { formatNumber, formatBalance } from '@polkadot/ui-app/util';
+import { formatNumber, formatBalance } from '@polkadot/util';
 
 import { queryToProp, ZERO } from '@polkadot/joy-utils/index';
 import Section from '@polkadot/joy-utils/Section';

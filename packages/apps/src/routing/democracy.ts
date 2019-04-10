@@ -4,7 +4,7 @@
 
 import { Routes } from '../types';
 
-import Democracy from '@polkadot/app-democracy/index';
+import Democracy from '@polkadot/app-democracy';
 
 export default ([
   {

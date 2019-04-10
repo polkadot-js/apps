@@ -5,7 +5,7 @@
 import { I18nProps as Props } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Input, Output, Static } from '@polkadot/ui-app/index';
+import { Input, Output, Static } from '@polkadot/ui-app';
 import { hexToU8a, isHex, stringToU8a } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 

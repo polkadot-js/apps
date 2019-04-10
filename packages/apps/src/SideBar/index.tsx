@@ -3,16 +3,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 
 import './SideBar.css';
 
 import React from 'react';
-import store from 'store';
-import { Button, Icon, Menu } from '@polkadot/ui-app/index';
+import { Button, Icon, Menu } from '@polkadot/ui-app';
+import { classes } from '@polkadot/ui-app/util';
 
 import routing from '../routing';
 import translate from '../translate';
 import Item from './Item';
+import NodeInfo from './NodeInfo';
 import getLogo from './logos';
 import { SemanticICONS } from 'semantic-ui-react/dist/commonjs';
 
@@ -33,84 +35,116 @@ function OuterLink ({ url, title, icon = 'external alternate' }: OuterLinkProps)
   );
 }
 
+import styled from 'styled-components';
+import { media } from '@polkadot/ui-app/media';
+import { Responsive } from 'semantic-ui-react';
+import theme from 'styled-theming';
+import { primaryColor } from '@polkadot/ui-app/styles/theme';
+
 type Props = I18nProps & {
-  children?: React.ReactNode
+  collapse: () => void,
+  handleResize: () => void,
+  isCollapsed: boolean,
+  menuOpen: boolean,
+  toggleMenu: () => void
 };
 
-type State = {
-  isCollapsed: boolean
-};
+const Toggle = styled.img`
+  background: ${theme('theme', {
+    substrate: primaryColor,
+    polkadot: 'none'
+  })};
+  padding: ${theme('theme', {
+    substrate: '4px',
+    polkadot: 'none'
+  })};
+  border-radius: 50%;
+  cursor: pointer;
+  left: 0.9rem;
+  opacity: 0;
+  position: absolute;
+  top: 0px;
+  transition: opacity 0.2s ease-in, top 0.2s ease-in;
+  width: 2.6rem;
 
-class SideBar extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    const state = store.get('sidebar') || {};
-    this.state = {
-      isCollapsed: false,
-      ...state
-    };
+  &.delayed {
+    transition-delay: 0.4s;
+  }
+  &.open {
+    opacity: 1;
+    top: 0.9rem;
   }
 
+  ${media.DESKTOP`
+    opacity: 0 !important;
+    top: -2.9rem !important;
+  `}
+`;
+
+class SideBar extends React.PureComponent<Props> {
   render () {
-    const { children } = this.props;
-    const { isCollapsed } = this.state;
+    const { isCollapsed } = this.props;
 
     return (
-      <div className={`apps--SideBar ${isCollapsed ? 'collapsed' : 'expanded'}`}>
-        <Menu
-          secondary
-          vertical
-        >
-          {this.renderJoystreamLogo()}
-          {this.renderRoutes()}
-          <Menu.Divider hidden />
+      <Responsive
+        onUpdate={this.props.handleResize}
+        className={
+          classes(
+            'apps-SideBar-Wrapper',
+              isCollapsed ? 'collapsed' : 'expanded'
+            )
+        }
+      >
+        {this.renderMenuToggle()}
+        <div className='apps--SideBar'>
+          <Menu
+            secondary
+            vertical
+          >
+            <div className='apps-SideBar-Scroll'>
+              {this.renderJoystreamLogo()}
+              {this.renderRoutes()}
+              <Menu.Divider hidden />
 
-          <OuterLink url='https://sparta.joystream.org/faucet' title='Free Tokens' />
-          <OuterLink url='https://blog.joystream.org/sparta/' title='Earn Monero' />
-
-          {/* {this.renderGithub()} */}
-          {/* {this.renderWiki()} */}
-          <Menu.Divider hidden />
-          {
-            isCollapsed
-              ? null
-              : children
-          }
-          {this.renderCollapse()}
-        </Menu>
-      </div>
+              <OuterLink url='https://sparta.joystream.org/faucet' title='Free Tokens' />
+              <OuterLink url='https://blog.joystream.org/sparta/' title='Earn Monero' />
+              <Menu.Divider hidden />
+              {
+                isCollapsed
+                  ? null
+                  : <NodeInfo />
+              }
+            </div>
+            {this.renderCollapse()}
+          </Menu>
+          {this.renderToggleBar()}
+        </div>
+      </Responsive>
     );
   }
 
-  private collapse = (): void => {
-    this.setState(({ isCollapsed }: State) => ({
-      isCollapsed: !isCollapsed
-    }), () => {
-      store.set('sidebar', this.state);
-    });
-  }
-
   private renderCollapse () {
-    const { isCollapsed } = this.state;
+    const { isCollapsed } = this.props;
 
     return (
-      <div className='apps--SideBar-collapse'>
+      <Responsive
+        minWidth={SIDEBAR_MENU_THRESHOLD}
+        className='apps--SideBar-collapse'
+      >
         <Button
-          icon={`angle double ${isCollapsed ? 'right' : 'left'}`}
+          icon='angle double right'
           isBasic
           isCircular
-          onClick={this.collapse}
+          onClick={this.props.collapse}
+          className={isCollapsed ? '' : 'rotated'}
         />
-      </div>
+      </Responsive>
     );
   }
 
   // @ts-ignore is declared but its value is never read
   private renderLogo () {
-    const { isCollapsed } = this.state;
+    const { isCollapsed } = this.props;
     const logo = getLogo(isCollapsed);
 
     return (
@@ -123,7 +157,7 @@ class SideBar extends React.PureComponent<Props, State> {
   }
 
   private renderJoystreamLogo () {
-    const { isCollapsed } = this.state;
+    const { isCollapsed } = this.props;
     const logo = isCollapsed
       ? 'images/logo-j.svg'
       : 'images/logo-joytream.svg';
@@ -138,15 +172,18 @@ class SideBar extends React.PureComponent<Props, State> {
   }
 
   private renderRoutes () {
+    const { isCollapsed } = this.props;
     const { t } = this.props;
 
     return routing.routes.map((route, index) => (
       route
         ? (
           <Item
+            isCollapsed={isCollapsed}
             key={route.name}
-            t={t}
             route={route}
+            onClick={this.props.handleResize}
+            t={t}
           />
         )
         : (
@@ -172,21 +209,44 @@ class SideBar extends React.PureComponent<Props, State> {
     );
   }
 
+  private renderToggleBar () {
+    return (
+      <Responsive minWidth={SIDEBAR_MENU_THRESHOLD}>
+        <div
+          className='apps--SideBar-toggle'
+          onClick={this.props.collapse}
+        >
+        </div>
+      </Responsive>
+    );
+  }
+
+  private renderMenuToggle () {
+    const logo = getLogo(true);
+    const { toggleMenu, menuOpen } = this.props;
+
+    return (
+      <Toggle
+        alt='logo'
+        className={menuOpen ? 'closed' : 'open delayed'}
+        onClick={toggleMenu}
+        src={logo}
+      />
+    );
+  }
+
   // @ts-ignore is declared but its value is never read
   private renderWiki () {
-    return null;
-
-    // disabled for now, we need the space
-    // return (
-    //   <Menu.Item className='apps--SideBar-Item'>
-    //     <a
-    //       className='apps--SideBar-Item-NavLink'
-    //       href='https://github.com/w3f/Web3-wiki/wiki/Polkadot'
-    //     >
-    //       <Icon name='book' /> Wiki
-    //     </a>
-    //   </Menu.Item>
-    // );
+    return (
+      <Menu.Item className='apps--SideBar-Item'>
+        <a
+          className='apps--SideBar-Item-NavLink'
+          href='https://github.com/w3f/Web3-wiki/wiki/Polkadot'
+        >
+          <Icon name='book' /> Wiki
+        </a>
+      </Menu.Item>
+    );
   }
 }
 

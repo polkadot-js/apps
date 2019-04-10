@@ -6,7 +6,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { withCalls } from '@polkadot/ui-api/with';
 import { u8aToHex } from '@polkadot/util';
 import { Input, InputFile, Labelled } from '@polkadot/ui-app/index';
-import { formatNumber } from '@polkadot/ui-app/util';
+import { formatNumber } from '@polkadot/util';
 import { Balance } from '@polkadot/types';
 
 import translate from './translate';

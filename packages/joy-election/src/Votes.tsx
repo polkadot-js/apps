@@ -10,7 +10,7 @@ import { withCalls } from '@polkadot/ui-api/with';
 import { AccountId, Balance } from '@polkadot/types';
 import { Button, Input, Labelled, InputAddress } from '@polkadot/ui-app/index';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
-import { formatBalance } from '@polkadot/ui-app/util';
+import { formatBalance } from '@polkadot/util';
 
 import translate from './translate';
 import { accountIdsToOptions, hashVote } from './utils';
@@ -153,9 +153,9 @@ class Component extends React.PureComponent<Props, State> {
             label='Submit my vote'
             params={[hashedVote, stake]}
             tx='election.vote'
-            onTxSent={this.onFormSubmitted}
-            onTxFailed={this.onTxFailed}
-            onTxSuccess={(txResult: SubmittableResult) => this.onTxSuccess(buildNewVote() as NewVote, txResult)}
+            txSentCb={this.onFormSubmitted}
+            txFailedCb={this.onTxFailed}
+            txSuccessCb={(txResult: SubmittableResult) => this.onTxSuccess(buildNewVote() as NewVote, txResult)}
           />
         </Labelled>
       </Section>}

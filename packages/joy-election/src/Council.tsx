@@ -4,7 +4,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { withCalls } from '@polkadot/ui-api/with';
 import { Table } from 'semantic-ui-react';
-import { formatBalance } from '@polkadot/ui-app/util';
+import { formatBalance } from '@polkadot/util';
 import AddressMini from '@polkadot/ui-app/AddressMiniJoy';
 
 import { calcBackersStake } from '@polkadot/joy-utils/index';

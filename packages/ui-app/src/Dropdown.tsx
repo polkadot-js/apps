@@ -9,20 +9,23 @@ import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import SUIDropdown, { DropdownProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
 import { isUndefined } from '@polkadot/util';
 
-import classes from './util/classes';
+import { classes } from './util';
 import Labelled from './Labelled';
 
 type Props<Option> = BareProps & {
   defaultValue?: any,
   isPrimary?: boolean,
+  help?: React.ReactNode,
   isButton?: boolean,
   isDisabled?: boolean,
   isError?: boolean,
+  isMultiple?: boolean,
   label?: React.ReactNode,
   onChange?: (value: any) => void,
   onSearch?: (filteredOptions: Array<any>, query: string) => Array<Option>,
   options: Array<Option>,
   placeholder?: string,
+  renderLabel?: (item: any) => any,
   transform?: (value: any) => any,
   value?: any,
   withLabel?: boolean
@@ -55,7 +58,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
   }
 
   render () {
-    const { className, defaultValue, isPrimary = true, isButton, isDisabled, isError, label, onSearch, options, placeholder, style, withLabel, value } = this.props;
+    const { className, defaultValue, isPrimary = true, help, isButton, isDisabled, isError, isMultiple, label, onSearch, options, placeholder, style, withLabel, renderLabel, value } = this.props;
     const dropdown = (
       <SUIDropdown
         button={isButton}
@@ -63,16 +66,18 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
         disabled={isDisabled}
         error={isError}
         floating={isButton}
+        multiple={isMultiple}
         onChange={this.onChange}
         options={options}
         placeholder={placeholder}
+        renderLabel={renderLabel}
         search={onSearch}
         selection
         value={
           isUndefined(value)
             ? defaultValue
             : value
-          }
+        }
       />
     );
 
@@ -85,6 +90,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
       : (
         <Labelled
           className={classes('ui--Dropdown', className)}
+          help={help}
           label={label}
           style={style}
           withLabel={withLabel}

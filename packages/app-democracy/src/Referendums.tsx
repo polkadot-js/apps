@@ -4,18 +4,16 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
-import BN from 'bn.js';
 import React from 'react';
-import { ReferendumInfo } from '@polkadot/types';
-import { withCalls } from '@polkadot/ui-api/index';
+import { ReferendumInfoExtended } from '@polkadot/api-derive/democracy/referendumInfo';
+import { Option } from '@polkadot/types';
+import { withCalls } from '@polkadot/ui-api';
 
 import Referendum from './Referendum';
 import translate from './translate';
 
 type Props = I18nProps & {
-  democracy_nextTally?: BN,
-  democracy_referendumCount?: BN,
-  democracy_referendums?: Array<ReferendumInfo>
+  democracy_referendums?: Array<Option<ReferendumInfoExtended>>
 };
 
 class Referendums extends React.PureComponent<Props> {
@@ -31,10 +29,12 @@ class Referendums extends React.PureComponent<Props> {
   }
 
   private renderReferendums () {
-    const { democracy_nextTally, democracy_referendums, democracy_referendumCount, t } = this.props;
-    const referendumCount = (democracy_referendumCount || new BN(0)).toNumber();
+    const { democracy_referendums = [], t } = this.props;
+    const referendums = democracy_referendums
+      .filter((opt) => opt.isSome)
+      .map((opt) => opt.unwrap());
 
-    if (!democracy_referendums || !democracy_referendums.length || (referendumCount === (democracy_nextTally || new BN(0)).toNumber())) {
+    if (!referendums.length) {
       return (
         <div className='ui disabled'>
           {t('no available referendums')}
@@ -42,12 +42,10 @@ class Referendums extends React.PureComponent<Props> {
       );
     }
 
-    const startIndex = referendumCount - democracy_referendums.length;
-
-    return democracy_referendums.map((referendum, index) => (
+    return referendums.map((referendum) => (
       <Referendum
-        idNumber={index + startIndex}
-        key={index}
+        idNumber={referendum.index}
+        key={referendum.index.toString()}
         value={referendum}
       />
     ));
@@ -56,8 +54,6 @@ class Referendums extends React.PureComponent<Props> {
 
 export default translate(
   withCalls<Props>(
-    'query.democracy.nextTally',
-    'query.democracy.referendumCount',
     'derive.democracy.referendums'
   )(Referendums)
 );

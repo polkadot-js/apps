@@ -54,13 +54,16 @@
     outline: 0;
   }
 
+  .codeflask {
+    background: transparent;
+  }
+
   .codeflask--has-line-numbers {
     z-index: 0;
   }
 
   .codeflask--has-line-numbers .codeflask__flatten {
     font-size: 12px;
-    height: 99.99%;
     line-height: 18px;
     min-width: calc(100% - 40px);
     width: auto;
@@ -123,5 +126,15 @@
     &.error {
       color: #f88;
     }
+  }
+}
+
+.ui.popup.popup-local {
+  display: flex;
+  flex: 1 1 100%;
+  max-width: 300px;
+
+  .button {
+    margin: 0;
   }
 }

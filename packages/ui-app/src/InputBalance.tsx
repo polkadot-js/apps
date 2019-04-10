@@ -7,11 +7,12 @@ import { BareProps, BitLength } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { BitLengthOption } from '@polkadot/ui-app/constants';
-import { InputNumber } from '@polkadot/ui-app/index';
+import { InputNumber } from '@polkadot/ui-app';
 
 type Props = BareProps & {
   autoFocus?: boolean,
   defaultValue?: BN | string,
+  help?: React.ReactNode,
   isDisabled?: boolean,
   isError?: boolean,
   label?: any,
@@ -25,14 +26,15 @@ const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
 export default class InputBalance extends React.PureComponent<Props> {
   render () {
-    const { autoFocus, className, defaultValue, isDisabled, isError, label, onChange, placeholder, style, value, withLabel } = this.props;
+    const { autoFocus, className, defaultValue, help, isDisabled, isError, label, onChange, placeholder, style, value, withLabel } = this.props;
 
     return (
       <InputNumber
         autoFocus={autoFocus}
         className={className}
         bitLength={DEFAULT_BITLENGTH}
-        defaultValue={defaultValue || '0'}
+        defaultValue={defaultValue}
+        help={help}
         isDisabled={isDisabled}
         isError={isError}
         isSi

@@ -2,8 +2,32 @@
 /* This software may be modified and distributed under the terms
 /* of the Apache-2.0 license. See the LICENSE file for details. */
 
-.sub-label {
-  cursor: pointer;
-  padding: 0rem .5833rem;
-  text-align: right;
+.settings-General {
+
+  .ui.menu {
+    justify-content: flex-end;
+    margin-bottom: 0;
+
+    .active.item {
+      font-weight: bold;
+    }
+  }
+
+  .ui.attached.segment.tab {
+    padding: 0;
+    border: none;
+  }
+
+  .sub-label {
+    cursor: pointer;
+    padding: 0rem .5833rem;
+    text-align: right;
+  }
+}
+
+.settings-Developer {
+  .editor {
+    height: 300px;
+    position: relative;
+  }
 }

@@ -6,23 +6,27 @@ import { I18nProps } from './types';
 
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
-import { Nonce } from '@polkadot/ui-reactive/index';
-import { withCalls } from '@polkadot/ui-api/index';
+import { Nonce } from '@polkadot/ui-reactive';
+import { withCalls } from '@polkadot/ui-api';
+import BaseIdentityIcon from '@polkadot/ui-identicon';
 
-import classes from './util/classes';
-import toShortAddress from './util/toShortAddress';
+import { classes, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
+import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
 import translate from './translate';
 
 export type Props = I18nProps & {
   accounts_idAndIndex?: [AccountId?, AccountIndex?],
   balance?: Balance | Array<Balance>,
+  bonded?: Balance | Array<Balance>,
   children?: React.ReactNode,
+  extraInfo?: React.ReactNode,
   name?: string,
   value: AccountId | AccountIndex | Address | string | null,
   showFaucet?: boolean,
   withBalance?: boolean,
+  withBonded?: boolean,
   withIndex?: boolean,
   identIconSize?: number,
   isShort?: boolean,
@@ -50,6 +54,7 @@ class AddressSummary extends React.PureComponent<Props> {
           {this.renderAccountId()}
           {this.renderAccountIndex()}
           {this.renderBalance()}
+          {this.renderBonded()}
           {this.renderNonce()}
           {this.renderFaucet()}
         </div>
@@ -84,8 +89,9 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderAccountId () {
-    const { accounts_idAndIndex = [], name, isShort = true } = this.props;
-    const [accountId, accountIndex] = accounts_idAndIndex;
+    const { accounts_idAndIndex = [], name, isShort = true, value } = this.props;
+    const [_accountId, accountIndex] = accounts_idAndIndex;
+    const accountId = _accountId || value;
 
     if (!accountId && accountIndex) {
       return null;
@@ -112,10 +118,10 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderAccountIndex () {
-    const { accounts_idAndIndex = [] } = this.props;
+    const { accounts_idAndIndex = [], withIndex = true } = this.props;
     const [, accountIndex] = accounts_idAndIndex;
 
-    if (!accountIndex) {
+    if (!accountIndex || !withIndex) {
       return null;
     }
 
@@ -132,8 +138,9 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderBalance () {
-    const { accounts_idAndIndex = [], balance, t, withBalance = true } = this.props;
-    const [accountId] = accounts_idAndIndex;
+    const { accounts_idAndIndex = [], balance, t, value, withBalance = true } = this.props;
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId || value;
 
     if (!withBalance || !accountId) {
       return null;
@@ -149,25 +156,45 @@ class AddressSummary extends React.PureComponent<Props> {
     );
   }
 
+  protected renderBonded () {
+    const { accounts_idAndIndex = [], t, value, withBonded } = this.props;
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId || value;
+
+    if (!withBonded || !accountId) {
+      return null;
+    }
+
+    return (
+      <BondedDisplay
+        className='ui--AddressSummary-bonded'
+        label={t('bonded ')}
+        value={accountId}
+      />
+    );
+  }
+
   protected renderIcon (className: string = 'ui--AddressSummary-icon', size?: number) {
-    const { accounts_idAndIndex = [], identIconSize = 96, session_validators, value, withIcon = true } = this.props;
+    const { accounts_idAndIndex = [], identIconSize = 96, value, withIcon = true } = this.props;
 
     if (!withIcon) {
       return null;
     }
 
     const [_accountId] = accounts_idAndIndex;
-    const accountId = (_accountId || '').toString();
-    const isValidator = (session_validators || []).find((validator) =>
-      validator.toString() === accountId
-    );
+    const accountId = (_accountId || value || '').toString();
+
+    // Since we do queries to storage in the wrapped example, we don't want
+    // to follow that route if we don't have a valid address.
+    const Component = accountId
+      ? IdentityIcon
+      : BaseIdentityIcon;
 
     return (
-      <IdentityIcon
+      <Component
         className={className}
-        isHighlight={!!isValidator}
         size={size || identIconSize}
-        value={value ? value.toString() : DEFAULT_ADDR}
+        value={accountId}
       />
     );
   }
@@ -179,8 +206,9 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderNonce () {
-    const { accounts_idAndIndex = [], t, withNonce = true } = this.props;
-    const [accountId] = accounts_idAndIndex;
+    const { accounts_idAndIndex = [], t, value, withNonce = true } = this.props;
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId || value;
 
     if (!withNonce || !accountId) {
       return null;
@@ -218,7 +246,6 @@ export {
 
 export default translate(
   withCalls<Props>(
-    ['derive.accounts.idAndIndex', { paramName: 'value' }],
-    'query.session.validators'
+    ['derive.accounts.idAndIndex', { paramName: 'value' }]
   )(AddressSummary)
 );

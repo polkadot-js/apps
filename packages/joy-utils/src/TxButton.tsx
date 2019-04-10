@@ -1,5 +1,5 @@
 import { BareProps, ApiProps } from '@polkadot/ui-api/types';
-import { QueueTx$ExtrinsicAdd, TxCallbacks } from '@polkadot/ui-app/Status/types';
+import { QueueTx$ExtrinsicAdd, PartialQueueTx$Extrinsic } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import { Button } from '@polkadot/ui-app/index';
@@ -12,7 +12,7 @@ type InjectedProps = {
   queueExtrinsic: QueueTx$ExtrinsicAdd;
 };
 
-type Props = BareProps & ApiProps & MyAccountProps & TxCallbacks & {
+type Props = BareProps & ApiProps & MyAccountProps & PartialQueueTx$Extrinsic & {
   accountId?: string,
   type?: 'submit' | 'button',
   isPrimary?: boolean,
@@ -45,7 +45,7 @@ class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
   private send = (): void => {
     const {
       myAddress, accountId, api, params, queueExtrinsic, tx,
-      onTxCancelled, onTxSent, onTxFailed, onTxSuccess
+      txFailedCb, txSuccessCb, txSentCb, txCancelledCb,
     } = this.props;
     const origin = accountId || myAddress;
     const [section, method] = tx.split('.');
@@ -55,10 +55,10 @@ class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
     queueExtrinsic({
       accountId: origin,
       extrinsic: api.tx[section][method](...params) as any, // ???
-      onTxCancelled,
-      onTxSent,
-      onTxFailed,
-      onTxSuccess
+      txFailedCb,
+      txSuccessCb,
+      txSentCb,
+      txCancelledCb,
     });
   }
 }

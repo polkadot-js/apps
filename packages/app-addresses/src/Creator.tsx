@@ -7,7 +7,7 @@ import { ComponentProps } from './types';
 
 import React from 'react';
 
-import { AddressSummary, Button, Input } from '@polkadot/ui-app/index';
+import { AddressSummary, Button, Input } from '@polkadot/ui-app';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring';
@@ -43,6 +43,7 @@ class Creator extends React.PureComponent<Props, State> {
           <AddressSummary
             className='shrink'
             value={address}
+            withBonded
           />
           {this.renderInput()}
         </div>

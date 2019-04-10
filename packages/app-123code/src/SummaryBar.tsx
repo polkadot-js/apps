@@ -9,8 +9,8 @@ import BN from 'bn.js';
 import React from 'react';
 import { AccountId, RuntimeVersion } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api/with';
-import { Bubble, IdentityIcon } from '@polkadot/ui-app/index';
-import { formatBalance, formatNumber } from '@polkadot/ui-app/util';
+import { Bubble, IdentityIcon } from '@polkadot/ui-app';
+import { formatBalance, formatNumber } from '@polkadot/util';
 
 import translate from './translate';
 
@@ -93,7 +93,6 @@ export default translate(
     'derive.chain.bestNumberLag',
     'query.balances.totalIssuance',
     'query.session.validators',
-    'query.staking.intentions',
     'rpc.chain.getRuntimeVersion',
     'rpc.system.chain',
     'rpc.system.name',

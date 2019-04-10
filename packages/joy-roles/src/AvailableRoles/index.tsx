@@ -6,7 +6,7 @@ import { Option, AccountId } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api/index';
 import { Table } from 'semantic-ui-react';
 import Section from '@polkadot/joy-utils/Section';
-import { formatBalance } from '@polkadot/ui-app/util';
+import { formatBalance } from '@polkadot/util';
 
 import BN from 'bn.js';
 

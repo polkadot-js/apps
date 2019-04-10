@@ -7,9 +7,8 @@ import yargs from 'yargs';
 import chalk from 'chalk';
 import { u8aToHex } from '@polkadot/util';
 
-import generator from './index';
+import generator from '.';
 import matchRegex from './regex';
-import { pkFromSeed } from './sodium';
 
 type Best = {
   address: string,
@@ -70,7 +69,7 @@ function showBest () {
 }
 
 while (true) {
-  const nextBest = generator(options, pkFromSeed).found.reduce((best, match) => {
+  const nextBest = generator(options).found.reduce((best, match) => {
     if ((match.count > best.count) || ((match.count === best.count) && (match.offset <= best.offset))) {
       return match;
     }

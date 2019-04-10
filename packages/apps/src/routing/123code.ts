@@ -4,7 +4,7 @@
 
 import { Routes } from '../types';
 
-import Template from '@polkadot/app-123code/index';
+import Template from '@polkadot/app-123code';
 
 export default ([
   {

@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { AddressSummary, Button, InputFile, Password } from '@polkadot/ui-app/index';
+import { AddressSummary, Button, InputFile, Password } from '@polkadot/ui-app';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import { isHex, isObject, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
@@ -95,11 +95,11 @@ class Restore extends React.PureComponent<Props, State> {
   private onChangeFile = (file: Uint8Array): void => {
     try {
       const json = JSON.parse(u8aToString(file));
-      const isFileValid = keyring.decodeAddress(json.address).length === 32 &&
-        isHex(json.encoded) &&
-        isObject(json.meta) &&
-        json.encoding.content[0] === 'pkcs8' &&
-        json.encoding.content[1] === 'ed25519';
+      const isFileValid = keyring.decodeAddress(json.address).length === 32 && isHex(json.encoded) && isObject(json.meta) && (
+        Array.isArray(json.encoding.content)
+          ? json.encoding.content[0] === 'pkcs8'
+          : json.encoding.content === 'pkcs8'
+      );
 
       this.setState({
         isFileValid,

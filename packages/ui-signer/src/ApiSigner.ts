@@ -25,7 +25,7 @@ export default class ApiSigner implements Signer {
         accountId,
         extrinsic,
         signerOptions,
-        signerCallback: (id: number, isSigned: boolean): void => {
+        signerCb: (id: number, isSigned: boolean): void => {
           if (isSigned) {
             resolve(id);
           } else {
@@ -36,11 +36,11 @@ export default class ApiSigner implements Signer {
     });
   }
 
-  update (id: number, status: Hash | SubmittableResult): void {
-    if (status instanceof Hash) {
-      this._queueSetTxStatus(id, 'sent', status.toHex());
+  update (id: number, result: Hash | SubmittableResult): void {
+    if (result instanceof Hash) {
+      this._queueSetTxStatus(id, 'sent', result.toHex());
     } else {
-      this._queueSetTxStatus(id, status.type.toLowerCase() as any, status);
+      this._queueSetTxStatus(id, result.status.type.toLowerCase() as any, status);
     }
   }
 }

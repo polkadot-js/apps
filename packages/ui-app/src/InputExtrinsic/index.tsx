@@ -10,7 +10,7 @@ import { DropdownOptions } from '../util/types';
 import './InputExtrinsic.css';
 
 import React from 'react';
-import { withApi, withMulti } from '@polkadot/ui-api/index';
+import { withApi, withMulti } from '@polkadot/ui-api';
 
 import Labelled from '../Labelled';
 import translate from '../translate';
@@ -21,6 +21,7 @@ import sectionOptions from './options/section';
 
 type Props = ApiProps & I18nProps & {
   defaultValue: MethodFunction,
+  help?: React.ReactNode,
   isDisabled?: boolean,
   isError?: boolean,
   isPrivate?: boolean,
@@ -54,7 +55,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { api, className, label, style, withLabel } = this.props;
+    const { api, className, help, label, style, withLabel } = this.props;
     const { optionsMethod, optionsSection, value } = this.state;
 
     return (
@@ -63,6 +64,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
         style={style}
       >
         <Labelled
+          help={help}
           label={label}
           withLabel={withLabel}
         >

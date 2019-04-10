@@ -4,7 +4,7 @@
 
 import { Routes } from '../types';
 
-import Settings from '@polkadot/app-settings/index';
+import Settings from '@polkadot/app-settings';
 
 export default ([
   {

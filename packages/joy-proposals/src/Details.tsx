@@ -7,7 +7,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { withCalls } from '@polkadot/ui-api/with';
 import { Labelled } from '@polkadot/ui-app/index';
-import { formatNumber, formatBalance } from '@polkadot/ui-app/util';
+import { formatNumber, formatBalance } from '@polkadot/util';
 
 import { queryToProp, ZERO } from '@polkadot/joy-utils/index';
 import AddressMini from '@polkadot/ui-app/AddressMiniJoy';

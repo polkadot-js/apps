@@ -4,12 +4,10 @@
 
 import intervalObservable from './intervalObservable';
 import isEqual from './isEqual';
-import isTestChain from './isTestChain';
 import triggerChange from './triggerChange';
 
 export {
   intervalObservable,
   isEqual,
-  isTestChain,
   triggerChange
 };

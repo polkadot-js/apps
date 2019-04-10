@@ -6,7 +6,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AddressSummary, Button, Modal, Password } from '@polkadot/ui-app/index';
+import { AddressSummary, Button, Modal, Password } from '@polkadot/ui-app';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import keyring from '@polkadot/ui-keyring';
 
@@ -85,14 +85,14 @@ class ChangePass extends React.PureComponent<Props, State> {
           <Password
             autoFocus
             isError={!isOldValid}
-            label={t('old password')}
+            label={t('your current password')}
             onChange={this.onChangeOld}
             tabIndex={1}
             value={oldPass}
           />
           <Password
             isError={!isNewValid}
-            label={t('new password')}
+            label={t('your new password')}
             onChange={this.onChangeNew}
             tabIndex={2}
             value={newPass}

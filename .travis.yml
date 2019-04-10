@@ -3,12 +3,18 @@ node_js:
   - "10"
 env:
   - GH_PAGES_SRC="packages/apps/build"
-before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash
-  - export PATH=$HOME/.yarn/bin:$PATH
 cache:
   yarn: true
   directories:
     - node_modules
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
 script:
-  - yarn polkadot-dev-build-travis
+  - yarn polkadot-dev-travis-build
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: yarn polkadot-dev-travis-deploy
+  on:
+    branch: master

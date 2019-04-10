@@ -8,7 +8,7 @@ import { ComponentProps, QueryTypes, ParitalQueryTypes } from '../types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { Tabs } from '@polkadot/ui-app/index';
+import { Tabs } from '@polkadot/ui-app';
 
 import Modules from './Modules';
 import Raw from './Raw';

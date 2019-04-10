@@ -9,7 +9,7 @@ import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { bnToBn } from '@polkadot/util';
 
-import classes from '../util/classes';
+import { classes } from '../util';
 
 type Value = {
   colors: Array<string>,

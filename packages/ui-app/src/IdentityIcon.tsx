@@ -8,8 +8,8 @@ import { QueueProps, QueueAction$Add } from './Status/types';
 import { I18nProps } from './types';
 
 import React from 'react';
-import { AccountId } from '@polkadot/types';
-import { withCall } from '@polkadot/ui-api/with';
+import { AccountId, Option } from '@polkadot/types';
+import { withCalls } from '@polkadot/ui-api/with';
 import BaseIdentityIcon from '@polkadot/ui-identicon';
 
 import { QueueConsumer } from './Status/Context';
@@ -20,7 +20,14 @@ type CopyProps = IdentityProps & I18nProps & {
 };
 
 type IconProps = ApiProps & IdentityProps & {
-  session_validators?: Array<AccountId>
+  session_validators?: Array<AccountId>,
+  staking_bonded?: Option<AccountId>
+};
+
+type Props = IconProps & IdentityProps;
+
+type State = {
+  isValidator: boolean
 };
 
 class CopyIcon extends React.PureComponent<CopyProps> {
@@ -53,20 +60,35 @@ class CopyIcon extends React.PureComponent<CopyProps> {
 
 const CopyIconI18N = translate(CopyIcon);
 
-class IdentityIcon extends React.PureComponent<IconProps & IdentityProps> {
-  render () {
-    const { session_validators = [], value } = this.props;
+class IdentityIcon extends React.PureComponent<Props, State> {
+  state: State = {
+    isValidator: false
+  };
 
-    const address = (value || '').toString();
-    const isValidator = (session_validators || []).find((validator) =>
-      validator.toString() === address
+  static getDerivedStateFromProps ({ session_validators = [], staking_bonded, value }: Props, prevState: State): State | null {
+    const address = value
+      ? value.toString()
+      : null;
+    const bonded = staking_bonded && staking_bonded.isSome
+      ? staking_bonded.unwrap().toString()
+      : null;
+    const isValidator = !!session_validators.find((validator) =>
+      [address, bonded].includes(validator.toString())
     );
+
+    return prevState.isValidator !== isValidator
+      ? { isValidator }
+      : null;
+  }
+
+  render () {
+    const { isValidator } = this.state;
 
     return (
       <QueueConsumer>
         {({ queueAction }: QueueProps) =>
           <CopyIconI18N
-            isHighlight={!!isValidator}
+            isHighlight={isValidator}
             {...this.props}
             queueAction={queueAction}
           />
@@ -76,4 +98,7 @@ class IdentityIcon extends React.PureComponent<IconProps & IdentityProps> {
   }
 }
 
-export default withCall('query.session.validators')(IdentityIcon);
+export default withCalls<Props>(
+  'query.session.validators',
+  ['query.staking.bonded', { paramName: 'value' }]
+)(IdentityIcon);

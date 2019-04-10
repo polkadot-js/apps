@@ -7,9 +7,8 @@ import { Props } from '../types';
 import BN from 'bn.js';
 import React from 'react';
 import { AccountIndex } from '@polkadot/types';
-import { Input } from '@polkadot/ui-app/index';
-import { formatNumber } from '@polkadot/ui-app/util';
-import { bnToBn } from '@polkadot/util';
+import { Input } from '@polkadot/ui-app';
+import { bnToBn, formatNumber } from '@polkadot/util';
 
 import Bare from './Bare';
 

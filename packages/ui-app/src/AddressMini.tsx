@@ -7,11 +7,10 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
 
-import classes from './util/classes';
-import toShortAddress from './util/toShortAddress';
+import { classes, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
+import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
 
 type Props = BareProps & {
@@ -19,24 +18,21 @@ type Props = BareProps & {
   children?: React.ReactNode,
   isPadded?: boolean,
   isShort?: boolean,
-  session_validators?: Array<AccountId>,
   value?: AccountId | AccountIndex | Address | string,
   withAddress?: boolean,
-  withBalance?: boolean
+  withBalance?: boolean,
+  withBonded?: boolean
 };
 
-class AddressMini extends React.PureComponent<Props> {
+export default class AddressMini extends React.PureComponent<Props> {
   render () {
-    const { children, className, isPadded = true, session_validators, style, value } = this.props;
+    const { children, className, isPadded = true, style, value } = this.props;
 
     if (!value) {
       return null;
     }
 
     const address = value.toString();
-    const isValidator = (session_validators || []).find((validator) =>
-      validator.toString() === address
-    );
 
     return (
       <div
@@ -45,7 +41,6 @@ class AddressMini extends React.PureComponent<Props> {
       >
         <div className='ui--AddressMini-info'>
           <IdentityIcon
-            isHighlight={!!isValidator}
             size={24}
             value={address}
           />
@@ -53,6 +48,7 @@ class AddressMini extends React.PureComponent<Props> {
           {children}
         </div>
         {this.renderBalance()}
+        {this.renderBonded()}
       </div>
     );
   }
@@ -84,9 +80,20 @@ class AddressMini extends React.PureComponent<Props> {
       />
     );
   }
-}
 
-export default withMulti(
-  AddressMini,
-  withCall('query.session.validators')
-);
+  private renderBonded () {
+    const { value, withBonded = false } = this.props;
+
+    if (!withBonded || !value) {
+      return null;
+    }
+
+    return (
+      <BondedDisplay
+        className='ui--AddressSummary-balance'
+        label=''
+        value={value}
+      />
+    );
+  }
+}

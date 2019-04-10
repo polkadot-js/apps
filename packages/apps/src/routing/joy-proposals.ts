@@ -7,7 +7,9 @@ export default ([
     Component: Proposals,
     display: {
       needsAccounts: true,
-      needsApi: []
+      needsApi: [
+        'query.proposals.proposalCount',
+      ]
     },
     i18n: {
       defaultValue: 'Proposals'

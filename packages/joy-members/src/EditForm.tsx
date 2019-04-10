@@ -1,15 +1,16 @@
 import BN from 'bn.js';
 import React from 'react';
-import { Form, Field, ErrorMessage, withFormik, FormikProps, FormikErrors, FormikTouched } from 'formik';
+import { Form, Field, withFormik, FormikProps } from 'formik';
 import * as Yup from 'yup';
 
 import { Option } from '@polkadot/types';
-import { BareProps } from '@polkadot/ui-app/types';
 import Section from '@polkadot/joy-utils/Section';
 import TxButton from '@polkadot/joy-utils/TxButton';
-import { nonEmptyStr, ZERO } from '@polkadot/joy-utils/index';
+import { ZERO } from '@polkadot/joy-utils/index';
+import * as JoyForms from '@polkadot/joy-utils/forms';
 import { SubmittableResult } from '@polkadot/api';
-import { MemberId, UserInfo, Profile, OptionText } from './types';
+import { MemberId, UserInfo, Profile } from './types';
+import { OptionText } from '@polkadot/joy-utils/types';
 import { MyAccountProps, withMyAccount } from '@polkadot/joy-utils/MyAccount';
 import { queryMembershipToProp } from './utils';
 import { withCalls } from '@polkadot/ui-api/index';
@@ -52,35 +53,9 @@ type FieldName = keyof FormValues;
 
 type FormProps = OuterProps & FormikProps<FormValues>;
 
-type LabelledProps = BareProps & {
-  name?: FieldName,
-  label?: string,
-  placeholder?: string,
-  children?: JSX.Element | JSX.Element[],
-  errors: FormikErrors<FormValues>,
-  touched: FormikTouched<FormValues>,
-  isSubmitting: boolean
-};
+const LabelledField = JoyForms.LabelledField<FormValues>();
 
-const LabelledField = (props: LabelledProps) => {
-  const { name, label, touched, errors, children } = props;
-  const hasError = name && touched[name] && errors[name];
-  return <div className={`field ${hasError ? 'error' : ''} ui--Labelled`}>
-    <label htmlFor={name}>{nonEmptyStr(label) && label + ':'}</label>
-    <div className='ui--Labelled-content'>
-      <div>{children}</div>
-      {name && <ErrorMessage name={name} component='div' className='ui pointing red label' />}
-    </div>
-  </div>;
-};
-
-const LabelledText = (props: LabelledProps) => {
-  const { name, placeholder, className, style, ...otherProps } = props;
-  const fieldProps = { className, style, name, placeholder };
-  return <LabelledField name={name} {...otherProps} >
-    <Field id={name} disabled={otherProps.isSubmitting} {...fieldProps} />
-  </LabelledField>;
-};
+const LabelledText = JoyForms.LabelledText<FormValues>();
 
 const InnerForm = (props: FormProps) => {
   const {
@@ -111,10 +86,12 @@ const InnerForm = (props: FormProps) => {
     setSubmitting(false);
   };
 
+  // TODO extract to forms.tsx
   const isFieldChanged = (field: FieldName): boolean => {
     return dirty && touched[field] === true && values[field] !== initialValues[field];
   };
 
+  // TODO extract to forms.tsx
   const fieldToTextOption = (field: FieldName): OptionText => {
     return isFieldChanged(field)
       ? OptionText.some(values[field])
@@ -149,7 +126,7 @@ const InnerForm = (props: FormProps) => {
       <LabelledField name='about' label='About' {...props}>
         <Field component='textarea' id='about' name='about' disabled={isSubmitting} rows={3} placeholder='Write here anything you would like to share about yourself with Joystream community.' />
       </LabelledField>
-      <LabelledField {...props}>
+      <LabelledField invisibleLabel {...props}>
         <TxButton
           type='submit'
           size='large'
@@ -161,9 +138,9 @@ const InnerForm = (props: FormProps) => {
             : 'members.buyMembership'
           }
           onClick={onSubmit}
-          onTxCancelled={onTxCancelled}
-          onTxFailed={onTxFailed}
-          onTxSuccess={onTxSuccess}
+          txCancelledCb={onTxCancelled}
+          txFailedCb={onTxFailed}
+          txSuccessCb={onTxSuccess}
         />
         <Button
           type='button'

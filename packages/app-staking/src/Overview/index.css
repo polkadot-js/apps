@@ -54,6 +54,11 @@
     position: relative;
 
     details {
+      summary {
+        cursor: pointer;
+        outline: none;
+      }
+
       summary + div {
         margin-top: 0;
       }
@@ -77,6 +82,10 @@
         opacity: 1;
         transform: scale(1);
       }
+    }
+
+    .recentlyOffline {
+
     }
   }
 }

@@ -4,10 +4,11 @@
 
 import { Routing, Routes } from '../types';
 
-import appSettings from '@polkadot/joy-settings/index';
+import appSettings from '@polkadot/joy-settings/';
 
 import election from './joy-election';
 import help from './joy-help';
+import media from './joy-media';
 import members from './joy-members';
 import proposals from './joy-proposals';
 import roles from './joy-roles';
@@ -32,6 +33,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     null,
     transfer,
     null,
+    media,
     members,
     accounts,
     addresses,
@@ -49,6 +51,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     roles,
     transfer,
     null,
+    media,
     members,
     accounts,
     addresses,

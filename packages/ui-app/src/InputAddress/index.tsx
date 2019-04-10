@@ -12,27 +12,30 @@ import store from 'store';
 import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
 import createItem from '@polkadot/ui-keyring/options/item';
-import { withMulti, withObservable } from '@polkadot/ui-api/index';
+import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import Dropdown from '../Dropdown';
-import classes from '../util/classes';
+import { classes } from '../util';
 import addressToAddress from '../util/toAddress';
 import { MyAccountContainer } from '@polkadot/joy-utils/MyAccount';
-import { Subscribe } from 'unstated';
+import { Subscribe, Provider } from 'unstated';
 
 type Props = BareProps & {
   defaultValue?: string | null,
+  help?: React.ReactNode,
   hideAddress?: boolean;
   isDisabled?: boolean,
   isError?: boolean,
   isInput?: boolean,
+  isMultiple?: boolean,
   label?: string,
   onChange?: (value: string | null) => void,
-  addresses?: KeyringSectionOptions,
+  onChangeMulti?: (value: Array<string>) => void,
+  options?: Array<KeyringSectionOption>,
   optionsAll?: KeyringOptions,
   placeholder?: string,
   type?: KeyringOption$Type,
-  value?: string | Uint8Array,
+  value?: string | Uint8Array | Array<string>,
   withLabel?: boolean
 };
 
@@ -40,7 +43,6 @@ type State = {
   value?: string
 };
 
-const RECENT_KEY = 'header-recent';
 const STORAGE_KEY = 'options:InputAddress';
 const DEFAULT_TYPE = 'all';
 
@@ -84,7 +86,10 @@ class InputAddress extends React.PureComponent<Props, State> {
   static getDerivedStateFromProps ({ value }: Props): State | null {
     try {
       return {
-        value: addressToAddress(value) || undefined
+        value: Array.isArray(value)
+          ? value.map(addressToAddress)
+          : (addressToAddress(value) || undefined)
+
       } as State;
     } catch (error) {
       return null;
@@ -109,14 +114,9 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, defaultValue, hideAddress = false, isDisabled = false, isError, label, addresses, optionsAll, type = DEFAULT_TYPE, style, withLabel } = this.props;
+    const { className, defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, options, optionsAll, placeholder, type = DEFAULT_TYPE, style, withLabel } = this.props;
     const { value } = this.state;
-
-    if (addresses && optionsAll) {
-      optionsAll.address = addresses;
-    }
-
-    const hasOptions = optionsAll && Object.keys(optionsAll[type]).length !== 0;
+    const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
 
     if (!hasOptions && !isDisabled) {
       return null;
@@ -133,30 +133,65 @@ class InputAddress extends React.PureComponent<Props, State> {
       );
 
     return (
-      <Subscribe to={[ MyAccountContainer ]}>{(me: MyAccountContainer) =>
+      <Provider><Subscribe to={[ MyAccountContainer ]}>{(me: MyAccountContainer) =>
       <Dropdown
         className={classes('ui--InputAddress', hideAddress ? 'flag--hideAddress' : '', className)}
         defaultValue={
-          value !== undefined
+          isMultiple || (value !== undefined)
             ? undefined
             : actualValue
         }
+        help={help}
         isDisabled={isDisabled}
         isError={isError}
+        isMultiple={isMultiple}
         label={label}
-        onChange={this.onChange(me)}
+        onChange={
+          isMultiple
+            ? this.onChangeMulti
+            : this.onChange(me)
+        }
         onSearch={this.onSearch}
         options={
-          isDisabled && actualValue
-            ? [createOption(actualValue)]
-            : (optionsAll ? optionsAll[type] : [])
+          options
+            ? options
+            : (
+                isDisabled && actualValue
+                  ? [createOption(actualValue)]
+                  : (optionsAll ? optionsAll[type] : [])
+            )
+        }
+        placeholder={placeholder}
+        renderLabel={
+          isMultiple
+            ? this.renderLabel
+            : undefined
         }
         style={style}
-        value={value}
+        value={
+          isMultiple
+            ? undefined
+            : value
+        }
         withLabel={withLabel}
       />
-      }</Subscribe>
+      }</Subscribe></Provider>
     );
+  }
+
+  private renderLabel = ({ value }: KeyringSectionOption): string | null => {
+    if (!value) {
+      return null;
+    }
+
+    const pair = keyring.getAccount(value).isValid()
+        ? keyring.getAccount(value)
+        : keyring.getAddress(value);
+    const name = pair.isValid()
+        ? pair.getMeta().name
+        : undefined;
+
+    return name || `${value.slice(0, 6)}…${value.slice(-6)}`;
   }
 
   private getLastOptionValue (): KeyringSectionOption | undefined {
@@ -200,14 +235,27 @@ class InputAddress extends React.PureComponent<Props, State> {
     };
   }
 
+  private onChangeMulti = (addresses: Array<string>) => {
+    const { onChangeMulti } = this.props;
+
+    if (onChangeMulti) {
+      onChangeMulti(
+        addresses
+          .map(transformToAccountId)
+          .filter((address) => address) as Array<string>
+      );
+    }
+  }
+
   private onSearch = (filteredOptions: KeyringSectionOptions, _query: string): KeyringSectionOptions => {
     const { isInput = true } = this.props;
     const query = _query.trim();
     const queryLower = query.toLowerCase();
     const matches = filteredOptions.filter((item) =>
-      item.value === null ||
-      item.name.toLowerCase().indexOf(queryLower) !== -1 ||
-      item.value.toLowerCase().indexOf(queryLower) !== -1
+      item.value !== null && (
+        item.name.toLowerCase().indexOf(queryLower) !== -1 ||
+        item.value.toLowerCase().indexOf(queryLower) !== -1
+      )
     );
 
     const valueMatches = matches.filter((item) =>
@@ -218,12 +266,6 @@ class InputAddress extends React.PureComponent<Props, State> {
       const accountId = transformToAccountId(query);
 
       if (accountId) {
-        if (!matches.find((item) => item.key === RECENT_KEY)) {
-          matches.push(
-            keyringOption.createOptionHeader('Recent')
-          );
-        }
-
         matches.push(
           keyring.saveRecent(
             accountId
