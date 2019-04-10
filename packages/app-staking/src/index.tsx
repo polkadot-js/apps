@@ -98,7 +98,7 @@ class App extends React.PureComponent<Props, State> {
           });
 
           return result;
-        }, {} as RecentlyOfflineMap),
+        }, {} as RecentlyOfflineMap)
     } as State;
   }
 
