@@ -97,7 +97,7 @@
     .apps--SideBar-collapse {
       align-items: flex-end;
       background: #3f3f3f;
-      bottom: 0px;
+      bottom: 0;
       display: flex;
       flex-direction: row wrap;
       flex-grow: 1;
@@ -106,16 +106,19 @@
       position: sticky;
       width: 100%;
 
-      .ui.basic.secondary.button {
+      /* aligned with hidden tesxt, don't let button jump - or at least ... less */
+      &.collapsed {
+        padding-left: 0.5rem;
+      }
+
+      .ui.circular.button {
         bottom: 0.75rem;
+        background: white !important;
+        color: #3f3f3f !important;
         box-shadow: 0 0 0 1px #eee inset !important;
-        color: #eee !important;
+        margin: 0;
         position: absolute;
         transition: transform 0.15s;
-
-        &.rotated {
-          transform: rotate(180deg);
-        }
       }
     }
 
