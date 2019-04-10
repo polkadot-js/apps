@@ -17,7 +17,7 @@ type Props = I18nProps & ComponentProps;
 
 class StakeList extends React.PureComponent<Props> {
   render () {
-    const { balances, balanceArray, intentions, nominators, validators } = this.props;
+    const { balances, balanceArray, intentions, nominators, recentlyOffline, validators } = this.props;
     const accounts = keyring.getAccounts();
 
     return (
@@ -36,6 +36,7 @@ class StakeList extends React.PureComponent<Props> {
               key={address}
               name={name}
               nominators={nominators}
+              recentlyOffline={recentlyOffline}
               targets={this.getTargetOptions()}
               validators={validators}
             />

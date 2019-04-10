@@ -9,11 +9,9 @@ import { Nominators, RecentlyOfflineMap } from '../types';
 import React from 'react';
 import { AccountId, Balance, Option, StakingLedger } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api/with';
-import { AddressMini, AddressRow } from '@polkadot/ui-app';
+import { AddressMini, AddressRow, RecentlyOffline } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 import { formatBalance } from '@polkadot/util';
-
-import RecentlyOffline from '../RecentlyOffline';
 
 import translate from '../translate';
 
@@ -198,7 +196,10 @@ class Address extends React.PureComponent<Props, State> {
     const offline = recentlyOffline[stashId];
 
     return (
-      <RecentlyOffline offline={offline} />
+      <RecentlyOffline
+        accountId={stashId}
+        offline={offline}
+      />
     );
   }
 }

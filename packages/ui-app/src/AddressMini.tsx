@@ -7,7 +7,9 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
+import { OfflineStatus } from '@polkadot/app-staking/types';
 
+import { RecentlyOffline } from '@polkadot/ui-app';
 import { classes, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
@@ -19,6 +21,7 @@ type Props = BareProps & {
   isPadded?: boolean,
   isShort?: boolean,
   value?: AccountId | AccountIndex | Address | string,
+  offlineStatus?: Array<OfflineStatus>,
   withAddress?: boolean,
   withBalance?: boolean,
   withBonded?: boolean
@@ -46,6 +49,7 @@ export default class AddressMini extends React.PureComponent<Props> {
           />
           {this.renderAddress(address)}
           {children}
+          {this.renderOfflineStatus()}
         </div>
         {this.renderBalance()}
         {this.renderBonded()}
@@ -93,6 +97,22 @@ export default class AddressMini extends React.PureComponent<Props> {
         className='ui--AddressSummary-balance'
         label=''
         value={value}
+      />
+    );
+  }
+
+  private renderOfflineStatus () {
+    const { value, offlineStatus } = this.props;
+
+    if (!value || !offlineStatus) {
+      return null;
+    }
+
+    return (
+      <RecentlyOffline
+        accountId={value.toString()}
+        offline={offlineStatus}
+        tooltip
       />
     );
   }

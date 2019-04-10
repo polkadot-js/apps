@@ -4,7 +4,7 @@
 
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { Nominators, RecentlyOffline, RecentlyOfflineMap } from '../types';
+import { Nominators, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
 import { AccountId, Balance, HeaderExtended } from '@polkadot/types';
@@ -21,36 +21,10 @@ type Props = I18nProps & {
   current: Array<string>,
   next: Array<string>,
   nominators: Nominators,
-  staking_recentlyOffline?: RecentlyOffline
-};
-
-type State = {
   recentlyOffline: RecentlyOfflineMap
 };
 
-class CurrentList extends React.PureComponent<Props, State> {
-  state: State = { recentlyOffline: {} };
-
-  static getDerivedStateFromProps ({ staking_recentlyOffline = [] }: Props): State {
-    return {
-      recentlyOffline: staking_recentlyOffline.reduce(
-        (result, [accountId, blockNumber, count]) => {
-          const account = accountId.toString();
-
-          if (!result[account]) {
-            result[account] = [];
-          }
-
-          result[account].push({
-            blockNumber,
-            count
-          });
-
-          return result;
-        }, {} as RecentlyOfflineMap)
-    };
-  }
-
+class CurrentList extends React.PureComponent<Props> {
   render () {
     return (
       <div className='validator--ValidatorsList ui--flex-medium'>
@@ -93,8 +67,7 @@ class CurrentList extends React.PureComponent<Props, State> {
   }
 
   private renderColumn (addresses: Array<string>, defaultName: string) {
-    const { balances, balanceArray, chain_subscribeNewHead, nominators, t } = this.props;
-    const { recentlyOffline } = this.state;
+    const { balances, balanceArray, chain_subscribeNewHead, nominators, recentlyOffline, t } = this.props;
 
     if (addresses.length === 0) {
       return (
@@ -134,7 +107,6 @@ export default withMulti(
   CurrentList,
   translate,
   withCalls<Props>(
-    'derive.chain.subscribeNewHead',
-    'query.staking.recentlyOffline'
+    'derive.chain.subscribeNewHead'
   )
 );

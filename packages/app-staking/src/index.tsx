@@ -6,7 +6,7 @@ import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { ComponentProps, Nominators } from './types';
+import { ComponentProps, Nominators, RecentlyOffline, RecentlyOfflineMap } from './types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
@@ -28,12 +28,14 @@ type Props = AppProps & ApiProps & I18nProps & {
   balances?: DerivedBalancesMap,
   session_validators?: Array<AccountId>,
   staking_controllers?: [Array<AccountId>, Array<Option<AccountId>>],
-  staking_nominators?: [Array<AccountId>, Array<Array<AccountId>>]
+  staking_nominators?: [Array<AccountId>, Array<Array<AccountId>>],
+  staking_recentlyOffline?: RecentlyOffline
 };
 
 type State = {
   intentions: Array<string>,
   nominators: Nominators,
+  recentlyOffline: RecentlyOfflineMap,
   tabs: Array<TabItem>,
   targets: Array<string>,
   validators: Array<string>
@@ -50,6 +52,7 @@ class App extends React.PureComponent<Props, State> {
     this.state = {
       intentions: [],
       nominators: {},
+      recentlyOffline: {},
       tabs: [
         {
           name: 'overview',
@@ -65,7 +68,7 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ staking_controllers = [[], []], session_validators = [], staking_nominators = [[], []] }: Props): State {
+  static getDerivedStateFromProps ({ staking_controllers = [[], []], session_validators = [], staking_nominators = [[], []], staking_recentlyOffline = [] }: Props): State {
     return {
       intentions: staking_controllers[1].filter((optId) => optId.isSome).map((accountId) =>
         accountId.unwrap().toString()
@@ -80,7 +83,22 @@ class App extends React.PureComponent<Props, State> {
       targets: staking_controllers[0].map((accountId) => accountId.toString()),
       validators: session_validators.map((authorityId) =>
         authorityId.toString()
-      )
+      ),
+      recentlyOffline: staking_recentlyOffline.reduce(
+        (result, [accountId, blockNumber, count]) => {
+          const account = accountId.toString();
+
+          if (!result[account]) {
+            result[account] = [];
+          }
+
+          result[account].push({
+            blockNumber,
+            count
+          });
+
+          return result;
+        }, {} as RecentlyOfflineMap)
     } as State;
   }
 
@@ -111,7 +129,7 @@ class App extends React.PureComponent<Props, State> {
 
   private renderComponent (Component: React.ComponentType<ComponentProps>) {
     return (): React.ReactNode => {
-      const { intentions, nominators, targets, validators } = this.state;
+      const { intentions, nominators, recentlyOffline, targets, validators } = this.state;
       const { balances = {} } = this.props;
 
       return (
@@ -120,6 +138,7 @@ class App extends React.PureComponent<Props, State> {
           balanceArray={this.balanceArray}
           intentions={intentions}
           nominators={nominators}
+          recentlyOffline={recentlyOffline}
           targets={targets}
           validators={validators}
         />
@@ -151,7 +170,8 @@ export default withMulti(
   withCalls<Props>(
     'derive.staking.controllers',
     'query.session.validators',
-    'query.staking.nominators'
+    'query.staking.nominators',
+    'query.staking.recentlyOffline'
   ),
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );
