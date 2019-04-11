@@ -15,7 +15,7 @@ import createItem from '@polkadot/ui-keyring/options/item';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import Dropdown from '../Dropdown';
-import { classes } from '../util';
+import { classes, getAddrName } from '../util';
 import addressToAddress from '../util/toAddress';
 
 type Props = BareProps & {
@@ -175,19 +175,12 @@ class InputAddress extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderLabel = ({ value }: KeyringSectionOption): string | null => {
+  private renderLabel = ({ value }: KeyringSectionOption): string | undefined => {
     if (!value) {
-      return null;
+      return undefined;
     }
 
-    const pair = keyring.getAccount(value).isValid()
-        ? keyring.getAccount(value)
-        : keyring.getAddress(value);
-    const name = pair.isValid()
-        ? pair.getMeta().name
-        : undefined;
-
-    return name || `${value.slice(0, 6)}…${value.slice(-6)}`;
+    return getAddrName(value, true);
   }
 
   private getLastOptionValue (): KeyringSectionOption | undefined {

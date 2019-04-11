@@ -8,9 +8,9 @@ import BN from 'bn.js';
 import React from 'react';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
 import { OfflineStatus } from '@polkadot/app-staking/types';
-
 import { RecentlyOffline } from '@polkadot/ui-app';
-import { classes, toShortAddress } from './util';
+
+import { classes, getAddrName, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
@@ -47,7 +47,7 @@ export default class AddressMini extends React.PureComponent<Props> {
             size={24}
             value={address}
           />
-          {this.renderAddress(address)}
+          {this.renderAddressOrName(address)}
           {children}
           {this.renderOfflineStatus()}
         </div>
@@ -57,15 +57,25 @@ export default class AddressMini extends React.PureComponent<Props> {
     );
   }
 
-  private renderAddress (address: string) {
+  private renderAddressOrName (address: string) {
     const { isShort = true, withAddress = true } = this.props;
 
     if (!withAddress) {
       return null;
     }
 
+    const name = getAddrName(address);
+
+    console.error('address', address, name);
+
     return (
-      <div className='ui--AddressMini-address'>{isShort ? toShortAddress(address) : address}</div>
+      <div className={`ui--AddressMini-address ${name ? 'withName' : 'withAddr'}`}>{
+         name || (
+          isShort
+            ? toShortAddress(address)
+            : address
+        )
+      }</div>
     );
   }
 

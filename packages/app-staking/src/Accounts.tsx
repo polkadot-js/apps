@@ -8,6 +8,7 @@ import { AccountFilter, ComponentProps } from './types';
 import React from 'react';
 import styled from 'styled-components';
 import { Dropdown } from '@polkadot/ui-app';
+import { getAddrName } from '@polkadot/ui-app/util';
 import keyring from '@polkadot/ui-keyring';
 import createOption from '@polkadot/ui-keyring/options/item';
 
@@ -112,16 +113,9 @@ class Accounts extends React.PureComponent<Props, State> {
   private getStashOptions (): Array<KeyringSectionOption> {
     const { stashes } = this.props;
 
-    return stashes.map((stashId) => {
-      const pair = keyring.getAccount(stashId).isValid()
-        ? keyring.getAccount(stashId)
-        : keyring.getAddress(stashId);
-      const name = pair.isValid()
-        ? pair.getMeta().name
-        : undefined;
-
-      return createOption(stashId, name);
-    });
+    return stashes.map((stashId) =>
+      createOption(stashId, getAddrName(stashId))
+    );
   }
 
   private onChangeFilter = (filter: AccountFilter): void => {
