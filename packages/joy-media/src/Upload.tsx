@@ -14,7 +14,9 @@ import translate from './translate';
 import { buildApiUrl, fileNameWoExt } from './utils';
 import { ContentId } from './types';
 import EditMeta from './EditMeta';
+import { MyAccountProps, withOnlyMembers } from '@polkadot/joy-utils/MyAccount';
 import TxButton from '@polkadot/joy-utils/TxButton';
+import { withMulti } from '@polkadot/ui-api';
 
 const MAX_FILE_SIZE_200_MB = 200 * 1024 * 1024;
 
@@ -23,7 +25,7 @@ function generateContentId () {
   return new ContentId(stringToU8a(uuid));
 }
 
-type Props = ApiProps & I18nProps & {};
+type Props = ApiProps & I18nProps & MyAccountProps & {};
 
 type State = {
   error?: any,
@@ -66,7 +68,7 @@ class Component extends React.PureComponent<Props, State> {
   private renderError () {
     const { error } = this.state;
     return (
-      <Message error className='UploadStatus'>
+      <Message error className='JoyMainStatus'>
         <Message.Header>Failed to upload the file</Message.Header>
         <p>{error.toString()}</p>
       </Message>
@@ -181,4 +183,8 @@ class Component extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(Component);
+export default withMulti(
+  Component,
+  translate,
+  withOnlyMembers
+);
