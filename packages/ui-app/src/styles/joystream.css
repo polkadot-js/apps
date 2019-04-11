@@ -106,3 +106,9 @@
     border-radius: 2px;
   }
 }
+
+.JoyMainStatus {
+  margin: 1rem auto !important;
+  max-width: 500px !important;
+  width: 100% !important;
+}
