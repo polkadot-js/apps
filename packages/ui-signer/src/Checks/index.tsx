@@ -125,7 +125,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const feeClass = !hasAvailable || overLimit
+    const feeClass = !hasAvailable || overLimit || isRemovable
       ? 'error'
       : (
         allWarn
@@ -154,13 +154,14 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
             ? <div><Icon name='ban' />{t(`This transaction will be rejected by the node as it is greater than the maximum size of ${MAX_SIZE_MB}MB`)}></div>
             : undefined
         }
+        {
+          isRemovable && hasAvailable
+            ? <div><Icon name='ban' />{t('Submitting this transaction will drop the account balance to below the existential amount, which can result in the account being removed from the chain state associated funds burned.')}</div>
+            : undefined
+        }
         {this.renderTransfer()}
         {this.renderProposal()}
         {
-          isRemovable && hasAvailable
-            ? <div><Icon name='warning sign' />{t('Submitting this transaction will drop the account balance to below the existential amount, removing the account from the chain state and burning associated funds')}</div>
-            : undefined
-        }{
           isReserved
             ? <div><Icon name='arrow right' />{t('This account does have a reserved/locked balance, not taken into account')}</div>
             : undefined
