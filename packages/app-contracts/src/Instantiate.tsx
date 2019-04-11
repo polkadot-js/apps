@@ -329,7 +329,10 @@ class Create extends React.PureComponent<Props, State> {
       return;
     }
 
-    store.saveContract(new AccountId(address), { abi, name });
+    store.saveContract(new AccountId(address), { abi, name }).catch((error) => {
+      console.error('Unable to save contract', error);
+    });
+
     this.redirect();
   }
 
@@ -344,7 +347,10 @@ class Create extends React.PureComponent<Props, State> {
           return;
         }
 
-        store.saveContract(address as AccountId, { abi, name });
+        store.saveContract(address as AccountId, { abi, name }).catch((error) => {
+          console.error('Unable to save contract', error);
+        });
+
         this.redirect();
       });
     }
