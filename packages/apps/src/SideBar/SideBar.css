@@ -100,9 +100,10 @@
       bottom: 0;
       left: 0;
       padding: 1rem 0 0.75rem 0.5rem;
-      position: absolute;
+      position: sticky;
       right: 0;
       text-align: left;
+      width: 100%;
 
       .ui.circular.button {
         background: white !important;
@@ -130,7 +131,10 @@
 
   &.expanded .apps--SideBar {
     text-align: left;
-    padding-left: 0.7rem;
+
+    .ui.vertical.menu {
+      padding-left: 0.7rem;
+    }
   }
 
   &.collapsed .apps--SideBar {
