@@ -10,7 +10,6 @@ export default ([
   {
     Component: Contracts,
     display: {
-      isHidden: true,
       needsAccounts: true,
       needsApi: [
         'tx.contract.call'
