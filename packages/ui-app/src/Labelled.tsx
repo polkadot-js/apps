@@ -46,7 +46,7 @@ const Wrapper = styled.div`
   }
 
   > label {
-    align-items: flex-start;
+    align-items: center;
     display: flex;
     flex: 0 0 15rem;
     justify-content: flex-end;
