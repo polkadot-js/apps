@@ -60,13 +60,14 @@ main > section {
   margin-bottom: 2em;
 }
 
+header > article {
+  background: transparent;
+}
+
 article {
-  /*background: white;
-  border: 1px solid #f2f2f2;
-  border-left-width: 0.25rem;*/
-  border: 0 solid #fafafa;
   border-radius: 0.25rem;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  /*box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);*/
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   margin: 0.25rem;
   padding: 1.25rem 1.5rem;
   text-align: left;
