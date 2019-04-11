@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router';
 
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { withCalls } from '@polkadot/ui-api/with';
+import { withCalls, withMulti } from '@polkadot/ui-api/with';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 
 import './index.css';
@@ -16,9 +16,10 @@ import Dashboard from './Dashboard';
 import List from './List';
 import DetailsByHandle from './DetailsByHandle';
 import EditForm from './EditForm';
+import { withMyAccount, MyAccountProps } from '@polkadot/joy-utils/MyAccount';
 
 // define out internal types
-type Props = AppProps & ApiProps & I18nProps & {
+type Props = AppProps & ApiProps & I18nProps & MyAccountProps & {
   firstMemberId?: BN,
   nextMemberId?: BN
 };
@@ -26,7 +27,7 @@ type Props = AppProps & ApiProps & I18nProps & {
 class App extends React.PureComponent<Props> {
 
   private buildTabs (): TabItem[] {
-    const { t, nextMemberId, firstMemberId } = this.props;
+    const { t, nextMemberId, firstMemberId, iAmMember } = this.props;
     let memberCount = 0;
     if (nextMemberId && firstMemberId) {
       memberCount = nextMemberId.sub(firstMemberId).toNumber();
@@ -38,7 +39,7 @@ class App extends React.PureComponent<Props> {
       },
       {
         name: 'edit',
-        text: t('Edit my profile')
+        text: iAmMember ? t('Edit my profile') : t('Register')
       },
       {
         name: 'dashboard',
@@ -75,9 +76,12 @@ class App extends React.PureComponent<Props> {
   }
 }
 
-export default translate(
+export default withMulti(
+  App,
+  translate,
+  withMyAccount,
   withCalls<Props>(
     queryMembershipToProp('firstMemberId'),
     queryMembershipToProp('nextMemberId')
-  )(App)
+  )
 );
