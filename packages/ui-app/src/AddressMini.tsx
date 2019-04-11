@@ -113,6 +113,7 @@ export default class AddressMini extends React.PureComponent<Props> {
         accountId={value.toString()}
         offline={offlineStatus}
         tooltip
+        inline
       />
     );
   }

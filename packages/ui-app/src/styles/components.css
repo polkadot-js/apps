@@ -49,6 +49,11 @@ header .ui--Button-Group {
   padding: 0.25rem 0 0 0;
 }
 
+.ui--AddressMini.summary {
+  position: relative;
+  top: -0.2rem;
+}
+
 .ui--AddressMini-info div {
   display: inline-block;
   vertical-align: middle;
@@ -264,12 +269,12 @@ header .ui--Button-Group {
 
 .ui--RecentlyOffline {
   position: absolute;
-  bottom: 0.75rem;
+  top: 0.75rem;
   font-size: 12px;
   cursor: help;
   display: flex;
   justify-content: center;
-  right: 0.75rem;
+  left: 0.75rem;
   width: 22px;
   height: 22px;
   padding: 0;
@@ -307,7 +312,7 @@ header .ui--Button-Group {
     }
   }
 
-  &.tooltip {
+  &.inline {
     position: static;
     margin: .3rem 0 .3rem .5rem;
   }

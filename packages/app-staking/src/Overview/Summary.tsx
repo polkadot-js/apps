@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import SummarySession from '@polkadot/app-explorer/SummarySession';
-import { SummaryBox, CardSummary } from '@polkadot/ui-app';
+import { AddressMini, SummaryBox, CardSummary } from '@polkadot/ui-app';
 import { withCall, withMulti } from '@polkadot/ui-api';
 
 import translate from '../translate';
@@ -16,6 +16,8 @@ import translate from '../translate';
 type Props = I18nProps & {
   balances: DerivedBalancesMap,
   intentions: Array<string>,
+  lastAuthor?: string,
+  lastBlock: string,
   lastLengthChange?: BN,
   staking_validatorCount?: BN,
   validators: Array<string>
@@ -23,7 +25,7 @@ type Props = I18nProps & {
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { className, intentions, style, t, staking_validatorCount, validators } = this.props;
+    const { className, intentions, lastAuthor, lastBlock, style, t, staking_validatorCount, validators } = this.props;
     const waiting = intentions.length > validators.length
       ? (intentions.length - validators.length)
       : 0;
@@ -41,7 +43,18 @@ class Summary extends React.PureComponent<Props> {
             {waiting}
           </CardSummary>
         </section>
-        <section className='ui--media-medium'>
+        <section>
+          <CardSummary label={t('last block')}>
+            {lastAuthor && (
+              <AddressMini
+                className='summary'
+                isPadded={false}
+                value={lastAuthor}
+                withAddress={false}
+              />
+            )}
+            {lastBlock}
+          </CardSummary>
           <SummarySession withBroken={false} />
         </section>
       </SummaryBox>
