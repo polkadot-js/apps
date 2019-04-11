@@ -159,6 +159,10 @@ class Address extends React.PureComponent<Props, State> {
       )
       : [];
 
+    if (!myNominators.length) {
+      return null;
+    }
+
     return (
       <details className='staking--Account-detail'>
         <summary>
