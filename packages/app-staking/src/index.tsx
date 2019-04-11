@@ -33,11 +33,11 @@ type Props = AppProps & ApiProps & I18nProps & {
 };
 
 type State = {
-  intentions: Array<string>,
+  controllers: Array<string>,
   nominators: Nominators,
   recentlyOffline: RecentlyOfflineMap,
+  stashes: Array<string>,
   tabs: Array<TabItem>,
-  targets: Array<string>,
   validators: Array<string>
 };
 
@@ -50,9 +50,10 @@ class App extends React.PureComponent<Props, State> {
     const { t } = props;
 
     this.state = {
-      intentions: [],
+      controllers: [],
       nominators: {},
       recentlyOffline: {},
+      stashes: [],
       tabs: [
         {
           name: 'overview',
@@ -63,14 +64,13 @@ class App extends React.PureComponent<Props, State> {
           text: t('Account Actions')
         }
       ],
-      targets: [],
       validators: []
     };
   }
 
   static getDerivedStateFromProps ({ staking_controllers = [[], []], session_validators = [], staking_nominators = [[], []], staking_recentlyOffline = [] }: Props): State {
     return {
-      intentions: staking_controllers[1].filter((optId) => optId.isSome).map((accountId) =>
+      controllers: staking_controllers[1].filter((optId) => optId.isSome).map((accountId) =>
         accountId.unwrap().toString()
       ),
       nominators: staking_nominators[0].reduce((result, accountId, index) => {
@@ -80,7 +80,7 @@ class App extends React.PureComponent<Props, State> {
 
         return result;
       }, {} as Nominators),
-      targets: staking_controllers[0].map((accountId) => accountId.toString()),
+      stashes: staking_controllers[0].map((accountId) => accountId.toString()),
       validators: session_validators.map((authorityId) =>
         authorityId.toString()
       ),
@@ -129,17 +129,17 @@ class App extends React.PureComponent<Props, State> {
 
   private renderComponent (Component: React.ComponentType<ComponentProps>) {
     return (): React.ReactNode => {
-      const { intentions, nominators, recentlyOffline, targets, validators } = this.state;
+      const { controllers, nominators, recentlyOffline, stashes, validators } = this.state;
       const { balances = {} } = this.props;
 
       return (
         <Component
           balances={balances}
           balanceArray={this.balanceArray}
-          intentions={intentions}
+          controllers={controllers}
           nominators={nominators}
           recentlyOffline={recentlyOffline}
-          targets={targets}
+          stashes={stashes}
           validators={validators}
         />
       );

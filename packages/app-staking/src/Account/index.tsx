@@ -24,7 +24,7 @@ type Props = ApiProps & I18nProps & {
   accountId: string,
   balances: DerivedBalancesMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
-  intentions: Array<string>,
+  controllers: Array<string>,
   isValidator: boolean,
   name: string,
   nominators: Nominators,
@@ -34,38 +34,39 @@ type Props = ApiProps & I18nProps & {
   staking_ledger?: Option<StakingLedger>,
   staking_stakers?: Exposure,
   staking_validators?: [ValidatorPrefs],
-  targets: Array<KeyringSectionOption>,
+  stashes: Array<string>,
+  stashOptions: Array<KeyringSectionOption>,
   validators: Array<string>
 };
 
 type State = {
+  controllerId: string | null,
   isBondOpen: boolean,
   isBondExtraOpen: boolean,
   isNominateOpen: boolean,
   isSessionKeyOpen: boolean,
   isValidatingOpen: boolean,
   isUnbondOpen: boolean,
-  bondedId: string | null,
   sessionId: string | null,
   stashId: string | null
 };
 
 class Account extends React.PureComponent<Props, State> {
   state: State = {
+    controllerId: null,
     isBondOpen: false,
     isBondExtraOpen: false,
     isSessionKeyOpen: false,
     isNominateOpen: false,
     isValidatingOpen: false,
     isUnbondOpen: false,
-    bondedId: null,
     sessionId: null,
     stashId: null
   };
 
   static getDerivedStateFromProps ({ session_nextKeyFor, staking_bonded, staking_ledger }: Props, state: State): Partial<State> {
     return {
-      bondedId: staking_bonded && staking_bonded.isSome
+      controllerId: staking_bonded && staking_bonded.isSome
         ? staking_bonded.unwrap().toString()
         : null,
       sessionId: session_nextKeyFor && session_nextKeyFor.isSome
@@ -98,7 +99,7 @@ class Account extends React.PureComponent<Props, State> {
         >
           <div className='staking--Account-expand'>
             {this.renderButtons()}
-            {this.renderBondedId()}
+            {this.renderControllerId()}
             {this.renderStashId()}
             {this.renderSessionId()}
             {this.renderNominee()}
@@ -111,12 +112,12 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderBond () {
     const { accountId } = this.props;
-    const { bondedId, isBondOpen } = this.state;
+    const { controllerId, isBondOpen } = this.state;
 
     return (
       <Bond
         accountId={accountId}
-        bondedId={bondedId}
+        controllerId={controllerId}
         isOpen={isBondOpen}
         onClose={this.toggleBond}
       />
@@ -244,11 +245,11 @@ class Account extends React.PureComponent<Props, State> {
     // );
   }
 
-  private renderBondedId () {
+  private renderControllerId () {
     const { recentlyOffline, t } = this.props;
-    const { bondedId } = this.state;
+    const { controllerId } = this.state;
 
-    if (!bondedId) {
+    if (!controllerId) {
       return null;
     }
 
@@ -256,8 +257,8 @@ class Account extends React.PureComponent<Props, State> {
       <div className='staking--Account-detail'>
         <label className='staking--label'>{t('controller')}</label>
         <AddressMini
-          value={bondedId}
-          offlineStatus={recentlyOffline[bondedId]}
+          value={controllerId}
+          offlineStatus={recentlyOffline[controllerId]}
         />
       </div>
     );
@@ -301,7 +302,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderNominating () {
-    const { accountId, intentions, targets } = this.props;
+    const { accountId, stashOptions } = this.props;
     const { isNominateOpen, stashId } = this.state;
 
     if (!stashId) {
@@ -313,20 +314,19 @@ class Account extends React.PureComponent<Props, State> {
         accountId={accountId}
         isOpen={isNominateOpen}
         onClose={this.toggleNominate}
-        intentions={intentions}
         stashId={stashId}
-        targets={targets}
+        stashOptions={stashOptions}
       />
     );
   }
 
   private renderButtons () {
-    const { accountId, intentions, t } = this.props;
-    const { sessionId, bondedId, stashId } = this.state;
+    const { accountId, controllers, t } = this.props;
+    const { sessionId, controllerId, stashId } = this.state;
     const buttons = [];
 
     if (!stashId) {
-      if (!bondedId) {
+      if (!controllerId) {
         buttons.push(
           <Button
             isPrimary
@@ -348,7 +348,7 @@ class Account extends React.PureComponent<Props, State> {
     } else {
       const nominees = this.getNominees();
       const isNominating = nominees && nominees.length;
-      const isValidating = intentions.indexOf(accountId) !== -1;
+      const isValidating = controllers.indexOf(accountId) !== -1;
 
       if (isValidating || isNominating) {
         buttons.push(

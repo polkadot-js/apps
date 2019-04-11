@@ -12,7 +12,7 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   accountId: string,
-  bondedId: string | null,
+  controllerId: string | null,
   isOpen: boolean,
   onClose: () => void
 };
@@ -78,7 +78,7 @@ class Bond extends React.PureComponent<Props, State> {
   }
 
   private renderContent () {
-    const { accountId, bondedId, t } = this.props;
+    const { accountId, t } = this.props;
     const { controllerId, destination, isValidController } = this.state;
 
     return (
@@ -95,7 +95,7 @@ class Bond extends React.PureComponent<Props, State> {
           />
           <InputAddress
             className='medium'
-            defaultValue={bondedId}
+            defaultValue={this.props.controllerId}
             help={t('The controller is the account that will be used to control any nominating or validating actions')}
             label={t('controller account')}
             onChange={this.onChangeController}
@@ -105,7 +105,7 @@ class Bond extends React.PureComponent<Props, State> {
             isValidController
               ? null
               : (
-                <article className='error'>{t('Select a controller account which is not the same as you stash account. Controllers are responsible for making any actions to contol the bonded funds.')}</article>
+                <article className='error'>{t('Select a controller account which is not the same as any of your stash accounts and not shared with any other stash. Controllers are responsible for making any actions to contol the bonded funds on a stash.')}</article>
               )
           }
           <InputBalance
@@ -131,10 +131,11 @@ class Bond extends React.PureComponent<Props, State> {
 
   private onChangeController = (controllerId: string) => {
     const { accountId } = this.props;
+    const isValidController = controllerId !== accountId;
 
     this.setState({
       controllerId,
-      isValidController: controllerId !== accountId
+      isValidController
     });
   }
 

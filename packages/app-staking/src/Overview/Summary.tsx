@@ -15,7 +15,7 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   balances: DerivedBalancesMap,
-  intentions: Array<string>,
+  controllers: Array<string>,
   lastAuthor?: string,
   lastBlock: string,
   lastLengthChange?: BN,
@@ -25,9 +25,9 @@ type Props = I18nProps & {
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { className, intentions, lastAuthor, lastBlock, style, t, staking_validatorCount, validators } = this.props;
-    const waiting = intentions.length > validators.length
-      ? (intentions.length - validators.length)
+    const { className, controllers, lastAuthor, lastBlock, style, t, staking_validatorCount, validators } = this.props;
+    const waiting = controllers.length > validators.length
+      ? (controllers.length - validators.length)
       : 0;
 
     return (

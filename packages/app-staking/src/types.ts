@@ -14,10 +14,10 @@ export type Nominators = {
 export type ComponentProps = {
   balances: DerivedBalancesMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
-  intentions: Array<string>,
+  controllers: Array<string>,
   nominators: Nominators,
   recentlyOffline: RecentlyOfflineMap,
-  targets: Array<string>,
+  stashes: Array<string>,
   validators: Array<string>
 };
 
