@@ -12,14 +12,17 @@ export type LocationProps = {
 
 export type ComponentProps = AppProps & LocationProps;
 
-export type CodeJson = {
-  abi?: string | null,
-  codeHash: string,
-  name: string
+type BaseInfo = {
+  name: string,
+  genesisHash: string
 };
 
-export type ContractJson = {
+export type CodeJson = BaseInfo & {
+  abi?: string | null,
+  codeHash: string
+};
+
+export type ContractJson = BaseInfo & {
   abi: string,
-  address: string,
-  name: string
+  address: string
 };
