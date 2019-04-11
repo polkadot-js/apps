@@ -128,7 +128,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
     const feeClass = !hasAvailable || overLimit
       ? 'error'
       : (
-        allWarn
+        allWarn || isRemovable
           ? 'warning'
           : 'normal'
       );
