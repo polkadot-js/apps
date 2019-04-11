@@ -24,7 +24,7 @@ const defaultLabel: any = (// node?
 );
 
 const Wrapper = styled.div`
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   flex: 1 1;
   text-align: left;
