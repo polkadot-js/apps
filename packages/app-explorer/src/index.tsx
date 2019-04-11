@@ -36,7 +36,7 @@ class ExplorerApp extends React.Component<Props, State> {
         {
           hasParams: true,
           name: 'query',
-          text: t('Block query')
+          text: t('Block details')
         },
         {
           name: 'node',
