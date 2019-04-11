@@ -14,7 +14,7 @@ import BlockByNumber from './ByNumber';
 import Query from './Query';
 
 type Props = BareProps & {
-  chain_bestNumberFinalized?: BlockNumber,
+  chain_bestNumber?: BlockNumber,
   match: {
     params: {
       value: string
@@ -31,10 +31,10 @@ class Entry extends React.Component<Props, State> {
     value: undefined
   };
 
-  static getDerivedStateFromProps ({ chain_bestNumberFinalized, match: { params } }: Props): State {
+  static getDerivedStateFromProps ({ chain_bestNumber, match: { params } }: Props): State {
     let { value } = params;
-    if ((!value || !value.length) && chain_bestNumberFinalized) {
-      value = chain_bestNumberFinalized.toString();
+    if ((!value || !value.length) && chain_bestNumber) {
+      value = chain_bestNumber.toString();
     }
 
     return {
@@ -83,5 +83,5 @@ class Entry extends React.Component<Props, State> {
 
 export default withMulti(
   Entry,
-  withCall('derive.chain.bestNumberFinalized')
+  withCall('derive.chain.bestNumber')
 );
