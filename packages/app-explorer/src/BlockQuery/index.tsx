@@ -5,13 +5,16 @@
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
+import { withCall, withMulti } from '@polkadot/ui-api';
 import { isHex } from '@polkadot/util';
+import { BlockNumber } from '@polkadot/types';
 
 import BlockByHash from './ByHash';
 import BlockByNumber from './ByNumber';
 import Query from './Query';
 
 type Props = BareProps & {
+  chain_bestNumber?: BlockNumber,
   match: {
     params: {
       value: string
@@ -19,9 +22,33 @@ type Props = BareProps & {
   }
 };
 
-export default class Entry extends React.PureComponent<Props> {
+type State = {
+  value?: string
+};
+
+class Entry extends React.Component<Props, State> {
+  state: State = {
+    value: undefined
+  };
+
+  static getDerivedStateFromProps ({ chain_bestNumber, match: { params } }: Props): State {
+    let { value } = params;
+    if ((!value || !value.length) && chain_bestNumber) {
+      value = chain_bestNumber.toString();
+    }
+
+    return {
+      value
+    } as State;
+  }
+
+  shouldComponentUpdate (nextProps: Props) {
+    return this.props.match !== nextProps.match ||
+      !this.state.value;
+  }
+
   render () {
-    const { match: { params: { value } } } = this.props;
+    const { value } = this.state;
 
     return (
       <>
@@ -32,7 +59,7 @@ export default class Entry extends React.PureComponent<Props> {
   }
 
   private renderBlock () {
-    const { match: { params: { value } } } = this.props;
+    const { value } = this.state;
 
     if (!value) {
       return null;
@@ -53,3 +80,8 @@ export default class Entry extends React.PureComponent<Props> {
       );
   }
 }
+
+export default withMulti(
+  Entry,
+  withCall('derive.chain.bestNumber')
+);
