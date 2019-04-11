@@ -51,7 +51,6 @@
     display: flex;
     flex-flow: column;
     height: auto;
-    left: 0;
     position: relative;
     transition: left 0.3s linear;
     width: 100%;
@@ -60,15 +59,16 @@
       display: flex;
       height: 100vh;
       margin: 0;
-      padding-bottom: 5rem;
-      top: 0px;
+      top: 0;
       width: 100%;
+      position: sticky;
     }
 
     .apps-SideBar-Scroll {
       align-items: center;
       display: flex;
       flex-direction: column;
+      height: 100vh;
       overflow-y: scroll;
       width: 100%;
 
@@ -99,7 +99,7 @@
       background: #3f3f3f;
       bottom: 0;
       left: 0;
-      padding: 1rem 0 0.75rem 0.5rem;
+      padding: 1rem 0 .75rem .5rem;
       position: sticky;
       right: 0;
       text-align: left;
@@ -132,8 +132,8 @@
   &.expanded .apps--SideBar {
     text-align: left;
 
-    .ui.vertical.menu {
-      padding-left: 0.7rem;
+    .apps-SideBar-Scroll {
+      padding-left: 0.75rem;
     }
   }
 
