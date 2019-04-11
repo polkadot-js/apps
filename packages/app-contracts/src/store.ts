@@ -11,7 +11,7 @@ import { api } from '@polkadot/ui-api';
 
 const PREFIX = 'contract:';
 const KEY_CODE = `${PREFIX}code:`;
-const KEY_CONTRACT = `${PREFIX}address:`;
+const KEY_CONTRACT = `${PREFIX}addr:`;
 
 const codeRegex = new RegExp(`^${KEY_CODE}`, '');
 const contractRegex = new RegExp(`^${KEY_CONTRACT}`, '');
