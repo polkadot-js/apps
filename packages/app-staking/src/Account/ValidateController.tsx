@@ -20,7 +20,7 @@ type Props = I18nProps & {
 type State = {
   bondedId: string | null,
   stashId: string | null
-}
+};
 
 class ValidateController extends React.PureComponent<Props, State> {
   state: State = {
@@ -42,7 +42,7 @@ class ValidateController extends React.PureComponent<Props, State> {
   render () {
     const { accountId, controllerId, t } = this.props;
     const { bondedId, stashId } = this.state;
-    let error;;
+    let error;
 
     if (controllerId === accountId) {
       error = t('A controller account which is not the same as your selected account is recommended');

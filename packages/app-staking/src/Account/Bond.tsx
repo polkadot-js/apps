@@ -41,7 +41,7 @@ class Bond extends React.PureComponent<Props, State> {
     this.state = {
       controllerId: controllerId || accountId,
       destination: 0
-    }
+    };
   }
 
   render () {
