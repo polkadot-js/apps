@@ -225,7 +225,10 @@ class Deploy extends React.PureComponent<Props, State> {
       return;
     }
 
-    store.saveCode(new Hash(codeHash), { abi, name });
+    store.saveCode(new Hash(codeHash), { abi, name }).catch((error) => {
+      console.error('Unable to save code', error);
+    });
+
     this.redirect();
   }
 
@@ -240,7 +243,10 @@ class Deploy extends React.PureComponent<Props, State> {
           return;
         }
 
-        store.saveCode(codeHash as Hash, { abi, name });
+        store.saveCode(codeHash as Hash, { abi, name }).catch((error) => {
+          console.error('Unable to save code', error);
+        });
+
         this.redirect();
       });
     }

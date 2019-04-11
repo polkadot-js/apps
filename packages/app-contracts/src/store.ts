@@ -7,9 +7,11 @@ import { CodeJson, ContractJson } from './types';
 import EventEmitter from 'eventemitter3';
 import store from 'store';
 import { AccountId, ContractAbi, Hash } from '@polkadot/types';
+import { api } from '@polkadot/ui-api';
 
-const KEY_CODE = 'contract:code:';
-const KEY_CONTRACT = 'contract:contract:';
+const PREFIX = 'contract:';
+const KEY_CODE = `${PREFIX}code:`;
+const KEY_CONTRACT = `${PREFIX}addr:`;
 
 const codeRegex = new RegExp(`^${KEY_CODE}`, '');
 const contractRegex = new RegExp(`^${KEY_CONTRACT}`, '');
@@ -20,18 +22,6 @@ type ContractStored = { json: ContractJson , contractAbi: ContractAbi };
 class Store extends EventEmitter {
   private allCode: { [index: string]: CodeStored } = {};
   private allContracts: { [index: string]: ContractStored } = {};
-
-  constructor () {
-    super();
-
-    store.each((json: CodeJson | ContractJson, key: string) => {
-      if (codeRegex.test(key)) {
-        this.addCode(json as CodeJson);
-      } else if (contractRegex.test(key)) {
-        this.addContract(json as ContractJson);
-      }
-    });
-  }
 
   get hasCode (): boolean {
     return Object.keys(this.allCode).length !== 0;
@@ -57,20 +47,54 @@ class Store extends EventEmitter {
     return this.allContracts[address];
   }
 
-  saveCode (codeHash: Hash, partial: Partial<CodeJson>) {
-    const json = { ...partial, codeHash: codeHash.toHex() } as CodeJson;
+  async saveCode (codeHash: Hash, partial: Partial<CodeJson>) {
+    await api.isReady;
+
+    const json = {
+      ...partial,
+      codeHash: codeHash.toHex(),
+      genesisHash: api.genesisHash.toHex()
+    } as CodeJson;
 
     store.set(`${KEY_CODE}${json.codeHash}`, json);
 
     this.addCode(json);
   }
 
-  saveContract (address: AccountId, partial: Partial<ContractJson>) {
-    const json = { ...partial, address: address.toString() } as ContractJson;
+  async saveContract (address: AccountId, partial: Partial<ContractJson>) {
+    await api.isReady;
+
+    const json = {
+      ...partial,
+      address: address.toString(),
+      genesisHash: api.genesisHash.toHex()
+    } as ContractJson;
 
     store.set(`${KEY_CONTRACT}${address}`, json);
 
     this.addContract(json);
+  }
+
+  async loadAll () {
+    try {
+      await api.isReady;
+
+      const genesisHash = api.genesisHash.toHex();
+
+      store.each((json: CodeJson | ContractJson, key: string) => {
+        if (json && json.genesisHash !== genesisHash) {
+          return;
+        }
+
+        if (codeRegex.test(key)) {
+          this.addCode(json as CodeJson);
+        } else if (contractRegex.test(key)) {
+          this.addContract(json as ContractJson);
+        }
+      });
+    } catch (error) {
+      console.error('Unable to load contracts', error);
+    }
   }
 
   private addCode (json: CodeJson) {

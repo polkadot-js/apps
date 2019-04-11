@@ -34,6 +34,11 @@ class App extends React.PureComponent<Props, State> {
     store.on('new-code', this.triggerUpdate);
     store.on('new-contract', this.triggerUpdate);
 
+    // since we have a dep on the async API, we load here
+    store.loadAll().catch(() => {
+      // noop, handled internally
+    });
+
     this.state = {
       tabs: [
         {

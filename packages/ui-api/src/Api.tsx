@@ -18,6 +18,8 @@ import { formatBalance, isTestChain } from '@polkadot/util';
 
 import ApiContext from './ApiContext';
 
+let api: ApiPromise;
+
 type Props = {
   children: React.ReactNode,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
@@ -28,6 +30,8 @@ type Props = {
 type State = ApiProps & {
   chain?: string
 };
+
+export { api };
 
 export default class ApiWrapper extends React.PureComponent<Props, State> {
   state: State = {} as State;
@@ -40,7 +44,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     const signer = new ApiSigner(queueExtrinsic, queueSetTxStatus);
 
     const setApi = (provider: ProviderInterface): void => {
-      const api = new ApiPromise({ provider, signer });
+      api = new ApiPromise({ provider, signer });
 
       this.setState({ api }, () => {
         this.subscribeEvents();
@@ -49,10 +53,12 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     const setApiUrl = (url: string = defaults.WS_URL): void =>
       setApi(new WsProvider(url));
 
+    api = new ApiPromise({ provider, signer });
+
     this.state = {
       isApiConnected: false,
       isApiReady: false,
-      api: new ApiPromise({ provider, signer }),
+      api,
       setApiUrl
     } as State;
   }
