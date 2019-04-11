@@ -46,7 +46,11 @@ const Wrapper = styled.div`
   }
 
   > label {
+    align-items: flex-start;
+    display: flex;
     flex: 0 0 15rem;
+    justify-content: flex-end;
+    min-height: 2.715rem; /* more-or-less 2 lines with adjustments, 38px as per input box */
     min-width: 15rem;
     padding-right: 0.5rem;
     position: relative;
