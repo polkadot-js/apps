@@ -23,9 +23,9 @@ const ZERO = new Balance(0);
 
 class Overview extends React.PureComponent<Props> {
   render () {
-    const { balances, balanceArray, chain_subscribeNewHead, intentions, nominators, recentlyOffline, validators } = this.props;
-    const intentionsSorted = this.sortByBalance(
-      intentions.filter((address) =>
+    const { balances, balanceArray, chain_subscribeNewHead, controllers, nominators, recentlyOffline, validators } = this.props;
+    const nextSorted = this.sortByBalance(
+      controllers.filter((address) =>
         !validators.includes(address)
       )
     );
@@ -43,7 +43,7 @@ class Overview extends React.PureComponent<Props> {
       <div className='staking--Overview'>
         <Summary
           balances={balances}
-          intentions={intentions}
+          controllers={controllers}
           lastBlock={lastBlock}
           lastAuthor={lastAuthor}
           validators={validators}
@@ -54,7 +54,7 @@ class Overview extends React.PureComponent<Props> {
           current={validatorsSorted}
           lastBlock={lastBlock}
           lastAuthor={lastAuthor}
-          next={intentionsSorted}
+          next={nextSorted}
           nominators={nominators}
           recentlyOffline={recentlyOffline}
         />

@@ -54,9 +54,9 @@ const Wrapper = styled.div`
     z-index: 1;
 
     .help-hover {
-      background: #4e4e4e;
+      background: #222;
       border-radius: 0.25rem;
-      color: #eee;
+      color: #fff;
       display: none;
       padding: 0.5rem 1rem;
       position: absolute;

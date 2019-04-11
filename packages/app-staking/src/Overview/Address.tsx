@@ -30,7 +30,7 @@ type Props = I18nProps & {
 };
 
 type State = {
-  bondedId: string,
+  controllerId: string,
   stashActive: string | null,
   stashTotal: string | null,
   stashId: string | null,
@@ -45,7 +45,7 @@ class Address extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      bondedId: props.address,
+      controllerId: props.address,
       sessionId: null,
       stashActive: null,
       stashTotal: null,
@@ -59,8 +59,8 @@ class Address extends React.PureComponent<Props, State> {
       ? staking_ledger.unwrapOr(null)
       : null;
     return {
-      bondedId: !staking_bonded || staking_bonded.isNone
-        ? prevState.bondedId
+      controllerId: !staking_bonded || staking_bonded.isNone
+        ? prevState.controllerId
         : staking_bonded.unwrap().toString(),
       sessionId: !session_nextKeyFor || session_nextKeyFor.isNone
         ? prevState.sessionId
@@ -79,11 +79,11 @@ class Address extends React.PureComponent<Props, State> {
 
   render () {
     const { address, lastAuthor, lastBlock } = this.props;
-    const { bondedId, stashActive, stashId } = this.state;
-    const isAuthor = [address, bondedId, stashId].includes(lastAuthor);
+    const { controllerId, stashActive, stashId } = this.state;
+    const isAuthor = [address, controllerId, stashId].includes(lastAuthor);
 
     return (
-      <article key={stashId || bondedId}>
+      <article key={stashId || controllerId}>
         <AddressRow
           extraInfo={stashActive ? `bonded ${stashActive}` : undefined}
           name={this.getDisplayName()}
@@ -125,12 +125,12 @@ class Address extends React.PureComponent<Props, State> {
 
   private renderKeys () {
     const { t } = this.props;
-    const { bondedId, sessionId } = this.state;
-    const isSame = bondedId === sessionId;
+    const { controllerId, sessionId } = this.state;
+    const isSame = controllerId === sessionId;
 
     return (
       <div className='staking--accounts-info'>
-        {bondedId
+        {controllerId
           ? (
             <div>
               <label className='staking--label'>{
@@ -138,7 +138,7 @@ class Address extends React.PureComponent<Props, State> {
                   ? t('controller/session')
                   : t('controller')
               }</label>
-              <AddressMini value={bondedId} />
+              <AddressMini value={controllerId} />
             </div>
           )
           : null

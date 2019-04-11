@@ -17,7 +17,7 @@ type Props = I18nProps & ComponentProps;
 
 class StakeList extends React.PureComponent<Props> {
   render () {
-    const { balances, balanceArray, intentions, nominators, recentlyOffline, validators } = this.props;
+    const { balances, balanceArray, controllers, nominators, recentlyOffline, stashes, validators } = this.props;
     const accounts = keyring.getAccounts();
 
     return (
@@ -31,13 +31,14 @@ class StakeList extends React.PureComponent<Props> {
               accountId={address}
               balances={balances}
               balanceArray={balanceArray}
-              intentions={intentions}
+              controllers={controllers}
               isValidator={validators.includes(address)}
               key={address}
               name={name}
               nominators={nominators}
               recentlyOffline={recentlyOffline}
-              targets={this.getTargetOptions()}
+              stashes={stashes}
+              stashOptions={this.getStashOptions()}
               validators={validators}
             />
           );
@@ -59,10 +60,10 @@ class StakeList extends React.PureComponent<Props> {
     );
   }
 
-  private getTargetOptions (): Array<KeyringSectionOption> {
-    const { targets } = this.props;
+  private getStashOptions (): Array<KeyringSectionOption> {
+    const { stashes } = this.props;
 
-    return targets.map((stashId) => {
+    return stashes.map((stashId) => {
       const pair = keyring.getAccount(stashId).isValid()
         ? keyring.getAccount(stashId)
         : keyring.getAddress(stashId);
