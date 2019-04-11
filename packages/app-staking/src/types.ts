@@ -31,3 +31,5 @@ export interface OfflineStatus {
   blockNumber: BlockNumber;
   count: BN;
 }
+
+export type AccountFilter = 'all' | 'controller' | 'session' | 'stash' | 'unbonded';

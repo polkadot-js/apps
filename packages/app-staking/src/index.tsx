@@ -19,7 +19,7 @@ import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import './index.css';
 
 import basicMd from './md/basic.md';
-import StakeList from './StakeList';
+import Accounts from './Accounts';
 import Overview from './Overview';
 import translate from './translate';
 
@@ -120,7 +120,7 @@ class App extends React.PureComponent<Props, State> {
           />
         </header>
         <Switch>
-          <Route path={`${basePath}/actions`} render={this.renderComponent(StakeList)} />
+          <Route path={`${basePath}/actions`} render={this.renderComponent(Accounts)} />
           <Route render={this.renderComponent(Overview)} />
         </Switch>
       </main>

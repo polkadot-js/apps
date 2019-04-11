@@ -10,7 +10,7 @@ import React from 'react';
 import { AccountId, Balance, Option, StakingLedger } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api/with';
 import { AddressMini, AddressRow, RecentlyOffline } from '@polkadot/ui-app';
-import keyring from '@polkadot/ui-keyring';
+import { getAddrName } from '@polkadot/ui-app/util';
 import { formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
@@ -114,13 +114,7 @@ class Address extends React.PureComponent<Props, State> {
       return defaultName;
     }
 
-    const pair = keyring.getAccount(stashId).isValid()
-      ? keyring.getAccount(stashId)
-      : keyring.getAddress(stashId);
-
-    return pair.isValid()
-      ? (pair.getMeta().name || defaultName)
-      : defaultName;
+    return getAddrName(stashId) || defaultName;
   }
 
   private renderKeys () {

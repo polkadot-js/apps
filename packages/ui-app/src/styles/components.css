@@ -60,7 +60,13 @@ header .ui--Button-Group {
 }
 
 .ui--AddressMini-address {
-  font-family: monospace;
+  &.withAddr {
+    font-family: monospace;
+  }
+
+  &.withName {
+    text-transform: uppercase;
+  }
 }
 
 .ui--AddressMini .ui--IdentityIcon {
@@ -144,6 +150,10 @@ header .ui--Button-Group {
 .ui--AddressSummary-data {
   padding: 0;
   white-space: nowrap;
+
+  .ui--AddressSummary-name {
+    text-transform: uppercase;
+  }
 }
 
 .ui--AddressSummary-data * {

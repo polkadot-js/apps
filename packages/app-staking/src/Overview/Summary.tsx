@@ -55,6 +55,8 @@ class Summary extends React.PureComponent<Props> {
             )}
             {lastBlock}
           </CardSummary>
+        </section>
+        <section>
           <SummarySession withBroken={false} />
         </section>
       </SummaryBox>
