@@ -14,6 +14,7 @@
 .staking--Account {
   position: relative;
   flex: 1 1;
+  min-width: 48%;
 
   .ui--AddressMini {
     display: block;
@@ -106,17 +107,6 @@
 
   .staking--label {
     margin: 0 0 -0.5rem 0;
-  }
-}
-
-.staking--StakeList {
-  display: flex;
-  flex-wrap: wrap;
-
-  .spacer {
-    flex: 1 1;
-    margin: .25rem;
-    padding: 1rem 1.5rem;
   }
 }
 

@@ -6,7 +6,7 @@ import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
-import { Nominators, RecentlyOfflineMap } from '../types';
+import { AccountFilter, Nominators, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
 import { AccountId, Balance, Exposure, Option, StakingLedger, ValidatorPrefs } from '@polkadot/types';
@@ -25,6 +25,7 @@ type Props = ApiProps & I18nProps & {
   balances: DerivedBalancesMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   controllers: Array<string>,
+  filter: AccountFilter,
   isValidator: boolean,
   name: string,
   nominators: Nominators,
@@ -79,7 +80,12 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accountId, balanceArray, name } = this.props;
+    const { accountId, balanceArray, filter, name } = this.props;
+    const { controllerId, stashId } = this.state;
+
+    if ((filter === 'controller' && !stashId) || (filter === 'stash' && !controllerId) || (filter === 'unbonded' && (controllerId || stashId))) {
+      return null;
+    }
 
     return (
       <article className='staking--Account'>
