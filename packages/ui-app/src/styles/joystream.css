@@ -82,10 +82,10 @@
 
 .apps--SideBar-logo {
   max-height: 26px !important;
-  margin: .5rem 1.5rem 1rem .75rem !important;
+  margin: 1rem 1.5rem 1rem .75rem !important;
 }
 .collapsed .apps--SideBar-logo {
-  margin: .5rem .75rem 1rem -.25rem !important
+  margin: 1rem .75rem 1rem .5rem !important
 }
 
 .JoyForm .ui--Labelled {
