@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { ValidatorPrefs } from '@polkadot/types';
+import { AccountId, ValidatorPrefs } from '@polkadot/types';
 import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/ui-app';
 
 import translate from '../translate';
@@ -16,7 +16,7 @@ type Props = I18nProps & {
   isOpen: boolean,
   onClose: () => void,
   preferences: ValidatorPrefs,
-  stashId: string
+  stashId: AccountId
 };
 
 type State = {
@@ -81,7 +81,7 @@ class Staking extends React.PureComponent<Props, State> {
           <TxButton
             accountId={accountId}
             isPrimary
-            label={t('Stake')}
+            label={t('Validate')}
             onClick={onClose}
             params={[{
               unstakeThreshold,

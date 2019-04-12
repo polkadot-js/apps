@@ -51,7 +51,11 @@ class Query extends React.PureComponent<Props, State> {
       const defaultProps = { className: 'ui--output' };
 
       // render function to create an element for the query results which is plugged to the api
-      const renderHelper = withCallDiv('subscribe', { params: [key, ...values] });
+      const renderHelper = withCallDiv('subscribe', {
+        paramName: 'params',
+        paramValid: true,
+        params: [key, ...values]
+      });
       const Component = renderHelper(
         // By default we render a simple div node component with the query results in it
         (value: any) => valueToText(type, value, true, true),

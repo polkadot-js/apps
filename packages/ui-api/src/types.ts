@@ -31,11 +31,6 @@ export type OnChangeCb = OnChangeCb$Obs | OnChangeCb$Fn;
 export type ChangeProps = {
   callOnResult?: OnChangeCb
 };
-
-export type ParamProps = {
-  params?: any
-};
-
 export type CallState = {
   callResult?: any;
   callUpdated?: boolean;
@@ -44,7 +39,7 @@ export type CallState = {
 
 export type CallProps = ApiProps & CallState;
 
-export type BaseProps<T> = BareProps & CallProps & ChangeProps & ParamProps & {
+export type BaseProps<T> = BareProps & CallProps & ChangeProps & {
   children?: React.ReactNode,
   label?: string,
   render?: (value?: T) => React.ReactNode

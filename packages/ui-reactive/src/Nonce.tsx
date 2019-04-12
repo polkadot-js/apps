@@ -34,4 +34,4 @@ export class Nonce extends React.PureComponent<Props> {
   }
 }
 
-export default withCall('query.system.accountNonce')(Nonce);
+export default withCall('query.system.accountNonce', { paramName: 'params' })(Nonce);

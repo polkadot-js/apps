@@ -23,7 +23,7 @@ const NOOP = () => {
   // ignore
 };
 
-export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, params = [], paramName = 'params', propName, transform = echoTransform }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
+export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, params = [], paramName, paramValid = false, propName, transform = echoTransform }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<Subtract<P, ApiProps>> => {
     class WithPromise extends React.Component<P, State> {
       state: State = {
@@ -91,20 +91,30 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         }
       }
 
-      private getParams (props: any): Array<any> {
-        const paramValue = props[paramName];
+      private getParams (props: any): [boolean, Array<any>] {
+        const paramValue = paramName
+          ? props[paramName]
+          : undefined;
 
         if (atProp) {
           at = props[atProp];
         }
 
-        return isUndefined(paramValue)
+        // When we are specifying a param and have an invalid, don't use it. For 'params',
+        // we default to the original types, i.e. no validation (query app uses this)
+        if (!paramValid && paramName && (isUndefined(paramValue) || isNull(paramValue))) {
+          return [false, []];
+        }
+
+        const values = isUndefined(paramValue)
           ? params
           : params.concat(
             Array.isArray(paramValue)
               ? paramValue
               : [paramValue]
           );
+
+        return [true, values];
       }
 
       private getApiMethod (newParams: Array<any>): [Method, Array<any>, boolean] {
@@ -145,7 +155,11 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         ];
       }
 
-      private async subscribe (newParams: Array<any>) {
+      private async subscribe ([isValid, newParams]: [boolean, Array<any>]) {
+        if (!isValid) {
+          return;
+        }
+
         const { api } = this.props;
 
         await api.isReady;
