@@ -4,8 +4,9 @@
 
 import { I18nProps } from './types';
 
+import BN from 'bn.js';
 import React from 'react';
-import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
+import { AccountId, AccountIndex, Address } from '@polkadot/types';
 import { Nonce } from '@polkadot/ui-reactive';
 import { withCalls } from '@polkadot/ui-api';
 import BaseIdentityIcon from '@polkadot/ui-identicon';
@@ -18,8 +19,8 @@ import translate from './translate';
 
 export type Props = I18nProps & {
   accounts_idAndIndex?: [AccountId?, AccountIndex?],
-  balance?: Balance | Array<Balance>,
-  bonded?: Balance | Array<Balance>,
+  balance?: BN | Array<BN>,
+  bonded?: BN | Array<BN>,
   children?: React.ReactNode,
   extraInfo?: React.ReactNode,
   name?: string,
@@ -155,7 +156,7 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderBonded () {
-    const { accounts_idAndIndex = [], t, value, withBonded } = this.props;
+    const { accounts_idAndIndex = [], bonded, t, value, withBonded } = this.props;
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
 
@@ -165,6 +166,7 @@ class AddressSummary extends React.PureComponent<Props> {
 
     return (
       <BondedDisplay
+        bonded={bonded}
         className='ui--AddressSummary-bonded'
         label={t('bonded ')}
         params={accountId}

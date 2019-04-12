@@ -6,7 +6,7 @@ import { BareProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
+import { AccountId, AccountIndex, Address } from '@polkadot/types';
 import { OfflineStatus } from '@polkadot/app-staking/types';
 import { RecentlyOffline } from '@polkadot/ui-app';
 
@@ -16,7 +16,8 @@ import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
 
 type Props = BareProps & {
-  balance?: Balance | Array<Balance> | BN,
+  balance?: BN | Array<BN>,
+  bonded?: BN | Array<BN>,
   children?: React.ReactNode,
   isPadded?: boolean,
   isShort?: boolean,
@@ -94,7 +95,7 @@ export default class AddressMini extends React.PureComponent<Props> {
   }
 
   private renderBonded () {
-    const { value, withBonded = false } = this.props;
+    const { bonded, value, withBonded = false } = this.props;
 
     if (!withBonded || !value) {
       return null;
@@ -102,6 +103,7 @@ export default class AddressMini extends React.PureComponent<Props> {
 
     return (
       <BondedDisplay
+        bonded={bonded}
         className='ui--AddressSummary-balance'
         label=''
         params={value}
