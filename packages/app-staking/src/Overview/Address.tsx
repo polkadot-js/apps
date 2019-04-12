@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { RecentlyOfflineMap } from '../types';
 
 import React from 'react';
-import { AccountId, Option, StakingLedger, Exposure } from '@polkadot/types';
+import { AccountId, Balance, Option, StakingLedger, Exposure } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api/with';
 import { AddressMini, AddressRow, RecentlyOffline } from '@polkadot/ui-app';
 import { getAddrName } from '@polkadot/ui-app/util';
@@ -74,14 +74,17 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { address, lastAuthor, lastBlock, stashId } = this.props;
-    const { controllerId, stashActive } = this.state;
+    const { address, lastAuthor, lastBlock, stashId, staking_stakers } = this.props;
+    const { controllerId } = this.state;
     const isAuthor = [address, controllerId, stashId].includes(lastAuthor);
+    const bonded = staking_stakers && !staking_stakers.own.isZero()
+      ? [staking_stakers.own, staking_stakers.total.sub(staking_stakers.own)]
+      : undefined;
 
     return (
       <article key={stashId || controllerId}>
         <AddressRow
-          extraInfo={stashActive ? `bonded ${stashActive}` : undefined}
+          bonded={bonded}
           name={this.getDisplayName()}
           value={stashId || null}
           withBalance={false}
@@ -94,7 +97,7 @@ class Address extends React.PureComponent<Props, State> {
           {this.renderOffline()}
         </AddressRow>
         {
-          isAuthor
+          isAuthor && stashId
             ? <div className='blockNumber'>#{lastBlock}</div>
             : null
         }
@@ -148,7 +151,7 @@ class Address extends React.PureComponent<Props, State> {
   private renderNominators () {
     const { staking_stakers, t } = this.props;
     const nominators = staking_stakers
-      ? staking_stakers.others.map(({ who }) => who)
+      ? staking_stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value])
       : [];
 
     if (!nominators.length) {
@@ -164,8 +167,9 @@ class Address extends React.PureComponent<Props, State> {
             }
           })}
         </summary>
-        {nominators.map((who) =>
+        {nominators.map(([who, bonded]) =>
           <AddressMini
+            bonded={bonded}
             key={who.toString()}
             value={who}
             withBonded

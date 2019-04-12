@@ -6,7 +6,7 @@ import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { ComponentProps, Nominators, RecentlyOffline, RecentlyOfflineMap } from './types';
+import { ComponentProps, RecentlyOffline, RecentlyOfflineMap } from './types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
