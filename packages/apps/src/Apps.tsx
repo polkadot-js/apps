@@ -7,6 +7,8 @@ import { SideBarTransition, SIDEBAR_TRANSITION_DURATION, SIDEBAR_MENU_THRESHOLD 
 
 import React from 'react';
 import store from 'store';
+import styled, { ThemeProvider } from 'styled-components';
+import { media } from '@polkadot/ui-app';
 import { classes } from '@polkadot/ui-app/util';
 import Signer from '@polkadot/ui-signer';
 import settings from '@polkadot/ui-settings';
@@ -16,9 +18,6 @@ import { hot } from 'react-hot-loader/root';
 import Connecting from './Connecting';
 import Content from './Content';
 import SideBar from './SideBar';
-
-import styled, { ThemeProvider } from 'styled-components';
-import { media } from '@polkadot/ui-app/media';
 
 type Props = BareProps & {};
 
@@ -38,6 +37,7 @@ const Wrapper = styled.div`
   header {
     margin-bottom: 0.8rem;
     text-align: center;
+
     ${media.TABLET`
       margin-bottom: 1.1rem;
    `}

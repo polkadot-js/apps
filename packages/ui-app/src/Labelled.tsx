@@ -8,6 +8,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Icon from './Icon';
+import media from './media';
 import { classes } from './util';
 
 type Props = BareProps & {
@@ -24,37 +25,12 @@ const defaultLabel: any = (// node?
 );
 
 const Wrapper = styled.div`
-  align-items: flex-start;
-  display: flex;
-  flex: 1 1;
-  text-align: left;
-
-  &.label-small {
-    display: block;
-
-    > label {
-      margin: 0;
-      min-width: 0;
-      padding-right: 0;
-    }
-  }
-
-  > .ui--Labelled-content {
-    box-sizing: border-box;
-    flex: 1 1;
-    min-width: 0;
-  }
+  display: block;
 
   > label {
-    align-items: center;
-    display: flex;
-    flex: 0 0 15rem;
-    justify-content: flex-end;
-    min-height: 2.715rem; /* more-or-less 2 lines with adjustments, 38px as per input box */
-    min-width: 15rem;
+    margin: 0.25rem 0 0 0;
     padding-right: 0.5rem;
     position: relative;
-    text-align: right;
     z-index: 1;
 
     .help-hover {
@@ -80,6 +56,40 @@ const Wrapper = styled.div`
       display: block;
     }
   }
+
+  &.label-small {
+    display: block;
+
+    > label {
+      margin: 0;
+      min-width: 0;
+      padding-right: 0;
+    }
+  }
+
+  > .ui--Labelled-content {
+    box-sizing: border-box;
+    flex: 1 1;
+    min-width: 0;
+  }
+
+  ${media.DESKTOP`
+    align-items: flex-start;
+    display: flex;
+    flex: 1 1;
+    margin: 0;
+    text-align: left;
+
+    > label {
+      align-items: center;
+      display: flex;
+      flex: 0 0 15rem;
+      justify-content: flex-end;
+      min-height: 2.715rem; /* more-or-less 2 lines with adjustments, 38px as per input box */
+      min-width: 15rem;
+      text-align: right;
+    }
+  `}
 `;
 
 export default class Labelled extends React.PureComponent<Props> {

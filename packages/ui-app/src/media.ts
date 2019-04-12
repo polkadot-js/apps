@@ -5,15 +5,23 @@
 import { css } from 'styled-components';
 import { ScreenSizes } from './constants';
 
-export const media: any = Object
- .keys(ScreenSizes)
- .reduce((acc: any, label: any) => {
-   let size: any = ScreenSizes[label];
-   acc[label] = (...args: any) => (
-    css`
-     @media ( min-width: ${size / 16}em) {
-      ${css`${{ ...args }}`}
-     }
-    `);
-   return acc;
- }, {});
+type MediaCss = {
+  [index in keyof typeof ScreenSizes]: (values: TemplateStringsArray) => any
+};
+
+const media = Object
+  .keys(ScreenSizes)
+  .reduce((acc, label: any) => {
+    const size: number = ScreenSizes[label] as any;
+
+    acc[label] = (values: TemplateStringsArray) =>
+      css`
+        @media (min-width: ${size / 16}em) {
+          ${values}
+        }
+      `;
+
+    return acc;
+  }, {} as MediaCss);
+
+export default media;

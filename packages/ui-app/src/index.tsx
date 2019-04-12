@@ -40,3 +40,5 @@ export { default as Status } from './Status';
 export { default as SummaryBox } from './SummaryBox';
 export { default as Tabs } from './Tabs';
 export { default as TxButton } from './TxButton';
+
+export { default as media } from './media';
