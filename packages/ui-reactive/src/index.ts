@@ -4,6 +4,7 @@
 
 export { default as AccountIndex } from './AccountIndex';
 export { default as Balance } from './Balance';
+export { default as Bonded } from './Bonded';
 export { default as BestFinalized } from './BestFinalized';
 export { default as BestNumber } from './BestNumber';
 export { default as Chain } from './Chain';

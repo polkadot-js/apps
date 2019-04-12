@@ -4,10 +4,10 @@
 
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { Nominators, RecentlyOfflineMap } from '../types';
+import { RecentlyOfflineMap } from '../types';
 
 import React from 'react';
-import { AccountId, Option, StakingLedger } from '@polkadot/types';
+import { AccountId, Balance, Option, StakingLedger, Exposure } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api/with';
 import { AddressMini, AddressRow, RecentlyOffline } from '@polkadot/ui-app';
 import { getAddrName } from '@polkadot/ui-app/util';
@@ -21,18 +21,18 @@ type Props = I18nProps & {
   defaultName: string,
   lastAuthor: string,
   lastBlock: string,
-  nominators: Nominators,
   recentlyOffline: RecentlyOfflineMap,
   session_nextKeyFor?: Option<AccountId>,
   staking_bonded?: Option<AccountId>,
-  staking_ledger?: Option<StakingLedger>
+  staking_ledger?: Option<StakingLedger>,
+  staking_stakers?: Exposure,
+  stashId?: string | null
 };
 
 type State = {
   controllerId: string,
   stashActive: string | null,
   stashTotal: string | null,
-  stashId: string | null,
   sessionId: string | null,
   badgeExpanded: boolean;
 };
@@ -48,7 +48,6 @@ class Address extends React.PureComponent<Props, State> {
       sessionId: null,
       stashActive: null,
       stashTotal: null,
-      stashId: null,
       badgeExpanded: false
     };
   }
@@ -57,6 +56,7 @@ class Address extends React.PureComponent<Props, State> {
     const ledger = staking_ledger
       ? staking_ledger.unwrapOr(null)
       : null;
+
     return {
       controllerId: !staking_bonded || staking_bonded.isNone
         ? prevState.controllerId
@@ -69,24 +69,24 @@ class Address extends React.PureComponent<Props, State> {
         : formatBalance(ledger.active),
       stashTotal: !ledger
         ? prevState.stashTotal
-        : formatBalance(ledger.total),
-      stashId: !ledger
-        ? prevState.stashId
-        : ledger.stash.toString()
+        : formatBalance(ledger.total)
     } as State;
   }
 
   render () {
-    const { address, lastAuthor, lastBlock } = this.props;
-    const { controllerId, stashActive, stashId } = this.state;
+    const { address, lastAuthor, lastBlock, stashId, staking_stakers } = this.props;
+    const { controllerId } = this.state;
     const isAuthor = [address, controllerId, stashId].includes(lastAuthor);
+    const bonded = staking_stakers && !staking_stakers.own.isZero()
+      ? [staking_stakers.own, staking_stakers.total.sub(staking_stakers.own)]
+      : undefined;
 
     return (
       <article key={stashId || controllerId}>
         <AddressRow
-          extraInfo={stashActive ? `bonded ${stashActive}` : undefined}
+          bonded={bonded}
           name={this.getDisplayName()}
-          value={stashId}
+          value={stashId || null}
           withBalance={false}
           withBonded
           withCopy={false}
@@ -97,7 +97,7 @@ class Address extends React.PureComponent<Props, State> {
           {this.renderOffline()}
         </AddressRow>
         {
-          isAuthor
+          isAuthor && stashId
             ? <div className='blockNumber'>#{lastBlock}</div>
             : null
         }
@@ -106,8 +106,7 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private getDisplayName = (): string | undefined => {
-    const { defaultName } = this.props;
-    const { stashId } = this.state;
+    const { defaultName, stashId } = this.props;
 
     if (!stashId) {
       return defaultName;
@@ -150,15 +149,12 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private renderNominators () {
-    const { nominators, t } = this.props;
-    const { stashId } = this.state;
-    const myNominators = stashId
-      ? Object.keys(nominators).filter((nominator) =>
-        nominators[nominator].indexOf(stashId) !== -1
-      )
+    const { staking_stakers, t } = this.props;
+    const nominators = staking_stakers
+      ? staking_stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value])
       : [];
 
-    if (!myNominators.length) {
+    if (!nominators.length) {
       return null;
     }
 
@@ -167,14 +163,15 @@ class Address extends React.PureComponent<Props, State> {
         <summary>
           {t('Nominators ({{count}})', {
             replace: {
-              count: myNominators.length
+              count: nominators.length
             }
           })}
         </summary>
-        {myNominators.map((accountId) =>
+        {nominators.map(([who, bonded]) =>
           <AddressMini
-            key={accountId.toString()}
-            value={accountId}
+            bonded={bonded}
+            key={who.toString()}
+            value={who}
             withBonded
           />
         )}
@@ -183,8 +180,7 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private renderOffline () {
-    const { recentlyOffline } = this.props;
-    const { stashId } = this.state;
+    const { recentlyOffline, stashId } = this.props;
 
     if (!stashId || !recentlyOffline[stashId]) {
       return null;
@@ -206,8 +202,15 @@ export default withMulti(
   Address,
   translate,
   withCalls<Props>(
+    ['query.staking.bonded', { paramName: 'address' }],
     ['query.session.nextKeyFor', { paramName: 'address' }],
     ['query.staking.ledger', { paramName: 'address' }],
-    ['query.staking.bonded', { paramName: 'address' }]
+    ['query.staking.ledger', {
+      paramName: 'address',
+      propName: 'stashId',
+      transform: (ledger: Option<StakingLedger>) =>
+        ledger.unwrapOr({ stash: { toString: () => { return null; } } }).stash.toString()
+    }],
+    ['query.staking.stakers', { paramName: 'stashId' }]
   )
 );

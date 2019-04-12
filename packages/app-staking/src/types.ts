@@ -14,7 +14,6 @@ export type Nominators = {
 export type ComponentProps = {
   balances: DerivedBalancesMap,
   controllers: Array<string>,
-  nominators: Nominators,
   recentlyOffline: RecentlyOfflineMap,
   stashes: Array<string>,
   validators: Array<string>

@@ -4,7 +4,7 @@
 
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { Nominators, RecentlyOfflineMap } from '../types';
+import { RecentlyOfflineMap } from '../types';
 
 import React from 'react';
 
@@ -17,7 +17,6 @@ type Props = I18nProps & {
   lastAuthor?: string,
   lastBlock: string,
   next: Array<string>,
-  nominators: Nominators,
   recentlyOffline: RecentlyOfflineMap
 };
 
@@ -64,7 +63,7 @@ class CurrentList extends React.PureComponent<Props> {
   }
 
   private renderColumn (addresses: Array<string>, defaultName: string) {
-    const { balances, lastAuthor, lastBlock, nominators, recentlyOffline, t } = this.props;
+    const { balances, lastAuthor, lastBlock, recentlyOffline, t } = this.props;
 
     if (addresses.length === 0) {
       return (
@@ -82,7 +81,6 @@ class CurrentList extends React.PureComponent<Props> {
             key={address}
             lastAuthor={lastAuthor}
             lastBlock={lastBlock}
-            nominators={nominators}
             recentlyOffline={recentlyOffline}
           />
         ))}
