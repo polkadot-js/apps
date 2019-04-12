@@ -146,9 +146,7 @@
 
     .apps--SideBar-Item {
       margin-left: 5px;
-      .icon {
-        font-size: 1.28rem;
-      }
+
       .text {
         display: none;
       }
@@ -157,15 +155,6 @@
     .apps--SideBar-logo {
       margin: 0.125rem auto 0.625rem auto;
       width: 3rem;
-    }
-
-    a.apps--SideBar-Item-NavLink {
-      padding-bottom: 0.92em;
-      padding-top: 0.92em;
-
-      > i {
-        margin: 0;
-      }
     }
 
     .apps--SideBar-collapse .ui.basic.secondary.button {
@@ -190,8 +179,6 @@
     }
   }
 }
-
-
 
 a.apps--SideBar-Item-NavLink {
   color: #eee;
