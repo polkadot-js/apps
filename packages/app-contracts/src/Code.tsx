@@ -9,10 +9,11 @@ import { ComponentProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { Button, Input, InputAddress, InputFile, InputNumber, TxButton } from '@polkadot/ui-app';
-import { compactAddLength, isHex } from '@polkadot/util';
+import { compactAddLength } from '@polkadot/util';
 import { Hash } from '@polkadot/types';
 
 import ABI from './ABI';
+import ValidateCode from './ValidateCode';
 import store from './store';
 import translate from './translate';
 
@@ -25,7 +26,7 @@ type State = {
   gasLimit: BN,
   isAbiValid: boolean,
   isBusy: boolean,
-  isHashValid: boolean,
+  isCodeValid: boolean,
   isNameValid: boolean,
   isNew: boolean,
   isWasmValid: boolean,
@@ -39,7 +40,7 @@ class Deploy extends React.PureComponent<Props, State> {
     gasLimit: new BN(0),
     isAbiValid: true,
     isBusy: false,
-    isHashValid: false,
+    isCodeValid: false,
     isNew: true,
     isNameValid: false,
     isWasmValid: false
@@ -88,10 +89,15 @@ class Deploy extends React.PureComponent<Props, State> {
           type='account'
         />
         <InputFile
-          help={t('The compiled WASM for the contract that you wish to deploy. Ecah unique code blob will be attached with a code hash that can be used to create new instances.')}
+          help={t('The compiled WASM for the contract that you wish to deploy. Each unique code blob will be attached with a code hash that can be used to create new instances.')}
           isError={!isWasmValid}
           label={t('compiled contract WASM')}
           onChange={this.onAddWasm}
+          placeholder={
+            wasm && !isWasmValid
+              ? t('The code is not recognized as being in valid WASM format')
+              : null
+          }
         />
         {this.renderInputName()}
         {this.renderInputAbi()}
@@ -119,18 +125,22 @@ class Deploy extends React.PureComponent<Props, State> {
 
   private renderExisting () {
     const { t } = this.props;
-    const { codeHash, isAbiValid, isHashValid, isNameValid } = this.state;
-    const isValid = isAbiValid && isHashValid && isNameValid;
+    const { codeHash, isAbiValid, isCodeValid, isNameValid } = this.state;
+    const isValid = isAbiValid && isCodeValid && isNameValid;
 
     return (
       <>
         <Input
           autoFocus
           help={t('The code hash for the on-chain deployed code.')}
-          isError={!isHashValid}
+          isError={!isCodeValid}
           label={t('code hash')}
           onChange={this.onChangeHash}
           value={codeHash}
+        />
+        <ValidateCode
+          codeHash={codeHash}
+          onChange={this.onValidateCode}
         />
         {this.renderInputName()}
         {this.renderInputAbi()}
@@ -180,7 +190,9 @@ class Deploy extends React.PureComponent<Props, State> {
   }
 
   private onAddWasm = (wasm: Uint8Array, name: string): void => {
-    this.setState({ wasm: compactAddLength(wasm), isWasmValid: true });
+    const isWasmValid = wasm.subarray(0, 4).toString() === '0,97,115,109'; // '\0asm'
+
+    this.setState({ wasm: compactAddLength(wasm), isWasmValid });
     this.onChangeName(name);
   }
 
@@ -193,11 +205,15 @@ class Deploy extends React.PureComponent<Props, State> {
   }
 
   private onChangeHash = (codeHash: string): void => {
-    this.setState({ codeHash, isHashValid: isHex(codeHash) && codeHash.length === 66 });
+    this.setState({ codeHash, isCodeValid: false });
   }
 
   private onChangeName = (name: string): void => {
     this.setState({ name, isNameValid: name.length !== 0 });
+  }
+
+  private onValidateCode = (isCodeValid: boolean): void => {
+    this.setState({ isCodeValid });
   }
 
   private toggleBusy = (): void => {
@@ -211,9 +227,9 @@ class Deploy extends React.PureComponent<Props, State> {
       abi: null,
       codeHash: null,
       isAbiValid: true,
-      isHashValid: false,
+      isCodeValid: false,
       isNameValid: false,
-      name: null,
+      name: '',
       isNew: !isNew
     }));
   }

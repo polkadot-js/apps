@@ -18,6 +18,7 @@ export { default as Event } from './Event';
 export { default as HelpOverlay } from './HelpOverlay';
 export { default as Icon } from './Icon';
 export { default as IdentityIcon } from './IdentityIcon';
+export { default as InfoForInput } from './InfoForInput';
 export { default as Input } from './Input';
 export { default as InputAddress } from './InputAddress';
 export { default as InputBalance } from './InputBalance';

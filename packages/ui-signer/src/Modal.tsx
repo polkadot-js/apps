@@ -229,12 +229,16 @@ class Signer extends React.PureComponent<Props, State> {
       return;
     }
 
-    const { id, signerCb } = currentItem;
+    const { id, signerCb, txFailedCb } = currentItem;
 
     queueSetTxStatus(id, 'cancelled');
 
     if (isFunction(signerCb)) {
       signerCb(id, false);
+    }
+
+    if (isFunction(txFailedCb)) {
+      txFailedCb(null);
     }
   }
 
@@ -352,6 +356,10 @@ class Signer extends React.PureComponent<Props, State> {
     } catch (error) {
       console.error('makeExtrinsicCall: error:', error.message);
       queueSetTxStatus(id, 'error', {}, error);
+
+      if (isFunction(txFailedCb)) {
+        txFailedCb(null);
+      }
     }
   }
 
