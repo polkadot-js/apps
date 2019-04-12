@@ -8,19 +8,17 @@ import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 import './SideBar.css';
 
 import React from 'react';
-import { Button, Icon, Menu } from '@polkadot/ui-app';
+import styled from 'styled-components';
+import { Responsive } from 'semantic-ui-react';
+import { Button, Icon, Menu, media } from '@polkadot/ui-app';
 import { classes } from '@polkadot/ui-app/util';
+import { logoBackground, logoPadding } from '@polkadot/ui-app/styles/theme';
 
 import routing from '../routing';
 import translate from '../translate';
 import Item from './Item';
 import NodeInfo from './NodeInfo';
 import getLogo from './logos';
-
-import styled from 'styled-components';
-import { media } from '@polkadot/ui-app/media';
-import { Responsive } from 'semantic-ui-react';
-import { logoBackground, logoPadding } from '@polkadot/ui-app/styles/theme';
 
 type Props = I18nProps & {
   collapse: () => void,
