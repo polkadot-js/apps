@@ -7,14 +7,12 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { Nominators, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
-import { AccountId, Balance } from '@polkadot/types';
 
 import translate from '../translate';
 import Address from './Address';
 
 type Props = I18nProps & {
   balances: DerivedBalancesMap,
-  balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   current: Array<string>,
   lastAuthor?: string,
   lastBlock: string,
@@ -66,7 +64,7 @@ class CurrentList extends React.PureComponent<Props> {
   }
 
   private renderColumn (addresses: Array<string>, defaultName: string) {
-    const { balances, balanceArray, lastAuthor, lastBlock, nominators, recentlyOffline, t } = this.props;
+    const { balances, lastAuthor, lastBlock, nominators, recentlyOffline, t } = this.props;
 
     if (addresses.length === 0) {
       return (
@@ -80,7 +78,6 @@ class CurrentList extends React.PureComponent<Props> {
           <Address
             address={address}
             balances={balances}
-            balanceArray={balanceArray}
             defaultName={defaultName}
             key={address}
             lastAuthor={lastAuthor}

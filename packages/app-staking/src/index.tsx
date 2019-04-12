@@ -10,7 +10,7 @@ import { ComponentProps, Nominators, RecentlyOffline, RecentlyOfflineMap } from 
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { AccountId, Balance, Option } from '@polkadot/types';
+import { AccountId, Option } from '@polkadot/types';
 import { HelpOverlay } from '@polkadot/ui-app';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import { withCalls, withMulti, withObservable } from '@polkadot/ui-api';
@@ -135,7 +135,6 @@ class App extends React.PureComponent<Props, State> {
       return (
         <Component
           balances={balances}
-          balanceArray={this.balanceArray}
           controllers={controllers}
           nominators={nominators}
           recentlyOffline={recentlyOffline}
@@ -144,23 +143,6 @@ class App extends React.PureComponent<Props, State> {
         />
       );
     };
-  }
-
-  private balanceArray = (_address: AccountId | string): Array<Balance> | undefined => {
-    const { balances = {} } = this.props;
-
-    if (!_address) {
-      return undefined;
-    }
-
-    const address = _address.toString();
-
-    return balances[address]
-      ? [
-        balances[address].stakingBalance,
-        balances[address].nominatedBalance
-      ]
-      : undefined;
   }
 }
 

@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
-import { AccountId, Balance, BlockNumber } from '@polkadot/types';
+import { AccountId, BlockNumber } from '@polkadot/types';
 
 export type Nominators = {
   // stash account and who is being nominated
@@ -13,7 +13,6 @@ export type Nominators = {
 
 export type ComponentProps = {
   balances: DerivedBalancesMap,
-  balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   controllers: Array<string>,
   nominators: Nominators,
   recentlyOffline: RecentlyOfflineMap,

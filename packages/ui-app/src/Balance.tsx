@@ -15,15 +15,15 @@ import { classes } from './util';
 export type Props = BareProps & {
   balance?: Balance | Array<Balance> | BN,
   label?: string,
-  value?: AccountId | AccountIndex | Address | string | Uint8Array | null,
+  params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   withLabel?: boolean
 };
 
 export default class BalanceDisplay extends React.PureComponent<Props> {
   render () {
-    const { balance, className, label, value, style } = this.props;
+    const { balance, className, label, params, style } = this.props;
 
-    if (!value) {
+    if (!params) {
       return null;
     }
 
@@ -33,7 +33,7 @@ export default class BalanceDisplay extends React.PureComponent<Props> {
         <RxBalance
           className={classes('ui--Balance', className)}
           label={label}
-          params={value}
+          params={params}
           style={style}
         />
       );

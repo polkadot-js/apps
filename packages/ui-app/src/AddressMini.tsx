@@ -88,7 +88,7 @@ export default class AddressMini extends React.PureComponent<Props> {
       <BalanceDisplay
         balance={balance}
         className='ui--AddressSummary-balance'
-        value={value}
+        params={value}
       />
     );
   }
@@ -104,7 +104,7 @@ export default class AddressMini extends React.PureComponent<Props> {
       <BondedDisplay
         className='ui--AddressSummary-balance'
         label=''
-        value={value}
+        params={value}
       />
     );
   }

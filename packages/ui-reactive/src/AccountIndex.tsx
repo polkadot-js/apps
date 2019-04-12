@@ -34,4 +34,4 @@ export class AccountIndexDisplay extends React.PureComponent<Props> {
   }
 }
 
-export default withCall('derive.accounts.idAndIndex', { paramName: 'value' })(AccountIndexDisplay);
+export default withCall('derive.accounts.idAndIndex', { paramName: 'params' })(AccountIndexDisplay);

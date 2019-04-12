@@ -6,6 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { AccountId } from '@polkadot/types';
 import { Button, InputAddress, InputBalance, Modal, TxButton, Dropdown } from '@polkadot/ui-app';
 
 import translate from '../translate';
@@ -13,7 +14,7 @@ import ValidateController from './ValidateController';
 
 type Props = I18nProps & {
   accountId: string,
-  controllerId: string | null,
+  controllerId?: AccountId | null,
   isOpen: boolean,
   onClose: () => void
 };
@@ -39,7 +40,7 @@ class Bond extends React.PureComponent<Props, State> {
     const { accountId, controllerId } = this.props;
 
     this.state = {
-      controllerId: controllerId || accountId,
+      controllerId: controllerId ? controllerId.toString() : accountId,
       destination: 0
     };
   }

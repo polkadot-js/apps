@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { Nominators, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
-import { AccountId, Balance, Option, StakingLedger } from '@polkadot/types';
+import { AccountId, Option, StakingLedger } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api/with';
 import { AddressMini, AddressRow, RecentlyOffline } from '@polkadot/ui-app';
 import { getAddrName } from '@polkadot/ui-app/util';
@@ -18,7 +18,6 @@ import translate from '../translate';
 type Props = I18nProps & {
   address: string,
   balances: DerivedBalancesMap,
-  balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   defaultName: string,
   lastAuthor: string,
   lastBlock: string,
