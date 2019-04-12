@@ -12,7 +12,7 @@ import { formatBalance } from '@polkadot/util';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
-  value?: AccountId | AccountIndex | Address | string | Uint8Array | null,
+  params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   label?: string,
   staking_ledger?: Option<StakingLedger>
 };
@@ -44,7 +44,7 @@ export class BondedDisplay extends React.PureComponent<Props> {
 
 export default withCalls<Props>(
   ['query.staking.bonded', {
-    paramName: 'value',
+    paramName: 'params',
     propName: 'controllerId',
     transform: (value) =>
       value.unwrapOr(null)

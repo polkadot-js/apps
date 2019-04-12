@@ -12,14 +12,15 @@ import { classes } from './util';
 
 export type Props = BareProps & {
   label?: string,
-  value?: AccountId | AccountIndex | Address | string | Uint8Array | null,
+  params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   withLabel?: boolean
 };
 
 export default class BondedDisplay extends React.PureComponent<Props> {
   render () {
-    const { value, className, label, style } = this.props;
-    if (!value) {
+    const { params, className, label, style } = this.props;
+
+    if (!params) {
       return null;
     }
 
@@ -27,7 +28,7 @@ export default class BondedDisplay extends React.PureComponent<Props> {
       <RxBonded
         className={classes('ui--Bonded', className)}
         label={label}
-        value={value}
+        params={params}
         style={style}
       />
     );

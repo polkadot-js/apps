@@ -55,7 +55,7 @@ class Selection extends React.PureComponent<Props, State> {
           <Balance
             className='medium'
             label={t('with an account balance')}
-            value={accountId}
+            params={accountId}
           />
           <Labelled
             className='medium'
@@ -64,7 +64,7 @@ class Selection extends React.PureComponent<Props, State> {
             <Nonce
               className='ui disabled dropdown selection'
               callOnResult={this.onChangeNonce}
-              value={accountId}
+              params={accountId}
             />
           </Labelled>
         </div>

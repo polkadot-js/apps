@@ -53,6 +53,7 @@ class Query extends React.PureComponent<Props, State> {
       // render function to create an element for the query results which is plugged to the api
       const renderHelper = withCallDiv('subscribe', {
         paramName: 'params',
+        paramValid: true,
         params: [key, ...values]
       });
       const Component = renderHelper(

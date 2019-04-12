@@ -34,4 +34,4 @@ export class BalanceDisplay extends React.PureComponent<Props> {
   }
 }
 
-export default withCall('query.balances.freeBalance', { paramName: 'value' })(BalanceDisplay);
+export default withCall('query.balances.freeBalance', { paramName: 'params' })(BalanceDisplay);

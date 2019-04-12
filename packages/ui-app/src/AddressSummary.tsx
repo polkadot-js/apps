@@ -149,7 +149,7 @@ class AddressSummary extends React.PureComponent<Props> {
         balance={balance}
         className='ui--AddressSummary-balance'
         label={t('balance ')}
-        value={accountId}
+        params={accountId}
       />
     );
   }
@@ -167,7 +167,7 @@ class AddressSummary extends React.PureComponent<Props> {
       <BondedDisplay
         className='ui--AddressSummary-bonded'
         label={t('bonded ')}
-        value={accountId}
+        params={accountId}
       />
     );
   }

@@ -23,7 +23,7 @@ const NOOP = () => {
   // ignore
 };
 
-export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, params = [], paramName, propName, transform = echoTransform }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
+export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, params = [], paramName, paramValid = false, propName, transform = echoTransform }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<Subtract<P, ApiProps>> => {
     class WithPromise extends React.Component<P, State> {
       state: State = {
@@ -102,7 +102,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
 
         // When we are specifying a param and have an invalid, don't use it. For 'params',
         // we default to the original types, i.e. no validation (query app uses this)
-        if (paramName && paramName !== 'params' && (isUndefined(paramValue) || isNull(paramValue))) {
+        if (!paramValid && paramName && (isUndefined(paramValue) || isNull(paramValue))) {
           return [false, []];
         }
 
