@@ -81,13 +81,14 @@ const Wrapper = styled.div`
     text-align: left;
 
     > label {
-    align-items: center;
-    display: flex;
-    flex: 0 0 15rem;
-    justify-content: flex-end;
-    min-height: 2.715rem; /* more-or-less 2 lines with adjustments, 38px as per input box */
-    min-width: 15rem;
-    text-align: right;
+      align-items: center;
+      display: flex;
+      flex: 0 0 15rem;
+      justify-content: flex-end;
+      min-height: 2.715rem; /* more-or-less 2 lines with adjustments, 38px as per input box */
+      min-width: 15rem;
+      text-align: right;
+    }
   `}
 `;
 
