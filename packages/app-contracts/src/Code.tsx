@@ -89,7 +89,7 @@ class Deploy extends React.PureComponent<Props, State> {
           type='account'
         />
         <InputFile
-          help={t('The compiled WASM for the contract that you wish to deploy. Ecah unique code blob will be attached with a code hash that can be used to create new instances.')}
+          help={t('The compiled WASM for the contract that you wish to deploy. Each unique code blob will be attached with a code hash that can be used to create new instances.')}
           isError={!isWasmValid}
           label={t('compiled contract WASM')}
           onChange={this.onAddWasm}
