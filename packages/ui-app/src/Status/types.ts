@@ -37,7 +37,7 @@ export type QueueTx = AccountInfo & {
   rpc: RpcMethod,
   signerCb?: SignerCallback,
   signerOptions?: SignatureOptions,
-  txFailedCb?: TxCallback,
+  txFailedCb?: (status: SubmittableResult | null) => void,
   txSuccessCb?: TxCallback,
   txUpdateCb?: TxCallback,
   values?: Array<any>,

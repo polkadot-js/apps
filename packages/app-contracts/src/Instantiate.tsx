@@ -13,9 +13,9 @@ import { AccountId, ContractAbi } from '@polkadot/types';
 
 import ABI from './ABI';
 import Params from './Params';
+import ValidateAddr from './ValidateAddr';
 import store from './store';
 import translate from './translate';
-import keyring from '@polkadot/ui-keyring';
 
 type Props = ComponentProps & I18nProps;
 
@@ -197,6 +197,10 @@ class Create extends React.PureComponent<Props, State> {
           onChange={this.onChangeAddress}
           value={address}
         />
+        <ValidateAddr
+          address={address}
+          onChange={this.onValidateAddr}
+        />
         {this.renderInputName()}
         {this.renderInputAbi()}
         <Button.Group>
@@ -259,17 +263,7 @@ class Create extends React.PureComponent<Props, State> {
   }
 
   private onChangeAddress = (address: string): void => {
-    let isAddressValid = false;
-
-    try {
-      keyring.decodeAddress(address);
-
-      isAddressValid = true;
-    } catch (error) {
-      // ignore
-    }
-
-    this.setState({ address, isAddressValid });
+    this.setState({ address, isAddressValid: false });
   }
 
   private onChangeCode = (codeHash: string): void => {
@@ -304,6 +298,10 @@ class Create extends React.PureComponent<Props, State> {
     this.setState({ params });
   }
 
+  private onValidateAddr = (isAddressValid: boolean): void => {
+    this.setState({ isAddressValid });
+  }
+
   private toggleBusy = (): void => {
     this.setState(({ isBusy }) => ({
       isBusy: !isBusy
@@ -318,7 +316,7 @@ class Create extends React.PureComponent<Props, State> {
       isAbiValid: false,
       isNameValid: false,
       isNew: !isNew,
-      name: null
+      name: ''
     }));
   }
 
