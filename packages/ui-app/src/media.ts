@@ -14,13 +14,12 @@ const media = Object
   .reduce((acc, label: any) => {
     const size: number = ScreenSizes[label] as any;
 
-    acc[label] = (values: TemplateStringsArray) => (
+    acc[label] = (values: TemplateStringsArray) =>
       css`
         @media (min-width: ${size / 16}em) {
           ${values}
         }
-      `
-    );
+      `;
 
     return acc;
   }, {} as MediaCss);
