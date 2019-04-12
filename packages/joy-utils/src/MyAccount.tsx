@@ -13,12 +13,15 @@ import { isKnownAddress } from './index';
 
 export const MY_ADDRESS = 'joy.myAddress';
 
-export type MyAccountProps = {
-  myAddress?: string,
+export type MyAddressProps = {
+  myAddress?: string
+};
+
+export type MyAccountProps = MyAddressProps & {
   myMemberId?: MemberId,
   myMemberIdOpt?: Option<MemberId>,
   myMemberIdChecked?: boolean,
-  iAmMember: boolean
+  iAmMember?: boolean
 };
 
 export type MyAccountState = {

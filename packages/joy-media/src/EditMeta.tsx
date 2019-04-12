@@ -50,8 +50,6 @@ type FormValues = {
   keywords: string
 };
 
-type FieldName = keyof FormValues;
-
 type FormProps = OuterProps & FormikProps<FormValues>;
 
 const LabelledField = JoyForms.LabelledField<FormValues>();
@@ -61,9 +59,7 @@ const LabelledText = JoyForms.LabelledText<FormValues>();
 const InnerForm = (props: FormProps) => {
   const {
     contentId,
-    initialValues,
     values,
-    touched,
     dirty,
     isValid,
     isSubmitting,
@@ -85,18 +81,6 @@ const InnerForm = (props: FormProps) => {
 
   const onTxSuccess = (_txResult: SubmittableResult) => {
     setSubmitting(false);
-  };
-
-  // TODO extract to forms.tsx
-  const isFieldChanged = (field: FieldName): boolean => {
-    return dirty && touched[field] === true && values[field] !== initialValues[field];
-  };
-
-  // TODO extract to forms.tsx
-  const fieldToTextOption = (field: FieldName): OptionText => {
-    return isFieldChanged(field)
-      ? OptionText.some(values[field])
-      : OptionText.none();
   };
 
   const buildTxParams = () => {
@@ -135,7 +119,7 @@ const InnerForm = (props: FormProps) => {
       </LabelledField>
       <LabelledText name='thumbnail' placeholder={`Thumbnail image URL`} {...props} />
       <LabelledText name='keywords' placeholder={`Comma-separated keywords`} {...props} />
-      
+
       {/* TODO add metadata status dropdown: Draft, Published */}
 
       <LabelledField {...props}>
