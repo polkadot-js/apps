@@ -1,3 +1,8 @@
+# 0.31.1
+
+- Cleanups, fixes and features around the poc-4 staking module
+- Number of UI enhancements
+
 # 0.30.1
 
 - Staking page indicator for offline nodes (count & block)
