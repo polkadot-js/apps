@@ -28,13 +28,11 @@ type Props = AppProps & ApiProps & I18nProps & {
   balances?: DerivedBalancesMap,
   session_validators?: Array<AccountId>,
   staking_controllers?: [Array<AccountId>, Array<Option<AccountId>>],
-  staking_nominators?: [Array<AccountId>, Array<Array<AccountId>>],
   staking_recentlyOffline?: RecentlyOffline
 };
 
 type State = {
   controllers: Array<string>,
-  nominators: Nominators,
   recentlyOffline: RecentlyOfflineMap,
   stashes: Array<string>,
   tabs: Array<TabItem>,
@@ -51,7 +49,6 @@ class App extends React.PureComponent<Props, State> {
 
     this.state = {
       controllers: [],
-      nominators: {},
       recentlyOffline: {},
       stashes: [],
       tabs: [
@@ -68,18 +65,11 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ staking_controllers = [[], []], session_validators = [], staking_nominators = [[], []], staking_recentlyOffline = [] }: Props): State {
+  static getDerivedStateFromProps ({ staking_controllers = [[], []], session_validators = [], staking_recentlyOffline = [] }: Props): State {
     return {
       controllers: staking_controllers[1].filter((optId) => optId.isSome).map((accountId) =>
         accountId.unwrap().toString()
       ),
-      nominators: staking_nominators[0].reduce((result, accountId, index) => {
-        result[accountId.toString()] = staking_nominators[1][index].map((accountId) =>
-          accountId.toString()
-        );
-
-        return result;
-      }, {} as Nominators),
       stashes: staking_controllers[0].map((accountId) => accountId.toString()),
       validators: session_validators.map((authorityId) =>
         authorityId.toString()
@@ -129,7 +119,7 @@ class App extends React.PureComponent<Props, State> {
 
   private renderComponent (Component: React.ComponentType<ComponentProps>) {
     return (): React.ReactNode => {
-      const { controllers, nominators, recentlyOffline, stashes, validators } = this.state;
+      const { controllers, recentlyOffline, stashes, validators } = this.state;
       const { balances = {} } = this.props;
 
       return (
@@ -137,7 +127,6 @@ class App extends React.PureComponent<Props, State> {
           balances={balances}
           balanceArray={this.balanceArray}
           controllers={controllers}
-          nominators={nominators}
           recentlyOffline={recentlyOffline}
           stashes={stashes}
           validators={validators}
@@ -170,7 +159,6 @@ export default withMulti(
   withCalls<Props>(
     'derive.staking.controllers',
     'query.session.validators',
-    'query.staking.nominators',
     'query.staking.recentlyOffline'
   ),
   withObservable(accountObservable.subject, { propName: 'allAccounts' })

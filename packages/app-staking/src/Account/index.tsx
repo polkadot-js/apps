@@ -28,7 +28,6 @@ type Props = ApiProps & I18nProps & {
   filter: AccountFilter,
   isValidator: boolean,
   name: string,
-  nominators: Nominators,
   recentlyOffline: RecentlyOfflineMap,
   session_nextKeyFor?: Option<AccountId>,
   staking_bonded?: Option<AccountId>,

@@ -15,7 +15,6 @@ export type ComponentProps = {
   balances: DerivedBalancesMap,
   balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
   controllers: Array<string>,
-  nominators: Nominators,
   recentlyOffline: RecentlyOfflineMap,
   stashes: Array<string>,
   validators: Array<string>

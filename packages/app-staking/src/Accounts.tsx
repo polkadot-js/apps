@@ -66,7 +66,7 @@ class Accounts extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { balances, balanceArray, controllers, nominators, recentlyOffline, stashes, t, validators } = this.props;
+    const { balances, balanceArray, controllers, recentlyOffline, stashes, t, validators } = this.props;
     const { filter, filterOptions } = this.state;
     const accounts = keyring.getAccounts();
 
@@ -96,7 +96,6 @@ class Accounts extends React.PureComponent<Props, State> {
                 isValidator={validators.includes(address)}
                 key={address}
                 name={name}
-                nominators={nominators}
                 recentlyOffline={recentlyOffline}
                 stashes={stashes}
                 stashOptions={this.getStashOptions()}
