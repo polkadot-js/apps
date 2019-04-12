@@ -71,8 +71,9 @@ const Wrapper = styled.div`
       z-index: 10;
     }
 
-    .icon.help {
-      margin-right: 0;
+    i.icon.help {
+      margin: 0;
+      line-height: 1rem;
     }
 
     &.with-help:hover .help-hover {
