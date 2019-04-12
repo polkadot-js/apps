@@ -8,15 +8,16 @@ import { InputFile } from '@polkadot/ui-app/index';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { SubmittableResult } from '@polkadot/api';
+import { withMulti } from '@polkadot/ui-api';
 import { stringToU8a, u8aToString, formatNumber } from '@polkadot/util';
 
 import translate from './translate';
-import { buildApiUrl, fileNameWoExt } from './utils';
+import { fileNameWoExt } from './utils';
 import { ContentId } from './types';
-import EditMeta from './EditMeta';
 import { MyAccountProps, withOnlyMembers } from '@polkadot/joy-utils/MyAccount';
+import { withStorageProvider, StorageProviderProps } from './StorageProvider';
+import EditMeta from './EditMeta';
 import TxButton from '@polkadot/joy-utils/TxButton';
-import { withMulti } from '@polkadot/ui-api';
 
 const MAX_FILE_SIZE_200_MB = 200 * 1024 * 1024;
 
@@ -25,7 +26,7 @@ function generateContentId () {
   return new ContentId(stringToU8a(uuid));
 }
 
-type Props = ApiProps & I18nProps & MyAccountProps & {};
+type Props = ApiProps & I18nProps & MyAccountProps & StorageProviderProps;
 
 type State = {
   error?: any,
@@ -175,9 +176,12 @@ class Component extends React.PureComponent<Props, State> {
         'Content-Type': '' // <-- this is a temporary hack
       }
     };
+    const { storageProvider } = this.props;
+    const url = storageProvider.buildApiUrl(uniqueName);
     this.setState({ uploading: true });
+
     axios
-      .put<{ message: string }>(buildApiUrl(uniqueName), file, config)
+      .put<{ message: string }>(url, file, config)
       .then(_res => this.setState({ progress: 100 }))
       .catch(error => this.setState({ progress: 100, error }));
   }
@@ -186,5 +190,6 @@ class Component extends React.PureComponent<Props, State> {
 export default withMulti(
   Component,
   translate,
-  withOnlyMembers
+  withOnlyMembers,
+  withStorageProvider
 );

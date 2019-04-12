@@ -7,12 +7,12 @@ import APlayer from 'react-aplayer';
 
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { withCalls } from '@polkadot/ui-api/with';
+import { withCalls, withMulti } from '@polkadot/ui-api/with';
 import { Option } from '@polkadot/types/codec';
 import { u8aToString, stringToU8a, formatNumber } from '@polkadot/util';
 
 import translate from './translate';
-import { buildApiUrl } from './utils';
+import { withStorageProvider, StorageProviderProps } from './StorageProvider';
 import { DataObject, ContentMetadata, ContentId } from './types';
 import { MutedText } from '@polkadot/joy-utils/MutedText';
 
@@ -28,7 +28,7 @@ const PLAYER_COMMON_PARAMS = {
   theme: '#2185d0'
 };
 
-type ViewProps = ApiProps & I18nProps & {
+type ViewProps = ApiProps & I18nProps & StorageProviderProps & {
   contentId: ContentId,
   contentType?: string,
   dataObjectOpt?: Option<DataObject>,
@@ -77,7 +77,9 @@ class InnerView extends React.PureComponent<ViewProps> {
   private renderPlayer ({ contentId, meta }: Asset) {
     const { added_at } = meta;
     const { name, description, thumbnail: cover } = meta.parseJson();
-    const url = buildApiUrl(contentId);
+
+    const { storageProvider } = this.props;
+    const url = storageProvider.buildApiUrl(contentId);
 
     const { contentType = 'video/video' } = this.props;
     const prefix = contentType.substring(0, contentType.indexOf('/'));
@@ -108,14 +110,17 @@ class InnerView extends React.PureComponent<ViewProps> {
   }
 }
 
-export const View = translate(
+export const View = withMulti(
+  InnerView,
+  translate,
+  withStorageProvider,
   withCalls<ViewProps>(
     ['query.dataDirectory.dataObjectByContentId', { paramName: 'contentId', propName: 'dataObjectOpt' } ],
     ['query.dataDirectory.metadataByContentId', { paramName: 'contentId', propName: 'metadataOpt' } ]
-  )(InnerView)
+  )
 );
 
-type PlayProps = ApiProps & I18nProps & {
+type PlayProps = ApiProps & I18nProps & StorageProviderProps & {
   match: {
     params: {
       assetName: string
@@ -136,9 +141,13 @@ class InnerPlay extends React.PureComponent<PlayProps, PlayState> {
 
   requestContentType (contentId: string) {
     console.log('Request content type...');
+
+    const { storageProvider } = this.props;
+    const url = storageProvider.buildApiUrl(contentId);
     this.setState({ contentTypeRequested: true });
+
     axios
-      .head(buildApiUrl(contentId))
+      .head(url)
       .then(response => {
         const contentType = response.headers['content-type'] || 'video/video';
         this.setState({ contentType });
@@ -163,4 +172,8 @@ class InnerPlay extends React.PureComponent<PlayProps, PlayState> {
   }
 }
 
-export const Play = translate(InnerPlay);
+export const Play = withMulti(
+  InnerPlay,
+  translate,
+  withStorageProvider
+);
