@@ -33,10 +33,10 @@ export default class AccountSelector extends React.PureComponent<Props, State> {
             <AccountIndex value={accountId} />
           </Bubble>
           <Bubble color='yellow' icon='adjust' label='balance'>
-            <Balance params={[accountId]} />
+            <Balance value={accountId} />
           </Bubble>
           <Bubble color='yellow' icon='target' label='transactions'>
-            <Nonce params={[accountId]} />
+            <Nonce value={accountId} />
           </Bubble>
         </div>
       </section>

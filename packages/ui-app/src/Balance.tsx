@@ -33,7 +33,7 @@ export default class BalanceDisplay extends React.PureComponent<Props> {
         <RxBalance
           className={classes('ui--Balance', className)}
           label={label}
-          params={value}
+          value={value}
           style={style}
         />
       );
