@@ -72,7 +72,7 @@ const Wrapper = styled.div`
     }
 
     i.icon.help {
-      margin: 0;
+      margin: 0 0 0 0.25rem;
       line-height: 1rem;
     }
 
@@ -95,7 +95,7 @@ export default class Labelled extends React.PureComponent<Props> {
     }
 
     const labelNode = help
-      ? <label className='with-help'>{label} <Icon name='help circle' /><div className='help-hover'>{help}</div></label>
+      ? <label className='with-help'>{label}<Icon name='help circle' /><div className='help-hover'>{help}</div></label>
       : <label>{label}</label>;
 
     return (
