@@ -40,9 +40,9 @@ export default (props: Props) => {
     <article className='container js--Output'>
       <div className='logs-wrapper'>
         <div className='logs-container'>
-          <div className='logs-content'>
+          <pre className='logs-content'>
             {props.logs.map(renderEntry)}
-          </div>
+          </pre>
         </div>
       </div>
       {props.children}
