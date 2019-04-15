@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { Tuple } from '@polkadot/types';
-import { withCall, withMulti } from '@polkadot/ui-api';
+import { withCalls, withMulti } from '@polkadot/ui-api';
 
 import Proposal from './Proposal';
 import translate from './translate';
@@ -51,5 +51,5 @@ class Proposals extends React.PureComponent<Props> {
 export default withMulti(
   Proposals,
   translate,
-  withCall('query.democracy.publicProps')
+  withCalls<Props>('query.democracy.publicProps')
 );

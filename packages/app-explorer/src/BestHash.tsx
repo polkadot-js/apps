@@ -6,7 +6,7 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Header } from '@polkadot/types';
-import { withCall } from '@polkadot/ui-api';
+import { withCalls } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & {
   label?: string,
@@ -32,4 +32,4 @@ class BestHash extends React.PureComponent<Props> {
   }
 }
 
-export default withCall('rpc.chain.subscribeNewHead')(BestHash);
+export default withCalls<Props>('rpc.chain.subscribeNewHead')(BestHash);

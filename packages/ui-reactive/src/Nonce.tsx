@@ -6,7 +6,7 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Index } from '@polkadot/types';
-import { withCall } from '@polkadot/ui-api';
+import { withCalls } from '@polkadot/ui-api';
 import { formatNumber } from '@polkadot/util';
 
 type Props = BareProps & CallProps & {
@@ -34,4 +34,6 @@ export class Nonce extends React.PureComponent<Props> {
   }
 }
 
-export default withCall('query.system.accountNonce', { paramName: 'params' })(Nonce);
+export default withCalls<Props>(
+  ['query.system.accountNonce', { paramName: 'params' }]
+)(Nonce);
