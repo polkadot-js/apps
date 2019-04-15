@@ -151,7 +151,7 @@ class Creator extends React.PureComponent<Props, State> {
             autoFocus
             className='full'
             isError={!isNameValid}
-            label={t('name your account')}
+            label={t('name your key')}
             onChange={this.onChangeName}
             value={name}
           />
@@ -181,7 +181,7 @@ class Creator extends React.PureComponent<Props, State> {
           <Password
             className='full'
             isError={!isPassValid}
-            label={t('your password for this account')}
+            label={t('your password for this key')}
             onChange={this.onChangePass}
             value={password}
           />
@@ -243,7 +243,7 @@ class Creator extends React.PureComponent<Props, State> {
           <Button.Or />
           <Button
             isPrimary
-            label={t('Create and backup account')}
+            label={t('Create and backup key')}
             onClick={this.onCommit}
           />
         </Button.Group>
@@ -261,9 +261,9 @@ class Creator extends React.PureComponent<Props, State> {
           {t('Important notice!')}
         </Modal.Header>
         <Modal.Content>
-          {t('We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always redownload this file later.')}
+          {t('We will provide you with a generated backup file after your key is created. As long as you have access to your key you can always redownload this file later.')}
           <Modal.Description>
-            {t('Please make sure to save this file in a secure location as it is the only way to restore your account.')}
+            {t('Please make sure to save this file in a secure location as it is the only way to restore your key.')}
           </Modal.Description>
           <AddressSummary
             className='accounts--Modal-Address'
@@ -387,7 +387,7 @@ class Creator extends React.PureComponent<Props, State> {
 
       status.account = pair.address();
       status.status = pair ? 'success' : 'error';
-      status.message = t('created account');
+      status.message = t('created key');
 
       InputAddress.setLastValue('account', pair.address());
     } catch (error) {

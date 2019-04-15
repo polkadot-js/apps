@@ -119,7 +119,7 @@ class Editor extends React.PureComponent<Props, State> {
               className='full'
               hideAddress
               isInput={false}
-              label={t('using my account')}
+              label={t('using my key')}
               onChange={this.onChangeAccount}
               type='account'
               value={address}
@@ -137,10 +137,6 @@ class Editor extends React.PureComponent<Props, State> {
           <Labelled label='address:' style={{ marginTop: '.5rem' }}>
             <code>{address}</code>
           </Labelled>
-          {address && <Labelled label='memo:' style={{ marginTop: '.5rem' }}>
-            <MemoView accountId={address} />
-          </Labelled>}
-          {
           <div className='ui--row'>
             <Dropdown
               defaultValue={type}
@@ -149,7 +145,9 @@ class Editor extends React.PureComponent<Props, State> {
               options={uiSettings.availableCryptos}
             />
           </div>
-          }
+          {address && <Labelled label='memo:' style={{ marginTop: '.5rem' }}>
+            <MemoView accountId={address} />
+          </Labelled>}
         </div>
       </div>
     );
@@ -355,7 +353,7 @@ class Editor extends React.PureComponent<Props, State> {
             current.address()
           );
           status.status = 'success';
-          status.message = t('account forgotten');
+          status.message = t('key forgotten');
         } catch (error) {
           status.status = 'error';
           status.message = error.message;

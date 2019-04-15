@@ -40,19 +40,17 @@ export default class Component extends React.PureComponent<Props, State> {
   render () {
     const { match: { params: { accountId } } } = this.props;
     const { accountInput } = this.state;
-    return (
-      <Section title={`Account's Memo`}>
-        <Form onSubmit={this.findMemo}>
-          <Form.Input
-            value={accountInput}
-            placeholder='Account address'
-            onChange={e => this.onChangeAccount(e.target.value)}
-            action={{ icon: 'search', content: 'Find memo', onClick: this.findMemo }}
-          />
-        </Form>
-        {accountId && <MemoView accountId={accountId} preview={false} style={{ marginTop: '1rem' }} />}
-      </Section>
-    );
+    return <>
+      <Form onSubmit={this.findMemo}>
+        <Form.Input
+          value={accountInput}
+          placeholder='Key address'
+          onChange={e => this.onChangeAccount(e.target.value)}
+          action={{ icon: 'search', content: 'Find memo', onClick: this.findMemo }}
+        />
+      </Form>
+      {accountId && <MemoView accountId={accountId} preview={false} style={{ marginTop: '1rem' }} />}
+    </>;
   }
 
   private onChangeAccount = (accountInput: string): void => {

@@ -12,7 +12,7 @@ export default ([
       ]
     },
     i18n: {
-      defaultValue: 'Members'
+      defaultValue: 'Membership'
     },
     icon: 'users',
     name: 'members'

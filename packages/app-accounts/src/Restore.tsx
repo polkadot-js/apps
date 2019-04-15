@@ -138,7 +138,7 @@ class Restore extends React.PureComponent<Props, State> {
 
       status.status = pair ? 'success' : 'error';
       status.account = pair.address();
-      status.message = t('account restored');
+      status.message = t('key restored');
 
       InputAddress.setLastValue('account', pair.address());
     } catch (error) {

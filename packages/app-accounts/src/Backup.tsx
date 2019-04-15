@@ -75,13 +75,13 @@ class Backup extends React.PureComponent<Props, State> {
     return (
       <>
         <Modal.Header>
-          {t('Backup account')}
+          {t('Backup this key')}
         </Modal.Header>
         <Modal.Content className='app--account-Backup-content'>
           <AddressSummary value={pair.address()} />
           <Password
             isError={!isPassValid}
-            label={t('unlock account using the password')}
+            label={t('unlock key using the password')}
             onChange={this.onChangePass}
             tabIndex={0}
             value={password}
@@ -109,7 +109,7 @@ class Backup extends React.PureComponent<Props, State> {
 
       status.account = pair.address();
       status.status = blob ? 'success' : 'error';
-      status.message = t('account backed up');
+      status.message = t('key backed up');
 
       FileSaver.saveAs(blob, `${pair.address()}.json`);
     } catch (error) {
