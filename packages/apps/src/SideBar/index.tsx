@@ -156,7 +156,6 @@ class SideBar extends React.PureComponent<Props> {
         <a
           className='apps--SideBar-Item-NavLink'
           href='https://github.com/polkadot-js/apps'
-          target='_blank'
         >
           <Icon name='github' /><span className='text'>GitHub</span>
         </a>
@@ -191,17 +190,19 @@ class SideBar extends React.PureComponent<Props> {
   }
 
   private renderWiki () {
-    return (
-      <Menu.Item className='apps--SideBar-Item'>
-        <a
-          className='apps--SideBar-Item-NavLink'
-          href='https://wiki.polkadot.network'
-          target='_blank'
-        >
-          <Icon name='book' /><span className='text'>Wiki</span>
-        </a>
-      </Menu.Item>
-    );
+    return null;
+
+    // disabled for now, we need the space
+    // return (
+    //   <Menu.Item className='apps--SideBar-Item'>
+    //     <a
+    //       className='apps--SideBar-Item-NavLink'
+    //       href='https://github.com/w3f/Web3-wiki/wiki/Polkadot'
+    //     >
+    //       <Icon name='book' /> Wiki
+    //     </a>
+    //   </Menu.Item>
+    // );
   }
 }
 
