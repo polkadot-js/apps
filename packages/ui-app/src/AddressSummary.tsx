@@ -201,7 +201,7 @@ class AddressSummary extends React.PureComponent<Props> {
 
   protected renderFaucet () {
     const { showFaucet = false, value } = this.props;
-    const url = 'https://sparta.joystream.org/faucet' + (value ? `?address=${value}` : '');
+    const url = 'https://testnet.joystream.org/faucet' + (value ? `?address=${value}` : '');
     return showFaucet ? <a href={url} target='_blank'>Get free tokens</a> : null;
   }
 

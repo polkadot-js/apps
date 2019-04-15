@@ -1,9 +1,10 @@
 .JoyTopBar {
   padding: .5rem .5rem;
-  background-color: #4e4e4e;
+  background-color: #3f3f3f;
   border-bottom: 1px solid #d4d4d5;
   color: #fff;
   text-align: right;
+  margin: 0 -2rem;
 
   &.NoMyAddress {
     background-color: #ffeb83;

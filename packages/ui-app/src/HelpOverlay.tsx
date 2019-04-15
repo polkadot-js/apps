@@ -20,15 +20,16 @@ type State = {
 
 const Wrapper = styled.div`
   .help-button {
+    color: #2196f3;
     cursor: pointer;
     font-size: 2rem;
-    padding: 1.25rem 1.5rem 0 0;
+    padding: 1.5rem 1rem 0 0;
   }
 
   > .help-button {
     position: absolute;
     right: 0rem;
-    top: 0rem;
+    top: 3.75rem;
   }
 
   .help-slideout {

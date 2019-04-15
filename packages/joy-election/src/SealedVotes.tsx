@@ -8,11 +8,11 @@ import { Hash } from '@polkadot/types';
 import translate from './translate';
 import SealedVote from './SealedVote';
 import { queryToProp } from '@polkadot/joy-utils/index';
-import { MyAccountProps } from '@polkadot/joy-utils/MyAccount';
+import { MyAddressProps } from '@polkadot/joy-utils/MyAccount';
 import { SavedVote } from './myVotesStore';
 import Section from '@polkadot/joy-utils/Section';
 
-type Props = ApiProps & I18nProps & MyAccountProps & {
+type Props = ApiProps & I18nProps & MyAddressProps & {
   myVotes?: SavedVote[],
   commitments?: Hash[]
 };

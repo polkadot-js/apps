@@ -12,9 +12,9 @@ import TxButton from '@polkadot/joy-utils/TxButton';
 import InputStake from '@polkadot/joy-utils/InputStake';
 import { Stake } from '@polkadot/joy-utils/types';
 import { calcTotalStake, ZERO } from '@polkadot/joy-utils/index';
-import { MyAccountProps } from '@polkadot/joy-utils/MyAccount';
+import { MyAddressProps } from '@polkadot/joy-utils/MyAccount';
 
-type Props = ApiProps & I18nProps & MyAccountProps & {
+type Props = ApiProps & I18nProps & MyAddressProps & {
   minStake?: Balance,
   alreadyStaked?: Stake,
   myBalance?: Balance

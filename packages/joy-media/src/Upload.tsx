@@ -8,12 +8,14 @@ import { InputFile } from '@polkadot/ui-app/index';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { SubmittableResult } from '@polkadot/api';
-import { formatNumber } from '@polkadot/util';
-import { stringToU8a, u8aToString } from '@polkadot/util';
+import { withMulti } from '@polkadot/ui-api';
+import { stringToU8a, u8aToString, formatNumber } from '@polkadot/util';
 
 import translate from './translate';
-import { buildApiUrl, fileNameWoExt } from './utils';
+import { fileNameWoExt } from './utils';
 import { ContentId } from './types';
+import { MyAccountProps, withOnlyMembers } from '@polkadot/joy-utils/MyAccount';
+import { withStorageProvider, StorageProviderProps } from './StorageProvider';
 import EditMeta from './EditMeta';
 import TxButton from '@polkadot/joy-utils/TxButton';
 
@@ -24,7 +26,7 @@ function generateContentId () {
   return new ContentId(stringToU8a(uuid));
 }
 
-type Props = ApiProps & I18nProps & {};
+type Props = ApiProps & I18nProps & MyAccountProps & StorageProviderProps;
 
 type State = {
   error?: any,
@@ -67,7 +69,7 @@ class Component extends React.PureComponent<Props, State> {
   private renderError () {
     const { error } = this.state;
     return (
-      <Message error className='UploadStatus'>
+      <Message error className='JoyMainStatus'>
         <Message.Header>Failed to upload the file</Message.Header>
         <p>{error.toString()}</p>
       </Message>
@@ -114,6 +116,7 @@ class Component extends React.PureComponent<Props, State> {
     return <div className='UploadSelectForm'>
       <InputFile
         // isError={!isValidContent}
+        withLabel={false}
         className={`UploadInputFile ${file ? 'FileSelected' : ''}`}
         placeholder={
           <div>
@@ -173,12 +176,20 @@ class Component extends React.PureComponent<Props, State> {
         'Content-Type': '' // <-- this is a temporary hack
       }
     };
+    const { storageProvider } = this.props;
+    const url = storageProvider.buildApiUrl(uniqueName);
     this.setState({ uploading: true });
+
     axios
-      .put<{ message: string }>(buildApiUrl(uniqueName), file, config)
+      .put<{ message: string }>(url, file, config)
       .then(_res => this.setState({ progress: 100 }))
       .catch(error => this.setState({ progress: 100, error }));
   }
 }
 
-export default translate(Component);
+export default withMulti(
+  Component,
+  translate,
+  withOnlyMembers,
+  withStorageProvider
+);

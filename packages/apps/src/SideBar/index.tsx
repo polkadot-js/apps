@@ -106,7 +106,7 @@ class SideBar extends React.PureComponent<Props> {
               {this.renderRoutes()}
               <Menu.Divider hidden />
 
-              <OuterLink url='https://sparta.joystream.org/faucet' title='Free Tokens' />
+              <OuterLink url='https://testnet.joystream.org/faucet' title='Free Tokens' />
               <OuterLink url='https://blog.joystream.org/sparta/' title='Earn Monero' />
               <Menu.Divider hidden />
               {

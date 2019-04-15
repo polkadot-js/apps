@@ -8,7 +8,7 @@ export default ([
     display: {
       needsAccounts: true,
       needsApi: [
-        'query.membership.firstMemberId',
+        'query.membership.firstMemberId'
       ]
     },
     i18n: {
