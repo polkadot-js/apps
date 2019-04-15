@@ -2,6 +2,8 @@ import { Routes } from '../types';
 
 import Election from '@polkadot/joy-election/index';
 
+export const councilSidebarName = 'council';
+
 export default ([
   {
     Component: Election,
@@ -15,6 +17,6 @@ export default ([
       defaultValue: 'Council'
     },
     icon: 'university',
-    name: 'council'
+    name: councilSidebarName
   }
 ] as Routes);
