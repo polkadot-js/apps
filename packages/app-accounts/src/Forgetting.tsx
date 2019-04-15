@@ -58,7 +58,7 @@ class Forgetting extends React.PureComponent<Props> {
     return (
       <>
         <Modal.Header>
-          {t('Confirm account removal')}
+          {t('Confirm key removal')}
         </Modal.Header>
         <Modal.Content>
           <AddressSummary value={address} />
