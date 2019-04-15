@@ -17,17 +17,17 @@ class Component extends React.PureComponent<Props, State> {
   renderAddress (address: string) {
     const marginRight = { marginRight: '.5rem' };
     return <div className='JoyTopBar'>
-      <span style={marginRight}>My account: </span>
+      <span style={marginRight}>My key: </span>
       <AddressMini value={address} isShort={false} isPadded={false} withBalance={true} withName={true} size={36} style={marginRight} />
-      <Link className='ui small button inverted' to='/accounts'>Change account</Link>
+      <Link className='ui small button inverted' to='/accounts'>Change key</Link>
     </div>;
   }
 
   renderNoAddress () {
     return <div className='JoyTopBar NoMyAddress'>
       <i className='warning sign icon'></i>
-      <span style={{ marginRight: '1rem' }}>You need to create an account if you want to use all features.</span>
-      <Link className='ui small button orange' to='/accounts'>Create account</Link>
+      <span style={{ marginRight: '1rem' }}>You need to create a key if you want to use all features.</span>
+      <Link className='ui small button orange' to='/accounts'>Create key</Link>
     </div>;
   }
 
