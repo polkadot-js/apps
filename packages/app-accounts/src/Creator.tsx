@@ -71,7 +71,9 @@ function isHexSeed (seed: string): boolean {
 }
 
 function rawValidate (seed: string): boolean {
-  return seed.length <= 32 || isHexSeed(seed);
+  console.log('seed', seed)
+  console.log('seed.length <= 32 || isHexSeed(seed)', seed.length <= 32 || isHexSeed(seed))
+  return seed.length > 0 && seed.length <= 32 || isHexSeed(seed);
 }
 
 function addressFromSeed (phrase: string, derivePath: string, pairType: KeypairType): string {
@@ -83,7 +85,7 @@ function addressFromSeed (phrase: string, derivePath: string, pairType: KeypairT
 class Creator extends React.PureComponent<Props, State> {
   state: State = { seedType: 'bip' } as State;
 
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props);
 
     const { match: { params: { seed } }, t } = this.props;
