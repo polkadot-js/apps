@@ -2,7 +2,6 @@ import React from 'react';
 import { Form } from 'semantic-ui-react';
 import { History } from 'history';
 
-import Section from '@polkadot/joy-utils/Section';
 import MemoView from '@polkadot/joy-utils/memo/MemoView';
 import { RouteComponentProps } from 'react-router';
 
