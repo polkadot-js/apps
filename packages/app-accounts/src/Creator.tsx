@@ -71,8 +71,6 @@ function isHexSeed (seed: string): boolean {
 }
 
 function rawValidate (seed: string): boolean {
-  console.log('seed', seed)
-  console.log('seed.length <= 32 || isHexSeed(seed)', seed.length <= 32 || isHexSeed(seed))
   return seed.length > 0 && seed.length <= 32 || isHexSeed(seed);
 }
 
