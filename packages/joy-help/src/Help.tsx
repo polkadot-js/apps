@@ -12,10 +12,10 @@ import translate from './translate';
 import MemoView from '@polkadot/joy-utils/memo/MemoView';
 import { Link } from 'react-router-dom';
 
-const validatorsAccId = '5DULwvQcCCdEJzwp6rWdXESQSvPPZ5TL77b7DTSH8Jo6j6kP';
-const electionsAccId = '5EE7QzS8MGvbjBAr9NpNrnY9fg5ACs5wcsmwZFQeYdoAXfrL';
-const bugsAccId = '5Eeb3fU7FeQXpqvjDfzArWG4seTzB9TXVrXGybLr8SHAcFFL';
-const newsAccId = '5ENParCsYNVp6CGMye3S2344rRuGCXL5gU3TwDkBD6FTDvu8';
+const validatorsAccId = '5EoFVV4HrmyxF8xWNYL7rYJPEcDrW8kv3bHkb1ueGchBcZ1k';
+const electionsAccId = '5CFW8VgJiM4jKSwskNzVVYfytcPcU7ppRtGKVBLgwpddTSjK';
+const bugsAccId = '5H4RgAjmTBoNMrysDXJpac5KRURFnNYBHKC2FNmGoLXvv1LK';
+const newsAccId = '5FvjTdBbyk7QqHcGHbwtc1RLiw6SUkzegdCWbppdtb63tmzi';
 
 type Props = I18nProps & {};
 
@@ -30,7 +30,11 @@ const renderMemo = (accId: string) => {
 };
 
 export const Component = (_props: Props) => {
-  return (
+  return (<>
+    <div style={{ marginBottom: '1rem' }}>
+      Visit our <a href='https://github.com/Joystream/helpdesk' target='_blank'>helpdesk</a>{' '}
+      for instructions and guides to get started!
+    </div>
     <Grid divided='vertically'>
       <Grid.Row columns={2}>
         <Grid.Column>{renderMemo(newsAccId)}</Grid.Column>
@@ -41,7 +45,7 @@ export const Component = (_props: Props) => {
         <Grid.Column>{renderMemo(bugsAccId)}</Grid.Column>
       </Grid.Row>
     </Grid>
-  );
+  </>);
 };
 
 export default translate(
