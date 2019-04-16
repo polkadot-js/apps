@@ -14,3 +14,15 @@
     font-weight: normal !important;
   }
 }
+
+.SidebarSubtitle {
+  &.Announcing {
+    color: #4caf50; /* green */
+  }
+  &.Voting {
+    color: #2196f3; /* blue */
+  }
+  &.Revealing {
+    color: #ff5722; /* red */
+  }
+}

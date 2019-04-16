@@ -70,6 +70,17 @@
   }
 }
 
+.SidebarItem {
+  display: inline-flex;
+  flex-direction: column;
+
+  .SidebarSubtitle {
+    display: block;
+    font-size: 0.85rem;
+    color: grey;
+  }
+}
+
 .JoySection {
   margin-top: 2rem;
   margin-bottom: 1rem;
