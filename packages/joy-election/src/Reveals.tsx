@@ -67,7 +67,7 @@ class App extends React.PureComponent<Props, State> {
             label='Applicant I voted for:'
             onChange={this.onChangeApplicant}
             type='address'
-            addresses={applicantOpts}
+            options={applicantOpts}
             value={applicantId}
             placeholder='Select an applicant you voted for'
           />
