@@ -5,13 +5,14 @@
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import { Balance } from '@polkadot/types';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
+import { withCalls } from '@polkadot/ui-api';
 import { formatBalance } from '@polkadot/util';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
   label?: string,
+  params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   balances_freeBalance?: Balance
 };
 
@@ -34,9 +35,6 @@ export class BalanceDisplay extends React.PureComponent<Props> {
   }
 }
 
-export default withMulti(
-  BalanceDisplay,
-  withCalls<Props>(
-    ['query.balances.freeBalance', { paramName: 'params' }]
-  )
-);
+export default withCalls<Props>(
+  ['query.balances.freeBalance', { paramName: 'params' }]
+)(BalanceDisplay);

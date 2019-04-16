@@ -6,11 +6,12 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { AccountId, AccountIndex } from '@polkadot/types';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import { withCalls } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
   label?: string,
+  params?: string,
   accounts_idAndIndex?: [AccountId?, AccountIndex?]
 };
 
@@ -34,9 +35,6 @@ export class AccountIndexDisplay extends React.PureComponent<Props> {
   }
 }
 
-export default withMulti(
-  AccountIndexDisplay,
-  withCalls<Props>(
-    ['derive.accounts.idAndIndex', { paramName: 'params' }]
-  )
-);
+export default withCalls<Props>(
+  ['derive.accounts.idAndIndex', { paramName: 'params' }]
+)(AccountIndexDisplay);
