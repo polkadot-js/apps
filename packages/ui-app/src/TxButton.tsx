@@ -2,7 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Index } from '@polkadot/types';
+import { IExtrinsic } from '@polkadot/types/types';
 import { ApiProps } from '@polkadot/ui-api/types';
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { QueueTx$ExtrinsicAdd, TxCallback } from './Status/types';
 
 import React from 'react';
@@ -20,6 +23,7 @@ type InjectedProps = {
 
 type Props = ApiProps & {
   accountId?: string,
+  accountNonce?: Index,
   isPrimary?: boolean,
   isDisabled?: boolean,
   isNegative?: boolean,
@@ -29,7 +33,7 @@ type Props = ApiProps & {
   onSuccess?: TxCallback,
   onUpdate?: TxCallback,
   params?: Array<any> | ConstructFn,
-  tx: string
+  tx: string | IExtrinsic
 };
 
 class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
@@ -48,24 +52,32 @@ class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
   }
 
   private send = (): void => {
-    const { accountId, api, onClick, onFailed, onSuccess, onUpdate, params = [], queueExtrinsic, tx } = this.props;
+    const { accountId, accountNonce, api, onClick, onFailed, onSuccess, onUpdate, params = [], queueExtrinsic, tx } = this.props;
 
     assert(tx, 'Expected tx param passed to TxButton');
 
-    const [section, method] = tx.split('.');
+    let extrinsic: any;
+    if (typeof this.props.tx === 'string') {
+      const [section, method] = (tx as string).split('.');
 
-    assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
+      assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
 
-    const extrinsic: any = api.tx[section][method](
-      ...(isFunction(params) ? params() : params)
-    );
+      extrinsic = api.tx[section][method](
+        ...(isFunction(params) ? params() : params)
+      );
+    } else {
+      extrinsic = this.props.tx as SubmittableExtrinsic;
+    }
 
     queueExtrinsic({
       accountId,
       extrinsic,
       txFailedCb: onFailed,
       txSuccessCb: onSuccess,
-      txUpdateCb: onUpdate
+      txUpdateCb: onUpdate,
+      ...(accountNonce ?
+        { accountNonce } :
+        {})
     });
 
     onClick && onClick();

@@ -6,10 +6,11 @@ import BN from 'bn.js';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from '@polkadot/ui-api/types';
+import { IExtrinsic } from '@polkadot/types/types';
 
 import React from 'react';
 import { Method } from '@polkadot/types';
-import { Button, InputAddress, Labelled } from '@polkadot/ui-app';
+import { Button, InputAddress, Labelled, TxButton } from '@polkadot/ui-app';
 import { withApi, withMulti } from '@polkadot/ui-api';
 import { Nonce } from '@polkadot/ui-reactive';
 
@@ -43,6 +44,7 @@ class Selection extends React.PureComponent<Props, State> {
         return apiDefaultTx;
       }
     })();
+    const extrinsic = this.getExtrinsic() || defaultExtrinsic;
 
     return (
       <div className='extrinsics--Selection'>
@@ -76,17 +78,18 @@ class Selection extends React.PureComponent<Props, State> {
         />
         <br></br>
         <Button.Group>
-          <Button
+          <TxButton
             isDisabled={!isValid}
-            onClick={this.onQueueInherent}
             label={t('Submit Inherent')}
+            tx={extrinsic}
           />
           <Button.Or />
-          <Button
+          <TxButton
+            accountId={accountId}
             isDisabled={!isValid}
             isPrimary
-            onClick={this.onQueueExtrinsic}
             label={t('Submit Transaction')}
+            tx={extrinsic}
           />
         </Button.Group>
       </div>
@@ -125,32 +128,16 @@ class Selection extends React.PureComponent<Props, State> {
     this.nextState({ accountId, accountNonce: new BN(0) } as State);
   }
 
-  private onQueue (isUnsigned: boolean): void {
-    const { api, queueExtrinsic } = this.props;
-    const { method, isValid, accountId } = this.state;
+  private getExtrinsic (): IExtrinsic | null {
+    const { api } = this.props;
+    const { method, isValid } = this.state;
 
     if (!isValid || !method) {
-      return;
+      return null;
     }
 
     const fn = Method.findFunction(method.callIndex);
-    const extrinsic = api.tx[fn.section][fn.method](...method.args);
-
-    queueExtrinsic({
-      accountId: isUnsigned
-        ? undefined
-        : accountId,
-      extrinsic,
-      isUnsigned
-    });
-  }
-
-  private onQueueExtrinsic = (): void => {
-    this.onQueue(false);
-  }
-
-  private onQueueInherent = (): void => {
-    this.onQueue(true);
+    return api.tx[fn.section][fn.method](...method.args);
   }
 }
 
