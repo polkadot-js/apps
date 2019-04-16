@@ -6,7 +6,7 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Balance } from '@polkadot/types';
-import { withCalls } from '@polkadot/ui-api';
+import { withCalls, withMulti } from '@polkadot/ui-api';
 import { formatBalance } from '@polkadot/util';
 
 type Props = BareProps & CallProps & {
@@ -34,6 +34,9 @@ export class BalanceDisplay extends React.PureComponent<Props> {
   }
 }
 
-export default withCalls<Props>(
-  ['query.balances.freeBalance', { paramName: 'params' }]
-)(BalanceDisplay);
+export default withMulti(
+  BalanceDisplay,
+  withCalls<Props>(
+    ['query.balances.freeBalance', { paramName: 'params' }]
+  )
+);
