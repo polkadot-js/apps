@@ -116,7 +116,7 @@ class Component extends React.PureComponent<Props, State> {
             label='Applicant to vote for:'
             onChange={this.onChangeApplicant}
             type='address'
-            addresses={applicantOpts}
+            options={applicantOpts}
             value={applicantId}
             placeholder='Select an applicant you support'
           />
