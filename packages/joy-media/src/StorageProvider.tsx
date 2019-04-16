@@ -34,9 +34,13 @@ function newStorageProvider ({ storageProviderAddress, storageProviderRepoId }: 
   if (!isEmptyText(storageProviderAddress)
     && !isEmptyText(storageProviderRepoId)
   ) {
-    const address = u8aToString(storageProviderAddress);
+    let address = u8aToString(storageProviderAddress);
     const repoId = u8aToString(storageProviderRepoId);
     if (nonEmptyStr(address) && nonEmptyStr(repoId)) {
+      // Remove the last slash if it's present in the address:
+      if (address.endsWith('/')) {
+        address = address.substring(0, address.length - 1);
+      }
       const buildApiUrl = (lastPart?: string): string => (
         `${address}/asset/v0/${repoId}/${lastPart || ''}`
       );
