@@ -12,6 +12,7 @@ import help from './joy-help';
 import members from './joy-members';
 import proposals from './joy-proposals';
 import roles from './joy-roles';
+import pages from './joy-pages';
 
 import template from './123code';
 import accounts from './accounts';
@@ -43,7 +44,9 @@ const routes: Routes = appSettings.uiMode === 'light'
     null,
     help,
     settings,
-    template
+    template,
+    null,
+    pages
   )
   : ([] as Routes).concat(
     explorer,
@@ -66,7 +69,9 @@ const routes: Routes = appSettings.uiMode === 'light'
     settings,
     toolbox,
     js,
-    template
+    template,
+    null,
+    pages
   );
 
 export default ({

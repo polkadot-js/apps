@@ -1,0 +1,14 @@
+{
+  "name": "@polkadot/joy-pages",
+  "version": "0.1.1",
+  "description": "Joystream Pages module",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Joystream contributors",
+  "maintainers": [],
+  "dependencies": {
+    "@babel/runtime": "^7.4.3",
+    "@polkadot/ui-app": "^0.31.0-beta.18",
+    "@polkadot/joy-utils": "^0.1.1"
+  }
+}

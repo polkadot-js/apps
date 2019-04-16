@@ -6,7 +6,6 @@ export default ([
   {
     Component: Media,
     display: {
-      needsAccounts: false,
       needsApi: []
     },
     i18n: {
