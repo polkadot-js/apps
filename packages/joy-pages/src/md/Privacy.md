@@ -14,7 +14,7 @@ Relevant to the Privacy Policy and Cookie Policy are the following terms:
 
 
 # Privacy Policy
-**Last updated on the nth of April 2019**
+**Last updated on the 17th of April 2019**
 
 ## 1. Agreement to the Policy
 By using any of Our Software, the User are accepting this Privacy Policy. If you are acting on behalf of another company or an employer, you must have the rights to act on their behalf. The Privacy Policy is not extended to any of our newsletters, where Users are bound by the [privacy policy](https://mailchimp.com/legal/privacy/) of [Mailchimp](https://mailchimp.com/).
@@ -36,7 +36,7 @@ Company will not sell your data for advertising, or other purposes.
 
 
 # Cookie Policy
-**Last updated on the nth of April 2019**
+**Last updated on the 17th of April 2019**
 
 Company uses cookies on Website and App when hosted by Us (collectively "Service"). By using the Service, you consent to the use of cookies.
 
