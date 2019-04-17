@@ -111,9 +111,7 @@ class Developer extends React.PureComponent<Props, State> {
       const types = JSON.parse(code);
       const typesPlaceholder = Object.keys(types).join(', ');
 
-      console.log('Registering types:', typesPlaceholder);
-
-      getTypeRegistry().register(types);
+      console.log('Detected types:', typesPlaceholder);
 
       this.setState({
         code,
@@ -161,21 +159,26 @@ class Developer extends React.PureComponent<Props, State> {
 
   private saveDeveloper = (): void => {
     const { t } = this.props;
-    const { isTypesValid, types } = this.state;
+    const { types } = this.state;
 
-    const status = {
-      status: 'success',
-      action: t('Your custom types have been added')
-    } as ActionStatus;
+    try {
+      getTypeRegistry().register(types);
 
-    if (isTypesValid) {
       store.set('types', types);
-    } else {
-      status.status = 'error';
-      status.action = t('Your custom types are invalid');
-    }
 
-    this.props.onStatusChange(status);
+      this.setState({ isTypesValid: true });
+      this.props.onStatusChange({
+        status: 'success',
+        action: t('Your custom types have been added')
+      } as ActionStatus);
+
+    } catch (e) {
+      this.setState({ isTypesValid: false });
+      this.props.onStatusChange({
+        status: 'error',
+        action: t('Error saving your custom types. They are invalid')
+      } as ActionStatus);
+    }
   }
 }
 
