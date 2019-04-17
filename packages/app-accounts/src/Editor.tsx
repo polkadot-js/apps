@@ -127,7 +127,7 @@ class Editor extends React.PureComponent<Props, State> {
           <div className='ui--row'>
             <Input
               className='full'
-              help={t('Name given to this account. You can edit it. To use the account to validate or nomminate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
+              help={t('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
               isEditable
               label={t('name')}
               onChange={this.onChangeName}

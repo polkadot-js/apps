@@ -114,7 +114,7 @@ class VanityApp extends React.PureComponent<Props, State> {
         <Input
           autoFocus
           className='medium'
-          help={t('Type here what you would like your address to countain. This tool will generate the keys and show the associated addresses that best match your search. You can use "?" as a wildcard for a character.')}
+          help={t('Type here what you would like your address to contain. This tool will generate the keys and show the associated addresses that best match your search. You can use "?" as a wildcard for a character.')}
           isDisabled={isRunning}
           isError={!isMatchValid}
           label={t('Search for')}

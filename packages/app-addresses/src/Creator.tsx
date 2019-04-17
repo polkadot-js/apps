@@ -93,7 +93,7 @@ class Creator extends React.PureComponent<Props, State> {
         <div className='ui--row'>
           <Input
             className='full'
-            help={t('Type the name of your contact. This name will be used accross all the apps. It can be edited later on.')}
+            help={t('Type the name of your contact. This name will be used across all the apps. It can be edited later on.')}
             isError={!isNameValid}
             label={t('name')}
             onChange={this.onChangeName}
