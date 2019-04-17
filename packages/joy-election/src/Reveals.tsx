@@ -85,7 +85,7 @@ class RevealVoteForm extends React.PureComponent<Props, State> {
           <TxButton
             size='large'
             isDisabled={!isVoteRevealed}
-            label='Reveal my vote'
+            label='Reveal this vote'
             params={[hashedVote, applicantId, salt]}
             tx='election.reveal'
           />

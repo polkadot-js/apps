@@ -38,7 +38,7 @@ class Comp extends React.PureComponent<Props> {
     const otherVotes = this.filterVotes(false);
 
     return <>
-      <Section title={`My votes (${myVotes.length})`}>{
+      <Section title={`My previous votes (${myVotes.length})`}>{
         !myVotes.length
         ? <em>No votes by the current account found on the current browser.</em>
         : this.renderVotes(myVotes)
