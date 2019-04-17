@@ -137,7 +137,7 @@ class Selection extends React.PureComponent<Props, State> {
     }
 
     const fn = Method.findFunction(method.callIndex);
-    return api.tx[fn.section][fn.method](...method.args) as SubmittableExtrinsic;
+    return api.tx[fn.section][fn.method](...method.args);
   }
 }
 

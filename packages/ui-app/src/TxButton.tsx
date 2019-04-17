@@ -56,7 +56,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
 
     let extrinsic: any;
     if (typeof tx === 'string') {
-      const [section, method] = (tx as string).split('.');
+      const [section, method] = tx.split('.');
 
       assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
 
