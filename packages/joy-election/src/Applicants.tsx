@@ -43,7 +43,9 @@ class Applicants extends React.PureComponent<Props> {
     const title = <span>Applicants <sup>{applicants.length}/{formatNumber(candidacyLimit)}</sup></span>;
 
     return <>
-      <ApplyForm myAddress={myAddress} />
+      <Section title='My application'>
+        <ApplyForm myAddress={myAddress} />
+      </Section>
       <Section title={title}>
       {!applicants.length
         ? <em>No applicants yet</em>

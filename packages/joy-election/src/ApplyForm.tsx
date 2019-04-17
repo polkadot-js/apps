@@ -3,7 +3,7 @@ import React from 'react';
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { withCalls } from '@polkadot/ui-api/with';
+import { withCalls, withMulti } from '@polkadot/ui-api/with';
 import { Labelled } from '@polkadot/ui-app/index';
 import { Balance } from '@polkadot/types';
 
@@ -12,7 +12,7 @@ import TxButton from '@polkadot/joy-utils/TxButton';
 import InputStake from '@polkadot/joy-utils/InputStake';
 import { Stake } from '@polkadot/joy-utils/types';
 import { calcTotalStake, ZERO } from '@polkadot/joy-utils/index';
-import { MyAddressProps } from '@polkadot/joy-utils/MyAccount';
+import { MyAddressProps, withOnlyMembers } from '@polkadot/joy-utils/MyAccount';
 
 type Props = ApiProps & I18nProps & MyAddressProps & {
   minStake?: Balance,
@@ -38,7 +38,9 @@ class ApplyForm extends React.PureComponent<Props, State> {
     const { stake, isStakeValid } = this.state;
     const hasAlreadyStakedEnough = this.alreadyStaked().gte(this.minStake());
     const minStake = hasAlreadyStakedEnough ? ZERO : this.minStake();
-    const buttonLabel = hasAlreadyStakedEnough ? 'Add to my stake' : 'Apply to council';
+    const buttonLabel = hasAlreadyStakedEnough
+      ? 'Add to my stake'
+      : 'Apply to council';
 
     return (
       <div>
@@ -79,7 +81,10 @@ class ApplyForm extends React.PureComponent<Props, State> {
 }
 
 // inject the actual API calls automatically into props
-export default translate(
+export default withMulti(
+  ApplyForm,
+  translate,
+  withOnlyMembers,
   withCalls<Props>(
     ['query.councilElection.minCouncilStake',
       { propName: 'minStake' }],
@@ -87,5 +92,5 @@ export default translate(
       { paramName: 'myAddress', propName: 'alreadyStaked' }],
     ['query.balances.freeBalance',
       { paramName: 'myAddress', propName: 'myBalance' }]
-  )(ApplyForm)
+  )
 );
