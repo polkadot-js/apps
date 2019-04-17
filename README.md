@@ -56,7 +56,7 @@ There is a base template availble [app-123code](packages/app-123code/) that acts
 
 While it is hidden from the sidebar, it is accessible via [http://127.0.0.1:3000/#/123code](http://127.0.0.1:3000/#/123code)
 
-Be sure to follow the [app-123code/README.md](packages/app-template/README.md) instructions.
+Be sure to follow the [app-123code/README.md](packages/app-123code/README.md) instructions.
 
 ## Docker
 
