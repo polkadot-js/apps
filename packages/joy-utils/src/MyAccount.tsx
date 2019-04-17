@@ -98,7 +98,7 @@ withMulti(
   withMyMembership
 );
 
-export function OnlyMembers<P extends MyAccountProps> (Component: React.ComponentType<P>) {
+function OnlyMembers<P extends MyAccountProps> (Component: React.ComponentType<P>) {
   return class extends React.Component<P> {
     render () {
       const { myMemberIdChecked, iAmMember } = this.props;
