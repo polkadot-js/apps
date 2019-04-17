@@ -71,7 +71,7 @@ class Developer extends React.PureComponent<Props, State> {
                 isValid={isJsonValid}
                 onEdit={this.onEditTypes}
               />
-            </Labelled>>
+            </Labelled>
           </div>
         </div>
         <Button.Group>
