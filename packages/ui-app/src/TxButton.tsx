@@ -6,7 +6,7 @@ import { Index } from '@polkadot/types';
 import { IExtrinsic } from '@polkadot/types/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { QueueTx$ExtrinsicAdd, TxCallback } from './Status/types';
+import { QueueTx, QueueTx$ExtrinsicAdd, TxCallback } from './Status/types';
 
 import React from 'react';
 import { withApi } from '@polkadot/ui-api';
@@ -19,6 +19,7 @@ type ConstructFn = () => Array<any>;
 
 type InjectedProps = {
   queueExtrinsic: QueueTx$ExtrinsicAdd;
+  txqueue: Array<QueueTx>;
 };
 
 type Props = ApiProps & {
@@ -33,16 +34,59 @@ type Props = ApiProps & {
   onSuccess?: TxCallback,
   onUpdate?: TxCallback,
   params?: Array<any> | ConstructFn,
-  tx: string | IExtrinsic
+  tx: string | IExtrinsic | SubmittableExtrinsic
 };
 
-class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
+type InnerProps = Props & InjectedProps;
+
+type State = {
+  extrinsic: SubmittableExtrinsic,
+  isSending: boolean
+};
+
+class TxButtonInner extends React.PureComponent<InnerProps> {
+  state = {
+    isSending: false
+  } as State;
+
+  static getDerivedStateFromProps ({ api, params = [], txqueue = [], tx = '' }: InnerProps): State | null {
+    if (!tx || !(tx as string).length) {
+      return null;
+    }
+
+    let extrinsic: any;
+    if (typeof tx === 'string') {
+      const [section, method] = (tx as string).split('.');
+
+      assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
+
+      extrinsic = api.tx[section][method](
+        ...(isFunction(params) ? params() : params)
+      );
+    } else {
+      extrinsic = tx as SubmittableExtrinsic;
+    }
+
+    let isSending = false;
+    let queuedTx = txqueue.find(({ extrinsic: ex }) => ex === extrinsic);
+    if (queuedTx) {
+      isSending = queuedTx.status === 'broadcast';
+    }
+
+    return {
+      extrinsic,
+      isSending
+    };
+  }
+
   render () {
     const { accountId, isDisabled, isNegative, isPrimary, label } = this.props;
+    const { isSending } = this.state;
 
     return (
       <Button
-        isDisabled={isDisabled || !accountId}
+        isDisabled={isSending || isDisabled || !accountId}
+        isLoading={isSending}
         isNegative={isNegative}
         isPrimary={isUndefined(isPrimary) ? !isNegative : isPrimary}
         label={label}
@@ -52,22 +96,10 @@ class TxButtonInner extends React.PureComponent<Props & InjectedProps> {
   }
 
   private send = (): void => {
-    const { accountId, accountNonce, api, onClick, onFailed, onSuccess, onUpdate, params = [], queueExtrinsic, tx } = this.props;
+    const { accountId, accountNonce, onClick, onFailed, onSuccess, onUpdate, queueExtrinsic, tx } = this.props;
+    const { extrinsic } = this.state;
 
     assert(tx, 'Expected tx param passed to TxButton');
-
-    let extrinsic: any;
-    if (typeof this.props.tx === 'string') {
-      const [section, method] = (tx as string).split('.');
-
-      assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
-
-      extrinsic = api.tx[section][method](
-        ...(isFunction(params) ? params() : params)
-      );
-    } else {
-      extrinsic = this.props.tx as SubmittableExtrinsic;
-    }
 
     queueExtrinsic({
       accountId,
@@ -88,10 +120,11 @@ class TxButton extends React.PureComponent<Props> {
   render () {
     return (
       <QueueConsumer>
-        {({ queueExtrinsic }) => (
+        {({ queueExtrinsic, txqueue }) => (
           <TxButtonInner
             {...this.props}
             queueExtrinsic={queueExtrinsic}
+            txqueue={txqueue}
           />
         )}
       </QueueConsumer>

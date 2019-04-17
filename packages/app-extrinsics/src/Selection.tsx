@@ -6,7 +6,7 @@ import BN from 'bn.js';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { IExtrinsic } from '@polkadot/types/types';
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 import React from 'react';
 import { Method } from '@polkadot/types';
@@ -128,7 +128,7 @@ class Selection extends React.PureComponent<Props, State> {
     this.nextState({ accountId, accountNonce: new BN(0) } as State);
   }
 
-  private getExtrinsic (): IExtrinsic | null {
+  private getExtrinsic (): SubmittableExtrinsic | null {
     const { api } = this.props;
     const { method, isValid } = this.state;
 
@@ -137,7 +137,7 @@ class Selection extends React.PureComponent<Props, State> {
     }
 
     const fn = Method.findFunction(method.callIndex);
-    return api.tx[fn.section][fn.method](...method.args);
+    return api.tx[fn.section][fn.method](...method.args) as SubmittableExtrinsic;
   }
 }
 
