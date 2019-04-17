@@ -17,11 +17,7 @@ type Props = ApiProps & I18nProps & MyAddressProps & {
   commitments?: Hash[]
 };
 
-type State = {};
-
-class Comp extends React.PureComponent<Props, State> {
-
-  state: State = {};
+class Comp extends React.PureComponent<Props> {
 
   private filterVotes = (myVotesOnly: boolean): Hash[] => {
     const { myVotes = [], commitments = [] } = this.props;

@@ -19,11 +19,7 @@ type Props = ApiProps & I18nProps & {
   sealedVote?: SealedVote
 };
 
-type State = {};
-
-class Comp extends React.PureComponent<Props, State> {
-
-  state: State = {};
+class Comp extends React.PureComponent<Props> {
 
   renderCandidateOrAction () {
     const { hash, sealedVote } = this.props;

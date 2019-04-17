@@ -2,7 +2,7 @@ import React from 'react';
 
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { withCalls } from '@polkadot/ui-api/with';
+import { withCalls, withMulti } from '@polkadot/ui-api/with';
 import { AccountId } from '@polkadot/types';
 import { Input, Labelled, InputAddress } from '@polkadot/ui-app/index';
 
@@ -11,6 +11,7 @@ import { nonEmptyStr, queryToProp, getUrlParam } from '@polkadot/joy-utils/index
 import { accountIdsToOptions, hashVote } from './utils';
 import TxButton from '@polkadot/joy-utils/TxButton';
 import { findVoteByHash } from './myVotesStore';
+import { withOnlyMembers } from '@polkadot/joy-utils/MyAccount';
 
 // AppsProps is needed to get a location from the route.
 type Props = AppProps & ApiProps & I18nProps & {
@@ -24,7 +25,7 @@ type State = {
   hashedVote?: string
 };
 
-class App extends React.PureComponent<Props, State> {
+class RevealVoteForm extends React.PureComponent<Props, State> {
 
   constructor (props: Props) {
     super(props);
@@ -106,9 +107,11 @@ class App extends React.PureComponent<Props, State> {
   }
 }
 
-// inject the actual API calls automatically into props
-export default translate(
+export default withMulti(
+  RevealVoteForm,
+  translate,
+  withOnlyMembers,
   withCalls<Props>(
     queryToProp('query.councilElection.applicants')
-  )(App)
+  )
 );
