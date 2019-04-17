@@ -1,5 +1,5 @@
 # Privacy and Cookies
-**Last updated on the nth of April 2019**
+**Last updated on the 17th of April 2019**
 
 Jsgenesis values your privacy. 
 

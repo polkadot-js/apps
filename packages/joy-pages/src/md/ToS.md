@@ -1,5 +1,5 @@
 # Terms of Service
-**Last updated on the nth of April 2019**
+**Last updated on the 17th of April 2019**
 
 The Terms of Service ("Agreement") is a binding obligation between you ("User") and Jsgenesis AS ("Company", "We", "Us", "Our") for use of our Products. These products (collectively "Software") include [all pages under the joystream.org domain](https://www.joystream.org/) ("Website"), the [Joyful node](https://github.com/Joystream/substrate-node-joystream) ("Full node"), the [Colossus Storage Node](https://github.com/Joystream/storage-node-joystream) ("Storage node"), and the Pioneer User Interface, either [self hosted ](https://github.com/Joystream/apps) or [hosted by Us](http://testnet.joystream.org/) ("App").
 

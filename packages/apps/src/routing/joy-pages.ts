@@ -1,14 +1,11 @@
 import { Routes } from '../types';
 
-import ToS from '@polkadot/joy-pages/ToS';
-import Privacy from '@polkadot/joy-pages/Privacy';
+import { ToS, Privacy } from '@polkadot/joy-pages/index';
 
 export default ([
   {
     Component: ToS,
-    display: {
-      needsApi: []
-    },
+    display: {},
     i18n: {
       defaultValue: 'Terms of Service'
     },
@@ -17,9 +14,7 @@ export default ([
   },
   {
     Component: Privacy,
-    display: {
-      needsApi: []
-    },
+    display: {},
     i18n: {
       defaultValue: 'Privacy Policy'
     },
