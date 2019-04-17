@@ -49,19 +49,22 @@ class Transfer extends React.PureComponent<Props, State> {
           {this.renderAddress(accountId, 'medium')}
           <div className='transfer--Transfer-data'>
             <InputAddress
-              label={t('from my source account')}
+              help={t('Select the account you want to send funds from.')}
+              label={t('from')}
               onChange={this.onChangeFrom}
               type='account'
             />
             <InputAddress
-              label={t('to the recipient address')}
+              help={t('Select a contact or paste the address you want to send funds to.')}
+              label={t('to')}
               onChange={this.onChangeTo}
               type='all'
             />
             <InputBalance
               autoFocus
+              help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 mili is equivalent to sending 0.001.')}
               isError={!hasAvailable}
-              label={t('transfer a value of')}
+              label={t('amount')}
               onChange={this.onChangeAmount}
             />
             <Checks
