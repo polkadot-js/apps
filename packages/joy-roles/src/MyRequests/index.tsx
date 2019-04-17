@@ -1,49 +1,48 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
-import { MyAccountProps, withMyAccount } from '@polkadot/joy-utils/MyAccount';
-import { withCalls } from '@polkadot/ui-api/index';
-import { MemberId } from '@polkadot/joy-members/types';
-import { queryMembershipToProp } from '@polkadot/joy-members/utils';
-import { Request, Role } from '../types';
+import { MyAccountProps, withOnlyMembers } from '@polkadot/joy-utils/MyAccount';
+import { withCalls, withMulti } from '@polkadot/ui-api/index';
+import { Request, Role, RoleParameters } from '../types';
 import { AccountId, Balance, Option } from '@polkadot/types';
 import TxButton from '@polkadot/joy-utils/TxButton';
 import BN from 'bn.js';
-import { RoleParameters } from '../types';
 import AddressMini from '@polkadot/ui-app/AddressMiniJoy';
 import { ComponentProps } from '../props';
 
-type Props = BareProps & {
-    memberId: MemberId,
+type Props = BareProps & ComponentProps & MyAccountProps & {
     requests: Array<Request>
-}
+};
 
 class ActionList extends React.PureComponent<Props> {
     render () {
-        const { memberId, requests } = this.props
+        const { myMemberId, requests } = this.props;
+        if (!myMemberId) {
+            return <em>Loading...</em>;
+        }
 
         // filter requests for member
-        const filteredRequests = requests.filter((request) => request[1].toString() == memberId.toString());
+        const filteredRequests = requests.filter((request) => request[1].toString() === myMemberId.toString());
 
         if (filteredRequests.length) {
-            return this.renderActions(filteredRequests)
+            return this.renderActions(filteredRequests);
         } else {
-            return <div>No requests for member id: {memberId.toString()}</div>
+            return <div>No requests for member id: {myMemberId.toString()}</div>;
         }
     }
 
-    private renderActions(requests: Array<Request>) {
+    private renderActions (requests: Array<Request>) {
         return (
             <Table>
                 <Table.Body>
                     {
                         requests.map(([account, _, role]: Request) => {
-                            return <ActionDisplay account={account} role={role} key={account.toString()}></ActionDisplay>
+                            return <ActionDisplay account={account} role={role} key={account.toString()}></ActionDisplay>;
                         })
                     }
                 </Table.Body>
             </Table>
-        )
+        );
     }
 }
 
@@ -51,12 +50,12 @@ type ActionProps = BareProps & CallProps & {
     account: AccountId,
     role: Role,
     balance?: Balance,
-    roleParams?: Option<RoleParameters>,
+    roleParams?: Option<RoleParameters>
 };
 
 class Action extends React.PureComponent<ActionProps> {
-    render() {
-        const {account, role, balance, roleParams} = this.props;
+    render () {
+        const { account, role, balance, roleParams } = this.props;
 
         if (!balance || !roleParams || roleParams.isNone) return null;
 
@@ -77,36 +76,20 @@ class Action extends React.PureComponent<ActionProps> {
                         label={'Stake'}
                         isDisabled={!canStake}
                         params={[role, account]}
-                        tx={'actors.stake'} />
+                        tx={'actors.stake'}
+                    />
                 </Table.Cell>
             </Table.Row>
-        )
+        );
     }
-};
+}
 
 const ActionDisplay = withCalls<ActionProps>(
     ['query.balances.freeBalance', { propName: 'balance', paramName: 'account' }],
-    ['query.actors.parameters', {propName: 'roleParams', paramName: 'role'}],
+    ['query.actors.parameters', { propName: 'roleParams', paramName: 'role' }]
 )(Action);
 
-type WithMyMemberIdProps = ComponentProps & MyAccountProps & {
-    memberIdByAccountId?: Option<MemberId>,
-};
-
-function WithMyMemberIdInner (props: WithMyMemberIdProps) {
-    if (props.memberIdByAccountId) {
-        if (props.memberIdByAccountId.isSome) {
-            const memberId = props.memberIdByAccountId.unwrap();
-            return <ActionList memberId={memberId} {...props}></ActionList>
-        } else {
-            return <div>A member account is required for this feature</div>
-        }
-    } else return <em>Loading...</em>;
-}
-
-const MyActionList = withMyAccount(withCalls<WithMyMemberIdProps>(
-    queryMembershipToProp('memberIdByAccountId', 'myAddress')
-)(WithMyMemberIdInner));
-
-
-export default MyActionList;
+export default withMulti(
+    ActionList,
+    withOnlyMembers
+);
