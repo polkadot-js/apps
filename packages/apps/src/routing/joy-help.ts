@@ -6,7 +6,6 @@ export default ([
   {
     Component: Help,
     display: {
-      needsAccounts: false,
       needsApi: [
         'query.memo.memo'
       ]

@@ -45,11 +45,27 @@ export type CheckedUserInfo = {
   about: Text
 };
 
-export type PaidMembershipTerms = {
-  id: PaidTermId,
-  fee: BalanceOf,
-  text: Text
-};
+export class PaidMembershipTerms extends Struct {
+  constructor (value?: any) {
+    super({
+      id: PaidTermId,
+      fee: BalanceOf,
+      text: Text
+    }, value);
+  }
+
+  get id (): PaidTermId {
+    return this.get('id') as PaidTermId;
+  }
+
+  get fee (): BalanceOf {
+    return this.get('fee') as BalanceOf;
+  }
+
+  get text (): Text {
+    return this.get('text') as Text;
+  }
+}
 
 export function registerMembershipTypes () {
   try {
