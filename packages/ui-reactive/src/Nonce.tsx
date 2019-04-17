@@ -11,7 +11,7 @@ import { withCalls } from '@polkadot/ui-api';
 import { formatNumber } from '@polkadot/util';
 
 type Props = BareProps & CallProps & {
-  callOnResult: (accountNonce: BN) => void,
+  callOnResult?: (accountNonce: BN) => void,
   children?: React.ReactNode,
   label?: string,
   params?: string,
