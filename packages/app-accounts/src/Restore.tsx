@@ -72,8 +72,9 @@ class Restore extends React.PureComponent<Props, State> {
           <InputFile
             accept={acceptedFormats}
             className='full'
+            help={t('Select the JSON key file that was downloaded when you created the account. This JSON file contains your private key encrypted with your password.')}
             isError={!isFileValid}
-            label={t('previously backed-up json keyfile')}
+            label={t('backup file')}
             onChange={this.onChangeFile}
             withLabel
           />
@@ -82,8 +83,9 @@ class Restore extends React.PureComponent<Props, State> {
           <Password
             autoFocus
             className='full'
+            help={t('Type the password chosen at the account creation. It was used to encrypt your account\'s private key in the backup file.')}
             isError={!isPassValid}
-            label={t('decrypt keyfile using the password')}
+            label={t('password')}
             onChange={this.onChangePass}
             value={password}
           />
