@@ -4,18 +4,18 @@
 
 import { Routes } from '../types';
 
-import Addresses from '@polkadot/app-addresses';
+import AddressBook from '@polkadot/app-address-book';
 
 export default ([
   {
-    Component: Addresses,
+    Component: AddressBook,
     display: {
       needsApi: []
     },
     i18n: {
-      defaultValue: 'Addresses'
+      defaultValue: 'Address book'
     },
     icon: 'address book',
-    name: 'addresses'
+    name: 'addressbook'
   }
 ] as Routes);
