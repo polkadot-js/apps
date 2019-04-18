@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-addresses authors & contributors
+// Copyright 2017-2019 @polkadot/app-address-book authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -27,7 +27,7 @@ type State = {
   items: Array<TabItem>
 };
 
-class AddressesApp extends React.PureComponent<Props, State> {
+class AddressBookApp extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -35,19 +35,19 @@ class AddressesApp extends React.PureComponent<Props, State> {
 
     const { allAddresses = {}, t } = props;
     const baseState = Object.keys(allAddresses).length !== 0
-      ? AddressesApp.showEditState()
-      : AddressesApp.hideEditState();
+      ? AddressBookApp.showEditState()
+      : AddressBookApp.hideEditState();
 
     this.state = {
       ...baseState,
       items: [
         {
           name: 'edit',
-          text: t('Edit address')
+          text: t('Edit contact')
         },
         {
           name: 'create',
-          text: t('Add address')
+          text: t('Add contact')
         }
       ]
     };
@@ -71,11 +71,11 @@ class AddressesApp extends React.PureComponent<Props, State> {
     if (hidden.length === 0) {
       return hasAddresses
         ? null
-        : AddressesApp.hideEditState();
+        : AddressBookApp.hideEditState();
     }
 
     return hasAddresses
-      ? AddressesApp.showEditState()
+      ? AddressBookApp.showEditState()
       : null;
   }
 
@@ -85,7 +85,7 @@ class AddressesApp extends React.PureComponent<Props, State> {
     const renderCreator = this.renderComponent(Creator);
 
     return (
-      <main className='addresses--App'>
+      <main className='address-book--App'>
         <header>
           <Tabs
             basePath={basePath}
@@ -123,7 +123,7 @@ class AddressesApp extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  AddressesApp,
+  AddressBookApp,
   translate,
   withObservable(addressObservable.subject, { propName: 'allAddresses' })
 );
