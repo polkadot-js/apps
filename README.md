@@ -17,7 +17,7 @@ The repo is split into a number of packages, each representing an application. T
 
 - [apps](packages/apps/) This is the main entry point. It handles the selection sidebar and routing to the specific application being displayed.
 - [app-accounts](packages/app-accounts/) A basic account management app.
-- [app-addresses](packages/app-addresses/) A basic address management app.
+- [app-address-book](packages/app-address-book/) A basic address management app.
 - [app-democracy](packages/app-democracy/) A basic voting app, allowing votes on activate proposals and referendums.
 - [app-explorer](packages/app-explorer/) A simple block explorer. It only shows the most recent blocks, updating as they become available.
 - [app-extrinsics](packages/app-extrinsics/) Submission of extrinsics to a node.
