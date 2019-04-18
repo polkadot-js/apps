@@ -74,6 +74,11 @@ class Developer extends React.PureComponent<Props, State> {
             </Labelled>
           </div>
         </div>
+        <div className='ui--row info'>
+          <p>
+            Please use or extend the types implemented in <a href='https://polkadot.js.org/api/types/' target='_blank'>@polkadot/types</a> to declare your custom definitions.
+          </p>
+        </div>
         <Button.Group>
           <Button
             isDisabled={!types}
