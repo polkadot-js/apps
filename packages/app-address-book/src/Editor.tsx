@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-addresses authors & contributors
+// Copyright 2017-2019 @polkadot/app-address-book authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -35,7 +35,7 @@ class Editor extends React.PureComponent<Props, State> {
   render () {
     const { isForgetOpen, current } = this.state;
     return (
-      <div className='addresses--Editor'>
+      <div className='address-book--Editor'>
         <Forgetting
           isOpen={isForgetOpen}
           onClose={this.toggleForget}

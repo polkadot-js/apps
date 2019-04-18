@@ -31,7 +31,6 @@ const Wrapper = styled.div`
     margin: 0.25rem 0 0 0;
     padding-right: 0.5rem;
     position: relative;
-    z-index: 1;
 
     .help-hover {
       background: #222;
@@ -45,6 +44,7 @@ const Wrapper = styled.div`
       left: 2.5rem;
       right: -5rem;
       z-index: 10;
+      opacity: .9;
     }
 
     i.icon.help {

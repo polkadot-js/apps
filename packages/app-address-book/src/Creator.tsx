@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-addresses authors & contributors
+// Copyright 2017-2019 @polkadot/app-address-book authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -38,7 +38,7 @@ class Creator extends React.PureComponent<Props, State> {
     const { address } = this.state;
 
     return (
-      <div className='addresses--Creator'>
+      <div className='address-book--Creator'>
         <div className='ui--grid'>
           <AddressSummary
             className='shrink'
