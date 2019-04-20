@@ -17,6 +17,7 @@ import js from './js';
 import settings from './settings';
 import staking from './staking';
 import storage from './storage';
+import sudo from './sudo';
 import toolbox from './toolbox';
 import transfer from './transfer';
 
@@ -44,6 +45,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     contracts,
     storage,
     extrinsics,
+    sudo,
     null,
     settings,
     toolbox,

@@ -25,6 +25,8 @@
       "@polkadot/app-staking/*": [ "packages/app-staking/src/*" ],
       "@polkadot/app-storage": [ "packages/app-storage/src" ],
       "@polkadot/app-storage/*": [ "packages/app-storage/src/*" ],
+      "@polkadot/app-sudo": [ "packages/app-sudo/src" ],
+      "@polkadot/app-sudo/*": [ "packages/app-sudo/src/*" ],
       "@polkadot/app-toolbox": [ "packages/app-toolbox/src" ],
       "@polkadot/app-toolbox/*": [ "packages/app-toolbox/src/*" ],
       "@polkadot/app-transfer": [ "packages/app-transfer/src" ],

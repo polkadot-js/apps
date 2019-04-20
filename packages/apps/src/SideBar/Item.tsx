@@ -86,6 +86,16 @@ class Item extends React.PureComponent<Props> {
     }
   }
 
+  private hasSudo (): boolean {
+    const { api } = this.props;
+
+    try {
+      return isFunction((api as any).tx.sudo.setKey);
+    } catch (error) {
+      return false;
+    }
+  }
+
   private isVisible () {
     const { allAccounts = {}, isApiConnected, isApiReady, route: { display: { isHidden, needsAccounts, needsApi }, name } } = this.props;
     const hasAccounts = Object.keys(allAccounts).length !== 0;
@@ -97,6 +107,8 @@ class Item extends React.PureComponent<Props> {
     } else if (!needsApi) {
       return true;
     } else if (!isApiReady || !isApiConnected) {
+      return false;
+    } else if (name === 'sudo' && !this.hasSudo()) {
       return false;
     }
 
