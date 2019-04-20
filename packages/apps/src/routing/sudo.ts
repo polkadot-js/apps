@@ -11,7 +11,9 @@ export default ([
     Component: Sudo,
     display: {
       needsAccounts: true,
-      needsApi: []
+      needsApi: [
+        'tx.sudo.setKey'
+      ]
     },
     i18n: {
       defaultValue: 'Sudo'

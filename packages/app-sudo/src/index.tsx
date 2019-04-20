@@ -2,34 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// some types, AppProps for the app and I18nProps to indicate
-// translatable strings. Generally the latter is quite "light",
-// `t` is inject into props (see the HOC export) and `t('any text')
-// does the translation
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
-import { AccountId } from '@polkadot/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
-// external imports (including those found in the packages/*
-// of this repo)
 import React from 'react';
-import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
-import { withCalls, withMulti, withObservable } from '@polkadot/ui-api';
+import { Tabs } from '@polkadot/ui-app';
+import { withApi, withCall, withMulti, withObservable } from '@polkadot/ui-api';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 
-// our app-specific styles
 import './index.css';
 
-// local imports and components
 import KeySelector from './KeySelector';
-import SummaryBar from './SummaryBar';
-import Transfer from './Transfer';
+import Propose from './Propose';
+
 import translate from './translate';
 
-// define out internal types
-type Props = AppProps & I18nProps & {
+type Props = AppProps & ApiProps & I18nProps & {
   allAccounts?: SubjectInfo,
-  sudo_key?: AccountId | string
+  sudo_key?: string
 };
 
 type State = {
@@ -37,21 +28,21 @@ type State = {
 };
 
 class App extends React.PureComponent<Props, State> {
+  state: State = {
+    isMine: false
+  };
 
   static getDerivedStateFromProps ({ allAccounts = {}, sudo_key }: Props): State | null {
-    console.log(sudo_key);
     return {
       isMine: !!sudo_key && !!Object.keys(allAccounts).find((key) => key === sudo_key.toString())
     };
   }
 
   render () {
-    const { basePath, sudo_key: sudoKey = '', t } = this.props;
+    const { allAccounts = {}, basePath, sudo_key: sudoKey = '', t } = this.props;
     const { isMine } = this.state;
 
     return (
-      // in all apps, the main wrapper is setup to allow the padding
-      // and margins inside the application. (Just from a consistent pov)
       <main>
         <header>
           <Tabs
@@ -62,26 +53,26 @@ class App extends React.PureComponent<Props, State> {
             }]}
           />
         </header>
-
         <KeySelector
+          allAccounts={allAccounts}
           isMine={isMine}
-          sudoKey={sudoKey.toString()}
-          onChange={this.onAccountChange}
+          sudoKey={sudoKey}
+        />
+        <Propose
+          isMine={isMine}
+          sudoKey={sudoKey}
         />
       </main>
     );
-  }
-
-  private onAccountChange = (accountId?: string): void => {
-
   }
 }
 
 export default withMulti(
   App,
   translate,
-  withCalls<Props>(
-    'query.sudo.key'
+  withApi,
+  withCall(
+    'query.sudo.key', { transform: key => key.toString() }
   ),
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );

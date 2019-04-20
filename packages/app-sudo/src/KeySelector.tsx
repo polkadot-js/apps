@@ -4,19 +4,19 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Button, InputAddress, TxButton } from '@polkadot/ui-app';
-import { AccountId } from '@polkadot/types';
+import { AddressMini, Icon, InputAddress, Labelled, TxButton } from '@polkadot/ui-app';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import translate from './translate';
 
 type Props = I18nProps & {
-  onChange: (accountId?: string) => void,
+  allAccounts: SubjectInfo,
   isMine: boolean,
   sudoKey: string
 };
 
 type State = {
-  accountId?: string
+  selected?: string
 };
 
 class KeySelector extends React.PureComponent<Props, State> {
@@ -26,40 +26,77 @@ class KeySelector extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      accountId: props.sudoKey
+      selected: props.sudoKey
     } as State;
+  }
+
+  componentWillReceiveProps ({ sudoKey = this.props.sudoKey }) {
+    if (sudoKey !== this.props.sudoKey) {
+      this.setState({ selected: sudoKey });
+    }
   }
 
   render () {
     const { isMine, sudoKey, t } = this.props;
-    const { accountId } = this.state;
+    const { selected } = this.state;
 
     return (
-      <section className='template--AccountSelector ui--row'>
-        <InputAddress
-          value={accountId}
-          label={t('sudo key')}
-          isInput={true}
-          onChange={this.onChange}
-          type='account'
-        />
-        <TxButton
-          accountId={accountId}
-          isDisabled={!isMine || sudoKey === accountId}
-          isPrimary
-          label={t('Reassign')}
-          params={[accountId]}
-          tx='sudo.setKey'
-        />
-      </section>
+      <>
+        <section className='sudo--KeySelector ui--row'>
+          {isMine ? (
+            <>
+              <InputAddress
+                className='sudo--InputAddress'
+                value={selected}
+                label={t('sudo key')}
+                isInput={true}
+                onChange={this.onChange}
+                type='all'
+              />
+              <TxButton
+                accountId={sudoKey}
+                isDisabled={!isMine || sudoKey === selected}
+                isPrimary
+                label={t('Reassign')}
+                params={[selected]}
+                tx='sudo.setKey'
+              />
+            </>
+          ) : (
+              <Labelled
+                className='ui--Dropdown sudo--Labelled'
+                label={t('sudo key')}
+                withLabel
+              >
+                <AddressMini value={sudoKey} />
+              </Labelled>
+          )}
+          </section>
+          {this.willLose() && (
+            <article className='warning padded'>
+              <div>
+                <Icon name='warning' />
+                {t('You will no longer have sudo access')}
+              </div>
+            </article>
+          )}
+        </>
     );
   }
 
-  private onChange = (accountId?: string): void => {
-    const { onChange } = this.props;
+  private onChange = (selected?: string): void => {
+    this.setState({ selected });
+  }
 
-    this.setState({ accountId }, () =>
-      onChange(accountId)
+  private willLose = (): boolean => {
+    const { allAccounts, isMine, sudoKey } = this.props;
+    const { selected } = this.state;
+    return (
+      isMine &&
+      !!Object.keys(allAccounts).length &&
+      !!selected &&
+      selected !== sudoKey &&
+      !Object.keys(allAccounts).find(s => s === selected)
     );
   }
 }
