@@ -113,7 +113,6 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   private onChangeExtrinsic = (method: Method | null = null): void => {
-    console.log(method);
     this.nextState({ method } as State);
   }
 
