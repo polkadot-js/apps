@@ -13,7 +13,6 @@ import { Dropdown } from '@polkadot/ui-app';
 import translate from '../translate';
 import Address from './Address';
 
-
 type Props = I18nProps & {
   balances: DerivedBalancesMap,
   current: Array<string>,
@@ -67,12 +66,12 @@ class CurrentList extends React.PureComponent<Props, State> {
       <Wrapper>
         <div className='filter'>
           <Dropdown
-                help={t('Select which validators/intentions you want to display, all, only the ones you nominated, only the ones that has/no nominators, only the ones that has/no warnings.')}
-                label={t('filter')}
-                onChange={this.onChangeFilter}
-                options={filterOptions}
-                value={filter}
-              />
+            help={t('Select which validators/intentions you want to display, all, only the ones you nominated, only the ones that has/no nominators, only the ones that has/no warnings.')}
+            label={t('filter')}
+            onChange={this.onChangeFilter}
+            options={filterOptions}
+            value={filter}
+          />
         </div>
         <div className='validator--ValidatorsList ui--flex-medium'>
           <div className='validator--current'>

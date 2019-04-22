@@ -75,18 +75,18 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { address, lastAuthor, lastBlock, stashId, staking_stakers, filter, recentlyOffline } = this.props;
+    const { address, lastAuthor, lastBlock, stashId, staking_stakers, filter } = this.props;
     const { controllerId } = this.state;
     const isAuthor = [address, controllerId, stashId].includes(lastAuthor);
     const bonded = staking_stakers && !staking_stakers.own.isZero()
       ? [staking_stakers.own, staking_stakers.total.sub(staking_stakers.own)]
       : undefined;
-    
-    if ((filter == 'hasNominators' && !this.hasNominators()) 
-        || (filter == 'noNominators' && this.hasNominators()) 
-        || (filter == "hasWarnings" && !this.hasWarnings()) 
-        || (filter == "noWarnings" && this.hasWarnings()) 
-        || (filter == "iNominated" && !this.iNominated())){
+
+    if ((filter === 'hasNominators' && !this.hasNominators())
+        || (filter === 'noNominators' && this.hasNominators())
+        || (filter === 'hasWarnings' && !this.hasWarnings())
+        || (filter === 'noWarnings' && this.hasWarnings())
+        || (filter === 'iNominated' && !this.iNominated())) {
       return null;
     }
 
@@ -156,28 +156,28 @@ class Address extends React.PureComponent<Props, State> {
       </div>
     );
   }
-  
+
   private getNominators () {
     const { staking_stakers } = this.props;
     return staking_stakers
             ? staking_stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value])
-            : []; 
+            : [];
   }
 
-  private iNominated (){
+  private iNominated () {
     const { address } = this.props;
     const nominators = this.getNominators();
 
-    return nominators.filter(nom => nom[0].toString() == address ).length > 0
+    return nominators.filter(nom => nom[0].toString() === address).length > 0;
   }
 
-  private hasNominators (){
+  private hasNominators () {
     const nominators = this.getNominators();
-    
-    return !!nominators.length; 
+
+    return !!nominators.length;
   }
 
-  private hasWarnings (){
+  private hasWarnings () {
     const { recentlyOffline, stashId } = this.props;
 
     if (!stashId || !recentlyOffline[stashId]) {
