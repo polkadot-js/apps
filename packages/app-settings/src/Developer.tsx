@@ -173,10 +173,11 @@ class Developer extends React.PureComponent<Props, State> {
       } as ActionStatus);
 
     } catch (e) {
+      console.error(e)
       this.setState({ isTypesValid: false });
       this.props.onStatusChange({
         status: 'error',
-        action: t('Error saving your custom types. They are invalid')
+        action: t(`Error saving your custom types. ${e}`)
       } as ActionStatus);
     }
   }
