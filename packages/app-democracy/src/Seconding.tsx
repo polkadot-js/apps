@@ -4,20 +4,16 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueProps } from '@polkadot/ui-app/Status/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { InputAddress } from '@polkadot/ui-app';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import SecondingButtons from './SecondingButtons';
 import translate from './translate';
 
 type Props = I18nProps & {
-  allAccounts?: SubjectInfo,
   propIndex: BN
 };
 
@@ -29,12 +25,7 @@ class Seconding extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { allAccounts, t } = this.props;
-    const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
-
-    if (!hasAccounts) {
-      return null;
-    }
+    const { t } = this.props;
 
     return (
       <div className='democracy--Proposal-second'>
@@ -76,8 +67,4 @@ class Seconding extends React.PureComponent<Props, State> {
   }
 }
 
-export default withMulti(
-  Seconding,
-  translate,
-  withObservable(accountObservable.subject, { propName: 'allAccounts' })
-);
+export default translate(Seconding);

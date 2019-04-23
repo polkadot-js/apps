@@ -3,12 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { AccountId, Balance, Option, Proposal, Tuple, Vector } from '@polkadot/types';
 import { AddressMini, Labelled, Static } from '@polkadot/ui-app';
-import { withCall, withMulti } from '@polkadot/ui-api';
+import accountObservable from '@polkadot/ui-keyring/observable/accounts';
+import { withCall, withMulti, withObservable } from '@polkadot/ui-api';
 import { formatBalance } from '@polkadot/util';
 
 import Item from './Item';
@@ -16,6 +18,7 @@ import Seconding from './Seconding';
 import translate from './translate';
 
 type Props = I18nProps & {
+  allAccounts?: SubjectInfo,
   democracy_depositOf?: Option<Tuple>,
   idNumber: BN,
   value: Tuple
@@ -23,29 +26,55 @@ type Props = I18nProps & {
 
 class ProposalDisplay extends React.PureComponent<Props> {
   render () {
-    const { idNumber, value } = this.props;
+    const { allAccounts, democracy_depositOf, idNumber, value } = this.props;
 
+    const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
+
+    if (!hasAccounts) {
+      return null;
+    }
+
+    if (!democracy_depositOf || democracy_depositOf.isNone) {
+      return null;
+    }
+
+    const depositOfs = democracy_depositOf.unwrap();
+    const balance = depositOfs[0] as Balance;
+    const addresses = depositOfs[1] as Vector<AccountId>;
+
+    console.log('addresses', addresses.map(address => address.toString()));
+    console.log('allAccounts', Object.keys(allAccounts as SubjectInfo));
+
+    let addressesSet = new Set(addresses.map(address => address.toString()));
+    let allAccountsSet = new Set(Object.keys(allAccounts as SubjectInfo));
+
+    /**
+     * Only allow addresses that have not already placed a deposit on the
+     * proposal to second the proposal. The proposer places a deposit on
+     * the proposal by creating it, and seconders place a matching deposit
+     * on the propsal. So only list the subset of all accounts that
+     * are not included in the list of account ids in the `depositOfs`
+     * vector.
+     */
+    const addressesWithoutDepositOnProposal = new Set(
+      [...addressesSet].filter(x => !allAccountsSet.has(x)));
+
+    // FIXME - currently it is still allowing all the addresses second the proposal
+    // even though we are only providing the list of addresses that haven't yet
+    // placed a deposit on the proposal
     return (
       <Item
         idNumber={idNumber}
         proposal={value[1] as Proposal}
-        proposalExtra={this.renderExtra()}
+        proposalExtra={this.renderExtra(balance, (addressesWithoutDepositOnProposal as unknown) as Vector<AccountId>)}
       >
         <Seconding propIndex={idNumber} />
       </Item>
     );
   }
 
-  private renderExtra () {
-    const { democracy_depositOf, t } = this.props;
-
-    if (!democracy_depositOf || democracy_depositOf.isNone) {
-      return null;
-    }
-
-    const value = democracy_depositOf.unwrap();
-    const balance = value[0] as Balance;
-    const addresses = value[1] as Vector<AccountId>;
+  private renderExtra (balance: Balance, addresses: Vector<AccountId>) {
+    const { t } = this.props;
 
     return (
       <div className='democracy--Proposal-info'>
@@ -71,5 +100,6 @@ class ProposalDisplay extends React.PureComponent<Props> {
 export default withMulti(
   ProposalDisplay,
   translate,
-  withCall('query.democracy.depositOf', { paramName: 'idNumber' })
+  withCall('query.democracy.depositOf', { paramName: 'idNumber' }),
+  withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );
