@@ -12,6 +12,7 @@ import { withCall, withMulti } from '@polkadot/ui-api';
 import { formatBalance } from '@polkadot/util';
 
 import Item from './Item';
+import Seconding from './Seconding';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -29,7 +30,9 @@ class ProposalDisplay extends React.PureComponent<Props> {
         idNumber={idNumber}
         proposal={value[1] as Proposal}
         proposalExtra={this.renderExtra()}
-      />
+      >
+        <Seconding propIndex={idNumber} />
+      </Item>
     );
   }
 
