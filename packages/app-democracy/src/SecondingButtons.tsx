@@ -29,7 +29,7 @@ class SecondingButton extends React.PureComponent<Props> {
           isDisabled={!accountId}
           isPositive
           label={t('Sponsor')}
-          onClick={this.doSponsor}
+          onClick={this.onClickSponsor}
         />
       </Button.Group>
     );
@@ -46,6 +46,10 @@ class SecondingButton extends React.PureComponent<Props> {
       extrinsic: api.tx.democracy.second(propIndex),
       accountId
     });
+  }
+
+  private onClickSponsor = () => {
+    this.doSponsor();
   }
 }
 

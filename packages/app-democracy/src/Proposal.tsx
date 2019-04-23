@@ -42,6 +42,10 @@ class ProposalDisplay extends React.PureComponent<Props> {
     const balance = depositOfs[0] as Balance;
     const addresses = depositOfs[1] as Vector<AccountId>;
 
+    if (!addresses) {
+      return null;
+    }
+
     console.log('addresses', addresses.map(address => address.toString()));
     console.log('allAccounts', Object.keys(allAccounts as SubjectInfo));
 
@@ -56,19 +60,19 @@ class ProposalDisplay extends React.PureComponent<Props> {
      * are not included in the list of account ids in the `depositOfs`
      * vector.
      */
-    const addressesWithoutDepositOnProposal = new Set(
-      [...addressesSet].filter(x => !allAccountsSet.has(x)));
+    const addressesWithoutDepositOnProposal = Array.from(new Set(
+      [...allAccountsSet].filter(x => !addressesSet.has(x))));
 
-    // FIXME - currently it is still allowing all the addresses second the proposal
-    // even though we are only providing the list of addresses that haven't yet
-    // placed a deposit on the proposal
     return (
       <Item
         idNumber={idNumber}
         proposal={value[1] as Proposal}
-        proposalExtra={this.renderExtra(balance, (addressesWithoutDepositOnProposal as unknown) as Vector<AccountId>)}
+        proposalExtra={this.renderExtra(balance, addresses)}
       >
-        <Seconding propIndex={idNumber} />
+        <Seconding
+          addressesWithoutDepositOnProposal={(addressesWithoutDepositOnProposal as unknown) as Vector<AccountId>}
+          propIndex={idNumber}
+        />
       </Item>
     );
   }

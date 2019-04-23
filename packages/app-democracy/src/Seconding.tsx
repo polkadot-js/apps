@@ -7,6 +7,7 @@ import { QueueProps } from '@polkadot/ui-app/Status/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { AccountId, Vector } from '@polkadot/types';
 import { InputAddress } from '@polkadot/ui-app';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
@@ -14,6 +15,7 @@ import SecondingButtons from './SecondingButtons';
 import translate from './translate';
 
 type Props = I18nProps & {
+  addressesWithoutDepositOnProposal: Vector<AccountId>,
   propIndex: BN
 };
 
@@ -25,7 +27,13 @@ class Seconding extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { t } = this.props;
+    const { addressesWithoutDepositOnProposal, t } = this.props;
+
+    console.log('addressesWithoutDepositOnProposal', addressesWithoutDepositOnProposal);
+    // FIXME - currently it is still allowing any address to second a proposal.
+    // but instead we only want `InputAddress` to list of addresses that haven't yet
+    // placed a deposit on the proposal (i.e. `addressesWithoutDepositOnProposal`),
+    // but how do we do that??
 
     return (
       <div className='democracy--Proposal-second'>
