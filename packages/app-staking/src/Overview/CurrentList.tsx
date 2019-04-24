@@ -26,6 +26,7 @@ type State = {
   filter: ValidatorFilter,
   filterOptions: Array<{ text: React.ReactNode, value: ValidatorFilter }>
 };
+
 const Wrapper = styled.div`
   .filter {
     display: flex;
@@ -66,7 +67,7 @@ class CurrentList extends React.PureComponent<Props, State> {
       <Wrapper>
         <div className='filter'>
           <Dropdown
-            help={t('Select which validators/intentions you want to display, all, only the ones you nominated, only the ones that has/no nominators, only the ones that has/no warnings.')}
+            help={t('Select which validators/intentions you want to display.')}
             label={t('filter')}
             onChange={this.onChangeFilter}
             options={filterOptions}
