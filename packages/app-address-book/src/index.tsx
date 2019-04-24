@@ -11,9 +11,11 @@ import './index.css';
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import addressObservable from '@polkadot/ui-keyring/observable/addresses';
+import { HelpOverlay } from '@polkadot/ui-app';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 
+import basicMd from './md/basic.md';
 import Creator from './Creator';
 import Editor from './Editor';
 import translate from './translate';
@@ -86,6 +88,7 @@ class AddressBookApp extends React.PureComponent<Props, State> {
 
     return (
       <main className='address-book--App'>
+      <HelpOverlay md={basicMd} />
         <header>
           <Tabs
             basePath={basePath}

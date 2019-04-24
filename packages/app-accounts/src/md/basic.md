@@ -1,14 +1,14 @@
-# account
+# Account
 
 An account is identified by its public address on the network. The network will **not** know about the name you give to this account in this app. It is totally fine to give away this address, this is also the only information needed to receive funds.
 
-# security
+# Security
 
 The public address is generated from a private key, itself generated from a seed or a mnemonic phrase. The seed or the mnemonic phrase should **never be shared with anybody** as they give access to your funds. It must be stored securely.  
 The password needed to create an account is used to encrypt your private key. You must choose a strong and unique password.  
 This password is also used to encrypt the private key in the backup file downloaded upon account creation. Thanks to this file together with your account password, you can recover your account.
 
-# account recovery
+# Account recovery
 
 You can recover an account from its:
 - seed or mnemonic:  
@@ -17,7 +17,7 @@ You can recover an account from its:
 - backup file (also called JSON keystore file) and the account's password:
   From the "Restore account" tab. Upload your backup file and type in the password associated.
 
-# minimum allowed balance
+# Minimum allowed balance
 
 Accounts with a balance lower than the minimal amount, 100 mili Unit as of writing are considered as inexistent for the network. If an account's balance ever drops below this amount, it is removed from the network. In this application, it will still be visible, but with a balance of 0.
 
@@ -25,13 +25,13 @@ For a fund transfer to a **new account** (read an account with a balance of 0), 
 
 If the receiver already exists (read it has a balance greater than 0), it is perfectly possible to transfer very low amounts.
 
-# derivation path
+# Derivation path
 
 You have the ability to set a custom derivation path using the following syntax:  
 `/<soft-key>//<hard-key>`   
 The `/<soft-key>` and `//<hard-key>` maybe repeated and mixed`.
 
-# cryptography 
+# Cryptography 
 
 Polkadot uses Schnorrkel/Ristretto x25519 ("sr25519") as its key derivation and signing algorithm.
 
