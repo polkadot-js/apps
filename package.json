@@ -50,11 +50,5 @@
     "postcss-simple-vars": "^5.0.0",
     "precss": "^4.0.0",
     "source-map-explorer": "^1.7.0"
-  },
-  "dependencies": {
-    "@polkadot/api": "^0.77.1",
-    "@polkadot/types": "^0.77.1",
-    "rxjs": "^6.5.1",
-    "typescript": "^3.4.5"
   }
 }
