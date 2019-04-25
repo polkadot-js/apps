@@ -12640,7 +12640,7 @@ rxjs-compat@^6.3.2:
   resolved "https://registry.yarnpkg.com/rxjs-compat/-/rxjs-compat-6.5.1.tgz#de928292c633a9a5f2f54a4431e6f9c468001c68"
   integrity sha512-k0aaMAYFg+DCIUxo3yJcUamFRenWLR23e/VJCQvKOxwSd9DQlwcSn2ov+7b23rKaX4weKG7OrzEBWGqQPkQ07A==
 
-rxjs@^6.4.0, rxjs@^6.5.1:
+rxjs@^6.4.0:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.1.tgz#f7a005a9386361921b8524f38f54cbf80e5d08f4"
   integrity sha512-y0j31WJc83wPu31vS1VlAFW5JGrnGC+j+TtGAa1fRQphy48+fDYiDmX8tjGloToEsMkxnouOg/1IzXGKkJnZMg==
@@ -14107,7 +14107,7 @@ typedoc@^0.14.2:
     typedoc-default-themes "^0.5.0"
     typescript "3.2.x"
 
-typescript@3.2.x, typescript@^3.4.3, typescript@^3.4.5:
+typescript@3.2.x, typescript@^3.4.3:
   version "3.4.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.4.5.tgz#2d2618d10bb566572b8d7aad5180d84257d70a99"
   integrity sha512-YycBxUb49UUhdNMU5aJ7z5Ej2XGmaIBL0x34vZ82fn3hGvD+bgrMrVDpatgz2f7YxUMJxMkbWxJZeAvDxVe7Vw==
