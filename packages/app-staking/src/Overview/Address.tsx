@@ -4,7 +4,7 @@
 
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RecentlyOfflineMap } from '../types';
+import { ValidatorFilter, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
 import { AccountId, Balance, Option, StakingLedger, Exposure } from '@polkadot/types';
@@ -22,6 +22,7 @@ type Props = I18nProps & {
   lastAuthor: string,
   lastBlock: string,
   recentlyOffline: RecentlyOfflineMap,
+  filter: ValidatorFilter,
   session_nextKeyFor?: Option<AccountId>,
   staking_bonded?: Option<AccountId>,
   staking_ledger?: Option<StakingLedger>,
@@ -74,12 +75,20 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { address, lastAuthor, lastBlock, stashId, staking_stakers } = this.props;
+    const { address, lastAuthor, lastBlock, stashId, staking_stakers, filter } = this.props;
     const { controllerId } = this.state;
     const isAuthor = [address, controllerId, stashId].includes(lastAuthor);
     const bonded = staking_stakers && !staking_stakers.own.isZero()
       ? [staking_stakers.own, staking_stakers.total.sub(staking_stakers.own)]
       : undefined;
+
+    if ((filter === 'hasNominators' && !this.hasNominators())
+        || (filter === 'noNominators' && this.hasNominators())
+        || (filter === 'hasWarnings' && !this.hasWarnings())
+        || (filter === 'noWarnings' && this.hasWarnings())
+        || (filter === 'iNominated' && !this.iNominated())) {
+      return null;
+    }
 
     return (
       <article key={stashId || controllerId}>
@@ -148,11 +157,39 @@ class Address extends React.PureComponent<Props, State> {
     );
   }
 
+  private getNominators () {
+    const { staking_stakers } = this.props;
+    return staking_stakers
+            ? staking_stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value])
+            : [];
+  }
+
+  private iNominated () {
+    const { address } = this.props;
+    const nominators = this.getNominators();
+
+    return nominators.filter(nom => nom[0].toString() === address).length > 0;
+  }
+
+  private hasNominators () {
+    const nominators = this.getNominators();
+
+    return !!nominators.length;
+  }
+
+  private hasWarnings () {
+    const { recentlyOffline, stashId } = this.props;
+
+    if (!stashId || !recentlyOffline[stashId]) {
+      return false;
+    }
+
+    return true;
+  }
+
   private renderNominators () {
-    const { staking_stakers, t } = this.props;
-    const nominators = staking_stakers
-      ? staking_stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value])
-      : [];
+    const { t } = this.props;
+    const nominators = this.getNominators();
 
     if (!nominators.length) {
       return null;
