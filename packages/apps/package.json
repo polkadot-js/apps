@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/apps",
-  "version": "0.32.0",
+  "version": "0.32.1",
   "description": "An Apps portal into the Polkadot network",
   "main": "index.js",
   "homepage": ".",
@@ -13,9 +13,9 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.4.3",
-    "@polkadot/ui-app": "^0.32.0",
+    "@polkadot/ui-app": "^0.32.1",
     "@polkadot/ui-assets": "^0.38.0-beta.2",
-    "@polkadot/ui-signer": "^0.32.0",
+    "@polkadot/ui-signer": "^0.32.1",
     "@types/react-tooltip": "^3.9.1",
     "react-tooltip": "^3.9.2"
   }

@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-signer",
-  "version": "0.32.0",
+  "version": "0.32.1",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,6 +11,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.4.3",
-    "@polkadot/ui-app": "^0.32.0"
+    "@polkadot/ui-app": "^0.32.1"
   }
 }
