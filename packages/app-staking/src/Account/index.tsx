@@ -171,7 +171,7 @@ class Account extends React.PureComponent<Props, State> {
   private renderNominee () {
     const { recentlyOffline, staking_nominators, t } = this.props;
 
-    if (!staking_nominators || !staking_nominators[0].length) {
+    if (!staking_nominators || !staking_nominators[0] || !staking_nominators[0].length) {
       return null;
     }
 
@@ -314,8 +314,8 @@ class Account extends React.PureComponent<Props, State> {
         );
       }
     } else {
-      const isNominating = staking_nominators && staking_nominators[0].length;
-      const isValidating = staking_validators && !(staking_validators[0].isEmpty);
+      const isNominating = !!staking_nominators && !!staking_nominators[0] && staking_nominators[0].length;
+      const isValidating = !!staking_validators && !!staking_validators[0] && !(staking_validators[0].isEmpty);
 
       if (isValidating || isNominating) {
         buttons.push(
