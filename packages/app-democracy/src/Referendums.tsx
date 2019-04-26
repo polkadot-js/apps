@@ -22,7 +22,7 @@ class Referendums extends React.PureComponent<Props> {
 
     return (
       <section className='democracy--Referendums'>
-        <h1>{t('referendums')}</h1>
+        <h1>{t('referendum')}</h1>
         {this.renderReferendums()}
       </section>
     );
@@ -37,7 +37,7 @@ class Referendums extends React.PureComponent<Props> {
     if (!referendums.length) {
       return (
         <div className='ui disabled'>
-          {t('no available referendums')}
+          {t('no available referendum')}
         </div>
       );
     }
