@@ -6,23 +6,43 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { Tuple } from '@polkadot/types';
+import { Button } from '@polkadot/ui-app';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 
 import Proposal from './Proposal';
+import Propose from './Propose';
 import translate from './translate';
 
 type Props = I18nProps & {
   democracy_publicProps?: Array<Tuple>
 };
 
+type State = {
+  isProposeOpen: boolean
+};
+
 class Proposals extends React.PureComponent<Props> {
+  state: State = {
+    isProposeOpen: false
+  };
+
   render () {
     const { t } = this.props;
 
     return (
       <section className='democracy--Proposals'>
-        <h1>{t('proposals')}</h1>
+        <h1>
+          {t('proposals')}
+          <Button
+            isPrimary
+            className='democracy--Proposal-new'
+            key='propose'
+            onClick={this.togglePropose}
+            label={t('Propose...')}
+          />
+        </h1>
         {this.renderProposals()}
+        {this.renderPropose()}
       </section>
     );
   }
@@ -45,6 +65,23 @@ class Proposals extends React.PureComponent<Props> {
         value={proposal}
       />
     ));
+  }
+
+  private renderPropose () {
+    const { isProposeOpen } = this.state;
+
+    return (
+      <Propose
+        isOpen={isProposeOpen}
+        onClose={this.togglePropose}
+      />
+    );
+  }
+
+  private togglePropose = () => {
+    this.setState(({ isProposeOpen }: State) => ({
+      isProposeOpen: !isProposeOpen
+    }));
   }
 }
 
