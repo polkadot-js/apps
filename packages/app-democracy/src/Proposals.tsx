@@ -38,7 +38,7 @@ class Proposals extends React.PureComponent<Props> {
             className='democracy--Proposal-new'
             key='propose'
             onClick={this.togglePropose}
-            label={t('Propose...')}
+            label={t('Propose')}
           />
         </h1>
         {this.renderProposals()}

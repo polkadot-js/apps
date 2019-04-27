@@ -48,7 +48,7 @@ class Propose extends React.PureComponent<Props, State> {
 
     return (
       <Modal
-        className='staking--Bonding'
+        className='democracy--Propose'
         dimmer='inverted'
         open
         size='small'
@@ -95,12 +95,13 @@ class Propose extends React.PureComponent<Props, State> {
     return (
       <>
         <Modal.Header>
-          {t('Bonding Preferences')}
+          {t('Submit New Proposal')}
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
             className='medium'
-            label={t('using the following account')}
+            label={t('account')}
+            help={t('The account used to make the new proposal')}
             type='account'
             onChange={this.onChangeAccount}
           />
@@ -112,6 +113,7 @@ class Propose extends React.PureComponent<Props, State> {
           <InputBalance
             className='medium'
             isError={!hasValue}
+            help={t('The amount that will be bonded to submit the proposal')}
             label={t('value')}
             onChange={this.onChangeValue}
           />
