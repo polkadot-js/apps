@@ -21,7 +21,7 @@ type State = {
   code: string,
   isJsonValid: boolean,
   isTypesValid: boolean,
-  types?: { [index: string]: any } | null,
+  types: { [index: string]: any } | {},
   typesPlaceholder?: string
 };
 
@@ -38,7 +38,7 @@ class Developer extends React.PureComponent<Props, State> {
       code: Object.keys(types).length ? JSON.stringify(types, null, 2) : this.defaultCode,
       isJsonValid: true,
       isTypesValid: true,
-      types: names.length ? types : null,
+      types: names.length ? types : {},
       typesPlaceholder: names.length
         ? names.join(', ')
         : undefined
@@ -48,13 +48,14 @@ class Developer extends React.PureComponent<Props, State> {
   render () {
     const { t } = this.props;
     const { code, isJsonValid, isTypesValid, types, typesPlaceholder } = this.state;
+    const typesHasNoEntries = Object.keys(types).length === 0;
 
     return (
       <div className='settings-Developer'>
         <div className='ui--row'>
           <div className='full'>
             <InputFile
-              clearContent={!types && isTypesValid}
+              clearContent={typesHasNoEntries && isTypesValid}
               isError={!isTypesValid}
               label={t('Upload your additional type definitions as a JSON file')}
               onChange={this.onChangeTypes}
@@ -76,14 +77,14 @@ class Developer extends React.PureComponent<Props, State> {
         </div>
         <Button.Group>
           <Button
-            isDisabled={!types}
+            isDisabled={typesHasNoEntries}
             isNegative
             onClick={this.clearTypes}
             label={t('Reset')}
           />
           <Button.Or />
           <Button
-            isDisabled={!isTypesValid || !isJsonValid}
+            isDisabled={!isTypesValid || !isJsonValid || typesHasNoEntries}
             isPrimary
             onClick={this.saveDeveloper}
             label={t('Save')}
@@ -99,7 +100,7 @@ class Developer extends React.PureComponent<Props, State> {
       code: this.defaultCode,
       isJsonValid: true,
       isTypesValid: true,
-      types: null,
+      types: {},
       typesPlaceholder: undefined
     });
   }
@@ -111,15 +112,13 @@ class Developer extends React.PureComponent<Props, State> {
       const types = JSON.parse(code);
       const typesPlaceholder = Object.keys(types).join(', ');
 
-      console.log('Registering types:', typesPlaceholder);
-
-      getTypeRegistry().register(types);
+      console.log('Detected types:', typesPlaceholder);
 
       this.setState({
         code,
         isJsonValid: true,
         isTypesValid: true,
-        types,
+        types: Object.keys(types).length === 0 ? {} : types,
         typesPlaceholder
       });
 
@@ -130,7 +129,7 @@ class Developer extends React.PureComponent<Props, State> {
         code,
         isJsonValid: false,
         isTypesValid: false,
-        types: null,
+        types: {},
         typesPlaceholder: error.message
       });
     }
@@ -161,21 +160,27 @@ class Developer extends React.PureComponent<Props, State> {
 
   private saveDeveloper = (): void => {
     const { t } = this.props;
-    const { isTypesValid, types } = this.state;
+    const { types } = this.state;
 
-    const status = {
-      status: 'success',
-      action: t('Your custom types have been added')
-    } as ActionStatus;
+    try {
+      getTypeRegistry().register(types);
 
-    if (isTypesValid) {
       store.set('types', types);
-    } else {
-      status.status = 'error';
-      status.action = t('Your custom types are invalid');
-    }
 
-    this.props.onStatusChange(status);
+      this.setState({ isTypesValid: true });
+      this.props.onStatusChange({
+        status: 'success',
+        action: t('Your custom types have been added')
+      } as ActionStatus);
+
+    } catch (e) {
+      console.error(e);
+      this.setState({ isTypesValid: false });
+      this.props.onStatusChange({
+        status: 'error',
+        action: t(`Error saving your custom types. ${e}`)
+      } as ActionStatus);
+    }
   }
 }
 
