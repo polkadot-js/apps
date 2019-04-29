@@ -70,9 +70,6 @@ class Playground extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    console.log('Playground - props: ', props);
-    console.log('Playground - snippets: ', snippets);
-
     this.snippets.forEach(snippet => snippet.code = `${makeWrapper(this.props.isDevelopment)}${snippet.code}`);
 
     this.state = {
