@@ -1,7 +1,7 @@
 # Democracy
 
 This application lets you view proposals and vote for or against a referendum.
-Anyone can create a proposal by depositing minimum value in a certain period of time (No. of Blocks). If someone likes the proposal, they could deposit the same amount of tokens to support it. 
+Anyone can create a proposal by bonding the minimum deposit for a certain period of time (No. of Blocks). If someone likes the proposal, they could deposit the same amount of tokens to support it. The minimum deposit is currently 5 DOTs.
 
 # Proposals
 
