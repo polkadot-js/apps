@@ -102,12 +102,12 @@ export default class Labelled extends React.PureComponent<Props, State> {
           <Icon
             name='help circle'
             data-tip
-            data-for='default-trigger'
+            data-for='controlled-trigger'
             onMouseOver={() => this.toggleTooltip()}
             onMouseOut={() => this.toggleTooltip()}
           />
           {tooltipOpen && (
-            <Tooltip>
+            <Tooltip trigger={'controlled-trigger'}>
               {help}
             </Tooltip>)}
         </label>

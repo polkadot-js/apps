@@ -11,17 +11,14 @@ import { BareProps } from './types';
 const rootElement = document.getElementById('tooltips');
 
 type Props = BareProps & {
-  trigger?: string,
+  trigger: string,
   delayShow?: number,
   place?: 'bottom' | 'top' | 'right' | 'left',
   effect?: 'solid' | 'float'
-
 };
 
 export default class Tooltip extends React.PureComponent<Props> {
-
   static defaultProps = {
-    trigger: 'default-trigger',
     delayShow: 250,
     effect: 'solid',
     place: 'bottom',
@@ -29,6 +26,7 @@ export default class Tooltip extends React.PureComponent<Props> {
   };
 
   tooltipContainer: HTMLElement;
+
   constructor (props: Props) {
     super(props);
     this.tooltipContainer = document.createElement('div');
