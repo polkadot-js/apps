@@ -115,9 +115,10 @@ class Editor extends React.PureComponent<Props, State> {
           <div className='ui--row'>
             <InputAddress
               className='full'
+              help={t('Select the account you wish to edit.')}
               hideAddress
               isInput={false}
-              label={t('using my account')}
+              label={t('account')}
               onChange={this.onChangeAccount}
               type='account'
               value={address}
@@ -126,8 +127,9 @@ class Editor extends React.PureComponent<Props, State> {
           <div className='ui--row'>
             <Input
               className='full'
+              help={t('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
               isEditable
-              label={t('identified by the name')}
+              label={t('name')}
               onChange={this.onChangeName}
               value={editedName}
             />
@@ -135,6 +137,7 @@ class Editor extends React.PureComponent<Props, State> {
           <div className='ui--row'>
             <Dropdown
               defaultValue={type}
+              help={t('Cryptography used to create this account. It cannot be changed after the account creation. Note that a stash account must use ed25519.')}
               isDisabled
               label={t('keypair crypto type')}
               options={uiSettings.availableCryptos}

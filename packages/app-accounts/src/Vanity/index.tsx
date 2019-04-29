@@ -114,16 +114,18 @@ class VanityApp extends React.PureComponent<Props, State> {
         <Input
           autoFocus
           className='medium'
+          help={t('Type here what you would like your address to contain. This tool will generate the keys and show the associated addresses that best match your search. You can use "?" as a wildcard for a character.')}
           isDisabled={isRunning}
           isError={!isMatchValid}
-          label={t('generate address with ? as a wildcard')}
+          label={t('Search for')}
           onChange={this.onChangeMatch}
           value={match}
         />
         <Dropdown
           className='medium'
+          help={t('Should the search be case sensitive, e.g if you select "no" your search for "Some" may return addresses containing "somE" or "sOme"...')}
           isDisabled={isRunning}
-          label={t('perform a case sensitive search/match')}
+          label={t('case sensitive')}
           options={BOOL_OPTIONS}
           onChange={this.onChangeCase}
           value={withCase}

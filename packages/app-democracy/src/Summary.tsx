@@ -31,7 +31,7 @@ class Summary extends React.PureComponent<Props> {
           <CardSummary label={t('proposals')}>
             {formatNumber(democracy_publicPropCount)}
           </CardSummary>
-          <CardSummary label={t('referendums')}>
+          <CardSummary label={t('referenda')}>
             {formatNumber(democracy_referendumCount)}
           </CardSummary>
           <CardSummary label={t('active')}>

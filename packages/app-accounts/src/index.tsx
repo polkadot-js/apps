@@ -12,14 +12,15 @@ import './index.css';
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { Tabs } from '@polkadot/ui-app';
+import { HelpOverlay, Tabs } from '@polkadot/ui-app';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 
+import basicMd from './md/basic.md';
 import Creator from './Creator';
 import Editor from './Editor';
 import Restore from './Restore';
-import Vanity from './Vanity';
 import translate from './translate';
+import Vanity from './Vanity';
 
 type Props = AppProps & I18nProps & {
   allAccounts?: SubjectInfo
@@ -100,6 +101,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
     return (
       <main className='accounts--App'>
+      <HelpOverlay md={basicMd} />
         <header>
           <Tabs
             basePath={basePath}

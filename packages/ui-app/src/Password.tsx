@@ -15,6 +15,7 @@ type Props = BareProps & {
   autoFocus?: boolean,
   children?: React.ReactNode,
   defaultValue?: any,
+  help?: string,
   isDisabled?: boolean,
   isError?: boolean,
   label?: string,
@@ -36,7 +37,7 @@ export default class Password extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { autoFocus, children, className, defaultValue, isDisabled, isError, label, name, onChange, onKeyDown, style, tabIndex, value, withLabel } = this.props;
+    const { autoFocus, children, className, defaultValue, help, isDisabled, isError, label, name, onChange, onKeyDown, style, tabIndex, value, withLabel } = this.props;
     const { isVisible } = this.state;
 
     return (
@@ -44,6 +45,7 @@ export default class Password extends React.PureComponent<Props, State> {
         autoFocus={autoFocus}
         className={classes('ui--Password', className)}
         defaultValue={defaultValue}
+        help={help}
         isAction
         isDisabled={isDisabled}
         isError={isError}
