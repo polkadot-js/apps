@@ -12,10 +12,10 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.4.3",
-    "@polkadot/ui-app": "^0.33.0-beta.2",
-    "@polkadot/ui-assets": "^0.38.0-beta.2",
-    "@polkadot/ui-signer": "^0.33.0-beta.2",
+    "@babel/runtime": "^7.4.4",
+    "@polkadot/ui-app": "^0.33.0-beta.1",
+    "@polkadot/ui-assets": "^0.38.0-beta.5",
+    "@polkadot/ui-signer": "^0.33.0-beta.1",
     "@types/react-tooltip": "^3.9.1",
     "react-tooltip": "^3.9.2"
   }
