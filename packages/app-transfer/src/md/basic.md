@@ -4,7 +4,7 @@ This tab allows you to send funds from one account you own to another account.
 
 # Minimum allowed balance
 
-Accounts with a balance lower than the minimal amount, 100 miliDOTs as of writing, are considered as inexistent for the network. If an account's balance ever drops below this amount, it is removed from the network. In this application, it will still be visible, but with a balance of 0.
+Accounts with a balance lower than the minimal amount, 100 miliUnits (miliDOTs for Polkadot) as of writing, are considered as inexistent for the network. If an account's balance ever drops below this amount, it is removed from the network. In this application, it will still be visible, but with a balance of 0.
 
 For a fund transfer to a **new account** (read an account with a balance of 0), if the amount transferred is less than the minimum allowed balance, then the transfer will "succeed" but the destination account will not be created (read its balance will remain 0); this essentially burns the transfer balance from the sender, because the receiver's balance never exceed the minimum allowed balance.  
 

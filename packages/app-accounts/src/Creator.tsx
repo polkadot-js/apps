@@ -198,7 +198,7 @@ class Creator extends React.PureComponent<Props, State> {
             <div className='ui--row'>
               <Dropdown
                 defaultValue={pairType}
-                help={t('Determines what cryptography will be used to create this account. Note that to validate, the stash account must use "ed25519".')}
+                help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
                 label={t('keypair crypto type')}
                 onChange={this.onChangePairType}
                 options={uiSettings.availableCryptos}
@@ -207,7 +207,7 @@ class Creator extends React.PureComponent<Props, State> {
             <div className='ui--row'>
               <Input
                 className='full'
-                help={t('Derivation path used to generate the keypair of this account. Edit this field only if you know what you are doing. Per default, an empty derivation path is used.')}
+                help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`.')}
                 isError={!!deriveError}
                 label={t('secret derivation path')}
                 onChange={this.onChangeDerive}

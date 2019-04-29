@@ -27,7 +27,7 @@ The repo is split into a number of packages, each representing an application. T
 - [app-nodeinfo](packages/app-nodeinfo/) Node information and status
 - [app-storage](packages/app-storage/) A simple node storage query application. Multiple queries can be queued and updates as new values become available.
 - [app-toolbox](packages/app-toolbox/) Sumission of raw data to RPC endpoints and utility hashing functions.
-- [app-transfer](packages/app-transfer/) A basic account management app, allowing transfer of DOTs between accounts.
+- [app-transfer](packages/app-transfer/) A basic account management app, allowing transfer of Units/DOTs between accounts.
 
 In addition the following libraries are also included in the repo. These are to be moved to the [@polkadot/ui](https://github.com/polkadot-js/ui/) repository once it reaches a base level of stability and usability. (At this point with the framework being tested on the apps above, it makes development easier having it close)
 
