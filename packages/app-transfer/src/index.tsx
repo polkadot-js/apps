@@ -5,10 +5,10 @@
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Tabs } from '@polkadot/ui-app';
+import { HelpOverlay,Tabs } from '@polkadot/ui-app';
 
 import './index.css';
-
+import basicMd from './md/basic.md';
 import Transfer from './Transfer';
 import translate from './translate';
 
@@ -20,6 +20,7 @@ class App extends React.PureComponent<Props> {
 
     return (
       <main className='transfer--App'>
+      <HelpOverlay md={basicMd} />
         <header>
           <Tabs
             basePath={basePath}
