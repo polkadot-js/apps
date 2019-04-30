@@ -18,6 +18,7 @@ import { ActionStatus } from '@polkadot/ui-app/Status/types';
 type Props = ComponentProps & I18nProps;
 
 type State = {
+  address: string | null,
   isFileValid: boolean,
   isPassValid: boolean,
   json: KeyringPair$Json | null,
@@ -26,6 +27,7 @@ type State = {
 
 class Restore extends React.PureComponent<Props, State> {
   state: State = {
+    address: null,
     isFileValid: false,
     isPassValid: false,
     json: null,
@@ -34,7 +36,7 @@ class Restore extends React.PureComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { isFileValid, isPassValid, json } = this.state;
+    const { address, isFileValid, isPassValid } = this.state;
 
     return (
       <div className='accounts--Restore'>
@@ -42,8 +44,8 @@ class Restore extends React.PureComponent<Props, State> {
           <AddressSummary
             className='shrink'
             value={
-              isFileValid && json
-                ? json.address
+              isFileValid && address
+                ? address
                 : null
               }
           />
@@ -97,13 +99,16 @@ class Restore extends React.PureComponent<Props, State> {
   private onChangeFile = (file: Uint8Array): void => {
     try {
       const json = JSON.parse(u8aToString(file));
-      const isFileValid = keyring.decodeAddress(json.address).length === 32 && isHex(json.encoded) && isObject(json.meta) && (
+      const publicKey = keyring.decodeAddress(json.address, true);
+      const address = keyring.encodeAddress(publicKey);
+      const isFileValid = publicKey.length === 32 && isHex(json.encoded) && isObject(json.meta) && (
         Array.isArray(json.encoding.content)
           ? json.encoding.content[0] === 'pkcs8'
           : json.encoding.content === 'pkcs8'
       );
 
       this.setState({
+        address,
         isFileValid,
         json
       });
