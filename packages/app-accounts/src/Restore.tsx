@@ -4,6 +4,7 @@
 
 import { KeyringPair$Json } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
@@ -13,7 +14,6 @@ import { isHex, isObject, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from './translate';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 type Props = ComponentProps & I18nProps;
 
