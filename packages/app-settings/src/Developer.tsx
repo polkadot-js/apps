@@ -56,6 +56,7 @@ class Developer extends React.PureComponent<Props, State> {
           <div className='full'>
             <InputFile
               clearContent={typesHasNoEntries && isTypesValid}
+              help={t('Save the type definitions for your custom structures as key-value pairs in a valid JSON file. The key should be the name of your custom structure and the value an object containing your type definitions.')}
               isError={!isTypesValid}
               label={t('Upload your additional type definitions as a JSON file')}
               onChange={this.onChangeTypes}
@@ -65,7 +66,10 @@ class Developer extends React.PureComponent<Props, State> {
         </div>
         <div className='ui--row'>
           <div className='full'>
-            <Labelled label={t('Manually enter your custom type definitions as valid JSON')}>
+            <Labelled
+              help={t('Please create a key-value pair for each of your custom structures. The key should be the name of your custom structure and the value an object containing your custom type definitions.')}
+              label={t('Manually enter your custom type definitions as valid JSON')}
+            >
               <Editor
                 className='editor'
                 code={code}
