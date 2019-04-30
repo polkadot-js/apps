@@ -47,6 +47,7 @@ const Card = styled.article`
     > label {
       line-height: 1rem;
       font-size: 0.95rem;
+      min-height: 1rem;
     }
 
     .progress {
