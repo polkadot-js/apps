@@ -1,8 +1,10 @@
 // Copyright 2017-2019 @polkadot/app-123code authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
+import { ComponentProps } from './types';
 
 import React from 'react';
 import { Method, Proposal } from '@polkadot/types';
@@ -11,10 +13,8 @@ import { withApi, withMulti } from '@polkadot/ui-api';
 
 import translate from './translate';
 
-type Props = I18nProps & ApiProps & {
-  onChange: (accountId?: string) => void,
-  isMine: boolean,
-  sudoKey: string
+type Props = I18nProps & ApiProps & ComponentProps & {
+  onChange: (accountId?: string) => void
 };
 
 type State = {
@@ -40,16 +40,14 @@ class Propose extends React.PureComponent<Props> {
       }
     })();
 
-    return (
-      <section>
-      {isMine ? (
-        <>
+    return isMine ? (
+        <section>
           <h1>
-            {t('propose')}
+            {t('sudo')}
           </h1>
           <Extrinsic
             defaultValue={defaultExtrinsic}
-            label={t('submit the following proposal')}
+            label={t('submit the following extrinsic')}
             onChange={this.onChangeExtrinsic}
           />
           <br />
@@ -62,7 +60,7 @@ class Propose extends React.PureComponent<Props> {
               params={method ? [new Proposal(method)] : []}
             />
           </Button.Group>
-        </>
+        </section>
       ) : (
         <article className='error padded'>
           <div>
@@ -70,9 +68,7 @@ class Propose extends React.PureComponent<Props> {
             {t('You do not have access to the current sudo key')}
           </div>
         </article>
-      )}
-      </section>
-    );
+      );
   }
 
   private nextState (newState: State): void {

@@ -6,20 +6,36 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { AddressMini, Icon, InputAddress, Labelled, TxButton } from '@polkadot/ui-app';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
+import { ComponentProps } from './types';
+
+import styled from 'styled-components';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  allAccounts: SubjectInfo,
-  isMine: boolean,
-  sudoKey: string
-};
+type Props = I18nProps & ComponentProps;
 
 type State = {
   selected?: string
 };
 
-class KeySelector extends React.PureComponent<Props, State> {
+const Wrapper = styled.section`
+  align-items: flex-end;
+  justify-content: center;
+
+  .summary {
+    text-align: center;
+  }
+`;
+
+const SudoInputAddress = styled(InputAddress)`
+  margin: -0.25rem 0.5rem -0.25rem 0;
+`;
+
+const SudoLabelled = styled(Labelled)`
+  align-items: center;
+`;
+
+class SetKey extends React.PureComponent<Props, State> {
   state: State = {};
 
   constructor (props: Props) {
@@ -41,12 +57,11 @@ class KeySelector extends React.PureComponent<Props, State> {
     const { selected } = this.state;
 
     return (
-      <>
-        <section className='sudo--KeySelector ui--row'>
+      <section>
+        <Wrapper className='ui--row'>
           {isMine ? (
             <>
-              <InputAddress
-                className='sudo--InputAddress'
+              <SudoInputAddress
                 value={selected}
                 label={t('sudo key')}
                 isInput={true}
@@ -63,15 +78,15 @@ class KeySelector extends React.PureComponent<Props, State> {
               />
             </>
           ) : (
-              <Labelled
-                className='ui--Dropdown sudo--Labelled'
+              <SudoLabelled
+                className='ui--Dropdown'
                 label={t('sudo key')}
                 withLabel
               >
                 <AddressMini value={sudoKey} />
-              </Labelled>
+              </SudoLabelled>
           )}
-          </section>
+          </Wrapper>
           {this.willLose() && (
             <article className='warning padded'>
               <div>
@@ -80,7 +95,7 @@ class KeySelector extends React.PureComponent<Props, State> {
               </div>
             </article>
           )}
-        </>
+        </section>
     );
   }
 
@@ -100,4 +115,4 @@ class KeySelector extends React.PureComponent<Props, State> {
     );
   }
 }
-export default translate(KeySelector);
+export default translate(SetKey);

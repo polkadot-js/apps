@@ -5,21 +5,21 @@
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
+import { ComponentProps } from './types';
 
 import React from 'react';
-import { Tabs } from '@polkadot/ui-app';
-import { withApi, withCall, withMulti, withObservable } from '@polkadot/ui-api';
+import { Route, Switch } from 'react-router';
+import { Icon, Tabs } from '@polkadot/ui-app';
+import { withApi, withCalls, withMulti, withObservable } from '@polkadot/ui-api';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 
-import './index.css';
-
-import KeySelector from './KeySelector';
-import Propose from './Propose';
+import SetKey from './SetKey';
+import Sudo from './Sudo';
 
 import translate from './translate';
 
 type Props = AppProps & ApiProps & I18nProps & {
-  allAccounts?: SubjectInfo,
+  allAccounts: SubjectInfo,
   sudo_key?: string
 };
 
@@ -39,7 +39,7 @@ class App extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { allAccounts = {}, basePath, sudo_key: sudoKey = '', t } = this.props;
+    const { basePath, t } = this.props;
     const { isMine } = this.state;
 
     return (
@@ -47,23 +47,48 @@ class App extends React.PureComponent<Props, State> {
         <header>
           <Tabs
             basePath={basePath}
-            items={[{
-              name: 'index',
-              text: t('Sudo access')
-            }]}
+            items={[
+              {
+                name: 'index',
+                text: t('Sudo access')
+              },
+              {
+                name: 'key',
+                text: t('Set sudo key')
+              }
+            ]}
           />
         </header>
-        <KeySelector
-          allAccounts={allAccounts}
-          isMine={isMine}
-          sudoKey={sudoKey}
-        />
-        <Propose
-          isMine={isMine}
-          sudoKey={sudoKey}
-        />
+        {isMine ? (
+          <Switch>
+            <Route path={`${basePath}/key`} render={this.renderComponent(SetKey)} />
+            <Route render={this.renderComponent(Sudo)} />
+          </Switch>
+        ) : (
+          <article className='error padded'>
+            <div>
+              <Icon name='ban' />
+              {t('You do not have access to the current sudo key')}
+            </div>
+          </article>
+        )}
       </main>
     );
+  }
+
+  private renderComponent (Component: React.ComponentType<ComponentProps>) {
+    return (): React.ReactNode => {
+      const { allAccounts = {}, sudo_key: sudoKey = '' } = this.props;
+      const { isMine } = this.state;
+
+      return (
+        <Component
+          allAccounts={allAccounts}
+          sudoKey={sudoKey}
+          isMine={isMine}
+        />
+      );
+    };
   }
 }
 
@@ -71,8 +96,8 @@ export default withMulti(
   App,
   translate,
   withApi,
-  withCall(
-    'query.sudo.key', { transform: key => key.toString() }
+  withCalls<Props>(
+    ['query.sudo.key', { transform: key => key.toString() }]
   ),
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );
