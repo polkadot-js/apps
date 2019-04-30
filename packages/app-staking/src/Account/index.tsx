@@ -321,6 +321,7 @@ class Account extends React.PureComponent<Props, State> {
         );
       } else {
         // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
+        // stashTotalBonded gives the total amount that can be slashed (any active amount + what is being unlocked)
         if (freeBalance && stashTotalBonded && (freeBalance.gt(stashTotalBonded))) {
           buttons.push(
           <Button
@@ -331,8 +332,9 @@ class Account extends React.PureComponent<Props, State> {
           />
           );
         }
-        // active only shows the amount that is bonded (regardless whether it is available to withdraw or not)
-        if (stashActiveBonded && !stashActiveBonded.isZero()) {
+        // don't show the `unbond` button if there's nothing to unbond
+        // stashActiveBonded gives the amount that can be unbonded (total - what's being unlocked).
+        if (stashActiveBonded && stashActiveBonded.gtn(0)) {
           buttons.length && buttons.push(<Button.Or key='bondAdditional.or' />);
           buttons.push(
             <Button
@@ -458,12 +460,6 @@ export default translate(
       propName: 'stashId',
       transform: (ledger: Option<StakingLedger>) =>
         ledger.unwrapOr({ stash: null }).stash
-    }],
-    ['query.staking.ledger', {
-      paramName: 'controllerId',
-      propName: 'stashTotalBonded',
-      transform: (ledger: Option<StakingLedger>) =>
-        ledger.unwrapOr({ total: null }).total
     }],
     ['query.staking.ledger', {
       paramName: 'controllerId',
