@@ -126,13 +126,11 @@ class Account extends React.PureComponent<Props, State> {
     const { isUnbondOpen } = this.state;
 
     return (
-      controllerId ?
         <Unbond
-          accountId={controllerId.toString()}
+          controllerId={controllerId}
           isOpen={isUnbondOpen}
           onClose={this.toggleUnbond}
-        /> :
-        null
+        />
     );
   }
 
@@ -310,9 +308,6 @@ class Account extends React.PureComponent<Props, State> {
   private renderButtons () {
     const { accountId, controllerId, sessionId, staking_nominators, staking_validators,stashId, freeBalance, stashActiveBonded,stashTotalBonded, t } = this.props;
     const buttons = [];
-    console.log('accountId',accountId);
-    stashId && console.log('stashId',stashId.toString());
-    controllerId && console.log('controllerId',controllerId.toString());
 
     if (!stashId) {
       if (!controllerId) {

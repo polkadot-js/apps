@@ -6,12 +6,13 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { AccountId } from '@polkadot/types';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/ui-app';
 
 import translate from '../translate';
 
 type Props = I18nProps & {
-  accountId: string,
+  controllerId?: AccountId | null,
   isOpen: boolean,
   onClose: () => void
 };
@@ -24,7 +25,7 @@ class Unbond extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { accountId, isOpen, onClose, t } = this.props;
+    const { controllerId, isOpen, onClose, t } = this.props;
     const { maxUnbond } = this.state;
     const canSubmit = !!maxUnbond && maxUnbond.gtn(0);
 
@@ -49,7 +50,7 @@ class Unbond extends React.PureComponent<Props, State> {
             />
             <Button.Or />
             <TxButton
-              accountId={accountId}
+              accountId={controllerId && controllerId.toString()}
               isDisabled={!canSubmit}
               isPrimary
               label={t('Unbond')}
@@ -64,7 +65,7 @@ class Unbond extends React.PureComponent<Props, State> {
   }
 
   private renderContent () {
-    const { accountId, t } = this.props;
+    const { controllerId, t } = this.props;
 
     return (
       <>
@@ -74,7 +75,7 @@ class Unbond extends React.PureComponent<Props, State> {
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
             className='medium'
-            defaultValue={accountId}
+            defaultValue={controllerId && controllerId.toString()}
             isDisabled
             label={t('controler account')}
           />
