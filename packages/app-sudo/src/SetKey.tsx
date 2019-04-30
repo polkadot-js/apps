@@ -5,7 +5,6 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { AddressMini, Icon, InputAddress, Labelled, TxButton } from '@polkadot/ui-app';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
 import styled from 'styled-components';
