@@ -8,7 +8,7 @@ import appSettings from '@polkadot/ui-settings';
 
 import template from './123code';
 import accounts from './accounts';
-import addresses from './addresses';
+import addressbook from './addressbook';
 import contracts from './contracts';
 import democracy from './democracy';
 import explorer from './explorer';
@@ -17,6 +17,7 @@ import js from './js';
 import settings from './settings';
 import staking from './staking';
 import storage from './storage';
+import sudo from './sudo';
 import toolbox from './toolbox';
 import transfer from './transfer';
 
@@ -27,7 +28,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     democracy,
     null,
     accounts,
-    addresses,
+    addressbook,
     null,
     settings,
     template
@@ -39,11 +40,12 @@ const routes: Routes = appSettings.uiMode === 'light'
     democracy,
     null,
     accounts,
-    addresses,
+    addressbook,
     null,
     contracts,
     storage,
     extrinsics,
+    sudo,
     null,
     settings,
     toolbox,

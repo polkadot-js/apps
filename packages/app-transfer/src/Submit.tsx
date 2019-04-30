@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { Index } from '@polkadot/types';
 import { Button, TxButton } from '@polkadot/ui-app';
-import { withCall, withMulti } from '@polkadot/ui-api';
+import { withCalls, withMulti } from '@polkadot/ui-api';
 
 import translate from './translate';
 
@@ -41,5 +41,7 @@ class Submit extends React.PureComponent<Props> {
 export default withMulti(
   Submit,
   translate,
-  withCall('query.system.accountNonce', { paramName: 'accountId' })
+  withCalls<Props>(
+    ['query.system.accountNonce', { paramName: 'accountId' }]
+  )
 );

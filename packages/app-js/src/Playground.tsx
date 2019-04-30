@@ -69,6 +69,7 @@ class Playground extends React.PureComponent<Props, State> {
 
   constructor (props: Props) {
     super(props);
+
     this.snippets.forEach(snippet => snippet.code = `${makeWrapper(this.props.isDevelopment)}${snippet.code}`);
 
     this.state = {
@@ -122,10 +123,10 @@ class Playground extends React.PureComponent<Props, State> {
         <header className='container'>
           <Dropdown
             className='js--Dropdown'
+            defaultValue={selected.value}
             onChange={this.selectExample}
             options={options}
             label={t('Select example')}
-            defaultValue={selected.value}
           />
         </header>
         <section className='js--Content'>
@@ -136,9 +137,9 @@ class Playground extends React.PureComponent<Props, State> {
                 onEdit={this.onEdit}
               />
               <ActionButtons
+                generateLink={this.generateLink}
                 isCustomExample={isCustomExample}
                 isRunning={isRunning}
-                generateLink={this.generateLink}
                 removeSnippet={this.removeSnippet}
                 runJs={this.runJs}
                 saveSnippet={this.saveSnippet}
@@ -150,9 +151,9 @@ class Playground extends React.PureComponent<Props, State> {
           <Output logs={logs}>
             <Button
               className='action-button'
+              icon='erase'
               isCircular
               isNegative
-              icon='erase'
               onClick={this.clearConsole}
             />
           </Output>
@@ -223,15 +224,15 @@ class Playground extends React.PureComponent<Props, State> {
   }
 
   private saveSnippet = (snippetName: string): void => {
-    const { customExamples, sharedExample, selected: { code, type } } = this.state;
+    const { customExamples, selected: { code, type }, sharedExample } = this.state;
 
     // The <Dropdown> component doesn't take boolean custom props and no
     // camelCase keys, that's why 'custom' is passed as a string here
     const snapshot: Snippet = {
       code,
-      type: 'custom',
       label: CUSTOM_LABEL,
       text: snippetName,
+      type: 'custom',
       value: `custom-${Date.now()}`
     };
     const nextOptions = [snapshot, ...customExamples, ...this.snippets];
@@ -248,8 +249,8 @@ class Playground extends React.PureComponent<Props, State> {
       customExamples: [snapshot, ...prevState.customExamples],
       isCustomExample: true,
       options,
-      sharedExample: type === 'shared' ? undefined : prevState.sharedExample,
-      selected: snapshot
+      selected: snapshot,
+      sharedExample: type === 'shared' ? undefined : prevState.sharedExample
     }) as State);
   }
 

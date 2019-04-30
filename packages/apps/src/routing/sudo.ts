@@ -4,18 +4,22 @@
 
 import { Routes } from '../types';
 
-import Addresses from '@polkadot/app-addresses';
+import Sudo from '@polkadot/app-sudo';
 
 export default ([
   {
-    Component: Addresses,
+    Component: Sudo,
     display: {
-      needsApi: []
+      needsAccounts: true,
+      needsApi: [
+        'tx.sudo.setKey'
+      ],
+      needsSudo: true
     },
     i18n: {
-      defaultValue: 'Addresses'
+      defaultValue: 'Sudo'
     },
-    icon: 'address book',
-    name: 'addresses'
+    icon: 'unlock',
+    name: 'sudo'
   }
 ] as Routes);

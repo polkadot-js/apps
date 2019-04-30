@@ -44,14 +44,14 @@ export default class AddressMini extends React.PureComponent<Props> {
         style={style}
       >
         <div className='ui--AddressMini-info'>
-          <IdentityIcon
-            size={24}
-            value={address}
-          />
           {this.renderAddressOrName(address)}
           {children}
           {this.renderOfflineStatus()}
         </div>
+        <IdentityIcon
+          size={24}
+          value={address}
+        />
         {this.renderBalance()}
         {this.renderBonded()}
       </div>

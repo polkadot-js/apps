@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-addresses authors & contributors
+// Copyright 2017-2019 @polkadot/app-address-book authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -35,7 +35,7 @@ class Editor extends React.PureComponent<Props, State> {
   render () {
     const { isForgetOpen, current } = this.state;
     return (
-      <div className='addresses--Editor'>
+      <div className='address-book--Editor'>
         <Forgetting
           isOpen={isForgetOpen}
           onClose={this.toggleForget}
@@ -99,9 +99,10 @@ class Editor extends React.PureComponent<Props, State> {
           <div className='ui--row'>
             <InputAddress
               className='full'
+              help={t('Select the contact you want to edit or forget.')}
               hideAddress
               isInput={false}
-              label={t('edit the selected address')}
+              label={t('contact')}
               onChange={this.onChangeAddress}
               type='address'
               value={address}
@@ -110,7 +111,8 @@ class Editor extends React.PureComponent<Props, State> {
           <div className='ui--row'>
             <Input
               className='full'
-              label={t('identified by the name')}
+              help={t('Name associated with the selected contact. You can change it here. This name will be changed across all the apps.')}
+              label={t('name')}
               onChange={this.onChangeName}
               value={editedName}
             />

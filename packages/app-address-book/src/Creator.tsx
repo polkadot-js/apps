@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-addresses authors & contributors
+// Copyright 2017-2019 @polkadot/app-address-book authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -38,7 +38,7 @@ class Creator extends React.PureComponent<Props, State> {
     const { address } = this.state;
 
     return (
-      <div className='addresses--Creator'>
+      <div className='address-book--Creator'>
         <div className='ui--grid'>
           <AddressSummary
             className='shrink'
@@ -83,8 +83,9 @@ class Creator extends React.PureComponent<Props, State> {
           <Input
             autoFocus
             className='full'
+            help={t('Paste here the address of the contact you want to add to your address book.')}
             isError={!isAddressValid}
-            label={t('add the following address')}
+            label={t('address')}
             onChange={this.onChangeAddress}
             value={address}
           />
@@ -92,8 +93,9 @@ class Creator extends React.PureComponent<Props, State> {
         <div className='ui--row'>
           <Input
             className='full'
+            help={t('Type the name of your contact. This name will be used across all the apps. It can be edited later on.')}
             isError={!isNameValid}
-            label={t('name the entry')}
+            label={t('name')}
             onChange={this.onChangeName}
             value={name}
           />

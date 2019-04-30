@@ -10,12 +10,11 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 import React from 'react';
 import { Method } from '@polkadot/types';
-import { Button, InputAddress, Labelled, TxButton } from '@polkadot/ui-app';
+import { Button, Extrinsic, InputAddress, Labelled, TxButton } from '@polkadot/ui-app';
 import { withApi, withMulti } from '@polkadot/ui-api';
 import { Nonce } from '@polkadot/ui-reactive';
 
 import Balance from './Balance';
-import Extrinsic from './Extrinsic';
 import translate from './translate';
 
 type Props = ApiProps & I18nProps & {

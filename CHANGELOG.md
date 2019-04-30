@@ -1,3 +1,8 @@
+# 0.32.1
+
+- Support for Substrate 1.0 release & metadata v4
+- @polkadot/api 0.77.1
+
 # 0.31.1
 
 - Cleanups, fixes and features around the poc-4 staking module

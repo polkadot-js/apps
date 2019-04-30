@@ -12,7 +12,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Icon, Menu } from '@polkadot/ui-app';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
+import { withApi,withCalls, withMulti, withObservable } from '@polkadot/ui-api';
 import { isFunction } from '@polkadot/util';
 
 import ReactTooltip from 'react-tooltip';
@@ -21,7 +21,8 @@ type Props = I18nProps & ApiProps & {
   isCollapsed: boolean,
   onClick: () => void,
   allAccounts?: SubjectInfo,
-  route: Route
+  route: Route,
+  sudo_key: string
 };
 
 interface Tooltip {
@@ -87,8 +88,9 @@ class Item extends React.PureComponent<Props> {
   }
 
   private isVisible () {
-    const { allAccounts = {}, isApiConnected, isApiReady, route: { display: { isHidden, needsAccounts, needsApi }, name } } = this.props;
+    const { allAccounts = {}, isApiConnected, isApiReady, route: { display: { isHidden, needsAccounts, needsApi, needsSudo }, name }, sudo_key: sudoKey } = this.props;
     const hasAccounts = Object.keys(allAccounts).length !== 0;
+    const hasSudo = !!Object.keys(allAccounts).find(address => address === sudoKey);
 
     if (isHidden) {
       return false;
@@ -98,6 +100,11 @@ class Item extends React.PureComponent<Props> {
       return true;
     } else if (!isApiReady || !isApiConnected) {
       return false;
+    } else if (needsSudo) {
+      if (!hasSudo) {
+        console.info('Disabling route sudo, no authority');
+        return false;
+      }
     }
 
     const notFound = needsApi.filter((endpoint: string | Array<string>) => {
@@ -119,5 +126,8 @@ class Item extends React.PureComponent<Props> {
 export default withMulti(
   Item,
   withApi,
+  withCalls<Props>(
+    ['query.sudo.key', { transform: key => key.toString() }]
+  ),
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );
