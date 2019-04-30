@@ -31,7 +31,7 @@ class Submit extends React.PureComponent<Props> {
           isDisabled={isDisabled}
           isPrimary
           label={t('Make Transfer')}
-          tx={extrinsic}
+          extrinsic={extrinsic}
         />
       </Button.Group>
     );

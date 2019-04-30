@@ -34,7 +34,8 @@ type Props = ApiProps & {
   onSuccess?: TxCallback,
   onUpdate?: TxCallback,
   params?: Array<any> | ConstructFn,
-  tx: string | IExtrinsic | SubmittableExtrinsic
+  tx: string,
+  extrinsic?: IExtrinsic | SubmittableExtrinsic
 };
 
 type InnerProps = Props & InjectedProps;
@@ -49,13 +50,15 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
     isSending: false
   } as State;
 
-  static getDerivedStateFromProps ({ api, params = [], txqueue = [], tx = '' }: InnerProps): State | null {
-    if (!tx || !(tx as string).length) {
+  static getDerivedStateFromProps ({ api, params = [], txqueue = [], tx = '', extrinsic: propsExtrinsic }: InnerProps): State | null {
+    if (!propsExtrinsic && (!tx || !(tx as string).length)) {
       return null;
     }
 
     let extrinsic: any;
-    if (typeof tx === 'string') {
+    if (propsExtrinsic) {
+      extrinsic = propsExtrinsic as SubmittableExtrinsic;
+    } else {
       const [section, method] = tx.split('.');
 
       assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
@@ -63,12 +66,10 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
       extrinsic = api.tx[section][method](
         ...(isFunction(params) ? params() : params)
       );
-    } else {
-      extrinsic = tx as SubmittableExtrinsic;
     }
 
     let isSending = false;
-    let queuedTx = txqueue.find(({ extrinsic: ex }) => ex === extrinsic);
+    const queuedTx = txqueue.find(({ extrinsic: ex }) => ex === extrinsic);
     if (queuedTx) {
       isSending = queuedTx.status === 'broadcast';
     }
@@ -96,7 +97,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
   }
 
   private send = (): void => {
-    const { accountId, accountNonce, onClick, onFailed, onSuccess, onUpdate, queueExtrinsic, tx } = this.props;
+    const { accountId, onClick, onFailed, onSuccess, onUpdate, queueExtrinsic, tx } = this.props;
     const { extrinsic } = this.state;
 
     assert(tx, 'Expected tx param passed to TxButton');
@@ -106,10 +107,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
       extrinsic,
       txFailedCb: onFailed,
       txSuccessCb: onSuccess,
-      txUpdateCb: onUpdate,
-      ...(accountNonce ?
-        { accountNonce } :
-        {})
+      txUpdateCb: onUpdate
     });
 
     onClick && onClick();

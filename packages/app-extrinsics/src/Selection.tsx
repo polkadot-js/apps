@@ -81,7 +81,7 @@ class Selection extends React.PureComponent<Props, State> {
           <TxButton
             isDisabled={!isValid}
             label={t('Submit Inherent')}
-            tx={extrinsic}
+            extrinsic={extrinsic}
           />
           <Button.Or />
           <TxButton
@@ -89,7 +89,7 @@ class Selection extends React.PureComponent<Props, State> {
             isDisabled={!isValid}
             isPrimary
             label={t('Submit Transaction')}
-            tx={extrinsic}
+            extrinsic={extrinsic}
           />
         </Button.Group>
       </div>
