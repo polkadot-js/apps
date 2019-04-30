@@ -41,22 +41,36 @@ header .ui--Button-Group {
 
 .ui--AddressMini {
   display: inline-block;
-  padding: 0 0.25rem 0 0;
-}
+  padding: 0 0.25rem 0 1rem;
 
-.ui--AddressMini.padded {
-  display: inline-block;
-  padding: 0.25rem 0 0 0;
-}
+  &.padded {
+    display: inline-block;
+    padding: 0.25rem 0 0 1rem;
+  }
 
-.ui--AddressMini.summary {
-  position: relative;
-  top: -0.2rem;
-}
+  &.summary {
+    position: relative;
+    top: -0.2rem;
+  }
 
-.ui--AddressMini-info div {
-  display: inline-block;
-  vertical-align: middle;
+  .ui--AddressMini-info,
+  .ui--IdentityIcon {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .ui--IdentityIcon {
+    margin-left: 0.5rem;
+    margin-right: 0;
+  }
+
+  .ui--Balance,
+  .ui--Bonded {
+    font-size: 0.75rem;
+    margin-right: 2.25rem;
+    margin-top: -0.5rem;
+    text-align: right;
+  }
 }
 
 .ui--AddressMini-address {
@@ -67,18 +81,6 @@ header .ui--Button-Group {
   &.withName {
     text-transform: uppercase;
   }
-}
-
-.ui--AddressMini .ui--IdentityIcon {
-  margin-left: 1rem;
-  margin-right: 0.5rem;
-}
-
-.ui--AddressMini .ui--Balance,
-.ui--AddressMini .ui--Bonded {
-  font-size: 0.75rem;
-  margin-top: -0.5rem;
-  text-align: right;
 }
 
 .ui--AddressRow-base {
