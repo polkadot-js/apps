@@ -9,7 +9,7 @@ import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 import { AccountFilter, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
-import { AccountId, Exposure, Option, StakingLedger, ValidatorPrefs } from '@polkadot/types';
+import { AccountId, Balance, Exposure, Option, StakingLedger, ValidatorPrefs } from '@polkadot/types';
 import { AddressMini, AddressSummary, Button, TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
@@ -30,11 +30,12 @@ type Props = ApiProps & I18nProps & {
   recentlyOffline: RecentlyOfflineMap,
   sessionId?: AccountId | null,
   stashId?: AccountId | null,
+  freeBalance?: Balance,
   staking_stakers?: Exposure,
   staking_nominators?: [Array<AccountId>],
   staking_validators?: [ValidatorPrefs],
   stashOptions: Array<KeyringSectionOption>,
-  validators: Array<string>
+  stashTotalBonded?: Balance
 };
 
 type State = {
@@ -58,7 +59,6 @@ class Account extends React.PureComponent<Props, State> {
 
   render () {
     const { accountId, controllerId, filter, name, stashId } = this.props;
-
     if ((filter === 'controller' && !stashId) || (filter === 'stash' && !controllerId) || (filter === 'unbonded' && (controllerId || stashId))) {
       return null;
     }
@@ -290,8 +290,11 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { accountId, controllerId, sessionId, stashId, staking_nominators, staking_validators, t } = this.props;
+    const { accountId, controllerId, sessionId, staking_nominators, staking_validators,stashId, freeBalance, stashTotalBonded, t } = this.props;
     const buttons = [];
+    console.log('accountId',accountId);
+    stashId && console.log('stashId',stashId.toString());
+    controllerId && console.log('controllerId',controllerId.toString());
 
     if (!stashId) {
       if (!controllerId) {
@@ -304,7 +307,13 @@ class Account extends React.PureComponent<Props, State> {
           />
         );
       } else {
-        buttons.push(
+        // only show Bond Additional button if this stash account actually doesnt bond everything already
+        console.log('freeBalance > stashTotalBonded',freeBalance && stashTotalBonded && (freeBalance.gt(stashTotalBonded)));
+        console.log('stashTotalBonded',stashTotalBonded);
+        console.log('freeBalance',freeBalance);
+
+        if (freeBalance && stashTotalBonded && (freeBalance.gt(stashTotalBonded))) {
+          buttons.push(
           <Button
             isPrimary
             key='bond'
@@ -312,11 +321,19 @@ class Account extends React.PureComponent<Props, State> {
             label={t('Bond Additional')}
           />
         );
+        }
       }
     } else {
+
       const isNominating = !!staking_nominators && !!staking_nominators[0] && staking_nominators[0].length;
       const isValidating = !!staking_validators && !!staking_validators[0] && !(staking_validators[0].isEmpty);
-
+/*      console.log('accountId',accountId);
+      console.log('!!staking_validators',!!staking_validators);
+      if (!!staking_validators) console.log('!!staking_validators[0]',!!staking_validators[0]);
+      if (staking_validators && !!staking_validators[0]) console.log('!(staking_validators[0].isEmpty',!(staking_validators[0].isEmpty));
+      console.log('staking_nominators',staking_nominators);
+      console.log('staking_validators',staking_validators);
+      */
       if (isValidating || isNominating) {
         buttons.push(
           <TxButton
@@ -421,6 +438,16 @@ export default translate(
       propName: 'stashId',
       transform: (ledger: Option<StakingLedger>) =>
         ledger.unwrapOr({ stash: null }).stash
+    }],
+    ['query.staking.ledger', {
+      paramName: 'controllerId',
+      propName: 'stashTotalBonded',
+      transform: (ledger: Option<StakingLedger>) =>
+        ledger.unwrapOr({ total: null }).total
+    }],
+    ['query.balances.freeBalance', {
+      paramName: 'accountId',
+      propName: 'freeBalance'
     }],
     ['query.staking.stakers', { paramName: 'accountId' }],
     ['query.staking.nominators', { paramName: 'stashId' }],
