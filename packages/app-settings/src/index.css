@@ -30,10 +30,4 @@
     height: 300px;
     position: relative;
   }
-
-  .info {
-    margin: 1em 0;
-    text-align: right;
-    justify-content: flex-end;
-  }
 }
