@@ -12,7 +12,8 @@ export type Route = {
   display: {
     isHidden?: boolean,
     needsAccounts?: boolean,
-    needsApi?: Array<string | Array<string>>
+    needsApi?: Array<string | Array<string>>,
+    needsSudo?: boolean
   },
   i18n: { defaultValue: string },
   icon: SemanticICONS,

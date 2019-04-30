@@ -9,12 +9,11 @@ import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Method } from '@polkadot/types';
-import { Button, InputAddress, Labelled } from '@polkadot/ui-app';
+import { Button, Extrinsic, InputAddress, Labelled } from '@polkadot/ui-app';
 import { withApi, withMulti } from '@polkadot/ui-api';
 import { Nonce } from '@polkadot/ui-reactive';
 
 import Balance from './Balance';
-import Extrinsic from './Extrinsic';
 import translate from './translate';
 
 type Props = ApiProps & I18nProps & {
