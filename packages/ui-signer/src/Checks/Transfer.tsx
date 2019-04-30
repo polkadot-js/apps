@@ -9,7 +9,7 @@ import { ExtraFees } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { Compact } from '@polkadot/types';
-import { withCall, withMulti } from '@polkadot/ui-api';
+import { withCalls, withMulti } from '@polkadot/ui-api';
 import { Icon } from '@polkadot/ui-app';
 import { formatBalance } from '@polkadot/util';
 
@@ -92,5 +92,7 @@ export class Transfer extends React.PureComponent<Props, State> {
 export default withMulti(
   Transfer,
   translate,
-  withCall('derive.balances.votingBalance', { paramName: 'recipientId' })
+  withCalls<Props>(
+    ['derive.balances.votingBalance', { paramName: 'recipientId' }]
+  )
 );

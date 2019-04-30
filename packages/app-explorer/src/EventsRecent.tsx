@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { EventRecord } from '@polkadot/types';
-import { withCall, withMulti } from '@polkadot/ui-api';
+import { withCalls, withMulti } from '@polkadot/ui-api';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
@@ -66,5 +66,5 @@ class EventsRecent extends React.PureComponent<Props, State> {
 export default withMulti(
   EventsRecent,
   translate,
-  withCall('query.system.events')
+  withCalls<Props>('query.system.events')
 );
