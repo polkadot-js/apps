@@ -70,8 +70,8 @@ export default class Editor extends React.Component<Props> {
 
     return (
       <div
-        id={this.id}
         className={classes('ui-app-editor', className, isValid === false ? 'invalid' : '')}
+        id={this.id}
       />
     );
   }

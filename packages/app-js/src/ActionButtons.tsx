@@ -13,10 +13,10 @@ import translate from './translate';
 type Props = BareProps & I18nProps & {
   isCustomExample: boolean,
   isRunning: boolean,
-  saveSnippet: (snippetName: string) => void,
   generateLink: () => void,
   removeSnippet: () => void,
   runJs: () => void,
+  saveSnippet: (snippetName: string) => void,
   snippetName?: string,
   stopJs: () => void
 };
@@ -36,25 +36,25 @@ class ActionButtons extends React.PureComponent<Props, State> {
 
   render () {
     const {
-      props: { isCustomExample, isRunning,removeSnippet, runJs, stopJs, t },
-      state: { isOpen, snippetName }
+      props: { isCustomExample, isRunning, removeSnippet, runJs, stopJs, t },
+      state: { isOpen, shareText, snippetName }
      } = this;
 
     return (
       <div className='action-button'>
-          <Popup
-            content={this.state.shareText}
-            on='hover'
-            onClose={this.onShareClose}
-            trigger={
-              <SUIB
-                circular
-                icon='share alternate'
-                onClick={this.generateLink}
-              />
-            }
-            wide={'very'}
-          />
+        <Popup
+          content={shareText}
+          on='hover'
+          onClose={this.onShareClose}
+          trigger={
+            <SUIB
+              circular
+              icon='share alternate'
+              onClick={this.generateLink}
+            />
+          }
+          wide='very'
+        />
         {
         // FIXME: The <Popup /> event trigger on='hover' does not work together with the ui-app'
         // <Button /> component. That's why the original Semantic UI component is being used here.
@@ -66,8 +66,8 @@ class ActionButtons extends React.PureComponent<Props, State> {
             trigger={
               <SUIB
                 circular
-                negative
                 icon='trash alternate outline'
+                negative
                 onClick={removeSnippet}
               />
             }
@@ -76,8 +76,9 @@ class ActionButtons extends React.PureComponent<Props, State> {
         { !(isCustomExample) &&
           <Popup
             className='popup-local'
-            open={isOpen}
+            on='click'
             onClose={this.onPopupClose}
+            open={isOpen}
             trigger={
               <SUIB
                 circular
@@ -85,38 +86,37 @@ class ActionButtons extends React.PureComponent<Props, State> {
                 icon='save'
               />
             }
-            on='click'
           >
             <Input
               autoFocus={true}
-              onChange={this.onChangeName}
               onBlur={this.onPopupClose}
-              withLabel={false}
+              onChange={this.onChangeName}
               maxLength={50}
               min={1}
               placeholder={t('Name your example')}
               value={snippetName}
+              withLabel={false}
             />
             <Button
-              onClick={this.saveSnippet}
-              label={t('Save snippet to local storage')}
               isDisabled={!snippetName.length}
               isPositive
+              label={t('Save snippet to local storage')}
+              onClick={this.saveSnippet}
             />
           </Popup>
         }
 
         <Button
+          icon='play'
           isCircular
           isPositive
-          icon='play'
           onClick={runJs}
         />
         <Button
+          icon='close'
           isCircular
           isDisabled={!isRunning}
           isNegative
-          icon='close'
           onClick={stopJs}
         />
       </div>
