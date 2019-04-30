@@ -35,8 +35,7 @@ type Props = ApiProps & I18nProps & {
   staking_nominators?: [Array<AccountId>],
   staking_validators?: [ValidatorPrefs],
   stashOptions: Array<KeyringSectionOption>,
-  stashActiveBonded?: Balance,
-  stashTotalBonded?: Balance
+  staking_ledger?: StakingLedger
 };
 
 type State = {
@@ -306,7 +305,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { accountId, controllerId, sessionId, staking_nominators, staking_validators,stashId, freeBalance, stashActiveBonded,stashTotalBonded, t } = this.props;
+    const { accountId, controllerId, sessionId, staking_nominators, staking_validators,stashId, freeBalance, staking_ledger, t } = this.props;
     const buttons = [];
 
     if (!stashId) {
@@ -321,8 +320,8 @@ class Account extends React.PureComponent<Props, State> {
         );
       } else {
         // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
-        // stashTotalBonded gives the total amount that can be slashed (any active amount + what is being unlocked)
-        if (freeBalance && stashTotalBonded && (freeBalance.gt(stashTotalBonded))) {
+        // staking_ledger.total gives the total amount that can be slashed (any active amount + what is being unlocked)
+        if (freeBalance && staking_ledger && staking_ledger.total && (freeBalance.gt(staking_ledger.total))) {
           buttons.push(
           <Button
             isPrimary
@@ -333,8 +332,8 @@ class Account extends React.PureComponent<Props, State> {
           );
         }
         // don't show the `unbond` button if there's nothing to unbond
-        // stashActiveBonded gives the amount that can be unbonded (total - what's being unlocked).
-        if (stashActiveBonded && stashActiveBonded.gtn(0)) {
+        // staking_ledger.active gives the amount that can be unbonded (total - what's being unlocked).
+        if (staking_ledger && staking_ledger.active && staking_ledger.active.gtn(0)) {
           buttons.length && buttons.push(<Button.Or key='bondAdditional.or' />);
           buttons.push(
             <Button
@@ -463,15 +462,8 @@ export default translate(
     }],
     ['query.staking.ledger', {
       paramName: 'controllerId',
-      propName: 'stashTotalBonded',
       transform: (ledger: Option<StakingLedger>) =>
-        ledger.unwrapOr({ total: null }).total
-    }],
-    ['query.staking.ledger', {
-      paramName: 'controllerId',
-      propName: 'stashActiveBonded',
-      transform: (ledger: Option<StakingLedger>) =>
-        ledger.unwrapOr({ active: null }).active
+        ledger.unwrapOr({ stash: null, total: null, active: null })
     }],
     ['query.balances.freeBalance', {
       paramName: 'accountId',
