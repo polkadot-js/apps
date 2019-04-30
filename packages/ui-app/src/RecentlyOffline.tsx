@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { formatNumber } from '@polkadot/util';
 
-import ReactTooltip from 'react-tooltip';
+import Tooltip from './Tooltip';
 
 import translate from './translate';
 
@@ -70,14 +70,11 @@ class RecentlyOffline extends React.PureComponent<Props, State> {
         <div className='detail'>
           {text}
         </div>
-        <ReactTooltip
-          delayShow={250}
-          effect='solid'
-          id={`offline-${accountId}`}
-          place='bottom'
+        <Tooltip
+          trigger={`offline-${accountId}`}
         >
-            {text}
-        </ReactTooltip>
+          {text}
+        </Tooltip>
       </div>
     );
   }
