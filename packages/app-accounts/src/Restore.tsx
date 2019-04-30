@@ -114,6 +114,7 @@ class Restore extends React.PureComponent<Props, State> {
       });
     } catch (error) {
       this.setState({
+        address: null,
         isFileValid: false,
         json: null
       });
