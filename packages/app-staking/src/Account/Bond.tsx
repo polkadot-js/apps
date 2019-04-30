@@ -15,7 +15,6 @@ import ValidateController from './ValidateController';
 type Props = I18nProps & {
   accountId: string,
   controllerId?: AccountId | null,
-  isOpen: boolean,
   onClose: () => void
 };
 
@@ -46,14 +45,10 @@ class Bond extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accountId, isOpen, onClose, t } = this.props;
+    const { accountId, onClose, t } = this.props;
     const { bondValue, controllerId, destination } = this.state;
     const hasValue = !!bondValue && bondValue.gtn(0);
     const canSubmit = hasValue && !!controllerId;
-
-    if (!isOpen) {
-      return null;
-    }
 
     return (
       <Modal

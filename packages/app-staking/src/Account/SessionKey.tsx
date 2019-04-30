@@ -11,7 +11,6 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   accountId: string,
-  isOpen: boolean,
   onClose: () => void
 };
 
@@ -31,12 +30,8 @@ class Key extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accountId, isOpen, onClose, t } = this.props;
+    const { accountId, onClose, t } = this.props;
     const { sessionId } = this.state;
-
-    if (!isOpen) {
-      return null;
-    }
 
     return (
       <Modal

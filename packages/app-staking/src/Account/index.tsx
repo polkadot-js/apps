@@ -98,12 +98,13 @@ class Account extends React.PureComponent<Props, State> {
     const { isBondOpen } = this.state;
 
     return (
+      isBondOpen ?
       <Bond
         accountId={accountId}
         controllerId={controllerId}
-        isOpen={isBondOpen}
         onClose={this.toggleBond}
-      />
+      /> :
+      null
     );
   }
 
@@ -112,11 +113,12 @@ class Account extends React.PureComponent<Props, State> {
     const { isBondExtraOpen } = this.state;
 
     return (
+      isBondExtraOpen ?
       <BondExtra
         accountId={accountId}
-        isOpen={isBondExtraOpen}
         onClose={this.toggleBondExtra}
-      />
+      /> :
+      null
     );
   }
 
@@ -125,11 +127,12 @@ class Account extends React.PureComponent<Props, State> {
     const { isUnbondOpen } = this.state;
 
     return (
+      isUnbondOpen ?
         <Unbond
           controllerId={controllerId}
-          isOpen={isUnbondOpen}
           onClose={this.toggleUnbond}
-        />
+        /> :
+        null
     );
   }
 
@@ -142,13 +145,14 @@ class Account extends React.PureComponent<Props, State> {
     }
 
     return (
+      isValidatingOpen ?
       <Validating
         accountId={accountId}
-        isOpen
         onClose={this.toggleValidating}
         preferences={staking_validators[0]}
         stashId={stashId}
-      />
+      /> :
+      null
     );
   }
 
@@ -157,11 +161,12 @@ class Account extends React.PureComponent<Props, State> {
     const { isSessionKeyOpen } = this.state;
 
     return (
+      isSessionKeyOpen ?
       <SessionKey
         accountId={accountId}
-        isOpen={isSessionKeyOpen}
         onClose={this.toggleSessionKey}
-      />
+      /> :
+      null
     );
   }
 
@@ -294,13 +299,14 @@ class Account extends React.PureComponent<Props, State> {
     }
 
     return (
+      isNominateOpen ?
       <Nominating
         accountId={accountId}
-        isOpen={isNominateOpen}
         onClose={this.toggleNominate}
         stashId={stashId}
         stashOptions={stashOptions}
-      />
+      /> :
+      null
     );
   }
 
