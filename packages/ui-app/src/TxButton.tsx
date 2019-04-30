@@ -34,7 +34,7 @@ type Props = ApiProps & {
   onSuccess?: TxCallback,
   onUpdate?: TxCallback,
   params?: Array<any> | ConstructFn,
-  tx: string,
+  tx?: string,
   extrinsic?: IExtrinsic | SubmittableExtrinsic
 };
 
@@ -51,13 +51,13 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
   } as State;
 
   static getDerivedStateFromProps ({ api, params = [], txqueue = [], tx = '', extrinsic: propsExtrinsic }: InnerProps): State | null {
-    if (!propsExtrinsic && (!tx || !(tx as string).length)) {
+    if (!propsExtrinsic && (!tx || tx.length === 0)) {
       return null;
     }
 
     let extrinsic: any;
     if (propsExtrinsic) {
-      extrinsic = propsExtrinsic as SubmittableExtrinsic;
+      extrinsic = propsExtrinsic;
     } else {
       const [section, method] = tx.split('.');
 
@@ -71,7 +71,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
     let isSending = false;
     const queuedTx = txqueue.find(({ extrinsic: ex }) => ex === extrinsic);
     if (queuedTx) {
-      isSending = queuedTx.status === 'broadcast';
+      isSending = ['broadcast', 'sending'].includes(queuedTx.status);
     }
 
     return {
@@ -97,10 +97,10 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
   }
 
   private send = (): void => {
-    const { accountId, onClick, onFailed, onSuccess, onUpdate, queueExtrinsic, tx } = this.props;
+    const { accountId, onClick, onFailed, onSuccess, onUpdate, queueExtrinsic } = this.props;
     const { extrinsic } = this.state;
 
-    assert(tx, 'Expected tx param passed to TxButton');
+    assert(extrinsic, 'Expected generated extrinsic passed to TxButton');
 
     queueExtrinsic({
       accountId,
