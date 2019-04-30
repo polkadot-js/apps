@@ -17,8 +17,9 @@ import Bond from './Bond';
 import BondExtra from './BondExtra';
 import Nominating from './Nominating';
 import SessionKey from './SessionKey';
-import Validating from './Validating';
 import translate from '../translate';
+import Unbond from './Unbond';
+import Validating from './Validating';
 
 type Props = ApiProps & I18nProps & {
   accountId: string,
@@ -35,6 +36,7 @@ type Props = ApiProps & I18nProps & {
   staking_nominators?: [Array<AccountId>],
   staking_validators?: [ValidatorPrefs],
   stashOptions: Array<KeyringSectionOption>,
+  stashActiveBonded?: Balance,
   stashTotalBonded?: Balance
 };
 
@@ -69,6 +71,7 @@ class Account extends React.PureComponent<Props, State> {
         {this.renderBondExtra()}
         {this.renderNominating()}
         {this.renderSessionKey()}
+        {this.renderUnbond()}
         {this.renderValidating()}
         <AddressSummary
           name={name}
@@ -115,6 +118,21 @@ class Account extends React.PureComponent<Props, State> {
         isOpen={isBondExtraOpen}
         onClose={this.toggleBondExtra}
       />
+    );
+  }
+
+  private renderUnbond () {
+    const { controllerId } = this.props;
+    const { isUnbondOpen } = this.state;
+
+    return (
+      controllerId ?
+        <Unbond
+          accountId={controllerId.toString()}
+          isOpen={isUnbondOpen}
+          onClose={this.toggleUnbond}
+        /> :
+        null
     );
   }
 
@@ -290,7 +308,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { accountId, controllerId, sessionId, staking_nominators, staking_validators,stashId, freeBalance, stashTotalBonded, t } = this.props;
+    const { accountId, controllerId, sessionId, staking_nominators, staking_validators,stashId, freeBalance, stashActiveBonded,stashTotalBonded, t } = this.props;
     const buttons = [];
     console.log('accountId',accountId);
     stashId && console.log('stashId',stashId.toString());
@@ -307,11 +325,7 @@ class Account extends React.PureComponent<Props, State> {
           />
         );
       } else {
-        // only show Bond Additional button if this stash account actually doesnt bond everything already
-        console.log('freeBalance > stashTotalBonded',freeBalance && stashTotalBonded && (freeBalance.gt(stashTotalBonded)));
-        console.log('stashTotalBonded',stashTotalBonded);
-        console.log('freeBalance',freeBalance);
-
+        // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
         if (freeBalance && stashTotalBonded && (freeBalance.gt(stashTotalBonded))) {
           buttons.push(
           <Button
@@ -320,20 +334,24 @@ class Account extends React.PureComponent<Props, State> {
             onClick={this.toggleBondExtra}
             label={t('Bond Additional')}
           />
-        );
+          );
+        }
+        // active only shows the amount that is bonded (regardless whether it is available to withdraw or not)
+        if (stashActiveBonded && !stashActiveBonded.isZero()) {
+          buttons.length && buttons.push(<Button.Or key='bondAdditional.or' />);
+          buttons.push(
+            <Button
+              isNegative
+              key='unbond'
+              onClick={this.toggleUnbond}
+              label={t('Unbond')}
+            />
+          );
         }
       }
     } else {
-
       const isNominating = !!staking_nominators && !!staking_nominators[0] && staking_nominators[0].length;
       const isValidating = !!staking_validators && !!staking_validators[0] && !(staking_validators[0].isEmpty);
-/*      console.log('accountId',accountId);
-      console.log('!!staking_validators',!!staking_validators);
-      if (!!staking_validators) console.log('!!staking_validators[0]',!!staking_validators[0]);
-      if (staking_validators && !!staking_validators[0]) console.log('!(staking_validators[0].isEmpty',!(staking_validators[0].isEmpty));
-      console.log('staking_nominators',staking_nominators);
-      console.log('staking_validators',staking_validators);
-      */
       if (isValidating || isNominating) {
         buttons.push(
           <TxButton
@@ -411,6 +429,12 @@ class Account extends React.PureComponent<Props, State> {
     }));
   }
 
+  private toggleUnbond = () => {
+    this.setState(({ isUnbondOpen }) => ({
+      isUnbondOpen: !isUnbondOpen
+    }));
+  }
+
   private toggleValidating = () => {
     this.setState(({ isValidatingOpen }) => ({
       isValidatingOpen: !isValidatingOpen
@@ -444,6 +468,18 @@ export default translate(
       propName: 'stashTotalBonded',
       transform: (ledger: Option<StakingLedger>) =>
         ledger.unwrapOr({ total: null }).total
+    }],
+    ['query.staking.ledger', {
+      paramName: 'controllerId',
+      propName: 'stashTotalBonded',
+      transform: (ledger: Option<StakingLedger>) =>
+        ledger.unwrapOr({ total: null }).total
+    }],
+    ['query.staking.ledger', {
+      paramName: 'controllerId',
+      propName: 'stashActiveBonded',
+      transform: (ledger: Option<StakingLedger>) =>
+        ledger.unwrapOr({ active: null }).active
     }],
     ['query.balances.freeBalance', {
       paramName: 'accountId',
