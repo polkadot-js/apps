@@ -40,7 +40,7 @@ class KeyValueArray extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    this.placeholderEmpty = props.t('drag and drop JSON key/value (hex-encoded) file');
+    this.placeholderEmpty = props.t('click to select or drag and drop JSON key/value (hex-encoded) file');
     this.state = {
       placeholder: this.placeholderEmpty
     };

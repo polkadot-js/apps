@@ -39,6 +39,7 @@ class Voting extends React.PureComponent<Props, State> {
     return (
       <div className='democracy--Referendum-vote'>
         <InputAddress
+          help={t('Select the account you wish to vote with. You can approve "yay" or deny "nay" the proposal.')}
           label={t('vote using my account')}
           onChange={this.onChangeAccount}
           placeholder='0x...'

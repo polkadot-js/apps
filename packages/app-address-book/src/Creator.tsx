@@ -83,8 +83,9 @@ class Creator extends React.PureComponent<Props, State> {
           <Input
             autoFocus
             className='full'
+            help={t('Paste here the address of the contact you want to add to your address book.')}
             isError={!isAddressValid}
-            label={t('add the following address')}
+            label={t('address')}
             onChange={this.onChangeAddress}
             value={address}
           />
@@ -92,8 +93,9 @@ class Creator extends React.PureComponent<Props, State> {
         <div className='ui--row'>
           <Input
             className='full'
+            help={t('Type the name of your contact. This name will be used across all the apps. It can be edited later on.')}
             isError={!isNameValid}
-            label={t('name the entry')}
+            label={t('name')}
             onChange={this.onChangeName}
             value={name}
           />

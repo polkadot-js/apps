@@ -410,3 +410,9 @@ header .ui--Button-Group {
 .ui.tiny.progress {
   font-size: .5rem;
 }
+
+.ui--Tooltip {
+  text-align: center;
+  z-index: 1002;
+  max-width: 300px;
+}

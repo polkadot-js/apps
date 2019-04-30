@@ -7,8 +7,9 @@ import { AppProps, BareProps, I18nProps } from '@polkadot/ui-app/types';
 import './index.css';
 
 import React from 'react';
-import { Tabs } from '@polkadot/ui-app';
+import { HelpOverlay,Tabs } from '@polkadot/ui-app';
 
+import basicMd from './md/basic.md';
 import Proposals from './Proposals';
 import Referendums from './Referendums';
 import Summary from './Summary';
@@ -22,6 +23,7 @@ class App extends React.PureComponent<Props> {
 
     return (
       <main className='democracy--App'>
+      <HelpOverlay md={basicMd} />
         <header>
           <Tabs
             basePath={basePath}

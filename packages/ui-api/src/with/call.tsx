@@ -109,7 +109,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         const values = isUndefined(paramValue)
           ? params
           : params.concat(
-            Array.isArray(paramValue)
+            (Array.isArray(paramValue) && !(paramValue as any).toU8a)
               ? paramValue
               : [paramValue]
           );

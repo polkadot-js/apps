@@ -31,3 +31,5 @@ export interface OfflineStatus {
 }
 
 export type AccountFilter = 'all' | 'controller' | 'session' | 'stash' | 'unbonded';
+
+export type ValidatorFilter = 'all' | 'hasNominators' | 'noNominators' | 'hasWarnings' | 'noWarnings' | 'iNominated';

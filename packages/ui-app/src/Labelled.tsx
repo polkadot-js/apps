@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import Icon from './Icon';
 import media from './media';
 import { classes } from './util';
+import Tooltip from './Tooltip';
 
 type Props = BareProps & {
   help?: React.ReactNode,
@@ -18,6 +19,10 @@ type Props = BareProps & {
   label?: React.ReactNode,
   children: React.ReactNode,
   withLabel?: boolean
+};
+
+type State = {
+  tooltipOpen: boolean
 };
 
 const defaultLabel: any = (// node?
@@ -32,28 +37,10 @@ const Wrapper = styled.div`
     padding-right: 0.5rem;
     position: relative;
 
-    .help-hover {
-      background: #222;
-      border-radius: 0.25rem;
-      color: #fff;
-      display: none;
-      padding: 0.5rem 1rem;
-      position: absolute;
-      text-align: left;
-      top: 0.5rem;
-      left: 2.5rem;
-      right: -5rem;
-      z-index: 10;
-      opacity: .9;
-    }
-
     i.icon.help {
       margin: 0 0 0 0.25rem;
       line-height: 1rem;
-    }
-
-    &.with-help:hover .help-hover {
-      display: block;
+      cursor: help;
     }
   }
 
@@ -92,9 +79,42 @@ const Wrapper = styled.div`
   `}
 `;
 
-export default class Labelled extends React.PureComponent<Props> {
+export default class Labelled extends React.PureComponent<Props, State> {
+  constructor (props: Props) {
+    super(props);
+    this.state = {
+      tooltipOpen: false
+    };
+  }
+
+  toggleTooltip () {
+    const { tooltipOpen } = this.state;
+    this.setState({ tooltipOpen: !tooltipOpen });
+  }
+
+  renderLabel () {
+    const { help, label = defaultLabel } = this.props;
+    const { tooltipOpen } = this.state;
+
+    return help
+      ? <label className='with-help' >
+          {label}
+          <Icon
+            name='help circle'
+            data-tip
+            data-for='controlled-trigger'
+            onMouseOver={() => this.toggleTooltip()}
+            onMouseOut={() => this.toggleTooltip()}
+          />
+          {tooltipOpen && (
+            <Tooltip trigger={'controlled-trigger'}>
+              {help}
+            </Tooltip>)}
+        </label>
+      : <label>{label}</label>;
+  }
   render () {
-    const { className, children, help, isSmall, isHidden, label = defaultLabel, style, withLabel = true } = this.props;
+    const { className, children, isSmall, isHidden, style, withLabel = true } = this.props;
 
     if (isHidden) {
       return null;
@@ -104,16 +124,12 @@ export default class Labelled extends React.PureComponent<Props> {
       );
     }
 
-    const labelNode = help
-      ? <label className='with-help'>{label}<Icon name='help circle' /><div className='help-hover'>{help}</div></label>
-      : <label>{label}</label>;
-
     return (
       <Wrapper
         className={classes('ui--Labelled', isSmall ? 'label-small' : '', className)}
         style={style}
       >
-        {labelNode}
+        {this.renderLabel()}
         <div className='ui--Labelled-content'>
           {children}
         </div>
