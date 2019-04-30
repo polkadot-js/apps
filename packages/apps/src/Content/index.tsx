@@ -13,7 +13,7 @@ import { withCalls, withMulti } from '@polkadot/ui-api';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
 import Status from './Status';
-import routing from '../routing';
+import routing from '../../../apps-routing/src';
 import translate from '../translate';
 import NotFound from './NotFound';
 

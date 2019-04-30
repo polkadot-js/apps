@@ -6,14 +6,13 @@ import { BareProps } from '@polkadot/ui-app/types';
 import { SideBarTransition, SIDEBAR_TRANSITION_DURATION, SIDEBAR_MENU_THRESHOLD } from './constants';
 
 import React from 'react';
+import { hot } from 'react-hot-loader/root';
 import store from 'store';
 import styled, { ThemeProvider } from 'styled-components';
 import { media } from '@polkadot/ui-app';
 import { classes } from '@polkadot/ui-app/util';
 import Signer from '@polkadot/ui-signer';
 import settings from '@polkadot/ui-settings';
-
-import { hot } from 'react-hot-loader/root';
 
 import Connecting from './Connecting';
 import Content from './Content';
@@ -75,9 +74,7 @@ class Apps extends React.Component<Props, State> {
 
     const { isCollapsed, isMenu, menuOpen } = this.state;
     return (
-      <ThemeProvider
-        theme={{ theme: settings.uiTheme }}
-      >
+      <ThemeProvider theme={{ theme: settings.uiTheme }}>
         <Wrapper
           className={
             classes('apps-Wrapper',
