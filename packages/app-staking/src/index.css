@@ -104,10 +104,6 @@
 
 .staking--Account-detail {
   margin-top: 0.75rem;
-
-  .staking--label {
-    margin: 0 0 -0.5rem 0;
-  }
 }
 
 .staking--accounts-info {
@@ -115,8 +111,11 @@
   top: 0.75rem;
   right: 1rem;
   text-align: right;
+}
 
+.staking--Account-detail,
+.staking--accounts-info {
   .staking--label {
-    margin: 0 0 -0.5rem 0;
+    margin: 0 2.25rem -0.5rem 0;
   }
 }
