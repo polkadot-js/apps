@@ -6,7 +6,7 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Text } from '@polkadot/types';
-import { withCall } from '@polkadot/ui-api';
+import { withCalls } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
@@ -29,4 +29,4 @@ export class NodeVersion extends React.PureComponent<Props> {
   }
 }
 
-export default withCall('rpc.system.version')(NodeVersion);
+export default withCalls<Props>('rpc.system.version')(NodeVersion);

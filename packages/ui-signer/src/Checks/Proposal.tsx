@@ -9,7 +9,7 @@ import { ExtraFees } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { Compact } from '@polkadot/types';
-import { withCall, withMulti } from '@polkadot/ui-api';
+import { withCalls, withMulti } from '@polkadot/ui-api';
 import { Icon } from '@polkadot/ui-app';
 import { formatBalance } from '@polkadot/util';
 
@@ -85,5 +85,5 @@ export class Proposal extends React.PureComponent<Props, State> {
 export default withMulti(
   Proposal,
   translate,
-  withCall('query.democracy.minimumDeposit')
+  withCalls<Props>('query.democracy.minimumDeposit')
 );

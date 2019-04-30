@@ -6,7 +6,7 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Moment } from '@polkadot/types';
-import { withCall } from '@polkadot/ui-api';
+import { withCalls } from '@polkadot/ui-api';
 
 import Elapsed from './Elapsed';
 
@@ -33,4 +33,4 @@ export class TimeNow extends React.PureComponent<Props> {
   }
 }
 
-export default withCall('query.timestamp.now')(TimeNow);
+export default withCalls<Props>('query.timestamp.now')(TimeNow);
