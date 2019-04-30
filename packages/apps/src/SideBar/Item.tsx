@@ -102,7 +102,7 @@ class Item extends React.PureComponent<Props> {
       return false;
     } else if (needsSudo) {
       if (!hasSudo) {
-        console.info(`Disabling route sudo, no authority`);
+        console.info('Disabling route sudo, no authority');
         return false;
       }
     }

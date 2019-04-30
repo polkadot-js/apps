@@ -42,12 +42,9 @@ class Propose extends React.PureComponent<Props> {
 
     return isMine ? (
         <section>
-          <h1>
-            {t('sudo')}
-          </h1>
           <Extrinsic
             defaultValue={defaultExtrinsic}
-            label={t('submit the following extrinsic')}
+            label={t('submit the following change')}
             onChange={this.onChangeExtrinsic}
           />
           <br />

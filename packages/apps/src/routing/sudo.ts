@@ -13,7 +13,8 @@ export default ([
       needsAccounts: true,
       needsApi: [
         'tx.sudo.setKey'
-      ]
+      ],
+      needsSudo: true
     },
     i18n: {
       defaultValue: 'Sudo'
