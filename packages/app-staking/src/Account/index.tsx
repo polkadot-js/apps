@@ -2,17 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, Balance, Exposure, Option, StakingLedger, ValidatorPrefs } from '@polkadot/types';
+import { ApiProps } from '@polkadot/ui-api/types';
+import { AddressMini, AddressSummary, Button, TxButton } from '@polkadot/ui-app';
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
-import { AccountFilter, RecentlyOfflineMap } from '../types';
-
 import React from 'react';
-import { AccountId, Balance, Exposure, Option, StakingLedger, ValidatorPrefs } from '@polkadot/types';
-import { AddressMini, AddressSummary, Button, TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
+import { AccountFilter, RecentlyOfflineMap } from '../types';
 import Bond from './Bond';
 import BondExtra from './BondExtra';
 import Nominating from './Nominating';
@@ -61,6 +60,7 @@ class Account extends React.PureComponent<Props, State> {
 
   render () {
     const { accountId, controllerId, filter, name, stashId } = this.props;
+
     if ((filter === 'controller' && !stashId) || (filter === 'stash' && !controllerId) || (filter === 'unbonded' && (controllerId || stashId))) {
       return null;
     }
@@ -347,6 +347,7 @@ class Account extends React.PureComponent<Props, State> {
     } else {
       const isNominating = !!staking_nominators && !!staking_nominators[0] && staking_nominators[0].length;
       const isValidating = !!staking_validators && !!staking_validators[0] && !(staking_validators[0].isEmpty);
+
       if (isValidating || isNominating) {
         buttons.push(
           <TxButton
