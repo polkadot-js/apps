@@ -10,13 +10,16 @@ export const storageGetInfo: Snippet = {
   label: { color: 'blue', children: 'Storage', size: 'tiny' },
   code: `// Get chain state information
 // Make our basic chain state/storage queries, all in one go
-const [blockPeriod, validators, transferFee] = await Promise.all([
-  api.query.timestamp.blockPeriod(),
+
+const [minimumPeriod, validators, transferFee] = await Promise.all([
+  api.query.timestamp.minimumPeriod(),
   api.query.session.validators(),
   api.query.balances.transferFee()
 ]);
 
-console.log('blockPeriod in seconds: ' + blockPeriod.toNumber());
+const period = util.formatNumber(minimumPeriod.toNumber() * 2);
+
+console.log('minimumPeriod: ' + period);
 console.log('transferFee: ', transferFee);
 
 if (validators && validators.length > 0) {
@@ -89,7 +92,7 @@ export const storageRetrieveInfoOnQueryKeys: Snippet = {
   text: 'Retrieve Info on query keys',
   label: { color: 'blue', children: 'Storage', size: 'tiny' },
   code: `// This example set shows how to make queries and retrieve info on query keys
-const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKv3gB';
+const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 
 // retrieve the balance, once-off at the latest block
 const currBalance = await api.query.balances.freeBalance(ALICE);
