@@ -64,6 +64,10 @@ class Account extends React.PureComponent<Props, State> {
       return null;
     }
 
+    // Each component is rendered and gets a `is[Component]Openwill` passed in a `isOpen` props.
+    // These components will be loaded and return null at the first load (because is[Component]Open === false).
+    // This is deliberate in order to display the Component modals in a performant matter later on
+    // because their state will already be loaded.
     return (
       <article className='staking--Account'>
         {this.renderBond()}
