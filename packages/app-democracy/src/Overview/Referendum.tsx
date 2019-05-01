@@ -17,7 +17,7 @@ import { formatBalance, formatNumber } from '@polkadot/util';
 
 import Item from './Item';
 import Voting from './Voting';
-import translate from './translate';
+import translate from '../translate';
 
 const COLORS_YAY = settings.uiTheme === 'substrate'
   ? ['#4d4', '#4e4']

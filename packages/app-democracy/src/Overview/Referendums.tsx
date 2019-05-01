@@ -10,7 +10,7 @@ import { Option } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
 
 import Referendum from './Referendum';
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & {
   democracy_referendums?: Array<Option<ReferendumInfoExtended>>

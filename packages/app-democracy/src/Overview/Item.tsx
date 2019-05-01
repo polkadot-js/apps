@@ -10,7 +10,7 @@ import { Method, Proposal } from '@polkadot/types';
 import { Call } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/util';
 
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & {
   children?: React.ReactNode,

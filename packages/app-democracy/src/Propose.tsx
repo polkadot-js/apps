@@ -7,18 +7,16 @@ import { ApiProps } from '@polkadot/ui-api/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { AccountId, Method, Proposal } from '@polkadot/types';
+import { RouteComponentProps } from 'react-router';
+import { withRouter } from 'react-router-dom';
+import { Method, Proposal } from '@polkadot/types';
 
-import { Button, Extrinsic, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/ui-app';
+import { Button, Extrinsic, InputAddress, InputBalance, TxButton } from '@polkadot/ui-app';
 import { withApi, withMulti } from '@polkadot/ui-api';
 
 import translate from './translate';
 
-type Props = I18nProps & ApiProps & {
-  controllerId?: AccountId | null,
-  isOpen: boolean,
-  onClose: () => void
-};
+type Props = I18nProps & ApiProps & RouteComponentProps;
 
 type State = {
   accountId?: string,
@@ -33,55 +31,10 @@ class Propose extends React.PureComponent<Props, State> {
     value: new BN(0),
     isValid: false
   };
-  constructor (props: Props) {
-    super(props);
-  }
 
   render () {
-    const { isOpen, onClose, t } = this.props;
-    const { isValid, accountId, method, value } = this.state;
-    const hasValue = !!value && value.gtn(0);
-
-    if (!isOpen) {
-      return null;
-    }
-
-    return (
-      <Modal
-        className='democracy--Propose'
-        dimmer='inverted'
-        open
-        size='small'
-      >
-        {this.renderContent()}
-        <Modal.Actions>
-          <Button.Group>
-            <Button
-              isNegative
-              onClick={onClose}
-              label={t('Cancel')}
-            />
-            <Button.Or />
-            <TxButton
-              accountId={accountId}
-              label={t('Submit')}
-              tx='democracy.propose'
-              isDisabled={!isValid}
-              params={[
-                ...(method ? [new Proposal(method)] : []),
-                ...(hasValue ? [value] : [])
-              ]}
-              onClick={onClose}
-            />
-          </Button.Group>
-        </Modal.Actions>
-      </Modal>
-    );
-  }
-
-  private renderContent () {
     const { api, apiDefaultTx, t } = this.props;
-    const { value } = this.state;
+    const { isValid, accountId, method, value } = this.state;
     const hasValue = !!value && value.gtn(0);
 
     const defaultExtrinsic = (() => {
@@ -93,32 +46,40 @@ class Propose extends React.PureComponent<Props, State> {
     })();
 
     return (
-      <>
-        <Modal.Header>
-          {t('Submit New Proposal')}
-        </Modal.Header>
-        <Modal.Content className='ui--signer-Signer-Content'>
-          <InputAddress
-            className='medium'
-            label={t('account')}
-            help={t('The account used to make the new proposal')}
-            type='account'
-            onChange={this.onChangeAccount}
+      <section>
+        <InputAddress
+          className='medium'
+          label={t('account')}
+          help={t('The account used to make the new proposal')}
+          type='account'
+          onChange={this.onChangeAccount}
+        />
+        <Extrinsic
+          defaultValue={defaultExtrinsic}
+          label={t('propose')}
+          onChange={this.onChangeExtrinsic}
+        />
+        <InputBalance
+          className='medium'
+          isError={!hasValue}
+          help={t('The amount that will be bonded to submit the proposal')}
+          label={t('value')}
+          onChange={this.onChangeValue}
+        />
+        <Button.Group>
+          <TxButton
+            accountId={accountId}
+            label={t('Submit')}
+            tx='democracy.propose'
+            isDisabled={!isValid}
+            params={[
+              ...(method ? [new Proposal(method)] : []),
+              ...(hasValue ? [value] : [])
+            ]}
+            onSuccess={this.onSubmitProposal}
           />
-          <Extrinsic
-            defaultValue={defaultExtrinsic}
-            label={t('propose')}
-            onChange={this.onChangeExtrinsic}
-          />
-          <InputBalance
-            className='medium'
-            isError={!hasValue}
-            help={t('The amount that will be bonded to submit the proposal')}
-            label={t('value')}
-            onChange={this.onChangeValue}
-          />
-        </Modal.Content>
-      </>
+        </Button.Group>
+      </section>
     );
   }
 
@@ -153,10 +114,17 @@ class Propose extends React.PureComponent<Props, State> {
   private onChangeValue = (value?: BN): void => {
     this.nextState({ value } as State);
   }
+
+  private onSubmitProposal = () => {
+    const { history } = this.props;
+
+    history.push('/democracy');
+  }
 }
 
 export default withMulti(
   Propose,
   translate,
-  withApi
+  withApi,
+  withRouter
 );
