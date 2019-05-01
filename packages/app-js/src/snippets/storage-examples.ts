@@ -17,10 +17,8 @@ const [minimumPeriod, validators, transferFee] = await Promise.all([
   api.query.balances.transferFee()
 ]);
 
-const period = util.formatNumber(minimumPeriod.toNumber() * 2);
-
-console.log('minimumPeriod: ' + period);
-console.log('transferFee: ', transferFee);
+console.log('minimum period between blocks: ' + minimumPeriod);
+console.log('transfer fee: ', transferFee);
 
 if (validators && validators.length > 0) {
   // Retrieve the balances for all validators
