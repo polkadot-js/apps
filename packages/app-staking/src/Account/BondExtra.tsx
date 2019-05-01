@@ -12,6 +12,7 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   accountId: string,
+  isOpen: boolean,
   onClose: () => void
 };
 
@@ -23,9 +24,13 @@ class BondExtra extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { accountId, onClose, t } = this.props;
+    const { accountId, isOpen, onClose, t } = this.props;
     const { maxAdditional } = this.state;
     const canSubmit = !!maxAdditional && maxAdditional.gtn(0);
+
+    if (!isOpen) {
+      return null;
+    }
 
     return (
       <Modal

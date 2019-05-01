@@ -12,6 +12,7 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   controllerId?: AccountId | null,
+  isOpen: boolean,
   onClose: () => void
 };
 
@@ -23,9 +24,13 @@ class Unbond extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { controllerId, onClose, t } = this.props;
+    const { controllerId, isOpen, onClose, t } = this.props;
     const { maxUnbond } = this.state;
     const canSubmit = !!maxUnbond && maxUnbond.gtn(0);
+
+    if (!isOpen) {
+      return null;
+    }
 
     return (
       <Modal

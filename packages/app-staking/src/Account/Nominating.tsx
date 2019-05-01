@@ -13,6 +13,7 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   accountId: string,
+  isOpen: boolean,
   onClose: () => void,
   stashId: AccountId,
   stashOptions: Array<KeyringSectionOption>
@@ -28,6 +29,11 @@ class Nominating extends React.PureComponent<Props, State> {
   };
 
   render () {
+    const { isOpen } = this.props;
+
+    if (!isOpen) {
+      return null;
+    }
 
     return (
       <Modal

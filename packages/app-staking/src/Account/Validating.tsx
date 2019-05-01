@@ -13,6 +13,7 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   accountId: string,
+  isOpen: boolean,
   onClose: () => void,
   preferences: ValidatorPrefs,
   stashId: AccountId
@@ -45,6 +46,11 @@ class Staking extends React.PureComponent<Props, State> {
   }
 
   render () {
+    const { isOpen } = this.props;
+
+    if (!isOpen) {
+      return null;
+    }
 
     return (
       <Modal

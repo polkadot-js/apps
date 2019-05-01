@@ -59,7 +59,6 @@ class Account extends React.PureComponent<Props, State> {
 
   render () {
     const { accountId, controllerId, filter, name, stashId } = this.props;
-    const { isBondExtraOpen, isBondOpen, isNominateOpen, isSessionKeyOpen, isUnbondOpen, isValidatingOpen } = this.state;
 
     if ((filter === 'controller' && !stashId) || (filter === 'stash' && !controllerId) || (filter === 'unbonded' && (controllerId || stashId))) {
       return null;
@@ -67,12 +66,12 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <article className='staking--Account'>
-        {isBondOpen && this.renderBond()}
-        {isBondExtraOpen && this.renderBondExtra()}
-        {isNominateOpen && this.renderNominating()}
-        {isSessionKeyOpen && this.renderSessionKey()}
-        {isUnbondOpen && this.renderUnbond()}
-        {isValidatingOpen && this.renderValidating()}
+        {this.renderBond()}
+        {this.renderBondExtra()}
+        {this.renderNominating()}
+        {this.renderSessionKey()}
+        {this.renderUnbond()}
+        {this.renderValidating()}
         <AddressSummary
           name={name}
           value={accountId}
@@ -96,11 +95,13 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderBond () {
     const { accountId, controllerId } = this.props;
+    const { isBondOpen } = this.state;
 
     return (
       <Bond
         accountId={accountId}
         controllerId={controllerId}
+        isOpen={isBondOpen}
         onClose={this.toggleBond}
       />
     );
@@ -108,10 +109,12 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderBondExtra () {
     const { accountId } = this.props;
+    const { isBondExtraOpen } = this.state;
 
     return (
       <BondExtra
         accountId={accountId}
+        isOpen={isBondExtraOpen}
         onClose={this.toggleBondExtra}
       />
     );
@@ -119,10 +122,12 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderUnbond () {
     const { controllerId } = this.props;
+    const { isUnbondOpen } = this.state;
 
     return (
         <Unbond
           controllerId={controllerId}
+          isOpen={isUnbondOpen}
           onClose={this.toggleUnbond}
         />
     );
@@ -130,13 +135,16 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderValidating () {
     const { accountId, stashId, staking_validators } = this.props;
-    if (!staking_validators || !stashId) {
+    const { isValidatingOpen } = this.state;
+
+    if (!staking_validators || !isValidatingOpen || !stashId) {
       return null;
     }
 
     return (
       <Validating
         accountId={accountId}
+        isOpen
         onClose={this.toggleValidating}
         preferences={staking_validators[0]}
         stashId={stashId}
@@ -146,9 +154,12 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderSessionKey () {
     const { accountId } = this.props;
+    const { isSessionKeyOpen } = this.state;
+
     return (
       <SessionKey
         accountId={accountId}
+        isOpen={isSessionKeyOpen}
         onClose={this.toggleSessionKey}
       />
     );
@@ -276,6 +287,7 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderNominating () {
     const { accountId, stashId, stashOptions } = this.props;
+    const { isNominateOpen } = this.state;
 
     if (!stashId) {
       return null;
@@ -284,6 +296,7 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <Nominating
         accountId={accountId}
+        isOpen={isNominateOpen}
         onClose={this.toggleNominate}
         stashId={stashId}
         stashOptions={stashOptions}
