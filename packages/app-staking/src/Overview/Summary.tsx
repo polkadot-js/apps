@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import SummarySession from '@polkadot/app-explorer/SummarySession';
-import { AddressMini, SummaryBox, CardSummary } from '@polkadot/ui-app';
+import { CardSummary, IdentityIcon, SummaryBox } from '@polkadot/ui-app';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 
 import translate from '../translate';
@@ -46,11 +46,10 @@ class Summary extends React.PureComponent<Props> {
         <section>
           <CardSummary label={t('last block')}>
             {lastAuthor && (
-              <AddressMini
-                className='summary'
-                isPadded={false}
+              <IdentityIcon
+                className='validator--Account-block-icon'
+                size={24}
                 value={lastAuthor}
-                withAddress={false}
               />
             )}
             {lastBlock}
