@@ -48,17 +48,29 @@ export default class App extends React.PureComponent<Props, State> {
     return (
       <Wrapper>
         <div className='routes'>
-          {routes.map((route) =>
-            <Entry
-              key={route.name}
-              route={route}
-            />
-          )}
-          {routes.map((_, index) =>
-            <Spacer key={index} />
-          )}
+          {routes.map(this.renderEntry)}
+          {routes.map(this.renderSpacer)}
         </div>
       </Wrapper>
+    );
+  }
+
+  private renderEntry (route: Route) {
+    return (
+      <Entry
+        key={route.name}
+        route={route}
+      />
+    );
+  }
+
+  // NOTE: This _looks_ weird and it looks weird, because it is weird. Basically we want all
+  // the entries of an equal width. So here we add a non-content spacers at the end that just
+  // ensures flex has enough items to render something usable to the user. Since we don't
+  // quite know how many items per row, we just render a bunch, n === routes.length
+  private renderSpacer (route: Route, index: number) {
+    return (
+      <Spacer key={index} />
     );
   }
 }
