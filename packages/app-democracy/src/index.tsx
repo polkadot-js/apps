@@ -40,7 +40,7 @@ class App extends React.PureComponent<Props> {
           />
         </header>
         <Switch>
-          <Route path={`${basePath}/propose`} component={Propose} />
+          <Route path={`${basePath}/propose`} render={() => <Propose basePath={basePath} />} />
           <Route component={Overview} />
         </Switch>
       </main>

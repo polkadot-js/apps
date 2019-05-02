@@ -16,7 +16,9 @@ import { withApi, withMulti } from '@polkadot/ui-api';
 
 import translate from './translate';
 
-type Props = I18nProps & ApiProps & RouteComponentProps;
+type Props = I18nProps & ApiProps & RouteComponentProps & {
+  basePath: string
+};
 
 type State = {
   accountId?: string,
@@ -116,9 +118,9 @@ class Propose extends React.PureComponent<Props, State> {
   }
 
   private onSubmitProposal = () => {
-    const { history } = this.props;
+    const { history, basePath } = this.props;
 
-    history.push('/democracy');
+    history.push(basePath);
   }
 }
 
