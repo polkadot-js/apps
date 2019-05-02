@@ -7,8 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ValidatorFilter, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
-import styled from 'styled-components';
-import { Dropdown } from '@polkadot/ui-app';
+import { Dropdown, FilterOverlay } from '@polkadot/ui-app';
 
 import translate from '../translate';
 import Address from './Address';
@@ -26,18 +25,6 @@ type State = {
   filter: ValidatorFilter,
   filterOptions: Array<{ text: React.ReactNode, value: ValidatorFilter }>
 };
-
-const Wrapper = styled.div`
-  .filter {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 0.75rem;
-
-    > div {
-      max-width: 35rem;
-    }
-  }
-`;
 
 class CurrentList extends React.PureComponent<Props, State> {
   state: State;
@@ -64,8 +51,8 @@ class CurrentList extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { filter, filterOptions } = this.state;
     return (
-      <Wrapper>
-        <div className='filter'>
+      <div>
+        <FilterOverlay>
           <Dropdown
             help={t('Select which validators/intentions you want to display.')}
             label={t('filter')}
@@ -73,7 +60,7 @@ class CurrentList extends React.PureComponent<Props, State> {
             options={filterOptions}
             value={filter}
           />
-        </div>
+        </FilterOverlay>
         <div className='validator--ValidatorsList ui--flex-medium'>
           <div className='validator--current'>
             {this.renderCurrent()}
@@ -82,7 +69,7 @@ class CurrentList extends React.PureComponent<Props, State> {
             {this.renderNext()}
           </div>
         </div>
-      </Wrapper>
+      </div>
     );
   }
 

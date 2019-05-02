@@ -20,7 +20,7 @@ class App extends React.PureComponent<Props> {
 
     return (
       <main className='transfer--App'>
-      <HelpOverlay md={basicMd} />
+        <HelpOverlay md={basicMd} />
         <header>
           <Tabs
             basePath={basePath}

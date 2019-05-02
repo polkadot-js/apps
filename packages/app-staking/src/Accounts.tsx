@@ -7,7 +7,7 @@ import { AccountFilter, ComponentProps } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Dropdown } from '@polkadot/ui-app';
+import { Dropdown, FilterOverlay } from '@polkadot/ui-app';
 import { getAddrName } from '@polkadot/ui-app/util';
 import keyring from '@polkadot/ui-keyring';
 import createOption from '@polkadot/ui-keyring/options/item';
@@ -32,16 +32,6 @@ const Wrapper = styled.div`
       flex: 1 1;
       margin: .25rem;
       padding: 1rem 1.5rem;
-    }
-  }
-
-  .filter {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 0.75rem;
-
-    > div {
-      max-width: 30rem;
     }
   }
 `;
@@ -72,7 +62,7 @@ class Accounts extends React.PureComponent<Props, State> {
 
     return (
       <Wrapper>
-        <div className='filter'>
+        <FilterOverlay>
           <Dropdown
             help={t('Select which types of accounts to display, either all, only the stash accounts or the controller accounts.')}
             label={t('filter')}
@@ -80,7 +70,7 @@ class Accounts extends React.PureComponent<Props, State> {
             options={filterOptions}
             value={filter}
           />
-        </div>
+        </FilterOverlay>
         <div className='accounts'>
           {accounts.map((account) => {
             const address = account.address();

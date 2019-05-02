@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { css } from 'styled-components';
+
 import { ScreenSizes } from './constants';
 
 type MediaCss = {
