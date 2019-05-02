@@ -110,7 +110,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
           />
         </header>
         <Switch>
-          <Route path={`${basePath}/create/:seed`} render={renderCreator} />
+          <Route path={`${basePath}/create/:type/:seed`} render={renderCreator} />
           <Route path={`${basePath}/create`} render={renderCreator} />
           <Route path={`${basePath}/restore`} render={this.renderComponent(Restore)} />
           <Route path={`${basePath}/vanity`} render={this.renderComponent(Vanity)} />

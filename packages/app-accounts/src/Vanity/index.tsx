@@ -218,10 +218,10 @@ class VanityApp extends React.PureComponent<Props, State> {
     }, 0);
   }
 
-  private onCreateToggle = (seed: string) => {
+  private onCreateToggle = (type: string, seed: string) => {
     const { basePath } = this.props;
 
-    window.location.hash = `${basePath}/create/${seed}`;
+    window.location.hash = `${basePath}/create/${type}/${seed}`;
   }
 
   onChangeCase = (withCase: boolean): void => {

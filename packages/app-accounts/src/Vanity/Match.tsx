@@ -12,7 +12,7 @@ type Props = BareProps & {
   address: string;
   count: number;
   offset: number;
-  onCreateToggle: (passthrough: string) => void,
+  onCreateToggle: (type: string, seed: string) => void,
   onRemove: (address: string) => void,
   seed: Uint8Array;
 };
@@ -73,7 +73,8 @@ export default class Match extends React.PureComponent<Props, State> {
     const { onCreateToggle } = this.props;
     const { hexSeed } = this.state;
 
-    onCreateToggle(hexSeed);
+    // TODO If we support sr25519 as well, here we would pass through that type
+    onCreateToggle('ed25519', hexSeed);
   }
 
   onRemove = (): void => {
