@@ -6,7 +6,7 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { BlockNumber } from '@polkadot/types';
-import { withCall } from '@polkadot/ui-api';
+import { withCalls } from '@polkadot/ui-api';
 import { formatNumber } from '@polkadot/util';
 
 type Props = BareProps & CallProps & {
@@ -34,4 +34,4 @@ export class BestFinalized extends React.PureComponent<Props> {
   }
 }
 
-export default withCall('derive.chain.bestNumberFinalized')(BestFinalized);
+export default withCalls<Props>('derive.chain.bestNumberFinalized')(BestFinalized);

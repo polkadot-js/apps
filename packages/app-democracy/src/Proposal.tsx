@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { AccountId, Balance, Option, Proposal, Tuple, Vector } from '@polkadot/types';
 import { AddressMini, Labelled, Static } from '@polkadot/ui-app';
-import { withCall, withMulti } from '@polkadot/ui-api';
+import { withCalls, withMulti } from '@polkadot/ui-api';
 import { formatBalance } from '@polkadot/util';
 
 import Item from './Item';
@@ -68,5 +68,7 @@ class ProposalDisplay extends React.PureComponent<Props> {
 export default withMulti(
   ProposalDisplay,
   translate,
-  withCall('query.democracy.depositOf', { paramName: 'idNumber' })
+  withCalls<Props>(
+    ['query.democracy.depositOf', { paramName: 'idNumber' }]
+  )
 );

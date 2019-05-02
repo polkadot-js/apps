@@ -5,7 +5,7 @@
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { withCall, withMulti } from '@polkadot/ui-api';
+import { withCalls, withMulti } from '@polkadot/ui-api';
 import { isHex } from '@polkadot/util';
 import { BlockNumber } from '@polkadot/types';
 
@@ -83,5 +83,5 @@ class Entry extends React.Component<Props, State> {
 
 export default withMulti(
   Entry,
-  withCall('derive.chain.bestNumber')
+  withCalls<Props>('derive.chain.bestNumber')
 );
