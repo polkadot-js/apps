@@ -5,17 +5,16 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { Route } from '../types';
+import { Route } from '@polkadot/apps-routing/types';
 
 import React from 'react';
-// import { withRouter } from 'react-router';
 import { NavLink } from 'react-router-dom';
+// FIXME Use Tooltip from ui-app
+import ReactTooltip from 'react-tooltip';
 import { Icon, Menu } from '@polkadot/ui-app';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { withApi,withCalls, withMulti, withObservable } from '@polkadot/ui-api';
 import { isFunction } from '@polkadot/util';
-
-import ReactTooltip from 'react-tooltip';
 
 type Props = I18nProps & ApiProps & {
   isCollapsed: boolean,

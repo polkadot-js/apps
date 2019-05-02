@@ -15,8 +15,8 @@ And we have the basic app source setup, time to get the tooling correct.
 
 At this point the app should be buildable, but not quite reachable. The final step is to add it to the actual sidebar in `apps`.
 
-4. In `apps-routing/src` duplicate the `123code.ts` file to `example.ts` and edit it with the appropriate information, including the hash link, name and icon (any icon name from semantic-ui-react/font-awesome 4 should be appropriate).
+4. In `apps/src/routing/` duplicate the `123code.ts` file to `example.ts` and edit it with the appropriate information, including the hash link, name and icon (any icon name from semantic-ui-react/font-awesome 4 should be appropriate).
 5. In the above description file, the `isHidden` field needs to be toggled to make it appear - the base template is hidden by default.
-6. Finally add the `template` to the `apps-routing/src/index.ts` file at the appropriate place for both full and light mode (either optional)
+6. Finally add the `template` to the `apps/src/routing/index.ts` file at the appropriate place for both full and light mode (either optional)
 
 Yes. After all that we have things hooked up. Run `yarn start` and your new app (non-coded) should show up. Now start having fun and building something great.

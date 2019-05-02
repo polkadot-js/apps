@@ -1,8 +1,8 @@
-// Copyright 2017-2019 @polkadot/apps authors & contributors
+// Copyright 2017-2019 @polkadot/apps-routing authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Routing, Routes } from '../types';
+import { Routing, Routes } from './types';
 
 import appSettings from '@polkadot/ui-settings';
 
@@ -10,6 +10,7 @@ import template from './123code';
 import accounts from './accounts';
 import addressbook from './addressbook';
 import contracts from './contracts';
+import dashboard from './dashboard';
 import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
@@ -23,6 +24,7 @@ import transfer from './transfer';
 
 const routes: Routes = appSettings.uiMode === 'light'
   ? ([] as Routes).concat(
+    dashboard,
     transfer,
     staking,
     democracy,
@@ -34,6 +36,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     template
   )
   : ([] as Routes).concat(
+    dashboard,
     explorer,
     transfer,
     staking,

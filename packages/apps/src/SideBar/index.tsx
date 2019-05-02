@@ -10,11 +10,11 @@ import './SideBar.css';
 import React from 'react';
 import styled from 'styled-components';
 import { Responsive } from 'semantic-ui-react';
+import routing from '@polkadot/apps-routing';
 import { Button, Icon, Menu, media } from '@polkadot/ui-app';
 import { classes } from '@polkadot/ui-app/util';
 import { logoBackground, logoPadding } from '@polkadot/ui-app/styles/theme';
 
-import routing from '../routing';
 import translate from '../translate';
 import Item from './Item';
 import NodeInfo from './NodeInfo';

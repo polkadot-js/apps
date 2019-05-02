@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/apps authors & contributors
+// Copyright 2017-2019 @polkadot/apps-routing authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -15,7 +15,9 @@ export type Route = {
     needsApi?: Array<string | Array<string>>,
     needsSudo?: boolean
   },
-  i18n: { defaultValue: string },
+  i18n: {
+    defaultValue: string
+  },
   icon: SemanticICONS,
   name: string
 };

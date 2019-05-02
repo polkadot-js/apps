@@ -9,11 +9,11 @@ import { QueueProps } from '@polkadot/ui-app/Status/types';
 import React from 'react';
 import { withRouter } from 'react-router';
 import styled from 'styled-components';
+import routing from '@polkadot/apps-routing';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
 import Status from './Status';
-import routing from '../routing';
 import translate from '../translate';
 import NotFound from './NotFound';
 
