@@ -1,52 +1,64 @@
-// Copyright 2017-2019 @polkadot/app-123code authors & contributors
+// Copyright 2017-2019 @polkadot/app-dashboard authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// some types, AppProps for the app and I18nProps to indicate
-// translatable strings. Generally the latter is quite "light",
-// `t` is inject into props (see the HOC export) and `t('any text')
-// does the translation
-import { AppProps, I18nProps } from '@polkadot/ui-app/types';
+import { Route } from '@polkadot/apps-routing/types';
+import { AppProps } from '@polkadot/ui-app/types';
 
-// external imports (including those found in the packages/*
-// of this repo)
 import React from 'react';
+import styled from 'styled-components';
+import routing from '@polkadot/apps-routing';
 
-// our app-specific styles
-import './index.css';
+import Entry from './Entry';
+import Spacer from './Spacer';
 
-// local imports and components
-import AccountSelector from './AccountSelector';
-import SummaryBar from './SummaryBar';
-import Transfer from './Transfer';
-import translate from './translate';
-
-// define out internal types
-type Props = AppProps & I18nProps;
+type Props = AppProps;
 type State = {
-  accountId?: string
+  routes: Array<Route>
 };
 
-class App extends React.PureComponent<Props, State> {
-  state: State = {};
+const Wrapper = styled.main`
+  .routes {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    > div {
+      flex: 1;
+      padding: 1.5rem;
+      text-align: center;
+    }
+  }
+`;
+
+export default class App extends React.PureComponent<Props, State> {
+  // FIXME Atm we are not applying all the logic around should this be hidden or not, i.e.
+  // is the api available, are there accounts, etc. (That logic should also be extracted so
+  // it can be used in a proper way here)
+  state: State = {
+    routes: routing.routes.filter((route) =>
+      route && !route.display.isHidden && route.name !== 'dashboard'
+    ) as Array<Route>
+  };
 
   render () {
-    const { accountId } = this.state;
+    const { routes } = this.state;
 
     return (
-      // in all apps, the main wrapper is setup to allow the padding
-      // and margins inside the application. (Just from a consistent pov)
-      <main>
-        <SummaryBar />
-        <AccountSelector onChange={this.onAccountChange} />
-        <Transfer accountId={accountId} />
-      </main>
+      <Wrapper>
+        <div className='routes'>
+          {routes.map((route) =>
+            <Entry
+              key={route.name}
+              route={route}
+            />
+          )}
+          {routes.map((_, index) =>
+            <Spacer key={index} />
+          )}
+        </div>
+      </Wrapper>
     );
   }
-
-  private onAccountChange = (accountId?: string): void => {
-    this.setState({ accountId });
-  }
 }
-
-export default translate(App);

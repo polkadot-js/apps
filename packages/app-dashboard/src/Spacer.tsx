@@ -2,6 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { withTranslation } from 'react-i18next';
+import React from 'react';
 
-export default withTranslation(['dashboard', 'ui']);
+type Props = {};
+
+export default class Spacer extends React.PureComponent<Props> {
+  render () {
+    return (
+      <div />
+    );
+  }
+}
