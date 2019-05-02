@@ -10,7 +10,7 @@ import React from 'react';
 import { Button, TxButton } from '@polkadot/ui-app';
 import { withApi, withMulti } from '@polkadot/ui-api';
 
-import translate from './translate';
+import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
   accountId?: string,

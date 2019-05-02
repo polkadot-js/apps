@@ -9,19 +9,29 @@ import { Tuple } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 
 import Proposal from './Proposal';
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & {
   democracy_publicProps?: Array<Tuple>
 };
 
+type State = {
+  isProposeOpen: boolean
+};
+
 class Proposals extends React.PureComponent<Props> {
+  state: State = {
+    isProposeOpen: false
+  };
+
   render () {
     const { t } = this.props;
 
     return (
       <section className='democracy--Proposals'>
-        <h1>{t('proposals')}</h1>
+        <h1>
+          {t('proposals')}
+        </h1>
         {this.renderProposals()}
       </section>
     );

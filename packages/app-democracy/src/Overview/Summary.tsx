@@ -10,7 +10,7 @@ import { SummaryBox, CardSummary } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 import { formatNumber } from '@polkadot/util';
 
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & {
   chain_bestNumber?: BN,
