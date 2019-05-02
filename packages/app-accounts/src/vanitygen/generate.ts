@@ -5,13 +5,16 @@
 import { Generator$Match, Generator$Options } from './types';
 
 import { encodeAddress } from '@polkadot/keyring';
-import { naclKeypairFromSeed, randomAsU8a } from '@polkadot/util-crypto';
+import { naclKeypairFromSeed, randomAsU8a, schnorrkelKeypairFromSeed } from '@polkadot/util-crypto';
 
 import calculate from './calculate';
 
 export default function generator (test: Array<string>, options: Generator$Options): Generator$Match {
   const seed = randomAsU8a();
-  const address = encodeAddress(naclKeypairFromSeed(seed).publicKey);
+  const pair = options.type === 'sr25519'
+    ? schnorrkelKeypairFromSeed(seed)
+    : naclKeypairFromSeed(seed);
+  const address = encodeAddress(pair.publicKey);
   const { count, offset } = calculate(test, address, options);
 
   return {
