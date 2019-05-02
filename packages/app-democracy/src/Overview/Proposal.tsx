@@ -12,7 +12,7 @@ import { withCalls, withMulti } from '@polkadot/ui-api';
 import { formatBalance } from '@polkadot/util';
 
 import Item from './Item';
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & {
   democracy_depositOf?: Option<Tuple>,

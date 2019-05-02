@@ -12,7 +12,7 @@ import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import VotingButtons from './VotingButtons';
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & {
   allAccounts?: SubjectInfo,

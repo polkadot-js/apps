@@ -7,12 +7,12 @@ import { AppProps, BareProps, I18nProps } from '@polkadot/ui-app/types';
 import './index.css';
 
 import React from 'react';
+import { Route, Switch } from 'react-router';
 import { HelpOverlay,Tabs } from '@polkadot/ui-app';
 
 import basicMd from './md/basic.md';
-import Proposals from './Proposals';
-import Referendums from './Referendums';
-import Summary from './Summary';
+import Overview from './Overview';
+import Propose from './Propose';
 import translate from './translate';
 
 type Props = AppProps & BareProps & I18nProps;
@@ -27,15 +27,22 @@ class App extends React.PureComponent<Props> {
         <header>
           <Tabs
             basePath={basePath}
-            items={[{
-              name: 'overview',
-              text: t('Democracy overview')
-            }]}
+            items={[
+              {
+                name: 'overview',
+                text: t('Democracy overview')
+              },
+              {
+                name: 'propose',
+                text: t('Submit proposal')
+              }
+            ]}
           />
         </header>
-        <Summary />
-        <Referendums />
-        <Proposals />
+        <Switch>
+          <Route path={`${basePath}/propose`} render={() => <Propose basePath={basePath} />} />
+          <Route component={Overview} />
+        </Switch>
       </main>
     );
   }
