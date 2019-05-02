@@ -2,23 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, Balance, Exposure, Option, StakingLedger, ValidatorPrefs } from '@polkadot/types';
+import { ApiProps } from '@polkadot/ui-api/types';
+import { AddressMini, AddressSummary, Button, TxButton } from '@polkadot/ui-app';
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
-import { AccountFilter, RecentlyOfflineMap } from '../types';
-
 import React from 'react';
-import { AccountId, Exposure, Option, StakingLedger, ValidatorPrefs } from '@polkadot/types';
-import { AddressMini, AddressSummary, Button, TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
+import { AccountFilter, RecentlyOfflineMap } from '../types';
 import Bond from './Bond';
 import BondExtra from './BondExtra';
 import Nominating from './Nominating';
 import SessionKey from './SessionKey';
-import Validating from './Validating';
 import translate from '../translate';
+import Unbond from './Unbond';
+import Validating from './Validating';
 
 type Props = ApiProps & I18nProps & {
   accountId: string,
@@ -30,11 +30,12 @@ type Props = ApiProps & I18nProps & {
   recentlyOffline: RecentlyOfflineMap,
   sessionId?: AccountId | null,
   stashId?: AccountId | null,
+  freeBalance?: Balance,
   staking_stakers?: Exposure,
   staking_nominators?: [Array<AccountId>],
   staking_validators?: [ValidatorPrefs],
   stashOptions: Array<KeyringSectionOption>,
-  validators: Array<string>
+  staking_ledger?: StakingLedger
 };
 
 type State = {
@@ -63,12 +64,17 @@ class Account extends React.PureComponent<Props, State> {
       return null;
     }
 
+    // Each component is rendered and gets a `is[Component]Openwill` passed in a `isOpen` props.
+    // These components will be loaded and return null at the first load (because is[Component]Open === false).
+    // This is deliberate in order to display the Component modals in a performant matter later on
+    // because their state will already be loaded.
     return (
       <article className='staking--Account'>
         {this.renderBond()}
         {this.renderBondExtra()}
         {this.renderNominating()}
         {this.renderSessionKey()}
+        {this.renderUnbond()}
         {this.renderValidating()}
         <AddressSummary
           name={name}
@@ -115,6 +121,19 @@ class Account extends React.PureComponent<Props, State> {
         isOpen={isBondExtraOpen}
         onClose={this.toggleBondExtra}
       />
+    );
+  }
+
+  private renderUnbond () {
+    const { controllerId } = this.props;
+    const { isUnbondOpen } = this.state;
+
+    return (
+        <Unbond
+          controllerId={controllerId}
+          isOpen={isUnbondOpen}
+          onClose={this.toggleUnbond}
+        />
     );
   }
 
@@ -290,7 +309,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { accountId, controllerId, sessionId, stashId, staking_nominators, staking_validators, t } = this.props;
+    const { accountId, controllerId, sessionId, staking_nominators, staking_validators,stashId, freeBalance, staking_ledger, t } = this.props;
     const buttons = [];
 
     if (!stashId) {
@@ -304,14 +323,31 @@ class Account extends React.PureComponent<Props, State> {
           />
         );
       } else {
-        buttons.push(
+        // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
+        // staking_ledger.total gives the total amount that can be slashed (any active amount + what is being unlocked)
+        if (freeBalance && staking_ledger && staking_ledger.total && (freeBalance.gt(staking_ledger.total))) {
+          buttons.push(
           <Button
             isPrimary
             key='bond'
             onClick={this.toggleBondExtra}
             label={t('Bond Additional')}
           />
-        );
+          );
+        }
+        // don't show the `unbond` button if there's nothing to unbond
+        // staking_ledger.active gives the amount that can be unbonded (total - what's being unlocked).
+        if (staking_ledger && staking_ledger.active && staking_ledger.active.gtn(0)) {
+          buttons.length && buttons.push(<Button.Or key='bondAdditional.or' />);
+          buttons.push(
+            <Button
+              isNegative
+              key='unbond'
+              onClick={this.toggleUnbond}
+              label={t('Unbond')}
+            />
+          );
+        }
       }
     } else {
       const isNominating = !!staking_nominators && !!staking_nominators[0] && staking_nominators[0].length;
@@ -394,6 +430,12 @@ class Account extends React.PureComponent<Props, State> {
     }));
   }
 
+  private toggleUnbond = () => {
+    this.setState(({ isUnbondOpen }) => ({
+      isUnbondOpen: !isUnbondOpen
+    }));
+  }
+
   private toggleValidating = () => {
     this.setState(({ isValidatingOpen }) => ({
       isValidatingOpen: !isValidatingOpen
@@ -421,6 +463,15 @@ export default translate(
       propName: 'stashId',
       transform: (ledger: Option<StakingLedger>) =>
         ledger.unwrapOr({ stash: null }).stash
+    }],
+    ['query.staking.ledger', {
+      paramName: 'controllerId',
+      transform: (ledger: Option<StakingLedger>) =>
+        ledger.unwrapOr({ stash: null, total: null, active: null })
+    }],
+    ['query.balances.freeBalance', {
+      paramName: 'accountId',
+      propName: 'freeBalance'
     }],
     ['query.staking.stakers', { paramName: 'accountId' }],
     ['query.staking.nominators', { paramName: 'stashId' }],

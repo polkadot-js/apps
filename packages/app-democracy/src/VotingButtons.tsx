@@ -3,64 +3,45 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Button } from '@polkadot/ui-app';
+import { Button, TxButton } from '@polkadot/ui-app';
 import { withApi, withMulti } from '@polkadot/ui-api';
 
 import translate from './translate';
 
 type Props = ApiProps & I18nProps & {
   accountId?: string,
-  queueExtrinsic: QueueTx$ExtrinsicAdd,
   referendumId: BN
 };
 
 class VotingButton extends React.PureComponent<Props> {
   render () {
-    const { accountId, t } = this.props;
+    const { accountId, referendumId, t } = this.props;
 
     return (
       <Button.Group>
-        <Button
+        <TxButton
+          accountId={accountId}
           isDisabled={!accountId}
           isNegative
           label={t('Nay')}
-          onClick={this.onClickNo}
+          params={[referendumId, -1]}
+          tx='democracy.vote'
         />
         <Button.Or />
-        <Button
+        <TxButton
+          accountId={accountId}
           isDisabled={!accountId}
           isPositive
           label={t('Aye')}
-          onClick={this.onClickYes}
+          params={[referendumId, 0]}
+          tx='democracy.vote'
         />
       </Button.Group>
     );
-  }
-
-  private doVote (vote: boolean) {
-    const { accountId, api, queueExtrinsic, referendumId } = this.props;
-
-    if (!accountId) {
-      return;
-    }
-
-    queueExtrinsic({
-      extrinsic: api.tx.democracy.vote(referendumId, vote ? -1 : 0),
-      accountId
-    });
-  }
-
-  private onClickYes = () => {
-    this.doVote(true);
-  }
-
-  private onClickNo = () => {
-    this.doVote(false);
   }
 }
 

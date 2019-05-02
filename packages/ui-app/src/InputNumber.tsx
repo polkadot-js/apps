@@ -212,8 +212,8 @@ class InputNumber extends React.PureComponent<Props, State> {
   private selectSiUnit = (siUnit: string): void => {
     this.setState((prevState: State) => {
       const { bitLength, onChange } = this.props;
-      const isValid = this.isValidNumber(prevState.valueBN, bitLength);
-      const value = this.bnToInputValue(prevState.valueBN, siUnit);
+      const valueBN = this.inputValueToBn(prevState.value, siUnit);
+      const isValid = this.isValidNumber(valueBN, bitLength);
 
       onChange && onChange(
         isValid
@@ -224,7 +224,7 @@ class InputNumber extends React.PureComponent<Props, State> {
       return {
         isValid,
         siUnit,
-        value
+        valueBN
       };
     });
   }
@@ -251,33 +251,6 @@ class InputNumber extends React.PureComponent<Props, State> {
       return new BN(value.replace(/[^\d]/g, ''))
         .mul(new BN(10).pow(new BN(basePower + siPower)));
     }
-  }
-
-  private bnToInputValue = (bn: BN, siUnit: string): string => {
-    const { isSi } = this.props;
-
-    const basePower = isSi ? formatBalance.getDefaults().decimals : 0;
-    const siPower = isSi ? formatBalance.findSi(siUnit).power : 0;
-
-    const base = new BN(10).pow(new BN(basePower + siPower));
-    const zero = new BN(0);
-    const div = bn.div(base);
-    const mod = bn.mod(base);
-
-    return `${
-      div.gt(zero) ? div.toString() : '0'
-    }${
-      mod.gt(zero) ?
-        (() => {
-          const padding = Math.max(
-            mod.toString().length,
-            base.toString().length - div.toString().length,
-            bn.toString().length - div.toString().length
-          );
-          return `.${mod.toString(10, padding).replace(/0*$/, '')}`;
-        })() :
-        ''
-    }`;
   }
 }
 
