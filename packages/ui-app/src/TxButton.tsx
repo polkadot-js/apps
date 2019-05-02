@@ -50,8 +50,8 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
     isSending: false
   } as State;
 
-  static getDerivedStateFromProps ({ api, params = [], txqueue = [], tx = '', extrinsic: propsExtrinsic }: InnerProps): State | null {
-    if (!propsExtrinsic && (!tx || tx.length === 0)) {
+  static getDerivedStateFromProps ({ api, isDisabled, params = [], txqueue = [], tx = '', extrinsic: propsExtrinsic }: InnerProps): State | null {
+    if (isDisabled || !propsExtrinsic && (!tx || tx.length === 0)) {
       return null;
     }
 
