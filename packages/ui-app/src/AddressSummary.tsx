@@ -11,11 +11,13 @@ import { Nonce } from '@polkadot/ui-reactive';
 import { withCalls } from '@polkadot/ui-api';
 import BaseIdentityIcon from '@polkadot/ui-identicon';
 
+import AvailableDisplay from './Available';
 import { classes, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
 import translate from './translate';
+import UnlockingDisplay from './Unlocking';
 
 export type Props = I18nProps & {
   accounts_idAndIndex?: [AccountId?, AccountIndex?],
@@ -53,9 +55,11 @@ class AddressSummary extends React.PureComponent<Props> {
           {this.renderIcon()}
           {this.renderAccountId()}
           {this.renderAccountIndex()}
+          {this.renderAvailable()}
           {this.renderBalance()}
           {this.renderBonded()}
           {this.renderNonce()}
+          {this.renderUnlocking()}
         </div>
         {this.renderChildren()}
       </div>
@@ -169,6 +173,42 @@ class AddressSummary extends React.PureComponent<Props> {
         bonded={bonded}
         className='ui--AddressSummary-bonded'
         label={t('bonded ')}
+        params={accountId}
+      />
+    );
+  }
+
+  protected renderAvailable () {
+    const { accounts_idAndIndex = [], t, value, withBonded } = this.props;
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId || value;
+
+    if (!withBonded || !accountId) {
+      return null;
+    }
+
+    return (
+      <AvailableDisplay
+        className='ui--AddressSummary-available'
+        label={t('available ')}
+        params={accountId}
+      />
+    );
+  }
+
+  protected renderUnlocking () {
+    const { accounts_idAndIndex = [], t, value, withBonded } = this.props;
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId || value;
+
+    if (!withBonded || !accountId) {
+      return null;
+    }
+
+    return (
+      <UnlockingDisplay
+        className='ui--AddressSummary-available'
+        label={t('unlocking ')}
         params={accountId}
       />
     );
