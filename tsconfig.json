@@ -19,6 +19,8 @@
       "@polkadot/app-explorer/*": [ "packages/app-explorer/src/*" ],
       "@polkadot/app-js": [ "packages/app-js/src" ],
       "@polkadot/app-js/*": [ "packages/app-js/src/*" ],
+      "@polkadot/app-learning": [ "packages/app-learning/src" ],
+      "@polkadot/app-learning/*": [ "packages/app-learning/src/*" ],
       "@polkadot/app-settings": [ "packages/app-settings/src" ],
       "@polkadot/app-settings/*": [ "packages/app-settings/src/*" ],
       "@polkadot/app-staking": [ "packages/app-staking/src" ],
