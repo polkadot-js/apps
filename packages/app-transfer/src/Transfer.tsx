@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueProps } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import BN from 'bn.js';
@@ -11,7 +10,6 @@ import React from 'react';
 import { IExtrinsic } from '@polkadot/types/types';
 import { AddressSummary, InputAddress, InputBalance } from '@polkadot/ui-app';
 import { withApi, withMulti } from '@polkadot/ui-api';
-import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 import keyring from '@polkadot/ui-keyring';
 import Checks from '@polkadot/ui-signer/Checks';
 
@@ -73,16 +71,11 @@ class Transfer extends React.PureComponent<Props, State> {
               isSendable
               onChange={this.onChangeFees}
             />
-            <QueueConsumer>
-              {({ queueExtrinsic }: QueueProps) => (
-                <Submit
-                  accountId={accountId}
-                  isDisabled={!hasAvailable}
-                  extrinsic={extrinsic}
-                  queueExtrinsic={queueExtrinsic}
-                />
-              )}
-            </QueueConsumer>
+            <Submit
+              accountId={accountId}
+              isDisabled={!hasAvailable}
+              extrinsic={extrinsic}
+            />
           </div>
           {this.renderAddress(recipientId, 'large')}
         </div>

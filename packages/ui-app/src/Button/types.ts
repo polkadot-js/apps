@@ -13,6 +13,7 @@ export type ButtonProps = BareProps & {
   isBasic?: boolean,
   isCircular?: boolean,
   isDisabled?: boolean,
+  isLoading?: boolean,
   isNegative?: boolean,
   isPositive?: boolean,
   isPrimary?: boolean,

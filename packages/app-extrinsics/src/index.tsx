@@ -2,13 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { QueueProps } from '@polkadot/ui-app/Status/types';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 
 import './index.css';
 
 import React from 'react';
-import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 import { Tabs } from '@polkadot/ui-app';
 
 import Selection from './Selection';
@@ -31,11 +29,7 @@ class ExtrinsicsApp extends React.PureComponent<Props> {
             }]}
           />
         </header>
-        <QueueConsumer>
-          {({ queueExtrinsic }: QueueProps) => (
-            <Selection queueExtrinsic={queueExtrinsic} />
-          )}
-        </QueueConsumer>
+        <Selection />
       </main>
     );
   }
