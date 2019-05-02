@@ -23,7 +23,7 @@ class App extends React.PureComponent<Props> {
 
     return (
       <main className='democracy--App'>
-      <HelpOverlay md={basicMd} />
+        <HelpOverlay md={basicMd} />
         <header>
           <Tabs
             basePath={basePath}

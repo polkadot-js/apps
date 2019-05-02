@@ -101,7 +101,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
     return (
       <main className='accounts--App'>
-      <HelpOverlay md={basicMd} />
+        <HelpOverlay md={basicMd} />
         <header>
           <Tabs
             basePath={basePath}

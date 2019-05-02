@@ -88,7 +88,7 @@ class AddressBookApp extends React.PureComponent<Props, State> {
 
     return (
       <main className='address-book--App'>
-      <HelpOverlay md={basicMd} />
+        <HelpOverlay md={basicMd} />
         <header>
           <Tabs
             basePath={basePath}
