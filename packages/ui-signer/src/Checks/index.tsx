@@ -37,14 +37,14 @@ type Props = I18nProps & {
   accountId?: string | null,
   extrinsic?: IExtrinsic | null,
   isSendable: boolean,
-  onChange?: (hasAvailble: boolean) => void,
+  onChange?: (hasAvailable: boolean) => void,
   system_accountNonce?: BN
 };
 
 const LENGTH_PUBLICKEY = 32 + 1; // publicKey + prefix
 const LENGTH_SIGNATURE = 64;
 const LENGTH_ERA = 1;
-const SIGNATURE_SIZE = LENGTH_PUBLICKEY + LENGTH_SIGNATURE + LENGTH_ERA;
+export const SIGNATURE_SIZE = LENGTH_PUBLICKEY + LENGTH_SIGNATURE + LENGTH_ERA;
 
 export class FeeDisplay extends React.PureComponent<Props, State> {
   state: State = {
@@ -110,7 +110,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
     };
   }
 
-  componentDidUpdate () {
+  componentDidUpdate (_: Props, prevState: State) {
     const { onChange } = this.props;
     const { hasAvailable } = this.state;
 
