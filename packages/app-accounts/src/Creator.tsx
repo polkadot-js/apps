@@ -22,7 +22,7 @@ type Props = ComponentProps & I18nProps & {
   match: {
     params: {
       seed?: string,
-      type?: 'ed25519' | 'sr25519'
+      type?: KeypairType
     }
   }
 };

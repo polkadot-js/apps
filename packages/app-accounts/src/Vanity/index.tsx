@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { KeypairType } from '@polkadot/util-crypto/types';
 import { Generator$Matches, Generator$Result } from '../vanitygen/types';
 import { ComponentProps } from '../types';
 
@@ -218,7 +219,7 @@ class VanityApp extends React.PureComponent<Props, State> {
     }, 0);
   }
 
-  private onCreateToggle = (type: string, seed: string) => {
+  private onCreateToggle = (type: KeypairType, seed: string) => {
     const { basePath } = this.props;
 
     window.location.hash = `${basePath}/create/${type}/${seed}`;
