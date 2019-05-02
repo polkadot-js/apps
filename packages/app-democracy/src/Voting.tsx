@@ -3,13 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueProps } from '@polkadot/ui-app/Status/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { InputAddress } from '@polkadot/ui-app';
-import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 
@@ -60,15 +58,10 @@ class Voting extends React.PureComponent<Props, State> {
     }
 
     return (
-      <QueueConsumer>
-        {({ queueExtrinsic }: QueueProps) => (
-          <VotingButtons
-            accountId={accountId}
-            queueExtrinsic={queueExtrinsic}
-            referendumId={referendumId}
-          />
-        )}
-      </QueueConsumer>
+      <VotingButtons
+        accountId={accountId}
+        referendumId={referendumId}
+      />
     );
   }
 

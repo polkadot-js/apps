@@ -96,7 +96,6 @@ class Accounts extends React.PureComponent<Props, State> {
                 name={name}
                 recentlyOffline={recentlyOffline}
                 stashOptions={this.getStashOptions()}
-                validators={validators}
               />
             );
           })}
