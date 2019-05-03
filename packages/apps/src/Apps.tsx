@@ -34,11 +34,11 @@ const Wrapper = styled.div`
   min-height: 100vh;
 
   header {
-    margin-bottom: 0.8rem;
+    margin-bottom: 1.4rem;
     text-align: center;
 
     ${media.TABLET`
-      margin-bottom: 1.1rem;
+      margin-bottom: 2rem;
    `}
   }
 `;
