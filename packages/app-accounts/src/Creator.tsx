@@ -24,12 +24,15 @@ import translate from './translate';
 type Props = ComponentProps & ApiProps & I18nProps & {
   match: {
     params: {
-      seed?: string
+      seed?: string,
+      type?: KeypairType
     }
   }
 };
 
 type SeedType = 'bip' | 'raw' | 'dev';
+
+type SeedOption = { value: SeedType, text: string };
 
 type State = {
   address: string,
@@ -43,7 +46,7 @@ type State = {
   pairType: KeypairType,
   password: string,
   seed: string,
-  seedOptions: Array<{ value: SeedType, text: string }>,
+  seedOptions: Array<SeedOption>,
   seedType: SeedType,
   showWarning: boolean
 };
@@ -89,8 +92,8 @@ class Creator extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const { isDevelopment, match: { params: { seed } }, t } = this.props;
-    const seedOptions = [
+    const { isDevelopment, match: { params: { seed, type } }, t } = this.props;
+    const seedOptions: Array<SeedOption> = [
       { value: 'bip', text: t('Mnemonic') },
       { value: 'raw', text: t('Raw seed') }
     ];
@@ -100,7 +103,7 @@ class Creator extends React.PureComponent<Props, State> {
     }
 
     this.state = {
-      ...this.emptyState(seed || null, '', DEFAULT_TYPE),
+      ...this.emptyState(seed || null, '', type || DEFAULT_TYPE),
       seedOptions
     };
   }
