@@ -10,4 +10,4 @@ Any current bounties are tracked by the [!bounty](https://github.com/polkadot-js
 
 ## Process
 
-Once listed, the normal [Gitcoin](https://gitcoin.co/) process kicks in. This means application, work and payment is manged by this tool. The values for bounties are determined by the size estimation done by the team.
+Once listed, the normal [Gitcoin](https://gitcoin.co/) process kicks in. This means application, work and payment is managed by this tool. The values for bounties are determined by the size estimation done by the team.
