@@ -38,7 +38,7 @@ const Wrapper = styled.div`
     text-align: center;
 
     ${media.TABLET`
-      margin-bottom: 2.8rem;
+      margin-bottom: 2rem;
    `}
   }
 `;
