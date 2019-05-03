@@ -17,6 +17,9 @@ type Props = ApiProps & I18nProps & {
   referendumId: BN
 };
 
+const NAY = 0;
+const YAY = -1; // Yes, this is weird, but works on i8 with the high bit set
+
 class VotingButton extends React.PureComponent<Props> {
   render () {
     const { accountId, referendumId, t } = this.props;
@@ -28,7 +31,7 @@ class VotingButton extends React.PureComponent<Props> {
           isDisabled={!accountId}
           isNegative
           label={t('Nay')}
-          params={[referendumId, -1]}
+          params={[referendumId, NAY]}
           tx='democracy.vote'
         />
         <Button.Or />
@@ -37,7 +40,7 @@ class VotingButton extends React.PureComponent<Props> {
           isDisabled={!accountId}
           isPositive
           label={t('Aye')}
-          params={[referendumId, 0]}
+          params={[referendumId, YAY]}
           tx='democracy.vote'
         />
       </Button.Group>
