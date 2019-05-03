@@ -21,7 +21,8 @@ import translate from './translate';
 type Props = ComponentProps & I18nProps & {
   match: {
     params: {
-      seed?: string
+      seed?: string,
+      type?: KeypairType
     }
   }
 };
@@ -86,10 +87,10 @@ class Creator extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const { match: { params: { seed } }, t } = this.props;
+    const { match: { params: { seed, type } }, t } = this.props;
 
     this.state = {
-      ...this.emptyState(seed || null, '', DEFAULT_TYPE),
+      ...this.emptyState(seed || null, '', type || DEFAULT_TYPE),
       seedOptions: [
         { value: 'bip', text: t('Mnemonic') },
         { value: 'raw', text: t('Raw seed') }
