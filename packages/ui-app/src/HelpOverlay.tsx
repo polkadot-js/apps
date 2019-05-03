@@ -69,13 +69,13 @@ export default class HelpOverlay extends React.PureComponent<Props, State> {
       <Wrapper>
         {this.renderButton('help circle')}
         <div className={`help-slideout ${isVisible ? 'open' : 'closed'}`}>
-        {this.renderButton('close')}
-        <ReactMd
-          className='help-content'
-          escapeHtml={false}
-          source={md}
-        />
-      </div>
+          {this.renderButton('close')}
+          <ReactMd
+            className='help-content'
+            escapeHtml={false}
+            source={md}
+          />
+        </div>
       </Wrapper>
     );
   }
