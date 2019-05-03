@@ -94,4 +94,16 @@ article {
     margin: 0;
     padding: 0;
   }
+
+  .ui--Button-Group {
+    filter: grayscale(100%);
+    opacity: 0.75;
+  }
+
+  &:hover {
+    .ui--Button-Group {
+      filter: grayscale(0);
+      opacity: 1;
+    }
+  }
 }
