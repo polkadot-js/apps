@@ -12,7 +12,7 @@ type Props = BareProps & {
   address: string;
   count: number;
   offset: number;
-  onCreateToggle: (passthrough: string) => void,
+  onCreateToggle: (seed: string) => void,
   onRemove: (address: string) => void,
   seed: Uint8Array;
 };

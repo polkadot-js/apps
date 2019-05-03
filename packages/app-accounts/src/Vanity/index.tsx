@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { KeypairType } from '@polkadot/util-crypto/types';
 import { Generator$Matches, Generator$Result } from '../vanitygen/types';
 import { ComponentProps } from '../types';
 
@@ -10,6 +11,7 @@ import './index.css';
 
 import React from 'react';
 import { Button, Dropdown, Input } from '@polkadot/ui-app';
+import uiSettings from '@polkadot/ui-settings';
 
 import generator from '../vanitygen';
 import matchRegex from '../vanitygen/regex';
@@ -28,6 +30,7 @@ type State = {
   match: string,
   matches: Generator$Matches,
   startAt: number,
+  type: KeypairType,
   withCase: boolean
 };
 
@@ -48,6 +51,7 @@ class VanityApp extends React.PureComponent<Props, State> {
     match: DEFAULT_MATCH,
     matches: [],
     startAt: 0,
+    type: 'ed25519',
     withCase: true
   };
 
@@ -107,30 +111,42 @@ class VanityApp extends React.PureComponent<Props, State> {
 
   renderOptions () {
     const { t } = this.props;
-    const { isMatchValid, isRunning, match, withCase } = this.state;
+    const { isMatchValid, isRunning, match, type, withCase } = this.state;
 
     return (
-      <div className='ui--row'>
-        <Input
-          autoFocus
-          className='medium'
-          help={t('Type here what you would like your address to contain. This tool will generate the keys and show the associated addresses that best match your search. You can use "?" as a wildcard for a character.')}
-          isDisabled={isRunning}
-          isError={!isMatchValid}
-          label={t('Search for')}
-          onChange={this.onChangeMatch}
-          value={match}
-        />
-        <Dropdown
-          className='medium'
-          help={t('Should the search be case sensitive, e.g if you select "no" your search for "Some" may return addresses containing "somE" or "sOme"...')}
-          isDisabled={isRunning}
-          label={t('case sensitive')}
-          options={BOOL_OPTIONS}
-          onChange={this.onChangeCase}
-          value={withCase}
-        />
-      </div>
+      <>
+        <div className='ui--row'>
+          <Input
+            autoFocus
+            className='medium'
+            help={t('Type here what you would like your address to contain. This tool will generate the keys and show the associated addresses that best match your search. You can use "?" as a wildcard for a character.')}
+            isDisabled={isRunning}
+            isError={!isMatchValid}
+            label={t('Search for')}
+            onChange={this.onChangeMatch}
+            value={match}
+          />
+          <Dropdown
+            className='medium'
+            help={t('Should the search be case sensitive, e.g if you select "no" your search for "Some" may return addresses containing "somE" or "sOme"...')}
+            isDisabled={isRunning}
+            label={t('case sensitive')}
+            options={BOOL_OPTIONS}
+            onChange={this.onChangeCase}
+            value={withCase}
+          />
+        </div>
+        <div className='ui--row'>
+          <Dropdown
+            className='medium'
+            defaultValue={type}
+            help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+            label={t('keypair crypto type')}
+            onChange={this.onChangeType}
+            options={uiSettings.availableCryptos}
+          />
+        </div>
+      </>
     );
   }
 
@@ -205,11 +221,14 @@ class VanityApp extends React.PureComponent<Props, State> {
           this.checkMatches();
         }
 
+        const { match, type, withCase } = this.state;
+
         this.results.push(
           generator({
-            match: this.state.match,
+            match,
             runs: 10,
-            withCase: this.state.withCase
+            type,
+            withCase
           })
         );
 
@@ -220,8 +239,9 @@ class VanityApp extends React.PureComponent<Props, State> {
 
   private onCreateToggle = (seed: string) => {
     const { basePath } = this.props;
+    const { type } = this.state;
 
-    window.location.hash = `${basePath}/create/${seed}`;
+    window.location.hash = `${basePath}/create/${type}/${seed}`;
   }
 
   onChangeCase = (withCase: boolean): void => {
@@ -236,6 +256,10 @@ class VanityApp extends React.PureComponent<Props, State> {
         (match.length < 31),
       match
     });
+  }
+
+  onChangeType = (type: KeypairType): void => {
+    this.setState({ type } as State);
   }
 
   onRemove = (address: string): void => {

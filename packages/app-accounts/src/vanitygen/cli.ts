@@ -3,6 +3,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { KeypairType } from '@polkadot/util-crypto/types';
+import { Generator$Options } from './types';
+
 import yargs from 'yargs';
 import chalk from 'chalk';
 import { u8aToHex } from '@polkadot/util';
@@ -17,9 +20,13 @@ type Best = {
   seed?: Uint8Array
 };
 
-const { match, withCase } = yargs
+const { match, type, withCase } = yargs
   .option('match', {
     default: 'EEEEE'
+  })
+  .option('type', {
+    choices: ['ed25519', 'sr25519'],
+    default: 'ed25519'
   })
   .option('withCase', {
     default: true
@@ -29,9 +36,10 @@ const { match, withCase } = yargs
 const INDICATORS = ['|', '/', '-', '\\'];
 const NUMBER_REGEX = new RegExp('(\\d+?)(?=(\\d{3})+(?!\\d)|$)', 'g');
 
-const options = {
+const options: Generator$Options = {
   match,
   runs: 50,
+  type: type as KeypairType,
   withCase
 };
 const startAt = Date.now();
