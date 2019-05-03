@@ -95,10 +95,6 @@ article {
     padding: 0;
   }
 
-  .ui--Button-Group {
-
-  }
-
   &:not(:hover) {
     .ui--Button-Group .ui.buttons .ui.button {
       background: #ddd;
