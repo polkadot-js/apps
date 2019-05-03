@@ -174,11 +174,11 @@
 
   .item {
     border-bottom: 2px solid rgba(0, 0, 0, 0);
+    border: none;
     top: -1px;
 
     &.active {
       background: none; /* #fafafa */;
-      border: none;
       border-bottom: 2px solid #db2828;
     }
   }
