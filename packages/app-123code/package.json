@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-123code",
-  "version": "0.33.0-beta.19",
+  "version": "0.33.0-beta.20",
   "description": "A basic app that shows the ropes on customisation",
   "main": "index.js",
   "scripts": {},
@@ -11,6 +11,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.4.4",
-    "@polkadot/ui-app": "^0.33.0-beta.19"
+    "@polkadot/ui-app": "^0.33.0-beta.20"
   }
 }
