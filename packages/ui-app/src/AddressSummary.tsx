@@ -25,17 +25,19 @@ export type Props = I18nProps & {
   bonded?: BN | Array<BN>,
   children?: React.ReactNode,
   extraInfo?: React.ReactNode,
-  name?: string,
-  value: AccountId | AccountIndex | Address | string | null,
-  withBalance?: boolean,
-  withBonded?: boolean,
-  withIndex?: boolean,
   identIconSize?: number,
   isShort?: boolean,
+  name?: string,
   session_validators?: Array<AccountId>,
+  value: AccountId | AccountIndex | Address | string | null,
+  withAvailable?: boolean,
+  withBalance?: boolean,
+  withBonded?: boolean,
   withCopy?: boolean,
   withIcon?: boolean,
-  withNonce?: boolean
+  withIndex?: boolean,
+  withNonce?: boolean,
+  withUnlocking?: boolean
 };
 
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
@@ -179,11 +181,11 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderAvailable () {
-    const { accounts_idAndIndex = [], t, value, withBonded } = this.props;
+    const { accounts_idAndIndex = [], t, value, withAvailable } = this.props;
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
 
-    if (!withBonded || !accountId) {
+    if (!withAvailable || !accountId) {
       return null;
     }
 
@@ -197,11 +199,11 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderUnlocking () {
-    const { accounts_idAndIndex = [], t, value, withBonded } = this.props;
+    const { accounts_idAndIndex = [], t, value, withUnlocking } = this.props;
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
 
-    if (!withBonded || !accountId) {
+    if (!withUnlocking || !accountId) {
       return null;
     }
 
@@ -210,6 +212,7 @@ class AddressSummary extends React.PureComponent<Props> {
         className='ui--AddressSummary-available'
         label={t('unlocking ')}
         params={accountId}
+        remainingLabel={t(' blocks left')}
       />
     );
   }

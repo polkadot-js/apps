@@ -4,32 +4,28 @@
 
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
-import { AccountId, AccountIndex, Address, Balance, Option, StakingLedger, UnlockChunk, BlockNumber } from '@polkadot/types';
+import { AccountId, AccountIndex, Address, Balance, BalanceLock } from '@polkadot/types';
 import { formatBalance } from '@polkadot/util';
 import React from 'react';
 import { withCalls } from '@polkadot/ui-api';
-import Unlock from '@polkadot/app-toolbox/Unlock';
-import Params from '@polkadot/app-contracts/Params';
 
 type Props = BareProps & CallProps & {
   balances_freeBalance?: Balance,
+  balances_locks?: Array<BalanceLock>,
   children?: React.ReactNode,
   label?: string,
-  params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
-  staking_ledger?: StakingLedger,
-  unlocking?: Array<UnlockChunk>
+  params?: AccountId | AccountIndex | Address | string | Uint8Array | null
 };
 
 export class AvailableDisplay extends React.PureComponent<Props> {
   render () {
-    const { balances_freeBalance, children, className, label = '', style, unlocking, params } = this.props;
-    const totalUnlocking: Balance | undefined = unlocking && unlocking.reduce((a,b): UnlockChunk => {
-      return ({ 'value': a.value.add(b.value), 'era': new BlockNumber(0) } as UnlockChunk);
-    },{ 'value': new Balance(0) }).value ;
-    console.log('params', params && params.toString());
-    console.log('balances_freeBalance',balances_freeBalance && balances_freeBalance.toString());
-    console.log('unlocking',unlocking && unlocking.toString());
-    const available = balances_freeBalance && totalUnlocking && balances_freeBalance.sub(totalUnlocking);
+    const { balances_freeBalance, balances_locks, children, className, label = '', style } = this.props;
+    const available = balances_freeBalance && balances_locks && balances_locks[0] && balances_locks[0].amount && balances_freeBalance.sub(balances_locks[0].amount);
+
+//    console.log('params', params && params.toString());
+//    console.log('balances_freeBalance',balances_freeBalance && balances_freeBalance.toString());
+//    console.log('balancesLocksAmount',balances_locks && balances_locks.amount && balances_locks.amount.toString());
+//    console.log('available', available && available.toString());
     return (
       <div
         className={className}
@@ -47,16 +43,5 @@ export class AvailableDisplay extends React.PureComponent<Props> {
 
 export default withCalls<Props>(
   ['query.balances.freeBalance', { paramName: 'params' }],
-  ['query.staking.bonded', {
-    paramName: 'params',
-    propName: 'controllerId',
-    transform: (value) =>
-      value.unwrapOr(null)
-  }],
-  ['query.staking.ledger', {
-    paramName: 'controllerId',
-    propName: 'unlocking',
-    transform: (ledger: Option<StakingLedger>) =>
-    ledger.unwrapOr({ unlocking: null }).unlocking
-  }]
+  ['query.balances.locks', { paramName: 'params' }]
 )(AvailableDisplay);
