@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Address, Balance, Option, StakingLedger, UnlockChunk, BlockNumber, Block } from '@polkadot/types';
+import { AccountId, AccountIndex, Address, Balance, BlockNumber, Option, StakingLedger, UnlockChunk } from '@polkadot/types';
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
 import { formatBalance } from '@polkadot/util';
 import React from 'react';
