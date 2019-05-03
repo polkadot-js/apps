@@ -11,7 +11,7 @@ import { ComponentProps } from './types';
 import FileSaver from 'file-saver';
 import React from 'react';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
-import { withApi } from '@polkadot/ui-api';
+import { withApi, withMulti } from '@polkadot/ui-api';
 import { AddressSummary, Button, Dropdown, Input, Labelled, Modal, Password } from '@polkadot/ui-app';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring';
@@ -32,7 +32,10 @@ type Props = ComponentProps & ApiProps & I18nProps & {
 
 type SeedType = 'bip' | 'raw' | 'dev';
 
-type SeedOption = { value: SeedType, text: string };
+type SeedOption = {
+  text: string,
+  value: SeedType
+};
 
 type State = {
   address: string,
@@ -449,4 +452,8 @@ class Creator extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(withApi(Creator));
+export default withMulti(
+  Creator,
+  translate,
+  withApi
+);
