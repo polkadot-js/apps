@@ -96,14 +96,13 @@ article {
   }
 
   .ui--Button-Group {
-    filter: grayscale(100%);
-    opacity: 0.75;
+
   }
 
-  &:hover {
-    .ui--Button-Group {
-      filter: grayscale(0);
-      opacity: 1;
+  &:not(:hover) {
+    .ui--Button-Group .ui.buttons .ui.button {
+      background: #ddd;
+      color: #333;
     }
   }
 }
