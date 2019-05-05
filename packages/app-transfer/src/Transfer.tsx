@@ -169,46 +169,51 @@ class Transfer extends React.PureComponent<Props, State> {
     });
   }
 
-  private setMaxBalance = async () => {
+  private setMaxBalance = () => {
     const { api, balances_fees = ZERO_FEES } = this.props;
     const { accountId, recipientId } = this.state;
 
-    const accountNonce = await api.query.system.accountNonce(accountId);
+    if (!accountId || !recipientId) {
+      return;
+    }
 
-    const { transferFee, transactionBaseFee, transactionByteFee, creationFee } = balances_fees;
+    void api.query.system.accountNonce(accountId, (accountNonce) => {
 
-    api.derive.balances.votingBalance(accountId!, ({ freeBalance: senderBalance }) => {
-      api.derive.balances.votingBalance(recipientId!, ({ freeBalance: recipientBalance }) => {
+      const { transferFee, transactionBaseFee, transactionByteFee, creationFee } = balances_fees;
 
-        let prevMax = new BN(0);
-        let maxBalance = new BN(1);
-        let extrinsic;
+      void api.derive.balances.votingBalance(accountId, ({ freeBalance: senderBalance }) => {
+        void api.derive.balances.votingBalance(recipientId, ({ freeBalance: recipientBalance }) => {
 
-        while (!prevMax.eq(maxBalance)) {
-          prevMax = maxBalance;
+          let prevMax = new BN(0);
+          let maxBalance = new BN(1);
+          let extrinsic;
 
-          extrinsic = accountId && recipientId
-            ? api.tx.balances.transfer(recipientId, prevMax)
-            : null;
+          while (!prevMax.eq(maxBalance)) {
+            prevMax = maxBalance;
 
-          const txLength = SIGNATURE_SIZE + accountNonce.length + (
-            extrinsic
-              ? extrinsic.encodedLength
-              : 0
-          );
+            extrinsic = accountId && recipientId
+              ? api.tx.balances.transfer(recipientId, prevMax)
+              : null;
 
-          const fees = transactionBaseFee
-            .add(transactionByteFee.muln(txLength))
-            .add(transferFee)
-            .add(senderBalance.isZero() ? creationFee : ZERO)
-            .add(recipientBalance.isZero() ? creationFee : ZERO);
+            const txLength = SIGNATURE_SIZE + accountNonce.length + (
+              extrinsic
+                ? extrinsic.encodedLength
+                : 0
+            );
 
-          maxBalance = new BN(senderBalance).sub(fees);
-        }
+            const fees = transactionBaseFee
+              .add(transactionByteFee.muln(txLength))
+              .add(transferFee)
+              .add(senderBalance.isZero() ? creationFee : ZERO)
+              .add(recipientBalance.isZero() ? creationFee : ZERO);
 
-        this.nextState({
-          extrinsic,
-          maxBalance
+            maxBalance = new BN(senderBalance).sub(fees);
+          }
+
+          this.nextState({
+            extrinsic,
+            maxBalance
+          });
         });
       });
     });
