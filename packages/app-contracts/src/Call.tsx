@@ -136,8 +136,6 @@ class Call extends React.PureComponent<Props, State> {
       return [];
     }
 
-    console.error('constructCall', endowment.toNumber(), gasLimit.toNumber());
-
     return [address, endowment, gasLimit, contractAbi.messages[method](...params)];
   }
 
