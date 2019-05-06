@@ -25,6 +25,7 @@ type InjectedProps = {
 type Props = ApiProps & {
   accountId?: string,
   accountNonce?: Index,
+  className?: string,
   icon?: string,
   isPrimary?: boolean,
   isDisabled?: boolean,
@@ -83,11 +84,12 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
   }
 
   render () {
-    const { accountId, icon= '', iconSize , isDisabled, isNegative, isPrimary, label } = this.props;
+    const { accountId, className, icon= '', iconSize , isDisabled, isNegative, isPrimary, label } = this.props;
     const { isSending } = this.state;
 
     return (
       <Button
+        className={className}
         isDisabled={isSending || isDisabled || !accountId}
         isLoading={isSending}
         isNegative={isNegative}

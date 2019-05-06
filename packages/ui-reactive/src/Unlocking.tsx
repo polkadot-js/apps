@@ -56,6 +56,7 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
         {label.unlockable}{formatBalance(unlockableSum)}&nbsp;
         <TxButton
           accountId={controllerId.toString()}
+          className='withDrawUnbonded'
           icon='lock'
           size='small'
           isPrimary
