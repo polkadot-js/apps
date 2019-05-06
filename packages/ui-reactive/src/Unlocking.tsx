@@ -7,7 +7,7 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 import BN from 'bn.js';
 import { formatBalance } from '@polkadot/util';
 import React from 'react';
-import { UnlockingButton } from '@polkadot/ui-app';
+import { TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & {
@@ -53,14 +53,15 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
         style={style}
         key='unlockable'
       >
-        {label.unlockable}{formatBalance(unlockableSum)}
-        <UnlockingButton
-          accountId={controllerId.toString()}
-          isPrimary
-          key='unlock'
-          params={[]}
-          tx='staking.withdrawUnbonded'
-        />
+        {label.unlockable}{formatBalance(unlockableSum)}  <TxButton
+                                                            accountId={controllerId.toString()}
+                                                            icon='lock'
+                                                            size='small'
+                                                            isPrimary
+                                                            key='unlock'
+                                                            params={[]}
+                                                            tx='staking.withdrawUnbonded'
+                                                          />
       </div>
       : null
     );

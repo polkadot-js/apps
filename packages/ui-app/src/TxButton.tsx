@@ -25,6 +25,7 @@ type InjectedProps = {
 type Props = ApiProps & {
   accountId?: string,
   accountNonce?: Index,
+  icon?: string,
   isPrimary?: boolean,
   isDisabled?: boolean,
   isNegative?: boolean,
@@ -34,6 +35,7 @@ type Props = ApiProps & {
   onSuccess?: TxCallback,
   onUpdate?: TxCallback,
   params?: Array<any> | ConstructFn,
+  iconSize?: 'mini' | 'tiny' | 'small' | 'large' | 'big' | 'huge' | 'massive',
   tx?: string,
   extrinsic?: IExtrinsic | SubmittableExtrinsic
 };
@@ -81,7 +83,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
   }
 
   render () {
-    const { accountId, isDisabled, isNegative, isPrimary, label } = this.props;
+    const { accountId, icon= '', iconSize , isDisabled, isNegative, isPrimary, label } = this.props;
     const { isSending } = this.state;
 
     return (
@@ -91,6 +93,8 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
         isNegative={isNegative}
         isPrimary={isUndefined(isPrimary) ? !isNegative : isPrimary}
         label={label}
+        icon={icon}
+        size={iconSize}
         onClick={this.send}
       />
     );
