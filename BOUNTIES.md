@@ -2,7 +2,7 @@
 
 From time-to-time we will add bounties for features.
 
-These are generously provided by the [Web3 Foundation](https://web3.foundation/) and as such any employees of Parity or those of the W3F are ineligible for them. (This includes people being being by either party for development or community work, related or un-related to polkadot-js).
+These are generously provided by the [Web3 Foundation](https://web3.foundation/) and as such employees of Parity or those of the W3F are ineligible for them. (This includes people being by either Party for development or community work, related or un-related to polkadot-js).
 
 The idea is that these bounties should be left open to community participation, so only if there is no outside interest for a specific issue, should those directly or indirectly paid by the W3F for work, attempt to close an issue. (in which case it will be "un-bountied")
 
