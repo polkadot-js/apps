@@ -53,7 +53,7 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
         style={style}
         key='unlockable'
       >
-        {label.unlockable}{formatBalance(unlockableSum)}&nbsp;
+        {label.unlockable}{formatBalance(unlockableSum)}
         <TxButton
           accountId={controllerId.toString()}
           className='withDrawUnbonded'
@@ -114,7 +114,7 @@ export default withCalls<Props>(
     paramName: 'controllerId',
     propName: 'unlockings',
     transform: (ledger: Option<StakingLedger>) =>
-    ledger.unwrapOr({ unlocking: null }).unlocking
+      ledger.unwrapOr({ unlocking: null }).unlocking
   }],
   'derive.session.eraLength',
   'derive.chain.bestNumber'
