@@ -5,7 +5,9 @@
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import { AccountId, AccountIndex, Address, Balance, BalanceLock, BlockNumber } from '@polkadot/types';
+import BN from 'bn.js';
 import { formatBalance } from '@polkadot/util';
+import { max } from '@polkadot/ui-app/util';
 import React from 'react';
 import { withCalls } from '@polkadot/ui-api';
 
@@ -20,21 +22,15 @@ type Props = BareProps & CallProps & {
 
 export class AvailableDisplay extends React.PureComponent<Props> {
 
-  maxBN (items: Balance[]) {
-    return items.reduce((acc: Balance, val: Balance) => {
-      return (val.gt(acc) ? val : acc);
-    }, new Balance(0));
-  }
-
   render () {
     const { balances_freeBalance, balances_locks, chain_bestNumber, children, className, label = '', style } = this.props;
-    let maxLock = new Balance(0);
+    let maxLock = new BN(0);
 
     if (Array.isArray(balances_locks)) {
       // only get the locks that are valid until passed the current block
       const totals = balances_locks.filter((value, index) => chain_bestNumber && value.until.gt(chain_bestNumber));
       // get the maximum of the locks according to https://github.com/paritytech/substrate/blob/master/srml/balances/src/lib.rs#L699
-      maxLock = this.maxBN(totals.map(function (o) { return o.amount; }));
+      maxLock = max(totals.map(function (o) { return o.amount; }));
     }
 
     const available = maxLock.eq(new BlockNumber('0xffffffffffffffffffffffffffffffff')) ? new Balance(0) : balances_freeBalance && balances_freeBalance.sub(maxLock) ;

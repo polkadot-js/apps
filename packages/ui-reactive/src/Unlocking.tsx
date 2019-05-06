@@ -2,37 +2,44 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Address, Balance, BlockNumber, Option, StakingLedger, UnlockChunk } from '@polkadot/types';
+import { AccountId, AccountIndex, Address, Option, StakingLedger, UnlockChunk } from '@polkadot/types';
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
+import BN from 'bn.js';
 import { formatBalance } from '@polkadot/util';
 import React from 'react';
 import { withCalls } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & {
-  balances_freeBalance?: Balance,
-  chain_bestNumber?: BlockNumber,
+  balances_freeBalance?: BN,
+  chain_bestNumber?: BN,
   label?: string,
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   remainingLabel?: string,
   staking_ledger?: StakingLedger,
-  session_eraLength?: BlockNumber,
+  session_eraLength?: BN,
   unlockings?: Array<UnlockChunk>
 };
 
 export class UnlockingDisplay extends React.PureComponent<Props> {
+
+  remainingBlocks = (era: BN) => {
+    const { chain_bestNumber, session_eraLength } = this.props;
+
+    if (!chain_bestNumber || !session_eraLength || era.lten(0)) {
+      return new BN(0);
+    } else {
+      const remaining = session_eraLength.mul(era).sub(chain_bestNumber);
+      return remaining.lten(0) ? new BN(0) : remaining;
+    }
+  }
+  renderRemaining = (remainingBlocks: BN) => {
+
+  }
+
   render () {
-    const { className,chain_bestNumber, label = '', style, unlockings,remainingLabel = '', session_eraLength } = this.props;
+    const { className,label = '', style, unlockings,remainingLabel = '' } = this.props;
 
-    const remainingBlocks = (era: BlockNumber) => {
-      if (!chain_bestNumber || !session_eraLength || era.lte(new BlockNumber(0))) {
-        return new BlockNumber(0);
-      } else {
-        const remaining = session_eraLength.mul(era).sub(chain_bestNumber);
-        return remaining.lte(new BlockNumber(0)) ? new BlockNumber(0) : remaining;
-      }
-    };
-
-    const unlockingDivs = (unlockings: UnlockChunk[]) => (
+    return unlockings ?
       <>
         {unlockings.map((unlocking,index) => (
           <div
@@ -40,13 +47,11 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
             style={style}
             key={index}
           >
-            {label}{formatBalance(unlocking.value)} ({remainingBlocks(unlocking.era).toString()}{remainingLabel})
+            {label}{formatBalance(unlocking.value)} ({this.remainingBlocks(unlocking.era).toString()}{remainingLabel})
           </div>
         ))}
       </>
-    );
-
-    return unlockings ? unlockingDivs(unlockings) : null ;
+    : null ;
   }
 }
 
