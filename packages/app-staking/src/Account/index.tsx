@@ -18,7 +18,6 @@ import Nominating from './Nominating';
 import SessionKey from './SessionKey';
 import translate from '../translate';
 import Unbond from './Unbond';
-import Unlock from './Unlock';
 import Validating from './Validating';
 
 type Props = ApiProps & I18nProps & {
@@ -45,8 +44,7 @@ type State = {
   isNominateOpen: boolean,
   isSessionKeyOpen: boolean,
   isValidatingOpen: boolean,
-  isUnbondOpen: boolean,
-  isUnlockOpen: boolean
+  isUnbondOpen: boolean
 };
 
 class Account extends React.PureComponent<Props, State> {
@@ -56,8 +54,7 @@ class Account extends React.PureComponent<Props, State> {
     isSessionKeyOpen: false,
     isNominateOpen: false,
     isValidatingOpen: false,
-    isUnbondOpen: false,
-    isUnlockOpen: false
+    isUnbondOpen: false
   };
 
   render () {
@@ -78,7 +75,6 @@ class Account extends React.PureComponent<Props, State> {
         {this.renderNominating()}
         {this.renderSessionKey()}
         {this.renderUnbond()}
-        {this.renderUnlock()}
         {this.renderValidating()}
         <AddressSummary
           name={name}
@@ -139,19 +135,6 @@ class Account extends React.PureComponent<Props, State> {
           controllerId={controllerId}
           isOpen={isUnbondOpen}
           onClose={this.toggleUnbond}
-        />
-    );
-  }
-
-  private renderUnlock () {
-    const { controllerId } = this.props;
-    const { isUnlockOpen } = this.state;
-
-    return (
-        <Unlock
-          controllerId={controllerId}
-          isOpen={isUnlockOpen}
-          onClose={this.toggleUnlock}
         />
     );
   }
@@ -324,6 +307,17 @@ class Account extends React.PureComponent<Props, State> {
           />
         );
       } else {
+        buttons.push(
+          <TxButton
+            accountId={controllerId.toString()}
+            isPrimary
+            key='unlock'
+            label={t('Unlock')}
+            params={[]}
+            tx='staking.withdrawUnbonded'
+          />
+          );
+
         // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
         // staking_ledger.total gives the total amount that can be slashed (any active amount + what is being unlocked)
         if (freeBalance && staking_ledger && staking_ledger.total && (freeBalance.gt(staking_ledger.total))) {
@@ -434,12 +428,6 @@ class Account extends React.PureComponent<Props, State> {
   private toggleUnbond = () => {
     this.setState(({ isUnbondOpen }) => ({
       isUnbondOpen: !isUnbondOpen
-    }));
-  }
-
-  private toggleUnlock = () => {
-    this.setState(({ isUnlockOpen }) => ({
-      isUnlockOpen: !isUnlockOpen
     }));
   }
 
