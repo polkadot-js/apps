@@ -6,7 +6,7 @@ These are generously provided by the [Web3 Foundation](https://web3.foundation/)
 
 The idea is that these bounties should be left open to community participation, so only if there is no outside interest for a specific issue, should those directly or indirectly paid by the W3F for work, attempt to close an issue. (in which case it will be "un-bountied")
 
-Any current bounties are tracked by the [!bounty](https://github.com/polkadot-js/apps/labels/%21bounty) label.
+Current bounties are tracked by the [!bounty](https://github.com/polkadot-js/apps/labels/%21bounty) label.
 
 ## Process
 
