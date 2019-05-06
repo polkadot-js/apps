@@ -17,6 +17,7 @@ export type Options = {
   at?: Uint8Array | string,
   atProp?: string,
   callOnResult?: OnChangeCb,
+  isMulti?: boolean,
   params?: Array<any>,
   paramName?: string,
   paramValid?: boolean,
