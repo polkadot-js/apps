@@ -53,15 +53,16 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
         style={style}
         key='unlockable'
       >
-        {label.unlockable}{formatBalance(unlockableSum)}  <TxButton
-                                                            accountId={controllerId.toString()}
-                                                            icon='lock'
-                                                            size='small'
-                                                            isPrimary
-                                                            key='unlock'
-                                                            params={[]}
-                                                            tx='staking.withdrawUnbonded'
-                                                          />
+        {label.unlockable}{formatBalance(unlockableSum)}&nbsp;
+        <TxButton
+          accountId={controllerId.toString()}
+          icon='lock'
+          size='small'
+          isPrimary
+          key='unlock'
+          params={[]}
+          tx='staking.withdrawUnbonded'
+        />
       </div>
       : null
     );
