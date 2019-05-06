@@ -7,11 +7,13 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 import BN from 'bn.js';
 import { formatBalance } from '@polkadot/util';
 import React from 'react';
+import { UnlockingButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & {
   balances_freeBalance?: BN,
   chain_bestNumber?: BN,
+  controllerId?: AccountId,
   label?: { unlockable: string, locked: string, remaining: string },
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   remainingLabel?: string,
@@ -33,27 +35,44 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
     }
   }
 
-  render () {
-    const { className,label = { unlockable: '', locked: '', remaining: '' }, style, unlockings } = this.props;
-    if (!unlockings) return null;
+  renderUnlockableSum = () => {
+    const { className, controllerId, label = { unlockable: '', locked: '', remaining: '' }, style, unlockings } = this.props;
+
+    if (!unlockings || !unlockings[0] || !controllerId) return null;
 
     const unlockable = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).eqn(0));
-    const locked = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).gtn(0));
     const unlockableSum = unlockable.reduce(
       (curr, prev) => {
-        return new UnlockChunk({ value: curr.value.add(prev.value || new BN(0)) });
-      }
+        return new UnlockChunk({ value: curr.value.add(prev.value) });
+      }, new UnlockChunk({ value: new BN(0), era: new BN(0) })
      ).value;
 
-    return unlockings ?
-      <>
-        <div
-            className={className}
-            style={style}
-            key='unlockable'
-          >
-      {label.unlockable}{formatBalance(unlockableSum)}
+    return (unlockableSum.gtn(0) ?
+      <div
+        className={className}
+        style={style}
+        key='unlockable'
+      >
+        {label.unlockable}{formatBalance(unlockableSum)}
+        <UnlockingButton
+          accountId={controllerId.toString()}
+          isPrimary
+          key='unlock'
+          params={[]}
+          tx='staking.withdrawUnbonded'
+        />
       </div>
+      : null
+    );
+  }
+
+  renderLocked = () => {
+    const { className, controllerId, label = { unlockable: '', locked: '', remaining: '' }, style, unlockings } = this.props;
+
+    if (!unlockings || !controllerId) return null;
+    const locked = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).gtn(0));
+
+    return (
       <div>
         {locked.map((unlocking,index) => (
           <div
@@ -65,6 +84,16 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
           </div>
         ))}
       </div>
+    );
+  }
+
+  render () {
+    const { unlockings } = this.props;
+
+    return unlockings ?
+      <>
+        {this.renderUnlockableSum()}
+        {this.renderLocked()}
       </>
     : null ;
   }

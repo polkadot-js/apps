@@ -307,17 +307,6 @@ class Account extends React.PureComponent<Props, State> {
           />
         );
       } else {
-        buttons.push(
-          <TxButton
-            accountId={controllerId.toString()}
-            isPrimary
-            key='unlock'
-            label={t('Unlock')}
-            params={[]}
-            tx='staking.withdrawUnbonded'
-          />
-          );
-
         // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
         // staking_ledger.total gives the total amount that can be slashed (any active amount + what is being unlocked)
         if (freeBalance && staking_ledger && staking_ledger.total && (freeBalance.gt(staking_ledger.total))) {
