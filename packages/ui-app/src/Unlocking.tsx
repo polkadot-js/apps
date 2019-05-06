@@ -13,7 +13,7 @@ import { classes } from './util';
 
 export type Props = BareProps & {
   bonded?: BN | Array<BN>,
-  label?: string,
+  label?: { unlockable: string, locked: string, remaining: string },
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   remainingLabel?: string,
   withLabel?: boolean

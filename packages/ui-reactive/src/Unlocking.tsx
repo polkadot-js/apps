@@ -12,7 +12,7 @@ import { withCalls } from '@polkadot/ui-api';
 type Props = BareProps & CallProps & {
   balances_freeBalance?: BN,
   chain_bestNumber?: BN,
-  label?: string,
+  label?: { unlockable: string, locked: string, remaining: string },
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   remainingLabel?: string,
   staking_ledger?: StakingLedger,
@@ -32,24 +32,39 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
       return remaining.lten(0) ? new BN(0) : remaining;
     }
   }
-  renderRemaining = (remainingBlocks: BN) => {
-
-  }
 
   render () {
-    const { className,label = '', style, unlockings,remainingLabel = '' } = this.props;
+    const { className,label = { unlockable: '', locked: '', remaining: '' }, style, unlockings } = this.props;
+    if (!unlockings) return null;
+
+    const unlockable = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).eqn(0));
+    const locked = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).gtn(0));
+    const unlockableSum = unlockable.reduce(
+      (curr, prev) => {
+        return new UnlockChunk({ value: curr.value.add(prev.value || new BN(0)) });
+      }
+     ).value;
 
     return unlockings ?
       <>
-        {unlockings.map((unlocking,index) => (
+        <div
+            className={className}
+            style={style}
+            key='unlockable'
+          >
+      {label.unlockable}{formatBalance(unlockableSum)}
+      </div>
+      <div>
+        {locked.map((unlocking,index) => (
           <div
             className={className}
             style={style}
             key={index}
           >
-            {label}{formatBalance(unlocking.value)} ({this.remainingBlocks(unlocking.era).toString()}{remainingLabel})
+            {label.locked}{formatBalance(unlocking.value)} ({this.remainingBlocks(unlocking.era).toString()}{label.remaining})
           </div>
         ))}
+      </div>
       </>
     : null ;
   }
