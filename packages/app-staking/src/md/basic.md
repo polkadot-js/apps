@@ -1,6 +1,6 @@
 # Staking
 
-Welcome to the staking module. Here you can see an overview of all the validators on the network and participate in the network as either as validator (running a node that helps secure the network), or a nominator (adding funds to help secure the network).
+Welcome to the staking module. Here you can see an overview of all the validators on the network and participate in the network as either a validator (running a node that helps secure the network), or a nominator (adding funds to help secure the network).
 
 Validators and nominators earn rewards at the end of an era: the rewards are split between the validators and nominators for that validator, in proportion to the amount bonded by each individual.
 

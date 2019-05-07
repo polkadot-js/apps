@@ -311,7 +311,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { accountId, controllerId, sessionId, staking_nominators, staking_validators,stashId, freeBalance, staking_ledger, t } = this.props;
+    const { accountId, controllerId, sessionId, staking_nominators, staking_validators, stashId, freeBalance, staking_ledger, t } = this.props;
     const buttons = [];
 
     if (!stashId) {
@@ -329,12 +329,12 @@ class Account extends React.PureComponent<Props, State> {
         // staking_ledger.total gives the total amount that can be slashed (any active amount + what is being unlocked)
         if (freeBalance && staking_ledger && staking_ledger.total && (freeBalance.gt(staking_ledger.total))) {
           buttons.push(
-          <Button
-            isPrimary
-            key='bond'
-            onClick={this.toggleBondExtra}
-            label={t('Bond Additional')}
-          />
+            <Button
+              isPrimary
+              key='bond'
+              onClick={this.toggleBondExtra}
+              label={t('Bond Additional')}
+            />
           );
         }
         // don't show the `unbond` button if there's nothing to unbond
