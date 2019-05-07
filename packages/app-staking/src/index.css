@@ -19,16 +19,6 @@
   .ui--AddressMini {
     display: block;
   }
-
-  .ui--AddressSummary {
-    display: flex;
-    justify-content: space-between;
-    padding: 0;
-
-    .ui--AddressSummary-base, .ui--AddressSummary-children {
-      min-width: 0;
-    }
-  }
 }
 
 .ui--Nominators {
@@ -40,6 +30,12 @@
 .staking--Account-expand {
   min-width: 18rem;
   text-align: right;
+}
+
+.staking--Account-links {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
 }
 
 .staking--Account-details {
@@ -117,5 +113,73 @@
 .staking--accounts-info {
   .staking--label {
     margin: 0 2.25rem -0.5rem 0;
+  }
+}
+
+@media (min-width: 1281px) {
+  .ui--AddressSummary {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+
+    .ui--AddressSummary-base, .ui--AddressSummary-children {
+      min-width: 0;
+    }
+  }
+}
+
+@media (max-width: 1280px) {
+  .staking--Account {
+    min-width: 31%;
+
+    .ui--AddressMini {
+      display: block;
+    }
+
+    .ui--AddressSummary {
+      display: block;
+
+      .ui--AddressSummary-base, .ui--AddressSummary-children {
+        min-width: 0;
+        display: block;
+      }
+
+      .ui--AddressSummary-base {
+        min-height: 16rem;
+      }
+
+      .ui--AddressSummary-children {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+
+  .staking--Account-expand {
+    min-width: auto;
+  }
+
+  .staking--Account-links {
+    max-width: 12rem;
+  }
+}
+
+@media (max-width: 1020px) {
+  .staking--Account {
+    min-width: 48%;
+  }
+}
+
+@media (max-width: 860px) {
+  .staking--Account {
+    min-width: 48%;
+  }
+}
+
+@media (max-width: 620px) {
+  .staking--Account {
+    min-width: 100%;
   }
 }
