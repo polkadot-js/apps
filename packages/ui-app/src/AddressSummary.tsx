@@ -199,7 +199,7 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderUnlocking () {
-    const { accounts_idAndIndex = [], t, value, withUnlocking } = this.props;
+    const { accounts_idAndIndex = [], value, withUnlocking } = this.props;
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
 
