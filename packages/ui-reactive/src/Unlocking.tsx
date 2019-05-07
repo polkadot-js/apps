@@ -25,18 +25,30 @@ type Props = BareProps & CallProps & I18nProps & {
 
 export class UnlockingDisplay extends React.PureComponent<Props> {
 
-  remainingBlocks = (era: BN) => {
+  render () {
+    const { unlockings } = this.props;
+
+    return unlockings ?
+      <>
+        {this.renderUnlockableSum()}
+        {this.renderLocked()}
+      </>
+    : null ;
+  }
+
+  private remainingBlocks (era: BN) {
     const { chain_bestNumber, session_eraLength } = this.props;
 
     if (!chain_bestNumber || !session_eraLength || era.lten(0)) {
       return new BN(0);
     } else {
       const remaining = session_eraLength.mul(era).sub(chain_bestNumber);
+
       return remaining.lten(0) ? new BN(0) : remaining;
     }
   }
 
-  renderUnlockableSum = () => {
+  private renderUnlockableSum = () => {
     const { className, controllerId, style, t, unlockings } = this.props;
 
     if (!unlockings || !unlockings[0] || !controllerId) return null;
@@ -71,7 +83,7 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
     );
   }
 
-  renderLocked = () => {
+  private renderLocked = () => {
     const { className, controllerId, style, t, unlockings } = this.props;
 
     if (!unlockings || !controllerId) return null;
@@ -94,17 +106,6 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
         ))}
       </div>
     );
-  }
-
-  render () {
-    const { unlockings } = this.props;
-
-    return unlockings ?
-      <>
-        {this.renderUnlockableSum()}
-        {this.renderLocked()}
-      </>
-    : null ;
   }
 }
 

@@ -30,7 +30,7 @@ export class AvailableDisplay extends React.PureComponent<Props> {
       // only get the locks that are valid until passed the current block
       const totals = balances_locks.filter((value, index) => chain_bestNumber && value.until.gt(chain_bestNumber));
       // get the maximum of the locks according to https://github.com/paritytech/substrate/blob/master/srml/balances/src/lib.rs#L699
-      maxLock = max(totals.map(function (o) { return o.amount; }));
+      maxLock = max(totals.map(({ amount }) => amount));
     }
 
     const available = maxLock.eq(new BlockNumber('0xffffffffffffffffffffffffffffffff')) ? new Balance(0) : balances_freeBalance && balances_freeBalance.sub(maxLock) ;
