@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 type Props = BareProps & {
   children: React.ReactNode
-}
+};
 
 const Wrapper = styled.div`
   opacity: 0.5;

@@ -9,8 +9,6 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 import { HelpOverlay, Tabs } from '@polkadot/ui-app';
 
-import './index.css';
-
 import md from './md/basics.md';
 import translate from './translate';
 import Developer from './Developer';

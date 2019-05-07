@@ -6,6 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import styled from 'styled-components';
 import { InputAddress, Labelled } from '@polkadot/ui-app';
 import { Nonce } from '@polkadot/ui-reactive';
 
@@ -21,6 +22,11 @@ type State = {
   accountNonce: BN,
   accountId?: string | null
 };
+
+const Wrapper = styled.div`
+  box-sizing: border-box;
+  padding-left: 2em;
+`;
 
 class Account extends React.PureComponent<Props, State> {
   state: State;
@@ -38,7 +44,7 @@ class Account extends React.PureComponent<Props, State> {
     const { defaultValue, isError, t } = this.props;
 
     return (
-      <div className='rpc--Account ui--row'>
+      <Wrapper className='ui--row'>
         <div className='large'>
           <InputAddress
             defaultValue={defaultValue}
@@ -50,7 +56,7 @@ class Account extends React.PureComponent<Props, State> {
           />
         </div>
         {this.renderNonce()}
-      </div>
+      </Wrapper>
     );
   }
 

@@ -6,6 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
 import React from 'react';
+import styled from 'styled-components';
 import { Trans } from 'react-i18next';
 import { Button, IdentityIcon, Modal, Password } from '@polkadot/ui-app';
 
@@ -21,6 +22,31 @@ type State = {
   password: string,
   unlockError: string | null
 };
+
+const WrapperContent = styled.div`
+  align-content: center;
+  display: flex;
+  line-height: 1.5em;
+
+  .expanded {
+    padding-right: 2em;
+
+    .code {
+      background: #f5f5f5;
+      font-family: monospace;
+      margin: 0 0.25em;
+      overflow-wrap: break-word;
+      padding: 0.25em 0.5em;
+      word-break: break-all;
+      word-break: break-word;
+      word-wrap: break-word;
+    }
+  }
+`;
+
+const WrapperEntry = styled.div`
+  padding-top: 1.5rem;
+`;
 
 class Unlock extends React.PureComponent<Props, State> {
   state: State = {
@@ -85,7 +111,7 @@ class Unlock extends React.PureComponent<Props, State> {
 
     return (
       <>
-        <div className='toolbox--Unlock-Content'>
+        <WrapperContent>
           <div className='expanded'>
             <p>
               <Trans>
@@ -97,8 +123,8 @@ class Unlock extends React.PureComponent<Props, State> {
             className='icon'
             value={address}
           />
-        </div>
-        <div className='toolbox--Unlock-Entry'>
+        </WrapperContent>
+        <WrapperEntry>
           <div className='ui--row'>
             <Password
               className='medium'
@@ -108,7 +134,7 @@ class Unlock extends React.PureComponent<Props, State> {
               value={password}
             />
           </div>
-        </div>
+        </WrapperEntry>
       </>
     );
   }
