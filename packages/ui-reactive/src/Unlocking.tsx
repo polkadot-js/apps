@@ -48,42 +48,7 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
     }
   }
 
-  private renderUnlockableSum = () => {
-    const { className, controllerId, style, t, unlockings } = this.props;
-
-    if (!unlockings || !unlockings[0] || !controllerId) return null;
-
-    const labelUnlockable = t('unlockable ');
-    const unlockable = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).eqn(0));
-    const unlockableSum = unlockable.reduce(
-      (curr, prev) => {
-        return new UnlockChunk({ value: curr.value.add(prev.value) });
-      }, new UnlockChunk({ value: new BN(0), era: new BN(0) })
-     ).value;
-
-    return (unlockableSum.gtn(0) ?
-      <div
-        className={className}
-        style={style}
-        key='unlockable'
-      >
-        {labelUnlockable}{formatBalance(unlockableSum)}
-        <TxButton
-          accountId={controllerId.toString()}
-          className='withDrawUnbonded'
-          icon='lock'
-          size='small'
-          isPrimary
-          key='unlock'
-          params={[]}
-          tx='staking.withdrawUnbonded'
-        />
-      </div>
-      : null
-    );
-  }
-
-  private renderLocked = () => {
+  private renderLocked () {
     const { className, controllerId, style, t, unlockings } = this.props;
 
     if (!unlockings || !controllerId) return null;
@@ -105,6 +70,41 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
           </div>
         ))}
       </div>
+    );
+  }
+
+  private renderUnlockableSum () {
+    const { className, controllerId, style, t, unlockings } = this.props;
+
+    if (!unlockings || !unlockings[0] || !controllerId) return null;
+
+    const labelUnlockable = t('unlockable ');
+    const unlockable = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).eqn(0));
+    const unlockableSum = unlockable.reduce(
+      (curr, prev) => {
+        return new UnlockChunk({ value: curr.value.add(prev.value) });
+      }, new UnlockChunk({ value: new BN(0), era: new BN(0) })
+    ).value;
+
+    return (unlockableSum.gtn(0) ?
+      <div
+        className={className}
+        style={style}
+        key='unlockable'
+      >
+        {labelUnlockable}{formatBalance(unlockableSum)}
+        <TxButton
+          accountId={controllerId.toString()}
+          className='withDrawUnbonded'
+          icon='lock'
+          size='small'
+          isPrimary
+          key='unlock'
+          params={[]}
+          tx='staking.withdrawUnbonded'
+        />
+      </div>
+      : null
     );
   }
 }
