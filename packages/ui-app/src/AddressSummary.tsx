@@ -210,11 +210,6 @@ class AddressSummary extends React.PureComponent<Props> {
     return (
       <UnlockingDisplay
         className='ui--AddressSummary-available'
-        label={{
-          unlockable: t('unlockable '),
-          locked: t('locked '),
-          remaining: t(' blocks left')
-        }}
         params={accountId}
       />
     );

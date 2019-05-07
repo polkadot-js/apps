@@ -13,18 +13,16 @@ import { classes } from './util';
 
 export type Props = BareProps & {
   bonded?: BN | Array<BN>,
-  label?: { unlockable: string, locked: string, remaining: string },
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   withLabel?: boolean
 };
 
 export default class UnlockingDisplay extends React.PureComponent<Props> {
   render () {
-    const { params, className, label, style } = this.props;
+    const { params, className, style } = this.props;
     return (
       <Unlocking
         className={classes('ui--Unlocking', className)}
-        label={label}
         params={params}
         style={style}
       />

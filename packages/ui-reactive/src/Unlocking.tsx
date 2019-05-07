@@ -6,15 +6,16 @@ import { AccountId, AccountIndex, Address, Option, StakingLedger, UnlockChunk } 
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
 import BN from 'bn.js';
 import { formatBalance } from '@polkadot/util';
+import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
+import translate from '@polkadot/ui-app/translate';
 import { TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
-type Props = BareProps & CallProps & {
+type Props = BareProps & CallProps & I18nProps & {
   balances_freeBalance?: BN,
   chain_bestNumber?: BN,
   controllerId?: AccountId,
-  label?: { unlockable: string, locked: string, remaining: string },
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   remainingLabel?: string,
   staking_ledger?: StakingLedger,
@@ -36,10 +37,11 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
   }
 
   renderUnlockableSum = () => {
-    const { className, controllerId, label = { unlockable: '', locked: '', remaining: '' }, style, unlockings } = this.props;
+    const { className, controllerId, style, t, unlockings } = this.props;
 
     if (!unlockings || !unlockings[0] || !controllerId) return null;
 
+    const labelUnlockable = t('unlockable ');
     const unlockable = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).eqn(0));
     const unlockableSum = unlockable.reduce(
       (curr, prev) => {
@@ -53,7 +55,7 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
         style={style}
         key='unlockable'
       >
-        {label.unlockable}{formatBalance(unlockableSum)}
+        {labelUnlockable}{formatBalance(unlockableSum)}
         <TxButton
           accountId={controllerId.toString()}
           className='withDrawUnbonded'
@@ -70,9 +72,13 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
   }
 
   renderLocked = () => {
-    const { className, controllerId, label = { unlockable: '', locked: '', remaining: '' }, style, unlockings } = this.props;
+    const { className, controllerId, style, t, unlockings } = this.props;
 
     if (!unlockings || !controllerId) return null;
+    const labels: {locked: string, remaining: string } = {
+      locked: t('locked '),
+      remaining: t(' blocks left')
+    };
     const locked = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).gtn(0));
 
     return (
@@ -83,7 +89,7 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
             style={style}
             key={index}
           >
-            {label.locked}{formatBalance(unlocking.value)} ({this.remainingBlocks(unlocking.era).toString()}{label.remaining})
+            {labels.locked}{formatBalance(unlocking.value)} ({this.remainingBlocks(unlocking.era).toString()}{labels.remaining})
           </div>
         ))}
       </div>
@@ -102,20 +108,22 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
   }
 }
 
-export default withCalls<Props>(
-  ['query.balances.freeBalance', { paramName: 'params' }],
-  ['query.staking.bonded', {
-    paramName: 'params',
-    propName: 'controllerId',
-    transform: (value) =>
-      value.unwrapOr(null)
-  }],
-  ['query.staking.ledger', {
-    paramName: 'controllerId',
-    propName: 'unlockings',
-    transform: (ledger: Option<StakingLedger>) =>
-      ledger.unwrapOr({ unlocking: null }).unlocking
-  }],
+export default translate(
+  withCalls<Props>(
+    ['query.balances.freeBalance', { paramName: 'params' }],
+    ['query.staking.bonded', {
+      paramName: 'params',
+      propName: 'controllerId',
+      transform: (value) =>
+        value.unwrapOr(null)
+    }],
+    ['query.staking.ledger', {
+      paramName: 'controllerId',
+      propName: 'unlockings',
+      transform: (ledger: Option<StakingLedger>) =>
+        ledger.unwrapOr({ unlocking: null }).unlocking
+    }],
   'derive.session.eraLength',
   'derive.chain.bestNumber'
-)(UnlockingDisplay);
+  )(UnlockingDisplay)
+);
