@@ -34,12 +34,14 @@ const Wrapper = styled.div`
   .help-slideout {
     background: #eee;
     border-left: 0.25rem solid #ddd;
+    bottom: 0;
     max-width: 50rem;
     overflow-y: scroll;
     position: fixed;
-    right: 0;
+    right: -50rem;
     top: 0;
-    bottom: 0;
+    transition-property: all;
+	  transition-duration: .5s;
     z-index: 10;
 
     .help-button {
@@ -49,6 +51,10 @@ const Wrapper = styled.div`
     .help-content {
       padding: 1rem 1.5rem 5rem;
     }
+
+    &.open {
+      right: 0;
+    }
   }
 `;
 
@@ -56,10 +62,20 @@ export default class HelpOverlay extends React.PureComponent<Props, State> {
   state: State = { isVisible: false };
 
   render () {
+    const { md } = this.props;
+    const { isVisible } = this.state;
+
     return (
       <Wrapper>
         {this.renderButton('help circle')}
-        {this.renderSlideout()}
+        <div className={`help-slideout ${isVisible ? 'open' : 'closed'}`}>
+          {this.renderButton('close')}
+          <ReactMd
+            className='help-content'
+            escapeHtml={false}
+            source={md}
+          />
+        </div>
       </Wrapper>
     );
   }
@@ -70,26 +86,6 @@ export default class HelpOverlay extends React.PureComponent<Props, State> {
         <Icon
           name={name}
           onClick={this.toggleVisible}
-        />
-      </div>
-    );
-  }
-
-  private renderSlideout () {
-    const { md } = this.props;
-    const { isVisible } = this.state;
-
-    if (!isVisible) {
-      return null;
-    }
-
-    return (
-      <div className='help-slideout'>
-        {this.renderButton('close')}
-        <ReactMd
-          className='help-content'
-          escapeHtml={false}
-          source={md}
         />
       </div>
     );

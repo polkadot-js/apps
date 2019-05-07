@@ -3,12 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
 import { ComponentProps } from './types';
 
 import FileSaver from 'file-saver';
 import React from 'react';
+import { DEV_PHRASE } from '@polkadot/keyring/defaults';
+import { withApi, withMulti } from '@polkadot/ui-api';
 import { AddressSummary, Button, Dropdown, Input, Labelled, Modal, Password } from '@polkadot/ui-app';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring';
@@ -18,7 +21,7 @@ import { keyExtractPath, mnemonicGenerate, mnemonicValidate, randomAsU8a } from 
 
 import translate from './translate';
 
-type Props = ComponentProps & I18nProps & {
+type Props = ComponentProps & ApiProps & I18nProps & {
   match: {
     params: {
       seed?: string,
@@ -27,7 +30,12 @@ type Props = ComponentProps & I18nProps & {
   }
 };
 
-type SeedType = 'bip' | 'raw';
+type SeedType = 'bip' | 'raw' | 'dev';
+
+type SeedOption = {
+  text: string,
+  value: SeedType
+};
 
 type State = {
   address: string,
@@ -41,7 +49,7 @@ type State = {
   pairType: KeypairType,
   password: string,
   seed: string,
-  seedOptions: Array<{ value: SeedType, text: string }>,
+  seedOptions: Array<SeedOption>,
   seedType: SeedType,
   showWarning: boolean
 };
@@ -87,14 +95,19 @@ class Creator extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const { match: { params: { seed, type } }, t } = this.props;
+    const { isDevelopment, match: { params: { seed, type } }, t } = this.props;
+    const seedOptions: Array<SeedOption> = [
+      { value: 'bip', text: t('Mnemonic') },
+      { value: 'raw', text: t('Raw seed') }
+    ];
+
+    if (isDevelopment) {
+      seedOptions.push({ value: 'dev', text: t('Development') });
+    }
 
     this.state = {
       ...this.emptyState(seed || null, '', type || DEFAULT_TYPE),
-      seedOptions: [
-        { value: 'bip', text: t('Mnemonic') },
-        { value: 'raw', text: t('Raw seed') }
-      ]
+      seedOptions
     };
   }
 
@@ -144,6 +157,16 @@ class Creator extends React.PureComponent<Props, State> {
   private renderInput () {
     const { t } = this.props;
     const { deriveError, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType, showWarning } = this.state;
+    const seedLabel = (() => {
+      switch (seedType) {
+        case 'bip':
+          return t('mnemonic seed');
+        case 'dev':
+          return t('development seed');
+        default:
+          return t('seed (hex or string)');
+      }
+    })();
 
     return (
       <div className='grow'>
@@ -164,11 +187,7 @@ class Creator extends React.PureComponent<Props, State> {
             help={t('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
             isAction
             isError={!isSeedValid}
-            label={
-              seedType === 'bip'
-                ? t('mnemonic seed')
-                : t('seed (hex or string)')
-            }
+            label={seedLabel}
             onChange={this.onChangeSeed}
             value={seed}
           >
@@ -281,9 +300,16 @@ class Creator extends React.PureComponent<Props, State> {
   }
 
   private generateSeed (_seed: string | null, derivePath: string, seedType: SeedType, pairType: KeypairType): State {
-    const seed = seedType === 'bip'
-      ? mnemonicGenerate()
-      : _seed || u8aToHex(randomAsU8a());
+    const seed = (() => {
+      switch (seedType) {
+        case 'bip':
+          return mnemonicGenerate();
+        case 'dev':
+          return DEV_PHRASE;
+        default:
+          return _seed || u8aToHex(randomAsU8a());
+      }
+    })();
     const address = addressFromSeed(seed, derivePath, pairType);
 
     return {
@@ -320,9 +346,9 @@ class Creator extends React.PureComponent<Props, State> {
         let address = prevState.address;
         const deriveError = deriveValidate(derivePath, pairType);
         const isNameValid = !!name;
-        const isSeedValid = seedType === 'bip'
-          ? mnemonicValidate(seed)
-          : rawValidate(seed);
+        const isSeedValid = seedType === 'raw'
+          ? rawValidate(seed)
+          : mnemonicValidate(seed);
         const isPassValid = keyring.isPassValid(password);
 
         if (!deriveError && isSeedValid && (seed !== prevState.seed || derivePath !== prevState.derivePath || pairType !== prevState.pairType)) {
@@ -426,4 +452,8 @@ class Creator extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(Creator);
+export default withMulti(
+  Creator,
+  translate,
+  withApi
+);
