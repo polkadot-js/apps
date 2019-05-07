@@ -112,7 +112,7 @@ class Staking extends React.PureComponent<Props, State> {
           />
           <InputAddress
             className='medium'
-            defaultValue={stashId}
+            defaultValue={stashId.toString()}
             isDisabled
             label={t('stash account')}
           />
