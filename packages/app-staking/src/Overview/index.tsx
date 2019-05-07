@@ -24,7 +24,6 @@ const ZERO = new Balance(0);
 class Overview extends React.PureComponent<Props> {
   render () {
     const { balances, chain_subscribeNewHead, controllers, recentlyOffline, validators } = this.props;
-
     const nextSorted = this.sortByBalance(
       controllers.filter((address) =>
         !validators.includes(address)
