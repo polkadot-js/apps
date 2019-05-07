@@ -129,8 +129,14 @@
   display: flex !important;
 }
 
-.ui.progress .bar {
-  min-width: 0 !important;
+.ui.progress {
+  &.tiny {
+    font-size: .5rem;
+  }
+
+  .bar {
+    min-width: 0 !important;
+  }
 }
 
 .ui.secondary.vertical.menu > .item {
