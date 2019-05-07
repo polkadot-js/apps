@@ -6,6 +6,8 @@ import BN from 'bn.js';
 import React from 'react';
 import { Button, InputAddress, InputBalance, TxButton } from '@polkadot/ui-app';
 
+import Summary from './Summary';
+
 type Props = {
   accountId?: string
 };
@@ -44,7 +46,7 @@ export default class Transfer extends React.PureComponent<Props> {
               />
             </Button.Group>
           </div>
-          <div className='template--summary small'>Make a transfer from any account you control to another account. Transfer fees and per-transaction fees apply and will be calculated upon submission.</div>
+          <Summary className='small'>Make a transfer from any account you control to another account. Transfer fees and per-transaction fees apply and will be calculated upon submission.</Summary>
         </div>
       </section>
     );

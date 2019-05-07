@@ -12,9 +12,6 @@ import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 // of this repo)
 import React from 'react';
 
-// our app-specific styles
-import './index.css';
-
 // local imports and components
 import AccountSelector from './AccountSelector';
 import SummaryBar from './SummaryBar';
