@@ -63,19 +63,24 @@ const transformToAccountId = (value: string): string | null => {
 };
 
 const createOption = (address: string) => {
+  let isRecent: boolean | undefined;
   let name: string | undefined;
 
   try {
     name = keyring.getAccount(address).getMeta().name;
   } catch (error) {
     try {
-      name = keyring.getAddress(address).getMeta().name;
+      const meta = keyring.getAddress(address).getMeta();
+
+      name = meta.name;
+      isRecent = meta.isRecent;
     } catch (error) {
-      // ok, we don't have account or address
+      // ok, we don't have account or address, treat as recent
+      isRecent = true;
     }
   }
 
-  return createItem(address, name);
+  return createItem(address, name, !isRecent);
 };
 
 class InputAddress extends React.PureComponent<Props, State> {
