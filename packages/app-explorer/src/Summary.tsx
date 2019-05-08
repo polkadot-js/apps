@@ -20,14 +20,20 @@ class Summary extends React.PureComponent<Props> {
     return (
       <SummaryBox>
         <section>
+          <CardSummary label={t('last block')}>
+            <TimeNow />
+          </CardSummary>
           <CardSummary
             className='ui--media-small'
             label={t('target')}
           >
             <TimePeriod />
           </CardSummary>
-          <CardSummary label={t('last block')}>
-            <TimeNow />
+          <CardSummary
+            className='ui--media-small'
+            label={t('total issuance')}
+          >
+            <TotalIssuance />
           </CardSummary>
         </section>
         <section className='ui--media-large'>
@@ -39,9 +45,6 @@ class Summary extends React.PureComponent<Props> {
           </CardSummary>
           <CardSummary label={t('best')}>
             <BestNumber />
-          </CardSummary>
-          <CardSummary label={t('total issuance')}>
-            <TotalIssuance />
           </CardSummary>
         </section>
       </SummaryBox>

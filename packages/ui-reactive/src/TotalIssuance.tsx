@@ -18,6 +18,9 @@ type Props = BareProps & CallProps & {
 export class TotalIssuance extends React.PureComponent<Props> {
   render () {
     const { children, className, label = '', style, balances_totalIssuance } = this.props;
+    const value = balances_totalIssuance
+      ? balances_totalIssuance.toString()
+      : null;
 
     return (
       <div
@@ -25,8 +28,8 @@ export class TotalIssuance extends React.PureComponent<Props> {
         style={style}
       >
         {label}{
-          balances_totalIssuance
-            ? formatBalance(balances_totalIssuance)
+          value
+            ? `${formatBalance(value, false)}${formatBalance.calcSi(value).value}`
             : '-'
           }{children}
       </div>
