@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-accounts",
-  "version": "0.33.0-beta.33",
+  "version": "0.33.0-beta.34",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.4.4",
-    "@polkadot/ui-app": "^0.33.0-beta.33",
+    "@polkadot/ui-app": "^0.33.0-beta.34",
     "@types/file-saver": "^2.0.0",
     "@types/yargs": "^12.0.11",
     "babel-plugin-module-resolver": "^3.1.1",
