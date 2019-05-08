@@ -33,6 +33,7 @@ const Wrapper = styled.div`
   position: fixed;
   right: 0;
   text-align: center;
+  z-index: 500;
 `;
 
 class Accounts extends React.PureComponent<Props, State> {
