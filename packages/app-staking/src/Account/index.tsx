@@ -80,17 +80,21 @@ class Account extends React.PureComponent<Props, State> {
           name={name}
           value={accountId}
           identIconSize={96}
+          withAvailable
           withBonded
           withIndex={false}
           withNonce={false}
+          withUnlocking
         >
           <div className='staking--Account-expand'>
             {this.renderButtons()}
-            {this.renderControllerId()}
-            {this.renderStashId()}
-            {this.renderSessionId()}
-            {this.renderNominee()}
-            {this.renderNominators()}
+            <div className='staking--Account-links'>
+              {this.renderControllerId()}
+              {this.renderStashId()}
+              {this.renderSessionId()}
+              {this.renderNominee()}
+              {this.renderNominators()}
+            </div>
           </div>
         </AddressSummary>
       </article>
@@ -168,24 +172,6 @@ class Account extends React.PureComponent<Props, State> {
       />
     );
   }
-
-  // private renderUnbond () {
-  //   const { accountId } = this.props;
-  //   const { controllerId, isBondingOpen } = this.state;
-
-  //   if (!controllerId) {
-  //     return null;
-  //   }
-
-  //   return (
-  //     <UnBond
-  //       accountId={accountId}
-  //       controllerId={controllerId}
-  //       isOpen={isBondingOpen}
-  //       onClose={this.toggleBonding}
-  //     />
-  //   );
-  // }
 
   private renderNominee () {
     const { recentlyOffline, staking_nominators, t } = this.props;
@@ -309,7 +295,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { accountId, controllerId, sessionId, staking_nominators, staking_validators,stashId, freeBalance, staking_ledger, t } = this.props;
+    const { accountId, controllerId, sessionId, staking_nominators, staking_validators, stashId, freeBalance, staking_ledger, t } = this.props;
     const buttons = [];
 
     if (!stashId) {
@@ -327,12 +313,12 @@ class Account extends React.PureComponent<Props, State> {
         // staking_ledger.total gives the total amount that can be slashed (any active amount + what is being unlocked)
         if (freeBalance && staking_ledger && staking_ledger.total && (freeBalance.gt(staking_ledger.total))) {
           buttons.push(
-          <Button
-            isPrimary
-            key='bond'
-            onClick={this.toggleBondExtra}
-            label={t('Bond Additional')}
-          />
+            <Button
+              isPrimary
+              key='bond'
+              onClick={this.toggleBondExtra}
+              label={t('Bond Additional')}
+            />
           );
         }
         // don't show the `unbond` button if there's nothing to unbond

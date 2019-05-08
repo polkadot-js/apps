@@ -46,6 +46,7 @@ export default class Tooltip extends React.PureComponent<Props> {
 
   render () {
     const { children, trigger, delayShow, effect, place, className } = this.props;
+
     return ReactDOM.createPortal(
       <ReactTooltip
         id={trigger}
@@ -56,6 +57,7 @@ export default class Tooltip extends React.PureComponent<Props> {
       >
         {children}
       </ReactTooltip>,
-      this.tooltipContainer);
+      this.tooltipContainer
+    );
   }
 }

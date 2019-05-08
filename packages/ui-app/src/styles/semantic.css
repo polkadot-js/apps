@@ -129,8 +129,14 @@
   display: flex !important;
 }
 
-.ui.progress .bar {
-  min-width: 0 !important;
+.ui.progress {
+  &.tiny {
+    font-size: .5rem;
+  }
+
+  .bar {
+    min-width: 0 !important;
+  }
 }
 
 .ui.secondary.vertical.menu > .item {
@@ -174,11 +180,11 @@
 
   .item {
     border-bottom: 2px solid rgba(0, 0, 0, 0);
+    border: none;
     top: -1px;
 
     &.active {
       background: none; /* #fafafa */;
-      border: none;
       border-bottom: 2px solid #db2828;
     }
   }
@@ -188,3 +194,4 @@
 .ui.segment {
   background: transparent;
 }
+

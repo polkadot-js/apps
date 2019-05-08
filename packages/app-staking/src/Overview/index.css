@@ -27,6 +27,12 @@
   margin-right: 1rem;
 }
 
+.validator--Account-block-icon {
+  margin-right: 0.75rem;
+  margin-top: -0.25rem;
+  vertical-align: middle;
+}
+
 .validator--Account-validating {
   opacity: 0.25 !important;
   padding-top: 0.5em;

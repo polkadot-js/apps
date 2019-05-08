@@ -271,7 +271,9 @@ class Deploy extends React.PureComponent<Props, State> {
   }
 
   private redirect () {
-    window.location.hash = this.props.basePath;
+    window.location.hash = store.hasContracts
+      ? `${this.props.basePath}/instantiate`
+      : this.props.basePath;
   }
 }
 

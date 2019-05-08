@@ -55,6 +55,10 @@
   margin-bottom: 0;
 }
 
+.democracy--Proposal-new {
+  float: right;
+}
+
 .democracy--Referendum-results {
   margin-bottom: 1em;
 }

@@ -12,6 +12,7 @@ import { withCalls, withMulti } from '@polkadot/ui-api/with';
 import { AddressMini, AddressRow, RecentlyOffline } from '@polkadot/ui-app';
 import { getAddrName } from '@polkadot/ui-app/util';
 import { formatBalance } from '@polkadot/util';
+import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
 
@@ -165,10 +166,10 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private iNominated () {
-    const { address } = this.props;
     const nominators = this.getNominators();
+    const myAddresses = keyring.getAccounts().map(acc => acc.address());
 
-    return nominators.filter(nom => nom[0].toString() === address).length > 0;
+    return nominators.filter(([who, value]) => myAddresses.includes(who.toString())).length > 0;
   }
 
   private hasNominators () {
