@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { withApi, withMulti } from '@polkadot/ui-api';
 import settings from '@polkadot/ui-settings';
 
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & ApiProps;
 
