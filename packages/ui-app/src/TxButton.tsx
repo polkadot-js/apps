@@ -2,19 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import { ApiProps } from '@polkadot/ui-api/types';
+import { assert, isFunction, isUndefined } from '@polkadot/util';
 import { Index } from '@polkadot/types';
 import { IExtrinsic } from '@polkadot/types/types';
-import { ApiProps } from '@polkadot/ui-api/types';
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { QueueTx, QueueTx$ExtrinsicAdd, TxCallback } from './Status/types';
 
 import React from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { withApi } from '@polkadot/ui-api';
-import { assert, isFunction, isUndefined } from '@polkadot/util';
 
-import { QueueConsumer } from './Status/Context';
 import Button from './Button';
+import { Button$Sizes } from './Button/types';
+import { QueueConsumer } from './Status/Context';
 
 type ConstructFn = () => Array<any>;
 
@@ -26,17 +27,20 @@ type InjectedProps = {
 type Props = ApiProps & {
   accountId?: string,
   accountNonce?: Index,
-  isPrimary?: boolean,
+  className?: string,
+  extrinsic?: IExtrinsic | SubmittableExtrinsic,
+  icon?: string,
+  iconSize?: Button$Sizes,
   isDisabled?: boolean,
   isNegative?: boolean,
+  isPrimary?: boolean,
   label: React.ReactNode,
   onClick?: () => any,
   onFailed?: TxCallback,
   onSuccess?: TxCallback,
   onUpdate?: TxCallback,
   params?: Array<any> | ConstructFn,
-  tx?: string,
-  extrinsic?: IExtrinsic | SubmittableExtrinsic
+  tx?: string
 };
 
 type InnerProps = Props & InjectedProps;
@@ -52,17 +56,20 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
   } as State;
 
   render () {
-    const { accountId, isDisabled, isNegative, isPrimary, label } = this.props;
+    const { accountId, className, icon, iconSize , isDisabled, isNegative, isPrimary, label } = this.props;
     const { isSending } = this.state;
 
     return (
       <Button
+        className={className}
+        icon={icon}
         isDisabled={isSending || isDisabled || !accountId}
         isLoading={isSending}
         isNegative={isNegative}
         isPrimary={isUndefined(isPrimary) ? !isNegative : isPrimary}
         label={label}
         onClick={this.send}
+        size={iconSize}
       />
     );
   }

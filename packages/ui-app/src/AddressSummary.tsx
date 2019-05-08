@@ -11,11 +11,13 @@ import { Nonce } from '@polkadot/ui-reactive';
 import { withCalls } from '@polkadot/ui-api';
 import BaseIdentityIcon from '@polkadot/ui-identicon';
 
+import AvailableDisplay from './Available';
 import { classes, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
 import translate from './translate';
+import UnlockingDisplay from './Unlocking';
 
 export type Props = I18nProps & {
   accounts_idAndIndex?: [AccountId?, AccountIndex?],
@@ -23,17 +25,19 @@ export type Props = I18nProps & {
   bonded?: BN | Array<BN>,
   children?: React.ReactNode,
   extraInfo?: React.ReactNode,
-  name?: string,
-  value: AccountId | AccountIndex | Address | string | null,
-  withBalance?: boolean,
-  withBonded?: boolean,
-  withIndex?: boolean,
   identIconSize?: number,
   isShort?: boolean,
+  name?: string,
   session_validators?: Array<AccountId>,
+  value: AccountId | AccountIndex | Address | string | null,
+  withAvailable?: boolean,
+  withBalance?: boolean,
+  withBonded?: boolean,
   withCopy?: boolean,
   withIcon?: boolean,
-  withNonce?: boolean
+  withIndex?: boolean,
+  withNonce?: boolean,
+  withUnlocking?: boolean
 };
 
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
@@ -53,9 +57,11 @@ class AddressSummary extends React.PureComponent<Props> {
           {this.renderIcon()}
           {this.renderAccountId()}
           {this.renderAccountIndex()}
+          {this.renderAvailable()}
           {this.renderBalance()}
           {this.renderBonded()}
           {this.renderNonce()}
+          {this.renderUnlocking()}
         </div>
         {this.renderChildren()}
       </div>
@@ -169,6 +175,41 @@ class AddressSummary extends React.PureComponent<Props> {
         bonded={bonded}
         className='ui--AddressSummary-bonded'
         label={t('bonded ')}
+        params={accountId}
+      />
+    );
+  }
+
+  protected renderAvailable () {
+    const { accounts_idAndIndex = [], t, value, withAvailable } = this.props;
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId || value;
+
+    if (!withAvailable || !accountId) {
+      return null;
+    }
+
+    return (
+      <AvailableDisplay
+        className='ui--AddressSummary-available'
+        label={t('available ')}
+        params={accountId}
+      />
+    );
+  }
+
+  protected renderUnlocking () {
+    const { accounts_idAndIndex = [], value, withUnlocking } = this.props;
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId || value;
+
+    if (!withUnlocking || !accountId) {
+      return null;
+    }
+
+    return (
+      <UnlockingDisplay
+        className='ui--AddressSummary-available'
         params={accountId}
       />
     );

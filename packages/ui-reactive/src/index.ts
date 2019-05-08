@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export { default as AccountIndex } from './AccountIndex';
+export { default as Available } from './Available';
 export { default as Balance } from './Balance';
 export { default as Bonded } from './Bonded';
 export { default as BestFinalized } from './BestFinalized';
@@ -14,3 +15,4 @@ export { default as NodeVersion } from './NodeVersion';
 export { default as Nonce } from './Nonce';
 export { default as TimeNow } from './TimeNow';
 export { default as TimePeriod } from './TimePeriod';
+export { default as Unlocking } from './Unlocking';

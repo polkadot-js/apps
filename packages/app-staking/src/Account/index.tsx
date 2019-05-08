@@ -80,9 +80,11 @@ class Account extends React.PureComponent<Props, State> {
           name={name}
           value={accountId}
           identIconSize={96}
+          withAvailable
           withBonded
           withIndex={false}
           withNonce={false}
+          withUnlocking
         >
           <div className='staking--Account-expand'>
             {this.renderButtons()}
@@ -170,24 +172,6 @@ class Account extends React.PureComponent<Props, State> {
       />
     );
   }
-
-  // private renderUnbond () {
-  //   const { accountId } = this.props;
-  //   const { controllerId, isBondingOpen } = this.state;
-
-  //   if (!controllerId) {
-  //     return null;
-  //   }
-
-  //   return (
-  //     <UnBond
-  //       accountId={accountId}
-  //       controllerId={controllerId}
-  //       isOpen={isBondingOpen}
-  //       onClose={this.toggleBonding}
-  //     />
-  //   );
-  // }
 
   private renderNominee () {
     const { recentlyOffline, staking_nominators, t } = this.props;

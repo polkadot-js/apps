@@ -98,6 +98,11 @@ header .ui--Button-Group {
   white-space: nowrap
 }
 
+.ui--AddressSummary-available > button.ui.icon.withDrawUnbonded {
+  padding: 0.3em;
+  margin-left: 0.4em;
+}
+
 .ui--AddressSummary-base {
   padding: 0 1em;
   text-align: center;
