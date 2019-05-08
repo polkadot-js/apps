@@ -85,7 +85,7 @@ function rawValidate (seed: string): boolean {
 
 function addressFromSeed (phrase: string, derivePath: string, pairType: KeypairType): string {
   return keyring
-    .createFromUri(`${phrase}${derivePath}`, {}, pairType)
+    .createFromUri(`${phrase.trim()}${derivePath}`, {}, pairType)
     .address();
 }
 
@@ -346,13 +346,17 @@ class Creator extends React.PureComponent<Props, State> {
         let address = prevState.address;
         const deriveError = deriveValidate(derivePath, pairType);
         const isNameValid = !!name;
-        const isSeedValid = seedType === 'raw'
+        const isPassValid = keyring.isPassValid(password);
+        let isSeedValid = seedType === 'raw'
           ? rawValidate(seed)
           : mnemonicValidate(seed);
-        const isPassValid = keyring.isPassValid(password);
 
         if (!deriveError && isSeedValid && (seed !== prevState.seed || derivePath !== prevState.derivePath || pairType !== prevState.pairType)) {
-          address = addressFromSeed(seed, derivePath, pairType);
+          try {
+            address = addressFromSeed(seed, derivePath, pairType);
+          } catch (error) {
+            isSeedValid = false;
+          }
         }
 
         return {
