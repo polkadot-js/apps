@@ -38,24 +38,28 @@ class Hash extends React.PureComponent<Props, State> {
     const { data, isHexData } = this.state;
 
     return (
-      <div className='ui--row'>
-        <Input
-          autoFocus
-          className='large'
-          label={t('from the following data (hex or string)')}
-          onChange={this.onChangeData}
-          value={data}
-        />
-        <Static
-          className='small'
-          label={t('hex input data')}
-          value={
-            isHexData
-              ? t('Yes')
-              : t('No')
-          }
-        />
-      </div>
+      <>
+        <div className='ui--row'>
+          <Input
+            autoFocus
+            className='full'
+            label={t('from the following data (hex or string)')}
+            onChange={this.onChangeData}
+            value={data}
+          />
+        </div>
+        <div className='ui--row'>
+          <Static
+            className='medium'
+            label={t('hex input data')}
+            value={
+              isHexData
+                ? t('Yes')
+                : t('No')
+            }
+          />
+        </div>
+      </>
     );
   }
 
