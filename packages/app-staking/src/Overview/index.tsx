@@ -64,10 +64,10 @@ class Overview extends React.PureComponent<Props> {
     const { balances } = this.props;
 
     return list.sort((a, b) => {
-      const balanceA = balances[a] || { stakingBalance: ZERO };
-      const balanceB = balances[b] || { stakingBalance: ZERO };
+      const balanceA = balances[a] || { freeBalance: ZERO };
+      const balanceB = balances[b] || { freeBalance: ZERO };
 
-      return balanceB.stakingBalance.cmp(balanceA.stakingBalance);
+      return balanceB.freeBalance.cmp(balanceA.freeBalance);
     });
   }
 }
