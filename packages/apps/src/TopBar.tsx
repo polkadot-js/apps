@@ -5,39 +5,12 @@
 // Unused atm, experiment as a replacement for NodeInfo on the SideBar
 
 import React from 'react';
-import styled from 'styled-components';
 
 import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/ui-reactive';
 
+import { TopBar as Wrapper } from './styles';
+
 type Props = {};
-
-const Wrapper = styled.div`
-  background: #f2f2f2;
-  font-size: 0.85rem;
-  line-height: 1rem;
-  overflow: hidden;
-  padding: 0.5rem 1rem;
-  position: fixed;
-  right: 0;
-  text-align: right;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  top: 0;
-
-  div {
-    display: inline-block;
-    vertical-align: middle;
-  }
-
-  > div {
-    border-left: 1px solid #ccc;
-    padding: 0 0.5rem;
-
-    &:first-child {
-      border-width: 0;
-    }
-  }
-`;
 
 export default class TopBar extends React.PureComponent<Props> {
   render () {

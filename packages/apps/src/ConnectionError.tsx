@@ -6,31 +6,19 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import styled from 'styled-components';
 import { withApi, withMulti } from '@polkadot/ui-api';
 import settings from '@polkadot/ui-settings';
 
 import translate from './translate';
 
-type Props = I18nProps & ApiProps;
+import { ConnectionError as Wrapper } from './styles';
 
-const Wrapper = styled.div`
-  background: red;
-  color: white;
-  bottom: 0;
-  left: 0;
-  line-height: 1.5em;
-  opacity: 0.9;
-  padding: 1em 5em;
-  position: fixed;
-  right: 0;
-  text-align: center;
-`;
+type Props = I18nProps & ApiProps;
 
 // @ts-ignore
 const isFirefox = typeof InstallTrigger !== 'undefined';
 
-class Connecting extends React.PureComponent<Props> {
+class ConnectionError extends React.PureComponent<Props> {
   render () {
     const { isApiConnected, t } = this.props;
 
@@ -62,7 +50,7 @@ class Connecting extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  Connecting,
+  ConnectionError,
   translate,
   withApi
 );

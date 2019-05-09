@@ -14,9 +14,12 @@ import { classes } from '@polkadot/ui-app/util';
 import Signer from '@polkadot/ui-signer';
 import settings from '@polkadot/ui-settings';
 
-import Connecting from './Connecting';
+import ConnectionError from './ConnectionError';
 import Content from './Content';
+import NoAccounts from './NoAccounts';
 import SideBar from './SideBar';
+
+import { Overlay, Wrapper } from './styles';
 
 type Props = BareProps & {};
 
@@ -27,21 +30,28 @@ type State = {
   transition: SideBarTransition
 };
 
-const Wrapper = styled.div`
-  align-items: stretch;
-  box-sizing: border-box;
-  display: flex;
-  min-height: 100vh;
-
-  header {
-    margin-bottom: 1.4rem;
-    text-align: center;
-
-    ${media.TABLET`
-      margin-bottom: 2rem;
-   `}
-  }
-`;
+// const Wrapper = styled.div`
+//   align-items: stretch;
+//   box-sizing: border-box;
+//   display: flex;
+//   min-height: 100vh;
+//
+//   header {
+//     margin-bottom: 1.4rem;
+//     text-align: center;
+//
+//     ${media.TABLET`
+//       margin-bottom: 2rem;
+//    `}
+//   }
+// `;
+//
+// const Overlay = styled.div`
+//   right: 0;
+//   bottom: 0;
+//   left: 0;
+//   position: fixed;
+// `;
 
 class Apps extends React.Component<Props, State> {
   state: State;
@@ -95,7 +105,10 @@ class Apps extends React.Component<Props, State> {
           <Signer>
             <Content />
           </Signer>
-          <Connecting />
+          <Overlay>
+            <NoAccounts />
+            <ConnectionError />
+          </Overlay>
         </Wrapper>
       </ThemeProvider>
     );
