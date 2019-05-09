@@ -8,6 +8,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { classes } from './util';
+import Query from './Query';
+import { FilterOverlay } from '@polkadot/ui-app';
 
 export type TabItem = {
   hasParams?: boolean,
@@ -18,13 +20,13 @@ export type TabItem = {
 type Props = BareProps & {
   basePath: string,
   hidden?: Array<string>,
-  items: Array<TabItem>
+  items: Array<TabItem>,
+  query?: Array<string | undefined>
 };
 
 export default class Tabs extends React.PureComponent<Props> {
   render () {
-    const { className, hidden = [], items, style } = this.props;
-
+    const { className, hidden = [], items, query, style } = this.props;
     return (
       <div
         className={classes('ui--Menu ui menu tabular', className)}
@@ -35,6 +37,11 @@ export default class Tabs extends React.PureComponent<Props> {
             .filter(({ name }) => !hidden.includes(name))
             .map(this.renderItem)
         }
+        <FilterOverlay>
+          {query && query.includes(window.location.hash.split('/')[2]) && (
+            <Query/>
+          )}
+        </FilterOverlay>
       </div>
     );
   }
