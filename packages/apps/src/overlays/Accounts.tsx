@@ -68,7 +68,7 @@ class Accounts extends React.PureComponent<Props, State> {
 
     return (
       <Wrapper>
-        <Trans i18nKey='noAccounts'>You have no accounts. Some features such as the ability to send extrinsics only become available once you have accounts. <Link to ='/accounts'>Create an account now.</Link></Trans>
+        <Trans i18nKey='noAccounts'>You have no accounts. Some features are currently hidden and will only become available once you have accounts. <Link to ='/accounts'>Create an account now.</Link></Trans>
       </Wrapper>
     );
   }
