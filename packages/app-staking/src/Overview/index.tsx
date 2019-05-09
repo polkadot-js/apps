@@ -67,7 +67,7 @@ class Overview extends React.PureComponent<Props> {
       const balanceA = balances[a] || { stakingBalance: ZERO };
       const balanceB = balances[b] || { stakingBalance: ZERO };
 
-      return balanceB.stakingBalance.cmp(balanceA.stakingBalance);
+      return balanceB.freeBalance.cmp(balanceA.freeBalance);
     });
   }
 }
