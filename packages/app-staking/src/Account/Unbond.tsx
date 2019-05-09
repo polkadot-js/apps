@@ -118,7 +118,6 @@ class Unbond extends React.PureComponent<Props, State> {
   }
 
   private setMaxBalance = () => {
-    console.log('setMaxBalance2');
     const { staking_ledger } = this.props;
 
     if (!staking_ledger || staking_ledger.isNone) {

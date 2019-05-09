@@ -192,8 +192,6 @@ class Bond extends React.PureComponent<Props, State> {
 
     const { transactionBaseFee, transactionByteFee } = balances_fees;
     const { freeBalance } = balances_votingBalance;
-    // api.derive.balances.votingBalance(accountId!, ({ freeBalance: senderBalance }) => {
-      // api.derive.balances.votingBalance(recipientId!, ({ freeBalance: recipientBalance }) => {
 
     let prevMax = new BN(0);
     let maxBalance = new BN(1);
@@ -222,8 +220,6 @@ class Bond extends React.PureComponent<Props, State> {
       extrinsic,
       maxBalance
     });
-      // });
-    // });
   }
 
   private onChangeController = (controllerId: string) => {
