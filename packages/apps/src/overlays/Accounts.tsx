@@ -9,9 +9,10 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
+
+import { Accounts as Wrapper } from '../styles';
 
 import translate from '../translate';
 
@@ -23,18 +24,6 @@ type State = {
   isDismissed: boolean,
   hasAccounts: boolean
 };
-
-const Wrapper = styled.div`
-  background: #FFFACD;
-  bottom: 0;
-  left: 0;
-  line-height: 1.5em;
-  padding: 1em 5em;
-  position: fixed;
-  right: 0;
-  text-align: center;
-  z-index: 500;
-`;
 
 class Accounts extends React.PureComponent<Props, State> {
   state: State = {
