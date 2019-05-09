@@ -1,3 +1,7 @@
+// Copyright 2017-2019 @polkadot/apps authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
 import styled from 'styled-components';
 import { media } from '@polkadot/ui-app';
 
@@ -56,7 +60,7 @@ export const Overlay = styled.div`
   z-index: 500;
 `;
 
-export const NoticeClose = styled.div`
+export const OverlayClose = styled.div`
   cursor: pointer;
   position: absolute;
   right: 1em;

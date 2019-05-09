@@ -10,9 +10,10 @@ import React from 'react';
 import { Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
+import { Icon } from '@polkadot/ui-app';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 
-import { Accounts as Wrapper } from '../styles';
+import { Accounts as Wrapper, OverlayClose } from '../styles';
 
 import translate from '../translate';
 
@@ -57,9 +58,28 @@ class Accounts extends React.PureComponent<Props, State> {
 
     return (
       <Wrapper>
-        <Trans i18nKey='noAccounts'>You have no accounts. Some features are currently hidden and will only become available once you have accounts. <Link to ='/accounts'>Create an account now.</Link></Trans>
+        <Trans i18nKey='noAccounts'>
+          You have no accounts. Some features are currently hidden and will only become available once you have accounts.
+          {' '}
+          <Link
+            to ='/accounts'
+            onClick={this.dismiss}
+          >
+            Create an account now.
+          </Link>
+        </Trans>
+        <OverlayClose>
+          <Icon
+            name='close'
+            onClick={this.dismiss}
+          />
+        </OverlayClose>
       </Wrapper>
     );
+  }
+
+  private dismiss = () => {
+    this.setState({ isDismissed: true });
   }
 }
 
