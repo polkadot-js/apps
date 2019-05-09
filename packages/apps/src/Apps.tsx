@@ -8,15 +8,16 @@ import { SideBarTransition, SIDEBAR_TRANSITION_DURATION, SIDEBAR_MENU_THRESHOLD 
 import React from 'react';
 import { hot } from 'react-hot-loader/root';
 import store from 'store';
-import styled, { ThemeProvider } from 'styled-components';
-import { media } from '@polkadot/ui-app';
-import { classes } from '@polkadot/ui-app/util';
+import { ThemeProvider } from 'styled-components';
 import Signer from '@polkadot/ui-signer';
 import settings from '@polkadot/ui-settings';
 
-import Connecting from './Connecting';
+import ConnectingOverlay from './overlays/Connecting';
+import AccountsOverlay from './overlays/Accounts';
 import Content from './Content';
 import SideBar from './SideBar';
+
+import { Wrapper } from './styles';
 
 type Props = BareProps & {};
 
@@ -26,22 +27,6 @@ type State = {
   menuOpen: boolean,
   transition: SideBarTransition
 };
-
-const Wrapper = styled.div`
-  align-items: stretch;
-  box-sizing: border-box;
-  display: flex;
-  min-height: 100vh;
-
-  header {
-    margin-bottom: 1.4rem;
-    text-align: center;
-
-    ${media.TABLET`
-      margin-bottom: 2rem;
-   `}
-  }
-`;
 
 class Apps extends React.Component<Props, State> {
   state: State;
@@ -71,19 +56,11 @@ class Apps extends React.Component<Props, State> {
   }
 
   render () {
-
     const { isCollapsed, isMenu, menuOpen } = this.state;
+
     return (
       <ThemeProvider theme={{ theme: settings.uiTheme }}>
-        <Wrapper
-          className={
-            classes('apps-Wrapper',
-                     !isCollapsed ? 'expanded' : 'collapsed',
-                     isMenu ? 'fixed' : '',
-                     menuOpen ? 'menu-open' : '',
-                     `theme--${settings.uiTheme}`)
-          }
-        >
+        <Wrapper className={`apps-Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu ? 'fixed' : ''} ${menuOpen ? 'menu-open' : ''} theme--${settings.uiTheme}`}>
           {this.renderMenuBg()}
           <SideBar
             collapse={this.collapse}
@@ -95,7 +72,8 @@ class Apps extends React.Component<Props, State> {
           <Signer>
             <Content />
           </Signer>
-          <Connecting />
+          <ConnectingOverlay />
+          <AccountsOverlay />
         </Wrapper>
       </ThemeProvider>
     );
@@ -158,11 +136,7 @@ class Apps extends React.Component<Props, State> {
   private renderMenuBg = () => {
     return (
       <div
-        className={
-          classes(
-            'apps-Menu-bg',
-            this.state.menuOpen ? 'open' : 'closed')
-          }
+        className={`apps-Menu-bg ${this.state.menuOpen ? 'open' : 'closed'}`}
         onClick={this.handleResize}
       >
       </div>
