@@ -62,11 +62,42 @@ class Verify extends React.PureComponent<Props, State> {
   }
 
   render () {
+    const { t } = this.props;
+    const { cryptoOptions, cryptoType, data, isHexData } = this.state;
+
     return (
       <div className='toolbox--Verify'>
-        {this.renderInput()}
         {this.renderAddress()}
+        <div className='ui--row'>
+          <Input
+            autoFocus
+            className='full'
+            help={t('The data that was signed. This is used in combination with the signature for the verification. It can either be hex or s string.')}
+            label={t('using the following data')}
+            onChange={this.onChangeData}
+            value={data}
+          />
+        </div>
         {this.renderSignature()}
+        <div className='ui--row'>
+          <Dropdown
+            defaultValue={cryptoType}
+            help={t('Cryptography used to create this signature. It is auto-detected on valid signatures.')}
+            isDisabled
+            label={t('signature crypto type')}
+            options={cryptoOptions}
+          />
+          <Static
+            className='medium'
+            help={t('Detection on the input string to determine if it is hex or non-hex.')}
+            label={t('hex input data')}
+            value={
+              isHexData
+                ? t('Yes')
+                : t('No')
+            }
+          />
+        </div>
       </div>
     );
   }
@@ -80,49 +111,13 @@ class Verify extends React.PureComponent<Props, State> {
         <InputAddress
           className='full'
           defaultValue={defaultPublicKey}
+          help={t('The account that signed the input')}
           isError={!isValidAddress}
           isInput
           label={t('verify using address')}
           onChange={this.onChangeAddress}
         />
       </div>
-    );
-  }
-
-  private renderInput () {
-    const { t } = this.props;
-    const { cryptoOptions, cryptoType, data, isHexData } = this.state;
-
-    return (
-      <>
-        <div className='ui--row'>
-          <Input
-            autoFocus
-            className='full'
-            label={t('using the following data (hex or string)')}
-            onChange={this.onChangeData}
-            value={data}
-          />
-        </div>
-        <div className='ui--row'>
-          <Static
-            className='medium'
-            label={t('hex input data')}
-            value={
-              isHexData
-                ? t('Yes')
-                : t('No')
-            }
-          />
-          <Dropdown
-            defaultValue={cryptoType}
-            help={t('Cryptography used to create this signature. It is auto-detected on valid signatures.')}
-            isDisabled
-            label={t('signature crypto type')}
-            options={cryptoOptions}
-          />
-        </div>
-      </>
     );
   }
 
@@ -142,7 +137,8 @@ class Verify extends React.PureComponent<Props, State> {
             />
           }
           isError={!isValidSignature}
-          label={t('checking the supplied signature')}
+          help={t('The signature as by the account being checked, supplied as a hex-formatted string.')}
+          label={t('the supplied signature')}
           onChange={this.onChangeSignature}
           value={signature}
         />
