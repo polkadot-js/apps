@@ -181,8 +181,8 @@ class Transfer extends React.PureComponent<Props, State> {
 
       const { transferFee, transactionBaseFee, transactionByteFee, creationFee } = balances_fees;
 
-      void api.derive.balances.votingBalance(accountId, ({ freeBalance: senderBalance }) => {
-        void api.derive.balances.votingBalance(recipientId, ({ freeBalance: recipientBalance }) => {
+      void api.derive.balances.all(accountId, ({ availableBalance: senderBalance }) => {
+        void api.derive.balances.all(recipientId, ({ availableBalance: recipientBalance }) => {
 
           let prevMax = new BN(0);
           let maxBalance = new BN(1);
