@@ -41,8 +41,6 @@ class ValidateController extends React.PureComponent<Props, State> {
       return null;
     })();
 
-    // I am no sure this is not an anti-pattern - i.e. determining the stats value and passing
-    // it through to the parent (and not the first time doign this in apps either... Other ways?)
     if (prevState.error !== error) {
       onError(error);
     }
