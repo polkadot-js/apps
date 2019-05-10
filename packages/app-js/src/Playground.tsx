@@ -150,14 +150,33 @@ class Playground extends React.PureComponent<Props, State> {
         </section>
         <section className='js--Content'>
           <Transition animation='glow' duration={700} visible={animated}>
+
             <article className='container js--Editor'>
+            <ActionButtons
+            generateLink={this.generateLink}
+            isCustomExample={isCustomExample}
+            isRunning={isRunning}
+            removeSnippet={this.removeSnippet}
+            runJs={this.runJs}
+            saveSnippet={this.saveSnippet}
+            snippetName={snippetName}
+            stopJs={this.stopJs}
+          />
               <Editor
                 code={selected.code}
                 onEdit={this.onEdit}
               />
             </article>
           </Transition>
-          <Output logs={logs} />
+          <Output logs={logs} >
+          <Button
+            className='action-button'
+            icon='erase'
+            isCircular
+            isNegative
+            onClick={this.clearConsole}
+          />
+          </Output>
         </section>
       </main>
     );
