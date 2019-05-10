@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
+import styled from 'styled-components';
 import { Bubble, InputAddress } from '@polkadot/ui-app';
 import { AccountIndex, Balance, Nonce } from '@polkadot/ui-reactive';
 
@@ -14,6 +15,14 @@ type State = {
   accountId?: string
 };
 
+const Wrapper = styled.section`
+  align-items: flex-end;
+
+  .summary {
+    text-align: center;
+  }
+`;
+
 export default class AccountSelector extends React.PureComponent<Props, State> {
   state: State = {};
 
@@ -21,7 +30,7 @@ export default class AccountSelector extends React.PureComponent<Props, State> {
     const { accountId } = this.state;
 
     return (
-      <section className='template--AccountSelector ui--row'>
+      <Wrapper className='template--AccountSelector ui--row'>
         <InputAddress
           className='medium'
           label='my default account'
@@ -39,7 +48,7 @@ export default class AccountSelector extends React.PureComponent<Props, State> {
             <Nonce params={accountId} />
           </Bubble>
         </div>
-      </section>
+      </Wrapper>
     );
   }
 

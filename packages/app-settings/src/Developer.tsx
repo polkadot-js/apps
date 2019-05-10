@@ -6,6 +6,7 @@ import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import store from 'store';
+import styled from 'styled-components';
 import { getTypeRegistry } from '@polkadot/types';
 import { Button, Editor, InputFile, Labelled } from '@polkadot/ui-app';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
@@ -24,6 +25,13 @@ type State = {
   types: { [index: string]: any } | {},
   typesPlaceholder?: string
 };
+
+const Wrapper = styled.div`
+  .editor {
+    height: 300px;
+    position: relative;
+  }
+`;
 
 class Developer extends React.PureComponent<Props, State> {
   private defaultCode: string = `{\n\n}`;
@@ -51,7 +59,7 @@ class Developer extends React.PureComponent<Props, State> {
     const typesHasNoEntries = Object.keys(types).length === 0;
 
     return (
-      <div className='settings-Developer'>
+      <Wrapper>
         <div className='ui--row'>
           <div className='full'>
             <InputFile
@@ -94,7 +102,7 @@ class Developer extends React.PureComponent<Props, State> {
             label={t('Save')}
           />
         </Button.Group>
-      </div>
+      </Wrapper>
     );
   }
 

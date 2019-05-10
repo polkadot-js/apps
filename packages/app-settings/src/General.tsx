@@ -6,11 +6,10 @@ import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { SettingsStruct } from '@polkadot/ui-settings/types';
 
 import React from 'react';
+import styled from 'styled-components';
 import { Button, Dropdown, Input } from '@polkadot/ui-app';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import uiSettings from '@polkadot/ui-settings';
-
-import './index.css';
 
 import translate from './translate';
 
@@ -24,20 +23,31 @@ type State = {
   settings: SettingsStruct
 };
 
+const Wrapper = styled.div`
+  .ui.menu {
+    justify-content: flex-end;
+    margin-bottom: 0;
+
+    .active.item {
+      font-weight: bold;
+    }
+  }
+
+  .sub-label {
+    cursor: pointer;
+    padding: 0rem .5833rem;
+    text-align: right;
+  }
+`;
+
 class General extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
     const settings = uiSettings.get();
-
-    let isCustomNode = true;
-
-    // check to see if user has saved a custom node by seeing if their URL is equal to any preset
-    for (let i = 0; i < uiSettings.availableNodes.length; i++) {
-      if (uiSettings.availableNodes[i].value === settings.apiUrl) {
-        isCustomNode = false;
-      }
-    }
+    const isCustomNode = uiSettings.availableNodes.reduce((isCustomNode, { value }) => {
+      return isCustomNode && value !== settings.apiUrl;
+    }, true);
 
     this.state = {
       isCustomNode,
@@ -51,7 +61,7 @@ class General extends React.PureComponent<Props, State> {
     const { isUrlValid, settings: { i18nLang, uiMode, uiTheme } } = this.state;
 
     return (
-      <div className='settings-General'>
+      <Wrapper>
         {this.renderEndpoint()}
         <div className='ui--row'>
           <div className='medium'>
@@ -89,7 +99,7 @@ class General extends React.PureComponent<Props, State> {
             label={t('Save & Reload')}
           />
         </Button.Group>
-      </div>
+      </Wrapper>
     );
   }
 

@@ -7,15 +7,12 @@ import { RawParam } from '@polkadot/ui-params/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx$RpcAdd } from '@polkadot/ui-app/Status/types';
 
-import './index.css';
-
 import React from 'react';
 import rpc from '@polkadot/jsonrpc';
 import { getTypeDef } from '@polkadot/types';
 import { Button, InputRpc } from '@polkadot/ui-app';
 import Params from '@polkadot/ui-params';
 
-// import Account from './Account';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -72,29 +69,16 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  // FICME Currently the UI doesn't support signing for rpc-submitted calls
+  // FIXME Currently the UI doesn't support signing for rpc-submitted calls
   private renderAccount () {
-    // const { rpc: { isSigned = false }, publicKey } = this.state;
-
     return null;
-
-    // if (!isSigned) {
-    //   return null;
-    // }
-
-    // return (
-    //   <Account
-    //     defaultValue={publicKey}
-    //     onChange={this.onChangeAccount}
-    //   />
-    // );
   }
 
   private nextState (newState: State): void {
     this.setState(
       (prevState: State): State => {
         const { rpc = prevState.rpc, accountId = prevState.accountId, values = prevState.values } = newState;
-        const hasNeededKey = true; // rpc.isSigned !== true || (!!publicKey && publicKey.length === 32);
+        const hasNeededKey = true;
         const isValid = values.reduce((isValid, value) => {
           return isValid && value.isValid === true;
         }, rpc.params.length === values.length && hasNeededKey);
@@ -108,13 +92,6 @@ class Selection extends React.PureComponent<Props, State> {
       }
     );
   }
-
-  // private onChangeAccount = (publicKey: Uint8Array | undefined | null, accountNonce: BN): void => {
-  //   this.nextState({
-  //     accountNonce,
-  //     publicKey
-  //   } as State);
-  // }
 
   private onChangeMethod = (rpc: RpcMethod): void => {
     this.nextState({

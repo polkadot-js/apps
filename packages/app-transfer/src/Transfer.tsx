@@ -7,6 +7,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import styled from 'styled-components';
 import { IExtrinsic } from '@polkadot/types/types';
 import { AddressSummary, InputAddress, InputBalance } from '@polkadot/ui-app';
 import { withApi, withMulti } from '@polkadot/ui-api';
@@ -28,6 +29,26 @@ type State = {
 
 const ZERO = new BN(0);
 
+const Wrapper = styled.div`
+  .transfer--Transfer-address {
+    flex: 0 1;
+
+    .ui--AddressSummary {
+      text-align: center;
+    }
+  }
+
+  .transfer--Transfer-data {
+    flex: 1 1;
+    min-width: 0;
+  }
+
+  .transfer--Transfer-info {
+    display: flex;
+    flex-direction: row;
+  }
+`;
+
 class Transfer extends React.PureComponent<Props, State> {
   state: State = {
     accountId: null,
@@ -42,7 +63,7 @@ class Transfer extends React.PureComponent<Props, State> {
     const { accountId, extrinsic, recipientId, hasAvailable } = this.state;
 
     return (
-      <div className='transfer--Transfer'>
+      <Wrapper>
         <div className='transfer--Transfer-info'>
           {this.renderAddress(accountId, 'medium')}
           <div className='transfer--Transfer-data'>
@@ -79,7 +100,7 @@ class Transfer extends React.PureComponent<Props, State> {
           </div>
           {this.renderAddress(recipientId, 'large')}
         </div>
-      </div>
+      </Wrapper>
     );
   }
 

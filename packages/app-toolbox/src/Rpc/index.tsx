@@ -5,8 +5,6 @@
 import { BareProps } from '@polkadot/ui-app/types';
 import { QueueProps } from '@polkadot/ui-app/Status/types';
 
-import './index.css';
-
 import React from 'react';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
