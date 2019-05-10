@@ -76,7 +76,7 @@ class Bond extends React.PureComponent<Props, State> {
 
   render () {
     const { accountId, isOpen, onClose, t } = this.props;
-    const { bondValue, controllerError, controllerId, destination, extrinsic, maxBalance } = this.state;
+    const { bondValue, controllerError, controllerId, extrinsic, maxBalance } = this.state;
     const hasValue = !!bondValue && bondValue.gtn(0) && (!maxBalance || bondValue.lt(maxBalance));
     const canSubmit = hasValue && !controllerError && !!controllerId;
 
@@ -171,13 +171,14 @@ class Bond extends React.PureComponent<Props, State> {
   private nextState (newState: Partial<State>): void {
     this.setState((prevState: State): State => {
       const { api } = this.props;
-      const { bondValue = prevState.bondValue, controllerId = prevState.controllerId, destination = prevState.destination, maxBalance = prevState.maxBalance } = newState;
+      const { bondValue = prevState.bondValue, controllerError = prevState.controllerError, controllerId = prevState.controllerId, destination = prevState.destination, maxBalance = prevState.maxBalance } = newState;
       const extrinsic = (bondValue && controllerId)
         ? api.tx.staking.bond(controllerId, bondValue, destination)
         : null;
 
       return {
         bondValue,
+        controllerError,
         controllerId,
         destination,
         extrinsic,
