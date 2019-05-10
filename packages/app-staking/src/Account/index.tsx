@@ -93,7 +93,6 @@ class Account extends React.PureComponent<Props, State> {
               {this.renderStashId()}
               {this.renderSessionId()}
               {this.renderNominee()}
-              {this.renderNominators()}
             </div>
           </div>
         </AddressSummary>
@@ -196,30 +195,6 @@ class Account extends React.PureComponent<Props, State> {
         }
       </div>
     );
-  }
-
-  private renderNominators () {
-    // const { staking_nominatorsFor } = this.props;
-
-    // if (!staking_nominatorsFor) {
-    //   return null;
-    // }
-
-    // return (
-    //   <div className='staking--Account-detail'>
-    //     <label className='staking--label'>nominators</label>
-    //     <div className='ui--Nominators'>
-    //       {staking_nominatorsFor.map((nominator) => (
-    //         <AddressMini
-    //           isPadded={false}
-    //           key={nominator}
-    //           value={nominator}
-    //           withBalance
-    //         />
-    //       ))}
-    //     </div>
-    //   </div>
-    // );
   }
 
   private renderControllerId () {
