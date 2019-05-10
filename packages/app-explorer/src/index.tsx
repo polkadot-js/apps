@@ -11,7 +11,7 @@ import { Route, Switch } from 'react-router';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import translate from './translate';
 
-import BlockQuery from './BlockQuery';
+import BlockInfo from './BlockInfo';
 import Main from './Main';
 import NodeInfo from './NodeInfo';
 
@@ -56,11 +56,12 @@ class ExplorerApp extends React.Component<Props, State> {
           <Tabs
             basePath={basePath}
             items={items}
+            query={[undefined, 'query']}
           />
         </header>
         <Switch>
-          <Route path={`${basePath}/query/:value`} component={BlockQuery} />
-          <Route path={`${basePath}/query`} component={BlockQuery} />
+          <Route path={`${basePath}/query/:value`} component={BlockInfo} />
+          <Route path={`${basePath}/query`} component={BlockInfo} />
           <Route path={`${basePath}/node`} component={NodeInfo} />
           <Route component={Main} />
         </Switch>

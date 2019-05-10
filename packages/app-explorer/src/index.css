@@ -93,3 +93,7 @@
     padding: 0 1em 1em;
   }
 }
+
+.explorer--query {
+  width: 20em;
+}

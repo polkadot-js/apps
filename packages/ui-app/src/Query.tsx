@@ -8,7 +8,7 @@ import React from 'react';
 import { Button, Input } from '@polkadot/ui-app';
 import { isHex } from '@polkadot/util';
 
-import translate from '../translate';
+import translate from './translate';
 
 type Props = I18nProps & {
   value?: string
@@ -34,7 +34,7 @@ class Query extends React.PureComponent<Props, State> {
     const { value, isValid } = this.state;
 
     return (
-      <summary>
+      <summary className='explorer--query'>
         <div className='ui--row'>
           <div className='storage--actionrow head'>
             <Input
