@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-extrinsics",
-  "version": "0.33.0-beta.38",
+  "version": "0.33.0-beta.39",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,8 +11,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.4.4",
-    "@polkadot/ui-app": "^0.33.0-beta.38",
-    "@polkadot/ui-params": "^0.33.0-beta.38",
-    "@polkadot/ui-signer": "^0.33.0-beta.38"
+    "@polkadot/ui-app": "^0.33.0-beta.39",
+    "@polkadot/ui-params": "^0.33.0-beta.39",
+    "@polkadot/ui-signer": "^0.33.0-beta.39"
   }
 }
