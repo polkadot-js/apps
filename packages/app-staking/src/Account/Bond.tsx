@@ -51,7 +51,7 @@ class Bond extends React.PureComponent<Props, State> {
     const { accountId, isOpen, onClose, t } = this.props;
     const { bondValue, controllerError, controllerId, destination } = this.state;
     const hasValue = !!bondValue && bondValue.gtn(0);
-    const canSubmit = hasValue && !!controllerId && !controllerError;
+    const canSubmit = hasValue && !controllerError;
 
     if (!isOpen) {
       return null;
