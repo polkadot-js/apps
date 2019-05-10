@@ -34,6 +34,7 @@ type Props = ApiProps & {
   isDisabled?: boolean,
   isNegative?: boolean,
   isPrimary?: boolean,
+  isUnsigned?: boolean,
   label: React.ReactNode,
   onClick?: () => any,
   onFailed?: TxCallback,
@@ -56,14 +57,17 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
   } as State;
 
   render () {
-    const { accountId, className, icon, iconSize , isDisabled, isNegative, isPrimary, label } = this.props;
+    const { accountId, className, icon, iconSize , isDisabled, isNegative, isPrimary, isUnsigned, label } = this.props;
     const { isSending } = this.state;
+    const needsAccount = isUnsigned
+      ? false
+      : !accountId;
 
     return (
       <Button
         className={className}
         icon={icon}
-        isDisabled={isSending || isDisabled || !accountId}
+        isDisabled={isSending || isDisabled || needsAccount}
         isLoading={isSending}
         isNegative={isNegative}
         isPrimary={isUndefined(isPrimary) ? !isNegative : isPrimary}
@@ -75,7 +79,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
   }
 
   private send = (): void => {
-    const { accountId, api, onClick, onUpdate, params = [], queueExtrinsic, tx = '', extrinsic: propsExtrinsic } = this.props;
+    const { accountId, api, isUnsigned, onClick, onUpdate, params = [], queueExtrinsic, tx = '', extrinsic: propsExtrinsic } = this.props;
     let extrinsic: any;
 
     if (propsExtrinsic) {
@@ -99,6 +103,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
     queueExtrinsic({
       accountId,
       extrinsic,
+      isUnsigned,
       txFailedCb: this.onFailed,
       txSuccessCb: this.onSuccess,
       txUpdateCb: onUpdate
