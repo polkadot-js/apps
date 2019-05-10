@@ -21,7 +21,7 @@ export type ComponentProps = {
 
 export type CalculateBalanceProps = {
   balances_fees?: DerivedFees,
-  balances_votingBalance?: DerivedBalances,
+  balances_all?: DerivedBalances,
   system_accountNonce?: BN
 };
 

@@ -187,11 +187,11 @@ class Bond extends React.PureComponent<Props, State> {
   }
 
   private setMaxBalance = () => {
-    const { api, system_accountNonce = ZERO, balances_fees = ZERO_FEES, balances_votingBalance = ZERO_BALANCE } = this.props;
+    const { api, system_accountNonce = ZERO, balances_fees = ZERO_FEES, balances_all = ZERO_BALANCE } = this.props;
     const { controllerId, destination } = this.state;
 
     const { transactionBaseFee, transactionByteFee } = balances_fees;
-    const { freeBalance } = balances_votingBalance;
+    const { freeBalance } = balances_all;
 
     let prevMax = new BN(0);
     let maxBalance = new BN(1);
@@ -245,7 +245,7 @@ export default withMulti(
   withApi,
   withCalls<Props>(
     'derive.balances.fees',
-    ['derive.balances.votingBalance', { paramName: 'accountId' }],
+    ['derive.balances.all', { paramName: 'accountId' }],
     ['query.system.accountNonce', { paramName: 'accountId' }]
   )
 );
