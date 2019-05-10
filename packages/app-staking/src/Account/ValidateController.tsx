@@ -5,52 +5,55 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Icon } from '@polkadot/ui-app';import { AccountId, Option, StakingLedger } from '@polkadot/types';
+import { Icon } from '@polkadot/ui-app';
+import { AccountId, Option, StakingLedger } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
 
 import translate from '../translate';
 
 type Props = I18nProps & {
   accountId: string,
+  bondedId?: string | null,
   controllerId: string,
-  staking_bonded?: Option<AccountId>,
-  staking_ledger?: Option<StakingLedger>
+  onError: (error: string | null) => void,
+  stashId?: string | null
 };
 
 type State = {
-  bondedId: string | null,
-  stashId: string | null
+  error: string | null
 };
 
 class ValidateController extends React.PureComponent<Props, State> {
   state: State = {
-    bondedId: null,
-    stashId: null
+    error: null
   };
 
-  static getDerivedStateFromProps ({ staking_bonded, staking_ledger }: Props): State {
+  static getDerivedStateFromProps ({ accountId, bondedId, controllerId, onError, stashId, t }: Props, prevState: State): State {
+    const error = (() => {
+      if (controllerId === accountId) {
+        return t('A controller account which is not the same as your selected account is required');
+      } else if (bondedId) {
+        return t('A controller account should not map to another stash. This selected controller is a stash, controlled by {{bondedId}}', { replace: { bondedId } });
+      } else if (stashId) {
+        return t('A controller account should not be set to manages multiple stashes. The selected controller is already controlling {{stashId}}', { replace: { stashId } });
+      }
+
+      return null;
+    })();
+
+    if (prevState.error !== error) {
+      onError(error);
+    }
+
     return {
-      bondedId: staking_bonded && staking_bonded.isSome
-        ? staking_bonded.unwrap().toString()
-        : null,
-      stashId: staking_ledger && staking_ledger.isSome
-        ? staking_ledger.unwrap().stash.toString()
-        : null
+      error
     };
   }
 
   render () {
-    const { accountId, controllerId, t } = this.props;
-    const { bondedId, stashId } = this.state;
-    let error;
+    const { error } = this.state;
 
-    if (controllerId === accountId) {
-      error = t('A controller account which is not the same as your selected account is recommended');
-    } else if (bondedId) {
-      error = t('A controller account should not map to another stash. This selected controller is a stash, controlled by {{bondedId}}', { replace: { bondedId } });
-    } else if (stashId) {
-      error = t('A controller account should not be set to manages multiple stashes. The selected controller is already controlling {{stashId}}', { replace: { stashId } });
-    } else {
+    if (!error) {
       return null;
     }
 
@@ -64,7 +67,28 @@ class ValidateController extends React.PureComponent<Props, State> {
 
 export default translate(
   withCalls<Props>(
-    ['query.staking.bonded', { paramName: 'controllerId' }],
-    ['query.staking.ledger', { paramName: 'controllerId' }]
+    ['query.staking.bonded', {
+      paramName: 'controllerId',
+      propName: 'bondedId',
+      transform: (value: Option<AccountId>) => {
+        const extracted = value.unwrapOr(null);
+
+        return extracted
+          ? extracted.toString()
+          : null;
+      }
+    }],
+    ['query.staking.ledger', {
+      paramName: 'controllerId',
+      propName: 'stashId',
+      transform: (value: Option<StakingLedger>) => {
+        const extracted = value.unwrapOr({ stash: null }).stash;
+
+        return extracted
+          ? extracted.toString()
+          : null;
+      }
+
+    }]
   )(ValidateController)
 );

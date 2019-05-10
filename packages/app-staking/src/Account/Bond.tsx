@@ -21,6 +21,7 @@ type Props = I18nProps & {
 
 type State = {
   bondValue?: BN,
+  controllerError: string | null,
   controllerId: string,
   destination: number
 };
@@ -40,6 +41,7 @@ class Bond extends React.PureComponent<Props, State> {
     const { accountId, controllerId } = this.props;
 
     this.state = {
+      controllerError: null,
       controllerId: controllerId ? controllerId.toString() : accountId,
       destination: 0
     };
@@ -47,9 +49,9 @@ class Bond extends React.PureComponent<Props, State> {
 
   render () {
     const { accountId, isOpen, onClose, t } = this.props;
-    const { bondValue, controllerId, destination } = this.state;
+    const { bondValue, controllerError, controllerId, destination } = this.state;
     const hasValue = !!bondValue && bondValue.gtn(0);
-    const canSubmit = hasValue && !!controllerId;
+    const canSubmit = hasValue && !controllerError;
 
     if (!isOpen) {
       return null;
@@ -88,7 +90,7 @@ class Bond extends React.PureComponent<Props, State> {
 
   private renderContent () {
     const { accountId, t } = this.props;
-    const { controllerId, bondValue, destination } = this.state;
+    const { controllerId, controllerError, bondValue, destination } = this.state;
     const hasValue = !!bondValue && bondValue.gtn(0);
 
     return (
@@ -106,6 +108,7 @@ class Bond extends React.PureComponent<Props, State> {
           <InputAddress
             className='medium'
             help={t('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
+            isError={!!controllerError}
             label={t('controller account')}
             onChange={this.onChangeController}
             value={controllerId}
@@ -113,6 +116,7 @@ class Bond extends React.PureComponent<Props, State> {
           <ValidateController
             accountId={accountId}
             controllerId={controllerId}
+            onError={this.onControllerError}
           />
           <InputBalance
             autoFocus
@@ -146,6 +150,10 @@ class Bond extends React.PureComponent<Props, State> {
 
   private onChangeValue = (bondValue?: BN) => {
     this.setState({ bondValue });
+  }
+
+  private onControllerError = (controllerError: string | null) => {
+    this.setState({ controllerError });
   }
 }
 
