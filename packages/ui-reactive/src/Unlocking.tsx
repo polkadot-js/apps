@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Address, Option, StakingLedger, UnlockChunk } from '@polkadot/types';
+import { AccountId, AccountIndex, Address, Balance, BlockNumber, Option, StakingLedger, UnlockChunk } from '@polkadot/types';
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
 import BN from 'bn.js';
 import { formatBalance } from '@polkadot/util';
@@ -36,6 +36,29 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
     : null ;
   }
 
+  private groupByEra (list: UnlockChunk[]) {
+    let eraMap: Map<string, Balance> = new Map<string, Balance>();
+
+    list.map((el) => {
+      // create a Map with unique eras as keys (Maps need a string|number as key)
+      if (!eraMap.has(el.era.toString())) {
+        eraMap.set(el.era.toString(),el.value);
+      } else {
+        // if the Map already has an entry for the era, sum the value
+        const curr = eraMap.get(el.era.toString()) || new Balance(0);
+        eraMap.set(el.era.toString(), curr.add(el.value));
+      }
+    });
+
+    const groupedList: UnlockChunk[] = [];
+    // reconstruct the UnlockChunk array
+    for (let [eraString, sum] of eraMap) {
+      groupedList.push(new UnlockChunk({ era: new BlockNumber(eraString), value: sum }));
+    }
+
+    return groupedList;
+  }
+
   private remainingBlocks (era: BN) {
     const { chain_bestNumber, session_eraLength } = this.props;
 
@@ -56,11 +79,14 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
       locked: t('locked '),
       remaining: t(' blocks left')
     };
-    const locked = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).gtn(0));
+    // select the Unlockchunks that can't be unlocked yet.
+    let lockedResults = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).gtn(0));
+    // group the Unlockchunks that have the same era and sum their values
+    lockedResults = this.groupByEra(lockedResults);
 
     return (
       <div>
-        {locked.map((unlocking,index) => (
+        {lockedResults.map((unlocking,index) => (
           <div
             className={className}
             style={style}
