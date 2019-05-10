@@ -43,7 +43,8 @@ class Hash extends React.PureComponent<Props, State> {
           <Input
             autoFocus
             className='full'
-            label={t('from the following data (hex or string)')}
+            help={t('The input data to hash. This can be either specified as a hex value (0x-prefix) or as a string.')}
+            label={t('from the following data')}
             onChange={this.onChangeData}
             value={data}
           />
@@ -51,6 +52,7 @@ class Hash extends React.PureComponent<Props, State> {
         <div className='ui--row'>
           <Static
             className='medium'
+            help={t('Detection on the input string to determine if it is hex or non-hex.')}
             label={t('hex input data')}
             value={
               isHexData
@@ -72,6 +74,7 @@ class Hash extends React.PureComponent<Props, State> {
         <Output
           className='full toolbox--hex'
           isHidden={hash.length === 0}
+          help={t('The blake2b 256-bit hash of the actual input data.')}
           label={t('the resulting hash is')}
           value={hash}
           withCopy

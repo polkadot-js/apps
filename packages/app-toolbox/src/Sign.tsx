@@ -106,7 +106,8 @@ class Sign extends React.PureComponent<Props, State> {
           <Input
             autoFocus
             className='full'
-            label={t('sign the following data (hex or string)')}
+            help={t('The input data to sign. This can be either specified as a hex value (0x-prefix) or as a string.')}
+            label={t('sign the following data')}
             onChange={this.onChangeData}
             value={data}
           />
@@ -114,6 +115,7 @@ class Sign extends React.PureComponent<Props, State> {
         <div className='ui--row'>
           <Static
             className='medium'
+            help={t('Detection on the input string to determine if it is hex or non-hex.')}
             label={t('hex input data')}
             value={
               isHexData
@@ -135,6 +137,7 @@ class Sign extends React.PureComponent<Props, State> {
         <Output
           className='full toolbox--hex'
           isHidden={signature.length === 0}
+          help={t('The resulting signature of the input data, as done with the crypto algorithm from the account. (This could be non-deterministic for some types such as sr25519).')}
           label={t('signature of supplied data')}
           value={signature}
           withCopy
