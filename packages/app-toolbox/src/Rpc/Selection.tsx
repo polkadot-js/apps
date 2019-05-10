@@ -48,6 +48,7 @@ class Selection extends React.PureComponent<Props, State> {
       <section className='rpc--Selection'>
         <InputRpc
           defaultValue={defaultMethod}
+          help={t('The actual JSONRPC module and function to make a call to.')}
           label={t('call the selected endpoint')}
           onChange={this.onChangeMethod}
         />

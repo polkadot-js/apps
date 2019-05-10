@@ -129,6 +129,7 @@ class Unlock extends React.PureComponent<Props, State> {
             <Password
               className='medium'
               isError={!!unlockError}
+              help={t('The account\'s password specified at the creation of this account.')}
               label={t('unlock account using')}
               onChange={this.onChangePassword}
               value={password}

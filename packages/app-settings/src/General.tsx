@@ -67,6 +67,7 @@ class General extends React.PureComponent<Props, State> {
           <div className='medium'>
             <Dropdown
               defaultValue={uiTheme}
+              help={t('The logo and colors for the app along with the identity icon theme.')}
               label={t('default interface theme')}
               onChange={this.onChangeUiTheme}
               options={uiSettings.availableUIThemes}
@@ -75,6 +76,7 @@ class General extends React.PureComponent<Props, State> {
           <div className='medium'>
             <Dropdown
               defaultValue={uiMode}
+              help={t('Adjust the mode from basic (with a limited number of beginner-user-friendly apps) to full (with all basic & advanced apps available)')}
               label={t('interface operation mode')}
               onChange={this.onChangeUiMode}
               options={uiSettings.availableUIModes}
