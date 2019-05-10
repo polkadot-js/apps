@@ -38,7 +38,5 @@ export class AvailableDisplay extends React.PureComponent<Props> {
 }
 
 export default withCalls<Props>(
-  ['derive.balances.all', {
-    paramName: 'params'
-  }]
+  ['derive.balances.all', { paramName: 'params' }]
 )(AvailableDisplay);
