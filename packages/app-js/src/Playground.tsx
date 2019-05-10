@@ -129,6 +129,25 @@ class Playground extends React.PureComponent<Props, State> {
             label={t('Select example')}
           />
         </header>
+        <section className='js--Buttons'>
+          <ActionButtons
+            generateLink={this.generateLink}
+            isCustomExample={isCustomExample}
+            isRunning={isRunning}
+            removeSnippet={this.removeSnippet}
+            runJs={this.runJs}
+            saveSnippet={this.saveSnippet}
+            snippetName={snippetName}
+            stopJs={this.stopJs}
+          />
+          <Button
+            className='action-button'
+            icon='erase'
+            isCircular
+            isNegative
+            onClick={this.clearConsole}
+          />
+        </section>
         <section className='js--Content'>
           <Transition animation='glow' duration={700} visible={animated}>
             <article className='container js--Editor'>
@@ -136,27 +155,9 @@ class Playground extends React.PureComponent<Props, State> {
                 code={selected.code}
                 onEdit={this.onEdit}
               />
-              <ActionButtons
-                generateLink={this.generateLink}
-                isCustomExample={isCustomExample}
-                isRunning={isRunning}
-                removeSnippet={this.removeSnippet}
-                runJs={this.runJs}
-                saveSnippet={this.saveSnippet}
-                snippetName={snippetName}
-                stopJs={this.stopJs}
-              />
             </article>
           </Transition>
-          <Output logs={logs}>
-            <Button
-              className='action-button'
-              icon='erase'
-              isCircular
-              isNegative
-              onClick={this.clearConsole}
-            />
-          </Output>
+          <Output logs={logs} />
         </section>
       </main>
     );
