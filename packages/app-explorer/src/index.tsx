@@ -9,6 +9,7 @@ import './index.css';
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
+import uiSettings from '@polkadot/ui-settings';
 import translate from './translate';
 
 import BlockInfo from './BlockInfo';
@@ -49,12 +50,16 @@ class ExplorerApp extends React.Component<Props, State> {
   render () {
     const { basePath } = this.props;
     const { items } = this.state;
+    const hidden = uiSettings.uiMode === 'full'
+      ? []
+      : ['node'];
 
     return (
       <main className='explorer--App'>
         <header>
           <Tabs
             basePath={basePath}
+            hidden={hidden}
             items={items}
             query={[undefined, 'query']}
           />
