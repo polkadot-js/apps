@@ -4,17 +4,14 @@
 
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
-import { AccountId, AccountIndex, Address, Balance, BalanceLock, BlockNumber } from '@polkadot/types';
-import BN from 'bn.js';
+import { AccountId, AccountIndex, Address } from '@polkadot/types';
+import { DerivedBalances } from '@polkadot/api-derive/types';
 import { formatBalance } from '@polkadot/util';
-import { max } from '@polkadot/ui-app/util';
 import React from 'react';
 import { withCalls } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & {
-  balances_freeBalance?: Balance,
-  balances_locks?: Array<BalanceLock>,
-  chain_bestNumber?: BlockNumber,
+  balances_all?: DerivedBalances,
   children?: React.ReactNode,
   label?: string,
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null
@@ -23,17 +20,7 @@ type Props = BareProps & CallProps & {
 export class AvailableDisplay extends React.PureComponent<Props> {
 
   render () {
-    const { balances_freeBalance, balances_locks, chain_bestNumber, children, className, label = '', style } = this.props;
-    let maxLock = new BN(0);
-
-    if (Array.isArray(balances_locks)) {
-      // only get the locks that are valid until passed the current block
-      const totals = balances_locks.filter((value) => chain_bestNumber && value.until.gt(chain_bestNumber));
-      // get the maximum of the locks according to https://crates.parity.io/srml_balances/index.html#terminology
-      maxLock = max(totals.map(({ amount }) => amount));
-    }
-    // FIXME it needs to take into account the balances.vesting()
-    const available = maxLock.eq(new BlockNumber('0xffffffffffffffffffffffffffffffff')) ? new Balance(0) : balances_freeBalance && balances_freeBalance.sub(maxLock) ;
+    const { balances_all, children, className, label = '', style } = this.props;
 
     return (
       <div
@@ -41,9 +28,9 @@ export class AvailableDisplay extends React.PureComponent<Props> {
         style={style}
       >
         {label}{
-          available
-            ? formatBalance(available)
-            : formatBalance(balances_freeBalance)
+          balances_all ?
+          formatBalance(balances_all.availableBalance) :
+          '0'
           }{children}
       </div>
     );
@@ -51,7 +38,5 @@ export class AvailableDisplay extends React.PureComponent<Props> {
 }
 
 export default withCalls<Props>(
-  ['query.balances.freeBalance', { paramName: 'params' }],
-  ['query.balances.locks', { paramName: 'params' }],
-  'derive.chain.bestNumber'
+  ['derive.balances.all', { paramName: 'params' }]
 )(AvailableDisplay);
