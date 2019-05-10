@@ -21,7 +21,7 @@ const Wrapper = styled.div`
   top: 0.4rem;
 
   > div {
-    max-width: 35rem;
+    max-width: 35rem !important;
   }
 
   .ui--Labelled label {

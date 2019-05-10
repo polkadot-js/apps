@@ -9,6 +9,7 @@ import { withCalls, withMulti } from '@polkadot/ui-api';
 import { isHex } from '@polkadot/util';
 import { BlockNumber } from '@polkadot/types';
 
+import Query from '../Query';
 import BlockByHash from './ByHash';
 import BlockByNumber from './ByNumber';
 
@@ -53,19 +54,19 @@ class Entry extends React.Component<Props, State> {
       return null;
     }
 
-    return isHex(value)
-      ? (
-        <BlockByHash
+    const Component = isHex(value)
+      ? BlockByHash
+      : BlockByNumber;
+
+    return (
+      <>
+        <Query />
+        <Component
           key={value}
           value={value}
         />
-      )
-      : (
-        <BlockByNumber
-          key={value}
-          value={value}
-        />
-      );
+      </>
+    );
   }
 }
 

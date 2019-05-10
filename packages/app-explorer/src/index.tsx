@@ -61,7 +61,6 @@ class ExplorerApp extends React.Component<Props, State> {
             basePath={basePath}
             hidden={hidden}
             items={items}
-            query={[undefined, 'query']}
           />
         </header>
         <Switch>

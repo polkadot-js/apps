@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Button, Input } from '@polkadot/ui-app';
+import { Button, FilterOverlay, Input } from '@polkadot/ui-app';
 import { isHex } from '@polkadot/util';
 
 import translate from './translate';
@@ -34,26 +34,23 @@ class Query extends React.PureComponent<Props, State> {
     const { value, isValid } = this.state;
 
     return (
-      <summary className='explorer--query'>
-        <div className='ui--row'>
-          <div className='storage--actionrow head'>
-            <Input
-              className='storage--actionrow-value'
-              defaultValue={this.props.value}
-              isError={!isValid && value.length !== 0}
-              placeholder={t('block hash or number to query')}
-              onChange={this.setHash}
-              withLabel={false}
-            />
-            <Button
-              icon='play'
-              isDisabled={!isValid}
-              isPrimary
-              onClick={this.onQuery}
-            />
-          </div>
-        </div>
-      </summary>
+      <FilterOverlay>
+        <Input
+          className='explorer--query'
+          defaultValue={this.props.value}
+          isError={!isValid && value.length !== 0}
+          placeholder={t('block hash or number to query')}
+          onChange={this.setHash}
+          onEnter={this.onQuery}
+          withLabel={false}
+        >
+          <Button
+            icon='play'
+            isPrimary
+            onClick={this.onQuery}
+          />
+        </Input>
+      </FilterOverlay>
     );
   }
 
@@ -63,10 +60,12 @@ class Query extends React.PureComponent<Props, State> {
     );
   }
 
-  private onQuery = () => {
-    const { value } = this.state;
+  private onQuery = (): void => {
+    const { isValid, value } = this.state;
 
-    window.location.hash = `/explorer/query/${value}`;
+    if (isValid && value.length !== 0) {
+      window.location.hash = `/explorer/query/${value}`;
+    }
   }
 
   private stateFromValue (value: string): State {
