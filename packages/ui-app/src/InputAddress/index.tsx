@@ -52,7 +52,7 @@ const transformToAddress = (value: string | Uint8Array): string | null => {
   }
 
   return null;
-}
+};
 
 const transformToAccountId = (value: string): string | null => {
   if (!value) {
