@@ -72,7 +72,7 @@ class Verify extends React.PureComponent<Props, State> {
           <Input
             autoFocus
             className='full'
-            help={t('The data that was signed. This is used in combination with the signature for the verification. It can either be hex or s string.')}
+            help={t('The data that was signed. This is used in combination with the signature for the verification. It can either be hex or a string.')}
             label={t('using the following data')}
             onChange={this.onChangeData}
             value={data}
