@@ -13,7 +13,8 @@ import translate from '../translate';
 type Props = I18nProps & {
   controllerId: string,
   onError: (error: string | null) => void,
-  sessionId: string
+  sessionId: string,
+  stashId: string
 };
 
 type State = {
@@ -25,15 +26,19 @@ class ValidateSession extends React.PureComponent<Props, State> {
     error: null
   };
 
-  static getDerivedStateFromProps ({ onError, sessionId, t }: Props, prevState: State): State | null {
+  static getDerivedStateFromProps ({ onError, sessionId, stashId, t }: Props, prevState: State): State | null {
     let error = null;
 
     try {
       const pair = keyring.getPair(sessionId);
 
-      error = pair.type !== 'ed25519'
-        ? t('The selected account is not an ed25519 (Edwards) account as required for validation')
-        : null;
+      if (pair.type !== 'ed25519') {
+        error = t('The selected account is not an ed25519 (Edwards) account as required for validation');
+      } else if (sessionId === stashId) {
+        error = t('For fund security, your session key should not match your stash key.');
+      } else {
+        error = null;
+      }
     } catch (e) {
       // this _should_ never happen...
       error = t('The account {{sessionId}} is not a valid account', { replace: { sessionId } });

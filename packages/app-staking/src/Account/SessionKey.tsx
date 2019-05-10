@@ -13,7 +13,8 @@ import translate from '../translate';
 type Props = I18nProps & {
   accountId: string,
   isOpen: boolean,
-  onClose: () => void
+  onClose: () => void,
+  stashId: string
 };
 
 type State = {
@@ -73,7 +74,7 @@ class Key extends React.PureComponent<Props, State> {
   }
 
   private renderContent () {
-    const { accountId, t } = this.props;
+    const { accountId, stashId, t } = this.props;
     const { sessionId } = this.state;
 
     return (
@@ -100,6 +101,7 @@ class Key extends React.PureComponent<Props, State> {
             controllerId={accountId}
             onError={this.onSessionError}
             sessionId={sessionId}
+            stashId={stashId}
           />
         </Modal.Content>
       </>
