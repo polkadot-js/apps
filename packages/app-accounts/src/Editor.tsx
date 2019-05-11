@@ -13,9 +13,9 @@ import { AddressSummary, Button, Dropdown, Input, InputAddress } from '@polkadot
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 
-import Backup from './Backup';
+import Backup from './modals/Backup';
 import ChangePass from './ChangePass';
-import Forgetting from './Forgetting';
+import Forgetting from './modals/Forgetting';
 import translate from './translate';
 
 type Props = ComponentProps & I18nProps & {

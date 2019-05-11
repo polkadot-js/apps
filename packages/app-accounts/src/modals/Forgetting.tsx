@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { AddressRow, Button, Modal } from '@polkadot/ui-app';
 
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & {
   address: string,
