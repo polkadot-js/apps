@@ -43,6 +43,7 @@
     background-color: $button-positive-color;
     color: white;
   }
+
   .ui.positive.button:hover,
   .ui.buttons .positive.button:hover {
     background-color: $button-positive-color-hover;
@@ -73,8 +74,8 @@
     background-color: $progress-bar-color;
   }
 
-  .ui--IdentityIcon .container.highlight:before {
-    box-shadow: 0 0 5px 2px $wild-orchid;
+  .ui.modal > .header:not(.ui) {
+    border-bottom-color: $progress-bar-color;
   }
 
   a {
