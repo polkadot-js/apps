@@ -120,7 +120,7 @@ class Editor extends React.PureComponent<Props, State> {
           </div>
           <div className='ui--row'>
             <InputTags
-              help={t('Additional user-specified tags that can be used to identify the account. Tags can be used for categorization and filtering.')}
+              help={t('Additional user-specified tags that can be used to identify the address. Tags can be used for categorization and filtering.')}
               label={t('user-defined tags')}
               onChange={this.onChangeTags}
               value={tags}
