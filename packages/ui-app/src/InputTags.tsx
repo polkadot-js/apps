@@ -76,6 +76,6 @@ export default class InputTags extends React.PureComponent<Props> {
 
     this.setState(({ options }: State) => ({
       options: [...options, { key: value, text: value, value }]
-    }))
+    }));
   }
 }

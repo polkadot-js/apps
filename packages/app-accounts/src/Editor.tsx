@@ -105,6 +105,9 @@ class Editor extends React.PureComponent<Props, State> {
     const type = current
       ? current.type
       : 'ed25519';
+    const isTesting = current
+      ? current.getMeta().isTesting
+      : false;
 
     return (
       <div className='ui--grid'>
@@ -129,7 +132,8 @@ class Editor extends React.PureComponent<Props, State> {
             <Input
               className='full'
               help={t('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
-              isEditable
+              isDisabled={isTesting}
+              isEditable={!isTesting}
               label={t('name')}
               onChange={this.onChangeName}
               value={editedName}
@@ -144,14 +148,32 @@ class Editor extends React.PureComponent<Props, State> {
               options={uiSettings.availableCryptos}
             />
           </div>
-          <div className='ui--row'>
-            <InputTags
-              help={t('Additional user-specified tags that can be used to identify the account. Tags can be used for categorization and filtering.')}
-              label={t('user-defined tags')}
-              onChange={this.onChangeTags}
-            />
-          </div>
+          {this.renderTags()}
         </div>
+      </div>
+    );
+  }
+
+  renderTags () {
+    const { t } = this.props;
+    const { current, tags } = this.state;
+
+    const showTags = current
+      ? !current.getMeta().isTesting
+      : true;
+
+    if (!showTags) {
+      return null;
+    }
+
+    return (
+      <div className='ui--row'>
+        <InputTags
+          help={t('Additional user-specified tags that can be used to identify the account. Tags can be used for categorization and filtering.')}
+          label={t('user-defined tags')}
+          onChange={this.onChangeTags}
+          value={tags}
+        />
       </div>
     );
   }
@@ -222,14 +244,17 @@ class Editor extends React.PureComponent<Props, State> {
   nextState (newState: State = {} as State): void {
     this.setState(
       (prevState: State): State => {
-        let { current = prevState.current, editedName = prevState.editedName } = newState;
+        let { current = prevState.current, editedName = prevState.editedName, tags = prevState.tags } = newState;
         const previous = prevState.current || { address: () => undefined };
         let isEdited = false;
 
         if (current) {
+          const meta = current.getMeta();
+
           if (current.address() !== previous.address()) {
-            editedName = current.getMeta().name || '';
-          } else if (editedName !== current.getMeta().name) {
+            editedName = meta.name || '';
+            tags = meta.tags || [];
+          } else if (editedName !== meta.name) {
             isEdited = true;
           }
         } else {
@@ -242,7 +267,8 @@ class Editor extends React.PureComponent<Props, State> {
           isBackupOpen: false,
           isEdited,
           isForgetOpen: false,
-          isPasswordOpen: false
+          isPasswordOpen: false,
+          tags
         } as State;
       }
     );
@@ -253,9 +279,7 @@ class Editor extends React.PureComponent<Props, State> {
         ? keyring.getPair(accountId)
         : null;
 
-    this.nextState({
-      current
-    } as State);
+    this.nextState({ current } as State);
   }
 
   onChangeName = (editedName: string): void => {
