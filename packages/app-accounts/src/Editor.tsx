@@ -54,7 +54,7 @@ class Editor extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { current, isEdited } = this.state;
 
-    if (!current) {
+    if (!current || current.getMeta().isTesting) {
       return null;
     }
 
