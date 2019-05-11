@@ -88,6 +88,7 @@ class ChangePass extends React.PureComponent<Props, State> {
             <div>
               <Password
                 autoFocus
+                help={t('The existing account password as specified when this account was created or when it was last changed.')}
                 isError={!isOldValid}
                 label={t('your current password')}
                 onChange={this.onChangeOld}
@@ -95,6 +96,7 @@ class ChangePass extends React.PureComponent<Props, State> {
                 value={oldPass}
               />
               <Password
+                help={t('The new account password. Once set, all opetaions will be performed with this new password.')}
                 isError={!isNewValid}
                 label={t('your new password')}
                 onChange={this.onChangeNew}
