@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Address, Option, StakingLedger, UnlockChunk } from '@polkadot/types';
+import { AccountId, AccountIndex, Address, BlockNumber, Option, StakingLedger, UnlockChunk } from '@polkadot/types';
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
 import BN from 'bn.js';
 import { formatBalance } from '@polkadot/util';
@@ -36,6 +36,21 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
     : null ;
   }
 
+  private groupByEra (list: UnlockChunk[]) {
+
+    return list.reduce((map, { era, value }) => {
+      const key = era.toString();
+
+      if (!map[key]) {
+        map[key] = value;
+      } else {
+        map[key] = map[key].add(value);
+      }
+
+      return map;
+    }, {} as { [index: string]: BN });
+  }
+
   private remainingBlocks (era: BN) {
     const { chain_bestNumber, session_eraLength } = this.props;
 
@@ -52,24 +67,28 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
     const { className, controllerId, style, t, unlockings } = this.props;
 
     if (!unlockings || !controllerId) return null;
-    const labels: {locked: string, remaining: string } = {
-      locked: t('locked '),
-      remaining: t(' blocks left')
-    };
-    const locked = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).gtn(0));
+    // select the Unlockchunks that can't be unlocked yet.
+    const filteredUnlockings = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).gtn(0));
+    // group the Unlockchunks that have the same era and sum their values
+    const groupedUnlockings = filteredUnlockings.length ? this.groupByEra(filteredUnlockings) : undefined;
 
     return (
-      <div>
-        {locked.map((unlocking,index) => (
+      <>
+        {groupedUnlockings && Object.keys(groupedUnlockings).map(eraString => (
           <div
             className={className}
             style={style}
-            key={index}
+            key={eraString}
           >
-            {labels.locked}{formatBalance(unlocking.value)} ({this.remainingBlocks(unlocking.era).toString()}{labels.remaining})
+          {t('locked {{balance}} ({{remaining}} blocks left)', {
+            replace: {
+              balance: formatBalance(groupedUnlockings[eraString]),
+              remaining: this.remainingBlocks(new BlockNumber(eraString))
+            }
+          })}
           </div>
         ))}
-      </div>
+      </>
     );
   }
 
@@ -78,7 +97,6 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
 
     if (!unlockings || !unlockings[0] || !controllerId) return null;
 
-    const labelUnlockable = t('unlockable ');
     const unlockable = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).eqn(0));
     const unlockableSum = unlockable.reduce(
       (curr, prev) => {
@@ -92,7 +110,11 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
         style={style}
         key='unlockable'
       >
-        {labelUnlockable}{formatBalance(unlockableSum)}
+        {t('unlockable {{unlockableSum}}',{
+          replace: {
+            unlockableSum: formatBalance(unlockableSum)
+          }
+        })}
         <TxButton
           accountId={controllerId.toString()}
           className='withDrawUnbonded'
