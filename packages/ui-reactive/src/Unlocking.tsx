@@ -46,7 +46,7 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
           map.set(key, value);
         } else {
           const curr = map.get(key) || new Balance(0);
-          map.set(key, curr.add(value));
+          map.set(key, curr.add(value) as Balance);
         }
 
         return map;
@@ -77,7 +77,7 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
     };
     // select the Unlockchunks that can't be unlocked yet.
     const filteredUnlockings = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).gtn(0));
-    // group the Unlockchunks that have the same era and sum their value
+    // group the Unlockchunks that have the same era and sum their values
     const groupedUnlockings = filteredUnlockings.length ? this.groupByEra(filteredUnlockings) : undefined;
 
     return (
