@@ -6,11 +6,11 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AddressSummary, Button, Modal, Password } from '@polkadot/ui-app';
+import { AddressRow, Button, Modal, Password } from '@polkadot/ui-app';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import keyring from '@polkadot/ui-keyring';
 
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & {
   account: KeyringPair,
@@ -39,7 +39,6 @@ class ChangePass extends React.PureComponent<Props, State> {
         className='app--accounts-Modal'
         dimmer='inverted'
         open
-        size='tiny'
       >
         {this.renderContent()}
         {this.renderButtons()}
@@ -81,22 +80,29 @@ class ChangePass extends React.PureComponent<Props, State> {
           {t('Change account password')}
         </Modal.Header>
         <Modal.Content>
-          <AddressSummary value={account.address()} />
-          <Password
-            autoFocus
-            isError={!isOldValid}
-            label={t('your current password')}
-            onChange={this.onChangeOld}
-            tabIndex={1}
-            value={oldPass}
-          />
-          <Password
-            isError={!isNewValid}
-            label={t('your new password')}
-            onChange={this.onChangeNew}
-            tabIndex={2}
-            value={newPass}
-          />
+          <AddressRow
+            isInline
+            value={account.address()}
+          >
+            <p>{t('Change your password for the account. This will apply to any future use of this account as stored on this machine. Ensure that you securely store this new password and that is is strong and unique to the account.')}</p>
+            <div>
+              <Password
+                autoFocus
+                isError={!isOldValid}
+                label={t('your current password')}
+                onChange={this.onChangeOld}
+                tabIndex={1}
+                value={oldPass}
+              />
+              <Password
+                isError={!isNewValid}
+                label={t('your new password')}
+                onChange={this.onChangeNew}
+                tabIndex={2}
+                value={newPass}
+              />
+            </div>
+          </AddressRow>
         </Modal.Content>
       </>
     );

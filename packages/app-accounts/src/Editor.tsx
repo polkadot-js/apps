@@ -14,7 +14,7 @@ import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 
 import Backup from './modals/Backup';
-import ChangePass from './ChangePass';
+import ChangePass from './modals/ChangePass';
 import Forgetting from './modals/Forgetting';
 import translate from './translate';
 
