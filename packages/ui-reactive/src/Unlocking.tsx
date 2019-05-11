@@ -39,18 +39,17 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
   private groupByEra (list: UnlockChunk[]) {
 
     return (
-      list.reduce((map: Map<string, Balance>, { era, value }) => {
-        const key = era.toString();
+       list.reduce((map, { era, value }) => {
+         const key = era.toString();
 
-        if (!map.has(key)) {
-          map.set(key, value);
-        } else {
-          const curr = map.get(key) || new Balance(0);
-          map.set(key, curr.add(value) as Balance);
-        }
+         if (!map[key]) {
+           map[key] = value;
+         } else {
+           map[key] = map[key].add(value);
+         }
 
-        return map;
-      }, new Map<string, Balance>())
+         return map;
+       }, {} as { [index: string]: BN })
     );
   }
 
@@ -74,18 +73,17 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
     const filteredUnlockings = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).gtn(0));
     // group the Unlockchunks that have the same era and sum their values
     const groupedUnlockings = filteredUnlockings.length ? this.groupByEra(filteredUnlockings) : undefined;
-
     return (
       <>
-        { groupedUnlockings && [...groupedUnlockings].map(([eraString, value],index) => (
+        { groupedUnlockings && Object.keys(groupedUnlockings).map(eraString => (
           <div
             className={className}
             style={style}
-            key={index}
+            key={eraString}
           >
           {t('locked {{balance}} ({{remaining}} blocks left)', {
             replace: {
-              balance: formatBalance(value),
+              balance: formatBalance(groupedUnlockings[eraString]),
               remaining: this.remainingBlocks(new BlockNumber(eraString))
             }
           })}
