@@ -96,7 +96,7 @@ class ChangePass extends React.PureComponent<Props, State> {
                 value={oldPass}
               />
               <Password
-                help={t('The new account password. Once set, all opetaions will be performed with this new password.')}
+                help={t('The new account password. Once set, all future account unlocks will be performed with this new password.')}
                 isError={!isNewValid}
                 label={t('your new password')}
                 onChange={this.onChangeNew}
