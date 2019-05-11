@@ -70,11 +70,6 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
     const { className, controllerId, style, t, unlockings } = this.props;
 
     if (!unlockings || !controllerId) return null;
-
-    const labels: {locked: string, remaining: string } = {
-      locked: t('locked '),
-      remaining: t(' blocks left')
-    };
     // select the Unlockchunks that can't be unlocked yet.
     const filteredUnlockings = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).gtn(0));
     // group the Unlockchunks that have the same era and sum their values
@@ -88,7 +83,12 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
             style={style}
             key={index}
           >
-            {labels.locked}{formatBalance(value)} ({this.remainingBlocks(new BlockNumber(eraString)).toString()}{labels.remaining})
+          {t('locked {{balance}} ({{remaining}} blocks left)', {
+            replace: {
+              balance: formatBalance(value),
+              remaining: this.remainingBlocks(new BlockNumber(eraString))
+            }
+          })}
           </div>
         ))}
       </>
@@ -100,7 +100,6 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
 
     if (!unlockings || !unlockings[0] || !controllerId) return null;
 
-    const labelUnlockable = t('unlockable ');
     const unlockable = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).eqn(0));
     const unlockableSum = unlockable.reduce(
       (curr, prev) => {
@@ -114,7 +113,11 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
         style={style}
         key='unlockable'
       >
-        {labelUnlockable}{formatBalance(unlockableSum)}
+        {t('unlockable {{unlockableSum}}',{
+          replace: {
+            unlockableSum: formatBalance(unlockableSum)
+          }
+        })}
         <TxButton
           accountId={controllerId.toString()}
           className='withDrawUnbonded'
