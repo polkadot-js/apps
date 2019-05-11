@@ -115,12 +115,11 @@
   }
 
   > .header:not(.ui) {
-    background: #eee;
+    background: #f5f5f5;
     font-size: 1.25rem !important;
     font-weight: normal;
     line-height: 1.25rem;
     padding: 1rem 1.5rem;
-    border-bottom-width: 2px;
   }
 
   > :first-child:not(.icon) {
