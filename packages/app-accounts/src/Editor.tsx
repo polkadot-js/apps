@@ -9,7 +9,7 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { AddressSummary, Button, Dropdown, Input, InputAddress } from '@polkadot/ui-app';
+import { AddressSummary, Button, Dropdown, Input, InputAddress, InputTags } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 
@@ -28,7 +28,8 @@ type State = {
   isBackupOpen: boolean,
   isEdited: boolean,
   isForgetOpen: boolean,
-  isPasswordOpen: boolean
+  isPasswordOpen: boolean,
+  tags: Array<string>
 };
 
 class Editor extends React.PureComponent<Props, State> {
@@ -143,6 +144,13 @@ class Editor extends React.PureComponent<Props, State> {
               options={uiSettings.availableCryptos}
             />
           </div>
+          <div className='ui--row'>
+            <InputTags
+              help={t('Additional user-specified tags that can be used to identify the account. Tags can be used for categorization and filtering.')}
+              label={t('user-defined tags')}
+              onChange={this.onChangeTags}
+            />
+          </div>
         </div>
       </div>
     );
@@ -196,15 +204,18 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   createState (current: KeyringPair | null): State {
+    const meta = current
+      ? current.getMeta()
+      : { name: '', tags: [] };
+
     return {
       current,
-      editedName: current
-        ? current.getMeta().name || ''
-        : '',
+      editedName: meta.name || '',
       isBackupOpen: false,
       isEdited: false,
       isForgetOpen: false,
-      isPasswordOpen: false
+      isPasswordOpen: false,
+      tags: meta.tags || []
     };
   }
 
@@ -232,7 +243,7 @@ class Editor extends React.PureComponent<Props, State> {
           isEdited,
           isForgetOpen: false,
           isPasswordOpen: false
-        };
+        } as State;
       }
     );
   }
@@ -251,9 +262,13 @@ class Editor extends React.PureComponent<Props, State> {
     this.nextState({ editedName } as State);
   }
 
+  onChangeTags = (tags: Array<string>): void => {
+    this.setState({ isEdited: true, tags });
+  }
+
   onCommit = (): void => {
     const { onStatusChange, t } = this.props;
-    const { current, editedName } = this.state;
+    const { current, editedName, tags } = this.state;
 
     if (!current) {
       return;
@@ -267,14 +282,17 @@ class Editor extends React.PureComponent<Props, State> {
     try {
       keyring.saveAccountMeta(current, {
         name: editedName,
+        tags,
         whenEdited: Date.now()
       });
 
       status.status = current.getMeta().name === editedName ? 'success' : 'error';
-      status.message = t('name edited');
+      status.message = t('account edited');
     } catch (error) {
       status.status = 'error';
       status.message = error.message;
+
+      console.error(error);
     }
 
     onStatusChange(status);
@@ -289,8 +307,11 @@ class Editor extends React.PureComponent<Props, State> {
       return;
     }
 
+    const meta = current.getMeta();
+
     this.nextState({
-      editedName: current.getMeta().name
+      editedName: meta.name,
+      tags: meta.tags || []
     } as State);
   }
 
