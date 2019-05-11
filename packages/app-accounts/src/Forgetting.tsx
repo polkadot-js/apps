@@ -29,7 +29,7 @@ class Forgetting extends React.PureComponent<Props> {
     );
   }
 
-  renderButtons () {
+  private renderButtons () {
     const { onClose, doForget, t } = this.props;
 
     return (
@@ -51,7 +51,7 @@ class Forgetting extends React.PureComponent<Props> {
     );
   }
 
-  renderContent () {
+  private renderContent () {
     const { address, t } = this.props;
 
     return (
@@ -65,7 +65,7 @@ class Forgetting extends React.PureComponent<Props> {
             value={address}
           >
             <p>{t('You are about to remove this account from your list of available accounts. Once completed, should you need access again, you need to re-create the account either via seed or via a backup file.')}</p>
-            <p>{t('This operaion does not remove the history of the account from the chain, not any associated funds from the account. The forget operation only limits your access to the account on this local machine.')}</p>
+            <p>{t('This operaion does not remove the history of the account from the chain, nor any associated funds from the account. The forget operation only limits your access to the account on this local machine.')}</p>
           </AddressRow>
         </Modal.Content>
       </>
