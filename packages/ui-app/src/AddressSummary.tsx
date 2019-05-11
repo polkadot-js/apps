@@ -24,6 +24,7 @@ export type Props = I18nProps & {
   balance?: BN | Array<BN>,
   bonded?: BN | Array<BN>,
   children?: React.ReactNode,
+  defaultName?: string,
   extraInfo?: React.ReactNode,
   identIconSize?: number,
   isInline?: boolean,
@@ -69,14 +70,14 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderAddress () {
-    const { isShort = true, value } = this.props;
+    const { defaultName, isShort = true, value } = this.props;
 
     if (!value) {
       return null;
     }
 
     const address = value.toString();
-    const name = getAddrName(address);
+    const name = getAddrName(address, false, defaultName);
 
     return (
       <div className='ui--AddressSummary-data'>
@@ -95,7 +96,7 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderAccountId () {
-    const { accounts_idAndIndex = [], isShort = true, value } = this.props;
+    const { accounts_idAndIndex = [], defaultName, isShort = true, value } = this.props;
     const [_accountId, accountIndex] = accounts_idAndIndex;
     const accountId = _accountId || value;
 
@@ -106,7 +107,7 @@ class AddressSummary extends React.PureComponent<Props> {
     const address = accountId
       ? accountId.toString()
       : DEFAULT_ADDR;
-    const name = getAddrName(address);
+    const name = getAddrName(address, false, defaultName);
 
     return (
       <div className='ui--AddressSummary-data'>

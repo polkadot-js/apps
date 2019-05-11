@@ -5,7 +5,7 @@
 import keyring from '@polkadot/ui-keyring';
 import toShortAddress from './toShortAddress';
 
-export default function getAddrName (address: string, withShort?: boolean): string | undefined {
+export default function getAddrName (address: string, withShort?: boolean, defaultName?: string): string | undefined {
   let pair;
 
   try {
@@ -18,7 +18,7 @@ export default function getAddrName (address: string, withShort?: boolean): stri
 
   const name = pair && pair.isValid()
     ? pair.getMeta().name
-    : undefined;
+    : defaultName;
 
   return !name && withShort
     ? toShortAddress(address)

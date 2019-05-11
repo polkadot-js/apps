@@ -10,7 +10,6 @@ import React from 'react';
 import { AccountId, Balance, Option, StakingLedger, Exposure } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api/with';
 import { AddressMini, AddressRow, RecentlyOffline } from '@polkadot/ui-app';
-import { getAddrName } from '@polkadot/ui-app/util';
 import { formatBalance } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
 
@@ -76,7 +75,7 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { address, lastAuthor, lastBlock, stashId, staking_stakers, filter } = this.props;
+    const { address, defaultName, lastAuthor, lastBlock, stashId, staking_stakers, filter } = this.props;
     const { controllerId } = this.state;
     const isAuthor = [address, controllerId, stashId].includes(lastAuthor);
     const bonded = staking_stakers && !staking_stakers.own.isZero()
@@ -95,7 +94,7 @@ class Address extends React.PureComponent<Props, State> {
       <article key={stashId || controllerId}>
         <AddressRow
           bonded={bonded}
-          name={this.getDisplayName()}
+          defaultName={defaultName}
           value={stashId || null}
           withBalance={false}
           withBonded
@@ -113,16 +112,6 @@ class Address extends React.PureComponent<Props, State> {
         }
       </article>
     );
-  }
-
-  private getDisplayName = (): string | undefined => {
-    const { defaultName, stashId } = this.props;
-
-    if (!stashId) {
-      return defaultName;
-    }
-
-    return getAddrName(stashId) || defaultName;
   }
 
   private renderKeys () {
