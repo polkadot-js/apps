@@ -70,18 +70,19 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
     const { className, controllerId, style, t, unlockings } = this.props;
 
     if (!unlockings || !controllerId) return null;
+
     const labels: {locked: string, remaining: string } = {
       locked: t('locked '),
       remaining: t(' blocks left')
     };
     // select the Unlockchunks that can't be unlocked yet.
-    let lockedResults = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).gtn(0));
-    // group the Unlockchunks that have the same era and sum their values
-    const groupedLocked = this.groupByEra(lockedResults);
+    const filteredUnlockings = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).gtn(0));
+    // group the Unlockchunks that have the same era and sum their value
+    const groupedUnlockings = filteredUnlockings.length ? this.groupByEra(filteredUnlockings) : undefined;
 
     return (
       <>
-        { groupedLocked.size && [...groupedLocked].map(([eraString, value],index) => (
+        { groupedUnlockings && [...groupedUnlockings].map(([eraString, value],index) => (
           <div
             className={className}
             style={style}
