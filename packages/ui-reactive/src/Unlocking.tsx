@@ -37,26 +37,21 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
   }
 
   private groupByEra (list: UnlockChunk[]) {
-    let eraMap: Map<string, Balance> = new Map<string, Balance>();
 
-    list.map((el) => {
-      // create a Map with unique eras as keys (Maps need a string|number as key)
-      if (!eraMap.has(el.era.toString())) {
-        eraMap.set(el.era.toString(),el.value);
-      } else {
-        // if the Map already has an entry for the era, sum the value
-        const curr = eraMap.get(el.era.toString()) || new Balance(0);
-        eraMap.set(el.era.toString(), curr.add(el.value));
-      }
-    });
+    return (
+      list.reduce((map: Map<string, Balance>, { era, value }) => {
+        const key = era.toString();
 
-    const groupedList: UnlockChunk[] = [];
-    // reconstruct the UnlockChunk array
-    for (let [eraString, sum] of eraMap) {
-      groupedList.push(new UnlockChunk({ era: new BlockNumber(eraString), value: sum }));
-    }
+        if (!map.has(key)) {
+          map.set(key, value);
+        } else {
+          const curr = map.get(key) || new Balance(0);
+          map.set(key, curr.add(value));
+        }
 
-    return groupedList;
+        return map;
+      }, new Map<string, Balance>())
+    );
   }
 
   private remainingBlocks (era: BN) {
@@ -82,20 +77,20 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
     // select the Unlockchunks that can't be unlocked yet.
     let lockedResults = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).gtn(0));
     // group the Unlockchunks that have the same era and sum their values
-    lockedResults = this.groupByEra(lockedResults);
+    const groupedLocked = this.groupByEra(lockedResults);
 
     return (
-      <div>
-        {lockedResults.map((unlocking,index) => (
+      <>
+        { groupedLocked.size && [...groupedLocked].map(([eraString, value],index) => (
           <div
             className={className}
             style={style}
             key={index}
           >
-            {labels.locked}{formatBalance(unlocking.value)} ({this.remainingBlocks(unlocking.era).toString()}{labels.remaining})
+            {labels.locked}{formatBalance(value)} ({this.remainingBlocks(new BlockNumber(eraString)).toString()}{labels.remaining})
           </div>
         ))}
-      </div>
+      </>
     );
   }
 
