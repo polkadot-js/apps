@@ -73,6 +73,7 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
     const filteredUnlockings = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).gtn(0));
     // group the Unlockchunks that have the same era and sum their values
     const groupedUnlockings = filteredUnlockings.length ? this.groupByEra(filteredUnlockings) : undefined;
+
     return (
       <>
         { groupedUnlockings && Object.keys(groupedUnlockings).map(eraString => (
