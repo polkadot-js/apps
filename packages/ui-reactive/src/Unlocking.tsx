@@ -38,19 +38,17 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
 
   private groupByEra (list: UnlockChunk[]) {
 
-    return (
-       list.reduce((map, { era, value }) => {
-         const key = era.toString();
+    return list.reduce((map, { era, value }) => {
+      const key = era.toString();
 
-         if (!map[key]) {
-           map[key] = value;
-         } else {
-           map[key] = map[key].add(value);
-         }
+      if (!map[key]) {
+        map[key] = value;
+      } else {
+        map[key] = map[key].add(value);
+      }
 
-         return map;
-       }, {} as { [index: string]: BN })
-    );
+      return map;
+    }, {} as { [index: string]: BN });
   }
 
   private remainingBlocks (era: BN) {
@@ -76,7 +74,7 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
 
     return (
       <>
-        { groupedUnlockings && Object.keys(groupedUnlockings).map(eraString => (
+        {groupedUnlockings && Object.keys(groupedUnlockings).map(eraString => (
           <div
             className={className}
             style={style}
