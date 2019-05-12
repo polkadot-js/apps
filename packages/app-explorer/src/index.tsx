@@ -8,18 +8,27 @@ import './index.css';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
+import { EventRecord } from '@polkadot/types';
+import { withCalls, withMulti } from '@polkadot/ui-api';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import uiSettings from '@polkadot/ui-settings';
-import translate from './translate';
+import { stringToU8a } from '@polkadot/util';
+import { xxhashAsHex } from '@polkadot/util-crypto';
 
+import { MAX_ITEMS } from './BlockHeaders';
 import BlockInfo from './BlockInfo';
 import Main from './Main';
 import NodeInfo from './NodeInfo';
+import translate from './translate';
 
-type Props = AppProps & BareProps & I18nProps;
+type Props = AppProps & BareProps & I18nProps & {
+  system_events?: Array<EventRecord>
+};
 
 type State = {
-  items: Array<TabItem>
+  items: Array<TabItem>,
+  prevEventHash: string;
+  recentEvents: Array<EventRecord>;
 };
 
 class ExplorerApp extends React.Component<Props, State> {
@@ -43,7 +52,30 @@ class ExplorerApp extends React.Component<Props, State> {
           name: 'node',
           text: t('Node info')
         }
-      ]
+      ],
+      prevEventHash: '',
+      recentEvents: []
+    };
+  }
+
+  // assign the events on the index - this way we keep a record of these, even when swapping
+  // tabs withing this app, all the events as received will be shown
+  static getDerivedStateFromProps ({ system_events = [] }: Props, prevState: State): State | null {
+    const prevEventHash = xxhashAsHex(stringToU8a(JSON.stringify(system_events)));
+
+    if (prevEventHash === prevState.prevEventHash) {
+      return null;
+    }
+
+    const recentEvents = system_events
+      .filter(({ event }) => event.section !== 'system')
+      .concat(prevState.recentEvents)
+      .filter((_, index) => index < MAX_ITEMS);
+
+    return {
+      items: prevState.items,
+      prevEventHash,
+      recentEvents
     };
   }
 
@@ -67,11 +99,23 @@ class ExplorerApp extends React.Component<Props, State> {
           <Route path={`${basePath}/query/:value`} component={BlockInfo} />
           <Route path={`${basePath}/query`} component={BlockInfo} />
           <Route path={`${basePath}/node`} component={NodeInfo} />
-          <Route component={Main} />
+          <Route component={this.renderMain} />
         </Switch>
       </main>
     );
   }
+
+  private renderMain = () => {
+    const { recentEvents } = this.state;
+
+    return (
+      <Main recentEvents={recentEvents} />
+    );
+  }
 }
 
-export default translate(ExplorerApp);
+export default withMulti(
+  ExplorerApp,
+  translate,
+  withCalls<Props>('query.system.events')
+);

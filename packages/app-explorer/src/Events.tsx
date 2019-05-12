@@ -7,45 +7,35 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { EventRecord } from '@polkadot/types';
 import { Event as EventDisplay } from '@polkadot/ui-app';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, stringToU8a } from '@polkadot/util';
+import { xxhashAsHex } from '@polkadot/util-crypto';
 
 import translate from './translate';
 
 type Props = I18nProps & {
-  value?: Array<EventRecord>,
   emptyLabel?: React.ReactNode,
+  events: Array<EventRecord>,
+
   eventClassName?: string,
   withoutIndex?: boolean
 };
 
 class Events extends React.PureComponent<Props> {
   render () {
-    const { emptyLabel, eventClassName, value, t } = this.props;
+    const { emptyLabel, events, t } = this.props;
 
-    if (!value || value.length === 0) {
+    if (!events || events.length === 0) {
       return emptyLabel || t('no events available');
     }
 
-    return value
+    return events
       .filter(({ event }) => event) // event.section !== 'system')
-      .map((event, index) => {
-        const rendered = this.renderEvent(event, index);
-
-        return eventClassName
-          ? (
-            <div
-              className={eventClassName}
-              key={index}
-            >
-              {rendered}
-            </div>
-          )
-          : rendered;
-      });
+      .map(this.renderEvent);
   }
 
-  private renderEvent = ({ event, phase }: EventRecord, index: number) => {
-    const { withoutIndex } = this.props;
+  private renderEvent = (record: EventRecord) => {
+    const { eventClassName, withoutIndex } = this.props;
+    const { event, phase } = record;
     const extIndex = !withoutIndex && phase.type === 'ApplyExtrinsic'
       ? phase.asApplyExtrinsic
       : -1;
@@ -54,35 +44,38 @@ class Events extends React.PureComponent<Props> {
       return null;
     }
 
-    return (
-      <article
-        className='explorer--Container'
-        key={index}
-      >
-        <div className='header'>
-          <h3>
-            {event.section}.{event.method}&nbsp;{
-              extIndex !== -1
-                ? `(#${formatNumber(extIndex)})`
-                : ''
-            }
-          </h3>
+    const hash = xxhashAsHex(stringToU8a(JSON.stringify(record)));
 
-        </div>
-        <details>
-          <summary>
-            {
-              event.meta && event.meta.documentation
-                ? event.meta.documentation.join(' ')
-                : 'Details'
-            }
-          </summary>
-          <EventDisplay
-            className='details'
-            value={event}
-          />
-        </details>
-      </article>
+    return (
+      <div
+        className={eventClassName}
+        key={hash}
+      >
+        <article className='explorer--Container'>
+          <div className='header'>
+            <h3>
+              {event.section}.{event.method}&nbsp;{
+                extIndex !== -1
+                  ? `(#${formatNumber(extIndex)})`
+                  : ''
+              }
+            </h3>
+          </div>
+          <details>
+            <summary>
+              {
+                event.meta && event.meta.documentation
+                  ? event.meta.documentation.join(' ')
+                  : 'Details'
+              }
+            </summary>
+            <EventDisplay
+              className='details'
+              value={event}
+            />
+          </details>
+        </article>
+      </div>
     );
   }
 }

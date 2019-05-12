@@ -28,7 +28,7 @@ class Events extends React.PureComponent<Props> {
         <div className='explorer--BlockByHash-flexable ui--flex-medium'>
           <EventsDisplay
             eventClassName='explorer--BlockByHash-block'
-            value={value}
+            events={value}
           />
         </div>
       </section>
