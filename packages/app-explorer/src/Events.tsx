@@ -3,19 +3,17 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { KeyedEvent } from './types';
 
 import React from 'react';
-import { EventRecord } from '@polkadot/types';
 import { Event as EventDisplay } from '@polkadot/ui-app';
-import { formatNumber, stringToU8a } from '@polkadot/util';
-import { xxhashAsHex } from '@polkadot/util-crypto';
+import { formatNumber } from '@polkadot/util';
 
 import translate from './translate';
 
 type Props = I18nProps & {
   emptyLabel?: React.ReactNode,
-  events: Array<EventRecord>,
-
+  events: Array<KeyedEvent>,
   eventClassName?: string,
   withoutIndex?: boolean
 };
@@ -28,14 +26,11 @@ class Events extends React.PureComponent<Props> {
       return emptyLabel || t('no events available');
     }
 
-    return events
-      .filter(({ event }) => event) // event.section !== 'system')
-      .map(this.renderEvent);
+    return events.map(this.renderEvent);
   }
 
-  private renderEvent = (record: EventRecord) => {
+  private renderEvent = ({ key, record: { event, phase } }: KeyedEvent) => {
     const { eventClassName, withoutIndex } = this.props;
-    const { event, phase } = record;
     const extIndex = !withoutIndex && phase.type === 'ApplyExtrinsic'
       ? phase.asApplyExtrinsic
       : -1;
@@ -44,12 +39,10 @@ class Events extends React.PureComponent<Props> {
       return null;
     }
 
-    const hash = xxhashAsHex(stringToU8a(JSON.stringify(record)));
-
     return (
       <div
         className={eventClassName}
-        key={hash}
+        key={key}
       >
         <article className='explorer--Container'>
           <div className='header'>

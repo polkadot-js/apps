@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AppProps, BareProps, I18nProps } from '@polkadot/ui-app/types';
+import { KeyedEvent } from './types';
 
 import './index.css';
 
@@ -28,7 +29,7 @@ type Props = AppProps & BareProps & I18nProps & {
 type State = {
   items: Array<TabItem>,
   prevEventHash: string;
-  recentEvents: Array<EventRecord>;
+  recentEvents: Array<KeyedEvent>;
 };
 
 class ExplorerApp extends React.Component<Props, State> {
@@ -69,6 +70,7 @@ class ExplorerApp extends React.Component<Props, State> {
 
     const recentEvents = system_events
       .filter(({ event }) => event.section !== 'system')
+      .map((record, index) => ({ key: `${Date.now()}-${index}`, record }))
       .concat(prevState.recentEvents)
       .filter((_, index) => index < MAX_ITEMS);
 
@@ -109,7 +111,7 @@ class ExplorerApp extends React.Component<Props, State> {
     const { recentEvents } = this.state;
 
     return (
-      <Main recentEvents={recentEvents} />
+      <Main events={recentEvents} />
     );
   }
 }

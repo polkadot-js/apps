@@ -3,9 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { KeyedEvent } from './types';
 
 import React from 'react';
-import { EventRecord } from '@polkadot/types';
 
 import BlockHeaders from './BlockHeaders';
 import Events from './Events';
@@ -14,12 +14,12 @@ import Summary from './Summary';
 import translate from './translate';
 
 type Props = I18nProps & {
-  recentEvents: Array<EventRecord>
+  events: Array<KeyedEvent>
 };
 
 class Main extends React.PureComponent<Props> {
   render () {
-    const { recentEvents, t } = this.props;
+    const { events, t } = this.props;
 
     return (
       <>
@@ -32,7 +32,7 @@ class Main extends React.PureComponent<Props> {
           </div>
           <div className='column'>
             <h1>{t('recent events')}</h1>
-            <Events events={recentEvents} />
+            <Events events={events} />
           </div>
         </div>
       </>
