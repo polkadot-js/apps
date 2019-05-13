@@ -4,15 +4,16 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
+import BN from 'bn.js';
 import React from 'react';
-import { Tuple } from '@polkadot/types';
+import { Proposal } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 
-import Proposal from './Proposal';
+import ProposalDisplay from './Proposal';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  democracy_publicProps?: Array<Tuple>
+  democracy_publicProps?: Array<[BN, Proposal]>
 };
 
 type State = {
@@ -48,10 +49,10 @@ class Proposals extends React.PureComponent<Props> {
       );
     }
 
-    return democracy_publicProps.map((proposal) => (
-      <Proposal
-        idNumber={proposal[0]}
-        key={proposal[0].toString()}
+    return democracy_publicProps.map(([idNumber, proposal]) => (
+      <ProposalDisplay
+        idNumber={idNumber}
+        key={idNumber.toString()}
         value={proposal}
       />
     ));
