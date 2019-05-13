@@ -13,13 +13,16 @@ import { classes } from './util';
 import Labelled from './Labelled';
 
 type Props<Option> = BareProps & {
+  allowAdd?: boolean,
   defaultValue?: any,
+  dropdownClassName?: string,
   help?: React.ReactNode,
   isButton?: boolean,
   isDisabled?: boolean,
   isError?: boolean,
   isMultiple?: boolean,
   label?: React.ReactNode,
+  onAdd?: (value: any) => void,
   onChange?: (value: any) => void,
   onSearch?: (filteredOptions: Array<any>, query: string) => Array<Option>,
   options: Array<Option>,
@@ -58,20 +61,23 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
   }
 
   render () {
-    const { className, defaultValue, help, isButton, isDisabled, isError, isMultiple, label, onSearch, options, placeholder, renderLabel, style, value, withEllipsis, withLabel } = this.props;
+    const { allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isMultiple, label, onSearch, options, placeholder, renderLabel, style, withEllipsis, withLabel, value } = this.props;
     const dropdown = (
       <SUIDropdown
+        allowAdditions={allowAdd}
+        className={dropdownClassName}
         button={isButton}
         compact={isButton}
         disabled={isDisabled}
         error={isError}
         floating={isButton}
         multiple={isMultiple}
+        onAddItem={this.onAddItem}
         onChange={this.onChange}
         options={options}
         placeholder={placeholder}
         renderLabel={renderLabel}
-        search={onSearch}
+        search={!!onSearch || allowAdd}
         selection
         value={
           isUndefined(value)
@@ -101,7 +107,13 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
       );
   }
 
-  private onChange = (event: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void => {
+  private onAddItem = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void => {
+    const { onAdd } = this.props;
+
+    onAdd && onAdd(value);
+  }
+
+  private onChange = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void => {
     const { onChange, transform } = this.props;
 
     onChange && onChange(

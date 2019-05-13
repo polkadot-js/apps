@@ -7,7 +7,7 @@ import { ComponentProps } from './types';
 
 import React from 'react';
 
-import { AddressSummary, Button, Input } from '@polkadot/ui-app';
+import { AddressSummary, Button, Input, InputTags } from '@polkadot/ui-app';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring';
@@ -22,7 +22,8 @@ type State = {
   isAddressValid: boolean,
   isNameValid: boolean,
   isValid: boolean,
-  name: string
+  name: string,
+  tags: Array<string>
 };
 
 class Creator extends React.PureComponent<Props, State> {
@@ -75,7 +76,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   renderInput () {
     const { t } = this.props;
-    const { address, isAddressValid, isNameValid, name } = this.state;
+    const { address, isAddressValid, isNameValid, name, tags } = this.state;
 
     return (
       <div className='grow'>
@@ -100,6 +101,14 @@ class Creator extends React.PureComponent<Props, State> {
             value={name}
           />
         </div>
+        <div className='ui--row'>
+          <InputTags
+            help={t('Additional user-specified tags that can be used to identify the address. Tags can be used for categorization and filtering.')}
+            label={t('user-defined tags')}
+            onChange={this.onChangeTags}
+            value={tags}
+          />
+        </div>
       </div>
     );
   }
@@ -111,15 +120,15 @@ class Creator extends React.PureComponent<Props, State> {
       isAddressValid: false,
       isNameValid: true,
       isValid: false,
-      name: 'new address'
+      name: 'new address',
+      tags: []
     };
   }
 
   nextState (newState: State, allowEdit: boolean = false): void {
     this.setState(
       (prevState: State, props: Props): State => {
-        let { address = prevState.address, name = prevState.name } = newState;
-
+        let { address = prevState.address, name = prevState.name, tags = prevState.tags } = newState;
         let isAddressValid = true;
         let isAddressExisting = false;
         let newAddress = address;
@@ -154,7 +163,8 @@ class Creator extends React.PureComponent<Props, State> {
           isAddressValid,
           isNameValid,
           isValid: isAddressValid && isNameValid,
-          name
+          name,
+          tags
         };
       }
     );
@@ -168,16 +178,20 @@ class Creator extends React.PureComponent<Props, State> {
     this.nextState({ name } as State, true);
   }
 
+  onChangeTags = (tags: Array<string>): void => {
+    this.setState({ tags });
+  }
+
   onCommit = (): void => {
     const { basePath, onStatusChange, t } = this.props;
-    const { address, isAddressExisting, name } = this.state;
+    const { address, isAddressExisting, name, tags } = this.state;
 
     const status = {
       action: 'create'
     } as ActionStatus;
 
     try {
-      keyring.saveAddress(address, { name });
+      keyring.saveAddress(address, { name, tags });
 
       status.account = address;
       status.status = address ? 'success' : 'error';

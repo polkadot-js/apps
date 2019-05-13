@@ -6,7 +6,7 @@ import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AddressSummary, Button, Modal } from '@polkadot/ui-app';
+import { AddressRow, Button, Modal } from '@polkadot/ui-app';
 
 import translate from './translate';
 
@@ -31,7 +31,6 @@ class Forgetting extends React.PureComponent<Props> {
 
     return (
       <Modal
-        size='tiny'
         dimmer='inverted'
         open
         style={style}
@@ -42,7 +41,7 @@ class Forgetting extends React.PureComponent<Props> {
     );
   }
 
-  renderButtons () {
+  private renderButtons () {
     const { onClose, doForget, t } = this.props;
 
     return (
@@ -64,7 +63,7 @@ class Forgetting extends React.PureComponent<Props> {
     );
   }
 
-  renderContent () {
+  private renderContent () {
     const { t, currentAddress } = this.props;
 
     const address = currentAddress
@@ -77,10 +76,13 @@ class Forgetting extends React.PureComponent<Props> {
           {t('Confirm address removal')}
         </Modal.Header>
         <Modal.Content className='forgetting-Address'>
-          <AddressSummary
-            className='ui--AddressSummary-base'
+          <AddressRow
+            isInline
             value={address || ''}
-          />
+          >
+            <p>{t('You are about to remove this address from your address book. Once completed, should you need to access it again, you will have to re-add the address.')}</p>
+            <p>{t('This operation does not remove the history of the account from the chain, nor any associated funds from the account. The forget operation only limits your access to the address on this browser.')}</p>
+          </AddressRow>
         </Modal.Content>
       </>
     );

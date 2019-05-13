@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { AddressSummary, Button, Input, InputAddress } from '@polkadot/ui-app';
+import { AddressSummary, Button, Input, InputAddress, InputTags } from '@polkadot/ui-app';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import keyring from '@polkadot/ui-keyring';
 
@@ -20,7 +20,8 @@ type State = {
   current: KeyringAddress | null,
   editedName: string,
   isEdited: boolean,
-  isForgetOpen: boolean
+  isForgetOpen: boolean,
+  tags: Array<string>
 };
 
 class Editor extends React.PureComponent<Props, State> {
@@ -82,7 +83,7 @@ class Editor extends React.PureComponent<Props, State> {
 
   renderData () {
     const { t } = this.props;
-    const { current, editedName } = this.state;
+    const { current, editedName, tags } = this.state;
 
     const address = current
       ? current.address()
@@ -117,47 +118,61 @@ class Editor extends React.PureComponent<Props, State> {
               value={editedName}
             />
           </div>
+          <div className='ui--row'>
+            <InputTags
+              help={t('Additional user-specified tags that can be used to identify the address. Tags can be used for categorization and filtering.')}
+              label={t('user-defined tags')}
+              onChange={this.onChangeTags}
+              value={tags}
+            />
+          </div>
         </div>
       </div>
     );
   }
 
   createState (current: KeyringAddress | null): State {
-    const { name = '' } = current
+    const meta = current
       ? current.getMeta()
       : {};
 
     return {
       current,
-      editedName: name,
+      editedName: meta.name || '',
       isEdited: false,
-      isForgetOpen: false
+      isForgetOpen: false,
+      tags: meta.tags || []
     };
   }
 
   nextState (newState: State = {} as State): void {
     this.setState(
       (prevState: State): State => {
-        let { current = prevState.current, editedName = prevState.editedName } = newState;
+        let { current = prevState.current, editedName = prevState.editedName, tags = prevState.tags } = newState;
         const previous = prevState.current || { address: () => null };
         let isEdited = false;
 
         if (current && current.isValid()) {
+          const meta = current.getMeta();
+
           if (current.address() !== previous.address()) {
-            editedName = current.getMeta().name || '';
-          } else if (editedName !== current.getMeta().name) {
+            editedName = meta.name || '';
+            tags = meta.tags || [];
+          } else if (editedName !== meta.name) {
             isEdited = true;
           }
         } else {
           editedName = '';
         }
+
         let isForgetOpen = false;
 
         return {
           current,
           editedName,
           isEdited,
-          isForgetOpen
+          isForgetOpen,
+          tags
         };
       }
     );
@@ -175,9 +190,13 @@ class Editor extends React.PureComponent<Props, State> {
     this.nextState({ editedName } as State);
   }
 
+  onChangeTags = (tags: Array<string>): void => {
+    this.setState({ isEdited: true, tags });
+  }
+
   onCommit = (): void => {
-    const { current, editedName } = this.state;
     const { onStatusChange, t } = this.props;
+    const { current, editedName, tags } = this.state;
 
     if (!current) {
       return;
@@ -191,11 +210,12 @@ class Editor extends React.PureComponent<Props, State> {
     try {
       keyring.saveAddress(current.address(), {
         name: editedName,
+        tags,
         whenEdited: Date.now()
       });
 
       status.status = current.getMeta().name === editedName ? 'success' : 'error';
-      status.message = t('name edited');
+      status.message = t('address edited');
     } catch (error) {
       status.status = 'error';
       status.message = error.message;
@@ -211,8 +231,11 @@ class Editor extends React.PureComponent<Props, State> {
       return;
     }
 
+    const meta = current.getMeta();
+
     this.nextState({
-      editedName: current.getMeta().name
+      editedName: meta.name,
+      tags: meta.tags || []
     } as State);
   }
 

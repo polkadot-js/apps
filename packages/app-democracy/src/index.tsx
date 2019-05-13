@@ -3,12 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AppProps, BareProps, I18nProps } from '@polkadot/ui-app/types';
+import { TabItem } from '@polkadot/ui-app/Tabs';
 
 import './index.css';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import { HelpOverlay,Tabs } from '@polkadot/ui-app';
+import uiSettings from '@polkadot/ui-settings';
 
 import basicMd from './md/basic.md';
 import Overview from './Overview';
@@ -17,9 +19,36 @@ import translate from './translate';
 
 type Props = AppProps & BareProps & I18nProps;
 
-class App extends React.PureComponent<Props> {
+type State = {
+  tabs: Array<TabItem>
+};
+
+class App extends React.PureComponent<Props, State> {
+  constructor (props: Props) {
+    super(props);
+
+    const { t } = props;
+
+    this.state = {
+      tabs: [
+        {
+          name: 'overview',
+          text: t('Democracy overview')
+        },
+        {
+          name: 'propose',
+          text: t('Submit proposal')
+        }
+      ]
+    };
+  }
+
   render () {
-    const { basePath, t } = this.props;
+    const { basePath } = this.props;
+    const { tabs } = this.state;
+    const hidden = uiSettings.uiMode === 'full'
+      ? []
+      : ['propose'];
 
     return (
       <main className='democracy--App'>
@@ -27,16 +56,8 @@ class App extends React.PureComponent<Props> {
         <header>
           <Tabs
             basePath={basePath}
-            items={[
-              {
-                name: 'overview',
-                text: t('Democracy overview')
-              },
-              {
-                name: 'propose',
-                text: t('Submit proposal')
-              }
-            ]}
+            hidden={hidden}
+            items={tabs}
           />
         </header>
         <Switch>
