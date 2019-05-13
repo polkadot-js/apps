@@ -185,8 +185,6 @@ class Sign extends React.PureComponent<Props, State> {
         };
       }
     );
-
-    console.log('state',this.state);
   }
 
   toggleUnlock = (): void => {
