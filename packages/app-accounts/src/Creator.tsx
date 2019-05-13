@@ -157,7 +157,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   private renderInput () {
     const { t } = this.props;
-    const { deriveError, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType, showWarning, tags } = this.state;
+    const { deriveError, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType, tags } = this.state;
     const seedLabel = (() => {
       switch (seedType) {
         case 'bip':
