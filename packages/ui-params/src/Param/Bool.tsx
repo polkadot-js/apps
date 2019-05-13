@@ -34,6 +34,7 @@ export default class BoolParam extends React.PureComponent<Props> {
           label={label}
           options={options}
           onChange={this.onChange}
+          withEllipsis
           withLabel={withLabel}
         />
       </Bare>

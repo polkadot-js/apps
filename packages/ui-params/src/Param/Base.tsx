@@ -30,6 +30,7 @@ export default class Base extends React.PureComponent<Props> {
         <Labelled
           className={isDisabled ? 'full' : size}
           label={label}
+          withEllipsis
           withLabel={withLabel}
         >
           {children}

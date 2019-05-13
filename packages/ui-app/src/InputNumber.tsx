@@ -28,6 +28,7 @@ type Props = BareProps & I18nProps & {
   onChange?: (value?: BN) => void,
   placeholder?: string,
   value?: BN | string,
+  withEllipsis?: boolean,
   withLabel?: boolean
 };
 

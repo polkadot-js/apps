@@ -48,6 +48,7 @@ export default class BaseBytes extends React.PureComponent<Props> {
           onChange={this.onChange}
           placeholder='0x...'
           type='text'
+          withEllipsis
           withLabel={withLabel}
         >
           {children}

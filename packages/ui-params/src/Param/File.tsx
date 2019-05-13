@@ -34,6 +34,7 @@ export default class File extends React.PureComponent<Props> {
           label={label}
           onChange={onChange}
           placeholder={placeholder}
+          withEllipsis
           withLabel={withLabel}
         />
       </Bare>

@@ -41,6 +41,7 @@ export default class Amount extends React.PureComponent<Props> {
               ? 'text'
               : 'number'
           }
+          withEllipsis
           withLabel={withLabel}
         />
       </Bare>
