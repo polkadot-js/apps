@@ -84,7 +84,7 @@ class ChangePass extends React.PureComponent<Props, State> {
             isInline
             value={account.address()}
           >
-            <p>{t('Change your password for the account. This will apply to any future use of this account as stored on this machine. Ensure that you securely store this new password and that is is strong and unique to the account.')}</p>
+            <p>{t('This will apply to any future use of this account as stored on this browser. Ensure that you securely store this new password and that it is strong and unique to the account.')}</p>
             <div>
               <Password
                 autoFocus
