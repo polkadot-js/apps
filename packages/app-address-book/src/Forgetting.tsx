@@ -81,7 +81,7 @@ class Forgetting extends React.PureComponent<Props> {
             value={address || ''}
           >
             <p>{t('You are about to remove this address from your address book. Once completed, should you need access again, you need to re-add the address.')}</p>
-            <p>{t('This operaion does not remove the history of the account from the chain, nor any associated funds from the account. The forget operation only limits your access to the address on this local machine.')}</p>
+            <p>{t('This operation does not remove the history of the account from the chain, nor any associated funds from the account. The forget operation only limits your access to the address on this browser.')}</p>
           </AddressRow>
         </Modal.Content>
       </>
