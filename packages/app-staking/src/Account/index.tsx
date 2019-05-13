@@ -23,13 +23,13 @@ import Validating from './Validating';
 type Props = ApiProps & I18nProps & {
   accountId: string,
   balances: DerivedBalancesMap,
-  controllerId?: AccountId | null,
+  controllerId?: string | null,
   filter: AccountFilter,
   isValidator: boolean,
   name: string,
   recentlyOffline: RecentlyOfflineMap,
-  sessionId?: AccountId | null,
-  stashId?: AccountId | null,
+  sessionId?: string | null,
+  stashId?: string | null,
   freeBalance?: Balance,
   staking_stakers?: Exposure,
   staking_nominators?: [Array<AccountId>],
@@ -132,11 +132,11 @@ class Account extends React.PureComponent<Props, State> {
     const { isUnbondOpen } = this.state;
 
     return (
-        <Unbond
-          controllerId={controllerId}
-          isOpen={isUnbondOpen}
-          onClose={this.toggleUnbond}
-        />
+      <Unbond
+        controllerId={controllerId}
+        isOpen={isUnbondOpen}
+        onClose={this.toggleUnbond}
+      />
     );
   }
 
@@ -160,14 +160,19 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderSessionKey () {
-    const { accountId } = this.props;
+    const { accountId, stashId } = this.props;
     const { isSessionKeyOpen } = this.state;
+
+    if (!stashId) {
+      return null;
+    }
 
     return (
       <SessionKey
         accountId={accountId}
         isOpen={isSessionKeyOpen}
         onClose={this.toggleSessionKey}
+        stashId={stashId}
       />
     );
   }
@@ -209,7 +214,7 @@ class Account extends React.PureComponent<Props, State> {
         <label className='staking--label'>{t('controller')}</label>
         <AddressMini
           value={controllerId}
-          offlineStatus={recentlyOffline[controllerId.toString()]}
+          offlineStatus={recentlyOffline[controllerId]}
         />
       </div>
     );
@@ -242,7 +247,7 @@ class Account extends React.PureComponent<Props, State> {
         <label className='staking--label'>{t('stash')}</label>
         <AddressMini
           value={stashId}
-          offlineStatus={recentlyOffline[stashId.toString()]}
+          offlineStatus={recentlyOffline[stashId]}
           withBalance={false}
           withBonded
         />
@@ -404,6 +409,12 @@ class Account extends React.PureComponent<Props, State> {
   }
 }
 
+function toIdString (id: AccountId | null): string | null {
+  return id
+    ? id.toString()
+    : null;
+}
+
 export default translate(
   withCalls<Props>(
     'query.staking.recentlyOffline',
@@ -411,19 +422,19 @@ export default translate(
       paramName: 'accountId',
       propName: 'sessionId',
       transform: (session: Option<AccountId>) =>
-        session.unwrapOr(null)
+        toIdString(session.unwrapOr(null))
     }],
     ['query.staking.bonded', {
       paramName: 'accountId',
       propName: 'controllerId',
       transform: (bonded: Option<AccountId>) =>
-        bonded.unwrapOr(null)
+        toIdString(bonded.unwrapOr(null))
     }],
     ['query.staking.ledger', {
       paramName: 'accountId',
       propName: 'stashId',
       transform: (ledger: Option<StakingLedger>) =>
-        ledger.unwrapOr({ stash: null }).stash
+        toIdString(ledger.unwrapOr({ stash: null }).stash)
     }],
     ['query.staking.ledger', {
       paramName: 'controllerId',
