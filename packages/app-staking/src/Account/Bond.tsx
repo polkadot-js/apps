@@ -110,6 +110,7 @@ class Bond extends React.PureComponent<Props, State> {
             isError={!!controllerError}
             label={t('controller account')}
             onChange={this.onChangeController}
+            type='account'
             value={controllerId}
           />
           <ValidateController
