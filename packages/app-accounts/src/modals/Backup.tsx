@@ -85,7 +85,7 @@ class Backup extends React.PureComponent<Props, State> {
             <p>{t('Ensure that you save this backup in a secure location. Additionally, for future restores, ensure that you have access to the password for this account - it is needed as part of the restoration process.')}</p>
             <div>
               <Password
-                help={t('The account password as specified when creating the account. This is used to encrypt the backup and subsequently decrypt it when restoring.')}
+                help={t('The account password as specified when creating the account. This is used to encrypt the backup file and subsequently decrypt it when restoring the account.')}
                 isError={!isPassValid}
                 label={t('password')}
                 onChange={this.onChangePass}
