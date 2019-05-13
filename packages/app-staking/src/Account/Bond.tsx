@@ -9,11 +9,10 @@ import { CalculateBalanceProps } from '../types';
 import BN from 'bn.js';
 import React from 'react';
 import { AccountId } from '@polkadot/types';
-import { IExtrinsic } from '@polkadot/types/types';
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { Button, InputAddress, InputBalance, Modal, TxButton, Dropdown } from '@polkadot/ui-app';
 import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
-import { compactToU8a } from '@polkadot/util';
-import { SIGNATURE_SIZE } from '@polkadot/ui-signer/Checks';
+import { calcSignatureLength } from '@polkadot/ui-signer/Checks';
 import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
 
 import translate from '../translate';
@@ -31,7 +30,7 @@ type State = {
   controllerError: string | null,
   controllerId: string,
   destination: number,
-  extrinsic: IExtrinsic | null,
+  extrinsic: SubmittableExtrinsic | null,
   maxBalance?: BN
 };
 
@@ -77,7 +76,7 @@ class Bond extends React.PureComponent<Props, State> {
   render () {
     const { accountId, isOpen, onClose, t } = this.props;
     const { bondValue, controllerError, controllerId, extrinsic, maxBalance } = this.state;
-    const hasValue = !!bondValue && bondValue.gtn(0) && (!maxBalance || bondValue.lt(maxBalance));
+    const hasValue = !!bondValue && bondValue.gtn(0) && (!maxBalance || bondValue.lte(maxBalance));
     const canSubmit = hasValue && !controllerError && !!controllerId;
 
     if (!isOpen) {
@@ -198,6 +197,14 @@ class Bond extends React.PureComponent<Props, State> {
     let maxBalance = new BN(1);
     let extrinsic;
 
+    console.log(Object.entries(balances_all)
+      .reduce((obj, [key, bn]) => {
+        return {
+          ...obj,
+          [key]: bn.toString()
+        };
+      }, {}));
+
     while (!prevMax.eq(maxBalance)) {
       prevMax = maxBalance;
 
@@ -205,14 +212,12 @@ class Bond extends React.PureComponent<Props, State> {
         ? api.tx.staking.bond(controllerId, prevMax, destination)
         : null;
 
-      const txLength = SIGNATURE_SIZE + compactToU8a(system_accountNonce).length + (
-        extrinsic
-          ? extrinsic.encodedLength
-          : 0
-      );
+      const txLength = calcSignatureLength(extrinsic, system_accountNonce);
 
       const fees = transactionBaseFee
         .add(transactionByteFee.muln(txLength));
+
+      console.log(fees.toString());
 
       maxBalance = new BN(freeBalance).sub(fees);
     }

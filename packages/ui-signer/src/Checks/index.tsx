@@ -46,6 +46,12 @@ const LENGTH_SIGNATURE = 64;
 const LENGTH_ERA = 1;
 export const SIGNATURE_SIZE = LENGTH_PUBLICKEY + LENGTH_SIGNATURE + LENGTH_ERA;
 
+export const calcSignatureLength = (extrinsic?: IExtrinsic | null, accountNonce?: BN): number => {
+  return SIGNATURE_SIZE +
+    (accountNonce ? compactToU8a(accountNonce).length : 0) +
+    (extrinsic ? extrinsic.encodedLength : 0);
+};
+
 export class FeeDisplay extends React.PureComponent<Props, State> {
   state: State = {
     allFees: new BN(0),
@@ -68,11 +74,8 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
     const fn = Method.findFunction(extrinsic.callIndex);
     const extMethod = fn.method;
     const extSection = fn.section;
-    const txLength = SIGNATURE_SIZE + compactToU8a(system_accountNonce).length + (
-      extrinsic
-        ? extrinsic.encodedLength
-        : 0
-    );
+    const txLength = calcSignatureLength(extrinsic, system_accountNonce);
+
     const isSameExtrinsic = prevState.extMethod === extMethod && prevState.extSection === extSection;
     const extraAmount = isSameExtrinsic
       ? prevState.extraAmount
@@ -110,7 +113,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
     };
   }
 
-  componentDidUpdate (_: Props, prevState: State) {
+  componentDidUpdate () {
     const { onChange } = this.props;
     const { hasAvailable } = this.state;
 

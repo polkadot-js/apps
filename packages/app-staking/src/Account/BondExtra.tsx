@@ -10,10 +10,9 @@ import BN from 'bn.js';
 import React from 'react';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/ui-app';
 import { Option, StakingLedger } from '@polkadot/types';
-import { IExtrinsic } from '@polkadot/types/types';
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
-import { compactToU8a } from '@polkadot/util';
-import { SIGNATURE_SIZE } from '@polkadot/ui-signer/Checks';
+import { calcSignatureLength } from '@polkadot/ui-signer/Checks';
 import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
 
 import translate from '../translate';
@@ -28,7 +27,7 @@ type Props = I18nProps & ApiProps & CalculateBalanceProps & {
 
 type State = {
   maxAdditional?: BN,
-  extrinsic: IExtrinsic | null,
+  extrinsic: SubmittableExtrinsic | null,
   maxBalance?: BN
 };
 
@@ -160,11 +159,7 @@ class BondExtra extends React.PureComponent<Props, State> {
         ? api.tx.staking.bondExtra(maxAdditional.sub(bonded))
         : null;
 
-      const txLength = SIGNATURE_SIZE + compactToU8a(system_accountNonce).length + (
-        extrinsic
-          ? extrinsic.encodedLength
-          : 0
-      );
+      const txLength = calcSignatureLength(extrinsic, system_accountNonce);
 
       const fees = transactionBaseFee
         .add(transactionByteFee.muln(txLength));

@@ -9,11 +9,11 @@ import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { IExtrinsic } from '@polkadot/types/types';
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { AddressSummary, InputAddress, InputBalance } from '@polkadot/ui-app';
 import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
-import Checks, { SIGNATURE_SIZE } from '@polkadot/ui-signer/Checks';
+import Checks, { calcSignatureLength } from '@polkadot/ui-signer/Checks';
 import { ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
 
 import Submit from './Submit';
@@ -28,7 +28,7 @@ type Props = I18nProps & ApiProps & {
 type State = {
   accountId: string | null,
   amount: BN,
-  extrinsic: IExtrinsic | null,
+  extrinsic: SubmittableExtrinsic | null,
   hasAvailable: boolean,
   maxBalance?: BN,
   recipientId: string | null
@@ -195,11 +195,7 @@ class Transfer extends React.PureComponent<Props, State> {
               ? api.tx.balances.transfer(recipientId, prevMax)
               : null;
 
-            const txLength = SIGNATURE_SIZE + accountNonce.length + (
-              extrinsic
-                ? extrinsic.encodedLength
-                : 0
-            );
+            const txLength = calcSignatureLength(extrinsic, accountNonce);
 
             const fees = transactionBaseFee
               .add(transactionByteFee.muln(txLength))
