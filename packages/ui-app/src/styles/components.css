@@ -114,8 +114,18 @@ header .ui--Button-Group {
   vertical-align: top;
 }
 
-.ui--AddressRow .ui--AddressSummary-children {
-  display: block;
+.ui--AddressRow {
+  &.inline {
+    display: flex;
+
+    .ui--AddressSummary-children {
+      padding: 0 0 0 3rem;
+    }
+  }
+
+  .ui--AddressSummary-children {
+    display: block;
+  }
 }
 
 .ui--AddressSummary .rx--updated {

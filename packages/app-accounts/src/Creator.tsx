@@ -12,7 +12,7 @@ import FileSaver from 'file-saver';
 import React from 'react';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { withApi, withMulti } from '@polkadot/ui-api';
-import { AddressSummary, Button, Dropdown, Input, Labelled, Modal, Password } from '@polkadot/ui-app';
+import { AddressRow, AddressSummary, Button, Dropdown, Input, Labelled, Modal, Password } from '@polkadot/ui-app';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
@@ -156,7 +156,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   private renderInput () {
     const { t } = this.props;
-    const { deriveError, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType, showWarning } = this.state;
+    const { deriveError, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType } = this.state;
     const seedLabel = (() => {
       switch (seedType) {
         case 'bip':
@@ -241,61 +241,50 @@ class Creator extends React.PureComponent<Props, State> {
             }
           </div>
         </details>
-        <Modal
-          className='app--accounts-Modal'
-          dimmer='inverted'
-          open={showWarning}
-          size='small'
-        >
-          {this.renderModalContent()}
-          {this.renderModalButtons()}
-        </Modal>
+        {this.renderModal()}
       </div>
     );
   }
 
-  private renderModalButtons () {
+  private renderModal () {
     const { t } = this.props;
+    const { address, name, showWarning } = this.state;
 
     return (
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            label={t('Cancel')}
-            onClick={this.onHideWarning}
-          />
-          <Button.Or />
-          <Button
-            isPrimary
-            label={t('Create and backup account')}
-            onClick={this.onCommit}
-          />
-        </Button.Group>
-      </Modal.Actions>
-    );
-  }
-
-  private renderModalContent () {
-    const { t } = this.props;
-    const { address } = this.state;
-
-    return (
-      <>
+      <Modal
+        className='app--accounts-Modal'
+        dimmer='inverted'
+        open={showWarning}
+      >
         <Modal.Header>
-          {t('Important notice!')}
+          {t('Important notice')}
         </Modal.Header>
         <Modal.Content>
-          {t('We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always redownload this file later.')}
-          <Modal.Description>
-            {t('Please make sure to save this file in a secure location as it is required, together with your password, to restore your account.')}
-          </Modal.Description>
-          <AddressSummary
-            className='accounts--Modal-Address'
+          <AddressRow
+            defaultName={name}
+            isInline
             value={address}
-          />
+          >
+            <p>{t('We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always download this file later by clicking on "Backup" button from the Accounts section.')}</p>
+            <p>{t('Please make sure to save this file in a secure location as it is required, together with your password, to restore your account.')}</p>
+          </AddressRow>
         </Modal.Content>
-      </>
+        <Modal.Actions>
+          <Button.Group>
+            <Button
+              isNegative
+              label={t('Cancel')}
+              onClick={this.onHideWarning}
+            />
+            <Button.Or />
+            <Button
+              isPrimary
+              label={t('Create and backup account')}
+              onClick={this.onCommit}
+            />
+          </Button.Group>
+        </Modal.Actions>
+      </Modal>
     );
   }
 

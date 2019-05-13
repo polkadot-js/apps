@@ -7,11 +7,11 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import FileSaver from 'file-saver';
 import React from 'react';
-import { AddressSummary, Button, Modal, Password } from '@polkadot/ui-app';
+import { AddressRow, Button, Modal, Password } from '@polkadot/ui-app';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import keyring from '@polkadot/ui-keyring';
 
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & {
   onStatusChange: (status: ActionStatus) => void,
@@ -36,7 +36,6 @@ class Backup extends React.PureComponent<Props, State> {
         className='app--accounts-Modal'
         dimmer='inverted'
         open
-        size='tiny'
       >
         {this.renderContent()}
         {this.renderButtons()}
@@ -44,7 +43,7 @@ class Backup extends React.PureComponent<Props, State> {
     );
   }
 
-  renderButtons () {
+  private renderButtons () {
     const { onClose, t } = this.props;
     const { isPassValid } = this.state;
 
@@ -68,7 +67,7 @@ class Backup extends React.PureComponent<Props, State> {
     );
   }
 
-  renderContent () {
+  private renderContent () {
     const { pair, t } = this.props;
     const { isPassValid, password } = this.state;
 
@@ -78,14 +77,23 @@ class Backup extends React.PureComponent<Props, State> {
           {t('Backup account')}
         </Modal.Header>
         <Modal.Content className='app--account-Backup-content'>
-          <AddressSummary value={pair.address()} />
-          <Password
-            isError={!isPassValid}
-            label={t('unlock account using the password')}
-            onChange={this.onChangePass}
-            tabIndex={0}
-            value={password}
-          />
+          <AddressRow
+            isInline
+            value={pair.address()}
+          >
+            <p>{t('An encrypted backup file will be created once you have pressed the "Download" button. This can be used to re-import your account on any other machine.')}</p>
+            <p>{t('Save this backup file in a secure location. Additionally, the password associated with this account is needed together with this backup file in order to restore your account.')}</p>
+            <div>
+              <Password
+                help={t('The account password as specified when creating the account. This is used to encrypt the backup file and subsequently decrypt it when restoring the account.')}
+                isError={!isPassValid}
+                label={t('password')}
+                onChange={this.onChangePass}
+                tabIndex={0}
+                value={password}
+              />
+            </div>
+          </AddressRow>
         </Modal.Content>
       </>
     );

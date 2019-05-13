@@ -13,9 +13,9 @@ import { AddressSummary, Button, Dropdown, Input, InputAddress } from '@polkadot
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 
-import Backup from './Backup';
-import ChangePass from './ChangePass';
-import Forgetting from './Forgetting';
+import Backup from './modals/Backup';
+import ChangePass from './modals/ChangePass';
+import Forgetting from './modals/Forgetting';
 import translate from './translate';
 
 type Props = ComponentProps & I18nProps & {
@@ -54,7 +54,7 @@ class Editor extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { current, isEdited } = this.state;
 
-    if (!current) {
+    if (!current || current.getMeta().isTesting) {
       return null;
     }
 

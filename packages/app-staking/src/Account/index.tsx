@@ -26,7 +26,6 @@ type Props = ApiProps & I18nProps & {
   controllerId?: string | null,
   filter: AccountFilter,
   isValidator: boolean,
-  name: string,
   recentlyOffline: RecentlyOfflineMap,
   sessionId?: string | null,
   stashId?: string | null,
@@ -58,7 +57,7 @@ class Account extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { accountId, controllerId, filter, name, stashId } = this.props;
+    const { accountId, controllerId, filter, stashId } = this.props;
 
     if ((filter === 'controller' && !stashId) || (filter === 'stash' && !controllerId) || (filter === 'unbonded' && (controllerId || stashId))) {
       return null;
@@ -77,7 +76,6 @@ class Account extends React.PureComponent<Props, State> {
         {this.renderUnbond()}
         {this.renderValidating()}
         <AddressSummary
-          name={name}
           value={accountId}
           identIconSize={96}
           withAvailable
