@@ -7,15 +7,18 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
 
+import ValidateSession from './ValidateSession';
 import translate from '../translate';
 
 type Props = I18nProps & {
   accountId: string,
   isOpen: boolean,
-  onClose: () => void
+  onClose: () => void,
+  stashId: string
 };
 
 type State = {
+  sessionError: string | null,
   sessionId: string
 };
 
@@ -26,13 +29,14 @@ class Key extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
+      sessionError: null,
       sessionId: props.accountId
     };
   }
 
   render () {
     const { accountId, isOpen, onClose, t } = this.props;
-    const { sessionId } = this.state;
+    const { sessionError, sessionId } = this.state;
 
     if (!isOpen) {
       return null;
@@ -56,7 +60,7 @@ class Key extends React.PureComponent<Props, State> {
           <Button.Or />
           <TxButton
             accountId={accountId}
-            isDisabled={!sessionId}
+            isDisabled={!sessionId || !!sessionError}
             isPrimary
             label={t('Set Session Key')}
             onClick={onClose}
@@ -70,7 +74,7 @@ class Key extends React.PureComponent<Props, State> {
   }
 
   private renderContent () {
-    const { accountId, t } = this.props;
+    const { accountId, stashId, t } = this.props;
     const { sessionId } = this.state;
 
     return (
@@ -93,6 +97,12 @@ class Key extends React.PureComponent<Props, State> {
             value={sessionId}
             type='account'
           />
+          <ValidateSession
+            controllerId={accountId}
+            onError={this.onSessionError}
+            sessionId={sessionId}
+            stashId={stashId}
+          />
         </Modal.Content>
       </>
     );
@@ -100,6 +110,10 @@ class Key extends React.PureComponent<Props, State> {
 
   private onChangeSession = (sessionId: string) => {
     this.setState({ sessionId });
+  }
+
+  private onSessionError = (sessionError: string | null) => {
+    this.setState({ sessionError });
   }
 }
 

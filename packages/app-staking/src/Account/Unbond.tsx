@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId } from '@polkadot/types';
 import BN from 'bn.js';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/ui-app';
 import { I18nProps } from '@polkadot/ui-app/types';
@@ -11,7 +10,7 @@ import React from 'react';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  controllerId?: AccountId | null,
+  controllerId?: string | null,
   isOpen: boolean,
   onClose: () => void
 };
@@ -49,7 +48,7 @@ class Unbond extends React.PureComponent<Props, State> {
             />
             <Button.Or />
             <TxButton
-              accountId={controllerId && controllerId.toString()}
+              accountId={controllerId}
               isDisabled={!canSubmit}
               isPrimary
               label={t('Unbond')}
@@ -74,7 +73,7 @@ class Unbond extends React.PureComponent<Props, State> {
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
             className='medium'
-            defaultValue={controllerId && controllerId.toString()}
+            defaultValue={controllerId}
             isDisabled
             label={t('controler account')}
           />
