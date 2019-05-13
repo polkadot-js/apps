@@ -15,7 +15,6 @@ import translate from './translate';
 
 type State = {
   currentPair: KeyringPair | null,
-  defaultValue?: string,
   data: string,
   isHexData: boolean,
   isLocked: boolean,
@@ -34,9 +33,6 @@ class Sign extends React.PureComponent<Props, State> {
 
     this.state = {
       currentPair,
-      defaultValue: currentPair
-        ? currentPair.address()
-        : void 0,
       data: '',
       isHexData: false,
       isLocked: currentPair
@@ -61,15 +57,16 @@ class Sign extends React.PureComponent<Props, State> {
 
   renderAccount () {
     const { t } = this.props;
-    const { defaultValue } = this.state;
+    const { currentPair } = this.state;
 
     return (
       <div className='ui--row'>
         <InputAddress
           className='full'
-          defaultValue={defaultValue}
+          defaultValue={currentPair}
+          help={t('select the account you wish to sign data with')}
           isInput={false}
-          label={t('using my account')}
+          label={t('account')}
           onChange={this.onChangeAccount}
           type='account'
         />
@@ -188,6 +185,8 @@ class Sign extends React.PureComponent<Props, State> {
         };
       }
     );
+
+    console.log('state',this.state);
   }
 
   toggleUnlock = (): void => {
