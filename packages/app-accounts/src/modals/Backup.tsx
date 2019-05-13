@@ -81,7 +81,7 @@ class Backup extends React.PureComponent<Props, State> {
             isInline
             value={pair.address()}
           >
-            <p>{t('A encrypted backup file will be created in once you have pressed the "Download" button. This can be used to re-import your account on any other machine.')}</p>
+            <p>{t('An encrypted backup file will be created once you have pressed the "Download" button. This can be used to re-import your account on any other machine.')}</p>
             <p>{t('Ensure that you save this backup in a secure location. Additionally, for future restores, ensure that you have access to the password for this account - it is needed as part of the restoration process.')}</p>
             <div>
               <Password
