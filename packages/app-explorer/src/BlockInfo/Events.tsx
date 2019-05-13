@@ -22,13 +22,17 @@ class Events extends React.PureComponent<Props> {
       return null;
     }
 
+    const events = value.map((record, index) => ({
+      key: `${index}`, record
+    }));
+
     return (
       <section>
         <h1>{t('events')}</h1>
         <div className='explorer--BlockByHash-flexable ui--flex-medium'>
           <EventsDisplay
             eventClassName='explorer--BlockByHash-block'
-            value={value}
+            events={events}
           />
         </div>
       </section>
