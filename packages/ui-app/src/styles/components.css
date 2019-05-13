@@ -14,17 +14,21 @@
   padding: .75rem 1rem;
   position: relative;
   word-wrap: break-word;
-}
 
-.ui--output .ui--output-button {
-  position: absolute;
-  top: 0.25rem;
-  right: 0.25rem;
-}
+  &.error {
+    background: #fff6f6;
+    border-color: #e0b4b4;
+  }
 
-.ui--output.error {
-  background: #fff6f6;
-  border-color: #e0b4b4;
+  &.monospace {
+    font-family: monospace;
+  }
+
+  .ui--output-button {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+  }
 }
 
 .ui--Button-Group .button {

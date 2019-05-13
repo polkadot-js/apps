@@ -4,16 +4,16 @@
 
 .storage--Query {
   margin-bottom: 0.25em;
-}
 
-.storage--Query .ui.disabled.dropdown.selection {
-  color: #aaa;
-  opacity: 1;
-}
+  .ui.disabled.dropdown.selection {
+    color: #aaa;
+    opacity: 1;
+  }
 
-.storage--Query .ui--IdentityIcon {
-  margin: -10px 0;
-  vertical-align: middle;
+  .ui--IdentityIcon {
+    margin: -10px 0;
+    vertical-align: middle;
+  }
 }
 
 .storage--actionrow {
