@@ -63,13 +63,11 @@ class Sign extends React.PureComponent<Props, State> {
 
   renderAccount () {
     const { t } = this.props;
-    const { currentPair } = this.state;
 
     return (
       <div className='ui--row'>
         <InputAddress
           className='full'
-          defaultValue={currentPair && currentPair.address()}
           help={t('select the account you wish to sign data with')}
           isInput={false}
           label={t('account')}
