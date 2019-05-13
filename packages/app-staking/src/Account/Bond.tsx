@@ -6,7 +6,6 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { AccountId } from '@polkadot/types';
 import { Button, InputAddress, InputBalance, Modal, TxButton, Dropdown } from '@polkadot/ui-app';
 
 import translate from '../translate';
@@ -14,7 +13,7 @@ import ValidateController from './ValidateController';
 
 type Props = I18nProps & {
   accountId: string,
-  controllerId?: AccountId | null,
+  controllerId?: string | null,
   isOpen: boolean,
   onClose: () => void
 };
