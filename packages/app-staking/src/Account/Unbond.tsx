@@ -2,25 +2,39 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
-import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/ui-app';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-api/types';
+
+import BN from 'bn.js';
 import React from 'react';
+import { AccountId, Option, StakingLedger } from '@polkadot/types';
+import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/ui-app';
+import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  controllerId?: string | null,
+type Props = I18nProps & ApiProps & {
+  controllerId?: AccountId | null,
   isOpen: boolean,
-  onClose: () => void
+  onClose: () => void,
+  staking_ledger?: Option<StakingLedger>
 };
 
 type State = {
+  maxBalance?: BN
   maxUnbond?: BN
 };
 
 class Unbond extends React.PureComponent<Props, State> {
   state: State = {};
+
+  componentDidUpdate (prevProps: Props) {
+    const { staking_ledger } = this.props;
+
+    if (staking_ledger !== prevProps.staking_ledger) {
+      this.setMaxBalance();
+    }
+  }
 
   render () {
     const { controllerId, isOpen, onClose, t } = this.props;
@@ -64,6 +78,7 @@ class Unbond extends React.PureComponent<Props, State> {
 
   private renderContent () {
     const { controllerId, t } = this.props;
+    const { maxBalance } = this.state;
 
     return (
       <>
@@ -75,23 +90,57 @@ class Unbond extends React.PureComponent<Props, State> {
             className='medium'
             defaultValue={controllerId}
             isDisabled
-            label={t('controler account')}
+            label={t('controller account')}
           />
           <InputBalance
             autoFocus
             className='medium'
             help={t('The maximum amount to unbond, this is adjusted using the bonded funds on the account.')}
             label={t('unbond amount')}
+            maxValue={maxBalance}
             onChange={this.onChangeValue}
+            withMax
           />
         </Modal.Content>
       </>
     );
   }
 
+  private nextState (newState: Partial<State>): void {
+    this.setState((prevState: State): State => {
+      const { maxUnbond = prevState.maxUnbond, maxBalance = prevState.maxBalance } = newState;
+
+      return {
+        maxUnbond,
+        maxBalance
+      };
+    });
+  }
+
+  private setMaxBalance = () => {
+    const { staking_ledger } = this.props;
+
+    if (!staking_ledger || staking_ledger.isNone) {
+      return;
+    }
+
+    const { active: maxBalance } = staking_ledger.unwrap();
+
+    this.nextState({
+      maxBalance
+    });
+  }
+
   private onChangeValue = (maxUnbond?: BN) => {
-    this.setState({ maxUnbond });
+    this.nextState({ maxUnbond });
   }
 }
 
-export default translate(Unbond);
+export default withMulti(
+  Unbond,
+  translate,
+  withApi,
+  withCalls<Props>(
+    ['query.staking.ledger', { paramName: 'controllerId' }]
+  )
+);

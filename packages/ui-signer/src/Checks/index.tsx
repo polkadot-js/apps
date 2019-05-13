@@ -37,14 +37,20 @@ type Props = I18nProps & {
   accountId?: string | null,
   extrinsic?: IExtrinsic | null,
   isSendable: boolean,
-  onChange?: (hasAvailble: boolean) => void,
+  onChange?: (hasAvailable: boolean) => void,
   system_accountNonce?: BN
 };
 
 const LENGTH_PUBLICKEY = 32 + 1; // publicKey + prefix
 const LENGTH_SIGNATURE = 64;
 const LENGTH_ERA = 1;
-const SIGNATURE_SIZE = LENGTH_PUBLICKEY + LENGTH_SIGNATURE + LENGTH_ERA;
+export const SIGNATURE_SIZE = LENGTH_PUBLICKEY + LENGTH_SIGNATURE + LENGTH_ERA;
+
+export const calcSignatureLength = (extrinsic?: IExtrinsic | null, accountNonce?: BN): number => {
+  return SIGNATURE_SIZE +
+    (accountNonce ? compactToU8a(accountNonce).length : 0) +
+    (extrinsic ? extrinsic.encodedLength : 0);
+};
 
 export class FeeDisplay extends React.PureComponent<Props, State> {
   state: State = {
@@ -68,11 +74,8 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
     const fn = Method.findFunction(extrinsic.callIndex);
     const extMethod = fn.method;
     const extSection = fn.section;
-    const txLength = SIGNATURE_SIZE + compactToU8a(system_accountNonce).length + (
-      extrinsic
-        ? extrinsic.encodedLength
-        : 0
-    );
+    const txLength = calcSignatureLength(extrinsic, system_accountNonce);
+
     const isSameExtrinsic = prevState.extMethod === extMethod && prevState.extSection === extSection;
     const extraAmount = isSameExtrinsic
       ? prevState.extraAmount

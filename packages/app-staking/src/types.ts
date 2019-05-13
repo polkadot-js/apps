@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { DerivedBalancesMap } from '@polkadot/api-derive/types';
+import { DerivedFees, DerivedBalances, DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { AccountId, BlockNumber } from '@polkadot/types';
 
 export type Nominators = {
@@ -17,6 +17,12 @@ export type ComponentProps = {
   recentlyOffline: RecentlyOfflineMap,
   stashes: Array<string>,
   validators: Array<string>
+};
+
+export type CalculateBalanceProps = {
+  balances_fees?: DerivedFees,
+  balances_all?: DerivedBalances,
+  system_accountNonce?: BN
 };
 
 export type RecentlyOffline = Array<[AccountId, BlockNumber, BN]>;

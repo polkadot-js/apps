@@ -14,6 +14,7 @@ import Labelled from './Labelled';
 
 type Props<Option> = BareProps & {
   defaultValue?: any,
+  dropdownClassName?: string,
   help?: React.ReactNode,
   isButton?: boolean,
   isDisabled?: boolean,
@@ -57,9 +58,10 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
   }
 
   render () {
-    const { className, defaultValue, help, isButton, isDisabled, isError, isMultiple, label, onSearch, options, placeholder, renderLabel, style, withLabel, value } = this.props;
+    const { className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isMultiple, label, onSearch, options, placeholder, renderLabel, style, withLabel, value } = this.props;
     const dropdown = (
       <SUIDropdown
+        className={dropdownClassName}
         button={isButton}
         compact={isButton}
         disabled={isDisabled}
@@ -99,7 +101,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
       );
   }
 
-  private onChange = (event: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void => {
+  private onChange = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void => {
     const { onChange, transform } = this.props;
 
     onChange && onChange(
