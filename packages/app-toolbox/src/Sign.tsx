@@ -31,6 +31,8 @@ class Sign extends React.PureComponent<Props, State> {
     const pairs = keyring.getPairs();
     const currentPair = pairs[0] || null;
 
+    console.log('currentPair  - constructor',currentPair && currentPair.address());
+
     this.state = {
       currentPair,
       data: '',
@@ -44,6 +46,10 @@ class Sign extends React.PureComponent<Props, State> {
   }
 
   render () {
+    const { currentPair } = this.state;
+
+    console.log('currentPair  - render',currentPair && currentPair.address());
+
     return (
       <div className='toolbox--Sign'>
         {this.renderAccount()}
@@ -63,7 +69,7 @@ class Sign extends React.PureComponent<Props, State> {
       <div className='ui--row'>
         <InputAddress
           className='full'
-          defaultValue={currentPair}
+          defaultValue={currentPair && currentPair.address()}
           help={t('select the account you wish to sign data with')}
           isInput={false}
           label={t('account')}
@@ -197,6 +203,8 @@ class Sign extends React.PureComponent<Props, State> {
 
   onChangeAccount = (accountId: string): void => {
     const currentPair = keyring.getPair(accountId);
+
+    console.log('-------- onChangeAccount:',accountId);
 
     this.nextState({ currentPair } as State);
   }
