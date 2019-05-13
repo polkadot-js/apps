@@ -12,7 +12,7 @@ import FileSaver from 'file-saver';
 import React from 'react';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { withApi, withMulti } from '@polkadot/ui-api';
-import { AddressSummary, Button, Dropdown, Input, Labelled, Modal, Password } from '@polkadot/ui-app';
+import { AddressSummary, Button, Dropdown, Input, InputTags, Labelled, Modal, Password } from '@polkadot/ui-app';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
@@ -51,7 +51,8 @@ type State = {
   seed: string,
   seedOptions: Array<SeedOption>,
   seedType: SeedType,
-  showWarning: boolean
+  showWarning: boolean,
+  tags: Array<string>
 };
 
 const DEFAULT_TYPE = 'sr25519';
@@ -156,7 +157,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   private renderInput () {
     const { t } = this.props;
-    const { deriveError, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType, showWarning } = this.state;
+    const { deriveError, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType, showWarning, tags } = this.state;
     const seedLabel = (() => {
       switch (seedType) {
         case 'bip':
@@ -207,6 +208,14 @@ class Creator extends React.PureComponent<Props, State> {
             label={t('password')}
             onChange={this.onChangePass}
             value={password}
+          />
+        </div>
+        <div className='ui--row'>
+          <InputTags
+            help={t('Additional user-specified tags that can be used to identify the account. Tags can be used for categorization and filtering.')}
+            label={t('user-defined tags')}
+            onChange={this.onChangeTags}
+            value={tags}
           />
         </div>
         <details
@@ -335,14 +344,15 @@ class Creator extends React.PureComponent<Props, State> {
       password: '',
       pairType,
       seedType,
-      showWarning: false
+      showWarning: false,
+      tags: []
     };
   }
 
   private nextState (newState: State): void {
     this.setState(
       (prevState: State, props: Props): State => {
-        const { derivePath = prevState.derivePath, name = prevState.name, pairType = prevState.pairType, password = prevState.password, seed = prevState.seed, seedOptions = prevState.seedOptions, seedType = prevState.seedType, showWarning = prevState.showWarning } = newState;
+        const { derivePath = prevState.derivePath, name = prevState.name, pairType = prevState.pairType, password = prevState.password, seed = prevState.seed, seedOptions = prevState.seedOptions, seedType = prevState.seedType, showWarning = prevState.showWarning, tags = prevState.tags } = newState;
         let address = prevState.address;
         const deriveError = deriveValidate(derivePath, pairType);
         const isNameValid = !!name;
@@ -373,7 +383,8 @@ class Creator extends React.PureComponent<Props, State> {
           seed,
           seedOptions,
           seedType,
-          showWarning
+          showWarning,
+          tags
         };
       }
     );
@@ -387,6 +398,10 @@ class Creator extends React.PureComponent<Props, State> {
     this.nextState({ name } as State);
   }
 
+  private onChangePairType = (pairType: KeypairType): void => {
+    this.nextState({ pairType } as State);
+  }
+
   private onChangePass = (password: string): void => {
     this.nextState({ password } as State);
   }
@@ -395,8 +410,8 @@ class Creator extends React.PureComponent<Props, State> {
     this.nextState({ seed } as State);
   }
 
-  private onChangePairType = (pairType: KeypairType): void => {
-    this.nextState({ pairType } as State);
+  private onChangeTags = (tags: Array<string>): void => {
+    this.setState({ tags });
   }
 
   private onShowWarning = (): void => {
@@ -409,14 +424,14 @@ class Creator extends React.PureComponent<Props, State> {
 
   private onCommit = (): void => {
     const { basePath, onStatusChange, t } = this.props;
-    const { derivePath, name, pairType, password, seed } = this.state;
+    const { derivePath, name, pairType, password, seed, tags } = this.state;
 
     const status = {
       action: 'create'
     } as ActionStatus;
 
     try {
-      const { json, pair } = keyring.addUri(`${seed}${derivePath}`, password, { name }, pairType);
+      const { json, pair } = keyring.addUri(`${seed}${derivePath}`, password, { name, tags }, pairType);
       const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
 
       FileSaver.saveAs(blob, `${pair.address()}.json`);
