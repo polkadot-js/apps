@@ -8,7 +8,6 @@ import { CalculateBalanceProps } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { AccountId } from '@polkadot/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { Button, InputAddress, InputBalance, Modal, TxButton, Dropdown } from '@polkadot/ui-app';
 import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
