@@ -78,6 +78,8 @@ class Params extends React.PureComponent<Props, State> {
     const { onChange, isDisabled } = this.props;
     const { values } = this.state;
 
+    console.log('VALUES PARAMS', values)
+
     if (!isDisabled && prevState.values !== values) {
       onChange && onChange(values);
     }

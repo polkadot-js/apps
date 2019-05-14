@@ -44,6 +44,8 @@ class Selection extends React.PureComponent<Props, State> {
       type: getTypeDef(type)
     }));
 
+    // console.log('RPC', rpc)
+
     return (
       <section className='rpc--Selection'>
         <InputRpc
@@ -95,6 +97,7 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   private onChangeMethod = (rpc: RpcMethod): void => {
+    console.log('RPC', rpc)
     this.nextState({
       rpc,
       values: [] as Array<RawParam>
@@ -102,6 +105,7 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   private onChangeValues = (values: Array<RawParam>): void => {
+    console.log('VALUES', values)
     this.nextState({ values } as State);
   }
 
