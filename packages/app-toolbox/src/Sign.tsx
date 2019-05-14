@@ -35,12 +35,14 @@ const Wrapper = styled.div`
     left:0;
     background-color: #0f0e0e7a;
   }
+
   .unlock-overlay-warning {
     display: flex;
     align-items: center;
     justify-content: center;
     height:100%;
   }
+
   .unlock-overlay-content {
     color:#fff;
     text-align:center;
@@ -79,8 +81,8 @@ class Sign extends React.PureComponent<Props, State> {
       <div className='toolbox--Sign'>
         {this.renderAccount()}
         <Wrapper>
-        {this.renderInput()}
-        {this.renderSignature()}
+          {this.renderInput()}
+          {this.renderSignature()}
           <div className='unlock-overlay' hidden={!isLocked}>
             {this.renderUnlockWarning()}
           </div>
@@ -118,7 +120,7 @@ class Sign extends React.PureComponent<Props, State> {
     return (
       <div className='unlock-overlay-warning'>
         <div className='unlock-overlay-content'>
-          You need to unlock this account to be able to sign data.<br/>
+          {t('You need to unlock this account to be able to sign data.')}<br/>
           <Button.Group>
             <Button
               isPrimary
