@@ -6,6 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyedEvent } from './types';
 
 import React from 'react';
+import styled from 'styled-components';
 
 import BlockHeaders from './BlockHeaders';
 import Events from './Events';
@@ -17,6 +18,14 @@ type Props = I18nProps & {
   events: Array<KeyedEvent>
 };
 
+const Wrapper = styled.div`
+  .column {
+    flex: 0 0 50%;
+    min-width: 0;
+    padding: 0 1em 1em;
+  }
+`;
+
 class Main extends React.PureComponent<Props> {
   render () {
     const { events, t } = this.props;
@@ -25,7 +34,7 @@ class Main extends React.PureComponent<Props> {
       <>
         <Query />
         <Summary />
-        <div className='explorer--Overview ui--flex-medium'>
+        <Wrapper className='ui--flex-medium'>
           <div className='column'>
             <h1>{t('recent blocks')}</h1>
             <BlockHeaders />
@@ -34,7 +43,7 @@ class Main extends React.PureComponent<Props> {
             <h1>{t('recent events')}</h1>
             <Events events={events} />
           </div>
-        </div>
+        </Wrapper>
       </>
     );
   }

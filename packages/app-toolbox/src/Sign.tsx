@@ -135,9 +135,10 @@ class Sign extends React.PureComponent<Props, State> {
     return (
       <div className='ui--row'>
         <Output
-          className='full toolbox--hex'
-          isHidden={signature.length === 0}
+          className='full'
           help={t('The resulting signature of the input data, as done with the crypto algorithm from the account. (This could be non-deterministic for some types such as sr25519).')}
+          isHidden={signature.length === 0}
+          isMonospace
           label={t('signature of supplied data')}
           value={signature}
           withCopy
