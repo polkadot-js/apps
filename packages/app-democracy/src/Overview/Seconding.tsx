@@ -7,6 +7,7 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { AccountId } from '@polkadot/types';
 import { Button, InputAddress, TxButton } from '@polkadot/ui-app';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { withMulti, withObservable } from '@polkadot/ui-api';
@@ -15,21 +16,19 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   allAccounts?: SubjectInfo,
-  referendumId: BN | number
+  depositors: Array<AccountId>,
+  proposalId: BN | number
 };
 
 type State = {
   accountId?: string
 };
 
-const VOTE_NAY = 0;
-const VOTE_YAY = -1; // Yes, this is weird, but voting works on i8 with the high bit set
-
-class Voting extends React.PureComponent<Props, State> {
+class Seconding extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { allAccounts, referendumId, t } = this.props;
+    const { allAccounts, depositors, proposalId, t } = this.props;
     const { accountId } = this.state;
     const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
 
@@ -37,10 +36,12 @@ class Voting extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const isDepositor = !!depositors.find((depositor) => depositor.eq(accountId));
+
     return (
-      <div className='democracy--Referendum-vote'>
+      <div className='democarcy--Proposal-second'>
         <InputAddress
-          help={t('Select the account you wish to vote with. You can approve "yay" or deny "nay" the proposal.')}
+          help={t('Select the account you wish to second with. This will lock your funds until the proposal is either approved or rejected')}
           label={t('using my account')}
           onChange={this.onChangeAccount}
           type='account'
@@ -49,20 +50,11 @@ class Voting extends React.PureComponent<Props, State> {
         <Button.Group>
           <TxButton
             accountId={accountId}
-            isDisabled={!accountId}
-            isNegative
-            label={t('Nay')}
-            params={[referendumId, VOTE_NAY]}
-            tx='democracy.vote'
-          />
-          <Button.Or />
-          <TxButton
-            accountId={accountId}
-            isDisabled={!accountId}
-            isPositive
-            label={t('Aye')}
-            params={[referendumId, VOTE_YAY]}
-            tx='democracy.vote'
+            isDisabled={!accountId || isDepositor}
+            isPrimary
+            label={t('Second')}
+            params={[proposalId]}
+            tx='democracy.second'
           />
         </Button.Group>
       </div>
@@ -75,7 +67,7 @@ class Voting extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  Voting,
+  Seconding,
   translate,
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );
