@@ -5,9 +5,9 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AddressSummary, Button, Modal } from '@polkadot/ui-app';
+import { AddressRow, Button, Modal } from '@polkadot/ui-app';
 
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & {
   address: string,
@@ -22,7 +22,6 @@ class Forgetting extends React.PureComponent<Props> {
         className='accounts--Forgetting-Modal'
         dimmer='inverted'
         open
-        size='tiny'
       >
         {this.renderContent()}
         {this.renderButtons()}
@@ -30,7 +29,7 @@ class Forgetting extends React.PureComponent<Props> {
     );
   }
 
-  renderButtons () {
+  private renderButtons () {
     const { onClose, doForget, t } = this.props;
 
     return (
@@ -52,7 +51,7 @@ class Forgetting extends React.PureComponent<Props> {
     );
   }
 
-  renderContent () {
+  private renderContent () {
     const { address, t } = this.props;
 
     return (
@@ -61,7 +60,13 @@ class Forgetting extends React.PureComponent<Props> {
           {t('Confirm account removal')}
         </Modal.Header>
         <Modal.Content>
-          <AddressSummary value={address} />
+          <AddressRow
+            isInline
+            value={address}
+          >
+            <p>{t('You are about to remove this account from your list of available accounts. Once completed, should you need to access it again, you will have to re-create the account either via seed or via a backup file.')}</p>
+            <p>{t('This operaion does not remove the history of the account from the chain, nor any associated funds from the account. The forget operation only limits your access to the account on this browser.')}</p>
+          </AddressRow>
         </Modal.Content>
       </>
     );

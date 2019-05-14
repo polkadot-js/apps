@@ -94,8 +94,8 @@ class Key extends React.PureComponent<Props, State> {
             help={t('Changing the key only takes effect at the start of the next session. If validating, you should (currently) use an ed25519 key.')}
             label={t('session key')}
             onChange={this.onChangeSession}
-            value={sessionId}
             type='account'
+            value={sessionId}
           />
           <ValidateSession
             controllerId={accountId}

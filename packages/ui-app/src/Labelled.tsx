@@ -36,6 +36,7 @@ const Wrapper = styled.div`
     margin: 0.25rem 0 0 0;
     padding-right: 0.5rem;
     position: relative;
+    text-align: left;
 
     i.icon.help {
       margin: 0 0 0 0.25rem;

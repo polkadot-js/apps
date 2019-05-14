@@ -3,17 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { KeyedEvent } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
 
 import BlockHeaders from './BlockHeaders';
-import EventsRecent from './EventsRecent';
+import Events from './Events';
 import Query from './Query';
 import Summary from './Summary';
 import translate from './translate';
 
-type Props = I18nProps & {};
+type Props = I18nProps & {
+  events: Array<KeyedEvent>
+};
 
 const Wrapper = styled.div`
   .column {
@@ -25,7 +28,7 @@ const Wrapper = styled.div`
 
 class Main extends React.PureComponent<Props> {
   render () {
-    const { t } = this.props;
+    const { events, t } = this.props;
 
     return (
       <>
@@ -38,7 +41,7 @@ class Main extends React.PureComponent<Props> {
           </div>
           <div className='column'>
             <h1>{t('recent events')}</h1>
-            <EventsRecent />
+            <Events events={events} />
           </div>
         </Wrapper>
       </>
