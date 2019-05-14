@@ -115,18 +115,12 @@ class AccountsApp extends React.PureComponent<Props, State> {
           />
         </header>
         <Switch>
-          <Route path={`${basePath}/overview`} render={this.renderComponent(Overview)} />
+        <Route path={`${basePath}/edit`} render={this.renderComponent(Editor)} />
           <Route path={`${basePath}/create/:type/:seed`} render={renderCreator} />
           <Route path={`${basePath}/create`} render={renderCreator} />
           <Route path={`${basePath}/restore`} render={this.renderComponent(Restore)} />
           <Route path={`${basePath}/vanity`} render={this.renderComponent(Vanity)} />
-          <Route
-            render={
-              hidden.includes('edit')
-                ? renderCreator
-                : this.renderComponent(Editor)
-            }
-          />
+          <Route render={this.renderComponent(Overview)} />
         </Switch>
       </main>
     );
