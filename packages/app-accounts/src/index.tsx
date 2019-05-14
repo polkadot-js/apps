@@ -16,6 +16,7 @@ import { HelpOverlay, Tabs } from '@polkadot/ui-app';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import basicMd from './md/basic.md';
+import Overview from './Overview';
 import Creator from './Creator';
 import Editor from './Editor';
 import Restore from './Restore';
@@ -45,6 +46,10 @@ class AccountsApp extends React.PureComponent<Props, State> {
     this.state = {
       ...baseState,
       tabs: [
+        {
+          name: 'overview',
+          text: t('Overview')
+        },
         {
           name: 'edit',
           text: t('Edit account')
@@ -110,6 +115,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
           />
         </header>
         <Switch>
+          <Route path={`${basePath}/overview`} render={this.renderComponent(Overview)} />
           <Route path={`${basePath}/create/:type/:seed`} render={renderCreator} />
           <Route path={`${basePath}/create`} render={renderCreator} />
           <Route path={`${basePath}/restore`} render={this.renderComponent(Restore)} />
