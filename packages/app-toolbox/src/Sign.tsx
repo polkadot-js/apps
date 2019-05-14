@@ -36,7 +36,7 @@ const Wrapper = styled.div`
     background-color: #0f0e0e7a;
   }
 
-  .unlock-overlay-warning {
+ .unlock-overlay-warning {
     display: flex;
     align-items: center;
     justify-content: center;
