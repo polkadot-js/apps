@@ -9,6 +9,7 @@ import './index.css';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
+import styled from 'styled-components';
 import { EventRecord } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
@@ -31,6 +32,12 @@ type State = {
   prevEventHash: string;
   recentEvents: Array<KeyedEvent>;
 };
+
+const Wrapper = styled.main`
+  .rx--updated {
+    background: transparent !important;
+  }
+`;
 
 class ExplorerApp extends React.Component<Props, State> {
   constructor (props: Props) {
@@ -89,7 +96,7 @@ class ExplorerApp extends React.Component<Props, State> {
       : ['node'];
 
     return (
-      <main className='explorer--App'>
+      <Wrapper>
         <header>
           <Tabs
             basePath={basePath}
@@ -103,7 +110,7 @@ class ExplorerApp extends React.Component<Props, State> {
           <Route path={`${basePath}/node`} component={NodeInfo} />
           <Route component={this.renderMain} />
         </Switch>
-      </main>
+      </Wrapper>
     );
   }
 

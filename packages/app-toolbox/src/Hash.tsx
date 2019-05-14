@@ -72,9 +72,10 @@ class Hash extends React.PureComponent<Props, State> {
     return (
       <div className='ui--row'>
         <Output
-          className='full toolbox--hex'
-          isHidden={hash.length === 0}
+          className='full'
           help={t('The blake2b 256-bit hash of the actual input data.')}
+          isHidden={hash.length === 0}
+          isMonospace
           label={t('the resulting hash is')}
           value={hash}
           withCopy
