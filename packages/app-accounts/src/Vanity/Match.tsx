@@ -5,6 +5,7 @@
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
+import styled from 'styled-components';
 import { Button, IdentityIcon } from '@polkadot/ui-app';
 import { u8aToHex } from '@polkadot/util';
 
@@ -21,6 +22,47 @@ type State = {
   hexSeed: string
 };
 
+const Wrapper = styled.div`
+  text-align: center;
+
+  &:hover {
+    background: #f9f9f9;
+  }
+
+  .vanity--Match-addr {
+    font-size: 1.5rem;
+    padding: 0 1rem;
+
+    .no {
+      color: inherit;
+    }
+
+    .yes {
+      color: red;
+    }
+  }
+
+  .vanity--Match-buttons,
+  .vanity--Match-data,
+  .vanity--Match-icon {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .vanity--Match-item {
+    display: inline-block;
+    font-family: monospace;
+    margin: 0 auto;
+    padding: 0.5em;
+    position: relative;
+  }
+
+  .vanity--Match-seed {
+    opacity: 0.45;
+    padding: 0 1rem;
+  }
+`;
+
 export default class Match extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
@@ -35,7 +77,7 @@ export default class Match extends React.PureComponent<Props, State> {
     const { hexSeed } = this.state;
 
     return (
-      <div className='vanity--Match'>
+      <Wrapper>
         <div className='vanity--Match-item'>
           <IdentityIcon
             className='vanity--Match-icon'
@@ -65,18 +107,18 @@ export default class Match extends React.PureComponent<Props, State> {
             />
           </div>
         </div>
-      </div>
+      </Wrapper>
     );
   }
 
-  onCreate = (): void => {
+  private onCreate = (): void => {
     const { onCreateToggle } = this.props;
     const { hexSeed } = this.state;
 
     onCreateToggle(hexSeed);
   }
 
-  onRemove = (): void => {
+  private onRemove = (): void => {
     const { address, onRemove } = this.props;
 
     onRemove(address);
