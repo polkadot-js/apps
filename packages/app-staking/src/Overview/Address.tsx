@@ -149,9 +149,10 @@ class Address extends React.PureComponent<Props, State> {
 
   private getNominators () {
     const { staking_stakers } = this.props;
+
     return staking_stakers
-            ? staking_stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value])
-            : [];
+      ? staking_stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value])
+      : [];
   }
 
   private iNominated () {
