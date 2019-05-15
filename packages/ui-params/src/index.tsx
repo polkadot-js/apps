@@ -69,7 +69,7 @@ class Params extends React.PureComponent<Props, State> {
 
   // Fire the intial onChange (we did update) when the component is loaded
   componentDidMount () {
-    this.componentDidUpdate({} as Props, {} as State);
+    this.componentDidUpdate({} as State);
   }
 
    // This is needed in the case where the item changes, i.e. the values get
