@@ -105,6 +105,26 @@ header .ui--Button-Group {
 .ui--AddressSummary-available > button.ui.icon.withDrawUnbonded {
   padding: 0.3em;
   margin-left: 0.4em;
+  color: #2e86ab;
+  background: none;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+
+.ui--AddressSummary-name.editable:hover > button.ui.icon.editButton{
+  visibility: visible 
+}
+
+.ui--AddressSummary-name.editable > button.ui.icon.editButton {
+  position: absolute;
+  padding: 0em .3em .3em .3em;
+  margin-left: .4em;
+  color: #2e86ab;
+  background: none;
+  visibility: hidden
 }
 
 .ui--AddressSummary-base {
@@ -189,13 +209,6 @@ header .ui--Button-Group {
   font-size: 1.5em;
   padding: 0;
 }
-
-/* OWN REMINDER REMOVE IF NOT USED 
-.ui--AddressRow-details {
-  font-size: 1.25em;
-  font-style: italic;
-}
-*/
 
 .ui--Bubble.ui.label {
   font-weight: normal;

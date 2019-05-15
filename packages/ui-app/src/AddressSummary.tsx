@@ -5,7 +5,7 @@
 import { AccountId, AccountIndex, Address } from '@polkadot/types';
 import BaseIdentityIcon from '@polkadot/ui-identicon';
 import BN from 'bn.js';
-import { Input } from '@polkadot/ui-app';
+import { Button, Input } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 import { Nonce } from '@polkadot/ui-reactive';
 import React from 'react';
@@ -45,30 +45,16 @@ export type Props = I18nProps & {
 
 type State = {
   isEditing: boolean
-  name: string
+  newName: string
 };
 
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 
 class AddressSummary extends React.PureComponent<Props, State> {
-  state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    const { accounts_idAndIndex = [], defaultName, value } = this.props;
-    const [_accountId] = accounts_idAndIndex;
-    const accountId = _accountId || value;
-
-    const address = accountId
-      ? accountId.toString()
-      : DEFAULT_ADDR;
-
-    this.state = {
-      isEditing: false,
-      name: getAddrName(address, false, defaultName) || ''
-    };
-  }
+  state: State = {
+    isEditing: false,
+    newName: ''
+  };
 
   render () {
     const { accounts_idAndIndex = [], className, isInline, style } = this.props;
@@ -100,11 +86,9 @@ class AddressSummary extends React.PureComponent<Props, State> {
   protected renderAddress () {
     const { isShort = true, value } = this.props;
 
-    if (!value) {
-      return null;
-    }
-
-    const address = value.toString();
+    const address = value
+      ? value.toString()
+      : DEFAULT_ADDR;
 
     return (
         <div className='ui--AddressSummary-accountId'>
@@ -118,8 +102,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderName () {
-    const { isEditable } = this.props;
-    const { isEditing, name } = this.state;
+    const { accounts_idAndIndex = [], defaultName, isEditable, value } = this.props;
+    const { isEditing } = this.state;
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId || value;
+
+    const address = accountId
+      ? accountId.toString()
+      : DEFAULT_ADDR;
+
+    const name = getAddrName(address, false, defaultName) || 'no_name';
 
     let className = 'ui--AddressSummary-name';
     if (isEditable) className = className.concat(' editable');
@@ -131,15 +123,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
         onChange={this.onChangeName}
         onBlur={this.saveName}
         onKeyDown={this.handleKeyDown}
-        value={name}
+        defaultValue={name}
         withLabel={false}
       /> :
-      <div
-        className={className}
-        onClick={ isEditable ? this.toggleEditor : undefined }
-      >
-        {name}
-      </div>;
+        <div
+          className={className}
+          onClick={ isEditable ? this.toggleEditor : undefined }
+        >
+          {name}
+          {isEditable && this.renderEditIcon()}
+        </div>;
 
     return resultingDom;
   }
@@ -154,50 +147,29 @@ class AddressSummary extends React.PureComponent<Props, State> {
     }
   }
 
-  protected toggleEditor = () => {
-    this.setState({ isEditing : !this.state.isEditing });
-  }
-
   protected onChangeName = (newName: string) => {
-    this.setState({ name : newName });
+    this.setState({ newName : newName });
   }
 
-  protected saveName = () => {
-    const { value } = this.props;
-    const { name } = this.state;
-    const currentKeyring = value && keyring.getPair(value.toString());
-
-    currentKeyring && keyring.saveAccountMeta(currentKeyring, { name: name, whenEdited: Date.now() });
-
-    this.toggleEditor();
-  }
-
-  /*
-  protected renderAccountId () {
-    const { accounts_idAndIndex = [], isShort = true, value } = this.props;
-    const [_accountId, accountIndex] = accounts_idAndIndex;
+  protected renderAvailable () {
+    const { accounts_idAndIndex = [], t, value, withAvailable } = this.props;
+    const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
 
-    if (!accountId && accountIndex) {
+    if (!withAvailable || !accountId) {
       return null;
     }
 
-    const address = accountId
-      ? accountId.toString()
-      : DEFAULT_ADDR;
-
     return (
-
-        <div className='ui--AddressSummary-accountId'>
-          {
-            isShort
-              ? toShortAddress(address)
-              : address
-          }
-      </div>
+      <AvailableDisplay
+        className='ui--AddressSummary-available'
+        label={t('available ')}
+        params={accountId}
+      />
     );
   }
 
+  // FIXME it isn't used anywhere?
   protected renderAccountIndex () {
     const { accounts_idAndIndex = [], withIndex = true } = this.props;
     const [, accountIndex] = accounts_idAndIndex;
@@ -217,7 +189,6 @@ class AddressSummary extends React.PureComponent<Props, State> {
       </div>
     );
   }
-*/
 
   protected renderBalance () {
     const { accounts_idAndIndex = [], balance, t, value, withBalance = true } = this.props;
@@ -257,39 +228,29 @@ class AddressSummary extends React.PureComponent<Props, State> {
     );
   }
 
-  protected renderAvailable () {
-    const { accounts_idAndIndex = [], t, value, withAvailable } = this.props;
-    const [_accountId] = accounts_idAndIndex;
-    const accountId = _accountId || value;
+  protected renderChildren () {
+    const { children } = this.props;
 
-    if (!withAvailable || !accountId) {
+    if (!children || (Array.isArray(children) && children.length === 0)) {
       return null;
     }
 
     return (
-      <AvailableDisplay
-        className='ui--AddressSummary-available'
-        label={t('available ')}
-        params={accountId}
-      />
+      <div className='ui--AddressSummary-children'>
+        {children}
+      </div>
     );
   }
 
-  protected renderUnlocking () {
-    const { accounts_idAndIndex = [], value, withUnlocking } = this.props;
-    const [_accountId] = accounts_idAndIndex;
-    const accountId = _accountId || value;
-
-    if (!withUnlocking || !accountId) {
-      return null;
-    }
-
-    return (
-      <UnlockingDisplay
-        className='ui--AddressSummary-available'
-        params={accountId}
-      />
-    );
+  protected renderEditIcon () {
+    return <Button
+            className='editButton'
+            onClick={this.toggleEditor}
+            icon='edit'
+            size='small'
+            isPrimary
+            key='unlock'
+    />;
   }
 
   protected renderIcon (className: string = 'ui--AddressSummary-icon', size?: number) {
@@ -336,18 +297,34 @@ class AddressSummary extends React.PureComponent<Props, State> {
     );
   }
 
-  protected renderChildren () {
-    const { children } = this.props;
+  protected renderUnlocking () {
+    const { accounts_idAndIndex = [], value, withUnlocking } = this.props;
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId || value;
 
-    if (!children || (Array.isArray(children) && children.length === 0)) {
+    if (!withUnlocking || !accountId) {
       return null;
     }
 
     return (
-      <div className='ui--AddressSummary-children'>
-        {children}
-      </div>
+      <UnlockingDisplay
+        className='ui--AddressSummary-available'
+        params={accountId}
+      />
     );
+  }
+
+  protected saveName = () => {
+    const { value } = this.props;
+    const { newName } = this.state;
+    const currentKeyring = value && keyring.getPair(value.toString());
+
+    currentKeyring && keyring.saveAccountMeta(currentKeyring, { name: newName, whenEdited: Date.now() });
+    this.toggleEditor();
+  }
+
+  protected toggleEditor = () => {
+    this.setState({ isEditing : !this.state.isEditing });
   }
 }
 
