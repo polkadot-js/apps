@@ -5,7 +5,7 @@
 import { RawParam$Value } from './types';
 
 import BN from 'bn.js';
-import { Bytes, Extrinsic, Hash, TypeDef, TypeDefInfo, U8a, UInt, createType } from '@polkadot/types';
+import { Bytes, Hash, TypeDef, TypeDefInfo, U8a, UInt, createType } from '@polkadot/types';
 
 export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawParam$Value> {
   if (def.info === TypeDefInfo.Vector) {
