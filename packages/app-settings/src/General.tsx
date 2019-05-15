@@ -99,6 +99,7 @@ class General extends React.PureComponent<Props, State> {
             isPrimary
             onClick={this.saveAndReload}
             label={t('Save & Reload')}
+            submitOnEnter
           />
         </Button.Group>
       </Wrapper>

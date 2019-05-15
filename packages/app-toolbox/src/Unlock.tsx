@@ -28,7 +28,7 @@ class Unlock extends React.PureComponent<Props, State> {
     unlockError: null
   };
 
-  static getDerivedStateFromProps ({ pair }: Props, prevState: State): State {
+  static getDerivedStateFromProps ({ pair }: Props): State {
     return {
       address: pair
         ? pair.address()

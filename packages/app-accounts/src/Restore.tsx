@@ -57,6 +57,7 @@ class Restore extends React.PureComponent<Props, State> {
           isPrimary
           onClick={this.onSave}
           label={t('Restore')}
+          submitOnEnter
         />
       </Button.Group>
       </div>

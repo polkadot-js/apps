@@ -176,6 +176,7 @@ class Create extends React.PureComponent<Props, State> {
             onSuccess={this.onSuccess}
             params={this.constructCall}
             tx='contract.create'
+            submitOnEnter
           />
         </Button.Group>
       </>

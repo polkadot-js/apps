@@ -10,6 +10,20 @@ import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import { isUndefined } from '@polkadot/util';
 
 export default class Button extends React.PureComponent<ButtonProps> {
+  componentWillMount () {
+    const { submitOnEnter } = this.props;
+    if (submitOnEnter) {
+      document.addEventListener('keydown', this.onKeyDown);
+    }
+  }
+
+  componentWillUnmount () {
+    const { submitOnEnter } = this.props;
+    if (submitOnEnter) {
+      document.removeEventListener('keydown', this.onKeyDown);
+    }
+  }
+
   render () {
     const { children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, onClick, size, style, tabIndex } = this.props;
 
@@ -40,5 +54,12 @@ export default class Button extends React.PureComponent<ButtonProps> {
           {label}{children}
         </SUIButton>
       );
+  }
+
+  private onKeyDown = (event: KeyboardEvent) => {
+    const { isDisabled, onClick } = this.props;
+    if (!isDisabled && event.key === 'Enter') {
+      onClick && onClick();
+    }
   }
 }

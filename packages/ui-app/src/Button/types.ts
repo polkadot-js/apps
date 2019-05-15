@@ -20,6 +20,7 @@ export type ButtonProps = BareProps & {
   label?: React.ReactNode,
   onClick?: () => void | Promise<void>,
   size?: Button$Sizes,
+  submitOnEnter?: boolean,
   tabIndex?: number
 };
 

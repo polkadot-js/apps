@@ -66,6 +66,7 @@ class Key extends React.PureComponent<Props, State> {
             onClick={onClose}
             params={[sessionId]}
             tx='session.setKey'
+            submitOnEnter
           />
         </Button.Group>
       </Modal.Actions>

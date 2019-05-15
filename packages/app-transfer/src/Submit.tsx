@@ -32,6 +32,7 @@ class Submit extends React.PureComponent<Props> {
           isPrimary
           label={t('Make Transfer')}
           extrinsic={extrinsic}
+          submitOnEnter
         />
       </Button.Group>
     );

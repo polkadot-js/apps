@@ -63,6 +63,7 @@ class Unbond extends React.PureComponent<Props, State> {
             <Button.Or />
             <TxButton
               accountId={controllerId}
+              form='staking.unbond'
               isDisabled={!canSubmit}
               isPrimary
               label={t('Unbond')}
@@ -86,21 +87,23 @@ class Unbond extends React.PureComponent<Props, State> {
           {t('Unbond')}
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
-          <InputAddress
-            className='medium'
-            defaultValue={controllerId}
-            isDisabled
-            label={t('controller account')}
-          />
-          <InputBalance
-            autoFocus
-            className='medium'
-            help={t('The maximum amount to unbond, this is adjusted using the bonded funds on the account.')}
-            label={t('unbond amount')}
-            maxValue={maxBalance}
-            onChange={this.onChangeValue}
-            withMax
-          />
+          <form id='staking.unbond'>
+            <InputAddress
+              className='medium'
+              defaultValue={controllerId}
+              isDisabled
+              label={t('controller account')}
+            />
+            <InputBalance
+              autoFocus
+              className='medium'
+              help={t('The maximum amount to unbond, this is adjusted using the bonded funds on the account.')}
+              label={t('unbond amount')}
+              maxValue={maxBalance}
+              onChange={this.onChangeValue}
+              withMax
+            />
+          </form>
         </Modal.Content>
       </>
     );

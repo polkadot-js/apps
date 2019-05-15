@@ -83,6 +83,7 @@ class BondExtra extends React.PureComponent<Props, State> {
               label={t('Bond')}
               onClick={onClose}
               extrinsic={extrinsic}
+              submitOnEnter
             />
           </Button.Group>
         </Modal.Actions>

@@ -55,6 +55,7 @@ class Seconding extends React.PureComponent<Props, State> {
             label={t('Second')}
             params={[proposalId]}
             tx='democracy.second'
+            submitOnEnter
           />
         </Button.Group>
       </div>

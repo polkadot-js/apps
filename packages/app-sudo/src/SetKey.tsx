@@ -74,6 +74,7 @@ class SetKey extends React.PureComponent<Props, State> {
                 label={t('Reassign')}
                 params={[selected]}
                 tx='sudo.setKey'
+                submitOnEnter
               />
             </>
           ) : (

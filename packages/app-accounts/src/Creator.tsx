@@ -136,7 +136,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   private renderButtons () {
     const { t } = this.props;
-    const { isValid } = this.state;
+    const { isValid, showWarning } = this.state;
 
     return (
       <Button.Group>
@@ -146,10 +146,11 @@ class Creator extends React.PureComponent<Props, State> {
         />
         <Button.Or />
         <Button
-          isDisabled={!isValid}
+          isDisabled={!isValid || showWarning}
           isPrimary
           label={t('Save')}
           onClick={this.onShowWarning}
+          submitOnEnter
         />
       </Button.Group>
     );
@@ -290,6 +291,7 @@ class Creator extends React.PureComponent<Props, State> {
               isPrimary
               label={t('Create and backup account')}
               onClick={this.onCommit}
+              submitOnEnter
             />
           </Button.Group>
         </Modal.Actions>

@@ -117,6 +117,7 @@ class Deploy extends React.PureComponent<Props, State> {
             onSuccess={this.onSuccess}
             params={[gasLimit, wasm]}
             tx='contract.putCode'
+            submitOnEnter
           />
         </Button.Group>
       </>

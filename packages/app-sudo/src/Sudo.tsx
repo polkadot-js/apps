@@ -55,6 +55,7 @@ class Propose extends React.PureComponent<Props> {
               tx='sudo.sudo'
               isDisabled={!method || !isValid}
               params={method ? [new Proposal(method)] : []}
+              submitOnEnter
             />
           </Button.Group>
         </section>

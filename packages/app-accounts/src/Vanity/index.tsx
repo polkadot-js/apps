@@ -98,6 +98,7 @@ class VanityApp extends React.PureComponent<Props, State> {
               ? t('Stop generation')
               : t('Start generation')
           }
+          submitOnEnter={!isRunning}
         />
       </Button.Group>
     );
