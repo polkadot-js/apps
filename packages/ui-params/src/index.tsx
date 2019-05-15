@@ -69,12 +69,12 @@ class Params extends React.PureComponent<Props, State> {
 
   // Fire the intial onChange (we did update) when the component is loaded
   componentDidMount () {
-    this.componentDidUpdate({} as State);
+    this.componentDidUpdate({} as Props, {} as State);
   }
 
    // This is needed in the case where the item changes, i.e. the values get
    // initialised and we need to alert the parent that we have new values
-  componentDidUpdate (prevState: State) {
+  componentDidUpdate (prevProps: Props, prevState: State) {
     const { onChange, isDisabled } = this.props;
     const { values } = this.state;
 
