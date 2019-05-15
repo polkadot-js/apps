@@ -190,10 +190,12 @@ header .ui--Button-Group {
   padding: 0;
 }
 
-.ui--AddressSummary-accountIndex {
+/* OWN REMINDER REMOVE IF NOT USED 
+.ui--AddressRow-details {
   font-size: 1.25em;
   font-style: italic;
 }
+*/
 
 .ui--Bubble.ui.label {
   font-weight: normal;

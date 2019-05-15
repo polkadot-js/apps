@@ -32,6 +32,7 @@ class Account extends React.PureComponent<Props> {
         <AddressSummary
           value={accountId}
           identIconSize={96}
+          isEditable
           withAvailable
           withBonded
           withIndex={false}

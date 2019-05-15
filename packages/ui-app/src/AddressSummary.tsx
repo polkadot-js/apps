@@ -2,20 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from './types';
-
-import BN from 'bn.js';
-import React from 'react';
 import { AccountId, AccountIndex, Address } from '@polkadot/types';
-import { Nonce } from '@polkadot/ui-reactive';
-import { withCalls } from '@polkadot/ui-api';
 import BaseIdentityIcon from '@polkadot/ui-identicon';
+import BN from 'bn.js';
+import { Input } from '@polkadot/ui-app';
+import keyring from '@polkadot/ui-keyring';
+import { Nonce } from '@polkadot/ui-reactive';
+import React from 'react';
+import { withCalls } from '@polkadot/ui-api';
 
 import AvailableDisplay from './Available';
-import { classes, getAddrName, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
+import { classes, getAddrName, toShortAddress } from './util';
 import IdentityIcon from './IdentityIcon';
+import { I18nProps } from './types';
 import translate from './translate';
 import UnlockingDisplay from './Unlocking';
 
@@ -27,6 +28,7 @@ export type Props = I18nProps & {
   defaultName?: string,
   extraInfo?: React.ReactNode,
   identIconSize?: number,
+  isEditable?: boolean,
   isInline?: boolean,
   isShort?: boolean,
   session_validators?: Array<AccountId>,
@@ -41,9 +43,33 @@ export type Props = I18nProps & {
   withUnlocking?: boolean
 };
 
+type State = {
+  isEditing: boolean
+  name: string
+};
+
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 
-class AddressSummary extends React.PureComponent<Props> {
+class AddressSummary extends React.PureComponent<Props, State> {
+  state: State;
+
+  constructor (props: Props) {
+    super(props);
+
+    const { accounts_idAndIndex = [], defaultName, value } = this.props;
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId || value;
+
+    const address = accountId
+      ? accountId.toString()
+      : DEFAULT_ADDR;
+
+    this.state = {
+      isEditing: false,
+      name: getAddrName(address, false, defaultName) || ''
+    };
+  }
+
   render () {
     const { accounts_idAndIndex = [], className, isInline, style } = this.props;
     const [accountId, accountIndex] = accounts_idAndIndex;
@@ -56,8 +82,10 @@ class AddressSummary extends React.PureComponent<Props> {
       >
         <div className='ui--AddressSummary-base'>
           {this.renderIcon()}
-          {this.renderAccountId()}
-          {this.renderAccountIndex()}
+          <div className='ui--AddressSummary-data'>
+            {this.renderName()}
+            {this.renderAddress()}
+          </div>
           {this.renderAvailable()}
           {this.renderBalance()}
           {this.renderBonded()}
@@ -70,20 +98,15 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderAddress () {
-    const { defaultName, isShort = true, value } = this.props;
+    const { isShort = true, value } = this.props;
 
     if (!value) {
       return null;
     }
 
     const address = value.toString();
-    const name = getAddrName(address, false, defaultName);
 
     return (
-      <div className='ui--AddressSummary-data'>
-        <div className='ui--AddressSummary-name'>
-          {name}
-        </div>
         <div className='ui--AddressSummary-accountId'>
           {
             isShort
@@ -91,12 +114,67 @@ class AddressSummary extends React.PureComponent<Props> {
               : value
           }
         </div>
-      </div>
     );
   }
 
+  protected renderName () {
+    const { isEditable } = this.props;
+    const { isEditing, name } = this.state;
+
+    let className = 'ui--AddressSummary-name';
+    if (isEditable) className = className.concat(' editable');
+
+    const resultingDom = isEditing ?
+      <Input
+        autoFocus
+        className='full'
+        onChange={this.onChangeName}
+        onBlur={this.saveName}
+        onKeyDown={this.handleKeyDown}
+        value={name}
+        withLabel={false}
+      /> :
+      <div
+        className={className}
+        onClick={ isEditable ? this.toggleEditor : undefined }
+      >
+        {name}
+      </div>;
+
+    return resultingDom;
+  }
+
+  protected handleKeyDown = (e: React.KeyboardEvent<Element>) => {
+    const { key } = e;
+    switch (key) {
+      case 'Enter':
+      case 'Escape':
+        this.saveName();
+        break;
+    }
+  }
+
+  protected toggleEditor = () => {
+    this.setState({ isEditing : !this.state.isEditing });
+  }
+
+  protected onChangeName = (newName: string) => {
+    this.setState({ name : newName });
+  }
+
+  protected saveName = () => {
+    const { value } = this.props;
+    const { name } = this.state;
+    const currentKeyring = value && keyring.getPair(value.toString());
+
+    currentKeyring && keyring.saveAccountMeta(currentKeyring, { name: name, whenEdited: Date.now() });
+
+    this.toggleEditor();
+  }
+
+  /*
   protected renderAccountId () {
-    const { accounts_idAndIndex = [], defaultName, isShort = true, value } = this.props;
+    const { accounts_idAndIndex = [], isShort = true, value } = this.props;
     const [_accountId, accountIndex] = accounts_idAndIndex;
     const accountId = _accountId || value;
 
@@ -107,20 +185,15 @@ class AddressSummary extends React.PureComponent<Props> {
     const address = accountId
       ? accountId.toString()
       : DEFAULT_ADDR;
-    const name = getAddrName(address, false, defaultName);
 
     return (
-      <div className='ui--AddressSummary-data'>
-        <div className='ui--AddressSummary-name'>
-          {name}
-        </div>
+
         <div className='ui--AddressSummary-accountId'>
           {
             isShort
               ? toShortAddress(address)
               : address
           }
-        </div>
       </div>
     );
   }
@@ -144,6 +217,7 @@ class AddressSummary extends React.PureComponent<Props> {
       </div>
     );
   }
+*/
 
   protected renderBalance () {
     const { accounts_idAndIndex = [], balance, t, value, withBalance = true } = this.props;
