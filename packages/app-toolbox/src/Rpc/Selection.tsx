@@ -44,8 +44,6 @@ class Selection extends React.PureComponent<Props, State> {
       type: getTypeDef(type)
     }));
 
-    // console.log('RPC', rpc)
-
     return (
       <section className='rpc--Selection'>
         <InputRpc
@@ -54,7 +52,6 @@ class Selection extends React.PureComponent<Props, State> {
           label={t('call the selected endpoint')}
           onChange={this.onChangeMethod}
         />
-        {this.renderAccount()}
         <Params
           key={`${rpc.section}.${rpc.method}:params` /* force re-render on change */}
           onChange={this.onChangeValues}
@@ -72,20 +69,13 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  // FIXME Currently the UI doesn't support signing for rpc-submitted calls
-  private renderAccount () {
-    return null;
-  }
-
   private nextState (newState: State): void {
     this.setState(
       (prevState: State): State => {
         const { rpc = prevState.rpc, accountId = prevState.accountId, values = prevState.values } = newState;
-        const hasNeededKey = true;
         const isValid = values.reduce((isValid, value) => {
           return isValid && value.isValid === true;
-        }, rpc.params.length === values.length && hasNeededKey);
-
+        }, rpc.params.length === values.length);
         return {
           isValid,
           rpc,
@@ -97,7 +87,6 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   private onChangeMethod = (rpc: RpcMethod): void => {
-    console.log('RPC', rpc)
     this.nextState({
       rpc,
       values: [] as Array<RawParam>
@@ -105,7 +94,6 @@ class Selection extends React.PureComponent<Props, State> {
   }
 
   private onChangeValues = (values: Array<RawParam>): void => {
-    console.log('VALUES', values)
     this.nextState({ values } as State);
   }
 
