@@ -232,10 +232,10 @@ class Signer extends React.PureComponent<Props, State> {
     });
   }
 
-  private onKeyDown = (event: KeyboardEvent) => {
+  private onKeyDown = async (event: KeyboardEvent) => {
     event.preventDefault();
     if (event.key === 'Enter') {
-      this.onSend();
+      await this.onSend();
     }
   }
 
