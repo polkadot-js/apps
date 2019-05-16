@@ -111,7 +111,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
       ? accountId.toString()
       : DEFAULT_ADDR;
 
-    const name = getAddrName(address, false, defaultName) || 'no_name';
+    const name = getAddrName(address, false, defaultName) || '';
 
     let className = 'ui--AddressSummary-name';
     if (isEditable) className = className.concat(' editable');
@@ -119,7 +119,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     const resultingDom = isEditing ?
       <Input
         autoFocus
-        defaultValue={name}
+        defaultValue={name.toUpperCase()}
         className='full'
         onChange={this.onChangeName}
         onBlur={this.saveName}
