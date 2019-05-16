@@ -115,7 +115,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
           />
         </header>
         <Switch>
-        <Route path={`${basePath}/edit`} render={this.renderComponent(Editor)} />
+          <Route path={`${basePath}/edit`} render={this.renderComponent(Editor)} />
           <Route path={`${basePath}/create/:type/:seed`} render={renderCreator} />
           <Route path={`${basePath}/create`} render={renderCreator} />
           <Route path={`${basePath}/restore`} render={this.renderComponent(Restore)} />
