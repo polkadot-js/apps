@@ -10,13 +10,12 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^0.79.0-beta.17",
+    "@polkadot/api": "^0.79.0-beta.23",
     "@polkadot/keyring": "^0.91.0-beta.1",
-    "@polkadot/types": "^0.79.0-beta.17",
+    "@polkadot/types": "^0.79.0-beta.23",
     "@polkadot/util": "^0.91.0-beta.1",
     "@polkadot/util-crypto": "^0.91.0-beta.1",
     "babel-core": "^7.0.0-bridge.0",
-    "rxjs": "6.4.0",
     "typescript": "^3.4.5"
   },
   "scripts": {
