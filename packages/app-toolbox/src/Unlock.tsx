@@ -96,7 +96,7 @@ class Unlock extends React.PureComponent<Props, State> {
               autoFocus
               isError={!!unlockError}
               help={t('The account\'s password specified at the creation of this account.')}
-              label={t('unlock account using')}
+              label={t('password')}
               onChange={this.onChangePassword}
               value={password}
             />
