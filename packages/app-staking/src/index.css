@@ -116,7 +116,7 @@
   }
 }
 
-@media (min-width: 1281px) {
+
   .ui--AddressSummary {
     display: flex;
     justify-content: space-between;
@@ -125,6 +125,13 @@
     .ui--AddressSummary-base, .ui--AddressSummary-children {
       min-width: 0;
     }
+  }
+
+
+@media (max-width: 1530px){
+  .overview--Account {
+    min-width: 24%;
+    max-width: 24%;
   }
 }
 
@@ -164,21 +171,40 @@
   .staking--Account-links {
     max-width: 12rem;
   }
+
+  .overview--Account {
+    min-width: 32%;
+    max-width: 32%;
+  }
 }
 
 @media (max-width: 1020px) {
+  .overview--Account {
+    min-width: 48%;
+    max-width: 48%;
+  }
+
   .staking--Account {
     min-width: 48%;
   }
 }
 
 @media (max-width: 860px) {
+  .overview--Account {
+    min-width: 48%;
+    max-width: 48%;
+  }
+
   .staking--Account {
     min-width: 48%;
   }
 }
 
 @media (max-width: 620px) {
+  .overview--Account {
+    min-width: 100%;
+    max-width: 100%;
+  }
   .staking--Account {
     min-width: 100%;
   }
