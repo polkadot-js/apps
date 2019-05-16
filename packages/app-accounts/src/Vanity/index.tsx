@@ -66,7 +66,14 @@ class VanityApp extends React.PureComponent<Props, State> {
     withCase: true
   };
 
+  private button: any;
+
   private _isActive: boolean = false;
+
+  constructor (props: Props) {
+    super(props);
+    this.button = React.createRef();
+  }
 
   componentWillUnmount () {
     this._isActive = false;
@@ -98,7 +105,7 @@ class VanityApp extends React.PureComponent<Props, State> {
               ? t('Stop generation')
               : t('Start generation')
           }
-          submitOnEnter={!isRunning}
+          ref={this.button}
         />
       </Button.Group>
     );
@@ -136,6 +143,7 @@ class VanityApp extends React.PureComponent<Props, State> {
             isError={!isMatchValid}
             label={t('Search for')}
             onChange={this.onChangeMatch}
+            onEnter={this.onEnter}
             value={match}
           />
           <Dropdown
@@ -281,6 +289,10 @@ class VanityApp extends React.PureComponent<Props, State> {
         )
       })
     );
+  }
+
+  private onEnter = () => {
+    this.button.current.click();
   }
 
   private toggleStart = (): void => {

@@ -69,7 +69,6 @@ class Creator extends React.PureComponent<Props, State> {
           isPrimary
           onClick={this.onCommit}
           label={t('Save')}
-          submitOnEnter
         />
       </Button.Group>
     );
@@ -128,7 +127,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   nextState (newState: State, allowEdit: boolean = false): void {
     this.setState(
-      (prevState: State): State => {
+      (prevState: State, props: Props): State => {
         let { address = prevState.address, name = prevState.name, tags = prevState.tags } = newState;
         let isAddressValid = true;
         let isAddressExisting = false;

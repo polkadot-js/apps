@@ -63,7 +63,6 @@ class Selection extends React.PureComponent<Props, State> {
             isPrimary
             onClick={this.onSubmit}
             label={t('Submit RPC call')}
-            submitOnEnter
           />
         </Button.Group>
       </section>

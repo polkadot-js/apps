@@ -100,7 +100,6 @@ class Developer extends React.PureComponent<Props, State> {
             isPrimary
             onClick={this.saveDeveloper}
             label={t('Save')}
-            submitOnEnter
           />
         </Button.Group>
       </Wrapper>

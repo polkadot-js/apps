@@ -41,7 +41,6 @@ type Props = ApiProps & {
   onSuccess?: TxCallback,
   onUpdate?: TxCallback,
   params?: Array<any> | ConstructFn,
-  submitOnEnter?: boolean,
   tx?: string
 };
 
@@ -57,22 +56,8 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
     isSending: false
   } as State;
 
-  componentWillMount () {
-    const { submitOnEnter } = this.props;
-    if (submitOnEnter) {
-      document.addEventListener('keydown', this.onKeyDown);
-    }
-  }
-
-  componentWillUnmount () {
-    const { submitOnEnter } = this.props;
-    if (submitOnEnter) {
-      document.removeEventListener('keydown', this.onKeyDown);
-    }
-  }
-
   render () {
-    const { accountId, className, icon, iconSize, isDisabled, isNegative, isPrimary, isUnsigned, label } = this.props;
+    const { accountId, className, icon, iconSize , isDisabled, isNegative, isPrimary, isUnsigned, label } = this.props;
     const { isSending } = this.state;
     const needsAccount = isUnsigned
       ? false
@@ -91,14 +76,6 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
         size={iconSize}
       />
     );
-  }
-
-  private onKeyDown = (event: KeyboardEvent) => {
-    const { isDisabled } = this.props;
-    const { isSending } = this.state;
-    if (!isSending && !isDisabled && event.key === 'Enter') {
-      this.send();
-    }
   }
 
   send = (): void => {
@@ -153,6 +130,13 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
 }
 
 class TxButton extends React.PureComponent<Props> {
+  button: any;
+
+  constructor (props: Props) {
+    super(props);
+    this.button = React.createRef();
+  }
+
   render () {
     return (
       <QueueConsumer>
@@ -161,10 +145,15 @@ class TxButton extends React.PureComponent<Props> {
             {...this.props}
             queueExtrinsic={queueExtrinsic}
             txqueue={txqueue}
+            ref={this.button}
           />
         )}
       </QueueConsumer>
     );
+  }
+
+  send = () => {
+    this.button.current.send();
   }
 }
 

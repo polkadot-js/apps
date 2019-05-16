@@ -123,7 +123,6 @@ class Call extends React.PureComponent<Props, State> {
             onSuccess={this.toggleBusy}
             params={this.constructCall}
             tx='contract.call'
-            submitOnEnter
           />
         </Button.Group>
       </div>

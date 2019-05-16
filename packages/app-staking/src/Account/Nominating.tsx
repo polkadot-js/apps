@@ -68,7 +68,6 @@ class Nominating extends React.PureComponent<Props, State> {
             params={[nominees]}
             label={t('Nominate')}
             tx='staking.nominate'
-            submitOnEnter
           />
         </Button.Group>
       </Modal.Actions>

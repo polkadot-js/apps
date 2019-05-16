@@ -9,20 +9,20 @@ import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
+import { Index } from '@polkadot/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { AddressSummary, InputAddress, InputBalance } from '@polkadot/ui-app';
+import { AddressSummary, Button, InputAddress, InputBalance, TxButton } from '@polkadot/ui-app';
 import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
 import Checks, { calcSignatureLength } from '@polkadot/ui-signer/Checks';
 import { ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
 
-import Submit from './Submit';
 import translate from './translate';
 
 type Props = I18nProps & ApiProps & {
   balances_fees?: DerivedFees,
   balances_votingBalance?: DerivedBalances,
-  system_accountNonce?: BN
+  system_accountNonce?: Index
 };
 
 type State = {
@@ -66,6 +66,8 @@ class Transfer extends React.PureComponent<Props, State> {
     recipientId: null
   };
 
+  txButton: any = React.createRef();
+
   componentDidUpdate (prevProps: Props, prevState: State) {
     const { balances_fees } = this.props;
     const { accountId, extrinsic, recipientId } = this.state;
@@ -82,7 +84,7 @@ class Transfer extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { t } = this.props;
+    const { system_accountNonce, t } = this.props;
     const { accountId, extrinsic, recipientId, hasAvailable, maxBalance } = this.state;
 
     return (
@@ -109,6 +111,7 @@ class Transfer extends React.PureComponent<Props, State> {
               label={t('amount')}
               maxValue={maxBalance}
               onChange={this.onChangeAmount}
+              onEnter={this.onEnter}
               withMax
             />
             <Checks
@@ -117,11 +120,17 @@ class Transfer extends React.PureComponent<Props, State> {
               isSendable
               onChange={this.onChangeFees}
             />
-            <Submit
-              accountId={accountId}
-              isDisabled={!hasAvailable}
-              extrinsic={extrinsic}
-            />
+            <Button.Group>
+              <TxButton
+                accountId={accountId}
+                accountNonce={system_accountNonce}
+                isDisabled={!hasAvailable}
+                isPrimary
+                label={t('Make Transfer')}
+                extrinsic={extrinsic}
+                ref={this.txButton}
+              />
+            </Button.Group>
           </div>
           {this.renderAddress(recipientId, 'large')}
         </div>
@@ -166,6 +175,13 @@ class Transfer extends React.PureComponent<Props, State> {
         recipientId
       };
     });
+  }
+
+  private onEnter = () => {
+    const { component } = this.txButton.current;
+    if (component) {
+      component.current.send();
+    }
   }
 
   private setMaxBalance = () => {
@@ -236,6 +252,7 @@ export default withMulti(
   translate,
   withApi,
   withCalls<Props>(
-    'derive.balances.fees'
+    'derive.balances.fees',
+    ['query.system.accountNonce', { paramName: 'accountId' }]
   )
 );

@@ -88,7 +88,6 @@ class Staking extends React.PureComponent<Props, State> {
               validatorPayment
             }]}
             tx='staking.validate'
-            submitOnEnter
           />
         </Button.Group>
       </Modal.Actions>

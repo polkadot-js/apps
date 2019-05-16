@@ -93,6 +93,13 @@ export default class Input extends React.PureComponent<Props, State> {
     name: `in_${counter++}_at_${Date.now()}`
   };
 
+  input: any;
+
+  constructor (props: Props) {
+    super(props);
+    this.input = React.createRef();
+  }
+
   render () {
     const { autoFocus = false, children, className, defaultValue, help, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, maxLength, min, name, placeholder, style, tabIndex, type = 'text', value, withEllipsis, withLabel } = this.props;
 
@@ -136,6 +143,7 @@ export default class Input extends React.PureComponent<Props, State> {
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
           placeholder={placeholder}
+          ref={this.input}
           tabIndex={tabIndex}
           type={type}
           value={value}
@@ -191,6 +199,7 @@ export default class Input extends React.PureComponent<Props, State> {
     }
 
     if (onEnter && event.keyCode === 13) {
+      (event.target as any).blur();
       onEnter();
     }
   }

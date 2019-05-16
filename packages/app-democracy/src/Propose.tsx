@@ -79,7 +79,6 @@ class Propose extends React.PureComponent<Props, State> {
               ...(hasValue ? [value] : [])
             ]}
             onSuccess={this.onSubmitProposal}
-            submitOnEnter
           />
         </Button.Group>
       </section>

@@ -76,7 +76,6 @@ class Editor extends React.PureComponent<Props, State> {
           isPrimary
           onClick={this.onCommit}
           label={t('Save')}
-          submitOnEnter
         />
       </Button.Group>
     );
