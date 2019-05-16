@@ -98,7 +98,6 @@ class Address extends React.PureComponent<Props, State> {
           value={stashId || null}
           withBalance={false}
           withBonded
-          withCopy={false}
           withNonce={false}
         >
           {this.renderKeys()}
