@@ -451,6 +451,12 @@ class Account extends React.PureComponent<Props, State> {
 export default translate(
   withCalls<Props>(
     ['derive.staking.info', { paramName: 'accountId' }],
+    ['derive.staking.info', {
+      paramName: 'accountId',
+      propName: 'stashId',
+      transform: (info: DerivedStaking) =>
+        info.stashId
+    }],
     'query.staking.recentlyOffline',
     ['query.balances.freeBalance', {
       paramName: 'accountId',
