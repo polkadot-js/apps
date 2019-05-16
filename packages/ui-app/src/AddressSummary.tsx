@@ -119,11 +119,11 @@ class AddressSummary extends React.PureComponent<Props, State> {
     const resultingDom = isEditing ?
       <Input
         autoFocus
+        defaultValue={name}
         className='full'
         onChange={this.onChangeName}
         onBlur={this.saveName}
         onKeyDown={this.handleKeyDown}
-        defaultValue={name}
         withLabel={false}
       /> :
         <div
@@ -317,9 +317,13 @@ class AddressSummary extends React.PureComponent<Props, State> {
   protected saveName = () => {
     const { value } = this.props;
     const { newName } = this.state;
-    const currentKeyring = value && keyring.getPair(value.toString());
 
-    currentKeyring && keyring.saveAccountMeta(currentKeyring, { name: newName, whenEdited: Date.now() });
+    // Save only if the name was changed or if it's no empty.
+    if (newName !== '') {
+      const currentKeyring = value && keyring.getPair(value.toString());
+      currentKeyring && keyring.saveAccountMeta(currentKeyring, { name: newName, whenEdited: Date.now() });
+    }
+
     this.toggleEditor();
   }
 
