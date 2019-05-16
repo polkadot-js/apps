@@ -117,15 +117,19 @@ class AddressSummary extends React.PureComponent<Props, State> {
     if (isEditable) className = className.concat(' editable');
 
     const resultingDom = isEditing ?
-      <Input
-        autoFocus
-        defaultValue={name.toUpperCase()}
-        className='full'
-        onChange={this.onChangeName}
-        onBlur={this.saveName}
-        onKeyDown={this.handleKeyDown}
-        withLabel={false}
-      /> :
+      <>
+        <Input
+          autoFocus
+          defaultValue={name.toUpperCase()}
+          className='full'
+          onBlur={this.saveName}
+          onChange={this.onChangeName}
+          onKeyDown={this.handleKeyDown}
+          withLabel={false}
+        />
+        {this.renderSaveIcon()}
+      </>
+       :
         <div
           className={className}
           onClick={ isEditable ? this.toggleEditor : undefined }
@@ -289,6 +293,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
         {t(' transactions')}
       </Nonce>
     );
+  }
+  protected renderSaveIcon () {
+    return <Button
+            className='saveButton'
+            onClick={this.saveName}
+            icon='save'
+            size='small'
+            isPrimary
+            key='save'
+    />;
   }
 
   protected renderUnlocking () {
