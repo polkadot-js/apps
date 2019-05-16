@@ -36,7 +36,6 @@ export type Props = I18nProps & {
   withAvailable?: boolean,
   withBalance?: boolean,
   withBonded?: boolean,
-  withCopy?: boolean,
   withIcon?: boolean,
   withIndex?: boolean,
   withNonce?: boolean,
@@ -71,6 +70,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
           <div className='ui--AddressSummary-data'>
             {this.renderName()}
             {this.renderAddress()}
+            {this.renderAccountIndex()}
           </div>
           {this.renderAvailable()}
           {this.renderBalance()}
@@ -169,7 +169,6 @@ class AddressSummary extends React.PureComponent<Props, State> {
     );
   }
 
-  // FIXME it isn't used anywhere?
   protected renderAccountIndex () {
     const { accounts_idAndIndex = [], withIndex = true } = this.props;
     const [, accountIndex] = accounts_idAndIndex;
@@ -178,15 +177,10 @@ class AddressSummary extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const address = accountIndex.toString();
-
     return (
-      <div className='ui--AddressSummary-data'>
-        <div className='ui--AddressSummary-name'></div>
         <div className='ui--AddressSummary-accountIndex'>
-          {address}
+          {accountIndex.toString()}
         </div>
-      </div>
     );
   }
 

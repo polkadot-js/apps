@@ -204,10 +204,14 @@ header .ui--Button-Group {
 
 .ui--AddressSummary-accountId,
 .ui--AddressSummary-accountIndex {
-  display: inline-block;
   font-family: monospace;
   font-size: 1.5em;
   padding: 0;
+}
+
+.ui--AddressSummary-accountIndex {
+  font-size: 1.25em;
+  font-style: italic;
 }
 
 .ui--Bubble.ui.label {

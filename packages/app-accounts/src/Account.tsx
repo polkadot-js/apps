@@ -35,7 +35,6 @@ class Account extends React.PureComponent<Props> {
           isEditable
           withAvailable
           withBonded
-          withIndex={false}
           withNonce={false}
           withUnlocking
         />
