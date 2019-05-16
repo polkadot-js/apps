@@ -312,10 +312,12 @@ class AddressSummary extends React.PureComponent<Props, State> {
     const { value } = this.props;
     const { newName } = this.state;
 
+    const trimmedName = newName.trim();
+
     // Save only if the name was changed or if it's no empty.
-    if (newName !== '') {
+    if (trimmedName !== '') {
       const currentKeyring = value && keyring.getPair(value.toString());
-      currentKeyring && keyring.saveAccountMeta(currentKeyring, { name: newName, whenEdited: Date.now() });
+      currentKeyring && keyring.saveAccountMeta(currentKeyring, { name: trimmedName, whenEdited: Date.now() });
     }
 
     this.toggleEditor();
