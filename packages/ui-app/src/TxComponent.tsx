@@ -4,13 +4,6 @@
 
 import React from 'react';
 
-// export default function send (ref: any = this): void {
-//   const { component: { current: txButton } } = instance[refName].current;
-//   if (txButton) {
-//     txButton.send();
-//   }
-// }
-
 export default class TxComponent<P, S> extends React.PureComponent<P, S> {
   button: any = React.createRef();
 
