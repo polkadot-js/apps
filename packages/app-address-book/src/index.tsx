@@ -18,6 +18,7 @@ import { withMulti, withObservable } from '@polkadot/ui-api';
 import basicMd from './md/basic.md';
 import Creator from './Creator';
 import Editor from './Editor';
+import Overview from './Overview';
 import translate from './translate';
 
 type Props = AppProps & I18nProps & {
@@ -43,6 +44,10 @@ class AddressBookApp extends React.PureComponent<Props, State> {
     this.state = {
       ...baseState,
       items: [
+        {
+          name: 'overview',
+          text: t('Overview')
+        },
         {
           name: 'edit',
           text: t('Edit contact')
@@ -98,13 +103,8 @@ class AddressBookApp extends React.PureComponent<Props, State> {
         </header>
         <Switch>
           <Route path={`${basePath}/create`} render={renderCreator} />
-          <Route
-            render={
-              hidden.includes('edit')
-                ? renderCreator
-                : this.renderComponent(Editor)
-            }
-          />
+          <Route path={`${basePath}/edit`} render={this.renderComponent(Editor)} />
+          <Route render={this.renderComponent(Overview)} />
         </Switch>
       </main>
     );
