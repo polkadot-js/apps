@@ -22,9 +22,11 @@ type Props = BareProps & {
   isDisabled?: boolean,
   isError?: boolean,
   label?: React.ReactNode,
+  onBlur?: () => void;
   onChange?: (value: Array<string>) => void,
   placeholder?: string,
-  value?: Array<string>
+  value?: Array<string>,
+  withLabel?: boolean
 };
 
 type State = {
@@ -49,7 +51,7 @@ export default class InputTags extends React.PureComponent<Props> {
   };
 
   render () {
-    const { defaultValue, help, isDisabled, isError, label, onChange, placeholder, value } = this.props;
+    const { defaultValue, help, isDisabled, isError, label, onBlur, onChange, placeholder, value, withLabel } = this.props;
     const { options } = this.state;
 
     return (
@@ -62,10 +64,12 @@ export default class InputTags extends React.PureComponent<Props> {
         isMultiple
         label={label}
         onAdd={this.onAdd}
+        onBlur={onBlur}
         onChange={onChange}
         options={options}
         placeholder={placeholder}
         value={value}
+        withLabel={withLabel}
       />
     );
   }

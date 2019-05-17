@@ -102,8 +102,8 @@ header .ui--Button-Group {
   white-space: nowrap
 }
 
-.ui--AddressSummary-available > button.ui.icon.withDrawUnbonded, 
-.ui--AddressSummary-data > button.ui.icon.saveButton {
+.ui--AddressSummary-available > button.ui.icon.withDrawUnbonded /*, 
+.ui--AddressSummary-data > button.ui.icon.saveButton */{
   padding: 0.3em;
   margin-left: 0.4em;
   color: #2e86ab;
@@ -114,22 +114,26 @@ header .ui--Button-Group {
   }
 }
 
-.ui--AddressSummary-data > button.ui.icon.saveButton{
+/*
+.ui--AddressSummary-data > button.ui.icon.saveButton {
   position: absolute;
   top:0;
   right:0;
 }
+*/
 
-.ui--AddressSummary-name.editable:hover > button.ui.icon.editButton{
-  visibility: visible 
+.ui--AddressSummary-name.editable:hover > button.ui.icon.editButton,
+.ui--AddressSummary-tags.editable:hover > button.ui.icon.editButton {
+  visibility: visible; 
 }
 
-.ui--AddressSummary-name.editable > button.ui.icon.editButton{
-  visibility: hidden 
+.ui--AddressSummary-name.editable > button.ui.icon.editButton,
+.ui--AddressSummary-tags.editable > button.ui.icon.editButton {
+  visibility: hidden;
 }
 
-.ui--AddressSummary-name.editable > button.ui.icon.editButton
-{
+.ui--AddressSummary-name.editable > button.ui.icon.editButton,
+.ui--AddressSummary-tags.editable > button.ui.icon.editButton {
   position: absolute;
   padding: 0em .3em .3em .3em;
   margin-left: .4em;
@@ -202,7 +206,7 @@ header .ui--Button-Group {
 .ui--AddressSummary-data {
   padding: 0;
   white-space: nowrap;
-  position: relative;
+/*  position: relative; */
 
   .ui--AddressSummary-name {
     text-transform: uppercase;

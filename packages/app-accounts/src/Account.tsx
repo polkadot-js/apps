@@ -35,6 +35,7 @@ export default class Account extends React.PureComponent<Props> {
           withAvailable
           withBonded
           withNonce={false}
+          withTags
           withUnlocking
         />
       </Wrapper>

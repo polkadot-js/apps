@@ -23,6 +23,7 @@ type Props<Option> = BareProps & {
   isMultiple?: boolean,
   label?: React.ReactNode,
   onAdd?: (value: any) => void,
+  onBlur?: () => void,
   onChange?: (value: any) => void,
   onSearch?: (filteredOptions: Array<any>, query: string) => Array<Option>,
   options: Array<Option>,
@@ -72,6 +73,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
         floating={isButton}
         multiple={isMultiple}
         onAddItem={this.onAddItem}
+        onBlur={this.onBlur}
         onChange={this.onChange}
         options={options}
         placeholder={placeholder}
@@ -109,6 +111,12 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
     const { onAdd } = this.props;
 
     onAdd && onAdd(value);
+  }
+
+  private onBlur = (): void => {
+    const { onBlur } = this.props;
+
+    onBlur && onBlur();
   }
 
   private onChange = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void => {
