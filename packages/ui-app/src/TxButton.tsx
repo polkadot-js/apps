@@ -130,12 +130,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
 }
 
 class TxButton extends React.PureComponent<Props> {
-  button: any;
-
-  constructor (props: Props) {
-    super(props);
-    this.button = React.createRef();
-  }
+  button: any = React.createRef();
 
   render () {
     return (
