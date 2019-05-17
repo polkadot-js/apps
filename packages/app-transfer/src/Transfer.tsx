@@ -11,7 +11,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Index } from '@polkadot/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { AddressSummary, Button, InputAddress, InputBalance, TxButton } from '@polkadot/ui-app';
+import { AddressSummary, Button, InputAddress, InputBalance, TxButton, TxComponent } from '@polkadot/ui-app';
 import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
 import Checks, { calcSignatureLength } from '@polkadot/ui-signer/Checks';
@@ -56,7 +56,7 @@ const Wrapper = styled.div`
   }
 `;
 
-class Transfer extends React.PureComponent<Props, State> {
+class Transfer extends TxComponent<Props, State> {
   state: State = {
     accountId: null,
     amount: ZERO,
@@ -65,8 +65,6 @@ class Transfer extends React.PureComponent<Props, State> {
     maxBalance: ZERO,
     recipientId: null
   };
-
-  txButton: any = React.createRef();
 
   componentDidUpdate (prevProps: Props, prevState: State) {
     const { balances_fees } = this.props;
@@ -111,7 +109,7 @@ class Transfer extends React.PureComponent<Props, State> {
               label={t('amount')}
               maxValue={maxBalance}
               onChange={this.onChangeAmount}
-              onEnter={this.onEnter}
+              onEnter={this.sendTx}
               withMax
             />
             <Checks
@@ -128,7 +126,7 @@ class Transfer extends React.PureComponent<Props, State> {
                 isPrimary
                 label={t('Make Transfer')}
                 extrinsic={extrinsic}
-                ref={this.txButton}
+                ref={this.button}
               />
             </Button.Group>
           </div>
@@ -175,13 +173,6 @@ class Transfer extends React.PureComponent<Props, State> {
         recipientId
       };
     });
-  }
-
-  private onEnter = () => {
-    const { component } = this.txButton.current;
-    if (component) {
-      component.current.send();
-    }
   }
 
   private setMaxBalance = () => {

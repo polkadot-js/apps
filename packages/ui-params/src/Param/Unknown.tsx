@@ -19,7 +19,7 @@ type Props = BareProps & WithTranslation & {
 
 class Unknown extends React.PureComponent<Props> {
   render () {
-    const { className, defaultValue, isDisabled, isError, label, name, onChange, style, t, type } = this.props;
+    const { className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, style, t, type } = this.props;
 
     if (isDisabled) {
       const value = defaultValue && defaultValue.value && defaultValue.value.toString();
@@ -48,6 +48,7 @@ class Unknown extends React.PureComponent<Props> {
         length={-1}
         name={name}
         onChange={onChange}
+        onEnter={onEnter}
         size='full'
         style={style}
         type={type}

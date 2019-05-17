@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import React from 'react';
-import { Button, InputAddress, InputBalance, TxButton } from '@polkadot/ui-app';
+import { Button, InputAddress, InputBalance, TxButton, TxComponent } from '@polkadot/ui-app';
 
 import Summary from './Summary';
 
@@ -16,7 +16,7 @@ type State = {
   recipientId?: string;
 };
 
-export default class Transfer extends React.PureComponent<Props> {
+export default class Transfer extends TxComponent<Props, State> {
   state: State = {};
 
   render () {
@@ -31,11 +31,13 @@ export default class Transfer extends React.PureComponent<Props> {
             <InputAddress
               label='recipient address for this transfer'
               onChange={this.onChangeRecipient}
+              onEnter={this.sendTx}
               type='all'
             />
             <InputBalance
               label='amount to transfer'
               onChange={this.onChangeAmount}
+              onEnter={this.sendTx}
             />
             <Button.Group>
               <TxButton
@@ -43,6 +45,7 @@ export default class Transfer extends React.PureComponent<Props> {
                 label='make transfer'
                 params={[recipientId, amount]}
                 tx='balances.transfer'
+                ref={this.button}
               />
             </Button.Group>
           </div>

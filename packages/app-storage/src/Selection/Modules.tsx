@@ -10,7 +10,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
-import { Button, InputStorage } from '@polkadot/ui-app';
+import { Button, InputStorage, TxComponent } from '@polkadot/ui-app';
 import Params from '@polkadot/ui-params';
 import { withApi, withMulti } from '@polkadot/ui-api';
 import { isUndefined } from '@polkadot/util';
@@ -26,7 +26,7 @@ type State = {
   params: Array<{ type: TypeDef }>
 };
 
-class Modules extends React.PureComponent<Props, State> {
+class Modules extends TxComponent<Props, State> {
   private defaultValue: any;
   state: State;
 
@@ -59,6 +59,7 @@ class Modules extends React.PureComponent<Props, State> {
           <Params
             key={`${section}.${method}:params` /* force re-render on change */}
             onChange={this.onChangeParams}
+            onEnter={this.submit}
             params={params}
           />
         </div>
@@ -68,6 +69,7 @@ class Modules extends React.PureComponent<Props, State> {
             isDisabled={!isValid}
             isPrimary
             onClick={this.onAdd}
+            ref={this.button}
           />
         </div>
       </section>

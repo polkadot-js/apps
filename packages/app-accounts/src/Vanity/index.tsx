@@ -9,7 +9,7 @@ import { ComponentProps } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Button, Dropdown, Input } from '@polkadot/ui-app';
+import { Button, Dropdown, Input, TxComponent } from '@polkadot/ui-app';
 import uiSettings from '@polkadot/ui-settings';
 
 import generator from '../vanitygen';
@@ -51,7 +51,7 @@ const Wrapper = styled.div`
   }
 `;
 
-class VanityApp extends React.PureComponent<Props, State> {
+class VanityApp extends TxComponent<Props, State> {
   results: Array<Generator$Result> = [];
   state: State = {
     elapsed: 0,
@@ -66,13 +66,10 @@ class VanityApp extends React.PureComponent<Props, State> {
     withCase: true
   };
 
-  private button: any;
-
   private _isActive: boolean = false;
 
   constructor (props: Props) {
     super(props);
-    this.button = React.createRef();
   }
 
   componentWillUnmount () {
@@ -143,7 +140,7 @@ class VanityApp extends React.PureComponent<Props, State> {
             isError={!isMatchValid}
             label={t('Search for')}
             onChange={this.onChangeMatch}
-            onEnter={this.onEnter}
+            onEnter={this.submit}
             value={match}
           />
           <Dropdown
@@ -289,10 +286,6 @@ class VanityApp extends React.PureComponent<Props, State> {
         )
       })
     );
-  }
-
-  private onEnter = () => {
-    this.button.current.click();
   }
 
   private toggleStart = (): void => {

@@ -30,7 +30,7 @@ export default class Bytes extends React.PureComponent<Props, State> {
   }
 
   private renderInput () {
-    const { className, defaultValue, isDisabled, isError, label, name, onChange, style, type, withLabel } = this.props;
+    const { className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, style, type, withLabel } = this.props;
 
     return (
       <BaseBytes
@@ -42,6 +42,7 @@ export default class Bytes extends React.PureComponent<Props, State> {
         length={-1}
         name={name}
         onChange={onChange}
+        onEnter={onEnter}
         size='full'
         style={style}
         type={type}

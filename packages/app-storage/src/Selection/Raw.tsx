@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
-import { Button, Input } from '@polkadot/ui-app';
+import { Button, Input, TxComponent } from '@polkadot/ui-app';
 
 import translate from '../translate';
 import { u8aToU8a } from '@polkadot/util';
@@ -19,7 +19,7 @@ type State = {
   key: Uint8Array
 };
 
-class Raw extends React.PureComponent<Props, State> {
+class Raw extends TxComponent<Props, State> {
   state: State = {
     isValid: false,
     key: new Uint8Array([])
@@ -36,6 +36,7 @@ class Raw extends React.PureComponent<Props, State> {
             autoFocus
             label={t('hex-encoded storage key')}
             onChange={this.onChangeKey}
+            onEnter={this.submit}
           />
         </div>
         <div className='storage--actionrow-buttons'>
@@ -44,6 +45,7 @@ class Raw extends React.PureComponent<Props, State> {
             isDisabled={!isValid}
             isPrimary
             onClick={this.onAdd}
+            ref={this.button}
           />
         </div>
       </section>
