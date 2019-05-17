@@ -36,7 +36,6 @@ class Overview extends React.PureComponent<Props> {
   render () {
     const { optionsAll } = this.props;
 
-    console.log('optionAll',optionsAll && optionsAll.address);
     return (
       <Wrapper>
         <div className='accounts'>
@@ -44,7 +43,7 @@ class Overview extends React.PureComponent<Props> {
             optionsAll && optionsAll.address && optionsAll.address.map((account) => {
 
               if (!account.value) {
-                return null
+                return null;
               }
 
               return (
@@ -54,16 +53,6 @@ class Overview extends React.PureComponent<Props> {
                 />
               );
             })
-            /*accounts.map((account) => {
-            const address = account.address();
-
-            return (
-              <Account
-                accountId={address}
-                key={address}
-              />
-            );
-          })*/
           }
           <div className='spacer' />
         </div>

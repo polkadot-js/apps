@@ -330,8 +330,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
 
     // Save only if the name was changed or if it's no empty.
     if (trimmedName !== '') {
-      const currentKeyring = value && keyring.getPair(value.toString());
-      currentKeyring && keyring.saveAccountMeta(currentKeyring, { name: trimmedName, whenEdited: Date.now() });
+      try {
+        const currentKeyring = value && keyring.getPair(value.toString());
+        currentKeyring && keyring.saveAccountMeta(currentKeyring, { name: trimmedName, whenEdited: Date.now() });
+      } catch (e) {
+        const currentKeyringAddress = value && keyring.getAddress(value.toString());
+        currentKeyringAddress && keyring.saveAddress(currentKeyringAddress.address(), {
+          name: trimmedName,
+          whenEdited: Date.now()
+        });
+      }
     }
 
     this.toggleEditor();
