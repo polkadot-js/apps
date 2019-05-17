@@ -3,9 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
-import { TabItem } from '@polkadot/ui-app/Tabs';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps, LocationProps } from './types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import './index.css';
 
@@ -13,12 +12,13 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { HelpOverlay, Tabs } from '@polkadot/ui-app';
+import { TabItem } from '@polkadot/ui-app/Tabs';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import basicMd from './md/basic.md';
-import Overview from './Overview';
 import Creator from './Creator';
 import Editor from './Editor';
+import Overview from './Overview';
 import Restore from './Restore';
 import translate from './translate';
 import Vanity from './Vanity';

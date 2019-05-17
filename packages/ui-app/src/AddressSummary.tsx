@@ -7,6 +7,7 @@ import { I18nProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
+
 import BaseIdentityIcon from '@polkadot/ui-identicon';
 import { Button, Input } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';

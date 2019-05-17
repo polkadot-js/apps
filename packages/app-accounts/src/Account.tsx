@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AddressSummary } from '@polkadot/ui-app';
 import React from 'react';
-
 import styled from 'styled-components';
+
+import { AddressSummary } from '@polkadot/ui-app';
 
 type Props = {
   accountId: string
@@ -41,4 +41,3 @@ export default class Account extends React.PureComponent<Props> {
     );
   }
 }
-

@@ -2,14 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
+import { ComponentProps } from './types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
+
 import React from 'react';
 import styled from 'styled-components';
+
+import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import Account from './Account';
-import { ComponentProps } from './types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 type Props = ComponentProps & {
   accounts?: SubjectInfo[]
@@ -62,4 +64,3 @@ export default withMulti(
   Overview,
   withObservable(accountObservable.subject, { propName: 'accounts' })
 );
-
