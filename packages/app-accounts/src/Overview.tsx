@@ -2,14 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ComponentProps } from './types';
+import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import React from 'react';
 import styled from 'styled-components';
-import keyring from '@polkadot/ui-keyring';
+import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import Account from './Account';
+import { ComponentProps } from './types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
-type Props = ComponentProps;
+type Props = ComponentProps & {
+  accounts?: SubjectInfo[]
+};
 
 const Wrapper = styled.div`
   .accounts {
@@ -25,20 +29,21 @@ const Wrapper = styled.div`
 `;
 
 class Overview extends React.PureComponent<Props> {
-
   constructor (props: Props) {
     super(props);
   }
 
   render () {
-    const accounts = keyring.getAccounts();
+    const { accounts } = this.props;
+
+    if (!accounts || Object.keys(accounts).length === 0) {
+      return null;
+    }
 
     return (
       <Wrapper>
         <div className='accounts'>
-          {accounts.map((account) => {
-            const address = account.address();
-
+          {Object.keys(accounts).map((address) => {
             return (
               <Account
                 accountId={address}
@@ -53,4 +58,8 @@ class Overview extends React.PureComponent<Props> {
   }
 }
 
-export default Overview;
+export default withMulti(
+  Overview,
+  withObservable(accountObservable.subject, { propName: 'accounts' })
+);
+

@@ -3,12 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, AccountIndex, Address } from '@polkadot/types';
-import BaseIdentityIcon from '@polkadot/ui-identicon';
+import { I18nProps } from './types';
+
 import BN from 'bn.js';
+import React from 'react';
+import BaseIdentityIcon from '@polkadot/ui-identicon';
 import { Button, Input } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 import { Nonce } from '@polkadot/ui-reactive';
-import React from 'react';
 import { withCalls } from '@polkadot/ui-api';
 
 import AvailableDisplay from './Available';
@@ -16,7 +18,6 @@ import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import { classes, getAddrName, toShortAddress } from './util';
 import IdentityIcon from './IdentityIcon';
-import { I18nProps } from './types';
 import translate from './translate';
 import UnlockingDisplay from './Unlocking';
 
@@ -113,9 +114,6 @@ class AddressSummary extends React.PureComponent<Props, State> {
 
     const name = getAddrName(address, false, defaultName) || '';
 
-    let className = 'ui--AddressSummary-name';
-    if (isEditable) className = className.concat(' editable');
-
     const resultingDom = isEditing ?
       <>
         <Input
@@ -124,31 +122,21 @@ class AddressSummary extends React.PureComponent<Props, State> {
           className='full'
           onBlur={this.saveName}
           onChange={this.onChangeName}
-          onKeyDown={this.handleKeyDown}
+          onEnter={this.saveName}
           withLabel={false}
         />
         {this.renderSaveIcon()}
       </>
        :
         <div
-          className={className}
-          onClick={ isEditable ? this.toggleEditor : undefined }
+          className={classes('ui--AddressSummary-name', isEditable && 'editable')}
+          onClick={isEditable ? this.toggleEditor : undefined}
         >
           {name}
           {isEditable && this.renderEditIcon()}
         </div>;
 
     return resultingDom;
-  }
-
-  protected handleKeyDown = (e: React.KeyboardEvent<Element>) => {
-    const { key } = e;
-    switch (key) {
-      case 'Enter':
-      case 'Escape':
-        this.saveName();
-        break;
-    }
   }
 
   protected onChangeName = (newName: string) => {
@@ -241,14 +229,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderEditIcon () {
-    return <Button
-            className='editButton'
-            onClick={this.toggleEditor}
-            icon='edit'
-            size='small'
-            isPrimary
-            key='unlock'
-    />;
+    return (
+      <Button
+        className='editButton'
+        onClick={this.toggleEditor}
+        icon='edit'
+        size='small'
+        isPrimary
+        key='unlock'
+      />
+    );
   }
 
   protected renderIcon (className: string = 'ui--AddressSummary-icon', size?: number) {
@@ -295,14 +285,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
     );
   }
   protected renderSaveIcon () {
-    return <Button
-            className='saveButton'
-            onClick={this.saveName}
-            icon='save'
-            size='small'
-            isPrimary
-            key='save'
-    />;
+    return (
+    <Button
+      className='saveButton'
+      onClick={this.saveName}
+      icon='save'
+      size='small'
+      isPrimary
+      key='save'
+    />
+    );
   }
 
   protected renderUnlocking () {
@@ -329,8 +321,8 @@ class AddressSummary extends React.PureComponent<Props, State> {
     const trimmedName = newName.trim();
 
     // Save only if the name was changed or if it's no empty.
-    if (trimmedName !== '') {
-      const currentKeyring = value && keyring.getPair(value.toString());
+    if (trimmedName && value) {
+      const currentKeyring = keyring.getPair(value.toString());
       currentKeyring && keyring.saveAccountMeta(currentKeyring, { name: trimmedName, whenEdited: Date.now() });
     }
 
@@ -338,7 +330,11 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected toggleEditor = () => {
-    this.setState({ isEditing : !this.state.isEditing });
+    const { value } = this.props;
+
+    if (value && keyring.getPair(value.toString())) {
+      this.setState({ isEditing : !this.state.isEditing });
+    }
   }
 }
 

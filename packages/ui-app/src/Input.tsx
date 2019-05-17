@@ -30,7 +30,7 @@ type Props = BareProps & {
   name?: string,
   onEnter?: () => void,
   onChange?: (value: string) => void,
-  onBlur?: (event: React.KeyboardEvent<Element>) => void,
+  onBlur?: () => void,
   onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
   onKeyUp?: (event: React.KeyboardEvent<Element>) => void,
   onKeyPress?: (event: React.KeyboardEvent<Element>) => void,
@@ -173,11 +173,11 @@ export default class Input extends React.PureComponent<Props, State> {
     }
   }
 
-  private onBlur = (event: React.KeyboardEvent<Element>): void => {
+  private onBlur = (): void => {
     const { onBlur } = this.props;
 
     if (onBlur) {
-      onBlur(event);
+      onBlur();
     }
   }
 

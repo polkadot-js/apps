@@ -22,8 +22,7 @@ const Wrapper = styled.article`
   }
 `;
 
-class Account extends React.PureComponent<Props> {
-
+export default class Account extends React.PureComponent<Props> {
   render () {
     const { accountId } = this.props;
 
@@ -43,4 +42,3 @@ class Account extends React.PureComponent<Props> {
   }
 }
 
-export default Account;
