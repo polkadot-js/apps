@@ -129,6 +129,7 @@ export default class Input extends React.PureComponent<Props, State> {
           maxLength={maxLength}
           min={min}
           name={name || this.state.name}
+          onBlur={this.onBlur}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
@@ -169,6 +170,14 @@ export default class Input extends React.PureComponent<Props, State> {
 
     if (onKeyDown) {
       onKeyDown(event);
+    }
+  }
+
+  private onBlur = (event: React.KeyboardEvent<Element>): void => {
+    const { onBlur } = this.props;
+
+    if (onBlur) {
+      onBlur(event);
     }
   }
 
