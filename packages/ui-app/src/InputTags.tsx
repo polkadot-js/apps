@@ -24,7 +24,10 @@ type Props = BareProps & {
   label?: React.ReactNode,
   onBlur?: () => void;
   onChange?: (value: Array<string>) => void,
+  onClose?: () => void;
+  openOnFocus?: boolean;
   placeholder?: string,
+  searchInput?: {autoFocus: boolean},
   value?: Array<string>,
   withLabel?: boolean
 };
@@ -51,7 +54,7 @@ export default class InputTags extends React.PureComponent<Props> {
   };
 
   render () {
-    const { defaultValue, help, isDisabled, isError, label, onBlur, onChange, placeholder, value, withLabel } = this.props;
+    const { defaultValue, help, isDisabled, isError, label, onBlur, onChange, onClose, placeholder, searchInput, value, withLabel } = this.props;
     const { options } = this.state;
 
     return (
@@ -66,8 +69,10 @@ export default class InputTags extends React.PureComponent<Props> {
         onAdd={this.onAdd}
         onBlur={onBlur}
         onChange={onChange}
+        onClose={onClose}
         options={options}
         placeholder={placeholder}
+        searchInput={searchInput}
         value={value}
         withLabel={withLabel}
       />

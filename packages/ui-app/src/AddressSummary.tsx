@@ -64,7 +64,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   createState () {
-    const { accounts_idAndIndex = [], defaultName, value, withTags = false } = this.props;
+    const { accounts_idAndIndex = [], defaultName, value } = this.props;
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
     const address = accountId
@@ -322,13 +322,21 @@ class AddressSummary extends React.PureComponent<Props, State> {
 
   protected renderTags () {
     const { isEditingTags, tags } = this.state;
-    const { isEditable } = this.props;
+    const { isEditable, withTags = false } = this.props;
+
+    if (!withTags) {
+      return null;
+    }
+
     const resultingDom = isEditingTags ?
       <>
         <InputTags
           onBlur={this.saveTags}
           onChange={this.onChangeTags}
+          onClose={this.saveTags}
+          openOnFocus
           defaultValue = {tags}
+          searchInput={{ autoFocus: true }}
           value={tags}
           withLabel={false}
         />
@@ -340,7 +348,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
         >
           {
             !tags.length
-            ? <span>create tags</span>
+            ? <span>add tags</span>
             : tags.map((tag) => {
               return (
                 <Label key={tag} size='tiny' color='grey'>

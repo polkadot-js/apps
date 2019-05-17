@@ -98,12 +98,10 @@ header .ui--Button-Group {
 
 .ui--AddressSummary {
   padding: 0 1em;
-  /* text-align: left; */
   white-space: nowrap
 }
 
-.ui--AddressSummary-available > button.ui.icon.withDrawUnbonded /*, 
-.ui--AddressSummary-data > button.ui.icon.saveButton */{
+.ui--AddressSummary-available > button.ui.icon.withDrawUnbonded {
   padding: 0.3em;
   margin-left: 0.4em;
   color: #2e86ab;
@@ -113,14 +111,6 @@ header .ui--Button-Group {
     color: #fff;
   }
 }
-
-/*
-.ui--AddressSummary-data > button.ui.icon.saveButton {
-  position: absolute;
-  top:0;
-  right:0;
-}
-*/
 
 .ui--AddressSummary-name.editable:hover > button.ui.icon.editButton,
 .ui--AddressSummary-tags.editable:hover > button.ui.icon.editButton {
@@ -134,11 +124,32 @@ header .ui--Button-Group {
 
 .ui--AddressSummary-name.editable > button.ui.icon.editButton,
 .ui--AddressSummary-tags.editable > button.ui.icon.editButton {
-  position: absolute;
   padding: 0em .3em .3em .3em;
-  margin-left: .4em;
   color: #2e86ab;
   background: none;
+  /*trick to let the button in the flow but keep the content centered regardless*/
+  margin-left: -2em;
+  position: relative;
+  right: -2.3em;
+}
+
+.ui--AddressSummary-tags.editable {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ui--AddressSummary-tags.editable > span {
+    border: 1px #00000052 solid;
+    border-style: dashed;
+    padding: .1em 0.3em 0.1em 0.3em;
+    border-radius: .5em;
+    color: grey;
+    font-size: x-small;
+}
+
+.ui--AddressSummary-tags.editable > div.label {
+  margin-top:.3em
 }
 
 .ui--AddressSummary-base {
@@ -206,7 +217,6 @@ header .ui--Button-Group {
 .ui--AddressSummary-data {
   padding: 0;
   white-space: nowrap;
-/*  position: relative; */
 
   .ui--AddressSummary-name {
     text-transform: uppercase;
@@ -231,7 +241,6 @@ header .ui--Button-Group {
 
 .ui--AddressSummary-data .ui--Input input {
   height: 1em;
-  border: none;
   text-align: center;
 }
 

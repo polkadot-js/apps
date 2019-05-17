@@ -25,10 +25,12 @@ type Props<Option> = BareProps & {
   onAdd?: (value: any) => void,
   onBlur?: () => void,
   onChange?: (value: any) => void,
+  onClose?: () => void,
   onSearch?: (filteredOptions: Array<any>, query: string) => Array<Option>,
   options: Array<Option>,
   placeholder?: string,
   renderLabel?: (item: any) => any,
+  searchInput?: {autoFocus: boolean},
   transform?: (value: any) => any,
   value?: any,
   withLabel?: boolean
@@ -61,7 +63,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
   }
 
   render () {
-    const { allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isMultiple, label, onSearch, options, placeholder, renderLabel, style, withLabel, value } = this.props;
+    const { allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isMultiple, label, onSearch, options, placeholder, renderLabel, searchInput, style, withLabel, value } = this.props;
     const dropdown = (
       <SUIDropdown
         allowAdditions={allowAdd}
@@ -75,10 +77,12 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
         onAddItem={this.onAddItem}
         onBlur={this.onBlur}
         onChange={this.onChange}
+        onClose={this.onClose}
         options={options}
         placeholder={placeholder}
         renderLabel={renderLabel}
         search={!!onSearch || allowAdd}
+        searchInput={searchInput}
         selection
         value={
           isUndefined(value)
@@ -127,5 +131,11 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
         ? transform(value)
         : value
     );
+  }
+
+  private onClose = (): void => {
+    const { onClose } = this.props;
+
+    onClose && onClose();
   }
 }
