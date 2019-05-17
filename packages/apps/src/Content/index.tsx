@@ -99,11 +99,11 @@ export default withMulti(
   withCalls<Props>(
     'derive.accounts.indexes',
     'derive.balances.fees',
-    // This is a very ineffective query that
+    'query.session.validators'
+    // This are very ineffective queries that
     //   (a) adds load to the RPC node when activated globally
     //   (b) is used in additional information (next-up)
-    // 'derive.staking.controllers',
-    'query.staking.nominators',
-    'query.session.validators'
+    // 'derive.staking.controllers'
+    // 'query.staking.nominators'
   )
 );

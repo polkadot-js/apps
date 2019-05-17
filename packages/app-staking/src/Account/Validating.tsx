@@ -15,8 +15,8 @@ type Props = I18nProps & {
   accountId: string,
   isOpen: boolean,
   onClose: () => void,
-  preferences: ValidatorPrefs,
-  stashId: string
+  stashId: string,
+  validatorPrefs: ValidatorPrefs
 };
 
 type State = {
@@ -37,7 +37,7 @@ class Staking extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { unstakeThreshold, validatorPayment } = props.preferences;
+    const { unstakeThreshold, validatorPayment } = props.validatorPrefs;
 
     return {
       unstakeThreshold: unstakeThreshold.toBn(),

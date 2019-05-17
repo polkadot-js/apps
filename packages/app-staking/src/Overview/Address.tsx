@@ -2,16 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalancesMap } from '@polkadot/api-derive/types';
+import { DerivedBalancesMap, DerivedStaking } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ValidatorFilter, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
-import { AccountId, Balance, Option, StakingLedger, Exposure } from '@polkadot/types';
+import { AccountId, Balance, Exposure } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api/with';
 import { AddressMini, AddressRow, RecentlyOffline } from '@polkadot/ui-app';
-import { formatBalance } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
+import { formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
 
@@ -23,11 +23,7 @@ type Props = I18nProps & {
   lastBlock: string,
   recentlyOffline: RecentlyOfflineMap,
   filter: ValidatorFilter,
-  session_nextKeyFor?: Option<AccountId>,
-  staking_bonded?: Option<AccountId>,
-  staking_ledger?: Option<StakingLedger>,
-  staking_stakers?: Exposure,
-  stashId?: string | null
+  staking_info?: DerivedStaking
 };
 
 type State = {
@@ -35,6 +31,8 @@ type State = {
   stashActive: string | null,
   stashTotal: string | null,
   sessionId: string | null,
+  stakers?: Exposure,
+  stashId: string | null,
   badgeExpanded: boolean;
 };
 
@@ -48,38 +46,39 @@ class Address extends React.PureComponent<Props, State> {
       controllerId: props.address,
       sessionId: null,
       stashActive: null,
+      stashId: null,
       stashTotal: null,
       badgeExpanded: false
     };
   }
 
-  static getDerivedStateFromProps ({ session_nextKeyFor, staking_bonded, staking_ledger }: Props, prevState: State): State | null {
-    const ledger = staking_ledger
-      ? staking_ledger.unwrapOr(null)
-      : null;
+  static getDerivedStateFromProps ({ staking_info }: Props, prevState: State): State | null {
+    if (!staking_info) {
+      return null;
+    }
+
+    const { controllerId, nextSessionId, stakers, stashId, stakingLedger } = staking_info;
 
     return {
-      controllerId: !staking_bonded || staking_bonded.isNone
-        ? prevState.controllerId
-        : staking_bonded.unwrap().toString(),
-      sessionId: !session_nextKeyFor || session_nextKeyFor.isNone
-        ? prevState.sessionId
-        : session_nextKeyFor.unwrap().toString(),
-      stashActive: !ledger
-        ? prevState.stashActive
-        : formatBalance(ledger.active),
-      stashTotal: !ledger
-        ? prevState.stashTotal
-        : formatBalance(ledger.total)
+      controllerId: controllerId && controllerId.toString(),
+      sessionId: nextSessionId && nextSessionId.toString(),
+      stashActive: stakingLedger
+        ? formatBalance(stakingLedger.active)
+        : prevState.stashActive,
+      stakers,
+      stashId: stashId && stashId.toString(),
+      stashTotal: stakingLedger
+        ? formatBalance(stakingLedger.total)
+        : prevState.stashTotal
     } as State;
   }
 
   render () {
-    const { address, defaultName, lastAuthor, lastBlock, stashId, staking_stakers, filter } = this.props;
-    const { controllerId } = this.state;
+    const { address, defaultName, lastAuthor, lastBlock, filter } = this.props;
+    const { controllerId, stakers, stashId } = this.state;
     const isAuthor = [address, controllerId, stashId].includes(lastAuthor);
-    const bonded = staking_stakers && !staking_stakers.own.isZero()
-      ? [staking_stakers.own, staking_stakers.total.sub(staking_stakers.own)]
+    const bonded = stakers && !stakers.own.isZero()
+      ? [stakers.own, stakers.total.sub(stakers.own)]
       : undefined;
 
     if ((filter === 'hasNominators' && !this.hasNominators())
@@ -95,7 +94,7 @@ class Address extends React.PureComponent<Props, State> {
         <AddressRow
           bonded={bonded}
           defaultName={defaultName}
-          value={stashId || null}
+          value={stashId}
           withBalance={false}
           withBonded
           withCopy={false}
@@ -148,18 +147,22 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private getNominators () {
-    const { staking_stakers } = this.props;
+    const { stakers } = this.state;
 
-    return staking_stakers
-      ? staking_stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value])
+    return stakers
+      ? stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value])
       : [];
   }
 
   private iNominated () {
     const nominators = this.getNominators();
-    const myAddresses = keyring.getAccounts().map(acc => acc.address());
+    const myAddresses = keyring.getAccounts().map((acc) =>
+      acc.address()
+    );
 
-    return nominators.filter(([who, value]) => myAddresses.includes(who.toString())).length > 0;
+    return nominators.some(([who]) =>
+      myAddresses.includes(who.toString())
+    );
   }
 
   private hasNominators () {
@@ -169,7 +172,8 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private hasWarnings () {
-    const { recentlyOffline, stashId } = this.props;
+    const { recentlyOffline } = this.props;
+    const { stashId } = this.state;
 
     if (!stashId || !recentlyOffline[stashId]) {
       return false;
@@ -208,7 +212,8 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private renderOffline () {
-    const { recentlyOffline, stashId } = this.props;
+    const { recentlyOffline } = this.props;
+    const { stashId } = this.state;
 
     if (!stashId || !recentlyOffline[stashId]) {
       return null;
@@ -230,15 +235,6 @@ export default withMulti(
   Address,
   translate,
   withCalls<Props>(
-    ['query.staking.bonded', { paramName: 'address' }],
-    ['query.session.nextKeyFor', { paramName: 'address' }],
-    ['query.staking.ledger', { paramName: 'address' }],
-    ['query.staking.ledger', {
-      paramName: 'address',
-      propName: 'stashId',
-      transform: (ledger: Option<StakingLedger>) =>
-        ledger.unwrapOr({ stash: { toString: () => { return null; } } }).stash.toString()
-    }],
-    ['query.staking.stakers', { paramName: 'stashId' }]
+    ['derive.staking.info', { paramName: 'address' }]
   )
 );
