@@ -68,10 +68,6 @@ class VanityApp extends TxComponent<Props, State> {
 
   private _isActive: boolean = false;
 
-  constructor (props: Props) {
-    super(props);
-  }
-
   componentWillUnmount () {
     this._isActive = false;
   }
