@@ -28,9 +28,6 @@ type Props = ApiProps & I18nProps & {
   recentlyOffline: RecentlyOfflineMap,
   freeBalance?: Balance,
   staking_info?: DerivedStaking,
-  staking_stakers?: Exposure,
-  staking_nominators?: [Array<AccountId>],
-  staking_validators?: [ValidatorPrefs],
   stashOptions: Array<KeyringSectionOption>
 };
 
@@ -45,9 +42,12 @@ type State = {
   isSessionKeyOpen: boolean,
   isValidatingOpen: boolean,
   isUnbondOpen: boolean,
+  nominators?: Array<AccountId>,
   sessionId: string | null,
+  stakers?: Exposure,
   stakingLedger?: StakingLedger,
-  stashId: string | null
+  stashId: string | null,
+  validatorPrefs?: ValidatorPrefs
 };
 
 function toIdString (id?: AccountId | null): string | null {
@@ -77,16 +77,19 @@ class Account extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { accountId, controllerId, nextSessionId, stakingLedger, stashId } = staking_info;
+    const { accountId, controllerId, nextSessionId, nominators, stakers, stakingLedger, stashId, validatorPrefs } = staking_info;
 
     return {
       controllerId: toIdString(controllerId),
       isActiveController: accountId.eq(controllerId),
       isActiveSession: accountId.eq(nextSessionId),
       isActiveStash: accountId.eq(stashId),
+      nominators,
       sessionId: toIdString(nextSessionId),
+      stakers,
       stakingLedger,
-      stashId: toIdString(stashId)
+      stashId: toIdString(stashId),
+      validatorPrefs
     } as State;
   }
 
@@ -174,10 +177,10 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderValidating () {
-    const { accountId, staking_validators } = this.props;
-    const { isValidatingOpen, stashId } = this.state;
+    const { accountId } = this.props;
+    const { isValidatingOpen, stashId, validatorPrefs } = this.state;
 
-    if (!staking_validators || !isValidatingOpen || !stashId) {
+    if (!validatorPrefs || !isValidatingOpen || !stashId) {
       return null;
     }
 
@@ -186,8 +189,8 @@ class Account extends React.PureComponent<Props, State> {
         accountId={accountId}
         isOpen
         onClose={this.toggleValidating}
-        preferences={staking_validators[0]}
         stashId={stashId}
+        validatorPrefs={validatorPrefs}
       />
     );
   }
@@ -211,9 +214,10 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderNominee () {
-    const { recentlyOffline, staking_nominators, t } = this.props;
+    const { recentlyOffline, t } = this.props;
+    const { nominators } = this.state;
 
-    if (!staking_nominators || !staking_nominators[0] || !staking_nominators[0].length) {
+    if (!nominators || !nominators.length) {
       return null;
     }
 
@@ -221,7 +225,7 @@ class Account extends React.PureComponent<Props, State> {
       <div className='staking--Account-detail'>
         <label className='staking--label'>{t('nominating')}</label>
         {
-          staking_nominators[0].map((nomineeId, index) => (
+          nominators.map((nomineeId, index) => (
             <AddressMini
               key={index}
               value={nomineeId}
@@ -311,8 +315,8 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { accountId, staking_nominators, staking_validators, freeBalance, t } = this.props;
-    const { isActiveStash, isActiveController, sessionId, stakingLedger } = this.state;
+    const { accountId, freeBalance, t } = this.props;
+    const { isActiveStash, isActiveController, nominators, sessionId, stakingLedger, validatorPrefs } = this.state;
     const buttons = [];
 
     if (isActiveStash) {
@@ -343,8 +347,8 @@ class Account extends React.PureComponent<Props, State> {
         );
       }
     } else if (isActiveController) {
-      const isNominating = !!staking_nominators && !!staking_nominators[0] && staking_nominators[0].length;
-      const isValidating = !!staking_validators && !!staking_validators[0] && !(staking_validators[0].isEmpty);
+      const isNominating = !!nominators && nominators.length;
+      const isValidating = !!validatorPrefs && !validatorPrefs.isEmpty;
 
       // if we are validating/nominating show stop
       if (isValidating || isNominating) {
@@ -451,19 +455,10 @@ class Account extends React.PureComponent<Props, State> {
 export default translate(
   withCalls<Props>(
     ['derive.staking.info', { paramName: 'accountId' }],
-    ['derive.staking.info', {
-      paramName: 'accountId',
-      propName: 'stashId',
-      transform: (info: DerivedStaking) =>
-        info.stashId
-    }],
     'query.staking.recentlyOffline',
     ['query.balances.freeBalance', {
       paramName: 'accountId',
       propName: 'freeBalance'
-    }],
-    ['query.staking.stakers', { paramName: 'accountId' }],
-    ['query.staking.nominators', { paramName: 'stashId' }],
-    ['query.staking.validators', { paramName: 'stashId' }]
+    }]
   )(Account)
 );

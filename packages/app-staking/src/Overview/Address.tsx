@@ -23,8 +23,7 @@ type Props = I18nProps & {
   lastBlock: string,
   recentlyOffline: RecentlyOfflineMap,
   filter: ValidatorFilter,
-  staking_info?: DerivedStaking,
-  staking_stakers?: Exposure
+  staking_info?: DerivedStaking
 };
 
 type State = {
@@ -32,6 +31,7 @@ type State = {
   stashActive: string | null,
   stashTotal: string | null,
   sessionId: string | null,
+  stakers?: Exposure,
   stashId: string | null,
   badgeExpanded: boolean;
 };
@@ -57,7 +57,7 @@ class Address extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { controllerId, nextSessionId, stashId, stakingLedger } = staking_info;
+    const { controllerId, nextSessionId, stakers, stashId, stakingLedger } = staking_info;
 
     return {
       controllerId: controllerId && controllerId.toString(),
@@ -65,6 +65,7 @@ class Address extends React.PureComponent<Props, State> {
       stashActive: stakingLedger
         ? formatBalance(stakingLedger.active)
         : prevState.stashActive,
+      stakers,
       stashId: stashId && stashId.toString(),
       stashTotal: stakingLedger
         ? formatBalance(stakingLedger.total)
@@ -73,11 +74,11 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { address, defaultName, lastAuthor, lastBlock, staking_stakers, filter } = this.props;
-    const { controllerId, stashId } = this.state;
+    const { address, defaultName, lastAuthor, lastBlock, filter } = this.props;
+    const { controllerId, stakers, stashId } = this.state;
     const isAuthor = [address, controllerId, stashId].includes(lastAuthor);
-    const bonded = staking_stakers && !staking_stakers.own.isZero()
-      ? [staking_stakers.own, staking_stakers.total.sub(staking_stakers.own)]
+    const bonded = stakers && !stakers.own.isZero()
+      ? [stakers.own, stakers.total.sub(stakers.own)]
       : undefined;
 
     if ((filter === 'hasNominators' && !this.hasNominators())
@@ -146,10 +147,10 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private getNominators () {
-    const { staking_stakers } = this.props;
+    const { stakers } = this.state;
 
-    return staking_stakers
-      ? staking_stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value])
+    return stakers
+      ? stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value])
       : [];
   }
 
@@ -234,13 +235,6 @@ export default withMulti(
   Address,
   translate,
   withCalls<Props>(
-    ['derive.staking.info', { paramName: 'address' }],
-    ['derive.staking.info', {
-      paramName: 'address',
-      propName: 'stashId',
-      transform: (info: DerivedStaking) =>
-        info.stashId
-    }],
-    ['query.staking.stakers', { paramName: 'stashId' }]
+    ['derive.staking.info', { paramName: 'address' }]
   )
 );
