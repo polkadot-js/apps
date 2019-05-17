@@ -9,7 +9,6 @@ import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { Index } from '@polkadot/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { AddressSummary, Button, InputAddress, InputBalance, TxButton, TxComponent } from '@polkadot/ui-app';
 import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
@@ -21,8 +20,7 @@ import translate from './translate';
 
 type Props = I18nProps & ApiProps & {
   balances_fees?: DerivedFees,
-  balances_votingBalance?: DerivedBalances,
-  system_accountNonce?: Index
+  balances_votingBalance?: DerivedBalances
 };
 
 type State = {
@@ -82,7 +80,7 @@ class Transfer extends TxComponent<Props, State> {
   }
 
   render () {
-    const { system_accountNonce, t } = this.props;
+    const { t } = this.props;
     const { accountId, extrinsic, recipientId, hasAvailable, maxBalance } = this.state;
 
     return (
@@ -121,7 +119,6 @@ class Transfer extends TxComponent<Props, State> {
             <Button.Group>
               <TxButton
                 accountId={accountId}
-                accountNonce={system_accountNonce}
                 isDisabled={!hasAvailable}
                 isPrimary
                 label={t('Make Transfer')}
@@ -243,7 +240,6 @@ export default withMulti(
   translate,
   withApi,
   withCalls<Props>(
-    'derive.balances.fees',
-    ['query.system.accountNonce', { paramName: 'accountId' }]
+    'derive.balances.fees'
   )
 );
