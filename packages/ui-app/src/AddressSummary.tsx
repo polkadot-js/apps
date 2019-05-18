@@ -12,7 +12,6 @@ import { Label } from 'semantic-ui-react';
 import BaseIdentityIcon from '@polkadot/ui-identicon';
 import { Button, Input, InputTags } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
-import { Nonce } from '@polkadot/ui-reactive';
 import { withCalls } from '@polkadot/ui-api';
 
 import AvailableDisplay from './Available';
@@ -20,6 +19,7 @@ import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import { classes, getAddrName, toShortAddress } from './util';
 import IdentityIcon from './IdentityIcon';
+import NonceDisplay from './Nonce';
 import translate from './translate';
 import UnlockingDisplay from './Unlocking';
 
@@ -299,14 +299,14 @@ class AddressSummary extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Nonce
+      <NonceDisplay
         className='ui--AddressSummary-nonce'
-        params={accountId.toString()}
-      >
-        {t(' transactions')}
-      </Nonce>
+        label={t('transactions ')}
+        params={accountId}
+      />
     );
   }
+
   protected renderSaveIcon (callback: () => void) {
     return (
     <Button

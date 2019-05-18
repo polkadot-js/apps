@@ -101,14 +101,15 @@ header .ui--Button-Group {
   white-space: nowrap
 }
 
-.ui--AddressSummary-available > button.ui.icon.withDrawUnbonded {
+button.ui.icon.withDrawUnbonded {
   padding: 0.3em;
   margin-left: 0.4em;
   color: #2e86ab;
-  background: none;
+  background: none !important;
 
   &:hover {
-    color: #fff;
+    color: #fff !important;
+    background-color: #2e86ab !important;
   }
 }
 

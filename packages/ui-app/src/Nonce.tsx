@@ -6,7 +6,7 @@ import { BareProps } from './types';
 
 import React from 'react';
 import { AccountId, AccountIndex, Address } from '@polkadot/types';
-import { Available } from '@polkadot/ui-reactive';
+import { Nonce } from '@polkadot/ui-reactive';
 
 import { classes } from './util';
 
@@ -15,21 +15,21 @@ export type Props = BareProps & {
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null
 };
 
-export default class AvailableDisplay extends React.PureComponent<Props> {
+export default class NonceDisplay extends React.PureComponent<Props> {
   render () {
-    const { params, className, label, style } = this.props;
+    const { className, label, params, style } = this.props;
 
     if (!params) {
       return null;
     }
 
     return (
-      <Available
-        className={classes('ui--Available', className)}
-        label={label}
-        params={params}
-        style={style}
-      />
+        <Nonce
+          className={classes('ui--Nonce', className)}
+          label={label}
+          params={params.toString()}
+          style={style}
+        />
     );
   }
 }

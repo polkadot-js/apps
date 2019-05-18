@@ -128,13 +128,6 @@
   }
 
 
-@media (max-width: 1530px){
-  .overview--Account {
-    min-width: 24%;
-    max-width: 24%;
-  }
-}
-
 @media (max-width: 1280px) {
   .staking--Account {
     min-width: 31%;
