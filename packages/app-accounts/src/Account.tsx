@@ -7,7 +7,7 @@ import { I18nProps } from './types';
 import React from 'react';
 import styled from 'styled-components';
 
-import { AddressSummary, Balance, Bonded, Nonce, Unlocking } from '@polkadot/ui-app';
+import { AddressSummary, Balance, Bonded, CryptoType, Nonce, Unlocking } from '@polkadot/ui-app';
 
 import translate from './translate';
 
@@ -53,6 +53,7 @@ class Account extends React.PureComponent<Props> {
               {this.renderBonded()}
               {this.renderUnlocking()}
               {this.renderNonce()}
+              {this.renderCryptoType()}
             </div>
             {this.renderButtons()}
           </div>
@@ -85,18 +86,28 @@ class Account extends React.PureComponent<Props> {
     );
   }
 
+  private renderCryptoType () {
+    const { accountId, t } = this.props;
+
+    return (
+      <CryptoType
+        accountId={accountId}
+        className='accounts--Account-details-crypto'
+        label={t('crypto ')}
+      />
+    );
+  }
+
   private renderNonce () {
     const { accountId, t } = this.props;
 
     return (
       <Nonce
-        className='accounts--Account-balances-nonce'
+        className='accounts--Account-details-nonce'
         params={accountId}
-      >
-        {t(' transactions')}
-      </Nonce>
+        label={t('transactions ')}
+      />
     );
-
   }
 
   private renderUnlocking () {
