@@ -30,7 +30,16 @@ export default class CryptoType extends React.PureComponent<Props> {
         className={classes('ui--CryptoType', className)}
         style={style}
       >
-        {label}{type}
+        <span
+          className='label-cryptotype'
+        >
+          {label}
+        </span>
+        <span
+          className='result-cryptotype'
+        >
+          {type}
+        </span>
       </div>
     );
   }

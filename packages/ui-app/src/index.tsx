@@ -5,6 +5,7 @@
 export { default as AddressMini } from './AddressMini';
 export { default as AddressRow } from './AddressRow';
 export { default as AddressSummary } from './AddressSummary';
+export { default as Available } from './Available';
 export { default as Balance } from './Balance';
 export { default as Bonded } from './Bonded';
 export { default as Bubble } from './Bubble';

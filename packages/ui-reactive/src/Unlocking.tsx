@@ -80,12 +80,19 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
             style={style}
             key={eraString}
           >
-          {t('locked {{balance}} ({{remaining}} blocks left)', {
-            replace: {
-              balance: formatBalance(groupedUnlockings[eraString]),
-              remaining: this.remainingBlocks(new BlockNumber(eraString))
-            }
-          })}
+            <span className='label-locked'>
+              {t('locked')}
+            </span>
+            <span className='result-locked'>
+              {formatBalance(groupedUnlockings[eraString])}
+            </span>
+            <span className='action-locked'>
+              {t('({{remaining}} blocks left)', {
+                replace: {
+                  remaining: this.remainingBlocks(new BlockNumber(eraString))
+                }
+              })}
+            </span>
           </div>
         ))}
       </>
@@ -110,21 +117,24 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
         style={style}
         key='unlockable'
       >
-        {t('unlockable {{unlockableSum}}',{
-          replace: {
-            unlockableSum: formatBalance(unlockableSum)
-          }
-        })}
-        <TxButton
-          accountId={controllerId.toString()}
-          className='withDrawUnbonded'
-          icon='lock'
-          size='small'
-          isPrimary
-          key='unlock'
-          params={[]}
-          tx='staking.withdrawUnbonded'
-        />
+        <span className='label-redeemable'>
+          {t('redeemable')}
+        </span>
+        <span className='result-redeemable'>
+          {formatBalance(unlockableSum)}
+        </span>
+        <span className='action-locked'>
+          <TxButton
+            accountId={controllerId.toString()}
+            className='withDrawUnbonded'
+            icon='lock'
+            size='small'
+            isPrimary
+            key='unlock'
+            params={[]}
+            tx='staking.withdrawUnbonded'
+          />
+        </span>
       </div>
       : null
     );
