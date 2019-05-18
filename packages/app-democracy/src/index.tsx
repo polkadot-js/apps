@@ -13,6 +13,7 @@ import { HelpOverlay,Tabs } from '@polkadot/ui-app';
 import uiSettings from '@polkadot/ui-settings';
 
 import basicMd from './md/basic.md';
+import Delegations from './Delegations';
 import Overview from './Overview';
 import Propose from './Propose';
 import translate from './translate';
@@ -38,6 +39,10 @@ class App extends React.PureComponent<Props, State> {
         {
           name: 'propose',
           text: t('Submit proposal')
+        },
+        {
+          name: 'delegations',
+          text: t('Manage delegations')
         }
       ]
     };
@@ -61,6 +66,7 @@ class App extends React.PureComponent<Props, State> {
           />
         </header>
         <Switch>
+          <Route path={`${basePath}/delegations`} render={() => <Delegations basePath={basePath} />} />
           <Route path={`${basePath}/propose`} render={() => <Propose basePath={basePath} />} />
           <Route component={Overview} />
         </Switch>
