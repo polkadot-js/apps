@@ -12,11 +12,13 @@ import { Route, Switch } from 'react-router';
 import { HelpOverlay,Tabs } from '@polkadot/ui-app';
 import uiSettings from '@polkadot/ui-settings';
 
+import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import basicMd from './md/basic.md';
 import Delegations from './Delegations';
 import Overview from './Overview';
 import Propose from './Propose';
 import translate from './translate';
+import { withMulti, withObservable } from '@polkadot/ui-api';
 
 type Props = AppProps & BareProps & I18nProps;
 
@@ -49,11 +51,15 @@ class App extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { basePath } = this.props;
+    const { allAccounts, basePath } = this.props;
     const { tabs } = this.state;
-    const hidden = uiSettings.uiMode === 'full'
-      ? []
-      : ['propose'];
+    let hidden = [];
+    if (uiSettings.uiMode !== 'full') {
+      hidden.push('propose');
+    }
+    if (!allAccounts || Object.keys(allAccounts).length === 0) {
+      hidden.push('delegations');
+    }
 
     return (
       <main className='democracy--App'>
@@ -75,4 +81,8 @@ class App extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(App);
+export default withMulti(
+  App,
+  translate,
+  withObservable(accountObservable.subject, { propName: 'allAccounts' })
+);
