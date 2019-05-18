@@ -15,6 +15,7 @@ import withApi from './api';
 interface Method {
   (...params: Array<any>): Promise<any>;
   at: (hash: Uint8Array | string, ...params: Array<any>) => Promise<any>;
+  multi: (params: Array<any>, cb: (value?: any) => void) => Promise<any>;
 }
 
 type State = CallState;
@@ -23,7 +24,7 @@ const NOOP = () => {
   // ignore
 };
 
-export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, params = [], paramName, paramValid = false, propName, transform = echoTransform }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
+export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, isMulti = false, params = [], paramName, paramValid = false, propName, transform = echoTransform }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<Subtract<P, ApiProps>> => {
     class WithPromise extends React.Component<P, State> {
       state: State = {
@@ -134,7 +135,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
 
         assert(area.length && section.length && method.length && others.length === 0, `Invalid API format, expected <area>.<section>.<method>, found ${endpoint}`);
         assert(['rpc', 'query', 'derive'].includes(area), `Unknown api.${area}, expected rpc, query or derive`);
-        assert(!at || area === 'query', 'Only able todo an at query on the api.query interface');
+        assert(!at || area === 'query', `Only able to do an 'at' query on the api.query interface`);
 
         const apiSection = (api as any)[area][section];
 
@@ -172,9 +173,12 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
           await this.unsubscribe();
 
           if (isSubscription) {
-            this.destroy = await apiMethod(...params, (value?: any) =>
-              this.triggerUpdate(this.props, value)
-            );
+            const updateCb = (value?: any) =>
+              this.triggerUpdate(this.props, value);
+
+            this.destroy = isMulti
+              ? await apiMethod.multi(params, updateCb)
+              : await apiMethod(...params, updateCb);
           } else {
             const value: any = at
               ? await apiMethod.at(at, ...params)

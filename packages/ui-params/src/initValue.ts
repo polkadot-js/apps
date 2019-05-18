@@ -5,7 +5,7 @@
 import { RawParam$Value } from './types';
 
 import BN from 'bn.js';
-import { Bytes, Hash, TypeDef, TypeDefInfo, UInt, createType } from '@polkadot/types';
+import { Bytes, Hash, TypeDef, TypeDefInfo, U8a, UInt, createType } from '@polkadot/types';
 
 export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawParam$Value> {
   if (def.info === TypeDefInfo.Vector) {
@@ -46,6 +46,7 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
       return false;
 
     case 'String':
+    case 'Text':
       return '';
 
     case 'Moment':
@@ -77,7 +78,11 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     case 'Proposal':
     case 'Signature':
     case 'SessionKey':
+    case 'StorageKey':
       return void 0;
+
+    case 'Extrinsic':
+      return new U8a();
 
     default: {
       try {

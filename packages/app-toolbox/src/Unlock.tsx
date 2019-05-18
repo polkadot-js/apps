@@ -6,9 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
 import React from 'react';
-import styled from 'styled-components';
-import { Trans } from 'react-i18next';
-import { Button, IdentityIcon, Modal, Password } from '@polkadot/ui-app';
+import { AddressRow, Button, Modal, Password } from '@polkadot/ui-app';
 
 import translate from './translate';
 
@@ -22,31 +20,6 @@ type State = {
   password: string,
   unlockError: string | null
 };
-
-const WrapperContent = styled.div`
-  align-content: center;
-  display: flex;
-  line-height: 1.5em;
-
-  .expanded {
-    padding-right: 2em;
-
-    .code {
-      background: #f5f5f5;
-      font-family: monospace;
-      margin: 0 0.25em;
-      overflow-wrap: break-word;
-      padding: 0.25em 0.5em;
-      word-break: break-all;
-      word-break: break-word;
-      word-wrap: break-word;
-    }
-  }
-`;
-
-const WrapperEntry = styled.div`
-  padding-top: 1.5rem;
-`;
 
 class Unlock extends React.PureComponent<Props, State> {
   state: State = {
@@ -64,7 +37,11 @@ class Unlock extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { t } = this.props;
+    const { pair, t } = this.props;
+
+    if (!pair) {
+      return null;
+    }
 
     return (
       <Modal
@@ -75,72 +52,61 @@ class Unlock extends React.PureComponent<Props, State> {
         <Modal.Header>
           {t('Unlock account')}
         </Modal.Header>
-        <Modal.Content>
-          {this.renderContent()}
-        </Modal.Content>
-        <Modal.Actions>
-          {this.renderActions()}
-        </Modal.Actions>
+        {this.renderContent()}
+        {this.renderActions()}
       </Modal>
     );
   }
 
-  renderActions () {
+  private renderActions () {
     const { t } = this.props;
 
     return (
-      <Button.Group>
-        <Button
-          isNegative
-          onClick={this.onCancel}
-          label={t('Cancel')}
-        />
-        <Button.Or />
-        <Button
-          isPrimary
-          onClick={this.onUnlock}
-          label={t('Unlock')}
-        />
-      </Button.Group>
+      <Modal.Actions>
+        <Button.Group>
+          <Button
+            isNegative
+            onClick={this.onCancel}
+            label={t('Cancel')}
+          />
+          <Button.Or />
+          <Button
+            isPrimary
+            onClick={this.onUnlock}
+            label={t('Unlock')}
+          />
+        </Button.Group>
+      </Modal.Actions>
     );
   }
 
-  renderContent () {
+  private renderContent () {
     const { t } = this.props;
     const { address, password, unlockError } = this.state;
 
     return (
-      <>
-        <WrapperContent>
-          <div className='expanded'>
-            <p>
-              <Trans>
-                You are about to unlock your account <span className='code'>{address}</span> to allow for the signing of messages.
-              </Trans>
-            </p>
-          </div>
-          <IdentityIcon
-            className='icon'
-            value={address}
-          />
-        </WrapperContent>
-        <WrapperEntry>
-          <div className='ui--row'>
+      <Modal.Content>
+        <AddressRow
+          isInline
+          value={address}
+        >
+          <p>{t('You are about to unlock your account to allow for the signing of messages. Once active the signature will be generated based on the content provided.')}</p>
+          <div>
             <Password
-              className='medium'
+              autoFocus
               isError={!!unlockError}
               help={t('The account\'s password specified at the creation of this account.')}
-              label={t('unlock account using')}
+              label={t('password')}
               onChange={this.onChangePassword}
               value={password}
             />
           </div>
-        </WrapperEntry>
-      </>
+        </AddressRow>
+      </Modal.Content>
     );
   }
 
-  unlockAccount (password?: string): string | null {
+  private unlockAccount (password?: string): string | null {
     const { pair } = this.props;
 
     if (!pair || !pair.isLocked()) {
@@ -156,20 +122,20 @@ class Unlock extends React.PureComponent<Props, State> {
     return null;
   }
 
-  onChangePassword = (password: string): void => {
+  private onChangePassword = (password: string): void => {
     this.setState({
       password,
       unlockError: null
     });
   }
 
-  onCancel = (): void => {
+  private onCancel = (): void => {
     const { onClose } = this.props;
 
     onClose();
   }
 
-  onUnlock = (): void => {
+  private onUnlock = (): void => {
     const { onClose } = this.props;
     const { password } = this.state;
     const unlockError = this.unlockAccount(password);

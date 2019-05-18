@@ -8,7 +8,7 @@ import './BlockHeader.css';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { HeaderExtended } from '@polkadot/types';
+import { HeaderExtended } from '@polkadot/api-derive';
 import { AddressMini } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/util';
 

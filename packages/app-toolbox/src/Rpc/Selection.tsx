@@ -52,7 +52,6 @@ class Selection extends React.PureComponent<Props, State> {
           label={t('call the selected endpoint')}
           onChange={this.onChangeMethod}
         />
-        {this.renderAccount()}
         <Params
           key={`${rpc.section}.${rpc.method}:params` /* force re-render on change */}
           onChange={this.onChangeValues}
@@ -70,20 +69,13 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  // FIXME Currently the UI doesn't support signing for rpc-submitted calls
-  private renderAccount () {
-    return null;
-  }
-
   private nextState (newState: State): void {
     this.setState(
       (prevState: State): State => {
         const { rpc = prevState.rpc, accountId = prevState.accountId, values = prevState.values } = newState;
-        const hasNeededKey = true;
         const isValid = values.reduce((isValid, value) => {
           return isValid && value.isValid === true;
-        }, rpc.params.length === values.length && hasNeededKey);
-
+        }, rpc.params.length === values.length);
         return {
           isValid,
           rpc,
