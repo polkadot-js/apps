@@ -31,6 +31,18 @@ type State = ApiProps & {
   chain?: string
 };
 
+type InjectedAccount = { address: string, name: string };
+
+type WindowInjected = Window & {
+  injectedWeb3: {
+    [index: string]: {
+      accounts: {
+        get: () => Promise<Array<InjectedAccount>>
+      }
+    }
+  }
+};
+
 export { api };
 
 export default class ApiWrapper extends React.PureComponent<Props, State> {
@@ -87,6 +99,40 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     });
   }
 
+  private async retrieveInjected (): Promise<Array<InjectedAccount>> {
+    const injected: Array<InjectedAccount> = [];
+    const injWindow = window as WindowInjected;
+
+    if (injWindow.injectedWeb3) {
+      console.log('api: found injectedWeb3', Object.keys(injWindow.injectedWeb3));
+
+      const rerieved = await Promise.all(
+        Object
+          .entries(injWindow.injectedWeb3)
+          .map(([extension, { accounts }]) =>
+            accounts
+              .get()
+              .then((accounts) =>
+                accounts.map(({ address, name }) => ({
+                  address,
+                  name: `${name} (${extension === 'polkadot-js' ? 'extension' : extension})`
+                }))
+              )
+          )
+      );
+
+      rerieved.forEach((accounts) =>
+        accounts.forEach((account) =>
+          injected.push(account)
+        )
+      );
+
+      console.log(`api: injected ${injected.length} accounts`);
+    }
+
+    return injected;
+  }
+
   private async loadOnReady (api: ApiPromise) {
     const [properties = new ChainProperties(), value] = await Promise.all([
       api.rpc.system.properties() as Promise<ChainProperties | undefined>,
@@ -98,6 +144,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       ? value.toString()
       : null;
     const isDevelopment = isTestChain(chain);
+    const injected = await this.retrieveInjected();
 
     console.log('api: found chain', chain, JSON.stringify(properties));
 
@@ -113,7 +160,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       addressPrefix: properties.get('networkId'),
       isDevelopment,
       type: 'ed25519'
-    });
+    }, injected);
 
     this.setState({
       isApiReady: true,
