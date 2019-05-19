@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Signer } from '@polkadot/api/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { QueueTx$ExtrinsicAdd, QueueTx$MessageSetStatus } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from './types';
@@ -31,14 +32,15 @@ type State = ApiProps & {
   chain?: string
 };
 
-type InjectedAccount = { address: string, name: string };
+type InjectedAccount = { address: string, meta: { name: string } };
 
 type WindowInjected = Window & {
   injectedWeb3: {
     [index: string]: {
       accounts: {
-        get: () => Promise<Array<InjectedAccount>>
-      }
+        get: () => Promise<Array<{ address: string, name: string }>>
+      },
+      signer: Signer
     }
   }
 };
@@ -109,13 +111,16 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
       const rerieved = await Promise.all(
         Object
           .entries(injWindow.injectedWeb3)
-          .map(([extension, { accounts }]) =>
+          .map(([source, { accounts }]) =>
             accounts
               .get()
               .then((accounts) =>
                 accounts.map(({ address, name }) => ({
                   address,
-                  name: `${name} (${extension === 'polkadot-js' ? 'extension' : extension})`
+                  meta: {
+                    name: `${name} (${source === 'polkadot-js' ? 'extension' : source})`,
+                    source
+                  }
                 }))
               )
           )

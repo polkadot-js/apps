@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Signer as ISigner } from '@polkadot/api/types';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { ApiProps } from '@polkadot/ui-api/types';
@@ -37,6 +38,14 @@ type State = {
   isSendable: boolean,
   password: string,
   unlockError?: string | null
+};
+
+type WindowInjected = Window & {
+  injectedWeb3: {
+    [index: string]: {
+      signer: ISigner
+    }
+  }
 };
 
 class Signer extends React.PureComponent<Props, State> {
@@ -192,7 +201,7 @@ class Signer extends React.PureComponent<Props, State> {
 
     const pair = keyring.getPair(publicKey);
 
-    if (!pair.isLocked()) {
+    if (!pair.isLocked() || pair.getMeta().isInjected) {
       return null;
     }
 
@@ -319,13 +328,32 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, { id, txFailedCb, txSuccessCb, txUpdateCb }: QueueTx, extrinsicCall: (...params: Array<any>) => any, ..._params: Array<any>): Promise<void> {
-    const { queueSetTxStatus } = this.props;
+  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, { id, txFailedCb, txSuccessCb, txUpdateCb }: QueueTx, extrinsicCall: (...params: Array<any>) => any, pair?: KeyringPair): Promise<void> {
+    const { api, queueSetTxStatus } = this.props;
 
     console.log('makeExtrinsicCall: extrinsic ::', extrinsic.toHex());
 
+    const params = [];
+
+    if (pair) {
+      // set the signer
+      if (pair.getMeta().isInjected) {
+        const injWindow = window as WindowInjected;
+        const source = pair.getMeta().source;
+        const signer = source && injWindow.injectedWeb3 && injWindow.injectedWeb3[source].signer;
+
+        assert(signer, 'Unable to find a signer');
+
+        api.setSigner(signer);
+
+        params.push(pair.address());
+      } else {
+        params.push(pair);
+      }
+    }
+
     try {
-      const unsubscribe = await extrinsicCall.apply(extrinsic, [..._params, async (result: SubmittableResult) => {
+      const unsubscribe = await extrinsicCall.apply(extrinsic, [...params, async (result: SubmittableResult) => {
         if (!result || !result.status) {
           return;
         }
