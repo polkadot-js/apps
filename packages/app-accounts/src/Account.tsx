@@ -9,7 +9,7 @@ import { Button as SUIB, Popup } from 'semantic-ui-react';
 import React from 'react';
 import styled from 'styled-components';
 
-import { AddressSummary, Available, Balance, Bonded, Button, CryptoType, Nonce, Unlocking } from '@polkadot/ui-app';
+import { AddressSummary, Available, Balance, Bonded, CryptoType, Nonce, Unlocking } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './modals/Backup';
@@ -88,13 +88,22 @@ const Wrapper = styled.article`
     font-weight: bold;
   }
 
-  .ui.small.circular.icon.button {
+  .result-locked > i {
+    margin-left: .3em
+  }
+
+  .accounts--Account-buttons > button {
     margin: .5em;
   }
 
-  @media (max-width: 1530px) {
+  @media (max-width: 1580px) {
       min-width: 49%;
       max-width: 49%;
+  }
+
+  @media (max-width: 1100px) {
+    min-width: 100%;
+    max-width: 100%;
   }
 `;
 

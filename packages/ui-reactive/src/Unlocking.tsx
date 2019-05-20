@@ -4,12 +4,14 @@
 
 import { AccountId, AccountIndex, Address, BlockNumber, Option, StakingLedger, UnlockChunk } from '@polkadot/types';
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
+
 import BN from 'bn.js';
+import React from 'react';
+
 import { formatBalance } from '@polkadot/util';
 import { I18nProps } from '@polkadot/ui-app/types';
-import React from 'react';
 import translate from '@polkadot/ui-app/translate';
-import { TxButton } from '@polkadot/ui-app';
+import { Icon, Tooltip, TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & I18nProps & {
@@ -23,7 +25,22 @@ type Props = BareProps & CallProps & I18nProps & {
   unlockings?: Array<UnlockChunk>
 };
 
-export class UnlockingDisplay extends React.PureComponent<Props> {
+type State = {
+  tooltipOpen: boolean
+};
+
+export class UnlockingDisplay extends React.PureComponent<Props, State> {
+  constructor (props: Props) {
+    super(props);
+    this.state = {
+      tooltipOpen: false
+    };
+  }
+
+  toggleTooltip () {
+    const { tooltipOpen } = this.state;
+    this.setState({ tooltipOpen: !tooltipOpen });
+  }
 
   render () {
     const { unlockings } = this.props;
@@ -65,6 +82,7 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
 
   private renderLocked () {
     const { className, controllerId, t, unlockings } = this.props;
+    const { tooltipOpen } = this.state;
 
     if (!unlockings || !controllerId) return null;
     // select the Unlockchunks that can't be unlocked yet.
@@ -80,11 +98,22 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
               {t('locked')}
             </span>
             <span className={className + ' result-locked'}>
-              {formatBalance(groupedUnlockings[eraString])}{t('({{remaining}} blocks left)', {
-                replace: {
-                  remaining: this.remainingBlocks(new BlockNumber(eraString))
-                }
-              })}
+              {formatBalance(groupedUnlockings[eraString])}
+              <Icon
+                name='info circle'
+                data-tip
+                data-for={'controlled-trigger' + eraString}
+                onMouseOver={() => this.toggleTooltip()}
+                onMouseOut={() => this.toggleTooltip()}
+              />
+              {tooltipOpen && (
+                <Tooltip trigger={'controlled-trigger' + eraString}>
+                  {t('{{remaining}} blocks left', {
+                    replace: {
+                      remaining: this.remainingBlocks(new BlockNumber(eraString))
+                    }
+                  })}
+                </Tooltip>)}
             </span>
           </>
         ))}

@@ -164,40 +164,21 @@
   .staking--Account-links {
     max-width: 12rem;
   }
-
-  .overview--Account {
-    min-width: 32%;
-    max-width: 32%;
-  }
 }
 
 @media (max-width: 1020px) {
-  .overview--Account {
-    min-width: 48%;
-    max-width: 48%;
-  }
-
   .staking--Account {
     min-width: 48%;
   }
 }
 
 @media (max-width: 860px) {
-  .overview--Account {
-    min-width: 48%;
-    max-width: 48%;
-  }
-
   .staking--Account {
     min-width: 48%;
   }
 }
 
 @media (max-width: 620px) {
-  .overview--Account {
-    min-width: 100%;
-    max-width: 100%;
-  }
   .staking--Account {
     min-width: 100%;
   }

@@ -254,6 +254,7 @@ button.ui.icon.withDrawUnbonded {
 .ui--AddressSummary-data .ui--Input input {
   height: 1em;
   text-align: center;
+  text-transform: uppercase;
 }
 
 .ui--Bubble.ui.label {

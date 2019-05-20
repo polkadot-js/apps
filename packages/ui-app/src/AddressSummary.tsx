@@ -61,7 +61,6 @@ class AddressSummary extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
     this.state = this.createState();
-
   }
 
   createState () {
@@ -151,7 +150,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
       <>
         <Input
           autoFocus
-          defaultValue={name.toUpperCase()}
+          defaultValue={name}
           className='full'
           onBlur={this.saveName}
           onChange={this.onChangeName}
