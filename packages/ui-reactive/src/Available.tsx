@@ -23,21 +23,18 @@ export class AvailableDisplay extends React.PureComponent<Props> {
     const { balances_all, children, className, label = '', style } = this.props;
 
     return (
-      <div
-        className={className}
-        style={style}
-      >
-        <span className='label-available'>
+      <>
+        <span className={className + ' label-available'}>
         {label}
         </span>
-        <span className='result-available'>
+        <span className={className + ' result-available'}>
           {
             balances_all ?
             formatBalance(balances_all.availableBalance) :
             '0'
           }
         </span>{children}
-      </div>
+      </>
     );
   }
 }

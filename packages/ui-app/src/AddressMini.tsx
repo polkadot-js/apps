@@ -52,8 +52,10 @@ export default class AddressMini extends React.PureComponent<Props> {
           size={24}
           value={address}
         />
-        {this.renderBalance()}
-        {this.renderBonded()}
+        <div className='ui--AddressMini-balances'>
+          {this.renderBalance()}
+          {this.renderBonded()}
+        </div>
       </div>
     );
   }

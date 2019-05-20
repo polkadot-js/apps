@@ -26,29 +26,19 @@ const Wrapper = styled.article`
     justify-content: space-around;
   }
 
-  .ui--AddressSummary-base,
+  .ui--AddressSummary-base{
+    flex: 3;
+    padding: 0;
+  }
   .ui--AddressSummary-children {
-    flex: 1;
+    flex: 4;
   }
 
-  .accounts--Account-balances-available,
-  .accounts--Account-balances-balance,
-  .accounts--Account-balances-bonded,
-  .accounts--Account-details-crypto,
-  .accounts--Account-details-nonce,
-  .accounts--Account-balances-unlocking {
-    display: flex;
-    justify-content: center;
+  .account--Account-balances {
+    display: grid;
+    grid-column-gap: 1em;
     color: #4e4e4e;
     opacity: 1;
-  }
-
-  /* FIXME this is a hack to act as if the element was removed from the flow */
-  .action-locked,
-  .action-redeemable {
-    position: relative;
-    margin-left: -2.5em;
-    left: 1.5em;
   }
 
   .label-available,
@@ -58,10 +48,8 @@ const Wrapper = styled.article`
   .label-locked,
   .label-nonce,
   .label-redeemable {
-    font-weight: bold;
+    grid-column:  1;
     text-align: right;
-    flex:1;
-    padding-right: .5em;
   }
 
   .result-available,
@@ -71,9 +59,8 @@ const Wrapper = styled.article`
   .result-locked,
   .result-nonce,
   .result-redeemable {
-    text-align: left;
-    flex:1;
-    padding-left: .5em;
+    grid-column:  2;
+    font-weight: bold;
   }
 
   @media (max-width: 1530px) {
@@ -160,7 +147,7 @@ class Account extends React.PureComponent<Props> {
       />
     );
   }
-  
+
   private renderTotal () {
     const { accountId, t } = this.props;
 

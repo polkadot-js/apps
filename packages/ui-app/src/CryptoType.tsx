@@ -17,7 +17,7 @@ type Props = BareProps & {
 
 export default class CryptoType extends React.PureComponent<Props> {
   render () {
-    const { accountId, className, label = '', style } = this.props;
+    const { accountId, className, label = '' } = this.props;
     const current = accountId
         ? keyring.getPair(accountId.toString())
         : null;
@@ -26,21 +26,10 @@ export default class CryptoType extends React.PureComponent<Props> {
       : 'ed25519';
 
     return (
-      <div
-        className={classes('ui--CryptoType', className)}
-        style={style}
-      >
-        <span
-          className='label-cryptotype'
-        >
-          {label}
-        </span>
-        <span
-          className='result-cryptotype'
-        >
-          {type}
-        </span>
-      </div>
+      <>
+        <span className={classes('ui--CryptoType label-cryptotype', className)}>{label}</span>
+        <span className={classes('ui--CryptoType result-cryptotype', className)}>{type}</span>
+      </>
     );
   }
 }

@@ -19,7 +19,7 @@ type Props = BareProps & CallProps & {
 
 export class BondedDisplay extends React.PureComponent<Props> {
   render () {
-    const { children, className, label = '', style, staking_ledger } = this.props;
+    const { children, className, label = '', staking_ledger } = this.props;
 
     if (!staking_ledger || staking_ledger.isNone) {
       return null;
@@ -28,14 +28,11 @@ export class BondedDisplay extends React.PureComponent<Props> {
     const { active: bonded } = staking_ledger.unwrap();
 
     return (
-      <div
-        className={className}
-        style={style}
-      >
-        <span className='label-bonded'>
+      <>
+        <span className={className + ' label-bonded'}>
           {label}
         </span>
-        <span className='result-bonded'>
+        <span className={className + ' result-bonded'}>
           {
             bonded
               ? formatBalance(bonded)
@@ -43,7 +40,7 @@ export class BondedDisplay extends React.PureComponent<Props> {
           }
         </span>
         {children}
-      </div>
+      </>
     );
   }
 }

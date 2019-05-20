@@ -68,14 +68,6 @@ header .ui--Button-Group {
     margin-left: 0.5rem;
     margin-right: 0;
   }
-
-  .ui--Balance,
-  .ui--Bonded {
-    font-size: 0.75rem;
-    margin-right: 2.25rem;
-    margin-top: -0.5rem;
-    text-align: right;
-  }
 }
 
 .ui--AddressMini-address {
@@ -191,23 +183,42 @@ button.ui.icon.withDrawUnbonded {
   display: block
 }
 
-.ui--Balance,
-.ui--AddressSummary-balance,
-.ui--AddressSummary-bonded,
-.ui--AddressSummary-nonce {
-  font-weight: 100;
-  opacity: 0.75;
-}
-
-.ui--Bonded {
-  opacity: 1;
-  color: green;
-}
-
 .ui--AddressSummary-data+.ui--AddressSummary-balance,
 .ui--AddressSummary-data+.ui--AddressSummary-bonded,
 .ui--AddressSummary-data+.ui--AddressSummary-nonce {
   padding-top: 0.5em;
+}
+
+.ui--AddressSummary-balances {
+  display: grid;
+  grid-column-gap: 1em;
+}
+
+.ui--AddressMini-balances {
+  display: grid;
+}
+
+.label-available,
+.label-balance,
+.label-bonded,
+.label-cryptotype,
+.label-locked,
+.label-nonce,
+.label-redeemable {
+  grid-column:  1;
+  text-align: right;
+}
+
+.result-available,
+.result-balance,
+.result-bonded,
+.result-cryptotype,
+.result-locked,
+.result-nonce,
+.result-redeemable {
+  grid-column:  2;
+  font-weight: bold;
+  text-align: left;
 }
 
 .ui--AddressSummary-balance.rx--updated,

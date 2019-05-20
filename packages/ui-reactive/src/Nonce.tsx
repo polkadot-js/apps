@@ -20,24 +20,21 @@ type Props = BareProps & CallProps & {
 
 export class Nonce extends React.PureComponent<Props> {
   render () {
-    const { children, className, label = '', style, system_accountNonce } = this.props;
+    const { children, className, label = '', system_accountNonce } = this.props;
 
     return (
-      <div
-        className={className}
-        style={style}
-      >
-        <span className='label-nonce'>
+      <>
+        <span className={className + ' label-nonce'}>
           {label}
         </span>
-        <span className='result-nonce'>
+        <span className={className + ' result-nonce'}>
           {
             system_accountNonce
               ? formatNumber(system_accountNonce)
               : '0'
           }
         </span>{children}
-      </div>
+      </>
     );
   }
 }

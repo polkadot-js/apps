@@ -64,7 +64,7 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
   }
 
   private renderLocked () {
-    const { className, controllerId, style, t, unlockings } = this.props;
+    const { className, controllerId, t, unlockings } = this.props;
 
     if (!unlockings || !controllerId) return null;
     // select the Unlockchunks that can't be unlocked yet.
@@ -75,32 +75,25 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
     return (
       <>
         {groupedUnlockings && Object.keys(groupedUnlockings).map(eraString => (
-          <div
-            className={className}
-            style={style}
-            key={eraString}
-          >
-            <span className='label-locked'>
+          <>
+            <span className={className + ' label-locked'}>
               {t('locked')}
             </span>
-            <span className='result-locked'>
-              {formatBalance(groupedUnlockings[eraString])}
-            </span>
-            <span className='action-locked'>
-              {t('({{remaining}} blocks left)', {
+            <span className={className + ' result-locked'}>
+              {formatBalance(groupedUnlockings[eraString])}{t('({{remaining}} blocks left)', {
                 replace: {
                   remaining: this.remainingBlocks(new BlockNumber(eraString))
                 }
               })}
             </span>
-          </div>
+          </>
         ))}
       </>
     );
   }
 
   private renderUnlockableSum () {
-    const { className, controllerId, style, t, unlockings } = this.props;
+    const { className, controllerId, t, unlockings } = this.props;
 
     if (!unlockings || !unlockings[0] || !controllerId) return null;
 
@@ -112,19 +105,12 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
     ).value;
 
     return (unlockableSum.gtn(0) ?
-      <div
-        className={className}
-        style={style}
-        key='unlockable'
-      >
-        <span className='label-redeemable'>
+      <>
+        <span className={className + ' label-redeemable'}>
           {t('redeemable')}
         </span>
-        <span className='result-redeemable'>
-          {formatBalance(unlockableSum)}
-        </span>
-        <span className='action-locked'>
-          <TxButton
+        <span className={className + ' result-redeemable'}>
+          {formatBalance(unlockableSum)}<TxButton
             accountId={controllerId.toString()}
             className='withDrawUnbonded'
             icon='lock'
@@ -135,7 +121,7 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
             tx='staking.withdrawUnbonded'
           />
         </span>
-      </div>
+      </>
       : null
     );
   }

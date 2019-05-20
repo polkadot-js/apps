@@ -18,27 +18,24 @@ type Props = BareProps & CallProps & {
 
 export class BalanceDisplay extends React.PureComponent<Props> {
   render () {
-    const { children, className, label = '', style, balances_freeBalance } = this.props;
+    const { children, className, label = '', balances_freeBalance } = this.props;
 
     return (
-      <div
-        className={className}
-        style={style}
-      >
+      <>
         <span
-          className='label-balance'
+          className={className + ' label-balance'}
         >
         {label}
         </span>
         <span
-          className='result-balance'
+          className={className + ' result-balance'}
         >
           {balances_freeBalance
             ? formatBalance(balances_freeBalance)
             : '0'
           }
         </span>{children}
-      </div>
+      </>
     );
   }
 }

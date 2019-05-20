@@ -100,11 +100,13 @@ class AddressSummary extends React.PureComponent<Props, State> {
             {this.renderAddress()}
             {this.renderAccountIndex()}
           </div>
-          {this.renderAvailable()}
-          {this.renderBalance()}
-          {this.renderBonded()}
-          {this.renderNonce()}
-          {this.renderUnlocking()}
+          <div className='ui--AddressSummary-balances'>
+            {this.renderAvailable()}
+            {this.renderBalance()}
+            {this.renderBonded()}
+            {this.renderNonce()}
+            {this.renderUnlocking()}
+          </div>
           {this.renderTags()}
         </div>
         {this.renderChildren()}
