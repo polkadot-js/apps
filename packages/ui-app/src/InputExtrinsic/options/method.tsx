@@ -19,7 +19,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
     .sort()
     .map((value) => {
       const method = section[value];
-      const inputs = method.meta.args
+      const inputs = method.meta.arguments
         .filter((arg) => arg.type.toString() !== 'Origin')
         .map((arg) => arg.name.toString())
         .join(', ');
