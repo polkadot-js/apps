@@ -17,7 +17,6 @@ import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import basicMd from './md/basic.md';
 import Creator from './Creator';
-import Editor from './Editor';
 import Overview from './Overview';
 import Restore from './Restore';
 import translate from './translate';
@@ -40,8 +39,8 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
     const { allAccounts = {}, t } = props;
     const baseState = Object.keys(allAccounts).length !== 0
-      ? AccountsApp.showEditState()
-      : AccountsApp.hideEditState();
+      ? AccountsApp.showVanityState()
+      : AccountsApp.hideVanityState();
 
     this.state = {
       ...baseState,
@@ -49,10 +48,6 @@ class AccountsApp extends React.PureComponent<Props, State> {
         {
           name: 'overview',
           text: t('Overview')
-        },
-        {
-          name: 'edit',
-          text: t('Edit account')
         },
         {
           hasParams: true,
@@ -71,17 +66,17 @@ class AccountsApp extends React.PureComponent<Props, State> {
     };
   }
 
-  static showEditState () {
+  static showVanityState () {
     return {
       hidden: []
     };
   }
 
-  static hideEditState () {
+  static hideVanityState () {
     // Hide vanity as well - since the route order and matching changes, the
     // /create/:seed route become problematic, so don't allow that option
     return {
-      hidden: ['edit', 'vanity']
+      hidden: ['vanity']
     };
   }
 
@@ -91,11 +86,11 @@ class AccountsApp extends React.PureComponent<Props, State> {
     if (hidden.length === 0) {
       return hasAddresses
         ? null
-        : AccountsApp.hideEditState();
+        : AccountsApp.hideVanityState();
     }
 
     return hasAddresses
-      ? AccountsApp.showEditState()
+      ? AccountsApp.showVanityState()
       : null;
   }
 
@@ -115,7 +110,6 @@ class AccountsApp extends React.PureComponent<Props, State> {
           />
         </header>
         <Switch>
-          <Route path={`${basePath}/edit`} render={this.renderComponent(Editor)} />
           <Route path={`${basePath}/create/:type/:seed`} render={renderCreator} />
           <Route path={`${basePath}/create`} render={renderCreator} />
           <Route path={`${basePath}/restore`} render={this.renderComponent(Restore)} />

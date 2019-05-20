@@ -5,6 +5,7 @@
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { I18nProps } from './types';
 
+import { Button as SUIB, Popup } from 'semantic-ui-react';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -17,7 +18,7 @@ import Forgetting from './modals/Forgetting';
 import translate from './translate';
 
 type Props = I18nProps & {
-  accountId: string
+  address: string
 };
 
 type State = {
@@ -33,6 +34,16 @@ const Wrapper = styled.article`
   max-width: 32%;
   justify-content: space-around;
 
+  &:hover .accounts--Account-buttons{
+    visibility:visible;
+  }
+
+  .accounts--Account-buttons {
+    text-align: center;
+    margin-top: 2em;
+    visibility: hidden;
+  }
+
   .ui--AddressSummary {
     justify-content: space-around;
   }
@@ -43,6 +54,9 @@ const Wrapper = styled.article`
   }
   .ui--AddressSummary-children {
     flex: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .account--Account-balances {
@@ -74,6 +88,10 @@ const Wrapper = styled.article`
     font-weight: bold;
   }
 
+  .ui.small.circular.icon.button {
+    margin: .5em;
+  }
+
   @media (max-width: 1530px) {
       min-width: 49%;
       max-width: 49%;
@@ -94,13 +112,13 @@ class Account extends React.PureComponent<Props> {
   }
 
   render () {
-    const { accountId } = this.props;
+    const { address } = this.props;
 
     return (
       <Wrapper className='overview--Account'>
         {this.renderModals()}
         <AddressSummary
-          value={accountId}
+          value={address}
           identIconSize={96}
           isEditable
           withBalance={false}
@@ -125,35 +143,35 @@ class Account extends React.PureComponent<Props> {
   }
 
   private renderAvailable () {
-    const { accountId, t } = this.props;
+    const { address, t } = this.props;
 
     return (
       <Available
         className='accounts--Account-balances-available'
         label={t('available')}
-        params={accountId}
+        params={address}
       />
     );
   }
 
   private renderBonded () {
-    const { accountId, t } = this.props;
+    const { address, t } = this.props;
 
     return (
       <Bonded
         className='accounts--Account-balances-bonded'
         label={t('bonded')}
-        params={accountId}
+        params={address}
       />
     );
   }
 
   private renderCryptoType () {
-    const { accountId, t } = this.props;
+    const { address, t } = this.props;
 
     return (
       <CryptoType
-        accountId={accountId}
+        accountId={address}
         className='accounts--Account-details-crypto'
         label={t('crypto type')}
       />
@@ -161,10 +179,10 @@ class Account extends React.PureComponent<Props> {
   }
 
   private renderModals () {
-    const { accountId } = this.props;
+    const { address } = this.props;
     const { isBackupOpen, isForgetOpen, isPasswordOpen } = this.state;
 
-    if (!accountId) {
+    if (!address) {
       return null;
     }
 
@@ -175,7 +193,7 @@ class Account extends React.PureComponent<Props> {
         <Backup
           key='modal-backup-account'
           onClose={this.toggleBackup}
-          address={accountId}
+          address={address}
         />
       );
     }
@@ -183,7 +201,7 @@ class Account extends React.PureComponent<Props> {
     if (isForgetOpen) {
       modals.push(
         <Forgetting
-          address={accountId}
+          address={address}
           doForget={this.onForget}
           key='modal-forget-account'
           onClose={this.toggleForget}
@@ -194,7 +212,7 @@ class Account extends React.PureComponent<Props> {
     if (isPasswordOpen) {
       modals.push(
         <ChangePass
-          address={accountId}
+          address={address}
           key='modal-change-pass'
           onClose={this.togglePass}
         />
@@ -221,7 +239,7 @@ class Account extends React.PureComponent<Props> {
   }
 
   private togglePass = (): void => {
-    const {isPasswordOpen} = this.state;
+    const { isPasswordOpen } = this.state;
 
     this.setState({
       isPasswordOpen: !isPasswordOpen
@@ -229,19 +247,19 @@ class Account extends React.PureComponent<Props> {
   }
 
   private onForget = (): void => {
-    const { accountId, t } = this.props;
+    const { address, t } = this.props;
 
-    if (!accountId) {
+    if (!address) {
       return;
     }
 
     const status = {
-      account: accountId,
+      account: address,
       action: 'forget'
     } as ActionStatus;
 
     try {
-      keyring.forgetAccount(accountId);
+      keyring.forgetAccount(address);
       status.status = 'success';
       status.message = t('account forgotten');
     } catch (error) {
@@ -251,61 +269,81 @@ class Account extends React.PureComponent<Props> {
   }
 
   private renderNonce () {
-    const { accountId, t } = this.props;
+    const { address, t } = this.props;
 
     return (
       <Nonce
         className='accounts--Account-details-nonce'
-        params={accountId}
+        params={address}
         label={t('transactions')}
       />
     );
   }
 
   private renderTotal () {
-    const { accountId, t } = this.props;
+    const { address, t } = this.props;
 
     return (
       <Balance
         className='accounts--Account-balances-balance'
         label={t('total')}
-        params={accountId}
+        params={address}
       />
     );
   }
 
   private renderUnlocking () {
-    const { accountId } = this.props;
+    const { address } = this.props;
 
     return (
       <Unlocking
         className='accounts--Account-balances-unlocking'
-        params={accountId}
+        params={address}
       />
     );
   }
 
   private renderButtons () {
-    const { t } = this.props;;
 
     return (
-      <Button.Group>
-        <Button
-          isNegative
-          onClick={this.toggleForget}
-          label={t('Forget')}
+      <div className='accounts--Account-buttons'>
+        <Popup
+          content='Delete this account'
+          trigger={
+            <SUIB
+
+              negative
+              onClick={this.toggleForget}
+              icon='trash'
+              size='small'
+            />
+          }
+          wide='very'
         />
-        <Button.Group.Divider />
-        <Button
-          onClick={this.toggleBackup}
-          label={t('Backup')}
+
+        <Popup
+          content='Create a backup file for this account'
+          trigger={
+            <SUIB
+
+              icon='cloud download'
+              onClick={this.toggleBackup}
+              size='small'
+            />
+          }
         />
-        <Button.Or />
-        <Button
-          onClick={this.togglePass}
-          label={t('Change Password')}
+
+        <Popup
+          content="Change this account's password"
+          trigger={
+            <SUIB
+              icon='key'
+              onClick={this.togglePass}
+              size='small'
+            />
+          }
         />
-      </Button.Group>
+      </div>
     );
   }
 }

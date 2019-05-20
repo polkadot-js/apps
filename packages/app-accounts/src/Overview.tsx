@@ -48,7 +48,7 @@ class Overview extends React.PureComponent<Props> {
           {Object.keys(accounts).map((address) => {
             return (
               <Account
-                accountId={address}
+                address={address}
                 key={address}
               />
             );

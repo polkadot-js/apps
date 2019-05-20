@@ -119,8 +119,9 @@ class ChangePass extends React.PureComponent<Props, State> {
     try {
       const account = address && keyring.getPair(address);
 
-      if(!account) {
-        status.message = `No keypair found for this address ${address}`;
+      if (!account) {
+        status.message = t(`No keypair found for this address ${address}`);
+
         return;
       }
 
@@ -140,19 +141,17 @@ class ChangePass extends React.PureComponent<Props, State> {
 
       try {
         keyring.encryptAccount(account, newPass);
-
         status.account = address;
         status.status = 'success';
         status.message = t('password changed');
       } catch (error) {
         this.setState({ isNewValid: false });
-
         status.status = 'error';
         status.message = error.message;
 
         return;
       }
-    } catch (error){
+    } catch (error) {
       status.message = error.message;
 
       return;
@@ -176,6 +175,7 @@ class ChangePass extends React.PureComponent<Props, State> {
   }
 
   private validatePass (password: string): boolean {
+
     return keyring.isPassValid(password);
   }
 }
