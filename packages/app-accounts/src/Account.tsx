@@ -2,17 +2,28 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { I18nProps } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
 
-import { AddressSummary, Available, Balance, Bonded, CryptoType, Nonce, Unlocking } from '@polkadot/ui-app';
+import { AddressSummary, Available, Balance, Bonded, Button, CryptoType, Nonce, Unlocking } from '@polkadot/ui-app';
+import keyring from '@polkadot/ui-keyring';
 
+import Backup from './modals/Backup';
+import ChangePass from './modals/ChangePass';
+import Forgetting from './modals/Forgetting';
 import translate from './translate';
 
 type Props = I18nProps & {
   accountId: string
+};
+
+type State = {
+  isBackupOpen: boolean,
+  isForgetOpen: boolean,
+  isPasswordOpen: boolean
 };
 
 const Wrapper = styled.article`
@@ -70,11 +81,24 @@ const Wrapper = styled.article`
 `;
 
 class Account extends React.PureComponent<Props> {
+  state: State;
+
+  constructor (props: Props) {
+    super(props);
+
+    this.state = {
+      isBackupOpen: false,
+      isForgetOpen: false,
+      isPasswordOpen: false
+    };
+  }
+
   render () {
     const { accountId } = this.props;
 
     return (
       <Wrapper className='overview--Account'>
+        {this.renderModals()}
         <AddressSummary
           value={accountId}
           identIconSize={96}
@@ -136,6 +160,96 @@ class Account extends React.PureComponent<Props> {
     );
   }
 
+  private renderModals () {
+    const { accountId } = this.props;
+    const { isBackupOpen, isForgetOpen, isPasswordOpen } = this.state;
+
+    if (!accountId) {
+      return null;
+    }
+
+    const modals = [];
+
+    if (isBackupOpen) {
+      modals.push(
+        <Backup
+          key='modal-backup-account'
+          onClose={this.toggleBackup}
+          address={accountId}
+        />
+      );
+    }
+
+    if (isForgetOpen) {
+      modals.push(
+        <Forgetting
+          address={accountId}
+          doForget={this.onForget}
+          key='modal-forget-account'
+          onClose={this.toggleForget}
+        />
+      );
+    }
+
+    if (isPasswordOpen) {
+      modals.push(
+        <ChangePass
+          address={accountId}
+          key='modal-change-pass'
+          onClose={this.togglePass}
+        />
+      );
+    }
+
+    return modals;
+  }
+
+  private toggleBackup = (): void => {
+    this.setState(
+      ({ isBackupOpen }: State) => ({
+        isBackupOpen: !isBackupOpen
+      })
+    );
+  }
+
+  private toggleForget = (): void => {
+    this.setState(
+      ({ isForgetOpen }: State) => ({
+        isForgetOpen: !isForgetOpen
+      })
+    );
+  }
+
+  private togglePass = (): void => {
+    const {isPasswordOpen} = this.state;
+
+    this.setState({
+      isPasswordOpen: !isPasswordOpen
+    });
+  }
+
+  private onForget = (): void => {
+    const { accountId, t } = this.props;
+
+    if (!accountId) {
+      return;
+    }
+
+    const status = {
+      account: accountId,
+      action: 'forget'
+    } as ActionStatus;
+
+    try {
+      keyring.forgetAccount(accountId);
+      status.status = 'success';
+      status.message = t('account forgotten');
+    } catch (error) {
+      status.status = 'error';
+      status.message = error.message;
+    }
+  }
+
   private renderNonce () {
     const { accountId, t } = this.props;
 
@@ -172,7 +286,27 @@ class Account extends React.PureComponent<Props> {
   }
 
   private renderButtons () {
-    return <div></div>;
+    const { t } = this.props;;
+
+    return (
+      <Button.Group>
+        <Button
+          isNegative
+          onClick={this.toggleForget}
+          label={t('Forget')}
+        />
+        <Button.Group.Divider />
+        <Button
+          onClick={this.toggleBackup}
+          label={t('Backup')}
+        />
+        <Button.Or />
+        <Button
+          onClick={this.togglePass}
+          label={t('Change Password')}
+        />
+      </Button.Group>
+    );
   }
 }
 

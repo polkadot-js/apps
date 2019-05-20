@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyringPair } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import FileSaver from 'file-saver';
@@ -14,9 +13,8 @@ import keyring from '@polkadot/ui-keyring';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  onStatusChange: (status: ActionStatus) => void,
   onClose: () => void,
-  pair: KeyringPair
+  address: string
 };
 
 type State = {
@@ -68,7 +66,7 @@ class Backup extends React.PureComponent<Props, State> {
   }
 
   private renderContent () {
-    const { pair, t } = this.props;
+    const { address, t } = this.props;
     const { isPassValid, password } = this.state;
 
     return (
@@ -79,7 +77,7 @@ class Backup extends React.PureComponent<Props, State> {
         <Modal.Content className='app--account-Backup-content'>
           <AddressRow
             isInline
-            value={pair.address()}
+            value={address}
           >
             <p>{t('An encrypted backup file will be created once you have pressed the "Download" button. This can be used to re-import your account on any other machine.')}</p>
             <p>{t('Save this backup file in a secure location. Additionally, the password associated with this account is needed together with this backup file in order to restore your account.')}</p>
@@ -100,10 +98,10 @@ class Backup extends React.PureComponent<Props, State> {
   }
 
   private doBackup = (): void => {
-    const { onClose, onStatusChange, pair, t } = this.props;
+    const { onClose, address, t } = this.props;
     const { password } = this.state;
 
-    if (!pair) {
+    if (!address) {
       return;
     }
 
@@ -112,14 +110,15 @@ class Backup extends React.PureComponent<Props, State> {
     } as ActionStatus;
 
     try {
-      const json = keyring.backupAccount(pair, password);
+      const addressKeyring = address && keyring.getPair(address);
+      const json = addressKeyring && keyring.backupAccount(addressKeyring, password);
       const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
 
-      status.account = pair.address();
+      status.account = address;
       status.status = blob ? 'success' : 'error';
       status.message = t('account backed up');
 
-      FileSaver.saveAs(blob, `${pair.address()}.json`);
+      FileSaver.saveAs(blob, `${address}.json`);
     } catch (error) {
       this.setState({ isPassValid: false });
       console.error(error);
@@ -128,8 +127,6 @@ class Backup extends React.PureComponent<Props, State> {
       status.message = error.message;
       return;
     }
-
-    onStatusChange(status);
 
     onClose();
   }

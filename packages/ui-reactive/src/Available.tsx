@@ -20,7 +20,7 @@ type Props = BareProps & CallProps & {
 export class AvailableDisplay extends React.PureComponent<Props> {
 
   render () {
-    const { balances_all, children, className, label = '', style } = this.props;
+    const { balances_all, children, className, label = '' } = this.props;
 
     return (
       <>
