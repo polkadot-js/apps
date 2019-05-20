@@ -73,27 +73,32 @@ class KeyValueArray extends React.PureComponent<Props, State> {
     const pairs = value as Vector<Pair>;
 
     return (
-      <Base
-        className={className}
-        label={label}
-        size='full'
-        style={style}
-      >
-        {pairs.map(({ key, value }) => {
-          const keyHex = u8aToHex(key.toU8a(true));
+      <>
+        <Base
+          className={className}
+          label={label}
+          size='full'
+          style={style}
+        >
+          <div />
+        </Base>
+        <div className='ui--Params'>
+          {pairs.map(({ key, value }) => {
+            const keyHex = u8aToHex(key.toU8a(true));
 
-          return (
-            <Bytes
-              defaultValue={{ value } as RawParam}
-              isDisabled
-              key={keyHex}
-              label={keyHex}
-              name={keyHex}
-              type={BYTES_TYPE}
-            />
-          );
-        })}
-      </Base>
+            return (
+              <Bytes
+                defaultValue={{ value } as RawParam}
+                isDisabled
+                key={keyHex}
+                label={keyHex}
+                name={keyHex}
+                type={BYTES_TYPE}
+              />
+            );
+          })}
+        </div>
+      </>
     );
   }
 

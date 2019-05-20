@@ -18,7 +18,8 @@ type Props = BareProps & {
   isSmall?: boolean,
   label?: React.ReactNode,
   children: React.ReactNode,
-  withLabel?: boolean
+  withLabel?: boolean,
+  withEllipsis?: boolean
 };
 
 type State = {
@@ -31,6 +32,12 @@ const defaultLabel: any = (// node?
 
 const Wrapper = styled.div`
   display: block;
+
+  .withEllipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
   > label {
     margin: 0.25rem 0 0 0;
@@ -88,32 +95,6 @@ export default class Labelled extends React.PureComponent<Props, State> {
     };
   }
 
-  toggleTooltip () {
-    const { tooltipOpen } = this.state;
-    this.setState({ tooltipOpen: !tooltipOpen });
-  }
-
-  renderLabel () {
-    const { help, label = defaultLabel } = this.props;
-    const { tooltipOpen } = this.state;
-
-    return help
-      ? <label className='with-help' >
-          {label}
-          <Icon
-            name='help circle'
-            data-tip
-            data-for='controlled-trigger'
-            onMouseOver={() => this.toggleTooltip()}
-            onMouseOut={() => this.toggleTooltip()}
-          />
-          {tooltipOpen && (
-            <Tooltip trigger={'controlled-trigger'}>
-              {help}
-            </Tooltip>)}
-        </label>
-      : <label>{label}</label>;
-  }
   render () {
     const { className, children, isSmall, isHidden, style, withLabel = true } = this.props;
 
@@ -136,5 +117,37 @@ export default class Labelled extends React.PureComponent<Props, State> {
         </div>
       </Wrapper>
     );
+  }
+
+  private renderLabel () {
+    const { help, label = defaultLabel, withEllipsis } = this.props;
+    const { tooltipOpen } = this.state;
+    const displayLabel = withEllipsis
+      ? <div className='withEllipsis'>{label}</div>
+      : label;
+
+    return help
+      ? <label className='with-help' >
+          {displayLabel}
+          <Icon
+            name='help circle'
+            data-tip
+            data-for='controlled-trigger'
+            onMouseOver={this.toggleTooltip}
+            onMouseOut={this.toggleTooltip}
+          />
+          {tooltipOpen && (
+            <Tooltip trigger='controlled-trigger'>
+              {help}
+            </Tooltip>
+          )}
+        </label>
+      : <label>{displayLabel}</label>;
+  }
+
+  private toggleTooltip = () => {
+    this.setState(({ tooltipOpen }: State) => ({
+      tooltipOpen: !tooltipOpen
+    }));
   }
 }

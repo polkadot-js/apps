@@ -30,6 +30,7 @@ type Props<Option> = BareProps & {
   renderLabel?: (item: any) => any,
   transform?: (value: any) => any,
   value?: any,
+  withEllipsis?: boolean,
   withLabel?: boolean
 };
 
@@ -60,7 +61,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
   }
 
   render () {
-    const { allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isMultiple, label, onSearch, options, placeholder, renderLabel, style, withLabel, value } = this.props;
+    const { allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isMultiple, label, onSearch, options, placeholder, renderLabel, style, withEllipsis, withLabel, value } = this.props;
     const dropdown = (
       <SUIDropdown
         allowAdditions={allowAdd}
@@ -98,6 +99,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
           help={help}
           label={label}
           style={style}
+          withEllipsis={withEllipsis}
           withLabel={withLabel}
         >
           {dropdown}

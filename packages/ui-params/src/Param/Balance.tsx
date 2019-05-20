@@ -29,6 +29,7 @@ class Balance extends React.PureComponent<Props> {
           isError={isError}
           label={label}
           onChange={this.onChange}
+          withEllipsis
           withLabel={withLabel}
         />
       </Bare>

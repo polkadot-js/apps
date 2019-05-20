@@ -30,6 +30,7 @@ type Props = BareProps & I18nProps & {
   onChange?: (value?: BN) => void,
   placeholder?: string,
   value?: BN | string,
+  withEllipsis?: boolean,
   withLabel?: boolean,
   withMax?: boolean
 };
@@ -108,8 +109,8 @@ class InputNumber extends React.PureComponent<Props, State> {
         onPaste={this.onPaste}
         placeholder={t('Positive number')}
         style={style}
-        value={value}
         type='text'
+        value={value}
       >
         {(withMax && !!maxValue) && this.renderMaxButton()}
         {isSi && this.renderSiDropdown()}
