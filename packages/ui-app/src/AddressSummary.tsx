@@ -61,6 +61,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
     this.state = this.createState();
+
   }
 
   createState () {
@@ -71,8 +72,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     ? accountId.toString()
     : DEFAULT_ADDR;
     const name = getAddrName(address, false, defaultName) || '';
-    const addressKeyring = accountId && keyring.getPair(accountId.toString());
-    const tags: Array<string> = addressKeyring && addressKeyring.getMeta().tags || [];
+    const tags = this.getAddressTags(address);
 
     return {
       isEditingName: false,
@@ -80,7 +80,6 @@ class AddressSummary extends React.PureComponent<Props, State> {
       name,
       tags: tags
     };
-
   }
 
   render () {
@@ -112,6 +111,18 @@ class AddressSummary extends React.PureComponent<Props, State> {
         {this.renderChildren()}
       </div>
     );
+  }
+
+  protected getAddressTags (address: string): Array<string> {
+    try {
+      if (keyring.getAccount(address).isValid()) {
+        const addressKeyring = address && keyring.getPair(address);
+        return addressKeyring && addressKeyring.getMeta().tags || [];
+      }
+    } catch (error) {
+      // all-ok, we have empty fallbacks
+    }
+    return [];
   }
 
   protected renderAddress () {
