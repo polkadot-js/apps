@@ -34,6 +34,7 @@ type Props = BareProps & {
   placeholder?: string,
   type?: KeyringOption$Type,
   value?: string | Uint8Array | Array<string>,
+  withEllipsis?: boolean,
   withLabel?: boolean
 };
 
@@ -121,7 +122,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, options, optionsAll, placeholder, type = DEFAULT_TYPE, style, withLabel } = this.props;
+    const { className, defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, options, optionsAll, placeholder, type = DEFAULT_TYPE, style, withEllipsis, withLabel } = this.props;
     const { value } = this.state;
     const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
 
@@ -180,6 +181,7 @@ class InputAddress extends React.PureComponent<Props, State> {
             ? undefined
             : value
         }
+        withEllipsis={withEllipsis}
         withLabel={withLabel}
       />
     );

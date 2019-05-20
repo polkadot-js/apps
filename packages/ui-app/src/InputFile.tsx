@@ -23,6 +23,7 @@ type Props = BareProps & WithTranslation & {
   label: React.ReactNode,
   onChange?: (contents: Uint8Array, name: string) => void,
   placeholder?: React.ReactNode | null,
+  withEllipsis?: boolean,
   withLabel?: boolean
 };
 
@@ -43,13 +44,14 @@ class InputFile extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { accept, className, clearContent, help, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
+    const { accept, className, clearContent, help, isDisabled, isError = false, label, placeholder, t, withEllipsis, withLabel } = this.props;
     const { file } = this.state;
 
     return (
       <Labelled
         help={help}
         label={label}
+        withEllipsis={withEllipsis}
         withLabel={withLabel}
       >
         <Dropzone

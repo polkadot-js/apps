@@ -39,7 +39,8 @@ type Props = BareProps & {
   tabIndex?: number,
   type?: Input$Type,
   value?: any,
-  withLabel?: boolean
+  withLabel?: boolean,
+  withEllipsis?: boolean
 };
 
 type State = {
@@ -93,7 +94,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { autoFocus = false, children, className, defaultValue, help, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, maxLength, min, name, placeholder, style, tabIndex, type = 'text', value, withLabel } = this.props;
+    const { autoFocus = false, children, className, defaultValue, help, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, maxLength, min, name, placeholder, style, tabIndex, type = 'text', value, withEllipsis, withLabel } = this.props;
 
     return (
       <Labelled
@@ -101,6 +102,7 @@ export default class Input extends React.PureComponent<Props, State> {
         help={help}
         label={label}
         style={style}
+        withEllipsis={withEllipsis}
         withLabel={withLabel}
       >
         <SUIInput
