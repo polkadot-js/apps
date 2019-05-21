@@ -81,10 +81,6 @@ const Wrapper = styled.article`
     grid-column:  2;
   }
 
-  .result-locked > i {
-    margin-left: .3em
-  }
-
   .accounts--Account-buttons > button {
     margin: .2em;
   }
@@ -92,7 +88,7 @@ const Wrapper = styled.article`
   @media (max-width: 2060px) {
     min-width: 32%;
     max-width: 32%;
-}
+  }
 
   @media (max-width: 1580px) {
       min-width: 49%;

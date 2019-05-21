@@ -92,16 +92,14 @@ export class UnlockingDisplay extends React.PureComponent<Props, State> {
     return (
       <>
         {groupedUnlockings && Object.keys(groupedUnlockings).map(eraString => (
-          <>
+          <React.Fragment key={eraString}>
             <span
               className={className + ' label-locked'}
-              key={'label ' + eraString}
             >
               {t('locked')}
             </span>
             <span
               className={className + ' result-locked'}
-              key={'result ' + eraString}
             >
               {formatBalance(groupedUnlockings[eraString])}
               <Icon
@@ -120,7 +118,7 @@ export class UnlockingDisplay extends React.PureComponent<Props, State> {
                   })}
                 </Tooltip>)}
             </span>
-          </>
+          </React.Fragment>
         ))}
       </>
     );
