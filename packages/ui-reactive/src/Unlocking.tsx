@@ -93,10 +93,16 @@ export class UnlockingDisplay extends React.PureComponent<Props, State> {
       <>
         {groupedUnlockings && Object.keys(groupedUnlockings).map(eraString => (
           <>
-            <span className={className + ' label-locked'}>
+            <span
+              className={className + ' label-locked'}
+              key={'label ' + eraString}
+            >
               {t('locked')}
             </span>
-            <span className={className + ' result-locked'}>
+            <span
+              className={className + ' result-locked'}
+              key={'result ' + eraString}
+            >
               {formatBalance(groupedUnlockings[eraString])}
               <Icon
                 name='info circle'

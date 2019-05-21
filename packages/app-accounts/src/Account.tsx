@@ -33,14 +33,9 @@ const Wrapper = styled.article`
   max-width: 32%;
   justify-content: space-around;
 
-  &:hover .accounts--Account-buttons {
-    visibility:visible;
-  }
-
   .accounts--Account-buttons {
-    text-align: center;
-    margin-top: 2em;
-    visibility: hidden;
+    text-align: right;
+    margin-bottom: 2em;
   }
 
   .ui--AddressSummary {
@@ -86,20 +81,12 @@ const Wrapper = styled.article`
     grid-column:  2;
   }
 
-  .result-available,
-  .result-balance,
-  .result-bonded,
-  .result-locked,
-  .result-redeemable {
-    font-weight: bold;
-  }
-
   .result-locked > i {
     margin-left: .3em
   }
 
   .accounts--Account-buttons > button {
-    margin: .5em;
+    margin: .2em;
   }
 
   @media (max-width: 1580px) {
@@ -141,6 +128,7 @@ class Account extends React.PureComponent<Props> {
           withTags
         >
           <div className='account--Account-expand'>
+            {this.renderButtons()}
             <div className='account--Account-balances'>
               {this.renderTotal()}
               {this.renderAvailable()}
@@ -150,7 +138,6 @@ class Account extends React.PureComponent<Props> {
               {this.renderNonce()}
               {this.renderCryptoType()}
             </div>
-            {this.renderButtons()}
           </div>
         </AddressSummary>
       </Wrapper>

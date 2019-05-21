@@ -207,6 +207,7 @@ button.ui.icon.withDrawUnbonded {
 .label-redeemable {
   grid-column:  1;
   text-align: right;
+  opacity: 0.7;
 }
 
 .result-available,
@@ -215,8 +216,22 @@ button.ui.icon.withDrawUnbonded {
 .result-locked,
 .result-redeemable {
   grid-column:  2;
-  font-weight: bold;
+  text-align: left;
 }
+
+.result-nonce,
+.result-cryptotype {
+  text-align: left;
+  opacity: 0.7;
+}
+
+.ui--AddressMini-balances .ui--Bonded.result-bonded {
+  font-size: .75rem;
+  margin-right: 2.25rem;
+  margin-top: -.5rem;
+  text-align: right;
+}
+
 
 .ui--AddressSummary-balance.rx--updated,
 .ui--AddressSummary-nonce.rx--updated {
