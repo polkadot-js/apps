@@ -9,7 +9,7 @@ import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { bnToBn } from '@polkadot/util';
 
-import { classes } from '../util';
+import Base from './Base';
 
 type Value = {
   colors: Array<string>,
@@ -48,8 +48,8 @@ export default class ChartDoughnut extends React.PureComponent<Props> {
     } as Options);
 
     return (
-      <div
-        className={classes('ui--Chart', className)}
+      <Base
+        className={className}
         style={style}
       >
         <Doughnut
@@ -64,7 +64,7 @@ export default class ChartDoughnut extends React.PureComponent<Props> {
           height={size}
           width={size}
         />
-      </div>
+      </Base>
     );
   }
 }

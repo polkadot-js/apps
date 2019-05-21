@@ -14,17 +14,21 @@
   padding: .75rem 1rem;
   position: relative;
   word-wrap: break-word;
-}
 
-.ui--output .ui--output-button {
-  position: absolute;
-  top: 0.25rem;
-  right: 0.25rem;
-}
+  &.error {
+    background: #fff6f6;
+    border-color: #e0b4b4;
+  }
 
-.ui--output.error {
-  background: #fff6f6;
-  border-color: #e0b4b4;
+  &.monospace {
+    font-family: monospace;
+  }
+
+  .ui--output-button {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+  }
 }
 
 .ui--Button-Group .button {
@@ -56,6 +60,7 @@ header .ui--Button-Group {
   .ui--AddressMini-info,
   .ui--IdentityIcon {
     display: inline-block;
+    position:relative;
     vertical-align: middle;
   }
 
@@ -97,6 +102,11 @@ header .ui--Button-Group {
   white-space: nowrap
 }
 
+.ui--AddressSummary-available > button.ui.icon.withDrawUnbonded {
+  padding: 0.3em;
+  margin-left: 0.4em;
+}
+
 .ui--AddressSummary-base {
   padding: 0 1em;
   text-align: center;
@@ -108,8 +118,18 @@ header .ui--Button-Group {
   vertical-align: top;
 }
 
-.ui--AddressRow .ui--AddressSummary-children {
-  display: block;
+.ui--AddressRow {
+  &.inline {
+    display: flex;
+
+    .ui--AddressSummary-children {
+      padding: 0 0 0 3rem;
+    }
+  }
+
+  .ui--AddressSummary-children {
+    display: block;
+  }
 }
 
 .ui--AddressSummary .rx--updated {
@@ -216,17 +236,10 @@ header .ui--Button-Group {
   }
 }
 
-.ui--Chart {
-  position: relative;
-  display: inline-block;
-  padding: 1em 1em 0;
-  height: 15vw;
-  width: 15vw;
-}
-
 .ui--CopyButton {
   cursor: copy !important;
   margin-left: 0.25rem !important;
+  margin-right: 0.25rem !important;
 }
 
 .ui--DropdownLinked.ui--row {
@@ -248,6 +261,21 @@ header .ui--Button-Group {
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+  }
+
+  .ui--SiDropdown {
+    width: 6rem;
+    text-align: center;
+  }
+
+  .ui--MaxButton {
+    position: absolute;
+    right: 6.5rem;
+    top: 20%;
+    height: 60%;
+    text-transform: uppercase;
+    padding: 0 0.5rem !important;
+    border-radius: 0.3rem !important;
   }
 }
 
@@ -325,92 +353,17 @@ header .ui--Button-Group {
   }
 
   &.inline {
-    position: static;
-    margin: .3rem 0 .3rem .5rem;
+    position: absolute;
+    left: auto;
+    right: -2.75rem;
+    top: -1rem;
+    z-index: 1;
   }
 }
-
 
 .ui--Static {
   overflow: hidden;
   word-break: break-all;
-}
-
-.ui--Status {
-  display: inline-block;
-  position: fixed;
-  right: 0.25rem;
-  top: 0.25rem;
-  width: 20rem;
-  z-index: 1001;
-
-  .ui--IdentityIcon {
-    margin-left: 0 !important;
-  }
-
-  .item {
-    display: block;
-    text-align: right;
-
-    > .wrapper > .container {
-      align-items: center;
-      background: #00688b;
-      border-radius: $small-corner;
-      color: white;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.25rem;
-      padding: 0 0.5rem;
-      text-align: center;
-      opacity: 0.95;
-      vertical-align: middle;
-
-      .desc {
-        flex: 1;
-        padding: 0.5rem 1rem;
-
-        .status {
-          font-weight: 700;
-        }
-      }
-
-      .short {
-        font-size: 2.5rem;
-        padding: 0.5rem;
-
-        i.icon {
-          line-height: 1;
-        }
-      }
-    }
-
-    &.cancelled > .wrapper > .container {
-      background: #cd9b1d
-    }
-
-    &.event > .wrapper > .container {
-      background: teal;
-    }
-
-    &.completed > .wrapper > .container,
-    &.finalized > .wrapper > .container,
-    &.sent > .wrapper > .container,
-    &.success > .wrapper > .container {
-      background: green;
-    }
-
-    &.dropped > .wrapper > .container,
-    &.error > .wrapper > .container,
-    &.invalid > .wrapper > .container,
-    &.usurped > .wrapper > .container {
-      background: red;
-    }
-  }
-}
-
-.ui.tiny.progress {
-  font-size: .5rem;
 }
 
 .ui--Tooltip {

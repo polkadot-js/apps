@@ -5,8 +5,6 @@
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
-import './index.css';
-
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';

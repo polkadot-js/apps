@@ -23,6 +23,7 @@ type Props = ApiProps & I18nProps & {
 
 type State = {
   isValid: boolean,
+  isValidUnsigned: boolean,
   method: Method | null,
   accountNonce: BN,
   accountId: string
@@ -30,12 +31,13 @@ type State = {
 
 class Selection extends React.PureComponent<Props, State> {
   state: State = {
-    isValid: false
+    isValid: false,
+    isValidUnsigned: false
   } as State;
 
   render () {
     const { apiDefaultTx, api, t } = this.props;
-    const { isValid, accountId } = this.state;
+    const { isValid, isValidUnsigned, accountId } = this.state;
     const defaultExtrinsic = (() => {
       try {
         return api.tx.balances.transfer;
@@ -78,7 +80,8 @@ class Selection extends React.PureComponent<Props, State> {
         <br></br>
         <Button.Group>
           <TxButton
-            isDisabled={!isValid}
+            isDisabled={!isValidUnsigned}
+            isUnsigned
             label={t('Submit Inherent')}
             extrinsic={extrinsic}
           />
@@ -108,6 +111,7 @@ class Selection extends React.PureComponent<Props, State> {
         return {
           method,
           isValid,
+          isValidUnsigned: !!method,
           accountNonce,
           accountId
         };
@@ -129,13 +133,14 @@ class Selection extends React.PureComponent<Props, State> {
 
   private getExtrinsic (): SubmittableExtrinsic | null {
     const { api } = this.props;
-    const { method, isValid } = this.state;
+    const { method } = this.state;
 
-    if (!isValid || !method) {
+    if (!method) {
       return null;
     }
 
     const fn = Method.findFunction(method.callIndex);
+
     return api.tx[fn.section][fn.method](...method.args);
   }
 }

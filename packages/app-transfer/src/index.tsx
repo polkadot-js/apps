@@ -7,7 +7,6 @@ import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { HelpOverlay,Tabs } from '@polkadot/ui-app';
 
-import './index.css';
 import basicMd from './md/basic.md';
 import Transfer from './Transfer';
 import translate from './translate';

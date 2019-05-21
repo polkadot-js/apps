@@ -7,8 +7,11 @@ import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
 import BN from 'bn.js';
 
 export const ZERO_BALANCE = {
+  availableBalance: new BN(0),
+  lockedBalance: new BN(0),
   freeBalance: new BN(0),
   reservedBalance: new BN(0),
+  vestedBalance: new BN(0),
   votingBalance: new BN(0)
 } as DerivedBalances;
 

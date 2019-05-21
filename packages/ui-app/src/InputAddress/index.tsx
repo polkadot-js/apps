@@ -34,6 +34,7 @@ type Props = BareProps & {
   placeholder?: string,
   type?: KeyringOption$Type,
   value?: string | Uint8Array | Array<string>,
+  withEllipsis?: boolean,
   withLabel?: boolean
 };
 
@@ -44,18 +45,22 @@ type State = {
 const STORAGE_KEY = 'options:InputAddress';
 const DEFAULT_TYPE = 'all';
 
+const transformToAddress = (value: string | Uint8Array): string | null => {
+  try {
+    return addressToAddress(value) || null;
+  } catch (error) {
+    console.error('Unable to transform address', value);
+  }
+
+  return null;
+};
+
 const transformToAccountId = (value: string): string | null => {
   if (!value) {
     return null;
   }
 
-  let accountId;
-
-  try {
-    accountId = addressToAddress(value);
-  } catch (error) {
-    console.error('Unable to transform address', value);
-  }
+  const accountId = transformToAddress(value);
 
   return !accountId
     ? null
@@ -63,19 +68,24 @@ const transformToAccountId = (value: string): string | null => {
 };
 
 const createOption = (address: string) => {
+  let isRecent: boolean | undefined;
   let name: string | undefined;
 
   try {
     name = keyring.getAccount(address).getMeta().name;
   } catch (error) {
     try {
-      name = keyring.getAddress(address).getMeta().name;
+      const meta = keyring.getAddress(address).getMeta();
+
+      name = meta.name;
+      isRecent = meta.isRecent;
     } catch (error) {
-      // ok, we don't have account or address
+      // ok, we don't have account or address, treat as recent
+      isRecent = true;
     }
   }
 
-  return createItem(address, name);
+  return createItem(address, name, !isRecent);
 };
 
 class InputAddress extends React.PureComponent<Props, State> {
@@ -112,7 +122,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, options, optionsAll, placeholder, type = DEFAULT_TYPE, style, withLabel } = this.props;
+    const { className, defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, options, optionsAll, placeholder, type = DEFAULT_TYPE, style, withEllipsis, withLabel } = this.props;
     const { value } = this.state;
     const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
 
@@ -122,12 +132,21 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     const lastValue = InputAddress.getLastValue(type);
     const lastOption = this.getLastOptionValue();
-    const actualValue = isDisabled || (defaultValue && this.hasValue(defaultValue))
-      ? defaultValue
+    const actualValue = transformToAddress(
+        isDisabled || (defaultValue && this.hasValue(defaultValue))
+        ? defaultValue
+        : (
+          this.hasValue(lastValue)
+            ? lastValue
+            : (lastOption && lastOption.value)
+        )
+    );
+    const actualOptions = options
+      ? options
       : (
-        this.hasValue(lastValue)
-          ? lastValue
-          : (lastOption && lastOption.value)
+          isDisabled && actualValue
+            ? [createOption(actualValue)]
+            : (optionsAll ? optionsAll[type] : [])
       );
 
     return (
@@ -149,15 +168,7 @@ class InputAddress extends React.PureComponent<Props, State> {
             : this.onChange
         }
         onSearch={this.onSearch}
-        options={
-          options
-            ? options
-            : (
-                isDisabled && actualValue
-                  ? [createOption(actualValue)]
-                  : (optionsAll ? optionsAll[type] : [])
-            )
-        }
+        options={actualOptions}
         placeholder={placeholder}
         renderLabel={
           isMultiple
@@ -170,6 +181,7 @@ class InputAddress extends React.PureComponent<Props, State> {
             ? undefined
             : value
         }
+        withEllipsis={withEllipsis}
         withLabel={withLabel}
       />
     );

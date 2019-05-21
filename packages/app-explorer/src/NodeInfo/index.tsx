@@ -12,7 +12,7 @@ import { Health, PeerInfo, PendingExtrinsics } from '@polkadot/types';
 
 import './index.css';
 
-import Extrinsics from '../BlockQuery/Extrinsics';
+import Extrinsics from '../BlockInfo/Extrinsics';
 import Peers from './Peers';
 import Summary from './Summary';
 import translate from './translate';

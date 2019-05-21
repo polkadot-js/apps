@@ -59,6 +59,7 @@ class Accounts extends React.PureComponent<Props, State> {
     const { balances, recentlyOffline, t, validators } = this.props;
     const { filter, filterOptions } = this.state;
     const accounts = keyring.getAccounts();
+    const stashOptions = this.getStashOptions();
 
     return (
       <Wrapper>
@@ -74,7 +75,6 @@ class Accounts extends React.PureComponent<Props, State> {
         <div className='accounts'>
           {accounts.map((account) => {
             const address = account.address();
-            const name = account.getMeta().name || '';
 
             return (
               <Account
@@ -83,9 +83,8 @@ class Accounts extends React.PureComponent<Props, State> {
                 filter={filter}
                 isValidator={validators.includes(address)}
                 key={address}
-                name={name}
                 recentlyOffline={recentlyOffline}
-                stashOptions={this.getStashOptions()}
+                stashOptions={stashOptions}
               />
             );
           })}

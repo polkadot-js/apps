@@ -6,7 +6,8 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import { EventRecord, HeaderExtended, SignedBlock } from '@polkadot/types';
+import { HeaderExtended } from '@polkadot/api-derive';
+import { EventRecord, SignedBlock } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
 
 import BlockHeader from '../BlockHeader';

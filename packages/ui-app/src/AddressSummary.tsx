@@ -11,51 +11,59 @@ import { Nonce } from '@polkadot/ui-reactive';
 import { withCalls } from '@polkadot/ui-api';
 import BaseIdentityIcon from '@polkadot/ui-identicon';
 
-import { classes, toShortAddress } from './util';
+import AvailableDisplay from './Available';
+import { classes, getAddrName, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
+import CopyButton from './CopyButton';
 import IdentityIcon from './IdentityIcon';
 import translate from './translate';
+import UnlockingDisplay from './Unlocking';
 
 export type Props = I18nProps & {
   accounts_idAndIndex?: [AccountId?, AccountIndex?],
   balance?: BN | Array<BN>,
   bonded?: BN | Array<BN>,
   children?: React.ReactNode,
+  defaultName?: string,
   extraInfo?: React.ReactNode,
-  name?: string,
-  value: AccountId | AccountIndex | Address | string | null,
-  withBalance?: boolean,
-  withBonded?: boolean,
-  withIndex?: boolean,
   identIconSize?: number,
+  isInline?: boolean,
   isShort?: boolean,
   session_validators?: Array<AccountId>,
+  value: AccountId | AccountIndex | Address | string | null,
+  withAvailable?: boolean,
+  withBalance?: boolean,
+  withBonded?: boolean,
   withCopy?: boolean,
   withIcon?: boolean,
-  withNonce?: boolean
+  withIndex?: boolean,
+  withNonce?: boolean,
+  withUnlocking?: boolean
 };
 
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 
 class AddressSummary extends React.PureComponent<Props> {
   render () {
-    const { accounts_idAndIndex = [], className, style } = this.props;
+    const { accounts_idAndIndex = [], className, isInline, style } = this.props;
     const [accountId, accountIndex] = accounts_idAndIndex;
     const isValid = accountId || accountIndex;
 
     return (
       <div
-        className={classes('ui--AddressSummary', !isValid && 'invalid', className)}
+        className={classes('ui--AddressSummary', !isValid && 'invalid', isInline && 'inline', className)}
         style={style}
       >
         <div className='ui--AddressSummary-base'>
           {this.renderIcon()}
           {this.renderAccountId()}
           {this.renderAccountIndex()}
+          {this.renderAvailable()}
           {this.renderBalance()}
           {this.renderBonded()}
           {this.renderNonce()}
+          {this.renderUnlocking()}
         </div>
         {this.renderChildren()}
       </div>
@@ -63,13 +71,14 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderAddress () {
-    const { name, isShort = true, value } = this.props;
+    const { defaultName, isShort = true, value } = this.props;
 
     if (!value) {
       return null;
     }
 
     const address = value.toString();
+    const name = getAddrName(address, false, defaultName);
 
     return (
       <div className='ui--AddressSummary-data'>
@@ -88,7 +97,7 @@ class AddressSummary extends React.PureComponent<Props> {
   }
 
   protected renderAccountId () {
-    const { accounts_idAndIndex = [], name, isShort = true, value } = this.props;
+    const { accounts_idAndIndex = [], defaultName, isShort = true, value } = this.props;
     const [_accountId, accountIndex] = accounts_idAndIndex;
     const accountId = _accountId || value;
 
@@ -99,6 +108,17 @@ class AddressSummary extends React.PureComponent<Props> {
     const address = accountId
       ? accountId.toString()
       : DEFAULT_ADDR;
+    const name = getAddrName(address, false, defaultName);
+    const addrElem = isShort
+      ? (
+          <CopyButton
+            isAddress
+            value={address}
+          >
+            <span>{toShortAddress(address)}</span>
+          </CopyButton>
+      )
+      : address;
 
     return (
       <div className='ui--AddressSummary-data'>
@@ -106,11 +126,7 @@ class AddressSummary extends React.PureComponent<Props> {
           {name}
         </div>
         <div className='ui--AddressSummary-accountId'>
-          {
-            isShort
-              ? toShortAddress(address)
-              : address
-          }
+          {addrElem}
         </div>
       </div>
     );
@@ -169,6 +185,41 @@ class AddressSummary extends React.PureComponent<Props> {
         bonded={bonded}
         className='ui--AddressSummary-bonded'
         label={t('bonded ')}
+        params={accountId}
+      />
+    );
+  }
+
+  protected renderAvailable () {
+    const { accounts_idAndIndex = [], t, value, withAvailable } = this.props;
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId || value;
+
+    if (!withAvailable || !accountId) {
+      return null;
+    }
+
+    return (
+      <AvailableDisplay
+        className='ui--AddressSummary-available'
+        label={t('available ')}
+        params={accountId}
+      />
+    );
+  }
+
+  protected renderUnlocking () {
+    const { accounts_idAndIndex = [], value, withUnlocking } = this.props;
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId || value;
+
+    if (!withUnlocking || !accountId) {
+      return null;
+    }
+
+    return (
+      <UnlockingDisplay
+        className='ui--AddressSummary-available'
         params={accountId}
       />
     );

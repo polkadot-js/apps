@@ -24,7 +24,6 @@ type Props = BareProps & {
 export default class Tabs extends React.PureComponent<Props> {
   render () {
     const { className, hidden = [], items, style } = this.props;
-
     return (
       <div
         className={classes('ui--Menu ui menu tabular', className)}

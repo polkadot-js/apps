@@ -40,7 +40,7 @@ class Call extends React.PureComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { accountId, address, contractAbi, endowment, gasLimit, isAddressValid, method } = this.state;
+    const { accountId, address, contractAbi, gasLimit, isAddressValid, method } = this.state;
     const contractOptions = store.getAllContracts().map(({ json: { address, name } }) => ({
       text: `${name} (${address})`,
       value: address
@@ -62,7 +62,7 @@ class Call extends React.PureComponent<Props, State> {
     const defaultContract = contractOptions.length
       ? contractOptions[contractOptions.length - 1].value
       : undefined;
-    const isEndowValid = !endowment.isZero();
+    const isEndowValid = true; // !endowment.isZero();
     const isGasValid = !gasLimit.isZero();
     const isValid = !!accountId && isEndowValid && isGasValid && isAddressValid;
 

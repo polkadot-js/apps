@@ -11,11 +11,11 @@ import translate from './translate';
 
 class AddressRow extends AddressSummary {
   render () {
-    const { className, style, identIconSize = 64, value } = this.props;
+    const { className, style, identIconSize = 64, isInline, value } = this.props;
 
     return (
       <div
-        className={classes('ui--AddressRow', !value && 'invalid', className)}
+        className={classes('ui--AddressRow', !value && 'invalid', isInline && 'inline', className)}
         style={style}
       >
         <div className='ui--AddressRow-base'>

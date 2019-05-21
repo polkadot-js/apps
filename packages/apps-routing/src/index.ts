@@ -25,6 +25,7 @@ import transfer from './transfer';
 const routes: Routes = appSettings.uiMode === 'light'
   ? ([] as Routes).concat(
     dashboard,
+    explorer,
     transfer,
     staking,
     democracy,
@@ -57,8 +58,6 @@ const routes: Routes = appSettings.uiMode === 'light'
   );
 
 export default ({
-  default: appSettings.uiMode === 'light'
-    ? 'transfer'
-    : 'explorer',
+  default: 'explorer',
   routes
 } as Routing);

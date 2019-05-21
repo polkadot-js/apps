@@ -30,6 +30,7 @@ export { default as InputFile } from './InputFile';
 export { default as InputNumber } from './InputNumber';
 export { default as InputRpc } from './InputRpc';
 export { default as InputStorage } from './InputStorage';
+export { default as InputTags } from './InputTags';
 export { default as Labelled } from './Labelled';
 export { default as Menu } from './Menu';
 export { default as Modal } from './Modal';

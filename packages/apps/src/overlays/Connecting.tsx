@@ -6,27 +6,14 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import styled from 'styled-components';
 import { withApi, withMulti } from '@polkadot/ui-api';
 import settings from '@polkadot/ui-settings';
 
-import translate from './translate';
+import { Connecting as Wrapper } from '../styles';
+
+import translate from '../translate';
 
 type Props = I18nProps & ApiProps;
-
-const Wrapper = styled.div`
-  background: red;
-  color: white;
-  bottom: 0;
-  left: 0;
-  line-height: 1.5em;
-  opacity: 0.9;
-  padding: 1em 5em;
-  position: fixed;
-  right: 0;
-  text-align: center;
-`;
-
 // @ts-ignore
 const isFirefox = typeof InstallTrigger !== 'undefined';
 

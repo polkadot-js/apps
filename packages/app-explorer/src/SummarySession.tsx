@@ -2,25 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DerivedSessionInfo } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
-import BN from 'bn.js';
 import React from 'react';
-import { BlockNumber } from '@polkadot/types';
 import { CardSummary } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 import translate from './translate';
 
 type Props = I18nProps & {
-  session_eraLength?: BN,
-  session_eraProgress?: BN,
-  session_sessionProgress?: BN,
-  // FIXME Replaced in poc-3, we should calculate the session reward
-  // sessionBrokenValue?: BN,
-  // sessionBrokenPercentLate?: BN,
-  session_sessionLength?: BlockNumber,
-  withBroken?: boolean,
+  session_info?: DerivedSessionInfo,
   withEra?: boolean,
   withSession?: boolean
 };
@@ -35,28 +27,8 @@ class SummarySession extends React.PureComponent<Props> {
     );
   }
 
-  // private renderBroken () {
-  //   const { sessionBrokenValue, sessionBrokenPercentLate, t, withBroken = true } = this.props;
-
-  //   if (!withBroken) {
-  //     return null;
-  //   }
-
-  //   return (
-  //     <CardSummary
-  //       label={t('lateness')}
-  //       progress={{
-  //         color: 'autoReverse',
-  //         isPercent: true,
-  //         total: sessionBrokenPercentLate,
-  //         value: sessionBrokenValue
-  //       }}
-  //     />
-  //   );
-  // }
-
   private renderEra () {
-    const { session_eraLength, session_eraProgress, t, withEra = true } = this.props;
+    const { session_info, t, withEra = true } = this.props;
 
     if (!withEra) {
       return null;
@@ -66,15 +38,15 @@ class SummarySession extends React.PureComponent<Props> {
       <CardSummary
         label={t('era')}
         progress={{
-          total: session_eraLength,
-          value: session_eraProgress
+          total: session_info && session_info.eraLength,
+          value: session_info && session_info.eraProgress
         }}
       />
     );
   }
 
   private renderSession () {
-    const { session_sessionProgress, session_sessionLength = new BN(0), t, withSession = true } = this.props;
+    const { session_info, t, withSession = true } = this.props;
 
     if (!withSession) {
       return null;
@@ -84,8 +56,8 @@ class SummarySession extends React.PureComponent<Props> {
       <CardSummary
         label={t('session')}
         progress={{
-          total: session_sessionLength,
-          value: session_sessionProgress
+          total: session_info && session_info.sessionLength,
+          value: session_info && session_info.sessionProgress
         }}
       />
     );
@@ -94,9 +66,6 @@ class SummarySession extends React.PureComponent<Props> {
 
 export default translate(
   withCalls<Props>(
-    'derive.session.eraLength',
-    'derive.session.eraProgress',
-    'derive.session.sessionProgress',
-    'query.session.sessionLength'
+    'derive.session.info'
   )(SummarySession)
 );

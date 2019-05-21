@@ -7,10 +7,10 @@ import { TabItem } from '@polkadot/ui-app/Tabs';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { Tabs } from '@polkadot/ui-app';
+import { HelpOverlay, Tabs } from '@polkadot/ui-app';
+import uiSettings from '@polkadot/ui-settings';
 
-import './index.css';
-
+import md from './md/basics.md';
 import translate from './translate';
 import Developer from './Developer';
 import General from './General';
@@ -44,12 +44,17 @@ class App extends React.PureComponent<Props, State> {
   render () {
     const { basePath } = this.props;
     const { tabs } = this.state;
+    const hidden = uiSettings.uiMode === 'full'
+      ? []
+      : ['developer'];
 
     return (
       <main className='settings--App'>
+        <HelpOverlay md={md} />
         <header>
           <Tabs
             basePath={basePath}
+            hidden={hidden}
             items={tabs}
           />
         </header>

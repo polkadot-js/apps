@@ -66,12 +66,14 @@
     font-size: 12px;
     line-height: 18px;
     min-width: calc(100% - 40px);
+    padding-top: 50px;
     width: auto;
   }
 
   .codeflask__lines {
     background: #fafafa;
     line-height: 18px;
+    padding-top: 50px;
     z-index: 100;
   }
 
@@ -99,7 +101,7 @@
   font-size: 12px;
   font-variant-ligatures: common-ligatures;
   line-height: 18px;
-  padding: 10px;
+  padding: 50px 10px 10px;
   position: relative;
   width: 40%;
 

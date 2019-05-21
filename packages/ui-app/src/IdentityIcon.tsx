@@ -4,7 +4,7 @@
 
 import { ApiProps } from '@polkadot/ui-api/types';
 import { IdentityProps } from '@polkadot/ui-identicon/types';
-import { QueueProps, QueueAction$Add } from './Status/types';
+import { QueueAction$Add } from './Status/types';
 import { I18nProps } from './types';
 
 import React from 'react';
@@ -86,7 +86,7 @@ class IdentityIcon extends React.PureComponent<Props, State> {
 
     return (
       <QueueConsumer>
-        {({ queueAction }: QueueProps) =>
+        {({ queueAction }) =>
           <CopyIconI18N
             isHighlight={isValidator}
             {...this.props}

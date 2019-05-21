@@ -54,11 +54,11 @@ class App extends React.PureComponent<Props, State> {
       tabs: [
         {
           name: 'overview',
-          text: t('Staking Overview')
+          text: t('Staking overview')
         },
         {
           name: 'actions',
-          text: t('Account Actions')
+          text: t('Account actions')
         }
       ],
       validators: []

@@ -28,6 +28,7 @@ type Props = BareProps & {
   maxLength?: number,
   min?: any,
   name?: string,
+  onEnter?: () => void,
   onChange?: (value: string) => void,
   onBlur?: (event: React.KeyboardEvent<Element>) => void,
   onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
@@ -38,7 +39,8 @@ type Props = BareProps & {
   tabIndex?: number,
   type?: Input$Type,
   value?: any,
-  withLabel?: boolean
+  withLabel?: boolean,
+  withEllipsis?: boolean
 };
 
 type State = {
@@ -92,7 +94,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { autoFocus = false, children, className, defaultValue, help, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, maxLength, min, name, placeholder, style, tabIndex, type = 'text', value, withLabel } = this.props;
+    const { autoFocus = false, children, className, defaultValue, help, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, maxLength, min, name, placeholder, style, tabIndex, type = 'text', value, withEllipsis, withLabel } = this.props;
 
     return (
       <Labelled
@@ -100,6 +102,7 @@ export default class Input extends React.PureComponent<Props, State> {
         help={help}
         label={label}
         style={style}
+        withEllipsis={withEllipsis}
         withLabel={withLabel}
       >
         <SUIInput
@@ -172,10 +175,14 @@ export default class Input extends React.PureComponent<Props, State> {
   }
 
   private onKeyUp = (event: React.KeyboardEvent<Element>): void => {
-    const { onKeyUp } = this.props;
+    const { onEnter, onKeyUp } = this.props;
 
     if (onKeyUp) {
       onKeyUp(event);
+    }
+
+    if (onEnter && event.keyCode === 13) {
+      onEnter();
     }
   }
 

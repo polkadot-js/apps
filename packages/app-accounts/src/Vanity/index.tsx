@@ -7,9 +7,8 @@ import { KeypairType } from '@polkadot/util-crypto/types';
 import { Generator$Matches, Generator$Result } from '../vanitygen/types';
 import { ComponentProps } from '../types';
 
-import './index.css';
-
 import React from 'react';
+import styled from 'styled-components';
 import { Button, Dropdown, Input } from '@polkadot/ui-app';
 import uiSettings from '@polkadot/ui-settings';
 
@@ -40,6 +39,18 @@ const BOOL_OPTIONS = [
   { text: 'Yes', value: true }
 ];
 
+const Wrapper = styled.div`
+  .vanity--App-matches {
+    padding: 1em 0;
+  }
+
+  .vanity--App-stats {
+    padding: 1em 0 0 0;
+    opacity: 0.45;
+    text-align: center;
+  }
+`;
+
 class VanityApp extends React.PureComponent<Props, State> {
   results: Array<Generator$Result> = [];
   state: State = {
@@ -63,16 +74,16 @@ class VanityApp extends React.PureComponent<Props, State> {
 
   render () {
     return (
-      <div className='accounts--Vanity'>
+      <Wrapper>
         {this.renderOptions()}
         {this.renderButtons()}
         {this.renderStats()}
         {this.renderMatches()}
-      </div>
+      </Wrapper>
     );
   }
 
-  renderButtons () {
+  private renderButtons () {
     const { t } = this.props;
     const { isMatchValid, isRunning } = this.state;
 
@@ -92,7 +103,7 @@ class VanityApp extends React.PureComponent<Props, State> {
     );
   }
 
-  renderMatches () {
+  private renderMatches () {
     const { matches } = this.state;
 
     return (
@@ -109,7 +120,7 @@ class VanityApp extends React.PureComponent<Props, State> {
     );
   }
 
-  renderOptions () {
+  private renderOptions () {
     const { t } = this.props;
     const { isMatchValid, isRunning, match, type, withCase } = this.state;
 
@@ -150,7 +161,7 @@ class VanityApp extends React.PureComponent<Props, State> {
     );
   }
 
-  renderStats () {
+  private renderStats () {
     const { t } = this.props;
     const { elapsed, keyCount } = this.state;
 
@@ -173,7 +184,7 @@ class VanityApp extends React.PureComponent<Props, State> {
     );
   }
 
-  checkMatches (): void {
+  private checkMatches (): void {
     const results = this.results;
 
     this.results = [];
@@ -183,24 +194,23 @@ class VanityApp extends React.PureComponent<Props, State> {
     }
 
     this.setState(
-      (prevState: State) => {
-        let newKeyCount = prevState.keyCount;
-        let newKeyTime = prevState.keyTime;
-
-        const matches = results
+      ({ keyCount, keyTime, matches, startAt }: State) => {
+        let newKeyCount = keyCount;
+        let newKeyTime = keyTime;
+        const newMatches = results
           .reduce((result, { elapsed, found }) => {
             newKeyCount += found.length;
             newKeyTime += elapsed;
 
             return result.concat(found);
-          }, prevState.matches)
+          }, matches)
           .sort(generatorSort)
           .slice(0, 25);
-        const elapsed = Date.now() - prevState.startAt;
+        const elapsed = Date.now() - startAt;
 
         return {
           elapsed,
-          matches,
+          matches: newMatches,
           keyCount: newKeyCount,
           keyTime: newKeyTime
         };
@@ -208,7 +218,7 @@ class VanityApp extends React.PureComponent<Props, State> {
     );
   }
 
-  executeGeneration = (): void => {
+  private executeGeneration = (): void => {
     if (!this.state.isRunning) {
       this.checkMatches();
 
@@ -244,11 +254,11 @@ class VanityApp extends React.PureComponent<Props, State> {
     window.location.hash = `${basePath}/create/${type}/${seed}`;
   }
 
-  onChangeCase = (withCase: boolean): void => {
+  private onChangeCase = (withCase: boolean): void => {
     this.setState({ withCase });
   }
 
-  onChangeMatch = (match: string): void => {
+  private onChangeMatch = (match: string): void => {
     this.setState({
       isMatchValid:
         matchRegex.test(match) &&
@@ -258,25 +268,23 @@ class VanityApp extends React.PureComponent<Props, State> {
     });
   }
 
-  onChangeType = (type: KeypairType): void => {
+  private onChangeType = (type: KeypairType): void => {
     this.setState({ type } as State);
   }
 
-  onRemove = (address: string): void => {
+  private onRemove = (address: string): void => {
     this.setState(
-      (prevState: State) => ({
-        matches: prevState.matches.filter((item) =>
+      ({ matches }: State) => ({
+        matches: matches.filter((item) =>
           item.address !== address
         )
       })
     );
   }
 
-  toggleStart = (): void => {
+  private toggleStart = (): void => {
     this.setState(
-      (prevState: State) => {
-        const { isRunning, keyCount, keyTime, startAt } = prevState;
-
+      ({ isRunning, keyCount, keyTime, startAt }: State) => {
         this._isActive = !isRunning;
 
         return {

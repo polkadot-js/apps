@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, HeaderExtended } from '@polkadot/types';
+import { Balance } from '@polkadot/types';
 import { BareProps } from '@polkadot/ui-app/types';
 import { ComponentProps } from '../types';
 
 import './index.css';
 
 import React from 'react';
+import { HeaderExtended } from '@polkadot/api-derive';
 import { withCalls, withMulti } from '@polkadot/ui-api/with';
 import { formatNumber } from '@polkadot/util';
 
@@ -64,10 +65,10 @@ class Overview extends React.PureComponent<Props> {
     const { balances } = this.props;
 
     return list.sort((a, b) => {
-      const balanceA = balances[a] || { stakingBalance: ZERO };
-      const balanceB = balances[b] || { stakingBalance: ZERO };
+      const balanceA = balances[a] || { freeBalance: ZERO };
+      const balanceB = balances[b] || { freeBalance: ZERO };
 
-      return balanceB.stakingBalance.cmp(balanceA.stakingBalance);
+      return balanceB.freeBalance.cmp(balanceA.freeBalance);
     });
   }
 }

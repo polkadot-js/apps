@@ -36,7 +36,6 @@ class Item extends React.PureComponent<Props> {
   }
 
   render () {
-
     const { route: { i18n, icon, name }, t, isCollapsed } = this.props;
 
     if (!this.isVisible()) {

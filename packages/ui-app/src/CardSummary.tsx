@@ -22,8 +22,7 @@ const Card = styled.article`
   flex: 0 1 auto;
   flex-flow: row wrap;
   justify-content: flex-end;
-  min-height: 5.7rem;
-  padding: 0.5rem 1.5rem;
+  padding: 0rem 1.5rem 0.5rem 1.5rem;
 
   > div {
     font-size: 2.1rem;
