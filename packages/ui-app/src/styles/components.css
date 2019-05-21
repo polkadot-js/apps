@@ -134,11 +134,12 @@ button.ui.icon.withDrawUnbonded {
 
 .ui--AddressSummary-tags.editable > span {
     border: 1px #00000052 solid;
-    border-style: dashed;
-    padding: .1em 0.3em 0.1em 0.3em;
     border-radius: .5em;
+    border-style: dashed;
     color: grey;
     font-size: x-small;
+    padding: .1em 0.3em 0.1em 0.3em;
+    margin-top: .2em;
 }
 
 .ui--AddressSummary-tags.editable > div.label {
@@ -272,7 +273,7 @@ button.ui.icon.withDrawUnbonded {
 }
 
 .ui--AddressSummary-tags-input {
-  margin-bottom: -1.6em;
+  margin-bottom: -1.4em;
 }
 
 .ui--Bubble.ui.label {
