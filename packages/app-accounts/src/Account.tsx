@@ -15,6 +15,7 @@ import keyring from '@polkadot/ui-keyring';
 import Backup from './modals/Backup';
 import ChangePass from './modals/ChangePass';
 import Forgetting from './modals/Forgetting';
+import Transfer from './modals/Transfer';
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -24,7 +25,8 @@ type Props = I18nProps & {
 type State = {
   isBackupOpen: boolean,
   isForgetOpen: boolean,
-  isPasswordOpen: boolean
+  isPasswordOpen: boolean,
+  isTransferOpen: boolean
 };
 
 const Wrapper = styled.article`
@@ -124,7 +126,8 @@ class Account extends React.PureComponent<Props> {
     this.state = {
       isBackupOpen: false,
       isForgetOpen: false,
-      isPasswordOpen: false
+      isPasswordOpen: false,
+      isTransferOpen: false
     };
   }
 
@@ -197,7 +200,7 @@ class Account extends React.PureComponent<Props> {
 
   private renderModals () {
     const { address } = this.props;
-    const { isBackupOpen, isForgetOpen, isPasswordOpen } = this.state;
+    const { isBackupOpen, isForgetOpen, isPasswordOpen, isTransferOpen } = this.state;
 
     if (!address) {
       return null;
@@ -236,23 +239,33 @@ class Account extends React.PureComponent<Props> {
       );
     }
 
+    if (isTransferOpen) {
+      modals.push(
+        <Transfer
+          address={address}
+          key='modal-transfer'
+          onClose={this.toggleTransfer}
+        />
+      );
+    }
+
     return modals;
   }
 
   private toggleBackup = (): void => {
-    this.setState(
-      ({ isBackupOpen }: State) => ({
-        isBackupOpen: !isBackupOpen
-      })
-    );
+    const { isBackupOpen } = this.state;
+
+    this.setState({
+      isBackupOpen: !isBackupOpen
+    });
   }
 
   private toggleForget = (): void => {
-    this.setState(
-      ({ isForgetOpen }: State) => ({
-        isForgetOpen: !isForgetOpen
-      })
-    );
+    const { isForgetOpen } = this.state;
+
+    this.setState({
+      isForgetOpen: !isForgetOpen
+    });
   }
 
   private togglePass = (): void => {
@@ -260,6 +273,14 @@ class Account extends React.PureComponent<Props> {
 
     this.setState({
       isPasswordOpen: !isPasswordOpen
+    });
+  }
+
+  private toggleTransfer = (): void => {
+    const { isTransferOpen } = this.state;
+
+    this.setState({
+      isTransferOpen: !isTransferOpen
     });
   }
 
@@ -358,7 +379,18 @@ class Account extends React.PureComponent<Props> {
             />
           }
         />
+        <Popup
+          content='Send funds from this account'
+          trigger={
+            <SUIB
+              icon='paper plane'
+              onClick={this.toggleTransfer}
+              size='small'
+            />
+          }
+        />
       </div>
+
     );
   }
 }
