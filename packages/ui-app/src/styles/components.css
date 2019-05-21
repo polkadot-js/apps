@@ -107,12 +107,12 @@ button.ui.icon.withDrawUnbonded {
 
 .ui--AddressSummary-name.editable:hover > button.ui.icon.editButton,
 .ui--AddressSummary-tags.editable:hover > button.ui.icon.editButton {
-  visibility: visible; 
+  opacity: 1; 
 }
 
 .ui--AddressSummary-name.editable > button.ui.icon.editButton,
 .ui--AddressSummary-tags.editable > button.ui.icon.editButton {
-  visibility: hidden;
+  opacity: 0.7;
 }
 
 .ui--AddressSummary-name.editable > button.ui.icon.editButton,

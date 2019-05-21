@@ -282,7 +282,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
         className='editButton'
         onClick={callback}
         icon='edit'
-        size='small'
+        size='mini'
         isPrimary
         key='unlock'
       />

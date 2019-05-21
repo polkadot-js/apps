@@ -34,7 +34,7 @@ const Wrapper = styled.article`
   max-width: 32%;
   justify-content: space-around;
 
-  &:hover .accounts--Account-buttons{
+  &:hover .accounts--Account-buttons {
     visibility:visible;
   }
 
@@ -48,7 +48,7 @@ const Wrapper = styled.article`
     justify-content: space-around;
   }
 
-  .ui--AddressSummary-base{
+  .ui--AddressSummary-base {
     flex: 3;
     padding: 0;
   }
@@ -61,7 +61,7 @@ const Wrapper = styled.article`
 
   .account--Account-balances {
     display: grid;
-    grid-column-gap: 1em;
+    grid-column-gap: .5em;
     color: #4e4e4e;
     opacity: 1;
   }
@@ -85,6 +85,14 @@ const Wrapper = styled.article`
   .result-nonce,
   .result-redeemable {
     grid-column:  2;
+    font-weight: normal;
+  }
+
+  .result-available,
+  .result-balance,
+  .result-bonded,
+  .result-locked,
+  .result-redeemable {
     font-weight: bold;
   }
 
@@ -314,13 +322,14 @@ class Account extends React.PureComponent<Props> {
 
   private renderButtons () {
 
+    // FIXME: The <Popup /> event trigger on='hover' does not work together with the ui-app'
+    // <Button /> component. That's why the original Semantic UI component is being used here.
     return (
       <div className='accounts--Account-buttons'>
         <Popup
           content='Delete this account'
           trigger={
             <SUIB
-
               negative
               onClick={this.toggleForget}
               icon='trash'
@@ -329,19 +338,16 @@ class Account extends React.PureComponent<Props> {
           }
           wide='very'
         />
-
         <Popup
           content='Create a backup file for this account'
           trigger={
             <SUIB
-
               icon='cloud download'
               onClick={this.toggleBackup}
               size='small'
             />
           }
         />
-
         <Popup
           content="Change this account's password"
           trigger={
