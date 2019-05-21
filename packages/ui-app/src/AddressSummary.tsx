@@ -356,7 +356,6 @@ class AddressSummary extends React.PureComponent<Props, State> {
 
     const resultingDom = isEditingTags ?
       <>
-        <div className='ui--AddressSummary-tags-spacer'/>
         <InputTags
           className='ui--AddressSummary-tags-input'
           onBlur={this.saveTags}
