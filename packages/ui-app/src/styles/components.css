@@ -267,6 +267,12 @@ button.ui.icon.withDrawUnbonded {
   height: 1em;
   text-align: center;
   text-transform: uppercase;
+  margin-top: -.3em;
+  margin-bottom: -.35em;
+}
+
+.ui--AddressSummary-tags-input {
+  margin-bottom: -1.45em;
 }
 
 .ui--Bubble.ui.label {

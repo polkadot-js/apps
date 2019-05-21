@@ -54,12 +54,13 @@ export default class InputTags extends React.PureComponent<Props> {
   };
 
   render () {
-    const { defaultValue, help, isDisabled, isError, label, onBlur, onChange, onClose, placeholder, searchInput, value, withLabel } = this.props;
+    const { className, defaultValue, help, isDisabled, isError, label, onBlur, onChange, onClose, placeholder, searchInput, value, withLabel } = this.props;
     const { options } = this.state;
 
     return (
       <Dropdown
         allowAdd={!isDisabled}
+        className={className}
         defaultValue={defaultValue}
         help={help}
         isDisabled={isDisabled}
