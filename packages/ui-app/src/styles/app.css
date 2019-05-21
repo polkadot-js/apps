@@ -96,9 +96,10 @@ article {
   }
 
   &:not(:hover) {
-    .ui--Button-Group .ui.buttons .ui.button {
-      background: #ddd;
-      color: #333;
+    .ui--Button-Group .ui.buttons .ui.button,
+    .ui.button.ui--CopyButton {
+      background: #eee;
+      color: #555;
     }
   }
 }
