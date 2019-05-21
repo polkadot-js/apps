@@ -301,6 +301,7 @@ button.ui.icon.withDrawUnbonded {
 .ui--CopyButton {
   cursor: copy !important;
   margin-left: 0.25rem !important;
+  margin-right: 0.25rem !important;
 }
 
 .ui--DropdownLinked.ui--row {

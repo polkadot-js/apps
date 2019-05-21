@@ -18,6 +18,7 @@ import AvailableDisplay from './Available';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import { classes, getAddrName, toShortAddress } from './util';
+import CopyButton from './CopyButton';
 import IdentityIcon from './IdentityIcon';
 import NonceDisplay from './Nonce';
 import translate from './translate';
@@ -131,14 +132,26 @@ class AddressSummary extends React.PureComponent<Props, State> {
       ? value.toString()
       : DEFAULT_ADDR;
 
+    const addrElem = isShort
+    ? (
+        <CopyButton
+          isAddress
+          value={address}
+        >
+          <span>{toShortAddress(address)}</span>
+        </CopyButton>
+    )
+    : address;
+
     return (
-        <div className='ui--AddressSummary-accountId'>
-          {
-            isShort
-              ? toShortAddress(address)
-              : value
-          }
+      <>
+        <div className='ui--AddressSummary-name'>
+          {name}
         </div>
+        <div className='ui--AddressSummary-accountId'>
+          {addrElem}
+        </div>
+      </>
     );
   }
 
