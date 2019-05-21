@@ -8,7 +8,6 @@ import { I18nProps } from './types';
 import { Button as SUIB, Popup } from 'semantic-ui-react';
 import React from 'react';
 import styled from 'styled-components';
-
 import { AddressSummary, Available, Balance, Bonded, CryptoType, Nonce, Unlocking } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
@@ -85,7 +84,6 @@ const Wrapper = styled.article`
   .result-nonce,
   .result-redeemable {
     grid-column:  2;
-    font-weight: normal;
   }
 
   .result-available,
@@ -240,19 +238,19 @@ class Account extends React.PureComponent<Props> {
   }
 
   private toggleBackup = (): void => {
-    this.setState(
-      ({ isBackupOpen }: State) => ({
-        isBackupOpen: !isBackupOpen
-      })
-    );
+    const { isBackupOpen } = this.state;
+
+    this.setState({
+      isBackupOpen: !isBackupOpen
+    });
   }
 
   private toggleForget = (): void => {
-    this.setState(
-      ({ isForgetOpen }: State) => ({
-        isForgetOpen: !isForgetOpen
-      })
-    );
+    const { isForgetOpen } = this.state;
+
+    this.setState({
+      isForgetOpen: !isForgetOpen
+    });
   }
 
   private togglePass = (): void => {

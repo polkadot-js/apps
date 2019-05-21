@@ -6,14 +6,14 @@ import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { ComponentProps, LocationProps } from './types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
-import './index.css';
-
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { HelpOverlay, Tabs } from '@polkadot/ui-app';
 import { TabItem } from '@polkadot/ui-app/Tabs';
 import { withMulti, withObservable } from '@polkadot/ui-api';
+
+import './index.css';
 
 import basicMd from './md/basic.md';
 import Creator from './Creator';
@@ -67,6 +67,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
   }
 
   static showVanityState () {
+
     return {
       hidden: []
     };

@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps, CallProps } from '@polkadot/ui-api/types';
-
 import { AccountId, AccountIndex, Address } from '@polkadot/types';
+import { BareProps, CallProps } from '@polkadot/ui-api/types';
 import { DerivedBalances } from '@polkadot/api-derive/types';
-import { formatBalance } from '@polkadot/util';
+
 import React from 'react';
+import { formatBalance } from '@polkadot/util';
 import { withCalls } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & {
@@ -18,7 +18,6 @@ type Props = BareProps & CallProps & {
 };
 
 export class AvailableDisplay extends React.PureComponent<Props> {
-
   render () {
     const { balances_all, children, className, label = '' } = this.props;
 

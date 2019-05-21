@@ -3,12 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
+import { Index } from '@polkadot/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Index } from '@polkadot/types';
-import { withCalls } from '@polkadot/ui-api';
 import { formatNumber } from '@polkadot/util';
+import { withCalls } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & {
   callOnResult?: (accountNonce: BN) => void,

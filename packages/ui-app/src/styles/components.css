@@ -212,13 +212,10 @@ button.ui.icon.withDrawUnbonded {
 .result-available,
 .result-balance,
 .result-bonded,
-.result-cryptotype,
 .result-locked,
-.result-nonce,
 .result-redeemable {
   grid-column:  2;
   font-weight: bold;
-  text-align: left;
 }
 
 .ui--AddressSummary-balance.rx--updated,

@@ -6,9 +6,8 @@ import { AccountId, AccountIndex, Address } from '@polkadot/types';
 import { I18nProps } from './types';
 
 import BN from 'bn.js';
-import React from 'react';
 import { Label } from 'semantic-ui-react';
-
+import React from 'react';
 import BaseIdentityIcon from '@polkadot/ui-identicon';
 import { Button, Input, InputTags } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
@@ -122,6 +121,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     } catch (error) {
       // all-ok, we have empty fallbacks
     }
+
     return [];
   }
 
@@ -277,6 +277,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderEditIcon (callback: () => void) {
+
     return (
       <Button
         className='editButton'
