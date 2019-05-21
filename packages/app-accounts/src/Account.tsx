@@ -29,8 +29,8 @@ type State = {
 const Wrapper = styled.article`
   position: relative;
   flex: 1 1;
-  min-width: 32%;
-  max-width: 32%;
+  min-width: 24%;
+  max-width: 24%;
   justify-content: space-around;
 
   .accounts--Account-buttons {
@@ -43,14 +43,14 @@ const Wrapper = styled.article`
   }
 
   .ui--AddressSummary-base {
-    flex: 3;
+    flex: 1;
     padding: 0;
   }
   .ui--AddressSummary-children {
-    flex: 4;
+    flex: 1;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-end;
   }
 
   .account--Account-balances {
@@ -88,6 +88,11 @@ const Wrapper = styled.article`
   .accounts--Account-buttons > button {
     margin: .2em;
   }
+
+  @media (max-width: 2060px) {
+    min-width: 32%;
+    max-width: 32%;
+}
 
   @media (max-width: 1580px) {
       min-width: 49%;

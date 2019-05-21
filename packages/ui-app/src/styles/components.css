@@ -105,14 +105,14 @@ button.ui.icon.withDrawUnbonded {
   }
 }
 
-.ui--AddressSummary-name.editable:hover > button.ui.icon.editButton,
-.ui--AddressSummary-tags.editable:hover > button.ui.icon.editButton {
-  opacity: 1; 
+.overview--Account:hover  button.ui.icon.editButton,
+.overview--Account:hover  button.ui.icon.editButton {
+  visibility: visible; 
 }
 
-.ui--AddressSummary-name.editable > button.ui.icon.editButton,
-.ui--AddressSummary-tags.editable > button.ui.icon.editButton {
-  opacity: 0.7;
+.overview--Account button.ui.icon.editButton,
+.overview--Account button.ui.icon.editButton {
+  visibility: hidden; 
 }
 
 .ui--AddressSummary-name.editable > button.ui.icon.editButton,
