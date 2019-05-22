@@ -5,7 +5,12 @@
 import React from 'react';
 
 export default class TxComponent<P, S> extends React.PureComponent<P, S> {
-  button: any = React.createRef();
+  button: any;
+
+  constructor (props: P) {
+    super(props);
+    this.button = React.createRef();
+  }
 
   sendTx = (): void => {
     const { component } = this.button.current;
@@ -15,6 +20,8 @@ export default class TxComponent<P, S> extends React.PureComponent<P, S> {
   }
 
   submit = (): void => {
-    this.button.current.click();
+    if (this.button && this.button.current && this.button.current.click) {
+      this.button.current.click();
+    }
   }
 }
