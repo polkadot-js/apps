@@ -78,7 +78,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
     );
   }
 
-  private send = (): void => {
+  send = (): void => {
     const { accountId, api, isUnsigned, onClick, onUpdate, params = [], queueExtrinsic, tx = '', extrinsic: propsExtrinsic } = this.props;
     let extrinsic: any;
 
@@ -130,6 +130,8 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
 }
 
 class TxButton extends React.PureComponent<Props> {
+  button: any = React.createRef();
+
   render () {
     return (
       <QueueConsumer>
@@ -138,10 +140,15 @@ class TxButton extends React.PureComponent<Props> {
             {...this.props}
             queueExtrinsic={queueExtrinsic}
             txqueue={txqueue}
+            ref={this.button}
           />
         )}
       </QueueConsumer>
     );
+  }
+
+  send = () => {
+    this.button.current.send();
   }
 }
 

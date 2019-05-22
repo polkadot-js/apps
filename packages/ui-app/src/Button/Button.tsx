@@ -41,4 +41,11 @@ export default class Button extends React.PureComponent<ButtonProps> {
         </SUIButton>
       );
   }
+
+  click = () => {
+    const { onClick } = this.props;
+    if (onClick) {
+      onClick();
+    }
+  }
 }

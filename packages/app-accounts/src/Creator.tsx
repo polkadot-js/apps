@@ -12,7 +12,7 @@ import FileSaver from 'file-saver';
 import React from 'react';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { withApi, withMulti } from '@polkadot/ui-api';
-import { AddressSummary, AddressRow, Button, Dropdown, Input, InputTags, Labelled, Modal, Password } from '@polkadot/ui-app';
+import { AddressSummary, AddressRow, Button, Dropdown, Input, InputTags, Labelled, Modal, Password, TxComponent } from '@polkadot/ui-app';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
@@ -90,7 +90,7 @@ function addressFromSeed (phrase: string, derivePath: string, pairType: KeypairT
     .address();
 }
 
-class Creator extends React.PureComponent<Props, State> {
+class Creator extends TxComponent<Props, State> {
   state: State = { seedType: 'bip' } as State;
 
   constructor (props: Props) {
@@ -150,6 +150,7 @@ class Creator extends React.PureComponent<Props, State> {
           isPrimary
           label={t('Save')}
           onClick={this.onShowWarning}
+          ref={this.button}
         />
       </Button.Group>
     );
@@ -179,6 +180,7 @@ class Creator extends React.PureComponent<Props, State> {
             isError={!isNameValid}
             label={t('name')}
             onChange={this.onChangeName}
+            onEnter={this.submit}
             value={name}
           />
         </div>
@@ -190,6 +192,7 @@ class Creator extends React.PureComponent<Props, State> {
             isError={!isSeedValid}
             label={seedLabel}
             onChange={this.onChangeSeed}
+            onEnter={this.submit}
             value={seed}
           >
             <Dropdown
@@ -207,6 +210,7 @@ class Creator extends React.PureComponent<Props, State> {
             isError={!isPassValid}
             label={t('password')}
             onChange={this.onChangePass}
+            onEnter={this.submit}
             value={password}
           />
         </div>
@@ -240,6 +244,7 @@ class Creator extends React.PureComponent<Props, State> {
                 isError={!!deriveError}
                 label={t('secret derivation path')}
                 onChange={this.onChangeDerive}
+                onEnter={this.submit}
                 value={derivePath}
               />
             </div>
@@ -340,7 +345,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   private nextState (newState: State): void {
     this.setState(
-      (prevState: State, props: Props): State => {
+      (prevState: State): State => {
         const { derivePath = prevState.derivePath, name = prevState.name, pairType = prevState.pairType, password = prevState.password, seed = prevState.seed, seedOptions = prevState.seedOptions, seedType = prevState.seedType, showWarning = prevState.showWarning, tags = prevState.tags } = newState;
         let address = prevState.address;
         const deriveError = deriveValidate(derivePath, pairType);

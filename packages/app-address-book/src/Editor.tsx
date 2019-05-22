@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { AddressSummary, Button, Input, InputAddress, InputTags } from '@polkadot/ui-app';
+import { AddressSummary, Button, Input, InputAddress, InputTags, TxComponent } from '@polkadot/ui-app';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import keyring from '@polkadot/ui-keyring';
 
@@ -24,7 +24,7 @@ type State = {
   tags: Array<string>
 };
 
-class Editor extends React.PureComponent<Props, State> {
+class Editor extends TxComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -76,6 +76,7 @@ class Editor extends React.PureComponent<Props, State> {
           isPrimary
           onClick={this.onCommit}
           label={t('Save')}
+          ref={this.button}
         />
       </Button.Group>
     );
@@ -115,6 +116,7 @@ class Editor extends React.PureComponent<Props, State> {
               help={t('Name associated with the selected contact. You can change it here. This name will be changed across all the apps.')}
               label={t('name')}
               onChange={this.onChangeName}
+              onEnter={this.submit}
               value={editedName}
             />
           </div>

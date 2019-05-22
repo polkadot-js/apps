@@ -10,7 +10,7 @@ import { QueueTx$RpcAdd } from '@polkadot/ui-app/Status/types';
 import React from 'react';
 import rpc from '@polkadot/jsonrpc';
 import { getTypeDef } from '@polkadot/types';
-import { Button, InputRpc } from '@polkadot/ui-app';
+import { Button, InputRpc, TxComponent } from '@polkadot/ui-app';
 import Params from '@polkadot/ui-params';
 
 import translate from './translate';
@@ -28,7 +28,7 @@ type State = {
 
 const defaultMethod = rpc.author.methods.submitExtrinsic;
 
-class Selection extends React.PureComponent<Props, State> {
+class Selection extends TxComponent<Props, State> {
   state: State = {
     isValid: false,
     accountId: null,
@@ -55,6 +55,7 @@ class Selection extends React.PureComponent<Props, State> {
         <Params
           key={`${rpc.section}.${rpc.method}:params` /* force re-render on change */}
           onChange={this.onChangeValues}
+          onEnter={this.submit}
           params={params}
         />
         <Button.Group>
@@ -63,6 +64,7 @@ class Selection extends React.PureComponent<Props, State> {
             isPrimary
             onClick={this.onSubmit}
             label={t('Submit RPC call')}
+            ref={this.button}
           />
         </Button.Group>
       </section>

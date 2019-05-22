@@ -11,8 +11,8 @@ import Divider from './Divider';
 import Group from './Group';
 import Or from './Or';
 
-(Button as ButtonType).Divider = Divider;
-(Button as ButtonType).Group = Group;
-(Button as ButtonType).Or = Or;
+(Button as any as ButtonType).Divider = Divider;
+(Button as any as ButtonType).Group = Group;
+(Button as any as ButtonType).Or = Or;
 
-export default (Button as ButtonType);
+export default (Button as any as ButtonType);

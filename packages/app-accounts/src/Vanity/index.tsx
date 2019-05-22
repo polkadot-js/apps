@@ -9,7 +9,7 @@ import { ComponentProps } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Button, Dropdown, Input } from '@polkadot/ui-app';
+import { Button, Dropdown, Input, TxComponent } from '@polkadot/ui-app';
 import uiSettings from '@polkadot/ui-settings';
 
 import generator from '../vanitygen';
@@ -51,7 +51,7 @@ const Wrapper = styled.div`
   }
 `;
 
-class VanityApp extends React.PureComponent<Props, State> {
+class VanityApp extends TxComponent<Props, State> {
   results: Array<Generator$Result> = [];
   state: State = {
     elapsed: 0,
@@ -98,6 +98,7 @@ class VanityApp extends React.PureComponent<Props, State> {
               ? t('Stop generation')
               : t('Start generation')
           }
+          ref={this.button}
         />
       </Button.Group>
     );
@@ -135,6 +136,7 @@ class VanityApp extends React.PureComponent<Props, State> {
             isError={!isMatchValid}
             label={t('Search for')}
             onChange={this.onChangeMatch}
+            onEnter={this.submit}
             value={match}
           />
           <Dropdown

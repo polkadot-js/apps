@@ -11,7 +11,7 @@ import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { Method, Proposal } from '@polkadot/types';
 
-import { Button, Extrinsic, InputAddress, InputBalance, TxButton } from '@polkadot/ui-app';
+import { Button, Extrinsic, InputAddress, InputBalance, TxButton, TxComponent } from '@polkadot/ui-app';
 import { withApi, withMulti } from '@polkadot/ui-api';
 
 import translate from './translate';
@@ -27,7 +27,7 @@ type State = {
   isValid: boolean
 };
 
-class Propose extends React.PureComponent<Props, State> {
+class Propose extends TxComponent<Props, State> {
   state: State = {
     method: null,
     value: new BN(0),
@@ -60,6 +60,7 @@ class Propose extends React.PureComponent<Props, State> {
           defaultValue={defaultExtrinsic}
           label={t('propose')}
           onChange={this.onChangeExtrinsic}
+          onEnter={this.sendTx}
         />
         <InputBalance
           className='medium'
@@ -67,6 +68,7 @@ class Propose extends React.PureComponent<Props, State> {
           help={t('The amount that will be bonded to submit the proposal')}
           label={t('value')}
           onChange={this.onChangeValue}
+          onEnter={this.sendTx}
         />
         <Button.Group>
           <TxButton
@@ -79,6 +81,7 @@ class Propose extends React.PureComponent<Props, State> {
               ...(hasValue ? [value] : [])
             ]}
             onSuccess={this.onSubmitProposal}
+            ref={this.button}
           />
         </Button.Group>
       </section>

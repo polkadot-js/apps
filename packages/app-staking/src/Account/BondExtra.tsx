@@ -8,7 +8,7 @@ import { CalculateBalanceProps } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/ui-app';
+import { Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 import { Option, StakingLedger } from '@polkadot/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
@@ -33,7 +33,7 @@ type State = {
 
 const ZERO = new BN(0);
 
-class BondExtra extends React.PureComponent<Props, State> {
+class BondExtra extends TxComponent<Props, State> {
   state: State = {
     extrinsic: null
   };
@@ -83,6 +83,7 @@ class BondExtra extends React.PureComponent<Props, State> {
               label={t('Bond')}
               onClick={onClose}
               extrinsic={extrinsic}
+              ref={this.button}
             />
           </Button.Group>
         </Modal.Actions>
@@ -113,6 +114,7 @@ class BondExtra extends React.PureComponent<Props, State> {
             label={t('max additional value')}
             maxValue={maxBalance}
             onChange={this.onChangeValue}
+            onEnter={this.sendTx}
             withMax
           />
         </Modal.Content>

@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import FileSaver from 'file-saver';
 import React from 'react';
-import { AddressRow, Button, Modal, Password } from '@polkadot/ui-app';
+import { AddressRow, Button, Modal, Password, TxComponent } from '@polkadot/ui-app';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import keyring from '@polkadot/ui-keyring';
 
@@ -22,7 +22,7 @@ type State = {
   password: string
 };
 
-class Backup extends React.PureComponent<Props, State> {
+class Backup extends TxComponent<Props, State> {
   state: State = {
     isPassValid: false,
     password: ''
@@ -59,6 +59,7 @@ class Backup extends React.PureComponent<Props, State> {
             isPrimary
             label={t('Download')}
             onClick={this.doBackup}
+            ref={this.button}
           />
         </Button.Group>
       </Modal.Actions>
@@ -87,6 +88,7 @@ class Backup extends React.PureComponent<Props, State> {
                 isError={!isPassValid}
                 label={t('password')}
                 onChange={this.onChangePass}
+                onEnter={this.submit}
                 tabIndex={0}
                 value={password}
               />
