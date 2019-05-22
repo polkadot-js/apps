@@ -2,21 +2,61 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiProps } from '@polkadot/ui-api/types';
+import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
+import BN from 'bn.js';
 import React from 'react';
-import { AddressRow, Button, Modal } from '@polkadot/ui-app';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
-import keyring from '@polkadot/ui-keyring';
+import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/ui-app';
+import Checks, { calcSignatureLength } from '@polkadot/ui-signer/Checks';
+import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
+import { ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
+type Props = ApiProps & I18nProps & {
+  address: string,
+  balances_fees?: DerivedFees,
+  balances_votingBalance?: DerivedBalances,
   onClose: () => void,
-  address: string
+  system_accountNonce?: BN
 };
 
+type State = {
+  amount: BN,
+  extrinsic: SubmittableExtrinsic | null,
+  hasAvailable: boolean,
+  maxBalance?: BN,
+  recipientId: string | null
+};
+
+const ZERO = new BN(0);
+
 class Transfer extends React.PureComponent<Props> {
+  state: State = {
+    amount: ZERO,
+    extrinsic: null,
+    hasAvailable: true,
+    maxBalance: ZERO,
+    recipientId: null
+  };
+
+  componentDidUpdate (prevProps: Props, prevState: State) {
+    const { balances_fees } = this.props;
+    const { extrinsic, recipientId } = this.state;
+
+    const hasLengthChanged = ((extrinsic && extrinsic.encodedLength) || 0) !== ((prevState.extrinsic && prevState.extrinsic.encodedLength) || 0);
+
+    if ((recipientId && prevState.recipientId !== recipientId) ||
+      (balances_fees !== prevProps.balances_fees) ||
+      hasLengthChanged
+    ) {
+      this.setMaxBalance();
+    }
+  }
+
   render () {
     return (
       <Modal
@@ -30,8 +70,73 @@ class Transfer extends React.PureComponent<Props> {
     );
   }
 
+  private nextState (newState: Partial<State>): void {
+    this.setState((prevState: State): State => {
+      const { api } = this.props;
+      const { amount = prevState.amount, recipientId = prevState.recipientId, hasAvailable = prevState.hasAvailable, maxBalance = prevState.maxBalance } = newState;
+      const extrinsic = recipientId
+        ? api.tx.balances.transfer(recipientId, amount)
+        : null;
+
+      return {
+        amount,
+        extrinsic,
+        hasAvailable,
+        maxBalance,
+        recipientId
+      };
+    });
+  }
+
+  private setMaxBalance = () => {
+    const { address, api, balances_fees = ZERO_FEES } = this.props;
+    const { recipientId } = this.state;
+
+    if (!address || !recipientId) {
+      return;
+    }
+
+    void api.query.system.accountNonce(address, (accountNonce) => {
+
+      const { transferFee, transactionBaseFee, transactionByteFee, creationFee } = balances_fees;
+
+      void api.derive.balances.all(address, ({ availableBalance: senderBalance }) => {
+        void api.derive.balances.all(recipientId, ({ availableBalance: recipientBalance }) => {
+
+          let prevMax = new BN(0);
+          let maxBalance = new BN(1);
+          let extrinsic;
+
+          while (!prevMax.eq(maxBalance)) {
+            prevMax = maxBalance;
+
+            extrinsic = address && recipientId
+              ? api.tx.balances.transfer(recipientId, prevMax)
+              : null;
+
+            const txLength = calcSignatureLength(extrinsic, accountNonce);
+
+            const fees = transactionBaseFee
+              .add(transactionByteFee.muln(txLength))
+              .add(transferFee)
+              .add(senderBalance.isZero() ? creationFee : ZERO)
+              .add(recipientBalance.isZero() ? creationFee : ZERO);
+
+            maxBalance = new BN(senderBalance).sub(fees);
+          }
+
+          this.nextState({
+            extrinsic,
+            maxBalance
+          });
+        });
+      });
+    });
+  }
+
   private renderButtons () {
-    const { onClose, t } = this.props;
+    const { address, onClose, system_accountNonce, t } = this.props;
+    const { extrinsic, hasAvailable } = this.state;
 
     return (
       <Modal.Actions>
@@ -42,11 +147,14 @@ class Transfer extends React.PureComponent<Props> {
             onClick={onClose}
           />
           <Button.Or />
-          <Button
-            /*isDisabled={}*/
+          <TxButton
+            accountId={address}
+            accountNonce={system_accountNonce}
+            extrinsic={extrinsic}
+            isDisabled={!hasAvailable}
             isPrimary
-            label={t('Download')}
-            onClick={this.doBackup}
+            label={t('Make Transfer')}
+            onSuccess={onClose}
           />
         </Button.Group>
       </Modal.Actions>
@@ -55,33 +163,68 @@ class Transfer extends React.PureComponent<Props> {
 
   private renderContent () {
     const { address, t } = this.props;
+    const { extrinsic, hasAvailable, maxBalance } = this.state;
 
     return (
       <>
         <Modal.Header>
-          {t('Backup account')}
+          {t('Send funds')}
         </Modal.Header>
         <Modal.Content className='app--account-Backup-content'>
-          <AddressRow
-            isInline
-            value={address}
-          >
-            <p>{t('An encrypted backup file will be created once you have pressed the "Download" button. This can be used to re-import your account on any other machine.')}</p>
-            <p>{t('Save this backup file in a secure location. Additionally, the password associated with this account is needed together with this backup file in order to restore your account.')}</p>
-            <div>
-
-            </div>
-          </AddressRow>
+          <div className='account--Transfer-data'>
+            <InputAddress
+              defaultValue={address}
+              help={t('The account you will send funds from.')}
+              isDisabled
+              label={t('from')}
+              type='account'
+            />
+            <InputAddress
+              help={t('Select a contact or paste the address you want to send funds to.')}
+              label={t('to')}
+              onChange={this.onChangeTo}
+              type='all'
+            />
+            <InputBalance
+              autoFocus
+              help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 mili is equivalent to sending 0.001.')}
+              isError={!hasAvailable}
+              label={t('amount')}
+              maxValue={maxBalance}
+              onChange={this.onChangeAmount}
+              withMax
+            />
+            <Checks
+              accountId={address}
+              extrinsic={extrinsic}
+              isSendable
+              onChange={this.onChangeFees}
+            />
+          </div>
         </Modal.Content>
       </>
     );
   }
 
-  private doBackup = (): void => {
+  private onChangeAmount = (amount: BN = new BN(0)) => {
+    this.nextState({ amount });
+  }
 
-    onClose();
+  private onChangeTo = (recipientId: string) => {
+    this.nextState({ recipientId });
+  }
+
+  private onChangeFees = (hasAvailable: boolean) => {
+    this.setState({ hasAvailable });
   }
 
 }
 
-export default translate(Transfer);
+export default withMulti(
+  Transfer,
+  translate,
+  withApi,
+  withCalls<Props>(
+    'derive.balances.fees'
+  )
+);
