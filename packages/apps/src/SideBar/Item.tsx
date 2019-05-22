@@ -9,9 +9,7 @@ import { Route } from '@polkadot/apps-routing/types';
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-// FIXME Use Tooltip from ui-app
-import ReactTooltip from 'react-tooltip';
-import { Icon, Menu } from '@polkadot/ui-app';
+import { Icon, Menu, Tooltip } from '@polkadot/ui-app';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { withApi,withCalls, withMulti, withObservable } from '@polkadot/ui-api';
 import { isFunction } from '@polkadot/util';
@@ -24,17 +22,7 @@ type Props = I18nProps & ApiProps & {
   sudo_key: string
 };
 
-interface Tooltip {
-  'data-tip': boolean;
-  'data-for': string;
-  'data-tip-disable'?: boolean;
-}
-
 class Item extends React.PureComponent<Props> {
-  componentWillUpdate () {
-    ReactTooltip.rebuild();
-  }
-
   render () {
     const { route: { i18n, icon, name }, t, isCollapsed } = this.props;
 
@@ -42,33 +30,25 @@ class Item extends React.PureComponent<Props> {
       return null;
     }
 
-    const tooltip: Tooltip = {
-      'data-for': `nav-${name}`,
-      'data-tip': true,
-      'data-tip-disable': !isCollapsed
-    };
-
     return (
       <Menu.Item className='apps--SideBar-Item'>
         <NavLink
           activeClassName='apps--SideBar-Item-NavLink-active'
           className='apps--SideBar-Item-NavLink'
+          data-for={`nav-${name}`}
+          data-tip
+          data-tip-disable={!isCollapsed}
           onClick={this.props.onClick}
           to={`/${name}`}
-          {...tooltip}
         >
           <Icon name={icon} />
           <span className='text'>{t(`sidebar.${name}`, i18n)}</span>
-          <ReactTooltip
-           delayShow={750}
-           effect='solid'
-           id={`nav-${name}`}
-           offset={ { right: -4 } }
-           place='right'
-          >
-            <span>{t(`sidebar.${name}`, i18n)}
-          </span>
-          </ReactTooltip>
+          <Tooltip
+            offset={{ right: -4 }}
+            place='right'
+            text={t(`sidebar.${name}`, i18n)}
+            trigger={`nav-${name}`}
+          />
         </NavLink>
       </Menu.Item>
     );

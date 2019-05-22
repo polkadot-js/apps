@@ -137,16 +137,17 @@ export default class Labelled extends React.PureComponent<Props, State> {
             onMouseOut={this.toggleTooltip}
           />
           {tooltipOpen && (
-            <Tooltip trigger='controlled-trigger'>
-              {help}
-            </Tooltip>
+            <Tooltip
+              text={help}
+              trigger='controlled-trigger'
+            />
           )}
         </label>
       : <label>{displayLabel}</label>;
   }
 
   private toggleTooltip = () => {
-    this.setState(({ tooltipOpen }: State) => ({
+    this.setState(({ tooltipOpen }) => ({
       tooltipOpen: !tooltipOpen
     }));
   }
