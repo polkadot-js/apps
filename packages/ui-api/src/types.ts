@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Signer } from '@polkadot/api/types';
 import { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
 import ApiPromise from '@polkadot/api/promise';
 
@@ -21,6 +22,21 @@ export type ApiProps = {
   isApiReady: boolean,
   isDevelopment: boolean,
   setApiUrl: (url?: string) => void
+};
+
+export type ApiInjected = {
+  name: string,
+  version: string,
+  accounts: {
+    get: () => Promise<Array<{ address: string, name: string }>>
+  },
+  signer: Signer
+};
+
+export type ApiInjectedProps = {
+  hasInjected: boolean,
+  injected: Array<ApiInjected>,
+  waitInjected: boolean
 };
 
 export type OnChangeCb$Obs = { next: (value?: any) => any };

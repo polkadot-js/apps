@@ -5,7 +5,7 @@
 import { Signer } from '@polkadot/api/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { QueueTx$ExtrinsicAdd, QueueTx$MessageSetStatus } from '@polkadot/ui-app/Status/types';
-import { ApiProps } from './types';
+import { ApiProps, ApiInjectedProps } from './types';
 
 import React from 'react';
 import ApiPromise from '@polkadot/api/promise';
@@ -18,10 +18,11 @@ import { ChainProperties } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
 
 import ApiContext from './ApiContext';
+import { withInjected } from './Injected';
 
 let api: ApiPromise;
 
-type Props = {
+type Props = ApiInjectedProps & {
   children: React.ReactNode,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
   queueSetTxStatus: QueueTx$MessageSetStatus,
@@ -47,7 +48,7 @@ type WindowInjected = Window & {
 
 export { api };
 
-export default class ApiWrapper extends React.PureComponent<Props, State> {
+class ApiWrapper extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
   constructor (props: Props) {
@@ -106,7 +107,7 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     const injWindow = window as WindowInjected;
 
     if (injWindow.injectedWeb3) {
-      console.log('api: found injectedWeb3', Object.keys(injWindow.injectedWeb3));
+      console.log(`api: found injectedWeb3: ${Object.keys(injWindow.injectedWeb3).join(', ')}`);
 
       const rerieved = await Promise.all(
         Object
@@ -194,3 +195,5 @@ export default class ApiWrapper extends React.PureComponent<Props, State> {
     );
   }
 }
+
+export default withInjected(ApiWrapper);
