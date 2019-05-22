@@ -76,7 +76,9 @@ header .ui--Button-Group {
   }
 
   &.withName {
+    text-align: right;
     text-transform: uppercase;
+    min-width: 4em;
   }
 }
 
@@ -173,6 +175,15 @@ button.ui.icon.withDrawUnbonded {
   .ui--AddressSummary-children {
     display: block;
   }
+
+  .ui--AddressRow-details {
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .ui--AddressSummary-balances>span {
+      text-align: left;
+  }
 }
 
 .ui--AddressSummary .rx--updated {
@@ -230,7 +241,8 @@ button.ui.icon.withDrawUnbonded {
   opacity: 0.7;
 }
 
-.ui--AddressMini-balances .ui--Bonded.result-bonded {
+.ui--AddressMini-balances .ui--Bonded.result-bonded,
+.ui--AddressMini-balances .ui--Bonded {
   font-size: .75rem;
   margin-right: 2.25rem;
   margin-top: -.5rem;
@@ -325,6 +337,9 @@ button.ui.icon.withDrawUnbonded {
   cursor: copy !important;
   margin-left: 0.25rem !important;
   margin-right: 0.25rem !important;
+  position: relative;
+  margin-left: -3em!important;
+  right: -3.3em;
 }
 
 .ui--DropdownLinked.ui--row {
