@@ -5,18 +5,18 @@
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import { Balance } from '@polkadot/types';
+import { DerivedBalances } from '@polkadot/api-derive/types';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 import { InputBalance } from '@polkadot/ui-app';
 
 type Props = BareProps & CallProps & {
-  balances_freeBalance?: Balance,
+  balances_all?: DerivedBalances,
   label?: React.ReactNode
 };
 
 class BalanceDisplay extends React.PureComponent<Props> {
   render () {
-    const { className, label, style, balances_freeBalance } = this.props;
+    const { className, label, style, balances_all } = this.props;
 
     return (
       <InputBalance
@@ -24,7 +24,7 @@ class BalanceDisplay extends React.PureComponent<Props> {
         isDisabled
         label={label}
         style={style}
-        defaultValue={balances_freeBalance}
+        defaultValue={balances_all && balances_all.freeBalance}
       />
     );
   }
@@ -33,6 +33,6 @@ class BalanceDisplay extends React.PureComponent<Props> {
 export default withMulti(
   BalanceDisplay,
   withCalls<Props>(
-    ['query.balances.freeBalance', { paramName: 'params' }]
+    ['derive.balances.all', { paramName: 'params' }]
   )
 );
