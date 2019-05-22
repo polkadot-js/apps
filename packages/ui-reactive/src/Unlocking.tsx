@@ -7,18 +7,10 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import BN from 'bn.js';
 import React from 'react';
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 import { formatBalance } from '@polkadot/util';
 import { Icon, Tooltip, TxButton } from '@polkadot/ui-app';
 import { I18nProps } from '@polkadot/ui-app/types';
 import translate from '@polkadot/ui-app/translate';
-<<<<<<< HEAD
-import { Icon, Tooltip, TxButton } from '@polkadot/ui-app';
-=======
->>>>>>> master
 import { withCalls } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & I18nProps & {

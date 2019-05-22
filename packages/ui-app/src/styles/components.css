@@ -283,6 +283,7 @@ button.ui.icon.withDrawUnbonded {
   height: 1em;
   text-align: center;
   text-transform: uppercase;
+}
 
 .ui--AddressSummary-tags-input {
   margin-bottom: -1.4em;

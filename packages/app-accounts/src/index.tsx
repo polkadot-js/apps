@@ -5,11 +5,6 @@
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { ComponentProps, LocationProps } from './types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-<<<<<<< HEAD
-
-import './index.css';
-=======
->>>>>>> master
 
 import React from 'react';
 import { Route, Switch } from 'react-router';

@@ -8,11 +8,6 @@ import { I18nProps } from './types';
 import BN from 'bn.js';
 import { Label } from 'semantic-ui-react';
 import React from 'react';
-<<<<<<< HEAD
-import { Label } from 'semantic-ui-react';
-
-=======
->>>>>>> master
 import BaseIdentityIcon from '@polkadot/ui-identicon';
 import { Button, Input, InputTags } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
@@ -126,10 +121,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     } catch (error) {
       // all-ok, we have empty fallbacks
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> master
     return [];
   }
 
@@ -285,10 +277,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderEditIcon (callback: () => void) {
-<<<<<<< HEAD
-=======
 
->>>>>>> master
     return (
       <Button
         className='editButton'
