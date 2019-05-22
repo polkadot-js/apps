@@ -139,9 +139,13 @@ export default class Queue extends React.Component<Props, State> {
         return;
       }
 
+      const status = section === 'system' && method === 'ExtrinsicFailed'
+        ? 'error'
+        : 'event';
+
       this.queueAction({
         action: `${section}.${method}`,
-        status: 'event',
+        status,
         message: 'extrinsic event'
       });
     });
