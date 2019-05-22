@@ -21,10 +21,15 @@ class AddressRow extends AddressSummary {
         <div className='ui--AddressRow-base'>
           {this.renderIcon('ui--AddressRow-icon', identIconSize)}
           <div className='ui--AddressRow-details'>
-            {this.renderAddress()}
-            {this.renderBalance()}
-            {this.renderBonded()}
-            {this.renderNonce()}
+            <div className='ui--AddressSummary-data'>
+              {this.renderName()}
+              {this.renderAddress()}
+            </div>
+            <div className='ui--AddressSummary-balances'>
+              {this.renderBalance()}
+              {this.renderBonded()}
+              {this.renderNonce()}
+            </div>
           </div>
         </div>
         {this.renderChildren()}

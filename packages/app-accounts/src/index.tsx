@@ -3,21 +3,21 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
-import { TabItem } from '@polkadot/ui-app/Tabs';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps, LocationProps } from './types';
-
-import './index.css';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { HelpOverlay, Tabs } from '@polkadot/ui-app';
+import { TabItem } from '@polkadot/ui-app/Tabs';
 import { withMulti, withObservable } from '@polkadot/ui-api';
+
+import './index.css';
 
 import basicMd from './md/basic.md';
 import Creator from './Creator';
-import Editor from './Editor';
+import Overview from './Overview';
 import Restore from './Restore';
 import translate from './translate';
 import Vanity from './Vanity';
@@ -39,15 +39,15 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
     const { allAccounts = {}, t } = props;
     const baseState = Object.keys(allAccounts).length !== 0
-      ? AccountsApp.showEditState()
-      : AccountsApp.hideEditState();
+      ? AccountsApp.showVanityState()
+      : AccountsApp.hideVanityState();
 
     this.state = {
       ...baseState,
       tabs: [
         {
-          name: 'edit',
-          text: t('Edit account')
+          name: 'overview',
+          text: t('Overview')
         },
         {
           hasParams: true,
@@ -66,17 +66,18 @@ class AccountsApp extends React.PureComponent<Props, State> {
     };
   }
 
-  static showEditState () {
+  static showVanityState () {
+
     return {
       hidden: []
     };
   }
 
-  static hideEditState () {
+  static hideVanityState () {
     // Hide vanity as well - since the route order and matching changes, the
     // /create/:seed route become problematic, so don't allow that option
     return {
-      hidden: ['edit', 'vanity']
+      hidden: ['vanity']
     };
   }
 
@@ -86,11 +87,11 @@ class AccountsApp extends React.PureComponent<Props, State> {
     if (hidden.length === 0) {
       return hasAddresses
         ? null
-        : AccountsApp.hideEditState();
+        : AccountsApp.hideVanityState();
     }
 
     return hasAddresses
-      ? AccountsApp.showEditState()
+      ? AccountsApp.showVanityState()
       : null;
   }
 
@@ -114,13 +115,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
           <Route path={`${basePath}/create`} render={renderCreator} />
           <Route path={`${basePath}/restore`} render={this.renderComponent(Restore)} />
           <Route path={`${basePath}/vanity`} render={this.renderComponent(Vanity)} />
-          <Route
-            render={
-              hidden.includes('edit')
-                ? renderCreator
-                : this.renderComponent(Editor)
-            }
-          />
+          <Route render={this.renderComponent(Overview)} />
         </Switch>
       </main>
     );

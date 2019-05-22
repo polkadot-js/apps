@@ -144,7 +144,6 @@ class Transfer extends React.PureComponent<Props, State> {
       <div className={`transfer--Transfer-address ui--media-${media}`}>
         <AddressSummary
           value={accountId}
-          withCopy={false}
         />
       </div>
     );

@@ -4,10 +4,21 @@
 
 import { AppProps } from '@polkadot/ui-app/types';
 
+import { WithTranslation } from 'react-i18next';
+
 export type LocationProps = {
   match: {
     params: { [index: string]: any }
   }
 };
+
+export type BareProps = {
+  className?: string,
+  style?: {
+    [index: string]: any
+  }
+};
+
+export type I18nProps = BareProps & WithTranslation;
 
 export type ComponentProps = AppProps & LocationProps;

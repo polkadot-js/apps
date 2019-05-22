@@ -4,12 +4,13 @@
 
 import { AccountId, AccountIndex, Address, BlockNumber, Option, StakingLedger, UnlockChunk } from '@polkadot/types';
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
+
 import BN from 'bn.js';
-import { formatBalance } from '@polkadot/util';
-import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
+import { formatBalance } from '@polkadot/util';
+import { Icon, Tooltip, TxButton } from '@polkadot/ui-app';
+import { I18nProps } from '@polkadot/ui-app/types';
 import translate from '@polkadot/ui-app/translate';
-import { TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & I18nProps & {
@@ -22,7 +23,22 @@ type Props = BareProps & CallProps & I18nProps & {
   unlockings?: Array<UnlockChunk>
 };
 
-export class UnlockingDisplay extends React.PureComponent<Props> {
+type State = {
+  tooltipOpen: boolean
+};
+
+export class UnlockingDisplay extends React.PureComponent<Props, State> {
+  constructor (props: Props) {
+    super(props);
+    this.state = {
+      tooltipOpen: false
+    };
+  }
+
+  toggleTooltip () {
+    const { tooltipOpen } = this.state;
+    this.setState({ tooltipOpen: !tooltipOpen });
+  }
 
   render () {
     const { unlockings } = this.props;
@@ -63,7 +79,8 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
   }
 
   private renderLocked () {
-    const { className, controllerId, style, t, unlockings } = this.props;
+    const { className, controllerId, t, unlockings } = this.props;
+    const { tooltipOpen } = this.state;
 
     if (!unlockings || !controllerId) return null;
     // select the Unlockchunks that can't be unlocked yet.
@@ -74,25 +91,40 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
     return (
       <>
         {groupedUnlockings && Object.keys(groupedUnlockings).map(eraString => (
-          <div
-            className={className}
-            style={style}
-            key={eraString}
-          >
-          {t('locked {{balance}} ({{remaining}} blocks left)', {
-            replace: {
-              balance: formatBalance(groupedUnlockings[eraString]),
-              remaining: this.remainingBlocks(new BlockNumber(eraString))
-            }
-          })}
-          </div>
+          <React.Fragment key={eraString}>
+            <span
+              className={className + ' label-locked'}
+            >
+              {t('locked')}
+            </span>
+            <span
+              className={className + ' result-locked'}
+            >
+              {formatBalance(groupedUnlockings[eraString])}
+              <Icon
+                name='info circle'
+                data-tip
+                data-for={'controlled-trigger' + eraString}
+                onMouseOver={() => this.toggleTooltip()}
+                onMouseOut={() => this.toggleTooltip()}
+              />
+              {tooltipOpen && (
+                <Tooltip trigger={'controlled-trigger' + eraString}>
+                  {t('{{remaining}} blocks left', {
+                    replace: {
+                      remaining: this.remainingBlocks(new BlockNumber(eraString))
+                    }
+                  })}
+                </Tooltip>)}
+            </span>
+          </React.Fragment>
         ))}
       </>
     );
   }
 
   private renderUnlockableSum () {
-    const { className, controllerId, style, t, unlockings } = this.props;
+    const { className, controllerId, t, unlockings } = this.props;
 
     if (!unlockings || !unlockings[0] || !controllerId) return null;
 
@@ -104,27 +136,23 @@ export class UnlockingDisplay extends React.PureComponent<Props> {
     ).value;
 
     return (unlockableSum.gtn(0) ?
-      <div
-        className={className}
-        style={style}
-        key='unlockable'
-      >
-        {t('unlockable {{unlockableSum}}',{
-          replace: {
-            unlockableSum: formatBalance(unlockableSum)
-          }
-        })}
-        <TxButton
-          accountId={controllerId.toString()}
-          className='withDrawUnbonded'
-          icon='lock'
-          size='small'
-          isPrimary
-          key='unlock'
-          params={[]}
-          tx='staking.withdrawUnbonded'
-        />
-      </div>
+      <>
+        <span className={className + ' label-redeemable'}>
+          {t('redeemable')}
+        </span>
+        <span className={className + ' result-redeemable'}>
+          {formatBalance(unlockableSum)}<TxButton
+            accountId={controllerId.toString()}
+            className='withDrawUnbonded'
+            icon='lock'
+            size='small'
+            isPrimary
+            key='unlock'
+            params={[]}
+            tx='staking.withdrawUnbonded'
+          />
+        </span>
+      </>
       : null
     );
   }

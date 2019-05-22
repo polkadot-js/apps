@@ -116,7 +116,6 @@
   }
 }
 
-@media (min-width: 1281px) {
   .ui--AddressSummary {
     display: flex;
     justify-content: space-between;
@@ -126,7 +125,6 @@
       min-width: 0;
     }
   }
-}
 
 @media (max-width: 1280px) {
   .staking--Account {

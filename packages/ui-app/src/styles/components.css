@@ -68,14 +68,6 @@ header .ui--Button-Group {
     margin-left: 0.5rem;
     margin-right: 0;
   }
-
-  .ui--Balance,
-  .ui--Bonded {
-    font-size: 0.75rem;
-    margin-right: 2.25rem;
-    margin-top: -0.5rem;
-    text-align: right;
-  }
 }
 
 .ui--AddressMini-address {
@@ -84,7 +76,9 @@ header .ui--Button-Group {
   }
 
   &.withName {
+    text-align: right;
     text-transform: uppercase;
+    min-width: 4em;
   }
 }
 
@@ -98,13 +92,64 @@ header .ui--Button-Group {
 
 .ui--AddressSummary {
   padding: 0 1em;
-  /* text-align: left; */
   white-space: nowrap
 }
 
-.ui--AddressSummary-available > button.ui.icon.withDrawUnbonded {
+button.ui.icon.withDrawUnbonded {
   padding: 0.3em;
-  margin-left: 0.4em;
+  margin-left: 0.3em;
+  color: #2e86ab;
+  background: none !important;
+
+  &:hover {
+    color: #fff !important;
+    background-color: #2e86ab !important;
+  }
+}
+
+.result-locked > i {
+  margin-left: .3em
+}
+
+.overview--Account:hover  button.ui.icon.editButton,
+.overview--Account:hover  button.ui.icon.editButton {
+  visibility: visible; 
+}
+
+.overview--Account button.ui.icon.editButton,
+.overview--Account button.ui.icon.editButton {
+  visibility: hidden; 
+}
+
+.ui--AddressSummary-name.editable > button.ui.icon.editButton,
+.ui--AddressSummary-tags.editable > button.ui.icon.editButton {
+  padding: 0em .3em .3em .3em;
+  color: #2e86ab;
+  background: none;
+  /*trick to let the button in the flow but keep the content centered regardless*/
+  margin-left: -2em;
+  position: relative;
+  right: -2.3em;
+}
+
+.ui--AddressSummary-tags.editable {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ui--AddressSummary-tags.editable > span {
+    border: 1px #00000052 solid;
+    border-radius: .5em;
+    border-style: dashed;
+    color: grey;
+    font-size: x-small;
+    padding: .1em 0.3em 0.1em 0.3em;
+    margin-top: .2em;
+}
+
+.ui--AddressSummary-tags.editable > div.label {
+  margin-top:.3em
 }
 
 .ui--AddressSummary-base {
@@ -130,6 +175,15 @@ header .ui--Button-Group {
   .ui--AddressSummary-children {
     display: block;
   }
+
+  .ui--AddressRow-details {
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .ui--AddressSummary-balances>span {
+      text-align: left;
+  }
 }
 
 .ui--AddressSummary .rx--updated {
@@ -145,24 +199,56 @@ header .ui--Button-Group {
   display: block
 }
 
-.ui--Balance,
-.ui--AddressSummary-balance,
-.ui--AddressSummary-bonded,
-.ui--AddressSummary-nonce {
-  font-weight: 100;
-  opacity: 0.75;
-}
-
-.ui--Bonded {
-  opacity: 1;
-  color: green;
-}
-
 .ui--AddressSummary-data+.ui--AddressSummary-balance,
 .ui--AddressSummary-data+.ui--AddressSummary-bonded,
 .ui--AddressSummary-data+.ui--AddressSummary-nonce {
   padding-top: 0.5em;
 }
+
+.ui--AddressSummary-balances {
+  display: grid;
+  grid-column-gap: 1em;
+}
+
+.ui--AddressMini-balances {
+  display: grid;
+}
+
+.label-available,
+.label-balance,
+.label-bonded,
+.label-cryptotype,
+.label-locked,
+.label-nonce,
+.label-redeemable {
+  grid-column:  1;
+  text-align: right;
+  opacity: 0.7;
+}
+
+.result-available,
+.result-balance,
+.result-bonded,
+.result-locked,
+.result-redeemable {
+  grid-column:  2;
+  text-align: left;
+}
+
+.result-nonce,
+.result-cryptotype {
+  text-align: left;
+  opacity: 0.7;
+}
+
+.ui--AddressMini-balances .ui--Bonded.result-bonded,
+.ui--AddressMini-balances .ui--Bonded {
+  font-size: .75rem;
+  margin-right: 2.25rem;
+  margin-top: -.5rem;
+  text-align: right;
+}
+
 
 .ui--AddressSummary-balance.rx--updated,
 .ui--AddressSummary-nonce.rx--updated {
@@ -184,7 +270,6 @@ header .ui--Button-Group {
 
 .ui--AddressSummary-accountId,
 .ui--AddressSummary-accountIndex {
-  display: inline-block;
   font-family: monospace;
   font-size: 1.5em;
   padding: 0;
@@ -193,6 +278,18 @@ header .ui--Button-Group {
 .ui--AddressSummary-accountIndex {
   font-size: 1.25em;
   font-style: italic;
+}
+
+.ui--AddressSummary-data .ui--Input input {
+  height: 1em;
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: -.3em;
+  margin-bottom: -.35em;
+}
+
+.ui--AddressSummary-tags-input {
+  margin-bottom: -1.4em;
 }
 
 .ui--Bubble.ui.label {
@@ -240,6 +337,9 @@ header .ui--Button-Group {
   cursor: copy !important;
   margin-left: 0.25rem !important;
   margin-right: 0.25rem !important;
+  position: relative;
+  margin-left: -3em!important;
+  right: -3.3em;
 }
 
 .ui--DropdownLinked.ui--row {
