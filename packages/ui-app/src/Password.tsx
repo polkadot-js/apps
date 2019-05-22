@@ -21,7 +21,7 @@ type Props = BareProps & {
   label?: string,
   name?: string,
   onChange: (value: string) => void,
-  onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
+  onEnter?: () => void,
   tabIndex?: number,
   value: any,
   withLabel?: boolean
@@ -37,7 +37,7 @@ export default class Password extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { autoFocus, children, className, defaultValue, help, isDisabled, isError, label, name, onChange, onKeyDown, style, tabIndex, value, withLabel } = this.props;
+    const { autoFocus, children, className, defaultValue, help, isDisabled, isError, label, name, onChange, onEnter, style, tabIndex, value, withLabel } = this.props;
     const { isVisible } = this.state;
 
     return (
@@ -53,7 +53,7 @@ export default class Password extends React.PureComponent<Props, State> {
         maxLength={MAX_PASS_LEN}
         name={name}
         onChange={onChange}
-        onKeyDown={onKeyDown}
+        onEnter={onEnter}
         style={style}
         tabIndex={tabIndex}
         type={

@@ -7,7 +7,7 @@ import { ComponentProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Button, Dropdown, InputAddress, InputBalance, InputNumber, TxButton } from '@polkadot/ui-app';
+import { Button, Dropdown, InputAddress, InputBalance, InputNumber, TxButton, TxComponent } from '@polkadot/ui-app';
 import { ContractAbi } from '@polkadot/types';
 
 import store from './store';
@@ -28,7 +28,7 @@ type State = {
   params: Array<any>
 };
 
-class Call extends React.PureComponent<Props, State> {
+class Call extends TxComponent<Props, State> {
   state: State = {
     accountId: null,
     endowment: new BN(0),
@@ -94,6 +94,7 @@ class Call extends React.PureComponent<Props, State> {
         />
         <Params
           onChange={this.onChangeParams}
+          onEnter={this.sendTx}
           params={
             method && contractAbi && contractAbi.messages[method]
               ? contractAbi.messages[method].args
@@ -111,6 +112,7 @@ class Call extends React.PureComponent<Props, State> {
           isError={!isGasValid}
           label={t('maximum gas allowed')}
           onChange={this.onChangeGas}
+          onEnter={this.sendTx}
         />
         <Button.Group>
           <TxButton
@@ -123,6 +125,7 @@ class Call extends React.PureComponent<Props, State> {
             onSuccess={this.toggleBusy}
             params={this.constructCall}
             tx='contract.call'
+            ref={this.button}
           />
         </Button.Group>
       </div>

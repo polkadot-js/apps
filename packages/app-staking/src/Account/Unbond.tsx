@@ -8,7 +8,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import BN from 'bn.js';
 import React from 'react';
 import { AccountId, Option, StakingLedger } from '@polkadot/types';
-import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/ui-app';
+import { Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
 
 import translate from '../translate';
@@ -25,7 +25,7 @@ type State = {
   maxUnbond?: BN
 };
 
-class Unbond extends React.PureComponent<Props, State> {
+class Unbond extends TxComponent<Props, State> {
   state: State = {};
 
   componentDidUpdate (prevProps: Props) {
@@ -69,6 +69,7 @@ class Unbond extends React.PureComponent<Props, State> {
               onClick={onClose}
               params={[maxUnbond]}
               tx='staking.unbond'
+              ref={this.button}
             />
           </Button.Group>
         </Modal.Actions>
@@ -99,6 +100,7 @@ class Unbond extends React.PureComponent<Props, State> {
             label={t('unbond amount')}
             maxValue={maxBalance}
             onChange={this.onChangeValue}
+            onEnter={this.sendTx}
             withMax
           />
         </Modal.Content>

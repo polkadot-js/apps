@@ -10,19 +10,17 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { AddressSummary, InputAddress, InputBalance } from '@polkadot/ui-app';
+import { AddressSummary, Button, InputAddress, InputBalance, TxButton, TxComponent } from '@polkadot/ui-app';
 import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
 import Checks, { calcSignatureLength } from '@polkadot/ui-signer/Checks';
 import { ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
 
-import Submit from './Submit';
 import translate from './translate';
 
 type Props = I18nProps & ApiProps & {
   balances_fees?: DerivedFees,
-  balances_votingBalance?: DerivedBalances,
-  system_accountNonce?: BN
+  balances_votingBalance?: DerivedBalances
 };
 
 type State = {
@@ -56,7 +54,7 @@ const Wrapper = styled.div`
   }
 `;
 
-class Transfer extends React.PureComponent<Props, State> {
+class Transfer extends TxComponent<Props, State> {
   state: State = {
     accountId: null,
     amount: ZERO,
@@ -109,6 +107,7 @@ class Transfer extends React.PureComponent<Props, State> {
               label={t('amount')}
               maxValue={maxBalance}
               onChange={this.onChangeAmount}
+              onEnter={this.sendTx}
               withMax
             />
             <Checks
@@ -117,11 +116,16 @@ class Transfer extends React.PureComponent<Props, State> {
               isSendable
               onChange={this.onChangeFees}
             />
-            <Submit
-              accountId={accountId}
-              isDisabled={!hasAvailable}
-              extrinsic={extrinsic}
-            />
+            <Button.Group>
+              <TxButton
+                accountId={accountId}
+                isDisabled={!hasAvailable}
+                isPrimary
+                label={t('Make Transfer')}
+                extrinsic={extrinsic}
+                ref={this.button}
+              />
+            </Button.Group>
           </div>
           {this.renderAddress(recipientId, 'large')}
         </div>

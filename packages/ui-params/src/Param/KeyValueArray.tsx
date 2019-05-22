@@ -69,7 +69,7 @@ class KeyValueArray extends React.PureComponent<Props, State> {
   }
 
   private renderReadOnly () {
-    const { className, defaultValue: { value }, label, style } = this.props;
+    const { className, defaultValue: { value }, label, onEnter, style } = this.props;
     const pairs = value as Vector<Pair>;
 
     return (
@@ -93,6 +93,7 @@ class KeyValueArray extends React.PureComponent<Props, State> {
                 key={keyHex}
                 label={keyHex}
                 name={keyHex}
+                onEnter={onEnter}
                 type={BYTES_TYPE}
               />
             );

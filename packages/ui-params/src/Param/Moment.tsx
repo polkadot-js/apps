@@ -11,7 +11,7 @@ import Amount from './Amount';
 
 export default class Code extends React.PureComponent<Props> {
   render () {
-    const { className, defaultValue, isDisabled, isError, label, style, type, withLabel } = this.props;
+    const { className, defaultValue, isDisabled, isError, label, onEnter, style, type, withLabel } = this.props;
 
     if (isDisabled) {
       return this.renderDisabled();
@@ -25,6 +25,7 @@ export default class Code extends React.PureComponent<Props> {
         isError={isError}
         label={label}
         onChange={this.onChange}
+        onEnter={onEnter}
         style={style}
         type={type}
         withLabel={withLabel}

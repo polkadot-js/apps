@@ -8,7 +8,7 @@ import { ComponentProps } from './types';
 
 import React from 'react';
 import { Method, Proposal } from '@polkadot/types';
-import { Button, Icon, Extrinsic, TxButton } from '@polkadot/ui-app';
+import { Button, Icon, Extrinsic, TxButton, TxComponent } from '@polkadot/ui-app';
 import { withApi, withMulti } from '@polkadot/ui-api';
 
 import translate from './translate';
@@ -22,7 +22,7 @@ type State = {
   isValid: boolean
 };
 
-class Propose extends React.PureComponent<Props> {
+class Propose extends TxComponent<Props, State> {
   state: State = {
     method: null,
     isValid: false
@@ -46,6 +46,7 @@ class Propose extends React.PureComponent<Props> {
             defaultValue={defaultExtrinsic}
             label={t('submit the following change')}
             onChange={this.onChangeExtrinsic}
+            onEnter={this.sendTx}
           />
           <br />
           <Button.Group>
@@ -55,6 +56,7 @@ class Propose extends React.PureComponent<Props> {
               tx='sudo.sudo'
               isDisabled={!method || !isValid}
               params={method ? [new Proposal(method)] : []}
+              ref={this.button}
             />
           </Button.Group>
         </section>
