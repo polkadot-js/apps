@@ -7,7 +7,6 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React from 'react';
 import styled from 'styled-components';
-
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 

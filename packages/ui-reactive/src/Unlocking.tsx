@@ -7,15 +7,21 @@ import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import BN from 'bn.js';
 import React from 'react';
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 import { formatBalance } from '@polkadot/util';
+import { Icon, Tooltip, TxButton } from '@polkadot/ui-app';
 import { I18nProps } from '@polkadot/ui-app/types';
 import translate from '@polkadot/ui-app/translate';
+<<<<<<< HEAD
 import { Icon, Tooltip, TxButton } from '@polkadot/ui-app';
+=======
+>>>>>>> master
 import { withCalls } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & I18nProps & {
-  balances_freeBalance?: BN,
   chain_bestNumber?: BN,
   controllerId?: AccountId,
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
@@ -93,11 +99,15 @@ export class UnlockingDisplay extends React.PureComponent<Props, State> {
     return (
       <>
         {groupedUnlockings && Object.keys(groupedUnlockings).map(eraString => (
-          <>
-            <span className={className + ' label-locked'}>
+          <React.Fragment key={eraString}>
+            <span
+              className={className + ' label-locked'}
+            >
               {t('locked')}
             </span>
-            <span className={className + ' result-locked'}>
+            <span
+              className={className + ' result-locked'}
+            >
               {formatBalance(groupedUnlockings[eraString])}
               <Icon
                 name='info circle'
@@ -115,7 +125,7 @@ export class UnlockingDisplay extends React.PureComponent<Props, State> {
                   })}
                 </Tooltip>)}
             </span>
-          </>
+          </React.Fragment>
         ))}
       </>
     );
@@ -158,7 +168,6 @@ export class UnlockingDisplay extends React.PureComponent<Props, State> {
 
 export default translate(
   withCalls<Props>(
-    ['query.balances.freeBalance', { paramName: 'params' }],
     ['query.staking.bonded', {
       paramName: 'params',
       propName: 'controllerId',

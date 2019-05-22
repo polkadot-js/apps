@@ -23,6 +23,7 @@ type Props = I18nProps & {
 
 type State = {
   isError: boolean,
+  isInjected: boolean,
   isLocked: boolean,
   pair: KeyringPair
 };
@@ -40,9 +41,11 @@ class Unlock extends React.PureComponent<Props, State> {
     }
 
     const isLocked = pair.isLocked();
+    const isInjected = pair.getMeta().isInjected || false;
 
     return {
       isError: !!error,
+      isInjected,
       isLocked,
       pair
     };
@@ -50,9 +53,9 @@ class Unlock extends React.PureComponent<Props, State> {
 
   render () {
     const { autoFocus, onChange, onKeyDown, password, t, tabIndex } = this.props;
-    const { isError, isLocked } = this.state;
+    const { isError, isInjected, isLocked } = this.state;
 
-    if (!isLocked) {
+    if (isInjected || !isLocked) {
       return null;
     }
 

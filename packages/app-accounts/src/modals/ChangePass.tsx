@@ -111,7 +111,6 @@ class ChangePass extends React.PureComponent<Props, State> {
   private doChange = (): void => {
     const { address, onClose, t } = this.props;
     const { newPass, oldPass } = this.state;
-
     const status = {
       action: 'changePassword'
     } as ActionStatus;
@@ -133,7 +132,6 @@ class ChangePass extends React.PureComponent<Props, State> {
         account.decodePkcs8(oldPass);
       } catch (error) {
         this.setState({ isOldValid: false });
-
         status.message = error.message;
 
         return;

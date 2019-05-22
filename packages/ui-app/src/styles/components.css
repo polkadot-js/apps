@@ -76,7 +76,9 @@ header .ui--Button-Group {
   }
 
   &.withName {
+    text-align: right;
     text-transform: uppercase;
+    min-width: 4em;
   }
 }
 
@@ -95,7 +97,7 @@ header .ui--Button-Group {
 
 button.ui.icon.withDrawUnbonded {
   padding: 0.3em;
-  margin-left: 0.4em;
+  margin-left: 0.3em;
   color: #2e86ab;
   background: none !important;
 
@@ -105,14 +107,18 @@ button.ui.icon.withDrawUnbonded {
   }
 }
 
-.ui--AddressSummary-name.editable:hover > button.ui.icon.editButton,
-.ui--AddressSummary-tags.editable:hover > button.ui.icon.editButton {
-  opacity: 1; 
+.result-locked > i {
+  margin-left: .3em
 }
 
-.ui--AddressSummary-name.editable > button.ui.icon.editButton,
-.ui--AddressSummary-tags.editable > button.ui.icon.editButton {
-  opacity: 0.7;
+.overview--Account:hover  button.ui.icon.editButton,
+.overview--Account:hover  button.ui.icon.editButton {
+  visibility: visible; 
+}
+
+.overview--Account button.ui.icon.editButton,
+.overview--Account button.ui.icon.editButton {
+  visibility: hidden; 
 }
 
 .ui--AddressSummary-name.editable > button.ui.icon.editButton,
@@ -134,11 +140,12 @@ button.ui.icon.withDrawUnbonded {
 
 .ui--AddressSummary-tags.editable > span {
     border: 1px #00000052 solid;
-    border-style: dashed;
-    padding: .1em 0.3em 0.1em 0.3em;
     border-radius: .5em;
+    border-style: dashed;
     color: grey;
     font-size: x-small;
+    padding: .1em 0.3em 0.1em 0.3em;
+    margin-top: .2em;
 }
 
 .ui--AddressSummary-tags.editable > div.label {
@@ -167,6 +174,15 @@ button.ui.icon.withDrawUnbonded {
 
   .ui--AddressSummary-children {
     display: block;
+  }
+
+  .ui--AddressRow-details {
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .ui--AddressSummary-balances>span {
+      text-align: left;
   }
 }
 
@@ -207,18 +223,30 @@ button.ui.icon.withDrawUnbonded {
 .label-redeemable {
   grid-column:  1;
   text-align: right;
+  opacity: 0.7;
 }
 
 .result-available,
 .result-balance,
 .result-bonded,
-.result-cryptotype,
 .result-locked,
-.result-nonce,
 .result-redeemable {
   grid-column:  2;
-  font-weight: bold;
   text-align: left;
+}
+
+.result-nonce,
+.result-cryptotype {
+  text-align: left;
+  opacity: 0.7;
+}
+
+.ui--AddressMini-balances .ui--Bonded.result-bonded,
+.ui--AddressMini-balances .ui--Bonded {
+  font-size: .75rem;
+  margin-right: 2.25rem;
+  margin-top: -.5rem;
+  text-align: right;
 }
 
 .ui--AddressSummary-balance.rx--updated,
@@ -255,6 +283,9 @@ button.ui.icon.withDrawUnbonded {
   height: 1em;
   text-align: center;
   text-transform: uppercase;
+
+.ui--AddressSummary-tags-input {
+  margin-bottom: -1.4em;
 }
 
 .ui--Bubble.ui.label {
@@ -302,6 +333,9 @@ button.ui.icon.withDrawUnbonded {
   cursor: copy !important;
   margin-left: 0.25rem !important;
   margin-right: 0.25rem !important;
+  position: relative;
+  margin-left: -3em!important;
+  right: -3.3em;
 }
 
 .ui--DropdownLinked.ui--row {

@@ -33,6 +33,7 @@ class CopyButtonInner extends React.PureComponent<InnerProps> {
 
     return (
       <div className={className}>
+        {children}
         <CopyToClipboard
           onCopy={this.onCopy}
           text={value}
@@ -46,7 +47,6 @@ class CopyButtonInner extends React.PureComponent<InnerProps> {
             style={style}
           />
         </CopyToClipboard>
-        {children}
       </div>
     );
   }

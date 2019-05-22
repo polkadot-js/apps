@@ -8,7 +8,6 @@ import { I18nProps } from './types';
 import { Button as SUIB, Popup } from 'semantic-ui-react';
 import React from 'react';
 import styled from 'styled-components';
-
 import { AddressSummary, Available, Balance, Bonded, CryptoType, Nonce, Unlocking } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
@@ -16,6 +15,7 @@ import Backup from './modals/Backup';
 import ChangePass from './modals/ChangePass';
 import Forgetting from './modals/Forgetting';
 import Transfer from './modals/Transfer';
+
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -27,23 +27,19 @@ type State = {
   isForgetOpen: boolean,
   isPasswordOpen: boolean,
   isTransferOpen: boolean
+
 };
 
 const Wrapper = styled.article`
   position: relative;
   flex: 1 1;
-  min-width: 32%;
-  max-width: 32%;
+  min-width: 24%;
+  max-width: 24%;
   justify-content: space-around;
 
-  &:hover .accounts--Account-buttons {
-    visibility:visible;
-  }
-
   .accounts--Account-buttons {
-    text-align: center;
-    margin-top: 2em;
-    visibility: hidden;
+    text-align: right;
+    margin-bottom: 2em;
   }
 
   .ui--AddressSummary {
@@ -51,14 +47,14 @@ const Wrapper = styled.article`
   }
 
   .ui--AddressSummary-base {
-    flex: 3;
+    flex: 1;
     padding: 0;
   }
   .ui--AddressSummary-children {
-    flex: 4;
+    flex: 1;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-end;
   }
 
   .account--Account-balances {
@@ -87,23 +83,15 @@ const Wrapper = styled.article`
   .result-nonce,
   .result-redeemable {
     grid-column:  2;
-    font-weight: normal;
-  }
-
-  .result-available,
-  .result-balance,
-  .result-bonded,
-  .result-locked,
-  .result-redeemable {
-    font-weight: bold;
-  }
-
-  .result-locked > i {
-    margin-left: .3em
   }
 
   .accounts--Account-buttons > button {
-    margin: .5em;
+    margin: .2em;
+  }
+
+  @media (max-width: 2060px) {
+    min-width: 32%;
+    max-width: 32%;
   }
 
   @media (max-width: 1580px) {
@@ -146,6 +134,7 @@ class Account extends React.PureComponent<Props> {
           withTags
         >
           <div className='account--Account-expand'>
+            {this.renderButtons()}
             <div className='account--Account-balances'>
               {this.renderTotal()}
               {this.renderAvailable()}
@@ -155,7 +144,6 @@ class Account extends React.PureComponent<Props> {
               {this.renderNonce()}
               {this.renderCryptoType()}
             </div>
-            {this.renderButtons()}
           </div>
         </AddressSummary>
       </Wrapper>
@@ -379,6 +367,7 @@ class Account extends React.PureComponent<Props> {
             />
           }
         />
+
         <Popup
           content='Send funds from this account'
           trigger={
@@ -390,7 +379,6 @@ class Account extends React.PureComponent<Props> {
           }
         />
       </div>
-
     );
   }
 }

@@ -2,16 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalancesMap, DerivedStaking } from '@polkadot/api-derive/types';
-import { AccountId, Balance, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types';
+import { AccountFilter, RecentlyOfflineMap } from '../types';
+import { AccountId, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { AddressMini, AddressSummary, Button, TxButton } from '@polkadot/ui-app';
+import { DerivedBalances, DerivedBalancesMap, DerivedStaking } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
+
 import React from 'react';
+import { AddressMini, AddressSummary, Button, TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
-import { AccountFilter, RecentlyOfflineMap } from '../types';
 import Bond from './Bond';
 import BondExtra from './BondExtra';
 import Nominating from './Nominating';
@@ -26,7 +27,7 @@ type Props = ApiProps & I18nProps & {
   filter: AccountFilter,
   isValidator: boolean,
   recentlyOffline: RecentlyOfflineMap,
-  freeBalance?: Balance,
+  balances_all?: DerivedBalances,
   staking_info?: DerivedStaking,
   stashOptions: Array<KeyringSectionOption>
 };
@@ -315,14 +316,14 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { accountId, freeBalance, t } = this.props;
+    const { accountId, balances_all, t } = this.props;
     const { isActiveStash, isActiveController, nominators, sessionId, stakingLedger, validatorPrefs } = this.state;
     const buttons = [];
 
     if (isActiveStash) {
       // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
       // staking_ledger.total gives the total amount that can be slashed (any active amount + what is being unlocked)
-      if (freeBalance && stakingLedger && stakingLedger.total && (freeBalance.gt(stakingLedger.total))) {
+      if (balances_all && stakingLedger && stakingLedger.total && (balances_all.freeBalance.gt(stakingLedger.total))) {
         buttons.push(
           <Button
             isPrimary
@@ -456,9 +457,6 @@ export default translate(
   withCalls<Props>(
     ['derive.staking.info', { paramName: 'accountId' }],
     'query.staking.recentlyOffline',
-    ['query.balances.freeBalance', {
-      paramName: 'accountId',
-      propName: 'freeBalance'
-    }]
+    ['derive.balances.all', { paramName: 'accountId' }]
   )(Account)
 );

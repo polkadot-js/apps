@@ -17,6 +17,7 @@ type Props = I18nProps & {
 
 class Forgetting extends React.PureComponent<Props> {
   render () {
+
     return (
       <Modal
         className='accounts--Forgetting-Modal'
