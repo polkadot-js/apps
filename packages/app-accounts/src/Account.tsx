@@ -330,6 +330,7 @@ class Account extends React.PureComponent<Props> {
             <SUIB
               icon='cloud download'
               onClick={this.toggleBackup}
+              primary
               size='small'
             />
           }
@@ -340,6 +341,7 @@ class Account extends React.PureComponent<Props> {
             <SUIB
               icon='key'
               onClick={this.togglePass}
+              primary
               size='small'
             />
           }
