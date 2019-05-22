@@ -9,6 +9,7 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import styled from 'styled-components';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/ui-app';
 import Checks, { calcSignatureLength } from '@polkadot/ui-signer/Checks';
 import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
@@ -33,6 +34,24 @@ type State = {
 };
 
 const ZERO = new BN(0);
+
+const Wrapper = styled.div`
+  article.padded {
+    margin: .75rem 10rem;
+    box-shadow: none;
+    padding: 1em;
+  }
+
+  label.with-help {
+    flex: 0 0 10rem;
+    min-width: 10rem;
+  }
+
+  .ui--Labelled-content {
+    flex: initial;
+    width: 50rem;
+  }
+`;
 
 class Transfer extends React.PureComponent<Props> {
   state: State = {
@@ -88,6 +107,90 @@ class Transfer extends React.PureComponent<Props> {
     });
   }
 
+  private renderButtons () {
+    const { address, onClose, system_accountNonce, t } = this.props;
+    const { extrinsic, hasAvailable } = this.state;
+
+    return (
+      <Modal.Actions>
+        <Button.Group>
+          <Button
+            isNegative
+            label={t('Cancel')}
+            onClick={onClose}
+          />
+          <Button.Or />
+          <TxButton
+            accountId={address}
+            accountNonce={system_accountNonce}
+            extrinsic={extrinsic}
+            isDisabled={!hasAvailable}
+            isPrimary
+            label={t('Make Transfer')}
+            onSuccess={onClose}
+          />
+        </Button.Group>
+      </Modal.Actions>
+    );
+  }
+
+  private renderContent () {
+    const { address, t } = this.props;
+    const { extrinsic, hasAvailable, maxBalance } = this.state;
+
+    return (
+      <>
+        <Modal.Header>
+          {t('Send funds')}
+        </Modal.Header>
+        <Modal.Content className='app--account-Backup-content'>
+          <Wrapper className='account--Transfer-data'>
+            <InputAddress
+              defaultValue={address}
+              help={t('The account you will send funds from.')}
+              isDisabled
+              label={t('from')}
+              type='account'
+            />
+            <InputAddress
+              defaultValue={'5xxxxxxxxxxxxxxx'}
+              help={t('Select a contact or paste the address you want to send funds to.')}
+              label={t('to')}
+              onChange={this.onChangeTo}
+              type='all'
+            />
+            <InputBalance
+              help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 mili is equivalent to sending 0.001.')}
+              isError={!hasAvailable}
+              label={t('amount')}
+              maxValue={maxBalance}
+              onChange={this.onChangeAmount}
+              withMax
+            />
+            <Checks
+              accountId={address}
+              extrinsic={extrinsic}
+              isSendable
+              onChange={this.onChangeFees}
+            />
+          </Wrapper>
+        </Modal.Content>
+      </>
+    );
+  }
+
+  private onChangeAmount = (amount: BN = new BN(0)) => {
+    this.nextState({ amount });
+  }
+
+  private onChangeTo = (recipientId: string) => {
+    this.nextState({ recipientId });
+  }
+
+  private onChangeFees = (hasAvailable: boolean) => {
+    this.setState({ hasAvailable });
+  }
+
   private setMaxBalance = () => {
     const { address, api, balances_fees = ZERO_FEES } = this.props;
     const { recipientId } = this.state;
@@ -133,91 +236,6 @@ class Transfer extends React.PureComponent<Props> {
       });
     });
   }
-
-  private renderButtons () {
-    const { address, onClose, system_accountNonce, t } = this.props;
-    const { extrinsic, hasAvailable } = this.state;
-
-    return (
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            label={t('Cancel')}
-            onClick={onClose}
-          />
-          <Button.Or />
-          <TxButton
-            accountId={address}
-            accountNonce={system_accountNonce}
-            extrinsic={extrinsic}
-            isDisabled={!hasAvailable}
-            isPrimary
-            label={t('Make Transfer')}
-            onSuccess={onClose}
-          />
-        </Button.Group>
-      </Modal.Actions>
-    );
-  }
-
-  private renderContent () {
-    const { address, t } = this.props;
-    const { extrinsic, hasAvailable, maxBalance } = this.state;
-
-    return (
-      <>
-        <Modal.Header>
-          {t('Send funds')}
-        </Modal.Header>
-        <Modal.Content className='app--account-Backup-content'>
-          <div className='account--Transfer-data'>
-            <InputAddress
-              defaultValue={address}
-              help={t('The account you will send funds from.')}
-              isDisabled
-              label={t('from')}
-              type='account'
-            />
-            <InputAddress
-              help={t('Select a contact or paste the address you want to send funds to.')}
-              label={t('to')}
-              onChange={this.onChangeTo}
-              type='all'
-            />
-            <InputBalance
-              autoFocus
-              help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 mili is equivalent to sending 0.001.')}
-              isError={!hasAvailable}
-              label={t('amount')}
-              maxValue={maxBalance}
-              onChange={this.onChangeAmount}
-              withMax
-            />
-            <Checks
-              accountId={address}
-              extrinsic={extrinsic}
-              isSendable
-              onChange={this.onChangeFees}
-            />
-          </div>
-        </Modal.Content>
-      </>
-    );
-  }
-
-  private onChangeAmount = (amount: BN = new BN(0)) => {
-    this.nextState({ amount });
-  }
-
-  private onChangeTo = (recipientId: string) => {
-    this.nextState({ recipientId });
-  }
-
-  private onChangeFees = (hasAvailable: boolean) => {
-    this.setState({ hasAvailable });
-  }
-
 }
 
 export default withMulti(
