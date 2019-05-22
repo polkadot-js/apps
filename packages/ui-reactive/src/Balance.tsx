@@ -18,19 +18,19 @@ type Props = BareProps & CallProps & {
   balances_all?: DerivedBalances
 };
 
-export class BalanceDisplay extends React.PureComponent<Props>
+export class BalanceDisplay extends React.PureComponent<Props> {
   render () {
     const { children, className, label = '', balances_all } = this.props;
 
     return (
       <>
         <span
-          className={className + ' label-balance'}
+          className={`${className} label-balance`}
         >
         {label}
         </span>
         <span
-          className={className + ' result-balance'}
+          className={`${className} result-balance`}
         >
           {balances_all
             ? formatBalance(balances_all.freeBalance)
