@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Button, FilterOverlay, Input } from '@polkadot/ui-app';
+import { Button, FilterOverlay, Input, TxComponent } from '@polkadot/ui-app';
 import { isHex } from '@polkadot/util';
 
 import translate from './translate';
@@ -20,7 +20,7 @@ type State = {
   isValid: boolean
 };
 
-class Query extends React.PureComponent<Props, State> {
+class Query extends TxComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
@@ -41,13 +41,14 @@ class Query extends React.PureComponent<Props, State> {
           isError={!isValid && value.length !== 0}
           placeholder={t('block hash or number to query')}
           onChange={this.setHash}
-          onEnter={this.onQuery}
+          onEnter={this.submit}
           withLabel={false}
         >
           <Button
             icon='play'
             isPrimary
             onClick={this.onQuery}
+            ref={this.button}
           />
         </Input>
       </FilterOverlay>

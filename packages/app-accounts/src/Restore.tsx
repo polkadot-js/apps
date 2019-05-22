@@ -8,7 +8,7 @@ import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { AddressSummary, Button, InputFile, Password } from '@polkadot/ui-app';
+import { AddressSummary, Button, InputFile, Password, TxComponent } from '@polkadot/ui-app';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import { isHex, isObject, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
@@ -25,7 +25,7 @@ type State = {
   password: string
 };
 
-class Restore extends React.PureComponent<Props, State> {
+class Restore extends TxComponent<Props, State> {
   state: State = {
     address: null,
     isFileValid: false,
@@ -57,6 +57,7 @@ class Restore extends React.PureComponent<Props, State> {
           isPrimary
           onClick={this.onSave}
           label={t('Restore')}
+          ref={this.button}
         />
       </Button.Group>
       </div>
@@ -89,6 +90,7 @@ class Restore extends React.PureComponent<Props, State> {
             isError={!isPassValid}
             label={t('password')}
             onChange={this.onChangePass}
+            onEnter={this.submit}
             value={password}
           />
         </div>

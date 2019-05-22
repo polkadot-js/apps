@@ -180,7 +180,6 @@ class Signer extends React.PureComponent<Props, State> {
         autoFocus
         error={unlockError || undefined}
         onChange={this.onChangePassword}
-        onKeyDown={this.onKeyDown}
         password={password}
         value={currentItem.accountId}
         tabIndex={1}
@@ -221,12 +220,6 @@ class Signer extends React.PureComponent<Props, State> {
       password,
       unlockError: null
     });
-  }
-
-  private onKeyDown = async (event: React.KeyboardEvent<Element>) => {
-    if (event.key === 'Enter') {
-      await this.onSend();
-    }
   }
 
   private onCancel = (): void => {

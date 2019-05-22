@@ -41,7 +41,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { className, defaultValue, isDisabled, name, onChange, style, type } = this.props;
+    const { className, defaultValue, isDisabled, name, onChange, onEnter, style, type } = this.props;
 
     return (
       <Component
@@ -56,6 +56,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
         }
         name={name}
         onChange={onChange}
+        onEnter={onEnter}
         style={style}
         type={type}
       />

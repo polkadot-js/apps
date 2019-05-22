@@ -191,6 +191,7 @@ export default class Input extends React.PureComponent<Props, State> {
     }
 
     if (onEnter && event.keyCode === 13) {
+      (event.target as any).blur();
       onEnter();
     }
   }

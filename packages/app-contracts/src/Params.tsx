@@ -11,7 +11,8 @@ import { getTypeDef, TypeDef } from '@polkadot/types';
 
 type Props = {
   params?: ContractABIArgs,
-  onChange: (values: Array<any>) => void
+  onChange: (values: Array<any>) => void,
+  onEnter?: () => void
 };
 
 type State = {
@@ -35,6 +36,7 @@ export default class Params extends React.PureComponent<Props, State> {
   }
 
   render () {
+    const { onEnter } = this.props;
     const { params } = this.state;
 
     if (!params.length) {
@@ -44,6 +46,7 @@ export default class Params extends React.PureComponent<Props, State> {
     return (
       <UIParams
         onChange={this.onChange}
+        onEnter={onEnter}
         params={params}
       />
     );

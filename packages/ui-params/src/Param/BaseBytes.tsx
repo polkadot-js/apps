@@ -19,12 +19,12 @@ type Props = BaseProps & {
   withLength?: boolean
 };
 
-const defaultValidate = (u8a: Uint8Array): boolean =>
+const defaultValidate = (): boolean =>
   true;
 
 export default class BaseBytes extends React.PureComponent<Props> {
   render () {
-    const { children, className, defaultValue: { value }, isDisabled, isError, label, size = 'full', style, withLabel } = this.props;
+    const { children, className, defaultValue: { value }, isDisabled, isError, label, onEnter, size = 'full', style, withLabel } = this.props;
     const defaultValue = value
       ? (
         isHex(value)
@@ -46,6 +46,7 @@ export default class BaseBytes extends React.PureComponent<Props> {
           isError={isError}
           label={label}
           onChange={this.onChange}
+          onEnter={onEnter}
           placeholder='0x...'
           type='text'
           withEllipsis

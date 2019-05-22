@@ -49,5 +49,6 @@ export { default as Tabs } from './Tabs';
 export { default as Tooltip } from './Tooltip';
 export { default as TxButton } from './TxButton';
 export { default as Unlocking } from './Unlocking';
+export { default as TxComponent } from './TxComponent';
 
 export { default as media } from './media';

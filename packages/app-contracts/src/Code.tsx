@@ -8,7 +8,7 @@ import { ComponentProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Button, Input, InputAddress, InputFile, InputNumber, TxButton } from '@polkadot/ui-app';
+import { Button, Input, InputAddress, InputFile, InputNumber, TxButton, TxComponent } from '@polkadot/ui-app';
 import { compactAddLength } from '@polkadot/util';
 import { Hash } from '@polkadot/types';
 
@@ -34,7 +34,7 @@ type State = {
   wasm?: Uint8Array | null
 };
 
-class Deploy extends React.PureComponent<Props, State> {
+class Deploy extends TxComponent<Props, State> {
   state: State = {
     accountId: null,
     gasLimit: new BN(0),
@@ -105,6 +105,7 @@ class Deploy extends React.PureComponent<Props, State> {
           help={t('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
           label={t('maximum gas allowed')}
           onChange={this.onChangeGas}
+          onEnter={this.sendTx}
         />
         <Button.Group>
           <TxButton
@@ -117,6 +118,7 @@ class Deploy extends React.PureComponent<Props, State> {
             onSuccess={this.onSuccess}
             params={[gasLimit, wasm]}
             tx='contract.putCode'
+            ref={this.button}
           />
         </Button.Group>
       </>
@@ -136,6 +138,7 @@ class Deploy extends React.PureComponent<Props, State> {
           isError={!isCodeValid}
           label={t('code hash')}
           onChange={this.onChangeHash}
+          onEnter={this.submit}
           value={codeHash}
         />
         <ValidateCode
@@ -150,6 +153,7 @@ class Deploy extends React.PureComponent<Props, State> {
             isPrimary
             label={t('Save')}
             onClick={this.onSave}
+            ref={this.button}
           />
         </Button.Group>
       </>
@@ -172,7 +176,7 @@ class Deploy extends React.PureComponent<Props, State> {
 
   private renderInputName () {
     const { t } = this.props;
-    const { isNameValid, name } = this.state;
+    const { isNameValid, isNew, name } = this.state;
 
     return (
       <Input
@@ -180,6 +184,7 @@ class Deploy extends React.PureComponent<Props, State> {
         isError={!isNameValid}
         label={t('code bundle name')}
         onChange={this.onChangeName}
+        onEnter={this[isNew ? 'sendTx' : 'submit']}
         value={name}
       />
     );

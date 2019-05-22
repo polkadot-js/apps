@@ -20,6 +20,7 @@ export type RawParam = {
 
 export type RawParam$OnChange$Value = { isValid: boolean, value: RawParam$Values };
 export type RawParam$OnChange = (value: RawParam$OnChange$Value) => void;
+export type RawParam$OnEnter = () => void;
 
 export type RawParams = Array<RawParam>;
 
@@ -27,6 +28,7 @@ export type BaseProps = BareProps & {
   defaultValue: RawParam,
   name?: string,
   onChange?: RawParam$OnChange,
+  onEnter?: RawParam$OnEnter,
   type: TypeDef
 };
 

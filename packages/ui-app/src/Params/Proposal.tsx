@@ -15,7 +15,7 @@ type Props = ApiProps & BaseProps;
 
 class ProposalDisplay extends React.PureComponent<Props> {
   render () {
-    const { apiDefaultTx, api, className, isDisabled, isError, label, style, withLabel } = this.props;
+    const { apiDefaultTx, api, className, isDisabled, isError, label, onEnter, style, withLabel } = this.props;
     const defaultValue = (() => {
       try {
         return api.tx.consensus.setCode;
@@ -33,6 +33,7 @@ class ProposalDisplay extends React.PureComponent<Props> {
         isPrivate
         label={label}
         onChange={this.onChange}
+        onEnter={onEnter}
         style={style}
         withLabel={withLabel}
       />
