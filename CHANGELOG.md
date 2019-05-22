@@ -1,3 +1,18 @@
+# 0.33.1
+
+- Allow for externally injected accounts (i.e. via extension)
+- Use new api.derive functions
+- Introduce multi support (most via api.derive.*)
+- Update all account and address modals
+- Add seconding of proposals
+- Staking updates, including unbonding & withdrawals
+- Update explorer with global query on hash/blocks
+- Add filters on the staking page
+- Vanitygen now supports sr25519 as well
+- Fixes for importing of old JSON
+- Latest @polkadot/util & @polkadot/api
+- A large number of optimizations and smaller fixes
+
 # 0.32.1
 
 - Support for Substrate 1.0 release & metadata v4
