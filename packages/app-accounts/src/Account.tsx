@@ -3,12 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
-import { I18nProps } from './types';
+import { I18nProps } from '@polkadot/ui-app/types';
 
-import { Button as SUIB, Popup } from 'semantic-ui-react';
 import React from 'react';
 import styled from 'styled-components';
-import { AddressSummary, Available, Balance, Bonded, CryptoType, Nonce, Unlocking } from '@polkadot/ui-app';
+import { AddressSummary, Available, Balance, Bonded, Button, CryptoType, Nonce, Unlocking } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './modals/Backup';
@@ -22,6 +21,7 @@ type Props = I18nProps & {
 
 type State = {
   isBackupOpen: boolean,
+  isEditable: boolean,
   isForgetOpen: boolean,
   isPasswordOpen: boolean
 };
@@ -109,6 +109,7 @@ class Account extends React.PureComponent<Props> {
 
     this.state = {
       isBackupOpen: false,
+      isEditable: !(keyring.getAccount(props.address).getMeta().isInjected),
       isForgetOpen: false,
       isPasswordOpen: false
     };
@@ -116,14 +117,17 @@ class Account extends React.PureComponent<Props> {
 
   render () {
     const { address } = this.props;
+    const { isEditable } = this.state;
 
+    // FIXME It is a bit heavy-handled switching of being editable here completely
+    // (and removing the tags, however the keyring cannot save these)
     return (
       <Wrapper className='overview--Account'>
         {this.renderModals()}
         <AddressSummary
           value={address}
           identIconSize={96}
-          isEditable
+          isEditable={isEditable}
           withBalance={false}
           withNonce={false}
           withTags
@@ -307,42 +311,35 @@ class Account extends React.PureComponent<Props> {
   }
 
   private renderButtons () {
+    const { t } = this.props;
+    const { isEditable } = this.state;
 
-    // FIXME: The <Popup /> event trigger on='hover' does not work together with the ui-app'
-    // <Button /> component. That's why the original Semantic UI component is being used here.
+    if (!isEditable) {
+      return null;
+    }
+
     return (
       <div className='accounts--Account-buttons'>
-        <Popup
-          content='Delete this account'
-          trigger={
-            <SUIB
-              negative
-              onClick={this.toggleForget}
-              icon='trash'
-              size='small'
-            />
-          }
-          wide='very'
+        <Button
+          isNegative
+          onClick={this.toggleForget}
+          icon='trash'
+          size='small'
+          tooltip={t('Forget this account')}
         />
-        <Popup
-          content='Create a backup file for this account'
-          trigger={
-            <SUIB
-              icon='cloud download'
-              onClick={this.toggleBackup}
-              size='small'
-            />
-          }
+        <Button
+          icon='cloud download'
+          isPrimary
+          onClick={this.toggleBackup}
+          size='small'
+          tooltip={t('Create a backup file for this account')}
         />
-        <Popup
-          content="Change this account's password"
-          trigger={
-            <SUIB
-              icon='key'
-              onClick={this.togglePass}
-              size='small'
-            />
-          }
+        <Button
+          icon='key'
+          isPrimary
+          onClick={this.togglePass}
+          size='small'
+          tooltip={t("Change this account's password")}
         />
       </div>
     );

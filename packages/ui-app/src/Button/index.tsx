@@ -6,13 +6,15 @@ import { ButtonType } from './types';
 
 import './Button.css';
 
-import Button from './Button';
+import IButton from './Button';
 import Divider from './Divider';
 import Group from './Group';
 import Or from './Or';
 
-(Button as any as ButtonType).Divider = Divider;
-(Button as any as ButtonType).Group = Group;
-(Button as any as ButtonType).Or = Or;
+const Button = IButton as any as ButtonType;
 
-export default (Button as any as ButtonType);
+Button.Divider = Divider;
+Button.Group = Group;
+Button.Or = Or;
+
+export default Button;

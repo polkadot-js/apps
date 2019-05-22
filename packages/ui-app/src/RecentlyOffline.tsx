@@ -72,9 +72,8 @@ class RecentlyOffline extends React.PureComponent<Props, State> {
         </div>
         <Tooltip
           trigger={`offline-${accountId}`}
-        >
-          {text}
-        </Tooltip>
+          text={text}
+        />
       </div>
     );
   }
