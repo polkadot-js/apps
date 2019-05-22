@@ -36,21 +36,7 @@ type State = {
 const ZERO = new BN(0);
 
 const Wrapper = styled.div`
-  article.padded {
-    margin: .75rem 10rem;
-    box-shadow: none;
-    padding: 1em;
-  }
 
-  label.with-help {
-    flex: 0 0 10rem;
-    min-width: 10rem;
-  }
-
-  .ui--Labelled-content {
-    flex: initial;
-    width: 50rem;
-  }
 `;
 
 class Transfer extends React.PureComponent<Props> {
