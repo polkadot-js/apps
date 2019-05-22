@@ -222,12 +222,6 @@ class Signer extends React.PureComponent<Props, State> {
     });
   }
 
-  private onKeyDown = async (event: React.KeyboardEvent<Element>) => {
-    if (event.key === 'Enter') {
-      await this.onSend();
-    }
-  }
-
   private onCancel = (): void => {
     const { queueSetTxStatus } = this.props;
     const { currentItem } = this.state;
