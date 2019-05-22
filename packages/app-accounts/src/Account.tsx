@@ -27,7 +27,6 @@ type State = {
   isForgetOpen: boolean,
   isPasswordOpen: boolean,
   isTransferOpen: boolean
-
 };
 
 const Wrapper = styled.article`
@@ -367,7 +366,6 @@ class Account extends React.PureComponent<Props> {
             />
           }
         />
-
         <Popup
           content='Send funds from this account'
           trigger={
