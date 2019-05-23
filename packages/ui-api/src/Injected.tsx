@@ -31,12 +31,11 @@ export function withInjected<P extends ApiInjectedProps> (Component: React.Compo
     render () {
       return (
         <InjectedContext.Consumer>
-          {({ injectedAvailable, injectedPromise }) => (
+          {(injected) => (
             // @ts-ignore Something here with the props are going wonky
             <Component
               {...this.props}
-              injectedAvailable={injectedAvailable}
-              injectedPromise={injectedPromise}
+              {...injected}
             />
           )}
         </InjectedContext.Consumer>
