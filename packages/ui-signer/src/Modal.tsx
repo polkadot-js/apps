@@ -2,10 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Signer as ISigner } from '@polkadot/api/types';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps, ApiInjectedProps } from '@polkadot/ui-api/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { KeyringPair } from '@polkadot/keyring/types';
@@ -14,8 +13,8 @@ import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } fro
 
 import React from 'react';
 import { Button, Modal } from '@polkadot/ui-app';
+import { withApi, withInjected, withMulti, withObservable } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
-import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { assert, isFunction } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
@@ -29,7 +28,7 @@ type BaseProps = BareProps & {
   queueSetTxStatus: QueueTx$MessageSetStatus
 };
 
-type Props = I18nProps & ApiProps & BaseProps & {
+type Props = I18nProps & ApiProps & ApiInjectedProps & BaseProps & {
   allAccounts?: SubjectInfo
 };
 
@@ -38,14 +37,6 @@ type State = {
   isSendable: boolean,
   password: string,
   unlockError?: string | null
-};
-
-type WindowInjected = Window & {
-  injectedWeb3: {
-    [index: string]: {
-      signer: ISigner
-    }
-  }
 };
 
 class Signer extends React.PureComponent<Props, State> {
@@ -322,7 +313,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, { id, txFailedCb, txSuccessCb, txUpdateCb }: QueueTx, extrinsicCall: (...params: Array<any>) => any, pair?: KeyringPair): Promise<void> {
-    const { api, queueSetTxStatus } = this.props;
+    const { api, injectedPromise, queueSetTxStatus } = this.props;
 
     console.log('makeExtrinsicCall: extrinsic ::', extrinsic.toHex());
 
@@ -331,13 +322,13 @@ class Signer extends React.PureComponent<Props, State> {
     if (pair) {
       // set the signer
       if (pair.getMeta().isInjected) {
-        const injWindow = window as WindowInjected;
         const source = pair.getMeta().source;
-        const signer = source && injWindow.injectedWeb3 && injWindow.injectedWeb3[source].signer;
+        const sources = await injectedPromise;
+        const injected = source && sources.find(({ name }) => name === source);
 
-        assert(signer, 'Unable to find a signer');
+        assert(injected, 'Unable to find a signer');
 
-        api.setSigner(signer);
+        api.setSigner((injected as any).signer);
 
         params.push(pair.address());
       } else {
@@ -403,5 +394,6 @@ export default withMulti(
   Signer,
   translate,
   withApi,
+  withInjected,
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );
