@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Signer } from '@polkadot/api/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { QueueTx$ExtrinsicAdd, QueueTx$MessageSetStatus } from '@polkadot/ui-app/Status/types';
 import { ApiProps, ApiInjectedProps } from './types';
@@ -34,17 +33,6 @@ type State = ApiProps & {
 };
 
 type InjectedAccount = { address: string, meta: { name: string } };
-
-type WindowInjected = Window & {
-  injectedWeb3: {
-    [index: string]: {
-      accounts: {
-        get: () => Promise<Array<{ address: string, name: string }>>
-      },
-      signer: Signer
-    }
-  }
-};
 
 export { api };
 
@@ -103,28 +91,27 @@ class ApiWrapper extends React.PureComponent<Props, State> {
   }
 
   private async retrieveInjected (): Promise<Array<InjectedAccount>> {
+    const { injectedPromise } = this.props;
     const injected: Array<InjectedAccount> = [];
-    const injWindow = window as WindowInjected;
+    const result = await injectedPromise;
 
-    if (injWindow.injectedWeb3) {
-      console.log(`api: found injectedWeb3: ${Object.keys(injWindow.injectedWeb3).join(', ')}`);
+    if (result.length) {
+      const providers = result.map(({ name, version }) => `${name}/${version}`);
+
+      console.log(`api: found injectedWeb3: ${providers.join(', ')}`);
 
       const rerieved = await Promise.all(
-        Object
-          .entries(injWindow.injectedWeb3)
-          .map(([source, { accounts }]) =>
-            accounts
-              .get()
-              .then((accounts) =>
-                accounts.map(({ address, name }) => ({
-                  address,
-                  meta: {
-                    name: `${name} (${source === 'polkadot-js' ? 'extension' : source})`,
-                    source
-                  }
-                }))
-              )
+        result.map(({ accounts, name: source }) =>
+          accounts.get().then((accounts) =>
+            accounts.map(({ address, name }) => ({
+              address,
+              meta: {
+                name: `${name} (${source === 'polkadot-js' ? 'extension' : source})`,
+                source
+              }
+            }))
           )
+        )
       );
 
       rerieved.forEach((accounts) =>

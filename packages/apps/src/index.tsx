@@ -11,7 +11,7 @@ import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
 import store from 'store';
 import { getTypeRegistry } from '@polkadot/types';
-import { Api, InjectedProvider } from '@polkadot/ui-api';
+import { Api } from '@polkadot/ui-api';
 
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 import Queue from '@polkadot/ui-app/Status/Queue';
@@ -41,23 +41,21 @@ try {
 
 ReactDOM.render(
   <Suspense fallback='...'>
-    <InjectedProvider>
-      <Queue>
-        <QueueConsumer>
-          {({ queueExtrinsic, queueSetTxStatus }) => (
-            <Api
-              queueExtrinsic={queueExtrinsic}
-              queueSetTxStatus={queueSetTxStatus}
-              url={url}
-            >
-              <HashRouter>
-                <Apps />
-              </HashRouter>
-            </Api>
-          )}
-        </QueueConsumer>
-      </Queue>
-    </InjectedProvider>
+    <Queue>
+      <QueueConsumer>
+        {({ queueExtrinsic, queueSetTxStatus }) => (
+          <Api
+            queueExtrinsic={queueExtrinsic}
+            queueSetTxStatus={queueSetTxStatus}
+            url={url}
+          >
+            <HashRouter>
+              <Apps />
+            </HashRouter>
+          </Api>
+        )}
+      </QueueConsumer>
+    </Queue>
   </Suspense>,
   rootElement
 );

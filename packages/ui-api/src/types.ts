@@ -24,19 +24,30 @@ export type ApiProps = {
   setApiUrl: (url?: string) => void
 };
 
-export type ApiInjected = {
+export type WindowInjectedInfo = {
   name: string,
-  version: string,
+  version: string
+};
+
+export type WindowInjectedResult = {
   accounts: {
     get: () => Promise<Array<{ address: string, name: string }>>
   },
   signer: Signer
 };
 
+export type WindowInjected = Window & {
+  injectedWeb3: {
+    [index: string]: WindowInjectedInfo & {
+      enable: (origin: string) => Promise<WindowInjectedResult>
+    }
+  }
+};
+
+export type ApiInjected = WindowInjectedInfo & WindowInjectedResult;
+
 export type ApiInjectedProps = {
-  hasInjected: boolean,
-  injected: Array<ApiInjected>,
-  waitInjected: boolean
+  injectedPromise: Promise<Array<ApiInjected>>
 };
 
 export type OnChangeCb$Obs = { next: (value?: any) => any };

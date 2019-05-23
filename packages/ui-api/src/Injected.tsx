@@ -2,16 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Signer } from '@polkadot/api/types';
-import { ApiInjected, ApiInjectedProps, Subtract } from './types';
+import { ApiInjected, ApiInjectedProps, Subtract, WindowInjected } from './types';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-type ProviderProps = {
-  children: React.ReactNode
-};
+const objmap = (window as WindowInjected).injectedWeb3;
+const injectedPromise = !objmap || Object.keys(objmap).length === 0
+  ? Promise.resolve([] as Array<ApiInjected>)
+  : Promise.all(Object.values(objmap).map(({ name, version, enable }) =>
+      Promise.all([
+        Promise.resolve({ name, version }),
+        enable('polkadot-js/apps').catch(() => null)
+      ])))
+      .then((values) => values.filter(([, result]) => result !== null))
+      .then((values) => values.map(([info, result]) => ({ ...info, ...result })))
+      .catch(() => [] as Array<ApiInjected>);
 
-const InjectedContext = React.createContext([] as Array<ApiInjected>);
+const InjectedContext = React.createContext(injectedPromise);
 const InjectedConsumer = InjectedContext.Consumer;
 
 export {
@@ -26,59 +33,10 @@ export function withInjected<P extends ApiInjectedProps> (Component: React.Compo
           // @ts-ignore Something here with the props are going wonky
           <Component
             {...props}
-            injected={injected}
+            injectedPromise={injectedPromise}
           />
         )}
       </InjectedContext.Consumer>
     );
   };
-}
-
-type WindowInjected = Window & {
-  injectedWeb3: {
-    [index: string]: {
-      name: string,
-      version: string,
-      enable: (origin: string) => Promise<{
-        accounts: {
-          get: () => Promise<Array<{ address: string, name: string }>>
-        },
-        signer: Signer
-      }>
-    }
-  }
-};
-
-
-export function InjectedProvider ({ children }: ProviderProps) {
-  const objmap = (window as WindowInjected).injectedWeb3;
-  const loadInjected = !!objmap && Object.keys(objmap).length !== 0;
-  const [{ hasInjected, injected, waitInjected }, setInjected] = useState({ hasInjected: !loadInjected, injected: [], waitInjected: loadInjected } as ApiInjectedProps);
-
-  useEffect(() => {
-    if (!loadInjected) {
-      return;
-    }
-
-    Promise
-      .all(
-        Object.values(objmap).map(({ name, version, enable }) =>
-          Promise.all([
-            Promise.resolve({ name, version }),
-            enable('polkadot-js/apps').catch(() => null)
-          ])
-        )
-      )
-      .catch(() => [])
-      .then((values) => values.filter(([, result]) => !!result))
-      .then((values) => values.map(([info, result]) => ({ ...info, ...result })))
-      .then((injected) => console.error(injected))  // setInjected({ hasInjected: true, injected, waitInjected: false }))
-      .catch(() => void 0);
-  }, []);
-
-  return (
-    <InjectedContext.Provider value={injected}>
-      {children}
-    </InjectedContext.Provider>
-  );
 }
