@@ -39,8 +39,8 @@ class AccountsApp extends React.PureComponent<Props, State> {
 
     const { allAccounts = {}, t } = props;
     const baseState = Object.keys(allAccounts).length !== 0
-      ? AccountsApp.showVanityState()
-      : AccountsApp.hideVanityState();
+      ? AccountsApp.showTabsState()
+      : AccountsApp.hideTabsState();
 
     this.state = {
       ...baseState,
@@ -66,18 +66,18 @@ class AccountsApp extends React.PureComponent<Props, State> {
     };
   }
 
-  static showVanityState () {
+  static showTabsState () {
 
     return {
       hidden: []
     };
   }
 
-  static hideVanityState () {
+  static hideTabsState () {
     // Hide vanity as well - since the route order and matching changes, the
     // /create/:seed route become problematic, so don't allow that option
     return {
-      hidden: ['vanity']
+      hidden: ['overview','vanity']
     };
   }
 
@@ -87,11 +87,11 @@ class AccountsApp extends React.PureComponent<Props, State> {
     if (hidden.length === 0) {
       return hasAddresses
         ? null
-        : AccountsApp.hideVanityState();
+        : AccountsApp.hideTabsState();
     }
 
     return hasAddresses
-      ? AccountsApp.showVanityState()
+      ? AccountsApp.showTabsState()
       : null;
   }
 
@@ -115,7 +115,13 @@ class AccountsApp extends React.PureComponent<Props, State> {
           <Route path={`${basePath}/create`} render={renderCreator} />
           <Route path={`${basePath}/restore`} render={this.renderComponent(Restore)} />
           <Route path={`${basePath}/vanity`} render={this.renderComponent(Vanity)} />
-          <Route render={this.renderComponent(Overview)} />
+          <Route
+            render={
+              hidden.includes('overview')
+                ? renderCreator
+                : this.renderComponent(Overview)
+            }
+          />
         </Switch>
       </main>
     );

@@ -14,7 +14,7 @@ type Props = ApiProps & BaseProps;
 
 class Call extends React.PureComponent<Props> {
   render () {
-    const { apiDefaultTx, api, className, isDisabled, isError, label, onChange, style, withLabel } = this.props;
+    const { apiDefaultTx, api, className, isDisabled, isError, label, onChange, onEnter, style, withLabel } = this.props;
     const defaultValue = (() => {
       try {
         return api.tx.balances.transfer;
@@ -32,6 +32,7 @@ class Call extends React.PureComponent<Props> {
         isPrivate={false}
         label={label}
         onChange={onChange}
+        onEnter={onEnter}
         style={style}
         withLabel={withLabel}
       />

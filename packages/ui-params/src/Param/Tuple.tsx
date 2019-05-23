@@ -54,7 +54,7 @@ export default class Tuple extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, isDisabled, style, withLabel } = this.props;
+    const { className, isDisabled, onEnter, style, withLabel } = this.props;
     const { Components, sub, subTypes, values } = this.state;
 
     return (
@@ -69,6 +69,7 @@ export default class Tuple extends React.PureComponent<Props, State> {
             key={index}
             label={sub[index]}
             onChange={this.onChange(index)}
+            onEnter={onEnter}
             type={subTypes[index]}
             withLabel={withLabel}
           />

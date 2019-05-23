@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
 import React from 'react';
-import { AddressRow, Button, Modal, Password } from '@polkadot/ui-app';
+import { AddressRow, Button, Modal, Password, TxComponent } from '@polkadot/ui-app';
 
 import translate from './translate';
 
@@ -21,14 +21,14 @@ type State = {
   unlockError: string | null
 };
 
-class Unlock extends React.PureComponent<Props, State> {
+class Unlock extends TxComponent<Props, State> {
   state: State = {
     address: '',
     password: '',
     unlockError: null
   };
 
-  static getDerivedStateFromProps ({ pair }: Props, prevState: State): State {
+  static getDerivedStateFromProps ({ pair }: Props): State {
     return {
       address: pair
         ? pair.address()
@@ -74,6 +74,7 @@ class Unlock extends React.PureComponent<Props, State> {
             isPrimary
             onClick={this.onUnlock}
             label={t('Unlock')}
+            ref={this.button}
           />
         </Button.Group>
       </Modal.Actions>
@@ -98,6 +99,7 @@ class Unlock extends React.PureComponent<Props, State> {
               help={t('The account\'s password specified at the creation of this account.')}
               label={t('password')}
               onChange={this.onChangePassword}
+              onEnter={this.submit}
               value={password}
             />
           </div>

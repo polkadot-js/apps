@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import { ValidatorPrefs } from '@polkadot/types';
-import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/ui-app';
+import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 
 import translate from '../translate';
 
@@ -24,7 +24,7 @@ type State = {
   validatorPayment?: BN
 };
 
-class Staking extends React.PureComponent<Props, State> {
+class Staking extends TxComponent<Props, State> {
   state: State = {
     unstakeThreshold: new BN(3),
     validatorPayment: new BN(0)
@@ -88,6 +88,7 @@ class Staking extends React.PureComponent<Props, State> {
               validatorPayment
             }]}
             tx='staking.validate'
+            ref={this.button}
           />
         </Button.Group>
       </Modal.Actions>
@@ -123,6 +124,7 @@ class Staking extends React.PureComponent<Props, State> {
             help={t('The number of allowed slashes for this validator before being automatically unstaked (maximum of 10 allowed)')}
             label={t('unstake threshold')}
             onChange={this.onChangeThreshold}
+            onEnter={this.sendTx}
             value={
               unstakeThreshold
                 ? unstakeThreshold.toString()
@@ -134,6 +136,7 @@ class Staking extends React.PureComponent<Props, State> {
             help={t('Reward that validator takes up-front, the remainder is split between themselves and nominators')}
             label={t('payment preferences')}
             onChange={this.onChangePayment}
+            onEnter={this.sendTx}
             value={
               validatorPayment
                 ? validatorPayment.toString()

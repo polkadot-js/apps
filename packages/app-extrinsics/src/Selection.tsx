@@ -10,7 +10,7 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 import React from 'react';
 import { Method } from '@polkadot/types';
-import { Button, Extrinsic, InputAddress, Labelled, TxButton } from '@polkadot/ui-app';
+import { Button, Extrinsic, InputAddress, Labelled, TxButton, TxComponent } from '@polkadot/ui-app';
 import { withApi, withMulti } from '@polkadot/ui-api';
 import { Nonce } from '@polkadot/ui-reactive';
 
@@ -29,7 +29,7 @@ type State = {
   accountId: string
 };
 
-class Selection extends React.PureComponent<Props, State> {
+class Selection extends TxComponent<Props, State> {
   state: State = {
     isValid: false,
     isValidUnsigned: false
@@ -76,6 +76,7 @@ class Selection extends React.PureComponent<Props, State> {
           defaultValue={defaultExtrinsic}
           label={t('submit the following extrinsic')}
           onChange={this.onChangeExtrinsic}
+          onEnter={this.sendTx}
         />
         <br></br>
         <Button.Group>
@@ -92,6 +93,7 @@ class Selection extends React.PureComponent<Props, State> {
             isPrimary
             label={t('Submit Transaction')}
             extrinsic={extrinsic}
+            ref={this.button}
           />
         </Button.Group>
       </div>

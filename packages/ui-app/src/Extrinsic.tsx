@@ -24,6 +24,7 @@ type Props = BareProps & ApiProps & {
   isPrivate?: boolean,
   label?: React.ReactNode,
   onChange: (method?: Method) => void,
+  onEnter: () => void,
   withLabel?: boolean
 };
 
@@ -47,7 +48,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { defaultValue, isDisabled, isError, isPrivate, label, withLabel } = this.props;
+    const { defaultValue, isDisabled, isError, isPrivate, label, onEnter, withLabel } = this.props;
     const { methodfn: { method, section }, params } = this.state;
 
     return (
@@ -64,6 +65,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
         <Params
           key={`${section}.${method}:params` /* force re-render on change */}
           onChange={this.onChangeValues}
+          onEnter={onEnter}
           overrides={paramComponents}
           params={params}
         />

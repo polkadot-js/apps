@@ -4,7 +4,7 @@
 
 import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RawParam$OnChange } from '@polkadot/ui-params/types';
+import { RawParam$OnChange, RawParam$OnEnter } from '@polkadot/ui-params/types';
 
 import React from 'react';
 import { Method } from '@polkadot/types';
@@ -19,12 +19,13 @@ type Props = I18nProps & {
   isPrivate: boolean,
   label: string,
   onChange?: RawParam$OnChange,
+  onEnter?: RawParam$OnEnter,
   withLabel?: boolean
 };
 
 class ExtrinsicDisplay extends React.PureComponent<Props> {
   render () {
-    const { className, defaultValue, isDisabled, isError, isPrivate, label, style, t, withLabel } = this.props;
+    const { className, defaultValue, isDisabled, isError, isPrivate, label, onEnter, style, t, withLabel } = this.props;
 
     return (
       <BaseExtrinsic
@@ -39,6 +40,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props> {
           }
         })}
         onChange={this.onChange}
+        onEnter={onEnter}
         style={style}
         withLabel={withLabel}
       />

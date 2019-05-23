@@ -9,7 +9,7 @@ import { CalculateBalanceProps } from '../types';
 import BN from 'bn.js';
 import React from 'react';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { Button, InputAddress, InputBalance, Modal, TxButton, Dropdown } from '@polkadot/ui-app';
+import { Button, Dropdown, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
 import { calcSignatureLength } from '@polkadot/ui-signer/Checks';
 import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
@@ -41,7 +41,7 @@ const stashOptions = [
 
 const ZERO = new BN(0);
 
-class Bond extends React.PureComponent<Props, State> {
+class Bond extends TxComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -105,6 +105,7 @@ class Bond extends React.PureComponent<Props, State> {
               label={t('Bond')}
               onClick={onClose}
               extrinsic={extrinsic}
+              ref={this.button}
             />
           </Button.Group>
         </Modal.Actions>
@@ -151,6 +152,7 @@ class Bond extends React.PureComponent<Props, State> {
             label={t('value bonded')}
             maxValue={maxBalance}
             onChange={this.onChangeValue}
+            onEnter={this.sendTx}
             withMax
           />
           <Dropdown

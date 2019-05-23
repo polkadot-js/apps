@@ -7,7 +7,7 @@ import { ComponentProps } from './types';
 
 import React from 'react';
 
-import { AddressSummary, Button, Input, InputTags } from '@polkadot/ui-app';
+import { AddressSummary, Button, Input, InputTags, TxComponent } from '@polkadot/ui-app';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring';
@@ -26,7 +26,7 @@ type State = {
   tags: Array<string>
 };
 
-class Creator extends React.PureComponent<Props, State> {
+class Creator extends TxComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -69,6 +69,7 @@ class Creator extends React.PureComponent<Props, State> {
           isPrimary
           onClick={this.onCommit}
           label={t('Save')}
+          ref={this.button}
         />
       </Button.Group>
     );
@@ -88,6 +89,7 @@ class Creator extends React.PureComponent<Props, State> {
             isError={!isAddressValid}
             label={t('address')}
             onChange={this.onChangeAddress}
+            onEnter={this.submit}
             value={address}
           />
         </div>
@@ -98,6 +100,7 @@ class Creator extends React.PureComponent<Props, State> {
             isError={!isNameValid}
             label={t('name')}
             onChange={this.onChangeName}
+            onEnter={this.submit}
             value={name}
           />
         </div>
@@ -127,7 +130,7 @@ class Creator extends React.PureComponent<Props, State> {
 
   nextState (newState: State, allowEdit: boolean = false): void {
     this.setState(
-      (prevState: State, props: Props): State => {
+      (prevState: State): State => {
         let { address = prevState.address, name = prevState.name, tags = prevState.tags } = newState;
         let isAddressValid = true;
         let isAddressExisting = false;

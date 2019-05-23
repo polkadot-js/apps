@@ -11,10 +11,13 @@ import { BareProps } from './types';
 const rootElement = document.getElementById('tooltips');
 
 type Props = BareProps & {
-  trigger: string,
   delayShow?: number,
-  place?: 'bottom' | 'top' | 'right' | 'left',
+  dataFor?: string,
   effect?: 'solid' | 'float'
+  offset?: { bottom?: number, left?: number, right?: number, top?: number },
+  place?: 'bottom' | 'top' | 'right' | 'left',
+  text: React.ReactNode,
+  trigger: string
 };
 
 export default class Tooltip extends React.PureComponent<Props> {
@@ -25,10 +28,11 @@ export default class Tooltip extends React.PureComponent<Props> {
     className: 'ui--Tooltip'
   };
 
-  tooltipContainer: HTMLElement;
+  private tooltipContainer: HTMLElement;
 
   constructor (props: Props) {
     super(props);
+
     this.tooltipContainer = document.createElement('div');
   }
 
@@ -45,17 +49,18 @@ export default class Tooltip extends React.PureComponent<Props> {
   }
 
   render () {
-    const { children, trigger, delayShow, effect, place, className } = this.props;
+    const { className, delayShow, effect, offset, place, text, trigger } = this.props;
 
     return ReactDOM.createPortal(
       <ReactTooltip
         id={trigger}
         delayShow={delayShow}
         effect={effect}
+        offset={offset}
         place={place}
         className={className}
       >
-        {children}
+        {text}
       </ReactTooltip>,
       this.tooltipContainer
     );

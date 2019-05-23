@@ -8,7 +8,7 @@ import { ComponentProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Button, Dropdown, Input, InputAddress, InputBalance, InputNumber, TxButton } from '@polkadot/ui-app';
+import { Button, Dropdown, Input, InputAddress, InputBalance, InputNumber, TxButton, TxComponent } from '@polkadot/ui-app';
 import { AccountId, ContractAbi } from '@polkadot/types';
 
 import ABI from './ABI';
@@ -38,7 +38,7 @@ type State = {
   params: Array<any>
 };
 
-class Create extends React.PureComponent<Props, State> {
+class Create extends TxComponent<Props, State> {
   state: State = {
     accountId: null,
     endowment: new BN(0),
@@ -147,6 +147,7 @@ class Create extends React.PureComponent<Props, State> {
         }
         <Params
           onChange={this.onChangeParams}
+          onEnter={this.sendTx}
           params={
             contractAbi
               ? contractAbi.deploy.args
@@ -158,12 +159,14 @@ class Create extends React.PureComponent<Props, State> {
           isError={!isEndowValid}
           label={t('endowment')}
           onChange={this.onChangeEndowment}
+          onEnter={this.sendTx}
         />
         <InputNumber
           help={t('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
           isError={!isGasValid}
           label={t('maximum gas allowed')}
           onChange={this.onChangeGas}
+          onEnter={this.sendTx}
         />
         <Button.Group>
           <TxButton
@@ -176,6 +179,7 @@ class Create extends React.PureComponent<Props, State> {
             onSuccess={this.onSuccess}
             params={this.constructCall}
             tx='contract.create'
+            ref={this.button}
           />
         </Button.Group>
       </>
@@ -195,6 +199,7 @@ class Create extends React.PureComponent<Props, State> {
           isError={!isAddressValid}
           label={t('contract address')}
           onChange={this.onChangeAddress}
+          onEnter={this.submit}
           value={address}
         />
         <ValidateAddr
@@ -209,6 +214,7 @@ class Create extends React.PureComponent<Props, State> {
             isPrimary
             label={t('Save')}
             onClick={this.onSave}
+            ref={this.button}
           />
         </Button.Group>
       </>
@@ -231,7 +237,7 @@ class Create extends React.PureComponent<Props, State> {
 
   private renderInputName () {
     const { t } = this.props;
-    const { isNameValid, name } = this.state;
+    const { isNameValid, isNew, name } = this.state;
 
     return (
       <Input
@@ -239,6 +245,7 @@ class Create extends React.PureComponent<Props, State> {
         isError={!isNameValid}
         label={t('contract name')}
         onChange={this.onChangeName}
+        onEnter={this[isNew ? 'sendTx' : 'submit']}
         value={name}
       />
     );

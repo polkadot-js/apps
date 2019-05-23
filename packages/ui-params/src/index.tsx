@@ -23,6 +23,7 @@ type Param = {
 type Props = I18nProps & {
   isDisabled?: boolean,
   onChange?: (value: RawParams) => void,
+  onEnter?: () => void,
   overrides?: ComponentMap,
   params: Array<Param>,
   values?: RawParams
@@ -55,7 +56,7 @@ class Params extends React.PureComponent<Props, State> {
 
     const values = createValues(props.params);
     const handlers = values.map(
-      (value, index): RawParam$OnChange =>
+      (_, index): RawParam$OnChange =>
         (value: RawParam$OnChange$Value): void =>
           onChangeParam(index, value)
     );
@@ -74,7 +75,7 @@ class Params extends React.PureComponent<Props, State> {
 
    // This is needed in the case where the item changes, i.e. the values get
    // initialised and we need to alert the parent that we have new values
-  componentDidUpdate (prevProps: Props, prevState: State) {
+  componentDidUpdate (_: Props, prevState: State) {
     const { onChange, isDisabled } = this.props;
     const { values } = this.state;
 
@@ -84,7 +85,7 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, isDisabled, overrides, params, style } = this.props;
+    const { className, isDisabled, onEnter, overrides, params, style } = this.props;
     const { handlers = [], values = this.props.values } = this.state;
 
     if (!params || params.length === 0 || !values || values.length === 0) {
@@ -104,6 +105,7 @@ class Params extends React.PureComponent<Props, State> {
               key={`${name}:${name}:${index}`}
               name={name}
               onChange={handlers[index]}
+              onEnter={onEnter}
               overrides={overrides}
               type={type}
             />

@@ -19,6 +19,24 @@ const isFirefox = typeof InstallTrigger !== 'undefined';
 
 class Connecting extends React.PureComponent<Props> {
   render () {
+    return this.renderExtension() || this.renderConnecting();
+  }
+
+  private renderExtension () {
+    const { isWaitingInjected, t } = this.props;
+
+    if (!isWaitingInjected) {
+      return null;
+    }
+
+    return (
+      <Wrapper>
+        <div>{t('Waiting for authorization from the extension. Please open the installed extension and approve or reject access.')}</div>
+      </Wrapper>
+    );
+  }
+
+  private renderConnecting () {
     const { isApiConnected, t } = this.props;
 
     if (isApiConnected) {

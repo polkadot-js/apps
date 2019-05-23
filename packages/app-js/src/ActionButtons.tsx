@@ -6,7 +6,7 @@ import { BareProps, I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { Button as SUIB, Popup } from 'semantic-ui-react';
-import { Button, Input } from '@polkadot/ui-app';
+import { Button, Input, TxComponent } from '@polkadot/ui-app';
 
 import translate from './translate';
 
@@ -27,7 +27,7 @@ type State = {
   snippetName: string
 };
 
-class ActionButtons extends React.PureComponent<Props, State> {
+class ActionButtons extends TxComponent<Props, State> {
   state: State = {
     isOpen: false,
     shareText: this.props.t('Generate link to share code example'),
@@ -91,6 +91,7 @@ class ActionButtons extends React.PureComponent<Props, State> {
               autoFocus={true}
               onBlur={this.onPopupClose}
               onChange={this.onChangeName}
+              onEnter={this.submit}
               maxLength={50}
               min={1}
               placeholder={t('Name your example')}
@@ -111,6 +112,7 @@ class ActionButtons extends React.PureComponent<Props, State> {
           isCircular
           isPositive
           onClick={runJs}
+          ref={this.button}
         />
         <Button
           icon='close'
