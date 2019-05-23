@@ -21,6 +21,7 @@ export type ApiProps = {
   isApiConnected: boolean,
   isApiReady: boolean,
   isDevelopment: boolean,
+  isWaitingInjected: boolean,
   setApiUrl: (url?: string) => void
 };
 
@@ -47,6 +48,7 @@ export type WindowInjected = Window & {
 export type ApiInjected = WindowInjectedInfo & WindowInjectedResult;
 
 export type ApiInjectedProps = {
+  injectedAvailable: boolean,
   injectedPromise: Promise<Array<ApiInjected>>
 };
 

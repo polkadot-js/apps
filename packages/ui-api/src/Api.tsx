@@ -42,7 +42,7 @@ class ApiWrapper extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const { queueExtrinsic, queueSetTxStatus, url } = props;
+    const { injectedAvailable, queueExtrinsic, queueSetTxStatus, url } = props;
     const provider = new WsProvider(url);
     const signer = new ApiSigner(queueExtrinsic, queueSetTxStatus);
 
@@ -61,13 +61,20 @@ class ApiWrapper extends React.PureComponent<Props, State> {
     this.state = {
       isApiConnected: false,
       isApiReady: false,
+      isWaitingInjected: injectedAvailable,
       api,
       setApiUrl
     } as State;
   }
 
   componentDidMount () {
+    const { injectedPromise } = this.props;
+
     this.subscribeEvents();
+
+    injectedPromise
+      .then(() => this.setState({ isWaitingInjected: false }))
+      .catch(console.error);
   }
 
   private subscribeEvents () {
@@ -164,7 +171,7 @@ class ApiWrapper extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { api, apiDefaultTx, chain, isApiConnected, isApiReady, isDevelopment, setApiUrl } = this.state;
+    const { api, apiDefaultTx, chain, isApiConnected, isApiReady, isDevelopment, isWaitingInjected, setApiUrl } = this.state;
 
     return (
       <ApiContext.Provider
@@ -174,6 +181,7 @@ class ApiWrapper extends React.PureComponent<Props, State> {
           isApiConnected,
           isApiReady: isApiReady && !!chain,
           isDevelopment,
+          isWaitingInjected,
           setApiUrl
         }}
       >
