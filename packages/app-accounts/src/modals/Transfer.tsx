@@ -36,6 +36,21 @@ type State = {
 const ZERO = new BN(0);
 
 const Wrapper = styled.div`
+  article.padded {
+    box-shadow: none;
+    margin: .75rem 15rem;
+    padding: 0;
+  }
+
+  label.with-help {
+    flex-basis: 10rem;
+  }
+
+  .ui--Labelled-content {
+    flex: initial;
+    width: 40em;
+  }
+
 
 `;
 
