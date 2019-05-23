@@ -31,7 +31,7 @@ export function withInjected<P extends ApiInjectedProps> (Component: React.Compo
     render () {
       return (
         <InjectedContext.Consumer>
-          {(injected) => (
+          {({ injectedAvailable, injectedPromise }) => (
             // @ts-ignore Something here with the props are going wonky
             <Component
               {...this.props}
