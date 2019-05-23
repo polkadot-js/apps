@@ -43,19 +43,17 @@ ReactDOM.render(
   <Suspense fallback='...'>
     <Queue>
       <QueueConsumer>
-        {({ queueExtrinsic, queueSetTxStatus }) => {
-          return (
-            <Api
-              queueExtrinsic={queueExtrinsic}
-              queueSetTxStatus={queueSetTxStatus}
-              url={url}
-            >
-              <HashRouter>
-                <Apps />
-              </HashRouter>
-            </Api>
-          );
-        }}
+        {({ queueExtrinsic, queueSetTxStatus }) => (
+          <Api
+            queueExtrinsic={queueExtrinsic}
+            queueSetTxStatus={queueSetTxStatus}
+            url={url}
+          >
+            <HashRouter>
+              <Apps />
+            </HashRouter>
+          </Api>
+        )}
       </QueueConsumer>
     </Queue>
   </Suspense>,
