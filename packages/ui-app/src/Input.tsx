@@ -119,7 +119,7 @@ export default class Input extends React.PureComponent<Props, State> {
               : undefined
           }
           disabled={isDisabled}
-          error={isError}
+          error={!isDisabled && isError}
           hidden={isHidden}
           id={name}
           iconPosition={
