@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressSummary, Available, Balance, Bonded, Button, CryptoType, Nonce, Unlocking } from '@polkadot/ui-app';
+import { AddressSummary, Available, Balance, Bonded, Button, CryptoType, Icon, Nonce, Unlocking } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './modals/Backup';
@@ -336,42 +336,39 @@ class Account extends React.PureComponent<Props> {
     const { t } = this.props;
     const { isEditable } = this.state;
 
-    if (!isEditable) {
-      return null;
-    }
-
     return (
       <div className='accounts--Account-buttons'>
-        <Button
-          isNegative
-          onClick={this.toggleForget}
-          icon='trash'
-          size='small'
-          tooltip={t('Forget this account')}
-        />
-        <Button
-          icon='cloud download'
-          isPrimary
-          onClick={this.toggleBackup}
-          size='small'
-          tooltip={t('Create a backup file for this account')}
-        />
-        <Button
-          icon='key'
-          isPrimary
-          onClick={this.togglePass}
-          size='small'
-          tooltip={t("Change this account's password")}
-        />
-        <Popup
-          content='Send funds from this account'
-          trigger={
-            <SUIB
-              icon='paper plane'
-              onClick={this.toggleTransfer}
+        {isEditable && (
+          <>
+            <Button
+              isNegative
+              onClick={this.toggleForget}
+              icon='trash'
               size='small'
+              tooltip={t('Forget this account')}
             />
-          }
+            <Button
+              icon='cloud download'
+              isPrimary
+              onClick={this.toggleBackup}
+              size='small'
+              tooltip={t('Create a backup file for this account')}
+            />
+            <Button
+              icon='key'
+              isPrimary
+              onClick={this.togglePass}
+              size='small'
+              tooltip={t("Change this account's password")}
+            />
+          </>
+        )}
+        <Button
+          isPrimary
+          label={<><Icon name='paper plane' /> {t('send')}</>}
+          onClick={this.toggleTransfer}
+          size='small'
+          tooltip={t('Send funds from this account')}
         />
       </div>
     );
