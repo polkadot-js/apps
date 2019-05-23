@@ -84,7 +84,7 @@ class Query extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ value }: Props, prevState: State): State | null {
+  static getDerivedStateFromProps ({ value }: Props): State | null {
     const Component = Query.getCachedComponent(value).Component;
     const inputs: Array<React.ReactNode> = isU8a(value.key)
       ? []

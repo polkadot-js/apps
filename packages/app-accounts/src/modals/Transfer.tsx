@@ -94,7 +94,7 @@ class Transfer extends React.PureComponent<Props> {
   }
 
   private renderButtons () {
-    const { address, onClose, system_accountNonce, t } = this.props;
+    const { address, onClose, t } = this.props;
     const { extrinsic, hasAvailable } = this.state;
 
     return (
@@ -108,12 +108,12 @@ class Transfer extends React.PureComponent<Props> {
           <Button.Or />
           <TxButton
             accountId={address}
-            accountNonce={system_accountNonce}
             extrinsic={extrinsic}
             isDisabled={!hasAvailable}
             isPrimary
             label={t('Make Transfer')}
-            onSuccess={onClose}
+            onStart={onClose}
+            withSpinner={false}
           />
         </Button.Group>
       </Modal.Actions>

@@ -375,14 +375,14 @@ class AddressSummary extends React.PureComponent<Props, State> {
         >
           {
             !tags.length
-            ? <span>add tags</span>
-            : tags.map((tag) => {
-              return (
-                <Label key={tag} size='tiny' color='grey'>
-                  {tag}
-                </Label>
-              );
-            })
+              ? (isEditable ? <span>add tags</span> : undefined)
+              : tags.map((tag) => {
+                return (
+                  <Label key={tag} size='tiny' color='grey'>
+                    {tag}
+                  </Label>
+                );
+              })
           }
           {isEditable && this.renderEditIcon(this.toggleTagsEditor)}
         </div>;

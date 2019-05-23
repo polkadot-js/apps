@@ -39,6 +39,7 @@ export type QueueTx = AccountInfo & {
   signerOptions?: SignatureOptions,
   txFailedCb?: (status: SubmittableResult | null) => void,
   txSuccessCb?: TxCallback,
+  txStartCb?: () => void,
   txUpdateCb?: TxCallback,
   values?: Array<any>,
   status: QueueTx$Status
@@ -75,6 +76,7 @@ export type PartialQueueTx$Extrinsic = PartialAccountInfo & {
   signerOptions?: SignatureOptions,
   txFailedCb?: TxCallback,
   txSuccessCb?: TxCallback,
+  txStartCb?: () => void,
   txUpdateCb?: TxCallback,
   isUnsigned?: boolean
 };

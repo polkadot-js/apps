@@ -35,11 +35,6 @@ export class UnlockingDisplay extends React.PureComponent<Props, State> {
     };
   }
 
-  toggleTooltip () {
-    const { tooltipOpen } = this.state;
-    this.setState({ tooltipOpen: !tooltipOpen });
-  }
-
   render () {
     const { unlockings } = this.props;
 
@@ -52,7 +47,6 @@ export class UnlockingDisplay extends React.PureComponent<Props, State> {
   }
 
   private groupByEra (list: UnlockChunk[]) {
-
     return list.reduce((map, { era, value }) => {
       const key = era.toString();
 
@@ -93,29 +87,31 @@ export class UnlockingDisplay extends React.PureComponent<Props, State> {
         {groupedUnlockings && Object.keys(groupedUnlockings).map(eraString => (
           <React.Fragment key={eraString}>
             <span
-              className={className + ' label-locked'}
+              className={`${className} label-locked`}
             >
               {t('locked')}
             </span>
             <span
-              className={className + ' result-locked'}
+              className={`${className} result-locked`}
             >
               {formatBalance(groupedUnlockings[eraString])}
               <Icon
                 name='info circle'
                 data-tip
-                data-for={'controlled-trigger' + eraString}
-                onMouseOver={() => this.toggleTooltip()}
-                onMouseOut={() => this.toggleTooltip()}
+                data-for={`controlled-trigger${eraString}`}
+                onMouseOver={this.toggleTooltip}
+                onMouseOut={this.toggleTooltip}
               />
               {tooltipOpen && (
-                <Tooltip trigger={'controlled-trigger' + eraString}>
-                  {t('{{remaining}} blocks left', {
+                <Tooltip
+                  text={t('{{remaining}} blocks left', {
                     replace: {
                       remaining: this.remainingBlocks(new BlockNumber(eraString))
                     }
                   })}
-                </Tooltip>)}
+                  trigger={`controlled-trigger${eraString}`}
+                />
+              )}
             </span>
           </React.Fragment>
         ))}
@@ -155,6 +151,12 @@ export class UnlockingDisplay extends React.PureComponent<Props, State> {
       </>
       : null
     );
+  }
+
+  private toggleTooltip = () => {
+    this.setState(({ tooltipOpen }) => ({
+      tooltipOpen: !tooltipOpen
+    }));
   }
 }
 

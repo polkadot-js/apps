@@ -53,7 +53,7 @@ class Vector extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, isDisabled, style, type, withLabel } = this.props;
+    const { className, isDisabled, onEnter, style, type, withLabel } = this.props;
     const { Component, values } = this.state;
     const subType = type.sub as TypeDef;
 
@@ -73,6 +73,7 @@ class Vector extends React.PureComponent<Props, State> {
             key={index}
             label={`${index}: ${subType.type}`}
             onChange={this.onChange(index)}
+            onEnter={onEnter}
             type={subType}
             withLabel={withLabel}
           />

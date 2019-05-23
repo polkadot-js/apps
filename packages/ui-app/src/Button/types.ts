@@ -19,8 +19,10 @@ export type ButtonProps = BareProps & {
   isPrimary?: boolean,
   label?: React.ReactNode,
   onClick?: () => void | Promise<void>,
+  ref?: any,
   size?: Button$Sizes,
-  tabIndex?: number
+  tabIndex?: number,
+  tooltip?: React.ReactNode
 };
 
 export type DividerProps = BareProps;
