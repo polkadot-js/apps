@@ -27,18 +27,19 @@ export {
 };
 
 export function withInjected<P extends ApiInjectedProps> (Component: React.ComponentType<P>): React.ComponentType<Subtract<P, ApiInjectedProps>> {
-  return (props: Subtract<P, ApiInjectedProps>) => {
-    return (
-      <InjectedContext.Consumer>
-        {(injected) => (
-          // @ts-ignore Something here with the props are going wonky
-          <Component
-            {...props}
-            injectedAvailable={injectedAvailable}
-            injectedPromise={injectedPromise}
-          />
-        )}
-      </InjectedContext.Consumer>
-    );
+  return class extends React.PureComponent<Subtract<P, ApiInjectedProps>> {
+    render () {
+      return (
+        <InjectedContext.Consumer>
+          {(injected) => (
+            // @ts-ignore Something here with the props are going wonky
+            <Component
+              {...this.props}
+              {...injected}
+            />
+          )}
+        </InjectedContext.Consumer>
+      );
+    }
   };
 }
