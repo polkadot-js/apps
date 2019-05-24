@@ -61,3 +61,14 @@
 .explorer--query {
   width: 20em;
 }
+
+details[open] > summary {
+  white-space: normal;
+  width: initial;
+}
+
+details > summary {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
