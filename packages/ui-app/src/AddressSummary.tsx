@@ -225,7 +225,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderBalance () {
-    const { accounts_idAndIndex = [], balance, t, value, withBalance = true } = this.props;
+    const { balance, t, withBalance = true } = this.props;
     const { address } = this.state;
 
     if (!withBalance || !address) {
@@ -243,7 +243,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderBonded () {
-    const { accounts_idAndIndex = [], bonded, t, value, withBonded } = this.props;
+    const { bonded, t, withBonded } = this.props;
     const { address } = this.state;
 
     if (!withBonded || !address) {
