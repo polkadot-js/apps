@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Signer } from '@polkadot/api/types';
 import { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
+
 import ApiPromise from '@polkadot/api/promise';
 
 // helpers for HOC props
@@ -25,41 +25,14 @@ export type ApiProps = {
   setApiUrl: (url?: string) => void
 };
 
-export type WindowInjectedInfo = {
-  name: string,
-  version: string
-};
-
-export type WindowInjectedResult = {
-  accounts: {
-    get: () => Promise<Array<{ address: string, name: string }>>
-  },
-  signer: Signer
-};
-
-export type WindowInjected = Window & {
-  injectedWeb3: {
-    [index: string]: WindowInjectedInfo & {
-      enable: (origin: string) => Promise<WindowInjectedResult>
-    }
-  }
-};
-
-export type ApiInjected = WindowInjectedInfo & WindowInjectedResult;
-
-export type ApiInjectedProps = {
-  injectedAvailable: boolean,
-  injectedPromise: Promise<Array<ApiInjected>>
-};
-
 export type OnChangeCb$Obs = { next: (value?: any) => any };
 export type OnChangeCb$Fn = (value?: any) => any;
-
 export type OnChangeCb = OnChangeCb$Obs | OnChangeCb$Fn;
 
 export type ChangeProps = {
   callOnResult?: OnChangeCb
 };
+
 export type CallState = {
   callResult?: any;
   callUpdated?: boolean;
