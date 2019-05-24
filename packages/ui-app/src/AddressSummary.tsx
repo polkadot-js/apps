@@ -368,7 +368,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
         >
           {
             !tags.length
-              ? (isEditable ? <span>add tags</span> : undefined)
+              ? (isEditable ? <span className='addTags'>add tags</span> : undefined)
               : tags.map((tag) => {
                 return (
                   <Label key={tag} size='tiny' color='grey'>

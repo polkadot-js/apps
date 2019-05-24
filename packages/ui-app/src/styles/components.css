@@ -112,14 +112,16 @@ button.ui.icon.withDrawUnbonded {
   margin-left: .3em
 }
 
-.overview--Account:hover  button.ui.icon.editButton,
-.overview--Account:hover  button.ui.icon.editButton {
-  visibility: visible;
+.overview--Account:hover {
+  .button.ui.icon.editButton, .addTags {
+    visibility: visible;
+  }
 }
 
-.overview--Account button.ui.icon.editButton,
-.overview--Account button.ui.icon.editButton {
-  visibility: hidden;
+.overview--Account {
+  .button.ui.icon.editButton, .addTags {
+    visibility: hidden;
+  }
 }
 
 .ui--AddressSummary-name.editable > button.ui.icon.editButton,
@@ -141,13 +143,13 @@ button.ui.icon.withDrawUnbonded {
 }
 
 .ui--AddressSummary-tags.editable > span {
-    border: 1px #00000052 solid;
-    border-radius: .5em;
-    border-style: dashed;
-    color: grey;
-    font-size: x-small;
-    padding: .1em 0.3em 0.1em 0.3em;
-    margin-top: .2em;
+  border: 1px #00000052 solid;
+  border-radius: .5em;
+  border-style: dashed;
+  color: grey;
+  font-size: x-small;
+  padding: .1em 0.3em 0.1em 0.3em;
+  margin-top: .2em;
 }
 
 .ui--AddressSummary-tags.editable > div.label {
@@ -260,6 +262,10 @@ button.ui.icon.withDrawUnbonded {
 .ui--AddressSummary-balance.rx--updated,
 .ui--AddressSummary-nonce.rx--updated {
   opacity: 1;
+}
+
+.ui--AddressSummary .ui--AddressSummary-data {
+  margin-top: 0.5rem;
 }
 
 .ui--AddressSummary-data {
