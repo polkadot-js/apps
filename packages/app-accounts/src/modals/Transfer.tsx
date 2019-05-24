@@ -235,10 +235,7 @@ class Transfer extends React.PureComponent<Props> {
 
     while (!prevMax.eq(maxBalance)) {
       prevMax = maxBalance;
-
-      extrinsic = address && recipientId
-        ? api.tx.balances.transfer(recipientId, prevMax)
-        : null;
+      extrinsic = api.tx.balances.transfer(recipientId, prevMax);
 
       const txLength = calcSignatureLength(extrinsic, accountNonce);
       const fees = transactionBaseFee
