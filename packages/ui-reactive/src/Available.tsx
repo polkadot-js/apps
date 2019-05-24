@@ -23,10 +23,10 @@ export class AvailableDisplay extends React.PureComponent<Props> {
 
     return (
       <>
-        <span className={className + ' label-available'}>
+        <span className={`${className} label-available`}>
         {label}
         </span>
-        <span className={className + ' result-available'}>
+        <span className={`${className} result-available`}>
           {
             balances_all ?
             formatBalance(balances_all.availableBalance) :

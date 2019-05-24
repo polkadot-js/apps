@@ -24,14 +24,10 @@ export class BalanceDisplay extends React.PureComponent<Props> {
 
     return (
       <>
-        <span
-          className={`${className} label-balance`}
-        >
+        <span className={`${className} label-balance`}>
         {label}
         </span>
-        <span
-          className={`${className} result-balance`}
-        >
+        <span className={`${className} result-balance`}>
           {balances_all
             ? formatBalance(balances_all.freeBalance)
             : '0'
