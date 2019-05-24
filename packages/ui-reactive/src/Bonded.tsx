@@ -6,20 +6,21 @@ import { AccountId, AccountIndex, Address, Option, StakingLedger } from '@polkad
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-
-import { withCalls } from '@polkadot/ui-api';
 import { formatBalance } from '@polkadot/util';
+import { withCalls } from '@polkadot/ui-api';
+import { HelpIcon } from '@polkadot/ui-app';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
+  help?: string,
   label?: string,
   staking_ledger?: Option<StakingLedger>
 };
 
 export class BondedDisplay extends React.PureComponent<Props> {
   render () {
-    const { children, className, label = '', staking_ledger } = this.props;
+    const { children, className, help, label = '', staking_ledger } = this.props;
 
     if (!staking_ledger || staking_ledger.isNone) {
       return null;
@@ -29,15 +30,16 @@ export class BondedDisplay extends React.PureComponent<Props> {
 
     return (
       <>
-        <span className={className + ' label-bonded'}>
-          {label}
-        </span>
+        <span className={className + ' label-bonded'}>{label}</span>
         <span className={className + ' result-bonded'}>
           {
             bonded
               ? formatBalance(bonded)
               : '0'
           }
+          <HelpIcon
+            help={help}
+          />
         </span>
         {children}
       </>

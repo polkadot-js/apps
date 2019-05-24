@@ -14,6 +14,7 @@ import { classes } from './util';
 
 export type Props = BareProps & {
   bonded?: BN | Array<BN>,
+  help?: string,
   label?: string,
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   withLabel?: boolean
@@ -21,7 +22,7 @@ export type Props = BareProps & {
 
 export default class BondedDisplay extends React.PureComponent<Props> {
   render () {
-    const { bonded, params, className, label, style } = this.props;
+    const { bonded, params, className, help, label, style } = this.props;
 
     if (!params) {
       return null;
@@ -32,6 +33,7 @@ export default class BondedDisplay extends React.PureComponent<Props> {
       : (
         <Bonded
           className={classes('ui--Bonded', className)}
+          help={help}
           label={label}
           params={params}
           style={style}

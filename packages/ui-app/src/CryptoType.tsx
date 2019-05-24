@@ -6,18 +6,20 @@ import { AccountId, AccountIndex, Address } from '@polkadot/types';
 import { BareProps } from './types';
 
 import React from 'react';
+import { HelpIcon } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
 import { classes } from './util';
 
 type Props = BareProps & {
   accountId: AccountId | AccountIndex | Address | string | Uint8Array | null,
+  help?: string,
   label?: string
 };
 
 export default class CryptoType extends React.PureComponent<Props> {
   render () {
-    const { accountId, className, label = '' } = this.props;
+    const { accountId, className, help, label = '' } = this.props;
     const current = accountId
         ? keyring.getPair(accountId.toString())
         : null;
@@ -28,7 +30,12 @@ export default class CryptoType extends React.PureComponent<Props> {
     return (
       <>
         <span className={classes('ui--CryptoType label-cryptotype', className)}>{label}</span>
-        <span className={classes('ui--CryptoType result-cryptotype', className)}>{type}</span>
+        <span className={classes('ui--CryptoType result-cryptotype', className)}>
+          {type}
+          <HelpIcon
+            help={help}
+          />
+        </span>
       </>
     );
   }

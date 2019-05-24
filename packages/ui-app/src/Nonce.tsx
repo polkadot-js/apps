@@ -11,13 +11,14 @@ import { Nonce } from '@polkadot/ui-reactive';
 import { classes } from './util';
 
 export type Props = BareProps & {
+  help?: string,
   label?: string,
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null
 };
 
 export default class NonceDisplay extends React.PureComponent<Props> {
   render () {
-    const { className, label, params, style } = this.props;
+    const { className, help, label, params, style } = this.props;
 
     if (!params) {
       return null;
@@ -26,6 +27,7 @@ export default class NonceDisplay extends React.PureComponent<Props> {
     return (
         <Nonce
           className={classes('ui--Nonce', className)}
+          help={help}
           label={label}
           params={params.toString()}
           style={style}

@@ -8,11 +8,13 @@ import { DerivedBalances } from '@polkadot/api-derive/types';
 
 import React from 'react';
 
-import { withCalls } from '@polkadot/ui-api';
 import { formatBalance } from '@polkadot/util';
+import { HelpIcon } from '@polkadot/ui-app';
+import { withCalls } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
+  help?: string,
   label?: string,
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   balances_all?: DerivedBalances
@@ -20,15 +22,11 @@ type Props = BareProps & CallProps & {
 
 export class BalanceDisplay extends React.PureComponent<Props> {
   render () {
-    const { children, className, label = '', balances_all } = this.props;
+    const { children, className, help, label = '', balances_all } = this.props;
 
     return (
       <>
-        <span
-          className={`${className} label-balance`}
-        >
-        {label}
-        </span>
+        <span className={`${className} label-balance`}>{label}</span>
         <span
           className={`${className} result-balance`}
         >
@@ -36,6 +34,9 @@ export class BalanceDisplay extends React.PureComponent<Props> {
             ? formatBalance(balances_all.freeBalance)
             : '0'
           }
+          <HelpIcon
+            help={help}
+          />
         </span>{children}
       </>
     );

@@ -79,6 +79,9 @@ const Wrapper = styled.article`
   .result-nonce,
   .result-redeemable {
     grid-column:  2;
+    > i.help {
+      margin-left: .3em
+    }
   }
 
   .accounts--Account-buttons > button {
@@ -155,6 +158,7 @@ class Account extends React.PureComponent<Props> {
     return (
       <Available
         className='accounts--Account-balances-available'
+        help={t('funds that that can be transfer or bonded')}
         label={t('available')}
         params={address}
       />
@@ -167,6 +171,7 @@ class Account extends React.PureComponent<Props> {
     return (
       <Bonded
         className='accounts--Account-balances-bonded'
+        help={t('funds bonded for validating or nominating. They are locked and cannot be transfered')}
         label={t('bonded')}
         params={address}
       />
@@ -180,6 +185,7 @@ class Account extends React.PureComponent<Props> {
       <CryptoType
         accountId={address}
         className='accounts--Account-details-crypto'
+        help={t('cryptography chosen for this account at account creation')}
         label={t('crypto type')}
       />
     );
@@ -282,6 +288,7 @@ class Account extends React.PureComponent<Props> {
       <Nonce
         className='accounts--Account-details-nonce'
         params={address}
+        help={t('amount of transactions made from this account')}
         label={t('transactions')}
       />
     );
@@ -293,6 +300,7 @@ class Account extends React.PureComponent<Props> {
     return (
       <Balance
         className='accounts--Account-balances-balance'
+        help={t('overall amount of funds (be they vested, available for transfer or locked)')}
         label={t('total')}
         params={address}
       />

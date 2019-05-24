@@ -14,6 +14,7 @@ import { classes } from './util';
 
 export type Props = BareProps & {
   balance?: BN | Array<BN>,
+  help?: string,
   label?: string,
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   withLabel?: boolean
@@ -21,7 +22,7 @@ export type Props = BareProps & {
 
 export default class BalanceDisplay extends React.PureComponent<Props> {
   render () {
-    const { balance, className, label, params, style } = this.props;
+    const { balance, className, help, label, params, style } = this.props;
 
     if (!params) {
       return null;
@@ -32,6 +33,7 @@ export default class BalanceDisplay extends React.PureComponent<Props> {
       : (
         <Balance
           className={classes('ui--Balance', className)}
+          help={help}
           label={label}
           params={params}
           style={style}

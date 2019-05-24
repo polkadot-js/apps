@@ -20,6 +20,7 @@ export { default as Editor } from './Editor';
 export { default as Event } from './Event';
 export { default as Extrinsic } from './Extrinsic';
 export { default as FilterOverlay } from './FilterOverlay';
+export { default as HelpIcon } from './HelpIcon';
 export { default as HelpOverlay } from './HelpOverlay';
 export { default as Icon } from './Icon';
 export { default as IdentityIcon } from './IdentityIcon';
