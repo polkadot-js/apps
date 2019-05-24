@@ -111,4 +111,5 @@ details > summary {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  outline: none;
 }
