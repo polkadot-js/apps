@@ -189,6 +189,10 @@ button.ui.icon.withDrawUnbonded {
       margin: 0;
       text-align: left;
     }
+
+    .ui--AddressSummary-name {
+      padding: 0;
+    }
   }
 
   .ui--AddressSummary-balances>span {
