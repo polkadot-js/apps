@@ -47,6 +47,7 @@ export type Props = I18nProps & {
 };
 
 type State = {
+  address: string,
   isEditingName: boolean,
   isEditingTags: boolean,
   name: string,
@@ -64,7 +65,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     this.state = this.createState();
   }
 
-  static getDerivedStateFromProps ({ accounts_idAndIndex = [], defaultName, value }: Props): State | null {
+  static getDerivedStateFromProps ({ accounts_idAndIndex = [], defaultName, value }: Props, prevState: State): State | null {
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
     const address = accountId
@@ -73,7 +74,11 @@ class AddressSummary extends React.PureComponent<Props, State> {
     const name = getAddrName(address, false, defaultName) || '';
     const tags = getAddrTags(address);
 
-    return { name, tags } as State;
+    if (address === prevState.address) {
+      return null;
+    }
+
+    return { address, name, tags } as State;
   }
 
   render () {
@@ -118,6 +123,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     const tags = getAddrTags(address);
 
     return {
+      address,
       isEditingName: false,
       isEditingTags: false,
       name,
@@ -126,12 +132,8 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderAddress () {
-    const { isShort = true, value } = this.props;
-
-    const address = value
-      ? value.toString()
-      : DEFAULT_ADDR;
-
+    const { isShort = true } = this.props;
+    const { address } = this.state;
     const addrElem = isShort
       ? (
           <CopyButton
@@ -177,7 +179,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
           onClick={isEditable ? this.toggleNameEditor : undefined}
         >
           {name}
-          {isEditable && this.renderEditIcon(this.toggleNameEditor)}
+          {isEditable && this.renderEditIcon()}
         </div>
       );
   }
@@ -191,11 +193,10 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderAvailable () {
-    const { accounts_idAndIndex = [], t, value, withAvailable } = this.props;
-    const [_accountId] = accounts_idAndIndex;
-    const accountId = _accountId || value;
+    const { t, withAvailable } = this.props;
+    const { address } = this.state;
 
-    if (!withAvailable || !accountId) {
+    if (!withAvailable || !address) {
       return null;
     }
 
@@ -203,7 +204,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
       <AvailableDisplay
         className='ui--AddressSummary-available'
         label={t('available ')}
-        params={accountId}
+        params={address}
       />
     );
   }
@@ -225,10 +226,9 @@ class AddressSummary extends React.PureComponent<Props, State> {
 
   protected renderBalance () {
     const { accounts_idAndIndex = [], balance, t, value, withBalance = true } = this.props;
-    const [_accountId] = accounts_idAndIndex;
-    const accountId = _accountId || value;
+    const { address } = this.state;
 
-    if (!withBalance || !accountId) {
+    if (!withBalance || !address) {
       return null;
     }
 
@@ -237,17 +237,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
         balance={balance}
         className='ui--AddressSummary-balance'
         label={t('balance ')}
-        params={accountId}
+        params={address}
       />
     );
   }
 
   protected renderBonded () {
     const { accounts_idAndIndex = [], bonded, t, value, withBonded } = this.props;
-    const [_accountId] = accounts_idAndIndex;
-    const accountId = _accountId || value;
+    const { address } = this.state;
 
-    if (!withBonded || !accountId) {
+    if (!withBonded || !address) {
       return null;
     }
 
@@ -256,7 +255,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
         bonded={bonded}
         className='ui--AddressSummary-bonded'
         label={t('bonded ')}
-        params={accountId}
+        params={address}
       />
     );
   }
@@ -275,12 +274,10 @@ class AddressSummary extends React.PureComponent<Props, State> {
     );
   }
 
-  protected renderEditIcon (callback: () => void) {
-
+  protected renderEditIcon () {
     return (
       <Button
         className='editButton'
-        onClick={callback}
         icon='edit'
         size='mini'
         isPrimary
@@ -290,18 +287,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderIcon (className: string = 'ui--AddressSummary-icon', size?: number) {
-    const { accounts_idAndIndex = [], identIconSize = 96, value, withIcon = true } = this.props;
+    const { identIconSize = 96, withIcon = true } = this.props;
+    const { address } = this.state;
 
     if (!withIcon) {
       return null;
     }
 
-    const [_accountId] = accounts_idAndIndex;
-    const accountId = (_accountId || value || '').toString();
-
     // Since we do queries to storage in the wrapped example, we don't want
     // to follow that route if we don't have a valid address.
-    const Component = accountId
+    const Component = address
       ? IdentityIcon
       : BaseIdentityIcon;
 
@@ -309,17 +304,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
       <Component
         className={className}
         size={size || identIconSize}
-        value={accountId}
+        value={address}
       />
     );
   }
 
   protected renderNonce () {
-    const { accounts_idAndIndex = [], t, value, withNonce = true } = this.props;
-    const [_accountId] = accounts_idAndIndex;
-    const accountId = _accountId || value;
+    const { t, withNonce = true } = this.props;
+    const { address } = this.state;
 
-    if (!withNonce || !accountId) {
+    if (!withNonce || !address) {
       return null;
     }
 
@@ -327,21 +321,21 @@ class AddressSummary extends React.PureComponent<Props, State> {
       <NonceDisplay
         className='ui--AddressSummary-nonce'
         label={t('transactions ')}
-        params={accountId}
+        params={address}
       />
     );
   }
 
   protected renderSaveIcon (callback: () => void) {
     return (
-    <Button
-      className='saveButton'
-      onClick={callback}
-      icon='save'
-      size='small'
-      isPrimary
-      key='save'
-    />
+      <Button
+        className='saveButton'
+        onClick={callback}
+        icon='save'
+        size='small'
+        isPrimary
+        key='save'
+      />
     );
   }
 
@@ -383,39 +377,42 @@ class AddressSummary extends React.PureComponent<Props, State> {
                 );
               })
           }
-          {isEditable && this.renderEditIcon(this.toggleTagsEditor)}
+          {isEditable && this.renderEditIcon()}
         </div>;
 
     return resultingDom;
   }
 
   protected renderUnlocking () {
-    const { accounts_idAndIndex = [], value, withUnlocking } = this.props;
-    const [_accountId] = accounts_idAndIndex;
-    const accountId = _accountId || value;
+    const { withUnlocking } = this.props;
+    const { address } = this.state;
 
-    if (!withUnlocking || !accountId) {
+    if (!withUnlocking || !address) {
       return null;
     }
 
     return (
       <UnlockingDisplay
         className='ui--AddressSummary-available'
-        params={accountId}
+        params={address}
       />
     );
   }
 
   protected saveName = () => {
     const { value } = this.props;
-    const { name } = this.state;
+    const { address, name } = this.state;
 
     const trimmedName = name.trim();
 
     // Save only if the name was changed or if it's no empty.
     if (trimmedName && value) {
-      const currentKeyring = keyring.getPair(value.toString());
-      currentKeyring && keyring.saveAccountMeta(currentKeyring, { name: trimmedName, whenEdited: Date.now() });
+      const currentKeyring = keyring.getPair(address);
+
+      currentKeyring && keyring.saveAccountMeta(currentKeyring, {
+        name: trimmedName,
+        whenEdited: Date.now()
+      });
 
       this.toggleNameEditor();
     }
@@ -423,11 +420,15 @@ class AddressSummary extends React.PureComponent<Props, State> {
 
   protected saveTags = () => {
     const { value } = this.props;
-    const { tags } = this.state;
+    const { address, tags } = this.state;
 
     if (value) {
-      const currentKeyring = keyring.getPair(value.toString());
-      currentKeyring && keyring.saveAccountMeta(currentKeyring, { tags, whenEdited: Date.now() });
+      const currentKeyring = keyring.getPair(address);
+
+      currentKeyring && keyring.saveAccountMeta(currentKeyring, {
+        tags,
+        whenEdited: Date.now()
+      });
 
       this.toggleTagsEditor();
     }

@@ -131,6 +131,7 @@ button.ui.icon.withDrawUnbonded {
   margin-left: -2em;
   position: relative;
   right: -2.3em;
+  z-index: 1;
 }
 
 .ui--AddressSummary-tags.editable {
@@ -267,11 +268,14 @@ button.ui.icon.withDrawUnbonded {
   white-space: nowrap;
 
   .ui--AddressSummary-name {
-    width: 15rem;
+    box-sizing: border-box;
     margin: 0 auto;
+    padding: 0 1rem;
     overflow: hidden;
     text-overflow: ellipsis;
     text-transform: uppercase;
+    white-space: normal;
+    width: 17rem;
   }
 }
 
