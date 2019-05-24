@@ -170,13 +170,13 @@ class Transfer extends React.PureComponent<Props> {
             defaultValue={address}
             help={t('The account you will send funds from.')}
             isDisabled
-            label={t('from')}
+            label={t('send from account')}
             type='account'
           />
           <div className='balance'><Available label={available} params={senderId} /></div>
           <InputAddress
             help={t('Select a contact or paste the address you want to send funds to.')}
-            label={t('to')}
+            label={t('send to address')}
             onChange={this.onChangeTo}
             type='all'
           />
