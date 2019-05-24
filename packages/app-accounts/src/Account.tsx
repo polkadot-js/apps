@@ -69,6 +69,9 @@ const Wrapper = styled.article`
   .label-redeemable {
     grid-column:  1;
     text-align: right;
+    > i.help {
+      margin-left: .3em
+    }
   }
 
   .result-available,
@@ -79,9 +82,6 @@ const Wrapper = styled.article`
   .result-nonce,
   .result-redeemable {
     grid-column:  2;
-    > i.help {
-      margin-left: .3em
-    }
   }
 
   .accounts--Account-buttons > button {
@@ -158,7 +158,7 @@ class Account extends React.PureComponent<Props> {
     return (
       <Available
         className='accounts--Account-balances-available'
-        help={t('funds that that can be transfer or bonded')}
+        help={t('funds that that can be transfered or bonded')}
         label={t('available')}
         params={address}
       />
@@ -185,7 +185,7 @@ class Account extends React.PureComponent<Props> {
       <CryptoType
         accountId={address}
         className='accounts--Account-details-crypto'
-        help={t('cryptography chosen for this account at account creation')}
+        help={t('cryptographic curve chosen for this account upon creation')}
         label={t('crypto type')}
       />
     );
@@ -288,7 +288,7 @@ class Account extends React.PureComponent<Props> {
       <Nonce
         className='accounts--Account-details-nonce'
         params={address}
-        help={t('amount of transactions made from this account')}
+        help={t('number of transactions made from this account')}
         label={t('transactions')}
       />
     );

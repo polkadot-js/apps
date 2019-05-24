@@ -30,16 +30,18 @@ export class BondedDisplay extends React.PureComponent<Props> {
 
     return (
       <>
-        <span className={className + ' label-bonded'}>{label}</span>
+        <span className={className + ' label-bonded'}>
+          {label}
+          <HelpIcon
+            help={help}
+          />
+        </span>
         <span className={className + ' result-bonded'}>
           {
             bonded
               ? formatBalance(bonded)
               : '0'
           }
-          <HelpIcon
-            help={help}
-          />
         </span>
         {children}
       </>

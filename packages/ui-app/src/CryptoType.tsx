@@ -29,12 +29,16 @@ export default class CryptoType extends React.PureComponent<Props> {
 
     return (
       <>
-        <span className={classes('ui--CryptoType label-cryptotype', className)}>{label}</span>
-        <span className={classes('ui--CryptoType result-cryptotype', className)}>
-          {type}
+        <span
+          className={classes('ui--CryptoType label-cryptotype', className)}
+        >
+          {label}
           <HelpIcon
             help={help}
           />
+        </span>
+        <span className={classes('ui--CryptoType result-cryptotype', className)}>
+          {type}
         </span>
       </>
     );

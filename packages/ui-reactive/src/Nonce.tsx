@@ -26,16 +26,18 @@ export class Nonce extends React.PureComponent<Props> {
 
     return (
       <>
-        <span className={className + ' label-nonce'}>{label}</span>
+        <span className={className + ' label-nonce'}>
+          {label}
+          <HelpIcon
+            help={help}
+          />
+        </span>
         <span className={className + ' result-nonce'}>
           {
             system_accountNonce
               ? formatNumber(system_accountNonce)
               : '0'
           }
-          <HelpIcon
-            help={help}
-          />
         </span>{children}
       </>
     );
