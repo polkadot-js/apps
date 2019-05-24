@@ -133,15 +133,15 @@ class AddressSummary extends React.PureComponent<Props, State> {
       : DEFAULT_ADDR;
 
     const addrElem = isShort
-    ? (
-        <CopyButton
-          isAddress
-          value={address}
-        >
-          <span>{toShortAddress(address)}</span>
-        </CopyButton>
-    )
-    : address;
+      ? (
+          <CopyButton
+            isAddress
+            value={address}
+          >
+            <span>{toShortAddress(address)}</span>
+          </CopyButton>
+      )
+      : address;
 
     return (
       <>
@@ -159,8 +159,8 @@ class AddressSummary extends React.PureComponent<Props, State> {
     const { isEditable } = this.props;
     const { isEditingName, name } = this.state;
 
-    const resultingDom = isEditingName ?
-      <>
+    return isEditingName
+      ? (
         <Input
           autoFocus
           defaultValue={name}
@@ -170,17 +170,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
           onEnter={this.saveName}
           withLabel={false}
         />
-      </>
-       :
+      )
+      : (
         <div
           className={classes('ui--AddressSummary-name', isEditable && 'editable')}
           onClick={isEditable ? this.toggleNameEditor : undefined}
         >
           {name}
           {isEditable && this.renderEditIcon(this.toggleNameEditor)}
-        </div>;
-
-    return resultingDom;
+        </div>
+      );
   }
 
   protected onChangeName = (name: string) => {
