@@ -38,10 +38,12 @@ type Props = ApiProps & {
   label: React.ReactNode,
   onClick?: () => any,
   onFailed?: TxCallback,
+  onStart?: () => void,
   onSuccess?: TxCallback,
   onUpdate?: TxCallback,
   params?: Array<any> | ConstructFn,
-  tx?: string
+  tx?: string,
+  withSpinner?: boolean
 };
 
 type InnerProps = Props & InjectedProps;
@@ -79,7 +81,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
   }
 
   send = (): void => {
-    const { accountId, api, isUnsigned, onClick, onUpdate, params = [], queueExtrinsic, tx = '', extrinsic: propsExtrinsic } = this.props;
+    const { accountId, api, extrinsic: propsExtrinsic, isUnsigned, onClick, onFailed, onStart, onSuccess, onUpdate, params = [], queueExtrinsic, tx = '', withSpinner = true } = this.props;
     let extrinsic: any;
 
     if (propsExtrinsic) {
@@ -98,14 +100,17 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
 
     assert(extrinsic, 'Expected generated extrinsic passed to TxButton');
 
-    this.setState({ isSending: true });
+    if (withSpinner) {
+      this.setState({ isSending: true });
+    }
 
     queueExtrinsic({
       accountId,
       extrinsic,
       isUnsigned,
-      txFailedCb: this.onFailed,
-      txSuccessCb: this.onSuccess,
+      txFailedCb: withSpinner ? this.onFailed : onFailed,
+      txStartCb: onStart,
+      txSuccessCb: withSpinner ? this.onSuccess : onSuccess,
       txUpdateCb: onUpdate
     });
 

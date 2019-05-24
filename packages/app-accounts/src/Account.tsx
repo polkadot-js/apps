@@ -7,12 +7,14 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressSummary, Available, Balance, Bonded, Button, CryptoType, Nonce, Unlocking } from '@polkadot/ui-app';
+import { AddressSummary, Available, Balance, Bonded, Button, CryptoType, Icon, Nonce, Unlocking } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './modals/Backup';
 import ChangePass from './modals/ChangePass';
 import Forgetting from './modals/Forgetting';
+import Transfer from './modals/Transfer';
+
 import translate from './translate';
 
 type Props = I18nProps & {
@@ -23,7 +25,8 @@ type State = {
   isBackupOpen: boolean,
   isEditable: boolean,
   isForgetOpen: boolean,
-  isPasswordOpen: boolean
+  isPasswordOpen: boolean,
+  isTransferOpen: boolean
 };
 
 const Wrapper = styled.article`
@@ -111,7 +114,8 @@ class Account extends React.PureComponent<Props> {
       isBackupOpen: false,
       isEditable: !(keyring.getAccount(props.address).getMeta().isInjected),
       isForgetOpen: false,
-      isPasswordOpen: false
+      isPasswordOpen: false,
+      isTransferOpen: false
     };
   }
 
@@ -187,7 +191,7 @@ class Account extends React.PureComponent<Props> {
 
   private renderModals () {
     const { address } = this.props;
-    const { isBackupOpen, isForgetOpen, isPasswordOpen } = this.state;
+    const { isBackupOpen, isForgetOpen, isPasswordOpen, isTransferOpen } = this.state;
 
     if (!address) {
       return null;
@@ -226,6 +230,16 @@ class Account extends React.PureComponent<Props> {
       );
     }
 
+    if (isTransferOpen) {
+      modals.push(
+        <Transfer
+          address={address}
+          key='modal-transfer'
+          onClose={this.toggleTransfer}
+        />
+      );
+    }
+
     return modals;
   }
 
@@ -250,6 +264,14 @@ class Account extends React.PureComponent<Props> {
 
     this.setState({
       isPasswordOpen: !isPasswordOpen
+    });
+  }
+
+  private toggleTransfer = (): void => {
+    const { isTransferOpen } = this.state;
+
+    this.setState({
+      isTransferOpen: !isTransferOpen
     });
   }
 
@@ -314,32 +336,39 @@ class Account extends React.PureComponent<Props> {
     const { t } = this.props;
     const { isEditable } = this.state;
 
-    if (!isEditable) {
-      return null;
-    }
-
     return (
       <div className='accounts--Account-buttons'>
+        {isEditable && (
+          <>
+            <Button
+              isNegative
+              onClick={this.toggleForget}
+              icon='trash'
+              size='small'
+              tooltip={t('Forget this account')}
+            />
+            <Button
+              icon='cloud download'
+              isPrimary
+              onClick={this.toggleBackup}
+              size='small'
+              tooltip={t('Create a backup file for this account')}
+            />
+            <Button
+              icon='key'
+              isPrimary
+              onClick={this.togglePass}
+              size='small'
+              tooltip={t("Change this account's password")}
+            />
+          </>
+        )}
         <Button
-          isNegative
-          onClick={this.toggleForget}
-          icon='trash'
-          size='small'
-          tooltip={t('Forget this account')}
-        />
-        <Button
-          icon='cloud download'
           isPrimary
-          onClick={this.toggleBackup}
+          label={<><Icon name='paper plane' /> {t('send')}</>}
+          onClick={this.toggleTransfer}
           size='small'
-          tooltip={t('Create a backup file for this account')}
-        />
-        <Button
-          icon='key'
-          isPrimary
-          onClick={this.togglePass}
-          size='small'
-          tooltip={t("Change this account's password")}
+          tooltip={t('Send funds from this account')}
         />
       </div>
     );
