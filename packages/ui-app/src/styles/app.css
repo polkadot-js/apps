@@ -102,3 +102,14 @@ article {
     }
   }
 }
+
+details[open] > summary {
+  white-space: normal;
+}
+
+details > summary {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  outline: none;
+}
