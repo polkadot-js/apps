@@ -4,7 +4,7 @@
 
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { ApiProps, ApiInjectedProps } from '@polkadot/ui-api/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { KeyringPair } from '@polkadot/keyring/types';
@@ -12,8 +12,9 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
+import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, Modal } from '@polkadot/ui-app';
-import { withApi, withInjected, withMulti, withObservable } from '@polkadot/ui-api';
+import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { assert, isFunction } from '@polkadot/util';
@@ -28,7 +29,7 @@ type BaseProps = BareProps & {
   queueSetTxStatus: QueueTx$MessageSetStatus
 };
 
-type Props = I18nProps & ApiProps & ApiInjectedProps & BaseProps & {
+type Props = I18nProps & ApiProps & BaseProps & {
   allAccounts?: SubjectInfo
 };
 
@@ -313,7 +314,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, { id, txFailedCb, txSuccessCb, txStartCb, txUpdateCb }: QueueTx, extrinsicCall: (...params: Array<any>) => any, pair?: KeyringPair): Promise<void> {
-    const { api, injectedPromise, queueSetTxStatus } = this.props;
+    const { api, queueSetTxStatus } = this.props;
 
     console.log('makeExtrinsicCall: extrinsic ::', extrinsic.toHex());
 
@@ -323,14 +324,14 @@ class Signer extends React.PureComponent<Props, State> {
       // set the signer
       if (pair.getMeta().isInjected) {
         const source = pair.getMeta().source;
-        const sources = await injectedPromise;
-        const injected = source && sources.find(({ name }) => name === source);
+        const address = pair.address();
+        const injected = await web3FromSource(source);
 
-        assert(injected, 'Unable to find a signer');
+        assert(injected, `Unable to find a signer for ${address}`);
 
-        api.setSigner((injected as any).signer);
+        api.setSigner(injected.signer);
 
-        params.push(pair.address());
+        params.push(address);
       } else {
         params.push(pair);
       }
@@ -398,6 +399,5 @@ export default withMulti(
   Signer,
   translate,
   withApi,
-  withInjected,
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );

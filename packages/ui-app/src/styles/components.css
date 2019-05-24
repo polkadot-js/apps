@@ -46,6 +46,7 @@ header .ui--Button-Group {
 .ui--AddressMini {
   display: inline-block;
   padding: 0 0.25rem 0 1rem;
+  white-space: nowrap;
 
   &.padded {
     display: inline-block;
@@ -113,12 +114,12 @@ button.ui.icon.withDrawUnbonded {
 
 .overview--Account:hover  button.ui.icon.editButton,
 .overview--Account:hover  button.ui.icon.editButton {
-  visibility: visible; 
+  visibility: visible;
 }
 
 .overview--Account button.ui.icon.editButton,
 .overview--Account button.ui.icon.editButton {
-  visibility: hidden; 
+  visibility: hidden;
 }
 
 .ui--AddressSummary-name.editable > button.ui.icon.editButton,
@@ -179,6 +180,12 @@ button.ui.icon.withDrawUnbonded {
   .ui--AddressRow-details {
     text-align: left;
     white-space: nowrap;
+
+    .ui--AddressSummary-data,
+    .ui--AddressSummary-name {
+      margin: 0;
+      text-align: left;
+    }
   }
 
   .ui--AddressSummary-balances>span {
@@ -256,9 +263,14 @@ button.ui.icon.withDrawUnbonded {
 
 .ui--AddressSummary-data {
   padding: 0;
+  text-align: center;
   white-space: nowrap;
 
   .ui--AddressSummary-name {
+    width: 15rem;
+    margin: 0 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
     text-transform: uppercase;
   }
 }

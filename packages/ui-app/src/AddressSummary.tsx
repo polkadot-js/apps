@@ -16,7 +16,7 @@ import { withCalls } from '@polkadot/ui-api';
 import AvailableDisplay from './Available';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
-import { classes, getAddrName, toShortAddress } from './util';
+import { classes, getAddrName, getAddrTags, toShortAddress } from './util';
 import CopyButton from './CopyButton';
 import IdentityIcon from './IdentityIcon';
 import NonceDisplay from './Nonce';
@@ -47,9 +47,9 @@ export type Props = I18nProps & {
 };
 
 type State = {
-  isEditingName: boolean
-  isEditingTags: boolean
-  name: string
+  isEditingName: boolean,
+  isEditingTags: boolean,
+  name: string,
   tags: string[]
 };
 
@@ -60,25 +60,20 @@ class AddressSummary extends React.PureComponent<Props, State> {
 
   constructor (props: Props) {
     super(props);
+
     this.state = this.createState();
   }
 
-  createState () {
-    const { accounts_idAndIndex = [], defaultName, value } = this.props;
+  static getDerivedStateFromProps ({ accounts_idAndIndex = [], defaultName, value }: Props): State | null {
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
     const address = accountId
-    ? accountId.toString()
-    : DEFAULT_ADDR;
+      ? accountId.toString()
+      : DEFAULT_ADDR;
     const name = getAddrName(address, false, defaultName) || '';
-    const tags = this.getAddressTags(address);
+    const tags = getAddrTags(address);
 
-    return {
-      isEditingName: false,
-      isEditingTags: false,
-      name,
-      tags: tags
-    };
+    return { name, tags } as State;
   }
 
   render () {
@@ -112,17 +107,22 @@ class AddressSummary extends React.PureComponent<Props, State> {
     );
   }
 
-  protected getAddressTags (address: string): Array<string> {
-    try {
-      if (keyring.getAccount(address).isValid()) {
-        const addressKeyring = address && keyring.getPair(address);
-        return addressKeyring && addressKeyring.getMeta().tags || [];
-      }
-    } catch (error) {
-      // all-ok, we have empty fallbacks
-    }
+  private createState () {
+    const { accounts_idAndIndex = [], defaultName, value } = this.props;
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId || value;
+    const address = accountId
+      ? accountId.toString()
+      : DEFAULT_ADDR;
+    const name = getAddrName(address, false, defaultName) || '';
+    const tags = getAddrTags(address);
 
-    return [];
+    return {
+      isEditingName: false,
+      isEditingTags: false,
+      name,
+      tags
+    };
   }
 
   protected renderAddress () {
@@ -133,15 +133,15 @@ class AddressSummary extends React.PureComponent<Props, State> {
       : DEFAULT_ADDR;
 
     const addrElem = isShort
-    ? (
-        <CopyButton
-          isAddress
-          value={address}
-        >
-          <span>{toShortAddress(address)}</span>
-        </CopyButton>
-    )
-    : address;
+      ? (
+          <CopyButton
+            isAddress
+            value={address}
+          >
+            <span>{toShortAddress(address)}</span>
+          </CopyButton>
+      )
+      : address;
 
     return (
       <>
@@ -159,8 +159,8 @@ class AddressSummary extends React.PureComponent<Props, State> {
     const { isEditable } = this.props;
     const { isEditingName, name } = this.state;
 
-    const resultingDom = isEditingName ?
-      <>
+    return isEditingName
+      ? (
         <Input
           autoFocus
           defaultValue={name}
@@ -170,17 +170,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
           onEnter={this.saveName}
           withLabel={false}
         />
-      </>
-       :
+      )
+      : (
         <div
           className={classes('ui--AddressSummary-name', isEditable && 'editable')}
           onClick={isEditable ? this.toggleNameEditor : undefined}
         >
           {name}
           {isEditable && this.renderEditIcon(this.toggleNameEditor)}
-        </div>;
-
-    return resultingDom;
+        </div>
+      );
   }
 
   protected onChangeName = (name: string) => {
@@ -188,7 +187,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected onChangeTags = (tags: string[]) => {
-    this.setState({ tags : tags });
+    this.setState({ tags });
   }
 
   protected renderAvailable () {
@@ -417,6 +416,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     if (trimmedName && value) {
       const currentKeyring = keyring.getPair(value.toString());
       currentKeyring && keyring.saveAccountMeta(currentKeyring, { name: trimmedName, whenEdited: Date.now() });
+
       this.toggleNameEditor();
     }
   }
@@ -428,6 +428,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     if (value) {
       const currentKeyring = keyring.getPair(value.toString());
       currentKeyring && keyring.saveAccountMeta(currentKeyring, { tags, whenEdited: Date.now() });
+
       this.toggleTagsEditor();
     }
   }
@@ -436,12 +437,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
     const { value } = this.props;
 
     if (value && keyring.getPair(value.toString())) {
-      this.setState({ isEditingName : !this.state.isEditingName });
+      this.setState(({ isEditingName }) => ({
+        isEditingName: !isEditingName
+      }));
     }
   }
 
   protected toggleTagsEditor = () => {
-    this.setState({ isEditingTags : !this.state.isEditingTags });
+    this.setState(({ isEditingTags }) => ({
+      isEditingTags: !isEditingTags
+    }));
   }
 }
 

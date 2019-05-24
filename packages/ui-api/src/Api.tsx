@@ -4,10 +4,11 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { QueueTx$ExtrinsicAdd, QueueTx$MessageSetStatus } from '@polkadot/ui-app/Status/types';
-import { ApiProps, ApiInjectedProps } from './types';
+import { ApiProps } from './types';
 
 import React from 'react';
 import ApiPromise from '@polkadot/api/promise';
+import { isWeb3Injected, web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import defaults from '@polkadot/rpc-provider/defaults';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { InputNumber } from '@polkadot/ui-app/InputNumber';
@@ -17,11 +18,10 @@ import { ChainProperties } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
 
 import ApiContext from './ApiContext';
-import { withInjected } from './Injected';
 
 let api: ApiPromise;
 
-type Props = ApiInjectedProps & {
+type Props = {
   children: React.ReactNode,
   queueExtrinsic: QueueTx$ExtrinsicAdd,
   queueSetTxStatus: QueueTx$MessageSetStatus,
@@ -32,17 +32,17 @@ type State = ApiProps & {
   chain?: string
 };
 
-type InjectedAccount = { address: string, meta: { name: string } };
-
 export { api };
 
-class ApiWrapper extends React.PureComponent<Props, State> {
+const injectedPromise = web3Enable('polkadot-js/apps');
+
+export default class Api extends React.PureComponent<Props, State> {
   state: State = {} as State;
 
   constructor (props: Props) {
     super(props);
 
-    const { injectedAvailable, queueExtrinsic, queueSetTxStatus, url } = props;
+    const { queueExtrinsic, queueSetTxStatus, url } = props;
     const provider = new WsProvider(url);
     const signer = new ApiSigner(queueExtrinsic, queueSetTxStatus);
 
@@ -61,15 +61,13 @@ class ApiWrapper extends React.PureComponent<Props, State> {
     this.state = {
       isApiConnected: false,
       isApiReady: false,
-      isWaitingInjected: injectedAvailable,
+      isWaitingInjected: isWeb3Injected,
       api,
       setApiUrl
     } as State;
   }
 
   componentDidMount () {
-    const { injectedPromise } = this.props;
-
     this.subscribeEvents();
 
     injectedPromise
@@ -97,42 +95,6 @@ class ApiWrapper extends React.PureComponent<Props, State> {
     });
   }
 
-  private async retrieveInjected (): Promise<Array<InjectedAccount>> {
-    const { injectedPromise } = this.props;
-    const injected: Array<InjectedAccount> = [];
-    const result = await injectedPromise;
-
-    if (result.length) {
-      const providers = result.map(({ name, version }) => `${name}/${version}`);
-
-      console.log(`api: found injectedWeb3: ${providers.join(', ')}`);
-
-      const rerieved = await Promise.all(
-        result.map(({ accounts, name: source }) =>
-          accounts.get().then((accounts) =>
-            accounts.map(({ address, name }) => ({
-              address,
-              meta: {
-                name: `${name} (${source === 'polkadot-js' ? 'extension' : source})`,
-                source
-              }
-            }))
-          )
-        )
-      );
-
-      rerieved.forEach((accounts) =>
-        accounts.forEach((account) =>
-          injected.push(account)
-        )
-      );
-
-      console.log(`api: injected ${injected.length} accounts`);
-    }
-
-    return injected;
-  }
-
   private async loadOnReady (api: ApiPromise) {
     const [properties = new ChainProperties(), value] = await Promise.all([
       api.rpc.system.properties() as Promise<ChainProperties | undefined>,
@@ -144,7 +106,15 @@ class ApiWrapper extends React.PureComponent<Props, State> {
       ? value.toString()
       : null;
     const isDevelopment = isTestChain(chain);
-    const injected = await this.retrieveInjected();
+    const injectedAccounts = await web3Accounts().then((accounts) =>
+      accounts.map(({ address, meta }) => ({
+        address,
+        meta: {
+          ...meta,
+          name: `${meta.name} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
+        }
+      }))
+    );
 
     console.log('api: found chain', chain, JSON.stringify(properties));
 
@@ -160,7 +130,7 @@ class ApiWrapper extends React.PureComponent<Props, State> {
       addressPrefix: properties.get('networkId'),
       isDevelopment,
       type: 'ed25519'
-    }, injected);
+    }, injectedAccounts);
 
     this.setState({
       isApiReady: true,
@@ -190,5 +160,3 @@ class ApiWrapper extends React.PureComponent<Props, State> {
     );
   }
 }
-
-export default withInjected(ApiWrapper);

@@ -47,6 +47,7 @@ const Wrapper = styled.div`
 
       .desc {
         flex: 1;
+        overflow: hidden;
         padding: 0.5rem 1rem;
 
         .status {
