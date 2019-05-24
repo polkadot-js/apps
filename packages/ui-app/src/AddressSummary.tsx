@@ -417,6 +417,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     if (trimmedName && value) {
       const currentKeyring = keyring.getPair(value.toString());
       currentKeyring && keyring.saveAccountMeta(currentKeyring, { name: trimmedName, whenEdited: Date.now() });
+
       this.toggleNameEditor();
     }
   }
@@ -437,12 +438,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
     const { value } = this.props;
 
     if (value && keyring.getPair(value.toString())) {
-      this.setState({ isEditingName: !this.state.isEditingName });
+      this.setState(({ isEditingName }) => ({
+        isEditingName: !isEditingName
+      }));
     }
   }
 
   protected toggleTagsEditor = () => {
-    this.setState({ isEditingTags: !this.state.isEditingTags });
+    this.setState(({ isEditingTags }) => ({
+      isEditingTags: !isEditingTags
+    }));
   }
 }
 
