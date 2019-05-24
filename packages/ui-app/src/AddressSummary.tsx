@@ -188,7 +188,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected onChangeTags = (tags: string[]) => {
-    this.setState({ tags : tags });
+    this.setState({ tags });
   }
 
   protected renderAvailable () {
