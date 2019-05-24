@@ -50,8 +50,6 @@ const Wrapper = styled.div`
     flex: initial;
     width: 40em;
   }
-
-
 `;
 
 class Transfer extends React.PureComponent<Props> {
