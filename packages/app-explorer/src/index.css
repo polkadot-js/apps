@@ -64,7 +64,6 @@
 
 details[open] > summary {
   white-space: normal;
-  width: initial;
 }
 
 details > summary {
