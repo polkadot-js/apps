@@ -209,8 +209,8 @@ button.ui.icon.withDrawUnbonded {
 
 .ui--AddressSummary-buttons {
   position: absolute;
-  right: 0;
-  top: 0;
+  right: -0.75rem;
+  top: -0.5rem;
 }
 
 .ui--AddressSummary .rx--updated {

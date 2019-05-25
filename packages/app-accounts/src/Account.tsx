@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressRow, Available, Balance, Bonded, Button, CryptoType, Icon, Label, Nonce, Unlocking } from '@polkadot/ui-app';
+import { AddressInfo, AddressRow, Button, Icon } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './modals/Backup';
@@ -41,38 +41,9 @@ const Wrapper = styled.article`
     margin-bottom: 2em;
   }
 
-  .ui--AddressSummary {
-    justify-content: space-around;
-  }
-
   .ui--AddressSummary-base {
     flex: 1;
     padding: 0;
-  }
-
-  .account--Account-expand {
-    align-items: flex-start;
-    display: flex;
-    flex: 1;
-    justify-content: center;
-    padding-top: 0.75rem;
-  }
-
-  .account--Account-balances {
-    min-width: 49%;
-    max-width: 49%;
-    display: grid;
-    color: #4e4e4e;
-    opacity: 1;
-
-    label {
-      grid-column:  1;
-      text-align: right;
-    }
-
-    .result {
-      grid-column:  2;
-    }
   }
 
   .accounts--Account-buttons > button {
@@ -128,71 +99,13 @@ class Account extends React.PureComponent<Props> {
           withNonce={false}
           withTags
         >
-          <div className='account--Account-expand'>
-            <div className='account--Account-balances'>
-              {this.renderTotal()}
-              {this.renderAvailable()}
-              {this.renderBonded()}
-              {this.renderUnlocking()}
-            </div>
-            <div className='account--Account-balances'>
-              {this.renderNonce()}
-              {this.renderCryptoType()}
-            </div>
-          </div>
+          <AddressInfo
+            withBalance
+            withExtended
+            value={address}
+          />
         </AddressRow>
       </Wrapper>
-    );
-  }
-
-  private renderAvailable () {
-    const { address, t } = this.props;
-
-    return (
-      <>
-        <Label
-          help={t('funds that that can be transfered or bonded')}
-          label={t('available')}
-        />
-        <Available
-          className='result'
-          params={address}
-        />
-      </>
-    );
-  }
-
-  private renderBonded () {
-    const { address, t } = this.props;
-
-    return (
-      <>
-        <Label
-          help={t('funds bonded for validating or nominating. They are locked and cannot be transfered')}
-          label={t('bonded')}
-        />
-        <Bonded
-          className='result'
-          params={address}
-        />
-      </>
-    );
-  }
-
-  private renderCryptoType () {
-    const { address, t } = this.props;
-
-    return (
-      <>
-        <Label
-          help={t('cryptographic curve chosen for this account upon creation')}
-          label={t('crypto type')}
-        />
-        <CryptoType
-          accountId={address}
-          className='result'
-        />
-      </>
     );
   }
 
@@ -302,57 +215,6 @@ class Account extends React.PureComponent<Props> {
       status.status = 'error';
       status.message = error.message;
     }
-  }
-
-  private renderNonce () {
-    const { address, t } = this.props;
-
-    return (
-      <>
-        <Label
-          help={t('number of transactions made from this account')}
-          label={t('transactions')}
-        />
-        <Nonce
-          className='result'
-          params={address}
-        />
-      </>
-    );
-  }
-
-  private renderTotal () {
-    const { address, t } = this.props;
-
-    return (
-      <>
-        <Label
-          help={t('overall amount of funds (be they vested, available for transfer or locked)')}
-          label={t('total')}
-        />
-        <Balance
-          className='result'
-          params={address}
-        />
-      </>
-    );
-  }
-
-  private renderUnlocking () {
-    const { address, t } = this.props;
-
-    return (
-      <>
-        <Label
-          help={t('the funds that are being unlocked or available for withdrawal')}
-          label={t('locked')}
-        />
-        <Unlocking
-          className='accounts--Account-balances-unlocking'
-          params={address}
-        />
-      </>
-    );
   }
 
   private renderButtons () {
