@@ -27,10 +27,12 @@ export type Props = I18nProps & {
   accounts_idAndIndex?: [AccountId?, AccountIndex?],
   balance?: BN | Array<BN>,
   bonded?: BN | Array<BN>,
+  buttons?: React.ReactNode,
   children?: React.ReactNode,
   defaultName?: string,
   extraInfo?: React.ReactNode,
   identIconSize?: number,
+  isChildrenAbs?: boolean,
   isEditable?: boolean,
   isInline?: boolean,
   isShort?: boolean,
@@ -83,7 +85,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accounts_idAndIndex = [], className, isInline, style } = this.props;
+    const { accounts_idAndIndex = [], className, isInline, style, withIndex = true } = this.props;
     const [accountId, accountIndex] = accounts_idAndIndex;
     const isValid = accountId || accountIndex;
 
@@ -94,10 +96,11 @@ class AddressSummary extends React.PureComponent<Props, State> {
       >
         <div className='ui--AddressSummary-base'>
           {this.renderIcon()}
+          {this.renderButtons()}
           <div className='ui--AddressSummary-data'>
             {this.renderName()}
             {this.renderAddress()}
-            {this.renderAccountIndex()}
+            {this.renderAccountIndex(withIndex)}
           </div>
           <div className='ui--AddressSummary-balances'>
             {this.renderAvailable()}
@@ -158,6 +161,14 @@ class AddressSummary extends React.PureComponent<Props, State> {
     );
   }
 
+  protected renderButtons () {
+    const { buttons } = this.props;
+
+    return buttons
+      ? <div className='ui--AddressSummary-buttons'>{buttons}</div>
+      : null;
+  }
+
   protected renderName () {
     const { isEditable } = this.props;
     const { isEditingName, name } = this.state;
@@ -210,8 +221,8 @@ class AddressSummary extends React.PureComponent<Props, State> {
     );
   }
 
-  protected renderAccountIndex () {
-    const { accounts_idAndIndex = [], withIndex = true } = this.props;
+  protected renderAccountIndex (withIndex: boolean) {
+    const { accounts_idAndIndex = [] } = this.props;
     const [, accountIndex] = accounts_idAndIndex;
 
     if (!accountIndex || !withIndex) {
@@ -219,9 +230,9 @@ class AddressSummary extends React.PureComponent<Props, State> {
     }
 
     return (
-        <div className='ui--AddressSummary-accountIndex'>
-          {accountIndex.toString()}
-        </div>
+      <div className='ui--AddressSummary-accountIndex'>
+        {accountIndex.toString()}
+      </div>
     );
   }
 
@@ -262,14 +273,14 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderChildren () {
-    const { children } = this.props;
+    const { children, isChildrenAbs } = this.props;
 
     if (!children || (Array.isArray(children) && children.length === 0)) {
       return null;
     }
 
     return (
-      <div className='ui--AddressSummary-children'>
+      <div className={`ui--AddressSummary-children ${isChildrenAbs ? 'abs' : ''}`}>
         {children}
       </div>
     );

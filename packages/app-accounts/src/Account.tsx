@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressSummary, Available, Balance, Bonded, Button, CryptoType, Icon, Label, Nonce, Unlocking } from '@polkadot/ui-app';
+import { AddressRow, Available, Balance, Bonded, Button, CryptoType, Icon, Label, Nonce, Unlocking } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './modals/Backup';
@@ -50,14 +50,17 @@ const Wrapper = styled.article`
     padding: 0;
   }
 
-  .ui--AddressSummary-children {
-    flex: 1;
-    display: flex;
+  .account--Account-expand {
     align-items: flex-start;
-    justify-content: flex-end;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    padding-top: 0.75rem;
   }
 
   .account--Account-balances {
+    min-width: 49%;
+    max-width: 49%;
     display: grid;
     color: #4e4e4e;
     opacity: 1;
@@ -116,26 +119,28 @@ class Account extends React.PureComponent<Props> {
     return (
       <Wrapper className='overview--Account'>
         {this.renderModals()}
-        <AddressSummary
-          value={address}
+        <AddressRow
+          buttons={this.renderButtons()}
           isEditable={isEditable}
+          value={address}
           withBalance={false}
+          withIndex
           withNonce={false}
           withTags
         >
           <div className='account--Account-expand'>
-            {this.renderButtons()}
             <div className='account--Account-balances'>
               {this.renderTotal()}
               {this.renderAvailable()}
               {this.renderBonded()}
               {this.renderUnlocking()}
-              <br/>
+            </div>
+            <div className='account--Account-balances'>
               {this.renderNonce()}
               {this.renderCryptoType()}
             </div>
           </div>
-        </AddressSummary>
+        </AddressRow>
       </Wrapper>
     );
   }
@@ -355,7 +360,7 @@ class Account extends React.PureComponent<Props> {
     const { isEditable } = this.state;
 
     return (
-      <div className='accounts--Account-buttons'>
+      <div className='accounts--Account-buttons buttons'>
         {isEditable && (
           <>
             <Button

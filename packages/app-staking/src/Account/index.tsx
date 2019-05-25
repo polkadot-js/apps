@@ -10,7 +10,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import React from 'react';
-import { AddressMini, AddressSummary, Button, TxButton } from '@polkadot/ui-app';
+import { AddressMini, AddressRow, Button, TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 import Bond from './Bond';
@@ -114,7 +114,8 @@ class Account extends React.PureComponent<Props, State> {
         {this.renderSessionKey()}
         {this.renderUnbond()}
         {this.renderValidating()}
-        <AddressSummary
+        <AddressRow
+          buttons={this.renderButtons()}
           value={accountId}
           withAvailable
           withBonded
@@ -123,7 +124,6 @@ class Account extends React.PureComponent<Props, State> {
           withUnlocking
         >
           <div className='staking--Account-expand'>
-            {this.renderButtons()}
             <div className='staking--Account-links'>
               {this.renderControllerId()}
               {this.renderStashId()}
@@ -131,7 +131,7 @@ class Account extends React.PureComponent<Props, State> {
               {this.renderNominee()}
             </div>
           </div>
-        </AddressSummary>
+        </AddressRow>
       </article>
     );
   }

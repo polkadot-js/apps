@@ -92,6 +92,7 @@ header .ui--Button-Group {
 }
 
 .ui--AddressSummary {
+  position: relative;
   padding: 0 1em;
   white-space: nowrap
 }
@@ -124,6 +125,26 @@ button.ui.icon.withDrawUnbonded {
   }
 }
 
+.ui--AddressSummary-tags.editable {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  > span {
+    border: 1px #00000052 solid;
+    border-radius: .5em;
+    border-style: dashed;
+    color: grey;
+    font-size: x-small;
+    padding: .1em 0.3em 0.1em 0.3em;
+    margin-top: .2em;
+  }
+
+  > div.label {
+    margin-top:.3em
+  }
+}
+
 .ui--AddressSummary-name.editable > button.ui.icon.editButton,
 .ui--AddressSummary-tags.editable > button.ui.icon.editButton {
   padding: 0em .3em .3em .3em;
@@ -134,26 +155,6 @@ button.ui.icon.withDrawUnbonded {
   position: relative;
   right: -2.3em;
   z-index: 1;
-}
-
-.ui--AddressSummary-tags.editable {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.ui--AddressSummary-tags.editable > span {
-  border: 1px #00000052 solid;
-  border-radius: .5em;
-  border-style: dashed;
-  color: grey;
-  font-size: x-small;
-  padding: .1em 0.3em 0.1em 0.3em;
-  margin-top: .2em;
-}
-
-.ui--AddressSummary-tags.editable > div.label {
-  margin-top:.3em
 }
 
 .ui--AddressSummary-base {
@@ -168,6 +169,8 @@ button.ui.icon.withDrawUnbonded {
 }
 
 .ui--AddressRow {
+  position: relative;
+
   &.inline {
     display: flex;
 
@@ -196,8 +199,18 @@ button.ui.icon.withDrawUnbonded {
   }
 
   .ui--AddressSummary-balances>span {
-      text-align: left;
+    text-align: left;
   }
+
+  .ui--AddressSummary-tags.editable {
+    justify-content: left;
+  }
+}
+
+.ui--AddressSummary-buttons {
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .ui--AddressSummary .rx--updated {
@@ -269,7 +282,7 @@ button.ui.icon.withDrawUnbonded {
 .ui--AddressSummary-accountId,
 .ui--AddressSummary-accountIndex {
   font-family: monospace;
-  font-size: 1.5em;
+  font-size: 1.25em;
   padding: 0;
 }
 
