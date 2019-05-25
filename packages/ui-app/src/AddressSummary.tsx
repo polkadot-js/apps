@@ -236,7 +236,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
       <BalanceDisplay
         balance={balance}
         className='ui--AddressSummary-balance'
-        label={t('balance ')}
+        label={t('total ')}
         params={address}
       />
     );
