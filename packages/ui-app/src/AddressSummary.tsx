@@ -8,10 +8,10 @@ import { I18nProps } from './types';
 import BN from 'bn.js';
 import { Label } from 'semantic-ui-react';
 import React from 'react';
-import BaseIdentityIcon from '@polkadot/ui-identicon';
-import { Button, Input, InputTags } from '@polkadot/ui-app';
-import keyring from '@polkadot/ui-keyring';
 import { withCalls } from '@polkadot/ui-api';
+import { Button, Input, InputTags } from '@polkadot/ui-app';
+import BaseIdentityIcon from '@polkadot/ui-identicon';
+import keyring from '@polkadot/ui-keyring';
 
 import AvailableDisplay from './Available';
 import BalanceDisplay from './Balance';
@@ -384,7 +384,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderUnlocking () {
-    const { withUnlocking } = this.props;
+    const { withUnlocking, t } = this.props;
     const { address } = this.state;
 
     if (!withUnlocking || !address) {
@@ -394,6 +394,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     return (
       <UnlockingDisplay
         className='ui--AddressSummary-available'
+        label={t('unlock ')}
         params={address}
       />
     );

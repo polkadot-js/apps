@@ -49,6 +49,7 @@ const Wrapper = styled.article`
     flex: 1;
     padding: 0;
   }
+
   .ui--AddressSummary-children {
     flex: 1;
     display: flex;
@@ -61,27 +62,16 @@ const Wrapper = styled.article`
     grid-column-gap: .5em;
     color: #4e4e4e;
     opacity: 1;
-  }
 
-  .label-available,
-  .label-balance,
-  .label-bonded,
-  .label-cryptotype,
-  .label-locked,
-  .label-nonce,
-  .label-redeemable {
-    grid-column:  1;
-    text-align: right;
-  }
+    .label {
+      grid-column:  1;
+      opacity: 0.7;
+      text-align: right;
+    }
 
-  .result-available,
-  .result-balance,
-  .result-bonded,
-  .result-cryptotype,
-  .result-locked,
-  .result-nonce,
-  .result-redeemable {
-    grid-column:  2;
+    .result {
+      grid-column:  2;
+    }
   }
 
   .accounts--Account-buttons > button {
@@ -157,11 +147,13 @@ class Account extends React.PureComponent<Props> {
     const { address, t } = this.props;
 
     return (
-      <Available
-        className='accounts--Account-balances-available'
-        label={t('available')}
-        params={address}
-      />
+      <>
+        <div className='label'>{t('available')}</div>
+        <Available
+          className='result'
+          params={address}
+        />
+      </>
     );
   }
 
@@ -169,11 +161,13 @@ class Account extends React.PureComponent<Props> {
     const { address, t } = this.props;
 
     return (
-      <Bonded
-        className='accounts--Account-balances-bonded'
-        label={t('bonded')}
-        params={address}
-      />
+      <>
+        <div className='label'>{t('bonded')}</div>
+        <Bonded
+          className='result'
+          params={address}
+        />
+      </>
     );
   }
 
@@ -181,11 +175,13 @@ class Account extends React.PureComponent<Props> {
     const { address, t } = this.props;
 
     return (
-      <CryptoType
-        accountId={address}
-        className='accounts--Account-details-crypto'
-        label={t('crypto type')}
-      />
+      <>
+        <div className='label'>{t('crypto type')}</div>
+        <CryptoType
+          accountId={address}
+          className='result'
+        />
+      </>
     );
   }
 
@@ -301,11 +297,13 @@ class Account extends React.PureComponent<Props> {
     const { address, t } = this.props;
 
     return (
-      <Nonce
-        className='accounts--Account-details-nonce'
-        params={address}
-        label={t('transactions')}
-      />
+      <>
+        <div className='label'>{t('transactions')}</div>
+        <Nonce
+          className='result'
+          params={address}
+        />
+      </>
     );
   }
 
@@ -313,22 +311,27 @@ class Account extends React.PureComponent<Props> {
     const { address, t } = this.props;
 
     return (
-      <Balance
-        className='accounts--Account-balances-balance'
-        label={t('total')}
-        params={address}
-      />
+      <>
+        <div className='label'>{t('total')}</div>
+        <Balance
+          className='result'
+          params={address}
+        />
+      </>
     );
   }
 
   private renderUnlocking () {
-    const { address } = this.props;
+    const { address, t } = this.props;
 
     return (
-      <Unlocking
-        className='accounts--Account-balances-unlocking'
-        params={address}
-      />
+      <>
+        <div className='label'>{t('locked')}</div>
+        <Unlocking
+          className='accounts--Account-balances-unlocking'
+          params={address}
+        />
+      </>
     );
   }
 

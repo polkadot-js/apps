@@ -23,18 +23,13 @@ export class Nonce extends React.PureComponent<Props> {
     const { children, className, label = '', system_accountNonce } = this.props;
 
     return (
-      <>
-        <span className={className + ' label-nonce'}>
-          {label}
-        </span>
-        <span className={className + ' result-nonce'}>
-          {
-            system_accountNonce
-              ? formatNumber(system_accountNonce)
-              : '0'
-          }
-        </span>{children}
-      </>
+      <div className={className}>
+        {label}{
+          system_accountNonce
+            ? formatNumber(system_accountNonce)
+            : '0'
+        }{children}
+      </div>
     );
   }
 }

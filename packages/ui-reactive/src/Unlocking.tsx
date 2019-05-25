@@ -16,6 +16,7 @@ import { withCalls } from '@polkadot/ui-api';
 type Props = BareProps & CallProps & I18nProps & {
   chain_bestNumber?: BN,
   controllerId?: AccountId,
+  label?: string,
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   remainingLabel?: string,
   staking_ledger?: StakingLedger,
@@ -36,14 +37,22 @@ export class UnlockingDisplay extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { unlockings } = this.props;
+    const { className, label, unlockings } = this.props;
 
-    return unlockings ?
-      <>
-        {this.renderUnlockableSum()}
-        {this.renderLocked()}
-      </>
-    : null ;
+    return (
+      <div className={className}>
+        {
+          unlockings
+            ? (
+              <>
+                {this.renderUnlockableSum()}
+                {this.renderLocked()}
+              </>
+            )
+            : <>{label}0</>
+        }
+      </div>
+    );
   }
 
   private groupByEra (list: UnlockChunk[]) {
@@ -73,7 +82,7 @@ export class UnlockingDisplay extends React.PureComponent<Props, State> {
   }
 
   private renderLocked () {
-    const { className, controllerId, t, unlockings } = this.props;
+    const { controllerId, label, t, unlockings } = this.props;
     const { tooltipOpen } = this.state;
 
     if (!unlockings || !controllerId) return null;
@@ -81,42 +90,31 @@ export class UnlockingDisplay extends React.PureComponent<Props, State> {
     const filteredUnlockings = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).gtn(0));
     // group the Unlockchunks that have the same era and sum their values
     const groupedUnlockings = filteredUnlockings.length ? this.groupByEra(filteredUnlockings) : undefined;
+    const result = groupedUnlockings && Object.keys(groupedUnlockings).map((eraString) => (
+      <div key={eraString}>
+        {label}
+        {formatBalance(groupedUnlockings[eraString])}
+        <Icon
+          name='info circle'
+          data-tip
+          data-for={`controlled-trigger${eraString}`}
+          onMouseOver={this.toggleTooltip}
+          onMouseOut={this.toggleTooltip}
+        />
+        {tooltipOpen && (
+          <Tooltip
+            text={t('{{remaining}} blocks left', {
+              replace: {
+                remaining: this.remainingBlocks(new BlockNumber(eraString))
+              }
+            })}
+            trigger={`controlled-trigger${eraString}`}
+          />
+        )}
+      </div>
+    ));
 
-    return (
-      <>
-        {groupedUnlockings && Object.keys(groupedUnlockings).map(eraString => (
-          <React.Fragment key={eraString}>
-            <span
-              className={`${className} label-locked`}
-            >
-              {t('locked')}
-            </span>
-            <span
-              className={`${className} result-locked`}
-            >
-              {formatBalance(groupedUnlockings[eraString])}
-              <Icon
-                name='info circle'
-                data-tip
-                data-for={`controlled-trigger${eraString}`}
-                onMouseOver={this.toggleTooltip}
-                onMouseOut={this.toggleTooltip}
-              />
-              {tooltipOpen && (
-                <Tooltip
-                  text={t('{{remaining}} blocks left', {
-                    replace: {
-                      remaining: this.remainingBlocks(new BlockNumber(eraString))
-                    }
-                  })}
-                  trigger={`controlled-trigger${eraString}`}
-                />
-              )}
-            </span>
-          </React.Fragment>
-        ))}
-      </>
-    );
+    return result && result.length ? result : <>{label}0</>;
   }
 
   private renderUnlockableSum () {

@@ -23,17 +23,13 @@ export class BalanceDisplay extends React.PureComponent<Props> {
     const { children, className, label = '', balances_all } = this.props;
 
     return (
-      <>
-        <span className={`${className} label-balance`}>
-        {label}
-        </span>
-        <span className={`${className} result-balance`}>
-          {balances_all
+      <div className={className}>
+        {label}{
+          balances_all
             ? formatBalance(balances_all.freeBalance)
             : '0'
-          }
-        </span>{children}
-      </>
+          }{children}
+      </div>
     );
   }
 }
