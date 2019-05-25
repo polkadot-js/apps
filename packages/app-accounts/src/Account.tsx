@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressSummary, Available, Balance, Bonded, Button, CryptoType, Icon, Nonce, Unlocking } from '@polkadot/ui-app';
+import { AddressSummary, Available, Balance, Bonded, Button, CryptoType, Icon, Label, Nonce, Unlocking } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './modals/Backup';
@@ -59,13 +59,11 @@ const Wrapper = styled.article`
 
   .account--Account-balances {
     display: grid;
-    grid-column-gap: .5em;
     color: #4e4e4e;
     opacity: 1;
 
-    .label {
+    label {
       grid-column:  1;
-      opacity: 0.7;
       text-align: right;
     }
 
@@ -148,7 +146,10 @@ class Account extends React.PureComponent<Props> {
 
     return (
       <>
-        <div className='label'>{t('available')}</div>
+        <Label
+          help={t('funds that that can be transfered or bonded')}
+          label={t('available')}
+        />
         <Available
           className='result'
           params={address}
@@ -162,7 +163,10 @@ class Account extends React.PureComponent<Props> {
 
     return (
       <>
-        <div className='label'>{t('bonded')}</div>
+        <Label
+          help={t('funds bonded for validating or nominating. They are locked and cannot be transfered')}
+          label={t('bonded')}
+        />
         <Bonded
           className='result'
           params={address}
@@ -176,7 +180,10 @@ class Account extends React.PureComponent<Props> {
 
     return (
       <>
-        <div className='label'>{t('crypto type')}</div>
+        <Label
+          help={t('cryptographic curve chosen for this account upon creation')}
+          label={t('crypto type')}
+        />
         <CryptoType
           accountId={address}
           className='result'
@@ -298,7 +305,10 @@ class Account extends React.PureComponent<Props> {
 
     return (
       <>
-        <div className='label'>{t('transactions')}</div>
+        <Label
+          help={t('number of transactions made from this account')}
+          label={t('transactions')}
+        />
         <Nonce
           className='result'
           params={address}
@@ -312,7 +322,10 @@ class Account extends React.PureComponent<Props> {
 
     return (
       <>
-        <div className='label'>{t('total')}</div>
+        <Label
+          help={t('overall amount of funds (be they vested, available for transfer or locked)')}
+          label={t('total')}
+        />
         <Balance
           className='result'
           params={address}
@@ -326,7 +339,10 @@ class Account extends React.PureComponent<Props> {
 
     return (
       <>
-        <div className='label'>{t('locked')}</div>
+        <Label
+          help={t('the funds that are being unlocked or available for withdrawal')}
+          label={t('locked')}
+        />
         <Unlocking
           className='accounts--Account-balances-unlocking'
           params={address}

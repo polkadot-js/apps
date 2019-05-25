@@ -38,7 +38,7 @@ label {
   font-family: sans-serif;
   font-size: 1rem;
   font-weight: 100;
-  margin: 0.25rem;
+  /* margin: 0.25rem; */
 }
 
 /*
@@ -101,6 +101,7 @@ article {
       color: #555 !important;
     }
 
+    i.help.circle.icon,
     .ui.button.circular {
       visibility: hidden;
     }
