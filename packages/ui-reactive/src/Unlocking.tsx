@@ -9,14 +9,13 @@ import BN from 'bn.js';
 import React from 'react';
 import { formatBalance } from '@polkadot/util';
 import { Icon, Tooltip, TxButton } from '@polkadot/ui-app';
-import { I18nProps } from '@polkadot/ui-app/types';
-import translate from '@polkadot/ui-app/translate';
 import { withCalls } from '@polkadot/ui-api';
 
-type Props = BareProps & CallProps & I18nProps & {
+type Props = BareProps & CallProps & {
   chain_bestNumber?: BN,
   controllerId?: AccountId,
   label?: React.ReactNode,
+  labelRedeem?: React.ReactNode,
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   remainingLabel?: string,
   staking_ledger?: StakingLedger,
@@ -82,7 +81,7 @@ export class UnlockingDisplay extends React.PureComponent<Props, State> {
   }
 
   private renderLocked () {
-    const { controllerId, label, t, unlockings } = this.props;
+    const { controllerId, label, unlockings } = this.props;
     const { tooltipOpen } = this.state;
 
     if (!unlockings || !controllerId) return null;
@@ -103,51 +102,49 @@ export class UnlockingDisplay extends React.PureComponent<Props, State> {
         />
         {tooltipOpen && (
           <Tooltip
-            text={t('{{remaining}} blocks left', {
-              replace: {
-                remaining: this.remainingBlocks(new BlockNumber(eraString))
-              }
-            })}
+            text={`${this.remainingBlocks(new BlockNumber(eraString))} blocks left`}
             trigger={`controlled-trigger${eraString}`}
           />
         )}
       </div>
     ));
 
-    return result && result.length ? result : <>{label}0</>;
+    return result && result.length
+      ? result
+      : <>{label}0</>;
   }
 
   private renderUnlockableSum () {
-    const { className, controllerId, t, unlockings } = this.props;
+    const { controllerId, labelRedeem, unlockings } = this.props;
 
-    if (!unlockings || !unlockings[0] || !controllerId) return null;
+    if (!unlockings || !unlockings[0] || !controllerId) {
+      return null;
+    }
 
     const unlockable = unlockings.filter((chunk) => this.remainingBlocks(chunk.era).eqn(0));
-    const unlockableSum = unlockable.reduce(
-      (curr, prev) => {
-        return new UnlockChunk({ value: curr.value.add(prev.value) });
-      }, new UnlockChunk({ value: new BN(0), era: new BN(0) })
-    ).value;
+    const unlockableSum = unlockable.reduce((curr, prev) => {
+      return curr.add(prev.value);
+    }, new BN(0));
 
-    return (unlockableSum.gtn(0) ?
-      <>
-        <span className={className + ' label-redeemable'}>
-          {t('redeemable')}
-        </span>
-        <span className={className + ' result-redeemable'}>
-          {formatBalance(unlockableSum)}<TxButton
-            accountId={controllerId.toString()}
-            className='withDrawUnbonded'
-            icon='lock'
-            size='small'
-            isPrimary
-            key='unlock'
-            params={[]}
-            tx='staking.withdrawUnbonded'
-          />
-        </span>
-      </>
-      : null
+    return (
+      unlockableSum.gtn(0)
+        ? (
+            <>
+              {labelRedeem}
+              {formatBalance(unlockableSum)}
+              <TxButton
+                accountId={controllerId.toString()}
+                className='withDrawUnbonded'
+                icon='lock'
+                size='small'
+                isPrimary
+                key='unlock'
+                params={[]}
+                tx='staking.withdrawUnbonded'
+              />
+          </>
+        )
+        : null
     );
   }
 
@@ -158,21 +155,19 @@ export class UnlockingDisplay extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(
-  withCalls<Props>(
-    ['query.staking.bonded', {
-      paramName: 'params',
-      propName: 'controllerId',
-      transform: (value) =>
-        value.unwrapOr(null)
-    }],
-    ['query.staking.ledger', {
-      paramName: 'controllerId',
-      propName: 'unlockings',
-      transform: (ledger: Option<StakingLedger>) =>
-        ledger.unwrapOr({ unlocking: null }).unlocking
-    }],
-  'derive.session.eraLength',
-  'derive.chain.bestNumber'
-  )(UnlockingDisplay)
-);
+export default withCalls<Props>(
+  ['query.staking.bonded', {
+    paramName: 'params',
+    propName: 'controllerId',
+    transform: (value) =>
+      value.unwrapOr(null)
+  }],
+  ['query.staking.ledger', {
+    paramName: 'controllerId',
+    propName: 'unlockings',
+    transform: (ledger: Option<StakingLedger>) =>
+      ledger.unwrapOr({ unlocking: null }).unlocking
+  }],
+'derive.session.eraLength',
+'derive.chain.bestNumber'
+)(UnlockingDisplay);

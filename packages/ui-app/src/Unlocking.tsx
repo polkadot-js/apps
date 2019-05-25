@@ -13,18 +13,20 @@ import { classes } from './util';
 
 export type Props = BareProps & {
   bonded?: BN | Array<BN>,
-  label?: string,
+  label?: React.ReactNode,
+  labelRedeem?: React.ReactNode,
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   withLabel?: boolean
 };
 
 export default class UnlockingDisplay extends React.PureComponent<Props> {
   render () {
-    const { params, className, label, style } = this.props;
+    const { params, className, label, labelRedeem, style } = this.props;
     return (
       <Unlocking
         className={classes('ui--Unlocking', className)}
         label={label}
+        labelRedeem={labelRedeem}
         params={params}
         style={style}
       />

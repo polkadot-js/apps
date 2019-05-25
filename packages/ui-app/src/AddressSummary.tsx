@@ -395,6 +395,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
       <UnlockingDisplay
         className='ui--AddressSummary-available'
         label={t('unlock ')}
+        labelRedeem={t('redeem ')}
         params={address}
       />
     );
