@@ -13,7 +13,7 @@ import { withCalls } from '@polkadot/ui-api';
 type Props = BareProps & CallProps & {
   balances_all?: DerivedBalances,
   children?: React.ReactNode,
-  label?: string,
+  label?: React.ReactNode,
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null
 };
 

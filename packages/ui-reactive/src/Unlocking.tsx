@@ -16,7 +16,7 @@ import { withCalls } from '@polkadot/ui-api';
 type Props = BareProps & CallProps & I18nProps & {
   chain_bestNumber?: BN,
   controllerId?: AccountId,
-  label?: string,
+  label?: React.ReactNode,
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   remainingLabel?: string,
   staking_ledger?: StakingLedger,

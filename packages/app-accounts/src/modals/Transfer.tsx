@@ -48,9 +48,8 @@ const Wrapper = styled.div`
     text-align: right;
     padding-right: 1rem;
 
-    .label-available {
+    .label {
       opacity: 0.7;
-      margin-right: 0.75rem;
     }
   }
 
@@ -161,7 +160,7 @@ class Transfer extends React.PureComponent<Props> {
   private renderContent () {
     const { address, t } = this.props;
     const { extrinsic, hasAvailable, maxBalance, recipientId, senderId } = this.state;
-    const available = t('available balance');
+    const available = <span className='label'>{t('available ')}</span>;
 
     return (
       <Modal.Content className='app--account-Backup-content'>

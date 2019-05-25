@@ -11,7 +11,7 @@ import { formatNumber } from '@polkadot/util';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
-  label?: string,
+  label?: React.ReactNode,
   timestamp_blockPeriod?: Moment | Option<Moment>, // support for previous
   timestamp_minimumPeriod?: Moment // support for new version
 };

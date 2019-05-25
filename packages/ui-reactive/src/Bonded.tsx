@@ -13,7 +13,7 @@ import { formatBalance } from '@polkadot/util';
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
-  label?: string,
+  label?: React.ReactNode,
   staking_ledger?: StakingLedger | null
 };
 

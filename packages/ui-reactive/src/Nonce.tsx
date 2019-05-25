@@ -13,7 +13,7 @@ import { withCalls } from '@polkadot/ui-api';
 type Props = BareProps & CallProps & {
   callOnResult?: (accountNonce: BN) => void,
   children?: React.ReactNode,
-  label?: string,
+  label?: React.ReactNode,
   params?: string,
   system_accountNonce?: Index
 };
