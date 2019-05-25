@@ -116,7 +116,6 @@ class Account extends React.PureComponent<Props, State> {
         {this.renderValidating()}
         <AddressSummary
           value={accountId}
-          identIconSize={96}
           withAvailable
           withBonded
           withIndex={false}

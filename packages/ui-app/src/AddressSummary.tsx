@@ -55,6 +55,7 @@ type State = {
 };
 
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
+const ICON_SIZE = 64;
 
 class AddressSummary extends React.PureComponent<Props, State> {
   state: State;
@@ -287,7 +288,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderIcon (className: string = 'ui--AddressSummary-icon', size?: number) {
-    const { identIconSize = 96, withIcon = true } = this.props;
+    const { identIconSize = ICON_SIZE, withIcon = true } = this.props;
     const { address } = this.state;
 
     if (!withIcon) {

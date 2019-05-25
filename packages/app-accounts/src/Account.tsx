@@ -118,7 +118,6 @@ class Account extends React.PureComponent<Props> {
         {this.renderModals()}
         <AddressSummary
           value={address}
-          identIconSize={96}
           isEditable={isEditable}
           withBalance={false}
           withNonce={false}
