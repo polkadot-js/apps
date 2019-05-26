@@ -81,6 +81,7 @@ class Selection extends TxComponent<Props, State> {
         <br></br>
         <Button.Group>
           <TxButton
+            isBasic
             isDisabled={!isValidUnsigned}
             isUnsigned
             label={t('Submit Inherent')}
