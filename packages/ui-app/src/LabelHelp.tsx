@@ -26,7 +26,7 @@ const Wrapper = styled.div`
   margin: 0 0 0 0.25rem;
 `;
 
-export default class Labelled extends React.PureComponent<Props, State> {
+export default class LabelHelp extends React.PureComponent<Props, State> {
   state: State = {
     tooltipOpen: false
   };
