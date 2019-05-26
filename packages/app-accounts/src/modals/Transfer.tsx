@@ -163,7 +163,7 @@ class Transfer extends React.PureComponent<Props> {
     const available = <span className='label'>{t('available ')}</span>;
 
     return (
-      <Modal.Content className='app--account-Backup-content'>
+      <Modal.Content>
         <Wrapper>
           <InputAddress
             defaultValue={address}
