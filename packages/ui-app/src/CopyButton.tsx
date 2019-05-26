@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Button$Sizes } from './Button/types';
 import { QueueAction$Add } from './Status/types';
 import { BareProps, I18nProps } from './types';
 
@@ -12,14 +11,12 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import { QueueConsumer } from './Status/Context';
 import Button from './Button';
 import translate from './translate';
+import styled from 'styled-components';
 
 type Props = BareProps & {
   children?: React.ReactNode,
   icon?: string,
   isAddress?: boolean,
-  isCircular?: boolean,
-  isPrimary?: boolean,
-  size?: Button$Sizes,
   value?: any
 };
 
@@ -29,23 +26,23 @@ type InnerProps = Props & I18nProps & {
 
 class CopyButtonInner extends React.PureComponent<InnerProps> {
   render () {
-    const { children, className, icon = 'copy', isCircular = true, isPrimary = true, size = 'tiny', style, value } = this.props;
+    const { children, className, icon = 'copy', value } = this.props;
 
     return (
       <div className={className}>
-        {children}
         <CopyToClipboard
           onCopy={this.onCopy}
           text={value}
         >
-          <Button
-            className='ui--CopyButton'
-            icon={icon}
-            isCircular={isCircular}
-            isPrimary={isPrimary}
-            size={size}
-            style={style}
-          />
+          <div>
+            {children}
+            <Button
+              className='iconButton'
+              icon={icon}
+              size='mini'
+              isPrimary
+            />
+          </div>
         </CopyToClipboard>
       </div>
     );
@@ -67,7 +64,7 @@ class CopyButtonInner extends React.PureComponent<InnerProps> {
 
 const CopyButtonI18n = translate(CopyButtonInner);
 
-export default class CopyButton extends React.PureComponent<Props> {
+class CopyButton extends React.PureComponent<Props> {
   render () {
     return (
       <QueueConsumer>
@@ -81,3 +78,8 @@ export default class CopyButton extends React.PureComponent<Props> {
     );
   }
 }
+
+export default styled(CopyButton)`
+  cursor: copy;
+  margin: 0.25rem;
+`;

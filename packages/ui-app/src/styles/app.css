@@ -94,11 +94,15 @@ article {
     margin: 0;
     padding: 0;
   }
-  
+
   &:not(:hover) {
     .ui.button {
       background: #eee !important;
       color: #555 !important;
+
+      &.mini {
+        visibility: none;
+      }
     }
   }
 }
