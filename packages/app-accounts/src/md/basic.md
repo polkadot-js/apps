@@ -2,16 +2,25 @@
 
 An account is identified by its public address on the network. The network will **not** know about the name you give to this account in this app. It is totally fine to give away this address, this is also the only information needed to receive funds.
 
+# Balances
+
+The balances for each account is broken down into a number of areas, giving an overview of the totals, transferable funds and the funds locked and available for unlocking. These are -
+
+- **total**: The overall amount of funds in the account, this includes the vested balance, available for transfer and locked.
+- **available**: The funds that can be transfered or bonded, i.e. the funds that are available for any transaction.
+- **bonded**: The funds bonded for validating or nominating. They are locked and cannot be transfered, although it can be unlocked for future actions.
+- **locked**: The funds that are being unlocked or have been unlocked and are available for withdrawal to your availabel balance.
+
 # Security
 
-The public address is generated from a private key, itself generated from a seed or a mnemonic phrase. The seed or the mnemonic phrase should **never be shared with anybody** as they give access to your funds. It must be stored securely.  
-The password needed to create an account is used to encrypt your private key. You must choose a strong and unique password.  
+The public address is generated from a private key, itself generated from a seed or a mnemonic phrase. The seed or the mnemonic phrase should **never be shared with anybody** as they give access to your funds. It must be stored securely.
+The password needed to create an account is used to encrypt your private key. You must choose a strong and unique password.
 This password is also used to encrypt the private key in the backup file downloaded upon account creation. Thanks to this file together with your account password, you can recover your account.
 
 # Account recovery
 
 You can recover an account from its:
-- seed or mnemonic:  
+- seed or mnemonic:
   From the "Create account" tab, type your seed or mnemonic in the associated field.
 
 - backup file (also called JSON keystore file) and the account's password:
@@ -21,11 +30,11 @@ You can recover an account from its:
 
 Accounts with a balance lower than the minimal amount, 100 milliUnits (miliDOTs for Polkadot) as of writing are considered as nonexistent for the network. If an account's balance ever drops below this amount, it is removed from the network. In this application, it will still be visible, but with a balance of 0.
 
-For a fund transfer to a **new account** (read an account with a balance of 0), if the amount transferred is less than the minimum allowed balance, then the transfer will "succeed" but the destination account will not be created (read its balance will remain 0); this essentially burns the transfer balance from the sender, because the receiver's balance never exceed the minimum allowed balance.  
+For a fund transfer to a **new account** (read an account with a balance of 0), if the amount transferred is less than the minimum allowed balance, then the transfer will "succeed" but the destination account will not be created (read its balance will remain 0); this essentially burns the transfer balance from the sender, because the receiver's balance never exceed the minimum allowed balance.
 
 If the receiver already exists (read it has a balance greater than 0), it is perfectly possible to transfer very low amounts.
 
-# Cryptography 
+# Cryptography
 
 Substrate and Polkadot use Schnorrkel/Ristretto x25519 ("sr25519") as its key derivation and signing algorithm.
 

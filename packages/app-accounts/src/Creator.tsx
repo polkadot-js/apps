@@ -12,7 +12,7 @@ import FileSaver from 'file-saver';
 import React from 'react';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { withApi, withMulti } from '@polkadot/ui-api';
-import { AddressSummary, AddressRow, Button, Dropdown, Input, InputTags, Labelled, Modal, Password, TxComponent } from '@polkadot/ui-app';
+import { AddressRow, Button, Dropdown, Input, InputTags, Labelled, Modal, Password, TxComponent } from '@polkadot/ui-app';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
@@ -113,23 +113,23 @@ class Creator extends TxComponent<Props, State> {
   }
 
   render () {
-    const { address, isSeedValid } = this.state;
+    const { address, name, isSeedValid } = this.state;
 
     return (
       <div className='accounts--Creator'>
+        {this.renderModal()}
         <div className='ui--grid'>
-          <AddressSummary
+          {this.renderInput()}
+          <AddressRow
             className='shrink'
+            defaultName={name}
             value={
               isSeedValid
                 ? address
                 : ''
             }
-            withBonded
           />
-          {this.renderInput()}
         </div>
-        {this.renderButtons()}
       </div>
     );
   }
@@ -255,7 +255,7 @@ class Creator extends TxComponent<Props, State> {
             }
           </div>
         </details>
-        {this.renderModal()}
+        {this.renderButtons()}
       </div>
     );
   }

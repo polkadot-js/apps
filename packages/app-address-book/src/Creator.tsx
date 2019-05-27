@@ -7,7 +7,7 @@ import { ComponentProps } from './types';
 
 import React from 'react';
 
-import { AddressSummary, Button, Input, InputTags, TxComponent } from '@polkadot/ui-app';
+import { AddressRow, Button, Input, InputTags, TxComponent } from '@polkadot/ui-app';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring';
@@ -36,19 +36,18 @@ class Creator extends TxComponent<Props, State> {
   }
 
   render () {
-    const { address } = this.state;
+    const { address, name } = this.state;
 
     return (
       <div className='address-book--Creator'>
         <div className='ui--grid'>
-          <AddressSummary
-            className='shrink'
-            value={address}
-            withBonded
-          />
           {this.renderInput()}
+          <AddressRow
+            className='shrink'
+            defaultName={name}
+            value={address}
+          />
         </div>
-        {this.renderButtons()}
       </div>
     );
   }
@@ -112,6 +111,7 @@ class Creator extends TxComponent<Props, State> {
             value={tags}
           />
         </div>
+        {this.renderButtons()}
       </div>
     );
   }

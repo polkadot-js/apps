@@ -32,7 +32,6 @@ export type Props = I18nProps & {
   defaultName?: string,
   extraInfo?: React.ReactNode,
   identIconSize?: number,
-  isChildrenAbs?: boolean,
   isEditable?: boolean,
   isInline?: boolean,
   isShort?: boolean,
@@ -68,6 +67,10 @@ class AddressSummary extends React.PureComponent<Props, State> {
     this.state = this.createState();
   }
 
+  static defaultProps = {
+    defaultName: '<unknown>'
+  };
+
   static getDerivedStateFromProps ({ accounts_idAndIndex = [], defaultName, value }: Props, prevState: State): State | null {
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
@@ -76,12 +79,22 @@ class AddressSummary extends React.PureComponent<Props, State> {
       : DEFAULT_ADDR;
     const name = getAddrName(address, false, defaultName) || '';
     const tags = getAddrTags(address);
+    const state = { tags } as State;
+    let hasChanged = false;
 
-    if (address === prevState.address) {
-      return null;
+    if (address !== prevState.address) {
+      state.address = address;
+      hasChanged = true;
     }
 
-    return { address, name, tags } as State;
+    if (name !== prevState.name) {
+      state.name = name;
+      hasChanged = true;
+    }
+
+    return hasChanged
+      ? state
+      : null;
   }
 
   render () {
@@ -237,7 +250,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderBalance () {
-    const { balance, t, withBalance = true } = this.props;
+    const { balance, t, withBalance } = this.props;
     const { address } = this.state;
 
     if (!withBalance || !address) {
@@ -273,14 +286,14 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderChildren () {
-    const { children, isChildrenAbs } = this.props;
+    const { children } = this.props;
 
     if (!children || (Array.isArray(children) && children.length === 0)) {
       return null;
     }
 
     return (
-      <div className={`ui--AddressSummary-children ${isChildrenAbs ? 'abs' : ''}`}>
+      <div className='ui--AddressSummary-children'>
         {children}
       </div>
     );
@@ -322,7 +335,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderNonce () {
-    const { t, withNonce = true } = this.props;
+    const { t, withNonce } = this.props;
     const { address } = this.state;
 
     if (!withNonce || !address) {
