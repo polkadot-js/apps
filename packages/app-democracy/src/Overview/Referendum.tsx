@@ -8,7 +8,7 @@ import { RawParam } from '@polkadot/ui-params/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { ReferendumInfoExtended } from '@polkadot/api-derive/democracy/referendumInfo';
+import { ReferendumInfoExtended } from '@polkadot/api-derive/type';
 import { Chart, Static } from '@polkadot/ui-app';
 import VoteThreshold from '@polkadot/ui-params/Param/VoteThreshold';
 import { withCalls } from '@polkadot/ui-api';
