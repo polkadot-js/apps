@@ -99,6 +99,10 @@ article {
     .ui.button {
       background: #eee !important;
       color: #555 !important;
+
+      &.mini {
+        visibility: none;
+      }
     }
 
     i.help.circle.icon,

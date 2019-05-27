@@ -289,7 +289,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   protected renderEditIcon () {
     return (
       <Button
-        className='editButton'
+        className='iconButton'
         icon='edit'
         size='mini'
         isPrimary
