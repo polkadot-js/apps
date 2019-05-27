@@ -10,6 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import { Index } from '@polkadot/types';
 import { AddressSummary, Button, InputAddress, InputBalance, TxButton, TxComponent } from '@polkadot/ui-app';
 import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
@@ -75,7 +76,7 @@ class Transfer extends TxComponent<Props, State> {
       (balances_fees !== prevProps.balances_fees) ||
       hasLengthChanged
     ) {
-      this.setMaxBalance();
+      this.setMaxBalance().catch(console.error);
     }
   }
 
@@ -172,7 +173,7 @@ class Transfer extends TxComponent<Props, State> {
     });
   }
 
-  private setMaxBalance = () => {
+  private setMaxBalance = async () => {
     const { api, balances_fees = ZERO_FEES } = this.props;
     const { accountId, recipientId } = this.state;
 
@@ -180,41 +181,35 @@ class Transfer extends TxComponent<Props, State> {
       return;
     }
 
-    void api.query.system.accountNonce(accountId, (accountNonce) => {
+    const { transferFee, transactionBaseFee, transactionByteFee, creationFee } = balances_fees;
 
-      const { transferFee, transactionBaseFee, transactionByteFee, creationFee } = balances_fees;
+    // FIXME The any casts here are irritating, but they are basically caused by the derive
+    // not really returning an actual `class implements Codec`
+    // (if casting to DerivedBalance it would be `as any as DerivedBalance`)
+    const accountNonce = await api.query.system.accountNonce(accountId) as Index;
+    const senderBalance = (await api.derive.balances.all(accountId) as any).availableBalance;
+    const recipientBalance = (await api.derive.balances.all(recipientId) as any).availableBalance;
 
-      void api.derive.balances.all(accountId, ({ availableBalance: senderBalance }) => {
-        void api.derive.balances.all(recipientId, ({ availableBalance: recipientBalance }) => {
+    let prevMax = new BN(0);
+    let maxBalance = new BN(1);
+    let extrinsic;
 
-          let prevMax = new BN(0);
-          let maxBalance = new BN(1);
-          let extrinsic;
+    while (!prevMax.eq(maxBalance)) {
+      prevMax = maxBalance;
+      extrinsic = api.tx.balances.transfer(recipientId, prevMax);
 
-          while (!prevMax.eq(maxBalance)) {
-            prevMax = maxBalance;
+      const txLength = calcSignatureLength(extrinsic, accountNonce);
+      const fees = transactionBaseFee
+        .add(transactionByteFee.muln(txLength))
+        .add(transferFee)
+        .add(recipientBalance.isZero() ? creationFee : ZERO);
 
-            extrinsic = accountId && recipientId
-              ? api.tx.balances.transfer(recipientId, prevMax)
-              : null;
+      maxBalance = senderBalance.sub(fees);
+    }
 
-            const txLength = calcSignatureLength(extrinsic, accountNonce);
-
-            const fees = transactionBaseFee
-              .add(transactionByteFee.muln(txLength))
-              .add(transferFee)
-              .add(senderBalance.isZero() ? creationFee : ZERO)
-              .add(recipientBalance.isZero() ? creationFee : ZERO);
-
-            maxBalance = new BN(senderBalance).sub(fees);
-          }
-
-          this.nextState({
-            extrinsic,
-            maxBalance
-          });
-        });
-      });
+    this.nextState({
+      extrinsic,
+      maxBalance
     });
   }
 

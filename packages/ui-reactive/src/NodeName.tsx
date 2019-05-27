@@ -10,7 +10,7 @@ import { withCalls } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
-  label?: string,
+  label?: React.ReactNode,
   system_name?: Text
 };
 

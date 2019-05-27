@@ -17,13 +17,15 @@ type Props = I18nProps & {
 
 class Forgetting extends React.PureComponent<Props> {
   render () {
+    const { t } = this.props;
 
     return (
       <Modal
-        className='accounts--Forgetting-Modal'
+        className='app--accounts-Modal'
         dimmer='inverted'
         open
       >
+        <Modal.Header>{t('Confirm account removal')}</Modal.Header>
         {this.renderContent()}
         {this.renderButtons()}
       </Modal>
@@ -56,20 +58,15 @@ class Forgetting extends React.PureComponent<Props> {
     const { address, t } = this.props;
 
     return (
-      <>
-        <Modal.Header>
-          {t('Confirm account removal')}
-        </Modal.Header>
-        <Modal.Content>
-          <AddressRow
-            isInline
-            value={address}
-          >
-            <p>{t('You are about to remove this account from your list of available accounts. Once completed, should you need to access it again, you will have to re-create the account either via seed or via a backup file.')}</p>
-            <p>{t('This operaion does not remove the history of the account from the chain, nor any associated funds from the account. The forget operation only limits your access to the account on this browser.')}</p>
-          </AddressRow>
-        </Modal.Content>
-      </>
+      <Modal.Content>
+        <AddressRow
+          isInline
+          value={address}
+        >
+          <p>{t('You are about to remove this account from your list of available accounts. Once completed, should you need to access it again, you will have to re-create the account either via seed or via a backup file.')}</p>
+          <p>{t('This operaion does not remove the history of the account from the chain, nor any associated funds from the account. The forget operation only limits your access to the account on this browser.')}</p>
+        </AddressRow>
+      </Modal.Content>
     );
   }
 }

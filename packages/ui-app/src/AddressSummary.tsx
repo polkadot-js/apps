@@ -8,10 +8,10 @@ import { I18nProps } from './types';
 import BN from 'bn.js';
 import { Label } from 'semantic-ui-react';
 import React from 'react';
-import BaseIdentityIcon from '@polkadot/ui-identicon';
-import { Button, Input, InputTags } from '@polkadot/ui-app';
-import keyring from '@polkadot/ui-keyring';
 import { withCalls } from '@polkadot/ui-api';
+import { Button, Input, InputTags } from '@polkadot/ui-app';
+import BaseIdentityIcon from '@polkadot/ui-identicon';
+import keyring from '@polkadot/ui-keyring';
 
 import AvailableDisplay from './Available';
 import BalanceDisplay from './Balance';
@@ -27,10 +27,12 @@ export type Props = I18nProps & {
   accounts_idAndIndex?: [AccountId?, AccountIndex?],
   balance?: BN | Array<BN>,
   bonded?: BN | Array<BN>,
+  buttons?: React.ReactNode,
   children?: React.ReactNode,
   defaultName?: string,
   extraInfo?: React.ReactNode,
   identIconSize?: number,
+  isChildrenAbs?: boolean,
   isEditable?: boolean,
   isInline?: boolean,
   isShort?: boolean,
@@ -47,6 +49,7 @@ export type Props = I18nProps & {
 };
 
 type State = {
+  address: string,
   isEditingName: boolean,
   isEditingTags: boolean,
   name: string,
@@ -54,6 +57,7 @@ type State = {
 };
 
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
+const ICON_SIZE = 64;
 
 class AddressSummary extends React.PureComponent<Props, State> {
   state: State;
@@ -64,7 +68,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     this.state = this.createState();
   }
 
-  static getDerivedStateFromProps ({ accounts_idAndIndex = [], defaultName, value }: Props): State | null {
+  static getDerivedStateFromProps ({ accounts_idAndIndex = [], defaultName, value }: Props, prevState: State): State | null {
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
     const address = accountId
@@ -73,11 +77,15 @@ class AddressSummary extends React.PureComponent<Props, State> {
     const name = getAddrName(address, false, defaultName) || '';
     const tags = getAddrTags(address);
 
-    return { name, tags } as State;
+    if (address === prevState.address) {
+      return null;
+    }
+
+    return { address, name, tags } as State;
   }
 
   render () {
-    const { accounts_idAndIndex = [], className, isInline, style } = this.props;
+    const { accounts_idAndIndex = [], className, isInline, style, withIndex = true } = this.props;
     const [accountId, accountIndex] = accounts_idAndIndex;
     const isValid = accountId || accountIndex;
 
@@ -88,10 +96,11 @@ class AddressSummary extends React.PureComponent<Props, State> {
       >
         <div className='ui--AddressSummary-base'>
           {this.renderIcon()}
+          {this.renderButtons()}
           <div className='ui--AddressSummary-data'>
             {this.renderName()}
             {this.renderAddress()}
-            {this.renderAccountIndex()}
+            {this.renderAccountIndex(withIndex)}
           </div>
           <div className='ui--AddressSummary-balances'>
             {this.renderAvailable()}
@@ -118,6 +127,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     const tags = getAddrTags(address);
 
     return {
+      address,
       isEditingName: false,
       isEditingTags: false,
       name,
@@ -126,12 +136,8 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderAddress () {
-    const { isShort = true, value } = this.props;
-
-    const address = value
-      ? value.toString()
-      : DEFAULT_ADDR;
-
+    const { isShort = true } = this.props;
+    const { address } = this.state;
     const addrElem = isShort
       ? (
           <CopyButton
@@ -153,6 +159,14 @@ class AddressSummary extends React.PureComponent<Props, State> {
         </div>
       </>
     );
+  }
+
+  protected renderButtons () {
+    const { buttons } = this.props;
+
+    return buttons
+      ? <div className='ui--AddressSummary-buttons'>{buttons}</div>
+      : null;
   }
 
   protected renderName () {
@@ -177,7 +191,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
           onClick={isEditable ? this.toggleNameEditor : undefined}
         >
           {name}
-          {isEditable && this.renderEditIcon(this.toggleNameEditor)}
+          {isEditable && this.renderEditIcon()}
         </div>
       );
   }
@@ -191,11 +205,10 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderAvailable () {
-    const { accounts_idAndIndex = [], t, value, withAvailable } = this.props;
-    const [_accountId] = accounts_idAndIndex;
-    const accountId = _accountId || value;
+    const { t, withAvailable } = this.props;
+    const { address } = this.state;
 
-    if (!withAvailable || !accountId) {
+    if (!withAvailable || !address) {
       return null;
     }
 
@@ -203,13 +216,13 @@ class AddressSummary extends React.PureComponent<Props, State> {
       <AvailableDisplay
         className='ui--AddressSummary-available'
         label={t('available ')}
-        params={accountId}
+        params={address}
       />
     );
   }
 
-  protected renderAccountIndex () {
-    const { accounts_idAndIndex = [], withIndex = true } = this.props;
+  protected renderAccountIndex (withIndex: boolean) {
+    const { accounts_idAndIndex = [] } = this.props;
     const [, accountIndex] = accounts_idAndIndex;
 
     if (!accountIndex || !withIndex) {
@@ -217,18 +230,17 @@ class AddressSummary extends React.PureComponent<Props, State> {
     }
 
     return (
-        <div className='ui--AddressSummary-accountIndex'>
-          {accountIndex.toString()}
-        </div>
+      <div className='ui--AddressSummary-accountIndex'>
+        {accountIndex.toString()}
+      </div>
     );
   }
 
   protected renderBalance () {
-    const { accounts_idAndIndex = [], balance, t, value, withBalance = true } = this.props;
-    const [_accountId] = accounts_idAndIndex;
-    const accountId = _accountId || value;
+    const { balance, t, withBalance = true } = this.props;
+    const { address } = this.state;
 
-    if (!withBalance || !accountId) {
+    if (!withBalance || !address) {
       return null;
     }
 
@@ -236,18 +248,17 @@ class AddressSummary extends React.PureComponent<Props, State> {
       <BalanceDisplay
         balance={balance}
         className='ui--AddressSummary-balance'
-        label={t('balance ')}
-        params={accountId}
+        label={t('total ')}
+        params={address}
       />
     );
   }
 
   protected renderBonded () {
-    const { accounts_idAndIndex = [], bonded, t, value, withBonded } = this.props;
-    const [_accountId] = accounts_idAndIndex;
-    const accountId = _accountId || value;
+    const { bonded, t, withBonded } = this.props;
+    const { address } = this.state;
 
-    if (!withBonded || !accountId) {
+    if (!withBonded || !address) {
       return null;
     }
 
@@ -256,31 +267,29 @@ class AddressSummary extends React.PureComponent<Props, State> {
         bonded={bonded}
         className='ui--AddressSummary-bonded'
         label={t('bonded ')}
-        params={accountId}
+        params={address}
       />
     );
   }
 
   protected renderChildren () {
-    const { children } = this.props;
+    const { children, isChildrenAbs } = this.props;
 
     if (!children || (Array.isArray(children) && children.length === 0)) {
       return null;
     }
 
     return (
-      <div className='ui--AddressSummary-children'>
+      <div className={`ui--AddressSummary-children ${isChildrenAbs ? 'abs' : ''}`}>
         {children}
       </div>
     );
   }
 
-  protected renderEditIcon (callback: () => void) {
-
+  protected renderEditIcon () {
     return (
       <Button
         className='iconButton'
-        onClick={callback}
         icon='edit'
         size='mini'
         isPrimary
@@ -290,18 +299,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderIcon (className: string = 'ui--AddressSummary-icon', size?: number) {
-    const { accounts_idAndIndex = [], identIconSize = 96, value, withIcon = true } = this.props;
+    const { identIconSize = ICON_SIZE, withIcon = true } = this.props;
+    const { address } = this.state;
 
     if (!withIcon) {
       return null;
     }
 
-    const [_accountId] = accounts_idAndIndex;
-    const accountId = (_accountId || value || '').toString();
-
     // Since we do queries to storage in the wrapped example, we don't want
     // to follow that route if we don't have a valid address.
-    const Component = accountId
+    const Component = address
       ? IdentityIcon
       : BaseIdentityIcon;
 
@@ -309,17 +316,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
       <Component
         className={className}
         size={size || identIconSize}
-        value={accountId}
+        value={address}
       />
     );
   }
 
   protected renderNonce () {
-    const { accounts_idAndIndex = [], t, value, withNonce = true } = this.props;
-    const [_accountId] = accounts_idAndIndex;
-    const accountId = _accountId || value;
+    const { t, withNonce = true } = this.props;
+    const { address } = this.state;
 
-    if (!withNonce || !accountId) {
+    if (!withNonce || !address) {
       return null;
     }
 
@@ -327,21 +333,21 @@ class AddressSummary extends React.PureComponent<Props, State> {
       <NonceDisplay
         className='ui--AddressSummary-nonce'
         label={t('transactions ')}
-        params={accountId}
+        params={address}
       />
     );
   }
 
   protected renderSaveIcon (callback: () => void) {
     return (
-    <Button
-      className='saveButton'
-      onClick={callback}
-      icon='save'
-      size='small'
-      isPrimary
-      key='save'
-    />
+      <Button
+        className='saveButton'
+        onClick={callback}
+        icon='save'
+        size='small'
+        isPrimary
+        key='save'
+      />
     );
   }
 
@@ -374,7 +380,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
         >
           {
             !tags.length
-              ? (isEditable ? <span>add tags</span> : undefined)
+              ? (isEditable ? <span className='addTags'>add tags</span> : undefined)
               : tags.map((tag) => {
                 return (
                   <Label key={tag} size='tiny' color='grey'>
@@ -383,53 +389,62 @@ class AddressSummary extends React.PureComponent<Props, State> {
                 );
               })
           }
-          {isEditable && this.renderEditIcon(this.toggleTagsEditor)}
+          {isEditable && this.renderEditIcon()}
         </div>;
 
     return resultingDom;
   }
 
   protected renderUnlocking () {
-    const { accounts_idAndIndex = [], value, withUnlocking } = this.props;
-    const [_accountId] = accounts_idAndIndex;
-    const accountId = _accountId || value;
+    const { withUnlocking, t } = this.props;
+    const { address } = this.state;
 
-    if (!withUnlocking || !accountId) {
+    if (!withUnlocking || !address) {
       return null;
     }
 
     return (
       <UnlockingDisplay
         className='ui--AddressSummary-available'
-        params={accountId}
+        label={t('unlock ')}
+        labelRedeem={t('redeem ')}
+        params={address}
       />
     );
   }
 
   protected saveName = () => {
     const { value } = this.props;
-    const { name } = this.state;
+    const { address, name } = this.state;
 
     const trimmedName = name.trim();
 
     // Save only if the name was changed or if it's no empty.
     if (trimmedName && value) {
-      const currentKeyring = keyring.getPair(value.toString());
-      currentKeyring && keyring.saveAccountMeta(currentKeyring, { name: trimmedName, whenEdited: Date.now() });
+      const currentKeyring = keyring.getPair(address);
 
-      this.toggleNameEditor();
+      currentKeyring && keyring.saveAccountMeta(currentKeyring, {
+        name: trimmedName,
+        whenEdited: Date.now()
+      });
+
+      this.setState({ isEditingName: false });
     }
   }
 
   protected saveTags = () => {
     const { value } = this.props;
-    const { tags } = this.state;
+    const { address, tags } = this.state;
 
     if (value) {
-      const currentKeyring = keyring.getPair(value.toString());
-      currentKeyring && keyring.saveAccountMeta(currentKeyring, { tags, whenEdited: Date.now() });
+      const currentKeyring = keyring.getPair(address);
 
-      this.toggleTagsEditor();
+      currentKeyring && keyring.saveAccountMeta(currentKeyring, {
+        tags,
+        whenEdited: Date.now()
+      });
+
+      this.setState({ isEditingTags: false });
     }
   }
 

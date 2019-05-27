@@ -11,7 +11,7 @@ import translate from './translate';
 
 class AddressRow extends AddressSummary {
   render () {
-    const { className, style, identIconSize = 64, isInline, value } = this.props;
+    const { className, style, identIconSize = 64, isInline, value, withIndex = false } = this.props;
 
     return (
       <div
@@ -20,16 +20,21 @@ class AddressRow extends AddressSummary {
       >
         <div className='ui--AddressRow-base'>
           {this.renderIcon('ui--AddressRow-icon', identIconSize)}
+          {this.renderButtons()}
           <div className='ui--AddressRow-details'>
             <div className='ui--AddressSummary-data'>
               {this.renderName()}
               {this.renderAddress()}
+              {this.renderAccountIndex(withIndex)}
             </div>
             <div className='ui--AddressSummary-balances'>
+              {this.renderAvailable()}
               {this.renderBalance()}
               {this.renderBonded()}
               {this.renderNonce()}
+              {this.renderUnlocking()}
             </div>
+            {this.renderTags()}
           </div>
         </div>
         {this.renderChildren()}

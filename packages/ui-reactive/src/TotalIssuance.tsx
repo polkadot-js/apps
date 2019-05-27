@@ -11,7 +11,7 @@ import { formatBalance } from '@polkadot/util';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
-  label?: string,
+  label?: React.ReactNode,
   balances_totalIssuance?: Balance
 };
 

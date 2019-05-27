@@ -98,14 +98,7 @@
   line-height: 1.2rem;
 }
 
-.staking--Account-detail {
-  margin-top: 0.75rem;
-}
-
 .staking--accounts-info {
-  position: absolute;
-  top: 0.75rem;
-  right: 1rem;
   text-align: right;
 }
 
