@@ -87,7 +87,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
       hasChanged = true;
     }
 
-    if (name !== prevState.name) {
+    if (!prevState.isEditingName && name !== prevState.name) {
       state.name = name;
       hasChanged = true;
     }
@@ -427,48 +427,51 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected saveName = () => {
-    const { value } = this.props;
     const { address, name } = this.state;
-
     const trimmedName = name.trim();
+    const meta = {
+      name: trimmedName,
+      whenEdited: Date.now()
+    };
 
     // Save only if the name was changed or if it's no empty.
-    if (trimmedName && value) {
-      const currentKeyring = keyring.getPair(address);
+    if (trimmedName && address) {
+      try {
+        const currentKeyring = keyring.getPair(address);
 
-      currentKeyring && keyring.saveAccountMeta(currentKeyring, {
-        name: trimmedName,
-        whenEdited: Date.now()
-      });
+        currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
+      } catch (error) {
+        keyring.saveAddress(address, meta);
+      }
 
       this.setState({ isEditingName: false });
     }
   }
 
   protected saveTags = () => {
-    const { value } = this.props;
     const { address, tags } = this.state;
+    const meta = {
+      tags,
+      whenEdited: Date.now()
+    };
 
-    if (value) {
-      const currentKeyring = keyring.getPair(address);
+    if (address) {
+      try {
+        const currentKeyring = keyring.getPair(address);
 
-      currentKeyring && keyring.saveAccountMeta(currentKeyring, {
-        tags,
-        whenEdited: Date.now()
-      });
+        currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
+      } catch (error) {
+        keyring.saveAddress(address, meta);
+      }
 
       this.setState({ isEditingTags: false });
     }
   }
 
   protected toggleNameEditor = () => {
-    const { value } = this.props;
-
-    if (value && keyring.getPair(value.toString())) {
-      this.setState(({ isEditingName }) => ({
-        isEditingName: !isEditingName
-      }));
-    }
+    this.setState(({ isEditingName }) => ({
+      isEditingName: !isEditingName
+    }));
   }
 
   protected toggleTagsEditor = () => {

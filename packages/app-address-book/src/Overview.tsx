@@ -17,7 +17,7 @@ type Props = ComponentProps & {
 };
 
 const Wrapper = styled.div`
-  .accounts {
+  .addresses {
     display: flex;
     flex-wrap: wrap;
 

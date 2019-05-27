@@ -16,8 +16,6 @@ import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import basicMd from './md/basic.md';
-import Creator from './Creator';
-import Editor from './Editor';
 import Overview from './Overview';
 import translate from './translate';
 
@@ -47,14 +45,6 @@ class AddressBookApp extends React.PureComponent<Props, State> {
         {
           name: 'overview',
           text: t('Overview')
-        },
-        {
-          name: 'edit',
-          text: t('Edit contact')
-        },
-        {
-          name: 'create',
-          text: t('Add contact')
         }
       ]
     };
@@ -89,7 +79,6 @@ class AddressBookApp extends React.PureComponent<Props, State> {
   render () {
     const { basePath } = this.props;
     const { hidden, items } = this.state;
-    const renderCreator = this.renderComponent(Creator);
 
     return (
       <main className='address-book--App'>
@@ -102,15 +91,7 @@ class AddressBookApp extends React.PureComponent<Props, State> {
           />
         </header>
         <Switch>
-          <Route path={`${basePath}/overview`} render={this.renderComponent(Overview)} />
-          <Route path={`${basePath}/create`} render={renderCreator} />
-          <Route
-            render={
-              hidden.includes('edit')
-                ? renderCreator
-                : this.renderComponent(Editor)
-            }
-          />
+          <Route render={this.renderComponent(Overview)} />
         </Switch>
       </main>
     );
