@@ -11,7 +11,7 @@ import { AddressRow, Button, Input, InputAddress, InputTags, TxComponent } from 
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import keyring from '@polkadot/ui-keyring';
 
-import Forgetting from './Forgetting';
+import Forgetting from './modals/Forgetting';
 import translate from './translate';
 
 type Props = ComponentProps & I18nProps;
@@ -35,14 +35,16 @@ class Editor extends TxComponent<Props, State> {
 
   render () {
     const { isForgetOpen, current } = this.state;
+
     return (
       <div className='address-book--Editor'>
-        <Forgetting
-          isOpen={isForgetOpen}
-          onClose={this.toggleForget}
-          doForget={this.onForget}
-          currentAddress={current}
-        />
+        {isForgetOpen && (
+          <Forgetting
+            onClose={this.toggleForget}
+            doForget={this.onForget}
+            currentAddress={current}
+          />
+        )}
         {this.renderData()}
       </div>
     );

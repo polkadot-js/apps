@@ -8,10 +8,9 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { AddressRow, Button, Modal } from '@polkadot/ui-app';
 
-import translate from './translate';
+import translate from '../translate';
 
 type Props = I18nProps & {
-  isOpen: boolean,
   onClose: () => void,
   doForget: () => void,
   currentAddress: KeyringAddress | null
@@ -23,11 +22,7 @@ class Forgetting extends React.PureComponent<Props> {
   }
 
   render () {
-    const { isOpen, style } = this.props;
-
-    if (!isOpen) {
-      return null;
-    }
+    const { style, t } = this.props;
 
     return (
       <Modal
@@ -35,6 +30,7 @@ class Forgetting extends React.PureComponent<Props> {
         open
         style={style}
       >
+        <Modal.Header>{t('Confirm address removal')}</Modal.Header>
         {this.renderContent()}
         {this.renderButtons()}
       </Modal>
@@ -71,20 +67,15 @@ class Forgetting extends React.PureComponent<Props> {
       : undefined;
 
     return (
-      <>
-        <Modal.Header>
-          {t('Confirm address removal')}
-        </Modal.Header>
-        <Modal.Content className='forgetting-Address'>
-          <AddressRow
-            isInline
-            value={address || ''}
-          >
-            <p>{t('You are about to remove this address from your address book. Once completed, should you need to access it again, you will have to re-add the address.')}</p>
-            <p>{t('This operation does not remove the history of the account from the chain, nor any associated funds from the account. The forget operation only limits your access to the address on this browser.')}</p>
-          </AddressRow>
-        </Modal.Content>
-      </>
+      <Modal.Content className='forgetting-Address'>
+        <AddressRow
+          isInline
+          value={address || ''}
+        >
+          <p>{t('You are about to remove this address from your address book. Once completed, should you need to access it again, you will have to re-add the address.')}</p>
+          <p>{t('This operation does not remove the history of the account from the chain, nor any associated funds from the account. The forget operation only limits your access to the address on this browser.')}</p>
+        </AddressRow>
+      </Modal.Content>
     );
   }
 }
