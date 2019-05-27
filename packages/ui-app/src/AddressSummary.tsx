@@ -428,7 +428,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
         whenEdited: Date.now()
       });
 
-      this.toggleNameEditor();
+      this.setState({ isEditingName: false });
     }
   }
 
@@ -444,7 +444,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
         whenEdited: Date.now()
       });
 
-      this.toggleTagsEditor();
+      this.setState({ isEditingTags: false });
     }
   }
 
