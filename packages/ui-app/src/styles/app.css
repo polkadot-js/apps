@@ -17,6 +17,10 @@ body {
   height: 100%;
 }
 
+a {
+  cursor: pointer;
+}
+
 h1, h2, h3, h4, h5 {
   color: rgba(0, 0, 0, .6);
   font-family: sans-serif;

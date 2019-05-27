@@ -20,7 +20,7 @@ import { ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
 import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
-  address: string,
+  address?: string,
   balances_fees?: DerivedFees,
   balances_votingBalance?: DerivedBalances,
   onClose: () => void,
@@ -32,8 +32,8 @@ type State = {
   extrinsic: SubmittableExtrinsic | null,
   hasAvailable: boolean,
   maxBalance?: BN,
-  recipientId: string | null,
-  senderId: string
+  recipientId?: string | null,
+  senderId?: string | null
 };
 
 const ZERO = new BN(0);
@@ -77,7 +77,7 @@ class Transfer extends React.PureComponent<Props> {
       hasAvailable: true,
       maxBalance: ZERO,
       recipientId: null,
-      senderId: props.address
+      senderId: props.address || null
     };
   }
 
@@ -115,7 +115,7 @@ class Transfer extends React.PureComponent<Props> {
     this.setState((prevState: State): State => {
       const { api } = this.props;
       const { amount = prevState.amount, recipientId = prevState.recipientId, hasAvailable = prevState.hasAvailable, maxBalance = prevState.maxBalance, senderId = prevState.senderId } = newState;
-      const extrinsic = recipientId
+      const extrinsic = recipientId && senderId
         ? api.tx.balances.transfer(recipientId, amount)
         : null;
 
@@ -131,8 +131,8 @@ class Transfer extends React.PureComponent<Props> {
   }
 
   private renderButtons () {
-    const { address, onClose, t } = this.props;
-    const { extrinsic, hasAvailable } = this.state;
+    const { onClose, t } = this.props;
+    const { extrinsic, hasAvailable, senderId } = this.state;
 
     return (
       <Modal.Actions>
@@ -144,7 +144,7 @@ class Transfer extends React.PureComponent<Props> {
           />
           <Button.Or />
           <TxButton
-            accountId={address}
+            accountId={senderId}
             extrinsic={extrinsic}
             isDisabled={!hasAvailable}
             isPrimary
@@ -168,8 +168,9 @@ class Transfer extends React.PureComponent<Props> {
           <InputAddress
             defaultValue={address}
             help={t('The account you will send funds from.')}
-            isDisabled
+            isDisabled={!!address}
             label={t('send from account')}
+            onChange={this.onChangeFrom}
             type='account'
           />
           <div className='balance'><Available label={available} params={senderId} /></div>
@@ -189,7 +190,7 @@ class Transfer extends React.PureComponent<Props> {
             withMax
           />
           <Checks
-            accountId={address}
+            accountId={senderId}
             extrinsic={extrinsic}
             isSendable
             onChange={this.onChangeFees}
@@ -203,6 +204,10 @@ class Transfer extends React.PureComponent<Props> {
     this.nextState({ amount });
   }
 
+  private onChangeFrom = (senderId: string) => {
+    this.nextState({ senderId });
+  }
+
   private onChangeTo = (recipientId: string) => {
     this.nextState({ recipientId });
   }
@@ -212,10 +217,10 @@ class Transfer extends React.PureComponent<Props> {
   }
 
   private setMaxBalance = async () => {
-    const { address, api, balances_fees = ZERO_FEES } = this.props;
-    const { recipientId } = this.state;
+    const { api, balances_fees = ZERO_FEES } = this.props;
+    const { senderId, recipientId } = this.state;
 
-    if (!address || !recipientId) {
+    if (!senderId || !recipientId) {
       return;
     }
 
@@ -224,8 +229,8 @@ class Transfer extends React.PureComponent<Props> {
     // FIXME The any casts here are irritating, but they are basically caused by the derive
     // not really returning an actual `class implements Codec`
     // (if casting to DerivedBalance it would be `as any as DerivedBalance`)
-    const accountNonce = await api.query.system.accountNonce(address) as Index;
-    const senderBalance = (await api.derive.balances.all(address) as any).availableBalance;
+    const accountNonce = await api.query.system.accountNonce(senderId) as Index;
+    const senderBalance = (await api.derive.balances.all(senderId) as any).availableBalance;
     const recipientBalance = (await api.derive.balances.all(recipientId) as any).availableBalance;
 
     let prevMax = new BN(0);

@@ -14,6 +14,8 @@ import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { withApi,withCalls, withMulti, withObservable } from '@polkadot/ui-api';
 import { isFunction } from '@polkadot/util';
 
+import translate from '../translate';
+
 type Props = I18nProps & ApiProps & {
   isCollapsed: boolean,
   onClick: () => void,
@@ -24,32 +26,54 @@ type Props = I18nProps & ApiProps & {
 
 class Item extends React.PureComponent<Props> {
   render () {
-    const { route: { i18n, icon, name }, t, isCollapsed } = this.props;
+    const { route: { Modal, i18n, icon, name }, t, isCollapsed, onClick } = this.props;
 
     if (!this.isVisible()) {
       return null;
     }
 
+    const body = (
+      <>
+        <Icon name={icon} />
+        <span className='text'>{t(`sidebar.${name}`, i18n)}</span>
+        <Tooltip
+          offset={{ right: -4 }}
+          place='right'
+          text={t(`sidebar.${name}`, i18n)}
+          trigger={`nav-${name}`}
+        />
+      </>
+    );
+
     return (
       <Menu.Item className='apps--SideBar-Item'>
-        <NavLink
-          activeClassName='apps--SideBar-Item-NavLink-active'
-          className='apps--SideBar-Item-NavLink'
-          data-for={`nav-${name}`}
-          data-tip
-          data-tip-disable={!isCollapsed}
-          onClick={this.props.onClick}
-          to={`/${name}`}
-        >
-          <Icon name={icon} />
-          <span className='text'>{t(`sidebar.${name}`, i18n)}</span>
-          <Tooltip
-            offset={{ right: -4 }}
-            place='right'
-            text={t(`sidebar.${name}`, i18n)}
-            trigger={`nav-${name}`}
-          />
-        </NavLink>
+        {
+          Modal
+            ? (
+              <a
+                className='apps--SideBar-Item-NavLink'
+                data-for={`nav-${name}`}
+                data-tip
+                data-tip-disable={!isCollapsed}
+                onClick={onClick}
+              >
+                {body}
+              </a>
+            )
+            : (
+            <NavLink
+              activeClassName='apps--SideBar-Item-NavLink-active'
+              className='apps--SideBar-Item-NavLink'
+              data-for={`nav-${name}`}
+              data-tip
+              data-tip-disable={!isCollapsed}
+              onClick={onClick}
+              to={`/${name}`}
+            >
+              {body}
+            </NavLink>
+          )
+        }
       </Menu.Item>
     );
   }
@@ -103,6 +127,7 @@ class Item extends React.PureComponent<Props> {
 
 export default withMulti(
   Item,
+  translate,
   withApi,
   withCalls<Props>(
     ['query.sudo.key', { transform: key => key.toString() }]

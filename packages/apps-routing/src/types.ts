@@ -9,8 +9,10 @@ export type RouteProps = AppProps & BareProps;
 
 export type Route = {
   Component: React.ComponentType<RouteProps>,
+  Modal?: React.ComponentType<any>,
   display: {
     isHidden?: boolean,
+    isModal?: boolean,
     needsAccounts?: boolean,
     needsApi?: Array<string | Array<string>>,
     needsSudo?: boolean
