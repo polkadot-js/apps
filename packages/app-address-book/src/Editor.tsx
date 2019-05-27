@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { AddressSummary, Button, Input, InputAddress, InputTags, TxComponent } from '@polkadot/ui-app';
+import { AddressRow, Button, Input, InputAddress, InputTags, TxComponent } from '@polkadot/ui-app';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import keyring from '@polkadot/ui-keyring';
 
@@ -92,7 +92,7 @@ class Editor extends TxComponent<Props, State> {
 
     return (
       <div className='ui--grid'>
-        <AddressSummary
+        <AddressRow
           className='shrink'
           value={address || ''}
           withBonded

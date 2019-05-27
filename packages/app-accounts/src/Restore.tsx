@@ -8,7 +8,7 @@ import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { AddressSummary, Button, InputFile, Password, TxComponent } from '@polkadot/ui-app';
+import { AddressRow, Button, InputFile, Password, TxComponent } from '@polkadot/ui-app';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import { isHex, isObject, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
@@ -41,7 +41,7 @@ class Restore extends TxComponent<Props, State> {
     return (
       <div className='accounts--Restore'>
         <div className='ui--grid'>
-          <AddressSummary
+          <AddressRow
             className='shrink'
             value={
               isFileValid && address

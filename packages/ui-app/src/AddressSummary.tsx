@@ -64,6 +64,10 @@ class AddressSummary extends React.PureComponent<Props, State> {
     this.state = this.createState();
   }
 
+  static defaultProps = {
+    defaultName: '<unknown>'
+  };
+
   static getDerivedStateFromProps ({ accounts_idAndIndex = [], defaultName, value }: Props): State | null {
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
@@ -224,7 +228,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderBalance () {
-    const { accounts_idAndIndex = [], balance, t, value, withBalance = true } = this.props;
+    const { accounts_idAndIndex = [], balance, t, value, withBalance } = this.props;
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
 
@@ -315,7 +319,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderNonce () {
-    const { accounts_idAndIndex = [], t, value, withNonce = true } = this.props;
+    const { accounts_idAndIndex = [], t, value, withNonce } = this.props;
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
 
