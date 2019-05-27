@@ -111,7 +111,7 @@ export class UnlockingDisplay extends React.PureComponent<Props, State> {
 
     return result && result.length
       ? result
-      : null;
+      : <>{label}0</>;
   }
 
   private renderUnlockableSum () {

@@ -137,6 +137,10 @@ button.ui.icon.iconButton {
   right: -2.3em  !important;
 }
 
+.ui--Unlocking i.info.circle.icon {
+  margin-left: .3em;
+}
+
 .editable {
   cursor: pointer;
 }
