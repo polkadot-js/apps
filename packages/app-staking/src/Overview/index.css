@@ -44,9 +44,9 @@
   opacity: 1 !important;
 }
 
-.validator--Account-details,.column{
+.validator--Account-details,
+.column{
   flex: 1;
-  border: 1px, solid blue;
 }
 
 .validator--Account-balance,
