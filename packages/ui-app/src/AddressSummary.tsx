@@ -80,12 +80,22 @@ class AddressSummary extends React.PureComponent<Props, State> {
       : DEFAULT_ADDR;
     const name = getAddrName(address, false, defaultName) || '';
     const tags = getAddrTags(address);
+    const state = { tags } as State;
+    let hasChanged = false;
 
-    if (address === prevState.address) {
-      return null;
+    if (address !== prevState.address) {
+      state.address = address;
+      hasChanged = true;
     }
 
-    return { address, name, tags } as State;
+    if (name !== prevState.name) {
+      state.name = name;
+      hasChanged = true;
+    }
+
+    return hasChanged
+      ? state
+      : null;
   }
 
   render () {
