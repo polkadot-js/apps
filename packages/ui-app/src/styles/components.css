@@ -112,25 +112,22 @@ button.ui.icon.withDrawUnbonded {
   margin-left: .3em
 }
 
-.overview--Account:hover  button.ui.icon.editButton,
-.overview--Account:hover  button.ui.icon.editButton {
+article:hover  button.ui.icon.iconButton {
   visibility: visible;
 }
 
-.overview--Account button.ui.icon.editButton,
-.overview--Account button.ui.icon.editButton {
+article button.ui.icon.iconButton {
   visibility: hidden;
 }
 
-.ui--AddressSummary-name.editable > button.ui.icon.editButton,
-.ui--AddressSummary-tags.editable > button.ui.icon.editButton {
-  padding: 0em .3em .3em .3em;
-  color: #2e86ab;
-  background: none;
+button.ui.icon.iconButton {
+  padding: 0em .3em .3em .3em !important;
+  color: #2e86ab  !important;
+  background: none  !important;
   /*trick to let the button in the flow but keep the content centered regardless*/
-  margin-left: -2em;
-  position: relative;
-  right: -2.3em;
+  margin-left: -2em  !important;
+  position: relative  !important;
+  right: -2.3em  !important;
 }
 
 .ui--AddressSummary-tags.editable {
@@ -342,15 +339,6 @@ button.ui.icon.withDrawUnbonded {
       padding: 0 0 0 0.25rem;
     }
   }
-}
-
-.ui--CopyButton {
-  cursor: copy !important;
-  margin-left: 0.25rem !important;
-  margin-right: 0.25rem !important;
-  position: relative;
-  margin-left: -3em!important;
-  right: -3.3em;
 }
 
 .ui--DropdownLinked.ui--row {
