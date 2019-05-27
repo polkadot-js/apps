@@ -100,7 +100,7 @@ export default translate(styled(AddressInfo)`
   display: flex;
   flex: 1;
   justify-content: center;
-  padding-top: 0.75rem;
+  padding-top: 1rem;
 
   .column {
     flex: 1;
@@ -109,7 +109,12 @@ export default translate(styled(AddressInfo)`
 
     label {
       grid-column:  1;
+      padding-right: 0.5rem;
       text-align: right;
+
+      .help.circle.icon {
+        display: none;
+      }
     }
 
     .result {
