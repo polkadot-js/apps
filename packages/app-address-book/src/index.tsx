@@ -25,7 +25,8 @@ type Props = AppProps & I18nProps & {
 
 type State = {
   hidden: Array<string>,
-  items: Array<TabItem>
+  items: Array<TabItem>,
+  isCreateOpen: boolean
 };
 
 class AddressBookApp extends React.PureComponent<Props, State> {
@@ -41,6 +42,7 @@ class AddressBookApp extends React.PureComponent<Props, State> {
 
     this.state = {
       ...baseState,
+      isCreateOpen: false,
       items: [
         {
           name: 'overview',
@@ -109,6 +111,12 @@ class AddressBookApp extends React.PureComponent<Props, State> {
         />
       );
     };
+  }
+
+  private toggleCreate = (): void => {
+    this.setState(({ isCreateOpen }) => ({
+      isCreateOpen: !isCreateOpen
+    }));
   }
 }
 

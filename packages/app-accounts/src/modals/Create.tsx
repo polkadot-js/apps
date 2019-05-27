@@ -6,28 +6,24 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
-import { ComponentProps } from './types';
+import { ModalProps } from '../types';
 
 import FileSaver from 'file-saver';
 import React from 'react';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { withApi, withMulti } from '@polkadot/ui-api';
-import { AddressRow, Button, Dropdown, Input, InputTags, Labelled, Modal, Password, TxComponent } from '@polkadot/ui-app';
+import { AddressRow, Button, Dropdown, Input, InputTags, Labelled, Modal, Password } from '@polkadot/ui-app';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
 import { keyExtractPath, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 
-import translate from './translate';
+import translate from '../translate';
 
-type Props = ComponentProps & ApiProps & I18nProps & {
-  match: {
-    params: {
-      seed?: string,
-      type?: KeypairType
-    }
-  }
+type Props = ModalProps & ApiProps & I18nProps & {
+  seed?: string,
+  type?: KeypairType
 };
 
 type SeedType = 'bip' | 'raw' | 'dev';
@@ -90,13 +86,13 @@ function addressFromSeed (phrase: string, derivePath: string, pairType: KeypairT
     .address();
 }
 
-class Creator extends TxComponent<Props, State> {
+class Create extends React.PureComponent<Props, State> {
   state: State = { seedType: 'bip' } as State;
 
   constructor (props: Props) {
     super(props);
 
-    const { isDevelopment, match: { params: { seed, type } }, t } = this.props;
+    const { isDevelopment, seed, t, type } = this.props;
     const seedOptions: Array<SeedOption> = [
       { value: 'bip', text: t('Mnemonic') },
       { value: 'raw', text: t('Raw seed') }
@@ -113,24 +109,18 @@ class Creator extends TxComponent<Props, State> {
   }
 
   render () {
-    const { address, name, isSeedValid } = this.state;
+    const { t } = this.props;
 
     return (
-      <div className='accounts--Creator'>
+      <Modal
+        dimmer='inverted'
+        open
+      >
+        <Modal.Header>{t('Add an account via seed')}</Modal.Header>
         {this.renderModal()}
-        <div className='ui--grid'>
-          {this.renderInput()}
-          <AddressRow
-            className='shrink'
-            defaultName={name}
-            value={
-              isSeedValid
-                ? address
-                : ''
-            }
-          />
-        </div>
-      </div>
+        {this.renderInput()}
+        {this.renderButtons()}
+      </Modal>
     );
   }
 
@@ -139,26 +129,27 @@ class Creator extends TxComponent<Props, State> {
     const { isValid } = this.state;
 
     return (
-      <Button.Group>
-        <Button
-          label={t('Reset')}
-          onClick={this.onDiscard}
-        />
-        <Button.Or />
-        <Button
-          isDisabled={!isValid}
-          isPrimary
-          label={t('Save')}
-          onClick={this.onShowWarning}
-          ref={this.button}
-        />
-      </Button.Group>
+      <Modal.Actions>
+        <Button.Group>
+          <Button
+            label={t('Cancel')}
+            onClick={this.onDiscard}
+          />
+          <Button.Or />
+          <Button
+            isDisabled={!isValid}
+            isPrimary
+            label={t('Save')}
+            onClick={this.onShowWarning}
+          />
+        </Button.Group>
+      </Modal.Actions>
     );
   }
 
   private renderInput () {
     const { t } = this.props;
-    const { deriveError, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType, tags } = this.state;
+    const { address, deriveError, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType, tags } = this.state;
     const seedLabel = (() => {
       switch (seedType) {
         case 'bip':
@@ -171,8 +162,11 @@ class Creator extends TxComponent<Props, State> {
     })();
 
     return (
-      <div className='grow'>
-        <div className='ui--row'>
+      <Modal.Content>
+        <AddressRow
+            defaultName={name}
+            value={isSeedValid ? address : ''}
+        >
           <Input
             autoFocus
             className='full'
@@ -180,11 +174,9 @@ class Creator extends TxComponent<Props, State> {
             isError={!isNameValid}
             label={t('name')}
             onChange={this.onChangeName}
-            onEnter={this.submit}
+            onEnter={this.onCommit}
             value={name}
           />
-        </div>
-        <div className='ui--row'>
           <Input
             className='full'
             help={t('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
@@ -192,7 +184,7 @@ class Creator extends TxComponent<Props, State> {
             isError={!isSeedValid}
             label={seedLabel}
             onChange={this.onChangeSeed}
-            onEnter={this.submit}
+            onEnter={this.onCommit}
             value={seed}
           >
             <Dropdown
@@ -202,61 +194,56 @@ class Creator extends TxComponent<Props, State> {
               options={seedOptions}
             />
           </Input>
-        </div>
-        <div className='ui--row'>
           <Password
             className='full'
             help={t('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
             isError={!isPassValid}
             label={t('password')}
             onChange={this.onChangePass}
-            onEnter={this.submit}
+            onEnter={this.onCommit}
             value={password}
           />
-        </div>
-        <div className='ui--row'>
           <InputTags
             help={t('Additional user-specified tags that can be used to identify the account. Tags can be used for categorization and filtering.')}
             label={t('user-defined tags')}
             onChange={this.onChangeTags}
             value={tags}
           />
-        </div>
-        <details
-          className='accounts--Creator-advanced'
-          open
-        >
-          <summary>{t('Advanced creation options')}</summary>
-          <div className='ui--Params'>
-            <div className='ui--row'>
-              <Dropdown
-                defaultValue={pairType}
-                help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
-                label={t('keypair crypto type')}
-                onChange={this.onChangePairType}
-                options={uiSettings.availableCryptos}
-              />
+          <details
+            className='accounts--Creator-advanced'
+            open
+          >
+            <summary>{t('Advanced creation options')}</summary>
+            <div className='ui--Params'>
+              <div className='ui--row'>
+                <Dropdown
+                  defaultValue={pairType}
+                  help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+                  label={t('keypair crypto type')}
+                  onChange={this.onChangePairType}
+                  options={uiSettings.availableCryptos}
+                />
+              </div>
+              <div className='ui--row'>
+                <Input
+                  className='full'
+                  help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`.')}
+                  isError={!!deriveError}
+                  label={t('secret derivation path')}
+                  onChange={this.onChangeDerive}
+                  onEnter={this.onCommit}
+                  value={derivePath}
+                />
+              </div>
+              {
+                deriveError
+                  ? <Labelled label=''><article className='error'>{deriveError}</article></Labelled>
+                  : null
+              }
             </div>
-            <div className='ui--row'>
-              <Input
-                className='full'
-                help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`.')}
-                isError={!!deriveError}
-                label={t('secret derivation path')}
-                onChange={this.onChangeDerive}
-                onEnter={this.submit}
-                value={derivePath}
-              />
-            </div>
-            {
-              deriveError
-                ? <Labelled label=''><article className='error'>{deriveError}</article></Labelled>
-                : null
-            }
-          </div>
-        </details>
-        {this.renderButtons()}
-      </div>
+          </details>
+        </AddressRow>
+      </Modal.Content>
     );
   }
 
@@ -266,7 +253,6 @@ class Creator extends TxComponent<Props, State> {
 
     return (
       <Modal
-        className='app--accounts-Modal'
         dimmer='inverted'
         open={showWarning}
       >
@@ -417,12 +403,13 @@ class Creator extends TxComponent<Props, State> {
   }
 
   private onCommit = (): void => {
-    const { basePath, onStatusChange, t } = this.props;
-    const { derivePath, name, pairType, password, seed, tags } = this.state;
+    const { onClose, onStatusChange, t } = this.props;
+    const { derivePath, isValid, name, pairType, password, seed, tags } = this.state;
+    const status = { action: 'create' } as ActionStatus;
 
-    const status = {
-      action: 'create'
-    } as ActionStatus;
+    if (!isValid) {
+      return;
+    }
 
     try {
       const { json, pair } = keyring.addUri(`${seed}${derivePath}`, password, { name, tags }, pairType);
@@ -443,14 +430,13 @@ class Creator extends TxComponent<Props, State> {
     this.onHideWarning();
 
     onStatusChange(status);
-
-    window.location.hash = basePath;
+    onClose();
   }
 
   private onDiscard = (): void => {
-    this.setState(({ pairType }) =>
-      this.emptyState(null, '', pairType)
-    );
+    const { onClose } = this.props;
+
+    onClose();
   }
 
   private selectSeedType = (seedType: SeedType): void => {
@@ -466,7 +452,7 @@ class Creator extends TxComponent<Props, State> {
 }
 
 export default withMulti(
-  Creator,
+  Create,
   translate,
   withApi
 );
