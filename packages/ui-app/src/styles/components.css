@@ -437,12 +437,12 @@ button.ui.icon.iconButton {
 
 .ui--RecentlyOffline {
   position: absolute;
-  top: 0.75rem;
+  top: -0.5rem;
   font-size: 12px;
   cursor: help;
   display: flex;
   justify-content: center;
-  left: 0.75rem;
+  left: -0.5rem;
   width: 22px;
   height: 22px;
   padding: 0;
