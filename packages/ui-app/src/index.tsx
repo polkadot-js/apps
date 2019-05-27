@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+export { default as AddressInfo } from './AddressInfo';
 export { default as AddressMini } from './AddressMini';
 export { default as AddressRow } from './AddressRow';
 export { default as AddressSummary } from './AddressSummary';
@@ -34,6 +35,8 @@ export { default as InputNumber } from './InputNumber';
 export { default as InputRpc } from './InputRpc';
 export { default as InputStorage } from './InputStorage';
 export { default as InputTags } from './InputTags';
+export { default as Label } from './Label';
+export { default as LabelHelp } from './LabelHelp';
 export { default as Labelled } from './Labelled';
 export { default as Menu } from './Menu';
 export { default as Modal } from './Modal';

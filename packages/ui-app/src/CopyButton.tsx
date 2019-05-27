@@ -81,5 +81,8 @@ class CopyButton extends React.PureComponent<Props> {
 
 export default styled(CopyButton)`
   cursor: copy;
-  margin: 0.25rem;
+
+  button.ui.mini.icon.primary.button.iconButton {
+    cursor: copy;
+  }
 `;

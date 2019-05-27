@@ -82,7 +82,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
         options={options}
         placeholder={placeholder}
         renderLabel={renderLabel}
-        search={!!onSearch || allowAdd}
+        search={onSearch || allowAdd}
         searchInput={searchInput}
         selection
         value={

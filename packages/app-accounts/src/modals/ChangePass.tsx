@@ -32,12 +32,15 @@ class ChangePass extends TxComponent<Props, State> {
   };
 
   render () {
+    const { t } = this.props;
+
     return (
       <Modal
         className='app--accounts-Modal'
         dimmer='inverted'
         open
       >
+        <Modal.Header>{t('Change account password')}</Modal.Header>
         {this.renderContent()}
         {this.renderButtons()}
       </Modal>
@@ -74,39 +77,34 @@ class ChangePass extends TxComponent<Props, State> {
     const { isNewValid, isOldValid, newPass, oldPass } = this.state;
 
     return (
-      <>
-        <Modal.Header>
-          {t('Change account password')}
-        </Modal.Header>
-        <Modal.Content>
-          <AddressRow
-            isInline
-            value={address}
-          >
-            <p>{t('This will apply to any future use of this account as stored on this browser. Ensure that you securely store this new password and that it is strong and unique to the account.')}</p>
-            <div>
-              <Password
-                autoFocus
-                help={t('The existing account password as specified when this account was created or when it was last changed.')}
-                isError={!isOldValid}
-                label={t('your current password')}
-                onChange={this.onChangeOld}
-                tabIndex={1}
-                value={oldPass}
-              />
-              <Password
-                help={t('The new account password. Once set, all future account unlocks will be performed with this new password.')}
-                isError={!isNewValid}
-                label={t('your new password')}
-                onChange={this.onChangeNew}
-                onEnter={this.submit}
-                tabIndex={2}
-                value={newPass}
-              />
-            </div>
-          </AddressRow>
-        </Modal.Content>
-      </>
+      <Modal.Content>
+        <AddressRow
+          isInline
+          value={address}
+        >
+          <p>{t('This will apply to any future use of this account as stored on this browser. Ensure that you securely store this new password and that it is strong and unique to the account.')}</p>
+          <div>
+            <Password
+              autoFocus
+              help={t('The existing account password as specified when this account was created or when it was last changed.')}
+              isError={!isOldValid}
+              label={t('your current password')}
+              onChange={this.onChangeOld}
+              tabIndex={1}
+              value={oldPass}
+            />
+            <Password
+              help={t('The new account password. Once set, all future account unlocks will be performed with this new password.')}
+              isError={!isNewValid}
+              label={t('your new password')}
+              onChange={this.onChangeNew}
+              onEnter={this.submit}
+              tabIndex={2}
+              value={newPass}
+            />
+          </div>
+        </AddressRow>
+      </Modal.Content>
     );
   }
 

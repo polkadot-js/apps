@@ -12,7 +12,7 @@ import Elapsed from './Elapsed';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
-  label?: string,
+  label?: React.ReactNode,
   timestamp_now?: Moment
 };
 

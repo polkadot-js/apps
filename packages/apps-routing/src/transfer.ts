@@ -10,6 +10,7 @@ export default ([
   {
     Component: Transfer,
     display: {
+      isHidden: false,
       needsAccounts: true,
       needsApi: [
         'tx.balances.transfer'

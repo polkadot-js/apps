@@ -93,13 +93,13 @@ class Address extends React.PureComponent<Props, State> {
       <article key={stashId || controllerId}>
         <AddressRow
           bonded={bonded}
+          buttons={this.renderKeys()}
           defaultName={defaultName}
           value={stashId}
           withBalance={false}
           withBonded
           withNonce={false}
         >
-          {this.renderKeys()}
           {this.renderNominators()}
           {this.renderOffline()}
         </AddressRow>

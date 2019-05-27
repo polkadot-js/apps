@@ -26,12 +26,12 @@ const routes: Routes = appSettings.uiMode === 'light'
   ? ([] as Routes).concat(
     dashboard,
     explorer,
-    transfer,
     staking,
     democracy,
     null,
     accounts,
     addressbook,
+    transfer,
     null,
     settings,
     template
@@ -39,12 +39,12 @@ const routes: Routes = appSettings.uiMode === 'light'
   : ([] as Routes).concat(
     dashboard,
     explorer,
-    transfer,
     staking,
     democracy,
     null,
     accounts,
     addressbook,
+    transfer,
     null,
     contracts,
     storage,

@@ -7,10 +7,9 @@ import { BareProps } from './types';
 import React from 'react';
 import styled from 'styled-components';
 
-import Icon from './Icon';
+import LabelHelp from './LabelHelp';
 import media from './media';
 import { classes } from './util';
-import Tooltip from './Tooltip';
 
 type Props = BareProps & {
   help?: React.ReactNode,
@@ -20,10 +19,6 @@ type Props = BareProps & {
   children: React.ReactNode,
   withLabel?: boolean,
   withEllipsis?: boolean
-};
-
-type State = {
-  tooltipOpen: boolean
 };
 
 const defaultLabel: any = (// node?
@@ -44,12 +39,6 @@ const Wrapper = styled.div`
     padding-right: 0.5rem;
     position: relative;
     text-align: left;
-
-    i.icon.help {
-      margin: 0 0 0 0.25rem;
-      line-height: 1rem;
-      cursor: help;
-    }
   }
 
   &.label-small {
@@ -87,16 +76,9 @@ const Wrapper = styled.div`
   `}
 `;
 
-export default class Labelled extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-    this.state = {
-      tooltipOpen: false
-    };
-  }
-
+export default class Labelled extends React.PureComponent<Props> {
   render () {
-    const { className, children, isSmall, isHidden, style, withLabel = true } = this.props;
+    const { className, children, help, isSmall, isHidden, label = defaultLabel, style, withEllipsis, withLabel = true } = this.props;
 
     if (isHidden) {
       return null;
@@ -111,44 +93,17 @@ export default class Labelled extends React.PureComponent<Props, State> {
         className={classes('ui--Labelled', isSmall ? 'label-small' : '', className)}
         style={style}
       >
-        {this.renderLabel()}
+        <label>
+          {
+            withEllipsis
+              ? <div className='withEllipsis'>{label}</div>
+              : label
+          }{help && <LabelHelp help={help} />}
+        </label>
         <div className='ui--Labelled-content'>
           {children}
         </div>
       </Wrapper>
     );
-  }
-
-  private renderLabel () {
-    const { help, label = defaultLabel, withEllipsis } = this.props;
-    const { tooltipOpen } = this.state;
-    const displayLabel = withEllipsis
-      ? <div className='withEllipsis'>{label}</div>
-      : label;
-
-    return help
-      ? <label className='with-help' >
-          {displayLabel}
-          <Icon
-            name='help circle'
-            data-tip
-            data-for='controlled-trigger'
-            onMouseOver={this.toggleTooltip}
-            onMouseOut={this.toggleTooltip}
-          />
-          {tooltipOpen && (
-            <Tooltip
-              text={help}
-              trigger='controlled-trigger'
-            />
-          )}
-        </label>
-      : <label>{displayLabel}</label>;
-  }
-
-  private toggleTooltip = () => {
-    this.setState(({ tooltipOpen }) => ({
-      tooltipOpen: !tooltipOpen
-    }));
   }
 }

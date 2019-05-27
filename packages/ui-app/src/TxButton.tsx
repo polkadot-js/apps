@@ -31,6 +31,7 @@ type Props = ApiProps & {
   extrinsic?: IExtrinsic | SubmittableExtrinsic,
   icon?: string,
   iconSize?: Button$Sizes,
+  isBasic?: boolean,
   isDisabled?: boolean,
   isNegative?: boolean,
   isPrimary?: boolean,
@@ -59,7 +60,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
   } as State;
 
   render () {
-    const { accountId, className, icon, iconSize , isDisabled, isNegative, isPrimary, isUnsigned, label } = this.props;
+    const { accountId, className, icon, iconSize , isBasic, isDisabled, isNegative, isPrimary, isUnsigned, label } = this.props;
     const { isSending } = this.state;
     const needsAccount = isUnsigned
       ? false
@@ -69,10 +70,11 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
       <Button
         className={className}
         icon={icon}
+        isBasic={isBasic}
         isDisabled={isSending || isDisabled || needsAccount}
         isLoading={isSending}
         isNegative={isNegative}
-        isPrimary={isUndefined(isPrimary) ? !isNegative : isPrimary}
+        isPrimary={isUndefined(isPrimary) ? (!isNegative && !isBasic) : isPrimary}
         label={label}
         onClick={this.send}
         size={iconSize}

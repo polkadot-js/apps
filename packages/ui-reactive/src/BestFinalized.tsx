@@ -11,7 +11,7 @@ import { formatNumber } from '@polkadot/util';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode,
-  label?: string,
+  label?: React.ReactNode,
   chain_bestNumberFinalized?: BlockNumber
 };
 
