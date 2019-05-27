@@ -11,7 +11,7 @@ import './index.css';
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import addressObservable from '@polkadot/ui-keyring/observable/addresses';
-import { HelpOverlay, Button } from '@polkadot/ui-app';
+import { HelpOverlay } from '@polkadot/ui-app';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 
@@ -109,7 +109,12 @@ class AddressBookApp extends React.PureComponent<Props, State> {
             }
           />
         </Switch>
-        {isCreateOpen && <CreateModal onStatusChange={onStatusChange} onClose={this.toggleCreate} />}
+        {isCreateOpen && (
+          <CreateModal
+            onClose={this.toggleCreate}
+            onStatusChange={onStatusChange}
+          />
+        )}
       </main>
     );
   }
