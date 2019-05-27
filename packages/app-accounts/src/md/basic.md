@@ -4,7 +4,7 @@ An account is identified by its public address on the network. The network will 
 
 # Balances
 
-The balances for each account is broken down tinto a number of areas, giving an overview of the totals, transferreable funds and the funds locked and availabel for unlocking. These are -
+The balances for each account is broken down into a number of areas, giving an overview of the totals, transferable funds and the funds locked and available for unlocking. These are -
 
 - **total**: The overall amount of funds in the account, this includes the vested balance, available for transfer and locked.
 - **available**: The funds that can be transfered or bonded, i.e. the funds that are available for any transaction.
