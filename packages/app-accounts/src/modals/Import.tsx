@@ -5,17 +5,17 @@
 import { KeyringPair$Json } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
-import { ComponentProps } from './types';
+import { ModalProps } from '../types';
 
 import React from 'react';
-import { AddressRow, Button, InputFile, Password, TxComponent } from '@polkadot/ui-app';
+import { AddressRow, Button, InputFile, Modal, Password, TxComponent } from '@polkadot/ui-app';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import { isHex, isObject, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
 
-import translate from './translate';
+import translate from '../translate';
 
-type Props = ComponentProps & I18nProps;
+type Props = ModalProps & I18nProps;
 
 type State = {
   address: string | null,
@@ -25,7 +25,7 @@ type State = {
   password: string
 };
 
-class Restore extends TxComponent<Props, State> {
+class Import extends TxComponent<Props, State> {
   state: State = {
     address: null,
     isFileValid: false,
@@ -35,33 +35,47 @@ class Restore extends TxComponent<Props, State> {
   };
 
   render () {
-    const { address, isFileValid } = this.state;
+    const { onClose, t } = this.props;
+    const { isFileValid, isPassValid } = this.state;
 
     return (
-      <div className='accounts--Restore'>
-        <div className='ui--grid'>
-          {this.renderInput()}
-          <AddressRow
-            className='shrink'
-            value={
-              isFileValid && address
-                ? address
-                : null
-              }
-          />
-        </div>
-      </div>
+      <Modal
+        dimmer='inverted'
+        open
+      >
+        <Modal.Header>{t('Add an account via seed')}</Modal.Header>
+        {this.renderInput()}
+        <Modal.Actions>
+          <Button.Group>
+            <Button
+              label={t('Cancel')}
+              onClick={onClose}
+            />
+            <Button.Or />
+            <Button
+              isDisabled={!isFileValid || !isPassValid}
+              isPrimary
+              onClick={this.onSave}
+              label={t('Restore')}
+              ref={this.button}
+            />
+          </Button.Group>
+        </Modal.Actions>
+      </Modal>
     );
   }
 
   private renderInput () {
     const { t } = this.props;
-    const { isFileValid, isPassValid, password } = this.state;
+    const { address, isFileValid, isPassValid, json, password } = this.state;
     const acceptedFormats = ['application/json', 'text/plain'].join(', ');
 
     return (
-      <div className='grow'>
-        <div className='ui--row'>
+      <Modal.Content>
+        <AddressRow
+          defaultName={isFileValid && json ? json.meta.name : null}
+          value={isFileValid && address ? address : null}
+        >
           <InputFile
             accept={acceptedFormats}
             className='full'
@@ -71,8 +85,6 @@ class Restore extends TxComponent<Props, State> {
             onChange={this.onChangeFile}
             withLabel
           />
-        </div>
-        <div className='ui--row'>
           <Password
             autoFocus
             className='full'
@@ -83,17 +95,8 @@ class Restore extends TxComponent<Props, State> {
             onEnter={this.submit}
             value={password}
           />
-        </div>
-        <Button.Group>
-          <Button
-            isDisabled={!isFileValid || !isPassValid}
-            isPrimary
-            onClick={this.onSave}
-            label={t('Restore')}
-            ref={this.button}
-          />
-      </Button.Group>
-      </div>
+        </AddressRow>
+      </Modal.Content>
     );
   }
 
@@ -131,16 +134,14 @@ class Restore extends TxComponent<Props, State> {
   }
 
   private onSave = (): void => {
-    const { basePath, onStatusChange, t } = this.props;
+    const { onClose, onStatusChange, t } = this.props;
     const { json, password } = this.state;
 
     if (!json) {
       return;
     }
 
-    const status = {
-      action: 'restore'
-    } as ActionStatus;
+    const status = { action: 'restore' } as ActionStatus;
 
     try {
       const pair = keyring.restoreAccount(json, password);
@@ -161,9 +162,9 @@ class Restore extends TxComponent<Props, State> {
     onStatusChange(status);
 
     if (status.status !== 'error') {
-      window.location.hash = basePath;
+      onClose();
     }
   }
 }
 
-export default translate(Restore);
+export default translate(Import);

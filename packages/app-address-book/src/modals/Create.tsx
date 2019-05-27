@@ -43,7 +43,7 @@ class Create extends React.PureComponent<Props, State> {
         dimmer='inverted'
         open
       >
-        <Modal.Header>{t('Add an account to the addressbook')}</Modal.Header>
+        <Modal.Header>{t('Add an address')}</Modal.Header>
         {this.renderContent()}
         {this.renderButtons()}
       </Modal>

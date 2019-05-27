@@ -16,9 +16,7 @@ import { withMulti, withObservable } from '@polkadot/ui-api';
 import './index.css';
 
 import basicMd from './md/basic.md';
-import Creator from './Creator';
 import Overview from './Overview';
-import Restore from './Restore';
 import translate from './translate';
 import Vanity from './Vanity';
 
@@ -50,15 +48,6 @@ class AccountsApp extends React.PureComponent<Props, State> {
           text: t('Overview')
         },
         {
-          hasParams: true,
-          name: 'create',
-          text: t('Create account')
-        },
-        {
-          name: 'restore',
-          text: t('Restore account')
-        },
-        {
           name: 'vanity',
           text: t('Vanity address')
         }
@@ -77,7 +66,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
     // Hide vanity as well - since the route order and matching changes, the
     // /create/:seed route become problematic, so don't allow that option
     return {
-      hidden: ['overview','vanity']
+      hidden: ['vanity']
     };
   }
 
@@ -98,7 +87,6 @@ class AccountsApp extends React.PureComponent<Props, State> {
   render () {
     const { basePath } = this.props;
     const { hidden, tabs } = this.state;
-    const renderCreator = this.renderComponent(Creator);
 
     return (
       <main className='accounts--App'>
@@ -111,17 +99,8 @@ class AccountsApp extends React.PureComponent<Props, State> {
           />
         </header>
         <Switch>
-          <Route path={`${basePath}/create/:type/:seed`} render={renderCreator} />
-          <Route path={`${basePath}/create`} render={renderCreator} />
-          <Route path={`${basePath}/restore`} render={this.renderComponent(Restore)} />
           <Route path={`${basePath}/vanity`} render={this.renderComponent(Vanity)} />
-          <Route
-            render={
-              hidden.includes('overview')
-                ? renderCreator
-                : this.renderComponent(Overview)
-            }
-          />
+          <Route render={this.renderComponent(Overview)} />
         </Switch>
       </main>
     );

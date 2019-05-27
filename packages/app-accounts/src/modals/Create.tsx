@@ -109,11 +109,14 @@ class Create extends React.PureComponent<Props, State> {
   }
 
   render () {
+    const { t } = this.props;
+
     return (
       <Modal
         dimmer='inverted'
         open
       >
+        <Modal.Header>{t('Add an account via seed')}</Modal.Header>
         {this.renderModal()}
         {this.renderInput()}
         {this.renderButtons()}
