@@ -13,7 +13,7 @@ type Props = BareProps & CallProps & {
   balances_all?: DerivedBalances,
   children?: React.ReactNode,
   label?: React.ReactNode,
-  params?: string,
+  params?: string
 };
 
 export class Nonce extends React.PureComponent<Props> {
