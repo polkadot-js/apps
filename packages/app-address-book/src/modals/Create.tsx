@@ -14,9 +14,7 @@ import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
 
-type Props = ModalProps & I18nProps & {
-  onClose: () => void
-};
+type Props = ModalProps & I18nProps;
 
 type State = {
   address: string,

@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import { Button, Dropdown, Input, TxComponent } from '@polkadot/ui-app';
 import uiSettings from '@polkadot/ui-settings';
 
+import CreateModal from '../modals/Create';
 import generator from '../vanitygen';
 import matchRegex from '../vanitygen/regex';
 import generatorSort from '../vanitygen/sort';
@@ -21,6 +22,7 @@ import translate from './translate';
 type Props = ComponentProps & I18nProps;
 
 type State = {
+  createSeed: string | null,
   elapsed: number,
   isMatchValid: boolean,
   isRunning: boolean,
@@ -54,6 +56,7 @@ const Wrapper = styled.div`
 class VanityApp extends TxComponent<Props, State> {
   results: Array<Generator$Result> = [];
   state: State = {
+    createSeed: null,
     elapsed: 0,
     isMatchValid: true,
     isRunning: false,
@@ -73,12 +76,23 @@ class VanityApp extends TxComponent<Props, State> {
   }
 
   render () {
+    const { onStatusChange } = this.props;
+    const { createSeed, type } = this.state;
+
     return (
       <Wrapper>
         {this.renderOptions()}
         {this.renderButtons()}
         {this.renderStats()}
         {this.renderMatches()}
+        {createSeed && (
+          <CreateModal
+            onClose={this.closeCreate}
+            onStatusChange={onStatusChange}
+            seed={createSeed}
+            type={type}
+          />
+        )}
       </Wrapper>
     );
   }
@@ -249,11 +263,8 @@ class VanityApp extends TxComponent<Props, State> {
     }, 0);
   }
 
-  private onCreateToggle = (seed: string) => {
-    const { basePath } = this.props;
-    const { type } = this.state;
-
-    window.location.hash = `${basePath}/create/${type}/${seed}`;
+  private onCreateToggle = (createSeed: string) => {
+    this.setState({ createSeed });
   }
 
   private onChangeCase = (withCase: boolean): void => {
@@ -298,6 +309,10 @@ class VanityApp extends TxComponent<Props, State> {
       },
       this.executeGeneration
     );
+  }
+
+  private closeCreate = () => {
+    this.setState({ createSeed: null });
   }
 }
 

@@ -10,10 +10,16 @@ import styled from 'styled-components';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 
+import CreateModal from './modals/Create';
 import Account from './Account';
 
 type Props = ComponentProps & {
   accounts?: SubjectInfo[]
+};
+
+type State = {
+  isCreateOpen: boolean,
+  isImportOpen: boolean
 };
 
 const Wrapper = styled.div`
@@ -29,13 +35,15 @@ const Wrapper = styled.div`
   }
 `;
 
-class Overview extends React.PureComponent<Props> {
-  constructor (props: Props) {
-    super(props);
-  }
+class Overview extends React.PureComponent<Props, State> {
+  state: State = {
+    isCreateOpen: false,
+    isImportOpen: false
+  };
 
   render () {
-    const { accounts } = this.props;
+    const { accounts, onStatusChange } = this.props;
+    const { isCreateOpen } = this.state;
 
     if (!accounts || Object.keys(accounts).length === 0) {
       return null;
@@ -43,19 +51,35 @@ class Overview extends React.PureComponent<Props> {
 
     return (
       <Wrapper>
+        {isCreateOpen && (
+          <CreateModal
+            onClose={this.toggleCreate}
+            onStatusChange={onStatusChange}
+          />
+        )}
         <div className='accounts'>
-          {Object.keys(accounts).map((address) => {
-            return (
-              <Account
-                address={address}
-                key={address}
-              />
-            );
-          })}
+          {Object.keys(accounts).map((address) => (
+            <Account
+              address={address}
+              key={address}
+            />
+          ))}
           <div className='spacer' />
         </div>
       </Wrapper>
     );
+  }
+
+  private toggleCreate = (): void => {
+    this.setState(({ isCreateOpen }) => ({
+      isCreateOpen: !isCreateOpen
+    }));
+  }
+
+  private toggleImport = (): void => {
+    this.setState(({ isImportOpen }) => ({
+      isImportOpen: !isImportOpen
+    }));
   }
 }
 
