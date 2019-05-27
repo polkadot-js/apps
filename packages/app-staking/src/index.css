@@ -115,7 +115,8 @@
   justify-content: space-between;
   padding: 0;
 
-  .ui--AddressSummary-base, .ui--AddressSummary-children {
+  .ui--AddressSummary-base,
+  .ui--AddressSummary-children {
     min-width: 0;
   }
 }
