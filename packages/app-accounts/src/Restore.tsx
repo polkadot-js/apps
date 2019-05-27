@@ -8,7 +8,7 @@ import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { AddressSummary, Button, InputFile, Password, TxComponent } from '@polkadot/ui-app';
+import { AddressRow, Button, InputFile, Password, TxComponent } from '@polkadot/ui-app';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import { isHex, isObject, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
@@ -35,13 +35,13 @@ class Restore extends TxComponent<Props, State> {
   };
 
   render () {
-    const { t } = this.props;
-    const { address, isFileValid, isPassValid } = this.state;
+    const { address, isFileValid } = this.state;
 
     return (
       <div className='accounts--Restore'>
         <div className='ui--grid'>
-          <AddressSummary
+          {this.renderInput()}
+          <AddressRow
             className='shrink'
             value={
               isFileValid && address
@@ -49,17 +49,7 @@ class Restore extends TxComponent<Props, State> {
                 : null
               }
           />
-          {this.renderInput()}
         </div>
-        <Button.Group>
-        <Button
-          isDisabled={!isFileValid || !isPassValid}
-          isPrimary
-          onClick={this.onSave}
-          label={t('Restore')}
-          ref={this.button}
-        />
-      </Button.Group>
       </div>
     );
   }
@@ -94,6 +84,15 @@ class Restore extends TxComponent<Props, State> {
             value={password}
           />
         </div>
+        <Button.Group>
+          <Button
+            isDisabled={!isFileValid || !isPassValid}
+            isPrimary
+            onClick={this.onSave}
+            label={t('Restore')}
+            ref={this.button}
+          />
+      </Button.Group>
       </div>
     );
   }

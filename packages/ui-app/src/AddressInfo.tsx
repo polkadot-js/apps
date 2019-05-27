@@ -82,7 +82,6 @@ export default translate(styled(AddressInfo)`
   display: flex;
   flex: 1;
   justify-content: center;
-  padding-top: 1rem;
 
   .column {
     flex: 1;

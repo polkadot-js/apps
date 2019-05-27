@@ -11,7 +11,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { Index } from '@polkadot/types';
-import { AddressSummary, Button, InputAddress, InputBalance, TxButton, TxComponent } from '@polkadot/ui-app';
+import { AddressRow, Button, InputAddress, InputBalance, TxButton, TxComponent } from '@polkadot/ui-app';
 import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
 import Checks, { calcSignatureLength } from '@polkadot/ui-signer/Checks';
@@ -38,6 +38,7 @@ const ZERO = new BN(0);
 const Wrapper = styled.div`
   .transfer--Transfer-address {
     flex: 0 1;
+    padding: 1.5rem 0;
 
     .ui--AddressSummary {
       text-align: center;
@@ -47,6 +48,7 @@ const Wrapper = styled.div`
   .transfer--Transfer-data {
     flex: 1 1;
     min-width: 0;
+    padding: 0 1rem;
   }
 
   .transfer--Transfer-info {
@@ -147,8 +149,9 @@ class Transfer extends TxComponent<Props, State> {
 
     return (
       <div className={`transfer--Transfer-address ui--media-${media}`}>
-        <AddressSummary
+        <AddressRow
           value={accountId}
+          withAvailable
         />
       </div>
     );
