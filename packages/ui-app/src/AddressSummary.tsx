@@ -32,7 +32,6 @@ export type Props = I18nProps & {
   defaultName?: string,
   extraInfo?: React.ReactNode,
   identIconSize?: number,
-  isChildrenAbs?: boolean,
   isEditable?: boolean,
   isInline?: boolean,
   isShort?: boolean,
@@ -287,14 +286,14 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderChildren () {
-    const { children, isChildrenAbs } = this.props;
+    const { children } = this.props;
 
     if (!children || (Array.isArray(children) && children.length === 0)) {
       return null;
     }
 
     return (
-      <div className={`ui--AddressSummary-children ${isChildrenAbs ? 'abs' : ''}`}>
+      <div className='ui--AddressSummary-children'>
         {children}
       </div>
     );

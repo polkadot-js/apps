@@ -35,12 +35,12 @@ class Restore extends TxComponent<Props, State> {
   };
 
   render () {
-    const { t } = this.props;
-    const { address, isFileValid, isPassValid } = this.state;
+    const { address, isFileValid } = this.state;
 
     return (
       <div className='accounts--Restore'>
         <div className='ui--grid'>
+          {this.renderInput()}
           <AddressRow
             className='shrink'
             value={
@@ -49,17 +49,7 @@ class Restore extends TxComponent<Props, State> {
                 : null
               }
           />
-          {this.renderInput()}
         </div>
-        <Button.Group>
-        <Button
-          isDisabled={!isFileValid || !isPassValid}
-          isPrimary
-          onClick={this.onSave}
-          label={t('Restore')}
-          ref={this.button}
-        />
-      </Button.Group>
       </div>
     );
   }
@@ -94,6 +84,15 @@ class Restore extends TxComponent<Props, State> {
             value={password}
           />
         </div>
+        <Button.Group>
+          <Button
+            isDisabled={!isFileValid || !isPassValid}
+            isPrimary
+            onClick={this.onSave}
+            label={t('Restore')}
+            ref={this.button}
+          />
+      </Button.Group>
       </div>
     );
   }

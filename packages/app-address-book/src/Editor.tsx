@@ -44,7 +44,6 @@ class Editor extends TxComponent<Props, State> {
           currentAddress={current}
         />
         {this.renderData()}
-        {this.renderButtons()}
       </div>
     );
   }
@@ -92,11 +91,6 @@ class Editor extends TxComponent<Props, State> {
 
     return (
       <div className='ui--grid'>
-        <AddressRow
-          className='shrink'
-          value={address || ''}
-          withBonded
-        />
         <div className='grow'>
           <div className='ui--row'>
             <InputAddress
@@ -128,7 +122,12 @@ class Editor extends TxComponent<Props, State> {
               value={tags}
             />
           </div>
+          {this.renderButtons()}
         </div>
+        <AddressRow
+          className='shrink'
+          value={address || ''}
+        />
       </div>
     );
   }

@@ -184,6 +184,10 @@ button.ui.icon.iconButton {
   vertical-align: top;
 }
 
+.grow+.ui--AddressRow {
+  padding: 1rem 0 0 1rem;
+}
+
 .ui--AddressRow {
   position: relative;
 
@@ -197,6 +201,7 @@ button.ui.icon.iconButton {
 
   .ui--AddressSummary-children {
     display: block;
+    padding-top: 1rem;
   }
 
   .ui--AddressRow-details {

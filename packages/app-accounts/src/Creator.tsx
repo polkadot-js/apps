@@ -117,7 +117,9 @@ class Creator extends TxComponent<Props, State> {
 
     return (
       <div className='accounts--Creator'>
+        {this.renderModal()}
         <div className='ui--grid'>
+          {this.renderInput()}
           <AddressRow
             className='shrink'
             defaultName={name}
@@ -127,9 +129,7 @@ class Creator extends TxComponent<Props, State> {
                 : ''
             }
           />
-          {this.renderInput()}
         </div>
-        {this.renderButtons()}
       </div>
     );
   }
@@ -255,7 +255,7 @@ class Creator extends TxComponent<Props, State> {
             }
           </div>
         </details>
-        {this.renderModal()}
+        {this.renderButtons()}
       </div>
     );
   }
