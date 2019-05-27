@@ -112,12 +112,6 @@ class AddressBookApp extends React.PureComponent<Props, State> {
       );
     };
   }
-
-  private toggleCreate = (): void => {
-    this.setState(({ isCreateOpen }) => ({
-      isCreateOpen: !isCreateOpen
-    }));
-  }
 }
 
 export default withMulti(
