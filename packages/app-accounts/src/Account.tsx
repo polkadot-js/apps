@@ -29,6 +29,7 @@ type State = {
   isTransferOpen: boolean
 };
 
+// FIXME This is duplicated in app-ddresses
 const Wrapper = styled.article`
   position: relative;
   flex: 1 1;

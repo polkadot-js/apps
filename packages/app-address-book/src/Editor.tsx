@@ -168,13 +168,11 @@ class Editor extends TxComponent<Props, State> {
           editedName = '';
         }
 
-        let isForgetOpen = false;
-
         return {
           current,
           editedName,
           isEdited,
-          isForgetOpen,
+          isForgetOpen: false,
           tags
         };
       }

@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
@@ -19,10 +20,12 @@ type Props = I18nProps & {
 };
 
 type State = {
+  current: KeyringAddress,
   isEditable: boolean,
   isForgetOpen: boolean
 };
 
+// FIXME This is duplicated in app-accounts
 const Wrapper = styled.article`
   position: relative;
   flex: 1 1;
@@ -66,7 +69,10 @@ class Address extends React.PureComponent<Props> {
   constructor (props: Props) {
     super(props);
 
+    const { address } = this.props;
+
     this.state = {
+      current: keyring.getAddress(address),
       isEditable: true,
       isForgetOpen: false
     };
@@ -100,7 +106,7 @@ class Address extends React.PureComponent<Props> {
 
   private renderModals () {
     const { address } = this.props;
-    const { isForgetOpen } = this.state;
+    const { isForgetOpen, current } = this.state;
 
     if (!address) {
       return null;
@@ -111,7 +117,7 @@ class Address extends React.PureComponent<Props> {
     if (isForgetOpen) {
       modals.push(
         <Forgetting
-          address={address}
+          currentAddress={current}
           doForget={this.onForget}
           key='modal-forget-account'
           onClose={this.toggleForget}

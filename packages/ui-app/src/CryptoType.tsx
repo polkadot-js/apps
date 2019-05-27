@@ -18,12 +18,19 @@ type Props = BareProps & {
 export default class CryptoType extends React.PureComponent<Props> {
   render () {
     const { accountId, className, label = '' } = this.props;
-    const current = accountId
+    let type = '<unknown>';
+
+    try {
+      const current = accountId
         ? keyring.getPair(accountId.toString())
         : null;
-    const type = current
-      ? current.type
-      : 'ed25519';
+
+      if (current) {
+        type = current.type;
+      }
+    } catch (error) {
+      // cannot determine, keep unknown
+    }
 
     return (
       <div className={classes('ui--CryptoType', className)}>
