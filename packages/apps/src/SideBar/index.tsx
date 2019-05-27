@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Route } from '@polkadot/apps-routing/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 
@@ -26,6 +27,12 @@ type Props = I18nProps & {
   isCollapsed: boolean,
   menuOpen: boolean,
   toggleMenu: () => void
+};
+
+type State = {
+  modals: {
+    [index: string]: boolean
+  }
 };
 
 const Toggle = styled.img`
@@ -54,21 +61,40 @@ const Toggle = styled.img`
   `}
 `;
 
-class SideBar extends React.PureComponent<Props> {
+class SideBar extends React.PureComponent<Props, State> {
+  state: State;
+
+  constructor (props: Props) {
+    super(props);
+
+    // setup modals for each of the actual modal routes
+    this.state = {
+      modals: routing.routes.reduce((result, route) => {
+        if (route && route.Modal) {
+          result[route.name] = false;
+        }
+
+        return result;
+      }, {} as { [index: string]: boolean })
+    };
+  }
+
   render () {
-    const { isCollapsed } = this.props;
+    const { handleResize, isCollapsed, toggleMenu, menuOpen } = this.props;
+    const logo = getLogo(true);
 
     return (
       <Responsive
-        onUpdate={this.props.handleResize}
-        className={
-          classes(
-            'apps-SideBar-Wrapper',
-              isCollapsed ? 'collapsed' : 'expanded'
-            )
-        }
+        onUpdate={handleResize}
+        className={classes('apps-SideBar-Wrapper', isCollapsed ? 'collapsed' : 'expanded')}
       >
-        {this.renderMenuToggle()}
+        <Toggle
+          alt='logo'
+          className={menuOpen ? 'closed' : 'open delayed'}
+          onClick={toggleMenu}
+          src={logo}
+        />
+        {this.renderModals()}
         <div className='apps--SideBar'>
           <Menu
             secondary
@@ -83,13 +109,18 @@ class SideBar extends React.PureComponent<Props> {
               <Menu.Divider hidden />
               {
                 isCollapsed
-                  ? null
+                  ? undefined
                   : <NodeInfo />
               }
             </div>
             {this.renderCollapse()}
           </Menu>
-          {this.renderToggleBar()}
+          <Responsive minWidth={SIDEBAR_MENU_THRESHOLD}>
+            <div
+              className='apps--SideBar-toggle'
+              onClick={this.props.collapse}
+            />
+          </Responsive>
         </div>
       </Responsive>
     );
@@ -126,9 +157,24 @@ class SideBar extends React.PureComponent<Props> {
     );
   }
 
+  private renderModals () {
+    const { modals } = this.state;
+    const filtered = routing.routes.filter((route) => route && route.Modal) as Array<Route>;
+
+    return filtered.map(({ name, Modal }) => (
+      Modal && modals[name]
+        ? (
+          <Modal
+            key={name}
+            onClose={this.closeModal(name)}
+          />
+        )
+        : <div key={name} />
+    ));
+  }
+
   private renderRoutes () {
-    const { isCollapsed } = this.props;
-    const { t } = this.props;
+    const { handleResize, isCollapsed } = this.props;
 
     return routing.routes.map((route, index) => (
       route
@@ -137,8 +183,11 @@ class SideBar extends React.PureComponent<Props> {
             isCollapsed={isCollapsed}
             key={route.name}
             route={route}
-            onClick={this.props.handleResize}
-            t={t}
+            onClick={
+              route.Modal
+                ? this.openModal(route.name)
+                : handleResize
+            }
           />
         )
         : (
@@ -164,32 +213,6 @@ class SideBar extends React.PureComponent<Props> {
     );
   }
 
-  private renderToggleBar () {
-    return (
-      <Responsive minWidth={SIDEBAR_MENU_THRESHOLD}>
-        <div
-          className='apps--SideBar-toggle'
-          onClick={this.props.collapse}
-        >
-        </div>
-      </Responsive>
-    );
-  }
-
-  private renderMenuToggle () {
-    const logo = getLogo(true);
-    const { toggleMenu, menuOpen } = this.props;
-
-    return (
-      <Toggle
-        alt='logo'
-        className={menuOpen ? 'closed' : 'open delayed'}
-        onClick={toggleMenu}
-        src={logo}
-      />
-    );
-  }
-
   private renderWiki () {
     return (
       <Menu.Item className='apps--SideBar-Item'>
@@ -202,6 +225,28 @@ class SideBar extends React.PureComponent<Props> {
         </a>
       </Menu.Item>
     );
+  }
+
+  private closeModal = (name: string) => {
+    return () => {
+      this.setState(({ modals }) => ({
+        modals: {
+          ...modals,
+          [name]: false
+        }
+      }));
+    };
+  }
+
+  private openModal = (name: string) => {
+    return () => {
+      this.setState(({ modals }) => ({
+        modals: {
+          ...modals,
+          [name]: true
+        }
+      }));
+    };
   }
 }
 
