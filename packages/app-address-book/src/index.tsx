@@ -11,11 +11,12 @@ import './index.css';
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import addressObservable from '@polkadot/ui-keyring/observable/addresses';
-import { HelpOverlay } from '@polkadot/ui-app';
+import { HelpOverlay, Button } from '@polkadot/ui-app';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import basicMd from './md/basic.md';
+import CreateModal from './modals/Create';
 import Creator from './Creator';
 import Editor from './Editor';
 import translate from './translate';
@@ -26,7 +27,8 @@ type Props = AppProps & I18nProps & {
 
 type State = {
   hidden: Array<string>,
-  items: Array<TabItem>
+  items: Array<TabItem>,
+  isCreateOpen: boolean
 };
 
 class AddressBookApp extends React.PureComponent<Props, State> {
@@ -42,6 +44,7 @@ class AddressBookApp extends React.PureComponent<Props, State> {
 
     this.state = {
       ...baseState,
+      isCreateOpen: false,
       items: [
         {
           name: 'edit',
@@ -82,8 +85,8 @@ class AddressBookApp extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { basePath } = this.props;
-    const { hidden, items } = this.state;
+    const { basePath, onStatusChange } = this.props;
+    const { hidden, isCreateOpen, items } = this.state;
     const renderCreator = this.renderComponent(Creator);
 
     return (
@@ -106,6 +109,7 @@ class AddressBookApp extends React.PureComponent<Props, State> {
             }
           />
         </Switch>
+        {isCreateOpen && <CreateModal onStatusChange={onStatusChange} onClose={this.toggleCreate} />}
       </main>
     );
   }
@@ -122,6 +126,12 @@ class AddressBookApp extends React.PureComponent<Props, State> {
         />
       );
     };
+  }
+
+  private toggleCreate = (): void => {
+    this.setState(({ isCreateOpen }) => ({
+      isCreateOpen: !isCreateOpen
+    }));
   }
 }
 
