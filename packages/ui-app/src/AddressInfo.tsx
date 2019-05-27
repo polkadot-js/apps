@@ -31,34 +31,22 @@ class AddressInfo extends React.PureComponent<Props> {
       <div className={className}>
         {withBalance && (
           <div className='column'>
-            <Label
-              help={t('overall amount of funds (be they vested, available for transfer or locked)')}
-              label={t('total')}
-            />
+            <Label label={t('total')} />
             <Balance
               className='result'
               params={value}
             />
-            <Label
-              help={t('funds that that can be transfered or bonded')}
-              label={t('available')}
-            />
+            <Label label={t('available')} />
             <Available
               className='result'
               params={value}
             />
-            <Label
-              help={t('funds bonded for validating or nominating. They are locked and cannot be transfered')}
-              label={t('bonded')}
-            />
+            <Label label={t('bonded')} />
             <Bonded
               className='result'
               params={value}
             />
-            <Label
-              help={t('the funds that are being unlocked or available for withdrawal')}
-              label={t('locked')}
-            />
+            <Label label={t('locked')} />
             <Unlocking
               className='accounts--Account-balances-unlocking'
               params={value}
@@ -67,18 +55,12 @@ class AddressInfo extends React.PureComponent<Props> {
         )}
         {withExtended && (
           <div className='column'>
-            <Label
-              help={t('number of transactions made from this account')}
-              label={t('transactions')}
-            />
+            <Label label={t('transactions')} />
             <Nonce
               className='result'
               params={value}
             />
-            <Label
-              help={t('cryptographic curve chosen for this account upon creation')}
-              label={t('crypto type')}
-            />
+            <Label label={t('crypto type')} />
             <CryptoType
               accountId={value}
               className='result'
