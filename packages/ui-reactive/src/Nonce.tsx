@@ -5,12 +5,14 @@
 import { DerivedBalances } from '@polkadot/api-derive/types';
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
+import BN from 'bn.js';
 import React from 'react';
 import { formatNumber } from '@polkadot/util';
 import { withCalls } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & {
-  balances_all?: DerivedBalances,
+  accountNonce?: BN,
+  callOnResult?: (accountNonce: BN) => void,
   children?: React.ReactNode,
   label?: React.ReactNode,
   params?: string
@@ -18,13 +20,13 @@ type Props = BareProps & CallProps & {
 
 export class Nonce extends React.PureComponent<Props> {
   render () {
-    const { balances_all, children, className, label = '' } = this.props;
+    const { accountNonce, children, className, label = '' } = this.props;
 
     return (
       <div className={className}>
         {label}{
-          balances_all
-            ? formatNumber(balances_all.accountNonce)
+          accountNonce
+            ? formatNumber(accountNonce)
             : '0'
         }{children}
       </div>
@@ -33,5 +35,10 @@ export class Nonce extends React.PureComponent<Props> {
 }
 
 export default withCalls<Props>(
-  ['derive.balances.all', { paramName: 'params' }]
+  ['derive.balances.all', {
+    paramName: 'params',
+    propName: 'accountNonce',
+    transform: ({ accountNonce }: DerivedBalances) =>
+      accountNonce
+  }]
 )(Nonce);
