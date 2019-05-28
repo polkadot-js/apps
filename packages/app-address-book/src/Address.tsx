@@ -7,8 +7,7 @@ import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import styled from 'styled-components';
-import { AddressInfo, AddressRow, Button } from '@polkadot/ui-app';
+import { AddressInfo, AddressRow, Button, Card } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
 import Forgetting from './modals/Forgetting';
@@ -24,44 +23,6 @@ type State = {
   isEditable: boolean,
   isForgetOpen: boolean
 };
-
-// FIXME This is duplicated in app-accounts
-const Wrapper = styled.article`
-  position: relative;
-  flex: 1 1;
-  min-width: 24%;
-  max-width: 24%;
-  justify-content: space-around;
-
-  .accounts--Account-buttons {
-    text-align: right;
-    margin-bottom: 2em;
-  }
-
-  .ui--AddressSummary-base {
-    flex: 1;
-    padding: 0;
-  }
-
-  .accounts--Account-buttons > button {
-    margin: .2em;
-  }
-
-  @media (max-width: 2060px) {
-    min-width: 32%;
-    max-width: 32%;
-  }
-
-  @media (max-width: 1580px) {
-      min-width: 49%;
-      max-width: 49%;
-  }
-
-  @media (max-width: 1100px) {
-    min-width: 100%;
-    max-width: 100%;
-  }
-`;
 
 class Address extends React.PureComponent<Props> {
   state: State;
@@ -83,7 +44,7 @@ class Address extends React.PureComponent<Props> {
     const { isEditable } = this.state;
 
     return (
-      <Wrapper className='overview--Account'>
+      <Card>
         {this.renderModals()}
         <AddressRow
           buttons={this.renderButtons()}
@@ -100,7 +61,7 @@ class Address extends React.PureComponent<Props> {
             value={address}
           />
         </AddressRow>
-      </Wrapper>
+      </Card>
     );
   }
 
