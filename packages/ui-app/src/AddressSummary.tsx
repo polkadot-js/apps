@@ -193,10 +193,13 @@ class AddressSummary extends React.PureComponent<Props, State> {
     }
 
     return (
-      <LinkPolkascan
-        data={value}
-        type='address'
-      />
+      <div className='ui--AddressSummary-explorer'>
+        <LinkPolkascan
+          className='polkascan'
+          data={value}
+          type='address'
+        />
+      </div>
     );
   }
 
