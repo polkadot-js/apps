@@ -260,6 +260,11 @@ button.ui.icon.iconButton {
 .ui--AddressSummary-balances {
   display: grid;
   grid-column-gap: 1em;
+
+  label {
+    display: inline-block;
+    margin-right: 0.5rem;
+  }
 }
 
 .ui--AddressMini-balances {

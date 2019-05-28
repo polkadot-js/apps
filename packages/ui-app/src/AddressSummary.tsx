@@ -228,7 +228,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     return (
       <AvailableDisplay
         className='ui--AddressSummary-available'
-        label={t('available ')}
+        label={<label>{t('available')}</label>}
         params={address}
       />
     );
@@ -261,7 +261,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
       <BalanceDisplay
         balance={balance}
         className='ui--AddressSummary-balance'
-        label={t('total ')}
+        label={<label>{t('total')}</label>}
         params={address}
       />
     );
@@ -279,7 +279,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
       <BondedDisplay
         bonded={bonded}
         className='ui--AddressSummary-bonded'
-        label={t('bonded ')}
+        label={<label>{t('bonded')}</label>}
         params={address}
       />
     );
@@ -345,7 +345,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     return (
       <NonceDisplay
         className='ui--AddressSummary-nonce'
-        label={t('transactions ')}
+        label={<label>{t('transactions')}</label>}
         params={address}
       />
     );
@@ -419,7 +419,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     return (
       <UnlockingDisplay
         className='ui--AddressSummary-available'
-        label={t('unlock ')}
+        label={<label>{t('unlock')}</label>}
         labelRedeem={t('redeem ')}
         params={address}
       />
