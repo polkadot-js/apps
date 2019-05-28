@@ -15,7 +15,8 @@ import { classes } from './util';
 
 export type Props = BareProps & {
   children?: React.ReactNode,
-  value: IExtrinsic | IMethod
+  value: IExtrinsic | IMethod,
+  withHash?: boolean
 };
 
 const Wrapper = styled.div`
@@ -29,7 +30,7 @@ const Wrapper = styled.div`
 
 export default class Call extends React.PureComponent<Props> {
   render () {
-    const { children, className, style, value } = this.props;
+    const { children, className, style, value, withHash } = this.props;
     const params = Method.filterOrigin(value.meta).map(({ name, type }) => ({
       name: name.toString(),
       type: getTypeDef(type)
@@ -38,7 +39,9 @@ export default class Call extends React.PureComponent<Props> {
       isValid: true,
       value
     }));
-    const hash = (value as IExtrinsic).hash;
+    const hash = withHash
+      ? (value as IExtrinsic).hash
+      : null;
 
     return (
       <Wrapper
