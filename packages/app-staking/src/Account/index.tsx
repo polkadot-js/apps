@@ -10,7 +10,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import React from 'react';
-import { AddressInfo, AddressMini, AddressRow, Button, TxButton } from '@polkadot/ui-app';
+import { AddressInfo, AddressMini, AddressRow, Button, Card, TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 import Bond from './Bond';
@@ -107,7 +107,7 @@ class Account extends React.PureComponent<Props, State> {
     // This is deliberate in order to display the Component modals in a performant matter later on
     // because their state will already be loaded.
     return (
-      <article className='staking--Account'>
+      <Card>
         {this.renderBond()}
         {this.renderBondExtra()}
         {this.renderNominating()}
@@ -136,7 +136,7 @@ class Account extends React.PureComponent<Props, State> {
             </div>
           </AddressInfo>
         </AddressRow>
-      </article>
+      </Card>
     );
   }
 
