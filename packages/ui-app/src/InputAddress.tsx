@@ -74,13 +74,21 @@ const createOption = (address: string) => {
     name = keyring.getAccount(address).getMeta().name;
   } catch (error) {
     try {
-      const meta = keyring.getAddress(address).getMeta();
+      const meta = keyring.getContract(address).getMeta();
 
       name = meta.name;
       isRecent = meta.isRecent;
     } catch (error) {
-      // ok, we don't have account or address, treat as recent
-      isRecent = true;
+      try {
+        const meta = keyring.getAddress(address).getMeta();
+
+        name = meta.name;
+        isRecent = meta.isRecent;
+
+      } catch (error) {
+        // ok, we don't have account or address, treat as recent
+        isRecent = true;
+      }
     }
   }
 

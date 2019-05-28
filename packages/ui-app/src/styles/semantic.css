@@ -108,6 +108,7 @@
   > .actions {
     border-top: none;
     text-align: right;
+    padding: 1rem !important;
   }
 
   > .header:not(.ui) {

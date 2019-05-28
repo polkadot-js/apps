@@ -30,6 +30,7 @@ class App extends React.PureComponent<Props, State> {
     this.state = {
       tabs: [
         {
+          isRoot: true,
           name: 'general',
           text: t('General')
         },

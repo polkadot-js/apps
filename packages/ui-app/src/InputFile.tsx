@@ -47,32 +47,36 @@ class InputFile extends React.PureComponent<Props, State> {
     const { accept, className, clearContent, help, isDisabled, isError = false, label, placeholder, t, withEllipsis, withLabel } = this.props;
     const { file } = this.state;
 
-    return (
+    const dropZone = (
+      <Dropzone
+        accept={accept}
+        className={classes('ui--InputFile', isError ? 'error' : '', className)}
+        disabled={isDisabled}
+        multiple={false}
+        onDrop={this.onDrop}
+      >
+        <div className='label'>
+          {
+            !file || clearContent
+              ? placeholder || t('click to select or drag and drop the file here')
+              : placeholder || t('{{name}} ({{size}} bytes)', {
+                replace: file
+              })
+          }
+        </div>
+      </Dropzone>
+    );
+
+    return label ? (
       <Labelled
         help={help}
         label={label}
         withEllipsis={withEllipsis}
         withLabel={withLabel}
       >
-        <Dropzone
-          accept={accept}
-          className={classes('ui--InputFile', isError ? 'error' : '', className)}
-          disabled={isDisabled}
-          multiple={false}
-          onDrop={this.onDrop}
-        >
-          <div className='label'>
-            {
-              !file || clearContent
-                ? placeholder || t('click to select or drag and drop the file here')
-                : placeholder || t('{{name}} ({{size}} bytes)', {
-                  replace: file
-                })
-            }
-          </div>
-        </Dropzone>
+        {dropZone}
       </Labelled>
-    );
+    ) : dropZone;
   }
 
   private onDrop = (files: Array<File>) => {

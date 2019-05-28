@@ -41,6 +41,8 @@
       "@polkadot/ui-api/*": [ "packages/ui-api/src/*" ],
       "@polkadot/ui-app": [ "packages/ui-app/src" ],
       "@polkadot/ui-app/*": [ "packages/ui-app/src/*" ],
+      "@polkadot/ui-contracts": [ "packages/ui-contracts/src" ],
+      "@polkadot/ui-contracts/*": [ "packages/ui-contracts/src/*" ],
       "@polkadot/ui-params": [ "packages/ui-params/src" ],
       "@polkadot/ui-params/*": [ "packages/ui-params/src/*" ],
       "@polkadot/ui-reactive": [ "packages/ui-reactive/src" ],

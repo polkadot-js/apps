@@ -10,7 +10,11 @@ export default function getAddrAtgs (address: string): Array<string> {
   try {
     pair = keyring.getAccount(address).isValid()
       ? keyring.getAccount(address)
-      : keyring.getAddress(address);
+      : (
+        keyring.getContract(address).isValid() ?
+        keyring.getContract(address) :
+        keyring.getAddress(address)
+      )
   } catch (error) {
     // all-ok, we have empty fallbacks
   }

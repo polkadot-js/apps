@@ -22,6 +22,7 @@ class ExtrinsicsApp extends React.PureComponent<Props> {
           <Tabs
             basePath={basePath}
             items={[{
+              isRoot: true,
               name: 'create',
               text: t('Extrinsic submission')
             }]}

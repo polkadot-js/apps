@@ -28,6 +28,7 @@ export type RowProps = {
   defaultName?: string,
   extraInfo?: React.ReactNode,
   iconInfo?: React.ReactNode,
+  isContract?: boolean,
   isEditable?: boolean,
   isInline?: boolean,
   value: AccountId | AccountIndex | Address | string | null,
@@ -92,7 +93,7 @@ class AddressRow extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accounts_idAndIndex = [], className, isInline, style } = this.props;
+    const { accounts_idAndIndex = [], className, isContract, isInline, style } = this.props;
     const [accountId, accountIndex] = accounts_idAndIndex;
     const isValid = accountId || accountIndex;
 
@@ -107,7 +108,7 @@ class AddressRow extends React.PureComponent<Props, State> {
             {this.renderName()}
             {this.renderAddress()}
             {this.renderAccountIndex()}
-            {this.renderBalances()}
+            {!isContract && this.renderBalances()}
             {this.renderTags()}
           </div>
           {this.renderButtons()}

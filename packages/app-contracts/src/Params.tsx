@@ -10,6 +10,7 @@ import UIParams from '@polkadot/ui-params';
 import { getTypeDef, TypeDef } from '@polkadot/types';
 
 type Props = {
+  isDisabled?: boolean,
   params?: ContractABIArgs,
   onChange: (values: Array<any>) => void,
   onEnter?: () => void
@@ -36,7 +37,7 @@ export default class Params extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { onEnter } = this.props;
+    const { isDisabled, onEnter } = this.props;
     const { params } = this.state;
 
     if (!params.length) {
@@ -45,6 +46,7 @@ export default class Params extends React.PureComponent<Props, State> {
 
     return (
       <UIParams
+        isDisabled={isDisabled}
         onChange={this.onChange}
         onEnter={onEnter}
         params={params}

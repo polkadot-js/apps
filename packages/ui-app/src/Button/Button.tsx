@@ -16,7 +16,7 @@ export default class Button extends React.PureComponent<ButtonProps> {
   private id: string = `button-${++idCounter}`;
 
   render () {
-    const { children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, onClick, size, style, tabIndex, tooltip } = this.props;
+    const { children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, size, style, tabIndex, tooltip } = this.props;
 
     const props = {
       basic: isBasic,
@@ -27,6 +27,7 @@ export default class Button extends React.PureComponent<ButtonProps> {
       disabled: isDisabled,
       floated,
       icon,
+      labelPosition,
       loading: isLoading,
       negative: isNegative,
       onClick,

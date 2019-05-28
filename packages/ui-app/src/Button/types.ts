@@ -9,7 +9,7 @@ export type Button$Sizes = 'mini' | 'tiny' | 'small' | 'medium' | 'large' | 'big
 export type ButtonProps = BareProps & {
   children?: React.ReactNode,
   floated?: 'left' | 'right',
-  icon?: string,
+  icon?: string | boolean,
   isBasic?: boolean,
   isCircular?: boolean,
   isDisabled?: boolean,
@@ -18,6 +18,7 @@ export type ButtonProps = BareProps & {
   isPositive?: boolean,
   isPrimary?: boolean,
   label?: React.ReactNode,
+  labelPosition?: 'left' | 'right',
   onClick?: () => void | Promise<void>,
   ref?: any,
   size?: Button$Sizes,

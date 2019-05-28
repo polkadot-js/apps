@@ -6,15 +6,16 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import { CodeHash, Option } from '@polkadot/types';
+import { CodeHash, ContractInfo, Option } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
 import { InfoForInput } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
-import translate from './translate';
+import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
   address?: string | null,
+  contract_contractInfoOf?: Option<ContractInfo>,
   contract_codeHashOf?: Option<CodeHash>,
   onChange: (isValid: boolean) => void
 };
@@ -32,7 +33,7 @@ class ValidateAddr extends React.PureComponent<Props> {
     isValid: false
   };
 
-  static getDerivedStateFromProps ({ address, contract_codeHashOf, onChange }: Props): State {
+  static getDerivedStateFromProps ({ address, contract_codeHashOf, contract_contractInfoOf, onChange }: Props): State {
     let isValidAddr = false;
 
     try {
@@ -43,7 +44,10 @@ class ValidateAddr extends React.PureComponent<Props> {
       // ignore
     }
 
-    const isStored = !!contract_codeHashOf && contract_codeHashOf.isSome;
+    const isStored = (
+      (!!contract_contractInfoOf && contract_contractInfoOf.isSome) ||
+      (!!contract_codeHashOf && contract_codeHashOf.isSome)
+    );
     const isValid = isValidAddr && isStored;
 
     // FIXME Really not convinced this is the correct place to do this type of callback?
@@ -78,6 +82,7 @@ class ValidateAddr extends React.PureComponent<Props> {
 
 export default translate(
   withCalls<Props>(
+    ['query.contract.contractInfoOf', { paramName: 'address' }],
     ['query.contract.codeHashOf', { paramName: 'address' }]
   )(ValidateAddr)
 );

@@ -16,7 +16,6 @@ import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, Modal } from '@polkadot/ui-app';
 import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { assert, isFunction } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
 
@@ -399,5 +398,5 @@ export default withMulti(
   Signer,
   translate,
   withApi,
-  withObservable(accountObservable.subject, { propName: 'allAccounts' })
+  withObservable(keyring.accounts.subject, { propName: 'allAccounts' })
 );
