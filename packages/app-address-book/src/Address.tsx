@@ -2,18 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressInfo, AddressRow, Button, Icon } from '@polkadot/ui-app';
+import { AddressInfo, AddressRow, Button } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
-import Backup from './modals/Backup';
-import ChangePass from './modals/ChangePass';
 import Forgetting from './modals/Forgetting';
-import Transfer from './modals/Transfer';
 
 import translate from './translate';
 
@@ -22,14 +20,12 @@ type Props = I18nProps & {
 };
 
 type State = {
-  isBackupOpen: boolean,
+  current: KeyringAddress,
   isEditable: boolean,
-  isForgetOpen: boolean,
-  isPasswordOpen: boolean,
-  isTransferOpen: boolean
+  isForgetOpen: boolean
 };
 
-// FIXME This is duplicated in app-ddresses
+// FIXME This is duplicated in app-accounts
 const Wrapper = styled.article`
   position: relative;
   flex: 1 1;
@@ -67,18 +63,18 @@ const Wrapper = styled.article`
   }
 `;
 
-class Account extends React.PureComponent<Props> {
+class Address extends React.PureComponent<Props> {
   state: State;
 
   constructor (props: Props) {
     super(props);
 
+    const { address } = this.props;
+
     this.state = {
-      isBackupOpen: false,
-      isEditable: !(keyring.getAccount(props.address).getMeta().isInjected),
-      isForgetOpen: false,
-      isPasswordOpen: false,
-      isTransferOpen: false
+      current: keyring.getAddress(address),
+      isEditable: true,
+      isForgetOpen: false
     };
   }
 
@@ -86,8 +82,6 @@ class Account extends React.PureComponent<Props> {
     const { address } = this.props;
     const { isEditable } = this.state;
 
-    // FIXME It is a bit heavy-handled switching of being editable here completely
-    // (and removing the tags, however the keyring cannot save these)
     return (
       <Wrapper className='overview--Account'>
         {this.renderModals()}
@@ -101,8 +95,8 @@ class Account extends React.PureComponent<Props> {
           withTags
         >
           <AddressInfo
-            withBalance
-            withExtended
+            withBalance={{ available: true, free: true, total: true }}
+            withExtended={{ nonce: true }}
             value={address}
           />
         </AddressRow>
@@ -112,7 +106,7 @@ class Account extends React.PureComponent<Props> {
 
   private renderModals () {
     const { address } = this.props;
-    const { isBackupOpen, isForgetOpen, isPasswordOpen, isTransferOpen } = this.state;
+    const { isForgetOpen, current } = this.state;
 
     if (!address) {
       return null;
@@ -120,20 +114,10 @@ class Account extends React.PureComponent<Props> {
 
     const modals = [];
 
-    if (isBackupOpen) {
-      modals.push(
-        <Backup
-          key='modal-backup-account'
-          onClose={this.toggleBackup}
-          address={address}
-        />
-      );
-    }
-
     if (isForgetOpen) {
       modals.push(
         <Forgetting
-          address={address}
+          currentAddress={current}
           doForget={this.onForget}
           key='modal-forget-account'
           onClose={this.toggleForget}
@@ -141,35 +125,7 @@ class Account extends React.PureComponent<Props> {
       );
     }
 
-    if (isPasswordOpen) {
-      modals.push(
-        <ChangePass
-          address={address}
-          key='modal-change-pass'
-          onClose={this.togglePass}
-        />
-      );
-    }
-
-    if (isTransferOpen) {
-      modals.push(
-        <Transfer
-          address={address}
-          key='modal-transfer'
-          onClose={this.toggleTransfer}
-        />
-      );
-    }
-
     return modals;
-  }
-
-  private toggleBackup = (): void => {
-    const { isBackupOpen } = this.state;
-
-    this.setState({
-      isBackupOpen: !isBackupOpen
-    });
   }
 
   private toggleForget = (): void => {
@@ -177,22 +133,6 @@ class Account extends React.PureComponent<Props> {
 
     this.setState({
       isForgetOpen: !isForgetOpen
-    });
-  }
-
-  private togglePass = (): void => {
-    const { isPasswordOpen } = this.state;
-
-    this.setState({
-      isPasswordOpen: !isPasswordOpen
-    });
-  }
-
-  private toggleTransfer = (): void => {
-    const { isTransferOpen } = this.state;
-
-    this.setState({
-      isTransferOpen: !isTransferOpen
     });
   }
 
@@ -209,9 +149,9 @@ class Account extends React.PureComponent<Props> {
     } as ActionStatus;
 
     try {
-      keyring.forgetAccount(address);
+      keyring.forgetAddress(address);
       status.status = 'success';
-      status.message = t('account forgotten');
+      status.message = t('address forgotten');
     } catch (error) {
       status.status = 'error';
       status.message = error.message;
@@ -233,32 +173,11 @@ class Account extends React.PureComponent<Props> {
               size='small'
               tooltip={t('Forget this account')}
             />
-            <Button
-              icon='cloud download'
-              isPrimary
-              onClick={this.toggleBackup}
-              size='small'
-              tooltip={t('Create a backup file for this account')}
-            />
-            <Button
-              icon='key'
-              isPrimary
-              onClick={this.togglePass}
-              size='small'
-              tooltip={t("Change this account's password")}
-            />
           </>
         )}
-        <Button
-          isPrimary
-          label={<><Icon name='paper plane' /> {t('send')}</>}
-          onClick={this.toggleTransfer}
-          size='small'
-          tooltip={t('Send funds from this account')}
-        />
       </div>
     );
   }
 }
 
-export default translate(Account);
+export default translate(Address);
