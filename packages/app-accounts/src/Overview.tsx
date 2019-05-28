@@ -7,10 +7,9 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import styled from 'styled-components';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { withMulti, withObservable } from '@polkadot/ui-api';
-import { Button } from '@polkadot/ui-app';
+import { Button, CardGrid } from '@polkadot/ui-app';
 
 import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';
@@ -26,19 +25,6 @@ type State = {
   isImportOpen: boolean
 };
 
-const Wrapper = styled.div`
-  .accounts {
-    display: flex;
-    flex-wrap: wrap;
-
-    .spacer {
-      flex: 1 1;
-      margin: .25rem;
-      padding: 1rem 1.5rem;
-    }
-  }
-`;
-
 class Overview extends React.PureComponent<Props, State> {
   state: State = {
     isCreateOpen: false,
@@ -50,20 +36,23 @@ class Overview extends React.PureComponent<Props, State> {
     const { isCreateOpen, isImportOpen } = this.state;
 
     return (
-      <Wrapper>
-        <Button.Group>
-          <Button
-            isPrimary
-            label={t('Add account')}
-            onClick={this.toggleCreate}
-          />
-          <Button.Or />
-          <Button
-            isPrimary
-            label={t('Restore JSON')}
-            onClick={this.toggleImport}
-          />
-        </Button.Group>
+      <CardGrid
+        buttons={
+          <Button.Group>
+            <Button
+              isPrimary
+              label={t('Add account')}
+              onClick={this.toggleCreate}
+            />
+            <Button.Or />
+            <Button
+              isPrimary
+              label={t('Restore JSON')}
+              onClick={this.toggleImport}
+            />
+          </Button.Group>
+        }
+      >
         {isCreateOpen && (
           <CreateModal
             onClose={this.toggleCreate}
@@ -76,16 +65,13 @@ class Overview extends React.PureComponent<Props, State> {
             onStatusChange={onStatusChange}
           />
         )}
-        <div className='accounts'>
-          {accounts && Object.keys(accounts).map((address) => (
-            <Account
-              address={address}
-              key={address}
-            />
-          ))}
-          <div className='spacer' />
-        </div>
-      </Wrapper>
+        {accounts && Object.keys(accounts).map((address) => (
+          <Account
+            address={address}
+            key={address}
+          />
+        ))}
+      </CardGrid>
     );
   }
 

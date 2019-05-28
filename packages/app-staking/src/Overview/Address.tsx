@@ -190,7 +190,7 @@ class Address extends React.PureComponent<Props, State> {
     }
 
     return (
-      <details className='staking--Account-detail'>
+      <details>
         <summary>
           {t('Nominators ({{count}})', {
             replace: {

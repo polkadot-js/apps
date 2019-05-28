@@ -103,11 +103,16 @@
   text-align: right;
 }
 
-.staking--Account-detail,
-.staking--accounts-info {
+.staking--Account-detail {
+  text-align: right;
+
   .staking--label {
-    margin: 0 1.75rem -.75rem 0;
+    margin: 0 1.75rem -0.75rem 0;
   }
+}
+
+.staking--accounts-info .staking--label {
+  margin: 0 2.25rem -0.75rem 0;
 }
 
 .ui--AddressSummary {
@@ -118,62 +123,5 @@
   .ui--AddressSummary-base,
   .ui--AddressSummary-children {
     min-width: 0;
-  }
-}
-
-@media (max-width: 1280px) {
-  .staking--Account {
-    min-width: 31%;
-
-    .ui--AddressMini {
-      display: block;
-    }
-
-    .ui--AddressSummary {
-      display: block;
-
-      .ui--AddressSummary-base,
-      .ui--AddressSummary-children {
-        min-width: 0;
-        display: block;
-      }
-
-      .ui--AddressSummary-base {
-        min-height: 16rem;
-      }
-
-      .ui--AddressSummary-children {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-    }
-  }
-
-  .staking--Account-expand {
-    min-width: auto;
-  }
-
-  .staking--Account-links {
-    max-width: 12rem;
-  }
-}
-
-@media (max-width: 1020px) {
-  .staking--Account {
-    min-width: 48%;
-  }
-}
-
-@media (max-width: 860px) {
-  .staking--Account {
-    min-width: 48%;
-  }
-}
-
-@media (max-width: 620px) {
-  .staking--Account {
-    min-width: 100%;
   }
 }

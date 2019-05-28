@@ -46,7 +46,7 @@ class AddressBookApp extends React.PureComponent<Props, State> {
       items: [
         {
           name: 'overview',
-          text: t('Overview')
+          text: t('My contacts')
         }
       ]
     };

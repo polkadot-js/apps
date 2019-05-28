@@ -6,8 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { AccountFilter, ComponentProps } from './types';
 
 import React from 'react';
-import styled from 'styled-components';
-import { Dropdown, FilterOverlay } from '@polkadot/ui-app';
+import { CardGrid, Dropdown, FilterOverlay } from '@polkadot/ui-app';
 import { getAddrName } from '@polkadot/ui-app/util';
 import keyring from '@polkadot/ui-keyring';
 import createOption from '@polkadot/ui-keyring/options/item';
@@ -22,19 +21,6 @@ type State = {
   filter: AccountFilter,
   filterOptions: Array<{ text: React.ReactNode, value: AccountFilter }>
 };
-
-const Wrapper = styled.div`
-  .accounts {
-    display: flex;
-    flex-wrap: wrap;
-
-    .spacer {
-      flex: 1 1;
-      margin: .25rem;
-      padding: 1rem 1.5rem;
-    }
-  }
-`;
 
 class Accounts extends React.PureComponent<Props, State> {
   state: State;
@@ -62,7 +48,7 @@ class Accounts extends React.PureComponent<Props, State> {
     const stashOptions = this.getStashOptions();
 
     return (
-      <Wrapper>
+      <CardGrid>
         <FilterOverlay>
           <Dropdown
             help={t('Select which types of accounts to display, either all, only the stash accounts or the controller accounts.')}
@@ -72,25 +58,22 @@ class Accounts extends React.PureComponent<Props, State> {
             value={filter}
           />
         </FilterOverlay>
-        <div className='accounts'>
-          {accounts.map((account) => {
-            const address = account.address();
+        {accounts.map((account) => {
+          const address = account.address();
 
-            return (
-              <Account
-                accountId={address}
-                balances={balances}
-                filter={filter}
-                isValidator={validators.includes(address)}
-                key={address}
-                recentlyOffline={recentlyOffline}
-                stashOptions={stashOptions}
-              />
-            );
-          })}
-          <div className='spacer' />
-        </div>
-      </Wrapper>
+          return (
+            <Account
+              accountId={address}
+              balances={balances}
+              filter={filter}
+              isValidator={validators.includes(address)}
+              key={address}
+              recentlyOffline={recentlyOffline}
+              stashOptions={stashOptions}
+            />
+          );
+        })}
+      </CardGrid>
     );
   }
 
