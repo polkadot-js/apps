@@ -9,18 +9,19 @@ import './BlockHeader.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { AddressMini } from '@polkadot/ui-app';
+import { AddressMini, LinkPolkascan } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/util';
 
 type Props = BareProps & {
   isSummary?: boolean,
   value?: HeaderExtended,
+  withExplorer?: boolean,
   withLink?: boolean
 };
 
 export default class BlockHeader extends React.PureComponent<Props> {
   render () {
-    const { isSummary, value, withLink = false } = this.props;
+    const { isSummary, value, withExplorer, withLink } = this.props;
 
     if (!value) {
       return null;
@@ -51,6 +52,11 @@ export default class BlockHeader extends React.PureComponent<Props> {
           isSummary
             ? undefined
             : this.renderDetails(value)
+        }
+        {
+          withExplorer
+            ? <LinkPolkascan data={hashHex} type='block' />
+            : undefined
         }
       </article>
     );

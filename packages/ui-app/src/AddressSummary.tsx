@@ -19,6 +19,7 @@ import BondedDisplay from './Bonded';
 import { classes, getAddrName, getAddrTags, toShortAddress } from './util';
 import CopyButton from './CopyButton';
 import IdentityIcon from './IdentityIcon';
+import LinkPolkascan from './LinkPolkascan';
 import NonceDisplay from './Nonce';
 import translate from './translate';
 import UnlockingDisplay from './Unlocking';
@@ -40,6 +41,7 @@ export type Props = I18nProps & {
   withAvailable?: boolean,
   withBalance?: boolean,
   withBonded?: boolean,
+  withExplorer?: boolean,
   withIcon?: boolean,
   withIndex?: boolean,
   withNonce?: boolean,
@@ -125,6 +127,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
           {this.renderTags()}
         </div>
         {this.renderChildren()}
+        {this.renderExplorer()}
       </div>
     );
   }
@@ -180,6 +183,21 @@ class AddressSummary extends React.PureComponent<Props, State> {
     return buttons
       ? <div className='ui--AddressSummary-buttons'>{buttons}</div>
       : null;
+  }
+
+  protected renderExplorer () {
+    const { value, withExplorer } = this.props;
+
+    if (!withExplorer) {
+      return null;
+    }
+
+    return (
+      <LinkPolkascan
+        data={value}
+        type='address'
+      />
+    );
   }
 
   protected renderName () {

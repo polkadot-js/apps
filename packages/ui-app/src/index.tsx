@@ -40,6 +40,7 @@ export { default as InputTags } from './InputTags';
 export { default as Label } from './Label';
 export { default as LabelHelp } from './LabelHelp';
 export { default as Labelled } from './Labelled';
+export { default as LinkPolkascan } from './LinkPolkascan';
 export { default as Menu } from './Menu';
 export { default as Modal } from './Modal';
 export { default as Nonce } from './Nonce';

@@ -57,6 +57,7 @@ class Account extends React.PureComponent<Props> {
           isEditable={isEditable}
           value={address}
           withBalance={false}
+          withExplorer
           withIndex
           withNonce={false}
           withTags

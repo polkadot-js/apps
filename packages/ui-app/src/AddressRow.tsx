@@ -38,6 +38,7 @@ class AddressRow extends AddressSummary {
           </div>
         </div>
         {this.renderChildren()}
+        {this.renderExplorer()}
       </div>
     );
   }
