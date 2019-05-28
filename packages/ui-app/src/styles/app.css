@@ -68,11 +68,17 @@ header > article {
 }
 
 article {
+  background: white;
+  border: 1px solid #f2f2f2;
   border-radius: 0.25rem;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-sizing: border-box;
   margin: 0.25rem;
   padding: 1.25rem 1.5rem;
   text-align: left;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
 
   &.padded {
     padding: 0.75rem 2.5rem;

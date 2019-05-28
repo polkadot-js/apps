@@ -8,6 +8,7 @@
 }
 
 header > .explorer--BlockHeader {
+  border: none;
   box-shadow: none;
 }
 
