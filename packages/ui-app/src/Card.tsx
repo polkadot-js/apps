@@ -29,6 +29,20 @@ export default styled(Card)`
   max-width: 24%;
   justify-content: space-around;
 
+  i.help.circle.icon,
+  .ui.button.mini,
+  .addTags {
+    visibility: hidden;
+  }
+
+  &:hover {
+    i.help.circle.icon,
+    .ui.button.mini,
+    .addTags {
+      visibility: visible;
+    }
+  }
+
   .ui--AddressSummary-buttons {
     text-align: right;
     margin-bottom: 2em;

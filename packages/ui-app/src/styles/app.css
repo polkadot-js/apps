@@ -69,7 +69,6 @@ header > article {
 
 article {
   border-radius: 0.25rem;
-  /*box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);*/
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   margin: 0.25rem;
   padding: 1.25rem 1.5rem;
@@ -103,14 +102,9 @@ article {
     .ui.button {
       background: #eee !important;
       color: #555 !important;
-
-      &.mini {
-        visibility: none;
-      }
     }
 
-    i.help.circle.icon,
-    .ui.button.circular {
+    .ui.button.mini {
       visibility: hidden;
     }
   }
