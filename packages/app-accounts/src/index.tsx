@@ -45,7 +45,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
       tabs: [
         {
           name: 'overview',
-          text: t('Overview')
+          text: t('My accounts')
         },
         {
           name: 'vanity',

@@ -191,7 +191,6 @@ class AddressSummary extends React.PureComponent<Props, State> {
         <Input
           autoFocus
           defaultValue={name}
-          className='full'
           onBlur={this.saveName}
           onChange={this.onChangeName}
           onEnter={this.saveName}
