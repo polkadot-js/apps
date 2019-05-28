@@ -117,12 +117,6 @@ class Account extends React.PureComponent<Props, State> {
         <AddressRow
           buttons={this.renderButtons()}
           value={accountId}
-          withAvailable={false}
-          withBalance={false}
-          withBonded={false}
-          withIndex={false}
-          withNonce={false}
-          withUnlocking={false}
         >
           <AddressInfo
             withBalance

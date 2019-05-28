@@ -98,7 +98,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accounts_idAndIndex = [], className, isInline, style, withIndex = true } = this.props;
+    const { accounts_idAndIndex = [], className, isInline, style, withIndex } = this.props;
     const [accountId, accountIndex] = accounts_idAndIndex;
     const isValid = accountId || accountIndex;
 
@@ -234,7 +234,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     );
   }
 
-  protected renderAccountIndex (withIndex: boolean) {
+  protected renderAccountIndex (withIndex?: boolean) {
     const { accounts_idAndIndex = [] } = this.props;
     const [, accountIndex] = accounts_idAndIndex;
 
