@@ -2,26 +2,31 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalances } from '@polkadot/api-derive/types';
+import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
 import { BareProps, I18nProps } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { withCalls, withMulti } from '@polkadot/ui-api';
 import { formatBalance, formatNumber } from '@polkadot/util';
+import { Icon, Tooltip, TxButton } from '@polkadot/ui-app';
+import { withCalls, withMulti } from '@polkadot/ui-api';
 
 import translate from './translate';
 import CryptoType from './CryptoType';
 import Bonded from './Bonded';
 import Label from './Label';
-import Unlocking from './Unlocking';
 
 type Props = BareProps & I18nProps & {
   balances_all?: DerivedBalances,
   children?: React.ReactNode,
+  staking_info?: DerivedStaking,
   value: string,
-  withBalance?: boolean | { available?: boolean, bonded?: boolean, free?: boolean, locked?: boolean },
+  withBalance?: boolean | { available?: boolean, bonded?: boolean, free?: boolean, redeemable?: boolean, unlocking?: boolean },
   withExtended?: boolean | { crypto?: boolean, nonce?: boolean }
+};
+
+type State = {
+  tooltipOpen: boolean
 };
 
 // <AddressInfo
@@ -33,7 +38,14 @@ type Props = BareProps & I18nProps & {
 // Additionally to tweak the display, i.e. only available
 //
 // <AddressInfo withBalance={{ available: true }} />
-class AddressInfo extends React.PureComponent<Props> {
+class AddressInfo extends React.PureComponent<Props, State> {
+  constructor (props: Props) {
+    super(props);
+    this.state = {
+      tooltipOpen: false
+    };
+  }
+
   render () {
     const { children, className } = this.props;
 
@@ -51,9 +63,10 @@ class AddressInfo extends React.PureComponent<Props> {
   }
 
   private renderBalances () {
-    const { balances_all, t, value, withBalance = true } = this.props;
+    const { balances_all, staking_info, t, value, withBalance = true } = this.props;
+    const { tooltipOpen } = this.state;
     const balanceDisplay = withBalance === true
-      ? { available: true, bonded: true, free: true, locked: true }
+      ? { available: true, bonded: true, free: true, redeemable: true, unlocking: true }
       : withBalance
         ? withBalance
         : undefined;
@@ -85,13 +98,47 @@ class AddressInfo extends React.PureComponent<Props> {
             />
           </>
         )}
-        {balanceDisplay.locked && (
+        {balanceDisplay.redeemable && staking_info && staking_info.redeemable && staking_info.redeemable.gtn(0) && (
           <>
-            <Label label={t('locked')} />
-            <Unlocking
-              className='result'
-              params={value}
-            />
+            <Label label={t('redeemable')} />
+            <div className='result'>
+              {formatBalance(staking_info.redeemable)}
+              {staking_info.controllerId && <TxButton
+                accountId={staking_info.controllerId.toString()}
+                className='withDrawUnbonded'
+                icon='lock'
+                size='small'
+                isPrimary
+                key='unlock'
+                params={[]}
+                tx='staking.withdrawUnbonded'
+              />}
+            </div>
+          </>
+        )}
+        {balanceDisplay.unlocking && staking_info && staking_info.unlocking && (
+          <>
+            <Label label={t('unlocking')} />
+            <div className='result'>
+            {staking_info.unlocking.map(({ remainingBlocks, value }, index) => (
+              <div key={index}>
+                {formatBalance(value)}
+                <Icon
+                  name='info circle'
+                  data-tip
+                  data-for={`controlled-trigger${index}`}
+                  onMouseOver={this.toggleTooltip}
+                  onMouseOut={this.toggleTooltip}
+                />
+                {tooltipOpen && (
+                  <Tooltip
+                    text={`${remainingBlocks} blocks left`}
+                    trigger={`controlled-trigger${index}`}
+                  />
+                )}
+              </div>
+            ))}
+            </div>
           </>
         )}
       </div>
@@ -130,6 +177,12 @@ class AddressInfo extends React.PureComponent<Props> {
       </div>
     );
   }
+
+  private toggleTooltip = () => {
+    this.setState(({ tooltipOpen }) => ({
+      tooltipOpen: !tooltipOpen
+    }));
+  }
 }
 
 export default withMulti(
@@ -161,6 +214,7 @@ export default withMulti(
   `,
   translate,
   withCalls<Props>(
-    ['derive.balances.all', { paramName: 'value' }]
+    ['derive.balances.all', { paramName: 'value' }],
+    ['derive.staking.info', { paramName: 'value' }]
   )
 );
