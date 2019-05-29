@@ -25,10 +25,6 @@ type Props = BareProps & I18nProps & {
   withExtended?: boolean | { crypto?: boolean, nonce?: boolean }
 };
 
-type State = {
-  tooltipOpen: boolean
-};
-
 // <AddressInfo
 //   withBalance // default
 //   withExtended={true} // optional
@@ -38,14 +34,7 @@ type State = {
 // Additionally to tweak the display, i.e. only available
 //
 // <AddressInfo withBalance={{ available: true }} />
-class AddressInfo extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-    this.state = {
-      tooltipOpen: false
-    };
-  }
-
+class AddressInfo extends React.PureComponent<Props> {
   render () {
     const { children, className } = this.props;
 
@@ -64,7 +53,6 @@ class AddressInfo extends React.PureComponent<Props, State> {
 
   private renderBalances () {
     const { balances_all, staking_info, t, value, withBalance = true } = this.props;
-    const { tooltipOpen } = this.state;
     const balanceDisplay = withBalance === true
       ? { available: true, bonded: true, free: true, redeemable: true, unlocking: true }
       : withBalance
@@ -103,16 +91,7 @@ class AddressInfo extends React.PureComponent<Props, State> {
             <Label label={t('redeemable')} />
             <div className='result'>
               {formatBalance(staking_info.redeemable)}
-              {staking_info.controllerId && <TxButton
-                accountId={staking_info.controllerId.toString()}
-                className='withDrawUnbonded'
-                icon='lock'
-                size='small'
-                isPrimary
-                key='unlock'
-                params={[]}
-                tx='staking.withdrawUnbonded'
-              />}
+              {this.renderRedeemButton()}
             </div>
           </>
         )}
@@ -120,24 +99,7 @@ class AddressInfo extends React.PureComponent<Props, State> {
           <>
             <Label label={t('unlocking')} />
             <div className='result'>
-            {staking_info.unlocking.map(({ remainingBlocks, value }, index) => (
-              <div key={index}>
-                {formatBalance(value)}
-                <Icon
-                  name='info circle'
-                  data-tip
-                  data-for={`controlled-trigger${index}`}
-                  onMouseOver={this.toggleTooltip}
-                  onMouseOut={this.toggleTooltip}
-                />
-                {tooltipOpen && (
-                  <Tooltip
-                    text={`${remainingBlocks} blocks left`}
-                    trigger={`controlled-trigger${index}`}
-                  />
-                )}
-              </div>
-            ))}
+              {this.renderUnlocking()}
             </div>
           </>
         )}
@@ -178,10 +140,44 @@ class AddressInfo extends React.PureComponent<Props, State> {
     );
   }
 
-  private toggleTooltip = () => {
-    this.setState(({ tooltipOpen }) => ({
-      tooltipOpen: !tooltipOpen
-    }));
+  private renderRedeemButton () {
+    const { staking_info } = this.props;
+
+    return (staking_info && staking_info.controllerId && <TxButton
+      accountId={staking_info.controllerId.toString()}
+      className='iconButton'
+      icon='lock'
+      size='small'
+      isPrimary
+      key='unlock'
+      params={[]}
+      tooltip='Redeem these funds'
+      tx='staking.withdrawUnbonded'
+    />
+    );
+  }
+
+  private renderUnlocking () {
+    const { staking_info } = this.props;
+
+    return (
+      staking_info &&
+      staking_info.unlocking &&
+      staking_info.unlocking.map(({ remainingBlocks, value }, index) => (
+        <div key={index}>
+          {formatBalance(value)}
+          <Icon
+            name='info circle'
+            data-tip
+            data-for={`controlled-trigger${index}`}
+          />
+          <Tooltip
+            text={`${remainingBlocks} blocks left`}
+            trigger={`controlled-trigger${index}`}
+          />
+        </div>
+      ))
+    );
   }
 }
 
@@ -209,6 +205,14 @@ export default withMulti(
 
       .result {
         grid-column:  2;
+
+        .iconButton {
+          padding-left: 0!important;
+        }
+
+        i.info.circle.icon {
+          margin-left: .3em;
+        }
       }
     }
   `,
