@@ -6,17 +6,83 @@ import { BareProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
+import styled from 'styled-components';
 import { UInt } from '@polkadot/types';
 import { isUndefined } from '@polkadot/util';
 
 import Progress, { Colors as ProgressColors } from './Progress';
 import Labelled from './Labelled';
 
-import styled from 'styled-components';
+type ProgressProps = {
+  color?: ProgressColors,
+  hideValue?: boolean,
+  isPercent?: boolean,
+  total?: BN | UInt,
+  value?: BN | UInt
+};
 
-const Card = styled.article`
+type Props = BareProps & {
+  children?: React.ReactNode,
+  help?: React.ReactNode,
+  label: React.ReactNode,
+  progress?: ProgressProps
+};
+
+class CardSummary extends React.PureComponent<Props> {
+  render () {
+    const { children, className, help, label, progress } = this.props;
+    const value = progress && progress.value;
+    const total = progress && progress.total;
+    const left = progress && !isUndefined(value) && !isUndefined(total) && value.gten(0) && total.gtn(0)
+      ? (
+        value.gt(total)
+          ? `>${
+            progress.isPercent
+              ? '100'
+              : total.toString()
+            }`
+          : (
+            progress.isPercent
+              ? value.muln(100).div(total).toString()
+              : value.toString()
+          )
+      )
+      : undefined;
+
+    if (progress && isUndefined(left)) {
+      return null;
+    }
+
+    return (
+      <article className={className}>
+        <Labelled
+          help={help}
+          isSmall
+          label={label}
+        >
+          {children}{
+            progress && !progress.hideValue && (
+              !left || isUndefined(progress.total)
+                ? '-'
+                : `${left}${progress.isPercent ? '' : '/'}${
+                  progress.isPercent
+                    ? '%'
+                    : progress.total.toString()
+                }`
+            )
+          }
+          { progress && <Progress {...progress} /> }
+        </Labelled>
+      </article>
+    );
+  }
+}
+
+export default styled(CardSummary)`
   align-items: center;
-  box-shadow: none;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
   color: rgba(0, 0, 0, 0.6);
   display: flex;
   flex: 0 1 auto;
@@ -65,71 +131,3 @@ const Card = styled.article`
     }
   }
 `;
-
-type ProgressProps = {
-  color?: ProgressColors,
-  hideValue?: boolean,
-  isPercent?: boolean,
-  total?: BN | UInt,
-  value?: BN | UInt
-};
-
-type Props = BareProps & {
-  children?: React.ReactNode,
-  help?: React.ReactNode,
-  label: React.ReactNode,
-  progress?: ProgressProps
-};
-
-export default class CardSummary extends React.PureComponent<Props> {
-  render () {
-    const { children, className, help, label, progress, style } = this.props;
-    const value = progress && progress.value;
-    const total = progress && progress.total;
-    const left = progress && !isUndefined(value) && !isUndefined(total) && value.gten(0) && total.gtn(0)
-      ? (
-        value.gt(total)
-          ? `>${
-            progress.isPercent
-              ? '100'
-              : total.toString()
-            }`
-          : (
-            progress.isPercent
-              ? value.muln(100).div(total).toString()
-              : value.toString()
-          )
-      )
-      : undefined;
-
-    if (progress && isUndefined(left)) {
-      return null;
-    }
-
-    return (
-      <Card
-        className={className}
-        style={style}
-      >
-        <Labelled
-          help={help}
-          isSmall
-          label={label}
-        >
-          {children}{
-            progress && !progress.hideValue && (
-              !left || isUndefined(progress.total)
-                ? '-'
-                : `${left}${progress.isPercent ? '' : '/'}${
-                  progress.isPercent
-                    ? '%'
-                    : progress.total.toString()
-                }`
-            )
-          }
-          { progress && <Progress {...progress} /> }
-        </Labelled>
-      </Card>
-    );
-  }
-}
