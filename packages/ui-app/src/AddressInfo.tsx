@@ -13,7 +13,6 @@ import { withCalls, withMulti } from '@polkadot/ui-api';
 
 import translate from './translate';
 import CryptoType from './CryptoType';
-import Bonded from './Bonded';
 import Label from './Label';
 
 type Props = BareProps & I18nProps & {
@@ -80,10 +79,11 @@ class AddressInfo extends React.PureComponent<Props> {
         {balanceDisplay.bonded && (
           <>
             <Label label={t('bonded')} />
-            <Bonded
-              className='result'
-              params={value}
-            />
+            <div className='result'>
+                {staking_info && staking_info.stakingLedger
+                ? formatBalance(staking_info.stakingLedger.active)
+                : '0'}
+            </div>
           </>
         )}
         {balanceDisplay.redeemable && staking_info && staking_info.redeemable && staking_info.redeemable.gtn(0) && (
@@ -141,7 +141,7 @@ class AddressInfo extends React.PureComponent<Props> {
   }
 
   private renderRedeemButton () {
-    const { staking_info } = this.props;
+    const { staking_info, t } = this.props;
 
     return (staking_info && staking_info.controllerId && <TxButton
       accountId={staking_info.controllerId.toString()}
@@ -151,14 +151,14 @@ class AddressInfo extends React.PureComponent<Props> {
       isPrimary
       key='unlock'
       params={[]}
-      tooltip='Redeem these funds'
+      tooltip={t('Redeem these funds')}
       tx='staking.withdrawUnbonded'
     />
     );
   }
 
   private renderUnlocking () {
-    const { staking_info } = this.props;
+    const { staking_info, t } = this.props;
 
     return (
       staking_info &&
@@ -172,7 +172,7 @@ class AddressInfo extends React.PureComponent<Props> {
             data-for={`controlled-trigger${index}`}
           />
           <Tooltip
-            text={`${remainingBlocks} blocks left`}
+            text={t(`${remainingBlocks} blocks left`)}
             trigger={`controlled-trigger${index}`}
           />
         </div>
