@@ -71,6 +71,7 @@ class Extrinsics extends React.PureComponent<Props> {
             <Call
               className='details'
               value={extrinsic}
+              withHash
             />
           </details>
         </article>

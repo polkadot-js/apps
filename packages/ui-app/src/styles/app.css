@@ -68,11 +68,19 @@ header > article {
 }
 
 article {
+  background: white;
+  border: 1px solid #f2f2f2;
   border-radius: 0.25rem;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-sizing: border-box;
   margin: 0.25rem;
   padding: 1.25rem 1.5rem;
   text-align: left;
+
+  &:hover {
+    /* box-shadow: 0 4px 8px rgba(0,0,0,0.1); */
+    /* box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    border-color: transparent; */
+  }
 
   &.padded {
     padding: 0.75rem 2.5rem;
@@ -110,13 +118,17 @@ article {
   }
 }
 
-details[open] > summary {
-  white-space: normal;
-}
+details {
+  cursor: pointer;
 
-details > summary {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  outline: none;
+  &[open] > summary {
+    white-space: normal;
+  }
+
+  > summary {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    outline: none;
+  }
 }

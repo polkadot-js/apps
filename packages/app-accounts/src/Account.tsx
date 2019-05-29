@@ -56,10 +56,8 @@ class Account extends React.PureComponent<Props> {
           buttons={this.renderButtons()}
           isEditable={isEditable}
           value={address}
-          withBalance={false}
           withExplorer
           withIndex
-          withNonce={false}
           withTags
         >
           <AddressInfo

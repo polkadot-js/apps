@@ -13,22 +13,22 @@ const { WebpackPluginServe } = require('webpack-plugin-serve');
 
 const findPackages = require('../../scripts/findPackages');
 
-// const DEFAULT_THEME = process.env.TRAVIS_BRANCH === 'next'
-//   ? 'substrate'
-//   : 'polkadot';
+const ENV = process.env.NODE_ENV || 'development';
 
 function createWebpack ({ alias = {}, context, name = 'index' }) {
   const pkgJson = require(path.join(context, 'package.json'));
-  const ENV = process.env.NODE_ENV || 'development';
   const isProd = ENV === 'production';
   const hasPublic = fs.existsSync(path.join(context, 'public'));
   const plugins = hasPublic
     ? [new CopyWebpackPlugin([{ from: 'public' }])]
     : [];
+  // disabled, smooths dev load, was -
+  // isProd ? 'source-map' : 'cheap-eval-source-map',
+  const devtool = false;
 
   return {
     context,
-    devtool: isProd ? 'source-map' : 'cheap-eval-source-map',
+    devtool,
     entry: [
       `./src/${name}.tsx`,
       isProd
