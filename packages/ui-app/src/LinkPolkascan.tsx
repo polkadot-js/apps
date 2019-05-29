@@ -27,7 +27,8 @@ const CHAINS: { [index: string]: string } = {
 
 const TYPES: { [index: string]: string } = {
   'address': '/module/account/',
-  'block': '/system/block/'
+  'block': '/system/block/',
+  'extrinsic': '/system/extrinsic/'
 };
 
 class LinkPolkascan extends React.PureComponent<Props> {
@@ -47,7 +48,7 @@ class LinkPolkascan extends React.PureComponent<Props> {
           rel='noopener'
           target='_blank'
         >
-          {t('View the {{type}} on Polkascan.io', { replace: { type } })}
+          {t('View this {{type}} on Polkascan.io', { replace: { type } })}
         </a>
       </div>
     );

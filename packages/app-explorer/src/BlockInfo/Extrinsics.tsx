@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AddressMini, Call } from '@polkadot/ui-app';
+import { AddressMini, Call, LinkPolkascan } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/util';
 import { Extrinsic, Method } from '@polkadot/types';
 
@@ -74,6 +74,11 @@ class Extrinsics extends React.PureComponent<Props> {
               withHash
             />
           </details>
+          {
+            extrinsic.isSigned
+              ? <LinkPolkascan data={extrinsic.hash.toHex()} type='extrinsic' />
+              : null
+          }
         </article>
       </div>
     );
