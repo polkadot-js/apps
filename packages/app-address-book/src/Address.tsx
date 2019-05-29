@@ -81,7 +81,7 @@ class Address extends React.PureComponent<Props, State> {
         <Forgetting
           currentAddress={current}
           doForget={this.onForget}
-          key='modal-forget-account'
+          key='modal-forget'
           onClose={this.toggleForget}
         />
       );
@@ -90,6 +90,7 @@ class Address extends React.PureComponent<Props, State> {
     if (isTransferOpen) {
       modals.push(
         <Transfer
+          key='modal-transfer'
           onClose={this.toggleTransfer}
           recipientId={address}
         />
@@ -145,6 +146,7 @@ class Address extends React.PureComponent<Props, State> {
               isNegative
               onClick={this.toggleForget}
               icon='trash'
+              key='forget'
               size='small'
               tooltip={t('Forget this account')}
             />
@@ -152,6 +154,7 @@ class Address extends React.PureComponent<Props, State> {
         )}
         <Button
           isPrimary
+          key='deposit'
           label={<><Icon name='paper plane' /> {t('deposit')}</>}
           onClick={this.toggleTransfer}
           size='small'
