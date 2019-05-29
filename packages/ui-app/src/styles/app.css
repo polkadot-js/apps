@@ -118,13 +118,17 @@ article {
   }
 }
 
-details[open] > summary {
-  white-space: normal;
-}
+details {
+  cursor: pointer;
 
-details > summary {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  outline: none;
+  &[open] > summary {
+    white-space: normal;
+  }
+
+  > summary {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    outline: none;
+  }
 }
