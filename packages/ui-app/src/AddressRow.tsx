@@ -9,9 +9,11 @@ import { classes } from './util';
 import { AddressSummary, Props } from './AddressSummary';
 import translate from './translate';
 
+const ICON_SIZE = 48;
+
 class AddressRow extends AddressSummary {
   render () {
-    const { className, style, identIconSize = 64, isInline, summary, value, withIndex } = this.props;
+    const { className, style, identIconSize = ICON_SIZE, isInline, summary, value, withIndex } = this.props;
 
     return (
       <div

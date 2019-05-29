@@ -275,7 +275,7 @@ button.ui.icon.iconButton {
 }
 
 .ui--AddressSummary-data {
-  padding: 0;
+  padding: 0.25rem 0 0;
   text-align: center;
   white-space: nowrap;
 
