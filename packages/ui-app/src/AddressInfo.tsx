@@ -51,7 +51,7 @@ class AddressInfo extends React.PureComponent<Props> {
   }
 
   private renderBalances () {
-    const { balances_all, staking_info, t, value, withBalance = true } = this.props;
+    const { balances_all, staking_info, t, withBalance = true } = this.props;
     const balanceDisplay = withBalance === true
       ? { available: true, bonded: true, free: true, redeemable: true, unlocking: true }
       : withBalance
@@ -172,7 +172,7 @@ class AddressInfo extends React.PureComponent<Props> {
             data-for={`controlled-trigger${index}`}
           />
           <Tooltip
-            text={t(`${remainingBlocks} blocks left`)}
+            text={t('{{remainingBlocks}} blocks left', { replace: { remainingBlocks } })}
             trigger={`controlled-trigger${index}`}
           />
         </div>
