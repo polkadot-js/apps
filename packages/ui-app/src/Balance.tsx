@@ -14,7 +14,7 @@ import { classes } from './util';
 
 export type Props = BareProps & {
   balance?: BN | Array<BN>,
-  label?: string,
+  label?: React.ReactNode,
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   withLabel?: boolean
 };

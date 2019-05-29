@@ -96,9 +96,7 @@ class Address extends React.PureComponent<Props, State> {
           buttons={this.renderKeys()}
           defaultName={defaultName}
           value={stashId}
-          withBalance={false}
           withBonded
-          withNonce={false}
         >
           {this.renderNominators()}
           {this.renderOffline()}

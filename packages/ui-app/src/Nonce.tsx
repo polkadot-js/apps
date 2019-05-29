@@ -11,7 +11,7 @@ import { Nonce } from '@polkadot/ui-reactive';
 import { classes } from './util';
 
 export type Props = BareProps & {
-  label?: string,
+  label?: React.ReactNode,
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null
 };
 
