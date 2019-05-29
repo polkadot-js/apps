@@ -246,6 +246,11 @@ button.ui.icon.iconButton {
 .ui--AddressSummary-balances {
   display: grid;
   grid-column-gap: 1em;
+
+  label {
+    display: inline-block;
+    margin-right: 0.5rem;
+  }
 }
 
 .ui--AddressMini-balances {
@@ -299,7 +304,6 @@ button.ui.icon.iconButton {
 }
 
 .ui--AddressSummary-accountIndex {
-  font-size: 1.25em;
   font-style: italic;
 }
 

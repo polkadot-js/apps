@@ -98,7 +98,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accounts_idAndIndex = [], className, isInline, style, withIndex = true } = this.props;
+    const { accounts_idAndIndex = [], className, isInline, style, withIndex } = this.props;
     const [accountId, accountIndex] = accounts_idAndIndex;
     const isValid = accountId || accountIndex;
 
@@ -227,13 +227,13 @@ class AddressSummary extends React.PureComponent<Props, State> {
     return (
       <AvailableDisplay
         className='ui--AddressSummary-available'
-        label={t('available ')}
+        label={<label>{t('available')}</label>}
         params={address}
       />
     );
   }
 
-  protected renderAccountIndex (withIndex: boolean) {
+  protected renderAccountIndex (withIndex?: boolean) {
     const { accounts_idAndIndex = [] } = this.props;
     const [, accountIndex] = accounts_idAndIndex;
 
@@ -260,7 +260,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
       <BalanceDisplay
         balance={balance}
         className='ui--AddressSummary-balance'
-        label={t('total ')}
+        label={<label>{t('total')}</label>}
         params={address}
       />
     );
@@ -278,7 +278,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
       <BondedDisplay
         bonded={bonded}
         className='ui--AddressSummary-bonded'
-        label={t('bonded ')}
+        label={<label>{t('bonded')}</label>}
         params={address}
       />
     );
@@ -344,7 +344,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
     return (
       <NonceDisplay
         className='ui--AddressSummary-nonce'
-        label={t('transactions ')}
+        label={<label>{t('transactions')}</label>}
         params={address}
       />
     );
@@ -418,8 +418,8 @@ class AddressSummary extends React.PureComponent<Props, State> {
     return (
       <UnlockingDisplay
         className='ui--AddressSummary-available'
-        label={t('unlock ')}
-        labelRedeem={t('redeem ')}
+        label={<label>{t('unlock')}</label>}
+        labelRedeem={<label>{t('redeem')}</label>}
         params={address}
       />
     );

@@ -164,8 +164,8 @@ class Create extends React.PureComponent<Props, State> {
     return (
       <Modal.Content>
         <AddressRow
-            defaultName={name}
-            value={isSeedValid ? address : ''}
+          defaultName={name}
+          value={isSeedValid ? address : ''}
         >
           <Input
             autoFocus
