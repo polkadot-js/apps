@@ -7,7 +7,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { assert, isFunction, isUndefined } from '@polkadot/util';
 import { Index } from '@polkadot/types';
 import { IExtrinsic } from '@polkadot/types/types';
-import { QueueTx, QueueTx$ExtrinsicAdd, TxCallback } from './Status/types';
+import { QueueTx, QueueTx$ExtrinsicAdd, TxCallback, TxFailedCallback } from './Status/types';
 
 import React from 'react';
 import { SubmittableResult } from '@polkadot/api';
@@ -38,7 +38,7 @@ type Props = ApiProps & {
   isUnsigned?: boolean,
   label: React.ReactNode,
   onClick?: () => any,
-  onFailed?: TxCallback,
+  onFailed?: TxFailedCallback,
   onStart?: () => void,
   onSuccess?: TxCallback,
   onUpdate?: TxCallback,
@@ -119,7 +119,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
     onClick && onClick();
   }
 
-  private onFailed = (result: SubmittableResult): void => {
+  private onFailed = (result: SubmittableResult | null): void => {
     const { onFailed } = this.props;
 
     this.setState({ isSending: false });
