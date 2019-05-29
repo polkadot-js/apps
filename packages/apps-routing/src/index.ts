@@ -10,6 +10,7 @@ import template from './123code';
 import accounts from './accounts';
 import addressbook from './addressbook';
 import contracts from './contracts';
+import council from './council';
 import dashboard from './dashboard';
 import democracy from './democracy';
 import explorer from './explorer';
@@ -28,6 +29,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     explorer,
     staking,
     democracy,
+    council,
     null,
     accounts,
     addressbook,
@@ -41,6 +43,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     explorer,
     staking,
     democracy,
+    council,
     null,
     accounts,
     addressbook,

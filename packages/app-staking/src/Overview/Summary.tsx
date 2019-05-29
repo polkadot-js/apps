@@ -7,6 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import styled from 'styled-components';
 import SummarySession from '@polkadot/app-explorer/SummarySession';
 import { CardSummary, IdentityIcon, SummaryBox } from '@polkadot/ui-app';
 import { withCalls, withMulti } from '@polkadot/ui-api';
@@ -15,6 +16,7 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   balances: DerivedBalancesMap,
+  className?: string,
   controllers: Array<string>,
   lastAuthor?: string,
   lastBlock: string,
@@ -63,7 +65,13 @@ class Summary extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  Summary,
+  styled(Summary)`
+    .validator--Account-block-icon {
+      margin-right: 0.75rem;
+      margin-top: -0.25rem;
+      vertical-align: middle;
+    }
+  `,
   translate,
   withCalls<Props>('query.staking.validatorCount')
 );
