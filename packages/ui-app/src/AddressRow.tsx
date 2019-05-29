@@ -11,7 +11,7 @@ import translate from './translate';
 
 class AddressRow extends AddressSummary {
   render () {
-    const { className, style, identIconSize = 64, isInline, value, withIndex } = this.props;
+    const { className, style, identIconSize = 64, isInline, summary, value, withIndex } = this.props;
 
     return (
       <div
@@ -33,6 +33,7 @@ class AddressRow extends AddressSummary {
               {this.renderBonded()}
               {this.renderNonce()}
               {this.renderUnlocking()}
+              {summary}
             </div>
             {this.renderTags()}
           </div>

@@ -30,12 +30,12 @@ export type Props = I18nProps & {
   buttons?: React.ReactNode,
   children?: React.ReactNode,
   defaultName?: string,
-  extraInfo?: React.ReactNode,
   identIconSize?: number,
   isEditable?: boolean,
   isInline?: boolean,
   isShort?: boolean,
   session_validators?: Array<AccountId>,
+  summary?: React.ReactNode,
   value: AccountId | AccountIndex | Address | string | null,
   withAvailable?: boolean,
   withBalance?: boolean,
@@ -98,7 +98,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accounts_idAndIndex = [], className, isInline, style, withIndex } = this.props;
+    const { accounts_idAndIndex = [], className, isInline, style, summary, withIndex } = this.props;
     const [accountId, accountIndex] = accounts_idAndIndex;
     const isValid = accountId || accountIndex;
 
@@ -121,6 +121,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
             {this.renderBonded()}
             {this.renderNonce()}
             {this.renderUnlocking()}
+            {summary}
           </div>
           {this.renderTags()}
         </div>

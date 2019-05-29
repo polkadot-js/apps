@@ -10,7 +10,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { AccountId, Balance, Exposure } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api/with';
-import { AddressMini, AddressRow, RecentlyOffline } from '@polkadot/ui-app';
+import { AddressMini, AddressRow, Card, RecentlyOffline } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 import { formatBalance } from '@polkadot/util';
 
@@ -92,7 +92,7 @@ class Address extends React.PureComponent<Props, State> {
     }
 
     return (
-      <article
+      <Card
         className={className}
         key={stashId || controllerId}
       >
@@ -111,7 +111,7 @@ class Address extends React.PureComponent<Props, State> {
             ? <div className='blockNumber'>#{lastBlock}</div>
             : null
         }
-      </article>
+      </Card>
     );
   }
 
@@ -121,7 +121,7 @@ class Address extends React.PureComponent<Props, State> {
     const isSame = controllerId === sessionId;
 
     return (
-      <div className='staking--accounts-info'>
+      <div className='staking--Address-info'>
         {controllerId
           ? (
             <div>
@@ -236,8 +236,6 @@ class Address extends React.PureComponent<Props, State> {
 export default withMulti(
   // HACK any here since getDerivedStateFromProps is problematic
   styled(Address as any)`
-    position: relative;
-
     .blockNumber {
       background: #3f3f3f;
       border-radius: 0.25rem;
