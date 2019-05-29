@@ -7,9 +7,10 @@ import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AddressInfo, AddressRow, Button, Card } from '@polkadot/ui-app';
+import { AddressInfo, AddressRow, Button, Card, Icon } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
+import Transfer from '@polkadot/app-accounts/modals/Transfer';
 import Forgetting from './modals/Forgetting';
 
 import translate from './translate';
@@ -21,10 +22,11 @@ type Props = I18nProps & {
 type State = {
   current: KeyringAddress,
   isEditable: boolean,
-  isForgetOpen: boolean
+  isForgetOpen: boolean,
+  isTransferOpen: boolean
 };
 
-class Address extends React.PureComponent<Props> {
+class Address extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -35,7 +37,8 @@ class Address extends React.PureComponent<Props> {
     this.state = {
       current: keyring.getAddress(address),
       isEditable: true,
-      isForgetOpen: false
+      isForgetOpen: false,
+      isTransferOpen: false
     };
   }
 
@@ -65,7 +68,7 @@ class Address extends React.PureComponent<Props> {
 
   private renderModals () {
     const { address } = this.props;
-    const { isForgetOpen, current } = this.state;
+    const { isForgetOpen, isTransferOpen, current } = this.state;
 
     if (!address) {
       return null;
@@ -78,8 +81,18 @@ class Address extends React.PureComponent<Props> {
         <Forgetting
           currentAddress={current}
           doForget={this.onForget}
-          key='modal-forget-account'
+          key='modal-forget'
           onClose={this.toggleForget}
+        />
+      );
+    }
+
+    if (isTransferOpen) {
+      modals.push(
+        <Transfer
+          key='modal-transfer'
+          onClose={this.toggleTransfer}
+          recipientId={address}
         />
       );
     }
@@ -88,11 +101,15 @@ class Address extends React.PureComponent<Props> {
   }
 
   private toggleForget = (): void => {
-    const { isForgetOpen } = this.state;
-
-    this.setState({
+    this.setState(({ isForgetOpen }) => ({
       isForgetOpen: !isForgetOpen
-    });
+    }));
+  }
+
+  private toggleTransfer = (): void => {
+    this.setState(({ isTransferOpen }) => ({
+      isTransferOpen: !isTransferOpen
+    }));
   }
 
   private onForget = (): void => {
@@ -129,11 +146,20 @@ class Address extends React.PureComponent<Props> {
               isNegative
               onClick={this.toggleForget}
               icon='trash'
+              key='forget'
               size='small'
               tooltip={t('Forget this account')}
             />
           </>
         )}
+        <Button
+          isPrimary
+          key='deposit'
+          label={<><Icon name='paper plane' /> {t('deposit')}</>}
+          onClick={this.toggleTransfer}
+          size='small'
+          tooltip={t('Send funds to this address')}
+        />
       </div>
     );
   }

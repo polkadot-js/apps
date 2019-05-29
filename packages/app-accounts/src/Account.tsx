@@ -113,9 +113,9 @@ class Account extends React.PureComponent<Props> {
     if (isTransferOpen) {
       modals.push(
         <Transfer
-          address={address}
           key='modal-transfer'
           onClose={this.toggleTransfer}
+          senderId={address}
         />
       );
     }

@@ -20,10 +20,11 @@ import { ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
 import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
-  address?: string,
   balances_fees?: DerivedFees,
   balances_votingBalance?: DerivedBalances,
   onClose: () => void,
+  recipientId?: string,
+  senderId?: string,
   system_accountNonce?: BN
 };
 
@@ -76,8 +77,8 @@ class Transfer extends React.PureComponent<Props> {
       extrinsic: null,
       hasAvailable: true,
       maxBalance: ZERO,
-      recipientId: null,
-      senderId: props.address || null
+      recipientId: props.recipientId || null,
+      senderId: props.senderId || null
     };
   }
 
@@ -158,7 +159,7 @@ class Transfer extends React.PureComponent<Props> {
   }
 
   private renderContent () {
-    const { address, t } = this.props;
+    const { recipientId: propRecipientId, senderId: propSenderId, t } = this.props;
     const { extrinsic, hasAvailable, maxBalance, recipientId, senderId } = this.state;
     const available = <span className='label'>{t('available ')}</span>;
 
@@ -166,16 +167,18 @@ class Transfer extends React.PureComponent<Props> {
       <Modal.Content>
         <Wrapper>
           <InputAddress
-            defaultValue={address}
+            defaultValue={propSenderId}
             help={t('The account you will send funds from.')}
-            isDisabled={!!address}
+            isDisabled={!!propSenderId}
             label={t('send from account')}
             onChange={this.onChangeFrom}
             type='account'
           />
           <div className='balance'><Available label={available} params={senderId} /></div>
           <InputAddress
+            defaultValue={propRecipientId}
             help={t('Select a contact or paste the address you want to send funds to.')}
+            isDisabled={!!propRecipientId}
             label={t('send to address')}
             onChange={this.onChangeTo}
             type='all'
