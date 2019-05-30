@@ -80,9 +80,9 @@ class AddressInfo extends React.PureComponent<Props> {
           <>
             <Label label={t('bonded')} />
             <div className='result'>
-                {staking_info && staking_info.stakingLedger
-                ? formatBalance(staking_info.stakingLedger.active)
-                : '0'}
+              {staking_info && staking_info.stakingLedger
+              ? formatBalance(staking_info.stakingLedger.active)
+              : '0'}
             </div>
           </>
         )}
@@ -143,7 +143,8 @@ class AddressInfo extends React.PureComponent<Props> {
   private renderRedeemButton () {
     const { staking_info, t } = this.props;
 
-    return (staking_info && staking_info.controllerId && <TxButton
+    return (staking_info && staking_info.controllerId && (
+    <TxButton
       accountId={staking_info.controllerId.toString()}
       className='iconButton'
       icon='lock'
@@ -154,7 +155,7 @@ class AddressInfo extends React.PureComponent<Props> {
       tooltip={t('Redeem these funds')}
       tx='staking.withdrawUnbonded'
     />
-    );
+    ));
   }
 
   private renderUnlocking () {
@@ -169,11 +170,11 @@ class AddressInfo extends React.PureComponent<Props> {
           <Icon
             name='info circle'
             data-tip
-            data-for={`controlled-trigger${index}`}
+            data-for={`unlocking-trigger-${index}`}
           />
           <Tooltip
             text={t('{{remainingBlocks}} blocks left', { replace: { remainingBlocks } })}
-            trigger={`controlled-trigger${index}`}
+            trigger={`unlocking-trigger-${index}`}
           />
         </div>
       ))
