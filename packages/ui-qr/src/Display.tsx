@@ -4,10 +4,9 @@
 
 import { BaseProps } from './types';
 
-import './Display.css';
-
 import React from 'react';
 import qrcode from 'qrcode-generator';
+import styled from 'styled-components';
 
 import { createSize } from './constants';
 
@@ -30,7 +29,7 @@ function getDataUrl (value: string): string {
   return qr.createDataURL(16, 0);
 }
 
-export default class Display extends React.PureComponent<Props, State> {
+class Display extends React.PureComponent<Props, State> {
   state = {
     image: null,
     text: null
@@ -58,9 +57,12 @@ export default class Display extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div style={createSize(size)}>
+      <div
+        className={className}
+        style={createSize(size)}
+      >
         <div
-          className={`ui--qr-Display ${className}`}
+          className='ui--qr-Display'
           style={style}
         >
           <img src={image} />
@@ -69,3 +71,19 @@ export default class Display extends React.PureComponent<Props, State> {
     );
   }
 }
+
+export default styled(Display)`
+  .ui--qr-Display {
+    height: 100%;
+    width: 100%;
+
+    img,
+    svg {
+      background: white;
+      height: auto !important;
+      max-height: 100%;
+      max-width: 100%;
+      width: auto !important;
+    }
+  }
+`;

@@ -4,10 +4,9 @@
 
 import { BaseProps } from './types';
 
-import './Scan.css';
-
 import React from 'react';
 import Reader from 'react-qr-reader';
+import styled from 'styled-components';
 
 import { createSize } from './constants';
 
@@ -23,14 +22,17 @@ const DEFAULT_ERROR = (error: Error) => {
   console.error('@polkadot/ui-qr:Scan', error);
 };
 
-export default class Scan extends React.PureComponent<Props> {
+class Scan extends React.PureComponent<Props> {
   render () {
     const { className, delay = DEFAULT_DELAY, size, style } = this.props;
 
     return (
-      <div style={createSize(size)}>
+      <div
+        className={className}
+        style={createSize(size)}
+      >
         <Reader
-          className={`ui--qr-Scan ${className}`}
+          className='ui--qr-Scan'
           delay={delay}
           onError={this.handleError}
           onScan={this.handleScan}
@@ -56,3 +58,15 @@ export default class Scan extends React.PureComponent<Props> {
     onScan(data);
   }
 }
+
+export default styled(Scan)`
+  .ui--qr-Scan {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+
+    video {
+      margin: 0;
+    }
+  }
+`;
