@@ -64,13 +64,13 @@ class AddressInfo extends React.PureComponent<Props> {
 
     return (
       <div className='column'>
-        {balanceDisplay.free && (
+        {balanceDisplay.free && balances_all.freeBalance.gtn(-1) && (
           <>
             <Label label={t('total')} />
             <div className='result'>{formatBalance(balances_all.freeBalance)}</div>
           </>
         )}
-        {balanceDisplay.available && (
+        {balanceDisplay.available && balances_all.availableBalance.gtn(-1) && (
           <>
             <Label label={t('available')} />
             <div className='result'>{formatBalance(balances_all.availableBalance)}</div>
@@ -112,7 +112,7 @@ class AddressInfo extends React.PureComponent<Props> {
 
     return (
       <div className='column'>
-        {extendedDisplay.nonce && (
+        {extendedDisplay.nonce && balances_all.accountNonce.gtn(-1) && (
           <>
             <Label label={t('transactions')} />
             <div className='result'>{formatNumber(balances_all.accountNonce)}</div>
