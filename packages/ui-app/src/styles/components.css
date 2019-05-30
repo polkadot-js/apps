@@ -97,22 +97,6 @@ header .ui--Button-Group {
   white-space: nowrap
 }
 
-button.ui.icon.withDrawUnbonded {
-  padding: 0.3em;
-  margin-left: 0.3em;
-  color: #2e86ab;
-  background: none !important;
-
-  &:hover {
-    color: #fff !important;
-    background-color: #2e86ab !important;
-  }
-}
-
-.result-locked > i {
-  margin-left: .3em
-}
-
 button.ui.icon.iconButton {
   padding: 0em .3em .3em .3em !important;
   color: #2e86ab  !important;
@@ -121,10 +105,6 @@ button.ui.icon.iconButton {
   margin-left: -2em  !important;
   position: relative  !important;
   right: -2.3em  !important;
-}
-
-.ui--Unlocking i.info.circle.icon {
-  margin-left: .3em;
 }
 
 .editable {

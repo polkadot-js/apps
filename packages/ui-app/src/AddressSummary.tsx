@@ -21,7 +21,6 @@ import CopyButton from './CopyButton';
 import IdentityIcon from './IdentityIcon';
 import NonceDisplay from './Nonce';
 import translate from './translate';
-import UnlockingDisplay from './Unlocking';
 
 export type Props = I18nProps & {
   accounts_idAndIndex?: [AccountId?, AccountIndex?],
@@ -43,8 +42,7 @@ export type Props = I18nProps & {
   withIcon?: boolean,
   withIndex?: boolean,
   withNonce?: boolean,
-  withTags?: boolean,
-  withUnlocking?: boolean
+  withTags?: boolean
 };
 
 type State = {
@@ -120,7 +118,6 @@ class AddressSummary extends React.PureComponent<Props, State> {
             {this.renderBalance()}
             {this.renderBonded()}
             {this.renderNonce()}
-            {this.renderUnlocking()}
           </div>
           {this.renderTags()}
         </div>
@@ -406,24 +403,6 @@ class AddressSummary extends React.PureComponent<Props, State> {
         </div>;
 
     return resultingDom;
-  }
-
-  protected renderUnlocking () {
-    const { withUnlocking, t } = this.props;
-    const { address } = this.state;
-
-    if (!withUnlocking || !address) {
-      return null;
-    }
-
-    return (
-      <UnlockingDisplay
-        className='ui--AddressSummary-available'
-        label={<label>{t('unlock')}</label>}
-        labelRedeem={<label>{t('redeem')}</label>}
-        params={address}
-      />
-    );
   }
 
   protected saveName = () => {
